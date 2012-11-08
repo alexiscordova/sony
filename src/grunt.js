@@ -77,7 +77,7 @@ module.exports = function(grunt) {
 		},
 		cssmin:{
 			deploy:{
-				 src: ['css/libs/*.css','css/temp/*.css'],
+				 src: ['css/temp/*.css'],
 		        dest: '../build/deploy/css/styles.min.css',
 		        seperator:';'
 			}
@@ -93,14 +93,15 @@ module.exports = function(grunt) {
 					'../build/debug/img/' 		: 'img/build/**',
 					'../build/debug/js/' 		: 'js/**',
 					'../build/debug/ico/' 		: 'img/ico/**',
-					'../build/debug/fonts/' 	: 'fonts/**'
+					'../build/debug/fonts/' 	: 'fonts/**',
 				}
 			},
 			deploy:{
 				files:{
+					'../build/deploy/js/bundle/defer/' 		: 'js/bundle/defer/**',
+					'../build/deploy/js/libs/' 	: 'js/libs/*',
 					'../build/deploy/img/' 		: 'img/build/**',
 					'../build/deploy/ico/' 		: 'img/ico/**',
-					'../build/deploy/js/' 		: 'js/defer/**',
 					'../build/deploy/fonts/' 	: 'fonts/**'
 				}
 			},
@@ -136,7 +137,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('debug', 'clear clean:debug lint compass-clean compass:debug copy:debug  shell:docpad_debug');
-	grunt.registerTask('debug-light', 'lint compass-clean compass:debug shell:docpad_debug');
+	grunt.registerTask('debug-light', 'lint compass:debug shell:docpad_debug');
 	grunt.registerTask('docs', 'clear clean:docs compass-clean compass:docs copy:docs shell:docpad_docs');
 	grunt.registerTask('deploy', 'clear clean:deploy lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');

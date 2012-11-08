@@ -11,10 +11,8 @@
         <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
  
-        <link rel="stylesheet" href="css/libs/normalize.css">
-        <link rel="stylesheet" href="css/module1.css">
-        <link rel="stylesheet" href="css/module2.css">
-
+        <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/responsive.css">
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
         <script type="text/javascript">
@@ -22,18 +20,17 @@
                 document.write(unescape("%3Cscript src='js/libs/jquery-1.8.2.min.js' type='text/javascript'%3E%3C/script%3E"));
             }
         </script>
-        <script type="text/javascript" src="js/libs/modernizr.custom.59892.js"></script>
+    
+ 
+<!-- include your module css here -->
+        <link rel="stylesheet" href="css/modules/mymodule.css">
+    
+        
+        
     </head>
     <body>
-        <nav>
-            <ul>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-            </ul>
-        </nav>
-        
+
+<!-- include your module markup templates here -->        
         <div>
     <h1>one</h1>
     <ul>
@@ -50,11 +47,13 @@
 </div>
 
 
-        <script src="js/module1.js"></script>
-        <script src="js/module2.js"></script>
-        <!--[if lt IE 9 ]>
+                <!--[if lt IE 9 ]>
     
         <![endif]-->
+
+
+<!-- include your module js here -->
+        <script src="js/bundle/defer/mymodule.js"></script>
 
     </body>
 </html>
