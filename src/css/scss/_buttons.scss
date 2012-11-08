@@ -1,0 +1,264 @@
+//
+// Buttons
+// --------------------------------------------------
+
+
+// Base styles
+// --------------------------------------------------
+
+// Core
+.btn {
+  display: inline-block;
+  @include ie7-inline-block();
+  @include border-radius(1px);
+  padding: $btnPadding;
+  width:171px;
+  margin-bottom: 0; // For input.btn
+
+  font-family:$sansFontFamilyMedium;
+  font-size:0.8666666667em; /* 13px/15px */ //inside of <p> or <td>
+  // letter-spacing:-0.065em;
+
+  line-height: inherit;
+  *line-height: inherit;
+  text-align: center;
+  vertical-align: middle;
+  color: $btnText;
+  cursor: pointer;
+  background: $btnBackground;
+  border: 1px solid $btnBorder;
+  *border: 0; // Remove the border to prevent IE7's black border on input:focus
+
+  // Hover state
+  &:hover {
+    color: $btnText;
+    text-decoration: none;
+    background:$btnBackgroundHover;
+  }
+
+  // Focus state for keyboard and accessibility
+  &:focus {
+    @include tab-focus();
+  }
+
+  // Active state
+  &.active,
+  &:active {
+    color: $btnText;
+    background:$btnBackgroundActive;
+  }
+
+  // Disabled state
+  &.disabled,
+  &[disabled] {
+    cursor: default;
+    @include opacity(65);
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background:$btnBackground;
+  }
+
+}
+
+
+
+
+// Alternate button styles
+// --------------------------------------------------
+
+.btn-special{
+  width:180px;
+  padding:$btnSpecialPadding;
+  font-family:$sansFontFamilyMedium;
+  font-size:1.0em; /* 15px/15px */ //inside of <p> or <td>
+  border: 1px solid $btnSpecialBackground;
+  background: $btnSpecialBackground;
+
+  &:hover {
+    background: $btnSpecialBackgroundHover;
+  }
+  &.active,
+  &:active {
+    background: $btnSpecialBackgroundActive;
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background:$btnSpecialBackground;
+  }
+}
+
+.btn-promo{
+  position:relative;
+  width:289px;
+  padding:21px 0 32px 35px;
+  border:none;
+
+  background:$grayDarkerFieldSmall;
+  color:$gray;
+
+  text-align:left;
+  font-size:1.666666667em; /* 25px/15px */
+  line-height: $baseLineHeight * 0.8;
+  font-family: $sansFontFamilyLight;
+  strong{
+    font-family: $sansFontFamily;
+    color:$white;
+  }
+  &:hover {
+    background: darken($grayDarkerFieldSmall,5%);
+    color:$gray;
+  }
+  &.active,
+  &:active {
+    background: $btnSpecialBackgroundActive;
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background:$btnSpecialBackground;
+  }
+  &:after{
+    content:"";
+    @extend .icon-small;
+    @include pseudoEl-block(40px,37px);
+    @include border-radius(1px);
+    background-position:-6px -7px;
+    background-color:rgb(51,57,74);
+    background-color:rgba(167,197,255,0.13);
+    position:absolute;
+    top:0px;
+    right:0px;
+    margin:0;
+  }
+}
+
+
+
+
+
+// Button Sizes
+// --------------------------------------------------
+
+// Large
+.btn-large {
+  padding:$btnLargePadding;
+  font-size: 1.2em;
+  line-height: $baseLineHeight * 1.1;
+  &.btn-special{
+    padding:$btnSpecialLargePadding;    
+  }
+}
+.btn-large [class^="icon-"] {
+  margin-top: 2px;
+}
+
+// Small
+.btn-small {
+  padding:$btnSmallPadding;
+  font-size: 0.8em;
+  line-height: $baseLineHeight * 0.75;
+  &.btn-special{
+    padding:$btnSpecialSmallPadding;    
+  }
+}
+.btn-small [class^="icon-"] {
+  margin-top: 0px;
+}
+
+// Mini
+.btn-mini {
+  padding:$btnMiniPadding;
+  font-size: 0.75em;
+  line-height: $baseLineHeight * 0.6;
+  &.btn-special{
+    padding:$btnSpecialMiniPadding;    
+  }
+}
+
+
+// Block button
+// -------------------------
+
+.btn-block {
+  display: block;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  @include box-sizing(border-box);
+}
+
+// Vertically space out multiple block buttons
+.btn-block + .btn-block {
+  margin-top: 5px;
+}
+
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  &.btn-block {
+    width: 100%;
+  }
+}
+
+
+
+
+
+// Cross-browser Jank
+// --------------------------------------------------
+
+button.btn,
+input[type="submit"].btn {
+
+  // Firefox 3.6 only I believe
+  &::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+
+  // IE7 has some default padding on button controls
+  *padding-top: 3px;
+  *padding-bottom: 3px;
+
+  &.btn-large {
+    *padding-top: 7px;
+    *padding-bottom: 7px;
+  }
+  &.btn-small {
+    *padding-top: 3px;
+    *padding-bottom: 3px;
+  }
+  &.btn-mini {
+    *padding-top: 1px;
+    *padding-bottom: 1px;
+  }
+}
+
+
+// Link buttons
+// --------------------------------------------------
+
+// Make a button look and behave like a link
+.btn-link,
+.btn-link:active,
+.btn-link[disabled] {
+  background-color: transparent;
+  background-image: none;
+  @include box-shadow(none);
+}
+.btn-link {
+  border-color: transparent;
+  cursor: pointer;
+  color: $linkColor;
+  @include border-radius(0);
+}
+.btn-link:hover {
+  color: $linkColorHover;
+  text-decoration: underline;
+  background-color: transparent;
+}
+.btn-link[disabled]:hover {
+  color: $grayDark;
+  text-decoration: none;
+}
