@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 			files: ['css/scss/*.scss', 
 					'js/**/*.js', 
 					'html/**/*.*'],
-			tasks: ['default']
+			tasks: ['debug-light']
 		},
 		compass: {
 		    debug: {
@@ -70,10 +70,6 @@ module.exports = function(grunt) {
 				src: 'js/bundle/secondary/*.js',
 				dest: '../build/deploy/js/secondary.min.js'
 			},
-			defer:{
-				src: 'js/bundle/defer/*.js',
-				dest: '../build/deploy/js/defer.min.js'
-			},
 			polyfill:{
 				src: 'js/bundle/polyfill/*.js',
 				dest: '../build/deploy/js/polyfill.min.js'
@@ -104,6 +100,7 @@ module.exports = function(grunt) {
 				files:{
 					'../build/deploy/img/' 		: 'img/build/**',
 					'../build/deploy/ico/' 		: 'img/ico/**',
+					'../build/deploy/js/' 		: 'js/defer/**',
 					'../build/deploy/fonts/' 	: 'fonts/**'
 				}
 			},
@@ -139,6 +136,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('debug', 'clear clean:debug lint compass-clean compass:debug copy:debug  shell:docpad_debug');
+	grunt.registerTask('debug-light', 'lint compass-clean compass:debug shell:docpad_debug');
 	grunt.registerTask('docs', 'clear clean:docs compass-clean compass:docs copy:docs shell:docpad_docs');
 	grunt.registerTask('deploy', 'clear clean:deploy lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');
