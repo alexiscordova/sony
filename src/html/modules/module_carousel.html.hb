@@ -1,4 +1,4 @@
-<div class="carousel" data-mode="{{}}">
+<div class="carousel" data-mode="{{mode}}">
 	<div class="carousel-container">
 	{{#each slides}}   
 		<div class="carousel-slide" data-type="{{this.type}}">
