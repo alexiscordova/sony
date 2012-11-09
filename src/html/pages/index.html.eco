@@ -18,8 +18,8 @@
 	</head>
 	<body>
 
-<!-- include your module markup templates here -->		
-		<%-@partial('modules/module_test.html.hb', {mode:'one', content:{a:'1',b:'2'}}) %>
+<!-- include your module markup templates here -->
+		<%-@partial('modules/module_test.html.hb', @data('mode1.json')) %>
 		<%-@partial('modules/module_test.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
 
 <% if 'debug' in @getEnvironments():%>
