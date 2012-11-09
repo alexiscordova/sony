@@ -36,7 +36,7 @@ module.exports = function(grunt) {
 		        outputstyle: 'expanded',
 		        linecomments: true,
 		        forcecompile: true,
-		        debugsass: true,
+		        debugsass: false,
 		        images: '../build/debug/img',
 		        relativeassets: true
 		    },
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
 		        outputstyle: 'expanded',
 		        linecomments: true,
 		        forcecompile: true,
-		        debugsass: true,
+		        debugsass: false,
 		        images: '../docs/img',
 		        relativeassets: true
 		    }
@@ -108,9 +108,11 @@ module.exports = function(grunt) {
 			docs:{
 				files:{
 					'../docs/js/libs/' 			: 'js/libs/*',
+					'../docs/js/docs/' 			: 'js/docs/*',
 					'../docs/ico/' 				: 'img/ico/**',
 					'../docs/fonts/' 			: 'fonts/**',
-					'../docs/img/' 				: 'img/docs/**'
+					'../docs/img/' 				: 'img/docs/**',
+					'../docs/css/' 				: 'css/docs/**'
 				}
 			},
 			
