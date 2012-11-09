@@ -11,18 +11,16 @@
 	
 <% if 'debug' in @getEnvironments():%> 
 <!-- include your module css here -->
-		<link rel="stylesheet" href="css/modules/mymodule.css">
+		<link rel="stylesheet" href="css/modules/carousel.css">
 <% end %>	
 		
 		
 	</head>
 	<body>
 
-		<h1>HELLLLLLLLLLLLOOOOOOO</h1>
-
 <!-- include your module markup templates here -->		
-		<%-@partial('modules/module_test.html.hb', {mode:'one', content:{a:'1',b:'2'}}) %>
-		<%-@partial('modules/module_test.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
+		<%-@partial('modules/module_carousel.html.hb', @data('carousel_mode_1.json')) %>
+
 
 <% if 'debug' in @getEnvironments():%>
 		<%-@partial('includes/js_footer_debug.html.eco')%>
@@ -31,7 +29,7 @@
 <% end %>
 
 <!-- include your module js here -->
-		<script src="js/bundle/defer/mymodule.js"></script>
+		<script src="js/bundle/defer/carousel.js"></script>
 
 	</body>
 </html>
