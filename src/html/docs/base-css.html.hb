@@ -203,7 +203,7 @@
 			
 			
 			          {{! TextLinks }}
-			          <div class="sub-section">
+			          <div class="sub-section WIP">
 			
 			            <h2 class="bs-docs-heading" id="textlinks">TextLinks</h2>
 			            <h6 class="bs-docs-heading"><code>&lt;a class="tl"&gt;</code> TextLinks</h6>
@@ -289,7 +289,7 @@
 			<!--==================================================
 			 Buttons
 			================================================== -->
-			        <section id="buttons" class="WIP">
+			        <section id="buttons">
 			          <h2 class="bs-docs-heading">Buttons</h2>
 			
 			          <h3 class="bs-docs-heading">Default buttons</h3>
@@ -440,7 +440,7 @@
 			  &lt;input class="btn" type="submit" value="Submit"&gt;
 			&lt;/p&gt;
 			</pre>
-			          <p>As a best practice, try to match the element for your context to ensure matching cross-browser rendering. If you have an <code>input</code>, use an <code>&lt;input type="submit"&gt;</code> for your button. If you have a <code>button</code>, use <code>&lt;button type="button"&gt;</code>.</p>
+			          <p>As a best practice, try to match the element for your context to ensure matching cross-browser rendering. Usually you'll make an <code>a</code> anchor link. If you have an <code>input</code>, use an <code>&lt;input type="submit"&gt;</code> for your button. If you have a <code>button</code>, use <code>&lt;button type="button"&gt;</code>.</p>
 			
 			        </section>
 			
