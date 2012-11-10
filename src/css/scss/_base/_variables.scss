@@ -12,6 +12,7 @@
 $black:                 rgb(0,0,0) !default;
 $grayDark:              rgb(47,53,61) !default;
 $gray:                  rgb(131,131,143) !default;
+
 $grayLight:             rgb(188,188,204) !default;
 $grayLighter:           rgb(228,231,235) !default;
 $white:                 rgb(255,255,255) !default;
@@ -74,6 +75,18 @@ $btnText:                           $white !default;
 $btnSpecialBackground:              $highlightColor !default;
 $btnSpecialBackgroundHover:         $highlightColorHover !default;
 $btnSpecialBackgroundActive:        $highlightColorActive !default;
+
+$btnSecondaryBackground:            $grayLight !default;
+$btnSecondaryBackgroundHover:       lighten($grayLight,2%) !default;
+$btnSecondaryBackgroundActive:      $grayLight !default;
+
+$btnDropdownBackground:            rgb(112,108,120) !default;
+$btnDropdownBackgroundHover:       lighten($btnDropdownBackground,2%) !default;
+$btnDropdownBackgroundActive:      $btnDropdownBackground !default;
+
+$btnDropdownAltBackground:         $white !default;
+$btnDropdownAltBackgroundHover:    darken($white,2%) !default;
+$btnDropdownAltBackgroundActive:   darken($white,1%) !default;
 
 $btnPadding:                        8px 0 11px;
 $btnLargePadding:                   7px 0 10px;
@@ -188,9 +201,16 @@ $tableBorder:                       rgb(221,221,221) !default; // table and cell
 // Forms
 // -------------------------
 $inputBackground:               $white !default;
-$inputBorder:                   rgb(204,204,204) !default;
-$inputBorderRadius:             3px !default;
-$inputDisabledBackground:       $grayLightFieldSmall !default;
+$inputBackgroundAlt:            rgb(248,248,248) !default;
+$inputBackgroundBtnAlt:         $grayLighter !default;
+$inputText:                     $grayLight !default;
+$inputTextFocus:                $gray !default;
+$inputBorder:                   $grayLighter !default;
+$inputBorderFocus:              $grayLight !default;
+$inputBorderFocus:              $grayLight !default;
+$inputBorderWidth:              2px !default;
+$inputBorderRadius:             0px !default;
+$inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
 $formActionsBackground:         rgb(245,245,245) !default;
 
 // Dropdowns
@@ -374,3 +394,10 @@ $fluidGridGutterWidth1200:     percentage($gridGutterWidth1200/$gridRowWidth1200
 // 768px-979px
 $fluidGridColumnWidth768:      percentage($gridColumnWidth768/$gridRowWidth768) !default;
 $fluidGridGutterWidth768:      percentage($gridGutterWidth768/$gridRowWidth768) !default;
+
+
+$transitionSuperSlow:   0.25s;
+$transitionSlow:        0.2s;
+$transitionNormal:      0.15s;
+$transitionFast:        0.1s;
+$transitionSuperfast:   0.05s;

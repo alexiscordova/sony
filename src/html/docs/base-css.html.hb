@@ -456,13 +456,13 @@
 			<!--==================================================
 			 Forms
 			================================================== -->
-			        <section id="forms" class="NotUpdatedYet">
+			        <section id="forms">
 			          <h2 class="bs-docs-heading">Forms</h2>
 			
-			          <h3 class="bs-docs-heading">Default styles [These have not been updated for Sony yet, and some appear to be broken because of </h3>
+			          <h3 class="bs-docs-heading">Default styles</h3>
 			          <p>Individual form controls receive styling, but without any required base class on the <code>&lt;form&gt;</code> or large changes in markup. Results in stacked, left-aligned labels on top of form controls.</p>
 			          <form class="bs-docs-example">
-			            <legend>Legend</legend>
+			            <legend>Legend --[THIS SECTION NEEDS TO BE STYLED]</legend>
 			            <label>Label name</label>
 			            <input type="text" placeholder="Type something…">
 			            <span class="help-block">Example block-level help text here.</span>
@@ -470,40 +470,170 @@
 			              <input type="checkbox"> Check me out
 			            </label>
 			            <button type="submit" class="btn">Submit</button>
-			          </form>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;form&gt;
-			  &lt;legend&gt;Legend&lt;/legend&gt;
-			  &lt;label&gt;Label name&lt;/label&gt;
-			  &lt;input type="text" placeholder="Type something…"&gt;
-			  &lt;span class="help-block"&gt;Example block-level help text here.&lt;/span&gt;
-			  &lt;label class="checkbox"&gt;
-			    &lt;input type="checkbox"&gt; Check me out
-			  &lt;/label&gt;
-			  &lt;button type="submit" class="btn"&gt;Submit&lt;/button&gt;
-			&lt;/form&gt;
-			</pre>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;form&gt;
+  &lt;legend&gt;Legend&lt;/legend&gt;
+  &lt;label&gt;Label name&lt;/label&gt;
+  &lt;input type="text" placeholder="Type something…"&gt;
+  &lt;span class="help-block"&gt;Example block-level help text here.&lt;/span&gt;
+  &lt;label class="checkbox"&gt;
+    &lt;input type="checkbox"&gt; Check me out
+  &lt;/label&gt;
+  &lt;button type="submit" class="btn"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;
+</pre>
 			
+
+
+			<h4 class="bs-docs-heading">Supported form controls</h4>
+			          <p>Examples of standard form controls supported in an example form layout.</p>
+			
+			          <h3>Inputs</h3>
+			          <p>Most common form control, text-based input fields. Includes support for all HTML5 types: text, password, datetime, datetime-local, date, month, time, week, number, email, url, search, tel, and color.</p>
+			          <p>Requires the use of a specified <code>type</code> at all times.</p>
+			          <form class="bs-docs-example form-inline">
+			            <input type="text" placeholder="City or Postal Code">
+			          </form>
+<pre class="prettyprint linenums">
+&lt;input type="text" placeholder="City or Postal Code"&gt;
+</pre>
+			
+			          <h4 class="bs-docs-heading">Textarea</h4>
+			          <p>Form control which supports multiple lines of text. Change <code>rows</code> attribute as necessary.</p>
+			          <form class="bs-docs-example form-inline">
+			            <textarea rows="3"></textarea>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;textarea rows="3"&gt;&lt;/textarea&gt;
+</pre>
+			
+			          <h4 class="bs-docs-heading">Checkboxes and radios</h4>
+			          <p>Checkboxes are for selecting one or several options in a list while radios are for selecting one option from many.</p>
+			          <h4>Default (stacked)   --[THIS SECTION NEEDS TO BE STYLED]</h4>
+			          <form class="bs-docs-example">
+			            <label class="checkbox">
+			              <input type="checkbox" value="">
+			              Option one is this and that&mdash;be sure to include why it's great
+			            </label>
+			            <br>
+			            <label class="radio">
+			              <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+			              Option one is this and that&mdash;be sure to include why it's great
+			            </label>
+			            <label class="radio">
+			              <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+			              Option two can be something else and selecting it will deselect option one
+			            </label>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;label class="checkbox"&gt;
+  &lt;input type="checkbox" value=""&gt;
+  Option one is this and that&mdash;be sure to include why it's great
+&lt;/label&gt;
+
+&lt;label class="radio"&gt;
+  &lt;input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked&gt;
+  Option one is this and that&mdash;be sure to include why it's great
+&lt;/label&gt;
+&lt;label class="radio"&gt;
+  &lt;input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"&gt;
+  Option two can be something else and selecting it will deselect option one
+&lt;/label&gt;
+</pre>
+			
+			          <h5 class="bs-docs-heading">Inline checkboxes   --[THIS SECTION NEEDS TO BE STYLED]</h5>
+			          <p>Add the <code>.inline</code> class to a series of checkboxes or radios for controls appear on the same line.</p>
+			          <form class="bs-docs-example">
+			            <label class="checkbox inline">
+			              <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+			            </label>
+			            <label class="checkbox inline">
+			              <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
+			            </label>
+			            <label class="checkbox inline">
+			              <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
+			            </label>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;label class="checkbox inline"&gt;
+  &lt;input type="checkbox" id="inlineCheckbox1" value="option1"&gt; 1
+&lt;/label&gt;
+&lt;label class="checkbox inline"&gt;
+  &lt;input type="checkbox" id="inlineCheckbox2" value="option2"&gt; 2
+&lt;/label&gt;
+&lt;label class="checkbox inline"&gt;
+  &lt;input type="checkbox" id="inlineCheckbox3" value="option3"&gt; 3
+&lt;/label&gt;
+</pre>
+			
+			          <h4 class="bs-docs-heading">Selects   --[THIS SECTION NEEDS TO BE STYLED]</h4>
+			          <p>Use the default option or specify a <code>multiple="multiple"</code> to show multiple options at once.</p>
+			          <form class="bs-docs-example">
+			            <select>
+			              <option>1</option>
+			              <option>2</option>
+			              <option>3</option>
+			              <option>4</option>
+			              <option>5</option>
+			            </select>
+			            <br>
+			            <select multiple="multiple">
+			              <option>1</option>
+			              <option>2</option>
+			              <option>3</option>
+			              <option>4</option>
+			              <option>5</option>
+			            </select>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;select&gt;
+  &lt;option&gt;1&lt;/option&gt;
+  &lt;option&gt;2&lt;/option&gt;
+  &lt;option&gt;3&lt;/option&gt;
+  &lt;option&gt;4&lt;/option&gt;
+  &lt;option&gt;5&lt;/option&gt;
+&lt;/select&gt;
+			
+&lt;select multiple="multiple"&gt;
+  &lt;option&gt;1&lt;/option&gt;
+  &lt;option&gt;2&lt;/option&gt;
+  &lt;option&gt;3&lt;/option&gt;
+  &lt;option&gt;4&lt;/option&gt;
+  &lt;option&gt;5&lt;/option&gt;
+&lt;/select&gt;
+</pre>
+
+
 			
 			
 			
 			          <h3 class="bs-docs-heading">Optional layouts</h3>
 			          <p>Included with Bootstrap are three optional form layouts for common use cases.</p>
 			
-			          <h4 class="bs-docs-heading">Search form</h4>
-			          <p>Add <code>.form-search</code> to the form and <code>.search-query</code> to the <code>&lt;input&gt;</code> for an extra-rounded text input.</p>
-			          <form class="bs-docs-example form-search">
-			            <input type="text" class="input-medium search-query">
-			            <button type="submit" class="btn">Search</button>
-			          </form>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;form class="form-search"&gt;
-			  &lt;input type="text" class="input-medium search-query"&gt;
-			  &lt;button type="submit" class="btn"&gt;Search&lt;/button&gt;
-			&lt;/form&gt;
-			</pre>
+			          <h5 class="bs-docs-heading">Fused Submit Form</h5>
+			          <p>Add <code>.form-fused</code> to the <code>&lt;form&gt;</code> for a fused input/button combo. In this particular case, make sure there is no whitespace in the code between the <code>&lt;input&gt;</code> and the <code>&lt;button&gt;</code> to avoid extra spacing between them.</p>
+			          <form class="bs-docs-example form-fused">
+			            <input type="text" class="input-medium" placeholder="City or Postal Code"><button type="submit">Submit</button>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;form class="form-fused"&gt;
+  &lt;input type="text" class="input-medium" placeholder="City or Postal Code"&gt;&lt;button type="submit"&gt;Search&lt;/button&gt;
+&lt;/form&gt;
+</pre>
 			
-			          <h4 class="bs-docs-heading">Inline form</h4>
+			          <h5>Fused Submit Form (Alternate)</h5>
+			          <p>Add <code>.form-fused-alt</code> to the <code>&lt;form&gt;</code> for an alternate fused input/button combo. In this particular case, make sure there is no whitespace in the code between the <code>&lt;input&gt;</code> and the <code>&lt;button&gt;</code> to avoid extra spacing between them.</p>
+			          <form class="bs-docs-example form-fused-alt">
+			            <input type="text" class="input-medium" placeholder="Your Email"><button type="submit">Submit</button>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;form class="form-fused-alt"&gt;
+  &lt;input type="text" class="input-medium" placeholder="Your Email"&gt;&lt;button type="submit"&gt;Search&lt;/button&gt;
+&lt;/form&gt;
+</pre>
+			
+			          <h4 class="bs-docs-heading">Inline form  --[THIS SECTION NEEDS TO BE STYLED]</h4>
 			          <p>Add <code>.form-inline</code> for left-aligned labels and inline-block controls for a compact layout.</p>
 			          <form class="bs-docs-example form-inline">
 			            <input type="text" class="input-small" placeholder="Email">
@@ -512,19 +642,19 @@
 			              <input type="checkbox"> Remember me
 			            </label>
 			            <button type="submit" class="btn">Sign in</button>
-			          </form>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;form class="form-inline"&gt;
-			  &lt;input type="text" class="input-small" placeholder="Email"&gt;
-			  &lt;input type="password" class="input-small" placeholder="Password"&gt;
-			  &lt;label class="checkbox"&gt;
-			    &lt;input type="checkbox"&gt; Remember me
-			  &lt;/label&gt;
-			  &lt;button type="submit" class="btn"&gt;Sign in&lt;/button&gt;
-			&lt;/form&gt;
-			</pre>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;form class="form-inline"&gt;
+  &lt;input type="text" class="input-small" placeholder="Email"&gt;
+  &lt;input type="password" class="input-small" placeholder="Password"&gt;
+  &lt;label class="checkbox"&gt;
+    &lt;input type="checkbox"&gt; Remember me
+  &lt;/label&gt;
+  &lt;button type="submit" class="btn"&gt;Sign in&lt;/button&gt;
+&lt;/form&gt;
+</pre>
 			
-			          <h4 class="bs-docs-heading">Horizontal form</h4>
+			          <h4 class="bs-docs-heading">Horizontal form  --[THIS SECTION NEEDS TO BE STYLED]</h4>
 			          <p>Right align labels and float them to the left to make them appear on the same line as controls. Requires the most markup changes from a default form:</p>
 			          <ul>
 			            <li>Add <code>.form-horizontal</code> to the form</li>
@@ -555,223 +685,37 @@
 			              </div>
 			            </div>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;form class="form-horizontal"&gt;
-			  &lt;div class="control-group"&gt;
-			    &lt;label class="control-label" for="inputEmail"&gt;Email&lt;/label&gt;
-			    &lt;div class="controls"&gt;
-			      &lt;input type="text" id="inputEmail" placeholder="Email"&gt;
-			    &lt;/div&gt;
-			  &lt;/div&gt;
-			  &lt;div class="control-group"&gt;
-			    &lt;label class="control-label" for="inputPassword"&gt;Password&lt;/label&gt;
-			    &lt;div class="controls"&gt;
-			      &lt;input type="password" id="inputPassword" placeholder="Password"&gt;
-			    &lt;/div&gt;
-			  &lt;/div&gt;
-			  &lt;div class="control-group"&gt;
-			    &lt;div class="controls"&gt;
-			      &lt;label class="checkbox"&gt;
-			        &lt;input type="checkbox"&gt; Remember me
-			      &lt;/label&gt;
-			      &lt;button type="submit" class="btn"&gt;Sign in&lt;/button&gt;
-			    &lt;/div&gt;
-			  &lt;/div&gt;
-			&lt;/form&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;form class="form-horizontal"&gt;
+  &lt;div class="control-group"&gt;
+    &lt;label class="control-label" for="inputEmail"&gt;Email&lt;/label&gt;
+    &lt;div class="controls"&gt;
+      &lt;input type="text" id="inputEmail" placeholder="Email"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="control-group"&gt;
+    &lt;label class="control-label" for="inputPassword"&gt;Password&lt;/label&gt;
+    &lt;div class="controls"&gt;
+      &lt;input type="password" id="inputPassword" placeholder="Password"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="control-group"&gt;
+    &lt;div class="controls"&gt;
+      &lt;label class="checkbox"&gt;
+        &lt;input type="checkbox"&gt; Remember me
+      &lt;/label&gt;
+      &lt;button type="submit" class="btn"&gt;Sign in&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</pre>
 			
 			
 			
 			
-			          <h4 class="bs-docs-heading">Supported form controls</h4>
-			          <p>Examples of standard form controls supported in an example form layout.</p>
+			          
 			
-			          <h3>Inputs</h3>
-			          <p>Most common form control, text-based input fields. Includes support for all HTML5 types: text, password, datetime, datetime-local, date, month, time, week, number, email, url, search, tel, and color.</p>
-			          <p>Requires the use of a specified <code>type</code> at all times.</p>
-			          <form class="bs-docs-example form-inline">
-			            <input type="text" placeholder="Text input">
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;input type="text" placeholder="Text input"&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Textarea</h4>
-			          <p>Form control which supports multiple lines of text. Change <code>rows</code> attribute as necessary.</p>
-			          <form class="bs-docs-example form-inline">
-			            <textarea rows="3"></textarea>
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;textarea rows="3"&gt;&lt;/textarea&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Checkboxes and radios</h4>
-			          <p>Checkboxes are for selecting one or several options in a list while radios are for selecting one option from many.</p>
-			          <h4>Default (stacked)</h4>
-			          <form class="bs-docs-example">
-			            <label class="checkbox">
-			              <input type="checkbox" value="">
-			              Option one is this and that&mdash;be sure to include why it's great
-			            </label>
-			            <br>
-			            <label class="radio">
-			              <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-			              Option one is this and that&mdash;be sure to include why it's great
-			            </label>
-			            <label class="radio">
-			              <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-			              Option two can be something else and selecting it will deselect option one
-			            </label>
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;label class="checkbox"&gt;
-			  &lt;input type="checkbox" value=""&gt;
-			  Option one is this and that&mdash;be sure to include why it's great
-			&lt;/label&gt;
-			
-			&lt;label class="radio"&gt;
-			  &lt;input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked&gt;
-			  Option one is this and that&mdash;be sure to include why it's great
-			&lt;/label&gt;
-			&lt;label class="radio"&gt;
-			  &lt;input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"&gt;
-			  Option two can be something else and selecting it will deselect option one
-			&lt;/label&gt;
-			</pre>
-			
-			          <h5 class="bs-docs-heading">Inline checkboxes</h5>
-			          <p>Add the <code>.inline</code> class to a series of checkboxes or radios for controls appear on the same line.</p>
-			          <form class="bs-docs-example">
-			            <label class="checkbox inline">
-			              <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
-			            </label>
-			            <label class="checkbox inline">
-			              <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
-			            </label>
-			            <label class="checkbox inline">
-			              <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
-			            </label>
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;label class="checkbox inline"&gt;
-			  &lt;input type="checkbox" id="inlineCheckbox1" value="option1"&gt; 1
-			&lt;/label&gt;
-			&lt;label class="checkbox inline"&gt;
-			  &lt;input type="checkbox" id="inlineCheckbox2" value="option2"&gt; 2
-			&lt;/label&gt;
-			&lt;label class="checkbox inline"&gt;
-			  &lt;input type="checkbox" id="inlineCheckbox3" value="option3"&gt; 3
-			&lt;/label&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Selects</h4>
-			          <p>Use the default option or specify a <code>multiple="multiple"</code> to show multiple options at once.</p>
-			          <form class="bs-docs-example">
-			            <select>
-			              <option>1</option>
-			              <option>2</option>
-			              <option>3</option>
-			              <option>4</option>
-			              <option>5</option>
-			            </select>
-			            <br>
-			            <select multiple="multiple">
-			              <option>1</option>
-			              <option>2</option>
-			              <option>3</option>
-			              <option>4</option>
-			              <option>5</option>
-			            </select>
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;select&gt;
-			  &lt;option&gt;1&lt;/option&gt;
-			  &lt;option&gt;2&lt;/option&gt;
-			  &lt;option&gt;3&lt;/option&gt;
-			  &lt;option&gt;4&lt;/option&gt;
-			  &lt;option&gt;5&lt;/option&gt;
-			&lt;/select&gt;
-			
-			&lt;select multiple="multiple"&gt;
-			  &lt;option&gt;1&lt;/option&gt;
-			  &lt;option&gt;2&lt;/option&gt;
-			  &lt;option&gt;3&lt;/option&gt;
-			  &lt;option&gt;4&lt;/option&gt;
-			  &lt;option&gt;5&lt;/option&gt;
-			&lt;/select&gt;
-			</pre>
-			
-			
-			
-			
-			          <h3 class="bs-docs-heading">Extending form controls</h3>
-			          <p>Adding on top of existing browser controls, Bootstrap includes other useful form components.</p>
-			
-			          <h4 class="bs-docs-heading">Prepended and appended inputs</h4>
-			          <p>Add text or buttons before or after any text-based input. Do note that <code>select</code> elements are not supported here.</p>
-			
-			          <h5 class="bs-docs-heading">Default options</h5>
-			          <p>Wrap an <code>.add-on</code> and an <code>input</code> with one of two classes to prepend or append text to an input.</p>
-			          <form class="bs-docs-example">
-			            <div class="input-prepend">
-			              <span class="add-on">@</span>
-			              <input class="span2" id="prependedInput" size="16" type="text" placeholder="Username">
-			            </div>
-			            <br>
-			            <div class="input-append">
-			              <input class="span2" id="appendedInput" size="16" type="text">
-			              <span class="add-on">.00</span>
-			            </div>
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;div class="input-prepend"&gt;
-			  &lt;span class="add-on"&gt;@&lt;/span&gt;&lt;input class="span2" id="prependedInput" size="16" type="text" placeholder="Username"&gt;
-			&lt;/div&gt;
-			&lt;div class="input-append"&gt;
-			  &lt;input class="span2" id="appendedInput" size="16" type="text"&gt;&lt;span class="add-on"&gt;.00&lt;/span&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h5 class="bs-docs-heading">Combined</h5>
-			          <p>Use both classes and two instances of <code>.add-on</code> to prepend and append an input.</p>
-			          <form class="bs-docs-example form-inline">
-			            <div class="input-prepend input-append">
-			              <span class="add-on">$</span>
-			              <input class="span2" id="appendedPrependedInput" size="16" type="text">
-			              <span class="add-on">.00</span>
-			            </div>
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;div class="input-prepend input-append"&gt;
-			  &lt;span class="add-on"&gt;$&lt;/span&gt;&lt;input class="span2" id="appendedPrependedInput" size="16" type="text"&gt;&lt;span class="add-on"&gt;.00&lt;/span&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h5 class="bs-docs-heading">Buttons instead of text</h5>
-			          <p>Instead of a <code>&lt;span&gt;</code> with text, use a <code>.btn</code> to attach a button (or two) to an input.</p>
-			          <form class="bs-docs-example">
-			            <div class="input-append">
-			              <input class="span2" id="appendedInputButton" size="16" type="text">
-			              <button class="btn" type="button">Go!</button>
-			            </div>
-			            <br>
-			            <div class="input-append">
-			              <input class="span2" id="appendedInputButtons" size="16" type="text">
-			              <button class="btn" type="button">Search</button>
-			              <button class="btn" type="button">Options</button>
-			            </div>
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;div class="input-append"&gt;
-			  &lt;input class="span2" id="appendedInputButton" size="16" type="text"&gt;&lt;button class="btn" type="button"&gt;Go!&lt;/button&gt;
-			&lt;/div&gt;
-			
-			&lt;div class="input-append"&gt;
-			  &lt;input class="span2" id="appendedInputButtons" size="16" type="text"&gt;&lt;button class="btn" type="button"&gt;Search&lt;/button&gt;&lt;button class="btn" type="button"&gt;Options&lt;/button&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h5 class="bs-docs-heading">Search form</h5>
+			          <h5 class="bs-docs-heading">Search form    --[THIS SECTION NEEDS TO BE STYLED]</h5>
 			          <form class="bs-docs-example form-search">
 			            <div class="input-append">
 			              <input type="text" class="span2 search-query">
@@ -781,19 +725,39 @@
 			              <button type="submit" class="btn">Search</button>
 			              <input type="text" class="span2 search-query">
 			            </div>
-			          </form>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;form class="form-search"&gt;
-			  &lt;div class="input-append"&gt;
-			    &lt;input type="text" class="span2 search-query"&gt;
-			    &lt;button type="submit" class="btn"&gt;Search&lt;/button&gt;
-			  &lt;/div&gt;
-			  &lt;div class="input-prepend"&gt;
-			    &lt;button type="submit" class="btn"&gt;Search&lt;/button&gt;
-			    &lt;input type="text" class="span2 search-query"&gt;
-			  &lt;/div&gt;
-			&lt;/form&gt;
-			</pre>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;form class="form-search"&gt;
+  &lt;div class="input-append"&gt;
+    &lt;input type="text" class="span2 search-query"&gt;
+    &lt;button type="submit" class="btn"&gt;Search&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="input-prepend"&gt;
+    &lt;button type="submit" class="btn"&gt;Search&lt;/button&gt;
+    &lt;input type="text" class="span2 search-query"&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</pre>
+
+
+
+			
+			          <h4 class="bs-docs-heading">Form actions</h4>
+			          <p>If you want a button to be less important than another, include <code>.btn-secondary</code>
+			          <form class="bs-docs-example">
+		              <button type="submit" class="btn">Save changes</button>
+		              <button type="button" class="btn btn-secondary">Cancel</button>
+			          </form>
+<pre class="prettyprint linenums">
+&lt;form&gt;
+  &lt;button type="submit" class="btn"&gt;Save changes&lt;/button&gt;
+  &lt;button type="button" class="btn btn-secondary"&gt;Cancel&lt;/button&gt;
+&lt;/form&gt;
+</pre>
+
+
+
+
 			
 			          <h4 class="bs-docs-heading">Control sizing</h4>
 			          <p>Use relative sizing classes like <code>.input-large</code> or match your inputs to the grid column sizes using <code>.span*</code> classes.</p>
@@ -809,14 +773,14 @@
 			              <input class="input-xxlarge" type="text" placeholder=".input-xxlarge">
 			            </div>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;input class="input-mini" type="text" placeholder=".input-mini"&gt;
-			&lt;input class="input-small" type="text" placeholder=".input-small"&gt;
-			&lt;input class="input-medium" type="text" placeholder=".input-medium"&gt;
-			&lt;input class="input-large" type="text" placeholder=".input-large"&gt;
-			&lt;input class="input-xlarge" type="text" placeholder=".input-xlarge"&gt;
-			&lt;input class="input-xxlarge" type="text" placeholder=".input-xxlarge"&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;input class="input-mini" type="text" placeholder=".input-mini"&gt;
+&lt;input class="input-small" type="text" placeholder=".input-small"&gt;
+&lt;input class="input-medium" type="text" placeholder=".input-medium"&gt;
+&lt;input class="input-large" type="text" placeholder=".input-large"&gt;
+&lt;input class="input-xlarge" type="text" placeholder=".input-xlarge"&gt;
+&lt;input class="input-xxlarge" type="text" placeholder=".input-xxlarge"&gt;
+</pre>
 			          <p>
 			            <span class="label label-info">Heads up!</span> In future versions, we'll be altering the use of these relative input classes to match our button sizes. For example, <code>.input-large</code> will increase the padding and font-size of an input.
 			          </p>
@@ -851,20 +815,20 @@
 			              </select>
 			            </div>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;input class="span1" type="text" placeholder=".span1"&gt;
-			&lt;input class="span2" type="text" placeholder=".span2"&gt;
-			&lt;input class="span3" type="text" placeholder=".span3"&gt;
-			&lt;select class="span1"&gt;
-			  ...
-			&lt;/select&gt;
-			&lt;select class="span2"&gt;
-			  ...
-			&lt;/select&gt;
-			&lt;select class="span3"&gt;
-			  ...
-			&lt;/select&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;input class="span1" type="text" placeholder=".span1"&gt;
+&lt;input class="span2" type="text" placeholder=".span2"&gt;
+&lt;input class="span3" type="text" placeholder=".span3"&gt;
+&lt;select class="span1"&gt;
+  ...
+&lt;/select&gt;
+&lt;select class="span2"&gt;
+  ...
+&lt;/select&gt;
+&lt;select class="span3"&gt;
+  ...
+&lt;/select&gt;
+</pre>
 			
 			          <p>For multiple grid inputs per line, <strong>use the <code>.controls-row</code> modifier class for proper spacing</strong>. It floats the inputs to collapse white-space, sets the proper margins, and the clears the float.</p>
 			          <form class="bs-docs-example" style="padding-bottom: 15px;">
@@ -888,64 +852,49 @@
 			              <input class="span4" type="text" placeholder=".span4">
 			            </div>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;div class="controls"&gt;
-			  &lt;input class="span5" type="text" placeholder=".span5"&gt;
-			&lt;/div&gt;
-			&lt;div class="controls controls-row"&gt;
-			  &lt;input class="span4" type="text" placeholder=".span4"&gt;
-			  &lt;input class="span1" type="text" placeholder=".span1"&gt;
-			&lt;/div&gt;
-			...
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="controls"&gt;
+  &lt;input class="span5" type="text" placeholder=".span5"&gt;
+&lt;/div&gt;
+&lt;div class="controls controls-row"&gt;
+  &lt;input class="span4" type="text" placeholder=".span4"&gt;
+  &lt;input class="span1" type="text" placeholder=".span1"&gt;
+&lt;/div&gt;
+...
+</pre>
 			
 			          <h4 class="bs-docs-heading">Uneditable inputs</h4>
 			          <p>Present data in a form that's not editable without using actual form markup.</p>
 			          <form class="bs-docs-example">
 			            <span class="input-xlarge uneditable-input">Some value here</span>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;span class="input-xlarge uneditable-input"&gt;Some value here&lt;/span&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;span class="input-xlarge uneditable-input"&gt;Some value here&lt;/span&gt;
+</pre>
 			
-			          <h4 class="bs-docs-heading">Form actions</h4>
-			          <p>End a form with a group of actions (buttons). When placed within a <code>.form-horizontal</code>, the buttons will automatically indent to line up with the form controls.</p>
-			          <form class="bs-docs-example">
-			            <div class="form-actions">
-			              <button type="submit" class="btn btn-special">Save changes</button>
-			              <button type="button" class="btn">Cancel</button>
-			            </div>
-			          </form>
-			<pre class="prettyprint linenums">
-			&lt;div class="form-actions"&gt;
-			  &lt;button type="submit" class="btn btn-special"&gt;Save changes&lt;/button&gt;
-			  &lt;button type="button" class="btn"&gt;Cancel&lt;/button&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Help text</h4>
+			          <h4 class="bs-docs-heading">Help text --[THIS SECTION NEEDS TO BE STYLED]</h4>
 			          <p>Inline and block level support for help text that appears around form controls.</p>
 			          <h5 class="bs-docs-heading">Inline help</h5>
 			          <form class="bs-docs-example form-inline">
 			            <input type="text"> <span class="help-inline">Inline help text</span>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;input type="text"&gt;&lt;span class="help-inline"&gt;Inline help text&lt;/span&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;input type="text"&gt;&lt;span class="help-inline"&gt;Inline help text&lt;/span&gt;
+</pre>
 			
 			          <h5 class="bs-docs-heading">Block help</h5>
 			          <form class="bs-docs-example form-inline">
 			            <input type="text">
 			            <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;input type="text"&gt;&lt;span class="help-block"&gt;A longer block of help text that breaks onto a new line and may extend beyond one line.&lt;/span&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;input type="text"&gt;&lt;span class="help-block"&gt;A longer block of help text that breaks onto a new line and may extend beyond one line.&lt;/span&gt;
+</pre>
 			
 			
 			
 			
-			          <h3 class="bs-docs-heading">Form control states</h3>
+			          <h3 class="bs-docs-heading">Form control states --[THIS SECTION NEEDS TO BE STYLED]</h3>
 			          <p>Provide feedback to users or visitors with basic feedback states on form controls and labels.</p>
 			
 			          <h4 class="bs-docs-heading">Input focus</h4>
@@ -953,18 +902,18 @@
 			          <form class="bs-docs-example form-inline">
 			            <input class="input-xlarge focused" id="focusedInput" type="text" value="This is focused...">
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;input class="input-xlarge" id="focusedInput" type="text" value="This is focused..."&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;input class="input-xlarge" id="focusedInput" type="text" value="This is focused..."&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Disabled inputs</h4>
 			          <p>Add the <code>disabled</code> attribute on an input to prevent user input and trigger a slightly different look.</p>
 			          <form class="bs-docs-example form-inline">
 			            <input class="input-xlarge" id="disabledInput" type="text" placeholder="Disabled input here…" disabled>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;input class="input-xlarge" id="disabledInput" type="text" placeholder="Disabled input here..." disabled&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;input class="input-xlarge" id="disabledInput" type="text" placeholder="Disabled input here..." disabled&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Validation states</h4>
 			          <p>Bootstrap includes validation styles for error, warning, info, and success messages. To use, add the appropriate class to the surrounding <code>.control-group</code>.</p>
@@ -999,29 +948,29 @@
 			              </div>
 			            </div>
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;div class="control-group warning"&gt;
-			  &lt;label class="control-label" for="inputWarning"&gt;Input with warning&lt;/label&gt;
-			  &lt;div class="controls"&gt;
-			    &lt;input type="text" id="inputWarning"&gt;
-			    &lt;span class="help-inline"&gt;Something may have gone wrong&lt;/span&gt;
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class="control-group error"&gt;
-			  &lt;label class="control-label" for="inputError"&gt;Input with error&lt;/label&gt;
-			  &lt;div class="controls"&gt;
-			    &lt;input type="text" id="inputError"&gt;
-			    &lt;span class="help-inline"&gt;Please correct the error&lt;/span&gt;
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class="control-group success"&gt;
-			  &lt;label class="control-label" for="inputSuccess"&gt;Input with success&lt;/label&gt;
-			  &lt;div class="controls"&gt;
-			    &lt;input type="text" id="inputSuccess"&gt;
-			    &lt;span class="help-inline"&gt;Woohoo!&lt;/span&gt;
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="control-group warning"&gt;
+  &lt;label class="control-label" for="inputWarning"&gt;Input with warning&lt;/label&gt;
+  &lt;div class="controls"&gt;
+    &lt;input type="text" id="inputWarning"&gt;
+    &lt;span class="help-inline"&gt;Something may have gone wrong&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="control-group error"&gt;
+  &lt;label class="control-label" for="inputError"&gt;Input with error&lt;/label&gt;
+  &lt;div class="controls"&gt;
+    &lt;input type="text" id="inputError"&gt;
+    &lt;span class="help-inline"&gt;Please correct the error&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="control-group success"&gt;
+  &lt;label class="control-label" for="inputSuccess"&gt;Input with success&lt;/label&gt;
+  &lt;div class="controls"&gt;
+    &lt;input type="text" id="inputSuccess"&gt;
+    &lt;span class="help-inline"&gt;Woohoo!&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			</section>
 			
 			
@@ -1034,7 +983,7 @@
 			 Icons
 			================================================== -->
 			        <section id="icons" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">Icons</h2>
+			          <h2 class="bs-docs-heading">Icons --[THIS SECTION NEEDS TO BE UPDATED, OR REMOVED]</h2>
 			
 			          <h3 class="bs-docs-heading">Icon glyphs</h3>
 			          <p>140 icons in sprite form, available in dark gray (default) and white.</p>

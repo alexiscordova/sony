@@ -161,7 +161,7 @@
 			                </ul>
 			              </div>
 			            </div>
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="sub-nav"&gt;
 			  &lt;div class="sub-nav-inner"&gt;
@@ -207,7 +207,7 @@
 			                <li><a tabindex="-1" href="#">Separated link</a></li>
 			              </ul>
 			            </div>
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu"&gt;
 			  &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
@@ -266,7 +266,7 @@
 			                </li>
 			              </ul>
 			            </div>
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
 			  ...
@@ -350,7 +350,7 @@
 			                </div>
 			              </div>
 			            </div> <!-- /navbar-example -->
-			          </div> {{! /example }}
+			          </div> 
 			
 			          <h4 class="bs-docs-heading">Within tabs</h4>
 			          <div class="bs-docs-example">
@@ -387,7 +387,7 @@
 			                </ul>
 			              </li>
 			            </ul> <!-- /tabs -->
-			          </div> {{! /example }}
+			          </div> 
 			
 			
 			          <hr class="bs-docs-separator">
@@ -468,7 +468,7 @@
 			                <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
 			              </div>
 			            </div>
-			          </div>{{! /example }}
+			          </div>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -578,48 +578,64 @@
 			
 			          <h3 class="bs-docs-heading">Overview and examples</h3>
 			          <p>Use any button to trigger a dropdown menu by placing it within a <code>.btn-group</code> and providing the proper menu markup.</p>
+			          
 			          <div class="bs-docs-example">
-			            <div class="btn-toolbar" style="margin: 0;">
-			              <div class="btn-group">
-			                <button class="btn dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			              <div class="btn-group">
-			                <button class="btn btn-special dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div><!-- /btn-toolbar -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group"&gt;
-			  &lt;a class="btn dropdown-toggle" data-toggle="dropdown" href="#"&gt;
-			    Action
-			    &lt;span class="caret"&gt;&lt;/span&gt;
-			  &lt;/a&gt;
-			  &lt;ul class="dropdown-menu"&gt;
-			    &lt;!-- dropdown menu links --&gt;
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
+		              <div class="btn-group">
+		                <a class="btn dropdown-toggle" data-toggle="dropdown">Filter results</a>
+		                <ul class="dropdown-menu">
+		                  <li><a href="#">Action</a></li>
+		                  <li><a href="#">Another action</a></li>
+		                  <li><a href="#">Something else here</a></li>
+		                  <li class="divider"></li>
+		                  <li><a href="#">Separated link</a></li>
+		                </ul>
+		              </div><!-- /btn-group -->
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="btn-group"&gt;
+  &lt;a class="btn dropdown-toggle" data-toggle="dropdown" href="#"&gt;Filter results&lt;/a&gt;
+  &lt;ul class="dropdown-menu"&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="divider"&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 			
-			          <h4 class="bs-docs-heading">Works with all button sizes</h4>
-			          <p>Button dropdowns work at any size:  <code>.btn-large</code>, <code>.btn-small</code>, or <code>.btn-mini</code>.</p>
+			          <h4 class="bs-docs-heading">Different sizes</h4>
+			          <!-- <p>Button dropdowns work at any size:  <code>.btn-large</code>, <code>.btn-small</code>, or <code>.btn-mini</code>.</p> -->
+			          <p>There's also a small dropdown button, by adding <code>.btn-small</code> to the button</p>
 			          <div class="bs-docs-example">
-			            <div class="btn-toolbar" style="margin: 0;">
+		              <div class="btn-group">
+		                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Sort by</button>
+		                <ul class="dropdown-menu">
+		                  <li><a href="#">Action</a></li>
+		                  <li><a href="#">Another action</a></li>
+		                  <li><a href="#">Something else here</a></li>
+		                  <li class="divider"></li>
+		                  <li><a href="#">Separated link</a></li>
+		                </ul>
+		              </div><!-- /btn-group -->
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="btn-group"&gt;
+  &lt;a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"&gt;Sort by&lt;/a&gt;
+  &lt;ul class="dropdown-menu"&gt;
+    &lt;!-- dropdown menu links --&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+
+
+			          <h4 class="bs-docs-heading">Alternate Style</h4>
+			          <!-- <p>Button dropdowns work at any size:  <code>.btn-large</code>, <code>.btn-small</code>, or <code>.btn-mini</code>.</p> -->
+			          <p>There's also a light version, by adding <code>.dropdown-toggle-alt</code> to the button</p>
+			          <div class="bs-docs-example">
+		              
 			              <div class="btn-group">
-			                <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">Large button <span class="caret"></span></button>
+			                <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by</button>
 			                <ul class="dropdown-menu">
 			                  <li><a href="#">Action</a></li>
 			                  <li><a href="#">Another action</a></li>
@@ -628,8 +644,9 @@
 			                  <li><a href="#">Separated link</a></li>
 			                </ul>
 			              </div><!-- /btn-group -->
-			              <div class="btn-group">
-			                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Small button <span class="caret"></span></button>
+
+			              <div class="btn-group" style="margin-left:0">
+			                <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by</button>
 			                <ul class="dropdown-menu">
 			                  <li><a href="#">Action</a></li>
 			                  <li><a href="#">Another action</a></li>
@@ -638,18 +655,10 @@
 			                  <li><a href="#">Separated link</a></li>
 			                </ul>
 			              </div><!-- /btn-group -->
-			              <div class="btn-group">
-			                <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">Mini button <span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div><!-- /btn-toolbar -->
-			          </div>{{! /example }}
+			          </div>
+
+
+
 			
 			          <h4 class="bs-docs-heading">Requires javascript</h4>
 			          <p>Button dropdowns require the <a href="./javascript.html#dropdowns">Bootstrap dropdown plugin</a> to function.</p>
@@ -686,7 +695,7 @@
 			                </ul>
 			              </div><!-- /btn-group -->
 			            </div><!-- /btn-toolbar -->
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="btn-group"&gt;
 			  &lt;button class="btn"&gt;Action&lt;/button&gt;
@@ -874,7 +883,7 @@
 			                </ul>
 			              </li>
 			            </ul>
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;ul class="nav nav-pills"&gt;
 			  &lt;li class="dropdown"&gt;
@@ -914,7 +923,7 @@
 			                <li><a href="#">Help</a></li>
 			              </ul>
 			            </div> <!-- /well -->
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;ul class="nav nav-list"&gt;
 			  &lt;li class="nav-header"&gt;List header&lt;/li&gt;
@@ -966,7 +975,7 @@
 			                </div>
 			              </div>
 			            </div> <!-- /tabbable -->
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="tabbable"&gt; &lt;!-- Only required for left/right tabs --&gt;
 			  &lt;ul class="nav nav-tabs"&gt;
@@ -1013,7 +1022,7 @@
 			                <li><a href="#C" data-toggle="tab">Section 3</a></li>
 			              </ul>
 			            </div> <!-- /tabbable -->
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="tabbable tabs-below"&gt;
 			  &lt;div class="tab-content"&gt;
@@ -1046,7 +1055,7 @@
 			                </div>
 			              </div>
 			            </div> <!-- /tabbable -->
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="tabbable tabs-left"&gt;
 			  &lt;ul class="nav nav-tabs"&gt;
@@ -1079,7 +1088,7 @@
 			                </div>
 			              </div>
 			            </div> <!-- /tabbable -->
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="tabbable tabs-right"&gt;
 			  &lt;ul class="nav nav-tabs"&gt;
@@ -1236,7 +1245,7 @@
 			                </ul>
 			              </div><!-- /btn-group -->
 			            </div><!-- /btn-toolbar -->
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="btn-group"&gt;
 			  &lt;button class="btn btn-mini"&gt;Action&lt;/button&gt;
@@ -1276,7 +1285,7 @@
 			                </ul>
 			              </div><!-- /btn-group -->
 			            </div>
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="btn-group dropup"&gt;
 			  &lt;button class="btn"&gt;Dropup&lt;/button&gt;
@@ -1328,14 +1337,14 @@
 			              <button type="button" id="fat-btn" data-loading-text="loading..." class="btn btn-special">
 			                Loading state
 			              </button>
-			            </div>{{! /example }}
+			            </div>
 			            <pre class="prettyprint linenums">&lt;button type="button" class="btn btn-special" data-loading-text="Loading..."&gt;Loading state&lt;/button&gt;</pre>
 			
 			            <h5 class="bs-docs-heading">Single toggle</h5>
 			            <p>Add data-toggle="button" to activate toggling on a single button.</p>
 			            <div class="bs-docs-example" style="padding-bottom: 24px;">
 			              <button type="button" class="btn btn-special" data-toggle="button">Single Toggle</button>
-			            </div>{{! /example }}
+			            </div>
 			            <pre class="prettyprint linenums">&lt;button type="button" class="btn" data-toggle="button"&gt;Single Toggle&lt;/button&gt;</pre>
 			
 			            <h5 class="bs-docs-heading">Checkbox</h5>
@@ -1346,7 +1355,7 @@
 			                <button type="button" class="btn btn-special">Middle</button>
 			                <button type="button" class="btn btn-special">Right</button>
 			              </div>
-			            </div>{{! /example }}
+			            </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="btn-group" data-toggle="buttons-checkbox"&gt;
 			  &lt;button type="button" class="btn"&gt;Left&lt;/button&gt;
@@ -1363,7 +1372,7 @@
 			                <button type="button" class="btn btn-special">Middle</button>
 			                <button type="button" class="btn btn-special">Right</button>
 			              </div>
-			            </div>{{! /example }}
+			            </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="btn-group" data-toggle="buttons-radio"&gt;
 			  &lt;button type="button" class="btn"&gt;Left&lt;/button&gt;
@@ -1471,7 +1480,7 @@
 			                  </div>
 			                </div>
 			              </div>
-			            </div>{{! /example }}
+			            </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="accordion" id="accordion2"&gt;
 			  &lt;div class="accordion-group"&gt;
@@ -1761,7 +1770,7 @@
 			            <button type="button" class="close" data-dismiss="alert">&times;</button>
 			            <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
 			          </div>
-			        </div>{{! /example }}
+			        </div>
 			
 			        <div class="bs-docs-example">
 			          <div class="alert alert-block alert-error fade in">
@@ -1772,7 +1781,7 @@
 			              <a class="btn btn-danger" href="#">Take this action</a> <a class="btn" href="#">Or do this</a>
 			            </p>
 			          </div>
-			        </div>{{! /example }}
+			        </div>
 			
 			
 			        <hr class="bs-docs-separator">
@@ -1868,7 +1877,7 @@
 			                <a href="#" class="btn btn-special">Save changes</a>
 			              </div>
 			            </div>
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="modal hide fade"&gt;
 			  &lt;div class="modal-header"&gt;
@@ -1921,7 +1930,7 @@
 			          </div>
 			          <div class="bs-docs-example" style="padding-bottom: 24px;">
 			            <a data-toggle="modal" href="#myModal" class="btn btn-special btn-large">Launch demo modal</a>
-			          </div>{{! /example }}
+			          </div>
 			<pre class="prettyprint linenums">
 			&lt;-- Button to trigger modal --&gt;
 			&lt;a href="#myModal" role="button" class="btn" data-toggle="modal"&gt;Launch demo modal&lt;/a&gt;
@@ -2846,7 +2855,7 @@
 			              <p>Keytar twee blog, culpa messenger bag marfa whatever delectus food truck. Sapiente synth id assumenda. Locavore sed helvetica cliche irony, thundercats you probably haven't heard of them consequat hoodie gluten-free lo-fi fap aliquip. Labore elit placeat before they sold out, terry richardson proident brunch nesciunt quis cosby sweater pariatur keffiyeh ut helvetica artisan. Cardigan craft beer seitan readymade velit. VHS chambray laboris tempor veniam. Anim mollit minim commodo ullamco thundercats.
 			              </p>
 			            </div>
-			          </div>{{! /example }}
+			          </div>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -2957,7 +2966,7 @@
 			          <div class="bs-docs-example tooltip-demo">
 			            <p class="muted" style="margin-bottom: 0;">Tight pants next level keffiyeh <a href="#" rel="tooltip" title="Default tooltip">you probably</a> haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel <a href="#" rel="tooltip" title="Another tooltip">have a</a> terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. A really ironic artisan <a href="#" rel="tooltip" title="Another one here too">whatever keytar</a>, scenester farm-to-table banksy Austin <a href="#" rel="tooltip" title="The last tip!">twitter handle</a> freegan cred raw denim single-origin coffee viral.
 			            </p>
-			          </div>{{! /example }}
+			          </div>
 			
 			          <h4 class="bs-docs-heading">Four directions</h4>
 			          <div class="bs-docs-example tooltip-demo">
@@ -2967,7 +2976,7 @@
 			              <li><a href="#" rel="tooltip" data-placement="bottom" title="Tooltip on bottom">Tooltip on bottom</a></li>
 			              <li><a href="#" rel="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</a></li>
 			            </ul>
-			          </div>{{! /example }}
+			          </div>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -3353,7 +3362,7 @@
 			            <p>A basic, easily extended plugin for quickly creating elegant typeaheads with any form text input.</p>
 			            <div class="bs-docs-example" style="background-color: #f5f5f5;">
 			              <input type="text" class="span3" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source='["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
-			            </div>{{! /example }}
+			            </div>
 			            <pre class="prettyprint linenums">&lt;input type="text" data-provide="typeahead"&gt;</pre>
 			
 			

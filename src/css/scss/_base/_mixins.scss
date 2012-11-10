@@ -772,13 +772,19 @@
 		height: $h;
 	}
 
+	@mixin background-sprite-icon-small{
+	  background-image: url($iconSmallSpritePath);
+	  background-repeat: no-repeat;  
+	}
+
 	@mixin pseudoEl-inline-block-icon($w: 15px, $h: 15px) {
+		@include background-sprite-icon-small();
 		@include pseudoEl-inline-block($w,$h);
 	  @include ie7-restore-right-whitespace();
 	  line-height: 15px;
 	  vertical-align: text-top;
-	  background-image: url($iconSmallSpritePath);
 	  background-position: 15px 15px;
-	  background-repeat: no-repeat;
 	  margin-top: 1px;
 	}
+
+

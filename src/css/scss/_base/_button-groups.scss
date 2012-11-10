@@ -6,7 +6,6 @@
 // Make the div behave like a button
 .btn-group {
   position: relative;
-  font-size: 0; // remove as part 1 of font-size inline-block hack
   vertical-align: middle; // match .btn alignment given font-size hack above
   white-space: nowrap; // prevent buttons from wrapping when in tight spaces (e.g., the table on the tests page)
   @include ie7-restore-left-whitespace();
@@ -36,14 +35,13 @@
 // Float them, remove border radius, then re-add to first and last elements
 .btn-group > .btn {
   position: relative;
-  @include border-radius(0);
 }
 .btn-group > .btn + .btn {
   margin-left: -1px;
 }
 .btn-group > .btn,
 .btn-group > .dropdown-menu {
-  font-size: $baseFontSize; // redeclare as part 2 of font-size inline-block hack
+  // font-size: $baseFontSize;
 }
 
 // Reset fonts for other sizes
@@ -58,43 +56,9 @@
 }
 
 // Set corners individual because sometimes a single button can be in a .btn-group and we need :first-child and :last-child to both match
-.btn-group > .btn:first-child {
-  margin-left: 0;
-     -webkit-border-top-left-radius: 4px;
-         -moz-border-radius-topleft: 4px;
-             border-top-left-radius: 4px;
-  -webkit-border-bottom-left-radius: 4px;
-      -moz-border-radius-bottomleft: 4px;
-          border-bottom-left-radius: 4px;
-}
-// Need .dropdown-toggle since :last-child doesn't apply given a .dropdown-menu immediately after it
-.btn-group > .btn:last-child,
-.btn-group > .dropdown-toggle {
-     -webkit-border-top-right-radius: 4px;
-         -moz-border-radius-topright: 4px;
-             border-top-right-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-      -moz-border-radius-bottomright: 4px;
-          border-bottom-right-radius: 4px;
-}
-// Reset corners for large buttons
+.btn-group > .btn:first-child,
 .btn-group > .btn.large:first-child {
   margin-left: 0;
-     -webkit-border-top-left-radius: 6px;
-         -moz-border-radius-topleft: 6px;
-             border-top-left-radius: 6px;
-  -webkit-border-bottom-left-radius: 6px;
-      -moz-border-radius-bottomleft: 6px;
-          border-bottom-left-radius: 6px;
-}
-.btn-group > .btn.large:last-child,
-.btn-group > .large.dropdown-toggle {
-     -webkit-border-top-right-radius: 6px;
-         -moz-border-radius-topright: 6px;
-             border-top-right-radius: 6px;
-  -webkit-border-bottom-right-radius: 6px;
-      -moz-border-radius-bottomright: 6px;
-          border-bottom-right-radius: 6px;
 }
 
 // On hover/focus/active, bring the proper btn to front
@@ -152,10 +116,10 @@
 
   // Keep the hover's background when dropdown is open
   .btn.dropdown-toggle {
-    background-color: $btnBackgroundHover;
+    background-color:$btnDropdownBackgroundActive;  
   }
-  .btn-special.dropdown-toggle {
-    background-color: $btnSpecialBackgroundHover;
+  .btn.dropdown-toggle.dropdown-toggle-alt {
+    background-color:$btnDropdownAltBackgroundActive;  
   }
 }
 
@@ -191,6 +155,12 @@
     border-bottom-color: $white;
   }
 }
+.btn-secondary{
+  .caret {
+    border-top-color: $white;
+    border-bottom-color: $white;
+  }
+}
 
 
 
@@ -205,21 +175,8 @@
   display: block;
   float: none;
   width: 100%;
-  @include border-radius(0);
 }
 .btn-group-vertical .btn + .btn {
   margin-left: 0;
   margin-top: -1px;
-}
-.btn-group-vertical .btn:first-child {
-  @include border-radius(4px 4px 0 0);
-}
-.btn-group-vertical .btn:last-child {
-  @include border-radius(0 0 4px 4px);
-}
-.btn-group-vertical .btn-large:first-child {
-  @include border-radius(6px 6px 0 0);
-}
-.btn-group-vertical .btn-large:last-child {
-  @include border-radius(0 0 6px 6px);
 }
