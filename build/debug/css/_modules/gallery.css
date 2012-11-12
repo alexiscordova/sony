@@ -1,5 +1,67 @@
 /* TO BE GLOBAL */
-/* line 16, ../../../../src/css/scss/_modules/gallery.scss */
+@font-face {
+  font-family: 'SST-Light';
+  src: url("../fonts/sst-light.eot");
+  src: url("../fonts/sst-light.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-light.woff") format("woff"), url("../fonts/sst-light.ttf") format("truetype"), url("../fonts/sst-light.svg#sst-light") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Roman';
+  src: url("../fonts/sst-roman.eot");
+  src: url("../fonts/sst-roman.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-roman.woff") format("woff"), url("../fonts/sst-roman.ttf") format("truetype"), url("../fonts/sst-roman.svg#sst-roman") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Medium';
+  src: url("../fonts/sst-medium.eot");
+  src: url("../fonts/sst-medium.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-medium.woff") format("woff"), url("../fonts/sst-medium.ttf") format("truetype"), url("../fonts/sst-medium.svg#sst-medium") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Bold';
+  src: url("../fonts/sst-heavy.eot");
+  src: url("../fonts/sst-heavy.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-heavy.woff") format("woff"), url("../fonts/sst-heavy.ttf") format("truetype"), url("../fonts/sst-heavy.svg#sst-heavy") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Italic';
+  src: url("../fonts/sst-italic.eot");
+  src: url("../fonts/sst-italic.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-italic.woff") format("woff"), url("../fonts/sst-italic.ttf") format("truetype"), url("../fonts/sst-italic.svg#sst-italic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Bold-Italic';
+  src: url("../fonts/sst-heavyitalic.eot");
+  src: url("../fonts/sst-heavyitalic.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-heavyitalic.woff") format("woff"), url("../fonts/sst-heavyitalic.ttf") format("truetype"), url("../fonts/sst-heavyitalic.svg#sst-heavyitalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* line 6, ../../../../src/css/scss/_modules/gallery.scss */
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  -moz-transition: opacity 0.15s linear;
+  -o-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+
+/* line 14, ../../../../src/css/scss/_modules/gallery.scss */
+.fade.in {
+  opacity: 1;
+}
+
+/* line 29, ../../../../src/css/scss/_modules/gallery.scss */
 .range-control {
   position: relative;
   width: inherit;
@@ -7,19 +69,19 @@
   background: darkgray;
 }
 
-/* line 23, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 36, ../../../../src/css/scss/_modules/gallery.scss */
 .range-control.vertical {
   width: 5px;
   height: 200px;
 }
 
-/* line 28, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 41, ../../../../src/css/scss/_modules/gallery.scss */
 .range-control.vertical .ambit {
   width: 5px;
   height: auto;
 }
 
-/* line 33, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 46, ../../../../src/css/scss/_modules/gallery.scss */
 .range-control .handle {
   z-index: 5;
   margin-top: -8px;
@@ -33,38 +95,38 @@
   /* you should probably localize the cur file */
 }
 
-/* line 44, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 57, ../../../../src/css/scss/_modules/gallery.scss */
 .ie .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur"), pointer;
   /* you should probably localize the cur file */
 }
 
-/* line 47, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 60, ../../../../src/css/scss/_modules/gallery.scss */
 .grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur") 8 4, move;
   /* you should probably localize the cur file */
 }
 
-/* line 50, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 63, ../../../../src/css/scss/_modules/gallery.scss */
 .ie.grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur"), move;
   /* you should probably localize the cur file */
 }
 
-/* line 54, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 67, ../../../../src/css/scss/_modules/gallery.scss */
 .range-control .ambit {
   z-index: 3;
   height: 5px;
   background: gray;
 }
 
-/* line 61, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 74, ../../../../src/css/scss/_modules/gallery.scss */
 .box {
-  background: blue;
+  background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* line 66, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 79, ../../../../src/css/scss/_modules/gallery.scss */
 .ghost-center-wrap:before {
   content: '';
   display: inline-block;
@@ -73,7 +135,7 @@
   height: 100%;
 }
 
-/* line 74, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 87, ../../../../src/css/scss/_modules/gallery.scss */
 .ghost-center {
   display: inline-block;
   vertical-align: middle;
@@ -81,21 +143,21 @@
 }
 
 @media (min-width: 1500px) {
-  /* line 83, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 96, ../../../../src/css/scss/_modules/gallery.scss */
   .container {
     width: 1470px;
   }
 }
 /* --------------------
  * ==================== */
-/* line 94, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 107, ../../../../src/css/scss/_modules/gallery.scss */
 * {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 /* MEDIA QUERY DEBUGGING VIEW */
-/* line 103, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 116, ../../../../src/css/scss/_modules/gallery.scss */
 body::before {
   content: 'Default - 940px';
   position: fixed;
@@ -112,71 +174,70 @@ body::before {
 }
 
 @media (min-width: 1200px) {
-  /* line 119, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 132, ../../../../src/css/scss/_modules/gallery.scss */
   body::before {
     content: 'Large Desktop - 1200px+';
     background-color: rgba(204, 119, 102, 0.6);
   }
 }
 @media (min-width: 1500px) {
-  /* line 126, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 139, ../../../../src/css/scss/_modules/gallery.scss */
   body::before {
     content: 'Extra Large Desktop - 1500px+';
     background-color: rgba(136, 102, 204, 0.6);
   }
 }
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 133, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 146, ../../../../src/css/scss/_modules/gallery.scss */
   body::before {
     content: 'Portrait tablet to landscape and desktop - > 768px && < 979px';
     background-color: rgba(204, 187, 102, 0.6);
   }
 }
 @media (max-width: 767px) {
-  /* line 140, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 153, ../../../../src/css/scss/_modules/gallery.scss */
   body {
     padding: 0;
   }
 
-  /* line 144, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 157, ../../../../src/css/scss/_modules/gallery.scss */
   .padded {
     padding-left: 20px;
     padding-right: 20px;
   }
 
-  /* line 149, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 162, ../../../../src/css/scss/_modules/gallery.scss */
   body::before {
     content: 'Phones to Tablets - < 767px';
     background-color: rgba(102, 153, 204, 0.6);
   }
 }
 @media (max-width: 480px) {
-  /* line 156, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 169, ../../../../src/css/scss/_modules/gallery.scss */
   body::before {
     content: 'Phones - < 480px';
     background-color: rgba(204, 102, 204, 0.6);
   }
 }
-/*Hero image*/
-/* line 167, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 180, ../../../../src/css/scss/_modules/gallery.scss */
 .hero {
   position: relative;
   overflow: hidden;
   max-height: 500px;
 }
 
-/* line 173, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 186, ../../../../src/css/scss/_modules/gallery.scss */
 .hero img {
   display: block;
   width: 100%;
 }
 
-/* line 178, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 191, ../../../../src/css/scss/_modules/gallery.scss */
 .hero-text {
   color: #fff;
 }
 
-/* line 183, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 196, ../../../../src/css/scss/_modules/gallery.scss */
 .full {
   position: absolute;
   top: 0;
@@ -186,98 +247,76 @@ body::before {
   height: 100%;
 }
 
-/* Gallery */
-/* line 195, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 208, ../../../../src/css/scss/_modules/gallery.scss */
 .product {
-  margin-top: 20px;
+  margin: 20px 0 0;
   height: 200px;
   overflow: hidden;
+  background: #f2f2f2;
 }
 
-/* line 201, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 215, ../../../../src/css/scss/_modules/gallery.scss */
 .product.link {
   padding: 70px 20px 0;
   background-color: #77cc66;
 }
 
-/* line 206, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 220, ../../../../src/css/scss/_modules/gallery.scss */
 .product.h2 {
   height: 420px;
 }
 
 @media (min-width: 1200px) {
-  /* line 211, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 225, ../../../../src/css/scss/_modules/gallery.scss */
   .product {
     margin-top: 30px;
   }
 
-  /* line 215, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 229, ../../../../src/css/scss/_modules/gallery.scss */
   .product.h2 {
     height: 430px;
   }
 }
 @media (max-width: 767px) {
-  /* line 221, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 235, ../../../../src/css/scss/_modules/gallery.scss */
   .product {
     margin-top: 10px;
   }
 
-  /* line 225, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 239, ../../../../src/css/scss/_modules/gallery.scss */
   .product.h2 {
     height: 410px;
   }
 }
-/*
-.product:before {
-  content: attr(data-groups);
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: white;
-  text-shadow: -1px 0 0 black, 0 -1px 0 black, 1px 0 0 black, 0 1px 0 black;
-  font-family: Menlo;
-}
-
-.product:after {
-  content: attr(data-megapixels) 'MP :: $' attr(data-price);
-  position: absolute;
-  top: 40px;
-  left: 0;
-  color: white;
-  text-shadow: -1px 0 0 black, 0 -1px 0 black, 1px 0 0 black, 0 1px 0 black;
-  font-family: Menlo;
-}
-*/
-/* line 252, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 265, ../../../../src/css/scss/_modules/gallery.scss */
 .product-content {
-  background-color: #f2f2f2;
   padding: 10px;
 }
 
-/* line 257, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 269, ../../../../src/css/scss/_modules/gallery.scss */
 .product-img {
   text-align: center;
+  background: #fff;
 }
 
-/* line 261, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 274, ../../../../src/css/scss/_modules/gallery.scss */
 .product-meta-name {
   text-transform: uppercase;
   font-size: 12px;
 }
 
-/* filters */
-/* line 268, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 281, ../../../../src/css/scss/_modules/gallery.scss */
 .filter-options {
   margin: 20px 0;
 }
 
-/* line 272, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 285, ../../../../src/css/scss/_modules/gallery.scss */
 .range-control-wrap {
   margin-top: 10px;
-  width: inherit;
+  padding: 0 10px;
 }
 
-/* line 277, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 291, ../../../../src/css/scss/_modules/gallery.scss */
 .price-range-output {
   margin-top: 10px;
   width: inherit;
@@ -285,59 +324,58 @@ body::before {
 }
 
 @media (max-width: 767px) {
-  /* line 285, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 300, ../../../../src/css/scss/_modules/gallery.scss */
   .product {
     display: table;
   }
 
-  /* line 289, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 304, ../../../../src/css/scss/_modules/gallery.scss */
   .product-img {
     display: table-cell;
     width: 33.33%;
     vertical-align: middle;
   }
 
-  /* line 295, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 310, ../../../../src/css/scss/_modules/gallery.scss */
   .product-content {
     display: table-cell;
     width: 66.66%;
   }
 }
 @media (max-width: 480px) {
-  /* line 303, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 318, ../../../../src/css/scss/_modules/gallery.scss */
   h1 {
     font-size: 20px;
     line-height: 22px;
   }
 
-  /* line 308, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 323, ../../../../src/css/scss/_modules/gallery.scss */
   h2 {
     font-size: 16px;
     line-height: 18px;
   }
 }
-/* line 314, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 329, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-layer h3 code {
   font-size: inherit;
   font-weight: normal;
   line-height: inherit;
 }
 
-/* GALLERY TABS */
-/* line 323, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 338, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-content {
   margin-top: 20px;
   overflow: visible;
 }
 
-/* line 328, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 344, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-strip {
   position: relative;
   background-color: #ccc;
   box-shadow: inset 0 -1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* line 334, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 351, ../../../../src/css/scss/_modules/gallery.scss */
 .tabs {
   z-index: 1;
   overflow-x: auto;
@@ -345,7 +383,7 @@ body::before {
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 341, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 358, ../../../../src/css/scss/_modules/gallery.scss */
   .tabs {
     position: relative;
     overflow-x: hidden;
@@ -355,12 +393,12 @@ body::before {
     transition: all .4s ease-in-out;
   }
 
-  /* line 350, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 367, ../../../../src/css/scss/_modules/gallery.scss */
   .tabs-container {
     overflow: hidden;
   }
 }
-/* line 355, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 372, ../../../../src/css/scss/_modules/gallery.scss */
 .tab {
   position: relative;
   z-index: 1;
@@ -376,7 +414,7 @@ body::before {
   transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
 }
 
-/* line 371, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 388, ../../../../src/css/scss/_modules/gallery.scss */
 .tab.active {
   z-index: 2;
   top: -2px;
@@ -384,26 +422,26 @@ body::before {
   box-shadow: 0 2px 0 white, 0 -1px 3px 1px rgba(0, 0, 0, 0.2);
 }
 
-/* line 380, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 398, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-nav-btns {
   position: absolute;
   z-index: 5;
   height: 60px;
 }
 
-/* line 386, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 404, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-nav-wrap {
   position: relative;
   display: none;
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 392, ../../../../src/css/scss/_modules/gallery.scss */
+  /* line 410, ../../../../src/css/scss/_modules/gallery.scss */
   .tab-nav-wrap {
     display: block;
   }
 }
-/* line 398, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 416, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-nav {
   position: absolute;
   z-index: 5;
@@ -416,12 +454,12 @@ body::before {
   cursor: pointer;
 }
 
-/* line 410, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 428, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-nav-next {
   left: 724px;
 }
 
-/* line 414, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 433, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-nav:before {
   content: '';
   position: absolute;
@@ -432,14 +470,14 @@ body::before {
   width: 0;
   height: 0;
   border-top: 5px solid transparent;
-  border-right: 5px solid #648ef5;
+  border-right: 5px solid #049cdb;
   border-bottom: 5px solid transparent;
 }
 
-/* line 428, ../../../../src/css/scss/_modules/gallery.scss */
+/* line 448, ../../../../src/css/scss/_modules/gallery.scss */
 .tab-nav-next:before {
   border-top: 5px solid transparent;
   border-right: none;
-  border-left: 5px solid #648ef5;
+  border-left: 5px solid #049cdb;
   border-bottom: 5px solid transparent;
 }
