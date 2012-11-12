@@ -134,13 +134,12 @@
                 self.group = category;
                 if (category !== 'all') {
                     self.$items.each(function() {
-                        var keys = $(this).data('groups');
-                        if ($.inArray(category, keys) === -1) {
-                            $(this).addClass('concealed');
-                            return;
-                        } else {
-                            $(this).addClass('filtered');
-                        }
+                        var $this = $(this),
+                        groups = $this.data('groups'),
+                        keys = self.delimeter && !$.isArray( groups ) ? groups.split( self.delimeter ) : groups,
+                        theClass = $.inArray(category, keys) === -1 ? 'concealed' : 'filtered';
+
+                        $this.addClass( theClass );
                     });
                 }
 
@@ -542,6 +541,7 @@
         itemSelector: '',
         gutterWidth : 0,
         columnWidth : 0,
+        delimeter : null,
         keepSorted : true
     };
 

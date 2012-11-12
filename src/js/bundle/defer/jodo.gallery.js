@@ -22,6 +22,10 @@
 
         // instantiate the plugin
         // easeOutQuart
+        self.$grid.children().each(function() {
+            var data = $(this).data();
+            data.categories = !$.isArray( data.groups ) ? data.groups.split(',') : '';
+        });
         self.$grid.shuffle(self.shuffleOpts);
 
 
@@ -100,12 +104,12 @@
             var self = this;
 
             // If a features filter is active
-            if ( self.features.length > 0 && !self.arrayContainsArray( data.groups, self.features ) ) {
+            if ( self.features.length > 0 && !self.arrayContainsArray( data.categories, self.features ) ) {
                 return false;
             }
 
             // If a megapixels filter is active
-            if ( self.megapixels.length > 0 && !self.valueInArray(data.megapixels, self.megapixels) ) {
+            if ( self.megapixels.length > 0 && !self.valueInArray( data.megapixels, self.megapixels ) ) {
                 return false;
             }
 
@@ -227,6 +231,7 @@
     // Not overrideable
     $.fn.gallery.settings = {
         shuffleOpts : {
+            delimeter: ',',
             speed : 400,
             easing : 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
             columnWidth: function( containerWidth ) {

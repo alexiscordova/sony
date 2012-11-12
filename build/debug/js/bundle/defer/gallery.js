@@ -14,21 +14,6 @@ Exports.constrain = function(value, min, max) {
         value;
 };
 
-Exports.pfx = (function(Modernizr) {
-  var transEndEventNames = {
-      'WebkitTransition' : 'webkitTransitionEnd',
-      'MozTransition'    : 'transitionend',
-      'OTransition'      : 'oTransitionEnd',
-      'msTransition'     : 'MSTransitionEnd',
-      'transition'       : 'transitionend'
-  },
-  transitionEndName = transEndEventNames[ Modernizr.prefixed('transition') ];
-
-  return {
-    'transitionEndName' : transitionEndName
-  };
-}(Modernizr));
-
 Exports.Modules.Gallery = (function($) {
   
   var _init = function() {

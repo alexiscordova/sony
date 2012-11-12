@@ -22,53 +22,14 @@
 
         // instantiate the plugin
         // easeOutQuart
-        self.canInitialize = true;
-        self.$grid.shuffle({
-            group : 'all',
-            speed : 400,
-            easing : 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
-            columnWidth: function( containerWidth ) {
-                var column = 0;
-                switch ( containerWidth ) {
-                case 1470:
-                    column = 70;
-                    break;
-                case 1170:
-                    column = 70;
-                    break;
-                case 940:
-                    column = 60;
-                    break;
-                case 724:
-                    column = 42;
-                    break;
-                default:
-                    column = 60;
-                }
-                return column;
-            },
-            gutterWidth: function( containerWidth ) {
-                var gutter = 0;
-                switch ( containerWidth ) {
-                case 1470:
-                    gutter = 30;
-                    break;
-                case 1170:
-                    gutter = 30;
-                    break;
-                case 940: // Falls through
-                case 724:
-                    gutter = 20;
-                    break;
-                default:
-                    gutter = 0;
-                }
-                return gutter;
-            }
+        self.$grid.children().each(function() {
+            var data = $(this).data();
+            data.categories = !$.isArray( data.groups ) ? data.groups.split(',') : '';
         });
+        self.$grid.shuffle(self.shuffleOpts);
 
 
-        // Features
+        // Checkboxes
         self.$features.find('input').on('change', function() {
             var $checked = self.$features.find('input:checked'),
             groups = [];
@@ -85,7 +46,7 @@
             self.filter();
         });
 
-        // Megapixels
+        // Buttons
         self.$megapixels.children().on('click', function() {
             $(this).button('toggle');
 
@@ -104,7 +65,7 @@
         });
 
 
-        // Slide toggle
+        // Slide toggle. Reset range control if it was hidden on initialization
         self.$container.find('.js-filter-toggle').on('click', function() {
             $(this).siblings('.product-filter').stop().slideToggle(function() {
                 // If there is a range control in this element and it's in need of an update
@@ -118,6 +79,7 @@
         // Set up range controller
         self.range();
 
+        // Hide filters
         self.$container.find('.product-filter').slideUp();
     };
 
@@ -137,16 +99,17 @@
             }
         },
 
+        // From the element's data-* attributes, test to see if it passes
         itemPassesFilters : function( data ) {
             var self = this;
 
             // If a features filter is active
-            if ( self.features.length > 0 && !self.arrayContainsArray( data.groups, self.features ) ) {
+            if ( self.features.length > 0 && !self.arrayContainsArray( data.categories, self.features ) ) {
                 return false;
             }
 
             // If a megapixels filter is active
-            if ( self.megapixels.length > 0 && !self.valueInArray(data.megapixels, self.megapixels) ) {
+            if ( self.megapixels.length > 0 && !self.valueInArray( data.megapixels, self.megapixels ) ) {
                 return false;
             }
 
@@ -156,7 +119,7 @@
             }
 
             return true;
-          },
+        },
 
         hasActiveFilters : function() {
             var self = this;
@@ -209,7 +172,7 @@
                 self.price.max = maxPrice;
 
                 // Filter results
-                if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.canInitialize ) {
+                if ( prevMin !== self.price.min || prevMax !== self.price.max ) {
                     if ( $.throttle ) {
                         var delay, method;
                         if ( !!( 'ontouchstart' in window ) ) {
@@ -267,7 +230,49 @@
 
     // Not overrideable
     $.fn.gallery.settings = {
-
+        shuffleOpts : {
+            delimeter: ',',
+            speed : 400,
+            easing : 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+            columnWidth: function( containerWidth ) {
+                var column = 0;
+                switch ( containerWidth ) {
+                case 1470:
+                    column = 70;
+                    break;
+                case 1170:
+                    column = 70;
+                    break;
+                case 940:
+                    column = 60;
+                    break;
+                case 724:
+                    column = 42;
+                    break;
+                default:
+                    column = 60;
+                }
+                return column;
+            },
+            gutterWidth: function( containerWidth ) {
+                var gutter = 0;
+                switch ( containerWidth ) {
+                case 1470:
+                    gutter = 30;
+                    break;
+                case 1170:
+                    gutter = 30;
+                    break;
+                case 940: // Falls through
+                case 724:
+                    gutter = 20;
+                    break;
+                default:
+                    gutter = 0;
+                }
+                return gutter;
+            }
+        }
     };
 
 }(jQuery, window));
