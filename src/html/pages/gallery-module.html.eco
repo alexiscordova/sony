@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%-@partial('includes/meta.html')%>
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+<% if 'debug' in @getEnvironments():%> 
+        <%-@partial('includes/css_debug.html')%>
+<% else: %>
+        <%-@partial('includes/css_deploy.html')%>
+<% end %>
+        <%-@partial('includes/js_head.html')%>
+    
+        
+<% if 'debug' in @getEnvironments():%> 
+<!-- include your module css here -->
+        <link rel="stylesheet" href="css/_modules/gallery.css">
+<% end %>   
+        
+
+        
+    </head>
+    <body>
+
+<!-- include your module markup templates here -->
+        <%-@partial('modules/gallery.html.hb', @data('mode1.json')) %>
+
+<% if 'debug' in @getEnvironments():%>
+        <%-@partial('includes/js_footer_debug.html.eco')%>
+<% else: %>
+        <%-@partial('includes/js_footer_deploy.html.eco')%>
+<% end %>
+
+<!-- include your module js here -->
+        <script src="js/libs/jquery.throttle-debounce.min.js"></script>
+        <script src="js/libs/bootstrap-button.js"></script>
+        <script src="js/libs/bootstrap-transition.js"></script>
+        <script src="js/bundle/defer/bootstrap-tab.js"></script>
+        <script src="js/bundle/defer/jquery.shuffle.js"></script>
+        <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jodo.gallery.js"></script>
+        <script src="js/bundle/defer/gallery.js"></script>
+
+        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+
+    </body>
+</html>
