@@ -204,19 +204,21 @@
 // -----
 
 /* White icons with optional class, or on hover/active states of certain elements */
+
 .icon-small{
   display: inline-block;
+  @include background-sprite-icon-small;
   width:15px;
-  hight:15px;
+  height:15px;
   @include ie7-restore-right-whitespace();
   line-height: 15px;
   vertical-align: text-top;
-  background-image: url($iconSmallSpritePath);
-  background-position: 15px 15px;
-  background-repeat: no-repeat;
   margin-top: 1px;
+  background-position: 15px 15px;
 }
 
-.icon-small-arrow-right   { background-position: 0      0;  }
+/* Positions are for a 15px by 15px container. */
+.icon-small-arrow-right-white   { background-position: -50px -50px; }
+.icon-small-arrow-right-blue    { background-position: -100px -50px; }
 
 
