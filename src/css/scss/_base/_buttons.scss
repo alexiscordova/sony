@@ -33,7 +33,7 @@
   &:hover {
     color: $btnText;
     text-decoration: none;
-    background:$btnBackgroundHover;
+    background-color:$btnBackgroundHover;
   }
 
   // Focus state for keyboard and accessibility
@@ -85,6 +85,22 @@
   &.disabled:hover,
   &[disabled]:hover {
     background:$btnSpecialBackground;
+  }
+}
+.btn-secondary{
+  border: 1px solid $btnSecondaryBackground;
+  background: $btnSecondaryBackground;
+
+  &:hover {
+    background: $btnSecondaryBackgroundHover;
+  }
+  &.active,
+  &:active {
+    background: $btnSecondaryBackgroundActive;
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background:$btnSecondaryBackground;
   }
 }
 
