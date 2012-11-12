@@ -3,17 +3,19 @@
 docpadConfig = {
   environments: {
     debug:{
-      srcPath:'html'
+      layoutsPaths: ['data']
+      srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/debug/'
     },
     deploy:{
-      srcPath:'html'
+      layoutsPaths: ['data']
+      srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/deploy/'
     },
     docs:{
-      srcPath:'html'
+      srcPath:'html/'
       documentsPaths: ['docs']
       outPath: '../docs/'
     }
@@ -23,7 +25,7 @@ docpadConfig = {
     site:{
       title:'Sony Global'
     }
-    gf:(path) -> output = '1'; console.log(docpad.database.findOne({id:path}) )
+    data:(path) -> output =  JSON.parse ( docpad.database.findOne({id:path}).attributes.source)
     
     
   }
