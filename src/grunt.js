@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     		},
 		},
 		watch: {
-			files: ['css/scss/*.scss', 
+			files: ['css/scss/**/*.scss', 
 					'js/**/*.js', 
 					'html/**/*.*'],
 			tasks: ['debug-light']
@@ -71,7 +71,7 @@ module.exports = function(grunt) {
 				dest: '../build/deploy/js/secondary.min.js'
 			},
 			polyfill:{
-				src: 'js/bundle/polyfill/*.js',
+				src: 'js/libs/polyfill/*.js',
 				dest: '../build/deploy/js/polyfill.min.js'
 			}
 		},
