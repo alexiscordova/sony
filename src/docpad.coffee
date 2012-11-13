@@ -3,13 +3,13 @@
 docpadConfig = {
   environments: {
     debug:{
-      layoutsPaths: ['data']
+      layoutsPaths: ['data', '../js/']
       srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/debug/'
     },
     deploy:{
-      layoutsPaths: ['data']
+      layoutsPaths: ['data', '../js/']
       srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/deploy/'
@@ -25,9 +25,11 @@ docpadConfig = {
     site:{
       title:'Sony Global'
     }
-    data:(path) -> output =  JSON.parse ( docpad.database.findOne({id:path}).attributes.source)
-    
-    
+    data:(path) ->  output =  JSON.parse ( docpad.database.findOne({id:path}).attributes.source)
+    polyfills: ->   output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/libs/polyfill/').pluck('filename')
+    require: ->     output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/bundle/require/').pluck('filename')
+    secondary: ->   output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/bundle/secondary/').pluck('filename')
+    defer: ->       output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/bundle/defer/').pluck('filename')
   }
   
   plugins:{
@@ -39,7 +41,7 @@ docpadConfig = {
         partial:(content, options) -> output = @partial(content, options),
         isEnv:(context, options) -> output = if (context in @getEnvironment()) then options.fn(this) else options.inverse(this)
       }
-    }
+    }    
   }
 }
 module.exports = docpadConfig

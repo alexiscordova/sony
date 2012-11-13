@@ -96,6 +96,11 @@ module.exports = function(grunt) {
 					'../build/debug/fonts/' 	: 'fonts/**',
 				}
 			},
+			debuglight:{
+				files:{
+					'../build/debug/js/' 		: 'js/**',
+				}
+			},
 			deploy:{
 				files:{
 					'../build/deploy/js/bundle/defer/' 		: 'js/bundle/defer/**',
@@ -119,15 +124,20 @@ module.exports = function(grunt) {
 		},
 		shell:{
 			docpad_debug:{
-				command:'docpad generate --env debug'
+				command:'docpad generate --env debug',
+		        stdout: true, 
+		        failOnError: true
 			},
 			docpad_deploy:{
-				command:'docpad generate --env deploy'
+				command:'docpad generate --env deploy',
+		        stdout: true, 
+		        failOnError: true
 			},
 			docpad_docs:{
-				command:'docpad generate --env docs'
+				command:'docpad generate --env docs',
+		        stdout: true, 
+		        failOnError: true
 			}
-
 		}
 	});
 
@@ -139,7 +149,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('debug', 'clear clean:debug lint compass-clean compass:debug copy:debug  shell:docpad_debug');
-	grunt.registerTask('debug-light', 'lint compass:debug shell:docpad_debug');
+	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
 	grunt.registerTask('docs', 'clear clean:docs compass-clean compass:docs copy:docs shell:docpad_docs');
 	grunt.registerTask('deploy', 'clear clean:deploy lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');
