@@ -74,9 +74,13 @@
 			        <section id="overview">
 			          <h2 class="bs-docs-heading" id="headings">Overview</h2>
 			          <p>This is pretty much just a skeleton right now. Very little of these have actually been updated for Sony, and are just the original Bootstrap versions.</p>
-			          <p>Some may not have the correct CSS, since their SCSS files are disabled until we get to styling them.</p>
-			          <p><strong>The light blue background is to mark a section as "NotUpdatedYet" - if you update one, remove the class "NotUpdatedYet" from its container.</strong></p>
+			          <p>Some may not have the correct CSS; some we may eventually remove if we don't need them.</p>
+			          
+
+				        <section class="NotUpdatedYet" style="padding:10px 20px"><h6>Sections with a light blue background have not been styled or updated yet. If you update them, remove the class "NotUpdatedYet" from the parent container of the section, and from the "bs-docs-example" container as well.</h6></section>
+
 			
+
 			          <div class="NotUpdatedYet">
 			            <h3 class="bs-docs-heading">Transitions <small>bootstrap-transition.js</small></h3>
 			            <h4 class="bs-docs-heading">About transitions</h4>

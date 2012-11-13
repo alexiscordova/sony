@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 		        relativeassets: true
 		    },
 		    docs: {
-		        src: 'css/scss',
+		        src: 'css/docs',
 		        dest: '../docs/css',
 		        outputstyle: 'expanded',
 		        linecomments: true,
@@ -117,7 +117,7 @@ module.exports = function(grunt) {
 					'../docs/ico/' 				: 'img/ico/**',
 					'../docs/fonts/' 			: 'fonts/**',
 					'../docs/img/' 				: 'img/docs/**',
-					'../docs/css/' 				: 'css/docs/**'
+					'../docs/css/' 				: 'css/docs/*.css'
 				}
 			},
 			
