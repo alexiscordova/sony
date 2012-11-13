@@ -44,7 +44,7 @@
         $.extend(self, $.fn.shuffle.options, options, $.fn.shuffle.settings);
 
         self.$container = $container.addClass('shuffle');
-        self.$items = self._getItems();
+        self.$items = self._getItems().addClass('shuffle-item');
         self.transitionName = self.prefixed('transition'),
         self.transform = self.getPrefixed('transform');
 
@@ -161,7 +161,7 @@
 
             // Update transforms on .filtered elements so they will animate to their new positions
             self.fire('filter');
-            self.filter();
+            self._reLayout();
         },
 
         _getItems : function() {
@@ -273,10 +273,18 @@
         },
 
         _reLayout : function( callback ) {
-            callback = callback || this.filterEnd;
-            this._resetCols();
+            var self = this;
+            callback = callback || self.filterEnd;
+            self._resetCols();
             // apply layout logic to all bricks
-            this.layout( this.$items.get(), callback );
+            // self.layout( self.$items.get(), callback );
+
+            // If we've already sorted the elements, keep them sorted
+            if ( self.keepSorted && self.lastSort ) {
+                self.sort( self.lastSort, true );
+            } else {
+                self.layout( self.$items.filter('.filtered').get(), self.filterEnd );
+            }
         },
 
         // worker method that places brick in the columnSet with the the minY
@@ -354,20 +362,6 @@
                     callback: self.shrinkEnd
                 });
             });
-        },
-
-        /**
-         * Grabs the .filtered elements and passes them to layout
-         */
-        filter : function() {
-            var self = this;
-            // If we've already sorted the elements, keep them sorted
-            if (self.keepSorted && self.lastSort) {
-                self.sort(self.lastSort, true);
-            } else {
-                var items = self.$items.filter('.filtered').get();
-                self.layout(items, self.filterEnd);
-            }
         },
 
         /**
@@ -489,7 +483,7 @@
 
             self.$container.removeAttr('style').removeData('shuffle');
             $(window).off('.shuffle');
-            self.$items.removeAttr('style').removeClass('concealed filtered');
+            self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
         },
 
         update: function() {

@@ -49,7 +49,7 @@
 
   <div class="tab-content">
 
-    <section class="tab-pane fade active in gallery" data-tab="products-1">
+    <section class="tab-pane fade active in gallery all" data-tab="products-1">
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
         <div class="filter-options row">
@@ -102,8 +102,8 @@
 
       <div class="products">
 
-          {{#each products}}
-          <div class="{{this.classes}}" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}">
+          {{#each all.list}}
+          <div class="{{this.classes}}" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}" data-priority="{{this.priority}}">
             {{#if this.name}}
             <div class="product-img">
               <img src="{{this.img.src}}" alt="{{this.img.alt}}">
@@ -134,7 +134,7 @@
       </div>
     </section>
 
-    <section class="tab-pane fade gallery" data-tab="products-2">
+    <section class="tab-pane fade gallery simple-gallery" data-tab="products-2">
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
         <div class="filter-options row">
@@ -183,287 +183,64 @@
           <option>featured and not featured</option>
         </select>
       </div>
-      <h3>16 Products</h3>
+      <h3>{{cameras.total}} Products</h3>
       <div class="products">
-
-        <div class="span4 product box" data-groups="lcd,lightweight" data-megapixels="20+" data-price="649">
+        {{#each cameras.list}}
+        <div class="span4 box" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}">
           <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
+            <img src="{{this.img.src}}" alt="{{this.img.alt}}">
           </div>
           <div class="product-content">
-            <div class="product-model">DSC-Rx100/B</div>
-            <div class="product-name">Cyber-shot Digital Camera RX100</div>
-            <div class="product-rating">***** (41)</div>
-            <div class="product-meta">
-              <ul>
-                <li>20.2 <span class="product-meta-name">megapixels</span></li>
-                <li>3" <span class="product-meta-name">lcd</span></li>
-                <li>Exmor&trade; CMOS <span class="product-meta-name">sensor</span></li>
-              </ul>
-            </div>
+            <div class="product-model">{{this.model}}</div>
+            <div class="product-name">{{this.name}}</div>
+            <div class="product-rating">{{this.rating.stars}}* ({{this.rating.reviews}})</div>
+            <ul class="product-meta">
+              {{#each this.meta}}
+              <li>{{{this.value}}} <span class="product-meta-name">{{this.name}}</span></li>
+              {{/each}}
+            </ul>
             <div class="product-price">
               <span class="muted">Starting at</span>
               <br>
-              <b>$649.99</b> <span class="muted">MSRP</span>
+              <b>${{this.price}}</b> <span class="muted">MSRP</span>
             </div>
           </div>
         </div>
-        <div class="span4 product box" data-groups="lcd,touchscreen,panorama,lightweight" data-megapixels="16-18" data-price="1199">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-W650</div>
-            <div class="product-name">Cyber-shot Digital Camera W650</div>
-            <div class="product-rating">***** (6)</div>
-            <div class="product-meta">
-              <ul>
-                <li>16.1 <span class="product-meta-name">megapixels</span></li>
-                <li>5x <span class="product-meta-name">optical zoom</span></li>
-                <li>720p <span class="product-meta-name">hd video</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$1199.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-        <div class="span4 product box" data-groups="panorama,lightweight" data-megapixels="16-18" data-price="329">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-TX20</div>
-            <div class="product-name">Cyber-shot Digital Camera TX20</div>
-            <div class="product-rating">***** (10)</div>
-            <div class="product-meta">
-              <ul>
-                <li>16.2 <span class="product-meta-name">megapixels</span></li>
-                <li>Waterproof <span class="product-meta-name">body</span></li>
-                <li>Exmor&trade; CMOS <span class="product-meta-name">sensor</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$329.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="span4 product box" data-groups="lcd,lightweight" data-megapixels="18-20" data-price="369">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-Rx100/B</div>
-            <div class="product-name">Cyber-shot Digital Camera RX100</div>
-            <div class="product-rating">***** (41)</div>
-            <div class="product-meta">
-              <ul>
-                <li>20.2 <span class="product-meta-name">megapixels</span></li>
-                <li>3" <span class="product-meta-name">lcd</span></li>
-                <li>Exmor&trade; CMOS <span class="product-meta-name">sensor</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$649.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-        <div class="span4 product box" data-groups="lcd,touchscreen" data-megapixels="18-20" data-price="269">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-W650</div>
-            <div class="product-name">Cyber-shot Digital Camera W650</div>
-            <div class="product-rating">***** (6)</div>
-            <div class="product-meta">
-              <ul>
-                <li>16.1 <span class="product-meta-name">megapixels</span></li>
-                <li>5x <span class="product-meta-name">optical zoom</span></li>
-                <li>720p <span class="product-meta-name">hd video</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$1199.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-        <div class="span4 product box" data-groups="lcd,panorama" data-megapixels="14-16" data-price="109">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-TX20</div>
-            <div class="product-name">Cyber-shot Digital Camera TX20</div>
-            <div class="product-rating">***** (10)</div>
-            <div class="product-meta">
-              <ul>
-                <li>16.2 <span class="product-meta-name">megapixels</span></li>
-                <li>Waterproof <span class="product-meta-name">body</span></li>
-                <li>Exmor&trade; CMOS <span class="product-meta-name">sensor</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$329.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="span4 product box" data-groups="lcd,panorama,lightweight" data-megapixels="18-20" data-price="479">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-Rx100/B</div>
-            <div class="product-name">Cyber-shot Digital Camera RX100</div>
-            <div class="product-rating">***** (41)</div>
-            <div class="product-meta">
-              <ul>
-                <li>20.2 <span class="product-meta-name">megapixels</span></li>
-                <li>3" <span class="product-meta-name">lcd</span></li>
-                <li>Exmor&trade; CMOS <span class="product-meta-name">sensor</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$649.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-        <div class="span4 product box" data-groups="lcd,touchscreen,lightweight" data-megapixels="18-20" data-price="209">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-W650</div>
-            <div class="product-name">Cyber-shot Digital Camera W650</div>
-            <div class="product-rating">***** (6)</div>
-            <div class="product-meta">
-              <ul>
-                <li>16.1 <span class="product-meta-name">megapixels</span></li>
-                <li>5x <span class="product-meta-name">optical zoom</span></li>
-                <li>720p <span class="product-meta-name">hd video</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$1199.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-        <div class="span4 product box" data-groups="touchscreen,panorama,lightweight" data-megapixels="20+" data-price="2799">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-TX20</div>
-            <div class="product-name">Cyber-shot Digital Camera TX20</div>
-            <div class="product-rating">***** (10)</div>
-            <div class="product-meta">
-              <ul>
-                <li>16.2 <span class="product-meta-name">megapixels</span></li>
-                <li>Waterproof <span class="product-meta-name">body</span></li>
-                <li>Exmor&trade; CMOS <span class="product-meta-name">sensor</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$329.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="span4 product box" data-groups="panorama,lightweight" data-megapixels="20+" data-price="329">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-Rx100/B</div>
-            <div class="product-name">Cyber-shot Digital Camera RX100</div>
-            <div class="product-rating">***** (41)</div>
-            <div class="product-meta">
-              <ul>
-                <li>20.2 <span class="product-meta-name">megapixels</span></li>
-                <li>3" <span class="product-meta-name">lcd</span></li>
-                <li>Exmor&trade; CMOS <span class="product-meta-name">sensor</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$649.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-        <div class="span4 product box" data-groups="lightweight" data-megapixels="14-16" data-price="199">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-W650</div>
-            <div class="product-name">Cyber-shot Digital Camera W650</div>
-            <div class="product-rating">***** (6)</div>
-            <div class="product-meta">
-              <ul>
-                <li>16.1 <span class="product-meta-name">megapixels</span></li>
-                <li>5x <span class="product-meta-name">optical zoom</span></li>
-                <li>720p <span class="product-meta-name">hd video</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$1199.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
-        <div class="span4 product box" data-groups="panorama" data-megapixels="14-16" data-price="149">
-          <div class="product-img">
-            <img src="http://placekitten.com/370/100" alt="">
-          </div>
-          <div class="product-content">
-            <div class="product-model">DSC-TX20</div>
-            <div class="product-name">Cyber-shot Digital Camera TX20</div>
-            <div class="product-rating">***** (10)</div>
-            <div class="product-meta">
-              <ul>
-                <li>16.2 <span class="product-meta-name">megapixels</span></li>
-                <li>Waterproof <span class="product-meta-name">body</span></li>
-                <li>Exmor&trade; CMOS <span class="product-meta-name">sensor</span></li>
-              </ul>
-            </div>
-            <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>$329.99</b> <span class="muted">MSRP</span>
-            </div>
-          </div>
-        </div>
+        {{/each}}
+        
       </div>
 
     </section>
 
     <section class="tab-pane fade" data-tab="products-3">
-      <h3><code>data-tab="products-3"</code></h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor llamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      {{#each accessories}}
+      <h2>{{{this.title}}}</h2>
+      <div class="row">
+        {{#each this.list}}
+        <div class="span2" style="height:300px;">
+          <div class="product-img">
+            <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+          </div>
+          <div class="product-content">
+            <div class="product-name">{{this.name}}</div>
+            <div class="product-price">
+              <span class="muted">Starting at</span>
+              <br>
+              <b>${{this.price}}</b> <span class="muted">MSRP</span>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+        {{#if this.hasMore}}
+        <div class="span2 ghost-center-wrap see-all" style="height:300px;text-align:center;">
+          <div class="ghost-center">
+            <p>See all</p>
+            <p class="l1">{{this.total}}</p>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+      {{/each}}
     </section>
 
     <section class="tab-pane fade" data-tab="products-4">

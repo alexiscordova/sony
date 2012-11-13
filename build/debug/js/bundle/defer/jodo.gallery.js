@@ -75,6 +75,25 @@
 
         // Hide filters
         self.$container.find('.product-filter').slideUp();
+
+
+        var sorted = false;
+        if ( $(window).width() <= 767 ) {
+            self.sortByPriority();
+            sorted = true;
+        }
+
+        $(window).on('resize.gallery', function() {
+            var width = $(window).width();
+            if ( width <= 767 && !sorted ) {
+                self.sortByPriority();
+                sorted = true;
+            } else if ( width >= 768 && sorted ) {
+                // Reset
+                self.sortByPriority(true);
+                sorted = false;
+            }
+        });
     };
 
     Gallery.prototype = {
@@ -201,6 +220,19 @@
             if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
                 console.log('resetting range control');
                 $rangeControl.rangeControl('reset');
+            }
+        },
+
+        sortByPriority : function( shouldReset ) {
+            var self = this;
+            if ( shouldReset ) {
+                self.$grid.shuffle('sort', {});
+            } else {
+                self.$grid.shuffle('sort', {
+                    by: function($el) {
+                        return $el.data('priority');
+                    }
+                });
             }
         }
 
