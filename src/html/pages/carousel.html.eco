@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<%-@partial('includes/meta.html')%>
+<% if 'debug' in @getEnvironments():%> 
+		<%-@partial('includes/css_debug.html')%>
+<% else: %>
+		<%-@partial('includes/css_deploy.html')%>
+<% end %>
+		<%-@partial('includes/js_head.html')%>
+	
+<% if 'debug' in @getEnvironments():%> 
+<!-- include your module css here -->
+		<link rel="stylesheet" href="css/_modules/carousel.css">
+<% end %>	
+		
+		<script src="js/libs/modernizr-2.6.1.js"></script>
+
+	</head>
+	<body>
+
+<!-- include your module markup templates here -->		
+		<%-@partial('modules/module_carousel.html.hb', @data('carousel_mode_1.json')) %>
+
+
+<% if 'debug' in @getEnvironments():%>
+		<%-@partial('includes/js_footer_debug.html.eco')%>
+<% else: %>
+		<%-@partial('includes/js_footer_deploy.html.eco')%>
+<% end %>
+
+<!-- include your module js here -->
+		<script src="js/libs/jquery-1.8.2.min.js"></script>
+		<script src="js/bundle/defer/carousel.js"></script>
+
+	</body>
+</html>
