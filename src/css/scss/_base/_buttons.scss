@@ -103,14 +103,13 @@
     background:$btnSecondaryBackground;
   }
 }
-
 .btn-promo{
   position:relative;
   width:289px;
   padding:21px 0 32px 35px;
   border:none;
 
-  background:$grayDarkerFieldSmall;
+  background:$btnPromoBackground;
   color:$gray;
 
   text-align:left;
@@ -122,23 +121,22 @@
     color:$white;
   }
   &:hover {
-    background: darken($grayDarkerFieldSmall,5%);
+    background: $btnPromoBackgroundHover;
     color:$gray;
   }
   &.active,
   &:active {
-    background: $btnSpecialBackgroundActive;
+    background: $btnPromoBackgroundActive;
   }
   &.disabled:hover,
   &[disabled]:hover {
-    background:$btnSpecialBackground;
+    background:$btnPromoBackground;
   }
   &:after{
     content:"";
-    @extend .icon-small;
-    @include pseudoEl-block(40px,37px);
+    @include pseudoEl-inline-block-icon(40px,37px);
     @include border-radius(1px);
-    background-position:-6px -7px;
+    background-position:-38px -39px;
     background-color:rgb(51,57,74);
     background-color:rgba(167,197,255,0.13);
     position:absolute;

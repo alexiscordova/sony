@@ -124,15 +124,20 @@ module.exports = function(grunt) {
 		},
 		shell:{
 			docpad_debug:{
-				command:'docpad generate --env debug'
+				command:'docpad generate --env debug',
+		        stdout: true, 
+		        failOnError: true
 			},
 			docpad_deploy:{
-				command:'docpad generate --env deploy'
+				command:'docpad generate --env deploy',
+		        stdout: true, 
+		        failOnError: true
 			},
 			docpad_docs:{
-				command:'docpad generate --env docs'
+				command:'docpad generate --env docs',
+		        stdout: true, 
+		        failOnError: true
 			}
-
 		}
 	});
 
