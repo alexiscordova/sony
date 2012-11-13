@@ -34,6 +34,7 @@
 			
 			          <li><a href="#global-nav"><i class="icon-chevron-right"></i> Global Nav</a></li>
 			          <li><a href="#sub-nav"><i class="icon-chevron-right"></i> Sub Nav</a></li>
+			          <li><a href="#hotspots"><i class="icon-chevron-right"></i> Hotspots &amp; Circle-Buttons</a></li>
 			          <li><a href="#dropdowns"><i class="icon-chevron-right"></i> Dropdowns</a></li>
 			          <li><a href="#tabs"><i class="icon-chevron-right"></i> Tabs</a></li>
 			          <li><a href="#buttons"><i class="icon-chevron-right"></i> Buttons</a></li>
@@ -74,7 +75,7 @@
 			          <h2 class="bs-docs-heading" id="headings">Overview</h2>
 			          <p>This is pretty much just a skeleton right now. Very little of these have actually been updated for Sony, and are just the original Bootstrap versions.</p>
 			          <p>Some may not have the correct CSS, since their SCSS files are disabled until we get to styling them.</p>
-			          <p>The light blue background is to mark a section as "NotUpdatedYet" - if you update one, remove the class "NotUpdatedYet" from its container.</p>
+			          <p><strong>The light blue background is to mark a section as "NotUpdatedYet" - if you update one, remove the class "NotUpdatedYet" from its container.</strong></p>
 			
 			          <div class="NotUpdatedYet">
 			            <h3 class="bs-docs-heading">Transitions <small>bootstrap-transition.js</small></h3>
@@ -161,19 +162,19 @@
 			                </ul>
 			              </div>
 			            </div>
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="sub-nav"&gt;
-			  &lt;div class="sub-nav-inner"&gt;
-			    &lt;a class="brand" href="#"&gt;Title&lt;/a&gt;
-			    &lt;ul class="nav"&gt;
-			      &lt;li class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
-			      &lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;
-			      &lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;
-			    &lt;/ul&gt;
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="sub-nav"&gt;
+  &lt;div class="sub-nav-inner"&gt;
+    &lt;a class="brand" href="#"&gt;Title&lt;/a&gt;
+    &lt;ul class="nav"&gt;
+      &lt;li class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			          </section><!-- END sub-nav --> 
 			
 			
@@ -184,8 +185,56 @@
 			
 			
 			
+			<!--==================================================
+			  Hotspots & CircleButtons
+			================================================== -->
+			        <section id="hotspots">
+
+			          <h2 class="bs-docs-heading">Hotspots &amp; Circle-Buttons</h2>
+			          <p></p>
+			          <div class="bs-docs-example" style="height:100px;">
+		              
+		              <div class="hotspot hotspot-plus" style="left:80px; top:90px;">
+										<div class="circle-button"><span class="circle-button-icon"></span></div>
+										<!-- <div class="tooltip left" style="height: 211px; margin-top: -105.5px; ">
+											<h4>Universal Remote</h4>
+											<p>Control your Google TV, cable and satellite set-top-box, audio, TV set, and Blu-ray or DVD player with a single remote. Thanks to Bluetooth technology, you don’t even need to point the remote at your Sony Google TV box for it to work.</p>
+										</div> -->
+									</div>
+
+									<div class="hotspot hotspot-secondary hotspot-close" style="left:180px; top:90px;">
+										<div class="circle-button"><span class="circle-button-icon"></span></div>
+									</div>
+
+									<div class="hotspot hotspot-large" style="left:280px; top:90px;">
+										<div class="circle-button"><span class="circle-button-icon"></span></div>
+									</div>
+
+									<div class="hotspot hotspot-xlarge hotspot-xlarge-revealer" style="left:400px; top:90px;">
+										<div class="circle-button"><span class="circle-button-icon"></span></div>
+									</div>
+
+
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="hotspot hotspot-plus"&gt;
+  &lt;div class="circle-button"&gt;&lt;span class="circle-btn-icon"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="hotspot hotspot-secondary hotspot-close"&gt;
+  &lt;div class="circle-button"&gt;&lt;span class="circle-btn-icon"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="hotspot hotspot-large"&gt;
+  &lt;div class="circle-button"&gt;&lt;span class="circle-btn-icon"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="hotspot hotspot-xlarge hotspot-xlarge-revealer"&gt;
+  &lt;div class="circle-button"&gt;&lt;span class="circle-btn-icon"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
-			
+			</section>
 			
 			
 			
@@ -193,57 +242,135 @@
 			<!--==================================================
 			 Dropdowns
 			================================================== -->
-			        <section id="dropdowns" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">Dropdowns</h2>
+			        <section id="dropdowns">
+			          <h2 class="bs-docs-heading">Dropdowns &amp; Button Dropdown Menus</h2>
 			          <p>Toggleable, contextual menu for displaying lists of links. Made interactive with the <a href="./javascript.html#dropdowns">dropdown javascript plugin</a>.</p>
+			
+			          <h3 class="bs-docs-heading">Overview and examples</h3>
+			          <p>Dropdowns can be triggered using any number of button types, by placing it within a <code>.btn-group</code> and providing the proper menu markup. Here are some examples using a <code>.dropdown-toggle</code></p>
 			          
 			          <div class="bs-docs-example">
-			            <div class="dropdown clearfix">
-			              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
-			                <li><a tabindex="-1" href="#">Action</a></li>
-			                <li><a tabindex="-1" href="#">Another action</a></li>
-			                <li><a tabindex="-1" href="#">Something else here</a></li>
-			                <li class="divider"></li>
-			                <li><a tabindex="-1" href="#">Separated link</a></li>
-			              </ul>
-			            </div>
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu"&gt;
-			  &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
-			  &lt;li class="divider"&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
-			&lt;/ul&gt;
-			</pre>
+		              <div class="btn-group">
+		                <a class="btn dropdown-toggle" data-toggle="dropdown">Filter results</a>
+		                <ul class="dropdown-menu">
+		                  <li><a href="#">Action</a></li>
+		                  <li><a href="#">Another action</a></li>
+		                  <li><a href="#">Something else here</a></li>
+		                  <li class="divider"></li>
+		                  <li><a href="#">Separated link</a></li>
+		                </ul>
+		              </div><!-- /btn-group -->
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="btn-group"&gt;
+  &lt;a class="btn dropdown-toggle" data-toggle="dropdown" href="#"&gt;Filter results&lt;/a&gt;
+  &lt;ul class="dropdown-menu"&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="divider"&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+			
+			          <h4 class="bs-docs-heading">Different sizes</h4>
+			          <!-- <p>Button dropdowns work at any size:  <code>.btn-large</code>, <code>.btn-small</code>, or <code>.btn-mini</code>.</p> -->
+			          <p>There's also a small dropdown button, by adding <code>.btn-small</code> to the button</p>
+			          <div class="bs-docs-example">
+		              <div class="btn-group">
+		                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Sort by</button>
+		                <ul class="dropdown-menu">
+		                  <li><a href="#">Action</a></li>
+		                  <li><a href="#">Another action</a></li>
+		                  <li><a href="#">Something else here</a></li>
+		                  <li class="divider"></li>
+		                  <li><a href="#">Separated link</a></li>
+		                </ul>
+		              </div><!-- /btn-group -->
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="btn-group"&gt;
+  &lt;a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"&gt;Sort by&lt;/a&gt;
+  &lt;ul class="dropdown-menu"&gt;
+    &lt;!-- dropdown menu links --&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+
+
+			          <h4 class="bs-docs-heading">Alternate Style</h4>
+			          <!-- <p>Button dropdowns work at any size:  <code>.btn-large</code>, <code>.btn-small</code>, or <code>.btn-mini</code>.</p> -->
+			          <p>There's also a light version, by adding <code>.dropdown-toggle-alt</code> to the button</p>
+			          <div class="bs-docs-example">
+		              
+			              <div class="btn-group">
+			                <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by</button>
+			                <ul class="dropdown-menu">
+			                  <li><a href="#">Action</a></li>
+			                  <li><a href="#">Another action</a></li>
+			                  <li><a href="#">Something else here</a></li>
+			                  <li class="divider"></li>
+			                  <li><a href="#">Separated link</a></li>
+			                </ul>
+			              </div><!-- /btn-group -->
+
+			              <div class="btn-group" style="margin-left:0">
+			                <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by</button>
+			                <ul class="dropdown-menu">
+			                  <li><a href="#">Action</a></li>
+			                  <li><a href="#">Another action</a></li>
+			                  <li><a href="#">Something else here</a></li>
+			                  <li class="divider"></li>
+			                  <li><a href="#">Separated link</a></li>
+			                </ul>
+			              </div><!-- /btn-group -->
+			          </div>
+
+
+
+			
+			          <h4 class="bs-docs-heading">Requires javascript</h4>
+			          <p>Button dropdowns require the <a href="./javascript.html#dropdowns">Bootstrap dropdown plugin</a> to function.</p>
+			          <p>In some cases&mdash;like mobile&mdash;dropdown menus will extend outside the viewport. You need to resolve the alignment manually or with custom javascript.</p>
+							
+
+
+
+
+
+
+
+
+
+
 			
 			          <h4 class="bs-docs-heading">Markup</h4>
 			          <p>Looking at just the dropdown menu, here's the required HTML. You need to wrap the dropdown's trigger and the dropdown menu within <code>.dropdown</code>, or another element that declares <code>position: relative;</code>. Then just create the menu.</p>
 			
-			<pre class="prettyprint linenums">
-			&lt;div class="dropdown"&gt;
-			  &lt;!-- Link or button to toggle dropdown --&gt;
-			  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
-			    &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
-			    &lt;li class="divider"&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="dropdown"&gt;
+  &lt;!-- Link or button to toggle dropdown --&gt;
+  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
+    &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="divider"&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a tabindex="-1" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Options</h4>
 			          <p>Align menus to the right and add include additional levels of dropdowns.</p>
 			
 			          <h4 class="bs-docs-heading">Aligning the menus</h4>
 			          <p>Add <code>.pull-right</code> to a <code>.dropdown-menu</code> to right align the dropdown menu.</p>
-			<pre class="prettyprint linenums">
-			&lt;ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel"&gt;
-			  ...
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel"&gt;
+  ...
+&lt;/ul&gt;
+</pre>
 			
 			          <h5 class="bs-docs-heading">Sub menus on dropdowns</h5>
 			          <p>Add an extra level of dropdown menus, appearing on hover like those of OS X, with some simple markup additions. Add <code>.dropdown-submenu</code> to any <code>li</code> in an existing dropdown menu for automatic styling.</p>
@@ -266,157 +393,45 @@
 			                </li>
 			              </ul>
 			            </div>
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
-			  ...
-			  &lt;li class="dropdown-submenu"&gt;
-			    &lt;a tabindex="-1" href="#"&gt;More options&lt;/a&gt;
-			    &lt;ul class="dropdown-menu"&gt;
-			      ...
-			    &lt;/ul&gt;
-			  &lt;/li&gt;
-			&lt;/ul&gt;
-			</pre>
-			
-			        </section><!-- END dropdowns --> 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<!--==================================================
-			 Dropdowns
-			================================================== -->
-			        <section id="dropdowns" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">Dropdowns <small>bootstrap-dropdown.js</small></h2>
-			
-			
-			          <h3 class="bs-docs-heading">Examples</h3>
-			          <p>Add dropdown menus to nearly anything with this simple plugin, including the navbar, tabs, and pills.</p>
-			
-			          <h4 class="bs-docs-heading">Within a navbar</h4>
-			          <div class="bs-docs-example">
-			            <div id="navbar-example" class="navbar navbar-static">
-			              <div class="navbar-inner">
-			                <div class="container" style="width: auto;">
-			                  <a class="brand" href="#">Project Name</a>
-			                  <ul class="nav" role="navigation">
-			                    <li class="dropdown">
-			                      <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-			                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-			                        <li><a tabindex="-1" href="http://google.com">Action</a></li>
-			                        <li><a tabindex="-1" href="#anotherAction">Another action</a></li>
-			                        <li><a tabindex="-1" href="#">Something else here</a></li>
-			                        <li class="divider"></li>
-			                        <li><a tabindex="-1" href="#">Separated link</a></li>
-			                      </ul>
-			                    </li>
-			                    <li class="dropdown">
-			                      <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 <b class="caret"></b></a>
-			                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-			                        <li><a tabindex="-1" href="#">Action</a></li>
-			                        <li><a tabindex="-1" href="#">Another action</a></li>
-			                        <li><a tabindex="-1" href="#">Something else here</a></li>
-			                        <li class="divider"></li>
-			                        <li><a tabindex="-1" href="#">Separated link</a></li>
-			                      </ul>
-			                    </li>
-			                  </ul>
-			                  <ul class="nav pull-right">
-			                    <li id="fat-menu" class="dropdown">
-			                      <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 3 <b class="caret"></b></a>
-			                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-			                        <li><a tabindex="-1" href="#">Action</a></li>
-			                        <li><a tabindex="-1" href="#">Another action</a></li>
-			                        <li><a tabindex="-1" href="#">Something else here</a></li>
-			                        <li class="divider"></li>
-			                        <li><a tabindex="-1" href="#">Separated link</a></li>
-			                      </ul>
-			                    </li>
-			                  </ul>
-			                </div>
-			              </div>
-			            </div> <!-- /navbar-example -->
-			          </div> {{! /example }}
-			
-			          <h4 class="bs-docs-heading">Within tabs</h4>
-			          <div class="bs-docs-example">
-			            <ul class="nav nav-pills">
-			              <li class="active"><a href="#">Regular link</a></li>
-			              <li class="dropdown">
-			                <a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a>
-			                <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
-			                  <li><a tabindex="-1" href="#">Action</a></li>
-			                  <li><a tabindex="-1" href="#">Another action</a></li>
-			                  <li><a tabindex="-1" href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a tabindex="-1" href="#">Separated link</a></li>
-			                </ul>
-			              </li>
-			              <li class="dropdown">
-			                <a class="dropdown-toggle" id="drop5" role="button" data-toggle="dropdown" href="#">Dropdown 2 <b class="caret"></b></a>
-			                <ul id="menu2" class="dropdown-menu" role="menu" aria-labelledby="drop5">
-			                  <li><a tabindex="-1" href="#">Action</a></li>
-			                  <li><a tabindex="-1" href="#">Another action</a></li>
-			                  <li><a tabindex="-1" href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a tabindex="-1" href="#">Separated link</a></li>
-			                </ul>
-			              </li>
-			              <li class="dropdown">
-			                <a class="dropdown-toggle" id="drop5" role="button" data-toggle="dropdown" href="#">Dropdown 3 <b class="caret"></b></a>
-			                <ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop5">
-			                  <li><a tabindex="-1" href="#">Action</a></li>
-			                  <li><a tabindex="-1" href="#">Another action</a></li>
-			                  <li><a tabindex="-1" href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a tabindex="-1" href="#">Separated link</a></li>
-			                </ul>
-			              </li>
-			            </ul> <!-- /tabs -->
-			          </div> {{! /example }}
-			
-			
-			          <hr class="bs-docs-separator">
+			          </div>
+<pre class="prettyprint linenums">
+&lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
+  ...
+  &lt;li class="dropdown-submenu"&gt;
+    &lt;a tabindex="-1" href="#"&gt;More options&lt;/a&gt;
+    &lt;ul class="dropdown-menu"&gt;
+      ...
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+
 			
 			
 			          <h3 class="bs-docs-heading">Usage</h3>
 			
 			          <h4 class="bs-docs-heading">Via data attributes</h4>
 			          <p>Add <code>data-toggle="dropdown"</code> to a link or button to toggle a dropdown.</p>
-			<pre class="prettyprint linenums">
-			&lt;div class="dropdown"&gt;
-			  &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#"&gt;Dropdown trigger&lt;/a&gt;
-			  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
-			    ...
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="dropdown"&gt;
+  &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#"&gt;Dropdown trigger&lt;/a&gt;
+  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 			          <p>To keep URLs intact, use the <code>data-target</code> attribute instead of <code>href="#"</code>.</p>
-			<pre class="prettyprint linenums">
-			&lt;div class="dropdown"&gt;
-			  &lt;a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"&gt;
-			    Dropdown
-			    &lt;b class="caret"&gt;&lt;/b&gt;
-			  &lt;/a&gt;
-			  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
-			    ...
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="dropdown"&gt;
+  &lt;a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"&gt;
+    Dropdown
+    &lt;b class="caret"&gt;&lt;/b&gt;
+  &lt;/a&gt;
+  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Via JavaScript</h4>
 			          <p>Call the dropdowns via JavaScript:</p>
@@ -432,6 +447,10 @@
 			
 			
 			
+
+
+
+
 			
 			<!--==================================================
 			 Tabs
@@ -468,7 +487,7 @@
 			                <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
 			              </div>
 			            </div>
-			          </div>{{! /example }}
+			          </div>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -476,55 +495,55 @@
 			
 			          <h3 class="bs-docs-heading">Usage</h3>
 			          <p>Enable tabbable tabs via JavaScript (each tab needs to be activated individually):</p>
-			<pre class="prettyprint linenums">
-			$('#myTab a').click(function (e) {
-			  e.preventDefault();
-			  $(this).tab('show');
-			})</pre>
+<pre class="prettyprint linenums">
+$('#myTab a').click(function (e) {
+  e.preventDefault();
+  $(this).tab('show');
+})</pre>
 			          <p>You can activate individual tabs in several ways:</p>
-			<pre class="prettyprint linenums">
-			$('#myTab a[href="#profile"]').tab('show'); // Select tab by name
-			$('#myTab a:first').tab('show'); // Select first tab
-			$('#myTab a:last').tab('show'); // Select last tab
-			$('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
-			</pre>
+<pre class="prettyprint linenums">
+$('#myTab a[href="#profile"]').tab('show'); // Select tab by name
+$('#myTab a:first').tab('show'); // Select first tab
+$('#myTab a:last').tab('show'); // Select last tab
+$('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
+</pre>
 			
 			          <h4 class="bs-docs-heading">Markup</h4>
 			          <p>You can activate a tab or pill navigation without writing any JavaScript by simply specifying <code>data-toggle="tab"</code> or <code>data-toggle="pill"</code> on an element. Adding the <code>nav</code> and <code>nav-tabs</code> classes to the tab <code>ul</code> will apply the Bootstrap tab styling.</p>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-tabs"&gt;
-			  &lt;li&gt;&lt;a href="#home" data-toggle="tab"&gt;Home&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#profile" data-toggle="tab"&gt;Profile&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#messages" data-toggle="tab"&gt;Messages&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#settings" data-toggle="tab"&gt;Settings&lt;/a&gt;&lt;/li&gt;
-			&lt;/ul&gt;</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-tabs"&gt;
+  &lt;li&gt;&lt;a href="#home" data-toggle="tab"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#profile" data-toggle="tab"&gt;Profile&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#messages" data-toggle="tab"&gt;Messages&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#settings" data-toggle="tab"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
 			
 			          <h4 class="bs-docs-heading">Methods</h4>
 			          <h5 class="bs-docs-heading">$().tab</h5>
 			          <p>
 			            Activates a tab element and content container. Tab should have either a <code>data-target</code> or an <code>href</code> targeting a container node in the DOM.
 			          </p>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-tabs" id="myTab"&gt;
-			  &lt;li class="active"&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#profile"&gt;Profile&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#messages"&gt;Messages&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#settings"&gt;Settings&lt;/a&gt;&lt;/li&gt;
-			&lt;/ul&gt;
-			
-			&lt;div class="tab-content"&gt;
-			  &lt;div class="tab-pane active" id="home"&gt;...&lt;/div&gt;
-			  &lt;div class="tab-pane" id="profile"&gt;...&lt;/div&gt;
-			  &lt;div class="tab-pane" id="messages"&gt;...&lt;/div&gt;
-			  &lt;div class="tab-pane" id="settings"&gt;...&lt;/div&gt;
-			&lt;/div&gt;
-			
-			&lt;script&gt;
-			  $(function () {
-			    $('#myTab a:last').tab('show');
-			  })
-			&lt;/script&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-tabs" id="myTab"&gt;
+  &lt;li class="active"&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#profile"&gt;Profile&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#messages"&gt;Messages&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#settings"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="tab-content"&gt;
+  &lt;div class="tab-pane active" id="home"&gt;...&lt;/div&gt;
+  &lt;div class="tab-pane" id="profile"&gt;...&lt;/div&gt;
+  &lt;div class="tab-pane" id="messages"&gt;...&lt;/div&gt;
+  &lt;div class="tab-pane" id="settings"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  $(function () {
+    $('#myTab a:last').tab('show');
+  })
+&lt;/script&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Events</h4>
 			          <table class="table table-bordered table-striped">
@@ -545,12 +564,12 @@
 			             </tr>
 			            </tbody>
 			          </table>
-			<pre class="prettyprint linenums">
-			$('a[data-toggle="tab"]').on('shown', function (e) {
-			  e.target // activated tab
-			  e.relatedTarget // previous tab
-			})
-			</pre>
+<pre class="prettyprint linenums">
+$('a[data-toggle="tab"]').on('shown', function (e) {
+  e.target // activated tab
+  e.relatedTarget // previous tab
+})
+</pre>
 			        </section>
 			
 			
@@ -559,146 +578,6 @@
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<!--==================================================
-			 Split button dropdowns
-			================================================== -->
-			        <section id="buttonDropdowns" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">Button dropdown menus</h2>
-			
-			
-			          <h3 class="bs-docs-heading">Overview and examples</h3>
-			          <p>Use any button to trigger a dropdown menu by placing it within a <code>.btn-group</code> and providing the proper menu markup.</p>
-			          <div class="bs-docs-example">
-			            <div class="btn-toolbar" style="margin: 0;">
-			              <div class="btn-group">
-			                <button class="btn dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			              <div class="btn-group">
-			                <button class="btn btn-special dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div><!-- /btn-toolbar -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group"&gt;
-			  &lt;a class="btn dropdown-toggle" data-toggle="dropdown" href="#"&gt;
-			    Action
-			    &lt;span class="caret"&gt;&lt;/span&gt;
-			  &lt;/a&gt;
-			  &lt;ul class="dropdown-menu"&gt;
-			    &lt;!-- dropdown menu links --&gt;
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Works with all button sizes</h4>
-			          <p>Button dropdowns work at any size:  <code>.btn-large</code>, <code>.btn-small</code>, or <code>.btn-mini</code>.</p>
-			          <div class="bs-docs-example">
-			            <div class="btn-toolbar" style="margin: 0;">
-			              <div class="btn-group">
-			                <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">Large button <span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			              <div class="btn-group">
-			                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Small button <span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			              <div class="btn-group">
-			                <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">Mini button <span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div><!-- /btn-toolbar -->
-			          </div>{{! /example }}
-			
-			          <h4 class="bs-docs-heading">Requires javascript</h4>
-			          <p>Button dropdowns require the <a href="./javascript.html#dropdowns">Bootstrap dropdown plugin</a> to function.</p>
-			          <p>In some cases&mdash;like mobile&mdash;dropdown menus will extend outside the viewport. You need to resolve the alignment manually or with custom javascript.</p>
-			
-			
-			          <hr class="bs-docs-separator">
-			
-			
-			          <h3 class="bs-docs-heading">Split button dropdowns</h3>
-			          <p>Building on the button group styles and markup, we can easily create a split button. Split buttons feature a standard action on the left and a dropdown toggle on the right with contextual links.</p>
-			          <div class="bs-docs-example">
-			            <div class="btn-toolbar" style="margin: 0;">
-			              <div class="btn-group">
-			                <button class="btn">Action</button>
-			                <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			              <div class="btn-group">
-			                <button class="btn btn-special">Action</button>
-			                <button class="btn btn-special dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div><!-- /btn-toolbar -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group"&gt;
-			  &lt;button class="btn"&gt;Action&lt;/button&gt;
-			  &lt;button class="btn dropdown-toggle" data-toggle="dropdown"&gt;
-			    &lt;span class="caret"&gt;&lt;/span&gt;
-			  &lt;/button&gt;
-			  &lt;ul class="dropdown-menu"&gt;
-			    &lt;!-- dropdown menu links --&gt;
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
-			</section>
 			
 			
 			
@@ -734,15 +613,15 @@
 			              <li><a href="#">Messages</a></li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-tabs"&gt;
-			  &lt;li class="active"&gt;
-			    &lt;a href="#"&gt;Home&lt;/a&gt;
-			  &lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-tabs"&gt;
+  &lt;li class="active"&gt;
+    &lt;a href="#"&gt;Home&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Basic pills</h4>
 			          <p>Take that same HTML, but use <code>.nav-pills</code> instead:</p>
@@ -753,15 +632,15 @@
 			              <li><a href="#">Messages</a></li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-pills"&gt;
-			  &lt;li class="active"&gt;
-			    &lt;a href="#"&gt;Home&lt;/a&gt;
-			  &lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-pills"&gt;
+  &lt;li class="active"&gt;
+    &lt;a href="#"&gt;Home&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Disabled state</h4>
 			          <p>For any nav component (tabs, pills, or list), add <code>.disabled</code> for <strong>gray links and no hover effects</strong>. Links will remain clickable, however, unless custom javascript is implemented to prevent those clicks.</p>
@@ -772,13 +651,13 @@
 			              <li class="disabled"><a href="#">Disabled link</a></li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-pills"&gt;
-			  ...
-			  &lt;li class="disabled"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
-			  ...
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-pills"&gt;
+  ...
+  &lt;li class="disabled"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  ...
+&lt;/ul&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Component alignment</h4>
 			          <p>To align nav links, use the <code>.pull-left</code> or <code>.pull-right</code> utility classes. Both classes will add a CSS float in the specified direction.</p>
@@ -798,11 +677,11 @@
 			              <li><a href="#">Messages</a></li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-tabs nav-stacked"&gt;
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-tabs nav-stacked"&gt;
 			  ...
-			&lt;/ul&gt;
-			</pre>
+&lt;/ul&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Stacked pills</h4>
 			          <div class="bs-docs-example">
@@ -812,20 +691,19 @@
 			              <li><a href="#">Messages</a></li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-pills nav-stacked"&gt;
-			  ...
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-pills nav-stacked"&gt;
+  ...
+&lt;/ul&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
 			
 			
-			          <h3 class="bs-docs-heading">Dropdowns</h3>
+			          <h3 class="bs-docs-heading">Tabs with dropdowns</h3>
 			          <p>Add dropdown menus with a little extra HTML and the <a href="./javascript.html#dropdowns">dropdowns javascript plugin</a>.</p>
 			
-			          <h4 class="bs-docs-heading">Tabs with dropdowns</h4>
 			          <div class="bs-docs-example">
 			            <ul class="nav nav-tabs">
 			              <li class="active"><a href="#">Home</a></li>
@@ -842,21 +720,21 @@
 			              </li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-tabs"&gt;
-			  &lt;li class="dropdown"&gt;
-			    &lt;a class="dropdown-toggle"
-			       data-toggle="dropdown"
-			       href="#"&gt;
-			        Dropdown
-			        &lt;b class="caret"&gt;&lt;/b&gt;
-			      &lt;/a&gt;
-			    &lt;ul class="dropdown-menu"&gt;
-			      &lt;!-- links --&gt;
-			    &lt;/ul&gt;
-			  &lt;/li&gt;
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-tabs"&gt;
+  &lt;li class="dropdown"&gt;
+    &lt;a class="dropdown-toggle"
+       data-toggle="dropdown"
+       href="#"&gt;
+        Dropdown
+        &lt;b class="caret"&gt;&lt;/b&gt;
+      &lt;/a&gt;
+    &lt;ul class="dropdown-menu"&gt;
+      &lt;!-- links --&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Pills with dropdowns</h4>
 			          <div class="bs-docs-example">
@@ -874,22 +752,22 @@
 			                </ul>
 			              </li>
 			            </ul>
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-pills"&gt;
-			  &lt;li class="dropdown"&gt;
-			    &lt;a class="dropdown-toggle"
-			       data-toggle="dropdown"
-			       href="#"&gt;
-			        Dropdown
-			        &lt;b class="caret"&gt;&lt;/b&gt;
-			      &lt;/a&gt;
-			    &lt;ul class="dropdown-menu"&gt;
-			      &lt;!-- links --&gt;
-			    &lt;/ul&gt;
-			  &lt;/li&gt;
-			&lt;/ul&gt;
-			</pre>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-pills"&gt;
+  &lt;li class="dropdown"&gt;
+    &lt;a class="dropdown-toggle"
+       data-toggle="dropdown"
+       href="#"&gt;
+        Dropdown
+        &lt;b class="caret"&gt;&lt;/b&gt;
+      &lt;/a&gt;
+    &lt;ul class="dropdown-menu"&gt;
+      &lt;!-- links --&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -914,15 +792,15 @@
 			                <li><a href="#">Help</a></li>
 			              </ul>
 			            </div> <!-- /well -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-list"&gt;
-			  &lt;li class="nav-header"&gt;List header&lt;/li&gt;
-			  &lt;li class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#"&gt;Library&lt;/a&gt;&lt;/li&gt;
-			  ...
-			&lt;/ul&gt;
-			</pre>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-list"&gt;
+  &lt;li class="nav-header"&gt;List header&lt;/li&gt;
+  &lt;li class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Library&lt;/a&gt;&lt;/li&gt;
+  ...
+&lt;/ul&gt;
+</pre>
 			          <p>
 			            <span class="label label-info">Note</span>
 			            For nesting within a nav list, include <code>class="nav nav-list"</code> on any nested <code>&lt;ul&gt;</code>.
@@ -930,13 +808,13 @@
 			
 			          <h4 class="bs-docs-heading">Horizontal dividers</h4>
 			          <p>Add a horizontal divider by creating an empty list item with the class <code>.divider</code>, like so:</p>
-			<pre class="prettyprint linenums">
-			&lt;ul class="nav nav-list"&gt;
-			  ...
-			  &lt;li class="divider"&gt;&lt;/li&gt;
-			  ...
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-list"&gt;
+  ...
+  &lt;li class="divider"&gt;&lt;/li&gt;
+  ...
+&lt;/ul&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -966,23 +844,23 @@
 			                </div>
 			              </div>
 			            </div> <!-- /tabbable -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="tabbable"&gt; &lt;!-- Only required for left/right tabs --&gt;
-			  &lt;ul class="nav nav-tabs"&gt;
-			    &lt;li class="active"&gt;&lt;a href="#tab1" data-toggle="tab"&gt;Section 1&lt;/a&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a href="#tab2" data-toggle="tab"&gt;Section 2&lt;/a&gt;&lt;/li&gt;
-			  &lt;/ul&gt;
-			  &lt;div class="tab-content"&gt;
-			    &lt;div class="tab-pane active" id="tab1"&gt;
-			      &lt;p&gt;I'm in Section 1.&lt;/p&gt;
-			    &lt;/div&gt;
-			    &lt;div class="tab-pane" id="tab2"&gt;
-			      &lt;p&gt;Howdy, I'm in Section 2.&lt;/p&gt;
-			    &lt;/div&gt;
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="tabbable"&gt; &lt;!-- Only required for left/right tabs --&gt;
+  &lt;ul class="nav nav-tabs"&gt;
+    &lt;li class="active"&gt;&lt;a href="#tab1" data-toggle="tab"&gt;Section 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#tab2" data-toggle="tab"&gt;Section 2&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;div class="tab-content"&gt;
+    &lt;div class="tab-pane active" id="tab1"&gt;
+      &lt;p&gt;I'm in Section 1.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="tab-pane" id="tab2"&gt;
+      &lt;p&gt;Howdy, I'm in Section 2.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h5 class="bs-docs-heading">Fade in tabs</h5>
 			          <p>To make tabs fade in, add <code>.fade</code> to each <code>.tab-pane</code>.</p>
@@ -1013,17 +891,17 @@
 			                <li><a href="#C" data-toggle="tab">Section 3</a></li>
 			              </ul>
 			            </div> <!-- /tabbable -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="tabbable tabs-below"&gt;
-			  &lt;div class="tab-content"&gt;
-			    ...
-			  &lt;/div&gt;
-			  &lt;ul class="nav nav-tabs"&gt;
-			    ...
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
+         				</div>
+<pre class="prettyprint linenums">
+&lt;div class="tabbable tabs-below"&gt;
+  &lt;div class="tab-content"&gt;
+    ...
+  &lt;/div&gt;
+  &lt;ul class="nav nav-tabs"&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h5 class="bs-docs-heading">Tabs on the left</h5>
 			          <p>Swap the class to put tabs on the left.</p>
@@ -1046,17 +924,17 @@
 			                </div>
 			              </div>
 			            </div> <!-- /tabbable -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="tabbable tabs-left"&gt;
-			  &lt;ul class="nav nav-tabs"&gt;
-			    ...
-			  &lt;/ul&gt;
-			  &lt;div class="tab-content"&gt;
-			    ...
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="tabbable tabs-left"&gt;
+  &lt;ul class="nav nav-tabs"&gt;
+    ...
+  &lt;/ul&gt;
+  &lt;div class="tab-content"&gt;
+    ...
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h5 class="bs-docs-heading">Tabs on the right</h5>
 			          <p>Swap the class to put tabs on the right.</p>
@@ -1079,223 +957,19 @@
 			                </div>
 			              </div>
 			            </div> <!-- /tabbable -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="tabbable tabs-right"&gt;
-			  &lt;ul class="nav nav-tabs"&gt;
-			    ...
-			  &lt;/ul&gt;
-			  &lt;div class="tab-content"&gt;
-			    ...
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="tabbable tabs-right"&gt;
+  &lt;ul class="nav nav-tabs"&gt;
+    ...
+  &lt;/ul&gt;
+  &lt;div class="tab-content"&gt;
+    ...
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			        </section>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<!--==================================================
-			 Button Groups
-			================================================== -->
-			        <section id="buttons" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">Button groups</h2>
-			
-			          <h3 class="bs-docs-heading">Examples</h3>
-			          <p>Two basic options, along with two more specific variations.</p>
-			
-			          <h4 class="bs-docs-heading">Single button group</h4>
-			          <p>Wrap a series of buttons with <code>.btn</code> in <code>.btn-group</code>.</p>
-			          <div class="bs-docs-example">
-			            <div class="btn-group" style="margin: 9px 0 5px;">
-			              <button class="btn">Left</button>
-			              <button class="btn">Middle</button>
-			              <button class="btn">Right</button>
-			            </div>
-			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group"&gt;
-			  &lt;button class="btn"&gt;1&lt;/button&gt;
-			  &lt;button class="btn"&gt;2&lt;/button&gt;
-			  &lt;button class="btn"&gt;3&lt;/button&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Multiple button groups</h4>
-			          <p>Combine sets of <code>&lt;div class="btn-group"&gt;</code> into a <code>&lt;div class="btn-toolbar"&gt;</code> for more complex components.</p>
-			          <div class="bs-docs-example">
-			            <div class="btn-toolbar" style="margin: 0;">
-			              <div class="btn-group">
-			                <button class="btn">1</button>
-			                <button class="btn">2</button>
-			                <button class="btn">3</button>
-			                <button class="btn">4</button>
-			              </div>
-			              <div class="btn-group">
-			                <button class="btn">5</button>
-			                <button class="btn">6</button>
-			                <button class="btn">7</button>
-			              </div>
-			              <div class="btn-group">
-			                <button class="btn">8</button>
-			              </div>
-			            </div>
-			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-toolbar"&gt;
-			  &lt;div class="btn-group"&gt;
-			    ...
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Vertical button groups</h4>
-			          <p>Make a set of buttons appear vertically stacked rather than horizontally.</p>
-			          <div class="bs-docs-example">
-			            <div class="btn-group btn-group-vertical">
-			              <button type="button" class="btn"><i class="icon-align-left"></i></button>
-			              <button type="button" class="btn"><i class="icon-align-center"></i></button>
-			              <button type="button" class="btn"><i class="icon-align-right"></i></button>
-			              <button type="button" class="btn"><i class="icon-align-justify"></i></button>
-			            </div>
-			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group btn-group-vertical"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
-			
-			
-			          <hr class="bs-docs-separator">
-			
-			
-			          <h5 class="bs-docs-heading">Checkbox and radio flavors</h5>
-			          <p>Button groups can also function as radios, where only one button may be active, or checkboxes, where any number of buttons may be active. View <a href="./javascript.html#buttons">the Javascript docs</a> for that.</p>
-			
-			          <h5 class="bs-docs-heading">Dropdowns in button groups</h5>
-			          <p><span class="label label-info">Heads up!</span> Buttons with dropdowns must be individually wrapped in their own <code>.btn-group</code> within a <code>.btn-toolbar</code> for proper rendering.</p>
-			
-			
-			
-			          <h4 class="bs-docs-heading">Sizes</h4>
-			          <p>Utilize the extra button classes <code>.btn-mini</code>, <code>.btn-small</code>, or <code>.btn-large</code> for sizing.</p>
-			          <div class="bs-docs-example">
-			            <div class="btn-toolbar">
-			              <div class="btn-group">
-			                <button class="btn btn-large">Large action</button>
-			                <button class="btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div><!-- /btn-toolbar -->
-			            <div class="btn-toolbar">
-			              <div class="btn-group">
-			                <button class="btn btn-small">Small action</button>
-			                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div><!-- /btn-toolbar -->
-			            <div class="btn-toolbar">
-			              <div class="btn-group">
-			                <button class="btn btn-mini">Mini action</button>
-			                <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div><!-- /btn-toolbar -->
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group"&gt;
-			  &lt;button class="btn btn-mini"&gt;Action&lt;/button&gt;
-			  &lt;button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"&gt;
-			    &lt;span class="caret"&gt;&lt;/span&gt;
-			  &lt;/button&gt;
-			  &lt;ul class="dropdown-menu"&gt;
-			    &lt;!-- dropdown menu links --&gt;
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Dropup menus</h4>
-			          <p>Dropdown menus can also be toggled from the bottom up by adding a single class to the immediate parent of <code>.dropdown-menu</code>. It will flip the direction of the <code>.caret</code> and reposition the menu itself to move from the bottom up instead of top down.</p>
-			          <div class="bs-docs-example">
-			            <div class="btn-toolbar" style="margin: 0;">
-			              <div class="btn-group dropup">
-			                <button class="btn">Dropup</button>
-			                <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			                <ul class="dropdown-menu">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			              <div class="btn-group dropup">
-			                <button class="btn primary">Right dropup</button>
-			                <button class="btn primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-			                <ul class="dropdown-menu pull-right">
-			                  <li><a href="#">Action</a></li>
-			                  <li><a href="#">Another action</a></li>
-			                  <li><a href="#">Something else here</a></li>
-			                  <li class="divider"></li>
-			                  <li><a href="#">Separated link</a></li>
-			                </ul>
-			              </div><!-- /btn-group -->
-			            </div>
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group dropup"&gt;
-			  &lt;button class="btn"&gt;Dropup&lt;/button&gt;
-			  &lt;button class="btn dropdown-toggle" data-toggle="dropdown"&gt;
-			    &lt;span class="caret"&gt;&lt;/span&gt;
-			  &lt;/button&gt;
-			  &lt;ul class="dropdown-menu"&gt;
-			    &lt;!-- dropdown menu links --&gt;
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			        </section>
-			
-			
-			
-			
-			
-			
 			
 			
 			
@@ -1325,52 +999,52 @@
 			            <h5 class="bs-docs-heading">Stateful</h5>
 			            <p>Add data-loading-text="Loading..." to use a loading state on a button.</p>
 			            <div class="bs-docs-example" style="padding-bottom: 24px;">
-			              <button type="button" id="fat-btn" data-loading-text="loading..." class="btn btn-special">
+			              <button type="button" id="fat-btn" data-loading-text="loading..." class="btn btn-primary">
 			                Loading state
 			              </button>
-			            </div>{{! /example }}
-			            <pre class="prettyprint linenums">&lt;button type="button" class="btn btn-special" data-loading-text="Loading..."&gt;Loading state&lt;/button&gt;</pre>
+			            </div>
+			            <pre class="prettyprint linenums">&lt;button type="button" class="btn btn-primary" data-loading-text="Loading..."&gt;Loading state&lt;/button&gt;</pre>
 			
 			            <h5 class="bs-docs-heading">Single toggle</h5>
 			            <p>Add data-toggle="button" to activate toggling on a single button.</p>
 			            <div class="bs-docs-example" style="padding-bottom: 24px;">
-			              <button type="button" class="btn btn-special" data-toggle="button">Single Toggle</button>
-			            </div>{{! /example }}
+			              <button type="button" class="btn btn-primary" data-toggle="button">Single Toggle</button>
+			            </div>
 			            <pre class="prettyprint linenums">&lt;button type="button" class="btn" data-toggle="button"&gt;Single Toggle&lt;/button&gt;</pre>
 			
 			            <h5 class="bs-docs-heading">Checkbox</h5>
 			            <p>Add data-toggle="buttons-checkbox" for checkbox style toggling on btn-group.</p>
 			            <div class="bs-docs-example" style="padding-bottom: 24px;">
 			              <div class="btn-group" data-toggle="buttons-checkbox">
-			                <button type="button" class="btn btn-special">Left</button>
-			                <button type="button" class="btn btn-special">Middle</button>
-			                <button type="button" class="btn btn-special">Right</button>
+			                <button type="button" class="btn btn-primary">Left</button>
+			                <button type="button" class="btn btn-primary">Middle</button>
+			                <button type="button" class="btn btn-primary">Right</button>
 			              </div>
-			            </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group" data-toggle="buttons-checkbox"&gt;
-			  &lt;button type="button" class="btn"&gt;Left&lt;/button&gt;
-			  &lt;button type="button" class="btn"&gt;Middle&lt;/button&gt;
-			  &lt;button type="button" class="btn"&gt;Right&lt;/button&gt;
-			&lt;/div&gt;
-			</pre>
+			            </div>
+<pre class="prettyprint linenums">
+&lt;div class="btn-group" data-toggle="buttons-checkbox"&gt;
+  &lt;button type="button" class="btn"&gt;Left&lt;/button&gt;
+  &lt;button type="button" class="btn"&gt;Middle&lt;/button&gt;
+  &lt;button type="button" class="btn"&gt;Right&lt;/button&gt;
+&lt;/div&gt;
+</pre>
 			
 			            <h5 class="bs-docs-heading">Radio</h5>
 			            <p>Add data-toggle="buttons-radio" for radio style toggling on btn-group.</p>
 			            <div class="bs-docs-example" style="padding-bottom: 24px;">
 			              <div class="btn-group" data-toggle="buttons-radio">
-			                <button type="button" class="btn btn-special">Left</button>
-			                <button type="button" class="btn btn-special">Middle</button>
-			                <button type="button" class="btn btn-special">Right</button>
+			                <button type="button" class="btn btn-primary">Left</button>
+			                <button type="button" class="btn btn-primary">Middle</button>
+			                <button type="button" class="btn btn-primary">Right</button>
 			              </div>
-			            </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="btn-group" data-toggle="buttons-radio"&gt;
-			  &lt;button type="button" class="btn"&gt;Left&lt;/button&gt;
-			  &lt;button type="button" class="btn"&gt;Middle&lt;/button&gt;
-			  &lt;button type="button" class="btn"&gt;Right&lt;/button&gt;
-			&lt;/div&gt;
-			</pre>
+			            </div>
+<pre class="prettyprint linenums">
+&lt;div class="btn-group" data-toggle="buttons-radio"&gt;
+  &lt;button type="button" class="btn"&gt;Left&lt;/button&gt;
+  &lt;button type="button" class="btn"&gt;Middle&lt;/button&gt;
+  &lt;button type="button" class="btn"&gt;Right&lt;/button&gt;
+&lt;/div&gt;
+</pre>
 			
 			
 			            <hr class="bs-docs-separator">
@@ -1406,11 +1080,11 @@
 			            <p>Resets button state - swaps text to original text.</p>
 			            <h5 class="bs-docs-heading">$().button(string)</h5>
 			            <p>Resets button state - swaps text to any data defined text state.</p>
-			<pre class="prettyprint linenums">&lt;button type="button" class="btn" data-complete-text="finished!" &gt;...&lt;/button&gt;
-			&lt;script&gt;
-			  $('.btn').button('complete')
-			&lt;/script&gt;
-			</pre>
+<pre class="prettyprint linenums">&lt;button type="button" class="btn" data-complete-text="finished!" &gt;...&lt;/button&gt;
+&lt;script&gt;
+  $('.btn').button('complete')
+&lt;/script&gt;
+</pre>
 			          </section>
 			
 			
@@ -1471,44 +1145,44 @@
 			                  </div>
 			                </div>
 			              </div>
-			            </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="accordion" id="accordion2"&gt;
-			  &lt;div class="accordion-group"&gt;
-			    &lt;div class="accordion-heading"&gt;
-			      &lt;a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"&gt;
-			        Collapsible Group Item #1
-			      &lt;/a&gt;
-			    &lt;/div&gt;
-			    &lt;div id="collapseOne" class="accordion-body collapse in"&gt;
-			      &lt;div class="accordion-inner"&gt;
-			        Anim pariatur cliche...
-			      &lt;/div&gt;
-			    &lt;/div&gt;
-			  &lt;/div&gt;
-			  &lt;div class="accordion-group"&gt;
-			    &lt;div class="accordion-heading"&gt;
-			      &lt;a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo"&gt;
-			        Collapsible Group Item #2
-			      &lt;/a&gt;
-			    &lt;/div&gt;
-			    &lt;div id="collapseTwo" class="accordion-body collapse"&gt;
-			      &lt;div class="accordion-inner"&gt;
-			        Anim pariatur cliche...
-			      &lt;/div&gt;
-			    &lt;/div&gt;
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			...
-			</pre>
+			            </div>
+<pre class="prettyprint linenums">
+&lt;div class="accordion" id="accordion2"&gt;
+  &lt;div class="accordion-group"&gt;
+    &lt;div class="accordion-heading"&gt;
+      &lt;a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"&gt;
+        Collapsible Group Item #1
+      &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="collapseOne" class="accordion-body collapse in"&gt;
+      &lt;div class="accordion-inner"&gt;
+        Anim pariatur cliche...
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="accordion-group"&gt;
+    &lt;div class="accordion-heading"&gt;
+      &lt;a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo"&gt;
+        Collapsible Group Item #2
+      &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="collapseTwo" class="accordion-body collapse"&gt;
+      &lt;div class="accordion-inner"&gt;
+        Anim pariatur cliche...
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+...
+</pre>
 			            <p>You can also use the plugin without the accordion markup. Make a button toggle the expanding and collapsing of another element.</p>
-			<pre class="prettyprint linenums">
-			&lt;button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo"&gt;
-			  simple collapsible
-			&lt;/button&gt;
+<pre class="prettyprint linenums">
+&lt;button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo"&gt;
+  simple collapsible
+&lt;/button&gt;
 			
-			&lt;div id="demo" class="collapse in"&gt; … &lt;/div&gt;
-			</pre>
+&lt;div id="demo" class="collapse in"&gt; … &lt;/div&gt;
+</pre>
 			
 			
 			            <hr class="bs-docs-separator">
@@ -1555,11 +1229,11 @@
 			            <h4 class="bs-docs-heading">Methods</h4>
 			            <h5 class="bs-docs-heading">.collapse(options)</h5>
 			            <p>Activates your content as a collapsible element. Accepts an optional options <code>object</code>.
-			<pre class="prettyprint linenums">
-			$('#myCollapsible').collapse({
-			  toggle: false
-			})
-			</pre>
+<pre class="prettyprint linenums">
+$('#myCollapsible').collapse({
+  toggle: false
+})
+</pre>
 			            <h5 class="bs-docs-heading">.collapse('toggle')</h5>
 			            <p>Toggles a collapsible element to shown or hidden.</p>
 			            <h5 class="bs-docs-heading">.collapse('show')</h5>
@@ -1597,10 +1271,10 @@
 			               </tr>
 			              </tbody>
 			            </table>
-			<pre class="prettyprint linenums">
-			$('#myCollapsible').on('hidden', function () {
-			  // do something…
-			})</pre>
+<pre class="prettyprint linenums">
+$('#myCollapsible').on('hidden', function () {
+  // do something…
+})</pre>
 			          </section>
 			
 			
@@ -1640,12 +1314,12 @@
 			              <strong>Warning!</strong> Best check yo self, you're not looking too good.
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="alert"&gt;
-			  &lt;button type="button" class="close" data-dismiss="alert"&gt;&times;&lt;/button&gt;
-			  &lt;strong&gt;Warning!&lt;/strong&gt; Best check yo self, you're not looking too good.
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="alert"&gt;
+  &lt;button type="button" class="close" data-dismiss="alert"&gt;&times;&lt;/button&gt;
+  &lt;strong&gt;Warning!&lt;/strong&gt; Best check yo self, you're not looking too good.
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Dismiss buttons</h4>
 			          <p>Mobile Safari and Mobile Opera browsers, in addition to the <code>data-dismiss="alert"</code> attribute, require an <code>href="#"</code> for the dismissal of alerts when using an <code>&lt;a&gt;</code> tag.</p>
@@ -1669,13 +1343,13 @@
 			              <p>Best check yo self, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="alert alert-block"&gt;
-			  &lt;button type="button" class="close" data-dismiss="alert"&gt;&times;&lt;/button&gt;
-			  &lt;h4&gt;Warning!&lt;/h4&gt;
-			  Best check yo self, you're not...
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="alert alert-block"&gt;
+  &lt;button type="button" class="close" data-dismiss="alert"&gt;&times;&lt;/button&gt;
+  &lt;h4&gt;Warning!&lt;/h4&gt;
+  Best check yo self, you're not...
+&lt;/div&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -1691,11 +1365,11 @@
 			              <strong>Oh snap!</strong> Change a few things up and try submitting again.
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="alert alert-error"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="alert alert-error"&gt;
+  ...
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Success</h4>
 			          <div class="bs-docs-example">
@@ -1704,11 +1378,11 @@
 			              <strong>Well done!</strong> You successfully read this important alert message.
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="alert alert-success"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="alert alert-success"&gt;
+  ...
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Information</h4>
 			          <div class="bs-docs-example">
@@ -1717,11 +1391,11 @@
 			              <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="alert alert-info"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="alert alert-info"&gt;
+  ...
+&lt;/div&gt;
+</pre>
 			
 			        </section>
 			
@@ -1761,7 +1435,7 @@
 			            <button type="button" class="close" data-dismiss="alert">&times;</button>
 			            <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
 			          </div>
-			        </div>{{! /example }}
+			        </div>
 			
 			        <div class="bs-docs-example">
 			          <div class="alert alert-block alert-error fade in">
@@ -1772,7 +1446,7 @@
 			              <a class="btn btn-danger" href="#">Take this action</a> <a class="btn" href="#">Or do this</a>
 			            </p>
 			          </div>
-			        </div>{{! /example }}
+			        </div>
 			
 			
 			        <hr class="bs-docs-separator">
@@ -1814,11 +1488,11 @@
 			           </tr>
 			          </tbody>
 			        </table>
-			<pre class="prettyprint linenums">
-			$('#my-alert').bind('closed', function () {
-			  // do something…
-			})
-			</pre>
+<pre class="prettyprint linenums">
+$('#my-alert').bind('closed', function () {
+  // do something…
+})
+</pre>
 			      </section>
 			
 			
@@ -1864,26 +1538,26 @@
 			                <p>One fine body…</p>
 			              </div>
 			              <div class="modal-footer">
-			                <a href="#" class="btn">Close</a>
-			                <a href="#" class="btn btn-special">Save changes</a>
+			                <a href="#" class="btn btn-secondary">Close</a>
+			                <a href="#" class="btn btn-primary">Save changes</a>
 			              </div>
 			            </div>
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;div class="modal hide fade"&gt;
-			  &lt;div class="modal-header"&gt;
-			    &lt;button type="button" class="close" data-dismiss="modal" aria-hidden="true"&gt;&amp;times;&lt;/button&gt;
-			    &lt;h3&gt;Modal header&lt;/h3&gt;
-			  &lt;/div&gt;
-			  &lt;div class="modal-body"&gt;
-			    &lt;p&gt;One fine body…&lt;/p&gt;
-			  &lt;/div&gt;
-			  &lt;div class="modal-footer"&gt;
-			    &lt;a href="#" class="btn"&gt;Close&lt;/a&gt;
-			    &lt;a href="#" class="btn btn-special"&gt;Save changes&lt;/a&gt;
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;div class="modal hide fade"&gt;
+  &lt;div class="modal-header"&gt;
+    &lt;button type="button" class="close" data-dismiss="modal" aria-hidden="true"&gt;&amp;times;&lt;/button&gt;
+    &lt;h3&gt;Modal header&lt;/h3&gt;
+  &lt;/div&gt;
+  &lt;div class="modal-body"&gt;
+    &lt;p&gt;One fine body…&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="modal-footer"&gt;
+    &lt;a href="#" class="btn"&gt;Close&lt;/a&gt;
+    &lt;a href="#" class="btn btn-primary"&gt;Save changes&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Live demo</h4>
 			          <p>Toggle a modal via JavaScript by clicking the button below. It will slide down and fade in from the top of the page.</p>
@@ -1916,31 +1590,31 @@
 			            </div>
 			            <div class="modal-footer">
 			              <button class="btn" data-dismiss="modal">Close</button>
-			              <button class="btn btn-special">Save changes</button>
+			              <button class="btn btn-primary">Save changes</button>
 			            </div>
 			          </div>
 			          <div class="bs-docs-example" style="padding-bottom: 24px;">
-			            <a data-toggle="modal" href="#myModal" class="btn btn-special btn-large">Launch demo modal</a>
-			          </div>{{! /example }}
-			<pre class="prettyprint linenums">
-			&lt;-- Button to trigger modal --&gt;
-			&lt;a href="#myModal" role="button" class="btn" data-toggle="modal"&gt;Launch demo modal&lt;/a&gt;
+			            <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">Launch demo modal</a>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;-- Button to trigger modal --&gt;
+&lt;a href="#myModal" role="button" class="btn" data-toggle="modal"&gt;Launch demo modal&lt;/a&gt;
 			
-			&lt;-- Modal --&gt;
-			&lt;div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"&gt;
-			  &lt;div class="modal-header"&gt;
-			    &lt;button type="button" class="close" data-dismiss="modal" aria-hidden="true"&gt;&times;&lt;/button&gt;
-			    &lt;h3 id="myModalLabel"&gt;Modal header&lt;/h3&gt;
-			  &lt;/div&gt;
-			  &lt;div class="modal-body"&gt;
-			    &lt;p&gt;One fine body…&lt;/p&gt;
-			  &lt;/div&gt;
-			  &lt;div class="modal-footer"&gt;
-			    &lt;button class="btn" data-dismiss="modal" aria-hidden="true"&gt;Close&lt;/button&gt;
-			    &lt;button class="btn btn-special"&gt;Save changes&lt;/button&gt;
-			  &lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+&lt;-- Modal --&gt;
+&lt;div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"&gt;
+  &lt;div class="modal-header"&gt;
+    &lt;button type="button" class="close" data-dismiss="modal" aria-hidden="true"&gt;&times;&lt;/button&gt;
+    &lt;h3 id="myModalLabel"&gt;Modal header&lt;/h3&gt;
+  &lt;/div&gt;
+  &lt;div class="modal-body"&gt;
+    &lt;p&gt;One fine body…&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="modal-footer"&gt;
+    &lt;button class="btn" data-dismiss="modal" aria-hidden="true"&gt;Close&lt;/button&gt;
+    &lt;button class="btn btn-primary"&gt;Save changes&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -1999,11 +1673,11 @@
 			          <h4 class="bs-docs-heading">Methods</h4>
 			          <h5 class="bs-docs-heading">.modal(options)</h5>
 			          <p>Activates your content as a modal. Accepts an optional options <code>object</code>.</p>
-			<pre class="prettyprint linenums">
-			$('#myModal').modal({
-			  keyboard: false
-			})
-			</pre>
+<pre class="prettyprint linenums">
+$('#myModal').modal({
+  keyboard: false
+})
+</pre>
 			          <h5 class="bs-docs-heading">.modal('toggle')</h5>
 			          <p>Manually toggles a modal.</p>
 			          <pre class="prettyprint linenums">$('#myModal').modal('toggle')</pre>
@@ -2041,11 +1715,11 @@
 			             </tr>
 			            </tbody>
 			          </table>
-			<pre class="prettyprint linenums">
-			$('#myModal').on('hidden', function () {
-			  // do something…
-			})
-			</pre>
+<pre class="prettyprint linenums">
+$('#myModal').on('hidden', function () {
+  // do something…
+})
+</pre>
 			        </section>
 			
 			
@@ -2090,18 +1764,18 @@
 			              </ul>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="pagination"&gt;
-			  &lt;ul&gt;
-			    &lt;li&gt;&lt;a href="#"&gt;Prev&lt;/a&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a href="#"&gt;1&lt;/a&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a href="#"&gt;2&lt;/a&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a href="#"&gt;3&lt;/a&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a href="#"&gt;4&lt;/a&gt;&lt;/li&gt;
-			    &lt;li&gt;&lt;a href="#"&gt;Next&lt;/a&gt;&lt;/li&gt;
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="pagination"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Prev&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;2&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;3&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;4&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Next&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -2124,25 +1798,25 @@
 			             </ul>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="pagination"&gt;
-			  &lt;ul&gt;
-			    &lt;li class="disabled"&gt;&lt;a href="#"&gt;Prev&lt;/a&gt;&lt;/li&gt;
-			    &lt;li class="active"&gt;&lt;a href="#"&gt;1&lt;/a&gt;&lt;/li&gt;
-			    ...
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="pagination"&gt;
+  &lt;ul&gt;
+    &lt;li class="disabled"&gt;&lt;a href="#"&gt;Prev&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="active"&gt;&lt;a href="#"&gt;1&lt;/a&gt;&lt;/li&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 			          <p>You can optionally swap out active or disabled anchors for spans to remove click functionality while retaining intended styles.</p>
-			<pre class="prettyprint linenums">
-			&lt;div class="pagination"&gt;
-			  &lt;ul&gt;
-			    &lt;li class="disabled"&gt;&lt;span&gt;Prev&lt;/span&gt;&lt;/li&gt;
-			    &lt;li class="active"&gt;&lt;span&gt;1&lt;/span&gt;&lt;/li&gt;
-			    ...
-			  &lt;/ul&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="pagination"&gt;
+  &lt;ul&gt;
+    &lt;li class="disabled"&gt;&lt;span&gt;Prev&lt;/span&gt;&lt;/li&gt;
+    &lt;li class="active"&gt;&lt;span&gt;1&lt;/span&gt;&lt;/li&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Alignment</h4>
 			          <p>Add one of two optional classes to change the alignment of pagination links: <code>.pagination-centered</code> and <code>.pagination-right</code>.</p>
@@ -2159,11 +1833,11 @@
 			             </ul>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="pagination pagination-centered"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="pagination pagination-centered"&gt;
+  ...
+&lt;/div&gt;
+</pre>
 			          <div class="bs-docs-example">
 			            <div class="pagination pagination-right">
 			              <ul>
@@ -2177,11 +1851,11 @@
 			              </ul>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="pagination pagination-right"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="pagination pagination-right"&gt;
+  ...
+&lt;/div&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -2198,12 +1872,12 @@
 			              <li><a href="#">Next</a></li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="pager"&gt;
-			  &lt;li&gt;&lt;a href="#"&gt;Previous&lt;/a&gt;&lt;/li&gt;
-			  &lt;li&gt;&lt;a href="#"&gt;Next&lt;/a&gt;&lt;/li&gt;
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="pager"&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Previous&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Next&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Aligned links</h4>
 			          <p>Alternatively, you can align each link to the sides:</p>
@@ -2213,16 +1887,16 @@
 			              <li class="next"><a href="#">Newer &rarr;</a></li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="pager"&gt;
-			  &lt;li class="previous"&gt;
-			    &lt;a href="#"&gt;&amp;larr; Older&lt;/a&gt;
-			  &lt;/li&gt;
-			  &lt;li class="next"&gt;
-			    &lt;a href="#"&gt;Newer &amp;rarr;&lt;/a&gt;
-			  &lt;/li&gt;
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="pager"&gt;
+  &lt;li class="previous"&gt;
+    &lt;a href="#"&gt;&amp;larr; Older&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="next"&gt;
+    &lt;a href="#"&gt;Newer &amp;rarr;&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Optional disabled state</h4>
 			          <p>Pager links also use the general <code>.disabled</code> utility class from the pagination.</p>
@@ -2232,14 +1906,14 @@
 			              <li class="next"><a href="#">Newer &rarr;</a></li>
 			            </ul>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;ul class="pager"&gt;
-			  &lt;li class="previous disabled"&gt;
-			    &lt;a href="#"&gt;&amp;larr; Older&lt;/a&gt;
-			  &lt;/li&gt;
-			  ...
-			&lt;/ul&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;ul class="pager"&gt;
+  &lt;li class="previous disabled"&gt;
+    &lt;a href="#"&gt;&amp;larr; Older&lt;/a&gt;
+  &lt;/li&gt;
+  ...
+&lt;/ul&gt;
+</pre>
 			
 			        </section><!-- END pagination --> 
 			
@@ -2279,11 +1953,11 @@
 			              <div class="bar" style="width: 60%;"></div>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="progress"&gt;
-			  &lt;div class="bar" style="width: 60%;"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="progress"&gt;
+  &lt;div class="bar" style="width: 60%;"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Striped</h4>
 			          <p>Uses a gradient to create a striped effect. Not available in IE7-8.</p>
@@ -2292,11 +1966,11 @@
 			              <div class="bar" style="width: 20%;"></div>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="progress progress-striped"&gt;
-			  &lt;div class="bar" style="width: 20%;"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="progress progress-striped"&gt;
+  &lt;div class="bar" style="width: 20%;"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Animated</h4>
 			          <p>Add <code>.active</code> to <code>.progress-striped</code> to animate the stripes right to left. Not available in all versions of IE.</p>
@@ -2305,11 +1979,11 @@
 			              <div class="bar" style="width: 45%"></div>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="progress progress-striped active"&gt;
-			  &lt;div class="bar" style="width: 40%;"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="progress progress-striped active"&gt;
+  &lt;div class="bar" style="width: 40%;"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Stacked</h4>
 			          <p>Place multiple bars into the same <code>.progress</code> to stack them.</p>
@@ -2320,13 +1994,13 @@
 			              <div class="bar bar-danger" style="width: 10%"></div>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="progress"&gt;
-			  &lt;div class="bar bar-success" style="width: 35%;"&gt;&lt;/div&gt;
-			  &lt;div class="bar bar-warning" style="width: 20%;"&gt;&lt;/div&gt;
-			  &lt;div class="bar bar-danger" style="width: 10%;"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="progress"&gt;
+  &lt;div class="bar bar-success" style="width: 35%;"&gt;&lt;/div&gt;
+  &lt;div class="bar bar-warning" style="width: 20%;"&gt;&lt;/div&gt;
+  &lt;div class="bar bar-danger" style="width: 10%;"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -2350,20 +2024,20 @@
 			              <div class="bar" style="width: 80%"></div>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="progress progress-info"&gt;
-			  &lt;div class="bar" style="width: 20%"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class="progress progress-success"&gt;
-			  &lt;div class="bar" style="width: 40%"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class="progress progress-warning"&gt;
-			  &lt;div class="bar" style="width: 60%"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class="progress progress-danger"&gt;
-			  &lt;div class="bar" style="width: 80%"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="progress progress-info"&gt;
+  &lt;div class="bar" style="width: 20%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="progress progress-success"&gt;
+  &lt;div class="bar" style="width: 40%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="progress progress-warning"&gt;
+  &lt;div class="bar" style="width: 60%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="progress progress-danger"&gt;
+  &lt;div class="bar" style="width: 80%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			          <h4 class="bs-docs-heading">Striped bars</h4>
 			          <p>Similar to the solid colors, we have varied striped progress bars.</p>
@@ -2381,20 +2055,20 @@
 			              <div class="bar" style="width: 80%"></div>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="progress progress-info progress-striped"&gt;
-			  &lt;div class="bar" style="width: 20%"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class="progress progress-success progress-striped"&gt;
-			  &lt;div class="bar" style="width: 40%"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class="progress progress-warning progress-striped"&gt;
-			  &lt;div class="bar" style="width: 60%"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class="progress progress-danger progress-striped"&gt;
-			  &lt;div class="bar" style="width: 80%"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;div class="progress progress-info progress-striped"&gt;
+  &lt;div class="bar" style="width: 20%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="progress progress-success progress-striped"&gt;
+  &lt;div class="bar" style="width: 40%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="progress progress-warning progress-striped"&gt;
+  &lt;div class="bar" style="width: 60%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="progress progress-danger progress-striped"&gt;
+  &lt;div class="bar" style="width: 80%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
 			
 			
 			          <hr class="bs-docs-separator">
@@ -2603,772 +2277,772 @@
 			
 			
 			
-			
-			<!--==================================================
-			 Typographic components
-			================================================== -->
-			        <section id="typography" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">Typographic components</h2>
-			
-			          <h3 class="bs-docs-heading">Hero unit</h3>
-			          <p>A lightweight, flexible component to showcase key content on your site. It works well on marketing and content-heavy sites.</p>
-			          <div class="bs-docs-example">
-			            <div class="hero-unit">
-			              <h2 class="bs-docs-heading">Hello, world!</h2>
-			              <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-			              <p><a class="btn btn-special btn-large">Learn more</a></p>
-			            </div>
-			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="hero-unit"&gt;
-			  &lt;h1&gt;Heading&lt;/h1&gt;
-			  &lt;p&gt;Tagline&lt;/p&gt;
-			  &lt;p&gt;
-			    &lt;a class="btn btn-special btn-large"&gt;
-			      Learn more
-			    &lt;/a&gt;
-			  &lt;/p&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			          <h3 class="bs-docs-heading">Page header</h3>
-			          <p>A simple shell for an <code>h1</code> to appropriately space out and segment sections of content on a page. It can utilize the <code>h1</code>'s default <code>small</code>, element as well most other components (with additional styles).</p>
-			          <div class="bs-docs-example">
-			            <div class="page-header">
-			              <h2 class="bs-docs-heading">Example page header <small>Subtext for header</small></h2>
-			            </div>
-			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="page-header"&gt;
-			  &lt;h1&gt;Example page header &lt;small&gt;Subtext for header&lt;/small&gt;&lt;/h1&gt;
-			&lt;/div&gt;
-			</pre>
-			
-			        </section>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<!--==================================================
-			 Miscellaneous
-			================================================== -->
-			        <section id="misc" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">Miscellaneous <small>Lightweight utility components</small></h2>
-			
-			          <h3 class="bs-docs-heading">Wells</h3>
-			          <p>Use the well as a simple effect on an element to give it an inset effect.</p>
-			          <div class="bs-docs-example">
-			            <div class="well">
-			              Look, I'm in a well!
-			            </div>
-			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="well"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
-			          <h4 class="bs-docs-heading">Optional classes</h4>
-			          <p>Control padding and rounded corners with two optional modifier classes.</p>
-			          <div class="bs-docs-example">
-			            <div class="well well-large">
-			              Look, I'm in a well!
-			            </div>
-			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="well well-large"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
-			          <div class="bs-docs-example">
-			            <div class="well well-small">
-			              Look, I'm in a well!
-			            </div>
-			          </div>
-			<pre class="prettyprint linenums">
-			&lt;div class="well well-small"&gt;
-			  ...
-			&lt;/div&gt;
-			</pre>
-			
-			          <h3 class="bs-docs-heading">Close icon</h3>
-			          <p>Use the generic close icon for dismissing content like modals and alerts.</p>
-			          <div class="bs-docs-example">
-			            <p><button class="close" style="float: none;">&times;</button></p>
-			          </div>
-			          <pre class="prettyprint linenums">&lt;button class="close"&gt;&amp;times;&lt;/button&gt;</pre>
-			          <p>iOS devices require an href="#" for click events if you rather use an anchor.</p>
-			          <pre class="prettyprint linenums">&lt;a class="close" href="#"&gt;&amp;times;&lt;/a&gt;</pre>
-			
-			          <h3 class="bs-docs-heading">Helper classes</h3>
-			          <p>Simple, focused classes for small display or behavior tweaks.</p>
-			
-			          <h5 class="bs-docs-heading">.pull-left</h5>
-			          <p>Float an element left</p>
-			<pre class="prettyprint linenums">
-			class="pull-left"
-			</pre>
-			<pre class="prettyprint linenums">
-			.pull-left {
-			  float: left;
-			}
-			</pre>
-			
-			          <h5 class="bs-docs-heading">.pull-right</h5>
-			          <p>Float an element right</p>
-			<pre class="prettyprint linenums">
-			class="pull-right"
-			</pre>
-			<pre class="prettyprint linenums">
-			.pull-right {
-			  float: right;
-			}
-			</pre>
-			
-			          <h5 class="bs-docs-heading">.muted</h5>
-			          <p>Change an element's color to <code>#999</code></p>
-			<pre class="prettyprint linenums">
-			class="muted"
-			</pre>
-			<pre class="prettyprint linenums">
-			.muted {
-			  color: #999;
-			}
-			</pre>
-			
-			          <h5 class="bs-docs-heading">.clearfix</h5>
-			          <p>Clear the <code>float</code> on any element</p>
-			<pre class="prettyprint linenums">
-			class="clearfix"
-			</pre>
-			<pre class="prettyprint linenums">
-			.clearfix {
-			  *zoom: 1;
-			  &:before,
-			  &:after {
-			    display: table;
-			    content: "";
-			  }
-			  &:after {
-			    clear: both;
-			  }
-			}
-			</pre>
-			
-			        </section>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<!--==================================================
-			 ScrollSpy
-			================================================== -->
-			        <section id="scrollspy" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">ScrollSpy <small>bootstrap-scrollspy.js</small></h2>
-			
-			
-			          <h3 class="bs-docs-heading">Example in navbar</h3>
-			          <p>The ScrollSpy plugin is for automatically updating nav targets based on scroll position. Scroll the area below the navbar and watch the active class change. The dropdown sub items will be highlighted as well.</p>
-			          <div class="bs-docs-example">
-			            <div id="navbarExample" class="navbar navbar-static">
-			              <div class="navbar-inner">
-			                <div class="container" style="width: auto;">
-			                  <a class="brand" href="#">Project Name</a>
-			                  <ul class="nav">
-			                    <li><a href="#fat">@fat</a></li>
-			                    <li><a href="#mdo">@mdo</a></li>
-			                    <li class="dropdown">
-			                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-			                      <ul class="dropdown-menu">
-			                        <li><a href="#one">one</a></li>
-			                        <li><a href="#two">two</a></li>
-			                        <li class="divider"></li>
-			                        <li><a href="#three">three</a></li>
-			                      </ul>
-			                    </li>
-			                  </ul>
-			                </div>
-			              </div>
-			            </div>
-			            <div data-spy="scroll" data-target="#navbarExample" data-offset="0" class="scrollspy-example">
-			              <h4 id="fat">@fat</h5>
-			              <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
-			              <h4 id="mdo">@mdo</h5>
-			              <p>Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard. Freegan beard aliqua cupidatat mcsweeney's vero. Cupidatat four loko nisi, ea helvetica nulla carles. Tattooed cosby sweater food truck, mcsweeney's quis non freegan vinyl. Lo-fi wes anderson +1 sartorial. Carles non aesthetic exercitation quis gentrify. Brooklyn adipisicing craft beer vice keytar deserunt.</p>
-			              <h4 id="one">one</h5>
-			              <p>Occaecat commodo aliqua delectus. Fap craft beer deserunt skateboard ea. Lomo bicycle rights adipisicing banh mi, velit ea sunt next level locavore single-origin coffee in magna veniam. High life id vinyl, echo park consequat quis aliquip banh mi pitchfork. Vero VHS est adipisicing. Consectetur nisi DIY minim messenger bag. Cred ex in, sustainable delectus consectetur fanny pack iphone.</p>
-			              <h4 id="two">two</h5>
-			              <p>In incididunt echo park, officia deserunt mcsweeney's proident master cleanse thundercats sapiente veniam. Excepteur VHS elit, proident shoreditch +1 biodiesel laborum craft beer. Single-origin coffee wayfarers irure four loko, cupidatat terry richardson master cleanse. Assumenda you probably haven't heard of them art party fanny pack, tattooed nulla cardigan tempor ad. Proident wolf nesciunt sartorial keffiyeh eu banh mi sustainable. Elit wolf voluptate, lo-fi ea portland before they sold out four loko. Locavore enim nostrud mlkshk brooklyn nesciunt.</p>
-			              <h4 id="three">three</h5>
-			              <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
-			              <p>Keytar twee blog, culpa messenger bag marfa whatever delectus food truck. Sapiente synth id assumenda. Locavore sed helvetica cliche irony, thundercats you probably haven't heard of them consequat hoodie gluten-free lo-fi fap aliquip. Labore elit placeat before they sold out, terry richardson proident brunch nesciunt quis cosby sweater pariatur keffiyeh ut helvetica artisan. Cardigan craft beer seitan readymade velit. VHS chambray laboris tempor veniam. Anim mollit minim commodo ullamco thundercats.
-			              </p>
-			            </div>
-			          </div>{{! /example }}
-			
-			
-			          <hr class="bs-docs-separator">
-			
-			
-			          <h3 class="bs-docs-heading">Usage</h3>
-			
-			          <h4 class="bs-docs-heading">Via data attributes</h4>
-			          <p>To easily add scrollspy behavior to your topbar navigation, just add <code>data-spy="scroll"</code> to the element you want to spy on (most typically this would be the body) and <code>data-target=".navbar"</code> to select which nav to use. You'll want to use scrollspy with a <code>.nav</code> component.</p>
-			          <pre class="prettyprint linenums">&lt;body data-spy="scroll" data-target=".navbar"&gt;...&lt;/body&gt;</pre>
-			
-			          <h4 class="bs-docs-heading">Via JavaScript</h4>
-			          <p>Call the scrollspy via JavaScript:</p>
-			          <pre class="prettyprint linenums">$('#navbar').scrollspy()</pre>
-			
-			          <div class="alert alert-info">
-			            <strong>Heads up!</strong>
-			            Navbar links must have resolvable id targets. For example, a <code>&lt;a href="#home"&gt;home&lt;/a&gt;</code> must correspond to something in the dom like <code>&lt;div id="home"&gt;&lt;/div&gt;</code>.
-			          </div>
-			
-			          <h4 class="bs-docs-heading">Methods</h4>
-			          <h5 class="bs-docs-heading">.scrollspy('refresh')</h5>
-			          <p>When using scrollspy in conjunction with adding or removing of elements from the DOM, you'll need to call the refresh method like so:</p>
-			<pre class="prettyprint linenums">
-			$('[data-spy="scroll"]').each(function () {
-			  var $spy = $(this).scrollspy('refresh')
-			});
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Options</h4>
-			          <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-offset=""</code>.</p>
-			          <table class="table table-bordered table-striped">
-			            <thead>
-			             <tr>
-			               <th style="width: 100px;">Name</th>
-			               <th style="width: 100px;">type</th>
-			               <th style="width: 50px;">default</th>
-			               <th>description</th>
-			             </tr>
-			            </thead>
-			            <tbody>
-			             <tr>
-			               <td>offset</td>
-			               <td>number</td>
-			               <td>10</td>
-			               <td>Pixels to offset from top when calculating position of scroll.</td>
-			             </tr>
-			            </tbody>
-			          </table>
-			
-			          <h4 class="bs-docs-heading">Events</h4>
-			          <table class="table table-bordered table-striped">
-			            <thead>
-			             <tr>
-			               <th style="width: 150px;">Event</th>
-			               <th>Description</th>
-			             </tr>
-			            </thead>
-			            <tbody>
-			             <tr>
-			               <td>activate</td>
-			               <td>This event fires whenever a new item becomes activated by the scrollspy.</td>
-			            </tr>
-			            </tbody>
-			          </table>
-			        </section>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<!--==================================================
-			 Tooltips
-			================================================== -->
-			        <section id="tooltips" class="NotUpdatedYet">
-			          <h2 class="bs-docs-heading">Tooltips <small>bootstrap-tooltip.js</small></h2>
-			
-			
-			          <h3 class="bs-docs-heading">Examples</h3>
-			          <p>Inspired by the excellent jQuery.tipsy plugin written by Jason Frame; Tooltips are an updated version, which don't rely on images, use CSS3 for animations, and data-attributes for local title storage.</p>
-			          <p>Hover over the links below to see tooltips:</p>
-			          <div class="bs-docs-example tooltip-demo">
-			            <p class="muted" style="margin-bottom: 0;">Tight pants next level keffiyeh <a href="#" rel="tooltip" title="Default tooltip">you probably</a> haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel <a href="#" rel="tooltip" title="Another tooltip">have a</a> terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. A really ironic artisan <a href="#" rel="tooltip" title="Another one here too">whatever keytar</a>, scenester farm-to-table banksy Austin <a href="#" rel="tooltip" title="The last tip!">twitter handle</a> freegan cred raw denim single-origin coffee viral.
-			            </p>
-			          </div>{{! /example }}
-			
-			          <h4 class="bs-docs-heading">Four directions</h4>
-			          <div class="bs-docs-example tooltip-demo">
-			            <ul class="bs-docs-tooltip-examples">
-			              <li><a href="#" rel="tooltip" data-placement="top" title="Tooltip on top">Tooltip on top</a></li>
-			              <li><a href="#" rel="tooltip" data-placement="right" title="Tooltip on right">Tooltip on right</a></li>
-			              <li><a href="#" rel="tooltip" data-placement="bottom" title="Tooltip on bottom">Tooltip on bottom</a></li>
-			              <li><a href="#" rel="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</a></li>
-			            </ul>
-			          </div>{{! /example }}
-			
-			
-			          <hr class="bs-docs-separator">
-			
-			
-			          <h3 class="bs-docs-heading">Usage</h3>
-			          <p>Trigger the tooltip via JavaScript:</p>
-			          <pre class="prettyprint linenums">$('#example').tooltip(options)</pre>
-			
-			          <h4 class="bs-docs-heading">Options</h4>
-			          <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-animation=""</code>.</p>
-			          <table class="table table-bordered table-striped">
-			            <thead>
-			             <tr>
-			               <th style="width: 100px;">Name</th>
-			               <th style="width: 100px;">type</th>
-			               <th style="width: 50px;">default</th>
-			               <th>description</th>
-			             </tr>
-			            </thead>
-			            <tbody>
-			             <tr>
-			               <td>animation</td>
-			               <td>boolean</td>
-			               <td>true</td>
-			               <td>apply a css fade transition to the tooltip</td>
-			             </tr>
-			             <tr>
-			               <td>html</td>
-			               <td>boolean</td>
-			               <td>true</td>
-			               <td>Insert html into the tooltip. If false, jquery's <code>text</code> method will be used to insert content into the dom. Use text if you're worried about XSS attacks.</td>
-			             </tr>
-			             <tr>
-			               <td>placement</td>
-			               <td>string|function</td>
-			               <td>'top'</td>
-			               <td>how to position the tooltip - top | bottom | left | right</td>
-			             </tr>
-			             <tr>
-			               <td>selector</td>
-			               <td>string</td>
-			               <td>false</td>
-			               <td>If a selector is provided, tooltip objects will be delegated to the specified targets.</td>
-			             </tr>
-			             <tr>
-			               <td>title</td>
-			               <td>string | function</td>
-			               <td>''</td>
-			               <td>default title value if `title` tag isn't present</td>
-			             </tr>
-			             <tr>
-			               <td>trigger</td>
-			               <td>string</td>
-			               <td>'hover'</td>
-			               <td>how tooltip is triggered - click | hover | focus | manual</td>
-			             </tr>
-			             <tr>
-			               <td>delay</td>
-			               <td>number | object</td>
-			               <td>0</td>
-			               <td>
-			                <p>delay showing and hiding the tooltip (ms) - does not apply to manual trigger type</p>
-			                <p>If a number is supplied, delay is applied to both hide/show</p>
-			                <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
-			               </td>
-			             </tr>
-			            </tbody>
-			          </table>
-			          <div class="alert alert-info">
-			            <strong>Heads up!</strong>
-			            Options for individual tooltips can alternatively be specified through the use of data attributes.
-			          </div>
-			
-			          <h4 class="bs-docs-heading">Markup</h4>
-			          <p>For performance reasons, the Tooltip and Popover data-apis are opt in. If you would like to use them just specify a selector option.</p>
-			          <pre class="prettyprint linenums">&lt;a href="#" rel="tooltip" title="first tooltip"&gt;hover over me&lt;/a&gt;</pre>
-			
-			          <h4 class="bs-docs-heading">Methods</h4>
-			          <h5 class="bs-docs-heading">$().tooltip(options)</h5>
-			          <p>Attaches a tooltip handler to an element collection.</p>
-			          <h5 class="bs-docs-heading">.tooltip('show')</h5>
-			          <p>Reveals an element's tooltip.</p>
-			          <pre class="prettyprint linenums">$('#element').tooltip('show')</pre>
-			          <h5 class="bs-docs-heading">.tooltip('hide')</h5>
-			          <p>Hides an element's tooltip.</p>
-			          <pre class="prettyprint linenums">$('#element').tooltip('hide')</pre>
-			          <h5 class="bs-docs-heading">.tooltip('toggle')</h5>
-			          <p>Toggles an element's tooltip.</p>
-			          <pre class="prettyprint linenums">$('#element').tooltip('toggle')</pre>
-			          <h5 class="bs-docs-heading">.tooltip('destroy')</h5>
-			          <p>Hides and destroys an element's tooltip.</p>
-			          <pre class="prettyprint linenums">$('#element').tooltip('destroy')</pre>
-			        </section>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<!--==================================================
-			 Popovers
-			================================================== -->
-			      <section id="popovers" class="NotUpdatedYet">
-			        <h2 class="bs-docs-heading">Popovers <small>bootstrap-popover.js</small></h2>
-			
-			        <h3 class="bs-docs-heading">Examples</h3>
-			        <p>Add small overlays of content, like those on the iPad, to any element for housing secondary information. Hover over the button to trigger the popover. <strong>Requires <a href="#tooltips">Tooltip</a> to be included.</strong></p>
-			
-			        <h4 class="bs-docs-heading">Static popover</h4>
-			        <p>Four options are available: top, right, bottom, and left aligned.</p>
-			        <div class="bs-docs-example bs-docs-example-popover">
-			          <div class="popover top">
-			            <div class="arrow"></div>
-			            <h3 class="popover-title">Popover top</h4>
-			            <div class="popover-content">
-			              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-			            </div>
-			          </div>
-			
-			          <div class="popover right">
-			            <div class="arrow"></div>
-			            <h3 class="popover-title">Popover right</h4>
-			            <div class="popover-content">
-			              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-			            </div>
-			          </div>
-			
-			          <div class="popover bottom">
-			            <div class="arrow"></div>
-			            <h3 class="popover-title">Popover bottom</h4>
-			            <div class="popover-content">
-			              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-			            </div>
-			          </div>
-			
-			          <div class="popover left">
-			            <div class="arrow"></div>
-			            <h3 class="popover-title">Popover left</h4>
-			            <div class="popover-content">
-			              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-			            </div>
-			          </div>
-			
-			          <div class="clearfix"></div>
-			        </div>
-			        <p>No markup shown as popovers are generated from JavaScript and content within a <code>data</code> attribute.</p>
-			
-			        <h4 class="bs-docs-heading">Live demo</h4>
-			        <div class="bs-docs-example" style="padding-bottom: 24px;">
-			          <a href="#" class="btn btn-large btn-danger" rel="popover" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">Click to toggle popover</a>
-			        </div>
-			
-			
-			        <hr class="bs-docs-separator">
-			
-			
-			        <h3 class="bs-docs-heading">Usage</h3>
-			        <p>Enable popovers via JavaScript:</p>
-			        <pre class="prettyprint linenums">$('#example').popover(options)</pre>
-			
-			        <h4 class="bs-docs-heading">Options</h4>
-			        <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-animation=""</code>.</p>
-			        <table class="table table-bordered table-striped">
-			          <thead>
-			           <tr>
-			             <th style="width: 100px;">Name</th>
-			             <th style="width: 100px;">type</th>
-			             <th style="width: 50px;">default</th>
-			             <th>description</th>
-			           </tr>
-			          </thead>
-			          <tbody>
-			           <tr>
-			             <td>animation</td>
-			             <td>boolean</td>
-			             <td>true</td>
-			             <td>apply a css fade transition to the tooltip</td>
-			           </tr>
-			           <tr>
-			             <td>html</td>
-			             <td>boolean</td>
-			             <td>true</td>
-			             <td>Insert html into the popover. If false, jquery's <code>text</code> method will be used to insert content into the dom. Use text if you're worried about XSS attacks.</td>
-			           </tr>
-			           <tr>
-			             <td>placement</td>
-			             <td>string|function</td>
-			             <td>'right'</td>
-			             <td>how to position the popover - top | bottom | left | right</td>
-			           </tr>
-			           <tr>
-			             <td>selector</td>
-			             <td>string</td>
-			             <td>false</td>
-			             <td>if a selector is provided, tooltip objects will be delegated to the specified targets</td>
-			           </tr>
-			           <tr>
-			             <td>trigger</td>
-			             <td>string</td>
-			             <td>'click'</td>
-			             <td>how popover is triggered - click | hover | focus | manual</td>
-			           </tr>
-			           <tr>
-			             <td>title</td>
-			             <td>string | function</td>
-			             <td>''</td>
-			             <td>default title value if `title` attribute isn't present</td>
-			           </tr>
-			           <tr>
-			             <td>content</td>
-			             <td>string | function</td>
-			             <td>''</td>
-			             <td>default content value if `data-content` attribute isn't present</td>
-			           </tr>
-			           <tr>
-			             <td>delay</td>
-			             <td>number | object</td>
-			             <td>0</td>
-			             <td>
-			              <p>delay showing and hiding the popover (ms) - does not apply to manual trigger type</p>
-			              <p>If a number is supplied, delay is applied to both hide/show</p>
-			              <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
-			             </td>
-			           </tr>
-			          </tbody>
-			        </table>
-			        <div class="alert alert-info">
-			          <strong>Heads up!</strong>
-			          Options for individual popovers can alternatively be specified through the use of data attributes.
-			        </div>
-			
-			        <h4 class="bs-docs-heading">Markup</h4>
-			        <p>For performance reasons, the Tooltip and Popover data-apis are opt in. If you would like to use them just specify a selector option.</p>
-			
-			        <h4 class="bs-docs-heading">Methods</h4>
-			        <h5 class="bs-docs-heading">$().popover(options)</h5>
-			        <p>Initializes popovers for an element collection.</p>
-			        <h5 class="bs-docs-heading">.popover('show')</h5>
-			        <p>Reveals an elements popover.</p>
-			        <pre class="prettyprint linenums">$('#element').popover('show')</pre>
-			        <h5 class="bs-docs-heading">.popover('hide')</h5>
-			        <p>Hides an elements popover.</p>
-			        <pre class="prettyprint linenums">$('#element').popover('hide')</pre>
-			        <h5 class="bs-docs-heading">.popover('toggle')</h5>
-			        <p>Toggles an elements popover.</p>
-			        <pre class="prettyprint linenums">$('#element').popover('toggle')</pre>
-			        <h5 class="bs-docs-heading">.popover('destroy')</h5>
-			        <p>Hides and destroys an element's popover.</p>
-			        <pre class="prettyprint linenums">$('#element').popover('destroy')</pre>
-			      </section>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<!--==================================================
-			 Affix
-			================================================== -->
-			          <section id="affix" class="NotUpdatedYet">
-			            <h2 class="bs-docs-heading">Affix <small>bootstrap-affix.js</small></h2>
-			
-			            <h3 class="bs-docs-heading">Example</h3>
-			            <p>The subnavigation on the left is a live demo of the affix plugin.</p>
-			
-			            <hr class="bs-docs-separator">
-			
-			            <h3 class="bs-docs-heading">Usage</h3>
-			
-			            <h4 class="bs-docs-heading">Via data attributes</h4>
-			            <p>To easily add affix behavior to any element, just add <code>data-spy="affix"</code> to the element you want to spy on. Then use offsets to define when to toggle the pinning of an element on and off.</p>
-			
-			            <pre class="prettyprint linenums">&lt;div data-spy="affix" data-offset-top="200"&gt;...&lt;/div&gt;</pre>
-			
-			            <div class="alert alert-info">
-			              <strong>Heads up!</strong>
-			              You must manage the position of a pinned element and the behavior of its immediate parent. Position is controlled by <code>affix</code>, <code>affix-top</code>, and <code>affix-bottom</code>. Remember to check for a potentially collapsed parent when the affix kicks in as it's removing content from the normal flow of the page.
-			            </div>
-			
-			            <h4 class="bs-docs-heading">Via JavaScript</h4>
-			            <p>Call the affix plugin via JavaScript:</p>
-			            <pre class="prettyprint linenums">$('#navbar').affix()</pre>
-			
-			            <h4 class="bs-docs-heading">Methods</h4>
-			            <h5 class="bs-docs-heading">.affix('refresh')</h5>
-			            <p>When using affix in conjunction with adding or removing of elements from the DOM, you'll want to call the refresh method:</p>
-			<pre class="prettyprint linenums">
-			$('[data-spy="affix"]').each(function () {
-			  $(this).affix('refresh')
-			});
-			</pre>
-			          <h4 class="bs-docs-heading">Options</h4>
-			          <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-offset-top="200"</code>.</p>
-			          <table class="table table-bordered table-striped">
-			            <thead>
-			             <tr>
-			               <th style="width: 100px;">Name</th>
-			               <th style="width: 100px;">type</th>
-			               <th style="width: 50px;">default</th>
-			               <th>description</th>
-			             </tr>
-			            </thead>
-			            <tbody>
-			             <tr>
-			               <td>offset</td>
-			               <td>number | function | object</td>
-			               <td>10</td>
-			               <td>Pixels to offset from screen when calculating position of scroll. If a single number is provide, the offset will be applied in both top and left directions. To listen for a single direction, or multiple unique offsets, just provided an object <code>offset: { x: 10 }</code>. Use a function when you need to dynamically provide an offset (useful for some responsive designs).</td>
-			             </tr>
-			            </tbody>
-			          </table>
-			        </section>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+<!--==================================================
+ Typographic components
+================================================== -->
+        <section id="typography" class="NotUpdatedYet">
+          <h2 class="bs-docs-heading">Typographic components</h2>
+
+          <h3 class="bs-docs-heading">Hero unit</h3>
+          <p>A lightweight, flexible component to showcase key content on your site. It works well on marketing and content-heavy sites.</p>
+          <div class="bs-docs-example">
+            <div class="hero-unit">
+              <h2 class="bs-docs-heading">Hello, world!</h2>
+              <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+              <p><a class="btn btn-primary btn-large">Learn more</a></p>
+            </div>
+          </div>
+<pre class="prettyprint linenums">
+&lt;div class="hero-unit"&gt;
+  &lt;h1&gt;Heading&lt;/h1&gt;
+  &lt;p&gt;Tagline&lt;/p&gt;
+  &lt;p&gt;
+    &lt;a class="btn btn-primary btn-large"&gt;
+      Learn more
+    &lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+</pre>
+
+          <h3 class="bs-docs-heading">Page header</h3>
+          <p>A simple shell for an <code>h1</code> to appropriately space out and segment sections of content on a page. It can utilize the <code>h1</code>'s default <code>small</code>, element as well most other components (with additional styles).</p>
+          <div class="bs-docs-example">
+            <div class="page-header">
+              <h2 class="bs-docs-heading">Example page header <small>Subtext for header</small></h2>
+            </div>
+          </div>
+<pre class="prettyprint linenums">
+&lt;div class="page-header"&gt;
+  &lt;h1&gt;Example page header &lt;small&gt;Subtext for header&lt;/small&gt;&lt;/h1&gt;
+&lt;/div&gt;
+</pre>
+
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--==================================================
+ Miscellaneous
+================================================== -->
+        <section id="misc" class="NotUpdatedYet">
+          <h2 class="bs-docs-heading">Miscellaneous <small>Lightweight utility components</small></h2>
+
+          <h3 class="bs-docs-heading">Wells</h3>
+          <p>Use the well as a simple effect on an element to give it an inset effect.</p>
+          <div class="bs-docs-example">
+            <div class="well">
+              Look, I'm in a well!
+            </div>
+          </div>
+<pre class="prettyprint linenums">
+&lt;div class="well"&gt;
+  ...
+&lt;/div&gt;
+</pre>
+          <h4 class="bs-docs-heading">Optional classes</h4>
+          <p>Control padding and rounded corners with two optional modifier classes.</p>
+          <div class="bs-docs-example">
+            <div class="well well-large">
+              Look, I'm in a well!
+            </div>
+          </div>
+<pre class="prettyprint linenums">
+&lt;div class="well well-large"&gt;
+  ...
+&lt;/div&gt;
+</pre>
+          <div class="bs-docs-example">
+            <div class="well well-small">
+              Look, I'm in a well!
+            </div>
+          </div>
+<pre class="prettyprint linenums">
+&lt;div class="well well-small"&gt;
+  ...
+&lt;/div&gt;
+</pre>
+
+          <h3 class="bs-docs-heading">Close icon</h3>
+          <p>Use the generic close icon for dismissing content like modals and alerts.</p>
+          <div class="bs-docs-example">
+            <p><button class="close" style="float: none;">&times;</button></p>
+          </div>
+          <pre class="prettyprint linenums">&lt;button class="close"&gt;&amp;times;&lt;/button&gt;</pre>
+          <p>iOS devices require an href="#" for click events if you rather use an anchor.</p>
+          <pre class="prettyprint linenums">&lt;a class="close" href="#"&gt;&amp;times;&lt;/a&gt;</pre>
+
+          <h3 class="bs-docs-heading">Helper classes</h3>
+          <p>Simple, focused classes for small display or behavior tweaks.</p>
+
+          <h5 class="bs-docs-heading">.pull-left</h5>
+          <p>Float an element left</p>
+<pre class="prettyprint linenums">
+class="pull-left"
+</pre>
+<pre class="prettyprint linenums">
+.pull-left {
+  float: left;
+}
+</pre>
+
+          <h5 class="bs-docs-heading">.pull-right</h5>
+          <p>Float an element right</p>
+<pre class="prettyprint linenums">
+class="pull-right"
+</pre>
+<pre class="prettyprint linenums">
+.pull-right {
+  float: right;
+}
+</pre>
+
+          <h5 class="bs-docs-heading">.muted</h5>
+          <p>Change an element's color to <code>#999</code></p>
+<pre class="prettyprint linenums">
+class="muted"
+</pre>
+<pre class="prettyprint linenums">
+.muted {
+  color: #999;
+}
+</pre>
+
+          <h5 class="bs-docs-heading">.clearfix</h5>
+          <p>Clear the <code>float</code> on any element</p>
+<pre class="prettyprint linenums">
+class="clearfix"
+</pre>
+<pre class="prettyprint linenums">
+.clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+}
+</pre>
+
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--==================================================
+ ScrollSpy
+================================================== -->
+        <section id="scrollspy" class="NotUpdatedYet">
+          <h2 class="bs-docs-heading">ScrollSpy <small>bootstrap-scrollspy.js</small></h2>
+
+
+          <h3 class="bs-docs-heading">Example in navbar</h3>
+          <p>The ScrollSpy plugin is for automatically updating nav targets based on scroll position. Scroll the area below the navbar and watch the active class change. The dropdown sub items will be highlighted as well.</p>
+          <div class="bs-docs-example">
+            <div id="navbarExample" class="navbar navbar-static">
+              <div class="navbar-inner">
+                <div class="container" style="width: auto;">
+                  <a class="brand" href="#">Project Name</a>
+                  <ul class="nav">
+                    <li><a href="#fat">@fat</a></li>
+                    <li><a href="#mdo">@mdo</a></li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#one">one</a></li>
+                        <li><a href="#two">two</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#three">three</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div data-spy="scroll" data-target="#navbarExample" data-offset="0" class="scrollspy-example">
+              <h4 id="fat">@fat</h5>
+              <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
+              <h4 id="mdo">@mdo</h5>
+              <p>Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard. Freegan beard aliqua cupidatat mcsweeney's vero. Cupidatat four loko nisi, ea helvetica nulla carles. Tattooed cosby sweater food truck, mcsweeney's quis non freegan vinyl. Lo-fi wes anderson +1 sartorial. Carles non aesthetic exercitation quis gentrify. Brooklyn adipisicing craft beer vice keytar deserunt.</p>
+              <h4 id="one">one</h5>
+              <p>Occaecat commodo aliqua delectus. Fap craft beer deserunt skateboard ea. Lomo bicycle rights adipisicing banh mi, velit ea sunt next level locavore single-origin coffee in magna veniam. High life id vinyl, echo park consequat quis aliquip banh mi pitchfork. Vero VHS est adipisicing. Consectetur nisi DIY minim messenger bag. Cred ex in, sustainable delectus consectetur fanny pack iphone.</p>
+              <h4 id="two">two</h5>
+              <p>In incididunt echo park, officia deserunt mcsweeney's proident master cleanse thundercats sapiente veniam. Excepteur VHS elit, proident shoreditch +1 biodiesel laborum craft beer. Single-origin coffee wayfarers irure four loko, cupidatat terry richardson master cleanse. Assumenda you probably haven't heard of them art party fanny pack, tattooed nulla cardigan tempor ad. Proident wolf nesciunt sartorial keffiyeh eu banh mi sustainable. Elit wolf voluptate, lo-fi ea portland before they sold out four loko. Locavore enim nostrud mlkshk brooklyn nesciunt.</p>
+              <h4 id="three">three</h5>
+              <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
+              <p>Keytar twee blog, culpa messenger bag marfa whatever delectus food truck. Sapiente synth id assumenda. Locavore sed helvetica cliche irony, thundercats you probably haven't heard of them consequat hoodie gluten-free lo-fi fap aliquip. Labore elit placeat before they sold out, terry richardson proident brunch nesciunt quis cosby sweater pariatur keffiyeh ut helvetica artisan. Cardigan craft beer seitan readymade velit. VHS chambray laboris tempor veniam. Anim mollit minim commodo ullamco thundercats.
+              </p>
+            </div>
+          </div>
+
+
+          <hr class="bs-docs-separator">
+
+
+          <h3 class="bs-docs-heading">Usage</h3>
+
+          <h4 class="bs-docs-heading">Via data attributes</h4>
+          <p>To easily add scrollspy behavior to your topbar navigation, just add <code>data-spy="scroll"</code> to the element you want to spy on (most typically this would be the body) and <code>data-target=".navbar"</code> to select which nav to use. You'll want to use scrollspy with a <code>.nav</code> component.</p>
+          <pre class="prettyprint linenums">&lt;body data-spy="scroll" data-target=".navbar"&gt;...&lt;/body&gt;</pre>
+
+          <h4 class="bs-docs-heading">Via JavaScript</h4>
+          <p>Call the scrollspy via JavaScript:</p>
+          <pre class="prettyprint linenums">$('#navbar').scrollspy()</pre>
+
+          <div class="alert alert-info">
+            <strong>Heads up!</strong>
+            Navbar links must have resolvable id targets. For example, a <code>&lt;a href="#home"&gt;home&lt;/a&gt;</code> must correspond to something in the dom like <code>&lt;div id="home"&gt;&lt;/div&gt;</code>.
+          </div>
+
+          <h4 class="bs-docs-heading">Methods</h4>
+          <h5 class="bs-docs-heading">.scrollspy('refresh')</h5>
+          <p>When using scrollspy in conjunction with adding or removing of elements from the DOM, you'll need to call the refresh method like so:</p>
+<pre class="prettyprint linenums">
+$('[data-spy="scroll"]').each(function () {
+  var $spy = $(this).scrollspy('refresh')
+});
+</pre>
+
+          <h4 class="bs-docs-heading">Options</h4>
+          <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-offset=""</code>.</p>
+          <table class="table table-bordered table-striped">
+            <thead>
+             <tr>
+               <th style="width: 100px;">Name</th>
+               <th style="width: 100px;">type</th>
+               <th style="width: 50px;">default</th>
+               <th>description</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+               <td>offset</td>
+               <td>number</td>
+               <td>10</td>
+               <td>Pixels to offset from top when calculating position of scroll.</td>
+             </tr>
+            </tbody>
+          </table>
+
+          <h4 class="bs-docs-heading">Events</h4>
+          <table class="table table-bordered table-striped">
+            <thead>
+             <tr>
+               <th style="width: 150px;">Event</th>
+               <th>Description</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+               <td>activate</td>
+               <td>This event fires whenever a new item becomes activated by the scrollspy.</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--==================================================
+ Tooltips
+================================================== -->
+        <section id="tooltips" class="NotUpdatedYet">
+          <h2 class="bs-docs-heading">Tooltips <small>bootstrap-tooltip.js</small></h2>
+
+
+          <h3 class="bs-docs-heading">Examples</h3>
+          <p>Inspired by the excellent jQuery.tipsy plugin written by Jason Frame; Tooltips are an updated version, which don't rely on images, use CSS3 for animations, and data-attributes for local title storage.</p>
+          <p>Hover over the links below to see tooltips:</p>
+          <div class="bs-docs-example tooltip-demo">
+            <p class="muted" style="margin-bottom: 0;">Tight pants next level keffiyeh <a href="#" rel="tooltip" title="Default tooltip">you probably</a> haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel <a href="#" rel="tooltip" title="Another tooltip">have a</a> terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. A really ironic artisan <a href="#" rel="tooltip" title="Another one here too">whatever keytar</a>, scenester farm-to-table banksy Austin <a href="#" rel="tooltip" title="The last tip!">twitter handle</a> freegan cred raw denim single-origin coffee viral.
+            </p>
+          </div>
+
+          <h4 class="bs-docs-heading">Four directions</h4>
+          <div class="bs-docs-example tooltip-demo">
+            <ul class="bs-docs-tooltip-examples">
+              <li><a href="#" rel="tooltip" data-placement="top" title="Tooltip on top">Tooltip on top</a></li>
+              <li><a href="#" rel="tooltip" data-placement="right" title="Tooltip on right">Tooltip on right</a></li>
+              <li><a href="#" rel="tooltip" data-placement="bottom" title="Tooltip on bottom">Tooltip on bottom</a></li>
+              <li><a href="#" rel="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</a></li>
+            </ul>
+          </div>
+
+
+          <hr class="bs-docs-separator">
+
+
+          <h3 class="bs-docs-heading">Usage</h3>
+          <p>Trigger the tooltip via JavaScript:</p>
+          <pre class="prettyprint linenums">$('#example').tooltip(options)</pre>
+
+          <h4 class="bs-docs-heading">Options</h4>
+          <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-animation=""</code>.</p>
+          <table class="table table-bordered table-striped">
+            <thead>
+             <tr>
+               <th style="width: 100px;">Name</th>
+               <th style="width: 100px;">type</th>
+               <th style="width: 50px;">default</th>
+               <th>description</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+               <td>animation</td>
+               <td>boolean</td>
+               <td>true</td>
+               <td>apply a css fade transition to the tooltip</td>
+             </tr>
+             <tr>
+               <td>html</td>
+               <td>boolean</td>
+               <td>true</td>
+               <td>Insert html into the tooltip. If false, jquery's <code>text</code> method will be used to insert content into the dom. Use text if you're worried about XSS attacks.</td>
+             </tr>
+             <tr>
+               <td>placement</td>
+               <td>string|function</td>
+               <td>'top'</td>
+               <td>how to position the tooltip - top | bottom | left | right</td>
+             </tr>
+             <tr>
+               <td>selector</td>
+               <td>string</td>
+               <td>false</td>
+               <td>If a selector is provided, tooltip objects will be delegated to the specified targets.</td>
+             </tr>
+             <tr>
+               <td>title</td>
+               <td>string | function</td>
+               <td>''</td>
+               <td>default title value if `title` tag isn't present</td>
+             </tr>
+             <tr>
+               <td>trigger</td>
+               <td>string</td>
+               <td>'hover'</td>
+               <td>how tooltip is triggered - click | hover | focus | manual</td>
+             </tr>
+             <tr>
+               <td>delay</td>
+               <td>number | object</td>
+               <td>0</td>
+               <td>
+                <p>delay showing and hiding the tooltip (ms) - does not apply to manual trigger type</p>
+                <p>If a number is supplied, delay is applied to both hide/show</p>
+                <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
+               </td>
+             </tr>
+            </tbody>
+          </table>
+          <div class="alert alert-info">
+            <strong>Heads up!</strong>
+            Options for individual tooltips can alternatively be specified through the use of data attributes.
+          </div>
+
+          <h4 class="bs-docs-heading">Markup</h4>
+          <p>For performance reasons, the Tooltip and Popover data-apis are opt in. If you would like to use them just specify a selector option.</p>
+          <pre class="prettyprint linenums">&lt;a href="#" rel="tooltip" title="first tooltip"&gt;hover over me&lt;/a&gt;</pre>
+
+          <h4 class="bs-docs-heading">Methods</h4>
+          <h5 class="bs-docs-heading">$().tooltip(options)</h5>
+          <p>Attaches a tooltip handler to an element collection.</p>
+          <h5 class="bs-docs-heading">.tooltip('show')</h5>
+          <p>Reveals an element's tooltip.</p>
+          <pre class="prettyprint linenums">$('#element').tooltip('show')</pre>
+          <h5 class="bs-docs-heading">.tooltip('hide')</h5>
+          <p>Hides an element's tooltip.</p>
+          <pre class="prettyprint linenums">$('#element').tooltip('hide')</pre>
+          <h5 class="bs-docs-heading">.tooltip('toggle')</h5>
+          <p>Toggles an element's tooltip.</p>
+          <pre class="prettyprint linenums">$('#element').tooltip('toggle')</pre>
+          <h5 class="bs-docs-heading">.tooltip('destroy')</h5>
+          <p>Hides and destroys an element's tooltip.</p>
+          <pre class="prettyprint linenums">$('#element').tooltip('destroy')</pre>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--==================================================
+ Popovers
+================================================== -->
+      <section id="popovers" class="NotUpdatedYet">
+        <h2 class="bs-docs-heading">Popovers <small>bootstrap-popover.js</small></h2>
+
+        <h3 class="bs-docs-heading">Examples</h3>
+        <p>Add small overlays of content, like those on the iPad, to any element for housing secondary information. Hover over the button to trigger the popover. <strong>Requires <a href="#tooltips">Tooltip</a> to be included.</strong></p>
+
+        <h4 class="bs-docs-heading">Static popover</h4>
+        <p>Four options are available: top, right, bottom, and left aligned.</p>
+        <div class="bs-docs-example bs-docs-example-popover">
+          <div class="popover top">
+            <div class="arrow"></div>
+            <h3 class="popover-title">Popover top</h4>
+            <div class="popover-content">
+              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+            </div>
+          </div>
+
+          <div class="popover right">
+            <div class="arrow"></div>
+            <h3 class="popover-title">Popover right</h4>
+            <div class="popover-content">
+              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+            </div>
+          </div>
+
+          <div class="popover bottom">
+            <div class="arrow"></div>
+            <h3 class="popover-title">Popover bottom</h4>
+            <div class="popover-content">
+              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+            </div>
+          </div>
+
+          <div class="popover left">
+            <div class="arrow"></div>
+            <h3 class="popover-title">Popover left</h4>
+            <div class="popover-content">
+              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+        <p>No markup shown as popovers are generated from JavaScript and content within a <code>data</code> attribute.</p>
+
+        <h4 class="bs-docs-heading">Live demo</h4>
+        <div class="bs-docs-example" style="padding-bottom: 24px;">
+          <a href="#" class="btn btn-large btn-danger" rel="popover" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">Click to toggle popover</a>
+        </div>
+
+
+        <hr class="bs-docs-separator">
+
+
+        <h3 class="bs-docs-heading">Usage</h3>
+        <p>Enable popovers via JavaScript:</p>
+        <pre class="prettyprint linenums">$('#example').popover(options)</pre>
+
+        <h4 class="bs-docs-heading">Options</h4>
+        <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-animation=""</code>.</p>
+        <table class="table table-bordered table-striped">
+          <thead>
+           <tr>
+             <th style="width: 100px;">Name</th>
+             <th style="width: 100px;">type</th>
+             <th style="width: 50px;">default</th>
+             <th>description</th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+             <td>animation</td>
+             <td>boolean</td>
+             <td>true</td>
+             <td>apply a css fade transition to the tooltip</td>
+           </tr>
+           <tr>
+             <td>html</td>
+             <td>boolean</td>
+             <td>true</td>
+             <td>Insert html into the popover. If false, jquery's <code>text</code> method will be used to insert content into the dom. Use text if you're worried about XSS attacks.</td>
+           </tr>
+           <tr>
+             <td>placement</td>
+             <td>string|function</td>
+             <td>'right'</td>
+             <td>how to position the popover - top | bottom | left | right</td>
+           </tr>
+           <tr>
+             <td>selector</td>
+             <td>string</td>
+             <td>false</td>
+             <td>if a selector is provided, tooltip objects will be delegated to the specified targets</td>
+           </tr>
+           <tr>
+             <td>trigger</td>
+             <td>string</td>
+             <td>'click'</td>
+             <td>how popover is triggered - click | hover | focus | manual</td>
+           </tr>
+           <tr>
+             <td>title</td>
+             <td>string | function</td>
+             <td>''</td>
+             <td>default title value if `title` attribute isn't present</td>
+           </tr>
+           <tr>
+             <td>content</td>
+             <td>string | function</td>
+             <td>''</td>
+             <td>default content value if `data-content` attribute isn't present</td>
+           </tr>
+           <tr>
+             <td>delay</td>
+             <td>number | object</td>
+             <td>0</td>
+             <td>
+              <p>delay showing and hiding the popover (ms) - does not apply to manual trigger type</p>
+              <p>If a number is supplied, delay is applied to both hide/show</p>
+              <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
+             </td>
+           </tr>
+          </tbody>
+        </table>
+        <div class="alert alert-info">
+          <strong>Heads up!</strong>
+          Options for individual popovers can alternatively be specified through the use of data attributes.
+        </div>
+
+        <h4 class="bs-docs-heading">Markup</h4>
+        <p>For performance reasons, the Tooltip and Popover data-apis are opt in. If you would like to use them just specify a selector option.</p>
+
+        <h4 class="bs-docs-heading">Methods</h4>
+        <h5 class="bs-docs-heading">$().popover(options)</h5>
+        <p>Initializes popovers for an element collection.</p>
+        <h5 class="bs-docs-heading">.popover('show')</h5>
+        <p>Reveals an elements popover.</p>
+        <pre class="prettyprint linenums">$('#element').popover('show')</pre>
+        <h5 class="bs-docs-heading">.popover('hide')</h5>
+        <p>Hides an elements popover.</p>
+        <pre class="prettyprint linenums">$('#element').popover('hide')</pre>
+        <h5 class="bs-docs-heading">.popover('toggle')</h5>
+        <p>Toggles an elements popover.</p>
+        <pre class="prettyprint linenums">$('#element').popover('toggle')</pre>
+        <h5 class="bs-docs-heading">.popover('destroy')</h5>
+        <p>Hides and destroys an element's popover.</p>
+        <pre class="prettyprint linenums">$('#element').popover('destroy')</pre>
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--==================================================
+ Affix
+================================================== -->
+          <section id="affix" class="NotUpdatedYet">
+            <h2 class="bs-docs-heading">Affix <small>bootstrap-affix.js</small></h2>
+
+            <h3 class="bs-docs-heading">Example</h3>
+            <p>The subnavigation on the left is a live demo of the affix plugin.</p>
+
+            <hr class="bs-docs-separator">
+
+            <h3 class="bs-docs-heading">Usage</h3>
+
+            <h4 class="bs-docs-heading">Via data attributes</h4>
+            <p>To easily add affix behavior to any element, just add <code>data-spy="affix"</code> to the element you want to spy on. Then use offsets to define when to toggle the pinning of an element on and off.</p>
+
+            <pre class="prettyprint linenums">&lt;div data-spy="affix" data-offset-top="200"&gt;...&lt;/div&gt;</pre>
+
+            <div class="alert alert-info">
+              <strong>Heads up!</strong>
+              You must manage the position of a pinned element and the behavior of its immediate parent. Position is controlled by <code>affix</code>, <code>affix-top</code>, and <code>affix-bottom</code>. Remember to check for a potentially collapsed parent when the affix kicks in as it's removing content from the normal flow of the page.
+            </div>
+
+            <h4 class="bs-docs-heading">Via JavaScript</h4>
+            <p>Call the affix plugin via JavaScript:</p>
+            <pre class="prettyprint linenums">$('#navbar').affix()</pre>
+
+            <h4 class="bs-docs-heading">Methods</h4>
+            <h5 class="bs-docs-heading">.affix('refresh')</h5>
+            <p>When using affix in conjunction with adding or removing of elements from the DOM, you'll want to call the refresh method:</p>
+<pre class="prettyprint linenums">
+$('[data-spy="affix"]').each(function () {
+  $(this).affix('refresh')
+});
+</pre>
+          <h4 class="bs-docs-heading">Options</h4>
+          <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-offset-top="200"</code>.</p>
+          <table class="table table-bordered table-striped">
+            <thead>
+             <tr>
+               <th style="width: 100px;">Name</th>
+               <th style="width: 100px;">type</th>
+               <th style="width: 50px;">default</th>
+               <th>description</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+               <td>offset</td>
+               <td>number | function | object</td>
+               <td>10</td>
+               <td>Pixels to offset from screen when calculating position of scroll. If a single number is provide, the offset will be applied in both top and left directions. To listen for a single direction, or multiple unique offsets, just provided an object <code>offset: { x: 10 }</code>. Use a function when you need to dynamically provide an offset (useful for some responsive designs).</td>
+             </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			<!--==================================================
 			 Typeahead
 			================================================== -->
 			          <section id="typeahead" class="NotUpdatedYet">
 			            <h2 class="bs-docs-heading">Typeahead <small>bootstrap-typeahead.js</small></h2>
-			
-			
+
+
 			            <h3 class="bs-docs-heading">Example</h3>
 			            <p>A basic, easily extended plugin for quickly creating elegant typeaheads with any form text input.</p>
 			            <div class="bs-docs-example" style="background-color: #f5f5f5;">
 			              <input type="text" class="span3" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source='["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
-			            </div>{{! /example }}
+			            </div>
 			            <pre class="prettyprint linenums">&lt;input type="text" data-provide="typeahead"&gt;</pre>
-			
-			
+
+
 			            <hr class="bs-docs-separator">
-			
-			
+
+
 			            <h3 class="bs-docs-heading">Usage</h3>
-			
+
 			            <h4 class="bs-docs-heading">Via data attributes</h4>
 			            <p>Add data attributes to register an element with typeahead functionality as shown in the example above.</p>
-			
+
 			            <h4 class="bs-docs-heading">Via JavaScript</h4>
 			            <p>Call the typeahead manually with:</p>
 			            <pre class="prettyprint linenums">$('.typeahead').typeahead()</pre>
-			
+
 			            <h4 class="bs-docs-heading">Options</h4>
 			            <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-source=""</code>.</p>
 			            <table class="table table-bordered table-striped">
@@ -3419,7 +3093,7 @@
 			               </tr>
 			              </tbody>
 			            </table>
-			
+
 			            <h4 class="bs-docs-heading">Methods</h4>
 			            <h5 class="bs-docs-heading">.typeahead(options)</h5>
 			            <p>Initializes an input with a typeahead.</p>

@@ -24,8 +24,7 @@ module.exports = function(grunt) {
     		},
 		},
 		watch: {
-			files: ['css/scss/*.scss',
-					'css/scss/_modules/*.scss', 
+			files: ['css/scss/**/*.scss', 
 					'js/**/*.js', 
 					'html/**/*.*'],
 			tasks: ['debug-light']
@@ -72,7 +71,7 @@ module.exports = function(grunt) {
 				dest: '../build/deploy/js/secondary.min.js'
 			},
 			polyfill:{
-				src: 'js/bundle/polyfill/*.js',
+				src: 'js/libs/polyfill/*.js',
 				dest: '../build/deploy/js/polyfill.min.js'
 			}
 		},
@@ -95,6 +94,11 @@ module.exports = function(grunt) {
 					'../build/debug/js/' 		: 'js/**',
 					'../build/debug/ico/' 		: 'img/ico/**',
 					'../build/debug/fonts/' 	: 'fonts/**',
+				}
+			},
+			debuglight:{
+				files:{
+					'../build/debug/js/' 		: 'js/**',
 				}
 			},
 			deploy:{
@@ -120,15 +124,20 @@ module.exports = function(grunt) {
 		},
 		shell:{
 			docpad_debug:{
-				command:'docpad generate --env debug'
+				command:'docpad generate --env debug',
+		        stdout: true, 
+		        failOnError: true
 			},
 			docpad_deploy:{
-				command:'docpad generate --env deploy'
+				command:'docpad generate --env deploy',
+		        stdout: true, 
+		        failOnError: true
 			},
 			docpad_docs:{
-				command:'docpad generate --env docs'
+				command:'docpad generate --env docs',
+		        stdout: true, 
+		        failOnError: true
 			}
-
 		}
 	});
 
@@ -140,7 +149,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('debug', 'clear clean:debug lint compass-clean compass:debug copy:debug  shell:docpad_debug');
-	grunt.registerTask('debug-light', 'lint compass:debug shell:docpad_debug');
+	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
 	grunt.registerTask('docs', 'clear clean:docs compass-clean compass:docs copy:docs shell:docpad_docs');
 	grunt.registerTask('deploy', 'clear clean:deploy lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');
