@@ -423,6 +423,8 @@
 			th.$ambit[ th.dimension ]( th.currentPositionPct + "%" );
 		}
 
+		console.log( th.currentMinPosition, th.currentPosition, th.currentMinPositionPct, th.currentPositionPct );
+
 		// If a callback is defined, call it with position values as parameters
 		if ( th.callback && $.isFunction(th.callback) ) {
 			if ( th.range ) {
@@ -488,6 +490,7 @@
 		var th = this,
 			size;
 
+		console.log('updateSize.');
 		// Get the size of the rail
 		size = th.isHidden ? 0 :
 			th.orientation === "h" ? th.$rail.outerWidth() : th.$rail.outerHeight();
@@ -523,6 +526,7 @@
 	*/
 	RangeControl.prototype.refresh = function( andHandles ) {
 		var th = this;
+		console.log('refresh');
 
 		// If the rail is not visible, there may be some sizing issues
 		th.isHidden = th.$rail.is(':hidden');
