@@ -100,7 +100,7 @@ module.exports = function(grunt) {
 				files:{
 					'../build/debug/js/' 		: 'js/**',
 				}
-			}
+			},
 			deploy:{
 				files:{
 					'../build/deploy/js/bundle/defer/' 		: 'js/bundle/defer/**',
