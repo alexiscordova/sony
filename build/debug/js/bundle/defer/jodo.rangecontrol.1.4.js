@@ -124,7 +124,7 @@
 				});
 			}
 			if ( th.hideHandle && th.hideAmbit ) {
-				console.log("**HEY!** $handle and $ambit can't both be false!");
+				console.warn("**HEY!** $handle and $ambit can't both be false!");
 			}
 
 
@@ -217,6 +217,12 @@
 					th.slideToPos(slideTo);
 				}
 			});
+
+
+			// Update the rail size on window resize
+			$(window).on("resize." + namespace, function() {
+				th.refresh(false);
+			});
 		};
 
 		// Set up handles and ambit
@@ -226,12 +232,7 @@
 		events.call(th);
 
 		// Set the rail size, step size, visibility, and handle positions to initial states
-		th.reset();
-
-		// Update the rail size on window resize
-		$(window).on("resize." + namespace, function() {
-			th.updateSize(false);
-		});
+		th.reset(true);
 	};
 
 	RangeControl.prototype.slideToInitialPos = function() {
@@ -423,8 +424,6 @@
 			th.$ambit[ th.dimension ]( th.currentPositionPct + "%" );
 		}
 
-		console.log( th.currentMinPosition, th.currentPosition, th.currentMinPositionPct, th.currentPositionPct );
-
 		// If a callback is defined, call it with position values as parameters
 		if ( th.callback && $.isFunction(th.callback) ) {
 			if ( th.range ) {
@@ -490,14 +489,12 @@
 		var th = this,
 			size;
 
-		console.log('updateSize.');
 		// Get the size of the rail
-		size = th.isHidden ? 0 :
-			th.orientation === "h" ? th.$rail.outerWidth() : th.$rail.outerHeight();
+		size = th.orientation === "h" ? th.$rail.outerWidth() : th.$rail.outerHeight();
 
 		// Only make continue if the size has actually changed
 		if ( size !== th.railSize ) {
-			th.railSize = size;
+			th.railSize = size || th.railSize; // the rail size could have been reset to 0 if it's hidden on resize
 
 			// Calcualte stepSize based on railSize & # of steps.
 			if ( th.steps ) {
@@ -526,10 +523,9 @@
 	*/
 	RangeControl.prototype.refresh = function( andHandles ) {
 		var th = this;
-		console.log('refresh');
 
 		// If the rail is not visible, there may be some sizing issues
-		th.isHidden = th.$rail.is(':hidden');
+		th.isHidden = th.$rail.is(":hidden");
 
 		// Get the size of the rail
 		th.updateSize( andHandles );
@@ -538,14 +534,27 @@
 	};
 
 	// Resest sizing and handle positions
-	RangeControl.prototype.reset = function() {
-		var th = this;
+	RangeControl.prototype.reset = function( isHardReset ) {
+		var th = this,
+			hasPercent = th.$handle[0].style[ th.property ].indexOf("%") > -1;
+
 
 		// Set the rail size, step size, and visibility
 		th.refresh(false);
 
-		// Give handles initial values
-		th.slideToInitialPos();
+		// The handle's left|top value would be a percentage if slideToPos was already called on that handle
+		// We can use this to determine if we've already initialized the handle
+		if ( isHardReset || !hasPercent ) {
+			// Give handles initial values
+			th.slideToInitialPos();
+		} else {
+			if ( !th.range ) {
+				th.slideToPos( th.parseHandlePosition( th.$handle[0].style[ th.property ] ) );
+			} else {
+				th.slideToPos( th.parseHandlePosition( th.$minHandle[0].style[ th.property ] ), th.$minHandle );
+				th.slideToPos( th.parseHandlePosition( th.$handle[0].style[ th.property ] ), th.$handle );
+			}
+		}
 	};
 
 

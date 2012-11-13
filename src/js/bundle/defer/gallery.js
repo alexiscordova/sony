@@ -281,7 +281,6 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 }(jQuery, Modernizr, window));
 
 $(document).ready(function() {
-  console.log('document asdfadsfasdf');
   Exports.Modules.Gallery.init();
   Exports.Modules.Tabs.init();
 });

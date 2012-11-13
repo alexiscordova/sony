@@ -67,13 +67,7 @@
 
         // Slide toggle. Reset range control if it was hidden on initialization
         self.$container.find('.js-filter-toggle').on('click', function() {
-            $(this).siblings('.product-filter').stop().slideToggle(function() {
-                // If there is a range control in this element and it's in need of an update
-                var $rangeControl = $(this).find('.range-control');
-                if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
-                    $rangeControl.rangeControl('reset');
-                }
-            });
+            $(this).siblings('.product-filter').stop().slideToggle( $.proxy( self.maybeResetRange, self ) );
         });
 
         // Set up range controller
@@ -198,6 +192,16 @@
                 range: true,
                 callback: update
             });
+        },
+
+        // If there is a range control in this element and it's in need of an update
+        maybeResetRange : function() {
+            var th = this,
+                $rangeControl = th.$container.find('.range-control');
+            if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
+                console.log('resetting range control');
+                $rangeControl.rangeControl('reset');
+            }
         }
 
     };

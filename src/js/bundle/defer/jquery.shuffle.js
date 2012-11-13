@@ -1,13 +1,14 @@
+// No block comment at start of file for docpad bug!
 /**
  * jQuery Shuffle Plugin
  * Uses CSS Transforms to filter down a grid of items (degrades to jQuery's animate).
  * Inspired by Isotope http://isotope.metafizzy.co/
  * Use it for whatever you want!
  * @author Glen Cheney (http://glencheney.com)
- * @version 1.6
- * @date 11/3/12
+ * @version 1.6.1
+ * @date 11/12/12
  */
-;(function($, Modernizr) {
+;(function($, Modernizr, undefined) {
     'use strict';
 
 
