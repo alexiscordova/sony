@@ -1,0 +1,5 @@
+
+<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/responsive.css">
+	<% for name in @this.modulescss(): %>
+		<link rel="stylesheet" href="css/modules/<%= name.replace(/.scss/g, '.css') %>"><% end %>

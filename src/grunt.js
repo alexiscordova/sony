@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 		        relativeassets: true
 		    },
 		    deploy: {
-		        src: 'css/scss',
+		        src: 'css/scss/',
 		        dest: 'css/temp',
 		        outputstyle: 'compressed',
 		        linecomments: false,
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 		        relativeassets: true
 		    },
 		    docs: {
-		        src: 'css/scss',
+		        src: 'css/scss/',
 		        dest: '../docs/css',
 		        outputstyle: 'expanded',
 		        linecomments: true,
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 		        relativeassets: true
 		    },
 		    docs_extra: {
-		        src: 'css/docs',
+		        src: 'css/docs/',
 		        dest: '../docs/css',
 		        outputstyle: 'expanded',
 		        linecomments: true,
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
 		},
 		cssmin:{
 			deploy:{
-				 src: ['css/temp/*.css'],
+				 src: ['css/temp/**/*.css'],
 		        dest: '../build/deploy/css/styles.min.css',
 		        seperator:';'
 			}
