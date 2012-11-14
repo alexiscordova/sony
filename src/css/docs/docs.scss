@@ -1,3 +1,10 @@
+
+@import "../scss/_base/variables";
+
+
+
+
+
 /* Add additional stylesheets below
 -------------------------------------------------- */
 /*
@@ -204,19 +211,8 @@ hr.soften {
 /* Masthead (docs home)
 ------------------------- */
 .masthead {
-  padding: 70px 0 80px;
+  padding: 70px 0 0;
   margin-bottom: 0;
-  color: #fff;
-}
-.masthead h1 {
-  font-size: 120px;
-  line-height: 1;
-  letter-spacing: -2px;
-}
-.masthead p {
-  font-size: 40px;
-  font-weight: 200;
-  line-height: 1.25;
 }
 
 /* Textual links in masthead */
@@ -911,6 +907,7 @@ form.bs-docs-example {
     margin-left: 0;
     padding-left: 10px;
     padding-right: 10px;
+    padding-top: 0;
   }
 
   /* Inline-block quick links for more spacing */
@@ -953,6 +950,10 @@ form.bs-docs-example {
 @media (max-width: 767px) {
   /* Remove any padding from the body */
   body {
+    padding-top: 0;
+  }
+
+  body > .navbar-fixed-top .brand {
     padding-top: 0;
   }
 
@@ -1015,6 +1016,11 @@ form.bs-docs-example {
   /* Remove padding above jumbotron */
   body {
     padding-top: 0;
+  }
+
+  body > .navbar-fixed-top .brand {
+    font-size: 1.4em;
+    padding-top:2px;
   }
 
   /* Change up some type stuff */
@@ -1084,13 +1090,59 @@ form.bs-docs-example {
 }
 
 
+//
+// Color swatches
+// --------------------------------------------------
+
+.color-swatch-span{
+  margin-bottom:15px;
+}
+.color-swatch-outlined{
+  border:solid 1px $grayLight;
+}
+[class^="color-swatch--"],
+[class*=" color-swatch--"] {
+  display:block;
+  width:76px;
+  height:76px;
+  margin-bottom:2px;
+}
+.color-swatch-span p{
+  color:$gray;
+  font-size:0.6875em; /* 11px/16px */
+  margin:0;
+  line-height:1.3;
+}
+.color-swatch--black{       background: $black;  }
+.color-swatch--grayDark{    background: $grayDark;  }
+.color-swatch--gray{        background: $gray;  }
+.color-swatch--grayLight{   background: $grayLight;  }
+.color-swatch--grayLighter{ background: $grayLighter;  }
+.color-swatch--white{       background: $white;  }
+
+.color-swatch--grayDarkerFieldLarge{  background: $grayDarkerFieldLarge; }
+.color-swatch--grayDarkFieldLarge{    background: $grayDarkFieldLarge; }
+.color-swatch--grayLightFieldLarge{   background: $grayLightFieldLarge }
+.color-swatch--grayDarkerFieldSmall{  background: $grayDarkerFieldSmall; }
+.color-swatch--grayDarkFieldSmall{    background: $grayDarkFieldSmall; }
+.color-swatch--grayLightFieldSmall{   background: $grayLightFieldSmall }
+
+
+.color-swatch--highlightColor{        background: $highlightColor; }
+.color-swatch--highlightColorHover{   background: $highlightColorHover; }
+.color-swatch--highlightColorActive{  background: $highlightColorActive; }
+.color-swatch--highlightColorDark{    background: $highlightColorDark; }
+
+
+.color-swatch--linkColor{            background: $linkColor; }
+.color-swatch--linkColorHover{       background: $linkColorHover; }
+.color-swatch--btnBackground{        background: $btnBackground; }
+.color-swatch--btnBackgroundHover{   background: $btnBackgroundHover; }
+
+
 
 
 
 .NotUpdatedYet{
-  background:rgba(0,200,200,0.1);
-  /*opacity:0.45;*/
-}
-.WIP{  
-  background:rgba(0,0,0,0.04);
+  background:#dcfbfa;
 }
