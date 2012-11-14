@@ -50,6 +50,7 @@
   <div class="tab-content">
 
     <section class="tab-pane fade active in gallery all" data-tab="products-1">
+      {{#if all.filters}}
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
         <div class="filter-options row">
@@ -98,34 +99,39 @@
           <option>featured and not featured</option>
         </select>
       </div>
-      <h3>16 Products</h3>
+      {{/if}}
 
-      <div class="products">
+      <h3>{{all.total}} Products</h3>
 
+      <div class="products grid5" data-filters="{{all.filters}}">
           {{#each all.list}}
-          <div class="{{this.classes}}" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}" data-priority="{{this.priority}}">
-            {{#if this.name}}
-            <div class="product-img">
-              <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+          <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}" data-priority="{{this.priority}}">
+            {{#if this.tile.promo}}
+              {{#if this.tile.copy}}
+              <h3>{{this.title}}</h3>
+              <p class="p2">{{this.text}}</p>
+              {{else}}
+              <div class="product-img">
+                <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+                <div class="product-content" style="position: absolute;top: 0; left: 0;">
+                  <p class="text-promo-title">{{this.title}}</p>
+                  <a class="btn" href="#">{{this.callout}}</a>
+                </div>
+              </div>  
+              {{/if}}
+            {{else}}
+            <div class="product-img ghost-center-wrap">
+              <img class="ghost-center" src="{{this.img.src}}" alt="{{this.img.alt}}">
             </div>
             <div class="product-content">
-              <div class="product-model">{{this.model}}</div>
-              <div class="product-name">{{this.name}}</div>
-              {{#if rating}}<div class="product-rating">{{this.rating.stars}}* ({{this.rating.reviews}})</div>{{/if}}
-              <ul class="product-meta">
-                {{#each this.meta}}
-                <li>{{{this.value}}} <span class="product-meta-name">{{this.name}}</span></li>
-                {{/each}}
-              </ul>
+              <p class="p3 product-name">{{this.name}}</p>
               <div class="product-price">
-                <span class="muted">Starting at</span>
+                <span class="p5 muted">Starting at</span>
                 <br>
-                <b>${{this.price}}</b> <span class="muted">MSRP</span>
+                <b class="p2">${{this.price}}</b> <span class="p5 muted">MSRP</span>
               </div>
             </div>
-            {{else}}
-            <p>{{this.title}}</p>
-            <a href="#" class="btn">{{this.callout}}</a>
+
             {{/if}}
           </div>
           {{/each}}
@@ -186,7 +192,7 @@
       <h3>{{cameras.total}} Products</h3>
       <div class="products">
         {{#each cameras.list}}
-        <div class="span4 box" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}">
+        <div class="span4 gallery-item" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}">
           <div class="product-img">
             <img src="{{this.img.src}}" alt="{{this.img.alt}}">
           </div>

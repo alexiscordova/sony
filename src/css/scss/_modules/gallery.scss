@@ -3,6 +3,33 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
 
+
+$grid5Columns: 5;
+$grid5ColWidth: 204px;
+$grid5GutterWidth: 23px;
+$grid5RowWidth: ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
+
+$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
+$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
+.grid5 {
+
+  // @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
+  // @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+}
+
+@media (min-width:980px) and (max-width:1999px) {
+  .grid5 {
+    @include grid-core(172px, 20px, 5);
+  }
+}
+
+@media (min-width:1200px) {
+  .grid5 {
+    @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
+  }
+}
+
+
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -71,10 +98,10 @@
 }
 
 
-.box {
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,.3);
-}
+// .box {
+//   background: #fff;
+//   box-shadow: 0 1px 3px rgba(0,0,0,.3);
+// }
 
 .ghost-center-wrap {
   @include ghost();
@@ -86,7 +113,49 @@
   margin: 0;
 }
 
+.gallery .gallery-item {
+  margin-top: 23px;
+  height: 337px;
+  overflow: hidden;
+  margin-left: 0;
+}
 
+.gallery-item.h2 {
+  height: (337px * 2) + 23px;
+}
+
+@media (max-width: 767px) {
+  .gallery-item {
+    margin-top: 10px;
+  }
+
+  .gallery-item.h2 {
+    height: (337px * 2) + 10px;
+  }
+}
+
+.gallery-item .product-img {
+  text-align: center;
+  background: $grayLightFieldLarge;
+  height: 220px;
+  overflow: hidden;
+
+  img {
+    // max-height: 100%;
+  }
+}
+
+.large.gallery-item .product-img {
+  height: 580px;
+}
+
+.promo.gallery-item .product-img {
+  height: 100%;
+}
+
+// 1112px
+// 56px
+// 40px
 
 @media (min-width: 1500px) {
   .container {
@@ -263,14 +332,6 @@ body::before {
 //   font-family: Menlo;
 // }
 
-.product-content {
-  padding: 10px;
-}
-
-.product-img {
-  text-align: center;
-  background: #fff;
-}
 
 .product-meta-name {
   text-transform: uppercase;

@@ -17,7 +17,21 @@ Exports.constrain = function(value, min, max) {
 Exports.Modules.Gallery = (function($) {
   
   var _init = function() {
-    $('.gallery').gallery();
+    $('.gallery:not(.all)').gallery();
+    $('.gallery.all').gallery({
+      shuffleColumns: {
+          1470: 204,
+          1112: 204,
+          940: 172,
+          724: 42
+      },
+      shuffleGutters: {
+          1470: 23,
+          1112: 23,
+          940: 20,
+          724: 20
+      }
+    });
   };
 
   return {

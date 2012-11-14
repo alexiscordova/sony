@@ -26,7 +26,26 @@
             var data = $(this).data();
             data.categories = !$.isArray( data.groups ) ? data.groups.split(',') : '';
         });
-        self.$grid.shuffle(self.shuffleOpts);
+
+        self.$grid.shuffle({
+            delimeter: self.shuffleDelimeter,
+            speed: self.shuffleSpeed,
+            easing: self.shuffleEasing,
+            columnWidth: function( containerWidth ) {
+                var column = self.shuffleColumns[ containerWidth ];
+                if ( column === undefined ) {
+                    column = 60;
+                }
+                return column;
+            },
+            gutterWidth: function( containerWidth ) {
+                var gutter = self.shuffleGutters[ containerWidth ];
+                if ( gutter === undefined ) {
+                    gutter = 0;
+                }
+                return gutter;
+            }
+        });
 
 
         // Checkboxes
@@ -260,55 +279,27 @@
 
     // Overrideable options
     $.fn.gallery.options = {
+        filters: true,
         MIN_PRICE: 100,
-        MAX_PRICE: 2000
+        MAX_PRICE: 2000,
+        shuffleSpeed: 400,
+        shuffleDelimeter: ',',
+        shuffleEasing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+        shuffleColumns: {
+            1470: 70,
+            1170: 70,
+            940: 60,
+            724: 42
+        },
+        shuffleGutters: {
+            1470: 30,
+            1170: 30,
+            940: 20,
+            724: 20
+        }
     };
 
     // Not overrideable
-    $.fn.gallery.settings = {
-        shuffleOpts : {
-            delimeter: ',',
-            speed : 400,
-            easing : 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
-            columnWidth: function( containerWidth ) {
-                var column = 0;
-                switch ( containerWidth ) {
-                case 1470:
-                    column = 70;
-                    break;
-                case 1170:
-                    column = 70;
-                    break;
-                case 940:
-                    column = 60;
-                    break;
-                case 724:
-                    column = 42;
-                    break;
-                default:
-                    column = 60;
-                }
-                return column;
-            },
-            gutterWidth: function( containerWidth ) {
-                var gutter = 0;
-                switch ( containerWidth ) {
-                case 1470:
-                    gutter = 30;
-                    break;
-                case 1170:
-                    gutter = 30;
-                    break;
-                case 940: // Falls through
-                case 724:
-                    gutter = 20;
-                    break;
-                default:
-                    gutter = 0;
-                }
-                return gutter;
-            }
-        }
-    };
+    $.fn.gallery.settings = {};
 
 }(jQuery, window));
