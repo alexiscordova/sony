@@ -3,34 +3,357 @@
 	<head>
 		<%-@partial('includes/meta.html')%>
 <% if 'debug' in @getEnvironments():%> 
-		<%-@partial('includes/css_debug.html')%>
+		<%-@partial('includes/css_debug.html.eco', {this: this})%>
 <% else: %>
 		<%-@partial('includes/css_deploy.html')%>
 <% end %>
-		<%-@partial('includes/js_head.html')%>
-	
-<% if 'debug' in @getEnvironments():%> 
-<!-- include your module css here -->
-		<link rel="stylesheet" href="css/modules/mymodule.css">
-<% end %>	
-		
+		<link rel="stylesheet" href="css/modules/experiment.css">
+		<%-@partial('includes/js_head.html')%>	
 		
 	</head>
+	
 	<body>
-		<p>test</p>
 
-<!-- include your module markup templates here -->
-		<%-@partial('modules/module_test.html.hb', @data('mode1.json')) %>
-		<%-@partial('modules/module_test.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
+		<table>
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th><h2>11.6”</h2></th>
+					<th><h2>14”</h2></th>
+					<th><h2>14” Premium</h2></th>
+					<th><h2>15.5” Premium</h2></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Dimensions</th>
+					<td><img src="img/spec/S_15_Black.png">
+						<ul>
+							<li>Width: <span>11.42”</span></li>
+							<li>Height: <span>8.02”</span></li>
+							<li>Depth: <span>0.93-1.25”</span></li>
+							<li>Weight: <span>4.97 lbs</span></li>
+						</ul>
+					</td>
+					
+					<td><img src="img/spec/S_15_White.png">
+						<ul>
+							<li>Width: <span>13.55”</span></li>
+							<li>Height: <span>9.60”</span></li>
+							<li>Depth: <span>1.00-1.32”</span></li>
+							<li>Weight: <span>5.30 lbs</span></li>
+						</ul>
+					</td>
+					
+					<td><img src="img/spec/S_15_Black.png">
+						<ul>
+							<li>Width: <span>13.43”</span></li>
+							<li>Height: <span>9.65”</span></li>
+							<li>Depth: <span>0.86-1.32”</span></li>
+							<li>Weight: <span>5.08 lbs</span></li>
+						</ul>
+					</td>
+					
+					<td><img src="img/spec/S_15_Black.png">
+						<ul>
+							<li>Width: <span>14.43”</span></li>
+							<li>Height: <span>9.99”</span></li>
+							<li>Depth: <span>1.00-1.39”</span></li>
+							<li>Weight: <span>5.97 lbs</span></li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>Display</th>
+					<td><p>11.6" LED backlite display (1366 x 768)</p></td>
+					<td><p>14" LED backlite display (1366 x 768)</p></td>
+					<td><p>14" LED backlite display (1600 x 900)</p></td>
+					<td><p>14" LED backlite display (1366 x 768)</p></td>
+				</tr>
+				
+				<tr>
+					<th>Processor</th>
+					<td>AMD® E2-1800 dual-core processor (1.70GHz3)</td>
+					<td><p>Intel® Pentium® B970(2.30GHz3)</p>
+						<span>
+							configurable Options:
+							2nd gen Intel® Core™
+							i3-2370M
+							(2.40GHz3)
+							2nd gen Intel® Core™
+							i5-2450M
+							(2.50GHz / 3.10GHz3 with
+							Turbo Boost10)
+						</span>
+					</td>
+					<td><p>3rd gen Intel® Core™ i3-3110M (2.40GHz3)</p>
+						<span>
+							configurable Options:
+							3rd gen Intel® Core™ i5-3210M
+							(2.50GHz / 3.10GHz3 with
+							Turbo Boost10)
+							3rd gen Intel® Core™ i5-3320M
+							(2.60GHz / 3.30GHz3 with
+							Turbo Boost10)
+							3rd gen Intel® Core™
+							i7-3612QM quad-core (2.10GHz
+							/ 3.10GHz3 with Turbo
+							Boost10)
+						</span>
+					</td>
+					<td><p>Intel® Pentium® B970 (2.30GHz3)</p>
+						<span>
+							configurable Options:
+							2nd gen Intel® Core™
+							i3-2370M 2.40GHz3)
+							2nd gen Intel® Core™
+							i5-2450M (2.50GHz / 3.10GHz3
+							with Turbo Boost10)
+							3rd gen Intel® Core™ i5-3210M
+							(2.50GHz / 3.10GHz3 with
+							Turbo Boost10)
+							3rd gen Intel® Core™
+							i7-3612QM quad-core (2.10GHz
+							/ 3.10GHz3 with Turbo
+							Boost10)
+						</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>Operating System</th>
+					<td><p>Windows® 7 Home Premium 64-bit</p></td>
+					<td><p>Windows® 7 Home Premium 64-bit</p></td>
+					<td><p>Windows® 7 Home Premium 64-bit</p></td>
+					<td><p>Windows® 7 Home Premium 64-bit</p></td>
+				</tr>
+				
+				<tr>
+					<th>Color Options</th>
+					<td><span class="color white"></span></td>
+					<td><span class="color grey"></span><span class="color white"></span></td>
+					<td><span class="color grey"></span><span class="color white"></span><span class="color black"></span></td>
+					<td><span class="color white"></span><span class="color grey"></span><span class="color darkGrey"></span><span class="color black"></span></td>
+				</tr>
+				<tr>
+					<th>Memory</th>
+					<td><p>4GB (4GB x1) DDR3-1333MHz</p></td>
+					<td><p>4GB (4GB x1) DDR3-1333MHz</p> <span>Configurable to 6GB or 8GB</span></td>
+					<td><p>4GB (4GB x1) DDR3-1600MHz</p> <span>Configurable to 6GB, 8GB, 16GB</span></td>
+					<td><p>4GB (4GB x1) DDR3-1333MHz</p> <span>Configurable to 6GB, 8GB</span></td>
+				</tr>
+				<tr>
+					<th>Hard Drive</th>
+					<td><p>500GB (5400rpm) hard drive</p></td>
+					<td><p>320GB (5400rpm) hard drive</p><span>Configurable to 500 GB, 640GB or 750 GB</span></td>
+					<td><p>500GB (5400rpm) hard drive</p>
+						
+						<span>Configurable Options: 640GB (7200rpm)
+						750GB (7200rpm)
+						1TB (5400rpm)
+						256GB (256GB x1) solid state
+						drive
+						512GB (512GB x1) solid state
+						drive</span>
+					</td>
+					<td><p>320GB (5400rpm) hard drive</p> <span>Configurable to 500 GB, 640GB or 750 GB</span></td>
+				</tr>
+				
+				<tr>
+					<th>Communications</th>
+					<td><p>Wi-Fi® wireless networking (802.11b/g/n)
+						1000BASE-T/100BASE-TX/10BASE-T Gigabit Ethernet LAN
+						Bluetooth® (4.0 + HS)</p>
+					</td>
+					
+					<td><p>Wi-Fi® wireless networking (802.11b/g/n)
+						1000BASE-T/100BASE-TX/10BASE-T Gigabit Ethernet LAN
+						Bluetooth® (4.0 + HS)</p>
+					</td>
+					
+					<td><p>Wi-Fi® wireless networking (802.11b/g/n)
+						1000BASE-T/100BASE-TX/10BASE-T Gigabit Ethernet LAN
+						Bluetooth® (4.0 + HS)</p>
+					</td>
+					
+					<td><p>Wi-Fi® wireless networking (802.11b/g/n)
+						1000BASE-T/100BASE-TX/10BASE-T Gigabit Ethernet LAN
+						Bluetooth® (4.0 + HS)</p>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>Hardware</th>
+					<td>
+						<p>Backlit QWERTY keyboard, 82 keys with 1.7mm stroke and 19.05mm pitch
+							Clickable touchpad (gesture supported)
+							Built-in 1.3MP HD web camera powered by Exmor® for PC and microphone
+							VAIO, WEB and ASSIST buttons
+						</p>
+					</td>
+					
+					<td>
+						<p>Backlit QWERTY keyboard, 82 keys with 1.7mm stroke and 19.05mm pitch
+							Clickable touchpad (gesture supported)
+							Built-in 1.3MP HD web camera powered by Exmor® for PC and microphone
+							VAIO, WEB and ASSIST buttons
+						</p>
+					</td>
+					
+					<td>
+						<p>Backlit QWERTY keyboard, 82 keys with 1.7mm stroke and 19.05mm pitch
+							Clickable touchpad (gesture supported)
+							Built-in 1.3MP HD web camera powered by Exmor® for PC and microphone
+							VAIO, WEB and ASSIST buttons
+						</p>
+					</td>
+					
+					<td>
+						<p>Backlit QWERTY keyboard, 82 keys with 1.7mm stroke and 19.05mm pitch
+							Clickable touchpad (gesture supported)
+							Built-in 1.3MP HD web camera powered by Exmor® for PC and microphone
+							VAIO, WEB and ASSIST buttons
+						</p>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>Ports</th>
+					<td>
+						<span>
+							Gigabit Ethernet (RJ-45)
+							HDMI® output
+							Headphone output
+							Microphone input
+							USB 2.0 x2
+							USB 3.0 x1 (charging)
+							VGA output
+						</span>
+					</td>
+					
+					<td>
+						<span>
+							Gigabit Ethernet (RJ-45)
+							HDMI® output
+							Headphone output
+							Microphone input
+							USB 2.0 x3
+							USB 3.0 x1 (charging)
+							VGA output
+						</span>
+					</td>
+					
+					<td>
+						<span>
+							Gigabit Ethernet (RJ-45)
+							HDMI® output
+							Headphone output
+							Microphone input
+							USB 2.0 x2
+							USB 3.0 x2 (1 charging)
+							VGA output
+						</span>
+					</td>
+					
+					<td>
+						<span>
+							Gigabit Ethernet (RJ-45)
+							HDMI® output
+							Headphone output
+							Microphone input
+							USB 2.0 x3
+							USB 3.0 x1 (charging)
+							VGA output
+						</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>Battery and Power</th>
+					<td>
+						<p>Up to 5 hours 30 minutes</p>
+						<span>
+							Estimated battery life with standard battery (3500mAh, included)
+							Estimated battery life with large battery (5000mAh, sold
+							separately)
+							Default Settings: Up to 6 hours 15 minutes
+						</span>
+					</td>
+					
+					<td>
+						<p>Up to 5 hours 30 minutes</p>
+						<span>
+							Estimated battery life with standard battery (3500mAh, included)
+							Estimated battery life with large battery (5000mAh, sold
+							separately)
+							Default Settings: Up to 6 hours 15 minutes
+						</span>
+					</td>
+					
+					<td>
+						<p>Up to 5 hours 30 minutes</p>
+						<span>
+							Estimated battery life with standard battery (3500mAh, included)
+							Estimated battery life with large battery (5000mAh, sold
+							separately)
+							Default Settings: Up to 6 hours 15 minutes
+						</span>
+					</td>
+					
+					<td>
+						<p>Up to 5 hours 30 minutes</p>
+						<span>
+							Estimated battery life with standard battery (3500mAh, included)
+							Estimated battery life with large battery (5000mAh, sold
+							separately)
+							Default Settings: Up to 6 hours 15 minutes
+						</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>In the Box</th>
+					<td>
+						<p>Standard lithium-ion battery (5300mAh)
+							AC adapter
+							Power cord
+						</p>
+					</td>
+					
+					<td>
+						<p>Standard lithium-ion battery (5300mAh)
+							AC adapter
+							Power cord
+						</p>
+					</td>
+					
+					<td>
+						<p>Standard lithium-ion battery (5300mAh)
+							AC adapter
+							Power cord
+						</p>
+					</td>
+					
+					<td>
+						<p>Standard lithium-ion battery (5300mAh)
+							AC adapter
+							Power cord
+						</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
 
 <% if 'debug' in @getEnvironments():%>
-		<%-@partial('includes/js_footer_debug.html.eco')%>
+		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
 <% else: %>
-		<%-@partial('includes/js_footer_deploy.html.eco')%>
+		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
 <% end %>
 
 <!-- include your module js here -->
-		<script src="js/bundle/defer/mymodule.js"></script>
+		<script src="js/bundle/defer/experiment.js"></script>
 
 	</body>
 </html>

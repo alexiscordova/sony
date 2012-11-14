@@ -1,10 +1,10 @@
-// ------------ JODO ------------
+// ------------ Sony Carousel Module ------------
 // Module: Carousel
-// Version: 1.3
-// Modified: 2012-10-18 by Glen Cheney
+// Version: 1.0
+// Modified: 2012-11-12 by Tyler Madison
 // Dependencies: jQuery 1.7+, Modernizr, jodo.timer.js
 // Optional: jQuery throttle-debounce (only used on window resize)
-// ------------------------------
+// -------------------------------------------------------------------------
 
 /*global jQuery, Modernizr */
 (function(window){
@@ -15,9 +15,9 @@
 
 (function($, Modernizr, window, undefined) {
 
-    "use strict"; // jshint ;_;
+    "use strict"; // jshint ;
 
-    var Carousel = function($el, opts) {
+    var Carousel = sony.moudles.Carousel = function($el, opts) {
         $.extend(this, $.fn.carousel.defaults, opts, $.fn.carousel.settings);
         
 
@@ -40,7 +40,6 @@
 
 
             console.log(t.slides);
-
 
             // Get the right prefixed names e.g. WebkitTransitionDuration
             t.tapOrClick = t.hasTouch ? 'touchstart' : 'click';

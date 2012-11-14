@@ -3,19 +3,12 @@
 	<head>
 		<%-@partial('includes/meta.html')%>
 <% if 'debug' in @getEnvironments():%> 
-		<%-@partial('includes/css_debug.html')%>
+		<%-@partial('includes/css_debug.html.eco', {this: this})%>
 <% else: %>
 		<%-@partial('includes/css_deploy.html')%>
 <% end %>
-		<%-@partial('includes/js_head.html')%>
-	
-<% if 'debug' in @getEnvironments():%> 
-<!-- include your module css here -->
-		<link rel="stylesheet" href="css/_modules/carousel.css">
-<% end %>	
+		<%-@partial('includes/js_head.html')%>	
 		
-		<script src="js/libs/modernizr-2.6.1.js"></script>
-
 	</head>
 	<body>
 
@@ -24,9 +17,9 @@
 
 
 <% if 'debug' in @getEnvironments():%>
-		<%-@partial('includes/js_footer_debug.html.eco')%>
+		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
 <% else: %>
-		<%-@partial('includes/js_footer_deploy.html.eco')%>
+		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
 <% end %>
 
 <!-- include your module js here -->
