@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE8]>  <html class="no-js ie oldie lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie oldie lt-ie9" lang="en"> <![endif]-->
-<!--[if IE 9]>    <html class="no-js ie ie9" lang="en"> <![endif]-->
-<!--[if gt IE 9]> <html class="no-js ie gt-ie9 modern" lang="en"> <![endif]-->
-<!--[!(IE)]><!--><html class="no-js notIE modern" lang="en"> <!--<![endif]-->
+<!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
 
 	{{partial 'includes/docs_head.html'}}
 	<body data-spy="scroll" data-target=".bs-docs-sidebar">
