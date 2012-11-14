@@ -113,15 +113,15 @@
               {{else}}
               <div class="product-img">
                 <img src="{{this.img.src}}" alt="{{this.img.alt}}">
-                <div class="product-content" style="position: absolute;top: 0; left: 0;">
-                  <p class="text-promo-title">{{this.title}}</p>
+                <div class="product-content">
+                  <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.subtitle}}</p>
                   <a class="btn" href="#">{{this.callout}}</a>
                 </div>
               </div>  
               {{/if}}
             {{else}}
-            <div class="product-img ghost-center-wrap">
-              <img class="ghost-center" src="{{this.img.src}}" alt="{{this.img.alt}}">
+            <div class="product-img table-center-wrap">
+              <img class="table-center" src="{{this.img.src}}" alt="{{this.img.alt}}">
             </div>
             <div class="product-content">
               <p class="p3 product-name">{{this.name}}</p>
