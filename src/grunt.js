@@ -158,10 +158,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-shell');
 
-	grunt.registerTask('debug', 'clear clean:debug lint compass-clean compass:debug copy:debug  shell:docpad_debug');
+	grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');
 	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
-	grunt.registerTask('docs', 'clear clean:docs compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
-	grunt.registerTask('deploy', 'clear clean:deploy lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
+	grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
+	grunt.registerTask('deploy', 'clear lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');
 	grunt.registerTask('all', 'debug deploy docs');
 };
