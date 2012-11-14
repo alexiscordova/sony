@@ -59,6 +59,16 @@ module.exports = function(grunt) {
 		        debugsass: false,
 		        images: '../docs/img',
 		        relativeassets: true
+		    },
+		    docs_extra: {
+		        src: 'css/docs',
+		        dest: '../docs/css',
+		        outputstyle: 'expanded',
+		        linecomments: true,
+		        forcecompile: true,
+		        debugsass: false,
+		        images: '../docs/img',
+		        relativeassets: true
 		    }
 		},
 		min:{
@@ -117,7 +127,7 @@ module.exports = function(grunt) {
 					'../docs/ico/' 				: 'img/ico/**',
 					'../docs/fonts/' 			: 'fonts/**',
 					'../docs/img/' 				: 'img/docs/**',
-					'../docs/css/' 				: 'css/docs/**'
+					'../docs/css/' 				: 'css/docs/*.css'
 				}
 			},
 			
@@ -150,7 +160,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('debug', 'clear clean:debug lint compass-clean compass:debug copy:debug  shell:docpad_debug');
 	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
-	grunt.registerTask('docs', 'clear clean:docs compass-clean compass:docs copy:docs shell:docpad_docs');
+	grunt.registerTask('docs', 'clear clean:docs compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
 	grunt.registerTask('deploy', 'clear clean:deploy lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');
 	grunt.registerTask('all', 'debug deploy docs');
