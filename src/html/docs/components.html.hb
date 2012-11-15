@@ -194,7 +194,7 @@
 			        <section id="hotspots">
 
 			          <h2 class="bs-docs-heading">Hotspots &amp; Circle-Buttons</h2>
-			          <p></p>
+			          <p>These are kinda jittery; there might be a better way to animate the halo</p>
 			          <div class="bs-docs-example" style="height:100px;">
 		              
 		              <div class="hotspot hotspot-plus" style="left:80px; top:90px;">
