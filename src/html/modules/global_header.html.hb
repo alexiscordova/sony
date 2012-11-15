@@ -4,21 +4,50 @@ meta_data: {a:'foo', b:'bar'}
 ---
 		
 
-      <nav class="navbar">
-        <a class="brand" href="#"><img src="http://placehold.it/75x35&text=Sony+logo" alt="SONY make.believe"></a>
-        <ul class="nav nav-primary">
-          <li id="nav-link-store"><a href="#">Store</a></li>
-          <li id="nav-link-electronics" class="nav-text-dropdown"><a href="#">Electronics</a></li>
-          <li id="nav-link-entertainment" class="nav-text-dropdown"><a href="#">Entertainment</a></li>
-          <li id="nav-link-support"><a href="#">Support</a></li>
-        </ul>
-        <ul class="nav nav-utility">
-          <li id="nav-link-account" class="nav-text-dropdown"><a href="#">Account</a></li>
-          <li id="nav-link-favorites" class="nav-dropdown"><a href="#">[fav]</a></li>
-          <li id="nav-link-cart" class="nav-dropdown"><a href="#">[cart]</a></li>
-          <li id="nav-link-universal" class="nav-dropdown"><a href="#">Sony Sites</a></li>
-          <li id="nav-link-search" class="nav-dropdown"><a href="#">[search]</a></li>
-        </ul>
+      <nav class="navbar-wrapper">
+      	<div class="navbar">
+	        <a class="brand" href="#"><img src="http://placehold.it/75x35&text=Sony+logo" alt="SONY make.believe"></a>
+	        <ul class="nav nav-primary">
+	          <li id="nav-li-store"><a href="#">Store</a></li>
+	          <li id="nav-li-electronics">
+	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-text" href="#">Electronics</a>
+	          	<div class="nav-tray" id="nav-tray-electronics">
+				        <ul class="nav-tray-list-main">
+				        	<li id="nav-tray-li-cameras"><a href="#">Cameras</a></li>
+				        	<li id="nav-tray-li-mobile"><a href="#">Mobile &amp; Tablets</a></li>
+				        	<li id="nav-tray-li-playstation"><a href="#">PlayStation</a></li>
+				        	<li id="nav-tray-li-computers"><a href="#">Computers</a></li>
+				        	<li id="nav-tray-li-video-cameras"><a href="#">Video Cameras</a></li>
+				        	<li id="nav-tray-li-televisions"><a href="#">Televisions &amp; Home Cinema</a></li>
+				        	<li id="nav-tray-li-audio"><a href="#">Audio</a></li>
+				        	<li id="nav-tray-li-car"><a href="#">Car &amp; Marine</a></li>
+				        	<li id="nav-tray-li-view-all"><a href="#">All Electronics</a></li>
+				        </ul>
+				        <div class="nav-tray-feature-area">
+				        	<h6 class=".l2">Community</h6>
+				        	<ul class="nav-tray-list-secondary">
+				        		<li id="nav-tray-li-photography">Photography</li>
+				        		<li id="nav-tray-li-reading">Reading</li>
+				        		<li id="nav-tray-li-film">Film &amp; 3D</li>
+				        		<li id="nav-tray-li-computing">Computing</li>
+				        		<li id="nav-tray-li-music">Music</li>
+				        	</ul>
+				        	<div class="nav-tray-secondary-promo"><a href="#">Play. Watch Listen. Create</a></div>
+				        </div>
+				      </div>
+
+	          </li>
+	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" href="#">Entertainment</a></li>
+	          <li id="nav-li-support"><a href="#">Support</a></li>
+	        </ul>
+	        <ul class="nav nav-utility">
+	          <li id="nav-li-account"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" href="#">Account</a></li>
+	          <li id="nav-li-favorites"><a class="nav-dropdown-toggle  nav-dropdown-toggle-btn" href="#">[fav]</a></li>
+	          <li id="nav-li-cart"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">[cart]</a></li>
+	          <li id="nav-li-universal"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">Sony Sites</a></li>
+	          <li id="nav-li-search"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">[search]</a></li>
+	        </ul>
+		    </div><!-- end .navbar --> 
     	</nav>
 
 <!-- 
