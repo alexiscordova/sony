@@ -18,7 +18,7 @@
 			<ul>
 			<% for name in @modulepages(): %>
 				<% if name != 'index.html.eco': %>
-					<li><a href='../build/debug/<%= name.replace(/(.eco|.hb)/g, '') %>'><%= @title(name) || name.replace(/(.html.eco|.html.hb)/g, '').replace(/_/g, ' ') %></a>: <%= @desc(name) %></li><% end %><% end %>
+					<li><a href='../build/debug/<%= name.replace(/(.eco|.hb)/g, '') %>'><%= @title(name) || name.replace(/(.html.eco|.html.hb)/g, '').replace(/(_|-)/g, ' ') %></a>: <%= @desc(name) %></li><% end %><% end %>
 			</ul>
 		</div>
 		
