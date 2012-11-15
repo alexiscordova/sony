@@ -30,6 +30,82 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 }
 
 
+// Icons //
+// 30px x 30px grid, double spaced vertically
+.icon-grid {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -480px 0;
+  @include square(27px);
+
+  .active & {
+    background-position: -480px -60px;
+  }
+}
+
+.icon-headphones {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -540px 0;
+  @include square(27px);
+
+  .active & {
+    background-position: -540px -60px;
+  }
+}
+
+.icon-earbuds {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -570px 0;
+  @include size(45px, 24px);
+
+  .active & {
+    background-position: -570px -60px;
+  }
+}
+
+.icon-earclips {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -630px 0;
+  @include size(17px, 28px);
+
+  .active & {
+    background-position: -630px -60px;
+  }
+}
+
+.icon-neckphones {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -660px 0;
+  @include size(45px, 19px);
+
+  .active & {
+    background-position: -660px -60px;
+  }
+}
+
+
+
+
+
+// Price text module
+.product-content {
+
+  .product-name {
+    color: $grayDark;
+  }
+
+  .price-title {
+    margin: 0;
+  }
+
+  .price {
+    margin: -0.4em 0 0;
+  }
+}
+
+.text-dark {
+  color: $grayDark;
+}
+
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -42,16 +118,6 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
   opacity: 1;
 }
 
-// A ghost element used to vertically center something
-@mixin ghost() {
-    &:before {
-        content: '';
-        display: inline-block;
-        vertical-align: middle;
-        width: 0;
-        height: 100%;
-    }
-}
 
 .range-control {
   position: relative;
@@ -98,10 +164,21 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 }
 
 
-// .box {
-//   background: #fff;
-//   box-shadow: 0 1px 3px rgba(0,0,0,.3);
-// }
+///////////////
+// CENTERING //
+///////////////
+
+// A ghost element used to vertically center something
+@mixin ghost() {
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: 0;
+        height: 100%;
+        margin-right: -4px; // Nudgeable
+    }
+}
 
 .ghost-center-wrap {
   @include ghost();
@@ -110,7 +187,6 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 .ghost-center {
   display: inline-block;
   vertical-align: middle;
-  margin: 0;
 }
 
 .table-center-wrap {
@@ -123,13 +199,32 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 }
 
 
+///////////////////
+// Gallery Items //
+///////////////////
+
+.shuffle {
+  margin-top: -20px;
+}
+
+
 $galleryItemHeight: 337px;
 $galleryItemImgHeight: 220px;
 .gallery .gallery-item {
+  margin-left: 0;
+}
+
+.gallery-item {
+  position: relative;
   margin-top: $grid5GutterWidth;
   height: $galleryItemHeight;
   overflow: hidden;
-  margin-left: 0;
+
+  .label {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 
 .gallery-item.h2 {
@@ -147,16 +242,19 @@ $galleryItemImgHeight: 220px;
 }
 
 .gallery-item .product-img {
+  height: $galleryItemImgHeight;
+  width: 100%;
+  overflow: hidden;
   text-align: center;
   background: $grayLightFieldLarge;
-  height: $galleryItemImgHeight;
-  overflow: hidden;
 
   img {
-    // max-height: 100%;
-    // max-width: 100%;
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
   }
 }
+
 
 .large.gallery-item .product-img {
   height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
@@ -168,10 +266,16 @@ $galleryItemImgHeight: 220px;
     position: absolute;
     top: 0;
     left: 0;
+    text-align: left;
   }
   
   .product-img {
     height: 100%;
+  }
+
+  img {
+    max-height: initial;
+    max-width: initial;
   }
 }
 
@@ -199,7 +303,9 @@ $galleryItemImgHeight: 220px;
 
 
 
-/* MEDIA QUERY DEBUGGING VIEW */
+////////////////////////////////
+// MEDIA QUERY DEBUGGING VIEW //
+////////////////////////////////
 
 body::before {
   content: 'Default - 940px';
@@ -209,7 +315,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 25px;
-  color: #FFF;
+  color: $white;
   background-color: hsla(110, 50%, 60%, .6);
   -webkit-transition: background .2s ease;
        -o-transition: background .2s ease;
@@ -262,37 +368,53 @@ body::before {
 
 
 
-
+/////////////////
 // Hero Images //
-
+/////////////////
 .hero {
   position: relative;
   overflow: hidden;
   max-height: 500px;
+
+  img {
+    display: block;
+    width: 100%;
+  }
+
+  // Only overlay color if rgba is available
+  .rgba & .hero-img-wrap:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($linkColor, .8);
+  }
+
+  & > .container {
+    position: relative;
+  }
+  
+  .hero-text-wrap {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-text {
+    width: 100%;
+  }
 }
 
-.hero img {
-  display: block;
-  width: 100%;
-}
 
-.hero-text {
-  color: #fff;
-}
-
-
-.full {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-}
-
-
+//**** OLD? *****//
+/////////////
 // Gallery //
-
+/////////////
 .simple-gallery .shuffle-item {
   margin: 20px 0 0;
   
@@ -303,11 +425,6 @@ body::before {
   height: 200px;
   overflow: hidden;
   background: #f2f2f2;
-}
-
-.product.link {
-  padding: 70px 20px 0;
-  background-color: hsl(110, 50%, 60%);
 }
 
 .product.h2 {
@@ -355,21 +472,15 @@ body::before {
 //   font-family: Menlo;
 // }
 
-
-.product-meta-name {
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
+/////////////
 // FILTERS //
-
+/////////////
 .filter-options {
   margin: 20px 0;
 }
 
 .range-control-wrap {
   margin-top: 10px;
-  // width: inherit;
   padding: 0 10px;
 }
 
@@ -399,37 +510,28 @@ body::before {
 
 }
 
-@media (max-width: 480px) {
-  h1 {
-    font-size: 20px;
-    line-height: 22px;
-  }
-
-  h2 {
-    font-size: 16px;
-    line-height: 18px;
-  }
-}
-
 .tab-layer h3 code {
   font-size: inherit;
   font-weight: normal;
   line-height: inherit;
 }
 
-
-// Tabs
-
 .tab-content {
   margin-top: 20px;
   overflow: visible;
 }
 
+
+
+// Tabs
+
+$tabHeight: 100px;
+
 // Container for .tabs-container
 .tab-strip {
   position: relative;
-  background-color: #ccc;
-  box-shadow: inset 0 -1px 3px rgba(0,0,0,0.2);
+  background-color: $grayLightFieldLarge;
+  // box-shadow: inset 0 -1px 3px rgba(0,0,0,0.2);
 }
 
 // Container for .tab's
@@ -458,32 +560,32 @@ body::before {
   position: relative;
   z-index: 1;
   display: inline-block;
-  width: 100px;
-  padding-top: 20px;
-  height: 60px;
+  width: 120px;
+  height: $tabHeight;
   text-align: center;
   cursor: pointer;
-  box-shadow: 1px 0 0 #999;
+  box-shadow: 1px 0 0 $white;
 
   -webkit-transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
      -moz-transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
           transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
+
+  &.active {
+    z-index: 2;
+    top: -2px;
+    background-color: $white;
+    box-shadow:
+      0 2px 0 $white,
+      0 0 4px 1px rgba(0,0,0,0.15);
+  }
 }
 
-.tab.active {
-  z-index: 2;
-  top: -2px;
-  background-color: #fff;
-  box-shadow:
-    0 2px 0 #fff,
-    0 -1px 3px 1px rgba(0,0,0,0.2);
-}
 
 // Tablet tab carousel nav buttons
 .tab-nav-btns {
   position: absolute;
   z-index: 5;
-  height: 60px;
+  height: $tabHeight;
 }
 
 .tab-nav-wrap {
@@ -539,6 +641,6 @@ body::before {
 
 // Accessories
 .see-all {
-  background: $grayLighter;
+  background: $grayLightFieldLarge;
 }
 

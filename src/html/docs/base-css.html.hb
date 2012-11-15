@@ -30,6 +30,7 @@
 			        <ul class="nav nav-list bs-docs-sidenav">
 			          <li><a href="#typography"><i class="icon-chevron-right"></i> Typography</a></li>
 			          <li><a href="#buttons"><i class="icon-chevron-right"></i> Buttons</a></li>
+			          <li><a href="#colors"><i class="icon-chevron-right"></i> Colors</a></li>
 			
 			          <li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
 			          <li><a href="#icons"><i class="icon-chevron-right"></i> Icons</a></li>
@@ -288,6 +289,160 @@
 			
 			
 			<!--==================================================
+			 Colors
+			================================================== -->
+			        <section id="colors">
+			          <h2 class="bs-docs-heading">Colors</h2>
+			          <p>Use these variables for colors when possible</p>
+								
+
+
+		          	<h4>Grays<small> for text and general components</small></h4>
+								<div class="bs-docs-example">
+
+			            <div class="row">
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--black"></div>
+			                <p>$black</p>
+			                <p>(0,0,0)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayDark"></div>
+			                <p>$grayDark</p>
+			                <p>(47,53,61)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--gray"></div>
+			                <p>$gray</p>
+			                <p>(131,131,143)</p>
+			              </div>
+			            </div>
+			
+			            <div class="row">
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayLight"></div>
+			                <p>$grayLight</p>
+			                <p>(188,188,204)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayLighter color-swatch-outlined"></div>
+			                <p>$grayLighter</p>
+			                <p>(228,231,235)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--white color-swatch-outlined"></div>
+			                <p>$white</p>
+			                <p>(255,255,255)</p>
+			              </div>
+			            </div>
+
+			          </div>
+
+
+			          <h4>Background Tones<small> </small></h4>
+								<div class="bs-docs-example">
+
+			            <div class="row">
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayDarkerFieldLarge"></div>
+			                <p>$grayDarkerFieldLarge</p>
+			                <p>(31,32,36)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayDarkFieldLarge"></div>
+			                <p>$grayDarkFieldLarge</p>
+			                <p>(64,66,71)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayLightFieldLarge color-swatch-outlined"></div>
+			                <p>$grayLightFieldLarge</p>
+			                <p>(243,244,246)</p>
+			              </div>
+			            </div>
+			
+			            <div class="row">
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayDarkerFieldSmall"></div>
+			                <p>$grayDarkerFieldSmall</p>
+			                <p>(33,37,48)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayDarkFieldSmall"></div>
+			                <p>$grayDarkFieldSmall</p>
+			                <p>(114,110,122)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--grayLightFieldSmall color-swatch-outlined"></div>
+			                <p>$grayLightFieldSmall</p>
+			                <p>(241,245,249)</p>
+			              </div>
+			            </div>
+
+			          </div>
+
+
+			          <h4>Highlight Colors<small> </small></h4>
+								<div class="bs-docs-example">
+
+			            <div class="row">
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--highlightColor"></div>
+			                <p>$highlightColor</p>
+			                <p>lighten($highlightColor, 5%)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--highlightColorHover"></div>
+			                <p>$highlightColorHover</p>
+			                <p>(64,66,71)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--highlightColorActive"></div>
+			                <p>$highlightColorActive</p>
+			                <p>($highlightColor)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--highlightColorDark"></div>
+			                <p>$highlightColorDark</p>
+			                <p>(219,76,37)</p>
+			              </div>
+			            </div>
+			          </div>
+
+
+			          <h4>Button &amp; Link Colors<small> </small></h4>
+								<div class="bs-docs-example">
+
+			            <div class="row">
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--linkColor"></div>
+			                <p>$linkColor</p>
+			                <p>(69,113,236)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--linkColorHover"></div>
+			                <p>$linkColorHover</p>
+			                <p>(87,135,244)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--btnBackground"></div>
+			                <p>$btnBackground</p>
+			                <p>(87,135,244)</p>
+			              </div>
+	            			<div class="span2 color-swatch-span">
+	            				<div class="color-swatch--btnBackgroundHover"></div>
+			                <p>$btnBackgroundHover</p>
+			                <p>(100,142,245)</p>
+			              </div>
+			            </div>
+			          </div>
+
+
+			        </section>
+
+
+
+
+			<!--==================================================
 			 Buttons
 			================================================== -->
 			        <section id="buttons">
@@ -452,9 +607,16 @@
 
 
 
-
+			        <section class="NotUpdatedYet" style="padding:10px 20px"><h6>Sections with a light blue background have not been styled or updated yet. If you update them, remove the class "NotUpdatedYet" from the parent container of the section, and from the "bs-docs-example" container as well.</h6></section>
 
 			
+
+
+
+
+
+
+
 			
 			<!--==================================================
 			 Forms
@@ -464,8 +626,8 @@
 			
 			          <h3 class="bs-docs-heading">Default styles</h3>
 			          <p>Individual form controls receive styling, but without any required base class on the <code>&lt;form&gt;</code> or large changes in markup. Results in stacked, left-aligned labels on top of form controls.</p>
-			          <form class="bs-docs-example">
-			            <legend>Legend --[THIS SECTION NEEDS TO BE STYLED]</legend>
+			          <form class="bs-docs-example NotUpdatedYet">
+			            <legend>Legend</legend>
 			            <label>Label name</label>
 			            <input type="text" placeholder="Type something…">
 			            <span class="help-block">Example block-level help text here.</span>
@@ -510,11 +672,12 @@
 <pre class="prettyprint linenums">
 &lt;textarea rows="3"&gt;&lt;/textarea&gt;
 </pre>
-			
+							
+							<div class="NotUpdatedYet">
 			          <h4 class="bs-docs-heading">Checkboxes and radios</h4>
 			          <p>Checkboxes are for selecting one or several options in a list while radios are for selecting one option from many.</p>
-			          <h4>Default (stacked)   --[THIS SECTION NEEDS TO BE STYLED]</h4>
-			          <form class="bs-docs-example">
+			          <h4>Default (stacked)</h4>
+			          <form class="bs-docs-example NotUpdatedYet">
 			            <label class="checkbox">
 			              <input type="checkbox" value="">
 			              Option one is this and that&mdash;be sure to include why it's great
@@ -543,11 +706,13 @@
   &lt;input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"&gt;
   Option two can be something else and selecting it will deselect option one
 &lt;/label&gt;
-</pre>
+</pre>				
+							</div>
 			
-			          <h5 class="bs-docs-heading">Inline checkboxes   --[THIS SECTION NEEDS TO BE STYLED]</h5>
+							<div class="NotUpdatedYet">
+			          <h5 class="bs-docs-heading">Inline checkboxes</h5>
 			          <p>Add the <code>.inline</code> class to a series of checkboxes or radios for controls appear on the same line.</p>
-			          <form class="bs-docs-example">
+			          <form class="bs-docs-example NotUpdatedYet">
 			            <label class="checkbox inline">
 			              <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
 			            </label>
@@ -569,10 +734,13 @@
   &lt;input type="checkbox" id="inlineCheckbox3" value="option3"&gt; 3
 &lt;/label&gt;
 </pre>
-			
-			          <h4 class="bs-docs-heading">Selects   --[THIS SECTION NEEDS TO BE STYLED]</h4>
+							</div>
+
+
+							<div class="NotUpdatedYet">
+			          <h4 class="bs-docs-heading">Selects</h4>
 			          <p>Use the default option or specify a <code>multiple="multiple"</code> to show multiple options at once.</p>
-			          <form class="bs-docs-example">
+			          <form class="bs-docs-example NotUpdatedYet">
 			            <select>
 			              <option>1</option>
 			              <option>2</option>
@@ -606,7 +774,7 @@
   &lt;option&gt;5&lt;/option&gt;
 &lt;/select&gt;
 </pre>
-
+							</div>
 
 			
 			
@@ -635,10 +803,12 @@
   &lt;input type="text" class="input-medium" placeholder="Your Email"&gt;&lt;button type="submit"&gt;Search&lt;/button&gt;
 &lt;/form&gt;
 </pre>
-			
-			          <h4 class="bs-docs-heading">Inline form  --[THIS SECTION NEEDS TO BE STYLED]</h4>
+							
+
+							<div class="NotUpdatedYet">
+			          <h4 class="bs-docs-heading">Inline form</h4>
 			          <p>Add <code>.form-inline</code> for left-aligned labels and inline-block controls for a compact layout.</p>
-			          <form class="bs-docs-example form-inline">
+			          <form class="bs-docs-example form-inline NotUpdatedYet">
 			            <input type="text" class="input-small" placeholder="Email">
 			            <input type="password" class="input-small" placeholder="Password">
 			            <label class="checkbox">
@@ -656,8 +826,12 @@
   &lt;button type="submit" class="btn"&gt;Sign in&lt;/button&gt;
 &lt;/form&gt;
 </pre>
-			
-			          <h4 class="bs-docs-heading">Horizontal form  --[THIS SECTION NEEDS TO BE STYLED]</h4>
+							</div>
+
+
+
+							<div class="NotUpdatedYet">			
+			          <h4 class="bs-docs-heading">Horizontal form</h4>
 			          <p>Right align labels and float them to the left to make them appear on the same line as controls. Requires the most markup changes from a default form:</p>
 			          <ul>
 			            <li>Add <code>.form-horizontal</code> to the form</li>
@@ -665,7 +839,7 @@
 			            <li>Add <code>.control-label</code> to the label</li>
 			            <li>Wrap any associated controls in <code>.controls</code> for proper alignment</li>
 			          </ul>
-			          <form class="bs-docs-example form-horizontal">
+			          <form class="bs-docs-example form-horizontal NotUpdatedYet">
 			            <legend>Legend</legend>
 			            <div class="control-group">
 			              <label class="control-label" for="inputEmail">Email</label>
@@ -712,14 +886,15 @@
   &lt;/div&gt;
 &lt;/form&gt;
 </pre>
-			
+							</div>
 			
 			
 			
 			          
 			
-			          <h5 class="bs-docs-heading">Search form    --[THIS SECTION NEEDS TO BE STYLED]</h5>
-			          <form class="bs-docs-example form-search">
+							<div class="NotUpdatedYet">
+			          <h5 class="bs-docs-heading">Search form</h5>
+			          <form class="bs-docs-example form-search NotUpdatedYet">
 			            <div class="input-append">
 			              <input type="text" class="span2 search-query">
 			              <button type="submit" class="btn">Search</button>
@@ -741,7 +916,7 @@
   &lt;/div&gt;
 &lt;/form&gt;
 </pre>
-
+							</div>
 
 
 			
@@ -874,40 +1049,47 @@
 <pre class="prettyprint linenums">
 &lt;span class="input-xlarge uneditable-input"&gt;Some value here&lt;/span&gt;
 </pre>
-			
-			          <h4 class="bs-docs-heading">Help text --[THIS SECTION NEEDS TO BE STYLED]</h4>
+							
+							<div class="NotUpdatedYet">
+			          <h4 class="bs-docs-heading">Help text</h4>
 			          <p>Inline and block level support for help text that appears around form controls.</p>
 			          <h5 class="bs-docs-heading">Inline help</h5>
-			          <form class="bs-docs-example form-inline">
+			          <form class="bs-docs-example form-inline NotUpdatedYet">
 			            <input type="text"> <span class="help-inline">Inline help text</span>
 			          </form>
 <pre class="prettyprint linenums">
 &lt;input type="text"&gt;&lt;span class="help-inline"&gt;Inline help text&lt;/span&gt;
-</pre>
-			
+</pre>				
+							</div>
+
+
+
+							<div class="NotUpdatedYet">			
 			          <h5 class="bs-docs-heading">Block help</h5>
-			          <form class="bs-docs-example form-inline">
+			          <form class="bs-docs-example form-inline NotUpdatedYet">
 			            <input type="text">
 			            <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
 			          </form>
 <pre class="prettyprint linenums">
 &lt;input type="text"&gt;&lt;span class="help-block"&gt;A longer block of help text that breaks onto a new line and may extend beyond one line.&lt;/span&gt;
 </pre>
+							</div>
 			
 			
 			
-			
-			          <h3 class="bs-docs-heading">Form control states --[THIS SECTION NEEDS TO BE STYLED]</h3>
+							<div class="NotUpdatedYet">
+			          <h3 class="bs-docs-heading">Form control states</h3>
 			          <p>Provide feedback to users or visitors with basic feedback states on form controls and labels.</p>
 			
 			          <h4 class="bs-docs-heading">Input focus</h4>
 			          <p>We remove the default <code>outline</code> styles on some form controls and apply a <code>box-shadow</code> in its place for <code>:focus</code>.</p>
-			          <form class="bs-docs-example form-inline">
+			          <form class="bs-docs-example form-inline NotUpdatedYet">
 			            <input class="input-xlarge focused" id="focusedInput" type="text" value="This is focused...">
 			          </form>
 <pre class="prettyprint linenums">
 &lt;input class="input-xlarge" id="focusedInput" type="text" value="This is focused..."&gt;
 </pre>
+							</div>
 			
 			          <h4 class="bs-docs-heading">Disabled inputs</h4>
 			          <p>Add the <code>disabled</code> attribute on an input to prevent user input and trigger a slightly different look.</p>
@@ -918,10 +1100,12 @@
 &lt;input class="input-xlarge" id="disabledInput" type="text" placeholder="Disabled input here..." disabled&gt;
 </pre>
 			
+
+							<div class="NotUpdatedYet">
 			          <h4 class="bs-docs-heading">Validation states</h4>
 			          <p>Bootstrap includes validation styles for error, warning, info, and success messages. To use, add the appropriate class to the surrounding <code>.control-group</code>.</p>
 			
-			          <form class="bs-docs-example form-horizontal">
+			          <form class="bs-docs-example form-horizontal NotUpdatedYet">
 			            <div class="control-group warning">
 			              <label class="control-label" for="inputWarning">Input with warning</label>
 			              <div class="controls">
@@ -974,6 +1158,10 @@
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
+				</div>
+
+
+
 			</section>
 			
 			

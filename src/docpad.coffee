@@ -3,13 +3,13 @@
 docpadConfig = {
   environments: {
     debug:{
-      layoutsPaths: ['data', '../js/']
+      layoutsPaths: ['data', '../js/', '../css/']
       srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/debug/'
     },
     deploy:{
-      layoutsPaths: ['data', '../js/']
+      layoutsPaths: ['data', '../js/', '../css/']
       srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/deploy/'
@@ -30,6 +30,7 @@ docpadConfig = {
     require: ->     output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/bundle/require/').pluck('filename')
     secondary: ->   output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/bundle/secondary/').pluck('filename')
     defer: ->       output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/bundle/defer/').pluck('filename')
+    modulescss: ->  output = docpad.getFilesAtPath(docpad.config.rootPath + '/css/scss/modules/').pluck('filename')
   }
   
   plugins:{
