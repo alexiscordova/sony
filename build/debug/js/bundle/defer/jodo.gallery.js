@@ -20,13 +20,15 @@
         self.$rangeControl = self.$container.find('.price-range-control'),
         self.$output = self.$container.find('.price-range-output'),
 
-        // instantiate the plugin
-        // easeOutQuart
+
         self.$grid.children().each(function() {
             var data = $(this).data();
-            data.categories = !$.isArray( data.groups ) ? data.groups.split(',') : '';
+            data.categories = !data.groups ? [] :
+                !$.isArray( data.groups ) ? data.groups.split(',') : '';
         });
 
+        
+        // instantiate the plugin
         self.$grid.shuffle({
             delimeter: self.shuffleDelimeter,
             speed: self.shuffleSpeed,
@@ -284,7 +286,7 @@
         MAX_PRICE: 2000,
         shuffleSpeed: 400,
         shuffleDelimeter: ',',
-        shuffleEasing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+        shuffleEasing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)', // easeOutQuart
         shuffleColumns: {
             1470: 70,
             1170: 70,

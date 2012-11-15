@@ -3,7 +3,6 @@
   <div class="hero-img-wrap">
     <img src="img/headphones-hero.jpg" alt="">
   </div>
-  <!-- <div class="container"> -->
     <div class="ghost-center-wrap hero-text-wrap">
       <div class="hero-text ghost-center">
         <div class="container">
@@ -12,7 +11,6 @@
         </div>
       </div>
     </div>
-  <!-- </div> -->
 </div>
 
 <div class="tab-strip">
@@ -26,32 +24,12 @@
 
   <div class="tabs-container container">
     <div class="tabs">
-      <div class="tab active" data-target="products-1" data-toggle="tab">
-        <div>
-          <i class="icon-grid"></i>
-          <span>All</span>
+      {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab">
+        <div class="ghost-center">
+          <div class="sprite-holder"><i class="icon-{{this.icon}}"></i></div>
+          <div class="l3 tab-label">{{this.label}}</div>
         </div>
-      </div><div class="tab" data-target="products-2" data-toggle="tab">
-        <div>
-          <i class="icon-headphones"></i>
-          <span>Overhead</span>
-        </div>
-      </div><div class="tab" data-target="products-3" data-toggle="tab">
-        <div>
-          <i class="icon-earbuds"></i>
-          <span>In-Ear</span>
-        </div>
-      </div><div class="tab" data-target="products-4" data-toggle="tab">
-        <div>
-          <i class="icon-earclips"></i>
-          <span>Earclips</span>
-        </div>
-      </div><div class="tab" data-target="products-5" data-toggle="tab">
-        <div>
-          <i class="icon-neckphones"></i>
-          <span>Behind Neck</span>
-        </div>
-      </div>
+      </div>{{/each}}
     </div>
   </div>
 
@@ -61,7 +39,7 @@
 
   <div class="tab-content">
 
-    <section class="tab-pane fade active in gallery all" data-tab="products-1">
+    <section class="tab-pane fade active in gallery all" data-tab="all">
       {{#if all.filters}}
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
@@ -155,7 +133,8 @@
       </div>
     </section>
 
-    <section class="tab-pane fade gallery simple-gallery" data-tab="products-2">
+    <section class="tab-pane fade gallery gallery-simple" data-tab="overhead">
+      {{#if all.filters}}
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
         <div class="filter-options row">
@@ -204,26 +183,32 @@
           <option>featured and not featured</option>
         </select>
       </div>
-      <h3>{{cameras.total}} Products</h3>
+
+      {{/if}}
+
+      <p class="l4"><span class="text-dark">{{cameras.total}}</span> Products</p>
       <div class="products">
         {{#each cameras.list}}
         <div class="span4 gallery-item" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}">
-          <div class="product-img">
-            <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+            {{#if this.label}}
+            <span class="label">{{this.label}}</span>
+            {{/if}}
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+            </div>
           </div>
           <div class="product-content">
-            <div class="product-model">{{this.model}}</div>
-            <div class="product-name">{{this.name}}</div>
-            <div class="product-rating">{{this.rating.stars}}* ({{this.rating.reviews}})</div>
-            <ul class="product-meta">
+            <div class="p3 product-name">{{this.name}}</div>
+            <div class="p5 product-model">{{this.model}}</div>
+            <div class="p5 product-rating" data-stars="{{this.rating.stars}}"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i> ( {{this.rating.reviews}} user reviews)</div>
+            <ul class="p3 product-meta">
               {{#each this.meta}}
               <li>{{{this.value}}} <span class="product-meta-name">{{this.name}}</span></li>
               {{/each}}
             </ul>
             <div class="product-price">
-              <span class="muted">Starting at</span>
-              <br>
-              <b>${{this.price}}</b> <span class="muted">MSRP</span>
+              <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
         </div>
@@ -233,7 +218,7 @@
 
     </section>
 
-    <section class="tab-pane fade" data-tab="products-3">
+    <section class="tab-pane fade" data-tab="inear">
       <div class="grid5">
         {{#each accessories}}
         <h2>{{{this.title}}}</h2>
@@ -266,7 +251,7 @@
       </div>
     </section>
 
-    <section class="tab-pane fade" data-tab="products-4">
+    <section class="tab-pane fade" data-tab="earclips">
       <h3><code>data-tab="products-4"</code></h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -276,33 +261,9 @@
       proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </section>
 
-    <section class="tab-pane fade" data-tab="products-5">
+    <section class="tab-pane fade" data-tab="neck">
       <h3><code>data-tab="products-5"</code></h3>
       <p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </section>
-
-    <section class="tab-pane fade" data-tab="products-6">
-      <h3><code>data-tab="products-6"</code></h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et doloamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </section>
-
-    <section class="tab-pane fade" data-tab="products-7">
-      <h3><code>data-tab="products-7"</code></h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit es.</p>
-    </section>
-
-    <section class="tab-pane fade" data-tab="products-8">
-      <h3><code>data-tab="products-8"</code></h3>
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
       cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
       proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </section>

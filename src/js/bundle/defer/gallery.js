@@ -301,6 +301,9 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 }(jQuery, Modernizr, window));
 
 $(document).ready(function() {
-  Exports.Modules.Gallery.init();
-  Exports.Modules.Tabs.init();
+
+  if ( $('body').hasClass('gallery-module') ) {
+    Exports.Modules.Gallery.init();
+    Exports.Modules.Tabs.init();
+  }
 });
