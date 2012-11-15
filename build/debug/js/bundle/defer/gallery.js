@@ -3,7 +3,13 @@ var Exports = {
   Modules : {}
 };
 
-// Constrains a value between a min and max
+/**
+ * Constrains a value between a min and max value
+ * @param  {Number} value number to be contstrained
+ * @param  {Number} min   minimum
+ * @param  {Number} max   max
+ * @return {Number}
+ */
 Exports.constrain = function(value, min, max) {
     'use strict';
 
@@ -15,7 +21,7 @@ Exports.constrain = function(value, min, max) {
 };
 
 Exports.Modules.Gallery = (function($) {
-  
+
   var _init = function() {
     $('.gallery:not(.all)').gallery();
     $('.gallery.all').gallery({
