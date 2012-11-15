@@ -1,6 +1,4 @@
 $(document).ready(function(){
-	alert('saf');
-
 	$('.table-mobile-tabs li').click(function(){
 		var indexToSwap = $(this).index();
 		console.info(indexToSwap);
