@@ -15,6 +15,7 @@ docpadConfig = {
       outPath: '../build/deploy/'
     },
     docs:{
+      layoutsPaths: ['pages/']
       srcPath:'html/'
       documentsPaths: ['docs']
       outPath: '../docs/'
@@ -31,6 +32,9 @@ docpadConfig = {
     secondary: ->   output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/bundle/secondary/').pluck('filename')
     defer: ->       output = docpad.getFilesAtPath(docpad.config.rootPath + '/js/bundle/defer/').pluck('filename')
     modulescss: ->  output = docpad.getFilesAtPath(docpad.config.rootPath + '/css/scss/modules/').pluck('filename')
+    modulepages: -> output = docpad.getFilesAtPath(docpad.config.rootPath + '/html/pages/').pluck('filename')
+    title:(name) -> output = docpad.database.findOne({id:name}).attributes.title
+    desc:(name) ->  output = docpad.database.findOne({id:name}).attributes.description
   }
   
   plugins:{

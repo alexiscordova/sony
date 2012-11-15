@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
@@ -14,7 +16,13 @@
         <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
 
-        <link rel="stylesheet" href="css/styles.min.css">
+ 
+
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/responsive.css">
+    
+        <link rel="stylesheet" href="css/modules/mymodule.css">
+
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
         <script type="text/javascript">
@@ -27,7 +35,9 @@
     </head>
     <body>
 
-<!-- include your module markup templates here -->
+
+
+
         <div>
             <h1>module test: one</h1>
             <ul>
@@ -35,6 +45,7 @@
                 <li>2 bar</li>
             </ul>
         </div>
+
         <div>
             <h1>module test: two</h1>
             <ul>
@@ -44,16 +55,26 @@
         </div>
 
 
-                <script src="js/require.min.js"></script>
-        <script src="js/secondary.min.js"></script>
+
+
+                
+        <script src="js/bundle/require/require2.js"></script>
+        <script src="js/bundle/require/require1.js"></script>
+        
+        
+        <script src="js/bundle/secondary/secondary1.js"></script>
+        <script src="js/bundle/secondary/secondary2.js"></script>
         
         
         <script src="js/bundle/defer/defer1.js"></script>
         <script src="js/bundle/defer/defer2.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>
-        
+
+
         <!--[if lt IE 9 ]>
-            <script src="js/polyfill.min.js"></script>
+            <script src="js/libs/polyfill/respond.min.js"></script>
+            <script src="js/libs/polyfill/selectivizr-min.js"></script>
+            <script src="js/libs/polyfill/html5shiv.js"></script>
         <![endif]-->
 
 
