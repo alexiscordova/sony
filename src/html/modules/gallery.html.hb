@@ -39,7 +39,7 @@
 
   <div class="tab-content">
 
-    <section class="tab-pane fade active in gallery all" data-tab="all">
+    <section class="tab-pane fade active in gallery gallery5" data-tab="all">
       {{#if all.filters}}
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
@@ -134,7 +134,7 @@
     </section>
 
     <section class="tab-pane fade gallery gallery-simple" data-tab="overhead">
-      {{#if all.filters}}
+      {{#if productCards.filters}}
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
         <div class="filter-options row">
@@ -186,13 +186,13 @@
 
       {{/if}}
 
-      <p class="l4"><span class="text-dark">{{cameras.total}}</span> Products</p>
+      <p class="l4"><span class="text-dark">{{productCards.total}}</span> Products</p>
       <div class="products">
-        {{#each cameras.list}}
-        <div class="span4 gallery-item" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}">
-            {{#if this.label}}
-            <span class="label">{{this.label}}</span>
-            {{/if}}
+        {{#each productCards.list}}
+        <div class="span4 gallery-item" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}" data-piority="{{this.priority}}">
+          {{#if this.label}}
+          <span class="label">{{this.label}}</span>
+          {{/if}}
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
@@ -215,50 +215,118 @@
         {{/each}}
         
       </div>
-
     </section>
 
-    <section class="tab-pane fade" data-tab="inear">
+    <section class="tab-pane fade gallery gallery5" data-tab="inear">
+      {{#if simple.filters}}
+      <button class="js-filter-toggle btn">Filters</button>
+      <div class="product-filter">
+        <div class="filter-options row">
+
+          <div class="span3">
+            <span>Price</span>
+            <div class="range-control-wrap"><div class="range-control price-range-control"></div></div>
+            <div class="price-range-output"></div>
+          </div>
+
+          <ul class="span3 unstyled megapixels">
+            <li data-megapixels="14-16" class="btn">14-16MP</li>
+            <li data-megapixels="16-18" class="btn">16-18MP</li>
+            <li data-megapixels="18-20" class="btn">18-20MP</li>
+            <li data-megapixels="20+" class="btn">20MP+</li>
+          </ul>
+
+          <ul class="span3 unstyled features">
+            <li>
+              <label><input type="checkbox" value="lcd"> LCD</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="touchscreen"> Touchscreen LCD</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="panorama"> Intelligent Sweep Panorama</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="lightweight"> Lightweight</label>
+            </li>
+          </ul>
+
+          <ul class="span3 unstyled best-for">
+            <li>Getting Close</li>
+            <li>Adventurer</li>
+            <li>Pocket Video</li>
+          </ul>
+
+        </div>
+      </div>
+
+      <div class="pull-right">
+        <select>
+          <option>Featured</option>
+          <option>not featured</option>
+          <option>featured and not featured</option>
+        </select>
+      </div>
+
+      {{/if}}
+
+      <p class="l4"><span class="text-dark">{{simple.total}}</span> Products</p>
+      <div class="products grid5">
+        {{#each simple.list}}
+        <div class="span1 gallery-item" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}" data-piority="{{this.priority}}">
+          {{#if this.label}}
+          <span class="label">{{this.label}}</span>
+          {{/if}}
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">{{this.name}}</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+        
+      </div>
+    </section>
+
+    <section class="tab-pane fade" data-tab="earclips">
       <div class="grid5">
         {{#each accessories}}
         <h2>{{{this.title}}}</h2>
         <div class="row">
           {{#each this.list}}
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">{{this.name}}</div>
+              <div class="p3 product-name">{{this.name}}</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>${{this.price}}</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           {{/each}}
           {{#if this.hasMore}}
-          <div class="span1 ghost-center-wrap see-all" style="height:300px;text-align:center;">
+          <div class="span1 gallery-item ghost-center-wrap see-all">
             <div class="ghost-center">
               <p>See all</p>
-              <p class="l1">{{this.total}}</p>
+              <p class="text-number-callout-large">{{this.total}}</p>
             </div>
           </div>
           {{/if}}
         </div>
         {{/each}}
       </div>
-    </section>
-
-    <section class="tab-pane fade" data-tab="earclips">
-      <h3><code>data-tab="products-4"</code></h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </section>
 
     <section class="tab-pane fade" data-tab="neck">

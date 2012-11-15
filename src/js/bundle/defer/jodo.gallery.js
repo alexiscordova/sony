@@ -28,25 +28,33 @@
         });
 
         
-        // instantiate the plugin
-        self.$grid.shuffle({
-            delimeter: self.shuffleDelimeter,
-            speed: self.shuffleSpeed,
-            easing: self.shuffleEasing,
-            columnWidth: function( containerWidth ) {
+        var col = $.isFunction( self.shuffleColumns ) ?
+            self.shuffleColumns :
+            function( containerWidth ) {
                 var column = self.shuffleColumns[ containerWidth ];
                 if ( column === undefined ) {
                     column = 60;
                 }
                 return column;
             },
-            gutterWidth: function( containerWidth ) {
+            
+        gut = $.isFunction( self.shuffleGutters ) ?
+            self.shuffleGutters :
+            function( containerWidth ) {
                 var gutter = self.shuffleGutters[ containerWidth ];
                 if ( gutter === undefined ) {
                     gutter = 0;
                 }
                 return gutter;
-            }
+            };
+
+        // instantiate the plugin
+        self.$grid.shuffle({
+            delimeter: self.shuffleDelimeter,
+            speed: self.shuffleSpeed,
+            easing: self.shuffleEasing,
+            columnWidth: col,
+            gutterWidth: gut
         });
 
 
@@ -97,24 +105,26 @@
         // Hide filters
         self.$container.find('.product-filter').slideUp();
 
-
-        var sorted = false;
-        if ( $(window).width() <= 767 ) {
-            self.sortByPriority();
-            sorted = true;
-        }
-
-        $(window).on('resize.gallery', function() {
-            var width = $(window).width();
-            if ( width <= 767 && !sorted ) {
+        // If this isn't a simple gallery, let's sort the items on window resize by priority
+        if ( !self.simple ) {
+            var sorted = false;
+            if ( $(window).width() <= 767 ) {
                 self.sortByPriority();
                 sorted = true;
-            } else if ( width >= 768 && sorted ) {
-                // Reset
-                self.sortByPriority(true);
-                sorted = false;
             }
-        });
+
+            $(window).on('resize.gallery', function() {
+                var width = $(window).width();
+                if ( width <= 767 && !sorted ) {
+                    self.sortByPriority();
+                    sorted = true;
+                } else if ( width >= 768 && sorted ) {
+                    // Reset
+                    self.sortByPriority(true);
+                    sorted = false;
+                }
+            });
+        }
     };
 
     Gallery.prototype = {
@@ -251,7 +261,7 @@
             } else {
                 self.$grid.shuffle('sort', {
                     by: function($el) {
-                        return $el.data('priority');
+                        return $el.data('priority') || 100;
                     }
                 });
             }
@@ -281,6 +291,7 @@
 
     // Overrideable options
     $.fn.gallery.options = {
+        simple: false,
         filters: true,
         MIN_PRICE: 100,
         MAX_PRICE: 2000,
@@ -288,14 +299,14 @@
         shuffleDelimeter: ',',
         shuffleEasing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)', // easeOutQuart
         shuffleColumns: {
-            1470: 70,
-            1170: 70,
+            1470: 56,
+            1112: 56,
             940: 60,
             724: 42
         },
         shuffleGutters: {
-            1470: 30,
-            1170: 30,
+            1470: 40,
+            1112: 40,
             940: 20,
             724: 20
         }

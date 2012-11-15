@@ -91,7 +91,7 @@
 
   <div class="tab-content">
 
-    <section class="tab-pane fade active in gallery all" data-tab="all">
+    <section class="tab-pane fade active in gallery gallery5" data-tab="all">
       
 
       <p class="l4"><span class="text-dark">41</span> Products</p>
@@ -437,14 +437,64 @@
 
     <section class="tab-pane fade gallery gallery-simple" data-tab="overhead">
       
+      <button class="js-filter-toggle btn">Filters</button>
+      <div class="product-filter">
+        <div class="filter-options row">
+
+          <div class="span3">
+            <span>Price</span>
+            <div class="range-control-wrap"><div class="range-control price-range-control"></div></div>
+            <div class="price-range-output"></div>
+          </div>
+
+          <ul class="span3 unstyled megapixels">
+            <li data-megapixels="14-16" class="btn">14-16MP</li>
+            <li data-megapixels="16-18" class="btn">16-18MP</li>
+            <li data-megapixels="18-20" class="btn">18-20MP</li>
+            <li data-megapixels="20+" class="btn">20MP+</li>
+          </ul>
+
+          <ul class="span3 unstyled features">
+            <li>
+              <label><input type="checkbox" value="lcd"> LCD</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="touchscreen"> Touchscreen LCD</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="panorama"> Intelligent Sweep Panorama</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="lightweight"> Lightweight</label>
+            </li>
+          </ul>
+
+          <ul class="span3 unstyled best-for">
+            <li>Getting Close</li>
+            <li>Adventurer</li>
+            <li>Pocket Video</li>
+          </ul>
+
+        </div>
+      </div>
+
+      <div class="pull-right">
+        <select>
+          <option>Featured</option>
+          <option>not featured</option>
+          <option>featured and not featured</option>
+        </select>
+      </div>
+
+      
 
       <p class="l4"><span class="text-dark">16</span> Products</p>
       <div class="products">
         
-        <div class="span4 gallery-item" data-groups="lcd,lightweight" data-megapixels="20+" data-price="649.99">
-            
-            <span class="label">New Product</span>
-            
+        <div class="span4 gallery-item" data-groups="lcd,lightweight" data-megapixels="20+" data-price="649.99" data-piority="">
+          
+          <span class="label">New Product</span>
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -469,8 +519,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="lcd,touchscreen" data-megapixels="16-18" data-price="119.99">
-            
+        <div class="span4 gallery-item" data-groups="lcd,touchscreen" data-megapixels="16-18" data-price="119.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -495,8 +545,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="lcd,panorama" data-megapixels="16-18" data-price="329.99">
-            
+        <div class="span4 gallery-item" data-groups="lcd,panorama" data-megapixels="16-18" data-price="329.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -521,8 +571,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="lcd,lightweight" data-megapixels="18-20" data-price="369.99">
-            
+        <div class="span4 gallery-item" data-groups="lcd,lightweight" data-megapixels="18-20" data-price="369.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -547,8 +597,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="touchscreen,lightweight" data-megapixels="18-20" data-price="269.99">
-            
+        <div class="span4 gallery-item" data-groups="touchscreen,lightweight" data-megapixels="18-20" data-price="269.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -573,10 +623,10 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="panorama,lcd" data-megapixels="14-16" data-price="109.99">
-            
-            <span class="label">Most Popular</span>
-            
+        <div class="span4 gallery-item" data-groups="panorama,lcd" data-megapixels="14-16" data-price="109.99" data-piority="">
+          
+          <span class="label">Most Popular</span>
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -601,8 +651,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="lcd,lightweight" data-megapixels="20+" data-price="649.99">
-            
+        <div class="span4 gallery-item" data-groups="lcd,lightweight" data-megapixels="20+" data-price="649.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -627,8 +677,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="lcd,touchscreen" data-megapixels="16-18" data-price="119.99">
-            
+        <div class="span4 gallery-item" data-groups="lcd,touchscreen" data-megapixels="16-18" data-price="119.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -653,8 +703,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="lcd,panorama" data-megapixels="16-18" data-price="329.99">
-            
+        <div class="span4 gallery-item" data-groups="lcd,panorama" data-megapixels="16-18" data-price="329.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -679,8 +729,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="lcd,lightweight" data-megapixels="18-20" data-price="369.99">
-            
+        <div class="span4 gallery-item" data-groups="lcd,lightweight" data-megapixels="18-20" data-price="369.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -705,8 +755,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="touchscreen,lightweight" data-megapixels="18-20" data-price="269.99">
-            
+        <div class="span4 gallery-item" data-groups="touchscreen,lightweight" data-megapixels="18-20" data-price="269.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -731,8 +781,8 @@
           </div>
         </div>
         
-        <div class="span4 gallery-item" data-groups="panorama,lcd" data-megapixels="14-16" data-price="109.99">
-            
+        <div class="span4 gallery-item" data-groups="panorama,lcd" data-megapixels="14-16" data-price="109.99" data-piority="">
+          
           <div class="product-img ghost-center-wrap">
             <div class="ghost-center">
               <img src="http://placekitten.com/300/185" alt="" width="" height="">
@@ -759,76 +809,399 @@
         
         
       </div>
-
     </section>
 
-    <section class="tab-pane fade" data-tab="inear">
+    <section class="tab-pane fade gallery gallery5" data-tab="inear">
+      
+      <button class="js-filter-toggle btn">Filters</button>
+      <div class="product-filter">
+        <div class="filter-options row">
+
+          <div class="span3">
+            <span>Price</span>
+            <div class="range-control-wrap"><div class="range-control price-range-control"></div></div>
+            <div class="price-range-output"></div>
+          </div>
+
+          <ul class="span3 unstyled megapixels">
+            <li data-megapixels="14-16" class="btn">14-16MP</li>
+            <li data-megapixels="16-18" class="btn">16-18MP</li>
+            <li data-megapixels="18-20" class="btn">18-20MP</li>
+            <li data-megapixels="20+" class="btn">20MP+</li>
+          </ul>
+
+          <ul class="span3 unstyled features">
+            <li>
+              <label><input type="checkbox" value="lcd"> LCD</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="touchscreen"> Touchscreen LCD</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="panorama"> Intelligent Sweep Panorama</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="lightweight"> Lightweight</label>
+            </li>
+          </ul>
+
+          <ul class="span3 unstyled best-for">
+            <li>Getting Close</li>
+            <li>Adventurer</li>
+            <li>Pocket Video</li>
+          </ul>
+
+        </div>
+      </div>
+
+      <div class="pull-right">
+        <select>
+          <option>Featured</option>
+          <option>not featured</option>
+          <option>featured and not featured</option>
+        </select>
+      </div>
+
+      
+
+      <p class="l4"><span class="text-dark">26</span> Products</p>
+      <div class="products grid5">
+        
+        <div class="span1 gallery-item" data-groups="lcd,lightweight" data-megapixels="20+" data-price="379.99" data-piority="">
+          
+          <span class="label">Most Popular</span>
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDR1RBT.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">Bluetooth Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$379.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,touchscreen" data-megapixels="16-18" data-price="129.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDRXB700.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">Extra Bass Headphones - 50mm</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$129.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,panorama" data-megapixels="16-18" data-price="59.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/WHI.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">ZX Series Stereo Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$59.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,lightweight" data-megapixels="18-20" data-price="299.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/Layer-45.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">3-Driver-In-Ear with iPod/iPhone Remote</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$299.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="panorama,lcd" data-megapixels="14-16" data-price="29.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDRAS30G.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">Active Style Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$29.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,lightweight" data-megapixels="20+" data-price="29.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/Layer-451.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">MA Series Stereo Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$29.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="panorama,lcd" data-megapixels="14-16" data-price="59.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDRXB400GRN.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">XB Series Extra Bass Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$59.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,touchscreen" data-megapixels="16-18" data-price="79.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDRXB60EXGLD.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">Extra Bass In-ear Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$79.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,panorama" data-megapixels="16-18" data-price="379.99" data-piority="">
+          
+          <span class="label">New Product</span>
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/Layer-81.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">X-Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$379.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="panorama,lcd" data-megapixels="14-16" data-price="379.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDR1RBT.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">Bluetooth Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$379.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,lightweight" data-megapixels="20+" data-price="129.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDRXB700.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">Extra Bass Headphones - 50mm</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$129.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="panorama,lcd" data-megapixels="14-16" data-price="59.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/WHI.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">ZX Series Stereo Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$59.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,lightweight" data-megapixels="18-20" data-price="299.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/Layer-45.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">3-Driver-In-Ear with iPod/iPhone Remote</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$299.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,panorama" data-megapixels="16-18" data-price="29.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDRAS30G.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">Active Style Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$29.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,touchscreen" data-megapixels="16-18" data-price="29.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/Layer-451.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">MA Series Stereo Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$29.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="span1 gallery-item" data-groups="lcd,lightweight" data-megapixels="20+" data-price="59.99" data-piority="">
+          
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="img/headphones/MDRXB400GRN.png" alt="" width="" height="">
+            </div>
+          </div>
+          <div class="product-content">
+            <p class="p3 product-name">XB Series Extra Bass Headphones</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">$59.99</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+    </section>
+
+    <section class="tab-pane fade" data-tab="earclips">
       <div class="grid5">
         
         <h2>Cases, Covers &amp; Straps</h2>
         <div class="row">
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Carrying Case</div>
+              <div class="p3 product-name">Carrying Case</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$19.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$19.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Carrying Case</div>
+              <div class="p3 product-name">Carrying Case</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$34.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$34.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Jacket Case for Cyber-shot HX200V</div>
+              <div class="p3 product-name">Jacket Case for Cyber-shot HX200V</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$39.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$39.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Carrying Case</div>
+              <div class="p3 product-name">Carrying Case</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$24.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$24.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
           
-          <div class="span1 ghost-center-wrap see-all" style="height:300px;text-align:center;">
+          <div class="span1 gallery-item ghost-center-wrap see-all">
             <div class="ghost-center">
               <p>See all</p>
-              <p class="l1">26</p>
+              <p class="text-number-callout-large">26</p>
             </div>
           </div>
           
@@ -837,67 +1210,71 @@
         <h2>Batteries &amp; Chargers</h2>
         <div class="row">
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Battery Charger</div>
+              <div class="p3 product-name">Battery Charger</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$49.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$49.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Cyber-shot Accessory Kit</div>
+              <div class="p3 product-name">Cyber-shot Accessory Kit</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$69.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$69.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Battery Charger and Battery</div>
+              <div class="p3 product-name">Battery Charger and Battery</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$59.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$59.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Rechargeable Battery Pack</div>
+              <div class="p3 product-name">Rechargeable Battery Pack</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$49.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$49.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
           
-          <div class="span1 ghost-center-wrap see-all" style="height:300px;text-align:center;">
+          <div class="span1 gallery-item ghost-center-wrap see-all">
             <div class="ghost-center">
               <p>See all</p>
-              <p class="l1">13</p>
+              <p class="text-number-callout-large">13</p>
             </div>
           </div>
           
@@ -906,44 +1283,47 @@
         <h2>Tripods &amp; Remotes</h2>
         <div class="row">
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Lightweight Tripod</div>
+              <div class="p3 product-name">Lightweight Tripod</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$49.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$49.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">VCT-R100</div>
+              <div class="p3 product-name">VCT-R100</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$34.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$34.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
           
-          <div class="span1" style="height:300px;">
-            <div class="product-img">
-              <img src="http://placekitten.com/185/185" alt="">
+          <div class="span1 gallery-item">
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="http://placekitten.com/185/185" alt="" width="" height="">
+              </div>
             </div>
             <div class="product-content">
-              <div class="product-name">Remote Commander</div>
+              <div class="p3 product-name">Remote Commander</div>
               <div class="product-price">
-                <span class="muted">Starting at</span>
-                <br>
-                <b>$49.99</b> <span class="muted">MSRP</span>
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">$49.99</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </div>
@@ -952,16 +1332,6 @@
         </div>
         
       </div>
-    </section>
-
-    <section class="tab-pane fade" data-tab="earclips">
-      <h3><code>data-tab="products-4"</code></h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </section>
 
     <section class="tab-pane fade" data-tab="neck">

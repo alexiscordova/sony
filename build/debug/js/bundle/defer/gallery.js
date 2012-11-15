@@ -23,19 +23,50 @@ Exports.constrain = function(value, min, max) {
 Exports.Modules.Gallery = (function($) {
 
   var _init = function() {
-    $('.gallery:not(.all)').gallery();
-    $('.gallery.all').gallery({
-      shuffleColumns: {
-          1470: 204,
-          1112: 204,
-          940: 172,
-          724: 42
+    $('.gallery:not(.gallery5)').gallery({
+      simple: false
+    });
+
+    // All gallery (5 columns)
+    $('.gallery.gallery5').gallery({
+      shuffleColumns: function( containerWidth ) {
+        var column;
+        switch ( containerWidth ) {
+          case 1470: // falls through
+          case 1112:
+            column = 204;
+            break;
+          case 940:
+            column = 172;
+            break;
+          case 724:
+            column = 42;
+            break;
+          default:
+            column = 0.48 * containerWidth; // 48% of container width
+            break;
+        }
+
+        return column;
       },
-      shuffleGutters: {
-          1470: 23,
-          1112: 23,
-          940: 20,
-          724: 20
+
+      shuffleGutters: function( containerWidth ) {
+        var gutter;
+        switch ( containerWidth ) {
+          case 1470: // falls through
+          case 1112:
+            gutter = 23;
+            break;
+          case 940: // falls through
+          case 724:
+            gutter = 20;
+            break;
+          default:
+            gutter = 0.02 * containerWidth; // 48% of container width
+            break;
+        }
+
+        return gutter;
       }
     });
   };
