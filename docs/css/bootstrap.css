@@ -3355,7 +3355,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 78, ../../src/css/scss/_base/_sprites.scss */
-.icon-small-carrot-down-blue {
+.icon-small-carrot-down-blue, .navbar .nav > li.nav-text-dropdown > a:after {
   background-position: -450px -50px;
 }
 
@@ -4170,87 +4170,40 @@ button.close {
 /* line 10, ../../src/css/scss/_components/_navbar.scss */
 .navbar {
   overflow: visible;
-  margin-bottom: 1.65;
   color: #4571ec;
-  *position: relative;
-  *z-index: 2;
-}
-
-/* line 22, ../../src/css/scss/_components/_navbar.scss */
-.navbar-inner {
+  position: relative;
+  z-index: 200;
   min-height: 54px;
   padding-left: 20px;
   padding-right: 20px;
-  background-color: #26272c;
-  background-image: -moz-linear-gradient(top, #2b2c32, #1f2024);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2b2c32), to(#1f2024));
-  background-image: -webkit-linear-gradient(top, #2b2c32, #1f2024);
-  background-image: -o-linear-gradient(top, #2b2c32, #1f2024);
-  background-image: linear-gradient(to bottom, #2b2c32, #1f2024);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF2B2C32', endColorstr='#FF1F2024', GradientType=0);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  -ms-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+  background: #1f2024;
   *zoom: 1;
 }
 /* line 52, ../../src/css/scss/_base/_mixins.scss */
-.navbar-inner:before, .navbar-inner:after {
+.navbar:before, .navbar:after {
   display: table;
   content: "";
   line-height: 0;
 }
 /* line 59, ../../src/css/scss/_base/_mixins.scss */
-.navbar-inner:after {
+.navbar:after {
   clear: both;
 }
 
-/* line 36, ../../src/css/scss/_components/_navbar.scss */
-.navbar .container {
-  width: auto;
-}
-
-/* line 41, ../../src/css/scss/_components/_navbar.scss */
+/* line 26, ../../src/css/scss/_components/_navbar.scss */
 .nav-collapse.collapse {
   height: auto;
 }
 
-/* line 48, ../../src/css/scss/_components/_navbar.scss */
+/* line 33, ../../src/css/scss/_components/_navbar.scss */
 .navbar .brand {
   float: left;
   display: block;
   padding: 10px 20px;
   margin-left: -20px;
-  font-size: 20px;
-  font-weight: 200;
-  text-shadow: 0 1px 0 #2b2c32;
-}
-/* line 57, ../../src/css/scss/_components/_navbar.scss */
-.navbar .brand:hover {
-  text-decoration: none;
 }
 
-/* line 64, ../../src/css/scss/_components/_navbar.scss */
-.navbar-text {
-  margin-bottom: 0;
-  line-height: 54px;
-}
-
-/* line 71, ../../src/css/scss/_components/_navbar.scss */
-.navbar-link {
-  color: #4571ec;
-}
-/* line 73, ../../src/css/scss/_components/_navbar.scss */
-.navbar-link:hover {
-  color: #5787f4;
-}
-
-/* line 80, ../../src/css/scss/_components/_navbar.scss */
+/* line 43, ../../src/css/scss/_components/_navbar.scss */
 .navbar .divider-vertical {
   height: 54px;
   margin: 0 9px;
@@ -4258,20 +4211,20 @@ button.close {
   border-right: 1px solid #2b2c32;
 }
 
-/* line 90, ../../src/css/scss/_components/_navbar.scss */
+/* line 53, ../../src/css/scss/_components/_navbar.scss */
 .navbar .btn,
 .navbar .btn-group {
   margin-top: 12px;
 }
 
-/* line 95, ../../src/css/scss/_components/_navbar.scss */
+/* line 58, ../../src/css/scss/_components/_navbar.scss */
 .navbar .btn-group .btn,
 .navbar .input-prepend .btn,
 .navbar .input-append .btn {
   margin-top: 0;
 }
 
-/* line 101, ../../src/css/scss/_components/_navbar.scss */
+/* line 64, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form {
   margin-bottom: 0;
   *zoom: 1;
@@ -4286,46 +4239,46 @@ button.close {
 .navbar-form:after {
   clear: both;
 }
-/* line 107, ../../src/css/scss/_components/_navbar.scss */
+/* line 70, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form input,
 .navbar-form select,
 .navbar-form .radio,
 .navbar-form .checkbox {
   margin-top: 12px;
 }
-/* line 112, ../../src/css/scss/_components/_navbar.scss */
+/* line 75, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form input,
 .navbar-form select,
 .navbar-form .btn {
   display: inline-block;
   margin-bottom: 0;
 }
-/* line 118, ../../src/css/scss/_components/_navbar.scss */
+/* line 81, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form input[type="image"],
 .navbar-form input[type="checkbox"],
 .navbar-form input[type="radio"] {
   margin-top: 3px;
 }
-/* line 122, ../../src/css/scss/_components/_navbar.scss */
+/* line 85, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form .input-append,
 .navbar-form .input-prepend {
   margin-top: 6px;
   white-space: nowrap;
 }
-/* line 125, ../../src/css/scss/_components/_navbar.scss */
+/* line 88, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form .input-append input,
 .navbar-form .input-prepend input {
   margin-top: 0;
 }
 
-/* line 133, ../../src/css/scss/_components/_navbar.scss */
+/* line 96, ../../src/css/scss/_components/_navbar.scss */
 .navbar-search {
   position: relative;
   float: left;
   margin-top: 12px;
   margin-bottom: 0;
 }
-/* line 138, ../../src/css/scss/_components/_navbar.scss */
+/* line 101, ../../src/css/scss/_components/_navbar.scss */
 .navbar-search .search-query {
   margin-bottom: 0;
   padding: 4px 14px;
@@ -4338,86 +4291,13 @@ button.close {
   border-radius: 15px;
 }
 
-/* line 151, ../../src/css/scss/_components/_navbar.scss */
+/* line 114, ../../src/css/scss/_components/_navbar.scss */
 .navbar-static-top {
   position: static;
   width: 100%;
-  margin-bottom: 0;
-}
-/* line 155, ../../src/css/scss/_components/_navbar.scss */
-.navbar-static-top .navbar-inner {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
 }
 
-/* line 167, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top,
-.navbar-fixed-bottom {
-  position: fixed;
-  right: 0;
-  left: 0;
-  z-index: 1030;
-  margin-bottom: 0;
-}
-
-/* line 175, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top .navbar-inner,
-.navbar-static-top .navbar-inner {
-  border-width: 0 0 1px;
-}
-
-/* line 178, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-bottom .navbar-inner {
-  border-width: 1px 0 0;
-}
-
-/* line 182, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top .navbar-inner,
-.navbar-fixed-bottom .navbar-inner {
-  padding-left: 0;
-  padding-right: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-}
-
-/* line 192, ../../src/css/scss/_components/_navbar.scss */
-.navbar-static-top .container,
-.navbar-fixed-top .container,
-.navbar-fixed-bottom .container {
-  width: 940px;
-}
-
-/* line 197, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top {
-  top: 0;
-}
-
-/* line 202, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top .navbar-inner,
-.navbar-static-top .navbar-inner {
-  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-  -ms-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* line 208, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-bottom {
-  bottom: 0;
-}
-/* line 210, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-bottom .navbar-inner {
-  -webkit-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-  -ms-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* line 220, ../../src/css/scss/_components/_navbar.scss */
+/* line 131, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav {
   position: relative;
   left: 0;
@@ -4426,19 +4306,19 @@ button.close {
   margin: 0 10px 0 0;
 }
 
-/* line 227, ../../src/css/scss/_components/_navbar.scss */
-.navbar .nav.pull-right {
+/* line 138, ../../src/css/scss/_components/_navbar.scss */
+.navbar .nav.nav-utility {
   float: right;
   margin-right: 0;
 }
 
-/* line 231, ../../src/css/scss/_components/_navbar.scss */
+/* line 142, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li {
   float: left;
-  line-height: 0.95;
+  line-height: 1.0725em;
 }
 
-/* line 237, ../../src/css/scss/_components/_navbar.scss */
+/* line 148, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li > a {
   float: none;
   padding: 21.6px 15px 21.6px;
@@ -4447,12 +4327,43 @@ button.close {
   text-shadow: 0 1px 0 #2b2c32;
 }
 
-/* line 245, ../../src/css/scss/_components/_navbar.scss */
+/* line 156, ../../src/css/scss/_components/_navbar.scss */
+.navbar .nav > li.nav-text-dropdown > a:after {
+  content: "";
+  background-image: url("../img/spritesheet-icons-small.png");
+  background-repeat: no-repeat;
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-left: 4px;
+  position: relative;
+  top: 2px;
+}
+
+/* line 169, ../../src/css/scss/_components/_navbar.scss */
+.navbar .brand {
+  display: block;
+  float: left;
+  padding: 10px 20px 10px;
+  margin-left: -20px;
+  font-size: 20px;
+  font-weight: 200;
+  color: #777777;
+  text-shadow: 0 1px 0 #ffffff;
+}
+
+/* line 180, ../../src/css/scss/_components/_navbar.scss */
+.navbar .brand:hover {
+  text-decoration: none;
+}
+
+/* line 189, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav .dropdown-toggle .caret {
   margin-top: 8px;
 }
 
-/* line 251, ../../src/css/scss/_components/_navbar.scss */
+/* line 195, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li > a:focus,
 .navbar .nav > li > a:hover {
   background-color: transparent;
@@ -4460,7 +4371,7 @@ button.close {
   text-decoration: none;
 }
 
-/* line 260, ../../src/css/scss/_components/_navbar.scss */
+/* line 204, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > .active > a,
 .navbar .nav > .active > a:hover,
 .navbar .nav > .active > a:focus {
@@ -4472,7 +4383,7 @@ button.close {
   box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
 }
 
-/* line 271, ../../src/css/scss/_components/_navbar.scss */
+/* line 215, ../../src/css/scss/_components/_navbar.scss */
 .navbar .btn-navbar {
   display: none;
   float: right;
@@ -4487,7 +4398,7 @@ button.close {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
 }
 
-/* line 280, ../../src/css/scss/_components/_navbar.scss */
+/* line 224, ../../src/css/scss/_components/_navbar.scss */
 .navbar .btn-navbar .icon-bar {
   display: block;
   width: 18px;
@@ -4503,12 +4414,12 @@ button.close {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
-/* line 288, ../../src/css/scss/_components/_navbar.scss */
+/* line 232, ../../src/css/scss/_components/_navbar.scss */
 .btn-navbar .icon-bar + .icon-bar {
   margin-top: 3px;
 }
 
-/* line 299, ../../src/css/scss/_components/_navbar.scss */
+/* line 243, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li > .dropdown-menu:before {
   content: '';
   display: inline-block;
@@ -4520,7 +4431,7 @@ button.close {
   top: -7px;
   left: 9px;
 }
-/* line 310, ../../src/css/scss/_components/_navbar.scss */
+/* line 254, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li > .dropdown-menu:after {
   content: '';
   display: inline-block;
@@ -4532,7 +4443,7 @@ button.close {
   left: 10px;
 }
 
-/* line 323, ../../src/css/scss/_components/_navbar.scss */
+/* line 267, ../../src/css/scss/_components/_navbar.scss */
 .navbar-fixed-bottom .dropdown-menu:before {
   border-top: 7px solid #ccc;
   border-top-color: rgba(0, 0, 0, 0.2);
@@ -4540,7 +4451,7 @@ button.close {
   bottom: -7px;
   top: auto;
 }
-/* line 330, ../../src/css/scss/_components/_navbar.scss */
+/* line 274, ../../src/css/scss/_components/_navbar.scss */
 .navbar-fixed-bottom .dropdown-menu:after {
   border-top: 6px solid white;
   border-bottom: 0;
@@ -4548,7 +4459,7 @@ button.close {
   top: auto;
 }
 
-/* line 341, ../../src/css/scss/_components/_navbar.scss */
+/* line 285, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav li.dropdown.open > .dropdown-toggle,
 .navbar .nav li.dropdown.active > .dropdown-toggle,
 .navbar .nav li.dropdown.open.active > .dropdown-toggle {
@@ -4556,13 +4467,13 @@ button.close {
   color: #6f98f6;
 }
 
-/* line 345, ../../src/css/scss/_components/_navbar.scss */
+/* line 289, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav li.dropdown > .dropdown-toggle .caret {
   border-top-color: #4571ec;
   border-bottom-color: #4571ec;
 }
 
-/* line 351, ../../src/css/scss/_components/_navbar.scss */
+/* line 295, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav li.dropdown.open > .dropdown-toggle .caret,
 .navbar .nav li.dropdown.active > .dropdown-toggle .caret,
 .navbar .nav li.dropdown.open.active > .dropdown-toggle .caret {
@@ -4570,25 +4481,25 @@ button.close {
   border-bottom-color: #6f98f6;
 }
 
-/* line 358, ../../src/css/scss/_components/_navbar.scss */
+/* line 302, ../../src/css/scss/_components/_navbar.scss */
 .navbar .pull-right > li > .dropdown-menu,
 .navbar .nav > li > .dropdown-menu.pull-right {
   left: auto;
   right: 0;
 }
-/* line 361, ../../src/css/scss/_components/_navbar.scss */
+/* line 305, ../../src/css/scss/_components/_navbar.scss */
 .navbar .pull-right > li > .dropdown-menu:before,
 .navbar .nav > li > .dropdown-menu.pull-right:before {
   left: auto;
   right: 12px;
 }
-/* line 365, ../../src/css/scss/_components/_navbar.scss */
+/* line 309, ../../src/css/scss/_components/_navbar.scss */
 .navbar .pull-right > li > .dropdown-menu:after,
 .navbar .nav > li > .dropdown-menu.pull-right:after {
   left: auto;
   right: 13px;
 }
-/* line 369, ../../src/css/scss/_components/_navbar.scss */
+/* line 313, ../../src/css/scss/_components/_navbar.scss */
 .navbar .pull-right > li > .dropdown-menu .dropdown-menu,
 .navbar .nav > li > .dropdown-menu.pull-right .dropdown-menu {
   left: auto;
@@ -4600,79 +4511,67 @@ button.close {
   border-radius: 6px 0 6px 6px;
 }
 
-/* line 382, ../../src/css/scss/_components/_navbar.scss */
+/* line 326, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse {
   color: #bcbccc;
 }
-/* line 385, ../../src/css/scss/_components/_navbar.scss */
-.navbar-inverse .navbar-inner {
-  background-color: #1b1b1b;
-  background-image: -moz-linear-gradient(top, #222222, #111111);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
-  background-image: -webkit-linear-gradient(top, #222222, #111111);
-  background-image: -o-linear-gradient(top, #222222, #111111);
-  background-image: linear-gradient(to bottom, #222222, #111111);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF222222', endColorstr='#FF111111', GradientType=0);
-  border-color: #252525;
-}
-/* line 391, ../../src/css/scss/_components/_navbar.scss */
+/* line 330, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .brand,
 .navbar-inverse .nav > li > a {
   color: #bcbccc;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-/* line 394, ../../src/css/scss/_components/_navbar.scss */
+/* line 333, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .brand:hover,
 .navbar-inverse .nav > li > a:hover {
   color: white;
 }
-/* line 400, ../../src/css/scss/_components/_navbar.scss */
+/* line 339, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav > li > a:focus,
 .navbar-inverse .nav > li > a:hover {
   background-color: transparent;
   color: white;
 }
-/* line 407, ../../src/css/scss/_components/_navbar.scss */
+/* line 346, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav .active > a,
 .navbar-inverse .nav .active > a:hover,
 .navbar-inverse .nav .active > a:focus {
   color: white;
   background-color: #111111;
 }
-/* line 413, ../../src/css/scss/_components/_navbar.scss */
+/* line 352, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .navbar-link {
   color: #bcbccc;
 }
-/* line 415, ../../src/css/scss/_components/_navbar.scss */
+/* line 354, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .navbar-link:hover {
   color: white;
 }
-/* line 421, ../../src/css/scss/_components/_navbar.scss */
+/* line 360, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .divider-vertical {
   border-left-color: #111111;
   border-right-color: #222222;
 }
-/* line 429, ../../src/css/scss/_components/_navbar.scss */
+/* line 368, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav li.dropdown.open > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
   background-color: #111111;
   color: white;
 }
-/* line 433, ../../src/css/scss/_components/_navbar.scss */
+/* line 372, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav li.dropdown > .dropdown-toggle .caret {
   border-top-color: #bcbccc;
   border-bottom-color: #bcbccc;
 }
-/* line 439, ../../src/css/scss/_components/_navbar.scss */
+/* line 378, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav li.dropdown.open > .dropdown-toggle .caret,
 .navbar-inverse .nav li.dropdown.active > .dropdown-toggle .caret,
 .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle .caret {
   border-top-color: white;
   border-bottom-color: white;
 }
-/* line 446, ../../src/css/scss/_components/_navbar.scss */
+/* line 385, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .navbar-search .search-query {
   color: white;
   background-color: #515151;
@@ -4699,7 +4598,7 @@ button.close {
 .navbar-inverse .navbar-search .search-query::-webkit-input-placeholder {
   color: #cccccc;
 }
-/* line 456, ../../src/css/scss/_components/_navbar.scss */
+/* line 395, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .navbar-search .search-query:focus, .navbar-inverse .navbar-search .search-query.focused {
   padding: 5px 15px;
   color: #2f353d;
@@ -4713,7 +4612,7 @@ button.close {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
   outline: 0;
 }
-/* line 469, ../../src/css/scss/_components/_navbar.scss */
+/* line 408, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .btn-navbar {
   background: #151515;
 }
@@ -5273,7 +5172,7 @@ button.close {
 /* line 8, ../../src/css/scss/_base/_labels-badges.scss */
 .label,
 .badge {
-  font-size: 0.7em;
+  font-size: 0.6875em;
   font-family: "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   line-height: 14px;
@@ -5283,12 +5182,12 @@ button.close {
   background-color: #f35429;
 }
 
-/* line 21, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 20, ../../src/css/scss/_base/_labels-badges.scss */
 .label {
   padding: 5px 12px;
 }
 
-/* line 25, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 24, ../../src/css/scss/_base/_labels-badges.scss */
 .badge {
   padding: 1px 9px 2px;
   -webkit-border-radius: 9px;
@@ -5296,71 +5195,71 @@ button.close {
   border-radius: 9px;
 }
 
-/* line 33, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 32, ../../src/css/scss/_base/_labels-badges.scss */
 a.label:hover, a.badge:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
 
-/* line 43, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 42, ../../src/css/scss/_base/_labels-badges.scss */
 .label-important, .badge-important {
   background-color: #b94a48;
 }
 
-/* line 44, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 43, ../../src/css/scss/_base/_labels-badges.scss */
 .label-important[href], .badge-important[href] {
   background-color: #953b39;
 }
 
-/* line 46, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 45, ../../src/css/scss/_base/_labels-badges.scss */
 .label-warning, .badge-warning {
   background-color: #f89406;
 }
 
-/* line 47, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 46, ../../src/css/scss/_base/_labels-badges.scss */
 .label-warning[href], .badge-warning[href] {
   background-color: #c67605;
 }
 
-/* line 49, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 48, ../../src/css/scss/_base/_labels-badges.scss */
 .label-success, .badge-success {
   background-color: #468847;
 }
 
-/* line 50, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 49, ../../src/css/scss/_base/_labels-badges.scss */
 .label-success[href], .badge-success[href] {
   background-color: #356635;
 }
 
-/* line 52, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 51, ../../src/css/scss/_base/_labels-badges.scss */
 .label-info, .badge-info {
   background-color: #3a87ad;
 }
 
-/* line 53, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 52, ../../src/css/scss/_base/_labels-badges.scss */
 .label-info[href], .badge-info[href] {
   background-color: #2d6987;
 }
 
-/* line 55, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 54, ../../src/css/scss/_base/_labels-badges.scss */
 .label-inverse, .badge-inverse {
   background-color: #2f353d;
 }
 
-/* line 56, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 55, ../../src/css/scss/_base/_labels-badges.scss */
 .label-inverse[href], .badge-inverse[href] {
   background-color: #191c20;
 }
 
-/* line 61, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 60, ../../src/css/scss/_base/_labels-badges.scss */
 .btn .label,
 .btn .badge {
   position: relative;
   top: -1px;
 }
 
-/* line 68, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 67, ../../src/css/scss/_base/_labels-badges.scss */
 .btn-mini .label,
 .btn-mini .badge {
   top: 0;
