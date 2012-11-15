@@ -213,23 +213,21 @@ $horizontalComponentOffset:       180px;
 $wellBackground:                  rgb(245,245,245) !default;
 
 
+
 // Navbar
 // -------------------------
 $navbarCollapseWidth:             979px !default;
 
 $navbarHeight:                    54px !default;
-$navbarBackgroundHighlight:       rgb(255,255,255) !default;
-$navbarBackground:                darken($navbarBackgroundHighlight, 5%) !default;
-$navbarBorder:                    darken($navbarBackground, 12%) !default;
+$navbarBackground:                $grayDarkerFieldLarge !default;
+$navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
 
-$navbarText:                      rgb(119,119,119) !default;
-$navbarLinkColor:                 rgb(119,119,119) !default;
-$navbarLinkColorHover:            $grayDark !default;
-$navbarLinkColorActive:           $gray !default;
+$navbarText:                      $linkColor !default;
+$navbarLinkColor:                 $linkColor !default;
+$navbarLinkColorHover:            $linkColorHover !default;
+$navbarLinkColorActive:           lighten($linkColorHover,5%) !default;
 $navbarLinkBackgroundHover:       transparent !default;
 $navbarLinkBackgroundActive:      darken($navbarBackground, 5.25%) !default;
-
-$navbarBrandColor:                $navbarLinkColor !default;
 
 // Inverted navbar
 $navbarInverseBackground:                rgb(17,17,17) !default;

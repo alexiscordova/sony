@@ -2657,11 +2657,6 @@ table [class*=span],
   display: inline-block;
   width: 40px;
   height: 37px;
-  *margin-right: .3em;
-  line-height: 15px;
-  vertical-align: text-top;
-  background-position: 15px 15px;
-  margin-top: 1px;
   -webkit-border-radius: 1px;
   -moz-border-radius: 1px;
   border-radius: 1px;
@@ -3210,16 +3205,6 @@ input[type="submit"].btn.btn-mini {
   box-shadow: inset 3px 3px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
-/* line 106, ../../src/css/scss/_base/_hotspots.scss */
-.hotspot-plus .circle-button .circle-button-icon {
-  background-position: -200px -50px;
-}
-
-/* line 107, ../../src/css/scss/_base/_hotspots.scss */
-.hotspot-close .circle-button .circle-button-icon {
-  background-position: -250px -50px;
-}
-
 /* line 108, ../../src/css/scss/_base/_hotspots.scss */
 .hotspot-xlarge-revealer .circle-button .circle-button-icon {
   background-position: -287px -38px;
@@ -3349,6 +3334,36 @@ input[type="submit"].btn.btn-mini {
   background-position: -100px -50px;
 }
 
+/* line 73, ../../src/css/scss/_base/_sprites.scss */
+.icon-small-plus-white, .hotspot-plus .circle-button .circle-button-icon {
+  background-position: -200px -50px;
+}
+
+/* line 74, ../../src/css/scss/_base/_sprites.scss */
+.icon-small-x-white, .hotspot-close .circle-button .circle-button-icon {
+  background-position: -250px -50px;
+}
+
+/* line 76, ../../src/css/scss/_base/_sprites.scss */
+.icon-small-carrot-down-white {
+  background-position: -350px -50px;
+}
+
+/* line 77, ../../src/css/scss/_base/_sprites.scss */
+.icon-small-carrot-up-white {
+  background-position: -400px -50px;
+}
+
+/* line 78, ../../src/css/scss/_base/_sprites.scss */
+.icon-small-carrot-down-blue, .navbar .nav > li.nav-text-dropdown > a:after {
+  background-position: -450px -50px;
+}
+
+/* line 79, ../../src/css/scss/_base/_sprites.scss */
+.icon-small-carrot-up-blue {
+  background-position: -500px -50px;
+}
+
 /* line 8, ../../src/css/scss/_components/_dropdowns.scss */
 .dropup,
 .dropdown {
@@ -3373,11 +3388,6 @@ input[type="submit"].btn.btn-mini {
   display: inline-block;
   width: 15px;
   height: 15px;
-  *margin-right: .3em;
-  line-height: 15px;
-  vertical-align: text-top;
-  background-position: 15px 15px;
-  margin-top: 1px;
   background-position: -150px -50px;
   float: right;
   margin: 6px 12px 0 0;
@@ -4160,110 +4170,61 @@ button.close {
 /* line 10, ../../src/css/scss/_components/_navbar.scss */
 .navbar {
   overflow: visible;
-  margin-bottom: 1.65;
-  color: #777777;
-  *position: relative;
-  *z-index: 2;
-}
-
-/* line 22, ../../src/css/scss/_components/_navbar.scss */
-.navbar-inner {
+  color: #4571ec;
+  position: relative;
+  z-index: 200;
   min-height: 54px;
   padding-left: 20px;
   padding-right: 20px;
-  background-color: #fafafa;
-  background-image: -moz-linear-gradient(top, white, #f2f2f2);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(#f2f2f2));
-  background-image: -webkit-linear-gradient(top, white, #f2f2f2);
-  background-image: -o-linear-gradient(top, white, #f2f2f2);
-  background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFF2F2F2', GradientType=0);
-  border: 1px solid #d4d4d4;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  -ms-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  -o-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+  background: #1f2024;
   *zoom: 1;
 }
 /* line 52, ../../src/css/scss/_base/_mixins.scss */
-.navbar-inner:before, .navbar-inner:after {
+.navbar:before, .navbar:after {
   display: table;
   content: "";
   line-height: 0;
 }
 /* line 59, ../../src/css/scss/_base/_mixins.scss */
-.navbar-inner:after {
+.navbar:after {
   clear: both;
 }
 
-/* line 37, ../../src/css/scss/_components/_navbar.scss */
-.navbar .container {
-  width: auto;
-}
-
-/* line 42, ../../src/css/scss/_components/_navbar.scss */
+/* line 26, ../../src/css/scss/_components/_navbar.scss */
 .nav-collapse.collapse {
   height: auto;
 }
 
-/* line 49, ../../src/css/scss/_components/_navbar.scss */
+/* line 33, ../../src/css/scss/_components/_navbar.scss */
 .navbar .brand {
   float: left;
   display: block;
   padding: 10px 20px;
   margin-left: -20px;
-  font-size: 20px;
-  font-weight: 200;
-  color: #777777;
-  text-shadow: 0 1px 0 white;
-}
-/* line 59, ../../src/css/scss/_components/_navbar.scss */
-.navbar .brand:hover {
-  text-decoration: none;
 }
 
-/* line 66, ../../src/css/scss/_components/_navbar.scss */
-.navbar-text {
-  margin-bottom: 0;
-  line-height: 54px;
-}
-
-/* line 73, ../../src/css/scss/_components/_navbar.scss */
-.navbar-link {
-  color: #777777;
-}
-/* line 75, ../../src/css/scss/_components/_navbar.scss */
-.navbar-link:hover {
-  color: #2f353d;
-}
-
-/* line 82, ../../src/css/scss/_components/_navbar.scss */
+/* line 43, ../../src/css/scss/_components/_navbar.scss */
 .navbar .divider-vertical {
   height: 54px;
   margin: 0 9px;
-  border-left: 1px solid #f2f2f2;
-  border-right: 1px solid white;
+  border-left: 1px solid #1f2024;
+  border-right: 1px solid #2b2c32;
 }
 
-/* line 92, ../../src/css/scss/_components/_navbar.scss */
+/* line 53, ../../src/css/scss/_components/_navbar.scss */
 .navbar .btn,
 .navbar .btn-group {
   margin-top: 12px;
 }
 
-/* line 97, ../../src/css/scss/_components/_navbar.scss */
+/* line 58, ../../src/css/scss/_components/_navbar.scss */
 .navbar .btn-group .btn,
 .navbar .input-prepend .btn,
 .navbar .input-append .btn {
   margin-top: 0;
 }
 
-/* line 103, ../../src/css/scss/_components/_navbar.scss */
+/* line 64, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form {
   margin-bottom: 0;
   *zoom: 1;
@@ -4278,46 +4239,46 @@ button.close {
 .navbar-form:after {
   clear: both;
 }
-/* line 109, ../../src/css/scss/_components/_navbar.scss */
+/* line 70, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form input,
 .navbar-form select,
 .navbar-form .radio,
 .navbar-form .checkbox {
   margin-top: 12px;
 }
-/* line 114, ../../src/css/scss/_components/_navbar.scss */
+/* line 75, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form input,
 .navbar-form select,
 .navbar-form .btn {
   display: inline-block;
   margin-bottom: 0;
 }
-/* line 120, ../../src/css/scss/_components/_navbar.scss */
+/* line 81, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form input[type="image"],
 .navbar-form input[type="checkbox"],
 .navbar-form input[type="radio"] {
   margin-top: 3px;
 }
-/* line 124, ../../src/css/scss/_components/_navbar.scss */
+/* line 85, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form .input-append,
 .navbar-form .input-prepend {
   margin-top: 6px;
   white-space: nowrap;
 }
-/* line 127, ../../src/css/scss/_components/_navbar.scss */
+/* line 88, ../../src/css/scss/_components/_navbar.scss */
 .navbar-form .input-append input,
 .navbar-form .input-prepend input {
   margin-top: 0;
 }
 
-/* line 135, ../../src/css/scss/_components/_navbar.scss */
+/* line 96, ../../src/css/scss/_components/_navbar.scss */
 .navbar-search {
   position: relative;
   float: left;
   margin-top: 12px;
   margin-bottom: 0;
 }
-/* line 140, ../../src/css/scss/_components/_navbar.scss */
+/* line 101, ../../src/css/scss/_components/_navbar.scss */
 .navbar-search .search-query {
   margin-bottom: 0;
   padding: 4px 14px;
@@ -4330,86 +4291,13 @@ button.close {
   border-radius: 15px;
 }
 
-/* line 153, ../../src/css/scss/_components/_navbar.scss */
+/* line 114, ../../src/css/scss/_components/_navbar.scss */
 .navbar-static-top {
   position: static;
   width: 100%;
-  margin-bottom: 0;
-}
-/* line 157, ../../src/css/scss/_components/_navbar.scss */
-.navbar-static-top .navbar-inner {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
 }
 
-/* line 169, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top,
-.navbar-fixed-bottom {
-  position: fixed;
-  right: 0;
-  left: 0;
-  z-index: 1030;
-  margin-bottom: 0;
-}
-
-/* line 177, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top .navbar-inner,
-.navbar-static-top .navbar-inner {
-  border-width: 0 0 1px;
-}
-
-/* line 180, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-bottom .navbar-inner {
-  border-width: 1px 0 0;
-}
-
-/* line 184, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top .navbar-inner,
-.navbar-fixed-bottom .navbar-inner {
-  padding-left: 0;
-  padding-right: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-}
-
-/* line 194, ../../src/css/scss/_components/_navbar.scss */
-.navbar-static-top .container,
-.navbar-fixed-top .container,
-.navbar-fixed-bottom .container {
-  width: 940px;
-}
-
-/* line 199, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top {
-  top: 0;
-}
-
-/* line 204, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-top .navbar-inner,
-.navbar-static-top .navbar-inner {
-  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-  -ms-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* line 210, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-bottom {
-  bottom: 0;
-}
-/* line 212, ../../src/css/scss/_components/_navbar.scss */
-.navbar-fixed-bottom .navbar-inner {
-  -webkit-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-  -ms-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* line 222, ../../src/css/scss/_components/_navbar.scss */
+/* line 131, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav {
   position: relative;
   left: 0;
@@ -4418,60 +4306,91 @@ button.close {
   margin: 0 10px 0 0;
 }
 
-/* line 229, ../../src/css/scss/_components/_navbar.scss */
-.navbar .nav.pull-right {
+/* line 138, ../../src/css/scss/_components/_navbar.scss */
+.navbar .nav.nav-utility {
   float: right;
   margin-right: 0;
 }
 
-/* line 233, ../../src/css/scss/_components/_navbar.scss */
+/* line 142, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li {
   float: left;
-  line-height: 0.95;
+  line-height: 1.0725em;
 }
 
-/* line 239, ../../src/css/scss/_components/_navbar.scss */
+/* line 148, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li > a {
   float: none;
   padding: 21.6px 15px 21.6px;
-  color: #777777;
+  color: #4571ec;
   text-decoration: none;
-  text-shadow: 0 1px 0 white;
+  text-shadow: 0 1px 0 #2b2c32;
 }
 
-/* line 247, ../../src/css/scss/_components/_navbar.scss */
+/* line 156, ../../src/css/scss/_components/_navbar.scss */
+.navbar .nav > li.nav-text-dropdown > a:after {
+  content: "";
+  background-image: url("../img/spritesheet-icons-small.png");
+  background-repeat: no-repeat;
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-left: 4px;
+  position: relative;
+  top: 2px;
+}
+
+/* line 169, ../../src/css/scss/_components/_navbar.scss */
+.navbar .brand {
+  display: block;
+  float: left;
+  padding: 10px 20px 10px;
+  margin-left: -20px;
+  font-size: 20px;
+  font-weight: 200;
+  color: #777777;
+  text-shadow: 0 1px 0 #ffffff;
+}
+
+/* line 180, ../../src/css/scss/_components/_navbar.scss */
+.navbar .brand:hover {
+  text-decoration: none;
+}
+
+/* line 189, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav .dropdown-toggle .caret {
   margin-top: 8px;
 }
 
-/* line 253, ../../src/css/scss/_components/_navbar.scss */
+/* line 195, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li > a:focus,
 .navbar .nav > li > a:hover {
   background-color: transparent;
-  color: #2f353d;
+  color: #5787f4;
   text-decoration: none;
 }
 
-/* line 262, ../../src/css/scss/_components/_navbar.scss */
+/* line 204, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > .active > a,
 .navbar .nav > .active > a:hover,
 .navbar .nav > .active > a:focus {
-  color: #83838f;
+  color: #6f98f6;
   text-decoration: none;
-  background-color: #e5e5e5;
+  background-color: #131316;
   -webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
   -moz-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
 }
 
-/* line 273, ../../src/css/scss/_components/_navbar.scss */
+/* line 215, ../../src/css/scss/_components/_navbar.scss */
 .navbar .btn-navbar {
   display: none;
   float: right;
   padding: 7px 10px;
   margin-left: 5px;
   margin-right: 5px;
-  background: #f2f2f2;
+  background: #1f2024;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
   -ms-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
@@ -4479,7 +4398,7 @@ button.close {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
 }
 
-/* line 282, ../../src/css/scss/_components/_navbar.scss */
+/* line 224, ../../src/css/scss/_components/_navbar.scss */
 .navbar .btn-navbar .icon-bar {
   display: block;
   width: 18px;
@@ -4495,12 +4414,12 @@ button.close {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
-/* line 290, ../../src/css/scss/_components/_navbar.scss */
+/* line 232, ../../src/css/scss/_components/_navbar.scss */
 .btn-navbar .icon-bar + .icon-bar {
   margin-top: 3px;
 }
 
-/* line 301, ../../src/css/scss/_components/_navbar.scss */
+/* line 243, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li > .dropdown-menu:before {
   content: '';
   display: inline-block;
@@ -4512,7 +4431,7 @@ button.close {
   top: -7px;
   left: 9px;
 }
-/* line 312, ../../src/css/scss/_components/_navbar.scss */
+/* line 254, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav > li > .dropdown-menu:after {
   content: '';
   display: inline-block;
@@ -4524,7 +4443,7 @@ button.close {
   left: 10px;
 }
 
-/* line 325, ../../src/css/scss/_components/_navbar.scss */
+/* line 267, ../../src/css/scss/_components/_navbar.scss */
 .navbar-fixed-bottom .dropdown-menu:before {
   border-top: 7px solid #ccc;
   border-top-color: rgba(0, 0, 0, 0.2);
@@ -4532,7 +4451,7 @@ button.close {
   bottom: -7px;
   top: auto;
 }
-/* line 332, ../../src/css/scss/_components/_navbar.scss */
+/* line 274, ../../src/css/scss/_components/_navbar.scss */
 .navbar-fixed-bottom .dropdown-menu:after {
   border-top: 6px solid white;
   border-bottom: 0;
@@ -4540,47 +4459,47 @@ button.close {
   top: auto;
 }
 
-/* line 343, ../../src/css/scss/_components/_navbar.scss */
+/* line 285, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav li.dropdown.open > .dropdown-toggle,
 .navbar .nav li.dropdown.active > .dropdown-toggle,
 .navbar .nav li.dropdown.open.active > .dropdown-toggle {
-  background-color: #e5e5e5;
-  color: #83838f;
+  background-color: #131316;
+  color: #6f98f6;
 }
 
-/* line 347, ../../src/css/scss/_components/_navbar.scss */
+/* line 289, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav li.dropdown > .dropdown-toggle .caret {
-  border-top-color: #777777;
-  border-bottom-color: #777777;
+  border-top-color: #4571ec;
+  border-bottom-color: #4571ec;
 }
 
-/* line 353, ../../src/css/scss/_components/_navbar.scss */
+/* line 295, ../../src/css/scss/_components/_navbar.scss */
 .navbar .nav li.dropdown.open > .dropdown-toggle .caret,
 .navbar .nav li.dropdown.active > .dropdown-toggle .caret,
 .navbar .nav li.dropdown.open.active > .dropdown-toggle .caret {
-  border-top-color: #83838f;
-  border-bottom-color: #83838f;
+  border-top-color: #6f98f6;
+  border-bottom-color: #6f98f6;
 }
 
-/* line 360, ../../src/css/scss/_components/_navbar.scss */
+/* line 302, ../../src/css/scss/_components/_navbar.scss */
 .navbar .pull-right > li > .dropdown-menu,
 .navbar .nav > li > .dropdown-menu.pull-right {
   left: auto;
   right: 0;
 }
-/* line 363, ../../src/css/scss/_components/_navbar.scss */
+/* line 305, ../../src/css/scss/_components/_navbar.scss */
 .navbar .pull-right > li > .dropdown-menu:before,
 .navbar .nav > li > .dropdown-menu.pull-right:before {
   left: auto;
   right: 12px;
 }
-/* line 367, ../../src/css/scss/_components/_navbar.scss */
+/* line 309, ../../src/css/scss/_components/_navbar.scss */
 .navbar .pull-right > li > .dropdown-menu:after,
 .navbar .nav > li > .dropdown-menu.pull-right:after {
   left: auto;
   right: 13px;
 }
-/* line 371, ../../src/css/scss/_components/_navbar.scss */
+/* line 313, ../../src/css/scss/_components/_navbar.scss */
 .navbar .pull-right > li > .dropdown-menu .dropdown-menu,
 .navbar .nav > li > .dropdown-menu.pull-right .dropdown-menu {
   left: auto;
@@ -4592,79 +4511,67 @@ button.close {
   border-radius: 6px 0 6px 6px;
 }
 
-/* line 384, ../../src/css/scss/_components/_navbar.scss */
+/* line 326, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse {
   color: #bcbccc;
 }
-/* line 387, ../../src/css/scss/_components/_navbar.scss */
-.navbar-inverse .navbar-inner {
-  background-color: #1b1b1b;
-  background-image: -moz-linear-gradient(top, #222222, #111111);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
-  background-image: -webkit-linear-gradient(top, #222222, #111111);
-  background-image: -o-linear-gradient(top, #222222, #111111);
-  background-image: linear-gradient(to bottom, #222222, #111111);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF222222', endColorstr='#FF111111', GradientType=0);
-  border-color: #252525;
-}
-/* line 393, ../../src/css/scss/_components/_navbar.scss */
+/* line 330, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .brand,
 .navbar-inverse .nav > li > a {
   color: #bcbccc;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-/* line 396, ../../src/css/scss/_components/_navbar.scss */
+/* line 333, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .brand:hover,
 .navbar-inverse .nav > li > a:hover {
   color: white;
 }
-/* line 402, ../../src/css/scss/_components/_navbar.scss */
+/* line 339, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav > li > a:focus,
 .navbar-inverse .nav > li > a:hover {
   background-color: transparent;
   color: white;
 }
-/* line 409, ../../src/css/scss/_components/_navbar.scss */
+/* line 346, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav .active > a,
 .navbar-inverse .nav .active > a:hover,
 .navbar-inverse .nav .active > a:focus {
   color: white;
   background-color: #111111;
 }
-/* line 415, ../../src/css/scss/_components/_navbar.scss */
+/* line 352, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .navbar-link {
   color: #bcbccc;
 }
-/* line 417, ../../src/css/scss/_components/_navbar.scss */
+/* line 354, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .navbar-link:hover {
   color: white;
 }
-/* line 423, ../../src/css/scss/_components/_navbar.scss */
+/* line 360, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .divider-vertical {
   border-left-color: #111111;
   border-right-color: #222222;
 }
-/* line 431, ../../src/css/scss/_components/_navbar.scss */
+/* line 368, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav li.dropdown.open > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
   background-color: #111111;
   color: white;
 }
-/* line 435, ../../src/css/scss/_components/_navbar.scss */
+/* line 372, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav li.dropdown > .dropdown-toggle .caret {
   border-top-color: #bcbccc;
   border-bottom-color: #bcbccc;
 }
-/* line 441, ../../src/css/scss/_components/_navbar.scss */
+/* line 378, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .nav li.dropdown.open > .dropdown-toggle .caret,
 .navbar-inverse .nav li.dropdown.active > .dropdown-toggle .caret,
 .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle .caret {
   border-top-color: white;
   border-bottom-color: white;
 }
-/* line 448, ../../src/css/scss/_components/_navbar.scss */
+/* line 385, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .navbar-search .search-query {
   color: white;
   background-color: #515151;
@@ -4691,7 +4598,7 @@ button.close {
 .navbar-inverse .navbar-search .search-query::-webkit-input-placeholder {
   color: #cccccc;
 }
-/* line 458, ../../src/css/scss/_components/_navbar.scss */
+/* line 395, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .navbar-search .search-query:focus, .navbar-inverse .navbar-search .search-query.focused {
   padding: 5px 15px;
   color: #2f353d;
@@ -4705,7 +4612,7 @@ button.close {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
   outline: 0;
 }
-/* line 471, ../../src/css/scss/_components/_navbar.scss */
+/* line 408, ../../src/css/scss/_components/_navbar.scss */
 .navbar-inverse .btn-navbar {
   background: #151515;
 }
