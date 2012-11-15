@@ -1,3 +1,9 @@
+---
+title: Example Module
+description: This is a sample module showing how to include data and partial includes to generate a page. 
+---
+<%" !! optionally include a title and description up here that gets picked up on the docs module list. "%>
+
 <!DOCTYPE html>
 <!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
@@ -5,21 +11,29 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
 	<head>
 		<%-@partial('includes/meta.html')%>
+
 <% if 'debug' in @getEnvironments():%> 
+<%" !! if you want to manually include your css for debugging instead of relying on the auto include comment this out and replace with bootstrap.css, responsive.css and your css "%>
 		<%-@partial('includes/css_debug.html.eco', {this: this})%>
 <% else: %>
 		<%-@partial('includes/css_deploy.html')%>
 <% end %>
+
 		<%-@partial('includes/js_head.html')%>	
 		
 	</head>
 	<body>
 
-<!-- include your module markup templates here -->
+<%" !! include your module markup templates here "%>
+<%" !! this shows 2 modules with different ways of getting unique data into the module template "%>
+<%" !! first from an external json file found in the /data directory "%>
 		<%-@partial('modules/module_test.html.hb', @data('mode1.json')) %>
+<%" !! second is inline object iterals "%>
 		<%-@partial('modules/module_test.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
 
+
 <% if 'debug' in @getEnvironments():%>
+<%" !! if you want to manually override the javascript includes remove this and include all your own js "%>
 		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
 <% else: %>
 		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
