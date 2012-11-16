@@ -28,7 +28,7 @@
 			================================================== -->
 			    <div class="row">
 			      <div class="span3 bs-docs-sidebar">
-			        <ul class="nav nav-list bs-docs-sidenav">
+			        <ul class="simple-nav simple-nav-list bs-docs-sidenav">
 			          <li><a href="#overview"><i class="icon-chevron-right"></i> Overview</a></li>
 			
 			          <li><a href="#global-nav"><i class="icon-chevron-right"></i> Global Nav</a></li>
@@ -117,19 +117,6 @@
 			        <section id="global-nav" class="NotUpdatedYet">
 			
 			          <h2 class="bs-docs-heading">Global Nav</h2>
-			          <p>Lorem ipsum</p>
-			          <div class="bs-docs-example">
-			            <div class="navbar navbar-inverse">
-			              <div class="navbar-inner">
-			                <a class="brand" href="#">Title</a>
-			                <ul class="nav">
-			                  <li class="active"><a href="#">Home</a></li>
-			                  <li><a href="#">Link</a></li>
-			                  <li><a href="#">Link</a></li>
-			                </ul>
-			              </div>
-			            </div>
-			          </div>
 			        </section>
 			
 			
@@ -154,30 +141,6 @@
 			
 			          <h2 class="bs-docs-heading">Sub Nav</h2>
 			          <p>Replace the sub-nav divs in this example with your own sub-nav markup</p>
-			          <div class="bs-docs-example">
-			            <div class="sub-nav">
-			              <div class="sub-nav-inner">
-			                <a class="brand" href="#">Title</a>
-			                <ul class="nav">
-			                  <li class="active"><a href="#">Home</a></li>
-			                  <li><a href="#">Link</a></li>
-			                  <li><a href="#">Link</a></li>
-			                </ul>
-			              </div>
-			            </div>
-			          </div>
-<pre class="prettyprint linenums">
-&lt;div class="sub-nav"&gt;
-  &lt;div class="sub-nav-inner"&gt;
-    &lt;a class="brand" href="#"&gt;Title&lt;/a&gt;
-    &lt;ul class="nav"&gt;
-      &lt;li class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-</pre>
 			          </section><!-- END sub-nav --> 
 			
 			
@@ -465,7 +428,7 @@
 			          <h3 class="bs-docs-heading">Example tabs</h3>
 			          <p>Add quick, dynamic tab functionality to transiton through panes of local content, even via dropdown menus.</p>
 			          <div class="bs-docs-example">
-			            <ul id="myTab" class="nav nav-tabs">
+			            <ul id="myTab" class="simple-nav nav-tabs">
 			              <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
 			              <li><a href="#profile" data-toggle="tab">Profile</a></li>
 			              <li class="dropdown">
@@ -512,9 +475,9 @@ $('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
 </pre>
 			
 			          <h4 class="bs-docs-heading">Markup</h4>
-			          <p>You can activate a tab or pill navigation without writing any JavaScript by simply specifying <code>data-toggle="tab"</code> or <code>data-toggle="pill"</code> on an element. Adding the <code>nav</code> and <code>nav-tabs</code> classes to the tab <code>ul</code> will apply the Bootstrap tab styling.</p>
+			          <p>You can activate a tab or pill navigation without writing any JavaScript by simply specifying <code>data-toggle="tab"</code> or <code>data-toggle="pill"</code> on an element. Adding the <code>simple-nav</code> and <code>nav-tabs</code> classes to the tab <code>ul</code> will apply the Bootstrap tab styling.</p>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-tabs"&gt;
+&lt;ul class="simple-nav nav-tabs"&gt;
   &lt;li&gt;&lt;a href="#home" data-toggle="tab"&gt;Home&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#profile" data-toggle="tab"&gt;Profile&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#messages" data-toggle="tab"&gt;Messages&lt;/a&gt;&lt;/li&gt;
@@ -527,7 +490,7 @@ $('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
 			            Activates a tab element and content container. Tab should have either a <code>data-target</code> or an <code>href</code> targeting a container node in the DOM.
 			          </p>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-tabs" id="myTab"&gt;
+&lt;ul class="simple-nav nav-tabs" id="myTab"&gt;
   &lt;li class="active"&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#profile"&gt;Profile&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#messages"&gt;Messages&lt;/a&gt;&lt;/li&gt;
@@ -605,19 +568,19 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			        <section id="navs" class="NotUpdatedYet">
 			          <h2 class="bs-docs-heading">Nav: tabs, pills, and lists</small></h2>
 			          <h3 class="bs-docs-heading">Lightweight defaults <small>Same markup, different classes</small></h3>
-			          <p>All nav components here&mdash;tabs, pills, and lists&mdash;<strong>share the same base markup and styles</strong> through the <code>.nav</code> class.</p>
+			          <p>All nav components here&mdash;tabs, pills, and lists&mdash;<strong>share the same base markup and styles</strong> through the <code>.simple-nav</code> class.</p>
 			
 			          <h4 class="bs-docs-heading">Basic tabs</h4>
 			          <p>Take a regular <code>&lt;ul&gt;</code> of links and add <code>.nav-tabs</code>:</p>
 			          <div class="bs-docs-example">
-			            <ul class="nav nav-tabs">
+			            <ul class="simple-nav nav-tabs">
 			              <li class="active"><a href="#">Home</a></li>
 			              <li><a href="#">Profile</a></li>
 			              <li><a href="#">Messages</a></li>
 			            </ul>
 			          </div>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-tabs"&gt;
+&lt;ul class="simple-nav nav-tabs"&gt;
   &lt;li class="active"&gt;
     &lt;a href="#"&gt;Home&lt;/a&gt;
   &lt;/li&gt;
@@ -629,14 +592,14 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          <h4 class="bs-docs-heading">Basic pills</h4>
 			          <p>Take that same HTML, but use <code>.nav-pills</code> instead:</p>
 			          <div class="bs-docs-example">
-			            <ul class="nav nav-pills">
+			            <ul class="simple-nav nav-pills">
 			              <li class="active"><a href="#">Home</a></li>
 			              <li><a href="#">Profile</a></li>
 			              <li><a href="#">Messages</a></li>
 			            </ul>
 			          </div>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-pills"&gt;
+&lt;ul class="simple-nav nav-pills"&gt;
   &lt;li class="active"&gt;
     &lt;a href="#"&gt;Home&lt;/a&gt;
   &lt;/li&gt;
@@ -648,14 +611,14 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          <h4 class="bs-docs-heading">Disabled state</h4>
 			          <p>For any nav component (tabs, pills, or list), add <code>.disabled</code> for <strong>gray links and no hover effects</strong>. Links will remain clickable, however, unless custom javascript is implemented to prevent those clicks.</p>
 			          <div class="bs-docs-example">
-			            <ul class="nav nav-pills">
+			            <ul class="simple-nav nav-pills">
 			              <li><a href="#">Clickable link</a></li>
 			              <li><a href="#">Clickable link</a></li>
 			              <li class="disabled"><a href="#">Disabled link</a></li>
 			            </ul>
 			          </div>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-pills"&gt;
+&lt;ul class="simple-nav nav-pills"&gt;
   ...
   &lt;li class="disabled"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
   ...
@@ -670,32 +633,32 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			
 			
 			          <h3 class="bs-docs-heading">Stackable</h3>
-			          <p>As tabs and pills are horizontal by default, just add a second class, <code>.nav-stacked</code>, to make them appear vertically stacked.</p>
+			          <p>As tabs and pills are horizontal by default, just add a second class, <code>.simple-nav-stacked</code>, to make them appear vertically stacked.</p>
 			
 			          <h4 class="bs-docs-heading">Stacked tabs</h4>
 			          <div class="bs-docs-example">
-			            <ul class="nav nav-tabs nav-stacked">
+			            <ul class="simple-nav nav-tabs simple-nav-stacked">
 			              <li class="active"><a href="#">Home</a></li>
 			              <li><a href="#">Profile</a></li>
 			              <li><a href="#">Messages</a></li>
 			            </ul>
 			          </div>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-tabs nav-stacked"&gt;
+&lt;ul class="simple-nav nav-tabs simple-nav-stacked"&gt;
 			  ...
 &lt;/ul&gt;
 </pre>
 			
 			          <h4 class="bs-docs-heading">Stacked pills</h4>
 			          <div class="bs-docs-example">
-			            <ul class="nav nav-pills nav-stacked">
+			            <ul class="simple-nav nav-pills simple-nav-stacked">
 			              <li class="active"><a href="#">Home</a></li>
 			              <li><a href="#">Profile</a></li>
 			              <li><a href="#">Messages</a></li>
 			            </ul>
 			          </div>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-pills nav-stacked"&gt;
+&lt;ul class="simple-nav nav-pills simple-nav-stacked"&gt;
   ...
 &lt;/ul&gt;
 </pre>
@@ -708,7 +671,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          <p>Add dropdown menus with a little extra HTML and the <a href="./javascript.html#dropdowns">dropdowns javascript plugin</a>.</p>
 			
 			          <div class="bs-docs-example">
-			            <ul class="nav nav-tabs">
+			            <ul class="simple-nav nav-tabs">
 			              <li class="active"><a href="#">Home</a></li>
 			              <li><a href="#">Help</a></li>
 			              <li class="dropdown">
@@ -724,7 +687,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			            </ul>
 			          </div>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-tabs"&gt;
+&lt;ul class="simple-nav nav-tabs"&gt;
   &lt;li class="dropdown"&gt;
     &lt;a class="dropdown-toggle"
        data-toggle="dropdown"
@@ -741,7 +704,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			
 			          <h4 class="bs-docs-heading">Pills with dropdowns</h4>
 			          <div class="bs-docs-example">
-			            <ul class="nav nav-pills">
+			            <ul class="simple-nav nav-pills">
 			              <li class="active"><a href="#">Home</a></li>
 			              <li><a href="#">Help</a></li>
 			              <li class="dropdown">
@@ -757,7 +720,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			            </ul>
 			          </div>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-pills"&gt;
+&lt;ul class="simple-nav nav-pills"&gt;
   &lt;li class="dropdown"&gt;
     &lt;a class="dropdown-toggle"
        data-toggle="dropdown"
@@ -780,15 +743,15 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          <p>A simple and easy way to build groups of nav links with optional headers. They're best used in sidebars like the Finder in OS X.</p>
 			
 			          <h4 class="bs-docs-heading">Example nav list</h4>
-			          <p>Take a list of links and add <code>class="nav nav-list"</code>:</p>
+			          <p>Take a list of links and add <code>class="simple-nav nav-list"</code>:</p>
 			          <div class="bs-docs-example">
 			            <div class="well" style="max-width: 340px; padding: 8px 0;">
-			              <ul class="nav nav-list">
-			                <li class="nav-header">List header</li>
+			              <ul class="simple-nav nav-list">
+			                <li class="simple-nav-header">List header</li>
 			                <li class="active"><a href="#">Home</a></li>
 			                <li><a href="#">Library</a></li>
 			                <li><a href="#">Applications</a></li>
-			                <li class="nav-header">Another list header</li>
+			                <li class="simple-nav-header">Another list header</li>
 			                <li><a href="#">Profile</a></li>
 			                <li><a href="#">Settings</a></li>
 			                <li class="divider"></li>
@@ -797,8 +760,8 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			            </div> <!-- /well -->
 			          </div>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-list"&gt;
-  &lt;li class="nav-header"&gt;List header&lt;/li&gt;
+&lt;ul class="simple-nav nav-list"&gt;
+  &lt;li class="simple-nav-header"&gt;List header&lt;/li&gt;
   &lt;li class="active"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#"&gt;Library&lt;/a&gt;&lt;/li&gt;
   ...
@@ -806,13 +769,13 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 </pre>
 			          <p>
 			            <span class="label label-info">Note</span>
-			            For nesting within a nav list, include <code>class="nav nav-list"</code> on any nested <code>&lt;ul&gt;</code>.
+			            For nesting within a nav list, include <code>class="simple-nav nav-list"</code> on any nested <code>&lt;ul&gt;</code>.
 			          </p>
 			
 			          <h4 class="bs-docs-heading">Horizontal dividers</h4>
 			          <p>Add a horizontal divider by creating an empty list item with the class <code>.divider</code>, like so:</p>
 <pre class="prettyprint linenums">
-&lt;ul class="nav nav-list"&gt;
+&lt;ul class="simple-nav nav-list"&gt;
   ...
   &lt;li class="divider"&gt;&lt;/li&gt;
   ...
@@ -830,7 +793,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          <p>To make tabs tabbable, create a <code>.tab-pane</code> with unique ID for every tab and wrap them in <code>.tab-content</code>.</p>
 			          <div class="bs-docs-example">
 			            <div class="tabbable" style="margin-bottom: 18px;">
-			              <ul class="nav nav-tabs">
+			              <ul class="simple-nav nav-tabs">
 			                <li class="active"><a href="#tab1" data-toggle="tab">Section 1</a></li>
 			                <li><a href="#tab2" data-toggle="tab">Section 2</a></li>
 			                <li><a href="#tab3" data-toggle="tab">Section 3</a></li>
@@ -850,7 +813,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          </div>
 <pre class="prettyprint linenums">
 &lt;div class="tabbable"&gt; &lt;!-- Only required for left/right tabs --&gt;
-  &lt;ul class="nav nav-tabs"&gt;
+  &lt;ul class="simple-nav nav-tabs"&gt;
     &lt;li class="active"&gt;&lt;a href="#tab1" data-toggle="tab"&gt;Section 1&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href="#tab2" data-toggle="tab"&gt;Section 2&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
@@ -888,7 +851,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			                  <p>What up girl, this is Section C.</p>
 			                </div>
 			              </div>
-			              <ul class="nav nav-tabs">
+			              <ul class="simple-nav nav-tabs">
 			                <li class="active"><a href="#A" data-toggle="tab">Section 1</a></li>
 			                <li><a href="#B" data-toggle="tab">Section 2</a></li>
 			                <li><a href="#C" data-toggle="tab">Section 3</a></li>
@@ -900,7 +863,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
   &lt;div class="tab-content"&gt;
     ...
   &lt;/div&gt;
-  &lt;ul class="nav nav-tabs"&gt;
+  &lt;ul class="simple-nav nav-tabs"&gt;
     ...
   &lt;/ul&gt;
 &lt;/div&gt;
@@ -910,7 +873,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          <p>Swap the class to put tabs on the left.</p>
 			          <div class="bs-docs-example">
 			            <div class="tabbable tabs-left">
-			              <ul class="nav nav-tabs">
+			              <ul class="simple-nav nav-tabs">
 			                <li class="active"><a href="#lA" data-toggle="tab">Section 1</a></li>
 			                <li><a href="#lB" data-toggle="tab">Section 2</a></li>
 			                <li><a href="#lC" data-toggle="tab">Section 3</a></li>
@@ -930,7 +893,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          </div>
 <pre class="prettyprint linenums">
 &lt;div class="tabbable tabs-left"&gt;
-  &lt;ul class="nav nav-tabs"&gt;
+  &lt;ul class="simple-nav nav-tabs"&gt;
     ...
   &lt;/ul&gt;
   &lt;div class="tab-content"&gt;
@@ -943,7 +906,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          <p>Swap the class to put tabs on the right.</p>
 			          <div class="bs-docs-example">
 			            <div class="tabbable tabs-right">
-			              <ul class="nav nav-tabs">
+			              <ul class="simple-nav nav-tabs">
 			                <li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
 			                <li><a href="#rB" data-toggle="tab">Section 2</a></li>
 			                <li><a href="#rC" data-toggle="tab">Section 3</a></li>
@@ -963,7 +926,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
 			          </div>
 <pre class="prettyprint linenums">
 &lt;div class="tabbable tabs-right"&gt;
-  &lt;ul class="nav nav-tabs"&gt;
+  &lt;ul class="simple-nav nav-tabs"&gt;
     ...
   &lt;/ul&gt;
   &lt;div class="tab-content"&gt;
@@ -2489,11 +2452,11 @@ class="clearfix"
           <h3 class="bs-docs-heading">Example in navbar</h3>
           <p>The ScrollSpy plugin is for automatically updating nav targets based on scroll position. Scroll the area below the navbar and watch the active class change. The dropdown sub items will be highlighted as well.</p>
           <div class="bs-docs-example">
-            <div id="navbarExample" class="navbar navbar-static">
-              <div class="navbar-inner">
+            <div id="simple-navbarExample" class="simple-navbar simple-navbar-static">
+              <div class="simple-navbar-inner">
                 <div class="container" style="width: auto;">
                   <a class="brand" href="#">Project Name</a>
-                  <ul class="nav">
+                  <ul class="simple-nav">
                     <li><a href="#fat">@fat</a></li>
                     <li><a href="#mdo">@mdo</a></li>
                     <li class="dropdown">
@@ -2509,7 +2472,7 @@ class="clearfix"
                 </div>
               </div>
             </div>
-            <div data-spy="scroll" data-target="#navbarExample" data-offset="0" class="scrollspy-example">
+            <div data-spy="scroll" data-target="#simple-navbarExample" data-offset="0" class="scrollspy-example">
               <h4 id="fat">@fat</h5>
               <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
               <h4 id="mdo">@mdo</h5>
@@ -2532,12 +2495,12 @@ class="clearfix"
           <h3 class="bs-docs-heading">Usage</h3>
 
           <h4 class="bs-docs-heading">Via data attributes</h4>
-          <p>To easily add scrollspy behavior to your topbar navigation, just add <code>data-spy="scroll"</code> to the element you want to spy on (most typically this would be the body) and <code>data-target=".navbar"</code> to select which nav to use. You'll want to use scrollspy with a <code>.nav</code> component.</p>
-          <pre class="prettyprint linenums">&lt;body data-spy="scroll" data-target=".navbar"&gt;...&lt;/body&gt;</pre>
+          <p>To easily add scrollspy behavior to your topbar navigation, just add <code>data-spy="scroll"</code> to the element you want to spy on (most typically this would be the body) and <code>data-target=".simple-navbar"</code> to select which nav to use. You'll want to use scrollspy with a <code>.simple-nav</code> component.</p>
+          <pre class="prettyprint linenums">&lt;body data-spy="scroll" data-target=".simple-navbar"&gt;...&lt;/body&gt;</pre>
 
           <h4 class="bs-docs-heading">Via JavaScript</h4>
           <p>Call the scrollspy via JavaScript:</p>
-          <pre class="prettyprint linenums">$('#navbar').scrollspy()</pre>
+          <pre class="prettyprint linenums">$('#simple-navbar').scrollspy()</pre>
 
           <div class="alert alert-info">
             <strong>Heads up!</strong>
@@ -2962,7 +2925,7 @@ $('[data-spy="scroll"]').each(function () {
 
             <h4 class="bs-docs-heading">Via JavaScript</h4>
             <p>Call the affix plugin via JavaScript:</p>
-            <pre class="prettyprint linenums">$('#navbar').affix()</pre>
+            <pre class="prettyprint linenums">$('#simple-navbar').affix()</pre>
 
             <h4 class="bs-docs-heading">Methods</h4>
             <h5 class="bs-docs-heading">.affix('refresh')</h5>
