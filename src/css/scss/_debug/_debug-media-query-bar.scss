@@ -5,7 +5,7 @@
 $backgroundOpacity: 0.8;
 $overallOpacity: 0.8;
 
-body::before {
+body.debug::before {
   content: 'Default - 940px';
   position: fixed;
   z-index: 99999 !important;
@@ -22,28 +22,28 @@ body::before {
 }
 
 @media (min-width: 1200px) {
-  body::before {
+  body.debug::before {
     content: 'Large Desktop - 1200px+';
     background-color: hsla(10, 50%, 60%, $backgroundOpacity);
   }
 }
 
 @media (min-width: 1500px) {
-  body::before {
+  body.debug::before {
     content: 'Extra Large Desktop - 1500px+';
     background-color: hsla(260, 50%, 60%, $backgroundOpacity);
   }
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  body::before {
+  body.debug::before {
     content: 'Portrait tablet to landscape and desktop - > 768px && < 979px';
     background-color: hsla(50, 50%, 60%, $backgroundOpacity);
   }
 }
 
 @media (max-width: 767px) {
-  body {
+  body.debug {
     padding: 0;
   }
 
@@ -52,14 +52,14 @@ body::before {
     padding-right: 20px;
   }
 
-  body::before {
+  body.debug::before {
     content: 'Phones to Tablets - < 767px';
     background-color: hsla(210, 50%, 60%, $backgroundOpacity);
   }
 }
 
 @media (max-width: 480px) {
-  body::before {
+  body.debug::before {
     content: 'Phones - < 480px';
     background-color: hsla(300, 50%, 60%, $backgroundOpacity);
   }
