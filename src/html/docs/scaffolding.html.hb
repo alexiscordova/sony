@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE8]>  <html class="no-js ie oldie lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie oldie lt-ie9" lang="en"> <![endif]-->
-<!--[if IE 9]>    <html class="no-js ie ie9" lang="en"> <![endif]-->
-<!--[if gt IE 9]> <html class="no-js ie gt-ie9 modern" lang="en"> <![endif]-->
-<!--[!(IE)]><!--><html class="no-js notIE modern" lang="en"> <!--<![endif]-->
+<!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
 
 	{{partial 'includes/docs_head.html'}}
 	<body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -14,59 +13,17 @@
 			<header class="jumbotron subhead" id="overview">
 			  <div class="container">
 			    <h2 class="bs-docs-heading">Scaffolding</h2>
-			    <p class="p1">Bootstrap is built on responsive 12-column grids, layouts, and components.</p>
+			    <p class="p1">The system is built on responsive 12-column grids, layouts, and components.</p>
+
+
+	        <section class="NotUpdatedYet" style="padding:10px 20px"><h6>As of right now, this is basically just straight from Twitter Bootstrap's implementation of the grid and responsive implementation. It should be updated with our breakpoints, and perhaps a better explaination of when to use the "Live grid system" vs. the "Fluid grid system" (or are we getting rid of one of them?).</h6></section>
+
+
+
 			  </div>
 			</header>
 			
-			  <div class="container">
-			
-			    <!-- Docs nav
-			    ================================================== -->
-			    <div class="row">
-			      <div class="span3 bs-docs-sidebar">
-			        <ul class="nav nav-list bs-docs-sidenav">
-			          <li><a href="#global"><i class="icon-chevron-right"></i> Global styles</a></li>
-			          <li><a href="#gridSystem"><i class="icon-chevron-right"></i> Grid system</a></li>
-			          <li><a href="#fluidGridSystem"><i class="icon-chevron-right"></i> Fluid grid system</a></li>
-			          <li><a href="#layouts"><i class="icon-chevron-right"></i> Layouts</a></li>
-			          <li><a href="#responsive"><i class="icon-chevron-right"></i> Responsive design</a></li>
-			        </ul>
-			      </div>
-			      <div class="span9">
-			
-			
-			
-			        <!-- Global Bootstrap settings
-			        ================================================== -->
-			        <section id="global">
-			          <h2 class="bs-docs-heading">Global settings</h2>
-			
-			          <h4 class="bs-docs-heading">Requires HTML5 doctype</h4>
-			          <p>Bootstrap makes use of certain HTML elements and CSS properties that require the use of the HTML5 doctype. Include it at the beginning of all your projects.</p>
-			<pre class="prettyprint linenums">
-			&lt;!DOCTYPE html&gt;
-			&lt;html lang="en"&gt;
-			  ...
-			&lt;/html&gt;
-			</pre>
-			
-			          <h4 class="bs-docs-heading">Typography and links</h4>
-			          <p>Bootstrap sets basic global display, typography, and link styles. Specifically, we:</p>
-			          <ul>
-			            <li>Remove <code>margin</code> on the body</li>
-			            <li>Set <code>background-color: white;</code> on the <code>body</code></li>
-			            <li>Use the <code>@baseFontFamily</code>, <code>@baseFontSize</code>, and <code>@baseLineHeight</code> attributes as our typographic base</li>
-			            <li>Set the global link color via <code>@linkColor</code> and apply link underlines only on <code>:hover</code></li>
-			          </ul>
-			          <p>These styles can be found within <strong>scaffolding.less</strong>.</p>
-			
-			          <h4 class="bs-docs-heading">Reset via Normalize</h4>
-			          <p>With Bootstrap 2, the old reset block has been dropped in favor of <a href="http://necolas.github.com/normalize.css/" target="_blank">Normalize.css</a>, a project by <a href="http://twitter.com/necolas" target="_blank">Nicolas Gallagher</a> that also powers the <a href="http://html5boilerplate.com" target="_blank">HTML5 Boilerplate</a>. While we use much of Normalize within our <strong>reset.less</strong>, we have removed some elements specifically for Bootstrap.</p>
-			
-			        </section>
-			
-			
-			
+			  <div class="container">			
 			
 			        <!-- Grid system
 			        ================================================== -->
@@ -86,18 +43,22 @@
 			              <div class="span1">1</div>
 			              <div class="span1">1</div>
 			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
 			            </div>
 			            <div class="row show-grid">
 			              <div class="span2">2</div>
 			              <div class="span3">3</div>
+			              <div class="span3">3</div>
 			              <div class="span4">4</div>
 			            </div>
 			            <div class="row show-grid">
-			              <div class="span4">4</div>
-			              <div class="span5">5</div>
+			              <div class="span6">6</div>
+			              <div class="span6">6</div>
 			            </div>
 			            <div class="row show-grid">
-			              <div class="span9">9</div>
+			              <div class="span12">12</div>
 			            </div>
 			          </div>
 			
@@ -115,31 +76,40 @@
 			          <p>Move columns to the right using <code>.offset*</code> classes. Each class increases the left margin of a column by a whole column. For example, <code>.offset4</code> moves <code>.span4</code> over four columns.</p>
 			          <div class="bs-docs-grid">
 			            <div class="row show-grid">
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			              <div class="span1">1</div>
+			            </div>
+			            <div class="row show-grid">
 			              <div class="span4">4</div>
 			              <div class="span3 offset2">3 offset 2</div>
-			            </div><!-- /row -->
-			            <div class="row show-grid">
-			              <div class="span3 offset1">3 offset 1</div>
-			              <div class="span3 offset2">3 offset 2</div>
-			            </div><!-- /row -->
-			            <div class="row show-grid">
-			              <div class="span6 offset3">6 offset 3</div>
+			              <div class="span3">3</div>
 			            </div><!-- /row -->
 			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="row"&gt;
 			  &lt;div class="span4"&gt;...&lt;/div&gt;
 			  &lt;div class="span3 offset2"&gt;...&lt;/div&gt;
+			  &lt;div class="span3"&gt;...&lt;/div&gt;
 			&lt;/div&gt;
 			</pre>
 			
 			          <h3 class="bs-docs-heading">Nesting columns</h3>
 			          <p>To nest your content with the default grid, add a new <code>.row</code> and set of <code>.span*</code> columns within an existing <code>.span*</code> column. Nested rows should include a set of columns that add up to the number of columns of its parent.</p>
 			          <div class="row show-grid">
-			            <div class="span9">
+			            <div class="span12">
 			              Level 1 of column
 			              <div class="row show-grid">
-			                <div class="span6">
+			                <div class="span9">
 			                  Level 2
 			                </div>
 			                <div class="span3">
@@ -150,10 +120,10 @@
 			          </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="row"&gt;
-			  &lt;div class="span9"&gt;
+			  &lt;div class="span12"&gt;
 			    Level 1 column
 			    &lt;div class="row"&gt;
-			      &lt;div class="span6"&gt;Level 2&lt;/div&gt;
+			      &lt;div class="span9"&gt;Level 2&lt;/div&gt;
 			      &lt;div class="span3"&gt;Level 2&lt;/div&gt;
 			    &lt;/div&gt;
 			  &lt;/div&gt;
@@ -319,7 +289,6 @@
 			&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 			&lt;link href="css/bootstrap-responsive.css" rel="stylesheet"&gt;
 			</pre>
-			          <p><span class="label label-info">Heads up!</span>  Bootstrap doesn't include responsive features by default at this time as not everything needs to be responsive. Instead of encouraging developers to remove this feature, we figure it best to enable it as needed.</p>
 			
 			          {{! About }}
 			          <h3 class="bs-docs-heading">About responsive Bootstrap</h3>

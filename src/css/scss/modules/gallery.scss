@@ -1,0 +1,600 @@
+/* TO BE GLOBAL */
+
+@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/mixins";
+
+
+
+* {
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+
+$grid5Columns: 5;
+$grid5ColWidth: 204px;
+$grid5GutterWidth: 23px;
+$grid5RowWidth: ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
+
+$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
+$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
+.grid5 {
+
+  // @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
+  // @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+}
+
+@media (max-width: 767px) {
+  .grid5 {
+
+    .row {
+      margin-left: -2%;
+    }
+
+    [class*="span"] {
+      float: left;
+      min-height: 1px;
+      margin-left: 2%;
+      width: 48%;
+    }
+
+  }
+}
+
+@media (min-width:980px) and (max-width:1999px) {
+  .grid5 {
+    @include grid-core(172px, 20px, 5);
+  }
+}
+
+@media (min-width:1200px) {
+  .grid5 {
+    @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
+  }
+}
+
+///////////
+// Icons //
+///////////
+
+// 30px x 30px grid, double spaced vertically
+.icon-grid {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -480px 0;
+  @include square(27px);
+
+  .active,
+  .tab.active & {
+    background-position: -480px -60px;
+  }
+}
+
+.icon-headphones {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -540px 0;
+  @include square(27px);
+
+  .active,
+  .tab.active & {
+    background-position: -540px -60px;
+  }
+}
+
+.icon-earbuds {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -570px 0;
+  @include size(24px, 45px);
+
+  .active,
+  .tab.active & {
+    background-position: -570px -60px;
+  }
+}
+
+.icon-earclips {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -630px 0;
+  @include size(28px, 17px);
+
+  .active,
+  .tab.active & {
+    background-position: -630px -60px;
+  }
+}
+
+.icon-neckphones {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -660px 0;
+  @include size(19px, 45px);
+
+  .active,
+  .tab.active & {
+    background-position: -660px -60px;
+  }
+}
+
+.icon-star {
+  background: url(../../img/spritesheet.svg) no-repeat;
+  background-position: -720px 0;
+  @include square(13px);
+
+  .active,
+  .tab.active & {
+    background-position: -720px -60px;
+  }
+}
+
+
+
+// Price text module
+.product-content {
+
+  .product-name {
+    color: $grayDark;
+  }
+
+  .price-title {
+    margin: 0;
+  }
+
+  .price {
+    margin: -0.4em 0 0;
+  }
+}
+
+[data-stars] .icon-star:not(:first-child) {
+  margin-left: 2px;
+}
+
+[data-stars="1"] .icon-star:nth-child(-n + 1),
+[data-stars="2"] .icon-star:nth-child(-n + 2),
+[data-stars="3"] .icon-star:nth-child(-n + 3),
+[data-stars="4"] .icon-star:nth-child(-n + 4),
+[data-stars="5"] .icon-star:nth-child(-n + 5) {
+  background-position: -720px -60px;
+}
+
+
+.product-meta {
+  margin: (0.5em * $baseLineHeight) 0 (0.5em * $baseLineHeight) 1px;
+  padding: 0 0 0 15px;
+  list-style-type: square;
+}
+
+
+.text-dark {
+  color: $grayDark;
+}
+
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+     -moz-transition: opacity 0.15s linear;
+       -o-transition: opacity 0.15s linear;
+          transition: opacity 0.15s linear;
+}
+
+.fade.in {
+  opacity: 1;
+}
+
+
+.range-control {
+  position: relative;
+  width: inherit;
+  height: 5px;
+  background: darkgray;
+}
+
+.range-control.vertical {
+  width: 5px;
+  height: 200px;
+}
+
+.range-control.vertical .ambit {
+  width: 5px;
+  height: auto;
+}
+
+.range-control .handle {
+  z-index: 5;
+  margin-top: -8px;
+  margin-left: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur') 8 4, pointer; /* you should probably localize the cur file */
+}
+.ie .handle {
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */ 
+}
+.grabbing .handle {
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur') 8 4, move; /* you should probably localize the cur file */
+}
+.ie.grabbing .handle {
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), move; /* you should probably localize the cur file */
+}
+
+.range-control .ambit {
+  z-index: 3;
+  height: 5px;
+  background: gray;
+}
+
+
+///////////////
+// CENTERING //
+///////////////
+
+// A ghost element used to vertically center something
+@mixin ghost() {
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: 0;
+        height: 100%;
+        margin-right: -4px; // Nudgeable
+    }
+}
+
+.ghost-center-wrap {
+  @include ghost();
+}
+
+.ghost-center {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.table-center-wrap {
+  display: table;
+}
+
+.table-center {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+/////////////////
+// Hero Images //
+/////////////////
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  max-height: 500px;
+
+  img {
+    display: block;
+    width: 100%;
+  }
+
+  // Only overlay color if rgba is available
+  .rgba & .hero-img-wrap:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($linkColor, .8);
+  }
+
+  & > .container {
+    position: relative;
+  }
+  
+  .hero-text-wrap {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-text {
+    width: 100%;
+  }
+}
+
+/////////////
+// Gallery //
+/////////////
+
+// All gallery items have a margin-top value, offset that.
+.shuffle {
+  margin-top: -20px;
+}
+
+///////////////////
+// Gallery Items //
+///////////////////
+
+
+.gallery-simple .shuffle-item {
+  margin: 20px 0 0;
+}
+
+
+$galleryItemHeight: 337px;
+$galleryItemImgHeight: 220px;
+$simpleGalleryItemHeight: 480px;
+.gallery .gallery-item {
+  margin-left: 0;
+}
+
+.gallery-item {
+  position: relative;
+  margin-top: $grid5GutterWidth;
+  height: $galleryItemHeight;
+  overflow: hidden;
+
+  .gallery-simple & {
+    height: $simpleGalleryItemHeight;
+  }
+
+  .label {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+// h2 is height * 2
+.gallery-item.h2 {
+  height: ($galleryItemHeight * 2) + $grid5GutterWidth;
+}
+
+.gallery-item .product-img {
+  height: $galleryItemImgHeight;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  background: $grayLightFieldLarge;
+
+  img {
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+
+// Double the height and include margin
+.large.gallery-item .product-img {
+  height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
+}
+
+// Promo gallery item images are the full height
+.promo.gallery-item {
+
+  .product-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: left;
+  }
+  
+  .product-img {
+    height: 100%;
+  }
+
+  img {
+    max-height: initial;
+    max-width: initial;
+  }
+}
+
+@media (max-width: 767px) {
+  .gallery-item {
+    margin-top: 10px;
+  }
+
+  .gallery-item.h2 {
+    height: ($galleryItemHeight * 2) + 10px;
+  }
+}
+
+// 1/3 2/3 layout
+@media (max-width: 767px) {
+  .gallery-simple {
+
+    .label {
+      left: 0;
+      right: auto;
+    }
+
+    .gallery-item {
+      display: table;
+      height: auto; // ???
+    }
+
+    .product-img {
+      display: table-cell;
+      width: 33.33%;
+      vertical-align: middle;
+    }
+
+    .product-content {
+      display: table-cell;
+      width: 66.66%;
+      padding-left: 5%;
+    }
+  }
+
+}
+
+// 5 COLUMNS
+@media (min-width: 1500px) {
+  .container {
+    width: 1470px;
+  }
+}
+
+
+/////////////
+// FILTERS //
+/////////////
+.filter-options {
+  margin: 20px 0;
+}
+
+.range-control-wrap {
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+.price-range-output {
+  margin-top: 10px;
+  width: inherit;
+  text-align: center;
+}
+
+.tab-layer h3 code {
+  font-size: inherit;
+  font-weight: normal;
+  line-height: inherit;
+}
+
+.tab-content {
+  margin-top: 20px;
+  overflow: visible;
+}
+
+
+
+// Tabs
+
+$tabHeight: 100px;
+
+// Container for .tabs-container
+.tab-strip {
+  position: relative;
+  background-color: $grayLightFieldLarge;
+}
+
+// Container for .tab's
+.tabs {
+  z-index: 1;
+  height: $tabHeight;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+// Set up tab carousel
+@media (min-width: 768px) and (max-width: 979px) {
+  .tabs {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: visible;
+    -webkit-transition: all .4s ease-in-out;
+         -o-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
+  }
+
+  .tabs-container {
+    overflow: hidden;
+  }
+}
+
+.tab {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  width: 120px;
+  height: $tabHeight;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 1px 0 0 $white;
+
+  -webkit-transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
+     -moz-transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
+          transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
+
+  &.active {
+    z-index: 2;
+    top: -2px;
+    background-color: $white;
+    box-shadow:
+      0 2px 0 $white,
+      0 0 4px 1px rgba(0,0,0,0.15);
+  }
+}
+
+.sprite-holder {
+  height: 30px;
+}
+
+.tab-label {
+  margin-top: 15px;
+}
+
+
+// Tablet tab carousel nav buttons
+.tab-nav-btns {
+  position: absolute;
+  z-index: 5;
+  height: $tabHeight;
+}
+
+.tab-nav-wrap {
+  position: relative;
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .tab-nav-wrap {
+    display: block;
+  }
+}
+
+// Tab carousel nav
+.tab-nav {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: -30px;
+  display: none;
+  width: 30px;
+  height: 100%;
+  background: #f2f2f2;
+  cursor: pointer;
+}
+
+.tab-nav-next {
+  left: 724px;
+}
+
+// Arrow
+.tab-nav:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -2px;
+  margin-left: -2px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-right: 5px solid $blue;
+  border-bottom: 5px solid transparent;
+}
+
+// Arrow
+.tab-nav-next:before {
+  border-top: 5px solid transparent;
+  border-right: none;
+  border-left: 5px solid $blue;
+  border-bottom: 5px solid transparent;
+}
+
+// Accessories
+.see-all {
+  text-align: center;
+  background: $grayLightFieldLarge;
+}
+
+// Just for this page

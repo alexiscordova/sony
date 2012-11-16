@@ -213,23 +213,22 @@ $horizontalComponentOffset:       180px;
 $wellBackground:                  rgb(245,245,245) !default;
 
 
+
 // Navbar
 // -------------------------
 $navbarCollapseWidth:             979px !default;
 
-$navbarHeight:                    40px !default;
-$navbarBackgroundHighlight:       rgb(255,255,255) !default;
-$navbarBackground:                darken($navbarBackgroundHighlight, 5%) !default;
-$navbarBorder:                    darken($navbarBackground, 12%) !default;
+$navbarHeight:                    64px !default;
+$navbarBackground:                $black !default;
+$navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
 
-$navbarText:                      rgb(119,119,119) !default;
-$navbarLinkColor:                 rgb(119,119,119) !default;
-$navbarLinkColorHover:            $grayDark !default;
-$navbarLinkColorActive:           $gray !default;
+$navbarTextSize:									0.875em; /* 14px/16px */
+$navbarText:                      $linkColor !default;
+$navbarLinkColor:                 $linkColor !default;
+$navbarLinkColorHover:            $linkColorHover !default;
+$navbarLinkColorActive:           lighten($linkColorHover,5%) !default;
 $navbarLinkBackgroundHover:       transparent !default;
 $navbarLinkBackgroundActive:      darken($navbarBackground, 5.25%) !default;
-
-$navbarBrandColor:                $navbarLinkColor !default;
 
 // Inverted navbar
 $navbarInverseBackground:                rgb(17,17,17) !default;
@@ -249,6 +248,50 @@ $navbarInverseSearchBorder:              $navbarInverseBackground !default;
 $navbarInverseSearchPlaceholderColor:    rgb(204,204,204) !default;
 
 $navbarInverseBrandColor:                $navbarInverseLinkColor !default;
+
+
+
+
+
+// Simple-Navbar
+// The original Bootstrap navbar has been renamed simpleNavbar.
+// Likewise, the original Bootstrap nav has been renamed simple-nav.
+// -------------------------
+$navbarCollapseWidth:             979px !default;
+
+$simpleNavbarHeight:                    64px !default;
+$simpleNavbarBackground:                $black !default;
+$simpleNavbarBackgroundHighlight:       lighten($simpleNavbarBackground,5%) !default;
+
+$simpleNavbarTextSize:                  0.875em; /* 14px/16px */
+$simpleNavbarText:                      $linkColor !default;
+$simpleNavbarLinkColor:                 $linkColor !default;
+$simpleNavbarLinkColorHover:            $linkColorHover !default;
+$simpleNavbarLinkColorActive:           lighten($linkColorHover,5%) !default;
+$simpleNavbarLinkBackgroundHover:       transparent !default;
+$simpleNavbarLinkBackgroundActive:      darken($simpleNavbarBackground, 5.25%) !default;
+
+// Inverted navbar
+$simpleNavbarInverseBackground:                rgb(17,17,17) !default;
+$simpleNavbarInverseBackgroundHighlight:       rgb(34,34,34) !default;
+$simpleNavbarInverseBorder:                    rgb(37,37,37) !default;
+
+$simpleNavbarInverseText:                      $grayLight !default;
+$simpleNavbarInverseLinkColor:                 $grayLight !default;
+$simpleNavbarInverseLinkColorHover:            $white !default;
+$simpleNavbarInverseLinkColorActive:           $simpleNavbarInverseLinkColorHover !default;
+$simpleNavbarInverseLinkBackgroundHover:       transparent !default;
+$simpleNavbarInverseLinkBackgroundActive:      $simpleNavbarInverseBackground !default;
+
+$simpleNavbarInverseSearchBackground:          lighten($simpleNavbarInverseBackground, 25%) !default;
+$simpleNavbarInverseSearchBackgroundFocus:     $white !default;
+$simpleNavbarInverseSearchBorder:              $simpleNavbarInverseBackground !default;
+$simpleNavbarInverseSearchPlaceholderColor:    rgb(204,204,204) !default;
+
+$simpleNavbarInverseBrandColor:                $simpleNavbarInverseLinkColor !default;
+
+
+
 
 
 // Pagination
@@ -313,8 +356,8 @@ $gridGutterWidth:         20px !default;
 $gridRowWidth:            ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
 
 // 1200px min
-$gridColumnWidth1200:     70px !default;
-$gridGutterWidth1200:     30px !default;
+$gridColumnWidth1200:     56px !default;
+$gridGutterWidth1200:     40px !default;
 $gridRowWidth1200:        ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
 
 // 768px-979px

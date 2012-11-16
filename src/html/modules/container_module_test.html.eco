@@ -1,0 +1,9 @@
+<div class="container-module">
+	<h1>Container Module</h1>
+	<h4>Here are some modules with unique data:</h4>
+	<ul>
+		<% for module in @document.modules :%>
+		<li><%-@this.partial('modules/'+module.name , module.data )%> </li><% end %>
+
+	</ul>
+</div>

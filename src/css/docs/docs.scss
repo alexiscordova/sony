@@ -1,3 +1,9 @@
+
+@import "../scss/_base/variables";
+@import "../scss/_base/mixins";
+
+
+
 /* Add additional stylesheets below
 -------------------------------------------------- */
 /*
@@ -10,7 +16,7 @@
 
 body {
   position: relative;
-  padding-top: 40px;
+  padding-top: 0;
 }
 
 /* Code in headings */
@@ -50,24 +56,25 @@ h6.bs-docs-heading{
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
 
-body > .navbar {
-  font-size: 13px;
+body > .simple-navbar {
+  font-size: 12px;
 }
 
 /* Change the docs' brand */
-body > .navbar .brand {
+body > .simple-navbar .brand {
   padding-right: 0;
   padding-left: 0;
   margin-left: 20px;
   float: right;
   font-weight: bold;
   color: #000;
+  font-size:13px;
   text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
   -webkit-transition: all .2s linear;
      -moz-transition: all .2s linear;
           transition: all .2s linear;
 }
-body > .navbar .brand:hover {
+body > .simple-navbar .brand:hover {
   text-decoration: none;
   text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.4);
 }
@@ -204,19 +211,8 @@ hr.soften {
 /* Masthead (docs home)
 ------------------------- */
 .masthead {
-  padding: 70px 0 80px;
+  padding: 70px 0 0;
   margin-bottom: 0;
-  color: #fff;
-}
-.masthead h1 {
-  font-size: 120px;
-  line-height: 1;
-  letter-spacing: -2px;
-}
-.masthead p {
-  font-size: 40px;
-  font-weight: 200;
-  line-height: 1.25;
 }
 
 /* Textual links in masthead */
@@ -268,7 +264,7 @@ hr.soften {
 .subhead p {
   margin-bottom: 20px;
 }
-.subhead .navbar {
+.subhead .simple-navbar {
   display: none;
 }
 
@@ -647,8 +643,8 @@ h2 + .row {
 .bs-docs-example .alert,
 .bs-docs-example .hero-unit,
 .bs-docs-example .pagination,
-.bs-docs-example .navbar,
-.bs-docs-example > .nav,
+.bs-docs-example .simple-navbar,
+.bs-docs-example > .simple-nav,
 .bs-docs-example blockquote {
   margin-bottom: 5px;
 }
@@ -662,8 +658,8 @@ h2 + .row {
   height: 90px;
   overflow: hidden; /* cut the drop shadows off */
 }
-.bs-navbar-top-example .navbar-fixed-top,
-.bs-navbar-bottom-example .navbar-fixed-bottom {
+.bs-navbar-top-example .simple-navbar-fixed-top,
+.bs-navbar-bottom-example .simple-navbar-fixed-bottom {
   margin-left: 0;
   margin-right: 0;
 }
@@ -684,7 +680,7 @@ h2 + .row {
      -moz-border-radius: 4px 4px 0 0;
           border-radius: 4px 4px 0 0;
 }
-.bs-navbar-bottom-example .navbar {
+.bs-navbar-bottom-example .simple-navbar {
   margin-bottom: 0;
 }
 form.bs-docs-example {
@@ -875,7 +871,254 @@ form.bs-docs-example {
 
 
 
-/* Responsive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+// Responsive: Navbar
+// --------------------------------------------------
+
+
+// TABLETS AND BELOW
+// -----------------
+@media (max-width: $navbarCollapseWidth) {
+
+  // UNFIX THE TOPBAR
+  // ----------------
+  // Remove any padding from the body
+  body {
+    padding-top: 0;
+  }
+  // Unfix the navbars
+  .simple-navbar-fixed-top,
+  .simple-navbar-fixed-bottom {
+    position: static;
+  }
+  .simple-navbar-fixed-top {
+    margin-bottom: $baseLineHeight;
+  }
+  .simple-navbar-fixed-bottom {
+    margin-top: $baseLineHeight;
+  }
+  .simple-navbar-fixed-top .simple-navbar-inner,
+  .simple-navbar-fixed-bottom .simple-navbar-inner {
+    padding: 5px;
+    z-index: 999999;
+    position: relative;
+  }
+  .simple-navbar .container {
+    width: auto;
+    padding: 0;
+  }
+  // Account for brand name
+  .simple-navbar .brand {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 0 0 -5px;
+  }
+
+  // COLLAPSIBLE NAVBAR
+  // ------------------
+  // Nav collapse clears brand
+  .simple-nav-collapse {
+    clear: both;
+  }
+  // Block-level the nav
+  .simple-nav-collapse .simple-nav {
+    float: none;
+    margin: 0 0 ($baseLineHeight / 2);
+  }
+  .simple-nav-collapse .simple-nav > li {
+    float: none;
+  }
+  .simple-nav-collapse .simple-nav > li > a {
+    margin-bottom: 2px;
+  }
+  .simple-nav-collapse .simple-nav > .divider-vertical {
+    display: none;
+  }
+  .simple-nav-collapse .simple-nav .simple-nav-header {
+    color: $simpleNavbarText;
+    text-shadow: none;
+  }
+  // Nav and dropdown links in navbar
+  .simple-nav-collapse .simple-nav > li > a,
+  .simple-nav-collapse .dropdown-menu a {
+    padding: 9px 15px;
+    font-weight: bold;
+    color: $simpleNavbarLinkColor;
+    @include border-radius(3px);
+  }
+  // Buttons
+  .simple-nav-collapse .btn {
+    padding: 4px 10px 4px;
+    font-weight: normal;
+    @include border-radius(4px);
+  }
+  .simple-nav-collapse .dropdown-menu li + li a {
+    margin-bottom: 2px;
+  }
+  .simple-nav-collapse .simple-nav > li > a:hover,
+  .simple-nav-collapse .dropdown-menu a:hover {
+    background-color: $simpleNavbarBackground;
+  }
+  .simple-navbar-inverse .simple-nav-collapse .simple-nav > li > a:hover,
+  .simple-navbar-inverse .simple-nav-collapse .dropdown-menu a:hover {
+    background-color: $simpleNavbarInverseBackground;
+  }
+  // Buttons in the navbar
+  .simple-nav-collapse.in .btn-group {
+    margin-top: 5px;
+    padding: 0;
+  }
+  // Dropdowns in the navbar
+  .simple-nav-collapse .dropdown-menu {
+    position: static;
+    top: auto;
+    left: auto;
+    float: none;
+    display: block;
+    max-width: none;
+    margin: 0 15px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    @include border-radius(0);
+    @include box-shadow(none);
+  }
+  .simple-nav-collapse .dropdown-menu:before,
+  .simple-nav-collapse .dropdown-menu:after {
+    display: none;
+  }
+  .simple-nav-collapse .dropdown-menu .divider {
+    display: none;
+  }
+  .simple-nav-collapse .simple-nav > li > .dropdown-menu {
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+  // Forms in navbar
+  .simple-nav-collapse .simple-navbar-form,
+  .simple-nav-collapse .simple-navbar-search {
+    float: none;
+    padding: ($baseLineHeight / 2) 15px;
+    margin: ($baseLineHeight / 2) 0;
+    border-top: 1px solid $simpleNavbarBackground;
+    border-bottom: 1px solid $simpleNavbarBackground;
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1));
+  }
+  .simple-navbar-inverse .simple-nav-collapse .simple-navbar-form,
+  .simple-navbar-inverse .simple-nav-collapse .simple-navbar-search {
+    border-top-color: $simpleNavbarInverseBackground;
+    border-bottom-color: $simpleNavbarInverseBackground;
+  }
+  // Pull right (secondary) nav content
+  .simple-navbar .simple-nav-collapse .simple-nav.pull-right {
+    float: none;
+    margin-left: 0;
+  }
+  // Hide everything in the navbar save .brand and toggle button */
+  .simple-nav-collapse,
+  .simple-nav-collapse.collapse {
+    overflow: hidden;
+    height: 0;
+  }
+  // Navbar button
+  .simple-navbar .btn-navbar {
+    display: block;
+  }
+
+  // STATIC NAVBAR
+  // -------------
+  .simple-navbar-static .simple-navbar-inner {
+    padding-left:  10px;
+    padding-right: 10px;
+    z-index: 999999;
+    position: relative;
+  }
+
+
+}
+
+
+// DEFAULT DESKTOP
+// ---------------
+
+@media (min-width: 980px) {
+
+  // Required to make the collapsing navbar work on regular desktops
+  .simple-nav-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Responsive - DOCS
 -------------------------------------------------- */
 
 /* Desktop larger
@@ -905,12 +1148,25 @@ form.bs-docs-example {
   body {
     padding-top: 0;
   }
+  .simple-navbar-fixed-top {
+    height:60px;
+  }
   /* Unfloat brand */
-  body > .navbar-fixed-top .brand {
+  body > .simple-navbar-fixed-top .brand {
     float: left;
     margin-left: 0;
     padding-left: 10px;
     padding-right: 10px;
+    font-size: 1.4em;
+    padding-top:2px;
+  }
+
+  // Navbar button
+  .simple-navbar .btn-navbar {
+    display: block;
+    width: auto;
+    border:none;
+    margin-top:5px;
   }
 
   /* Inline-block quick links for more spacing */
@@ -932,7 +1188,7 @@ form.bs-docs-example {
 
   /* Widen masthead and social buttons to fill body padding */
   .jumbotron {
-    margin-top: -20px; /* Offset bottom margin on .navbar */
+    margin-top: -20px; /* Offset bottom margin on .simple-navbar */
   }
   /* Adjust sidenav width */
   .bs-docs-sidenav {
@@ -946,6 +1202,14 @@ form.bs-docs-example {
   .bs-docs-example .span5 {
     width: 100%;
   }
+
+  // Navbar button
+  .simple-navbar .btn-simple-navbar {
+    display: block;
+    width: auto;
+    border:none;
+    margin-top:5px;
+  }
 }
 
 /* Tablet
@@ -956,10 +1220,15 @@ form.bs-docs-example {
     padding-top: 0;
   }
 
+  body > .simple-navbar-fixed-top .brand {
+    font-size: 1.4em;
+    padding-top:2px;
+  }
+
   /* Widen masthead and social buttons to fill body padding */
   .jumbotron {
     padding: 40px 20px;
-    margin-top:   -20px; /* Offset bottom margin on .navbar */
+    margin-top:   -20px; /* Offset bottom margin on .simple-navbar */
     margin-right: -20px;
     margin-left:  -20px;
   }
@@ -1006,6 +1275,13 @@ form.bs-docs-example {
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
+  }
+  // Navbar button
+  .simple-navbar .btn-simple-navbar {
+    display: block;
+    width: auto;
+    border:none;
+    margin-top:5px;
   }
 }
 
@@ -1084,13 +1360,59 @@ form.bs-docs-example {
 }
 
 
+//
+// Color swatches
+// --------------------------------------------------
+
+.color-swatch-span{
+  margin-bottom:15px;
+}
+.color-swatch-outlined{
+  border:solid 1px $grayLight;
+}
+[class^="color-swatch--"],
+[class*=" color-swatch--"] {
+  display:block;
+  width:76px;
+  height:76px;
+  margin-bottom:2px;
+}
+.color-swatch-span p{
+  color:$gray;
+  font-size:0.6875em; /* 11px/16px */
+  margin:0;
+  line-height:1.3;
+}
+.color-swatch--black{       background: $black;  }
+.color-swatch--grayDark{    background: $grayDark;  }
+.color-swatch--gray{        background: $gray;  }
+.color-swatch--grayLight{   background: $grayLight;  }
+.color-swatch--grayLighter{ background: $grayLighter;  }
+.color-swatch--white{       background: $white;  }
+
+.color-swatch--grayDarkerFieldLarge{  background: $grayDarkerFieldLarge; }
+.color-swatch--grayDarkFieldLarge{    background: $grayDarkFieldLarge; }
+.color-swatch--grayLightFieldLarge{   background: $grayLightFieldLarge }
+.color-swatch--grayDarkerFieldSmall{  background: $grayDarkerFieldSmall; }
+.color-swatch--grayDarkFieldSmall{    background: $grayDarkFieldSmall; }
+.color-swatch--grayLightFieldSmall{   background: $grayLightFieldSmall }
+
+
+.color-swatch--highlightColor{        background: $highlightColor; }
+.color-swatch--highlightColorHover{   background: $highlightColorHover; }
+.color-swatch--highlightColorActive{  background: $highlightColorActive; }
+.color-swatch--highlightColorDark{    background: $highlightColorDark; }
+
+
+.color-swatch--linkColor{            background: $linkColor; }
+.color-swatch--linkColorHover{       background: $linkColorHover; }
+.color-swatch--btnBackground{        background: $btnBackground; }
+.color-swatch--btnBackgroundHover{   background: $btnBackgroundHover; }
+
+
 
 
 
 .NotUpdatedYet{
-  background:rgba(0,200,200,0.1);
-  /*opacity:0.45;*/
-}
-.WIP{  
-  background:rgba(0,0,0,0.04);
+  background:#dcfbfa;
 }

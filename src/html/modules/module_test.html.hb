@@ -1,5 +1,5 @@
 ---
-name: 'module test'
+name: 'example module'
 meta_data: {a:'foo', b:'bar'}
 ---
 <div>

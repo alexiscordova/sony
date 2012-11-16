@@ -304,9 +304,10 @@ $default-transition-delay    : 0s;
 }
 
 // CSS3 transition
-// @include transition(opacity, 0.5s);
-// @include transition(opacity, 0.5s, ease-in, 0.2s);
-// @include transition(opacity, 0.5s, ease-in, 0.2s, left, 0s, linear, 0s);
+// @include transition(opacity 0.5s);
+// @include transition(opacity 0.5s ease-in 0.2s);
+// @include transition(opacity 0.5s, left 0s);
+// @include transition(opacity 0.5s ease-in 0.2s, width 0.5s ease-in 0.2s, left 0s linear 0s);
 
 @mixin transition($transition1, $transition2:null, $transition3:null, $transition4:null, $transition5:null, $transition6:null, $transition7:null, $transition8:null) {
 	@if ($transition8!=null){
@@ -812,7 +813,7 @@ $default-transition-delay    : 0s;
 
 
 // The Grid
-@mixin grid-core($gridColumnWidth, $gridGutterWidth) {
+@mixin grid-core($gridColumnWidth, $gridGutterWidth, $numColumns: $gridColumns) {
 	.row {
 	margin-left: $gridGutterWidth * -1;
 	@include clearfix();
@@ -829,12 +830,12 @@ $default-transition-delay    : 0s;
 	.navbar-static-top .container,
 	.navbar-fixed-top .container,
 	.navbar-fixed-bottom .container {
-	@include grid-core-span($gridColumns, $gridColumnWidth, $gridGutterWidth);
+	@include grid-core-span($numColumns, $gridColumnWidth, $gridGutterWidth);
 	}
 
 	// generate .spanX and .offsetX
-	@include grid-core-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth);
-	@include grid-core-offset-x($gridColumns, $gridColumnWidth, $gridGutterWidth);
+	@include grid-core-span-x($numColumns, $gridColumnWidth, $gridGutterWidth);
+	@include grid-core-offset-x($numColumns, $gridColumnWidth, $gridGutterWidth);
 }
 
 @mixin grid-core-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
@@ -861,7 +862,7 @@ $default-transition-delay    : 0s;
 
 
 
-@mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth) {
+@mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns) {
 	.row-fluid {
 	width: 100%;
 	@include clearfix();
@@ -876,8 +877,8 @@ $default-transition-delay    : 0s;
 	}
 
 	// generate .spanX and .offsetX
-	@include grid-fluid-span-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
-	@include grid-fluid-offset-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
+	@include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
+	@include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
 	}
 }
 
@@ -1031,11 +1032,7 @@ $default-transition-delay    : 0s;
 	@mixin pseudoEl-inline-block-icon($w: 15px, $h: 15px) {
 		@include background-sprite-icon-small();
 		@include pseudoEl-inline-block($w,$h);
-	  @include ie7-restore-right-whitespace();
-	  line-height: 15px;
-	  vertical-align: text-top;
-	  background-position: 15px 15px;
-	  margin-top: 1px;
+	  // @include ie7-restore-right-whitespace();
 	}
 
 

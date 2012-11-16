@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+
+	<%-@partial('includes/docs_head.html')%>
+	<body data-spy="scroll" data-target=".bs-docs-sidebar">
+		<%-@partial('includes/docs_nav.html')%>
+
+		<div class="jumbotron subhead">
+		  <div class="container">
+		    <h2 class="bs-docs-heading">Modules</h2>
+		  </div>
+		</div>
+		
+		<div class="container">
+			<ul>
+			<% for name in @modulepages(): %>
+				<% if name != 'index.html.eco': %>
+					<li><a href='../build/debug/<%= name.replace(/(.eco|.hb)/g, '') %>'><%= @title(name) || name.replace(/(.html.eco|.html.hb)/g, '').replace(/(_|-)/g, ' ') %></a>: <%= @desc(name) %></li><% end %><% end %>
+			</ul>
+		</div>
+		
+		<%-@partial('includes/docs_foot.html')%>
+	</body>
+</html>
