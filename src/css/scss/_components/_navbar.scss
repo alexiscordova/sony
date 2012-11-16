@@ -8,16 +8,19 @@
 
 // Base class and wrapper
 .navbar-wrapper{
+  width:100%;
+  height: $navbarHeight;
+  
+  background:$navbarBackground;
+
   .navbar {
     overflow: visible;
     color: $navbarText;
     position: relative;
     z-index: 200;
 
-    min-height: $navbarHeight;
     padding-left:  20px;
     padding-right: 20px;
-    background:$grayDarkerFieldLarge;
 
     // Prevent floats from breaking the navbar
     @include clearfix();
