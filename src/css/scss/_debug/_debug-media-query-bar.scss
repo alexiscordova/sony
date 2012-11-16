@@ -1,0 +1,66 @@
+////////////////////////////////
+// MEDIA QUERY DEBUGGING VIEW //
+////////////////////////////////
+
+$backgroundOpacity: 0.8;
+$overallOpacity: 0.8;
+
+body.debug::before {
+  content: 'Default - 940px';
+  position: fixed;
+  z-index: 99999 !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: $white;
+  font-size:12px;
+  background-color: hsla(110, 50%, 60%, $backgroundOpacity);
+  opacity: $overallOpacity;
+  -webkit-transition: background .2s ease;
+       -o-transition: background .2s ease;
+          transition: background .2s ease;
+}
+
+@media (min-width: 1200px) {
+  body.debug::before {
+    content: 'Large Desktop - 1200px+';
+    background-color: hsla(10, 50%, 60%, $backgroundOpacity);
+  }
+}
+
+@media (min-width: 1500px) {
+  body.debug::before {
+    content: 'Extra Large Desktop - 1500px+';
+    background-color: hsla(260, 50%, 60%, $backgroundOpacity);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  body.debug::before {
+    content: 'Portrait tablet to landscape and desktop - > 768px && < 979px';
+    background-color: hsla(50, 50%, 60%, $backgroundOpacity);
+  }
+}
+
+@media (max-width: 767px) {
+  body.debug {
+    padding: 0;
+  }
+
+  .padded {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  body.debug::before {
+    content: 'Phones to Tablets - < 767px';
+    background-color: hsla(210, 50%, 60%, $backgroundOpacity);
+  }
+}
+
+@media (max-width: 480px) {
+  body.debug::before {
+    content: 'Phones - < 480px';
+    background-color: hsla(300, 50%, 60%, $backgroundOpacity);
+  }
+}
