@@ -29,7 +29,7 @@
 			================================================== -->
 			    <div class="row">
 			      <div class="span3 bs-docs-sidebar">
-			        <ul class="nav nav-list bs-docs-sidenav">
+			        <ul class="simple-nav simple-nav-list bs-docs-sidenav">
 			          <li><a href="#overview"><i class="icon-chevron-right"></i> Overview</a></li>
 			          <li><a href="#image-qualifications"><i class="icon-chevron-right"></i> Image Qualifications</a></li>
 			        </ul>

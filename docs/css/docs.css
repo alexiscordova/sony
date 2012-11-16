@@ -1,3 +1,5 @@
+/* 14px/16px */
+/* 14px/16px */
 /* Add additional stylesheets below
 -------------------------------------------------- */
 /*
@@ -6,14 +8,14 @@
 */
 /* Body and structure
 -------------------------------------------------- */
-/* line 18, ../../src/css/docs/docs.scss */
+/* line 17, ../../src/css/docs/docs.scss */
 body {
   position: relative;
   padding-top: 0;
 }
 
 /* Code in headings */
-/* line 24, ../../src/css/docs/docs.scss */
+/* line 23, ../../src/css/docs/docs.scss */
 h3 code {
   font-size: 14px;
   font-weight: normal;
@@ -32,7 +34,7 @@ h3 code {
 .sub-section h2.heading-docs{
   border-top:solid 1px #e4e4e6;
 }*/
-/* line 44, ../../src/css/docs/docs.scss */
+/* line 43, ../../src/css/docs/docs.scss */
 h3.bs-docs-heading,
 h4.bs-docs-heading,
 h5.bs-docs-heading {
@@ -40,33 +42,34 @@ h5.bs-docs-heading {
   margin-bottom: 0.5em;
 }
 
-/* line 48, ../../src/css/docs/docs.scss */
+/* line 47, ../../src/css/docs/docs.scss */
 h2.bs-docs-heading.first-heading {
   margin-top: 0;
   padding-top: 0;
 }
 
-/* line 52, ../../src/css/docs/docs.scss */
+/* line 51, ../../src/css/docs/docs.scss */
 h6.bs-docs-heading {
   margin-bottom: 2em;
 }
 
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
-/* line 60, ../../src/css/docs/docs.scss */
-body > .navbar {
-  font-size: 13px;
+/* line 59, ../../src/css/docs/docs.scss */
+body > .simple-navbar {
+  font-size: 12px;
 }
 
 /* Change the docs' brand */
-/* line 65, ../../src/css/docs/docs.scss */
-body > .navbar .brand {
+/* line 64, ../../src/css/docs/docs.scss */
+body > .simple-navbar .brand {
   padding-right: 0;
   padding-left: 0;
   margin-left: 20px;
   float: right;
   font-weight: bold;
   color: #000;
+  font-size: 13px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.125);
   -webkit-transition: all .2s linear;
   -moz-transition: all .2s linear;
@@ -74,7 +77,7 @@ body > .navbar .brand {
 }
 
 /* line 77, ../../src/css/docs/docs.scss */
-body > .navbar .brand:hover {
+body > .simple-navbar .brand:hover {
   text-decoration: none;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.4);
 }
@@ -302,7 +305,7 @@ hr.soften {
 }
 
 /* line 267, ../../src/css/docs/docs.scss */
-.subhead .navbar {
+.subhead .simple-navbar {
   display: none;
 }
 
@@ -757,8 +760,8 @@ h2 + .row {
 .bs-docs-example .alert,
 .bs-docs-example .hero-unit,
 .bs-docs-example .pagination,
-.bs-docs-example .navbar,
-.bs-docs-example > .nav,
+.bs-docs-example .simple-navbar,
+.bs-docs-example > .simple-nav,
 .bs-docs-example blockquote {
   margin-bottom: 5px;
 }
@@ -779,8 +782,8 @@ h2 + .row {
 }
 
 /* line 662, ../../src/css/docs/docs.scss */
-.bs-navbar-top-example .navbar-fixed-top,
-.bs-navbar-bottom-example .navbar-fixed-bottom {
+.bs-navbar-top-example .simple-navbar-fixed-top,
+.bs-navbar-bottom-example .simple-navbar-fixed-bottom {
   margin-left: 0;
   margin-right: 0;
 }
@@ -809,7 +812,7 @@ h2 + .row {
 }
 
 /* line 683, ../../src/css/docs/docs.scss */
-.bs-navbar-bottom-example .navbar {
+.bs-navbar-bottom-example .simple-navbar {
   margin-bottom: 0;
 }
 
@@ -1037,17 +1040,224 @@ form.bs-docs-example {
   bottom: 270px;
 }
 
-/* Responsive
+@media (max-width: 979px) {
+  /* line 900, ../../src/css/docs/docs.scss */
+  body {
+    padding-top: 0;
+  }
+
+  /* line 905, ../../src/css/docs/docs.scss */
+  .simple-navbar-fixed-top,
+  .simple-navbar-fixed-bottom {
+    position: static;
+  }
+
+  /* line 908, ../../src/css/docs/docs.scss */
+  .simple-navbar-fixed-top {
+    margin-bottom: 1.65;
+  }
+
+  /* line 911, ../../src/css/docs/docs.scss */
+  .simple-navbar-fixed-bottom {
+    margin-top: 1.65;
+  }
+
+  /* line 915, ../../src/css/docs/docs.scss */
+  .simple-navbar-fixed-top .simple-navbar-inner,
+  .simple-navbar-fixed-bottom .simple-navbar-inner {
+    padding: 5px;
+  }
+
+  /* line 918, ../../src/css/docs/docs.scss */
+  .simple-navbar .container {
+    width: auto;
+    padding: 0;
+  }
+
+  /* line 923, ../../src/css/docs/docs.scss */
+  .simple-navbar .brand {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 0 0 -5px;
+  }
+
+  /* line 932, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse {
+    clear: both;
+  }
+
+  /* line 936, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-nav {
+    float: none;
+    margin: 0 0 0.825;
+  }
+
+  /* line 940, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-nav > li {
+    float: none;
+  }
+
+  /* line 943, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-nav > li > a {
+    margin-bottom: 2px;
+  }
+
+  /* line 946, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-nav > .divider-vertical {
+    display: none;
+  }
+
+  /* line 949, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-nav .simple-nav-header {
+    color: #4571ec;
+    text-shadow: none;
+  }
+
+  /* line 955, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-nav > li > a,
+  .simple-nav-collapse .dropdown-menu a {
+    padding: 9px 15px;
+    font-weight: bold;
+    color: #4571ec;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+
+  /* line 962, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .btn {
+    padding: 4px 10px 4px;
+    font-weight: normal;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  /* line 967, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .dropdown-menu li + li a {
+    margin-bottom: 2px;
+  }
+
+  /* line 971, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-nav > li > a:hover,
+  .simple-nav-collapse .dropdown-menu a:hover {
+    background-color: black;
+  }
+
+  /* line 975, ../../src/css/docs/docs.scss */
+  .simple-navbar-inverse .simple-nav-collapse .simple-nav > li > a:hover,
+  .simple-navbar-inverse .simple-nav-collapse .dropdown-menu a:hover {
+    background-color: #111111;
+  }
+
+  /* line 979, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse.in .btn-group {
+    margin-top: 5px;
+    padding: 0;
+  }
+
+  /* line 984, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .dropdown-menu {
+    position: static;
+    top: auto;
+    left: auto;
+    float: none;
+    display: block;
+    max-width: none;
+    margin: 0 15px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+  }
+
+  /* line 999, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .dropdown-menu:before,
+  .simple-nav-collapse .dropdown-menu:after {
+    display: none;
+  }
+
+  /* line 1002, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .dropdown-menu .divider {
+    display: none;
+  }
+
+  /* line 1007, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-nav > li > .dropdown-menu:before, .simple-nav-collapse .simple-nav > li > .dropdown-menu:after {
+    display: none;
+  }
+
+  /* line 1013, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse .simple-navbar-form,
+  .simple-nav-collapse .simple-navbar-search {
+    float: none;
+    padding: 0.825 15px;
+    margin: 0.825 0;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
+    -ms-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
+    -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* line 1022, ../../src/css/docs/docs.scss */
+  .simple-navbar-inverse .simple-nav-collapse .simple-navbar-form,
+  .simple-navbar-inverse .simple-nav-collapse .simple-navbar-search {
+    border-top-color: #111111;
+    border-bottom-color: #111111;
+  }
+
+  /* line 1027, ../../src/css/docs/docs.scss */
+  .simple-navbar .simple-nav-collapse .simple-nav.pull-right {
+    float: none;
+    margin-left: 0;
+  }
+
+  /* line 1033, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse,
+  .simple-nav-collapse.collapse {
+    overflow: hidden;
+    height: 0;
+  }
+
+  /* line 1038, ../../src/css/docs/docs.scss */
+  .simple-navbar .btn-navbar {
+    display: block;
+  }
+
+  /* line 1044, ../../src/css/docs/docs.scss */
+  .simple-navbar-static .simple-navbar-inner {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@media (min-width: 980px) {
+  /* line 1059, ../../src/css/docs/docs.scss */
+  .simple-nav-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
+/* Responsive - DOCS
 -------------------------------------------------- */
 /* Desktop larger
 ------------------------- */
 @media (min-width: 1200px) {
-  /* line 880, ../../src/css/docs/docs.scss */
+  /* line 1123, ../../src/css/docs/docs.scss */
   .bs-docs-container {
     max-width: 970px;
   }
 
-  /* line 883, ../../src/css/docs/docs.scss */
+  /* line 1126, ../../src/css/docs/docs.scss */
   .bs-docs-sidenav {
     width: 258px;
   }
@@ -1055,7 +1265,7 @@ form.bs-docs-example {
 /* Desktop large
 ------------------------- */
 @media (min-width: 980px) and (max-width: 1199px) {
-  /* line 892, ../../src/css/docs/docs.scss */
+  /* line 1135, ../../src/css/docs/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
@@ -1065,62 +1275,76 @@ form.bs-docs-example {
 ------------------------- */
 @media (min-width: 768px) and (max-width: 979px) {
   /* Remove any padding from the body */
-  /* line 901, ../../src/css/docs/docs.scss */
+  /* line 1144, ../../src/css/docs/docs.scss */
   body {
     padding-top: 0;
   }
 
+  /* line 1147, ../../src/css/docs/docs.scss */
+  .simple-navbar-fixed-top {
+    height: 60px;
+  }
+
   /* Unfloat brand */
-  /* line 905, ../../src/css/docs/docs.scss */
-  body > .navbar-fixed-top .brand {
+  /* line 1151, ../../src/css/docs/docs.scss */
+  body > .simple-navbar-fixed-top .brand {
     float: left;
     margin-left: 0;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 0;
+    font-size: 1.4em;
+    padding-top: 2px;
+  }
+
+  /* line 1161, ../../src/css/docs/docs.scss */
+  .simple-navbar .btn-navbar {
+    display: block;
+    width: auto;
+    border: none;
+    margin-top: 5px;
   }
 
   /* Inline-block quick links for more spacing */
-  /* line 914, ../../src/css/docs/docs.scss */
+  /* line 1169, ../../src/css/docs/docs.scss */
   .quick-links li {
     display: inline-block;
     margin: 5px;
   }
 
   /* When affixed, space properly */
-  /* line 920, ../../src/css/docs/docs.scss */
+  /* line 1175, ../../src/css/docs/docs.scss */
   .bs-docs-sidenav {
     top: 0;
     margin-top: 30px;
     margin-right: 0;
   }
 
-  /* line 926, ../../src/css/docs/docs.scss */
+  /* line 1181, ../../src/css/docs/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
   }
 
   /* Widen masthead and social buttons to fill body padding */
-  /* line 931, ../../src/css/docs/docs.scss */
+  /* line 1186, ../../src/css/docs/docs.scss */
   .jumbotron {
     margin-top: -20px;
-    /* Offset bottom margin on .navbar */
+    /* Offset bottom margin on .simple-navbar */
   }
 
   /* Adjust sidenav width */
-  /* line 935, ../../src/css/docs/docs.scss */
+  /* line 1190, ../../src/css/docs/docs.scss */
   .bs-docs-sidenav {
     width: 166px;
     margin-top: 20px;
   }
 
-  /* line 939, ../../src/css/docs/docs.scss */
+  /* line 1194, ../../src/css/docs/docs.scss */
   .bs-docs-sidenav.affix {
     top: 0;
   }
 
-  /* line 943, ../../src/css/docs/docs.scss */
+  /* line 1198, ../../src/css/docs/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
@@ -1130,61 +1354,62 @@ form.bs-docs-example {
 ------------------------- */
 @media (max-width: 767px) {
   /* Remove any padding from the body */
-  /* line 952, ../../src/css/docs/docs.scss */
+  /* line 1207, ../../src/css/docs/docs.scss */
   body {
     padding-top: 0;
   }
 
-  /* line 956, ../../src/css/docs/docs.scss */
-  body > .navbar-fixed-top .brand {
-    padding-top: 0;
+  /* line 1211, ../../src/css/docs/docs.scss */
+  body > .simple-navbar-fixed-top .brand {
+    font-size: 1.4em;
+    padding-top: 2px;
   }
 
   /* Widen masthead and social buttons to fill body padding */
-  /* line 961, ../../src/css/docs/docs.scss */
+  /* line 1217, ../../src/css/docs/docs.scss */
   .jumbotron {
     padding: 40px 20px;
     margin-top: -20px;
-    /* Offset bottom margin on .navbar */
+    /* Offset bottom margin on .simple-navbar */
     margin-right: -20px;
     margin-left: -20px;
   }
 
-  /* line 967, ../../src/css/docs/docs.scss */
+  /* line 1223, ../../src/css/docs/docs.scss */
   .masthead h1 {
     font-size: 90px;
   }
 
-  /* line 971, ../../src/css/docs/docs.scss */
+  /* line 1227, ../../src/css/docs/docs.scss */
   .masthead p,
   .masthead .btn {
     font-size: 24px;
   }
 
-  /* line 974, ../../src/css/docs/docs.scss */
+  /* line 1230, ../../src/css/docs/docs.scss */
   .marketing .span4 {
     margin-bottom: 40px;
   }
 
-  /* line 977, ../../src/css/docs/docs.scss */
+  /* line 1233, ../../src/css/docs/docs.scss */
   .bs-docs-social {
     margin: 0 -20px;
   }
 
   /* Space out the show-grid examples */
-  /* line 982, ../../src/css/docs/docs.scss */
+  /* line 1238, ../../src/css/docs/docs.scss */
   .show-grid [class*="span"] {
     margin-bottom: 5px;
   }
 
   /* Sidenav */
-  /* line 987, ../../src/css/docs/docs.scss */
+  /* line 1243, ../../src/css/docs/docs.scss */
   .bs-docs-sidenav {
     width: auto;
     margin-bottom: 20px;
   }
 
-  /* line 991, ../../src/css/docs/docs.scss */
+  /* line 1247, ../../src/css/docs/docs.scss */
   .bs-docs-sidenav.affix {
     position: static;
     width: auto;
@@ -1192,7 +1417,7 @@ form.bs-docs-example {
   }
 
   /* Unfloat the back to top link in footer */
-  /* line 998, ../../src/css/docs/docs.scss */
+  /* line 1254, ../../src/css/docs/docs.scss */
   .footer {
     margin-left: -20px;
     margin-right: -20px;
@@ -1200,12 +1425,12 @@ form.bs-docs-example {
     padding-right: 20px;
   }
 
-  /* line 1004, ../../src/css/docs/docs.scss */
+  /* line 1260, ../../src/css/docs/docs.scss */
   .footer p {
     margin-bottom: 9px;
   }
 
-  /* line 1008, ../../src/css/docs/docs.scss */
+  /* line 1264, ../../src/css/docs/docs.scss */
   .bs-docs-example .span4,
   .bs-docs-example .span5 {
     width: 100%;
@@ -1215,61 +1440,55 @@ form.bs-docs-example {
 ------------------------- */
 @media (max-width: 480px) {
   /* Remove padding above jumbotron */
-  /* line 1017, ../../src/css/docs/docs.scss */
+  /* line 1273, ../../src/css/docs/docs.scss */
   body {
     padding-top: 0;
   }
 
-  /* line 1021, ../../src/css/docs/docs.scss */
-  body > .navbar-fixed-top .brand {
-    font-size: 1.4em;
-    padding-top: 2px;
-  }
-
   /* Change up some type stuff */
-  /* line 1027, ../../src/css/docs/docs.scss */
+  /* line 1278, ../../src/css/docs/docs.scss */
   h2 small {
     display: block;
   }
 
   /* Downsize the jumbotrons */
-  /* line 1032, ../../src/css/docs/docs.scss */
+  /* line 1283, ../../src/css/docs/docs.scss */
   .jumbotron h1 {
     font-size: 60px;
   }
 
-  /* line 1036, ../../src/css/docs/docs.scss */
+  /* line 1287, ../../src/css/docs/docs.scss */
   .jumbotron p,
   .jumbotron .btn {
     font-size: 20px;
   }
 
-  /* line 1039, ../../src/css/docs/docs.scss */
+  /* line 1290, ../../src/css/docs/docs.scss */
   .jumbotron .btn {
     display: block;
     margin: 0 auto;
   }
 
   /* center align subhead text like the masthead */
-  /* line 1046, ../../src/css/docs/docs.scss */
+  /* line 1297, ../../src/css/docs/docs.scss */
   .subhead h1,
   .subhead p {
     text-align: center;
   }
 
   /* Marketing on home */
-  /* line 1051, ../../src/css/docs/docs.scss */
+  /* line 1302, ../../src/css/docs/docs.scss */
   .marketing h1 {
     font-size: 40px;
   }
 
   /* center example sites */
-  /* line 1056, ../../src/css/docs/docs.scss */
+  /* line 1307, ../../src/css/docs/docs.scss */
   .example-sites {
     margin-left: 0;
   }
 
-  /* line 1059, ../../src/css/docs/docs.scss */
+  /* line 1310, ../../src/css/docs/docs.scss */
   .example-sites > li {
     float: none;
     display: block;
@@ -1278,13 +1497,13 @@ form.bs-docs-example {
     text-align: center;
   }
 
-  /* line 1066, ../../src/css/docs/docs.scss */
+  /* line 1317, ../../src/css/docs/docs.scss */
   .example-sites .thumbnail > img {
     max-width: 270px;
   }
 
   /* Do our best to make tables work in narrow viewports */
-  /* line 1071, ../../src/css/docs/docs.scss */
+  /* line 1322, ../../src/css/docs/docs.scss */
   table code {
     white-space: normal;
     word-wrap: break-word;
@@ -1292,7 +1511,7 @@ form.bs-docs-example {
   }
 
   /* Modal example */
-  /* line 1078, ../../src/css/docs/docs.scss */
+  /* line 1329, ../../src/css/docs/docs.scss */
   .modal-example .modal {
     position: relative;
     top: auto;
@@ -1302,22 +1521,22 @@ form.bs-docs-example {
   }
 
   /* Unfloat the back to top in footer to prevent odd text wrapping */
-  /* line 1087, ../../src/css/docs/docs.scss */
+  /* line 1338, ../../src/css/docs/docs.scss */
   .footer .pull-right {
     float: none;
   }
 }
-/* line 1097, ../../src/css/docs/docs.scss */
+/* line 1348, ../../src/css/docs/docs.scss */
 .color-swatch-span {
   margin-bottom: 15px;
 }
 
-/* line 1100, ../../src/css/docs/docs.scss */
+/* line 1351, ../../src/css/docs/docs.scss */
 .color-swatch-outlined {
   border: solid 1px #bcbccc;
 }
 
-/* line 1104, ../../src/css/docs/docs.scss */
+/* line 1355, ../../src/css/docs/docs.scss */
 [class^="color-swatch--"],
 [class*=" color-swatch--"] {
   display: block;
@@ -1326,7 +1545,7 @@ form.bs-docs-example {
   margin-bottom: 2px;
 }
 
-/* line 1110, ../../src/css/docs/docs.scss */
+/* line 1361, ../../src/css/docs/docs.scss */
 .color-swatch-span p {
   color: #83838f;
   font-size: 0.6875em;
@@ -1335,107 +1554,107 @@ form.bs-docs-example {
   line-height: 1.3;
 }
 
-/* line 1116, ../../src/css/docs/docs.scss */
+/* line 1367, ../../src/css/docs/docs.scss */
 .color-swatch--black {
   background: black;
 }
 
-/* line 1117, ../../src/css/docs/docs.scss */
+/* line 1368, ../../src/css/docs/docs.scss */
 .color-swatch--grayDark {
   background: #2f353d;
 }
 
-/* line 1118, ../../src/css/docs/docs.scss */
+/* line 1369, ../../src/css/docs/docs.scss */
 .color-swatch--gray {
   background: #83838f;
 }
 
-/* line 1119, ../../src/css/docs/docs.scss */
+/* line 1370, ../../src/css/docs/docs.scss */
 .color-swatch--grayLight {
   background: #bcbccc;
 }
 
-/* line 1120, ../../src/css/docs/docs.scss */
+/* line 1371, ../../src/css/docs/docs.scss */
 .color-swatch--grayLighter {
   background: #e4e7eb;
 }
 
-/* line 1121, ../../src/css/docs/docs.scss */
+/* line 1372, ../../src/css/docs/docs.scss */
 .color-swatch--white {
   background: white;
 }
 
-/* line 1123, ../../src/css/docs/docs.scss */
+/* line 1374, ../../src/css/docs/docs.scss */
 .color-swatch--grayDarkerFieldLarge {
   background: #1f2024;
 }
 
-/* line 1124, ../../src/css/docs/docs.scss */
+/* line 1375, ../../src/css/docs/docs.scss */
 .color-swatch--grayDarkFieldLarge {
   background: #404247;
 }
 
-/* line 1125, ../../src/css/docs/docs.scss */
+/* line 1376, ../../src/css/docs/docs.scss */
 .color-swatch--grayLightFieldLarge {
   background: #f3f4f6;
 }
 
-/* line 1126, ../../src/css/docs/docs.scss */
+/* line 1377, ../../src/css/docs/docs.scss */
 .color-swatch--grayDarkerFieldSmall {
   background: #212530;
 }
 
-/* line 1127, ../../src/css/docs/docs.scss */
+/* line 1378, ../../src/css/docs/docs.scss */
 .color-swatch--grayDarkFieldSmall {
   background: #726e7a;
 }
 
-/* line 1128, ../../src/css/docs/docs.scss */
+/* line 1379, ../../src/css/docs/docs.scss */
 .color-swatch--grayLightFieldSmall {
   background: #f1f5f9;
 }
 
-/* line 1131, ../../src/css/docs/docs.scss */
+/* line 1382, ../../src/css/docs/docs.scss */
 .color-swatch--highlightColor {
   background: #f35429;
 }
 
-/* line 1132, ../../src/css/docs/docs.scss */
+/* line 1383, ../../src/css/docs/docs.scss */
 .color-swatch--highlightColorHover {
   background: #f46741;
 }
 
-/* line 1133, ../../src/css/docs/docs.scss */
+/* line 1384, ../../src/css/docs/docs.scss */
 .color-swatch--highlightColorActive {
   background: #f35429;
 }
 
-/* line 1134, ../../src/css/docs/docs.scss */
+/* line 1385, ../../src/css/docs/docs.scss */
 .color-swatch--highlightColorDark {
   background: #db4c25;
 }
 
-/* line 1137, ../../src/css/docs/docs.scss */
+/* line 1388, ../../src/css/docs/docs.scss */
 .color-swatch--linkColor {
   background: #4571ec;
 }
 
-/* line 1138, ../../src/css/docs/docs.scss */
+/* line 1389, ../../src/css/docs/docs.scss */
 .color-swatch--linkColorHover {
   background: #5787f4;
 }
 
-/* line 1139, ../../src/css/docs/docs.scss */
+/* line 1390, ../../src/css/docs/docs.scss */
 .color-swatch--btnBackground {
   background: #5787f4;
 }
 
-/* line 1140, ../../src/css/docs/docs.scss */
+/* line 1391, ../../src/css/docs/docs.scss */
 .color-swatch--btnBackgroundHover {
   background: #648ef5;
 }
 
-/* line 1146, ../../src/css/docs/docs.scss */
+/* line 1397, ../../src/css/docs/docs.scss */
 .NotUpdatedYet {
   background: #dcfbfa;
 }

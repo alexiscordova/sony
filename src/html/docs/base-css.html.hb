@@ -26,7 +26,7 @@
 			================================================== -->
 			    <div class="row">
 			      <div class="span3 bs-docs-sidebar">
-			        <ul class="nav nav-list bs-docs-sidenav">
+			        <ul class="simple-nav nav-list bs-docs-sidenav">
 			          <li><a href="#typography"><i class="icon-chevron-right"></i> Typography</a></li>
 			          <li><a href="#buttons"><i class="icon-chevron-right"></i> Buttons</a></li>
 			          <li><a href="#colors"><i class="icon-chevron-right"></i> Colors</a></li>
