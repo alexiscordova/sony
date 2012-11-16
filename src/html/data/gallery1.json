@@ -33,7 +33,11 @@
     ],
 
     "all" : {
-        "filters" : false,
+        "sort" : true,
+        "simple" : false,
+        "columns" : {
+            "five" : true
+        },
         "total" : 41,
         "list" : [
             {
@@ -241,14 +245,81 @@
     },
 
     "productCards" : {
-        "filters" : true,
+        "sort" : false,
+        "simple" : true,
+        "columns" : {
+            "three" : true
+        },
+        "filterSet" : [
+            {
+                "name" : "price",
+                "label" : "Price",
+                "type" : {
+                    "range" : true
+                },
+                "min" : 20,
+                "max" : 1000
+            },
+            {
+                "label" : "Megapixels",
+                "name" : "megapixels",
+                "type" : {
+                    "button" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "14-16MP",
+                        "value" : "14-16"
+                    },
+                    {
+                        "label" : "16-18MP",
+                        "value" : "16-18"
+                    },
+                    {
+                        "label" : "18-20MP",
+                        "value" : "18-20"
+                    },
+                    {
+                        "label" : "20MP+",
+                        "value" : "20+"
+                    }
+                ]
+            },
+            {
+                "label" : "Features",
+                "name" : "features",
+                "type" : {
+                    "checkbox" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "LCD",
+                        "value" : "lcd"
+                    },
+                    {
+                        "label" : "Touchscreen LCD",
+                        "value" : "touchscreen"
+                    },
+                    {
+                        "label" : "Intelligent Sweep Panorama",
+                        "value" : "panorama"
+                    },
+                    {
+                        "label" : "Lightweight",
+                        "value" : "lightweight"
+                    }
+                ] 
+            }
+        ],
         "total" : 16,
         "list" : [
             {
-                "categories" : [ "lcd", "lightweight" ],
+                "filterSet" : {
+                    "features" : [ "lcd", "lightweight" ],
+                    "price" : 649.99,
+                    "megapixels" : "20+"
+                },
                 "label" : "New Product",
-                "price" : 649.99,
-                "megapixels" : "20+",
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -259,6 +330,7 @@
                     "stars" : 4,
                     "reviews" : 41
                 },
+                "price" : 649.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 20.2 },
                     { "name" : "lcd", "value" : "3\"" },
@@ -267,9 +339,11 @@
             },
 
             {
-                "categories" : [ "lcd", "touchscreen" ],
-                "price" : 119.99,
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "features" : [ "lcd", "touchscreen" ],
+                    "price" : 119.99,
+                    "megapixels" : "16-18"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -280,6 +354,7 @@
                     "stars" : 3,
                     "reviews" : 6
                 },
+                "price" : 119.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 16.1 },
                     { "name" : "optical zoom", "value" : "5x" },
@@ -288,9 +363,11 @@
             },
 
             {
-                "categories" : [ "lcd", "panorama" ],
-                "price" : 329.99,
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "features" : [ "lcd", "panorama" ],
+                    "price" : 329.99,
+                    "megapixels" : "16-18"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -301,6 +378,7 @@
                     "stars" : 5,
                     "reviews" : 10
                 },
+                "price" : 329.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 16.2 },
                     { "name" : "body", "value" : "Waterproof" },
@@ -309,9 +387,11 @@
             },
 
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "price" : 369.99,
-                "megapixels" : "18-20",
+                "filterSet" : {
+                    "features" : [ "lcd", "lightweight" ],
+                    "price" : 369.99,
+                    "megapixels" : "18-20"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -322,6 +402,7 @@
                     "stars" : 4,
                     "reviews" : 10
                 },
+                "price" : 369.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 18.2 },
                     { "name" : "Clear Image Zoom", "value" : "20x/40x" },
@@ -330,9 +411,11 @@
             },
 
             {
-                "categories" : [ "touchscreen", "lightweight" ],
-                "price" : 269.99,
-                "megapixels" : "18-20",
+                "filterSet" : {
+                    "features" : [ "touchscreen", "lightweight" ],
+                    "price" : 269.99,
+                    "megapixels" : "18-20"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -343,6 +426,7 @@
                     "stars" : 5,
                     "reviews" : 6
                 },
+                "price" : 269.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 18.2 },
                     { "name" : "Clear Image Zoom", "value" : "16x/32x" },
@@ -351,10 +435,12 @@
             },
 
             {
-                "categories" : [ "panorama", "lcd" ],
+                "filterSet" : {
+                    "features" : [ "panorama", "lcd" ],
+                    "price" : 109.99,
+                    "megapixels" : "14-16"
+                },
                 "label" : "Most Popular",
-                "price" : 109.99,
-                "megapixels" : "14-16",
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -365,6 +451,7 @@
                     "stars" : 5,
                     "reviews" : 7
                 },
+                "price" : 109.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 14.1 },
                     { "name" : "Optical Zoom", "value" : "4x" },
@@ -372,9 +459,11 @@
                 ]
             },
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "price" : 649.99,
-                "megapixels" : "20+",
+                "filterSet" : {
+                    "features" : [ "lcd", "lightweight" ],
+                    "price" : 649.99,
+                    "megapixels" : "20+"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -385,6 +474,7 @@
                     "stars" : 4,
                     "reviews" : 41
                 },
+                "price" : 649.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 20.2 },
                     { "name" : "lcd", "value" : "3\"" },
@@ -393,9 +483,11 @@
             },
 
             {
-                "categories" : [ "lcd", "touchscreen" ],
-                "price" : 119.99,
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "features" : [ "lcd", "touchscreen" ],
+                    "price" : 119.99,
+                    "megapixels" : "16-18"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -406,6 +498,7 @@
                     "stars" : 5,
                     "reviews" : 6
                 },
+                "price" : 119.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 16.1 },
                     { "name" : "optical zoom", "value" : "5x" },
@@ -414,9 +507,11 @@
             },
 
             {
-                "categories" : [ "lcd", "panorama" ],
-                "price" : 329.99,
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "features" : [ "lcd", "panorama" ],
+                    "price" : 329.99,
+                    "megapixels" : "16-18"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -427,6 +522,7 @@
                     "stars" : 5,
                     "reviews" : 10
                 },
+                "price" : 329.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 16.2 },
                     { "name" : "body", "value" : "Waterproof" },
@@ -435,9 +531,11 @@
             },
 
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "price" : 369.99,
-                "megapixels" : "18-20",
+                "filterSet" : {
+                    "features" : [ "lcd", "lightweight" ],
+                    "price" : 369.99,
+                    "megapixels" : "18-20"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -448,6 +546,7 @@
                     "stars" : 4,
                     "reviews" : 10
                 },
+                "price" : 369.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 18.2 },
                     { "name" : "Clear Image Zoom", "value" : "20x/40x" },
@@ -456,9 +555,11 @@
             },
 
             {
-                "categories" : [ "touchscreen", "lightweight" ],
-                "price" : 269.99,
-                "megapixels" : "18-20",
+                "filterSet" : {
+                    "features" : [ "touchscreen", "lightweight" ],
+                    "price" : 269.99,
+                    "megapixels" : "18-20"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -469,6 +570,7 @@
                     "stars" : 5,
                     "reviews" : 6
                 },
+                "price" : 269.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 18.2 },
                     { "name" : "Clear Image Zoom", "value" : "16x/32x" },
@@ -477,9 +579,11 @@
             },
 
             {
-                "categories" : [ "panorama", "lcd" ],
-                "price" : 109.99,
-                "megapixels" : "14-16",
+                "filterSet" : {
+                    "features" : [ "panorama", "lcd" ],
+                    "price" : 109.99,
+                    "megapixels" : "14-16"
+                },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
                     "alt" : ""
@@ -490,6 +594,7 @@
                     "stars" : 5,
                     "reviews" : 7
                 },
+                "price" : 109.99,
                 "meta" : [
                     { "name" : "megapixels", "value" : 14.1 },
                     { "name" : "Optical Zoom", "value" : "4x" },
@@ -500,12 +605,80 @@
     },
 
     "simple" : {
-        "filters" : true,
+        "sort" : false,
+        "simple" : false,
+        "columns" : {
+            "five" : true
+        },
+        "filterSet" : [
+            {
+                "name" : "price",
+                "label" : "Price",
+                "type" : {
+                    "range" : true
+                },
+                "min" : 10,
+                "max" : 300
+            },
+            {
+                "label" : "Megapixels",
+                "name" : "megapixels",
+                "type" : {
+                    "button" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "14-16MP",
+                        "value" : "14-16"
+                    },
+                    {
+                        "label" : "16-18MP",
+                        "value" : "16-18"
+                    },
+                    {
+                        "label" : "18-20MP",
+                        "value" : "18-20"
+                    },
+                    {
+                        "label" : "20MP+",
+                        "value" : "20+"
+                    }
+                ]
+            },
+            {
+                "label" : "Categories",
+                "name" : "categories",
+                "type" : {
+                    "button" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "LCD",
+                        "value" : "lcd"
+                    },
+                    {
+                        "label" : "Touchscreen LCD",
+                        "value" : "touchscreen"
+                    },
+                    {
+                        "label" : "Intelligent Sweep Panorama",
+                        "value" : "panorama"
+                    },
+                    {
+                        "label" : "Lightweight",
+                        "value" : "lightweight"
+                    }
+                ] 
+            }
+        ],
         "total" : 26,
         "list" : [
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "megapixels" : "20+",
+                "filterSet" : {
+                    "categories" : [ "lcd", "lightweight" ],
+                    "megapixels" : "20+",
+                    "price" : 379.99
+                },
                 "label" : "Most Popular",
                 "img" : {
                     "src" : "img/headphones/MDR1RBT.png",
@@ -516,8 +689,11 @@
             },
 
             {
-                "categories" : [ "lcd", "touchscreen" ],
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "categories" : [ "lcd", "touchscreen" ],
+                    "megapixels" : "16-18",
+                    "price" : 129.99
+                },
                 "img" : {
                     "src" : "img/headphones/MDRXB700.png",
                     "alt" : ""
@@ -527,8 +703,11 @@
             },
 
             {
-                "categories" : [ "lcd", "panorama" ],
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "categories" : [ "lcd", "panorama" ],
+                    "megapixels" : "16-18",
+                    "price" : 59.99
+                },
                 "img" : {
                     "src" : "img/headphones/WHI.png",
                     "alt" : ""
@@ -538,8 +717,11 @@
             },
 
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "megapixels" : "18-20",
+                "filterSet" : {
+                    "categories" : [ "lcd", "lightweight" ],
+                    "megapixels" : "18-20",
+                    "price" : 299.99
+                },
                 "img" : {
                     "src" : "img/headphones/Layer-45.png",
                     "alt" : ""
@@ -549,8 +731,11 @@
             },
 
             {
-                "categories" : [ "panorama", "lcd" ],
-                "megapixels" : "14-16",
+                "filterSet" : {
+                    "categories" : [ "panorama", "lcd" ],
+                    "megapixels" : "14-16",
+                    "price" : 29.99
+                },
                 "img" : {
                     "src" : "img/headphones/MDRAS30G.png",
                     "alt" : ""
@@ -560,8 +745,11 @@
             },
 
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "megapixels" : "20+",
+                "filterSet" : {
+                    "categories" : [ "lcd", "lightweight" ],
+                    "megapixels" : "20+",
+                    "price" : 29.99
+                },
                 "img" : {
                     "src" : "img/headphones/Layer-451.png",
                     "alt" : ""
@@ -571,8 +759,11 @@
             },
 
             {
-                "categories" : [ "panorama", "lcd" ],
-                "megapixels" : "14-16",
+                "filterSet" : {
+                    "categories" : [ "panorama", "lcd" ],
+                    "megapixels" : "14-16",
+                    "price" : 59.99
+                },
                 "img" : {
                     "src" : "img/headphones/MDRXB400GRN.png",
                     "alt" : ""
@@ -583,8 +774,11 @@
 
 
             {
-                "categories" : [ "lcd", "touchscreen" ],
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "categories" : [ "lcd", "touchscreen" ],
+                    "megapixels" : "16-18",
+                    "price" : 79.99
+                },
                 "img" : {
                     "src" : "img/headphones/MDRXB60EXGLD.png",
                     "alt" : ""
@@ -594,8 +788,11 @@
             },
 
             {
-                "categories" : [ "lcd", "panorama" ],
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "categories" : [ "lcd", "panorama" ],
+                    "megapixels" : "16-18",
+                    "price" : 379.99
+                },
                 "label" : "New Product",
                 "img" : {
                     "src" : "img/headphones/Layer-81.png",
@@ -606,8 +803,11 @@
             },
 
             {
-                "categories" : [ "panorama", "lcd" ],
-                "megapixels" : "14-16",
+                "filterSet" : {
+                    "categories" : [ "panorama", "lcd" ],
+                    "megapixels" : "14-16",
+                    "price" : 379.99
+                },
                 "img" : {
                     "src" : "img/headphones/MDR1RBT.png",
                     "alt" : ""
@@ -617,8 +817,11 @@
             },
 
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "megapixels" : "20+",
+                "filterSet" : {
+                    "categories" : [ "lcd", "lightweight" ],
+                    "megapixels" : "20+",
+                    "price" : 129.99
+                },
                 "img" : {
                     "src" : "img/headphones/MDRXB700.png",
                     "alt" : ""
@@ -628,8 +831,11 @@
             },
 
             {
-                "categories" : [ "panorama", "lcd" ],
-                "megapixels" : "14-16",
+                "filterSet" : {
+                    "categories" : [ "panorama", "lcd" ],
+                    "megapixels" : "14-16",
+                    "price" : 59.99
+                },
                 "img" : {
                     "src" : "img/headphones/WHI.png",
                     "alt" : ""
@@ -640,8 +846,11 @@
 
 
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "megapixels" : "18-20",
+                "filterSet" : {
+                    "categories" : [ "lcd", "lightweight" ],
+                    "megapixels" : "18-20",
+                    "price" : 299.99
+                },
                 "img" : {
                     "src" : "img/headphones/Layer-45.png",
                     "alt" : ""
@@ -651,8 +860,11 @@
             },
 
             {
-                "categories" : [ "lcd", "panorama" ],
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "categories" : [ "lcd", "panorama" ],
+                    "megapixels" : "16-18",
+                    "price" : 29.99
+                },
                 "img" : {
                     "src" : "img/headphones/MDRAS30G.png",
                     "alt" : ""
@@ -662,8 +874,11 @@
             },
 
             {
-                "categories" : [ "lcd", "touchscreen" ],
-                "megapixels" : "16-18",
+                "filterSet" : {
+                    "categories" : [ "lcd", "touchscreen" ],
+                    "megapixels" : "16-18",
+                    "price" : 29.99
+                },
                 "img" : {
                     "src" : "img/headphones/Layer-451.png",
                     "alt" : ""
@@ -673,16 +888,18 @@
             },
 
             {
-                "categories" : [ "lcd", "lightweight" ],
-                "megapixels" : "20+",
+                "filterSet" : {
+                    "categories" : [ "lcd", "lightweight" ],
+                    "megapixels" : "20+",
+                    "price" : 59.99
+                },
                 "img" : {
                     "src" : "img/headphones/MDRXB400GRN.png",
                     "alt" : ""
                 },
                 "name" : "XB Series Extra Bass Headphones",
                 "price" : 59.99
-            }
-            
+            }       
         ]
     },
 

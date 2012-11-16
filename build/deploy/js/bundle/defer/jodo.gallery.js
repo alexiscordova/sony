@@ -5,29 +5,12 @@
         var self = this;
 
         $.extend(self, $.fn.gallery.options, options, $.fn.gallery.settings);
-        
-        self.features = [];
-        self.megapixels = [];
-        self.price = {
-            min: self.MIN_PRICE,
-            max: self.MAX_PRICE
-        };
 
         self.$container = $container;
         self.$grid = self.$container.find('.products');
-        self.$features = self.$container.find('.filter-options .features');
-        self.$megapixels = self.$container.find('.filter-options .megapixels');
-        self.$rangeControl = self.$container.find('.price-range-control'),
-        self.$output = self.$container.find('.price-range-output'),
+        self.$filterOpts = self.$container.find('.filter-options');
 
-
-        self.$grid.children().each(function() {
-            var data = $(this).data();
-            data.categories = !data.groups ? [] :
-                !$.isArray( data.groups ) ? data.groups.split(',') : '';
-        });
-
-        
+        // Use a function if one is specified for the column width
         var col = $.isFunction( self.shuffleColumns ) ?
             self.shuffleColumns :
             function( containerWidth ) {
@@ -37,7 +20,8 @@
                 }
                 return column;
             },
-            
+        
+        // Use a function if one is defined for the gutter width
         gut = $.isFunction( self.shuffleGutters ) ?
             self.shuffleGutters :
             function( containerWidth ) {
@@ -58,39 +42,38 @@
         });
 
 
-        // Checkboxes
-        self.$features.find('input').on('change', function() {
-            var $checked = self.$features.find('input:checked'),
-            groups = [];
+        // Initialize filters
+        self.filters = {
+            range: {},
+            button: {},
+            checkbox: {}
+        };
+        self.filterNames = {};
+        self.$filterOpts.find('[data-filter]').each(function() {
+            var $this = $(this),
+                data = $this.data(),
+                type = data.filterType,
+                name = data.filter,
+                init = [];
 
-            // At least one checkbox is checked, clear the array and loop through the checked checkboxes
-            // to build an array of strings
-            if ( $checked.length !== 0 ) {
-                $checked.each(function() {
-                    groups.push(this.value);
-                });
+
+            // Initialize it based on type
+            switch ( type ) {
+                case 'range':
+                    init = {};
+                    self.range( $this, name, data.min, data.max );
+                    break;
+                case 'button':
+                    self.button( $this, name );
+                    break;
+                case 'checkbox':
+                    self.checkbox ( $this, name );
+                    break;
             }
-            self.features = groups;
 
-            self.filter();
-        });
-
-        // Buttons
-        self.$megapixels.children().on('click', function() {
-            $(this).button('toggle');
-
-            var $checked = self.$megapixels.find('.active'),
-            groups = [];
-
-            // Get all megapixel filters
-            if ( $checked.length !== 0 ) {
-                $checked.each(function() {
-                    groups.push(this.getAttribute('data-megapixels'));
-                });
-            }
-            self.megapixels = groups;
-
-            self.filter();
+            // Save the active filters in this filter to an empty array or object
+            self.filters[ type ][ name ] = init;
+            self.filterNames[ name ] = type;
         });
 
 
@@ -99,14 +82,11 @@
             $(this).siblings('.product-filter').stop().slideToggle( $.proxy( self.maybeResetRange, self ) );
         });
 
-        // Set up range controller
-        self.range();
-
         // Hide filters
         self.$container.find('.product-filter').slideUp();
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
-        if ( !self.simple ) {
+        if ( self.sort ) {
             var sorted = false;
             if ( $(window).width() <= 767 ) {
                 self.sortByPriority();
@@ -125,6 +105,8 @@
                 }
             });
         }
+
+        self.isInitialized = true;
     };
 
     Gallery.prototype = {
@@ -145,29 +127,66 @@
 
         // From the element's data-* attributes, test to see if it passes
         itemPassesFilters : function( data ) {
-            var self = this;
+            var self = this,
+                filterName = '';
 
-            // If a features filter is active
-            if ( self.features.length > 0 && !self.arrayContainsArray( data.categories, self.features ) ) {
-                return false;
-            }
+            // Loop through each filter in the elements filter set
+            for ( filterName in data.filterSet ) {
+                if ( !data.filterSet.hasOwnProperty(filterName) ) {
+                    continue;
+                }
 
-            // If a megapixels filter is active
-            if ( self.megapixels.length > 0 && !self.valueInArray( data.megapixels, self.megapixels ) ) {
-                return false;
-            }
+                // filterName e.g. 'price'
+                var filter = data.filterSet[ filterName ], // e.g. 399.99
+                    filterType = self.filterNames[ filterName ], // e.g. 'range'
+                    activeFilters = self.filters[ filterType ][ filterName ]; // e.g. ["lcd"]
 
-            // Price range controller
-            if ( data.price < self.price.min || ( data.price > self.price.max && self.price.max !== self.MAX_PRICE ) ) {
-                return false;
+                if ( filterType === 'button' || filterType === 'checkbox' ) {
+                    var method = $.isArray( filter ) ? 'arrayContainsArray' : 'valueInArray';
+                    if ( activeFilters.length > 0 && !self[ method ]( filter, activeFilters ) ) {
+                        return false;
+                    }
+                } else if ( filterType === 'range' ) {
+                    if ( filter < self.price.min || ( filter > self.price.max && self.price.max !== self.MAX_PRICE ) ) {
+                        return false;
+                    }
+                }
             }
 
             return true;
         },
 
         hasActiveFilters : function() {
-            var self = this;
-            return self.megapixels.length > 0 || self.features.length > 0 || self.price.min !== self.IN_PRICE || self.price.max !== self.MAX_PRICE;
+            var self = this,
+                hasActive = false,
+                filterType = '',
+                filterName = '';
+
+            for ( filterType in self.filters ) {
+                if ( !self.filters.hasOwnProperty(filterType) ) {
+                    continue;
+                }
+
+
+                if ( filterType === 'button' || filterType === 'checkbox' ) {
+                    for ( filterName in self.filters[ filterType ] ) {
+                        var activeFilters = self.filters[ filterType ][ filterName ];
+                        hasActive = activeFilters.length > 0;
+
+                        // There is an active filter, break out of the loop and return
+                        if ( hasActive ) {
+                            break;
+                        }
+                    }
+                } else if ( filterType === 'range' ) {
+                    hasActive = self.price.min !== self.MIN_PRICE || self.price.max !== self.MAX_PRICE;
+                }
+
+                if ( hasActive ) {
+                    return hasActive;
+                }
+            }
+            return hasActive;
         },
 
         valueInArray : function( value, arr ) {
@@ -193,9 +212,58 @@
             return true;
         },
 
-        range : function() {
+        button : function( $parent, filterName ) {
+            var self = this;
+
+            $parent.children().on('click', function() {
+                $(this).button('toggle');
+
+                var $checked = $parent.find('.active'),
+                checked = [];
+
+                // Get all data-* filters
+                if ( $checked.length !== 0 ) {
+                    $checked.each(function() {
+                        var data = $checked.data();
+                        checked.push( data[ filterName ] );
+                    });
+                }
+                self.filters.button[ filterName ] = checked;
+
+                self.filter();
+            });
+        },
+
+        checkbox : function( $parent, filterName ) {
+            var self = this;
+            $parent.find('input').on('change', function() {
+                var $checked = $parent.find('input:checked'),
+                checked = [];
+
+                // At least one checkbox is checked, clear the array and loop through the checked checkboxes
+                // to build an array of strings
+                if ( $checked.length !== 0 ) {
+                    $checked.each(function() {
+                        checked.push(this.value);
+                    });
+                }
+                self.filters.checkbox[ filterName ] = checked;
+
+                self.filter();
+            });
+        },
+
+        range : function( $rangeControl, filterName , min, max ) {
+            this.MAX_PRICE = max;
+            this.MIN_PRICE = min;
+            this.price = {
+                min: this.MIN_PRICE,
+                max: this.MAX_PRICE
+            };
+            
             var self = this,
             diff = self.MAX_PRICE - self.MIN_PRICE,
+            $output = $rangeControl.closest('.filter-container').find('.range-output'),
 
             getPrice = function(percent) {
                 return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
@@ -209,14 +277,14 @@
                 prevMax = self.price.max;
 
                 // Display values
-                self.$output.html('$' + minPrice + ' - $' + maxPriceStr);
+                $output.html('$' + minPrice + ' - $' + maxPriceStr);
 
                 // Save values
                 self.price.min = minPrice;
                 self.price.max = maxPrice;
 
                 // Filter results
-                if ( prevMin !== self.price.min || prevMax !== self.price.max ) {
+                if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
                     if ( $.throttle ) {
                         var delay, method;
                         if ( !!( 'ontouchstart' in window ) ) {
@@ -235,7 +303,7 @@
                 }
             };
 
-            self.$rangeControl.rangeControl({
+            $rangeControl.rangeControl({
                 orientation: 'h',
                 initialMin: '0%',
                 initialMax: '100%',
@@ -291,7 +359,7 @@
 
     // Overrideable options
     $.fn.gallery.options = {
-        simple: false,
+        sort: false,
         filters: true,
         MIN_PRICE: 100,
         MAX_PRICE: 2000,
@@ -313,6 +381,8 @@
     };
 
     // Not overrideable
-    $.fn.gallery.settings = {};
+    $.fn.gallery.settings = {
+        isInitialized: false
+    };
 
 }(jQuery, window));
