@@ -28,6 +28,7 @@
 
     width:$navbarMaxWidth;
     margin:0 auto;
+    padding:0 $navbarMinSideMargin;
 
     // Prevent floats from breaking the navbar
     @include clearfix();
@@ -194,7 +195,7 @@
   // --------------
   .nav-tray{
     position: absolute;
-    top: 0;
+    top: $navbarTotalHeight;
     left: 0;
     width:100%;
     z-index: 10;
