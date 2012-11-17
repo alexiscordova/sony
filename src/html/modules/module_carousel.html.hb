@@ -31,16 +31,6 @@
         <img class="scImg" src="http://placekitten.com/640/320"/>
         <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
     </div>
-    	<div>
-        <img class="scImg" src="http://placekitten.com/640/320"/>
-        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-    </div>	
-
-
-    <div>
-        <img class="scImg" src="http://placekitten.com/640/320"/>
-        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-    </div>
     </div>
 
 <!-- <div class="carousel" data-mode="{{mode}}" data-variation="{{variation}}">

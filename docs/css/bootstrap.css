@@ -300,6 +300,12 @@ a:hover {
   border-radius: 500px;
 }
 
+/* line 56, ../../src/css/scss/_base/_scaffolding.scss */
+.padded {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 /* line 817, ../../src/css/scss/_base/_mixins.scss */
 .row {
   margin-left: -20px;
@@ -6436,7 +6442,7 @@ a.label:hover, a.badge:hover {
 
 /* line 8, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
 body.debug::before {
-  content: 'Default - 940px';
+  content: 'Default: 980px - 1199px';
   position: fixed;
   z-index: 99999 !important;
   top: 0;
@@ -6454,46 +6460,35 @@ body.debug::before {
 @media (min-width: 1200px) {
   /* line 25, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Large Desktop - 1200px+';
+    content: 'Large Desktop: 1200px+';
     background-color: rgba(204, 119, 102, 0.8);
   }
 }
 @media (min-width: 1500px) {
   /* line 32, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Extra Large Desktop - 1500px+';
+    content: 'Extra Large Desktop: 1500px+';
     background-color: rgba(136, 102, 204, 0.8);
   }
 }
 @media (min-width: 768px) and (max-width: 979px) {
   /* line 39, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Portrait tablet to landscape and desktop - > 768px && < 979px';
+    content: 'Portrait tablet to landscape and desktop: > 768px && < 979px';
     background-color: rgba(204, 187, 102, 0.8);
   }
 }
 @media (max-width: 767px) {
   /* line 46, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
-  body.debug {
-    padding: 0;
-  }
-
-  /* line 50, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
-  .padded {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  /* line 55, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Phones to Tablets - < 767px';
+    content: 'Phones to Tablets: < 767px';
     background-color: rgba(102, 153, 204, 0.8);
   }
 }
 @media (max-width: 480px) {
-  /* line 62, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  /* line 53, ../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Phones - < 480px';
+    content: 'Phones: < 480px';
     background-color: rgba(204, 102, 204, 0.8);
   }
 }
