@@ -44,7 +44,8 @@ docpadConfig = {
     handlebars:{
       helpers:{
         partial:(content, options) -> output = @partial(content, options),
-        isEnv:(context, options) -> output = if (context in @getEnvironment()) then options.fn(this) else options.inverse(this)
+        isEnv:(context, options) -> output = if (context in @getEnvironment()) then options.fn(this) else options.inverse(this),
+        json:(context, options) -> output = JSON.stringify(context)
       }
     }    
   }

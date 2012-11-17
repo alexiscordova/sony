@@ -13,7 +13,7 @@
 // so it won't be in the final build unless we need it to be.
 .navbar-wrapper{
   width:100%;
-  height: $navbarHeight;
+  height: $navbarTotalHeight;
   
   background:$navbarBackground;
 
@@ -40,7 +40,7 @@
     .brand {
       float: left;
       display: block;
-      // Vertically center the text given $navbarHeight
+      // Vertically center the text given $navbarTotalHeight
       padding: 10px 20px;
       margin-left: -20px; // negative indent to left-align the text down the page
     }
@@ -146,8 +146,8 @@
       // Links
       & > li > a {
         float: none;
-        // Vertically center the text given $navbarHeight
-        padding: ($navbarHeight / 2.5) 15px ($navbarHeight / 2.5);
+        // Vertically center the text given $navbarTotalHeight
+        padding: ($navbarTotalHeight / 2.5) 15px ($navbarTotalHeight / 2.5);
 
         font-size:$navbarTextSize;
         color: $navbarLinkColor;

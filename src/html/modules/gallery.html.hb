@@ -39,62 +39,12 @@
 
   <div class="tab-content">
 
-    <section class="tab-pane fade active in gallery gallery5" data-tab="all">
-      {{#if all.filters}}
-      <button class="js-filter-toggle btn">Filters</button>
-      <div class="product-filter">
-        <div class="filter-options row">
-
-          <div class="span3">
-            <span>Price</span>
-            <div class="range-control-wrap"><div class="range-control price-range-control"></div></div>
-            <div class="price-range-output"></div>
-          </div>
-
-          <ul class="span3 unstyled megapixels">
-            <li data-megapixels="14-16" class="btn">14-16MP</li>
-            <li data-megapixels="16-18" class="btn">16-18MP</li>
-            <li data-megapixels="18-20" class="btn">18-20MP</li>
-            <li data-megapixels="20+" class="btn">20MP+</li>
-          </ul>
-
-          <ul class="span3 unstyled features">
-            <li>
-              <label><input type="checkbox" value="lcd"> LCD</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="touchscreen"> Touchscreen LCD</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="panorama"> Intelligent Sweep Panorama</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="lightweight"> Lightweight</label>
-            </li>
-          </ul>
-
-          <ul class="span3 unstyled best-for">
-            <li>Getting Close</li>
-            <li>Adventurer</li>
-            <li>Pocket Video</li>
-          </ul>
-
-        </div>
-      </div>
-
-      <div class="pull-right">
-        <select>
-          <option>Featured</option>
-          <option>not featured</option>
-          <option>featured and not featured</option>
-        </select>
-      </div>
-      {{/if}}
+    <section class="tab-pane fade active in gallery{{#if all.simple}} gallery-simple{{/if}}" data-tab="all" data-five="{{all.columns.five}}" data-sort="{{all.sort}}">
 
       <p class="l4"><span class="text-dark">{{all.total}}</span> Products</p>
-      <div class="products grid5" data-filters="{{all.filters}}">
+      <div class="products{{#if all.columns.five}} grid5{{/if}}">
           {{#each all.list}}
-          <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}" data-priority="{{this.priority}}">
+          <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
             {{#if this.label}}
             <span class="label">{{this.label}}</span>
             {{/if}}
@@ -133,45 +83,48 @@
       </div>
     </section>
 
-    <section class="tab-pane fade gallery gallery-simple" data-tab="overhead">
-      {{#if productCards.filters}}
+    <section class="tab-pane fade gallery{{#if productCards.simple}} gallery-simple{{/if}}" data-tab="overhead" data-five="{{productCards.columns.five}}" data-sort="{{productCards.sort}}">
+      {{#if productCards.filterSet}}
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
         <div class="filter-options row">
 
-          <div class="span3">
-            <span>Price</span>
-            <div class="range-control-wrap"><div class="range-control price-range-control"></div></div>
-            <div class="price-range-output"></div>
+          
+          {{#each productCards.filterSet}}
+
+          {{#if this.type.range}}
+          <div class="span3 filter-container">
+            <span>{{this.label}}</span>
+            <div class="range-control-wrap"><div class="range-control" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
+            <div class="range-output"></div>
           </div>
+          {{/if}}
 
-          <ul class="span3 unstyled megapixels">
-            <li data-megapixels="14-16" class="btn">14-16MP</li>
-            <li data-megapixels="16-18" class="btn">16-18MP</li>
-            <li data-megapixels="18-20" class="btn">18-20MP</li>
-            <li data-megapixels="20+" class="btn">20MP+</li>
+          {{#if this.type.button}}
+          <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="button">
+            {{#each this.filters}}
+            <li data-{{../name}}="{{this.value}}" class="btn">{{this.label}}</li>
+            {{/each}}
           </ul>
+          {{/if}}
 
-          <ul class="span3 unstyled features">
-            <li>
-              <label><input type="checkbox" value="lcd"> LCD</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="touchscreen"> Touchscreen LCD</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="panorama"> Intelligent Sweep Panorama</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="lightweight"> Lightweight</label>
-            </li>
+          {{#if this.type.checkbox}}
+          <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
+            {{#each this.filters}}
+            <li><label><input type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
+            {{/each}}
           </ul>
+          {{/if}}
 
-          <ul class="span3 unstyled best-for">
+          {{#if glen}}
+          <ul class="span3 filter-container unstyled best-for">
             <li>Getting Close</li>
             <li>Adventurer</li>
             <li>Pocket Video</li>
           </ul>
+          {{/if}}
+
+          {{/each}}
 
         </div>
       </div>
@@ -187,9 +140,9 @@
       {{/if}}
 
       <p class="l4"><span class="text-dark">{{productCards.total}}</span> Products</p>
-      <div class="products">
+      <div class="products{{#if productCards.columns.five}} grid5{{/if}}">
         {{#each productCards.list}}
-        <div class="span4 gallery-item" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}" data-piority="{{this.priority}}">
+        <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
           {{#if this.label}}
           <span class="label">{{this.label}}</span>
           {{/if}}
@@ -217,45 +170,48 @@
       </div>
     </section>
 
-    <section class="tab-pane fade gallery gallery5" data-tab="inear">
-      {{#if simple.filters}}
+    <section class="tab-pane fade gallery{{#if simple.simple}} gallery-simple{{/if}}" data-tab="inear" data-five="{{simple.columns.five}}" data-sort="{{simple.sort}}">
+      {{#if simple.filterSet}}
       <button class="js-filter-toggle btn">Filters</button>
       <div class="product-filter">
         <div class="filter-options row">
 
-          <div class="span3">
-            <span>Price</span>
-            <div class="range-control-wrap"><div class="range-control price-range-control"></div></div>
-            <div class="price-range-output"></div>
+          
+          {{#each simple.filterSet}}
+
+          {{#if this.type.range}}
+          <div class="span3 filter-container">
+            <span>{{this.label}}</span>
+            <div class="range-control-wrap"><div class="range-control" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
+            <div class="range-output"></div>
           </div>
+          {{/if}}
 
-          <ul class="span3 unstyled megapixels">
-            <li data-megapixels="14-16" class="btn">14-16MP</li>
-            <li data-megapixels="16-18" class="btn">16-18MP</li>
-            <li data-megapixels="18-20" class="btn">18-20MP</li>
-            <li data-megapixels="20+" class="btn">20MP+</li>
+          {{#if this.type.button}}
+          <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="button">
+            {{#each this.filters}}
+            <li data-{{../name}}="{{this.value}}" class="btn">{{this.label}}</li>
+            {{/each}}
           </ul>
+          {{/if}}
 
-          <ul class="span3 unstyled features">
-            <li>
-              <label><input type="checkbox" value="lcd"> LCD</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="touchscreen"> Touchscreen LCD</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="panorama"> Intelligent Sweep Panorama</label>
-            </li>
-            <li>
-              <label><input type="checkbox" value="lightweight"> Lightweight</label>
-            </li>
+          {{#if this.type.checkbox}}
+          <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
+            {{#each this.filters}}
+            <li><label><input type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
+            {{/each}}
           </ul>
+          {{/if}}
 
-          <ul class="span3 unstyled best-for">
+          {{#if glen}}
+          <ul class="span3 filter-container unstyled best-for">
             <li>Getting Close</li>
             <li>Adventurer</li>
             <li>Pocket Video</li>
           </ul>
+          {{/if}}
+
+          {{/each}}
 
         </div>
       </div>
@@ -273,7 +229,7 @@
       <p class="l4"><span class="text-dark">{{simple.total}}</span> Products</p>
       <div class="products grid5">
         {{#each simple.list}}
-        <div class="span1 gallery-item" data-groups="{{this.categories}}" data-megapixels="{{this.megapixels}}" data-price="{{this.price}}" data-piority="{{this.priority}}">
+        <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
           {{#if this.label}}
           <span class="label">{{this.label}}</span>
           {{/if}}
