@@ -25,10 +25,8 @@
     color: $navbarText;
     position: relative;
     z-index: 200;
-
-    width:$navbarMaxWidth;
+    
     margin:0 auto;
-    padding:0 $navbarMinSideMargin;
 
     // Prevent floats from breaking the navbar
     @include clearfix();
@@ -191,25 +189,53 @@
 
 
 
-  // Dropdown menus
-  // --------------
-  .nav-tray{
-    position: absolute;
-    top: $navbarTotalHeight;
-    left: 0;
-    width:100%;
-    z-index: 10;
-    padding: 20px 0 15px;
-    margin: 0;
-    list-style: none;
-    background-color: white;
-    border-bottom: 1px solid #ccc;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+  .nav-tray-wrapper{
+    .nav-tray{
+      position: absolute;
+      overflow:hidden;
+      top: $navbarTotalHeight;
+      left: 0;
+      width:100%;
+      z-index: 10;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      background-color: white;
+      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
 
-    background:gray;
-    // display: none;
-  }
+      background:gray;
+      // display: none;
+      
+      $trayDividerPosition:70%;
+      &.nav-tray-electronics:after{ // background gray under the right side
+        content: ".";
+        display: block;
+        width: 50%;
+        height: 100%;
+        position:absolute;
+        top:0;
+        left:$trayDividerPosition;
+        z-index:10;
 
-
+        background: red;
+        color: red;
+      }
+      .nav-tray-section-main{
+        width:$trayDividerPosition;
+        height:100%;
+        background:blue;
+        float:left;
+      }
+      .nav-tray-section-featured{
+        width:(100-$trayDividerPosition);
+        height:100%;
+        background:rgba(0,255,0,0.5);
+        float:left;
+        z-index:20;
+        position:relative;
+      }
+    } // end .nav-tray
+  } // end .nav-tray-wrapper
 } // end .navbar-wrapper

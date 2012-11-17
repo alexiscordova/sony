@@ -23,31 +23,33 @@ meta_data: {a:'foo', b:'bar'}
 	        </ul>
 		    </div><!-- end .navbar --> 
 
-		    <div class="nav-tray" id="nav-tray-electronics">
-      		<div class="nav-tray-section-main">
-		        <ul class="nav-tray-list-main">
-		        	<li id="nav-tray-li-cameras"><a href="#">Cameras</a></li>
-		        	<li id="nav-tray-li-mobile"><a href="#">Mobile &amp; Tablets</a></li>
-		        	<li id="nav-tray-li-playstation"><a href="#">PlayStation</a></li>
-		        	<li id="nav-tray-li-computers"><a href="#">Computers</a></li>
-		        	<li id="nav-tray-li-video-cameras"><a href="#">Video Cameras</a></li>
-		        	<li id="nav-tray-li-televisions"><a href="#">Televisions</a></li>
-		        	<li id="nav-tray-li-audio"><a href="#">Audio</a></li>
-		        	<li id="nav-tray-li-car"><a href="#">Car &amp; Marine</a></li>
-		        </ul>
-		        <a id="nav-tray-link-view-all" href="#">All Electronics</a>
+		    <div class="nav-tray-wrapper">
+		    	<div class="nav-tray nav-tray-electronics">
+	      		<div class="nav-tray-section-main">
+			        <ul class="nav-tray-list-main">
+			        	<li id="nav-tray-li-cameras"><a href="#">Cameras</a></li>
+			        	<li id="nav-tray-li-mobile"><a href="#">Mobile &amp; Tablets</a></li>
+			        	<li id="nav-tray-li-playstation"><a href="#">PlayStation</a></li>
+			        	<li id="nav-tray-li-computers"><a href="#">Computers</a></li>
+			        	<li id="nav-tray-li-video-cameras"><a href="#">Video Cameras</a></li>
+			        	<li id="nav-tray-li-televisions"><a href="#">Televisions</a></li>
+			        	<li id="nav-tray-li-audio"><a href="#">Audio</a></li>
+			        	<li id="nav-tray-li-car"><a href="#">Car &amp; Marine</a></li>
+			        </ul>
+			        <a id="nav-tray-link-view-all" href="#">All Electronics</a>
+			      </div>
+		        <div class="nav-tray-section-featured">
+		        	<h6 class=".l2">Community</h6>
+		        	<ul class="nav-tray-list-secondary">
+		        		<li id="nav-tray-li-photography">Photography</li>
+		        		<li id="nav-tray-li-reading">Reading</li>
+		        		<li id="nav-tray-li-film">Film &amp; 3D</li>
+		        		<li id="nav-tray-li-computing">Computing</li>
+		        		<li id="nav-tray-li-music">Music</li>
+		        	</ul>
+		        	<div class="nav-tray-secondary-promo"><a href="#">Play. Watch Listen. Create</a></div>
+		        </div>
 		      </div>
-	        <div class="nav-tray-section-featured">
-	        	<h6 class=".l2">Community</h6>
-	        	<ul class="nav-tray-list-secondary">
-	        		<li id="nav-tray-li-photography">Photography</li>
-	        		<li id="nav-tray-li-reading">Reading</li>
-	        		<li id="nav-tray-li-film">Film &amp; 3D</li>
-	        		<li id="nav-tray-li-computing">Computing</li>
-	        		<li id="nav-tray-li-music">Music</li>
-	        	</ul>
-	        	<div class="nav-tray-secondary-promo"><a href="#">Play. Watch Listen. Create</a></div>
-	        </div>
 	      </div><!-- end #nav-tray-electronics --> 
 	      
     	</nav><!-- end .navbar-wrapper --> 
