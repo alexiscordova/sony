@@ -163,5 +163,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
 	grunt.registerTask('deploy', 'clear lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');
-	grunt.registerTask('all', 'debug deploy docs');
+	grunt.registerTask('all', 'clean debug deploy docs');
 };

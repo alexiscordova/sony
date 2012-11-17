@@ -32,6 +32,7 @@
 			          <li><a href="#colors"><i class="icon-chevron-right"></i> Colors</a></li>
 			
 			          <li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
+			          <li><a href="#utilities"><i class="icon-chevron-right"></i> Utility Classes</a></li>
 			          <li><a href="#icons"><i class="icon-chevron-right"></i> Icons</a></li>
 			        </ul>
 			      </div>
@@ -1164,7 +1165,61 @@
 			</section>
 			
 			
+			<!--==================================================
+			 Utilities
+			================================================== -->
+			<section id="utilities">
+				<h2 class="bs-docs-heading">Utility Classes</h2>
+
+				<p>A collection of utility class so you don't have to keep writing them!</p>
+				<div class="alert">Todo</div>
+
+			</section>
 			
+			
+			<!--==================================================
+			 Icons
+			================================================== -->
+			<section id="icons">
+				<h2 class="bs-docs-heading">Icons</h2>
+
+				<p>Sony Icons (SVG!)</p>
+<pre class="prettyprint linenums">
+&lt;i class="icon-grid"&gt;&lt;/i&gt;
+</pre>
+
+				<ul class="the-icons clearfix">
+					<li><i class="icon-grid"></i> <span class="icons-desc">icon-grid</span></li>
+					<li><i class="icon-grid-alt"></i> <span class="icons-desc">icon-grid-alt</span></li>
+					<li><i class="icon-headphones"></i> <span class="icons-desc">icon-headphones</span></li>
+					<li><i class="icon-earbuds"></i> <span class="icons-desc">icon-earbuds</span></li>
+					<li><i class="icon-earclips"></i> <span class="icons-desc">icon-earclips</span></li>
+					<li><i class="icon-neckphones"></i> <span class="icons-desc">icon-neckphones</span></li>
+					<li><i class="icon-star"></i> <span class="icons-desc">icon-star</span></li>
+					<li><i class="icon-tv"></i> <span class="icons-desc">icon-tv</span></li>
+					<li><i class="icon-laptop"></i> <span class="icons-desc">icon-laptop</span></li>
+					<li><i class="icon-tablet"></i> <span class="icons-desc">icon-tablet</span></li>
+					<li><i class="icon-memory-stick"></i> <span class="icons-desc">icon-memory-stick</span></li>
+					<li><i class="icon-projector"></i> <span class="icons-desc">icon-projector</span></li>
+					<li><i class="icon-water-drop"></i> <span class="icons-desc">icon-water-drop</span></li>
+					<li><i class="icon-mic"></i> <span class="icons-desc">icon-mic</span></li>
+					<li><i class="icon-dongle"></i> <span class="icons-desc">icon-dongle</span></li>
+					<li><i class="icon-cd"></i> <span class="icons-desc">icon-cd</span></li>
+					<li><i class="icon-handycam"></i> <span class="icons-desc">icon-handycam</span></li>
+					<li><i class="icon-video-camera"></i> <span class="icons-desc">icon-video-camera</span></li>
+				</ul>
+
+				<script>
+					$('.the-icons li').hover(function() {
+						this.querySelector('i').classList.add('active');
+					}, function() {
+						this.querySelector('i').classList.remove('active');
+					});
+				</script>
+
+				<p>Each of the above also have an active state. Just add <code>.active</code> to the class list</p>
+				<p>There is a fallback .png for older browsers. If we need something to be raster, we can create another spritesheet for raster specific icons.</p>
+			</section>
 			
 			
 			
