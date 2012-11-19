@@ -1,0 +1,47 @@
+//
+// Range and slider controls
+// --------------------------------------------------
+
+.range-control {
+  position: relative;
+  width: inherit;
+  height: 5px;
+  background: darkgray;
+}
+
+.range-control.vertical {
+  width: 5px;
+  height: 200px;
+}
+
+.range-control.vertical .ambit {
+  width: 5px;
+  height: auto;
+}
+
+.range-control .handle {
+  z-index: 5;
+  margin-top: -8px;
+  margin-left: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur') 8 4, pointer; /* you should probably localize the cur file */
+}
+.ie .handle {
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */ 
+}
+.grabbing .handle {
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur') 8 4, move; /* you should probably localize the cur file */
+}
+.ie.grabbing .handle {
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), move; /* you should probably localize the cur file */
+}
+
+.range-control .ambit {
+  z-index: 3;
+  height: 5px;
+  background: gray;
+}

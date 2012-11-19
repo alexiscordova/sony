@@ -27,6 +27,10 @@
   background-position: 15px 15px;
   background-repeat: no-repeat;
   margin-top: 1px;
+
+  .no-svg & {
+    background-image: url($iconSpritePathFallback);
+  }
 }
 
 /* White icons with optional class, or on hover/active states of certain elements */
@@ -79,5 +83,44 @@
 .icon-small-carrot-up-blue      { background-position: -500px -50px; }
 .icon-small-carrot-down-gray    { background-position: -550px -50px; }
 .icon-small-carrot-up-gray      { background-position: -600px -50px; }
+
+
+
+// TODO: THE REST
+
+// 30px x 30px grid, double spaced vertically
+@mixin icon($name, $x, $w, $h, $hasActive: true) {
+  .icon-#{$name} {
+    background-position: $x 0;
+    @include size($h, $w);
+
+    @if ( $hasActive ) {
+      &.active,
+      .tab.active & { background-position: $x -60px; }
+    }
+  }
+}
+
+@include icon(laptop, 0, 33px, 24px);
+@include icon(tablet, -60px, 20px, 26px);
+@include icon(memory-stick, -90px, 16px, 21px);
+@include icon(tv, -120px, 35px, 26px);
+@include icon(projector, -180px, 38px, 18px);
+@include icon(water-drop, -240px, 15px, 20px);
+@include icon(mic, -270px, 11px, 27px);
+@include icon(dongle, -300px, 14px, 27px);
+@include icon(cd, -330px, 27px, 26px);
+@include icon(handycam, -360px, 36px, 22px);
+@include icon(video-camera, -420px, 38px, 28px);
+@include icon(grid, -480px, 27px, 27px);
+@include icon(grid-alt, -510px, 26px, 26px);
+@include icon(headphones, -540px, 27px, 27px);
+@include icon(earbuds, -570px, 45px, 24px);
+@include icon(earclips, -630px, 17px, 28px);
+@include icon(neckphones, -660px, 45px, 19px);
+@include icon(star, -720px, 13px, 13px);
+
+
+
 
 
