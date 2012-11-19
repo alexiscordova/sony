@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+	<head>
+		<%-@partial('includes/meta.html')%>
+<% if 'debug' in @getEnvironments():%> 
+		<%-@partial('includes/css_debug.html.eco', {this: this})%>
+<% else: %>
+		<%-@partial('includes/css_deploy.html')%>
+<% end %>
+		<%-@partial('includes/js_head.html')%>	
+		
+	</head>
+	<body>
+
+<<<<<<< HEAD:src/html/pages/index.html.eco
+		<h1>HELLLLLLLLLLLLOOOOOOO</h1>
+
+<!-- include your module markup templates here -->		
+		<%-@partial('modules/module_test.html.hb', {mode:'one', content:{a:'1',b:'2'}}) %>
+		<%-@partial('modules/module_test.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
+=======
+<!-- include your module markup templates here -->
+		<%-@partial('modules/global_header.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
+>>>>>>> f086389a9021d599d675dc357c08f14e7240562c:src/html/pages/global-header-footer.html.eco
+
+<% if 'debug' in @getEnvironments():%>
+		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
+<% else: %>
+		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
+<% end %>
+
+
+	</body>
+</html>

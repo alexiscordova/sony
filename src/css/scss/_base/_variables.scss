@@ -1,344 +1,403 @@
 //
 // Variables
-// --------------------------------------------------
+// In SublimeText, use Command-K-1 to collapse all sections, Command-K-0 to expand all.
+// -------------------------------------------------------------------------
+
+
+// Colors 
+// -------------------------
+#COLORS{} // this is just here for a SublimeText code-folding collapse point
+	// Grays
+	// -------------------------
+	$black:                 rgb(0,0,0) !default;
+	$grayDark:              rgb(47,53,61) !default;
+	$gray:                  rgb(131,131,143) !default;
+
+	$grayLight:             rgb(188,188,204) !default;
+	$grayLighter:           rgb(228,231,235) !default;
+	$white:                 rgb(255,255,255) !default;
+
+
+	// Background Tones
+	// -----------------------------------
+	$grayDarkerFieldLarge:  rgb(31,32,36) !default;
+	$grayDarkFieldLarge:    rgb(64,66,71) !default;
+	$grayLightFieldLarge:   rgb(243,244,246) !default;
+
+	$grayDarkerFieldSmall:  rgb(33,37,48) !default;
+	$grayDarkFieldSmall:    rgb(114,110,122) !default;
+	$grayLightFieldSmall:   rgb(241,245,249) !default;
+
+
+	// Accent colors
+	// -------------------------
+	$highlightColor:        rgb(243,84,41) !default;
+	$highlightColorHover:   lighten($highlightColor, 5%) !default;
+	$highlightColorActive:  $highlightColor !default;
+	$highlightColorDark:		rgb(219,76,37);
+
+	$blue:                  rgb(4,156,219) !default;
+	$blueDark:              rgb(0,100,205) !default;
+	$green:                 rgb(70,165,70) !default;
+	$red:                   rgb(157,38,29) !default;
+	$yellow:                rgb(255,196,13) !default;
+	$orange:                rgb(248,148,6) !default;
+	$pink:                  rgb(195,50,95) !default;
+	$purple:                rgb(122,67,182) !default;
+
+
+	// Scaffolding
+	// -------------------------
+	$bodyBackground:        $white !default;
+	$textColor:             $gray !default;
+	$textColorLight:        $grayLight !default;
+	$textColorLightest:     $grayLight !default;
+	$textColorDark:         $grayDark !default;
+
+
+
+	// Links
+	// -------------------------
+	$linkColor:             rgb(69,113,236) !default;
+	$linkColorHover:        rgb(87,135,244) !default;
+
+
 
 // Typography
 // -------------------------
-$sansFontFamily:        "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$sansFontFamilyBold:    "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$sansFontFamilyMedium:  "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$sansFontFamilyLight:   "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$sansFontFamilyItalic:  "SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
-$monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
+.TYPOGRAPHY{} // this is just here for a SublimeText code-folding collapse point
+	$sansFontFamily:        "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyBold:    "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyMedium:  "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyLight:   "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyItalic:  "SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
+	$monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
+	
+	$baseFontSize:          1em !default;
+	$baseFontFamily:        $sansFontFamily !default;
+	$baseLineHeight:        1.65 !default;
+	$altFontFamily:         $serifFontFamily !default;
+
+	$headingsFontFamily:    inherit !default; // empty to use BS default, $baseFontFamily
+	$headingsFontWeight:    bold !default;    // instead of browser default, bold
+	$headingsColor:         $grayDark !default; // empty to use BS default, $textColor
 
 
 
-// Grays
+// Buttons & Hotspots
 // -------------------------
-$black:                 rgb(0,0,0) !default;
-$grayDark:              rgb(47,53,61) !default;
-$gray:                  rgb(131,131,143) !default;
+.BUTTONS-and-HOTSPOTS{} // this is just here for a SublimeText code-folding collapse point
+	$btnBackground:                     rgb(87,135,244) !default;
+	$btnBackgroundHover:                rgb(100,142,245) !default;
+	$btnBackgroundActive:               $btnBackground !default;
+	$btnBorder:                         $btnBackground !default;
 
-$grayLight:             rgb(188,188,204) !default;
-$grayLighter:           rgb(228,231,235) !default;
-$white:                 rgb(255,255,255) !default;
+	$btnText:                           $white !default;
 
+	$btnSpecialBackground:              $highlightColor !default;
+	$btnSpecialBackgroundHover:         $highlightColorHover !default;
+	$btnSpecialBackgroundActive:        $highlightColorActive !default;
 
-// Background Tones
-// -----------------------------------
-$grayDarkerFieldLarge:  rgb(31,32,36) !default;
-$grayDarkFieldLarge:    rgb(64,66,71) !default;
-$grayLightFieldLarge:   rgb(243,244,246) !default;
+	$btnPromoBackground:              	$grayDarkerFieldSmall !default;
+	$btnPromoBackgroundHover:         	darken($grayDarkerFieldSmall,5%) !default;
+	$btnPromoBackgroundActive:        	$grayDarkerFieldSmall !default;
 
-$grayDarkerFieldSmall:  rgb(33,37,48) !default;
-$grayDarkFieldSmall:    rgb(114,110,122) !default;
-$grayLightFieldSmall:   rgb(241,245,249) !default;
+	$btnSecondaryBackground:            $grayLight !default;
+	$btnSecondaryBackgroundHover:       lighten($grayLight,2%) !default;
+	$btnSecondaryBackgroundActive:      $grayLight !default;
 
+	$btnDropdownBackground:            rgb(112,108,120) !default;
+	$btnDropdownBackgroundHover:       lighten($btnDropdownBackground,2%) !default;
+	$btnDropdownBackgroundActive:      $btnDropdownBackground !default;
 
-// Accent colors
-// -------------------------
-$highlightColor:        rgb(243,84,41) !default;
-$highlightColorHover:   lighten($highlightColor, 5%) !default;
-$highlightColorActive:  $highlightColor !default;
-$highlightColorDark:		rgb(219,76,37);
+	$btnDropdownAltBackground:         $white !default;
+	$btnDropdownAltBackgroundHover:    darken($white,2%) !default;
+	$btnDropdownAltBackgroundActive:   darken($white,1%) !default;
 
-$blue:                  rgb(4,156,219) !default;
-$blueDark:              rgb(0,100,205) !default;
-$green:                 rgb(70,165,70) !default;
-$red:                   rgb(157,38,29) !default;
-$yellow:                rgb(255,196,13) !default;
-$orange:                rgb(248,148,6) !default;
-$pink:                  rgb(195,50,95) !default;
-$purple:                rgb(122,67,182) !default;
+	$btnPadding:                        8px 0 11px;
+	$btnLargePadding:                   7px 0 10px;
+	$btnSmallPadding:                   8px 0 10px;
+	$btnMiniPadding:                    8px 0 9px;
 
-
-// Scaffolding
-// -------------------------
-$bodyBackground:        $white !default;
-$textColor:             $gray !default;
-$textColorLight:        $grayLight !default;
-$textColorLightest:     $grayLight !default;
-$textColorDark:         $grayDark !default;
+	$btnSpecialPadding:                 13px 0 15px;
+	$btnSpecialLargePadding:            14px 0 14px;
+	$btnSpecialSmallPadding:            12px 0 14px;
+	$btnSpecialMiniPadding:             11px 0 12px;
 
 
-
-// Links
-// -------------------------
-$linkColor:             rgb(69,113,236) !default;
-$linkColorHover:        rgb(87,135,244) !default;
-
-
-
-// Buttons
-// -------------------------
-$btnBackground:                     rgb(87,135,244) !default;
-$btnBackgroundHover:                rgb(100,142,245) !default;
-$btnBackgroundActive:               $btnBackground !default;
-$btnBorder:                         $btnBackground !default;
-
-$btnText:                           $white !default;
-
-$btnSpecialBackground:              $highlightColor !default;
-$btnSpecialBackgroundHover:         $highlightColorHover !default;
-$btnSpecialBackgroundActive:        $highlightColorActive !default;
-
-$btnPromoBackground:              	$grayDarkerFieldSmall !default;
-$btnPromoBackgroundHover:         	darken($grayDarkerFieldSmall,5%) !default;
-$btnPromoBackgroundActive:        	$grayDarkerFieldSmall !default;
-
-$btnSecondaryBackground:            $grayLight !default;
-$btnSecondaryBackgroundHover:       lighten($grayLight,2%) !default;
-$btnSecondaryBackgroundActive:      $grayLight !default;
-
-$btnDropdownBackground:            rgb(112,108,120) !default;
-$btnDropdownBackgroundHover:       lighten($btnDropdownBackground,2%) !default;
-$btnDropdownBackgroundActive:      $btnDropdownBackground !default;
-
-$btnDropdownAltBackground:         $white !default;
-$btnDropdownAltBackgroundHover:    darken($white,2%) !default;
-$btnDropdownAltBackgroundActive:   darken($white,1%) !default;
-
-$btnPadding:                        8px 0 11px;
-$btnLargePadding:                   7px 0 10px;
-$btnSmallPadding:                   8px 0 10px;
-$btnMiniPadding:                    8px 0 9px;
-
-$btnSpecialPadding:                 13px 0 15px;
-$btnSpecialLargePadding:            14px 0 14px;
-$btnSpecialSmallPadding:            12px 0 14px;
-$btnSpecialMiniPadding:             11px 0 12px;
-
-
-
-// Hotspots
-// -------------------------
-$hotspotHalo:						rgba(47,53,61,0.1) !default;
-$hotspotHaloHover:			rgba(47,53,61,0.15) !default;
-
-// Typography
-// -------------------------
-
-$baseFontSize:          1em !default;
-$baseFontFamily:        $sansFontFamily !default;
-$baseLineHeight:        1.65 !default;
-$altFontFamily:         $serifFontFamily !default;
-
-$headingsFontFamily:    inherit !default; // empty to use BS default, $baseFontFamily
-$headingsFontWeight:    bold !default;    // instead of browser default, bold
-$headingsColor:         $grayDark !default; // empty to use BS default, $textColor
-
+	// Hotspots
+	// -------------------------
+	$hotspotHalo:						rgba(47,53,61,0.1) !default;
+	$hotspotHaloHover:			rgba(47,53,61,0.15) !default;
 
 
 
 // Tables
 // -------------------------
-$tableBackground:                   transparent !default; // overall background-color
-$tableBackgroundAccent:             rgb(249,249,249) !default; // for striping
-$tableBackgroundHover:              rgb(245,245,245) !default; // for hover
-$tableBorder:                       rgb(221,221,221) !default; // table and cell border
+.TABLES{} // this is just here for a SublimeText code-folding collapse point
+	$tableBackground:                   transparent !default; // overall background-color
+	$tableBackgroundAccent:             rgb(249,249,249) !default; // for striping
+	$tableBackgroundHover:              rgb(245,245,245) !default; // for hover
+	$tableBorder:                       rgb(221,221,221) !default; // table and cell border
+
+
 
 
 // Forms
 // -------------------------
-$inputBackground:               $white !default;
-$inputBackgroundAlt:            rgb(248,248,248) !default;
-$inputBackgroundBtnAlt:         $grayLighter !default;
-$inputText:                     $grayLight !default;
-$inputTextFocus:                $gray !default;
-$inputBorder:                   $grayLighter !default;
-$inputBorderFocus:              $grayLight !default;
-$inputBorderFocus:              $grayLight !default;
-$inputBorderWidth:              2px !default;
-$inputBorderRadius:             0px !default;
-$inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
-$formActionsBackground:         rgb(245,245,245) !default;
+.FORMS{} // this is just here for a SublimeText code-folding collapse point
+	$inputBackground:               $white !default;
+	$inputBackgroundAlt:            rgb(248,248,248) !default;
+	$inputBackgroundBtnAlt:         $grayLighter !default;
+	$inputText:                     $grayLight !default;
+	$inputTextFocus:                $gray !default;
+	$inputBorder:                   $grayLighter !default;
+	$inputBorderFocus:              $grayLight !default;
+	$inputBorderFocus:              $grayLight !default;
+	$inputBorderWidth:              2px !default;
+	$inputBorderRadius:             0px !default;
+	$inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
+	$formActionsBackground:         rgb(245,245,245) !default;
 
-// Dropdowns
+	// Dropdowns
+	// -------------------------
+	$dropdownBackground:            $white !default;
+	$dropdownBorder:                rgba(0,0,0,.2) !default;
+	$dropdownDividerTop:            rgb(229,229,229) !default;
+	$dropdownDividerBottom:         $white !default;
+
+	$dropdownLinkColor:             $grayDark !default;
+	$dropdownLinkColorHover:        $white !default;
+	$dropdownLinkColorActive:       $dropdownLinkColor !default;
+
+	$dropdownLinkBackgroundActive:  $linkColor !default;
+	$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
+
+	// Form states and alerts
+	// -------------------------
+	$warningText:             rgb(192,152,83) !default;
+	$warningBackground:       rgb(252,248,227) !default;
+	$warningBorder:           darken(adjust-hue($warningBackground, -10), 3%) !default;
+
+	$errorText:               rgb(185,74,72) !default;
+	$errorBackground:         rgb(242,222,222) !default;
+	$errorBorder:             darken(adjust-hue($errorBackground, -10), 3%) !default;
+
+	$successText:             rgb(70,136,71) !default;
+	$successBackground:       rgb(223,240,216) !default;
+	$successBorder:           darken(adjust-hue($successBackground, -10), 5%) !default;
+
+	$infoText:                rgb(58,135,173) !default;
+	$infoBackground:          rgb(217,237,247) !default;
+	$infoBorder:              darken(adjust-hue($infoBackground, -10), 7%) !default;
+
+
+
+
+// Component variables
 // -------------------------
-$dropdownBackground:            $white !default;
-$dropdownBorder:                rgba(0,0,0,.2) !default;
-$dropdownDividerTop:            rgb(229,229,229) !default;
-$dropdownDividerBottom:         $white !default;
+.COMPONENT-VARIABLES{} // this is just here for a SublimeText code-folding collapse point
 
-$dropdownLinkColor:             $grayDark !default;
-$dropdownLinkColorHover:        $white !default;
-$dropdownLinkColorActive:       $dropdownLinkColor !default;
+	// Z-index master list
+	// -------------------------
+	// Used for a bird's eye view of components dependent on the z-axis
+	// Try to avoid customizing these :)
+	$zindexDropdown:          1000 !default;
+	$zindexPopover:           1010 !default;
+	$zindexTooltip:           1030 !default;
+	$zindexFixedNavbar:       1030 !default;
+	$zindexModalBackdrop:     1040 !default;
+	$zindexModal:             1050 !default;
 
-$dropdownLinkBackgroundActive:  $linkColor !default;
-$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
+
+	// Sprite icons path
+	// -------------------------
+	// These are Bootstrap default:
+	// $iconSpritePath:          "../img/glyphicons-halflings.png" !default;
+	$iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png" !default;
+	// These are Sony custom:
+	$iconSpritePath:		  "../img/spritesheet.svg" !default;
+	$iconSpritePathFallback:  "../img/spritesheet.png" !default;
+	$iconSmallSpritePath:     "../img/spritesheet-icons-small.png" !default;
+
+	// Input placeholder text color
+	// -------------------------
+	$placeholderText:         $grayLight !default;
+
+
+	// Hr border color
+	// -------------------------
+	$hrBorder:                $grayLighter !default;
+
+
+	// Horizontal forms & lists
+	// -------------------------
+	$horizontalComponentOffset:       180px;
+
+
+	// Wells
+	// -------------------------
+	$wellBackground:                  rgb(245,245,245) !default;
 
 
 
-// COMPONENT VARIABLES
-// --------------------------------------------------
 
-// Z-index master list
+// Global Nav (navbar)
 // -------------------------
-// Used for a bird's eye view of components dependent on the z-axis
-// Try to avoid customizing these :)
-$zindexDropdown:          1000 !default;
-$zindexPopover:           1010 !default;
-$zindexTooltip:           1030 !default;
-$zindexFixedNavbar:       1030 !default;
-$zindexModalBackdrop:     1040 !default;
-$zindexModal:             1050 !default;
+.NAVBAR{} // this is just here for a SublimeText code-folding collapse point
+	$navbarCollapseWidth:             979px !default;
+
+	$navbarTotalHeight:               64px !default;
+	$navbarLineHeight:								40px !default;
+	$navbarMaxWidth:									1160px !default;
+
+	$navbarBackground:                $black !default;
+	$navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
+
+	$navbarTextSize:									0.875em; /* 14px/16px */
+	$navbarText:                      $linkColor !default;
+	$navbarLinkColor:                 $linkColor !default;
+	$navbarLinkColorHover:            $linkColorHover !default;
+	$navbarLinkColorActive:           lighten($linkColorHover,5%) !default;
+	$navbarLinkBackgroundHover:       transparent !default;
+	$navbarLinkBackgroundActive:      darken($navbarBackground, 5.25%) !default;
+
+	// Inverted navbar
+	$navbarInverseBackground:                rgb(17,17,17) !default;
+	$navbarInverseBackgroundHighlight:       rgb(34,34,34) !default;
+	$navbarInverseBorder:                    rgb(37,37,37) !default;
+
+	$navbarInverseText:                      $grayLight !default;
+	$navbarInverseLinkColor:                 $grayLight !default;
+	$navbarInverseLinkColorHover:            $white !default;
+	$navbarInverseLinkColorActive:           $navbarInverseLinkColorHover !default;
+	$navbarInverseLinkBackgroundHover:       transparent !default;
+	$navbarInverseLinkBackgroundActive:      $navbarInverseBackground !default;
+
+	$navbarInverseSearchBackground:          lighten($navbarInverseBackground, 25%) !default;
+	$navbarInverseSearchBackgroundFocus:     $white !default;
+	$navbarInverseSearchBorder:              $navbarInverseBackground !default;
+	$navbarInverseSearchPlaceholderColor:    rgb(204,204,204) !default;
+
+	$navbarInverseBrandColor:                $navbarInverseLinkColor !default;
 
 
-// Sprite icons path
+
+
+// Simple-Navbar
+// The original Bootstrap navbar has been renamed simpleNavbar.
+// Likewise, the original Bootstrap nav has been renamed simple-nav.
 // -------------------------
-// These are Bootstrap default:
-$iconSpritePath:          "../img/glyphicons-halflings.png" !default;
-$iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png" !default;
-// These are Sony custom:
-$iconSmallSpritePath:     "../img/spritesheet-icons-small.png" !default;
+.SIMPLE-NAVBAR{} // this is just here for a SublimeText code-folding collapse point
+	$simpleNavbarCollapseWidth:           	979px !default;
 
-// Input placeholder text color
-// -------------------------
-$placeholderText:         $grayLight !default;
+	$simpleNavbarHeight:                    64px !default;
+	$simpleNavbarBackground:                $black !default;
+	$simpleNavbarBackgroundHighlight:       lighten($simpleNavbarBackground,5%) !default;
+
+	$simpleNavbarTextSize:                  0.875em; /* 14px/16px */
+	$simpleNavbarText:                      $linkColor !default;
+	$simpleNavbarLinkColor:                 $linkColor !default;
+	$simpleNavbarLinkColorHover:            $linkColorHover !default;
+	$simpleNavbarLinkColorActive:           lighten($linkColorHover,5%) !default;
+	$simpleNavbarLinkBackgroundHover:       transparent !default;
+	$simpleNavbarLinkBackgroundActive:      darken($simpleNavbarBackground, 5.25%) !default;
+
+	// Inverted navbar
+	$simpleNavbarInverseBackground:                rgb(17,17,17) !default;
+	$simpleNavbarInverseBackgroundHighlight:       rgb(34,34,34) !default;
+	$simpleNavbarInverseBorder:                    rgb(37,37,37) !default;
+
+	$simpleNavbarInverseText:                      $grayLight !default;
+	$simpleNavbarInverseLinkColor:                 $grayLight !default;
+	$simpleNavbarInverseLinkColorHover:            $white !default;
+	$simpleNavbarInverseLinkColorActive:           $simpleNavbarInverseLinkColorHover !default;
+	$simpleNavbarInverseLinkBackgroundHover:       transparent !default;
+	$simpleNavbarInverseLinkBackgroundActive:      $simpleNavbarInverseBackground !default;
+
+	$simpleNavbarInverseSearchBackground:          lighten($simpleNavbarInverseBackground, 25%) !default;
+	$simpleNavbarInverseSearchBackgroundFocus:     $white !default;
+	$simpleNavbarInverseSearchBorder:              $simpleNavbarInverseBackground !default;
+	$simpleNavbarInverseSearchPlaceholderColor:    rgb(204,204,204) !default;
+
+	$simpleNavbarInverseBrandColor:                $simpleNavbarInverseLinkColor !default;
 
 
-// Hr border color
-// -------------------------
-$hrBorder:                $grayLighter !default;
-
-
-// Horizontal forms & lists
-// -------------------------
-$horizontalComponentOffset:       180px;
-
-
-// Wells
-// -------------------------
-$wellBackground:                  rgb(245,245,245) !default;
-
-
-// Navbar
-// -------------------------
-$navbarCollapseWidth:             979px !default;
-
-$navbarHeight:                    54px !default;
-$navbarBackgroundHighlight:       rgb(255,255,255) !default;
-$navbarBackground:                darken($navbarBackgroundHighlight, 5%) !default;
-$navbarBorder:                    darken($navbarBackground, 12%) !default;
-
-$navbarText:                      rgb(119,119,119) !default;
-$navbarLinkColor:                 rgb(119,119,119) !default;
-$navbarLinkColorHover:            $grayDark !default;
-$navbarLinkColorActive:           $gray !default;
-$navbarLinkBackgroundHover:       transparent !default;
-$navbarLinkBackgroundActive:      darken($navbarBackground, 5.25%) !default;
-
-$navbarBrandColor:                $navbarLinkColor !default;
-
-// Inverted navbar
-$navbarInverseBackground:                rgb(17,17,17) !default;
-$navbarInverseBackgroundHighlight:       rgb(34,34,34) !default;
-$navbarInverseBorder:                    rgb(37,37,37) !default;
-
-$navbarInverseText:                      $grayLight !default;
-$navbarInverseLinkColor:                 $grayLight !default;
-$navbarInverseLinkColorHover:            $white !default;
-$navbarInverseLinkColorActive:           $navbarInverseLinkColorHover !default;
-$navbarInverseLinkBackgroundHover:       transparent !default;
-$navbarInverseLinkBackgroundActive:      $navbarInverseBackground !default;
-
-$navbarInverseSearchBackground:          lighten($navbarInverseBackground, 25%) !default;
-$navbarInverseSearchBackgroundFocus:     $white !default;
-$navbarInverseSearchBorder:              $navbarInverseBackground !default;
-$navbarInverseSearchPlaceholderColor:    rgb(204,204,204) !default;
-
-$navbarInverseBrandColor:                $navbarInverseLinkColor !default;
 
 
 // Pagination
 // -------------------------
-$paginationBackground:                rgb(255,255,255) !default;
-$paginationBorder:                    rgb(221,221,221) !default;
-$paginationActiveBackground:          rgb(245,245,245) !default;
+.PAGINATION{} // this is just here for a SublimeText code-folding collapse point
+	$paginationBackground:                rgb(255,255,255) !default;
+	$paginationBorder:                    rgb(221,221,221) !default;
+	$paginationActiveBackground:          rgb(245,245,245) !default;
 
 
-// Hero unit
-// -------------------------
-$heroUnitBackground:              $grayLightFieldLarge !default;
-$heroUnitHeadingColor:            inherit !default;
-$heroUnitLeadColor:               inherit !default;
-
-
-// Form states and alerts
-// -------------------------
-$warningText:             rgb(192,152,83) !default;
-$warningBackground:       rgb(252,248,227) !default;
-$warningBorder:           darken(adjust-hue($warningBackground, -10), 3%) !default;
-
-$errorText:               rgb(185,74,72) !default;
-$errorBackground:         rgb(242,222,222) !default;
-$errorBorder:             darken(adjust-hue($errorBackground, -10), 3%) !default;
-
-$successText:             rgb(70,136,71) !default;
-$successBackground:       rgb(223,240,216) !default;
-$successBorder:           darken(adjust-hue($successBackground, -10), 5%) !default;
-
-$infoText:                rgb(58,135,173) !default;
-$infoBackground:          rgb(217,237,247) !default;
-$infoBorder:              darken(adjust-hue($infoBackground, -10), 7%) !default;
 
 
 // Tooltips and popovers
 // -------------------------
-$tooltipColor:            rgb(255,255,255) !default;
-$tooltipBackground:       rgb(0,0,0) !default;
-$tooltipArrowWidth:       5px !default;
-$tooltipArrowColor:       $tooltipBackground !default;
+.TOOLTIPS-AND-POPOVERS{} // this is just here for a SublimeText code-folding collapse point
+	$tooltipColor:            rgb(255,255,255) !default;
+	$tooltipBackground:       rgb(0,0,0) !default;
+	$tooltipArrowWidth:       5px !default;
+	$tooltipArrowColor:       $tooltipBackground !default;
 
-$popoverBackground:       rgb(255,255,255) !default;
-$popoverArrowWidth:       10px !default;
-$popoverArrowColor:       rgb(255,255,255) !default;
-$popoverTitleBackground:  darken($popoverBackground, 3%) !default;
+	$popoverBackground:       rgb(255,255,255) !default;
+	$popoverArrowWidth:       10px !default;
+	$popoverArrowColor:       rgb(255,255,255) !default;
+	$popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 
-// Special enhancement for popovers
-$popoverArrowOuterWidth:  $popoverArrowWidth + 1 !default;
-$popoverArrowOuterColor:  rgba(0,0,0,.25) !default;
+	// Special enhancement for popovers
+	$popoverArrowOuterWidth:  $popoverArrowWidth + 1 !default;
+	$popoverArrowOuterColor:  rgba(0,0,0,.25) !default;
 
 
 
 // GRID
 // --------------------------------------------------
+.GRID{} // this is just here for a SublimeText code-folding collapse point
 
-// Default 940px grid
-// -------------------------
-$gridColumns:             12 !default;
-$gridColumnWidth:         60px !default;
-$gridGutterWidth:         20px !default;
-$gridRowWidth:            ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
+	// Default 940px grid
+	// -------------------------
+	$gridColumns:             12 !default;
+	$gridColumnWidth:         60px !default;
+	$gridGutterWidth:         20px !default;
+	$gridRowWidth:            ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
 
-// 1200px min
-$gridColumnWidth1200:     70px !default;
-$gridGutterWidth1200:     30px !default;
-$gridRowWidth1200:        ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
+	// 1200px min
+	$gridColumnWidth1200:     56px !default;
+	$gridGutterWidth1200:     40px !default;
+	$gridRowWidth1200:        ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
 
-// 768px-979px
-$gridColumnWidth768:      42px !default;
-$gridGutterWidth768:      20px !default;
-$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
-
-
-// Fluid grid
-// -------------------------
-$fluidGridColumnWidth:    percentage($gridColumnWidth/$gridRowWidth) !default;
-$fluidGridGutterWidth:    percentage($gridGutterWidth/$gridRowWidth) !default;
-
-// 1200px min
-$fluidGridColumnWidth1200:     percentage($gridColumnWidth1200/$gridRowWidth1200) !default;
-$fluidGridGutterWidth1200:     percentage($gridGutterWidth1200/$gridRowWidth1200) !default;
-
-// 768px-979px
-$fluidGridColumnWidth768:      percentage($gridColumnWidth768/$gridRowWidth768) !default;
-$fluidGridGutterWidth768:      percentage($gridGutterWidth768/$gridRowWidth768) !default;
+	// 768px-979px
+	$gridColumnWidth768:      42px !default;
+	$gridGutterWidth768:      20px !default;
+	$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
 
-$transitionSuperSlow:   0.25s;
-$transitionSlow:        0.2s;
-$transitionNormal:      0.15s;
-$transitionFast:        0.1s;
-$transitionSuperfast:   0.05s;
+	// Fluid grid
+	// -------------------------
+	$fluidGridColumnWidth:    percentage($gridColumnWidth/$gridRowWidth) !default;
+	$fluidGridGutterWidth:    percentage($gridGutterWidth/$gridRowWidth) !default;
+
+	// 1200px min
+	$fluidGridColumnWidth1200:     percentage($gridColumnWidth1200/$gridRowWidth1200) !default;
+	$fluidGridGutterWidth1200:     percentage($gridGutterWidth1200/$gridRowWidth1200) !default;
+
+	// 768px-979px
+	$fluidGridColumnWidth768:      percentage($gridColumnWidth768/$gridRowWidth768) !default;
+	$fluidGridGutterWidth768:      percentage($gridGutterWidth768/$gridRowWidth768) !default;
+
+
+
+
+// Transition Speeds
+// --------------------------------------------------
+.TRANSITION-SPEEDS{} // this is just here for a SublimeText code-folding collapse point
+	$transitionSuperSlow:   0.25s;
+	$transitionSlow:        0.2s;
+	$transitionNormal:      0.15s;
+	$transitionFast:        0.1s;
+	$transitionSuperfast:   0.05s;
