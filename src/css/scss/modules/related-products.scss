@@ -1,0 +1,21 @@
+
+section {
+  // overflow: hidden;
+}
+
+.debug {
+  .products {
+    counter-reset: item;
+  }
+
+  .gallery-item {
+    counter-increment: item;
+
+    &::before {
+      content: counter(item, decimal);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}
