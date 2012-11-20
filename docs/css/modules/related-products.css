@@ -1,0 +1,20 @@
+/* line 2, ../../../src/css/scss/modules/related-products.scss */
+section {
+  overflow: hidden;
+}
+
+/* line 7, ../../../src/css/scss/modules/related-products.scss */
+.debug .products {
+  counter-reset: item;
+}
+/* line 11, ../../../src/css/scss/modules/related-products.scss */
+.debug .gallery-item {
+  counter-increment: item;
+}
+/* line 14, ../../../src/css/scss/modules/related-products.scss */
+.debug .gallery-item::before {
+  content: counter(item, decimal);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
