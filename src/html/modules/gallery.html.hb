@@ -220,18 +220,23 @@
 
         </div>
       </div>
-
-      <div class="pull-right">
-        <select>
-          <option>Featured</option>
-          <option>not featured</option>
-          <option>featured and not featured</option>
-        </select>
-      </div>
-
       {{/if}}
 
-      <p class="l4"><span class="text-dark">{{simple.total}}</span> Products</p>
+      <div class="gallery-title-bar">
+        {{#if productCards.sortSet}}
+        <div class="pull-right">
+          Sort By: 
+          <select class="sort-options">
+            {{#each productCards.sortSet}}
+            <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        {{/if}}
+
+
+        <p class="l4"><span class="text-dark">{{productCards.total}}</span> Products</p>
+      </div>
       <div class="products grid5">
         {{#each simple.list}}
         <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
