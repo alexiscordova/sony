@@ -2,7 +2,7 @@
 
 #basic {
 	 width: 100%;
-	 max-width:800px;
+	max-height:400px;
 }
 
 /* Sony Carousel Base CSS dont' change anything  */
@@ -13,11 +13,13 @@
 	direction: ltr;
 }
 
+/* important to inlcude this on elements that have z-index as well, chrome had a bug */ 
 .scWebkit3d .scSlide,
 .scWebkit3d .scContainer,
 .scWebkit3d .scThumbs,
 .scWebkit3d .scPreloader,
 .scWebkit3d img,
+.scWebkit3d p, 
 .scWebkit3d .scOverflow,
 .scWebkit3d .scBtnCenterer,
 .scWebkit3d .scAbsoluteEl {
@@ -29,6 +31,17 @@
 .scFade.scWebkit3d .scContainer {
 	-webkit-transform: none;
 }
+
+.scSlide p {
+	position: absolute;
+	top:0px;
+	left:0px;
+	z-index:1;
+	color:red;
+	background:#000;
+}
+
+
 .scOverflow {
 	width: 100%;
 	height: 100%;

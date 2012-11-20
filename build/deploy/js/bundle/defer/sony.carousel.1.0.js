@@ -6,16 +6,6 @@
 // Optional: jQuery throttle-debounce (only used on window resize)
 // -------------------------------------------------------------------------
 
-/*
- * Based off of RoyalSlider
- *
- * @version 9.2.0:
- *
- * Copyright 2011-2012, Dmitry Semenov
- * 
- */
-
-
 /*global jQuery, Modernizr */
 (function(window){
     'use strict';
@@ -33,13 +23,17 @@
 
     var SonyCarousel = function (element, options) {
 
+        console.log('---->' , options);
+
         var ua = navigator.userAgent.toLowerCase(),
             i,
             br = $.browser,
             self = this,
             isWebkit = br.webkit,
             isAndroid = ua.indexOf('android') > -1;
+
         self.isIPAD = ua.match(/(ipad)/);
+        self.isIPHONE = ua.match(/(iphone)/);
 
         // feature detection, some ideas taken from Modernizr
         var tempStyle = document.createElement('div').style,
@@ -80,6 +74,26 @@
         self.ev = $({}); // event object
         self._doc = $(document);
         self.st = $.extend({}, $.fn.sonyCarousel.defaults, options); 
+
+
+        //this is where we now have access to the mode and the variation
+        console.log(self.st.mode + ' - ' + self.st.variation);
+
+        switch(self.st.mode){
+            case '':
+
+            break;
+
+            case '':
+
+            break;
+
+            default:
+
+            break;
+        }
+
+
         self._currAnimSpeed = self.st.transitionSpeed;
  
         if(self.st.allowCSS3) {
@@ -121,6 +135,8 @@
         
         ts.each(function() {
             self._parseNode(this, true);
+
+            console.log('Parsing Slide: ' , this);
         });
 
         if(self.st.randomizeSlides) {
@@ -167,7 +183,6 @@
 
         self.slider.html(sliderHTML);
 
-
         self._sliderOverflow = self.slider.children('.scOverflow');
         self._slidesContainer = self._sliderOverflow.children('.scContainer');
         self._preloader = $('<div class="scPreloader"></div>');
@@ -180,6 +195,12 @@
         function createItemHTML(i, className) {
             return '<div style="'+ (self._isMove ? '' : (i !== self.currSlideId  ? 'z-index: 0; display:none; opacity: 0; position: absolute;  left: 0; top: 0;' : 'z-index: 0;  position: absolute; left: 0; top: 0;') ) +'" class="scSlide '+ (className || '')+'"></div>';
         }
+
+        //for starters we set the current and the old slide content to the same object reference
+        self._currentSlideContent = self._oldSlideContent = self.slidesJQ[self.currSlideId].find('.scContent');
+
+
+        console.log('Current Slide Content: ' , self._currentSlideContent instanceof $ , 'Old Slide Content: ' , self._oldSlideContent instanceof $);
 
         if('ontouchstart' in window || 'createTouch' in document) {
             self.hasTouch = true;
@@ -250,7 +271,6 @@
         }
 
         
-
         // resize
         var resizeTimer;
         $(window).on('resize.sc', function() {  
@@ -497,6 +517,7 @@
                 slideCode,
                 loop = self._loop,
                 numSlides = self.numSlides;
+
             if(!isNaN(getId) ) {
                 return getCorrectLoopedId(getId);
             }
@@ -576,15 +597,11 @@
                     }                               
                 }   
             }
+    
 
-            
-            
-                
-                
             function updateItem(item , i, slideCode) {
 
                 var appended;
-
 
                 if(!item.isAdded) {
                     if(!slideCode)
@@ -1238,9 +1255,6 @@
                         S = maxXDist;
                     }
 
-
-
-
                     transitionSpeed =  Math.max(Math.round(v0 / friction), 50);
                     newPos = newPos + S * (accDist < 0 ? -1 : 1);
 
@@ -1433,12 +1447,12 @@
         _refreshSlides: function(refreshIndex) {
 
             // todo: optimize this stuff
-            var self = this;
-
-            var oldNumSlides = self.numSlides;
-            var numLoops = self._realId <= 0 ? 0 : Math.floor(self._realId / oldNumSlides);
+            var self = this,
+                oldNumSlides = self.numSlides,
+                numLoops = self._realId <= 0 ? 0 : Math.floor(self._realId / oldNumSlides);
 
             self.numSlides = self.slides.length;
+
             if(self.numSlides === 0) {
                 self.currSlideId = self._idOffset = self._realId = 0;
                 self.currSlide = self._oldHolder = null;
@@ -1450,11 +1464,13 @@
                 self.slides[i].id = i;
             }
 
+            self._oldSlideContent = self.currSlide.find('.scContent');
+
             self.currSlide = self.slides[self.currSlideId];
             self._currHolder = self.slidesJQ[self.currSlideId];
 
             if(self.currSlideId >= self.numSlides) {
-                self.goTo(self.numSlides - 1);
+                self.goTo(self.numSlides - 1);  
             } else if(self.currSlideId < 0) {
                 self.goTo(0);
             }
@@ -1561,6 +1577,7 @@
             self._newSlideId = id;
 
             self._oldHolder = self.slidesJQ[self.currSlideId];
+
 
             
             self._realId = realId;
@@ -1673,16 +1690,22 @@
                 self._currAnimSpeed = 400;
             } 
             
-
             self._sPosition = self._currRenderPosition = pos;
 
             self.ev.trigger('scBeforeAnimStart');
+
             if (self.st.beforeSlideChange) self.st.beforeSlideChange.call(self);
+
+            //$(self._currContent.get(0)).trigger('slidestart.sonycarousel');
+            //self._currentSlideContent = self.slidesJQ[self.currSlideId].find('.scContent').trigger('slidestart.sc');
+
+            console.log('ANIMATION STARTED' , self._currentSlideContent.attr('id'));
+
+            self._currentSlideContent.trigger('slidestart.sc');
 
             if(!self._useCSS3Transitions) {
                 if(self._isMove) {
                     animObj[self._slidesHorizontal ? self._xProp : self._yProp] = pos + 'px';
-
 
                     self._slidesContainer.animate(animObj, self._currAnimSpeed, /*'easeOutQuart'*/ inOutEasing ? self.st.easeInOut : self.st.easeOut);
                 } else {
@@ -1717,7 +1740,9 @@
                         animObj[(self._vendorPref + self._TTF)] = inOutEasing ? $.scCSS3Easing[self.st.easeInOut] : $.scCSS3Easing[self.st.easeOut];
                         
                         self._slidesContainer.css(animObj);
-                    
+                        
+                        console.log('Current animation block -------> ' , animObj);
+
                     setTimeout(function() {
                         self._setPosition(pos);
                     }, self.hasTouch ? 5 : 0);
@@ -1728,6 +1753,9 @@
                     self._currAnimSpeed = self.st.transitionSpeed;
                     oldBlock = self._oldHolder;
                     animBlock = self._currHolder;       
+
+                    console.log('Current animation block -------> ' , animBlock);
+
                     if(animBlock.data('scTimeout')) {
                         animBlock.css('opacity', 0);
                     }
@@ -1814,7 +1842,7 @@
                     var newPos =  self._currRenderPosition = self._getTransformProp();
 
                     self._slidesContainer.css((self._vendorPref + self._TD), '0ms');
-                    if(oldPos !==newPos) {
+                    if(oldPos !== newPos) {
                         self._setPosition(newPos);
                     }
                 }
@@ -1851,16 +1879,20 @@
             self.staticSlideId = self.currSlideId;
             self._updateBlocksContent();
 
-
             self._slidesMoved = false;
             
             self.ev.trigger('scAfterSlideChange');
+
+            //notify last slide of slide change
+            self._oldSlideContent.trigger('slideend.sc');
+
+            console.log('ANIMATION COMPLETE' , self._oldSlideContent.attr('id'));
 
             if (self.st.afterSlideChange) self.st.afterSlideChange.call(self);
         },
         _doBackAndForthAnim:function(type, userAction) {
             var self = this,
-                newPos = (-self._realId - self._idOffset) * self._slideSize;
+                newPos = (-self._realId - self._idOffset) * self._slideSize,
                 moveDist = 30;
 
             if(self.numSlides === 0) {
@@ -1903,10 +1935,10 @@
             if(slideObject.isRendered) {
                 return;
             }
-            var img = slideObject.content;
-            var classToFind = 'scImg';
-            var isVideo;
-            var self = this,
+            var img = slideObject.content,
+                classToFind = 'scImg',
+                isVideo,
+                self = this,
                 imgAlignCenter = self.st.imageAlignCenter,
                 imgScaleMode = self.st.imageScaleMode,
                 tempEl;
@@ -2080,6 +2112,62 @@
             return c*((t=t/d-1)*t*t + 1) + b;
         }
     });
+
+    //init each instance of the carousel on a page
+    $(function(){
+
+        console.log('ATTEMPTING TO BIND EVENTS ~~~~~~~' , $('.scContent').length); 
+
+        $('.scContent').each(function(){
+
+            console.log('binding event....');
+
+            $(this).bind('slidestart.sc slideend.sc' , function(e){
+                console.log('.scContent event :: ' , e.type);
+            });
+            
+        });
+        
+
+    /*
+
+        prposed events that will be triggered on each slide what else do we need?
+
+        'slidestart.sonycarousel' - Slide is about to be animated into view
+        'slideend.sonycarousel'   - Slide is out of view and shut down
+
+    */
+
+        $('.sonyCarousel').each(function(){
+            var $el = $(this),
+                opts = {
+                    arrowsNav: true,
+                    fadeinLoadedSlide: true,
+                    imageAlignCenter:true,
+                    imageScaleMode: 'fill',
+                    controlNavigation: 'bullets',
+                    keyboardNavEnabled: true,
+                    slidesOrientation: 'horizontal',
+                    autoScaleSlider: true,
+                    autoScaleSliderWidth: 640,     
+                    autoScaleSliderHeight: 320
+                };
+
+            //TODO: build opts object out of data attributes
+
+            $.each($el.data() , function(key , value){
+                console.log('stripping datasets off $el: ' , key.toUpperCase() , ' === ' , $el.data(key));
+
+                opts[key] = value;
+            });
+
+            $el.sonyCarousel(opts);
+
+        });
+
+        
+    });
+
         
 
 })(jQuery, Modernizr, window,undefined);

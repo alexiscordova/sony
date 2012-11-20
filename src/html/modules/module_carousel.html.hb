@@ -11,26 +11,25 @@
       <a class="scImg" data-scVideo="https://vimeo.com/45830194" href="http://b.vimeocdn.com/ts/319/715/319715493_640.jpg"></a>
       <a class="scImg" data-scVideo="https://vimeo.com/31240369" href="http://b.vimeocdn.com/ts/210/393/210393954_640.jpg"></a>
  -->
-	<div>
-        <img class="scImg" src="http://placekitten.com/640/320"/>
-        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-    </div>	
+		<div class='scContent' id='scContent_1'>
+	        <p>Slide 1</p>
+	        <img class="scImg" src="http://placekitten.com/640/320">
+	    </div>	
 
+	    <div class='scContent' id='scContent_2'>
+	        <p>Slide 2</p>
+	        <img class="scImg" src="http://placekitten.com/640/320">
+	    </div>
 
-    <div>
-        <img class="scImg" src="http://placekitten.com/640/320"/>
-        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-    </div>
-	<div>
-        <img class="scImg" src="http://placekitten.com/640/320"/>
-        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-    </div>	
+		<div class='scContent' id='scContent_3'>
+	        <p>Slide 3</p>
+	         <img class="scImg" src="http://placekitten.com/640/320">
+	    </div>	
 
-
-    <div>
-        <img class="scImg" src="http://placekitten.com/640/320"/>
-        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-    </div>
+	    <div class='scContent' id='scContent_4'>
+	        <p>Slide 4</p>
+	        <img class="scImg" src="http://placekitten.com/640/320">
+	    </div>
     </div>
 
 <!-- <div class="carousel" data-mode="{{mode}}" data-variation="{{variation}}">
