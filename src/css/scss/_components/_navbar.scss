@@ -11,15 +11,15 @@
 // This has been modified just for Sony Global Nav
 // If you need to use the regular Bootstrap nav module, use simple-nav.
 
-// .navbar-wrapper extends the full width of the browser, 
+// .nav-wrapper extends the full width of the browser, 
 // even when the navbar is at a set width for a particular breakpoint.
-.navbar-wrapper{
+
+.nav-wrapper{ // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
   width:100%;
   height: $navbarTotalHeight;
-  
   background:$navbarBackground;
 
-  // .navbar width is determined by breakpoints.
+  // .navbar width is set in media queries.
   .navbar {
     overflow: visible;
     color: $navbarText;
@@ -179,63 +179,60 @@
     .btn-mobile-navbar-menu-trigger {
       background:darken($navbarInverseBackgroundHighlight, 5%);
     }
-
-
   } // end .navbar
 
 
+  $trayDividerPosition:70%;
+  .nav-tray-wrapper{ // 100% width for trays to reach edges of browser
+    position: absolute;
+    overflow:hidden;
+    top: $navbarTotalHeight;
+    left: 0;
+    width:100%;
+    background: green; // $navTrayBackground;
 
+    &.nav-tray-wrapper-electronics:after{ // background gray under the right side -- just needs to cover up the right margin
+      content: "."; // idk why but this can't be null, so "color" needs to be the same as background to hide this.
+      display: block;
+      width: (110-$trayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
+      height: 100%;
+      position:absolute;
+      top:0;
+      left:$trayDividerPosition;
+      z-index:10;
+      background: red; // $navTrayBackgroundAlt;
+      color: red; // $navTrayBackgroundAlt;
+    }
 
-
-
-
-  .nav-tray-wrapper{
-    .nav-tray{
-      position: absolute;
-      overflow:hidden;
-      top: $navbarTotalHeight;
-      left: 0;
-      width:100%;
+    .nav-tray{ // container the same width as the nav, contains left & right sections
       z-index: 10;
+      overflow:hidden;
       padding: 0;
-      margin: 0;
+      margin: 0 auto;
       list-style: none;
-      background-color: white;
       border-bottom: 1px solid #ccc;
       border-bottom: 1px solid rgba(0, 0, 0, 0.2);
       @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
 
-      background:gray;
+      background:gray; // $navTrayBackgroundAlt; // right side background color
       // display: none;
       
-      $trayDividerPosition:70%;
-      &.nav-tray-electronics:after{ // background gray under the right side
-        content: ".";
-        display: block;
-        width: 50%;
-        height: 100%;
-        position:absolute;
-        top:0;
-        left:$trayDividerPosition;
-        z-index:10;
-
-        background: red;
-        color: red;
-      }
-      .nav-tray-section-main{
+      .nav-tray-section-main{ // section left
         width:$trayDividerPosition;
         height:100%;
-        background:blue;
         float:left;
+
+        background:blue; // $navTrayBackground; // left side background color
       }
-      .nav-tray-section-featured{
+      .nav-tray-section-featured{ // section right
         width:(100-$trayDividerPosition);
         height:100%;
-        background:rgba(0,255,0,0.5);
         float:left;
         z-index:20;
         position:relative;
+
+        background:rgba(0,255,0,0.5); // no color - takes it from the 
       }
     } // end .nav-tray
   } // end .nav-tray-wrapper
-} // end .navbar-wrapper
+} // end .nav-wrapper

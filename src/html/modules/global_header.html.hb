@@ -4,7 +4,7 @@ meta_data: {a:'foo', b:'bar'}
 ---
 		
 
-      <nav class="navbar-wrapper">
+      <nav class="nav-wrapper">
 
       	<div class="navbar">
 	        <a class="brand" href="#"><img src="http://placehold.it/75x35&text=Sony+logo" alt="SONY make.believe"></a>
@@ -23,8 +23,8 @@ meta_data: {a:'foo', b:'bar'}
 	        </ul>
 		    </div><!-- end .navbar --> 
 
-		    <div class="nav-tray-wrapper">
-		    	<div class="nav-tray nav-tray-electronics">
+		    <div class="nav-tray-wrapper nav-tray-wrapper-electronics">
+		    	<div class="nav-tray">
 	      		<div class="nav-tray-section-main">
 			        <ul class="nav-tray-list-main">
 			        	<li id="nav-tray-li-cameras"><a href="#">Cameras</a></li>
@@ -52,7 +52,7 @@ meta_data: {a:'foo', b:'bar'}
 		      </div>
 	      </div><!-- end #nav-tray-electronics --> 
 	      
-    	</nav><!-- end .navbar-wrapper --> 
+    	</nav><!-- end .nav-wrapper --> 
 
 <!-- 
 		<div>
