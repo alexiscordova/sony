@@ -16,11 +16,11 @@
   list-style: none;
 
   // Redeclare pull classes because of specifity
-  & > .pull-right {
+  > .pull-right {
     float: right;
   }
   // Space them out when they follow another list item (link)
-  & li + .nav-header {
+  li + .nav-header {
     margin-top: 9px;
   }
 
@@ -28,56 +28,49 @@
     float: right; // redeclare due to specificity
     margin-right: 0; // remove margin on float right nav
   }
-  & > li {
+  > li {
     float: left;
     line-height:0.65em * $baseLineHeight;
   }
 
   // Links
-  & > li > a {
+  > li > a {
     display: block;
     float: none;
-    // Vertically center the text given $navbarTotalHeight
-    padding: 0 15px;
-
-    line-height:$navbarLineHeight;
-    margin-top:($navbarTotalHeight - $navbarLineHeight) / 2;
-    margin-bottom:($navbarTotalHeight - $navbarLineHeight) / 2;
-
-    font-size:$navbarTextSize;
     color: $navbarLinkColor;
     text-decoration: none;
   }
 
-  & > li > a:hover {
+  > li > a:hover {
     text-decoration: none;
     background-color: $grayLightFieldSmall;
   }
 
   // Hover
-  & > li > a:focus,
-  & > li > a:hover {
+  > li > a:focus,
+  > li > a:hover {
     background-color: $navbarLinkBackgroundHover; // "transparent" is default to differentiate :hover from .active
     color: $navbarLinkColorHover;
     text-decoration: none;
   }
 
   // Active nav items
-  & > .active > a,
-  & > .active > a:hover,
-  & > .active > a:focus {
+  > .active > a,
+  > .active > a:hover,
+  > .active > a:focus {
     color: $navbarLinkColorActive;
     text-decoration: none;
     background-color: $navbarLinkBackgroundActive;
   }
 
   // carrot on text dropdown toggles
-  & > li > a.nav-dropdown-toggle-text:after{
+  > li > a.nav-dropdown-toggle-text:after{
     @include pseudoEl-inline-block-icon();
     @extend .icon-small-carrot-down-gray;
+    width:10px;
     margin-left:4px;
     position:relative;
-    top:2px;
+    top:4px;
   }
 } // end .nav
 

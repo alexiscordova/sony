@@ -42,7 +42,15 @@
     .brand {
       float: left;
       display: block;
-      padding: 10px 20px 0 $navbarMinSidePadding;
+      width:89px;
+      height:31px;
+      margin: 16px 0 0;
+      background-image:url("../img/global/sony-logo.svg");
+      background-repeat:no-repeat;
+      background-position:0 0;
+      .no-svg & {
+        background-image: url("../img/global/sony-logo.png");
+      }
     }
 
 
@@ -135,14 +143,6 @@
     &.navbar-static-top {
       position: static;
       width: 100%;
-    }
-
-    // **still inside of .navbar**
-    .brand {
-      display: block;
-      float: left;
-      padding: 10px 20px 10px;
-      margin-left: -20px;
     }
 
 

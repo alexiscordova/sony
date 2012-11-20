@@ -7,10 +7,29 @@
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
 .nav-wrapper{
+
   .navbar{
     width:auto;
     padding:0 $navbarMinSidePadding;
-  }
+
+    .nav{
+      &.nav-primary{
+        margin-left:34px;
+      }
+      > li > a{
+        line-height:$navbarLineHeight;
+        padding: 0 14px;
+        margin-top:10px;
+        margin-bottom:14px;
+        font-size:$navbarTextSize;
+
+        &.nav-dropdown-toggle-text{
+          padding-right:8px;
+        }
+      }
+    }
+  } // end .navbar
+
   .navtray-wrapper{
     .navtray{
       width:auto;
@@ -102,6 +121,22 @@
 // ------------------------------------------------
 @media (min-width: 768px) and (max-width: 979px) {
   .nav-wrapper { 
+    .navbar{
+      // padding:0 $navbarMinSidePadding;
+
+      .nav{
+        &.nav-primary{
+          margin-left: 11px;
+        }
+        > li > a{
+          line-height:$navbarLineHeight;
+          margin-top:11px;
+          // margin-bottom:14px;
+          font-size:$navbarSmTextSize;
+          padding: 0 7px;
+        }
+      }
+    }
     .navtray-wrapper {
       .navtray {
         width:auto;
