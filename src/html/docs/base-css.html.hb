@@ -459,12 +459,11 @@
 			                <a class="btn">Get Sony Support</a>
 			            </p>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;p&gt;
-			  &lt;a class="btn"&gt;...&lt;/a&gt;
-			&lt;/p&gt;
-			</pre>
-			
+<pre class="prettyprint linenums">
+&lt;p&gt;
+  &lt;a class="btn"&gt;...&lt;/a&gt;
+&lt;/p&gt;
+</pre>
 			
 			          <h5 class="bs-docs-heading">'Special' Button<small> &ndash; Generally used for store links</small></h5>
 			          <div class="bs-docs-example">
@@ -472,11 +471,26 @@
 			              <a class="btn btn-special">Where to Buy</a>
 			            </p>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;p&gt;
-			  &lt;a class="btn btn-special"&gt;...&lt;/a&gt;
-			&lt;/p&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;p&gt;
+  &lt;a class="btn btn-special"&gt;...&lt;/a&gt;
+&lt;/p&gt;
+</pre>
+			
+			
+						<div class="NotUpdatedYet">
+			          <h5 class="bs-docs-heading">'Alt' Button w/icon (still working on this)</h5>
+			          <div class="bs-docs-example NotUpdatedYet">
+			            <p>
+			              <a class="btn btn-small btn-alt"><i class="icon-grid-3x3"></i>All Electronics</a>
+			            </p>
+			          </div>
+<pre class="prettyprint linenums">
+&lt;p&gt;
+  &lt;a class="btn btn-small btn-alt"&gt;&lt;i class="icon-grid-3x3"&gt;&lt;/i&gt;...&lt;/a&gt;
+&lt;/p&gt;
+</pre>
+						</div>
 			
 			
 			          <h5 class="bs-docs-heading">'Promo' Button<small> &ndash; Used for promotions</small></h5>
@@ -512,24 +526,24 @@
 			              <a class="btn btn-mini btn-special">Mini special btn</a>
 			            </p>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;p&gt;
-			  &lt;a class="btn btn-large"&gt;Large button&lt;/a&gt;
-			  &lt;a class="btn btn-large btn-special"&gt;Large special btn&lt;/a&gt;
-			&lt;/p&gt;
-			&lt;p&gt;
-			  &lt;a class="btn"&gt;Default button&lt;/a&gt;
-			  &lt;a class="btn btn-special"&gt;Default special btn&lt;/a&gt;
-			&lt;/p&gt;
-			&lt;p&gt;
-			  &lt;a class="btn btn-small"&gt;Small button&lt;/a&gt;
-			  &lt;a class="btn btn-small btn-special"&gt;Small special btn&lt;/a&gt;
-			&lt;/p&gt;
-			&lt;p&gt;
-			  &lt;a class="btn btn-mini"&gt;Mini button&lt;/a&gt;
-			  &lt;a class="btn btn-mini btn-special"&gt;Mini special btn&lt;/a&gt;
-			&lt;/p&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;p&gt;
+  &lt;a class="btn btn-large"&gt;Large button&lt;/a&gt;
+  &lt;a class="btn btn-large btn-special"&gt;Large special btn&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;a class="btn"&gt;Default button&lt;/a&gt;
+  &lt;a class="btn btn-special"&gt;Default special btn&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;a class="btn btn-small"&gt;Small button&lt;/a&gt;
+  &lt;a class="btn btn-small btn-special"&gt;Small special btn&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  &lt;a class="btn btn-mini"&gt;Mini button&lt;/a&gt;
+  &lt;a class="btn btn-mini btn-special"&gt;Mini special btn&lt;/a&gt;
+&lt;/p&gt;
+</pre>
 			          <h3 class="bs-docs-heading">Block level buttons</h3>
 			          <p>Create block level buttons&mdash;those that span the full width of a parent&mdash; by adding <code>.btn-block</code>.</p>
 			          <div class="bs-docs-example">
@@ -538,12 +552,12 @@
 			              <a class="btn btn-block btn-special">Block level special button</a>
 			            </div>
 			          </div>
-			<pre class="prettyprint linenums">
-			&lt;p&gt;
-			  &lt;a class="btn btn-block"&gt;Block level button&lt;/a&gt;
-			  &lt;a class="btn btn-block btn-special"&gt;Block level special button&lt;/a&gt;
-			&lt;/p&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;p&gt;
+  &lt;a class="btn btn-block"&gt;Block level button&lt;/a&gt;
+  &lt;a class="btn btn-block btn-special"&gt;Block level special button&lt;/a&gt;
+&lt;/p&gt;
+</pre>
 			
 			
 			          <h3 class="bs-docs-heading">Disabled state</h3>
@@ -555,12 +569,12 @@
 			            <a href="#" class="btn disabled">Link</a>
 			            <a href="#" class="btn btn-special disabled">Special link</a>
 			          </p>
-			<pre class="prettyprint linenums">
-			&lt;p&gt;
-			  &lt;a href="#" class="btn disabled"&gt;Link&lt;/a&gt;
-			  &lt;a href="#" class="btn btn-special disabled"&gt;Special link&lt;/a&gt;
-			&lt;/p&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;p&gt;
+  &lt;a href="#" class="btn disabled"&gt;Link&lt;/a&gt;
+  &lt;a href="#" class="btn btn-special disabled"&gt;Special link&lt;/a&gt;
+&lt;/p&gt;
+</pre>
 			          <p>
 			            <span class="label label-info">Heads up!</span>
 			            We use <code>.disabled</code> as a utility class here, similar to the common <code>.active</code> class, so no prefix is required. Also, this class is only for aesthetic; you must use custom JavaScript to disable links here.
@@ -572,12 +586,12 @@
 			            <button type="button" class="btn" disabled>Button</button>
 			            <button type="button" class="btn btn-special disabled" disabled="disabled">Special button</button>
 			          </p>
-			<pre class="prettyprint linenums">
-			&lt;p&gt;
-			  &lt;button type="button" class="btn" disabled&gt;Button&lt;/button&gt;
-			  &lt;button type="button" class="btn btn-special disabled" disabled="disabled"&gt;Special button&lt;/button&gt;
-			&lt;/p&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;p&gt;
+  &lt;button type="button" class="btn" disabled&gt;Button&lt;/button&gt;
+  &lt;button type="button" class="btn btn-special disabled" disabled="disabled"&gt;Special button&lt;/button&gt;
+&lt;/p&gt;
+</pre>
 			
 			
 			          <h3 class="bs-docs-heading">One class, multiple tags</h3>
@@ -588,14 +602,14 @@
 			            <input class="btn" type="button" value="Input">
 			            <input class="btn" type="submit" value="Submit">
 			          </form>
-			<pre class="prettyprint linenums">
-			&lt;p&gt;
-			  &lt;a class="btn" href=""&gt;Link&lt;/a&gt;
-			  &lt;button class="btn" type="submit"&gt;Button&lt;/button&gt;
-			  &lt;input class="btn" type="button" value="Input"&gt;
-			  &lt;input class="btn" type="submit" value="Submit"&gt;
-			&lt;/p&gt;
-			</pre>
+<pre class="prettyprint linenums">
+&lt;p&gt;
+  &lt;a class="btn" href=""&gt;Link&lt;/a&gt;
+  &lt;button class="btn" type="submit"&gt;Button&lt;/button&gt;
+  &lt;input class="btn" type="button" value="Input"&gt;
+  &lt;input class="btn" type="submit" value="Submit"&gt;
+&lt;/p&gt;
+</pre>
 			          <p>As a best practice, try to match the element for your context to ensure matching cross-browser rendering. Usually you'll make an <code>a</code> anchor link. If you have an <code>input</code>, use an <code>&lt;input type="submit"&gt;</code> for your button. If you have a <code>button</code>, use <code>&lt;button type="button"&gt;</code>.</p>
 			
 			        </section>
@@ -1172,7 +1186,34 @@
 				<h2 class="bs-docs-heading">Utility Classes</h2>
 
 				<p>A collection of utility class so you don't have to keep writing them!</p>
-				<div class="alert">Todo</div>
+
+				<h3 class="bs-docs-heading">Vertical centering</h3>
+
+				<p>Option 1 - table-cell centering</p>
+
+				<div class="bs-docs-example">
+					<div class="table-center-wrap" style="background:#f2f2f2;height:200px;">
+						<p class="table-center">Some vertically centered content</p>
+					</div>
+				</div>
+<pre class="prettyprint linenums">
+&lt;div class="table-center-wrap"&gt;
+	&lt;p class="table-center"&gt;Some vertically centered content&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+
+
+				<p>Option 2 - ghost element. Reference: <a class="tl tl-arrow" href="http://css-tricks.com/centering-in-the-unknown/">Centering the Unknown</a>. Use this when display:table is causing you problems.</p>
+				<div class="bs-docs-example">
+					<div class="ghost-center-wrap" style="background:#f2f2f2;height:200px;">
+						<p class="ghost-center">Some vertically centered content</p>
+					</div>
+				</div>
+<pre class="prettyprint linenums">
+&lt;div class="ghost-center-wrap"&gt;
+	&lt;p class="ghost-center"&gt;Some vertically centered content&lt;/p&gt;
+&lt;/div&gt;
+</pre>
 
 			</section>
 			
