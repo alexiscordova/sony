@@ -42,9 +42,7 @@
     .brand {
       float: left;
       display: block;
-      // Vertically center the text given $navbarTotalHeight
-      padding: 10px 20px;
-      margin-left: -20px; // negative indent to left-align the text down the page
+      padding: 10px 20px 0 $navbarMinSidePadding;
     }
 
 
@@ -181,58 +179,4 @@
     }
   } // end .navbar
 
-
-  $trayDividerPosition:70%;
-  .nav-tray-wrapper{ // 100% width for trays to reach edges of browser
-    position: absolute;
-    overflow:hidden;
-    top: $navbarTotalHeight;
-    left: 0;
-    width:100%;
-    background: green; // $navTrayBackground;
-
-    &.nav-tray-wrapper-electronics:after{ // background gray under the right side -- just needs to cover up the right margin
-      content: "."; // idk why but this can't be null, so "color" needs to be the same as background to hide this.
-      display: block;
-      width: (110-$trayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
-      height: 100%;
-      position:absolute;
-      top:0;
-      left:$trayDividerPosition;
-      z-index:10;
-      background: red; // $navTrayBackgroundAlt;
-      color: red; // $navTrayBackgroundAlt;
-    }
-
-    .nav-tray{ // container the same width as the nav, contains left & right sections
-      z-index: 10;
-      overflow:hidden;
-      padding: 0;
-      margin: 0 auto;
-      list-style: none;
-      border-bottom: 1px solid #ccc;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-      @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
-
-      background:gray; // $navTrayBackgroundAlt; // right side background color
-      // display: none;
-      
-      .nav-tray-section-main{ // section left
-        width:$trayDividerPosition;
-        height:100%;
-        float:left;
-
-        background:blue; // $navTrayBackground; // left side background color
-      }
-      .nav-tray-section-featured{ // section right
-        width:(100-$trayDividerPosition);
-        height:100%;
-        float:left;
-        z-index:20;
-        position:relative;
-
-        background:rgba(0,255,0,0.5); // no color - takes it from the 
-      }
-    } // end .nav-tray
-  } // end .nav-tray-wrapper
 } // end .nav-wrapper

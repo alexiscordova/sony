@@ -7,44 +7,149 @@
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
 .nav-wrapper{
-  .navbar,
-  .nav-tray {
+  .navbar{
     width:auto;
     padding:0 $navbarMinSidePadding;
-    
   }
+  .navtray-wrapper{
+    .navtray{
+      width:auto;
+
+      .navtray-section{
+        padding-top:56px;
+      }
+      .navtray-section-featured{ // section right
+        width: (100-$trayDividerPosition);
+      }
+      .navtray-section-main{ // section left
+        width: $trayDividerPosition;
+
+        .navtray-list-main{
+          margin: 0 0.6% 1.6% 5.1%;
+          overflow:hidden;
+
+          &:after{ // HR
+            width:97%;
+            height:14px;
+            margin-left: 0.2%;
+          }
+
+          > li{
+            width:23.1%;
+            margin:2% 1.9% 2% 0;
+          }
+          > li > a > img {
+            width:83%;
+            height:83%;
+          }
+        }
+      } // end .navtray-section-main
+
+      .btn-dark-w-icon-left{
+        margin-left: 5.3%;
+      }
+    } // end .nav-tray
+  } // end .navtray-wrapper
 
   // Required to make the collapsing navbar work on regular desktops
   .nav-collapse.collapse {
     height: auto !important;
     overflow: visible !important;
   }
-}
+} // end .nav-wrapper
 
 
-
-// EXTRA LARGE DESKTOP
-// ------------------------------------------------
-@media (min-width: 1500px) {
-}
 
 
 // LARGE DESKTOP
 // ------------------------------------------------
 @media (min-width: 1200px) {
   .nav-wrapper{
-    .navbar,
-    .nav-tray  {
+    .navbar{
       width:$navbarMaxWidth;
       padding:0 $navbarMinSidePadding;
+    }
+    .navtray-wrapper{
+      .navtray{
+        width:1190px;
+
+        .navtray-section{
+          // padding-top:48px;
+        }
+        .navtray-section-featured{ // section right
+          width: 100 - ($trayDividerPosition + 2);
+        }
+        .navtray-section-main{ // section left
+          width: ($trayDividerPosition + 2);
+
+          .navtray-list-main{
+            // margin: 0 1% 1.6% 4.5%;
+          }
+        }
+      }
     }
   }
 }
 
 
+// EXTRA LARGE DESKTOP
+// ------------------------------------------------
+@media (min-width: 1500px) {
+  
+}
+
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
 @media (min-width: 768px) and (max-width: 979px) {
+  .nav-wrapper { 
+    .navtray-wrapper {
+      .navtray {
+        width:auto;
+
+        .navtray-section{
+          padding-top: 27px;
+        }
+
+        .navtray-section-featured{ // section right
+          width: 100 - ($trayDividerPosition - 4);
+        }
+        .navtray-section-main{ // section left - contents
+          width: ($trayDividerPosition - 4);
+
+          .navtray-list-main {
+            margin-left:8.2%;
+            margin-right:0;
+
+            &:after{ // HR
+              width: 94%;
+              height: 10px;
+              margin-left: 2.7%;
+            };
+
+            > li{
+              width:31.9%;
+              margin:2% 0.2% 2% 0;
+            }
+            > li > a {
+              padding-bottom:13px;
+
+              > img {
+                width:83%;
+                height:83%;
+                margin:0 auto;
+              }
+              > .nav-label{
+                margin-top:6px;
+              }
+            }
+          }
+          .btn-dark-w-icon-left{
+            margin-left: 10%;
+          }
+        }
+      }
+    }
+  }
 }
 
 
