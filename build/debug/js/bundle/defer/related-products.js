@@ -68,7 +68,6 @@ if ( !Exports ) {
 
         // $container.width( width / 2 );
 
-
         self.shuffle = self.$container.shuffle({
           speed: self.shuffleSpeed,
           easing: self.shuffleEasing,
@@ -80,8 +79,8 @@ if ( !Exports ) {
         var lastCol = 0;
         for ( var i = 0, len = self.shuffle.colYs.length; i < len; i++) {
           var colY = self.shuffle.colYs[ i ];
-          // if the last column is bigger than the next, and we're not on the last column
-          if ( lastCol > colY && i != len - 1 ) {
+          // if the previous column is bigger than the next, and we're not on the final column
+          if ( lastCol > colY && i < len - 2 ) {
             // Columns don't line up perfectly
             self.extraSpace = (self.shuffle.columnWidth * (i + 1)) / 2;
             console.log('they dont line up', self.extraSpace, self.shuffle.colYs);

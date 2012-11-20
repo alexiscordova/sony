@@ -1,7 +1,9 @@
 
-var Exports = {
-  Modules : {}
-};
+if ( !Exports ) {
+  var Exports = {
+    Modules : {}
+  };
+}
 
 /**
  * Constrains a value between a min and max value
