@@ -237,25 +237,25 @@
                 colSpan = Math.min( colSpan, self.cols );
 
                 if ( colSpan === 1 ) {
-                  // if brick spans only one column, just like singleMode
-                  self._placeItem( $this, self.colYs, fn );
+                    // if brick spans only one column, just like singleMode
+                    self._placeItem( $this, self.colYs, fn );
                 } else {
-                  // brick spans more than one column
-                  // how many different places could this brick fit horizontally
-                  var groupCount = self.cols + 1 - colSpan,
-                      groupY = [],
-                      groupColY,
-                      i;
+                    // brick spans more than one column
+                    // how many different places could this brick fit horizontally
+                    var groupCount = self.cols + 1 - colSpan,
+                        groupY = [],
+                        groupColY,
+                        i;
 
-                  // for each group potential horizontal position
-                  for ( i = 0; i < groupCount; i++ ) {
-                    // make an array of colY values for that one group
-                    groupColY = self.colYs.slice( i, i + colSpan );
-                    // and get the max value of the array
-                    groupY[i] = Math.max.apply( Math, groupColY );
-                  }
+                    // for each group potential horizontal position
+                    for ( i = 0; i < groupCount; i++ ) {
+                        // make an array of colY values for that one group
+                        groupColY = self.colYs.slice( i, i + colSpan );
+                        // and get the max value of the array
+                        groupY[i] = Math.max.apply( Math, groupColY );
+                    }
 
-                  self._placeItem( $this, groupY, fn );
+                    self._placeItem( $this, groupY, fn );
                 }
             });
 
@@ -276,8 +276,6 @@
             var self = this;
             callback = callback || self.filterEnd;
             self._resetCols();
-            // apply layout logic to all bricks
-            // self.layout( self.$items.get(), callback );
 
             // If we've already sorted the elements, keep them sorted
             if ( self.keepSorted && self.lastSort ) {
@@ -312,7 +310,7 @@
             $item.data( {x: x, y: y} );
 
             // Apply setHeight to necessary columns
-            var setHeight = minimumY + ( $item.outerHeight(true) || $item.data('height') ),
+            var setHeight = minimumY + $item.outerHeight(true),
             setSpan = self.cols + 1 - len;
             for ( i = 0; i < setSpan; i++ ) {
                 self.colYs[ shortCol + i ] = setHeight;

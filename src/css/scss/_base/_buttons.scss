@@ -103,6 +103,32 @@
     background:$btnSecondaryBackground;
   }
 }
+
+.btn-alt{
+  padding:$btnAltPadding;
+  font-family:$sansFontFamilyMedium;
+  border: 1px solid $btnAltBackground;
+  background:$btnAltBackground;
+
+  &:hover {
+    background: $btnAltBackgroundHover;
+  }
+  &.active,
+  &:active {
+    background: $btnAltBackgroundActive;
+  }
+  &.disabled:hover,
+  &[disabled]:hover {
+    background:$btnAltBackground;
+  }
+
+  &.btn-small{
+    width:138px;
+    padding:$btnAltSmallPadding; 
+    font-size:0.73333333333em; /* 11px/15px */ //inside of <p> or <td>   
+  }
+}
+
 .btn-promo{
   position:relative;
   width:289px;
