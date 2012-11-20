@@ -80,11 +80,11 @@
         console.log(self.st.mode + ' - ' + self.st.variation);
 
         switch(self.st.mode){
-            case '':
+            case 'full':
 
             break;
 
-            case '':
+            case 'tabbed':
 
             break;
 

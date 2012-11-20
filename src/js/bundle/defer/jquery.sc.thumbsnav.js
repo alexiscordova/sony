@@ -1,14 +1,16 @@
 (function($) {
 	/**
 	 *
-	 * RoyalSlider bullets module
+	 * Sony Carousel Thumbnail navigation
 	 * @version 1.0:
 	 * 
 	 */ 
 	$.extend($.scProto, {
-		_initBullets: function() {
+		_initThumbnails: function() {
 			var self = this;
-			if(self.st.controlNavigation === 'bullets') {
+			if(self.st.controlNavigation === 'thumbnav') {
+				return; //need to build this out
+				
 				var itemHTML = '<div class="scNavItem scBullet"><span class=""></span></div>';
 				self.ev.one('scAfterPropsSetup', function() {
 
@@ -64,5 +66,5 @@
 			}
 		}
 	});
-	$.scModules.bullets = $.scProto._initBullets;
+	$.scModules.thumbnav = $.scProto._initThumbnails;
 })(jQuery);
