@@ -111,6 +111,12 @@ module.exports = function(grunt) {
 					'../build/debug/js/' 		: 'js/**',
 				}
 			},
+			debugimg:{
+				files:{
+					'../build/debug/img/' 		: 'img/build/**',
+					'../build/debug/ico/' 		: 'img/ico/**',
+				}
+			},
 			deploy:{
 				files:{
 					'../build/deploy/js/bundle/defer/' 		: 'js/bundle/defer/**',
@@ -126,6 +132,7 @@ module.exports = function(grunt) {
 					'../docs/js/docs/' 			: 'js/docs/*',
 					'../docs/ico/' 				: 'img/ico/**',
 					'../docs/fonts/' 			: 'fonts/**',
+					'../docs/img/' 				: 'img/build/**',
 					'../docs/img/' 				: 'img/docs/**',
 					'../docs/css/' 				: 'css/docs/*.css'
 				}
@@ -160,6 +167,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');
 	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
+	grunt.registerTask('debug-img', 'copy:debugimg');
 	grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
 	grunt.registerTask('deploy', 'clear lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');
