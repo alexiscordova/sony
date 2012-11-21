@@ -13,7 +13,7 @@
 	$.extend($.scProto, {
 		_initThumbs: function() {
 			var self = this;
-			if(self.st.controlNavigation === 'thumbnails' || self.st.controlNavigation === 'bulletsandthumbs') {
+			if(self.st.controlNavigation === 'thumbnails') {
 
 				self._thumbsDefaults = {
 					drag: true,
@@ -34,13 +34,13 @@
 
 				self.st.thumbs = $.extend({}, self._thumbsDefaults, self.st.thumbs);
 
-				self.ev.on('rsBeforeParseNode', function(e, content, obj) {
+				self.ev.on('scBeforeParseNode', function(e, content, obj) {
 					content = $(content);
 					obj.thumbnail = content.find('.scTmb').remove();
 					if(!obj.thumbnail.length) {
-						obj.thumbnail = content.attr('data-rsTmb');
+						obj.thumbnail = content.attr('data-scTmb');
 						if(!obj.thumbnail) {
-							obj.thumbnail = content.find('.scImg').attr('data-rsTmb');
+							obj.thumbnail = content.find('.scImg').attr('data-scTmb');
 						}
 						if(!obj.thumbnail) {
 							obj.thumbnail = '';
@@ -52,20 +52,20 @@
 					}
 				});
 
-				self.ev.one('rsAfterPropsSetup', function() {
+				self.ev.one('scAfterPropsSetup', function() {
 					self._createThumbs();
 				});
 
-				self.ev.on('rsOnUpdateNav', function() {
+				self.ev.on('scOnUpdateNav', function() {
 					var id = self.currSlideId,
 						currItem,
 						prevItem;
 					if(self._prevNavItem) {
-						self._prevNavItem.removeClass('rsNavSelected');
+						self._prevNavItem.removeClass('scNavSelected');
 					}
 					currItem = $(self._controlNavItems[id]);
 
-					currItem.addClass('rsNavSelected');
+					currItem.addClass('scNavSelected');
 					
 					if(self._thumbsNavigation) {					
 						self._setCurrentThumb(id);
@@ -73,8 +73,8 @@
 					self._prevNavItem = currItem;
 				});
 
-				self.ev.on('rsOnAppendSlide', function(e, parsedSlide, index) {
-					var html = '<div'+self._thumbsMargin+' class="rsNavItem rsThumb">'+self._addThumbHTML+parsedSlide.thumbnail+'</div>';
+				self.ev.on('scOnAppendSlide', function(e, parsedSlide, index) {
+					var html = '<div'+self._thumbsMargin+' class="scNavItem scThumb">'+self._addThumbHTML+parsedSlide.thumbnail+'</div>';
 					if(index >= self.numSlides) {
 						self._thumbsContainer.append(html);
 					} else {
@@ -83,7 +83,7 @@
 					self._controlNavItems = self._thumbsContainer.children();
 					self.updateThumbsSize();
 				});
-				self.ev.on('rsOnRemoveSlide', function(e, index) {
+				self.ev.on('scOnRemoveSlide', function(e, index) {
 					var itemToRemove = self._controlNavItems.eq(index);
 					if(itemToRemove) {
 						itemToRemove.remove();
@@ -97,7 +97,7 @@
 		},
 		_createThumbs: function() {
 			var self = this, 
-				tText = 'rsThumbs',
+				tText = 'scThumbs',
 				out = '',
 				style,
 				item,
@@ -122,13 +122,13 @@
 			self._thumbsArrows = (self.st.thumbs.arrows && self.st.thumbs.navigation);
 
 			var pl = (self._thumbsHorizontal ? 'Hor' : 'Ver');
-			self.slider.addClass('rsWithThumbs' + ' rsWithThumbs'+ pl );
+			self.slider.addClass('scWithThumbs' + ' scWithThumbs'+ pl );
 			
-			out += '<div class="rsNav rsThumbs rsThumbs'+pl +'"><div class="'+tText+'Container">';
+			out += '<div class="scNav scThumbs scThumbs'+pl +'"><div class="'+tText+'Container">';
 			self._addThumbHTML = self.st.thumbs.appendSpan ? '<span class="thumbIco"></span>' : '';
 			for(var i = 0; i < self.numSlides; i++) {
 				item = self.slides[i];
-				out += '<div'+style+' class="rsNavItem rsThumb">'+self._addThumbHTML+item.thumbnail+'</div>';
+				out += '<div'+style+' class="scNavItem scThumb">'+self._addThumbHTML+item.thumbnail+'</div>';
 			}
 
 			out += '</div></div>';
@@ -217,7 +217,7 @@
 				}
 			});
 
-			self.ev.off('rsBeforeSizeSet.thumbs').on('rsBeforeSizeSet.thumbs', function() {
+			self.ev.off('scBeforeSizeSet.thumbs').on('scBeforeSizeSet.thumbs', function() {
 				self._realWrapSize = self._thumbsHorizontal ? self._wrapHeight : self._wrapWidth;
 				self.updateThumbsSize();
 			});
@@ -243,7 +243,7 @@
 					self._setThumbsPosition((self._thumbsViewportSize - self._thumbsContainerSize) / 2);
 				}
 				if(self.st.thumbs.arrows && self._thumbsArrowLeft) {
-					var arrDisClass = 'rsThumbsArrowDisabled';
+					var arrDisClass = 'scThumbsArrowDisabled';
 					self._thumbsArrowLeft.addClass(arrDisClass);
 					self._thumbsArrowRight.addClass(arrDisClass);
 				}
@@ -274,7 +274,7 @@
 			if(self._thumbsEnabled) {
 				self.st.thumbs.orientation = newPlacement;
 				self._controlNav.remove();
-				self.slider.removeClass('rsWithThumbsHor rsWithThumbsVer');
+				self.slider.removeClass('scWithThumbsHor scWithThumbsVer');
 				self._createThumbs();
 				self._controlNav.off(self._downEvent);	
 				if(!dontUpdateSize) {
@@ -338,7 +338,7 @@
 		_updateThumbsArrows: function() {
 			var self = this;
 			if(self._thumbsArrows) {
-				var arrDisClass = 'rsThumbsArrowDisabled';
+				var arrDisClass = 'scThumbsArrowDisabled';
 				
 				if(self._thumbsPosition === self._thumbsMinPosition) {
 					self._thumbsArrowLeft.addClass(arrDisClass);

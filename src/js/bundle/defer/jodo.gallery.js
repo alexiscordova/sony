@@ -7,8 +7,13 @@
         $.extend(self, $.fn.gallery.options, options, $.fn.gallery.settings);
 
         self.$container = $container;
+        self.$filterContainer = self.$container.find('.product-filter');
         self.$grid = self.$container.find('.products');
         self.$filterOpts = self.$container.find('.filter-options');
+        self.$sortOpts = self.$container.find('.sort-options');
+        self.$productCount = self.$container.find('.product-count');
+        self.$activeFilters = self.$container.find('.active-filters');
+        self.$clear = self.$container.find('.clear-active-filters');
 
         // Use a function if one is specified for the column width
         var col = $.isFunction( self.shuffleColumns ) ?
@@ -49,6 +54,7 @@
             checkbox: {}
         };
         self.filterNames = {};
+        self.filterLabels = {};
         self.$filterOpts.find('[data-filter]').each(function() {
             var $this = $(this),
                 data = $this.data(),
@@ -79,11 +85,8 @@
 
         // Slide toggle. Reset range control if it was hidden on initialization
         self.$container.find('.js-filter-toggle').on('click', function() {
-            $(this).siblings('.product-filter').stop().slideToggle( $.proxy( self.maybeResetRange, self ) );
+            self.$filterContainer.stop().slideToggle( $.proxy( self.maybeResetRange, self ) );
         });
-
-        // Hide filters
-        self.$container.find('.product-filter').slideUp();
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         if ( self.sort ) {
@@ -105,6 +108,28 @@
                 }
             });
         }
+
+        // Set up sorting
+        self.$sortOpts.on( 'change', function(evt) {
+            self.sortItems(this, evt);
+        } );
+
+
+        // Respond to events
+        self.$grid.on('filter.shuffle', function(evt, shuffle) {
+            self.$productCount.text( shuffle.visibleItems );
+            self.displayActiveFilters();
+        });
+
+        // Clear filters button
+        self.$clear.on('click', function(evt) {
+            evt.preventDefault();
+            self.resetActiveFilters();
+            self.$container.trigger('reset.gallery', [self]);
+        });
+
+        // Hide filters
+        self.$container.find('.product-filter').slideUp();
 
         self.isInitialized = true;
     };
@@ -139,7 +164,11 @@
                 // filterName e.g. 'price'
                 var filter = data.filterSet[ filterName ], // e.g. 399.99
                     filterType = self.filterNames[ filterName ], // e.g. 'range'
-                    activeFilters = self.filters[ filterType ][ filterName ]; // e.g. ["lcd"]
+                    activeFilters = filterType ? self.filters[ filterType ][ filterName ] : null; // e.g. ["lcd"]
+
+                if ( !filterType ) {
+                    continue;
+                }
 
                 if ( filterType === 'button' || filterType === 'checkbox' ) {
                     var method = $.isArray( filter ) ? 'arrayContainsArray' : 'valueInArray';
@@ -189,6 +218,78 @@
             return hasActive;
         },
 
+        displayActiveFilters : function() {
+            var self = this,
+                filterType = '',
+                filterName = '',
+                filters = [];
+
+            // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
+            for ( filterType in self.filters ) {
+                if ( !self.filters.hasOwnProperty(filterType) ) {
+                    continue;
+                }
+
+                // Loop through filter types because there could be more than one 'button' or 'checkbox'
+                if ( filterType === 'button' || filterType === 'checkbox' ) {
+                    for ( filterName in self.filters[ filterType ] ) {
+                        var activeFilters = self.filters[ filterType ][ filterName ],
+                            filterLabels = [];
+
+                        // This filterType.filterName has some active filters, build an array of their labels
+                        if ( activeFilters.length ) {
+                            for ( var j = 0; j < activeFilters.length; j++ ) {
+                                filterLabels.push( self.filterLabels[ filterName ][ activeFilters[ j ] ] );
+                            }
+                            // Push the array of labes onto our total
+                            filters.push( filterLabels.join(', ') );
+                        }
+                    }
+
+                // Handle range control a bit differently
+                } else if ( filterType === 'range' ) {
+                    if ( self.price.min !== self.MIN_PRICE ) {
+                        filters.push('Min price: $' + self.price.min);
+                    }
+                    if ( self.price.max !== self.MAX_PRICE) {
+                        filters.push('Max price: $' + self.price.max);
+                    }
+                }
+            }
+
+            self.$activeFilters.html( filters.join(', ') );
+
+            if ( filters.length ) {
+                self.$clear.removeClass('hidden');
+            } else {
+                self.$clear.addClass('hidden');
+            }
+        },
+
+        resetActiveFilters : function() {
+            var self = this,
+                filterType = '',
+                filterName = '';
+
+            // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
+            for ( filterType in self.filters ) {
+                if ( !self.filters.hasOwnProperty(filterType) ) {
+                    continue;
+                }
+
+                // Loop through filter types because there could be more than one 'button' or 'checkbox'
+                if ( filterType === 'button' || filterType === 'checkbox' ) {
+                    for ( filterName in self.filters[ filterType ] ) {
+                        self.filters[ filterType ][ filterName ].length = 0;
+                    }
+                }
+
+                // Reseting the range control is triggered by the reset.gallery event. Take a look at this.range()
+            }
+
+            self.$grid.shuffle('all');
+        },
+
         valueInArray : function( value, arr ) {
             return $.inArray(value, arr) !== -1;
         },
@@ -213,9 +314,11 @@
         },
 
         button : function( $parent, filterName ) {
-            var self = this;
+            var self = this,
+                labels = {},
+                $btns = $parent.children();
 
-            $parent.children().on('click', function() {
+            $btns.on('click', function() {
                 $(this).button('toggle');
 
                 var $checked = $parent.find('.active'),
@@ -224,19 +327,35 @@
                 // Get all data-* filters
                 if ( $checked.length !== 0 ) {
                     $checked.each(function() {
-                        var data = $checked.data();
-                        checked.push( data[ filterName ] );
+                        var filter = $(this).data( filterName );
+                        checked.push( filter );
                     });
                 }
                 self.filters.button[ filterName ] = checked;
 
                 self.filter();
+            })
+
+            // Save each label to the labels object
+            .each(function() {
+                var data = $(this).data();
+                labels[ data[ filterName ] ] = data.label;
+            });
+
+            self.filterLabels[ filterName ] = labels;
+
+            // Remove active classes when the gallery is reset
+            self.$container.on('reset.gallery', function() {
+                $btns.removeClass('active');
             });
         },
 
         checkbox : function( $parent, filterName ) {
-            var self = this;
-            $parent.find('input').on('change', function() {
+            var self = this,
+                labels = {},
+                $inputs = $parent.find('input');
+
+            $inputs.on('change', function() {
                 var $checked = $parent.find('input:checked'),
                 checked = [];
 
@@ -250,6 +369,19 @@
                 self.filters.checkbox[ filterName ] = checked;
 
                 self.filter();
+            })
+
+            // Save each label to the labels object
+            .each(function() {
+                var data = $(this).data();
+                labels[ this.value ] = data.label;
+            });
+
+            self.filterLabels[ filterName ] = labels;
+
+            // Reset checkboxes when the gallery is reset
+            self.$container.on('reset.gallery', function() {
+                $inputs.prop('checked', false);
             });
         },
 
@@ -310,6 +442,11 @@
                 range: true,
                 callback: update
             });
+
+            // Listen for reset event
+            self.$container.on('reset.gallery', function() {
+                $rangeControl.rangeControl('reset', true);
+            });
         },
 
         // If there is a range control in this element and it's in need of an update
@@ -320,6 +457,25 @@
                 console.log('resetting range control');
                 $rangeControl.rangeControl('reset');
             }
+        },
+
+        sortItems : function( select, evt ) {
+            var self = this,
+                reverse = select[ select.selectedIndex ].getAttribute('data-reverse'),
+                filterName = select.value,
+                sortObj = {};
+            
+            if ( select.value !== 'default' ) {
+                reverse = reverse === 'true' ? true : false;
+                sortObj = {
+                    reverse: reverse,
+                    by: function($el) {
+                        return $el.data('filterSet')[filterName];
+                    }
+                };
+            }
+
+            self.$grid.shuffle('sort', sortObj);
         },
 
         sortByPriority : function( shouldReset ) {

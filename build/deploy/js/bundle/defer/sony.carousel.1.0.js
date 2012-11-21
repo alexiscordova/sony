@@ -131,8 +131,10 @@
         self.slides = [];
         self._idCount = 0;
         var returnVal;
-        var ts = self.st.slides ? $(self.st.slides) : self.slider.children().detach();
+        var ts = self.st.slides ? $(self.st.slides) : self.slider.children().detach() ;
         
+        console.log(ts);
+
         ts.each(function() {
             self._parseNode(this, true);
 
@@ -2044,7 +2046,7 @@
     };
 
     $.fn.sonyCarousel.defaults = {    
-        slidesSpacing: 8,
+        slidesSpacing: 0,
         startSlideId: 0,
         loop: false,
         loopRewind: false,
@@ -2114,25 +2116,7 @@
     });
 
     //init each instance of the carousel on a page
-    $(function(){
-
-        console.log('ATTEMPTING TO BIND EVENTS ~~~~~~~' , $('.scContent').length); 
-
-        $('.scContent').each(function(){
-
-            console.log('binding event....');
-
-            $(this).bind('slidestart.sc slideend.sc' , function(e){
-                console.log('.scContent event :: ' , e.type);
-            });
-            
-        });
-        
-        /*
-            prposed events that will be triggered on each slide what else do we need?
-            'slidestart.sc' - Slide is about to be animated into view
-            'slideend.sc'   - Slide is out of view and shut down
-        */
+    $(window).load(function(){
 
         $('.sonyCarousel').each(function(){
             var $el = $(this),

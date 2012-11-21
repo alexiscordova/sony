@@ -1,0 +1,113 @@
+//
+// Navbars (Redux) -- THIS IS NOW THE GLOBAL NAV
+// --------------------------------------------------
+
+
+
+// COMMON STYLES
+// -------------
+
+// Base class and wrapper
+// This has been modified just for Sony Global Nav
+// If you need to use the regular Bootstrap nav module, use simple-nav.
+
+// .nav-wrapper extends the full width of the browser, 
+// even when the navbar is at a set width for a particular breakpoint.
+
+.nav-wrapper{ // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
+
+  .navtray-wrapper{ // 100% width for trays to reach edges of browser
+    position: absolute;
+    overflow:hidden;
+    top: $navbarTotalHeight;
+    left: 0;
+    width:100%;
+    background: $navTrayBackground;
+    border-bottom:solid 1px $grayLighter;
+    @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
+
+    &.navtray-wrapper-electronics:after{ // background gray under the right side -- just needs to cover up the right margin
+      content: "."; // idk why but this can't be null, so "color" needs to be the same as background to hide this.
+      display: block;
+      width: (110-$trayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
+      height: 100%;
+      position:absolute;
+      top:0;
+      left:$trayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
+      z-index:10;
+      background: $navTrayBackgroundAlt;
+      color: $navTrayBackgroundAlt;
+    }
+
+    .navtray{ // container the same width as the nav, contains left & right sections
+      z-index: 10;
+      overflow:hidden;
+      margin: 0 auto;
+      list-style: none;
+
+      background: $navTrayBackgroundAlt; // right side background color
+      // display: none;
+      
+      .navtray-section-main{ // section left
+        float: left;
+        padding-bottom: 50px;
+        background: $navTrayBackground; // left side background color
+      }
+      .navtray-section-featured{ // section right
+        float: left;
+        z-index: 20;
+        position: relative;
+
+        ul.navtray-list-secondary{
+          margin-left: 0;
+          padding-top:2px;
+
+          > li {
+            line-height:1.4;
+            
+            > a {
+              font-size: $font_13_16;
+            }
+          }
+        }
+      }
+
+
+      .navtray-section-main{ // section left - contents
+        .navtray-list-main{ 
+          overflow:hidden;
+
+          &:after{ // HR
+            content: '';
+            display:block;
+            clear:both;
+            border-bottom: solid 1px $grayLighter;
+          };
+
+          > li{
+            display:block;
+            float:left;
+          }
+          > li > a {
+            display:block;
+            text-align:center;
+            padding-bottom:13px;
+
+            > img {
+              margin:0 auto;
+            }
+            > .nav-label{
+              display:block;
+              margin-top:2px;
+            }
+          }
+        }
+      }
+      .navtray-section-featured{
+        .l2{
+          font-size: 0.625em;
+        }
+      }
+    } // end .navtray
+  } // end .navtray-wrapper
+} // end .nav-wrapper

@@ -88,9 +88,13 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 
 
+.gallery-title-bar {
+  padding: 1.25em 0;
+}
+
 // All gallery items have a margin-top value, offset that.
 .shuffle {
-  margin-top: -23px;
+  // margin-top: -23px;
 }
 
 ///////////////////
@@ -179,10 +183,7 @@ $simpleGalleryItemHeight: 480px;
   .gallery-item.h2 {
     height: ($galleryItemHeight * 2) + 10px;
   }
-}
 
-// 1/3 2/3 layout
-@media (max-width: 767px) {
   .gallery-simple {
 
     .label {
@@ -206,6 +207,11 @@ $simpleGalleryItemHeight: 480px;
       width: 66.66%;
       padding-left: 5%;
     }
+  }
+
+  // Only show 4 on mobile
+  .product-strip .gallery-item:nth-child(n + 5) {
+    display: none;
   }
 
 }

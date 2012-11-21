@@ -85,7 +85,17 @@
 
     <section class="tab-pane fade gallery{{#if productCards.simple}} gallery-simple{{/if}}" data-tab="overhead" data-five="{{productCards.columns.five}}" data-sort="{{productCards.sort}}">
       {{#if productCards.filterSet}}
-      <button class="js-filter-toggle btn">Filters</button>
+      <div class="row">
+        <div class="span3">
+          <button class="js-filter-toggle btn">Filters</button>
+        </div>
+        <div class="span8">
+          <span class="active-filters"></span>
+        </div>
+        <div class="span1">
+          <span class="clear-active-filters hidden">clear</span>
+        </div>
+      </div>
       <div class="product-filter">
         <div class="filter-options row">
 
@@ -95,28 +105,31 @@
           {{#if this.type.range}}
           <div class="span3 filter-container">
             <span>{{this.label}}</span>
-            <div class="range-control-wrap"><div class="range-control" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
+            <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
             <div class="range-output"></div>
           </div>
           {{/if}}
 
           {{#if this.type.button}}
+          <p class="l3">{{this.label}}</p>
           <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="button">
             {{#each this.filters}}
-            <li data-{{../name}}="{{this.value}}" class="btn">{{this.label}}</li>
+            <li class="btn" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>
             {{/each}}
           </ul>
           {{/if}}
 
           {{#if this.type.checkbox}}
+          <p class="l3">{{this.label}}</p>
           <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
             {{#each this.filters}}
-            <li><label><input type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
+            <li><label><input data-label="{{this.label}}" type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
             {{/each}}
           </ul>
           {{/if}}
 
           {{#if glen}}
+          <p class="l3">{{this.label}}</p>
           <ul class="span3 filter-container unstyled best-for">
             <li>Getting Close</li>
             <li>Adventurer</li>
@@ -128,18 +141,23 @@
 
         </div>
       </div>
-
-      <div class="pull-right">
-        <select>
-          <option>Featured</option>
-          <option>not featured</option>
-          <option>featured and not featured</option>
-        </select>
-      </div>
-
       {{/if}}
 
-      <p class="l4"><span class="text-dark">{{productCards.total}}</span> Products</p>
+      <div class="gallery-title-bar">
+        {{#if productCards.sortSet}}
+        <div class="pull-right">
+          Sort By: 
+          <select class="sort-options">
+            {{#each productCards.sortSet}}
+            <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        {{/if}}
+
+
+        <p class="l4"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
+      </div>
       <div class="products{{#if productCards.columns.five}} grid5{{/if}}">
         {{#each productCards.list}}
         <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
@@ -172,7 +190,17 @@
 
     <section class="tab-pane fade gallery{{#if simple.simple}} gallery-simple{{/if}}" data-tab="inear" data-five="{{simple.columns.five}}" data-sort="{{simple.sort}}">
       {{#if simple.filterSet}}
-      <button class="js-filter-toggle btn">Filters</button>
+      <div class="row">
+        <div class="span3">
+          <button class="js-filter-toggle btn">Filters</button>
+        </div>
+        <div class="span8">
+          <span class="active-filters"></span>
+        </div>
+        <div class="span1">
+          <span class="clear-active-filters hidden">clear</span>
+        </div>
+      </div>
       <div class="product-filter">
         <div class="filter-options row">
 
@@ -182,28 +210,31 @@
           {{#if this.type.range}}
           <div class="span3 filter-container">
             <span>{{this.label}}</span>
-            <div class="range-control-wrap"><div class="range-control" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
+            <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
             <div class="range-output"></div>
           </div>
           {{/if}}
 
           {{#if this.type.button}}
+          <p class="l3">{{this.label}}</p>
           <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="button">
             {{#each this.filters}}
-            <li data-{{../name}}="{{this.value}}" class="btn">{{this.label}}</li>
+            <li class="btn" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>
             {{/each}}
           </ul>
           {{/if}}
 
           {{#if this.type.checkbox}}
+          <p class="l3">{{this.label}}</p>
           <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
             {{#each this.filters}}
-            <li><label><input type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
+            <li><label><input data-label="{{this.label}}" type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
             {{/each}}
           </ul>
           {{/if}}
 
           {{#if glen}}
+          <p class="l3">{{this.label}}</p>
           <ul class="span3 filter-container unstyled best-for">
             <li>Getting Close</li>
             <li>Adventurer</li>
@@ -215,18 +246,23 @@
 
         </div>
       </div>
-
-      <div class="pull-right">
-        <select>
-          <option>Featured</option>
-          <option>not featured</option>
-          <option>featured and not featured</option>
-        </select>
-      </div>
-
       {{/if}}
 
-      <p class="l4"><span class="text-dark">{{simple.total}}</span> Products</p>
+      <div class="gallery-title-bar">
+        {{#if simple.sortSet}}
+        <div class="pull-right">
+          Sort By: 
+          <select class="sort-options">
+            {{#each simple.sortSet}}
+            <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        {{/if}}
+
+
+        <p class="l4"><span class="text-dark product-count">{{simple.total}}</span> Products</p>
+      </div>
       <div class="products grid5">
         {{#each simple.list}}
         <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
@@ -255,7 +291,7 @@
       <div class="grid5">
         {{#each accessories}}
         <h2>{{{this.title}}}</h2>
-        <div class="row">
+        <div class="product-strip row">
           {{#each this.list}}
           <div class="span1 gallery-item">
             <div class="product-img ghost-center-wrap">
