@@ -9,10 +9,11 @@
  * 
  * */
 
-(function(iQ, $){
+(function(iQ, $, Modernizr){
 	"use strict";
 	
 	iQ.images = [];
+	iQ.resizeFlaggedImages = [];
 	iQ.options = iQ.options || {};
 	
 	// using property string references for minification purposes
@@ -61,7 +62,7 @@
 	breakpoints = opts.breakpoints ||  [
 		{name: 'phone',      maxWidth: 480},
 		{name: 'tablet',     minWidth: 481, maxWidth: 960},
-		{name: 'desktop',    minWidth: 961}],
+		{name: 'desktop',    minWidth: 961, defaultBreakpoint: true}],
 	
 	//bandwidth testing settings
 	bandwidth = LOW,
@@ -75,6 +76,7 @@
 	
 	//optional override settings
 	updateOnResize = opts.updateOnResize || false,
+	resizeFlag = opts.resizeFlag || 'update-always',
 	
 	//optional callback funcitons
 
@@ -125,7 +127,7 @@
 	
 	loadImages = function(update){
 			var current, i;
-                // If initial collection is not done or 
+            // If initial collection is not done or 
             // new images have been added to the DOM, collect them.
             if (!iQ.images[LENGTH] || update === true || updateOnResize === true) {
                 // Add event listeners
@@ -135,8 +137,9 @@
                 // Create a static list
                 $(jquerySelector).each(function(idx, elm) {
                     // If we haven't processed this image yet and it is a responsive image
-                        // Add image to the list
+                    // Add image to the list
                         iQ.images.push(elm);
+                        $(elm).hasClass(resizeFlag) && iQ.resizeFlaggedImages.push(elm);
                 });
             }
             
@@ -144,17 +147,27 @@
             if (iQ.images[LENGTH]) {
                 i = 0;
                 while (current = iQ.images[i]) {
-                    if (current &&
-                        (!isInViewportRange(current, asyncDistance))) { 
+                    if (current && isInViewportRange(current, asyncDistance)) { 
                         loadImage(current, i);
+                         // Reduce the images array for shorter loops
+        				iQ.images.splice(i, 1); 
                         i--;
                     }
                     i++;
                 }
             } 
+            if(iQ.resizeFlaggedImages[LENGTH]){
+            	i = 0;
+            	while(current = iQ.resizeFlaggedImages[i]){
+            		if(current && isInViewportRange(current, asyncDistance)){
+            			 loadImage(current, i);
+            		}
+            		i++;
+            	}
+            }
 
             // No more images to load? remove event listeners
-            !iQ.images[LENGTH] && removeAsyncListeners();
+            !iQ.images[LENGTH] && !iQ.resizeFlaggedImages[length] && removeAsyncListeners();
             !iQ.images[LENGTH] && ONCOMPLETE in iQ.options && iQ.options[ONCOMPLETE]();
 
             // Clean up
@@ -169,6 +182,7 @@
         viewportWidth = getViewportWidthInCssPixels(); 
         breakpoint = getBreakpoint(breakpoints, viewportWidth);
    		breakpointName = breakpoint.name;
+   		console.log(breakpointName)
    		var newsrc = getImageSrc(img, breakpointName);
         
 		
@@ -176,8 +190,6 @@
 			$(img).data('current', newsrc); 
             setNewSrc(img, newsrc);
         }
-        // Reduce the images array for shorter loops
-        iQ.images.splice(idx, 1); 
    },
    setNewSrc  = function(img, newsrc){
 	   	if($(img).is('img')){
@@ -359,11 +371,14 @@
         	breakpoint = {},
         	_breakpoint, 
         	minWidth, 
-        	maxWidth;  
+        	maxWidth,
+        	defaultBreakpoint;  
         
         while (_breakpoint = breakpoints[i]) {
             minWidth = _breakpoint['minWidth'];
             maxWidth = _breakpoint['maxWidth'];
+            defaultBreakpoint = _breakpoint['defaultBreakpoint'] ? _breakpoint : defaultBreakpoint;
+            
             
             // Viewport width found
             if (vWidth > 0) {
@@ -380,8 +395,9 @@
             }
             i++;
         }    
+        // if media queries are not supported we want to get the default breakpoint size only regardless of screen size.
+        return Modernizr.mq('only all') ? breakpoint : defaultBreakpoint;
         
-        return breakpoint;
     },
     
     
@@ -464,7 +480,7 @@
 				(ct_bottom + asyncDistance) >= img_offset.top &&
 					(ct_left - asyncDistance)<= (img_offset.left + img_width) &&
 						(ct_right + asyncDistance) >= img_offset.left;    
-		return !inView;
+		return inView;
     }
     
 	
@@ -576,4 +592,4 @@
 	initSpeedTest();
 	console.log(bandwidth, connTestResult, devicePixelRatio)
 	
-} (this.iQ = this.iQ || {}, jQuery));
+} (this.iQ = this.iQ || {}, jQuery, Modernizr));
