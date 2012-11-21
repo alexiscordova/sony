@@ -15,6 +15,51 @@
 			var self = this;
 			if(self.st.controlNavigation === 'thumbnails') {
 
+				/**************************************************************************************************
+				* Bullets setup
+				**************************************************************************************************/
+
+				var itemHTML = '<div class="scNavItem scBullet"><span class=""></span></div>';
+				self.ev.one('scAfterPropsSetup', function() {
+
+					self._controlNavEnabled = true;
+					self.slider.addClass('scWithBullets');
+					var out = '<div class="scNav scBullets">';
+					for(var i = 0; i < self.numSlides; i++) {
+						out += itemHTML;
+					}
+					out += '</div>';
+					out = $(out);
+					self._bulletControlNav = out;
+					self._bulletControlNavItems = out.children();
+					self.slider.append(out);
+
+					self._bulletControlNav.click(function(e) {
+						var item = $(e.target).closest('.scNavItem');
+						if(item.length) {
+							self.goTo(item.index());
+						}
+					});
+				});
+
+				self.ev.on('scOnUpdateNav', function() {
+					
+					var id = self.currSlideId,
+						currItem,
+						prevItem;
+					if(self._prevBulletNavItem) {
+						self._prevBulletNavItem.removeClass('scNavSelected');
+					}
+					currItem = $(self._bulletControlNavItems[id]);
+
+					currItem.addClass('scNavSelected');
+					console.log(currItem);
+					self._prevBulletNavItem = currItem;
+				});				
+
+				/**************************************************************************************************/
+
+
 				self._thumbsDefaults = {
 					drag: true,
 					touch: true,

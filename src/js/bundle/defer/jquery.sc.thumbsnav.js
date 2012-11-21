@@ -66,5 +66,5 @@
 			}
 		}
 	});
-	$.scModules.thumbnav = $.scProto._initThumbnails;
+	//$.scModules.thumbnav = $.scProto._initThumbnails;
 })(jQuery);

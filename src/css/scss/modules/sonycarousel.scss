@@ -336,6 +336,7 @@
 	text-align: center;
 	line-height: 18px;
 	overflow: hidden;
+	//display:none;
 }
 .scDefault .scBullet {
 	width: 8px;
@@ -352,6 +353,13 @@
 	background-color: #FFF;
 }
 
+@media screen and (min-width: 0px) and (max-width: 767px) {
+	.scDefault .scBullets {
+		//display:block;
+	}
+}
+
+
 /***************
 *
 *  3. Thumbnails
@@ -362,6 +370,7 @@
 	padding-bottom: 4px;
 	width: 100%;
 	height: 72px;
+	//display:none;
 }
 .scDefault .scThumbsVer {
 	padding-right: 4px;
@@ -371,6 +380,13 @@
 	top: 0;
 	right: 0;
 }
+
+@media screen and (min-width: 767px) {
+/* 	.scDefault .scThumbsHor {
+		display:block;
+	} */
+}
+
 .scDefault.scWithThumbsHor .scThumbsContainer {
 	position: relative;
 	height: 100%;

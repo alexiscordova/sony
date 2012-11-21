@@ -15,6 +15,39 @@
 			var self = this;
 			if(self.st.controlNavigation === 'thumbnails') {
 
+
+
+
+				/**************************************************************************************************
+				* Bullets setup
+				**************************************************************************************************/
+
+/*				var itemHTML = '<div class="scNavItem scBullet"><span class=""></span></div>';
+				self.ev.one('scAfterPropsSetup', function() {
+
+					self._controlNavEnabled = true;
+					self.slider.addClass('scWithBullets');
+					var out = '<div class="scNav scBullets">';
+					for(var i = 0; i < self.numSlides; i++) {
+						out += itemHTML;
+					}
+					out += '</div>';
+					out = $(out);
+					self._controlNav = out;
+					self._controlNavItems = out.children();
+					self.slider.append(out);
+
+					self._controlNav.click(function(e) {
+						var item = $(e.target).closest('.scNavItem');
+						if(item.length) {
+							self.goTo(item.index());
+						}
+					});
+				});*/
+
+				/**************************************************************************************************/
+
+
 				self._thumbsDefaults = {
 					drag: true,
 					touch: true,
