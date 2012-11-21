@@ -16,10 +16,10 @@ meta_data: {a:'foo', b:'bar'}
 	        </ul>
 	        <ul class="nav nav-utility">
 	          <li id="nav-li-account"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" href="#">Account</a></li>
-	          <li id="nav-li-favorites"><a class="nav-dropdown-toggle  nav-dropdown-toggle-btn" href="#">[fav]</a></li>
-	          <li id="nav-li-cart"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">[cart]</a></li>
-	          <li id="nav-li-universal"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">Sony Sites</a></li>
-	          <li id="nav-li-search"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">[search]</a></li>
+	          <li id="nav-li-favorites"><a class="nav-dropdown-toggle  nav-dropdown-toggle-btn" href="#">[fv]</a></li>
+	          <li id="nav-li-cart"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">[crt]</a></li>
+	          <li id="nav-li-universal"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">[SnySts]</a></li>
+	          <li id="nav-li-search"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">[srch]</a></li>
 	        </ul>
 		    </div><!-- end .navbar --> 
 
