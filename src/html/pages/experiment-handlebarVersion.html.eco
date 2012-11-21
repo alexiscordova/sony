@@ -13,10 +13,8 @@
 	</head>
 
 	<body>
-		<h1>Full features and specs</h1>
 		
-		<%-@partial('modules/specs.html.hb', @data('data/specs.json')) %>
-		
+		<%-@partial('modules/specs.html.hb', @data('specs.json')) %>
 		
 <% if 'debug' in @getEnvironments():%>
 		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
