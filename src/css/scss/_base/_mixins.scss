@@ -366,13 +366,6 @@ html.no-opacity .hotspot:hover .tooltip { visibility:visible; }
 
 
 
-// Bootstrap's "Popover" only creates the popover when you open it, and destroys it after. All the data is stored in the link as data-attributes. I don't think data-attributes are very screen-reader-friendly, but I could be wrong.
-// I think it's best to use {visibility:hidden} along with {margin-left:-9999px} or {position:absolute; left:-9999px;}
-// I made 2 mixins that might work. Check them out: @mixin el-hidden and @mixin el-shown and they can be used like so:
-// .hotspot .tooltip { @include el-hidden(); }
-// .hotspot:hover .tooltip { @include el-shown(); }
-
-
 
 
 @mixin transition($transition1, $transition2:null, $transition3:null, $transition4:null, $transition5:null, $transition6:null, $transition7:null, $transition8:null) {
