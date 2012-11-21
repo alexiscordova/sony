@@ -100,11 +100,18 @@
         }
         .navtray-section-main{ // section left
           width: ($trayDividerPosition + 2);
-
-          .navtray-list-main{
-            // margin: 0 1% 1.6% 4.5%;
-          }
         }
+      }
+      &.navtray-wrapper-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
+        content: "";
+        display: block;
+        width: (110-$trayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
+        height: 100%;
+        position:absolute;
+        top:0;
+        left:$trayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
+        z-index:10;
+        background: $navTrayBackgroundAlt;
       }
     }
   }

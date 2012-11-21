@@ -11,6 +11,7 @@
   // position: relative;
   z-index:100;
   left: 0;
+  margin:0;
   display: block;
   float: left;
   list-style: none;
@@ -31,47 +32,51 @@
   > li {
     float: left;
     line-height:0.65em * $baseLineHeight;
-  }
-
-  // Links
-  > li > a {
-    display: block;
-    float: none;
-    color: $navbarLinkColor;
-    text-decoration: none;
-  }
-
-  > li > a:hover {
-    text-decoration: none;
-    background-color: $grayLightFieldSmall;
-  }
-
-  // Hover
-  > li > a:focus,
-  > li > a:hover {
-    background-color: $navbarLinkBackgroundHover; // "transparent" is default to differentiate :hover from .active
-    color: $navbarLinkColorHover;
-    text-decoration: none;
-  }
-
-  // Active nav items
-  > .active > a,
-  > .active > a:hover,
-  > .active > a:focus {
-    color: $navbarLinkColorActive;
-    text-decoration: none;
-    background-color: $navbarLinkBackgroundActive;
-  }
-
-  // carrot on text dropdown toggles
-  > li > a.nav-dropdown-toggle-text:after{
-    @include pseudoEl-inline-block-icon();
-    @extend .icon-small-carrot-down-gray;
-    width:10px;
-    margin-left:4px;
     position:relative;
-    top:4px;
-  }
+
+    &.nav-li-selected:after{
+      @include pseudoEl-inline-block-icon(24px,9px);
+      @extend .icon-med-carrot-down-white;
+      display:block;
+      position:absolute;
+      bottom:0;
+      left:40%;
+    }
+
+    // Links
+    > a {
+      display: block;
+      float: none;
+      color: $navbarLinkColor;
+      text-decoration: none;
+      position:relative;
+
+      // Hover
+      &:focus,
+      &:hover {
+        background-color: $navbarLinkBackgroundHover; // "transparent" is default to differentiate :hover from .active
+        color: $navbarLinkColorHover;
+        text-decoration: none;
+      }
+    }
+
+    // Active nav items
+    &.active > a,
+    &.active > a:hover,
+    &.active > a:focus {
+      color: $navbarLinkColorActive;
+      text-decoration: none;
+      background-color: $navbarLinkBackgroundActive;
+    }
+    > a.nav-dropdown-toggle-text:after{
+        @include pseudoEl-inline-block-icon();
+        @extend .icon-small-carrot-down-gray;
+        width:10px;
+        margin-left:4px;
+        position:relative;
+        top:4px;
+    }
+  } // end li
 } // end .nav
 
 
