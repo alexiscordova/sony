@@ -80,11 +80,11 @@
         console.log(self.st.mode + ' - ' + self.st.variation);
 
         switch(self.st.mode){
-            case '':
+            case 'full':
 
             break;
 
-            case '':
+            case 'tabbed':
 
             break;
 
@@ -1560,9 +1560,10 @@
 
             difference = newItemId - self.currSlideId;
 
-
-
             self._prevSlideId = self.currSlideId;
+
+            self._oldSlideContent = self.slidesJQ[self._prevSlideId].find('.scContent');
+
             var prevId = self.currSlideId;
             var id = self.currSlideId + difference;
             var realId = self._realId;
@@ -1578,12 +1579,11 @@
 
             self._oldHolder = self.slidesJQ[self.currSlideId];
 
-
-            
             self._realId = realId;
             self.currSlideId = self._newSlideId;
 
             self.currSlide = self.slides[self.currSlideId];
+
             self._currHolder = self.slidesJQ[self.currSlideId];
 
             
@@ -1697,7 +1697,7 @@
             if (self.st.beforeSlideChange) self.st.beforeSlideChange.call(self);
 
             //$(self._currContent.get(0)).trigger('slidestart.sonycarousel');
-            //self._currentSlideContent = self.slidesJQ[self.currSlideId].find('.scContent').trigger('slidestart.sc');
+            self._currentSlideContent = self.slidesJQ[self.currSlideId].find('.scContent');
 
             console.log('ANIMATION STARTED' , self._currentSlideContent.attr('id'));
 
@@ -2128,15 +2128,11 @@
             
         });
         
-
-    /*
-
-        prposed events that will be triggered on each slide what else do we need?
-
-        'slidestart.sonycarousel' - Slide is about to be animated into view
-        'slideend.sonycarousel'   - Slide is out of view and shut down
-
-    */
+        /*
+            prposed events that will be triggered on each slide what else do we need?
+            'slidestart.sc' - Slide is about to be animated into view
+            'slideend.sc'   - Slide is out of view and shut down
+        */
 
         $('.sonyCarousel').each(function(){
             var $el = $(this),
@@ -2145,7 +2141,7 @@
                     fadeinLoadedSlide: true,
                     imageAlignCenter:true,
                     imageScaleMode: 'fill',
-                    controlNavigation: 'bullets',
+                    controlNavigation: 'thumbnails',
                     keyboardNavEnabled: true,
                     slidesOrientation: 'horizontal',
                     autoScaleSlider: true,

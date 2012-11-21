@@ -9,8 +9,8 @@
 		_initTabs: function() {
 			var self = this;
 			if(self.st.controlNavigation === 'thumbnav') {
-
-
+				
+				
 				return; //need to build this out
 				
 				var itemHTML = '<div class="scNavItem scBullet"><span class=""></span></div>';
