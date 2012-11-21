@@ -309,6 +309,65 @@ $default-transition-delay    : 0s;
 // @include transition(opacity 0.5s, left 0s);
 // @include transition(opacity 0.5s ease-in 0.2s, width 0.5s ease-in 0.2s, left 0s linear 0s);
 
+
+.hotspot .tooltip {
+	position:absolute;
+
+	left:-9999px;	
+	opacity:0;
+	-webkit-transition:	opacity 0.15s ease-in 0s;
+	   -moz-transition:	opacity 0.15s ease-in 0s;
+	    -ms-transition:	opacity 0.15s ease-in 0s; 
+	     -o-transition:	opacity 0.15s ease-in 0s;
+	        transition:	opacity 0.15s ease-in 0s;
+
+	-webkit-backface-visibility: hidden; // flicker fix
+}
+.hotspot:hover .tooltip {
+	left:86px; /* relative to left edge of hotspot */
+	opacity:1;
+	-webkit-transition:opacity 0.15s ease-out 0s;
+	   -moz-transition:opacity 0.15s ease-out 0s;
+	    -ms-transition:opacity 0.15s ease-out 0s; 
+	     -o-transition:opacity 0.15s ease-out 0s;
+	        transition:opacity 0.15s ease-out 0s;
+}
+html.no-opacity .hotspot .tooltip { visibility:hidden; }
+html.no-opacity .hotspot:hover .tooltip { visibility:visible; }
+
+
+// ----------------------------------------
+
+
+
+// ----------------------------------------
+// !!!TESTING!!!
+// Hidden elements, which fade in when activated, and fade out and then move offscreen & visibility:hidden to hopefully relieve some memory.
+// ----------------------------------------
+// Examples:
+// .hotspot .tooltip { @include el-hidden(); }
+// .hotspot:hover .tooltip { @include el-shown(); }
+@mixin el-hidden{
+	position:absolute;
+	-webkit-backface-visibility: hidden; // flicker fix
+
+	opacity:0;
+	left:-9999px;
+	visibility:hidden;
+	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
+}
+@mixin el-shown{
+	opacity:1;
+	left:0;
+	visibility:visible;
+	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
+}
+
+
+
+
+
+
 @mixin transition($transition1, $transition2:null, $transition3:null, $transition4:null, $transition5:null, $transition6:null, $transition7:null, $transition8:null) {
 	@if ($transition8!=null){
 		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;

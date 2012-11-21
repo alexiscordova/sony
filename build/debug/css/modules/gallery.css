@@ -2,6 +2,41 @@
 /* 15px/16px */
 /* 13px/16px */
 /* 14px/16px */
+/* line 313, ../../../../src/css/scss/_base/_mixins.scss */
+.hotspot .tooltip {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  -webkit-transition: opacity 0.15s ease-in 0s;
+  -moz-transition: opacity 0.15s ease-in 0s;
+  -ms-transition: opacity 0.15s ease-in 0s;
+  -o-transition: opacity 0.15s ease-in 0s;
+  transition: opacity 0.15s ease-in 0s;
+  -webkit-backface-visibility: hidden;
+}
+
+/* line 326, ../../../../src/css/scss/_base/_mixins.scss */
+.hotspot:hover .tooltip {
+  left: 86px;
+  /* relative to left edge of hotspot */
+  opacity: 1;
+  -webkit-transition: opacity 0.15s ease-out 0s;
+  -moz-transition: opacity 0.15s ease-out 0s;
+  -ms-transition: opacity 0.15s ease-out 0s;
+  -o-transition: opacity 0.15s ease-out 0s;
+  transition: opacity 0.15s ease-out 0s;
+}
+
+/* line 335, ../../../../src/css/scss/_base/_mixins.scss */
+html.no-opacity .hotspot .tooltip {
+  visibility: hidden;
+}
+
+/* line 336, ../../../../src/css/scss/_base/_mixins.scss */
+html.no-opacity .hotspot:hover .tooltip {
+  visibility: visible;
+}
+
 /* line 8, ../../../../src/css/scss/modules/gallery.scss */
 * {
   -moz-box-sizing: border-box;
@@ -22,7 +57,7 @@
   }
 }
 @media (min-width: 980px) and (max-width: 1999px) {
-  /* line 817, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 876, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .row {
     margin-left: -20px;
     *zoom: 1;
@@ -37,62 +72,62 @@
   .grid5 .row:after {
     clear: both;
   }
-  /* line 822, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 881, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 [class*="span"] {
     float: left;
     min-height: 1px;
     margin-left: 20px;
   }
-  /* line 832, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 891, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .container,
   .grid5 .navbar-static-top .container,
   .grid5 .navbar-fixed-top .container,
   .grid5 .navbar-fixed-bottom .container {
     width: 940px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span5 {
     width: 940px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span4 {
     width: 748px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span3 {
     width: 556px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span2 {
     width: 364px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span1 {
     width: 172px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset5 {
     margin-left: 980px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset4 {
     margin-left: 788px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset3 {
     margin-left: 596px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset2 {
     margin-left: 404px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset1 {
     margin-left: 212px;
   }
 }
 @media (min-width: 1200px) {
-  /* line 817, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 876, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .row {
     margin-left: -23px;
     *zoom: 1;
@@ -107,56 +142,56 @@
   .grid5 .row:after {
     clear: both;
   }
-  /* line 822, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 881, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 [class*="span"] {
     float: left;
     min-height: 1px;
     margin-left: 23px;
   }
-  /* line 832, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 891, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .container,
   .grid5 .navbar-static-top .container,
   .grid5 .navbar-fixed-top .container,
   .grid5 .navbar-fixed-bottom .container {
     width: 1112px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span5 {
     width: 1112px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span4 {
     width: 885px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span3 {
     width: 658px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span2 {
     width: 431px;
   }
-  /* line 843, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 902, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .span1 {
     width: 204px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset5 {
     margin-left: 1158px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset4 {
     margin-left: 931px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset3 {
     margin-left: 704px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset2 {
     margin-left: 477px;
   }
-  /* line 850, ../../../../src/css/scss/_base/_mixins.scss */
+  /* line 909, ../../../../src/css/scss/_base/_mixins.scss */
   .grid5 .offset1 {
     margin-left: 250px;
   }
@@ -189,11 +224,6 @@
 /* line 91, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-title-bar {
   padding: 1.25em 0;
-}
-
-/* line 96, ../../../../src/css/scss/modules/gallery.scss */
-.shuffle {
-  margin-top: -23px;
 }
 
 /* line 105, ../../../../src/css/scss/modules/gallery.scss */
@@ -276,69 +306,73 @@
   .gallery-item.h2 {
     height: 684px;
   }
-}
-@media (max-width: 767px) {
-  /* line 192, ../../../../src/css/scss/modules/gallery.scss */
+
+  /* line 189, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-simple .label {
     left: 0;
     right: auto;
   }
-  /* line 197, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 194, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-simple .gallery-item {
     display: table;
     height: auto;
   }
-  /* line 202, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 199, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-simple .product-img {
     display: table-cell;
     width: 33.33%;
     vertical-align: middle;
   }
-  /* line 208, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 205, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-simple .product-content {
     display: table-cell;
     width: 66.66%;
     padding-left: 5%;
   }
+
+  /* line 213, ../../../../src/css/scss/modules/gallery.scss */
+  .product-strip .gallery-item:nth-child(n + 5) {
+    display: none;
+  }
 }
-/* line 228, ../../../../src/css/scss/modules/gallery.scss */
+/* line 230, ../../../../src/css/scss/modules/gallery.scss */
 .filter-options {
   margin: 20px 0;
 }
 
-/* line 232, ../../../../src/css/scss/modules/gallery.scss */
+/* line 234, ../../../../src/css/scss/modules/gallery.scss */
 .range-control-wrap {
   margin-top: 10px;
   padding: 0 10px;
 }
 
-/* line 237, ../../../../src/css/scss/modules/gallery.scss */
+/* line 239, ../../../../src/css/scss/modules/gallery.scss */
 .range-output {
   margin-top: 10px;
   width: inherit;
   text-align: center;
 }
 
-/* line 243, ../../../../src/css/scss/modules/gallery.scss */
+/* line 245, ../../../../src/css/scss/modules/gallery.scss */
 .tab-layer h3 code {
   font-size: inherit;
   font-weight: normal;
   line-height: inherit;
 }
 
-/* line 249, ../../../../src/css/scss/modules/gallery.scss */
+/* line 251, ../../../../src/css/scss/modules/gallery.scss */
 .tab-content {
   margin-top: 20px;
   overflow: visible;
 }
 
-/* line 261, ../../../../src/css/scss/modules/gallery.scss */
+/* line 263, ../../../../src/css/scss/modules/gallery.scss */
 .tab-strip {
   position: relative;
   background-color: #f3f4f6;
 }
 
-/* line 267, ../../../../src/css/scss/modules/gallery.scss */
+/* line 269, ../../../../src/css/scss/modules/gallery.scss */
 .tabs {
   z-index: 1;
   height: 100px;
@@ -347,7 +381,7 @@
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 276, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 278, ../../../../src/css/scss/modules/gallery.scss */
   .tabs {
     position: relative;
     overflow-x: hidden;
@@ -357,12 +391,12 @@
     transition: all .4s ease-in-out;
   }
 
-  /* line 285, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 287, ../../../../src/css/scss/modules/gallery.scss */
   .tabs-container {
     overflow: hidden;
   }
 }
-/* line 290, ../../../../src/css/scss/modules/gallery.scss */
+/* line 292, ../../../../src/css/scss/modules/gallery.scss */
 .tab {
   position: relative;
   z-index: 1;
@@ -376,7 +410,7 @@
   -moz-transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
   transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
 }
-/* line 304, ../../../../src/css/scss/modules/gallery.scss */
+/* line 306, ../../../../src/css/scss/modules/gallery.scss */
 .tab.active {
   z-index: 2;
   top: -2px;
@@ -384,36 +418,36 @@
   box-shadow: 0 2px 0 white, 0 0 4px 1px rgba(0, 0, 0, 0.15);
 }
 
-/* line 314, ../../../../src/css/scss/modules/gallery.scss */
+/* line 316, ../../../../src/css/scss/modules/gallery.scss */
 .sprite-holder {
   height: 30px;
 }
 
-/* line 318, ../../../../src/css/scss/modules/gallery.scss */
+/* line 320, ../../../../src/css/scss/modules/gallery.scss */
 .tab-label {
   margin-top: 15px;
 }
 
-/* line 324, ../../../../src/css/scss/modules/gallery.scss */
+/* line 326, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav-btns {
   position: absolute;
   z-index: 5;
   height: 100px;
 }
 
-/* line 330, ../../../../src/css/scss/modules/gallery.scss */
+/* line 332, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav-wrap {
   position: relative;
   display: none;
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 336, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 338, ../../../../src/css/scss/modules/gallery.scss */
   .tab-nav-wrap {
     display: block;
   }
 }
-/* line 342, ../../../../src/css/scss/modules/gallery.scss */
+/* line 344, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav {
   position: absolute;
   z-index: 5;
@@ -426,12 +460,12 @@
   cursor: pointer;
 }
 
-/* line 354, ../../../../src/css/scss/modules/gallery.scss */
+/* line 356, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav-next {
   left: 724px;
 }
 
-/* line 359, ../../../../src/css/scss/modules/gallery.scss */
+/* line 361, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav:before {
   content: '';
   position: absolute;
@@ -446,7 +480,7 @@
   border-bottom: 5px solid transparent;
 }
 
-/* line 374, ../../../../src/css/scss/modules/gallery.scss */
+/* line 376, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav-next:before {
   border-top: 5px solid transparent;
   border-right: none;
@@ -454,7 +488,7 @@
   border-bottom: 5px solid transparent;
 }
 
-/* line 382, ../../../../src/css/scss/modules/gallery.scss */
+/* line 384, ../../../../src/css/scss/modules/gallery.scss */
 .see-all {
   text-align: center;
   background: #f3f4f6;
