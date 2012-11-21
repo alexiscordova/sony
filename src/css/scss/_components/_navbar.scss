@@ -8,23 +8,28 @@
 // -------------
 
 // Base class and wrapper
-// This has been modified just for Sony Global Nav, and is targeting via the .navbar-wrapper base class.
-// If you need to use the regular Bootstrap nav module, we're currently still including that just for docs,
-// so it won't be in the final build unless we need it to be.
-.navbar-wrapper{
+// This has been modified just for Sony Global Nav
+// If you need to use the regular Bootstrap nav module, use simple-nav.
+
+// .nav-wrapper extends the full width of the browser, 
+// even when the navbar is at a set width for a particular breakpoint.
+// 
+// All widths and sizes that change at breakpoints are in _responsive-navbar.scss
+//  -- even their default values, so it's all kept together.
+
+.nav-wrapper{ // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
   width:100%;
   height: $navbarTotalHeight;
-  
   background:$navbarBackground;
 
+  // .navbar width is set in media queries.
   .navbar {
     overflow: visible;
     color: $navbarText;
     position: relative;
     z-index: 200;
-
-    padding-left:  20px;
-    padding-right: 20px;
+    
+    margin:0 auto;
 
     // Prevent floats from breaking the navbar
     @include clearfix();
@@ -40,13 +45,16 @@
     .brand {
       float: left;
       display: block;
-      // Vertically center the text given $navbarTotalHeight
-      padding: 10px 20px;
-      margin-left: -20px; // negative indent to left-align the text down the page
+      width:89px;
+      height:31px;
+      margin: 16px 0 0;
+      background-image:url("../img/global/sony-logo.svg");
+      background-repeat:no-repeat;
+      background-position:0 0;
+      .no-svg & {
+        background-image: url("../img/global/sony-logo.png");
+      }
     }
-
-
-
 
 
     // Buttons in navbar
@@ -108,9 +116,27 @@
         padding: 4px 14px;
         @include font-sans-serif(13px, normal, 1);
         @include border-radius(15px); // redeclare because of specificity of the type attribute
-      }
-    }
 
+        color: $white;
+        background-color: $navbarInverseSearchBackground;
+        border-color: $navbarInverseSearchBorder;
+        @include box-shadow(inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15));
+        @include transition(none);
+        @include placeholder($navbarInverseSearchPlaceholderColor);
+
+        // Focus states (we use .focused since IE7-8 and down doesn't support :focus)
+        &:focus,
+        &.focused {
+          padding: 5px 15px;
+          color: $grayDark;
+          text-shadow: 0 1px 0 $white;
+          background-color: $navbarInverseSearchBackgroundFocus;
+          border: 0;
+          @include box-shadow(0 0 3px rgba(0,0,0,.15));
+          outline: 0;
+        }
+      }
+    } // end .navbar-search
 
 
     // Static navbar
@@ -121,83 +147,6 @@
       position: static;
       width: 100%;
     }
-
-
-
-    // NAVIGATION
-    // **still inside of .navbar**
-    // ----------
-    .nav {
-      // position: relative;
-      z-index:100;
-      left: 0;
-      display: block;
-      float: left;
-      margin: 0 10px 0 0;
-      &.nav-utility {
-        float: right; // redeclare due to specificity
-        margin-right: 0; // remove margin on float right nav
-      }
-      & > li {
-        float: left;
-        line-height:0.65em * $baseLineHeight;
-      }
-
-      // Links
-      & > li > a {
-        float: none;
-        // Vertically center the text given $navbarTotalHeight
-        padding: ($navbarTotalHeight / 2.5) 15px ($navbarTotalHeight / 2.5);
-
-        font-size:$navbarTextSize;
-        color: $navbarLinkColor;
-        text-decoration: none;
-      }
-
-      // carrot on text dropdown toggles
-      & > li > a.nav-dropdown-toggle-text:after{
-        @include pseudoEl-inline-block-icon();
-        @extend .icon-small-carrot-down-blue;
-        margin-left:4px;
-        position:relative;
-        top:2px;
-      }
-
-      // Hover
-      & > li > a:focus,
-      & > li > a:hover {
-        background-color: $navbarLinkBackgroundHover; // "transparent" is default to differentiate :hover from .active
-        color: $navbarLinkColorHover;
-        text-decoration: none;
-      }
-
-      // Active nav items
-      & > .active > a,
-      & > .active > a:hover,
-      & > .active > a:focus {
-        color: $navbarLinkColorActive;
-        text-decoration: none;
-        background-color: $navbarLinkBackgroundActive;
-      }
-    } // end .nav
-
-
-
-
-    // just for docs?
-    // **still inside of .navbar**
-    .brand {
-      display: block;
-      float: left;
-      padding: 10px 20px 10px;
-      margin-left: -20px;
-      font-size: 20px;
-      font-weight: 200;
-      color: #777777;
-      text-shadow: 0 1px 0 #ffffff;
-    }
-
-
 
 
 
@@ -227,137 +176,10 @@
       margin-top: 3px;
     }
 
-
-
-    // Dropdown menus
-    // --------------
-    .nav-tray{
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width:100%;
-      z-index: 10;
-      padding: 20px 0 15px;
-      margin: 0;
-      list-style: none;
-      background-color: white;
-      border-bottom: 1px solid #ccc;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-      @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
-
-      // display: none;
+    // Navbar collapse button
+    .btn-mobile-navbar-menu-trigger {
+      background:darken($navbarInverseBackgroundHighlight, 5%);
     }
-
-
-    // BELOW AREN'T TOUCHED YET
-
-    // Right aligned menus need alt position
-    // **still inside of .navbar**
-    .pull-right > li > .dropdown-menu,
-    .nav > li > .dropdown-menu.pull-right {
-      left: auto;
-      right: 0;
-      &:before {
-        left: auto;
-        right: 12px;
-      }
-      &:after {
-        left: auto;
-        right: 13px;
-      }
-      .dropdown-menu {
-        left: auto;
-        right: 100%;
-        margin-left: 0;
-        margin-right: -1px;
-        @include border-radius(6px 0 6px 6px);
-      }
-    }
-
-
-    // Inverted navbar
-    // -------------------------
-
-    &.navbar-inverse {
-      color: $navbarInverseText;
-
-      .nav {
-        & > li > a {
-          color: $navbarInverseLinkColor;
-          text-shadow: 0 -1px 0 rgba(0,0,0,.25);
-          &:hover {
-            color: $navbarInverseLinkColorHover;
-          }
-        }
-
-        & > li > a:focus,
-        & > li > a:hover {
-          background-color: $navbarInverseLinkBackgroundHover;
-          color: $navbarInverseLinkColorHover;
-        }
-
-        & .active > a,
-        & .active > a:hover,
-        & .active > a:focus {
-          color: $navbarInverseLinkColorActive;
-          background-color: $navbarInverseLinkBackgroundActive;
-        }
-
-        // Dividers in navbar
-        .divider-vertical {
-          border-left-color: $navbarInverseBackground;
-          border-right-color: $navbarInverseBackgroundHighlight;
-        }
-
-        // Dropdowns
-        // still inside of .nav
-        li.dropdown.open > .dropdown-toggle,
-        li.dropdown.active > .dropdown-toggle,
-        li.dropdown.open.active > .dropdown-toggle {
-          background-color: $navbarInverseLinkBackgroundActive;
-          color: $navbarInverseLinkColorActive;
-        }
-        li.dropdown > .dropdown-toggle .caret {
-          border-top-color: $navbarInverseLinkColor;
-          border-bottom-color: $navbarInverseLinkColor;
-        }
-        li.dropdown.open > .dropdown-toggle .caret,
-        li.dropdown.active > .dropdown-toggle .caret,
-        li.dropdown.open.active > .dropdown-toggle .caret {
-          border-top-color: $navbarInverseLinkColorActive;
-          border-bottom-color: $navbarInverseLinkColorActive;
-        }
-      }
-
-      // Navbar search
-      .navbar-search {
-        .search-query {
-          color: $white;
-          background-color: $navbarInverseSearchBackground;
-          border-color: $navbarInverseSearchBorder;
-          @include box-shadow(inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15));
-          @include transition(none);
-          @include placeholder($navbarInverseSearchPlaceholderColor);
-
-          // Focus states (we use .focused since IE7-8 and down doesn't support :focus)
-          &:focus,
-          &.focused {
-            padding: 5px 15px;
-            color: $grayDark;
-            text-shadow: 0 1px 0 $white;
-            background-color: $navbarInverseSearchBackgroundFocus;
-            border: 0;
-            @include box-shadow(0 0 3px rgba(0,0,0,.15));
-            outline: 0;
-          }
-        }
-      }
-
-      // Navbar collapse button
-      .btn-mobile-navbar-menu-trigger {
-        background:darken($navbarInverseBackgroundHighlight, 5%);
-      }
-
-    } // end .navbar-inverse
   } // end .navbar
-} // end .navbar-wrapper
+
+} // end .nav-wrapper

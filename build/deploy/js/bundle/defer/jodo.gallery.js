@@ -9,6 +9,7 @@
         self.$container = $container;
         self.$grid = self.$container.find('.products');
         self.$filterOpts = self.$container.find('.filter-options');
+        self.$sortOpts = self.$container.find('.sort-options');
 
         // Use a function if one is specified for the column width
         var col = $.isFunction( self.shuffleColumns ) ?
@@ -82,9 +83,6 @@
             $(this).siblings('.product-filter').stop().slideToggle( $.proxy( self.maybeResetRange, self ) );
         });
 
-        // Hide filters
-        self.$container.find('.product-filter').slideUp();
-
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         if ( self.sort ) {
             var sorted = false;
@@ -105,6 +103,14 @@
                 }
             });
         }
+
+        // Set up sorting
+        self.$sortOpts.on( 'change', function(evt) {
+            self.sortItems(this, evt);
+        } );
+
+        // Hide filters
+        self.$container.find('.product-filter').slideUp();
 
         self.isInitialized = true;
     };
@@ -320,6 +326,27 @@
                 console.log('resetting range control');
                 $rangeControl.rangeControl('reset');
             }
+        },
+
+        sortItems : function( select, evt ) {
+            var self = this,
+                reverse = select[ select.selectedIndex ].getAttribute('data-reverse'),
+                filterName = select.value,
+                sortObj = {};
+            
+            if ( select.value !== 'default' ) {
+                reverse = reverse === 'true' ? true : false;
+                sortObj = {
+                    reverse: reverse,
+                    by: function($el) {
+                        return $el.data('filterSet')[filterName];
+                    }
+                };
+            }
+
+            console.log(reverse, filterName, sortObj);
+
+            self.$grid.shuffle('sort', sortObj);
         },
 
         sortByPriority : function( shouldReset ) {
