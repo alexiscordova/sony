@@ -6,7 +6,7 @@
  * Use it for whatever you want!
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 11/12/12
+ * @date 11/20/12
  */
 ;(function($, Modernizr, undefined) {
     'use strict';
@@ -151,7 +151,7 @@
             }
             
             // How many filtered elements?
-            // self.visibleItems = self.$items.filter('.filtered').length;
+            self.visibleItems = self.$items.filter('.filtered').length;
 
             self._resetCols();
 
@@ -223,11 +223,6 @@
          */
         layout: function( items, fn ) {
             var self = this;
-
-            // Abort if no items
-            if ( items.length === 0 ) {
-                return;
-            }
             
             self.layoutTransitionEnded = false;
             $.each(items, function(index) {
