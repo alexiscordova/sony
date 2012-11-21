@@ -41,11 +41,11 @@ meta_data: {a:'foo', b:'bar'}
 		        <div class="navtray-section navtray-section-featured">
 		        	<h6 class="l2">Community</h6>
 		        	<ul class="navtray-list-secondary">
-		        		<li id="navtray-li-photography">Photography</li>
-		        		<li id="navtray-li-reading">Reading</li>
-		        		<li id="navtray-li-film">Film &amp; 3D</li>
-		        		<li id="navtray-li-computing">Computing</li>
-		        		<li id="navtray-li-music">Music</li>
+		        		<li id="navtray-li-photography"><a href="#" class="tl">Photography</a></li>
+		        		<li id="navtray-li-reading"><a href="#" class="tl">Reading</a></li>
+		        		<li id="navtray-li-film"><a href="#" class="tl">Film &amp; 3D</a></li>
+		        		<li id="navtray-li-computing"><a href="#" class="tl">Computing</a></li>
+		        		<li id="navtray-li-music"><a href="#" class="tl">Music</a></li>
 		        	</ul>
 		        	<div class="navtray-secondary-promo"><a href="#">Play. Watch Listen. Create</a></div>
 		        </div>
@@ -53,6 +53,7 @@ meta_data: {a:'foo', b:'bar'}
 	      </div><!-- end #navtray-electronics --> 
 	      
     	</nav><!-- end .nav-wrapper --> 
+
 
 <!-- 
 		<div>

@@ -31,13 +31,16 @@
   } // end .navbar
 
   .navtray-wrapper{
+    &.navtray-wrapper-electronics:after{ // background gray under the right side -- just needs to cover up the right margin
+      //left:$trayDividerPosition;
+    }
     .navtray{
       width:auto;
 
       .navtray-section-featured{ // section right
         padding-top:67px;
         width: (100-$trayDividerPosition);
-        padding-left: 40px;
+        padding-left: 2.8%;
       }
       .navtray-section-main{ // section left
         padding-top:56px;
@@ -50,7 +53,7 @@
           &:after{ // HR
             width:97%;
             height:14px;
-            margin-left: 0.2%;
+            margin-left: 1.7%;
           }
 
           > li{
@@ -65,7 +68,7 @@
       } // end .navtray-section-main
 
       .btn-nav-view-all{
-        margin-left: 5.3%;
+        margin-left: 5.7%;
       }
     } // end .nav-tray
   } // end .navtray-wrapper
@@ -93,6 +96,7 @@
 
         .navtray-section-featured{ // section right
           width: 100 - ($trayDividerPosition + 2);
+          padding-left: 4%;
         }
         .navtray-section-main{ // section left
           width: ($trayDividerPosition + 2);
@@ -122,13 +126,13 @@
 
       .nav{
         &.nav-primary{
-          margin-left: 11px;
+          margin-left: 1.5%;
         }
         > li > a{
-          line-height:$navbarLineHeight;
-          margin-top:11px;
+          line-height: $navbarLineHeight;
+          margin-top: 11px;
           // margin-bottom:14px;
-          // font-size:$navbarSmTextSize;
+          font-size: $font_13_16;
           padding: 0 7px;
         }
       }
@@ -138,7 +142,8 @@
         width:auto;
 
         .navtray-section-featured{ // section right
-          // padding-top: 27px;
+          padding-top: 47px;
+          padding-left:2.3%;
           width: 100 - ($trayDividerPosition - 4);
         }
         .navtray-section-main{ // section left - contents

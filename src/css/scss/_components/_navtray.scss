@@ -33,7 +33,7 @@
       height: 100%;
       position:absolute;
       top:0;
-      left:$trayDividerPosition;
+      left:$trayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
       z-index:10;
       background: $navTrayBackgroundAlt;
       color: $navTrayBackgroundAlt;
@@ -60,7 +60,15 @@
 
         ul.navtray-list-secondary{
           margin-left: 0;
-          // font-size: $13px_16px;
+          padding-top:2px;
+
+          > li {
+            line-height:1.4;
+            
+            > a {
+              font-size: $font_13_16;
+            }
+          }
         }
       }
 
