@@ -437,7 +437,17 @@
 
     <section class="tab-pane fade gallery gallery-simple" data-tab="overhead" data-five="" data-sort="">
       
-      <button class="js-filter-toggle btn">Filters</button>
+      <div class="row">
+        <div class="span3">
+          <button class="js-filter-toggle btn">Filters</button>
+        </div>
+        <div class="span8">
+          <span class="active-filters"></span>
+        </div>
+        <div class="span1">
+          <span class="clear-active-filters hidden">clear</span>
+        </div>
+      </div>
       <div class="product-filter">
         <div class="filter-options row">
 
@@ -447,7 +457,7 @@
           
           <div class="span3 filter-container">
             <span>Price</span>
-            <div class="range-control-wrap"><div class="range-control" data-filter="price" data-filter-type="range" data-min="20" data-max="1000"></div></div>
+            <div class="range-control-wrap"><div class="range-control" data-label="Price" data-filter="price" data-filter-type="range" data-min="20" data-max="1000"></div></div>
             <div class="range-output"></div>
           </div>
           
@@ -463,15 +473,16 @@
           
 
           
+          <p class="l3">Megapixels</p>
           <ul class="span3 filter-container unstyled" data-filter="megapixels" data-filter-type="button">
             
-            <li data-megapixels="14-16" class="btn">14-16MP</li>
+            <li class="btn" data-label="14-16MP" data-megapixels="14-16">14-16MP</li>
             
-            <li data-megapixels="16-18" class="btn">16-18MP</li>
+            <li class="btn" data-label="16-18MP" data-megapixels="16-18">16-18MP</li>
             
-            <li data-megapixels="18-20" class="btn">18-20MP</li>
+            <li class="btn" data-label="18-20MP" data-megapixels="18-20">18-20MP</li>
             
-            <li data-megapixels="20+" class="btn">20MP+</li>
+            <li class="btn" data-label="20MP+" data-megapixels="20+">20MP+</li>
             
           </ul>
           
@@ -487,15 +498,16 @@
           
 
           
+          <p class="l3">Features</p>
           <ul class="span3 filter-container unstyled" data-filter="features" data-filter-type="checkbox">
             
-            <li><label><input type="checkbox" value="lcd"> LCD</label></li>
+            <li><label><input data-label="LCD" type="checkbox" value="lcd"> LCD</label></li>
             
-            <li><label><input type="checkbox" value="touchscreen"> Touchscreen LCD</label></li>
+            <li><label><input data-label="Touchscreen LCD" type="checkbox" value="touchscreen"> Touchscreen LCD</label></li>
             
-            <li><label><input type="checkbox" value="panorama"> Intelligent Sweep Panorama</label></li>
+            <li><label><input data-label="Intelligent Sweep Panorama" type="checkbox" value="panorama"> Intelligent Sweep Panorama</label></li>
             
-            <li><label><input type="checkbox" value="lightweight"> Lightweight</label></li>
+            <li><label><input data-label="Lightweight" type="checkbox" value="lightweight"> Lightweight</label></li>
             
           </ul>
           
@@ -529,7 +541,7 @@
         
 
 
-        <p class="l4"><span class="text-dark">16</span> Products</p>
+        <p class="l4"><span class="text-dark product-count">16</span> Products</p>
       </div>
       <div class="products">
         
@@ -855,7 +867,17 @@
 
     <section class="tab-pane fade gallery" data-tab="inear" data-five="true" data-sort="">
       
-      <button class="js-filter-toggle btn">Filters</button>
+      <div class="row">
+        <div class="span3">
+          <button class="js-filter-toggle btn">Filters</button>
+        </div>
+        <div class="span8">
+          <span class="active-filters"></span>
+        </div>
+        <div class="span1">
+          <span class="clear-active-filters hidden">clear</span>
+        </div>
+      </div>
       <div class="product-filter">
         <div class="filter-options row">
 
@@ -865,7 +887,7 @@
           
           <div class="span3 filter-container">
             <span>Price</span>
-            <div class="range-control-wrap"><div class="range-control" data-filter="price" data-filter-type="range" data-min="10" data-max="300"></div></div>
+            <div class="range-control-wrap"><div class="range-control" data-label="Price" data-filter="price" data-filter-type="range" data-min="10" data-max="300"></div></div>
             <div class="range-output"></div>
           </div>
           
@@ -881,15 +903,16 @@
           
 
           
+          <p class="l3">Megapixels</p>
           <ul class="span3 filter-container unstyled" data-filter="megapixels" data-filter-type="button">
             
-            <li data-megapixels="14-16" class="btn">14-16MP</li>
+            <li class="btn" data-label="14-16MP" data-megapixels="14-16">14-16MP</li>
             
-            <li data-megapixels="16-18" class="btn">16-18MP</li>
+            <li class="btn" data-label="16-18MP" data-megapixels="16-18">16-18MP</li>
             
-            <li data-megapixels="18-20" class="btn">18-20MP</li>
+            <li class="btn" data-label="18-20MP" data-megapixels="18-20">18-20MP</li>
             
-            <li data-megapixels="20+" class="btn">20MP+</li>
+            <li class="btn" data-label="20MP+" data-megapixels="20+">20MP+</li>
             
           </ul>
           
@@ -903,15 +926,16 @@
           
 
           
+          <p class="l3">Categories</p>
           <ul class="span3 filter-container unstyled" data-filter="categories" data-filter-type="button">
             
-            <li data-categories="lcd" class="btn">LCD</li>
+            <li class="btn" data-label="LCD" data-categories="lcd">LCD</li>
             
-            <li data-categories="touchscreen" class="btn">Touchscreen LCD</li>
+            <li class="btn" data-label="Touchscreen LCD" data-categories="touchscreen">Touchscreen LCD</li>
             
-            <li data-categories="panorama" class="btn">Intelligent Sweep Panorama</li>
+            <li class="btn" data-label="Intelligent Sweep Panorama" data-categories="panorama">Intelligent Sweep Panorama</li>
             
-            <li data-categories="lightweight" class="btn">Lightweight</li>
+            <li class="btn" data-label="Lightweight" data-categories="lightweight">Lightweight</li>
             
           </ul>
           
@@ -947,7 +971,7 @@
         
 
 
-        <p class="l4"><span class="text-dark">16</span> Products</p>
+        <p class="l4"><span class="text-dark product-count">26</span> Products</p>
       </div>
       <div class="products grid5">
         
@@ -1219,7 +1243,7 @@
       <div class="grid5">
         
         <h2>Cases, Covers &amp; Straps</h2>
-        <div class="row">
+        <div class="product-strip row">
           
           <div class="span1 gallery-item">
             <div class="product-img ghost-center-wrap">
@@ -1292,7 +1316,7 @@
         </div>
         
         <h2>Batteries &amp; Chargers</h2>
-        <div class="row">
+        <div class="product-strip row">
           
           <div class="span1 gallery-item">
             <div class="product-img ghost-center-wrap">
@@ -1365,7 +1389,7 @@
         </div>
         
         <h2>Tripods &amp; Remotes</h2>
-        <div class="row">
+        <div class="product-strip row">
           
           <div class="span1 gallery-item">
             <div class="product-img ghost-center-wrap">
@@ -1481,8 +1505,8 @@
         
         
         <script src="js/bundle/defer/jodo.gallery.js"></script>
-        <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
+        <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
         <script src="js/bundle/defer/bootstrap-tab.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
