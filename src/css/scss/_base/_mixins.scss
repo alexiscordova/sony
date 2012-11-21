@@ -309,6 +309,95 @@ $default-transition-delay    : 0s;
 // @include transition(opacity 0.5s, left 0s);
 // @include transition(opacity 0.5s ease-in 0.2s, width 0.5s ease-in 0.2s, left 0s linear 0s);
 
+
+.hotspot .tooltip {
+	position:absolute;
+
+	left:-9999px;	
+	opacity:0;
+	-webkit-transition:	opacity 0.15s ease-in 0s;
+	   -moz-transition:	opacity 0.15s ease-in 0s;
+	    -ms-transition:	opacity 0.15s ease-in 0s; 
+	     -o-transition:	opacity 0.15s ease-in 0s;
+	        transition:	opacity 0.15s ease-in 0s;
+
+	-webkit-backface-visibility: hidden; // flicker fix
+}
+.hotspot:hover .tooltip {
+	left:86px; /* relative to left edge of hotspot */
+	opacity:1;
+	-webkit-transition:opacity 0.15s ease-out 0s;
+	   -moz-transition:opacity 0.15s ease-out 0s;
+	    -ms-transition:opacity 0.15s ease-out 0s; 
+	     -o-transition:opacity 0.15s ease-out 0s;
+	        transition:opacity 0.15s ease-out 0s;
+}
+html.no-opacity .hotspot .tooltip { visibility:hidden; }
+html.no-opacity .hotspot:hover .tooltip { visibility:visible; }
+
+
+// ----------------------------------------
+
+
+
+// ----------------------------------------
+// !!!TESTING!!!
+// Hidden elements, which fade in when activated, and fade out and then move offscreen & visibility:hidden to hopefully releive some memory.
+// ----------------------------------------
+// 
+//  <div id="TEST">
+//   	<div class="hotspot hotspot-plus">
+// 	  	<div class="circle-button"><span class="circle-btn-icon"></span></div>
+// 	  	<div class="popover">TEST</div>
+// 		</div>
+// 	</div>
+// 	
+// #TEST .hotspot{
+//   left:500px;
+//   top:500px;
+//   z-index:999999;
+// }
+// #TEST .hotspot .popover{
+//   display:block;
+//   width:400px;
+//   height:400px;
+//   background:red;
+// } 
+// #TEST .hotspot .popover{@include el-hidden();} 
+// #TEST .hotspot:hover .popover{@include el-shown();} 
+
+
+// Examples:
+// .hotspot .tooltip { @include el-hidden(); }
+// .hotspot:hover .tooltip { @include el-shown(); }
+@mixin el-hidden{
+	position:absolute;
+	-webkit-backface-visibility: hidden; // flicker fix
+
+	opacity:0;
+	left:-9999px;
+	visibility:hidden;
+	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
+}
+@mixin el-shown{
+	opacity:1;
+	left:0;
+	visibility:visible;
+	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
+}
+
+
+
+
+// Bootstrap's "Popover" only creates the popover when you open it, and destroys it after. All the data is stored in the link as data-attributes. I don't think data-attributes are very screen-reader-friendly, but I could be wrong.
+// I think it's best to use {visibility:hidden} along with {margin-left:-9999px} or {position:absolute; left:-9999px;}
+// I made 2 mixins that might work. Check them out: @mixin el-hidden and @mixin el-shown and they can be used like so:
+// .hotspot .tooltip { @include el-hidden(); }
+// .hotspot:hover .tooltip { @include el-shown(); }
+
+
+
+
 @mixin transition($transition1, $transition2:null, $transition3:null, $transition4:null, $transition5:null, $transition6:null, $transition7:null, $transition8:null) {
 	@if ($transition8!=null){
 		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
