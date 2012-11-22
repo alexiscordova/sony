@@ -15,6 +15,7 @@
 // For the white version of the icons, just add the .icon-white class:
 // <i class="icon-inbox icon-white"></i>
 
+.icon-base-class,
 [class^="icon-"],
 [class*=" icon-"] {
   display: inline-block;
@@ -34,21 +35,21 @@
 }
 
 /* White icons with optional class, or on hover/active states of certain elements */
-.icon-white,
-.nav-tabs > .active > a > [class^="icon-"],
-.nav-tabs > .active > a > [class*=" icon-"],
-.nav-pills > .active > a > [class^="icon-"],
-.nav-pills > .active > a > [class*=" icon-"],
-.nav-list > .active > a > [class^="icon-"],
-.nav-list > .active > a > [class*=" icon-"],
-.navbar-inverse .nav > .active > a > [class^="icon-"],
-.navbar-inverse .nav > .active > a > [class*=" icon-"],
-.dropdown-menu > li > a:hover > [class^="icon-"],
-.dropdown-menu > li > a:hover > [class*=" icon-"],
-.dropdown-menu > .active > a > [class^="icon-"],
-.dropdown-menu > .active > a > [class*=" icon-"] {
-  background-image: url($iconSpritePath);
-}
+// .icon-white,
+// .nav-tabs > .active > a > [class^="icon-"],
+// .nav-tabs > .active > a > [class*=" icon-"],
+// .nav-pills > .active > a > [class^="icon-"],
+// .nav-pills > .active > a > [class*=" icon-"],
+// .nav-list > .active > a > [class^="icon-"],
+// .nav-list > .active > a > [class*=" icon-"],
+// .navbar-inverse .nav > .active > a > [class^="icon-"],
+// .navbar-inverse .nav > .active > a > [class*=" icon-"],
+// .dropdown-menu > li > a:hover > [class^="icon-"],
+// .dropdown-menu > li > a:hover > [class*=" icon-"],
+// .dropdown-menu > .active > a > [class^="icon-"],
+// .dropdown-menu > .active > a > [class*=" icon-"] {
+//   background-image: url($iconSpritePath);
+// }
 
 
 
@@ -57,7 +58,7 @@
 // -----
 
 /* White icons with optional class, or on hover/active states of certain elements */
-
+// Christopher's icons
 .icon-small{
   display: inline-block;
   @include background-sprite-icon-small;
@@ -83,11 +84,13 @@
 .icon-small-carrot-up-blue      { background-position: -500px -50px; }
 .icon-small-carrot-down-gray    { background-position: -550px -50px; }
 .icon-small-carrot-up-gray      { background-position: -600px -50px; }
+.icon-med-carrot-down-white     { background-position: -650px -50px; }
 
 
 
+// Glen's icons
+// Glen -- what about icons that need a :hover and an :active state? Shouldn't .active be .hover, and a 3rd state that's .active with a possible 3rd color?
 // TODO: THE REST
-
 // 30px x 30px grid, double spaced vertically
 @mixin icon($name, $x, $w, $h, $hasActive: true) {
   .icon-#{$name} {
@@ -121,6 +124,36 @@
 @include icon(star, -720px, 13px, 13px);
 
 
+
+
+
+// Christopher's shot at extending Glen's icons
+// 30px x 30px grid, double spaced vertically, row 3
+@mixin icon-mini($name, $x, $w, $h, $hasActive: true) {
+  .icon-mini-#{$name} {
+    background-position: $x -180px;
+    @include size($h, $w);
+
+    @if ( $hasActive ) {
+      &.active,
+      .tab.active &,
+      .active & { background-position: $x -210px; }
+    }
+  }
+}
+
+.nav-sony-logo{
+  @extend .icon-base-class;
+  background-position: 0 -180px;
+  @include size(31px,89px);
+}
+@include icon-mini(global-nav-indicator, -90px, 22px, 9px, false);
+@include icon-mini(grid, -120px, 16px, 16px, false);
+@include icon-mini(favorite, -150px, 15px, 13px);
+@include icon-mini(cart, -180px, 17px, 14px);
+@include icon-mini(arrow-down-gray, -210px, 7px, 4px);
+@include icon-mini(search, -240px, 30px, 13px);
+@include icon-mini(plus-tiny, -270px, 9px, 9px, false);
 
 
 
