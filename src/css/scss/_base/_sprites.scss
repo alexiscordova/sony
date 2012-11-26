@@ -20,13 +20,10 @@
 [class^="icon-"],
 [class*=" icon-"] {
   display: inline-block;
-  width: 15px;
-  height: 15px;
   @include ie7-restore-right-whitespace();
   line-height: 15px;
   vertical-align: text-top;
   background-image: url($iconSpritePath);
-  background-position: 0 0;
   background-repeat: no-repeat;
 
   .no-svg & {
@@ -99,7 +96,7 @@
 
     @if ( $hasActive ) {
       &.active,
-      .tab.active & { background-position: $x -60px; }
+      .tab.active & { background-position: $x -120px; }
     }
   }
 }
@@ -136,30 +133,37 @@
 
     @if ( $hasActive ) {
       &.active,
-      .tab.active &,
-      .active & { background-position: $x -210px; }
+      .tab.active & { background-position: $x -210px; }
     }
   }
 }
-@include icon-mini(favorite,                0px,      15px,   13px);
-@include icon-mini(cart,                    -30px,    17px,   14px);
-@include icon-mini(search,                  -60px,    30px,   13px);
-@include icon-mini(arrowhead-down-gray,     -90px,    7px,    4px);
-@include icon-mini(arrowhead-up-gray,       -120px,   7px,    4px);
-@include icon-mini(arrowhead-down-white,    -150px,   7px,    4px);
-@include icon-mini(arrowhead-up-white,      -180px,   7px,    4px);
-@include icon-mini(arrowhead-down-blue,     -210px,   7px,    4px);
-@include icon-mini(arrowhead-up-blue,       -240px,   7px,    4px);
-@include icon-mini(arrow-right-white,       -270px,   7px,    4px);
-@include icon-mini(arrow-right-blue,        -300px,   7px,    4px);
-@include icon-mini(global-nav-indicator,    -330px,   22px,   9px,    false);
-@include icon-mini(grid,                    -360px,   16px,   16px,   false);
-@include icon-mini(star,                    -390px,   13px,   13px);
-@include icon-mini(arrowheads-up-down-gray, -420px,   8px,    11px);
-@include icon-mini(plus-tiny,               -450px,   9px,    9px);
-@include icon-mini(plus-skinny,             -480px,   16px,   16px);
-@include icon-mini(x-skinny,                -510px,   16px,   16px);
-@include icon-mini(revealer-l-r-xl,         -540px,   33px,   33px);
+@include icon-mini(favorite,                   0px,      15px,   13px);
+@include icon-mini(cart,                       -30px,    17px,   14px);
+@include icon-mini(search,                     -60px,    30px,   13px);
+@include icon-mini(arrowhead-down-gray,        -90px,    7px,    4px);
+@include icon-mini(arrowhead-up-gray,          -120px,   7px,    4px);
+@include icon-mini(arrowhead-down-white,       -150px,   7px,    4px);
+@include icon-mini(arrowhead-up-white,         -180px,   7px,    4px);
+@include icon-mini(arrowhead-down-blue,        -210px,   7px,    4px);
+@include icon-mini(arrowhead-up-blue,          -240px,   7px,    4px);
+@include icon-mini(arrow-right-white,          -270px,   7px,    4px);
+@include icon-mini(arrow-right-blue,           -300px,   7px,    4px);
+@include icon-mini(global-nav-indicator,       -330px,   22px,   9px,    false);
+@include icon-mini(grid,                       -360px,   16px,   16px,   false);
+@include icon-mini(star,                       -390px,   13px,   13px);
+@include icon-mini(arrowheads-up-down-gray,    -420px,   8px,    11px);
+@include icon-mini(plus-tiny,                  -450px,   9px,    9px);
+@include icon-mini(plus-skinny,                -480px,   16px,   16px);
+@include icon-mini(x-skinny,                   -510px,   16px,   16px);
+@include icon-mini(revealer-l-r-xl,            -540px,   33px,   33px);
+
+
+@include icon-mini(arrow-right-white-boxed, -256px, 40px, 37px);
+.icon-mini-arrow-right-white-boxed{ background-position:-256px -167px; }
+@include icon-mini(arrow-right-white-boxed-bordered1, -257px, 38px, 35px);
+.icon-mini-arrow-right-white-boxed-bordered1{ background-position:-257px -166px; }
+@include icon-mini(arrow-right-blue-boxed-bordered2, -286px, 38px, 33px);
+.icon-mini-arrow-right-blue-boxed-bordered2{ background-position: -286px -167px; }
 
 
 

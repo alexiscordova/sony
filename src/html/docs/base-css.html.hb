@@ -29,8 +29,7 @@
 			        <ul class="simple-nav nav-list bs-docs-sidenav">
 			          <li><a href="#typography"><i class="icon-chevron-right"></i> Typography</a></li>
 			          <li><a href="#buttons"><i class="icon-chevron-right"></i> Buttons</a></li>
-			          <li><a href="#colors"><i class="icon-chevron-right"></i> Colors</a></li>
-			
+			          <li><a href="#colors"><i class="icon-chevron-right"></i> Colors</a></li>			
 			          <li><a href="#forms"><i class="icon-chevron-right"></i> Forms</a></li>
 			          <li><a href="#utilities"><i class="icon-chevron-right"></i> Utility Classes</a></li>
 			          <li><a href="#icons"><i class="icon-chevron-right"></i> Icons</a></li>
@@ -507,7 +506,7 @@
 			          <h5 class="bs-docs-heading">'Promo' Button<small> &ndash; Used for promotions</small></h5>
 			          <div class="bs-docs-example">
 			            <p>
-			              <a class="btn btn-promo text-promo-title"><strong>Exmor<br></strong> Technology</a>
+			              <a class="btn btn-promo text-promo-title"><strong>Exmor<br></strong> Technology<i class="icon-mini-arrow-right-white-boxed"></i></a>
 			            </p>
 			          </div>
 			<pre class="prettyprint linenums">
@@ -810,7 +809,7 @@
 			          <h5 class="bs-docs-heading">Fused Submit Form</h5>
 			          <p>Add <code>.form-fused</code> to the <code>&lt;form&gt;</code> for a fused input/button combo. In this particular case, make sure there is no whitespace in the code between the <code>&lt;input&gt;</code> and the <code>&lt;button&gt;</code> to avoid extra spacing between them.</p>
 			          <form class="bs-docs-example form-fused">
-			            <input type="text" class="input-medium" placeholder="City or Postal Code"><button type="submit">Submit</button>
+			            <input type="text" class="input-medium" placeholder="City or Postal Code"><button type="submit">Submit<i class="icon-mini-arrow-right-white-boxed-bordered1"></i></button>
 			          </form>
 <pre class="prettyprint linenums">
 &lt;form class="form-fused"&gt;
@@ -821,7 +820,7 @@
 			          <h5>Fused Submit Form (Alternate)</h5>
 			          <p>Add <code>.form-fused-alt</code> to the <code>&lt;form&gt;</code> for an alternate fused input/button combo. In this particular case, make sure there is no whitespace in the code between the <code>&lt;input&gt;</code> and the <code>&lt;button&gt;</code> to avoid extra spacing between them.</p>
 			          <form class="bs-docs-example form-fused-alt">
-			            <input type="text" class="input-medium" placeholder="Your Email"><button type="submit">Submit</button>
+			            <input type="text" class="input-medium" placeholder="Your Email"><button type="submit">Submit<i class="icon-mini-arrow-right-blue-boxed-bordered2"></i></button>
 			          </form>
 <pre class="prettyprint linenums">
 &lt;form class="form-fused-alt"&gt;

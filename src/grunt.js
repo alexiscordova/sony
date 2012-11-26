@@ -137,6 +137,18 @@ module.exports = function(grunt) {
 					'../docs/css/' 				: 'css/docs/*.css'
 				}
 			},
+			docslight:{
+				files:{
+					'../docs/css/' 				: 'css/docs/*.css'
+				}
+			},
+			docsimg:{
+				files:{
+					'../docs/img/' 				: 'img/build/**',
+					'../docs/img/' 				: 'img/docs/**',
+					'../docs/ico/' 				: 'img/ico/**',
+				}
+			}
 			
 		},
 		shell:{
@@ -169,6 +181,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
 	grunt.registerTask('debug-img', 'copy:debugimg');
 	grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
+	grunt.registerTask('docs-light', 'compass-clean compass:docs compass:docs_extra copy:docslight shell:docpad_docs');
+	grunt.registerTask('docs-img', 'copy:docsimg');
 	grunt.registerTask('deploy', 'clear lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
 	grunt.registerTask('default', 'debug');
 	grunt.registerTask('all', 'clean debug deploy docs');
