@@ -933,7 +933,8 @@ h6 {
   height: 50px;
   position: relative;
   top: 1px;
-  margin-left: 7px;
+  margin-left: 9px;
+  margin-top: 5px;
 }
 /* line 168, ../../../src/css/scss/_base/_type.scss */
 .tl-arrow-right.tl-large:after {
@@ -3054,6 +3055,10 @@ input[type="submit"].btn.btn-mini {
   position: absolute;
   z-index: 100;
   background-color: rgba(47, 53, 61, 0.1);
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 62px;
   height: 62px;
   margin: -31px 0 0 -31px;
@@ -3089,6 +3094,10 @@ input[type="submit"].btn.btn-mini {
   z-index: 100;
   cursor: pointer;
   background-color: rgba(47, 53, 61, 0.15);
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 72px;
   height: 72px;
   margin: -36px 0 0 -36px;
@@ -3118,6 +3127,10 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 46, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot.hotspot-large {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 80px;
   height: 80px;
   margin: -40px 0 0 -40px;
@@ -3127,6 +3140,10 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 47, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot.hotspot-xlarge {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 96px;
   height: 96px;
   margin: -48px 0 0 -48px;
@@ -3136,6 +3153,10 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 48, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot.hotspot-large:hover {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 90px;
   height: 90px;
   margin: -45px 0 0 -45px;
@@ -3145,6 +3166,10 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 49, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot.hotspot-xlarge:hover {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 106px;
   height: 106px;
   margin: -53px 0 0 -53px;
@@ -3155,6 +3180,10 @@ input[type="submit"].btn.btn-mini {
 /* line 52, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot .circle-button {
   z-index: 1;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   display: block;
   position: absolute;
   top: 50%;
@@ -3195,10 +3224,9 @@ input[type="submit"].btn.btn-mini {
   -ms-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
   transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
 }
-/* line 70, ../../../src/css/scss/_base/_hotspots.scss */
-.hotspot .circle-button .circle-button-icon {
-  background-image: url("../img/spritesheet-icons-small.png");
-  background-repeat: no-repeat;
+/* line 72, ../../../src/css/scss/_base/_hotspots.scss */
+.hotspot .circle-button [class^="icon-mini-"],
+.hotspot .circle-button [class*=" icon-mini-"] {
   display: block;
   position: absolute;
   top: 50%;
@@ -3207,7 +3235,7 @@ input[type="submit"].btn.btn-mini {
   height: 16px;
   margin: -8px 0 0 -8px;
 }
-/* line 81, ../../../src/css/scss/_base/_hotspots.scss */
+/* line 76, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot.hotspot-secondary .circle-button {
   background-color: #8b8b96;
   background-image: -moz-linear-gradient(top, #90909b, #83838f);
@@ -3218,8 +3246,12 @@ input[type="submit"].btn.btn-mini {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF90909B', endColorstr='#FF83838F', GradientType=0);
 }
-/* line 85, ../../../src/css/scss/_base/_hotspots.scss */
+/* line 80, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot.hotspot-large .circle-button {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 60px;
   height: 60px;
   margin: -30px 0 0 -30px;
@@ -3227,14 +3259,23 @@ input[type="submit"].btn.btn-mini {
   -moz-border-radius: 30px;
   border-radius: 30px;
 }
-/* line 87, ../../../src/css/scss/_base/_hotspots.scss */
-.hotspot.hotspot-large .circle-button .circle-button-icon {
+/* line 83, ../../../src/css/scss/_base/_hotspots.scss */
+.hotspot.hotspot-large .circle-button [class^="icon-mini-"],
+.hotspot.hotspot-large .circle-button [class*=" icon-mini-"] {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 24px;
   height: 24px;
   margin: -12px 0 0 -12px;
 }
-/* line 91, ../../../src/css/scss/_base/_hotspots.scss */
+/* line 87, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot.hotspot-xlarge .circle-button {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 76px;
   height: 76px;
   margin: -38px 0 0 -38px;
@@ -3242,24 +3283,24 @@ input[type="submit"].btn.btn-mini {
   -moz-border-radius: 38px;
   border-radius: 38px;
 }
-/* line 93, ../../../src/css/scss/_base/_hotspots.scss */
-.hotspot.hotspot-xlarge .circle-button .circle-button-icon {
-  width: 40px;
-  height: 40px;
-  margin: -20px 0 0 -20px;
+/* line 90, ../../../src/css/scss/_base/_hotspots.scss */
+.hotspot.hotspot-xlarge .circle-button [class^="icon-mini-"],
+.hotspot.hotspot-xlarge .circle-button [class*=" icon-mini-"] {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
 }
-/* line 99, ../../../src/css/scss/_base/_hotspots.scss */
+/* line 96, ../../../src/css/scss/_base/_hotspots.scss */
 .hotspot:active .circle-button {
   -webkit-box-shadow: inset 3px 3px 4px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: inset 3px 3px 4px 0px rgba(0, 0, 0, 0.3);
   -ms-box-shadow: inset 3px 3px 4px 0px rgba(0, 0, 0, 0.3);
   -o-box-shadow: inset 3px 3px 4px 0px rgba(0, 0, 0, 0.3);
   box-shadow: inset 3px 3px 4px 0px rgba(0, 0, 0, 0.3);
-}
-
-/* line 108, ../../../src/css/scss/_base/_hotspots.scss */
-.hotspot-xlarge-revealer .circle-button .circle-button-icon {
-  background-position: -287px -38px;
 }
 
 /* line 9, ../../../src/css/scss/_components/_alerts.scss */
@@ -3327,11 +3368,11 @@ input[type="submit"].btn.btn-mini {
   margin-top: 5px;
 }
 
-/* line 21, ../../../src/css/scss/_base/_sprites.scss */
-[class^="sprite-"],
+/* line 18, ../../../src/css/scss/_base/_sprites.scss */
+.sprite-base-class, [class^="sprite-"],
 [class*=" sprite-"],
 [class^="icon-"],
-[class*=" icon-"] {
+[class*=" icon-"], .icon-mini-pseudo-el-arrow-right-blue, .tl-arrow-right:after {
   display: inline-block;
   *margin-right: .3em;
   line-height: 15px;
@@ -3339,7 +3380,8 @@ input[type="submit"].btn.btn-mini {
   background-image: url("../img/spritesheet.svg");
   background-repeat: no-repeat;
 }
-/* line 29, ../../../src/css/scss/_base/_sprites.scss */
+
+/* line 33, ../../../src/css/scss/_base/_sprites.scss */
 .no-svg [class^="sprite-"], .no-svg
 [class*=" sprite-"], .no-svg
 [class^="icon-"], .no-svg
@@ -3349,8 +3391,8 @@ input[type="submit"].btn.btn-mini {
 
 /* White icons with optional class, or on hover/active states of certain elements */
 /* White icons with optional class, or on hover/active states of certain elements */
-/* line 59, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small, .tl-arrow-right:after {
+/* line 63, ../../../src/css/scss/_base/_sprites.scss */
+.icon-small {
   display: inline-block;
   background-image: url("../img/spritesheet-icons-small.png");
   background-repeat: no-repeat;
@@ -3363,514 +3405,465 @@ input[type="submit"].btn.btn-mini {
   background-position: 15px 15px;
 }
 
-/* Positions are for a 15px by 15px container. */
-/* line 72, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-arrow-right-white {
-  background-position: -50px -50px;
-}
-
-/* line 73, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-arrow-right-blue, .tl-arrow-right:after {
-  background-position: -100px -50px;
-}
-
-/* line 75, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-plus-white, .hotspot-plus .circle-button .circle-button-icon {
-  background-position: -200px -50px;
-}
-
-/* line 76, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-x-white, .hotspot-close .circle-button .circle-button-icon {
-  background-position: -250px -50px;
-}
-
-/* line 78, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-carrot-down-white {
-  background-position: -350px -50px;
-}
-
-/* line 79, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-carrot-up-white {
-  background-position: -400px -50px;
-}
-
-/* line 80, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-carrot-down-blue {
-  background-position: -450px -50px;
-}
-
-/* line 81, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-carrot-up-blue {
-  background-position: -500px -50px;
-}
-
 /* line 82, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-carrot-down-gray {
-  background-position: -550px -50px;
-}
-
-/* line 83, ../../../src/css/scss/_base/_sprites.scss */
-.icon-small-carrot-up-gray {
-  background-position: -600px -50px;
-}
-
-/* line 84, ../../../src/css/scss/_base/_sprites.scss */
-.icon-med-carrot-down-white {
-  background-position: -650px -50px;
-}
-
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
 .icon-laptop {
   background-position: 0 0;
   width: 33px;
   height: 24px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-laptop.active, .tab.active .icon-laptop {
   background-position: 0 -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tablet {
   background-position: -60px 0;
   width: 20px;
   height: 26px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tablet.active, .tab.active .icon-tablet {
   background-position: -60px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-memory-stick {
   background-position: -90px 0;
   width: 16px;
   height: 21px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-memory-stick.active, .tab.active .icon-memory-stick {
   background-position: -90px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tv {
   background-position: -120px 0;
   width: 35px;
   height: 26px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tv.active, .tab.active .icon-tv {
   background-position: -120px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-projector {
   background-position: -180px 0;
   width: 38px;
   height: 18px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-projector.active, .tab.active .icon-projector {
   background-position: -180px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-water-drop {
   background-position: -240px 0;
   width: 15px;
   height: 20px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-water-drop.active, .tab.active .icon-water-drop {
   background-position: -240px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mic {
   background-position: -270px 0;
   width: 11px;
   height: 27px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mic.active, .tab.active .icon-mic {
   background-position: -270px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-dongle {
   background-position: -300px 0;
   width: 14px;
   height: 27px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-dongle.active, .tab.active .icon-dongle {
   background-position: -300px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-cd {
   background-position: -330px 0;
   width: 27px;
   height: 26px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-cd.active, .tab.active .icon-cd {
   background-position: -330px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-handycam {
   background-position: -360px 0;
   width: 36px;
   height: 22px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-handycam.active, .tab.active .icon-handycam {
   background-position: -360px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-video-camera {
   background-position: -420px 0;
   width: 38px;
   height: 28px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-video-camera.active, .tab.active .icon-video-camera {
   background-position: -420px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-grid {
   background-position: -480px 0;
   width: 27px;
   height: 27px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-grid.active, .tab.active .icon-grid {
   background-position: -480px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-grid-alt {
   background-position: -510px 0;
   width: 26px;
   height: 26px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-grid-alt.active, .tab.active .icon-grid-alt {
   background-position: -510px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-headphones {
   background-position: -540px 0;
   width: 27px;
   height: 27px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-headphones.active, .tab.active .icon-headphones {
   background-position: -540px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-earbuds {
   background-position: -570px 0;
   width: 45px;
   height: 24px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-earbuds.active, .tab.active .icon-earbuds {
   background-position: -570px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-earclips {
   background-position: -630px 0;
   width: 17px;
   height: 28px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-earclips.active, .tab.active .icon-earclips {
   background-position: -630px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-neckphones {
   background-position: -660px 0;
   width: 45px;
   height: 19px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-neckphones.active, .tab.active .icon-neckphones {
   background-position: -660px -120px;
 }
 
-/* line 93, ../../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../../src/css/scss/_base/_sprites.scss */
 .icon-star {
   background-position: -720px 0;
   width: 13px;
   height: 13px;
 }
-/* line 99, ../../../src/css/scss/_base/_sprites.scss */
+/* line 88, ../../../src/css/scss/_base/_sprites.scss */
 .icon-star.active, .tab.active .icon-star {
   background-position: -720px -120px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-favorite {
   background-position: 0px -180px;
   width: 15px;
   height: 13px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-favorite.active, .tab.active .icon-mini-favorite {
   background-position: 0px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-cart {
   background-position: -30px -180px;
   width: 17px;
   height: 14px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-cart.active, .tab.active .icon-mini-cart {
   background-position: -30px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-search {
   background-position: -60px -180px;
   width: 30px;
   height: 13px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-search.active, .tab.active .icon-mini-search {
   background-position: -60px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-down-gray {
   background-position: -90px -180px;
   width: 7px;
   height: 4px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-down-gray.active, .tab.active .icon-mini-arrowhead-down-gray {
   background-position: -90px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-up-gray {
   background-position: -120px -180px;
   width: 7px;
   height: 4px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-up-gray.active, .tab.active .icon-mini-arrowhead-up-gray {
   background-position: -120px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-down-white {
   background-position: -150px -180px;
   width: 7px;
   height: 4px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-down-white.active, .tab.active .icon-mini-arrowhead-down-white {
   background-position: -150px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-up-white {
   background-position: -180px -180px;
   width: 7px;
   height: 4px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-up-white.active, .tab.active .icon-mini-arrowhead-up-white {
   background-position: -180px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-down-blue {
   background-position: -210px -180px;
   width: 7px;
   height: 4px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-down-blue.active, .tab.active .icon-mini-arrowhead-down-blue {
   background-position: -210px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-up-blue {
   background-position: -240px -180px;
   width: 7px;
   height: 4px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowhead-up-blue.active, .tab.active .icon-mini-arrowhead-up-blue {
   background-position: -240px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-white {
   background-position: -270px -180px;
   width: 7px;
   height: 4px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-white.active, .tab.active .icon-mini-arrow-right-white {
   background-position: -270px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-blue {
   background-position: -300px -180px;
   width: 7px;
   height: 4px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-blue.active, .tab.active .icon-mini-arrow-right-blue {
   background-position: -300px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-global-nav-indicator {
   background-position: -330px -180px;
   width: 22px;
   height: 9px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-grid {
   background-position: -360px -180px;
   width: 16px;
   height: 16px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-star {
   background-position: -390px -180px;
   width: 13px;
   height: 13px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-star.active, .tab.active .icon-mini-star {
   background-position: -390px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowheads-up-down-gray {
   background-position: -420px -180px;
   width: 8px;
   height: 11px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrowheads-up-down-gray.active, .tab.active .icon-mini-arrowheads-up-down-gray {
   background-position: -420px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-plus-tiny {
   background-position: -450px -180px;
   width: 9px;
   height: 9px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-plus-tiny.active, .tab.active .icon-mini-plus-tiny {
   background-position: -450px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-plus-skinny {
   background-position: -480px -180px;
   width: 16px;
   height: 16px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-plus-skinny.active, .tab.active .icon-mini-plus-skinny {
   background-position: -480px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-x-skinny {
   background-position: -510px -180px;
   width: 16px;
   height: 16px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-x-skinny.active, .tab.active .icon-mini-x-skinny {
   background-position: -510px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-revealer-l-r-xl {
   background-position: -540px -180px;
-  width: 33px;
-  height: 33px;
+  width: 32px;
+  height: 32px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-revealer-l-r-xl.active, .tab.active .icon-mini-revealer-l-r-xl {
   background-position: -540px -210px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-white-boxed {
   background-position: -256px -180px;
   width: 40px;
   height: 37px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-white-boxed.active, .tab.active .icon-mini-arrow-right-white-boxed {
   background-position: -256px -210px;
 }
 
-/* line 162, ../../../src/css/scss/_base/_sprites.scss */
+/* line 151, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-white-boxed {
   background-position: -256px -167px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-white-boxed-bordered1 {
   background-position: -257px -180px;
   width: 38px;
   height: 35px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-white-boxed-bordered1.active, .tab.active .icon-mini-arrow-right-white-boxed-bordered1 {
   background-position: -257px -210px;
 }
 
-/* line 164, ../../../src/css/scss/_base/_sprites.scss */
+/* line 153, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-white-boxed-bordered1 {
   background-position: -257px -166px;
 }
 
-/* line 130, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-blue-boxed-bordered2 {
   background-position: -286px -180px;
   width: 38px;
   height: 33px;
 }
-/* line 136, ../../../src/css/scss/_base/_sprites.scss */
+/* line 125, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-blue-boxed-bordered2.active, .tab.active .icon-mini-arrow-right-blue-boxed-bordered2 {
   background-position: -286px -210px;
 }
 
-/* line 166, ../../../src/css/scss/_base/_sprites.scss */
+/* line 155, ../../../src/css/scss/_base/_sprites.scss */
 .icon-mini-arrow-right-blue-boxed-bordered2 {
   background-position: -286px -167px;
 }
 
-/* line 171, ../../../src/css/scss/_base/_sprites.scss */
+/* line 160, ../../../src/css/scss/_base/_sprites.scss */
 .sprite-nav-sony-logo {
   background-position: 0 -300px;
   width: 89px;
   height: 31px;
+}
+
+/* line 172, ../../../src/css/scss/_base/_sprites.scss */
+.icon-mini-pseudo-el-arrow-right-blue, .tl-arrow-right:after {
+  background-position: -300px -180px;
+  width: 11px;
+  height: 8px;
 }
 
 /* line 8, ../../../src/css/scss/_components/_dropdowns.scss */
@@ -3889,36 +3882,29 @@ input[type="submit"].btn.btn-mini {
   border-color: #706c78;
 }
 /* line 19, ../../../src/css/scss/_components/_dropdowns.scss */
-.dropdown-toggle:after,
-.btn.dropdown-toggle:after {
-  background-image: url("../img/spritesheet-icons-small.png");
-  background-repeat: no-repeat;
-  content: '';
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  background-position: -150px -50px;
+.dropdown-toggle .icon-mini-arrowheads-up-down-gray,
+.btn.dropdown-toggle .icon-mini-arrowheads-up-down-gray {
   float: right;
-  margin: 6px 12px 0 0;
+  margin: 7px 15px 0 0;
 }
-/* line 26, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 24, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle:hover,
 .btn.dropdown-toggle:hover {
   background-color: #75717d;
 }
-/* line 29, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 27, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle:active,
 .btn.dropdown-toggle:active {
   background-color: #706c78;
 }
 
-/* line 34, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 32, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle:active,
 .open .dropdown-toggle {
   outline: 0;
 }
 
-/* line 39, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 37, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle.btn-small,
 .dropdown-toggle.btn.btn-small {
   width: 129px;
@@ -3927,36 +3913,31 @@ input[type="submit"].btn.btn-mini {
   font-size: 0.733333333333333em;
   /* 11px/15px */
 }
-/* line 45, ../../../src/css/scss/_components/_dropdowns.scss */
-.dropdown-toggle.btn-small:after,
-.dropdown-toggle.btn.btn-small:after {
-  margin: 0px 11px 0 0;
+/* line 43, ../../../src/css/scss/_components/_dropdowns.scss */
+.dropdown-toggle.btn-small .icon-mini-arrowheads-up-down-gray,
+.dropdown-toggle.btn.btn-small .icon-mini-arrowheads-up-down-gray {
+  margin: 0px 14px 0 0;
 }
 
-/* line 51, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 49, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle-alt,
 .btn.dropdown-toggle-alt {
   background-color: white;
   border-color: #e4e7eb;
   color: #83838f;
 }
-/* line 56, ../../../src/css/scss/_components/_dropdowns.scss */
-.dropdown-toggle-alt:after,
-.btn.dropdown-toggle-alt:after {
-  background-position: -150px -50px;
-}
-/* line 60, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 54, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle-alt:hover,
 .btn.dropdown-toggle-alt:hover {
   background-color: #fafafa;
 }
-/* line 63, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 57, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle-alt:active,
 .btn.dropdown-toggle-alt:active {
   background-color: #fcfcfc;
 }
 
-/* line 76, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 70, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -3982,12 +3963,12 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   background-clip: padding-box;
 }
-/* line 98, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 92, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu.pull-right {
   right: 0;
   left: auto;
 }
-/* line 104, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 98, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .divider {
   *width: 100%;
   height: 1px;
@@ -3997,7 +3978,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #e5e5e5;
   border-bottom: 1px solid white;
 }
-/* line 109, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 103, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu a {
   display: block;
   padding: 3px 20px;
@@ -4008,7 +3989,7 @@ input[type="submit"].btn.btn-mini {
   white-space: nowrap;
 }
 
-/* line 124, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 118, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus,
 .dropdown-submenu:hover > a {
@@ -4025,7 +4006,7 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4571EC', endColorstr='#FF2E5FEA', GradientType=0);
 }
 
-/* line 134, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 128, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .active > a,
 .dropdown-menu .active > a:hover {
   color: white;
@@ -4042,35 +4023,35 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4571EC', endColorstr='#FF2E5FEA', GradientType=0);
 }
 
-/* line 146, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 140, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .disabled > a,
 .dropdown-menu .disabled > a:hover {
   color: #bcbccc;
 }
 
-/* line 150, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 144, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .disabled > a:hover {
   text-decoration: none;
   background-color: transparent;
   cursor: default;
 }
 
-/* line 158, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 152, ../../../src/css/scss/_components/_dropdowns.scss */
 .open {
   *z-index: 1000;
 }
-/* line 163, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 157, ../../../src/css/scss/_components/_dropdowns.scss */
 .open > .dropdown-menu {
   display: block;
 }
 
-/* line 170, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 164, ../../../src/css/scss/_components/_dropdowns.scss */
 .pull-right > .dropdown-menu {
   right: 0;
   left: auto;
 }
 
-/* line 182, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 176, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropup .dropdown-menu,
 .navbar-fixed-bottom .dropdown .dropdown-menu {
   top: auto;
@@ -4078,12 +4059,12 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 1px;
 }
 
-/* line 191, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 185, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu {
   position: relative;
 }
 
-/* line 194, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 188, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu > .dropdown-menu {
   top: 0;
   left: 100%;
@@ -4091,12 +4072,12 @@ input[type="submit"].btn.btn-mini {
   margin-left: -1px;
 }
 
-/* line 200, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 194, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
 
-/* line 204, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 198, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu > a:after {
   display: block;
   content: " ";
@@ -4111,18 +4092,18 @@ input[type="submit"].btn.btn-mini {
   margin-right: -10px;
 }
 
-/* line 217, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 211, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu:hover > a:after {
   border-left-color: white;
 }
 
-/* line 225, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 219, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown .dropdown-menu .nav-header {
   padding-left: 20px;
   padding-right: 20px;
 }
 
-/* line 232, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 226, ../../../src/css/scss/_components/_dropdowns.scss */
 .typeahead {
   margin-top: 2px;
 }
@@ -7191,7 +7172,7 @@ a.label:hover, a.badge:hover {
   text-align: center;
 }
 
-/* line 1101, ../../../src/css/scss/_base/_mixins.scss */
+/* line 1105, ../../../src/css/scss/_base/_mixins.scss */
 .ghost-center-wrap:before {
   content: '';
   display: inline-block;

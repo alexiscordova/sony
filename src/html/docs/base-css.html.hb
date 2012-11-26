@@ -511,7 +511,7 @@
 			          </div>
 			<pre class="prettyprint linenums">
 			&lt;p&gt;
-			  &lt;a class="btn btn-promo"&gt;...&lt;/a&gt;
+			  &lt;a class="btn btn-promo"&gt;...&lt;i class="icon-mini-arrow-right-white-boxed"&gt;&lt;/i&gt;&lt;/a&gt;
 			&lt;/p&gt;
 			</pre>
 			
@@ -813,7 +813,7 @@
 			          </form>
 <pre class="prettyprint linenums">
 &lt;form class="form-fused"&gt;
-  &lt;input type="text" class="input-medium" placeholder="City or Postal Code"&gt;&lt;button type="submit"&gt;Search&lt;/button&gt;
+  &lt;input type="text" class="input-medium" placeholder="City or Postal Code"&gt;&lt;button type="submit"&gt;Submit&lt;i class="icon-mini-arrow-right-blue-boxed-bordered1"&gt;&lt;/i&gt;&lt;/button&gt;
 &lt;/form&gt;
 </pre>
 			
@@ -824,7 +824,7 @@
 			          </form>
 <pre class="prettyprint linenums">
 &lt;form class="form-fused-alt"&gt;
-  &lt;input type="text" class="input-medium" placeholder="Your Email"&gt;&lt;button type="submit"&gt;Search&lt;/button&gt;
+  &lt;input type="text" class="input-medium" placeholder="Your Email"&gt;&lt;button type="submit"&gt;Submit&lt;i class="icon-mini-arrow-right-blue-boxed-bordered2"&gt;&lt;/i&gt;&lt;/button&gt;
 &lt;/form&gt;
 </pre>
 							

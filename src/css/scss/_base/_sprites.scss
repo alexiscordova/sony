@@ -15,16 +15,20 @@
 // For the white version of the icons, just add the .icon-white class:
 // <i class="icon-inbox icon-white"></i>
 
-[class^="sprite-"],
-[class*=" sprite-"],
-[class^="icon-"],
-[class*=" icon-"] {
+.sprite-base-class{
   display: inline-block;
   @include ie7-restore-right-whitespace();
   line-height: 15px;
   vertical-align: text-top;
   background-image: url($iconSpritePath);
-  background-repeat: no-repeat;
+  background-repeat: no-repeat;  
+}
+
+[class^="sprite-"],
+[class*=" sprite-"],
+[class^="icon-"],
+[class*=" icon-"] {
+  @extend .sprite-base-class;
 
   .no-svg & {
     background-image: url($iconSpritePathFallback);
@@ -67,21 +71,6 @@
   margin-top: 1px;
   background-position: 15px 15px;
 }
-
-/* Positions are for a 15px by 15px container. */
-.icon-small-arrow-right-white   { background-position: -50px -50px; }
-.icon-small-arrow-right-blue    { background-position: -100px -50px; }
-
-.icon-small-plus-white          { background-position: -200px -50px; }
-.icon-small-x-white             { background-position: -250px -50px; }
-
-.icon-small-carrot-down-white   { background-position: -350px -50px; }
-.icon-small-carrot-up-white     { background-position: -400px -50px; }
-.icon-small-carrot-down-blue    { background-position: -450px -50px; }
-.icon-small-carrot-up-blue      { background-position: -500px -50px; }
-.icon-small-carrot-down-gray    { background-position: -550px -50px; }
-.icon-small-carrot-up-gray      { background-position: -600px -50px; }
-.icon-med-carrot-down-white     { background-position: -650px -50px; }
 
 
 
@@ -155,7 +144,7 @@
 @include icon-mini(plus-tiny,                  -450px,   9px,    9px);
 @include icon-mini(plus-skinny,                -480px,   16px,   16px);
 @include icon-mini(x-skinny,                   -510px,   16px,   16px);
-@include icon-mini(revealer-l-r-xl,            -540px,   33px,   33px);
+@include icon-mini(revealer-l-r-xl,            -540px,   32px,   32px);
 
 
 @include icon-mini(arrow-right-white-boxed, -256px, 40px, 37px);
@@ -175,3 +164,13 @@
 }
 @include sprite(nav-sony-logo,          0,    89px,   31px);
 
+
+// @mixin pseudo-el-icon-mini($x, $w, $h) {
+//   background-position: $x -180px;
+//   @include size($h, $w);
+// }
+.icon-mini-pseudo-el-arrow-right-blue{
+  @extend .sprite-base-class;
+  background-position: -300px -180px;
+  @include size(8px, 11px);
+}
