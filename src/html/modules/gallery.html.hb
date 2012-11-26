@@ -42,7 +42,7 @@
     <section class="tab-pane fade active in gallery" data-tab="all" data-mode="{{all.mode}}">
 
       <p class="l4"><span class="text-dark">{{all.total}}</span> Products</p>
-      <div class="products{{#if all.columns.five}} grid5{{/if}}">
+      <div class="products">
           {{#each all.list}}
           <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
             {{#if this.label}}
@@ -73,6 +73,7 @@
                 <p class="p5 price-title">Starting at</p>
                 <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
+              <i class="icon-mini-favorite"></i>
             </div>
 
             {{/if}}
@@ -158,7 +159,7 @@
 
         <p class="l4"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
       </div>
-      <div class="products{{#if productCards.columns.five}} grid5{{/if}}">
+      <div class="products">
         {{#each productCards.list}}
         <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
           {{#if this.label}}
@@ -172,7 +173,7 @@
           <div class="product-content">
             <div class="p3 product-name">{{this.name}}</div>
             <div class="p5 product-model">{{this.model}}</div>
-            <div class="p5 product-rating" data-stars="{{this.rating.stars}}"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i> ( {{this.rating.reviews}} user reviews)</div>
+            <div class="p5 product-rating" data-stars="{{this.rating.stars}}"><i class="icon-mini-star"></i><i class="icon-mini-star"></i><i class="icon-mini-star"></i><i class="icon-mini-star"></i><i class="icon-mini-star"></i> ( {{this.rating.reviews}} user reviews)</div>
             <ul class="p3 product-meta">
               {{#each this.meta}}
               <li>{{{this.value}}} <span class="product-meta-name">{{this.name}}</span></li>
@@ -182,6 +183,7 @@
               <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
+          <i class="icon-mini-favorite"></i>
         </div>
         {{/each}}
         
@@ -263,7 +265,7 @@
 
         <p class="l4"><span class="text-dark product-count">{{simple.total}}</span> Products</p>
       </div>
-      <div class="products grid5">
+      <div class="products">
         {{#each simple.list}}
         <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
           {{#if this.label}}
@@ -281,6 +283,7 @@
               <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
+          <i class="icon-mini-favorite"></i>
         </div>
         {{/each}}
         

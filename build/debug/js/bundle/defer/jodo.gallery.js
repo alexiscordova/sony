@@ -15,6 +15,7 @@
         self.$activeFilters = self.$container.find('.active-filters');
         self.$clear = self.$container.find('.clear-active-filters');
         self.$loadMore = self.$container.find('.gallery-load-more');
+        self.$favorites = self.$grid.find('.icon-mini-favorite');
 
         if ( self.mode !== 'detailed' ) {
             self.$grid.addClass('grid5');
@@ -117,7 +118,7 @@
             self.sortItems(this, evt);
         } );
 
-        // Respond to events
+        // Displays active filters on `filter`
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
             self.$productCount.text( shuffle.visibleItems );
             self.displayActiveFilters();
@@ -132,6 +133,9 @@
 
         // Load more button
         self.$loadMore.on('click', $.proxy( self.loadMore, self ));
+
+        // Favorite Heart
+        self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
         // Hide filters
         self.$container.find('.product-filter').slideUp();
@@ -521,6 +525,10 @@
 
             // Update the masonry
             self.$grid.shuffle('update');
+        },
+
+        onFavorite : function(evt) {
+            $(evt.target).toggleClass('state3');
         }
 
     };
