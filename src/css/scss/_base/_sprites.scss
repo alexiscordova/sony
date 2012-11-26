@@ -15,7 +15,8 @@
 // For the white version of the icons, just add the .icon-white class:
 // <i class="icon-inbox icon-white"></i>
 
-.icon-base-class,
+[class^="sprite-"],
+[class*=" sprite-"],
 [class^="icon-"],
 [class*=" icon-"] {
   display: inline-block;
@@ -25,9 +26,8 @@
   line-height: 15px;
   vertical-align: text-top;
   background-image: url($iconSpritePath);
-  background-position: 15px 15px;
+  background-position: 0 0;
   background-repeat: no-repeat;
-  margin-top: 1px;
 
   .no-svg & {
     background-image: url($iconSpritePathFallback);
@@ -141,19 +141,33 @@
     }
   }
 }
+@include icon-mini(favorite,                0px,      15px,   13px);
+@include icon-mini(cart,                    -30px,    17px,   14px);
+@include icon-mini(search,                  -60px,    30px,   13px);
+@include icon-mini(arrowhead-down-gray,     -90px,    7px,    4px);
+@include icon-mini(arrowhead-up-gray,       -120px,   7px,    4px);
+@include icon-mini(arrowhead-down-white,    -150px,   7px,    4px);
+@include icon-mini(arrowhead-up-white,      -180px,   7px,    4px);
+@include icon-mini(arrowhead-down-blue,     -210px,   7px,    4px);
+@include icon-mini(arrowhead-up-blue,       -240px,   7px,    4px);
+@include icon-mini(arrow-right-white,       -270px,   7px,    4px);
+@include icon-mini(arrow-right-blue,        -300px,   7px,    4px);
+@include icon-mini(global-nav-indicator,    -330px,   22px,   9px,    false);
+@include icon-mini(grid,                    -360px,   16px,   16px,   false);
+@include icon-mini(star,                    -390px,   13px,   13px);
+@include icon-mini(arrowheads-up-down-gray, -420px,   8px,    11px);
+@include icon-mini(plus-tiny,               -450px,   9px,    9px);
+@include icon-mini(plus-skinny,             -480px,   16px,   16px);
+@include icon-mini(x-skinny,                -510px,   16px,   16px);
+@include icon-mini(revealer-l-r-xl,         -540px,   33px,   33px);
 
-.nav-sony-logo{
-  @extend .icon-base-class;
-  background-position: 0 -180px;
-  @include size(31px,89px);
+
+
+@mixin sprite($name, $x, $w, $h) {
+  .sprite-#{$name} {
+    background-position: $x -300px;
+    @include size($h, $w);
+  }
 }
-@include icon-mini(global-nav-indicator, -90px, 22px, 9px, false);
-@include icon-mini(grid, -120px, 16px, 16px, false);
-@include icon-mini(favorite, -150px, 15px, 13px);
-@include icon-mini(cart, -180px, 17px, 14px);
-@include icon-mini(arrow-down-gray, -210px, 7px, 4px);
-@include icon-mini(search, -240px, 30px, 13px);
-@include icon-mini(plus-tiny, -270px, 9px, 9px, false);
-
-
+@include sprite(nav-sony-logo,          0,    89px,   31px);
 
