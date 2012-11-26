@@ -1,0 +1,23 @@
+////////////////////////////////
+// DEBUGGING  //
+////////////////////////////////
+
+#TEST .hotspot{
+  left:500px;
+  top:500px;
+  z-index:999999;
+
+  .popover{
+    display:block;
+    width:200px;
+    height:100px;
+    background:gray;
+    top:50%;
+    margin-top:-50px;
+    @include el-hidden();
+  }
+  &:hover .popover{ 
+    @include el-shown(); 
+    left:-192px;
+  } 
+}

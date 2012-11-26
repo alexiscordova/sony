@@ -1,8 +1,41 @@
-/* context/target */
-/* 32px/16px */
 /* 15px/16px */
 /* 13px/16px */
 /* 14px/16px */
+/* line 313, ../../src/css/scss/_base/_mixins.scss */
+.hotspot .tooltip {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  -webkit-transition: opacity 0.15s ease-in 0s;
+  -moz-transition: opacity 0.15s ease-in 0s;
+  -ms-transition: opacity 0.15s ease-in 0s;
+  -o-transition: opacity 0.15s ease-in 0s;
+  transition: opacity 0.15s ease-in 0s;
+  -webkit-backface-visibility: hidden;
+}
+
+/* line 326, ../../src/css/scss/_base/_mixins.scss */
+.hotspot:hover .tooltip {
+  left: 86px;
+  /* relative to left edge of hotspot */
+  opacity: 1;
+  -webkit-transition: opacity 0.15s ease-out 0s;
+  -moz-transition: opacity 0.15s ease-out 0s;
+  -ms-transition: opacity 0.15s ease-out 0s;
+  -o-transition: opacity 0.15s ease-out 0s;
+  transition: opacity 0.15s ease-out 0s;
+}
+
+/* line 335, ../../src/css/scss/_base/_mixins.scss */
+html.no-opacity .hotspot .tooltip {
+  visibility: hidden;
+}
+
+/* line 336, ../../src/css/scss/_base/_mixins.scss */
+html.no-opacity .hotspot:hover .tooltip {
+  visibility: visible;
+}
+
 /* Add additional stylesheets below
 -------------------------------------------------- */
 /*
