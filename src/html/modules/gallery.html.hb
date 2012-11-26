@@ -73,7 +73,7 @@
                 <p class="p5 price-title">Starting at</p>
                 <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
-              <i class="icon-mini-favorite"></i>
+              <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
             </div>
 
             {{/if}}
@@ -183,7 +183,7 @@
               <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
-          <i class="icon-mini-favorite"></i>
+          <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
         </div>
         {{/each}}
         
@@ -283,7 +283,7 @@
               <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
-          <i class="icon-mini-favorite"></i>
+          <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
         </div>
         {{/each}}
         
