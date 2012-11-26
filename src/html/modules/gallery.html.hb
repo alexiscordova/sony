@@ -39,7 +39,7 @@
 
   <div class="tab-content">
 
-    <section class="tab-pane fade active in gallery{{#if all.simple}} gallery-simple{{/if}}" data-tab="all" data-five="{{all.columns.five}}" data-sort="{{all.sort}}">
+    <section class="tab-pane fade active in gallery" data-tab="all" data-mode="{{all.mode}}">
 
       <p class="l4"><span class="text-dark">{{all.total}}</span> Products</p>
       <div class="products{{#if all.columns.five}} grid5{{/if}}">
@@ -83,7 +83,7 @@
       <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div>
     </section>
 
-    <section class="tab-pane fade gallery{{#if productCards.simple}} gallery-simple{{/if}}" data-tab="overhead" data-five="{{productCards.columns.five}}" data-sort="{{productCards.sort}}">
+    <section class="tab-pane fade gallery" data-tab="overhead" data-mode="{{productCards.mode}}">
       {{#if productCards.filterSet}}
       <div class="row">
         <div class="span3">
@@ -188,7 +188,7 @@
       </div>
     </section>
 
-    <section class="tab-pane fade gallery{{#if simple.simple}} gallery-simple{{/if}}" data-tab="inear" data-five="{{simple.columns.five}}" data-sort="{{simple.sort}}">
+    <section class="tab-pane fade gallery" data-tab="inear" data-mode="{{simple.mode}}">
       {{#if simple.filterSet}}
       <div class="row">
         <div class="span3">
