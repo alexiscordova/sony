@@ -14,6 +14,7 @@
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
         self.$clear = self.$container.find('.clear-active-filters');
+        self.$loadMore = self.$container.find('.gallery-load-more');
 
         // Use a function if one is specified for the column width
         var col = $.isFunction( self.shuffleColumns ) ?
@@ -114,7 +115,6 @@
             self.sortItems(this, evt);
         } );
 
-
         // Respond to events
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
             self.$productCount.text( shuffle.visibleItems );
@@ -126,6 +126,21 @@
             evt.preventDefault();
             self.resetActiveFilters();
             self.$container.trigger('reset.gallery', [self]);
+        });
+
+        // Load more button
+        self.$loadMore.on('click', function() {
+            function getRandomInt(min, max) {
+              return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            var i = 4;
+            while (i--) {
+                var random = getRandomInt(0, self.$grid.children().length);
+                self.$grid.children().eq( random ).clone().appendTo(self.$grid);
+            }
+
+            self.$grid.shuffle('update');
         });
 
         // Hide filters

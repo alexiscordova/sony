@@ -2729,50 +2729,55 @@ table [class*=span],
   margin: 0;
 }
 
-/* line 183, ../../src/css/scss/_base/_buttons.scss */
+/* line 177, ../../src/css/scss/_base/_buttons.scss */
+.btn-icon-mini-left i {
+  margin-right: 8px;
+}
+
+/* line 189, ../../src/css/scss/_base/_buttons.scss */
 .btn-large {
   padding: 7px 0 10px;
   font-size: 1.2em;
   line-height: 1.815;
 }
-/* line 187, ../../src/css/scss/_base/_buttons.scss */
+/* line 193, ../../src/css/scss/_base/_buttons.scss */
 .btn-large.btn-special {
   padding: 14px 0 14px;
 }
 
-/* line 191, ../../src/css/scss/_base/_buttons.scss */
+/* line 197, ../../src/css/scss/_base/_buttons.scss */
 .btn-large [class^="icon-"] {
   margin-top: 2px;
 }
 
-/* line 196, ../../src/css/scss/_base/_buttons.scss */
+/* line 202, ../../src/css/scss/_base/_buttons.scss */
 .btn-small {
   padding: 8px 0 10px;
   font-size: 0.8em;
   line-height: 1.2375;
 }
-/* line 200, ../../src/css/scss/_base/_buttons.scss */
+/* line 206, ../../src/css/scss/_base/_buttons.scss */
 .btn-small.btn-special {
   padding: 12px 0 14px;
 }
 
-/* line 204, ../../src/css/scss/_base/_buttons.scss */
+/* line 210, ../../src/css/scss/_base/_buttons.scss */
 .btn-small [class^="icon-"] {
   margin-top: 0px;
 }
 
-/* line 209, ../../src/css/scss/_base/_buttons.scss */
+/* line 215, ../../src/css/scss/_base/_buttons.scss */
 .btn-mini {
   padding: 8px 0 9px;
   font-size: 0.75em;
   line-height: 0.99;
 }
-/* line 213, ../../src/css/scss/_base/_buttons.scss */
+/* line 219, ../../src/css/scss/_base/_buttons.scss */
 .btn-mini.btn-special {
   padding: 11px 0 12px;
 }
 
-/* line 222, ../../src/css/scss/_base/_buttons.scss */
+/* line 228, ../../src/css/scss/_base/_buttons.scss */
 .btn-block {
   display: block;
   width: 100%;
@@ -2783,50 +2788,50 @@ table [class*=span],
   box-sizing: border-box;
 }
 
-/* line 231, ../../src/css/scss/_base/_buttons.scss */
+/* line 237, ../../src/css/scss/_base/_buttons.scss */
 .btn-block + .btn-block {
   margin-top: 5px;
 }
 
-/* line 239, ../../src/css/scss/_base/_buttons.scss */
+/* line 245, ../../src/css/scss/_base/_buttons.scss */
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
 }
 
-/* line 252, ../../src/css/scss/_base/_buttons.scss */
+/* line 258, ../../src/css/scss/_base/_buttons.scss */
 button.btn,
 input[type="submit"].btn {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 255, ../../src/css/scss/_base/_buttons.scss */
+/* line 261, ../../src/css/scss/_base/_buttons.scss */
 button.btn::-moz-focus-inner,
 input[type="submit"].btn::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
-/* line 264, ../../src/css/scss/_base/_buttons.scss */
+/* line 270, ../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-large,
 input[type="submit"].btn.btn-large {
   *padding-top: 7px;
   *padding-bottom: 7px;
 }
-/* line 268, ../../src/css/scss/_base/_buttons.scss */
+/* line 274, ../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-small,
 input[type="submit"].btn.btn-small {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 272, ../../src/css/scss/_base/_buttons.scss */
+/* line 278, ../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-mini,
 input[type="submit"].btn.btn-mini {
   *padding-top: 1px;
   *padding-bottom: 1px;
 }
 
-/* line 285, ../../src/css/scss/_base/_buttons.scss */
+/* line 291, ../../src/css/scss/_base/_buttons.scss */
 .btn-link,
 .btn-link:active,
 .btn-link[disabled] {
@@ -2839,7 +2844,7 @@ input[type="submit"].btn.btn-mini {
   box-shadow: none;
 }
 
-/* line 290, ../../src/css/scss/_base/_buttons.scss */
+/* line 296, ../../src/css/scss/_base/_buttons.scss */
 .btn-link {
   border-color: transparent;
   cursor: pointer;
@@ -2849,14 +2854,14 @@ input[type="submit"].btn.btn-mini {
   border-radius: 0;
 }
 
-/* line 296, ../../src/css/scss/_base/_buttons.scss */
+/* line 302, ../../src/css/scss/_base/_buttons.scss */
 .btn-link:hover {
   color: #5787f4;
   text-decoration: underline;
   background-color: transparent;
 }
 
-/* line 301, ../../src/css/scss/_base/_buttons.scss */
+/* line 307, ../../src/css/scss/_base/_buttons.scss */
 .btn-link[disabled]:hover {
   color: #2f353d;
   text-decoration: none;
@@ -3335,7 +3340,9 @@ input[type="submit"].btn.btn-mini {
   margin-top: 5px;
 }
 
-/* line 19, ../../src/css/scss/_base/_sprites.scss */
+/* line 21, ../../src/css/scss/_base/_sprites.scss */
+[class^="sprite-"],
+[class*=" sprite-"],
 [class^="icon-"],
 [class*=" icon-"] {
   display: inline-block;
@@ -3345,36 +3352,20 @@ input[type="submit"].btn.btn-mini {
   line-height: 15px;
   vertical-align: text-top;
   background-image: url("../img/spritesheet.svg");
-  background-position: 15px 15px;
+  background-position: 0 0;
   background-repeat: no-repeat;
-  margin-top: 1px;
 }
-/* line 31, ../../src/css/scss/_base/_sprites.scss */
-.no-svg [class^="icon-"], .no-svg
+/* line 32, ../../src/css/scss/_base/_sprites.scss */
+.no-svg [class^="sprite-"], .no-svg
+[class*=" sprite-"], .no-svg
+[class^="icon-"], .no-svg
 [class*=" icon-"] {
   background-image: url("../img/spritesheet.png");
 }
 
 /* White icons with optional class, or on hover/active states of certain elements */
-/* line 49, ../../src/css/scss/_base/_sprites.scss */
-.icon-white,
-.nav-tabs > .active > a > [class^="icon-"],
-.nav-tabs > .active > a > [class*=" icon-"],
-.nav-pills > .active > a > [class^="icon-"],
-.nav-pills > .active > a > [class*=" icon-"],
-.nav-list > .active > a > [class^="icon-"],
-.nav-list > .active > a > [class*=" icon-"],
-.navbar-inverse .nav > .active > a > [class^="icon-"],
-.navbar-inverse .nav > .active > a > [class*=" icon-"],
-.dropdown-menu > li > a:hover > [class^="icon-"],
-.dropdown-menu > li > a:hover > [class*=" icon-"],
-.dropdown-menu > .active > a > [class^="icon-"],
-.dropdown-menu > .active > a > [class*=" icon-"] {
-  background-image: url("../img/spritesheet.svg");
-}
-
 /* White icons with optional class, or on hover/active states of certain elements */
-/* line 61, ../../src/css/scss/_base/_sprites.scss */
+/* line 62, ../../src/css/scss/_base/_sprites.scss */
 .icon-small, .tl-arrow-right:after {
   display: inline-block;
   background-image: url("../img/spritesheet-icons-small.png");
@@ -3389,257 +3380,465 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* Positions are for a 15px by 15px container. */
-/* line 74, ../../src/css/scss/_base/_sprites.scss */
+/* line 75, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-arrow-right-white {
   background-position: -50px -50px;
 }
 
-/* line 75, ../../src/css/scss/_base/_sprites.scss */
+/* line 76, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-arrow-right-blue, .tl-arrow-right:after {
   background-position: -100px -50px;
 }
 
-/* line 77, ../../src/css/scss/_base/_sprites.scss */
+/* line 78, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-plus-white, .hotspot-plus .circle-button .circle-button-icon {
   background-position: -200px -50px;
 }
 
-/* line 78, ../../src/css/scss/_base/_sprites.scss */
+/* line 79, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-x-white, .hotspot-close .circle-button .circle-button-icon {
   background-position: -250px -50px;
 }
 
-/* line 80, ../../src/css/scss/_base/_sprites.scss */
+/* line 81, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-carrot-down-white {
   background-position: -350px -50px;
 }
 
-/* line 81, ../../src/css/scss/_base/_sprites.scss */
+/* line 82, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-carrot-up-white {
   background-position: -400px -50px;
 }
 
-/* line 82, ../../src/css/scss/_base/_sprites.scss */
+/* line 83, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-carrot-down-blue {
   background-position: -450px -50px;
 }
 
-/* line 83, ../../src/css/scss/_base/_sprites.scss */
+/* line 84, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-carrot-up-blue {
   background-position: -500px -50px;
 }
 
-/* line 84, ../../src/css/scss/_base/_sprites.scss */
-.icon-small-carrot-down-gray, .nav > li > a.nav-dropdown-toggle-text:after {
+/* line 85, ../../src/css/scss/_base/_sprites.scss */
+.icon-small-carrot-down-gray {
   background-position: -550px -50px;
 }
 
-/* line 85, ../../src/css/scss/_base/_sprites.scss */
+/* line 86, ../../src/css/scss/_base/_sprites.scss */
 .icon-small-carrot-up-gray {
   background-position: -600px -50px;
 }
 
-/* line 86, ../../src/css/scss/_base/_sprites.scss */
-.icon-med-carrot-down-white, .nav > li.nav-li-selected:after {
+/* line 87, ../../src/css/scss/_base/_sprites.scss */
+.icon-med-carrot-down-white {
   background-position: -650px -50px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-laptop {
   background-position: 0 0;
   width: 33px;
   height: 24px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-laptop.active, .tab.active .icon-laptop {
   background-position: 0 -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-tablet {
   background-position: -60px 0;
   width: 20px;
   height: 26px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-tablet.active, .tab.active .icon-tablet {
   background-position: -60px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-memory-stick {
   background-position: -90px 0;
   width: 16px;
   height: 21px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-memory-stick.active, .tab.active .icon-memory-stick {
   background-position: -90px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-tv {
   background-position: -120px 0;
   width: 35px;
   height: 26px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-tv.active, .tab.active .icon-tv {
   background-position: -120px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-projector {
   background-position: -180px 0;
   width: 38px;
   height: 18px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-projector.active, .tab.active .icon-projector {
   background-position: -180px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-water-drop {
   background-position: -240px 0;
   width: 15px;
   height: 20px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-water-drop.active, .tab.active .icon-water-drop {
   background-position: -240px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-mic {
   background-position: -270px 0;
   width: 11px;
   height: 27px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-mic.active, .tab.active .icon-mic {
   background-position: -270px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-dongle {
   background-position: -300px 0;
   width: 14px;
   height: 27px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-dongle.active, .tab.active .icon-dongle {
   background-position: -300px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-cd {
   background-position: -330px 0;
   width: 27px;
   height: 26px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-cd.active, .tab.active .icon-cd {
   background-position: -330px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-handycam {
   background-position: -360px 0;
   width: 36px;
   height: 22px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-handycam.active, .tab.active .icon-handycam {
   background-position: -360px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-video-camera {
   background-position: -420px 0;
   width: 38px;
   height: 28px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-video-camera.active, .tab.active .icon-video-camera {
   background-position: -420px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-grid {
   background-position: -480px 0;
   width: 27px;
   height: 27px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-grid.active, .tab.active .icon-grid {
   background-position: -480px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-grid-alt {
   background-position: -510px 0;
   width: 26px;
   height: 26px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-grid-alt.active, .tab.active .icon-grid-alt {
   background-position: -510px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-headphones {
   background-position: -540px 0;
   width: 27px;
   height: 27px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-headphones.active, .tab.active .icon-headphones {
   background-position: -540px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-earbuds {
   background-position: -570px 0;
   width: 45px;
   height: 24px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-earbuds.active, .tab.active .icon-earbuds {
   background-position: -570px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-earclips {
   background-position: -630px 0;
   width: 17px;
   height: 28px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-earclips.active, .tab.active .icon-earclips {
   background-position: -630px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-neckphones {
   background-position: -660px 0;
   width: 45px;
   height: 19px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-neckphones.active, .tab.active .icon-neckphones {
   background-position: -660px -60px;
 }
 
-/* line 94, ../../src/css/scss/_base/_sprites.scss */
+/* line 96, ../../src/css/scss/_base/_sprites.scss */
 .icon-star {
   background-position: -720px 0;
   width: 13px;
   height: 13px;
 }
-/* line 100, ../../src/css/scss/_base/_sprites.scss */
+/* line 102, ../../src/css/scss/_base/_sprites.scss */
 .icon-star.active, .tab.active .icon-star {
   background-position: -720px -60px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-favorite {
+  background-position: 0px -180px;
+  width: 15px;
+  height: 13px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-favorite.active, .tab.active .icon-mini-favorite, .active .icon-mini-favorite {
+  background-position: 0px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-cart {
+  background-position: -30px -180px;
+  width: 17px;
+  height: 14px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-cart.active, .tab.active .icon-mini-cart, .active .icon-mini-cart {
+  background-position: -30px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-search {
+  background-position: -60px -180px;
+  width: 30px;
+  height: 13px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-search.active, .tab.active .icon-mini-search, .active .icon-mini-search {
+  background-position: -60px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-down-gray {
+  background-position: -90px -180px;
+  width: 7px;
+  height: 4px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-down-gray.active, .tab.active .icon-mini-arrowhead-down-gray, .active .icon-mini-arrowhead-down-gray {
+  background-position: -90px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-up-gray {
+  background-position: -120px -180px;
+  width: 7px;
+  height: 4px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-up-gray.active, .tab.active .icon-mini-arrowhead-up-gray, .active .icon-mini-arrowhead-up-gray {
+  background-position: -120px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-down-white {
+  background-position: -150px -180px;
+  width: 7px;
+  height: 4px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-down-white.active, .tab.active .icon-mini-arrowhead-down-white, .active .icon-mini-arrowhead-down-white {
+  background-position: -150px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-up-white {
+  background-position: -180px -180px;
+  width: 7px;
+  height: 4px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-up-white.active, .tab.active .icon-mini-arrowhead-up-white, .active .icon-mini-arrowhead-up-white {
+  background-position: -180px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-down-blue {
+  background-position: -210px -180px;
+  width: 7px;
+  height: 4px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-down-blue.active, .tab.active .icon-mini-arrowhead-down-blue, .active .icon-mini-arrowhead-down-blue {
+  background-position: -210px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-up-blue {
+  background-position: -240px -180px;
+  width: 7px;
+  height: 4px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowhead-up-blue.active, .tab.active .icon-mini-arrowhead-up-blue, .active .icon-mini-arrowhead-up-blue {
+  background-position: -240px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrow-right-white {
+  background-position: -270px -180px;
+  width: 7px;
+  height: 4px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrow-right-white.active, .tab.active .icon-mini-arrow-right-white, .active .icon-mini-arrow-right-white {
+  background-position: -270px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrow-right-blue {
+  background-position: -300px -180px;
+  width: 7px;
+  height: 4px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrow-right-blue.active, .tab.active .icon-mini-arrow-right-blue, .active .icon-mini-arrow-right-blue {
+  background-position: -300px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-global-nav-indicator {
+  background-position: -330px -180px;
+  width: 22px;
+  height: 9px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-grid {
+  background-position: -360px -180px;
+  width: 16px;
+  height: 16px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-star {
+  background-position: -390px -180px;
+  width: 13px;
+  height: 13px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-star.active, .tab.active .icon-mini-star, .active .icon-mini-star {
+  background-position: -390px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowheads-up-down-gray {
+  background-position: -420px -180px;
+  width: 8px;
+  height: 11px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-arrowheads-up-down-gray.active, .tab.active .icon-mini-arrowheads-up-down-gray, .active .icon-mini-arrowheads-up-down-gray {
+  background-position: -420px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-plus-tiny {
+  background-position: -450px -180px;
+  width: 9px;
+  height: 9px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-plus-tiny.active, .tab.active .icon-mini-plus-tiny, .active .icon-mini-plus-tiny {
+  background-position: -450px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-plus-skinny {
+  background-position: -480px -180px;
+  width: 16px;
+  height: 16px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-plus-skinny.active, .tab.active .icon-mini-plus-skinny, .active .icon-mini-plus-skinny {
+  background-position: -480px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-x-skinny {
+  background-position: -510px -180px;
+  width: 16px;
+  height: 16px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-x-skinny.active, .tab.active .icon-mini-x-skinny, .active .icon-mini-x-skinny {
+  background-position: -510px -210px;
+}
+
+/* line 133, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-revealer-l-r-xl {
+  background-position: -540px -180px;
+  width: 33px;
+  height: 33px;
+}
+/* line 140, ../../src/css/scss/_base/_sprites.scss */
+.icon-mini-revealer-l-r-xl.active, .tab.active .icon-mini-revealer-l-r-xl, .active .icon-mini-revealer-l-r-xl {
+  background-position: -540px -210px;
+}
+
+/* line 167, ../../src/css/scss/_base/_sprites.scss */
+.sprite-nav-sony-logo {
+  background-position: 0 -300px;
+  width: 89px;
+  height: 31px;
 }
 
 /* line 8, ../../src/css/scss/_components/_dropdowns.scss */
@@ -4446,7 +4645,7 @@ button.close {
 }
 
 /* line 10, ../../src/css/scss/_components/_navs.scss */
-.nav {
+.nav-wrapper .navbar .nav {
   z-index: 100;
   left: 0;
   margin: 0;
@@ -4455,90 +4654,155 @@ button.close {
   list-style: none;
 }
 /* line 20, ../../src/css/scss/_components/_navs.scss */
-.nav > .pull-right {
+.nav-wrapper .navbar .nav > .pull-right {
   float: right;
 }
 /* line 24, ../../src/css/scss/_components/_navs.scss */
-.nav li + .nav-header {
+.nav-wrapper .navbar .nav li + .nav-header {
   margin-top: 9px;
 }
 /* line 28, ../../src/css/scss/_components/_navs.scss */
-.nav.nav-utility {
+.nav-wrapper .navbar .nav.nav-utility {
   float: right;
   margin-right: 0;
 }
 /* line 32, ../../src/css/scss/_components/_navs.scss */
-.nav > li {
+.nav-wrapper .navbar .nav > li {
   float: left;
   line-height: 1.0725em;
   position: relative;
 }
 /* line 37, ../../src/css/scss/_components/_navs.scss */
-.nav > li.nav-li-selected:after {
-  background-image: url("../img/spritesheet-icons-small.png");
-  background-repeat: no-repeat;
-  content: '';
-  display: inline-block;
-  width: 24px;
-  height: 9px;
-  display: block;
+.nav-wrapper .navbar .nav > li .icon-mini-global-nav-indicator {
+  display: none;
   position: absolute;
   bottom: 0;
-  left: 40%;
+  left: 36%;
 }
-/* line 47, ../../src/css/scss/_components/_navs.scss */
-.nav > li > a {
+/* line 44, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li.nav-li-selected .icon-mini-global-nav-indicator {
+  display: block;
+}
+/* line 49, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li > a {
   display: block;
   float: none;
   color: white;
   text-decoration: none;
   position: relative;
 }
-/* line 56, ../../src/css/scss/_components/_navs.scss */
-.nav > li > a:focus, .nav > li > a:hover {
+/* line 58, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li > a:focus, .nav-wrapper .navbar .nav > li > a:hover {
   background-color: transparent;
   color: white;
   text-decoration: none;
 }
-/* line 66, ../../src/css/scss/_components/_navs.scss */
-.nav > li.active > a, .nav > li.active > a:hover, .nav > li.active > a:focus {
+/* line 68, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li.active > a, .nav-wrapper .navbar .nav > li.active > a:hover, .nav-wrapper .navbar .nav > li.active > a:focus {
   color: #6f98f6;
   text-decoration: none;
   background-color: black;
 }
-/* line 71, ../../src/css/scss/_components/_navs.scss */
-.nav > li > a.nav-dropdown-toggle-text:after {
-  background-image: url("../img/spritesheet-icons-small.png");
-  background-repeat: no-repeat;
-  content: '';
+/* line 74, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li > a.nav-dropdown-toggle-text .icon-mini-arrowhead-down-gray {
   display: inline-block;
-  width: 15px;
-  height: 15px;
-  width: 10px;
-  margin-left: 4px;
   position: relative;
-  top: 4px;
+}
+/* line 79, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li > a.nav-dropdown-toggle-btn-mini {
+  display: block;
+  padding: 3px;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+/* line 86, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-favorites > a {
+  height: 19px;
+  margin-top: 21px;
+  margin-bottom: 24px;
+}
+/* line 90, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-favorites > a > i {
+  display: block;
+}
+/* line 96, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-cart > a {
+  height: 22px;
+  margin-top: 19px;
+  margin-bottom: 26px;
+  line-height: 1.1;
+  font-size: 0.8125em;
+  font-family: "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+/* line 103, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-cart > a > i.icon-mini-cart {
+  margin-right: 3px;
+  margin-top: 2px;
+}
+/* line 110, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-universal > a {
+  width: auto;
+  margin: 14px 4px 14px 11px;
+  padding: 4px 13px 7px 15px;
+  line-height: 23px;
+  font-size: 0.8125em;
+  background-color: #37353b;
+  border-color: #37353b;
+}
+/* line 118, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-universal > a:hover {
+  background-color: #444148;
+  border-color: #444148;
+}
+/* line 122, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-universal > a > i.icon-mini-plus-tiny {
+  margin: 5px 0 0 12px;
+}
+/* line 128, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-search > a {
+  width: 47px;
+  height: 36px;
+  overflow: visible;
+  margin: 14px 4px 14px 11px;
+  padding: 0;
+  background-color: black;
+  border: solid 2px #37353b;
+  line-height: 1;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
+}
+/* line 138, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-search > a:hover {
+  background-color: #0d0d0d;
+  border-color: #37353b;
+}
+/* line 142, ../../src/css/scss/_components/_navs.scss */
+.nav-wrapper .navbar .nav > li#nav-li-search > a > i.icon-mini-search {
+  display: block;
+  float: left;
+  margin: 10px 8px 10px 6px;
 }
 
-/* line 88, ../../src/css/scss/_components/_navs.scss */
+/* line 158, ../../src/css/scss/_components/_navs.scss */
 .pull-right > li > .dropdown-menu,
 .nav > li > .dropdown-menu.pull-right {
   left: auto;
   right: 0;
 }
-/* line 91, ../../src/css/scss/_components/_navs.scss */
+/* line 161, ../../src/css/scss/_components/_navs.scss */
 .pull-right > li > .dropdown-menu:before,
 .nav > li > .dropdown-menu.pull-right:before {
   left: auto;
   right: 12px;
 }
-/* line 95, ../../src/css/scss/_components/_navs.scss */
+/* line 165, ../../src/css/scss/_components/_navs.scss */
 .pull-right > li > .dropdown-menu:after,
 .nav > li > .dropdown-menu.pull-right:after {
   left: auto;
   right: 13px;
 }
-/* line 99, ../../src/css/scss/_components/_navs.scss */
+/* line 169, ../../src/css/scss/_components/_navs.scss */
 .pull-right > li > .dropdown-menu .dropdown-menu,
 .nav > li > .dropdown-menu.pull-right .dropdown-menu {
   left: auto;
@@ -4550,47 +4814,47 @@ button.close {
   border-radius: 6px 0 6px 6px;
 }
 
-/* line 112, ../../src/css/scss/_components/_navs.scss */
+/* line 182, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse {
   color: #bcbccc;
 }
-/* line 116, ../../src/css/scss/_components/_navs.scss */
+/* line 186, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse .nav > li > a {
   color: #bcbccc;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-/* line 119, ../../src/css/scss/_components/_navs.scss */
+/* line 189, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse .nav > li > a:hover {
   color: white;
 }
-/* line 125, ../../src/css/scss/_components/_navs.scss */
+/* line 195, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse .nav > li > a:focus, .navbar-inverse .nav > li > a:hover {
   background-color: transparent;
   color: white;
 }
-/* line 132, ../../src/css/scss/_components/_navs.scss */
+/* line 202, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus {
   color: white;
   background-color: #111111;
 }
-/* line 138, ../../src/css/scss/_components/_navs.scss */
+/* line 208, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse .nav .divider-vertical {
   border-left-color: #111111;
   border-right-color: #222222;
 }
-/* line 147, ../../src/css/scss/_components/_navs.scss */
+/* line 217, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse .nav li.dropdown.open > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
 .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
   background-color: #111111;
   color: white;
 }
-/* line 151, ../../src/css/scss/_components/_navs.scss */
+/* line 221, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse .nav li.dropdown > .dropdown-toggle .caret {
   border-top-color: #bcbccc;
   border-bottom-color: #bcbccc;
 }
-/* line 157, ../../src/css/scss/_components/_navs.scss */
+/* line 227, ../../src/css/scss/_components/_navs.scss */
 .navbar-inverse .nav li.dropdown.open > .dropdown-toggle .caret,
 .navbar-inverse .nav li.dropdown.active > .dropdown-toggle .caret,
 .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle .caret {
@@ -4598,14 +4862,14 @@ button.close {
   border-bottom-color: white;
 }
 
-/* line 171, ../../src/css/scss/_components/_navs.scss */
+/* line 241, ../../src/css/scss/_components/_navs.scss */
 .nav-list {
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 0;
 }
 
-/* line 177, ../../src/css/scss/_components/_navs.scss */
+/* line 247, ../../src/css/scss/_components/_navs.scss */
 .nav-list > li > a,
 .nav-list .nav-header {
   margin-left: -15px;
@@ -4613,12 +4877,12 @@ button.close {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-/* line 182, ../../src/css/scss/_components/_navs.scss */
+/* line 252, ../../src/css/scss/_components/_navs.scss */
 .nav-list > li > a {
   padding: 3px 15px;
 }
 
-/* line 186, ../../src/css/scss/_components/_navs.scss */
+/* line 256, ../../src/css/scss/_components/_navs.scss */
 .nav-list > .active > a,
 .nav-list > .active > a:hover {
   color: white;
@@ -4626,12 +4890,12 @@ button.close {
   background-color: #4571ec;
 }
 
-/* line 191, ../../src/css/scss/_components/_navs.scss */
+/* line 261, ../../src/css/scss/_components/_navs.scss */
 .nav-list [class^="icon-"] {
   margin-right: 2px;
 }
 
-/* line 195, ../../src/css/scss/_components/_navs.scss */
+/* line 265, ../../src/css/scss/_components/_navs.scss */
 .nav-list .divider {
   *width: 100%;
   height: 1px;
@@ -4642,7 +4906,7 @@ button.close {
   border-bottom: 1px solid white;
 }
 
-/* line 206, ../../src/css/scss/_components/_navs.scss */
+/* line 276, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs,
 .nav-pills {
   *zoom: 1;
@@ -4661,13 +4925,13 @@ button.close {
   clear: both;
 }
 
-/* line 210, ../../src/css/scss/_components/_navs.scss */
+/* line 280, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs > li,
 .nav-pills > li {
   float: left;
 }
 
-/* line 214, ../../src/css/scss/_components/_navs.scss */
+/* line 284, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs > li > a,
 .nav-pills > li > a {
   padding-right: 12px;
@@ -4676,17 +4940,17 @@ button.close {
   line-height: 14px;
 }
 
-/* line 225, ../../src/css/scss/_components/_navs.scss */
+/* line 295, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs {
   border-bottom: 1px solid #ddd;
 }
 
-/* line 229, ../../src/css/scss/_components/_navs.scss */
+/* line 299, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs > li {
   margin-bottom: -1px;
 }
 
-/* line 233, ../../src/css/scss/_components/_navs.scss */
+/* line 303, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs > li > a {
   padding-top: 8px;
   padding-bottom: 8px;
@@ -4696,12 +4960,12 @@ button.close {
   -moz-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
-/* line 239, ../../src/css/scss/_components/_navs.scss */
+/* line 309, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs > li > a:hover {
   border-color: #f1f5f9 #f1f5f9 #dddddd;
 }
 
-/* line 245, ../../src/css/scss/_components/_navs.scss */
+/* line 315, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs > .active > a,
 .nav-tabs > .active > a:hover {
   color: #83838f;
@@ -4711,7 +4975,7 @@ button.close {
   cursor: default;
 }
 
-/* line 258, ../../src/css/scss/_components/_navs.scss */
+/* line 328, ../../src/css/scss/_components/_navs.scss */
 .nav-pills > li > a {
   padding-top: 8px;
   padding-bottom: 8px;
@@ -4722,29 +4986,29 @@ button.close {
   border-radius: 5px;
 }
 
-/* line 268, ../../src/css/scss/_components/_navs.scss */
+/* line 338, ../../src/css/scss/_components/_navs.scss */
 .nav-pills > .active > a,
 .nav-pills > .active > a:hover {
   color: white;
   background-color: #4571ec;
 }
 
-/* line 279, ../../src/css/scss/_components/_navs.scss */
+/* line 349, ../../src/css/scss/_components/_navs.scss */
 .nav-stacked > li {
   float: none;
 }
 
-/* line 282, ../../src/css/scss/_components/_navs.scss */
+/* line 352, ../../src/css/scss/_components/_navs.scss */
 .nav-stacked > li > a {
   margin-right: 0;
 }
 
-/* line 287, ../../src/css/scss/_components/_navs.scss */
+/* line 357, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs.nav-stacked {
   border-bottom: 0;
 }
 
-/* line 290, ../../src/css/scss/_components/_navs.scss */
+/* line 360, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs.nav-stacked > li > a {
   border: 1px solid #ddd;
   -webkit-border-radius: 0;
@@ -4752,7 +5016,7 @@ button.close {
   border-radius: 0;
 }
 
-/* line 294, ../../src/css/scss/_components/_navs.scss */
+/* line 364, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs.nav-stacked > li:first-child > a {
   -webkit-border-top-right-radius: 4px;
   -moz-border-radius-topright: 4px;
@@ -4762,7 +5026,7 @@ button.close {
   border-top-left-radius: 4px;
 }
 
-/* line 297, ../../src/css/scss/_components/_navs.scss */
+/* line 367, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs.nav-stacked > li:last-child > a {
   -webkit-border-bottom-right-radius: 4px;
   -moz-border-radius-bottomright: 4px;
@@ -4772,73 +5036,73 @@ button.close {
   border-bottom-left-radius: 4px;
 }
 
-/* line 300, ../../src/css/scss/_components/_navs.scss */
+/* line 370, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs.nav-stacked > li > a:hover {
   border-color: #ddd;
   z-index: 2;
 }
 
-/* line 306, ../../src/css/scss/_components/_navs.scss */
+/* line 376, ../../src/css/scss/_components/_navs.scss */
 .nav-pills.nav-stacked > li > a {
   margin-bottom: 3px;
 }
 
-/* line 309, ../../src/css/scss/_components/_navs.scss */
+/* line 379, ../../src/css/scss/_components/_navs.scss */
 .nav-pills.nav-stacked > li:last-child > a {
   margin-bottom: 1px;
 }
 
-/* line 318, ../../src/css/scss/_components/_navs.scss */
+/* line 388, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs .dropdown-menu {
   -webkit-border-radius: 0 0 6px 6px;
   -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
 }
 
-/* line 321, ../../src/css/scss/_components/_navs.scss */
+/* line 391, ../../src/css/scss/_components/_navs.scss */
 .nav-pills .dropdown-menu {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
 }
 
-/* line 328, ../../src/css/scss/_components/_navs.scss */
+/* line 398, ../../src/css/scss/_components/_navs.scss */
 .nav .dropdown-toggle .caret {
   border-top-color: #4571ec;
   border-bottom-color: #4571ec;
   margin-top: 6px;
 }
 
-/* line 333, ../../src/css/scss/_components/_navs.scss */
+/* line 403, ../../src/css/scss/_components/_navs.scss */
 .nav .dropdown-toggle:hover .caret {
   border-top-color: #5787f4;
   border-bottom-color: #5787f4;
 }
 
 /* move down carets for tabs */
-/* line 338, ../../src/css/scss/_components/_navs.scss */
+/* line 408, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs .dropdown-toggle .caret {
   margin-top: 8px;
 }
 
-/* line 344, ../../src/css/scss/_components/_navs.scss */
+/* line 414, ../../src/css/scss/_components/_navs.scss */
 .nav .active .dropdown-toggle .caret {
   border-top-color: #2f353d;
   border-bottom-color: #2f353d;
 }
 
-/* line 348, ../../src/css/scss/_components/_navs.scss */
+/* line 418, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs .active .dropdown-toggle .caret {
   border-top-color: #83838f;
   border-bottom-color: #83838f;
 }
 
-/* line 355, ../../src/css/scss/_components/_navs.scss */
+/* line 425, ../../src/css/scss/_components/_navs.scss */
 .nav > .dropdown.active > a:hover {
   cursor: pointer;
 }
 
-/* line 363, ../../src/css/scss/_components/_navs.scss */
+/* line 433, ../../src/css/scss/_components/_navs.scss */
 .nav-tabs .open .dropdown-toggle,
 .nav-pills .open .dropdown-toggle,
 .nav > li.dropdown.open.active > a:hover {
@@ -4847,7 +5111,7 @@ button.close {
   border-color: #bcbccc;
 }
 
-/* line 370, ../../src/css/scss/_components/_navs.scss */
+/* line 440, ../../src/css/scss/_components/_navs.scss */
 .nav li.dropdown.open .caret,
 .nav li.dropdown.open.active .caret,
 .nav li.dropdown.open a:hover .caret {
@@ -4857,12 +5121,12 @@ button.close {
   filter: alpha(opacity=100);
 }
 
-/* line 377, ../../src/css/scss/_components/_navs.scss */
+/* line 447, ../../src/css/scss/_components/_navs.scss */
 .tabs-stacked .open > a:hover {
   border-color: #bcbccc;
 }
 
-/* line 391, ../../src/css/scss/_components/_navs.scss */
+/* line 461, ../../src/css/scss/_components/_navs.scss */
 .tabbable {
   *zoom: 1;
 }
@@ -4877,66 +5141,66 @@ button.close {
   clear: both;
 }
 
-/* line 394, ../../src/css/scss/_components/_navs.scss */
+/* line 464, ../../src/css/scss/_components/_navs.scss */
 .tab-content {
   overflow: auto;
 }
 
-/* line 401, ../../src/css/scss/_components/_navs.scss */
+/* line 471, ../../src/css/scss/_components/_navs.scss */
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
 .tabs-left > .nav-tabs {
   border-bottom: 0;
 }
 
-/* line 407, ../../src/css/scss/_components/_navs.scss */
+/* line 477, ../../src/css/scss/_components/_navs.scss */
 .tab-content > .tab-pane,
 .pill-content > .pill-pane {
   display: none;
 }
 
-/* line 411, ../../src/css/scss/_components/_navs.scss */
+/* line 481, ../../src/css/scss/_components/_navs.scss */
 .tab-content > .active,
 .pill-content > .active {
   display: block;
 }
 
-/* line 419, ../../src/css/scss/_components/_navs.scss */
+/* line 489, ../../src/css/scss/_components/_navs.scss */
 .tabs-below > .nav-tabs {
   border-top: 1px solid #ddd;
 }
 
-/* line 422, ../../src/css/scss/_components/_navs.scss */
+/* line 492, ../../src/css/scss/_components/_navs.scss */
 .tabs-below > .nav-tabs > li {
   margin-top: -1px;
   margin-bottom: 0;
 }
 
-/* line 426, ../../src/css/scss/_components/_navs.scss */
+/* line 496, ../../src/css/scss/_components/_navs.scss */
 .tabs-below > .nav-tabs > li > a {
   -webkit-border-radius: 0 0 4px 4px;
   -moz-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
 }
-/* line 428, ../../src/css/scss/_components/_navs.scss */
+/* line 498, ../../src/css/scss/_components/_navs.scss */
 .tabs-below > .nav-tabs > li > a:hover {
   border-bottom-color: transparent;
   border-top-color: #ddd;
 }
 
-/* line 434, ../../src/css/scss/_components/_navs.scss */
+/* line 504, ../../src/css/scss/_components/_navs.scss */
 .tabs-below > .nav-tabs > .active > a,
 .tabs-below > .nav-tabs > .active > a:hover {
   border-color: transparent #ddd #ddd #ddd;
 }
 
-/* line 443, ../../src/css/scss/_components/_navs.scss */
+/* line 513, ../../src/css/scss/_components/_navs.scss */
 .tabs-left > .nav-tabs > li,
 .tabs-right > .nav-tabs > li {
   float: none;
 }
 
-/* line 447, ../../src/css/scss/_components/_navs.scss */
+/* line 517, ../../src/css/scss/_components/_navs.scss */
 .tabs-left > .nav-tabs > li > a,
 .tabs-right > .nav-tabs > li > a {
   min-width: 74px;
@@ -4944,14 +5208,14 @@ button.close {
   margin-bottom: 3px;
 }
 
-/* line 454, ../../src/css/scss/_components/_navs.scss */
+/* line 524, ../../src/css/scss/_components/_navs.scss */
 .tabs-left > .nav-tabs {
   float: left;
   margin-right: 19px;
   border-right: 1px solid #ddd;
 }
 
-/* line 459, ../../src/css/scss/_components/_navs.scss */
+/* line 529, ../../src/css/scss/_components/_navs.scss */
 .tabs-left > .nav-tabs > li > a {
   margin-right: -1px;
   -webkit-border-radius: 4px 0 0 4px;
@@ -4959,26 +5223,26 @@ button.close {
   border-radius: 4px 0 0 4px;
 }
 
-/* line 463, ../../src/css/scss/_components/_navs.scss */
+/* line 533, ../../src/css/scss/_components/_navs.scss */
 .tabs-left > .nav-tabs > li > a:hover {
   border-color: #f1f5f9 #dddddd #f1f5f9 #f1f5f9;
 }
 
-/* line 467, ../../src/css/scss/_components/_navs.scss */
+/* line 537, ../../src/css/scss/_components/_navs.scss */
 .tabs-left > .nav-tabs .active > a,
 .tabs-left > .nav-tabs .active > a:hover {
   border-color: #ddd transparent #ddd #ddd;
   *border-right-color: white;
 }
 
-/* line 473, ../../src/css/scss/_components/_navs.scss */
+/* line 543, ../../src/css/scss/_components/_navs.scss */
 .tabs-right > .nav-tabs {
   float: right;
   margin-left: 19px;
   border-left: 1px solid #ddd;
 }
 
-/* line 478, ../../src/css/scss/_components/_navs.scss */
+/* line 548, ../../src/css/scss/_components/_navs.scss */
 .tabs-right > .nav-tabs > li > a {
   margin-left: -1px;
   -webkit-border-radius: 0 4px 4px 0;
@@ -4986,24 +5250,24 @@ button.close {
   border-radius: 0 4px 4px 0;
 }
 
-/* line 482, ../../src/css/scss/_components/_navs.scss */
+/* line 552, ../../src/css/scss/_components/_navs.scss */
 .tabs-right > .nav-tabs > li > a:hover {
   border-color: #f1f5f9 #f1f5f9 #f1f5f9 #dddddd;
 }
 
-/* line 486, ../../src/css/scss/_components/_navs.scss */
+/* line 556, ../../src/css/scss/_components/_navs.scss */
 .tabs-right > .nav-tabs .active > a,
 .tabs-right > .nav-tabs .active > a:hover {
   border-color: #ddd #ddd #ddd transparent;
   *border-left-color: white;
 }
 
-/* line 497, ../../src/css/scss/_components/_navs.scss */
+/* line 567, ../../src/css/scss/_components/_navs.scss */
 .nav > .disabled > a {
   color: #bcbccc;
 }
 
-/* line 501, ../../src/css/scss/_components/_navs.scss */
+/* line 571, ../../src/css/scss/_components/_navs.scss */
 .nav > .disabled > a:hover {
   text-decoration: none;
   background-color: transparent;
@@ -5579,29 +5843,20 @@ button.close {
 .nav-wrapper .navbar .brand {
   float: left;
   display: block;
-  width: 89px;
-  height: 31px;
   margin: 16px 0 0;
-  background-image: url("../img/global/sony-logo.svg");
-  background-repeat: no-repeat;
-  background-position: 0 0;
 }
-/* line 54, ../../src/css/scss/_components/_navbar.scss */
-.no-svg .nav-wrapper .navbar .brand {
-  background-image: url("../img/global/sony-logo.png");
-}
-/* line 64, ../../src/css/scss/_components/_navbar.scss */
+/* line 57, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar .btn,
 .nav-wrapper .navbar .btn-group {
   margin-top: 17px;
 }
-/* line 69, ../../src/css/scss/_components/_navbar.scss */
+/* line 62, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar .btn-group .btn,
 .nav-wrapper .navbar .input-prepend .btn,
 .nav-wrapper .navbar .input-append .btn {
   margin-top: 0;
 }
-/* line 76, ../../src/css/scss/_components/_navbar.scss */
+/* line 69, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-form {
   margin-bottom: 0;
   *zoom: 1;
@@ -5616,45 +5871,45 @@ button.close {
 .nav-wrapper .navbar.navbar-form:after {
   clear: both;
 }
-/* line 82, ../../src/css/scss/_components/_navbar.scss */
+/* line 75, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-form input,
 .nav-wrapper .navbar.navbar-form select,
 .nav-wrapper .navbar.navbar-form .radio,
 .nav-wrapper .navbar.navbar-form .checkbox {
   margin-top: 17px;
 }
-/* line 87, ../../src/css/scss/_components/_navbar.scss */
+/* line 80, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-form input,
 .nav-wrapper .navbar.navbar-form select,
 .nav-wrapper .navbar.navbar-form .btn {
   display: inline-block;
   margin-bottom: 0;
 }
-/* line 93, ../../src/css/scss/_components/_navbar.scss */
+/* line 86, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-form input[type="image"],
 .nav-wrapper .navbar.navbar-form input[type="checkbox"],
 .nav-wrapper .navbar.navbar-form input[type="radio"] {
   margin-top: 3px;
 }
-/* line 97, ../../src/css/scss/_components/_navbar.scss */
+/* line 90, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-form .input-append,
 .nav-wrapper .navbar.navbar-form .input-prepend {
   margin-top: 6px;
   white-space: nowrap;
 }
-/* line 100, ../../src/css/scss/_components/_navbar.scss */
+/* line 93, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-form .input-append input,
 .nav-wrapper .navbar.navbar-form .input-prepend input {
   margin-top: 0;
 }
-/* line 109, ../../src/css/scss/_components/_navbar.scss */
+/* line 102, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-search {
   position: relative;
   float: left;
   margin-top: 17px;
   margin-bottom: 0;
 }
-/* line 114, ../../src/css/scss/_components/_navbar.scss */
+/* line 107, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-search .search-query {
   margin-bottom: 0;
   padding: 4px 14px;
@@ -5690,7 +5945,7 @@ button.close {
 .nav-wrapper .navbar.navbar-search .search-query::-webkit-input-placeholder {
   color: #cccccc;
 }
-/* line 129, ../../src/css/scss/_components/_navbar.scss */
+/* line 122, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-search .search-query:focus, .nav-wrapper .navbar.navbar-search .search-query.focused {
   padding: 5px 15px;
   color: #2f353d;
@@ -5704,12 +5959,12 @@ button.close {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
   outline: 0;
 }
-/* line 146, ../../src/css/scss/_components/_navbar.scss */
+/* line 139, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar.navbar-static-top {
   position: static;
   width: 100%;
 }
-/* line 157, ../../src/css/scss/_components/_navbar.scss */
+/* line 150, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar .btn-mobile-navbar-menu-trigger {
   display: none;
   float: right;
@@ -5723,7 +5978,7 @@ button.close {
   -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
 }
-/* line 167, ../../src/css/scss/_components/_navbar.scss */
+/* line 160, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar .btn-mobile-navbar-menu-trigger .icon-bar {
   display: block;
   width: 18px;
@@ -5738,11 +5993,11 @@ button.close {
   -o-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
-/* line 175, ../../src/css/scss/_components/_navbar.scss */
+/* line 168, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar .btn-mobile-navbar-menu-trigger .icon-bar + .icon-bar {
   margin-top: 3px;
 }
-/* line 180, ../../src/css/scss/_components/_navbar.scss */
+/* line 173, ../../src/css/scss/_components/_navbar.scss */
 .nav-wrapper .navbar .btn-mobile-navbar-menu-trigger {
   background: #151515;
 }
@@ -5826,7 +6081,11 @@ button.close {
   display: block;
   margin-top: 2px;
 }
-/* line 95, ../../src/css/scss/_components/_navtray.scss */
+/* line 93, ../../src/css/scss/_components/_navtray.scss */
+.nav-wrapper .navtray-wrapper .navtray .navtray-section-main .btn-nav-view-all {
+  width: 140px;
+}
+/* line 98, ../../src/css/scss/_components/_navtray.scss */
 .nav-wrapper .navtray-wrapper .navtray .navtray-section-featured .l2 {
   font-size: 0.625em;
 }
@@ -6895,6 +7154,11 @@ a.label:hover, a.badge:hover {
   box-sizing: border-box;
 }
 
+/* line 67, ../../src/css/scss/_base/_utilities.scss */
+.text-center {
+  text-align: center;
+}
+
 /* line 1101, ../../src/css/scss/_base/_mixins.scss */
 .ghost-center-wrap:before {
   content: '';
@@ -6905,35 +7169,35 @@ a.label:hover, a.badge:hover {
   margin-right: -4px;
 }
 
-/* line 74, ../../src/css/scss/_base/_utilities.scss */
+/* line 78, ../../src/css/scss/_base/_utilities.scss */
 .ghost-center {
   display: inline-block;
   vertical-align: middle;
 }
 
-/* line 79, ../../src/css/scss/_base/_utilities.scss */
+/* line 83, ../../src/css/scss/_base/_utilities.scss */
 .table-center-wrap {
   display: table;
 }
 
-/* line 83, ../../src/css/scss/_base/_utilities.scss */
+/* line 87, ../../src/css/scss/_base/_utilities.scss */
 .table-center {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 93, ../../src/css/scss/_base/_utilities.scss */
+/* line 97, ../../src/css/scss/_base/_utilities.scss */
 .hero {
   position: relative;
   overflow: hidden;
   max-height: 400px;
 }
-/* line 98, ../../src/css/scss/_base/_utilities.scss */
+/* line 102, ../../src/css/scss/_base/_utilities.scss */
 .hero img {
   display: block;
   width: 100%;
 }
-/* line 104, ../../src/css/scss/_base/_utilities.scss */
+/* line 108, ../../src/css/scss/_base/_utilities.scss */
 .hero .hero-img-wrap::after {
   content: '';
   position: absolute;
@@ -6943,11 +7207,11 @@ a.label:hover, a.badge:hover {
   height: 100%;
   background-color: rgba(69, 113, 236, 0.8);
 }
-/* line 114, ../../src/css/scss/_base/_utilities.scss */
+/* line 118, ../../src/css/scss/_base/_utilities.scss */
 .hero > .container {
   position: relative;
 }
-/* line 118, ../../src/css/scss/_base/_utilities.scss */
+/* line 122, ../../src/css/scss/_base/_utilities.scss */
 .hero .hero-text-wrap {
   position: absolute;
   z-index: 5;
@@ -6956,17 +7220,17 @@ a.label:hover, a.badge:hover {
   width: 100%;
   height: 100%;
 }
-/* line 127, ../../src/css/scss/_base/_utilities.scss */
+/* line 131, ../../src/css/scss/_base/_utilities.scss */
 .hero .hero-text {
   width: 100%;
 }
 
-/* line 137, ../../src/css/scss/_base/_utilities.scss */
+/* line 141, ../../src/css/scss/_base/_utilities.scss */
 [data-stars] .icon-star:not(:first-child) {
   margin-left: 2px;
 }
 
-/* line 145, ../../src/css/scss/_base/_utilities.scss */
+/* line 149, ../../src/css/scss/_base/_utilities.scss */
 [data-stars="1"] .icon-star:nth-child(-n + 1),
 [data-stars="2"] .icon-star:nth-child(-n + 2),
 [data-stars="3"] .icon-star:nth-child(-n + 3),

@@ -1,0 +1,152 @@
+<h6><%= @document.layout.name %>:</h6>
+<div class="editorial container">
+
+<% if @document.layout.media == "full" : %>
+	<% if  @document.layout.inner : %>
+	<div class="row-fluid">
+		<div class="span12">
+		<% if @document.media[0].type == "image" : %>
+			<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+		<% else : %>
+			TODO: MODULE + DATA
+		<% end %>
+			<div class="row-fluid">
+			<% if  @document.layout.text == "left" : %>
+				<div class="span<%- @document.layout.columns[0] %>">
+			<% else if  @document.layout.text == "right" : %>
+				<div class="span<%- @document.layout.columns[1] %> offset<%- @document.layout.columns[0] %>">
+			<% end %>
+					<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
+					<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
+					<% if @document.body : %><p><%- @document.body %></p><% end %>
+					<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% else :%>
+	<div class="row-fluid">
+		<div class="span12">
+			<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
+			<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
+			<% if @document.body : %><p><%- @document.body %></p><% end %>
+			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span12">
+		<% if @document.media[0].type == "image" : %>
+			<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+		<% else : %>
+			TODO: MODULE + DATA
+		<% end %>
+		</div>
+	</div>
+	<% end %>
+
+<% else if  @document.layout.media == "mediaright" : %>
+	<div class="row-fluid">
+		<div class="span<%- @document.layout.columns[0] %>">
+			<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
+			<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
+			<% if @document.body : %><p><%- @document.body %></p><% end %>
+			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+		</div>
+		<div class="span<%- @document.layout.columns[1] %>">
+			<% if @document.media[0].type == "image" : %>
+				<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+			<% else : %>
+				TODO: MODULE + DATA
+			<% end %>
+		</div>
+	</div>
+	
+<% else if  @document.layout.media == "medialeft" : %>	
+	<div class="row-fluid">
+		<div class="span<%- @document.layout.columns[0] %>">
+			<% if @document.media[0].type == "image" : %>
+				<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+			<% else : %>
+				TODO: MODULE + DATA
+			<% end %>
+		</div>
+		<div class="span<%- @document.layout.columns[1] %>">
+			<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
+			<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
+			<% if @document.body : %><p><%- @document.body %></p><% end %>
+			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+		</div>
+	</div>
+
+<% else if  @document.layout.media == "full3up": %>
+	<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
+	<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
+	<% if @document.body : %><p><%- @document.body %></p><% end %>
+	<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+	
+	<% if @document.media[0].type == "image" : %>
+		<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+	<% else : %>
+		TODO: MODULE + DATA
+	<% end %>
+
+	<div class="row-fluid">
+		<% for col, i in @document.layout.columns: %>
+			<div class="span<%- @document.layout.columns[i] %>">
+				<% if @document.media[i+1].type == "image" : %>
+					<img src="<%-  @document.media[i+1].data.src %>" alt="<%-  @document.media[i+1].data.alt %>">
+				<% else : %>
+					TODO: MODULE + DATA
+				<% end %>
+				<%- @document.columns[i] %>
+			</div>
+			<% end %>
+	</div>
+	
+<% else if  @document.layout.media == "3up" ||  @document.layout.media == "2up": %>
+	<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
+	<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
+	<% if @document.body : %><p><%- @document.body %></p><% end %>
+	<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+	
+	<% if  @document.layout.inner : %>
+		!!!!:TODO
+		
+	<% else :%>
+		<div class="row-fluid">
+			<% for col, i in @document.layout.columns: %>
+			<div class="span<%- @document.layout.columns[i] %>">
+				<% if @document.media[i].type == "image" : %>
+					<img src="<%-  @document.media[i].data.src %>" alt="<%-  @document.media[i].data.alt %>">
+				<% else : %>
+					TODO: MODULE + DATA
+				<% end %>
+				<%- @document.columns[i] %>
+			</div>
+			<% end %>
+		</div>
+	<% end %>
+
+<% else if  @document.layout.media == "textonly" : %>
+	<div class="row-fluid">
+		<% if  @document.layout.text == "left" : %>
+		<div class="span<%- @document.layout.columns[0] %>">
+		
+		<% else if  @document.layout.text == "right" : %>
+		<div class="span<%- @document.layout.columns[1] %> offset<%- @document.layout.columns[0] %>">
+		
+		<% else if  @document.layout.text == "center" : %>
+		<div class="span<%- @document.layout.columns[1] %> offset<%- @document.layout.columns[0] %>">
+		<% end %>
+
+			<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
+			<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
+			<% if @document.body : %><p><%- @document.body %></p><% end %>
+			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+		</div>
+	</div>
+	
+<% end %>
+	
+</div>

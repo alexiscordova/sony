@@ -26,7 +26,7 @@
     <div class="tabs">
       {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab">
         <div class="ghost-center">
-          <div class="sprite-holder"><i class="icon-{{this.icon}}"></i></div>
+          <div class="holder-for-icon"><i class="icon-{{this.icon}}"></i></div>
           <div class="l3 tab-label">{{this.label}}</div>
         </div>
       </div>{{/each}}
@@ -78,9 +78,9 @@
             {{/if}}
           </div>
           {{/each}}
-          
-
       </div>
+
+      <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div>
     </section>
 
     <section class="tab-pane fade gallery{{#if productCards.simple}} gallery-simple{{/if}}" data-tab="overhead" data-five="{{productCards.columns.five}}" data-sort="{{productCards.sort}}">

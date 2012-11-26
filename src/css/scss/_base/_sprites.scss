@@ -15,6 +15,8 @@
 // For the white version of the icons, just add the .icon-white class:
 // <i class="icon-inbox icon-white"></i>
 
+[class^="sprite-"],
+[class*=" sprite-"],
 [class^="icon-"],
 [class*=" icon-"] {
   display: inline-block;
@@ -24,9 +26,8 @@
   line-height: 15px;
   vertical-align: text-top;
   background-image: url($iconSpritePath);
-  background-position: 15px 15px;
+  background-position: 0 0;
   background-repeat: no-repeat;
-  margin-top: 1px;
 
   .no-svg & {
     background-image: url($iconSpritePathFallback);
@@ -34,21 +35,21 @@
 }
 
 /* White icons with optional class, or on hover/active states of certain elements */
-.icon-white,
-.nav-tabs > .active > a > [class^="icon-"],
-.nav-tabs > .active > a > [class*=" icon-"],
-.nav-pills > .active > a > [class^="icon-"],
-.nav-pills > .active > a > [class*=" icon-"],
-.nav-list > .active > a > [class^="icon-"],
-.nav-list > .active > a > [class*=" icon-"],
-.navbar-inverse .nav > .active > a > [class^="icon-"],
-.navbar-inverse .nav > .active > a > [class*=" icon-"],
-.dropdown-menu > li > a:hover > [class^="icon-"],
-.dropdown-menu > li > a:hover > [class*=" icon-"],
-.dropdown-menu > .active > a > [class^="icon-"],
-.dropdown-menu > .active > a > [class*=" icon-"] {
-  background-image: url($iconSpritePath);
-}
+// .icon-white,
+// .nav-tabs > .active > a > [class^="icon-"],
+// .nav-tabs > .active > a > [class*=" icon-"],
+// .nav-pills > .active > a > [class^="icon-"],
+// .nav-pills > .active > a > [class*=" icon-"],
+// .nav-list > .active > a > [class^="icon-"],
+// .nav-list > .active > a > [class*=" icon-"],
+// .navbar-inverse .nav > .active > a > [class^="icon-"],
+// .navbar-inverse .nav > .active > a > [class*=" icon-"],
+// .dropdown-menu > li > a:hover > [class^="icon-"],
+// .dropdown-menu > li > a:hover > [class*=" icon-"],
+// .dropdown-menu > .active > a > [class^="icon-"],
+// .dropdown-menu > .active > a > [class*=" icon-"] {
+//   background-image: url($iconSpritePath);
+// }
 
 
 
@@ -57,7 +58,7 @@
 // -----
 
 /* White icons with optional class, or on hover/active states of certain elements */
-
+// Christopher's icons
 .icon-small{
   display: inline-block;
   @include background-sprite-icon-small;
@@ -87,8 +88,9 @@
 
 
 
+// Glen's icons
+// Glen -- what about icons that need a :hover and an :active state? Shouldn't .active be .hover, and a 3rd state that's .active with a possible 3rd color?
 // TODO: THE REST
-
 // 30px x 30px grid, double spaced vertically
 @mixin icon($name, $x, $w, $h, $hasActive: true) {
   .icon-#{$name} {
@@ -124,4 +126,48 @@
 
 
 
+
+// Christopher's shot at extending Glen's icons
+// 30px x 30px grid, double spaced vertically, row 3
+@mixin icon-mini($name, $x, $w, $h, $hasActive: true) {
+  .icon-mini-#{$name} {
+    background-position: $x -180px;
+    @include size($h, $w);
+
+    @if ( $hasActive ) {
+      &.active,
+      .tab.active &,
+      .active & { background-position: $x -210px; }
+    }
+  }
+}
+@include icon-mini(favorite,                0px,      15px,   13px);
+@include icon-mini(cart,                    -30px,    17px,   14px);
+@include icon-mini(search,                  -60px,    30px,   13px);
+@include icon-mini(arrowhead-down-gray,     -90px,    7px,    4px);
+@include icon-mini(arrowhead-up-gray,       -120px,   7px,    4px);
+@include icon-mini(arrowhead-down-white,    -150px,   7px,    4px);
+@include icon-mini(arrowhead-up-white,      -180px,   7px,    4px);
+@include icon-mini(arrowhead-down-blue,     -210px,   7px,    4px);
+@include icon-mini(arrowhead-up-blue,       -240px,   7px,    4px);
+@include icon-mini(arrow-right-white,       -270px,   7px,    4px);
+@include icon-mini(arrow-right-blue,        -300px,   7px,    4px);
+@include icon-mini(global-nav-indicator,    -330px,   22px,   9px,    false);
+@include icon-mini(grid,                    -360px,   16px,   16px,   false);
+@include icon-mini(star,                    -390px,   13px,   13px);
+@include icon-mini(arrowheads-up-down-gray, -420px,   8px,    11px);
+@include icon-mini(plus-tiny,               -450px,   9px,    9px);
+@include icon-mini(plus-skinny,             -480px,   16px,   16px);
+@include icon-mini(x-skinny,                -510px,   16px,   16px);
+@include icon-mini(revealer-l-r-xl,         -540px,   33px,   33px);
+
+
+
+@mixin sprite($name, $x, $w, $h) {
+  .sprite-#{$name} {
+    background-position: $x -300px;
+    @include size($h, $w);
+  }
+}
+@include sprite(nav-sony-logo,          0,    89px,   31px);
 
