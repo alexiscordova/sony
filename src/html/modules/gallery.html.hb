@@ -78,9 +78,9 @@
             {{/if}}
           </div>
           {{/each}}
-          
-
       </div>
+
+      <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div>
     </section>
 
     <section class="tab-pane fade gallery{{#if productCards.simple}} gallery-simple{{/if}}" data-tab="overhead" data-five="{{productCards.columns.five}}" data-sort="{{productCards.sort}}">
