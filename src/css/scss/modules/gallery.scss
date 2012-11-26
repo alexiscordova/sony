@@ -102,7 +102,7 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 ///////////////////
 
 // I don't remember why i have this...
-.gallery-simple .shuffle-item {
+.gallery-detailed .shuffle-item {
   margin: 23px 0 0;
 }
 
@@ -120,7 +120,7 @@ $simpleGalleryItemHeight: 480px;
   height: $galleryItemHeight;
   overflow: hidden;
 
-  .gallery-simple & {
+  .gallery-detailed & {
     height: $simpleGalleryItemHeight;
   }
 
@@ -128,6 +128,13 @@ $simpleGalleryItemHeight: 480px;
     position: absolute;
     top: 0;
     right: 0;
+  }
+
+  .icon-mini-favorite {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    cursor: pointer;
   }
 }
 
@@ -184,7 +191,7 @@ $simpleGalleryItemHeight: 480px;
     height: ($galleryItemHeight * 2) + 10px;
   }
 
-  .gallery-simple {
+  .gallery-detailed {
 
     .label {
       left: 0;
@@ -213,14 +220,6 @@ $simpleGalleryItemHeight: 480px;
   .product-strip .gallery-item:nth-child(n + 5) {
     display: none;
   }
-
-}
-
-// 5 COLUMNS
-@media (min-width: 1500px) {
-  // .container {
-  //   width: 1470px;
-  // }
 }
 
 

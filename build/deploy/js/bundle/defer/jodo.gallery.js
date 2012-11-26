@@ -15,6 +15,11 @@
         self.$activeFilters = self.$container.find('.active-filters');
         self.$clear = self.$container.find('.clear-active-filters');
         self.$loadMore = self.$container.find('.gallery-load-more');
+        self.$favorites = self.$grid.find('.icon-mini-favorite');
+
+        if ( self.mode !== 'detailed' ) {
+            self.$grid.addClass('grid5');
+        }
 
         // Use a function if one is specified for the column width
         var col = $.isFunction( self.shuffleColumns ) ?
@@ -90,32 +95,30 @@
         });
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
-        if ( self.sort ) {
-            var sorted = false;
-            if ( $(window).width() <= 767 ) {
+        var sorted = false;
+        if ( $(window).width() <= 767 ) {
+            self.sortByPriority();
+            sorted = true;
+        }
+
+        $(window).on('resize.gallery', function() {
+            var width = $(window).width();
+            if ( width <= 767 && !sorted ) {
                 self.sortByPriority();
                 sorted = true;
+            } else if ( width >= 768 && sorted ) {
+                // Reset
+                self.sortByPriority(true);
+                sorted = false;
             }
-
-            $(window).on('resize.gallery', function() {
-                var width = $(window).width();
-                if ( width <= 767 && !sorted ) {
-                    self.sortByPriority();
-                    sorted = true;
-                } else if ( width >= 768 && sorted ) {
-                    // Reset
-                    self.sortByPriority(true);
-                    sorted = false;
-                }
-            });
-        }
+        });
 
         // Set up sorting
         self.$sortOpts.on( 'change', function(evt) {
             self.sortItems(this, evt);
         } );
 
-        // Respond to events
+        // Displays active filters on `filter`
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
             self.$productCount.text( shuffle.visibleItems );
             self.displayActiveFilters();
@@ -129,19 +132,10 @@
         });
 
         // Load more button
-        self.$loadMore.on('click', function() {
-            function getRandomInt(min, max) {
-              return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
+        self.$loadMore.on('click', $.proxy( self.loadMore, self ));
 
-            var i = 4;
-            while (i--) {
-                var random = getRandomInt(0, self.$grid.children().length);
-                self.$grid.children().eq( random ).clone().appendTo(self.$grid);
-            }
-
-            self.$grid.shuffle('update');
-        });
+        // Favorite Heart
+        self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
         // Hide filters
         self.$container.find('.product-filter').slideUp();
@@ -474,7 +468,7 @@
             }
         },
 
-        sortItems : function( select, evt ) {
+        sortItems : function( select ) {
             var self = this,
                 reverse = select[ select.selectedIndex ].getAttribute('data-reverse'),
                 filterName = select.value,
@@ -500,10 +494,41 @@
             } else {
                 self.$grid.shuffle('sort', {
                     by: function($el) {
-                        return $el.data('priority') || 100;
+                        var priority = $el.data('priority');
+
+                        // Returning undefined to the sort plugin will cause it to revert to the original array
+                        return priority ? priority : undefined;
                     }
                 });
             }
+        },
+
+        loadMore : function() {
+            var self = this,
+                i = 5;
+
+            /**
+             * Gets a random integer between a min and max
+             * @param  {int} min minimum value
+             * @param  {int} max maximum value
+             * @return {int}     random int between min and max
+             */
+            function getRandomInt(min, max) {
+              return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            // Do it 4 times
+            while (i--) {
+                var random = getRandomInt(0, self.$grid.children().length);
+                self.$grid.children().eq( random ).clone().appendTo(self.$grid);
+            }
+
+            // Update the masonry
+            self.$grid.shuffle('update');
+        },
+
+        onFavorite : function(evt) {
+            $(evt.target).toggleClass('state3');
         }
 
     };
@@ -530,8 +555,6 @@
 
     // Overrideable options
     $.fn.gallery.options = {
-        sort: false,
-        filters: true,
         MIN_PRICE: 100,
         MAX_PRICE: 2000,
         shuffleSpeed: 400,
