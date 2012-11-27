@@ -2073,7 +2073,7 @@ $('#myModal').on('hidden', function () {
 			<!--==================================================
 			 Labels and badges
 			================================================== -->
-			        <section id="labels-badges" class="NotUpdatedYet">
+			        <section id="labels-badges">
 			          <h2 class="bs-docs-heading">Labels and badges</h2>
 			          <h4 class="bs-docs-heading">Labels</h4>
 			          <table class="table table-bordered table-striped">
@@ -2090,6 +2090,14 @@ $('#myModal').on('hidden', function () {
 			                </td>
 			                <td>
 			                  <code>&lt;span class="label"&gt;Default&lt;/span&gt;</code>
+			                </td>
+			              </tr>
+			              <tr>
+			                <td>
+			                  <span class="label label-subtle">Subtle</span>
+			                </td>
+			                <td>
+			                  <code>&lt;span class="label label-subtle"&gt;Subtle&lt;/span&gt;</code>
 			                </td>
 			              </tr>
 			              <tr>
@@ -2132,11 +2140,19 @@ $('#myModal').on('hidden', function () {
 			                  <code>&lt;span class="label label-inverse"&gt;Inverse&lt;/span&gt;</code>
 			                </td>
 			              </tr>
+			              <tr>
+			                <td>
+			                  <span class="label label-subtle label-close">Close</span>
+			                </td>
+			                <td>
+			                  <code>&lt;span class="label label-subtle label-close"&gt;Close&lt;/span&gt;</code>
+			                </td>
+			              </tr>
 			            </tbody>
 			          </table>
 			
 			          <h4 class="bs-docs-heading">Badges</h4>
-			          <table class="table table-bordered table-striped">
+			          <table class="table table-bordered table-striped NotUpdatedYet">
 			            <thead>
 			              <tr>
 			                <th>Name</th>
@@ -2158,13 +2174,24 @@ $('#myModal').on('hidden', function () {
 			              </tr>
 			              <tr>
 			                <td>
+			                  Subtle
+			                </td>
+			                <td>
+			                  <span class="badge badge-subtle">2</span>
+			                </td>
+			                <td>
+			                  <code>&lt;span class="badge badge-subtle"&gt;2&lt;/span&gt;</code>
+			                </td>
+			              </tr>
+			              <tr>
+			                <td>
 			                  Success
 			                </td>
 			                <td>
-			                  <span class="badge badge-success">2</span>
+			                  <span class="badge badge-success">3</span>
 			                </td>
 			                <td>
-			                  <code>&lt;span class="badge badge-success"&gt;2&lt;/span&gt;</code>
+			                  <code>&lt;span class="badge badge-success"&gt;3&lt;/span&gt;</code>
 			                </td>
 			              </tr>
 			              <tr>

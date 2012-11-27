@@ -53,6 +53,9 @@ a {
 // Inverse (black)
 .label-inverse, .badge-inverse                  { background-color: $grayDark; }
 .label-inverse[href], .badge-inverse[href]      { background-color: darken($grayDark, 10%); }
+// Subtle (gray)
+.label-subtle, .badge-subtle                    { background-color: $grayLightFieldLarge; color: $grayDark; }
+.label-subtle[href], .badge-subtle[href]        { background-color: darken($grayLightFieldLarge, 10%); color: $grayDark; }
 
 // Quick fix for labels/badges in buttons
 .btn {
@@ -68,3 +71,15 @@ a {
     top: 0;
   }
 }
+
+.label-close {
+  cursor: pointer;
+
+  &:after {
+    content: '';
+    margin-left: 4px;
+    @extend %icon;
+    @extend .icon-mini-x-skinny;
+  }
+}
+
