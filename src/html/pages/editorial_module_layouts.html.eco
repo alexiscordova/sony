@@ -1,0 +1,50 @@
+---
+title: Editorial Module Layouts
+description: This shows several layout possibilities for the editorial module.
+---
+
+<!DOCTYPE html>
+<!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+	<head>
+		<%-@partial('includes/meta.html')%>
+
+<% if 'debug' in @getEnvironments():%> 
+		<%-@partial('includes/css_debug.html.eco', {this: this})%>
+<% else: %>
+		<%-@partial('includes/css_deploy.html')%>
+<% end %>
+		<%-@partial('includes/js_head.html')%>	
+		
+	</head>
+	<body>
+
+<h6>full inner right 7.5:</h6>
+		<%-@partial('modules/editorial.html.eco', {this:this, document:@data('editorial/full-inner-right-75-photo1.json')} ) %>
+<hr>
+<h6>medialeft 8.4:</h6>
+		<%-@partial('modules/editorial.html.eco', {this:this, document:@data('editorial/medialeft-84-photo1.json')} ) %>
+<hr>
+<h6>mediaright 5.7:</h6>
+		<%-@partial('modules/editorial.html.eco', {this:this, document:@data('editorial/mediaright-57-photo1.json')} ) %>
+<hr>
+<h6>3up 4.4.4:</h6>
+		<%-@partial('modules/editorial.html.eco', {this:this, document:@data('editorial/3up-444-photo1.json')} ) %>
+<hr>
+<h6>textonly center 1.10.1:</h6>
+		<%-@partial('modules/editorial.html.eco', {this:this, document:@data('editorial/textonly-center-1101-lorem1.json')} ) %>
+<hr>
+
+
+
+<% if 'debug' in @getEnvironments():%>
+		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
+<% else: %>
+		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
+<% end %>
+
+
+	</body>
+</html>

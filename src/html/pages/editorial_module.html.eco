@@ -21,17 +21,7 @@ description: This is the Editorial Module, it contains text and media elements w
 	</head>
 	<body>
 
-		<%-@partial('modules/editorial_module.html.eco', {this:this, document:@data('editorial_full-inner-right-75.json')} ) %>
-<hr>
-		<%-@partial('modules/editorial_module.html.eco', {this:this, document:@data('editorial_medialeft-84.json')} ) %>
-<hr>
-		<%-@partial('modules/editorial_module.html.eco', {this:this, document:@data('editorial_mediaright-57.json')} ) %>
-<hr>
-		<%-@partial('modules/editorial_module.html.eco', {this:this, document:@data('editorial_3up-444.json')} ) %>
-<hr>
-		<%-@partial('modules/editorial_module.html.eco', {this:this, document:@data('editorial_textonly-center-1101.json')} ) %>
-<hr>
-
+		<%-@partial('modules/editorial.html.eco', {this:this, document:@data('editorial/default.json')} ) %>
 
 
 <% if 'debug' in @getEnvironments():%>
