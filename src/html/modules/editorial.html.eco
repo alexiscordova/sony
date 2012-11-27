@@ -4,8 +4,8 @@
 	<% if  @document.layout.inner : %>
 	<div class="row-fluid">
 		<div class="span12">
-		<% if @document.media[0].type == "image" : %>
-			<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+		<% if @document.submodules[0].type == "image" : %>
+			<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
 		<% else : %>
 			TODO: MODULE + DATA
 		<% end %>
@@ -35,8 +35,8 @@
 	</div>
 	<div class="row-fluid">
 		<div class="span12">
-		<% if @document.media[0].type == "image" : %>
-			<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+		<% if @document.submodules[0].type == "image" : %>
+			<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
 		<% else : %>
 			TODO: MODULE + DATA
 		<% end %>
@@ -53,8 +53,8 @@
 			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
 		</div>
 		<div class="span<%- @document.layout.columns[1] %>">
-			<% if @document.media[0].type == "image" : %>
-				<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+			<% if @document.submodules[0].type == "image" : %>
+				<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
 			<% else : %>
 				TODO: MODULE + DATA
 			<% end %>
@@ -64,8 +64,8 @@
 <% else if  @document.layout.media == "medialeft" : %>	
 	<div class="row-fluid">
 		<div class="span<%- @document.layout.columns[0] %>">
-			<% if @document.media[0].type == "image" : %>
-				<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+			<% if @document.submodules[0].type == "image" : %>
+				<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
 			<% else : %>
 				TODO: MODULE + DATA
 			<% end %>
@@ -84,8 +84,8 @@
 	<% if @document.body : %><p><%- @document.body %></p><% end %>
 	<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
 	
-	<% if @document.media[0].type == "image" : %>
-		<img src="<%-  @document.media[0].data.src %>" alt="<%-  @document.media[0].data.alt %>">
+	<% if @document.submodules[0].type == "image" : %>
+		<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
 	<% else : %>
 		TODO: MODULE + DATA
 	<% end %>
@@ -93,8 +93,8 @@
 	<div class="row-fluid">
 		<% for col, i in @document.layout.columns: %>
 			<div class="span<%- @document.layout.columns[i] %>">
-				<% if @document.media[i+1].type == "image" : %>
-					<img src="<%-  @document.media[i+1].data.src %>" alt="<%-  @document.media[i+1].data.alt %>">
+				<% if @document.submodules[i+1].type == "image" : %>
+					<img src="<%-  @document.submodules[i+1].data.src %>" alt="<%-  @document.submodules[i+1].data.alt %>">
 				<% else : %>
 					TODO: MODULE + DATA
 				<% end %>
@@ -116,8 +116,8 @@
 		<div class="row-fluid">
 			<% for col, i in @document.layout.columns: %>
 			<div class="span<%- @document.layout.columns[i] %>">
-				<% if @document.media[i].type == "image" : %>
-					<img src="<%-  @document.media[i].data.src %>" alt="<%-  @document.media[i].data.alt %>">
+				<% if @document.submodules[i].type == "image" : %>
+					<img src="<%-  @document.submodules[i].data.src %>" alt="<%-  @document.submodules[i].data.alt %>">
 				<% else : %>
 					TODO: MODULE + DATA
 				<% end %>
