@@ -7,7 +7,7 @@
 	<% if @document.hotspots.length: %>
 	<ul>
 		<% for hotspot in @document.hotspots: %>
-			<li class="hsSpot" data-x="<%= hotspot.x %>" data-y="<%= hotspot.y %>"><span class="hsInner"></span></li>
+			<li class="hsSpot hotspot " data-x="<%= hotspot.x %>" data-y="<%= hotspot.y %>"><div class="circle-button"><i class="icon-mini-plus-skinny"></i></div></li>
 		<% end %>
 	</ul>
 	<% end %>

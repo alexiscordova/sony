@@ -42,7 +42,7 @@ html.no-opacity .hotspot:hover .tooltip {
 }
 
 /* line 11, ../../../../src/css/scss/modules/hotspot_explorer.scss */
-.hsExplorer .hsHero, .hsExplorer .hsSpot, .hsExplorer .hsSpot .hsInner, .hsExplorer .hsInfoPanel {
+.hsExplorer .hsHero, .hsExplorer .hsSpot .hsInner, .hsExplorer .hsInfoPanel {
   position: absolute;
 }
 
@@ -75,19 +75,19 @@ html.no-opacity .hotspot:hover .tooltip {
 }
 /* line 48, ../../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot {
-  top: -2000em;
-  left: -2000em;
-  width: 55px;
-  height: 55px;
-  border-radius: 100%;
-  display: block;
-  visibility: hidden;
-  background: rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  -webkit-transition: all 0.1s ease-out;
-  -moz-transition: all 0.1s ease-out;
-  -o-transition: all 0.1s ease-out;
-  transition: all 0.1s ease-out;
+  /* 		@extend %pos-abs;
+  		top: -2000em; //way off the screen
+  		left: -2000em;
+  		width: 55px;
+  		height: 55px;
+  
+  		border-radius: 100%;
+  		display: block;
+  		visibility: hidden;
+  		background: rgba(0,0,0,0.2);
+  		cursor: pointer;
+  
+  		@include transition( all 0.1s ease-out ); */
 }
 /* line 63, ../../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInner {
