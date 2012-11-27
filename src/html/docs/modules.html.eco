@@ -17,7 +17,7 @@
 		<div class="container">
 			<ul>
 			<% for name in @modulepages(): %>
-				<% if name != 'index.html.eco': %>
+				<% if name != 'index.html.eco' && name.indexOf('_module.html')!= -1 : %>
 					<li><a href='../build/debug/<%= name.replace(/(.eco|.hb)/g, '') %>'><%= @title(name) || name.replace(/(.html.eco|.html.hb)/g, '').replace(/(_|-)/g, ' ') %></a>: <%= @desc(name) %></li><% end %><% end %>
 			</ul>
 		</div>
