@@ -1,8 +1,8 @@
 /* line 3, ../../../../src/css/scss/modules/sonycarousel.scss */
 #basic {
   width: 100%;
-  max-height: 320px;
-  max-width: 640px;
+  /* 	max-height:320px;
+  	max-width: 640px; */
 }
 
 /* Sony Carousel Base CSS dont' change anything  */
@@ -39,14 +39,17 @@
 /* line 36, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scSlide p {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 10%;
+  left: 5%;
   z-index: 1;
-  color: red;
-  background: #000;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  max-width: 300px;
+  height: 300px;
+  padding: 25px;
 }
 
-/* line 46, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 49, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scOverflow {
   width: 100%;
   height: 100%;
@@ -56,7 +59,7 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* line 55, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 58, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scContainer {
   position: relative;
   width: 100%;
@@ -64,19 +67,19 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* line 63, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 66, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scArrow,
 .scThumbsArrow {
   cursor: pointer;
 }
 
-/* line 67, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 70, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scThumb {
   float: left;
   position: relative;
 }
 
-/* line 74, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 77, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scArrow,
 .scNav,
 .scThumbsArrow {
@@ -87,7 +90,7 @@
   transition: opacity 0.3s linear;
 }
 
-/* line 81, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 84, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scHidden {
   opacity: 0;
   visibility: hidden;
@@ -97,7 +100,7 @@
   transition: visibility 0s linear 0.3s,opacity 0.3s linear;
 }
 
-/* line 91, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 94, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scGCaption {
   width: 100%;
   float: left;
@@ -105,7 +108,7 @@
 }
 
 /* Fullscreen options, very important ^^ */
-/* line 98, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 101, ../../../../src/css/scss/modules/sonycarousel.scss */
 .sonyCarousel.scFullscreen {
   position: fixed !important;
   height: auto !important;
@@ -119,7 +122,7 @@
   right: 0 !important;
 }
 
-/* line 111, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 114, ../../../../src/css/scss/modules/sonycarousel.scss */
 .sonyCarousel .scSlide.scFakePreloader {
   opacity: 1 !important;
   -webkit-transition: 0s;
@@ -129,7 +132,7 @@
   display: none;
 }
 
-/* line 120, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 123, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scSlide {
   position: absolute;
   left: 0;
@@ -140,38 +143,38 @@
   width: 100%;
 }
 
-/* line 132, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 135, ../../../../src/css/scss/modules/sonycarousel.scss */
 .sonyCarousel.scAutoHeight,
 .scAutoHeight .scSlide {
   height: auto;
 }
 
-/* line 136, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 139, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scContent {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-/* line 142, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 145, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scPreloader {
   position: absolute;
   z-index: 0;
 }
 
-/* line 147, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 150, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scNav {
   -moz-user-select: -moz-none;
   -webkit-user-select: none;
   user-select: none;
 }
 
-/* line 152, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 155, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scNavItem {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.25);
 }
 
-/* line 156, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 159, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scThumbs {
   cursor: pointer;
   position: relative;
@@ -180,19 +183,19 @@
   z-index: 22;
 }
 
-/* line 163, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 166, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scTabs {
   float: left;
 }
 
-/* line 167, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 170, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scTabs,
 .scThumbs {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* line 173, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 176, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scVideoContainer {
   /*left: 0;
   top: 0;
@@ -209,7 +212,7 @@
   position: relative;
 }
 
-/* line 188, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 191, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scVideoFrameHolder {
   position: absolute;
   left: 0;
@@ -219,12 +222,12 @@
   -webkit-transition: .3s;
 }
 
-/* line 196, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 199, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scVideoFrameHolder.scVideoActive {
   opacity: 1;
 }
 
-/* line 202, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 205, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scVideoContainer iframe,
 .scVideoContainer video,
 .scVideoContainer embed,
@@ -238,7 +241,7 @@
 }
 
 /* ios controls over video bug, shifting video */
-/* line 213, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 216, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scVideoContainer.scIOSVideo iframe,
 .scVideoContainer.scIOSVideo video,
 .scVideoContainer.scIOSVideo embed {
@@ -248,7 +251,7 @@
   padding-right: 44px;
 }
 
-/* line 220, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 223, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scABlock {
   left: 0;
   top: 0;
@@ -257,22 +260,22 @@
   -webkit-backface-visibility: hidden;
 }
 
-/* line 228, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 231, ../../../../src/css/scss/modules/sonycarousel.scss */
 .grab-cursor {
   cursor: url(grab.png) 8 8, move;
 }
 
-/* line 232, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 235, ../../../../src/css/scss/modules/sonycarousel.scss */
 .grabbing-cursor {
   cursor: url(grabbing.png) 8 8, move;
 }
 
-/* line 236, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 239, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scNoDrag {
   cursor: auto;
 }
 
-/* line 240, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 243, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scLink {
   left: 0;
   top: 0;
@@ -288,7 +291,7 @@
 /* END CAROUSEL BASE CSS*/
 /* Default slider skin */
 /* Background */
-/* line 261, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 264, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scOverflow,
 .scDefault .scSlide,
 .scDefault .scVideoFrameHolder,
@@ -301,7 +304,7 @@
 *  1. Arrows
 *
 ****************/
-/* line 272, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 275, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scArrow {
   height: 100%;
   width: 44px;
@@ -311,37 +314,37 @@
   z-index: 21;
 }
 
-/* line 280, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 283, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scVer .scArrow {
   width: 100%;
   height: 44px;
 }
 
-/* line 285, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 288, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scVer .scArrowLeft {
   top: 0;
   left: 0;
 }
 
-/* line 286, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 289, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scVer .scArrowRight {
   bottom: 0;
   left: 0;
 }
 
-/* line 288, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 291, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scHor .scArrowLeft {
   left: 0;
   top: 0;
 }
 
-/* line 289, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 292, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scHor .scArrowRight {
   right: 0;
   top: 0;
 }
 
-/* line 291, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 294, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scArrowIcn {
   width: 32px;
   height: 32px;
@@ -357,32 +360,32 @@
   border-radius: 2px;
 }
 
-/* line 307, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 310, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scArrowIcn:hover {
   background-color: rgba(0, 122, 255, 0.75);
 }
 
-/* line 311, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 314, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scHor .scArrowLeft .scArrowIcn {
   background-position: -64px -32px;
 }
 
-/* line 312, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 315, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scHor .scArrowRight .scArrowIcn {
   background-position: -64px -64px;
 }
 
-/* line 314, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 317, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scVer .scArrowLeft .scArrowIcn {
   background-position: -96px -32px;
 }
 
-/* line 315, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 318, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scVer .scArrowRight .scArrowIcn {
   background-position: -96px -64px;
 }
 
-/* line 317, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 320, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scArrowDisabled .scArrowIcn {
   background-color: rgba(0, 0, 0, 0.4);
   opacity: .4;
@@ -394,7 +397,7 @@
 *  2. Bullets
 *
 ****************/
-/* line 326, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 329, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scBullets {
   position: absolute;
   z-index: 35;
@@ -408,9 +411,10 @@
   text-align: center;
   line-height: 18px;
   overflow: hidden;
+  visibility: hidden;
 }
 
-/* line 341, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 345, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scBullet {
   width: 8px;
   height: 8px;
@@ -423,24 +427,36 @@
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* line 352, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 356, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scBullet.scNavSelected {
   background-color: #FFF;
 }
 
+@media screen and (min-width: 0px) and (max-width: 767px) {
+  /* line 361, ../../../../src/css/scss/modules/sonycarousel.scss */
+  .scDefault .scBullets {
+    visibility: visible;
+  }
+}
+/***************
+*
+*  3. Tabs
+*
+****************/
 /***************
 *
 *  3. Thumbnails
 *
 ****************/
-/* line 369, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 380, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumbsHor {
-  padding-bottom: 4px;
+  padding-bottom: 0px;
   width: 100%;
-  height: 72px;
+  height: 0px !important;
+  visibility: hidden;
 }
 
-/* line 375, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 387, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumbsVer {
   padding-right: 4px;
   width: 96px;
@@ -451,23 +467,26 @@
 }
 
 @media screen and (min-width: 767px) {
-  /* 	.scDefault .scThumbsHor {
-  		display:block;
-  	} */
+  /* line 397, ../../../../src/css/scss/modules/sonycarousel.scss */
+  .scDefault .scThumbsHor {
+    visibility: visible;
+    height: 72px !important;
+    padding-bottom: 4px;
+  }
 }
-/* line 390, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 405, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsHor .scThumbsContainer {
   position: relative;
   height: 100%;
 }
 
-/* line 394, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 409, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsVer .scThumbsContainer {
   position: relative;
   width: 100%;
 }
 
-/* line 398, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 413, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumb {
   float: left;
   overflow: hidden;
@@ -475,32 +494,32 @@
   height: 72px;
 }
 
-/* line 404, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 419, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumb img {
   width: 100%;
   height: 100%;
 }
 
-/* line 408, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 423, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumb.scNavSelected {
   /* background: #DA15DA; */
   border: 3px solid #007AFF;
   border-radius: 5px;
 }
 
-/* line 413, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 428, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumb.scNavSelected img {
   opacity: 0.3;
   filter: alpha(opacity=30);
 }
 
-/* line 417, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 432, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scTmb {
   display: block;
 }
 
 /* Thumbnails arrow icons */
-/* line 422, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 437, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumbsArrow {
   height: 100%;
   width: 20px;
@@ -512,42 +531,42 @@
   background: rgba(0, 0, 0, 0.75);
 }
 
-/* line 432, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 447, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumbsArrow:hover {
   background: rgba(0, 0, 0, 0.9);
 }
 
-/* line 435, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 450, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsVer .scThumbsArrow {
   width: 100%;
   height: 20px;
 }
 
-/* line 439, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 454, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsVer .scThumbsArrowLeft {
   top: 0;
   left: 0;
 }
 
-/* line 440, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 455, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsVer .scThumbsArrowRight {
   bottom: 0;
   left: 0;
 }
 
-/* line 442, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 457, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsHor .scThumbsArrowLeft {
   left: 0;
   top: 0;
 }
 
-/* line 443, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 458, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsHor .scThumbsArrowRight {
   right: 0;
   top: 0;
 }
 
-/* line 445, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 460, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumbsArrowIcn {
   width: 16px;
   height: 16px;
@@ -560,45 +579,45 @@
   background: url("rs-default.png");
 }
 
-/* line 457, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 472, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsHor .scThumbsArrowLeft .scThumbsArrowIcn {
   background-position: -128px -32px;
 }
 
-/* line 458, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 473, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsHor .scThumbsArrowRight .scThumbsArrowIcn {
   background-position: -128px -48px;
 }
 
-/* line 460, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 475, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsVer .scThumbsArrowLeft .scThumbsArrowIcn {
   background-position: -144px -32px;
 }
 
-/* line 461, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 476, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scWithThumbsVer .scThumbsArrowRight .scThumbsArrowIcn {
   background-position: -144px -48px;
 }
 
-/* line 463, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 478, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scThumbsArrowDisabled {
   display: none !important;
 }
 
 /* Thumbnails resizing on smaller screens */
 @media screen and (min-width: 0px) and (max-width: 800px) {
-  /* line 467, ../../../../src/css/scss/modules/sonycarousel.scss */
+  /* line 482, ../../../../src/css/scss/modules/sonycarousel.scss */
   .scDefault .scThumb {
     width: 59px;
     height: 44px;
   }
 
-  /* line 471, ../../../../src/css/scss/modules/sonycarousel.scss */
+  /* line 486, ../../../../src/css/scss/modules/sonycarousel.scss */
   .scDefault .scThumbsHor {
     height: 44px;
   }
 
-  /* line 474, ../../../../src/css/scss/modules/sonycarousel.scss */
+  /* line 489, ../../../../src/css/scss/modules/sonycarousel.scss */
   .scDefault .scThumbsVer {
     width: 59px;
   }
@@ -608,7 +627,7 @@
 *  4. Tabs
 *
 ****************/
-/* line 488, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 501, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scTabs {
   width: 100%;
   height: auto;
@@ -616,10 +635,11 @@
   text-align: center;
   overflow: hidden;
   padding-top: 12px;
-  position: relative;
+  position: absolute;
+  bottom: 20px;
 }
 
-/* line 495, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 511, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scTab {
   display: inline-block;
   cursor: pointer;
@@ -629,55 +649,58 @@
   color: #333;
   padding: 5px 13px 6px;
   min-width: 72px;
-  border: 1px solid #D9D9DD;
-  border-right: 1px solid #f5f5f5;
+  /* border: 1px solid #D9D9DD; */
+  /* border-right: 1px solid #f5f5f5; */
   text-decoration: none;
-  background-color: #FFF;
-  background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
-  background-image: -moz-linear-gradient(top, #fefefe, #f4f4f4);
-  background-image: linear-gradient(to bottom, #fefefe, #f4f4f4);
-  -webkit-box-shadow: inset 1px 0 0 #fff;
-  box-shadow: inset 1px 0 0 #fff;
+  background-color: #417cc0;
+  margin: 0 3px 0 3px;
+  /* 	background-color: #FFF;
+  	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4); 
+  	background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
+  	background-image:         linear-gradient(to bottom, #fefefe, #f4f4f4); */
+  /* 	-webkit-box-shadow: inset 1px 0 0 #fff;
+  	box-shadow: inset 1px 0 0 #fff; */
   *display: inline;
   *zoom: 1;
 }
 
-/* line 519, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 538, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scTab:first-child {
-  -webkit-border-top-left-radius: 4px;
-  border-top-left-radius: 4px;
-  -webkit-border-bottom-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  /* 	-webkit-border-top-left-radius: 4px;
+  	border-top-left-radius: 4px;
+  	-webkit-border-bottom-left-radius: 4px;
+  	border-bottom-left-radius: 4px; */
 }
 
-/* line 525, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 544, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scTab:last-child {
-  -webkit-border-top-right-radius: 4px;
-  border-top-right-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-right: 1px solid #cfcfcf;
+  /* 	-webkit-border-top-right-radius: 4px;
+  	border-top-right-radius: 4px;
+  	-webkit-border-bottom-right-radius: 4px;
+  	border-bottom-right-radius: 4px;
+  
+  	border-right:  1px solid #cfcfcf; */
 }
 
-/* line 533, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 552, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scTab:active {
-  border: 1px solid #D9D9DD;
-  background-color: #f4f4f4;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
+  /* border: 1px solid #D9D9DD;    */
+  background-color: #fff;
+  /* 	    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
+  	box-shadow:  0 1px 4px rgba(0, 0, 0, 0.2) inset; */
 }
 
-/* line 539, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 558, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scTab.scNavSelected {
-  color: white;
-  border: 1px solid #999;
-  text-shadow: 1px 1px #838383;
-  -webkit-box-shadow: 0 1px 9px rgba(102, 102, 102, 0.65) inset;
-  box-shadow: 0 1px 9px rgba(102, 102, 102, 0.65) inset;
-  background: #ACACAC;
-  background-image: -webkit-linear-gradient(top, #acacac, #bbbbbb);
-  background-image: -moz-llinear-gradient(top, #acacac, #bbbbbb);
-  background-image: linear-gradient(to bottom, #acacac, #bbbbbb);
+  color: black;
+  /* border: 1px solid #999; */
+  /* text-shadow: 1px 1px #838383; */
+  /* 	-webkit-box-shadow: 0 1px 9px rgba(102, 102, 102, 0.65) inset;
+  	box-shadow: 0 1px 9px rgba(102, 102, 102, 0.65) inset; */
+  background: #fff;
+  /* 	background-image: -webkit-linear-gradient(top, #ACACAC, #BBB);
+  	background-image: -moz-llinear-gradient(top, #ACACAC, #BBB);
+  	background-image: linear-gradient(to bottom, #ACACAC, #BBB); */
 }
 
 /***********************************
@@ -685,7 +708,7 @@
 *  5. Fullscreen button
 *
 ***********************************/
-/* line 557, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 576, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scFullscreenBtn {
   right: 0;
   top: 0;
@@ -697,7 +720,7 @@
   cursor: pointer;
 }
 
-/* line 568, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 587, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scFullscreenIcn {
   display: block;
   margin: 6px;
@@ -709,12 +732,12 @@
   border-radius: 2px;
 }
 
-/* line 580, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 599, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scFullscreenIcn:hover {
   background-color: rgba(0, 0, 0, 0.9);
 }
 
-/* line 583, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 602, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault.scFullscreen .scFullscreenIcn {
   background-position: -32px 0;
 }
@@ -724,7 +747,7 @@
 *  6. Play/close video button
 *
 ****************/
-/* line 594, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 613, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scPlayBtn {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
   width: 64px;
@@ -734,7 +757,7 @@
   cursor: pointer;
 }
 
-/* line 602, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 621, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scPlayBtnIcon {
   width: 64px;
   display: block;
@@ -749,12 +772,12 @@
   *background-color: #000;
 }
 
-/* line 616, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 635, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scPlayBtn:hover .scPlayBtnIcon {
   background-color: rgba(0, 0, 0, 0.9);
 }
 
-/* line 619, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 638, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scBtnCenterer {
   position: absolute;
   left: 50%;
@@ -763,7 +786,7 @@
   height: 20px;
 }
 
-/* line 626, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 645, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scCloseVideoBtn {
   right: 0;
   top: 0;
@@ -776,7 +799,7 @@
   -webkit-transform: translateZ(0);
 }
 
-/* line 638, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 657, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scCloseVideoBtn.sciOSBtn {
   top: -38px;
   right: -6px;
@@ -784,7 +807,7 @@
   right: -38px;*/
 }
 
-/* line 645, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 664, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scCloseVideoIcn {
   margin: 6px;
   width: 32px;
@@ -794,7 +817,7 @@
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-/* line 653, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 672, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scCloseVideoIcn:hover {
   background-color: rgba(0, 0, 0, 0.9);
 }
@@ -804,7 +827,7 @@
 *  7. Preloader
 *
 ****************/
-/* line 663, ../../../../src/css/scss/modules/sonycarousel.scss */
+/* line 682, ../../../../src/css/scss/modules/sonycarousel.scss */
 .scDefault .scPreloader {
   width: 20px;
   height: 20px;

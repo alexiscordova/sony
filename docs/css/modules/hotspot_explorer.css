@@ -1,0 +1,381 @@
+@font-face {
+  font-family: 'SST-Light';
+  src: url("../fonts/sst-light.eot");
+  src: url("../fonts/sst-light.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-light.woff") format("woff"), url("../fonts/sst-light.ttf") format("truetype"), url("../fonts/sst-light.svg#sst-light") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Roman';
+  src: url("../fonts/sst-roman.eot");
+  src: url("../fonts/sst-roman.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-roman.woff") format("woff"), url("../fonts/sst-roman.ttf") format("truetype"), url("../fonts/sst-roman.svg#sst-roman") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Medium';
+  src: url("../fonts/sst-medium.eot");
+  src: url("../fonts/sst-medium.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-medium.woff") format("woff"), url("../fonts/sst-medium.ttf") format("truetype"), url("../fonts/sst-medium.svg#sst-medium") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Bold';
+  src: url("../fonts/sst-heavy.eot");
+  src: url("../fonts/sst-heavy.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-heavy.woff") format("woff"), url("../fonts/sst-heavy.ttf") format("truetype"), url("../fonts/sst-heavy.svg#sst-heavy") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Italic';
+  src: url("../fonts/sst-italic.eot");
+  src: url("../fonts/sst-italic.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-italic.woff") format("woff"), url("../fonts/sst-italic.ttf") format("truetype"), url("../fonts/sst-italic.svg#sst-italic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SST-Bold-Italic';
+  src: url("../fonts/sst-heavyitalic.eot");
+  src: url("../fonts/sst-heavyitalic.eot?#iefix") format("embedded-opentype"), url("../fonts/sst-heavyitalic.woff") format("woff"), url("../fonts/sst-heavyitalic.ttf") format("truetype"), url("../fonts/sst-heavyitalic.svg#sst-heavyitalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 15px/16px */
+/* 13px/16px */
+/* 14px/16px */
+/* line 313, ../../../src/css/scss/_base/_mixins.scss */
+.hotspot .tooltip {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  -webkit-transition: opacity 0.15s ease-in 0s;
+  -moz-transition: opacity 0.15s ease-in 0s;
+  -ms-transition: opacity 0.15s ease-in 0s;
+  -o-transition: opacity 0.15s ease-in 0s;
+  transition: opacity 0.15s ease-in 0s;
+  -webkit-backface-visibility: hidden;
+}
+
+/* line 326, ../../../src/css/scss/_base/_mixins.scss */
+.hotspot:hover .tooltip {
+  left: 86px;
+  /* relative to left edge of hotspot */
+  opacity: 1;
+  -webkit-transition: opacity 0.15s ease-out 0s;
+  -moz-transition: opacity 0.15s ease-out 0s;
+  -ms-transition: opacity 0.15s ease-out 0s;
+  -o-transition: opacity 0.15s ease-out 0s;
+  transition: opacity 0.15s ease-out 0s;
+}
+
+/* line 335, ../../../src/css/scss/_base/_mixins.scss */
+html.no-opacity .hotspot .tooltip {
+  visibility: hidden;
+}
+
+/* line 336, ../../../src/css/scss/_base/_mixins.scss */
+html.no-opacity .hotspot:hover .tooltip {
+  visibility: visible;
+}
+
+/* This is a combination of Eric Meyers reset, and Nicolas Gallagher's normalize */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+/* line 20, ../../../src/css/scss/_base/_reset.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+/* line 30, ../../../src/css/scss/_base/_reset.scss */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+/* line 33, ../../../src/css/scss/_base/_reset.scss */
+body {
+  line-height: 1em;
+}
+
+/* line 36, ../../../src/css/scss/_base/_reset.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 39, ../../../src/css/scss/_base/_reset.scss */
+blockquote, q {
+  quotes: none;
+}
+
+/* line 47, ../../../src/css/scss/_base/_reset.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 70, ../../../src/css/scss/_base/_reset.scss */
+audio,
+canvas,
+video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+/* line 79, ../../../src/css/scss/_base/_reset.scss */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/*
+ * Addresses styling for `hidden` attribute not present in IE 7/8/9, Firefox 3,
+ * and Safari 4.
+ * Known issue: no IE 6 support.
+ */
+/* line 90, ../../../src/css/scss/_base/_reset.scss */
+[hidden] {
+  display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+/*
+ * 1. Corrects text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 2. Prevents iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+/* line 105, ../../../src/css/scss/_base/_reset.scss */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* line 114, ../../../src/css/scss/_base/_reset.scss */
+a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+/* line 119, ../../../src/css/scss/_base/_reset.scss */
+a:hover,
+a:active {
+  outline: 0;
+}
+
+/* line 127, ../../../src/css/scss/_base/_reset.scss */
+sub,
+sup {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+/* line 133, ../../../src/css/scss/_base/_reset.scss */
+sup {
+  top: -0.5em;
+}
+
+/* line 136, ../../../src/css/scss/_base/_reset.scss */
+sub {
+  bottom: -0.25em;
+}
+
+/* line 143, ../../../src/css/scss/_base/_reset.scss */
+img {
+  /* Responsive images (ensure images don't scale beyond their parents) */
+  max-width: 100%;
+  /* Part 1: Set a maxium relative to the parent */
+  width: auto\9;
+  /* IE7-8 need help adjusting responsive images */
+  height: auto;
+  /* Part 2: Scale the height according to the width, otherwise you get stretching */
+  vertical-align: middle;
+  -ms-interpolation-mode: bicubic;
+}
+
+/* line 154, ../../../src/css/scss/_base/_reset.scss */
+#map_canvas img {
+  max-width: none;
+}
+
+/* line 165, ../../../src/css/scss/_base/_reset.scss */
+button,
+input,
+select,
+textarea {
+  vertical-align: middle;
+}
+
+/* line 169, ../../../src/css/scss/_base/_reset.scss */
+button,
+input {
+  *overflow: visible;
+  line-height: normal;
+}
+
+/* line 174, ../../../src/css/scss/_base/_reset.scss */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+/* line 181, ../../../src/css/scss/_base/_reset.scss */
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+
+/* line 185, ../../../src/css/scss/_base/_reset.scss */
+input[type="search"] {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-appearance: textfield;
+}
+
+/* line 192, ../../../src/css/scss/_base/_reset.scss */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* line 195, ../../../src/css/scss/_base/_reset.scss */
+textarea {
+  overflow: auto;
+  vertical-align: top;
+}
+
+/* line 11, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer {
+  position: relative;
+}
+
+/* line 15, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsHero, .hsExplorer .hsSpot, .hsExplorer .hsSpot .hsInner, .hsExplorer .hsInfoPanel {
+  position: absolute;
+}
+
+/* line 23, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsDev {
+  width: 100%;
+  max-width: 725px;
+  height: auto;
+}
+
+/*************************
+-- Hotspot Explorer
+-- 
+*************************/
+/* line 33, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer {
+  width: 100%;
+  max-width: 725px;
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+}
+/* line 42, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsHero {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* line 52, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot {
+  top: -2000em;
+  left: -2000em;
+  width: 55px;
+  height: 55px;
+  border-radius: 100%;
+  display: block;
+  visibility: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+}
+/* line 67, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot .hsInner {
+  top: 10px;
+  left: 10px;
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  display: block;
+  background: #ef5328;
+  z-index: 10;
+}
+/* line 80, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot .hsInner:hover {
+  background: #888895;
+}
+/* line 88, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel {
+  top: 133px;
+  left: -263px;
+  width: 280px;
+  height: 445px;
+  display: block;
+  color: #2b2f3b;
+  background-color: #2b2f3b;
+  z-index: 5;
+}
+/* line 103, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* line 109, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel .hsInfo {
+  width: 205px;
+  color: #afb6ba;
+}
+/* line 114, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel .hsInfo h1 {
+  font-size: 24px;
+  color: #fff;
+}
+/* line 119, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel .hsInfo a {
+  color: #5787f4;
+}

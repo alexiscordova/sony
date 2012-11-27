@@ -2,8 +2,8 @@
 
 #basic {
 	width: 100%;
-	max-height:320px;
-	max-width: 640px;
+/* 	max-height:320px;
+	max-width: 640px; */
 }
 
 /* Sony Carousel Base CSS dont' change anything  */
@@ -35,11 +35,14 @@
 
 .scSlide p {
 	position: absolute;
-	top:0px;
-	left:0px;
-	z-index:1;
-	color:red;
-	background:#000;
+	top: 10%;
+	left: 5%;
+	z-index: 1;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.7);
+	max-width: 300px;
+	height: 300px;
+	padding: 25px;
 }
 
 
@@ -337,6 +340,7 @@
 	line-height: 18px;
 	overflow: hidden;
 	//display:none;
+	visibility: hidden;
 }
 .scDefault .scBullet {
 	width: 8px;
@@ -356,8 +360,15 @@
 @media screen and (min-width: 0px) and (max-width: 767px) {
 	.scDefault .scBullets {
 		//display:block;
+		visibility: visible;
 	}
 }
+
+/***************
+*
+*  3. Tabs
+*
+****************/
 
 
 /***************
@@ -367,10 +378,11 @@
 ****************/
 
 .scDefault .scThumbsHor {
-	padding-bottom: 4px;
+	padding-bottom: 0px;
 	width: 100%;
-	height: 72px;
-	//display:none;
+	height:0px !important;
+	visibility: hidden;
+
 }
 .scDefault .scThumbsVer {
 	padding-right: 4px;
@@ -382,9 +394,12 @@
 }
 
 @media screen and (min-width: 767px) {
-/* 	.scDefault .scThumbsHor {
-		display:block;
-	} */
+ 	.scDefault .scThumbsHor {
+		//display:block;
+		visibility: visible;
+		height: 72px !important;
+		padding-bottom: 4px;
+	} 
 }
 
 .scDefault.scWithThumbsHor .scThumbsContainer {
@@ -477,8 +492,6 @@
 }
 
 
-
-
 /***************
 *
 *  4. Tabs
@@ -490,8 +503,11 @@
 	height: auto;
 	margin: 0 auto;
 	text-align:center;
-	overflow: hidden; padding-top: 12px; position: relative;
+	overflow: hidden; padding-top: 12px; 
+	position: absolute;
+	bottom:20px;
 }
+
 .scDefault .scTab {
 	display: inline-block;
 	cursor: pointer;
@@ -501,51 +517,54 @@
 	color: #333;
 	padding: 5px 13px 6px;
 	min-width: 72px;
-	border: 1px solid #D9D9DD;
-	border-right: 1px solid #f5f5f5;
+	/* border: 1px solid #D9D9DD; */
+	/* border-right: 1px solid #f5f5f5; */
 	text-decoration: none;
+	background-color: #417cc0;
+	margin: 0 3px 0 3px;
 
-	background-color: #FFF;
+
+/* 	background-color: #FFF;
 	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4); 
 	background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
-	background-image:         linear-gradient(to bottom, #fefefe, #f4f4f4);
+	background-image:         linear-gradient(to bottom, #fefefe, #f4f4f4); */
 
-	-webkit-box-shadow: inset 1px 0 0 #fff;
-	box-shadow: inset 1px 0 0 #fff;
+/* 	-webkit-box-shadow: inset 1px 0 0 #fff;
+	box-shadow: inset 1px 0 0 #fff; */
 
 	*display:inline; 
 	*zoom:1;
 }
 .scDefault .scTab:first-child {
-	-webkit-border-top-left-radius: 4px;
+/* 	-webkit-border-top-left-radius: 4px;
 	border-top-left-radius: 4px;
 	-webkit-border-bottom-left-radius: 4px;
-	border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px; */
 }
 .scDefault .scTab:last-child { 
-	-webkit-border-top-right-radius: 4px;
+/* 	-webkit-border-top-right-radius: 4px;
 	border-top-right-radius: 4px;
 	-webkit-border-bottom-right-radius: 4px;
 	border-bottom-right-radius: 4px;
 
-	border-right:  1px solid #cfcfcf;
+	border-right:  1px solid #cfcfcf; */
 }
 .scDefault .scTab:active { 
-	border: 1px solid #D9D9DD;   
-	background-color: #f4f4f4;
-	    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
-	box-shadow:  0 1px 4px rgba(0, 0, 0, 0.2) inset;
+	/* border: 1px solid #D9D9DD;    */
+	background-color: #fff;
+/* 	    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
+	box-shadow:  0 1px 4px rgba(0, 0, 0, 0.2) inset; */
 }
 .scDefault .scTab.scNavSelected { 
-		color: white;
-	border: 1px solid #999;
-	text-shadow: 1px 1px #838383;
-	-webkit-box-shadow: 0 1px 9px rgba(102, 102, 102, 0.65) inset;
-	box-shadow: 0 1px 9px rgba(102, 102, 102, 0.65) inset;
-	background: #ACACAC;
-	background-image: -webkit-linear-gradient(top, #ACACAC, #BBB);
+		color: black;
+	/* border: 1px solid #999; */
+	/* text-shadow: 1px 1px #838383; */
+/* 	-webkit-box-shadow: 0 1px 9px rgba(102, 102, 102, 0.65) inset;
+	box-shadow: 0 1px 9px rgba(102, 102, 102, 0.65) inset; */
+	background: #fff;
+/* 	background-image: -webkit-linear-gradient(top, #ACACAC, #BBB);
 	background-image: -moz-llinear-gradient(top, #ACACAC, #BBB);
-	background-image: linear-gradient(to bottom, #ACACAC, #BBB);
+	background-image: linear-gradient(to bottom, #ACACAC, #BBB); */
 }
 
 /***********************************

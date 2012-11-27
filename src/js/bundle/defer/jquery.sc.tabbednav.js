@@ -8,17 +8,15 @@
 	$.extend($.scProto, {
 		_initTabs: function() {
 			var self = this;
-			if(self.st.controlNavigation === 'thumbnav') {
+			if(self.st.controlNavigation === 'tabbednav') {
 				
 				
-				return; //need to build this out
-				
-				var itemHTML = '<div class="scNavItem scBullet"><span class=""></span></div>';
+				var itemHTML = '<div class="scNavItem scTab"><span class="">Tab Name</span></div>';
 				self.ev.one('scAfterPropsSetup', function() {
 
 					self._controlNavEnabled = true;
 					self.slider.addClass('scWithBullets');
-					var out = '<div class="scNav scBullets">';
+					var out = '<div class="scNav scTabs">';
 					for(var i = 0; i < self.numSlides; i++) {
 						out += itemHTML;
 					}
@@ -36,23 +34,7 @@
 					});
 				});
 
-				self.ev.on('scOnAppendSlide', function(e, parsedSlide, index) {
-					if(index >= self.numSlides) {
-						self._controlNav.append(itemHTML);
-					} else {
-						self._controlNavItems.eq(index).before(itemHTML);
-					}
-					self._controlNavItems = self._controlNav.children();
-				});
-				self.ev.on('scOnRemoveSlide', function(e, index) {
-					var itemToRemove = self._controlNavItems.eq(index);
-					if(itemToRemove) {
-						itemToRemove.remove();
-						self._controlNavItems = self._controlNav.children();
-					}
-					
-				});	
-
+	
 				self.ev.on('scOnUpdateNav', function() {
 					var id = self.currSlideId,
 						currItem,
@@ -68,5 +50,5 @@
 			}
 		}
 	});
-	//$.scModules.tabbednav = $.scProto._initTabs;
+	$.scModules.tabbednav = $.scProto._initTabs;
 })(jQuery);

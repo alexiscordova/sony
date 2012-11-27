@@ -93,6 +93,14 @@
             break;
         }
 
+        switch (self.st.controlNavigation){
+
+            case 'tabbednav':
+                self.st.transitionType = 'fade';
+            break;
+        }
+
+
 
         self._currAnimSpeed = self.st.transitionSpeed;
  
@@ -2125,12 +2133,11 @@
                     fadeinLoadedSlide: true,
                     imageAlignCenter:true,
                     imageScaleMode: 'fill',
-                    controlNavigation: 'thumbnails',
+                    controlNavigation: 'bullets',
                     keyboardNavEnabled: true,
                     slidesOrientation: 'horizontal',
-                    autoScaleSlider: true,
-                    autoScaleSliderWidth: 640,     
-                    autoScaleSliderHeight: 320
+                    autoScaleSlider: true
+
                 };
 
             //TODO: build opts object out of data attributes

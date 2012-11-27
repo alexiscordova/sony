@@ -1,7 +1,5 @@
-
-
 <!DOCTYPE html>
-<!--[if lt IE8 ]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
@@ -32,24 +30,44 @@
     </head>
     <body>
 
+<!-- include your module markup templates here -->        
+        <!-- -@partial('modules/module_hotspot_explorer.html.eco', @data('hotspot_default.json'))  -->
+        <div class="hsExplorer .hsDev">
 
 
+    <img class='hsHero' src="img/modules/hotspotexplorer/sony_camera_big.png" alt="">
 
-        <div>
-            <h1>example module: one</h1>
-            <ul>
-                <li>1 foo</li>
-                <li>2 bar</li>
-            </ul>
+
+    
+    <ul>
+        
+            <li class="hsSpot" data-x="-13" data-y="238"><span class="hsInner"></span></li>
+        
+            <li class="hsSpot" data-x="163" data-y="547"><span class="hsInner"></span></li>
+        
+            <li class="hsSpot" data-x="580" data-y="265"><span class="hsInner"></span></li>
+        
+    </ul>
+    
+
+    <!-- Info Panel -->
+    <div class="hsInfoPanel">
+        <div class="hsInfo">
+            <img src="img/modules/hotspotexplorer/info_panel_image_1.jpg" alt="">
+            <h1>Interchangeable ultra-slim lenses</h1>
+            <p>With all the adaptable mount and options to pick the lenses of your needs, you can bundle with the 16-50mm power zoom lens and add our new ultra-slim lens to your collection.</p>
+            <a href="#">#</a>
         </div>
+    </div>
+</div>
 
-        <div>
-            <h1>example module: two</h1>
-            <ul>
-                <li>3 foo</li>
-                <li>4 bar</li>
-            </ul>
-        </div>
+
+
+
+
+
+
+
 
 
 
@@ -78,6 +96,11 @@
         <![endif]-->
 
 
+<!-- include your module js here -->
+        <!-- <script src="js/libs/jquery-1.8.2.min.js"></script> -->
 
+
+    </script>    
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
     </body>
 </html>
