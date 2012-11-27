@@ -71,16 +71,15 @@ Exports.Modules.Gallery = (function($) {
     $('.gallery').each(function() {
       var $this = $(this),
       data = $this.data(),
-      options = {
-        sort: data.sort,
-      };
+      options = { mode : data.mode };
 
-      if ( data.five ) {
+      // Do some work to set up the 5 column grid if this isn't in 'detailed' mode
+      if ( data.mode !== 'detailed' ) {
         options.shuffleColumns = fiveColumnFluid;
         options.shuffleGutters = fiveGutterFluid;
       }
 
-      $this.gallery(options);
+      $this.addClass('gallery-' + data.mode).gallery(options);
     });
   };
 

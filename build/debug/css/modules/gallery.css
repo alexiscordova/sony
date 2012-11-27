@@ -225,41 +225,52 @@ html.no-opacity .hotspot:hover .tooltip {
 .gallery-title-bar {
   padding: 1.25em 0;
 }
+/* line 94, ../../../../src/css/scss/modules/gallery.scss */
+.gallery-title-bar .dropdown {
+  display: inline-block;
+}
 
-/* line 105, ../../../../src/css/scss/modules/gallery.scss */
-.gallery-simple .shuffle-item {
+/* line 109, ../../../../src/css/scss/modules/gallery.scss */
+.gallery-detailed .shuffle-item {
   margin: 23px 0 0;
 }
 
-/* line 113, ../../../../src/css/scss/modules/gallery.scss */
+/* line 117, ../../../../src/css/scss/modules/gallery.scss */
 .gallery .gallery-item {
   margin-left: 0;
 }
 
-/* line 117, ../../../../src/css/scss/modules/gallery.scss */
+/* line 121, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-item {
   position: relative;
   margin-top: 23px;
   height: 337px;
   overflow: hidden;
 }
-/* line 123, ../../../../src/css/scss/modules/gallery.scss */
-.gallery-simple .gallery-item {
+/* line 127, ../../../../src/css/scss/modules/gallery.scss */
+.gallery-detailed .gallery-item {
   height: 480px;
 }
-/* line 127, ../../../../src/css/scss/modules/gallery.scss */
+/* line 131, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-item .label {
   position: absolute;
   top: 0;
   right: 0;
 }
+/* line 137, ../../../../src/css/scss/modules/gallery.scss */
+.gallery-item .icon-mini-favorite {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
+}
 
-/* line 135, ../../../../src/css/scss/modules/gallery.scss */
+/* line 146, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-item.h2 {
   height: 697px;
 }
 
-/* line 139, ../../../../src/css/scss/modules/gallery.scss */
+/* line 150, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-item .product-img {
   height: 220px;
   width: 100%;
@@ -267,112 +278,123 @@ html.no-opacity .hotspot:hover .tooltip {
   text-align: center;
   background: #f3f4f6;
 }
-/* line 146, ../../../../src/css/scss/modules/gallery.scss */
+/* line 157, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-item .product-img img {
   display: block;
   max-height: 100%;
   max-width: 100%;
 }
 
-/* line 154, ../../../../src/css/scss/modules/gallery.scss */
+/* line 165, ../../../../src/css/scss/modules/gallery.scss */
 .large.gallery-item .product-img {
   height: 580px;
 }
 
-/* line 161, ../../../../src/css/scss/modules/gallery.scss */
+/* line 172, ../../../../src/css/scss/modules/gallery.scss */
 .promo.gallery-item .product-content {
   position: absolute;
   top: 0;
   left: 0;
   text-align: left;
 }
-/* line 168, ../../../../src/css/scss/modules/gallery.scss */
+/* line 179, ../../../../src/css/scss/modules/gallery.scss */
 .promo.gallery-item .product-img {
   height: 100%;
 }
-/* line 172, ../../../../src/css/scss/modules/gallery.scss */
+/* line 183, ../../../../src/css/scss/modules/gallery.scss */
 .promo.gallery-item img {
   max-height: initial;
   max-width: initial;
 }
 
 @media (max-width: 767px) {
-  /* line 179, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 190, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-item {
     margin-top: 10px;
   }
 
-  /* line 183, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 194, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-item.h2 {
     height: 684px;
   }
 
-  /* line 189, ../../../../src/css/scss/modules/gallery.scss */
-  .gallery-simple .label {
+  /* line 200, ../../../../src/css/scss/modules/gallery.scss */
+  .gallery-detailed .label {
     left: 0;
     right: auto;
   }
-  /* line 194, ../../../../src/css/scss/modules/gallery.scss */
-  .gallery-simple .gallery-item {
+  /* line 205, ../../../../src/css/scss/modules/gallery.scss */
+  .gallery-detailed .gallery-item {
     display: table;
     height: auto;
   }
-  /* line 199, ../../../../src/css/scss/modules/gallery.scss */
-  .gallery-simple .product-img {
+  /* line 210, ../../../../src/css/scss/modules/gallery.scss */
+  .gallery-detailed .product-img {
     display: table-cell;
     width: 33.33%;
     vertical-align: middle;
   }
-  /* line 205, ../../../../src/css/scss/modules/gallery.scss */
-  .gallery-simple .product-content {
+  /* line 216, ../../../../src/css/scss/modules/gallery.scss */
+  .gallery-detailed .product-content {
     display: table-cell;
     width: 66.66%;
     padding-left: 5%;
   }
 
-  /* line 213, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 224, ../../../../src/css/scss/modules/gallery.scss */
   .product-strip .gallery-item:nth-child(n + 5) {
     display: none;
   }
 }
-/* line 230, ../../../../src/css/scss/modules/gallery.scss */
-.filter-options {
-  margin: 20px 0;
+/* line 234, ../../../../src/css/scss/modules/gallery.scss */
+.product-filter {
+  background: #f3f4f6;
 }
 
-/* line 234, ../../../../src/css/scss/modules/gallery.scss */
+/* line 238, ../../../../src/css/scss/modules/gallery.scss */
+.filter-options {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* line 246, ../../../../src/css/scss/modules/gallery.scss */
+.active-filters .label:not(:first-child) {
+  margin-left: 2px;
+}
+
+/* line 252, ../../../../src/css/scss/modules/gallery.scss */
 .range-control-wrap {
   margin-top: 10px;
   padding: 0 10px;
 }
 
-/* line 239, ../../../../src/css/scss/modules/gallery.scss */
+/* line 257, ../../../../src/css/scss/modules/gallery.scss */
 .range-output {
   margin-top: 10px;
   width: inherit;
   text-align: center;
 }
 
-/* line 245, ../../../../src/css/scss/modules/gallery.scss */
+/* line 263, ../../../../src/css/scss/modules/gallery.scss */
 .tab-layer h3 code {
   font-size: inherit;
   font-weight: normal;
   line-height: inherit;
 }
 
-/* line 251, ../../../../src/css/scss/modules/gallery.scss */
+/* line 269, ../../../../src/css/scss/modules/gallery.scss */
 .tab-content {
   margin-top: 20px;
   overflow: visible;
 }
 
-/* line 263, ../../../../src/css/scss/modules/gallery.scss */
+/* line 281, ../../../../src/css/scss/modules/gallery.scss */
 .tab-strip {
   position: relative;
   background-color: #f3f4f6;
 }
 
-/* line 269, ../../../../src/css/scss/modules/gallery.scss */
+/* line 287, ../../../../src/css/scss/modules/gallery.scss */
 .tabs {
   z-index: 1;
   height: 100px;
@@ -381,7 +403,7 @@ html.no-opacity .hotspot:hover .tooltip {
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 278, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 296, ../../../../src/css/scss/modules/gallery.scss */
   .tabs {
     position: relative;
     overflow-x: hidden;
@@ -391,12 +413,12 @@ html.no-opacity .hotspot:hover .tooltip {
     transition: all .4s ease-in-out;
   }
 
-  /* line 287, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 305, ../../../../src/css/scss/modules/gallery.scss */
   .tabs-container {
     overflow: hidden;
   }
 }
-/* line 292, ../../../../src/css/scss/modules/gallery.scss */
+/* line 310, ../../../../src/css/scss/modules/gallery.scss */
 .tab {
   position: relative;
   z-index: 1;
@@ -410,7 +432,7 @@ html.no-opacity .hotspot:hover .tooltip {
   -moz-transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
   transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
 }
-/* line 306, ../../../../src/css/scss/modules/gallery.scss */
+/* line 324, ../../../../src/css/scss/modules/gallery.scss */
 .tab.active {
   z-index: 2;
   top: -2px;
@@ -418,36 +440,36 @@ html.no-opacity .hotspot:hover .tooltip {
   box-shadow: 0 2px 0 white, 0 0 4px 1px rgba(0, 0, 0, 0.15);
 }
 
-/* line 316, ../../../../src/css/scss/modules/gallery.scss */
+/* line 334, ../../../../src/css/scss/modules/gallery.scss */
 .holder-for-icon {
   height: 30px;
 }
 
-/* line 320, ../../../../src/css/scss/modules/gallery.scss */
+/* line 338, ../../../../src/css/scss/modules/gallery.scss */
 .tab-label {
   margin-top: 15px;
 }
 
-/* line 326, ../../../../src/css/scss/modules/gallery.scss */
+/* line 344, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav-btns {
   position: absolute;
   z-index: 5;
   height: 100px;
 }
 
-/* line 332, ../../../../src/css/scss/modules/gallery.scss */
+/* line 350, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav-wrap {
   position: relative;
   display: none;
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 338, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 356, ../../../../src/css/scss/modules/gallery.scss */
   .tab-nav-wrap {
     display: block;
   }
 }
-/* line 344, ../../../../src/css/scss/modules/gallery.scss */
+/* line 362, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav {
   position: absolute;
   z-index: 5;
@@ -460,12 +482,12 @@ html.no-opacity .hotspot:hover .tooltip {
   cursor: pointer;
 }
 
-/* line 356, ../../../../src/css/scss/modules/gallery.scss */
+/* line 374, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav-next {
   left: 724px;
 }
 
-/* line 361, ../../../../src/css/scss/modules/gallery.scss */
+/* line 379, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav:before {
   content: '';
   position: absolute;
@@ -480,7 +502,7 @@ html.no-opacity .hotspot:hover .tooltip {
   border-bottom: 5px solid transparent;
 }
 
-/* line 376, ../../../../src/css/scss/modules/gallery.scss */
+/* line 394, ../../../../src/css/scss/modules/gallery.scss */
 .tab-nav-next:before {
   border-top: 5px solid transparent;
   border-right: none;
@@ -488,7 +510,7 @@ html.no-opacity .hotspot:hover .tooltip {
   border-bottom: 5px solid transparent;
 }
 
-/* line 384, ../../../../src/css/scss/modules/gallery.scss */
+/* line 402, ../../../../src/css/scss/modules/gallery.scss */
 .see-all {
   text-align: center;
   background: #f3f4f6;

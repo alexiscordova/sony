@@ -24,7 +24,7 @@ description: This is a sample module showing how to construct a module that cont
 	</head>
 	<body>
 
-		<%-@partial('modules/container_module_test.html.eco', {this:this, document:@data('container_module1.json')} ) %>
+		<%-@partial('modules/example_container.html.eco', {this:this, document:@data('example_container/default.json')} ) %>
 
 
 <% if 'debug' in @getEnvironments():%>

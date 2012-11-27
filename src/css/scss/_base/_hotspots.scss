@@ -67,15 +67,10 @@ $circleBtnXLargeDiameter:76px;
     @include transition-delay( $transitionSuperfast, $transitionSuperfast, $transitionSuperfast, $transitionSuperfast, $transitionSuperfast );
     @include transition-timing-function( ease-in, ease-in, ease-in, ease-in, ease-in );
 
-    .circle-button-icon{
-      @include background-sprite-icon-small();
-      display:block;
-      position:absolute;
-      top:50%;
-      left:50%;
-      width:16px;
-      height:16px;
-      margin:-8px 0 0 -8px;
+
+    [class^="icon-mini-"],
+    [class*=" icon-mini-"]{
+      @include squareCentered(16px);
     }
   }
   &.hotspot-secondary .circle-button{
@@ -84,14 +79,16 @@ $circleBtnXLargeDiameter:76px;
   }
   &.hotspot-large .circle-button{
     @include circleCentered($circleBtnLargeDiameter);
-    .circle-button-icon{
+    [class^="icon-mini-"],
+    [class*=" icon-mini-"]{
       @include squareCentered(24px);
     }
   }
   &.hotspot-xlarge .circle-button{ 
     @include circleCentered($circleBtnXLargeDiameter);
-    .circle-button-icon{
-      @include squareCentered(40px);
+    [class^="icon-mini-"],
+    [class*=" icon-mini-"]{
+      @include squareCentered(32px);
     }
   }
 
@@ -100,9 +97,3 @@ $circleBtnXLargeDiameter:76px;
     @include box-shadow(inset 3px 3px 4px 0px rgba(0, 0, 0, 0.3));
   }
 }
-
-
-
-.hotspot-plus .circle-button .circle-button-icon            { @extend .icon-small-plus-white; }
-.hotspot-close .circle-button .circle-button-icon           { @extend .icon-small-x-white; }
-.hotspot-xlarge-revealer .circle-button .circle-button-icon { background-position:-287px -38px; }

@@ -27,9 +27,9 @@ description: This is a sample module showing how to include data and partial inc
 <%" !! include your module markup templates here "%>
 <%" !! this shows 2 modules with different ways of getting unique data into the module template "%>
 <%" !! first from an external json file found in the /data directory "%>
-		<%-@partial('modules/module_test.html.hb', @data('mode1.json')) %>
+		<%-@partial('modules/example.html.hb', @data('example/default.json')) %>
 <%" !! second is inline object iterals "%>
-		<%-@partial('modules/module_test.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
+		<%-@partial('modules/example.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
 
 
 <% if 'debug' in @getEnvironments():%>
