@@ -1,0 +1,150 @@
+/* 15px/16px */
+/* 13px/16px */
+/* 14px/16px */
+/* line 313, ../../../../src/css/scss/_base/_mixins.scss */
+.hotspot .tooltip {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  -webkit-transition: opacity 0.15s ease-in 0s;
+  -moz-transition: opacity 0.15s ease-in 0s;
+  -ms-transition: opacity 0.15s ease-in 0s;
+  -o-transition: opacity 0.15s ease-in 0s;
+  transition: opacity 0.15s ease-in 0s;
+  -webkit-backface-visibility: hidden;
+}
+
+/* line 326, ../../../../src/css/scss/_base/_mixins.scss */
+.hotspot:hover .tooltip {
+  left: 86px;
+  /* relative to left edge of hotspot */
+  opacity: 1;
+  -webkit-transition: opacity 0.15s ease-out 0s;
+  -moz-transition: opacity 0.15s ease-out 0s;
+  -ms-transition: opacity 0.15s ease-out 0s;
+  -o-transition: opacity 0.15s ease-out 0s;
+  transition: opacity 0.15s ease-out 0s;
+}
+
+/* line 335, ../../../../src/css/scss/_base/_mixins.scss */
+html.no-opacity .hotspot .tooltip {
+  visibility: hidden;
+}
+
+/* line 336, ../../../../src/css/scss/_base/_mixins.scss */
+html.no-opacity .hotspot:hover .tooltip {
+  visibility: visible;
+}
+
+/* line 7, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer {
+  position: relative;
+}
+
+/* line 11, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsHero, .hsExplorer .hsSpot .hsInner, .hsExplorer .hsInfoPanel {
+  position: absolute;
+}
+
+/* line 19, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsDev {
+  width: 100%;
+  max-width: 725px;
+  height: auto;
+}
+
+/*************************
+-- Hotspot Explorer
+-- 
+*************************/
+/* line 29, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer {
+  width: 100%;
+  max-width: 725px;
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+}
+/* line 38, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsHero {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* line 48, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot {
+  /* 		@extend %pos-abs;
+  		top: -2000em; //way off the screen
+  		left: -2000em;
+  		width: 55px;
+  		height: 55px;
+  
+  		border-radius: 100%;
+  		display: block;
+  		visibility: hidden;
+  		background: rgba(0,0,0,0.2);
+  		cursor: pointer;
+  
+  		@include transition( all 0.1s ease-out ); */
+}
+/* line 63, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot .hsInner {
+  top: 10px;
+  left: 10px;
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  display: block;
+  background: #ef5328;
+  z-index: 10;
+}
+/* line 76, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot .hsInner:hover {
+  background: #888895;
+}
+/* line 84, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel {
+  top: 133px;
+  left: -263px;
+  width: 280px;
+  height: 445px;
+  display: block;
+  color: #2b2f3b;
+  background-color: #2b2f3b;
+  z-index: 5;
+}
+/* line 99, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* line 105, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel .hsInfo {
+  width: 205px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 33px;
+  color: #afb6ba;
+}
+/* line 113, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel .hsInfo h1 {
+  margin: 25px 0 0 0;
+  display: block;
+  font-size: 24px;
+  color: #fff;
+}
+/* line 122, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel .hsInfo p {
+  margin: 25px 0 0 0;
+  display: block;
+  font-size: 13px;
+}
+/* line 128, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel .hsInfo a {
+  margin: 25px 0 0 0;
+  display: block;
+  color: #5787f4;
+}
