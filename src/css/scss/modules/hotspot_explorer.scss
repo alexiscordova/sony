@@ -1,0 +1,140 @@
+@import "_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "_base/mixins";
+
+
+//-----------------------------------------
+// Start placeholders
+%pos-rel {
+	position:relative;
+}
+
+%pos-abs {
+	position:absolute;
+}
+
+// End placeholders 
+//-----------------------------------------
+
+
+.hsDev {
+	width:100%;
+	max-width:725px;
+	height:auto;
+}
+
+/*************************
+-- Hotspot Explorer
+-- 
+*************************/
+.hsExplorer {
+	@extend %pos-rel;
+	width: 100%;
+	max-width: 725px;
+	height: 100%;
+	display: block;
+	margin: 0 auto;
+
+	//hero image
+	.hsHero {
+		@extend %pos-abs;
+		top: 0;
+		left: 0;
+		width:100%;
+		height: auto;
+		display: block;
+	}
+
+	//hotspots
+	.hsSpot {
+/* 		@extend %pos-abs;
+		top: -2000em; //way off the screen
+		left: -2000em;
+		width: 55px;
+		height: 55px;
+
+		border-radius: 100%;
+		display: block;
+		visibility: hidden;
+		background: rgba(0,0,0,0.2);
+		cursor: pointer;
+
+		@include transition( all 0.1s ease-out ); */
+
+		.hsInner {
+			@extend %pos-abs;
+			top: 10px;
+			left: 10px;
+			width: 35px;
+			height: 35px;
+
+			border-radius: 100%;
+			display: block;
+			background: #ef5328;			
+
+			z-index: 10;
+
+			&:hover {
+				background: #888895;
+			};
+		}
+
+	}
+
+	//info panels
+	.hsInfoPanel {
+		@extend %pos-abs;
+		top: 133px;
+		left: -263px;
+		
+		width: 280px;
+		height: 445px;	
+
+		display:block;
+		color:#2b2f3b;
+		background-color: #2b2f3b;		
+
+		z-index: 5;
+
+
+		img {
+			width:100%;
+			height:auto;
+			display:block;
+		}
+
+		.hsInfo {
+			width: 205px;
+			display: block;
+			margin: 0 auto;
+			margin-top: 33px;
+
+			color: #afb6ba;
+
+			h1 {
+				margin:25px 0 0 0;
+				display: block;
+				font-size: 24px;
+
+				color:#fff;
+
+			}
+
+			p {
+				margin:25px 0 0 0;
+				display: block;
+				font-size: 13px;
+			}
+
+			a {
+				margin:25px 0 0 0;
+				display: block;
+				
+				color:#5787f4;
+				
+			}
+		}
+
+	}
+
+}
+
