@@ -3369,10 +3369,10 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 18, ../../../src/css/scss/_base/_sprites.scss */
-.sprite-base-class, [class^="sprite-"],
+[class^="sprite-"],
 [class*=" sprite-"],
 [class^="icon-"],
-[class*=" icon-"], .icon-mini-pseudo-el-arrow-right-blue, .tl-arrow-right:after {
+[class*=" icon-"], .icon-mini-pseudo-el-arrow-right-blue, .tl-arrow-right:after, .label-close:after {
   display: inline-block;
   *margin-right: .3em;
   line-height: 15px;
@@ -3772,13 +3772,13 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 122, ../../../src/css/scss/_base/_sprites.scss */
-.icon-mini-x-skinny {
+.icon-mini-x-skinny, .label-close:after {
   background-position: -510px -180px;
   width: 16px;
   height: 16px;
 }
 /* line 136, ../../../src/css/scss/_base/_sprites.scss */
-.icon-mini-x-skinny.state3, .state3 .icon-mini-x-skinny, .tab.active .icon-mini-x-skinny {
+.icon-mini-x-skinny.state3, .state3.label-close:after, .state3 .icon-mini-x-skinny, .state3 .label-close:after, .tab.active .icon-mini-x-skinny, .tab.active .label-close:after {
   background-position: -510px -240px;
 }
 
@@ -6739,17 +6739,39 @@ a.label:hover, a.badge:hover {
   background-color: #191c20;
 }
 
-/* line 60, ../../../src/css/scss/_base/_labels-badges.scss */
+/* line 57, ../../../src/css/scss/_base/_labels-badges.scss */
+.label-subtle, .badge-subtle {
+  background-color: #f3f4f6;
+  color: #2f353d;
+}
+
+/* line 58, ../../../src/css/scss/_base/_labels-badges.scss */
+.label-subtle[href], .badge-subtle[href] {
+  background-color: #d6d9e0;
+  color: #2f353d;
+}
+
+/* line 63, ../../../src/css/scss/_base/_labels-badges.scss */
 .btn .label,
 .btn .badge {
   position: relative;
   top: -1px;
 }
 
-/* line 67, ../../../src/css/scss/_base/_labels-badges.scss */
+/* line 70, ../../../src/css/scss/_base/_labels-badges.scss */
 .btn-mini .label,
 .btn-mini .badge {
   top: 0;
+}
+
+/* line 75, ../../../src/css/scss/_base/_labels-badges.scss */
+.label-close {
+  cursor: pointer;
+}
+/* line 78, ../../../src/css/scss/_base/_labels-badges.scss */
+.label-close:after {
+  content: '';
+  margin-left: 4px;
 }
 
 @-webkit-keyframes progress-bar-stripes {
@@ -7250,7 +7272,7 @@ a.label:hover, a.badge:hover {
 [data-stars="3"] .icon-mini-star:nth-child(-n + 3),
 [data-stars="4"] .icon-mini-star:nth-child(-n + 4),
 [data-stars="5"] .icon-mini-star:nth-child(-n + 5) {
-  background-position: -720px -60px;
+  background-position: -720px -120px;
 }
 
 /* line 8, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */

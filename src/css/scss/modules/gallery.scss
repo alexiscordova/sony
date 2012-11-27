@@ -90,6 +90,10 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 .gallery-title-bar {
   padding: 1.25em 0;
+
+  .dropdown {
+    display: inline-block;
+  }
 }
 
 // All gallery items have a margin-top value, offset that.
@@ -226,9 +230,24 @@ $simpleGalleryItemHeight: 480px;
 /////////////
 // FILTERS //
 /////////////
-.filter-options {
-  margin: 20px 0;
+
+.product-filter {
+  background: $grayLightFieldLarge;
 }
+
+.filter-options {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.active-filters .label {
+
+  // Give active filter labels some spacing
+  &:not(:first-child) {
+    margin-left: 2px;
+  }
+}
+
 
 .range-control-wrap {
   margin-top: 10px;

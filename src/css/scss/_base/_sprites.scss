@@ -15,7 +15,7 @@
 // For the white version of the icons, just add the .icon-white class:
 // <i class="icon-inbox icon-white"></i>
 
-.sprite-base-class{
+%icon {
   display: inline-block;
   @include ie7-restore-right-whitespace();
   line-height: 15px;
@@ -28,7 +28,7 @@
 [class*=" sprite-"],
 [class^="icon-"],
 [class*=" icon-"] {
-  @extend .sprite-base-class;
+  @extend %icon;
 
   .no-svg & {
     background-image: url($iconSpritePathFallback);
@@ -182,8 +182,8 @@
 
 
 
-.icon-mini-pseudo-el-arrow-right-blue{
-  @extend .sprite-base-class;
+.icon-mini-pseudo-el-arrow-right-blue {
+  @extend %icon;
   background-position: -300px -180px;
   @include size(8px, 11px);
 }

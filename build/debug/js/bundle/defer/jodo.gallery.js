@@ -10,7 +10,9 @@
         self.$filterContainer = self.$container.find('.product-filter');
         self.$grid = self.$container.find('.products');
         self.$filterOpts = self.$container.find('.filter-options');
-        self.$sortOpts = self.$container.find('.sort-options');
+        self.$sortSelect = self.$container.find('.sort-options select');
+        self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
+        self.$dropdownToggle = self.$container.find('.sort-options .dropdown-toggle');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
         self.$clear = self.$container.find('.clear-active-filters');
@@ -90,9 +92,7 @@
 
 
         // Slide toggle. Reset range control if it was hidden on initialization
-        self.$container.find('.js-filter-toggle').on('click', function() {
-            self.$filterContainer.stop().slideToggle( $.proxy( self.maybeResetRange, self ) );
-        });
+        self.$container.find('.collapse').on('shown', $.proxy( self.maybeResetRange, self ));
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         var sorted = false;
@@ -113,10 +113,13 @@
             }
         });
 
-        // Set up sorting
-        self.$sortOpts.on( 'change', function(evt) {
-            self.sortItems(this, evt);
-        } );
+        // Set up sorting ---- dropdowm
+        self.$sortBtns.on('click',  $.proxy( self.sort, self ));
+
+        // Set up sorting ---- select menu
+        // self.$sortSelect.on('change', function(evt) {
+        //     self.sortItems(this, evt);
+        // });
 
         // Displays active filters on `filter`
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
@@ -138,7 +141,7 @@
         self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
         // Hide filters
-        self.$container.find('.product-filter').slideUp();
+        // self.$container.find('.product-filter').slideUp();
 
         self.isInitialized = true;
     };
@@ -231,7 +234,8 @@
             var self = this,
                 filterType = '',
                 filterName = '',
-                filters = [];
+                filters = {},
+                frag = document.createDocumentFragment();
 
             // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
             for ( filterType in self.filters ) {
@@ -242,36 +246,49 @@
                 // Loop through filter types because there could be more than one 'button' or 'checkbox'
                 if ( filterType === 'button' || filterType === 'checkbox' ) {
                     for ( filterName in self.filters[ filterType ] ) {
-                        var activeFilters = self.filters[ filterType ][ filterName ],
-                            filterLabels = [];
+                        var activeFilters = self.filters[ filterType ][ filterName ];
 
                         // This filterType.filterName has some active filters, build an array of their labels
                         if ( activeFilters.length ) {
                             for ( var j = 0; j < activeFilters.length; j++ ) {
-                                filterLabels.push( self.filterLabels[ filterName ][ activeFilters[ j ] ] );
+                                var label = self.filterLabels[ filterName ][ activeFilters[ j ] ];
+                                filters[ activeFilters[ j ] ] = label;
                             }
-                            // Push the array of labes onto our total
-                            filters.push( filterLabels.join(', ') );
                         }
                     }
 
                 // Handle range control a bit differently
                 } else if ( filterType === 'range' ) {
                     if ( self.price.min !== self.MIN_PRICE ) {
-                        filters.push('Min price: $' + self.price.min);
+                        filters.minPrice = 'Min price: $' + self.price.min;
                     }
                     if ( self.price.max !== self.MAX_PRICE) {
-                        filters.push('Max price: $' + self.price.max);
+                        filters.maxPrice = 'Max price: $' + self.price.max;
                     }
                 }
             }
 
-            self.$activeFilters.html( filters.join(', ') );
 
-            if ( filters.length ) {
-                self.$clear.removeClass('hidden');
-            } else {
+            $.each(filters, function(key, value) {
+              var $label = $('<span>', {
+                "class" : "label label-close label-subtle",
+                "data-filter-key" : key,
+                text : value,
+                click : function() {
+                    console.log(this.dataset.filterKey);
+                }
+              });
+
+              frag.appendChild( $label[0] );
+            });
+
+            
+            self.$activeFilters.empty().append(frag);
+
+            if ( $.isEmptyObject( filters ) ) {
                 self.$clear.addClass('hidden');
+            } else {
+                self.$clear.removeClass('hidden');
             }
         },
 
@@ -468,6 +485,31 @@
             }
         },
 
+        sort : function( evt ) {
+            var self = this,
+                $target = $(evt.target),
+                data = $target.data(),
+                reverse = data.reverse ? true : false,
+                sortObj = {};
+
+            evt.preventDefault();
+
+            self.$dropdownToggle.find('toggle-text').text( $target.text() );
+
+            if ( data.value !== 'default' ) {
+                sortObj = {
+                    reverse: reverse,
+                    by: function($el) {
+                        // e.g. filterSet.price
+                        return $el.data('filterSet')[ data.value ];
+                    }
+                };
+            }
+
+            self.$grid.shuffle('sort', sortObj);
+        },
+
+        /*
         sortItems : function( select ) {
             var self = this,
                 reverse = select[ select.selectedIndex ].getAttribute('data-reverse'),
@@ -486,6 +528,7 @@
 
             self.$grid.shuffle('sort', sortObj);
         },
+        */
 
         sortByPriority : function( shouldReset ) {
             var self = this;
@@ -513,7 +556,7 @@
              * @param  {int} max maximum value
              * @return {int}     random int between min and max
              */
-            function getRandomInt(min, max) {
+            function getRandomInt( min, max ) {
               return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
@@ -527,7 +570,7 @@
             self.$grid.shuffle('update');
         },
 
-        onFavorite : function(evt) {
+        onFavorite : function( evt ) {
             $(evt.target).toggleClass('state3');
         }
 
