@@ -92,9 +92,7 @@
 
 
         // Slide toggle. Reset range control if it was hidden on initialization
-        self.$container.find('.js-filter-toggle').on('click', function() {
-            self.$filterContainer.stop().slideToggle( $.proxy( self.maybeResetRange, self ) );
-        });
+        self.$container.find('.collapse').on('shown', $.proxy( self.maybeResetRange, self ));
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         var sorted = false;
@@ -287,10 +285,10 @@
             
             self.$activeFilters.empty().append(frag);
 
-            if ( $.isPlainObject( filters ) ) {
-                self.$clear.removeClass('hidden');
-            } else {
+            if ( $.isEmptyObject( filters ) ) {
                 self.$clear.addClass('hidden');
+            } else {
+                self.$clear.removeClass('hidden');
             }
         },
 

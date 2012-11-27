@@ -494,7 +494,7 @@
 
             evt.preventDefault();
 
-            self.$dropdownToggle.text( $target.text() );
+            self.$dropdownToggle.find('toggle-text').text( $target.text() );
 
             if ( data.value !== 'default' ) {
                 sortObj = {

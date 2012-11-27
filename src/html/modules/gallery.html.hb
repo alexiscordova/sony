@@ -140,7 +140,7 @@
       <div class="sort-options pull-right">
         Sort By: 
         <div class="dropdown">
-          <a class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown" href="#">{{productCards.sortSet.[0].label}}</a>
+          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-mini-arrowheads-up-down-gray"></i></button>
           <ul class="dropdown-menu" role="menu">
           {{#each productCards.sortSet}}
             <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
