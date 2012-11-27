@@ -1,0 +1,40 @@
+---
+title: Gallery Module
+description: Tabbed galleries with different layouts. Data generated from JSON file. 
+---
+<!DOCTYPE html>
+<!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+    <head>
+        <%-@partial('includes/meta.html')%>
+<% if 'debug' in @getEnvironments():%> 
+        <%-@partial('includes/css_debug.html.eco', {this: this})%>
+<% else: %>
+        <%-@partial('includes/css_deploy.html')%>
+<% end %>
+        <%-@partial('includes/js_head.html')%>  
+        
+    </head>
+    <body class="gallery-module">
+
+        <%-@partial('modules/gallery.html.hb', @data('gallery/default.json')) %>
+
+        <!-- include your module js here -->
+        <script src="js/libs/jquery.throttle-debounce.min.js"></script>
+        <script src="js/libs/bootstrap-transition.js"></script>
+        <script src="js/libs/bootstrap-button.js"></script>
+        <script src="js/libs/bootstrap-dropdown.js"></script>
+        <script src="js/libs/bootstrap-collapse.js"></script>
+
+<% if 'debug' in @getEnvironments():%>
+        <%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
+<% else: %>
+        <%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
+<% end %>
+
+
+        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+    </body>
+</html>

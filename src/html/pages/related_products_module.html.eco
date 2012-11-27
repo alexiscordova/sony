@@ -1,0 +1,37 @@
+---
+title: Related Products Module
+description: Yo dawg, I heard you like other products with your products.
+---
+<!DOCTYPE html>
+<!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+    <head>
+        <%-@partial('includes/meta.html')%>
+
+<% if 'debug' in @getEnvironments():%> 
+<%" !! if you want to manually include your css for debugging instead of relying on the auto include comment this out and replace with bootstrap.css, responsive.css and your css "%>
+        <%-@partial('includes/css_debug.html.eco', {this: this})%>
+<% else: %>
+        <%-@partial('includes/css_deploy.html')%>
+<% end %>
+
+        <%-@partial('includes/js_head.html')%>  
+        
+    </head>
+    <body class="related-products-module">
+
+        <%-@partial('modules/related_products.html.hb', @data('related_products/default.json')) %>
+
+
+<% if 'debug' in @getEnvironments():%>
+<%" !! if you want to manually override the javascript includes remove this and include all your own js "%>
+        <%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
+<% else: %>
+        <%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
+<% end %>
+
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+    </body>
+</html>

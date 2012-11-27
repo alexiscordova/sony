@@ -1,0 +1,31 @@
+<div class="hsExplorer .hsDev">
+
+
+	<img class='hsHero' src="<%= @document.heroImage %>" alt="">
+
+
+	<% if @document.hotspots.length: %>
+	<ul>
+		<% for hotspot in @document.hotspots: %>
+			<li class="hsSpot hotspot " data-x="<%= hotspot.x %>" data-y="<%= hotspot.y %>"><div class="circle-button"><i class="icon-mini-plus-skinny"></i></div></li>
+		<% end %>
+	</ul>
+	<% end %>
+
+	<!-- Info Panel -->
+	<div class="hsInfoPanel">
+		<img src="<%= @document.hotspots[0].infoPanel.panelImage %>" alt="">
+		<div class="hsInfo">
+			<h1><%= @document.hotspots[0].infoPanel.panelHeading %></h1>
+			<p><%= @document.hotspots[0].infoPanel.panelCopy %></p>
+			<a href="<%= @document.hotspots[0].infoPanel.panelLinkHref %>"><%= @document.hotspots[0].infoPanel.panelLinkCopy %></a>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
