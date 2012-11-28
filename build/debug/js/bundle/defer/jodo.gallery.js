@@ -488,7 +488,7 @@
                 return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
             },
 
-            update = function(positions, percents) {
+            update = function(evt, positions, percents) {
                 var minPrice = getPrice(percents.min),
                 maxPrice = getPrice(percents.max),
                 maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
@@ -529,12 +529,13 @@
             };
 
             self.$rangeControl = $rangeControl.rangeControl({
-                orientation: 'h',
                 initialMin: '0%',
                 initialMax: '100%',
-                range: true,
-                callback: update
+                range: true
             });
+
+            // On handle slid, update
+            self.$rangeControl.on('slid.rangecontrol', update);
 
             // Listen for reset event
             self.$container.on('reset.gallery', function() {

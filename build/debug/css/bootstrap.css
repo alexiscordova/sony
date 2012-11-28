@@ -2221,6 +2221,60 @@ legend + .control-group {
   background-color: #e4e7eb;
 }
 
+/* line 682, ../../../src/css/scss/_base/_forms.scss */
+.control-inline label {
+  display: inline;
+  padding-left: 5px;
+}
+
+/* line 687, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox {
+  position: absolute;
+  opacity: 0;
+}
+/* line 691, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox + label {
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+}
+/* line 697, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox + label:before {
+  content: '';
+  margin-right: 22px;
+  display: inline-block;
+  vertical-align: text-top;
+  width: 20px;
+  height: 20px;
+  background: white;
+}
+/* line 707, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox:focus + label:before, .csstransforms .styled-checkbox:hover + label:before {
+  outline: 6px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 9px white;
+  background: #f35429;
+}
+/* line 713, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox:checked + label:before {
+  background: #f35429;
+}
+/* line 718, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox:checked + label:after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 9px;
+  background: white;
+  width: 2px;
+  height: 2px;
+  box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
 /* line 9, ../../../src/css/scss/_base/_tables.scss */
 table {
   max-width: 100%;
@@ -7094,63 +7148,79 @@ a.label:hover, a.badge:hover {
   border-top: 1px solid #e5e5e5;
 }
 
-/* line 5, ../../../src/css/scss/_components/_range-control.scss */
+/* line 6, ../../../src/css/scss/_components/_range-control.scss */
 .range-control {
   position: relative;
   width: inherit;
-  height: 5px;
-  background: darkgray;
+  height: 14px;
+  background: #dddddd;
+  border-radius: 14px;
 }
-
-/* line 12, ../../../src/css/scss/_components/_range-control.scss */
+/* line 13, ../../../src/css/scss/_components/_range-control.scss */
 .range-control.vertical {
-  width: 5px;
+  width: 14px;
   height: 200px;
 }
-
-/* line 17, ../../../src/css/scss/_components/_range-control.scss */
+/* line 18, ../../../src/css/scss/_components/_range-control.scss */
+.range-control .ambit {
+  z-index: 3;
+  height: 14px;
+  background: white;
+}
+/* line 24, ../../../src/css/scss/_components/_range-control.scss */
 .range-control.vertical .ambit {
-  width: 5px;
+  width: 14px;
   height: auto;
 }
-
-/* line 22, ../../../src/css/scss/_components/_range-control.scss */
+/* line 29, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .handle {
   z-index: 5;
-  margin-top: -8px;
+  margin-top: 0;
   margin-left: -10px;
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #f35429;
   border-radius: 50%;
-  background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  background: #f35429;
+  -webkit-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  -moz-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  -ms-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  -o-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  -webkit-transition: border 0.1s linear, box-shadow 0.1s linear, margin 0.1s linear;
+  -moz-transition: border 0.1s linear, box-shadow 0.1s linear, margin 0.1s linear;
+  -o-transition: border 0.1s linear, box-shadow 0.1s linear, margin 0.1s linear;
+  transition: border 0.1s linear, box-shadow 0.1s linear, margin 0.1s linear;
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur") 8 4, pointer;
   /* you should probably localize the cur file */
 }
+/* line 41, ../../../src/css/scss/_components/_range-control.scss */
+.range-control .handle.grabbed {
+  border: 10px solid #f35429;
+  -webkit-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  -moz-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  -ms-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  -o-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  margin-top: -3px;
+}
 
-/* line 33, ../../../src/css/scss/_components/_range-control.scss */
+/* line 49, ../../../src/css/scss/_components/_range-control.scss */
 .ie .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur"), pointer;
   /* you should probably localize the cur file */
 }
 
-/* line 36, ../../../src/css/scss/_components/_range-control.scss */
+/* line 53, ../../../src/css/scss/_components/_range-control.scss */
 .grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur") 8 4, move;
   /* you should probably localize the cur file */
 }
 
-/* line 39, ../../../src/css/scss/_components/_range-control.scss */
+/* line 57, ../../../src/css/scss/_components/_range-control.scss */
 .ie.grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur"), move;
   /* you should probably localize the cur file */
-}
-
-/* line 43, ../../../src/css/scss/_components/_range-control.scss */
-.range-control .ambit {
-  z-index: 3;
-  height: 5px;
-  background: gray;
 }
 
 /* line 6, ../../../src/css/scss/_components/_slide-toggle.scss */

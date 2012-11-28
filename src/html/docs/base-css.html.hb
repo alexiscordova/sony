@@ -384,25 +384,27 @@
 								<div class="bs-docs-example">
 
 			            <div class="row">
-	            			<div class="span2 color-swatch-span">
+            				<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--highlightColor"></div>
 			                <p>$highlightColor</p>
-			                <p>lighten($highlightColor, 5%)</p>
+			                <p>rgb(243, 84, 41)</p>
 			              </div>
 	            			<div class="span2 color-swatch-span">
-	            				<div class="color-swatch--highlightColorHover"></div>
+            				<div class="color-swatch--highlightColorHover"></div>
 			                <p>$highlightColorHover</p>
-			                <p>(64,66,71)</p>
+			                <p>lighten($highlightColor, 5%)</p>
+			                <p>rgb(244, 103, 65)</p>
 			              </div>
 	            			<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--highlightColorActive"></div>
 			                <p>$highlightColorActive</p>
 			                <p>($highlightColor)</p>
+			                <p>rgb(243, 84, 41)</p>
 			              </div>
 	            			<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--highlightColorDark"></div>
 			                <p>$highlightColorDark</p>
-			                <p>(219,76,37)</p>
+			                <p>rgb(219, 76, 37)</p>
 			              </div>
 			            </div>
 			          </div>

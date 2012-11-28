@@ -95,7 +95,7 @@
           {{#each productCards.filterSet}}
 
           {{#if this.type.range}}
-          <div class="span3 filter-container">
+          <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
             <div class="range-output"></div>
@@ -103,7 +103,7 @@
           {{/if}}
 
           {{#if this.type.button}}
-          <div class="span3 filter-container">
+          <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="button">
               {{#each this.filters}}
@@ -114,18 +114,18 @@
           {{/if}}
 
           {{#if this.type.checkbox}}
-          <div class="span3 filter-container">
+          <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
               {{#each this.filters}}
-              <li><label><input data-label="{{this.label}}" type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
+              <li class="control-inline"><input class="styled-checkbox" id="{{../name}}-{{this.value}}" data-label="{{this.label}}" type="checkbox" value="{{this.value}}"><label for="{{../name}}-{{this.value}}">{{this.label}}</label></li>
               {{/each}}
             </ul>
           </div>
           {{/if}}
 
           {{#if this.type.group}}
-          <div class="span3 filter-container">
+          <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="media-list" data-filter="{{this.name}}" data-filter-type="group">
               {{#each this.filters}}
