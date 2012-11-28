@@ -42,7 +42,7 @@ html.no-opacity .hotspot:hover .tooltip {
 }
 
 /* line 11, ../../../src/css/scss/modules/hotspot_explorer.scss */
-.hsExplorer .hsHero, .hsExplorer .hsSpot .hsInner, .hsExplorer .hsSpot .hsInfoPanel {
+.hsExplorer .hsHero, .hsExplorer .hsSpot .hsInfoPanel {
   position: absolute;
 }
 
@@ -73,63 +73,45 @@ html.no-opacity .hotspot:hover .tooltip {
   height: auto;
   display: block;
 }
-/* line 48, ../../../src/css/scss/modules/hotspot_explorer.scss */
-.hsExplorer .hsSpot {
-  /* 		@extend %pos-abs;
-  		top: -2000em; //way off the screen
-  		left: -2000em;
-  		width: 55px;
-  		height: 55px;
-  
-  		border-radius: 100%;
-  		display: block;
-  		visibility: hidden;
-  		background: rgba(0,0,0,0.2);
-  		cursor: pointer;
-  
-  		@include transition( all 0.1s ease-out ); */
-}
-/* line 63, ../../../src/css/scss/modules/hotspot_explorer.scss */
-.hsExplorer .hsSpot .hsInner {
-  top: 10px;
-  left: 10px;
-  width: 35px;
-  height: 35px;
-  border-radius: 100%;
-  display: block;
-  background: #ef5328;
-  z-index: 10;
-}
-/* line 76, ../../../src/css/scss/modules/hotspot_explorer.scss */
-.hsExplorer .hsSpot .hsInner:hover {
-  background: #888895;
-}
-/* line 82, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 51, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel {
   top: -156px;
   left: -287px;
   width: 280px;
-  height: 445px;
+  height: auto;
+  padding: 0 0 40px 0;
   display: block;
   color: #2b2f3b;
   background-color: #2b2f3b;
   z-index: 25;
 }
-/* line 96, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 67, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot .hsInfoPanel.v-base {
+  top: -64px;
+}
+/* line 71, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot .hsInfoPanel.v-base-image-link {
+  top: -157px;
+}
+/* line 75, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot .hsInfoPanel.v-base-image-quote-link {
+  top: -192px;
+}
+/* line 79, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel img {
   width: 100%;
   height: auto;
   display: block;
 }
-/* line 102, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 86, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel.hsLeft {
   left: -287px;
 }
-/* line 106, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 90, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel.hsRight {
   left: 65px;
 }
-/* line 110, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 94, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel:after {
   content: " ";
   display: block;
@@ -145,14 +127,14 @@ html.no-opacity .hotspot:hover .tooltip {
   left: 100%;
   z-index: 2;
 }
-/* line 126, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 110, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel.hsRight:after {
   border-left: none;
   left: auto;
   border-right: 12px solid #2b2f3b;
   right: 100%;
 }
-/* line 133, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 117, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel .hsInfo {
   width: 205px;
   display: block;
@@ -161,7 +143,7 @@ html.no-opacity .hotspot:hover .tooltip {
   font-size: 13px;
   color: #afb6ba;
 }
-/* line 141, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 125, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel .hsInfo h1 {
   margin: 25px 0 0 0;
   display: block;
@@ -169,23 +151,30 @@ html.no-opacity .hotspot:hover .tooltip {
   line-height: 24px;
   color: #fff;
 }
-/* line 149, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 133, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel .hsInfo p {
   margin: 20px 0 0 0;
   display: block;
   line-height: 20px;
 }
-/* line 155, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 139, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel .hsInfo a {
   margin: 20px 0 0 0;
   display: block;
   color: #5787f4;
   font-weight: bold;
 }
-/* line 161, ../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 145, ../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsSpot .hsInfoPanel .hsInfo a:after {
   content: '->';
   display: inline-block;
   position: relative;
   margin: 0 0 0 5px;
+}
+/* line 154, ../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsSpot .hsInfoPanel .hsQuote {
+  padding-top: 10px;
+  border-top: 1px dashed;
+  font-style: italic;
+  font-size: 14px;
 }
