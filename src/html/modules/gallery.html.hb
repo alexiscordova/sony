@@ -71,7 +71,7 @@
               <p class="p5 price-title">Starting at</p>
               <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
-            <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
+            <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
           </div>
 
           {{/if}}
@@ -140,7 +140,7 @@
       <div class="sort-options pull-right">
         Sort By: 
         <div class="dropdown">
-          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-mini-arrowheads-up-down-gray"></i></button>
+          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
           <ul class="dropdown-menu" role="menu">
           {{#each productCards.sortSet}}
             <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
@@ -173,7 +173,7 @@
         <div class="product-content">
           <div class="p3 product-name">{{this.name}}</div>
           <div class="p5 product-model">{{this.model}}</div>
-          <div class="p5 product-rating" data-stars="{{this.rating.stars}}"><i class="icon-mini-star"></i><i class="icon-mini-star"></i><i class="icon-mini-star"></i><i class="icon-mini-star"></i><i class="icon-mini-star"></i> ( {{this.rating.reviews}} user reviews)</div>
+          <div class="p5 product-rating" data-stars="{{this.rating.stars}}"><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i> ( {{this.rating.reviews}} user reviews)</div>
           <ul class="p3 product-meta">
             {{#each this.meta}}
             <li>{{{this.value}}} <span class="product-meta-name">{{this.name}}</span></li>
@@ -183,7 +183,7 @@
             <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
           </div>
         </div>
-        <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
+        <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
       </div>
       {{/each}}
       
@@ -283,7 +283,7 @@
             <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
           </div>
         </div>
-        <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
+        <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
       </div>
       {{/each}}
       

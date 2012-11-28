@@ -10,16 +10,16 @@ meta_data: {a:'foo', b:'bar'}
 	        <a class="brand hidden-text sprite-nav-sony-logo" href="#">SONY make.believe</a>
 	        <ul class="nav nav-primary">
 	          <li id="nav-li-store"><a href="#">Store</a></li>
-	          <li id="nav-li-electronics" class="nav-li-selected"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-electronics" href="#">Electronics<i class="icon-mini-arrowhead-down-gray"></i></a><i class="icon-mini-global-nav-indicator"></i></li>
-	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-entertainment" href="#">Entertainment<i class="icon-mini-arrowhead-down-gray"></i></a><i class="icon-mini-global-nav-indicator"></i></li>
+	          <li id="nav-li-electronics"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><i class="icon-ui-global-nav-indicator"></i></li>
+	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><i class="icon-ui-global-nav-indicator"></i></li>
 	          <li id="nav-li-support"><a href="#">Support</a></li>
 	        </ul>
 	        <ul class="nav nav-utility">
-	          <li id="nav-li-account"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-account" href="#">Account<i class="icon-mini-arrowhead-down-gray"></i></a><i class="icon-mini-global-nav-indicator"></i></li>
-	          <li id="nav-li-favorites"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn-mini hidden-text" data-target="navtray-wrapper-favorites" href="#"><i class="icon-mini-favorite"></i>Favorites</a></li>
-	          <li id="nav-li-cart"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn-mini" data-target="navtray-wrapper-cart" href="#"><i class="icon-mini-cart"></i>5</a></li>
-	          <li id="nav-li-universal"><a class="btn nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-mini-plus-tiny"></i></a></li>
-	          <li id="nav-li-search"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-mini-search"></i></a></li>
+	          <li id="nav-li-account"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a><i class="icon-ui-global-nav-indicator"></i></li>
+	          <li id="nav-li-favorites"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn-mini hidden-text" data-target="navtray-wrapper-favorites" href="#"><i class="icon-ui-favorite"></i>Favorites</a></li>
+	          <li id="nav-li-cart"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn-mini" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
+	          <li id="nav-li-universal"><a class="btn nav-dropdown-toggle nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
+	          <li id="nav-li-search"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a></li>
 	        </ul>
 		    </div><!-- end .navbar --> 
 
@@ -36,7 +36,7 @@ meta_data: {a:'foo', b:'bar'}
 			        	<li id="navtray-li-audio"><a href="#" class="tl"><img src="img/global/global-nav/tray-audio.png" alt="Audio"><span class="nav-label">Audio</span></a></li>
 			        	<li id="navtray-li-car"><a href="#" class="tl"><img src="img/global/global-nav/tray-car.png" alt="Car &amp; Marine"><span class="nav-label">Car &amp; Marine</span></a></li>
 			        </ul>
-			        <a class="btn btn-small btn-alt btn-icon-mini-left btn-nav-view-all" href="#"><i class="icon-mini-grid"></i>All Electronics</a>
+			        <a class="btn btn-small btn-alt btn-icon-ui-left btn-nav-view-all" href="#"><i class="icon-ui-grid"></i>All Electronics</a>
 			      </div>
 		        <div class="navtray-section navtray-section-featured">
 		        	<h6 class="l2">Community</h6>

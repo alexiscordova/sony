@@ -17,7 +17,7 @@
         self.$activeFilters = self.$container.find('.active-filters');
         self.$clear = self.$container.find('.clear-active-filters');
         self.$loadMore = self.$container.find('.gallery-load-more');
-        self.$favorites = self.$grid.find('.icon-mini-favorite');
+        self.$favorites = self.$grid.find('.icon-ui-favorite');
 
         if ( self.mode !== 'detailed' ) {
             self.$grid.addClass('grid5');
