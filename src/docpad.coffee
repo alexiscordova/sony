@@ -3,13 +3,13 @@
 docpadConfig = {
   environments: {
     debug:{
-      layoutsPaths: ['data', '../js/', '../css/']
+      layoutsPaths: ['data/', '../js/', '../css/']
       srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/debug/'
     },
     deploy:{
-      layoutsPaths: ['data', '../js/', '../css/']
+      layoutsPaths: ['data/', '../js/', '../css/']
       srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/deploy/'
@@ -26,7 +26,7 @@ docpadConfig = {
     site:{
       title:'Sony Global'
     }
-    data:(path) ->  output =  JSON.parse ( docpad.database.findOne({id:path}).attributes.source)
+    data:(path) ->  output = JSON.parse( require('fs').readFileSync(require('path').normalize(docpad.config.rootPath + '/html/data/' + path), 'utf8') );
     polyfills: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/')).pluck('filename')
     require: ->     output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/require/')).pluck('filename')
     secondary: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/secondary/')).pluck('filename')

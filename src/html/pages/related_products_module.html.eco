@@ -3,7 +3,7 @@ title: Related Products Module
 description: Yo dawg, I heard you like other products with your products.
 ---
 <!DOCTYPE html>
-<!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
@@ -22,7 +22,7 @@ description: Yo dawg, I heard you like other products with your products.
     </head>
     <body class="related-products-module">
 
-        <%-@partial('modules/related-products.html.hb', @data('related-products.json')) %>
+        <%-@partial('modules/related_products.html.hb', @data('related_products/default.json')) %>
 
 
 <% if 'debug' in @getEnvironments():%>

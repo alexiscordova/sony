@@ -238,11 +238,23 @@
 	RangeControl.prototype.slideToInitialPos = function() {
 		var th = this;
 		if ( !th.range ) {
-			th.slideToPos( th.parseHandlePosition( th.initialValue ) );
+			th.slideToInitialVal();
 		} else {
-			th.slideToPos( th.parseHandlePosition( th.initialMin ), th.$minHandle );
-			th.slideToPos( th.parseHandlePosition( th.initialMax ), th.$handle );
+			th.slideToInitialMin();
+			th.slideToInitialMax();
 		}
+	};
+
+	RangeControl.prototype.slideToInitialVal = function() {
+		this.slideToPos( this.parseHandlePosition( this.initialValue ) );
+	};
+
+	RangeControl.prototype.slideToInitialMin = function() {
+		this.slideToPos( this.parseHandlePosition( this.initialMin ), this.$minHandle );
+	};
+
+	RangeControl.prototype.slideToInitialMax = function() {
+		this.slideToPos( this.parseHandlePosition( this.initialMax ), this.$handle );
 	};
 
 	/*

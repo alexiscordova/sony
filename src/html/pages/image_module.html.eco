@@ -1,11 +1,10 @@
 ---
-title: Example Module
-description: This is a sample module showing how to include data and partial includes to generate a page. 
+title: Image Module
+description: This is a module used to embed IQ images as a submodule in a container module.
 ---
-<%" !! optionally include a title and description up here that gets picked up on the docs module list. "%>
 
 <!DOCTYPE html>
-<!--[if lt IE 8 ]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if lt IE8 ]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
@@ -24,12 +23,7 @@ description: This is a sample module showing how to include data and partial inc
 	</head>
 	<body>
 
-<%" !! include your module markup templates here "%>
-<%" !! this shows 2 modules with different ways of getting unique data into the module template "%>
-<%" !! first from an external json file found in the /data directory "%>
-		<%-@partial('modules/example.html.hb', @data('example/default.json')) %>
-<%" !! second is inline object iterals "%>
-		<%-@partial('modules/example.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
+	<%-@partial('modules/image.html.hb', @data('example/default.json')) %>
 
 
 <% if 'debug' in @getEnvironments():%>
