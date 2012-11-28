@@ -106,8 +106,8 @@ html.no-opacity .hotspot:hover .tooltip {
 }
 /* line 84, ../../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsInfoPanel {
-  top: 133px;
-  left: -263px;
+  top: 85px;
+  left: -295px;
   width: 280px;
   height: 445px;
   display: block;
@@ -122,29 +122,55 @@ html.no-opacity .hotspot:hover .tooltip {
   display: block;
 }
 /* line 105, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel:after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  /* Go big on the size, and let overflow hide */
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid #2b2f3b;
+  position: absolute;
+  top: 50%;
+  margin-top: -51px;
+  left: 100%;
+  z-index: 2;
+}
+/* line 121, ../../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsInfoPanel .hsInfo {
   width: 205px;
   display: block;
   margin: 0 auto;
   margin-top: 33px;
+  font-size: 13px;
   color: #afb6ba;
 }
-/* line 113, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 129, ../../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsInfoPanel .hsInfo h1 {
   margin: 25px 0 0 0;
   display: block;
-  font-size: 24px;
+  font-size: 18px;
+  line-height: 24px;
   color: #fff;
 }
-/* line 122, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 137, ../../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsInfoPanel .hsInfo p {
-  margin: 25px 0 0 0;
+  margin: 20px 0 0 0;
   display: block;
-  font-size: 13px;
+  line-height: 20px;
 }
-/* line 128, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+/* line 143, ../../../../src/css/scss/modules/hotspot_explorer.scss */
 .hsExplorer .hsInfoPanel .hsInfo a {
-  margin: 25px 0 0 0;
+  margin: 20px 0 0 0;
   display: block;
   color: #5787f4;
+  font-weight: bold;
+}
+/* line 149, ../../../../src/css/scss/modules/hotspot_explorer.scss */
+.hsExplorer .hsInfoPanel .hsInfo a:after {
+  content: '->';
+  display: inline-block;
+  position: relative;
+  margin: 0 0 0 5px;
 }

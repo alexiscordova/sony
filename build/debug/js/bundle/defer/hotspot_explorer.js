@@ -15,12 +15,14 @@
     
     'use strict';
 
+    var PX_REGEX = /px/gi;
+
     var HotSpotExplorer = function(element, options){
     	
     	var t = this;
 
         t.$el = $(element);
-        t.maxWidth = parseInt(t.$el.css('maxWidth').replace(/px/ , '') , 10);
+        t.maxWidth = parseInt(t.$el.css('maxWidth').replace(PX_REGEX , '') , 10);
 
         t.setup = $.extend({}, $.fn.hotSpotExplorer.defaults, options);
         t.hotspots = t.$el.find('.hsSpot');
@@ -53,9 +55,9 @@
         $.each(t.hotspots , function(){
             var $hs = $(this),
                 $data = $hs.data(),
-                ratio = parseInt(t.$el.css('width').replace(/px/ , '') , 10) / t.maxWidth;
+                ratio = parseInt(t.$el.css('width').replace(PX_REGEX , '') , 10) / t.maxWidth;
 
-            $hs.css({'top': ratio * $data.y + 'px','left': ratio * $data.x + 'px' , 'visibility' : 'visible'});
+            $hs.css({'top': ratio * $data.y + 'px' , 'left': ratio * $data.x + 'px' , 'visibility' : 'visible'});
 
         });
     };
