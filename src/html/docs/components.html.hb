@@ -160,7 +160,7 @@
 			          <div class="bs-docs-example" style="height:100px;">
 		              
 		              <div class="hotspot" style="left:80px; top:90px;">
-										<div class="circle-button"><i class="icon-mini-plus-skinny"></i></div>
+										<div class="circle-button"><i class="icon-ui-plus-skinny"></i></div>
 										<!-- <div class="tooltip left" style="height: 211px; margin-top: -105.5px; ">
 											<h4>Universal Remote</h4>
 											<p>Control your Google TV, cable and satellite set-top-box, audio, TV set, and Blu-ray or DVD player with a single remote. Thanks to Bluetooth technology, you don’t even need to point the remote at your Sony Google TV box for it to work.</p>
@@ -168,7 +168,7 @@
 									</div>
 
 									<div class="hotspot hotspot-secondary" style="left:180px; top:90px;">
-										<div class="circle-button"><i class="icon-mini-x-skinny"></i></div>
+										<div class="circle-button"><i class="icon-ui-x-skinny"></i></div>
 									</div>
 
 									<div class="hotspot hotspot-large" style="left:280px; top:90px;">
@@ -176,18 +176,18 @@
 									</div>
 
 									<div class="hotspot hotspot-xlarge" style="left:400px; top:90px;">
-										<div class="circle-button"><i class="icon-mini-revealer-l-r-xl"></i></div>
+										<div class="circle-button"><i class="icon-ui-revealer-l-r-xl"></i></div>
 									</div>
 
 
 			          </div>
 <pre class="prettyprint linenums">
 &lt;div class="hotspot"&gt;
-  &lt;div class="circle-button"&gt;&lt;i class="icon-mini-plus-skinny"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;div class="circle-button"&gt;&lt;i class="icon-ui-plus-skinny"&gt;&lt;/i&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class="hotspot hotspot-secondary"&gt;
-  &lt;div class="circle-button"&gt;&lt;i class="icon-mini-x-skinny"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;div class="circle-button"&gt;&lt;i class="icon-ui-x-skinny"&gt;&lt;/i&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class="hotspot hotspot-large"&gt;
@@ -195,7 +195,7 @@
 &lt;/div&gt;
 
 &lt;div class="hotspot hotspot-xlarge"&gt;
-  &lt;div class="circle-button"&gt;&lt;i class="icon-mini-revealer-l-r-xl"&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;div class="circle-button"&gt;&lt;i class="icon-ui-revealer-l-r-xl"&gt;&lt;/i&gt;&lt;/div&gt;
 &lt;/div&gt;
 </pre>
 			
@@ -216,7 +216,7 @@
 			          
 			          <div class="bs-docs-example">
 		              <div class="btn-group">
-		                <a class="btn dropdown-toggle" data-toggle="dropdown">Filter results<i class="icon-mini-arrowheads-up-down-gray"></i></a>
+		                <a class="btn dropdown-toggle" data-toggle="dropdown">Filter results<i class="icon-ui-arrowheads-up-down-gray"></i></a>
 		                <ul class="dropdown-menu">
 		                  <li><a href="#">Action</a></li>
 		                  <li><a href="#">Another action</a></li>
@@ -228,7 +228,7 @@
 			          </div>
 <pre class="prettyprint linenums">
 &lt;div class="btn-group"&gt;
-  &lt;a class="btn dropdown-toggle" data-toggle="dropdown" href="#"&gt;Filter results&lt;i class="icon-mini-arrowheads-up-down-gray"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;a class="btn dropdown-toggle" data-toggle="dropdown" href="#"&gt;Filter results&lt;i class="icon-ui-arrowheads-up-down-gray"&gt;&lt;/i&gt;&lt;/a&gt;
   &lt;ul class="dropdown-menu"&gt;
     &lt;li&gt;&lt;a href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
@@ -244,7 +244,7 @@
 			          <p>There's also a small dropdown button, by adding <code>.btn-small</code> to the button</p>
 			          <div class="bs-docs-example">
 		              <div class="btn-group">
-		                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Sort by<i class="icon-mini-arrowheads-up-down-gray"></i></button>
+		                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Sort by<i class="icon-ui-arrowheads-up-down-gray"></i></button>
 		                <ul class="dropdown-menu">
 		                  <li><a href="#">Action</a></li>
 		                  <li><a href="#">Another action</a></li>
@@ -256,7 +256,7 @@
 			          </div>
 <pre class="prettyprint linenums">
 &lt;div class="btn-group"&gt;
-  &lt;a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"&gt;Sort by&lt;i class="icon-mini-arrowheads-up-down-gray"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"&gt;Sort by&lt;i class="icon-ui-arrowheads-up-down-gray"&gt;&lt;/i&gt;&lt;/a&gt;
   &lt;ul class="dropdown-menu"&gt;
     &lt;!-- dropdown menu links --&gt;
   &lt;/ul&gt;
@@ -270,7 +270,7 @@
 			          <div class="bs-docs-example">
 		              
 			              <div class="btn-group">
-			                <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Filter results<i class="icon-mini-arrowheads-up-down-gray"></i></button>
+			                <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Filter results<i class="icon-ui-arrowheads-up-down-gray"></i></button>
 			                <ul class="dropdown-menu">
 			                  <li><a href="#">Action</a></li>
 			                  <li><a href="#">Another action</a></li>
@@ -281,7 +281,7 @@
 			              </div><!-- /btn-group -->
 
 			              <div class="btn-group" style="margin-left:0">
-			                <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by<i class="icon-mini-arrowheads-up-down-gray"></i></button>
+			                <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by<i class="icon-ui-arrowheads-up-down-gray"></i></button>
 			                <ul class="dropdown-menu">
 			                  <li><a href="#">Action</a></li>
 			                  <li><a href="#">Another action</a></li>

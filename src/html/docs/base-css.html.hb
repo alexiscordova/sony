@@ -70,7 +70,7 @@
 			            <div class="row">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h3&gt;</strong> — Feature heads</p>
-			                <h3>Mini body, mega&nbsp;sensor</h3>
+			                <h3>Mini body, mega&nbsp;sensor  <span class="chevron">&rsaquo;</span></h3>
 			              </div>
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h4&gt;</strong> — Sub-head 1</p>
@@ -118,7 +118,7 @@
 			              </div>
 			              <div class="span4 big-bottom-margin">           
 			                <p class="title-docs"><strong>&lt;p&gt;, .p2</strong> — Body Copy 2 — Supports features</p>
-			                <p   >The bigger the sensor, the better the picture. Experience the quality and performance of a DSLR in about half the size and half the weight of one. The NEX is the smallest interchangeable lens digital camera capable of handling a mega-sized Exmor&trade; sensor.</p>
+			                <p >The bigger the sensor, the better the picture. Experience the quality and performance of a DSLR in about half the size and half the weight of one. The NEX is the smallest interchangeable lens digital camera capable of handling a mega-sized Exmor&trade; sensor.</p>
 			              </div>
 			            </div>
 			            
@@ -493,12 +493,12 @@
 			          <h5 class="bs-docs-heading">'Alt' Button small w/icon left of text</h5>
 			          <div class="bs-docs-example">
 			            <p>
-			              <a class="btn btn-small btn-alt btn-icon-mini-left"><i class="icon-mini-grid"></i>All Electronics</a>
+			              <a class="btn btn-small btn-alt btn-icon-ui-left"><i class="icon-ui-grid"></i>All Electronics</a>
 			            </p>
 			          </div>
 <pre class="prettyprint linenums">
 &lt;p&gt;
-  &lt;a class="btn btn-small btn-alt btn-icon-mini-left"&gt;&lt;i class="icon-mini-grid"&gt;&lt;/i&gt;...&lt;/a&gt;
+  &lt;a class="btn btn-small btn-alt btn-icon-ui-left"&gt;&lt;i class="icon-ui-grid"&gt;&lt;/i&gt;...&lt;/a&gt;
 &lt;/p&gt;
 </pre>
 			
@@ -506,12 +506,12 @@
 			          <h5 class="bs-docs-heading">'Promo' Button<small> &ndash; Used for promotions</small></h5>
 			          <div class="bs-docs-example">
 			            <p>
-			              <a class="btn btn-promo text-promo-title"><strong>Exmor<br></strong> Technology<i class="icon-mini-arrow-right-white-boxed"></i></a>
+			              <a class="btn btn-promo text-promo-title"><strong>Exmor<br></strong> Technology<i class="icon-ui-arrow-right-white-boxed"></i></a>
 			            </p>
 			          </div>
 			<pre class="prettyprint linenums">
 			&lt;p&gt;
-			  &lt;a class="btn btn-promo"&gt;...&lt;i class="icon-mini-arrow-right-white-boxed"&gt;&lt;/i&gt;&lt;/a&gt;
+			  &lt;a class="btn btn-promo"&gt;...&lt;i class="icon-ui-arrow-right-white-boxed"&gt;&lt;/i&gt;&lt;/a&gt;
 			&lt;/p&gt;
 			</pre>
 			
@@ -809,22 +809,22 @@
 			          <h5 class="bs-docs-heading">Fused Submit Form</h5>
 			          <p>Add <code>.form-fused</code> to the <code>&lt;form&gt;</code> for a fused input/button combo. In this particular case, make sure there is no whitespace in the code between the <code>&lt;input&gt;</code> and the <code>&lt;button&gt;</code> to avoid extra spacing between them.</p>
 			          <form class="bs-docs-example form-fused">
-			            <input type="text" class="input-medium" placeholder="City or Postal Code"><button type="submit">Submit<i class="icon-mini-arrow-right-white-boxed-bordered1"></i></button>
+			            <input type="text" class="input-medium" placeholder="City or Postal Code"><button type="submit">Submit<i class="icon-ui-arrow-right-white-boxed-bordered1"></i></button>
 			          </form>
 <pre class="prettyprint linenums">
 &lt;form class="form-fused"&gt;
-  &lt;input type="text" class="input-medium" placeholder="City or Postal Code"&gt;&lt;button type="submit"&gt;Submit&lt;i class="icon-mini-arrow-right-blue-boxed-bordered1"&gt;&lt;/i&gt;&lt;/button&gt;
+  &lt;input type="text" class="input-medium" placeholder="City or Postal Code"&gt;&lt;button type="submit"&gt;Submit&lt;i class="icon-ui-arrow-right-blue-boxed-bordered1"&gt;&lt;/i&gt;&lt;/button&gt;
 &lt;/form&gt;
 </pre>
 			
 			          <h5>Fused Submit Form (Alternate)</h5>
 			          <p>Add <code>.form-fused-alt</code> to the <code>&lt;form&gt;</code> for an alternate fused input/button combo. In this particular case, make sure there is no whitespace in the code between the <code>&lt;input&gt;</code> and the <code>&lt;button&gt;</code> to avoid extra spacing between them.</p>
 			          <form class="bs-docs-example form-fused-alt">
-			            <input type="text" class="input-medium" placeholder="Your Email"><button type="submit">Submit<i class="icon-mini-arrow-right-blue-boxed-bordered2"></i></button>
+			            <input type="text" class="input-medium" placeholder="Your Email"><button type="submit">Submit<i class="icon-ui-arrow-right-blue-boxed-bordered2"></i></button>
 			          </form>
 <pre class="prettyprint linenums">
 &lt;form class="form-fused-alt"&gt;
-  &lt;input type="text" class="input-medium" placeholder="Your Email"&gt;&lt;button type="submit"&gt;Submit&lt;i class="icon-mini-arrow-right-blue-boxed-bordered2"&gt;&lt;/i&gt;&lt;/button&gt;
+  &lt;input type="text" class="input-medium" placeholder="Your Email"&gt;&lt;button type="submit"&gt;Submit&lt;i class="icon-ui-arrow-right-blue-boxed-bordered2"&gt;&lt;/i&gt;&lt;/button&gt;
 &lt;/form&gt;
 </pre>
 							
@@ -1234,30 +1234,30 @@
 			<section id="icons">
 				<h2 class="bs-docs-heading">Icons</h2>
 
-				<p>Sony Icons (SVG!)</p>
+				<p>Tab Icons (SVG!)</p>
 <pre class="prettyprint linenums">
 &lt;i class="icon-grid"&gt;&lt;/i&gt;
 </pre>
 
 				<ul class="the-icons clearfix">
-					<li><i class="icon-grid"></i> <span class="icons-desc">icon-grid</span></li>
-					<li><i class="icon-grid-alt"></i> <span class="icons-desc">icon-grid-alt</span></li>
-					<li><i class="icon-headphones"></i> <span class="icons-desc">icon-headphones</span></li>
-					<li><i class="icon-earbuds"></i> <span class="icons-desc">icon-earbuds</span></li>
-					<li><i class="icon-earclips"></i> <span class="icons-desc">icon-earclips</span></li>
-					<li><i class="icon-neckphones"></i> <span class="icons-desc">icon-neckphones</span></li>
-					<li><i class="icon-star"></i> <span class="icons-desc">icon-star</span></li>
-					<li><i class="icon-tv"></i> <span class="icons-desc">icon-tv</span></li>
-					<li><i class="icon-laptop"></i> <span class="icons-desc">icon-laptop</span></li>
-					<li><i class="icon-tablet"></i> <span class="icons-desc">icon-tablet</span></li>
-					<li><i class="icon-memory-stick"></i> <span class="icons-desc">icon-memory-stick</span></li>
-					<li><i class="icon-projector"></i> <span class="icons-desc">icon-projector</span></li>
-					<li><i class="icon-water-drop"></i> <span class="icons-desc">icon-water-drop</span></li>
-					<li><i class="icon-mic"></i> <span class="icons-desc">icon-mic</span></li>
-					<li><i class="icon-dongle"></i> <span class="icons-desc">icon-dongle</span></li>
-					<li><i class="icon-cd"></i> <span class="icons-desc">icon-cd</span></li>
-					<li><i class="icon-handycam"></i> <span class="icons-desc">icon-handycam</span></li>
-					<li><i class="icon-video-camera"></i> <span class="icons-desc">icon-video-camera</span></li>
+					<li><i class="icon-tab-grid"></i> <span class="icons-desc">icon-tab-grid</span></li>
+					<li><i class="icon-tab-grid-alt"></i> <span class="icons-desc">icon-tab-grid-alt</span></li>
+					<li><i class="icon-tab-headphones"></i> <span class="icons-desc">icon-tab-headphones</span></li>
+					<li><i class="icon-tab-earbuds"></i> <span class="icons-desc">icon-tab-earbuds</span></li>
+					<li><i class="icon-tab-earclips"></i> <span class="icons-desc">icon-tab-earclips</span></li>
+					<li><i class="icon-tab-neckphones"></i> <span class="icons-desc">icon-tab-neckphones</span></li>
+					<li><i class="icon-tab-star"></i> <span class="icons-desc">icon-tab-star</span></li>
+					<li><i class="icon-tab-tv"></i> <span class="icons-desc">icon-tab-tv</span></li>
+					<li><i class="icon-tab-laptop"></i> <span class="icons-desc">icon-tab-laptop</span></li>
+					<li><i class="icon-tab-tablet"></i> <span class="icons-desc">icon-tab-tablet</span></li>
+					<li><i class="icon-tab-memory-stick"></i> <span class="icons-desc">icon-tab-memory-stick</span></li>
+					<li><i class="icon-tab-projector"></i> <span class="icons-desc">icon-tab-projector</span></li>
+					<li><i class="icon-tab-water-drop"></i> <span class="icons-desc">icon-tab-water-drop</span></li>
+					<li><i class="icon-tab-mic"></i> <span class="icons-desc">icon-tab-mic</span></li>
+					<li><i class="icon-tab-dongle"></i> <span class="icons-desc">icon-tab-dongle</span></li>
+					<li><i class="icon-tab-cd"></i> <span class="icons-desc">icon-tab-cd</span></li>
+					<li><i class="icon-tab-handycam"></i> <span class="icons-desc">icon-tab-handycam</span></li>
+					<li><i class="icon-tab-video-camera"></i> <span class="icons-desc">icon-tab-video-camera</span></li>
 				</ul>
 
 				<script>
