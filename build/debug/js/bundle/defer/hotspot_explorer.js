@@ -1,4 +1,4 @@
-// ------------ Sony Carousel Module ------------
+// ------------ Sony Hotspot Module ------------
 // Module: HotSpot Explorer
 // Version: 1.0
 // Modified: 2012-11-26 by Tyler Madison
