@@ -2221,6 +2221,51 @@ legend + .control-group {
   background-color: #e4e7eb;
 }
 
+/* line 682, ../../../src/css/scss/_base/_forms.scss */
+.control-inline label {
+  display: inline;
+  padding-left: 5px;
+}
+
+/* line 687, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox {
+  position: absolute;
+  opacity: 0;
+}
+/* line 691, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox + label {
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+}
+/* line 697, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox + label:before {
+  content: '';
+  margin-right: 22px;
+  display: inline-block;
+  vertical-align: text-top;
+  width: 20px;
+  height: 20px;
+  background: white;
+}
+/* line 707, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox:focus + label:before, .csstransforms .styled-checkbox:hover + label:before {
+  outline: 6px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 9px white;
+  background: #f35429;
+}
+/* line 713, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox:checked + label:before {
+  background: #f35429;
+}
+/* line 718, ../../../src/css/scss/_base/_forms.scss */
+.csstransforms .styled-checkbox:checked + label:after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 6px;
+}
+
 /* line 9, ../../../src/css/scss/_base/_tables.scss */
 table {
   max-width: 100%;
@@ -3369,7 +3414,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 18, ../../../src/css/scss/_base/_sprites.scss */
-[class^="sprite-"],
+.csstransforms .styled-checkbox:checked + label:after, [class^="sprite-"],
 [class*=" sprite-"],
 [class^="icon-"],
 [class*=" icon-"], .icon-ui-pseudo-el-arrow-right-blue, .tl-arrow-right:after, .label-close:after, .slide-toggle:after {
@@ -3411,8 +3456,8 @@ input[type="submit"].btn.btn-mini {
   width: 33px;
   height: 24px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-laptop.state3, .state3 .icon-tab-laptop, .tab.active .icon-tab-laptop {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-laptop {
   background-position: 0 -420px;
 }
 
@@ -3422,8 +3467,8 @@ input[type="submit"].btn.btn-mini {
   width: 20px;
   height: 26px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-tablet.state3, .state3 .icon-tab-tablet, .tab.active .icon-tab-tablet {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-tablet {
   background-position: -60px -420px;
 }
 
@@ -3433,8 +3478,8 @@ input[type="submit"].btn.btn-mini {
   width: 16px;
   height: 21px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-memory-stick.state3, .state3 .icon-tab-memory-stick, .tab.active .icon-tab-memory-stick {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-memory-stick {
   background-position: -90px -420px;
 }
 
@@ -3444,8 +3489,8 @@ input[type="submit"].btn.btn-mini {
   width: 35px;
   height: 26px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-tv.state3, .state3 .icon-tab-tv, .tab.active .icon-tab-tv {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-tv {
   background-position: -120px -420px;
 }
 
@@ -3455,8 +3500,8 @@ input[type="submit"].btn.btn-mini {
   width: 38px;
   height: 18px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-projector.state3, .state3 .icon-tab-projector, .tab.active .icon-tab-projector {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-projector {
   background-position: -180px -420px;
 }
 
@@ -3466,8 +3511,8 @@ input[type="submit"].btn.btn-mini {
   width: 15px;
   height: 20px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-water-drop.state3, .state3 .icon-tab-water-drop, .tab.active .icon-tab-water-drop {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-water-drop {
   background-position: -240px -420px;
 }
 
@@ -3477,8 +3522,8 @@ input[type="submit"].btn.btn-mini {
   width: 11px;
   height: 27px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-mic.state3, .state3 .icon-tab-mic, .tab.active .icon-tab-mic {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-mic {
   background-position: -270px -420px;
 }
 
@@ -3488,8 +3533,8 @@ input[type="submit"].btn.btn-mini {
   width: 14px;
   height: 27px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-dongle.state3, .state3 .icon-tab-dongle, .tab.active .icon-tab-dongle {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-dongle {
   background-position: -300px -420px;
 }
 
@@ -3499,8 +3544,8 @@ input[type="submit"].btn.btn-mini {
   width: 27px;
   height: 26px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-cd.state3, .state3 .icon-tab-cd, .tab.active .icon-tab-cd {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-cd {
   background-position: -330px -420px;
 }
 
@@ -3510,8 +3555,8 @@ input[type="submit"].btn.btn-mini {
   width: 36px;
   height: 22px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-handycam.state3, .state3 .icon-tab-handycam, .tab.active .icon-tab-handycam {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-handycam {
   background-position: -360px -420px;
 }
 
@@ -3521,8 +3566,8 @@ input[type="submit"].btn.btn-mini {
   width: 38px;
   height: 28px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-video-camera.state3, .state3 .icon-tab-video-camera, .tab.active .icon-tab-video-camera {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-video-camera {
   background-position: -420px -420px;
 }
 
@@ -3532,8 +3577,8 @@ input[type="submit"].btn.btn-mini {
   width: 27px;
   height: 27px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-grid.state3, .state3 .icon-tab-grid, .tab.active .icon-tab-grid {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-grid {
   background-position: -480px -420px;
 }
 
@@ -3543,8 +3588,8 @@ input[type="submit"].btn.btn-mini {
   width: 26px;
   height: 26px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-grid-alt.state3, .state3 .icon-tab-grid-alt, .tab.active .icon-tab-grid-alt {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-grid-alt {
   background-position: -510px -420px;
 }
 
@@ -3554,8 +3599,8 @@ input[type="submit"].btn.btn-mini {
   width: 27px;
   height: 27px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-headphones.state3, .state3 .icon-tab-headphones, .tab.active .icon-tab-headphones {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-headphones {
   background-position: -540px -420px;
 }
 
@@ -3565,8 +3610,8 @@ input[type="submit"].btn.btn-mini {
   width: 45px;
   height: 24px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-earbuds.state3, .state3 .icon-tab-earbuds, .tab.active .icon-tab-earbuds {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-earbuds {
   background-position: -570px -420px;
 }
 
@@ -3576,8 +3621,8 @@ input[type="submit"].btn.btn-mini {
   width: 17px;
   height: 28px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-earclips.state3, .state3 .icon-tab-earclips, .tab.active .icon-tab-earclips {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-earclips {
   background-position: -630px -420px;
 }
 
@@ -3587,267 +3632,288 @@ input[type="submit"].btn.btn-mini {
   width: 45px;
   height: 19px;
 }
-/* line 92, ../../../src/css/scss/_base/_sprites.scss */
-.icon-tab-neckphones.state3, .state3 .icon-tab-neckphones, .tab.active .icon-tab-neckphones {
+/* line 91, ../../../src/css/scss/_base/_sprites.scss */
+.tab.active .icon-tab-neckphones {
   background-position: -660px -420px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-favorite {
   background-position: 0px 0px;
   width: 15px;
   height: 13px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-favorite.state3, .state3 .icon-ui-favorite, .tab.active .icon-ui-favorite {
   background-position: 0px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-cart {
   background-position: -30px 0px;
   width: 17px;
   height: 14px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-cart.state3, .state3 .icon-ui-cart, .tab.active .icon-ui-cart {
   background-position: -30px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-search {
   background-position: -60px 0px;
   width: 30px;
   height: 13px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-search.state3, .state3 .icon-ui-search, .tab.active .icon-ui-search {
   background-position: -60px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-gray {
   background-position: -90px 0px;
   width: 7px;
   height: 4px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-gray.state3, .state3 .icon-ui-arrowhead-down-gray, .tab.active .icon-ui-arrowhead-down-gray {
   background-position: -90px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-gray {
   background-position: -120px 0px;
   width: 7px;
   height: 4px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-gray.state3, .state3 .icon-ui-arrowhead-up-gray, .tab.active .icon-ui-arrowhead-up-gray {
   background-position: -120px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-white {
   background-position: -150px 0px;
   width: 7px;
   height: 4px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-white.state3, .state3 .icon-ui-arrowhead-down-white, .tab.active .icon-ui-arrowhead-down-white {
   background-position: -150px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-white {
   background-position: -180px 0px;
   width: 7px;
   height: 4px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-white.state3, .state3 .icon-ui-arrowhead-up-white, .tab.active .icon-ui-arrowhead-up-white {
   background-position: -180px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-blue {
   background-position: -210px 0px;
   width: 7px;
   height: 4px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-blue.state3, .state3 .icon-ui-arrowhead-down-blue, .tab.active .icon-ui-arrowhead-down-blue {
   background-position: -210px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-blue {
   background-position: -240px 0px;
   width: 7px;
   height: 4px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-blue.state3, .state3 .icon-ui-arrowhead-up-blue, .tab.active .icon-ui-arrowhead-up-blue {
   background-position: -240px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-white {
   background-position: -270px 0px;
   width: 11px;
   height: 8px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-white.state3, .state3 .icon-ui-arrow-right-white, .tab.active .icon-ui-arrow-right-white {
   background-position: -270px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-blue {
   background-position: -300px 0px;
   width: 11px;
   height: 8px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-blue.state3, .state3 .icon-ui-arrow-right-blue, .tab.active .icon-ui-arrow-right-blue {
   background-position: -300px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-grid {
   background-position: -330px 0px;
   width: 16px;
   height: 16px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-star {
   background-position: -360px 0px;
   width: 13px;
   height: 13px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-star.state3, .state3 .icon-ui-star, .tab.active .icon-ui-star {
   background-position: -360px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-starhalf {
   background-position: -390px 0px;
   width: 13px;
   height: 13px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-starhalf.state3, .state3 .icon-ui-starhalf, .tab.active .icon-ui-starhalf {
   background-position: -390px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowheads-up-down-gray {
   background-position: -420px 0px;
   width: 8px;
   height: 11px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowheads-up-down-gray.state3, .state3 .icon-ui-arrowheads-up-down-gray, .tab.active .icon-ui-arrowheads-up-down-gray {
   background-position: -420px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
-.icon-ui-plus-tiny {
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
+.icon-ui-plus-tiny, .slide-toggle.collapsed:after {
   background-position: -450px 0px;
   width: 9px;
   height: 9px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
-.icon-ui-plus-tiny.state3, .state3 .icon-ui-plus-tiny, .tab.active .icon-ui-plus-tiny {
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
+.icon-ui-plus-tiny.state3, .state3.slide-toggle.collapsed:after, .state3 .icon-ui-plus-tiny, .state3 .slide-toggle.collapsed:after, .tab.active .icon-ui-plus-tiny, .tab.active .slide-toggle.collapsed:after {
   background-position: -450px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-plus-skinny {
   background-position: -480px 0px;
   width: 16px;
   height: 16px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-plus-skinny.state3, .state3 .icon-ui-plus-skinny, .tab.active .icon-ui-plus-skinny {
   background-position: -480px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
-.icon-ui-x-skinny, .label-close:after {
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
+.icon-ui-x-skinny {
   background-position: -510px 0px;
   width: 16px;
   height: 16px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
-.icon-ui-x-skinny.state3, .state3.label-close:after, .state3 .icon-ui-x-skinny, .state3 .label-close:after, .tab.active .icon-ui-x-skinny, .tab.active .label-close:after {
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
+.icon-ui-x-skinny.state3, .state3 .icon-ui-x-skinny, .tab.active .icon-ui-x-skinny {
   background-position: -510px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-revealer-l-r-xl {
   background-position: -540px 0px;
   width: 32px;
   height: 32px;
 }
-/* line 134, ../../../src/css/scss/_base/_sprites.scss */
+/* line 133, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-revealer-l-r-xl.state3, .state3 .icon-ui-revealer-l-r-xl, .tab.active .icon-ui-revealer-l-r-xl {
   background-position: -540px -60px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
+.icon-ui-check, .csstransforms .styled-checkbox:checked + label:after {
+  background-position: -600px 0px;
+  width: 11px;
+  height: 8px;
+}
+
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
+.icon-ui-x-tiny, .slide-toggle:after {
+  background-position: -630px 0px;
+  width: 10px;
+  height: 10px;
+}
+
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
+.icon-ui-close, .label-close:after {
+  background-position: -660px 0px;
+  width: 16px;
+  height: 16px;
+}
+
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-global-nav-indicator {
   background-position: -330px 0px;
   width: 22px;
   height: 9px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-white-boxed {
   background-position: -256px 0px;
   width: 40px;
   height: 37px;
 }
 
-/* line 169, ../../../src/css/scss/_base/_sprites.scss */
+/* line 171, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-white-boxed {
   background-position: -256px 14px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-white-boxed-bordered1 {
   background-position: -257px 0px;
   width: 38px;
   height: 35px;
 }
 
-/* line 171, ../../../src/css/scss/_base/_sprites.scss */
+/* line 173, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-white-boxed-bordered1 {
   background-position: -257px 14px;
 }
 
-/* line 120, ../../../src/css/scss/_base/_sprites.scss */
+/* line 119, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-blue-boxed-bordered2 {
   background-position: -286px 0px;
   width: 38px;
   height: 33px;
 }
 
-/* line 173, ../../../src/css/scss/_base/_sprites.scss */
+/* line 175, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-blue-boxed-bordered2 {
   background-position: -286px 13px;
 }
 
-/* line 175, ../../../src/css/scss/_base/_sprites.scss */
+/* line 177, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-pseudo-el-arrow-right-blue, .tl-arrow-right:after {
   background-position: -300px 0px;
   width: 11px;
   height: 8px;
 }
 
-/* line 181, ../../../src/css/scss/_base/_sprites.scss */
+/* line 183, ../../../src/css/scss/_base/_sprites.scss */
 .sprite-nav-sony-logo {
   background-position: 0 -300px;
   width: 89px;
@@ -4756,7 +4822,7 @@ button.close {
   border-color: #444148;
 }
 /* line 122, ../../../src/css/scss/_components/_navs.scss */
-.nav-wrapper .navbar .nav > li#nav-li-universal > a > i.icon-ui-plus-tiny {
+.nav-wrapper .navbar .nav > li#nav-li-universal > a > i.icon-ui-plus-tiny, .nav-wrapper .navbar .nav > li#nav-li-universal > a > i.slide-toggle.collapsed:after {
   margin: 5px 0 0 12px;
 }
 /* line 128, ../../../src/css/scss/_components/_navs.scss */
@@ -6762,12 +6828,12 @@ a.label:hover, a.badge:hover {
 
 /* line 48, ../../../src/css/scss/_base/_labels-badges.scss */
 .label-success, .badge-success {
-  background-color: #468847;
+  background-color: #22c083;
 }
 
 /* line 49, ../../../src/css/scss/_base/_labels-badges.scss */
 .label-success[href], .badge-success[href] {
-  background-color: #356635;
+  background-color: #1a9565;
 }
 
 /* line 51, ../../../src/css/scss/_base/_labels-badges.scss */
@@ -6822,7 +6888,7 @@ a.label:hover, a.badge:hover {
 /* line 78, ../../../src/css/scss/_base/_labels-badges.scss */
 .label-close:after {
   content: '';
-  margin-left: 4px;
+  margin-left: 6px;
 }
 
 @-webkit-keyframes progress-bar-stripes {
@@ -7095,63 +7161,79 @@ a.label:hover, a.badge:hover {
   border-top: 1px solid #e5e5e5;
 }
 
-/* line 5, ../../../src/css/scss/_components/_range-control.scss */
+/* line 6, ../../../src/css/scss/_components/_range-control.scss */
 .range-control {
   position: relative;
   width: inherit;
-  height: 5px;
-  background: darkgray;
+  height: 14px;
+  background: #dddddd;
+  border-radius: 14px;
 }
-
-/* line 12, ../../../src/css/scss/_components/_range-control.scss */
+/* line 13, ../../../src/css/scss/_components/_range-control.scss */
 .range-control.vertical {
-  width: 5px;
+  width: 14px;
   height: 200px;
 }
-
-/* line 17, ../../../src/css/scss/_components/_range-control.scss */
+/* line 18, ../../../src/css/scss/_components/_range-control.scss */
+.range-control .ambit {
+  z-index: 3;
+  height: 14px;
+  background: #f35429;
+}
+/* line 24, ../../../src/css/scss/_components/_range-control.scss */
 .range-control.vertical .ambit {
-  width: 5px;
+  width: 14px;
   height: auto;
 }
-
-/* line 22, ../../../src/css/scss/_components/_range-control.scss */
+/* line 29, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .handle {
   z-index: 5;
-  margin-top: -8px;
+  margin-top: 0;
   margin-left: -10px;
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
   border-radius: 50%;
   background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  -moz-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  -ms-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  -o-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
+  -webkit-transition: border 0.15s linear, box-shadow 0.15s linear, margin 0.15s linear;
+  -moz-transition: border 0.15s linear, box-shadow 0.15s linear, margin 0.15s linear;
+  -o-transition: border 0.15s linear, box-shadow 0.15s linear, margin 0.15s linear;
+  transition: border 0.15s linear, box-shadow 0.15s linear, margin 0.15s linear;
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur") 8 4, pointer;
   /* you should probably localize the cur file */
 }
+/* line 41, ../../../src/css/scss/_components/_range-control.scss */
+.range-control .handle.grabbed {
+  border-width: 10px;
+  -webkit-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  -moz-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  -ms-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  -o-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  margin-top: -3px;
+}
 
-/* line 33, ../../../src/css/scss/_components/_range-control.scss */
+/* line 49, ../../../src/css/scss/_components/_range-control.scss */
 .ie .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur"), pointer;
   /* you should probably localize the cur file */
 }
 
-/* line 36, ../../../src/css/scss/_components/_range-control.scss */
+/* line 53, ../../../src/css/scss/_components/_range-control.scss */
 .grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur") 8 4, move;
   /* you should probably localize the cur file */
 }
 
-/* line 39, ../../../src/css/scss/_components/_range-control.scss */
+/* line 57, ../../../src/css/scss/_components/_range-control.scss */
 .ie.grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur"), move;
   /* you should probably localize the cur file */
-}
-
-/* line 43, ../../../src/css/scss/_components/_range-control.scss */
-.range-control .ambit {
-  z-index: 3;
-  height: 5px;
-  background: gray;
 }
 
 /* line 6, ../../../src/css/scss/_components/_slide-toggle.scss */
@@ -7159,21 +7241,22 @@ a.label:hover, a.badge:hover {
   position: relative;
   padding-left: 24px;
   padding-right: 24px;
-  background: #2f353d;
-  border-color: #2f353d;
   text-align: left;
-}
-/* line 14, ../../../src/css/scss/_components/_slide-toggle.scss */
-.slide-toggle:hover {
+  font-size: 0.8125em;
   background: #f35429;
   border-color: #f35429;
 }
-/* line 19, ../../../src/css/scss/_components/_slide-toggle.scss */
+/* line 15, ../../../src/css/scss/_components/_slide-toggle.scss */
+.slide-toggle:hover {
+  background: #5787f4;
+  border-color: #5787f4;
+}
+/* line 20, ../../../src/css/scss/_components/_slide-toggle.scss */
 .slide-toggle:after {
   content: '';
   position: absolute;
   right: 24px;
-  margin-top: 4px;
+  margin-top: 7px;
 }
 
 /* line 7, ../../../src/css/scss/_base/_utilities.scss */

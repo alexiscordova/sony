@@ -31,19 +31,23 @@
 
 	// Accent colors
 	// -------------------------
-	$highlightColor:        rgb(243,84,41) !default;
-	$highlightColorHover:   lighten($highlightColor, 5%) !default;
-	$highlightColorActive:  $highlightColor !default;
-	$highlightColorDark:		rgb(219,76,37);
-
 	$blue:                  rgb(4,156,219) !default;
 	$blueDark:              rgb(0,100,205) !default;
-	$green:                 rgb(70,165,70) !default;
 	$red:                   rgb(157,38,29) !default;
 	$yellow:                rgb(255,196,13) !default;
 	$orange:                rgb(248,148,6) !default;
 	$pink:                  rgb(195,50,95) !default;
 	$purple:                rgb(122,67,182) !default;
+
+
+	// Sony Accent colors
+	// -------------------------
+	$highlightColor:        rgb(243,84,41) !default;
+	$highlightColorHover:   lighten($highlightColor, 5%) !default;
+	$highlightColorActive:  $highlightColor !default;
+	$highlightColorDark:	rgb(219,76,37);
+
+	$themeGreen:            rgb(34,192,131) !default;
 
 
 	// Scaffolding
@@ -60,6 +64,12 @@
 	// -------------------------
 	$linkColor:             rgb(69,113,236) !default;
 	$linkColorHover:        rgb(87,135,244) !default;
+
+
+	// Transparent colors
+	// -------------------------
+	$transparentBlack:		rgba(0,0,0,0.12) !default;
+	$innerGlow:				rgba(255, 255, 255, 1);
 
 
 
@@ -170,7 +180,7 @@
 
 	// Hotspots
 	// -------------------------
-	$hotspotHalo:						rgba(47,53,61,0.1) !default;
+	$hotspotHalo:				rgba(47,53,61,0.1) !default;
 	$hotspotHaloHover:			rgba(47,53,61,0.15) !default;
 
 
@@ -453,3 +463,14 @@
 	$transitionFast:				0.15s;
 	$transitionFaster:      0.10s;
 	$transitionSuperfast:   0.05s;
+
+
+// Transition Timing Functions
+// --------------------------------------------------
+.TRANSITION-FUNCTIONS{} // this is just here for a SublimeText code-folding collapse point
+	$easeOutQuad: 		cubic-bezier(0.250, 0.460, 0.450, 0.940);
+	$easeOutCubic: 		cubic-bezier(0.215, 0.610, 0.355, 1.000);
+	$easeOutQuart: 		cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	$easeOutExpo: 		cubic-bezier(0.190, 1.000, 0.220, 1.000);
+	$easeNormal:		ease-out;
+

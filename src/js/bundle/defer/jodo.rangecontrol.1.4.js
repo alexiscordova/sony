@@ -148,7 +148,8 @@
 		},
 
 		events = function() {
-			var $handles = th.range ? th.$handle.add(th.$minHandle) : th.$handle;
+			var $handles = th.range ? th.$handle.add(th.$minHandle) : th.$handle,
+				$body = $("body");
 
 			// Make sure the handle doesn't get a selected-text highlight
 			$handles.on("selectstart dragstart mousedown", function() {
@@ -171,8 +172,9 @@
 				var offset = th.$rail.offset();
 				th.inMotion = true;
 				
-				$("body").addClass("grabbing");
-				th.$rail.trigger(th.evts.scS);
+				$body.addClass("grabbing");
+				$handle.addClass("grabbed");
+				th.$rail.trigger( th.evts.start, [th] );
 
 				// User moves cursor/finger
 				$(document).on( th.evts.move, function(moveEvt) {
@@ -194,8 +196,9 @@
 				.on( th.evts.up, function() {
 					$(document).off("." + namespace);
 					th.inMotion = false;
-					$("body").removeClass("grabbing");
-					th.$rail.trigger(th.evts.scE);
+					$body.removeClass("grabbing");
+					$handles.removeClass("grabbed");
+					th.$rail.trigger( th.evts.end, [th] );
 				});
 
 			// User clicks, not click-and-hold.
@@ -400,10 +403,10 @@
 			RangeControl - .
 	*/
 	RangeControl.prototype.goToPos = function(pos, $handle, data) {
-		var th = this;
+		var th = this,
+			response = [];
 
 		$handle[0].style[ th.property ] = ( pos / th.railSize * 100 ) + "%";
-		th.$rail.trigger({type:th.evts.sld, rangeControl:data});
 
 		if ( !th.range ) {
 			th.currentPosition = pos;
@@ -436,20 +439,23 @@
 			th.$ambit[ th.dimension ]( th.currentPositionPct + "%" );
 		}
 
-		// If a callback is defined, call it with position values as parameters
-		if ( th.callback && $.isFunction(th.callback) ) {
-			if ( th.range ) {
-				th.callback({
+		// Build response for slid event
+		if ( th.range ) {
+			response = [{
 					min: th.currentMinPosition,
 					max: th.currentPosition
-				}, {
+				},{
 					min: th.currentMinPositionPct,
 					max: th.currentPositionPct
-				});
-			} else {
-				th.callback(th.currentPositionPct);
-			}
+				},
+				th
+			];
+		} else {
+			response = [ th.currentPositionPct, th ];
 		}
+
+		// Trigger slid event
+		th.$rail.trigger( th.evts.slid, response );
 
 		return th;
 	};
@@ -660,9 +666,9 @@
 		currentMinPosition : false,
 		currentMinPositionPct : false,
 		evts : {
-			scS : "scrubStart." + namespace,
-			scE : "scrubEnd." + namespace,
-			sld : "slide." + namespace
+			start : "scrubstart." + namespace,
+			end : "scrubend." + namespace,
+			slid : "slid." + namespace
 		},
 
 		handleCss : {

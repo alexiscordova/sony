@@ -679,8 +679,63 @@ legend + .control-group {
 }
 
 
+.control-inline label {
+  display: inline;
+  padding-left: 5px;
+}
 
+.csstransforms .styled-checkbox {
+  position: absolute; // take it out of document flow
+  opacity: 0; // hide it
 
+  & + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  & + label:before {
+    content: '';
+    margin-right: 22px;
+    display: inline-block;
+    vertical-align: text-top;
+    @include square(20px);
+    background: $white;
+  }
+
+  &:focus + label:before,
+  &:hover + label:before {
+    outline: 6px solid $transparentBlack;
+    box-shadow: 0 0 9px $innerGlow;
+    background: $highlightColor;
+  }
+
+  &:checked + label:before {
+    background: $highlightColor;
+  }
+
+  // Check mark (should probably be replaced with icon)
+  &:checked + label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    @extend %icon;
+    @extend .icon-ui-check;
+
+    // Css only with box-shadow and rotate. Doesn't look great.
+    // background: $white;
+    // @include square(2px);
+    // box-shadow: 
+    //   2px 0 0 $white,
+    //   4px 0 0 $white,
+    //   4px -2px 0 $white,
+    //   4px -4px 0 $white,
+    //   4px -6px 0 $white,
+    //   4px -8px 0 $white;
+    // @include rotate(45deg);
+  }
+}
 
 
 
