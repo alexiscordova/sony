@@ -71,7 +71,7 @@
               <p class="p5 price-title">Starting at</p>
               <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
-            <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
+            <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
           </div>
 
           {{/if}}
@@ -85,48 +85,62 @@
   <section class="tab-pane fade gallery" data-tab="overhead" data-mode="{{productCards.mode}}">
     {{#if productCards.filterSet}}
     <div class="container padded">
-      <button class="btn slide-toggle" data-toggle="collapse" data-target="#glen">Filters</button>
+      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter Results</button>
       <span class="active-filters"></span>
       <span class="clear-active-filters hidden">clear</span>
     </div>
-    <div class="collapse product-filter" id="glen">
+    <div class="collapse product-filter" id="{{productCards.name}}-filters">
       <div class="filter-options container padded">
         <div class="row">
           {{#each productCards.filterSet}}
 
           {{#if this.type.range}}
           <div class="span3 filter-container">
-            <span>{{this.label}}</span>
+            <p class="l3">{{this.label}}</p>
             <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
             <div class="range-output"></div>
           </div>
           {{/if}}
 
           {{#if this.type.button}}
-          <p class="l3">{{this.label}}</p>
-          <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="button">
-            {{#each this.filters}}
-            <li class="btn" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>
-            {{/each}}
-          </ul>
+          <div class="span3 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="button">
+              {{#each this.filters}}
+              <li class="btn" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>
+              {{/each}}
+            </ul>
+          </div>
           {{/if}}
 
           {{#if this.type.checkbox}}
-          <p class="l3">{{this.label}}</p>
-          <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
-            {{#each this.filters}}
-            <li><label><input data-label="{{this.label}}" type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
-            {{/each}}
-          </ul>
+          <div class="span3 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
+              {{#each this.filters}}
+              <li><label><input data-label="{{this.label}}" type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
+              {{/each}}
+            </ul>
+          </div>
           {{/if}}
 
-          {{#if glen}}
-          <p class="l3">{{this.label}}</p>
-          <ul class="span3 filter-container unstyled best-for">
-            <li>Getting Close</li>
-            <li>Adventurer</li>
-            <li>Pocket Video</li>
-          </ul>
+          {{#if this.type.group}}
+          <div class="span3 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="media-list" data-filter="{{this.name}}" data-filter-type="group">
+              {{#each this.filters}}
+              <li class="media" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">
+                <div class="pull-left">
+                  <img class="media-object" src="http://placehold.it/64x64">
+                </div>
+                <div class="media-body">
+                  <p class="media-heading p3 text-dark">{{this.label}}</p>
+                  <p class="p3">{{this.description}}</p>
+                </div>
+              </li>
+              {{/each}}
+            </ul>
+          </div>
           {{/if}}
 
           {{/each}}
@@ -138,9 +152,9 @@
     <div class="gallery-title-bar container padded">
       {{#if productCards.sortSet}}
       <div class="sort-options pull-right">
-        Sort By: 
+        <span class="l4">Sort By:&nbsp;</span>
         <div class="dropdown">
-          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
+          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
           <ul class="dropdown-menu" role="menu">
           {{#each productCards.sortSet}}
             <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
@@ -183,7 +197,7 @@
             <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
           </div>
         </div>
-        <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
+        <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
       </div>
       {{/each}}
       
@@ -283,7 +297,7 @@
             <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
           </div>
         </div>
-        <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}}"></i>
+        <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
       </div>
       {{/each}}
       

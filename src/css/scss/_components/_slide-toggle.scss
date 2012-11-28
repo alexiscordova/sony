@@ -2,33 +2,30 @@
 // Slide toggle
 // --------------------------------------------------
 
+$slideTogglePadding: 24px;
+.slide-toggle {
+  position: relative;
+  padding-left: $slideTogglePadding;
+  padding-right: $slideTogglePadding;
+  background: $grayDark;
+  border-color: $grayDark;
+  text-align: left;
 
-// Parent container
-// .accordion {
-//   margin-bottom: $baseLineHeight;
-// }
+  &:hover {
+    background: $highlightColorActive;
+    border-color: $highlightColorActive;
+  }
 
-// // Group == heading + body
-// .accordion-group {
-//   margin-bottom: 2px;
-//   border: 1px solid #e5e5e5;
-//   @include border-radius(4px);
-// }
-// .accordion-heading {
-//   border-bottom: 0;
-// }
-// .accordion-heading .accordion-toggle {
-//   display: block;
-//   padding: 8px 15px;
-// }
+  &:after {
+    content: '';
+    position: absolute;
+    right: $slideTogglePadding;
+    margin-top: 4px;
+    @extend %icon;
+    @extend .icon-mini-close;
+  }
 
-// // General toggle styles
-// .accordion-toggle {
-//   cursor: pointer;
-// }
-
-// // Inner needs the styles because you can't animate properly with any styles on the element
-// .accordion-inner {
-//   padding: 9px 15px;
-//   border-top: 1px solid #e5e5e5;
-// }
+  &.collapsed:after {
+    @extend .icon-mini-plus-skinny;
+  }
+}
