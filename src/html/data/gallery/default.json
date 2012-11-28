@@ -243,11 +243,13 @@
     },
 
     "productCards" : {
+        "_comments" : "name should be unique, as it is used for IDs",
+        "name" : "headphone-cards",
         "mode" : "detailed",
         "filterSet" : [
             {
                 "name" : "price",
-                "label" : "Price",
+                "label" : "Price Range",
                 "type" : {
                     "range" : true
                 },
@@ -303,6 +305,30 @@
                         "value" : "lightweight"
                     }
                 ] 
+            },
+            {
+                "label" : "Best For",
+                "name" : "group",
+                "type" : {
+                    "group" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "Skating",
+                        "description" : "Waterproof, shockproof, dustproof, and rugged.",
+                        "value" : "skating"
+                    },
+                    {
+                        "label" : "Running",
+                        "description" : "Water resistant, shockproof, and ultra small.",
+                        "value" : "running"
+                    },
+                    {
+                        "label" : "Studio",
+                        "description" : "Music recording, professional quality, best sound.",
+                        "value" : "studio"
+                    }
+                ] 
             }
         ],
         "sortSet" : [
@@ -338,7 +364,8 @@
                     "megapixels" : "20+",
                     "popularity" : 100,
                     "rating" : 4,
-                    "release-date" : "2012-11-20T20:13:05.771Z"
+                    "release-date" : "2012-11-20T20:13:05.771Z",
+                    "group" : ["skating", "running", "studio"]
                 },
                 "label" : "New Product",
                 "img" : {
@@ -367,7 +394,8 @@
                     "megapixels" : "16-18",
                     "popularity" : 58,
                     "rating" : 3,
-                    "release-date" : "2012-10-20T20:13:05.771Z"
+                    "release-date" : "2012-10-20T20:13:05.771Z",
+                    "group" : ["skating", "studio"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -394,7 +422,8 @@
                     "megapixels" : "16-18",
                     "popularity" : 45,
                     "rating" : 4,
-                    "release-date" : "2011-11-20T20:13:05.771Z"
+                    "release-date" : "2011-11-20T20:13:05.771Z",
+                    "group" : ["skating", "running"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -421,7 +450,8 @@
                     "megapixels" : "18-20",
                     "popularity" : 77,
                     "rating" : 4,
-                    "release-date" : "2012-11-05T20:13:05.771Z"
+                    "release-date" : "2012-11-05T20:13:05.771Z",
+                    "group" : ["running", "studio"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -448,7 +478,8 @@
                     "megapixels" : "18-20",
                     "popularity" : 5,
                     "rating" : 4,
-                    "release-date" : "2012-01-20T20:13:05.771Z"
+                    "release-date" : "2012-01-20T20:13:05.771Z",
+                    "group" : ["running"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -476,7 +507,8 @@
                     "megapixels" : "14-16",
                     "popularity" : 1,
                     "rating" : 5,
-                    "release-date" : "2012-10-12T20:13:05.771Z"
+                    "release-date" : "2012-10-12T20:13:05.771Z",
+                    "group" : ["skating"]
                 },
                 "label" : "Most Popular",
                 "img" : {
@@ -503,7 +535,8 @@
                     "megapixels" : "20+",
                     "popularity" : 43,
                     "rating" : 4,
-                    "release-date" : "2012-05-26T20:13:05.771Z"
+                    "release-date" : "2012-05-26T20:13:05.771Z",
+                    "group" : ["studio"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -530,7 +563,8 @@
                     "megapixels" : "16-18",
                     "popularity" : 66,
                     "rating" : 5,
-                    "release-date" : "2012-08-12T20:13:05.771Z"
+                    "release-date" : "2012-08-12T20:13:05.771Z",
+                    "group" : ["skating", "studio"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -557,7 +591,8 @@
                     "megapixels" : "16-18",
                     "popularity" : 11,
                     "rating" : 5,
-                    "release-date" : "2011-12-20T20:13:05.771Z"
+                    "release-date" : "2011-12-20T20:13:05.771Z",
+                    "group" : ["running", "studio"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -584,7 +619,8 @@
                     "megapixels" : "18-20",
                     "popularity" : 82,
                     "rating" : 4,
-                    "release-date" : "2012-09-11T20:13:05.771Z"
+                    "release-date" : "2012-09-11T20:13:05.771Z",
+                    "group" : ["skating", "running"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -611,7 +647,8 @@
                     "megapixels" : "18-20",
                     "popularity" : 29,
                     "rating" : 5,
-                    "release-date" : "2012-10-29T20:13:05.771Z"
+                    "release-date" : "2012-10-29T20:13:05.771Z",
+                    "group" : ["skating", "running", "studio"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -638,7 +675,8 @@
                     "megapixels" : "14-16",
                     "popularity" : 71,
                     "rating" : 5,
-                    "release-date" : "2012-11-06T20:13:05.771Z"
+                    "release-date" : "2012-11-06T20:13:05.771Z",
+                    "group" : ["skating", "studio"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",

@@ -12,12 +12,12 @@
         self.$filterOpts = self.$container.find('.filter-options');
         self.$sortSelect = self.$container.find('.sort-options select');
         self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
-        self.$dropdownToggle = self.$container.find('.sort-options .dropdown-toggle');
+        self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
         self.$clear = self.$container.find('.clear-active-filters');
         self.$loadMore = self.$container.find('.gallery-load-more');
-        self.$favorites = self.$grid.find('.icon-mini-favorite');
+        self.$favorites = self.$grid.find('.js-favorite');
 
         if ( self.mode !== 'detailed' ) {
             self.$grid.addClass('grid5');
@@ -78,6 +78,11 @@
                     self.range( $this, name, data.min, data.max );
                     break;
                 case 'button':
+                    self.button( $this, name );
+                    break;
+                case 'group':
+                    // Treat groups the same as buttons
+                    type = 'button';
                     self.button( $this, name );
                     break;
                 case 'checkbox':
@@ -248,11 +253,14 @@
                     for ( filterName in self.filters[ filterType ] ) {
                         var activeFilters = self.filters[ filterType ][ filterName ];
 
-                        // This filterType.filterName has some active filters, build an array of their labels
+                        // This filterType.filterName has some active filters, build an object of its labels and filter names
                         if ( activeFilters.length ) {
                             for ( var j = 0; j < activeFilters.length; j++ ) {
                                 var label = self.filterLabels[ filterName ][ activeFilters[ j ] ];
-                                filters[ activeFilters[ j ] ] = label;
+                                filters[ activeFilters[ j ] ] = {
+                                    label: label,
+                                    name: filterName
+                                };
                             }
                         }
                     }
@@ -260,26 +268,34 @@
                 // Handle range control a bit differently
                 } else if ( filterType === 'range' ) {
                     if ( self.price.min !== self.MIN_PRICE ) {
-                        filters.minPrice = 'Min price: $' + self.price.min;
+                        filters['min'] = {
+                            key: 'price',
+                            label: 'Min price: $' + self.price.min,
+                            name: 'min'
+                        };
                     }
                     if ( self.price.max !== self.MAX_PRICE) {
-                        filters.maxPrice = 'Max price: $' + self.price.max;
+                        filters['max'] = {
+                            key: 'price',
+                            label: 'Max price: $' + self.price.max,
+                            name: 'max'
+                        };
                     }
                 }
             }
 
 
-            $.each(filters, function(key, value) {
-              var $label = $('<span>', {
-                "class" : "label label-close label-subtle",
-                "data-filter-key" : key,
-                text : value,
-                click : function() {
-                    console.log(this.dataset.filterKey);
-                }
-              });
+            // Create labels showing current filters
+            $.each(filters, function(key, obj) {
+                var $label = $('<span>', {
+                    "class" : "label label-close label-subtle",
+                    "data-filter" : key,
+                    "data-filter-name" : obj.key || obj.name,
+                    text : obj.label,
+                    click : $.proxy( self.onRemoveFilter, self )
+                });
 
-              frag.appendChild( $label[0] );
+                frag.appendChild( $label[0] );
             });
 
             
@@ -314,6 +330,51 @@
             }
 
             self.$grid.shuffle('all');
+        },
+
+        // Removes a single filter from stored data. Does NOT change UI.
+        undoFilter : function( filterValue, filterName, filterType ) {
+            var self = this,
+                pos;
+
+            if ( filterType === 'button' || filterType === 'checkbox' ) {
+                pos = $.inArray( filterValue, self.filters[ filterType ][ filterName ] );
+                self.filters[ filterType ][ filterName ].splice( pos, 1 );
+            } else if ( filterType === 'range' ) {
+                delete self.filters[ filterType ][ filterName ][ filterValue ];
+            }
+
+
+        },
+
+        onRemoveFilter : function( evt ) {
+            var self = this,
+                data = $(evt.target).data(),
+                filterType = self.filterNames[ data.filterName ],
+                selector = '',
+                rangeControl,
+                method;
+            
+            self.undoFilter( data.filter, data.filterName, filterType );
+
+            // Remove active/checked state
+            if ( filterType === 'button' ) {
+                selector = '[data-filter="' + data.filterName + '"] [data-' + data.filterName + '="' + data.filter + '"]';
+                self.$container.find( selector ).removeClass('active');
+            } else if ( filterType === 'checkbox' ) {
+                selector = '[data-filter="' + data.filterName + '"] [value="' + data.filter + '"]';
+                self.$container.find( selector ).prop('checked', false);
+            } else if ( filterType === 'range' ) {
+                rangeControl = self.$rangeControl.data('rangeControl');
+                method = data.filter === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
+                rangeControl[ method ]();
+            }
+
+            // Remove this label
+            $(evt.target).remove();
+
+            // Trigger shuffle
+            self.filter();
         },
 
         valueInArray : function( value, arr ) {
@@ -441,11 +502,17 @@
                 self.price.min = minPrice;
                 self.price.max = maxPrice;
 
-                // Filter results
+                // Filter results only if values have changed
                 if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
+                    
+                    // Save current filters
+                    self.filters.range[ filterName ].min = self.price.min;
+                    self.filters.range[ filterName ].max = self.price.max;
+
+                    // Throttle filtering (especially on touch)
                     if ( $.throttle ) {
                         var delay, method;
-                        if ( !!( 'ontouchstart' in window ) ) {
+                        if ( self.isTouch ) {
                             delay = 2500;
                             method = 'debounce';
                         } else {
@@ -461,7 +528,7 @@
                 }
             };
 
-            $rangeControl.rangeControl({
+            self.$rangeControl = $rangeControl.rangeControl({
                 orientation: 'h',
                 initialMin: '0%',
                 initialMax: '100%',
@@ -494,7 +561,7 @@
 
             evt.preventDefault();
 
-            self.$dropdownToggle.find('toggle-text').text( $target.text() );
+            self.$dropdownToggleText.text( $target.text() );
 
             if ( data.value !== 'default' ) {
                 sortObj = {
@@ -619,7 +686,8 @@
 
     // Not overrideable
     $.fn.gallery.settings = {
-        isInitialized: false
+        isInitialized: false,
+        isTouch: !!( 'ontouchstart' in window )
     };
 
 }(jQuery, window));

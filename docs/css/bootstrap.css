@@ -3372,7 +3372,7 @@ input[type="submit"].btn.btn-mini {
 [class^="sprite-"],
 [class*=" sprite-"],
 [class^="icon-"],
-[class*=" icon-"], .icon-mini-pseudo-el-arrow-right-blue, .tl-arrow-right:after, .label-close:after {
+[class*=" icon-"], .icon-mini-pseudo-el-arrow-right-blue, .tl-arrow-right:after, .label-close:after, .slide-toggle:after {
   display: inline-block;
   *margin-right: .3em;
   line-height: 15px;
@@ -3761,13 +3761,13 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 122, ../../src/css/scss/_base/_sprites.scss */
-.icon-mini-plus-skinny {
+.icon-mini-plus-skinny, .slide-toggle.collapsed:after {
   background-position: -480px -180px;
   width: 16px;
   height: 16px;
 }
 /* line 136, ../../src/css/scss/_base/_sprites.scss */
-.icon-mini-plus-skinny.state3, .state3 .icon-mini-plus-skinny, .tab.active .icon-mini-plus-skinny {
+.icon-mini-plus-skinny.state3, .state3.slide-toggle.collapsed:after, .state3 .icon-mini-plus-skinny, .state3 .slide-toggle.collapsed:after, .tab.active .icon-mini-plus-skinny, .tab.active .slide-toggle.collapsed:after {
   background-position: -480px -240px;
 }
 
@@ -6656,6 +6656,56 @@ button.close {
   right: -1px;
 }
 
+/* line 11, ../../src/css/scss/_base/_media.scss */
+.media,
+.media-body {
+  overflow: hidden;
+  *overflow: visible;
+  *zoom: 1;
+}
+
+/* line 19, ../../src/css/scss/_base/_media.scss */
+.media,
+.media .media {
+  margin-top: 15px;
+}
+
+/* line 22, ../../src/css/scss/_base/_media.scss */
+.media:first-child {
+  margin-top: 0;
+}
+
+/* line 25, ../../src/css/scss/_base/_media.scss */
+.media p:last-child {
+  margin-bottom: 0;
+}
+
+/* line 30, ../../src/css/scss/_base/_media.scss */
+.media-object {
+  display: block;
+}
+
+/* line 35, ../../src/css/scss/_base/_media.scss */
+.media-heading {
+  margin: 0 0 5px;
+}
+
+/* line 43, ../../src/css/scss/_base/_media.scss */
+.media .pull-left {
+  margin-right: 10px;
+}
+
+/* line 46, ../../src/css/scss/_base/_media.scss */
+.media .pull-right {
+  margin-left: 10px;
+}
+
+/* line 55, ../../src/css/scss/_base/_media.scss */
+.media-list {
+  margin-left: 0;
+  list-style: none;
+}
+
 /* line 8, ../../src/css/scss/_base/_labels-badges.scss */
 .label,
 .badge {
@@ -7101,6 +7151,28 @@ a.label:hover, a.badge:hover {
   z-index: 3;
   height: 5px;
   background: gray;
+}
+
+/* line 6, ../../src/css/scss/_components/_slide-toggle.scss */
+.slide-toggle {
+  position: relative;
+  padding-left: 24px;
+  padding-right: 24px;
+  background: #2f353d;
+  border-color: #2f353d;
+  text-align: left;
+}
+/* line 14, ../../src/css/scss/_components/_slide-toggle.scss */
+.slide-toggle:hover {
+  background: #f35429;
+  border-color: #f35429;
+}
+/* line 19, ../../src/css/scss/_components/_slide-toggle.scss */
+.slide-toggle:after {
+  content: '';
+  position: absolute;
+  right: 24px;
+  margin-top: 4px;
 }
 
 /* line 7, ../../src/css/scss/_base/_utilities.scss */
