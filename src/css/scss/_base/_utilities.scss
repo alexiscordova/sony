@@ -138,16 +138,17 @@ $overlayColor: rgba($linkColor, .8);
 
 // Star highlighting!
 // -------------------------
-[data-stars] .icon-mini-star:not(:first-child) {
+[data-stars] .icon-ui-star:not(:first-child) {
   margin-left: 2px;
 }
 
-[data-stars="1"] .icon-mini-star:nth-child(-n + 1),
-[data-stars="2"] .icon-mini-star:nth-child(-n + 2),
-[data-stars="3"] .icon-mini-star:nth-child(-n + 3),
-[data-stars="4"] .icon-mini-star:nth-child(-n + 4),
-[data-stars="5"] .icon-mini-star:nth-child(-n + 5) {
-  background-position: -720px -120px;
+// We have to add half-stars to this. I gues that means it's actually a 10-star rating system.
+[data-stars="1"] .icon-ui-star:nth-child(-n + 1),
+[data-stars="2"] .icon-ui-star:nth-child(-n + 2),
+[data-stars="3"] .icon-ui-star:nth-child(-n + 3),
+[data-stars="4"] .icon-ui-star:nth-child(-n + 4),
+[data-stars="5"] .icon-ui-star:nth-child(-n + 5) {
+  background-position: -360px -60px;
 }
 
 
