@@ -26,7 +26,7 @@
     <div class="tabs">
       {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab">
         <div class="ghost-center">
-          <div class="holder-for-icon"><i class="icon-{{this.icon}}"></i></div>
+          <div class="holder-for-icon"><i class="icon-tab-{{this.icon}}"></i></div>
           <div class="l3 tab-label">{{this.label}}</div>
         </div>
       </div>{{/each}}
@@ -44,7 +44,7 @@
         {{#each all.list}}
         <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
           {{#if this.label}}
-          <span class="label">{{this.label}}</span>
+          <span class="label label-success">{{this.label}}</span>
           {{/if}}
           {{#if this.tile.promo}}
             {{#if this.tile.copy}}
@@ -177,7 +177,7 @@
       {{#each productCards.list}}
       <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
         {{#if this.label}}
-        <span class="label">{{this.label}}</span>
+        <span class="label label-success">{{this.label}}</span>
         {{/if}}
         <div class="product-img ghost-center-wrap">
           <div class="ghost-center">
@@ -197,7 +197,7 @@
             <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
           </div>
         </div>
-        <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+        <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
       </div>
       {{/each}}
       
@@ -283,7 +283,7 @@
       {{#each simple.list}}
       <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
         {{#if this.label}}
-        <span class="label">{{this.label}}</span>
+        <span class="label label-success">{{this.label}}</span>
         {{/if}}
         <div class="product-img ghost-center-wrap">
           <div class="ghost-center">

@@ -718,18 +718,22 @@ legend + .control-group {
   &:checked + label:after {
     content: '';
     position: absolute;
-    left: 6px;
-    top: 9px;
-    background: $white;
-    @include square(2px);
-    box-shadow: 
-      2px 0 0 $white,
-      4px 0 0 $white,
-      4px -2px 0 $white,
-      4px -4px 0 $white,
-      4px -6px 0 $white,
-      4px -8px 0 $white;
-    @include rotate(45deg);
+    left: 5px;
+    top: 6px;
+    @extend %icon;
+    @extend .icon-ui-check;
+
+    // Css only with box-shadow and rotate. Doesn't look great.
+    // background: $white;
+    // @include square(2px);
+    // box-shadow: 
+    //   2px 0 0 $white,
+    //   4px 0 0 $white,
+    //   4px -2px 0 $white,
+    //   4px -4px 0 $white,
+    //   4px -6px 0 $white,
+    //   4px -8px 0 $white;
+    // @include rotate(45deg);
   }
 }
 
