@@ -206,3 +206,7 @@ $overlayColor: rgba($linkColor, .8);
 }
 
 
+// classes that just include the el-hidden/shown mixins, so if you want you can add/remove the class el-hidden or el-shown on your elements;
+// or you can make your .active or .selected class act as a el-hidden or el-shown element by using the mixin on your class directly. Options!
+.el-hidden{ @include el-hidden(); }
+.el-shown{  @include el-shown(); } 
