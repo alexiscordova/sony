@@ -86,11 +86,14 @@ $sprite_Tall_Y :      -960px;
 
 
 // UI Icons
-@mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:0px) {
+@mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:false) {
   .icon-ui-#{$name} {
     background-position: $x $icon_ui_Y;
-    margin:$margin;
     @include size($h, $w);
+
+    @if ( $margin ) {
+      margin: $margin;
+    }
 
     @if ( $hasHover ) {
       &:hover,
@@ -134,11 +137,14 @@ $sprite_Tall_Y :      -960px;
 
 // I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make 
 // it a <i> like all the others so I don't need this mixin.
-@mixin icon-ui-pseudo-el($x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:0) {
+@mixin icon-ui-pseudo-el($x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:false) {
   @extend %icon;
   background-position: $x 0px;
   @include size($h, $w);
-  margin:$margin;
+
+  @if ( $margin ) {
+    margin: $margin;
+  }
 }
 .icon-ui-pseudo-el-arrow-right-blue { @include icon-ui-pseudo-el(-300px, 11px, 8px); }
 
@@ -155,7 +161,7 @@ $sprite_Tall_Y :      -960px;
 // SPRITES 
 // --------------------------------------------
 
-@mixin sprite($basename, $name, $x, $w, $h, $margin:0px) {
+@mixin sprite($basename, $name, $x, $w, $h, $margin:false) {
   $y: 0;
           @if ( $basename == specsicon ) { $y: $sprite_Specsicon_Y;
    } @else if ( $basename == mini ) { $y: $sprite_Mini_Y;
@@ -165,8 +171,11 @@ $sprite_Tall_Y :      -960px;
    }
   .sprite-#{$basename}-#{$name} {
     background-position: $x $y;
-    margin:$margin;
     @include size($h, $w);
+    
+    @if ( $margin ) {
+      margin: $margin;
+    }
   }
 }
 @include sprite(mini, global-nav-indicator, 0px,  22px,  9px);
