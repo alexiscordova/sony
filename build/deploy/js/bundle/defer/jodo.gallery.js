@@ -15,7 +15,6 @@
         self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
-        self.$clear = self.$container.find('.clear-active-filters');
         self.$loadMore = self.$container.find('.gallery-load-more');
         self.$favorites = self.$grid.find('.js-favorite');
 
@@ -134,11 +133,11 @@
         });
 
         // Clear filters button
-        self.$clear.on('click', function(evt) {
-            evt.preventDefault();
-            self.resetActiveFilters();
-            self.$container.trigger('reset.gallery', [self]);
-        });
+        // self.$clear.on('click', function(evt) {
+        //     evt.preventDefault();
+        //     self.resetActiveFilters();
+        //     self.$container.trigger('reset.gallery', [self]);
+        // });
 
         // Load more button
         self.$loadMore.on('click', $.proxy( self.loadMore, self ));
@@ -302,13 +301,14 @@
             
             self.$activeFilters.empty().append(frag);
 
-            if ( $.isEmptyObject( filters ) ) {
-                self.$clear.addClass('hidden');
-            } else {
-                self.$clear.removeClass('hidden');
-            }
+            // if ( $.isEmptyObject( filters ) ) {
+            //     self.$clear.addClass('hidden');
+            // } else {
+            //     self.$clear.removeClass('hidden');
+            // }
         },
 
+        /*
         resetActiveFilters : function() {
             var self = this,
                 filterType = '',
@@ -332,6 +332,7 @@
 
             self.$grid.shuffle('all');
         },
+        */
 
         // Removes a single filter from stored data. Does NOT change UI.
         undoFilter : function( filterValue, filterName, filterType ) {
@@ -361,7 +362,8 @@
             // Remove active/checked state
             if ( filterType === 'button' ) {
                 selector = '[data-filter="' + data.filterName + '"] [data-' + data.filterName + '="' + data.filter + '"]';
-                self.$container.find( selector ).removeClass('active');
+                self.$container.find( selector ).button('toggle');
+                self.$container.find( selector + ' .active' ).button('toggle');
             } else if ( filterType === 'checkbox' ) {
                 selector = '[data-filter="' + data.filterName + '"] [value="' + data.filter + '"]';
                 self.$container.find( selector ).prop('checked', false);

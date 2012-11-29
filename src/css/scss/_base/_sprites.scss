@@ -150,7 +150,23 @@ $sprite_Tall_Y :      -960px;
 
 
 
+// Best for
+// ----------------------
+@mixin icon-bestfor($name, $x, $w, $h) {
+  .icon-bestfor-#{$name} {
+    background-position: $x $icon_bestfor_Y;
+    @include size($h, $w);
 
+    // Could there be more scenarios? possibly
+    .btn:hover &,
+    .btn:focus &,
+    .btn.active & { background-position: $x ($icon_bestfor_Y - 30px); }
+  }
+}
+
+@include icon-bestfor(running,    0,      30px,   28px);
+@include icon-bestfor(mic,        -30px,  12px,   30px);
+@include icon-bestfor(snowboard,  -60px,  30px,   30px);
 
 
 

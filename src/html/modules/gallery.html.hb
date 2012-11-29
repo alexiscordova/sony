@@ -87,7 +87,6 @@
     <div class="container padded">
       <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter Results</button>
       <span class="active-filters"></span>
-      <span class="clear-active-filters hidden">clear</span>
     </div>
     <div class="collapse product-filter" id="{{productCards.name}}-filters">
       <div class="filter-options container padded">
@@ -138,7 +137,7 @@
               {{#each this.filters}}
               <li class="media" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">
                 <div class="pull-left">
-                  <button class="btn btn-square media-object"><i class="icon-{{../name}}"></i></button>
+                  <button class="btn btn-square media-object"><i class="icon-bestfor-{{this.icon}}"></i></button>
                 </div>
                 <div class="media-body">
                   <p class="media-heading p3 text-dark">{{this.label}}</p>
