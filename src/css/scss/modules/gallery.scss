@@ -52,10 +52,6 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
   }
 }
 
-///////////
-// Icons //
-///////////
-
 
 
 // Price text module
@@ -82,10 +78,6 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 }
 
 
-.text-dark {
-  color: $grayDark;
-}
-
 
 
 .gallery-title-bar {
@@ -96,14 +88,9 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
   }
 }
 
-// All gallery items have a margin-top value, offset that.
-.shuffle {
-  // margin-top: -23px;
-}
 
-///////////////////
-// Gallery Items //
-///////////////////
+// Gallery Items
+// -------------------------
 
 // I don't remember why i have this...
 .gallery-detailed .shuffle-item {
@@ -227,10 +214,9 @@ $simpleGalleryItemHeight: 480px;
 }
 
 
-/////////////
-// FILTERS //
-/////////////
 
+// Filters
+// -------------------------
 .product-filter {
   margin: 1.45em 0; // 23.2px
   background: $grayLightFieldLarge;
@@ -241,6 +227,7 @@ $simpleGalleryItemHeight: 480px;
   margin-bottom: 20px;
 }
 
+// Filter labels ( active filters )
 .active-filters .label {
 
   // Give active filter labels some spacing
@@ -249,7 +236,27 @@ $simpleGalleryItemHeight: 480px;
   }
 }
 
+.filter-container {
 
+  // Override default btn-group functionality to have them drop to the new line
+  .btn-group {
+    white-space: normal;
+
+    // fake border right because we've already set the border
+    > .btn:not(:first-child) {
+      // @include box-shadow(-1px 0 0 $grayLightFieldLarge);
+      margin-left: 1px;
+    }
+  }
+
+  // Box shadow hovers get cut off with overflow hidden
+  .media {
+    overflow: visible;
+  }
+}
+
+// Range control
+// -------------------------
 .range-control-wrap {
   margin-top: 10px;
   padding: 0 10px;
@@ -261,12 +268,8 @@ $simpleGalleryItemHeight: 480px;
   text-align: center;
 }
 
-.tab-layer h3 code {
-  font-size: inherit;
-  font-weight: normal;
-  line-height: inherit;
-}
-
+// Misc
+// -------------------------
 .tab-content {
   margin-top: 20px;
   overflow: visible;
@@ -275,6 +278,7 @@ $simpleGalleryItemHeight: 480px;
 
 
 // Tabs
+// -------------------------
 
 $tabHeight: 100px;
 
@@ -360,6 +364,7 @@ $tabHeight: 100px;
 }
 
 // Tab carousel nav
+// -------------------------
 .tab-nav {
   position: absolute;
   z-index: 5;

@@ -348,5 +348,8 @@ $(document).ready(function() {
   if ( $('body').hasClass('gallery-module') ) {
     Exports.Modules.Gallery.init();
     Exports.Modules.Tabs.init();
+
+    // debug, show second tab
+    $('[data-target="overhead"]').tab('show');
   }
 });

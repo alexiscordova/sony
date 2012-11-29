@@ -248,6 +248,39 @@
         "mode" : "detailed",
         "filterSet" : [
             {
+                "name" : "colors",
+                "label" : "Colors",
+                "type" : {
+                    "color" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "Black",
+                        "value" : "black"
+                    },
+                    {
+                        "label" : "Yellow",
+                        "value" : "yellow"
+                    },
+                    {
+                        "label" : "Purple",
+                        "value" : "purple"
+                    },
+                    {
+                        "label" : "Teal",
+                        "value" : "teal"
+                    },
+                    {
+                        "label" : "White",
+                        "value" : "white"
+                    },
+                    {
+                        "label" : "Red",
+                        "value" : "red"
+                    }
+                ]
+            },
+            {
                 "name" : "price",
                 "label" : "Price Range",
                 "type" : {
@@ -257,6 +290,30 @@
                 "max" : 1000
             },
             {
+                "label" : "Best For",
+                "name" : "group",
+                "type" : {
+                    "group" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "Skating",
+                        "description" : "Waterproof, shockproof, dustproof, and rugged.",
+                        "value" : "skating"
+                    },
+                    {
+                        "label" : "Running",
+                        "description" : "Water resistant, shockproof, and ultra small.",
+                        "value" : "running"
+                    },
+                    {
+                        "label" : "Studio",
+                        "description" : "Music recording, professional quality, best sound.",
+                        "value" : "studio"
+                    }
+                ] 
+            },
+            {
                 "label" : "Megapixels",
                 "name" : "megapixels",
                 "type" : {
@@ -264,19 +321,19 @@
                 },
                 "filters" : [
                     {
-                        "label" : "14-16MP",
+                        "label" : "14-16",
                         "value" : "14-16"
                     },
                     {
-                        "label" : "16-18MP",
+                        "label" : "16-18",
                         "value" : "16-18"
                     },
                     {
-                        "label" : "18-20MP",
+                        "label" : "18-20",
                         "value" : "18-20"
                     },
                     {
-                        "label" : "20MP+",
+                        "label" : "20+",
                         "value" : "20+"
                     }
                 ]
@@ -303,30 +360,6 @@
                     {
                         "label" : "Lightweight",
                         "value" : "lightweight"
-                    }
-                ] 
-            },
-            {
-                "label" : "Best For",
-                "name" : "group",
-                "type" : {
-                    "group" : true
-                },
-                "filters" : [
-                    {
-                        "label" : "Skating",
-                        "description" : "Waterproof, shockproof, dustproof, and rugged.",
-                        "value" : "skating"
-                    },
-                    {
-                        "label" : "Running",
-                        "description" : "Water resistant, shockproof, and ultra small.",
-                        "value" : "running"
-                    },
-                    {
-                        "label" : "Studio",
-                        "description" : "Music recording, professional quality, best sound.",
-                        "value" : "studio"
                     }
                 ] 
             }
@@ -365,7 +398,8 @@
                     "popularity" : 100,
                     "rating" : 4,
                     "release-date" : "2012-11-20T20:13:05.771Z",
-                    "group" : ["skating", "running", "studio"]
+                    "group" : ["skating", "running", "studio"],
+                    "colors" : ["black", "yellow", "teal", "white", "red", "purple"]
                 },
                 "label" : "New Product",
                 "img" : {
@@ -384,7 +418,8 @@
                     { "name" : "lcd", "value" : "3\"" },
                     { "name" : "sensor", "value" : "Exmore&trade; CMOS" }
                 ],
-                "isFavorited" : true
+                "isFavorited" : true,
+                "colors" : ["black", "yellow", "teal", "white", "red", "purple"]
             },
 
             {
@@ -395,7 +430,8 @@
                     "popularity" : 58,
                     "rating" : 3,
                     "release-date" : "2012-10-20T20:13:05.771Z",
-                    "group" : ["skating", "studio"]
+                    "group" : ["skating", "studio"],
+                    "colors" : ["black"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -412,7 +448,8 @@
                     { "name" : "megapixels", "value" : 16.1 },
                     { "name" : "optical zoom", "value" : "5x" },
                     { "name" : "hd video", "value" : "720p" }
-                ]
+                ],
+                "colors" : ["black"]
             },
 
             {
@@ -423,7 +460,8 @@
                     "popularity" : 45,
                     "rating" : 4,
                     "release-date" : "2011-11-20T20:13:05.771Z",
-                    "group" : ["skating", "running"]
+                    "group" : ["skating", "running"],
+                    "colors" : ["yellow", "red"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -440,7 +478,8 @@
                     { "name" : "megapixels", "value" : 16.2 },
                     { "name" : "body", "value" : "Waterproof" },
                     { "name" : "sensor", "value" : "Exmore&trade; CMOS" }
-                ]
+                ],
+                "colors" : ["yellow", "red"]
             },
 
             {
@@ -451,7 +490,8 @@
                     "popularity" : 77,
                     "rating" : 4,
                     "release-date" : "2012-11-05T20:13:05.771Z",
-                    "group" : ["running", "studio"]
+                    "group" : ["running", "studio"],
+                    "colors" : ["red"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -468,7 +508,8 @@
                     { "name" : "megapixels", "value" : 18.2 },
                     { "name" : "Clear Image Zoom", "value" : "20x/40x" },
                     { "name" : "HD Video", "value" : "1080p" }
-                ]
+                ],
+                "colors" : ["red"]
             },
 
             {
@@ -479,7 +520,8 @@
                     "popularity" : 5,
                     "rating" : 4,
                     "release-date" : "2012-01-20T20:13:05.771Z",
-                    "group" : ["running"]
+                    "group" : ["running"],
+                    "colors" : ["black", "yellow", "teal", "white"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -497,7 +539,8 @@
                     { "name" : "Clear Image Zoom", "value" : "16x/32x" },
                     { "name" : "HD Video", "value" : "1080i" }
                 ],
-                "isFavorited" : true
+                "isFavorited" : true,
+                "colors" : ["black", "yellow", "teal", "white"]
             },
 
             {
@@ -508,7 +551,8 @@
                     "popularity" : 1,
                     "rating" : 5,
                     "release-date" : "2012-10-12T20:13:05.771Z",
-                    "group" : ["skating"]
+                    "group" : ["skating"],
+                    "colors" : ["teal", "white", "red", "purple"]
                 },
                 "label" : "Most Popular",
                 "img" : {
@@ -526,7 +570,8 @@
                     { "name" : "megapixels", "value" : 14.1 },
                     { "name" : "Optical Zoom", "value" : "4x" },
                     { "name" : "LCD", "value" : "2.7\"" }
-                ]
+                ],
+                "colors" : ["teal", "white", "red", "purple"]
             },
             {
                 "filterSet" : {
@@ -536,7 +581,8 @@
                     "popularity" : 43,
                     "rating" : 4,
                     "release-date" : "2012-05-26T20:13:05.771Z",
-                    "group" : ["studio"]
+                    "group" : ["studio"],
+                    "colors" : ["teal"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -553,7 +599,8 @@
                     { "name" : "megapixels", "value" : 20.2 },
                     { "name" : "lcd", "value" : "3\"" },
                     { "name" : "sensor", "value" : "Exmore&trade; CMOS" }
-                ]
+                ],
+                "colors" : ["teal"]
             },
 
             {
@@ -564,7 +611,8 @@
                     "popularity" : 66,
                     "rating" : 5,
                     "release-date" : "2012-08-12T20:13:05.771Z",
-                    "group" : ["skating", "studio"]
+                    "group" : ["skating", "studio"],
+                    "colors" : ["white"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -581,7 +629,8 @@
                     { "name" : "megapixels", "value" : 16.1 },
                     { "name" : "optical zoom", "value" : "5x" },
                     { "name" : "hd video", "value" : "720p" }
-                ]
+                ],
+                "colors" : ["white"]
             },
 
             {
@@ -592,7 +641,8 @@
                     "popularity" : 11,
                     "rating" : 5,
                     "release-date" : "2011-12-20T20:13:05.771Z",
-                    "group" : ["running", "studio"]
+                    "group" : ["running", "studio"],
+                    "colors" : ["black", "white", "red"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -609,7 +659,8 @@
                     { "name" : "megapixels", "value" : 16.2 },
                     { "name" : "body", "value" : "Waterproof" },
                     { "name" : "sensor", "value" : "Exmore&trade; CMOS" }
-                ]
+                ],
+                "colors" : ["black", "white", "red"]
             },
 
             {
@@ -620,7 +671,8 @@
                     "popularity" : 82,
                     "rating" : 4,
                     "release-date" : "2012-09-11T20:13:05.771Z",
-                    "group" : ["skating", "running"]
+                    "group" : ["skating", "running"],
+                    "colors" : ["red"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -637,7 +689,8 @@
                     { "name" : "megapixels", "value" : 18.2 },
                     { "name" : "Clear Image Zoom", "value" : "20x/40x" },
                     { "name" : "HD Video", "value" : "1080p" }
-                ]
+                ],
+                "colors" : ["red"]
             },
 
             {
@@ -648,7 +701,8 @@
                     "popularity" : 29,
                     "rating" : 5,
                     "release-date" : "2012-10-29T20:13:05.771Z",
-                    "group" : ["skating", "running", "studio"]
+                    "group" : ["skating", "running", "studio"],
+                    "colors" : ["black", "white"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -665,7 +719,8 @@
                     { "name" : "megapixels", "value" : 18.2 },
                     { "name" : "Clear Image Zoom", "value" : "16x/32x" },
                     { "name" : "HD Video", "value" : "1080i" }
-                ]
+                ],
+                "colors" : ["black", "white"]
             },
 
             {
@@ -676,7 +731,8 @@
                     "popularity" : 71,
                     "rating" : 5,
                     "release-date" : "2012-11-06T20:13:05.771Z",
-                    "group" : ["skating", "studio"]
+                    "group" : ["skating", "studio"],
+                    "colors" : ["black"]
                 },
                 "img" : {
                     "src" : "http://placekitten.com/300/185",
@@ -693,7 +749,8 @@
                     { "name" : "megapixels", "value" : 14.1 },
                     { "name" : "Optical Zoom", "value" : "4x" },
                     { "name" : "LCD", "value" : "2.7\"" }
-                ]
+                ],
+                "colors" : ["black"]
             }
         ]
     },

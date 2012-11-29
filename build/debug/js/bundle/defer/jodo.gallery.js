@@ -81,7 +81,8 @@
                     self.button( $this, name );
                     break;
                 case 'group':
-                    // Treat groups the same as buttons
+                case 'color':
+                    // Treat groups and colors the same as buttons
                     type = 'button';
                     self.button( $this, name );
                     break;
@@ -406,10 +407,19 @@
                 $btns = $parent.children();
 
             $btns.on('click', function() {
-                $(this).button('toggle');
+                var $this = $(this),
+                    isMediaGroup = $this.hasClass('media'),
+                    $checked,
+                    checked = [];
+                
+                if ( isMediaGroup ) {
+                    $this.find('.btn').button('toggle');
+                    $this.toggleClass('active');
+                } else {
+                    $this.button('toggle');
+                }
 
-                var $checked = $parent.find('.active'),
-                checked = [];
+                $checked = $parent.find('> .active');
 
                 // Get all data-* filters
                 if ( $checked.length !== 0 ) {

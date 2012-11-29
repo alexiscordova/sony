@@ -94,6 +94,15 @@
         <div class="row">
           {{#each productCards.filterSet}}
 
+          {{#if this.type.color}}
+          <div class="span4 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
+              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+            </ul>
+          </div>
+          {{/if}}
+
           {{#if this.type.range}}
           <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
@@ -105,10 +114,8 @@
           {{#if this.type.button}}
           <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
-            <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="button">
-              {{#each this.filters}}
-              <li class="btn" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>
-              {{/each}}
+            <ul class="unstyled btn-group" data-filter="{{this.name}}" data-filter-type="button">
+              {{#each this.filters}}<li class="btn btn-square" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
             </ul>
           </div>
           {{/if}}
@@ -131,7 +138,7 @@
               {{#each this.filters}}
               <li class="media" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">
                 <div class="pull-left">
-                  <img class="media-object" src="http://placehold.it/64x64">
+                  <button class="btn btn-square media-object"><i class="icon-{{../name}}"></i></button>
                 </div>
                 <div class="media-body">
                   <p class="media-heading p3 text-dark">{{this.label}}</p>

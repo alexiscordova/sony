@@ -705,8 +705,7 @@ legend + .control-group {
 
   &:focus + label:before,
   &:hover + label:before {
-    outline: 6px solid $transparentBlack;
-    box-shadow: 0 0 9px $innerGlow;
+    @include box-shadow($squareHalo);
     background: $highlightColor;
   }
 
