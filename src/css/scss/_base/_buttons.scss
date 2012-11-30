@@ -12,12 +12,12 @@
   @include ie7-inline-block();
   @include border-radius(1px);
   padding: $btnPadding;
-  width:171px;
+  width: 171px;
   margin-bottom: 0; // For input.btn
 
-  font-family:$sansFontFamilyMedium;
-  font-size:0.8666666667em; /* 13px/15px */ //inside of <p> or <td>
-  // letter-spacing:-0.065em;
+  font-family: $sansFontFamilyMedium;
+  font-size: 0.8666666667em; /* 13px/15px */ //inside of <p> or <td>
+  // letter-spacing: -0.065em;
 
   line-height: inherit;
   *line-height: inherit;
@@ -33,7 +33,7 @@
   &:hover {
     color: $btnText;
     text-decoration: none;
-    background-color:$btnBackgroundHover;
+    background-color: $btnBackgroundHover;
   }
 
   // Focus state for keyboard and accessibility
@@ -45,7 +45,7 @@
   &.active,
   &:active {
     color: $btnText;
-    background:$btnBackgroundActive;
+    background: $btnBackgroundActive;
   }
 
   // Disabled state
@@ -56,7 +56,7 @@
   }
   &.disabled:hover,
   &[disabled]:hover {
-    background:$btnBackground;
+    background: $btnBackground;
   }
 
 }
@@ -67,11 +67,11 @@
 // Alternate button styles
 // --------------------------------------------------
 
-.btn-special{
-  width:180px;
-  padding:$btnSpecialPadding;
-  font-family:$sansFontFamilyMedium;
-  font-size:1.0em; /* 15px/15px */ //inside of <p> or <td>
+.btn-special {
+  width: 180px;
+  padding: $btnSpecialPadding;
+  font-family: $sansFontFamilyMedium;
+  font-size: 1.0em; /* 15px/15px */ //inside of <p> or <td>
   border: 1px solid $btnSpecialBackground;
   background: $btnSpecialBackground;
 
@@ -84,10 +84,45 @@
   }
   &.disabled:hover,
   &[disabled]:hover {
-    background:$btnSpecialBackground;
+    background: $btnSpecialBackground;
   }
 }
-.btn-secondary{
+
+.btn-square {
+  width: 70px;
+  padding: $btnSquarePadding;
+  font-family: $sansFontFamily;
+  font-size: $font_20_16;
+  color: $grayDark;
+  border-radius: 0;
+  border: 1px solid $white;
+  background: $white;
+
+  &:hover,
+  &:focus {
+    @include box-shadow($squareHalo);
+    color: $white;
+    background: $highlightColor;
+    border-color: $highlightColor;
+  }
+
+  &.active,
+  &:active {
+    color: $white;
+    background: $highlightColor;
+    border-color: $highlightColor;
+  }
+
+  &.disabled,
+  &[disabled],
+  &.disabled:hover,
+  &[disabled]:hover {
+    background: $btnBackgroundDisabled;
+    border-color: $btnBackgroundDisabled;
+  }
+}
+
+.btn-secondary {
   border: 1px solid $btnSecondaryBackground;
   background: $btnSecondaryBackground;
 
@@ -100,15 +135,15 @@
   }
   &.disabled:hover,
   &[disabled]:hover {
-    background:$btnSecondaryBackground;
+    background: $btnSecondaryBackground;
   }
 }
 
-.btn-alt{
-  padding:$btnAltPadding;
-  font-family:$sansFontFamilyMedium;
+.btn-alt {
+  padding: $btnAltPadding;
+  font-family: $sansFontFamilyMedium;
   border: 1px solid $btnAltBackground;
-  background:$btnAltBackground;
+  background: $btnAltBackground;
 
   &:hover {
     background: $btnAltBackgroundHover;
@@ -119,36 +154,36 @@
   }
   &.disabled:hover,
   &[disabled]:hover {
-    background:$btnAltBackground;
+    background: $btnAltBackground;
   }
 
-  &.btn-small{
-    width:138px;
-    padding:$btnAltSmallPadding; 
-    font-size:0.73333333333em; /* 11px/15px */ //inside of <p> or <td>   
+  &.btn-small {
+    width: 138px;
+    padding: $btnAltSmallPadding; 
+    font-size: 0.73333333333em; /* 11px/15px */ //inside of <p> or <td>   
   }
 }
 
-.btn-promo{
-  position:relative;
-  width:289px;
-  padding:21px 0 32px 35px;
-  border:none;
+.btn-promo {
+  position: relative;
+  width: 289px;
+  padding: 21px 0 32px 35px;
+  border: none;
 
-  background:$btnPromoBackground;
-  color:$gray;
+  background: $btnPromoBackground;
+  color: $gray;
 
-  text-align:left;
-  font-size:1.666666667em; /* 25px/15px */
+  text-align: left;
+  font-size: 1.666666667em; /* 25px/15px */
   line-height: $baseLineHeight * 0.8;
   font-family: $sansFontFamilyLight;
   strong{
     font-family: $sansFontFamily;
-    color:$white;
+    color: $white;
   }
   &:hover {
     background: $btnPromoBackgroundHover;
-    color:$gray;
+    color: $gray;
   }
   &.active,
   &:active {
@@ -156,22 +191,25 @@
   }
   &.disabled:hover,
   &[disabled]:hover {
-    background:$btnPromoBackground;
+    background: $btnPromoBackground;
   }
-  &:after{
-    content:"";
-    @include pseudoEl-inline-block-icon(40px,37px);
+  .icon-ui-arrow-right-white-boxed{
     @include border-radius(1px);
-    background-position:-38px -39px;
-    background-color:rgb(51,57,74);
-    background-color:rgba(167,197,255,0.13);
-    position:absolute;
-    top:0px;
-    right:0px;
-    margin:0;
+    background-color: rgb(51,57,74);
+    background-color: rgba(167,197,255,0.13);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 0;    
   }
 }
 
+.btn-icon-ui-left {
+
+  i {
+    margin-right: 8px;
+  }
+}
 
 
 
@@ -181,11 +219,11 @@
 
 // Large
 .btn-large {
-  padding:$btnLargePadding;
+  padding: $btnLargePadding;
   font-size: 1.2em;
   line-height: $baseLineHeight * 1.1;
   &.btn-special{
-    padding:$btnSpecialLargePadding;    
+    padding: $btnSpecialLargePadding;    
   }
 }
 .btn-large [class^="icon-"] {
@@ -194,11 +232,11 @@
 
 // Small
 .btn-small {
-  padding:$btnSmallPadding;
+  padding: $btnSmallPadding;
   font-size: 0.8em;
   line-height: $baseLineHeight * 0.75;
   &.btn-special{
-    padding:$btnSpecialSmallPadding;    
+    padding: $btnSpecialSmallPadding;    
   }
 }
 .btn-small [class^="icon-"] {
@@ -207,11 +245,11 @@
 
 // Mini
 .btn-mini {
-  padding:$btnMiniPadding;
+  padding: $btnMiniPadding;
   font-size: 0.75em;
   line-height: $baseLineHeight * 0.6;
   &.btn-special{
-    padding:$btnSpecialMiniPadding;    
+    padding: $btnSpecialMiniPadding;    
   }
 }
 

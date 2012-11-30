@@ -591,6 +591,7 @@ legend + .control-group {
   input[type="submit"],
   input[type="reset"],
   input[type="button"] {
+    position:relative;
     float:left;
     @include border-radius(1px);
     @include hide-text();
@@ -602,8 +603,12 @@ legend + .control-group {
 
     background-color:$btnBackground;
     @include transition(background-color linear $transitionSuperfast);
-    @include background-sprite-icon-small;
-    background-position:-38px -40px;
+
+    // .icon-ui-arrow-right-white-boxed{
+    //   position:absolute;
+    //   top:0;
+    //   right:0;
+    // }
 
     &:hover{
       background-color:$btnBackgroundHover;
@@ -653,16 +658,16 @@ legend + .control-group {
     @include hide-text();
     margin:2px 0 0 0;
     padding:0;
-    width:36px;
+    width:38px;
     height:33px;
     border:none;
     position:relative;
-    left:-38px;
+    left:-40px;
 
     background-color:$inputBackgroundAlt;
     @include transition(background-color linear $transitionSuperfast);
-    @include background-sprite-icon-small;
-    background-position:-88px -40px;
+    // @include background-sprite-icon-small;
+    // background-position:-88px -40px;
 
     &:hover{
       background-color:$inputBackgroundBtnAlt;
@@ -670,12 +675,70 @@ legend + .control-group {
     &:active{
       background-color:$inputBackgroundBtnAlt;
     }
+
+    .icon-ui-arrow-right-blue{
+      margin:2px 0 0 1px;
+    }
   }
 }
 
 
+.control-inline label {
+  display: inline;
+  padding-left: 5px;
+}
 
+.csstransforms .styled-checkbox {
+  position: absolute; // take it out of document flow
+  opacity: 0; // hide it
 
+  & + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  & + label:before {
+    content: '';
+    margin-right: 22px;
+    display: inline-block;
+    vertical-align: text-top;
+    @include square(20px);
+    background: $white;
+  }
+
+  &:focus + label:before,
+  &:hover + label:before {
+    @include box-shadow($squareHalo);
+    background: $highlightColor;
+  }
+
+  &:checked + label:before {
+    background: $highlightColor;
+  }
+
+  // Check mark (should probably be replaced with icon)
+  &:checked + label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    @extend %icon;
+    @extend .icon-ui-check;
+
+    // Css only with box-shadow and rotate. Doesn't look great.
+    // background: $white;
+    // @include square(2px);
+    // box-shadow: 
+    //   2px 0 0 $white,
+    //   4px 0 0 $white,
+    //   4px -2px 0 $white,
+    //   4px -4px 0 $white,
+    //   4px -6px 0 $white,
+    //   4px -8px 0 $white;
+    // @include rotate(45deg);
+  }
+}
 
 
 

@@ -2,12 +2,12 @@
 // Hotspot Circles & circle-buttons
 // --------------------------------------------------
 
-$circleBtnDiameter: 42px;
-$haloThickness: 20px;
-$haloHoverThickness: 30px;
+$circleBtnDiameter: 40px;
+$haloThickness: 8px;
+$haloHoverThickness: 8px;
 
 $circleBtnLargeDiameter:60px;
-$circleBtnXLargeDiameter:76px;
+$circleBtnXLargeDiameter:72px;
 
 
 // The hotspot is visually the gray halo around the circle-button. 
@@ -18,7 +18,7 @@ $circleBtnXLargeDiameter:76px;
 
   background-color:$hotspotHalo; 
 
-  @include circleCentered($circleBtnDiameter + $haloThickness);
+  @include circleCentered($circleBtnDiameter + ($haloThickness*2));
 
   /* everything but z-index is the same. z-index just needs a delay, no animation. */     
   @include transition-property( border-radius, margin,   width,  height, opacity, background-color,  z-index );
@@ -35,7 +35,7 @@ $circleBtnXLargeDiameter:76px;
     
     background-color:$hotspotHaloHover;
 
-    @include circleCentered($circleBtnDiameter + $haloHoverThickness);
+    @include circleCentered($circleBtnDiameter + ($haloHoverThickness*2));
 
     @include transition-property( border-radius, margin,   width,  height, opacity, background-color,  z-index );
     @include transition-duration( $transitionNormal, $transitionNormal, $transitionNormal, $transitionNormal, $transitionNormal, $transitionNormal, 0s );
@@ -43,10 +43,10 @@ $circleBtnXLargeDiameter:76px;
     @include transition-delay( 0s, 0s, 0s, 0s, 0s, 0s, 0s );
   }
 
-  &.hotspot-large{ @include circleCentered($circleBtnLargeDiameter + $haloThickness); }
-  &.hotspot-xlarge{ @include circleCentered($circleBtnXLargeDiameter + $haloThickness); }
-  &.hotspot-large:hover{ @include circleCentered($circleBtnLargeDiameter + $haloHoverThickness); }
-  &.hotspot-xlarge:hover{ @include circleCentered($circleBtnXLargeDiameter + $haloHoverThickness); }
+  &.hotspot-large{ @include circleCentered($circleBtnLargeDiameter + ($haloThickness*2)); }
+  &.hotspot-xlarge{ @include circleCentered($circleBtnXLargeDiameter + ($haloThickness*2)); }
+  &.hotspot-large:hover{ @include circleCentered($circleBtnLargeDiameter + ($haloHoverThickness*2)); }
+  &.hotspot-xlarge:hover{ @include circleCentered($circleBtnXLargeDiameter + ($haloHoverThickness*2)); }
 
 
   .circle-button {
@@ -67,15 +67,10 @@ $circleBtnXLargeDiameter:76px;
     @include transition-delay( $transitionSuperfast, $transitionSuperfast, $transitionSuperfast, $transitionSuperfast, $transitionSuperfast );
     @include transition-timing-function( ease-in, ease-in, ease-in, ease-in, ease-in );
 
-    .circle-button-icon{
-      @include background-sprite-icon-small();
-      display:block;
-      position:absolute;
-      top:50%;
-      left:50%;
-      width:16px;
-      height:16px;
-      margin:-8px 0 0 -8px;
+
+    [class^="icon-ui-"],
+    [class*=" icon-ui-"]{
+      @include squareCentered(16px);
     }
   }
   &.hotspot-secondary .circle-button{
@@ -84,14 +79,16 @@ $circleBtnXLargeDiameter:76px;
   }
   &.hotspot-large .circle-button{
     @include circleCentered($circleBtnLargeDiameter);
-    .circle-button-icon{
+    [class^="icon-ui-"],
+    [class*=" icon-ui-"]{
       @include squareCentered(24px);
     }
   }
   &.hotspot-xlarge .circle-button{ 
     @include circleCentered($circleBtnXLargeDiameter);
-    .circle-button-icon{
-      @include squareCentered(40px);
+    [class^="icon-ui-"],
+    [class*=" icon-ui-"]{
+      @include squareCentered(32px);
     }
   }
 
@@ -100,9 +97,3 @@ $circleBtnXLargeDiameter:76px;
     @include box-shadow(inset 3px 3px 4px 0px rgba(0, 0, 0, 0.3));
   }
 }
-
-
-
-.hotspot-plus .circle-button .circle-button-icon            { @extend .icon-small-plus-white; }
-.hotspot-close .circle-button .circle-button-icon           { @extend .icon-small-x-white; }
-.hotspot-xlarge-revealer .circle-button .circle-button-icon { background-position:-287px -38px; }

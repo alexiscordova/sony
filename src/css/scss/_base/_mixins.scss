@@ -303,66 +303,6 @@ $default-transition-delay    : 0s;
 	}
 }
 
-// CSS3 transition
-// @include transition(opacity 0.5s);
-// @include transition(opacity 0.5s ease-in 0.2s);
-// @include transition(opacity 0.5s, left 0s);
-// @include transition(opacity 0.5s ease-in 0.2s, width 0.5s ease-in 0.2s, left 0s linear 0s);
-
-
-.hotspot .tooltip {
-	position:absolute;
-
-	left:-9999px;	
-	opacity:0;
-	-webkit-transition:	opacity 0.15s ease-in 0s;
-	   -moz-transition:	opacity 0.15s ease-in 0s;
-	    -ms-transition:	opacity 0.15s ease-in 0s; 
-	     -o-transition:	opacity 0.15s ease-in 0s;
-	        transition:	opacity 0.15s ease-in 0s;
-
-	-webkit-backface-visibility: hidden; // flicker fix
-}
-.hotspot:hover .tooltip {
-	left:86px; /* relative to left edge of hotspot */
-	opacity:1;
-	-webkit-transition:opacity 0.15s ease-out 0s;
-	   -moz-transition:opacity 0.15s ease-out 0s;
-	    -ms-transition:opacity 0.15s ease-out 0s; 
-	     -o-transition:opacity 0.15s ease-out 0s;
-	        transition:opacity 0.15s ease-out 0s;
-}
-html.no-opacity .hotspot .tooltip { visibility:hidden; }
-html.no-opacity .hotspot:hover .tooltip { visibility:visible; }
-
-
-// ----------------------------------------
-
-
-
-// ----------------------------------------
-// !!!TESTING!!!
-// Hidden elements, which fade in when activated, and fade out and then move offscreen & visibility:hidden to hopefully relieve some memory.
-// ----------------------------------------
-// Examples:
-// .hotspot .tooltip { @include el-hidden(); }
-// .hotspot:hover .tooltip { @include el-shown(); }
-@mixin el-hidden{
-	position:absolute;
-	-webkit-backface-visibility: hidden; // flicker fix
-
-	opacity:0;
-	left:-9999px;
-	visibility:hidden;
-	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
-}
-@mixin el-shown{
-	opacity:1;
-	left:0;
-	visibility:visible;
-	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
-}
-
 
 
 
@@ -810,6 +750,60 @@ html.no-opacity .hotspot:hover .tooltip { visibility:visible; }
 
 
 
+
+
+
+// ----------------------------------------
+// Hidden elements, which fade in when activated, and fade out and then move offscreen & visibility:hidden to hopefully relieve some memory.
+// ----------------------------------------
+// Examples:
+// .your-container .hotspot .popover { @include el-hidden(); }
+// .your-container .hotspot:hover .popover { @include el-shown(); }
+// 
+// .your-container .hotspot{
+//   left:500px;
+//   top:500px;
+//   z-index:999999;
+
+//   .popover{
+//     display:block;
+//     width:200px;
+//     height:100px;
+//     background:gray;
+//     top:50%;
+//     margin-top:-50px;
+//     @include el-hidden();
+//   }
+//   &:hover .popover{ 
+//     @include el-shown(); 
+//     left:-192px;
+//   } 
+// }
+
+
+// there is also a .el-hidden class in utilities that just includes the mixin.
+@mixin el-hidden{
+	position:absolute;
+	-webkit-backface-visibility: hidden; // flicker fix
+
+	opacity:0;
+	left:-9999px;
+	visibility:hidden;
+	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
+}
+
+// there is also a .el-shown class in utilities that just includes the mixin.
+@mixin el-shown{
+	opacity:1;
+	left:0;
+	visibility:visible;
+	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
+}
+
+
+
+
+
 // COMPONENT MIXINS
 // --------------------------------------------------
 
@@ -1040,6 +1034,10 @@ html.no-opacity .hotspot:hover .tooltip { visibility:visible; }
 	}
 
 	@mixin squareCentered($width){
+    display:block;
+    position:absolute;
+    top:50%;
+    left:50%;
 	  width:$width;
 	  height:$width; 
 	  margin:(-$width/2) 0 0 (-$width/2);  

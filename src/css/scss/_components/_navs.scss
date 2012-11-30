@@ -7,7 +7,7 @@
 // ----------
 // This has been modified just for Sony Global Nav.
 // If you need to use the regular Bootstrap nav module, use simple-nav.
-.nav {
+.nav-wrapper .navbar .nav {
   // position: relative;
   z-index:100;
   left: 0;
@@ -34,13 +34,15 @@
     line-height:0.65em * $baseLineHeight;
     position:relative;
 
-    &.nav-li-selected:after{
-      @include pseudoEl-inline-block-icon(24px,9px);
-      @extend .icon-med-carrot-down-white;
-      display:block;
+    .sprite-mini-global-nav-indicator{
+      display:none;
       position:absolute;
       bottom:0;
-      left:40%;
+      left:36%;
+    }
+
+    &.nav-li-selected .sprite-mini-global-nav-indicator{
+      display:block;
     }
 
     // Links
@@ -68,13 +70,81 @@
       text-decoration: none;
       background-color: $navbarLinkBackgroundActive;
     }
-    > a.nav-dropdown-toggle-text:after{
-        @include pseudoEl-inline-block-icon();
-        @extend .icon-small-carrot-down-gray;
-        width:10px;
-        margin-left:4px;
-        position:relative;
-        top:4px;
+    > a.nav-dropdown-toggle-text{
+      .icon-ui-arrowhead-down-gray{
+        display: inline-block;
+        position: relative;
+      }
+    }
+    > a.nav-dropdown-toggle-btn-mini{
+      display: block;
+      padding: 3px;
+      margin-right:2px;
+      margin-left:2px;
+    }
+    &#nav-li-favorites{
+      > a {
+        height: 19px;
+        margin-top: 21px;
+        margin-bottom: 24px;
+        > i {
+          display: block;
+        }
+      }
+    }
+    &#nav-li-cart{
+      > a {
+        height:22px;
+        margin-top: 19px;
+        margin-bottom: 23px;
+        line-height: 1.1;
+        font-size: $font_13_16;
+        font-family: $sansFontFamilyBold;
+        > i.icon-ui-cart {
+          margin-right: 3px;
+          margin-top: 2px;
+        }
+      }
+    }
+    &#nav-li-universal{
+      > a {
+        width: auto;
+        margin: 14px 4px 14px 11px;
+        padding: 4px 13px 7px 15px;
+        line-height: 23px;
+        font-size: $font_13_16;
+        background-color: $navbarTertiaryColor;
+        border-color: $navbarTertiaryColor;
+        &:hover{
+          background-color: lighten($navbarTertiaryColor,5%);
+          border-color: lighten($navbarTertiaryColor,5%);
+        };
+        > i.icon-ui-plus-tiny {
+          margin: 5px 0 0 12px;
+        }
+      }
+    }
+    &#nav-li-search{
+      > a {
+        width: 47px;
+        height: 36px;
+        overflow: visible;
+        margin: 14px 4px 14px 11px;
+        padding:0;
+        background-color: $navbarBackground;
+        border: solid 2px $navbarTertiaryColor;
+        line-height:1;
+        @include border-radius(1px);
+        &:hover{
+          background-color: lighten($navbarBackground,5%);
+          border-color: $navbarTertiaryColor;
+        };
+        > i.icon-ui-search {
+          display: block;
+          float: left;
+          margin: 10px 8px 10px 6px;
+        }
+      }
     }
   } // end li
 } // end .nav

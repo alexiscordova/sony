@@ -1,0 +1,32 @@
+//
+// Slide toggle
+// --------------------------------------------------
+
+$slideTogglePadding: 24px;
+.slide-toggle {
+  position: relative;
+  padding-left: $slideTogglePadding;
+  padding-right: $slideTogglePadding;
+  text-align: left;
+  font-size: $font_13_16;
+  background: $highlightColor;
+  border-color: $highlightColor;
+
+  &:hover {
+    background: $btnBackground;
+    border-color: $btnBorder;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: $slideTogglePadding;
+    margin-top: 7px;
+    @extend %icon;
+    @extend .icon-ui-x-tiny;
+  }
+
+  &.collapsed:after {
+    @extend .icon-ui-plus-tiny;
+  }
+}

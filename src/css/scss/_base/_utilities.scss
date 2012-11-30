@@ -19,12 +19,62 @@
   display: block;
 }
 
-// Visibility
+// From H5BP
+// -----------------------------
+
+// Image replacement
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  /* IE 6/7 fallback */
+  *text-indent: -9999px;
+}
+
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 100%;
+}
+
+// Hide from both screenreaders and browsers: h5bp.com/u
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+// Hide only visually, but have it available for screenreaders: h5bp.com/v
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+// Extends the .visuallyhidden class to allow the element to be focusable
+// when navigated to via the keyboard: h5bp.com/p
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+// Hide visually and from screenreaders, but maintain layout
 .invisible {
   visibility: hidden;
 }
 
-.hidden-text{
+// Try to use one of the above to avoid problems with text-indent please :)
+.hidden-text {
   display:block;
   line-height:0.1em;
   font-size:0.1em;
@@ -62,6 +112,14 @@
 // Uses box-sizing mixin, so must be defined here
 .input-block-level {
   @include input-block-level();
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-dark {
+  color: $grayDark;
 }
 
 
@@ -134,16 +192,21 @@ $overlayColor: rgba($linkColor, .8);
 
 // Star highlighting!
 // -------------------------
-[data-stars] .icon-star:not(:first-child) {
+[data-stars] .icon-ui-star:not(:first-child) {
   margin-left: 2px;
 }
 
-[data-stars="1"] .icon-star:nth-child(-n + 1),
-[data-stars="2"] .icon-star:nth-child(-n + 2),
-[data-stars="3"] .icon-star:nth-child(-n + 3),
-[data-stars="4"] .icon-star:nth-child(-n + 4),
-[data-stars="5"] .icon-star:nth-child(-n + 5) {
-  background-position: -720px -60px;
+// We have to add half-stars to this. I gues that means it's actually a 10-star rating system.
+[data-stars="1"] .icon-ui-star:nth-child(-n + 1),
+[data-stars="2"] .icon-ui-star:nth-child(-n + 2),
+[data-stars="3"] .icon-ui-star:nth-child(-n + 3),
+[data-stars="4"] .icon-ui-star:nth-child(-n + 4),
+[data-stars="5"] .icon-ui-star:nth-child(-n + 5) {
+  background-position: -360px -60px;
 }
 
 
+// classes that just include the el-hidden/shown mixins, so if you want you can add/remove the class el-hidden or el-shown on your elements;
+// or you can make your .active or .selected class act as a el-hidden or el-shown element by using the mixin on your class directly. Options!
+.el-hidden{ @include el-hidden(); }
+.el-shown{  @include el-shown(); } 

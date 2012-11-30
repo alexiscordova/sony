@@ -157,46 +157,45 @@
 			        <section id="hotspots">
 
 			          <h2 class="bs-docs-heading">Hotspots &amp; Circle-Buttons</h2>
-			          <p>These are kinda jittery; there might be a better way to animate the halo</p>
 			          <div class="bs-docs-example" style="height:100px;">
 		              
-		              <div class="hotspot hotspot-plus" style="left:80px; top:90px;">
-										<div class="circle-button"><span class="circle-button-icon"></span></div>
+		              <div class="hotspot" style="left:80px; top:90px;">
+										<div class="circle-button"><i class="icon-ui-plus-skinny"></i></div>
 										<!-- <div class="tooltip left" style="height: 211px; margin-top: -105.5px; ">
 											<h4>Universal Remote</h4>
 											<p>Control your Google TV, cable and satellite set-top-box, audio, TV set, and Blu-ray or DVD player with a single remote. Thanks to Bluetooth technology, you don’t even need to point the remote at your Sony Google TV box for it to work.</p>
 										</div> -->
 									</div>
 
-									<div class="hotspot hotspot-secondary hotspot-close" style="left:180px; top:90px;">
-										<div class="circle-button"><span class="circle-button-icon"></span></div>
+									<div class="hotspot hotspot-secondary" style="left:180px; top:90px;">
+										<div class="circle-button"><i class="icon-ui-x-skinny"></i></div>
 									</div>
 
 									<div class="hotspot hotspot-large" style="left:280px; top:90px;">
-										<div class="circle-button"><span class="circle-button-icon"></span></div>
+										<div class="circle-button"></div>
 									</div>
 
-									<div class="hotspot hotspot-xlarge hotspot-xlarge-revealer" style="left:400px; top:90px;">
-										<div class="circle-button"><span class="circle-button-icon"></span></div>
+									<div class="hotspot hotspot-xlarge" style="left:400px; top:90px;">
+										<div class="circle-button"><i class="icon-ui-revealer-l-r-xl"></i></div>
 									</div>
 
 
 			          </div>
 <pre class="prettyprint linenums">
-&lt;div class="hotspot hotspot-plus"&gt;
-  &lt;div class="circle-button"&gt;&lt;span class="circle-btn-icon"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class="hotspot"&gt;
+  &lt;div class="circle-button"&gt;&lt;i class="icon-ui-plus-skinny"&gt;&lt;/i&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div class="hotspot hotspot-secondary hotspot-close"&gt;
-  &lt;div class="circle-button"&gt;&lt;span class="circle-btn-icon"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class="hotspot hotspot-secondary"&gt;
+  &lt;div class="circle-button"&gt;&lt;i class="icon-ui-x-skinny"&gt;&lt;/i&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class="hotspot hotspot-large"&gt;
-  &lt;div class="circle-button"&gt;&lt;span class="circle-btn-icon"&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="circle-button"&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div class="hotspot hotspot-xlarge hotspot-xlarge-revealer"&gt;
-  &lt;div class="circle-button"&gt;&lt;span class="circle-btn-icon"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class="hotspot hotspot-xlarge"&gt;
+  &lt;div class="circle-button"&gt;&lt;i class="icon-ui-revealer-l-r-xl"&gt;&lt;/i&gt;&lt;/div&gt;
 &lt;/div&gt;
 </pre>
 			
@@ -217,7 +216,7 @@
 			          
 			          <div class="bs-docs-example">
 		              <div class="btn-group">
-		                <a class="btn dropdown-toggle" data-toggle="dropdown">Filter results</a>
+		                <a class="btn dropdown-toggle" data-toggle="dropdown">Filter results<i class="icon-ui-arrowheads-up-down-gray"></i></a>
 		                <ul class="dropdown-menu">
 		                  <li><a href="#">Action</a></li>
 		                  <li><a href="#">Another action</a></li>
@@ -229,7 +228,7 @@
 			          </div>
 <pre class="prettyprint linenums">
 &lt;div class="btn-group"&gt;
-  &lt;a class="btn dropdown-toggle" data-toggle="dropdown" href="#"&gt;Filter results&lt;/a&gt;
+  &lt;a class="btn dropdown-toggle" data-toggle="dropdown" href="#"&gt;Filter results&lt;i class="icon-ui-arrowheads-up-down-gray"&gt;&lt;/i&gt;&lt;/a&gt;
   &lt;ul class="dropdown-menu"&gt;
     &lt;li&gt;&lt;a href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
@@ -245,7 +244,7 @@
 			          <p>There's also a small dropdown button, by adding <code>.btn-small</code> to the button</p>
 			          <div class="bs-docs-example">
 		              <div class="btn-group">
-		                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Sort by</button>
+		                <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">Sort by<i class="icon-ui-arrowheads-up-down-gray"></i></button>
 		                <ul class="dropdown-menu">
 		                  <li><a href="#">Action</a></li>
 		                  <li><a href="#">Another action</a></li>
@@ -257,7 +256,7 @@
 			          </div>
 <pre class="prettyprint linenums">
 &lt;div class="btn-group"&gt;
-  &lt;a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"&gt;Sort by&lt;/a&gt;
+  &lt;a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#"&gt;Sort by&lt;i class="icon-ui-arrowheads-up-down-gray"&gt;&lt;/i&gt;&lt;/a&gt;
   &lt;ul class="dropdown-menu"&gt;
     &lt;!-- dropdown menu links --&gt;
   &lt;/ul&gt;
@@ -271,7 +270,7 @@
 			          <div class="bs-docs-example">
 		              
 			              <div class="btn-group">
-			                <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by</button>
+			                <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Filter results<i class="icon-ui-arrowheads-up-down-gray"></i></button>
 			                <ul class="dropdown-menu">
 			                  <li><a href="#">Action</a></li>
 			                  <li><a href="#">Another action</a></li>
@@ -282,7 +281,7 @@
 			              </div><!-- /btn-group -->
 
 			              <div class="btn-group" style="margin-left:0">
-			                <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by</button>
+			                <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">Sort by<i class="icon-ui-arrowheads-up-down-gray"></i></button>
 			                <ul class="dropdown-menu">
 			                  <li><a href="#">Action</a></li>
 			                  <li><a href="#">Another action</a></li>
@@ -2073,7 +2072,7 @@ $('#myModal').on('hidden', function () {
 			<!--==================================================
 			 Labels and badges
 			================================================== -->
-			        <section id="labels-badges" class="NotUpdatedYet">
+			        <section id="labels-badges">
 			          <h2 class="bs-docs-heading">Labels and badges</h2>
 			          <h4 class="bs-docs-heading">Labels</h4>
 			          <table class="table table-bordered table-striped">
@@ -2090,6 +2089,14 @@ $('#myModal').on('hidden', function () {
 			                </td>
 			                <td>
 			                  <code>&lt;span class="label"&gt;Default&lt;/span&gt;</code>
+			                </td>
+			              </tr>
+			              <tr>
+			                <td>
+			                  <span class="label label-subtle">Subtle</span>
+			                </td>
+			                <td>
+			                  <code>&lt;span class="label label-subtle"&gt;Subtle&lt;/span&gt;</code>
 			                </td>
 			              </tr>
 			              <tr>
@@ -2132,11 +2139,19 @@ $('#myModal').on('hidden', function () {
 			                  <code>&lt;span class="label label-inverse"&gt;Inverse&lt;/span&gt;</code>
 			                </td>
 			              </tr>
+			              <tr>
+			                <td>
+			                  <span class="label label-subtle label-close">Close</span>
+			                </td>
+			                <td>
+			                  <code>&lt;span class="label label-subtle label-close"&gt;Close&lt;/span&gt;</code>
+			                </td>
+			              </tr>
 			            </tbody>
 			          </table>
 			
 			          <h4 class="bs-docs-heading">Badges</h4>
-			          <table class="table table-bordered table-striped">
+			          <table class="table table-bordered table-striped NotUpdatedYet">
 			            <thead>
 			              <tr>
 			                <th>Name</th>
@@ -2158,13 +2173,24 @@ $('#myModal').on('hidden', function () {
 			              </tr>
 			              <tr>
 			                <td>
+			                  Subtle
+			                </td>
+			                <td>
+			                  <span class="badge badge-subtle">2</span>
+			                </td>
+			                <td>
+			                  <code>&lt;span class="badge badge-subtle"&gt;2&lt;/span&gt;</code>
+			                </td>
+			              </tr>
+			              <tr>
+			                <td>
 			                  Success
 			                </td>
 			                <td>
-			                  <span class="badge badge-success">2</span>
+			                  <span class="badge badge-success">3</span>
 			                </td>
 			                <td>
-			                  <code>&lt;span class="badge badge-success"&gt;2&lt;/span&gt;</code>
+			                  <code>&lt;span class="badge badge-success"&gt;3&lt;/span&gt;</code>
 			                </td>
 			              </tr>
 			              <tr>

@@ -12,23 +12,45 @@
     'use strict';
 
 
+    // You can return `undefined` from the `by` function to revert to DOM order
     $.fn.sorted = function(options) {
         var opts = $.extend({}, $.fn.sorted.defaults, options),
-            arr = this.get();
+            arr = this.get(),
+            revert = false;
 
         // Sort the elements by the opts.by function.
         // If we don't have opts.by, default to DOM order
         if (opts.by !== $.noop && opts.by !== null && opts.by !== undefined) {
             arr.sort(function(a, b) {
-                var valA = opts.by($(a));
-                var valB = opts.by($(b));
-                return (valA < valB) ? -1 : (valA > valB) ? 1 : 0;
+
+                // Exit early if we already know we want to revert
+                if ( revert ) {
+                    return 0;
+                }
+
+                var valA = opts.by($(a)),
+                    valB = opts.by($(b));
+
+                // If both values are undefined, use the DOM order
+                if ( valA === undefined && valB === undefined ) {
+                    revert = true;
+                    return 0;
+                }
+
+                return (valA < valB) ? -1 :
+                    (valA > valB) ? 1 : 0;
             });
         }
 
-        if (opts.reverse) {
+        // Revert to the original array if necessary
+        if ( revert ) {
+            return this.get();
+        }
+
+        if ( opts.reverse ) {
             arr.reverse();
         }
+
         return arr;
 
     };

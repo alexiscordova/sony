@@ -52,10 +52,6 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
   }
 }
 
-///////////
-// Icons //
-///////////
-
 
 
 // Price text module
@@ -82,27 +78,22 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 }
 
 
-.text-dark {
-  color: $grayDark;
-}
-
 
 
 .gallery-title-bar {
   padding: 1.25em 0;
+
+  .dropdown {
+    display: inline-block;
+  }
 }
 
-// All gallery items have a margin-top value, offset that.
-.shuffle {
-  // margin-top: -23px;
-}
 
-///////////////////
-// Gallery Items //
-///////////////////
+// Gallery Items
+// -------------------------
 
 // I don't remember why i have this...
-.gallery-simple .shuffle-item {
+.gallery-detailed .shuffle-item {
   margin: 23px 0 0;
 }
 
@@ -120,7 +111,7 @@ $simpleGalleryItemHeight: 480px;
   height: $galleryItemHeight;
   overflow: hidden;
 
-  .gallery-simple & {
+  .gallery-detailed & {
     height: $simpleGalleryItemHeight;
   }
 
@@ -128,6 +119,13 @@ $simpleGalleryItemHeight: 480px;
     position: absolute;
     top: 0;
     right: 0;
+  }
+
+  .icon-ui-favorite {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    cursor: pointer;
   }
 }
 
@@ -184,7 +182,7 @@ $simpleGalleryItemHeight: 480px;
     height: ($galleryItemHeight * 2) + 10px;
   }
 
-  .gallery-simple {
+  .gallery-detailed {
 
     .label {
       left: 0;
@@ -213,24 +211,52 @@ $simpleGalleryItemHeight: 480px;
   .product-strip .gallery-item:nth-child(n + 5) {
     display: none;
   }
-
-}
-
-// 5 COLUMNS
-@media (min-width: 1500px) {
-  // .container {
-  //   width: 1470px;
-  // }
 }
 
 
-/////////////
-// FILTERS //
-/////////////
+
+// Filters
+// -------------------------
+.product-filter {
+  margin: 1.45em 0; // 23.2px
+  background: $grayLightFieldLarge;
+}
+
 .filter-options {
-  margin: 20px 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
+// Filter labels ( active filters )
+.active-filters .label {
+
+  // Give active filter labels some spacing
+  &:not(:first-child) {
+    margin-left: 2px;
+  }
+}
+
+.filter-container {
+
+  // Override default btn-group functionality to have them drop to the new line
+  .btn-group {
+    white-space: normal;
+
+    // fake border right because we've already set the border
+    > .btn:not(:first-child) {
+      // @include box-shadow(-1px 0 0 $grayLightFieldLarge);
+      margin-left: 1px;
+    }
+  }
+
+  // Box shadow hovers get cut off with overflow hidden
+  .media {
+    overflow: visible;
+  }
+}
+
+// Range control
+// -------------------------
 .range-control-wrap {
   margin-top: 10px;
   padding: 0 10px;
@@ -242,12 +268,8 @@ $simpleGalleryItemHeight: 480px;
   text-align: center;
 }
 
-.tab-layer h3 code {
-  font-size: inherit;
-  font-weight: normal;
-  line-height: inherit;
-}
-
+// Misc
+// -------------------------
 .tab-content {
   margin-top: 20px;
   overflow: visible;
@@ -256,6 +278,7 @@ $simpleGalleryItemHeight: 480px;
 
 
 // Tabs
+// -------------------------
 
 $tabHeight: 100px;
 
@@ -313,7 +336,7 @@ $tabHeight: 100px;
   }
 }
 
-.sprite-holder {
+.holder-for-icon {
   height: 30px;
 }
 
@@ -341,6 +364,7 @@ $tabHeight: 100px;
 }
 
 // Tab carousel nav
+// -------------------------
 .tab-nav {
   position: absolute;
   z-index: 5;

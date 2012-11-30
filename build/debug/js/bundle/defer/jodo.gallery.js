@@ -10,10 +10,17 @@
         self.$filterContainer = self.$container.find('.product-filter');
         self.$grid = self.$container.find('.products');
         self.$filterOpts = self.$container.find('.filter-options');
-        self.$sortOpts = self.$container.find('.sort-options');
+        self.$sortSelect = self.$container.find('.sort-options select');
+        self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
+        self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
-        self.$clear = self.$container.find('.clear-active-filters');
+        self.$loadMore = self.$container.find('.gallery-load-more');
+        self.$favorites = self.$grid.find('.js-favorite');
+
+        if ( self.mode !== 'detailed' ) {
+            self.$grid.addClass('grid5');
+        }
 
         // Use a function if one is specified for the column width
         var col = $.isFunction( self.shuffleColumns ) ?
@@ -72,6 +79,12 @@
                 case 'button':
                     self.button( $this, name );
                     break;
+                case 'group':
+                case 'color':
+                    // Treat groups and colors the same as buttons
+                    type = 'button';
+                    self.button( $this, name );
+                    break;
                 case 'checkbox':
                     self.checkbox ( $this, name );
                     break;
@@ -84,52 +97,56 @@
 
 
         // Slide toggle. Reset range control if it was hidden on initialization
-        self.$container.find('.js-filter-toggle').on('click', function() {
-            self.$filterContainer.stop().slideToggle( $.proxy( self.maybeResetRange, self ) );
-        });
+        self.$container.find('.collapse').on('shown', $.proxy( self.maybeResetRange, self ));
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
-        if ( self.sort ) {
-            var sorted = false;
-            if ( $(window).width() <= 767 ) {
-                self.sortByPriority();
-                sorted = true;
-            }
-
-            $(window).on('resize.gallery', function() {
-                var width = $(window).width();
-                if ( width <= 767 && !sorted ) {
-                    self.sortByPriority();
-                    sorted = true;
-                } else if ( width >= 768 && sorted ) {
-                    // Reset
-                    self.sortByPriority(true);
-                    sorted = false;
-                }
-            });
+        var sorted = false;
+        if ( $(window).width() <= 767 ) {
+            self.sortByPriority();
+            sorted = true;
         }
 
-        // Set up sorting
-        self.$sortOpts.on( 'change', function(evt) {
-            self.sortItems(this, evt);
-        } );
+        $(window).on('resize.gallery', function() {
+            var width = $(window).width();
+            if ( width <= 767 && !sorted ) {
+                self.sortByPriority();
+                sorted = true;
+            } else if ( width >= 768 && sorted ) {
+                // Reset
+                self.sortByPriority(true);
+                sorted = false;
+            }
+        });
 
+        // Set up sorting ---- dropdowm
+        self.$sortBtns.on('click',  $.proxy( self.sort, self ));
 
-        // Respond to events
+        // Set up sorting ---- select menu
+        // self.$sortSelect.on('change', function(evt) {
+        //     self.sortItems(this, evt);
+        // });
+
+        // Displays active filters on `filter`
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
             self.$productCount.text( shuffle.visibleItems );
             self.displayActiveFilters();
         });
 
         // Clear filters button
-        self.$clear.on('click', function(evt) {
-            evt.preventDefault();
-            self.resetActiveFilters();
-            self.$container.trigger('reset.gallery', [self]);
-        });
+        // self.$clear.on('click', function(evt) {
+        //     evt.preventDefault();
+        //     self.resetActiveFilters();
+        //     self.$container.trigger('reset.gallery', [self]);
+        // });
+
+        // Load more button
+        self.$loadMore.on('click', $.proxy( self.loadMore, self ));
+
+        // Favorite Heart
+        self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
         // Hide filters
-        self.$container.find('.product-filter').slideUp();
+        // self.$container.find('.product-filter').slideUp();
 
         self.isInitialized = true;
     };
@@ -222,7 +239,8 @@
             var self = this,
                 filterType = '',
                 filterName = '',
-                filters = [];
+                filters = {},
+                frag = document.createDocumentFragment();
 
             // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
             for ( filterType in self.filters ) {
@@ -233,39 +251,64 @@
                 // Loop through filter types because there could be more than one 'button' or 'checkbox'
                 if ( filterType === 'button' || filterType === 'checkbox' ) {
                     for ( filterName in self.filters[ filterType ] ) {
-                        var activeFilters = self.filters[ filterType ][ filterName ],
-                            filterLabels = [];
+                        var activeFilters = self.filters[ filterType ][ filterName ];
 
-                        // This filterType.filterName has some active filters, build an array of their labels
+                        // This filterType.filterName has some active filters, build an object of its labels and filter names
                         if ( activeFilters.length ) {
                             for ( var j = 0; j < activeFilters.length; j++ ) {
-                                filterLabels.push( self.filterLabels[ filterName ][ activeFilters[ j ] ] );
+                                var label = self.filterLabels[ filterName ][ activeFilters[ j ] ];
+                                filters[ activeFilters[ j ] ] = {
+                                    label: label,
+                                    name: filterName
+                                };
                             }
-                            // Push the array of labes onto our total
-                            filters.push( filterLabels.join(', ') );
                         }
                     }
 
                 // Handle range control a bit differently
                 } else if ( filterType === 'range' ) {
                     if ( self.price.min !== self.MIN_PRICE ) {
-                        filters.push('Min price: $' + self.price.min);
+                        filters['min'] = {
+                            key: 'price',
+                            label: 'Min price: $' + self.price.min,
+                            name: 'min'
+                        };
                     }
                     if ( self.price.max !== self.MAX_PRICE) {
-                        filters.push('Max price: $' + self.price.max);
+                        filters['max'] = {
+                            key: 'price',
+                            label: 'Max price: $' + self.price.max,
+                            name: 'max'
+                        };
                     }
                 }
             }
 
-            self.$activeFilters.html( filters.join(', ') );
 
-            if ( filters.length ) {
-                self.$clear.removeClass('hidden');
-            } else {
-                self.$clear.addClass('hidden');
-            }
+            // Create labels showing current filters
+            $.each(filters, function(key, obj) {
+                var $label = $('<span>', {
+                    "class" : "label label-close label-subtle",
+                    "data-filter" : key,
+                    "data-filter-name" : obj.key || obj.name,
+                    text : obj.label,
+                    click : $.proxy( self.onRemoveFilter, self )
+                });
+
+                frag.appendChild( $label[0] );
+            });
+
+            
+            self.$activeFilters.empty().append(frag);
+
+            // if ( $.isEmptyObject( filters ) ) {
+            //     self.$clear.addClass('hidden');
+            // } else {
+            //     self.$clear.removeClass('hidden');
+            // }
         },
 
+        /*
         resetActiveFilters : function() {
             var self = this,
                 filterType = '',
@@ -288,6 +331,53 @@
             }
 
             self.$grid.shuffle('all');
+        },
+        */
+
+        // Removes a single filter from stored data. Does NOT change UI.
+        undoFilter : function( filterValue, filterName, filterType ) {
+            var self = this,
+                pos;
+
+            if ( filterType === 'button' || filterType === 'checkbox' ) {
+                pos = $.inArray( filterValue, self.filters[ filterType ][ filterName ] );
+                self.filters[ filterType ][ filterName ].splice( pos, 1 );
+            } else if ( filterType === 'range' ) {
+                delete self.filters[ filterType ][ filterName ][ filterValue ];
+            }
+
+
+        },
+
+        onRemoveFilter : function( evt ) {
+            var self = this,
+                data = $(evt.target).data(),
+                filterType = self.filterNames[ data.filterName ],
+                selector = '',
+                rangeControl,
+                method;
+            
+            self.undoFilter( data.filter, data.filterName, filterType );
+
+            // Remove active/checked state
+            if ( filterType === 'button' ) {
+                selector = '[data-filter="' + data.filterName + '"] [data-' + data.filterName + '="' + data.filter + '"]';
+                self.$container.find( selector ).button('toggle');
+                self.$container.find( selector + ' .active' ).button('toggle');
+            } else if ( filterType === 'checkbox' ) {
+                selector = '[data-filter="' + data.filterName + '"] [value="' + data.filter + '"]';
+                self.$container.find( selector ).prop('checked', false);
+            } else if ( filterType === 'range' ) {
+                rangeControl = self.$rangeControl.data('rangeControl');
+                method = data.filter === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
+                rangeControl[ method ]();
+            }
+
+            // Remove this label
+            $(evt.target).remove();
+
+            // Trigger shuffle
+            self.filter();
         },
 
         valueInArray : function( value, arr ) {
@@ -319,10 +409,19 @@
                 $btns = $parent.children();
 
             $btns.on('click', function() {
-                $(this).button('toggle');
+                var $this = $(this),
+                    isMediaGroup = $this.hasClass('media'),
+                    $checked,
+                    checked = [];
+                
+                if ( isMediaGroup ) {
+                    $this.find('.btn').button('toggle');
+                    $this.toggleClass('active');
+                } else {
+                    $this.button('toggle');
+                }
 
-                var $checked = $parent.find('.active'),
-                checked = [];
+                $checked = $parent.find('> .active');
 
                 // Get all data-* filters
                 if ( $checked.length !== 0 ) {
@@ -401,7 +500,7 @@
                 return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
             },
 
-            update = function(positions, percents) {
+            update = function(evt, positions, percents) {
                 var minPrice = getPrice(percents.min),
                 maxPrice = getPrice(percents.max),
                 maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
@@ -415,11 +514,17 @@
                 self.price.min = minPrice;
                 self.price.max = maxPrice;
 
-                // Filter results
+                // Filter results only if values have changed
                 if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
+                    
+                    // Save current filters
+                    self.filters.range[ filterName ].min = self.price.min;
+                    self.filters.range[ filterName ].max = self.price.max;
+
+                    // Throttle filtering (especially on touch)
                     if ( $.throttle ) {
                         var delay, method;
-                        if ( !!( 'ontouchstart' in window ) ) {
+                        if ( self.isTouch ) {
                             delay = 2500;
                             method = 'debounce';
                         } else {
@@ -435,13 +540,14 @@
                 }
             };
 
-            $rangeControl.rangeControl({
-                orientation: 'h',
+            self.$rangeControl = $rangeControl.rangeControl({
                 initialMin: '0%',
                 initialMax: '100%',
-                range: true,
-                callback: update
+                range: true
             });
+
+            // On handle slid, update
+            self.$rangeControl.on('slid.rangecontrol', update);
 
             // Listen for reset event
             self.$container.on('reset.gallery', function() {
@@ -459,7 +565,32 @@
             }
         },
 
-        sortItems : function( select, evt ) {
+        sort : function( evt ) {
+            var self = this,
+                $target = $(evt.target),
+                data = $target.data(),
+                reverse = data.reverse ? true : false,
+                sortObj = {};
+
+            evt.preventDefault();
+
+            self.$dropdownToggleText.text( $target.text() );
+
+            if ( data.value !== 'default' ) {
+                sortObj = {
+                    reverse: reverse,
+                    by: function($el) {
+                        // e.g. filterSet.price
+                        return $el.data('filterSet')[ data.value ];
+                    }
+                };
+            }
+
+            self.$grid.shuffle('sort', sortObj);
+        },
+
+        /*
+        sortItems : function( select ) {
             var self = this,
                 reverse = select[ select.selectedIndex ].getAttribute('data-reverse'),
                 filterName = select.value,
@@ -477,6 +608,7 @@
 
             self.$grid.shuffle('sort', sortObj);
         },
+        */
 
         sortByPriority : function( shouldReset ) {
             var self = this;
@@ -485,10 +617,41 @@
             } else {
                 self.$grid.shuffle('sort', {
                     by: function($el) {
-                        return $el.data('priority') || 100;
+                        var priority = $el.data('priority');
+
+                        // Returning undefined to the sort plugin will cause it to revert to the original array
+                        return priority ? priority : undefined;
                     }
                 });
             }
+        },
+
+        loadMore : function() {
+            var self = this,
+                i = 5;
+
+            /**
+             * Gets a random integer between a min and max
+             * @param  {int} min minimum value
+             * @param  {int} max maximum value
+             * @return {int}     random int between min and max
+             */
+            function getRandomInt( min, max ) {
+              return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            // Do it 4 times
+            while (i--) {
+                var random = getRandomInt(0, self.$grid.children().length);
+                self.$grid.children().eq( random ).clone().appendTo(self.$grid);
+            }
+
+            // Update the masonry
+            self.$grid.shuffle('update');
+        },
+
+        onFavorite : function( evt ) {
+            $(evt.target).toggleClass('state3');
         }
 
     };
@@ -515,8 +678,6 @@
 
     // Overrideable options
     $.fn.gallery.options = {
-        sort: false,
-        filters: true,
         MIN_PRICE: 100,
         MAX_PRICE: 2000,
         shuffleSpeed: 400,
@@ -538,7 +699,8 @@
 
     // Not overrideable
     $.fn.gallery.settings = {
-        isInitialized: false
+        isInitialized: false,
+        isTouch: !!( 'ontouchstart' in window )
     };
 
 }(jQuery, window));

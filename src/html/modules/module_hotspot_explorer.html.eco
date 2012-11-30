@@ -1,0 +1,35 @@
+<div class="hsExplorer .hsDev">
+	<img class='hsHero' src="<%= @document.heroImage %>" alt="">
+	<% if @document.hotspots.length: %>
+	<ul>
+		<% for hotspot in @document.hotspots: %>
+			<li class="hsSpot hotspot " data-x="<%= hotspot.x %>" data-y="<%= hotspot.y %>">
+				<div class="circle-button"><i class="icon-mini-plus-skinny"></i></div>
+				<!-- Info Panel -->
+				<div class="hsInfoPanel hsLeft <%= hotspot.infoPanel.variation %>">
+					<% if hotspot.infoPanel.panelImage : %>
+						<img src="<%= hotspot.infoPanel.panelImage %>" alt="">
+					<% end %>
+					<div class="hsInfo">
+						<% if hotspot.infoPanel.panelHeading : %>
+							<h1><%= hotspot.infoPanel.panelHeading %></h1>
+						<% end %>
+						<% if hotspot.infoPanel.panelCopy : %>
+							<p><%= hotspot.infoPanel.panelCopy %></p>
+						<% end %>
+						<% if hotspot.infoPanel.panelLinkHref && hotspot.infoPanel.panelLinkCopy : %>
+							<a href="<%= hotspot.infoPanel.panelLinkHref %>"><%= hotspot.infoPanel.panelLinkCopy %></a>
+						<% end %>
+						<% if hotspot.infoPanel.quoteCopy : %>
+							<p class="hsQuote"><%= hotspot.infoPanel.quoteCopy %></p>
+						<% end %>
+						<% if hotspot.infoPanel.quoteLinkCopy && hotspot.infoPanel.quoteLinkHref : %>
+							<a href="<%= hotspot.infoPanel.quoteLinkHref %>"><%= hotspot.infoPanel.quoteLinkCopy %></a>
+						<% end %>
+					</div>
+				</div>
+			</li>
+		<% end %>
+	</ul>
+	<% end %>
+</div>

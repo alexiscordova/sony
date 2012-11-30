@@ -2,46 +2,59 @@
 // Range and slider controls
 // --------------------------------------------------
 
+$rangeControlSize: 14px;
 .range-control {
   position: relative;
   width: inherit;
-  height: 5px;
-  background: darkgray;
+  height: $rangeControlSize;
+  background: $tableBorder; // 221, 221, 221 / #ddd
+  border-radius: $rangeControlSize;
+
+  &.vertical {
+    width: $rangeControlSize;
+    height: 200px;
+  }
+
+  .ambit {
+    z-index: 3;
+    height: $rangeControlSize;
+    background: $highlightColor;
+  }
+
+  &.vertical .ambit {
+    width: $rangeControlSize;
+    height: auto;
+  }
+
+  .handle {
+    z-index: 5;
+    margin-top: 0;
+    margin-left: -10px;
+    @include square($rangeControlSize);
+    border: 2px solid $white;
+    border-radius: 50%;
+    background: $white;
+    @include box-shadow(0 0 0 6px $transparentBlack, 0 0 9px $innerGlow);
+    @include transition(border $transitionFast linear, box-shadow $transitionFast linear, margin $transitionFast linear);
+    cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur') 8 4, pointer; /* you should probably localize the cur file */
+
+    &.grabbed,
+    &:hover {
+      border-width: 10px;
+      @include box-shadow(0 0 0 8px $transparentBlack, 0 0 11px $innerGlow);
+      margin-top: -3px;
+    }
+  }
 }
 
-.range-control.vertical {
-  width: 5px;
-  height: 200px;
-}
-
-.range-control.vertical .ambit {
-  width: 5px;
-  height: auto;
-}
-
-.range-control .handle {
-  z-index: 5;
-  margin-top: -8px;
-  margin-left: -10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 1px 3px rgba(0,0,0,.3);
-  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur') 8 4, pointer; /* you should probably localize the cur file */
-}
 .ie .handle {
   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */ 
 }
+
 .grabbing .handle {
   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur') 8 4, move; /* you should probably localize the cur file */
 }
+
 .ie.grabbing .handle {
   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), move; /* you should probably localize the cur file */
-}
-
-.range-control .ambit {
-  z-index: 3;
-  height: 5px;
-  background: gray;
 }
