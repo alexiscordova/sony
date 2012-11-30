@@ -1,0 +1,35 @@
+// NavMenus - the Nav popover menus, for Account, Search,  
+
+.nav-wrapper{ // encompasses the entire nav, including the navbar and navmenus, to 100% width of the page.
+
+  .navmenu-wrapper{ 
+    z-index:190;
+    position: absolute;
+    overflow:hidden;
+    top: $navbarTotalHeight;
+    background: $navMenuBackground;
+    @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
+
+    @include transition(opacity $transitionNormal ease-in 0s, left 0s linear $transitionNormal);
+    @include border-bottom-radius(2px);
+
+    // left: -9999px;
+    // opacity:0;
+
+    &.navmenu-wrapper-account{
+      width:216px;
+      padding:25px 20px;
+    }
+
+    &.navmenu-wrapper-visible{
+      left:0;
+      opacity:1;   
+      @include transition(opacity $transitionNormal ease-out 0s, left 0s linear 0s);   
+    }
+    .navmenu-list-main{
+      margin:0;
+    }
+
+
+  } // end .navmenu-wrapper
+} // end .nav-wrapper

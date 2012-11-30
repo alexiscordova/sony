@@ -13,9 +13,6 @@
     padding:0 $navbarMinSidePadding;
 
     .nav{
-      &.nav-primary{
-        margin-left:3%;
-      }
       > li > a{
         line-height:$navbarLineHeight;
         padding: 0 6px;
@@ -23,11 +20,29 @@
         font-size:$navbarTextSize;
 
         &.nav-dropdown-toggle-text{
-          padding-right:3px;
-          margin-right:6px;
+          padding-right: 3px;
+          margin-right: 3px;
           .icon-ui-arrowhead-down-gray{
             margin-left: 7px;
             margin-top: 11px;
+          }
+        }
+      }
+      &.nav-primary{
+        margin-left:3%;
+      }
+      &.nav-utility{
+        > li > a{
+          line-height:$navbarLineHeight;
+          padding: 0 6px;
+          margin: 11px 3px 13px 7px;
+          font-size:$navbarSmTextSize;
+
+          &.nav-dropdown-toggle-text{
+            .icon-ui-arrowhead-down-gray{
+              margin-left: 6px;
+              margin-top: 9px;
+            }
           }
         }
       }
@@ -36,19 +51,19 @@
 
   .navtray-wrapper{
     &.navtray-wrapper-electronics:after{ // background gray under the right side -- just needs to cover up the right margin
-      //left:$trayDividerPosition;
+      //left:$navTrayDividerPosition;
     }
     .navtray{
       width:auto;
 
       .navtray-section-featured{ // section right
         padding-top:67px;
-        width: (100-$trayDividerPosition);
+        width: (100-$navTrayDividerPosition);
         padding-left: 2.8%;
       }
       .navtray-section-main{ // section left
         padding-top:56px;
-        width: $trayDividerPosition;
+        width: $navTrayDividerPosition;
 
         .navtray-list-main{
           margin: 0 1.6% 2.1% 4.1%;
@@ -99,21 +114,21 @@
         width:1190px;
 
         .navtray-section-featured{ // section right
-          width: 100 - ($trayDividerPosition + 2);
+          width: 100 - ($navTrayDividerPosition + 2);
           padding-left: 4%;
         }
         .navtray-section-main{ // section left
-          width: ($trayDividerPosition + 2);
+          width: ($navTrayDividerPosition + 2);
         }
       }
-      &.navtray-wrapper-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
+      &.navtray-wrapper-fullwidth-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
         content: "";
         display: block;
-        width: (110-$trayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
+        width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
         height: 100%;
         position:absolute;
         top:0;
-        left:$trayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
+        left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
         z-index:10;
         background: $navTrayBackgroundAlt;
       }
@@ -167,11 +182,11 @@
         .navtray-section-featured{ // section right
           padding-top: 47px;
           padding-left:2.3%;
-          width: 100 - ($trayDividerPosition - 4);
+          width: 100 - ($navTrayDividerPosition - 4);
         }
         .navtray-section-main{ // section left - contents
           padding-top: 38px;
-          width: ($trayDividerPosition - 4);
+          width: ($navTrayDividerPosition - 4);
 
           .navtray-list-main {
             margin-left:8.2%;

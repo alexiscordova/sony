@@ -8,6 +8,7 @@
 
     th.$container = $container;
     th.$activePrimaryNavBtns = th.$container.find('.nav-dropdown-toggle');
+    th.$currentOpenNavBtn = false;
 
     if ( th.mode == 'mobile' ) {
       // do something
@@ -43,33 +44,53 @@
       if (isDesktop){
         // Init Desktop Nav
         th.$activePrimaryNavBtns.on('click', function() {
+          console.log("######CLICK######");
           var $thPrimaryNavBtn = $(this);
           var $thNavTray = $("." + $thPrimaryNavBtn.data("target"));
-
-          if (!$thNavTray.hasClass("navtray-wrapper-visible")){
-            // if this tray isn't already visible, show it.
+          if (!$thPrimaryNavBtn.parent().hasClass("nav-li-selected")){
+            // if this button isn't already activated, deactivate any others, and activate this one.
+            console.log("inactive button clicked");
             
-            th.$activePrimaryNavBtns.each(function(){
-              $(this).parent().removeClass("nav-li-selected");
-            });
-            $thPrimaryNavBtn.parent().addClass("nav-li-selected");
-
-            expandedHeight = $thNavTray.height();
-            console.log("expandedHeight: " + expandedHeight);
-            $thNavTray.height("10px");
-            setTimeout(function(){
-              $thNavTray.addClass("navtray-wrapper-visible").css("height", expandedHeight);
-            },5);
+            // if there's another button already activated, deactivate it.
+            if (th.$currentOpenNavBtn != false ){
+              console.log("old nav was open - close it now." );
+              th.resetPrimaryNavBtn(th.$currentOpenNavBtn);
+            }
+            
+            // update the Nav button & open the new tray.
+            th.activatePrimaryNavBtn($thPrimaryNavBtn);
+            th.$currentOpenNavBtn = $thPrimaryNavBtn;
 
           } else{
             // if this tray was already visible, hide/reset it.
-            $thPrimaryNavBtn.parent().removeClass("nav-li-selected");
-            $thNavTray.removeClass("navtray-wrapper-visible").css("height", "");
+            console.log("this is already open - close it now." );
+            th.resetPrimaryNavBtn(th.$currentOpenNavBtn);
+            th.$currentOpenNavBtn = false;
           }
         });
       } else {
         // Init Mobile Nav
       }
+    },
+
+    resetPrimaryNavBtn : function ($oldNavBtn) {
+      console.log("resetPrimaryNavBtn: " + $oldNavBtn.attr("class"));
+      $oldNavBtn.parent().removeClass("nav-li-selected");
+      var $thNavTray = $("." + $oldNavBtn.data("target"));
+      $thNavTray.removeClass("navtray-wrapper-visible").css("height", "");
+    },
+
+    activatePrimaryNavBtn : function ($newNavBtn) {
+      console.log("activatePrimaryNavBtn: " + $newNavBtn.attr("class"));
+      $newNavBtn.parent().addClass("nav-li-selected");
+      var $thNavTray = $("." + $newNavBtn.data("target"));
+      // show the tray.
+      expandedHeight = $thNavTray.height(); // the tray should currently be off-screen, but expanded to its natural height.
+      $thNavTray.height("1px"); // it has to have a height to animate from.
+      setTimeout(function(){ // wait just a moment to make sure the height is applied and the old currentOpenNavBtn has been reset.
+        $thNavTray.addClass("navtray-wrapper-visible").css("height", expandedHeight);
+      },1);
+
     }
 
   };

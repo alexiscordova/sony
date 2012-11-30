@@ -50,7 +50,7 @@
       
       .navtray-section-main{ // section left
         float: left;
-        padding-bottom: 50px;
+        padding-bottom: 17px;
         background: $navTrayBackground; // left side background color
       }
       .navtray-section-featured{ // section right
@@ -72,19 +72,12 @@
         }
       }
 
-
       .navtray-section-main{ // section left - contents
         .navtray-list-main{ 
           overflow:hidden;
 
-          &:after{ // HR
-            content: '';
-            display:block;
-            clear:both;
-            border-bottom: solid 1px $grayLighter;
-          };
-
           > li{
+            line-height: 3.25;
             display:block;
             float:left;
           }
@@ -102,8 +95,24 @@
             }
           }
         }
-        .btn-nav-view-all{
-          width:140px;
+      }
+
+      .navtray-section-main-w-all-btn{
+        padding-bottom: 50px;
+
+        .navtray-list-main{
+          > li{
+            line-height: inherit;
+          }
+          &:after{ // HR
+            content: '';
+            display:block;
+            clear:both;
+            border-bottom: solid 1px $grayLighter;
+          }
+          .btn-nav-view-all{
+            width:140px;
+          }
         }
       }
       .navtray-section-featured{

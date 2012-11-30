@@ -114,12 +114,12 @@ $sprite_Tall_Y :      -960px;
 @include icon-ui(favorite,                          0px,      15px,   13px,   true,   false, false);
 @include icon-ui(cart,                              -30px,    17px,   14px,   true,   false, false);
 @include icon-ui(search,                            -60px,    30px,   13px);
-@include icon-ui(arrowhead-down-gray,               -90px,    7px,    4px);
-@include icon-ui(arrowhead-up-gray,                 -120px,   7px,    4px);
-@include icon-ui(arrowhead-down-white,              -150px,   7px,    4px);
-@include icon-ui(arrowhead-up-white,                -180px,   7px,    4px);
-@include icon-ui(arrowhead-down-blue,               -210px,   7px,    4px);
-@include icon-ui(arrowhead-up-blue,                 -240px,   7px,    4px);
+@include icon-ui(arrowhead-down-gray,               -90px,    8px,    4px);
+@include icon-ui(arrowhead-up-gray,                 -120px,   8px,    4px);
+@include icon-ui(arrowhead-down-white,              -150px,   8px,    4px);
+@include icon-ui(arrowhead-up-white,                -180px,   8px,    4px);
+@include icon-ui(arrowhead-down-blue,               -210px,   8px,    4px);
+@include icon-ui(arrowhead-up-blue,                 -240px,   8px,    4px);
 @include icon-ui(arrow-right-white,                 -270px,   11px,   8px);
 @include icon-ui(arrow-right-blue,                  -300px,   11px,   8px);
 @include icon-ui(grid,                              -330px,   16px,   16px);
@@ -133,6 +133,11 @@ $sprite_Tall_Y :      -960px;
 @include icon-ui(check,                             -600px,   11px,   8px);
 @include icon-ui(x-tiny,                            -630px,   10px,   10px);
 @include icon-ui(close,                             -660px,   16px,   16px);
+
+@include icon-ui(navmenu-account,                   -690px,   16px,   15px,   true,   false,  false,  0 0 0 0);
+@include icon-ui(navmenu-orders,                    -720px,   16px,   11px,   true,   false,  false,  0 0 0 0);
+@include icon-ui(navmenu-newsletter,                -750px,   12px,   15px,   true,   false,  false,  0 0 0 0);
+@include icon-ui(navmenu-reg-prod,                  -780px,   12px,   17px,   true,   false,  false,  0 0 0 0);
 
 
 // I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make 
@@ -158,8 +163,8 @@ $sprite_Tall_Y :      -960px;
     @include size($h, $w);
 
     // Could there be more scenarios? possibly
-    .btn:hover &,
-    .btn:focus &,
+    .btn:not([disabled]):hover &,
+    .btn:not([disabled]):focus &,
     .btn.active & { background-position: $x ($icon_bestfor_Y - 30px); }
   }
 }

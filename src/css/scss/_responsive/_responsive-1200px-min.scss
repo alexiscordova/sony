@@ -9,6 +9,11 @@
   @include grid-core($gridColumnWidth1200, $gridGutterWidth1200);
 
   // Fluid grid
+  .container-fluid {
+    padding-right: $fluidContainerMarginWidth1200;
+    padding-left:  $fluidContainerMarginWidth1200;
+    @include clearfix();
+  }
   @include grid-fluid($fluidGridColumnWidth1200, $fluidGridGutterWidth1200);
 
   // Input grid
@@ -24,5 +29,12 @@
   .row-fluid .thumbnails {
     margin-left: 0;
   }
-
+}
+@media (min-width: 1400px) {
+  .container-fluid {
+    padding:0;
+    width:1360px;
+    margin:0 auto;
+    @include clearfix();
+  }  
 }
