@@ -110,6 +110,7 @@ $simpleGalleryItemHeight: 480px;
   margin-top: $grid5GutterWidth;
   height: $galleryItemHeight;
   overflow: hidden;
+  background: $white;
 
   .gallery-detailed & {
     height: $simpleGalleryItemHeight;
@@ -252,6 +253,10 @@ $simpleGalleryItemHeight: 480px;
   // Box shadow hovers get cut off with overflow hidden
   .media {
     overflow: visible;
+  }
+
+  .media[disabled] {
+    color: $grayLight;
   }
 }
 

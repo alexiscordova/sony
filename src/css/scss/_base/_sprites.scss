@@ -158,8 +158,8 @@ $sprite_Tall_Y :      -960px;
     @include size($h, $w);
 
     // Could there be more scenarios? possibly
-    .btn:hover &,
-    .btn:focus &,
+    .btn:not([disabled]):hover &,
+    .btn:not([disabled]):focus &,
     .btn.active & { background-position: $x ($icon_bestfor_Y - 30px); }
   }
 }
