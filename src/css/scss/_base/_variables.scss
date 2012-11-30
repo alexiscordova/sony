@@ -10,6 +10,7 @@
 	// Grays
 	// -------------------------
 	$black:                 rgb(0,0,0) !default;
+	$blackLight:			rgb(35,35,35);
 	$grayDark:              rgb(47,53,61) !default;
 	$gray:                  rgb(131,131,143) !default;
 
@@ -70,6 +71,10 @@
 	// -------------------------
 	$transparentBlack:		rgba(0,0,0,0.12) !default;
 	$innerGlow:				rgba(255, 255, 255, 1);
+
+
+
+	$squareHalo:			0 0 5px $innerGlow, 0 0 0 6px $transparentBlack;
 
 
 
@@ -135,6 +140,7 @@
 	$btnBackgroundHover:                rgb(100,142,245) !default;
 	$btnBackgroundActive:               $btnBackground !default;
 	$btnBorder:                         $btnBackground !default;
+	$btnBackgroundDisabled:				rgb(222,222,222);
 
 	$btnText:                           $white !default;
 
@@ -142,9 +148,9 @@
 	$btnSpecialBackgroundHover:         $highlightColorHover !default;
 	$btnSpecialBackgroundActive:        $highlightColorActive !default;
 
-	$btnAltBackground:              		$grayDark !default;
-	$btnAltBackgroundHover:         		darken($grayDark,4%) !default;
-	$btnAltBackgroundActive:        		lighten($grayDark,4%) !default;
+	$btnAltBackground:              	$grayDark !default;
+	$btnAltBackgroundHover:         	darken($grayDark,4%) !default;
+	$btnAltBackgroundActive:        	lighten($grayDark,4%) !default;
 
 	$btnPromoBackground:              	$grayDarkerFieldSmall !default;
 	$btnPromoBackgroundHover:         	darken($grayDarkerFieldSmall,5%) !default;
@@ -172,10 +178,15 @@
 	$btnSpecialSmallPadding:            12px 0 14px;
 	$btnSpecialMiniPadding:             11px 0 12px;
 
-	$btnAltPadding:                 		8px 0 11px;
-	$btnAltLargePadding:            		7px 0 10px;
-	$btnAltSmallPadding:            		8px 0 9px;
-	$btnAltMiniPadding:             		8px 0 9px;
+	$btnAltPadding:                 	8px 0 11px;
+	$btnAltLargePadding:            	7px 0 10px;
+	$btnAltSmallPadding:            	8px 0 9px;
+	$btnAltMiniPadding:             	8px 0 9px;
+
+	$btnSquarePadding:                 	14px 0 13px;
+	// $btnSquareLargePadding:            	7px 0 10px;
+	// $btnSquareSmallPadding:            	8px 0 9px;
+	// $btnSquareMiniPadding:             	8px 0 9px;
 
 
 	// Hotspots
@@ -293,6 +304,9 @@
 	$wellBackground:                  rgb(245,245,245) !default;
 
 
+// Global values for Nav & Subanv to share.
+.NAV{}
+	$navMaxWidth:									1190px !default;
 
 
 // Global Nav (navbar)
@@ -302,7 +316,6 @@
 
 	$navbarTotalHeight:               64px !default;
 	$navbarLineHeight:								40px !default;
-	$navbarMaxWidth:									1200px !default;
 	$navbarMinSidePadding:						43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
 
 	$navbarBackground:                $black !default;
@@ -336,7 +349,6 @@
 	$navbarInverseSearchPlaceholderColor:    rgb(204,204,204) !default;
 
 	$navbarInverseBrandColor:                $navbarInverseLinkColor !default;
-
 
 	$navTrayBackground:								$white;
 	$navTrayBackgroundAlt:						$grayLightFieldLarge;
