@@ -8,11 +8,8 @@
 	http://handlebarsjs.com/
 -->
 
-<<<<<<< HEAD
-<div class="container-fluid">
-=======
-<div class="container module-spec">
->>>>>>> 96ad940274f66b61664b1fdfb347004a4f943093
+
+<div class="container-fluid module-spec">
 	{{#each camera}}
 	
 	<div class="spec-title">
