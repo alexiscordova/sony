@@ -415,40 +415,59 @@
 
 
 
+
+
 // GRID
-// --------------------------------------------------
+// -----------------------------
+// 
+
 .GRID{} // this is just here for a SublimeText code-folding collapse point
 
-	// Default 940px grid
-	// -------------------------
-	$gridColumns:             12 !default;
+	$gridColumns:             12 !default; 
+
+	// Default 940px grid @980px-1199px
 	$gridColumnWidth:         60px !default;
-	$gridGutterWidth:         20px !default;
+	$gridGutterWidth:         30px !default;
 	$gridRowWidth:            ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
 
-	// 1200px min
+	// 1112px grid @1200px+ breakpoint
 	$gridColumnWidth1200:     56px !default;
 	$gridGutterWidth1200:     40px !default;
 	$gridRowWidth1200:        ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
 
-	// 768px-979px
+	// 724px grid @768px-979px breakpoints
 	$gridColumnWidth768:      42px !default;
 	$gridGutterWidth768:      20px !default;
 	$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
 
+
+
+
+
 	// Fluid grid
 	// -------------------------
-	$fluidGridColumnWidth:    percentage($gridColumnWidth/$gridRowWidth) !default;
-	$fluidGridGutterWidth:    percentage($gridGutterWidth/$gridRowWidth) !default;
+	// 
+
+	// Default 980px grid @980px breakpoint
+	$fluidContainerMarginWidth:	40px !default;
+	$fluidGridColumnWidth:    	percentage($gridColumnWidth/$gridRowWidth) !default;
+	$fluidGridGutterWidth:    	percentage($gridGutterWidth/$gridRowWidth) !default;
 
 	// 1200px min
-	$fluidGridColumnWidth1200:     percentage($gridColumnWidth1200/$gridRowWidth1200) !default;
-	$fluidGridGutterWidth1200:     percentage($gridGutterWidth1200/$gridRowWidth1200) !default;
+	$fluidContainerMarginWidth1200:	40px !default;
+	$fluidGridColumnWidth1200:     	percentage($gridColumnWidth1200/$gridRowWidth1200) !default;
+	$fluidGridGutterWidth1200:     	percentage($gridGutterWidth1200/$gridRowWidth1200) !default;
 
 	// 768px-979px
-	$fluidGridColumnWidth768:      percentage($gridColumnWidth768/$gridRowWidth768) !default;
-	$fluidGridGutterWidth768:      percentage($gridGutterWidth768/$gridRowWidth768) !default;
+	$fluidContainerMarginWidth768:	40px !default;
+	$fluidGridColumnWidth768:      	percentage($gridColumnWidth768/$gridRowWidth768) !default;
+	$fluidGridGutterWidth768:      	percentage($gridGutterWidth768/$gridRowWidth768) !default;
+	
+	// 767px max (mobile)
+	$fluidContainerMarginWidth767:	15px !default;
+
+
 
 
 

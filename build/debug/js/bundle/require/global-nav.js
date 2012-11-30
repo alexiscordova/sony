@@ -91,8 +91,6 @@
         $thNavTray.addClass("navtray-wrapper-visible").css("height", expandedHeight);
       },1);
 
-
-
     }
 
   };

@@ -21,7 +21,7 @@ meta_data: {a:'foo', b:'bar'}
 	          <li id="nav-li-universal"><a class="btn nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
 	          <li id="nav-li-search"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a></li>
 	        </ul>
-		    </div><!-- end .navbar --> 
+		    </div><!-- end .navbar -->
 
 		    <div class="navtray-wrapper navtray-wrapper-fullwidth-3-4 navtray-wrapper-electronics">
 		    	<div class="navtray">
