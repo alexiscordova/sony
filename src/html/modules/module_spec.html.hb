@@ -8,7 +8,7 @@
 	http://handlebarsjs.com/
 -->
 
-<div class="container">
+<div class="container module-spec">
 	{{#each camera}}
 	
 	<div class="spec-title">
