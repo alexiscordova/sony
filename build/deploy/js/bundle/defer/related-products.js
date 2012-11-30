@@ -1,3 +1,192 @@
+// ------------ Related Products Module ------------
+// Module: HotSpot Explorer
+// Version: 1.0
+// Modified: 2012-11-26 by Tyler Madison, Glen Cheney
+// Dependencies: jQuery 1.7+, Modernizr
+// -------------------------------------------------------------------------
+
+(function(window){
+    'use strict';
+    var sony = window.sony = window.sony || {};
+    sony.modules = sony.modules || {};
+})(window);
+
+(function($, Modernizr, window, undefined) {
+    
+    'use strict';
+
+    var PX_REGEX = /px/gi;
+
+    //start module
+    var RelatedProducts = function(element, options){
+      var t = this,
+          ua = navigator.userAgent.toLowerCase(),
+          i,
+          browser = $.browser,
+          isWebkit = br.webkit,
+          isAndroid = ua.indexOf('android') > -1;
+
+      self.isIPAD = ua.match(/(ipad)/);
+      self.isIPHONE = ua.match(/(iphone)/);   
+
+      // feature detection, some ideas taken from Modernizr
+      var tempStyle = document.createElement('div').style,
+          vendors = ['webkit','Moz','ms','O'],
+          vendor = '',
+          lastTime = 0,
+          tempV;
+
+      for (i = 0; i < vendors.length; i++ ) {
+          tempV = vendors[i];
+          if (!vendor && (tempV + 'Transform') in tempStyle ) {
+              vendor = tempV;
+          }
+          tempV = tempV.toLowerCase();
+          
+          if(!window.requestAnimationFrame) {
+              window.requestAnimationFrame = window[tempV+'RequestAnimationFrame'];
+              window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame'] 
+                                 || window[tempV+'CancelRequestAnimationFrame'];
+          }
+      }
+
+      // requestAnimationFrame polyfill by Erik Möller
+      // fixes from Paul Irish and Tino Zijdel
+      if (!window.requestAnimationFrame) {
+          window.requestAnimationFrame = function(callback, element) {
+              var currTime = new Date().getTime(),
+                  timeToCall = Math.max(0, 16 - (currTime - lastTime)),
+                  id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
+              lastTime = currTime + timeToCall;
+              return id;
+          };
+      }
+
+      if (!window.cancelAnimationFrame){
+        window.cancelAnimationFrame = function(id) { clearTimeout(id); };
+      }
+
+      var bT = vendor + (vendor ? 'T' : 't' );
+      
+      t._useCSS3Transitions = ( (bT + 'ransform') in tempStyle ) && ( (bT + 'ransition') in tempStyle );
+      
+      if(t._useCSS3Transitions) {
+          t._use3dTransform = (vendor + (vendor ? 'P' : 'p'  ) + 'erspective') in tempStyle;
+      }
+        
+      vendor = vendor.toLowerCase();
+      t.vendorPrefix = '-' + vendor + '-';
+      t.container = $(element);
+      t.previousId = -1;
+      t.currentId = 0;
+      t.slidePosition = 0;
+
+      t.slides = []; 
+      t.slideCount = 0;
+      t.isFreeDrag = false; //MODE: 
+
+
+      if('ontouchstart' in window || 'createTouch' in document) {
+          t.hasTouch = true;
+          t.downEvent = 'touchstart.rp';
+          t.moveEvent = 'touchmove.rp';
+          t.upEvent = 'touchend.rp';
+          t.cancelEvent = 'touchcancel.rp';
+          t.lastItemFriction = 0.5;
+      } else {
+          t.hasTouch = false;
+          t.lastItemFriction = 0.2;
+          
+          if(t.isFreeDrag) {
+              if (br.msie || br.opera) {
+                  t.grabCursor = t.grabbingCursor = "move";
+              } else if(br.mozilla) {
+                  t.grabCursor = "-moz-grab";
+                  t.grabbingCursor = "-moz-grabbing";
+              } else if(isWebkit && (navigator.platform.indexOf("Mac")!=-1)) {
+                  t.grabCursor = "-webkit-grab";
+                  t.grabbingCursor = "-webkit-grabbing";
+              }
+              t.setGrabCursor();
+          }
+
+          t.downEvent = 'mousedown.rp';
+          t.moveEvent = 'mousemove.rp';
+          t.upEvent = 'mouseup.rp';
+          t.cancelEvent = 'mouseup.rp';
+      }
+
+      if(t.useCSS3Transitions) {
+
+          // some constants for CSS3
+          t.TP = 'transition-property';
+          t.TD = 'transition-duration';
+          t.TTF = 'transition-timing-function';
+
+          t.yProp = t.xProp = t.vendorPrefix +'transform';
+
+          if(t.use3dTransform) {
+              if(isWebkit) {
+                  t.slider.addClass('rpWebkit3d');
+              }
+              t.tPref1 = 'translate3d(';
+              t.tPref2 = 'px, ';
+              t.tPref3 = 'px, 0px)';
+          } else {
+              t.tPref1 = 'translate(';
+              t.tPref2 = 'px, ';
+              t.tPref3 = 'px)';
+          }
+
+          t.container[(t.vendorPrefix + t.TP)] = (t.vendorPrefix + 'transform');
+                  
+      } else {
+          t.xProp = 'left';
+          t.yProp = 'top';
+      }
+
+      t.container.on(t._downEvent, function(e) { t.onDragStart(e); });   
+      
+    };
+
+    RelatedProducts.prototype = {
+      dragStart = function(e){
+
+      },
+    };
+
+    //plugin definition
+    $.fn.relatedProducts = function(options) {      
+      var args = arguments;
+      return this.each(function(){
+        var t = $(this);
+        if (typeof options === "object" ||  !options) {
+          if( !t.data('relatedProducts') ) {
+              t.data('relatedProducts', new RelatedProducts(t, options));
+          }
+        } else {
+          var relatedProducts = t.data('relatedProducts');
+          if (relatedProducts && relatedProducts[options]) {
+              return relatedProducts[options].apply(relatedProducts, Array.prototype.slice.call(args, 1));
+          }
+        }
+      });
+    };
+
+    $(function(){
+      $('.related-products').relatedProducts({});
+    });
+
+ })(jQuery, Modernizr, window,undefined);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// GLENS work
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
 
 if ( !Exports ) {
   var Exports = {
@@ -90,7 +279,6 @@ if ( !Exports ) {
           }
           lastCol = colY;
         }
-
 
         self.isInitialized = true;
     };
@@ -194,4 +382,4 @@ $(document).ready(function() {
   if ( $('body').hasClass('related-products-module') ) {
     Exports.Modules.RelatedProducts.init();
   }
-});
+});*/
