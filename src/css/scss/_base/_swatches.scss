@@ -23,6 +23,14 @@
     @extend %icon;
     @extend .icon-ui-check;
   }
+
+  &[disabled] {
+    @include opacity(25);
+  }
+  &[disabled]:focus,
+  &[disabled]:hover {
+    @include box-shadow(none);
+  }
 }
 
 [class^="swatch-"],

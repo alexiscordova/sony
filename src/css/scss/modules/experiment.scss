@@ -1,6 +1,10 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
 
+.module-spec{
+// You have to contain all your custom overrides inside of a container class, 
+// or else they'll override everyone else's styles, everywhere on the site.
+
 /* General */
 h1{font-size:$font_26_16; margin-top:0 !important;}
 h2{font-size:$font_18_16;}
@@ -253,4 +257,5 @@ div.table.rTable.smallTable{
     /* Dont hide all column in the table inside the table. */
     .tbody .tbody .column{display:block !important;}
   }
+}
 }

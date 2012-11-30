@@ -54,14 +54,15 @@
         });
 
 
-        // Initialize filters
+        // Initialize filter dictionaries to keep track of everything
         self.filters = {
             range: {},
             button: {},
             checkbox: {}
         };
-        self.filterNames = {};
+        self.filterTypes = {};
         self.filterLabels = {};
+        self.filterValues = {};
         self.$filterOpts.find('[data-filter]').each(function() {
             var $this = $(this),
                 data = $this.data(),
@@ -92,7 +93,7 @@
 
             // Save the active filters in this filter to an empty array or object
             self.filters[ type ][ name ] = init;
-            self.filterNames[ name ] = type;
+            self.filterTypes[ name ] = type;
         });
 
 
@@ -165,6 +166,8 @@
             } else {
                 self.$grid.shuffle('all');
             }
+                
+            self.setFilterStatuses();
         },
 
         // From the element's data-* attributes, test to see if it passes
@@ -174,18 +177,14 @@
 
             // Loop through each filter in the elements filter set
             for ( filterName in data.filterSet ) {
-                if ( !data.filterSet.hasOwnProperty(filterName) ) {
+                if ( !data.filterSet.hasOwnProperty(filterName) || !self.filterTypes[ filterName ] ) {
                     continue;
                 }
 
                 // filterName e.g. 'price'
                 var filter = data.filterSet[ filterName ], // e.g. 399.99
-                    filterType = self.filterNames[ filterName ], // e.g. 'range'
-                    activeFilters = filterType ? self.filters[ filterType ][ filterName ] : null; // e.g. ["lcd"]
-
-                if ( !filterType ) {
-                    continue;
-                }
+                    filterType = self.filterTypes[ filterName ], // e.g. 'range'
+                    activeFilters = self.filters[ filterType ][ filterName ]; // e.g. ["lcd"]
 
                 if ( filterType === 'button' || filterType === 'checkbox' ) {
                     var method = $.isArray( filter ) ? 'arrayContainsArray' : 'valueInArray';
@@ -349,29 +348,83 @@
 
         },
 
-        onRemoveFilter : function( evt ) {
+        // Removes the active state of a filter. Changes UI.
+        removeFilter : function( filterValue, filterName, filterType ) {
             var self = this,
-                data = $(evt.target).data(),
-                filterType = self.filterNames[ data.filterName ],
                 selector = '',
                 rangeControl,
                 method;
+
+            // There's probably a better way to do this... (store jQuery objects for each filter?)
+            if ( filterType === 'button' ) {
+                // [data-filter="megapixels"] [data-megapixels="14-16"]
+                selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
+                self.$container.find( selector ).button('toggle');
+
+                // Handle media groups
+                self.$container.find( selector + ' .active' ).button('toggle');
+
+            } else if ( filterType === 'checkbox' ) {
+                selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
+                self.$container.find( selector ).prop('checked', false);
+
+            } else if ( filterType === 'range' ) {
+                // Slide appropriate handle to the intial value
+                rangeControl = self.$rangeControl.data('rangeControl');
+                method = filterValue === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
+                rangeControl[ method ]();
+            }
+        },
+
+        disableFilter : function( filterValue, filterName, filterType ) {
+            var self = this,
+                selector = '';
+
+            // There's probably a better way to do this... (store jQuery objects for each filter?)
+            if ( filterType === 'button' ) {
+                // [data-filter="megapixels"] [data-megapixels="14-16"]
+                selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
+                self.$container.find( selector ).attr('disabled', 'disabled');
+
+                // Handle media groups
+                self.$container.find( selector + ' .btn' ).attr('disabled', 'disabled');
+            } else if ( filterType === 'checkbox' ) {
+                selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
+                self.$container.find( selector ).prop('disabled', true);
+            }
+
+        },
+
+        enableFilter : function( filterValue, filterName, filterType ) {
+            var self = this,
+                selector = '';
+
+            // There's probably a better way to do this... (store jQuery objects for each filter?)
+            if ( filterType === 'button' ) {
+                // [data-filter="megapixels"] [data-megapixels="14-16"]
+                selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
+                self.$container.find( selector ).removeAttr('disabled');
+
+                // Handle media groups
+                self.$container.find( selector + ' .btn' ).removeAttr('disabled');
+            } else if ( filterType === 'checkbox' ) {
+                selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
+                self.$container.find( selector ).prop('disabled', false);
+            }
+
+        },
+
+
+        onRemoveFilter : function( evt ) {
+            var self = this,
+                data = $(evt.target).data(),
+                filterType = self.filterTypes[ data.filterName ];
             
+            // Remove from internal data
             self.undoFilter( data.filter, data.filterName, filterType );
 
             // Remove active/checked state
-            if ( filterType === 'button' ) {
-                selector = '[data-filter="' + data.filterName + '"] [data-' + data.filterName + '="' + data.filter + '"]';
-                self.$container.find( selector ).button('toggle');
-                self.$container.find( selector + ' .active' ).button('toggle');
-            } else if ( filterType === 'checkbox' ) {
-                selector = '[data-filter="' + data.filterName + '"] [value="' + data.filter + '"]';
-                self.$container.find( selector ).prop('checked', false);
-            } else if ( filterType === 'range' ) {
-                rangeControl = self.$rangeControl.data('rangeControl');
-                method = data.filter === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
-                rangeControl[ method ]();
-            }
+            self.removeFilter( data.filter, data.filterName, filterType );
 
             // Remove this label
             $(evt.target).remove();
@@ -380,6 +433,67 @@
             self.filter();
         },
 
+        setFilterStatuses : function() {
+            var self = this,
+                $visible = self.$grid.data('shuffle').$items.filter('.filtered'),
+                filterName, filterValue, method;
+
+
+            // Reset stored data by setting all filterValue values to null
+            for ( filterName in self.filterValues ) {
+                if ( !self.filterValues.hasOwnProperty(filterName) ) {
+                    continue;
+                }
+
+                for ( filterValue in self.filterValues[ filterName ] ) {
+                    self.filterValues[ filterName ][ filterValue ] = null;
+                }
+            }
+
+            // Build up the dictionary of the filters that should be shown/hidden
+            $visible.each(function() {
+                var $item = $(this),
+                    filterSet = $item.data('filterSet'),
+                    filterValue,
+                    filterName;
+
+                for ( filterName in self.filterValues ) {
+                    if ( !self.filterValues.hasOwnProperty(filterName) ) {
+                        continue;
+                    }
+
+
+                    for ( filterValue in self.filterValues[ filterName ] ) {
+                        // If we've already set this to false, we don't need to check again on another element
+                        if ( self.filterValues[ filterName ][ filterValue ] === true ) {
+                            continue;
+                        }
+
+                        var isArray = $.isArray( filterSet[ filterName ] ),
+                            shouldEnable;
+
+                        shouldEnable = isArray ?
+                            self.valueInArray( filterValue, filterSet[ filterName ] ) :
+                            filterValue === filterSet[ filterName ];
+
+                        self.filterValues[ filterName ][ filterValue ] = shouldEnable;
+                    }
+                }
+            });
+
+            // Loop through all filters again to disable/enable them
+            for ( filterName in self.filterValues ) {
+                if ( !self.filterValues.hasOwnProperty(filterName) ) {
+                    continue;
+                }
+
+                for ( filterValue in self.filterValues[ filterName ] ) {
+                    method = self.filterValues[ filterName ][ filterValue ] ? 'enable' : 'disable';
+                    self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
+                }
+            }
+
+        },
         valueInArray : function( value, arr ) {
             return $.inArray(value, arr) !== -1;
         },
@@ -406,6 +520,7 @@
         button : function( $parent, filterName ) {
             var self = this,
                 labels = {},
+                values = {},
                 $btns = $parent.children();
 
             $btns.on('click', function() {
@@ -413,6 +528,11 @@
                     isMediaGroup = $this.hasClass('media'),
                     $checked,
                     checked = [];
+
+                // Abort if this button is disabled
+                if ( $this.is('[disabled]') ) {
+                    return;
+                }
                 
                 if ( isMediaGroup ) {
                     $this.find('.btn').button('toggle');
@@ -439,9 +559,11 @@
             .each(function() {
                 var data = $(this).data();
                 labels[ data[ filterName ] ] = data.label;
+                values[ data[ filterName ] ] = data[ filterName ];
             });
 
             self.filterLabels[ filterName ] = labels;
+            self.filterValues[ filterName ] = values;
 
             // Remove active classes when the gallery is reset
             self.$container.on('reset.gallery', function() {
@@ -452,6 +574,7 @@
         checkbox : function( $parent, filterName ) {
             var self = this,
                 labels = {},
+                values = {},
                 $inputs = $parent.find('input');
 
             $inputs.on('change', function() {
@@ -474,9 +597,11 @@
             .each(function() {
                 var data = $(this).data();
                 labels[ this.value ] = data.label;
+                values[ this.value ] = this.value;
             });
 
             self.filterLabels[ filterName ] = labels;
+            self.filterValues[ filterName ] = values;
 
             // Reset checkboxes when the gallery is reset
             self.$container.on('reset.gallery', function() {
@@ -680,9 +805,9 @@
     $.fn.gallery.options = {
         MIN_PRICE: 100,
         MAX_PRICE: 2000,
-        shuffleSpeed: 400,
+        shuffleSpeed: 250,
         shuffleDelimeter: ',',
-        shuffleEasing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)', // easeOutQuart
+        shuffleEasing: 'ease-out',//'cubic-bezier(0.165, 0.840, 0.440, 1.000)', // easeOutQuart
         shuffleColumns: {
             1470: 56,
             1112: 56,

@@ -117,6 +117,8 @@
   &[disabled],
   &.disabled:hover,
   &[disabled]:hover {
+    @include box-shadow(none);
+    color: inherit;
     background: $btnBackgroundDisabled;
     border-color: $btnBackgroundDisabled;
   }

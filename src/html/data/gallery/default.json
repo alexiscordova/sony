@@ -759,16 +759,78 @@
     },
 
     "simple" : {
+        "_comments" : "name should be unique, as it is used for IDs",
+        "name" : "simple-headphones",
         "mode" : "editorial",
         "filterSet" : [
             {
+                "name" : "colors",
+                "label" : "Colors",
+                "type" : {
+                    "color" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "Black",
+                        "value" : "black"
+                    },
+                    {
+                        "label" : "Yellow",
+                        "value" : "yellow"
+                    },
+                    {
+                        "label" : "Purple",
+                        "value" : "purple"
+                    },
+                    {
+                        "label" : "Teal",
+                        "value" : "teal"
+                    },
+                    {
+                        "label" : "White",
+                        "value" : "white"
+                    },
+                    {
+                        "label" : "Red",
+                        "value" : "red"
+                    }
+                ]
+            },
+            {
                 "name" : "price",
-                "label" : "Price",
+                "label" : "Price Range",
                 "type" : {
                     "range" : true
                 },
                 "min" : 10,
                 "max" : 300
+            },
+            {
+                "label" : "Best For",
+                "name" : "group",
+                "type" : {
+                    "group" : true
+                },
+                "filters" : [
+                    {
+                        "label" : "Skating",
+                        "description" : "Waterproof, shockproof, dustproof, and rugged.",
+                        "value" : "skating",
+                        "icon" : "snowboard"
+                    },
+                    {
+                        "label" : "Running",
+                        "description" : "Water resistant, shockproof, and ultra small.",
+                        "value" : "running",
+                        "icon" : "running"
+                    },
+                    {
+                        "label" : "Studio",
+                        "description" : "Music recording, professional quality, best sound.",
+                        "value" : "studio",
+                        "icon" : "mic"
+                    }
+                ] 
             },
             {
                 "label" : "Megapixels",
@@ -778,28 +840,28 @@
                 },
                 "filters" : [
                     {
-                        "label" : "14-16MP",
+                        "label" : "14-16",
                         "value" : "14-16"
                     },
                     {
-                        "label" : "16-18MP",
+                        "label" : "16-18",
                         "value" : "16-18"
                     },
                     {
-                        "label" : "18-20MP",
+                        "label" : "18-20",
                         "value" : "18-20"
                     },
                     {
-                        "label" : "20MP+",
+                        "label" : "20+",
                         "value" : "20+"
                     }
                 ]
             },
             {
-                "label" : "Categories",
-                "name" : "categories",
+                "label" : "Features",
+                "name" : "features",
                 "type" : {
-                    "button" : true
+                    "checkbox" : true
                 },
                 "filters" : [
                     {
@@ -824,7 +886,7 @@
         "sortSet" : [
             {
                 "name" : "default",
-                "label" : "Featured"
+                "label" : "Relevance"
             },
             {
                 "name" : "price",
@@ -849,7 +911,7 @@
         "list" : [
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "lightweight" ],
+                    "features" : [ "lcd", "lightweight" ],
                     "megapixels" : "20+",
                     "price" : 379.99
                 },
@@ -864,7 +926,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "touchscreen" ],
+                    "features" : [ "lcd", "touchscreen" ],
                     "megapixels" : "16-18",
                     "price" : 129.99
                 },
@@ -878,7 +940,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "panorama" ],
+                    "features" : [ "lcd", "panorama" ],
                     "megapixels" : "16-18",
                     "price" : 59.99
                 },
@@ -892,7 +954,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "lightweight" ],
+                    "features" : [ "lcd", "lightweight" ],
                     "megapixels" : "18-20",
                     "price" : 299.99
                 },
@@ -906,7 +968,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "panorama", "lcd" ],
+                    "features" : [ "panorama", "lcd" ],
                     "megapixels" : "14-16",
                     "price" : 29.99
                 },
@@ -920,7 +982,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "lightweight" ],
+                    "features" : [ "lcd", "lightweight" ],
                     "megapixels" : "20+",
                     "price" : 29.99
                 },
@@ -934,7 +996,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "panorama", "lcd" ],
+                    "features" : [ "panorama", "lcd" ],
                     "megapixels" : "14-16",
                     "price" : 59.99
                 },
@@ -949,7 +1011,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "touchscreen" ],
+                    "features" : [ "lcd", "touchscreen" ],
                     "megapixels" : "16-18",
                     "price" : 79.99
                 },
@@ -963,7 +1025,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "panorama" ],
+                    "features" : [ "lcd", "panorama" ],
                     "megapixels" : "16-18",
                     "price" : 379.99
                 },
@@ -978,7 +1040,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "panorama", "lcd" ],
+                    "features" : [ "panorama", "lcd" ],
                     "megapixels" : "14-16",
                     "price" : 379.99
                 },
@@ -992,7 +1054,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "lightweight" ],
+                    "features" : [ "lcd", "lightweight" ],
                     "megapixels" : "20+",
                     "price" : 129.99
                 },
@@ -1006,7 +1068,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "panorama", "lcd" ],
+                    "features" : [ "panorama", "lcd" ],
                     "megapixels" : "14-16",
                     "price" : 59.99
                 },
@@ -1021,7 +1083,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "lightweight" ],
+                    "features" : [ "lcd", "lightweight" ],
                     "megapixels" : "18-20",
                     "price" : 299.99
                 },
@@ -1035,7 +1097,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "panorama" ],
+                    "features" : [ "lcd", "panorama" ],
                     "megapixels" : "16-18",
                     "price" : 29.99
                 },
@@ -1049,7 +1111,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "touchscreen" ],
+                    "features" : [ "lcd", "touchscreen" ],
                     "megapixels" : "16-18",
                     "price" : 29.99
                 },
@@ -1063,7 +1125,7 @@
 
             {
                 "filterSet" : {
-                    "categories" : [ "lcd", "lightweight" ],
+                    "features" : [ "lcd", "lightweight" ],
                     "megapixels" : "20+",
                     "price" : 59.99
                 },
