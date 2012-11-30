@@ -177,7 +177,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-shell');
 
-	grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');
+	grunt.registerTask('debug', 'clear lint compass-<clean></clean> compass:debug copy:debug  shell:docpad_debug');
 	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
 	grunt.registerTask('debug-img', 'copy:debugimg');
 	grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
