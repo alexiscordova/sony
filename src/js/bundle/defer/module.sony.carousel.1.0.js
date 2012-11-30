@@ -17,7 +17,7 @@
 
     "use strict"; // jshint ;
 
-    var Carousel = sony.moudles.Carousel = function($el, opts) {
+    var Carousel = sony.modules.Carousel = function($el, opts) {
         $.extend(this, $.fn.carousel.defaults, opts, $.fn.carousel.settings);
         
 

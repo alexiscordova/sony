@@ -55,17 +55,21 @@ if ($('table').length > 0 && $.browser.version != 7)
 			);
 		}
 		
-		//Spread the table of title (hidden)
-		var first_column_count =  $table.find('tbody tr th:first-child').size();
-		for ( i=1; i <= (first_column_count) ; i++ )
+		//Only apply to the big table. (not every )
+		if ($table.is('.bigTable'))
 		{
-			var get_title = $table.find('tbody tr:nth-child('+ i +') th:first-child').text();
-			
-			j=2;
-			$table.find('tbody tr').each(function(){
-				$table.find('tbody tr:nth-child('+i+') .column:nth-child('+j+')').prepend('<h2>'+get_title+'</h2>');
-				j++;
-			});
+			$tableBig = $(this);
+			//Spread the table of title (hidden)
+			var first_column_count =  $tableBig.find('tbody tr th:first-child').size();
+			for ( i=1; i <= (first_column_count) ; i++ )
+			{
+				var get_title = $tableBig.find('tbody tr:nth-child('+ i +') th:first-child').text();
+				j=2;
+				$tableBig.find('>tbody >tr').each(function(){
+					$tableBig.find('>tbody > tr:nth-child('+i+') > .column:nth-child('+j+')').prepend('<h2>'+get_title+'</h2>');
+					j++;
+				});
+			}
 		}
 		
 		// replaces table with <div class="table"> && add class "bigTable" when needed else it's considered as a small Table

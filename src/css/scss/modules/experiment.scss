@@ -1,3 +1,57 @@
+@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/mixins";
+
+/* General */
+h1{font-size:$font_26_16; margin-top:0 !important;}
+h2{font-size:$font_18_16;}
+h3{font-weight:normal; font-size:$font_12_16;}
+a.btn{margin-bottom:10px; padding:5px 20px; width:80px !important;}
+.emphasis-info{padding:5px; font-size:$font_28_16; width:auto; border:3px solid $gray; @include border-radius(5px); margin-bottom:20px; text-align:center; }
+.container{color:$black; padding:10px 0;}
+.spec-title{
+  margin-bottom:35px;
+  .title-link{margin:0; text-transform:uppercase; font-size:$font_10_16;}
+  .clearfix{
+    p{float:left; margin-right:10px; font-size:$font_14_16;}
+  }
+}
+
+/* Details */
+.details
+{
+  margin-bottom:20px;
+  >h2{margin-bottom:20px;}
+  .row-fluid{
+    border-bottom:1px solid #ccc;
+    margin-bottom:20px;
+    padding-bottom:20px;
+    
+    h2{margin-bottom:20px;}
+    
+    ul{
+      margin-bottom:0;
+      li{margin:5px 0;}
+    }
+  }
+}
+
+h2.h2-bigger{font-size:$font_26_16; margin:30px 0;}
+.row-fluid.no-border{
+  margin-bottom:30px !important;
+  
+  h3{font-size:$font_18_16; margin-bottom:15px;}
+  border-bottom:none !important;
+  padding-bottom:0;
+  margin-bottom:0;
+  p{font-size:$font_12_16;}
+}
+  
+ul
+{
+  margin-left:0;
+  li{font-size:$font_12_16;}
+}
+
 .label {
   font-weight: bold;
 }
@@ -19,16 +73,16 @@
 }
 
 /* table */
-.table {
+div.table {
   display: table;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: $font_14_16;
   
 	.thead {
 		display: table-header-group;
 			h2{
-			font-size: 18px;
-			color: #000;
+			font-size: $font_18_16;
+			color: $black;
 			font-weight: bold;
 			margin-bottom: 1em;
 		}
@@ -42,6 +96,12 @@
 		}
 	}
 	
+	.column:first-child{
+	 font-size:$font_16_16;
+	 line-height:1em;
+	 font-weight:bold;
+	 color:$black;
+	}
 	.column
 	{
 		display: table-cell;
@@ -49,8 +109,8 @@
 
 	.tbody{display:table-row-group;
 			.column h2 {
-			font-size: 14px;
-			color: #000;
+			font-size: $font_14_16;
+			color: $black;
 			font-weight: bold;
 			margin-bottom: 1em;
 			display: none;
@@ -58,8 +118,8 @@
 	}
 	
   span {
-    color: #8d8d8d;
-    font-size: 11px;
+    color: $gray;
+    font-size: $font_12_16;
     &.color {
       display: block;
       width: 10px;
@@ -76,7 +136,7 @@
         background: #666;
       }
       &.black {
-        background: #000;
+        background: $black;
       }
     }
   }
@@ -87,23 +147,27 @@
   }
 }
 
-
-.table.smallTable
-{
-	.column{padding:5px 0;}
+.table.smallTable{
+  .row{
+    .column{
+      padding:0 10px 0 0;
+      h3{color:$black; font-size:$font_13_15 !important;}
+      p{color:#555; font-size:$font_13_15 !important;}
+    }
+  }
 }
 /* Big Tables Colors and skins */
 .table.bigTable
 {
 	background: #F7F7F7;
-	color: #666;
+	color: $black;
 	
-	.row
-	{
-		.column:nth-child(1) {
-			border-left: 1px solid #eeeeee;
-		}
-	}
+	p{font-size:$font_13_15 !important;}
+	span{
+	  font-size:$font_15_15 !important;
+	  line-height:1.5em;
+	  display:block;
+  }
 	
 	.column
 	{
@@ -120,20 +184,38 @@
 	}
 	
 	.thead {
-		.column {
-			color: #000;
-			border-bottom: 1px solid #eee;
-		}
+	  .row{
+  		.column {
+  			color: $black;
+  			border-bottom: 2px solid #eee !important;
+  			border-left:none !important;
+  			border-right:none !important;
+  		}
+  	}
+	}
+	
+	.tbody{
+	  .row{
+      .table
+      {
+        .column:first-child{
+          font-weight:normal;
+          padding-right:8px;
+          width:20%;
+        }
+        .column{
+          p{margin:0; font-size:$font_15_15 !important;
+          span{font-size:$font_15_15 !important;}
+          }
+          padding:0;
+          border:none !important;
+        }
+      }
+	  }
 	}
 }
 
-.table.rTable.smallTable{
-	h3
-	{
-		font-size:14px !important;
-		font-weight:bold;
-		color:#000;
-	}
+div.table.rTable.smallTable{
 	p{margin:0;}
 }
 
@@ -162,8 +244,12 @@
     .thead .column {
       display: none;
     }
+    
     .column.show {
       display: block;
     }
+    
+    /* Dont hide all column in the table inside the table. */
+    .tbody .tbody .column{display:block !important;}
   }
 }
