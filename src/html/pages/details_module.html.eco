@@ -24,7 +24,7 @@ description: This is the spec module.
 	</head>
 	<body>
 		
-		<%-@partial('modules/module_spec.html.hb', @data('/spec/default.json')) %>
+		<%-@partial('modules/module_details.html.hb', @data('/details/default.json')) %>
 		
 <% if 'debug' in @getEnvironments():%>
 		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
