@@ -68,7 +68,7 @@
 
       // Show active tab pane
       self.activate( self.$target, self.$target.parent(), function () {
-        $this.trigger({
+        $this.add(self.$target).trigger({
           type: 'shown',
           relatedTarget: previous,
           pane: self.$target

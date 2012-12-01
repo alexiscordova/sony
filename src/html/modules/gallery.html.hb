@@ -71,7 +71,7 @@
                 <p class="p5 price-title">Starting at</p>
                 <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
-              <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+              <!-- <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i> -->
             </div>
 
             {{/if}}
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div>
+    <!-- <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div> -->
   </section>
 
   <section class="tab-pane fade gallery" data-tab="overhead" data-mode="{{productCards.mode}}">
@@ -160,7 +160,7 @@
       {{#if productCards.sortSet}}
       <div class="sort-options pull-right">
         <span class="l4">Sort By:&nbsp;</span>
-        <div class="dropdown">
+        <div class="dropdown hidden-phone">
           <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
           <ul class="dropdown-menu" role="menu">
           {{#each productCards.sortSet}}
@@ -169,7 +169,7 @@
           </ul>
         </div>
 
-        <select class="visible-phone">
+        <select class="native-dropdown visible-phone">
           {{#each productCards.sortSet}}
           <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
           {{/each}}
@@ -205,12 +205,19 @@
               <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
-          <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+          <!-- <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i> -->
         </div>
         {{/each}}
         
       </div>
     </div>
+
+    {{#if productCards.nextLink}}
+    <div class="navigation invisible">
+      <a href="{{productCards.nextLink}}">Camera Overflow</a>
+    </div>
+    <div class="infscr-holder text-center"></div>
+    {{/if}}
   </section>
 
   <section class="tab-pane fade gallery" data-tab="inear" data-mode="{{simple.mode}}">
@@ -299,7 +306,7 @@
           </ul>
         </div>
 
-        <select class="visible-phone">
+        <select class="native-dropdown visible-phone">
           {{#each simple.sortSet}}
           <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
           {{/each}}
@@ -329,7 +336,7 @@
               <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
-          <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+          <!-- <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i> -->
         </div>
         {{/each}}
         

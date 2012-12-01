@@ -100,7 +100,7 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 $galleryItemHeight: 337px;
 $galleryItemImgHeight: 220px;
-$simpleGalleryItemHeight: 480px;
+$detailedGalleryItemHeight: 480px;
 .gallery .gallery-item {
   margin-left: 0;
 }
@@ -111,9 +111,54 @@ $simpleGalleryItemHeight: 480px;
   height: $galleryItemHeight;
   overflow: hidden;
   background: $white;
+  
+  // Container for product images
+  .product-img {
+    height: $galleryItemImgHeight;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    background: $grayLightFieldLarge;
+
+    img {
+      display: block;
+      max-height: 100%;
+      max-width: 100%;
+    }
+  }
+
+  // h2 is height * 2
+  &.h2 {
+    height: ($galleryItemHeight * 2) + $grid5GutterWidth;
+  }
+
+  // Promo gallery item images are the full height
+  &.promo {
+
+    .product-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-align: left;
+    }
+    
+    .product-img {
+      height: 100%;
+    }
+
+    img {
+      max-height: initial;
+      max-width: initial;
+    }
+  }
+
+  // Double the height and include margin
+  &.large .product-img {
+    height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
+  }
 
   .gallery-detailed & {
-    height: $simpleGalleryItemHeight;
+    height: $detailedGalleryItemHeight;
   }
 
   .label {
@@ -130,57 +175,23 @@ $simpleGalleryItemHeight: 480px;
   }
 }
 
-// h2 is height * 2
-.gallery-item.h2 {
-  height: ($galleryItemHeight * 2) + $grid5GutterWidth;
-}
-
-.gallery-item .product-img {
-  height: $galleryItemImgHeight;
-  width: 100%;
-  overflow: hidden;
-  text-align: center;
-  background: $grayLightFieldLarge;
-
-  img {
-    display: block;
-    max-height: 100%;
-    max-width: 100%;
-  }
-}
-
-// Double the height and include margin
-.large.gallery-item .product-img {
-  height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
-}
-
-// Promo gallery item images are the full height
-.promo.gallery-item {
-
-  .product-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: left;
-  }
-  
-  .product-img {
-    height: 100%;
-  }
-
-  img {
-    max-height: initial;
-    max-width: initial;
-  }
-}
 
 @media (max-width: 767px) {
   .gallery-item {
     margin-top: 10px;
-  }
 
-  .gallery-item.h2 {
-    height: ($galleryItemHeight * 2) + 10px;
+    // Make it a 2x1 instead of 2x2 or 1x2
+    // need .gallery selector to override .grid5
+    .gallery &.promo,
+    .gallery &.h2 {
+      // height: ($galleryItemHeight * 2) + 10px;
+      height: $galleryItemHeight;
+      width: 100%;
+    }
+
+    .gallery &.large .product-img {
+      height: $galleryItemImgHeight;
+    }
   }
 
   .gallery-detailed {
@@ -259,6 +270,18 @@ $simpleGalleryItemHeight: 480px;
     color: $grayLight;
   }
 }
+
+@media (max-width: 767px) {
+
+  // override bootstrap's visible-phone important declaration :(
+  .sort-options .native-dropdown {
+    display: initial !important;
+    vertical-align: baseline;
+  }
+  
+}
+
+
 
 // Range control
 // -------------------------

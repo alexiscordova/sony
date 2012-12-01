@@ -17,6 +17,7 @@
         self.$activeFilters = self.$container.find('.active-filters');
         self.$loadMore = self.$container.find('.gallery-load-more');
         self.$favorites = self.$grid.find('.js-favorite');
+        self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
 
         if ( self.mode !== 'detailed' ) {
             self.$grid.addClass('grid5');
@@ -46,12 +47,43 @@
 
         // instantiate the plugin
         self.$grid.shuffle({
+            itemSelector: '.gallery-item',
             delimeter: self.shuffleDelimeter,
             speed: self.shuffleSpeed,
             easing: self.shuffleEasing,
             columnWidth: col,
             gutterWidth: gut
         });
+
+
+        // Infinite scroll?
+        if ( self.hasInfiniteScroll ) {
+            self.$grid.infinitescroll({
+                local: true,
+                debug: true,
+                bufferPx: -40,
+                navSelector: 'div.navigation', // selector for the paged navigation
+                nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
+                itemSelector: '.gallery-item', // selector for all items you'll retrieve
+                loading: {
+                    selector: '.infscr-holder',
+                    finishedMsg: "<em>Finished loading products.</em>",
+                    img: "img/spinner.gif",
+                  }
+            },
+            // call shuffle as a callback
+            function( newElements ) {
+              self.$grid.shuffle( 'appended', $( newElements ) );
+            }
+            );
+
+            // Pause infinite scrolls that are in hidden tabs
+            if ( !self.$container.hasClass('active') ) {
+                self.$grid.infinitescroll('pause');
+            }
+        }
+
+
 
 
         // Initialize filter dictionaries to keep track of everything
@@ -123,9 +155,7 @@
         self.$sortBtns.on('click',  $.proxy( self.sort, self ));
 
         // Set up sorting ---- select menu
-        // self.$sortSelect.on('change', function(evt) {
-        //     self.sortItems(this, evt);
-        // });
+        self.$sortSelect.on('change', $.proxy( self.sortItems, self ));
 
         // Displays active filters on `filter`
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
@@ -146,8 +176,18 @@
         // Favorite Heart
         self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
-        // Hide filters
-        // self.$container.find('.product-filter').slideUp();
+        self.$container.on('shown', function() {
+            
+            // Respond to tab shown event.Update the columns if we're in need of an update
+            if ( self.$grid.data('shuffle').needsUpdate ) {
+              self.$grid.shuffle('update');
+            }
+
+            // Resume infinite scroll if it's there yo
+            if ( self.hasInfiniteScroll && self.$container.hasClass('active') ) {
+                self.$grid.infinitescroll('resume');
+            }
+        });
 
         self.isInitialized = true;
     };
@@ -714,14 +754,13 @@
             self.$grid.shuffle('sort', sortObj);
         },
 
-        /*
-        sortItems : function( select ) {
+        sortItems : function( evt ) {
             var self = this,
-                reverse = select[ select.selectedIndex ].getAttribute('data-reverse'),
-                filterName = select.value,
+                reverse = evt.target[ evt.target.selectedIndex ].getAttribute('data-reverse'),
+                filterName = evt.target.value,
                 sortObj = {};
             
-            if ( select.value !== 'default' ) {
+            if ( evt.target.value !== 'default' ) {
                 reverse = reverse === 'true' ? true : false;
                 sortObj = {
                     reverse: reverse,
@@ -733,7 +772,6 @@
 
             self.$grid.shuffle('sort', sortObj);
         },
-        */
 
         sortByPriority : function( shouldReset ) {
             var self = this;

@@ -1,7 +1,3 @@
----
-title: Gallery Module
-description: Tabbed galleries with different layouts. Data generated from JSON file. 
----
 <!DOCTYPE html>
 <!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
@@ -19,7 +15,7 @@ description: Tabbed galleries with different layouts. Data generated from JSON f
     </head>
     <body class="gallery-module">
 
-        <%-@partial('modules/gallery.html.hb', @data('gallery/default.json')) %>
+        <%-@partial('modules/gallery_camera_overflow2.html.hb', @data('gallery/camera_overflow.json')) %>
 
         <!-- include your module js here -->
         <script src="js/libs/jquery.throttle-debounce.min.js"></script>
@@ -35,7 +31,5 @@ description: Tabbed galleries with different layouts. Data generated from JSON f
         <%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
 <% end %>
 
-
-        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
     </body>
 </html>

@@ -156,12 +156,6 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       $tabs.removeAttr('style');
       _initStickyTab();
     }
-    
-    // If there is a shuffle layout in this element and it's in need of an update
-    var $shuffle = evt.pane.find('.shuffle');
-    if ( $shuffle.length > 0 && $shuffle.data('shuffle').needsUpdate ) {
-      $shuffle.shuffle('update');
-    }
   },
 
   _onResize = function() {
