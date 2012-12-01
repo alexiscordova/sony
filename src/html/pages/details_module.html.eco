@@ -18,12 +18,17 @@ description: This is the spec module.
 <% else: %>
 		<%-@partial('includes/css_deploy.html')%>
 <% end %>
-		<link rel="stylesheet" href="css/modules/experiment.css">
+		<link rel="stylesheet" href="css/modules/specAndDetails.css">
 		<%-@partial('includes/js_head.html')%>
 	
 	</head>
 	<body>
 		
+		<!--
+			***------Exemples------***
+			/details/default.json
+			/details-lens/default.json
+		-->
 		<%-@partial('modules/module_details.html.hb', @data('/details/default.json')) %>
 		
 <% if 'debug' in @getEnvironments():%>
