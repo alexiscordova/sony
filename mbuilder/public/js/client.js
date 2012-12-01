@@ -3,7 +3,8 @@ $(document).ready(function(){
 	$("#build").bind('click', function(e){
 	
 	})
-	$('#data_control').hide();
+	
+	$('#data_control, #data_text, #build').hide();
 	
 	$.ajax({
 	  url: "/mnames"
@@ -17,24 +18,44 @@ $(document).ready(function(){
 	
 	
 	
-	$('#module_select').bind('change', function(e){
+	$('#module_select').change(function(e){
 		if(!e.target.value){
-			$('#data_control').hide();
+			$('#data_control, #data_text, #build').hide();
 			return;
 		}
+		var mname = e.target.value;
 		$('#data_control').show();
 		$.ajax({
-		  url: "/mdata",
-		  data: {mname: e.target.value}
+		  url: "/dnames",
+		  data: {mname: mname}
 		}).done(function(res) { 
 			var mnames = JSON.parse(res);
-			mnames.length >0 || $('#data_control').hide();
-			$('#data_select').html("");
+			mnames.length >0 || $('#data_control, #data_text').hide();
+			$('#data_select').html("<option></option>");
 			$.each(mnames, function(i,e){
-				$('#data_select').append("<option value="+e+">"+e+"</option>")
+				$('#data_select').append("<option value="+mname+"/"+e+">"+e+"</option>")
 			})
 			
 		});
+	})
+	
+	$('#data_select').change(function(e){
+		$('#data_text textarea').html("");
+		
+		$.ajax({
+		  url: "/getjson",
+		  data: {path: e.target.value}
+		}).done(function(res) { 
+			$('#data_text textarea').val(JSON.stringify(JSON.parse(res), null, '    '));
+			$('#data_text textarea').trigger('keyup');
+			$('#build, #data_text').show();
+		});
+	})
+	
+	
+	$('#data_text textarea').bind('keyup',function(e){
+		var res = JSLINT($('#data_text textarea').val())
+		$('#data_text').toggleClass('error', !res);
 	})
 
 })

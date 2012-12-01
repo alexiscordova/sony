@@ -35,7 +35,8 @@ app.configure(function(){
 });
 
 app.get('/mnames', modules.getmnames);
-app.get('/mdata', modules.getmdata);
+app.get('/dnames', modules.getdnames);
+app.get('/getjson', modules.getjson);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

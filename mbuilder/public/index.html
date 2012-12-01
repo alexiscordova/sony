@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/docs.css" rel="stylesheet">
+		<link href="css/mbuilder.css" rel="stylesheet">
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		
@@ -14,35 +15,41 @@
 	
 	<body>
 		
-		<div class="container row">
+		<div class="container">
 			<h1>Sony Module Builder</h1>
 			
-			<form class="clearfix form-inline row">
+			<div class="clearfix form-inline row">
 				<div class="control-group span4">
-  					<label class="span1">Module</label>
-  					<select id="module_select" class="span3">
+  					<label>Module</label>
+  					<select id="module_select">
   						<option></option>
   					</select>
 				</div>
 				
 				<div id="data_control" class="control-group span8">
-					<label class="span1">Data</label>		
-					<select id="data_select" class="span3">
+					<label>Data</label>		
+					<select id="data_select">
 						<option></option>
 					</select>
 				</div>
 				
 				
-				<div id="data_text" class="control-group span12">
+				<div id="data_text" class="control-group">
 					<textarea rows="10" class="span12"></textarea>
+					<div>
+						<div class="span2 offset8"><button class="btn btn-block btn-small">Save</button></div>
+						<div class="span2"><button class="btn btn-block btn-small">Save As</button></div>
+					</div>
 				</div>
-			</form>
+			</div>
 		
 		
-			<button id="build" class="btn btn-special">Build</button>
+			<button id="build" class="btn btn-special btn-block">Build</button>
 		</div>
 		
 		<script src="js/client.js"></script>
+		<script src="js/jslint.js"></script>
+		
 	</body>
 	
 </html>
