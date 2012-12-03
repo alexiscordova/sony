@@ -17,14 +17,65 @@
     // opacity:0;
 
     &.navmenu-wrapper-account{
-      width:216px;
-      padding:25px 20px;
+      width:220px;
+      padding:16px 20px 22px;
+
+      .btn-login,
+      .btn-logout{
+        display:block;
+        width:auto;
+        font-size:$font_10_15;
+      }
+      .btn-login{
+        margin:9px 0 10px 0;        
+      }
+      .btn-logout{
+        @extend .btn-alt;
+        margin:10px 0 0 0;
+        display:none;
+      }
+      &.navmenu-wrapper-account.logged-in{
+        .btn-login{
+          display:none;
+        }
+        .btn-logout{
+          display:block;
+        }        
+      }
+
+      > ul {
+        > li {
+          line-height:31px;
+          > a.tl {
+            font-size:$font_12_15;
+            > i {
+              box-sizing:content-box;
+              padding-right:10px;
+            }
+          }
+        }
+      }
+    }
+    &.navmenu-wrapper-search{
+      right:3px;
+      width:467px;
+
+      .navmenu-search-section-input{
+        
+      }
+      .navmenu-search-section-results{
+        
+      }
     }
 
     &.navmenu-wrapper-visible{
       left:0;
       opacity:1;   
-      @include transition(opacity $transitionNormal ease-out 0s, left 0s linear 0s);   
+      @include transition(opacity $transitionNormal ease-out 0s, left 0s linear 0s);
+      
+      &.navmenu-wrapper-search{
+        right:3px;
+      }
     }
     .navmenu-list-main{
       margin:0;
