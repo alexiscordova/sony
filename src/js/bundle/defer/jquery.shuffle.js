@@ -6,7 +6,7 @@
  * Use it for whatever you want!
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 11/20/12
+ * @date 12/03/12
  */
 ;(function($, Modernizr, undefined) {
     'use strict';
@@ -61,7 +61,8 @@
     };
 
     var Shuffle = function( $container, options ) {
-        var self = this;
+        var self = this,
+            $window = $(window);
 
         $.extend(self, $.fn.shuffle.options, options, $.fn.shuffle.settings);
 
@@ -100,11 +101,11 @@
         self._initItems();
         
         // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-        self.windowHeight = $(window).height();
-        self.windowWidth = $(window).width();
-        $(window).on('resize.shuffle', function () {
-            var height = $(window).height(),
-                width = $(window).width();
+        self.windowHeight = $window.height();
+        self.windowWidth = $window.width();
+        $window.on('resize.shuffle', function () {
+            var height = $window.height(),
+                width = $window.width();
 
             if (width !== self.windowWidth || height !== self.windowHeight) {
                 self.resized();
@@ -224,7 +225,8 @@
 
             self.colWidth += gutter;
 
-            self.cols = Math.floor( ( containerWidth + gutter ) / self.colWidth );
+            // Was flooring 4.999999999999999 to 4 :(
+            self.cols = Math.floor( ( containerWidth + gutter + 0.000000000001 ) / self.colWidth );
             self.cols = Math.max( self.cols, 1 );
 
             // This can happen when .shuffle is called on something hidden (e.g. display:none for tabs)
@@ -601,11 +603,7 @@
         },
 
         update: function() {
-            var self = this;
-
-            self._initItems();
-            self._resetCols();
-            self.resized();
+            this.resized();
         }
 
     };

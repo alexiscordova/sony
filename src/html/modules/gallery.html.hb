@@ -5,7 +5,7 @@
   </div>
   <div class="ghost-center-wrap hero-text-wrap">
     <div class="hero-text ghost-center">
-      <div class="container">
+      <div class="container-fluid">
         <div class="hidden-phone">Audio</div>
         <h1>Headphones</h1>
       </div>
@@ -15,14 +15,14 @@
 
 <div class="tab-strip">
 
-  <div class="tab-nav-wrap container">
+  <div class="tab-nav-wrap container-fluid">
     <nav class="tab-nav-btns">
       <div class="tab-nav tab-nav-prev"></div>
       <div class="tab-nav tab-nav-next"></div>
     </nav>
   </div>
 
-  <div class="tabs-container container">
+  <div class="tabs-container container-fluid">
     <div class="tabs">
       {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab">
         <div class="ghost-center">
@@ -38,9 +38,9 @@
 <div class="tab-content">
 
   <section class="tab-pane fade active in gallery" data-tab="all" data-mode="{{all.mode}}">
-    <div class="container padded">
+    <div class="container-fluid padded">
       <p class="l4"><span class="text-dark">{{all.total}}</span> Products</p>
-      <div class="products">
+      <div class="products row-fluid">
           {{#each all.list}}
           <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
             {{#if this.label}}
@@ -85,13 +85,13 @@
 
   <section class="tab-pane fade gallery" data-tab="overhead" data-mode="{{productCards.mode}}">
     {{#if productCards.filterSet}}
-    <div class="container padded">
+    <div class="container-fluid padded">
       <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter Results</button>
       <span class="active-filters"></span>
     </div>
     <div class="collapse product-filter" id="{{productCards.name}}-filters">
-      <div class="filter-options container padded">
-        <div class="row">
+      <div class="filter-options container-fluid padded">
+        <div class="row-fluid">
           {{#each productCards.filterSet}}
 
           {{#if this.type.color}}
@@ -156,7 +156,7 @@
     </div>
     {{/if}}
 
-    <div class="gallery-title-bar container padded">
+    <div class="gallery-title-bar container-fluid padded">
       {{#if productCards.sortSet}}
       <div class="sort-options pull-right">
         <span class="l4">Sort By:&nbsp;</span>
@@ -180,8 +180,8 @@
 
       <p class="l4"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
     </div>
-    <div class="container padded">
-      <div class="products">
+    <div class="container-fluid padded">
+      <div class="products row-fluid">
         {{#each productCards.list}}
         <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
           {{#if this.label}}
@@ -222,13 +222,13 @@
 
   <section class="tab-pane fade gallery" data-tab="inear" data-mode="{{simple.mode}}">
     {{#if simple.filterSet}}
-    <div class="container padded">
+    <div class="container-fluid padded">
       <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{simple.name}}-filters">Filter Results</button>
       <span class="active-filters"></span>
     </div>
     <div class="collapse product-filter" id="{{simple.name}}-filters">
-      <div class="filter-options container padded">
-        <div class="row">
+      <div class="filter-options container-fluid padded">
+        <div class="row-fluid">
           {{#each simple.filterSet}}
 
           {{#if this.type.color}}
@@ -293,7 +293,7 @@
     </div>
     {{/if}}
 
-    <div class="gallery-title-bar container padded">
+    <div class="gallery-title-bar container-fluid padded">
       {{#if simple.sortSet}}
       <div class="sort-options pull-right">
         <span class="l4">Sort By:&nbsp;</span>
@@ -317,8 +317,8 @@
 
       <p class="l4"><span class="text-dark product-count">{{simple.total}}</span> Products</p>
     </div>
-    <div class="container padded">
-      <div class="products">
+    <div class="container-fluid padded">
+      <div class="products row-fluid">
         {{#each simple.list}}
         <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
           {{#if this.label}}
@@ -345,10 +345,10 @@
   </section>
 
   <section class="tab-pane fade" data-tab="earclips">
-    <div class="grid5">
+    <div class="grid5 container-fluid padded">
       {{#each accessories}}
       <h2>{{{this.title}}}</h2>
-      <div class="product-strip row">
+      <div class="product-strip row-fluid">
         {{#each this.list}}
         <div class="span1 gallery-item">
           <div class="product-img ghost-center-wrap">
@@ -387,7 +387,7 @@
 
 </div>
 
-<section class="container padded">
+<section class="container-fluid padded">
   <h1>Another section</h1>
   <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -410,9 +410,9 @@
 </section>
 
 <section>
-  <div class="container">
+  <div class="container-fluid">
     <h2>Griddlin'</h2>
-    <div class="row">
+    <div class="row-fluid">
       <div class="span3 box" style="height:20px;background:lightblue;"></div>
       <div class="span3 box" style="height:20px;background:lightblue;"></div>
       <div class="span3 box" style="height:20px;background:lightblue;"></div>

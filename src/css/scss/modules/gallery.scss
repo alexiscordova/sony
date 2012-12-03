@@ -17,13 +17,13 @@ $grid5RowWidth: ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5C
 
 $fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
 $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
-.grid5 {
 
+.lt-ie9 .grid5 {
   // @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
-  // @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+  @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
 }
 
-@media (max-width: 767px) {
+@media (max-width:767px) {
   .grid5 {
 
     .row {
@@ -40,17 +40,19 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
   }
 }
 
-@media (min-width:980px) and (max-width:1999px) {
+@media (min-width:768px) {
   .grid5 {
-    @include grid-core(172px, 20px, 5);
+    // @include grid-core(172px, 20px, 5);
+    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
   }
 }
 
-@media (min-width:1200px) {
-  .grid5 {
-    @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
-  }
-}
+// @media (min-width:1200px) {
+//   .grid5 {
+//     // @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
+//     @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+//   }
+// }
 
 
 
@@ -81,7 +83,8 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 
 .gallery-title-bar {
-  padding: 1.25em 0;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
 
   .dropdown {
     display: inline-block;
@@ -101,7 +104,7 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 $galleryItemHeight: 337px;
 $galleryItemImgHeight: 220px;
 $detailedGalleryItemHeight: 480px;
-.gallery .gallery-item {
+.gallery .row-fluid .gallery-item {
   margin-left: 0;
 }
 
@@ -292,7 +295,6 @@ $detailedGalleryItemHeight: 480px;
 
 .range-output {
   margin-top: 10px;
-  width: inherit;
   text-align: center;
 }
 
