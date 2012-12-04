@@ -235,7 +235,7 @@ $default-transition-delay    : 0s;
 // Border Radius
 @mixin border-radius($radius) {
 	-webkit-border-radius: $radius;
-	 -moz-border-radius: $radius;
+	   -moz-border-radius: $radius;
 			border-radius: $radius;
 }
 
@@ -554,35 +554,35 @@ $default-transition-delay    : 0s;
 // Transformations
 @mixin rotate($degrees) {
 	-webkit-transform: rotate($degrees);
-	 -moz-transform: rotate($degrees);
+	   -moz-transform: rotate($degrees);
 		-ms-transform: rotate($degrees);
 		 -o-transform: rotate($degrees);
 			transform: rotate($degrees);
 }
 @mixin scale($ratio) {
 	-webkit-transform: scale($ratio);
-	 -moz-transform: scale($ratio);
+	   -moz-transform: scale($ratio);
 		-ms-transform: scale($ratio);
 		 -o-transform: scale($ratio);
 			transform: scale($ratio);
 }
 @mixin translate($x, $y) {
 	-webkit-transform: translate($x, $y);
-	 -moz-transform: translate($x, $y);
+	   -moz-transform: translate($x, $y);
 		-ms-transform: translate($x, $y);
 		 -o-transform: translate($x, $y);
 			transform: translate($x, $y);
 }
 @mixin skew($x, $y) {
 	-webkit-transform: skew($x, $y);
-	 -moz-transform: skew($x, $y);
+	   -moz-transform: skew($x, $y);
 		-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
 		 -o-transform: skew($x, $y);
 			transform: skew($x, $y);
 }
 @mixin translate3d($x, $y, $z) {
 	-webkit-transform: translate3d($x, $y, $z);
-	 -moz-transform: translate3d($x, $y, $z);
+	   -moz-transform: translate3d($x, $y, $z);
 		 -o-transform: translate3d($x, $y, $z);
 			transform: translate3d($x, $y, $z);
 }
@@ -593,7 +593,7 @@ $default-transition-delay    : 0s;
 // See git pull https://github.com/dannykeane/bootstrap.git backface-visibility for examples
 @mixin backface-visibility($visibility){
 	-webkit-backface-visibility: $visibility;
-	 -moz-backface-visibility: $visibility;
+	   -moz-backface-visibility: $visibility;
 			backface-visibility: $visibility;
 }
 
@@ -601,14 +601,14 @@ $default-transition-delay    : 0s;
 // Heads up: FF 3.6 and under need "padding" instead of "padding-box"
 @mixin background-clip($clip) {
 	-webkit-background-clip: $clip;
-	 -moz-background-clip: $clip;
+	   -moz-background-clip: $clip;
 			background-clip: $clip;
 }
 
 // Background sizing
 @mixin background-size($size) {
 	-webkit-background-size: $size;
-	 -moz-background-size: $size;
+	   -moz-background-size: $size;
 		 -o-background-size: $size;
 			background-size: $size;
 }
@@ -617,7 +617,7 @@ $default-transition-delay    : 0s;
 // Box sizing
 @mixin box-sizing($boxmodel) {
 	-webkit-box-sizing: $boxmodel;
-	 -moz-box-sizing: $boxmodel;
+	   -moz-box-sizing: $boxmodel;
 			box-sizing: $boxmodel;
 }
 
@@ -625,7 +625,7 @@ $default-transition-delay    : 0s;
 // For selecting text on the page
 @mixin user-select($select) {
 	-webkit-user-select: $select;
-	 -moz-user-select: $select;
+	   -moz-user-select: $select;
 		-ms-user-select: $select;
 		 -o-user-select: $select;
 			user-select: $select;
@@ -640,10 +640,10 @@ $default-transition-delay    : 0s;
 // CSS3 Content Columns
 @mixin content-columns($columnCount, $columnGap: $gridGutterWidth) {
 	-webkit-column-count: $columnCount;
-	 -moz-column-count: $columnCount;
+	   -moz-column-count: $columnCount;
 			column-count: $columnCount;
 	-webkit-column-gap: $columnGap;
-	 -moz-column-gap: $columnGap;
+	   -moz-column-gap: $columnGap;
 			column-gap: $columnGap;
 }
 
@@ -651,7 +651,7 @@ $default-transition-delay    : 0s;
 @mixin hyphens($mode: auto) {
 	word-wrap: break-word;
 	-webkit-hyphens: $mode;
-	 -moz-hyphens: $mode;
+	   -moz-hyphens: $mode;
 		-ms-hyphens: $mode;
 		 -o-hyphens: $mode;
 			hyphens: $mode;
@@ -782,21 +782,21 @@ $default-transition-delay    : 0s;
 
 
 // there is also a .el-hidden class in utilities that just includes the mixin.
-@mixin el-hidden{
-	position:absolute;
+@mixin el-hidden {
+	position: absolute;
 	-webkit-backface-visibility: hidden; // flicker fix
 
-	opacity:0;
-	left:-9999px;
-	visibility:hidden;
+	opacity: 0;
+	left: -9999px;
+	visibility: hidden;
 	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
 }
 
 // there is also a .el-shown class in utilities that just includes the mixin.
-@mixin el-shown{
-	opacity:1;
-	left:0;
-	visibility:visible;
+@mixin el-shown {
+	opacity: 1;
+	left: 0;
+	visibility: visible;
 	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
 }
 
@@ -868,22 +868,22 @@ $default-transition-delay    : 0s;
 // The Grid
 @mixin grid-core($gridColumnWidth, $gridGutterWidth, $numColumns: $gridColumns) {
 	.row {
-	margin-left: $gridGutterWidth * -1;
-	@include clearfix();
+		margin-left: $gridGutterWidth * -1;
+		@include clearfix();
 	}
 
 	[class*="span"] {
-	float: left;
-	min-height: 1px; // prevent collapsing columns
-	margin-left: $gridGutterWidth;
+		float: left;
+		min-height: 1px; // prevent collapsing columns
+		margin-left: $gridGutterWidth;
 	}
 
 	// Set the container width, and override it for fixed navbars in media queries
-	// .container,
+	.container,
 	.navbar-static-top .container,
 	.navbar-fixed-top .container,
 	.navbar-fixed-bottom .container {
-	@include grid-core-span($numColumns, $gridColumnWidth, $gridGutterWidth);
+		@include grid-core-span($numColumns, $gridColumnWidth, $gridGutterWidth);
 	}
 
 	// generate .spanX and .offsetX
@@ -893,15 +893,15 @@ $default-transition-delay    : 0s;
 
 @mixin grid-core-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
 	@while $gridColumns > 0 {
-	.span#{$gridColumns} { @include grid-core-span($gridColumns, $gridColumnWidth, $gridGutterWidth)}
-	$gridColumns: $gridColumns - 1;
+		.span#{$gridColumns} { @include grid-core-span($gridColumns, $gridColumnWidth, $gridGutterWidth)}
+		$gridColumns: $gridColumns - 1; 
 	}
 }
 
 @mixin grid-core-offset-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
 	@while $gridColumns > 0 {
-	.offset#{$gridColumns} { @include grid-core-offset($gridColumns, $gridColumnWidth, $gridGutterWidth); }
-	$gridColumns: $gridColumns - 1;
+		.offset#{$gridColumns} { @include grid-core-offset($gridColumns, $gridColumnWidth, $gridGutterWidth); }
+		$gridColumns: $gridColumns - 1;
 	}
 }
 
@@ -917,36 +917,38 @@ $default-transition-delay    : 0s;
 
 @mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns) {
 	.row-fluid {
-	width: 100%;
-	@include clearfix();
-	[class*="span"] {
-		@include input-block-level();
-		float: left;
-		margin-left: $fluidGridGutterWidth;
-		*margin-left: $fluidGridGutterWidth - (.5 / $gridRowWidth * 100px * 1%);
-	}
-	[class*="span"]:first-child {
-		margin-left: 0;
-	}
+		width: 100%;
+		@include clearfix();
+		
+		[class*="span"] {
+			@include input-block-level();
+			float: left;
+			margin-left: $fluidGridGutterWidth;
+			*margin-left: $fluidGridGutterWidth - (.5 / $gridRowWidth * 100px * 1%);
+		}
+		
+		[class*="span"]:first-child {
+			margin-left: 0;
+		}
 
-	// generate .spanX and .offsetX
-	@include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
-	@include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
+		// generate .spanX and .offsetX
+		@include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
+		@include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
 	}
 }
 
 @mixin grid-fluid-span-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
 	@while $gridColumns > 0 {
-	.span#{$gridColumns} { @include grid-fluid-span($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-	$gridColumns: $gridColumns - 1;
+		.span#{$gridColumns} { @include grid-fluid-span($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+		$gridColumns: $gridColumns - 1;
 	}
 }
 
 @mixin grid-fluid-offset-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
 	@while $gridColumns > 0 {
-	.offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-	.offset#{$gridColumns}:first-child { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-	$gridColumns: $gridColumns - 1;
+		.offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+		.offset#{$gridColumns}:first-child { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+		$gridColumns: $gridColumns - 1;
 	}
 }
 
@@ -971,12 +973,12 @@ $default-transition-delay    : 0s;
 	input,
 	textarea,
 	.uneditable-input {
-	margin-left: 0; // override margin-left from core grid system
+		margin-left: 0; // override margin-left from core grid system
 	}
 
 	// Space grid-sized controls properly if multiple per line
 	.controls-row [class*="span"] + [class*="span"] {
-	margin-left: $gridGutterWidth;
+		margin-left: $gridGutterWidth;
 	}
 
 	// generate .spanX
@@ -985,12 +987,12 @@ $default-transition-delay    : 0s;
 
 @mixin grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
 	@while $gridColumns > 0 {
-	input.span#{$gridColumns},
-	textarea.span#{$gridColumns},
-	.uneditable-input.span#{$gridColumns} {
-		@include grid-input-span($gridColumns, $gridColumnWidth, $gridGutterWidth);
-	}
-	$gridColumns: $gridColumns - 1;
+		input.span#{$gridColumns},
+		textarea.span#{$gridColumns},
+		.uneditable-input.span#{$gridColumns} {
+			@include grid-input-span($gridColumns, $gridColumnWidth, $gridGutterWidth);
+		}
+		$gridColumns: $gridColumns - 1;
 	}
 }
 
@@ -1004,106 +1006,106 @@ $default-transition-delay    : 0s;
 
 
 
-	// Custom (not from Bootstrap) --CJM
-	// quickly set the width & height. If only 1 val is passed in, it sets both to the same
-	@mixin wh($w,$h:null){
-		width:$w;
-		@if($h==null){
-			height:$w;
-		} @else{
-			height:$h;		
-		}
+// Custom (not from Bootstrap) --CJM
+// quickly set the width & height. If only 1 val is passed in, it sets both to the same
+@mixin wh($w,$h:null){
+	width:$w;
+	@if($h==null){
+		height:$w;
+	} @else{
+		height:$h;		
 	}
-	// quickly set absolute position, and top/left parameters. If only 1 val is passed in, it sets both to the same
-	@mixin xy($x,$y:null){
-		position:absolute;
-		left:$x;
-		@if($y==null){
-			top:$x;	
-		} @else{
-			top:$y;
-		}
-	}
-	// quickly set absolute position, and top/left parameters
-	@mixin whxy($w,$h,$x,$y){
-		position:absolute;
-		left:$x;
+}
+// quickly set absolute position, and top/left parameters. If only 1 val is passed in, it sets both to the same
+@mixin xy($x,$y:null){
+	position:absolute;
+	left:$x;
+	@if($y==null){
+		top:$x;	
+	} @else{
 		top:$y;
-		width:$w;
-		height:$h;
 	}
+}
+// quickly set absolute position, and top/left parameters
+@mixin whxy($w,$h,$x,$y){
+	position:absolute;
+	left:$x;
+	top:$y;
+	width:$w;
+	height:$h;
+}
 
-	@mixin squareCentered($width){
-    display:block;
-    position:absolute;
-    top:50%;
-    left:50%;
-	  width:$width;
-	  height:$width; 
-	  margin:(-$width/2) 0 0 (-$width/2);  
-	}
-	@mixin circleCentered($dia){
-	  @include squareCentered($dia);
-	  @include border-radius($dia/2);  
-	}
+@mixin squareCentered($width){
+	display:block;
+	position:absolute;
+	top:50%;
+	left:50%;
+	width:$width;
+	height:$width; 
+	margin:(-$width/2) 0 0 (-$width/2);  
+}
+@mixin circleCentered($dia){
+	@include squareCentered($dia);
+	@include border-radius($dia/2);  
+}
 
-	// set up an element to be centered horizontally & vertically within its parent, using negative margins
-	@mixin center-hv($widthHeight, $height: null) {
-		position:absolute;
-		width:$widthHeight;
-		@if ($height == null) {
-			height: $widthHeight;
-		} @else {
-			height: $height;
-		}
-		margin: 0;
-		margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in:; -5px 0px 0px -5px, so these need to be explicitly set.
-		@if ($height == null) {
-			margin-top: -$widthHeight/2;
-		} @else {
-			margin-top: -$height/2;
-		}
-		top: 50%;
-		left: 50%;	
+// set up an element to be centered horizontally & vertically within its parent, using negative margins
+@mixin center-hv($widthHeight, $height: null) {
+	position:absolute;
+	width:$widthHeight;
+	@if ($height == null) {
+		height: $widthHeight;
+	} @else {
+		height: $height;
 	}
+	margin: 0;
+	margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in:; -5px 0px 0px -5px, so these need to be explicitly set.
+	@if ($height == null) {
+		margin-top: -$widthHeight/2;
+	} @else {
+		margin-top: -$height/2;
+	}
+	top: 50%;
+	left: 50%;	
+}
 
-	@mixin pseudoEl-block($w: 50px, $h: 50px) {
-		content: '';
-		display: block;
-		position: absolute;
-		width: $w;
-		height: $h;
-	}
-	@mixin pseudoEl-inline-block($w: 50px, $h: 50px) {
+@mixin pseudoEl-block($w: 50px, $h: 50px) {
+	content: '';
+	display: block;
+	position: absolute;
+	width: $w;
+	height: $h;
+}
+@mixin pseudoEl-inline-block($w: 50px, $h: 50px) {
+	content: '';
+	display: inline-block;
+	width: $w;
+	height: $h;
+}
+
+@mixin background-sprite-icon-small{
+  background-image: url($iconSmallSpritePath);
+  background-repeat: no-repeat;  
+}
+
+@mixin pseudoEl-inline-block-icon($w: 15px, $h: 15px) {
+	@include background-sprite-icon-small();
+	@include pseudoEl-inline-block($w,$h);
+  // @include ie7-restore-right-whitespace();
+}
+
+
+
+// A ghost element used to vertically center something
+@mixin ghost() {
+	&:before {
 		content: '';
 		display: inline-block;
-		width: $w;
-		height: $h;
+		vertical-align: middle;
+		width: 0;
+		height: 100%;
+		margin-right: -4px; // Nudgeable
 	}
-
-	@mixin background-sprite-icon-small{
-	  background-image: url($iconSmallSpritePath);
-	  background-repeat: no-repeat;  
-	}
-
-	@mixin pseudoEl-inline-block-icon($w: 15px, $h: 15px) {
-		@include background-sprite-icon-small();
-		@include pseudoEl-inline-block($w,$h);
-	  // @include ie7-restore-right-whitespace();
-	}
-
-
-	
-	// A ghost element used to vertically center something
-	@mixin ghost() {
-	    &:before {
-	        content: '';
-	        display: inline-block;
-	        vertical-align: middle;
-	        width: 0;
-	        height: 100%;
-	        margin-right: -4px; // Nudgeable
-	    }
-	}
+}
 
 

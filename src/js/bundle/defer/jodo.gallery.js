@@ -1,5 +1,5 @@
 
-(function($, window, undefined) {
+(function($, Modernizr, window, undefined) {
 
     var Gallery = function( $container, options ) {
         var self = this;
@@ -15,43 +15,50 @@
         self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
-        self.$loadMore = self.$container.find('.gallery-load-more');
+        self.$filterArrow = self.$container.find('.filter-arrow-under, .filter-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
+        self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
+        self.resized = false;
 
-        if ( self.mode !== 'detailed' ) {
-            self.$grid.addClass('grid5');
-        }
+        self.setColumnMode();
 
-        // Use a function if one is specified for the column width
-        var col = $.isFunction( self.shuffleColumns ) ?
-            self.shuffleColumns :
-            function( containerWidth ) {
-                var column = self.shuffleColumns[ containerWidth ];
-                if ( column === undefined ) {
-                    column = 60;
-                }
-                return column;
-            },
-        
-        // Use a function if one is defined for the gutter width
-        gut = $.isFunction( self.shuffleGutters ) ?
-            self.shuffleGutters :
-            function( containerWidth ) {
-                var gutter = self.shuffleGutters[ containerWidth ];
-                if ( gutter === undefined ) {
-                    gutter = 0;
-                }
-                return gutter;
-            };
-
-        // instantiate the plugin
+        // instantiate shuffle
         self.$grid.shuffle({
+            itemSelector: '.gallery-item',
             delimeter: self.shuffleDelimeter,
             speed: self.shuffleSpeed,
             easing: self.shuffleEasing,
-            columnWidth: col,
-            gutterWidth: gut
+            columnWidth: self.shuffleColumns,
+            gutterWidth: self.shuffleGutters
         });
+
+
+        // Infinite scroll?
+        if ( self.hasInfiniteScroll ) {
+            self.$grid.infinitescroll({
+                local: true,
+                debug: true,
+                bufferPx: -40,
+                navSelector: 'div.navigation', // selector for the paged navigation
+                nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
+                itemSelector: '.gallery-item', // selector for all items you'll retrieve
+                loading: {
+                    selector: '.infscr-holder',
+                    finishedMsg: "<em>Finished loading products.</em>",
+                    img: "img/spinner.gif",
+                  }
+            },
+            // call shuffle as a callback
+            function( newElements ) {
+              self.$grid.shuffle( 'appended', $( newElements ) );
+            }
+            );
+
+            // Pause infinite scrolls that are in hidden tabs
+            if ( !self.$container.hasClass('active') ) {
+                self.$grid.infinitescroll('pause');
+            }
+        }
 
 
         // Initialize filter dictionaries to keep track of everything
@@ -98,7 +105,12 @@
 
 
         // Slide toggle. Reset range control if it was hidden on initialization
-        self.$container.find('.collapse').on('shown', $.proxy( self.maybeResetRange, self ));
+        self.$container.find('.collapse')
+            .on('shown', $.proxy( self.onFiltersShown, self ))
+            .on('show', $.proxy( self.onFiltersShow, self ))
+            .on('hide', $.proxy( self.onFiltersHide, self ));
+        // self.$filterArrow.hide()
+
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         var sorted = false;
@@ -117,15 +129,15 @@
                 self.sortByPriority(true);
                 sorted = false;
             }
+
+            self.resized = true;
         });
 
         // Set up sorting ---- dropdowm
         self.$sortBtns.on('click',  $.proxy( self.sort, self ));
 
         // Set up sorting ---- select menu
-        // self.$sortSelect.on('change', function(evt) {
-        //     self.sortItems(this, evt);
-        // });
+        self.$sortSelect.on('change', $.proxy( self.sortItems, self ));
 
         // Displays active filters on `filter`
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
@@ -140,14 +152,14 @@
         //     self.$container.trigger('reset.gallery', [self]);
         // });
 
-        // Load more button
-        self.$loadMore.on('click', $.proxy( self.loadMore, self ));
-
         // Favorite Heart
         self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
-        // Hide filters
-        // self.$container.find('.product-filter').slideUp();
+        // This container is about to be shown
+        self.$container.on('show.tab', $.proxy( self.onShow, self ));
+
+        // This container has just been shown
+        self.$container.on('shown.tab', $.proxy( self.onShown, self ));
 
         self.isInitialized = true;
     };
@@ -287,7 +299,7 @@
             // Create labels showing current filters
             $.each(filters, function(key, obj) {
                 var $label = $('<span>', {
-                    "class" : "label label-close label-subtle",
+                    "class" : "label label-close",
                     "data-filter" : key,
                     "data-filter-name" : obj.key || obj.name,
                     text : obj.label,
@@ -299,12 +311,6 @@
 
             
             self.$activeFilters.empty().append(frag);
-
-            // if ( $.isEmptyObject( filters ) ) {
-            //     self.$clear.addClass('hidden');
-            // } else {
-            //     self.$clear.removeClass('hidden');
-            // }
         },
 
         /*
@@ -714,14 +720,13 @@
             self.$grid.shuffle('sort', sortObj);
         },
 
-        /*
-        sortItems : function( select ) {
+        sortItems : function( evt ) {
             var self = this,
-                reverse = select[ select.selectedIndex ].getAttribute('data-reverse'),
-                filterName = select.value,
+                reverse = evt.target[ evt.target.selectedIndex ].getAttribute('data-reverse'),
+                filterName = evt.target.value,
                 sortObj = {};
             
-            if ( select.value !== 'default' ) {
+            if ( evt.target.value !== 'default' ) {
                 reverse = reverse === 'true' ? true : false;
                 sortObj = {
                     reverse: reverse,
@@ -733,7 +738,6 @@
 
             self.$grid.shuffle('sort', sortObj);
         },
-        */
 
         sortByPriority : function( shouldReset ) {
             var self = this;
@@ -751,32 +755,157 @@
             }
         },
 
-        loadMore : function() {
-            var self = this,
-                i = 5;
-
-            /**
-             * Gets a random integer between a min and max
-             * @param  {int} min minimum value
-             * @param  {int} max maximum value
-             * @return {int}     random int between min and max
-             */
-            function getRandomInt( min, max ) {
-              return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-            // Do it 4 times
-            while (i--) {
-                var random = getRandomInt(0, self.$grid.children().length);
-                self.$grid.children().eq( random ).clone().appendTo(self.$grid);
-            }
-
-            // Update the masonry
-            self.$grid.shuffle('update');
-        },
-
         onFavorite : function( evt ) {
             $(evt.target).toggleClass('state3');
+        },
+
+        // Event triggered when this tab is about to be shown
+        onShow : function( evt ) {
+            if ( evt.namepace !== 'tab' ) { return; } // collapse is triggering this somehow?
+            var that = evt.prevPane.closest('.gallery').data('gallery');
+
+            if ( that && that.hasInfiniteScroll ) {
+                that.$grid.infinitescroll('pause');
+            }
+        },
+
+        // Event triggered when tab pane is finished being shown
+        onShown : function( evt ) {
+            if ( evt.namepace !== 'tab' ) { return; } // collapse is triggering this somehow? This should already be taken care of because i'm using on('shown.tab')...
+            var self = this, // This gallery
+                that = evt.prevPane.closest('.gallery').data('gallery'); // previous gallery
+            
+            // Respond to tab shown event.Update the columns if we're in need of an update
+            if ( self.$grid.data('shuffle').needsUpdate || ( that && that.resized ) ) {
+                self.$grid.shuffle('update');
+            }
+
+            if ( that ) {
+                that.resized = false;
+            }
+
+            // Resume infinite scroll if it's there yo
+            if ( self.hasInfiniteScroll && self.$container.hasClass('active') ) {
+                self.$grid.infinitescroll('resume');
+            }
+        },
+
+        onFiltersHide : function() {
+            this.$filterArrow.removeClass('in');
+        },
+
+        onFiltersShow : function() {
+            this.$filterArrow.addClass('in');
+        },
+
+        onFiltersShown : function( evt ) {
+            this.maybeResetRange(evt);
+        },
+
+        setColumnMode : function() {
+            var self = this,
+                // Five columns
+                fiveColumns = 5,
+                twelveColumns = 12,
+
+                fluidGridColumnWidth = 204,
+                fluidGridGutterWidth = 23,
+                fullWidth = (fiveColumns * fluidGridColumnWidth) + (fluidGridGutterWidth * (fiveColumns - 1)),
+                COLUMN_WIDTH = fluidGridColumnWidth / fullWidth,
+                GUTTER_WIDTH = fluidGridGutterWidth / fullWidth,
+
+                // Twelve columns @ 768 TODO GLOBALIZE
+                colWidth768 = 45,
+                gutWidth768 = 20,
+                fullWidth768 = (twelveColumns * colWidth768) + (gutWidth768 * (twelveColumns - 1)),
+                COLUMN_WIDTH_768 = colWidth768 / fullWidth768,
+                GUTTER_WIDTH_768 = gutWidth768 / fullWidth768,
+
+                // Twelve columns @ 980 TODO GLOBALIZE
+                colWidth980 = 54,
+                gutWidth980 = 30,
+                fullWidth980 = (twelveColumns * colWidth980) + (gutWidth980 * (twelveColumns - 1)),
+                COLUMN_WIDTH_980 = colWidth980 / fullWidth980,
+                GUTTER_WIDTH_980 = gutWidth980 / fullWidth980,
+
+                // Twelve columns @ 1200 TODO GLOBALIZE
+                colWidth1200 = 64,
+                gutWidth1200 = 40,
+                fullWidth1200 = (twelveColumns * colWidth1200) + (gutWidth1200 * (twelveColumns - 1)),
+                COLUMN_WIDTH_1200 = colWidth1200 / fullWidth1200,
+                GUTTER_WIDTH_1200 = gutWidth1200 / fullWidth1200;
+
+            if ( self.mode !== 'detailed' ) {
+                // Make this a 5 column grid. Added to parent because row-fluid must be a descendant of grid5
+                self.$grid.parent().addClass('grid5');
+
+                // 5 columns that break down to 2 on smaller screens
+                self.shuffleColumns = function( containerWidth ) {
+                    var column;
+                    if ( Modernizr.mq('(min-width: 768px)') ) {
+                        column = COLUMN_WIDTH * containerWidth; // ~18% of container width
+                    } else {
+                        column = 0.48 * containerWidth; // 48% of container width
+                    }
+
+
+                    return column;
+                };
+
+                self.shuffleGutters = function( containerWidth ) {
+                    var gutter;
+                    if ( Modernizr.mq('(min-width: 768px)') ) {
+                        gutter = GUTTER_WIDTH * containerWidth;
+                    } else {
+                        gutter = 0.02 * containerWidth; // 2% of container width
+                    }
+
+                    return gutter;
+
+                };
+            } else {
+                // Use the default 12 column grid.
+                // Have to do more work here to get the right percentages for each breakpoint
+
+                self.shuffleColumns = function( containerWidth ) {
+                    var column;
+
+                    if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
+                        column = COLUMN_WIDTH_768 * containerWidth;
+
+                    } else if ( Modernizr.mq('(min-width: 1200px)') ) {
+                        column = COLUMN_WIDTH_1200 * containerWidth;
+
+                    } else if ( Modernizr.mq('(min-width: 980px)') ) {
+                        column = COLUMN_WIDTH_980 * containerWidth;
+
+                    } else {
+                        column = containerWidth;
+                    }
+
+                    return column;
+                };
+
+                self.shuffleGutters = function( containerWidth ) {
+                    var gutter;
+
+                    if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
+                        gutter = GUTTER_WIDTH_768 * containerWidth;
+
+                    } else if ( Modernizr.mq('(min-width: 1200px)') ) {
+                        gutter = GUTTER_WIDTH_1200 * containerWidth;
+                        
+                    } else if ( Modernizr.mq('(min-width: 980px)') ) {
+                        gutter = GUTTER_WIDTH_980 * containerWidth;
+
+                    } else {
+                        gutter = 0;
+                    }
+
+                    return gutter;
+
+                };
+            }
         }
 
     };
@@ -803,29 +932,17 @@
 
     // Overrideable options
     $.fn.gallery.options = {
-        MIN_PRICE: 100,
-        MAX_PRICE: 2000,
+        mode: 'editorial',
         shuffleSpeed: 250,
-        shuffleDelimeter: ',',
-        shuffleEasing: 'ease-out',//'cubic-bezier(0.165, 0.840, 0.440, 1.000)', // easeOutQuart
-        shuffleColumns: {
-            1470: 56,
-            1112: 56,
-            940: 60,
-            724: 42
-        },
-        shuffleGutters: {
-            1470: 40,
-            1112: 40,
-            940: 20,
-            724: 20
-        }
+        shuffleEasing: 'ease-out'
     };
 
     // Not overrideable
     $.fn.gallery.settings = {
+        MIN_PRICE: undefined,
+        MAX_PRICE: undefined,
         isInitialized: false,
         isTouch: !!( 'ontouchstart' in window )
     };
 
-}(jQuery, window));
+}(jQuery, Modernizr, window));

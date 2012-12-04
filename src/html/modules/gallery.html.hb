@@ -5,7 +5,7 @@
   </div>
   <div class="ghost-center-wrap hero-text-wrap">
     <div class="hero-text ghost-center">
-      <div class="container">
+      <div class="container-fluid">
         <div class="hidden-phone">Audio</div>
         <h1>Headphones</h1>
       </div>
@@ -15,14 +15,14 @@
 
 <div class="tab-strip">
 
-  <div class="tab-nav-wrap container">
+  <div class="tab-nav-wrap container-fluid">
     <nav class="tab-nav-btns">
       <div class="tab-nav tab-nav-prev"></div>
       <div class="tab-nav tab-nav-next"></div>
     </nav>
   </div>
 
-  <div class="tabs-container container">
+  <div class="tabs-container container-fluid">
     <div class="tabs">
       {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab">
         <div class="ghost-center">
@@ -38,9 +38,9 @@
 <div class="tab-content">
 
   <section class="tab-pane fade active in gallery" data-tab="all" data-mode="{{all.mode}}">
-    <div class="container padded">
+    <div class="container-fluid padded">
       <p class="l4"><span class="text-dark">{{all.total}}</span> Products</p>
-      <div class="products">
+      <div class="products row-fluid">
           {{#each all.list}}
           <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
             {{#if this.label}}
@@ -71,7 +71,7 @@
                 <p class="p5 price-title">Starting at</p>
                 <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
-              <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+              <!-- <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i> -->
             </div>
 
             {{/if}}
@@ -80,25 +80,51 @@
       </div>
     </div>
 
-    <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div>
+    <!-- <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div> -->
   </section>
 
   <section class="tab-pane fade gallery" data-tab="overhead" data-mode="{{productCards.mode}}">
     {{#if productCards.filterSet}}
-    <div class="container padded">
-      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter Results</button>
-      <span class="active-filters"></span>
+    
+    <div class="filter-display-bar container-fluid padded">
+      {{#if productCards.sortSet}}
+      <div class="sort-options pull-right">
+        <span class="l4">Sort By:&nbsp;</span>
+        <div class="dropdown ib hidden-phone">
+          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
+          <ul class="dropdown-menu" role="menu">
+          {{#each productCards.sortSet}}
+            <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
+          {{/each}}
+          </ul>
+        </div>
+
+        <select class="native-dropdown visible-phone">
+          {{#each productCards.sortSet}}
+          <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+      {{/if}}
+
+      <p class="ib"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
+      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter</button>
+      <button class="btn btn-alt-special">Compare</button>
     </div>
+
+    <div class="container-fluid padded filter-arrow-under fade"><div class="filter-container-arrow"></div></div>
+    <div class="container-fluid padded filter-arrow-over fade"><div class="filter-container-arrow"></div></div>
+
     <div class="collapse product-filter" id="{{productCards.name}}-filters">
-      <div class="filter-options container padded">
-        <div class="row">
+      <div class="filter-options container-fluid padded">
+        <div class="row-fluid">
           {{#each productCards.filterSet}}
 
           {{#if this.type.color}}
           <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
-              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}"></li>{{/each}}
             </ul>
           </div>
           {{/if}}
@@ -156,32 +182,11 @@
     </div>
     {{/if}}
 
-    <div class="gallery-title-bar container padded">
-      {{#if productCards.sortSet}}
-      <div class="sort-options pull-right">
-        <span class="l4">Sort By:&nbsp;</span>
-        <div class="dropdown">
-          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
-          <ul class="dropdown-menu" role="menu">
-          {{#each productCards.sortSet}}
-            <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
-          {{/each}}
-          </ul>
-        </div>
 
-        <select class="visible-phone">
-          {{#each productCards.sortSet}}
-          <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
-          {{/each}}
-        </select>
-      </div>
-      {{/if}}
+    <div class="container-fluid padded active-filters"></div>
 
-
-      <p class="l4"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
-    </div>
-    <div class="container padded">
-      <div class="products">
+    <div class="container-fluid padded">
+      <div class="products row-fluid">
         {{#each productCards.list}}
         <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
           {{#if this.label}}
@@ -205,30 +210,37 @@
               <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
-          <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+          <!-- <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i> -->
         </div>
         {{/each}}
         
       </div>
     </div>
+
+    {{#if productCards.nextLink}}
+    <div class="navigation invisible">
+      <a href="{{productCards.nextLink}}">Camera Overflow</a>
+    </div>
+    <div class="infscr-holder text-center"></div>
+    {{/if}}
   </section>
 
   <section class="tab-pane fade gallery" data-tab="inear" data-mode="{{simple.mode}}">
     {{#if simple.filterSet}}
-    <div class="container padded">
+    <div class="container-fluid padded">
       <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{simple.name}}-filters">Filter Results</button>
       <span class="active-filters"></span>
     </div>
     <div class="collapse product-filter" id="{{simple.name}}-filters">
-      <div class="filter-options container padded">
-        <div class="row">
+      <div class="filter-options container-fluid padded">
+        <div class="row-fluid">
           {{#each simple.filterSet}}
 
           {{#if this.type.color}}
           <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
-              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}"></li>{{/each}}
             </ul>
           </div>
           {{/if}}
@@ -286,7 +298,7 @@
     </div>
     {{/if}}
 
-    <div class="gallery-title-bar container padded">
+    <div class="gallery-title-bar container-fluid padded">
       {{#if simple.sortSet}}
       <div class="sort-options pull-right">
         <span class="l4">Sort By:&nbsp;</span>
@@ -299,7 +311,7 @@
           </ul>
         </div>
 
-        <select class="visible-phone">
+        <select class="native-dropdown visible-phone">
           {{#each simple.sortSet}}
           <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
           {{/each}}
@@ -310,8 +322,8 @@
 
       <p class="l4"><span class="text-dark product-count">{{simple.total}}</span> Products</p>
     </div>
-    <div class="container padded">
-      <div class="products">
+    <div class="container-fluid padded">
+      <div class="products row-fluid">
         {{#each simple.list}}
         <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
           {{#if this.label}}
@@ -329,7 +341,7 @@
               <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
           </div>
-          <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+          <!-- <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i> -->
         </div>
         {{/each}}
         
@@ -338,10 +350,10 @@
   </section>
 
   <section class="tab-pane fade" data-tab="earclips">
-    <div class="grid5">
+    <div class="grid5 container-fluid padded">
       {{#each accessories}}
       <h2>{{{this.title}}}</h2>
-      <div class="product-strip row">
+      <div class="product-strip row-fluid">
         {{#each this.list}}
         <div class="span1 gallery-item">
           <div class="product-img ghost-center-wrap">
@@ -380,7 +392,7 @@
 
 </div>
 
-<section class="container padded">
+<section class="container-fluid padded">
   <h1>Another section</h1>
   <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -403,14 +415,14 @@
 </section>
 
 <section>
-  <div class="container">
+  <div class="container-fluid">
     <h2>Griddlin'</h2>
-    <div class="row">
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span1 box" style="height:20px;background:lightblue;"></div>
-      <div class="span2 box" style="height:20px;background:lightblue;"></div>
+    <div class="row-fluid">
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span1" style="height:20px;background:lightblue;"></div>
+      <div class="span2" style="height:20px;background:lightblue;"></div>
     </div>
   </div>
 </section>
