@@ -14,7 +14,7 @@
 	</head>
 	
 	<body>
-		
+			
 		<div class="container">
 			<h1>Sony Module Builder</h1>
 			
@@ -37,18 +37,37 @@
 				<div id="data_text" class="control-group">
 					<textarea rows="10" class="span12"></textarea>
 					<div>
-						<div class="span2 offset8"><button class="btn btn-block btn-small">Save</button></div>
-						<div class="span2"><button class="btn btn-block btn-small">Save As</button></div>
+						<div id="save_submit" class="span2 offset8"><button class="btn btn-block btn-small">Save</button></div>
+						<div class="span2"><button class="btn btn-block btn-small" data-toggle="modal" data-target="#save_as_box">Save As</button></div>
 					</div>
 				</div>
 			</div>
 		
 		
-			<button id="build" class="btn btn-special btn-block">Build</button>
+			<button id="build" class="btn btn-special btn-block" data-loading-text="Building...">Build</button>
 		</div>
+
+		<div class="modal" id="save_as_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Save As</h3>
+		  </div>
+		  <div class="modal-body">
+		    <label>FileName</label>
+  			<input type="text" id="save_as_name" value="default.json">
+		  </div>
+		  <div class="modal-footer">
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		    <button class="btn btn-primary" id="save_as_submit">Save</button>
+		  </div>
+		</div>
+		
 		
 		<script src="js/client.js"></script>
 		<script src="js/jslint.js"></script>
+		<script src="js/bootstrap-modal.js"></script>
+		<script src="js/bootstrap-alert.js"></script>
+		<script src="js/bootstrap-button.js"></script>
 		
 	</body>
 	

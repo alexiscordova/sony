@@ -1,25 +1,7 @@
-//this lets node run a terminal script
-/*
-var terminal = require('child_process').spawn('bash');
-
-terminal.stdout.on('data', function (data) {
-    console.log('stdout: ' + data);
-});
-
-terminal.on('exit', function (code) {
-        console.log('child process exited with code ' + code);
-});
-
-setTimeout(function() {
-    console.log('Sending stdin to terminal');
-    terminal.stdin.write('grunt debug');
-    terminal.stdin.end();
-}, 1000);
-
-//
-*/
 var express = require('express'), 
-	modules = require('./routes/modules'), 
+	build = require('./routes/build'),
+	modules = require('./routes/modules'),
+	data = require('./routes/data'), 
 	http = require('http'),
 	db = require('./moduledb.js'), 
 	path = require('path');
@@ -35,8 +17,10 @@ app.configure(function(){
 });
 
 app.get('/mnames', modules.getmnames);
-app.get('/dnames', modules.getdnames);
-app.get('/getjson', modules.getjson);
+app.get('/dnames', data.getdnames);
+app.get('/getjson', data.getjson);
+app.get('/savejson', data.savejson);
+app.get('/generate', build.generate);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
