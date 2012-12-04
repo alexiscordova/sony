@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 			files: ['css/scss/**/*.scss', 
 					'js/**/*.js', 
 					'html/**/*.*'],
-			tasks: ['docs']
+			tasks: ['debug-light']
 		},
 		compass: {
 		    debug: {
