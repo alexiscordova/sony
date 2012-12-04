@@ -116,7 +116,7 @@
 						  		$gridMargins = $(".gridMargin"),
 						  		$gutters = $(".gutter");
 
-						  	$(".container-fluid").css("width","100%"); // override media queries
+						  	$(".container-fluid").css({"width":"100%", "max-width":"100%"}); // override media queries
 
 
 						  	$(".container-fluid .inc input, .container-fluid .incOdd input").keyup(function(){
