@@ -301,6 +301,6 @@ $(document).ready(function() {
     Exports.Modules.Tabs.init();
 
     // debug, show second tab
-    // $('[data-target="overhead"]').tab('show');
+    $('[data-target="overhead"]').tab('show');
   }
 });

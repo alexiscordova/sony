@@ -456,10 +456,52 @@
 
   <section class="tab-pane fade gallery" data-tab="overhead" data-mode="detailed">
     
-    <div class="container-fluid padded">
-      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#headphone-cards-filters">Filter Results</button>
-      <span class="active-filters"></span>
+    
+    <div class="filter-display-bar container-fluid padded">
+      
+      <div class="sort-options pull-right">
+        <span class="l4">Sort By:&nbsp;</span>
+        <div class="dropdown ib hidden-phone">
+          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">Relevance</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
+          <ul class="dropdown-menu" role="menu">
+          
+            <li><a data-value="default" data-reverse="" tabindex="-1" href="#">Relevance</a></li>
+          
+            <li><a data-value="price" data-reverse="true" tabindex="-1" href="#">Price - high to low</a></li>
+          
+            <li><a data-value="price" data-reverse="" tabindex="-1" href="#">Price - low to high</a></li>
+          
+            <li><a data-value="popularity" data-reverse="" tabindex="-1" href="#">Most Popular</a></li>
+          
+            <li><a data-value="release-date" data-reverse="true" tabindex="-1" href="#">New Products</a></li>
+          
+          </ul>
+        </div>
+
+        <select class="native-dropdown visible-phone">
+          
+          <option value="default" data-reverse="">Relevance</option>
+          
+          <option value="price" data-reverse="true">Price - high to low</option>
+          
+          <option value="price" data-reverse="">Price - low to high</option>
+          
+          <option value="popularity" data-reverse="">Most Popular</option>
+          
+          <option value="release-date" data-reverse="true">New Products</option>
+          
+        </select>
+      </div>
+      
+
+      <p class="ib"><span class="text-dark product-count">16</span> Products</p>
+      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#headphone-cards-filters">Filter</button>
+      <button class="btn btn-alt-special">Compare</button>
     </div>
+
+    <div class="container-fluid padded filter-arrow-under fade"><div class="filter-container-arrow"></div></div>
+    <div class="container-fluid padded filter-arrow-over fade"><div class="filter-container-arrow"></div></div>
+
     <div class="collapse product-filter" id="headphone-cards-filters">
       <div class="filter-options container-fluid padded">
         <div class="row-fluid">
@@ -469,7 +511,7 @@
           <div class="span4 filter-container">
             <p class="l3">Colors</p>
             <ul class="unstyled color-swatches" data-filter="colors" data-filter-type="color">
-              <li class="swatch-black" data-label="Black" data-colors="black">Black</li><li class="swatch-yellow" data-label="Yellow" data-colors="yellow">Yellow</li><li class="swatch-purple" data-label="Purple" data-colors="purple">Purple</li><li class="swatch-teal" data-label="Teal" data-colors="teal">Teal</li><li class="swatch-white" data-label="White" data-colors="white">White</li><li class="swatch-red" data-label="Red" data-colors="red">Red</li>
+              <li class="swatch-black" data-label="Black" data-colors="black"></li><li class="swatch-yellow" data-label="Yellow" data-colors="yellow"></li><li class="swatch-purple" data-label="Purple" data-colors="purple"></li><li class="swatch-teal" data-label="Teal" data-colors="teal"></li><li class="swatch-white" data-label="White" data-colors="white"></li><li class="swatch-red" data-label="Red" data-colors="red"></li>
             </ul>
           </div>
           
@@ -601,46 +643,9 @@
     </div>
     
 
-    <div class="gallery-title-bar container-fluid padded">
-      
-      <div class="sort-options pull-right">
-        <span class="l4">Sort By:&nbsp;</span>
-        <div class="dropdown hidden-phone">
-          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">Relevance</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
-          <ul class="dropdown-menu" role="menu">
-          
-            <li><a data-value="default" data-reverse="" tabindex="-1" href="#">Relevance</a></li>
-          
-            <li><a data-value="price" data-reverse="true" tabindex="-1" href="#">Price - high to low</a></li>
-          
-            <li><a data-value="price" data-reverse="" tabindex="-1" href="#">Price - low to high</a></li>
-          
-            <li><a data-value="popularity" data-reverse="" tabindex="-1" href="#">Most Popular</a></li>
-          
-            <li><a data-value="release-date" data-reverse="true" tabindex="-1" href="#">New Products</a></li>
-          
-          </ul>
-        </div>
 
-        <select class="native-dropdown visible-phone">
-          
-          <option value="default" data-reverse="">Relevance</option>
-          
-          <option value="price" data-reverse="true">Price - high to low</option>
-          
-          <option value="price" data-reverse="">Price - low to high</option>
-          
-          <option value="popularity" data-reverse="">Most Popular</option>
-          
-          <option value="release-date" data-reverse="true">New Products</option>
-          
-        </select>
-      </div>
-      
+    <div class="container-fluid padded active-filters"></div>
 
-
-      <p class="l4"><span class="text-dark product-count">16</span> Products</p>
-    </div>
     <div class="container-fluid padded">
       <div class="products row-fluid">
         
@@ -999,7 +1004,7 @@
           <div class="span4 filter-container">
             <p class="l3">Colors</p>
             <ul class="unstyled color-swatches" data-filter="colors" data-filter-type="color">
-              <li class="swatch-black" data-label="Black" data-colors="black">Black</li><li class="swatch-yellow" data-label="Yellow" data-colors="yellow">Yellow</li><li class="swatch-purple" data-label="Purple" data-colors="purple">Purple</li><li class="swatch-teal" data-label="Teal" data-colors="teal">Teal</li><li class="swatch-white" data-label="White" data-colors="white">White</li><li class="swatch-red" data-label="Red" data-colors="red">Red</li>
+              <li class="swatch-black" data-label="Black" data-colors="black"></li><li class="swatch-yellow" data-label="Yellow" data-colors="yellow"></li><li class="swatch-purple" data-label="Purple" data-colors="purple"></li><li class="swatch-teal" data-label="Teal" data-colors="teal"></li><li class="swatch-white" data-label="White" data-colors="white"></li><li class="swatch-red" data-label="Red" data-colors="red"></li>
             </ul>
           </div>
           
@@ -1693,11 +1698,11 @@
   <div class="container-fluid">
     <h2>Griddlin'</h2>
     <div class="row-fluid">
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span1 box" style="height:20px;background:lightblue;"></div>
-      <div class="span2 box" style="height:20px;background:lightblue;"></div>
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span1" style="height:20px;background:lightblue;"></div>
+      <div class="span2" style="height:20px;background:lightblue;"></div>
     </div>
   </div>
 </section>
@@ -1726,19 +1731,19 @@
         
         
         <script src="js/bundle/defer/jodo.gallery.js"></script>
+        <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/bootstrap-tab.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
-        <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/experiment.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
+        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
-        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/defer1.js"></script>
         <script src="js/bundle/defer/defer2.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>

@@ -85,10 +85,36 @@
 
   <section class="tab-pane fade gallery" data-tab="overhead" data-mode="{{productCards.mode}}">
     {{#if productCards.filterSet}}
-    <div class="container-fluid padded">
-      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter Results</button>
-      <span class="active-filters"></span>
+    
+    <div class="filter-display-bar container-fluid padded">
+      {{#if productCards.sortSet}}
+      <div class="sort-options pull-right">
+        <span class="l4">Sort By:&nbsp;</span>
+        <div class="dropdown ib hidden-phone">
+          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
+          <ul class="dropdown-menu" role="menu">
+          {{#each productCards.sortSet}}
+            <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
+          {{/each}}
+          </ul>
+        </div>
+
+        <select class="native-dropdown visible-phone">
+          {{#each productCards.sortSet}}
+          <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+      {{/if}}
+
+      <p class="ib"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
+      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter</button>
+      <button class="btn btn-alt-special">Compare</button>
     </div>
+
+    <div class="container-fluid padded filter-arrow-under fade"><div class="filter-container-arrow"></div></div>
+    <div class="container-fluid padded filter-arrow-over fade"><div class="filter-container-arrow"></div></div>
+
     <div class="collapse product-filter" id="{{productCards.name}}-filters">
       <div class="filter-options container-fluid padded">
         <div class="row-fluid">
@@ -98,7 +124,7 @@
           <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
-              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}"></li>{{/each}}
             </ul>
           </div>
           {{/if}}
@@ -156,30 +182,9 @@
     </div>
     {{/if}}
 
-    <div class="gallery-title-bar container-fluid padded">
-      {{#if productCards.sortSet}}
-      <div class="sort-options pull-right">
-        <span class="l4">Sort By:&nbsp;</span>
-        <div class="dropdown hidden-phone">
-          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
-          <ul class="dropdown-menu" role="menu">
-          {{#each productCards.sortSet}}
-            <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
-          {{/each}}
-          </ul>
-        </div>
 
-        <select class="native-dropdown visible-phone">
-          {{#each productCards.sortSet}}
-          <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
-          {{/each}}
-        </select>
-      </div>
-      {{/if}}
+    <div class="container-fluid padded active-filters"></div>
 
-
-      <p class="l4"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
-    </div>
     <div class="container-fluid padded">
       <div class="products row-fluid">
         {{#each productCards.list}}
@@ -235,7 +240,7 @@
           <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
-              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}"></li>{{/each}}
             </ul>
           </div>
           {{/if}}
@@ -413,11 +418,11 @@
   <div class="container-fluid">
     <h2>Griddlin'</h2>
     <div class="row-fluid">
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span1 box" style="height:20px;background:lightblue;"></div>
-      <div class="span2 box" style="height:20px;background:lightblue;"></div>
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span3" style="height:20px;background:lightblue;"></div>
+      <div class="span1" style="height:20px;background:lightblue;"></div>
+      <div class="span2" style="height:20px;background:lightblue;"></div>
     </div>
   </div>
 </section>

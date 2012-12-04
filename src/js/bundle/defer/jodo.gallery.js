@@ -15,7 +15,7 @@
         self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
-        self.$loadMore = self.$container.find('.gallery-load-more');
+        self.$filterArrow = self.$container.find('.filter-arrow-under, .filter-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
         self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
         self.resized = false;
@@ -105,7 +105,12 @@
 
 
         // Slide toggle. Reset range control if it was hidden on initialization
-        self.$container.find('.collapse').on('shown', $.proxy( self.maybeResetRange, self ));
+        self.$container.find('.collapse')
+            .on('shown', $.proxy( self.onFiltersShown, self ))
+            .on('show', $.proxy( self.onFiltersShow, self ))
+            .on('hide', $.proxy( self.onFiltersHide, self ));
+        // self.$filterArrow.hide()
+
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         var sorted = false;
@@ -294,7 +299,7 @@
             // Create labels showing current filters
             $.each(filters, function(key, obj) {
                 var $label = $('<span>', {
-                    "class" : "label label-close label-subtle",
+                    "class" : "label label-close",
                     "data-filter" : key,
                     "data-filter-name" : obj.key || obj.name,
                     text : obj.label,
@@ -783,6 +788,18 @@
             if ( self.hasInfiniteScroll && self.$container.hasClass('active') ) {
                 self.$grid.infinitescroll('resume');
             }
+        },
+
+        onFiltersHide : function() {
+            this.$filterArrow.removeClass('in');
+        },
+
+        onFiltersShow : function() {
+            this.$filterArrow.addClass('in');
+        },
+
+        onFiltersShown : function( evt ) {
+            this.maybeResetRange(evt);
         },
 
         setColumnMode : function() {
