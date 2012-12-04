@@ -39,39 +39,52 @@ meta_data: {a:'foo', b:'bar'}
 	          	<i class="sprite-mini-global-nav-indicator"></i>
 
 					    <div class="navmenu-wrapper navmenu-wrapper-search">
-					    	<div class="navmenu-search-section-input">
-					    		Search
-					    	</div>
+					    	<form method="post" action="" class="navmenu-search-section-input">
+						        <input type="text" name="navSearch" id="navSearch" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search"/>
+					    	</form>
 				        <div class="navmenu-search-section-results">
-					        <ul class="navmenu-list-results">
-					        	<li>
-					        		<a href="#">
-					        			<img src="" alt="α NEX-6">
-					        			<span class="search-result-headline">α NEX-6</span>
-					        			<xpan class="search-result-descript">The Future of Photography.</xpan>
-						        	</a>
-						        </li>
-					        	<li>
-					        		<a href="#">
-					        			<img src="" alt="α NEX-5">
-					        			<span class="search-result-headline">α NEX-5</span>
-					        			<xpan class="search-result-descript">Pocket DSLR</xpan>
-						        	</a>
-						        </li>
-					        	<li>
-					        		<a href="#">
-					        			<img src="" alt="α NEX Support">
-					        			<span class="search-result-headline">α NEX Support</span>
-						        	</a>
-						        </li>
-					        </ul>
-					        <ul class="navmenu-list-extended">
-					        	<li><a href="#" class="tl">α NEX-3</a></li>
-					        	<li><a href="#" class="tl">α NEX Accessories</a></li>
-					        	<li><a href="#" class="tl">α NEX Lenses</a></li>
-					        	<li><a href="#" class="tl">α NEX</a></li>
-					        </ul>
-						    	<a href="#" class="btn btn-logout">Show All Results</a>
+					        <div class="navmenu-search-popular-searches">
+					        	<p class="l3">Popular Searches</p>
+						        <ul class="navmenu-list-extended">
+						        	<li><a href="#" class="tl">Laptops </a></li>
+						        	<li><a href="#" class="tl">VAIO</a></li>
+						        	<li><a href="#" class="tl">Headphones</a></li>
+						        	<li><a href="#" class="tl">PSP</a></li>
+						        	<li><a href="#" class="tl">Playstation</a></li>
+						        	<li><a href="#" class="tl">NEX</a></li>
+						        </ul>
+					      	</div>
+					      	<div class="navmenu-search-results">
+						        <ul class="navmenu-list-results">
+						        	<li>
+						        		<a href="#">
+						        			<img src="" alt="α NEX-6">
+						        			<span class="search-result-headline">α NEX-6</span>
+						        			<xpan class="search-result-descript">The Future of Photography.</xpan>
+							        	</a>
+							        </li>
+						        	<li>
+						        		<a href="#">
+						        			<img src="" alt="α NEX-5">
+						        			<span class="search-result-headline">α NEX-5</span>
+						        			<xpan class="search-result-descript">Pocket DSLR</xpan>
+							        	</a>
+							        </li>
+						        	<li>
+						        		<a href="#">
+						        			<img src="" alt="α NEX Support">
+						        			<span class="search-result-headline">α NEX Support</span>
+							        	</a>
+							        </li>
+						        </ul>
+						        <ul class="navmenu-list-extended">
+						        	<li><a href="#" class="tl">α NEX-3</a></li>
+						        	<li><a href="#" class="tl">α NEX Accessories</a></li>
+						        	<li><a href="#" class="tl">α NEX Lenses</a></li>
+						        	<li><a href="#" class="tl">α NEX</a></li>
+						        </ul>
+							    	<a href="#" class="btn btn-logout">Show All Results</a>
+							    </div>
 						    </div>
 					    </li>
 	        </ul>
