@@ -11,7 +11,9 @@ $(window).load(function()
 	resize();
 	
 	$(window).resize(function(){
-    delay(function(){resize();}, 10);
+    delay(function(){
+    	resize();
+    }, 10);
 	});
 	
 	//When you resize.
@@ -38,6 +40,8 @@ $(window).load(function()
 //Apply when a table appear && IE7 is not the browser.
 if ($('table').length > 0 && $.browser.version != 7)
 {
+	var isMqActivated = Modernizr.mq('only all');
+	
 	$('table').each(function()
 	{
 		//init.
@@ -96,42 +100,76 @@ if ($('table').length > 0 && $.browser.version != 7)
 		$(this).before($myUl);
 	});
 	*/
-	
-	// replaces thead with <div class="thead">
-	$('thead').replaceWith(
-			function(){
-					return $('<div class="thead">').append($(this).contents());
-			}
-	);
-	
-	$('tbody').replaceWith(
-			function(){
-					return $('<div class="tbody">').append($(this).contents());
-			}
-	);
-	
-	// replaces tr with <div class="row">
-	$('tr').replaceWith(
-			function(){
-					return $('<div class="row">').append($(this).contents());
-			}
-	);    
-	// replaces th with <div class="column">
-	$('th').replaceWith(
-			function(){
-					return $('<div class="column">').append($(this).contents());
-			}
-	);
-	
-	// replaces th with <div class="column">
-	$('td').replaceWith(
-			function(){
-					return $('<div class="column">').append($(this).contents());
-			}
-	);
+	$('.table').each(function()
+	{
+		$table = $(this);
+		//If mobile version (desktop atm) **** Apply to the big table only.
+		if (isMqActivated && $(this).hasClass('bigTable'))
+		{
+			$table = $(this);
 
-	// Odd and Even Classes
-	$('.row:nth-child(even)').addClass('odd_rows');
+			//Number of column
+			var col_count = $table.find('thead tr:first-child th').size();
+			for ( i=1; i <= (col_count-1); i++ )
+			{
+				//i = nb of column
+				$table.append('<div class="column column'+i+'">');
+				
+				var row_count = $table.find('thead > tr, tbody > tr').size();
+				for ( j=1; j <= (row_count-1); j++ )
+				{
+					//j = nb of rows
+					$table.find('tr').children(':nth-child('+(i+1)+')').each(function(){
+						$table.find('.column'+i).append($(this).children());
+					});
+				}
+			}
+			
+			$table.addClass('sonyCarousel');
+			$table.find('tr, thead, tbody').remove(); //remove the useless stuff.
+			
+			
+			// Odd and Even Classes
+			//$('.row:nth-child(even)').addClass('odd_rows');
+		}
+		else
+		{
+			//If desktop version (mobile atm)
+			// replaces thead with <div class="thead">
+			$table.find('thead').replaceWith(
+				function(){
+					return $('<div class="thead">').append($(this).contents());
+				}
+			);
+			
+			$table.find('tbody').replaceWith(
+				function(){
+					return $('<div class="tbody">').append($(this).contents());
+				}
+			);
+			
+			$table.find('tr').replaceWith(
+				function(){
+					return $('<div class="row">').append($(this).contents());
+				}
+			);    
+			
+			$table.find('th').replaceWith(
+				function(){
+					return $('<div class="column">').append($(this).contents());
+				}
+			);
+			
+			$table.find('td').replaceWith(
+				function(){
+					return $('<div class="column">').append($(this).contents());
+				}
+			);
+		
+			// Odd and Even Classes
+			$table.find('.row:nth-child(even)').addClass('odd_rows');
+		}
+	});
 	
 }else if($.browser.version == 7)
 {
