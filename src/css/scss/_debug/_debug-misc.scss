@@ -21,3 +21,23 @@
     left:-192px;
   } 
 }
+
+
+.debug {
+  .products {
+    counter-reset: item;
+  }
+
+  .gallery-item {
+    counter-increment: item;
+
+    &::before {
+      content: counter(item, decimal);
+      position: absolute;
+      z-index: 200;
+      top: 0;
+      left: 0;
+      color: $highlightColor;
+    }
+  }
+}

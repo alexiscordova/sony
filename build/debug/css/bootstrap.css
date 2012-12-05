@@ -2752,7 +2752,7 @@ table [class*=span],
   font-size: 0.8125em;
   background: #2f353d;
   border-color: #2f353d;
-  width: 131px;
+  min-width: 131px;
 }
 /* line 187, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt-special:hover, .btn-alt-special:focus {
@@ -2764,8 +2764,15 @@ table [class*=span],
   background: #83838f;
   border-color: #83838f;
 }
+/* line 197, ../../../src/css/scss/_base/_buttons.scss */
+.btn-alt-special.btn-alt-plus:after {
+  content: '';
+  position: absolute;
+  right: 24px;
+  margin-top: 8px;
+}
 
-/* line 200, ../../../src/css/scss/_base/_buttons.scss */
+/* line 209, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo {
   position: relative;
   width: 289px;
@@ -2779,25 +2786,25 @@ table [class*=span],
   line-height: 1.32;
   font-family: "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-/* line 213, ../../../src/css/scss/_base/_buttons.scss */
+/* line 222, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo strong {
   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: white;
 }
-/* line 217, ../../../src/css/scss/_base/_buttons.scss */
+/* line 226, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo:hover {
   background: #171921;
   color: #83838f;
 }
-/* line 222, ../../../src/css/scss/_base/_buttons.scss */
+/* line 231, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo.active, .btn-promo:active {
   background: #212530;
 }
-/* line 226, ../../../src/css/scss/_base/_buttons.scss */
+/* line 235, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo.disabled:hover, .btn-promo[disabled]:hover {
   background: #212530;
 }
-/* line 229, ../../../src/css/scss/_base/_buttons.scss */
+/* line 238, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo .icon-ui-arrow-right-white-boxed {
   -webkit-border-radius: 1px;
   -moz-border-radius: 1px;
@@ -2810,62 +2817,62 @@ table [class*=span],
   margin: 0;
 }
 
-/* line 242, ../../../src/css/scss/_base/_buttons.scss */
+/* line 251, ../../../src/css/scss/_base/_buttons.scss */
 .btn-icon-ui-left i {
   margin-right: 8px;
 }
 
-/* line 248, ../../../src/css/scss/_base/_buttons.scss */
+/* line 257, ../../../src/css/scss/_base/_buttons.scss */
 .btn-wide {
   width: auto;
   padding-right: 25px;
   padding-left: 25px;
 }
 
-/* line 261, ../../../src/css/scss/_base/_buttons.scss */
+/* line 270, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large {
   padding: 7px 0 10px;
   font-size: 1.2em;
   line-height: 1.815;
 }
-/* line 265, ../../../src/css/scss/_base/_buttons.scss */
+/* line 274, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large.btn-special {
   padding: 14px 0 14px;
 }
 
-/* line 269, ../../../src/css/scss/_base/_buttons.scss */
+/* line 278, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large [class^="icon-"] {
   margin-top: 2px;
 }
 
-/* line 274, ../../../src/css/scss/_base/_buttons.scss */
+/* line 283, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small {
   padding: 8px 0 10px;
   font-size: 0.8em;
   line-height: 1.2375;
 }
-/* line 278, ../../../src/css/scss/_base/_buttons.scss */
+/* line 287, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small.btn-special {
   padding: 12px 0 14px;
 }
 
-/* line 282, ../../../src/css/scss/_base/_buttons.scss */
+/* line 291, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small [class^="icon-"] {
   margin-top: 0px;
 }
 
-/* line 287, ../../../src/css/scss/_base/_buttons.scss */
+/* line 296, ../../../src/css/scss/_base/_buttons.scss */
 .btn-mini {
   padding: 8px 0 9px;
   font-size: 0.75em;
   line-height: 0.99;
 }
-/* line 291, ../../../src/css/scss/_base/_buttons.scss */
+/* line 300, ../../../src/css/scss/_base/_buttons.scss */
 .btn-mini.btn-special {
   padding: 11px 0 12px;
 }
 
-/* line 300, ../../../src/css/scss/_base/_buttons.scss */
+/* line 309, ../../../src/css/scss/_base/_buttons.scss */
 .btn-block {
   display: block;
   width: 100%;
@@ -2876,50 +2883,50 @@ table [class*=span],
   box-sizing: border-box;
 }
 
-/* line 309, ../../../src/css/scss/_base/_buttons.scss */
+/* line 318, ../../../src/css/scss/_base/_buttons.scss */
 .btn-block + .btn-block {
   margin-top: 5px;
 }
 
-/* line 317, ../../../src/css/scss/_base/_buttons.scss */
+/* line 326, ../../../src/css/scss/_base/_buttons.scss */
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
 }
 
-/* line 330, ../../../src/css/scss/_base/_buttons.scss */
+/* line 339, ../../../src/css/scss/_base/_buttons.scss */
 button.btn,
 input[type="submit"].btn {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 333, ../../../src/css/scss/_base/_buttons.scss */
+/* line 342, ../../../src/css/scss/_base/_buttons.scss */
 button.btn::-moz-focus-inner,
 input[type="submit"].btn::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
-/* line 342, ../../../src/css/scss/_base/_buttons.scss */
+/* line 351, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-large,
 input[type="submit"].btn.btn-large {
   *padding-top: 7px;
   *padding-bottom: 7px;
 }
-/* line 346, ../../../src/css/scss/_base/_buttons.scss */
+/* line 355, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-small,
 input[type="submit"].btn.btn-small {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 350, ../../../src/css/scss/_base/_buttons.scss */
+/* line 359, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-mini,
 input[type="submit"].btn.btn-mini {
   *padding-top: 1px;
   *padding-bottom: 1px;
 }
 
-/* line 363, ../../../src/css/scss/_base/_buttons.scss */
+/* line 372, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link,
 .btn-link:active,
 .btn-link[disabled] {
@@ -2932,7 +2939,7 @@ input[type="submit"].btn.btn-mini {
   box-shadow: none;
 }
 
-/* line 368, ../../../src/css/scss/_base/_buttons.scss */
+/* line 377, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link {
   border-color: transparent;
   cursor: pointer;
@@ -2942,14 +2949,14 @@ input[type="submit"].btn.btn-mini {
   border-radius: 0;
 }
 
-/* line 374, ../../../src/css/scss/_base/_buttons.scss */
+/* line 383, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link:hover {
   color: #5787f4;
   text-decoration: underline;
   background-color: transparent;
 }
 
-/* line 379, ../../../src/css/scss/_base/_buttons.scss */
+/* line 388, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link[disabled]:hover {
   color: #2f353d;
   text-decoration: none;
@@ -3433,10 +3440,10 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 26, ../../../src/css/scss/_base/_sprites.scss */
-.csstransforms .styled-checkbox:checked + label:after, [class^="sprite-"],
+.csstransforms .styled-checkbox:checked + label:after, .btn-alt-special.btn-alt-plus:after, [class^="sprite-"],
 [class*=" sprite-"],
 [class^="icon-"],
-[class*=" icon-"], .icon-ui-pseudo-el-arrow-right-blue, .tl-arrow-right:after, .label-close:after, .slide-toggle:after, .compare-toggle:after {
+[class*=" icon-"], .icon-ui-pseudo-el-arrow-right-blue, .tl-arrow-right:after, .label-close:after, .slide-toggle:after {
   display: inline-block;
   *margin-right: .3em;
   line-height: 15px;
@@ -3845,7 +3852,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 89, ../../../src/css/scss/_base/_sprites.scss */
-.icon-ui-plus-tiny, .compare-toggle:after {
+.icon-ui-plus-tiny, .btn-alt-special.btn-alt-plus:after {
   background-position: -450px 0px;
   width: 9px;
   height: 9px;
@@ -5006,7 +5013,7 @@ button.close {
   border-color: #444148;
 }
 /* line 122, ../../../src/css/scss/_components/_navs.scss */
-.nav-wrapper .navbar .nav > li#nav-li-universal > a > i.icon-ui-plus-tiny, .nav-wrapper .navbar .nav > li#nav-li-universal > a > i.compare-toggle:after {
+.nav-wrapper .navbar .nav > li#nav-li-universal > a > i.icon-ui-plus-tiny, .nav-wrapper .navbar .nav > li#nav-li-universal > a > i.btn-alt-special.btn-alt-plus:after {
   margin: 5px 0 0 12px;
 }
 /* line 128, ../../../src/css/scss/_components/_navs.scss */
@@ -7436,14 +7443,6 @@ a.label:hover, a.badge:hover {
   border-color: #2f353d;
 }
 
-/* line 30, ../../../src/css/scss/_components/_slide-toggle.scss */
-.compare-toggle:after {
-  content: '';
-  position: absolute;
-  right: 24px;
-  margin-top: 8px;
-}
-
 /* line 7, ../../../src/css/scss/_base/_utilities.scss */
 .pull-right {
   float: right;
@@ -7598,12 +7597,17 @@ a.label:hover, a.badge:hover {
   text-align: center;
 }
 
-/* line 133, ../../../src/css/scss/_base/_utilities.scss */
+/* line 130, ../../../src/css/scss/_base/_utilities.scss */
+.text-left {
+  text-align: left;
+}
+
+/* line 132, ../../../src/css/scss/_base/_utilities.scss */
 .text-dark {
   color: #2f353d;
 }
 
-/* line 140, ../../../src/css/scss/_base/_utilities.scss */
+/* line 139, ../../../src/css/scss/_base/_utilities.scss */
 .ghost-center-wrap {
   font-size: 0;
 }
@@ -7616,36 +7620,36 @@ a.label:hover, a.badge:hover {
   height: 100%;
 }
 
-/* line 144, ../../../src/css/scss/_base/_utilities.scss */
+/* line 143, ../../../src/css/scss/_base/_utilities.scss */
 .ghost-center {
   display: inline-block;
   vertical-align: middle;
   font-size: 16px;
 }
 
-/* line 150, ../../../src/css/scss/_base/_utilities.scss */
+/* line 149, ../../../src/css/scss/_base/_utilities.scss */
 .table-center-wrap {
   display: table;
 }
 
-/* line 154, ../../../src/css/scss/_base/_utilities.scss */
+/* line 153, ../../../src/css/scss/_base/_utilities.scss */
 .table-center {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 164, ../../../src/css/scss/_base/_utilities.scss */
+/* line 163, ../../../src/css/scss/_base/_utilities.scss */
 .hero {
   position: relative;
   overflow: hidden;
   max-height: 400px;
 }
-/* line 169, ../../../src/css/scss/_base/_utilities.scss */
+/* line 168, ../../../src/css/scss/_base/_utilities.scss */
 .hero img {
   display: block;
   width: 100%;
 }
-/* line 175, ../../../src/css/scss/_base/_utilities.scss */
+/* line 174, ../../../src/css/scss/_base/_utilities.scss */
 .hero .hero-img-wrap::after {
   content: '';
   position: absolute;
@@ -7655,11 +7659,11 @@ a.label:hover, a.badge:hover {
   height: 100%;
   background-color: rgba(69, 113, 236, 0.8);
 }
-/* line 185, ../../../src/css/scss/_base/_utilities.scss */
+/* line 184, ../../../src/css/scss/_base/_utilities.scss */
 .hero > .container {
   position: relative;
 }
-/* line 189, ../../../src/css/scss/_base/_utilities.scss */
+/* line 188, ../../../src/css/scss/_base/_utilities.scss */
 .hero .hero-text-wrap {
   position: absolute;
   z-index: 5;
@@ -7668,17 +7672,17 @@ a.label:hover, a.badge:hover {
   width: 100%;
   height: 100%;
 }
-/* line 198, ../../../src/css/scss/_base/_utilities.scss */
+/* line 197, ../../../src/css/scss/_base/_utilities.scss */
 .hero .hero-text {
   width: 100%;
 }
 
-/* line 208, ../../../src/css/scss/_base/_utilities.scss */
+/* line 207, ../../../src/css/scss/_base/_utilities.scss */
 [data-stars] .icon-ui-star:not(:first-child) {
   margin-left: 2px;
 }
 
-/* line 217, ../../../src/css/scss/_base/_utilities.scss */
+/* line 216, ../../../src/css/scss/_base/_utilities.scss */
 [data-stars="1"] .icon-ui-star:nth-child(-n + 1),
 [data-stars="2"] .icon-ui-star:nth-child(-n + 2),
 [data-stars="3"] .icon-ui-star:nth-child(-n + 3),
@@ -7687,7 +7691,7 @@ a.label:hover, a.badge:hover {
   background-position: -360px -60px;
 }
 
-/* line 224, ../../../src/css/scss/_base/_utilities.scss */
+/* line 223, ../../../src/css/scss/_base/_utilities.scss */
 .el-hidden {
   position: absolute;
   -webkit-backface-visibility: hidden;
@@ -7698,7 +7702,7 @@ a.label:hover, a.badge:hover {
   transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
 }
 
-/* line 225, ../../../src/css/scss/_base/_utilities.scss */
+/* line 224, ../../../src/css/scss/_base/_utilities.scss */
 .el-shown {
   opacity: 1;
   left: 0;
@@ -7789,4 +7793,22 @@ body.debug::before {
   -webkit-transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
   transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
   left: -192px;
+}
+
+/* line 27, ../../../src/css/scss/_debug/_debug-misc.scss */
+.debug .products {
+  counter-reset: item;
+}
+/* line 31, ../../../src/css/scss/_debug/_debug-misc.scss */
+.debug .gallery-item {
+  counter-increment: item;
+}
+/* line 34, ../../../src/css/scss/_debug/_debug-misc.scss */
+.debug .gallery-item::before {
+  content: counter(item, decimal);
+  position: absolute;
+  z-index: 200;
+  top: 0;
+  left: 0;
+  color: #f35429;
 }

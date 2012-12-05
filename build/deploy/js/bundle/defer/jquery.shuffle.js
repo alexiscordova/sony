@@ -611,7 +611,7 @@
             
     // Plugin definition
     $.fn.shuffle = function(opts, sortObj) {
-        var args = Array.prototype.slice.apply( arguments );
+        var args = Array.prototype.slice.call( arguments, 1 );
         return this.each(function() {
             var $this = $(this),
                 shuffle = $this.data('shuffle');
@@ -631,13 +631,13 @@
                 if (opts === 'sort') {
                     shuffle.sort(sortObj);
                 } else if (opts === 'destroy') {
-                    shuffle.destroy.apply( shuffle, args.slice(1) );
+                    shuffle.destroy.apply( shuffle, args );
                 } else if (opts === 'update') {
-                    shuffle.update.apply( shuffle, args.slice(1) );
+                    shuffle.update.apply( shuffle, args );
                 } else if (opts === 'appended') {
-                    shuffle.appended.apply( shuffle, args.slice(1) );
+                    shuffle.appended.apply( shuffle, args );
                 } else if (opts === 'layout') {
-                    shuffle._reLayout.apply( shuffle, args.slice(1) );
+                    shuffle._reLayout.apply( shuffle, args );
                 } else {
                     shuffle.shuffle(opts);
                 }

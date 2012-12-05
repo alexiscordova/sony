@@ -131,7 +131,7 @@
 
         <p class="ib"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
         <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter</button>
-        <button class="btn btn-alt-special compare-toggle">Compare</button>
+        <button class="btn btn-alt-special btn-alt-plus js-compare-toggle">Compare</button>
       </div>
 
       <div class="container-fluid padded filter-arrow-under fade"><div class="filter-container-arrow"></div></div>
@@ -390,34 +390,37 @@
   </section> -->
 
   <section class="tab-pane fade" data-tab="accessories">
+    <div class="container-fluid padded">
+      <button class="btn btn-alt-special btn-alt-plus js-accessory-toggle">Accessory Finder</button>
+    </div>
     <div class="grid5 container-fluid padded">
       {{#each accessories}}
-      <h2>{{{this.title}}}</h2>
-      <div class="product-strip row-fluid">
-        {{#each this.list}}
-        <div class="span1 gallery-item">
-          <div class="product-img ghost-center-wrap">
-            <div class="ghost-center">
-              <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+      <div class="product-strip-wrap">
+        <a class="tl pull-right" href="#">{{{this.callout}}}</a>
+        <h6 class="product-strip-heading">{{{this.title}}}</h6>
+        <div class="product-strip row-fluid">
+          {{#each this.list}}
+          <div class="span1 gallery-item">
+            <div class="product-img">
+              <div class="ghost-center-wrap">
+                <div class="ghost-center">
+                  <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
+                  <noscript>
+                    <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+                  </noscript>
+                </div>
+              </div>
+            </div>
+            <div class="product-content">
+              <div class="p3 product-name">{{this.name}}</div>
+              <div class="product-price">
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+              </div>
             </div>
           </div>
-          <div class="product-content">
-            <div class="p3 product-name">{{this.name}}</div>
-            <div class="product-price">
-              <p class="p5 price-title">Starting at</p>
-              <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
-            </div>
-          </div>
+          {{/each}}
         </div>
-        {{/each}}
-        {{#if this.hasMore}}
-        <div class="span1 gallery-item ghost-center-wrap see-all">
-          <div class="ghost-center">
-            <p>See all</p>
-            <p class="text-number-callout-large">{{this.total}}</p>
-          </div>
-        </div>
-        {{/if}}
       </div>
       {{/each}}
     </div>
@@ -456,13 +459,13 @@
 
 <section>
   <div class="container-fluid">
-    <h2>Griddlin'</h2>
+    <h2>Grid</h2>
     <div class="row-fluid">
-      <div class="span3" style="height:20px;background:lightblue;"></div>
-      <div class="span3" style="height:20px;background:lightblue;"></div>
-      <div class="span3" style="height:20px;background:lightblue;"></div>
-      <div class="span1" style="height:20px;background:lightblue;"></div>
-      <div class="span2" style="height:20px;background:lightblue;"></div>
+      <div class="span3 btn">span3</div>
+      <div class="span4 btn">span3</div>
+      <div class="span2 btn">span3</div>
+      <div class="span1 btn">span1</div>
+      <div class="span2 btn">span2</div>
     </div>
   </div>
 </section>

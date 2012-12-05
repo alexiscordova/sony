@@ -169,6 +169,7 @@ $detailedGalleryItemHeight: 480px;
 
   .label {
     position: absolute;
+    z-index: 10;
     top: 0;
     right: 0;
   }
@@ -225,9 +226,35 @@ $detailedGalleryItemHeight: 480px;
     }
   }
 
+}
+
+// Product Strip
+// -------------------------
+
+.product-strip-wrap {
+  padding-top: 3.75em; // 60px
+
+  &:not(:first-child) {
+    border-top: 1px solid $grayLighter;
+  }
+}
+
+.product-strip-heading {
+  margin-top: 0;
+  margin-bottom: 1.25em;
+}
+
+.product-strip {
+
+  .gallery-item {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
   // Only show 4 on mobile
   .product-strip .gallery-item:nth-child(n + 5) {
-    display: none;
+    // display: none;
   }
 }
 

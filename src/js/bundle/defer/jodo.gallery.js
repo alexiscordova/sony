@@ -51,9 +51,11 @@
             },
             // call shuffle as a callback
             function( newElements ) {
-              self.$grid.shuffle( 'appended', $( newElements ) );
-              // Show new product count
-              self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+                self.$grid.shuffle( 'appended', $( newElements ) );
+                // Show new product count
+                self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+                // Update iQ images
+                window.iQ.update();
             }
             );
 

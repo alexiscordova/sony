@@ -141,7 +141,7 @@
             // distance from nav links to bottom
             // computed as: height of the document + top offset of container - top offset of nav link
             if(opts.pixelsFromNavToBottom === undefined) {
-				opts.pixelsFromNavToBottom = $(document).height() - $(opts.navSelector).offset().top;
+                opts.pixelsFromNavToBottom = $(document).height() - $(opts.navSelector).offset().top;
 			}
 
 			var self = this;
@@ -401,6 +401,7 @@
             }
 
             this._debug('math:', pixelsFromWindowBottomToBottom, opts.pixelsFromNavToBottom);
+            this._debug('nearbottom?', (pixelsFromWindowBottomToBottom - opts.bufferPx < opts.pixelsFromNavToBottom));
 
             // if distance remaining in the scroll (including buffer) is less than the orignal nav to bottom....
             return (pixelsFromWindowBottomToBottom - opts.bufferPx < opts.pixelsFromNavToBottom);
@@ -524,6 +525,11 @@
         // Set pause value to false
         resume: function infscr_resume() {
             this._pausing('resume');
+        },
+
+        updateNavLocation: function infscr_updateNav() {
+            var opts = this.options;
+            opts.pixelsFromNavToBottom = $(document).height() - $(opts.navSelector).offset().top;
         },
 
 		beginAjax: function infscr_ajax(opts) {
