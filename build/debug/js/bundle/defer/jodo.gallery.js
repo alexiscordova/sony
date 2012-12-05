@@ -33,82 +33,17 @@
             gutterWidth: self.shuffleGutters
         });
 
-
         // Infinite scroll?
         if ( self.hasInfiniteScroll ) {
-            self.$grid.infinitescroll({
-                local: true,
-                debug: true,
-                bufferPx: -200,
-                navSelector: 'div.navigation', // selector for the paged navigation
-                nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
-                itemSelector: '.gallery-item', // selector for all items you'll retrieve
-                loading: {
-                    selector: '.infscr-holder',
-                    finishedMsg: "<em>Finished loading products.</em>",
-                    img: "img/spinner.gif",
-                  }
-            },
-            // call shuffle as a callback
-            function( newElements ) {
-                self.$grid.shuffle( 'appended', $( newElements ) );
-                // Show new product count
-                self.$productCount.text( self.$grid.data('shuffle').visibleItems );
-                // Update iQ images
-                window.iQ.update();
-            }
-            );
-
-            // Pause infinite scrolls that are in hidden tabs
-            if ( !self.$container.hasClass('active') ) {
-                self.$grid.infinitescroll('pause');
-            }
+            self.initInfscr();
         }
-
 
         // Initialize filter dictionaries to keep track of everything
         if ( self.hasFilters ) {
-            self.filters = {
-                range: {},
-                button: {},
-                checkbox: {}
-            };
-            self.filterTypes = {};
-            self.filterLabels = {};
-            self.filterValues = {};
-            self.$filterOpts.find('[data-filter]').each(function() {
-                var $this = $(this),
-                    data = $this.data(),
-                    type = data.filterType,
-                    name = data.filter,
-                    init = [];
-
-
-                // Initialize it based on type
-                switch ( type ) {
-                    case 'range':
-                        init = {};
-                        self.range( $this, name, data.min, data.max );
-                        break;
-                    case 'button':
-                        self.button( $this, name );
-                        break;
-                    case 'group':
-                    case 'color':
-                        // Treat groups and colors the same as buttons
-                        type = 'button';
-                        self.button( $this, name );
-                        break;
-                    case 'checkbox':
-                        self.checkbox ( $this, name );
-                        break;
-                }
-
-                // Save the active filters in this filter to an empty array or object
-                self.filters[ type ][ name ] = init;
-                self.filterTypes[ name ] = type;
-            });
+            self.initFilters();
         }
+
+        self.initSwatches();
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         var sorted = false;
@@ -442,6 +377,103 @@
 
             // Trigger shuffle
             self.filter();
+        },
+
+        initFilters : function() {
+            var self = this;
+
+            self.filters = {
+                range: {},
+                button: {},
+                checkbox: {}
+            };
+            self.filterTypes = {};
+            self.filterLabels = {};
+            self.filterValues = {};
+
+            self.$filterOpts.find('[data-filter]').each(function() {
+                var $this = $(this),
+                    data = $this.data(),
+                    type = data.filterType,
+                    name = data.filter,
+                    init = [];
+
+
+                // Initialize it based on type
+                switch ( type ) {
+                    case 'range':
+                        init = {};
+                        self.range( $this, name, data.min, data.max );
+                        break;
+                    case 'button':
+                        self.button( $this, name );
+                        break;
+                    case 'group':
+                    case 'color':
+                        // Treat groups and colors the same as buttons
+                        type = 'button';
+                        self.button( $this, name );
+                        break;
+                    case 'checkbox':
+                        self.checkbox ( $this, name );
+                        break;
+                }
+
+                // Save the active filters in this filter to an empty array or object
+                self.filters[ type ][ name ] = init;
+                self.filterTypes[ name ] = type;
+            });
+        },
+
+        initInfscr : function() {
+            var self = this;
+
+            self.$grid.infinitescroll({
+                local: true,
+                debug: true,
+                bufferPx: -200,
+                navSelector: 'div.navigation', // selector for the paged navigation
+                nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
+                itemSelector: '.gallery-item', // selector for all items you'll retrieve
+                loading: {
+                    selector: '.infscr-holder',
+                    finishedMsg: "<em>Finished loading products.</em>",
+                    img: "img/spinner.gif",
+                  }
+            },
+            // call shuffle as a callback
+            function( newElements ) {
+                self.$grid.shuffle( 'appended', $( newElements ) );
+                // Show new product count
+                self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+                // Update iQ images
+                window.iQ.update();
+            }
+            );
+
+            // Pause infinite scrolls that are in hidden tabs
+            if ( !self.$container.hasClass('active') ) {
+                self.$grid.infinitescroll('pause');
+            }
+        },
+
+        initSwatches : function() {
+            var self = this;
+
+            self.$grid.find('.mini-swatch[data-color]').each(function() {
+                var $swatch = $(this),
+                    color = $swatch.data('color'),
+                    $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
+                    $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
+
+                $swatch.hover(function() {
+                    $productImg.addClass('hidden');
+                    $swatchImg.removeClass('hidden');
+                }, function() {
+                    $productImg.removeClass('hidden');
+                    $swatchImg.addClass('hidden');
+                });
+            });
         },
 
         setFilterStatuses : function() {
@@ -825,6 +857,10 @@
             if ( !didReset ) {
                 this.filter();
             }
+        },
+        
+        onMiniSwatchHover : function() {
+
         },
 
         setColumnMode : function() {

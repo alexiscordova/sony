@@ -216,16 +216,22 @@
             {{/if}}
             <div class="product-img">
               <div class="ghost-center-wrap">
-                <div class="ghost-center">
-                  <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
+                <div class="ghost-center js-product-imgs">
+                  <img class="iq-img js-product-img-main" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
                   <noscript>
                     <img src="{{this.img.src}}" alt="{{this.img.alt}}">
                   </noscript>
+                  {{#each this.img.colors}}
+                  <img class="iq-img hidden" data-color="{{this.color}}" alt="{{this.alt}}" data-src="{{this.src}}">
+                  <noscript>
+                    <img class="hidden" src="{{this.src}}" alt="{{this.alt}}">
+                  </noscript>
+                  {{/each}}
                 </div>
               </div>
-              {{#if this.colors}}
+              {{#if this.img.colors}}
               <div class="color-swatches">
-                {{#each this.colors}}<span class="mini-swatch swatch-{{this}}"></span>{{/each}}
+                {{#each this.img.colors}}<span class="mini-swatch swatch-{{this.color}}" data-color="{{this.color}}"></span>{{/each}}
               </div>
               {{/if}}
             </div>
