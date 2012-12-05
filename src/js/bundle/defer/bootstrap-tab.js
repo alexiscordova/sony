@@ -39,8 +39,7 @@
           $this = self.$el,
           selector = $this.attr('data-target'),
           previous,
-          $prevPane,
-          e;
+          $prevPane;
 
       if ( !selector ) {
         selector = $this.attr('href');
@@ -58,7 +57,7 @@
       previous = $this.parent().find('.active:last')[0];
       $prevPane = self.$target.parent().find('.active:last');
       $this.add(self.$target).trigger({
-        type: 'show.tab',
+        type: 'show',
         relatedTarget: previous,
         prevPane: $prevPane,
         pane: self.$target
@@ -73,7 +72,7 @@
       self.activate( self.$target, self.$target.parent(), function () {
         // Trigger shown event on both tab and pane
         $this.add(self.$target).trigger({
-          type: 'shown.tab',
+          type: 'shown',
           relatedTarget: previous,
           prevPane: $prevPane,
           pane: self.$target

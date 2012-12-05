@@ -38,7 +38,7 @@ meta_data: {a:'foo', b:'bar'}
 	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
 	          	<i class="sprite-mini-global-nav-indicator"></i>
 
-					    <div class="navmenu-wrapper navmenu-wrapper-search">
+					    <div class="navmenu-wrapper navmenu-wrapper-search searching">
 					    	<form method="post" action="" class="navmenu-search-section-input">
 						        <input type="text" name="navSearch" id="navSearch" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search"/>
 					    	</form>
@@ -58,16 +58,20 @@ meta_data: {a:'foo', b:'bar'}
 						        <ul class="navmenu-list-results">
 						        	<li>
 						        		<a href="#">
-						        			<img src="" alt="α NEX-6">
-						        			<span class="search-result-headline">α NEX-6</span>
-						        			<xpan class="search-result-descript">The Future of Photography.</xpan>
+						        			<img src="img/global/global-nav/search-results-images/nex-6.png" alt="α NEX-6" width="83" height="64">
+						        			<span class="search-result-p">
+							        			<span class="search-result-headline">α NEX-6</span>
+							        			<span class="search-result-descript">The Future of Photography.</span>
+							        		</span>
 							        	</a>
 							        </li>
 						        	<li>
 						        		<a href="#">
-						        			<img src="" alt="α NEX-5">
-						        			<span class="search-result-headline">α NEX-5</span>
-						        			<xpan class="search-result-descript">Pocket DSLR</xpan>
+						        			<img src="img/global/global-nav/search-results-images/nex-5.png" alt="α NEX-5" width="83" height="64">
+						        			<span class="search-result-p">
+							        			<span class="search-result-headline">α NEX-5</span>
+							        			<span class="search-result-descript">Pocket DSLR</span>
+							        		</span>
 							        	</a>
 							        </li>
 						        	<li>

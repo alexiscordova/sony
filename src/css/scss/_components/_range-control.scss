@@ -35,14 +35,17 @@ $rangeControlSize: 14px;
     border-radius: 50%;
     background: $white;
     @include box-shadow(0 0 0 6px $transparentBlack, 0 0 9px $innerGlow);
-    @include transition(border $transitionFast linear, box-shadow $transitionFast linear, margin $transitionFast linear);
+    @include transition(all $transitionFast linear, box-shadow $transitionFast linear, margin $transitionFast linear);
+    -webkit-transition: -webkit-transform $transitionFast linear;
+            transition: transform $transitionFast linear;
     cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur') 8 4, pointer; /* you should probably localize the cur file */
 
     &.grabbed,
     &:hover {
-      border-width: 10px;
+      // border-width: 10px;
+      @include scale(1.1);
       @include box-shadow(0 0 0 8px $transparentBlack, 0 0 11px $innerGlow);
-      margin-top: -3px;
+      // margin-top: -3px;
     }
   }
 }
