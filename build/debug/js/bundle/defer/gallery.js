@@ -138,7 +138,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
         _teardownStickyTabs();
       }
 
-      if ( !isTabCarousel ) {
+      if ( !isTabCarousel && $tabs.length > tabsPerPage ) {
         _setTabCarouselVars();
         _setupTabCarousel();
       }

@@ -116,6 +116,7 @@ $detailedGalleryItemHeight: 480px;
   
   // Container for product images
   .product-img {
+    position: relative;
     height: $galleryItemImgHeight;
     width: 100%;
     overflow: hidden;
@@ -126,6 +127,12 @@ $detailedGalleryItemHeight: 480px;
       display: block;
       max-height: 100%;
       max-width: 100%;
+    }
+
+    .color-swatches {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
     }
   }
 
@@ -395,13 +402,13 @@ $left: 175px;
       background-color: $grayLightFieldLarge;
     }
 
-    &:active,
+    .no-touch &:active,
     &.active {
       z-index: 2;
       top: -2px;
       background-color: $white;
       box-shadow:
-        0 2px 0 $white,
+        0 3px 0 $white,
         0 0 4px 1px rgba(0,0,0,0.15);
     }
   }

@@ -1097,14 +1097,17 @@ $default-transition-delay    : 0s;
 
 
 // A ghost element used to vertically center something
+// http://css-tricks.com/centering-in-the-unknown/
 @mixin ghost() {
+	font-size: 0;
+
 	&:before {
 		content: '';
 		display: inline-block;
 		vertical-align: middle;
 		width: 0;
 		height: 100%;
-		margin-right: -4px; // Nudgeable
+		// margin-right: -4px; // Nudgeable
 	}
 }
 

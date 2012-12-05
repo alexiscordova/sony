@@ -18,7 +18,9 @@
         self.$filterArrow = self.$container.find('.filter-arrow-under, .filter-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
         self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
-        self.resized = false;
+        self.windowSize = $(window).width();
+
+        console.log( 'has infinitescroll', self.hasInfiniteScroll );
 
         self.setColumnMode();
 
@@ -114,7 +116,7 @@
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         var sorted = false;
-        if ( $(window).width() <= 767 ) {
+        if ( self.windowSize <= 767 ) {
             self.sortByPriority();
             sorted = true;
         }
@@ -129,8 +131,6 @@
                 self.sortByPriority(true);
                 sorted = false;
             }
-
-            self.resized = true;
         });
 
         // Set up sorting ---- dropdowm
@@ -155,11 +155,11 @@
         // Favorite Heart
         self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
-        // This container is about to be shown
-        self.$container.on('show.tab', $.proxy( self.onShow, self ));
+        // This container is about to be shown because it's a tab
+        self.$container.closest('[data-tab]').on('show', $.proxy( self.onShow, self ));
 
-        // This container has just been shown
-        self.$container.on('shown.tab', $.proxy( self.onShown, self ));
+        // This container has just been shown because it's a tab
+        self.$container.closest('[data-tab]').on('shown', $.proxy( self.onShown, self ));
 
         self.isInitialized = true;
     };
@@ -693,7 +693,9 @@
             if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
                 console.log('resetting range control');
                 $rangeControl.rangeControl('reset');
+                return true;
             }
+            return false;
         },
 
         sort : function( evt ) {
@@ -756,13 +758,13 @@
         },
 
         onFavorite : function( evt ) {
+            // <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
             $(evt.target).toggleClass('state3');
         },
 
         // Event triggered when this tab is about to be shown
         onShow : function( evt ) {
-            if ( evt.namepace !== 'tab' ) { return; } // collapse is triggering this somehow?
-            var that = evt.prevPane.closest('.gallery').data('gallery');
+            var that = evt.prevPane.find('.gallery').data('gallery');
 
             if ( that && that.hasInfiniteScroll ) {
                 that.$grid.infinitescroll('pause');
@@ -770,36 +772,43 @@
         },
 
         // Event triggered when tab pane is finished being shown
-        onShown : function( evt ) {
-            if ( evt.namepace !== 'tab' ) { return; } // collapse is triggering this somehow? This should already be taken care of because i'm using on('shown.tab')...
-            var self = this, // This gallery
-                that = evt.prevPane.closest('.gallery').data('gallery'); // previous gallery
-            
+        onShown : function() {
+            var self = this,
+                windowWidth = $(window).width(),
+                windowHasResized = self.windowSize !== windowWidth;
+
             // Respond to tab shown event.Update the columns if we're in need of an update
-            if ( self.$grid.data('shuffle').needsUpdate || ( that && that.resized ) ) {
+            if ( self.$grid.data('shuffle').needsUpdate || windowHasResized ) {
+                console.log('updating shuffle');
                 self.$grid.shuffle('update');
             }
 
-            if ( that ) {
-                that.resized = false;
+            if ( windowHasResized ) {
+                self.windowSize = windowWidth;
             }
 
             // Resume infinite scroll if it's there yo
-            if ( self.hasInfiniteScroll && self.$container.hasClass('active') ) {
+            if ( self.hasInfiniteScroll ) {
                 self.$grid.infinitescroll('resume');
             }
         },
 
-        onFiltersHide : function() {
+        onFiltersHide : function( evt ) {
+            evt.stopPropagation(); // stop this event from bubbling up to .gallery
             this.$filterArrow.removeClass('in');
         },
 
-        onFiltersShow : function() {
+        onFiltersShow : function( evt ) {
+            evt.stopPropagation(); // stop this event from bubbling up to .gallery
             this.$filterArrow.addClass('in');
         },
 
         onFiltersShown : function( evt ) {
-            this.maybeResetRange(evt);
+            evt.stopPropagation(); // stop this event from bubbling up to .gallery
+            var didReset = this.maybeResetRange(evt);
+            if ( !didReset ) {
+                this.filter();
+            }
         },
 
         setColumnMode : function() {
