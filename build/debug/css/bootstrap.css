@@ -2226,12 +2226,12 @@ legend + .control-group {
 }
 /* line 711, ../../../src/css/scss/_base/_forms.scss */
 .csstransforms .styled-checkbox:focus + label:before, .csstransforms .styled-checkbox:hover + label:before {
-  -webkit-box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  -moz-box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  -ms-box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  -o-box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  background: #f35429;
+  -webkit-box-shadow: inset 0 0 0 4px #83838f;
+  -moz-box-shadow: inset 0 0 0 4px #83838f;
+  -ms-box-shadow: inset 0 0 0 4px #83838f;
+  -o-box-shadow: inset 0 0 0 4px #83838f;
+  box-shadow: inset 0 0 0 4px #83838f;
+  background: white;
 }
 /* line 716, ../../../src/css/scss/_base/_forms.scss */
 .csstransforms .styled-checkbox:checked + label:before {
@@ -2246,9 +2246,10 @@ legend + .control-group {
 }
 /* line 732, ../../../src/css/scss/_base/_forms.scss */
 .csstransforms .styled-checkbox.disabled + label, .csstransforms .styled-checkbox[disabled] + label {
+  cursor: auto;
   color: #bcbccc;
 }
-/* line 738, ../../../src/css/scss/_base/_forms.scss */
+/* line 740, ../../../src/css/scss/_base/_forms.scss */
 .csstransforms .styled-checkbox.disabled + label:before, .csstransforms .styled-checkbox[disabled] + label:before {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -2664,7 +2665,7 @@ table [class*=span],
   background: #f35429;
 }
 
-/* line 91, ../../../src/css/scss/_base/_buttons.scss */
+/* line 93, ../../../src/css/scss/_base/_buttons.scss */
 .btn-square {
   width: 70px;
   padding: 14px 0 13px;
@@ -2672,27 +2673,29 @@ table [class*=span],
   font-size: 1.25em;
   color: #2f353d;
   border-radius: 0;
-  border: 1px solid white;
+  border: none;
+  background: white;
+  -webkit-transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
+  -moz-transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
+  -o-transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
+  transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
+}
+/* line 105, ../../../src/css/scss/_base/_buttons.scss */
+.btn-square:hover, .btn-square:focus {
+  -webkit-box-shadow: inset 0 -4px 0 #83838f;
+  -moz-box-shadow: inset 0 -4px 0 #83838f;
+  -ms-box-shadow: inset 0 -4px 0 #83838f;
+  -o-box-shadow: inset 0 -4px 0 #83838f;
+  box-shadow: inset 0 -4px 0 #83838f;
+  color: #f35429;
   background: white;
 }
-/* line 102, ../../../src/css/scss/_base/_buttons.scss */
-.btn-square:hover, .btn-square:focus {
-  -webkit-box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  -moz-box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  -ms-box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  -o-box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  box-shadow: 0 0 5px white, 0 0 0 6px rgba(0, 0, 0, 0.12);
-  color: white;
-  background: #f35429;
-  border-color: #f35429;
-}
-/* line 110, ../../../src/css/scss/_base/_buttons.scss */
+/* line 112, ../../../src/css/scss/_base/_buttons.scss */
 .btn-square.active, .btn-square:active {
   color: white;
   background: #f35429;
-  border-color: #f35429;
 }
-/* line 119, ../../../src/css/scss/_base/_buttons.scss */
+/* line 120, ../../../src/css/scss/_base/_buttons.scss */
 .btn-square.disabled, .btn-square[disabled], .btn-square.disabled:hover, .btn-square[disabled]:hover {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -2701,47 +2704,46 @@ table [class*=span],
   box-shadow: none;
   color: inherit;
   background: #dedede;
-  border-color: #dedede;
 }
 
-/* line 127, ../../../src/css/scss/_base/_buttons.scss */
+/* line 129, ../../../src/css/scss/_base/_buttons.scss */
 .btn-secondary {
   border: 1px solid #bcbccc;
   background: #bcbccc;
 }
-/* line 131, ../../../src/css/scss/_base/_buttons.scss */
+/* line 133, ../../../src/css/scss/_base/_buttons.scss */
 .btn-secondary:hover {
   background: #c2c2d0;
 }
-/* line 135, ../../../src/css/scss/_base/_buttons.scss */
+/* line 137, ../../../src/css/scss/_base/_buttons.scss */
 .btn-secondary.active, .btn-secondary:active {
   background: #bcbccc;
 }
-/* line 139, ../../../src/css/scss/_base/_buttons.scss */
+/* line 141, ../../../src/css/scss/_base/_buttons.scss */
 .btn-secondary.disabled:hover, .btn-secondary[disabled]:hover {
   background: #bcbccc;
 }
 
-/* line 144, ../../../src/css/scss/_base/_buttons.scss */
+/* line 148, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt {
   padding: 8px 0 11px;
   font-family: "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
   border: 1px solid #2f353d;
   background: #2f353d;
 }
-/* line 150, ../../../src/css/scss/_base/_buttons.scss */
+/* line 154, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt:hover {
   background: #262b31;
 }
-/* line 154, ../../../src/css/scss/_base/_buttons.scss */
+/* line 158, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt.active, .btn-alt:active {
   background: #383f49;
 }
-/* line 158, ../../../src/css/scss/_base/_buttons.scss */
+/* line 162, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt.disabled:hover, .btn-alt[disabled]:hover {
   background: #2f353d;
 }
-/* line 162, ../../../src/css/scss/_base/_buttons.scss */
+/* line 166, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt.btn-small {
   width: 138px;
   padding: 8px 0 9px;
@@ -2749,7 +2751,29 @@ table [class*=span],
   /* 11px/15px */
 }
 
-/* line 169, ../../../src/css/scss/_base/_buttons.scss */
+/* line 176, ../../../src/css/scss/_base/_buttons.scss */
+.btn-alt-special {
+  position: relative;
+  padding-left: 24px;
+  padding-right: 24px;
+  text-align: left;
+  font-size: 0.8125em;
+  background: #2f353d;
+  border-color: #2f353d;
+  width: 131px;
+}
+/* line 187, ../../../src/css/scss/_base/_buttons.scss */
+.btn-alt-special:hover, .btn-alt-special:focus {
+  background: #83838f;
+  border-color: #83838f;
+}
+/* line 192, ../../../src/css/scss/_base/_buttons.scss */
+.btn-alt-special:active {
+  background: #83838f;
+  border-color: #83838f;
+}
+
+/* line 200, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo {
   position: relative;
   width: 289px;
@@ -2763,25 +2787,25 @@ table [class*=span],
   line-height: 1.32;
   font-family: "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-/* line 182, ../../../src/css/scss/_base/_buttons.scss */
+/* line 213, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo strong {
   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: white;
 }
-/* line 186, ../../../src/css/scss/_base/_buttons.scss */
+/* line 217, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo:hover {
   background: #171921;
   color: #83838f;
 }
-/* line 191, ../../../src/css/scss/_base/_buttons.scss */
+/* line 222, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo.active, .btn-promo:active {
   background: #212530;
 }
-/* line 195, ../../../src/css/scss/_base/_buttons.scss */
+/* line 226, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo.disabled:hover, .btn-promo[disabled]:hover {
   background: #212530;
 }
-/* line 198, ../../../src/css/scss/_base/_buttons.scss */
+/* line 229, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo .icon-ui-arrow-right-white-boxed {
   -webkit-border-radius: 1px;
   -moz-border-radius: 1px;
@@ -2794,55 +2818,62 @@ table [class*=span],
   margin: 0;
 }
 
-/* line 211, ../../../src/css/scss/_base/_buttons.scss */
+/* line 242, ../../../src/css/scss/_base/_buttons.scss */
 .btn-icon-ui-left i {
   margin-right: 8px;
 }
 
-/* line 223, ../../../src/css/scss/_base/_buttons.scss */
+/* line 248, ../../../src/css/scss/_base/_buttons.scss */
+.btn-wide {
+  width: auto;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+/* line 261, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large {
   padding: 7px 0 10px;
   font-size: 1.2em;
   line-height: 1.815;
 }
-/* line 227, ../../../src/css/scss/_base/_buttons.scss */
+/* line 265, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large.btn-special {
   padding: 14px 0 14px;
 }
 
-/* line 231, ../../../src/css/scss/_base/_buttons.scss */
+/* line 269, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large [class^="icon-"] {
   margin-top: 2px;
 }
 
-/* line 236, ../../../src/css/scss/_base/_buttons.scss */
+/* line 274, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small {
   padding: 8px 0 10px;
   font-size: 0.8em;
   line-height: 1.2375;
 }
-/* line 240, ../../../src/css/scss/_base/_buttons.scss */
+/* line 278, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small.btn-special {
   padding: 12px 0 14px;
 }
 
-/* line 244, ../../../src/css/scss/_base/_buttons.scss */
+/* line 282, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small [class^="icon-"] {
   margin-top: 0px;
 }
 
-/* line 249, ../../../src/css/scss/_base/_buttons.scss */
+/* line 287, ../../../src/css/scss/_base/_buttons.scss */
 .btn-mini {
   padding: 8px 0 9px;
   font-size: 0.75em;
   line-height: 0.99;
 }
-/* line 253, ../../../src/css/scss/_base/_buttons.scss */
+/* line 291, ../../../src/css/scss/_base/_buttons.scss */
 .btn-mini.btn-special {
   padding: 11px 0 12px;
 }
 
-/* line 262, ../../../src/css/scss/_base/_buttons.scss */
+/* line 300, ../../../src/css/scss/_base/_buttons.scss */
 .btn-block {
   display: block;
   width: 100%;
@@ -2853,50 +2884,50 @@ table [class*=span],
   box-sizing: border-box;
 }
 
-/* line 271, ../../../src/css/scss/_base/_buttons.scss */
+/* line 309, ../../../src/css/scss/_base/_buttons.scss */
 .btn-block + .btn-block {
   margin-top: 5px;
 }
 
-/* line 279, ../../../src/css/scss/_base/_buttons.scss */
+/* line 317, ../../../src/css/scss/_base/_buttons.scss */
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
 }
 
-/* line 292, ../../../src/css/scss/_base/_buttons.scss */
+/* line 330, ../../../src/css/scss/_base/_buttons.scss */
 button.btn,
 input[type="submit"].btn {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 295, ../../../src/css/scss/_base/_buttons.scss */
+/* line 333, ../../../src/css/scss/_base/_buttons.scss */
 button.btn::-moz-focus-inner,
 input[type="submit"].btn::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
-/* line 304, ../../../src/css/scss/_base/_buttons.scss */
+/* line 342, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-large,
 input[type="submit"].btn.btn-large {
   *padding-top: 7px;
   *padding-bottom: 7px;
 }
-/* line 308, ../../../src/css/scss/_base/_buttons.scss */
+/* line 346, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-small,
 input[type="submit"].btn.btn-small {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 312, ../../../src/css/scss/_base/_buttons.scss */
+/* line 350, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-mini,
 input[type="submit"].btn.btn-mini {
   *padding-top: 1px;
   *padding-bottom: 1px;
 }
 
-/* line 325, ../../../src/css/scss/_base/_buttons.scss */
+/* line 363, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link,
 .btn-link:active,
 .btn-link[disabled] {
@@ -2909,7 +2940,7 @@ input[type="submit"].btn.btn-mini {
   box-shadow: none;
 }
 
-/* line 330, ../../../src/css/scss/_base/_buttons.scss */
+/* line 368, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link {
   border-color: transparent;
   cursor: pointer;
@@ -2919,14 +2950,14 @@ input[type="submit"].btn.btn-mini {
   border-radius: 0;
 }
 
-/* line 336, ../../../src/css/scss/_base/_buttons.scss */
+/* line 374, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link:hover {
   color: #5787f4;
   text-decoration: underline;
   background-color: transparent;
 }
 
-/* line 341, ../../../src/css/scss/_base/_buttons.scss */
+/* line 379, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link[disabled]:hover {
   color: #2f353d;
   text-decoration: none;
@@ -3449,7 +3480,7 @@ input[type="submit"].btn.btn-mini {
 .csstransforms .styled-checkbox:checked + label:after, [class^="sprite-"],
 [class*=" sprite-"],
 [class^="icon-"],
-[class*=" icon-"], .icon-ui-pseudo-el-arrow-right-blue, .tl-arrow-right:after, .label-close:after, .slide-toggle:after {
+[class*=" icon-"], .icon-ui-pseudo-el-arrow-right-blue, .tl-arrow-right:after, .label-close:after, .slide-toggle:after, .compare-toggle:after {
   display: inline-block;
   *margin-right: .3em;
   line-height: 15px;
@@ -3466,461 +3497,556 @@ input[type="submit"].btn.btn-mini {
   background-image: url("../img/spritesheet.png");
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-laptop {
   background-position: 0 -360px;
   width: 33px;
   height: 24px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-laptop {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-laptop.state2 {
+  background-position: 0 -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-laptop, .tab:hover .icon-tab-laptop, .tab:active .icon-tab-laptop, .tab.active .icon-tab-laptop {
   background-position: 0 -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-tablet {
   background-position: -60px -360px;
   width: 20px;
   height: 26px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-tablet {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-tablet.state2 {
+  background-position: -60px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-tablet, .tab:hover .icon-tab-tablet, .tab:active .icon-tab-tablet, .tab.active .icon-tab-tablet {
   background-position: -60px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-memory-stick {
   background-position: -90px -360px;
   width: 16px;
   height: 21px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-memory-stick {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-memory-stick.state2 {
+  background-position: -90px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-memory-stick, .tab:hover .icon-tab-memory-stick, .tab:active .icon-tab-memory-stick, .tab.active .icon-tab-memory-stick {
   background-position: -90px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-tv {
   background-position: -120px -360px;
   width: 35px;
   height: 26px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-tv {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-tv.state2 {
+  background-position: -120px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-tv, .tab:hover .icon-tab-tv, .tab:active .icon-tab-tv, .tab.active .icon-tab-tv {
   background-position: -120px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-projector {
   background-position: -180px -360px;
   width: 38px;
   height: 18px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-projector {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-projector.state2 {
+  background-position: -180px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-projector, .tab:hover .icon-tab-projector, .tab:active .icon-tab-projector, .tab.active .icon-tab-projector {
   background-position: -180px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-water-drop {
   background-position: -240px -360px;
   width: 15px;
   height: 20px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-water-drop {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-water-drop.state2 {
+  background-position: -240px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-water-drop, .tab:hover .icon-tab-water-drop, .tab:active .icon-tab-water-drop, .tab.active .icon-tab-water-drop {
   background-position: -240px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-mic {
   background-position: -270px -360px;
   width: 11px;
   height: 27px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-mic {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-mic.state2 {
+  background-position: -270px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-mic, .tab:hover .icon-tab-mic, .tab:active .icon-tab-mic, .tab.active .icon-tab-mic {
   background-position: -270px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-dongle {
   background-position: -300px -360px;
   width: 14px;
   height: 27px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-dongle {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-dongle.state2 {
+  background-position: -300px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-dongle, .tab:hover .icon-tab-dongle, .tab:active .icon-tab-dongle, .tab.active .icon-tab-dongle {
   background-position: -300px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-cd {
   background-position: -330px -360px;
   width: 27px;
   height: 26px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-cd {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-cd.state2 {
+  background-position: -330px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-cd, .tab:hover .icon-tab-cd, .tab:active .icon-tab-cd, .tab.active .icon-tab-cd {
   background-position: -330px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-handycam {
   background-position: -360px -360px;
   width: 36px;
   height: 22px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-handycam {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-handycam.state2 {
+  background-position: -360px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-handycam, .tab:hover .icon-tab-handycam, .tab:active .icon-tab-handycam, .tab.active .icon-tab-handycam {
   background-position: -360px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-video-camera {
   background-position: -420px -360px;
   width: 38px;
   height: 28px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-video-camera {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-video-camera.state2 {
+  background-position: -420px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-video-camera, .tab:hover .icon-tab-video-camera, .tab:active .icon-tab-video-camera, .tab.active .icon-tab-video-camera {
   background-position: -420px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-grid {
   background-position: -480px -360px;
   width: 27px;
   height: 27px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-grid {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-grid.state2 {
+  background-position: -480px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-grid, .tab:hover .icon-tab-grid, .tab:active .icon-tab-grid, .tab.active .icon-tab-grid {
   background-position: -480px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-grid-alt {
   background-position: -510px -360px;
-  width: 26px;
-  height: 26px;
+  width: 27px;
+  height: 27px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-grid-alt {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-grid-alt.state2 {
+  background-position: -510px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-grid-alt, .tab:hover .icon-tab-grid-alt, .tab:active .icon-tab-grid-alt, .tab.active .icon-tab-grid-alt {
   background-position: -510px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-headphones {
   background-position: -540px -360px;
   width: 27px;
   height: 27px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-headphones {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-headphones.state2 {
+  background-position: -540px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-headphones, .tab:hover .icon-tab-headphones, .tab:active .icon-tab-headphones, .tab.active .icon-tab-headphones {
   background-position: -540px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-earbuds {
   background-position: -570px -360px;
   width: 45px;
   height: 24px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-earbuds {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-earbuds.state2 {
+  background-position: -570px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-earbuds, .tab:hover .icon-tab-earbuds, .tab:active .icon-tab-earbuds, .tab.active .icon-tab-earbuds {
   background-position: -570px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-earclips {
   background-position: -630px -360px;
   width: 17px;
   height: 28px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-earclips {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-earclips.state2 {
+  background-position: -630px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-earclips, .tab:hover .icon-tab-earclips, .tab:active .icon-tab-earclips, .tab.active .icon-tab-earclips {
   background-position: -630px -420px;
 }
 
-/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
 .icon-tab-neckphones {
   background-position: -660px -360px;
   width: 45px;
   height: 19px;
 }
-/* line 62, ../../../src/css/scss/_base/_sprites.scss */
-.tab.active .icon-tab-neckphones {
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-neckphones.state2 {
+  background-position: -660px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-neckphones, .tab:hover .icon-tab-neckphones, .tab:active .icon-tab-neckphones, .tab.active .icon-tab-neckphones {
   background-position: -660px -420px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 49, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-camera {
+  background-position: -720px -360px;
+  width: 43px;
+  height: 26px;
+}
+/* line 53, ../../../src/css/scss/_base/_sprites.scss */
+.icon-tab-camera.state2 {
+  background-position: -720px -390px;
+}
+/* line 60, ../../../src/css/scss/_base/_sprites.scss */
+.tab:focus .icon-tab-camera, .tab:hover .icon-tab-camera, .tab:active .icon-tab-camera, .tab.active .icon-tab-camera {
+  background-position: -720px -420px;
+}
+
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-favorite {
   background-position: 0px 0px;
   width: 15px;
   height: 13px;
 }
-/* line 100, ../../../src/css/scss/_base/_sprites.scss */
+/* line 99, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-favorite:hover, .icon-ui-favorite:focus {
   background-position: 0px -30px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-cart {
   background-position: -30px 0px;
   width: 17px;
   height: 14px;
 }
-/* line 100, ../../../src/css/scss/_base/_sprites.scss */
+/* line 99, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-cart:hover, .icon-ui-cart:focus {
   background-position: -30px -30px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-search {
   background-position: -60px 0px;
   width: 30px;
   height: 13px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-gray {
   background-position: -90px 0px;
   width: 8px;
   height: 4px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-gray {
   background-position: -120px 0px;
   width: 8px;
   height: 4px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-white, .slide-toggle.collapsed:after {
   background-position: -150px 0px;
   width: 8px;
   height: 4px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-white, .slide-toggle:after {
   background-position: -180px 0px;
   width: 8px;
   height: 4px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-down-blue {
   background-position: -210px 0px;
   width: 8px;
   height: 4px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowhead-up-blue {
   background-position: -240px 0px;
   width: 8px;
   height: 4px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-white {
   background-position: -270px 0px;
   width: 11px;
   height: 8px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrow-right-blue {
   background-position: -300px 0px;
   width: 11px;
   height: 8px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-grid {
   background-position: -330px 0px;
   width: 16px;
   height: 16px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-star {
   background-position: -360px 0px;
   width: 13px;
   height: 13px;
 }
-/* line 109, ../../../src/css/scss/_base/_sprites.scss */
+/* line 108, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-star.active, .active .icon-ui-star {
   background-position: -360px 0px -60;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-starhalf {
   background-position: -390px 0px;
   width: 13px;
   height: 13px;
 }
-/* line 109, ../../../src/css/scss/_base/_sprites.scss */
+/* line 108, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-starhalf.active, .active .icon-ui-starhalf {
   background-position: -390px 0px -60;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-arrowheads-up-down-gray {
   background-position: -420px 0px;
   width: 8px;
   height: 11px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
-.icon-ui-plus-tiny {
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
+.icon-ui-plus-tiny, .compare-toggle:after {
   background-position: -450px 0px;
   width: 9px;
   height: 9px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-plus-skinny {
   background-position: -480px 0px;
   width: 16px;
   height: 16px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-x-skinny {
   background-position: -510px 0px;
   width: 16px;
   height: 16px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-revealer-l-r-xl {
   background-position: -540px 0px;
   width: 32px;
   height: 32px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-check, .csstransforms .styled-checkbox:checked + label:after {
   background-position: -600px 0px;
   width: 11px;
   height: 8px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-x-tiny {
   background-position: -630px 0px;
   width: 10px;
   height: 10px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-close, .label-close:after {
   background-position: -660px 0px;
   width: 15px;
   height: 15px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-navmenu-account {
   background-position: -690px 0px;
   width: 16px;
   height: 15px;
   margin: 0 0 0 0;
 }
-/* line 100, ../../../src/css/scss/_base/_sprites.scss */
+/* line 99, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-navmenu-account:hover, .icon-ui-navmenu-account:focus {
   background-position: -690px -30px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-navmenu-orders {
   background-position: -720px 0px;
   width: 16px;
   height: 11px;
   margin: 0 0 0 0;
 }
-/* line 100, ../../../src/css/scss/_base/_sprites.scss */
+/* line 99, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-navmenu-orders:hover, .icon-ui-navmenu-orders:focus {
   background-position: -720px -30px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-navmenu-newsletter {
   background-position: -750px 0px;
   width: 12px;
   height: 15px;
   margin: 0 0 0 0;
 }
-/* line 100, ../../../src/css/scss/_base/_sprites.scss */
+/* line 99, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-navmenu-newsletter:hover, .icon-ui-navmenu-newsletter:focus {
   background-position: -750px -30px;
 }
 
-/* line 90, ../../../src/css/scss/_base/_sprites.scss */
+/* line 89, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-navmenu-reg-prod {
   background-position: -780px 0px;
   width: 12px;
   height: 17px;
   margin: 0 0 0 0;
 }
-/* line 100, ../../../src/css/scss/_base/_sprites.scss */
+/* line 99, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-navmenu-reg-prod:hover, .icon-ui-navmenu-reg-prod:focus {
   background-position: -780px -30px;
 }
 
-/* line 154, ../../../src/css/scss/_base/_sprites.scss */
+/* line 153, ../../../src/css/scss/_base/_sprites.scss */
 .icon-ui-pseudo-el-arrow-right-blue, .tl-arrow-right:after {
   background-position: -300px 0px;
   width: 11px;
   height: 8px;
 }
 
-/* line 161, ../../../src/css/scss/_base/_sprites.scss */
+/* line 160, ../../../src/css/scss/_base/_sprites.scss */
 .icon-bestfor-running {
   background-position: 0 -630px;
   width: 30px;
   height: 28px;
 }
-/* line 168, ../../../src/css/scss/_base/_sprites.scss */
-.btn:not([disabled]):hover .icon-bestfor-running, .btn:not([disabled]):focus .icon-bestfor-running, .btn.active .icon-bestfor-running {
+/* line 165, ../../../src/css/scss/_base/_sprites.scss */
+.btn:not([disabled]):hover .icon-bestfor-running, .btn:not([disabled]):focus .icon-bestfor-running {
   background-position: 0 -660px;
 }
+/* line 169, ../../../src/css/scss/_base/_sprites.scss */
+.icon-bestfor-running .btn.active:hover, .btn.active .icon-bestfor-running {
+  background-position: 0 -690px;
+}
 
-/* line 161, ../../../src/css/scss/_base/_sprites.scss */
+/* line 160, ../../../src/css/scss/_base/_sprites.scss */
 .icon-bestfor-mic {
   background-position: -30px -630px;
   width: 12px;
   height: 30px;
 }
-/* line 168, ../../../src/css/scss/_base/_sprites.scss */
-.btn:not([disabled]):hover .icon-bestfor-mic, .btn:not([disabled]):focus .icon-bestfor-mic, .btn.active .icon-bestfor-mic {
+/* line 165, ../../../src/css/scss/_base/_sprites.scss */
+.btn:not([disabled]):hover .icon-bestfor-mic, .btn:not([disabled]):focus .icon-bestfor-mic {
   background-position: -30px -660px;
 }
+/* line 169, ../../../src/css/scss/_base/_sprites.scss */
+.icon-bestfor-mic .btn.active:hover, .btn.active .icon-bestfor-mic {
+  background-position: -30px -690px;
+}
 
-/* line 161, ../../../src/css/scss/_base/_sprites.scss */
+/* line 160, ../../../src/css/scss/_base/_sprites.scss */
 .icon-bestfor-snowboard {
   background-position: -60px -630px;
   width: 30px;
   height: 30px;
 }
-/* line 168, ../../../src/css/scss/_base/_sprites.scss */
-.btn:not([disabled]):hover .icon-bestfor-snowboard, .btn:not([disabled]):focus .icon-bestfor-snowboard, .btn.active .icon-bestfor-snowboard {
+/* line 165, ../../../src/css/scss/_base/_sprites.scss */
+.btn:not([disabled]):hover .icon-bestfor-snowboard, .btn:not([disabled]):focus .icon-bestfor-snowboard {
   background-position: -60px -660px;
 }
+/* line 169, ../../../src/css/scss/_base/_sprites.scss */
+.icon-bestfor-snowboard .btn.active:hover, .btn.active .icon-bestfor-snowboard {
+  background-position: -60px -690px;
+}
 
-/* line 193, ../../../src/css/scss/_base/_sprites.scss */
+/* line 194, ../../../src/css/scss/_base/_sprites.scss */
 .sprite-mini-global-nav-indicator {
-  background-position: 0px -750px;
+  background-position: 0px -780px;
   width: 22px;
   height: 9px;
 }
 
-/* line 193, ../../../src/css/scss/_base/_sprites.scss */
+/* line 194, ../../../src/css/scss/_base/_sprites.scss */
 .sprite-reg-nav-sony-logo {
-  background-position: 0px -780px;
+  background-position: 0px -810px;
   width: 89px;
   height: 31px;
 }
@@ -4004,8 +4130,6 @@ input[type="submit"].btn.btn-mini {
 /* line 71, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white {
   background-color: white;
-  border: 1px solid #83838f;
-  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 /* line 78, ../../../src/css/scss/_base/_swatches.scss */
@@ -4915,7 +5039,7 @@ button.close {
   border-color: #444148;
 }
 /* line 122, ../../../src/css/scss/_components/_navs.scss */
-.nav-wrapper .navbar .nav > li#nav-li-universal > a > i.icon-ui-plus-tiny {
+.nav-wrapper .navbar .nav > li#nav-li-universal > a > i.icon-ui-plus-tiny, .nav-wrapper .navbar .nav > li#nav-li-universal > a > i.compare-toggle:after {
   margin: 5px 0 0 12px;
 }
 /* line 128, ../../../src/css/scss/_components/_navs.scss */
@@ -6896,10 +7020,18 @@ a.label:hover, a.badge:hover {
   background: none;
 }
 /* line 80, ../../../src/css/scss/_base/_labels-badges.scss */
+.label-close:hover {
+  color: #f35429;
+}
+/* line 84, ../../../src/css/scss/_base/_labels-badges.scss */
 .label-close:after {
   content: '';
   margin-top: 1px;
   margin-left: 6px;
+}
+/* line 93, ../../../src/css/scss/_base/_labels-badges.scss */
+.label-close:hover:after {
+  background-position: -660px -30px;
 }
 
 @-webkit-keyframes progress-bar-stripes {
@@ -7247,38 +7379,30 @@ a.label:hover, a.badge:hover {
   /* you should probably localize the cur file */
 }
 
-/* line 6, ../../../src/css/scss/_components/_slide-toggle.scss */
+/* line 5, ../../../src/css/scss/_components/_slide-toggle.scss */
 .slide-toggle {
-  position: relative;
-  padding-left: 24px;
-  padding-right: 24px;
-  text-align: left;
-  font-size: 0.8125em;
   background: #f35429;
   border-color: #f35429;
-  width: 131px;
 }
-/* line 17, ../../../src/css/scss/_components/_slide-toggle.scss */
-.slide-toggle:hover, .slide-toggle:focus {
-  background: #83838f;
-  border-color: #83838f;
-}
-/* line 22, ../../../src/css/scss/_components/_slide-toggle.scss */
-.slide-toggle:active {
-  background: #83838f;
-  border-color: #83838f;
-}
-/* line 27, ../../../src/css/scss/_components/_slide-toggle.scss */
+/* line 9, ../../../src/css/scss/_components/_slide-toggle.scss */
 .slide-toggle:after {
   content: '';
   position: absolute;
   right: 24px;
   margin-top: 10px;
 }
-/* line 36, ../../../src/css/scss/_components/_slide-toggle.scss */
+/* line 18, ../../../src/css/scss/_components/_slide-toggle.scss */
 .slide-toggle.collapsed {
   background: #2f353d;
   border-color: #2f353d;
+}
+
+/* line 30, ../../../src/css/scss/_components/_slide-toggle.scss */
+.compare-toggle:after {
+  content: '';
+  position: absolute;
+  right: 24px;
+  margin-top: 8px;
 }
 
 /* line 7, ../../../src/css/scss/_base/_utilities.scss */
