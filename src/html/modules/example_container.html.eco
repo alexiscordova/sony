@@ -1,9 +1,12 @@
+---
+desc: 'Here are some modules with unique data:'
+---
 <div class="container-module">
 	<h1>Container Module</h1>
-	<h4>Here are some modules with unique data:</h4>
+	<h4><%- @document.desc %></h4>
 	<ul>
-		<% for module in @document.submodules :%>
-		<li><%- @this.partial('modules/'+module.type , @this.data(module.data) ) %> </li><% end %>
-
+		<% for module in @data.submodules :%>
+		<li><%- @this.partial('modules/'+module.type , {this:@this, data:@this.data(module.data)} ) %></li><% end %>
 	</ul>
+	<h6><%- @data.extra %></h6>
 </div>

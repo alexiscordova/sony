@@ -3,7 +3,6 @@ var express = require('express'),
 	modules = require('./routes/modules'),
 	data = require('./routes/data'), 
 	http = require('http'),
-	db = require('./moduledb.js'), 
 	path = require('path');
 
 var app = express();

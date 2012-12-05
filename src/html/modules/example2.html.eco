@@ -1,0 +1,27 @@
+---
+name: 'example module'
+meta_data: {a:'foo', b:'bar'}
+---
+			<% "local variables from template markup (top of page yaml data)" %>
+			<% @document.name %>
+			<% @document.meta_data.a %>
+			
+			<% "variables from the data (json or partial include)" %>
+			<% @data.mode %>
+			<% @data.content.a %>
+			
+			<% "variables from the parent documents yaml" %>
+			<% @this.document.title %>
+			
+			<% "this is also location of helper functions" %>
+			<% @this.data %>
+			
+			
+			
+<div>
+			<h1><%- @document.name %>: <%- @data.mode %></h1>
+			<ul>
+				<li><%- @data.content.a %> <%- @document.meta_data.a %></li>
+				<li><%- @data.content.b %> <%- @document.meta_data.b %></li>
+			</ul>
+		</div>
