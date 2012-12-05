@@ -59,15 +59,19 @@ meta_data: {a:'foo', b:'bar'}
 						        	<li>
 						        		<a href="#">
 						        			<img src="img/global/global-nav/search-results-images/nex-6.png" alt="α NEX-6" width="83" height="64">
-						        			<span class="search-result-headline">α NEX-6</span>
-						        			<xpan class="search-result-descript">The Future of Photography.</xpan>
+						        			<span class="search-result-p">
+							        			<span class="search-result-headline">α NEX-6</span>
+							        			<span class="search-result-descript">The Future of Photography.</span>
+							        		</span>
 							        	</a>
 							        </li>
 						        	<li>
 						        		<a href="#">
 						        			<img src="img/global/global-nav/search-results-images/nex-5.png" alt="α NEX-5" width="83" height="64">
-						        			<span class="search-result-headline">α NEX-5</span>
-						        			<xpan class="search-result-descript">Pocket DSLR</xpan>
+						        			<span class="search-result-p">
+							        			<span class="search-result-headline">α NEX-5</span>
+							        			<span class="search-result-descript">Pocket DSLR</span>
+							        		</span>
 							        	</a>
 							        </li>
 						        	<li>
