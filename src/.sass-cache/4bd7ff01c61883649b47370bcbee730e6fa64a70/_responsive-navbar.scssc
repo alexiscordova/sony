@@ -1,0 +1,772 @@
+3.2.3 (Media Mark)
+34d6af3cb50e178c0a4b4441b52f197c226487ab
+o:Sass::Tree::RootNode
+:@template"t"//
+// Responsive: Navbar
+// --------------------------------------------------
+
+
+
+// DEFAULT: 980px - 1199px;
+// -----------------------------------------
+.nav-wrapper{
+
+  .navbar{
+    width:auto;
+    padding:0 $navbarMinSidePadding;
+
+    .nav{
+      > li > a{
+        line-height:$navbarLineHeight;
+        padding: 0 6px;
+        margin: 10px 8px 14px 8px;
+        font-size:$navbarTextSize;
+
+        &.nav-dropdown-toggle-text{
+          padding-right: 3px;
+          margin-right: 3px;
+          .icon-ui-arrowhead-down-gray{
+            margin-left: 7px;
+            margin-top: 11px;
+          }
+        }
+      }
+      &.nav-primary{
+        margin-left:3%;
+      }
+      &.nav-utility{
+        > li > a{
+          line-height:$navbarLineHeight;
+          padding: 0 6px;
+          margin: 11px 3px 13px 7px;
+          font-size:$navbarSmTextSize;
+
+          &.nav-dropdown-toggle-text{
+            .icon-ui-arrowhead-down-gray{
+              margin-left: 6px;
+              margin-top: 9px;
+            }
+          }
+        }
+      }
+    }
+  } // end .navbar
+
+  .navtray-wrapper{
+    &.navtray-wrapper-electronics:after{ // background gray under the right side -- just needs to cover up the right margin
+      //left:$navTrayDividerPosition;
+    }
+    .navtray{
+      width:auto;
+
+      .navtray-section-featured{ // section right
+        padding-top:67px;
+        width: (100-$navTrayDividerPosition); 
+        padding-left: 2.8%;
+      }
+      .navtray-section-main{ // section left
+        padding-top:56px;
+        width: $navTrayDividerPosition;
+
+        .navtray-list-main{
+          margin: 0 1.6% 2.1% 4.1%;
+          overflow:hidden;
+
+          &:after{ // HR
+            width:97%;
+            height:14px;
+            margin-left: 1.7%;
+          }
+
+          > li{
+            width:23.1%;
+            margin:2% 1.9% 2% 0;
+          }
+          > li > a > img {
+            width:83%;
+            // height:83%;
+          }
+        }
+      } // end .navtray-section-main
+
+      .btn-nav-view-all{
+        margin-left: 5.7%;
+      }
+    } // end .nav-tray
+  } // end .navtray-wrapper
+
+  // Required to make the collapsing navbar work on regular desktops
+  .nav-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
+} // end .nav-wrapper
+
+
+
+
+// LARGE DESKTOP
+// ------------------------------------------------
+@media (min-width: 1200px) {
+  .nav-wrapper{
+    .navbar{
+      width:$navMaxWidth;
+    }
+    .navtray-wrapper{
+      .navtray{
+        width:1190px;
+
+        .navtray-section-featured{ // section right
+          width: 100 - ($navTrayDividerPosition + 2);
+          padding-left: 4%;
+        }
+        .navtray-section-main{ // section left
+          width: ($navTrayDividerPosition + 2);
+        }
+      }
+      &.navtray-wrapper-fullwidth-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
+        content: "";
+        display: block;
+        width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
+        height: 100%;
+        position:absolute;
+        top:0;
+        left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
+        z-index:10;
+        background: $navTrayBackgroundAlt;
+      }
+    }
+  }
+}
+
+
+// EXTRA LARGE DESKTOP
+// ------------------------------------------------
+@media (min-width: 1500px) {
+  
+}
+
+// PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
+// ------------------------------------------------
+@media (min-width: 768px) and (max-width: 979px) {
+  .nav-wrapper { 
+    .navbar{
+      padding:0 4.2%;
+
+      .nav{
+        &.nav-primary{
+          margin-left: 1.5%;
+        }
+        > li > a{
+          line-height: $navbarLineHeight;
+          margin-top: 11px;
+          // margin-bottom:14px;
+          font-size: $font_13_16;
+          padding: 0 7px;
+
+          &.nav-dropdown-toggle-text{
+            // padding-right:3px;
+            // margin-right:6px;
+            .icon-ui-arrowhead-down-gray{
+              // margin-left: 7px;              
+              margin-top: 9px;
+            }
+          }
+        }
+      }
+    }
+
+
+
+    .navtray-wrapper {
+      .navtray {
+        width:auto;
+
+        .navtray-section-featured{ // section right
+          padding-top: 47px;
+          padding-left:2.3%;
+          width: 100 - ($navTrayDividerPosition - 4);
+        }
+        .navtray-section-main{ // section left - contents
+          padding-top: 38px;
+          width: ($navTrayDividerPosition - 4);
+
+          .navtray-list-main {
+            margin-left:8.2%;
+            margin-right:0;
+
+            &:after{ // HR
+              width: 94%;
+              height: 10px;
+              margin-left: 1.9%;
+            };
+
+            > li{
+              width:31.9%;
+              margin:2% 0.2% 2% 0;
+            }
+            > li > a {
+              padding-bottom:13px;
+
+              > img {
+                width:83%;
+                // height:83%;
+                margin:0 auto;
+              }
+              > .nav-label{
+                margin-top:6px;
+              }
+            }
+          }
+          .btn-nav-view-all{
+            margin-left: 10%;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// SMALLER THAN PORTRAIT TABLET -- MOBILE-LARGE
+@media (max-width: 767px) {
+
+  // Padding to set content in a bit
+  body {
+  }
+  // Negative indent the now static "fixed" navbar
+  .navbar-fixed-top,
+  .navbar-fixed-bottom,
+  .navbar-static-top {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
+  // Account for brand name
+  .navbar .brand {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 0 0 -5px;
+  }
+
+  // COLLAPSIBLE NAVBAR
+  // ------------------
+  // Nav collapse clears brand
+  .nav-collapse {
+    clear: both;
+  }
+  // Block-level the nav
+  .nav-collapse .nav {
+    float: none;
+    margin-bottom:28px;
+  }
+  .nav-collapse .nav > li {
+    float: none;
+    line-height: 0.35;
+  }
+  .nav-collapse .nav > li > a {
+    margin-bottom: 2px;
+  }
+  .nav-collapse .nav > .divider-vertical {
+    display: none;
+  }
+  .nav-collapse .nav .nav-header {
+    color: $navbarText;
+    text-shadow: none;
+  }
+  // Nav and dropdown links in navbar
+  .nav-collapse .nav > li > a,
+  .nav-collapse .dropdown-menu a {
+    padding: 9px 15px;
+    font-weight: bold;
+    color: $navbarLinkColor;
+    @include border-radius(3px);
+  }
+  // Buttons
+  .nav-collapse .btn {
+    padding: 4px 10px 4px;
+    font-weight: normal;
+    @include border-radius(4px);
+  }
+  .nav-collapse .dropdown-menu li + li a {
+    margin-bottom: 2px;
+  }
+  .nav-collapse .nav > li > a:hover,
+  .nav-collapse .dropdown-menu a:hover {
+    background-color: $navbarBackground;
+  }
+  .navbar-inverse .nav-collapse .nav > li > a:hover,
+  .navbar-inverse .nav-collapse .dropdown-menu a:hover {
+    background-color: $navbarInverseBackground;
+  }
+  // Buttons in the navbar
+  .nav-collapse.in .btn-group {
+    margin-top: 5px;
+    padding: 0;
+  }
+  // Dropdowns in the navbar
+  .nav-collapse .dropdown-menu {
+    position: static;
+    top: auto;
+    left: auto;
+    float: none;
+    display: block;
+    max-width: none;
+    margin: 0 15px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    @include border-radius(0);
+    @include box-shadow(none);
+  }
+  .nav-collapse .dropdown-menu:before,
+  .nav-collapse .dropdown-menu:after {
+    display: none;
+  }
+  .nav-collapse .dropdown-menu .divider {
+    display: none;
+  }
+  .nav-collapse .nav > li > .dropdown-menu {
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+  // Forms in navbar
+  .nav-collapse .navbar-form,
+  .nav-collapse .navbar-search {
+    float: none;
+    padding: ($baseLineHeight / 2) 15px;
+    margin: ($baseLineHeight / 2) 0;
+    border-top: 1px solid $navbarBackground;
+    border-bottom: 1px solid $navbarBackground;
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1));
+  }
+  .navbar-inverse .nav-collapse .navbar-form,
+  .navbar-inverse .nav-collapse .navbar-search {
+    border-top-color: $navbarInverseBackground;
+    border-bottom-color: $navbarInverseBackground;
+  }
+  // Pull right (secondary) nav content
+  .navbar .nav-collapse .nav.pull-right {
+    float: none;
+    margin-left: 0;
+  }
+  // Hide everything in the navbar save .brand and toggle button */
+  .nav-collapse,
+  .nav-collapse.collapse {
+    overflow: hidden;
+    height: 0;
+  }
+  // Navbar button
+  .navbar .btn-mobile-navbar-menu-trigger {
+    display: block;
+    width: auto;
+    border:none;
+    margin-top:5px;
+  }
+
+  // STATIC NAVBAR
+  // -------------
+  .navbar-static .navbar-inner {
+    padding-left:  10px;
+    padding-right: 10px;
+  }
+}
+
+
+// LANDSCAPE PHONE AND BELOW
+@media (max-width: 480px) {
+}
+
+
+// DEFAULT DESKTOP
+// ---------------
+:@has_childrenT:@options{ :@children[o:Sass::Tree::CommentNode
+:
+@type:silent;@;	[ :@value["V/*
+ * Responsive: Navbar
+ * -------------------------------------------------- */:
+@lineio;
+
+;;;@;	[ ;["P/* DEFAULT: 980px - 1199px;
+ * ----------------------------------------- */;io:Sass::Tree::RuleNode;T;@:
+@tabsi ;	[o;;T;@;i ;	[o:Sass::Tree::PropNode:
+@name["
+width;@;i ;	[ :@prop_syntax:new;o:Sass::Script::String;:identifier;@;"	auto;io;;["padding;@;i ;	[ ;;;o:Sass::Script::List	;@:@separator:
+space;[o:Sass::Script::Number:@numerator_units[ ;@:@original"0;i :@denominator_units[ ;io:Sass::Script::Variable	;"navbarMinSidePadding;@:@underscored_name"navbarMinSidePadding;i;i;io;;T;@;i ;	[o;;T;@;i ;	[
+o;;["line-height;@;i ;	[ ;;;o;	;"navbarLineHeight;@;"navbarLineHeight;i;io;;["padding;@;i ;	[ ;;;o;;;;@;"
+0 6px;io;;["margin;@;i ;	[ ;;;o;;;;@;"10px 8px 14px 8px;io;;["font-size;@;i ;	[ ;;;o;	;"navbarTextSize;@;"navbarTextSize;i;io;;T;@;i ;	[o;;["padding-right;@;i ;	[ ;;;o;;;;@;"3px;io;;["margin-right;@;i ;	[ ;;;o;;;;@;"3px;io;;T;@;i ;	[o;;["margin-left;@;i ;	[ ;;;o;;;;@;"7px;io;;["margin-top;@;i ;	[ ;;;o;;;;@;"	11px;i :
+@rule["!.icon-ui-arrowhead-down-gray:@parsed_ruleso:"Sass::Selector::CommaSequence:@members[o:Sass::Selector::Sequence;#[o:#Sass::Selector::SimpleSequence
+;#[o:Sass::Selector::Class;[" icon-ui-arrowhead-down-gray:@filename" ;i:@sourceso:Set:
+@hash{ :@subject0;'@m;i;'@m;i;i; ["&.nav-dropdown-toggle-text;!o;";#[o;$;#[o;%
+;#[o:Sass::Selector::Parent;'" ;io;&;["nav-dropdown-toggle-text;'@y;i;(o;);*{ ;+0;'@y;i;'@y;i;i; ["> li > a;!o;";#[o;$;#[	">o;%
+;#[o:Sass::Selector::Element	;["li;'" ;i:@namespace0;(o;);*{ ;+0;'@†;i">o;%
+;#[o;-	;["a;'@†;i;.0;(o;);*{ ;+0;'@†;i;'@†;i;io;;T;@;i ;	[o;;["margin-left;@;i ;	[ ;;;o;;;;@;"3%;i%; ["&.nav-primary;!o;";#[o;$;#[o;%
+;#[o;,;'" ;i$o;&;["nav-primary;'@¢;i$;(o;);*{ ;+0;'@¢;i$;'@¢;i$;i$o;;T;@;i ;	[o;;T;@;i ;	[
+o;;["line-height;@;i ;	[ ;;;o;	;"navbarLineHeight;@;"navbarLineHeight;i);i)o;;["padding;@;i ;	[ ;;;o;;;;@;"
+0 6px;i*o;;["margin;@;i ;	[ ;;;o;;;;@;"11px 3px 13px 7px;i+o;;["font-size;@;i ;	[ ;;;o;	;"navbarSmTextSize;@;"navbarSmTextSize;i,;i,o;;T;@;i ;	[o;;T;@;i ;	[o;;["margin-left;@;i ;	[ ;;;o;;;;@;"6px;i0o;;["margin-top;@;i ;	[ ;;;o;;;;@;"9px;i1; ["!.icon-ui-arrowhead-down-gray;!o;";#[o;$;#[o;%
+;#[o;&;[" icon-ui-arrowhead-down-gray;'" ;i/;(o;);*{ ;+0;'@á;i/;'@á;i/;i/; ["&.nav-dropdown-toggle-text;!o;";#[o;$;#[o;%
+;#[o;,;'" ;i.o;&;["nav-dropdown-toggle-text;'@í;i.;(o;);*{ ;+0;'@í;i.;'@í;i.;i.; ["> li > a;!o;";#[o;$;#[	">o;%
+;#[o;-	;["li;'" ;i(;.0;(o;);*{ ;+0;'@ÿ;i(">o;%
+;#[o;-	;["a;'@ÿ;i(;.0;(o;);*{ ;+0;'@ÿ;i(;'@ÿ;i(;i(; ["&.nav-utility;!o;";#[o;$;#[o;%
+;#[o;,;'" ;i'o;&;["nav-utility;'@;i';(o;);*{ ;+0;'@;i';'@;i';i'; ["	.nav;!o;";#[o;$;#[o;%
+;#[o;&;["nav;'" ;i;(o;);*{ ;+0;'@$;i;'@$;i;i; [".navbar;!o;";#[o;$;#[o;%
+;#[o;&;["navbar;'" ;i;(o;);*{ ;+0;'@2;i;'@2;i;io;
+
+;;;@;	[ ;["/* end .navbar */;i7o;;T;@;i ;	[o;;T;@;i ;	[o;
+
+;;;@;	[ ;["z/* background gray under the right side -- just needs to cover up the right margin
+ *left:$navTrayDividerPosition; */;i:; ["(&.navtray-wrapper-electronics:after;!o;";#[o;$;#[o;%
+;#[o;,;'" ;i:o;&;[" navtray-wrapper-electronics;'@J;i:o:Sass::Selector::Pseudo
+;["
+after;:
+class;'@J;i::	@arg0;(o;);*{ ;+0;'@J;i:;'@J;i:;i:o;;T;@;i ;	[
+o;;["
+width;@;i ;	[ ;;;o;;;;@;"	auto;i>o;;T;@;i ;	[	o;
+
+;;;@;	[ ;["/* section right */;i@o;;["padding-top;@;i ;	[ ;;;o;;;;@;"	67px;iAo;;["
+width;@;i ;	[ ;;;o:Sass::Script::Operation
+:@operator:
+minus;@:@operand2o;	;"navTrayDividerPosition;@;"navTrayDividerPosition;iB:@operand1o;
+;[ ;@;ii;@$;iB;iB;iBo;;["padding-left;@;i ;	[ ;;;o;;;;@;"	2.8%;iC; [".navtray-section-featured;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-section-featured;'" ;i@;(o;);*{ ;+0;'@‚;i@;'@‚;i@;i@o;;T;@;i ;	[	o;
+
+;;;@;	[ ;["/* section left */;iEo;;["padding-top;@;i ;	[ ;;;o;;;;@;"	56px;iFo;;["
+width;@;i ;	[ ;;;o;	;"navTrayDividerPosition;@;"navTrayDividerPosition;iG;iGo;;T;@;i ;	[
+o;;["margin;@;i ;	[ ;;;o;;;;@;"0 1.6% 2.1% 4.1%;iJo;;["overflow;@;i ;	[ ;;;o;;;;@;"hidden;iKo;;T;@;i ;	[	o;
+
+;;;@;	[ ;["/* HR */;iMo;;["
+width;@;i ;	[ ;;;o;;;;@;"97%;iNo;;["height;@;i ;	[ ;;;o;;;;@;"	14px;iOo;;["margin-left;@;i ;	[ ;;;o;;;;@;"	1.7%;iP; ["&:after;!o;";#[o;$;#[o;%
+;#[o;,;'" ;iMo;/
+;["
+after;;0;'@Ç;iM;10;(o;);*{ ;+0;'@Ç;iM;'@Ç;iM;iMo;;T;@;i ;	[o;;["
+width;@;i ;	[ ;;;o;;;;@;"
+23.1%;iTo;;["margin;@;i ;	[ ;;;o;;;;@;"2% 1.9% 2% 0;iU; ["	> li;!o;";#[o;$;#[">o;%
+;#[o;-	;["li;'" ;iS;.0;(o;);*{ ;+0;'@ç;iS;'@ç;iS;iSo;;T;@;i ;	[o;;["
+width;@;i ;	[ ;;;o;;;;@;"83%;iXo;
+
+;;;@;	[ ;["/* height:83%; */;iY; ["> li > a > img;!o;";#[o;$;#[">o;%
+;#[o;-	;["li;'" ;iW;.0;(o;);*{ ;+0;'@;iW">o;%
+;#[o;-	;["a;'@;iW;.0;(o;);*{ ;+0;'@;iW">o;%
+;#[o;-	;["img;'@;iW;.0;(o;);*{ ;+0;'@;iW;'@;iW;iW; [".navtray-list-main;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-list-main;'" ;iI;(o;);*{ ;+0;'@ ;iI;'@ ;iI;iI; [".navtray-section-main;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-section-main;'" ;iE;(o;);*{ ;+0;'@.;iE;'@.;iE;iEo;
+
+;;;@;	[ ;["$/* end .navtray-section-main */;i\o;;T;@;i ;	[o;;["margin-left;@;i ;	[ ;;;o;;;;@;"	5.7%;i_; [".btn-nav-view-all;!o;";#[o;$;#[o;%
+;#[o;&;["btn-nav-view-all;'" ;i^;(o;);*{ ;+0;'@H;i^;'@H;i^;i^; [".navtray;!o;";#[o;$;#[o;%
+;#[o;&;["navtray;'" ;i=;(o;);*{ ;+0;'@V;i=;'@V;i=;i=o;
+
+;;;@;	[ ;["/* end .nav-tray */;ia; [".navtray-wrapper;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-wrapper;'" ;i9;(o;);*{ ;+0;'@h;i9;'@h;i9;i9o;
+
+;;;@;	[ ;["/* end .navtray-wrapper */;ibo;
+
+;;;@;	[ ;["J/* Required to make the collapsing navbar work on regular desktops */;ido;;T;@;i ;	[o;;["height;@;i ;	[ ;;;o;;;;@;"auto !important;ifo;;["overflow;@;i ;	[ ;;;o;;;;@;"visible !important;ig; [".nav-collapse.collapse;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;ieo;&;["collapse;'@Œ;ie;(o;);*{ ;+0;'@Œ;ie;'@Œ;ie;ie; [".nav-wrapper;!o;";#[o;$;#[o;%
+;#[o;&;["nav-wrapper;'" ;i;(o;);*{ ;+0;'@;i;'@;i;io;
+
+;;;@;	[ ;["/* end .nav-wrapper */;iio;
+
+;;;@;	[ ;["L/* LARGE DESKTOP
+ * ------------------------------------------------ */;ino:Sass::Tree::MediaNode;T;@;i ;	[o;;T;@;i ;	[o;;T;@;i ;	[o;;["
+width;@;i ;	[ ;;;o;	;"navMaxWidth;@;"navMaxWidth;is;is; [".navbar;!o;";#[o;$;#[o;%
+;#[o;&;["navbar;'" ;ir;(o;);*{ ;+0;'@À;ir;'@À;ir;iro;;T;@;i ;	[o;;T;@;i ;	[o;;["
+width;@;i ;	[ ;;;o;;;;@;"1190px;iwo;;T;@;i ;	[o;
+
+;;;@;	[ ;["/* section right */;iyo;;["
+width;@;i ;	[ ;;;o;2
+;3;4;@;5o;2
+;3:	plus;@;5o;;[ ;@;"2;i;@$;iz;6o;	;"navTrayDividerPosition;@;"navTrayDividerPosition;iz;iz;6o;;[ ;@;"100;ii;@$;iz;iz;izo;;["padding-left;@;i ;	[ ;;;o;;;;@;"4%;i{; [".navtray-section-featured;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-section-featured;'" ;iy;(o;);*{ ;+0;'@ó;iy;'@ó;iy;iyo;;T;@;i ;	[o;
+
+;;;@;	[ ;["/* section left */;i}o;;["
+width;@;i ;	[ ;;;o;2
+;3;8;@;5o;;[ ;@;"2;i;@$;i~;6o;	;"navTrayDividerPosition;@;"navTrayDividerPosition;i~;i~;i~; [".navtray-section-main;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-section-main;'" ;i};(o;);*{ ;+0;'@;i};'@;i};i}; [".navtray;!o;";#[o;$;#[o;%
+;#[o;&;["navtray;'" ;iv;(o;);*{ ;+0;'@ ;iv;'@ ;iv;ivo;;T;@;i ;	[o;
+
+;;;@;	[ ;["Z/* background gray under the right side -- just needs to cover up the right margin */;i|o;;["content;@;i ;	[ ;;;o;;;;@;""";i}o;;["display;@;i ;	[ ;;;o;;;;@;"
+block;i~o;;["
+width;@;i ;	[ ;;;o;2
+;3;4;@;5o;	;"navTrayDividerPosition;@;"navTrayDividerPosition;i;6o;
+;[ ;@;is;@$;i;i;io;
+
+;;;@;	[ ;["a/* make sure it's a little wider than really necessary so there's no little edge showing. */;io;;["height;@;i ;	[ ;;;o;;;;@;"	100%;i€o;;["position;@;i ;	[ ;;;o;;;;@;"absolute;io;;["top;@;i ;	[ ;;;o;;;;@;"0;i‚o;;["	left;@;i ;	[ ;;;o;2
+;3:
+times;@;5o;;[ ;@;"1.1;f1.1000000000000001 ™š;@$;iƒ;6o;	;"navTrayDividerPosition;@;"navTrayDividerPosition;iƒ;iƒ;iƒo;
+
+;;;@;	[ ;["c/* just needs to cover up the right margin, so make sure it's farther right than neccessary */;iƒo;;["z-index;@;i ;	[ ;;;o;;;;@;"10;i„o;;["background;@;i ;	[ ;;;o;	;"navTrayBackgroundAlt;@;"navTrayBackgroundAlt;i…;i…; ["*&.navtray-wrapper-fullwidth-3-4:after;!o;";#[o;$;#[o;%
+;#[o;,;'" ;i|o;&;[""navtray-wrapper-fullwidth-3-4;'@{;i|o;/
+;["
+after;;0;'@{;i|;10;(o;);*{ ;+0;'@{;i|;'@{;i|;i|; [".navtray-wrapper;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-wrapper;'" ;iu;(o;);*{ ;+0;'@;iu;'@;iu;iu; [".nav-wrapper;!o;";#[o;$;#[o;%
+;#[o;&;["nav-wrapper;'" ;iq;(o;);*{ ;+0;'@;iq;'@;iq;iq:@query[
+"(o;	;;;@;"min-width;ip": o;;["px;@;"1200px;i°;[ ;ip");" ;ipo;
+
+;;;@;	[ ;["R/* EXTRA LARGE DESKTOP
+ * ------------------------------------------------ */;iŒo;7;T;@;i ;	[ ;:[
+"(o;	;;;@;"min-width;iŽ": o;;["px;@;"1500px;iÜ;[ ;iŽ");" ;iŽo;
+
+;;;@;	[ ;["m/* PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
+ * ------------------------------------------------ */;i’o;7;T;@;i ;	[o;;T;@;i ;	[o;;T;@;i ;	[o;;["padding;@;i ;	[ ;;;o;;;;@;"0 4.2%;i—o;;T;@;i ;	[o;;T;@;i ;	[o;;["margin-left;@;i ;	[ ;;;o;;;;@;"	1.5%;i›; ["&.nav-primary;!o;";#[o;$;#[o;%
+;#[o;,;'" ;išo;&;["nav-primary;'@á;iš;(o;);*{ ;+0;'@á;iš;'@á;iš;išo;;T;@;i ;	[o;;["line-height;@;i ;	[ ;;;o;	;"navbarLineHeight;@;"navbarLineHeight;iž;ižo;;["margin-top;@;i ;	[ ;;;o;;;;@;"	11px;iŸo;
+
+;;;@;	[ ;["/* margin-bottom:14px; */;i o;;["font-size;@;i ;	[ ;;;o;	;"font_13_16;@;"font_13_16;i¡;i¡o;;["padding;@;i ;	[ ;;;o;;;;@;"
+0 7px;i¢o;;T;@;i ;	[o;
+
+;;;@;	[ ;["2/* padding-right:3px;
+ * margin-right:6px; */;i¥o;;T;@;i ;	[o;
+
+;;;@;	[ ;["*/* margin-left: 7px;               */;i¨o;;["margin-top;@;i ;	[ ;;;o;;;;@;"9px;i©; ["!.icon-ui-arrowhead-down-gray;!o;";#[o;$;#[o;%
+;#[o;&;[" icon-ui-arrowhead-down-gray;'" ;i§;(o;);*{ ;+0;'@$;i§;'@$;i§;i§; ["&.nav-dropdown-toggle-text;!o;";#[o;$;#[o;%
+;#[o;,;'" ;i¤o;&;["nav-dropdown-toggle-text;'@0;i¤;(o;);*{ ;+0;'@0;i¤;'@0;i¤;i¤; ["> li > a;!o;";#[o;$;#[	">o;%
+;#[o;-	;["li;'" ;i;.0;(o;);*{ ;+0;'@B;i">o;%
+;#[o;-	;["a;'@B;i;.0;(o;);*{ ;+0;'@B;i;'@B;i;i; ["	.nav;!o;";#[o;$;#[o;%
+;#[o;&;["nav;'" ;i™;(o;);*{ ;+0;'@X;i™;'@X;i™;i™; [".navbar;!o;";#[o;$;#[o;%
+;#[o;&;["navbar;'" ;i–;(o;);*{ ;+0;'@f;i–;'@f;i–;i–o;;T;@;i ;	[o;;T;@;i ;	[o;;["
+width;@;i ;	[ ;;;o;;;;@;"	auto;i´o;;T;@;i ;	[	o;
+
+;;;@;	[ ;["/* section right */;i¶o;;["padding-top;@;i ;	[ ;;;o;;;;@;"	47px;i·o;;["padding-left;@;i ;	[ ;;;o;;;;@;"	2.3%;i¸o;;["
+width;@;i ;	[ ;;;o;2
+;3;4;@;5o;2
+;3;4;@;5o;;[ ;@;"4;i	;@$;i¹;6o;	;"navTrayDividerPosition;@;"navTrayDividerPosition;i¹;i¹;6o;;[ ;@;"100;ii;@$;i¹;i¹;i¹; [".navtray-section-featured;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-section-featured;'" ;i¶;(o;);*{ ;+0;'@Ÿ;i¶;'@Ÿ;i¶;i¶o;;T;@;i ;	[
+o;
+
+;;;@;	[ ;[""/* section left - contents */;i»o;;["padding-top;@;i ;	[ ;;;o;;;;@;"	38px;i¼o;;["
+width;@;i ;	[ ;;;o;2
+;3;4;@;5o;;[ ;@;"4;i	;@$;i½;6o;	;"navTrayDividerPosition;@;"navTrayDividerPosition;i½;i½;i½o;;T;@;i ;	[
+o;;["margin-left;@;i ;	[ ;;;o;;;;@;"	8.2%;iÀo;;["margin-right;@;i ;	[ ;;;o;;;;@;"0;iÁo;;T;@;i ;	[	o;
+
+;;;@;	[ ;["/* HR */;iÃo;;["
+width;@;i ;	[ ;;;o;;;;@;"94%;iÄo;;["height;@;i ;	[ ;;;o;;;;@;"	10px;iÅo;;["margin-left;@;i ;	[ ;;;o;;;;@;"	1.9%;iÆ; ["&:after;!o;";#[o;$;#[o;%
+;#[o;,;'" ;iÃo;/
+;["
+after;;0;'@è;iÃ;10;(o;);*{ ;+0;'@è;iÃ;'@è;iÃ;iÃo;;T;@;i ;	[o;;["
+width;@;i ;	[ ;;;o;;;;@;"
+31.9%;iÊo;;["margin;@;i ;	[ ;;;o;;;;@;"2% 0.2% 2% 0;iË; ["	> li;!o;";#[o;$;#[">o;%
+;#[o;-	;["li;'" ;iÉ;.0;(o;);*{ ;+0;'@;iÉ;'@;iÉ;iÉo;;T;@;i ;	[o;;["padding-bottom;@;i ;	[ ;;;o;;;;@;"	13px;iÎo;;T;@;i ;	[o;;["
+width;@;i ;	[ ;;;o;;;;@;"83%;iÑo;
+
+;;;@;	[ ;["/* height:83%; */;iÒo;;["margin;@;i ;	[ ;;;o;;;;@;"0 auto;iÓ; ["
+> img;!o;";#[o;$;#[">o;%
+;#[o;-	;["img;'" ;iÐ;.0;(o;);*{ ;+0;'@1;iÐ;'@1;iÐ;iÐo;;T;@;i ;	[o;;["margin-top;@;i ;	[ ;;;o;;;;@;"6px;iÖ; ["> .nav-label;!o;";#[o;$;#[">o;%
+;#[o;&;["nav-label;'" ;iÕ;(o;);*{ ;+0;'@H;iÕ;'@H;iÕ;iÕ; ["> li > a;!o;";#[o;$;#[	">o;%
+;#[o;-	;["li;'" ;iÍ;.0;(o;);*{ ;+0;'@W;iÍ">o;%
+;#[o;-	;["a;'@W;iÍ;.0;(o;);*{ ;+0;'@W;iÍ;'@W;iÍ;iÍ; [".navtray-list-main;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-list-main;'" ;i¿;(o;);*{ ;+0;'@m;i¿;'@m;i¿;i¿o;;T;@;i ;	[o;;["margin-left;@;i ;	[ ;;;o;;;;@;"10%;iÛ; [".btn-nav-view-all;!o;";#[o;$;#[o;%
+;#[o;&;["btn-nav-view-all;'" ;iÚ;(o;);*{ ;+0;'@ƒ;iÚ;'@ƒ;iÚ;iÚ; [".navtray-section-main;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-section-main;'" ;i»;(o;);*{ ;+0;'@‘;i»;'@‘;i»;i»; [".navtray;!o;";#[o;$;#[o;%
+;#[o;&;["navtray;'" ;i³;(o;);*{ ;+0;'@Ÿ;i³;'@Ÿ;i³;i³; [".navtray-wrapper;!o;";#[o;$;#[o;%
+;#[o;&;["navtray-wrapper;'" ;i²;(o;);*{ ;+0;'@­;i²;'@­;i²;i²; [".nav-wrapper;!o;";#[o;$;#[o;%
+;#[o;&;["nav-wrapper;'" ;i•;(o;);*{ ;+0;'@»;i•;'@»;i•;i•;:["(o;	;;;@;"min-width;i”": o;;["px;@;"
+768px;i ;[ ;i”")"
+ and "(o;	;;;@;"max-width;i”": o;;["px;@;"
+979px;iÓ;[ ;i”");" ;i”o;
+
+;;;@;	[ ;["7/* SMALLER THAN PORTRAIT TABLET -- MOBILE-LARGE */;iäo;7;T;@;i ;	[,o;
+
+;;;@;	[ ;["*/* Padding to set content in a bit */;iço;;T;@;i ;	[ ; ["	body;!o;";#[o;$;#[o;%
+;#[o;-	;["	body;'" ;iè;.0;(o;);*{ ;+0;'@ì;iè;'@ì;iè;ièo;
+
+;;;@;	[ ;["8/* Negative indent the now static "fixed" navbar */;iêo;;T;@;i ;	[o;;["margin-left;@;i ;	[ ;;;o;;["px;@;"
+-20px;iç;[ ;iî;iîo;;["margin-right;@;i ;	[ ;;;o;;["px;@;"
+-20px;iç;[ ;iï;iï; ["D.navbar-fixed-top,
+  .navbar-fixed-bottom,
+  .navbar-static-top;!o;";#[o;$;#[o;%
+;#[o;&;["navbar-fixed-top;'" ;ií;(o;);*{ ;+0;'@;iío;$;#["
+o;%
+;#[o;&;["navbar-fixed-bottom;'@;ií;(o;);*{ ;+0;'@;iío;$;#["
+o;%
+;#[o;&;["navbar-static-top;'@;ií;(o;);*{ ;+0;'@;ií;'@;ií;iío;
+
+;;;@;	[ ;["!/* Account for brand name */;iòo;;T;@;i ;	[o;;["padding-left;@;i ;	[ ;;;o;;;;@;"	10px;iôo;;["padding-right;@;i ;	[ ;;;o;;;;@;"	10px;iõo;;["margin;@;i ;	[ ;;;o;	;@;;;[	o;;[ ;@;"0;i ;@$;iöo;;[ ;@;"0;i ;@$;iöo;;[ ;@;"0;i ;@$;iöo;;["px;@;"	-5px;iö;[ ;iö;iö;iö; [".navbar .brand;!o;";#[o;$;#[o;%
+;#[o;&;["navbar;'" ;ió;(o;);*{ ;+0;'@Z;ióo;%
+;#[o;&;["
+brand;'@Z;ió;(o;);*{ ;+0;'@Z;ió;'@Z;ió;ióo;
+
+;;;@;	[ ;["P/* COLLAPSIBLE NAVBAR
+ * ------------------
+ * Nav collapse clears brand */;iùo;;T;@;i ;	[o;;["
+clear;@;i ;	[ ;;;o;;;;@;"	both;iý; [".nav-collapse;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;iü;(o;);*{ ;+0;'@{;iü;'@{;iü;iüo;
+
+;;;@;	[ ;["/* Block-level the nav */;iÿo;;T;@;i ;	[o;;["
+float;@;i ;	[ ;;;o;;;;@;"	none;io;;["margin-bottom;@;i ;	[ ;;;o;;;;@;"	28px;i; [".nav-collapse .nav;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i ;(o;);*{ ;+0;'@›;i o;%
+;#[o;&;["nav;'@›;i ;(o;);*{ ;+0;'@›;i ;'@›;i ;i o;;T;@;i ;	[o;;["
+float;@;i ;	[ ;;;o;;;;@;"	none;io;;["line-height;@;i ;	[ ;;;o;;;;@;"	0.35;i; [".nav-collapse .nav > li;!o;";#[o;$;#[	o;%
+;#[o;&;["nav-collapse;'" ;i;(o;);*{ ;+0;'@¾;io;%
+;#[o;&;["nav;'@¾;i;(o;);*{ ;+0;'@¾;i">o;%
+;#[o;-	;["li;'@¾;i;.0;(o;);*{ ;+0;'@¾;i;'@¾;i;io;;T;@;i ;	[o;;["margin-bottom;@;i ;	[ ;;;o;;;;@;"2px;i	; [" .nav-collapse .nav > li > a;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i;(o;);*{ ;+0;'@ã;io;%
+;#[o;&;["nav;'@ã;i;(o;);*{ ;+0;'@ã;i">o;%
+;#[o;-	;["li;'@ã;i;.0;(o;);*{ ;+0;'@ã;i">o;%
+;#[o;-	;["a;'@ã;i;.0;(o;);*{ ;+0;'@ã;i;'@ã;i;io;;T;@;i ;	[o;;["display;@;i ;	[ ;;;o;;;;@;"	none;i; ["+.nav-collapse .nav > .divider-vertical;!o;";#[o;$;#[	o;%
+;#[o;&;["nav-collapse;'" ;i;(o;);*{ ;+0;'@;io;%
+;#[o;&;["nav;'@;i;(o;);*{ ;+0;'@;i">o;%
+;#[o;&;["divider-vertical;'@;i;(o;);*{ ;+0;'@;i;'@;i;io;;T;@;i ;	[o;;["
+color;@;i ;	[ ;;;o;	;"navbarText;@;"navbarText;i;io;;["text-shadow;@;i ;	[ ;;;o;;;;@;"	none;i; ["#.nav-collapse .nav .nav-header;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i;(o;);*{ ;+0;'@<;io;%
+;#[o;&;["nav;'@<;i;(o;);*{ ;+0;'@<;io;%
+;#[o;&;["nav-header;'@<;i;(o;);*{ ;+0;'@<;i;'@<;i;io;
+
+;;;@;	[ ;["+/* Nav and dropdown links in navbar */;io;;T;@;i ;	[	o;;["padding;@;i ;	[ ;;;o;;;;@;"9px 15px;io;;["font-weight;@;i ;	[ ;;;o;;;;@;"	bold;io;;["
+color;@;i ;	[ ;;;o;	;"navbarLinkColor;@;"navbarLinkColor;i;io:Sass::Tree::MixinNode;"border-radius;@;	[ :@splat0;i:@keywords{ :
+@args[o;;["px;@;"3px;i;[ ;i; ["B.nav-collapse .nav > li > a,
+  .nav-collapse .dropdown-menu a;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i;(o;);*{ ;+0;'@{;io;%
+;#[o;&;["nav;'@{;i;(o;);*{ ;+0;'@{;i">o;%
+;#[o;-	;["li;'@{;i;.0;(o;);*{ ;+0;'@{;i">o;%
+;#[o;-	;["a;'@{;i;.0;(o;);*{ ;+0;'@{;io;$;#[	"
+o;%
+;#[o;&;["nav-collapse;'@{;i;(o;);*{ ;+0;'@{;io;%
+;#[o;&;["dropdown-menu;'@{;i;(o;);*{ ;+0;'@{;io;%
+;#[o;-	;["a;'@{;i;.0;(o;);*{ ;+0;'@{;i;'@{;i;io;
+
+;;;@;	[ ;["/* Buttons */;io;;T;@;i ;	[o;;["padding;@;i ;	[ ;;;o;;;;@;"4px 10px 4px;io;;["font-weight;@;i ;	[ ;;;o;;;;@;"normal;io;;;"border-radius;@;	[ ;<0;i;={ ;>[o;;["px;@;"4px;i	;[ ;i; [".nav-collapse .btn;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i;(o;);*{ ;+0;'@Ô;io;%
+;#[o;&;["btn;'@Ô;i;(o;);*{ ;+0;'@Ô;i;'@Ô;i;io;;T;@;i ;	[o;;["margin-bottom;@;i ;	[ ;;;o;;;;@;"2px;i!; ["+.nav-collapse .dropdown-menu li + li a;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i ;(o;);*{ ;+0;'@ñ;i o;%
+;#[o;&;["dropdown-menu;'@ñ;i ;(o;);*{ ;+0;'@ñ;i o;%
+;#[o;-	;["li;'@ñ;i ;.0;(o;);*{ ;+0;'@ñ;i "+o;%
+;#[o;-	;["li;'@ñ;i ;.0;(o;);*{ ;+0;'@ñ;i o;%
+;#[o;-	;["a;'@ñ;i ;.0;(o;);*{ ;+0;'@ñ;i ;'@ñ;i ;i o;;T;@;i ;	[o;;["background-color;@;i ;	[ ;;;o;	;"navbarBackground;@;"navbarBackground;i%;i%; ["N.nav-collapse .nav > li > a:hover,
+  .nav-collapse .dropdown-menu a:hover;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i$;(o;);*{ ;+0;'@%;i$o;%
+;#[o;&;["nav;'@%;i$;(o;);*{ ;+0;'@%;i$">o;%
+;#[o;-	;["li;'@%;i$;.0;(o;);*{ ;+0;'@%;i$">o;%
+;#[o;-	;["a;'@%;i$;.0o;/
+;["
+hover;;0;'@%;i$;10;(o;);*{ ;+0;'@%;i$o;$;#[	"
+o;%
+;#[o;&;["nav-collapse;'@%;i$;(o;);*{ ;+0;'@%;i$o;%
+;#[o;&;["dropdown-menu;'@%;i$;(o;);*{ ;+0;'@%;i$o;%
+;#[o;-	;["a;'@%;i$;.0o;/
+;["
+hover;;0;'@%;i$;10;(o;);*{ ;+0;'@%;i$;'@%;i$;i$o;;T;@;i ;	[o;;["background-color;@;i ;	[ ;;;o;	;"navbarInverseBackground;@;"navbarInverseBackground;i);i); ["n.navbar-inverse .nav-collapse .nav > li > a:hover,
+  .navbar-inverse .nav-collapse .dropdown-menu a:hover;!o;";#[o;$;#[o;%
+;#[o;&;["navbar-inverse;'" ;i(;(o;);*{ ;+0;'@q;i(o;%
+;#[o;&;["nav-collapse;'@q;i(;(o;);*{ ;+0;'@q;i(o;%
+;#[o;&;["nav;'@q;i(;(o;);*{ ;+0;'@q;i(">o;%
+;#[o;-	;["li;'@q;i(;.0;(o;);*{ ;+0;'@q;i(">o;%
+;#[o;-	;["a;'@q;i(;.0o;/
+;["
+hover;;0;'@q;i(;10;(o;);*{ ;+0;'@q;i(o;$;#[
+"
+o;%
+;#[o;&;["navbar-inverse;'@q;i(;(o;);*{ ;+0;'@q;i(o;%
+;#[o;&;["nav-collapse;'@q;i(;(o;);*{ ;+0;'@q;i(o;%
+;#[o;&;["dropdown-menu;'@q;i(;(o;);*{ ;+0;'@q;i(o;%
+;#[o;-	;["a;'@q;i(;.0o;/
+;["
+hover;;0;'@q;i(;10;(o;);*{ ;+0;'@q;i(;'@q;i(;i(o;
+
+;;;@;	[ ;[" /* Buttons in the navbar */;i+o;;T;@;i ;	[o;;["margin-top;@;i ;	[ ;;;o;;;;@;"5px;i-o;;["padding;@;i ;	[ ;;;o;;;;@;"0;i.; [" .nav-collapse.in .btn-group;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i,o;&;["in;'@Ô;i,;(o;);*{ ;+0;'@Ô;i,o;%
+;#[o;&;["btn-group;'@Ô;i,;(o;);*{ ;+0;'@Ô;i,;'@Ô;i,;i,o;
+
+;;;@;	[ ;[""/* Dropdowns in the navbar */;i0o;;T;@;i ;	[o;;["position;@;i ;	[ ;;;o;;;;@;"static;i2o;;["top;@;i ;	[ ;;;o;;;;@;"	auto;i3o;;["	left;@;i ;	[ ;;;o;;;;@;"	auto;i4o;;["
+float;@;i ;	[ ;;;o;;;;@;"	none;i5o;;["display;@;i ;	[ ;;;o;;;;@;"
+block;i6o;;["max-width;@;i ;	[ ;;;o;;;;@;"	none;i7o;;["margin;@;i ;	[ ;;;o;;;;@;"0 15px;i8o;;["padding;@;i ;	[ ;;;o;;;;@;"0;i9o;;["background-color;@;i ;	[ ;;;o;;;;@;"transparent;i:o;;["border;@;i ;	[ ;;;o;;;;@;"	none;i;o;;;"border-radius;@;	[ ;<0;i<;={ ;>[o;;[ ;@;"0;i ;@$;i<o;;;"box-shadow;@;	[ ;<0;i=;={ ;>[o;	;;;@;"	none;i=; ["!.nav-collapse .dropdown-menu;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i1;(o;);*{ ;+0;'@=	;i1o;%
+;#[o;&;["dropdown-menu;'@=	;i1;(o;);*{ ;+0;'@=	;i1;'@=	;i1;i1o;;T;@;i ;	[o;;["display;@;i ;	[ ;;;o;;;;@;"	none;iA; ["N.nav-collapse .dropdown-menu:before,
+  .nav-collapse .dropdown-menu:after;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;i@;(o;);*{ ;+0;'@Z	;i@o;%
+;#[o;&;["dropdown-menu;'@Z	;i@o;/
+;["before;;0;'@Z	;i@;10;(o;);*{ ;+0;'@Z	;i@o;$;#["
+o;%
+;#[o;&;["nav-collapse;'@Z	;i@;(o;);*{ ;+0;'@Z	;i@o;%
+;#[o;&;["dropdown-menu;'@Z	;i@o;/
+;["
+after;;0;'@Z	;i@;10;(o;);*{ ;+0;'@Z	;i@;'@Z	;i@;i@o;;T;@;i ;	[o;;["display;@;i ;	[ ;;;o;;;;@;"	none;iD; ["*.nav-collapse .dropdown-menu .divider;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;iC;(o;);*{ ;+0;'@Ž	;iCo;%
+;#[o;&;["dropdown-menu;'@Ž	;iC;(o;);*{ ;+0;'@Ž	;iCo;%
+;#[o;&;["divider;'@Ž	;iC;(o;);*{ ;+0;'@Ž	;iC;'@Ž	;iC;iCo;;T;@;i ;	[o;;T;@;i ;	[o;;["display;@;i ;	[ ;;;o;;;;@;"	none;iI; ["&:before,
+    &:after;!o;";#[o;$;#[o;%
+;#[o;,;'" ;iHo;/
+;["before;;0;'@²	;iH;10;(o;);*{ ;+0;'@²	;iHo;$;#["
+o;%
+;#[o;,;'@²	;iHo;/
+;["
+after;;0;'@²	;iH;10;(o;);*{ ;+0;'@²	;iH;'@²	;iH;iH; ["-.nav-collapse .nav > li > .dropdown-menu;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;iF;(o;);*{ ;+0;'@Î	;iFo;%
+;#[o;&;["nav;'@Î	;iF;(o;);*{ ;+0;'@Î	;iF">o;%
+;#[o;-	;["li;'@Î	;iF;.0;(o;);*{ ;+0;'@Î	;iF">o;%
+;#[o;&;["dropdown-menu;'@Î	;iF;(o;);*{ ;+0;'@Î	;iF;'@Î	;iF;iFo;
+
+;;;@;	[ ;["/* Forms in navbar */;iLo;;T;@;i ;	[o;;["
+float;@;i ;	[ ;;;o;;;;@;"	none;iOo;;["padding;@;i ;	[ ;;;o;	;@;;;[o;2
+;3:div;@;5o;;[ ;@;"2;i;@$;iP;6o;	;"baseLineHeight;@;"baseLineHeight;iP;iPo;;["px;@;"	15px;i;[ ;iP;iP;iPo;;["margin;@;i ;	[ ;;;o;	;@;;;[o;2
+;3;?;@;5o;;[ ;@;"2;i;@$;iQ;6o;	;"baseLineHeight;@;"baseLineHeight;iQ;iQo;;[ ;@;"0;i ;@$;iQ;iQ;iQo;;["border-top;@;i ;	[ ;;;o;	;@;;;[o;;["px;@;"1px;i;[ ;iRo;	;;;@;"
+solid;iRo;	;"navbarBackground;@;"navbarBackground;iR;iR;iRo;;["border-bottom;@;i ;	[ ;;;o;	;@;;;[o;;["px;@;"1px;i;[ ;iSo;	;;;@;"
+solid;iSo;	;"navbarBackground;@;"navbarBackground;iS;iS;iSo;;;"box-shadow;@;	[ ;<0;iT;={ ;>[o;	;@;;;[
+o;	;;;@;"
+inset;iTo;;[ ;@;"0;i ;@$;iTo;;["px;@;"1px;i;[ ;iTo;;[ ;@;"0;i ;@$;iTo:Sass::Script::Funcall;"	rgba;@;<0;iT;={ ;>[	o;;[ ;@;"255;iÿ;@$;iTo;;[ ;@;"255;iÿ;@$;iTo;;[ ;@;"255;iÿ;@$;iTo;;[ ;@;"0.1;f0.10000000000000001 ™š;@$;iT;iTo;	;@;;;[	o;;[ ;@;"0;i ;@$;iTo;;["px;@;"1px;i;[ ;iTo;;[ ;@;"0;i ;@$;iTo;@;"	rgba;@;<0;iT;={ ;>[	o;;[ ;@;"255;iÿ;@$;iTo;;[ ;@;"255;iÿ;@$;iTo;;[ ;@;"255;iÿ;@$;iTo;;[ ;@;"0.1;f0.10000000000000001 ™š;@$;iT;iT; ["?.nav-collapse .navbar-form,
+  .nav-collapse .navbar-search;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;iN;(o;);*{ ;+0;'@„
+;iNo;%
+;#[o;&;["navbar-form;'@„
+;iN;(o;);*{ ;+0;'@„
+;iNo;$;#["
+o;%
+;#[o;&;["nav-collapse;'@„
+;iN;(o;);*{ ;+0;'@„
+;iNo;%
+;#[o;&;["navbar-search;'@„
+;iN;(o;);*{ ;+0;'@„
+;iN;'@„
+;iN;iNo;;T;@;i ;	[o;;["border-top-color;@;i ;	[ ;;;o;	;"navbarInverseBackground;@;"navbarInverseBackground;iX;iXo;;["border-bottom-color;@;i ;	[ ;;;o;	;"navbarInverseBackground;@;"navbarInverseBackground;iY;iY; ["_.navbar-inverse .nav-collapse .navbar-form,
+  .navbar-inverse .nav-collapse .navbar-search;!o;";#[o;$;#[o;%
+;#[o;&;["navbar-inverse;'" ;iW;(o;);*{ ;+0;'@º
+;iWo;%
+;#[o;&;["nav-collapse;'@º
+;iW;(o;);*{ ;+0;'@º
+;iWo;%
+;#[o;&;["navbar-form;'@º
+;iW;(o;);*{ ;+0;'@º
+;iWo;$;#[	"
+o;%
+;#[o;&;["navbar-inverse;'@º
+;iW;(o;);*{ ;+0;'@º
+;iWo;%
+;#[o;&;["nav-collapse;'@º
+;iW;(o;);*{ ;+0;'@º
+;iWo;%
+;#[o;&;["navbar-search;'@º
+;iW;(o;);*{ ;+0;'@º
+;iW;'@º
+;iW;iWo;
+
+;;;@;	[ ;["-/* Pull right (secondary) nav content */;i[o;;T;@;i ;	[o;;["
+float;@;i ;	[ ;;;o;;;;@;"	none;i]o;;["margin-left;@;i ;	[ ;;;o;;;;@;"0;i^; ["*.navbar .nav-collapse .nav.pull-right;!o;";#[o;$;#[o;%
+;#[o;&;["navbar;'" ;i\;(o;);*{ ;+0;'@ ;i\o;%
+;#[o;&;["nav-collapse;'@ ;i\;(o;);*{ ;+0;'@ ;i\o;%
+;#[o;&;["nav;'@ ;i\o;&;["pull-right;'@ ;i\;(o;);*{ ;+0;'@ ;i\;'@ ;i\;i\o;
+
+;;;@;	[ ;["I/* Hide everything in the navbar save .brand and toggle button */ */;i`o;;T;@;i ;	[o;;["overflow;@;i ;	[ ;;;o;;;;@;"hidden;ico;;["height;@;i ;	[ ;;;o;;;;@;"0;id; [",.nav-collapse,
+  .nav-collapse.collapse;!o;";#[o;$;#[o;%
+;#[o;&;["nav-collapse;'" ;ib;(o;);*{ ;+0;'@1;ibo;$;#["
+o;%
+;#[o;&;["nav-collapse;'@1;ibo;&;["collapse;'@1;ib;(o;);*{ ;+0;'@1;ib;'@1;ib;ibo;
+
+;;;@;	[ ;["/* Navbar button */;ifo;;T;@;i ;	[	o;;["display;@;i ;	[ ;;;o;;;;@;"
+block;iho;;["
+width;@;i ;	[ ;;;o;;;;@;"	auto;iio;;["border;@;i ;	[ ;;;o;;;;@;"	none;ijo;;["margin-top;@;i ;	[ ;;;o;;;;@;"5px;ik; [",.navbar .btn-mobile-navbar-menu-trigger;!o;";#[o;$;#[o;%
+;#[o;&;["navbar;'" ;ig;(o;);*{ ;+0;'@j;igo;%
+;#[o;&;["#btn-mobile-navbar-menu-trigger;'@j;ig;(o;);*{ ;+0;'@j;ig;'@j;ig;igo;
+
+;;;@;	[ ;[")/* STATIC NAVBAR
+ * ------------- */;ino;;T;@;i ;	[o;;["padding-left;@;i ;	[ ;;;o;;;;@;"	10px;iqo;;["padding-right;@;i ;	[ ;;;o;;;;@;"	10px;ir; ["!.navbar-static .navbar-inner;!o;";#[o;$;#[o;%
+;#[o;&;["navbar-static;'" ;ip;(o;);*{ ;+0;'@‘;ipo;%
+;#[o;&;["navbar-inner;'@‘;ip;(o;);*{ ;+0;'@‘;ip;'@‘;ip;ip;:[
+"(o;	;;;@;"max-width;iå": o;;["px;@;"
+767px;iÿ;[ ;iå");" ;iåo;
+
+;;;@;	[ ;["$/* LANDSCAPE PHONE AND BELOW */;iwo;7;T;@;i ;	[ ;:[
+"(o;	;;;@;"max-width;ix": o;;["px;@;"
+480px;ià;[ ;ix");" ;ixo;
+
+;;;@;	[ ;["-/* DEFAULT DESKTOP
+ * --------------- */;i|;i
