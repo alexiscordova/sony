@@ -10,10 +10,10 @@ $icon_angle_Y :       -450px;
 $icon_bestfor_Y :     -630px;
   
 $sprite_Specsicon_Y:  -690px;
-$sprite_Mini_Y :      -750px;
-$sprite_Reg_Y :       -780px;
-$sprite_Big_Y :       -840px;
-$sprite_Tall_Y :      -960px;
+$sprite_Mini_Y :      -780px;
+$sprite_Reg_Y :       -810px;
+$sprite_Big_Y :       -870px;
+$sprite_Tall_Y :      -990px;
 
 
 // -----
@@ -45,20 +45,18 @@ $sprite_Tall_Y :      -960px;
 
 
 // Tab Icons
-// GLEN :: Steve said generally icons will only have 2 states, and the active state will be the same as hover; but these tabs are 
-// one of the few exceptions, so they need 3 states. I got rid of the hasHover and hasActive booleans since this is just for your
-// tabs now, and I disabled hover in the mixin for now since there isn't a state in the spritesheet for it yet. 
-// You can probably get rid of the "state2" and "state3" business now, since this mixin is now specific to your tabs. --[c]
 @mixin icon-tab($name, $x, $w, $h) {
   .icon-tab-#{$name} {
     background-position: $x $icon_tab_Y;
     @include size($h, $w);
 
-    //   &.state2,
-    //   &:hover,
-    //   &:focus,
-    //   .tab:focus & { background-position: $x -390px; }
+    &.state2 { background-position: $x ($icon_tab_Y - 30); }
 
+    // &:hover,
+    // &:focus,
+    .tab:focus &,
+    .tab:hover &,
+    .tab:active &,
     .tab.active & { background-position: $x ($icon_tab_Y - 60); }
   }
 }
@@ -75,11 +73,12 @@ $sprite_Tall_Y :      -960px;
 @include icon-tab(handycam,     -360px, 36px, 22px);
 @include icon-tab(video-camera, -420px, 38px, 28px);
 @include icon-tab(grid,         -480px, 27px, 27px);
-@include icon-tab(grid-alt,     -510px, 26px, 26px);
+@include icon-tab(grid-alt,     -510px, 27px, 27px);
 @include icon-tab(headphones,   -540px, 27px, 27px);
 @include icon-tab(earbuds,      -570px, 45px, 24px);
 @include icon-tab(earclips,     -630px, 17px, 28px);
 @include icon-tab(neckphones,   -660px, 45px, 19px);
+@include icon-tab(camera,       -720px, 43px, 26px);
 
 
 
@@ -162,10 +161,12 @@ $sprite_Tall_Y :      -960px;
     background-position: $x $icon_bestfor_Y;
     @include size($h, $w);
 
-    // Could there be more scenarios? possibly
     .btn:not([disabled]):hover &,
-    .btn:not([disabled]):focus &,
-    .btn.active & { background-position: $x ($icon_bestfor_Y - 30px); }
+    .btn:not([disabled]):focus & { background-position: $x ($icon_bestfor_Y - 30px); }
+
+    // Could there be more scenarios? possibly
+    .btn.active:hover,
+    .btn.active & { background-position: $x ($icon_bestfor_Y - 60px); }
   }
 }
 

@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div class="tab-strip">
+<div class="tab-strip gallery-tabs">
 
   <div class="tab-nav-wrap container-fluid">
     <nav class="tab-nav-btns">
@@ -37,11 +37,12 @@
 
 <div class="tab-content">
 
-  <section class="tab-pane fade active in gallery" data-tab="all" data-mode="{{all.mode}}">
-    <div class="container-fluid padded">
-      <p class="l4"><span class="text-dark">{{all.total}}</span> Products</p>
+  <div class="tab-pane fade active in" data-tab="featured">
+    {{#each featured}}
+    <section class="container-fluid padded gallery" data-mode="{{this.mode}}">
+      <h6>{{{this.title}}}</h6>
       <div class="products row-fluid">
-          {{#each all.list}}
+          {{#each this.list}}
           <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
             {{#if this.label}}
             <span class="label label-success">{{this.label}}</span>
@@ -62,7 +63,19 @@
             {{else}}
             <div class="product-img ghost-center-wrap">
               <div class="ghost-center">
-                <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+                {{#if this.imgCarousel}}
+                  {{#each this.imgCarousel}}
+                  <img class="iq-img" alt="{{this.alt}}" data-src="{{this.src}}">
+                  <noscript>
+                    <img src="{{this.src}}" alt="{{this.alt}}">
+                  </noscript>
+                  {{/each}}
+                {{else}}
+                <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
+                <noscript>
+                  <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+                </noscript>
+                {{/if}}
               </div>
             </div>
             <div class="product-content">
@@ -78,12 +91,18 @@
           </div>
           {{/each}}
       </div>
-    </div>
+
+      <div class="see-all">
+        <a class="btn btn-wide" href="#">{{{this.callout}}}</a>
+      </div>
+
+    </section>
+    {{/each}}
 
     <!-- <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div> -->
-  </section>
+  </div>
 
-  <section class="tab-pane fade gallery" data-tab="overhead" data-mode="{{productCards.mode}}">
+  <section class="tab-pane fade gallery" data-tab="cameras" data-mode="{{productCards.mode}}">
     {{#if productCards.filterSet}}
     
     <div class="filter-display-bar container-fluid padded">
@@ -108,8 +127,8 @@
       {{/if}}
 
       <p class="ib"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
-      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter</button>
-      <button class="btn btn-alt-special">Compare</button>
+      <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter</button>
+      <button class="btn btn-alt-special compare-toggle">Compare</button>
     </div>
 
     <div class="container-fluid padded filter-arrow-under fade"><div class="filter-container-arrow"></div></div>
@@ -225,7 +244,8 @@
     {{/if}}
   </section>
 
-  <section class="tab-pane fade gallery" data-tab="inear" data-mode="{{simple.mode}}">
+  <!--
+  <section class="tab-pane fade gallery" data-tab="simple" data-mode="{{simple.mode}}">
     {{#if simple.filterSet}}
     <div class="container-fluid padded">
       <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{simple.name}}-filters">Filter Results</button>
@@ -340,16 +360,16 @@
               <p class="p5 price-title">Starting at</p>
               <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
             </div>
-          </div>
+          </div>-->
           <!-- <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i> -->
-        </div>
+        <!-- </div>
         {{/each}}
         
       </div>
     </div>
-  </section>
+  </section> -->
 
-  <section class="tab-pane fade" data-tab="earclips">
+  <section class="tab-pane fade" data-tab="accessories">
     <div class="grid5 container-fluid padded">
       {{#each accessories}}
       <h2>{{{this.title}}}</h2>

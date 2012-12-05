@@ -77,12 +77,21 @@ a {
   color: $grayDark;
   background: none;
 
+  &:hover {
+    color: $highlightColor;
+  }
+
   &:after {
     content: '';
     margin-top: 1px;
     margin-left: 6px;
     @extend %icon;
     @extend .icon-ui-close;
+  }
+
+  // Change sprite position on hover
+  &:hover:after {
+    background-position: -660px ($icon_ui_Y - 30px);
   }
 }
 

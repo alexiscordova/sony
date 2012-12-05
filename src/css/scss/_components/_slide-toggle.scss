@@ -2,32 +2,14 @@
 // Slide toggle
 // --------------------------------------------------
 
-$slideTogglePadding: 24px;
 .slide-toggle {
-  position: relative;
-  padding-left: $slideTogglePadding;
-  padding-right: $slideTogglePadding;
-  text-align: left;
-  font-size: $font_13_16;
   background: $highlightColor;
   border-color: $highlightColor;
-  width: 131px;
-
-  &:hover,
-  &:focus {
-    background: $gray;
-    border-color: $gray;
-  }
-
-  &:active {
-    background: $gray;
-    border-color: $gray;
-  }
 
   &:after {
     content: '';
     position: absolute;
-    right: $slideTogglePadding;
+    right: $btnAltSpecialPadding;
     margin-top: 10px;
     @extend %icon;
     @extend .icon-ui-arrowhead-up-white;
@@ -40,5 +22,17 @@ $slideTogglePadding: 24px;
 
   &.collapsed:after {
     @extend .icon-ui-arrowhead-down-white;
+  }
+}
+
+.compare-toggle {
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: $btnAltSpecialPadding;
+    margin-top: 8px;
+    @extend %icon;
+    @extend .icon-ui-plus-tiny;
   }
 }

@@ -80,6 +80,17 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 }
 
 
+// Gallery
+// -------------------------
+
+// Give multiple gallery sections a border top
+.gallery + .gallery > *:first-child {
+  border-top: 3px solid $grayLighter;
+  margin-top: 1.875em;
+  padding-top: 1.875em;
+}
+
+
 // Gallery Items
 // -------------------------
 
@@ -228,7 +239,8 @@ $detailedGalleryItemHeight: 480px;
 
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
-  margin: 1.25em 0;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
 
   .slide-toggle {
     margin-left: 20px;
@@ -243,7 +255,7 @@ $detailedGalleryItemHeight: 480px;
 
 // A rotated square
 $filterArrowSize: 16px;
-$left: 200px;
+$left: 175px;
 .csstransforms .filter-container-arrow {
   position: absolute;
   top: -$filterArrowSize / 2;
@@ -268,9 +280,9 @@ $left: 200px;
 
   // Nudge it and make it a bit bigger. Undo rotation and box-shadow
   .filter-container-arrow {
-    top: -1px;
-    left: $left - 1px;
-    width: $filterArrowSize + 2px;
+    top: 0;
+    left: $left - 2px;
+    width: $filterArrowSize + 4px;
     @include rotate(0deg);
     @include box-shadow(none);
   }
@@ -309,8 +321,9 @@ $left: 200px;
 }
 
 .product-count {
+  display: inline-block;
+  min-width: 23px; // keep a constant width so the filter buttons don't move
   font-size: $font_15_15;
-  width: 20px; // keep a constant width so the filter buttons don't move
 }
 
 @media (max-width: 767px) {
@@ -349,134 +362,141 @@ $left: 200px;
 // Tabs
 // -------------------------
 
-$tabHeight: 100px;
+.gallery-tabs {
+  $tabHeight: 100px;
 
-// Container for .tabs-container
-.tab-strip {
-  position: relative;
-  background-color: $grayLightFieldLarge;
+  // Container for .tabs-container
+  &.tab-strip {
+    position: relative;
+    background-color: $grayLighter;
+  }
+
+  // Container for .tab's
+  .tabs {
+    z-index: 1;
+    height: $tabHeight;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .tab {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 120px;
+    height: $tabHeight;
+    text-align: center;
+    cursor: pointer;
+    @include box-shadow(1px 0 0 $white);
+    @include transition(background-color $transitionFast $easeNormal, box-shadow $transitionFast $easeNormal, top $transitionFast $easeNormal);
+
+    &:focus,
+    &:hover {
+      background-color: $grayLightFieldLarge;
+    }
+
+    &:active,
+    &.active {
+      z-index: 2;
+      top: -2px;
+      background-color: $white;
+      box-shadow:
+        0 2px 0 $white,
+        0 0 4px 1px rgba(0,0,0,0.15);
+    }
+  }
+
+  .holder-for-icon {
+    height: 30px;
+  }
+
+  .tab-label {
+    margin-top: 10px;
+  }
+
+
+  // Tablet tab carousel nav buttons
+  .tab-nav-btns {
+    position: absolute;
+    z-index: 5;
+    height: $tabHeight;
+  }
+
+  .tab-nav-wrap {
+    position: relative;
+    display: none;
+  }
+
+  // Tab carousel nav
+  // -------------------------
+  .tab-nav {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: -30px;
+    display: none;
+    width: 30px;
+    height: 100%;
+    background: #f2f2f2;
+    cursor: pointer;
+  }
+
+  .tab-nav-next {
+    left: 724px;
+  }
+
+  // Arrow
+  .tab-nav:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -2px;
+    margin-left: -2px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-right: 5px solid $blue;
+    border-bottom: 5px solid transparent;
+  }
+
+  // Arrow
+  .tab-nav-next:before {
+    border-top: 5px solid transparent;
+    border-right: none;
+    border-left: 5px solid $blue;
+    border-bottom: 5px solid transparent;
+  }
+  
 }
 
-// Container for .tab's
-.tabs {
-  z-index: 1;
-  height: $tabHeight;
-  overflow-x: auto;
-  white-space: nowrap;
-}
 
 // Set up tab carousel
 @media (min-width: 768px) and (max-width: 979px) {
-  .tabs {
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: visible;
-    -webkit-transition: all .4s ease-in-out;
-         -o-transition: all .4s ease-in-out;
-            transition: all .4s ease-in-out;
-  }
+  .gallery-tabs {
+    .tabs {
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: visible;
+      -webkit-transition: all .4s ease-in-out;
+           -o-transition: all .4s ease-in-out;
+              transition: all .4s ease-in-out;
+    }
 
-  .tabs-container {
-    overflow: hidden;
-  }
-}
+    .tabs-container {
+      overflow: hidden;
+    }
 
-.tab {
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  width: 120px;
-  height: $tabHeight;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 1px 0 0 $white;
-
-  -webkit-transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
-     -moz-transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
-          transition: background-color .15s ease-out, box-shadow .15s ease-out, top .15s ease-out;
-
-  &.active {
-    z-index: 2;
-    top: -2px;
-    background-color: $white;
-    box-shadow:
-      0 2px 0 $white,
-      0 0 4px 1px rgba(0,0,0,0.15);
+    .tab-nav-wrap {
+      display: block;
+    }
   }
 }
 
-.holder-for-icon {
-  height: 30px;
-}
-
-.tab-label {
-  margin-top: 15px;
-}
-
-
-// Tablet tab carousel nav buttons
-.tab-nav-btns {
-  position: absolute;
-  z-index: 5;
-  height: $tabHeight;
-}
-
-.tab-nav-wrap {
-  position: relative;
-  display: none;
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-  .tab-nav-wrap {
-    display: block;
-  }
-}
-
-// Tab carousel nav
-// -------------------------
-.tab-nav {
-  position: absolute;
-  z-index: 5;
-  top: 0;
-  left: -30px;
-  display: none;
-  width: 30px;
-  height: 100%;
-  background: #f2f2f2;
-  cursor: pointer;
-}
-
-.tab-nav-next {
-  left: 724px;
-}
-
-// Arrow
-.tab-nav:before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -2px;
-  margin-left: -2px;
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-right: 5px solid $blue;
-  border-bottom: 5px solid transparent;
-}
-
-// Arrow
-.tab-nav-next:before {
-  border-top: 5px solid transparent;
-  border-right: none;
-  border-left: 5px solid $blue;
-  border-bottom: 5px solid transparent;
-}
 
 // Accessories
-.see-all {
-  text-align: center;
-  background: $grayLightFieldLarge;
+.gallery .see-all {
+  text-align: right;
 }
 
 // Just for this page
