@@ -111,13 +111,26 @@
                 }
               }
             }
-            > li:after{
+            > li:after{ // HR after each search result
               @include pseudoEl-block(406px, 0px);
               margin:0 0 0 30px;
               border-bottom:solid 1px $grayLightish;
             }
           }
           .navmenu-list-extended{
+            margin-top:25px;
+            > li {
+              > a {
+                display:block;
+                padding-left: 30px;
+                padding-right: 26px;
+                line-height: 2.25;
+                &:hover{
+                  background-color:rgb(230,230,230);
+                  background-color:rgba(255,255,255,0.8);
+                }
+              }
+            }
           }
         }
       }
