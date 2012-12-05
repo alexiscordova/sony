@@ -87,7 +87,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     tabWidth = initialTabWidth = $tabs.outerWidth();
 
     // New tab shown event
-    $tabs.on('shown', _tabShown);
+    $tabs.on('shown.tab', _tabShown);
 
     // Window resize
     $window.on('resize.tabs', _onResize);
@@ -110,6 +110,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     $activeTab = $tab;
     // Initialize new tab for sticky tabs
     if ( isStickyTabs ) {
+      console.log('tab shown, removing style attribute of all tabs');
       $tabs.removeAttr('style');
       _initStickyTab();
     }
@@ -196,6 +197,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
   },
 
   _teardownTabCarousel = function() {
+    console.log('_teardownTabCarousel');
     isTabCarousel = false;
     $tabsWrap.removeClass('tab-carousel');
     page = 1;
@@ -237,12 +239,14 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 
   // Removes sticky tabs
   _teardownStickyTabs = function() {
+    console.log('_teardownStickyTabs');
     $tabsWrap.off('scroll').removeClass('sticky');
     $tabs.removeAttr('style');
     isStickyTabs = false;
   },
 
   _initStickyTab = function() {
+    console.log('_initStickyTab');
     lastSL = $tabsWrap.scrollLeft();
     data = null;
 
@@ -254,6 +258,8 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       position: 'absolute',
       left: _getBounded( tabOffset )
     });
+
+    console.log('new sticky tab set', _getBounded( tabOffset ), tabOffset );
 
     // Add a margin to the next (or previous if it's the last tab) tab because
     // the active one is positioned absolutely, taking up no space
@@ -301,6 +307,6 @@ $(document).ready(function() {
     Exports.Modules.Tabs.init();
 
     // debug, show second tab
-    $('[data-target="overhead"]').tab('show');
+    // $('[data-target="overhead"]').tab('show');
   }
 });
