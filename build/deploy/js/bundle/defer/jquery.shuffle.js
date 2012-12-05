@@ -6,7 +6,7 @@
  * Use it for whatever you want!
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 11/20/12
+ * @date 12/03/12
  */
 ;(function($, Modernizr, undefined) {
     'use strict';
@@ -61,7 +61,8 @@
     };
 
     var Shuffle = function( $container, options ) {
-        var self = this;
+        var self = this,
+            $window = $(window);
 
         $.extend(self, $.fn.shuffle.options, options, $.fn.shuffle.settings);
 
@@ -97,21 +98,14 @@
 
         // Set up css for transitions
         self.$container.css('position', 'relative')[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
-        self.$items.each(function() {
-            $(this).css(self.itemCss);
-            
-            // Set CSS transition for transforms and opacity
-            if (self.supported) {
-                this.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
-            }
-        });
+        self._initItems();
         
         // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-        self.windowHeight = $(window).height();
-        self.windowWidth = $(window).width();
-        $(window).on('resize.shuffle', function () {
-            var height = $(window).height(),
-                width = $(window).width();
+        self.windowHeight = $window.height();
+        self.windowWidth = $window.width();
+        $window.on('resize.shuffle', function () {
+            var height = $window.height(),
+                width = $window.width();
 
             if (width !== self.windowWidth || height !== self.windowHeight) {
                 self.resized();
@@ -139,38 +133,7 @@
                 category = 'all';
             }
 
-            // Default is to show all items
-            self.$items.removeClass('concealed filtered');
-
-            // Loop through each item and use provided function to determine
-            // whether to hide it or not.
-            if ($.isFunction(category)) {
-                self.$items.each(function() {
-                    var $item = $(this),
-                    passes = category.call($item[0], $item, self);
-                    $item.addClass(passes ? 'filtered' : 'concealed');
-                });
-            }
-
-            // Otherwise we've been passed a category to filter by
-            else {
-                self.group = category;
-                if (category !== 'all') {
-                    self.$items.each(function() {
-                        var $this = $(this),
-                        groups = $this.data('groups'),
-                        keys = self.delimeter && !$.isArray( groups ) ? groups.split( self.delimeter ) : groups,
-                        theClass = $.inArray(category, keys) === -1 ? 'concealed' : 'filtered';
-
-                        $this.addClass( theClass );
-                    });
-                }
-
-                // category === 'all', add filtered class to everything
-                else {
-                    self.$items.addClass('filtered');
-                }
-            }
+            self.filter( category );
             
             // How many filtered elements?
             self.visibleItems = self.$items.filter('.filtered').length;
@@ -184,6 +147,60 @@
             // Update transforms on .filtered elements so they will animate to their new positions
             self.fire('filter');
             self._reLayout();
+        },
+
+        filter : function( category ) {
+            var self = this,
+                isPartialSet = category.hasOwnProperty('jquery'),
+                $items = isPartialSet ? category : self.$items;
+
+            // Default is to show all items
+            $items.removeClass('concealed filtered');
+
+            // Loop through each item and use provided function to determine
+            // whether to hide it or not.
+            if ($.isFunction(category)) {
+                $items.each(function() {
+                    var $item = $(this),
+                    passes = category.call($item[0], $item, self);
+                    $item.addClass(passes ? 'filtered' : 'concealed');
+                });
+            }
+
+            // Otherwise we've been passed a category to filter by
+            else {
+                self.group = category;
+                if (category !== 'all') {
+                    $items.each(function() {
+                        var $this = $(this),
+                        groups = $this.data('groups'),
+                        keys = self.delimeter && !$.isArray( groups ) ? groups.split( self.delimeter ) : groups,
+                        theClass = $.inArray(category, keys) === -1 ? 'concealed' : 'filtered';
+
+                        $this.addClass( theClass );
+                    });
+                }
+
+                // category === 'all', add filtered class to everything
+                else {
+                    $items.addClass('filtered');
+                }
+            }
+
+            return $items;
+        },
+
+        _initItems : function() {
+            var self = this;
+
+            self.$items.each(function() {
+                $(this).css(self.itemCss);
+                
+                // Set CSS transition for transforms and opacity
+                if (self.supported) {
+                    this.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
+                }
+            });
         },
 
         _getItems : function() {
@@ -208,7 +225,8 @@
 
             self.colWidth += gutter;
 
-            self.cols = Math.floor( ( containerWidth + gutter ) / self.colWidth );
+            // Was flooring 4.999999999999999 to 4 :(
+            self.cols = Math.floor( ( containerWidth + gutter + 0.000000000001 ) / self.colWidth );
             self.cols = Math.max( self.cols, 1 );
 
             // This can happen when .shuffle is called on something hidden (e.g. display:none for tabs)
@@ -242,9 +260,12 @@
          * @param {array} items - array of items that will be shown/layed out in order in their array.
          *     Because jQuery collection are always ordered in DOM order, we can't pass a jq collection
          * @param {function} complete callback function
+         * @param {boolean} onlyPosition set this to true to only trigger positioning of the items
          */
-        layout: function( items, fn ) {
+        layout: function( items, fn, onlyPosition ) {
             var self = this;
+
+            fn = fn || self.filterEnd;
             
             self.layoutTransitionEnded = false;
             $.each(items, function(index) {
@@ -272,7 +293,7 @@
                         groupY[i] = Math.max.apply( Math, groupColY );
                     }
 
-                    self._placeItem( $this, groupY, fn );
+                    self._placeItem( $this, groupY, fn, onlyPosition );
                 }
             });
 
@@ -303,7 +324,7 @@
         },
 
         // worker method that places brick in the columnSet with the the minY
-        _placeItem : function( $item, setY, callback ) {
+        _placeItem : function( $item, setY, callback, onlyPosition ) {
             // get the minimum Y value from the columns
             var self = this,
                 minimumY = Math.min.apply( Math, setY ),
@@ -333,15 +354,28 @@
                 self.colYs[ shortCol + i ] = setHeight;
             }
 
-            self.transition({
-                from: 'layout',
-                $this: $item,
-                x: x,
-                y: y,
-                scale : 1,
-                opacity: 1,
-                callback: callback
-            });
+            if ( onlyPosition ) {
+                self._skipTransition($item[0], function() {
+                    self.transition({
+                        from: 'layout',
+                        $this: $item,
+                        x: x,
+                        y: y,
+                        // scale : 1,
+                        opacity: 0
+                    });
+                });
+            } else {
+                self.transition({
+                    from: 'layout',
+                    $this: $item,
+                    x: x,
+                    y: y,
+                    scale : 1,
+                    opacity: 1,
+                    callback: callback
+                });
+            }
 
         },
         
@@ -411,7 +445,7 @@
 
 
         /**
-         * Returns things like -webkit-transition or -moz-box-sizing
+         * Returns things like webkitTransition or boxSizing
          *
          * @param {string} property to be prefixed.
          * @return {string} the prefixed css property
@@ -450,8 +484,16 @@
                 }
             };
 
+            opts.callback = opts.callback || $.noop;
+
             // Use CSS Transforms if we have them
             if (self.supported) {
+
+                // Make scale one if it's not preset
+                if ( opts.scale === undefined ) {
+                    opts.scale = 1;
+                }
+
                 if (self.threeD) {
                     transform = 'translate3d(' + opts.x + 'px, ' + opts.y + 'px, 0) scale3d(' + opts.scale + ', ' + opts.scale + ', 1)';
                 } else {
@@ -460,7 +502,11 @@
 
                 // Update css to trigger CSS Animation
                 opts.$this.css('opacity' , opts.opacity);
-                self.setPrefixedCss(opts.$this, 'transform', transform);
+
+                if ( opts.x !== undefined ) {
+                    self.setPrefixedCss(opts.$this, 'transform', transform);
+                }
+
                 opts.$this.one(self.transitionEndName, complete);
             } else {
                 // Use jQuery to animate left/top
@@ -501,10 +547,63 @@
             self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
         },
 
-        update: function() {
+        _skipTransition : function(element, property, value) {
+            var self = this,
+                reflow,
+                durationName = self.getPrefixed('transitionDuration'),
+                duration = element.style[ durationName ];
+
+            // Set the duration to zero so it happens immediately
+            element.style[ durationName ] = '0ms'; // ms needed for firefox!
+
+            if ( $.isFunction( property ) ) {
+                property();
+            } else {
+                element.style[ property ] = value;
+            }
+
+            reflow = element.offsetWidth; // Force reflow
+
+            // Put the duration back
+            element.style[ durationName ] = duration;
+        },
+
+        _revealAppended : function( $newItems ) {
             var self = this;
+
+            setTimeout(function() {
+                $newItems.each(function(i, el) {
+                    self.transition({
+                        from: 'reveal',
+                        $this: $(el),
+                        // scale : 1,
+                        opacity: 1
+                    });
+                });
+            }, 10);
+        },
+
+        appended : function( $newItems, animateIn ) {
+            // True if undefined
+            animateIn = animateIn === false ? false : true;
+            this.addItems( $newItems, animateIn );
+        },
+
+        addItems : function( $newItems, animateIn ) {
+            var self = this;
+
+            $newItems.addClass('shuffle-item filtered');
             self.$items = self._getItems();
-            self.resized();
+            self._initItems();
+
+            if ( animateIn ) {
+                self.layout( $newItems, null, true );
+                self._revealAppended( $newItems );
+            }
+        },
+
+        update: function() {
+            this.resized();
         }
 
     };
@@ -512,6 +611,7 @@
             
     // Plugin definition
     $.fn.shuffle = function(opts, sortObj) {
+        var args = Array.prototype.slice.apply( arguments );
         return this.each(function() {
             var $this = $(this),
                 shuffle = $this.data('shuffle');
@@ -531,11 +631,13 @@
                 if (opts === 'sort') {
                     shuffle.sort(sortObj);
                 } else if (opts === 'destroy') {
-                    shuffle.destroy();
+                    shuffle.destroy.apply( shuffle, args.slice(1) );
                 } else if (opts === 'update') {
-                    shuffle.update();
+                    shuffle.update.apply( shuffle, args.slice(1) );
+                } else if (opts === 'appended') {
+                    shuffle.appended.apply( shuffle, args.slice(1) );
                 } else if (opts === 'layout') {
-                    shuffle._reLayout();
+                    shuffle._reLayout.apply( shuffle, args.slice(1) );
                 } else {
                     shuffle.shuffle(opts);
                 }
