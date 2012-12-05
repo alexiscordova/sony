@@ -1,7 +1,6 @@
 /*global $, jQuery, brightcove*/
 ;(function($) {
-    $.fn.activateBrightcove = function(options) {
-        'use strict';
+    $.fn.activateBrightcove = function(options) {'use strict';
         this.addClass("video-inactive");
 
         return this.click(function(e) {
@@ -13,7 +12,8 @@
                 $(this).find(".video-poster").removeClass("hidden");
             });
 
-            $targetPlaceholder = $(this.hash)[0];
+            $targetPlaceholder = this.getAttribute("data-target");
+            $targetPlaceholder = document.getElementById($targetPlaceholder);
 
             videoProp = $targetPlaceholder.getAttribute("data-media");
             videoProp = $.parseJSON(videoProp || '{}');
@@ -30,12 +30,12 @@
             imgMissingVideoID = '<img src="' + imgMissingVideoID + '" class="video-poster video-missing-poster" alt="video unavailable" >';
 
             videoIdMissing = (!videoProp.videoID) ? true : false;
-            
+
             containerClass = videoProp.containerClass || "";
 
             if (videoIdMissing !== true) {
                 cssVideoPadding = (parseInt(videoProp.videoHeight, 10) / parseInt(videoProp.videoWidth, 10)) * 100 + "%";
- 
+
                 activePlayer =
                 /* @formatter:off */
                                 '<div class="vbc-container ' + containerClass + '" style="padding-bottom:' + cssVideoPadding + ';">' + 

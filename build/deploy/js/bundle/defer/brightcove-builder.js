@@ -10,7 +10,7 @@
 
             $(".video-container").each(function() {
                 $(this).find(".vbc-container, .video-missing-poster").remove();
-                $(this).find(".video-poster").removeClass("hide-element");
+                $(this).find(".video-poster").removeClass("hidden");
             });
 
             $targetPlaceholder = $(this.hash)[0];
@@ -25,8 +25,8 @@
                 })
             };
 
-            autoStart = (videoProp.autoStart) ? videoProp.autoStart : true;
-            imgMissingVideoID = (videoProp.imgMissingVideoID) ? videoProp.imgMissingVideoID : "img/poster-missing-video.png";
+            autoStart = (videoProp.autoStart) || true;
+            imgMissingVideoID = (videoProp.imgMissingVideoID) ? videoProp.imgMissingVideoID : "img/modules/brightcovevideo/poster-missing-video.png";
             imgMissingVideoID = '<img src="' + imgMissingVideoID + '" class="video-poster video-missing-poster" alt="video unavailable" >';
 
             videoIdMissing = (!videoProp.videoID) ? true : false;
@@ -35,10 +35,10 @@
 
             if (videoIdMissing !== true) {
                 cssVideoPadding = (parseInt(videoProp.videoHeight, 10) / parseInt(videoProp.videoWidth, 10)) * 100 + "%";
-
+ 
                 activePlayer =
                 /* @formatter:off */
-                                '<div class="vbc-container ' + videoProp.containerClass + '" style="padding-bottom:' + cssVideoPadding + ';">' + 
+                                '<div class="vbc-container ' + containerClass + '" style="padding-bottom:' + cssVideoPadding + ';">' + 
                                 '   <div class="videoWrapper">' +
                                 '       <object id="myExperience' + videoProp.videoID + '" class="BrightcoveExperience">' +
                                 '           <param name="includeAPI" value="true" />' +
@@ -61,10 +61,10 @@
                                 '</div>';
                                 /* @formatter:on */
 
-                $($targetPlaceholder).find("img").before(activePlayer).addClass("hide-element");
+                $($targetPlaceholder).find("img").before(activePlayer).addClass("hidden");
                 brightcove.createExperiences();
             } else {
-                $($targetPlaceholder).find("img").before(imgMissingVideoID).addClass("hide-element");
+                $($targetPlaceholder).find("img").before(imgMissingVideoID).addClass("hidden");
             }
 
             $(this).toggleClass("video-active video-inactive");
