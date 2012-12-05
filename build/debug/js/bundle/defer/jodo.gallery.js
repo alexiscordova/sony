@@ -18,9 +18,8 @@
         self.$filterArrow = self.$container.find('.filter-arrow-under, .filter-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
         self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
+        self.hasFilters = self.$filterOpts.length > 0;
         self.windowSize = $(window).width();
-
-        console.log( 'has infinitescroll', self.hasInfiniteScroll );
 
         self.setColumnMode();
 
@@ -40,7 +39,7 @@
             self.$grid.infinitescroll({
                 local: true,
                 debug: true,
-                bufferPx: -40,
+                bufferPx: -200,
                 navSelector: 'div.navigation', // selector for the paged navigation
                 nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
                 itemSelector: '.gallery-item', // selector for all items you'll retrieve
@@ -53,6 +52,8 @@
             // call shuffle as a callback
             function( newElements ) {
               self.$grid.shuffle( 'appended', $( newElements ) );
+              // Show new product count
+              self.$productCount.text( self.$grid.data('shuffle').visibleItems );
             }
             );
 
@@ -64,55 +65,48 @@
 
 
         // Initialize filter dictionaries to keep track of everything
-        self.filters = {
-            range: {},
-            button: {},
-            checkbox: {}
-        };
-        self.filterTypes = {};
-        self.filterLabels = {};
-        self.filterValues = {};
-        self.$filterOpts.find('[data-filter]').each(function() {
-            var $this = $(this),
-                data = $this.data(),
-                type = data.filterType,
-                name = data.filter,
-                init = [];
+        if ( self.hasFilters ) {
+            self.filters = {
+                range: {},
+                button: {},
+                checkbox: {}
+            };
+            self.filterTypes = {};
+            self.filterLabels = {};
+            self.filterValues = {};
+            self.$filterOpts.find('[data-filter]').each(function() {
+                var $this = $(this),
+                    data = $this.data(),
+                    type = data.filterType,
+                    name = data.filter,
+                    init = [];
 
 
-            // Initialize it based on type
-            switch ( type ) {
-                case 'range':
-                    init = {};
-                    self.range( $this, name, data.min, data.max );
-                    break;
-                case 'button':
-                    self.button( $this, name );
-                    break;
-                case 'group':
-                case 'color':
-                    // Treat groups and colors the same as buttons
-                    type = 'button';
-                    self.button( $this, name );
-                    break;
-                case 'checkbox':
-                    self.checkbox ( $this, name );
-                    break;
-            }
+                // Initialize it based on type
+                switch ( type ) {
+                    case 'range':
+                        init = {};
+                        self.range( $this, name, data.min, data.max );
+                        break;
+                    case 'button':
+                        self.button( $this, name );
+                        break;
+                    case 'group':
+                    case 'color':
+                        // Treat groups and colors the same as buttons
+                        type = 'button';
+                        self.button( $this, name );
+                        break;
+                    case 'checkbox':
+                        self.checkbox ( $this, name );
+                        break;
+                }
 
-            // Save the active filters in this filter to an empty array or object
-            self.filters[ type ][ name ] = init;
-            self.filterTypes[ name ] = type;
-        });
-
-
-        // Slide toggle. Reset range control if it was hidden on initialization
-        self.$container.find('.collapse')
-            .on('shown', $.proxy( self.onFiltersShown, self ))
-            .on('show', $.proxy( self.onFiltersShow, self ))
-            .on('hide', $.proxy( self.onFiltersHide, self ));
-        // self.$filterArrow.hide()
-
+                // Save the active filters in this filter to an empty array or object
+                self.filters[ type ][ name ] = init;
+                self.filterTypes[ name ] = type;
+            });
+        }
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         var sorted = false;
@@ -132,6 +126,13 @@
                 sorted = false;
             }
         });
+
+
+        // Slide toggle. Reset range control if it was hidden on initialization
+        self.$container.find('.collapse')
+            .on('shown', $.proxy( self.onFiltersShown, self ))
+            .on('show', $.proxy( self.onFiltersShow, self ))
+            .on('hide', $.proxy( self.onFiltersHide, self ));
 
         // Set up sorting ---- dropdowm
         self.$sortBtns.on('click',  $.proxy( self.sort, self ));
@@ -161,7 +162,13 @@
         // This container has just been shown because it's a tab
         self.$container.closest('[data-tab]').on('shown', $.proxy( self.onShown, self ));
 
+        // We're done.
         self.isInitialized = true;
+
+        // Run once
+        if ( self.hasFilters ) {
+            self.filter();
+        }
     };
 
     Gallery.prototype = {
@@ -350,8 +357,6 @@
             } else if ( filterType === 'range' ) {
                 delete self.filters[ filterType ][ filterName ][ filterValue ];
             }
-
-
         },
 
         // Removes the active state of a filter. Changes UI.
@@ -417,9 +422,7 @@
                 selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
                 self.$container.find( selector ).prop('disabled', false);
             }
-
         },
-
 
         onRemoveFilter : function( evt ) {
             var self = this,
@@ -572,9 +575,9 @@
             self.filterValues[ filterName ] = values;
 
             // Remove active classes when the gallery is reset
-            self.$container.on('reset.gallery', function() {
-                $btns.removeClass('active');
-            });
+            // self.$container.on('reset.gallery', function() {
+            //     $btns.removeClass('active');
+            // });
         },
 
         checkbox : function( $parent, filterName ) {
@@ -610,9 +613,9 @@
             self.filterValues[ filterName ] = values;
 
             // Reset checkboxes when the gallery is reset
-            self.$container.on('reset.gallery', function() {
-                $inputs.prop('checked', false);
-            });
+            // self.$container.on('reset.gallery', function() {
+            //     $inputs.prop('checked', false);
+            // });
         },
 
         range : function( $rangeControl, filterName , min, max ) {
@@ -622,7 +625,7 @@
                 min: this.MIN_PRICE,
                 max: this.MAX_PRICE
             };
-            
+
             var self = this,
             diff = self.MAX_PRICE - self.MIN_PRICE,
             $output = $rangeControl.closest('.filter-container').find('.range-output'),
@@ -631,6 +634,7 @@
                 return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
             },
 
+            // Range control update callback
             update = function(evt, positions, percents) {
                 var minPrice = getPrice(percents.min),
                 maxPrice = getPrice(percents.max),
@@ -639,7 +643,7 @@
                 prevMax = self.price.max;
 
                 // Display values
-                $output.html('$' + minPrice + ' - $' + maxPriceStr);
+                displayValues(minPrice, maxPriceStr);
 
                 // Save values
                 self.price.min = minPrice;
@@ -669,21 +673,29 @@
                         self.filter();
                     }
                 }
+            },
+
+            // Show what's happening with the range control
+            displayValues = function( min, max ) {
+                $output.html('$' + min + ' - $' + max);
             };
 
-            self.$rangeControl = $rangeControl.rangeControl({
+            // Store jQuery object for later access
+            self.$rangeControl = $rangeControl;
+
+            // On handle slid, update. Register before initialized so it's called during initialization
+            self.$rangeControl.on('slid.rangecontrol', update);
+
+            self.$rangeControl.rangeControl({
                 initialMin: '0%',
                 initialMax: '100%',
                 range: true
             });
 
-            // On handle slid, update
-            self.$rangeControl.on('slid.rangecontrol', update);
-
             // Listen for reset event
-            self.$container.on('reset.gallery', function() {
-                $rangeControl.rangeControl('reset', true);
-            });
+            // self.$container.on('reset.gallery', function() {
+            //     $rangeControl.rangeControl('reset', true);
+            // });
         },
 
         // If there is a range control in this element and it's in need of an update
@@ -783,12 +795,14 @@
                 self.$grid.shuffle('update');
             }
 
+            // Save new window size
             if ( windowHasResized ) {
                 self.windowSize = windowWidth;
             }
 
             // Resume infinite scroll if it's there yo
             if ( self.hasInfiniteScroll ) {
+                self.$grid.infinitescroll('updateNavLocation');
                 self.$grid.infinitescroll('resume');
             }
         },
@@ -921,7 +935,7 @@
 
     // Plugin definition
     $.fn.gallery = function( opts ) {
-        var args = Array.prototype.slice.apply( arguments );
+        var args = Array.prototype.slice.call( arguments, 1 );
         return this.each(function() {
             var $this = $(this),
                 gallery = $this.data('gallery');
@@ -933,7 +947,7 @@
             }
 
             if ( typeof opts === 'string' ) {
-                gallery[ opts ].apply( gallery, args.slice(1) );
+                gallery[ opts ].apply( gallery, args );
             }
         });
     };

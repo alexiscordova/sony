@@ -311,235 +311,215 @@ $default-transition-delay    : 0s;
 @mixin transition($transition1, $transition2:null, $transition3:null, $transition4:null, $transition5:null, $transition6:null, $transition7:null, $transition8:null) {
 	@if ($transition8!=null){
 		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
-			 -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
-				 -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
-				-ms-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
+		   // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
+			 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
 						transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
 	} @else if ($transition7!=null){
 		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
-			 -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
-				 -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
-				-ms-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
+			 // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
+				 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
 						transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7;
 	} @else if ($transition6!=null){
 		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
-			 -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
-				 -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
-				-ms-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
+			 // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
+				 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
 						transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6;
 	} @else if ($transition5!=null){
 		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
-			 -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
-				 -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
-				-ms-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
+			 // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
+				 // -o-transition: $transition1, $transition2, $transition3, $transition4, $transition5;
 						transition: $transition1, $transition2, $transition3, $transition4, $transition5;
 	} @else if ($transition4!=null){
 		-webkit-transition: $transition1, $transition2, $transition3, $transition4;
-			 -moz-transition: $transition1, $transition2, $transition3, $transition4;
-				 -o-transition: $transition1, $transition2, $transition3, $transition4;
+			 // -moz-transition: $transition1, $transition2, $transition3, $transition4;
+				 // -o-transition: $transition1, $transition2, $transition3, $transition4;
 						transition: $transition1, $transition2, $transition3, $transition4;
 	} @else if ($transition3!=null){
 		-webkit-transition: $transition1, $transition2, $transition3;
-			 -moz-transition: $transition1, $transition2, $transition3;
-				 -o-transition: $transition1, $transition2, $transition3;
+			 // -moz-transition: $transition1, $transition2, $transition3;
+				 // -o-transition: $transition1, $transition2, $transition3;
 						transition: $transition1, $transition2, $transition3;
 	} @else if ($transition2!=null){
 		-webkit-transition: $transition1, $transition2;
-			 -moz-transition: $transition1, $transition2;
-				 -o-transition: $transition1, $transition2;
+			 // -moz-transition: $transition1, $transition2;
+				 // -o-transition: $transition1, $transition2;
 						transition: $transition1, $transition2;
 	} @else {
 		-webkit-transition: $transition1;
-			 -moz-transition: $transition1;
-				 -o-transition: $transition1;
+			 // -moz-transition: $transition1;
+				 // -o-transition: $transition1;
 						transition: $transition1;
 	}
 }
 @mixin transition-property($transitionProp1, $transitionProp2:null, $transitionProp3:null, $transitionProp4:null, $transitionProp5:null, $transitionProp6:null, $transitionProp7:null, $transitionProp8:null) {
 	@if ($transitionProp8!=null){
 		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
-			 -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
-				 -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
-				-ms-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
+			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
+				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
 						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7, $transitionProp8;
 	} @else if ($transitionProp7!=null){
 		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
-			 -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
-				 -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
-				-ms-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
+			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
+				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
 						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6, $transitionProp7;
 	} @else if ($transitionProp6!=null){
 		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
-			 -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
-				 -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
-				-ms-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
+			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
+				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
 						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5, $transitionProp6;
 	} @else if ($transitionProp5!=null){
 		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
-			 -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
-				 -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
-				-ms-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
+			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
+				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
 						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4, $transitionProp5;
 	} @else if ($transitionProp4!=null){
 		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
-			 -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
-				 -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
+			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
+				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
 						transition-property: $transitionProp1, $transitionProp2, $transitionProp3, $transitionProp4;
 	} @else if ($transitionProp3!=null){
 		-webkit-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
-			 -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
-				 -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
+			 // -moz-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
+				 // -o-transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
 						transition-property: $transitionProp1, $transitionProp2, $transitionProp3;
 	} @else if ($transitionProp2!=null){
 		-webkit-transition-property: $transitionProp1, $transitionProp2;
-			 -moz-transition-property: $transitionProp1, $transitionProp2;
-				 -o-transition-property: $transitionProp1, $transitionProp2;
+			 // -moz-transition-property: $transitionProp1, $transitionProp2;
+				 // -o-transition-property: $transitionProp1, $transitionProp2;
 						transition-property: $transitionProp1, $transitionProp2;
 	} @else {
 		-webkit-transition-property: $transitionProp1;
-			 -moz-transition-property: $transitionProp1;
-				 -o-transition-property: $transitionProp1;
+			 // -moz-transition-property: $transitionProp1;
+				 // -o-transition-property: $transitionProp1;
 						transition-property: $transitionProp1;
 	}
 }
 @mixin transition-duration($transitionDuration1, $transitionDuration2:null, $transitionDuration3:null, $transitionDuration4:null, $transitionDuration5:null, $transitionDuration6:null, $transitionDuration7:null, $transitionDuration8:null) {
 	@if ($transitionDuration8!=null){
 		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
-			 -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
-				 -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
-				-ms-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
+			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
+				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
 						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7, $transitionDuration8;
 	} @else if ($transitionDuration7!=null){
 		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
-			 -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
-				 -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
-				-ms-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
+			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
+				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
 						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6, $transitionDuration7;
 	} @else if ($transitionDuration6!=null){
 		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
-			 -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
-				 -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
-				-ms-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
+			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
+				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
 						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5, $transitionDuration6;
 	} @else if ($transitionDuration5!=null){
 		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
-			 -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
-				 -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
-				-ms-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
+			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
+				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
 						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4, $transitionDuration5;
 	} @else if ($transitionDuration4!=null){
 		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
-			 -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
-				 -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
+			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
+				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
 						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3, $transitionDuration4;
 	} @else if ($transitionDuration3!=null){
 		-webkit-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
-			 -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
-				 -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
+			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
+				 // -o-transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
 						transition-duration: $transitionDuration1, $transitionDuration2, $transitionDuration3;
 	} @else if ($transitionDuration2!=null){
 		-webkit-transition-duration: $transitionDuration1, $transitionDuration2;
-			 -moz-transition-duration: $transitionDuration1, $transitionDuration2;
-				 -o-transition-duration: $transitionDuration1, $transitionDuration2;
+			 // -moz-transition-duration: $transitionDuration1, $transitionDuration2;
+				 // -o-transition-duration: $transitionDuration1, $transitionDuration2;
 						transition-duration: $transitionDuration1, $transitionDuration2;
 	} @else {
 		-webkit-transition-duration: $transitionDuration1;
-			 -moz-transition-duration: $transitionDuration1;
-				 -o-transition-duration: $transitionDuration1;
+			 // -moz-transition-duration: $transitionDuration1;
+				 // -o-transition-duration: $transitionDuration1;
 						transition-duration: $transitionDuration1;
 	}
 }
 @mixin transition-delay($transitionDelay1, $transitionDelay2:null, $transitionDelay3:null, $transitionDelay4:null, $transitionDelay5:null, $transitionDelay6:null, $transitionDelay7:null, $transitionDelay8:null) {
 	@if ($transitionDelay8!=null){
 		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
-			 -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
-				 -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
-				-ms-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
+			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
+				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
 						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7, $transitionDelay8;
 	} @else if ($transitionDelay7!=null){
 		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
-			 -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
-				 -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
-				-ms-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
+			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
+				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
 						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6, $transitionDelay7;
 	} @else if ($transitionDelay6!=null){
 		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
-			 -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
-				 -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
-				-ms-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
+			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
+				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
 						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5, $transitionDelay6;
 	} @else if ($transitionDelay5!=null){
 		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
-			 -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
-				 -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
-				-ms-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
+			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
+				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
 						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4, $transitionDelay5;
 	} @else if ($transitionDelay4!=null){
 		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
-			 -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
-				 -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
+			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
+				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
 						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3, $transitionDelay4;
 	} @else if ($transitionDelay3!=null){
 		-webkit-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
-			 -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
-				 -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
+			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
+				 // -o-transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
 						transition-delay: $transitionDelay1, $transitionDelay2, $transitionDelay3;
 	} @else if ($transitionDelay2!=null){
 		-webkit-transition-delay: $transitionDelay1, $transitionDelay2;
-			 -moz-transition-delay: $transitionDelay1, $transitionDelay2;
-				 -o-transition-delay: $transitionDelay1, $transitionDelay2;
+			 // -moz-transition-delay: $transitionDelay1, $transitionDelay2;
+				 // -o-transition-delay: $transitionDelay1, $transitionDelay2;
 						transition-delay: $transitionDelay1, $transitionDelay2;
 	} @else {
 		-webkit-transition-delay: $transitionDelay1;
-			 -moz-transition-delay: $transitionDelay1;
-				 -o-transition-delay: $transitionDelay1;
+			 // -moz-transition-delay: $transitionDelay1;
+				 // -o-transition-delay: $transitionDelay1;
 						transition-delay: $transitionDelay1;
 	}
 }
 @mixin transition-timing-function($transitionTimingFunc1, $transitionTimingFunc2:null, $transitionTimingFunc3:null, $transitionTimingFunc4:null, $transitionTimingFunc5:null, $transitionTimingFunc6:null, $transitionTimingFunc7:null, $transitionTimingFunc8:null) {
 	@if ($transitionTimingFunc8!=null){
 		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
-			 -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
-				 -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
-				-ms-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
+			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
+				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
 						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7, $transitionTimingFunc8;
 	} @else if ($transitionTimingFunc7!=null){
 		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
-			 -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
-				 -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
-				-ms-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
+			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
+				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
 						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6, $transitionTimingFunc7;
 	} @else if ($transitionTimingFunc6!=null){
 		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
-			 -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
-				 -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
-				-ms-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
+			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
+				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
 						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5, $transitionTimingFunc6;
 	} @else if ($transitionTimingFunc5!=null){
 		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
-			 -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
-				 -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
-				-ms-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
+			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
+				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
 						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4, $transitionTimingFunc5;
 	} @else if ($transitionTimingFunc4!=null){
 		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
-			 -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
-				 -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
+			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
+				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
 						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3, $transitionTimingFunc4;
 	} @else if ($transitionTimingFunc3!=null){
 		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
-			 -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
-				 -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
+			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
+				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
 						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2, $transitionTimingFunc3;
 	} @else if ($transitionTimingFunc2!=null){
 		-webkit-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
-			 -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
-				 -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
+			 // -moz-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
+				 // -o-transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
 						transition-timing-function: $transitionTimingFunc1, $transitionTimingFunc2;
 	} @else {
 		-webkit-transition-timing-function: $transitionTimingFunc1;
-			 -moz-transition-timing-function: $transitionTimingFunc1;
-				 -o-transition-timing-function: $transitionTimingFunc1;
+			 // -moz-transition-timing-function: $transitionTimingFunc1;
+				 // -o-transition-timing-function: $transitionTimingFunc1;
 						transition-timing-function: $transitionTimingFunc1;
 	}
 }
@@ -554,36 +534,36 @@ $default-transition-delay    : 0s;
 // Transformations
 @mixin rotate($degrees) {
 	-webkit-transform: rotate($degrees);
-	   -moz-transform: rotate($degrees);
+	   // -moz-transform: rotate($degrees);
 		-ms-transform: rotate($degrees);
-		 -o-transform: rotate($degrees);
+		 // -o-transform: rotate($degrees);
 			transform: rotate($degrees);
 }
 @mixin scale($ratio) {
 	-webkit-transform: scale($ratio);
-	   -moz-transform: scale($ratio);
+	   // -moz-transform: scale($ratio);
 		-ms-transform: scale($ratio);
-		 -o-transform: scale($ratio);
+		 // -o-transform: scale($ratio);
 			transform: scale($ratio);
 }
 @mixin translate($x, $y) {
 	-webkit-transform: translate($x, $y);
-	   -moz-transform: translate($x, $y);
+	   // -moz-transform: translate($x, $y);
 		-ms-transform: translate($x, $y);
-		 -o-transform: translate($x, $y);
+		 // -o-transform: translate($x, $y);
 			transform: translate($x, $y);
 }
 @mixin skew($x, $y) {
 	-webkit-transform: skew($x, $y);
-	   -moz-transform: skew($x, $y);
+	   // -moz-transform: skew($x, $y);
 		-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
-		 -o-transform: skew($x, $y);
+		 // -o-transform: skew($x, $y);
 			transform: skew($x, $y);
 }
 @mixin translate3d($x, $y, $z) {
 	-webkit-transform: translate3d($x, $y, $z);
-	   -moz-transform: translate3d($x, $y, $z);
-		 -o-transform: translate3d($x, $y, $z);
+	   // -moz-transform: translate3d($x, $y, $z);
+		 // -o-transform: translate3d($x, $y, $z);
 			transform: translate3d($x, $y, $z);
 }
 
