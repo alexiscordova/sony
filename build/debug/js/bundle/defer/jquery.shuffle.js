@@ -71,6 +71,8 @@
         self.transitionName = self.prefixed('transition'),
         self.transform = self.getPrefixed('transform');
 
+        self.fire('loading');
+
         // Get offset from container
         self.offset = {
             left: parseInt( ( self.$container.css('padding-left') || 0 ), 10 ),
@@ -98,7 +100,7 @@
 
         // Set up css for transitions
         self.$container.css('position', 'relative')[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
-        self._initItems();
+        self._initItems( !self.showInitialTransition );
         
         // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
         self.windowHeight = $window.height();
@@ -117,6 +119,12 @@
         self._setColumns();
         self._resetCols();
         self.shuffle( self.group );
+
+
+        if ( !self.showInitialTransition ) {
+            self._initItems();
+        }
+        self.fire('done');
     };
 
     Shuffle.prototype = {
@@ -190,15 +198,19 @@
             return $items;
         },
 
-        _initItems : function() {
+        _initItems : function( withoutTransition ) {
             var self = this;
+
+            function setTransition( element ) {
+                element.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
+            }
 
             self.$items.each(function() {
                 $(this).css(self.itemCss);
                 
                 // Set CSS transition for transforms and opacity
-                if (self.supported) {
-                    this.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
+                if ( self.supported && !withoutTransition ) {
+                    setTransition(this);
                 }
             });
         },
@@ -653,6 +665,7 @@
         itemSelector: '',
         gutterWidth : 0,
         columnWidth : 0,
+        showInitialTransition : true,
         delimeter : null,
         keepSorted : true
     };

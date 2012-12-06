@@ -443,6 +443,7 @@
 .GRID{} // this is just here for a SublimeText code-folding collapse point
 
 	$gridColumns:             12 !default; 
+	$grid5Columns: 			  5;
 
 	// Default 940px grid @980px-1199px
 	$gridColumnWidth:         54px !default;
@@ -459,6 +460,11 @@
 	$gridGutterWidth768:      20px !default;
 	$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
+
+	// 5 Column Grid
+	$grid5ColWidth: 		   204px;
+	$grid5GutterWidth: 		   23px;
+	$grid5RowWidth: 		   ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
 
 
 
@@ -486,6 +492,9 @@
 	// 767px max (mobile)
 	$fluidContainerMarginWidth767:	15px !default;
 
+	// 5 Column Grid
+	$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
+	$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 
 
