@@ -2,31 +2,25 @@
 // Slide toggle
 // --------------------------------------------------
 
-$slideTogglePadding: 24px;
 .slide-toggle {
-  position: relative;
-  padding-left: $slideTogglePadding;
-  padding-right: $slideTogglePadding;
-  text-align: left;
-  font-size: $font_13_16;
   background: $highlightColor;
   border-color: $highlightColor;
-
-  &:hover {
-    background: $btnBackground;
-    border-color: $btnBorder;
-  }
 
   &:after {
     content: '';
     position: absolute;
-    right: $slideTogglePadding;
-    margin-top: 7px;
+    right: $btnAltSpecialPadding;
+    margin-top: 10px;
     @extend %icon;
-    @extend .icon-ui-x-tiny;
+    @extend .icon-ui-arrowhead-up-white;
+  }
+
+  &.collapsed {
+    background: $btnAltBackground;
+    border-color: $btnAltBackground;
   }
 
   &.collapsed:after {
-    @extend .icon-ui-plus-tiny;
+    @extend .icon-ui-arrowhead-down-white;
   }
 }
