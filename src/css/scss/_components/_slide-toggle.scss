@@ -7,25 +7,26 @@ $slideTogglePadding: 24px;
   position: relative;
   padding-left: $slideTogglePadding;
   padding-right: $slideTogglePadding;
-  background: $grayDark;
-  border-color: $grayDark;
   text-align: left;
+  font-size: $font_13_16;
+  background: $highlightColor;
+  border-color: $highlightColor;
 
   &:hover {
-    background: $highlightColorActive;
-    border-color: $highlightColorActive;
+    background: $btnBackground;
+    border-color: $btnBorder;
   }
 
   &:after {
     content: '';
     position: absolute;
     right: $slideTogglePadding;
-    margin-top: 4px;
+    margin-top: 7px;
     @extend %icon;
-    @extend .icon-mini-close;
+    @extend .icon-ui-x-tiny;
   }
 
   &.collapsed:after {
-    @extend .icon-mini-plus-skinny;
+    @extend .icon-ui-plus-tiny;
   }
 }

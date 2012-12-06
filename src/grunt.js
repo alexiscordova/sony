@@ -185,6 +185,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');
 	grunt.registerTask('mbuilder', 'shell:docpad_mbuilder')
 	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
+	grunt.registerTask('debug-html', 'shell:docpad_debug');
+	grunt.registerTask('debug-css', 'compass:debug');
 	grunt.registerTask('debug-img', 'copy:debugimg');
 	grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
 	grunt.registerTask('docs-light', 'compass-clean compass:docs compass:docs_extra copy:docslight shell:docpad_docs');

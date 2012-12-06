@@ -675,12 +675,71 @@ legend + .control-group {
     &:active{
       background-color:$inputBackgroundBtnAlt;
     }
+
+    .icon-ui-arrow-right-blue{
+      margin:2px 0 0 1px;
+    }
   }
 }
 
 
+.control-inline label {
+  display: inline;
+  padding-left: 5px;
+}
 
+.csstransforms .styled-checkbox {
+  position: absolute; // take it out of document flow
+  opacity: 0; // hide it
 
+  & + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  & + label:before {
+    content: '';
+    margin-right: 22px;
+    display: inline-block;
+    vertical-align: text-top;
+    @include square(20px);
+    background: $white;
+  }
+
+  &:focus + label:before,
+  &:hover + label:before {
+    @include box-shadow($squareHalo);
+    background: $highlightColor;
+  }
+
+  &:checked + label:before {
+    background: $highlightColor;
+  }
+
+  // Check mark (should probably be replaced with icon)
+  &:checked + label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    @extend %icon;
+    @extend .icon-ui-check;
+  }
+
+  // Disabled checkbox text
+  &.disabled + label,
+  &[disabled] + label {
+    color: $grayLight;
+  }
+
+  // Disabled checkbox
+  &.disabled + label:before,
+  &[disabled] + label:before {
+    @include box-shadow(none);
+    background: $tableBorder;
+  }
+}
 
 
 

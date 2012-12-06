@@ -26,7 +26,7 @@
     <div class="tabs">
       {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab">
         <div class="ghost-center">
-          <div class="holder-for-icon"><i class="icon-{{this.icon}}"></i></div>
+          <div class="holder-for-icon"><i class="icon-tab-{{this.icon}}"></i></div>
           <div class="l3 tab-label">{{this.label}}</div>
         </div>
       </div>{{/each}}
@@ -38,45 +38,46 @@
 <div class="tab-content">
 
   <section class="tab-pane fade active in gallery" data-tab="all" data-mode="{{all.mode}}">
-
-    <p class="l4"><span class="text-dark">{{all.total}}</span> Products</p>
-    <div class="products container padded">
-        {{#each all.list}}
-        <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
-          {{#if this.label}}
-          <span class="label">{{this.label}}</span>
-          {{/if}}
-          {{#if this.tile.promo}}
-            {{#if this.tile.copy}}
-            <h3>{{this.title}}</h3>
-            <p class="p2">{{this.text}}</p>
-            {{else}}
-            <div class="product-img">
-              <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
-              <div class="product-content">
-                <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.subtitle}}</p>
-                {{#if this.callout}}<a class="btn" href="#">{{this.callout}}</a>{{/if}}
-              </div>
-            </div>  
+    <div class="container padded">
+      <p class="l4"><span class="text-dark">{{all.total}}</span> Products</p>
+      <div class="products">
+          {{#each all.list}}
+          <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
+            {{#if this.label}}
+            <span class="label label-success">{{this.label}}</span>
             {{/if}}
-          {{else}}
-          <div class="product-img ghost-center-wrap">
-            <div class="ghost-center">
-              <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+            {{#if this.tile.promo}}
+              {{#if this.tile.copy}}
+              <h3>{{this.title}}</h3>
+              <p class="p2">{{this.text}}</p>
+              {{else}}
+              <div class="product-img">
+                <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+                <div class="product-content">
+                  <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.subtitle}}</p>
+                  {{#if this.callout}}<a class="btn" href="#">{{this.callout}}</a>{{/if}}
+                </div>
+              </div>  
+              {{/if}}
+            {{else}}
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+              </div>
             </div>
-          </div>
-          <div class="product-content">
-            <p class="p3 product-name">{{this.name}}</p>
-            <div class="product-price">
-              <p class="p5 price-title">Starting at</p>
-              <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+            <div class="product-content">
+              <p class="p3 product-name">{{this.name}}</p>
+              <div class="product-price">
+                <p class="p5 price-title">Starting at</p>
+                <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+              </div>
+              <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
             </div>
-            <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
-          </div>
 
-          {{/if}}
-        </div>
-        {{/each}}
+            {{/if}}
+          </div>
+          {{/each}}
+      </div>
     </div>
 
     <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div>
@@ -87,15 +88,23 @@
     <div class="container padded">
       <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter Results</button>
       <span class="active-filters"></span>
-      <span class="clear-active-filters hidden">clear</span>
     </div>
     <div class="collapse product-filter" id="{{productCards.name}}-filters">
       <div class="filter-options container padded">
         <div class="row">
           {{#each productCards.filterSet}}
 
+          {{#if this.type.color}}
+          <div class="span4 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
+              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+            </ul>
+          </div>
+          {{/if}}
+
           {{#if this.type.range}}
-          <div class="span3 filter-container">
+          <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
             <div class="range-output"></div>
@@ -103,35 +112,33 @@
           {{/if}}
 
           {{#if this.type.button}}
-          <div class="span3 filter-container">
+          <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
-            <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="button">
-              {{#each this.filters}}
-              <li class="btn" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>
-              {{/each}}
+            <ul class="unstyled btn-group" data-filter="{{this.name}}" data-filter-type="button">
+              {{#each this.filters}}<li class="btn btn-square" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
             </ul>
           </div>
           {{/if}}
 
           {{#if this.type.checkbox}}
-          <div class="span3 filter-container">
+          <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
               {{#each this.filters}}
-              <li><label><input data-label="{{this.label}}" type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
+              <li class="control-inline"><input class="styled-checkbox" id="{{../name}}-{{this.value}}" data-label="{{this.label}}" type="checkbox" value="{{this.value}}"><label for="{{../name}}-{{this.value}}">{{this.label}}</label></li>
               {{/each}}
             </ul>
           </div>
           {{/if}}
 
           {{#if this.type.group}}
-          <div class="span3 filter-container">
+          <div class="span4 filter-container">
             <p class="l3">{{this.label}}</p>
             <ul class="media-list" data-filter="{{this.name}}" data-filter-type="group">
               {{#each this.filters}}
-              <li class="media" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">
+              <li class="media clearfix" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">
                 <div class="pull-left">
-                  <img class="media-object" src="http://placehold.it/64x64">
+                  <button class="btn btn-square media-object"><i class="icon-bestfor-{{this.icon}}"></i></button>
                 </div>
                 <div class="media-body">
                   <p class="media-heading p3 text-dark">{{this.label}}</p>
@@ -173,102 +180,126 @@
 
       <p class="l4"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
     </div>
-    <div class="products container padded">
-      {{#each productCards.list}}
-      <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
-        {{#if this.label}}
-        <span class="label">{{this.label}}</span>
-        {{/if}}
-        <div class="product-img ghost-center-wrap">
-          <div class="ghost-center">
-            <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+    <div class="container padded">
+      <div class="products">
+        {{#each productCards.list}}
+        <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
+          {{#if this.label}}
+          <span class="label label-success">{{this.label}}</span>
+          {{/if}}
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+            </div>
           </div>
-        </div>
-        <div class="product-content">
-          <div class="p3 product-name">{{this.name}}</div>
-          <div class="p5 product-model">{{this.model}}</div>
-          <div class="p5 product-rating" data-stars="{{this.rating.stars}}"><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i> ( {{this.rating.reviews}} user reviews)</div>
-          <ul class="p3 product-meta">
-            {{#each this.meta}}
-            <li>{{{this.value}}} <span class="product-meta-name">{{this.name}}</span></li>
-            {{/each}}
-          </ul>
-          <div class="product-price">
-            <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+          <div class="product-content">
+            <div class="p3 product-name">{{this.name}}</div>
+            <div class="p5 product-model">{{this.model}}</div>
+            <div class="p5 product-rating" data-stars="{{this.rating.stars}}"><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i><i class="icon-ui-star"></i> ( {{this.rating.reviews}} user reviews)</div>
+            <ul class="p3 product-meta">
+              {{#each this.meta}}
+              <li>{{{this.value}}} <span class="product-meta-name">{{this.name}}</span></li>
+              {{/each}}
+            </ul>
+            <div class="product-price">
+              <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
           </div>
+          <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
         </div>
-        <i class="icon-mini-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+        {{/each}}
+        
       </div>
-      {{/each}}
-      
     </div>
   </section>
 
   <section class="tab-pane fade gallery" data-tab="inear" data-mode="{{simple.mode}}">
     {{#if simple.filterSet}}
-    <div class="row">
-      <div class="span3">
-        <button class="js-filter-toggle btn">Filters</button>
-      </div>
-      <div class="span8">
-        <span class="active-filters"></span>
-      </div>
-      <div class="span1">
-        <span class="clear-active-filters hidden">clear</span>
-      </div>
+    <div class="container padded">
+      <button class="btn slide-toggle collapsed" data-toggle="collapse" data-target="#{{simple.name}}-filters">Filter Results</button>
+      <span class="active-filters"></span>
     </div>
-    <div class="product-filter">
-      <div class="filter-options row">
+    <div class="collapse product-filter" id="{{simple.name}}-filters">
+      <div class="filter-options container padded">
+        <div class="row">
+          {{#each simple.filterSet}}
 
-        
-        {{#each simple.filterSet}}
+          {{#if this.type.color}}
+          <div class="span4 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
+              {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+            </ul>
+          </div>
+          {{/if}}
 
-        {{#if this.type.range}}
-        <div class="span3 filter-container">
-          <span>{{this.label}}</span>
-          <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
-          <div class="range-output"></div>
+          {{#if this.type.range}}
+          <div class="span4 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
+            <div class="range-output"></div>
+          </div>
+          {{/if}}
+
+          {{#if this.type.button}}
+          <div class="span4 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="unstyled btn-group" data-filter="{{this.name}}" data-filter-type="button">
+              {{#each this.filters}}<li class="btn btn-square" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+            </ul>
+          </div>
+          {{/if}}
+
+          {{#if this.type.checkbox}}
+          <div class="span4 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
+              {{#each this.filters}}
+              <li class="control-inline"><input class="styled-checkbox" id="{{../name}}-{{this.value}}" data-label="{{this.label}}" type="checkbox" value="{{this.value}}"><label for="{{../name}}-{{this.value}}">{{this.label}}</label></li>
+              {{/each}}
+            </ul>
+          </div>
+          {{/if}}
+
+          {{#if this.type.group}}
+          <div class="span4 filter-container">
+            <p class="l3">{{this.label}}</p>
+            <ul class="media-list" data-filter="{{this.name}}" data-filter-type="group">
+              {{#each this.filters}}
+              <li class="media clearfix" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">
+                <div class="pull-left">
+                  <button class="btn btn-square media-object"><i class="icon-bestfor-{{this.icon}}"></i></button>
+                </div>
+                <div class="media-body">
+                  <p class="media-heading p3 text-dark">{{this.label}}</p>
+                  <p class="p3">{{this.description}}</p>
+                </div>
+              </li>
+              {{/each}}
+            </ul>
+          </div>
+          {{/if}}
+
+          {{/each}}
         </div>
-        {{/if}}
-
-        {{#if this.type.button}}
-        <p class="l3">{{this.label}}</p>
-        <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="button">
-          {{#each this.filters}}
-          <li class="btn" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>
-          {{/each}}
-        </ul>
-        {{/if}}
-
-        {{#if this.type.checkbox}}
-        <p class="l3">{{this.label}}</p>
-        <ul class="span3 filter-container unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
-          {{#each this.filters}}
-          <li><label><input data-label="{{this.label}}" type="checkbox" value="{{this.value}}"> {{this.label}}</label></li>
-          {{/each}}
-        </ul>
-        {{/if}}
-
-        {{#if glen}}
-        <p class="l3">{{this.label}}</p>
-        <ul class="span3 filter-container unstyled best-for">
-          <li>Getting Close</li>
-          <li>Adventurer</li>
-          <li>Pocket Video</li>
-        </ul>
-        {{/if}}
-
-        {{/each}}
-
       </div>
     </div>
     {{/if}}
 
-    <div class="gallery-title-bar">
+    <div class="gallery-title-bar container padded">
       {{#if simple.sortSet}}
-      <div class="pull-right">
-        Sort By: 
-        <select class="sort-options">
+      <div class="sort-options pull-right">
+        <span class="l4">Sort By:&nbsp;</span>
+        <div class="dropdown">
+          <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{simple.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
+          <ul class="dropdown-menu" role="menu">
+          {{#each simple.sortSet}}
+            <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
+          {{/each}}
+          </ul>
+        </div>
+
+        <select class="visible-phone">
           {{#each simple.sortSet}}
           <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
           {{/each}}
@@ -279,28 +310,30 @@
 
       <p class="l4"><span class="text-dark product-count">{{simple.total}}</span> Products</p>
     </div>
-    <div class="products">
-      {{#each simple.list}}
-      <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
-        {{#if this.label}}
-        <span class="label">{{this.label}}</span>
-        {{/if}}
-        <div class="product-img ghost-center-wrap">
-          <div class="ghost-center">
-            <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+    <div class="container padded">
+      <div class="products">
+        {{#each simple.list}}
+        <div class="span1 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
+          {{#if this.label}}
+          <span class="label label-success">{{this.label}}</span>
+          {{/if}}
+          <div class="product-img ghost-center-wrap">
+            <div class="ghost-center">
+              <img src="{{this.img.src}}" alt="{{this.img.alt}}" width="{{this.img.width}}" height="{{this.img.height}}">
+            </div>
           </div>
-        </div>
-        <div class="product-content">
-          <p class="p3 product-name">{{this.name}}</p>
-          <div class="product-price">
-            <p class="p5 price-title">Starting at</p>
-            <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+          <div class="product-content">
+            <p class="p3 product-name">{{this.name}}</p>
+            <div class="product-price">
+              <p class="p5 price-title">Starting at</p>
+              <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+            </div>
           </div>
+          <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
         </div>
-        <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+        {{/each}}
+        
       </div>
-      {{/each}}
-      
     </div>
   </section>
 
@@ -376,8 +409,8 @@
       <div class="span3 box" style="height:20px;background:lightblue;"></div>
       <div class="span3 box" style="height:20px;background:lightblue;"></div>
       <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
-      <div class="span3 box" style="height:20px;background:lightblue;"></div>
+      <div class="span1 box" style="height:20px;background:lightblue;"></div>
+      <div class="span2 box" style="height:20px;background:lightblue;"></div>
     </div>
   </div>
 </section>
