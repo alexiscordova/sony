@@ -1,12 +1,22 @@
+//if mobile
+var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
+
 $(document).ready(function(){
-	$('.table-mobile-tabs li').click(function(){
-		var indexToSwap = $(this).index();
-		console.info(indexToSwap);
-	});
 });
 
+
+// When all images are loaded.
 $(window).load(function()
 {
+	var sonySlider = $(".sonyCarousel").data('sonyCarousel');
+	$('.table-mobile-tabs li').click(function(){
+		var indexToSwap = $(this).index();
+		sonySlider.goTo(indexToSwap-1);
+		
+		//$(window).trigger('scroll');
+		
+	});
+	
 	//init.
 	resize();
 	
@@ -20,6 +30,19 @@ $(window).load(function()
 	function resize()
 	{
 		var windowWidth = $(window).width();
+		
+		//Set the height of each big table
+		$('.tableContainer').each(function(){
+			//mobile version
+			var tallestMobile = $(this).find('.scContainer > div').maxHeight();
+			//pc version
+			var tallestPc = $(this).find('.bigTable').maxHeight();
+			//get the biggest number..
+			var tallest = Math.max(tallestMobile,tallestPc);
+			$(this).height(tallest);
+			
+			$(this).children('.bigTable').children('.scOverflow').height(tallest);
+		});
 		
 		// when the window is less or equal to 640px wide.
 		if (windowWidth <= 640)
@@ -38,10 +61,8 @@ $(window).load(function()
 
 
 //Apply when a table appear && IE7 is not the browser.
-if ($('table').length > 0 && $.browser.version != 7)
+if (($('table').length > 0) && $.browser.version != 7)
 {
-	var isMqActivated = Modernizr.mq('only all');
-	
 	$('table').each(function()
 	{
 		//init.
@@ -59,11 +80,12 @@ if ($('table').length > 0 && $.browser.version != 7)
 			);
 		}
 		
-		//Only apply to the big table. (not every )
+		// Only apply to the big table. (not every table)
 		if ($table.is('.bigTable'))
 		{
 			$tableBig = $(this);
-			//Spread the table of title (hidden)
+			
+			// Table title (hidden)
 			var first_column_count =  $tableBig.find('tbody tr th:first-child').size();
 			for ( i=1; i <= (first_column_count) ; i++ )
 			{
@@ -86,27 +108,64 @@ if ($('table').length > 0 && $.browser.version != 7)
 		);
 	});
 	
-	//Mobile navigation
-	/*
-	var $myUl = $('<ul class="table-mobile-tabs clearfix">');
-	$('table.bigTable').each(function()
+	//Add the tab navigation only for the mobile.
+	if(ifMobile)
 	{
-		$(this).find('thead th').each(function()
+		//Mobile navigation
+		var $myUl = $('<ul class="table-mobile-tabs clearfix">');
+		$('.tableContainer > .table.bigTable').each(function()
 		{
-			$myUl.append('<li>'+$(this).text()+'</li>');
+			
+			$(this).find('thead th').each(function()
+			{
+				$myUl.append('<li>'+$(this).text()+'</li>');
+			});
+			
+			$(this).find("li:first-child").remove(); 
+			$(this).before($myUl);
 		});
-		
-		$(this).find("li:first-child").remove(); 
-		$(this).before($myUl);
-	});
-	*/
+	}
+	else // check if we need to add some navigation for the desktop version.
+	{
+		//if there's more than one table inside the tableContainer..!
+		$('.tableContainer').each(function(){
+			if ($(this).children('.table').length > 1)
+			{
+				$(this).sonyCarousel({
+            keyboardNavEnabled: true,
+            navigateByClick: false,
+            sliderDrag: false
+        });
+        $(this).addClass('desktopNav');
+        $(this).append('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
+        
+      	var tableSlider = $(this).data('sonyCarousel');
+      	
+      	//Prev
+				$(this).find('a.next').click(function(){
+					tableSlider.next();
+				});
+				//Next
+				$(this).find('a.prev').click(function(){
+					tableSlider.prev();
+				});
+				
+				/*
+				var tallestTable = $(this).find('.bigTable').maxHeight();
+				console.info(tallestTable);
+				$(this).children().height(tallestTable);
+				*/
+			}
+		});
+	}
+
 	$('.table').each(function()
 	{
 		$table = $(this);
-		//If mobile version (desktop atm) **** Apply to the big table only.
-		if (isMqActivated && $(this).hasClass('bigTable'))
+		
+		//If mobile version **** Apply to the big table only.
+		if (ifMobile && $table.hasClass('bigTable'))
 		{
-			$table = $(this);
 
 			//Number of column
 			var col_count = $table.find('thead tr:first-child th').size();
@@ -114,10 +173,10 @@ if ($('table').length > 0 && $.browser.version != 7)
 			{
 				//i = nb of column
 				$table.append('<div class="column column'+i+'">');
-				
 				var row_count = $table.find('thead > tr, tbody > tr').size();
 				for ( j=1; j <= (row_count-1); j++ )
 				{
+					
 					//j = nb of rows
 					$table.find('tr').children(':nth-child('+(i+1)+')').each(function(){
 						$table.find('.column'+i).append($(this).children());
@@ -134,7 +193,7 @@ if ($('table').length > 0 && $.browser.version != 7)
 		}
 		else
 		{
-			//If desktop version (mobile atm)
+			//If desktop version (We keep the table layout.)
 			// replaces thead with <div class="thead">
 			$table.find('thead').replaceWith(
 				function(){

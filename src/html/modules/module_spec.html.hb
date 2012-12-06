@@ -20,188 +20,382 @@
 			</div>
 		</div>
 		
-		<table class="bigTable">
-			<thead>
-				<tr>
-					<th>&nbsp;</th>
-					
-					{{#each productTable}}
-						<th><h2>{{this.productTitle}}</h2></th>
-					{{/each}}
-				</tr>
-			</thead>
-			
-			<tbody>
-				<tr>
-					<th>Dimensions</th>
-					{{#each productTable}}
-					<td>{{#if this.productImage}}<div class="img-respons"><img src="img/spec/{{this.productImage}}"></div>{{/if}}
-
-						<div class="table">
-							<div class="tbody">
-								{{#if this.dimensions.width}}
-									<div class="row">
-										<div class="column"><p>Width:</p></div>
-										<div class="column"><p><span>{{this.dimensions.width}}</span></p></div>
-									</div>
-								{{/if}}
-								
-								{{#if this.dimensions.height}}
-									<div class="row">
-										<div class="column"><p>Height:</p></div>
-										<div class="column"><p><span>{{this.dimensions.height}}</span></p></div>
-									</div>
-								{{/if}}
-								
-								{{#if this.dimensions.depth}}
-									<div class="row">
-										<div class="column"><p>Depth:</p></div>
-										<div class="column"><p><span>{{this.dimensions.depth}}</span></p></div>
-									</div>
-								{{/if}}
-								
-								{{#if this.dimensions.weight}}
-									<div class="row">
-										<div class="column"><p>Weight:</p></div>
-										<div class="column"><p><span>{{this.dimensions.weight}}</span></p></div>
-									</div>
-								{{/if}}
-							</div>
-						</div>
-
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>Display</th>
-					{{#each productTable}}
-					<td>
-						<p>{{this.display}}</p>
-						{{#if this.displayDescription}}
-						<p><span>{{this.displayDescription}}</span></p>
-						{{/if}}
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>Processor</th>
-					{{#each productTable}}
-					<td>
-						<p>{{this.processor}}</p>
-						{{#if this.processorDescription}}
-						<p><span>{{this.processorDescription}}</span></p>
-						{{/if}}
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>Operating System</th>
-					{{#each productTable}}
-					<td>
-						<p>{{this.operatingSystem}}</p>
-						{{#if this.operatingSystemNote}}
-						<p><span>{{this.operatingSystemNote}}</span></p>
-						{{/if}}
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>Color Options</th>
-					{{#each productTable}}
-					<td><div class="clearfix">{{{this.colorOptions}}}</div></td>
-					{{/each}}
-				</tr>
-				<tr>
-					<th>Memory</th>
-					{{#each productTable}}
-					<td>
-						<p>{{this.memory}}</p>
-						{{#if this.memoryNote}}
-						<p><span>{{this.memoryNote}}</span></p>
-						{{/if}}
-					</td>
-					{{/each}}
-				</tr>
-				<tr>
-					<th>Hard Drive</th>
-					{{#each productTable}}
-					<td>
-						{{#if this.emphasisInfo}}
-						<div class="emphasis-info">{{this.emphasisInfo}}</div>
-						{{/if}}
-						<p>{{this.hardDrive}}</p>
-						{{#if this.hardDriveNote}}
-						<p><span>{{this.hardDriveNote}}</span></p>
-						{{/if}}
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>Communications</th>
-					{{#each productTable}}
-					<td>
-						{{#each this.communications}}
-						<p>{{this}}</p>
-						{{/each}}
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>Hardware</th>
-					
-					{{#each productTable}}
-					<td>
-						{{#each this.hardware}}
-						<p>{{this}}</p>
-						{{/each}}
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>Ports</th>
-					{{#each productTable}}
-					<td>
-						<a class="btn" href="#">Enlarge</a>
-						<p>
-							<span>{{this.ports}}</span>
-						</p>
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>Battery and Power</th>
-					{{#each productTable}}
-					<td>
-						<p>{{this.batteryAndPower}}</p>
-						{{#if this.batteryAndPowerDescription}}
-						<p><span>{{this.batteryAndPowerDescription}}</span></p>
-						{{/if}}
+		<div class="tableContainer clearfix">
+			<table class="bigTable">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
 						
-					</td>
-					{{/each}}
-				</tr>
-				
-				<tr>
-					<th>In the Box</th>
-					
-					{{#each productTable}}
-					<td>
-						{{#each this.inTheBox}}
-						<p>{{this}}</p>
+						{{#each productTable}}
+							<th><h2>{{this.productTitle}}</h2></th>
 						{{/each}}
-					</td>
-					{{/each}}
-				</tr>
-			</tbody>
-		</table>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						<th>Dimensions</th>
+						{{#each productTable}}
+						<td>{{#if this.productImage}}<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.productImage}}">
+							<noscript>
+							  <img src="img/spec/{{this.productImage}}">
+							</noscript>
+						</div>{{/if}}
+	
+							<div class="table">
+								<div class="tbody">
+									{{#if this.dimensions.width}}
+										<div class="row">
+											<div class="column"><p>Width:</p></div>
+											<div class="column"><p><span>{{this.dimensions.width}}</span></p></div>
+										</div>
+									{{/if}}
+									
+									{{#if this.dimensions.height}}
+										<div class="row">
+											<div class="column"><p>Height:</p></div>
+											<div class="column"><p><span>{{this.dimensions.height}}</span></p></div>
+										</div>
+									{{/if}}
+									
+									{{#if this.dimensions.depth}}
+										<div class="row">
+											<div class="column"><p>Depth:</p></div>
+											<div class="column"><p><span>{{this.dimensions.depth}}</span></p></div>
+										</div>
+									{{/if}}
+									
+									{{#if this.dimensions.weight}}
+										<div class="row">
+											<div class="column"><p>Weight:</p></div>
+											<div class="column"><p><span>{{this.dimensions.weight}}</span></p></div>
+										</div>
+									{{/if}}
+								</div>
+							</div>
+	
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Display</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.display}}</p>
+							{{#if this.displayDescription}}
+							<p><span>{{this.displayDescription}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Processor</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.processor}}</p>
+							{{#if this.processorDescription}}
+							<p><span>{{this.processorDescription}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Operating System</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.operatingSystem}}</p>
+							{{#if this.operatingSystemNote}}
+							<p><span>{{this.operatingSystemNote}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Color Options</th>
+						{{#each productTable}}
+						<td><div class="clearfix">{{{this.colorOptions}}}</div></td>
+						{{/each}}
+					</tr>
+					<tr>
+						<th>Memory</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.memory}}</p>
+							{{#if this.memoryNote}}
+							<p><span>{{this.memoryNote}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					<tr>
+						<th>Hard Drive</th>
+						{{#each productTable}}
+						<td>
+							{{#if this.emphasisInfo}}
+							<div class="emphasis-info">{{this.emphasisInfo}}</div>
+							{{/if}}
+							<p>{{this.hardDrive}}</p>
+							{{#if this.hardDriveNote}}
+							<p><span>{{this.hardDriveNote}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Communications</th>
+						{{#each productTable}}
+						<td>
+							{{#each this.communications}}
+							<p>{{this}}</p>
+							{{/each}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Hardware</th>
+						
+						{{#each productTable}}
+						<td>
+							{{#each this.hardware}}
+							<p>{{this}}</p>
+							{{/each}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Ports</th>
+						{{#each productTable}}
+						<td>
+							<a class="btn" href="#">Enlarge</a>
+							<p>
+								<span>{{this.ports}}</span>
+							</p>
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Battery and Power</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.batteryAndPower}}</p>
+							{{#if this.batteryAndPowerDescription}}
+							<p><span>{{this.batteryAndPowerDescription}}</span></p>
+							{{/if}}
+							
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>In the Box</th>
+						
+						{{#each productTable}}
+						<td>
+							{{#each this.inTheBox}}
+							<p>{{this}}</p>
+							{{/each}}
+						</td>
+						{{/each}}
+					</tr>
+				</tbody>
+			</table>
+			
+			<table class="bigTable">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						
+						{{#each productTable}}
+							<th><h2>{{this.productTitle}}</h2></th>
+						{{/each}}
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						<th>Dimensions</th>
+						{{#each productTable}}
+						<td>{{#if this.productImage}}<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.productImage}}">
+							<noscript>
+							  <img src="img/spec/{{this.productImage}}">
+							</noscript>
+						</div>{{/if}}
+	
+							<div class="table">
+								<div class="tbody">
+									{{#if this.dimensions.width}}
+										<div class="row">
+											<div class="column"><p>Width:</p></div>
+											<div class="column"><p><span>{{this.dimensions.width}}</span></p></div>
+										</div>
+									{{/if}}
+									
+									{{#if this.dimensions.height}}
+										<div class="row">
+											<div class="column"><p>Height:</p></div>
+											<div class="column"><p><span>{{this.dimensions.height}}</span></p></div>
+										</div>
+									{{/if}}
+									
+									{{#if this.dimensions.depth}}
+										<div class="row">
+											<div class="column"><p>Depth:</p></div>
+											<div class="column"><p><span>{{this.dimensions.depth}}</span></p></div>
+										</div>
+									{{/if}}
+									
+									{{#if this.dimensions.weight}}
+										<div class="row">
+											<div class="column"><p>Weight:</p></div>
+											<div class="column"><p><span>{{this.dimensions.weight}}</span></p></div>
+										</div>
+									{{/if}}
+								</div>
+							</div>
+	
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Display</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.display}}</p>
+							{{#if this.displayDescription}}
+							<p><span>{{this.displayDescription}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Processor</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.processor}}</p>
+							{{#if this.processorDescription}}
+							<p><span>{{this.processorDescription}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Operating System</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.operatingSystem}}</p>
+							{{#if this.operatingSystemNote}}
+							<p><span>{{this.operatingSystemNote}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Color Options</th>
+						{{#each productTable}}
+						<td><div class="clearfix">{{{this.colorOptions}}}</div></td>
+						{{/each}}
+					</tr>
+					<tr>
+						<th>Memory</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.memory}}</p>
+							{{#if this.memoryNote}}
+							<p><span>{{this.memoryNote}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					<tr>
+						<th>Hard Drive</th>
+						{{#each productTable}}
+						<td>
+							{{#if this.emphasisInfo}}
+							<div class="emphasis-info">{{this.emphasisInfo}}</div>
+							{{/if}}
+							<p>{{this.hardDrive}}</p>
+							{{#if this.hardDriveNote}}
+							<p><span>{{this.hardDriveNote}}</span></p>
+							{{/if}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Communications</th>
+						{{#each productTable}}
+						<td>
+							{{#each this.communications}}
+							<p>{{this}}</p>
+							{{/each}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Hardware</th>
+						
+						{{#each productTable}}
+						<td>
+							{{#each this.hardware}}
+							<p>{{this}}</p>
+							{{/each}}
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Ports</th>
+						{{#each productTable}}
+						<td>
+							<a class="btn" href="#">Enlarge</a>
+							<p>
+								<span>{{this.ports}}</span>
+							</p>
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>Battery and Power</th>
+						{{#each productTable}}
+						<td>
+							<p>{{this.batteryAndPower}}</p>
+							{{#if this.batteryAndPowerDescription}}
+							<p><span>{{this.batteryAndPowerDescription}}</span></p>
+							{{/if}}
+							
+						</td>
+						{{/each}}
+					</tr>
+					
+					<tr>
+						<th>In the Box</th>
+						
+						{{#each productTable}}
+						<td>
+							{{#each this.inTheBox}}
+							<p>{{this}}</p>
+							{{/each}}
+						</td>
+						{{/each}}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
 		
 		{{#if computersFeatures}}
 		<h2 class="h2-bigger">Features</h2>

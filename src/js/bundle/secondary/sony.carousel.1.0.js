@@ -1701,9 +1701,10 @@
             } 
             
             self._sPosition = self._currRenderPosition = pos;
-
+						
             self.ev.trigger('scBeforeAnimStart');
-
+						
+						
             if (self.st.beforeSlideChange) self.st.beforeSlideChange.call(self);
 
             //$(self._currContent.get(0)).trigger('slidestart.sonycarousel');
@@ -1897,7 +1898,8 @@
             self._oldSlideContent.trigger('slideend.sc');
 
             console.log('ANIMATION COMPLETE' , self._oldSlideContent.attr('id'));
-
+            //$(window).trigger('scroll');
+            
             if (self.st.afterSlideChange) self.st.afterSlideChange.call(self);
         },
         _doBackAndForthAnim:function(type, userAction) {
