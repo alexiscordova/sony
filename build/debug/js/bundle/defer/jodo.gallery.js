@@ -15,7 +15,7 @@
         self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
-        self.$filterArrow = self.$container.find('.filter-arrow-under, .filter-arrow-over');
+        self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
         self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
         self.hasFilters = self.$filterOpts.length > 0;
@@ -23,14 +23,17 @@
 
         self.setColumnMode();
 
+        self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
+        self.$grid.on('done.shuffle', $.proxy( self.onShuffleDone, self ));
+
         // instantiate shuffle
         self.$grid.shuffle({
             itemSelector: '.gallery-item',
-            delimeter: self.shuffleDelimeter,
             speed: self.shuffleSpeed,
             easing: self.shuffleEasing,
             columnWidth: self.shuffleColumns,
-            gutterWidth: self.shuffleGutters
+            gutterWidth: self.shuffleGutters,
+            showInitialTransition: false
         });
 
         // Infinite scroll?
@@ -437,8 +440,9 @@
                 itemSelector: '.gallery-item', // selector for all items you'll retrieve
                 loading: {
                     selector: '.infscr-holder',
+                    msgText: "<em>Loading the next set of products...</em>",
                     finishedMsg: "<em>Finished loading products.</em>",
-                    img: "img/spinner.gif",
+                    img: self.loadingGif,
                   }
             },
             // call shuffle as a callback
@@ -858,10 +862,6 @@
                 this.filter();
             }
         },
-        
-        onMiniSwatchHover : function() {
-
-        },
 
         setColumnMode : function() {
             var self = this,
@@ -967,6 +967,21 @@
 
                 };
             }
+        },
+
+        onShuffleLoading : function() {
+            var $div = $('<div>', { "class" : "gallery-loader text-center" }),
+                $img = $('<img>', { src: this.loadingGif });
+            $div.append($img);
+            $div.insertBefore(this.$grid);
+        },
+
+        onShuffleDone : function() {
+            var self = this;
+            setTimeout(function() {
+                self.$container.find('.gallery-loader').remove();
+                self.$container.addClass('in');
+            }, 250);
         }
 
     };
@@ -1003,7 +1018,8 @@
         MIN_PRICE: undefined,
         MAX_PRICE: undefined,
         isInitialized: false,
-        isTouch: !!( 'ontouchstart' in window )
+        isTouch: !!( 'ontouchstart' in window ),
+        loadingGif: 'img/spinner.gif'
     };
 
 }(jQuery, Modernizr, window));
