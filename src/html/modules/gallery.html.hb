@@ -128,8 +128,16 @@
         <button class="btn btn-alt-special btn-alt-plus js-compare-toggle">Compare</button>
       </div>
 
-      <div class="container-fluid padded slide-arrow-under fade"><div class="slide-toggle-arrow"></div></div>
-      <div class="container-fluid padded slide-arrow-over fade"><div class="slide-toggle-arrow"></div></div>
+      <div class="container-fluid padded slide-arrow-under fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+      <div class="container-fluid padded slide-arrow-over fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
 
       <div class="collapse slide-toggle-target" id="{{productCards.name}}-filters">
         <div class="filter-options container-fluid padded">
@@ -394,8 +402,16 @@
       <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
     </div>
 
-    <div class="container-fluid padded slide-arrow-under fade"><div class="slide-toggle-arrow"></div></div>
-    <div class="container-fluid padded slide-arrow-over fade"><div class="slide-toggle-arrow"></div></div>
+    <div class="container-fluid padded slide-arrow-under fade">
+      <div class="relative">
+        <div class="slide-toggle-arrow"></div>
+      </div>
+    </div>
+    <div class="container-fluid padded slide-arrow-over fade">
+      <div class="relative">
+        <div class="slide-toggle-arrow"></div>
+      </div>
+    </div>
 
     <div class="collapse slide-toggle-target" id="IDGOESHERE">
       <div class="container-fluid padded">

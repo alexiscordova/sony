@@ -447,7 +447,7 @@
             },
             // call shuffle as a callback
             function( newElements ) {
-                self.$grid.shuffle( 'appended', $( newElements ) );
+                self.$grid.shuffle( 'appended', $( newElements ).addClass('via-ajax') );
                 // Show new product count
                 self.$productCount.text( self.$grid.data('shuffle').visibleItems );
                 // Update iQ images
@@ -936,8 +936,6 @@
                         grid5 = 'grid5',
                         span = 'span',
                         largeAndPromo = '.large, .promo';
-
-                    console.log(gridClasses);
 
                     // Between Portrait tablet and phone ( 3 columns )
                     if ( Modernizr.mq('(min-width: 481px) and (max-width: 767px)') ) {
