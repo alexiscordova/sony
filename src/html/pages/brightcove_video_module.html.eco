@@ -34,7 +34,7 @@ description: This module help you create instance of brightcove videoc.
 		<% end %>
 		<!-- Start of Brightcove Player -->
 		<script src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
-		<script type="text/javascript">
+		<script >
 
             // Brightcove code
 
@@ -51,7 +51,7 @@ description: This module help you create instance of brightcove videoc.
                 modExp = player.getModule(brightcove.api.modules.APIModules.EXPERIENCE);
                 modCon = player.getModule(brightcove.api.modules.APIModules.CONTENT);
                 modExp.addEventListener(brightcove.api.events.ExperienceEvent.TEMPLATE_READY, onTemplateReady);
-                console.log("myTemplateLoaded");
+                //console.log("myTemplateLoaded");
             }
 
             function onTemplateReady(evt) {
@@ -62,7 +62,7 @@ description: This module help you create instance of brightcove videoc.
                 modVP.addEventListener(brightcove.api.events.MediaEvent.PLAY, onMediaEventFired);
                 modVP.addEventListener(brightcove.api.events.MediaEvent.PROGRESS, onMediaProgressFired);
                 modVP.addEventListener(brightcove.api.events.MediaEvent.STOP, onMediaEventFired);
-                console.log("onTemplateReady");
+                //console.log("onTemplateReady");
             }
 
             function playVideo() {
