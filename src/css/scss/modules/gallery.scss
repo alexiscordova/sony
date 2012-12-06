@@ -42,18 +42,9 @@ $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 @media (min-width:768px) {
   .grid5 {
-    // @include grid-core(172px, 20px, 5);
     @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
   }
 }
-
-// @media (min-width:1200px) {
-//   .grid5 {
-//     // @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
-//     @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-//   }
-// }
-
 
 
 // Price text module
@@ -116,16 +107,29 @@ $detailedGalleryItemHeight: 480px;
   
   // Container for product images
   .product-img {
+    position: relative;
     height: $galleryItemImgHeight;
     width: 100%;
     overflow: hidden;
     text-align: center;
     background: $grayLightFieldLarge;
+    @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
+
+    &:hover {
+      @include box-shadow(inset 0 -4px 0 $gray);
+      background-color: $grayLighter;
+    }
 
     img {
       display: block;
       max-height: 100%;
       max-width: 100%;
+    }
+
+    .color-swatches {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
     }
   }
 
@@ -165,6 +169,7 @@ $detailedGalleryItemHeight: 480px;
 
   .label {
     position: absolute;
+    z-index: 10;
     top: 0;
     right: 0;
   }
@@ -221,9 +226,35 @@ $detailedGalleryItemHeight: 480px;
     }
   }
 
+}
+
+// Product Strip
+// -------------------------
+
+.product-strip-wrap {
+  padding-top: 3.75em; // 60px
+
+  &:not(:first-child) {
+    border-top: 1px solid $grayLighter;
+  }
+}
+
+.product-strip-heading {
+  margin-top: 0;
+  margin-bottom: 1.25em;
+}
+
+.product-strip {
+
+  .gallery-item {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
   // Only show 4 on mobile
   .product-strip .gallery-item:nth-child(n + 5) {
-    display: none;
+    // display: none;
   }
 }
 
@@ -324,6 +355,7 @@ $left: 175px;
   display: inline-block;
   min-width: 23px; // keep a constant width so the filter buttons don't move
   font-size: $font_15_15;
+  text-align: right;
 }
 
 @media (max-width: 767px) {
@@ -395,13 +427,13 @@ $left: 175px;
       background-color: $grayLightFieldLarge;
     }
 
-    &:active,
+    .no-touch &:active,
     &.active {
       z-index: 2;
       top: -2px;
       background-color: $white;
       box-shadow:
-        0 2px 0 $white,
+        0 3px 0 $white,
         0 0 4px 1px rgba(0,0,0,0.15);
     }
   }

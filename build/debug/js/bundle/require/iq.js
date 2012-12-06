@@ -124,6 +124,10 @@
 		breakpointName = breakpoint.name;		
 		loadImages();
 	},
+
+    updateImages = function() {
+        loadImages(true);
+    },
 	
 	loadImages = function(update){
 			var current, i;
@@ -587,6 +591,8 @@
 		// force a certain device pixel ratio, used more so for debugging purposes
 		devicePixelRatio = opts.forcePixelRatio;
 	}
+
+    iQ.update = updateImages;
 
 	// DOM does not need to be ready to begin the network connection speed test
 	initSpeedTest();

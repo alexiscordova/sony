@@ -50,14 +50,14 @@ $sprite_Tall_Y :      -990px;
     background-position: $x $icon_tab_Y;
     @include size($h, $w);
 
-    &.state2 { background-position: $x ($icon_tab_Y - 30); }
+    &.state2 { background-position: $x ($icon_tab_Y - 30px); }
 
     // &:hover,
     // &:focus,
     .tab:focus &,
     .tab:hover &,
-    .tab:active &,
-    .tab.active & { background-position: $x ($icon_tab_Y - 60); }
+    .no-touch .tab:active &,
+    .tab.active & { background-position: $x ($icon_tab_Y - 60px); }
   }
 }
 
@@ -96,16 +96,17 @@ $sprite_Tall_Y :      -990px;
 
     @if ( $hasHover ) {
       &:hover,
-      &:focus { background-position: $x ($icon_ui_Y - 30); }
+      &:focus { background-position: $x ($icon_ui_Y - 30px); }
     }
 
+    // @Christopher I added direct descendant selector because .tab.active has .icon-ui-star in it :\
     @if ( $activeIsHover ) {
       &.active,
-      .active &, { background-position: $x ($icon_ui_Y -30); }
+      .active > &, { background-position: $x ($icon_ui_Y - 30px); }
 
     } @else if ( $hasActive ) {
       &.active,
-      .active &, { background-position: $x ($icon_ui_Y -60); }
+      .active > &, { background-position: $x ($icon_ui_Y - 60px); }
     }
   
   }

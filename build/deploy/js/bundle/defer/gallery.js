@@ -87,7 +87,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     tabWidth = initialTabWidth = $tabs.outerWidth();
 
     // New tab shown event
-    $tabs.on('shown.tab', _tabShown);
+    $tabs.on('shown', _tabShown);
 
     // Window resize
     $window.on('resize.tabs', _onResize);
@@ -104,7 +104,10 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
   },
 
   _tabShown = function(evt) {
-    var $tab = $(this);
+    var $tab = $(this);    
+
+    // Update iQ images
+    window.iQ.update();
 
     // Save tab
     $activeTab = $tab;
@@ -138,7 +141,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
         _teardownStickyTabs();
       }
 
-      if ( !isTabCarousel ) {
+      if ( !isTabCarousel && $tabs.length > tabsPerPage ) {
         _setTabCarouselVars();
         _setupTabCarousel();
       }

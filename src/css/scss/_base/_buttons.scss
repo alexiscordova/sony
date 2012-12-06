@@ -181,7 +181,7 @@
   font-size: $font_13_16;
   background: $btnAltBackground;
   border-color: $btnAltBackground;
-  width: 131px;
+  min-width: 131px;
 
   &:hover,
   &:focus {
@@ -192,6 +192,15 @@
   &:active {
     background: $gray;
     border-color: $gray;
+  }
+
+  &.btn-alt-plus:after {
+    content: '';
+    position: absolute;
+    right: $btnAltSpecialPadding;
+    margin-top: 8px;
+    @extend %icon;
+    @extend .icon-ui-plus-tiny;
   }
 }
 

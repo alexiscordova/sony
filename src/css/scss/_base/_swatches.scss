@@ -44,38 +44,43 @@
   margin-left: 10px;
 }
 
+// Mini swatches
+.color-swatches > .mini-swatch:not(:first-child) {
+  margin-left: 2px;
+}
+
+.mini-swatch {
+  @include square(12px);
+  border: 1px solid $transparentBlack;
+
+  // Disable hover and active states
+  &:after { content: none; }
+}
+
 .filter-container [class*="swatch-"] {
   cursor: pointer;
 }
 
-.swatch-black {
-  // @include gradient-vertical(lighten($blackLight, 10%), $blackLight);
-  background-color: $blackLight;
-}
+.swatch-black     { background-color: $blackLight; }
+.swatch-yellow    { background-color: $yellow; }
+.swatch-purple    { background-color: $purple; }
+.swatch-teal      { background-color: $infoText; }
+.swatch-white     { background-color: $white; }
+.swatch-red       { background-color: $red; }
+.swatch-blue      { background-color: $blue; }
+.swatch-pink      { background-color: $pink; }
+.swatch-silver    { background-color: $gray; }
 
-.swatch-yellow {
-  // @include gradient-vertical(lighten($yellow, 10%), $yellow);
-  background-color: $yellow;
-}
 
-.swatch-purple {
-  // @include gradient-vertical(lighten($purple, 10%), $purple);
-  background-color: $purple;
-}
 
-.swatch-teal {
-  // @include gradient-vertical(lighten($infoText, 10%), $infoText);
-  background-color: $infoText;
-}
 
-.swatch-white {
-  // @include gradient-vertical($white, darken($white, 10%));
-  background-color: $white;
-  // border: 1px solid $gray;
-  // border: 1px solid $transparentBlack;
-}
 
-.swatch-red {
-  // @include gradient-vertical(lighten($red, 10%), $red);
-  background-color: $red;
-}
+
+
+
+
+
+
+
+
+
