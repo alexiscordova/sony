@@ -5,6 +5,7 @@ mb.moduleName = "";
 mb.modulePath = ""
 mb.moduleData = {};
 mb.subModules = [];
+mb.modulePaths = [];
 
 
 
@@ -15,8 +16,8 @@ $(document).ready(function(){
 	$.ajax({
 	  url: "/mnames"
 	}).done(function(res) { 
-		var mnames = JSON.parse(res);
-		$.each(mnames, function(i,e){
+		mb.modulePaths = JSON.parse(res);
+		$.each(mb.modulePaths, function(i,e){
 			$('#module_select').append("<option value="+e+">"+e.replace(/.html(.eco|.hb)/g,'')+"</option>")
 		})
 		$('#module_select').trigger('change');
