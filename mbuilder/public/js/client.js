@@ -1,7 +1,17 @@
+var mb = {}
+
+mb.isSuperModule = false;
+mb.moduleName = "";
+mb.modulePath = ""
+mb.moduleData = {};
+mb.subModules = [];
+
+
 
 $(document).ready(function(){	
-	$('#data_control, #data_text, #build').hide();
+	$('#data_control, #data_text, #build, #submodule_section').hide();
 	
+	// loads module names
 	$.ajax({
 	  url: "/mnames"
 	}).done(function(res) { 
@@ -13,36 +23,65 @@ $(document).ready(function(){
 	});
 	
 	
-	
+	// on module name select
 	$('#module_select').change(function(e){
 		if(!e.target.value){
-			$('#data_control, #data_text, #build').hide();
+			$('#data_control, #data_text, #build, #submodule_section').hide();
 			return;
 		}
-		var mname = e.target.value.replace(/.html(.eco|.hb)/g,'');
+		mb.modulePath = e.target.value;
+		mb.moduleName  = mb.modulePath.replace(/.html(.eco|.hb)/g,'');
+		
 		$('#data_control').show();
+		//get list of associated data.json path names
 		$.ajax({
 		  url: "/dnames",
-		  data: {mname: mname}
+		  data: {mname: mb.moduleName }
 		}).done(function(res) { 
-			var mnames = JSON.parse(res);
-			mnames.length >0 || $('#data_control, #data_text').hide();
-			$('#data_select').html("<option></option>");
-			$.each(mnames, function(i,e){
-				$('#data_select').append("<option value="+mname+"/"+e+">"+e+"</option>")
+			var dnames = JSON.parse(res);
+			dnames.length >0 || $('#data_control, #data_text, #submodule_section').hide();
+			$('#data_select').html("");
+			$.each(dnames, function(i,e){
+				$('#data_select').append("<option value="+mb.moduleName+"/"+e+">"+e+"</option>")
+				if(e == "default.json"){
+					$('#data_select').val(mb.moduleName+"/"+e);
+				}
 			})
-			
+			$('#data_select').trigger('change');
 		});
+		
 	})
 	
+	//on data select
 	$('#data_select').change(function(e){
-		$('#data_text textarea').html("");
+		$('#data_text textarea, #submodule_list').html("");
+		$('#submodule_section').hide();
+		mb.subModules = null;
+		mb.isSuperModule = false;
 		
+		//load json file
 		$.ajax({
 		  url: "/getjson",
 		  data: {path: e.target.value}
 		}).done(function(res) { 
-			$('#data_text textarea').val(JSON.stringify(JSON.parse(res), null, '    '));
+			//parse json 
+			mb.moduleData = JSON.parse(res);
+			
+			//if it contains submodules
+			mb.subModules = mb.moduleData.submodules
+			if(mb.subModules && mb.subModules.length >0){
+				mb.isSuperModule = true;
+				//show submodule editor
+				$('#submodule_section').show();
+				//remove submodules from the supermodule data (for now)
+				mb.moduleData.submodules = undefined;				
+				$.each(mb.subModules, function(i,e){
+					//add each submodule to the edit list
+					$('#submodule_list').append('<li>' + e.type + ' : ' + e.data + '</li>');
+				})
+			}
+			//add the remaining data to the module edit text field
+			$('#data_text textarea').val(JSON.stringify(mb.moduleData, null, '    '));
 			$('#data_text textarea').trigger('keyup');
 			$('#build, #data_text').show();
 			$('#save_as_name').val($('#data_select').val())
@@ -50,15 +89,20 @@ $(document).ready(function(){
 	})
 	
 	
+	
+	
+	//on textarea edit run JSLINT to test for valid json
 	$('#data_text textarea').bind('keyup',function(e){
 		var res = JSLINT($('#data_text textarea').val())
 		$('#data_text').toggleClass('error', !res);
 	})
 	
+	//when you pop up the save as dialog focus the filename
 	$('#save_as_box').modal().modal('hide').on('shown', function(e){
 		$('#save_as_name').focus();
 	});
 	
+	//when you hit save submit the current filename
 	$('#save_submit').bind('click', function(e){
 		if($('#data_text').hasClass('error')){
 			return;
@@ -67,6 +111,7 @@ $(document).ready(function(){
 		}
 	})
 	
+	//when you hit save as submit the new filename
 	$('#save_as_submit').bind('click', function(e){
 		if($('#data_text').hasClass('error')){
 			return;
@@ -75,11 +120,24 @@ $(document).ready(function(){
 		}
 		
 	})
+	
+	//saves the current contents of the text area to the file path
 	var doSave = function(path){
+		
+		var datastring = $('#data_text textarea').val()
+		
+		//if its a supermodule re-add supermodule array
+		if(mb.isSuperModule){
+			var d = JSON.parse(datastring);
+			d.submodules = mb.subModules;
+			datastring = JSON.stringify(d, null, '    ');
+		}
+			
 		$.ajax({
 		  url: "/savejson",
-		  data: {path: path, data:$('#data_text textarea').val()}
+		  data: {path: path, data:datastring}
 		}).done(function(res) { 
+			//show save success message
 			if($('.alert').length >0){
 				$('.alert').remove();
 			}
@@ -94,6 +152,7 @@ $(document).ready(function(){
 		});
 	}
 
+	// when you hit build run the generate script
 	$("#build").bind('click', function(e){
 		$("#build").button('loading');
 		
@@ -120,7 +179,9 @@ $(document).ready(function(){
 		  
 	})
 
+	//turn build into a bootstrap button
 	$("#build").button();
+	
 
 })
 
