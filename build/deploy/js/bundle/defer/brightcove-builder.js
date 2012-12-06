@@ -9,7 +9,7 @@
 
             $(".video-container").each(function() {
                 $(this).find(".vbc-container, .video-missing-poster").remove();
-                $(this).find(".video-poster").removeClass("hidden");
+                $(this).find(".video-poster").removeClass("visuallyhidden");
             });
 
             $targetPlaceholder = this.getAttribute("data-target");
@@ -61,10 +61,10 @@
                                 '</div>';
                                 /* @formatter:on */
 
-                $($targetPlaceholder).find("img").before(activePlayer).addClass("hidden");
+                $($targetPlaceholder).find("img").before(activePlayer).addClass("visuallyhidden");
                 brightcove.createExperiences();
             } else {
-                $($targetPlaceholder).find("img").before(imgMissingVideoID).addClass("hidden");
+                $($targetPlaceholder).find("img").before(imgMissingVideoID).addClass("visuallyhidden");
             }
 
             $(this).toggleClass("video-active video-inactive");
