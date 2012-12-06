@@ -39,30 +39,25 @@
 
   <div class="tab-pane fade active in" data-tab="featured">
     {{#each featured}}
-    <section class="container-fluid padded gallery" data-mode="{{this.mode}}">
+    <section class="container-fluid padded fade gallery" data-mode="{{this.mode}}">
       <h6>{{{this.title}}}</h6>
       <div class="products row-fluid">
           {{#each this.list}}
-          <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
+          <a class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}}" data-priority="{{this.priority}}" href="{{#if this.href}}{{this.href}}{{else}}#{{/if}}">
             {{#if this.label}}
             <span class="label label-success">{{this.label}}</span>
             {{/if}}
             {{#if this.tile.promo}}
-              {{#if this.tile.copy}}
-              <h3>{{this.title}}</h3>
-              <p class="p2">{{this.text}}</p>
-              {{else}}
-              <div class="product-img">
-                <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
-                <noscript>
-                  <img src="{{this.img.src}}" alt="{{this.img.alt}}">
-                </noscript>
-                <div class="product-content">
-                  <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.subtitle}}</p>
-                  {{#if this.callout}}<a class="btn" href="#">{{this.callout}}</a>{{/if}}
-                </div>
-              </div>  
-              {{/if}}
+            <div class="product-img">
+              <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
+              <noscript>
+                <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+              </noscript>
+              <div class="product-content">
+                <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.subtitle}}</p>
+                {{#if this.blarg}}<a class="btn" href="#">{{this.callout}}</a>{{/if}}
+              </div>
+            </div>
             {{else}}
             <div class="product-img ghost-center-wrap">
               <div class="ghost-center">
@@ -84,13 +79,12 @@
             <div class="product-content">
               <p class="p3 product-name">{{this.name}}</p>
               <div class="product-price">
-                <p class="p5 price-title">Starting at</p>
-                <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+                <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
 
             {{/if}}
-          </div>
+          </a>
           {{/each}}
       </div>
 
@@ -108,7 +102,7 @@
     <section class="gallery" data-mode="{{productCards.mode}}">
       {{#if productCards.filterSet}}
       
-      <div class="filter-display-bar container-fluid padded">
+      <div class="filter-display-bar slide-toggle-parent container-fluid padded">
         {{#if productCards.sortSet}}
         <div class="sort-options pull-right">
           <span class="l4">Sort By:&nbsp;</span>
@@ -134,10 +128,10 @@
         <button class="btn btn-alt-special btn-alt-plus js-compare-toggle">Compare</button>
       </div>
 
-      <div class="container-fluid padded filter-arrow-under fade"><div class="filter-container-arrow"></div></div>
-      <div class="container-fluid padded filter-arrow-over fade"><div class="filter-container-arrow"></div></div>
+      <div class="container-fluid padded slide-arrow-under fade"><div class="slide-toggle-arrow"></div></div>
+      <div class="container-fluid padded slide-arrow-over fade"><div class="slide-toggle-arrow"></div></div>
 
-      <div class="collapse product-filter" id="{{productCards.name}}-filters">
+      <div class="collapse slide-toggle-target" id="{{productCards.name}}-filters">
         <div class="filter-options container-fluid padded">
           <div class="row-fluid">
             {{#each productCards.filterSet}}
@@ -210,7 +204,7 @@
       <div class="container-fluid padded">
         <div class="products row-fluid">
           {{#each productCards.list}}
-          <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
+          <a class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}" href="{{#if this.href}}{{this.href}}{{else}}#{{/if}}">
             {{#if this.label}}
             <span class="label label-success">{{this.label}}</span>
             {{/if}}
@@ -255,7 +249,7 @@
                 <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
-          </div>
+          </a>
           {{/each}}
           
         </div>
@@ -396,9 +390,24 @@
   </section> -->
 
   <section class="tab-pane fade" data-tab="accessories">
-    <div class="container-fluid padded">
-      <button class="btn btn-alt-special btn-alt-plus js-accessory-toggle">Accessory Finder</button>
+    <div class="slide-toggle-parent container-fluid padded">
+      <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
     </div>
+
+    <div class="container-fluid padded slide-arrow-under fade"><div class="slide-toggle-arrow"></div></div>
+    <div class="container-fluid padded slide-arrow-over fade"><div class="slide-toggle-arrow"></div></div>
+
+    <div class="collapse slide-toggle-target" id="IDGOESHERE">
+      <div class="container-fluid padded">
+        <h1>Collapse</h1>
+        <h2>Collapse</h2>
+        <h3>Collapse</h3>
+        <h4>Collapse</h4>
+        <h5>Collapse</h5>
+        <h6>Collapse</h6>
+      </div>
+    </div>
+
     <div class="grid5 container-fluid padded">
       {{#each accessories}}
       <div class="product-strip-wrap">

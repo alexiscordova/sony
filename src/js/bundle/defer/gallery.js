@@ -104,7 +104,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
   },
 
   _tabShown = function(evt) {
-    var $tab = $(this);    
+    var $tab = $(this);
 
     // Update iQ images
     window.iQ.update();
