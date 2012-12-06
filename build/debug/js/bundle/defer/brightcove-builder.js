@@ -1,6 +1,8 @@
 /*global $, jQuery, brightcove*/
 ;(function($) {
-    $.fn.activateBrightcove = function(options) {'use strict';
+    $.fn.activateBrightcove = function(options) {
+        'use strict';
+        
         this.addClass("video-inactive");
 
         return this.click(function(e) {
