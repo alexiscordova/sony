@@ -81,7 +81,17 @@ $(document).ready(function(){
 					
 					
 					//TODO change the markup to make this dropdown lists and an edit button
-					$('#submodule_list').append('<li>' + e.type + ' : ' + e.data + ' <button class="btn btn-block btn-small" data-toggle="modal" data-target="#edit_box">Edit</button></li>');
+					//
+					var sub = $('<li><div class="clearfix form-inline row"><div class="control-group span4"><label>Module</label> <select class="submodule-select"></select></div><div class="control-group span4"><label>Data</label> <select class="submodule-data-select"></select></div></div></li>');
+					$.each(mb.modulePaths, function(i,e){
+						sub.find('.submodule-select').append("<option value="+e+">"+e.replace(/.html(.eco|.hb)/g,'')+"</option>");
+					})
+					sub.find('.form-inline').append('<div class="span1"><button class="btn btn-block btn-mini" data-toggle="modal" data-target="#edit_box">Edit</button></div>');
+					sub.find('.form-inline').append('<div class="span1"><button class="btn btn-block btn-mini">Remove</button></div>');
+					sub.find('.submodule-select').val(e.type);
+					
+					
+					$('#submodule_list').append(sub);
 				})
 			}
 			//add the remaining data to the module edit text field
