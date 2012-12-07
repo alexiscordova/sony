@@ -1,7 +1,7 @@
 3.2.3 (Media Mark)
-3a432160ef6bb0f761cdc86d92748e2c48828aaf
+0e173baadb03921e05e9f70b950479955b7f7712
 o:Sass::Tree::RootNode
-:@template"≠M//
+:@template"O//
 // Variables
 // In SublimeText, use Command-K-1 to collapse all sections, Command-K-0 to expand all.
 // -------------------------------------------------------------------------
@@ -446,6 +446,7 @@
 .GRID{} // this is just here for a SublimeText code-folding collapse point
 
 	$gridColumns:             12 !default; 
+	$grid5Columns: 			  5;
 
 	// Default 940px grid @980px-1199px
 	$gridColumnWidth:         54px !default;
@@ -462,6 +463,11 @@
 	$gridGutterWidth768:      20px !default;
 	$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
+
+	// 5 Column Grid
+	$grid5ColWidth: 		   204px;
+	$grid5GutterWidth: 		   23px;
+	$grid5RowWidth: 		   ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
 
 
 
@@ -489,6 +495,9 @@
 	// 767px max (mobile)
 	$fluidContainerMarginWidth767:	15px !default;
 
+	// 5 Column Grid
+	$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
+	$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 
 
@@ -515,7 +524,7 @@
 	$easeOutExpo: 		cubic-bezier(0.190, 1.000, 0.220, 1.000);
 	$easeNormal:		ease-out;
 
-:@has_childrenT:@options{ :@children[Öo:Sass::Tree::CommentNode
+:@has_childrenT:@options{ :@children[ço:Sass::Tree::CommentNode
 :
 @type:silent;@;	[ :@value["∑/*
  * Variables
@@ -838,59 +847,73 @@ white;iè;"-simpleNavbarInverseSearchBackgroundFocus;@;	[ ;("!default;iè
 .GRID;o;;[o;;[o;
 ;[o;/;["	GRID;" ;iª;o;;{ ;0;@õ;iª;@õ;iª;iªo;
 
-;;;@;	[ ;["J/* this is just here for a SublimeText code-folding collapse point */;iªo;;o;$;%[ ;@;&"12;i;'@-;iΩ;"gridColumns;@;	[ ;("!default;iΩo;
+;;;@;	[ ;["J/* this is just here for a SublimeText code-folding collapse point */;iªo;;o;$;%[ ;@;&"12;i;'@-;iΩ;"gridColumns;@;	[ ;("!default;iΩo;;o;$;%[ ;@;&"5;i
+;'@-;iæ;"grid5Columns;@;	[ ;(0;iæo;
 
-;;;@;	[ ;["+/* Default 940px grid @980px-1199px */;iøo;;o;$;%["px;@;&"	54px;i;;'[ ;i¿;"gridColumnWidth;@;	[ ;("!default;i¿o;;o;$;%["px;@;&"	30px;i#;'[ ;i¡;"gridGutterWidth;@;	[ ;("!default;i¡o;;o;4
+;;;@;	[ ;["+/* Default 940px grid @980px-1199px */;i¿o;;o;$;%["px;@;&"	54px;i;;'[ ;i¡;"gridColumnWidth;@;	[ ;("!default;i¡o;;o;$;%["px;@;&"	30px;i#;'[ ;i¬;"gridGutterWidth;@;	[ ;("!default;i¬o;;o;4
 ;5;6;@;7o;4
 ;5:
 times;@;7o;4
 ;5:
-minus;@;7o;$;%[ ;@;&"1;i;'@-;i¬;8o;)	;"gridColumns;@;*"gridColumns;i¬;i¬;8o;)	;"gridGutterWidth;@;*"gridGutterWidth;i¬;i¬;8o;4
-;5;9;@;7o;)	;"gridColumnWidth;@;*"gridColumnWidth;i¬;8o;)	;"gridColumns;@;*"gridColumns;i¬;i¬;i¬;"gridRowWidth;@;	[ ;("!default;i¬o;
+minus;@;7o;$;%[ ;@;&"1;i;'@-;i√;8o;)	;"gridColumns;@;*"gridColumns;i√;i√;8o;)	;"gridGutterWidth;@;*"gridGutterWidth;i√;i√;8o;4
+;5;9;@;7o;)	;"gridColumnWidth;@;*"gridColumnWidth;i√;8o;)	;"gridColumns;@;*"gridColumns;i√;i√;i√;"gridRowWidth;@;	[ ;("!default;i√o;
 
-;;;@;	[ ;["*/* 1112px grid @1200px+ breakpoint */;iƒo;;o;$;%["px;@;&"	64px;iE;'[ ;i≈;"gridColumnWidth1200;@;	[ ;("!default;i≈o;;o;$;%["px;@;&"	40px;i-;'[ ;i∆;"gridGutterWidth1200;@;	[ ;("!default;i∆o;;o;4
+;;;@;	[ ;["*/* 1112px grid @1200px+ breakpoint */;i≈o;;o;$;%["px;@;&"	64px;iE;'[ ;i∆;"gridColumnWidth1200;@;	[ ;("!default;i∆o;;o;$;%["px;@;&"	40px;i-;'[ ;i«;"gridGutterWidth1200;@;	[ ;("!default;i«o;;o;4
 ;5;6;@;7o;4
 ;5;9;@;7o;4
-;5;:;@;7o;$;%[ ;@;&"1;i;'@-;i«;8o;)	;"gridColumns;@;*"gridColumns;i«;i«;8o;)	;"gridGutterWidth1200;@;*"gridGutterWidth1200;i«;i«;8o;4
-;5;9;@;7o;)	;"gridColumnWidth1200;@;*"gridColumnWidth1200;i«;8o;)	;"gridColumns;@;*"gridColumns;i«;i«;i«;"gridRowWidth1200;@;	[ ;("!default;i«o;
+;5;:;@;7o;$;%[ ;@;&"1;i;'@-;i»;8o;)	;"gridColumns;@;*"gridColumns;i»;i»;8o;)	;"gridGutterWidth1200;@;*"gridGutterWidth1200;i»;i»;8o;4
+;5;9;@;7o;)	;"gridColumnWidth1200;@;*"gridColumnWidth1200;i»;8o;)	;"gridColumns;@;*"gridColumns;i»;i»;i»;"gridRowWidth1200;@;	[ ;("!default;i»o;
 
-;;;@;	[ ;["./* 724px grid @768px-979px breakpoints */;i…o;;o;$;%["px;@;&"	45px;i2;'[ ;i ;"gridColumnWidth768;@;	[ ;("!default;i o;;o;$;%["px;@;&"	20px;i;'[ ;iÀ;"gridGutterWidth768;@;	[ ;("!default;iÀo;;o;4
+;;;@;	[ ;["./* 724px grid @768px-979px breakpoints */;i o;;o;$;%["px;@;&"	45px;i2;'[ ;iÀ;"gridColumnWidth768;@;	[ ;("!default;iÀo;;o;$;%["px;@;&"	20px;i;'[ ;iÃ;"gridGutterWidth768;@;	[ ;("!default;iÃo;;o;4
 ;5;6;@;7o;4
 ;5;9;@;7o;4
-;5;:;@;7o;$;%[ ;@;&"1;i;'@-;iÃ;8o;)	;"gridColumns;@;*"gridColumns;iÃ;iÃ;8o;)	;"gridGutterWidth768;@;*"gridGutterWidth768;iÃ;iÃ;8o;4
-;5;9;@;7o;)	;"gridColumnWidth768;@;*"gridColumnWidth768;iÃ;8o;)	;"gridColumns;@;*"gridColumns;iÃ;iÃ;iÃ;"gridRowWidth768;@;	[ ;("!default;iÃo;
+;5;:;@;7o;$;%[ ;@;&"1;i;'@-;iÕ;8o;)	;"gridColumns;@;*"gridColumns;iÕ;iÕ;8o;)	;"gridGutterWidth768;@;*"gridGutterWidth768;iÕ;iÕ;8o;4
+;5;9;@;7o;)	;"gridColumnWidth768;@;*"gridColumnWidth768;iÕ;8o;)	;"gridColumns;@;*"gridColumns;iÕ;iÕ;iÕ;"gridRowWidth768;@;	[ ;("!default;iÕo;
+
+;;;@;	[ ;["/* 5 Column Grid */;i–o;;o;$;%["px;@;&"
+204px;iÃ;'[ ;i—;"grid5ColWidth;@;	[ ;(0;i—o;;o;$;%["px;@;&"	23px;i;'[ ;i“;"grid5GutterWidth;@;	[ ;(0;i“o;;o;4
+;5;6;@;7o;4
+;5;9;@;7o;4
+;5;:;@;7o;$;%[ ;@;&"1;i;'@-;i”;8o;)	;"grid5Columns;@;*"grid5Columns;i”;i”;8o;)	;"grid5GutterWidth;@;*"grid5GutterWidth;i”;i”;8o;4
+;5;9;@;7o;)	;"grid5ColWidth;@;*"grid5ColWidth;i”;8o;)	;"grid5Columns;@;*"grid5Columns;i”;i”;i”;"grid5RowWidth;@;	[ ;(0;i”o;
 
 ;;;@;	[ ;["6/* Fluid grid
  * -------------------------
- *  */;i”o;
+ *  */;iŸo;
 
-;;;@;	[ ;["//* Default 980px grid @980px breakpoint */;i◊o;;o;$;%["px;@;&"	40px;i-;'[ ;iÿ;"fluidContainerMarginWidth;@;	[ ;("!default;iÿo;;o; ;"percentage;@;!0;iŸ;"{ ;#[o;4
-;5:div;@;7o;)	;"gridRowWidth;@;*"gridRowWidth;iŸ;8o;)	;"gridColumnWidth;@;*"gridColumnWidth;iŸ;iŸ;"fluidGridColumnWidth;@;	[ ;("!default;iŸo;;o; ;"percentage;@;!0;i⁄;"{ ;#[o;4
-;5;;;@;7o;)	;"gridRowWidth;@;*"gridRowWidth;i⁄;8o;)	;"gridGutterWidth;@;*"gridGutterWidth;i⁄;i⁄;"fluidGridGutterWidth;@;	[ ;("!default;i⁄o;
+;;;@;	[ ;["//* Default 980px grid @980px breakpoint */;i›o;;o;$;%["px;@;&"	40px;i-;'[ ;iﬁ;"fluidContainerMarginWidth;@;	[ ;("!default;iﬁo;;o; ;"percentage;@;!0;iﬂ;"{ ;#[o;4
+;5:div;@;7o;)	;"gridRowWidth;@;*"gridRowWidth;iﬂ;8o;)	;"gridColumnWidth;@;*"gridColumnWidth;iﬂ;iﬂ;"fluidGridColumnWidth;@;	[ ;("!default;iﬂo;;o; ;"percentage;@;!0;i‡;"{ ;#[o;4
+;5;;;@;7o;)	;"gridRowWidth;@;*"gridRowWidth;i‡;8o;)	;"gridGutterWidth;@;*"gridGutterWidth;i‡;i‡;"fluidGridGutterWidth;@;	[ ;("!default;i‡o;
 
-;;;@;	[ ;["/* 1200px min */;i‹o;;o;$;%["px;@;&"	40px;i-;'[ ;i›;""fluidContainerMarginWidth1200;@;	[ ;("!default;i›o;;o; ;"percentage;@;!0;iﬁ;"{ ;#[o;4
-;5;;;@;7o;)	;"gridRowWidth1200;@;*"gridRowWidth1200;iﬁ;8o;)	;"gridColumnWidth1200;@;*"gridColumnWidth1200;iﬁ;iﬁ;"fluidGridColumnWidth1200;@;	[ ;("!default;iﬁo;;o; ;"percentage;@;!0;iﬂ;"{ ;#[o;4
-;5;;;@;7o;)	;"gridRowWidth1200;@;*"gridRowWidth1200;iﬂ;8o;)	;"gridGutterWidth1200;@;*"gridGutterWidth1200;iﬂ;iﬂ;"fluidGridGutterWidth1200;@;	[ ;("!default;iﬂo;
+;;;@;	[ ;["/* 1200px min */;i‚o;;o;$;%["px;@;&"	40px;i-;'[ ;i„;""fluidContainerMarginWidth1200;@;	[ ;("!default;i„o;;o; ;"percentage;@;!0;i‰;"{ ;#[o;4
+;5;;;@;7o;)	;"gridRowWidth1200;@;*"gridRowWidth1200;i‰;8o;)	;"gridColumnWidth1200;@;*"gridColumnWidth1200;i‰;i‰;"fluidGridColumnWidth1200;@;	[ ;("!default;i‰o;;o; ;"percentage;@;!0;iÂ;"{ ;#[o;4
+;5;;;@;7o;)	;"gridRowWidth1200;@;*"gridRowWidth1200;iÂ;8o;)	;"gridGutterWidth1200;@;*"gridGutterWidth1200;iÂ;iÂ;"fluidGridGutterWidth1200;@;	[ ;("!default;iÂo;
 
-;;;@;	[ ;["/* 768px-979px */;i·o;;o;$;%["px;@;&"	40px;i-;'[ ;i‚;"!fluidContainerMarginWidth768;@;	[ ;("!default;i‚o;;o; ;"percentage;@;!0;i„;"{ ;#[o;4
-;5;;;@;7o;)	;"gridRowWidth768;@;*"gridRowWidth768;i„;8o;)	;"gridColumnWidth768;@;*"gridColumnWidth768;i„;i„;"fluidGridColumnWidth768;@;	[ ;("!default;i„o;;o; ;"percentage;@;!0;i‰;"{ ;#[o;4
-;5;;;@;7o;)	;"gridRowWidth768;@;*"gridRowWidth768;i‰;8o;)	;"gridGutterWidth768;@;*"gridGutterWidth768;i‰;i‰;"fluidGridGutterWidth768;@;	[ ;("!default;i‰o;
+;;;@;	[ ;["/* 768px-979px */;iÁo;;o;$;%["px;@;&"	40px;i-;'[ ;iË;"!fluidContainerMarginWidth768;@;	[ ;("!default;iËo;;o; ;"percentage;@;!0;iÈ;"{ ;#[o;4
+;5;;;@;7o;)	;"gridRowWidth768;@;*"gridRowWidth768;iÈ;8o;)	;"gridColumnWidth768;@;*"gridColumnWidth768;iÈ;iÈ;"fluidGridColumnWidth768;@;	[ ;("!default;iÈo;;o; ;"percentage;@;!0;iÍ;"{ ;#[o;4
+;5;;;@;7o;)	;"gridRowWidth768;@;*"gridRowWidth768;iÍ;8o;)	;"gridGutterWidth768;@;*"gridGutterWidth768;iÍ;iÍ;"fluidGridGutterWidth768;@;	[ ;("!default;iÍo;
 
-;;;@;	[ ;["/* 767px max (mobile) */;iÊo;;o;$;%["px;@;&"	15px;i;'[ ;iÁ;"!fluidContainerMarginWidth767;@;	[ ;("!default;iÁo;
+;;;@;	[ ;["/* 767px max (mobile) */;iÏo;;o;$;%["px;@;&"	15px;i;'[ ;iÌ;"!fluidContainerMarginWidth767;@;	[ ;("!default;iÌo;
+
+;;;@;	[ ;["/* 5 Column Grid */;iÔo;;o; ;"percentage;@;!0;i;"{ ;#[o;4
+;5;;;@;7o;)	;"grid5RowWidth;@;*"grid5RowWidth;i;8o;)	;"grid5ColWidth;@;*"grid5ColWidth;i;i;"fluidGrid5ColWidth;@;	[ ;(0;io;;o; ;"percentage;@;!0;iÒ;"{ ;#[o;4
+;5;;;@;7o;)	;"grid5RowWidth;@;*"grid5RowWidth;iÒ;8o;)	;"grid5GutterWidth;@;*"grid5GutterWidth;iÒ;iÒ;"fluidGrid5GutterWidth;@;	[ ;(0;iÒo;
 
 ;;;@;	[ ;["R/* Transition Speeds
- * -------------------------------------------------- */;iÓo;;T;@;i ;	[ ;[".TRANSITION-SPEEDS;o;;[o;;[o;
-;[o;/;["TRANSITION-SPEEDS;" ;i;o;;{ ;0;@”;i;@”;i;io;
+ * -------------------------------------------------- */;i˜o;;T;@;i ;	[ ;[".TRANSITION-SPEEDS;o;;[o;;[o;
+;[o;/;["TRANSITION-SPEEDS;" ;i˘;o;;{ ;0;@#;i˘;@#;i˘;i˘o;
 
-;;;@;	[ ;["J/* this is just here for a SublimeText code-folding collapse point */;io;;o;$;%["s;@;&"	0.5s;f0.5;'[ ;iÒ;"transitionSuperslow;@;	[ ;(0;iÒo;;o;$;%["s;@;&"	0.4s;f0.40000000000000002 ôö;'[ ;iÚ;"transitionSlower;@;	[ ;(0;iÚo;;o;$;%["s;@;&"	0.3s;f0.29999999999999999 33;'[ ;iÛ;"transitionSlow;@;	[ ;(0;iÛo;;o;$;%["s;@;&"	0.2s;f0.20000000000000001 ôö;'[ ;iÙ;"transitionNormal;@;	[ ;(0;iÙo;;o;$;%["s;@;&"
-0.15s;f0.14999999999999999 33;'[ ;iı;"transitionFast;@;	[ ;(0;iıo;;o;$;%["s;@;&"	0.1s;f0.10000000000000001 ôö;'[ ;iˆ;"transitionFaster;@;	[ ;(0;iˆo;;o;$;%["s;@;&"
-0.05s;f0.050000000000000003 ôö;'[ ;i˜;"transitionSuperfast;@;	[ ;(0;i˜o;
+;;;@;	[ ;["J/* this is just here for a SublimeText code-folding collapse point */;i˘o;;o;$;%["s;@;&"	0.5s;f0.5;'[ ;i˙;"transitionSuperslow;@;	[ ;(0;i˙o;;o;$;%["s;@;&"	0.4s;f0.40000000000000002 ôö;'[ ;i˚;"transitionSlower;@;	[ ;(0;i˚o;;o;$;%["s;@;&"	0.3s;f0.29999999999999999 33;'[ ;i¸;"transitionSlow;@;	[ ;(0;i¸o;;o;$;%["s;@;&"	0.2s;f0.20000000000000001 ôö;'[ ;i˝;"transitionNormal;@;	[ ;(0;i˝o;;o;$;%["s;@;&"
+0.15s;f0.14999999999999999 33;'[ ;i˛;"transitionFast;@;	[ ;(0;i˛o;;o;$;%["s;@;&"	0.1s;f0.10000000000000001 ôö;'[ ;iˇ;"transitionFaster;@;	[ ;(0;iˇo;;o;$;%["s;@;&"
+0.05s;f0.050000000000000003 ôö;'[ ;i ;"transitionSuperfast;@;	[ ;(0;i o;
 
 ;;;@;	[ ;["\/* Transition Timing Functions
- * -------------------------------------------------- */;i˙o;;T;@;i ;	[ ;[".TRANSITION-FUNCTIONS;o;;[o;;[o;
-;[o;/;["TRANSITION-FUNCTIONS;" ;i¸;o;;{ ;0;@*;i¸;@*;i¸;i¸o;
+ * -------------------------------------------------- */;io;;T;@;i ;	[ ;[".TRANSITION-FUNCTIONS;o;;[o;;[o;
+;[o;/;["TRANSITION-FUNCTIONS;" ;i;o;;{ ;0;@z;i;@z;i;io;
 
-;;;@;	[ ;["J/* this is just here for a SublimeText code-folding collapse point */;i¸o;;o; ;"cubic-bezier;@;!0;i˝;"{ ;#[	o;$;%[ ;@;&"	0.25;f	0.25;'@-;i˝o;$;%[ ;@;&"	0.46;f0.46000000000000002 =q;'@-;i˝o;$;%[ ;@;&"	0.45;f0.45000000000000001 ÃÕ;'@-;i˝o;$;%[ ;@;&"	0.94;f0.93999999999999995 Æ;'@-;i˝;"easeOutQuad;@;	[ ;(0;i˝o;;o; ;"cubic-bezier;@;!0;i˛;"{ ;#[	o;$;%[ ;@;&"
-0.215;f0.215 ÎÖ;'@-;i˛o;$;%[ ;@;&"	0.61;f0.60999999999999999 ÎÖ;'@-;i˛o;$;%[ ;@;&"
-0.355;f0.35499999999999998 ∏;'@-;i˛o;$;%[ ;@;&"1;f1;'@-;i˛;"easeOutCubic;@;	[ ;(0;i˛o;;o; ;"cubic-bezier;@;!0;iˇ;"{ ;#[	o;$;%[ ;@;&"
-0.165;f0.16500000000000001 Ö;'@-;iˇo;$;%[ ;@;&"	0.84;f0.83999999999999997 z·;'@-;iˇo;$;%[ ;@;&"	0.44;f0.44 \);'@-;iˇo;$;%[ ;@;&"1;f1;'@-;iˇ;"easeOutQuart;@;	[ ;(0;iˇo;;o; ;"cubic-bezier;@;!0;i ;"{ ;#[	o;$;%[ ;@;&"	0.19;f0.19 ∏R;'@-;i o;$;%[ ;@;&"1;f1;'@-;i o;$;%[ ;@;&"	0.22;f0.22 \);'@-;i o;$;%[ ;@;&"1;f1;'@-;i ;"easeOutExpo;@;	[ ;(0;i o;;o;0	;;2;@;"ease-out;i;"easeNormal;@;	[ ;(0;i;i
+;;;@;	[ ;["J/* this is just here for a SublimeText code-folding collapse point */;io;;o; ;"cubic-bezier;@;!0;i;"{ ;#[	o;$;%[ ;@;&"	0.25;f	0.25;'@-;io;$;%[ ;@;&"	0.46;f0.46000000000000002 =q;'@-;io;$;%[ ;@;&"	0.45;f0.45000000000000001 ÃÕ;'@-;io;$;%[ ;@;&"	0.94;f0.93999999999999995 Æ;'@-;i;"easeOutQuad;@;	[ ;(0;io;;o; ;"cubic-bezier;@;!0;i;"{ ;#[	o;$;%[ ;@;&"
+0.215;f0.215 ÎÖ;'@-;io;$;%[ ;@;&"	0.61;f0.60999999999999999 ÎÖ;'@-;io;$;%[ ;@;&"
+0.355;f0.35499999999999998 ∏;'@-;io;$;%[ ;@;&"1;f1;'@-;i;"easeOutCubic;@;	[ ;(0;io;;o; ;"cubic-bezier;@;!0;i;"{ ;#[	o;$;%[ ;@;&"
+0.165;f0.16500000000000001 Ö;'@-;io;$;%[ ;@;&"	0.84;f0.83999999999999997 z·;'@-;io;$;%[ ;@;&"	0.44;f0.44 \);'@-;io;$;%[ ;@;&"1;f1;'@-;i;"easeOutQuart;@;	[ ;(0;io;;o; ;"cubic-bezier;@;!0;i	;"{ ;#[	o;$;%[ ;@;&"	0.19;f0.19 ∏R;'@-;i	o;$;%[ ;@;&"1;f1;'@-;i	o;$;%[ ;@;&"	0.22;f0.22 \);'@-;i	o;$;%[ ;@;&"1;f1;'@-;i	;"easeOutExpo;@;	[ ;(0;i	o;;o;0	;;2;@;"ease-out;i
+;"easeNormal;@;	[ ;(0;i
+;i
