@@ -26,26 +26,24 @@
   					</select>
 				</div>
 				
-				<div id="data_control" class="control-group span8">
+				<div id="data_control" class="control-group span4">
 					<label>Data</label>		
 					<select id="data_select">
 					</select>
 				</div>
-				
-				
-				<div id="data_text" class="control-group">
-					<textarea rows="10" class="span12"></textarea>
-					<div>
-						<div id="save_submit" class="span2 offset8"><button class="btn btn-block btn-small">Save</button></div>
-						<div class="span2"><button class="btn btn-block btn-small" data-toggle="modal" data-target="#save_as_box">Save As</button></div>
-					</div>
+						
+			</div>
+			<div id="main_data_edit" class="clearfix row">
+				<textarea rows="10" class="span11"></textarea>
+				<div>
+ 					<div id="save_submit" class="span2 offset7"><button class="btn btn-block btn-small">Save</button></div>
+					<div class="span2"><button class="btn btn-block btn-small" data-toggle="modal" data-target="#save_as_box">Save As</button></div>
 				</div>
 			</div>
 			
 			<div id="submodule_section">
 				<h2>Submodules</h2>
 				<ul id="submodule_list">
-					
 				</ul>
 			</div>
 		
@@ -60,11 +58,28 @@
 		  </div>
 		  <div class="modal-body">
 		    <label>FileName</label>
-  			<input type="text" id="save_as_name" value="default.json">
+  			<input type="text">
 		  </div>
 		  <div class="modal-footer">
 		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 		    <button class="btn btn-primary" id="save_as_submit">Save</button>
+		  </div>
+		</div>
+
+		<div class="modal" id="edit_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Edit Data</h3>
+		  </div>
+		  <div class="modal-body">
+		    <label>FileName</label>
+  			<input type="text">
+  			<label>Content</label>
+  			<textarea rows="15"></textarea>
+		  </div>
+		  <div class="modal-footer">
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		    <button class="btn btn-primary" id="edit_submit">Save</button>
 		  </div>
 		</div>
 		
