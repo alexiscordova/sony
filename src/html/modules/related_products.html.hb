@@ -3,7 +3,7 @@ name: 'related products module'
 meta_data: {a:'foo', b:'bar'}
 ---
 
-<section class="hero">
+<!-- <section class="hero">
   <div class="hero-img-wrap">
     <img src="img/headphones-hero.jpg" alt="">
   </div>
@@ -15,12 +15,64 @@ meta_data: {a:'foo', b:'bar'}
       </div>
     </div>
   </div>
-</section>
+  
+<img class="iq-img" alt="sony camera" data-src="sony-camera.jpg">
+<noscript>
+  <img src="img/sony-camera-desktop.jpg">
+</noscript>
 
+</section> -->
+<h4>Related Products Module</h4>
+<div class="btn btn-mini btn-alt rpArrow left">Previous</div>
+<div class="btn btn-mini btn-alt rpArrow right">Next</div>
 <section class="related-products">
-  <div class="rpOverflow">
-    <div class="rpContainer">
-      <div class="products gallery grid5" data-type="{{related.type}}">
+    <div class="rpOverflow">
+      <div class="rpContainer">
+
+        <div class='rpSlide'>
+          <div class="row-5-up">
+            <!-- <img src="http://flickholdr.com/582/450/headphones/2" alt="Promo" /> -->
+            <div></div>
+          </div>
+          <div class="row-2-up">
+           <div class="col-1-up"><!-- <img src="http://placehold.it/194x220/00ff00" alt="Promo"> --></div>
+           <div class="col-1-up odd"><!-- <img src="http://placehold.it/194x220/0000ff" alt="Promo"> --></div>
+           <div class="col-2-up"></div>
+          </div>
+        </div>
+        <div class='rpSlide'>
+          <div class="row-4-up">
+            <div></div>
+          </div> 
+          <div class="row-4-up">
+            <div></div>
+          </div>
+        </div>
+        <div class='rpSlide'>
+          <div class="row-2-up">
+           <div class="col-2-up"></div>
+           <div class="col-1-up"></div>
+           <div class="col-1-up odd"></div>
+          </div>
+          <div class="row-2-up">
+           <div class="col-1-up"></div>
+           <div class="col-1-up odd"></div>
+           <div class="col-2-up"></div>
+          </div>
+          <div class="row-1-up">
+           <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> 
+
+<!-- <div class="container">
+  <div class="span-40"></div>
+  <div class="span-60"></div>
+</div> -->
+
+<!--       <div class="products gallery grid5" data-type="{{related.type}}">
         {{#each related.list}}
         <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}">
           {{#if this.label}}
@@ -55,8 +107,4 @@ meta_data: {a:'foo', b:'bar'}
 
           {{/if}}
         </div>
-        {{/each}}
-      </div>
-    </div>
-  </div>
-</section>
+        {{/each}} -->
