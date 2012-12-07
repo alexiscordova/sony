@@ -151,31 +151,50 @@ $default-transition-delay    : 0s;
 // FONTS
 // --------------------------------------------------
 
-@mixin font-family-serif() {
-	font-family: $serifFontFamily;
-}
-@mixin font-family-sans-serif() {
-	font-family: $sansFontFamily;
-}
-@mixin font-family-monospace() {
-	font-family: $monoFontFamily;
-}
-@mixin font-shorthand($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-	font-size: $size;
-	font-weight: $weight;
-	line-height: $lineHeight;
-}
-@mixin font-serif($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-	@include font-family-serif();
-	@include font-shorthand($size, $weight, $lineHeight);
-}
-@mixin font-sans-serif($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-	@include font-family-sans-serif();
-	@include font-shorthand($size, $weight, $lineHeight);
-}
+
+	@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
+		font-family: $fontFamily;
+		font-weight: $fontWeight;
+		font-style: $fontStyle;		
+	}
+
+	@mixin fontRegular(){
+		@include font($baseFontFamily);
+	}
+	@mixin fontItalic(){
+		@include font($baseFontFamilyItalic);
+	}
+	@mixin fontBold(){
+		@include font($baseFontFamilyBold);
+	}
+	@mixin fontBoldItalic(){
+		@include font($baseFontFamilyBold, normal, italic);
+	}   	
+	@mixin fontMedium(){
+		@include font($baseFontFamilyMedium);
+	}   		
+	@mixin fontMediumItalic(){
+		@include font($baseFontFamilyMediumItalic);
+	}
+	@mixin fontLight(){
+		@include font($baseFontFamilyLight);
+	}   		
+	@mixin fontLightItalic(){
+		@include font($baseFontFamilyLightItalic);
+	}	
+
+	@mixin fontHeading(){
+		@include font($headingsFontFamily);
+	}			
+	@mixin fontHeadingItalic(){
+		@include font($headingsFontFamilyItalic);
+	}
+
 @mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-	@include font-family-monospace();
-	@include font-shorthand($size, $weight, $lineHeight);
+	font-family: $monoFontFamily;
+	font-size:$size;
+	font-weight:$weight;
+	line-height:$lineHeight;
 }
 
 

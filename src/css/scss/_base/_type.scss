@@ -3,39 +3,6 @@
 // --------------------------------------------------
 
 
-
-// Type Test 
-.SST-Roman{
-  font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-.SST-Roman-Italic{
-  font-family: "SST-Roman-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-.SST-Roman-i{
-  font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-style: italic;
-}
-
-.SST-Roman-Bold{
-  font-family: "SST-Roman-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-.SST-Roman-Heavy{
-  font-family: "SST-Roman-Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-.SST-Roman-b{
-  font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: bold;
-}
-
-
-
-
-/*
- * You'll notice the comments after the font-size definitions. They're showing the conversion from px fonts into ems, based on the 
- * browser's base font size of 16px.
- *
- */
-
 // Body text
 // -------------------------
 
@@ -52,12 +19,8 @@ p {
 small {
   font-size: 0.85em; // Since this will be inside of another font-sized element, it just needs to be smaller relative to its parent.
 }
-strong {
-  font-weight: bold;
-}
-em {
-  font-style: italic;
-}
+strong {} // have to specify this with the specific font you're using - use the font mixins.
+em {} // have to specify this with the specific font you're using - use the font mixins.
 cite {
   font-style: normal;
 }
@@ -86,8 +49,7 @@ cite {
 h1, h2, h3, h4, h5, h6 {
   margin: (0.25em*$baseLineHeight) 0 (0.25em*$baseLineHeight) 0;
   line-height: $baseLineHeight * 0.7;
-  font-family: $headingsFontFamily;
-  font-weight: $headingsFontWeight;
+  @include fontHeading();
   color: $headingsColor;
   text-rendering: optimizelegibility; // Fix the character spacing for headings
   small {
@@ -95,6 +57,9 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     line-height: $baseLineHeight * 0.7;
     color: $gray;
+  }
+  em{
+    @include fontHeadingItalic();
   }
 }
 
@@ -116,13 +81,7 @@ h5 {
 } 
 h6 { 
   font-size: $font_16_16;
-} 
-
-// idk about these yet.
-// h1 small { font-size: 24px; }
-// h2 small { font-size: 18px; }
-// h3 small { font-size: 14px; }
-// h4 small { font-size: 14px; }
+}
 
 // ----------------------------------
 // Labels
@@ -130,26 +89,26 @@ h6 {
 .l1{
   font-size:$font_22_16;
   text-transform:uppercase;
-  font-family: $sansFontFamilyBold;
+  @include fontBold;
   color: $headingsColor;
+  em { @include fontBoldItalic; }
+}
+
+.l2, .l3, .l4{
+  text-transform:uppercase;
+  @include fontMedium;
+  em { @include fontMediumItalic; }
 }
 .l2{
   font-size:$font_15_16;
-  text-transform:uppercase;
-  font-family: $sansFontFamilyMedium;
 }
 .l3{
   font-size:$font_12_16;
-  text-transform:uppercase;
-  font-family: $sansFontFamilyMedium;
   color: $headingsColor;
 }
 .l4{
   font-size:$font_11_16;
-  text-transform:uppercase;
-  font-family: $sansFontFamilyMedium;
 }
-
 
 
 // ----------------------------------
@@ -167,7 +126,7 @@ h6 {
 }
 .p4{
   font-size: $font_12_16;
-  font-family: $sansFontFamilyItalic;
+  @include fontItalic;
 }
 .p5{
   font-size: $font_11_16;
@@ -202,7 +161,8 @@ h6 {
 // Global Nav links
 // ---------------------------------
 .navtray-list-main > li > a.tl {
-  font-family: $sansFontFamilyMedium;
+  @include fontMedium;
+  em { @include fontMediumItalic; }
   font-size: $font_13_16; /* -- Default textlink size is small. */
   color:$grayDark;
 }
@@ -213,8 +173,7 @@ h6 {
 // Blockquotes
 // ----------------------------------
 blockquote {
-  font-family: $sansFontFamilyLight;  
-  font-style: italic;
+  @include fontLightItalic;
   color: $headingsColor;
 
   p{
@@ -284,14 +243,18 @@ input[type="color"],
 .text-number-callout-large{
   font-size: $font_60_16;
   font-family: $sansFontFamilyLight;
+  @include fontLight;
+  em { @include fontLightItalic; }
   color:$headingsColor;
 }
 .text-promo-title{
   font-size:$font_25_16;
   line-height: $baseLineHeight * 0.8;
-  font-family: $sansFontFamilyLight;
+  @include fontLight;
+  em { @include fontLightItalic; }
   strong{
-    font-family: $sansFontFamily;
+    @include fontRegular;
+    em { @include fontItalic; }
     color:$headingsColor;    
   }
 }
@@ -389,3 +352,121 @@ address {
   font-style: normal;
   line-height: $baseLineHeight;
 }
+
+
+
+
+
+
+
+
+
+.testing{}
+  // Type Tests -- These will be deleted once testing is complete.
+  // .SST-Roman-ttf{
+  //   font-family: "SST-Roman-ttf", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  //   font-size:15px;
+  //   line-height:1;
+  // }
+  // .SST-Roman-otf{
+  //   font-family: "SST-Roman-otf", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  //   font-size:15px;
+  //   line-height:1;
+  // }
+  // .SST-Roman-woff{
+  //   font-family: "SST-Roman-woff", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  //   font-size:15px;
+  //   line-height:1;
+  // }
+
+  // .SST-Roman{
+  //   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Italic{
+  //   font-family: "SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Roman-i{
+  //   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style: italic;
+  // }
+
+  // .SST-Light{
+  //   font-family: "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Light-Italic{
+  //   font-family: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Light-i{
+  //   font-family: "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style: italic;
+  // }
+
+  // .SST-Medium{
+  //   font-family: "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Medium-Italic{
+  //   font-family: "SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Medium-i{
+  //   font-family: "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style: italic;
+  // }
+
+  // .SST-Bold{
+  //   font-family: "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Roman-b{
+  //   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight: bold;
+  //   font-style:normal;
+  // }
+  // .SST-Bold-Italic{
+  //   font-family: "SST-Bold-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Bold-i{
+  //   font-family: "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style: italic;
+  // }
+  // .SST-Roman-b-i{
+  //   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight: bold;
+  //   font-style: italic;
+  // }
+
+  // .SST-Heavy{
+  //   font-family: "SST-Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+  // .SST-Heavy-Italic{
+  //   font-family: "SST-Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //   font-weight:normal;
+  //   font-style:normal;
+  // }
+
