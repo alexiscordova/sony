@@ -1,5 +1,5 @@
 
-(function($, window, undefined) {
+(function($, Modernizr, window, undefined) {
 
     var Gallery = function( $container, options ) {
         var self = this;
@@ -15,94 +15,42 @@
         self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
-        self.$loadMore = self.$container.find('.gallery-load-more');
+        self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
+        self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
+        self.hasFilters = self.$filterOpts.length > 0;
+        self.windowSize = $(window).width();
 
-        if ( self.mode !== 'detailed' ) {
-            self.$grid.addClass('grid5');
-        }
+        self.setColumnMode();
 
-        // Use a function if one is specified for the column width
-        var col = $.isFunction( self.shuffleColumns ) ?
-            self.shuffleColumns :
-            function( containerWidth ) {
-                var column = self.shuffleColumns[ containerWidth ];
-                if ( column === undefined ) {
-                    column = 60;
-                }
-                return column;
-            },
-        
-        // Use a function if one is defined for the gutter width
-        gut = $.isFunction( self.shuffleGutters ) ?
-            self.shuffleGutters :
-            function( containerWidth ) {
-                var gutter = self.shuffleGutters[ containerWidth ];
-                if ( gutter === undefined ) {
-                    gutter = 0;
-                }
-                return gutter;
-            };
+        self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
+        self.$grid.on('done.shuffle', $.proxy( self.onShuffleDone, self ));
 
-        // instantiate the plugin
+        // instantiate shuffle
         self.$grid.shuffle({
-            delimeter: self.shuffleDelimeter,
+            itemSelector: '.gallery-item',
             speed: self.shuffleSpeed,
             easing: self.shuffleEasing,
-            columnWidth: col,
-            gutterWidth: gut
+            columnWidth: self.shuffleColumns,
+            gutterWidth: self.shuffleGutters,
+            showInitialTransition: false
         });
 
+        // Infinite scroll?
+        if ( self.hasInfiniteScroll ) {
+            self.initInfscr();
+        }
 
         // Initialize filter dictionaries to keep track of everything
-        self.filters = {
-            range: {},
-            button: {},
-            checkbox: {}
-        };
-        self.filterTypes = {};
-        self.filterLabels = {};
-        self.filterValues = {};
-        self.$filterOpts.find('[data-filter]').each(function() {
-            var $this = $(this),
-                data = $this.data(),
-                type = data.filterType,
-                name = data.filter,
-                init = [];
+        if ( self.hasFilters ) {
+            self.initFilters();
+        }
 
-
-            // Initialize it based on type
-            switch ( type ) {
-                case 'range':
-                    init = {};
-                    self.range( $this, name, data.min, data.max );
-                    break;
-                case 'button':
-                    self.button( $this, name );
-                    break;
-                case 'group':
-                case 'color':
-                    // Treat groups and colors the same as buttons
-                    type = 'button';
-                    self.button( $this, name );
-                    break;
-                case 'checkbox':
-                    self.checkbox ( $this, name );
-                    break;
-            }
-
-            // Save the active filters in this filter to an empty array or object
-            self.filters[ type ][ name ] = init;
-            self.filterTypes[ name ] = type;
-        });
-
-
-        // Slide toggle. Reset range control if it was hidden on initialization
-        self.$container.find('.collapse').on('shown', $.proxy( self.maybeResetRange, self ));
+        self.initSwatches();
 
         // If this isn't a simple gallery, let's sort the items on window resize by priority
         var sorted = false;
-        if ( $(window).width() <= 767 ) {
+        if ( self.windowSize <= 767 ) {
             self.sortByPriority();
             sorted = true;
         }
@@ -119,13 +67,18 @@
             }
         });
 
+
+        // Slide toggle. Reset range control if it was hidden on initialization
+        self.$container.find('.collapse')
+            .on('shown', $.proxy( self.onFiltersShown, self ))
+            .on('show', $.proxy( self.onFiltersShow, self ))
+            .on('hide', $.proxy( self.onFiltersHide, self ));
+
         // Set up sorting ---- dropdowm
         self.$sortBtns.on('click',  $.proxy( self.sort, self ));
 
         // Set up sorting ---- select menu
-        // self.$sortSelect.on('change', function(evt) {
-        //     self.sortItems(this, evt);
-        // });
+        self.$sortSelect.on('change', $.proxy( self.sortItems, self ));
 
         // Displays active filters on `filter`
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
@@ -140,16 +93,22 @@
         //     self.$container.trigger('reset.gallery', [self]);
         // });
 
-        // Load more button
-        self.$loadMore.on('click', $.proxy( self.loadMore, self ));
-
         // Favorite Heart
         self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
-        // Hide filters
-        // self.$container.find('.product-filter').slideUp();
+        // This container is about to be shown because it's a tab
+        self.$container.closest('[data-tab]').on('show', $.proxy( self.onShow, self ));
 
+        // This container has just been shown because it's a tab
+        self.$container.closest('[data-tab]').on('shown', $.proxy( self.onShown, self ));
+
+        // We're done.
         self.isInitialized = true;
+
+        // Run once
+        if ( self.hasFilters ) {
+            self.filter();
+        }
     };
 
     Gallery.prototype = {
@@ -287,7 +246,7 @@
             // Create labels showing current filters
             $.each(filters, function(key, obj) {
                 var $label = $('<span>', {
-                    "class" : "label label-close label-subtle",
+                    "class" : "label label-close",
                     "data-filter" : key,
                     "data-filter-name" : obj.key || obj.name,
                     text : obj.label,
@@ -299,12 +258,6 @@
 
             
             self.$activeFilters.empty().append(frag);
-
-            // if ( $.isEmptyObject( filters ) ) {
-            //     self.$clear.addClass('hidden');
-            // } else {
-            //     self.$clear.removeClass('hidden');
-            // }
         },
 
         /*
@@ -344,8 +297,6 @@
             } else if ( filterType === 'range' ) {
                 delete self.filters[ filterType ][ filterName ][ filterValue ];
             }
-
-
         },
 
         // Removes the active state of a filter. Changes UI.
@@ -411,9 +362,7 @@
                 selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
                 self.$container.find( selector ).prop('disabled', false);
             }
-
         },
-
 
         onRemoveFilter : function( evt ) {
             var self = this,
@@ -431,6 +380,104 @@
 
             // Trigger shuffle
             self.filter();
+        },
+
+        initFilters : function() {
+            var self = this;
+
+            self.filters = {
+                range: {},
+                button: {},
+                checkbox: {}
+            };
+            self.filterTypes = {};
+            self.filterLabels = {};
+            self.filterValues = {};
+
+            self.$filterOpts.find('[data-filter]').each(function() {
+                var $this = $(this),
+                    data = $this.data(),
+                    type = data.filterType,
+                    name = data.filter,
+                    init = [];
+
+
+                // Initialize it based on type
+                switch ( type ) {
+                    case 'range':
+                        init = {};
+                        self.range( $this, name, data.min, data.max );
+                        break;
+                    case 'button':
+                        self.button( $this, name );
+                        break;
+                    case 'group':
+                    case 'color':
+                        // Treat groups and colors the same as buttons
+                        type = 'button';
+                        self.button( $this, name );
+                        break;
+                    case 'checkbox':
+                        self.checkbox ( $this, name );
+                        break;
+                }
+
+                // Save the active filters in this filter to an empty array or object
+                self.filters[ type ][ name ] = init;
+                self.filterTypes[ name ] = type;
+            });
+        },
+
+        initInfscr : function() {
+            var self = this;
+
+            self.$grid.infinitescroll({
+                local: true,
+                debug: true,
+                bufferPx: -200,
+                navSelector: 'div.navigation', // selector for the paged navigation
+                nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
+                itemSelector: '.gallery-item', // selector for all items you'll retrieve
+                loading: {
+                    selector: '.infscr-holder',
+                    msgText: "<em>Loading the next set of products...</em>",
+                    finishedMsg: "<em>Finished loading products.</em>",
+                    img: self.loadingGif,
+                  }
+            },
+            // call shuffle as a callback
+            function( newElements ) {
+                self.$grid.shuffle( 'appended', $( newElements ) );
+                // Show new product count
+                self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+                // Update iQ images
+                window.iQ.update();
+            }
+            );
+
+            // Pause infinite scrolls that are in hidden tabs
+            if ( !self.$container.hasClass('active') ) {
+                self.$grid.infinitescroll('pause');
+            }
+        },
+
+        initSwatches : function() {
+            var self = this;
+
+            self.$grid.find('.mini-swatch[data-color]').each(function() {
+                var $swatch = $(this),
+                    color = $swatch.data('color'),
+                    $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
+                    $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
+
+                $swatch.hover(function() {
+                    $productImg.addClass('hidden');
+                    $swatchImg.removeClass('hidden');
+                }, function() {
+                    $productImg.removeClass('hidden');
+                    $swatchImg.addClass('hidden');
+                });
+            });
         },
 
         setFilterStatuses : function() {
@@ -566,9 +613,9 @@
             self.filterValues[ filterName ] = values;
 
             // Remove active classes when the gallery is reset
-            self.$container.on('reset.gallery', function() {
-                $btns.removeClass('active');
-            });
+            // self.$container.on('reset.gallery', function() {
+            //     $btns.removeClass('active');
+            // });
         },
 
         checkbox : function( $parent, filterName ) {
@@ -604,9 +651,9 @@
             self.filterValues[ filterName ] = values;
 
             // Reset checkboxes when the gallery is reset
-            self.$container.on('reset.gallery', function() {
-                $inputs.prop('checked', false);
-            });
+            // self.$container.on('reset.gallery', function() {
+            //     $inputs.prop('checked', false);
+            // });
         },
 
         range : function( $rangeControl, filterName , min, max ) {
@@ -616,7 +663,7 @@
                 min: this.MIN_PRICE,
                 max: this.MAX_PRICE
             };
-            
+
             var self = this,
             diff = self.MAX_PRICE - self.MIN_PRICE,
             $output = $rangeControl.closest('.filter-container').find('.range-output'),
@@ -625,6 +672,7 @@
                 return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
             },
 
+            // Range control update callback
             update = function(evt, positions, percents) {
                 var minPrice = getPrice(percents.min),
                 maxPrice = getPrice(percents.max),
@@ -633,7 +681,7 @@
                 prevMax = self.price.max;
 
                 // Display values
-                $output.html('$' + minPrice + ' - $' + maxPriceStr);
+                displayValues(minPrice, maxPriceStr);
 
                 // Save values
                 self.price.min = minPrice;
@@ -663,21 +711,29 @@
                         self.filter();
                     }
                 }
+            },
+
+            // Show what's happening with the range control
+            displayValues = function( min, max ) {
+                $output.html('$' + min + ' - $' + max);
             };
 
-            self.$rangeControl = $rangeControl.rangeControl({
+            // Store jQuery object for later access
+            self.$rangeControl = $rangeControl;
+
+            // On handle slid, update. Register before initialized so it's called during initialization
+            self.$rangeControl.on('slid.rangecontrol', update);
+
+            self.$rangeControl.rangeControl({
                 initialMin: '0%',
                 initialMax: '100%',
                 range: true
             });
 
-            // On handle slid, update
-            self.$rangeControl.on('slid.rangecontrol', update);
-
             // Listen for reset event
-            self.$container.on('reset.gallery', function() {
-                $rangeControl.rangeControl('reset', true);
-            });
+            // self.$container.on('reset.gallery', function() {
+            //     $rangeControl.rangeControl('reset', true);
+            // });
         },
 
         // If there is a range control in this element and it's in need of an update
@@ -687,7 +743,9 @@
             if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
                 console.log('resetting range control');
                 $rangeControl.rangeControl('reset');
+                return true;
             }
+            return false;
         },
 
         sort : function( evt ) {
@@ -714,14 +772,13 @@
             self.$grid.shuffle('sort', sortObj);
         },
 
-        /*
-        sortItems : function( select ) {
+        sortItems : function( evt ) {
             var self = this,
-                reverse = select[ select.selectedIndex ].getAttribute('data-reverse'),
-                filterName = select.value,
+                reverse = evt.target[ evt.target.selectedIndex ].getAttribute('data-reverse'),
+                filterName = evt.target.value,
                 sortObj = {};
             
-            if ( select.value !== 'default' ) {
+            if ( evt.target.value !== 'default' ) {
                 reverse = reverse === 'true' ? true : false;
                 sortObj = {
                     reverse: reverse,
@@ -733,7 +790,6 @@
 
             self.$grid.shuffle('sort', sortObj);
         },
-        */
 
         sortByPriority : function( shouldReset ) {
             var self = this;
@@ -751,39 +807,188 @@
             }
         },
 
-        loadMore : function() {
-            var self = this,
-                i = 5;
-
-            /**
-             * Gets a random integer between a min and max
-             * @param  {int} min minimum value
-             * @param  {int} max maximum value
-             * @return {int}     random int between min and max
-             */
-            function getRandomInt( min, max ) {
-              return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-            // Do it 4 times
-            while (i--) {
-                var random = getRandomInt(0, self.$grid.children().length);
-                self.$grid.children().eq( random ).clone().appendTo(self.$grid);
-            }
-
-            // Update the masonry
-            self.$grid.shuffle('update');
+        onFavorite : function( evt ) {
+            // <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
+            $(evt.target).toggleClass('state3');
         },
 
-        onFavorite : function( evt ) {
-            $(evt.target).toggleClass('state3');
+        // Event triggered when this tab is about to be shown
+        onShow : function( evt ) {
+            var that = evt.prevPane.find('.gallery').data('gallery');
+
+            if ( that && that.hasInfiniteScroll ) {
+                that.$grid.infinitescroll('pause');
+            }
+        },
+
+        // Event triggered when tab pane is finished being shown
+        onShown : function() {
+            var self = this,
+                windowWidth = $(window).width(),
+                windowHasResized = self.windowSize !== windowWidth;
+
+            // Respond to tab shown event.Update the columns if we're in need of an update
+            if ( self.$grid.data('shuffle').needsUpdate || windowHasResized ) {
+                console.log('updating shuffle');
+                self.$grid.shuffle('update');
+            }
+
+            // Save new window size
+            if ( windowHasResized ) {
+                self.windowSize = windowWidth;
+            }
+
+            // Resume infinite scroll if it's there yo
+            if ( self.hasInfiniteScroll ) {
+                self.$grid.infinitescroll('updateNavLocation');
+                self.$grid.infinitescroll('resume');
+            }
+        },
+
+        onFiltersHide : function( evt ) {
+            evt.stopPropagation(); // stop this event from bubbling up to .gallery
+            this.$filterArrow.removeClass('in');
+        },
+
+        onFiltersShow : function( evt ) {
+            evt.stopPropagation(); // stop this event from bubbling up to .gallery
+            this.$filterArrow.addClass('in');
+        },
+
+        onFiltersShown : function( evt ) {
+            evt.stopPropagation(); // stop this event from bubbling up to .gallery
+            var didReset = this.maybeResetRange(evt);
+            if ( !didReset ) {
+                this.filter();
+            }
+        },
+
+        setColumnMode : function() {
+            var self = this,
+                // Five columns
+                fiveColumns = 5,
+                twelveColumns = 12,
+
+                fluidGridColumnWidth = 204,
+                fluidGridGutterWidth = 23,
+                fullWidth = (fiveColumns * fluidGridColumnWidth) + (fluidGridGutterWidth * (fiveColumns - 1)),
+                COLUMN_WIDTH = fluidGridColumnWidth / fullWidth,
+                GUTTER_WIDTH = fluidGridGutterWidth / fullWidth,
+
+                // Twelve columns @ 768 TODO GLOBALIZE
+                colWidth768 = 45,
+                gutWidth768 = 20,
+                fullWidth768 = (twelveColumns * colWidth768) + (gutWidth768 * (twelveColumns - 1)),
+                COLUMN_WIDTH_768 = colWidth768 / fullWidth768,
+                GUTTER_WIDTH_768 = gutWidth768 / fullWidth768,
+
+                // Twelve columns @ 980 TODO GLOBALIZE
+                colWidth980 = 54,
+                gutWidth980 = 30,
+                fullWidth980 = (twelveColumns * colWidth980) + (gutWidth980 * (twelveColumns - 1)),
+                COLUMN_WIDTH_980 = colWidth980 / fullWidth980,
+                GUTTER_WIDTH_980 = gutWidth980 / fullWidth980,
+
+                // Twelve columns @ 1200 TODO GLOBALIZE
+                colWidth1200 = 64,
+                gutWidth1200 = 40,
+                fullWidth1200 = (twelveColumns * colWidth1200) + (gutWidth1200 * (twelveColumns - 1)),
+                COLUMN_WIDTH_1200 = colWidth1200 / fullWidth1200,
+                GUTTER_WIDTH_1200 = gutWidth1200 / fullWidth1200;
+
+            if ( self.mode !== 'detailed' ) {
+                // Make this a 5 column grid. Added to parent because row-fluid must be a descendant of grid5
+                self.$grid.parent().addClass('grid5');
+
+                // 5 columns that break down to 2 on smaller screens
+                self.shuffleColumns = function( containerWidth ) {
+                    var column;
+                    if ( Modernizr.mq('(min-width: 768px)') ) {
+                        column = COLUMN_WIDTH * containerWidth; // ~18% of container width
+                    } else {
+                        column = 0.48 * containerWidth; // 48% of container width
+                    }
+
+
+                    return column;
+                };
+
+                self.shuffleGutters = function( containerWidth ) {
+                    var gutter;
+                    if ( Modernizr.mq('(min-width: 768px)') ) {
+                        gutter = GUTTER_WIDTH * containerWidth;
+                    } else {
+                        gutter = 0.02 * containerWidth; // 2% of container width
+                    }
+
+                    return gutter;
+
+                };
+            } else {
+                // Use the default 12 column grid.
+                // Have to do more work here to get the right percentages for each breakpoint
+
+                self.shuffleColumns = function( containerWidth ) {
+                    var column;
+
+                    if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
+                        column = COLUMN_WIDTH_768 * containerWidth;
+
+                    } else if ( Modernizr.mq('(min-width: 1200px)') ) {
+                        column = COLUMN_WIDTH_1200 * containerWidth;
+
+                    } else if ( Modernizr.mq('(min-width: 980px)') ) {
+                        column = COLUMN_WIDTH_980 * containerWidth;
+
+                    } else {
+                        column = containerWidth;
+                    }
+
+                    return column;
+                };
+
+                self.shuffleGutters = function( containerWidth ) {
+                    var gutter;
+
+                    if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
+                        gutter = GUTTER_WIDTH_768 * containerWidth;
+
+                    } else if ( Modernizr.mq('(min-width: 1200px)') ) {
+                        gutter = GUTTER_WIDTH_1200 * containerWidth;
+                        
+                    } else if ( Modernizr.mq('(min-width: 980px)') ) {
+                        gutter = GUTTER_WIDTH_980 * containerWidth;
+
+                    } else {
+                        gutter = 0;
+                    }
+
+                    return gutter;
+
+                };
+            }
+        },
+
+        onShuffleLoading : function() {
+            var $div = $('<div>', { "class" : "gallery-loader text-center" }),
+                $img = $('<img>', { src: this.loadingGif });
+            $div.append($img);
+            $div.insertBefore(this.$grid);
+        },
+
+        onShuffleDone : function() {
+            var self = this;
+            setTimeout(function() {
+                self.$container.find('.gallery-loader').remove();
+                self.$container.addClass('in');
+            }, 250);
         }
 
     };
 
     // Plugin definition
     $.fn.gallery = function( opts ) {
-        var args = Array.prototype.slice.apply( arguments );
+        var args = Array.prototype.slice.call( arguments, 1 );
         return this.each(function() {
             var $this = $(this),
                 gallery = $this.data('gallery');
@@ -795,7 +1000,7 @@
             }
 
             if ( typeof opts === 'string' ) {
-                gallery[ opts ].apply( gallery, args.slice(1) );
+                gallery[ opts ].apply( gallery, args );
             }
         });
     };
@@ -803,29 +1008,18 @@
 
     // Overrideable options
     $.fn.gallery.options = {
-        MIN_PRICE: 100,
-        MAX_PRICE: 2000,
+        mode: 'editorial',
         shuffleSpeed: 250,
-        shuffleDelimeter: ',',
-        shuffleEasing: 'ease-out',//'cubic-bezier(0.165, 0.840, 0.440, 1.000)', // easeOutQuart
-        shuffleColumns: {
-            1470: 56,
-            1112: 56,
-            940: 60,
-            724: 42
-        },
-        shuffleGutters: {
-            1470: 40,
-            1112: 40,
-            940: 20,
-            724: 20
-        }
+        shuffleEasing: 'ease-out'
     };
 
     // Not overrideable
     $.fn.gallery.settings = {
+        MIN_PRICE: undefined,
+        MAX_PRICE: undefined,
         isInitialized: false,
-        isTouch: !!( 'ontouchstart' in window )
+        isTouch: !!( 'ontouchstart' in window ),
+        loadingGif: 'img/spinner.gif'
     };
 
-}(jQuery, window));
+}(jQuery, Modernizr, window));

@@ -174,7 +174,7 @@
 				
 				$body.addClass("grabbing");
 				$handle.addClass("grabbed");
-				th.$rail.trigger( th.evts.start, [th] );
+				th.fire( th.evts.start );
 
 				// User moves cursor/finger
 				$(document).on( th.evts.move, function(moveEvt) {
@@ -198,7 +198,7 @@
 					th.inMotion = false;
 					$body.removeClass("grabbing");
 					$handles.removeClass("grabbed");
-					th.$rail.trigger( th.evts.end, [th] );
+					th.fire( th.evts.end );
 				});
 
 			// User clicks, not click-and-hold.
@@ -369,7 +369,7 @@
 		if ( newPos < 0 ) {
 			newPos = 0;
 		}
-		if ( newPos >= th.railSize ) {
+		if ( newPos > th.railSize ) {
 			newPos = th.railSize;
 		}
 
@@ -402,7 +402,7 @@
 		Returns:
 			RangeControl - .
 	*/
-	RangeControl.prototype.goToPos = function(pos, $handle, data) {
+	RangeControl.prototype.goToPos = function(pos, $handle) {
 		var th = this,
 			response = [];
 
@@ -430,6 +430,18 @@
 			th.currentPositionPct = Math.min( th.currentPosition / th.railSize * 100, 100 ); // don't let it go above 100
 			th.currentMinPositionPct = Math.min( th.currentMinPosition / th.railSize * 100, 100 );
 
+			// Make sure we can get to 100% and 0%
+			if ( th.currentPositionPct > 99.49 ) {
+				th.currentPositionPct = 100;
+			} else if ( th.currentPositionPct < 0.5 ) {
+				th.currentPositionPct = 0;
+			}
+			if ( th.currentMinPositionPct > 99.49 ) {
+				th.currentMinPositionPct = 100;
+			} else if ( th.currentMinPositionPct < 0.5 ) {
+				th.currentMinPositionPct = 0;
+			}
+
 			// Change ambit's width/height and left/top
 			th.$ambit[ th.dimension ]( th.getHandleDist() + "%" );
 			th.$ambit.css( th.property, th.currentMinPositionPct + "%" );
@@ -455,7 +467,7 @@
 		}
 
 		// Trigger slid event
-		th.$rail.trigger( th.evts.slid, response );
+		th.fire( th.evts.slid, response );
 
 		return th;
 	};
@@ -529,6 +541,10 @@
 
 
 		return th;
+	};
+
+	RangeControl.prototype.fire = function( name, args ) {
+		this.$rail.trigger( name + '.' + namespace, args || [this] );
 	};
 
 	/*
@@ -666,9 +682,9 @@
 		currentMinPosition : false,
 		currentMinPositionPct : false,
 		evts : {
-			start : "scrubstart." + namespace,
-			end : "scrubend." + namespace,
-			slid : "slid." + namespace
+			start : "scrubstart",
+			end : "scrubend",
+			slid : "slid"
 		},
 
 		handleCss : {

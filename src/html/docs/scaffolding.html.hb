@@ -11,7 +11,7 @@
 			<!-- Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container">
+			  <div class="container-fluid">
 			    <h2 class="bs-docs-heading">Scaffolding</h2>
 			    <p class="p1">The system is built on responsive 12-column grids, layouts, and components.</p>
 
@@ -23,7 +23,7 @@
 			  </div>
 			</header>
 			
-			  <div class="container">			
+			  <div class="container-fluid">			
 			
 			        <!-- Grid system
 			        ================================================== -->

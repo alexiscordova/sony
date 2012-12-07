@@ -15,6 +15,7 @@
 	$gray:                  rgb(131,131,143) !default;
 
 	$grayLight:             rgb(188,188,204) !default;
+	$grayLightish:          rgb(210,210,219) !default; // seriously, idk what to do w/all these colors.
 	$grayLighter:           rgb(228,231,235) !default;
 	$white:                 rgb(255,255,255) !default;
 
@@ -28,6 +29,7 @@
 	$grayDarkerFieldSmall:  rgb(33,37,48) !default;
 	$grayDarkFieldSmall:    rgb(114,110,122) !default;
 	$grayLightFieldSmall:   rgb(241,245,249) !default;
+
 
 
 	// Accent colors
@@ -70,11 +72,11 @@
 	// Transparent colors
 	// -------------------------
 	$transparentBlack:		rgba(0,0,0,0.12) !default;
-	$innerGlow:				rgba(255, 255, 255, 1);
+	$innerGlow:						rgba(255, 255, 255, 1);
 
 
 
-	$squareHalo:			0 0 5px $innerGlow, 0 0 0 6px $transparentBlack;
+	$squareHalo:				0 0 5px $innerGlow, 0 0 0 6px $transparentBlack;
 
 
 
@@ -106,6 +108,7 @@
 	$font_44_16: 2.75em; 	 // 44px/16px
 	$font_40_16: 2.5em; 	 // 40px/16px
 	$font_32_16: 2.0em;    // 32px/16px
+	$font_30_16: 1.875em;    // 32px/16px
 	$font_28_16: 1.75em;   // 28px/16px
 	$font_26_16: 1.625em;  // 26px/16px
 	$font_25_16: 1.5625em; // 25px/16px
@@ -151,6 +154,7 @@
 	$btnAltBackground:              	$grayDark !default;
 	$btnAltBackgroundHover:         	darken($grayDark,4%) !default;
 	$btnAltBackgroundActive:        	lighten($grayDark,4%) !default;
+	$btnAltSpecialPadding: 				24px;
 
 	$btnPromoBackground:              	$grayDarkerFieldSmall !default;
 	$btnPromoBackgroundHover:         	darken($grayDarkerFieldSmall,5%) !default;
@@ -439,22 +443,28 @@
 .GRID{} // this is just here for a SublimeText code-folding collapse point
 
 	$gridColumns:             12 !default; 
+	$grid5Columns: 			  5;
 
 	// Default 940px grid @980px-1199px
-	$gridColumnWidth:         60px !default;
+	$gridColumnWidth:         54px !default;
 	$gridGutterWidth:         30px !default;
 	$gridRowWidth:            ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
 
 	// 1112px grid @1200px+ breakpoint
-	$gridColumnWidth1200:     56px !default;
+	$gridColumnWidth1200:     64px !default;
 	$gridGutterWidth1200:     40px !default;
 	$gridRowWidth1200:        ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
 
 	// 724px grid @768px-979px breakpoints
-	$gridColumnWidth768:      42px !default;
+	$gridColumnWidth768:      45px !default;
 	$gridGutterWidth768:      20px !default;
 	$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
+
+	// 5 Column Grid
+	$grid5ColWidth: 		   204px;
+	$grid5GutterWidth: 		   23px;
+	$grid5RowWidth: 		   ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
 
 
 
@@ -482,6 +492,9 @@
 	// 767px max (mobile)
 	$fluidContainerMarginWidth767:	15px !default;
 
+	// 5 Column Grid
+	$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
+	$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 
 
@@ -491,10 +504,10 @@
 // --------------------------------------------------
 .TRANSITION-SPEEDS{} // this is just here for a SublimeText code-folding collapse point
 	$transitionSuperslow:   0.5s;
-	$transitionSlower:   		0.4s;
+	$transitionSlower:   	0.4s;
 	$transitionSlow:        0.3s;
 	$transitionNormal:      0.2s;
-	$transitionFast:				0.15s;
+	$transitionFast:		0.15s;
 	$transitionFaster:      0.10s;
 	$transitionSuperfast:   0.05s;
 

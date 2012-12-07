@@ -18,6 +18,18 @@
 .show {
   display: block;
 }
+.off-screen {
+  position: absolute;
+  left: -9999px;
+}
+
+.relative {
+  position: relative;
+}
+
+.ib {
+  display: inline-block;
+}
 
 // From H5BP
 // -----------------------------
@@ -114,9 +126,8 @@
   @include input-block-level();
 }
 
-.text-center {
-  text-align: center;
-}
+.text-center { text-align: center; }
+.text-left { text-align: left; }
 
 .text-dark {
   color: $grayDark;
@@ -132,6 +143,7 @@
 .ghost-center {
   display: inline-block;
   vertical-align: middle;
+  font-size: 16px; // ems and %s don't work because the parent has font-size:0
 }
 
 .table-center-wrap {
