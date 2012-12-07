@@ -86,6 +86,11 @@
             self.displayActiveFilters();
         });
 
+        // Things moved around and could possibly be in the viewport
+        self.$grid.on('filtered.shuffle', function() {
+            window.iQ.update();
+        });
+
         // Clear filters button
         // self.$clear.on('click', function(evt) {
         //     evt.preventDefault();
@@ -428,7 +433,7 @@
             });
 
             // Show first dropdown as active
-            self.$sortBtns.first().addClass('active');
+            self.$sortBtns.first().parent().addClass('active');
         },
 
         initInfscr : function() {
@@ -437,7 +442,7 @@
             self.$grid.infinitescroll({
                 local: true,
                 debug: true,
-                bufferPx: -200,
+                bufferPx: -100, // Load 100px after the navSelector has entered the viewport
                 navSelector: 'div.navigation', // selector for the paged navigation
                 nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
                 itemSelector: '.gallery-item', // selector for all items you'll retrieve
@@ -744,7 +749,6 @@
             var th = this,
                 $rangeControl = th.$container.find('.range-control');
             if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
-                console.log('resetting range control');
                 $rangeControl.rangeControl('reset');
                 return true;
             }
@@ -832,7 +836,6 @@
 
             // Respond to tab shown event.Update the columns if we're in need of an update
             if ( self.$grid.data('shuffle').needsUpdate || windowHasResized ) {
-                console.log('updating shuffle');
                 self.$grid.shuffle('update');
             }
 

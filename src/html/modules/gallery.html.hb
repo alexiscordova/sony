@@ -37,7 +37,7 @@
 
 <div class="tab-content">
 
-  <div class="tab-pane fade active in" data-tab="featured">
+  <div class="tab-pane fade active in" data-tab="{{tabs.[0].slug}}">
     {{#each featured}}
     <section class="container-fluid padded fade gallery" data-mode="{{this.mode}}">
       <h6>{{{this.title}}}</h6>
@@ -49,13 +49,10 @@
             {{/if}}
             {{#if this.tile.promo}}
             <div class="product-img">
-              <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
-              <noscript>
-                <img src="{{this.img.src}}" alt="{{this.img.alt}}">
-              </noscript>
+              <div class="iq-img" data-src="{{this.img.src}}"></div>
               <div class="product-content">
-                <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.subtitle}}</p>
-                {{#if this.blarg}}<a class="btn" href="#">{{this.callout}}</a>{{/if}}
+                <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.emphasis}}</p>
+                {{#if this.count}}<p class="text-count"><span class="number l2">{{this.count.number}}</span>&nbsp;<span class="text l3">{{this.count.text}}</span></p>{{/if}}
               </div>
             </div>
             {{else}}
@@ -98,7 +95,7 @@
     <!-- <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div> -->
   </div>
 
-  <div class="tab-pane fade" data-tab="cameras">
+  <div class="tab-pane fade" data-tab="{{tabs.[1].slug}}">
     <section class="gallery" data-mode="{{productCards.mode}}">
       {{#if productCards.filterSet}}
       
@@ -272,6 +269,68 @@
     </section>
   </div>
 
+  <div class="tab-pane fade" data-tab="{{tabs.[2].slug}}">
+    <section>
+      <div class="slide-toggle-parent container-fluid padded">
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
+      </div>
+
+      <div class="container-fluid padded slide-arrow-under fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+      <div class="container-fluid padded slide-arrow-over fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+
+      <div class="collapse slide-toggle-target" id="IDGOESHERE">
+        <div class="container-fluid padded">
+          <h1>Collapse</h1>
+          <h2>Collapse</h2>
+          <h3>Collapse</h3>
+          <h4>Collapse</h4>
+          <h5>Collapse</h5>
+          <h6>Collapse</h6>
+        </div>
+      </div>
+
+      <div class="grid5 container-fluid padded">
+        {{#each accessories}}
+        <div class="product-strip-wrap">
+          <a class="tl pull-right" href="#">{{{this.callout}}}</a>
+          <h6 class="product-strip-heading">{{{this.title}}}</h6>
+          <div class="product-strip row-fluid">
+            {{#each this.list}}
+            <div class="span1 gallery-item">
+              <div class="product-img">
+                <div class="ghost-center-wrap">
+                  <div class="ghost-center">
+                    <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
+                    <noscript>
+                      <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+                    </noscript>
+                  </div>
+                </div>
+              </div>
+              <div class="product-content">
+                <div class="p3 product-name">{{this.name}}</div>
+                <div class="product-price">
+                  <p class="p5 price-title">Starting at</p>
+                  <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+  </div>
+
   <!--
   <section class="tab-pane fade gallery" data-tab="simple" data-mode="{{simple.mode}}">
     {{#if simple.filterSet}}
@@ -397,106 +456,6 @@
     </div>
   </section> -->
 
-  <section class="tab-pane fade" data-tab="accessories">
-    <div class="slide-toggle-parent container-fluid padded">
-      <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
-    </div>
-
-    <div class="container-fluid padded slide-arrow-under fade">
-      <div class="relative">
-        <div class="slide-toggle-arrow"></div>
-      </div>
-    </div>
-    <div class="container-fluid padded slide-arrow-over fade">
-      <div class="relative">
-        <div class="slide-toggle-arrow"></div>
-      </div>
-    </div>
-
-    <div class="collapse slide-toggle-target" id="IDGOESHERE">
-      <div class="container-fluid padded">
-        <h1>Collapse</h1>
-        <h2>Collapse</h2>
-        <h3>Collapse</h3>
-        <h4>Collapse</h4>
-        <h5>Collapse</h5>
-        <h6>Collapse</h6>
-      </div>
-    </div>
-
-    <div class="grid5 container-fluid padded">
-      {{#each accessories}}
-      <div class="product-strip-wrap">
-        <a class="tl pull-right" href="#">{{{this.callout}}}</a>
-        <h6 class="product-strip-heading">{{{this.title}}}</h6>
-        <div class="product-strip row-fluid">
-          {{#each this.list}}
-          <div class="span1 gallery-item">
-            <div class="product-img">
-              <div class="ghost-center-wrap">
-                <div class="ghost-center">
-                  <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
-                  <noscript>
-                    <img src="{{this.img.src}}" alt="{{this.img.alt}}">
-                  </noscript>
-                </div>
-              </div>
-            </div>
-            <div class="product-content">
-              <div class="p3 product-name">{{this.name}}</div>
-              <div class="product-price">
-                <p class="p5 price-title">Starting at</p>
-                <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
-              </div>
-            </div>
-          </div>
-          {{/each}}
-        </div>
-      </div>
-      {{/each}}
-    </div>
-  </section>
-
-  <section class="tab-pane fade" data-tab="neck">
-    <h3><code>data-tab="products-5"</code></h3>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  </section>
-
 </div>
 
-<section class="container-fluid padded">
-  <h1>Another section</h1>
-  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</section>
-
-<section>
-  <div class="container-fluid">
-    <h2>Grid</h2>
-    <div class="row-fluid">
-      <div class="span3 btn">span3</div>
-      <div class="span4 btn">span3</div>
-      <div class="span2 btn">span3</div>
-      <div class="span1 btn">span1</div>
-      <div class="span2 btn">span2</div>
-    </div>
-  </div>
-</section>
+<div style="padding-bottom:100px"></div>

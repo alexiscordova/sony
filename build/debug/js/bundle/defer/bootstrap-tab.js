@@ -17,28 +17,24 @@
 
     constructor: Tab,
 
-    show: function () {
+    show: function ( showHash ) {
       var self = this,
           $this = self.$el,
           selector = $this.attr('data-target'),
           previous,
           $prevPane;
 
-      if ( !selector ) {
-        selector = $this.attr('href');
-        selector = selector && selector.replace(/.*(?=#[^\s]*$)/, ''); //strip for ie7
-      }
-
       self.$target = self.$target || $('[data-tab="' + selector + '"]');
+      showHash = showHash === false ? false : true;
 
       // Don't do anything if this tab is already active
-      if ( self.$target.hasClass('active') || $this.parent('li').hasClass('active') ) {
+      if ( !self.$target.length || self.$target.hasClass('active') || $this.parent('li').hasClass('active') ) {
         return;
       }
 
       // Trigger show event on both tab and pane
       previous = $this.parent().find('.active:last')[0];
-      $prevPane = self.$target.parent().find('.active:last');
+      $prevPane = self.$target.parent().find('> .active');
       $this.add(self.$target).trigger({
         type: 'show',
         relatedTarget: previous,
@@ -60,12 +56,13 @@
           prevPane: $prevPane,
           pane: self.$target
         });
+
+        // Add tab selector hash to history and url
+        if ( self.showHash && showHash ) {
+          self.hash(selector);
+        }
+
       }, true);
-
-
-      if ( this.showHash ) {
-        this.hash(selector);
-      }
     },
 
     activate: function ( $element, $container, callback, isPane ) {
@@ -147,6 +144,7 @@
   * ===================== */
 
   $.fn.tab = function ( option ) {
+    var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function () {
       var $this = $(this),
           tab = $this.data('tab');
@@ -157,7 +155,7 @@
       }
 
       if ( typeof option === 'string' ) {
-        tab[ option ]();
+        tab[ option ].apply( tab, args );
       }
     });
   };
@@ -169,12 +167,18 @@
   * ============ */
 
   $(window).on('hashchange', function() {
-    if ( window.location.hash ) {
-      $('[data-target="' + window.location.hash.substring(1) + '"]').tab('show');
+    var target = window.location.hash ? window.location.hash.substring(1) : $('[data-target]').first().attr('data-target'),
+        $target = $('[data-target="' + target + '"]'),
+        isAlreadyActive = $target.hasClass('active'),
+        showHash = !!window.location.hash;
+
+    if ( !isAlreadyActive ) {
+      $target.tab( 'show', showHash );
     }
   });
 
-  $(window).trigger('hashchange');
+  // Should be called after everything is initialized
+  // $(window).trigger('hashchange');
 
   $(document).on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
     e.preventDefault();

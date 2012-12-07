@@ -313,5 +313,9 @@ $(document).ready(function() {
   if ( $('body').hasClass('gallery-module') ) {
     Exports.Modules.Gallery.init();
     Exports.Modules.Tabs.init();
+
+
+    // // Should be called after everything is initialized
+    $(window).trigger('hashchange');
   }
 });
