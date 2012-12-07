@@ -81,7 +81,7 @@ $(document).ready(function(){
 					
 					
 					//TODO change the markup to make this dropdown lists and an edit button
-					$('#submodule_list').append('<li>' + e.type + ' : ' + e.data + '</li>');
+					$('#submodule_list').append('<li>' + e.type + ' : ' + e.data + ' <button class="btn btn-block btn-small" data-toggle="modal" data-target="#edit_box">Edit</button></li>');
 				})
 			}
 			//add the remaining data to the module edit text field
