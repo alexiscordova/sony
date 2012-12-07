@@ -1,22 +1,4 @@
-/* ========================================================
- * bootstrap-tab.js v2.2.1
- * http://twitter.github.com/bootstrap/javascript.html#tabs
- * ========================================================
- * Copyright 2012 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ======================================================== */
-
+/* Modified from Twitter Bootstrap Tabs */
 
 (function ($, undefined) {
 
@@ -28,6 +10,7 @@
 
   var Tab = function (element) {
     this.$el = $(element);
+    this.showHash = this.$el.data('hash') || true;
   };
 
   Tab.prototype = {
@@ -78,6 +61,11 @@
           pane: self.$target
         });
       }, true);
+
+
+      if ( this.showHash ) {
+        this.hash(selector);
+      }
     },
 
     activate: function ( $element, $container, callback, isPane ) {
@@ -124,7 +112,34 @@
       }
 
       $active.removeClass('in');
-    }
+    },
+
+    hash: function(hash, $target) {
+        var $fake;
+
+        hash = hash.replace(/^#/, '');
+
+        if ( $target && $target.length ) {
+          $target.attr( 'id', '' );
+        }
+
+        $fake = $( '<div/>' ).css({
+            position: 'absolute',
+            visibility: 'hidden',
+            top: $(window).scrollTop() + 'px'
+          })
+          .attr( 'id', hash )
+          .appendTo( document.body );
+
+        window.location.hash = hash;
+        
+        $fake.remove();
+
+        if ( $target && $target.length ) {
+          $target.attr( 'id', hash );
+        }
+
+    },
   };
 
 
@@ -152,6 +167,14 @@
 
  /* TAB DATA-API
   * ============ */
+
+  $(window).on('hashchange', function() {
+    if ( window.location.hash ) {
+      $('[data-target="' + window.location.hash.substring(1) + '"]').tab('show');
+    }
+  });
+
+  $(window).trigger('hashchange');
 
   $(document).on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
     e.preventDefault();

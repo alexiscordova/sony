@@ -101,6 +101,11 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     }
 
     $panes.not('.active').addClass('off-screen');
+
+    // Deep linkin'
+    // if ( window.location.hash ) {
+    //   $('[data-target="' + window.location.hash.substring(1) + '"]').tab('show');
+    // }
   },
 
   _tabShown = function(evt) {
@@ -308,8 +313,5 @@ $(document).ready(function() {
   if ( $('body').hasClass('gallery-module') ) {
     Exports.Modules.Gallery.init();
     Exports.Modules.Tabs.init();
-
-    // debug, show second tab
-    // $('[data-target="overhead"]').tab('show');
   }
 });

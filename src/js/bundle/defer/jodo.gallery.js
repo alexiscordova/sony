@@ -426,6 +426,9 @@
                 self.filters[ type ][ name ] = init;
                 self.filterTypes[ name ] = type;
             });
+
+            // Show first dropdown as active
+            self.$sortBtns.first().addClass('active');
         },
 
         initInfscr : function() {

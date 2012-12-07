@@ -24,7 +24,7 @@
 
   <div class="tabs-container container-fluid">
     <div class="tabs">
-      {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab">
+      {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab" data-hash="true">
         <div class="ghost-center">
           <div class="holder-for-icon"><i class="icon-tab-{{this.icon}}"></i></div>
           <div class="l3 tab-label">{{this.label}}</div>
@@ -106,9 +106,9 @@
         {{#if productCards.sortSet}}
         <div class="sort-options pull-right">
           <span class="l4">Sort By:&nbsp;</span>
-          <div class="dropdown ib hidden-phone">
-            <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
-            <ul class="dropdown-menu" role="menu">
+          <div class="dropdown dropdown-alt ib hidden-phone">
+            <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
+            <ul class="dropdown-menu dropdown-menu-alt pull-right" role="menu">
             {{#each productCards.sortSet}}
               <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
             {{/each}}
