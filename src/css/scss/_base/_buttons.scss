@@ -88,6 +88,8 @@
   }
 }
 
+// An almost square button. Used in gallery filters
+// ---------------------
 .btn-square {
   width: 70px;
   padding: $btnSquarePadding;
@@ -95,22 +97,21 @@
   font-size: $font_20_16;
   color: $grayDark;
   border-radius: 0;
-  border: 1px solid $white;
+  border: none;
   background: $white;
+  @include transition(box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
 
   &:hover,
   &:focus {
-    @include box-shadow($squareHalo);
-    color: $white;
-    background: $highlightColor;
-    border-color: $highlightColor;
+    @include box-shadow(inset 0 -4px 0 $gray);
+    color: $highlightColor;
+    background: $white;
   }
 
   &.active,
   &:active {
     color: $white;
     background: $highlightColor;
-    border-color: $highlightColor;
   }
 
   &.disabled,
@@ -120,10 +121,11 @@
     @include box-shadow(none);
     color: inherit;
     background: $btnBackgroundDisabled;
-    border-color: $btnBackgroundDisabled;
   }
 }
 
+// Secondary
+// -------------------------
 .btn-secondary {
   border: 1px solid $btnSecondaryBackground;
   background: $btnSecondaryBackground;
@@ -141,6 +143,8 @@
   }
 }
 
+// Alt
+// -------------------------
 .btn-alt {
   padding: $btnAltPadding;
   font-family: $sansFontFamilyMedium;
@@ -166,6 +170,42 @@
   }
 }
 
+
+// Alt Special; dark, left aligned, room for icon
+// -------------------------
+.btn-alt-special {
+  position: relative;
+  padding-left: $btnAltSpecialPadding;
+  padding-right: $btnAltSpecialPadding;
+  text-align: left;
+  font-size: $font_13_16;
+  background: $btnAltBackground;
+  border-color: $btnAltBackground;
+  min-width: 131px;
+
+  &:hover,
+  &:focus {
+    background: $gray;
+    border-color: $gray;
+  }
+
+  &:active {
+    background: $gray;
+    border-color: $gray;
+  }
+
+  &.btn-alt-plus:after {
+    content: '';
+    position: absolute;
+    right: $btnAltSpecialPadding;
+    margin-top: 8px;
+    @extend %icon;
+    @extend .icon-ui-plus-tiny;
+  }
+}
+
+// Promo
+// -------------------------
 .btn-promo {
   position: relative;
   width: 289px;
@@ -211,6 +251,13 @@
   i {
     margin-right: 8px;
   }
+}
+
+// Text that shouldn't wrap
+.btn-wide {
+  width: auto;
+  padding-right: 25px;
+  padding-left: 25px;
 }
 
 

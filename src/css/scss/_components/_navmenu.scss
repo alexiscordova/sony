@@ -3,9 +3,9 @@
 .nav-wrapper{ // encompasses the entire nav, including the navbar and navmenus, to 100% width of the page.
 
   .navmenu-wrapper{ 
-    z-index:190;
+    z-index: 190;
     position: absolute;
-    overflow:hidden;
+    overflow: hidden;
     top: $navbarTotalHeight;
     background: $navMenuBackground;
     @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
@@ -15,21 +15,167 @@
 
     // left: -9999px;
     // opacity:0;
-
     &.navmenu-wrapper-account{
-      width:216px;
-      padding:25px 20px;
-    }
+      width: 220px;
+      padding: 16px 20px 22px;
 
-    &.navmenu-wrapper-visible{
-      left:0;
-      opacity:1;   
-      @include transition(opacity $transitionNormal ease-out 0s, left 0s linear 0s);   
-    }
-    .navmenu-list-main{
-      margin:0;
-    }
+      .btn-login,
+      .btn-logout{
+        display: block;
+        width: auto;
+        font-size: $font_10_15;
+      }
+      .btn-login{
+        margin:9px 0 10px 0;
+      }
+      .btn-logout{
+        @extend .btn-alt;
+        margin: 10px 0 0 0;
+        display: none;
+      }
+      &.logged-in{
+        .btn-login{
+          display: none;
+        }
+        .btn-logout{
+          display: block;
+        }        
+      }
 
+      > ul {
+        > li {
+          line-height:31px;
+          > a.tl {
+            font-size:$font_12_15;
+            > i {
+              box-sizing:content-box;
+              padding-right:10px;
+            }
+          }
+        }
+      }
+    }
+    &.navmenu-wrapper-search{
+      right:4px;
+      width:467px;
 
-  } // end .navmenu-wrapper
+      ul {
+        margin:0;
+        li {
+          line-height:1.9;
+        }
+      }
+
+      .navmenu-search-section-input{
+        background:#fff;
+        padding:10px 29px 12px;
+        margin:0;
+
+        input[type=text]{
+          border:none;
+          margin:0;
+          padding:0;
+          font-size:$font_30_16;
+          height:auto;
+          width:auto;
+        }
+      }
+      .navmenu-search-section-results{
+        padding:13px 0 22px;
+        background:$grayLighter;
+
+        .navmenu-search-popular-searches{
+          display:block;
+          p.l3{
+            font-size:$font_11_16;
+            margin-bottom:0.525em;
+          }
+        }
+        .navmenu-search-results{
+          display:none;
+          
+          .navmenu-list-results{
+            > li {
+              margin-bottom:1px; // make room for the hr (:after)
+              > a {
+                display:block;
+                overflow:hidden;
+                box-sizing:content-box;
+                padding:10px 29px 13px;
+                height:64px;
+                > img {
+                  margin-right:11px;
+                  float:left;
+                }
+                &:hover{
+                  background-color:rgb(230,230,230);
+                  background-color:rgba(255,255,255,0.8);
+                }
+                .search-result-p{
+                  display:block;
+                  float:left;
+                  padding-top: 7px;
+                  line-height:1.4;
+                  .search-result-headline{
+                    display:block;
+                    font-size:$font_18_16;
+                  }
+                  .search-result-descript{
+                    display:block;
+                    font-size:$font_13_16;
+                    color:$grayLight;
+                  }
+                }
+              }
+            }
+            > li:after{ // HR after each search result
+              @include pseudoEl-block(406px, 0px);
+              margin:0 0 0 30px;
+              border-bottom:solid 1px $grayLightish;
+            }
+          }
+          .navmenu-list-extended{
+            margin-top:25px;
+            > li {
+              > a {
+                display:block;
+                padding-left: 30px;
+                padding-right: 26px;
+                line-height: 2.25;
+                &:hover{
+                  background-color:rgb(230,230,230);
+                  background-color:rgba(255,255,255,0.8);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.searching{
+        .navmenu-search-section-results{
+          .navmenu-search-popular-searches{
+            display:none;
+          }
+          .navmenu-search-results{
+            display:block;
+          }
+        }
+      }
+    }
+  }
+
+  &.navmenu-wrapper-visible{
+    left:0;
+    opacity:1;   
+    @include transition(opacity $transitionNormal ease-out 0s, left 0s linear 0s);
+    
+    &.navmenu-wrapper-search{
+      right:3px;
+    }
+  }
+  .navmenu-list-main{
+    margin:0;
+  }
+
 } // end .nav-wrapper
