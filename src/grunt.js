@@ -157,6 +157,11 @@ module.exports = function(grunt) {
 		        stdout: true, 
 		        failOnError: true
 			},
+			docpad_mbuilder:{
+				command:'docpad generate --env mbuilder',
+		        stdout: true, 
+		        failOnError: true
+			},
 			docpad_deploy:{
 				command:'docpad generate --env deploy',
 		        stdout: true, 
@@ -178,6 +183,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');
+	grunt.registerTask('mbuilder', 'shell:docpad_mbuilder')
 	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
 	grunt.registerTask('debug-html', 'shell:docpad_debug');
 	grunt.registerTask('debug-css', 'compass:debug');
