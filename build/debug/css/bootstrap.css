@@ -7625,41 +7625,63 @@ a.label:hover, a.badge:hover {
   -ms-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
   -o-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
   box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
-  -webkit-transition: all 0.15s linear, box-shadow 0.15s linear, margin 0.15s linear;
-  transition: all 0.15s linear, box-shadow 0.15s linear, margin 0.15s linear;
-  -webkit-transition: -webkit-transform 0.15s linear;
-  transition: transform 0.15s linear;
+  -webkit-transition: border 0.15s linear, margin 0.15s linear;
+  transition: border 0.15s linear, margin 0.15s linear;
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur") 8 4, pointer;
   /* you should probably localize the cur file */
 }
-/* line 44, ../../../src/css/scss/_components/_range-control.scss */
+/* line 42, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .handle.grabbed, .range-control .handle:hover {
-  -webkit-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  transform: scale(1.1);
-  -webkit-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
-  -moz-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
-  -ms-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
-  -o-box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
-  box-shadow: 0 0 0 8px rgba(0, 0, 0, 0.12), 0 0 11px white;
+  border-width: 12px;
+  margin-top: -6px;
+  margin-left: -14px;
 }
 
-/* line 53, ../../../src/css/scss/_components/_range-control.scss */
+/* line 52, ../../../src/css/scss/_components/_range-control.scss */
 .ie .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur"), pointer;
   /* you should probably localize the cur file */
 }
 
-/* line 57, ../../../src/css/scss/_components/_range-control.scss */
+/* line 56, ../../../src/css/scss/_components/_range-control.scss */
 .grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur") 8 4, move;
   /* you should probably localize the cur file */
 }
 
-/* line 61, ../../../src/css/scss/_components/_range-control.scss */
+/* line 60, ../../../src/css/scss/_components/_range-control.scss */
 .ie.grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur"), move;
   /* you should probably localize the cur file */
+}
+
+/* line 67, ../../../src/css/scss/_components/_range-control.scss */
+.range-output-container {
+  position: relative;
+  height: 25px;
+}
+/* line 71, ../../../src/css/scss/_components/_range-control.scss */
+.range-output-container sup {
+  top: -0.3em;
+  margin-right: 1px;
+}
+
+/* line 78, ../../../src/css/scss/_components/_range-control.scss */
+.range-output-min,
+.range-output-max {
+  position: absolute;
+  top: 0;
+  width: 80px;
+  margin-left: -40px;
+  text-align: center;
+  -webkit-transition: color 0.15s ease-out;
+  transition: color 0.15s ease-out;
+}
+
+/* line 88, ../../../src/css/scss/_components/_range-control.scss */
+.grabbing-min .range-output-min,
+.grabbing-max .range-output-max {
+  color: #f35429;
 }
 
 /* line 5, ../../../src/css/scss/_components/_slide-toggle.scss */
@@ -7905,7 +7927,7 @@ a.label:hover, a.badge:hover {
   color: #2f353d;
 }
 
-/* line 139, ../../../src/css/scss/_base/_utilities.scss */
+/* line 143, ../../../src/css/scss/_base/_utilities.scss */
 .ghost-center-wrap {
   font-size: 0;
 }
@@ -7918,36 +7940,36 @@ a.label:hover, a.badge:hover {
   height: 100%;
 }
 
-/* line 143, ../../../src/css/scss/_base/_utilities.scss */
+/* line 147, ../../../src/css/scss/_base/_utilities.scss */
 .ghost-center {
   display: inline-block;
   vertical-align: middle;
   font-size: 16px;
 }
 
-/* line 149, ../../../src/css/scss/_base/_utilities.scss */
+/* line 153, ../../../src/css/scss/_base/_utilities.scss */
 .table-center-wrap {
   display: table;
 }
 
-/* line 153, ../../../src/css/scss/_base/_utilities.scss */
+/* line 157, ../../../src/css/scss/_base/_utilities.scss */
 .table-center {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 163, ../../../src/css/scss/_base/_utilities.scss */
+/* line 167, ../../../src/css/scss/_base/_utilities.scss */
 .hero {
   position: relative;
   overflow: hidden;
   max-height: 400px;
 }
-/* line 168, ../../../src/css/scss/_base/_utilities.scss */
+/* line 172, ../../../src/css/scss/_base/_utilities.scss */
 .hero img {
   display: block;
   width: 100%;
 }
-/* line 174, ../../../src/css/scss/_base/_utilities.scss */
+/* line 178, ../../../src/css/scss/_base/_utilities.scss */
 .hero .hero-img-wrap::after {
   content: '';
   position: absolute;
@@ -7957,11 +7979,11 @@ a.label:hover, a.badge:hover {
   height: 100%;
   background-color: rgba(69, 113, 236, 0.8);
 }
-/* line 184, ../../../src/css/scss/_base/_utilities.scss */
+/* line 188, ../../../src/css/scss/_base/_utilities.scss */
 .hero > .container {
   position: relative;
 }
-/* line 188, ../../../src/css/scss/_base/_utilities.scss */
+/* line 192, ../../../src/css/scss/_base/_utilities.scss */
 .hero .hero-text-wrap {
   position: absolute;
   z-index: 5;
@@ -7970,17 +7992,17 @@ a.label:hover, a.badge:hover {
   width: 100%;
   height: 100%;
 }
-/* line 197, ../../../src/css/scss/_base/_utilities.scss */
+/* line 201, ../../../src/css/scss/_base/_utilities.scss */
 .hero .hero-text {
   width: 100%;
 }
 
-/* line 207, ../../../src/css/scss/_base/_utilities.scss */
+/* line 211, ../../../src/css/scss/_base/_utilities.scss */
 [data-stars] .icon-ui-star:not(:first-child) {
   margin-left: 2px;
 }
 
-/* line 216, ../../../src/css/scss/_base/_utilities.scss */
+/* line 220, ../../../src/css/scss/_base/_utilities.scss */
 [data-stars="1"] .icon-ui-star:nth-child(-n + 1),
 [data-stars="2"] .icon-ui-star:nth-child(-n + 2),
 [data-stars="3"] .icon-ui-star:nth-child(-n + 3),
@@ -7989,7 +8011,7 @@ a.label:hover, a.badge:hover {
   background-position: -360px -60px;
 }
 
-/* line 223, ../../../src/css/scss/_base/_utilities.scss */
+/* line 227, ../../../src/css/scss/_base/_utilities.scss */
 .el-hidden {
   position: absolute;
   -webkit-backface-visibility: hidden;
@@ -8000,7 +8022,7 @@ a.label:hover, a.badge:hover {
   transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
 }
 
-/* line 224, ../../../src/css/scss/_base/_utilities.scss */
+/* line 228, ../../../src/css/scss/_base/_utilities.scss */
 .el-shown {
   opacity: 1;
   left: 0;

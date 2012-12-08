@@ -267,7 +267,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       left: _getBounded( tabOffset )
     });
 
-    console.log('new sticky tab set', _getBounded( tabOffset ), tabOffset );
+    console.log('new sticky tab set', _getBounded( tabOffset ) );
 
     // Add a margin to the next (or previous if it's the last tab) tab because
     // the active one is positioned absolutely, taking up no space

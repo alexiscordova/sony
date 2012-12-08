@@ -136,6 +136,10 @@
 
 // Centering
 // -------------------------
+
+// Heads up! This method sets font-size: 0 on .ghost-center-wrap and resets it to font-size: 16px
+// on .ghost-center. You may have to set the font-size yourself on children of .ghost-center.
+// ems and %s don't work because the parent has font-size:0
 .ghost-center-wrap {
   @include ghost();
 }
@@ -143,7 +147,7 @@
 .ghost-center {
   display: inline-block;
   vertical-align: middle;
-  font-size: 16px; // ems and %s don't work because the parent has font-size:0
+  font-size: 16px;
 }
 
 .table-center-wrap {

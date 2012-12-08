@@ -270,6 +270,19 @@ $detailedGalleryItemHeight: 480px;
 }
 
 .filter-container {
+  margin-bottom: 2.75em;
+
+  .regular-filters &:nth-child(odd) {
+    clear: both;
+    margin-left: 0;
+  }
+
+  &:last-child,
+  &:nth-last-child(2),
+  .best-for,
+  .media-heading {
+    margin-bottom: 0;
+  }
 
   // Override default btn-group functionality to have them drop to the new line
   .btn-group {
