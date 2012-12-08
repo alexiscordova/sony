@@ -75,6 +75,7 @@
         });
 
         $(window).on('resize.gallery', $.proxy( self.onResize, self ) );
+        self.onResize();
 
         // Favorite Heart
         // self.$favorites.on('click', $.proxy( self.onFavorite, self ));
@@ -747,7 +748,7 @@
         sortByPriority : function() {
             var self = this,
                 isTablet = Modernizr.mq('(max-width: 767px)');
-                
+
             if ( isTablet && !self.sorted ) {
                 self.$grid.shuffle('sort', {
                     by: function($el) {
@@ -767,8 +768,12 @@
         onResize : function() {
             var self = this;
 
-            self.sortByPriority();
+            // Don't change columns for detail galleries
+            if ( self.mode === 'detailed' ) {
+                return;
+            }
 
+            self.sortByPriority();
         },
 
         onFavorite : function( evt ) {
@@ -891,8 +896,8 @@
                         column = COLUMN_WIDTH * containerWidth; // ~18% of container width
 
                     // Portrait Tablet ( 4 columns )
-                    } else if ( Modernizr.mq('(min-width: 768px)') ) {
-                        column = COLUMN_WIDTH_768 * containerWidth;
+                    // } else if ( Modernizr.mq('(min-width: 768px)') ) {
+                    //     column = COLUMN_WIDTH_768 * containerWidth;
 
                     // Between Portrait tablet and phone ( 3 columns )
                     } else if ( Modernizr.mq('(min-width: 481px)') ) {
@@ -909,121 +914,36 @@
 
                 self.shuffleGutters = function( containerWidth ) {
                     var gutter,
-
-                        // Save strings so minifying will be more effective
-                        allSpans = 'span1 span2 span3 span4 span6',
-                        shuffleDash = 'shuffle-',
-                        gridClasses = [ shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, 'grid-small' ].join(' '),
-                        itemSelector = '.gallery-item',
-                        grid5 = 'grid5',
-                        span = 'span',
-                        large = '.large',
-                        promo = '.promo',
-                        largeAndPromo = large + ',' + promo;
+                        numColumns = 0;
 
                     // Large desktop ( 6 columns )
                     if ( Modernizr.mq('(min-width: 1200px)') ) {
-                        if ( !self.$grid.hasClass(shuffleDash+6) ) {
-                            
-                            // add .grid5
-                            self.$grid
-                                .removeClass(gridClasses)
-                                .addClass(shuffleDash+6)
-                                .parent()
-                                .removeClass(grid5);
-
-                            
-                            self.$grid.children(itemSelector)
-                                .removeClass(allSpans) // Remove current grid span
-                                .filter(large) // Select large tiles
-                                .addClass(span+6) // Make them 6/12 width
-                                .end() // Go back to all items
-                                .filter(promo) // Select promo tiles
-                                .addClass(span+4) // Make them 4/12 width
-                                .end() // Go back to all items
-                                .not(largeAndPromo) // Select tiles not large nor promo
-                                .addClass(span+2); // Make them 2/12 width
-                        }
                         gutter = GUTTER_WIDTH_1200 * containerWidth;
+                        numColumns = 6;
 
                     // Landscape tablet + desktop ( 5 columns )
                     } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                        if ( !self.$grid.hasClass(shuffleDash+5) ) {
-                            
-                            // add .grid5
-                            self.$grid
-                                .removeClass(gridClasses)
-                                .addClass(shuffleDash+5)
-                                .parent()
-                                .addClass(grid5);
-
-                            
-                            self.$grid.children(itemSelector)
-                                .removeClass(allSpans) // Remove current grid span
-                                .filter(large) // Select large tiles
-                                .addClass(span+3) // Make them 3/5 width
-                                .end() // Go back to all items
-                                .filter(promo) // Select promo tiles
-                                .addClass(span+2) // Make them 2/5 width
-                                .end() // Go back to all items
-                                .not(largeAndPromo) // Select tiles not large nor promo
-                                .addClass(span+1); // Make them 1/5 width
-                        }
                         gutter = GUTTER_WIDTH * containerWidth;
+                        numColumns = 5;
 
-                    // Portrait Tablet ( 4 columns ) - masonry
+                    // // Portrait Tablet ( 4 columns ) - masonry
                     } else if ( Modernizr.mq('(min-width: 768px)') ) {
-                        if ( !self.$grid.hasClass(shuffleDash+4) ) {
-                            
-                            // Remove .grid5
-                            self.$grid
-                                .removeClass(gridClasses)
-                                .addClass(shuffleDash+4)
-                                .parent()
-                                .removeClass(grid5);
-
-                            
-                            self.$grid.children(itemSelector)
-                                .removeClass(allSpans) // Remove current grid span
-                                .filter(largeAndPromo) // Select large and promo tiles
-                                .addClass(span+6) // Make them half width
-                                .end() // Go back to all items
-                                .not(largeAndPromo) // Select tiles not large nor promo
-                                .addClass(span+3); // Make them quarter width
-                        }
+                        numColumns = 4;
                         gutter = GUTTER_WIDTH_768 * containerWidth;
                         
                     // Between Portrait tablet and phone ( 3 columns )
                     } else if ( Modernizr.mq('(min-width: 481px)') ) {
-                        if ( !self.$grid.hasClass(shuffleDash+3) ) {
-                            
-                            // Remove .grid5, add .grid-small
-                            self.$grid
-                                .removeClass(gridClasses)
-                                .addClass(shuffleDash+3 + ' grid-small')
-                                .parent()
-                                .removeClass(grid5);
-
-                            // Remove current grid span
-                            self.$grid.children(itemSelector)
-                                .removeClass(allSpans)
-                                .addClass(span+4);
-                        }
                         gutter = GUTTER_WIDTH_768 * containerWidth;
+                        numColumns = 3;
 
 
                     // Phone ( 2 columns )
                     } else {
-                        if ( !self.$grid.parent().hasClass(grid5) ) {
-                            
-                            // add .grid5
-                            self.$grid
-                                .removeClass(gridClasses)
-                                .parent()
-                                .addClass(grid5);
-                        }
                         gutter = 0.02 * containerWidth; // 2% of container width
+                        numColumns = 2;
                     }
+
+                    self.setColumns(numColumns);
 
                     return gutter;
 
@@ -1070,6 +990,118 @@
                     return gutter;
 
                 };
+            }
+        },
+
+        setColumns : function( numColumns ) {
+            var self = this,
+                allSpans = 'span1 span2 span3 span4 span6',
+                shuffleDash = 'shuffle-',
+                gridClasses = [ shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, 'grid-small' ].join(' '),
+                itemSelector = '.gallery-item',
+                grid5 = 'grid5',
+                span = 'span',
+                large = '.large',
+                promo = '.promo',
+                largeAndPromo = large + ',' + promo;
+
+            // Large desktop ( 6 columns )
+            if ( numColumns === 6 ) {
+                if ( !self.$grid.hasClass(shuffleDash+6) ) {
+                    
+                    // add .grid5
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .addClass(shuffleDash+6)
+                        .parent()
+                        .removeClass(grid5);
+
+                    
+                    self.$grid.children(itemSelector)
+                        .removeClass(allSpans) // Remove current grid span
+                        .filter(large) // Select large tiles
+                        .addClass(span+6) // Make them 6/12 width
+                        .end() // Go back to all items
+                        .filter(promo) // Select promo tiles
+                        .addClass(span+4) // Make them 4/12 width
+                        .end() // Go back to all items
+                        .not(largeAndPromo) // Select tiles not large nor promo
+                        .addClass(span+2); // Make them 2/12 width
+                }
+
+            // Landscape tablet + desktop ( 5 columns )
+            } else if ( numColumns === 5 ) {
+                if ( !self.$grid.hasClass(shuffleDash+5) ) {
+                    
+                    // add .grid5
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .addClass(shuffleDash+5)
+                        .parent()
+                        .addClass(grid5);
+
+                    
+                    self.$grid.children(itemSelector)
+                        .removeClass(allSpans) // Remove current grid span
+                        .filter(large) // Select large tiles
+                        .addClass(span+3) // Make them 3/5 width
+                        .end() // Go back to all items
+                        .filter(promo) // Select promo tiles
+                        .addClass(span+2) // Make them 2/5 width
+                        .end() // Go back to all items
+                        .not(largeAndPromo) // Select tiles not large nor promo
+                        .addClass(span+1); // Make them 1/5 width
+                }
+
+            // Portrait Tablet ( 4 columns ) - masonry
+            } else if ( numColumns === 4 ) {
+                if ( !self.$grid.hasClass(shuffleDash+4) ) {
+                    
+                    // Remove .grid5
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .addClass(shuffleDash+4)
+                        .parent()
+                        .removeClass(grid5);
+
+                    
+                    self.$grid.children(itemSelector)
+                        .removeClass(allSpans) // Remove current grid span
+                        .filter(largeAndPromo) // Select large and promo tiles
+                        .addClass(span+6) // Make them half width
+                        .end() // Go back to all items
+                        .not(largeAndPromo) // Select tiles not large nor promo
+                        .addClass(span+3); // Make them quarter width
+                }
+                
+            // Between Portrait tablet and phone ( 3 columns )
+            } else if ( numColumns === 3 ) {
+                if ( !self.$grid.hasClass(shuffleDash+3) ) {
+                    
+                    // Remove .grid5, add .grid-small
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .addClass(shuffleDash+3 + ' grid-small')
+                        .parent()
+                        .removeClass(grid5);
+
+                    // Remove current grid span
+                    self.$grid.children(itemSelector)
+                        .removeClass(allSpans)
+                        .addClass(span+4);
+                }
+
+
+            // Phone ( 2 columns )
+            } else if ( numColumns === 2 ) {
+                if ( !self.$grid.parent().hasClass(grid5) ) {
+                    
+                    // add .grid5
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .parent()
+                        .addClass(grid5);
+                }
             }
         }
 

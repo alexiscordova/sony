@@ -3,7 +3,7 @@
 // Version : 1.4
 // Authored: 2011-11-08 by Jason Eberle
 // Modified: 2012-01-26 by Christopher Mischler
-// Modified: 2012-11-6 by Glen Cheney
+// Modified: 2012-12-07 by Glen Cheney
 // Dependencies : jQuery 1.7+, <HTML> conditional classes (for custom cursors)
 // ------------------------------
 /*
