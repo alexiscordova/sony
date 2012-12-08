@@ -8,7 +8,7 @@
 		<link href="css/mbuilder.css" rel="stylesheet">
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 		
 		
 	</head>
@@ -22,7 +22,7 @@
 				<div class="control-group span4">
   					<label>Module</label>
   					<select id="module_select">
-  						<option></option>
+  						<option class="hold"></option>
   					</select>
 				</div>
 				
@@ -35,21 +35,26 @@
 			</div>
 			<div id="main_data_edit" class="clearfix row">
 				<textarea rows="10" class="span11"></textarea>
-				<div>
- 					<div id="save_submit" class="span2 offset7"><button class="btn btn-block btn-small">Save</button></div>
-					<div class="span2"><button class="btn btn-block btn-small" data-toggle="modal" data-target="#save_as_box">Save As</button></div>
-				</div>
+				
 			</div>
 			
 			<div id="submodule_section">
 				<h2>Submodules</h2>
 				<ul id="submodule_list">
-
+					
 				</ul>
+				<div class="row">
+					<div class="span1"><button class="btn btn-small btn-block add-me">Add</button></div>
+				</div>
+			</div>
+			
+			<div id="buttons" class="row">
+				<div class="span7"><button id="build" class="btn btn-special btn-block" data-loading-text="Building...">Build</button></div>
+ 				<div id="save_submit" class="span2"><button class="btn btn-block">Save</button></div>
+				<div class="span2"><button class="btn btn-block" data-toggle="modal" data-target="#save_as_box">Save As</button></div>
 			</div>
 		
-		
-			<button id="build" class="btn btn-special btn-block" data-loading-text="Building...">Build</button>
+			
 		</div>
 
 		<div class="modal" id="save_as_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
