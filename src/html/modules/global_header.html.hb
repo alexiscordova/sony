@@ -31,8 +31,8 @@ meta_data: {a:'foo', b:'bar'}
 				      </div><!-- end #navmenu-wrapper-account -->
 
 	          </li>
-	          <li id="nav-li-favorites"><a class="hidden-text" data-target="navtray-wrapper-favorites" href="#"><i class="icon-ui-favorite"></i>Favorites</a></li>
-	          <li id="nav-li-cart"><a class="" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
+	          <li id="nav-li-favorites"><a class="hidden-text iconTrigger-ui-favorite" data-target="navtray-wrapper-favorites" href="#"><i class="icon-ui-favorite"></i>Favorites</a></li>
+	          <li id="nav-li-cart"><a class="iconTrigger-ui-cart disabled" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
 	          <li id="nav-li-universal"><a class="btn nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
 	          <li id="nav-li-search">
 	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
@@ -63,6 +63,7 @@ meta_data: {a:'foo', b:'bar'}
 							        			<span class="search-result-headline">α NEX-6</span>
 							        			<span class="search-result-descript">The Future of Photography.</span>
 							        		</span>
+							        		<i class="icon-ui2-chevron-18-blue"></i>
 							        	</a>
 							        </li>
 						        	<li>
@@ -72,12 +73,16 @@ meta_data: {a:'foo', b:'bar'}
 							        			<span class="search-result-headline">α NEX-5</span>
 							        			<span class="search-result-descript">Pocket DSLR</span>
 							        		</span>
+							        		<i class="icon-ui2-chevron-18-blue"></i>
 							        	</a>
 							        </li>
-						        	<li>
+						        	<li class="search-result-canned">
 						        		<a href="#">
-						        			<img src="" alt="α NEX Support">
-						        			<span class="search-result-headline">α NEX Support</span>
+						        			<i class="icon-uibig-support"></i>
+						        			<span class="search-result-p">
+						        				<span class="search-result-headline">α NEX Support</span>
+						        			</span>
+							        		<i class="icon-ui2-chevron-18-blue"></i>
 							        	</a>
 							        </li>
 						        </ul>
@@ -87,7 +92,7 @@ meta_data: {a:'foo', b:'bar'}
 						        	<li><a href="#" class="tl">α NEX Lenses</a></li>
 						        	<li><a href="#" class="tl">α NEX</a></li>
 						        </ul>
-							    	<a href="#" class="btn btn-logout">Show All Results</a>
+							    	<a href="#" class="btn btn-show-all-results">Show All Results</a>
 							    </div>
 						    </div>
 					    </li>

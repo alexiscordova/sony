@@ -8,7 +8,7 @@ $icon_uibig_Y :       -180px;
 $icon_tab_Y :         -360px;
 $icon_angle_Y :       -450px;
 $icon_bestfor_Y :     -630px;
-  
+
 $sprite_Specsicon_Y:  -690px;
 $sprite_Mini_Y :      -780px;
 $sprite_Reg_Y :       -810px;
@@ -81,81 +81,7 @@ $sprite_Tall_Y :      -990px;
 @include icon-tab(camera,       -720px, 43px, 26px);
 
 
-
-
-
-// UI Icons
-@mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:false) {
-  .icon-ui-#{$name} {
-    background-position: $x $icon_ui_Y;
-    @include size($h, $w);
-
-    @if ( $margin ) {
-      margin: $margin;
-    }
-
-    @if ( $hasHover ) {
-      &:hover,
-      &:focus { background-position: $x ($icon_ui_Y - 30px); }
-    }
-
-    // @Christopher I added direct descendant selector because .tab.active has .icon-ui-star in it :\
-    @if ( $activeIsHover ) {
-      &.active,
-      .active > &, { background-position: $x ($icon_ui_Y - 30px); }
-
-    } @else if ( $hasActive ) {
-      &.active,
-      .active > &, { background-position: $x ($icon_ui_Y - 60px); }
-    }
-  
-  }
-}
-@include icon-ui(favorite,                          0px,      15px,   13px,   true,   false, false);
-@include icon-ui(cart,                              -30px,    17px,   14px,   true,   false, false);
-@include icon-ui(search,                            -60px,    30px,   13px);
-@include icon-ui(arrowhead-down-gray,               -90px,    8px,    4px);
-@include icon-ui(arrowhead-up-gray,                 -120px,   8px,    4px);
-@include icon-ui(arrowhead-down-white,              -150px,   8px,    4px);
-@include icon-ui(arrowhead-up-white,                -180px,   8px,    4px);
-@include icon-ui(arrowhead-down-blue,               -210px,   8px,    4px);
-@include icon-ui(arrowhead-up-blue,                 -240px,   8px,    4px);
-@include icon-ui(arrow-right-white,                 -270px,   11px,   8px);
-@include icon-ui(arrow-right-blue,                  -300px,   11px,   8px);
-@include icon-ui(grid,                              -330px,   16px,   16px);
-@include icon-ui(star,                              -360px,   13px,   13px,   false,  true, false);
-@include icon-ui(starhalf,                          -390px,   13px,   13px,   false,  true, false);
-@include icon-ui(arrowheads-up-down-gray,           -420px,   8px,    11px);
-@include icon-ui(plus-tiny,                         -450px,   9px,    9px);
-@include icon-ui(plus-skinny,                       -480px,   16px,   16px);
-@include icon-ui(x-skinny,                          -510px,   16px,   16px);
-@include icon-ui(revealer-l-r-xl,                   -540px,   32px,   32px);
-@include icon-ui(check,                             -600px,   11px,   8px);
-@include icon-ui(x-tiny,                            -630px,   10px,   10px);
-@include icon-ui(close,                             -660px,   15px,   15px);
-
-@include icon-ui(navmenu-account,                   -690px,   16px,   15px,   false,   false,  false,  1px 0 1px 0);
-@include icon-ui(navmenu-orders,                    -720px,   16px,   11px,   false,   false,  false,  3px 0 3px 0);
-@include icon-ui(navmenu-newsletter,                -750px,   12px,   15px,   false,   false,  false,  1px 2px 1px 2px);
-@include icon-ui(navmenu-reg-prod,                  -780px,   13px,   17px,   false,   false,  false,  0 1px 0 2px);
-
-
-// I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make 
-// it a <i> like all the others so I don't need this mixin.
-@mixin icon-ui-pseudo-el($x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:false) {
-  @extend %icon;
-  background-position: $x 0px;
-  @include size($h, $w);
-
-  @if ( $margin ) {
-    margin: $margin;
-  }
-}
-.icon-ui-pseudo-el-arrow-right-blue { @include icon-ui-pseudo-el(-300px, 11px, 8px); }
-
-
-
-// Best for
+// Icon Best for
 // ----------------------
 @mixin icon-bestfor($name, $x, $w, $h) {
   .icon-bestfor-#{$name} {
@@ -179,20 +105,135 @@ $sprite_Tall_Y :      -990px;
 
 
 
+// Icons with standard hover, focus, & active states can be built using the iconBuilder mixin.
+// The first parameters are specific to the iconType ($iconType, $y, $hoverOffsetY)
+// The other parameters are specific to the icon, and are simply passed through from the specific icon mixin.
+@mixin icon($iconType, $y, $hoverOffsetY, $name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+  .icon-#{$iconType}-#{$name} {
+    background-position: $x $y;
+    @include size($h, $w);
+
+    @if ( $margin ) {
+      margin: $margin;
+    }
+    @if ( $iconTrigger != true ) { // see below for what $iconTrigger is for
+      @if ( $hasHover ) {
+        &:not([disabled]):hover,
+        &:not([disabled]):focus,
+        &:not(.disabled):hover,
+        &:not(.disabled):focus { background-position: $x ($y - $hoverOffsetY); }
+      }
+
+      @if ( $activeIsHover ) {
+        &.active,
+        .active > &, { background-position: $x ($y - $hoverOffsetY); }
+
+      } @else if ( $hasActive ) {
+        &.active,
+        .active > &, { background-position: $x ($y - ($hoverOffsetY * 2)); }
+      }
+    }
+  }
+  // iconTrigger: Set to true when you want a PARENT of the icon to trigger the hover/active state.
+  // Like in a button - you want to trigger the hover state of the icon when you hover over any part
+  // of the button, not just the icon itself. Use it like this:
+  // <a class="iconTrigger-ui-cart"><i class="icon-ui-cart"></i>12</a>
+  @if ( $iconTrigger ) {
+    @if ( $hasHover ) {
+      // :not(.disabled):hover is NOT working (it still triggers hover) - don't know why. 
+      // Should look into it if we actually end up implementing it.
+      .iconTrigger-#{$iconType}-#{$name}:not([disabled]):hover .icon-#{$iconType}-#{$name},
+      .iconTrigger-#{$iconType}-#{$name}:not([disabled]).hover .icon-#{$iconType}-#{$name},
+      .iconTrigger-#{$iconType}-#{$name}:not(.disabled):hover .icon-#{$iconType}-#{$name},
+      .iconTrigger-#{$iconType}-#{$name}:not(.disabled).hover .icon-#{$iconType}-#{$name} {
+        background-position: $x ($y - $hoverOffsetY); 
+      }
+    }
+    @if ( $activeIsHover ) {
+      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} { 
+        background-position: $x ($y - $hoverOffsetY); 
+      }
+    } @else if ( $hasActive ) {
+      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} { 
+        background-position: $x ($y - ($hoverOffsetY * 2)); 
+      }
+    }
+  }
+}
+
+@mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+  @include icon(ui, $icon_ui_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+}
+@mixin icon-ui2($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+  @include icon(ui2, $icon_ui2_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+}
+@mixin icon-uibig($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+  @include icon(uibig, $icon_uibig_Y, 60px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+}
+
+//  ----------------------------------------------  x-pos,    width,  height, hasHover, hasActive, activeIsHover, iconTrigger, margin
+@include icon-ui(favorite,                          0px,      15px,   13px,   true);
+@include icon-ui(cart,                              -30px,    17px,   14px,   true,     false,     false,         true);
+@include icon-ui(search,                            -60px,    30px,   13px);
+@include icon-ui(arrowhead-down-gray,               -90px,    8px,    4px);
+@include icon-ui(arrowhead-up-gray,                 -120px,   8px,    4px);
+@include icon-ui(arrowhead-down-white,              -150px,   8px,    4px);
+@include icon-ui(arrowhead-up-white,                -180px,   8px,    4px);
+@include icon-ui(arrowhead-down-blue,               -210px,   8px,    4px);
+@include icon-ui(arrowhead-up-blue,                 -240px,   8px,    4px);
+@include icon-ui(arrow-right-white,                 -270px,   11px,   8px);
+@include icon-ui(arrow-right-blue,                  -300px,   11px,   8px);
+@include icon-ui(grid,                              -330px,   16px,   16px);
+@include icon-ui(star,                              -360px,   13px,   13px,   false,    true);
+@include icon-ui(starhalf,                          -390px,   13px,   13px,   false,    true);
+@include icon-ui(arrowheads-up-down-gray,           -420px,   8px,    11px);
+@include icon-ui(plus-tiny,                         -450px,   9px,    9px);
+@include icon-ui(plus-skinny,                       -480px,   16px,   16px);
+@include icon-ui(x-skinny,                          -510px,   16px,   16px);
+@include icon-ui(revealer-l-r-xl,                   -540px,   32px,   32px);
+@include icon-ui(check,                             -600px,   11px,   8px);
+@include icon-ui(x-tiny,                            -630px,   10px,   10px);
+@include icon-ui(close,                             -660px,   15px,   15px);
+
+@include icon-ui(navmenu-account,                   -690px,   16px,   15px,   false,    false,       false,       false             1px 0 1px 0);
+@include icon-ui(navmenu-orders,                    -720px,   16px,   11px,   false,    false,       false,       false             3px 0 3px 0);
+@include icon-ui(navmenu-newsletter,                -750px,   12px,   15px,   false,    false,       false,       false             1px 2px 1px 2px);
+@include icon-ui(navmenu-reg-prod,                  -780px,   13px,   17px,   false,    false,       false,       false             0 1px 0 2px);
+
+@include icon-ui2(chevron-18-blue,                0px,   7px,   18px); // the number in the class name is how tall (in px) the chrvron is -- there are gonna be a ton of chevrons, so mini/small/large/etc aren't gonna cut it.
+
+@include icon-uibig(support, 0px, 55px, 50px);
+
+
+
+
+// I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make 
+// it a <i> like all the others so I don't need this mixin.
+@mixin icon-ui-pseudo-el($x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:false) {
+  @extend %icon;
+  background-position: $x 0px;
+  @include size($h, $w);
+
+  @if ( $margin ) {
+    margin: $margin;
+  }
+}
+.icon-ui-pseudo-el-arrow-right-blue { @include icon-ui-pseudo-el(-300px, 11px, 8px); }
+
+
+
+
+
+
 
 // --------------------------------------------
 // SPRITES 
+// Sprites are guaranteed not to need a hover state - that's what makes them different from "icons"
 // --------------------------------------------
 
-@mixin sprite($basename, $name, $x, $w, $h, $margin:false) {
-  $y: 0;
-          @if ( $basename == specsicon ) { $y: $sprite_Specsicon_Y;
-   } @else if ( $basename == mini ) { $y: $sprite_Mini_Y;
-   } @else if ( $basename == reg ) { $y: $sprite_Reg_Y;
-   } @else if ( $basename == big ) { $y: $sprite_big_Y;
-   } @else if ( $basename == tall ) { $y: $sprite_tall_Y; 
-   }
-  .sprite-#{$basename}-#{$name} {
+@mixin sprite($spriteType, $y, $name, $x, $w, $h, $margin) {
+
+  .sprite-#{$spriteType}-#{$name} {
     background-position: $x $y;
     @include size($h, $w);
     
@@ -201,10 +242,37 @@ $sprite_Tall_Y :      -990px;
     }
   }
 }
-@include sprite(mini, global-nav-indicator, 0px,  22px,  9px);
-@include sprite(reg, nav-sony-logo,         0px,  89px,  31px);
+
+@mixin sprite-specsicon($name, $x, $w, $h, $margin:false) {
+  @include sprite(specsicon, $sprite_Specsicon_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-mini($name, $x, $w, $h, $margin:false) {
+  @include sprite(mini, $sprite_Mini_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-reg($name, $x, $w, $h, $margin:false) {
+  @include sprite(reg, $sprite_Reg_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-big($name, $x, $w, $h, $margin:false) {
+  @include sprite(big, $sprite_Big_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-tall($name, $x, $w, $h, $margin:false) {
+  @include sprite(tall, $sprite_Tall_Y, $name, $x, $w, $h, $margin);
+}
 
 
- 
-// background-position: -300px 0px;
-// @include size(8px, 11px);
+@include sprite-mini(   global-nav-indicator,     0px,    22px,   9px);
+
+@include sprite-reg(    nav-sony-logo,            0px,    89px,   31px);
+
+
+
+
+
+
+
+
+
+
+
+
+
