@@ -350,7 +350,6 @@
             });
             self._updateArrowsNav();
         }
-
             
         
         self._hasDrag = (!self.hasTouch && self.st.sliderDrag) ||  (self.hasTouch && self.st.sliderTouch);
@@ -1898,7 +1897,7 @@
             self._oldSlideContent.trigger('slideend.sc');
 
             console.log('ANIMATION COMPLETE' , self._oldSlideContent.attr('id'));
-            //$(window).trigger('scroll');
+           	iQ.update();
             
             if (self.st.afterSlideChange) self.st.afterSlideChange.call(self);
         },

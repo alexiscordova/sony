@@ -10,7 +10,7 @@
 
 <div class="container-fluid module-spec">
 	
-	<section class="tables">
+	<section class="spec">
 		<div class="spec-title">
 			<p class="title-link"><a href="#">Vaio E</a></p>
 			<h1>VAIO E Details</h1>
@@ -19,8 +19,10 @@
 				<p><a href="#">Specifications</a></p><p><a href="#">Features</a></p>
 			</div>
 		</div>
-		
+		<a id="myButton">click</a><br />
+		<a id="myButton2">click</a>
 		<div class="tableContainer clearfix">
+			
 			<table class="bigTable">
 				<thead>
 					<tr>
@@ -42,37 +44,37 @@
 							</noscript>
 						</div>{{/if}}
 	
-							<div class="table">
-								<div class="tbody">
+							<table>
+								<tbody>
 									{{#if this.dimensions.width}}
-										<div class="row">
-											<div class="column"><p>Width:</p></div>
-											<div class="column"><p><span>{{this.dimensions.width}}</span></p></div>
-										</div>
+										<tr>
+											<td><p>Width:</p></td>
+											<td><p><span>{{this.dimensions.width}}</span></p></td>
+										</tr>
 									{{/if}}
 									
 									{{#if this.dimensions.height}}
-										<div class="row">
-											<div class="column"><p>Height:</p></div>
-											<div class="column"><p><span>{{this.dimensions.height}}</span></p></div>
-										</div>
+										<tr>
+											<td><p>Height:</p></td>
+											<td><p><span>{{this.dimensions.height}}</span></p></td>
+										</tr>
 									{{/if}}
 									
 									{{#if this.dimensions.depth}}
-										<div class="row">
-											<div class="column"><p>Depth:</p></div>
-											<div class="column"><p><span>{{this.dimensions.depth}}</span></p></div>
-										</div>
+										<tr>
+											<td><p>Depth:</p></td>
+											<td><p><span>{{this.dimensions.depth}}</span></p></td>
+										</tr>
 									{{/if}}
 									
 									{{#if this.dimensions.weight}}
-										<div class="row">
-											<div class="column"><p>Weight:</p></div>
-											<div class="column"><p><span>{{this.dimensions.weight}}</span></p></div>
-										</div>
+										<tr>
+											<td><p>Weight:</p></td>
+											<td><p><span>{{this.dimensions.weight}}</span></p></td>
+										</tr>
 									{{/if}}
-								</div>
-							</div>
+								</tbody>
+							</table>
 	
 						</td>
 						{{/each}}
@@ -229,37 +231,37 @@
 							</noscript>
 						</div>{{/if}}
 	
-							<div class="table">
-								<div class="tbody">
+							<table>
+								<tbody>
 									{{#if this.dimensions.width}}
-										<div class="row">
-											<div class="column"><p>Width:</p></div>
-											<div class="column"><p><span>{{this.dimensions.width}}</span></p></div>
-										</div>
+										<tr>
+											<td><p>Width:</p></td>
+											<td><p><span>{{this.dimensions.width}}</span></p></td>
+										</tr>
 									{{/if}}
 									
 									{{#if this.dimensions.height}}
-										<div class="row">
-											<div class="column"><p>Height:</p></div>
-											<div class="column"><p><span>{{this.dimensions.height}}</span></p></div>
-										</div>
+										<tr>
+											<td><p>Height:</p></td>
+											<td><p><span>{{this.dimensions.height}}</span></p></td>
+										</tr>
 									{{/if}}
 									
 									{{#if this.dimensions.depth}}
-										<div class="row">
-											<div class="column"><p>Depth:</p></div>
-											<div class="column"><p><span>{{this.dimensions.depth}}</span></p></div>
-										</div>
+										<tr>
+											<td><p>Depth:</p></td>
+											<td><p><span>{{this.dimensions.depth}}</span></p></td>
+										</tr>
 									{{/if}}
 									
 									{{#if this.dimensions.weight}}
-										<div class="row">
-											<div class="column"><p>Weight:</p></div>
-											<div class="column"><p><span>{{this.dimensions.weight}}</span></p></div>
-										</div>
+										<tr>
+											<td><p>Weight:</p></td>
+											<td><p><span>{{this.dimensions.weight}}</span></p></td>
+										</tr>
 									{{/if}}
-								</div>
-							</div>
+								</tbody>
+							</table>
 	
 						</td>
 						{{/each}}
