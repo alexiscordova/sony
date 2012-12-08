@@ -42,6 +42,7 @@ meta_data: {a:'foo', b:'bar'}
 					    	<form method="post" action="" class="navmenu-search-section-input">
 						        <input type="text" name="navSearch" id="navSearch" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search"/>
 					    	</form>
+					    	<a href="#" class="iconTarget-ui2-x-14-blue"><i class="icon-ui2-x-14-blue"></i></a>
 				        <div class="navmenu-search-section-results">
 					        <div class="navmenu-search-popular-searches">
 					        	<p class="l3">Popular Searches</p>
