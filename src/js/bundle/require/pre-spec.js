@@ -153,6 +153,25 @@ $.fn.tableToDiv = function() {
 }
 
 /*********************************************************/
+//function to create a matrix
+//Usage: $(listToMatrix(nbCells, nbCol));
+function listToMatrix(list, elementsPerSubArray) {
+    var matrix = [], i, k;
+
+    for ( i = 0, k = -1; i < list.length; i++) {
+        if (i % elementsPerSubArray === 0) {
+            k++;
+            matrix[k] = [];
+        }
+
+        matrix[k].push(list[i]);
+    }
+
+    return matrix;
+}
+
+
+/*********************************************************/
 //Usage: var tallest = $('div').maxHeight(); // Returns the height of the tallest div.
 $.fn.maxHeight = function() {
 	var max = 0;
