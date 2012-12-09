@@ -35,14 +35,15 @@ meta_data: {a:'foo', b:'bar'}
 	          <li id="nav-li-cart"><a class="iconTrigger-ui-cart disabled" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
 	          <li id="nav-li-universal"><a class="btn nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
 	          <li id="nav-li-search">
-	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
+	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
 	          	<i class="sprite-mini-global-nav-indicator"></i>
 
 					    <div class="navmenu-wrapper navmenu-wrapper-search searching">
+					    	<i class="sprite-mini-nav-search-input"></i>
 					    	<form method="post" action="" class="navmenu-search-section-input">
 						        <input type="text" name="navSearch" id="navSearch" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search"/>
 					    	</form>
-					    	<a href="#" class="iconTarget-ui2-x-14-blue"><i class="icon-ui2-x-14-blue"></i></a>
+					    	<a href="#" class="btn-clear-search-input iconTrigger-ui2-x-14-blue"><i class="icon-ui2-x-14-blue"></i></a>
 				        <div class="navmenu-search-section-results">
 					        <div class="navmenu-search-popular-searches">
 					        	<p class="l3">Popular Searches</p>

@@ -66,6 +66,12 @@
         }
       }
 
+      .sprite-mini-nav-search-input{
+        position:absolute;
+        top: 25px;
+        left: 46px;
+        cursor:text;
+      }
       .navmenu-search-section-input{
         background:#fff;
         padding:10px 29px 12px;
@@ -78,13 +84,19 @@
           font-size:$font_30_16;
           height:auto;
           width:auto;
+          @include transition(all, 0s);
+          &:focus{
+            @include fontRegular;
+            color:$grayDark;
+          }
         }
       }
-      .btn-search-clear{
+      .btn-clear-search-input{
+        line-height:0;
         padding:6px;
         position:absolute;
-        right:20px;
-        top:20px;
+        right: 30px;
+        top: 22px;
         &:hover{
           background-color:$grayLighter;
         };
