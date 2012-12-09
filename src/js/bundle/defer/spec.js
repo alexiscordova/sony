@@ -10,8 +10,6 @@ var $myCells = $($tableContainer).find(".specsTable > .thead > .row > .cell, .sp
 //nb total column
 var nbCol = $($tableContainer).find(".row:first .cell").length;
 
-var arrayTab1col = [];
-
 //function to create a matrix
 function listToMatrix(list, elementsPerSubArray) {
     var matrix = [], i, k;
@@ -33,8 +31,7 @@ function listToMatrix(list, elementsPerSubArray) {
 //viewPortLength
 var nbElementByPage = 3;
 
-var nbTableToShow = nbCol/nbElementByPage;
-
+var nbTableToShow = nbCol / nbElementByPage;
 
 //matrix
 var matrix = listToMatrix($myCells, nbCol);
@@ -44,22 +41,22 @@ for (var i = 0; i < nbTableToShow; i++) {//loop de tableau
     var $table = "";
 
     $table = $('<div class="specsTable" id="table' + i + '">');
-    
+
     //loop in each row
     $(listToMatrix($myCells, nbCol)).each(function(index) {
-        
-        var $curentRow = new $("<div class='row'></div>");
-        $(listToMatrix(listToMatrix($myCells, nbCol)[i], nbElementByPage)).each(function(ii) {
-            
-            $curentRow.append($(this)[2]);
 
-        });
+        var $curentRow = new $("<div class='row'></div>");
+
+        $curentRow.append(listToMatrix(this, nbElementByPage)[i]);
 
         $table.append($curentRow);
+        $('body').append($table);
     });
-    //var $row = $('<div class="row">'); // ta row
-
 };
+
+
+
+
 
 //Start all carousel
 $('.tableContainer').sonyCarousel();
