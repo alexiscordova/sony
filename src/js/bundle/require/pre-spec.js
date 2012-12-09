@@ -68,6 +68,17 @@ $.fn.setContainerHeight = function() {
 
 
 /*********************************************************/
+//Usage: $('.tableContainer').findColumn(index); //Morph a table into a div table layout.
+$.fn.findColumn = function(index) {
+
+	$column = $(this).find('.bigTable > .thead > .row > .column:nth-child('+index+'), .bigTable > .tbody > .row > .column:nth-child('+index+')');
+
+	return $column;
+}
+
+
+
+/*********************************************************/
 //Usage: $('table').tableToDiv(); //Morph a table into a div table layout.
 $.fn.tableToDiv = function() {
 

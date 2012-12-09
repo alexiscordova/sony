@@ -19,8 +19,7 @@
 				<p><a href="#">Specifications</a></p><p><a href="#">Features</a></p>
 			</div>
 		</div>
-		<a id="myButton">click</a><br />
-		<a id="myButton2">click</a>
+		<a id="myButton">click</a><a id="myButton2">click2</a>
 		<div class="tableContainer clearfix">
 			
 			<table class="bigTable">

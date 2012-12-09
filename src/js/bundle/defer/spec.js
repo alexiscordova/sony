@@ -1,37 +1,34 @@
 $(window).load(function() {
 });
 
-
-//init.
-resize('init', $ifMobile, $browser);
-
 //Create a backup of the tableContainer
 var $tableContainer = $('.tableContainer').clone();
 
 //Start all carousel
 $('.tableContainer').sonyCarousel();
 
-//Define the carousel
-var sonySlider = $(".tableContainer").data('sonyCarousel');
+//init.
+resize('init', $ifMobile, $browser);
 
 
-
+// Testing button
 $("#myButton").click(function(e) {
-	
+
 	sonySlider.destroy();
-	
-	/*
-	$('.tableContainer').children().remove();
-	
+
+	$('.tableContainer').empty();
+
 	$(".tableContainer").removeClass("scHor scWithBullets").append($tableContainer.contents().clone());
 	$('.tableContainer').sonyCarousel();
-	*/
-	
+
 });
 
 $("#myButton2").click(function(e) {
+	//$('.tableContainer').findColumn(2).css('background-color', '#ccc');
 	
+	$lastRow = $('.tableContainer').findColumn(5).clone();
 });
+
 
 //Strike the resize
 $(window).resize(function() {
@@ -50,13 +47,74 @@ $(window).resize(function() {
 
 function resize(status, device, browser) {
 	var windowWidth = $(window).width();
+	
+	//minimum per table (COLUMN)
+	var minWidthTable = 250;
+	
+	$('.tableContainer').each(function() {
 
-	//Set the height.
-	$('.tableContainer').setContainerHeight();
+		//Set the height.
+		$(this).setContainerHeight();
 
-	console.info(status, device, browser);
+		//get the width of each big table (COLUMN).
+		var $tableWidth = $('.tableContainer').find('.bigTable').width();
 
-	columnSwapper(device, browser, windowWidth);
+		// Number of element present in the viewport (visible element)
+		var elemMinWidth = ($(".tableContainer").width()) / minWidthTable;
+
+		//get the number of column to display.
+		viewPortLength = Math.min(Math.max(Math.floor(elemMinWidth), 1), 4);
+		
+		//Define the carousel
+		//var sonySlider = $(this).data('sonyCarousel');
+		
+		//destroy the current slider instance.
+		//sonySlider.destroy();
+
+		//Make change depending on the width.
+		switch(viewPortLength) {
+			
+			// 1 Column ---
+			case 1:
+				
+				console.info('1 column.');
+				
+				
+				
+				break;
+
+			// 2 Column ---
+			case 2:
+				
+				console.info('2 columns.');
+
+
+				
+				break;
+
+			// 3 Column ---
+			case 3:
+				
+				console.info('3 columns.');
+				
+				
+				
+				break;
+			// 4 Column ---
+			case 4:
+				
+				console.info('4 columns.');
+
+
+				
+				break;
+		}
+	})
+	// Restart the carousel.
+	//$('.tableContainer').sonyCarousel();
+		
+
+	//console.info(status, device, browser);
 }
 
 /*
