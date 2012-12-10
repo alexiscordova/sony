@@ -4,25 +4,20 @@
 /* line 4, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec {
   color: black;
-  /* General */
-  /* Details */
-  /* Tabs */
-  /* table */
-  /* Big Tables Colors and skins */
-  /* Responsive table */
 }
-/* line 7, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .sonyCarousel {
-  width: 100%;
-}
-/* line 10, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 9, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec h1 {
   font-size: 1.625em;
   margin-top: 0 !important;
 }
-/* line 11, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 10, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec h2 {
   font-size: 1.125em;
+}
+/* line 11, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec h2.h2-bigger {
+  font-size: 1.625em;
+  margin: 30px 0;
 }
 /* line 12, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec h3 {
@@ -63,123 +58,125 @@
   margin-right: 10px;
   font-size: 0.875em;
 }
-/* line 25, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .details {
-  margin-bottom: 20px;
+/* line 23, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec ul {
+  margin-left: 0;
+}
+/* line 24, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec ul li {
+  font-size: 0.75em;
 }
 /* line 27, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .details > h2 {
-  margin-bottom: 20px;
+.container-fluid.module-spec .label {
+  font-weight: bold;
 }
-/* line 28, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .details .row-fluid {
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-}
-/* line 33, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .details .row-fluid h2 {
-  margin-bottom: 20px;
-}
-/* line 35, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .details .row-fluid ul {
-  margin-bottom: 0;
-}
-/* line 37, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .details .row-fluid ul li {
-  margin: 5px 0;
-}
-/* line 42, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec h2.h2-bigger {
-  font-size: 1.625em;
-  margin: 30px 0;
-}
-/* line 43, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 29, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .row-fluid.no-border {
   margin-bottom: 30px !important;
   border-bottom: none !important;
   padding-bottom: 0;
   margin-bottom: 0;
 }
-/* line 46, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 31, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .row-fluid.no-border h3 {
   font-size: 1.125em;
   margin-bottom: 15px;
 }
-/* line 50, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 35, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .row-fluid.no-border p {
   font-size: 0.75em;
 }
-/* line 54, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec ul {
-  margin-left: 0;
+/* line 39, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
-/* line 56, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec ul li {
-  font-size: 0.75em;
+/* line 45, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer .desktopNav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
 }
-/* line 59, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .label {
-  font-weight: bold;
+/* line 53, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer .desktopNav .next {
+  position: absolute;
+  right: 10px;
 }
-/* line 64, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .table-mobile-tabs {
-  display: none;
+/* line 58, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer .desktopNav .prev {
+  position: absolute;
+  left: 10px;
+}
+/* line 65, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer .table-mobile-tabs {
   margin: 0 !important;
 }
 /* line 67, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .table-mobile-tabs li {
+.container-fluid.module-spec .tableContainer .table-mobile-tabs li:first-child {
+  display: none;
+}
+/* line 68, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer .table-mobile-tabs li {
   float: left;
   display: block;
   cursor: pointer;
   padding: 10px;
   background: #ccc;
+  color: #000;
 }
-/* line 73, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec .table-mobile-tabs li:hover {
+/* line 75, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer .table-mobile-tabs li:hover {
   background: #c0c0c0;
 }
-/* line 80, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 81, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer > .bigTable {
+  float: left;
+}
+/* line 88, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table {
   display: table;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.875em;
 }
-/* line 85, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 93, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table .thead {
   display: table-header-group;
 }
-/* line 87, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 95, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table .thead h2 {
   font-size: 1.125em;
   color: black;
   font-weight: bold;
   margin-bottom: 1em;
 }
-/* line 95, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 103, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table .row {
   display: table-row;
 }
-/* line 98, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 106, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table .row:last-child .column {
   border-bottom: none !important;
 }
-/* line 103, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 111, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table .column:first-child {
   font-size: 1em;
   line-height: 1em;
   font-weight: bold;
   color: black;
 }
-/* line 110, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 118, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table .column {
   display: table-cell;
 }
-/* line 114, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 122, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table .tbody {
   display: table-row-group;
 }
-/* line 115, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 123, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table .tbody .column h2 {
   font-size: 0.875em;
   color: black;
@@ -187,12 +184,12 @@
   margin-bottom: 1em;
   display: none;
 }
-/* line 124, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 132, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table span {
   color: #83838f;
   font-size: 0.75em;
 }
-/* line 127, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 135, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table span.color {
   display: block;
   width: 10px;
@@ -200,149 +197,244 @@
   float: left;
   margin-right: 5px;
 }
-/* line 133, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 141, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table span.color.white {
   background: #fff;
 }
-/* line 136, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 144, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table span.color.grey {
   background: #ccc;
 }
-/* line 139, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 147, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table span.color.darkGrey {
   background: #666;
 }
-/* line 142, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 150, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table span.color.black {
   background: black;
 }
-/* line 147, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 155, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec div.table ul {
   list-style: none !important;
   margin: 0;
   padding: 0;
 }
-/* line 156, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 165, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.smallTable .row .column {
   padding: 0 10px 0 0;
 }
-/* line 158, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 167, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.smallTable .row .column h3 {
   color: black;
   font-size: 0.86667em !important;
 }
-/* line 159, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 168, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.smallTable .row .column p {
   color: #555;
   font-size: 0.86667em !important;
 }
-/* line 165, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 177, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .details {
+  margin-bottom: 20px;
+}
+/* line 179, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .details > h2 {
+  margin-bottom: 20px;
+}
+/* line 180, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .details .row-fluid {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+/* line 185, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .details .row-fluid h2 {
+  margin-bottom: 20px;
+}
+/* line 187, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .details .row-fluid ul {
+  margin-bottom: 0;
+}
+/* line 189, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .details .row-fluid ul li {
+  margin: 5px 0;
+}
+/* line 197, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable {
   background: #F7F7F7;
   color: black;
 }
-/* line 169, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 201, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable p {
   font-size: 0.86667em !important;
 }
-/* line 170, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 202, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable span {
   font-size: 1em !important;
   line-height: 1.5em;
   display: block;
 }
-/* line 177, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 209, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable .column {
   padding: 10px 20px;
-  /* Defines a table cell */
   border-bottom: 1px solid #eee;
   border-right: 1px solid #eee;
 }
-/* line 182, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 214, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable .column:last-child {
   border-right: none !important;
 }
-/* line 185, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 217, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable .column:hover {
   background: #f9f9f9;
 }
-/* line 192, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 224, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable .thead .row .column {
   color: black;
   border-bottom: 2px solid #eee !important;
   border-left: none !important;
   border-right: none !important;
 }
-/* line 205, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 237, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable .tbody .row .table .column:first-child {
   font-weight: normal;
   padding-right: 8px;
   width: 20%;
 }
-/* line 210, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 242, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable .tbody .row .table .column {
   padding: 0;
   border: none !important;
 }
-/* line 211, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 243, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable .tbody .row .table .column p {
   margin: 0;
   font-size: 1em !important;
 }
-/* line 212, ../../../src/css/scss/modules/specAndDetails.scss */
+/* line 244, ../../../src/css/scss/modules/specAndDetails.scss */
 .container-fluid.module-spec .table.bigTable .tbody .row .table .column p span {
   font-size: 1em !important;
 }
-/* line 223, ../../../src/css/scss/modules/specAndDetails.scss */
-.container-fluid.module-spec div.table.rTable.smallTable p {
+/* line 255, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel {
+  width: 100%;
+}
+/* line 257, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel h2 {
+  font-size: 18px !important;
+  color: black;
+  padding: 20px 0;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+}
+/* line 258, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel h2:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+/* line 259, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel p {
+  font-size: 14px !important;
+  font-weight: normal;
+}
+/* line 260, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel span {
+  font-size: 0.93333em !important;
+  line-height: 1.5em;
+  display: block;
+}
+/* line 265, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel .tbody .row .column {
+  padding: 0 !important;
+  border: none !important;
+}
+/* line 268, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel .tbody .row .column p {
+  margin: 0;
+}
+/* line 272, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel .scSlide {
+  height: auto !important;
+}
+/* line 274, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .sonyCarousel .scSlide p {
+  position: relative;
+  top: 0;
+  left: 0;
+  background: none;
+  max-width: 100%;
+  height: auto;
+  padding: 0;
+  color: black;
+}
+/* line 287, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer.desktopNav .scSlide {
+  height: auto !important;
+}
+/* line 288, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer.desktopNav .scOverflow {
+  height: 2100px !important;
+}
+/* line 289, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec .tableContainer.desktopNav p {
+  position: relative;
+  top: 0;
+  left: 0;
+  background: none;
+  max-width: 100%;
+  height: auto;
+  padding: 0;
+  color: black;
+}
+/* line 303, ../../../src/css/scss/modules/specAndDetails.scss */
+.container-fluid.module-spec div.table.smallTable p {
   margin: 0;
 }
 @media all and (max-width: 640px) {
-  /* line 228, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table-mobile-tabs {
+  /* line 331, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.smallTable .row {
     display: block;
   }
-  /* line 233, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.smallTable .row {
+  /* line 332, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.smallTable .column {
     display: block;
   }
-  /* line 234, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.smallTable .column {
-    display: block;
-  }
-  /* line 237, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.bigTable {
+  /* line 336, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.bigTable {
     width: 100%;
-    /* Dont hide all column in the table inside the table. */
   }
-  /* line 239, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.bigTable .row .column:first-child {
+  /* line 338, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.bigTable .row .column:first-child {
     display: none;
   }
-  /* line 242, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.bigTable .tbody .column {
+  /* line 342, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.bigTable .tbody .column {
     display: none;
   }
-  /* line 243, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.bigTable .tbody .column h2 {
+  /* line 343, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.bigTable .tbody .column h2 {
     display: block;
     font-size: 1.2em;
   }
-  /* line 249, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.bigTable .thead .column {
+  /* line 349, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.bigTable .thead .column {
     display: none;
   }
-  /* line 253, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.bigTable .column.show {
+  /* line 353, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.bigTable .column.show {
     display: block;
   }
-  /* line 258, ../../../src/css/scss/modules/specAndDetails.scss */
-  .container-fluid.module-spec .table.rTable.bigTable .tbody .tbody .column {
+  /* line 357, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .table.bigTable .tbody .tbody .column {
+    display: block !important;
+  }
+  /* line 362, ../../../src/css/scss/modules/specAndDetails.scss */
+  .container-fluid.module-spec .sonyCarousel .tbody .row .column {
     display: block !important;
   }
 }
 @media all and (min-width: 640px) and (max-width: 767px) {
-  /* line 270, ../../../src/css/scss/modules/specAndDetails.scss */
+  /* line 376, ../../../src/css/scss/modules/specAndDetails.scss */
   .container-fluid.module-spec .row-fluid > div > .table.smallTable > .tbody > .row > .column {
     width: 50% !important;
   }
