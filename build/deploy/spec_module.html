@@ -15,7 +15,18 @@
         <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
         
 
-        <link rel="stylesheet" href="css/styles.min.css">
+            <link rel="stylesheet" href="css/styles.min.css">
+  
+  <!-- WE NEED TO SET UP SEPARATE FONT FILES THAT DON'T GET COMPILED INTO styles.min.css -->
+  
+  <!--[if lt IE9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!--> 
+    <script type="text/javascript">
+      // Android needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
+    </script>
+  <!--<![endif]-->
 
         <link rel="stylesheet" href="css/modules/experiment.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -658,23 +669,23 @@
         <script src="js/secondary.min.js"></script>
         
         
-        <script src="js/bundle/defer/jodo.gallery.js"></script>
-        <script src="js/bundle/defer/jquery.shuffle.js"></script>
-        <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/bootstrap-tab.js"></script>
-        <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
-        <script src="js/bundle/defer/related-products.js"></script>
-        <script src="js/bundle/defer/experiment.js"></script>
-        <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
-        <script src="js/bundle/defer/hotspot_explorer.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
-        <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
-        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/defer1.js"></script>
         <script src="js/bundle/defer/defer2.js"></script>
+        <script src="js/bundle/defer/experiment.js"></script>
+        <script src="js/bundle/defer/gallery.js"></script>
+        <script src="js/bundle/defer/hotspot_explorer.js"></script>
+        <script src="js/bundle/defer/jodo.gallery.js"></script>
+        <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
+        <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
+        <script src="js/bundle/defer/jquery.shuffle.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>
+        <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
         
         <!--[if lt IE 9 ]>
             <script src="js/polyfill.min.js"></script>
