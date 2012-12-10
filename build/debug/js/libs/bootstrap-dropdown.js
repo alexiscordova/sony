@@ -99,9 +99,19 @@
 
   }
 
-  function clearMenus() {
-    getParent($(toggle))
-      .removeClass('open')
+  function clearMenus(evt) {
+    var $parent = getParent($(toggle)).removeClass('open');
+
+    if ( evt && evt.target ) {
+      var $target = $(evt.target);
+      if ( $target.is('a') && $parent.find($target).length ) {
+        $target
+          .parent()
+          .addClass('active')
+          .siblings()
+          .removeClass('active')
+      }
+    }
   }
 
   function getParent($this) {

@@ -241,6 +241,21 @@
 	$dropdownLinkBackgroundActive:  $linkColor !default;
 	$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
 
+	
+	$dropdownAltBackground:            $white !default;
+	$dropdownAltBorder:                rgba(0,0,0,.2) !default;
+	$dropdownAltDividerTop:            rgb(229,229,229) !default;
+	$dropdownAltDividerBottom:         $white !default;
+
+	$dropdownAltLinkColor:             $gray !default;
+	$dropdownAltLinkColorHover:        $white !default;
+	$dropdownAltLinkColorActive:       $highlightColor !default;
+
+	$dropdownAltLinkBackgroundActive:  $highlightColor !default;
+	$dropdownAltLinkBackgroundHover:   $dropdownAltLinkBackgroundActive !default;
+
+
+
 	// Form states and alerts
 	// -------------------------
 	$warningText:             rgb(192,152,83) !default;
@@ -443,22 +458,28 @@
 .GRID{} // this is just here for a SublimeText code-folding collapse point
 
 	$gridColumns:             12 !default; 
+	$grid5Columns: 			  5;
 
 	// Default 940px grid @980px-1199px
-	$gridColumnWidth:         54px !default;
+	$gridColumnWidth:         43px !default;
 	$gridGutterWidth:         30px !default;
 	$gridRowWidth:            ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
 
 	// 1112px grid @1200px+ breakpoint
-	$gridColumnWidth1200:     64px !default;
-	$gridGutterWidth1200:     40px !default;
+	$gridColumnWidth1200:     52px !default;
+	$gridGutterWidth1200:     36px !default;
 	$gridRowWidth1200:        ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
 
 	// 724px grid @768px-979px breakpoints
-	$gridColumnWidth768:      45px !default;
-	$gridGutterWidth768:      20px !default;
+	$gridColumnWidth768:      34px !default;
+	$gridGutterWidth768:      22px !default;
 	$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
+
+	// 5 Column Grid
+	$grid5ColWidth: 		   204px;
+	$grid5GutterWidth: 		   23px;
+	$grid5RowWidth: 		   ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
 
 
 
@@ -486,6 +507,9 @@
 	// 767px max (mobile)
 	$fluidContainerMarginWidth767:	15px !default;
 
+	// 5 Column Grid
+	$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
+	$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 
 

@@ -6,7 +6,7 @@
  * Use it for whatever you want!
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 12/03/12
+ * @date 12/06/12
  */
 ;(function($, Modernizr, undefined) {
     'use strict';
@@ -71,6 +71,8 @@
         self.transitionName = self.prefixed('transition'),
         self.transform = self.getPrefixed('transform');
 
+        self.fire('loading');
+
         // Get offset from container
         self.offset = {
             left: parseInt( ( self.$container.css('padding-left') || 0 ), 10 ),
@@ -92,13 +94,12 @@
         self.itemCss = {
             position: 'absolute',
             top: 0,
-            left: 0,
-            opacity: 1
+            left: 0
         };
 
         // Set up css for transitions
         self.$container.css('position', 'relative')[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
-        self._initItems();
+        self._initItems( !self.showInitialTransition );
         
         // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
         self.windowHeight = $window.height();
@@ -117,6 +118,12 @@
         self._setColumns();
         self._resetCols();
         self.shuffle( self.group );
+
+
+        if ( !self.showInitialTransition ) {
+            self._initItems();
+        }
+        self.fire('done');
     };
 
     Shuffle.prototype = {
@@ -126,7 +133,7 @@
         /**
          * The magic. This is what makes the plugin 'shuffle'
          */
-        shuffle : function(category) {
+        shuffle : function( category ) {
             var self = this;
 
             if (!category) {
@@ -134,6 +141,8 @@
             }
 
             self.filter( category );
+            // Save the last filter in case elements are appended.
+            self.lastFilter = category;
             
             // How many filtered elements?
             self.visibleItems = self.$items.filter('.filtered').length;
@@ -141,18 +150,21 @@
             self._resetCols();
 
             // Shrink each concealed item
-            self.fire('shrink');
             self.shrink();
 
             // Update transforms on .filtered elements so they will animate to their new positions
-            self.fire('filter');
             self._reLayout();
         },
 
-        filter : function( category ) {
+        filter : function( category, $collection ) {
             var self = this,
-                isPartialSet = category.hasOwnProperty('jquery'),
-                $items = isPartialSet ? category : self.$items;
+                isPartialSet = $collection !== undefined,
+                $items = isPartialSet ? $collection : self.$items,
+                $filtered = $();
+
+            category = category || self.lastFilter;
+
+            self.fire('filter');
 
             // Default is to show all items
             $items.removeClass('concealed filtered');
@@ -164,6 +176,10 @@
                     var $item = $(this),
                     passes = category.call($item[0], $item, self);
                     $item.addClass(passes ? 'filtered' : 'concealed');
+
+                    if ( passes ) {
+                        $filtered = $filtered.add($item);
+                    }
                 });
             }
 
@@ -175,31 +191,58 @@
                         var $this = $(this),
                         groups = $this.data('groups'),
                         keys = self.delimeter && !$.isArray( groups ) ? groups.split( self.delimeter ) : groups,
-                        theClass = $.inArray(category, keys) === -1 ? 'concealed' : 'filtered';
+                        passes = $.inArray(category, keys) > -1,
+                        theClass = passes ? 'concealed' : 'filtered';
 
                         $this.addClass( theClass );
+
+                        if ( passes ) {
+                            $filtered = $filtered.add($this);
+                        }
                     });
                 }
 
                 // category === 'all', add filtered class to everything
                 else {
-                    $items.addClass('filtered');
+                    $filtered = $items.addClass('filtered');
                 }
             }
 
-            return $items;
+            return $filtered;
         },
 
-        _initItems : function() {
+        _initItems : function( withoutTransition ) {
             var self = this;
 
             self.$items.each(function() {
                 $(this).css(self.itemCss);
                 
                 // Set CSS transition for transforms and opacity
-                if (self.supported) {
-                    this.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
+                if ( self.supported && !withoutTransition ) {
+                    self._setTransition(this);
                 }
+            });
+        },
+
+        _setTransition : function( element ) {
+            var self = this;
+            element.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
+        },
+
+        _setSequentialDelay : function( $collection ) {
+            var self = this;
+
+            if ( !self.supported ) {
+                return;
+            }
+
+            $collection.each(function(i) {
+                this.style[self.transitionName + 'Delay'] = ((i + 1) * 150) + 'ms';
+
+                // Set the delay back to zero after one transition
+                $(this).one($.support.transition.end, function() {
+                    this.style[self.transitionName + 'Delay'] = '0ms';
+                });
             });
         },
 
@@ -391,6 +434,8 @@
                 return;
             }
 
+            self.fire('shrink');
+
             self.shrinkTransitionEnded = false;
             $concealed.each(function() {
                 var $this = $(this),
@@ -568,38 +613,53 @@
             element.style[ durationName ] = duration;
         },
 
-        _revealAppended : function( $newItems ) {
+        appended : function( $newItems, animateIn, isSequential ) {
+            // True if undefined
+            animateIn = animateIn === false ? false : true;
+            isSequential = isSequential === false ? false : true;
+
+            this._addItems( $newItems, animateIn, isSequential );
+        },
+
+        _addItems : function( $newItems, animateIn, isSequential ) {
+            var self = this,
+                $passed;
+
+            $newItems.addClass('shuffle-item');
+            self.$items = self._getItems();
+            self._initItems();
+            $newItems.not($passed).css('opacity', 0);
+
+            $passed = self.filter( undefined, $newItems );
+
+            // How many filtered elements?
+            self.visibleItems = self.$items.filter('.filtered').length;
+
+            if ( animateIn ) {
+                self.layout( $passed, null, true );
+
+                if ( isSequential ) {
+                    self._setSequentialDelay( $passed );
+                }
+
+                self._revealAppended( $passed );
+            } else {
+                self.layout( $passed );
+            }
+        },
+
+        _revealAppended : function( $newFilteredItems ) {
             var self = this;
 
             setTimeout(function() {
-                $newItems.each(function(i, el) {
+                $newFilteredItems.each(function(i, el) {
                     self.transition({
                         from: 'reveal',
                         $this: $(el),
-                        // scale : 1,
                         opacity: 1
                     });
                 });
-            }, 10);
-        },
-
-        appended : function( $newItems, animateIn ) {
-            // True if undefined
-            animateIn = animateIn === false ? false : true;
-            this.addItems( $newItems, animateIn );
-        },
-
-        addItems : function( $newItems, animateIn ) {
-            var self = this;
-
-            $newItems.addClass('shuffle-item filtered');
-            self.$items = self._getItems();
-            self._initItems();
-
-            if ( animateIn ) {
-                self.layout( $newItems, null, true );
-                self._revealAppended( $newItems );
-            }
+            }, 100);
         },
 
         update: function() {
@@ -647,21 +707,22 @@
 
     // Overrideable options
     $.fn.shuffle.options = {
-        group : 'all',
-        speed : 600,
-        easing : 'ease-out',
-        itemSelector: '',
-        gutterWidth : 0,
-        columnWidth : 0,
-        delimeter : null,
+        group : 'all', // Filter group
+        speed : 600, // Transition/animation speed (milliseconds)
+        easing : 'ease-out', // css easing function to use
+        itemSelector: '', // e.g. '.gallery-item'
+        gutterWidth : 0, // a static number or function that tells the plugin how wide the gutters between columns are (in pixels)
+        columnWidth : 0,// a static number or function that returns a number which tells the plugin how wide the columns are (in pixels)
+        showInitialTransition : true, // If set to false, the shuffle-items will only have a transition applied to them after the first layout
+        delimeter : null, // if your group is not json, and is comma delimeted, you could set delimeter to ','
         keepSorted : true
     };
 
     // Not overrideable
     $.fn.shuffle.settings = {
-        supported: Modernizr.csstransforms && Modernizr.csstransitions,
+        supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
         prefixed: Modernizr.prefixed,
-        threeD: Modernizr.csstransforms3d
+        threeD: Modernizr.csstransforms3d // supports 3d transforms
     };
 
 })(jQuery, Modernizr);

@@ -101,10 +101,15 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     }
 
     $panes.not('.active').addClass('off-screen');
+
+    // Deep linkin'
+    // if ( window.location.hash ) {
+    //   $('[data-target="' + window.location.hash.substring(1) + '"]').tab('show');
+    // }
   },
 
   _tabShown = function(evt) {
-    var $tab = $(this);    
+    var $tab = $(this);
 
     // Update iQ images
     window.iQ.update();
@@ -262,7 +267,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       left: _getBounded( tabOffset )
     });
 
-    console.log('new sticky tab set', _getBounded( tabOffset ), tabOffset );
+    console.log('new sticky tab set', _getBounded( tabOffset ) );
 
     // Add a margin to the next (or previous if it's the last tab) tab because
     // the active one is positioned absolutely, taking up no space
@@ -309,7 +314,8 @@ $(document).ready(function() {
     Exports.Modules.Gallery.init();
     Exports.Modules.Tabs.init();
 
-    // debug, show second tab
-    // $('[data-target="overhead"]').tab('show');
+
+    // // Should be called after everything is initialized
+    $(window).trigger('hashchange');
   }
 });

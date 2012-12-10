@@ -24,7 +24,7 @@
 
   <div class="tabs-container container-fluid">
     <div class="tabs">
-      {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab">
+      {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab" data-hash="true">
         <div class="ghost-center">
           <div class="holder-for-icon"><i class="icon-tab-{{this.icon}}"></i></div>
           <div class="l3 tab-label">{{this.label}}</div>
@@ -37,32 +37,24 @@
 
 <div class="tab-content">
 
-  <div class="tab-pane fade active in" data-tab="featured">
+  <div class="tab-pane fade active in" data-tab="{{tabs.[0].slug}}">
     {{#each featured}}
-    <section class="container-fluid padded gallery" data-mode="{{this.mode}}">
+    <section class="container-fluid padded fade gallery" data-mode="{{this.mode}}">
       <h6>{{{this.title}}}</h6>
       <div class="products row-fluid">
           {{#each this.list}}
-          <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}" data-priority="{{this.priority}}">
+          <a class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}}" data-priority="{{this.priority}}" href="{{#if this.href}}{{this.href}}{{else}}#{{/if}}">
             {{#if this.label}}
             <span class="label label-success">{{this.label}}</span>
             {{/if}}
             {{#if this.tile.promo}}
-              {{#if this.tile.copy}}
-              <h3>{{this.title}}</h3>
-              <p class="p2">{{this.text}}</p>
-              {{else}}
-              <div class="product-img">
-                <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
-                <noscript>
-                  <img src="{{this.img.src}}" alt="{{this.img.alt}}">
-                </noscript>
-                <div class="product-content">
-                  <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.subtitle}}</p>
-                  {{#if this.callout}}<a class="btn" href="#">{{this.callout}}</a>{{/if}}
-                </div>
-              </div>  
-              {{/if}}
+            <div class="product-img">
+              <div class="iq-img" data-src="{{this.img.src}}"></div>
+              <div class="product-content">
+                <p class="text-promo-title"><strong>{{this.title}}</strong><br>{{this.emphasis}}</p>
+                {{#if this.count}}<p class="text-count"><span class="number l2">{{this.count.number}}</span>&nbsp;<span class="text l3">{{this.count.text}}</span></p>{{/if}}
+              </div>
+            </div>
             {{else}}
             <div class="product-img ghost-center-wrap">
               <div class="ghost-center">
@@ -84,13 +76,12 @@
             <div class="product-content">
               <p class="p3 product-name">{{this.name}}</p>
               <div class="product-price">
-                <p class="p5 price-title">Starting at</p>
-                <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+                <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
 
             {{/if}}
-          </div>
+          </a>
           {{/each}}
       </div>
 
@@ -104,17 +95,17 @@
     <!-- <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div> -->
   </div>
 
-  <div class="tab-pane fade" data-tab="cameras">
+  <div class="tab-pane fade" data-tab="{{tabs.[1].slug}}">
     <section class="gallery" data-mode="{{productCards.mode}}">
       {{#if productCards.filterSet}}
       
-      <div class="filter-display-bar container-fluid padded">
+      <div class="filter-display-bar slide-toggle-parent container-fluid padded">
         {{#if productCards.sortSet}}
         <div class="sort-options pull-right">
           <span class="l4">Sort By:&nbsp;</span>
-          <div class="dropdown ib hidden-phone">
-            <button class="btn dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
-            <ul class="dropdown-menu" role="menu">
+          <div class="dropdown dropdown-alt ib hidden-phone">
+            <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
+            <ul class="dropdown-menu dropdown-menu-alt pull-right" role="menu">
             {{#each productCards.sortSet}}
               <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
             {{/each}}
@@ -134,53 +125,67 @@
         <button class="btn btn-alt-special btn-alt-plus js-compare-toggle">Compare</button>
       </div>
 
-      <div class="container-fluid padded filter-arrow-under fade"><div class="filter-container-arrow"></div></div>
-      <div class="container-fluid padded filter-arrow-over fade"><div class="filter-container-arrow"></div></div>
+      <div class="container-fluid padded slide-arrow-under fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+      <div class="container-fluid padded slide-arrow-over fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
 
-      <div class="collapse product-filter" id="{{productCards.name}}-filters">
+      <div class="collapse slide-toggle-target" id="{{productCards.name}}-filters">
         <div class="filter-options container-fluid padded">
           <div class="row-fluid">
+            <div class="span8 regular-filters">
             {{#each productCards.filterSet}}
+              {{#if this.type.color}}
+              <div class="span6 filter-container">
+                <p class="l3">{{this.label}}</p>
+                <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
+                  {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}"></li>{{/each}}
+                </ul>
+              </div>
+              {{/if}}
 
-            {{#if this.type.color}}
-            <div class="span4 filter-container">
-              <p class="l3">{{this.label}}</p>
-              <ul class="unstyled color-swatches" data-filter="{{this.name}}" data-filter-type="color">
-                {{#each this.filters}}<li class="swatch-{{this.value}}" data-label="{{this.label}}" data-{{../name}}="{{this.value}}"></li>{{/each}}
-              </ul>
+              {{#if this.type.range}}
+              <div class="span6 filter-container">
+                <p class="l3">{{this.label}}</p>
+                <div class="range-output-container">
+                  <div class="range-output-min"></div>
+                  <div class="range-output-max"></div>
+                </div>
+                <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
+              </div>
+              {{/if}}
+
+              {{#if this.type.button}}
+              <div class="span6 filter-container">
+                <p class="l3">{{this.label}}</p>
+                <ul class="unstyled btn-group" data-filter="{{this.name}}" data-filter-type="button">
+                  {{#each this.filters}}<li class="btn btn-square" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
+                </ul>
+              </div>
+              {{/if}}
+
+              {{#if this.type.checkbox}}
+              <div class="span6 filter-container">
+                <p class="l3">{{this.label}}</p>
+                <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
+                  {{#each this.filters}}
+                  <li class="control-inline"><input class="styled-checkbox" id="{{../name}}-{{this.value}}" data-label="{{this.label}}" type="checkbox" value="{{this.value}}"><label for="{{../name}}-{{this.value}}">{{this.label}}</label></li>
+                  {{/each}}
+                </ul>
+              </div>
+              {{/if}}
+            {{/each}}
             </div>
-            {{/if}}
 
-            {{#if this.type.range}}
-            <div class="span4 filter-container">
-              <p class="l3">{{this.label}}</p>
-              <div class="range-control-wrap"><div class="range-control" data-label="{{this.label}}" data-filter="{{this.name}}" data-filter-type="range" data-min="{{this.min}}" data-max="{{this.max}}"></div></div>
-              <div class="range-output"></div>
-            </div>
-            {{/if}}
-
-            {{#if this.type.button}}
-            <div class="span4 filter-container">
-              <p class="l3">{{this.label}}</p>
-              <ul class="unstyled btn-group" data-filter="{{this.name}}" data-filter-type="button">
-                {{#each this.filters}}<li class="btn btn-square" data-label="{{this.label}}" data-{{../name}}="{{this.value}}">{{this.label}}</li>{{/each}}
-              </ul>
-            </div>
-            {{/if}}
-
-            {{#if this.type.checkbox}}
-            <div class="span4 filter-container">
-              <p class="l3">{{this.label}}</p>
-              <ul class="unstyled" data-filter="{{this.name}}" data-filter-type="checkbox">
-                {{#each this.filters}}
-                <li class="control-inline"><input class="styled-checkbox" id="{{../name}}-{{this.value}}" data-label="{{this.label}}" type="checkbox" value="{{this.value}}"><label for="{{../name}}-{{this.value}}">{{this.label}}</label></li>
-                {{/each}}
-              </ul>
-            </div>
-            {{/if}}
-
+            {{#each productCards.filterSet}}
             {{#if this.type.group}}
-            <div class="span4 filter-container">
+            <div class="span4 best-for filter-container">
               <p class="l3">{{this.label}}</p>
               <ul class="media-list" data-filter="{{this.name}}" data-filter-type="group">
                 {{#each this.filters}}
@@ -197,8 +202,8 @@
               </ul>
             </div>
             {{/if}}
-
             {{/each}}
+
           </div>
         </div>
       </div>
@@ -210,7 +215,7 @@
       <div class="container-fluid padded">
         <div class="products row-fluid">
           {{#each productCards.list}}
-          <div class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}">
+          <a class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}" href="{{#if this.href}}{{this.href}}{{else}}#{{/if}}">
             {{#if this.label}}
             <span class="label label-success">{{this.label}}</span>
             {{/if}}
@@ -255,7 +260,7 @@
                 <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
-          </div>
+          </a>
           {{/each}}
           
         </div>
@@ -267,6 +272,68 @@
       </div>
       <div class="infscr-holder text-center"></div>
       {{/if}}
+    </section>
+  </div>
+
+  <div class="tab-pane fade" data-tab="{{tabs.[2].slug}}">
+    <section>
+      <div class="slide-toggle-parent container-fluid padded">
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
+      </div>
+
+      <div class="container-fluid padded slide-arrow-under fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+      <div class="container-fluid padded slide-arrow-over fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+
+      <div class="collapse slide-toggle-target" id="IDGOESHERE">
+        <div class="container-fluid padded">
+          <h1>Collapse</h1>
+          <h2>Collapse</h2>
+          <h3>Collapse</h3>
+          <h4>Collapse</h4>
+          <h5>Collapse</h5>
+          <h6>Collapse</h6>
+        </div>
+      </div>
+
+      <div class="grid5 container-fluid padded">
+        {{#each accessories}}
+        <div class="product-strip-wrap">
+          <a class="tl pull-right" href="#">{{{this.callout}}}</a>
+          <h6 class="product-strip-heading">{{{this.title}}}</h6>
+          <div class="product-strip row-fluid">
+            {{#each this.list}}
+            <a class="span1 gallery-item" href="#">
+              <div class="product-img">
+                <div class="ghost-center-wrap">
+                  <div class="ghost-center">
+                    <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
+                    <noscript>
+                      <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+                    </noscript>
+                  </div>
+                </div>
+              </div>
+              <div class="product-content">
+                <div class="p3 product-name">{{this.name}}</div>
+                <div class="product-price">
+                  <p class="p5 price-title">Starting at</p>
+                  <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+                </div>
+              </div>
+            </a>
+            {{/each}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
     </section>
   </div>
 
@@ -395,83 +462,6 @@
     </div>
   </section> -->
 
-  <section class="tab-pane fade" data-tab="accessories">
-    <div class="container-fluid padded">
-      <button class="btn btn-alt-special btn-alt-plus js-accessory-toggle">Accessory Finder</button>
-    </div>
-    <div class="grid5 container-fluid padded">
-      {{#each accessories}}
-      <div class="product-strip-wrap">
-        <a class="tl pull-right" href="#">{{{this.callout}}}</a>
-        <h6 class="product-strip-heading">{{{this.title}}}</h6>
-        <div class="product-strip row-fluid">
-          {{#each this.list}}
-          <div class="span1 gallery-item">
-            <div class="product-img">
-              <div class="ghost-center-wrap">
-                <div class="ghost-center">
-                  <img class="iq-img" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
-                  <noscript>
-                    <img src="{{this.img.src}}" alt="{{this.img.alt}}">
-                  </noscript>
-                </div>
-              </div>
-            </div>
-            <div class="product-content">
-              <div class="p3 product-name">{{this.name}}</div>
-              <div class="product-price">
-                <p class="p5 price-title">Starting at</p>
-                <p class="price"><span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
-              </div>
-            </div>
-          </div>
-          {{/each}}
-        </div>
-      </div>
-      {{/each}}
-    </div>
-  </section>
-
-  <section class="tab-pane fade" data-tab="neck">
-    <h3><code>data-tab="products-5"</code></h3>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  </section>
-
 </div>
 
-<section class="container-fluid padded">
-  <h1>Another section</h1>
-  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</section>
-
-<section>
-  <div class="container-fluid">
-    <h2>Grid</h2>
-    <div class="row-fluid">
-      <div class="span3 btn">span3</div>
-      <div class="span4 btn">span3</div>
-      <div class="span2 btn">span3</div>
-      <div class="span1 btn">span1</div>
-      <div class="span2 btn">span2</div>
-    </div>
-  </div>
-</section>
+<div style="padding-bottom:100px"></div>

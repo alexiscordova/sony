@@ -10,43 +10,6 @@
        box-sizing: border-box;
 }
 
-$grid5Columns: 5;
-$grid5ColWidth: 204px;
-$grid5GutterWidth: 23px;
-$grid5RowWidth: ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
-
-$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
-$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
-
-.lt-ie9 .grid5 {
-  // @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
-  @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-}
-
-@media (max-width:767px) {
-  .grid5 {
-
-    .row {
-      margin-left: -2%;
-    }
-
-    [class*="span"] {
-      float: left;
-      min-height: 1px;
-      margin-left: 2%;
-      width: 48%;
-    }
-
-  }
-}
-
-@media (min-width:768px) {
-  .grid5 {
-    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-  }
-}
-
-
 // Price text module
 .product-content {
 
@@ -100,10 +63,17 @@ $detailedGalleryItemHeight: 480px;
 
 .gallery-item {
   position: relative;
+  display: block;
   margin-top: $grid5GutterWidth;
   height: $galleryItemHeight;
   overflow: hidden;
   background: $white;
+
+  p,
+  div,
+  li {
+    color: $grayDark; // override <a> color
+  }
   
   // Container for product images
   .product-img {
@@ -156,6 +126,20 @@ $detailedGalleryItemHeight: 480px;
       max-height: initial;
       max-width: initial;
     }
+
+    div.iq-img {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .number {
+      font-size: $font_18_15;
+    }
+
+    .text-count .text { font-size: $font_12_15; }
   }
 
   // Double the height and include margin
@@ -187,13 +171,11 @@ $detailedGalleryItemHeight: 480px;
   .gallery-item {
     margin-top: 10px;
 
-    // Make it a 2x1 instead of 2x2 or 1x2
+    // Make it a 1x1 instead of 2x2 or 1x2
     // need .gallery selector to override .grid5
     .gallery &.promo,
     .gallery &.h2 {
-      // height: ($galleryItemHeight * 2) + 10px;
       height: $galleryItemHeight;
-      width: 100%;
     }
 
     .gallery &.large .product-img {
@@ -262,16 +244,9 @@ $detailedGalleryItemHeight: 480px;
 
 // Filters
 // -------------------------
-.product-filter {
-  margin: 0 0 1.45em; // 23.2px
-  background: $grayLightFieldLarge;
-  @include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
-}
 
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
 
   .slide-toggle {
     margin-left: 20px;
@@ -284,40 +259,6 @@ $detailedGalleryItemHeight: 480px;
   padding-bottom: 20px;
 }
 
-// A rotated square
-$filterArrowSize: 16px;
-$left: 175px;
-.csstransforms .filter-container-arrow {
-  position: absolute;
-  top: -$filterArrowSize / 2;
-  left: $left;
-  width: $filterArrowSize;
-  height: $filterArrowSize;
-  @include rotate(45deg);
-  @include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
-  background: $grayLightFieldLarge;
-}
-
-// 2 copies,
-// This goes behind the filter-container
-.filter-arrow-under,
-.filter-arrow-over {
-  position: relative;
-  @include transition(opacity .35s ease);
-}
-// This goes above and covers the box-shadow to make our arrow seamless
-.filter-arrow-over {
-  z-index: 10;
-
-  // Nudge it and make it a bit bigger. Undo rotation and box-shadow
-  .filter-container-arrow {
-    top: 0;
-    left: $left - 2px;
-    width: $filterArrowSize + 4px;
-    @include rotate(0deg);
-    @include box-shadow(none);
-  }
-}
 
 // Filter labels ( active filters )
 .active-filters .label {
@@ -329,6 +270,19 @@ $left: 175px;
 }
 
 .filter-container {
+  margin-bottom: 2.75em;
+
+  .regular-filters &:nth-child(odd) {
+    clear: both;
+    margin-left: 0;
+  }
+
+  &:last-child,
+  &:nth-last-child(2),
+  .best-for,
+  .media-heading {
+    margin-bottom: 0;
+  }
 
   // Override default btn-group functionality to have them drop to the new line
   .btn-group {
@@ -385,7 +339,7 @@ $left: 175px;
 // Misc
 // -------------------------
 .tab-content {
-  margin-top: 20px;
+  margin-top: 1.25em;
   overflow: visible;
 }
 
@@ -430,11 +384,17 @@ $left: 175px;
     .no-touch &:active,
     &.active {
       z-index: 2;
-      top: -2px;
       background-color: $white;
       box-shadow:
         0 3px 0 $white,
         0 0 4px 1px rgba(0,0,0,0.15);
+    }
+
+    @media (max-width:767px) {
+      .no-touch &:active,
+      &.active {
+        top: -2px;
+      }
     }
   }
 

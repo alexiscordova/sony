@@ -24,3 +24,48 @@
     @extend .icon-ui-arrowhead-down-white;
   }
 }
+
+.slide-toggle-parent {
+  margin-bottom: 1.25em;
+}
+
+.slide-toggle-target {
+  margin: 0 0 1.45em; // 23.2px
+  background: $grayLightFieldLarge;
+  @include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
+}
+
+// A rotated square
+$filterArrowSize: 16px;
+$left: 175px;
+.csstransforms .slide-toggle-arrow {
+  position: absolute;
+  top: -$filterArrowSize / 2;
+  left: $left;
+  width: $filterArrowSize;
+  height: $filterArrowSize;
+  @include rotate(45deg);
+  @include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
+  background: $grayLightFieldLarge;
+}
+
+// 2 copies,
+// This goes behind the slide-toggle
+.slide-arrow-under,
+.slide-arrow-over {
+  position: relative;
+  @include transition(opacity .35s ease);
+}
+// This goes above and covers the box-shadow to make our arrow seamless
+.slide-arrow-over {
+  z-index: 10;
+
+  // Nudge it and make it a bit bigger. Undo rotation and box-shadow
+  .csstransforms & .slide-toggle-arrow {
+    top: 0;
+    left: $left - 2px;
+    width: $filterArrowSize + 4px;
+    @include rotate(0deg);
+    @include box-shadow(none);
+  }
+}

@@ -47,8 +47,8 @@
     margin-left: 0; // Reset the default margin for all li elements when no .span* classes are present
   }
   // Make all grid-sized elements block level again
-  [class*="span"],
-  .row-fluid [class*="span"] {
+  .row:not(.grid-small) [class*="span"],
+  .row-fluid:not(.grid-small) [class*="span"] {
     float: none;
     display: block;
     width: 100%;
@@ -60,6 +60,11 @@
     width: 100%;
     @include box-sizing(border-box);
   }
+  .padded {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
 
   // FORM FIELDS
   // -----------
@@ -104,6 +109,22 @@
 // ---------------------
 
 @media (max-width: 480px) {
+  
+  .grid5 {
+
+    .row {
+      margin-left: -2%;
+    }
+
+    .row [class*="span"],
+    .row-fluid [class*="span"] {
+      float: left;
+      min-height: 1px;
+      margin-left: 2%;
+      width: 48%;
+    }
+
+  }
 
   // Smooth out the collapsing/expanding nav
   .nav-collapse {

@@ -15,7 +15,7 @@
         self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
         self.$productCount = self.$container.find('.product-count');
         self.$activeFilters = self.$container.find('.active-filters');
-        self.$filterArrow = self.$container.find('.filter-arrow-under, .filter-arrow-over');
+        self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
         self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
         self.hasFilters = self.$filterOpts.length > 0;
@@ -23,15 +23,21 @@
 
         self.setColumnMode();
 
+        self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
+        self.$grid.on('done.shuffle', $.proxy( self.onShuffleDone, self ));
+
         // instantiate shuffle
         self.$grid.shuffle({
             itemSelector: '.gallery-item',
-            delimeter: self.shuffleDelimeter,
             speed: self.shuffleSpeed,
             easing: self.shuffleEasing,
             columnWidth: self.shuffleColumns,
-            gutterWidth: self.shuffleGutters
+            gutterWidth: self.shuffleGutters,
+            showInitialTransition: false
         });
+
+        // Sort elements by data-priority attribute
+        self.sortByPriority();
 
         // Infinite scroll?
         if ( self.hasInfiniteScroll ) {
@@ -44,26 +50,6 @@
         }
 
         self.initSwatches();
-
-        // If this isn't a simple gallery, let's sort the items on window resize by priority
-        var sorted = false;
-        if ( self.windowSize <= 767 ) {
-            self.sortByPriority();
-            sorted = true;
-        }
-
-        $(window).on('resize.gallery', function() {
-            var width = $(window).width();
-            if ( width <= 767 && !sorted ) {
-                self.sortByPriority();
-                sorted = true;
-            } else if ( width >= 768 && sorted ) {
-                // Reset
-                self.sortByPriority(true);
-                sorted = false;
-            }
-        });
-
 
         // Slide toggle. Reset range control if it was hidden on initialization
         self.$container.find('.collapse')
@@ -83,15 +69,16 @@
             self.displayActiveFilters();
         });
 
-        // Clear filters button
-        // self.$clear.on('click', function(evt) {
-        //     evt.preventDefault();
-        //     self.resetActiveFilters();
-        //     self.$container.trigger('reset.gallery', [self]);
-        // });
+        // Things moved around and could possibly be in the viewport
+        self.$grid.on('filtered.shuffle', function() {
+            window.iQ.update();
+        });
+
+        $(window).on('resize.gallery', $.proxy( self.onResize, self ) );
+        self.onResize();
 
         // Favorite Heart
-        self.$favorites.on('click', $.proxy( self.onFavorite, self ));
+        // self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
         // This container is about to be shown because it's a tab
         self.$container.closest('[data-tab]').on('show', $.proxy( self.onShow, self ));
@@ -257,32 +244,6 @@
             self.$activeFilters.empty().append(frag);
         },
 
-        /*
-        resetActiveFilters : function() {
-            var self = this,
-                filterType = '',
-                filterName = '';
-
-            // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
-            for ( filterType in self.filters ) {
-                if ( !self.filters.hasOwnProperty(filterType) ) {
-                    continue;
-                }
-
-                // Loop through filter types because there could be more than one 'button' or 'checkbox'
-                if ( filterType === 'button' || filterType === 'checkbox' ) {
-                    for ( filterName in self.filters[ filterType ] ) {
-                        self.filters[ filterType ][ filterName ].length = 0;
-                    }
-                }
-
-                // Reseting the range control is triggered by the reset.gallery event. Take a look at this.range()
-            }
-
-            self.$grid.shuffle('all');
-        },
-        */
-
         // Removes a single filter from stored data. Does NOT change UI.
         undoFilter : function( filterValue, filterName, filterType ) {
             var self = this,
@@ -423,6 +384,9 @@
                 self.filters[ type ][ name ] = init;
                 self.filterTypes[ name ] = type;
             });
+
+            // Show first dropdown as active
+            self.$sortBtns.first().parent().addClass('active');
         },
 
         initInfscr : function() {
@@ -431,23 +395,24 @@
             self.$grid.infinitescroll({
                 local: true,
                 debug: true,
-                bufferPx: -200,
+                bufferPx: -100, // Load 100px after the navSelector has entered the viewport
                 navSelector: 'div.navigation', // selector for the paged navigation
                 nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
                 itemSelector: '.gallery-item', // selector for all items you'll retrieve
                 loading: {
                     selector: '.infscr-holder',
+                    msgText: "<em>Loading the next set of products...</em>",
                     finishedMsg: "<em>Finished loading products.</em>",
-                    img: "img/spinner.gif",
+                    img: self.loadingGif,
                   }
             },
             // call shuffle as a callback
             function( newElements ) {
-                self.$grid.shuffle( 'appended', $( newElements ) );
+                self.$grid.shuffle( 'appended', $( newElements ).addClass('via-ajax') );
                 // Show new product count
                 self.$productCount.text( self.$grid.data('shuffle').visibleItems );
                 // Update iQ images
-                window.iQ.update();
+                window.iQ.update(true);
             }
             );
 
@@ -607,11 +572,6 @@
 
             self.filterLabels[ filterName ] = labels;
             self.filterValues[ filterName ] = values;
-
-            // Remove active classes when the gallery is reset
-            // self.$container.on('reset.gallery', function() {
-            //     $btns.removeClass('active');
-            // });
         },
 
         checkbox : function( $parent, filterName ) {
@@ -645,11 +605,6 @@
 
             self.filterLabels[ filterName ] = labels;
             self.filterValues[ filterName ] = values;
-
-            // Reset checkboxes when the gallery is reset
-            // self.$container.on('reset.gallery', function() {
-            //     $inputs.prop('checked', false);
-            // });
         },
 
         range : function( $rangeControl, filterName , min, max ) {
@@ -662,7 +617,9 @@
 
             var self = this,
             diff = self.MAX_PRICE - self.MIN_PRICE,
-            $output = $rangeControl.closest('.filter-container').find('.range-output'),
+            $output = $rangeControl.closest('.filter-container').find('.range-output-container'),
+            $minOutput = $output.find('.range-output-min'),
+            $maxOutput = $output.find('.range-output-max'),
 
             getPrice = function(percent) {
                 return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
@@ -677,7 +634,7 @@
                 prevMax = self.price.max;
 
                 // Display values
-                displayValues(minPrice, maxPriceStr);
+                displayValues(minPrice, maxPriceStr, percents);
 
                 // Save values
                 self.price.min = minPrice;
@@ -710,8 +667,10 @@
             },
 
             // Show what's happening with the range control
-            displayValues = function( min, max ) {
-                $output.html('$' + min + ' - $' + max);
+            displayValues = function( min, max, percents ) {
+                // $output.html('$' + min + ' - $' + max);
+                $minOutput.css('left', percents.min + '%').html('<sup>$</sup>' + min);
+                $maxOutput.css('left', percents.max + '%').html('<sup>$</sup>' + max);
             };
 
             // Store jQuery object for later access
@@ -737,7 +696,6 @@
             var th = this,
                 $rangeControl = th.$container.find('.range-control');
             if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
-                console.log('resetting range control');
                 $rangeControl.rangeControl('reset');
                 return true;
             }
@@ -787,11 +745,11 @@
             self.$grid.shuffle('sort', sortObj);
         },
 
-        sortByPriority : function( shouldReset ) {
-            var self = this;
-            if ( shouldReset ) {
-                self.$grid.shuffle('sort', {});
-            } else {
+        sortByPriority : function() {
+            var self = this,
+                isTablet = Modernizr.mq('(max-width: 767px)');
+
+            if ( isTablet && !self.sorted ) {
                 self.$grid.shuffle('sort', {
                     by: function($el) {
                         var priority = $el.data('priority');
@@ -800,7 +758,22 @@
                         return priority ? priority : undefined;
                     }
                 });
+                self.sorted = true;
+            } else if ( !isTablet && self.sorted ) {
+                self.$grid.shuffle('sort', {});
+                self.sorted = false;
             }
+        },
+
+        onResize : function() {
+            var self = this;
+
+            // Don't change columns for detail galleries
+            if ( self.mode === 'detailed' ) {
+                return;
+            }
+
+            self.sortByPriority();
         },
 
         onFavorite : function( evt ) {
@@ -825,7 +798,6 @@
 
             // Respond to tab shown event.Update the columns if we're in need of an update
             if ( self.$grid.data('shuffle').needsUpdate || windowHasResized ) {
-                console.log('updating shuffle');
                 self.$grid.shuffle('update');
             }
 
@@ -858,9 +830,20 @@
                 this.filter();
             }
         },
-        
-        onMiniSwatchHover : function() {
 
+        onShuffleLoading : function() {
+            var $div = $('<div>', { "class" : "gallery-loader text-center" }),
+                $img = $('<img>', { src: this.loadingGif });
+            $div.append($img);
+            $div.insertBefore(this.$grid);
+        },
+
+        onShuffleDone : function() {
+            var self = this;
+            setTimeout(function() {
+                self.$container.find('.gallery-loader').remove();
+                self.$container.addClass('in');
+            }, 250);
         },
 
         setColumnMode : function() {
@@ -876,22 +859,22 @@
                 GUTTER_WIDTH = fluidGridGutterWidth / fullWidth,
 
                 // Twelve columns @ 768 TODO GLOBALIZE
-                colWidth768 = 45,
-                gutWidth768 = 20,
+                colWidth768 = 34,
+                gutWidth768 = 22,
                 fullWidth768 = (twelveColumns * colWidth768) + (gutWidth768 * (twelveColumns - 1)),
                 COLUMN_WIDTH_768 = colWidth768 / fullWidth768,
                 GUTTER_WIDTH_768 = gutWidth768 / fullWidth768,
 
                 // Twelve columns @ 980 TODO GLOBALIZE
-                colWidth980 = 54,
+                colWidth980 = 43,
                 gutWidth980 = 30,
                 fullWidth980 = (twelveColumns * colWidth980) + (gutWidth980 * (twelveColumns - 1)),
                 COLUMN_WIDTH_980 = colWidth980 / fullWidth980,
                 GUTTER_WIDTH_980 = gutWidth980 / fullWidth980,
 
                 // Twelve columns @ 1200 TODO GLOBALIZE
-                colWidth1200 = 64,
-                gutWidth1200 = 40,
+                colWidth1200 = 52,
+                gutWidth1200 = 36,
                 fullWidth1200 = (twelveColumns * colWidth1200) + (gutWidth1200 * (twelveColumns - 1)),
                 COLUMN_WIDTH_1200 = colWidth1200 / fullWidth1200,
                 GUTTER_WIDTH_1200 = gutWidth1200 / fullWidth1200;
@@ -903,8 +886,24 @@
                 // 5 columns that break down to 2 on smaller screens
                 self.shuffleColumns = function( containerWidth ) {
                     var column;
-                    if ( Modernizr.mq('(min-width: 768px)') ) {
+
+                    // Large desktop ( 6 columns )
+                    if ( Modernizr.mq('(min-width: 1200px)') ) {
+                        column = COLUMN_WIDTH_1200 * containerWidth;
+
+                    // Landscape tablet + desktop ( 5 columns )
+                    } else if ( Modernizr.mq('(min-width: 980px)') ) {
                         column = COLUMN_WIDTH * containerWidth; // ~18% of container width
+
+                    // Portrait Tablet ( 4 columns )
+                    // } else if ( Modernizr.mq('(min-width: 768px)') ) {
+                    //     column = COLUMN_WIDTH_768 * containerWidth;
+
+                    // Between Portrait tablet and phone ( 3 columns )
+                    } else if ( Modernizr.mq('(min-width: 481px)') ) {
+                        column = COLUMN_WIDTH_768 * containerWidth;
+
+                    // Phone ( 2 columns )
                     } else {
                         column = 0.48 * containerWidth; // 48% of container width
                     }
@@ -914,12 +913,37 @@
                 };
 
                 self.shuffleGutters = function( containerWidth ) {
-                    var gutter;
-                    if ( Modernizr.mq('(min-width: 768px)') ) {
+                    var gutter,
+                        numColumns = 0;
+
+                    // Large desktop ( 6 columns )
+                    if ( Modernizr.mq('(min-width: 1200px)') ) {
+                        gutter = GUTTER_WIDTH_1200 * containerWidth;
+                        numColumns = 6;
+
+                    // Landscape tablet + desktop ( 5 columns )
+                    } else if ( Modernizr.mq('(min-width: 980px)') ) {
                         gutter = GUTTER_WIDTH * containerWidth;
+                        numColumns = 5;
+
+                    // // Portrait Tablet ( 4 columns ) - masonry
+                    } else if ( Modernizr.mq('(min-width: 768px)') ) {
+                        numColumns = 4;
+                        gutter = GUTTER_WIDTH_768 * containerWidth;
+                        
+                    // Between Portrait tablet and phone ( 3 columns )
+                    } else if ( Modernizr.mq('(min-width: 481px)') ) {
+                        gutter = GUTTER_WIDTH_768 * containerWidth;
+                        numColumns = 3;
+
+
+                    // Phone ( 2 columns )
                     } else {
                         gutter = 0.02 * containerWidth; // 2% of container width
+                        numColumns = 2;
                     }
+
+                    self.setColumns(numColumns);
 
                     return gutter;
 
@@ -967,6 +991,118 @@
 
                 };
             }
+        },
+
+        setColumns : function( numColumns ) {
+            var self = this,
+                allSpans = 'span1 span2 span3 span4 span6',
+                shuffleDash = 'shuffle-',
+                gridClasses = [ shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, 'grid-small' ].join(' '),
+                itemSelector = '.gallery-item',
+                grid5 = 'grid5',
+                span = 'span',
+                large = '.large',
+                promo = '.promo',
+                largeAndPromo = large + ',' + promo;
+
+            // Large desktop ( 6 columns )
+            if ( numColumns === 6 ) {
+                if ( !self.$grid.hasClass(shuffleDash+6) ) {
+                    
+                    // add .grid5
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .addClass(shuffleDash+6)
+                        .parent()
+                        .removeClass(grid5);
+
+                    
+                    self.$grid.children(itemSelector)
+                        .removeClass(allSpans) // Remove current grid span
+                        .filter(large) // Select large tiles
+                        .addClass(span+6) // Make them 6/12 width
+                        .end() // Go back to all items
+                        .filter(promo) // Select promo tiles
+                        .addClass(span+4) // Make them 4/12 width
+                        .end() // Go back to all items
+                        .not(largeAndPromo) // Select tiles not large nor promo
+                        .addClass(span+2); // Make them 2/12 width
+                }
+
+            // Landscape tablet + desktop ( 5 columns )
+            } else if ( numColumns === 5 ) {
+                if ( !self.$grid.hasClass(shuffleDash+5) ) {
+                    
+                    // add .grid5
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .addClass(shuffleDash+5)
+                        .parent()
+                        .addClass(grid5);
+
+                    
+                    self.$grid.children(itemSelector)
+                        .removeClass(allSpans) // Remove current grid span
+                        .filter(large) // Select large tiles
+                        .addClass(span+3) // Make them 3/5 width
+                        .end() // Go back to all items
+                        .filter(promo) // Select promo tiles
+                        .addClass(span+2) // Make them 2/5 width
+                        .end() // Go back to all items
+                        .not(largeAndPromo) // Select tiles not large nor promo
+                        .addClass(span+1); // Make them 1/5 width
+                }
+
+            // Portrait Tablet ( 4 columns ) - masonry
+            } else if ( numColumns === 4 ) {
+                if ( !self.$grid.hasClass(shuffleDash+4) ) {
+                    
+                    // Remove .grid5
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .addClass(shuffleDash+4)
+                        .parent()
+                        .removeClass(grid5);
+
+                    
+                    self.$grid.children(itemSelector)
+                        .removeClass(allSpans) // Remove current grid span
+                        .filter(largeAndPromo) // Select large and promo tiles
+                        .addClass(span+6) // Make them half width
+                        .end() // Go back to all items
+                        .not(largeAndPromo) // Select tiles not large nor promo
+                        .addClass(span+3); // Make them quarter width
+                }
+                
+            // Between Portrait tablet and phone ( 3 columns )
+            } else if ( numColumns === 3 ) {
+                if ( !self.$grid.hasClass(shuffleDash+3) ) {
+                    
+                    // Remove .grid5, add .grid-small
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .addClass(shuffleDash+3 + ' grid-small')
+                        .parent()
+                        .removeClass(grid5);
+
+                    // Remove current grid span
+                    self.$grid.children(itemSelector)
+                        .removeClass(allSpans)
+                        .addClass(span+4);
+                }
+
+
+            // Phone ( 2 columns )
+            } else if ( numColumns === 2 ) {
+                if ( !self.$grid.parent().hasClass(grid5) ) {
+                    
+                    // add .grid5
+                    self.$grid
+                        .removeClass(gridClasses)
+                        .parent()
+                        .addClass(grid5);
+                }
+            }
         }
 
     };
@@ -1003,7 +1139,9 @@
         MIN_PRICE: undefined,
         MAX_PRICE: undefined,
         isInitialized: false,
-        isTouch: !!( 'ontouchstart' in window )
+        sorted: false,
+        isTouch: !!( 'ontouchstart' in window ),
+        loadingGif: 'img/spinner.gif'
     };
 
 }(jQuery, Modernizr, window));
