@@ -6,6 +6,7 @@
 
         $.extend(self, $.fn.gallery.options, options, $.fn.gallery.settings);
 
+        // jQuery objects
         self.$container = $container;
         self.$filterContainer = self.$container.find('.product-filter');
         self.$grid = self.$container.find('.products');
@@ -17,6 +18,13 @@
         self.$activeFilters = self.$container.find('.active-filters');
         self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
+        
+        // Compare modal
+        self.$compare = self.$container.find('.js-compare-toggle');
+        self.$compareTool = $('#compare-tool');
+        self.$compareCount = self.$compareTool.find('.js-compare-count');
+
+        // Other vars
         self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
         self.hasFilters = self.$filterOpts.length > 0;
         self.windowSize = $(window).width();
@@ -85,6 +93,10 @@
 
         // This container has just been shown because it's a tab
         self.$container.closest('[data-tab]').on('shown', $.proxy( self.onShown, self ));
+
+        // Launch compare tool on click
+        self.$compare.on('click', $.proxy( self.onCompareLaunch, self ));
+        self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
 
         // We're done.
         self.isInitialized = true;
@@ -765,6 +777,36 @@
             }
         },
 
+        sortComparedItems : function( evt ) {
+            var self = this,
+                $target = $(evt.target),
+                data = $target.data(),
+                reverse = data.reverse ? true : false,
+                sortObj = {},
+                sortedItems;
+
+            evt.preventDefault();
+
+            self.$compareTool.find('.js-toggle-text').text( $target.text() );
+
+            if ( data.value !== 'default' ) {
+                sortObj = {
+                    reverse: reverse,
+                    by: function($el) {
+                        // e.g. filterSet.price
+                        return $el.data('filterSet')[ data.value ];
+                    }
+                };
+            }
+
+            sortedItems = self.$compareTool.find('.gallery-item').sorted( sortObj );
+
+            $.each(sortedItems, function(i, element) {
+                console.log(i, element);
+            });
+
+        },
+
         onResize : function() {
             var self = this;
 
@@ -783,7 +825,11 @@
 
         // Event triggered when this tab is about to be shown
         onShow : function( evt ) {
-            var that = evt.prevPane.find('.gallery').data('gallery');
+            var that;
+
+            if ( evt.prevPane ) {
+                that = evt.prevPane.find('.gallery').data('gallery');
+            }
 
             if ( that && that.hasInfiniteScroll ) {
                 that.$grid.infinitescroll('pause');
@@ -791,10 +837,15 @@
         },
 
         // Event triggered when tab pane is finished being shown
-        onShown : function() {
+        onShown : function( evt ) {
             var self = this,
                 windowWidth = $(window).width(),
                 windowHasResized = self.windowSize !== windowWidth;
+
+            // Only continue if this is a tab shown event.
+            if ( !evt.prevPane ) {
+                return;
+            }
 
             // Respond to tab shown event.Update the columns if we're in need of an update
             if ( self.$grid.data('shuffle').needsUpdate || windowHasResized ) {
@@ -844,6 +895,56 @@
                 self.$container.find('.gallery-loader').remove();
                 self.$container.addClass('in');
             }, 250);
+        },
+
+        onCompareLaunch : function() {
+            var self = this,
+                shuffle = self.$grid.data('shuffle'),
+
+                // Clone all visible
+                $currentItems = shuffle.$items.filter('.filtered').clone(),
+                // Get product count
+                productCount = parseInt( self.$productCount.text(), 10 ),
+                $content = $('<div class="compare-container">'),
+                
+                // Clone sort button
+                $sortOpts = self.$container.find('.sort-options').clone();
+            
+
+            // Set up sort events
+            $sortOpts.find('.dropdown a').on('click', $.proxy( self.sortComparedItems, self ));
+
+
+            // Build carousel structure
+            $currentItems.removeClass().addClass('span4 gallery-item').removeAttr('style');
+            self.$compareCount.text( productCount );
+            self.$compareTool.find('.modal-header').append( $sortOpts );
+
+            self.compareState = {
+                count: productCount,
+                sort: '',
+                $items : $currentItems
+            };
+            // Get current sort
+
+            $content.append( $currentItems );
+            self.$compareTool.find('.modal-body').html($content);
+
+            console.log(self.compareState);
+
+            self.$compareTool.modal('show');
+
+            // $container.append($content);
+            // $('body').append($container);
+        },
+
+        onCompareClosed : function() {
+            var self = this;
+
+            self.$compareTool.find('.dropdown').remove();
+            self.$compareTool.find('.modal-body').empty();
+            self.$compareCount.text('0');
+            self.compareState = null;
         },
 
         setColumnMode : function() {

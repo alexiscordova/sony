@@ -122,7 +122,7 @@
 
         <p class="ib"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
         <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter</button>
-        <button class="btn btn-alt-special btn-alt-plus js-compare-toggle">Compare</button>
+        <button class="btn btn-alt-special btn-alt-plus js-compare-toggle" data-target="#compare-tool">Compare</button>
       </div>
 
       <div class="container-fluid padded slide-arrow-under fade">
@@ -463,5 +463,20 @@
   </section> -->
 
 </div>
+
+<div id="compare-tool" class="modal takeover hide fade" tabindex="-1" role="dialog" aria-labelledby="compare-tool-label" aria-hidden="true">
+  <div class="modal-header container-fluid">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="ib" id="compare-tool-label"><span class="js-compare-count">0</span>&nbsp;Products</h3>
+    <button class="btn btn-small">Reset</button>
+  </div>
+  <div class="modal-body container-fluid"></div>
+  <!-- <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+  </div> -->
+</div>
+
+
 
 <div style="padding-bottom:100px"></div>

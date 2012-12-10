@@ -2,6 +2,10 @@
 // Modals
 // --------------------------------------------------
 
+// Disable body scrolling when the modal is open
+body.modal-open {
+  overflow: hidden;
+}
 
 // Recalculate z-index where appropriate,
 // but only apply to elements within modal
@@ -94,5 +98,22 @@
   // but override that for button groups
   .btn-group .btn + .btn {
     margin-left: -1px;
+  }
+}
+
+.takeover {
+  top: 0;
+  left: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+
+  border-radius: 0;
+  border: none;
+
+  &.fade.in { top: 0; }
+
+  .modal-body {
+    max-height: initial;
   }
 }

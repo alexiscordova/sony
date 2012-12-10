@@ -6769,24 +6769,29 @@ button.close {
   cursor: default;
 }
 
-/* line 9, ../../../src/css/scss/_components/_modals.scss */
+/* line 6, ../../../src/css/scss/_components/_modals.scss */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* line 13, ../../../src/css/scss/_components/_modals.scss */
 .modal-open .modal .dropdown-menu {
   z-index: 2050;
 }
-/* line 10, ../../../src/css/scss/_components/_modals.scss */
+/* line 14, ../../../src/css/scss/_components/_modals.scss */
 .modal-open .modal .dropdown.open {
   *z-index: 2050;
 }
-/* line 11, ../../../src/css/scss/_components/_modals.scss */
+/* line 15, ../../../src/css/scss/_components/_modals.scss */
 .modal-open .modal .popover {
   z-index: 2060;
 }
-/* line 12, ../../../src/css/scss/_components/_modals.scss */
+/* line 16, ../../../src/css/scss/_components/_modals.scss */
 .modal-open .modal .tooltip {
   z-index: 2080;
 }
 
-/* line 16, ../../../src/css/scss/_components/_modals.scss */
+/* line 20, ../../../src/css/scss/_components/_modals.scss */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -6796,19 +6801,19 @@ button.close {
   z-index: 1040;
   background-color: black;
 }
-/* line 25, ../../../src/css/scss/_components/_modals.scss */
+/* line 29, ../../../src/css/scss/_components/_modals.scss */
 .modal-backdrop.fade {
   opacity: 0;
 }
 
-/* line 29, ../../../src/css/scss/_components/_modals.scss */
+/* line 33, ../../../src/css/scss/_components/_modals.scss */
 .modal-backdrop,
 .modal-backdrop.fade.in {
   opacity: 0.8;
   filter: alpha(opacity=80);
 }
 
-/* line 34, ../../../src/css/scss/_components/_modals.scss */
+/* line 38, ../../../src/css/scss/_components/_modals.scss */
 .modal {
   position: fixed;
   top: 50%;
@@ -6834,45 +6839,45 @@ button.close {
   -moz-background-clip: padding-box;
   background-clip: padding-box;
 }
-/* line 49, ../../../src/css/scss/_components/_modals.scss */
+/* line 53, ../../../src/css/scss/_components/_modals.scss */
 .modal.fade {
   -webkit-transition: opacity 0.3s linear, top 0.3s ease-out;
   transition: opacity 0.3s linear, top 0.3s ease-out;
   top: -25%;
 }
-/* line 53, ../../../src/css/scss/_components/_modals.scss */
+/* line 57, ../../../src/css/scss/_components/_modals.scss */
 .modal.fade.in {
   top: 50%;
 }
 
-/* line 55, ../../../src/css/scss/_components/_modals.scss */
+/* line 59, ../../../src/css/scss/_components/_modals.scss */
 .modal-header {
   padding: 9px 15px;
   border-bottom: 1px solid #eee;
 }
-/* line 59, ../../../src/css/scss/_components/_modals.scss */
+/* line 63, ../../../src/css/scss/_components/_modals.scss */
 .modal-header .close {
   margin-top: 2px;
 }
-/* line 61, ../../../src/css/scss/_components/_modals.scss */
+/* line 65, ../../../src/css/scss/_components/_modals.scss */
 .modal-header h3 {
   margin: 0;
   line-height: 30px;
 }
 
-/* line 68, ../../../src/css/scss/_components/_modals.scss */
+/* line 72, ../../../src/css/scss/_components/_modals.scss */
 .modal-body {
   overflow-y: auto;
   max-height: 400px;
   padding: 15px;
 }
 
-/* line 74, ../../../src/css/scss/_components/_modals.scss */
+/* line 78, ../../../src/css/scss/_components/_modals.scss */
 .modal-form {
   margin-bottom: 0;
 }
 
-/* line 79, ../../../src/css/scss/_components/_modals.scss */
+/* line 83, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer {
   padding: 14px 15px 15px;
   margin-bottom: 0;
@@ -6899,14 +6904,33 @@ button.close {
 .modal-footer:after {
   clear: both;
 }
-/* line 90, ../../../src/css/scss/_components/_modals.scss */
+/* line 94, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer .btn + .btn {
   margin-left: 5px;
   margin-bottom: 0;
 }
-/* line 95, ../../../src/css/scss/_components/_modals.scss */
+/* line 99, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
+}
+
+/* line 104, ../../../src/css/scss/_components/_modals.scss */
+.takeover {
+  top: 0;
+  left: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  border: none;
+}
+/* line 114, ../../../src/css/scss/_components/_modals.scss */
+.takeover.fade.in {
+  top: 0;
+}
+/* line 116, ../../../src/css/scss/_components/_modals.scss */
+.takeover .modal-body {
+  max-height: initial;
 }
 
 /* line 7, ../../../src/css/scss/_components/_tooltip.scss */
