@@ -104,17 +104,18 @@ module.exports = function(grunt) {
 					'../build/debug/js/' 		: 'js/**',
 					'../build/debug/ico/' 		: 'img/ico/**',
 					'../build/debug/fonts/' 	: 'fonts/**',
+					'../build/debug/json/' 		: 'json/**'
 				}
 			},
 			debuglight:{
 				files:{
-					'../build/debug/js/' 		: 'js/**',
+					'../build/debug/js/' 		: 'js/**'
 				}
 			},
 			debugimg:{
 				files:{
 					'../build/debug/img/' 		: 'img/build/**',
-					'../build/debug/ico/' 		: 'img/ico/**',
+					'../build/debug/ico/' 		: 'img/ico/**'
 				}
 			},
 			deploy:{
@@ -123,7 +124,8 @@ module.exports = function(grunt) {
 					'../build/deploy/js/libs/' 	: 'js/libs/*',
 					'../build/deploy/img/' 		: 'img/build/**',
 					'../build/deploy/ico/' 		: 'img/ico/**',
-					'../build/deploy/fonts/' 	: 'fonts/**'
+					'../build/deploy/fonts/' 	: 'fonts/**',
+					'../build/deploy/json/' 	: 'json/**'
 				}
 			},
 			docs:{
