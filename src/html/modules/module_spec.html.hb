@@ -9,7 +9,7 @@
 -->
 
 <div class="container-fluid module-spec">
-	
+	<a id="button">click</a>
 	<section class="spec">
 		<div class="spec-title">
 			<p class="title-link"><a href="#">Vaio E</a></p>
@@ -19,7 +19,7 @@
 				<p><a href="#">Specifications</a></p><p><a href="#">Features</a></p>
 			</div>
 		</div>
-		<a id="myButton">click</a><a id="myButton2">click2</a>
+		
 		<div class="tableContainer clearfix">
 			
 			<table class="specsTable">

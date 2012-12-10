@@ -1,5 +1,5 @@
 //Init all
-var $ifMobile = Modernizr.mq('only all and (max-width: 640px)');
+var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
 
 //Temporary $browser variable.
 if ($.browser.msie && parseInt($.browser.version, 10) === 7)
@@ -17,48 +17,6 @@ var myArray = new Array();
 //var mytables = $(".tableContainer .specsTable").clone();
 
 
-// ColumnSwapper (move column according to the browser width)
-//params--------------------------------------------
-//device:  boolean - true = mobile, false = desktop
-//browser: string - ie7/modern
-//windowWidth: width of the browser
-
-function columnSwapper(device, browser, windowWidth) {
-
-	//If we are on a desktop view
-	if (device == false && browser == 'modern') {
-		//desktop version
-		//console.info('desktop: '+windowWidth);
-
-		$('.tableContainer').each(function() {
-			$(this).find('.specsTable').each(function(index) {
-				$(this).find('>thead > .rows > .cell').each(function() {
-
-				})
-			})
-		})
-		
-		/*
-		 if(windowWidth <= 700 && windowWidth > 400)
-		 {
-		
-		 }
-		 if(windowWidth <= 900 && windowWidth > 700)
-		 {
-		
-		 }
-		 else if(windowWidth > 900)
-		 {
-		
-		 }
-		 */
-		 
-
-	} else if (device == true && browser == 'modern') {
-		//mobile version
-		console.info('mobile: ' + windowWidth);
-	}
-}
 
 $.fn.setContainerHeight = function() {
 	tallest = $(this).find('.specsTable').maxHeight();
@@ -195,8 +153,6 @@ $('table').tableToDiv();
 
 
 
-
-
 /*
 // SWITCH CASE START //
 switch(deviceLoaded) {
@@ -255,7 +211,7 @@ $.fn.responsiveTableContainer = function() {
 		$tableContainer = $(this);
 
 		//If we are in mobile view and there is more than one table.
-		if ($ifMobile && $tableContainer.children().length > 1)
+		if (ifMobile && $tableContainer.children().length > 1)
 		{
 			//first table to insert the data.
 			$firstTable = $tableContainer.find('table:first-child');
