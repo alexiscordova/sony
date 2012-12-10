@@ -19,7 +19,7 @@ meta_data: {a:'foo', b:'bar'}
 	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navmenu-wrapper-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
 	          	<i class="sprite-mini-global-nav-indicator"></i>
 
-					    <div class="navmenu-wrapper navmenu-wrapper-account">
+					    <div class="navmenu-wrapper navmenu-wrapper-account Xlogged-inX">
 					    	<a href="#" class="btn btn-login">Log in</a>
 				        <ul class="navmenu-list-main">
 				        	<li id="navmenu-li-account"><a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a></li>
@@ -27,13 +27,70 @@ meta_data: {a:'foo', b:'bar'}
 				        	<li id="navmenu-li-newsletter"><a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a></li>
 				        	<li id="navmenu-li-registered-products"><a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a></li>
 				        </ul>
+					    	<a href="#" class="btn btn-logout">Sign Out</a>
 				      </div><!-- end #navmenu-wrapper-account -->
 
 	          </li>
 	          <li id="nav-li-favorites"><a class="hidden-text" data-target="navtray-wrapper-favorites" href="#"><i class="icon-ui-favorite"></i>Favorites</a></li>
 	          <li id="nav-li-cart"><a class="" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
 	          <li id="nav-li-universal"><a class="btn nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
-	          <li id="nav-li-search"><a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a></li>
+	          <li id="nav-li-search">
+	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
+	          	<i class="sprite-mini-global-nav-indicator"></i>
+
+					    <div class="navmenu-wrapper navmenu-wrapper-search searching">
+					    	<form method="post" action="" class="navmenu-search-section-input">
+						        <input type="text" name="navSearch" id="navSearch" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search"/>
+					    	</form>
+				        <div class="navmenu-search-section-results">
+					        <div class="navmenu-search-popular-searches">
+					        	<p class="l3">Popular Searches</p>
+						        <ul class="navmenu-list-extended">
+						        	<li><a href="#" class="tl">Laptops </a></li>
+						        	<li><a href="#" class="tl">VAIO</a></li>
+						        	<li><a href="#" class="tl">Headphones</a></li>
+						        	<li><a href="#" class="tl">PSP</a></li>
+						        	<li><a href="#" class="tl">Playstation</a></li>
+						        	<li><a href="#" class="tl">NEX</a></li>
+						        </ul>
+					      	</div>
+					      	<div class="navmenu-search-results">
+						        <ul class="navmenu-list-results">
+						        	<li>
+						        		<a href="#">
+						        			<img src="img/global/global-nav/search-results-images/nex-6.png" alt="α NEX-6" width="83" height="64">
+						        			<span class="search-result-p">
+							        			<span class="search-result-headline">α NEX-6</span>
+							        			<span class="search-result-descript">The Future of Photography.</span>
+							        		</span>
+							        	</a>
+							        </li>
+						        	<li>
+						        		<a href="#">
+						        			<img src="img/global/global-nav/search-results-images/nex-5.png" alt="α NEX-5" width="83" height="64">
+						        			<span class="search-result-p">
+							        			<span class="search-result-headline">α NEX-5</span>
+							        			<span class="search-result-descript">Pocket DSLR</span>
+							        		</span>
+							        	</a>
+							        </li>
+						        	<li>
+						        		<a href="#">
+						        			<img src="" alt="α NEX Support">
+						        			<span class="search-result-headline">α NEX Support</span>
+							        	</a>
+							        </li>
+						        </ul>
+						        <ul class="navmenu-list-extended">
+						        	<li><a href="#" class="tl">α NEX-3</a></li>
+						        	<li><a href="#" class="tl">α NEX Accessories</a></li>
+						        	<li><a href="#" class="tl">α NEX Lenses</a></li>
+						        	<li><a href="#" class="tl">α NEX</a></li>
+						        </ul>
+							    	<a href="#" class="btn btn-logout">Show All Results</a>
+							    </div>
+						    </div>
+					    </li>
 	        </ul>
 		    </div><!-- end .navbar -->
 

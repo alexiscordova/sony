@@ -7,8 +7,9 @@
 
   // Remove padding on container given explicit padding set on body
   .container-fluid {
-    padding-left: $fluidContainerMarginWidth767;
-    padding-right: $fluidContainerMarginWidth767;
+    // padding-left: $fluidContainerMarginWidth767;
+    // padding-right: $fluidContainerMarginWidth767;
+    padding: 0;
   }
 
   // TYPOGRAPHY
@@ -103,6 +104,21 @@
 // ---------------------
 
 @media (max-width: 480px) {
+  
+  .grid5 {
+
+    .row {
+      margin-left: -2%;
+    }
+
+    [class*="span"] {
+      float: left;
+      min-height: 1px;
+      margin-left: 2%;
+      width: 48%;
+    }
+
+  }
 
   // Smooth out the collapsing/expanding nav
   .nav-collapse {

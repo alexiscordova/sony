@@ -283,13 +283,16 @@
 }
 
 // Show/hide tabbable areas
-.tab-content > .tab-pane,
+// .tab-content > .tab-pane,
 .pill-content > .pill-pane {
-  display: none;
+  // display: none;
+  position: absolute;
+  left: -9999px;
 }
-.tab-content > .active,
+// .tab-content > .active,
 .pill-content > .active {
-  display: block;
+  position: inherit;
+  left: auto;
 }
 
 

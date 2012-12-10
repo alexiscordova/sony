@@ -24,60 +24,13 @@ Exports.constrain = function(value, min, max) {
 
 Exports.Modules.Gallery = (function($) {
 
-  var blah,
-
-  fiveColumnFluid = function( containerWidth ) {
-    var column;
-    switch ( containerWidth ) {
-      case 1470: // falls through
-      case 1112:
-        column = 204;
-        break;
-      case 940:
-        column = 172;
-        break;
-      case 724:
-        column = 42;
-        break;
-      default:
-        column = 0.48 * containerWidth; // 48% of container width
-        break;
-    }
-
-    return column;
-  },
-
-  fiveGutterFluid = function( containerWidth ) {
-    var gutter;
-    switch ( containerWidth ) {
-      case 1470: // falls through
-      case 1112:
-        gutter = 23;
-        break;
-      case 940: // falls through
-      case 724:
-        gutter = 20;
-        break;
-      default:
-        gutter = 0.02 * containerWidth; // 2% of container width
-        break;
-    }
-
-    return gutter;
-    
-  },
+  var
 
   _init = function() {
     $('.gallery').each(function() {
       var $this = $(this),
       data = $this.data(),
       options = { mode : data.mode };
-
-      // Do some work to set up the 5 column grid if this isn't in 'detailed' mode
-      if ( data.mode !== 'detailed' ) {
-        options.shuffleColumns = fiveColumnFluid;
-        options.shuffleGutters = fiveGutterFluid;
-      }
 
       $this.addClass('gallery-' + data.mode).gallery(options);
     });
@@ -99,6 +52,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
   $navNext,
   $navPrev,
   $window,
+  $panes,
   tabOffset = 0,
   initialTabWidth = 0,
   tabWidth = 0,
@@ -127,6 +81,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     $window = $(window);
     $navNext = $('.tab-nav-next');
     $navPrev = $('.tab-nav-prev');
+    $panes = $tabContent.find('.tab-pane');
     windowWidth = $window.width();
     windowHeight = $window.height();
     tabWidth = initialTabWidth = $tabs.outerWidth();
@@ -144,23 +99,23 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       _setTabCarouselVars();
       _setupTabCarousel();
     }
+
+    $panes.not('.active').addClass('off-screen');
   },
 
   _tabShown = function(evt) {
     var $tab = $(this);
 
+    // Update iQ images
+    window.iQ.update();
+
     // Save tab
     $activeTab = $tab;
     // Initialize new tab for sticky tabs
     if ( isStickyTabs ) {
+      console.log('tab shown, removing style attribute of all tabs');
       $tabs.removeAttr('style');
       _initStickyTab();
-    }
-    
-    // If there is a shuffle layout in this element and it's in need of an update
-    var $shuffle = evt.pane.find('.shuffle');
-    if ( $shuffle.length > 0 && $shuffle.data('shuffle').needsUpdate ) {
-      $shuffle.shuffle('update');
     }
   },
 
@@ -186,7 +141,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
         _teardownStickyTabs();
       }
 
-      if ( !isTabCarousel ) {
+      if ( !isTabCarousel && $tabs.length > tabsPerPage ) {
         _setTabCarouselVars();
         _setupTabCarousel();
       }
@@ -245,6 +200,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
   },
 
   _teardownTabCarousel = function() {
+    console.log('_teardownTabCarousel');
     isTabCarousel = false;
     $tabsWrap.removeClass('tab-carousel');
     page = 1;
@@ -286,12 +242,14 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 
   // Removes sticky tabs
   _teardownStickyTabs = function() {
+    console.log('_teardownStickyTabs');
     $tabsWrap.off('scroll').removeClass('sticky');
     $tabs.removeAttr('style');
     isStickyTabs = false;
   },
 
   _initStickyTab = function() {
+    console.log('_initStickyTab');
     lastSL = $tabsWrap.scrollLeft();
     data = null;
 
@@ -303,6 +261,8 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       position: 'absolute',
       left: _getBounded( tabOffset )
     });
+
+    console.log('new sticky tab set', _getBounded( tabOffset ), tabOffset );
 
     // Add a margin to the next (or previous if it's the last tab) tab because
     // the active one is positioned absolutely, taking up no space

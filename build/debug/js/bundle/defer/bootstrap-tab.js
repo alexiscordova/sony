@@ -39,7 +39,7 @@
           $this = self.$el,
           selector = $this.attr('data-target'),
           previous,
-          e;
+          $prevPane;
 
       if ( !selector ) {
         selector = $this.attr('href');
@@ -53,24 +53,28 @@
         return;
       }
 
-      // Trigger show event
+      // Trigger show event on both tab and pane
       previous = $this.parent().find('.active:last')[0];
-      e = $.Event('show', {
+      $prevPane = self.$target.parent().find('.active:last');
+      $this.add(self.$target).trigger({
+        type: 'show',
         relatedTarget: previous,
+        prevPane: $prevPane,
         pane: self.$target
       });
-      $this.trigger( e );
 
-      if ( e.isDefaultPrevented() ) { return; }
+      // if ( e.isDefaultPrevented() ) { return; }
 
       // Show active tab
       self.activate( $this, $this.parent() );
 
       // Show active tab pane
       self.activate( self.$target, self.$target.parent(), function () {
-        $this.trigger({
+        // Trigger shown event on both tab and pane
+        $this.add(self.$target).trigger({
           type: 'shown',
           relatedTarget: previous,
+          prevPane: $prevPane,
           pane: self.$target
         });
       }, true);
@@ -86,18 +90,21 @@
           .find('> .dropdown-menu > .active')
           .removeClass('active');
 
-        $element.addClass('active');
+        $element
+          .addClass('active');
 
         if ( isPane ) {
-          $active.hide();
-          $element.show();
+          // $active.hide();
+          // $element.show();
+          $active.addClass('off-screen');
+          $element.removeClass('off-screen');
         }
 
         if ( transition ) {
           $element[0].offsetWidth; // reflow for transition
           $element.addClass('in');
         } else {
-          // $element.removeClass('fade');
+          $element.removeClass('fade');
         }
 
         if ( $element.parent('.dropdown-menu') ) {

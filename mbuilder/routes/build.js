@@ -9,7 +9,7 @@ exports.generate = function(req, res){
 	var d = String(fs.readFileSync('module_template.html.eco'));
 	d = d.replace(/{{{{t}}}}/g, t);
 	d = d.replace(/{{{{d}}}}/g, "This module page was generated from the module builder");
-	d = d.replace(/{{{{b}}}}/g, "<%-@partial('modules/"+req.query.module+"', @, @data('"+req.query.data+"'))%>");
+	d = d.replace(/{{{{b}}}}/g, "<%-@partial('modules/"+req.query.module+"', {this:this, data:@data('"+req.query.data+"')})%>");
 	
 		
 	fs.writeFile(p, d, 'utf8', function(err){
