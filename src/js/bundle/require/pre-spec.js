@@ -1,5 +1,5 @@
 //Init all
-var $ifMobile = Modernizr.mq('only all and (max-width: 640px)');
+var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
 
 //Temporary $browser variable.
 if ($.browser.msie && parseInt($.browser.version, 10) === 7)
@@ -14,54 +14,12 @@ var myArray = new Array();
 
 
 
-//var mytables = $(".tableContainer .bigTable").clone();
+//var mytables = $(".tableContainer .specsTable").clone();
 
 
-// ColumnSwapper (move column according to the browser width)
-//params--------------------------------------------
-//device:  boolean - true = mobile, false = desktop
-//browser: string - ie7/modern
-//windowWidth: width of the browser
-
-function columnSwapper(device, browser, windowWidth) {
-
-	//If we are on a desktop view
-	if (device == false && browser == 'modern') {
-		//desktop version
-		//console.info('desktop: '+windowWidth);
-
-		$('.tableContainer').each(function() {
-			$(this).find('.bigTable').each(function(index) {
-				$(this).find('>thead > .rows > .column').each(function() {
-
-				})
-			})
-		})
-		
-		/*
-		 if(windowWidth <= 700 && windowWidth > 400)
-		 {
-		
-		 }
-		 if(windowWidth <= 900 && windowWidth > 700)
-		 {
-		
-		 }
-		 else if(windowWidth > 900)
-		 {
-		
-		 }
-		 */
-		 
-
-	} else if (device == true && browser == 'modern') {
-		//mobile version
-		console.info('mobile: ' + windowWidth);
-	}
-}
 
 $.fn.setContainerHeight = function() {
-	tallest = $(this).find('.bigTable').maxHeight();
+	tallest = $(this).find('.specsTable').maxHeight();
 	$(this).height(tallest);
 	$(this).children('.scOverflow').height(tallest);
 }
@@ -71,7 +29,7 @@ $.fn.setContainerHeight = function() {
 //Usage: $('.tableContainer').findColumn(index); //Morph a table into a div table layout.
 $.fn.findColumn = function(index) {
 
-	$column = $(this).find('.bigTable > .thead > .row > .column:nth-child('+index+'), .bigTable > .tbody > .row > .column:nth-child('+index+')');
+	$column = $(this).find('.specsTable > .thead > .row > .cell:nth-child('+index+'), .specsTable > .tbody > .row > .cell:nth-child('+index+')');
 
 	return $column;
 }
@@ -89,8 +47,8 @@ $.fn.tableToDiv = function() {
 			var tableClass = '';
 			$table = $(this);
 
-			if ($table.hasClass('bigTable'))
-				tableClass = 'bigTable';
+			if ($table.hasClass('specsTable'))
+				tableClass = 'specsTable';
 			else
 				tableClass = 'smallTable';
 
@@ -99,7 +57,7 @@ $.fn.tableToDiv = function() {
 			$table.find('tbody').addClass('tbody');
 			$table.find('tr').addClass('row');
 			$table.find('tr:nth-child(even)').addClass('odd_rows');
-			$table.find('th, td').addClass('column');
+			$table.find('th, td').addClass('cell');
 		});
 
 	} else {
@@ -110,9 +68,9 @@ $.fn.tableToDiv = function() {
 			var tableClass = '';
 			$table = $(this);
 
-			if ($table.hasClass('bigTable'))
+			if ($table.hasClass('specsTable'))
 			{
-				tableClass = 'bigTable';
+				tableClass = 'specsTable';
 				
 				//keep in memory
 				myArray.push($table);
@@ -133,11 +91,11 @@ $.fn.tableToDiv = function() {
 			});
 
 			$table.find('th').replaceWith(function() {
-				return $('<div class="column">').append($(this).contents());
+				return $('<div class="cell">').append($(this).contents());
 			});
 
 			$table.find('td').replaceWith(function() {
-				return $('<div class="column">').append($(this).contents());
+				return $('<div class="cell">').append($(this).contents());
 			});
 
 			$table.replaceWith(function() {
@@ -151,6 +109,25 @@ $.fn.tableToDiv = function() {
 
 	return this;
 }
+
+/*********************************************************/
+//function to create a matrix
+//Usage: $(listToMatrix(nbCells, nbCol));
+function listToMatrix(list, elementsPerSubArray) {
+    var matrix = [], i, k;
+
+    for ( i = 0, k = -1; i < list.length; i++) {
+        if (i % elementsPerSubArray === 0) {
+            k++;
+            matrix[k] = [];
+        }
+
+        matrix[k].push(list[i]);
+    }
+
+    return matrix;
+}
+
 
 /*********************************************************/
 //Usage: var tallest = $('div').maxHeight(); // Returns the height of the tallest div.
@@ -173,8 +150,6 @@ var delay = (function() {
 })();
 
 $('table').tableToDiv();
-
-
 
 
 
@@ -219,7 +194,7 @@ $('thead').addClass('thead');
 $('tbody').addClass('tbody');
 $('tr').addClass('row');
 $('tr:nth-child(even)').addClass('odd_rows');
-$('th, td').addClass('column');
+$('th, td').addClass('cell');
 
 break;
 }
@@ -236,7 +211,7 @@ $.fn.responsiveTableContainer = function() {
 		$tableContainer = $(this);
 
 		//If we are in mobile view and there is more than one table.
-		if ($ifMobile && $tableContainer.children().length > 1)
+		if (ifMobile && $tableContainer.children().length > 1)
 		{
 			//first table to insert the data.
 			$firstTable = $tableContainer.find('table:first-child');

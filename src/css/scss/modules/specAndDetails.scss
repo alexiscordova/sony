@@ -61,10 +61,10 @@
   }
   
   // both kind of table
-  .smallTable, .bigTable{
+  .smallTable, .specsTable{
      .thead
      {
-       .column{
+       .cell{
          text-align:left;
        }
      }
@@ -76,7 +76,7 @@
     font-family: Arial, Helvetica, sans-serif;
     
     .row {display: table-row;}
-    .column{
+    .cell{
       display: table-cell;
       padding-right:10px;
       
@@ -92,8 +92,8 @@
     }
   }
   
-  // bigTable only
-  .bigTable {
+  // specsTable only
+  .specsTable {
     display: table;
     font-family: Arial, Helvetica, sans-serif;
     font-size: $font_14_16;
@@ -118,32 +118,32 @@
     
     > .tbody > .row {
       display: table-row;
-      >.column{
+      >.cell{
         padding-bottom:10px;
         p{font-size:$font_13_15;
           span{font-size:$font_15_15;}
         }
       }
       
-      &:last-child .column {
+      &:last-child .cell {
         border-bottom: none !important;
       }
     }
     
-    .column:first-child{
+    .cell:first-child{
      font-size:$font_16_16;
      line-height:1em;
      font-weight:bold;
      color:$black;
     }
-    .column
+    .cell
     {
       display: table-cell;
       padding-right:10px;
     }
   
     .tbody{display:table-row-group;
-        .column h2 {
+        .cell h2 {
         font-size: $font_14_16;
         color: $black;
         font-weight: bold;
@@ -221,7 +221,7 @@
       line-height:1.5em;
       display:block;
     }
-    .tbody .row .column{
+    .tbody .row .cell{
       border:none !important;
       p{margin:0;}
     }
@@ -268,7 +268,7 @@
       }
     }
 
-    > .bigTable{
+    > .specsTable{
       float:left;
     }
   }
@@ -279,7 +279,7 @@
   // OVERRIDE - for each smallTable
   .table.smallTable{
     .row{
-      .column{
+      .cell{
         padding:0 10px 0 0;
         h3{color:$black; font-size:$font_13_15 !important;}
         p{color:#555; font-size:$font_13_15 !important;}
@@ -293,7 +293,7 @@
 
 
   // Big Tables Colors and skins
-  .table.bigTable
+  .table.specsTable
   {
   	background: #F7F7F7;
   	color: $black;
@@ -305,7 +305,7 @@
   	  display:block;
     }
   	
-  	.column
+  	.cell
   	{
   		padding: 10px 20px;
   		// Defines a table cell
@@ -321,7 +321,7 @@
   	
   	.thead {
   	  .row{
-    		.column {
+    		.cell {
     			color: $black;
     			border-bottom: 2px solid #eee !important;
     			border-left:none !important;
@@ -334,12 +334,12 @@
   	  .row{
         .table
         {
-          .column:first-child{
+          .cell:first-child{
             font-weight:normal;
             padding-right:8px;
             width:20%;
           }
-          .column{
+          .cell{
             p{margin:0; font-size:$font_15_15 !important;
             span{font-size:$font_15_15 !important;}
             }
@@ -362,7 +362,7 @@
       line-height:1.5em;
       display:block;
     }
-    .tbody .row .column{
+    .tbody .row .cell{
       padding:0 !important;
       border:none !important;
       p{margin:0;}
@@ -417,37 +417,37 @@
   	
   	.table.smallTable{
   		.row{display:block;}
-  		.column{display:block;}
+  		.cell{display:block;}
   	}
   	
   	//BIG TABLES *TABLE STYLE* - (DESKTOP ONLY)
-    .table.bigTable {
+    .table.specsTable {
       width: 100%;
-      .row .column:first-child {
+      .row .cell:first-child {
         display: none;
       }
       
-      .tbody .column {
+      .tbody .cell {
         h2 {
           display: block;
           font-size:$font_18_15;
         }
         display: none;
       }
-      .thead .column {
+      .thead .cell {
         display: none;
       }
       
-      .column.show {
+      .cell.show {
         display: block;
       }
       
-      .tbody .tbody .column{display:block !important;}
+      .tbody .tbody .cell{display:block !important;}
     }
     
     //BIG TABLES *CAROUSEL* - (MOBILE ONLY)
     .sonyCarousel{
-      .tbody .row .column{
+      .tbody .row .cell{
         display:block !important;
       }
     }
@@ -460,7 +460,7 @@
         >.table.smallTable{
           >.tbody{
             >.row{
-              >.column
+              >.cell
               {
                 width:50% !important;
               }
