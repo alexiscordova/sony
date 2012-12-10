@@ -18,7 +18,7 @@ exports.generate = function(req, res){
 		} 
 		
 		console.log('Sending stdin to terminal');
-	    terminal.stdin.write('cd ../src;  grunt mbuilder');
+	    terminal.stdin.write('cd ../src; grunt mbuilder');
 	    terminal.stdin.end();
 	})
 	
