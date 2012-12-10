@@ -38,7 +38,7 @@ meta_data: {a:'foo', b:'bar'}
 	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
 	          	<i class="sprite-mini-global-nav-indicator"></i>
 
-					    <div class="navmenu-wrapper navmenu-wrapper-search searching">
+					    <div class="navmenu-wrapper navmenu-wrapper-search Xsearching">
 					    	<i class="sprite-mini-nav-search-input"></i>
 					    	<form method="post" action="" class="navmenu-search-section-input">
 						        <input type="text" name="navSearch" id="navSearch" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search"/>

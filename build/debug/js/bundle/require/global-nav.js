@@ -79,8 +79,8 @@
     resetPrimaryNavBtn : function ($oldNavBtn) {
       console.log("resetPrimaryNavBtn: " + $oldNavBtn.attr("class"));
       $oldNavBtn.removeClass("active").parent().removeClass("nav-li-selected");
-      var $thNavTray = $("." + $oldNavBtn.data("target"));
-      $thNavTray.removeClass("navtray-wrapper-visible").css("height", "");
+      $(".navtray-wrapper-visible").removeClass("navtray-wrapper-visible").css("height", "");
+      $(".navmenu-wrapper-visible").removeClass("navmenu-wrapper-visible");
     },
 
     activatePrimaryNavBtn : function ($newNavBtn) {
@@ -96,44 +96,74 @@
     },
 
     initSearchMenu: function(){
-      var th = this, sm = th.searchMenu;
-      sm.$root = $("#nav-li-search"),
-      sm.$input = $("#navSearch"),
-      sm.$clearBtn = sm.$root.find(".btn-clear-search-input"),
-      sm.$searchIcon = $(".sprite-mini-nav-search-input");
-      sm.watermarkText = sm.$input.val();
+      var th = this;
+      th.$root = $("#nav-li-search"),
+      th.$wrapper = th.$root.find(".navmenu-wrapper-search");
+      th.$input = $("#navSearch"),
+      th.$clearBtn = th.$root.find(".btn-clear-search-input"),
+      th.$searchIcon = $(".sprite-mini-nav-search-input");
+      th.watermarkText = th.$input.val();
+      th.clearBtnClicked = false;
 
-      sm.$input.focus(function(){
+      th.$input.on("focus", function(){
         // clear watermarkText on focus
-        if (sm.$input.val() == sm.watermarkText){
-          sm.$input.val("");
-          sm.$searchIcon.hide();
+        if (th.$input.val() == th.watermarkText){
+          th.$input.val("");
+          th.$searchIcon.hide();
         };
-      }).blur(function(){
-        if (sm.$input.val() == ""){
-          sm.$input.val(sm.watermarkText);
-          sm.$searchIcon.show();
+      }).on("blur", function(){
+        if (th.$input.val() == ""){
+          th.$input.val(th.watermarkText);
+          th.$searchIcon.show();
         };
+      }).on('mouseup keyup change cut paste', function(){
+        console.log("X");
+        if (!th.$wrapper.hasClass("searching")){
+          if (!(th.$input.val() == "" || th.$input.val() == th.watermarkText)){
+            th.$wrapper.addClass("searching");
+            th.doSearch();
+          }
+        } else if (th.$input.val() == ""){
+          th.resetSearchResults();
+        } else {
+          th.doSearch();
+        }
       });
 
-      sm.$searchIcon.on("click",function(){
-        sm.$input.focus();
+      th.$searchIcon.on("click",function(){
+        th.$input.focus();
       });
 
-      sm.$clearBtn.on("click",function(){
+      th.$clearBtn.on("click",function(){
+        th.clearBtnClicked = true;
         th.clearSearchResults();
-        sm.$input.focus();
+        th.$input.focus();
+      }).on("mouseleave",function(){
+        th.clearBtnClicked = false; // just make sure it's cleared
       });
+    },
+
+    doSearch: function(){
+      var th = this;
+      th.queryStr = th.$input.val();
+      console.log("th.queryStr: " + th.queryStr);
     },
 
     clearSearchResults: function(){
-      var th = this, sm = th.searchMenu;
-      sm.$input.val("");
-      sm.$searchIcon.hide();
+      var th = this;
+      th.$input.val("");
+      th.$wrapper.removeClass("searching");
+      th.$searchIcon.hide();
+    },
+
+    // this just resets the actual results, for instance, when the search term is blank.
+    resetSearchResults: function(){
+      var th = this;
+      th.$wrapper.removeClass("searching");      
     },
 
     resetSearchMenu: function(){
-      var th = this, sm = th.searchMenu;
+      var th = this;
       th.clearSearchResults();
     }
 
