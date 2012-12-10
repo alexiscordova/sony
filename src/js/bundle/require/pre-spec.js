@@ -3,7 +3,7 @@ var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
 
 //Temporary $browser variable.
 if ($.browser.msie && parseInt($.browser.version, 10) === 7)
-	var $browser = 'ie7';
+	var $browser = 'old';
 else
 	var $browser = 'modern';
 

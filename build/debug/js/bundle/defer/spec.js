@@ -1,132 +1,138 @@
 var $tableContainerBackup;
 $(window).load(function() {
 
-    //Create a backup of the tableContainer
-    $tableContainerBackup = $('.tableContainer').clone();
-    
-    //init.
-    resize('init', ifMobile, $browser, $tableContainerBackup);
-    
-    
-    //Strike the resize
-    $("#button").click(function(e){
-        e.preventDefault();
-        var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
-    
-        resize('resize', ifMobile, $browser, $tableContainerBackup);
-    });
+	//Create a backup of the tableContainer
+	$tableContainerBackup = $('.tableContainer').clone();
+	//$firstColumnTablesBackup = $tableContainerBackup.findColumn(1).clone();
+
+	
+	//init.
+	resize('init', ifMobile, $browser, $tableContainerBackup);
+
+	//Strike the resize
+	$("#button").click(function(e) {
+		e.preventDefault();
+		var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
+
+		resize('resize', ifMobile, $browser, $tableContainerBackup);
+	});
 
 });
+
 /*
 $(window).resize(function() {
-    var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
+var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
 
-    delay(function() {
-         resize('resize', ifMobile, $browser, $tableContainerBackup);
-    }, 100);
+delay(function() {
+resize('resize', ifMobile, $browser, $tableContainerBackup);
+}, 100);
 });
 */
+
 //When you resize.
 //params--------------------------------------------
 //status:  string - init/resize
 //device:  boolean - true = mobile, false = desktop
-//browser: string - ie7/modern
+//browser: string - old/modern
 
-function resize(status, device, browser,tableContainerBackup) {
-    var windowWidth = $(window).width();
+function resize(status, device, browser, tableContainerBackup) {
+	var browser = browser;
 
-    if (browser == 'modern')
-    {
-        //minimum per table (COLUMN)
-        var minWidthTable = 250;
-    
-        $('section > .tableContainer').each(function() {
-    
-            $_this = $(this);
-    
-            //#############
-    
-            //Define the carousel
-            var sonySlider = $(this).data('sonyCarousel');
-    
-            //destroy the current slider instance.
-            if (sonySlider)
-                sonySlider.destroy();
-    
-            //Empty the container.
-            $_this.empty();
-    
-            //#############
-    
-            // Number of element present in the viewport (visible element)
-            var elemMinWidth = (windowWidth / minWidthTable);
-    
-            //get the number of column to display.
-            nbElementByPage = Math.min(Math.max(Math.floor(elemMinWidth), 1), 4);
-    
-            //#############
-    
-            //get all cells
-            var $myCells = tableContainerBackup.clone().find(".specsTable > .thead > .row > .cell, .specsTable > .tbody > .row > .cell");
-            
-            
-            //nb total column
-            var nbCol = tableContainerBackup.clone().find(".row:first .cell").length;
-            
-            //nb of table to show
-            var nbTableToShow = nbCol / nbElementByPage;
-    
-            //#############
-            //matrix
-            var matrix = listToMatrix($myCells, nbCol);
-            
-            for (var i = 0; i < Math.ceil(nbTableToShow); i++) {//loop de tableau
-                
-                var $table = "";
-                
-                $table = $('<div class="specsTable" id="table' + i + '">');
-    
-                var $thead = $("<div class='thead'></div>");
-                var $tbody = $("<div class='tbody'></div>");
-                
-                //loop in each row
-                $(listToMatrix($myCells, nbCol)).each(function(index) {
-    
-                    var $curentRow = new $("<div class='row'></div>");
-                    var $firstCurentRow = new $("<div class='row'></div>");
-    
-                    if (index == 0) {
-                        $firstCurentRow.append(listToMatrix(this, nbElementByPage)[i]);
-                        $thead.append($firstCurentRow);
-                    } else {
-                        $curentRow.append(listToMatrix(this, nbElementByPage)[i]);
-                        $tbody.append($curentRow);
-                    }
-    
-                    $table.append($thead, $tbody);
-                    $_this.append($table);
-                });
-            };
-    
-        })
-        
-        //Restart carousels
-        $('.tableContainer').sonyCarousel();
-        
-        //Set the height.
-        $('.tableContainer').each(function(){
-            $(this).setContainerHeight();
-        })
-    
-        //console.info(status, device, browser);
-     }
-     else if ((browser == 'ie7') && (status == 'init'))
-     {
-         //ie7 only
-         
-         
-         //$('.tableContainer').sonyCarousel();
-     }
+	var windowWidth = $(window).width();
+
+	//minimum per table (COLUMN)
+	var minWidthTable = 250;
+
+	$('section > .tableContainer').each(function() {
+
+		$_this = $(this);
+
+		//#############
+
+		//Define the carousel
+		var sonySlider = $(this).data('sonyCarousel');
+
+		//destroy the current slider instance.
+		if (sonySlider)
+			sonySlider.destroy();
+
+		//Empty the container.
+		$_this.empty();
+
+		//#############
+
+		// Number of element present in the viewport (visible element)
+		var elemMinWidth = (windowWidth / minWidthTable);
+
+		//get the number of column to display.
+		nbElementByPage = Math.min(Math.max(Math.floor(elemMinWidth), 1), 4);
+
+		//#############
+
+		//get all cells
+		var $myCells = tableContainerBackup.clone().find(".specsTable > .thead > .row > .cell, .specsTable > .tbody > .row > .cell");
+		
+		//nb total column
+		var nbCol = tableContainerBackup.clone().find(".row:first .cell").length;
+
+		//nb of table to show
+		var nbTableToShow = nbCol / nbElementByPage;
+
+		//#############
+		//matrix
+		var matrix = listToMatrix($myCells, nbCol);
+
+		for (var i = 0; i < Math.ceil(nbTableToShow); i++) {//loop de tableau
+
+			var $table = "";
+
+			if (browser == 'modern') {
+				//modern Browsers
+				$table = $('<div class="specsTable" id="table' + i + '">');
+
+				var $thead = $("<div class='thead'></div>");
+				var $tbody = $("<div class='tbody'></div>");
+			} else {
+				//old Browsers
+				$table = $('<table class="specsTable" id="table' + i + '">');
+
+				var $thead = $("<thead class='thead'></thead>");
+				var $tbody = $("<tbody class='tbody'></tbody>");
+			}
+
+			//loop in each row
+			$(listToMatrix($myCells, nbCol)).each(function(index) {
+				
+				if (browser == 'modern') {
+					var $curentRow = new $("<div class='row'></div>");
+					var $firstCurentRow = new $("<div class='row'></div>");
+				} else{
+					var $curentRow = new $("<tr class='row'></tr>");
+					var $firstCurentRow = new $("<tr class='row'></tr>");
+				}
+
+				if (index == 0) {
+					$firstCurentRow.append(listToMatrix(this, nbElementByPage)[i]);
+					$thead.append($firstCurentRow);
+				} else {
+					$curentRow.append(listToMatrix(this, nbElementByPage)[i]);
+					$tbody.append($curentRow);
+				}
+
+				$table.append($thead, $tbody);
+				$_this.append($table);
+			});
+		};
+
+	})
+	//Restart carousels
+	$('.tableContainer').sonyCarousel();
+
+	//Set the height.
+	$('.tableContainer').each(function() {
+		$(this).setContainerHeight();
+	})
+	//console.info(status, device, browser);
 }
 
 /*
