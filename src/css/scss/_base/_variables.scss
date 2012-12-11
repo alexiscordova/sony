@@ -83,19 +83,42 @@
 // Typography
 // -------------------------
 .TYPOGRAPHY{} // this is just here for a SublimeText code-folding collapse point
-	$sansFontFamily:        		"SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyItalic:  		"SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyBold:    		"SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMedium:  		"SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+// Christopher's fonts - these are probably dead now.
+	// $sansFontFamily:        		"SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyItalic:  		"SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyBold:    		"SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyMedium:  		"SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	
+// FONTS.COM FONTS:
+	$sansFontFamily:        		"SST W01 Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyItalic:  		"SST W01 Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyBold:    		"SST W01 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyBoldItalic:	"SST W01 Bold Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyMedium:  		"SST W01 Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyMediumItalic:"SST W01 Medium Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyLight:   		"SST W01 Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyLightItalic: "SST W01 Light Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// Extras as defined by Fonts.com - but not used on this site (yet):
+	$sansFontFamilyCondensed: 			"SST W01 Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyCondensedBold:		"SST W01 Condensed Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyHeavy:    				"SST W01 Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyHeavyItalic: 		"SST W01 Heavy Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyUltraLight:  		"SST W01 Ultra Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyUltraLightItalic:"SST W01 Ultra Light Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	
+
+
 	$serifFontFamily:       		Georgia, "Times New Roman", Times, serif !default;
 	$monoFontFamily:        		Monaco, Menlo, Consolas, "Courier New", monospace !default;
 	
 	$baseFontFamily:        		$sansFontFamily !default;
 	$baseFontFamilyItalic:   		$sansFontFamilyItalic !default;
 	$baseFontFamilyBold:   			$sansFontFamilyBold !default;
+	$baseFontFamilyBoldItalic:	$sansFontFamilyBoldItalic !default;
 	$baseFontFamilyMedium:   		$sansFontFamilyMedium !default;
 	$baseFontFamilyMediumItalic:$sansFontFamilyMediumItalic !default;
 	$baseFontFamilyLight:   		$sansFontFamilyLight !default;
@@ -453,7 +476,7 @@
 .GRID{} // this is just here for a SublimeText code-folding collapse point
 
 	$gridColumns:             12 !default; 
-	$grid5Columns: 			  5;
+	$grid5Columns: 			  		5;
 
 	// Default 940px grid @980px-1199px
 	$gridColumnWidth:         54px !default;
@@ -472,9 +495,9 @@
 
 
 	// 5 Column Grid
-	$grid5ColWidth: 		   204px;
-	$grid5GutterWidth: 		   23px;
-	$grid5RowWidth: 		   ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
+	$grid5ColWidth: 		   		204px;
+	$grid5GutterWidth: 		 		23px;
+	$grid5RowWidth: 		   		($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
 
 
 
@@ -490,6 +513,7 @@
 	$fluidGridGutterWidth:    	percentage($gridGutterWidth/$gridRowWidth) !default;
 
 	// 1200px min
+	$fluidContainerMaxWidth: 				1360px; // if the browser is wider than this, the content will have a set width & side margins will just increase.
 	$fluidContainerMarginWidth1200:	40px !default;
 	$fluidGridColumnWidth1200:     	percentage($gridColumnWidth1200/$gridRowWidth1200) !default;
 	$fluidGridGutterWidth1200:     	percentage($gridGutterWidth1200/$gridRowWidth1200) !default;
@@ -503,7 +527,7 @@
 	$fluidContainerMarginWidth767:	15px !default;
 
 	// 5 Column Grid
-	$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
+	$fluidGrid5ColWidth: 		percentage($grid5ColWidth / $grid5RowWidth);
 	$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 
