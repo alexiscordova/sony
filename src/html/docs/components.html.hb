@@ -11,14 +11,14 @@
 			<!-- Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container">
+			  <div class="container-px-width">
 			    <h1>Global Components</h1>
 			    <p class="p1">Reusable components for navigation, alerts, modals, and more.</p>
 			  </div>
 			</header>
 			
 			
-			  <div class="container">
+			  <div class="container-px-width">
 			
 			
 			
@@ -2480,7 +2480,7 @@ class="clearfix"
           <div class="bs-docs-example">
             <div id="simple-navbarExample" class="simple-navbar simple-navbar-static">
               <div class="simple-navbar-inner">
-                <div class="container" style="width: auto;">
+                <div class="container-px-width" style="width: auto;">
                   <a class="brand" href="#">Project Name</a>
                   <ul class="simple-nav">
                     <li><a href="#fat">@fat</a></li>

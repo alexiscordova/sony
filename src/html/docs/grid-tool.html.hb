@@ -11,12 +11,12 @@
 			<!-- Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container-fluid">
+			  <div class="container">
 			    <h2 class="bs-docs-heading">Grid Tool</h2>
 			  </div>
 			</header>
 			
-			  <div class="container-fluid">
+			  <div class="container">
 			
 			        <!-- Fluid grid system
 			        ================================================== -->
@@ -116,11 +116,11 @@
 						  		$gridMargins = $(".gridMargin"),
 						  		$gutters = $(".gutter");
 
-						  	$(".container-fluid").css({"width":"100%", "max-width":"100%", "padding":0}); // override media queries
+						  	$(".container").css({"width":"100%", "max-width":"100%", "padding":0}); // override media queries
 						  	$("footer.footer").css({"display":"none"}); // override media queries
 
 
-						  	$(".container-fluid .inc input, .container-fluid .incOdd input").keyup(function(){
+						  	$(".container .inc input, .container .incOdd input").keyup(function(){
 							  	updateDisplay();
 							  });
 

@@ -838,12 +838,6 @@ $default-transition-delay    : 0s;
 // Grid System
 // -----------
 
-// Centered container element
-@mixin container-fixed() {
-	margin-right: auto;
-	margin-left: auto;
-	@include clearfix();
-}
 
 // Table columns
 @mixin tableColumns($columnSpan: 1) {
@@ -879,10 +873,10 @@ $default-transition-delay    : 0s;
 	}
 
 	// Set the container width, and override it for fixed navbars in media queries
-	.container,
-	.navbar-static-top .container,
-	.navbar-fixed-top .container,
-	.navbar-fixed-bottom .container {
+	.container-px-width,
+	.navbar-static-top .container-px-width,
+	.navbar-fixed-top .container-px-width,
+	.navbar-fixed-bottom .container-px-width {
 		@include grid-core-span($numColumns, $gridColumnWidth, $gridGutterWidth);
 	}
 

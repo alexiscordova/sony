@@ -46,7 +46,7 @@
     ================================================== -->
     <div class="simple-navbar simple-navbar-inverse simple-navbar-fixed-top">
       <div class="simple-navbar-inner">
-        <div class="container">
+        <div class="container-px-width">
           <button type="button" class="btn-simple-navbar" data-toggle="collapse" data-target=".simple-nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -87,12 +87,12 @@
             <!-- Subhead
             ================================================== -->
             <header class="jumbotron subhead" id="overview">
-              <div class="container-fluid">
+              <div class="container">
                 <h2 class="bs-docs-heading">Grid Tool</h2>
               </div>
             </header>
             
-              <div class="container-fluid">
+              <div class="container">
             
                     <!-- Fluid grid system
                     ================================================== -->
@@ -192,11 +192,11 @@
                                   $gridMargins = $(".gridMargin"),
                                   $gutters = $(".gutter");
 
-                              $(".container-fluid").css({"width":"100%", "max-width":"100%", "padding":0}); // override media queries
+                              $(".container").css({"width":"100%", "max-width":"100%", "padding":0}); // override media queries
                               $("footer.footer").css({"display":"none"}); // override media queries
 
 
-                              $(".container-fluid .inc input, .container-fluid .incOdd input").keyup(function(){
+                              $(".container .inc input, .container .incOdd input").keyup(function(){
                                   updateDisplay();
                               });
 
@@ -302,7 +302,7 @@
               </div>
               
             <footer class="footer">
-      <div class="container">
+      <div class="container-px-width">
         <p class="pull-right"><a href="#">Back to top</a></p>
         <p>&#169; Odopod - Proprietary and Confidential.</p>
         <ul class="footer-links">

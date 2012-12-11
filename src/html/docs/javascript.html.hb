@@ -12,13 +12,13 @@
 			 Subhead
 			================================================== -->
 			<header class="jumbotron subhead">
-			  <div class="container">
+			  <div class="container-px-width">
 			    <h2 class="bs-docs-heading">Sony Bootstrap JavaScript Library</h2>
 			    <p class="p1">Bring Bootstrap's components to life &mdash; with custom javascript &amp; jQuery plugins.
 			  </div>
 			</header>
 			
-			  <div class="container">
+			  <div class="container-px-width">
 			
 			
 			

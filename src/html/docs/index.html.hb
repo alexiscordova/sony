@@ -9,7 +9,7 @@
 		{{partial 'includes/docs_nav.html'}}
 
 		<div class="jumbotron masthead">
-		  <div class="container">
+		  <div class="container-px-width">
 <!--             <h2 class="bs-docs-heading">Sony Global Web Transformation</h2> -->
             <img src="img/indexheader.png">
 
@@ -19,7 +19,7 @@
 
 		<hr class="soften">
 		
-		<div class="container">
+		<div class="container-px-width">
 		
 		  <div class="marketing">
         

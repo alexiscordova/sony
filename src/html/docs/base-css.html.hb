@@ -12,14 +12,14 @@
 			 Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container-fluid">
+			  <div class="container">
 			    <h1>Base CSS</h1>
 			    <p class="p1">Fundamental HTML element styles</p>
 			  </div>
 			</header>
 			
 			
-			  <div class="container-fluid">
+			  <div class="container">
 			
 			<!--==================================================
 			 Docs nav

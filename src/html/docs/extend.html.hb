@@ -11,13 +11,13 @@
 			<!-- Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container">
+			  <div class="container-px-width">
 			    <h2 class="bs-docs-heading">Extending Bootstrap</h2>
 			    <p class="p1">Extend Bootstrap to take advantage of included styles and components, as well as LESS variables and mixins.</p>
 			  <div>
 			</header>
 			
-			  <div class="container">
+			  <div class="container-px-width">
 			
 			    <!-- Docs nav
 			    ================================================== -->

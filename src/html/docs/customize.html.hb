@@ -11,14 +11,14 @@
 			<!-- Masthead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container">
+			  <div class="container-px-width">
 			    <h1 class="bs-docs-heading">Customize</h1>
 			    <p>This will be where you can choose modules to create a custom page. This is just a shell now, ready for updating.</p>
 			  </div>
 			</header>
 			
 			
-			  <div class="container">
+			  <div class="container-px-width">
 			
 			
 			        <!-- Customize form

@@ -11,7 +11,7 @@
 			<!-- Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container-fluid">
+			  <div class="container">
 			    <h2 class="bs-docs-heading">Scaffolding</h2>
 			    <p class="p1">The system is built on responsive 12-column grids, layouts, and components.</p>
 
@@ -23,7 +23,7 @@
 			  </div>
 			</header>
 			
-			  <div class="container-fluid">			
+			  <div class="container">			
 			
 			        <!-- Grid system
 			        ================================================== -->
@@ -242,26 +242,26 @@
 			          <h2 class="bs-docs-heading">Layouts</h2>
 			
 			          <h3 class="bs-docs-heading">Fixed layout</h3>
-			          <p>Provides a common fixed-width (and optionally responsive) layout with only <code>&lt;div class="container"&gt;</code> required.</p>
+			          <p>Provides a common fixed-width (and optionally responsive) layout with only <code>&lt;div class="container-px-width"&gt;</code> required.</p>
 			          <div class="mini-layout">
 			            <div class="mini-layout-body"></div>
 			          </div>
 			<pre class="prettyprint linenums">
 			&lt;body&gt;
-			  &lt;div class="container"&gt;
+			  &lt;div class="container-px-width"&gt;
 			    ...
 			  &lt;/div&gt;
 			&lt;/body&gt;
 			</pre>
 			
 			          <h3 class="bs-docs-heading">Fluid layout</h3>
-			          <p>Create a fluid, two-column page with <code>&lt;div class="container-fluid"&gt;</code>&mdash;great for applications and docs.</p>
+			          <p>Create a fluid, two-column page with <code>&lt;div class="container"&gt;</code>&mdash;great for applications and docs.</p>
 			          <div class="mini-layout fluid">
 			            <div class="mini-layout-sidebar"></div>
 			            <div class="mini-layout-body"></div>
 			          </div>
 			<pre class="prettyprint linenums">
-			&lt;div class="container-fluid"&gt;
+			&lt;div class="container"&gt;
 			  &lt;div class="row-fluid"&gt;
 			    &lt;div class="span2"&gt;
 			      &lt;!--Sidebar content--&gt;

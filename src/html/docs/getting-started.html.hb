@@ -13,14 +13,14 @@
 			<!-- Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container">
+			  <div class="container-px-width">
 			    <h2 class="bs-docs-heading">Getting started</h2>
 			    <p class="p1">Overview of the project, its contents, and how to get started with a simple template.</p>
 			  </div>
 			</header>
 			
 			
-			  <div class="container">
+			  <div class="container-px-width">
 			
 			    <!-- Docs nav
 			    ================================================== -->
