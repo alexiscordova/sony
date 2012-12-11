@@ -4,11 +4,7 @@
 	<% if  @data.layout.inner : %>
 	<div class="row-fluid">
 		<div class="span12">
-		<% if @data.submodules[0].type == "image" : %>
-			<img src="<%-  @data.submodules[0].data.src %>" alt="<%-  @data.submodules[0].data.alt %>">
-		<% else : %>
-			TODO: MODULE + DATA
-		<% end %>
+			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 			<div class="row-fluid">
 			<% if  @data.layout.text == "left" : %>
 				<div class="span<%- @data.layout.columns[0] %>">
@@ -35,11 +31,7 @@
 	</div>
 	<div class="row-fluid">
 		<div class="span12">
-		<% if @data.submodules[0].type == "image" : %>
-			<img src="<%-  @data.submodules[0].data.src %>" alt="<%-  @data.submodules[0].data.alt %>">
-		<% else : %>
-			TODO: MODULE + DATA
-		<% end %>
+		<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
 	</div>
 	<% end %>
@@ -53,22 +45,14 @@
 			<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 		</div>
 		<div class="span<%- @data.layout.columns[1] %>">
-			<% if @data.submodules[0].type == "image" : %>
-				<img src="<%-  @data.submodules[0].data.src %>" alt="<%-  @data.submodules[0].data.alt %>">
-			<% else : %>
-				TODO: MODULE + DATA
-			<% end %>
+			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
 	</div>
 	
 <% else if  @data.layout.media == "medialeft" : %>	
 	<div class="row-fluid">
 		<div class="span<%- @data.layout.columns[0] %>">
-			<% if @data.submodules[0].type == "image" : %>
-				<img src="<%-  @data.submodules[0].data.src %>" alt="<%-  @data.submodules[0].data.alt %>">
-			<% else : %>
-				TODO: MODULE + DATA
-			<% end %>
+			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
 		<div class="span<%- @data.layout.columns[1] %>">
 			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
@@ -84,20 +68,12 @@
 	<% if @data.body : %><p><%- @data.body %></p><% end %>
 	<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 	
-	<% if @data.submodules[0].type == "image" : %>
-		<img src="<%-  @data.submodules[0].data.src %>" alt="<%-  @data.submodules[0].data.alt %>">
-	<% else : %>
-		TODO: MODULE + DATA
-	<% end %>
+	<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 
 	<div class="row-fluid">
 		<% for col, i in @data.layout.columns: %>
 			<div class="span<%- @data.layout.columns[i] %>">
-				<% if @data.submodules[i+1].type == "image" : %>
-					<img src="<%-  @data.submodules[i+1].data.src %>" alt="<%-  @data.submodules[i+1].data.alt %>">
-				<% else : %>
-					TODO: MODULE + DATA
-				<% end %>
+				<%- @this.partial('modules/'+ @data.submodules[i+1].type , {this:@this, data:@this.data(@data.submodules[i+1].data)} ) %>
 				<%- @data.columns[i] %>
 			</div>
 			<% end %>
@@ -116,11 +92,7 @@
 		<div class="row-fluid">
 			<% for col, i in @data.layout.columns: %>
 			<div class="span<%- @data.layout.columns[i] %>">
-				<% if @data.submodules[i].type == "image" : %>
-					<img src="<%-  @data.submodules[i].data.src %>" alt="<%-  @data.submodules[i].data.alt %>">
-				<% else : %>
-					TODO: MODULE + DATA
-				<% end %>
+				<%- @this.partial('modules/'+ @data.submodules[i].type , {this:@this, data:@this.data(@data.submodules[i].data)} ) %>
 				<%- @data.columns[i] %>
 			</div>
 			<% end %>
