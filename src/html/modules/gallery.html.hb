@@ -215,41 +215,42 @@
       <div class="container-fluid padded">
         <div class="products row-fluid">
           {{#each productCards.list}}
-          <a class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}" href="{{#if this.href}}{{this.href}}{{else}}#{{/if}}">
+          <a class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}" itemscope itemtype="http://schema.org/Product" itemprop="url" href="{{#if this.href}}{{this.href}}{{else}}#{{/if}}">
             {{#if this.label}}
             <span class="label label-success">{{this.label}}</span>
             {{/if}}
             <div class="product-img">
               <div class="ghost-center-wrap">
                 <div class="ghost-center js-product-imgs">
-                  <img class="iq-img js-product-img-main" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
+                  <img class="iq-img js-product-img-main" itemprop="image" alt="{{this.img.alt}}" data-src="{{this.img.src}}">
                   <noscript>
-                    <img src="{{this.img.src}}" alt="{{this.img.alt}}">
+                    <img src="{{this.img.src}}" itemprop="image" alt="{{this.img.alt}}">
                   </noscript>
                   {{#each this.img.colors}}
-                  <img class="iq-img hidden" data-color="{{this.color}}" alt="{{this.alt}}" data-src="{{this.src}}">
+                  <img class="iq-img hidden" itemprop="image" data-color="{{this.color}}" alt="{{this.alt}}" data-src="{{this.src}}">
                   <noscript>
-                    <img class="hidden" src="{{this.src}}" alt="{{this.alt}}">
+                    <img class="hidden" itemprop="image" src="{{this.src}}" alt="{{this.alt}}">
                   </noscript>
                   {{/each}}
                 </div>
               </div>
               {{#if this.img.colors}}
               <div class="color-swatches">
-                {{#each this.img.colors}}<span class="mini-swatch swatch-{{this.color}}" data-color="{{this.color}}"></span>{{/each}}
+                {{#each this.img.colors}}<span class="mini-swatch swatch-{{this.color}}" data-color="{{this.color}}" itemprop="color">{{this.color}}</span>{{/each}}
               </div>
               {{/if}}
             </div>
             <div class="product-content">
-              <div class="p3 product-name">{{this.name}}</div>
-              <div class="p5 product-model">{{this.model}}</div>
-              <div class="p5 product-rating" data-stars="{{this.rating.stars}}">
+              <div class="p3 product-name" itemprop="name">{{this.name}}</div>
+              <div class="p5 product-model" itemprop="model">{{this.model}}</div>
+              <div class="p5 product-rating" data-stars="{{this.rating.stars}}" itemprop="reviews" itemscope itemtype="http://schema.org/AggregateRating">
+                <meta itemprop="ratingValue" content="{{this.rating.stars}}">
                 <i class="icon-ui-star"></i
                 ><i class="icon-ui-star"></i
                 ><i class="icon-ui-star"></i
                 ><i class="icon-ui-star"></i
                 ><i class="icon-ui-star"></i>
-                ( {{this.rating.reviews}} user reviews)
+                ( <span itemprop="ratingCount">{{this.rating.reviews}}</span> user reviews)
               </div>
               <ul class="p3 product-meta">
                 {{#each this.meta}}
@@ -257,7 +258,7 @@
                 {{/each}}
               </ul>
               <div class="product-price">
-                <p class="price"><span class="p5">Starting at</span> <span class="l2">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
+                <p class="price"><span class="p5">Starting at</span> <span class="l2" itemprop="price">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
             </div>
           </a>

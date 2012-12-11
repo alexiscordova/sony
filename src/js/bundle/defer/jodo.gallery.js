@@ -78,6 +78,7 @@
         });
 
         // Things moved around and could possibly be in the viewport
+        // Filtered should already be throttled because whatever calls .filter() should be throttled.
         self.$grid.on('filtered.shuffle', function() {
             window.iQ.update();
         });
