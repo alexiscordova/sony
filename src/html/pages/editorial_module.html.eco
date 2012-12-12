@@ -21,7 +21,7 @@ description: This is the Editorial Module, it contains text and media elements w
 	</head>
 	<body>
 
-		<%-@partial('modules/editorial.html.eco', {this:this, document:@data('editorial/default.json')} ) %>
+		<%-@partial('modules/editorial.html.eco', {this:this, data:@data('editorial/default.json')} ) %>
 
 
 <% if 'debug' in @getEnvironments():%>

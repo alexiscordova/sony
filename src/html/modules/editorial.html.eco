@@ -1,24 +1,20 @@
-<div class="editorial container">
+<div class="editorial container clearfix">
 
-<% if @document.layout.media == "full" : %>
-	<% if  @document.layout.inner : %>
+<% if @data.layout.media == "full" : %>
+	<% if  @data.layout.inner : %>
 	<div class="row-fluid">
 		<div class="span12">
-		<% if @document.submodules[0].type == "image" : %>
-			<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
-		<% else : %>
-			TODO: MODULE + DATA
-		<% end %>
+			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 			<div class="row-fluid">
-			<% if  @document.layout.text == "left" : %>
-				<div class="span<%- @document.layout.columns[0] %>">
-			<% else if  @document.layout.text == "right" : %>
-				<div class="span<%- @document.layout.columns[1] %> offset<%- @document.layout.columns[0] %>">
+			<% if  @data.layout.text == "left" : %>
+				<div class="span<%- @data.layout.columns[0] %>">
+			<% else if  @data.layout.text == "right" : %>
+				<div class="span<%- @data.layout.columns[1] %> offset<%- @data.layout.columns[0] %>">
 			<% end %>
-					<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
-					<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
-					<% if @document.body : %><p><%- @document.body %></p><% end %>
-					<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+					<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+					<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+					<% if @data.body : %><p><%- @data.body %></p><% end %>
+					<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 				</div>
 			</div>
 		</div>
@@ -27,125 +23,102 @@
 	<% else :%>
 	<div class="row-fluid">
 		<div class="span12">
-			<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
-			<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
-			<% if @document.body : %><p><%- @document.body %></p><% end %>
-			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+			<% if @data.body : %><p><%- @data.body %></p><% end %>
+			<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 		</div>
 	</div>
 	<div class="row-fluid">
 		<div class="span12">
-		<% if @document.submodules[0].type == "image" : %>
-			<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
-		<% else : %>
-			TODO: MODULE + DATA
-		<% end %>
+		<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
 	</div>
 	<% end %>
 
-<% else if  @document.layout.media == "mediaright" : %>
+<% else if  @data.layout.media == "mediaright" : %>
 	<div class="row-fluid">
-		<div class="span<%- @document.layout.columns[0] %>">
-			<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
-			<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
-			<% if @document.body : %><p><%- @document.body %></p><% end %>
-			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+		<div class="span<%- @data.layout.columns[0] %>">
+			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+			<% if @data.body : %><p><%- @data.body %></p><% end %>
+			<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 		</div>
-		<div class="span<%- @document.layout.columns[1] %>">
-			<% if @document.submodules[0].type == "image" : %>
-				<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
-			<% else : %>
-				TODO: MODULE + DATA
-			<% end %>
+		<div class="span<%- @data.layout.columns[1] %>">
+			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
 	</div>
 	
-<% else if  @document.layout.media == "medialeft" : %>	
+<% else if  @data.layout.media == "medialeft" : %>	
 	<div class="row-fluid">
-		<div class="span<%- @document.layout.columns[0] %>">
-			<% if @document.submodules[0].type == "image" : %>
-				<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
-			<% else : %>
-				TODO: MODULE + DATA
-			<% end %>
+		<div class="span<%- @data.layout.columns[0] %>">
+			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
-		<div class="span<%- @document.layout.columns[1] %>">
-			<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
-			<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
-			<% if @document.body : %><p><%- @document.body %></p><% end %>
-			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+		<div class="span<%- @data.layout.columns[1] %>">
+			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+			<% if @data.body : %><p><%- @data.body %></p><% end %>
+			<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 		</div>
 	</div>
 
-<% else if  @document.layout.media == "full3up": %>
-	<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
-	<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
-	<% if @document.body : %><p><%- @document.body %></p><% end %>
-	<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+<% else if  @data.layout.media == "full3up": %>
+	<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+	<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+	<% if @data.body : %><p><%- @data.body %></p><% end %>
+	<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 	
-	<% if @document.submodules[0].type == "image" : %>
-		<img src="<%-  @document.submodules[0].data.src %>" alt="<%-  @document.submodules[0].data.alt %>">
-	<% else : %>
-		TODO: MODULE + DATA
-	<% end %>
+	<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 
 	<div class="row-fluid">
-		<% for col, i in @document.layout.columns: %>
-			<div class="span<%- @document.layout.columns[i] %>">
-				<% if @document.submodules[i+1].type == "image" : %>
-					<img src="<%-  @document.submodules[i+1].data.src %>" alt="<%-  @document.submodules[i+1].data.alt %>">
-				<% else : %>
-					TODO: MODULE + DATA
-				<% end %>
-				<%- @document.columns[i] %>
+		<% for col, i in @data.layout.columns: %>
+			<div class="span<%- @data.layout.columns[i] %>">
+				<%- @this.partial('modules/'+ @data.submodules[i+1].type , {this:@this, data:@this.data(@data.submodules[i+1].data)} ) %>
+				<%- @data.columns[i] %>
 			</div>
-			<% end %>
+		<% end %>
 	</div>
 	
-<% else if  @document.layout.media == "3up" ||  @document.layout.media == "2up": %>
-	<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
-	<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
-	<% if @document.body : %><p><%- @document.body %></p><% end %>
-	<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+<% else if  @data.layout.media == "3up" ||  @data.layout.media == "2up": %>
+	<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+	<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+	<% if @data.body : %><p><%- @data.body %></p><% end %>
+	<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 	
-	<% if  @document.layout.inner : %>
+	<% if  @data.layout.inner : %>
 		!!!!:TODO
 		
 	<% else :%>
 		<div class="row-fluid">
-			<% for col, i in @document.layout.columns: %>
-			<div class="span<%- @document.layout.columns[i] %>">
-				<% if @document.submodules[i].type == "image" : %>
-					<img src="<%-  @document.submodules[i].data.src %>" alt="<%-  @document.submodules[i].data.alt %>">
-				<% else : %>
-					TODO: MODULE + DATA
-				<% end %>
-				<%- @document.columns[i] %>
+			<% for col, i in @data.layout.columns: %>
+			<div class="span<%- @data.layout.columns[i] %>">
+				<%- @this.partial('modules/'+ @data.submodules[i].type , {this:@this, data:@this.data(@data.submodules[i].data)} ) %>
+				<%- @data.columns[i] %>
 			</div>
 			<% end %>
 		</div>
 	<% end %>
 
-<% else if  @document.layout.media == "textonly" : %>
+<% else if  @data.layout.media == "textonly" : %>
 	<div class="row-fluid">
-		<% if  @document.layout.text == "left" : %>
-		<div class="span<%- @document.layout.columns[0] %>">
+		<% if  @data.layout.text == "left" : %>
+		<div class="span<%- @data.layout.columns[0] %>">
 		
-		<% else if  @document.layout.text == "right" : %>
-		<div class="span<%- @document.layout.columns[1] %> offset<%- @document.layout.columns[0] %>">
+		<% else if  @data.layout.text == "right" : %>
+		<div class="span<%- @data.layout.columns[1] %> offset<%- @data.layout.columns[0] %>">
 		
-		<% else if  @document.layout.text == "center" : %>
-		<div class="span<%- @document.layout.columns[1] %> offset<%- @document.layout.columns[0] %>">
+		<% else if  @data.layout.text == "center" : %>
+		<div class="span<%- @data.layout.columns[1] %> offset<%- @data.layout.columns[0] %>">
 		<% end %>
 
-			<% if @document.h2 : %><h2><%- @document.h2 %></h2><% end %>
-			<% if @document.h3 : %><h3><%- @document.h3 %></h3><% end %>
-			<% if @document.body : %><p><%- @document.body %></p><% end %>
-			<% if @document.link : %><a class="<%- @document.link.type %>" href="<%- @document.link.url %>"><%- @document.link.text %></a><% end %>
+			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+			<% if @data.body : %><p><%- @data.body %></p><% end %>
+			<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 		</div>
 	</div>
 	
 <% end %>
 	
 </div>
+
