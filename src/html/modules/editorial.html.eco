@@ -1,4 +1,4 @@
-<div class="editorial container">
+<div class="editorial container clearfix">
 
 <% if @data.layout.media == "full" : %>
 	<% if  @data.layout.inner : %>
@@ -76,7 +76,7 @@
 				<%- @this.partial('modules/'+ @data.submodules[i+1].type , {this:@this, data:@this.data(@data.submodules[i+1].data)} ) %>
 				<%- @data.columns[i] %>
 			</div>
-			<% end %>
+		<% end %>
 	</div>
 	
 <% else if  @data.layout.media == "3up" ||  @data.layout.media == "2up": %>
@@ -121,3 +121,4 @@
 <% end %>
 	
 </div>
+
