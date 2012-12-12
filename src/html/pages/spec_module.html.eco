@@ -18,11 +18,13 @@ description: This is the spec module.
 <% else: %>
 		<%-@partial('includes/css_deploy.html')%>
 <% end %>
+
 		<link rel="stylesheet" href="css/modules/specAndDetails.css">
+
 		<%-@partial('includes/js_head.html')%>
 	
 	</head>
-	<body>
+	<body class="gallery-module">
 		<!--
 			***------Exemples------***
 			/spec/default.json
@@ -34,6 +36,5 @@ description: This is the spec module.
 	<% else: %>
 			<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
 	<% end %>
-		
 	</body>
 </html>

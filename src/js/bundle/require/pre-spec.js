@@ -10,20 +10,13 @@ else
 //Global Array
 var myArray = new Array();
 
-
-
-
-
 //var mytables = $(".tableContainer .specsTable").clone();
-
-
 
 $.fn.setContainerHeight = function() {
 	tallest = $(this).find('.specsTable').maxHeight();
 	$(this).height(tallest);
 	$(this).children('.scOverflow').height(tallest);
 }
-
 
 /*********************************************************/
 //Usage: $('.tableContainer').findColumn(index); //Morph a table into a div table layout.
@@ -33,8 +26,6 @@ $.fn.findColumn = function(index) {
 
 	return $column;
 }
-
-
 
 /*********************************************************/
 //Usage: $('table').tableToDiv(); //Morph a table into a div table layout.

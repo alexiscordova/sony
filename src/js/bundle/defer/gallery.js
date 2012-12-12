@@ -69,9 +69,11 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
   toOffset = 0,
 
   _init = function() {
+  	
     $tabsWrap = $('.tabs');
     $tabs = $tabsWrap.children('.tab');
 
+		console.log('$tabs.length', $tabs.length);
     // No tabs on the page
     if ( $tabs.length === 0 ) { return; }
 
@@ -88,6 +90,8 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 
     // New tab shown event
     $tabs.on('shown', _tabShown);
+    
+    $tabs.on('setup_stickytabs', _setupStickyTabs);
 
     // Window resize
     $window.on('resize.tabs', _onResize);
@@ -261,7 +265,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     // Get offset from left side
     tabOffset = $activeTab.offset().left;
 
-    // Set initail css on active tab
+    // Set initial css on active tab
     $activeTab.css({
       position: 'absolute',
       left: _getBounded( tabOffset )
@@ -311,8 +315,8 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 $(document).ready(function() {
 
   if ( $('body').hasClass('gallery-module') ) {
-    Exports.Modules.Gallery.init();
-    Exports.Modules.Tabs.init();
+    //Exports.Modules.Gallery.init();
+   //Exports.Modules.Tabs.init();
 
 
     // // Should be called after everything is initialized

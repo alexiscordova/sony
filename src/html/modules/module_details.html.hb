@@ -8,7 +8,7 @@
 	http://handlebarsjs.com/
 -->
 
-<div class="container-fluid module-spec">
+<div class="container module-spec">
 	{{#each productDetails}}
 	
 	<div class="spec-title">
