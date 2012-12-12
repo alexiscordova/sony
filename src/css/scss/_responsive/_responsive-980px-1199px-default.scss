@@ -1,0 +1,29 @@
+//
+// Responsive: Tablet to desktop
+// --------------------------------------------------
+
+
+
+// Fixed grid
+.container-px-width{
+  width:$containerWidth;    
+}
+.grid-px-width{
+  width:$gridWidth;    
+}
+@include grid-core($gridColumnWidth, $gridGutterWidth);
+// Input grid
+@include grid-input($gridColumnWidth, $gridGutterWidth);
+
+
+
+// Fluid grid
+.container,
+.container-fluid {
+  width:$fluidContainerWidth;
+}
+.grid {
+  width:$fluidGridWidth;
+}
+@include grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth);
+

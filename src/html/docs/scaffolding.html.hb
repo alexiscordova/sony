@@ -29,7 +29,10 @@
 			        ================================================== -->
 			        <section id="gridSystem">
 			          <h2 class="bs-docs-heading">Default grid system</h2>
-			
+								
+								<div class="gridInnerWidth">gridInnerWidth</div>
+								<div class="gridRowWidth">gridRowWidth</div>
+
 			          <h3 class="bs-docs-heading">Live grid example</h3>
 			          <p>The default Bootstrap grid system utilizes <strong>12 columns</strong>, making for a 940px wide container without <a href="./scaffolding.html#responsive">responsive features</a> enabled. With the responsive CSS file added, the grid adapts to be 724px and 1170px wide depending on your viewport. Below 767px viewports, the columns become fluid and stack vertically.</p>
 			          <div class="bs-docs-grid">

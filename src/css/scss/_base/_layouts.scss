@@ -3,17 +3,26 @@
 // --------------------------------------------------
 
 
+.container,
+.container-fluid,
+.container-px-width{
+  margin-right: auto;
+  margin-left: auto;	
+  @include clearfix();
+}
+
+
 // Container (centered, fixed-width layouts)
 .container-px-width {
-  margin-right: auto;
-  margin-left: auto;
-	@include clearfix();
+	width:$containerWidth;
 }
 
 // Fluid layouts (left aligned, with sidebar, min- & max-width content)
 .container,
 .container-fluid {
-  padding-right: $fluidContainerMarginWidth;
-  padding-left:  $fluidContainerMarginWidth;
-  @include clearfix();
+	width: $fluidContainertWidth;
+}
+.container.full-bleed,
+.container-fluid.full-bleed {
+	width:100%;
 }
