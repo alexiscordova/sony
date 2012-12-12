@@ -177,25 +177,37 @@ $(document).ready(function() {
         return false;
     });
 
-
     // when you hit build run the generate script
     $("#build").bind('click', function(e) {
 
-       var myForm =  $("#myForm");
+        var myForm = $("#myForm");
 
         $.each($("#submodule_list li"), function(i, e) {
-            
+
         })
 
         $("#build").button('loading');
-        
-        
+
         $.ajax({
             type : "POST",
             url : myForm.attr('action'),
             data : myForm.serialize(),
-            success : function(response) {
-                console.log(response);
+            success : function(res) {
+                if (res != "false") {
+                    $("#build").button('reset');
+                    if ($('.alert').length > 0) {
+                        $('.alert').remove();
+                    }
+                    $('body').prepend('<div id="build_success" class="alert alert-success">Success! Check it out here: <a target="_blank" href="http://' + res + '">' + res + '</a><button type="button" class="close" data-dismiss="alert">×</button></div>');
+                    $('#build_success').alert();
+                } else {
+                    if ($('.alert').length > 0) {
+                        $('.alert').remove();
+                    }
+                    $('body').prepend('<div id="build_success" class="alert alert-success">ERROR: Build Failed!<button type="button" class="close" data-dismiss="alert">×</button></div>');
+                    $('#build_success').alert();
+                }
+
             }
         });
 

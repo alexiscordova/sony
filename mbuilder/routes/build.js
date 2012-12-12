@@ -39,19 +39,23 @@ exports.generate = function(req, res) {
 }
 
 exports.generatePage = function(req, res) {
-  
+
     var terminal = require('child_process').spawn('bash');
     var config = require('../config.js');
     var moduleList = "";
 
-    console.log('req.body.module', req.body['module']);
+    console.log('nb of element : ', req.body['module'].length);
 
     for (var i = 0; i < req.body['module'].length; i++) {
+        var moduleFileName, moduleDataFileName, moduleFileName, moduleDataFileName;
+        moduleDataFileName = "";
+        moduleDataFileName = "";
+        moduleFileName = "";
+        moduleDataFileName = "";
+        var moduleFileName = req.body['module'][i];
+        var moduleDataFileName = req.body['moduleData'][i];
 
-        var moduleFileName = req.body['module'][i] || "";
-        var moduleDataFileName = req.body['moduleData'][i] || "vide.json";
-
-        console.log("elem" + i + " : moduleFileName : " + moduleFileName + " ||  moduleDataFileName" + moduleDataFileName);
+        console.log("elem" + i + " : moduleFileName : " + moduleFileName + " ||  moduleDataFileName : " + moduleDataFileName);
 
         moduleList = moduleList + "<%-@partial('modules/" + moduleFileName + "', {this:this, data:@data('../data/" + moduleDataFileName + "')})%>";
     };
@@ -65,8 +69,6 @@ exports.generatePage = function(req, res) {
     d = d.replace(/{{{{d}}}}/g, "This page page was generated from the module builder");
     d = d.replace(/{{{{b}}}}/g, moduleList);
 
-
-        
     fs.writeFile(p, d, 'utf8', function(err) {
         if (err) {
             throw err;
@@ -90,6 +92,5 @@ exports.generatePage = function(req, res) {
         }
 
     });
-
 
 }
