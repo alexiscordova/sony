@@ -18,8 +18,18 @@
 
  
 
-        <link rel="stylesheet" href="css/bootstrap.css">
+                <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/responsive.css">
+
+  <!--[if lt IE9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!--> 
+    <script type="text/javascript">
+      // Android needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
+    </script>
+  <!--<![endif]-->
+
     
         <link rel="stylesheet" href="css/modules/experiment.css">
         <link rel="stylesheet" href="css/modules/gallery.css">
@@ -52,31 +62,38 @@
                 <li>1 foo</li>
                 <li>2 bar</li>
             </ul>
-        </div> </li>
+        </div></li>
         <li><div>
             <h1>example module: two</h1>
             <ul>
                 <li>3 foo</li>
                 <li>4 bar</li>
             </ul>
-        </div> </li>
+        </div></li>
         <li><div>
             <h1>example module: three</h1>
             <ul>
                 <li>5 foo</li>
                 <li>6 bar</li>
             </ul>
-        </div> </li>
-
+        </div></li>
+        <li><div>
+            <h1>example module: four</h1>
+            <ul>
+                <li>7 foo</li>
+                <li>8 bar</li>
+            </ul>
+        </div></li>
     </ul>
+    <h6>some extra text here</h6>
 </div>
 
 
 
 
                 
-        <script src="js/bundle/require/global-nav.js"></script>
         <script src="js/bundle/require/debug_toggle.js"></script>
+        <script src="js/bundle/require/global-nav.js"></script>
         <script src="js/bundle/require/iq.js"></script>
         <script src="js/bundle/require/require1.js"></script>
         <script src="js/bundle/require/require2.js"></script>
@@ -95,18 +112,18 @@
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
-        <script src="js/bundle/defer/jodo.gallery.js"></script>
+        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
-        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
+        <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
-        <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
 
 
         <!--[if lt IE 9 ]>

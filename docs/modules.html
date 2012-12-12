@@ -15,6 +15,16 @@
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/responsive.css" rel="stylesheet">
   <link href="css/docs.css" rel="stylesheet">
+
+  <!--[if lt IE9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!--> 
+    <script type="text/javascript">
+      // Android needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
+    </script>
+  <!--<![endif]-->
+
   <link href="css/google-prettify.css" rel="stylesheet">
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
@@ -92,8 +102,8 @@
             
                 
                 
-                
                     <li><a href='../build/debug/details_module.html'>Spec Module</a>: This is the spec module.</li>
+                
                 
                     <li><a href='../build/debug/editorial_module.html'>Editorial Module</a>: This is the Editorial Module, it contains text and media elements which can be nested modules.</li>
                 
@@ -102,12 +112,12 @@
                 
                     <li><a href='../build/debug/example_module.html'>Example Module</a>: This is a sample module showing how to include data and partial includes to generate a page.</li>
                 
-                
                     <li><a href='../build/debug/gallery_module.html'>Gallery Module</a>: Tabbed galleries with different layouts. Data generated from JSON file.</li>
                 
                 
-                    <li><a href='../build/debug/image_module.html'>Image Module</a>: This is a module used to embed IQ images as a submodule in a container module.</li>
                 
+                
+                    <li><a href='../build/debug/image_module.html'>Image Module</a>: This is a module used to embed IQ images as a submodule in a container module.</li>
                 
                 
                     <li><a href='../build/debug/related_products_module.html'>Related Products Module</a>: Yo dawg, I heard you like other products with your products.</li>
