@@ -1,42 +1,43 @@
 //
 // Responsive: Landscape phone to desktop/tablet
 // --------------------------------------------------
-
-
+//
+//
+//
+// This space intentionally left blank.
+// so these classes will line up through all the responsive files.
+//
+//
+//
+//
+//
+//
+//
 @media (max-width: 767px) {
 
-  // Remove padding on container given explicit padding set on body
+  // Fluid grid
   .container,
   .container-fluid {
+    width:auto;
+
   }
   .grid{
-    padding-left: 0;
-    padding-right: 0; 
+    width:auto;
   }
 
 
 
-  // TYPOGRAPHY
-  // ----------
-  // Reset horizontal dl
-  .dl-horizontal {
-    dt {
-      float: none;
-      clear: none;
-      width: auto;
-      text-align: left;
-    }
-    dd {
-      margin-left: 0;
-    }
-  }
-
-  // GRID & CONTAINERS
-  // -----------------
-  // Remove width from containers
+  // Fixed grid
   .container-px-width {
     width: auto;
   }
+  .grid-px-width{
+    width: auto;    
+  }
+
+
+  // GRID & CONTAINERS
+  // -----------------
   
   // Fluid rows
   .row-fluid {
@@ -99,6 +100,23 @@
     width: auto;
     margin: 0;
     &.fade.in { top: auto; }
+  }
+
+
+
+  // TYPOGRAPHY
+  // ----------
+  // Reset horizontal dl
+  .dl-horizontal {
+    dt {
+      float: none;
+      clear: none;
+      width: auto;
+      text-align: left;
+    }
+    dd {
+      margin-left: 0;
+    }
   }
 
 }

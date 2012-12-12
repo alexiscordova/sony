@@ -1,29 +1,40 @@
 //
-// Responsive: Tablet to desktop
+// Responsive: Tablet to desktop (default)
 // --------------------------------------------------
+	.container,
+	.container-fluid,
+	.container-px-width,
+	.grid,
+	.grid-px-width{
+	  margin-right: auto;
+	  margin-left: auto;	
+	  @include clearfix();
+	}
+	.container.full-bleed,
+	.container-fluid.full-bleed {
+		width:100%;
+	}
 
+	// Fluid grid
+	.container,
+	.container-fluid {
+	  width:$fluidContainerWidth;
 
+	}
+	.grid {
+	  width:$fluidGridWidth;
+	}
+	@include grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth);
+	
 
-// Fixed grid
-.container-px-width{
-  width:$containerWidth;    
-}
-.grid-px-width{
-  width:$gridWidth;    
-}
-@include grid-core($gridColumnWidth, $gridGutterWidth);
-// Input grid
-@include grid-input($gridColumnWidth, $gridGutterWidth);
-
-
-
-// Fluid grid
-.container,
-.container-fluid {
-  width:$fluidContainerWidth;
-}
-.grid {
-  width:$fluidGridWidth;
-}
-@include grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth);
+	// Fixed grid
+	.container-px-width{
+	  width:$containerWidth;    
+	}
+	.grid-px-width{
+	  width:$gridWidth;    
+	}
+	@include grid-core($gridColumnWidth, $gridGutterWidth);
+	// Input grid
+	@include grid-input($gridColumnWidth, $gridGutterWidth);
 

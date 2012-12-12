@@ -23,19 +23,16 @@
 			  </div>
 			</header>
 			
-			  <div class="container">			
+			<div class="main">			
 			
 			        <!-- Grid system
 			        ================================================== -->
-			        <section id="gridSystem">
+			        <section id="gridSystem" class="container">
 			          <h2 class="bs-docs-heading">Default grid system</h2>
-								
-								<div class="gridInnerWidth">gridInnerWidth</div>
-								<div class="gridRowWidth">gridRowWidth</div>
 
 			          <h3 class="bs-docs-heading">Live grid example</h3>
 			          <p>The default Bootstrap grid system utilizes <strong>12 columns</strong>, making for a 940px wide container without <a href="./scaffolding.html#responsive">responsive features</a> enabled. With the responsive CSS file added, the grid adapts to be 724px and 1170px wide depending on your viewport. Below 767px viewports, the columns become fluid and stack vertically.</p>
-			          <div class="bs-docs-grid">
+			          <div class="grid-px-width bs-docs-grid">
 			            <div class="row show-grid">
 			              <div class="span1">1</div>
 			              <div class="span1">1</div>
@@ -77,7 +74,7 @@
 			
 			          <h3 class="bs-docs-heading">Offsetting columns</h3>
 			          <p>Move columns to the right using <code>.offset*</code> classes. Each class increases the left margin of a column by a whole column. For example, <code>.offset4</code> moves <code>.span4</code> over four columns.</p>
-			          <div class="bs-docs-grid">
+			          <div class="grid-px-width bs-docs-grid">
 			            <div class="row show-grid">
 			              <div class="span1">1</div>
 			              <div class="span1">1</div>
@@ -108,19 +105,21 @@
 			
 			          <h3 class="bs-docs-heading">Nesting columns</h3>
 			          <p>To nest your content with the default grid, add a new <code>.row</code> and set of <code>.span*</code> columns within an existing <code>.span*</code> column. Nested rows should include a set of columns that add up to the number of columns of its parent.</p>
-			          <div class="row show-grid">
-			            <div class="span12">
-			              Level 1 of column
-			              <div class="row show-grid">
-			                <div class="span9">
-			                  Level 2
-			                </div>
-			                <div class="span3">
-			                  Level 2
-			                </div>
-			              </div>
-			            </div>
-			          </div>
+			          <div class="grid-px-width">
+				          <div class="row show-grid">
+				            <div class="span12">
+				              Level 1 of column
+				              <div class="row show-grid">
+				                <div class="span9">
+				                  Level 2
+				                </div>
+				                <div class="span3">
+				                  Level 2
+				                </div>
+				              </div>
+				            </div>
+				          </div>
+				        </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="row"&gt;
 			  &lt;div class="span12"&gt;
@@ -138,12 +137,12 @@
 			
 			        <!-- Fluid grid system
 			        ================================================== -->
-			        <section id="fluidGridSystem">
+			        <section id="fluidGridSystem" class="container">
 			          <h2 class="bs-docs-heading">Fluid grid system</h2>
 			
 			          <h3 class="bs-docs-heading">Live fluid grid example</h3>
 			          <p>The fluid grid system uses percents instead of pixels for column widths. It has the same responsive capabilities as our fixed grid system, ensuring proper proportions for key screen resolutions and devices.</p>
-			          <div class="bs-docs-grid">
+			          <div class="grid bs-docs-grid">
 			            <div class="row-fluid show-grid">
 			              <div class="span1">1</div>
 			              <div class="span1">1</div>
@@ -187,7 +186,7 @@
 			
 			          <h3 class="bs-docs-heading">Fluid offsetting</h3>
 			          <p>Operates the same way as the fixed grid system offsetting: add <code>.offset*</code> to any column to offset by that many columns.</p>
-			          <div class="bs-docs-grid">
+			          <div class="grid bs-docs-grid">
 			            <div class="row-fluid show-grid">
 			              <div class="span4">4</div>
 			              <div class="span4 offset4">4 offset 4</div>
@@ -209,19 +208,21 @@
 			
 			          <h3 class="bs-docs-heading">Fluid nesting</h3>
 			          <p>Nesting with fluid grids is a bit different: the number of nested columns should not match the parent's number of columns. Instead, each level of nested columns are reset because each row takes up 100% of the parent column.</p>
-			          <div class="row-fluid show-grid">
-			            <div class="span12">
-			              Fluid 12
-			              <div class="row-fluid show-grid">
-			                <div class="span6">
-			                  Fluid 6
-			                </div>
-			                <div class="span6">
-			                  Fluid 6
-			                </div>
-			              </div>
-			            </div>
-			          </div>
+			          <div class="grid">
+				          <div class="row-fluid show-grid">
+				            <div class="span12">
+				              Fluid 12
+				              <div class="row-fluid show-grid">
+				                <div class="span6">
+				                  Fluid 6
+				                </div>
+				                <div class="span6">
+				                  Fluid 6
+				                </div>
+				              </div>
+				            </div>
+				          </div>
+				        </div>
 			<pre class="prettyprint linenums">
 			&lt;div class="row-fluid"&gt;
 			  &lt;div class="span12"&gt;
@@ -241,7 +242,7 @@
 			
 			        <!-- Layouts (Default and fluid)
 			        ================================================== -->
-			        <section id="layouts">
+			        <section id="layouts" class="container">
 			          <h2 class="bs-docs-heading">Layouts</h2>
 			
 			          <h3 class="bs-docs-heading">Fixed layout</h3>
@@ -282,7 +283,7 @@
 			
 			        <!-- Responsive design
 			        ================================================== -->
-			        <section id="responsive">
+			        <section id="responsive" class="container">
 			          <h2 class="bs-docs-heading">Responsive design</h2>
 			
 			          {{! Enabling }}

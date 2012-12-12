@@ -517,6 +517,7 @@
 	// 1200px breakpoint
 	$containerWidth1200:		1200px - ($containerMarginWidth1200*2);
 	$gridWidth1200:        	($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
+	$gridMaxWidth:					$containerMaxWidth - ($gridMarginWidth1200 * 2);
 
 	// 768px-979px breakpoints
 	$containerWidth768:			768px - ($containerMarginWidth768*2);
@@ -546,20 +547,20 @@
 
 
 	// Default 980px-1199px
-	$fluidContainertWidth: 	percentage($containerWidth/980px) !default;
+	$fluidContainerWidth: 	percentage($containerWidth/980px) !default;
 	$fluidGridWidth: 				percentage($gridWidth/$containerWidth) !default;
 	$fluidGridColumnWidth:  percentage($gridColumnWidth/$gridWidth) !default;
 	$fluidGridGutterWidth:  percentage($gridGutterWidth/$gridWidth) !default;
 
 	// 1200px min - 
-	$fluidContainertWidth1200: percentage($containerWidth1200/1200px) !default;
+	$fluidContainerWidth1200:  percentage($containerWidth1200/1200px) !default;
 	$fluidGridWidth1200: 			 percentage($gridWidth1200/$containerWidth1200) !default;
 	$fluidGridColumnWidth1200: percentage($gridColumnWidth1200/$gridWidth1200) !default;
 	$fluidGridGutterWidth1200: percentage($gridGutterWidth1200/$gridWidth1200) !default;
 
 	// 768px-979px
-	$fluidContainertWidth768: percentage($containerWidth768/768px) !default;
-	$fluidGridWidth768: 			percentage($gridWidth768/$containerWidth1200) !default;
+	$fluidContainerWidth768: 	percentage($containerWidth768/768px) !default;
+	$fluidGridWidth768: 			percentage($gridWidth768/$containerWidth768) !default;
 	$fluidGridColumnWidth768: percentage($gridColumnWidth768/$gridWidth768) !default;
 	$fluidGridGutterWidth768: percentage($gridGutterWidth768/$gridWidth768) !default;
 	

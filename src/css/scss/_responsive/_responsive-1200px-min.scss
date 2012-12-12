@@ -1,9 +1,31 @@
 //
 // Responsive: Large desktop and up
 // --------------------------------------------------
-
-
+//
+//
+//
+// This space intentionally left blank.
+// so these classes will line up through all the responsive files.
+//
+//
+//
+//
+//
+//
+//
 @media (min-width: 1200px) {
+
+  // Fluid grid
+  .container,
+  .container-fluid {
+    width:$fluidContainerWidth1200;
+    // &.full-bleed{ width:100%; }
+  }
+  .grid {
+    width:$fluidGridWidth1200;
+  }
+  @include grid-fluid($fluidGridColumnWidth1200, $fluidGridGutterWidth1200);
+
 
   // Fixed grid
   .container-px-width{
@@ -18,16 +40,6 @@
 
 
 
-  // Fluid grid
-  .container,
-  .container-fluid {
-    width:$fluidContainerWidth1200;
-    // &.full-bleed{ width:100%; }
-  }
-  .grid {
-    width:$fluidGridWidth1200;
-  }
-  @include grid-fluid($fluidGridColumnWidth1200, $fluidGridGutterWidth1200);
 
   // Thumbnails
   .thumbnails {
@@ -48,5 +60,14 @@
     max-width: $containerMaxWidth;
     margin: 0 auto;
     @include clearfix();
-  }  
+  }
+
+
+  // // Fixed grid
+  // .container-px-width{
+  //   width:$containerMaxWidth;    
+  // }
+  // .grid-px-width{
+  //   width:$gridMaxWidth;    
+  // }
 }
