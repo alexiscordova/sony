@@ -1,6 +1,6 @@
 
 /*
- * GET module listing.
+ * GET Pages listing.
  */
 
 fs = require('fs');
