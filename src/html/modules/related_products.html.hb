@@ -26,9 +26,8 @@ meta_data: {a:'foo', b:'bar'}
 <div class="btn btn-mini btn-alt rpArrow left">Previous</div>
 <div class="btn btn-mini btn-alt rpArrow right">Next</div>
 <section class="related-products">
-    <div class="rpOverflow">
+    <div class="rpOverflow" id="rpOverflow">
       <div class="rpContainer">
-
         <div class='rpSlide'>
           <div class="row-5-up">
             <!-- <img src="http://flickholdr.com/582/450/headphones/2" alt="Promo" /> -->
@@ -66,7 +65,32 @@ meta_data: {a:'foo', b:'bar'}
       </div>
     </div>
   </section> 
-
+<div id="wrapper">
+  <div id="scroller">
+    <ul id="thelist">
+      <li><strong>1.</strong> <em>A robot may not injure a human being or, through inaction, allow a human being to come to harm.</em></li>
+      <li><strong>2.</strong> <em>A robot must obey any orders given to it by human beings, except where such orders would conflict with the First Law.</em></li>
+      <li><strong>3.</strong> <em>A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.</em></li>
+      <li><strong>Zeroth Law:</strong> <em>A robot may not harm humanity, or, by inaction, allow humanity to come to harm.</em></li>
+      <li><strong>Lyuben Dilov's Forth law:</strong> <em>A robot must establish its identity as a robot in all cases.</em></li>
+      <li><strong>Harry Harrison's Forth law:</strong> <em>A robot must reproduce. As long as such reproduction does not interfere with the First or Second or Third Law.</em></li>
+      <li><strong>Nikola Kesarovski's Fifth law:</strong> <em>A robot must know it is a robot.</em></li>
+    </ul>
+  </div>
+</div>
+<div id="nav">
+  <div id="prev" onclick="myScroll.scrollToPage('prev', 0);return false">&larr; prev</div>
+  <ul id="indicator">
+    <li class="active">1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+  </ul>
+  <div id="next" onclick="myScroll.scrollToPage('next', 0);return false">next &rarr;</div>
+</div>
 <!-- <div class="container">
   <div class="span-40"></div>
   <div class="span-60"></div>
