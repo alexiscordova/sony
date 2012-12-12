@@ -27,9 +27,9 @@ description: This is a sample module showing how to include data and partial inc
 <%" !! include your module markup templates here "%>
 <%" !! this shows 2 modules with different ways of getting unique data into the module template "%>
 <%" !! first from an external json file found in the /data directory preferred "%>
-		<%-@partial('modules/example2.html.eco', {this:this, data:@data('example/mode1.json')} ) %>
+		<%-@partial('modules/example.html.eco', {this:this, data:@data('example/mode1.json')} ) %>
 <%" !! second is inline object iterals (depreciated) "%>
-		<%-@partial('modules/example2.html.eco', {this:this, data:{mode:'two', content:{a:'3',b:'4'}}}) %>
+		<%-@partial('modules/example.html.eco', {this:this, data:{mode:'two', content:{a:'3',b:'4'}}}) %>
 
 
 <% if 'debug' in @getEnvironments():%>
