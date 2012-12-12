@@ -8,6 +8,7 @@
 
         // jQuery objects
         self.$container = $container;
+        self.id = self.$container[0].id;
         self.$filterContainer = self.$container.find('.product-filter');
         self.$grid = self.$container.find('.products');
         self.$filterOpts = self.$container.find('.filter-options');
@@ -20,9 +21,11 @@
         self.$favorites = self.$grid.find('.js-favorite');
         
         // Compare modal
-        self.$compare = self.$container.find('.js-compare-toggle');
+        self.$compareBtn = self.$container.find('.js-compare-toggle');
+        self.hasCompareModal = self.$compareBtn.length > 0;
         self.$compareTool = $('#compare-tool');
         self.$compareCount = self.$compareTool.find('.js-compare-count');
+        self.$compareReset = self.$compareTool.find('.js-compare-reset');
 
         // Other vars
         self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
@@ -69,7 +72,7 @@
         self.$sortBtns.on('click',  $.proxy( self.sort, self ));
 
         // Set up sorting ---- select menu
-        self.$sortSelect.on('change', $.proxy( self.sortItems, self ));
+        self.$sortSelect.on('change', $.proxy( self.sort, self ));
 
         // Displays active filters on `filter`
         self.$grid.on('filter.shuffle', function(evt, shuffle) {
@@ -79,7 +82,7 @@
 
         // Things moved around and could possibly be in the viewport
         // Filtered should already be throttled because whatever calls .filter() should be throttled.
-        self.$grid.on('filtered.shuffle', function() {
+        self.$grid.on('layout.shuffle', function() {
             window.iQ.update();
         });
 
@@ -96,8 +99,11 @@
         self.$container.closest('[data-tab]').on('shown', $.proxy( self.onShown, self ));
 
         // Launch compare tool on click
-        self.$compare.on('click', $.proxy( self.onCompareLaunch, self ));
-        self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
+        if ( self.hasCompareModal ) {
+            self.$compareBtn.on('click', $.proxy( self.onCompareLaunch, self ));
+            self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
+            self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
+        }
 
         // We're done.
         self.isInitialized = true;
@@ -400,6 +406,7 @@
 
             // Show first dropdown as active
             self.$sortBtns.first().parent().addClass('active');
+            self.currentSort = self.$sortBtns.closest('.dropdown-menu').find('.active a').data('value');
         },
 
         initInfscr : function() {
@@ -407,7 +414,7 @@
 
             self.$grid.infinitescroll({
                 local: true,
-                debug: true,
+                // debug: true,
                 bufferPx: -100, // Load 100px after the navSelector has entered the viewport
                 navSelector: 'div.navigation', // selector for the paged navigation
                 nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
@@ -697,11 +704,6 @@
                 initialMax: '100%',
                 range: true
             });
-
-            // Listen for reset event
-            // self.$container.on('reset.gallery', function() {
-            //     $rangeControl.rangeControl('reset', true);
-            // });
         },
 
         // If there is a range control in this element and it's in need of an update
@@ -718,43 +720,37 @@
         sort : function( evt ) {
             var self = this,
                 $target = $(evt.target),
-                data = $target.data(),
-                reverse = data.reverse ? true : false,
+                isSelect = $target.is('select'),
+                data,
+                filterName,
+                reverse,
                 sortObj = {};
 
-            evt.preventDefault();
+            // Get variables based on what kind of component we're working with
+            if ( isSelect ) {
+                filterName = $target.val();
+                reverse = evt.target[ evt.target.selectedIndex ].getAttribute('data-reverse');
+                reverse = reverse === 'true' ? true : false;
+            } else {
+                data = $target.data();
+                filterName = data.value;
+                reverse = data.reverse ? true : false;
 
-            self.$dropdownToggleText.text( $target.text() );
+                evt.preventDefault();
+                self.$dropdownToggleText.text( $target.text() );
+            }
 
-            if ( data.value !== 'default' ) {
+            if ( filterName !== 'default' ) {
                 sortObj = {
                     reverse: reverse,
                     by: function($el) {
                         // e.g. filterSet.price
-                        return $el.data('filterSet')[ data.value ];
+                        return $el.data('filterSet')[ filterName ];
                     }
                 };
             }
 
-            self.$grid.shuffle('sort', sortObj);
-        },
-
-        sortItems : function( evt ) {
-            var self = this,
-                reverse = evt.target[ evt.target.selectedIndex ].getAttribute('data-reverse'),
-                filterName = evt.target.value,
-                sortObj = {};
-            
-            if ( evt.target.value !== 'default' ) {
-                reverse = reverse === 'true' ? true : false;
-                sortObj = {
-                    reverse: reverse,
-                    by: function($el) {
-                        return $el.data('filterSet')[filterName];
-                    }
-                };
-            }
-
+            self.currentSort = filterName;
             self.$grid.shuffle('sort', sortObj);
         },
 
@@ -904,48 +900,140 @@
 
                 // Clone all visible
                 $currentItems = shuffle.$items.filter('.filtered').clone(),
+                $newItems = $(),
                 // Get product count
-                productCount = parseInt( self.$productCount.text(), 10 ),
-                $content = $('<div class="compare-container">'),
+                productCount = $currentItems.length,
+                $container = $('<div class="container-fluid">'),
+                $content = $('<div class="compare-container clearfix">'),
+                $label = self.$compareTool.find('#compare-tool-label'),
+                originalLabel = $label.text(),
+                newLabel = originalLabel + ' ' + self.$container.find('.compare-name').text(),
                 
                 // Clone sort button
                 $sortOpts = self.$container.find('.sort-options').clone();
             
 
+            // Build / manipulate compare items from the gallery items
+            $currentItems.each(function() {
+                var $item = $(this),
+                    $swatches,
+                    $div = $('<div/>');
+
+                $item
+                    .removeClass()
+                    .addClass('span4 compare-item')
+                    .removeAttr('style')
+                    .append('<span class="box-close box-close-small compare-item-remove"><i class="icon-ui-x-tiny"></i></span>')
+                    .find('.detail-group')
+                    .removeClass('hidden')
+                    .end()
+                    .find('.label')
+                    .remove();
+
+                $swatches = $item.find('.product-img .color-swatches').detach();
+                $item.find('.price').after($swatches);
+
+                // Create a new div with the same attributes as the anchor tag
+                // We no longer want the entire thing to be clickable
+                $div.attr({
+                    "data-filter-set" : $item.attr('data-filter-set'),
+                    "class" : $item.attr('class')
+                });
+
+                $div.append( $item.children().detach() );
+                $newItems = $newItems.add( $div );
+            });
+
+            // Set item count
+            self.$compareCount.text( productCount );
+
             // Set up sort events
             $sortOpts.find('.dropdown a').on('click', $.proxy( self.sortComparedItems, self ));
 
-
-            // Build carousel structure
-            $currentItems.removeClass().addClass('span4 gallery-item').removeAttr('style');
-            self.$compareCount.text( productCount );
+            // Append sort dropdown
             self.$compareTool.find('.modal-header').append( $sortOpts );
 
+            // Set current sort
+            // TODO
+
+            // Set the right heading. e.g. Compare Cyber-shot
+            $label.text( newLabel );
+
+            // Remove compare items on click
+            $newItems.find('.compare-item-remove').on('click', function() {
+                $(this).parent().addClass('hide');
+                self.$compareReset.removeClass('disabled');
+            });
+
+            // Intialize carousel
+            // TODO
+
+            // Save state for reset
             self.compareState = {
                 count: productCount,
-                sort: '',
-                $items : $currentItems
+                sort: self.currentSort,
+                $items : $newItems,
+                label: originalLabel
             };
-            // Get current sort
 
-            $content.append( $currentItems );
-            self.$compareTool.find('.modal-body').html($content);
+            $content.append( $newItems );
+            $container.append( $content );
 
-            console.log(self.compareState);
+            self.$compareTool
+                .find('.modal-body')
+                .append($container)
+                .end()
+                .data('galleryId', self.id) // Set some data on the modal so we know which gallery it belongs to
+                .modal('show'); // Show the modal
 
-            self.$compareTool.modal('show');
-
-            // $container.append($content);
-            // $('body').append($container);
+            // Cloned images need to be updated
+            window.iQ.update();
         },
 
         onCompareClosed : function() {
             var self = this;
 
+            if ( self.$compareTool.data('galleryId') !== self.id ) {
+                return;
+            }
+
+            // Delete the id from memory
+            self.$compareTool.removeData('galleryId');
+
+            // Clean up
             self.$compareTool.find('.dropdown').remove();
-            self.$compareTool.find('.modal-body').empty();
-            self.$compareCount.text('0');
+
+            // Destroy carousel
+            // TODO
+
+            // Empty out html
+            self.$compareTool.find('.compare-container').remove();
+
+            // Set count to zero
+            self.$compareCount.text(0);
+            self.$compareTool.find('#compare-tool-label').text( self.compareState.label );
+
+            // Set state to null
             self.compareState = null;
+        },
+
+        onCompareReset : function() {
+            var self = this,
+                state = self.compareState;
+
+            if ( self.$compareTool.data('galleryId') !== self.id ) {
+                return;
+            }
+
+            self.$compareCount.text( state.count );
+            state.$items.find('.compare-item-remove').parent().removeClass('hide');
+
+            // Disable reset button
+            self.$compareReset.addClass('disabled');
+
+            // Reset sort
+
+            // Reset carousel
         },
 
         setColumnMode : function() {

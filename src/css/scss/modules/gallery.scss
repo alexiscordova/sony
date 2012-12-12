@@ -166,6 +166,21 @@ $detailedGalleryItemHeight: 480px;
   }
 }
 
+@media (min-width:768px) and (max-width:979px) {
+  .gallery-detailed,
+  .compare-container {
+
+    .gallery-item {
+      height: 434px;
+    }
+
+    .product-img {
+      height: 174px;
+    }
+
+  }
+}
+
 
 @media (max-width: 767px) {
   .gallery-item {
@@ -495,12 +510,50 @@ $detailedGalleryItemHeight: 480px;
 // Takeover
 // -------------------------
 
-.compare-container {
-  overflow-x: auto;
 
-  .gallery-item {
-    height: 100%;
+
+// Compare Tool
+// -------------------------
+.compare-container {
+  // @include lightGrayInset();
+  padding: 15px 0;
+}
+
+.compare-item {
+  position: relative;
+}
+
+.compare-item-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.box-close {
+  float: right;
+  @include square(36px);
+  padding: 0;
+  line-height: 1;
+  background: $gray;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+
+  i {
+    vertical-align: middle;
   }
+}
+
+.box-close-small {
+  @include square(20px);
+
+}
+
+.compare-box {
+  display: inline-block;
+  padding: 10px;
+  color: $white;
+  background: $gray;
 }
 
 

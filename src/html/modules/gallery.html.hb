@@ -24,7 +24,7 @@
 
   <div class="tabs-container container-fluid">
     <div class="tabs">
-      {{#each tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab" data-hash="true">
+      {{#each data.tabs}}<div class="tab ghost-center-wrap{{#if this.first}} active{{/if}}" data-target="{{this.slug}}" data-toggle="tab" data-hash="true">
         <div class="ghost-center">
           <div class="holder-for-icon"><i class="icon-tab-{{this.icon}}"></i></div>
           <div class="l3 tab-label">{{this.label}}</div>
@@ -37,8 +37,8 @@
 
 <div class="tab-content">
 
-  <div class="tab-pane fade active in" data-tab="{{tabs.[0].slug}}">
-    {{#each featured}}
+  <div class="tab-pane fade active in" data-tab="{{data.tabs.[0].slug}}">
+    {{#each data.featured}}
     <section class="container-fluid padded fade gallery" data-mode="{{this.mode}}">
       <h6>{{{this.title}}}</h6>
       <div class="products row-fluid">
@@ -91,37 +91,35 @@
 
     </section>
     {{/each}}
-
-    <!-- <div class="text-center"><button class="btn gallery-load-more">Clone some</button></div> -->
   </div>
 
-  <div class="tab-pane fade" data-tab="{{tabs.[1].slug}}">
-    <section class="gallery" data-mode="{{productCards.mode}}">
-      {{#if productCards.filterSet}}
+  <div class="tab-pane fade" data-tab="{{data.tabs.[1].slug}}">
+    <section class="gallery" id="{{data.productCards.name}}-gallery" data-mode="{{data.productCards.mode}}">
+      {{#if data.productCards.filterSet}}
       
       <div class="filter-display-bar slide-toggle-parent container-fluid padded">
-        {{#if productCards.sortSet}}
+        {{#if data.productCards.sortSet}}
         <div class="sort-options pull-right">
           <span class="l4">Sort By:&nbsp;</span>
           <div class="dropdown dropdown-alt ib hidden-phone">
-            <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
+            <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown"><span class="js-toggle-text">{{data.productCards.sortSet.[0].label}}</span> <i class="icon-ui-arrowheads-up-down-gray"></i></button>
             <ul class="dropdown-menu dropdown-menu-alt pull-right" role="menu">
-            {{#each productCards.sortSet}}
+            {{#each data.productCards.sortSet}}
               <li><a data-value="{{this.name}}" data-reverse="{{this.reverse}}" tabindex="-1" href="#">{{this.label}}</a></li>
             {{/each}}
             </ul>
           </div>
 
           <select class="native-dropdown visible-phone">
-            {{#each productCards.sortSet}}
+            {{#each data.productCards.sortSet}}
             <option value="{{this.name}}" data-reverse="{{this.reverse}}">{{this.label}}</option>
             {{/each}}
           </select>
         </div>
         {{/if}}
 
-        <p class="ib"><span class="text-dark product-count">{{productCards.total}}</span> Products</p>
-        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#{{productCards.name}}-filters">Filter</button>
+        <p class="ib"><span class="text-dark product-count">{{data.productCards.total}}</span> Products</p>
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#{{data.productCards.name}}-filters">Filter</button>
         <button class="btn btn-alt-special btn-alt-plus js-compare-toggle" data-target="#compare-tool">Compare</button>
       </div>
 
@@ -136,11 +134,11 @@
         </div>
       </div>
 
-      <div class="collapse slide-toggle-target" id="{{productCards.name}}-filters">
+      <div class="collapse slide-toggle-target" id="{{data.productCards.name}}-filters">
         <div class="filter-options container-fluid padded">
           <div class="row-fluid">
             <div class="span8 regular-filters">
-            {{#each productCards.filterSet}}
+            {{#each data.productCards.filterSet}}
               {{#if this.type.color}}
               <div class="span6 filter-container">
                 <p class="l3">{{this.label}}</p>
@@ -183,7 +181,7 @@
             {{/each}}
             </div>
 
-            {{#each productCards.filterSet}}
+            {{#each data.productCards.filterSet}}
             {{#if this.type.group}}
             <div class="span4 best-for filter-container">
               <p class="l3">{{this.label}}</p>
@@ -214,7 +212,7 @@
 
       <div class="container-fluid padded">
         <div class="products row-fluid">
-          {{#each productCards.list}}
+          {{#each data.productCards.list}}
           <a class="span4 gallery-item" data-filter-set='{{{json this.filterSet}}}' data-priority="{{this.priority}}" itemscope itemtype="http://schema.org/Product" itemprop="url" href="{{#if this.href}}{{this.href}}{{else}}#{{/if}}">
             {{#if this.label}}
             <span class="label label-success">{{this.label}}</span>
@@ -260,23 +258,74 @@
               <div class="product-price">
                 <p class="price"><span class="p5">Starting at</span> <span class="l2" itemprop="price">${{this.price}}</span> <span class="p5 msrp">MSRP</span></p>
               </div>
+              <div class="detail-group hidden">
+                {{! too bad there's no else if :( }}
+                {{#each this.details}}
+                <div class="detail" itemprop="{{this.slug}}">
+                  {{#if this.value.check}}
+                    {{#if this.value.checked}}
+                    <div class="icon-ui-check"></div>{{{this.value.text}}}
+                    {{else}}
+                    <div class="icon-ui-ban"></div>NOPE
+                    {{/if}}
+                  {{else}}
+                    {{#if this.value.box}}
+                      <p class="compare-box">{{{this.value.box}}}</p>
+                      <p>{{{this.value.lineOne}}}</p>
+                      {{#if this.value.lineTwo}}<p>{{{this.value.lineTwo}}}</p>{{/if}}
+                      {{#if this.value.lineThree}}<p>{{{this.value.lineThree}}}</p>{{/if}}
+                    {{else}}
+                      {{#if this.value.lineOne}}
+                        <p>{{{this.value.lineOne}}}</p>
+                        {{#if this.value.lineTwo}}<p>{{{this.value.lineTwo}}}</p>{{/if}}
+                        {{#if this.value.lineThree}}<p>{{{this.value.lineThree}}}</p>{{/if}}
+                      {{else}}
+                        {{#if this.value.[0].description}}
+                          <ul class="media-list">
+                            {{#each this.value}}
+                            <li class="media">
+                              <div class="pull-left">
+                                <i class="media-object icon-bestfor-{{this.icon}}"></i>
+                              </div>
+                              <div class="media-body">
+                                <p class="media-heading p3 text-dark">{{this.label}}</p>
+                                <p class="p3">{{this.description}}</p>
+                              </div>
+                            </li>
+                            {{/each}}
+                          </ul>
+                        {{else}}
+                          {{{this.value}}}
+                        {{/if}}
+                      {{/if}}
+                    {{/if}}
+                  {{/if}}
+                </div>
+                {{/each}}
+              </div>
             </div>
           </a>
           {{/each}}
-          
         </div>
       </div>
 
-      {{#if productCards.nextLink}}
+      <div class="comparables hidden">
+        <div class="compare-name">{{{data.productCards.galleryName}}}</div>
+      {{#each data.productCards.comparable}}
+        <div data-slug="{{{this.slug}}}" data-label="{{{this.label}}}"></div>
+      {{/each}}
+      </div>
+
+      {{#if data.productCards.nextLink}}
       <div class="navigation invisible">
-        <a href="{{productCards.nextLink}}">Camera Overflow</a>
+        <a href="{{data.productCards.nextLink}}">Camera Overflow</a>
       </div>
       <div class="infscr-holder text-center"></div>
       {{/if}}
     </section>
   </div>
 
-  <div class="tab-pane fade" data-tab="{{tabs.[2].slug}}">
+  <div class="tab-pane fade" data-tab="{{data.tabs.[2].slug}}">
     <section>
       <div class="slide-toggle-parent container-fluid padded">
         <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
@@ -467,15 +516,13 @@
 
 <div id="compare-tool" class="modal takeover hide fade" tabindex="-1" role="dialog" aria-labelledby="compare-tool-label" aria-hidden="true">
   <div class="modal-header container-fluid">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 class="ib" id="compare-tool-label"><span class="js-compare-count">0</span>&nbsp;Products</h3>
-    <button class="btn btn-small">Reset</button>
+    <button class="box-close" data-dismiss="modal" aria-hidden="true"><i class="icon-ui-x-tiny"></i></button>
+    <h3 class="ib" id="compare-tool-label">Compare</h3>
+    <button class="btn btn-small disabled js-compare-reset">Reset</button>
   </div>
-  <div class="modal-body container-fluid"></div>
-  <!-- <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
-  </div> -->
+  <div class="modal-body">
+    <div class="container-fluid"><span class="js-compare-count">0</span>&nbsp;Products</div>
+  </div>
 </div>
 
 

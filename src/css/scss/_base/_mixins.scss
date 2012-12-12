@@ -298,26 +298,21 @@ $default-transition-delay    : 0s;
 	@include border-bottom-left-radius($radius);
 }
 
-// Drop shadows
+// Box shadows
+// @all, -ms- and -o- box-shadow doesn't exist + box-shadow != drop-shadow
 @mixin box-shadow($shadow1, $shadow2:null, $shadow3:null) { 
-	@if ($shadow3!=null){
-    -webkit-box-shadow:$shadow1, $shadow2, $shadow3;
-       -moz-box-shadow:$shadow1, $shadow2, $shadow3;
-        -ms-box-shadow:$shadow1, $shadow2, $shadow3;
-         -o-box-shadow:$shadow1, $shadow2, $shadow3;
-            box-shadow:$shadow1, $shadow2, $shadow3;
+	@if ($shadow3!=null) {
+    -webkit-box-shadow: $shadow1, $shadow2, $shadow3;
+       -moz-box-shadow: $shadow1, $shadow2, $shadow3;
+            box-shadow: $shadow1, $shadow2, $shadow3;
 	} @else if ($shadow2!=null){
-    -webkit-box-shadow:$shadow1, $shadow2;
-       -moz-box-shadow:$shadow1, $shadow2;
-        -ms-box-shadow:$shadow1, $shadow2;
-         -o-box-shadow:$shadow1, $shadow2;
-            box-shadow:$shadow1, $shadow2;
+    -webkit-box-shadow: $shadow1, $shadow2;
+       -moz-box-shadow: $shadow1, $shadow2;
+            box-shadow: $shadow1, $shadow2;
 	} @else {
-    -webkit-box-shadow:$shadow1;
-       -moz-box-shadow:$shadow1;
-        -ms-box-shadow:$shadow1;
-         -o-box-shadow:$shadow1;
-            box-shadow:$shadow1;
+    -webkit-box-shadow: $shadow1;
+       -moz-box-shadow: $shadow1;
+            box-shadow: $shadow1;
 
 	}
 }
@@ -1002,7 +997,10 @@ $default-transition-delay    : 0s;
 
 
 
-
+@mixin lightGrayInset() {
+	background: $grayLightFieldLarge;
+  	@include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
+}
 
 
 // Custom (not from Bootstrap) --CJM

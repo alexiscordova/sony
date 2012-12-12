@@ -521,6 +521,7 @@
             // Only fire callback once per collection's transition
             complete = function() {
                 if (!self.layoutTransitionEnded && opts.from === 'layout') {
+                    self.fire('layout');
                     opts.callback.call(self);
                     self.layoutTransitionEnded = true;
                 } else if (!self.shrinkTransitionEnded && opts.from === 'shrink') {
