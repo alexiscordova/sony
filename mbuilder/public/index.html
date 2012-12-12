@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<meta charset="utf-8">
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/docs.css" rel="stylesheet">
+		<link href="css/mbuilder.css" rel="stylesheet">
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+		
+		
+	</head>
+	
+	<body>
+			
+		<div class="container">
+			<h1>Sony Module Builder</h1>
+			
+			<div class="clearfix form-inline row">
+				<div class="control-group span4">
+  					<label>Module</label>
+  					<select id="module_select">
+  						<option class="hold"></option>
+  					</select>
+				</div>
+				
+				<div id="data_control" class="control-group span4">
+					<label>Data</label>		
+					<select id="data_select">
+					</select>
+				</div>
+						
+			</div>
+			<div id="main_data_edit" class="clearfix row">
+				<textarea rows="10" class="span11"></textarea>
+				
+			</div>
+			
+			<div id="submodule_section">
+				<h2>Submodules</h2>
+				<ul id="submodule_list">
+					
+				</ul>
+				<div class="row">
+					<div class="span1"><button class="btn btn-small btn-block add-me">Add</button></div>
+				</div>
+			</div>
+			
+			<div id="buttons" class="row">
+				<div class="span7"><button id="build" class="btn btn-special btn-block" data-loading-text="Building...">Build</button></div>
+ 				<div id="save_submit" class="span2"><button class="btn btn-block">Save</button></div>
+				<div class="span2"><button class="btn btn-block" data-toggle="modal" data-target="#save_as_box">Save As</button></div>
+			</div>
+		
+			
+		</div>
+
+		<div class="modal" id="save_as_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Save As</h3>
+		  </div>
+		  <div class="modal-body">
+		    <label>FileName</label>
+  			<input type="text">
+		  </div>
+		  <div class="modal-footer">
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		    <button class="btn btn-primary" id="save_as_submit">Save</button>
+		  </div>
+		</div>
+
+		<div class="modal" id="edit_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Edit Data</h3>
+		  </div>
+		  <div class="modal-body">
+		    <label>FileName</label>
+  			<input type="text">
+  			<label>Content</label>
+  			<textarea rows="15"></textarea>
+		  </div>
+		  <div class="modal-footer">
+		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		    <button class="btn btn-primary" id="edit_submit">Save</button>
+		  </div>
+		</div>
+		
+		
+		<script src="js/client.js"></script>
+		<script src="js/jslint.js"></script>
+		<script src="js/bootstrap-modal.js"></script>
+		<script src="js/bootstrap-alert.js"></script>
+		<script src="js/bootstrap-button.js"></script>
+		
+	</body>
+	
+</html>

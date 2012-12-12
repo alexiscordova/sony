@@ -83,22 +83,32 @@
 // Typography
 // -------------------------
 .TYPOGRAPHY{} // this is just here for a SublimeText code-folding collapse point
-	$sansFontFamily:        "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyBold:    "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMedium:  "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLight:   "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyItalic:  "SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
-	$monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
+	$sansFontFamily:        		"SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyItalic:  		"SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyBold:    		"SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyMedium:  		"SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	$serifFontFamily:       		Georgia, "Times New Roman", Times, serif !default;
+	$monoFontFamily:        		Monaco, Menlo, Consolas, "Courier New", monospace !default;
 	
-	$baseFontSize:          1em !default;
-	$baseFontFamily:        $sansFontFamily !default;
-	$baseLineHeight:        1.65 !default;
-	$altFontFamily:         $serifFontFamily !default;
+	$baseFontFamily:        		$sansFontFamily !default;
+	$baseFontFamilyItalic:   		$sansFontFamilyItalic !default;
+	$baseFontFamilyBold:   			$sansFontFamilyBold !default;
+	$baseFontFamilyMedium:   		$sansFontFamilyMedium !default;
+	$baseFontFamilyMediumItalic:$sansFontFamilyMediumItalic !default;
+	$baseFontFamilyLight:   		$sansFontFamilyLight !default;
+	$baseFontFamilyLightItalic:	$sansFontFamilyLightItalic !default;
 
-	$headingsFontFamily:    inherit !default; // empty to use BS default, $baseFontFamily
-	$headingsFontWeight:    bold !default;    // instead of browser default, bold
-	$headingsColor:         $grayDark !default; // empty to use BS default, $textColor
+	$baseFontSize:          		1em !default;
+	$baseLineHeight:        		1.65 !default;
+	$altFontFamily:         		$serifFontFamily !default;
+
+	$headingsFontFamily:    		$sansFontFamily !default;
+	$headingsFontFamilyItalic: 	$sansFontFamilyItalic !default;
+	$headingsColor:         		$grayDark !default; // empty to use BS default, $textColor
+	
 
 	// use these font-size variables instead of doing the math yourself every time!
 	                   // context/target 

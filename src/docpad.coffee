@@ -8,6 +8,12 @@ docpadConfig = {
       documentsPaths: ['pages']
       outPath: '../build/debug/'
     },
+    mbuilder:{
+      layoutsPaths: ['data/', '../js/', '../css/']
+      srcPath:'html/'
+      documentsPaths: ['generated']
+      outPath: '../build/debug/'
+    },
     deploy:{
       layoutsPaths: ['data/', '../js/', '../css/']
       srcPath:'html/'
