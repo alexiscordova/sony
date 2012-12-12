@@ -22,7 +22,7 @@
 
 		t.$el 							= $(element),
 		t.$win              = $(window),
-		t.$contentContainer = $(t.contentSelectorClassOrID);
+		t.$contentContainer = $(t.contentSelector);
 		t.$ev               = $(); //events object
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
 		t.$sampleElement		= t.$elements.eq(0);
@@ -33,7 +33,7 @@
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
 
 		//create instance of scroller and pass it defaults
-		t.scroller = new iScroll(t.$el.context.id,t.iscrollProps);
+		t.scroller = new iScroll(t.$el[0],t.iscrollProps);
 
 		function paginate(){
 			//console.group("function paginate");
@@ -170,28 +170,25 @@
 	//defaults    
 	$.fn.scrollerModule.defaults = { 
 	  throttleTime: 25,
-	  contentSelectorClassOrID: '.content',
+	  contentSelector: '.content',
 	  itemElementSelector: '.block',
-	  mode: 'paginate',
-	  lastPageCenter: true,
+	  mode: 'free',
+	  lastPageCenter: false,
 	  extraSpacing: 0,
 
 	  //iscroll props get mixed in
 	  iscrollProps: {
-			snap: true,
+			snap: false,
 			hScroll: true,
 			vScroll: false,
 			hScrollbar: false,
 			vScrollbar: false,
-			momentum: false,
+			momentum: true,
 			bounce: true,
 			onScrollEnd: null 	
 	  }
 	 
 	};
 	
-	$(function(){
-		var instance = $('#wrapper').scrollerModule({});
-	});
 
 })(jQuery , window , undefined , Modernizr);

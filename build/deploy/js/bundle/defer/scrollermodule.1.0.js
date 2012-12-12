@@ -22,7 +22,7 @@
 
 		t.$el 							= $(element),
 		t.$win              = $(window),
-		t.$contentContainer = $(t.contentSelectorClassOrID);
+		t.$contentContainer = $(t.contentSelector);
 		t.$ev               = $(); //events object
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
 		t.$sampleElement		= t.$elements.eq(0);
@@ -170,20 +170,20 @@
 	//defaults    
 	$.fn.scrollerModule.defaults = { 
 	  throttleTime: 25,
-	  contentSelectorClassOrID: '.content',
+	  contentSelector: '.content',
 	  itemElementSelector: '.block',
-	  mode: 'paginate',
-	  lastPageCenter: true,
+	  mode: 'free',
+	  lastPageCenter: false,
 	  extraSpacing: 0,
 
 	  //iscroll props get mixed in
 	  iscrollProps: {
-			snap: true,
+			snap: false,
 			hScroll: true,
 			vScroll: false,
 			hScrollbar: false,
 			vScrollbar: false,
-			momentum: false,
+			momentum: true,
 			bounce: true,
 			onScrollEnd: null 	
 	  }
@@ -191,7 +191,7 @@
 	};
 	
 	$(function(){
-		var instance = $('#wrapper').scrollerModule({});
+		var instance = $('.wrapper-free').scrollerModule({});
 	});
 
 })(jQuery , window , undefined , Modernizr);
