@@ -32,25 +32,23 @@ $(window).load(function() {
 	//Strike the resize
 
 	/*
-	$("#button").click(function(e) {
-		e.preventDefault();
-		var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
+	 $("#button").click(function(e) {
+	 e.preventDefault();
+	 var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
 
-		resize('resize', ifMobile, $browser, $tableContainerBackup);
-	});
-	*/
-	
+	 resize('resize', ifMobile, $browser, $tableContainerBackup);
+	 });
+	 */
+
 });
-
 
 $(window).resize(function() {
 	var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
-		
+
 	delay(function() {
 		resize('resize', ifMobile, $browser, $tableContainerBackup);
 	}, 100);
 });
-
 
 //When you resize.
 //params--------------------------------------------
@@ -82,7 +80,7 @@ function resize(status, device, browser, tableContainerBackup) {
 		$('section > .gallery-tabs > .tableContainer').each(function() {
 
 			$_this = $(this);
-			
+
 			//#############
 
 			//Define the carousel
@@ -122,9 +120,9 @@ function resize(status, device, browser, tableContainerBackup) {
 
 				tabContainer.append(tabInnerContainer);
 				$_this.before(tabContainer);
-				
+
 				tabInnerContainer.children(':first-child').addClass('active')
-				
+
 				Exports.Modules.Tabs.init();
 				$('.tabs').trigger("setup_stickytabs");
 			}
@@ -180,83 +178,87 @@ function resize(status, device, browser, tableContainerBackup) {
 					$_this.append($table);
 				});
 			};
-			
+
 			//Start it.
 			$_this.sonyCarousel();
 			var sonySlider = $_this.data('sonyCarousel');
-			
+
 			//load the next & previous only if needed (desktop)
+			if (!device) {
+				if ($_this.parent('.gallery-tabs').find('.desktopNav').length <= 0)
+					$_this.before('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
 
-				 if($_this.parent('.gallery-tabs').find('.desktopNav').length <= 0)
-				 $_this.before('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
-				
-				 //Prev
-				 $_this.prev().find('a.next').click(function() {
-				 	var sonySlider = $_this.data('sonyCarousel');
-				 	sonySlider.next();
-				 });
-				 
-				 //Next
-				 $_this.prev().find('a.prev').click(function() {
-				 	var sonySlider = $_this.data('sonyCarousel');
-				 	sonySlider.prev();
-				 });
+				//Prev
+				$_this.prev().find('a.next').click(function() {
+					var sonySlider = $_this.data('sonyCarousel');
+					sonySlider.next();
+				});
 
-			
-			var sonySlider = $_this.data('sonyCarousel');
-			
-			$_this.prev().find('.tab').click(function(){
-				$(this).parent().find('.tab').removeClass('active').removeAttr('style');
-				$(this).addClass('active');
-				$_this.sonyCarousel('goTo', $(this).index());
-			})
+				//Next
+				$_this.prev().find('a.prev').click(function() {
+					var sonySlider = $_this.data('sonyCarousel');
+					sonySlider.prev();
+				});
+			} else {
+				console.info('mobile');
+				//Mobile version
+
+				var sonySlider = $_this.data('sonyCarousel');
+				//When you click on tabs
+				$_this.prev().find('.tab').click(function() {
+					$(this).parent().find('.tab').removeClass('active').removeAttr('style');
+					$(this).addClass('active');
+					$_this.sonyCarousel('goTo', $(this).index());
+				});
+
+				var sonySlider = $('.tableContainer').data('sonyCarousel');
+
+				sonySlider.ev.on('scAfterSlideChange', function(event) {
+					// triggers after slide change
+					
+					$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
+					$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-'+(sonySlider.currSlideId+1)).addClass('active');
+				});
+			}
 		});
-		
+
 		leftTitle = $firstColumnTablesBackup.clone();
-		
+
 		//Add a title to the left of each row.
-		$(leftTitle).each(function(index){
-			if(index == '0')
-				$('.specsTable').find('> .thead > .row:nth-child('+(index+1)+')').prepend($(this));
+		$(leftTitle).each(function(index) {
+			if (index == '0')
+				$('.specsTable').find('> .thead > .row:nth-child(' + (index + 1) + ')').prepend($(this));
 			else
-				$('.specsTable').find('> .tbody > .row:nth-child('+(index)+')').prepend($(this));
+				$('.specsTable').find('> .tbody > .row:nth-child(' + (index) + ')').prepend($(this));
 		})
-			
 		//modify the new current nbElementByPage
 		refreshData = nbElementByPage;
-		
+
 		//Load iq (we load images)
 		iQ.update();
-		
+
 		//remove the active class.
 		$('.tabs-container .tabs .cell').removeClass('active');
-		
+
 		//init the active class for the tabs
 		activeTab = $('.tableContainer .specsTable:in-viewport').attr('id');
-		$('.tabs-container .tabs').children('.cell.'+activeTab).addClass('active');
+		$('.tabs-container .tabs').children('.cell.' + activeTab).addClass('active');
 	}
 
 	//Set the height.
 	$('.tableContainer').each(function() {
 		$(this).setContainerHeight();
 	})
-	
 	//console.info(status, device, browser);
 }
 
-
-
 /*
-	 var sonySlider = $_this.data('sonyCarousel');
-	 sonySlider.ev.on('rsAfterSlideChange', function(event) {
-	    // triggers after slide change
-	    sliderAction(sonySlider.currSlideId);
-	});
-*/
-
-
-
-
+ var sonySlider = $_this.data('sonyCarousel');
+ sonySlider.ev.on('rsAfterSlideChange', function(event) {
+ // triggers after slide change
+ sliderAction(sonySlider.currSlideId);
+ });
+ */
 
 /*
  $(window).load(function() {

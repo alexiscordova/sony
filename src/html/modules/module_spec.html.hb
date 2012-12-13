@@ -11,19 +11,25 @@ http://handlebarsjs.com/
 <div class="container module-spec">
 
 	<section class="spec">
-		<div class="spec-title">
-			<p class="title-link">
-				<a href="#">Vaio E</a>
-			</p>
-			<h1>VAIO E Details</h1>
-
-			<div class="clearfix">
-				<p>
-					<a href="#">Specifications</a>
+		<div class="clearfix">
+			<div class="spec-title">
+				<p class="title-link">
+					<a href="#">Vaio E</a>
 				</p>
-				<p>
-					<a href="#">Features</a>
-				</p>
+				<h1>VAIO E Details</h1>
+	
+				<div class="clearfix">
+					<p>
+						<a class="active" href="#">Specifications</a>
+					</p>
+					<p>
+						<a href="#">Features</a>
+					</p>
+				</div>
+			</div>
+			
+			<div class="sonyRecommends">
+				<p>Sony recommends <img src="" alt="" /></p>
 			</div>
 		</div>
 
@@ -44,8 +50,52 @@ http://handlebarsjs.com/
 					</thead>
 
 					<tbody>
+						
 						<tr>
-							<th>Dimensions</th>
+							<th><p>Processor</p></th>
+							{{#each productTable}}
+							
+							<td>
+								<p>
+									{{this.processor}}
+								</p>
+								
+								<p class="infoTitle">Configurable options</p>
+								
+								<ul>
+								{{#each this.processorConfig}}
+									<li><p>{{this}}</p></li>
+								{{/each}}
+								</ul>
+								
+								{{#if this.intelImg}}
+								<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.intelImg}}">
+									<noscript>
+										<img src="img/spec/{{this.intelImg}}">
+									</noscript>
+								</div>
+								{{/if}}
+							</td>
+							
+							
+							{{/each}}
+						</tr>
+						
+						<tr>
+							<th><p>Operating System</p></th>
+							{{#each productTable}}
+							<td>
+							<p>
+								{{{this.operatingSystem}}}
+							</p> {{#if this.operatingSystemNote}}
+							<p>
+								<span>{{this.operatingSystemNote}}</span>
+							</p> {{/if}} </td>
+							{{/each}}
+						</tr>
+						
+						<tr>
+							<th><p>Dimensions</p></th>
 							{{#each productTable}}
 							<td>{{#if this.productImage}}
 							<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.productImage}}">
@@ -53,6 +103,7 @@ http://handlebarsjs.com/
 									<img src="img/spec/{{this.productImage}}">
 								</noscript>
 							</div>{{/if}}
+							
 							<table>
 								<tbody>
 									{{#if this.dimensions.width}}
@@ -112,7 +163,7 @@ http://handlebarsjs.com/
 						</tr>
 
 						<tr>
-							<th>Display</th>
+							<th><p>Display</p></th>
 							{{#each productTable}}
 							<td>
 							<p>
@@ -125,33 +176,7 @@ http://handlebarsjs.com/
 						</tr>
 
 						<tr>
-							<th>Processor</th>
-							{{#each productTable}}
-							<td>
-							<p>
-								{{this.processor}}
-							</p> {{#if this.processorDescription}}
-							<p>
-								<span>{{this.processorDescription}}</span>
-							</p> {{/if}} </td>
-							{{/each}}
-						</tr>
-
-						<tr>
-							<th>Operating System</th>
-							{{#each productTable}}
-							<td>
-							<p>
-								{{this.operatingSystem}}
-							</p> {{#if this.operatingSystemNote}}
-							<p>
-								<span>{{this.operatingSystemNote}}</span>
-							</p> {{/if}} </td>
-							{{/each}}
-						</tr>
-
-						<tr>
-							<th>Color Options</th>
+							<th><p>Color Options</p></th>
 							{{#each productTable}}
 							<td>
 							<div class="clearfix">
@@ -160,85 +185,159 @@ http://handlebarsjs.com/
 							{{/each}}
 						</tr>
 						<tr>
-							<th>Memory</th>
+							<th><p>Memory</p></th>
 							{{#each productTable}}
 							<td>
 							<p>
 								{{this.memory}}
-							</p> {{#if this.memoryNote}}
+							</p> 
+							
+							{{#if this.memoryNote}}
+							<p class="infoTitle">Configurable to:</p>
 							<p>
 								<span>{{this.memoryNote}}</span>
 							</p> {{/if}} </td>
 							{{/each}}
 						</tr>
 						<tr>
-							<th>Hard Drive</th>
-							{{#each productTable}}
-							<td> {{#if this.emphasisInfo}}
-							<div class="emphasis-info">
-								{{this.emphasisInfo}}
-							</div> {{/if}}
-							<p>
-								{{this.hardDrive}}
-							</p> {{#if this.hardDriveNote}}
-							<p>
-								<span>{{this.hardDriveNote}}</span>
-							</p> {{/if}} </td>
-							{{/each}}
-						</tr>
-
-						<tr>
-							<th>Communications</th>
-							{{#each productTable}}
-							<td> {{#each this.communications}}
-							<p>
-								{{this}}
-							</p> {{/each}} </td>
-							{{/each}}
-						</tr>
-
-						<tr>
-							<th>Hardware</th>
-
-							{{#each productTable}}
-							<td> {{#each this.hardware}}
-							<p>
-								{{this}}
-							</p> {{/each}} </td>
-							{{/each}}
-						</tr>
-
-						<tr>
-							<th>Ports</th>
-							{{#each productTable}}
-							<td><a class="btn" href="#">Enlarge</a>
-							<p>
-								<span>{{this.ports}}</span>
-							</p></td>
-							{{/each}}
-						</tr>
-
-						<tr>
-							<th>Battery and Power</th>
+							<th><p>Hard Drive</p></th>
 							{{#each productTable}}
 							<td>
+								{{#if this.emphasisInfo}}
+									<div class="clearfix">
+										<div class="emphasis-info">
+											{{this.emphasisInfo}}
+										</div>
+									</div>
+								{{/if}}
 							<p>
-								{{this.batteryAndPower}}
-							</p> {{#if this.batteryAndPowerDescription}}
-							<p>
-								<span>{{this.batteryAndPowerDescription}}</span>
-							</p> {{/if}} </td>
+								{{this.hardDrive}}
+							</p> 
+							
+							{{#if this.hardDriveNote}}
+							<p class="infoTitle">Configurable to:</p>
+								
+								<ul>
+									{{#each this.hardDriveNote}}
+										
+											<li><p>{{this}}</p></li>
+										
+									{{/each}}
+								</ul>
+							{{/if}}
+							</td>
+							{{/each}}
+						</tr>
+						
+						<tr>
+							<th><p>Communications</p></th>
+							{{#each productTable}}
+							<td> 
+								
+								<ul>
+								{{#each this.communications}}
+									<li><p>{{this}}</p></li>
+								{{/each}} 
+								</ul>
+							
+							</td>
 							{{/each}}
 						</tr>
 
 						<tr>
-							<th>In the Box</th>
+							<th><p>Hardware</p></th>
 
 							{{#each productTable}}
-							<td> {{#each this.inTheBox}}
-							<p>
-								{{this}}
-							</p> {{/each}} </td>
+							<td>
+								<ul> 
+								{{#each this.hardware}}
+									<li>
+										<p>
+											{{this}}
+										</p>
+									</li>
+								{{/each}}
+								</ul> 
+							</td>
+							{{/each}}
+						</tr>
+
+						<tr>
+							<th><p>Ports</p></th>
+							{{#each productTable}}
+							
+							<td>
+							{{#if this.portsImg}}
+							<div class="img-respons">
+								<img class="iq-img" data-base="img/spec/" data-src="{{this.portsImg}}">
+								<noscript>
+									<img src="img/spec/{{this.portsImg}}">
+								</noscript>
+							</div>
+							{{/if}}
+							
+							<p class="enlarge"><a href="#">Enlarge</a></p>
+								<ul>
+									{{#each this.ports}}
+									<li>
+										<p>{{this}}</p>
+									</li>
+									{{/each}}
+								</ul>
+							</td>
+							{{/each}}
+						</tr>
+
+						<tr>
+							<th><p>Battery and Power</p></th>
+							{{#each productTable}}
+							<td>
+								<p>
+									{{this.batteryAndPower}}
+								</p> {{#if this.batteryAndPowerDescription}}
+								
+								<p>
+									<span>{{this.batteryAndPowerDescription}}</span>
+								</p> {{/if}} 
+								
+								
+								{{#if this.batteryAndPowerSpec}}
+								<ul>
+									{{#each this.batteryAndPowerSpec}}
+									<li>
+										<p>{{this}}</p>
+									</li>
+									{{/each}}
+								</ul>
+								{{/if}}
+								
+							{{#if this.batterySettings}}
+							<p class="infoTitle">Default settings:</p>
+								
+								<ul>
+									{{#each this.batterySettings}}
+											<li><p>{{this}}</p></li>
+									{{/each}}
+								</ul>
+							{{/if}}
+								
+							</td>
+							{{/each}}
+						</tr>
+
+						<tr>
+							<th><p>In the Box</p></th>
+
+							{{#each productTable}}
+							<td>
+								<ul>
+									{{#each this.inTheBox}}
+									<li>
+										<p>{{this}}</p>
+									</li>
+									{{/each}}
+								</ul>
+							</td>
 							{{/each}}
 						</tr>
 					</tbody>

@@ -1,32 +1,59 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
 
-
-/*
-  $sansFontFamily:        "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-  $sansFontFamilyBold:    "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-  $sansFontFamilyMedium:  "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-  $sansFontFamilyLight:   "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-  $sansFontFamilyItalic:  "SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-  $serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
-  $monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
-
-*/
-
-
 .container.module-spec{
+  
+  //Set the default font to SST Roman
+  @include fontRegular();
   color:$black;
   
   // General
-  a.btn{margin-bottom:10px; padding:5px 20px; width:80px !important;}
-  .emphasis-info{padding:5px; font-size:$font_28_16; width:auto; border:3px solid $gray; @include border-radius(5px); margin-bottom:20px; text-align:center; }
-  .spec-title{
-    > h1{font-size:$font_26_16; margin-top:0 !important;}
-    margin-bottom:35px;
-    p.title-link{margin:0; text-transform:uppercase; font:$font_13_16/1em $sansFontFamilyMedium;} //font:$font_13_16/1em $sansFontFamilyMedium;}
-    .clearfix{
-      p{float:left; margin-right:10px; font-size:$font_14_16;}
+  .enlarge{
+    font-size:$font_13_16;
+    margin:20px 0 30px !important;
+    a{
+      color:$grayDark;
+      font-size:$font_13_16;
     }
+  }
+  
+  .emphasis-info{
+      padding:3px 5px;
+      font-size:$font_18_16;
+      float:left;
+      background:$gray;
+      margin-bottom:20px;
+      text-align:center; 
+      color:$white;
+    }
+  
+  .spec-title{ 
+    float:left;
+    //Text over the title
+    p.title-link{margin:0; text-transform:uppercase; font-size:$font_13_16; @include fontMedium();}
+    
+    // Main title
+    > h1{font-size:$font_32_16; margin-top:0 !important;}
+    margin-bottom:35px;
+
+    //subtitle
+    .clearfix{
+      p{
+        float:left;
+        margin-right:10px;
+        font-size:$font_13_16;
+        
+        a{
+          color:$blackLight;
+          padding:0 15px 13px 15px;
+        }
+        a.active{border-bottom:4px solid #5787f4;}
+      }
+    }
+  }
+  
+  .sonyRecommends{
+    float:right;
   }
   
   .gallery-tabs .tabs{height:auto !important;}
@@ -58,12 +85,14 @@
       }
     }
   }
- 
+  
+  /*
   ul{margin-left:0;
     li{font-size:$font_12_16;}
   }
+  */
+ 
   .label {font-weight: bold;}
-  
   
   .row-fluid.no-border{
     margin-bottom:30px !important;
@@ -87,7 +116,6 @@
   // smallTable only
   .smallTable {
     display: table;
-    font-family: Arial, Helvetica, sans-serif;
     
     .row {display: table-row;}
     .cell{
@@ -109,8 +137,6 @@
   // specsTable only
   .specsTable {
     display: table;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: $font_14_16;
     
     .smallTable {
       p{font-size:$font_13_15;
@@ -118,75 +144,130 @@
       }
     }
     
+    //Thead
     > .thead {
+      background:#f1f5f9;
       display: table-header-group;
-      > .row{display: table-row;}
-      
-      h2{
-        font-size: $font_18_16;
-        color: $black;
-        margin:0;
-        padding:0 !important;
-      }
-      p{font-weight:bold;}
-    }
-    
-    > .tbody > .row {
-      display: table-row;
-      >.cell{
-        padding-bottom:10px;
-        p{font-size:$font_13_15;
-          span{font-size:$font_15_15;}
+      > .row{display: table-row;
+        > .cell{
+          padding:20px;
+          border-left:1px solid #DFE3E7;
+        
+        h2{
+            font-size: $font_18_16;
+            color: #2f353d;
+            margin:0;
+            padding:0 !important;
+          }
+          p{
+            color:$grayDark;
+            @include fontBold();
+            margin:0;
+          }
+        }
+        > .cell:first-child{
+          border-left:none !important;
         }
       }
-      
-      &:last-child .cell {
-        border-bottom: none !important;
+    }
+    
+    //Tbody
+    > .tbody {
+      display:table-row-group;
+      > .row {
+        display: table-row;
+        
+        //All Cells
+        >.cell{
+          border-left:1px solid #dfe3e7;
+          border-bottom:1px solid #dfe3e7;
+          padding:20px;
+          
+          //hidden titles
+          >h2{
+            font-size: $font_14_16;
+          color: $black;
+          font-weight: bold;
+          margin-bottom: 1em;
+          display: none;}
+          
+          >p{font-size:$font_15_16; margin-bottom:15px !important;}
+          >p > span{
+            color: $gray;
+            font-size: $font_13_15 !important;
+          }
+          
+          .infoTitle{
+            background:url('../../img/spec/titleInfoLine.jpg') top left no-repeat;
+            @include fontMedium();
+            font-size:$font_11_16;
+            color:$grayDark;
+            text-transform:uppercase;
+            padding:15px 0 7px 0;
+            margin-bottom:0 !important;
+          }
+          
+          ul{
+            margin-bottom:40px;
+            
+            li{
+              margin-bottom:7px;
+              p{
+                font-size:$font_13_16;
+                color:$gray; 
+              }
+            }
+          }
+        }
+        
+        //First cells
+        >.cell:first-child{
+          border-left:none !important;
+          
+          p
+          {
+            color:$black;
+            font-size:$font_12_16 !important;
+            text-transform:uppercase;
+          }
+        }
+  
+        &:last-child .cell {
+          border-bottom: none !important;
+        }
       }
     }
     
-    .cell:first-child{
-     font-size:$font_16_16;
-     line-height:1em;
-     font-weight:bold;
-     color:$black;
-    }
     .cell
     {
       display: table-cell;
       padding-right:10px;
     }
-  
-    .tbody{display:table-row-group;
-        .cell h2 {
-        font-size: $font_14_16;
-        color: $black;
-        font-weight: bold;
-        margin-bottom: 1em;
-        display: none;
-      }
-    }
     
     span {
-      color: $gray;
-      font-size: $font_12_16;
       &.color {
         display: block;
-        width: 10px;
-        height: 10px;
+        width: 14px;
+        height: 14px;
         float: left;
-        margin-right: 5px;
+        margin-right: 1px;
+        @include border-radius(2px);
+        
         &.white {
           background: #fff;
+          border:1px solid #c6c6c6;
         }
-        &.grey {
-          background: #ccc;
+        &.gray {
+          background: $gray;
         }
         &.darkGrey {
-          background: #666;
+          background: $grayDark;
         }
         &.black {
           background: $black;
+        }
+        &.red {
+          background: $redLight;
         }
       }
     }
@@ -232,14 +313,21 @@
     width:100%;
     h2{font-size:18px !important; color:$black; padding:20px 0; margin-top:20px; border-top:1px solid #eee;}
     h2:first-child{border-top:none; margin-top:0;}
-    p{font-size:14px !important; font-weight:normal;}
+    
+    .thead{
+      .cell{
+        p{
+          font-size:18px; font-weight:normal;
+        }
+      }
+    }
+
     span{
       font-size:$font_14_15 !important;
       line-height:1.5em;
       display:block;
     }
     .tbody .row .cell{
-      border:none !important;
       p{margin:0;}
     }
     

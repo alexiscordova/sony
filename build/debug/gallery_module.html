@@ -27,13 +27,12 @@
   <!--<![endif]-->
 
     
-        <link rel="stylesheet" href="css/modules/carousel.css">
-        <link rel="stylesheet" href="css/modules/experiment.css">
         <link rel="stylesheet" href="css/modules/gallery.css">
         <link rel="stylesheet" href="css/modules/hotspot_explorer.css">
         <link rel="stylesheet" href="css/modules/mymodule.css">
         <link rel="stylesheet" href="css/modules/related-products.css">
         <link rel="stylesheet" href="css/modules/sonycarousel.css">
+        <link rel="stylesheet" href="css/modules/specAndDetails.css">
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script>
@@ -41,7 +40,7 @@
                // document.write(unescape("%3Cscript src='js/libs/jquery-1.8.2.min.js'%3E%3C/script%3E"));
             }
         </script>
-        <script src="js/libs/modernizr-2.6.1.js"></script>
+        <script src="js/libs/modernizr-2.6.2.min.js"></script>
   
         
     </head>
@@ -149,12 +148,12 @@
                 
                 
                 <div class="product-img">
-                  <img class="iq-img" alt="" data-src="">
+                  <img class="iq-img" alt="" data-src="img/cameras/lens-tout.png">
                   <noscript>
-                    <img src="" alt="">
+                    <img src="img/cameras/lens-tout.png" alt="">
                   </noscript>
                   <div class="product-content">
-                    <p class="text-promo-title"><strong>Crystal clear powerful sound.</strong><br></p>
+                    <p class="text-promo-title"><strong>High performance lenses</strong><br></p>
                     
                   </div>
                 </div>
@@ -409,12 +408,12 @@
                 
                 
                 <div class="product-img">
-                  <img class="iq-img" alt="" data-src="img/cameras/lens-tout.png">
+                  <img class="iq-img" alt="" data-src="img/cameras/summer.png">
                   <noscript>
-                    <img src="img/cameras/lens-tout.png" alt="">
+                    <img src="img/cameras/summer.png" alt="">
                   </noscript>
                   <div class="product-content">
-                    <p class="text-promo-title"><strong>Balanced</strong><br>Armature</p>
+                    <p class="text-promo-title"><strong>Summer travel</strong><br></p>
                     
                   </div>
                 </div>
@@ -562,13 +561,13 @@
                 
                   <li><a data-value="default" data-reverse="" tabindex="-1" href="#">Relevance</a></li>
                 
-                  <li><a data-value="price" data-reverse="true" tabindex="-1" href="#">Price - high to low</a></li>
+                  <li><a data-value="release-date" data-reverse="true" tabindex="-1" href="#">New</a></li>
                 
-                  <li><a data-value="price" data-reverse="" tabindex="-1" href="#">Price - low to high</a></li>
+                  <li><a data-value="popularity" data-reverse="" tabindex="-1" href="#">Popularity</a></li>
                 
-                  <li><a data-value="popularity" data-reverse="" tabindex="-1" href="#">Most Popular</a></li>
+                  <li><a data-value="price" data-reverse="true" tabindex="-1" href="#">Price (High - Low)</a></li>
                 
-                  <li><a data-value="release-date" data-reverse="true" tabindex="-1" href="#">New Products</a></li>
+                  <li><a data-value="price" data-reverse="" tabindex="-1" href="#">Price (Low - High)</a></li>
                 
                 </ul>
               </div>
@@ -577,13 +576,13 @@
                 
                 <option value="default" data-reverse="">Relevance</option>
                 
-                <option value="price" data-reverse="true">Price - high to low</option>
+                <option value="release-date" data-reverse="true">New</option>
                 
-                <option value="price" data-reverse="">Price - low to high</option>
+                <option value="popularity" data-reverse="">Popularity</option>
                 
-                <option value="popularity" data-reverse="">Most Popular</option>
+                <option value="price" data-reverse="true">Price (High - Low)</option>
                 
-                <option value="release-date" data-reverse="true">New Products</option>
+                <option value="price" data-reverse="">Price (Low - High)</option>
                 
               </select>
             </div>
@@ -751,9 +750,9 @@
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/rx100-sml.png">
+                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/DSCRX100B-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/rx100-sml.png" alt="">
+                        <img src="img/cameras/DSCRX100B-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
@@ -791,12 +790,21 @@
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/w650-silver-sml.png">
+                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/DSCW650-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/w650-silver-sml.png" alt="">
+                        <img src="img/cameras/DSCW650-frt-med.png" alt="">
+                      </noscript>
+                      
+                      <img class="iq-img hidden" data-color="black" alt="" data-src="img/cameras/DSCW650B-frt-med.png">
+                      <noscript>
+                        <img class="hidden" src="img/cameras/DSCW650B-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
+                  </div>
+                  
+                  <div class="color-swatches">
+                    <span class="mini-swatch swatch-black" data-color="black"></span>
                   </div>
                   
                 </div>
@@ -826,46 +834,41 @@
                 </div>
               </a>
               
-              <a class="span4 gallery-item" data-filter-set='{"features":["lcd","panorama"],"price":329.99,"megapixels":"16-18","popularity":45,"rating":4,"release-date":"2011-11-20T20:13:05.771Z","group":["skating","running"],"colors":["yellow","red","teal","black","blue"]}' data-priority="" href="#">
+              <a class="span4 gallery-item" data-filter-set='{"features":["lcd","panorama"],"price":329.99,"megapixels":"16-18","popularity":45,"rating":4,"release-date":"2011-11-20T20:13:05.771Z","group":["skating","running"],"colors":["pink","blue","black","green","orange"]}' data-priority="" href="#">
                 
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="Cyber-shot Digital Camera TX20" data-src="img/cameras/tx20-pink-sml.png">
+                      <img class="iq-img js-product-img-main" alt="Cyber-shot Digital Camera TX20" data-src="img/cameras/DSCTX20P-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/tx20-pink-sml.png" alt="Cyber-shot Digital Camera TX20">
+                        <img src="img/cameras/DSCTX20P-frt-med.png" alt="Cyber-shot Digital Camera TX20">
                       </noscript>
                       
-                      <img class="iq-img hidden" data-color="yellow" alt="" data-src="img/cameras/tx20-yellow-sml.png">
+                      <img class="iq-img hidden" data-color="blue" alt="" data-src="img/cameras/DSCTX20L-frt-med.png">
                       <noscript>
-                        <img class="hidden" src="img/cameras/tx20-yellow-sml.png" alt="">
+                        <img class="hidden" src="img/cameras/DSCTX20L-frt-med.png" alt="">
                       </noscript>
                       
-                      <img class="iq-img hidden" data-color="red" alt="" data-src="img/cameras/tx20-red-sml.png">
+                      <img class="iq-img hidden" data-color="black" alt="" data-src="img/cameras/DSCTX20B-frt-med.png">
                       <noscript>
-                        <img class="hidden" src="img/cameras/tx20-red-sml.png" alt="">
+                        <img class="hidden" src="img/cameras/DSCTX20B-frt-med.png" alt="">
                       </noscript>
                       
-                      <img class="iq-img hidden" data-color="teal" alt="" data-src="img/cameras/tx20-teal-sml.png">
+                      <img class="iq-img hidden" data-color="green" alt="" data-src="img/cameras/DSCTX20G-frt-med.png">
                       <noscript>
-                        <img class="hidden" src="img/cameras/tx20-teal-sml.png" alt="">
+                        <img class="hidden" src="img/cameras/DSCTX20G-frt-med.png" alt="">
                       </noscript>
                       
-                      <img class="iq-img hidden" data-color="black" alt="" data-src="img/cameras/tx20-black-sml.png">
+                      <img class="iq-img hidden" data-color="orange" alt="" data-src="img/cameras/DSCTX20D-frt-med.png">
                       <noscript>
-                        <img class="hidden" src="img/cameras/tx20-black-sml.png" alt="">
-                      </noscript>
-                      
-                      <img class="iq-img hidden" data-color="blue" alt="" data-src="img/cameras/tx20-blue-sml.png">
-                      <noscript>
-                        <img class="hidden" src="img/cameras/tx20-blue-sml.png" alt="">
+                        <img class="hidden" src="img/cameras/DSCTX20D-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
                   </div>
                   
                   <div class="color-swatches">
-                    <span class="mini-swatch swatch-yellow" data-color="yellow"></span><span class="mini-swatch swatch-red" data-color="red"></span><span class="mini-swatch swatch-teal" data-color="teal"></span><span class="mini-swatch swatch-black" data-color="black"></span><span class="mini-swatch swatch-blue" data-color="blue"></span>
+                    <span class="mini-swatch swatch-blue" data-color="blue"></span><span class="mini-swatch swatch-black" data-color="black"></span><span class="mini-swatch swatch-green" data-color="green"></span><span class="mini-swatch swatch-orange" data-color="orange"></span>
                   </div>
                   
                 </div>
@@ -895,14 +898,14 @@
                 </div>
               </a>
               
-              <a class="span4 gallery-item" data-filter-set='{"features":["lcd","lightweight"],"price":369.99,"megapixels":"18-20","popularity":77,"rating":4,"release-date":"2012-11-05T20:13:05.771Z","group":["running","studio"],"colors":["red"]}' data-priority="" href="#">
+              <a class="span4 gallery-item" data-filter-set='{"features":["lcd","lightweight"],"price":369.99,"megapixels":"18-20","popularity":77,"rating":4,"release-date":"2012-11-05T20:13:05.771Z","group":["running","studio"],"colors":["black"]}' data-priority="" href="#">
                 
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/hx30-sml.png">
+                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/DSCHX30V-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/hx30-sml.png" alt="">
+                        <img src="img/cameras/DSCHX30V-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
@@ -935,17 +938,36 @@
                 </div>
               </a>
               
-              <a class="span4 gallery-item" data-filter-set='{"features":["touchscreen","lightweight"],"price":269.99,"megapixels":"18-20","popularity":5,"rating":4,"release-date":"2012-01-20T20:13:05.771Z","group":["running"],"colors":["black","yellow","teal","white"]}' data-priority="" href="#">
+              <a class="span4 gallery-item" data-filter-set='{"features":["touchscreen","lightweight"],"price":269.99,"megapixels":"18-20","popularity":5,"rating":4,"release-date":"2012-01-20T20:13:05.771Z","group":["running"],"colors":["silver","red","white"]}' data-priority="" href="#">
                 
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/hx10-silver-sml.png">
+                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/DSCHX10V-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/hx10-silver-sml.png" alt="">
+                        <img src="img/cameras/DSCHX10V-frt-med.png" alt="">
+                      </noscript>
+                      
+                      <img class="iq-img hidden" data-color="black" alt="" data-src="img/cameras/DSCHX10VB-frt-med.png">
+                      <noscript>
+                        <img class="hidden" src="img/cameras/DSCHX10VB-frt-med.png" alt="">
+                      </noscript>
+                      
+                      <img class="iq-img hidden" data-color="red" alt="" data-src="img/cameras/DSCHX10VR-frt-med.png">
+                      <noscript>
+                        <img class="hidden" src="img/cameras/DSCHX10VR-frt-med.png" alt="">
+                      </noscript>
+                      
+                      <img class="iq-img hidden" data-color="white" alt="" data-src="img/cameras/DSCHX10VW-frt-med.png">
+                      <noscript>
+                        <img class="hidden" src="img/cameras/DSCHX10VW-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
+                  </div>
+                  
+                  <div class="color-swatches">
+                    <span class="mini-swatch swatch-black" data-color="black"></span><span class="mini-swatch swatch-red" data-color="red"></span><span class="mini-swatch swatch-white" data-color="white"></span>
                   </div>
                   
                 </div>
@@ -975,16 +997,16 @@
                 </div>
               </a>
               
-              <a class="span4 gallery-item" data-filter-set='{"features":["panorama","lcd"],"price":109.99,"megapixels":"14-16","popularity":1,"rating":5,"release-date":"2012-10-12T20:13:05.771Z","group":["skating"],"colors":["teal","black","blue","pink","silver"]}' data-priority="" href="#">
+              <a class="span4 gallery-item" data-filter-set='{"features":["panorama","lcd"],"price":109.99,"megapixels":"14-16","popularity":1,"rating":5,"release-date":"2012-10-12T20:13:05.771Z","group":["skating"],"colors":["black"]}' data-priority="" href="#">
                 
                 <span class="label label-success">Most Popular</span>
                 
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/w610-sml.png">
+                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/DSCW610B-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/w610-sml.png" alt="">
+                        <img src="img/cameras/DSCW610B-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
@@ -1017,14 +1039,14 @@
                 </div>
               </a>
               
-              <a class="span4 gallery-item" data-filter-set='{"features":["lcd","lightweight"],"price":479.99,"megapixels":"18-20","popularity":43,"rating":4,"release-date":"2012-05-26T20:13:05.771Z","group":["studio"],"colors":[]}' data-priority="" href="#">
+              <a class="span4 gallery-item" data-filter-set='{"features":["lcd","lightweight"],"price":479.99,"megapixels":"18-20","popularity":43,"rating":4,"release-date":"2012-05-26T20:13:05.771Z","group":["studio"],"colors":["black"]}' data-priority="" href="#">
                 
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/hx200v-sml.png">
+                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/DSCHX200VB-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/hx200v-sml.png" alt="">
+                        <img src="img/cameras/DSCHX200VB-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
@@ -1062,12 +1084,31 @@
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/hx10-red-sml.png">
+                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/DSCWX150R-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/hx10-red-sml.png" alt="">
+                        <img src="img/cameras/DSCWX150R-frt-med.png" alt="">
+                      </noscript>
+                      
+                      <img class="iq-img hidden" data-color="black" alt="" data-src="img/cameras/DSCWX150B-frt-med.png">
+                      <noscript>
+                        <img class="hidden" src="img/cameras/DSCWX150B-frt-med.png" alt="">
+                      </noscript>
+                      
+                      <img class="iq-img hidden" data-color="silver" alt="" data-src="img/cameras/DSCWX150-frt-med.png">
+                      <noscript>
+                        <img class="hidden" src="img/cameras/DSCWX150-frt-med.png" alt="">
+                      </noscript>
+                      
+                      <img class="iq-img hidden" data-color="blue" alt="" data-src="img/cameras/DSCWX150L-frt-med.png">
+                      <noscript>
+                        <img class="hidden" src="img/cameras/DSCWX150L-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
+                  </div>
+                  
+                  <div class="color-swatches">
+                    <span class="mini-swatch swatch-black" data-color="black"></span><span class="mini-swatch swatch-silver" data-color="silver"></span><span class="mini-swatch swatch-blue" data-color="blue"></span>
                   </div>
                   
                 </div>
@@ -1097,14 +1138,14 @@
                 </div>
               </a>
               
-              <a class="span4 gallery-item" data-filter-set='{"features":["lcd","panorama"],"price":2799.99,"megapixels":"20+","popularity":11,"rating":3,"release-date":"2011-12-20T20:13:05.771Z","group":["running","studio"],"colors":[]}' data-priority="" href="#">
+              <a class="span4 gallery-item" data-filter-set='{"features":["lcd","panorama"],"price":2799.99,"megapixels":"20+","popularity":11,"rating":3,"release-date":"2011-12-20T20:13:05.771Z","group":["running","studio"],"colors":["black"]}' data-priority="" href="#">
                 
                 <div class="product-img">
                   <div class="ghost-center-wrap">
                     <div class="ghost-center js-product-imgs">
-                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/rx1-sml.png">
+                      <img class="iq-img js-product-img-main" alt="" data-src="img/cameras/DSCRX1B-frt-med.png">
                       <noscript>
-                        <img src="img/cameras/rx1-sml.png" alt="">
+                        <img src="img/cameras/DSCRX1B-frt-med.png" alt="">
                       </noscript>
                       
                     </div>
@@ -1575,6 +1616,7 @@
         <script src="js/bundle/require/debug_toggle.js"></script>
         <script src="js/bundle/require/global-nav.js"></script>
         <script src="js/bundle/require/iq.js"></script>
+        <script src="js/bundle/require/pre-spec.js"></script>
         <script src="js/bundle/require/require1.js"></script>
         <script src="js/bundle/require/require2.js"></script>
         
@@ -1584,12 +1626,11 @@
         <script src="js/bundle/secondary/sony.carousel.1.0.js"></script>
         
         
-        <script src="js/bundle/defer/defer1.js"></script>
         <script src="js/bundle/defer/bootstrap-tab.js"></script>
-        <script src="js/bundle/defer/experiment.js"></script>
+        <script src="js/bundle/defer/defer1.js"></script>
+        <script src="js/bundle/defer/defer2.js"></script>
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
-        <script src="js/bundle/defer/defer2.js"></script>
         <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
@@ -1598,10 +1639,11 @@
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
+        <script src="js/bundle/defer/jquery.viewport.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
-
+        <script src="js/bundle/defer/spec.js"></script>
 
         <!--[if lt IE 9 ]>
             <script src="js/libs/polyfill/html5shiv.js"></script>
