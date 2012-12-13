@@ -4,9 +4,9 @@ meta_data: {a:'foo', b:'bar'}
 ---
 		
 
-      <nav class="nav-wrapper">
+      <nav class="container full-bleed-no-max nav-wrapper">
 
-      	<div class="navbar">
+      	<div class="container navbar">
 	        <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
 	        <ul class="nav nav-primary">
 	          <li id="nav-li-store"><a href="#">Store</a></li>
