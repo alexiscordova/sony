@@ -18,7 +18,7 @@
 			  </div>
 			</header>
 			  <div class="container">
-			    <div class="row">
+			    <div class="grid">
 			      <div class="span9">
 			        <section id="typography">
 			

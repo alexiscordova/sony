@@ -2,7 +2,6 @@
 // Responsive: Tablet to desktop (default)
 // --------------------------------------------------
 	.container,
-	.container-fluid,
 	.container-px-width,
 	.grid,
 	.grid-px-width{
@@ -10,22 +9,16 @@
 	  margin-left: auto;	
 	  @include clearfix();
 	}
-	.container.full-bleed,
-	.container-fluid.full-bleed {
-		width:100%;
-	}
 
 	// Fluid grid
-	.container,
-	.container-fluid {
+	.container {
 	  width:$fluidContainerWidth;
-
 	}
 	.grid {
 	  width:$fluidGridWidth;
 	}
 	@include grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth);
-	
+
 
 	// Fixed grid
 	.container-px-width{
@@ -38,3 +31,13 @@
 	// Input grid
 	@include grid-input($gridColumnWidth, $gridGutterWidth);
 
+  [class*="span"]:first-child {
+    margin-left:0;
+  }
+
+
+
+  .container.full-bleed,
+  .grid.full-bleed {
+    width:100%;
+  }

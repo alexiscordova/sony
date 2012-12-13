@@ -26,7 +26,7 @@
 			<!--==================================================
 			 Docs nav
 			================================================== -->
-			    <div class="row">
+			    <div class="grid">
 			      <div class="span3 bs-docs-sidebar">
 			        <ul class="simple-nav simple-nav-list bs-docs-sidenav">
 			          <li><a href="#overview"><i class="icon-chevron-right"></i> Overview</a></li>
@@ -3094,8 +3094,8 @@ $('[data-spy="affix"]').each(function () {
 			
 			
 			
-			      </div>{{! /span9 }}
-			    </div>{{! row}}
+			      </div>{{! /.span9 }}
+			    </div>{{! /.grid}}
 			
 			  </div>{{! /.container }}
 

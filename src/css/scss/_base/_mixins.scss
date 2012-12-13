@@ -158,36 +158,35 @@ $default-transition-delay    : 0s;
 		font-style: $fontStyle;		
 	}
 
-	@mixin fontRegular(){
+	@mixin fontRegular(){ // SST W01 Roman
 		@include font($baseFontFamily);
 	}
-	@mixin fontItalic(){
-		@include font($baseFontFamilyItalic);
+	@mixin fontItalic(){ // SST W01 Italic
+		@include font($baseFontFamilyItalic); 
 	}
-	@mixin fontBold(){
-		@include font($baseFontFamilyBold);
+	@mixin fontBold(){ // SST W01 Bold
+		@include font($baseFontFamilyBold); 
 	}
-	@mixin fontBoldItalic(){
-		// @include font($baseFontFamilyBold, normal, italic);
+	@mixin fontBoldItalic(){ // SST W01 Bold Italic
 		@include font($baseFontFamilyBoldItalic);
 	}   	
-	@mixin fontMedium(){
+	@mixin fontMedium(){ // SST W01 Medium
 		@include font($baseFontFamilyMedium);
 	}   		
-	@mixin fontMediumItalic(){
+	@mixin fontMediumItalic(){ // SST W01 Medium Italic
 		@include font($baseFontFamilyMediumItalic);
 	}
-	@mixin fontLight(){
+	@mixin fontLight(){ // SST W01 Light
 		@include font($baseFontFamilyLight);
 	}   		
-	@mixin fontLightItalic(){
+	@mixin fontLightItalic(){ // SST W01 Light Italic
 		@include font($baseFontFamilyLightItalic);
 	}	
 
-	@mixin fontHeading(){
+	@mixin fontHeading(){ // SST W01 Roman
 		@include font($headingsFontFamily);
 	}			
-	@mixin fontHeadingItalic(){
+	@mixin fontHeadingItalic(){ // SST W01 Italic
 		@include font($headingsFontFamilyItalic);
 	}
 
@@ -861,10 +860,6 @@ $default-transition-delay    : 0s;
 
 // The Grid
 @mixin grid-core($gridColumnWidth, $gridGutterWidth, $numColumns: $gridColumns) {
-	.row {
-		margin-left: $gridGutterWidth * -1;
-		@include clearfix();
-	}
 
 	[class*="span"] {
 		float: left;
@@ -910,8 +905,7 @@ $default-transition-delay    : 0s;
 
 
 @mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns) {
-	.row-fluid {
-		width: 100%;
+	.grid {
 		@include clearfix();
 		
 		[class*="span"] {
@@ -943,6 +937,17 @@ $default-transition-delay    : 0s;
 		.offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
 		.offset#{$gridColumns}:first-child { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
 		$gridColumns: $gridColumns - 1;
+	}
+}
+@mixin grid-fluid-offset-x-reset($gridColumns) {
+	.grid {
+		@while $gridColumns > 0 {
+			// .offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+			.offset#{$gridColumns}:first-child { 
+				margin-left:0;
+			}
+			$gridColumns: $gridColumns - 1;
+		}
 	}
 }
 
@@ -1053,7 +1058,7 @@ $default-transition-delay    : 0s;
 		height: $height;
 	}
 	margin: 0;
-	margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in:; -5px 0px 0px -5px, so these need to be explicitly set.
+	margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in: -5px 0px 0px -5px, so these need to be explicitly set.
 	@if ($height == null) {
 		margin-top: -$widthHeight/2;
 	} @else {

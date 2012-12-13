@@ -10,7 +10,7 @@
 	// Grays
 	// -------------------------
 	$black:                 rgb(0,0,0) !default;
-	$blackLight:						rgb(35,35,35);
+	$blackLight:						rgb(35,35,35) !default;
 	$grayDark:              rgb(47,53,61) !default;
 	$gray:                  rgb(131,131,143) !default;
 
@@ -495,7 +495,13 @@
 	$gridMarginWidth1200:				45px !default;
 	$gridColumnWidth1200:   		52px !default;
 	$gridGutterWidth1200:   		36px !default;
-	$containerMaxWidth:					1400px; // if the browser is wider than this, the content will have a set width & side margins will be auto.
+	
+	$containerWidthMax:				1400px; // if the browser is wider than this, the content will have a set width & side margins will be auto.
+	$containerMarginWidthMax:	79px !default; // if containerWidthMax changes, these all need to be adjusted to add up to it.
+	$gridMarginWidthMax:			64px !default;
+	$gridColumnWidthMax:   		58px !default;
+	$gridGutterWidthMax:   		38px !default;
+
 
 	// 768px-979px breakpoints
 	$containerMarginWidth768:		30px !default;
@@ -517,7 +523,7 @@
 	// 1200px breakpoint
 	$containerWidth1200:		1200px - ($containerMarginWidth1200*2);
 	$gridWidth1200:        	($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
-	$gridMaxWidth:					$containerMaxWidth - ($gridMarginWidth1200 * 2);
+	$gridWidthMax:					$containerWidthMax - ($gridMarginWidth1200 * 2);
 
 	// 768px-979px breakpoints
 	$containerWidth768:			768px - ($containerMarginWidth768*2);

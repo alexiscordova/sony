@@ -24,7 +24,7 @@
 			
 			    <!-- Docs nav
 			    ================================================== -->
-			    <div class="row">
+			    <div class="grid">
 			      <div class="span3 bs-docs-sidebar">
 			        <ul class="simple-nav simple-nav-list bs-docs-sidenav">
 			          <li><a href="#download-bootstrap"><i class="icon-chevron-right"></i> Download</a></li>
@@ -45,7 +45,7 @@
 			          <h2 class="bs-docs-heading">1. Download</h2>
 			          <p class="p1">Before downloading, be sure to have a code editor (we recommend <a href="http://sublimetext.com/2">Sublime Text 2</a>) and some working knowledge of HTML and CSS. We won't walk through the source files here, but they are available for download. We'll focus on getting started with the compiled Bootstrap files.</p>
 			
-			          <div class="row-fluid">
+			          <div class="grid">
 			            <div class="span6">
 			              <h3 class="bs-docs-heading">Download compiled</h3>
 			              <p><strong>Fastest way to get started:</strong> get the compiled and minified versions of our CSS, JS, and images. No docs or original source files.</p>

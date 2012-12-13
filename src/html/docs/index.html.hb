@@ -25,7 +25,7 @@
         
 <!--             <h2 class="bs-docs-heading">Lorem ipsum dolor sit.</h2> -->
             <p class="marketing-byline">The work on and within these pages represents an in-progress design and code system guidelines. This work will be refined, updated, added to and finalized throughout the course of the Sony Web Transformation project. At this time, please do not consider any of this work final. Instead, it is a look at what we're working on right now, and where we're headed.</p><br />
-            <div class="row-fluid">
+            <div class="grid">
               <ul class="thumbnails example-sites">
                 <li class="span4">
 	                <p><a href="scaffolding.html"><img src="img/scaffolding.jpg">

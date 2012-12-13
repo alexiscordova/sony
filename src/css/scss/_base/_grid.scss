@@ -12,13 +12,21 @@
   @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
 }
 
+// nested grids don't have margins (or in our case, don't have a set width)
+.grid .grid,
+.grid-px-width .grid{
+	width:100%;
+}
+
 // Reset utility classes due to specificity
 [class*="span"].hide,
-.row-fluid [class*="span"].hide {
+.grid [class*="span"].hide,
+.grid [class*="span"].hide {
   display: none;
 }
 
 [class*="span"].pull-right,
-.row-fluid [class*="span"].pull-right {
+.grid [class*="span"].pull-right,
+.grid [class*="span"].pull-right {
   float: right;
 }

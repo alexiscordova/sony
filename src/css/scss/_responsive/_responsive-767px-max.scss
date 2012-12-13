@@ -2,13 +2,8 @@
 // Responsive: Landscape phone to desktop/tablet
 // --------------------------------------------------
 //
-//
-//
 // This space intentionally left blank.
 // so these classes will line up through all the responsive files.
-//
-//
-//
 //
 //
 //
@@ -16,35 +11,33 @@
 @media (max-width: 767px) {
 
   // Fluid grid
-  .container,
-  .container-fluid {
-    width:auto;
-
+  .container {
+    width: 100%;
   }
   .grid{
-    width:auto;
+    width: 100%;
   }
 
 
 
   // Fixed grid
   .container-px-width {
-    width: auto;
+    width: 100%;
   }
   .grid-px-width{
-    width: auto;    
+    width: 100%;  
   }
 
 
   // GRID & CONTAINERS
   // -----------------
   
-  // Fluid rows
-  .row-fluid {
+  // Fluid grid rows
+  .grid {
     width: 100%;
   }
-  // Undo negative margin on rows and thumbnails
-  .row,
+  // Undo negative margin on fixed width grids and thumbnails
+  .grid-px-width,
   .thumbnails {
     margin-left: 0;
   }
@@ -52,18 +45,20 @@
     float: none;
     margin-left: 0; // Reset the default margin for all li elements when no .span* classes are present
   }
-  // Make all grid-sized elements block level again
+
+  // Make all grid-sized elements block level again & do away with 
   [class*="span"],
-  .row-fluid [class*="span"] {
+  .grid [class*="span"],
+  [class*="offset"],
+  .grid [class*="offset"],
+  [class*="span"]:first-child,
+  .grid [class*="span"]:first-child,
+  [class*="offset"]:first-child,
+  .grid [class*="offset"]:first-child {
     float: none;
     display: block;
     width: 100%;
     margin-left: 0;
-    @include box-sizing(border-box);
-  }
-  .span12,
-  .row-fluid .span12 {
-    width: 100%;
     @include box-sizing(border-box);
   }
 
@@ -130,7 +125,7 @@
   
   .grid5 {
 
-    .row {
+    .grid {
       margin-left: -2%;
     }
 

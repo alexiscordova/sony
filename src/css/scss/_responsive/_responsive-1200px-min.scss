@@ -2,13 +2,8 @@
 // Responsive: Large desktop and up
 // --------------------------------------------------
 //
-//
-//
 // This space intentionally left blank.
 // so these classes will line up through all the responsive files.
-//
-//
-//
 //
 //
 //
@@ -16,10 +11,8 @@
 @media (min-width: 1200px) {
 
   // Fluid grid
-  .container,
-  .container-fluid {
+  .container {
     width:$fluidContainerWidth1200;
-    // &.full-bleed{ width:100%; }
   }
   .grid {
     width:$fluidGridWidth1200;
@@ -41,33 +34,35 @@
 
 
 
-  // Thumbnails
+  // Thumbnails // these might need to be updated - idk where they're being used.
   .thumbnails {
     margin-left: -$gridGutterWidth1200;
   }
   .thumbnails > li {
     margin-left: $gridGutterWidth1200;
   }
-  .row-fluid .thumbnails {
+  .grid .thumbnails,
+  .grid-px-width .thumbnails {
     margin-left: 0;
   }
 }
 // For the max-width cutoff:
-@media (min-width: ($containerMaxWidth + ($fluidContainerMarginWidth1200 * 2))) {
-  .container,
-  .container-fluid {
-    padding: 0;
-    max-width: $containerMaxWidth;
-    margin: 0 auto;
-    @include clearfix();
+@media (min-width: ($containerWidthMax + ($fluidContainerMarginWidth1200 * 2))) {
+  .container {
+    max-width: $containerWidthMax;
+  }
+  .grid {
+    width:$gridWidthMax;
   }
 
-
-  // // Fixed grid
-  // .container-px-width{
-  //   width:$containerMaxWidth;    
-  // }
-  // .grid-px-width{
-  //   width:$gridMaxWidth;    
-  // }
+  // Fixed grid
+  .container-px-width{
+    width:$containerWidthMax;    
+  }
+  .grid-px-width{
+    width:$gridWidthMax;    
+  }
+  @include grid-core($gridColumnWidthMax, $gridGutterWidthMax);
+  // Input grid
+  @include grid-input($gridColumnWidthMax, $gridGutterWidthMax);
 }

@@ -21,7 +21,7 @@
 			        <!-- Fluid grid system
 			        ================================================== -->
 			        <section id="fluidGridSystem"> <div class="bs-docs-grid">
-			        	<div class="row-fluid show-grid">
+			        	<div class="grid pull-left show-grid">
 		            	<div class="gridsec pageMargin"></div><div class="gridsec gridMargin"></div>
 		              <div class="gridsec column"></div><div class="gridsec gutter"></div>
 		              <div class="gridsec column"></div><div class="gridsec gutter"></div>
@@ -92,7 +92,7 @@
 								.incOdd input[type="text"] { font-size:1em; color: #83838F; }
 								#totalWidth 			{ font-size:1em; color: #444; }
 								.bp 							{ display:none; }
-								.bpBtns						{ margin-left:10px; color:#222; }
+								.bpBtns						{ margin-left:10px; color:#222; clear:both; }
 								.bpBtns a.btn			{ margin-left:10px; width:80px; }
 
 								.show-grid .pageMargin 			{ background:rgba(0,0,255,0.6); color:#fff; }
