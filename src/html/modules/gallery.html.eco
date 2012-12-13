@@ -41,7 +41,7 @@
     <% for gallery in @data.featured: %>
     <section class="container fade gallery" data-mode="<%- gallery.mode %>">
       <h6><%- gallery.title %></h6>
-      <div class="products grid">
+      <div class="products grid full-bleed">
           <% for item in gallery.list: %>
           <a class="gallery-item
             <% if item.tile == "large": %>
@@ -103,7 +103,6 @@
       <div class="see-all">
         <a class="btn btn-wide" href="#"><%- gallery.callout %></a>
       </div>
-
     </section>
     <% end %>
   </div>
@@ -112,7 +111,7 @@
     <section class="gallery" id="<%- @data.productCards.name %>-gallery" data-mode="<%- @data.productCards.mode %>">
       <% if @data.productCards.filterSet: %>
       
-      <div class="filter-display-bar slide-toggle-parent container">
+      <div class="container filter-display-bar slide-toggle-parent">
         <% if @data.productCards.sortSet: %>
         <div class="sort-options pull-right">
           <span class="l4">Sort By:&nbsp;</span>
@@ -153,7 +152,7 @@
 
       <div class="collapse slide-toggle-target" id="<%- @data.productCards.name %>-filters">
         <div class="filter-options container">
-          <div class="grid">
+          <div class="grid full-bleed">
             <div class="span8 regular-filters">
             <% for filterSet in @data.productCards.filterSet: %>
 
@@ -231,7 +230,7 @@
       <div class="container active-filters"></div>
 
       <div class="container">
-        <div class="products grid">
+        <div class="products grid full-bleed">
           <% for item in @data.productCards.list: %>
           <a class="span4 gallery-item" data-filter-set='<%- JSON.stringify(item.filterSet) %>' data-priority="<%- item.priority %>" itemscope itemtype="http://schema.org/Product" itemprop="url" href="<% if item.href: %><%- item.href %><% else: %>#<% end %>">
             <% if item.label: %>
@@ -373,7 +372,7 @@
         <div class="product-strip-wrap">
           <a class="tl pull-right" href="#"><%- this.callout %></a>
           <h6 class="product-strip-heading"><%- this.title %></h6>
-          <div class="product-strip grid">
+          <div class="product-strip grid full-bleed">
             <% for item in accessory.list: %>
             <a class="span1 gallery-item" href="#">
               <div class="product-img">

@@ -47,15 +47,19 @@
   }
 
   // Make all grid-sized elements block level again
-  // .grid:not(.grid-small) [class*="span"],
-  [class*="span"],
-  .grid [class*="span"],
-  [class*="offset"],
-  .grid [class*="offset"],
-  [class*="span"]:first-child,
-  .grid [class*="span"]:first-child,
-  [class*="offset"]:first-child,
-  .grid [class*="offset"]:first-child {
+  .grid:not(.grid-small) [class*="span"],
+  .grid:not(.grid-small) [class*="offset"],
+  .grid-px-width:not(.grid-small) [class*="span"],
+  .grid-px-width:not(.grid-small) [class*="offset"]
+  // [class*="span"],
+  // .grid [class*="span"],
+  // [class*="offset"],
+  // .grid [class*="offset"],
+  // [class*="span"]:first-child,
+  // .grid [class*="span"]:first-child,
+  // [class*="offset"]:first-child,
+  // .grid [class*="offset"]:first-child 
+  {
     float: none;
     display: block;
     width: 100%;
