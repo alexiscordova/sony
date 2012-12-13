@@ -45,7 +45,7 @@
           <% for item in gallery.list: %>
           <a class="gallery-item
             <% if item.tile == "large": %>
-              span3 h2 large
+              span3 large
             <% else if item.tile == "promo": %>
               span2 promo
             <% else: %>
@@ -231,94 +231,10 @@
 
       <div class="container">
         <div class="products grid full-bleed">
-          <% for item in @data.productCards.list: %>
-          <a class="span4 gallery-item" data-filter-set='<%- JSON.stringify(item.filterSet) %>' data-priority="<%- item.priority %>" itemscope itemtype="http://schema.org/Product" itemprop="url" href="<% if item.href: %><%- item.href %><% else: %>#<% end %>">
-            <% if item.label: %>
-            <span class="label label-success"><%- item.label %></span>
-            <% end %>
-            <div class="product-img">
-              <div class="ghost-center-wrap">
-                <div class="ghost-center js-product-imgs">
-                  <img class="iq-img js-product-img-main" itemprop="image" alt="<%- item.img.alt %>" data-src="<%- item.img.src %>">
-                  <noscript>
-                    <img src="<%- item.img.src %>" itemprop="image" alt="<%- item.img.alt %>">
-                  </noscript>
-                  <% for img in item.img.colors: %>
-                  <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
-                  <noscript>
-                    <img class="hidden" itemprop="image" src="<%- img.src %>" alt="<%- img.alt %>">
-                  </noscript>
-                  <% end %>
-                </div>
-              </div>
-              <% if item.img.colors: %>
-              <div class="color-swatches">
-                <% for color in item.img.colors: %><span class="mini-swatch swatch-<%- color.color %>" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
-              </div>
-              <% end %>
-            </div>
-            <div class="product-content">
-              <div class="p3 product-name" itemprop="name"><%- item.name %></div>
-              <div class="p5 product-model" itemprop="model"><%- item.model %></div>
-              <div class="p5 product-rating" data-stars="<%- item.rating.stars %>" itemprop="reviews" itemscope itemtype="http://schema.org/AggregateRating">
-                <meta itemprop="ratingValue" content="<%- item.rating.stars %>">
-                <i class="icon-ui-star"></i
-                ><i class="icon-ui-star"></i
-                ><i class="icon-ui-star"></i
-                ><i class="icon-ui-star"></i
-                ><i class="icon-ui-star"></i>
-                ( <span itemprop="ratingCount"><%- item.rating.reviews %></span> user reviews)
-              </div>
-              <ul class="p3 product-meta">
-                <% for meta in item.meta: %>
-                <li><%- meta.value %> <span class="product-meta-name"><%- meta.name %></span></li>
-                <% end %>
-              </ul>
-              <div class="product-price">
-                <p class="price"><span class="p5">Starting at</span> <span class="l2" itemprop="price">$<%- item.price %></span> <span class="p5 msrp">MSRP</span></p>
-              </div>
-              <div class="detail-group hidden">
-                <% if item.details: %>
-                <% for detail in item.details: %>
-                <div class="detail" itemprop="<%- detail.slug %>">
-                  <% if detail.value.check: %>
-                    <% if detail.value.checked: %>
-                    <div class="icon-ui-check"></div><%- detail.value.text %>
-                    <% else: %>
-                    <div class="icon-ui-ban"></div>NOPE
-                    <% end %>
-                  <% else if detail.value.box: %>
-                      <p class="compare-box"><%- detail.value.box %></p>
-                      <p><%- detail.value.lineOne %></p>
-                      <% if detail.value.lineTwo: %><p><%- detail.value.lineTwo %></p><% end %>
-                      <% if detail.value.lineThree: %><p><%- detail.value.lineThree %></p><% end %>
-                  <% else if detail.value.lineOne: %>
-                    <p><%- detail.value.lineOne %></p>
-                    <% if detail.value.lineTwo: %><p><%- detail.value.lineTwo %></p><% end %>
-                    <% if detail.value.lineThree: %><p><%- detail.value.lineThree %></p><% end %>
-                  <% else if detail.value[0].description: %>
-                    <ul class="media-list">
-                      <% for value in detail.value: %>
-                      <li class="media">
-                        <div class="pull-left">
-                          <i class="media-object icon-bestfor-<%- detail.icon %>"></i>
-                        </div>
-                        <div class="media-body">
-                          <p class="media-heading p3 text-dark"><%- detail.label %></p>
-                          <p class="p3"><%- detail.description %></p>
-                        </div>
-                      </li>
-                      <% end %>
-                    </ul>
-                  <% else: %>
-                    <%- detail.value %>
-                  <% end %>
-                </div>
-                <% end %>
-                <% end %>
-              </div>
-            </div>
-          </a>
+          <% for product in @data.submodules: %>
+          <% if product.view == "detail": %>
+          <%- @this.partial('modules/' + product.type, { this:@this, data:@this.data(product.data) } ) %>
+          <% end %>
           <% end %>
         </div>
       </div>
