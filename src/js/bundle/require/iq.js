@@ -125,8 +125,8 @@
 		loadImages();
 	},
 
-    updateImages = function() {
-        loadImages(true);
+    updateImages = function( imagesWereAdded ) {
+        loadImages( imagesWereAdded !== false );
     },
 	
 	loadImages = function(update){

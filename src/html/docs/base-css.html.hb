@@ -12,19 +12,19 @@
 			 Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container-fluid">
+			  <div class="container">
 			    <h1>Base CSS</h1>
 			    <p class="p1">Fundamental HTML element styles</p>
 			  </div>
 			</header>
 			
 			
-			  <div class="container-fluid">
+			  <div class="container">
 			
 			<!--==================================================
 			 Docs nav
 			================================================== -->
-			    <div class="row">
+			    <div class="grid">
 			      <div class="span3 bs-docs-sidebar">
 			        <ul class="simple-nav nav-list bs-docs-sidenav">
 			          <li><a href="#typography"><i class="icon-chevron-right"></i> Typography</a></li>
@@ -56,7 +56,7 @@
 			          <h2 class="bs-docs-heading" id="headings">Typography</h2>
 			          <div class="bs-docs-example bs-docs-example-headings">
 			
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h1&gt;</strong> — Major features</p>
 			                <h1>Pocket professional</h1>
@@ -67,7 +67,7 @@
 			              </div>
 			            </div>
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h3&gt;</strong> — Feature heads</p>
 			                <h3>Mini body, mega&nbsp;sensor  <span class="chevron">&rsaquo;</span></h3>
@@ -78,7 +78,7 @@
 			              </div>
 			            </div>
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h5&gt;</strong> — Sub-head 2</p>
 			                <h5>Print your shots5</h5>
@@ -89,7 +89,7 @@
 			              </div>
 			            </div>
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>.l1</strong> — Label 1 — Section</p>
 			                <p class="l1">Details</p>
@@ -100,7 +100,7 @@
 			              </div>
 			            </div>
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>.l3</strong> — Label 3 — Callout strong</p>
 			                <p class="l3">3.0” Tiltable LCD&nbsp;Screen</p>
@@ -111,7 +111,7 @@
 			              </div>
 			            </div>
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>.p1</strong> — Body Copy 1 — Supports major features</p>
 			                <p class="p1">The NEX-6 is as fast as the world you're trying to capture. It epitomizes the leanest of technology.</p>
@@ -122,7 +122,7 @@
 			              </div>
 			            </div>
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>.p3</strong> — Body Copy 3 — Supports subheads</p>
 			                <p class="p3">Amazing resolution and high contrast prints with massive color and depth.</p>
@@ -133,14 +133,14 @@
 			              </div>
 			            </div>            
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">           
 			                <p class="title-docs"><strong>.p5</strong> — Body Copy 5 — Subtext 2</p>
 			                <p class="p5">Starting at</p>
 			              </div>
 			            </div>
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>blockquote.bq1 > p</strong> — Special content — Personal quote 1</p>
 			                <blockquote class="bq1"><p>I can now get extreme detail in low light situations. Night shooting is now a reality.</p></blockquote>
@@ -151,7 +151,7 @@
 			              </div>
 			            </div>
 			            
-			            <div class="row">
+			            <div class="grid">
 			              <div class="span4 big-bottom-margin">
 			                <p class="title-docs"><strong>.text-number-callout-large</strong> — Special content — Number callout</p>
 			                <p class="text-number-callout-large">01</p>
@@ -299,7 +299,7 @@
 		          	<h4>Grays<small> for text and general components</small></h4>
 								<div class="bs-docs-example">
 
-			            <div class="row">
+			            <div class="grid">
 	            			<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--black"></div>
 			                <p>$black</p>
@@ -317,7 +317,7 @@
 			              </div>
 			            </div>
 			
-			            <div class="row">
+			            <div class="grid">
 	            			<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--grayLight"></div>
 			                <p>$grayLight</p>
@@ -341,7 +341,7 @@
 			          <h4>Background Tones<small> </small></h4>
 								<div class="bs-docs-example">
 
-			            <div class="row">
+			            <div class="grid">
 	            			<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--grayDarkerFieldLarge"></div>
 			                <p>$grayDarkerFieldLarge</p>
@@ -359,7 +359,7 @@
 			              </div>
 			            </div>
 			
-			            <div class="row">
+			            <div class="grid">
 	            			<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--grayDarkerFieldSmall"></div>
 			                <p>$grayDarkerFieldSmall</p>
@@ -383,7 +383,7 @@
 			          <h4>Highlight Colors<small> </small></h4>
 								<div class="bs-docs-example">
 
-			            <div class="row">
+			            <div class="grid">
             				<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--highlightColor"></div>
 			                <p>$highlightColor</p>
@@ -413,7 +413,7 @@
 			          <h4>Button &amp; Link Colors<small> </small></h4>
 								<div class="bs-docs-example">
 
-			            <div class="row">
+			            <div class="grid">
 	            			<div class="span2 color-swatch-span">
 	            				<div class="color-swatch--linkColor"></div>
 			                <p>$linkColor</p>

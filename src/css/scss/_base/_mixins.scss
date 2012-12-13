@@ -158,35 +158,35 @@ $default-transition-delay    : 0s;
 		font-style: $fontStyle;		
 	}
 
-	@mixin fontRegular(){
+	@mixin fontRegular(){ // SST W01 Roman
 		@include font($baseFontFamily);
 	}
-	@mixin fontItalic(){
-		@include font($baseFontFamilyItalic);
+	@mixin fontItalic(){ // SST W01 Italic
+		@include font($baseFontFamilyItalic); 
 	}
-	@mixin fontBold(){
-		@include font($baseFontFamilyBold);
+	@mixin fontBold(){ // SST W01 Bold
+		@include font($baseFontFamilyBold); 
 	}
-	@mixin fontBoldItalic(){
-		@include font($baseFontFamilyBold, normal, italic);
+	@mixin fontBoldItalic(){ // SST W01 Bold Italic
+		@include font($baseFontFamilyBoldItalic);
 	}   	
-	@mixin fontMedium(){
+	@mixin fontMedium(){ // SST W01 Medium
 		@include font($baseFontFamilyMedium);
 	}   		
-	@mixin fontMediumItalic(){
+	@mixin fontMediumItalic(){ // SST W01 Medium Italic
 		@include font($baseFontFamilyMediumItalic);
 	}
-	@mixin fontLight(){
+	@mixin fontLight(){ // SST W01 Light
 		@include font($baseFontFamilyLight);
 	}   		
-	@mixin fontLightItalic(){
+	@mixin fontLightItalic(){ // SST W01 Light Italic
 		@include font($baseFontFamilyLightItalic);
 	}	
 
-	@mixin fontHeading(){
+	@mixin fontHeading(){ // SST W01 Roman
 		@include font($headingsFontFamily);
 	}			
-	@mixin fontHeadingItalic(){
+	@mixin fontHeadingItalic(){ // SST W01 Italic
 		@include font($headingsFontFamilyItalic);
 	}
 
@@ -298,26 +298,21 @@ $default-transition-delay    : 0s;
 	@include border-bottom-left-radius($radius);
 }
 
-// Drop shadows
+// Box shadows
+// @all, -ms- and -o- box-shadow doesn't exist + box-shadow != drop-shadow
 @mixin box-shadow($shadow1, $shadow2:null, $shadow3:null) { 
-	@if ($shadow3!=null){
-    -webkit-box-shadow:$shadow1, $shadow2, $shadow3;
-       -moz-box-shadow:$shadow1, $shadow2, $shadow3;
-        -ms-box-shadow:$shadow1, $shadow2, $shadow3;
-         -o-box-shadow:$shadow1, $shadow2, $shadow3;
-            box-shadow:$shadow1, $shadow2, $shadow3;
+	@if ($shadow3!=null) {
+    -webkit-box-shadow: $shadow1, $shadow2, $shadow3;
+       -moz-box-shadow: $shadow1, $shadow2, $shadow3;
+            box-shadow: $shadow1, $shadow2, $shadow3;
 	} @else if ($shadow2!=null){
-    -webkit-box-shadow:$shadow1, $shadow2;
-       -moz-box-shadow:$shadow1, $shadow2;
-        -ms-box-shadow:$shadow1, $shadow2;
-         -o-box-shadow:$shadow1, $shadow2;
-            box-shadow:$shadow1, $shadow2;
+    -webkit-box-shadow: $shadow1, $shadow2;
+       -moz-box-shadow: $shadow1, $shadow2;
+            box-shadow: $shadow1, $shadow2;
 	} @else {
-    -webkit-box-shadow:$shadow1;
-       -moz-box-shadow:$shadow1;
-        -ms-box-shadow:$shadow1;
-         -o-box-shadow:$shadow1;
-            box-shadow:$shadow1;
+    -webkit-box-shadow: $shadow1;
+       -moz-box-shadow: $shadow1;
+            box-shadow: $shadow1;
 
 	}
 }
@@ -837,12 +832,6 @@ $default-transition-delay    : 0s;
 // Grid System
 // -----------
 
-// Centered container element
-@mixin container-fixed() {
-	margin-right: auto;
-	margin-left: auto;
-	@include clearfix();
-}
 
 // Table columns
 @mixin tableColumns($columnSpan: 1) {
@@ -866,10 +855,6 @@ $default-transition-delay    : 0s;
 
 // The Grid
 @mixin grid-core($gridColumnWidth, $gridGutterWidth, $numColumns: $gridColumns) {
-	.row {
-		margin-left: $gridGutterWidth * -1;
-		@include clearfix();
-	}
 
 	[class*="span"] {
 		float: left;
@@ -878,10 +863,10 @@ $default-transition-delay    : 0s;
 	}
 
 	// Set the container width, and override it for fixed navbars in media queries
-	.container,
-	.navbar-static-top .container,
-	.navbar-fixed-top .container,
-	.navbar-fixed-bottom .container {
+	.container-px-width,
+	.navbar-static-top .container-px-width,
+	.navbar-fixed-top .container-px-width,
+	.navbar-fixed-bottom .container-px-width {
 		@include grid-core-span($numColumns, $gridColumnWidth, $gridGutterWidth);
 	}
 
@@ -915,15 +900,14 @@ $default-transition-delay    : 0s;
 
 
 @mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns) {
-	.row-fluid {
-		width: 100%;
+	.grid {
 		@include clearfix();
 		
 		[class*="span"] {
 			@include input-block-level();
 			float: left;
 			margin-left: $fluidGridGutterWidth;
-			*margin-left: $fluidGridGutterWidth - (.5 / $gridRowWidth * 100px * 1%);
+			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 		}
 		
 		[class*="span"]:first-child {
@@ -950,20 +934,31 @@ $default-transition-delay    : 0s;
 		$gridColumns: $gridColumns - 1;
 	}
 }
+@mixin grid-fluid-offset-x-reset($gridColumns) {
+	.grid {
+		@while $gridColumns > 0 {
+			// .offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+			.offset#{$gridColumns}:first-child { 
+				margin-left:0;
+			}
+			$gridColumns: $gridColumns - 1;
+		}
+	}
+}
 
 @mixin grid-fluid-span($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
 	width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1));
-	*width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridRowWidth * 100px * 1%);
+	*width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%);
 }
 
 @mixin grid-fluid-offset($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
 	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth * 2);
-	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridRowWidth * 100px * 1%) + ($fluidGridGutterWidth * 2) - (.5 / $gridRowWidth * 100px * 1%);
+	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + ($fluidGridGutterWidth * 2) - (.5 / $gridWidth * 100px * 1%);
 }
 
 @mixin grid-fluid-offset-first-child($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
 	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth);
-	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridRowWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridRowWidth * 100px * 1%);
+	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 }
 
 
@@ -1002,63 +997,66 @@ $default-transition-delay    : 0s;
 
 
 
-
+@mixin lightGrayInset() {
+	background: $grayLightFieldLarge;
+  	@include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
+}
 
 
 // Custom (not from Bootstrap) --CJM
 // quickly set the width & height. If only 1 val is passed in, it sets both to the same
-@mixin wh($w,$h:null){
-	width:$w;
-	@if($h==null){
-		height:$w;
+@mixin wh($w,$h:null) {
+	width: $w;
+	@if ($h == null) {
+		height: $w;
 	} @else{
-		height:$h;		
+		height: $h;		
 	}
 }
 // quickly set absolute position, and top/left parameters. If only 1 val is passed in, it sets both to the same
-@mixin xy($x,$y:null){
-	position:absolute;
-	left:$x;
-	@if($y==null){
-		top:$x;	
+@mixin xy($x, $y:null) {
+	position: absolute;
+	left: $x;
+	@if($y == null){
+		top: $x;	
 	} @else{
-		top:$y;
+		top: $y;
 	}
 }
 // quickly set absolute position, and top/left parameters
-@mixin whxy($w,$h,$x,$y){
-	position:absolute;
-	left:$x;
-	top:$y;
-	width:$w;
-	height:$h;
+@mixin whxy($w,$h,$x,$y) {
+	position: absolute;
+	left: $x;
+	top: $y;
+	width: $w;
+	height: $h;
 }
 
-@mixin squareCentered($width){
-	display:block;
-	position:absolute;
-	top:50%;
-	left:50%;
-	width:$width;
-	height:$width; 
-	margin:(-$width/2) 0 0 (-$width/2);  
+@mixin squareCentered($width) {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: $width;
+	height: $width; 
+	margin: (-$width / 2) 0 0 (-$width / 2);  
 }
-@mixin circleCentered($dia){
+@mixin circleCentered($dia) {
 	@include squareCentered($dia);
-	@include border-radius($dia/2);  
+	@include border-radius($dia / 2);  
 }
 
 // set up an element to be centered horizontally & vertically within its parent, using negative margins
 @mixin center-hv($widthHeight, $height: null) {
-	position:absolute;
-	width:$widthHeight;
+	position: absolute;
+	width: $widthHeight;
 	@if ($height == null) {
 		height: $widthHeight;
 	} @else {
 		height: $height;
 	}
 	margin: 0;
-	margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in:; -5px 0px 0px -5px, so these need to be explicitly set.
+	margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in: -5px 0px 0px -5px, so these need to be explicitly set.
 	@if ($height == null) {
 		margin-top: -$widthHeight/2;
 	} @else {

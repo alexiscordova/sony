@@ -9,7 +9,7 @@ meta_data: {a:'foo', b:'bar'}
   </div>
   <div class="ghost-center-wrap hero-text-wrap">
     <div class="hero-text ghost-center">
-      <div class="container">
+      <div class="container-px-width">
         <div class="hidden-phone">hi</div>
         <h1>Related Products</h1>
       </div>
@@ -18,7 +18,7 @@ meta_data: {a:'foo', b:'bar'}
 </section>
 
 <section>
-  <div class="container">
+  <div class="container-px-width">
     <div class="products gallery grid5" data-type="{{related.type}}">
       {{#each related.list}}
       <div class="gallery-item {{#if this.tile.large}}span3 h2 large{{/if}}{{#if this.tile.promo}}span2 promo{{/if}}{{#if this.tile.normal}}span1{{/if}} {{#if this.tile.copy}}promo-copy{{/if}}">
