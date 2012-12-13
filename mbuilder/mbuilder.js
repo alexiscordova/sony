@@ -1,7 +1,6 @@
 var express = require('express'), 
 	build = require('./routes/build'),
 	modules = require('./routes/modules'),
-	pages = require('./routes/pages'),
 	data = require('./routes/data'), 
 	http = require('http'),
 	path = require('path');
@@ -18,7 +17,6 @@ app.configure(function(){
 
 app.get('/mnames', modules.getmnames);
 app.get('/dnames', data.getdnames);
-app.get('/pnames', pages.getpnames);
 app.get('/getjson', data.getjson);
 app.get('/savejson', data.savejson);
 app.get('/generate', build.generate);
