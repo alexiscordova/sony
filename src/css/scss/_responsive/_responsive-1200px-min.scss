@@ -12,20 +12,20 @@
 
   // Fluid grid
   .container {
-    width: $fluidContainerWidth1200;
+    width:$fluidContainerWidth1200;
   }
   .grid {
-    width: $fluidGridWidth1200;
+    width:$fluidGridWidth1200;
   }
   @include grid-fluid($fluidGridColumnWidth1200, $fluidGridGutterWidth1200);
 
 
   // Fixed grid
   .container-px-width{
-    width: $containerWidth1200;    
+    width:$containerWidth1200;    
   }
   .grid-px-width{
-    width: $gridWidth1200;    
+    width:$gridWidth1200;    
   }
   @include grid-core($gridColumnWidth1200, $gridGutterWidth1200);
   // Input grid
@@ -50,18 +50,21 @@
 @media (min-width: ($containerWidthMax + ($fluidContainerMarginWidth1200 * 2))) {
   .container {
     max-width: $containerWidthMax;
+    &.full-bleed-no-max{ width:100%; min-width:100%; }
   }
   .grid {
-    width: $gridWidthMax;
+    width:$gridWidthMax;
+    &.full-bleed-no-max{ width:100%; min-width:100%; }
   }
 
   // Fixed grid
   .container-px-width{
-    width: $containerWidthMax;    
+    width:$containerWidthMax;    
   }
   .grid-px-width{
-    width: $gridWidthMax;    
+    width:$gridWidthMax;    
   }
+
   @include grid-core($gridColumnWidthMax, $gridGutterWidthMax);
   // Input grid
   @include grid-input($gridColumnWidthMax, $gridGutterWidthMax);

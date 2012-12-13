@@ -7,7 +7,6 @@ exports.getdnames = function(req, res){
 	res.send(JSON.stringify(d));
 }
 
-
 exports.getjson = function(req, res){
 	var p = '../src/html/data/' + req.query.path
 	var d = fs.existsSync(p) ? fs.readFileSync(p) : "";

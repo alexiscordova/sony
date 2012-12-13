@@ -25,6 +25,10 @@ description: This is a sample module showing how to include data and partial inc
 	<body>
 
 <%" !! include your module markup templates here "%>
+
+
+
+
 <%" !! this shows 2 modules with different ways of getting unique data into the module template "%>
 <%" !! first from an external json file found in the /data directory preferred "%>
 		<%-@partial('modules/example.html.eco', {this:this, data:@data('example/mode1.json')} ) %>

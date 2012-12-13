@@ -20,6 +20,7 @@ app.get('/dnames', data.getdnames);
 app.get('/getjson', data.getjson);
 app.get('/savejson', data.savejson);
 app.get('/generate', build.generate);
+app.post('/generatePage', build.generatePage);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
