@@ -1,8 +1,8 @@
-var mb = {}
+var mb = {};
 
 mb.isSuperModule = false;
 mb.moduleName = "";
-mb.modulePath = ""
+mb.modulePath = "";
 mb.moduleData = {};
 mb.subModules = [];
 mb.modulePaths = [];
@@ -21,7 +21,7 @@ $(document).ready(function() {
         addSub();
     });
 
-    var addSub = function() {
+    var addSub = function(modname, dataname) {
         //
         var sub = $('<li><div class="clearfix form-inline row"></div></li>');
         var form = sub.find('.form-inline')
@@ -34,13 +34,12 @@ $(document).ready(function() {
 
         $.each(mb.modulePaths, function(i, e) {
             subselect.append("<option value=" + e + ">" + e.replace(/.html(.eco|.hb)/g, '') + "</option>");
-        })
+        });
         //remove button functionality
         form.find('.remove-me').bind('click', function(e) {
             sub.remove();
-        })
+        });
         //edit button functionality
-
         form.find('.edit-me').bind('click', function(e) {
             var p = dataselect.val();
             $('#edit_box .modal-body input').val(p);
@@ -51,9 +50,8 @@ $(document).ready(function() {
                 }
             }).done(function(res) {
                 $('#edit_box .modal-body textarea').val(JSON.stringify(JSON.parse(res), null, '    '));
-
             })
-        })
+        });
         //get list of data.json path names for each submodule:
         subselect.change(function(e) {
             subselect.find('.hold').remove();
@@ -71,18 +69,15 @@ $(document).ready(function() {
                     dataselect.append("<option value=" + n + "/" + e + ">" + e + "</option>")
                 })
                 //if dataname is defined select it
-                // !dataname || dataselect.val(dataname);
+                !dataname || dataselect.val(dataname);
             })
-        })
-        //!modname || subselect.val(modname).trigger('change');
+        });
+        !modname || subselect.val(modname).trigger('change');
 
         $('#submodule_list').append(sub);
     }
-    //add the remaining data to the module edit text field
-    //$('#main_data_edit textarea').val(JSON.stringify(mb.moduleData, null, '    '));
-    //$('#main_data_edit textarea').trigger('keyup');
+
     $('#buttons, #main_data_edit').show();
-    // $('#edit_box input:first, #save_as_box input:first').val($('#data_select').val())
 
     $('#submodule_section').find('.add-me').bind('click', function(e) {
         addSub();
@@ -169,11 +164,8 @@ $(document).ready(function() {
         });
 
     }
-    var data;
 
     $('form').submit(function() {
-        //  data = $(this).serialize();
-        var temps;
         return false;
     });
 
@@ -182,10 +174,6 @@ $(document).ready(function() {
 
         var myForm = $("#myForm");
 
-        $.each($("#submodule_list li"), function(i, e) {
-
-        })
-
         $("#build").button('loading');
 
         $.ajax({
@@ -193,7 +181,7 @@ $(document).ready(function() {
             url : myForm.attr('action'),
             data : myForm.serialize(),
             success : function(res) {
-                if (res != "false") {
+                if (res !== "false" && res !== false) {
                     $("#build").button('reset');
                     if ($('.alert').length > 0) {
                         $('.alert').remove();
@@ -208,6 +196,10 @@ $(document).ready(function() {
                     $('#build_success').alert();
                 }
 
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+                $('body').prepend('<div id="build_success" class="alert alert-success">ERROR: Check it out here: The AJax call return an error : ' + errorThrown + '<button type="button" class="close" data-dismiss="alert">×</button></div>');
+                $('#build_success').alert();
             }
         });
 
