@@ -11,14 +11,14 @@
 			<!-- Masthead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container">
+			  <div class="container-px-width">
 			    <h1 class="bs-docs-heading">Customize</h1>
 			    <p>This will be where you can choose modules to create a custom page. This is just a shell now, ready for updating.</p>
 			  </div>
 			</header>
 			
 			
-			  <div class="container">
+			  <div class="container-px-width">
 			
 			
 			        <!-- Customize form
@@ -29,7 +29,7 @@
 			              <a class="btn btn-small pull-right toggle-all" href="#">Toggle all</a>
 			              <h3 class="bs-docs-heading">1. Choose components</h3>
 			            </div>
-			            <div class="row download-builder">
+			            <div class="grid download-builder">
 			              <div class="span4">
 			                <h4 class="bs-docs-heading">Heading</h4>
 			                <label class="checkbox"><input checked="checked" type="checkbox" value="a"> a</label>
@@ -75,7 +75,7 @@
 			                <label class="checkbox"><input checked="checked" type="checkbox" value="j"> j</label>
 			                <label class="checkbox"><input checked="checked" type="checkbox" value="k"> k</label>
 			              </div><!-- /span -->
-			            </div><!-- /row -->
+			            </div><!-- /grid -->
 			          </section>
 			
 			          

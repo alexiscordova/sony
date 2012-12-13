@@ -16,14 +16,7 @@
   <link href="css/responsive.css" rel="stylesheet">
   <link href="css/docs.css" rel="stylesheet">
 
-  <!--[if lt IE9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
-  <!--[if (gte IE 9)|!(IE)]><!--> 
-    <script type="text/javascript">
-      // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
-      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
-    </script>
-  <!--<![endif]-->
+  <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script>
 
   <link href="css/google-prettify.css" rel="stylesheet">
 
@@ -94,17 +87,17 @@
             <!-- Subhead
             ================================================== -->
             <header class="jumbotron subhead" id="overview">
-              <div class="container">
+              <div class="container-px-width">
                 <h2 class="bs-docs-heading">Extending Bootstrap</h2>
                 <p class="p1">Extend Bootstrap to take advantage of included styles and components, as well as LESS variables and mixins.</p>
               <div>
             </header>
             
-              <div class="container">
+              <div class="container-px-width">
             
                 <!-- Docs nav
                 ================================================== -->
-                <div class="row">
+                <div class="grid">
                   <div class="span3 bs-docs-sidebar">
                     <ul class="simple-nav simple-nav-list bs-docs-sidenav">
                       <li><a href="#built-with-less"><i class="icon-chevron-right"></i> Built with LESS</a></li>
@@ -256,7 +249,7 @@
               </div>
               
             <footer class="footer">
-      <div class="container">
+      <div class="container-px-width">
         <p class="pull-right"><a href="#">Back to top</a></p>
         <p>&#169; Odopod - Proprietary and Confidential.</p>
         <ul class="footer-links">
@@ -286,6 +279,8 @@
     <script src="js/libs/bootstrap-typeahead.js"></script>
     <script src="js/libs/bootstrap-affix.js"></script>
     <script src="js/libs/application.js"></script>
+    <script src="js/docs/debug_toggle.js"></script>
+    <script src="js/docs/debug_warnings.js"></script>
 
     </body>
 </html>

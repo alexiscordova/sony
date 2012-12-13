@@ -16,14 +16,7 @@
   <link href="css/responsive.css" rel="stylesheet">
   <link href="css/docs.css" rel="stylesheet">
 
-  <!--[if lt IE9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
-  <!--[if (gte IE 9)|!(IE)]><!--> 
-    <script type="text/javascript">
-      // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
-      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
-    </script>
-  <!--<![endif]-->
+  <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script>
 
   <link href="css/google-prettify.css" rel="stylesheet">
 
@@ -94,14 +87,14 @@
             <!-- Masthead
             ================================================== -->
             <header class="jumbotron subhead" id="overview">
-              <div class="container">
+              <div class="container-px-width">
                 <h1 class="bs-docs-heading">Customize</h1>
                 <p>This will be where you can choose modules to create a custom page. This is just a shell now, ready for updating.</p>
               </div>
             </header>
             
             
-              <div class="container">
+              <div class="container-px-width">
             
             
                     <!-- Customize form
@@ -112,7 +105,7 @@
                           <a class="btn btn-small pull-right toggle-all" href="#">Toggle all</a>
                           <h3 class="bs-docs-heading">1. Choose components</h3>
                         </div>
-                        <div class="row download-builder">
+                        <div class="grid download-builder">
                           <div class="span4">
                             <h4 class="bs-docs-heading">Heading</h4>
                             <label class="checkbox"><input checked="checked" type="checkbox" value="a"> a</label>
@@ -158,7 +151,7 @@
                             <label class="checkbox"><input checked="checked" type="checkbox" value="j"> j</label>
                             <label class="checkbox"><input checked="checked" type="checkbox" value="k"> k</label>
                           </div><!-- /span -->
-                        </div><!-- /row -->
+                        </div><!-- /grid -->
                       </section>
             
                       
@@ -166,7 +159,7 @@
             
               </div>
             <footer class="footer">
-      <div class="container">
+      <div class="container-px-width">
         <p class="pull-right"><a href="#">Back to top</a></p>
         <p>&#169; Odopod - Proprietary and Confidential.</p>
         <ul class="footer-links">
@@ -196,6 +189,8 @@
     <script src="js/libs/bootstrap-typeahead.js"></script>
     <script src="js/libs/bootstrap-affix.js"></script>
     <script src="js/libs/application.js"></script>
+    <script src="js/docs/debug_toggle.js"></script>
+    <script src="js/docs/debug_warnings.js"></script>
 
     </body>
 </html>

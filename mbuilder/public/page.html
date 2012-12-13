@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta charset="utf-8">
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/docs.css" rel="stylesheet">
+		<link href="css/mbuilder.css" rel="stylesheet">
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+	</head>
+
+	<body>
+		<div class="container">
+			<h1>Sony Page Builder</h1>
+			<div id="submodule_section">
+				<h2>Modules</h2>
+				<form action="/generatePage" method="post" id="myForm">
+					<ul id="submodule_list">
+
+					</ul>
+				</form>
+				<div class="row">
+					<div class="span1">
+						<button class="btn btn-small btn-block add-me">
+							Add
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div id="buttons" class="row">
+				<div class="span7">
+					<button id="build" class="btn btn-special btn-block" data-loading-text="Building...">
+						Build
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="save_as_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h3 id="myModalLabel">Save As</h3>
+			</div>
+			<div class="modal-body">
+				<label>FileName</label>
+				<input type="text">
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">
+					Close
+				</button>
+				<button class="btn btn-primary" id="save_as_submit">
+					Save
+				</button>
+			</div>
+		</div>
+
+		<div class="modal" id="edit_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					√ó
+				</button>
+				<h3 id="myModalLabel">Edit Data</h3>
+			</div>
+			<div class="modal-body">
+				<label>FileName</label>
+				<input type="text">
+				<label>Content</label>
+				<textarea rows="15"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">
+					Close
+				</button>
+				<button class="btn btn-primary" id="edit_submit">
+					Save
+				</button>
+			</div>
+		</div>
+		<script src="js/page.js"></script>
+		<script src="js/jslint.js"></script>
+		<script src="js/bootstrap-modal.js"></script>
+		<script src="js/bootstrap-alert.js"></script>
+		<script src="js/bootstrap-button.js"></script>
+	</body>
+
+</html>

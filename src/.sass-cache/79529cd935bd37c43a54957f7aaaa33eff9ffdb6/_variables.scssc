@@ -1,0 +1,1080 @@
+3.2.3 (Media Mark)
+1566da31b734a9a6e620c4b3b92a5ae19739085f
+o:Sass::Tree::RootNode
+:@template")a//
+// Variables
+// In SublimeText, use Command-K-1 to collapse all sections, Command-K-0 to expand all.
+// -------------------------------------------------------------------------
+
+
+// Colors 
+// -------------------------
+#COLORS{} // this is just here for a SublimeText code-folding collapse point
+	// Grays
+	// -------------------------
+	$black:                 rgb(0,0,0) !default;
+	$blackLight:						rgb(35,35,35) !default;
+	$grayDark:              rgb(47,53,61) !default;
+	$gray:                  rgb(131,131,143) !default;
+
+	$grayLight:             rgb(188,188,204) !default;
+	$grayLightish:          rgb(210,210,219) !default; // seriously, idk what to do w/all these colors.
+	$grayLighter:           rgb(228,231,235) !default;
+	$white:                 rgb(255,255,255) !default;
+
+
+	// Background Tones
+	// -----------------------------------
+	$grayDarkerFieldLarge:  rgb(31,32,36) !default;
+	$grayDarkFieldLarge:    rgb(64,66,71) !default;
+	$grayLightFieldLarge:   rgb(243,244,246) !default;
+
+	$grayDarkerFieldSmall:  rgb(33,37,48) !default;
+	$grayDarkFieldSmall:    rgb(114,110,122) !default;
+	$grayLightFieldSmall:   rgb(241,245,249) !default;
+
+
+
+	// Accent colors
+	// -------------------------
+	$blue:                  rgb(4,156,219) !default;
+	$blueDark:              rgb(0,100,205) !default;
+	$red:                   rgb(157,38,29) !default;
+	$yellow:                rgb(255,196,13) !default;
+	$orange:                rgb(248,148,6) !default;
+	$pink:                  rgb(195,50,95) !default;
+	$purple:                rgb(122,67,182) !default;
+
+
+	// Sony Accent colors
+	// -------------------------
+	$highlightColor:        rgb(243,84,41) !default;
+	$highlightColorHover:   lighten($highlightColor, 5%) !default;
+	$highlightColorActive:  $highlightColor !default;
+	$highlightColorDark:	rgb(219,76,37);
+
+	$themeGreen:            rgb(34,192,131) !default;
+
+
+	// Scaffolding
+	// -------------------------
+	$bodyBackground:        $white !default;
+	$textColor:             $gray !default;
+	$textColorLight:        $grayLight !default;
+	$textColorLightest:     $grayLight !default;
+	$textColorDark:         $grayDark !default;
+
+
+
+	// Links
+	// -------------------------
+	$linkColor:             rgb(69,113,236) !default;
+	$linkColorHover:        rgb(87,135,244) !default;
+
+
+	// Transparent colors
+	// -------------------------
+	$transparentBlack:		rgba(0,0,0,0.12) !default;
+	$innerGlow:						rgba(255, 255, 255, 1);
+
+
+
+	$squareHalo:				0 0 5px $innerGlow, 0 0 0 6px $transparentBlack;
+
+
+
+// Typography
+// -------------------------
+.TYPOGRAPHY{} // this is just here for a SublimeText code-folding collapse point
+
+// Christopher's fonts - these are probably dead now.
+	// $sansFontFamily:        		"SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyItalic:  		"SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyBold:    		"SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyMedium:  		"SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	
+// FONTS.COM FONTS:
+$sansFontFamily:        		"SST W01 Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyItalic:  		"SST W01 Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyBold:    		"SST W01 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyBoldItalic:	"SST W01 Bold Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyMedium:  		"SST W01 Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyMediumItalic:"SST W01 Medium Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyLight:   		"SST W01 Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyLightItalic: "SST W01 Light Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// Extras as defined by Fonts.com - but not used on this site (yet):
+$sansFontFamilyCondensed: 			"SST W01 Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyCondensedBold:		"SST W01 Condensed Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyHeavy:    				"SST W01 Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyHeavyItalic: 		"SST W01 Heavy Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyUltraLight:  		"SST W01 Ultra Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyUltraLightItalic:"SST W01 Ultra Light Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+
+
+$serifFontFamily:       		Georgia, "Times New Roman", Times, serif !default;
+$monoFontFamily:        		Monaco, Menlo, Consolas, "Courier New", monospace !default;
+
+$baseFontFamily:        		$sansFontFamily !default;
+$baseFontFamilyItalic:   		$sansFontFamilyItalic !default;
+$baseFontFamilyBold:   			$sansFontFamilyBold !default;
+$baseFontFamilyBoldItalic:	$sansFontFamilyBoldItalic !default;
+$baseFontFamilyMedium:   		$sansFontFamilyMedium !default;
+$baseFontFamilyMediumItalic:$sansFontFamilyMediumItalic !default;
+$baseFontFamilyLight:   		$sansFontFamilyLight !default;
+$baseFontFamilyLightItalic:	$sansFontFamilyLightItalic !default;
+
+$baseFontSize:          		1em !default;
+$baseLineHeight:        		1.65 !default;
+$altFontFamily:         		$serifFontFamily !default;
+
+$headingsFontFamily:    		$sansFontFamily !default;
+$headingsFontFamilyItalic: 	$sansFontFamilyItalic !default;
+	$headingsColor:         		$grayDark !default; // empty to use BS default, $textColor
+	
+
+	// use these font-size variables instead of doing the math yourself every time!
+										 // context/target 
+
+	$font_60_16: 3.75em;   // 60px/16px
+	$font_54_16: 3.375em;  // 54px/16px
+	$font_44_16: 2.75em; 	 // 44px/16px
+	$font_40_16: 2.5em; 	 // 40px/16px
+	$font_32_16: 2.0em;    // 32px/16px
+	$font_30_16: 1.875em;    // 32px/16px
+	$font_28_16: 1.75em;   // 28px/16px
+	$font_26_16: 1.625em;  // 26px/16px
+	$font_25_16: 1.5625em; // 25px/16px
+	$font_22_16: 1.375em;  // 22px/16px
+	$font_20_16: 1.25em;   // 20px/16px
+	$font_18_16: 1.125em;  // 18px/16px
+	$font_16_16: 1.0em;    // 16px/16px 
+	$font_15_16: 0.9375em; // 15px/16px
+	$font_14_16: 0.875em;  // 14px/16px
+	$font_13_16: 0.8125em; // 13px/16px
+	$font_12_16: 0.75em;   // 12px/16px
+	$font_11_16: 0.6875em; // 11px/16px
+	$font_10_16: 0.625em;  // 10px/16px
+
+	$font_32_15: 2.133333333333333em;  // 32px/15px; 
+	$font_26_15: 1.733333333333333em;  // 26px/15px; 
+	$font_20_15: 1.333333333333333em;  // 20px/15px; 
+	$font_18_15: 1.2em;                // 18px/15px; 
+	$font_16_15: 1.066666666666667em;  // 16px/15px;
+	$font_15_15: 1.0em;                // 15px/15px;
+	$font_14_15: 0.933333333333333em;  // 14px/15px;
+	$font_13_15: 0.866666666666667em;  // 13px/15px; 
+	$font_12_15: 0.8em;                // 12px/15px;
+	$font_11_15: 0.733333333333333em;  // 11px/15px;
+	$font_10_15: 0.666666666666667em;  // 10px/15px;
+
+
+// Buttons & Hotspots
+// -------------------------
+.BUTTONS-and-HOTSPOTS{}
+$btnBackground:                     rgb(87,135,244) !default;
+$btnBackgroundHover:                rgb(100,142,245) !default;
+$btnBackgroundActive:               $btnBackground !default;
+$btnBorder:                         $btnBackground !default;
+$btnBackgroundDisabled:				rgb(222,222,222);
+
+$btnText:                           $white !default;
+
+$btnSpecialBackground:              $highlightColor !default;
+$btnSpecialBackgroundHover:         $highlightColorHover !default;
+$btnSpecialBackgroundActive:        $highlightColorActive !default;
+
+$btnAltBackground:              	$grayDark !default;
+$btnAltBackgroundHover:         	darken($grayDark,4%) !default;
+$btnAltBackgroundActive:        	lighten($grayDark,4%) !default;
+$btnAltSpecialPadding: 				24px;
+
+$btnPromoBackground:              	$grayDarkerFieldSmall !default;
+$btnPromoBackgroundHover:         	darken($grayDarkerFieldSmall,5%) !default;
+$btnPromoBackgroundActive:        	$grayDarkerFieldSmall !default;
+
+$btnSecondaryBackground:            $grayLight !default;
+$btnSecondaryBackgroundHover:       lighten($grayLight,2%) !default;
+$btnSecondaryBackgroundActive:      $grayLight !default;
+
+$btnDropdownBackground:            rgb(112,108,120) !default;
+$btnDropdownBackgroundHover:       lighten($btnDropdownBackground,2%) !default;
+$btnDropdownBackgroundActive:      $btnDropdownBackground !default;
+
+$btnDropdownAltBackground:         $white !default;
+$btnDropdownAltBackgroundHover:    darken($white,2%) !default;
+$btnDropdownAltBackgroundActive:   darken($white,1%) !default;
+
+$btnPadding:                        8px 0 11px;
+$btnLargePadding:                   7px 0 10px;
+$btnSmallPadding:                   8px 0 10px;
+$btnMiniPadding:                    8px 0 9px;
+
+$btnSpecialPadding:                 13px 0 15px;
+$btnSpecialLargePadding:            14px 0 14px;
+$btnSpecialSmallPadding:            12px 0 14px;
+$btnSpecialMiniPadding:             11px 0 12px;
+
+$btnAltPadding:                 	8px 0 11px;
+$btnAltLargePadding:            	7px 0 10px;
+$btnAltSmallPadding:            	8px 0 9px;
+$btnAltMiniPadding:             	8px 0 9px;
+
+$btnSquarePadding:                 	14px 0 13px;
+	// $btnSquareLargePadding:            	7px 0 10px;
+	// $btnSquareSmallPadding:            	8px 0 9px;
+	// $btnSquareMiniPadding:             	8px 0 9px;
+
+
+	// Hotspots
+	// -------------------------
+	$hotspotHalo:				rgba(47,53,61,0.1) !default;
+	$hotspotHaloHover:			rgba(47,53,61,0.15) !default;
+
+
+
+// Tables
+// -------------------------
+.TABLES{}
+	$tableBackground:                   transparent !default; // overall background-color
+	$tableBackgroundAccent:             rgb(249,249,249) !default; // for striping
+	$tableBackgroundHover:              rgb(245,245,245) !default; // for hover
+	$tableBorder:                       rgb(221,221,221) !default; // table and cell border
+
+
+
+
+// Forms
+// -------------------------
+.FORMS{}
+$inputBackground:               $white !default;
+$inputBackgroundAlt:            rgb(248,248,248) !default;
+$inputBackgroundBtnAlt:         $grayLighter !default;
+$inputText:                     $grayLight !default;
+$inputTextFocus:                $gray !default;
+$inputBorder:                   $grayLighter !default;
+$inputBorderFocus:              $grayLight !default;
+$inputBorderFocus:              $grayLight !default;
+$inputBorderWidth:              2px !default;
+$inputBorderRadius:             0px !default;
+$inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
+$formActionsBackground:         rgb(245,245,245) !default;
+
+	// Dropdowns
+	// -------------------------
+	$dropdownBackground:            $white !default;
+	$dropdownBorder:                rgba(0,0,0,.2) !default;
+	$dropdownDividerTop:            rgb(229,229,229) !default;
+	$dropdownDividerBottom:         $white !default;
+
+	$dropdownLinkColor:             $grayDark !default;
+	$dropdownLinkColorHover:        $white !default;
+	$dropdownLinkColorActive:       $dropdownLinkColor !default;
+
+	$dropdownLinkBackgroundActive:  $linkColor !default;
+	$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
+
+	
+	$dropdownAltBackground:            $white !default;
+	$dropdownAltBorder:                rgba(0,0,0,.2) !default;
+	$dropdownAltDividerTop:            rgb(229,229,229) !default;
+	$dropdownAltDividerBottom:         $white !default;
+
+	$dropdownAltLinkColor:             $gray !default;
+	$dropdownAltLinkColorHover:        $white !default;
+	$dropdownAltLinkColorActive:       $highlightColor !default;
+
+	$dropdownAltLinkBackgroundActive:  $highlightColor !default;
+	$dropdownAltLinkBackgroundHover:   $dropdownAltLinkBackgroundActive !default;
+
+
+
+	// Form states and alerts
+	// -------------------------
+	$warningText:             rgb(192,152,83) !default;
+	$warningBackground:       rgb(252,248,227) !default;
+	$warningBorder:           darken(adjust-hue($warningBackground, -10), 3%) !default;
+
+	$errorText:               rgb(185,74,72) !default;
+	$errorBackground:         rgb(242,222,222) !default;
+	$errorBorder:             darken(adjust-hue($errorBackground, -10), 3%) !default;
+
+	$successText:             rgb(70,136,71) !default;
+	$successBackground:       rgb(223,240,216) !default;
+	$successBorder:           darken(adjust-hue($successBackground, -10), 5%) !default;
+
+	$infoText:                rgb(58,135,173) !default;
+	$infoBackground:          rgb(217,237,247) !default;
+	$infoBorder:              darken(adjust-hue($infoBackground, -10), 7%) !default;
+
+
+
+
+// Component variables
+// -------------------------
+.COMPONENT-VARIABLES{}
+
+	// Z-index master list
+	// -------------------------
+	// Used for a bird's eye view of components dependent on the z-axis
+	// Try to avoid customizing these :)
+$zindexDropdown:          1000 !default;
+$zindexPopover:           1010 !default;
+$zindexTooltip:           1030 !default;
+$zindexFixedNavbar:       1030 !default;
+$zindexModalBackdrop:     1040 !default;
+$zindexModal:             1050 !default;
+
+
+	// Sprite icons path
+	// -------------------------
+	// These are Bootstrap default:
+	// $iconSpritePath:          "../img/glyphicons-halflings.png" !default;
+	$iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png" !default;
+	// These are Sony custom:
+	$iconSpritePath:		  "../img/spritesheet.svg" !default;
+	$iconSpritePathFallback:  "../img/spritesheet.png" !default;
+	$iconSmallSpritePath:     "../img/spritesheet-icons-small.png" !default;
+
+	// Input placeholder text color
+	// -------------------------
+	$placeholderText:         $grayLight !default;
+
+
+	// Hr border color
+	// -------------------------
+	$hrBorder:                $grayLighter !default;
+
+
+	// Horizontal forms & lists
+	// -------------------------
+	$horizontalComponentOffset:       180px;
+
+
+	// Wells
+	// -------------------------
+	$wellBackground:                  rgb(245,245,245) !default;
+
+
+// Global values for Nav & Subanv to share.
+.NAV{}
+$navMaxWidth:									1190px !default;
+
+
+// Global Nav (navbar)
+// -------------------------
+.NAVBAR{}
+$navbarCollapseWidth:             979px !default;
+
+$navbarTotalHeight:               64px !default;
+$navbarLineHeight:								40px !default;
+	$navbarMinSidePadding:						43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
+
+	$navbarBackground:                $black !default;
+	$navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
+	$navbarTertiaryColor:							rgb(55,53,59) !default;
+
+	$navbarTextSize:									0.9375em; /* 15px/16px */
+	$navbarSmTextSize:								0.8125em; /* 13px/16px */
+	$navbarText:                      $white !default;
+	$navbarLinkColor:                 $white !default;
+	$navbarLinkColorHover:            $white !default;
+	$navbarLinkColorActive:           lighten($linkColorHover,5%) !default;
+	$navbarLinkBackgroundHover:       transparent !default;
+	$navbarLinkBackgroundActive:      darken($navbarBackground, 5.25%) !default;
+
+	// Inverted navbar
+	$navbarInverseBackground:                rgb(17,17,17) !default;
+	$navbarInverseBackgroundHighlight:       rgb(34,34,34) !default;
+	$navbarInverseBorder:                    rgb(37,37,37) !default;
+
+	$navbarInverseText:                      $grayLight !default;
+	$navbarInverseLinkColor:                 $grayLight !default;
+	$navbarInverseLinkColorHover:            $white !default;
+	$navbarInverseLinkColorActive:           $navbarInverseLinkColorHover !default;
+	$navbarInverseLinkBackgroundHover:       transparent !default;
+	$navbarInverseLinkBackgroundActive:      $navbarInverseBackground !default;
+
+	$navbarInverseSearchBackground:          lighten($navbarInverseBackground, 25%) !default;
+	$navbarInverseSearchBackgroundFocus:     $white !default;
+	$navbarInverseSearchBorder:              $navbarInverseBackground !default;
+	$navbarInverseSearchPlaceholderColor:    rgb(204,204,204) !default;
+
+	$navbarInverseBrandColor:                $navbarInverseLinkColor !default;
+
+	$navTrayBackground:								$white;
+	$navTrayBackgroundAlt:						$grayLightFieldLarge;
+	$navTrayDividerPosition:					73%;
+
+	$navMenuBackground:								$white;
+	$navMenuBackgroundAlt:						$grayLightFieldLarge;
+
+
+
+
+// Simple-Navbar
+// The original Bootstrap navbar has been renamed simpleNavbar.
+// Likewise, the original Bootstrap nav has been renamed simple-nav.
+// -------------------------
+.SIMPLE-NAVBAR{}
+$simpleNavbarCollapseWidth:           	979px !default;
+
+$simpleNavbarHeight:                    64px !default;
+$simpleNavbarBackground:                $black !default;
+$simpleNavbarBackgroundHighlight:       lighten($simpleNavbarBackground,5%) !default;
+
+	$simpleNavbarTextSize:                  0.875em; /* 14px/16px */
+	$simpleNavbarText:                      $linkColor !default;
+	$simpleNavbarLinkColor:                 $linkColor !default;
+	$simpleNavbarLinkColorHover:            $linkColorHover !default;
+	$simpleNavbarLinkColorActive:           lighten($linkColorHover,5%) !default;
+	$simpleNavbarLinkBackgroundHover:       transparent !default;
+	$simpleNavbarLinkBackgroundActive:      darken($simpleNavbarBackground, 5.25%) !default;
+
+	// Inverted navbar
+	$simpleNavbarInverseBackground:                rgb(17,17,17) !default;
+	$simpleNavbarInverseBackgroundHighlight:       rgb(34,34,34) !default;
+	$simpleNavbarInverseBorder:                    rgb(37,37,37) !default;
+
+	$simpleNavbarInverseText:                      $grayLight !default;
+	$simpleNavbarInverseLinkColor:                 $grayLight !default;
+	$simpleNavbarInverseLinkColorHover:            $white !default;
+	$simpleNavbarInverseLinkColorActive:           $simpleNavbarInverseLinkColorHover !default;
+	$simpleNavbarInverseLinkBackgroundHover:       transparent !default;
+	$simpleNavbarInverseLinkBackgroundActive:      $simpleNavbarInverseBackground !default;
+
+	$simpleNavbarInverseSearchBackground:          lighten($simpleNavbarInverseBackground, 25%) !default;
+	$simpleNavbarInverseSearchBackgroundFocus:     $white !default;
+	$simpleNavbarInverseSearchBorder:              $simpleNavbarInverseBackground !default;
+	$simpleNavbarInverseSearchPlaceholderColor:    rgb(204,204,204) !default;
+
+	$simpleNavbarInverseBrandColor:                $simpleNavbarInverseLinkColor !default;
+
+
+
+
+// Pagination
+// -------------------------
+.PAGINATION{}
+$paginationBackground:                rgb(255,255,255) !default;
+$paginationBorder:                    rgb(221,221,221) !default;
+$paginationActiveBackground:          rgb(245,245,245) !default;
+
+
+
+
+// Tooltips and popovers
+// -------------------------
+.TOOLTIPS-AND-POPOVERS{}
+$tooltipColor:            rgb(255,255,255) !default;
+$tooltipBackground:       rgb(0,0,0) !default;
+$tooltipArrowWidth:       5px !default;
+$tooltipArrowColor:       $tooltipBackground !default;
+
+$popoverBackground:       rgb(255,255,255) !default;
+$popoverArrowWidth:       10px !default;
+$popoverArrowColor:       rgb(255,255,255) !default;
+$popoverTitleBackground:  darken($popoverBackground, 3%) !default;
+
+	// Special enhancement for popovers
+	$popoverArrowOuterWidth:  $popoverArrowWidth + 1 !default;
+	$popoverArrowOuterColor:  rgba(0,0,0,.25) !default;
+
+
+
+
+
+
+// GRID
+// -----------------------------
+// 
+
+.GRID{} 
+	// margin and padding are used interchangably in variable names here. In reality, we're calculating the width of the 
+	// container and grid, and specifying margin-left/right:auto to center them.
+	// All of the fixed width grid values are based on having the containerMarginWidth and gridMarginWidths applied by default.
+	// For .full-bleed, the widths are just overridden with 100%. For fixed-width-grids, that's not gonna work so well,
+	// but then there shouldn't be fixed-width grids with .full-bleed
+
+	$gridColumns:					12 !default; 
+	$grid5Columns:					5;
+
+	// Default 980px-1199px
+	$containerMarginWidth:			34px !default;
+	$gridMarginWidth:				33px !default;
+	$gridColumnWidth:       		43px !default;
+	$gridGutterWidth:       		30px !default;
+
+	// 1200px breakpoint
+	$containerMarginWidth1200:		45px !default;
+	$gridMarginWidth1200:			45px !default;
+	$gridColumnWidth1200:   		52px !default;
+	$gridGutterWidth1200:   		36px !default;
+	
+	$containerWidthMax:				1400px; // if the browser is wider than this, the content will have a set width & side margins will be auto.
+	$containerMarginWidthMax:		79px !default; // if containerWidthMax changes, these all need to be adjusted to add up to it.
+	$gridMarginWidthMax:			64px !default;
+	$gridColumnWidthMax:   			58px !default;
+	$gridGutterWidthMax:   			38px !default;
+
+
+	// 768px-979px breakpoints
+	$containerMarginWidth768:		30px !default;
+	$gridMarginWidth768:			29px !default;
+	$gridColumnWidth768:    		34px !default;
+	$gridGutterWidth768:    		22px !default;
+
+
+	// Calculated grid values
+	// -----------------------------
+
+	// Default 980px-1199px
+	$containerWidth:				980px - ($containerMarginWidth*2);
+	$gridWidth:            	($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
+	// we calculate containerWidth based on its margins. 
+	// We don't actually need the gridMarginWidth for calculating anything, but it should end up being the same as the amount of space that's left for it in the end.
+	// we calculate gridWidth based on its contents to make sure it's wide enough to hold everything.
+
+	// 1200px breakpoint
+	$containerWidth1200:		1200px - ($containerMarginWidth1200*2);
+	$gridWidth1200:        	($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
+	$gridWidthMax:					$containerWidthMax - ($gridMarginWidth1200 * 2);
+
+	// 768px-979px breakpoints
+	$containerWidth768:			768px - ($containerMarginWidth768*2);
+	$gridWidth768:         	($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
+
+
+
+	// I haven't updated grid5 for any of the new padding/margin business. Do what you need to do, if anything.
+	// 5 Column Grid
+	$grid5ColWidth: 		   	204px;
+	$grid5GutterWidth: 		 	23px;
+	$grid5RowWidth: 		   	($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
+
+
+
+
+	// Fluid grid
+	// -------------------------
+	// 
+	// these should be deleted once all the updates equations are done, but they break things if they're not defined right now.
+	$fluidContainerMarginWidth:			40px !default;
+	$fluidGridMarginWidth:				20px !default;
+	$fluidContainerMarginWidth1200:		40px !default;
+	$fluidGridMarginWidth1200:			20px !default;
+	$fluidContainerMarginWidth768:		40px !default;
+	$fluidGridMarginWidth768:			20px !default;
+
+
+	// Default 980px-1199px
+	$fluidContainerWidth: 	percentage($containerWidth/980px) !default;
+	$fluidGridWidth: 		percentage($gridWidth/$containerWidth) !default;
+	$fluidGridColumnWidth:  percentage($gridColumnWidth/$gridWidth) !default;
+	$fluidGridGutterWidth:  percentage($gridGutterWidth/$gridWidth) !default;
+
+	// 1200px min - 
+	$fluidContainerWidth1200:	percentage($containerWidth1200/1200px) !default;
+	$fluidGridWidth1200: 		percentage($gridWidth1200/$containerWidth1200) !default;
+	$fluidGridColumnWidth1200:	percentage($gridColumnWidth1200/$gridWidth1200) !default;
+	$fluidGridGutterWidth1200:	percentage($gridGutterWidth1200/$gridWidth1200) !default;
+
+	// 768px-979px
+	$fluidContainerWidth768: 	percentage($containerWidth768/768px) !default;
+	$fluidGridWidth768: 			percentage($gridWidth768/$containerWidth768) !default;
+	$fluidGridColumnWidth768: percentage($gridColumnWidth768/$gridWidth768) !default;
+	$fluidGridGutterWidth768: percentage($gridGutterWidth768/$gridWidth768) !default;
+	
+	// 767px max (mobile)
+	$fluidContainerMarginWidth767:	15px !default; // TODO -- SHOULD BE %
+	$fluidGridMarginWidth767: 			15px !default; // TODO -- SHOULD BE %
+
+	// 5 Column Grid
+	$fluidGrid5ColWidth: 		percentage($grid5ColWidth / $grid5RowWidth);
+	$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
+
+
+
+
+
+// Transition Speeds
+// --------------------------------------------------
+.TRANSITION-SPEEDS{} 
+$transitionSuperslow:   0.5s;
+$transitionSlower:   	0.4s;
+$transitionSlow:        0.3s;
+$transitionNormal:      0.2s;
+$transitionFast:		0.15s;
+$transitionFaster:      0.10s;
+$transitionSuperfast:   0.05s;
+
+
+// Transition Timing Functions
+// --------------------------------------------------
+.TRANSITION-FUNCTIONS{} 
+$easeOutQuad: 		cubic-bezier(0.250, 0.460, 0.450, 0.940);
+$easeOutCubic: 		cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeOutQuart: 		cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$easeOutExpo: 		cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$easeNormal:		ease-out;
+
+:@has_childrenT:@options{ :@children[øo:Sass::Tree::CommentNode
+:
+@type:silent;@;	[ :@value["∑/*
+ * Variables
+ * In SublimeText, use Command-K-1 to collapse all sections, Command-K-0 to expand all.
+ * ------------------------------------------------------------------------- */:
+@lineio;
+
+;;;@;	[ ;["//* Colors 
+ * ------------------------- */;io:Sass::Tree::RuleNode;T;@:
+@tabsi ;	[ :
+@rule["#COLORS:@parsed_ruleso:"Sass::Selector::CommaSequence:@members[o:Sass::Selector::Sequence;[o:#Sass::Selector::SimpleSequence
+;[o:Sass::Selector::Id:
+@name["COLORS:@filename" ;i:@sourceso:Set:
+@hash{ :@subject0;@;i;@;i;io;
+
+;;;@;	[ ;["p/* this is just here for a SublimeText code-folding collapse point
+ * Grays
+ * ------------------------- */;io:Sass::Tree::VariableNode:
+@expro:Sass::Script::Funcall;"rgb;@:@splat0;i:@keywords{ :
+@args[o:Sass::Script::Number:@numerator_units[ ;@:@original"0;i :@denominator_units[ ;io;$;%[ ;@;&"0;i ;'@-;io;$;%[ ;@;&"0;i ;'@-;i;"
+black;@;	[ :@guarded"!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"35;i(;'@-;io;$;%[ ;@;&"35;i(;'@-;io;$;%[ ;@;&"35;i(;'@-;i;"blackLight;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"47;i4;'@-;io;$;%[ ;@;&"53;i:;'@-;io;$;%[ ;@;&"61;iB;'@-;i;"grayDark;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"131;iÉ;'@-;io;$;%[ ;@;&"131;iÉ;'@-;io;$;%[ ;@;&"143;iè;'@-;i;"	gray;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"188;iº;'@-;io;$;%[ ;@;&"188;iº;'@-;io;$;%[ ;@;&"204;iÃ;'@-;i;"grayLight;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"210;i“;'@-;io;$;%[ ;@;&"210;i“;'@-;io;$;%[ ;@;&"219;i€;'@-;i;"grayLightish;@;	[ ;("!default;io;
+
+;;;@;	[ ;["8/* seriously, idk what to do w/all these colors. */;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"228;i‰;'@-;io;$;%[ ;@;&"231;iÁ;'@-;io;$;%[ ;@;&"235;iÎ;'@-;i;"grayLighter;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"255;iˇ;'@-;io;$;%[ ;@;&"255;iˇ;'@-;io;$;%[ ;@;&"255;iˇ;'@-;i;"
+white;@;	[ ;("!default;io;
+
+;;;@;	[ ;["B/* Background Tones
+ * ----------------------------------- */;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"31;i$;'@-;io;$;%[ ;@;&"32;i%;'@-;io;$;%[ ;@;&"36;i);'@-;i;"grayDarkerFieldLarge;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"64;iE;'@-;io;$;%[ ;@;&"66;iG;'@-;io;$;%[ ;@;&"71;iL;'@-;i;"grayDarkFieldLarge;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i ;"{ ;#[o;$;%[ ;@;&"243;iÛ;'@-;i o;$;%[ ;@;&"244;iÙ;'@-;i o;$;%[ ;@;&"246;iˆ;'@-;i ;"grayLightFieldLarge;@;	[ ;("!default;i o;;o; ;"rgb;@;!0;i";"{ ;#[o;$;%[ ;@;&"33;i&;'@-;i"o;$;%[ ;@;&"37;i*;'@-;i"o;$;%[ ;@;&"48;i5;'@-;i";"grayDarkerFieldSmall;@;	[ ;("!default;i"o;;o; ;"rgb;@;!0;i#;"{ ;#[o;$;%[ ;@;&"114;iw;'@-;i#o;$;%[ ;@;&"110;is;'@-;i#o;$;%[ ;@;&"122;i;'@-;i#;"grayDarkFieldSmall;@;	[ ;("!default;i#o;;o; ;"rgb;@;!0;i$;"{ ;#[o;$;%[ ;@;&"241;iÒ;'@-;i$o;$;%[ ;@;&"245;iı;'@-;i$o;$;%[ ;@;&"249;i˘;'@-;i$;"grayLightFieldSmall;@;	[ ;("!default;i$o;
+
+;;;@;	[ ;["5/* Accent colors
+ * ------------------------- */;i(o;;o; ;"rgb;@;!0;i*;"{ ;#[o;$;%[ ;@;&"4;i	;'@-;i*o;$;%[ ;@;&"156;iú;'@-;i*o;$;%[ ;@;&"219;i€;'@-;i*;"	blue;@;	[ ;("!default;i*o;;o; ;"rgb;@;!0;i+;"{ ;#[o;$;%[ ;@;&"0;i ;'@-;i+o;$;%[ ;@;&"100;ii;'@-;i+o;$;%[ ;@;&"205;iÕ;'@-;i+;"blueDark;@;	[ ;("!default;i+o;;o; ;"rgb;@;!0;i,;"{ ;#[o;$;%[ ;@;&"157;iù;'@-;i,o;$;%[ ;@;&"38;i+;'@-;i,o;$;%[ ;@;&"29;i";'@-;i,;"red;@;	[ ;("!default;i,o;;o; ;"rgb;@;!0;i-;"{ ;#[o;$;%[ ;@;&"255;iˇ;'@-;i-o;$;%[ ;@;&"196;iƒ;'@-;i-o;$;%[ ;@;&"13;i;'@-;i-;"yellow;@;	[ ;("!default;i-o;;o; ;"rgb;@;!0;i.;"{ ;#[o;$;%[ ;@;&"248;i¯;'@-;i.o;$;%[ ;@;&"148;iî;'@-;i.o;$;%[ ;@;&"6;i;'@-;i.;"orange;@;	[ ;("!default;i.o;;o; ;"rgb;@;!0;i/;"{ ;#[o;$;%[ ;@;&"195;i√;'@-;i/o;$;%[ ;@;&"50;i7;'@-;i/o;$;%[ ;@;&"95;id;'@-;i/;"	pink;@;	[ ;("!default;i/o;;o; ;"rgb;@;!0;i0;"{ ;#[o;$;%[ ;@;&"122;i;'@-;i0o;$;%[ ;@;&"67;iH;'@-;i0o;$;%[ ;@;&"182;i∂;'@-;i0;"purple;@;	[ ;("!default;i0o;
+
+;;;@;	[ ;[":/* Sony Accent colors
+ * ------------------------- */;i3o;;o; ;"rgb;@;!0;i5;"{ ;#[o;$;%[ ;@;&"243;iÛ;'@-;i5o;$;%[ ;@;&"84;iY;'@-;i5o;$;%[ ;@;&"41;i.;'@-;i5;"highlightColor;@;	[ ;("!default;i5o;;o; ;"lighten;@;!0;i6;"{ ;#[o:Sass::Script::Variable	;"highlightColor;@:@underscored_name"highlightColor;i6o;$;%["%;@;&"5%;i
+;'[ ;i6;"highlightColorHover;@;	[ ;("!default;i6o;;o;)	;"highlightColor;@;*"highlightColor;i7;"highlightColorActive;@;	[ ;("!default;i7o;;o; ;"rgb;@;!0;i8;"{ ;#[o;$;%[ ;@;&"219;i€;'@-;i8o;$;%[ ;@;&"76;iQ;'@-;i8o;$;%[ ;@;&"37;i*;'@-;i8;"highlightColorDark;@;	[ ;(0;i8o;;o; ;"rgb;@;!0;i:;"{ ;#[o;$;%[ ;@;&"34;i';'@-;i:o;$;%[ ;@;&"192;i¿;'@-;i:o;$;%[ ;@;&"131;iÉ;'@-;i:;"themeGreen;@;	[ ;("!default;i:o;
+
+;;;@;	[ ;["3/* Scaffolding
+ * ------------------------- */;i=o;;o;)	;"
+white;@;*"
+white;i?;"bodyBackground;@;	[ ;("!default;i?o;;o;)	;"	gray;@;*"	gray;i@;"textColor;@;	[ ;("!default;i@o;;o;)	;"grayLight;@;*"grayLight;iA;"textColorLight;@;	[ ;("!default;iAo;;o;)	;"grayLight;@;*"grayLight;iB;"textColorLightest;@;	[ ;("!default;iBo;;o;)	;"grayDark;@;*"grayDark;iC;"textColorDark;@;	[ ;("!default;iCo;
+
+;;;@;	[ ;["-/* Links
+ * ------------------------- */;iGo;;o; ;"rgb;@;!0;iI;"{ ;#[o;$;%[ ;@;&"69;iJ;'@-;iIo;$;%[ ;@;&"113;iv;'@-;iIo;$;%[ ;@;&"236;iÏ;'@-;iI;"linkColor;@;	[ ;("!default;iIo;;o; ;"rgb;@;!0;iJ;"{ ;#[o;$;%[ ;@;&"87;i\;'@-;iJo;$;%[ ;@;&"135;iá;'@-;iJo;$;%[ ;@;&"244;iÙ;'@-;iJ;"linkColorHover;@;	[ ;("!default;iJo;
+
+;;;@;	[ ;[":/* Transparent colors
+ * ------------------------- */;iMo;;o; ;"	rgba;@;!0;iO;"{ ;#[	o;$;%[ ;@;&"0;i ;'@-;iOo;$;%[ ;@;&"0;i ;'@-;iOo;$;%[ ;@;&"0;i ;'@-;iOo;$;%[ ;@;&"	0.12;f0.12 ∏;'@-;iO;"transparentBlack;@;	[ ;("!default;iOo;;o; ;"	rgba;@;!0;iP;"{ ;#[	o;$;%[ ;@;&"255;iˇ;'@-;iPo;$;%[ ;@;&"255;iˇ;'@-;iPo;$;%[ ;@;&"255;iˇ;'@-;iPo;$;%[ ;@;&"1;i;'@-;iP;"innerGlow;@;	[ ;(0;iPo;;o:Sass::Script::List	;@:@separator:
+comma;[o;+	;@;,:
+space;[	o;$;%[ ;@;&"0;i ;'@-;iTo;$;%[ ;@;&"0;i ;'@-;iTo;$;%["px;@;&"5px;i
+;'[ ;iTo;)	;"innerGlow;@;*"innerGlow;iT;iTo;+	;@;,;.;[
+o;$;%[ ;@;&"0;i ;'@-;iTo;$;%[ ;@;&"0;i ;'@-;iTo;$;%[ ;@;&"0;i ;'@-;iTo;$;%["px;@;&"6px;i;'[ ;iTo;)	;"transparentBlack;@;*"transparentBlack;iT;iT;iT;"squareHalo;@;	[ ;(0;iTo;
+
+;;;@;	[ ;["2/* Typography
+ * ------------------------- */;iXo;;T;@;i ;	[ ;[".TYPOGRAPHY;o;;[o;;[o;
+;[o:Sass::Selector::Class;["TYPOGRAPHY;" ;iZ;o;;{ ;0;@ë;iZ;@ë;iZ;iZo;
+
+;;;@;	[ ;["J/* this is just here for a SublimeText code-folding collapse point */;iZo;
+
+;;;@;	[ ;["/* Christopher's fonts - these are probably dead now.
+ * $sansFontFamily:        		"SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+ * $sansFontFamilyItalic:  		"SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+ * $sansFontFamilyBold:    		"SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+ * $sansFontFamilyMedium:  		"SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+ * $sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+ * $sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+ * $sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default; */;i\o;
+
+;;;@;	[ ;["/* FONTS.COM FONTS: */;ieo;;o;+	;@;,;-;[
+o:Sass::Script::String	;:string;@;"SST W01 Roman;ifo;0	;;1;@;"Helvetica Neue;ifo;0	;:identifier;@;"Helvetica;ifo;0	;;2;@;"
+Arial;ifo;0	;;2;@;"sans-serif;if;if;"sansFontFamily;@;	[ ;("!default;ifo;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Italic;igo;0	;;1;@;"Helvetica Neue;igo;0	;;2;@;"Helvetica;igo;0	;;2;@;"
+Arial;igo;0	;;2;@;"sans-serif;ig;ig;"sansFontFamilyItalic;@;	[ ;("!default;igo;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Bold;iho;0	;;1;@;"Helvetica Neue;iho;0	;;2;@;"Helvetica;iho;0	;;2;@;"
+Arial;iho;0	;;2;@;"sans-serif;ih;ih;"sansFontFamilyBold;@;	[ ;("!default;iho;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Bold Italic;iio;0	;;1;@;"Helvetica Neue;iio;0	;;2;@;"Helvetica;iio;0	;;2;@;"
+Arial;iio;0	;;2;@;"sans-serif;ii;ii;"sansFontFamilyBoldItalic;@;	[ ;("!default;iio;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Medium;ijo;0	;;1;@;"Helvetica Neue;ijo;0	;;2;@;"Helvetica;ijo;0	;;2;@;"
+Arial;ijo;0	;;2;@;"sans-serif;ij;ij;"sansFontFamilyMedium;@;	[ ;("!default;ijo;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Medium Italic;iko;0	;;1;@;"Helvetica Neue;iko;0	;;2;@;"Helvetica;iko;0	;;2;@;"
+Arial;iko;0	;;2;@;"sans-serif;ik;ik;"sansFontFamilyMediumItalic;@;	[ ;("!default;iko;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Light;ilo;0	;;1;@;"Helvetica Neue;ilo;0	;;2;@;"Helvetica;ilo;0	;;2;@;"
+Arial;ilo;0	;;2;@;"sans-serif;il;il;"sansFontFamilyLight;@;	[ ;("!default;ilo;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Light Italic;imo;0	;;1;@;"Helvetica Neue;imo;0	;;2;@;"Helvetica;imo;0	;;2;@;"
+Arial;imo;0	;;2;@;"sans-serif;im;im;"sansFontFamilyLightItalic;@;	[ ;("!default;imo;
+
+;;;@;	[ ;["L/* Extras as defined by Fonts.com - but not used on this site (yet): */;ino;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Condensed;ioo;0	;;1;@;"Helvetica Neue;ioo;0	;;2;@;"Helvetica;ioo;0	;;2;@;"
+Arial;ioo;0	;;2;@;"sans-serif;io;io;"sansFontFamilyCondensed;@;	[ ;("!default;ioo;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Condensed Bold;ipo;0	;;1;@;"Helvetica Neue;ipo;0	;;2;@;"Helvetica;ipo;0	;;2;@;"
+Arial;ipo;0	;;2;@;"sans-serif;ip;ip;" sansFontFamilyCondensedBold;@;	[ ;("!default;ipo;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Heavy;iqo;0	;;1;@;"Helvetica Neue;iqo;0	;;2;@;"Helvetica;iqo;0	;;2;@;"
+Arial;iqo;0	;;2;@;"sans-serif;iq;iq;"sansFontFamilyHeavy;@;	[ ;("!default;iqo;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Heavy Italic;iro;0	;;1;@;"Helvetica Neue;iro;0	;;2;@;"Helvetica;iro;0	;;2;@;"
+Arial;iro;0	;;2;@;"sans-serif;ir;ir;"sansFontFamilyHeavyItalic;@;	[ ;("!default;iro;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Ultra Light;iso;0	;;1;@;"Helvetica Neue;iso;0	;;2;@;"Helvetica;iso;0	;;2;@;"
+Arial;iso;0	;;2;@;"sans-serif;is;is;"sansFontFamilyUltraLight;@;	[ ;("!default;iso;;o;+	;@;,;-;[
+o;0	;;1;@;"SST W01 Ultra Light Italic;ito;0	;;1;@;"Helvetica Neue;ito;0	;;2;@;"Helvetica;ito;0	;;2;@;"
+Arial;ito;0	;;2;@;"sans-serif;it;it;"#sansFontFamilyUltraLightItalic;@;	[ ;("!default;ito;;o;+	;@;,;-;[	o;0	;;2;@;"Georgia;ixo;0	;;1;@;"Times New Roman;ixo;0	;;2;@;"
+Times;ixo;0	;;2;@;"
+serif;ix;ix;"serifFontFamily;@;	[ ;("!default;ixo;;o;+	;@;,;-;[
+o;0	;;2;@;"Monaco;iyo;0	;;2;@;"
+Menlo;iyo;0	;;2;@;"Consolas;iyo;0	;;1;@;"Courier New;iyo;0	;;2;@;"monospace;iy;iy;"monoFontFamily;@;	[ ;("!default;iyo;;o;)	;"sansFontFamily;@;*"sansFontFamily;i{;"baseFontFamily;@;	[ ;("!default;i{o;;o;)	;"sansFontFamilyItalic;@;*"sansFontFamilyItalic;i|;"baseFontFamilyItalic;@;	[ ;("!default;i|o;;o;)	;"sansFontFamilyBold;@;*"sansFontFamilyBold;i};"baseFontFamilyBold;@;	[ ;("!default;i}o;;o;)	;"sansFontFamilyBoldItalic;@;*"sansFontFamilyBoldItalic;i~;"baseFontFamilyBoldItalic;@;	[ ;("!default;i~o;;o;)	;"sansFontFamilyMedium;@;*"sansFontFamilyMedium;i;"baseFontFamilyMedium;@;	[ ;("!default;io;;o;)	;"sansFontFamilyMediumItalic;@;*"sansFontFamilyMediumItalic;i{;"baseFontFamilyMediumItalic;@;	[ ;("!default;i{o;;o;)	;"sansFontFamilyLight;@;*"sansFontFamilyLight;i|;"baseFontFamilyLight;@;	[ ;("!default;i|o;;o;)	;"sansFontFamilyLightItalic;@;*"sansFontFamilyLightItalic;i};"baseFontFamilyLightItalic;@;	[ ;("!default;i}o;;o;$;%["em;@;&"1em;i;'[ ;i;"baseFontSize;@;	[ ;("!default;io;;o;$;%[ ;@;&"	1.65;f1.6499999999999999 ff;'@-;iÄ;"baseLineHeight;@;	[ ;("!default;iÄo;;o;)	;"serifFontFamily;@;*"serifFontFamily;iÅ;"altFontFamily;@;	[ ;("!default;iÅo;;o;)	;"sansFontFamily;@;*"sansFontFamily;iÉ;"headingsFontFamily;@;	[ ;("!default;iÉo;;o;)	;"sansFontFamilyItalic;@;*"sansFontFamilyItalic;iÑ;"headingsFontFamilyItalic;@;	[ ;("!default;iÑo;;o;)	;"grayDark;@;*"grayDark;iÖ;"headingsColor;@;	[ ;("!default;iÖo;
+
+;;;@;	[ ;["./* empty to use BS default, $textColor */;iÖo;
+
+;;;@;	[ ;["j/* use these font-size variables instead of doing the math yourself every time!
+ * context/target  */;iào;;o;$;%["em;@;&"3.75em;f	3.75;'[ ;iã;"font_60_16;@;	[ ;(0;ião;
+
+;;;@;	[ ;["/* 60px/16px */;ião;;o;$;%["em;@;&"3.375em;f
+3.375;'[ ;iå;"font_54_16;@;	[ ;(0;iåo;
+
+;;;@;	[ ;["/* 54px/16px */;iåo;;o;$;%["em;@;&"2.75em;f	2.75;'[ ;iç;"font_44_16;@;	[ ;(0;iço;
+
+;;;@;	[ ;["/* 44px/16px */;iço;;o;$;%["em;@;&"
+2.5em;f2.5;'[ ;ié;"font_40_16;@;	[ ;(0;iéo;
+
+;;;@;	[ ;["/* 40px/16px */;iéo;;o;$;%["em;@;&"2em;f2;'[ ;iè;"font_32_16;@;	[ ;(0;ièo;
+
+;;;@;	[ ;["/* 32px/16px */;ièo;;o;$;%["em;@;&"1.875em;f
+1.875;'[ ;iê;"font_30_16;@;	[ ;(0;iêo;
+
+;;;@;	[ ;["/* 32px/16px */;iêo;;o;$;%["em;@;&"1.75em;f	1.75;'[ ;ië;"font_28_16;@;	[ ;(0;iëo;
+
+;;;@;	[ ;["/* 28px/16px */;iëo;;o;$;%["em;@;&"1.625em;f
+1.625;'[ ;ií;"font_26_16;@;	[ ;(0;iío;
+
+;;;@;	[ ;["/* 26px/16px */;iío;;o;$;%["em;@;&"1.5625em;f1.5625;'[ ;iì;"font_25_16;@;	[ ;(0;iìo;
+
+;;;@;	[ ;["/* 25px/16px */;iìo;;o;$;%["em;@;&"1.375em;f
+1.375;'[ ;iî;"font_22_16;@;	[ ;(0;iîo;
+
+;;;@;	[ ;["/* 22px/16px */;iîo;;o;$;%["em;@;&"1.25em;f	1.25;'[ ;iï;"font_20_16;@;	[ ;(0;iïo;
+
+;;;@;	[ ;["/* 20px/16px */;iïo;;o;$;%["em;@;&"1.125em;f
+1.125;'[ ;iñ;"font_18_16;@;	[ ;(0;iño;
+
+;;;@;	[ ;["/* 18px/16px */;iño;;o;$;%["em;@;&"1em;f1;'[ ;ió;"font_16_16;@;	[ ;(0;ióo;
+
+;;;@;	[ ;["/* 16px/16px  */;ióo;;o;$;%["em;@;&"0.9375em;f0.9375;'[ ;iò;"font_15_16;@;	[ ;(0;iòo;
+
+;;;@;	[ ;["/* 15px/16px */;iòo;;o;$;%["em;@;&"0.875em;f
+0.875;'[ ;iô;"font_14_16;@;	[ ;(0;iôo;
+
+;;;@;	[ ;["/* 14px/16px */;iôo;;o;$;%["em;@;&"0.8125em;f0.8125;'[ ;iö;"font_13_16;@;	[ ;(0;iöo;
+
+;;;@;	[ ;["/* 13px/16px */;iöo;;o;$;%["em;@;&"0.75em;f	0.75;'[ ;iõ;"font_12_16;@;	[ ;(0;iõo;
+
+;;;@;	[ ;["/* 12px/16px */;iõo;;o;$;%["em;@;&"0.6875em;f0.6875;'[ ;iú;"font_11_16;@;	[ ;(0;iúo;
+
+;;;@;	[ ;["/* 11px/16px */;iúo;;o;$;%["em;@;&"0.625em;f
+0.625;'[ ;iù;"font_10_16;@;	[ ;(0;iùo;
+
+;;;@;	[ ;["/* 10px/16px */;iùo;;o;$;%["em;@;&"2.13333em;f2.1333333333333329 ;'[ ;iü;"font_32_15;@;	[ ;(0;iüo;
+
+;;;@;	[ ;["/* 32px/15px;  */;iüo;;o;$;%["em;@;&"1.73333em;f1.7333333333333329 ª∫;'[ ;i†;"font_26_15;@;	[ ;(0;i†o;
+
+;;;@;	[ ;["/* 26px/15px;  */;i†o;;o;$;%["em;@;&"1.33333em;f1.333333333333333 UT;'[ ;i°;"font_20_15;@;	[ ;(0;i°o;
+
+;;;@;	[ ;["/* 20px/15px;  */;i°o;;o;$;%["em;@;&"
+1.2em;f1.2 33;'[ ;i¢;"font_18_15;@;	[ ;(0;i¢o;
+
+;;;@;	[ ;["/* 18px/15px;  */;i¢o;;o;$;%["em;@;&"1.06667em;f1.0666666666666671 ;'[ ;i£;"font_16_15;@;	[ ;(0;i£o;
+
+;;;@;	[ ;["/* 16px/15px; */;i£o;;o;$;%["em;@;&"1em;f1;'[ ;i§;"font_15_15;@;	[ ;(0;i§o;
+
+;;;@;	[ ;["/* 15px/15px; */;i§o;;o;$;%["em;@;&"0.93333em;f0.93333333333333302 ›€;'[ ;i•;"font_14_15;@;	[ ;(0;i•o;
+
+;;;@;	[ ;["/* 14px/15px; */;i•o;;o;$;%["em;@;&"0.86667em;f0.86666666666666703 ªø;'[ ;i¶;"font_13_15;@;	[ ;(0;i¶o;
+
+;;;@;	[ ;["/* 13px/15px;  */;i¶o;;o;$;%["em;@;&"
+0.8em;f0.80000000000000004 ôö;'[ ;iß;"font_12_15;@;	[ ;(0;ißo;
+
+;;;@;	[ ;["/* 12px/15px; */;ißo;;o;$;%["em;@;&"0.73333em;f0.73333333333333295 wt;'[ ;i®;"font_11_15;@;	[ ;(0;i®o;
+
+;;;@;	[ ;["/* 11px/15px; */;i®o;;o;$;%["em;@;&"0.66667em;f0.66666666666666696 UX;'[ ;i©;"font_10_15;@;	[ ;(0;i©o;
+
+;;;@;	[ ;["/* 10px/15px; */;i©o;
+
+;;;@;	[ ;[":/* Buttons & Hotspots
+ * ------------------------- */;i¨o;;T;@;i ;	[ ;[".BUTTONS-and-HOTSPOTS;o;;[o;;[o;
+;[o;/;["BUTTONS-and-HOTSPOTS;" ;iÆ;o;;{ ;0;@¶;iÆ;@¶;iÆ;iÆo;;o; ;"rgb;@;!0;iØ;"{ ;#[o;$;%[ ;@;&"87;i\;'@-;iØo;$;%[ ;@;&"135;iá;'@-;iØo;$;%[ ;@;&"244;iÙ;'@-;iØ;"btnBackground;@;	[ ;("!default;iØo;;o; ;"rgb;@;!0;i∞;"{ ;#[o;$;%[ ;@;&"100;ii;'@-;i∞o;$;%[ ;@;&"142;ié;'@-;i∞o;$;%[ ;@;&"245;iı;'@-;i∞;"btnBackgroundHover;@;	[ ;("!default;i∞o;;o;)	;"btnBackground;@;*"btnBackground;i±;"btnBackgroundActive;@;	[ ;("!default;i±o;;o;)	;"btnBackground;@;*"btnBackground;i≤;"btnBorder;@;	[ ;("!default;i≤o;;o; ;"rgb;@;!0;i≥;"{ ;#[o;$;%[ ;@;&"222;iﬁ;'@-;i≥o;$;%[ ;@;&"222;iﬁ;'@-;i≥o;$;%[ ;@;&"222;iﬁ;'@-;i≥;"btnBackgroundDisabled;@;	[ ;(0;i≥o;;o;)	;"
+white;@;*"
+white;iµ;"btnText;@;	[ ;("!default;iµo;;o;)	;"highlightColor;@;*"highlightColor;i∑;"btnSpecialBackground;@;	[ ;("!default;i∑o;;o;)	;"highlightColorHover;@;*"highlightColorHover;i∏;"btnSpecialBackgroundHover;@;	[ ;("!default;i∏o;;o;)	;"highlightColorActive;@;*"highlightColorActive;iπ;"btnSpecialBackgroundActive;@;	[ ;("!default;iπo;;o;)	;"grayDark;@;*"grayDark;iª;"btnAltBackground;@;	[ ;("!default;iªo;;o; ;"darken;@;!0;iº;"{ ;#[o;)	;"grayDark;@;*"grayDark;iºo;$;%["%;@;&"4%;i	;'[ ;iº;"btnAltBackgroundHover;@;	[ ;("!default;iºo;;o; ;"lighten;@;!0;iΩ;"{ ;#[o;)	;"grayDark;@;*"grayDark;iΩo;$;%["%;@;&"4%;i	;'[ ;iΩ;"btnAltBackgroundActive;@;	[ ;("!default;iΩo;;o;$;%["px;@;&"	24px;i;'[ ;iæ;"btnAltSpecialPadding;@;	[ ;(0;iæo;;o;)	;"grayDarkerFieldSmall;@;*"grayDarkerFieldSmall;i¿;"btnPromoBackground;@;	[ ;("!default;i¿o;;o; ;"darken;@;!0;i¡;"{ ;#[o;)	;"grayDarkerFieldSmall;@;*"grayDarkerFieldSmall;i¡o;$;%["%;@;&"5%;i
+;'[ ;i¡;"btnPromoBackgroundHover;@;	[ ;("!default;i¡o;;o;)	;"grayDarkerFieldSmall;@;*"grayDarkerFieldSmall;i¬;"btnPromoBackgroundActive;@;	[ ;("!default;i¬o;;o;)	;"grayLight;@;*"grayLight;iƒ;"btnSecondaryBackground;@;	[ ;("!default;iƒo;;o; ;"lighten;@;!0;i≈;"{ ;#[o;)	;"grayLight;@;*"grayLight;i≈o;$;%["%;@;&"2%;i;'[ ;i≈;" btnSecondaryBackgroundHover;@;	[ ;("!default;i≈o;;o;)	;"grayLight;@;*"grayLight;i∆;"!btnSecondaryBackgroundActive;@;	[ ;("!default;i∆o;;o; ;"rgb;@;!0;i»;"{ ;#[o;$;%[ ;@;&"112;iu;'@-;i»o;$;%[ ;@;&"108;iq;'@-;i»o;$;%[ ;@;&"120;i};'@-;i»;"btnDropdownBackground;@;	[ ;("!default;i»o;;o; ;"lighten;@;!0;i…;"{ ;#[o;)	;"btnDropdownBackground;@;*"btnDropdownBackground;i…o;$;%["%;@;&"2%;i;'[ ;i…;"btnDropdownBackgroundHover;@;	[ ;("!default;i…o;;o;)	;"btnDropdownBackground;@;*"btnDropdownBackground;i ;" btnDropdownBackgroundActive;@;	[ ;("!default;i o;;o;)	;"
+white;@;*"
+white;iÃ;"btnDropdownAltBackground;@;	[ ;("!default;iÃo;;o; ;"darken;@;!0;iÕ;"{ ;#[o;)	;"
+white;@;*"
+white;iÕo;$;%["%;@;&"2%;i;'[ ;iÕ;""btnDropdownAltBackgroundHover;@;	[ ;("!default;iÕo;;o; ;"darken;@;!0;iŒ;"{ ;#[o;)	;"
+white;@;*"
+white;iŒo;$;%["%;@;&"1%;i;'[ ;iŒ;"#btnDropdownAltBackgroundActive;@;	[ ;("!default;iŒo;;o;+	;@;,;.;[o;$;%["px;@;&"8px;i;'[ ;i–o;$;%[ ;@;&"0;i ;'@-;i–o;$;%["px;@;&"	11px;i;'[ ;i–;i–;"btnPadding;@;	[ ;(0;i–o;;o;+	;@;,;.;[o;$;%["px;@;&"7px;i;'[ ;i—o;$;%[ ;@;&"0;i ;'@-;i—o;$;%["px;@;&"	10px;i;'[ ;i—;i—;"btnLargePadding;@;	[ ;(0;i—o;;o;+	;@;,;.;[o;$;%["px;@;&"8px;i;'[ ;i“o;$;%[ ;@;&"0;i ;'@-;i“o;$;%["px;@;&"	10px;i;'[ ;i“;i“;"btnSmallPadding;@;	[ ;(0;i“o;;o;+	;@;,;.;[o;$;%["px;@;&"8px;i;'[ ;i”o;$;%[ ;@;&"0;i ;'@-;i”o;$;%["px;@;&"9px;i;'[ ;i”;i”;"btnMiniPadding;@;	[ ;(0;i”o;;o;+	;@;,;.;[o;$;%["px;@;&"	13px;i;'[ ;i’o;$;%[ ;@;&"0;i ;'@-;i’o;$;%["px;@;&"	15px;i;'[ ;i’;i’;"btnSpecialPadding;@;	[ ;(0;i’o;;o;+	;@;,;.;[o;$;%["px;@;&"	14px;i;'[ ;i÷o;$;%[ ;@;&"0;i ;'@-;i÷o;$;%["px;@;&"	14px;i;'[ ;i÷;i÷;"btnSpecialLargePadding;@;	[ ;(0;i÷o;;o;+	;@;,;.;[o;$;%["px;@;&"	12px;i;'[ ;i◊o;$;%[ ;@;&"0;i ;'@-;i◊o;$;%["px;@;&"	14px;i;'[ ;i◊;i◊;"btnSpecialSmallPadding;@;	[ ;(0;i◊o;;o;+	;@;,;.;[o;$;%["px;@;&"	11px;i;'[ ;iÿo;$;%[ ;@;&"0;i ;'@-;iÿo;$;%["px;@;&"	12px;i;'[ ;iÿ;iÿ;"btnSpecialMiniPadding;@;	[ ;(0;iÿo;;o;+	;@;,;.;[o;$;%["px;@;&"8px;i;'[ ;i⁄o;$;%[ ;@;&"0;i ;'@-;i⁄o;$;%["px;@;&"	11px;i;'[ ;i⁄;i⁄;"btnAltPadding;@;	[ ;(0;i⁄o;;o;+	;@;,;.;[o;$;%["px;@;&"7px;i;'[ ;i€o;$;%[ ;@;&"0;i ;'@-;i€o;$;%["px;@;&"	10px;i;'[ ;i€;i€;"btnAltLargePadding;@;	[ ;(0;i€o;;o;+	;@;,;.;[o;$;%["px;@;&"8px;i;'[ ;i‹o;$;%[ ;@;&"0;i ;'@-;i‹o;$;%["px;@;&"9px;i;'[ ;i‹;i‹;"btnAltSmallPadding;@;	[ ;(0;i‹o;;o;+	;@;,;.;[o;$;%["px;@;&"8px;i;'[ ;i›o;$;%[ ;@;&"0;i ;'@-;i›o;$;%["px;@;&"9px;i;'[ ;i›;i›;"btnAltMiniPadding;@;	[ ;(0;i›o;;o;+	;@;,;.;[o;$;%["px;@;&"	14px;i;'[ ;iﬂo;$;%[ ;@;&"0;i ;'@-;iﬂo;$;%["px;@;&"	13px;i;'[ ;iﬂ;iﬂ;"btnSquarePadding;@;	[ ;(0;iﬂo;
+
+;;;@;	[ ;["ô/* $btnSquareLargePadding:            	7px 0 10px;
+ * $btnSquareSmallPadding:            	8px 0 9px;
+ * $btnSquareMiniPadding:             	8px 0 9px; */;i‡o;
+
+;;;@;	[ ;["0/* Hotspots
+ * ------------------------- */;iÂo;;o; ;"	rgba;@;!0;iÁ;"{ ;#[	o;$;%[ ;@;&"47;i4;'@-;iÁo;$;%[ ;@;&"53;i:;'@-;iÁo;$;%[ ;@;&"61;iB;'@-;iÁo;$;%[ ;@;&"0.1;f0.10000000000000001 ôö;'@-;iÁ;"hotspotHalo;@;	[ ;("!default;iÁo;;o; ;"	rgba;@;!0;iË;"{ ;#[	o;$;%[ ;@;&"47;i4;'@-;iËo;$;%[ ;@;&"53;i:;'@-;iËo;$;%[ ;@;&"61;iB;'@-;iËo;$;%[ ;@;&"	0.15;f0.14999999999999999 33;'@-;iË;"hotspotHaloHover;@;	[ ;("!default;iËo;
+
+;;;@;	[ ;["./* Tables
+ * ------------------------- */;iÏo;;T;@;i ;	[ ;[".TABLES;o;;[o;;[o;
+;[o;/;["TABLES;" ;iÓ;o;;{ ;0;@Ï;iÓ;@Ï;iÓ;iÓo;;o;0	;;2;@;"transparent;iÔ;"tableBackground;@;	[ ;("!default;iÔo;
+
+;;;@;	[ ;["#/* overall background-color */;iÔo;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"249;i˘;'@-;io;$;%[ ;@;&"249;i˘;'@-;io;$;%[ ;@;&"249;i˘;'@-;i;"tableBackgroundAccent;@;	[ ;("!default;io;
+
+;;;@;	[ ;["/* for striping */;io;;o; ;"rgb;@;!0;iÒ;"{ ;#[o;$;%[ ;@;&"245;iı;'@-;iÒo;$;%[ ;@;&"245;iı;'@-;iÒo;$;%[ ;@;&"245;iı;'@-;iÒ;"tableBackgroundHover;@;	[ ;("!default;iÒo;
+
+;;;@;	[ ;["/* for hover */;iÒo;;o; ;"rgb;@;!0;iÚ;"{ ;#[o;$;%[ ;@;&"221;i›;'@-;iÚo;$;%[ ;@;&"221;i›;'@-;iÚo;$;%[ ;@;&"221;i›;'@-;iÚ;"tableBorder;@;	[ ;("!default;iÚo;
+
+;;;@;	[ ;[" /* table and cell border */;iÚo;
+
+;;;@;	[ ;["-/* Forms
+ * ------------------------- */;i˜o;;T;@;i ;	[ ;[".FORMS;o;;[o;;[o;
+;[o;/;["
+FORMS;" ;i˘;o;;{ ;0;@I;i˘;@I;i˘;i˘o;;o;)	;"
+white;@;*"
+white;i˙;"inputBackground;@;	[ ;("!default;i˙o;;o; ;"rgb;@;!0;i˚;"{ ;#[o;$;%[ ;@;&"248;i¯;'@-;i˚o;$;%[ ;@;&"248;i¯;'@-;i˚o;$;%[ ;@;&"248;i¯;'@-;i˚;"inputBackgroundAlt;@;	[ ;("!default;i˚o;;o;)	;"grayLighter;@;*"grayLighter;i¸;"inputBackgroundBtnAlt;@;	[ ;("!default;i¸o;;o;)	;"grayLight;@;*"grayLight;i˝;"inputText;@;	[ ;("!default;i˝o;;o;)	;"	gray;@;*"	gray;i˛;"inputTextFocus;@;	[ ;("!default;i˛o;;o;)	;"grayLighter;@;*"grayLighter;iˇ;"inputBorder;@;	[ ;("!default;iˇo;;o;)	;"grayLight;@;*"grayLight;i ;"inputBorderFocus;@;	[ ;("!default;i o;;o;)	;"grayLight;@;*"grayLight;i;"inputBorderFocus;@;	[ ;("!default;io;;o;$;%["px;@;&"2px;i;'[ ;i;"inputBorderWidth;@;	[ ;("!default;io;;o;$;%["px;@;&"0px;i ;'[ ;i;"inputBorderRadius;@;	[ ;("!default;io;;o; ;"darken;@;!0;i;"{ ;#[o;)	;"inputBackgroundAlt;@;*"inputBackgroundAlt;io;$;%["%;@;&"1%;i;'[ ;i;"inputDisabledBackground;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"245;iı;'@-;io;$;%[ ;@;&"245;iı;'@-;io;$;%[ ;@;&"245;iı;'@-;i;"formActionsBackground;@;	[ ;("!default;io;
+
+;;;@;	[ ;["1/* Dropdowns
+ * ------------------------- */;io;;o;)	;"
+white;@;*"
+white;i	;"dropdownBackground;@;	[ ;("!default;i	o;;o; ;"	rgba;@;!0;i
+;"{ ;#[	o;$;%[ ;@;&"0;i ;'@-;i
+o;$;%[ ;@;&"0;i ;'@-;i
+o;$;%[ ;@;&"0;i ;'@-;i
+o;$;%[ ;@;&"0.2;f0.20000000000000001 ôö;'@-;i
+;"dropdownBorder;@;	[ ;("!default;i
+o;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"229;iÂ;'@-;io;$;%[ ;@;&"229;iÂ;'@-;io;$;%[ ;@;&"229;iÂ;'@-;i;"dropdownDividerTop;@;	[ ;("!default;io;;o;)	;"
+white;@;*"
+white;i;"dropdownDividerBottom;@;	[ ;("!default;io;;o;)	;"grayDark;@;*"grayDark;i;"dropdownLinkColor;@;	[ ;("!default;io;;o;)	;"
+white;@;*"
+white;i;"dropdownLinkColorHover;@;	[ ;("!default;io;;o;)	;"dropdownLinkColor;@;*"dropdownLinkColor;i;"dropdownLinkColorActive;@;	[ ;("!default;io;;o;)	;"linkColor;@;*"linkColor;i;"!dropdownLinkBackgroundActive;@;	[ ;("!default;io;;o;)	;"!dropdownLinkBackgroundActive;@;*"!dropdownLinkBackgroundActive;i;" dropdownLinkBackgroundHover;@;	[ ;("!default;io;;o;)	;"
+white;@;*"
+white;i;"dropdownAltBackground;@;	[ ;("!default;io;;o; ;"	rgba;@;!0;i;"{ ;#[	o;$;%[ ;@;&"0;i ;'@-;io;$;%[ ;@;&"0;i ;'@-;io;$;%[ ;@;&"0;i ;'@-;io;$;%[ ;@;&"0.2;f0.20000000000000001 ôö;'@-;i;"dropdownAltBorder;@;	[ ;("!default;io;;o; ;"rgb;@;!0;i;"{ ;#[o;$;%[ ;@;&"229;iÂ;'@-;io;$;%[ ;@;&"229;iÂ;'@-;io;$;%[ ;@;&"229;iÂ;'@-;i;"dropdownAltDividerTop;@;	[ ;("!default;io;;o;)	;"
+white;@;*"
+white;i;"dropdownAltDividerBottom;@;	[ ;("!default;io;;o;)	;"	gray;@;*"	gray;i;"dropdownAltLinkColor;@;	[ ;("!default;io;;o;)	;"
+white;@;*"
+white;i;"dropdownAltLinkColorHover;@;	[ ;("!default;io;;o;)	;"highlightColor;@;*"highlightColor;i;"dropdownAltLinkColorActive;@;	[ ;("!default;io;;o;)	;"highlightColor;@;*"highlightColor;i;"$dropdownAltLinkBackgroundActive;@;	[ ;("!default;io;;o;)	;"$dropdownAltLinkBackgroundActive;@;*"$dropdownAltLinkBackgroundActive;i ;"#dropdownAltLinkBackgroundHover;@;	[ ;("!default;i o;
+
+;;;@;	[ ;[">/* Form states and alerts
+ * ------------------------- */;i$o;;o; ;"rgb;@;!0;i&;"{ ;#[o;$;%[ ;@;&"192;i¿;'@-;i&o;$;%[ ;@;&"152;iò;'@-;i&o;$;%[ ;@;&"83;iX;'@-;i&;"warningText;@;	[ ;("!default;i&o;;o; ;"rgb;@;!0;i';"{ ;#[o;$;%[ ;@;&"252;i¸;'@-;i'o;$;%[ ;@;&"248;i¯;'@-;i'o;$;%[ ;@;&"227;i„;'@-;i';"warningBackground;@;	[ ;("!default;i'o;;o; ;"darken;@;!0;i(;"{ ;#[o; ;"adjust-hue;@;!0;i(;"{ ;#[o;)	;"warningBackground;@;*"warningBackground;i(o;$;%[ ;@;&"-10;iÒ;'@-;i(o;$;%["%;@;&"3%;i;'[ ;i(;"warningBorder;@;	[ ;("!default;i(o;;o; ;"rgb;@;!0;i*;"{ ;#[o;$;%[ ;@;&"185;iπ;'@-;i*o;$;%[ ;@;&"74;iO;'@-;i*o;$;%[ ;@;&"72;iM;'@-;i*;"errorText;@;	[ ;("!default;i*o;;o; ;"rgb;@;!0;i+;"{ ;#[o;$;%[ ;@;&"242;iÚ;'@-;i+o;$;%[ ;@;&"222;iﬁ;'@-;i+o;$;%[ ;@;&"222;iﬁ;'@-;i+;"errorBackground;@;	[ ;("!default;i+o;;o; ;"darken;@;!0;i,;"{ ;#[o; ;"adjust-hue;@;!0;i,;"{ ;#[o;)	;"errorBackground;@;*"errorBackground;i,o;$;%[ ;@;&"-10;iÒ;'@-;i,o;$;%["%;@;&"3%;i;'[ ;i,;"errorBorder;@;	[ ;("!default;i,o;;o; ;"rgb;@;!0;i.;"{ ;#[o;$;%[ ;@;&"70;iK;'@-;i.o;$;%[ ;@;&"136;ià;'@-;i.o;$;%[ ;@;&"71;iL;'@-;i.;"successText;@;	[ ;("!default;i.o;;o; ;"rgb;@;!0;i/;"{ ;#[o;$;%[ ;@;&"223;iﬂ;'@-;i/o;$;%[ ;@;&"240;i;'@-;i/o;$;%[ ;@;&"216;iÿ;'@-;i/;"successBackground;@;	[ ;("!default;i/o;;o; ;"darken;@;!0;i0;"{ ;#[o; ;"adjust-hue;@;!0;i0;"{ ;#[o;)	;"successBackground;@;*"successBackground;i0o;$;%[ ;@;&"-10;iÒ;'@-;i0o;$;%["%;@;&"5%;i
+;'[ ;i0;"successBorder;@;	[ ;("!default;i0o;;o; ;"rgb;@;!0;i2;"{ ;#[o;$;%[ ;@;&"58;i?;'@-;i2o;$;%[ ;@;&"135;iá;'@-;i2o;$;%[ ;@;&"173;i≠;'@-;i2;"infoText;@;	[ ;("!default;i2o;;o; ;"rgb;@;!0;i3;"{ ;#[o;$;%[ ;@;&"217;iŸ;'@-;i3o;$;%[ ;@;&"237;iÌ;'@-;i3o;$;%[ ;@;&"247;i˜;'@-;i3;"infoBackground;@;	[ ;("!default;i3o;;o; ;"darken;@;!0;i4;"{ ;#[o; ;"adjust-hue;@;!0;i4;"{ ;#[o;)	;"infoBackground;@;*"infoBackground;i4o;$;%[ ;@;&"-10;iÒ;'@-;i4o;$;%["%;@;&"7%;i;'[ ;i4;"infoBorder;@;	[ ;("!default;i4o;
+
+;;;@;	[ ;[";/* Component variables
+ * ------------------------- */;i9o;;T;@;i ;	[ ;[".COMPONENT-VARIABLES;o;;[o;;[o;
+;[o;/;["COMPONENT-VARIABLES;" ;i;;o;;{ ;0;@l
+;i;;@l
+;i;;i;o;
+
+;;;@;	[ ;["ü/* Z-index master list
+ * -------------------------
+ * Used for a bird's eye view of components dependent on the z-axis
+ * Try to avoid customizing these :) */;i=o;;o;$;%[ ;@;&"	1000;iË;'@-;iA;"zindexDropdown;@;	[ ;("!default;iAo;;o;$;%[ ;@;&"	1010;iÚ;'@-;iB;"zindexPopover;@;	[ ;("!default;iBo;;o;$;%[ ;@;&"	1030;i;'@-;iC;"zindexTooltip;@;	[ ;("!default;iCo;;o;$;%[ ;@;&"	1030;i;'@-;iD;"zindexFixedNavbar;@;	[ ;("!default;iDo;;o;$;%[ ;@;&"	1040;i;'@-;iE;"zindexModalBackdrop;@;	[ ;("!default;iEo;;o;$;%[ ;@;&"	1050;i;'@-;iF;"zindexModal;@;	[ ;("!default;iFo;
+
+;;;@;	[ ;["ù/* Sprite icons path
+ * -------------------------
+ * These are Bootstrap default:
+ * $iconSpritePath:          "../img/glyphicons-halflings.png" !default; */;iIo;;o;0	;;1;@;"*../img/glyphicons-halflings-white.png;iM;"iconWhiteSpritePath;@;	[ ;("!default;iMo;
+
+;;;@;	[ ;["!/* These are Sony custom: */;iNo;;o;0	;;1;@;"../img/spritesheet.svg;iO;"iconSpritePath;@;	[ ;("!default;iOo;;o;0	;;1;@;"../img/spritesheet.png;iP;"iconSpritePathFallback;@;	[ ;("!default;iPo;;o;0	;;1;@;"'../img/spritesheet-icons-small.png;iQ;"iconSmallSpritePath;@;	[ ;("!default;iQo;
+
+;;;@;	[ ;["D/* Input placeholder text color
+ * ------------------------- */;iSo;;o;)	;"grayLight;@;*"grayLight;iU;"placeholderText;@;	[ ;("!default;iUo;
+
+;;;@;	[ ;["7/* Hr border color
+ * ------------------------- */;iXo;;o;)	;"grayLighter;@;*"grayLighter;iZ;"hrBorder;@;	[ ;("!default;iZo;
+
+;;;@;	[ ;["@/* Horizontal forms & lists
+ * ------------------------- */;i]o;;o;$;%["px;@;&"
+180px;i¥;'[ ;i_;"horizontalComponentOffset;@;	[ ;(0;i_o;
+
+;;;@;	[ ;["-/* Wells
+ * ------------------------- */;ibo;;o; ;"rgb;@;!0;id;"{ ;#[o;$;%[ ;@;&"245;iı;'@-;ido;$;%[ ;@;&"245;iı;'@-;ido;$;%[ ;@;&"245;iı;'@-;id;"wellBackground;@;	[ ;("!default;ido;
+
+;;;@;	[ ;["3/* Global values for Nav & Subanv to share. */;igo;;T;@;i ;	[ ;["	.NAV;o;;[o;;[o;
+;[o;/;["NAV;" ;ih;o;;{ ;0;@;ih;@;ih;iho;;o;$;%["px;@;&"1190px;i¶;'[ ;ii;"navMaxWidth;@;	[ ;("!default;iio;
+
+;;;@;	[ ;[";/* Global Nav (navbar)
+ * ------------------------- */;ilo;;T;@;i ;	[ ;[".NAVBAR;o;;[o;;[o;
+;[o;/;["NAVBAR;" ;in;o;;{ ;0;@";in;@";in;ino;;o;$;%["px;@;&"
+979px;i”;'[ ;io;"navbarCollapseWidth;@;	[ ;("!default;ioo;;o;$;%["px;@;&"	64px;iE;'[ ;iq;"navbarTotalHeight;@;	[ ;("!default;iqo;;o;$;%["px;@;&"	40px;i-;'[ ;ir;"navbarLineHeight;@;	[ ;("!default;iro;;o;$;%["px;@;&"	43px;i0;'[ ;is;"navbarMinSidePadding;@;	[ ;("!default;iso;
+
+;;;@;	[ ;["\/* the minimum space between the edge of the nav, and the edge of the browser window */;iso;;o;)	;"
+black;@;*"
+black;iu;"navbarBackground;@;	[ ;("!default;iuo;;o; ;"lighten;@;!0;iv;"{ ;#[o;)	;"navbarBackground;@;*"navbarBackground;ivo;$;%["%;@;&"5%;i
+;'[ ;iv;"navbarBackgroundHighlight;@;	[ ;("!default;ivo;;o; ;"rgb;@;!0;iw;"{ ;#[o;$;%[ ;@;&"55;i<;'@-;iwo;$;%[ ;@;&"53;i:;'@-;iwo;$;%[ ;@;&"59;i@;'@-;iw;"navbarTertiaryColor;@;	[ ;("!default;iwo;;o;$;%["em;@;&"0.9375em;f0.9375;'[ ;iy;"navbarTextSize;@;	[ ;(0;iyo;
+
+;:normal;@;	[ ;["/* 15px/16px */;iyo;;o;$;%["em;@;&"0.8125em;f0.8125;'[ ;iz;"navbarSmTextSize;@;	[ ;(0;izo;
+
+;;3;@;	[ ;["/* 13px/16px */;izo;;o;)	;"
+white;@;*"
+white;i{;"navbarText;@;	[ ;("!default;i{o;;o;)	;"
+white;@;*"
+white;i|;"navbarLinkColor;@;	[ ;("!default;i|o;;o;)	;"
+white;@;*"
+white;i};"navbarLinkColorHover;@;	[ ;("!default;i}o;;o; ;"lighten;@;!0;i~;"{ ;#[o;)	;"linkColorHover;@;*"linkColorHover;i~o;$;%["%;@;&"5%;i
+;'[ ;i~;"navbarLinkColorActive;@;	[ ;("!default;i~o;;o;0	;;2;@;"transparent;i;"navbarLinkBackgroundHover;@;	[ ;("!default;io;;o; ;"darken;@;!0;iÄ;"{ ;#[o;)	;"navbarBackground;@;*"navbarBackground;iÄo;$;%["%;@;&"
+5.25%;f	5.25;'[ ;iÄ;"navbarLinkBackgroundActive;@;	[ ;("!default;iÄo;
+
+;;;@;	[ ;["/* Inverted navbar */;iÇo;;o; ;"rgb;@;!0;iÉ;"{ ;#[o;$;%[ ;@;&"17;i;'@-;iÉo;$;%[ ;@;&"17;i;'@-;iÉo;$;%[ ;@;&"17;i;'@-;iÉ;"navbarInverseBackground;@;	[ ;("!default;iÉo;;o; ;"rgb;@;!0;iÑ;"{ ;#[o;$;%[ ;@;&"34;i';'@-;iÑo;$;%[ ;@;&"34;i';'@-;iÑo;$;%[ ;@;&"34;i';'@-;iÑ;"%navbarInverseBackgroundHighlight;@;	[ ;("!default;iÑo;;o; ;"rgb;@;!0;iÖ;"{ ;#[o;$;%[ ;@;&"37;i*;'@-;iÖo;$;%[ ;@;&"37;i*;'@-;iÖo;$;%[ ;@;&"37;i*;'@-;iÖ;"navbarInverseBorder;@;	[ ;("!default;iÖo;;o;)	;"grayLight;@;*"grayLight;iá;"navbarInverseText;@;	[ ;("!default;iáo;;o;)	;"grayLight;@;*"grayLight;ià;"navbarInverseLinkColor;@;	[ ;("!default;iào;;o;)	;"
+white;@;*"
+white;iâ;" navbarInverseLinkColorHover;@;	[ ;("!default;iâo;;o;)	;" navbarInverseLinkColorHover;@;*" navbarInverseLinkColorHover;iä;"!navbarInverseLinkColorActive;@;	[ ;("!default;iäo;;o;0	;;2;@;"transparent;iã;"%navbarInverseLinkBackgroundHover;@;	[ ;("!default;ião;;o;)	;"navbarInverseBackground;@;*"navbarInverseBackground;iå;"&navbarInverseLinkBackgroundActive;@;	[ ;("!default;iåo;;o; ;"lighten;@;!0;ié;"{ ;#[o;)	;"navbarInverseBackground;@;*"navbarInverseBackground;iéo;$;%["%;@;&"25%;i;'[ ;ié;""navbarInverseSearchBackground;@;	[ ;("!default;iéo;;o;)	;"
+white;@;*"
+white;iè;"'navbarInverseSearchBackgroundFocus;@;	[ ;("!default;ièo;;o;)	;"navbarInverseBackground;@;*"navbarInverseBackground;iê;"navbarInverseSearchBorder;@;	[ ;("!default;iêo;;o; ;"rgb;@;!0;ië;"{ ;#[o;$;%[ ;@;&"204;iÃ;'@-;iëo;$;%[ ;@;&"204;iÃ;'@-;iëo;$;%[ ;@;&"204;iÃ;'@-;ië;"(navbarInverseSearchPlaceholderColor;@;	[ ;("!default;iëo;;o;)	;"navbarInverseLinkColor;@;*"navbarInverseLinkColor;iì;"navbarInverseBrandColor;@;	[ ;("!default;iìo;;o;)	;"
+white;@;*"
+white;iï;"navTrayBackground;@;	[ ;(0;iïo;;o;)	;"grayLightFieldLarge;@;*"grayLightFieldLarge;iñ;"navTrayBackgroundAlt;@;	[ ;(0;iño;;o;$;%["%;@;&"73%;iN;'[ ;ió;"navTrayDividerPosition;@;	[ ;(0;ióo;;o;)	;"
+white;@;*"
+white;iô;"navMenuBackground;@;	[ ;(0;iôo;;o;)	;"grayLightFieldLarge;@;*"grayLightFieldLarge;iö;"navMenuBackgroundAlt;@;	[ ;(0;iöo;
+
+;;;@;	[ ;["µ/* Simple-Navbar
+ * The original Bootstrap navbar has been renamed simpleNavbar.
+ * Likewise, the original Bootstrap nav has been renamed simple-nav.
+ * ------------------------- */;iüo;;T;@;i ;	[ ;[".SIMPLE-NAVBAR;o;;[o;;[o;
+;[o;/;["SIMPLE-NAVBAR;" ;i£;o;;{ ;0;@í;i£;@í;i£;i£o;;o;$;%["px;@;&"
+979px;i”;'[ ;i§;"simpleNavbarCollapseWidth;@;	[ ;("!default;i§o;;o;$;%["px;@;&"	64px;iE;'[ ;i¶;"simpleNavbarHeight;@;	[ ;("!default;i¶o;;o;)	;"
+black;@;*"
+black;iß;"simpleNavbarBackground;@;	[ ;("!default;ißo;;o; ;"lighten;@;!0;i®;"{ ;#[o;)	;"simpleNavbarBackground;@;*"simpleNavbarBackground;i®o;$;%["%;@;&"5%;i
+;'[ ;i®;"$simpleNavbarBackgroundHighlight;@;	[ ;("!default;i®o;;o;$;%["em;@;&"0.875em;f
+0.875;'[ ;i™;"simpleNavbarTextSize;@;	[ ;(0;i™o;
+
+;;3;@;	[ ;["/* 14px/16px */;i™o;;o;)	;"linkColor;@;*"linkColor;i´;"simpleNavbarText;@;	[ ;("!default;i´o;;o;)	;"linkColor;@;*"linkColor;i¨;"simpleNavbarLinkColor;@;	[ ;("!default;i¨o;;o;)	;"linkColorHover;@;*"linkColorHover;i≠;"simpleNavbarLinkColorHover;@;	[ ;("!default;i≠o;;o; ;"lighten;@;!0;iÆ;"{ ;#[o;)	;"linkColorHover;@;*"linkColorHover;iÆo;$;%["%;@;&"5%;i
+;'[ ;iÆ;" simpleNavbarLinkColorActive;@;	[ ;("!default;iÆo;;o;0	;;2;@;"transparent;iØ;"$simpleNavbarLinkBackgroundHover;@;	[ ;("!default;iØo;;o; ;"darken;@;!0;i∞;"{ ;#[o;)	;"simpleNavbarBackground;@;*"simpleNavbarBackground;i∞o;$;%["%;@;&"
+5.25%;f	5.25;'[ ;i∞;"%simpleNavbarLinkBackgroundActive;@;	[ ;("!default;i∞o;
+
+;;;@;	[ ;["/* Inverted navbar */;i≤o;;o; ;"rgb;@;!0;i≥;"{ ;#[o;$;%[ ;@;&"17;i;'@-;i≥o;$;%[ ;@;&"17;i;'@-;i≥o;$;%[ ;@;&"17;i;'@-;i≥;""simpleNavbarInverseBackground;@;	[ ;("!default;i≥o;;o; ;"rgb;@;!0;i¥;"{ ;#[o;$;%[ ;@;&"34;i';'@-;i¥o;$;%[ ;@;&"34;i';'@-;i¥o;$;%[ ;@;&"34;i';'@-;i¥;"+simpleNavbarInverseBackgroundHighlight;@;	[ ;("!default;i¥o;;o; ;"rgb;@;!0;iµ;"{ ;#[o;$;%[ ;@;&"37;i*;'@-;iµo;$;%[ ;@;&"37;i*;'@-;iµo;$;%[ ;@;&"37;i*;'@-;iµ;"simpleNavbarInverseBorder;@;	[ ;("!default;iµo;;o;)	;"grayLight;@;*"grayLight;i∑;"simpleNavbarInverseText;@;	[ ;("!default;i∑o;;o;)	;"grayLight;@;*"grayLight;i∏;"!simpleNavbarInverseLinkColor;@;	[ ;("!default;i∏o;;o;)	;"
+white;@;*"
+white;iπ;"&simpleNavbarInverseLinkColorHover;@;	[ ;("!default;iπo;;o;)	;"&simpleNavbarInverseLinkColorHover;@;*"&simpleNavbarInverseLinkColorHover;i∫;"'simpleNavbarInverseLinkColorActive;@;	[ ;("!default;i∫o;;o;0	;;2;@;"transparent;iª;"+simpleNavbarInverseLinkBackgroundHover;@;	[ ;("!default;iªo;;o;)	;""simpleNavbarInverseBackground;@;*""simpleNavbarInverseBackground;iº;",simpleNavbarInverseLinkBackgroundActive;@;	[ ;("!default;iºo;;o; ;"lighten;@;!0;iæ;"{ ;#[o;)	;""simpleNavbarInverseBackground;@;*""simpleNavbarInverseBackground;iæo;$;%["%;@;&"25%;i;'[ ;iæ;"(simpleNavbarInverseSearchBackground;@;	[ ;("!default;iæo;;o;)	;"
+white;@;*"
+white;iø;"-simpleNavbarInverseSearchBackgroundFocus;@;	[ ;("!default;iøo;;o;)	;""simpleNavbarInverseBackground;@;*""simpleNavbarInverseBackground;i¿;"$simpleNavbarInverseSearchBorder;@;	[ ;("!default;i¿o;;o; ;"rgb;@;!0;i¡;"{ ;#[o;$;%[ ;@;&"204;iÃ;'@-;i¡o;$;%[ ;@;&"204;iÃ;'@-;i¡o;$;%[ ;@;&"204;iÃ;'@-;i¡;".simpleNavbarInverseSearchPlaceholderColor;@;	[ ;("!default;i¡o;;o;)	;"!simpleNavbarInverseLinkColor;@;*"!simpleNavbarInverseLinkColor;i√;""simpleNavbarInverseBrandColor;@;	[ ;("!default;i√o;
+
+;;;@;	[ ;["2/* Pagination
+ * ------------------------- */;i»o;;T;@;i ;	[ ;[".PAGINATION;o;;[o;;[o;
+;[o;/;["PAGINATION;" ;i ;o;;{ ;0;@Æ;i ;@Æ;i ;i o;;o; ;"rgb;@;!0;iÀ;"{ ;#[o;$;%[ ;@;&"255;iˇ;'@-;iÀo;$;%[ ;@;&"255;iˇ;'@-;iÀo;$;%[ ;@;&"255;iˇ;'@-;iÀ;"paginationBackground;@;	[ ;("!default;iÀo;;o; ;"rgb;@;!0;iÃ;"{ ;#[o;$;%[ ;@;&"221;i›;'@-;iÃo;$;%[ ;@;&"221;i›;'@-;iÃo;$;%[ ;@;&"221;i›;'@-;iÃ;"paginationBorder;@;	[ ;("!default;iÃo;;o; ;"rgb;@;!0;iÕ;"{ ;#[o;$;%[ ;@;&"245;iı;'@-;iÕo;$;%[ ;@;&"245;iı;'@-;iÕo;$;%[ ;@;&"245;iı;'@-;iÕ;"paginationActiveBackground;@;	[ ;("!default;iÕo;
+
+;;;@;	[ ;["=/* Tooltips and popovers
+ * ------------------------- */;i“o;;T;@;i ;	[ ;[".TOOLTIPS-AND-POPOVERS;o;;[o;;[o;
+;[o;/;["TOOLTIPS-AND-POPOVERS;" ;i‘;o;;{ ;0;@ı;i‘;@ı;i‘;i‘o;;o; ;"rgb;@;!0;i’;"{ ;#[o;$;%[ ;@;&"255;iˇ;'@-;i’o;$;%[ ;@;&"255;iˇ;'@-;i’o;$;%[ ;@;&"255;iˇ;'@-;i’;"tooltipColor;@;	[ ;("!default;i’o;;o; ;"rgb;@;!0;i÷;"{ ;#[o;$;%[ ;@;&"0;i ;'@-;i÷o;$;%[ ;@;&"0;i ;'@-;i÷o;$;%[ ;@;&"0;i ;'@-;i÷;"tooltipBackground;@;	[ ;("!default;i÷o;;o;$;%["px;@;&"5px;i
+;'[ ;i◊;"tooltipArrowWidth;@;	[ ;("!default;i◊o;;o;)	;"tooltipBackground;@;*"tooltipBackground;iÿ;"tooltipArrowColor;@;	[ ;("!default;iÿo;;o; ;"rgb;@;!0;i⁄;"{ ;#[o;$;%[ ;@;&"255;iˇ;'@-;i⁄o;$;%[ ;@;&"255;iˇ;'@-;i⁄o;$;%[ ;@;&"255;iˇ;'@-;i⁄;"popoverBackground;@;	[ ;("!default;i⁄o;;o;$;%["px;@;&"	10px;i;'[ ;i€;"popoverArrowWidth;@;	[ ;("!default;i€o;;o; ;"rgb;@;!0;i‹;"{ ;#[o;$;%[ ;@;&"255;iˇ;'@-;i‹o;$;%[ ;@;&"255;iˇ;'@-;i‹o;$;%[ ;@;&"255;iˇ;'@-;i‹;"popoverArrowColor;@;	[ ;("!default;i‹o;;o; ;"darken;@;!0;i›;"{ ;#[o;)	;"popoverBackground;@;*"popoverBackground;i›o;$;%["%;@;&"3%;i;'[ ;i›;"popoverTitleBackground;@;	[ ;("!default;i›o;
+
+;;;@;	[ ;["+/* Special enhancement for popovers */;iﬂo;;o:Sass::Script::Operation
+:@operator:	plus;@:@operand2o;$;%[ ;@;&"1;i;'@-;i‡:@operand1o;)	;"popoverArrowWidth;@;*"popoverArrowWidth;i‡;i‡;"popoverArrowOuterWidth;@;	[ ;("!default;i‡o;;o; ;"	rgba;@;!0;i·;"{ ;#[	o;$;%[ ;@;&"0;i ;'@-;i·o;$;%[ ;@;&"0;i ;'@-;i·o;$;%[ ;@;&"0;i ;'@-;i·o;$;%[ ;@;&"	0.25;f	0.25;'@-;i·;"popoverArrowOuterColor;@;	[ ;("!default;i·o;
+
+;;;@;	[ ;["4/* GRID
+ * -----------------------------
+ *  */;iËo;;T;@;i ;	[ ;["
+.GRID;o;;[o;;[o;
+;[o;/;["	GRID;" ;iÏ;o;;{ ;0;@ö;iÏ;@ö;iÏ;iÏo;
+
+;;;@;	[ ;["˜/* margin and padding are used interchangably in variable names here. In reality, we're calculating the width of the 
+ * container and grid, and specifying margin-left/right:auto to center them.
+ * All of the fixed width grid values are based on having the containerMarginWidth and gridMarginWidths applied by default.
+ * For .full-bleed, the widths are just overridden with 100%. For fixed-width-grids, that's not gonna work so well,
+ * but then there shouldn't be fixed-width grids with .full-bleed */;iÌo;;o;$;%[ ;@;&"12;i;'@-;iÛ;"gridColumns;@;	[ ;("!default;iÛo;;o;$;%[ ;@;&"5;i
+;'@-;iÙ;"grid5Columns;@;	[ ;(0;iÙo;
+
+;;;@;	[ ;["/* Default 980px-1199px */;iˆo;;o;$;%["px;@;&"	34px;i';'[ ;i˜;"containerMarginWidth;@;	[ ;("!default;i˜o;;o;$;%["px;@;&"	33px;i&;'[ ;i¯;"gridMarginWidth;@;	[ ;("!default;i¯o;;o;$;%["px;@;&"	43px;i0;'[ ;i˘;"gridColumnWidth;@;	[ ;("!default;i˘o;;o;$;%["px;@;&"	30px;i#;'[ ;i˙;"gridGutterWidth;@;	[ ;("!default;i˙o;
+
+;;;@;	[ ;["/* 1200px breakpoint */;i¸o;;o;$;%["px;@;&"	45px;i2;'[ ;i˝;"containerMarginWidth1200;@;	[ ;("!default;i˝o;;o;$;%["px;@;&"	45px;i2;'[ ;i˛;"gridMarginWidth1200;@;	[ ;("!default;i˛o;;o;$;%["px;@;&"	52px;i9;'[ ;iˇ;"gridColumnWidth1200;@;	[ ;("!default;iˇo;;o;$;%["px;@;&"	36px;i);'[ ;i ;"gridGutterWidth1200;@;	[ ;("!default;i o;;o;$;%["px;@;&"1400px;ix;'[ ;i;"containerWidthMax;@;	[ ;(0;io;
+
+;;;@;	[ ;["l/* if the browser is wider than this, the content will have a set width & side margins will be auto. */;io;;o;$;%["px;@;&"	79px;iT;'[ ;i;"containerMarginWidthMax;@;	[ ;("!default;io;
+
+;;;@;	[ ;["W/* if containerWidthMax changes, these all need to be adjusted to add up to it. */;io;;o;$;%["px;@;&"	64px;iE;'[ ;i;"gridMarginWidthMax;@;	[ ;("!default;io;;o;$;%["px;@;&"	58px;i?;'[ ;i;"gridColumnWidthMax;@;	[ ;("!default;io;;o;$;%["px;@;&"	38px;i+;'[ ;i;"gridGutterWidthMax;@;	[ ;("!default;io;
+
+;;;@;	[ ;[""/* 768px-979px breakpoints */;i	o;;o;$;%["px;@;&"	30px;i#;'[ ;i
+;"containerMarginWidth768;@;	[ ;("!default;i
+o;;o;$;%["px;@;&"	29px;i";'[ ;i;"gridMarginWidth768;@;	[ ;("!default;io;;o;$;%["px;@;&"	34px;i';'[ ;i;"gridColumnWidth768;@;	[ ;("!default;io;;o;$;%["px;@;&"	22px;i;'[ ;i;"gridGutterWidth768;@;	[ ;("!default;io;
+
+;;;@;	[ ;["B/* Calculated grid values
+ * ----------------------------- */;io;
+
+;;;@;	[ ;["/* Default 980px-1199px */;io;;o;4
+;5:
+minus;@;7o;4
+;5:
+times;@;7o;$;%[ ;@;&"2;i;'@-;i;8o;)	;"containerMarginWidth;@;*"containerMarginWidth;i;i;8o;$;%["px;@;&"
+980px;i‘;'[ ;i;i;"containerWidth;@;	[ ;(0;io;;o;4
+;5;6;@;7o;4
+;5;:;@;7o;4
+;5;9;@;7o;$;%[ ;@;&"1;i;'@-;i;8o;)	;"gridColumns;@;*"gridColumns;i;i;8o;)	;"gridGutterWidth;@;*"gridGutterWidth;i;i;8o;4
+;5;:;@;7o;)	;"gridColumnWidth;@;*"gridColumnWidth;i;8o;)	;"gridColumns;@;*"gridColumns;i;i;i;"gridWidth;@;	[ ;("!default;io;
+
+;;;@;	[ ;["</* we calculate containerWidth based on its margins. 
+ * We don't actually need the gridMarginWidth for calculating anything, but it should end up being the same as the amount of space that's left for it in the end.
+ * we calculate gridWidth based on its contents to make sure it's wide enough to hold everything. */;io;
+
+;;;@;	[ ;["/* 1200px breakpoint */;io;;o;4
+;5;9;@;7o;4
+;5;:;@;7o;$;%[ ;@;&"2;i;'@-;i;8o;)	;"containerMarginWidth1200;@;*"containerMarginWidth1200;i;i;8o;$;%["px;@;&"1200px;i∞;'[ ;i;i;"containerWidth1200;@;	[ ;(0;io;;o;4
+;5;6;@;7o;4
+;5;:;@;7o;4
+;5;9;@;7o;$;%[ ;@;&"1;i;'@-;i;8o;)	;"gridColumns;@;*"gridColumns;i;i;8o;)	;"gridGutterWidth1200;@;*"gridGutterWidth1200;i;i;8o;4
+;5;:;@;7o;)	;"gridColumnWidth1200;@;*"gridColumnWidth1200;i;8o;)	;"gridColumns;@;*"gridColumns;i;i;i;"gridWidth1200;@;	[ ;("!default;io;;o;4
+;5;9;@;7o;4
+;5;:;@;7o;$;%[ ;@;&"2;i;'@-;i;8o;)	;"gridMarginWidth1200;@;*"gridMarginWidth1200;i;i;8o;)	;"containerWidthMax;@;*"containerWidthMax;i;i;"gridWidthMax;@;	[ ;(0;io;
+
+;;;@;	[ ;[""/* 768px-979px breakpoints */;io;;o;4
+;5;9;@;7o;4
+;5;:;@;7o;$;%[ ;@;&"2;i;'@-;i ;8o;)	;"containerMarginWidth768;@;*"containerMarginWidth768;i ;i ;8o;$;%["px;@;&"
+768px;i ;'[ ;i ;i ;"containerWidth768;@;	[ ;(0;i o;;o;4
+;5;6;@;7o;4
+;5;:;@;7o;4
+;5;9;@;7o;$;%[ ;@;&"1;i;'@-;i!;8o;)	;"gridColumns;@;*"gridColumns;i!;i!;8o;)	;"gridGutterWidth768;@;*"gridGutterWidth768;i!;i!;8o;4
+;5;:;@;7o;)	;"gridColumnWidth768;@;*"gridColumnWidth768;i!;8o;)	;"gridColumns;@;*"gridColumns;i!;i!;i!;"gridWidth768;@;	[ ;("!default;i!o;
+
+;;;@;	[ ;["/* I haven't updated grid5 for any of the new padding/margin business. Do what you need to do, if anything.
+ * 5 Column Grid */;i%o;;o;$;%["px;@;&"
+204px;iÃ;'[ ;i';"grid5ColWidth;@;	[ ;(0;i'o;;o;$;%["px;@;&"	23px;i;'[ ;i(;"grid5GutterWidth;@;	[ ;(0;i(o;;o;4
+;5;6;@;7o;4
+;5;:;@;7o;4
+;5;9;@;7o;$;%[ ;@;&"1;i;'@-;i);8o;)	;"grid5Columns;@;*"grid5Columns;i);i);8o;)	;"grid5GutterWidth;@;*"grid5GutterWidth;i);i);8o;4
+;5;:;@;7o;)	;"grid5ColWidth;@;*"grid5ColWidth;i);8o;)	;"grid5Columns;@;*"grid5Columns;i);i);i);"grid5RowWidth;@;	[ ;(0;i)o;
+
+;;;@;	[ ;["≠/* Fluid grid
+ * -------------------------
+ * 
+ * these should be deleted once all the updates equations are done, but they break things if they're not defined right now. */;i.o;;o;$;%["px;@;&"	40px;i-;'[ ;i2;"fluidContainerMarginWidth;@;	[ ;("!default;i2o;;o;$;%["px;@;&"	20px;i;'[ ;i3;"fluidGridMarginWidth;@;	[ ;("!default;i3o;;o;$;%["px;@;&"	40px;i-;'[ ;i4;""fluidContainerMarginWidth1200;@;	[ ;("!default;i4o;;o;$;%["px;@;&"	20px;i;'[ ;i5;"fluidGridMarginWidth1200;@;	[ ;("!default;i5o;;o;$;%["px;@;&"	40px;i-;'[ ;i6;"!fluidContainerMarginWidth768;@;	[ ;("!default;i6o;;o;$;%["px;@;&"	20px;i;'[ ;i7;"fluidGridMarginWidth768;@;	[ ;("!default;i7o;
+
+;;;@;	[ ;["/* Default 980px-1199px */;i:o;;o; ;"percentage;@;!0;i;;"{ ;#[o;4
+;5:div;@;7o;$;%["px;@;&"
+980px;i‘;'[ ;i;;8o;)	;"containerWidth;@;*"containerWidth;i;;i;;"fluidContainerWidth;@;	[ ;("!default;i;o;;o; ;"percentage;@;!0;i<;"{ ;#[o;4
+;5;;;@;7o;)	;"containerWidth;@;*"containerWidth;i<;8o;)	;"gridWidth;@;*"gridWidth;i<;i<;"fluidGridWidth;@;	[ ;("!default;i<o;;o; ;"percentage;@;!0;i=;"{ ;#[o;4
+;5;;;@;7o;)	;"gridWidth;@;*"gridWidth;i=;8o;)	;"gridColumnWidth;@;*"gridColumnWidth;i=;i=;"fluidGridColumnWidth;@;	[ ;("!default;i=o;;o; ;"percentage;@;!0;i>;"{ ;#[o;4
+;5;;;@;7o;)	;"gridWidth;@;*"gridWidth;i>;8o;)	;"gridGutterWidth;@;*"gridGutterWidth;i>;i>;"fluidGridGutterWidth;@;	[ ;("!default;i>o;
+
+;;;@;	[ ;["/* 1200px min -  */;i@o;;o; ;"percentage;@;!0;iA;"{ ;#[o;4
+;5;;;@;7o;$;%["px;@;&"1200px;i∞;'[ ;iA;8o;)	;"containerWidth1200;@;*"containerWidth1200;iA;iA;"fluidContainerWidth1200;@;	[ ;("!default;iAo;;o; ;"percentage;@;!0;iB;"{ ;#[o;4
+;5;;;@;7o;)	;"containerWidth1200;@;*"containerWidth1200;iB;8o;)	;"gridWidth1200;@;*"gridWidth1200;iB;iB;"fluidGridWidth1200;@;	[ ;("!default;iBo;;o; ;"percentage;@;!0;iC;"{ ;#[o;4
+;5;;;@;7o;)	;"gridWidth1200;@;*"gridWidth1200;iC;8o;)	;"gridColumnWidth1200;@;*"gridColumnWidth1200;iC;iC;"fluidGridColumnWidth1200;@;	[ ;("!default;iCo;;o; ;"percentage;@;!0;iD;"{ ;#[o;4
+;5;;;@;7o;)	;"gridWidth1200;@;*"gridWidth1200;iD;8o;)	;"gridGutterWidth1200;@;*"gridGutterWidth1200;iD;iD;"fluidGridGutterWidth1200;@;	[ ;("!default;iDo;
+
+;;;@;	[ ;["/* 768px-979px */;iFo;;o; ;"percentage;@;!0;iG;"{ ;#[o;4
+;5;;;@;7o;$;%["px;@;&"
+768px;i ;'[ ;iG;8o;)	;"containerWidth768;@;*"containerWidth768;iG;iG;"fluidContainerWidth768;@;	[ ;("!default;iGo;;o; ;"percentage;@;!0;iH;"{ ;#[o;4
+;5;;;@;7o;)	;"containerWidth768;@;*"containerWidth768;iH;8o;)	;"gridWidth768;@;*"gridWidth768;iH;iH;"fluidGridWidth768;@;	[ ;("!default;iHo;;o; ;"percentage;@;!0;iI;"{ ;#[o;4
+;5;;;@;7o;)	;"gridWidth768;@;*"gridWidth768;iI;8o;)	;"gridColumnWidth768;@;*"gridColumnWidth768;iI;iI;"fluidGridColumnWidth768;@;	[ ;("!default;iIo;;o; ;"percentage;@;!0;iJ;"{ ;#[o;4
+;5;;;@;7o;)	;"gridWidth768;@;*"gridWidth768;iJ;8o;)	;"gridGutterWidth768;@;*"gridGutterWidth768;iJ;iJ;"fluidGridGutterWidth768;@;	[ ;("!default;iJo;
+
+;;;@;	[ ;["/* 767px max (mobile) */;iLo;;o;$;%["px;@;&"	15px;i;'[ ;iM;"!fluidContainerMarginWidth767;@;	[ ;("!default;iMo;
+
+;;;@;	[ ;["/* TODO -- SHOULD BE % */;iMo;;o;$;%["px;@;&"	15px;i;'[ ;iN;"fluidGridMarginWidth767;@;	[ ;("!default;iNo;
+
+;;;@;	[ ;["/* TODO -- SHOULD BE % */;iNo;
+
+;;;@;	[ ;["/* 5 Column Grid */;iPo;;o; ;"percentage;@;!0;iQ;"{ ;#[o;4
+;5;;;@;7o;)	;"grid5RowWidth;@;*"grid5RowWidth;iQ;8o;)	;"grid5ColWidth;@;*"grid5ColWidth;iQ;iQ;"fluidGrid5ColWidth;@;	[ ;(0;iQo;;o; ;"percentage;@;!0;iR;"{ ;#[o;4
+;5;;;@;7o;)	;"grid5RowWidth;@;*"grid5RowWidth;iR;8o;)	;"grid5GutterWidth;@;*"grid5GutterWidth;iR;iR;"fluidGrid5GutterWidth;@;	[ ;(0;iRo;
+
+;;;@;	[ ;["R/* Transition Speeds
+ * -------------------------------------------------- */;iXo;;T;@;i ;	[ ;[".TRANSITION-SPEEDS;o;;[o;;[o;
+;[o;/;["TRANSITION-SPEEDS;" ;iZ;o;;{ ;0;@j;iZ;@j;iZ;iZo;;o;$;%["s;@;&"	0.5s;f0.5;'[ ;i[;"transitionSuperslow;@;	[ ;(0;i[o;;o;$;%["s;@;&"	0.4s;f0.40000000000000002 ôö;'[ ;i\;"transitionSlower;@;	[ ;(0;i\o;;o;$;%["s;@;&"	0.3s;f0.29999999999999999 33;'[ ;i];"transitionSlow;@;	[ ;(0;i]o;;o;$;%["s;@;&"	0.2s;f0.20000000000000001 ôö;'[ ;i^;"transitionNormal;@;	[ ;(0;i^o;;o;$;%["s;@;&"
+0.15s;f0.14999999999999999 33;'[ ;i_;"transitionFast;@;	[ ;(0;i_o;;o;$;%["s;@;&"	0.1s;f0.10000000000000001 ôö;'[ ;i`;"transitionFaster;@;	[ ;(0;i`o;;o;$;%["s;@;&"
+0.05s;f0.050000000000000003 ôö;'[ ;ia;"transitionSuperfast;@;	[ ;(0;iao;
+
+;;;@;	[ ;["\/* Transition Timing Functions
+ * -------------------------------------------------- */;ido;;T;@;i ;	[ ;[".TRANSITION-FUNCTIONS;o;;[o;;[o;
+;[o;/;["TRANSITION-FUNCTIONS;" ;if;o;;{ ;0;@Ω;if;@Ω;if;ifo;;o; ;"cubic-bezier;@;!0;ig;"{ ;#[	o;$;%[ ;@;&"	0.25;f	0.25;'@-;igo;$;%[ ;@;&"	0.46;f0.46000000000000002 =q;'@-;igo;$;%[ ;@;&"	0.45;f0.45000000000000001 ÃÕ;'@-;igo;$;%[ ;@;&"	0.94;f0.93999999999999995 Æ;'@-;ig;"easeOutQuad;@;	[ ;(0;igo;;o; ;"cubic-bezier;@;!0;ih;"{ ;#[	o;$;%[ ;@;&"
+0.215;f0.215 ÎÖ;'@-;iho;$;%[ ;@;&"	0.61;f0.60999999999999999 ÎÖ;'@-;iho;$;%[ ;@;&"
+0.355;f0.35499999999999998 ∏;'@-;iho;$;%[ ;@;&"1;f1;'@-;ih;"easeOutCubic;@;	[ ;(0;iho;;o; ;"cubic-bezier;@;!0;ii;"{ ;#[	o;$;%[ ;@;&"
+0.165;f0.16500000000000001 Ö;'@-;iio;$;%[ ;@;&"	0.84;f0.83999999999999997 z·;'@-;iio;$;%[ ;@;&"	0.44;f0.44 \);'@-;iio;$;%[ ;@;&"1;f1;'@-;ii;"easeOutQuart;@;	[ ;(0;iio;;o; ;"cubic-bezier;@;!0;ij;"{ ;#[	o;$;%[ ;@;&"	0.19;f0.19 ∏R;'@-;ijo;$;%[ ;@;&"1;f1;'@-;ijo;$;%[ ;@;&"	0.22;f0.22 \);'@-;ijo;$;%[ ;@;&"1;f1;'@-;ij;"easeOutExpo;@;	[ ;(0;ijo;;o;0	;;2;@;"ease-out;ik;"easeNormal;@;	[ ;(0;ik;i

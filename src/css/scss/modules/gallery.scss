@@ -57,7 +57,8 @@
 $galleryItemHeight: 337px;
 $galleryItemImgHeight: 220px;
 $detailedGalleryItemHeight: 480px;
-.gallery .row-fluid .gallery-item {
+.gallery .row-fluid .gallery-item,
+.gallery .grid .gallery-item {
   margin-left: 0;
 }
 
@@ -163,6 +164,21 @@ $detailedGalleryItemHeight: 480px;
     right: 10px;
     bottom: 10px;
     cursor: pointer;
+  }
+}
+
+@media (min-width:768px) and (max-width:979px) {
+  .gallery-detailed,
+  .compare-container {
+
+    .gallery-item {
+      height: 434px;
+    }
+
+    .product-img {
+      height: 174px;
+    }
+
   }
 }
 
@@ -487,8 +503,58 @@ $detailedGalleryItemHeight: 480px;
 
 
 // Accessories
+// -------------------------
 .gallery .see-all {
   text-align: right;
 }
 
-// Just for this page
+// Takeover
+// -------------------------
+
+
+
+// Compare Tool
+// -------------------------
+.compare-container {
+  // @include lightGrayInset();
+  padding: 15px 0;
+}
+
+.compare-item {
+  position: relative;
+}
+
+.compare-item-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.box-close {
+  float: right;
+  @include square(36px);
+  padding: 0;
+  line-height: 1;
+  background: $gray;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+
+  i {
+    vertical-align: middle;
+  }
+}
+
+.box-close-small {
+  @include square(20px);
+
+}
+
+.compare-box {
+  display: inline-block;
+  padding: 10px;
+  color: $white;
+  background: $gray;
+}
+
+
