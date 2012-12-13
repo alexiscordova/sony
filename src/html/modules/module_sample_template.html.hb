@@ -1,5 +1,8 @@
 
 <!-- 
+	DEPRECIATED, PLEASE TRY MIGRATING TO ECO MOVING FORWARD
+
+
 	Here is your basic template setup, a div with a mode and a variation
 	you should start with this and add more data attributes on your template inside 
 	to fill out the content that you need. 

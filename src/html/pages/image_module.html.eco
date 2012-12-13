@@ -23,7 +23,7 @@ description: This is a module used to embed IQ images as a submodule in a contai
 	</head>
 	<body>
 
-	<%-@partial('modules/image.html.hb', @data('example/default.json')) %>
+	<%-@partial('modules/image.html.eco', {this:this, data:@data('image/default.json')} ) %>
 
 
 <% if 'debug' in @getEnvironments():%>
