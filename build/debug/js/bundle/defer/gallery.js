@@ -305,7 +305,8 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 
 $(document).ready(function() {
 
-  if ( $('body').hasClass('gallery-module') ) {
+  if ( $('.gallery-module').length >0 ) {
+  	
     Exports.Modules.Gallery.init();
     Exports.Modules.Tabs.init();
 
