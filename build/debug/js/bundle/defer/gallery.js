@@ -184,7 +184,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     $tabsWrap.addClass('tab-carousel');
 
     _tabCarouselNavigated();
-    
+
     // Setup events
     $navNext.on('click.tabs', function() {
       if ( page !== pages ) {
@@ -201,7 +201,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
         _tabCarouselNavigated();
       }
     });
-    
+
   },
 
   _teardownTabCarousel = function() {
@@ -240,8 +240,30 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 
   // Initializes sticky tabs
   _setupStickyTabs = function() {
+    console.log('_setupStickyTabs');
     isStickyTabs = true;
-    $tabsWrap.on('scroll', _animateTab).addClass('sticky');
+    $tabsWrap
+      .on('scroll', _animateTab)
+      .addClass('sticky')
+      .scrollerModule({
+        contentSelector: '.tabs',
+        itemElementSelector: '.tab',
+        mode: 'free',
+        lastPageCenter: false,
+        extraSpacing: 0,
+
+        //iscroll props get mixed in
+        iscrollProps: {
+          snap: false,
+          hScroll: true,
+          vScroll: false,
+          hScrollbar: false,
+          vScrollbar: false,
+          momentum: true,
+          bounce: true,
+          onScrollEnd: null
+        }
+  });
     _initStickyTab();
   },
 

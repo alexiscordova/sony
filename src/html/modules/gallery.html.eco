@@ -110,7 +110,7 @@
   <div class="tab-pane fade" data-tab="<%- @data.tabs[1].slug %>">
     <section class="gallery" id="<%- @data.productCards.name %>-gallery" data-mode="<%- @data.productCards.mode %>">
       <% if @data.productCards.filterSet: %>
-      
+
       <div class="container filter-display-bar slide-toggle-parent">
         <% if @data.productCards.sortSet: %>
         <div class="sort-options pull-right">
@@ -232,9 +232,7 @@
       <div class="container">
         <div class="products grid full-bleed">
           <% for product in @data.submodules: %>
-          <% if product.view == "detail": %>
           <%- @this.partial('modules/' + product.type, { this:@this, data:@this.data(product.data) } ) %>
-          <% end %>
           <% end %>
         </div>
       </div>
