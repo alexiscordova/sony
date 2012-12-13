@@ -1,44 +1,43 @@
 //
 // Responsive: Landscape phone to desktop/tablet
 // --------------------------------------------------
-
-
+//
+// This space intentionally left blank.
+// so these classes will line up through all the responsive files.
+//
+//
+//
+//
 @media (max-width: 767px) {
 
-  // Remove padding on container given explicit padding set on body
-  .container-fluid {
-    // padding-left: $fluidContainerMarginWidth767;
-    // padding-right: $fluidContainerMarginWidth767;
-    padding: 0;
+  // Fluid grid
+  .container {
+    width: 100%;
+  }
+  .grid{
+    width: 100%;
   }
 
-  // TYPOGRAPHY
-  // ----------
-  // Reset horizontal dl
-  .dl-horizontal {
-    dt {
-      float: none;
-      clear: none;
-      width: auto;
-      text-align: left;
-    }
-    dd {
-      margin-left: 0;
-    }
+
+
+  // Fixed grid
+  .container-px-width {
+    width: 100%;
   }
+  .grid-px-width{
+    width: 100%;  
+  }
+
 
   // GRID & CONTAINERS
   // -----------------
-  // Remove width from containers
-  .container {
-    width: auto;
-  }
-  // Fluid rows
-  .row-fluid {
+  
+  // Fluid grid rows
+  .grid {
     width: 100%;
   }
-  // Undo negative margin on rows and thumbnails
-  .row,
+  // Undo negative margin on fixed width grids and thumbnails
+  .grid-px-width,
   .thumbnails {
     margin-left: 0;
   }
@@ -46,25 +45,23 @@
     float: none;
     margin-left: 0; // Reset the default margin for all li elements when no .span* classes are present
   }
+
   // Make all grid-sized elements block level again
-  .row:not(.grid-small) [class*="span"],
-  .row-fluid:not(.grid-small) [class*="span"] {
+  // .grid:not(.grid-small) [class*="span"],
+  [class*="span"],
+  .grid [class*="span"],
+  [class*="offset"],
+  .grid [class*="offset"],
+  [class*="span"]:first-child,
+  .grid [class*="span"]:first-child,
+  [class*="offset"]:first-child,
+  .grid [class*="offset"]:first-child {
     float: none;
     display: block;
     width: 100%;
     margin-left: 0;
     @include box-sizing(border-box);
   }
-  .span12,
-  .row-fluid .span12 {
-    width: 100%;
-    @include box-sizing(border-box);
-  }
-  .padded {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
 
   // FORM FIELDS
   // -----------
@@ -98,8 +95,7 @@
     right: 20px;
     width: auto;
     margin: 0;
-    &.fade { top: -100px; }
-    &.fade.in { top: 20px; }
+    &.fade.in { top: auto; }
   }
 
   .takeover {
@@ -108,6 +104,23 @@
     right: 0;
 
     &.fade.in { top: 0; }
+  }
+
+
+
+  // TYPOGRAPHY
+  // ----------
+  // Reset horizontal dl
+  .dl-horizontal {
+    dt {
+      float: none;
+      clear: none;
+      width: auto;
+      text-align: left;
+    }
+    dd {
+      margin-left: 0;
+    }
   }
 
 }
@@ -121,12 +134,12 @@
   
   .grid5 {
 
-    .row {
+    .grid {
       margin-left: -2%;
     }
 
-    .row [class*="span"],
-    .row-fluid [class*="span"] {
+    .grid [class*="span"],
+    [class*="span"] {
       float: left;
       min-height: 1px;
       margin-left: 2%;

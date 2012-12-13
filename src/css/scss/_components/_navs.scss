@@ -139,13 +139,18 @@
         line-height:1;
         @include border-radius(1px);
         &:hover{
-          background-color: lighten($navbarBackground,5%);
-          border-color: $navbarTertiaryColor;
+          background-color: lighten($navbarBackground,10%);
         };
         > i.icon-ui-search {
           display: block;
           float: left;
           margin: 10px 8px 10px 10px;
+        }
+      }
+      &.nav-li-selected{
+        > a {
+          background:$linkColor;
+          border-color:$linkColor;
         }
       }
     }

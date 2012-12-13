@@ -1,0 +1,43 @@
+//
+// Responsive: Tablet to desktop (default)
+// --------------------------------------------------
+	.container,
+	.container-px-width,
+	.grid,
+	.grid-px-width{
+	  margin-right: auto;
+	  margin-left: auto;	
+	  @include clearfix();
+	}
+
+	// Fluid grid
+	.container {
+	  width:$fluidContainerWidth;
+	}
+	.grid {
+	  width:$fluidGridWidth;
+	}
+	@include grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth);
+
+
+	// Fixed grid
+	.container-px-width{
+	  width:$containerWidth;    
+	}
+	.grid-px-width{
+	  width:$gridWidth;    
+	}
+	@include grid-core($gridColumnWidth, $gridGutterWidth);
+	// Input grid
+	@include grid-input($gridColumnWidth, $gridGutterWidth);
+
+  [class*="span"]:first-child {
+    margin-left:0;
+  }
+
+
+
+  .container.full-bleed,
+  .grid.full-bleed {
+    width:100%;
+  }

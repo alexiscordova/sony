@@ -1070,7 +1070,7 @@
                 GUTTER_WIDTH_1200 = gutWidth1200 / fullWidth1200;
 
             if ( self.mode !== 'detailed' ) {
-                // Make this a 5 column grid. Added to parent because row-fluid must be a descendant of grid5
+                // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
                 self.$grid.parent().addClass('grid5');
 
                 // 5 columns that break down to 2 on smaller screens

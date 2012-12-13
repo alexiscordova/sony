@@ -5,7 +5,7 @@
   </div>
   <div class="ghost-center-wrap hero-text-wrap">
     <div class="hero-text ghost-center">
-      <div class="container-fluid">
+      <div class="container">
         <div class="hidden-phone">Audio</div>
         <h1>Headphones</h1>
       </div>
@@ -15,14 +15,14 @@
 
 <div class="tab-strip gallery-tabs">
 
-  <div class="tab-nav-wrap container-fluid">
+  <div class="tab-nav-wrap container">
     <nav class="tab-nav-btns">
       <div class="tab-nav tab-nav-prev"></div>
       <div class="tab-nav tab-nav-next"></div>
     </nav>
   </div>
 
-  <div class="tabs-container container-fluid">
+  <div class="tabs-container container">
     <div class="tabs">
       <% for tab, i in @data.tabs: %><div class="tab ghost-center-wrap<% if i == 0: %> active<% end %>" data-target="<%- tab.slug %>" data-toggle="tab" data-hash="true">
         <div class="ghost-center">
@@ -39,9 +39,9 @@
 
   <div class="tab-pane fade active in" data-tab="<%- @data.tabs[0].slug %>">
     <% for gallery in @data.featured: %>
-    <section class="container-fluid padded fade gallery" data-mode="<%- gallery.mode %>">
+    <section class="container fade gallery" data-mode="<%- gallery.mode %>">
       <h6><%- gallery.title %></h6>
-      <div class="products row-fluid">
+      <div class="products grid">
           <% for item in gallery.list: %>
           <a class="gallery-item
             <% if item.tile == "large": %>
@@ -112,7 +112,7 @@
     <section class="gallery" id="<%- @data.productCards.name %>-gallery" data-mode="<%- @data.productCards.mode %>">
       <% if @data.productCards.filterSet: %>
       
-      <div class="filter-display-bar slide-toggle-parent container-fluid padded">
+      <div class="filter-display-bar slide-toggle-parent container">
         <% if @data.productCards.sortSet: %>
         <div class="sort-options pull-right">
           <span class="l4">Sort By:&nbsp;</span>
@@ -140,20 +140,20 @@
         <button class="btn btn-alt-special btn-alt-plus js-compare-toggle" data-target="#compare-tool">Compare</button>
       </div>
 
-      <div class="container-fluid padded slide-arrow-under fade">
+      <div class="container slide-arrow-under fade">
         <div class="relative">
           <div class="slide-toggle-arrow"></div>
         </div>
       </div>
-      <div class="container-fluid padded slide-arrow-over fade">
+      <div class="container slide-arrow-over fade">
         <div class="relative">
           <div class="slide-toggle-arrow"></div>
         </div>
       </div>
 
       <div class="collapse slide-toggle-target" id="<%- @data.productCards.name %>-filters">
-        <div class="filter-options container-fluid padded">
-          <div class="row-fluid">
+        <div class="filter-options container">
+          <div class="grid">
             <div class="span8 regular-filters">
             <% for filterSet in @data.productCards.filterSet: %>
 
@@ -228,10 +228,10 @@
       <% end %>
 
 
-      <div class="container-fluid padded active-filters"></div>
+      <div class="container active-filters"></div>
 
-      <div class="container-fluid padded">
-        <div class="products row-fluid">
+      <div class="container">
+        <div class="products grid">
           <% for item in @data.productCards.list: %>
           <a class="span4 gallery-item" data-filter-set='<%- JSON.stringify(item.filterSet) %>' data-priority="<%- item.priority %>" itemscope itemtype="http://schema.org/Product" itemprop="url" href="<% if item.href: %><%- item.href %><% else: %>#<% end %>">
             <% if item.label: %>
@@ -342,23 +342,23 @@
 
   <div class="tab-pane fade" data-tab="<%- @data.tabs[2].slug %>">
     <section>
-      <div class="slide-toggle-parent container-fluid padded">
+      <div class="slide-toggle-parent container">
         <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
       </div>
 
-      <div class="container-fluid padded slide-arrow-under fade">
+      <div class="container slide-arrow-under fade">
         <div class="relative">
           <div class="slide-toggle-arrow"></div>
         </div>
       </div>
-      <div class="container-fluid padded slide-arrow-over fade">
+      <div class="container slide-arrow-over fade">
         <div class="relative">
           <div class="slide-toggle-arrow"></div>
         </div>
       </div>
 
       <div class="collapse slide-toggle-target" id="IDGOESHERE">
-        <div class="container-fluid padded">
+        <div class="container">
           <h1>Collapse</h1>
           <h2>Collapse</h2>
           <h3>Collapse</h3>
@@ -368,12 +368,12 @@
         </div>
       </div>
 
-      <div class="grid5 container-fluid padded">
+      <div class="grid5 container">
         <% for accessory in @data.accessories: %>
         <div class="product-strip-wrap">
           <a class="tl pull-right" href="#"><%- this.callout %></a>
           <h6 class="product-strip-heading"><%- this.title %></h6>
-          <div class="product-strip row-fluid">
+          <div class="product-strip grid">
             <% for item in accessory.list: %>
             <a class="span1 gallery-item" href="#">
               <div class="product-img">
@@ -471,13 +471,13 @@
 </div>
 
 <div id="compare-tool" class="modal takeover hide fade" tabindex="-1" role="dialog" aria-labelledby="compare-tool-label" aria-hidden="true">
-  <div class="modal-header container-fluid">
+  <div class="modal-header container">
     <button class="box-close" data-dismiss="modal" aria-hidden="true"><i class="icon-ui-x-tiny"></i></button>
     <h3 class="ib" id="compare-tool-label">Compare</h3>
     <button class="btn btn-small disabled js-compare-reset">Reset</button>
   </div>
   <div class="modal-body">
-    <div class="container-fluid"><span class="js-compare-count">0</span>&nbsp;Products</div>
+    <div class="container"><span class="js-compare-count">0</span>&nbsp;Products</div>
   </div>
 </div>
 

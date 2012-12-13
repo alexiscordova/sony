@@ -11,17 +11,17 @@
 			<!-- Subhead
 			================================================== -->
 			<header class="jumbotron subhead" id="overview">
-			  <div class="container">
+			  <div class="container-px-width">
 			    <h2 class="bs-docs-heading">Extending Bootstrap</h2>
 			    <p class="p1">Extend Bootstrap to take advantage of included styles and components, as well as LESS variables and mixins.</p>
 			  <div>
 			</header>
 			
-			  <div class="container">
+			  <div class="container-px-width">
 			
 			    <!-- Docs nav
 			    ================================================== -->
-			    <div class="row">
+			    <div class="grid">
 			      <div class="span3 bs-docs-sidebar">
 			        <ul class="simple-nav simple-nav-list bs-docs-sidenav">
 			          <li><a href="#built-with-less"><i class="icon-chevron-right"></i> Built with LESS</a></li>

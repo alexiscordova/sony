@@ -3,6 +3,7 @@
 
   var GlobalNav = function( $container, options ) {
     var th = this;
+    th.searchMenu = {};
 
     $.extend(th, $.fn.globalNav.options, options, $.fn.globalNav.settings);
 
@@ -28,8 +29,10 @@
       }
     });
 
-
     th.isInitialized = true;
+
+    // this should be moved so it doesn't get inited until the search menu is opened.
+    th.initSearchMenu();
   };
 
   GlobalNav.prototype = {
@@ -75,14 +78,14 @@
 
     resetPrimaryNavBtn : function ($oldNavBtn) {
       console.log("resetPrimaryNavBtn: " + $oldNavBtn.attr("class"));
-      $oldNavBtn.parent().removeClass("nav-li-selected");
-      var $thNavTray = $("." + $oldNavBtn.data("target"));
-      $thNavTray.removeClass("navtray-wrapper-visible").css("height", "");
+      $oldNavBtn.removeClass("active").parent().removeClass("nav-li-selected");
+      $(".navtray-wrapper-visible").removeClass("navtray-wrapper-visible").css("height", "");
+      $(".navmenu-wrapper-visible").removeClass("navmenu-wrapper-visible");
     },
 
     activatePrimaryNavBtn : function ($newNavBtn) {
       console.log("activatePrimaryNavBtn: " + $newNavBtn.attr("class"));
-      $newNavBtn.parent().addClass("nav-li-selected");
+      $newNavBtn.addClass("active").parent().addClass("nav-li-selected");
       var $thNavTray = $("." + $newNavBtn.data("target"));
       // show the tray.
       expandedHeight = $thNavTray.height(); // the tray should currently be off-screen, but expanded to its natural height.
@@ -90,7 +93,78 @@
       setTimeout(function(){ // wait just a moment to make sure the height is applied and the old currentOpenNavBtn has been reset.
         $thNavTray.addClass("navtray-wrapper-visible").css("height", expandedHeight);
       },1);
+    },
 
+    initSearchMenu: function(){
+      var th = this;
+      th.$root = $("#nav-li-search"),
+      th.$wrapper = th.$root.find(".navmenu-wrapper-search");
+      th.$input = $("#navSearch"),
+      th.$clearBtn = th.$root.find(".btn-clear-search-input"),
+      th.$searchIcon = $(".sprite-mini-nav-search-input");
+      th.watermarkText = th.$input.val();
+      th.clearBtnClicked = false;
+
+      th.$input.on("focus", function(){
+        // clear watermarkText on focus
+        if (th.$input.val() == th.watermarkText){
+          th.$input.val("");
+          th.$searchIcon.hide();
+        };
+      }).on("blur", function(){
+        if (th.$input.val() == ""){
+          th.$input.val(th.watermarkText);
+          th.$searchIcon.show();
+        };
+      }).on('mouseup keyup change cut paste', function(){
+        console.log("X");
+        if (!th.$wrapper.hasClass("searching")){
+          if (!(th.$input.val() == "" || th.$input.val() == th.watermarkText)){
+            th.$wrapper.addClass("searching");
+            th.doSearch();
+          }
+        } else if (th.$input.val() == ""){
+          th.resetSearchResults();
+        } else {
+          th.doSearch();
+        }
+      });
+
+      th.$searchIcon.on("click",function(){
+        th.$input.focus();
+      });
+
+      th.$clearBtn.on("click",function(){
+        th.clearBtnClicked = true;
+        th.clearSearchResults();
+        th.$input.focus();
+      }).on("mouseleave",function(){
+        th.clearBtnClicked = false; // just make sure it's cleared
+      });
+    },
+
+    doSearch: function(){
+      var th = this;
+      th.queryStr = th.$input.val();
+      console.log("th.queryStr: " + th.queryStr);
+    },
+
+    clearSearchResults: function(){
+      var th = this;
+      th.$input.val("");
+      th.$wrapper.removeClass("searching");
+      th.$searchIcon.hide();
+    },
+
+    // this just resets the actual results, for instance, when the search term is blank.
+    resetSearchResults: function(){
+      var th = this;
+      th.$wrapper.removeClass("searching");      
+    },
+
+    resetSearchMenu: function(){
+      var th = this;
+      th.clearSearchResults();
     }
 
   };
