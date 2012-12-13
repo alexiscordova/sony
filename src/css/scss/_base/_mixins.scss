@@ -298,26 +298,21 @@ $default-transition-delay    : 0s;
 	@include border-bottom-left-radius($radius);
 }
 
-// Drop shadows
+// Box shadows
+// @all, -ms- and -o- box-shadow doesn't exist + box-shadow != drop-shadow
 @mixin box-shadow($shadow1, $shadow2:null, $shadow3:null) { 
-	@if ($shadow3!=null){
-    -webkit-box-shadow:$shadow1, $shadow2, $shadow3;
-       -moz-box-shadow:$shadow1, $shadow2, $shadow3;
-        -ms-box-shadow:$shadow1, $shadow2, $shadow3;
-         -o-box-shadow:$shadow1, $shadow2, $shadow3;
-            box-shadow:$shadow1, $shadow2, $shadow3;
+	@if ($shadow3!=null) {
+    -webkit-box-shadow: $shadow1, $shadow2, $shadow3;
+       -moz-box-shadow: $shadow1, $shadow2, $shadow3;
+            box-shadow: $shadow1, $shadow2, $shadow3;
 	} @else if ($shadow2!=null){
-    -webkit-box-shadow:$shadow1, $shadow2;
-       -moz-box-shadow:$shadow1, $shadow2;
-        -ms-box-shadow:$shadow1, $shadow2;
-         -o-box-shadow:$shadow1, $shadow2;
-            box-shadow:$shadow1, $shadow2;
+    -webkit-box-shadow: $shadow1, $shadow2;
+       -moz-box-shadow: $shadow1, $shadow2;
+            box-shadow: $shadow1, $shadow2;
 	} @else {
-    -webkit-box-shadow:$shadow1;
-       -moz-box-shadow:$shadow1;
-        -ms-box-shadow:$shadow1;
-         -o-box-shadow:$shadow1;
-            box-shadow:$shadow1;
+    -webkit-box-shadow: $shadow1;
+       -moz-box-shadow: $shadow1;
+            box-shadow: $shadow1;
 
 	}
 }
@@ -1002,56 +997,59 @@ $default-transition-delay    : 0s;
 
 
 
-
+@mixin lightGrayInset() {
+	background: $grayLightFieldLarge;
+  	@include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
+}
 
 
 // Custom (not from Bootstrap) --CJM
 // quickly set the width & height. If only 1 val is passed in, it sets both to the same
-@mixin wh($w,$h:null){
-	width:$w;
-	@if($h==null){
-		height:$w;
+@mixin wh($w,$h:null) {
+	width: $w;
+	@if ($h == null) {
+		height: $w;
 	} @else{
-		height:$h;		
+		height: $h;		
 	}
 }
 // quickly set absolute position, and top/left parameters. If only 1 val is passed in, it sets both to the same
-@mixin xy($x,$y:null){
-	position:absolute;
-	left:$x;
-	@if($y==null){
-		top:$x;	
+@mixin xy($x, $y:null) {
+	position: absolute;
+	left: $x;
+	@if($y == null){
+		top: $x;	
 	} @else{
-		top:$y;
+		top: $y;
 	}
 }
 // quickly set absolute position, and top/left parameters
-@mixin whxy($w,$h,$x,$y){
-	position:absolute;
-	left:$x;
-	top:$y;
-	width:$w;
-	height:$h;
+@mixin whxy($w,$h,$x,$y) {
+	position: absolute;
+	left: $x;
+	top: $y;
+	width: $w;
+	height: $h;
 }
 
-@mixin squareCentered($width){
-	display:block;
-	position:absolute;
-	top:50%;
-	left:50%;
-	width:$width;
-	height:$width; 
-	margin:(-$width/2) 0 0 (-$width/2);  
+@mixin squareCentered($width) {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: $width;
+	height: $width; 
+	margin: (-$width / 2) 0 0 (-$width / 2);  
 }
-@mixin circleCentered($dia){
+@mixin circleCentered($dia) {
 	@include squareCentered($dia);
-	@include border-radius($dia/2);  
+	@include border-radius($dia / 2);  
 }
 
 // set up an element to be centered horizontally & vertically within its parent, using negative margins
 @mixin center-hv($widthHeight, $height: null) {
-	position:absolute;
-	width:$widthHeight;
+	position: absolute;
+	width: $widthHeight;
 	@if ($height == null) {
 		height: $widthHeight;
 	} @else {

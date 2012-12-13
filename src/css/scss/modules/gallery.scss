@@ -127,6 +127,20 @@ $detailedGalleryItemHeight: 480px;
       max-height: initial;
       max-width: initial;
     }
+
+    div.iq-img {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .number {
+      font-size: $font_18_15;
+    }
+
+    .text-count .text { font-size: $font_12_15; }
   }
 
   // Double the height and include margin
@@ -150,6 +164,21 @@ $detailedGalleryItemHeight: 480px;
     right: 10px;
     bottom: 10px;
     cursor: pointer;
+  }
+}
+
+@media (min-width:768px) and (max-width:979px) {
+  .gallery-detailed,
+  .compare-container {
+
+    .gallery-item {
+      height: 434px;
+    }
+
+    .product-img {
+      height: 174px;
+    }
+
   }
 }
 
@@ -257,6 +286,19 @@ $detailedGalleryItemHeight: 480px;
 }
 
 .filter-container {
+  margin-bottom: 2.75em;
+
+  .regular-filters &:nth-child(odd) {
+    clear: both;
+    margin-left: 0;
+  }
+
+  &:last-child,
+  &:nth-last-child(2),
+  .best-for,
+  .media-heading {
+    margin-bottom: 0;
+  }
 
   // Override default btn-group functionality to have them drop to the new line
   .btn-group {
@@ -461,8 +503,58 @@ $detailedGalleryItemHeight: 480px;
 
 
 // Accessories
+// -------------------------
 .gallery .see-all {
   text-align: right;
 }
 
-// Just for this page
+// Takeover
+// -------------------------
+
+
+
+// Compare Tool
+// -------------------------
+.compare-container {
+  // @include lightGrayInset();
+  padding: 15px 0;
+}
+
+.compare-item {
+  position: relative;
+}
+
+.compare-item-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.box-close {
+  float: right;
+  @include square(36px);
+  padding: 0;
+  line-height: 1;
+  background: $gray;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+
+  i {
+    vertical-align: middle;
+  }
+}
+
+.box-close-small {
+  @include square(20px);
+
+}
+
+.compare-box {
+  display: inline-block;
+  padding: 10px;
+  color: $white;
+  background: $gray;
+}
+
+

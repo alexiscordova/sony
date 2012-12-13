@@ -1,0 +1,494 @@
+
+<div class="hero">
+  <div class="hero-img-wrap">
+    <img src="img/headphones-hero.jpg" alt="">
+  </div>
+  <div class="ghost-center-wrap hero-text-wrap">
+    <div class="hero-text ghost-center">
+      <div class="container">
+        <div class="hidden-phone">Audio</div>
+        <h1>Headphones</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-strip gallery-tabs">
+
+  <div class="tab-nav-wrap container">
+    <nav class="tab-nav-btns">
+      <div class="tab-nav tab-nav-prev"></div>
+      <div class="tab-nav tab-nav-next"></div>
+    </nav>
+  </div>
+
+  <div class="tabs-container container">
+    <div class="tabs">
+      <% for tab, i in @data.tabs: %><div class="tab ghost-center-wrap<% if i == 0: %> active<% end %>" data-target="<%- tab.slug %>" data-toggle="tab" data-hash="true">
+        <div class="ghost-center">
+          <div class="holder-for-icon"><i class="icon-tab-<%- tab.icon %>"></i></div>
+          <div class="l3 tab-label"><%- tab.label %></div>
+        </div>
+      </div><% end %>
+    </div>
+  </div>
+
+</div>
+
+<div class="tab-content">
+
+  <div class="tab-pane fade active in" data-tab="<%- @data.tabs[0].slug %>">
+    <% for gallery in @data.featured: %>
+    <section class="container fade gallery" data-mode="<%- gallery.mode %>">
+      <h6><%- gallery.title %></h6>
+      <div class="products grid full-bleed">
+          <% for item in gallery.list: %>
+          <a class="gallery-item
+            <% if item.tile == "large": %>
+              span3 h2 large
+            <% else if item.tile == "promo": %>
+              span2 promo
+            <% else: %>
+              span1
+            <% end %>"
+            data-priority="<%- item.priority %>" href="<% if item.href: %><%- item.href %><% else: %>#<% end %>">
+            <% if item.label: %>
+            <span class="label label-success"><%- item.label %></span>
+            <% end %>
+            <% if item.tile == "promo": %>
+            <div class="product-img">
+              <div class="iq-img" data-src="<%- item.img.src %>"></div>
+              <div class="product-content">
+                <p class="text-promo-title">
+                  <strong><%- item.title %></strong><br><%- item.emphasis %>
+                </p>
+                <% if item.count: %>
+                <p class="text-count">
+                  <span class="number l2"><%- item.count.number %></span>&nbsp;
+                  <span class="text l3"><%- item.count.text %></span>
+                </p>
+                <% end %>
+              </div>
+            </div>
+            <% else: %>
+            <div class="product-img ghost-center-wrap">
+              <div class="ghost-center">
+                <% if item.imgCarousel: %>
+                  <% for img in item.imgCarousel: %>
+                  <img class="iq-img" alt="<%- img.alt %>" data-src="<%- img.src %>">
+                  <noscript>
+                    <img src="<%- img.src %>" alt="<%- img.alt %>">
+                  </noscript>
+                  <% end %>
+                <% else: %>
+                <img class="iq-img" alt="<%- item.img.alt %>" data-src="<%- item.img.src %>">
+                <noscript>
+                  <img src="<%- item.img.src %>" alt="<%- item.img.alt %>">
+                </noscript>
+                <% end %>
+              </div>
+            </div>
+            <div class="product-content">
+              <p class="p3 product-name"><%- item.name %></p>
+              <div class="product-price">
+                <p class="price"><span class="p5">Starting at</span> <span class="l2">$<%- item.price %></span> <span class="p5 msrp">MSRP</span></p>
+              </div>
+            </div>
+
+            <% end %>
+          </a>
+          <% end %>
+      </div>
+
+      <div class="see-all">
+        <a class="btn btn-wide" href="#"><%- gallery.callout %></a>
+      </div>
+    </section>
+    <% end %>
+  </div>
+
+  <div class="tab-pane fade" data-tab="<%- @data.tabs[1].slug %>">
+    <section class="gallery" id="<%- @data.productCards.name %>-gallery" data-mode="<%- @data.productCards.mode %>">
+      <% if @data.productCards.filterSet: %>
+      
+      <div class="container filter-display-bar slide-toggle-parent">
+        <% if @data.productCards.sortSet: %>
+        <div class="sort-options pull-right">
+          <span class="l4">Sort By:&nbsp;</span>
+          <div class="dropdown dropdown-alt ib hidden-phone">
+            <button class="btn btn-small dropdown-toggle dropdown-toggle-alt" data-toggle="dropdown">
+              <span class="js-toggle-text"><%- @data.productCards.sortSet[0].label %></span> <i class="icon-ui-arrowheads-up-down-gray"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-alt pull-right" role="menu">
+            <% for sort in @data.productCards.sortSet: %>
+              <li><a data-value="<%- sort.name %>" data-reverse="<%- sort.reverse %>" tabindex="-1" href="#"><%- sort.label %></a></li>
+            <% end %>
+            </ul>
+          </div>
+
+          <select class="native-dropdown visible-phone">
+            <% for sort in @data.productCards.sortSet: %>
+            <option value="<%- sort.name %>" data-reverse="<%- sort.reverse %>"><%- sort.label %></option>
+            <% end %>
+          </select>
+        </div>
+        <% end %>
+
+        <p class="ib"><span class="text-dark product-count"><%- @data.productCards.total %></span> Products</p>
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#<%- @data.productCards.name %>-filters">Filter</button>
+        <button class="btn btn-alt-special btn-alt-plus js-compare-toggle" data-target="#compare-tool">Compare</button>
+      </div>
+
+      <div class="container slide-arrow-under fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+      <div class="container slide-arrow-over fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+
+      <div class="collapse slide-toggle-target" id="<%- @data.productCards.name %>-filters">
+        <div class="filter-options container">
+          <div class="grid full-bleed">
+            <div class="span8 regular-filters">
+            <% for filterSet in @data.productCards.filterSet: %>
+
+              <% if filterSet.type.color: %>
+              <div class="span6 filter-container">
+                <p class="l3"><%- filterSet.label %></p>
+                <ul class="unstyled color-swatches" data-filter="<%- filterSet.name %>" data-filter-type="color">
+                  <% for filter in filterSet.filters: %><li class="swatch-<%- filter.value %>" data-label="<%- filter.label %>" data-<%- filterSet.name %>="<%- filter.value %>"></li><% end %>
+                </ul>
+              </div>
+
+              <% else if filterSet.type.range: %>
+              <div class="span6 filter-container">
+                <p class="l3"><%- filterSet.label %></p>
+                <div class="range-output-container">
+                  <div class="range-output-min"></div>
+                  <div class="range-output-max"></div>
+                </div>
+                <div class="range-control-wrap">
+                  <div class="range-control" data-label="<%- filterSet.label %>" data-filter="<%- filterSet.name %>" data-filter-type="range" data-min="<%- filterSet.min %>" data-max="<%- filterSet.max %>"></div>
+                </div>
+              </div>
+
+              <% else if filterSet.type.button: %>
+              <div class="span6 filter-container">
+                <p class="l3"><%- filterSet.label %></p>
+                <ul class="unstyled btn-group" data-filter="<%- filterSet.name %>" data-filter-type="button">
+                  <% for filter in filterSet.filters: %><li class="btn btn-square" data-label="<%- filter.label %>" data-<%- filterSet.name %>="<%- filter.value %>"><%- filter.label %></li><% end %>
+                </ul>
+              </div>
+
+              <% else if filterSet.type.checkbox: %>
+              <div class="span6 filter-container">
+                <p class="l3"><%- filterSet.label %></p>
+                <ul class="unstyled" data-filter="<%- filterSet.name %>" data-filter-type="checkbox">
+                  <% for filter in filterSet.filters: %>
+                  <li class="control-inline">
+                    <input class="styled-checkbox" id="<%- filterSet.name %>-<%- filter.value %>" data-label="<%- filter.label %>" type="checkbox" value="<%- filter.value %>">
+                    <label for="<%- filterSet.name %>-<%- filter.value %>"><%- filter.label %></label>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+              <% end %>
+            <% end %>
+            </div>
+
+            <% for filterSet in @data.productCards.filterSet: %>
+            <% if filterSet.type.group: %>
+            <div class="span4 best-for filter-container">
+              <p class="l3"><%- filterSet.label %></p>
+              <ul class="media-list" data-filter="<%- filterSet.name %>" data-filter-type="group">
+                <% for filter in filterSet.filters: %>
+                <li class="media clearfix" data-label="<%- filter.label %>" data-<%- filterSet.name %>="<%- filter.value %>">
+                  <div class="pull-left">
+                    <button class="btn btn-square media-object"><i class="icon-bestfor-<%- filter.icon %>"></i></button>
+                  </div>
+                  <div class="media-body">
+                    <p class="media-heading p3 text-dark"><%- filter.label %></p>
+                    <p class="p3"><%- filter.description %></p>
+                  </div>
+                </li>
+                <% end %>
+              </ul>
+            </div>
+            <% end %>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+      <% end %>
+
+
+      <div class="container active-filters"></div>
+
+      <div class="container">
+        <div class="products grid full-bleed">
+          <% for item in @data.productCards.list: %>
+          <a class="span4 gallery-item" data-filter-set='<%- JSON.stringify(item.filterSet) %>' data-priority="<%- item.priority %>" itemscope itemtype="http://schema.org/Product" itemprop="url" href="<% if item.href: %><%- item.href %><% else: %>#<% end %>">
+            <% if item.label: %>
+            <span class="label label-success"><%- item.label %></span>
+            <% end %>
+            <div class="product-img">
+              <div class="ghost-center-wrap">
+                <div class="ghost-center js-product-imgs">
+                  <img class="iq-img js-product-img-main" itemprop="image" alt="<%- item.img.alt %>" data-src="<%- item.img.src %>">
+                  <noscript>
+                    <img src="<%- item.img.src %>" itemprop="image" alt="<%- item.img.alt %>">
+                  </noscript>
+                  <% for img in item.img.colors: %>
+                  <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
+                  <noscript>
+                    <img class="hidden" itemprop="image" src="<%- img.src %>" alt="<%- img.alt %>">
+                  </noscript>
+                  <% end %>
+                </div>
+              </div>
+              <% if item.img.colors: %>
+              <div class="color-swatches">
+                <% for color in item.img.colors: %><span class="mini-swatch swatch-<%- color.color %>" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+              </div>
+              <% end %>
+            </div>
+            <div class="product-content">
+              <div class="p3 product-name" itemprop="name"><%- item.name %></div>
+              <div class="p5 product-model" itemprop="model"><%- item.model %></div>
+              <div class="p5 product-rating" data-stars="<%- item.rating.stars %>" itemprop="reviews" itemscope itemtype="http://schema.org/AggregateRating">
+                <meta itemprop="ratingValue" content="<%- item.rating.stars %>">
+                <i class="icon-ui-star"></i
+                ><i class="icon-ui-star"></i
+                ><i class="icon-ui-star"></i
+                ><i class="icon-ui-star"></i
+                ><i class="icon-ui-star"></i>
+                ( <span itemprop="ratingCount"><%- item.rating.reviews %></span> user reviews)
+              </div>
+              <ul class="p3 product-meta">
+                <% for meta in item.meta: %>
+                <li><%- meta.value %> <span class="product-meta-name"><%- meta.name %></span></li>
+                <% end %>
+              </ul>
+              <div class="product-price">
+                <p class="price"><span class="p5">Starting at</span> <span class="l2" itemprop="price">$<%- item.price %></span> <span class="p5 msrp">MSRP</span></p>
+              </div>
+              <div class="detail-group hidden">
+                <% if item.details: %>
+                <% for detail in item.details: %>
+                <div class="detail" itemprop="<%- detail.slug %>">
+                  <% if detail.value.check: %>
+                    <% if detail.value.checked: %>
+                    <div class="icon-ui-check"></div><%- detail.value.text %>
+                    <% else: %>
+                    <div class="icon-ui-ban"></div>NOPE
+                    <% end %>
+                  <% else if detail.value.box: %>
+                      <p class="compare-box"><%- detail.value.box %></p>
+                      <p><%- detail.value.lineOne %></p>
+                      <% if detail.value.lineTwo: %><p><%- detail.value.lineTwo %></p><% end %>
+                      <% if detail.value.lineThree: %><p><%- detail.value.lineThree %></p><% end %>
+                  <% else if detail.value.lineOne: %>
+                    <p><%- detail.value.lineOne %></p>
+                    <% if detail.value.lineTwo: %><p><%- detail.value.lineTwo %></p><% end %>
+                    <% if detail.value.lineThree: %><p><%- detail.value.lineThree %></p><% end %>
+                  <% else if detail.value[0].description: %>
+                    <ul class="media-list">
+                      <% for value in detail.value: %>
+                      <li class="media">
+                        <div class="pull-left">
+                          <i class="media-object icon-bestfor-<%- detail.icon %>"></i>
+                        </div>
+                        <div class="media-body">
+                          <p class="media-heading p3 text-dark"><%- detail.label %></p>
+                          <p class="p3"><%- detail.description %></p>
+                        </div>
+                      </li>
+                      <% end %>
+                    </ul>
+                  <% else: %>
+                    <%- detail.value %>
+                  <% end %>
+                </div>
+                <% end %>
+                <% end %>
+              </div>
+            </div>
+          </a>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="comparables hidden">
+        <div class="compare-name"><%- @data.productCards.galleryName %></div>
+      <% for detail in @data.productCards.comparable: %>
+        <div data-slug="<%- this.slug %>" data-label="<%- this.label %>"></div>
+      <% end %>
+      </div>
+
+      <% if @data.productCards.nextLink: %>
+      <div class="navigation invisible">
+        <a href="<%- @data.productCards.nextLink %>">Camera Overflow</a>
+      </div>
+      <div class="infscr-holder text-center"></div>
+      <% end %>
+    </section>
+  </div>
+
+  <div class="tab-pane fade" data-tab="<%- @data.tabs[2].slug %>">
+    <section>
+      <div class="slide-toggle-parent container">
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
+      </div>
+
+      <div class="container slide-arrow-under fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+      <div class="container slide-arrow-over fade">
+        <div class="relative">
+          <div class="slide-toggle-arrow"></div>
+        </div>
+      </div>
+
+      <div class="collapse slide-toggle-target" id="IDGOESHERE">
+        <div class="container">
+          <h1>Collapse</h1>
+          <h2>Collapse</h2>
+          <h3>Collapse</h3>
+          <h4>Collapse</h4>
+          <h5>Collapse</h5>
+          <h6>Collapse</h6>
+        </div>
+      </div>
+
+      <div class="grid5 container">
+        <% for accessory in @data.accessories: %>
+        <div class="product-strip-wrap">
+          <a class="tl pull-right" href="#"><%- this.callout %></a>
+          <h6 class="product-strip-heading"><%- this.title %></h6>
+          <div class="product-strip grid full-bleed">
+            <% for item in accessory.list: %>
+            <a class="span1 gallery-item" href="#">
+              <div class="product-img">
+                <div class="ghost-center-wrap">
+                  <div class="ghost-center">
+                    <img class="iq-img" alt="<%- item.img.alt %>" data-src="<%- item.img.src %>">
+                    <noscript>
+                      <img src="<%- item.img.src %>" alt="<%- item.img.alt %>">
+                    </noscript>
+                  </div>
+                </div>
+              </div>
+              <div class="product-content">
+                <div class="p3 product-name"><%- item.name %></div>
+                <div class="product-price">
+                  <p class="p5 price-title">Starting at</p>
+                  <p class="price"><span class="l2">$<%- item.price %></span> <span class="p5 msrp">MSRP</span></p>
+                </div>
+              </div>
+            </a>
+            <% end %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </section>
+  </div>
+
+  <% if @data.tabs[3]: %>
+  <div class="tab-pane fade" data-tab="<%- @data.tabs[3].slug %>">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+  <% end %>
+
+  <% if @data.tabs[4]: %>
+  <div class="tab-pane fade" data-tab="<%- @data.tabs[4].slug %>">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+  <% end %>
+
+  <% if @data.tabs[5]: %>
+  <div class="tab-pane fade" data-tab="<%- @data.tabs[5].slug %>">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+  <% end %>
+
+  <% if @data.tabs[6]: %>
+  <div class="tab-pane fade" data-tab="<%- @data.tabs[6].slug %>">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+  <% end %>
+
+  <% if @data.tabs[7]: %>
+  <div class="tab-pane fade" data-tab="<%- @data.tabs[7].slug %>">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+  <% end %>
+
+  <% if @data.tabs[8]: %>
+  <div class="tab-pane fade" data-tab="<%- @data.tabs[8].slug %>">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+  <% end %>
+
+</div>
+
+<div id="compare-tool" class="modal takeover hide fade" tabindex="-1" role="dialog" aria-labelledby="compare-tool-label" aria-hidden="true">
+  <div class="modal-header container">
+    <button class="box-close" data-dismiss="modal" aria-hidden="true"><i class="icon-ui-x-tiny"></i></button>
+    <h3 class="ib" id="compare-tool-label">Compare</h3>
+    <button class="btn btn-small disabled js-compare-reset">Reset</button>
+  </div>
+  <div class="modal-body">
+    <div class="container"><span class="js-compare-count">0</span>&nbsp;Products</div>
+  </div>
+</div>
+
+
+
+<div style="padding-bottom:100px"></div>
+
+<!-- include your module js here -->
+<script src="js/libs/jquery.throttle-debounce.min.js"></script>
+<script src="js/libs/jquery.infinitescroll.js"></script>
+<script src="js/libs/bootstrap-transition.js"></script>
+<script src="js/libs/bootstrap-button.js"></script>
+<script src="js/libs/bootstrap-dropdown.js"></script>
+<script src="js/libs/bootstrap-collapse.js"></script>
+<script src="js/libs/bootstrap-modal.js"></script>

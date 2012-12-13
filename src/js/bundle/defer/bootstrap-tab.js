@@ -1,22 +1,4 @@
-/* ========================================================
- * bootstrap-tab.js v2.2.1
- * http://twitter.github.com/bootstrap/javascript.html#tabs
- * ========================================================
- * Copyright 2012 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ======================================================== */
-
+/* Modified from Twitter Bootstrap Tabs */
 
 (function ($, undefined) {
 
@@ -28,34 +10,31 @@
 
   var Tab = function (element) {
     this.$el = $(element);
+    this.showHash = this.$el.data('hash') || true;
   };
 
   Tab.prototype = {
 
     constructor: Tab,
 
-    show: function () {
+    show: function ( showHash ) {
       var self = this,
           $this = self.$el,
           selector = $this.attr('data-target'),
           previous,
           $prevPane;
 
-      if ( !selector ) {
-        selector = $this.attr('href');
-        selector = selector && selector.replace(/.*(?=#[^\s]*$)/, ''); //strip for ie7
-      }
-
       self.$target = self.$target || $('[data-tab="' + selector + '"]');
+      showHash = showHash === false ? false : true;
 
       // Don't do anything if this tab is already active
-      if ( self.$target.hasClass('active') || $this.parent('li').hasClass('active') ) {
+      if ( !self.$target.length || self.$target.hasClass('active') || $this.parent('li').hasClass('active') ) {
         return;
       }
 
       // Trigger show event on both tab and pane
       previous = $this.parent().find('.active:last')[0];
-      $prevPane = self.$target.parent().find('.active:last');
+      $prevPane = self.$target.parent().find('> .active');
       $this.add(self.$target).trigger({
         type: 'show',
         relatedTarget: previous,
@@ -77,6 +56,12 @@
           prevPane: $prevPane,
           pane: self.$target
         });
+
+        // Add tab selector hash to history and url
+        if ( self.showHash && showHash ) {
+          self.hash(selector);
+        }
+
       }, true);
     },
 
@@ -124,7 +109,34 @@
       }
 
       $active.removeClass('in');
-    }
+    },
+
+    hash: function(hash, $target) {
+        var $fake;
+
+        hash = hash.replace(/^#/, '');
+
+        if ( $target && $target.length ) {
+          $target.attr( 'id', '' );
+        }
+
+        $fake = $( '<div/>' ).css({
+            position: 'absolute',
+            visibility: 'hidden',
+            top: $(window).scrollTop() + 'px'
+          })
+          .attr( 'id', hash )
+          .appendTo( document.body );
+
+        window.location.hash = hash;
+        
+        $fake.remove();
+
+        if ( $target && $target.length ) {
+          $target.attr( 'id', hash );
+        }
+
+    },
   };
 
 
@@ -132,6 +144,7 @@
   * ===================== */
 
   $.fn.tab = function ( option ) {
+    var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function () {
       var $this = $(this),
           tab = $this.data('tab');
@@ -142,7 +155,7 @@
       }
 
       if ( typeof option === 'string' ) {
-        tab[ option ]();
+        tab[ option ].apply( tab, args );
       }
     });
   };
@@ -152,6 +165,20 @@
 
  /* TAB DATA-API
   * ============ */
+
+  $(window).on('hashchange', function() {
+    var target = window.location.hash ? window.location.hash.substring(1) : $('[data-target]').first().attr('data-target'),
+        $target = $('[data-target="' + target + '"]'),
+        isAlreadyActive = $target.hasClass('active'),
+        showHash = !!window.location.hash;
+
+    if ( !isAlreadyActive ) {
+      $target.tab( 'show', showHash );
+    }
+  });
+
+  // Should be called after everything is initialized
+  // $(window).trigger('hashchange');
 
   $(document).on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
     e.preventDefault();

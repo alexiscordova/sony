@@ -41,7 +41,8 @@ $(document).ready(function(){
 		  data: {mname: mb.moduleName }
 		}).done(function(res) { 
 			var dnames = JSON.parse(res);
-			dnames.length >0 || $('#data_control, #main_data_edit, #submodule_section').hide();
+			$('#data_control, #main_data_edit, #submodule_section, #buttons').toggle(dnames.length >0);
+			$("#build, #save_submit button, #save_as button").toggleClass('disabled', dnames.length ==0);
 			$('#data_select').html("");
 			$.each(dnames, function(i,e){
 				$('#data_select').append("<option value="+mb.moduleName+"/"+e+">"+e+"</option>")
@@ -92,7 +93,6 @@ $(document).ready(function(){
 			//add the remaining data to the module edit text field
 			$('#main_data_edit textarea').val(JSON.stringify(mb.moduleData, null, '    '));
 			$('#main_data_edit textarea').trigger('keyup');
-			$('#buttons, #main_data_edit').show();
 			$('#edit_box input:first, #save_as_box input:first').val($('#data_select').val())
 		});
 	})
@@ -142,6 +142,7 @@ $(document).ready(function(){
 			}).done(function(res){
 				var d = JSON.parse(res);
 				sub.find('.control-group:nth-child(2), .span1').toggle(d.length >0);
+				$("#build, #save_submit button, #save_as button").toggleClass('disabled', d.length ==0);
 				dataselect.html("");
 				$.each(d, function(i,e){
 					dataselect.append("<option value="+n+"/"+e+">"+e+"</option>")				
@@ -152,6 +153,7 @@ $(document).ready(function(){
 		})
 		!modname || subselect.val(modname).trigger('change');
 		
+		$("#build, #save_submit button, #save_as button").addClass('disabled');
 		$('#submodule_list').append(sub);
 	}
 	

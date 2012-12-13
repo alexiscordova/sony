@@ -3,7 +3,7 @@
 // Version : 1.4
 // Authored: 2011-11-08 by Jason Eberle
 // Modified: 2012-01-26 by Christopher Mischler
-// Modified: 2012-11-6 by Glen Cheney
+// Modified: 2012-12-07 by Glen Cheney
 // Dependencies : jQuery 1.7+, <HTML> conditional classes (for custom cursors)
 // ------------------------------
 /*
@@ -168,11 +168,13 @@
 
 				downEvt.preventDefault();
 
-				var $handle = this.className.indexOf("min") > -1 ? th.$minHandle : th.$handle;
-				var offset = th.$rail.offset();
+				var $handle = this.className.indexOf("min") > -1 ? th.$minHandle : th.$handle,
+					theClass = !th.range ? '' :
+						this.className.indexOf("min") > -1 ? 'grabbing-min' : 'grabbing-max',
+					offset = th.$rail.offset();
 				th.inMotion = true;
 				
-				$body.addClass("grabbing");
+				$body.addClass("grabbing " + theClass);
 				$handle.addClass("grabbed");
 				th.fire( th.evts.start );
 
@@ -196,7 +198,7 @@
 				.on( th.evts.up, function() {
 					$(document).off("." + namespace);
 					th.inMotion = false;
-					$body.removeClass("grabbing");
+					$body.removeClass("grabbing " + theClass);
 					$handles.removeClass("grabbed");
 					th.fire( th.evts.end );
 				});
