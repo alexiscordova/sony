@@ -770,25 +770,15 @@
           //creat scroller instance / cache on parent of later toggle // :) !
             
           t.$container.off('.rp');
-          
-
-          t.iscroll = new iScroll('rpOverflow', 
-          { 
-          // snap: 'div',
-           hScrollbar: false,
-           vScrollbar: false ,
-           vScroll: false,
-           hSCroll: true,
-           momentum: true,
-           bounce: true
-         });
+        
+          t.scroller = $('.related-products').scrollerModule({
+            
+          });
 
           //TODO: destroy this instance - t.iscroll.destroy();
           //t.iscroll = null;
 
-          console.log(t.iscroll);
-
-          var myScroll = new iScroll('wrapper', {
+/*          var myScroll = new iScroll('wrapper', {
             snap: true,
             momentum: false,
             hScrollbar: false,
@@ -797,7 +787,7 @@
               document.querySelector('#indicator > li.active').className = '';
               document.querySelector('#indicator > li:nth-child(' + (this.currPageX+1) + ')').className = 'active';
             }
-           });
+           });*/
         }
 
         t.ev.on( 'onmobilebreakpoint.rp' , handleBreakpoint );

@@ -8,6 +8,8 @@
     'use strict';
     var sony = window.sony = window.sony || {};
     sony.modules = sony.modules || {};
+    sony.ev = sony.ev || $();
+
 })(window);
 
 (function($ , window , undefined , Modernizr){
@@ -27,7 +29,10 @@
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
 		t.$sampleElement		= t.$elements.eq(0);
 
+		
 		$( t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length );
+		
+		//$( t.$contentContainer).css('width' , 1968 + 'px');
 
 		//override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
@@ -43,12 +48,13 @@
 					wW                = t.$el.width() - t.extraSpacing,
 					availToFit        = Math.floor(wW / t.$sampleElement.outerWidth(true)),
 					numPages          = Math.ceil( $itemCount / availToFit ),
-					i        		      = 0,
+					i        		  		= 0,
 					totalBlockWidth   = t.$sampleElement.outerWidth(true) * availToFit;
 
 			wW += t.extraSpacing;
 
 			//console.log("Number of pages » " , numPages , wW , t.$sampleElement);
+
 			//console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
 
 			if(availToFit > $itemCount) { return; } //stop processing function /maybe hide paddles or UI?
@@ -189,6 +195,5 @@
 	  }
 	 
 	};
-	
 
 })(jQuery , window , undefined , Modernizr);

@@ -24,8 +24,8 @@
 		t.$win              = $(window),
 		t.$contentContainer = $(t.contentSelector);
 		t.$ev               = $(); //events object
-		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
-		t.$sampleElement		= t.$elements.eq(0);
+		t.$elements			= $(t.itemElementSelector , t.$contentContainer),
+		t.$sampleElement	= t.$elements.eq(0);
 
 		$( t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length );
 
@@ -33,7 +33,7 @@
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
 
 		//create instance of scroller and pass it defaults
-		t.scroller = new iScroll(t.$el.context.id,t.iscrollProps);
+		t.scroller = new iScroll(t.$el[0],t.iscrollProps);
 
 		function paginate(){
 			//console.group("function paginate");
@@ -43,7 +43,7 @@
 					wW                = t.$el.width() - t.extraSpacing,
 					availToFit        = Math.floor(wW / t.$sampleElement.outerWidth(true)),
 					numPages          = Math.ceil( $itemCount / availToFit ),
-					i        		      = 0,
+					i        		  = 0,
 					totalBlockWidth   = t.$sampleElement.outerWidth(true) * availToFit;
 
 			wW += t.extraSpacing;
@@ -190,8 +190,5 @@
 	 
 	};
 	
-	$(function(){
-		var instance = $('.wrapper-free').scrollerModule({});
-	});
 
 })(jQuery , window , undefined , Modernizr);

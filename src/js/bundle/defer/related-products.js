@@ -105,6 +105,16 @@
       t.maxWidth = parseInt(t.sliderOverflow.parent().css('maxWidth').replace(/px/gi , '') , 10);
       t.maxHeight = parseInt(t.sliderOverflow.parent().css('maxHeight').replace(/px/gi , '') , 10);
       t.resizeRatio = t.maxHeight / t.maxWidth; //target resize ratio
+      t.markup = t.$el.html();
+
+      console.log("Markup is jQuery »", typeof t.markup === $ );
+
+      //'class*="col"]''
+
+      //t.mark.unwrap();
+
+      //
+      console.log( "Markup »" , t.markup );
 
       //init plugins
       $.each($.rpModules, function (helper, opts) {
@@ -710,6 +720,7 @@
       });
       return max;
     };
+
     
     $.rpProto = RelatedProducts.prototype;
 
@@ -720,8 +731,7 @@
         var t = $(this);
         if (typeof options === "object" ||  !options) {
           if( !t.data('relatedProducts') ) {
-            sony.modules.m = new RelatedProducts(t, options);
-            t.data('relatedProducts', sony.modules.m);
+            t.data('relatedProducts', new RelatedProducts(t, options));
           }
         } else {
           var relatedProducts = t.data('relatedProducts');
@@ -770,25 +780,22 @@
           //creat scroller instance / cache on parent of later toggle // :) !
             
           t.$container.off('.rp');
-          
+        
+          t.scroller = $('.rpOverflow').scrollerModule({
+            contentSelector: '.rpContainer',
+            itemElementSelector: '.rpSlide',
+            mode: 'free',
+            snap: false,
+            momentum: true,
+            bounce: true
+          });
 
-          t.iscroll = new iScroll('rpOverflow', 
-          { 
-          // snap: 'div',
-           hScrollbar: false,
-           vScrollbar: false ,
-           vScroll: false,
-           hSCroll: true,
-           momentum: true,
-           bounce: true
-         });
+          console.log("Scroller instance that was created »", t.scroller);
 
           //TODO: destroy this instance - t.iscroll.destroy();
           //t.iscroll = null;
 
-          console.log(t.iscroll);
-
-          var myScroll = new iScroll('wrapper', {
+/*          var myScroll = new iScroll('wrapper', {
             snap: true,
             momentum: false,
             hScrollbar: false,
@@ -797,7 +804,7 @@
               document.querySelector('#indicator > li.active').className = '';
               document.querySelector('#indicator > li:nth-child(' + (this.currPageX+1) + ')').className = 'active';
             }
-           });
+           });*/
         }
 
         t.ev.on( 'onmobilebreakpoint.rp' , handleBreakpoint );
