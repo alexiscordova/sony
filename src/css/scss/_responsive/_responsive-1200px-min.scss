@@ -50,9 +50,11 @@
 @media (min-width: ($containerWidthMax + ($fluidContainerMarginWidth1200 * 2))) {
   .container {
     max-width: $containerWidthMax;
+    &.full-bleed-no-max{ width:100%; min-width:100%; }
   }
   .grid {
     width:$gridWidthMax;
+    &.full-bleed-no-max{ width:100%; min-width:100%; }
   }
 
   // Fixed grid
@@ -62,6 +64,7 @@
   .grid-px-width{
     width:$gridWidthMax;    
   }
+
   @include grid-core($gridColumnWidthMax, $gridGutterWidthMax);
   // Input grid
   @include grid-input($gridColumnWidthMax, $gridGutterWidthMax);
