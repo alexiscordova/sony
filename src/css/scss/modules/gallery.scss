@@ -75,7 +75,7 @@ $detailedGalleryItemHeight: 480px;
   li {
     color: $grayDark; // override <a> color
   }
-  
+
   // Container for product images
   .product-img {
     position: relative;
@@ -104,9 +104,14 @@ $detailedGalleryItemHeight: 480px;
     }
   }
 
-  // h2 is height * 2
-  &.h2 {
+  // large is height * 2
+  &.large {
     height: ($galleryItemHeight * 2) + $grid5GutterWidth;
+  }
+
+  // Double the height and include margin
+  &.large .product-img {
+    height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
   }
 
   // Promo gallery item images are the full height
@@ -118,7 +123,7 @@ $detailedGalleryItemHeight: 480px;
       left: 0;
       text-align: left;
     }
-    
+
     .product-img {
       height: 100%;
     }
@@ -141,11 +146,6 @@ $detailedGalleryItemHeight: 480px;
     }
 
     .text-count .text { font-size: $font_12_15; }
-  }
-
-  // Double the height and include margin
-  &.large .product-img {
-    height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
   }
 
   .gallery-detailed & {
@@ -190,7 +190,7 @@ $detailedGalleryItemHeight: 480px;
     // Make it a 1x1 instead of 2x2 or 1x2
     // need .gallery selector to override .grid5
     .gallery &.promo,
-    .gallery &.h2 {
+    .gallery &.large {
       height: $galleryItemHeight;
     }
 
@@ -335,7 +335,7 @@ $detailedGalleryItemHeight: 480px;
     display: initial !important;
     vertical-align: baseline;
   }
-  
+
 }
 
 
@@ -369,16 +369,23 @@ $detailedGalleryItemHeight: 480px;
 
   // Container for .tabs-container
   &.tab-strip {
+    position: relative; // original
+    background-color: $grayLighter; // original
+    // overflow: auto; // new
+  }
+
+  // New
+  .tabs-container {
     position: relative;
-    background-color: $grayLighter;
+    overflow: hidden;
   }
 
   // Container for .tab's
   .tabs {
     z-index: 1;
     height: $tabHeight;
-    overflow-x: auto;
-    white-space: nowrap;
+    overflow-x: auto; // original
+    white-space: nowrap; // original
   }
 
   .tab {
@@ -475,7 +482,7 @@ $detailedGalleryItemHeight: 480px;
     border-left: 5px solid $blue;
     border-bottom: 5px solid transparent;
   }
-  
+
 }
 
 

@@ -9,6 +9,7 @@
     'use strict';
     var sony = window.sony = window.sony || {};
     sony.modules = sony.modules || {};
+    sony.ev = sony.ev || $('<div />'); // events object
 })(window);
 
 (function($, Modernizr, window, undefined) {
@@ -105,7 +106,7 @@
       t.maxWidth = parseInt(t.sliderOverflow.parent().css('maxWidth').replace(/px/gi , '') , 10);
       t.maxHeight = parseInt(t.sliderOverflow.parent().css('maxHeight').replace(/px/gi , '') , 10);
       t.resizeRatio = t.maxHeight / t.maxWidth; //target resize ratio
-      t.markup = t.$el.html();
+      t.markup = t.$container.html();
 
       console.log("Markup is jQuery »", typeof t.markup === $ );
 
@@ -280,6 +281,7 @@
                         .addClass('rpDesktop');
 
                 t.ev.trigger('ondesktopbreakpoint.rp');
+
               break;
 
               case 'tablet':
@@ -768,12 +770,12 @@
 
         function handleBreakpoint(){
           
-          if(!!t.isMobileMode){ return false; } //if we are already in mobile exit
+          if(!!t.isMobileMode){ console.log("ALREADY IN MOBILE VIEW »", t.scroller); return false; } //if we are already in mobile exit
 
           t.isMobileMode = true;
 
           //do mobile stuff
-          console.log('handling mobile view');
+          console.log('handling mobile view for the first time: ' , t.scroller === undefined);
 
           //$('.rpContainer').wrap('<div class="scroller" id="scrollerrp" />');
 
@@ -788,9 +790,59 @@
             snap: false,
             momentum: true,
             bounce: true
+          }).data('scrollerModule');
+
+          console.log("Scroller instance that was created »" , t.scroller);
+
+          $('.rpNav').hide();
+
+          //unwrap HTML
+
+          var cols = $('[class*="col-"]').remove();
+          $('[class*="row-"]').remove();
+          $('[class*="rpSlide"]').remove();
+
+          cols.removeClass().appendTo(t.$container).addClass('whoa'); //insert these back in and add class for diff display
+
+          console.log("HOW MANY PRODUCTS WERE THERE? »", cols.length);
+
+          //t.scroller.update(); //update item
+
+          //updat container size based on now what is inside
+          t.$container.css( 'width' , $('.whoa').eq(0).outerWidth(true) * cols.length + 'px' );
+
+          //idea here is that we want to put the stuff back in as it was orginally
+          t.ev.one('ondesktopbreakpoint.rp' , function(){
+
+            setTimeout(function(){
+              t.scroller.destroy();
+              t.scroller = null;
+              t.scroller = undefined;
+              
+              t.$container.css('width' , '100%');
+              t.$container.html('');
+              t.$container.html(t.markup); 
+              t.$slides = t.$el.find('.rpSlide');
+              t.$container.on(t.downEvent, function(e) { t.onDragStart(e); });
+
+              $('.rpNav').show();
+
+              //fire a resize event to reposition slides?
+              $(window).trigger('resize');
+
+              t.isMobileMode = false;
+
+              //update container width
+            }, 250);
+
+
+
           });
 
-          console.log("Scroller instance that was created »", t.scroller);
+
+
+
+
 
           //TODO: destroy this instance - t.iscroll.destroy();
           //t.iscroll = null;

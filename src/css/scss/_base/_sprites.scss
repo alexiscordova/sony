@@ -18,7 +18,7 @@ $sprite_Tall_Y :      -990px;
 
 // -----
 // All icons receive the styles of the %icon base class and are
-// then given a unique class to add width, height, and 
+// then given a unique class to add width, height, and
 // background-position. Your resulting HTML will look like
 // <i class="icon-ui-inbox"></i>.
 
@@ -28,8 +28,9 @@ $sprite_Tall_Y :      -990px;
   @include ie7-restore-right-whitespace();
   line-height: 15px;
   vertical-align: text-top;
-  background-image: url($iconSpritePath);
-  background-repeat: no-repeat;  
+  // background-image: url($iconSpritePath);
+  background-image: url($iconSpritePathFallback);
+  background-repeat: no-repeat;
 }
 
 [class^="sprite-"],
@@ -140,22 +141,22 @@ $sprite_Tall_Y :      -990px;
   // <a class="iconTrigger-ui-cart"><i class="icon-ui-cart"></i>12</a>
   @if ( $iconTrigger ) {
     @if ( $hasHover ) {
-      // :not(.disabled):hover is NOT working (it still triggers hover) - don't know why. 
+      // :not(.disabled):hover is NOT working (it still triggers hover) - don't know why.
       // Should look into it if we actually end up implementing it.
       .iconTrigger-#{$iconType}-#{$name}:not([disabled]):hover .icon-#{$iconType}-#{$name},
       .iconTrigger-#{$iconType}-#{$name}:not([disabled]).hover .icon-#{$iconType}-#{$name},
       .iconTrigger-#{$iconType}-#{$name}:not(.disabled):hover .icon-#{$iconType}-#{$name},
       .iconTrigger-#{$iconType}-#{$name}:not(.disabled).hover .icon-#{$iconType}-#{$name} {
-        background-position: $x ($y - $hoverOffsetY); 
+        background-position: $x ($y - $hoverOffsetY);
       }
     }
     @if ( $activeIsHover ) {
-      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} { 
-        background-position: $x ($y - $hoverOffsetY); 
+      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} {
+        background-position: $x ($y - $hoverOffsetY);
       }
     } @else if ( $hasActive ) {
-      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} { 
-        background-position: $x ($y - ($hoverOffsetY * 2)); 
+      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} {
+        background-position: $x ($y - ($hoverOffsetY * 2));
       }
     }
   }
@@ -208,7 +209,7 @@ $sprite_Tall_Y :      -990px;
 
 
 
-// I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make 
+// I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make
 // it a <i> like all the others so I don't need this mixin.
 @mixin icon-ui-pseudo-el($x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:false) {
   @extend %icon;
@@ -228,7 +229,7 @@ $sprite_Tall_Y :      -990px;
 
 
 // --------------------------------------------
-// SPRITES 
+// SPRITES
 // Sprites are guaranteed not to need a hover state - that's what makes them different from "icons"
 // --------------------------------------------
 
@@ -237,7 +238,7 @@ $sprite_Tall_Y :      -990px;
   .sprite-#{$spriteType}-#{$name} {
     background-position: $x $y;
     @include size($h, $w);
-    
+
     @if ( $margin ) {
       margin: $margin;
     }

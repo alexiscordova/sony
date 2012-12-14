@@ -65,7 +65,7 @@ meta_data: {a:'foo', b:'bar'}
       </div>
     </div>
   </section> 
-
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 <!-- <div class="container">
   <div class="span-40"></div>
   <div class="span-60"></div>

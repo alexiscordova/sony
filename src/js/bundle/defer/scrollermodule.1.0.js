@@ -139,7 +139,10 @@
 
 			t.scroller.scrollToPage(pageNo , 0 , duration || 300);
 		},
-
+		refresh: function(){
+			var t = this;
+			t.update();
+		},
 		destroy: function(){
 			var t = this;
 

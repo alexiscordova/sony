@@ -8,8 +8,11 @@
     'use strict';
     var sony = window.sony = window.sony || {};
     sony.modules = sony.modules || {};
+<<<<<<< HEAD
     sony.ev = sony.ev || $();
 
+=======
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 })(window);
 
 (function($ , window , undefined , Modernizr){
@@ -29,10 +32,15 @@
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
 		t.$sampleElement		= t.$elements.eq(0);
 
+<<<<<<< HEAD
 		
 		$( t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length );
 		
 		//$( t.$contentContainer).css('width' , 1968 + 'px');
+=======
+		console.log(t.$sampleElement.outerWidth(true) * t.$elements.length);
+		$( t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length );
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 
 		//override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
@@ -48,13 +56,20 @@
 					wW                = t.$el.width() - t.extraSpacing,
 					availToFit        = Math.floor(wW / t.$sampleElement.outerWidth(true)),
 					numPages          = Math.ceil( $itemCount / availToFit ),
+<<<<<<< HEAD
 					i        		  		= 0,
+=======
+					i        		      = 0,
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 					totalBlockWidth   = t.$sampleElement.outerWidth(true) * availToFit;
 
 			wW += t.extraSpacing;
 
 			//console.log("Number of pages » " , numPages , wW , t.$sampleElement);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 			//console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
 
 			if(availToFit > $itemCount) { return; } //stop processing function /maybe hide paddles or UI?
@@ -88,7 +103,11 @@
 
 				//console.log("Building new page »", [startIndx , endIndx] ,$elemsInPage.length);
 
+<<<<<<< HEAD
 			}	
+=======
+			}
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 
 			if(t.mode.toLowerCase() === 'paginate'){
 				for (i = 0 ; i < numPages; i ++){
@@ -111,24 +130,41 @@
 			if(t.mode === 'paginate'){
 				paginate();
 			}
+<<<<<<< HEAD
 	  	
+=======
+
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 	  	t.scroller.refresh(); //update scroller
 
 	  	if(t.mode === 'paginate'){
 	  		t.scroller.scrollToPage(0, 0, 200);
 	  	}
+<<<<<<< HEAD
 	  	
+=======
+
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 	  	t.$ev.trigger('onUpdate.sm');
 		};
 
 		var resizeTimer,
 		resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+<<<<<<< HEAD
     $(window).on(resizeEvent, function(e) {  
         if(resizeTimer) { clearTimeout(resizeTimer); }
         resizeTimer = setTimeout(function() { 
         	update();
         }, t.throttleTime);          
     });	
+=======
+    $(window).on(resizeEvent, function(e) {
+        if(resizeTimer) { clearTimeout(resizeTimer); }
+        resizeTimer = setTimeout(function() {
+        	update();
+        }, t.throttleTime);
+    });
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 
     $(window).trigger(resizeEvent);
 	};
@@ -139,7 +175,10 @@
 
 			t.scroller.scrollToPage(pageNo , 0 , duration || 300);
 		},
-
+		refresh: function(){
+			var t = this;
+			t.update();
+		},
 		destroy: function(){
 			var t = this;
 
@@ -156,7 +195,11 @@
 	}
 
 	//plugin definition
+<<<<<<< HEAD
 	$.fn.scrollerModule = function(options) {      
+=======
+	$.fn.scrollerModule = function(options) {
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 	  var args = arguments;
 	  return this.each(function(){
 	    var t = $(this);
@@ -173,8 +216,13 @@
 	  });
 	};
 
+<<<<<<< HEAD
 	//defaults    
 	$.fn.scrollerModule.defaults = { 
+=======
+	//defaults
+	$.fn.scrollerModule.defaults = {
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 	  throttleTime: 25,
 	  contentSelector: '.content',
 	  itemElementSelector: '.block',
@@ -191,9 +239,18 @@
 			vScrollbar: false,
 			momentum: true,
 			bounce: true,
+<<<<<<< HEAD
 			onScrollEnd: null 	
 	  }
 	 
 	};
 
+=======
+			onScrollEnd: null
+	  }
+
+	};
+
+
+>>>>>>> 8956d28e68b0b960dc7546631bda7d1c1a09292f
 })(jQuery , window , undefined , Modernizr);
