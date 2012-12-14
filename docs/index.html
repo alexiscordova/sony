@@ -16,14 +16,7 @@
   <link href="css/responsive.css" rel="stylesheet">
   <link href="css/docs.css" rel="stylesheet">
 
-  <!--[if lt IE9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
-  <!--[if (gte IE 9)|!(IE)]><!--> 
-    <script type="text/javascript">
-      // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
-      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
-    </script>
-  <!--<![endif]-->
+  <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script>
 
   <link href="css/google-prettify.css" rel="stylesheet">
 
@@ -92,7 +85,7 @@
     </div>
 
         <div class="jumbotron masthead">
-          <div class="container">
+          <div class="container-px-width">
 <!--             <h2 class="bs-docs-heading">Sony Global Web Transformation</h2> -->
             <img src="img/indexheader.png">
 
@@ -102,13 +95,13 @@
 
         <hr class="soften">
         
-        <div class="container">
+        <div class="container-px-width">
         
           <div class="marketing">
         
 <!--             <h2 class="bs-docs-heading">Lorem ipsum dolor sit.</h2> -->
             <p class="marketing-byline">The work on and within these pages represents an in-progress design and code system guidelines. This work will be refined, updated, added to and finalized throughout the course of the Sony Web Transformation project. At this time, please do not consider any of this work final. Instead, it is a look at what we're working on right now, and where we're headed.</p><br />
-            <div class="row-fluid">
+            <div class="grid">
               <ul class="thumbnails example-sites">
                 <li class="span4">
                     <p><a href="scaffolding.html"><img src="img/scaffolding.jpg">
@@ -130,7 +123,7 @@
         </div>
         
             <footer class="footer">
-      <div class="container">
+      <div class="container-px-width">
         <p class="pull-right"><a href="#">Back to top</a></p>
         <p>&#169; Odopod - Proprietary and Confidential.</p>
         <ul class="footer-links">
@@ -160,6 +153,8 @@
     <script src="js/libs/bootstrap-typeahead.js"></script>
     <script src="js/libs/bootstrap-affix.js"></script>
     <script src="js/libs/application.js"></script>
+    <script src="js/docs/debug_toggle.js"></script>
+    <script src="js/docs/debug_warnings.js"></script>
 
     </body>
 </html>

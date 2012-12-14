@@ -400,7 +400,7 @@
                 return this['_nearbottom_'+opts.behavior].call(this);
             }
 
-            this._debug('math:', pixelsFromWindowBottomToBottom, opts.pixelsFromNavToBottom);
+            this._debug('math:', pixelsFromWindowBottomToBottom, pixelsFromWindowBottomToBottom - opts.bufferPx, opts.pixelsFromNavToBottom);
             this._debug('nearbottom?', (pixelsFromWindowBottomToBottom - opts.bufferPx < opts.pixelsFromNavToBottom));
 
             // if distance remaining in the scroll (including buffer) is less than the orignal nav to bottom....

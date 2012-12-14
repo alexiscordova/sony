@@ -31,8 +31,7 @@
 
 .slide-toggle-target {
   margin: 0 0 1.45em; // 23.2px
-  background: $grayLightFieldLarge;
-  @include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
+  @include lightGrayInset();
 }
 
 // A rotated square
@@ -45,8 +44,7 @@ $left: 175px;
   width: $filterArrowSize;
   height: $filterArrowSize;
   @include rotate(45deg);
-  @include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
-  background: $grayLightFieldLarge;
+  @include lightGrayInset();
 }
 
 // 2 copies,
@@ -61,7 +59,7 @@ $left: 175px;
   z-index: 10;
 
   // Nudge it and make it a bit bigger. Undo rotation and box-shadow
-  .slide-toggle-arrow {
+  .csstransforms & .slide-toggle-arrow {
     top: 0;
     left: $left - 2px;
     width: $filterArrowSize + 4px;

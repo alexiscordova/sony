@@ -33,7 +33,8 @@
                // document.write(unescape("%3Cscript src='js/libs/jquery-1.8.2.min.js'%3E%3C/script%3E"));
             }
         </script>
-        <script src="js/libs/modernizr-2.6.1.js"></script>
+        <script src="js/libs/modernizr-2.6.2.min.js"></script>
+      <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script>
     
 
         <!-- This should be moved into js_head.html once completed: --> 
@@ -43,9 +44,9 @@
     <body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">
 
 <!-- include your module markup templates here -->
-        <nav class="nav-wrapper">
+        <nav class="container full-bleed-no-max nav-wrapper">
 
-          <div class="navbar">
+          <div class="container navbar">
             <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
             <ul class="nav nav-primary">
               <li id="nav-li-store"><a href="#">Store</a></li>
@@ -70,17 +71,19 @@
                       </div><!-- end #navmenu-wrapper-account -->
 
               </li>
-              <li id="nav-li-favorites"><a class="hidden-text" data-target="navtray-wrapper-favorites" href="#"><i class="icon-ui-favorite"></i>Favorites</a></li>
-              <li id="nav-li-cart"><a class="" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
+              <li id="nav-li-favorites"><a class="hidden-text iconTrigger-ui-favorite" data-target="navtray-wrapper-favorites" href="#"><i class="icon-ui-favorite"></i>Favorites</a></li>
+              <li id="nav-li-cart"><a class="iconTrigger-ui-cart disabled" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
               <li id="nav-li-universal"><a class="btn nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
               <li id="nav-li-search">
-                  <a class="nav-dropdown-toggle nav-dropdown-toggle-btn hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
+                  <a class="nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
                   <i class="sprite-mini-global-nav-indicator"></i>
 
-                        <div class="navmenu-wrapper navmenu-wrapper-search searching">
+                        <div class="navmenu-wrapper navmenu-wrapper-search Xsearching">
+                            <i class="sprite-mini-nav-search-input"></i>
                             <form method="post" action="" class="navmenu-search-section-input">
                                 <input type="text" name="navSearch" id="navSearch" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search"/>
                             </form>
+                            <a href="#" class="btn-clear-search-input iconTrigger-ui2-x-14-blue"><i class="icon-ui2-x-14-blue"></i></a>
                         <div class="navmenu-search-section-results">
                             <div class="navmenu-search-popular-searches">
                                 <p class="l3">Popular Searches</p>
@@ -102,6 +105,7 @@
                                                 <span class="search-result-headline">α NEX-6</span>
                                                 <span class="search-result-descript">The Future of Photography.</span>
                                             </span>
+                                            <i class="icon-ui2-chevron-18-blue"></i>
                                         </a>
                                     </li>
                                     <li>
@@ -111,12 +115,16 @@
                                                 <span class="search-result-headline">α NEX-5</span>
                                                 <span class="search-result-descript">Pocket DSLR</span>
                                             </span>
+                                            <i class="icon-ui2-chevron-18-blue"></i>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="search-result-canned">
                                         <a href="#">
-                                            <img src="" alt="α NEX Support">
-                                            <span class="search-result-headline">α NEX Support</span>
+                                            <i class="icon-uibig-support"></i>
+                                            <span class="search-result-p">
+                                                <span class="search-result-headline">α NEX Support</span>
+                                            </span>
+                                            <i class="icon-ui2-chevron-18-blue"></i>
                                         </a>
                                     </li>
                                 </ul>
@@ -126,7 +134,7 @@
                                     <li><a href="#" class="tl">α NEX Lenses</a></li>
                                     <li><a href="#" class="tl">α NEX</a></li>
                                 </ul>
-                                    <a href="#" class="btn btn-logout">Show All Results</a>
+                                    <a href="#" class="btn btn-show-all-results">Show All Results</a>
                                 </div>
                             </div>
                         </li>
@@ -198,6 +206,7 @@
         
         
         <script src="js/bundle/defer/bootstrap-tab.js"></script>
+        <script src="js/bundle/defer/brightcove-builder.js"></script>
         <script src="js/bundle/defer/defer1.js"></script>
         <script src="js/bundle/defer/defer2.js"></script>
         <script src="js/bundle/defer/experiment.js"></script>

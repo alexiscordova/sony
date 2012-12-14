@@ -1,6 +1,6 @@
 ---
 title: Gallery Module
-description: Tabbed galleries with different layouts. Data generated from JSON file. 
+description: Tabbed galleries for masonic layouts with filters and a compare tool.
 ---
 <!DOCTYPE html>
 <!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
@@ -19,8 +19,7 @@ description: Tabbed galleries with different layouts. Data generated from JSON f
     </head>
     <body>
 
-        <%-@partial('modules/gallery.html.hb', {this:this, data:@data('gallery/default.json')}) %>
-        
+        <%- @partial('modules/gallery.html.eco', {this:this, data:@data('gallery/default.json')}) %>
 
 <% if 'debug' in @getEnvironments():%>
         <%-@partial('includes/js_footer_debug.html.eco', {this: this})%>

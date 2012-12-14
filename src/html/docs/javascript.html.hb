@@ -12,13 +12,13 @@
 			 Subhead
 			================================================== -->
 			<header class="jumbotron subhead">
-			  <div class="container">
+			  <div class="container-px-width">
 			    <h2 class="bs-docs-heading">Sony Bootstrap JavaScript Library</h2>
 			    <p class="p1">Bring Bootstrap's components to life &mdash; with custom javascript &amp; jQuery plugins.
 			  </div>
 			</header>
 			
-			  <div class="container">
+			  <div class="container-px-width">
 			
 			
 			
@@ -27,7 +27,7 @@
 			<!--==================================================
 			 Docs nav
 			================================================== -->
-			    <div class="row">
+			    <div class="grid">
 			      <div class="span3 bs-docs-sidebar">
 			        <ul class="simple-nav simple-nav-list bs-docs-sidenav">
 			          <li><a href="#overview"><i class="icon-chevron-right"></i> Overview</a></li>

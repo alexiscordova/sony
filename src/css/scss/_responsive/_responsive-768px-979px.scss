@@ -1,21 +1,33 @@
 //
 // Responsive: Tablet to desktop
 // --------------------------------------------------
-
-
+//
+// This space intentionally left blank.
+// so these classes will line up through all the responsive files.
+//
+//
+//
+//
 @media (min-width: 768px) and (max-width: 979px) {
 
-  // Fixed grid
-  @include grid-core($gridColumnWidth768, $gridGutterWidth768);
-
   // Fluid grid
-  .container-fluid {
-	  padding-right: $fluidContainerMarginWidth768;
-	  padding-left:  $fluidContainerMarginWidth768;
-	  @include clearfix();
+  .container {
+    width: $fluidContainerWidth768;
 	}
+  .grid {
+    width: $fluidGridWidth768;
+  }
   @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
 
+
+  // Fixed grid
+  .container-px-width{
+    width: $containerWidth768;    
+  }
+  .grid-px-width{
+    width: $gridWidth768;    
+  }
+  @include grid-core($gridColumnWidth768, $gridGutterWidth768);
   // Input grid
   @include grid-input($gridColumnWidth768, $gridGutterWidth768);
 

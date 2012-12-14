@@ -10,7 +10,7 @@
 	// Grays
 	// -------------------------
 	$black:                 rgb(0,0,0) !default;
-	$blackLight:						rgb(35,35,35);
+	$blackLight:						rgb(35,35,35) !default;
 	$grayDark:              rgb(47,53,61) !default;
 	$gray:                  rgb(131,131,143) !default;
 
@@ -83,35 +83,58 @@
 // Typography
 // -------------------------
 .TYPOGRAPHY{} // this is just here for a SublimeText code-folding collapse point
-	$sansFontFamily:        		"SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyItalic:  		"SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyBold:    		"SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMedium:  		"SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$serifFontFamily:       		Georgia, "Times New Roman", Times, serif !default;
-	$monoFontFamily:        		Monaco, Menlo, Consolas, "Courier New", monospace !default;
+
+// Christopher's fonts - these are probably dead now.
+	// $sansFontFamily:        		"SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyItalic:  		"SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyBold:    		"SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyMedium:  		"SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+	// $sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 	
-	$baseFontFamily:        		$sansFontFamily !default;
-	$baseFontFamilyItalic:   		$sansFontFamilyItalic !default;
-	$baseFontFamilyBold:   			$sansFontFamilyBold !default;
-	$baseFontFamilyMedium:   		$sansFontFamilyMedium !default;
-	$baseFontFamilyMediumItalic:$sansFontFamilyMediumItalic !default;
-	$baseFontFamilyLight:   		$sansFontFamilyLight !default;
-	$baseFontFamilyLightItalic:	$sansFontFamilyLightItalic !default;
+// FONTS.COM FONTS:
+$sansFontFamily:        		"SST W01 Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyItalic:  		"SST W01 Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyBold:    		"SST W01 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyBoldItalic:	"SST W01 Bold Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyMedium:  		"SST W01 Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyMediumItalic:"SST W01 Medium Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyLight:   		"SST W01 Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyLightItalic: "SST W01 Light Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// Extras as defined by Fonts.com - but not used on this site (yet):
+$sansFontFamilyCondensed: 			"SST W01 Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyCondensedBold:		"SST W01 Condensed Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyHeavy:    				"SST W01 Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyHeavyItalic: 		"SST W01 Heavy Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyUltraLight:  		"SST W01 Ultra Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyUltraLightItalic:"SST W01 Ultra Light Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 
-	$baseFontSize:          		1em !default;
-	$baseLineHeight:        		1.65 !default;
-	$altFontFamily:         		$serifFontFamily !default;
 
-	$headingsFontFamily:    		$sansFontFamily !default;
-	$headingsFontFamilyItalic: 	$sansFontFamilyItalic !default;
+
+$serifFontFamily:       		Georgia, "Times New Roman", Times, serif !default;
+$monoFontFamily:        		Monaco, Menlo, Consolas, "Courier New", monospace !default;
+
+$baseFontFamily:        		$sansFontFamily !default;
+$baseFontFamilyItalic:   		$sansFontFamilyItalic !default;
+$baseFontFamilyBold:   			$sansFontFamilyBold !default;
+$baseFontFamilyBoldItalic:	$sansFontFamilyBoldItalic !default;
+$baseFontFamilyMedium:   		$sansFontFamilyMedium !default;
+$baseFontFamilyMediumItalic:$sansFontFamilyMediumItalic !default;
+$baseFontFamilyLight:   		$sansFontFamilyLight !default;
+$baseFontFamilyLightItalic:	$sansFontFamilyLightItalic !default;
+
+$baseFontSize:          		1em !default;
+$baseLineHeight:        		1.65 !default;
+$altFontFamily:         		$serifFontFamily !default;
+
+$headingsFontFamily:    		$sansFontFamily !default;
+$headingsFontFamilyItalic: 	$sansFontFamilyItalic !default;
 	$headingsColor:         		$grayDark !default; // empty to use BS default, $textColor
 	
 
 	// use these font-size variables instead of doing the math yourself every time!
-	                   // context/target 
+										 // context/target 
 
 	$font_60_16: 3.75em;   // 60px/16px
 	$font_54_16: 3.375em;  // 54px/16px
@@ -148,56 +171,56 @@
 
 // Buttons & Hotspots
 // -------------------------
-.BUTTONS-and-HOTSPOTS{} // this is just here for a SublimeText code-folding collapse point
-	$btnBackground:                     rgb(87,135,244) !default;
-	$btnBackgroundHover:                rgb(100,142,245) !default;
-	$btnBackgroundActive:               $btnBackground !default;
-	$btnBorder:                         $btnBackground !default;
-	$btnBackgroundDisabled:				rgb(222,222,222);
+.BUTTONS-and-HOTSPOTS{}
+$btnBackground:                     rgb(87,135,244) !default;
+$btnBackgroundHover:                rgb(100,142,245) !default;
+$btnBackgroundActive:               $btnBackground !default;
+$btnBorder:                         $btnBackground !default;
+$btnBackgroundDisabled:				rgb(222,222,222);
 
-	$btnText:                           $white !default;
+$btnText:                           $white !default;
 
-	$btnSpecialBackground:              $highlightColor !default;
-	$btnSpecialBackgroundHover:         $highlightColorHover !default;
-	$btnSpecialBackgroundActive:        $highlightColorActive !default;
+$btnSpecialBackground:              $highlightColor !default;
+$btnSpecialBackgroundHover:         $highlightColorHover !default;
+$btnSpecialBackgroundActive:        $highlightColorActive !default;
 
-	$btnAltBackground:              	$grayDark !default;
-	$btnAltBackgroundHover:         	darken($grayDark,4%) !default;
-	$btnAltBackgroundActive:        	lighten($grayDark,4%) !default;
-	$btnAltSpecialPadding: 				24px;
+$btnAltBackground:              	$grayDark !default;
+$btnAltBackgroundHover:         	darken($grayDark,4%) !default;
+$btnAltBackgroundActive:        	lighten($grayDark,4%) !default;
+$btnAltSpecialPadding: 				24px;
 
-	$btnPromoBackground:              	$grayDarkerFieldSmall !default;
-	$btnPromoBackgroundHover:         	darken($grayDarkerFieldSmall,5%) !default;
-	$btnPromoBackgroundActive:        	$grayDarkerFieldSmall !default;
+$btnPromoBackground:              	$grayDarkerFieldSmall !default;
+$btnPromoBackgroundHover:         	darken($grayDarkerFieldSmall,5%) !default;
+$btnPromoBackgroundActive:        	$grayDarkerFieldSmall !default;
 
-	$btnSecondaryBackground:            $grayLight !default;
-	$btnSecondaryBackgroundHover:       lighten($grayLight,2%) !default;
-	$btnSecondaryBackgroundActive:      $grayLight !default;
+$btnSecondaryBackground:            $grayLight !default;
+$btnSecondaryBackgroundHover:       lighten($grayLight,2%) !default;
+$btnSecondaryBackgroundActive:      $grayLight !default;
 
-	$btnDropdownBackground:            rgb(112,108,120) !default;
-	$btnDropdownBackgroundHover:       lighten($btnDropdownBackground,2%) !default;
-	$btnDropdownBackgroundActive:      $btnDropdownBackground !default;
+$btnDropdownBackground:            rgb(112,108,120) !default;
+$btnDropdownBackgroundHover:       lighten($btnDropdownBackground,2%) !default;
+$btnDropdownBackgroundActive:      $btnDropdownBackground !default;
 
-	$btnDropdownAltBackground:         $white !default;
-	$btnDropdownAltBackgroundHover:    darken($white,2%) !default;
-	$btnDropdownAltBackgroundActive:   darken($white,1%) !default;
+$btnDropdownAltBackground:         $white !default;
+$btnDropdownAltBackgroundHover:    darken($white,2%) !default;
+$btnDropdownAltBackgroundActive:   darken($white,1%) !default;
 
-	$btnPadding:                        8px 0 11px;
-	$btnLargePadding:                   7px 0 10px;
-	$btnSmallPadding:                   8px 0 10px;
-	$btnMiniPadding:                    8px 0 9px;
+$btnPadding:                        8px 0 11px;
+$btnLargePadding:                   7px 0 10px;
+$btnSmallPadding:                   8px 0 10px;
+$btnMiniPadding:                    8px 0 9px;
 
-	$btnSpecialPadding:                 13px 0 15px;
-	$btnSpecialLargePadding:            14px 0 14px;
-	$btnSpecialSmallPadding:            12px 0 14px;
-	$btnSpecialMiniPadding:             11px 0 12px;
+$btnSpecialPadding:                 13px 0 15px;
+$btnSpecialLargePadding:            14px 0 14px;
+$btnSpecialSmallPadding:            12px 0 14px;
+$btnSpecialMiniPadding:             11px 0 12px;
 
-	$btnAltPadding:                 	8px 0 11px;
-	$btnAltLargePadding:            	7px 0 10px;
-	$btnAltSmallPadding:            	8px 0 9px;
-	$btnAltMiniPadding:             	8px 0 9px;
+$btnAltPadding:                 	8px 0 11px;
+$btnAltLargePadding:            	7px 0 10px;
+$btnAltSmallPadding:            	8px 0 9px;
+$btnAltMiniPadding:             	8px 0 9px;
 
-	$btnSquarePadding:                 	14px 0 13px;
+$btnSquarePadding:                 	14px 0 13px;
 	// $btnSquareLargePadding:            	7px 0 10px;
 	// $btnSquareSmallPadding:            	8px 0 9px;
 	// $btnSquareMiniPadding:             	8px 0 9px;
@@ -212,7 +235,7 @@
 
 // Tables
 // -------------------------
-.TABLES{} // this is just here for a SublimeText code-folding collapse point
+.TABLES{}
 	$tableBackground:                   transparent !default; // overall background-color
 	$tableBackgroundAccent:             rgb(249,249,249) !default; // for striping
 	$tableBackgroundHover:              rgb(245,245,245) !default; // for hover
@@ -223,19 +246,19 @@
 
 // Forms
 // -------------------------
-.FORMS{} // this is just here for a SublimeText code-folding collapse point
-	$inputBackground:               $white !default;
-	$inputBackgroundAlt:            rgb(248,248,248) !default;
-	$inputBackgroundBtnAlt:         $grayLighter !default;
-	$inputText:                     $grayLight !default;
-	$inputTextFocus:                $gray !default;
-	$inputBorder:                   $grayLighter !default;
-	$inputBorderFocus:              $grayLight !default;
-	$inputBorderFocus:              $grayLight !default;
-	$inputBorderWidth:              2px !default;
-	$inputBorderRadius:             0px !default;
-	$inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
-	$formActionsBackground:         rgb(245,245,245) !default;
+.FORMS{}
+$inputBackground:               $white !default;
+$inputBackgroundAlt:            rgb(248,248,248) !default;
+$inputBackgroundBtnAlt:         $grayLighter !default;
+$inputText:                     $grayLight !default;
+$inputTextFocus:                $gray !default;
+$inputBorder:                   $grayLighter !default;
+$inputBorderFocus:              $grayLight !default;
+$inputBorderFocus:              $grayLight !default;
+$inputBorderWidth:              2px !default;
+$inputBorderRadius:             0px !default;
+$inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
+$formActionsBackground:         rgb(245,245,245) !default;
 
 	// Dropdowns
 	// -------------------------
@@ -250,6 +273,21 @@
 
 	$dropdownLinkBackgroundActive:  $linkColor !default;
 	$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
+
+	
+	$dropdownAltBackground:            $white !default;
+	$dropdownAltBorder:                rgba(0,0,0,.2) !default;
+	$dropdownAltDividerTop:            rgb(229,229,229) !default;
+	$dropdownAltDividerBottom:         $white !default;
+
+	$dropdownAltLinkColor:             $gray !default;
+	$dropdownAltLinkColorHover:        $white !default;
+	$dropdownAltLinkColorActive:       $highlightColor !default;
+
+	$dropdownAltLinkBackgroundActive:  $highlightColor !default;
+	$dropdownAltLinkBackgroundHover:   $dropdownAltLinkBackgroundActive !default;
+
+
 
 	// Form states and alerts
 	// -------------------------
@@ -274,18 +312,18 @@
 
 // Component variables
 // -------------------------
-.COMPONENT-VARIABLES{} // this is just here for a SublimeText code-folding collapse point
+.COMPONENT-VARIABLES{}
 
 	// Z-index master list
 	// -------------------------
 	// Used for a bird's eye view of components dependent on the z-axis
 	// Try to avoid customizing these :)
-	$zindexDropdown:          1000 !default;
-	$zindexPopover:           1010 !default;
-	$zindexTooltip:           1030 !default;
-	$zindexFixedNavbar:       1030 !default;
-	$zindexModalBackdrop:     1040 !default;
-	$zindexModal:             1050 !default;
+$zindexDropdown:          1000 !default;
+$zindexPopover:           1010 !default;
+$zindexTooltip:           1030 !default;
+$zindexFixedNavbar:       1030 !default;
+$zindexModalBackdrop:     1040 !default;
+$zindexModal:             1050 !default;
 
 
 	// Sprite icons path
@@ -320,16 +358,16 @@
 
 // Global values for Nav & Subanv to share.
 .NAV{}
-	$navMaxWidth:									1190px !default;
+$navMaxWidth:									1190px !default;
 
 
 // Global Nav (navbar)
 // -------------------------
-.NAVBAR{} // this is just here for a SublimeText code-folding collapse point
-	$navbarCollapseWidth:             979px !default;
+.NAVBAR{}
+$navbarCollapseWidth:             979px !default;
 
-	$navbarTotalHeight:               64px !default;
-	$navbarLineHeight:								40px !default;
+$navbarTotalHeight:               64px !default;
+$navbarLineHeight:								40px !default;
 	$navbarMinSidePadding:						43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
 
 	$navbarBackground:                $black !default;
@@ -366,7 +404,7 @@
 
 	$navTrayBackground:								$white;
 	$navTrayBackgroundAlt:						$grayLightFieldLarge;
-  $navTrayDividerPosition:					73%;
+	$navTrayDividerPosition:					73%;
 
 	$navMenuBackground:								$white;
 	$navMenuBackgroundAlt:						$grayLightFieldLarge;
@@ -378,12 +416,12 @@
 // The original Bootstrap navbar has been renamed simpleNavbar.
 // Likewise, the original Bootstrap nav has been renamed simple-nav.
 // -------------------------
-.SIMPLE-NAVBAR{} // this is just here for a SublimeText code-folding collapse point
-	$simpleNavbarCollapseWidth:           	979px !default;
+.SIMPLE-NAVBAR{}
+$simpleNavbarCollapseWidth:           	979px !default;
 
-	$simpleNavbarHeight:                    64px !default;
-	$simpleNavbarBackground:                $black !default;
-	$simpleNavbarBackgroundHighlight:       lighten($simpleNavbarBackground,5%) !default;
+$simpleNavbarHeight:                    64px !default;
+$simpleNavbarBackground:                $black !default;
+$simpleNavbarBackgroundHighlight:       lighten($simpleNavbarBackground,5%) !default;
 
 	$simpleNavbarTextSize:                  0.875em; /* 14px/16px */
 	$simpleNavbarText:                      $linkColor !default;
@@ -417,26 +455,26 @@
 
 // Pagination
 // -------------------------
-.PAGINATION{} // this is just here for a SublimeText code-folding collapse point
-	$paginationBackground:                rgb(255,255,255) !default;
-	$paginationBorder:                    rgb(221,221,221) !default;
-	$paginationActiveBackground:          rgb(245,245,245) !default;
+.PAGINATION{}
+$paginationBackground:                rgb(255,255,255) !default;
+$paginationBorder:                    rgb(221,221,221) !default;
+$paginationActiveBackground:          rgb(245,245,245) !default;
 
 
 
 
 // Tooltips and popovers
 // -------------------------
-.TOOLTIPS-AND-POPOVERS{} // this is just here for a SublimeText code-folding collapse point
-	$tooltipColor:            rgb(255,255,255) !default;
-	$tooltipBackground:       rgb(0,0,0) !default;
-	$tooltipArrowWidth:       5px !default;
-	$tooltipArrowColor:       $tooltipBackground !default;
+.TOOLTIPS-AND-POPOVERS{}
+$tooltipColor:            rgb(255,255,255) !default;
+$tooltipBackground:       rgb(0,0,0) !default;
+$tooltipArrowWidth:       5px !default;
+$tooltipArrowColor:       $tooltipBackground !default;
 
-	$popoverBackground:       rgb(255,255,255) !default;
-	$popoverArrowWidth:       10px !default;
-	$popoverArrowColor:       rgb(255,255,255) !default;
-	$popoverTitleBackground:  darken($popoverBackground, 3%) !default;
+$popoverBackground:       rgb(255,255,255) !default;
+$popoverArrowWidth:       10px !default;
+$popoverArrowColor:       rgb(255,255,255) !default;
+$popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 
 	// Special enhancement for popovers
 	$popoverArrowOuterWidth:  $popoverArrowWidth + 1 !default;
@@ -446,36 +484,73 @@
 
 
 
+
 // GRID
 // -----------------------------
 // 
 
-.GRID{} // this is just here for a SublimeText code-folding collapse point
+.GRID{} 
+	// margin and padding are used interchangably in variable names here. In reality, we're calculating the width of the 
+	// container and grid, and specifying margin-left/right:auto to center them.
+	// All of the fixed width grid values are based on having the containerMarginWidth and gridMarginWidths applied by default.
+	// For .full-bleed, the widths are just overridden with 100%. For fixed-width-grids, that's not gonna work so well,
+	// but then there shouldn't be fixed-width grids with .full-bleed
 
-	$gridColumns:             12 !default; 
-	$grid5Columns: 			  5;
+	$gridColumns:					12 !default; 
+	$grid5Columns:					5;
 
-	// Default 940px grid @980px-1199px
-	$gridColumnWidth:         54px !default;
-	$gridGutterWidth:         30px !default;
-	$gridRowWidth:            ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
+	// Default 980px-1199px
+	$containerMarginWidth:			34px !default;
+	$gridMarginWidth:				33px !default;
+	$gridColumnWidth:       		43px !default;
+	$gridGutterWidth:       		30px !default;
 
-	// 1112px grid @1200px+ breakpoint
-	$gridColumnWidth1200:     64px !default;
-	$gridGutterWidth1200:     40px !default;
-	$gridRowWidth1200:        ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
+	// 1200px breakpoint
+	$containerMarginWidth1200:		45px !default;
+	$gridMarginWidth1200:			45px !default;
+	$gridColumnWidth1200:   		52px !default;
+	$gridGutterWidth1200:   		36px !default;
+	
+	$containerWidthMax:				1400px; // if the browser is wider than this, the content will have a set width & side margins will be auto.
+	$containerMarginWidthMax:		79px !default; // if containerWidthMax changes, these all need to be adjusted to add up to it.
+	$gridMarginWidthMax:			64px !default;
+	$gridColumnWidthMax:   			58px !default;
+	$gridGutterWidthMax:   			38px !default;
 
-	// 724px grid @768px-979px breakpoints
-	$gridColumnWidth768:      45px !default;
-	$gridGutterWidth768:      20px !default;
-	$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
+
+	// 768px-979px breakpoints
+	$containerMarginWidth768:		30px !default;
+	$gridMarginWidth768:			29px !default;
+	$gridColumnWidth768:    		34px !default;
+	$gridGutterWidth768:    		22px !default;
 
 
+	// Calculated grid values
+	// -----------------------------
+
+	// Default 980px-1199px
+	$containerWidth:				980px - ($containerMarginWidth*2);
+	$gridWidth:            	($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
+	// we calculate containerWidth based on its margins. 
+	// We don't actually need the gridMarginWidth for calculating anything, but it should end up being the same as the amount of space that's left for it in the end.
+	// we calculate gridWidth based on its contents to make sure it's wide enough to hold everything.
+
+	// 1200px breakpoint
+	$containerWidth1200:		1200px - ($containerMarginWidth1200*2);
+	$gridWidth1200:        	($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
+	$gridWidthMax:					$containerWidthMax - ($gridMarginWidth1200 * 2);
+
+	// 768px-979px breakpoints
+	$containerWidth768:			768px - ($containerMarginWidth768*2);
+	$gridWidth768:         	($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
+
+
+
+	// I haven't updated grid5 for any of the new padding/margin business. Do what you need to do, if anything.
 	// 5 Column Grid
-	$grid5ColWidth: 		   204px;
-	$grid5GutterWidth: 		   23px;
-	$grid5RowWidth: 		   ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
-
+	$grid5ColWidth: 		   	204px;
+	$grid5GutterWidth: 		 	23px;
+	$grid5RowWidth: 		   	($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
 
 
 
@@ -483,27 +558,39 @@
 	// Fluid grid
 	// -------------------------
 	// 
+	// these should be deleted once all the updates equations are done, but they break things if they're not defined right now.
+	$fluidContainerMarginWidth:			40px !default;
+	$fluidGridMarginWidth:				20px !default;
+	$fluidContainerMarginWidth1200:		40px !default;
+	$fluidGridMarginWidth1200:			20px !default;
+	$fluidContainerMarginWidth768:		40px !default;
+	$fluidGridMarginWidth768:			20px !default;
 
-	// Default 980px grid @980px breakpoint
-	$fluidContainerMarginWidth:	40px !default;
-	$fluidGridColumnWidth:    	percentage($gridColumnWidth/$gridRowWidth) !default;
-	$fluidGridGutterWidth:    	percentage($gridGutterWidth/$gridRowWidth) !default;
 
-	// 1200px min
-	$fluidContainerMarginWidth1200:	40px !default;
-	$fluidGridColumnWidth1200:     	percentage($gridColumnWidth1200/$gridRowWidth1200) !default;
-	$fluidGridGutterWidth1200:     	percentage($gridGutterWidth1200/$gridRowWidth1200) !default;
+	// Default 980px-1199px
+	$fluidContainerWidth: 	percentage($containerWidth/980px) !default;
+	$fluidGridWidth: 		percentage($gridWidth/$containerWidth) !default;
+	$fluidGridColumnWidth:  percentage($gridColumnWidth/$gridWidth) !default;
+	$fluidGridGutterWidth:  percentage($gridGutterWidth/$gridWidth) !default;
+
+	// 1200px min - 
+	$fluidContainerWidth1200:	percentage($containerWidth1200/1200px) !default;
+	$fluidGridWidth1200: 		percentage($gridWidth1200/$containerWidth1200) !default;
+	$fluidGridColumnWidth1200:	percentage($gridColumnWidth1200/$gridWidth1200) !default;
+	$fluidGridGutterWidth1200:	percentage($gridGutterWidth1200/$gridWidth1200) !default;
 
 	// 768px-979px
-	$fluidContainerMarginWidth768:	40px !default;
-	$fluidGridColumnWidth768:      	percentage($gridColumnWidth768/$gridRowWidth768) !default;
-	$fluidGridGutterWidth768:      	percentage($gridGutterWidth768/$gridRowWidth768) !default;
+	$fluidContainerWidth768: 	percentage($containerWidth768/768px) !default;
+	$fluidGridWidth768: 			percentage($gridWidth768/$containerWidth768) !default;
+	$fluidGridColumnWidth768: percentage($gridColumnWidth768/$gridWidth768) !default;
+	$fluidGridGutterWidth768: percentage($gridGutterWidth768/$gridWidth768) !default;
 	
 	// 767px max (mobile)
-	$fluidContainerMarginWidth767:	15px !default;
+	$fluidContainerMarginWidth767:	15px !default; // TODO -- SHOULD BE %
+	$fluidGridMarginWidth767: 			15px !default; // TODO -- SHOULD BE %
 
 	// 5 Column Grid
-	$fluidGrid5ColWidth: percentage($grid5ColWidth / $grid5RowWidth);
+	$fluidGrid5ColWidth: 		percentage($grid5ColWidth / $grid5RowWidth);
 	$fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
 
@@ -512,22 +599,22 @@
 
 // Transition Speeds
 // --------------------------------------------------
-.TRANSITION-SPEEDS{} // this is just here for a SublimeText code-folding collapse point
-	$transitionSuperslow:   0.5s;
-	$transitionSlower:   	0.4s;
-	$transitionSlow:        0.3s;
-	$transitionNormal:      0.2s;
-	$transitionFast:		0.15s;
-	$transitionFaster:      0.10s;
-	$transitionSuperfast:   0.05s;
+.TRANSITION-SPEEDS{} 
+$transitionSuperslow:   0.5s;
+$transitionSlower:   	0.4s;
+$transitionSlow:        0.3s;
+$transitionNormal:      0.2s;
+$transitionFast:		0.15s;
+$transitionFaster:      0.10s;
+$transitionSuperfast:   0.05s;
 
 
 // Transition Timing Functions
 // --------------------------------------------------
-.TRANSITION-FUNCTIONS{} // this is just here for a SublimeText code-folding collapse point
-	$easeOutQuad: 		cubic-bezier(0.250, 0.460, 0.450, 0.940);
-	$easeOutCubic: 		cubic-bezier(0.215, 0.610, 0.355, 1.000);
-	$easeOutQuart: 		cubic-bezier(0.165, 0.840, 0.440, 1.000);
-	$easeOutExpo: 		cubic-bezier(0.190, 1.000, 0.220, 1.000);
-	$easeNormal:		ease-out;
+.TRANSITION-FUNCTIONS{} 
+$easeOutQuad: 		cubic-bezier(0.250, 0.460, 0.450, 0.940);
+$easeOutCubic: 		cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeOutQuart: 		cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$easeOutExpo: 		cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$easeNormal:		ease-out;
 
