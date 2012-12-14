@@ -65,10 +65,14 @@ $detailedGalleryItemHeight: 480px;
 .gallery-item {
   position: relative;
   display: block;
+  // height: 0;
+  // padding-bottom: 165.19607843137254%;
+  // padding-bottom: 60.534124629080125%;
   margin-top: $grid5GutterWidth;
   height: $galleryItemHeight;
   overflow: hidden;
   background: $white;
+  // background: $transparentBlack;
 
   p,
   div,
@@ -107,6 +111,8 @@ $detailedGalleryItemHeight: 480px;
   // large is height * 2
   &.large {
     height: ($galleryItemHeight * 2) + $grid5GutterWidth;
+    // padding-bottom: 94.40459110473458%;
+    // padding-bottom: 105.92705167173253%;
   }
 
   // Double the height and include margin
@@ -116,11 +122,36 @@ $detailedGalleryItemHeight: 480px;
 
   // Promo gallery item images are the full height
   &.promo {
+    color: $white;
+
+    .text-promo-title {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      margin: 0;
+      max-width: 225px;
+
+      i {
+        margin-top: 8px;
+        margin-left: 10px;
+      }
+    }
+
+    .text-count {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      margin: 0;
+    }
+
+    strong { color: $white; }
 
     .product-content {
       position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
       text-align: left;
     }
 
