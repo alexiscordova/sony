@@ -63,37 +63,42 @@
 	</div>
 
 <% else if  @data.layout.media == "full3up": %>
-	<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
-	<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
-	<% if @data.body : %><p><%- @data.body %></p><% end %>
-	<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
-	
+	<div class="grid <%- @data.layout.text %>">
+		<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+		<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+		<% if @data.body : %><p><%- @data.body %></p><% end %>
+		<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 	<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
-
+	</div>
 	<div class="grid">
 		<% for col, i in @data.layout.columns: %>
 			<div class="span<%- @data.layout.columns[i] %>">
-				<%- @this.partial('modules/'+ @data.submodules[i+1].type , {this:@this, data:@this.data(@data.submodules[i+1].data)} ) %>
+				<% if  @data.submodules[i+1] :%>
+				<%- @this.partial('modules/'+ @data.submodules[i+1].type , {this:@this, data:@this.data(@data.submodules[i+1].data)} ) %><% end %>
 				<%- @data.columns[i] %>
 			</div>
 		<% end %>
 	</div>
 	
 <% else if  @data.layout.media == "m3up" ||  @data.layout.media == "m2up": %>
-	<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
-	<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
-	<% if @data.body : %><p><%- @data.body %></p><% end %>
-	<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
-	
-	<% if  @data.layout.inner : %>
-		<div class="grid inner">	
-	<% else :%>
-		<div class="grid">
-	<% end %>
+	<div class="grid">
+		<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
+		<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
+		<% if @data.body : %><p><%- @data.body %></p><% end %>
+		<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
+	</div>
+	<div class="grid">
 		<% for col, i in @data.layout.columns: %>
 		<div class="span<%- @data.layout.columns[i] %>">
 			<%- @this.partial('modules/'+ @data.submodules[i].type , {this:@this, data:@this.data(@data.submodules[i].data)} ) %>
-			<%- @data.columns[i] %>
+			
+			<% if  @data.layout.inner : %>
+				<div class="grid inner">	
+			<% else :%>
+				<div class="grid">
+			<% end %>
+				<%- @data.columns[i] %>
+			</div>
 		</div>
 		<% end %>
 	</div>
