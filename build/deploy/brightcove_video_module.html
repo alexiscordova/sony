@@ -51,15 +51,15 @@
         <div id="myvid01" class="video-container" data-media='{&quot;videoID&quot; : &quot;robot&quot;,&quot;playerID&quot; : &quot;2014315899001&quot;,&quot;playerKey&quot; : &quot;AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U&quot;,&quot;autoStart&quot; : false,&quot;imgMissingVideoID&quot; : &quot;img/modules/brightcovevideo/poster-missing-video.png&quot;}'>
             <img src="img/modules/brightcovevideo/poster-169.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="video-poster update-always" >
         </div>
-            <button type="button" data-target="myvid01" class="btn btn-primary action-video" >
-                action
-            </button>
-            <button type="button" class="btn btn-primary btn-pause" >
-                pause
-            </button>
-            <button type="button" class="btn btn-primary btn-play" >
-                play
-            </button>
+        <button type="button" data-target="myvid01" class="btn btn-primary action-video" >
+            action
+        </button>
+        <button type="button" class="btn btn-primary btn-pause" >
+            pause
+        </button>
+        <button type="button" class="btn btn-primary btn-play" >
+            play
+        </button>
     </div>
 </div>
 
@@ -69,15 +69,15 @@
         <div id="myvid02" class="video-container" data-media='{&quot;videoID&quot; : &quot;space&quot;,&quot;playerID&quot; : &quot;2014315899001&quot;,&quot;playerKey&quot; : &quot;AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U&quot;,&quot;autoStart&quot; : false,&quot;imgMissingVideoID&quot; : &quot;img/modules/brightcovevideo/poster-missing-video.png&quot;,&quot;videoWidth&quot; : &quot;320&quot;,&quot;videoHeight&quot; : &quot;240&quot;}'>
             <img src="img/modules/brightcovevideo/poster-43.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="video-poster update-always" >
         </div>
-            <button type="button" data-target="myvid02" class="btn btn-primary action-video" >
-                action
-            </button>
-            <button type="button" class="btn btn-primary btn-pause" >
-                pause
-            </button>
-            <button type="button" class="btn btn-primary btn-play" >
-                play
-            </button>
+        <button type="button" data-target="myvid02" class="btn btn-primary action-video" >
+            action
+        </button>
+        <button type="button" class="btn btn-primary btn-pause" >
+            pause
+        </button>
+        <button type="button" class="btn btn-primary btn-play" >
+            play
+        </button>
     </div>
 </div>
 
@@ -87,18 +87,97 @@
         <div id="myvid03" class="video-container" data-media='{&quot;playerID&quot; : &quot;2014315899001&quot;,&quot;playerKey&quot; : &quot;AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U&quot;,&quot;autoStart&quot; : false,&quot;imgMissingVideoID&quot; : &quot;img/modules/brightcovevideo/poster-missing-video.png&quot;,&quot;videoWidth&quot; : &quot;320&quot;,&quot;videoHeight&quot; : &quot;240&quot;}'>
             <img src="img/modules/brightcovevideo/poster-169.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="video-poster update-always" >
         </div>
-            <button type="button" data-target="myvid03" class="btn btn-primary action-video" >
-                action
-            </button>
-            <button type="button" class="btn btn-primary btn-pause" >
-                pause
-            </button>
-            <button type="button" class="btn btn-primary btn-play" >
-                play
-            </button>
+        <button type="button" data-target="myvid03" class="btn btn-primary action-video" >
+            action
+        </button>
+        <button type="button" class="btn btn-primary btn-pause" >
+            pause
+        </button>
+        <button type="button" class="btn btn-primary btn-play" >
+            play
+        </button>
     </div>
 </div>
 
+<!--
+Start of Brightcove Player
+Should be include once
+-->
+<script src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
+<script >
+    // Brightcove code
+
+    var modVP;
+    var modExp;
+    var modCon;
+    var previousVideoID = 0;
+    var currentVideo;
+    //videos we will swap
+
+    function myTemplateLoaded(experienceID) {
+        player = brightcove.api.getExperience(experienceID);
+        modVP = player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
+        modExp = player.getModule(brightcove.api.modules.APIModules.EXPERIENCE);
+        modCon = player.getModule(brightcove.api.modules.APIModules.CONTENT);
+        modExp.addEventListener(brightcove.api.events.ExperienceEvent.TEMPLATE_READY, onTemplateReady);
+        //console.log("myTemplateLoaded");
+    }
+
+    function onTemplateReady(evt) {
+        modVP.addEventListener(brightcove.api.events.MediaEvent.BEGIN, videoStart);
+        modVP.addEventListener(brightcove.api.events.MediaEvent.CHANGE, onMediaEventFired);
+        modVP.addEventListener(brightcove.api.events.MediaEvent.COMPLETE, onMediaEventFired);
+        modVP.addEventListener(brightcove.api.events.MediaEvent.ERROR, onMediaEventFired);
+        modVP.addEventListener(brightcove.api.events.MediaEvent.PLAY, onMediaEventFired);
+        modVP.addEventListener(brightcove.api.events.MediaEvent.PROGRESS, onMediaProgressFired);
+        modVP.addEventListener(brightcove.api.events.MediaEvent.STOP, onMediaEventFired);
+        //console.log("onTemplateReady");
+    }
+
+    function playVideo() {
+        modVP.play();
+    }
+
+    function pauseVideo() {
+        modVP.pause();
+    }
+
+    function onMediaEventFired(evt) {
+        /* console.log("MEDIA EVENT: " + evt.type + " fired at position: " + evt.position);*/
+    }
+
+    function onMediaProgressFired(evt) {
+        /* console.log("CURRENT POSITION: " + evt.position);*/
+    }
+
+    function videoStart(evt) {
+        /* console.log("MEDIA EVENT: " + evt.type + " fired at position: " + evt.position);*/
+    }
+
+
+    $(document).ready(function() {
+
+        $(".action-video").activateBrightcove();
+
+        $(".btn-play").click(function(e) {
+            e.preventDefault();
+            playVideo();
+        });
+
+        $(".btn-pause").click(function(e) {
+            e.preventDefault();
+            pauseVideo();
+        });
+
+    }); 
+</script>
+
+<!-- End of Brightcove Player -->
+
+<div id="log" style="float: left">
+    <div id="positionLog"></div>
+    <div id="eventLog"></div>
+</div>
 
 
         
@@ -106,22 +185,22 @@
         <script src="js/secondary.min.js"></script>
         
         
-        <script src="js/bundle/defer/bootstrap-tab.js"></script>
         <script src="js/bundle/defer/brightcove-builder.js"></script>
-        <script src="js/bundle/defer/defer1.js"></script>
-        <script src="js/bundle/defer/defer2.js"></script>
-        <script src="js/bundle/defer/experiment.js"></script>
+        <script src="js/bundle/defer/bootstrap-tab.js"></script>
         <script src="js/bundle/defer/gallery.js"></script>
-        <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jquery.shuffle.js"></script>
+        <script src="js/bundle/defer/experiment.js"></script>
+        <script src="js/bundle/defer/hotspot_explorer.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
-        <script src="js/bundle/defer/jquery.shuffle.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
+        <script src="js/bundle/defer/defer1.js"></script>
+        <script src="js/bundle/defer/defer2.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
         
@@ -129,85 +208,6 @@
             <script src="js/polyfill.min.js"></script>
         <![endif]-->
         
-        <!-- Start of Brightcove Player -->
-        <script src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
-        <script >
-
-            // Brightcove code
-
-            var modVP;
-            var modExp;
-            var modCon;
-            var previousVideoID = 0;
-            var currentVideo;
-            //videos we will swap
-
-            function myTemplateLoaded(experienceID) {
-                player = brightcove.api.getExperience(experienceID);
-                modVP = player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
-                modExp = player.getModule(brightcove.api.modules.APIModules.EXPERIENCE);
-                modCon = player.getModule(brightcove.api.modules.APIModules.CONTENT);
-                modExp.addEventListener(brightcove.api.events.ExperienceEvent.TEMPLATE_READY, onTemplateReady);
-                //console.log("myTemplateLoaded");
-            }
-
-            function onTemplateReady(evt) {
-                modVP.addEventListener(brightcove.api.events.MediaEvent.BEGIN, videoStart);
-                modVP.addEventListener(brightcove.api.events.MediaEvent.CHANGE, onMediaEventFired);
-                modVP.addEventListener(brightcove.api.events.MediaEvent.COMPLETE, onMediaEventFired);
-                modVP.addEventListener(brightcove.api.events.MediaEvent.ERROR, onMediaEventFired);
-                modVP.addEventListener(brightcove.api.events.MediaEvent.PLAY, onMediaEventFired);
-                modVP.addEventListener(brightcove.api.events.MediaEvent.PROGRESS, onMediaProgressFired);
-                modVP.addEventListener(brightcove.api.events.MediaEvent.STOP, onMediaEventFired);
-                //console.log("onTemplateReady");
-            }
-
-            function playVideo() {
-                modVP.play();
-            }
-
-            function pauseVideo() {
-                modVP.pause();
-            }
-
-            function onMediaEventFired(evt) {
-              /* console.log("MEDIA EVENT: " + evt.type + " fired at position: " + evt.position);*/
-            }
-
-            function onMediaProgressFired(evt) {
-               /* console.log("CURRENT POSITION: " + evt.position);*/
-            }
-
-            function videoStart(evt) {
-               /* console.log("MEDIA EVENT: " + evt.type + " fired at position: " + evt.position);*/
-            }
-
-
-            $(document).ready(function() {
-
-                $(".action-video").activateBrightcove();
-
-                $(".btn-play").click(function(e) {
-                    e.preventDefault();
-                    playVideo();
-                });
-
-                $(".btn-pause").click(function(e) {
-                    e.preventDefault();
-                    pauseVideo();
-                });
-
-            });
-        </script>
-
-        <!-- End of Brightcove Player -->
-
-        <div id="log" style="float: left">
-            <div id="positionLog"></div>
-            <div id="eventLog"></div>
-        </div>
-        <script>
-            document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
-        </script>
+        
     </body>
 </html>
