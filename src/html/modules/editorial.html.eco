@@ -1,15 +1,15 @@
-<div class="editorial container clearfix">
+<div class="editorial container <%- @data.layout.media %> clearfix">
 
 <% if @data.layout.media == "full" : %>
 	<% if  @data.layout.inner : %>
-	<div class="row-fluid">
+	<div class="grid">
 		<div class="span12">
 			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
-			<div class="row-fluid">
+			<div class="grid">
 			<% if  @data.layout.text == "left" : %>
-				<div class="span<%- @data.layout.columns[0] %>">
+				<div class="inner span<%- @data.layout.columns[0] %>">
 			<% else if  @data.layout.text == "right" : %>
-				<div class="span<%- @data.layout.columns[1] %> offset<%- @data.layout.columns[0] %>">
+				<div class="inner span<%- @data.layout.columns[1] %> offset<%- @data.layout.columns[0] %>">
 			<% end %>
 					<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 					<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
@@ -21,7 +21,7 @@
 	</div>
 
 	<% else :%>
-	<div class="row-fluid">
+	<div class="grid">
 		<div class="span12">
 			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
@@ -29,7 +29,7 @@
 			<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="grid">
 		<div class="span12">
 		<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
@@ -37,7 +37,7 @@
 	<% end %>
 
 <% else if  @data.layout.media == "mediaright" : %>
-	<div class="row-fluid">
+	<div class="grid">
 		<div class="span<%- @data.layout.columns[0] %>">
 			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
@@ -50,7 +50,7 @@
 	</div>
 	
 <% else if  @data.layout.media == "medialeft" : %>	
-	<div class="row-fluid">
+	<div class="grid">
 		<div class="span<%- @data.layout.columns[0] %>">
 			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
@@ -70,7 +70,7 @@
 	
 	<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 
-	<div class="row-fluid">
+	<div class="grid">
 		<% for col, i in @data.layout.columns: %>
 			<div class="span<%- @data.layout.columns[i] %>">
 				<%- @this.partial('modules/'+ @data.submodules[i+1].type , {this:@this, data:@this.data(@data.submodules[i+1].data)} ) %>
@@ -86,21 +86,21 @@
 	<% if @data.link : %><a class="<%- @data.link.type %>" href="<%- @data.link.url %>"><%- @data.link.text %></a><% end %>
 	
 	<% if  @data.layout.inner : %>
-		!!!!:TODO
-		
+		<div class="grid inner">	
 	<% else :%>
-		<div class="row-fluid">
-			<% for col, i in @data.layout.columns: %>
-			<div class="span<%- @data.layout.columns[i] %>">
-				<%- @this.partial('modules/'+ @data.submodules[i].type , {this:@this, data:@this.data(@data.submodules[i].data)} ) %>
-				<%- @data.columns[i] %>
-			</div>
-			<% end %>
-		</div>
+		<div class="grid">
 	<% end %>
+		<% for col, i in @data.layout.columns: %>
+		<div class="span<%- @data.layout.columns[i] %>">
+			<%- @this.partial('modules/'+ @data.submodules[i].type , {this:@this, data:@this.data(@data.submodules[i].data)} ) %>
+			<%- @data.columns[i] %>
+		</div>
+		<% end %>
+	</div>
+
 
 <% else if  @data.layout.media == "textonly" : %>
-	<div class="row-fluid">
+	<div class="grid">
 		<% if  @data.layout.text == "left" : %>
 		<div class="span<%- @data.layout.columns[0] %>">
 		
