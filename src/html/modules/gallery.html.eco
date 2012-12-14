@@ -52,7 +52,7 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
           <% for module in @data.submodules: %>
             <% d = @this.data(module.data) %>
             <% if d.featured && d.type == "product" : %>
-              <% d.layout = @document[@data.layout][i++] %>
+              <% d.layout = @document[@data.featured.layout][i++] %>
               <% d.view = "basic" %>
               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
             <% end %>
@@ -72,7 +72,7 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
           <% for module in @data.submodules: %>
             <% d = @this.data(module.data) %>
             <% if d.featured && d.type == "accessory" : %>
-              <% d.layout = @document[@data.layout][i++] %>
+              <% d.layout = @document[@data.featured2.layout][i++] %>
               <% d.view = "basic" %>
               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
             <% end %>

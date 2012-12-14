@@ -37,6 +37,11 @@
           <img src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
         </noscript>
         <% end %>
+      <% else if @data.layout == "large": %>
+      <img class="iq-img" alt="<%- @data.imgLarge.alt %>" data-src="<%- @data.imgLarge.src %>">
+      <noscript>
+        <img src="<%- @data.imgLarge.noscriptsrc %>" alt="<%- @data.imgLarge.alt %>">
+      </noscript>
       <% else: %>
       <img class="iq-img" alt="<%- @data.imgSmall.alt %>" data-src="<%- @data.imgSmall.src %>">
       <noscript>
@@ -67,12 +72,12 @@
       <div class="ghost-center js-product-imgs">
         <img class="iq-img js-product-img-main" itemprop="image" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
         <noscript>
-          <img src="<%- @data.img.src %>" itemprop="image" alt="<%- @data.img.alt %>">
+          <img src="<%- @data.img.noscriptsrc %>" itemprop="image" alt="<%- @data.img.alt %>">
         </noscript>
         <% for img in @data.img.colors: %>
         <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
         <noscript>
-          <img class="hidden" itemprop="image" src="<%- img.src %>" alt="<%- img.alt %>">
+          <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
         </noscript>
         <% end %>
       </div>
