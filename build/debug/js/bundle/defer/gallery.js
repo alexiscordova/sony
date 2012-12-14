@@ -101,11 +101,6 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     }
 
     $panes.not('.active').addClass('off-screen');
-
-    // Deep linkin'
-    // if ( window.location.hash ) {
-    //   $('[data-target="' + window.location.hash.substring(1) + '"]').tab('show');
-    // }
   },
 
   _tabShown = function(evt) {
@@ -245,26 +240,26 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     $tabsWrap
       .on('scroll', _animateTab)
       .addClass('sticky')
-      .parent()
-      .scrollerModule({
-        contentSelector: '.tabs',
-        itemElementSelector: '.tab',
-        mode: 'free',
-        lastPageCenter: false,
-        extraSpacing: 0,
+      // .parent()
+      // .scrollerModule({
+      //   contentSelector: '.tabs',
+      //   itemElementSelector: '.tab',
+      //   mode: 'free',
+      //   lastPageCenter: false,
+      //   extraSpacing: 0,
 
-        //iscroll props get mixed in
-        iscrollProps: {
-          snap: false,
-          hScroll: true,
-          vScroll: false,
-          hScrollbar: false,
-          vScrollbar: false,
-          momentum: true,
-          bounce: true,
-          onScrollEnd: null
-        }
-  });
+      //   //iscroll props get mixed in
+      //   iscrollProps: {
+      //     snap: false,
+      //     hScroll: true,
+      //     vScroll: false,
+      //     hScrollbar: false,
+      //     vScrollbar: false,
+      //     momentum: true,
+      //     bounce: true,
+      //     onScrollEnd: null
+      //   }
+      // });
     _initStickyTab();
   },
 
