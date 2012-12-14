@@ -20,7 +20,12 @@
         $.rpModules = {};
     }
 
-    var PX_REGEX = /px/gi;
+    var PX_REGEX            = /px/gi,
+        GALLERY_TILE_RATIOS = {
+          large: 1.20172413793103,
+          promo: 0.6053412462908,
+          normal: 0.6053412462908
+        }
 
     //start module
     var RelatedProducts = function(element, options){
@@ -108,14 +113,6 @@
       t.resizeRatio = t.maxHeight / t.maxWidth; //target resize ratio
       t.markup = t.$container.html();
 
-      console.log("Markup is jQuery »", typeof t.markup === $ );
-
-      //'class*="col"]''
-
-      //t.mark.unwrap();
-
-      //
-      console.log( "Markup »" , t.markup );
 
       //init plugins
       $.each($.rpModules, function (helper, opts) {
@@ -200,6 +197,31 @@
             t.checkForBreakpoints();
             t.updateSliderSize();
             t.updateSlides();
+
+
+            (function (){
+              var $larges = t.$container.find('.large'),
+                  $lTest = $larges.eq(0),
+                  lW = $lTest.outerWidth();
+
+                  $larges.css('height' , lW * GALLERY_TILE_RATIOS.large);
+              
+              var $promos = t.$container.find('.promo'),
+                  $pTest = $promos.eq(0),
+                  pW = $pTest.outerWidth();
+
+                  $promos.css('height' , pW * GALLERY_TILE_RATIOS.promo);
+
+              var $normals = t.$container.find('.normal'),
+                  $nTest = $normals.eq(0),
+                  nW = $nTest.outerWidth();
+
+                  $normals.css('height' , nW  * GALLERY_TILE_RATIOS.normal);              
+            })();
+
+
+
+
           }, t.throttleTime);          
       });
 
@@ -263,6 +285,9 @@
       t.updateSlides();  */ 
 
       $(window).trigger('resize');
+
+
+
 
     };
 
@@ -695,6 +720,11 @@
   
           t.$container.css( animObj );  
 
+          //IQ Update
+          t.$container.one($.support.transition.end , function(){
+            window.iQ.update();
+          });
+
         }
 
         //update the overall position
@@ -802,6 +832,8 @@
           $('[class*="row-"]').remove();
           $('[class*="rpSlide"]').remove();
 
+          //var $cache = $('.rpContainer').html();
+
           cols.removeClass().appendTo(t.$container).addClass('whoa'); //insert these back in and add class for diff display
 
           console.log("HOW MANY PRODUCTS WERE THERE? »", cols.length);
@@ -867,6 +899,12 @@
     });
 
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
+
+
+
+
+
+
 
  })(jQuery, Modernizr, window,undefined);
 

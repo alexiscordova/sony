@@ -9,6 +9,7 @@
     'use strict';
     var sony = window.sony = window.sony || {};
     sony.modules = sony.modules || {};
+    sony.ev = sony.ev || $('<div />'); // events object
 })(window);
 
 (function($, Modernizr, window, undefined) {
@@ -19,7 +20,12 @@
         $.rpModules = {};
     }
 
-    var PX_REGEX = /px/gi;
+    var PX_REGEX            = /px/gi,
+        GALLERY_TILE_RATIOS = {
+          large: 1.20172413793103,
+          promo: 0.6053412462908,
+          normal: 0.6053412462908
+        }
 
     //start module
     var RelatedProducts = function(element, options){
@@ -105,6 +111,8 @@
       t.maxWidth = parseInt(t.sliderOverflow.parent().css('maxWidth').replace(/px/gi , '') , 10);
       t.maxHeight = parseInt(t.sliderOverflow.parent().css('maxHeight').replace(/px/gi , '') , 10);
       t.resizeRatio = t.maxHeight / t.maxWidth; //target resize ratio
+      t.markup = t.$container.html();
+
 
       //init plugins
       $.each($.rpModules, function (helper, opts) {
@@ -189,6 +197,31 @@
             t.checkForBreakpoints();
             t.updateSliderSize();
             t.updateSlides();
+
+
+            (function (){
+              var $larges = t.$container.find('.large'),
+                  $lTest = $larges.eq(0),
+                  lW = $lTest.outerWidth();
+
+                  $larges.css('height' , lW * GALLERY_TILE_RATIOS.large);
+              
+              var $promos = t.$container.find('.promo'),
+                  $pTest = $promos.eq(0),
+                  pW = $pTest.outerWidth();
+
+                  $promos.css('height' , pW * GALLERY_TILE_RATIOS.promo);
+
+              var $normals = t.$container.find('.normal'),
+                  $nTest = $normals.eq(0),
+                  nW = $nTest.outerWidth();
+
+                  $normals.css('height' , nW  * GALLERY_TILE_RATIOS.normal);              
+            })();
+
+
+
+
           }, t.throttleTime);          
       });
 
@@ -253,6 +286,9 @@
 
       $(window).trigger('resize');
 
+
+
+
     };
 
     RelatedProducts.prototype = {
@@ -270,6 +306,7 @@
                         .addClass('rpDesktop');
 
                 t.ev.trigger('ondesktopbreakpoint.rp');
+
               break;
 
               case 'tablet':
@@ -683,6 +720,11 @@
   
           t.$container.css( animObj );  
 
+          //IQ Update
+          t.$container.one($.support.transition.end , function(){
+            window.iQ.update();
+          });
+
         }
 
         //update the overall position
@@ -710,6 +752,7 @@
       });
       return max;
     };
+
     
     $.rpProto = RelatedProducts.prototype;
 
@@ -720,8 +763,7 @@
         var t = $(this);
         if (typeof options === "object" ||  !options) {
           if( !t.data('relatedProducts') ) {
-            sony.modules.m = new RelatedProducts(t, options);
-            t.data('relatedProducts', sony.modules.m);
+            t.data('relatedProducts', new RelatedProducts(t, options));
           }
         } else {
           var relatedProducts = t.data('relatedProducts');
@@ -758,12 +800,12 @@
 
         function handleBreakpoint(){
           
-          if(!!t.isMobileMode){ return false; } //if we are already in mobile exit
+          if(!!t.isMobileMode){ console.log("ALREADY IN MOBILE VIEW »", t.scroller); return false; } //if we are already in mobile exit
 
           t.isMobileMode = true;
 
           //do mobile stuff
-          console.log('handling mobile view');
+          console.log('handling mobile view for the first time: ' , t.scroller === undefined);
 
           //$('.rpContainer').wrap('<div class="scroller" id="scrollerrp" />');
 
@@ -771,9 +813,68 @@
             
           t.$container.off('.rp');
         
-          t.scroller = $('.related-products').scrollerModule({
-            
+          t.scroller = $('.rpOverflow').scrollerModule({
+            contentSelector: '.rpContainer',
+            itemElementSelector: '.rpSlide',
+            mode: 'free',
+            snap: false,
+            momentum: true,
+            bounce: true
+          }).data('scrollerModule');
+
+          console.log("Scroller instance that was created »" , t.scroller);
+
+          $('.rpNav').hide();
+
+          //unwrap HTML
+
+          var cols = $('[class*="col-"]').remove();
+          $('[class*="row-"]').remove();
+          $('[class*="rpSlide"]').remove();
+
+          //var $cache = $('.rpContainer').html();
+
+          cols.removeClass().appendTo(t.$container).addClass('whoa'); //insert these back in and add class for diff display
+
+          console.log("HOW MANY PRODUCTS WERE THERE? »", cols.length);
+
+          //t.scroller.update(); //update item
+
+          //updat container size based on now what is inside
+          t.$container.css( 'width' , $('.whoa').eq(0).outerWidth(true) * cols.length + 'px' );
+
+          //idea here is that we want to put the stuff back in as it was orginally
+          t.ev.one('ondesktopbreakpoint.rp' , function(){
+
+            setTimeout(function(){
+              t.scroller.destroy();
+              t.scroller = null;
+              t.scroller = undefined;
+              
+              t.$container.css('width' , '100%');
+              t.$container.html('');
+              t.$container.html(t.markup); 
+              t.$slides = t.$el.find('.rpSlide');
+              t.$container.on(t.downEvent, function(e) { t.onDragStart(e); });
+
+              $('.rpNav').show();
+
+              //fire a resize event to reposition slides?
+              $(window).trigger('resize');
+
+              t.isMobileMode = false;
+
+              //update container width
+            }, 250);
+
+
+
           });
+
+
+
+
+
 
           //TODO: destroy this instance - t.iscroll.destroy();
           //t.iscroll = null;
@@ -798,6 +899,12 @@
     });
 
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
+
+
+
+
+
+
 
  })(jQuery, Modernizr, window,undefined);
 
