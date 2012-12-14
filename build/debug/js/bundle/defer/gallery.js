@@ -245,6 +245,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     $tabsWrap
       .on('scroll', _animateTab)
       .addClass('sticky')
+      .parent()
       .scrollerModule({
         contentSelector: '.tabs',
         itemElementSelector: '.tab',

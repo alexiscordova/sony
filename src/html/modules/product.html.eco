@@ -1,4 +1,63 @@
 
+<% if @data.view == "basic": %>
+<a class="gallery-item
+  <% if @data.layout == "large": %>
+    span3 large
+  <% else if @data.layout == "promo": %>
+    span2 promo
+  <% else: %>
+    span1
+  <% end %>"
+  data-priority="<%- @data.priority %>" href="<% if @data.href: %><%- @data.href %><% else: %>#<% end %>">
+  <% if @data.label: %>
+  <span class="label label-success"><%- @data.label %></span>
+  <% end %>
+  <% if @data.layout == "promo": %>
+  <div class="product-img">
+    <div class="iq-img" data-src="<%- @data.img.src %>"></div>
+    <div class="product-content">
+      <p class="text-promo-title">
+        <strong><%- @data.title %></strong><br><%- @data.emphasis %>
+      </p>
+      <% if @data.count: %>
+      <p class="text-count">
+        <span class="number l2"><%- @data.count.number %></span>&nbsp;
+        <span class="text l3"><%- @data.count.text %></span>
+      </p>
+      <% end %>
+    </div>
+  </div>
+  <% else: %>
+  <div class="product-img ghost-center-wrap">
+    <div class="ghost-center">
+      <% if @data.imgCarousel && @data.layout == "large": %>
+        <% for img in @data.imgCarousel: %>
+        <img class="iq-img" alt="<%- img.alt %>" data-src="<%- img.src %>">
+        <noscript>
+          <img src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+        </noscript>
+        <% end %>
+      <% else: %>
+      <img class="iq-img" alt="<%- @data.imgSmall.alt %>" data-src="<%- @data.imgSmall.src %>">
+      <noscript>
+        <img src="<%- @data.imgSmall.noscriptsrc %>" alt="<%- @data.imgSmall.alt %>">
+      </noscript>
+      <% end %>
+    </div>
+  </div>
+  <div class="product-content">
+    <p class="p3 product-name"><%- @data.name %></p>
+    <div class="product-price">
+      <p class="price"><span class="p5">Starting at</span> <span class="l2">$<%- @data.price %></span> <span class="p5 msrp">MSRP</span></p>
+    </div>
+  </div>
+
+  <% end %>
+</a>
+
+<% else if @data.view == "detailed": %>
+
+
 <a class="span4 gallery-item" data-filter-set='<%- JSON.stringify(@data.filterSet) %>' data-priority="<%- @data.priority %>" itemscope itemtype="http://schema.org/Product" itemprop="url" href="<% if @data.href: %><%- @data.href %><% else: %>#<% end %>">
   <% if @data.label: %>
   <span class="label label-success"><%- @data.label %></span>
@@ -86,3 +145,7 @@
     </div>
   </div>
 </a>
+
+<% else: %>
+<i>on noes</i>
+<% end %>
