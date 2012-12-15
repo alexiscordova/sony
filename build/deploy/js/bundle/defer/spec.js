@@ -62,6 +62,9 @@ $(window).resize(function() {
 
 function resize(status, device, browser, tableContainerBackup) {
 
+	//hide any modal on resize.
+  $('.modal').modal('hide');
+
 	//Put it in the scope.
 	var browser = browser;
 	var device = device;
@@ -70,7 +73,7 @@ function resize(status, device, browser, tableContainerBackup) {
 	var windowWidth = $(window).width();
 
 	//minimum per table (column)
-	var minWidthTable = 250;
+	var minWidthTable = 300;
 
 	// Number of element present in the viewport (visible element)
 	var elemMinWidth = (windowWidth / minWidthTable);
@@ -185,12 +188,12 @@ function resize(status, device, browser, tableContainerBackup) {
 			
 			if (!device) {
 				//Desktop
-				console.info('desktop');
 				
 				//Start it.
 				$_this.sonyCarousel({
 					keyboardNavEnabled: true,
-					drag: false
+					sliderDrag: false,
+					navigateByClick: false
 				});
 				
 				if ($_this.parent('.gallery-tabs').find('.desktopNav').length <= 0)
@@ -207,6 +210,7 @@ function resize(status, device, browser, tableContainerBackup) {
 					var sonySlider = $_this.data('sonyCarousel');
 					sonySlider.prev();
 				});
+				
 			} else {
 				//Mobile
 				
@@ -259,7 +263,9 @@ function resize(status, device, browser, tableContainerBackup) {
 		activeTab = $('.tableContainer .specsTable:in-viewport').attr('id');
 		$('.tabs-container .tabs').children('.cell.' + activeTab).addClass('active');
 		
-		$('html').tableInViewport();
+		$('.tableContainer').each(function(){
+			$(this).setContainerHeight();	
+		})
 		
 	}
 	//console.info(status, device, browser);
