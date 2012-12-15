@@ -1,3 +1,6 @@
+@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/mixins";
+
 
 section {
   overflow: hidden;
@@ -43,14 +46,53 @@ section {
     height: 450px;
     margin: 15px 0 0 0;
     padding: 0 ;
-    max-width: 980px; /* Both Must be set for JS to size proportiontely */
-    max-height: 450px;
+    max-width: 1400px; /* Both Must be set for JS to size proportiontely */
+    max-height: 870px;
 
     position: relative;
     direction: ltr;
-    border: 5px dashed #ccc;
+    /* border: 5px dashed #ccc; */
     overflow: hidden;
    
+    $galleryItemHeight: 337px;
+    $galleryItemImgHeight: 220px;
+    $detailedGalleryItemHeight: 480px;
+
+    @media (max-width: 767px) {
+      .gallery-item {
+        margin-top: 10px;
+        width: 20%;
+        // Make it a 1x1 instead of 2x2 or 1x2
+        // need .gallery selector to override .grid5
+        .gallery &.promo,
+        .gallery &.large {
+          height: $galleryItemHeight;
+        }
+
+        .gallery &.large .product-img {
+          height: $galleryItemImgHeight;
+        }
+      }
+    }
+
+    .small-size {
+      width: 204px;
+      height:337px;
+      display:block;
+      float:left;
+      margin-left:20px;
+    }
+
+
+
+/* 
+    @media (min-width:480px) {
+      .grid5 {
+        @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+      }
+    } */
+
+
     .rpBullets {
       position: absolute;
       z-index: 35;
