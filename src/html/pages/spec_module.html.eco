@@ -24,7 +24,7 @@ description: This is the spec module.
 		<%-@partial('includes/js_head.html')%>
 	
 	</head>
-	<body class="gallery-module">
+	<body class="gallery-module bootstrap-override">
 		<!--
 			***------Exemples------***
 			/spec/default.json
@@ -36,5 +36,8 @@ description: This is the spec module.
 	<% else: %>
 			<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
 	<% end %>
+	
+	<script src="js/libs/bootstrap.js"></script>
+	
 	</body>
 </html>

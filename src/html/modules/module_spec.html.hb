@@ -29,7 +29,7 @@ http://handlebarsjs.com/
 			</div>
 			
 			<div class="sonyRecommends">
-				<p>Sony recommends <img src="" alt="" /></p>
+				<p>Sony recommends</p>
 			</div>
 		</div>
 
@@ -276,7 +276,24 @@ http://handlebarsjs.com/
 							</div>
 							{{/if}}
 							
-							<p class="enlarge"><a href="#">Enlarge</a></p>
+							  <p class="tableZoom"><a href="#myModal{{this.id}}" role="button" class="enlarge" data-toggle="modal">Enlarge</a></p>
+								<div id="myModal{{this.id}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							    
+							    <div class="modal-body">
+							    	{{#if this.productTitle}}<h2>{{this.productTitle}} - {{this.productTitleDescription}}</h2>{{/if}}
+							    	
+									  {{#if this.portsBigImg}}
+										<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.portsBigImg}}">
+											<noscript>
+												<img src="img/spec/{{this.portsBigImg}}">
+											</noscript>
+										</div>
+										{{/if}}
+							    	<button class="close" data-dismiss="modal" aria-hidden="true">x</button>
+							    </div>
+						    </div>
+								
+								
 								<ul>
 									{{#each this.ports}}
 									<li>
@@ -284,6 +301,9 @@ http://handlebarsjs.com/
 									</li>
 									{{/each}}
 								</ul>
+								
+
+								
 							</td>
 							{{/each}}
 						</tr>
@@ -348,7 +368,7 @@ http://handlebarsjs.com/
 		{{#if computersFeatures}}
 		<h2 class="h2-bigger">Features</h2>
 
-		<div class="row-fluid no-border">
+		<div class="grid no-border">
 			<div class="span4">
 				{{#if computersFeatures.a}}
 				<h3>{{computersFeatures.a.title}}</h3>
@@ -377,7 +397,7 @@ http://handlebarsjs.com/
 			</div>
 		</div>
 
-		<div class="row-fluid no-border">
+		<div class="grid no-border">
 			<div class="span4">
 				{{#if computersFeatures.d}}
 				<h3>{{computersFeatures.d.title}}</h3>

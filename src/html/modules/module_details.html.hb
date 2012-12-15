@@ -11,19 +11,22 @@
 <div class="container module-spec">
 	{{#each productDetails}}
 	
-	<div class="spec-title">
-		<p class="title-link"><a href="#">{{this.productName}}</a></p>
-		{{#if this.productName}}
-		<h1>{{this.productName}} Details</h1>
-		{{/if}}
-		
-		<div class="clearfix">
-			<p><a href="#">Specifications</a></p><p><a href="#">Features</a></p>
+	<div class="clearfix">
+		<div class="spec-title">
+			<p class="title-link"><a href="#">{{this.productName}}</a></p>
+			{{#if this.productName}}
+			<h1>{{this.productName}} Details</h1>
+			{{/if}}
+			
+			<div class="clearfix">
+				<p><a class="active" href="#">Specifications</a></p>
+				<p><a href="#">Features</a></p>
+			</div>
 		</div>
 	</div>
 	
 	<section class="details">
-		<div class="row-fluid">
+		<div class="grid">
 			{{#if this.infos}}
 			<div class="span4">
 				<h2>What's in the Box</h2>
@@ -57,7 +60,7 @@
 		
 		{{#if this.lens}}
 		<h2>Optics/Lens</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			
 			{{#if this.lens.rows1}}
 			<div class="span4">
@@ -229,7 +232,7 @@
 		
 		{{#if this.exposure}}
 		<h2>Exposure System</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				
 				<table>
@@ -304,7 +307,7 @@
 		
 		{{#if this.sensor}}
 		<h2>Imaging Sensor</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				
 				<table>
@@ -340,7 +343,7 @@
 		
 		{{#if this.lcdDisplay}}
 		<h2>LCD Display</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				<table>
 					{{#if this.lcdDisplay.type}}
@@ -368,7 +371,7 @@
 		
 		{{#if this.driveSystem}}
 		<h2>Drive System</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				<table>
 					{{#if this.driveSystem.shutterType}}
@@ -402,7 +405,7 @@
 		
 		{{#if this.advancedFeatures}}
 		<h2>Advanced Features</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span3">
 				<table>
 					{{#if this.advancedFeatures.sweepPanorama}}
@@ -457,7 +460,7 @@
 		
 		{{#if this.Recording}}
 		<h2>Recording</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				<table>
 					{{#if this.Recording.mediaType}}
@@ -538,7 +541,7 @@
 		
 		{{#if this.focusControl}}
 		<h2>Focus Control</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				<table>
 					{{#if this.focusControl.focusSystem}}
@@ -565,7 +568,7 @@
 		
 		{{#if this.power}}
 		<h2>Power</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				<table>
 					{{#if this.power.batteryType}}
@@ -588,7 +591,7 @@
 		
 		{{#if this.interface}}
 		<h2>Interface</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				<table>
 					{{#if this.interface.memoryCardSlot}}
@@ -622,7 +625,7 @@
 		
 		{{#if this.convenienceFeatures}}
 		<h2>Convenience Features</h2>
-		<div class="row-fluid">
+		<div class="grid">
 			<div class="span4">
 				<table>
 					{{#if this.convenienceFeatures.imagePlayback}}
@@ -639,7 +642,7 @@
 		{{#if this.features}}
 		<h2 class="h2-bigger">Features</h2>
 		
-		<div class="row-fluid no-border">
+		<div class="grid no-border">
 			<div class="span4">
 				{{#if this.features.a}}
 				<h3>{{this.features.a.title}}</h3>
@@ -662,7 +665,7 @@
 			</div>
 		</div>
 		
-		<div class="row-fluid no-border">
+		<div class="grid no-border">
 			<div class="span4">
 				{{#if this.features.d}}
 				<h3>{{this.features.d.title}}</h3>

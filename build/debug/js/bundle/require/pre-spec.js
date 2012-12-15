@@ -12,6 +12,9 @@ var myArray = new Array();
 
 //var mytables = $(".tableContainer .specsTable").clone();
 
+
+
+//Usage: $('.tableContainer').setContainerHeight();
 $.fn.setContainerHeight = function() {
 	tallest = $(this).find('.specsTable').maxHeight();
 	$(this).height(tallest);

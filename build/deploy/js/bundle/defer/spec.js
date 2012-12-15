@@ -18,6 +18,7 @@ $(window).load(function() {
 			j++;
 		});
 	}
+	
 
 	//Clone the first column (we will push it for each table)
 	$firstColumnTablesBackup = $('.tableContainer').findColumn(1).clone();
@@ -32,13 +33,16 @@ $(window).load(function() {
 	//Strike the resize
 
 	/*
-	 $("#button").click(function(e) {
-	 e.preventDefault();
-	 var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
+		 $("#button").click(function(e) {
+		 e.preventDefault();
+		 var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
+	
+		 resize('resize', ifMobile, $browser, $tableContainerBackup);
+		 });
+	*/
 
-	 resize('resize', ifMobile, $browser, $tableContainerBackup);
-	 });
-	 */
+	
+
 
 });
 
@@ -178,13 +182,17 @@ function resize(status, device, browser, tableContainerBackup) {
 					$_this.append($table);
 				});
 			};
-
-			//Start it.
-			$_this.sonyCarousel();
-			var sonySlider = $_this.data('sonyCarousel');
-
-			//load the next & previous only if needed (desktop)
+			
 			if (!device) {
+				//Desktop
+				console.info('desktop');
+				
+				//Start it.
+				$_this.sonyCarousel({
+					keyboardNavEnabled: true,
+					drag: false
+				});
+				
 				if ($_this.parent('.gallery-tabs').find('.desktopNav').length <= 0)
 					$_this.before('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
 
@@ -200,10 +208,18 @@ function resize(status, device, browser, tableContainerBackup) {
 					sonySlider.prev();
 				});
 			} else {
+				//Mobile
+				
+				//Start it.
+				$_this.sonyCarousel({
+					keyboardNavEnabled: false,
+					drag: true
+				});
+				
 				console.info('mobile');
 				//Mobile version
-
 				var sonySlider = $_this.data('sonyCarousel');
+				
 				//When you click on tabs
 				$_this.prev().find('.tab').click(function() {
 					$(this).parent().find('.tab').removeClass('active').removeAttr('style');
@@ -212,10 +228,9 @@ function resize(status, device, browser, tableContainerBackup) {
 				});
 
 				var sonySlider = $('.tableContainer').data('sonyCarousel');
-
 				sonySlider.ev.on('scAfterSlideChange', function(event) {
-					// triggers after slide change
 					
+					// triggers after slide change
 					$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
 					$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-'+(sonySlider.currSlideId+1)).addClass('active');
 				});
@@ -243,14 +258,27 @@ function resize(status, device, browser, tableContainerBackup) {
 		//init the active class for the tabs
 		activeTab = $('.tableContainer .specsTable:in-viewport').attr('id');
 		$('.tabs-container .tabs').children('.cell.' + activeTab).addClass('active');
+		
+		$('html').tableInViewport();
+		
 	}
-
-	//Set the height.
-	$('.tableContainer').each(function() {
-		$(this).setContainerHeight();
-	})
 	//console.info(status, device, browser);
+	
 }
+
+/*
+var sonySlider = $('.tableContainer').data('sonyCarousel');
+sonySlider.ev.on('scAfterSlideChange', function(event)
+{	
+	// triggers after slide change
+	$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
+	$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-'+(sonySlider.currSlideId+1)).addClass('active');
+});
+*/
+
+
+
+
 
 /*
  var sonySlider = $_this.data('sonyCarousel');
