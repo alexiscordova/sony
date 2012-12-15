@@ -1,0 +1,156 @@
+
+<% if @data.view == "basic": %>
+<a class="gallery-item
+  <% if @data.layout == "large": %>
+    span3 large
+  <% else if @data.layout == "promo": %>
+    span2 promo
+  <% else: %>
+    span1
+  <% end %>"
+  data-priority="<%- @data.priority %>" href="<% if @data.href: %><%- @data.href %><% else: %>#<% end %>">
+  <% if @data.label: %>
+  <span class="label label-success"><%- @data.label %></span>
+  <% end %>
+  <% if @data.layout == "promo": %>
+  <div class="product-img">
+    <div class="iq-img" data-src="<%- @data.img.src %>"></div>
+    <div class="product-content">
+      <p class="text-promo-title">
+        <strong><%- @data.title %></strong>&nbsp;<%- @data.emphasis %><i class="icon-ui2-chevron-18-blue"></i>
+      </p>
+      <% if @data.count: %>
+      <p class="text-count">
+        <span class="number l2"><%- @data.count.number %></span>&nbsp;
+        <span class="text l3"><%- @data.count.text %></span>
+      </p>
+      <% end %>
+    </div>
+  </div>
+  <% else: %>
+  <div class="product-img ghost-center-wrap">
+    <div class="ghost-center">
+      <% if @data.imgCarousel && @data.layout == "largeASDFASDFASDFASDFASDFASDFASDFASDF": %>
+        <% for img in @data.imgCarousel: %>
+        <img class="iq-img" alt="<%- img.alt %>" data-src="<%- img.src %>">
+        <noscript>
+          <img src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+        </noscript>
+        <% end %>
+      <% else if @data.layout == "large": %>
+      <img class="iq-img" alt="<%- @data.imgLarge.alt %>" data-src="<%- @data.imgLarge.src %>">
+      <noscript>
+        <img src="<%- @data.imgLarge.noscriptsrc %>" alt="<%- @data.imgLarge.alt %>">
+      </noscript>
+      <% else: %>
+      <img class="iq-img" alt="<%- @data.imgSmall.alt %>" data-src="<%- @data.imgSmall.src %>">
+      <noscript>
+        <img src="<%- @data.imgSmall.noscriptsrc %>" alt="<%- @data.imgSmall.alt %>">
+      </noscript>
+      <% end %>
+    </div>
+  </div>
+  <div class="product-content">
+    <p class="p3 product-name"><%- @data.name %></p>
+    <div class="product-price">
+      <p class="price"><span class="p5">Starting at</span> <span class="l2">$<%- @data.price %></span> <span class="p5 msrp">MSRP</span></p>
+    </div>
+  </div>
+
+  <% end %>
+</a>
+
+<% else if @data.view == "detailed": %>
+
+
+<a class="span4 gallery-item" data-filter-set='<%- JSON.stringify(@data.filterSet) %>' data-priority="<%- @data.priority %>" itemscope itemtype="http://schema.org/Product" itemprop="url" href="<% if @data.href: %><%- @data.href %><% else: %>#<% end %>">
+  <% if @data.label: %>
+  <span class="label label-success"><%- @data.label %></span>
+  <% end %>
+  <div class="product-img">
+    <div class="ghost-center-wrap">
+      <div class="ghost-center js-product-imgs">
+        <img class="iq-img js-product-img-main" itemprop="image" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+        <noscript>
+          <img src="<%- @data.img.noscriptsrc %>" itemprop="image" alt="<%- @data.img.alt %>">
+        </noscript>
+        <% for img in @data.img.colors: %>
+        <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
+        <noscript>
+          <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+        </noscript>
+        <% end %>
+      </div>
+    </div>
+    <% if @data.img.colors: %>
+    <div class="color-swatches">
+      <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %>" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+    </div>
+    <% end %>
+  </div>
+  <div class="product-content">
+    <div class="p3 product-name" itemprop="name"><%- @data.name %></div>
+    <div class="p5 product-model" itemprop="model"><%- @data.model %></div>
+    <div class="p5 product-rating" data-stars="<%- @data.rating.stars %>" itemprop="reviews" itemscope itemtype="http://schema.org/AggregateRating">
+      <meta itemprop="ratingValue" content="<%- @data.rating.stars %>">
+      <i class="icon-ui-star"></i
+      ><i class="icon-ui-star"></i
+      ><i class="icon-ui-star"></i
+      ><i class="icon-ui-star"></i
+      ><i class="icon-ui-star"></i>
+      ( <span itemprop="ratingCount"><%- @data.rating.reviews %></span> user reviews)
+    </div>
+    <ul class="p3 product-meta">
+      <% for meta in @data.meta: %>
+      <li><%- meta.value %> <span class="product-meta-name"><%- meta.name %></span></li>
+      <% end %>
+    </ul>
+    <div class="product-price">
+      <p class="price"><span class="p5">Starting at</span> <span class="l2" itemprop="price">$<%- @data.price %></span> <span class="p5 msrp">MSRP</span></p>
+    </div>
+    <div class="detail-group hidden">
+      <% if @data.details: %>
+      <% for detail in @data.details: %>
+      <div class="detail" itemprop="<%- detail.slug %>">
+        <% if detail.value.check: %>
+          <% if detail.value.checked: %>
+          <div class="icon-ui-check"></div><%- detail.value.text %>
+          <% else: %>
+          <div class="icon-ui-ban"></div>NOPE
+          <% end %>
+        <% else if detail.value.box: %>
+            <p class="compare-box"><%- detail.value.box %></p>
+            <p><%- detail.value.lineOne %></p>
+            <% if detail.value.lineTwo: %><p><%- detail.value.lineTwo %></p><% end %>
+            <% if detail.value.lineThree: %><p><%- detail.value.lineThree %></p><% end %>
+        <% else if detail.value.lineOne: %>
+          <p><%- detail.value.lineOne %></p>
+          <% if detail.value.lineTwo: %><p><%- detail.value.lineTwo %></p><% end %>
+          <% if detail.value.lineThree: %><p><%- detail.value.lineThree %></p><% end %>
+        <% else if detail.value[0].description: %>
+          <ul class="media-list">
+            <% for value in detail.value: %>
+            <li class="media">
+              <div class="pull-left">
+                <i class="media-object icon-bestfor-<%- detail.icon %>"></i>
+              </div>
+              <div class="media-body">
+                <p class="media-heading p3 text-dark"><%- detail.label %></p>
+                <p class="p3"><%- detail.description %></p>
+              </div>
+            </li>
+            <% end %>
+          </ul>
+        <% else: %>
+          <%- detail.value %>
+        <% end %>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+</a>
+
+<% else: %>
+<i>on noes</i>
+<% end %>
