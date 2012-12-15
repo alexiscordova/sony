@@ -122,6 +122,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     windowWidth = $window.width();
     windowHeight = $window.height();
     tabWidth = initialTabWidth = $tabs.outerWidth();
+    console.log('initialTabWidth', initialTabWidth);
 
     // New tab shown event
     $tabs.on('shown', _tabShown);
