@@ -65,17 +65,21 @@ $detailedGalleryItemHeight: 480px;
 .gallery-item {
   position: relative;
   display: block;
+  // height: 0;
+  // padding-bottom: 165.19607843137254%;
+  // padding-bottom: 60.534124629080125%;
   margin-top: $grid5GutterWidth;
   height: $galleryItemHeight;
   overflow: hidden;
   background: $white;
+  // background: $transparentBlack;
 
   p,
   div,
   li {
     color: $grayDark; // override <a> color
   }
-  
+
   // Container for product images
   .product-img {
     position: relative;
@@ -104,21 +108,53 @@ $detailedGalleryItemHeight: 480px;
     }
   }
 
-  // h2 is height * 2
-  &.h2 {
+  // large is height * 2
+  &.large {
     height: ($galleryItemHeight * 2) + $grid5GutterWidth;
+    // padding-bottom: 94.40459110473458%;
+    // padding-bottom: 105.92705167173253%;
+  }
+
+  // Double the height and include margin
+  &.large .product-img {
+    height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
   }
 
   // Promo gallery item images are the full height
   &.promo {
+    color: $white;
+
+    .text-promo-title {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      margin: 0;
+      max-width: 225px;
+
+      i {
+        margin-top: 8px;
+        margin-left: 10px;
+      }
+    }
+
+    .text-count {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      margin: 0;
+    }
+
+    strong { color: $white; }
 
     .product-content {
       position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
       text-align: left;
     }
-    
+
     .product-img {
       height: 100%;
     }
@@ -141,11 +177,6 @@ $detailedGalleryItemHeight: 480px;
     }
 
     .text-count .text { font-size: $font_12_15; }
-  }
-
-  // Double the height and include margin
-  &.large .product-img {
-    height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
   }
 
   .gallery-detailed & {
@@ -190,7 +221,7 @@ $detailedGalleryItemHeight: 480px;
     // Make it a 1x1 instead of 2x2 or 1x2
     // need .gallery selector to override .grid5
     .gallery &.promo,
-    .gallery &.h2 {
+    .gallery &.large {
       height: $galleryItemHeight;
     }
 
@@ -335,7 +366,7 @@ $detailedGalleryItemHeight: 480px;
     display: initial !important;
     vertical-align: baseline;
   }
-  
+
 }
 
 
@@ -369,16 +400,23 @@ $detailedGalleryItemHeight: 480px;
 
   // Container for .tabs-container
   &.tab-strip {
+    position: relative; // original
+    background-color: $grayLighter; // original
+    // overflow: auto; // new
+  }
+
+  // New
+  .tabs-container {
     position: relative;
-    background-color: $grayLighter;
+    overflow: hidden;
   }
 
   // Container for .tab's
   .tabs {
     z-index: 1;
     height: $tabHeight;
-    overflow-x: auto;
-    white-space: nowrap;
+    overflow-x: auto; // original
+    white-space: nowrap; // original
   }
 
   .tab {
@@ -475,7 +513,7 @@ $detailedGalleryItemHeight: 480px;
     border-left: 5px solid $blue;
     border-bottom: 5px solid transparent;
   }
-  
+
 }
 
 

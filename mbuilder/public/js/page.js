@@ -55,7 +55,7 @@ $(document).ready(function() {
         //get list of data.json path names for each submodule:
         subselect.change(function(e) {
             subselect.find('.hold').remove();
-            var n = e.target.value.replace(/.html(.eco|.hb)/g, '');
+            var n = e.target.value.replace(/((module_)|(.html(.eco|.hb)))/g, '');
             $.ajax({
                 url : "/dnames",
                 data : {
