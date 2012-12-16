@@ -1418,8 +1418,14 @@ form.bs-docs-example {
 
 
 
+
+#contentWrappers{
+  border-bottom:none;
+  padding-bottom:20px;
+}
+
 .docs-page-structure-page{
-  width:300px;
+  width:350px;
   font-size:$font_14_16;
   color:$grayDark;
   text-align:center;
@@ -1527,7 +1533,48 @@ form.bs-docs-example {
     }
   }
 }
+.docs-container-demo{
+  border:none;
+  font-size:$font_14_16;
+  color:$grayDark;
+  text-align:center;
 
+  background:$blue;
+  padding:20px 0;
+  margin-bottom:10px;
+
+  .grid{
+    margin-top: 1px;
+    margin-bottom: 1px;
+    background:rgba(255,234,0,0.4);
+  }
+}
+
+
+
+.docs-page-structure-page,
+.docs-container-demo{
+  .prettyprint.linenums,
+  .prettyprint,
+  pre.prettyprint{
+    padding:2px 8px;
+    font-size:$font_13_15;
+    background-color:rgba(247,247,249,0.5);
+    border-color:rgba(225,225,232,0.5);
+    @include box-shadow(none);
+    margin-bottom:0;
+    display:inline-block;
+    text-align:left;
+
+    ol.linenums {
+      margin: 0;
+      li{
+        margin:0;
+        padding:0;
+      }
+    }
+  }
+}
 
 
 
