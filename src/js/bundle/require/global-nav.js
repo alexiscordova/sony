@@ -41,7 +41,7 @@
 
     initPrimaryNavBtns : function(isDesktop) {
       var th = this;
-      console.log("initPrimaryNavBtns: " + isDesktop);
+      // console.log("initPrimaryNavBtns: " + isDesktop);
 
       // Set up primary nav buttons
       if (isDesktop){

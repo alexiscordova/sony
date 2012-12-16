@@ -13,7 +13,7 @@
 			<header class="jumbotron subhead" id="overview">
 			  <div class="container">
 			    <h2 class="bs-docs-heading">Scaffolding</h2>
-			    <p class="p1">The system is built on responsive 12-column grids, layouts, and components.</p>
+			    <p class="p1">The system is built on responsive 12-column grids, layouts, and components, with 2 primary left &amp; right margins.</p>
 			  </div>
 			</header>
 			
@@ -31,39 +31,39 @@
 				          <p>The "main" section of the page is 100% wide with no margins or padding.</p>
 
 				          <div class="docs-page-structure-page">
-				          	<div class="docs-page-structure-nav">&lt;nav&gt;</div>	
-				          	<div class="docs-page-structure-main">&lt;div id="main"&gt;</div>	
-				          	<div class="docs-page-structure-footer">&lt;footer&gt;</div>				          	
+				          	<div class="docs-page-structure-nav"><pre class="prettyprint">&lt;nav /&gt;</pre></div>	
+				          	<div class="docs-page-structure-main"><pre class="prettyprint">&lt;div id="main" /&gt;</pre></div>	
+				          	<div class="docs-page-structure-footer"><pre class="prettyprint">&lt;footer /&gt;</pre></div>				          	
 				          </div>
 
 
 				          <h3 class="bs-docs-heading">"Main" content structure</h3>
-				          <p>Directly inside of "main" are the major <code>.container</code> sections of the page, each its own 'row' of content.</p>
-				          <p>By default, each container has left &amp; right margins, which may be different at each responsive breakpoint. To get rid of margins, add <code>.full-bleed</code> to the container</p>
+				          <p>Directly inside of "main" are the major <code>.container</code> sections of the page, each its own 'row' of content. All "root-level" modules should always be wrapped in one of these <code>&lt;section class="container"&gt;</code>. By default, each container has left &amp; right margins*, which may be different at each responsive breakpoint. To remove the side margins, add <code>.full-bleed</code> to the container</p>
+				          <p class="p3">*They're margins in theory, but not in css. margin-left and margin-right are actually auto, and the container has a set (percent) width, calculated based on the size the margins should be.</p>
 
 				          <div class="docs-page-structure-page">
-				          	<div class="docs-page-structure-nav">&lt;nav&gt;</div>	
+				          	<div class="docs-page-structure-nav"><pre class="prettyprint">&lt;nav /&gt;</pre></div>	
 				          	<div class="docs-page-structure-main2">
-				          		<section class="docs-page-structure-main-container">&lt;section class="container"&gt;</section>
-				          		<section class="docs-page-structure-main-container-full-bleed">&lt;section class="container full-bleed"&gt;</section>
-				          		<section class="docs-page-structure-main-container">&lt;section class="container"&gt;</section>
+				          		<section class="docs-page-structure-main-container"><pre class="prettyprint">&lt;section class="container" /&gt;</pre></section>
+				          		<section class="docs-page-structure-main-container-full-bleed"><pre class="prettyprint">&lt;section class="container full-bleed" /&gt;</pre></section>
+				          		<section class="docs-page-structure-main-container"><pre class="prettyprint">&lt;section class="container" /&gt;</pre></section>
 				          	</div>
-				          	<div class="docs-page-structure-footer">&lt;footer&gt;</div>			          	
+				          	<div class="docs-page-structure-footer"><pre class="prettyprint">&lt;footer /&gt;</pre></div>			          	
 				          </div>
 
 				          <h3 class="bs-docs-heading">"Main" content max-width and full-bleed</h3>
-				          <p>The <code>.container</code> sections will expand horizontally with the browser, until hitting a maximum width, beyond which point they'll have a fixed width, and margins will increase if the browser is sized any wider. If you need something to be truly full bleed, no matter how wide the browser window is, add the class <code>.full-bleed-no-max</code></p>
+				          <p>The <code>.container</code> sections will expand horizontally with the browser, until hitting a maximum width, beyond which point they'll have a fixed width, and margins will increase if the browser is sized any wider. If you need a container to be truly full bleed, no matter how wide the browser window is, add the class <code>.full-bleed-no-max</code></p>
 
 				          <div class="docs-page-structure-page docs-page-structure-page-max">
-				          	<div class="docs-page-structure-nav">&lt;nav&gt;</div>	
+				          	<div class="docs-page-structure-nav"><pre class="prettyprint">&lt;nav /&gt;</pre></div>	
 				          	<div class="docs-page-structure-main2">
-				          		<section class="docs-page-structure-main-container">&lt;section class="container"&gt;</section>
+				          		<section class="docs-page-structure-main-container"><pre class="prettyprint">&lt;section class="container" /&gt;</pre></section>
 				          		<div class="docs-docs-page-structure-maxWidth-outline"></div>
-				          		<section class="docs-page-structure-main-container-full-bleed">&lt;section class="container full-bleed"&gt;</section>
-				          		<section class="docs-page-structure-main-container-full-bleed docs-page-structure-main-container-full-bleed-no-max">&lt;section class="container full-bleed-no-max"&gt;</section>
-				          		<section class="docs-page-structure-main-container">&lt;section class="container"&gt;</section>
+				          		<section class="docs-page-structure-main-container-full-bleed"><pre class="prettyprint">&lt;section class="container full-bleed" /&gt;</pre></section>
+				          		<section class="docs-page-structure-main-container-full-bleed docs-page-structure-main-container-full-bleed-no-max"><pre class="prettyprint">&lt;section class="container full-bleed-no-max" /&gt;</pre></section>
+				          		<section class="docs-page-structure-main-container"><pre class="prettyprint">&lt;section class="container" /&gt;</pre></section>
 				          	</div>
-				          	<div class="docs-page-structure-footer">&lt;footer&gt;</div>			          	
+				          	<div class="docs-page-structure-footer"><pre class="prettyprint">&lt;footer /&gt;</pre></div>			          	
 				          </div>
 				          <p class="p4">The red lines indicate the "max-width" setting.</p>
 
@@ -71,69 +71,97 @@
 
 
 				          <h3 class="bs-docs-heading">Nesting containers</h3>
-				          <p>If you need a full-bleed for a background, but still need the regular margins for content, you can nest a <code>.container</code> section inside of a <code>.full-bleed</code> and/or <code>.full-bleed-no-max</code>  section</p>
+				          <p>If you need a full-bleed for a background, but still need the regular margins for content, you can nest a <code>.container</code> section inside of a <code>.full-bleed</code> and/or <code>.full-bleed-no-max</code>  section.</p>
 
 				          <div class="docs-page-structure-page docs-page-structure-page-max" style="margin-bottom:10px;">
-				          	<div class="docs-page-structure-nav">&lt;nav&gt;</div>	
+				          	<div class="docs-page-structure-nav"><pre class="prettyprint">&lt;nav /&gt;</pre></div>	
 				          	<div class="docs-page-structure-main2">
-				          		<section class="docs-page-structure-main-container">&lt;section class="container"&gt;</section>
+				          		<section class="docs-page-structure-main-container"><pre class="prettyprint">&lt;section class="container" /&gt;</pre></section>
 				          		
 				          		<section class="docs-page-structure-main-container-full-bleed nesting-demo">
-				          			<div class="docs-page-structure-main-container">.full-bleed > .container</div>			          				
+				          			<div class="docs-page-structure-main-container">
+<pre class="prettyprint">
+&lt;section class="container full-bleed"&gt;
+   &lt;div class="container"&gt;&lt;/div&gt;
+&lt;/section&gt;	
+</pre>
+				          			</div>			          				
 				          		</section>
 
 				          		<section class="docs-page-structure-main-container-full-bleed docs-page-structure-main-container-full-bleed-no-max nesting-demo">
 				          			<div class="docs-page-structure-main-container-full-bleed">
-				          				<div class="docs-page-structure-main-container">.full-bleed-no-max > .full-bleed > .container</div>			          				
+				          				<div class="docs-page-structure-main-container">
+<pre class="prettyprint">
+&lt;section class="container full-bleed-no-max"&gt;
+   &lt;div class="container full-bleed"&gt;
+      &lt;div class="container"&gt;&lt;/div&gt;
+   &lt;/div&gt;
+&lt;/section&gt;	
+</pre>
+				          				</div>			          				
 				          			</div>
 				          		</section>
 				          		<div class="docs-docs-page-structure-maxWidth-outline"></div>
-				          		<section class="docs-page-structure-main-container">&lt;section class="container"&gt;</section>
+				          		<section class="docs-page-structure-main-container"><pre class="prettyprint">&lt;section class="container" /&gt;</pre></section>
 				          	</div>
-				          	<div class="docs-page-structure-footer">&lt;footer&gt;</div>			          	
+				          	<div class="docs-page-structure-footer"><pre class="prettyprint">&lt;footer /&gt;</pre></div>			          	
 				          </div>
-
-<pre class="prettyprint linenums">
-&lt;div id="main"&gt;
-	&lt;section class="container"&gt;&lt;/section&gt;
-	&lt;section class="container full-bleed"&gt;
-		&lt;div class="container"&gt;&lt;/div&gt;
-	&lt;/section&gt;
-	&lt;section class="container full-bleed-no-max"&gt;
-		&lt;div class="container full-bleed"&gt;
-			&lt;div class="container"&gt;&lt;/div&gt;
-		&lt;/div&gt;
-	&lt;/section&gt;
-	&lt;section class="container"&gt;&lt;/section&gt;
-&lt;/div&gt;
-</pre>
-
-
-
-
 
 
 				        	<h3 class="bs-docs-heading">Grid container &amp; margins</h3>
 				          <p>If you want to utilize the grid (you should), the next block inside of <code>.container</code> should be a <code>.grid</code>. By default, the grid also has its own margins, which like <code>.container</code> can be overridden by adding <code>.full-bleed</code>.</p>
 
 				          <div class="docs-page-structure-page">
-				          	<div class="docs-page-structure-nav">&lt;nav&gt;</div>	
+				          	<div class="docs-page-structure-nav"><pre class="prettyprint">&lt;nav /&gt;</pre></div>	
 				          	<div class="docs-page-structure-main3">
-				          		<section class="docs-page-structure-main-container">&lt;section class="container"&gt;</section>
+				          		<section class="docs-page-structure-main-container"><pre class="prettyprint">&lt;section class="container" /&gt;</pre></section>
 				          		<section class="docs-page-structure-main-container docs-page-structure-main-container-grid-wrap">
-				          			<div class="grid show-grid"><div class="span12">&lt;div class="grid"&gt;</div></div>
-				          			<div class="grid show-grid full-bleed"><div class="span12">&lt;div class="grid full-bleed"&gt;</div></div>
-				          			<div class="grid show-grid"><div class="span12">&lt;div class="grid"&gt;</div></div>
+				          			<div class="grid show-grid"><div class="span12"><pre class="prettyprint">&lt;div class="grid" /&gt;</pre></div></div>
+				          			<div class="grid show-grid full-bleed"><div class="span12"><pre class="prettyprint">&lt;div class="grid full-bleed" /&gt;</pre></div></div>
+				          			<div class="grid show-grid"><div class="span12"><pre class="prettyprint">&lt;div class="grid" /&gt;</pre></div></div>
 				          		</section>
-				          		<section class="docs-page-structure-main-container">&lt;section class="container"&gt;</section>
+				          		<section class="docs-page-structure-main-container"><pre class="prettyprint">&lt;section class="container" /&gt;</pre></section>
 				          	</div>
-				          	<div class="docs-page-structure-footer">&lt;footer&gt;</div>			          	
+				          	<div class="docs-page-structure-footer"><pre class="prettyprint">&lt;footer /&gt;</pre></div>			          	
 				          </div>
 
 				        </div>
 
 			        
 			        </section>
+
+
+
+							<section class="container" style="padding-bottom:20px; padding-top:0; border-top:0;">
+				        <h3 class="bs-docs-heading">Examples</h3>
+				        <p>Resize your browser to see how the <code>.container</code> and <code>.grid</code> respond with the <code>.full-bleed</code> and <code>.full-bleed-no-max</code> classes.</p>
+				        <p><small>Note: You need a display wider than 1400px to see any difference between <code>.full-bleed</code> and <code>full-bleed-no-max</code>.</small></p>
+							</section>
+
+			        <section class="docs-container-demo container">
+								<pre class="prettyprint">&lt;section class="container" /&gt;</pre>
+				      </section>
+
+			        <section class="docs-container-demo container full-bleed">
+			        	<pre class="prettyprint">&lt;section class="container full-bleed" /&gt;</pre>
+				      </section>
+
+			        <section class="docs-container-demo container full-bleed-no-max">
+			        	<pre class="prettyprint">&lt;section class="container full-bleed-no-max" /&gt;</pre>
+				      </section>
+
+
+
+			        <section class="docs-container-demo container" style="margin-bottom:50px;">
+			        	<pre class="prettyprint">&lt;section class="container"&gt;</pre>
+				      	<div class="grid"><pre class="prettyprint">&lt;div class="grid" /&gt;</pre></div>
+				      	<div class="grid full-bleed"><pre class="prettyprint">&lt;div class="grid full-bleed" /&gt;</pre></div>
+			        	<pre class="prettyprint">&lt;/section&gt;</pre>
+				      </section>
+
+
+
+
 
 
 			        <!-- Grid system
@@ -222,7 +250,7 @@
 
 
 			          <h3 class="bs-docs-heading">Offsetting columns</h3>
-			          <p>Move columns to the right using <code>.offset*</code> classes. Each class increases the left margin of a column by a whole column. For example, <code>.offset2</code> moves <code>.span4</code> over four columns.</p>
+			          <p>Move columns to the right using <code>.offset*</code> classes. Each class increases the left margin of a column by a whole column. For example, <code>.offset2</code> moves <code>.span4</code> over two columns.</p>
 			          <div class="bs-docs-grid">
 			            <div class="grid show-grid">
 			              <div class="span1">1</div>
@@ -252,19 +280,26 @@
 &lt;/div&gt;
 </pre>
 			
-			          <h3 class="bs-docs-heading">Nesting columns</h3>
-			          <p>To nest your content with a grid, add a new <code>.grid</code> and set of <code>.span*</code> columns within an existing <code>.span*</code> column. Nested grid rows should include a set of columns that add up to the number of columns of its parent.</p>
+
+			<!-- 
+			          <h3 class="bs-docs-heading" class="NotUpdatedYet">Nesting columns -- THIS IS CURRENTLY BROKEN FOR THE FLUID GRID</h3>
+			          <p>To nest your content with a grid, add a new <code>.grid</code> and set of <code>.span*</code> columns within an existing <code>.span*</code> column. Notice that a grid inside of a grid does not have left and right margins, so its total width is the same as its parent span. Nested grid rows should include a set of columns that add up to the number of columns of its parent.</p>
 			          <div class="grid show-grid">
-			            <div class="span12">
-			              Level 1 of column (span12)
+			            <div class="span8">
+			              Level 1 of column (span8)
+			              
 			              <div class="grid show-grid">
-			                <div class="span9">
-			                  Level 2 (span9)
+			                <div class="span6">
+			                  Level 2 (span6)
 			                </div>
-			                <div class="span3">
-			                  Level 2 (span3)
+			                <div class="span2">
+			                  Level 2 (span2)
 			                </div>
 			              </div>
+			            </div>
+
+			            <div class="span4">
+			              Level 1 of column (span4)
 			            </div>
 			          </div>
 <pre class="prettyprint linenums">
@@ -278,7 +313,7 @@
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
-
+--> 
 							</section>
 
 
@@ -288,6 +323,8 @@
 			
 			        <!-- Fixed width grid system
 			        ================================================== -->
+
+			        <!-- 
 			        <section id="fixedGridSystem" class="container">
 			          <h2 class="bs-docs-heading">Fixed width grid system</h2>
 
@@ -326,6 +363,7 @@
 			          </div>
 
 			        </section>
+							--> 
 			
 			
 			
@@ -338,7 +376,7 @@
 			          <h2 class="bs-docs-heading">Layouts</h2>
 			
 			          <h3 class="bs-docs-heading">Fixed layout</h3>
-			          <p>Provides a common fixed-width (and optionally responsive) layout with only <code>&lt;div class="container-px-width"&gt;</code> required.</p>
+			          <p>Provides a common fixed-width (and optionally responsive) layout with only <code><pre class="prettyprint linenums">&lt;div class="container-px-width"&gt;</code> required.</p>
 			          <div class="mini-layout">
 			            <div class="mini-layout-body"></div>
 			          </div>
@@ -351,7 +389,7 @@
 			</pre>
 			
 			          <h3 class="bs-docs-heading">Fluid layout</h3>
-			          <p>Create a fluid, two-column page with <code>&lt;div class="container"&gt;</code>&mdash;great for applications and docs.</p>
+			          <p>Create a fluid, two-column page with <code><pre class="prettyprint linenums">&lt;div class="container"&gt;</code>&mdash;great for applications and docs.</p>
 			          <div class="mini-layout fluid">
 			            <div class="mini-layout-sidebar"></div>
 			            <div class="mini-layout-body"></div>
@@ -380,9 +418,10 @@
 
 			
 			          {{! About }}
-			          <h3 class="bs-docs-heading">About responsive Bootstrap</h3>
+			          <!-- <h3 class="bs-docs-heading">About responsive Bootstrap</h3> --> 
 			          <img src="img/responsive-illustrations.png" alt="Responsive devices" style="float: right; margin: 0 0 20px 20px;">
 			          <p>Media queries allow for custom CSS based on a number of conditions&mdash;ratios, widths, display type, etc&mdash;but usually focuses around <code>min-width</code> and <code>max-width</code>.</p>
+			         	<!-- 
 			          <ul>
 			            <li>Modify the width of column in our grid</li>
 			            <li>Stack elements instead of float wherever necessary</li>
@@ -391,7 +430,7 @@
 			
 			          {{! Supported }}
 			          <h3 class="bs-docs-heading">Supported devices</h3>
-			          <p>Bootstrap supports a handful of media queries in a single file to help make your projects more appropriate on different devices and screen resolutions. Here's what's included:</p>
+			          <p>Bootstrap supports a handful of media queries in a single file to adapt to difference devices and screen resolutions.</p>
 			          <table class="table table-bordered table-striped">
 			            <thead>
 			              <tr>
@@ -432,6 +471,8 @@
 			              </tr>
 			            </tbody>
 			          </table>
+
+			        	--> 
 			<pre class="prettyprint linenums">
 			/* Large desktop */
 			@media (min-width: 1200px) { ... }
@@ -449,13 +490,13 @@
 			
 			          {{! Responsive utility classes }}
 			          <h3 class="bs-docs-heading">Responsive utility classes</h3>
-			          <p>For faster mobile-friendly development, use these utility classes for showing and hiding content by device. Below is a table of the available classes and their effect on a given media query layout (labeled by device). They can be found in <code>responsive.less</code>.</p>
+			          <p>For faster mobile-friendly development, use these utility classes for showing and hiding content by device. Below is a table of the available classes and their effect on a given media query layout (labeled by device). <!-- They can be found in <code>responsive.less</code>.--> </p>
 			          <table class="table table-bordered table-striped responsive-utilities">
 			            <thead>
 			              <tr>
 			                <th>Class</th>
 			                <th>Phones <small>767px and below</small></th>
-			                <th>Tablets <small>979px to 768px</small></th>
+			                <th>Tablets <small>768px to 979px</small></th>
 			                <th>Desktops <small>Default</small></th>
 			              </tr>
 			            </thead>
