@@ -108,8 +108,8 @@
       t.newSlideId = 0;
       t.sPosition = 0;
       t.accelerationPos = 0;
-      t.maxWidth = parseInt(t.sliderOverflow.parent().css('maxWidth').replace(/px/gi , '') , 10);
-      t.maxHeight = parseInt(t.sliderOverflow.parent().css('maxHeight').replace(/px/gi , '') , 10);
+      t.maxWidth = parseInt(t.sliderOverflow.parent().css('maxWidth'), 10);
+      t.maxHeight = parseInt(t.sliderOverflow.parent().css('maxHeight'), 10);
       t.resizeRatio = t.maxHeight / t.maxWidth; //target resize ratio
       t.markup = t.$container.html();
 
@@ -198,29 +198,48 @@
             t.updateSliderSize();
             t.updateSlides();
 
-
             (function (){
+
+              if(t.isTabletMode || t.isMobileMode) {
+
+                $('.product-img' ).css('height' , '');
+                $('.gallery-item' ).css('height' , '').addClass('small-size');
+
+                return;
+              }
+
               var $larges = t.$container.find('.large'),
+                  $lrgIms = t.$container.find('.large .product-img'),
                   $lTest = $larges.eq(0),
                   lW = $lTest.outerWidth();
 
-                  $larges.css('height' , lW * GALLERY_TILE_RATIOS.large);
+                  $lrgIms.css('height' , 79.8275861 + '%');
+
+                  //$lrgIms.css('');
+                  $larges.css('height' , lW * Exports.GALLERY_RATIOS.large);
               
               var $promos = t.$container.find('.promo'),
+                  $pIms = t.$container.find('.promo .product-img'),
                   $pTest = $promos.eq(0),
                   pW = $pTest.outerWidth();
 
-                  $promos.css('height' , pW * GALLERY_TILE_RATIOS.promo);
+                  //
+                  $promos.css('height' , pW * 0.66 ) ;
 
               var $normals = t.$container.find('.normal'),
                   $nTest = $normals.eq(0),
-                  nW = $nTest.outerWidth();
+                  $nIms = t.$container.find('.normal .product-img'),
+                  nW = $nTest.outerWidth(); // 
 
-                  $normals.css('height' , nW  * GALLERY_TILE_RATIOS.normal);              
+
+
+                  $nIms.css('height' , 65.28189911 + '%');
+
+                  $normals.css('height' , nW  * 1.52);        
+
+
+                  console.log("exports  »",Exports.GALLERY_RATIOS);      
             })();
-
-
-
 
           }, t.throttleTime);          
       });
@@ -296,7 +315,7 @@
       checkForBreakpoints: function(){
         var t = this,
             wW = t.win.width(),
-            view = wW > 768 ? 'desktop' : wW > 539 ? 'tablet' : 'mobile';
+            view = wW > 768 ? 'desktop' : wW > 480 ? 'tablet' : 'mobile';
 
             switch(view){
               case 'desktop':
@@ -305,7 +324,7 @@
                 t.$el.removeClass('rpTablet rpMobile')
                         .addClass('rpDesktop');
 
-                t.ev.trigger('ondesktopbreakpoint.rp');
+               // t.ev.trigger('ondesktopbreakpoint.rp');
 
               break;
 
@@ -315,7 +334,12 @@
                 t.$el.removeClass('rpDesktop rpMobile')
                         .addClass('rpTablet');
 
-                t.ev.trigger('ontabletbreakpoint.rp');
+                t.isTabletMode = true;
+
+               // t.ev.trigger('ontabletbreakpoint.rp');
+
+               t.ev.trigger('onmobilebreakpoint.rp');
+
               break;
 
               case 'mobile':
@@ -324,7 +348,10 @@
                 t.$el.removeClass('rpTablet rpDesktop')
                         .addClass('rpMobile');
 
+                t.isMobileMode = true;
+
                 t.ev.trigger('onmobilebreakpoint.rp');
+
               break;
             }
       },
@@ -813,38 +840,54 @@
             
           t.$container.off('.rp');
         
-          t.scroller = $('.rpOverflow').scrollerModule({
-            contentSelector: '.rpContainer',
-            itemElementSelector: '.rpSlide',
-            mode: 'free',
-            snap: false,
-            momentum: true,
-            bounce: true
-          }).data('scrollerModule');
 
-          console.log("Scroller instance that was created »" , t.scroller);
 
           $('.rpNav').hide();
 
           //unwrap HTML
 
-          var cols = $('[class*="col-"]').remove();
-          $('[class*="row-"]').remove();
+          var items = $('.gallery-item').detach().addClass('small-size');
+          
+          $('.product-img' ).css('height' , '');
+
+          items.css('height' , '').addClass('small-size');
+
           $('[class*="rpSlide"]').remove();
+
+          items.appendTo(t.$container);
 
           //var $cache = $('.rpContainer').html();
 
-          cols.removeClass().appendTo(t.$container).addClass('whoa'); //insert these back in and add class for diff display
+          //cols.removeClass().appendTo(t.$container).addClass('whoa'); //insert these back in and add class for diff display
 
-          console.log("HOW MANY PRODUCTS WERE THERE? »", cols.length);
+          //console.log("HOW MANY PRODUCTS WERE THERE? »", cols.length);
 
           //t.scroller.update(); //update item
 
           //updat container size based on now what is inside
-          t.$container.css( 'width' , $('.whoa').eq(0).outerWidth(true) * cols.length + 'px' );
+          //t.$container.css( 'width' , (items.eq(0).outerWidth(true) * items.length) + 4750px + 'px' );
+          t.$container.css( 'width' , 4750 + 'px' );
+
+          console.log(t.$container.width());
+
+/*          setTimeout(function(){
+              t.scroller = $('.rpOverflow').scrollerModule({
+              contentSelector: '.rpContainer',
+              itemElementSelector: '.gallery-item',
+              mode: 'free',
+              snap: false,
+              momentum: true,
+              bounce: true
+            }).data('scrollerModule');
+
+            console.log("Scroller instance that was created »" , t.scroller);     
+          } , 1000);*/
+
+          $('.rpOverflow').scrollerModule({});
+
 
           //idea here is that we want to put the stuff back in as it was orginally
-          t.ev.one('ondesktopbreakpoint.rp' , function(){
+/*          t.ev.one('ondesktopbreakpoint.rp' , function(){
 
             setTimeout(function(){
               t.scroller.destroy();
@@ -869,7 +912,7 @@
 
 
 
-          });
+          });*/
 
 
 
