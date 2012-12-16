@@ -1,12 +1,28 @@
 ---
 desc: 'Here are some modules with unique data:'
+layout1: ["big", "small", "small", "small"]
+layout2: ["small", "big", "small", "small"]
 ---
 <div class="container-module">
 	<h1>Container Module</h1>
 	<h4><%- @document.desc %></h4>
+	<%  i = 0 %>
+	<h2>type a</h2>
 	<ul>
-		<% for module in @data.submodules :%>
-		<li><%- @this.partial('modules/'+module.type , {this:@this, data:@this.data(module.data)} ) %></li><% end %>
+		<% for module in @data.submodules : %>
+			<%  d = @this.data(module.data) %>
+			<% if d.type == "a" : %>
+				<%  d.view = @document[@data.layout][i++] %>
+				<li><%- @this.partial('modules/'+module.type , {this:@this, data:d} ) %></li><% end %><% end %>
+	</ul>
+	
+	<h2>type b</h2>
+	<ul>
+		<% for module in @data.submodules : %>
+			<%  d = @this.data(module.data) %>
+			<% if d.type == "b" : %>
+			<%  d.view = @document[@data.layout][i++] %>
+			<li><%- @this.partial('modules/'+module.type , {this:@this, data:d} ) %></li><% end %><% end %>
 	</ul>
 	<h6><%- @data.extra %></h6>
 </div>
