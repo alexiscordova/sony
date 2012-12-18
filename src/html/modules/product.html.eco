@@ -3,6 +3,8 @@
 <a class="gallery-item
   <% if @data.layout == "large": %>
     span3 large
+  <% else if @data.layout == "medium": %>
+    span2 medium
   <% else if @data.layout == "promo": %>
     span2 promo
   <% else: %>
@@ -42,6 +44,11 @@
         <img class="iq-img" alt="<%- @data.imgLarge.alt %>" data-src="<%- @data.imgLarge.src %>">
         <noscript>
           <img src="<%- @data.imgLarge.noscriptsrc %>" alt="<%- @data.imgLarge.alt %>">
+        </noscript>
+        <% else if @data.layout == "medium": %>
+        <img class="iq-img" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+        <noscript>
+          <img src="<%- @data.img.noscriptsrc %>" alt="<%- @data.img.alt %>">
         </noscript>
         <% else: %>
         <img class="iq-img" alt="<%- @data.imgSmall.alt %>" data-src="<%- @data.imgSmall.src %>">
