@@ -49,6 +49,14 @@
           <noscript>
             <img src="<%- @data.imgSmall.noscriptsrc %>" alt="<%- @data.imgSmall.alt %>">
           </noscript>
+          <% if @data.imgSmall.colors: %>
+            <% for img in @data.imgSmall.colors: %>
+            <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
+            <noscript>
+              <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+            </noscript>
+            <% end %>
+          <% end %>
           <% end %>
         </div>
       </div>
@@ -73,17 +81,19 @@
     <span class="label label-success"><%- @data.label %></span>
     <% end %>
     <div class="product-img">
-      <div class="product-img-wrap js-product-imgs">
-        <img class="iq-img js-product-img-main" itemprop="image" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
-        <noscript>
-          <img src="<%- @data.img.noscriptsrc %>" itemprop="image" alt="<%- @data.img.alt %>">
-        </noscript>
-        <% for img in @data.img.colors: %>
-        <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
-        <noscript>
-          <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
-        </noscript>
-        <% end %>
+      <div class="product-img-wrap ghost-center-wrap js-product-imgs">
+        <div class="ghost-center">
+          <img class="iq-img js-product-img-main" itemprop="image" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+          <noscript>
+            <img src="<%- @data.img.noscriptsrc %>" itemprop="image" alt="<%- @data.img.alt %>">
+          </noscript>
+          <% for img in @data.img.colors: %>
+          <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
+          <noscript>
+            <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+          </noscript>
+          <% end %>
+        </div>
       </div>
       <% if @data.img.colors: %>
       <div class="color-swatches">

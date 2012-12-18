@@ -76,7 +76,8 @@
             easing: self.shuffleEasing,
             columnWidth: self.shuffleColumns,
             gutterWidth: self.shuffleGutters,
-            showInitialTransition: false
+            showInitialTransition: false,
+            buffer: 5
         });
 
         // Sort elements by data-priority attribute
@@ -933,10 +934,11 @@
                 // Clone all visible
                 $currentItems = shuffle.$items.filter('.filtered').clone(),
                 $newItems = $(),
+                itemWidth = $('.container').outerWidth() / 4,
                 // Get product count
                 productCount = $currentItems.length,
                 $container = $('<div class="container">'),
-                $content = $('<div class="compare-container clearfix">'),
+                $content = $('<div class="compare-container row">'),
                 $label = self.$compareTool.find('#compare-tool-label'),
                 originalLabel = $label.text(),
                 newLabel = originalLabel + ' ' + self.$container.find('.compare-name').text(),
@@ -968,8 +970,8 @@
                 // Create a new div with the same attributes as the anchor tag
                 // We no longer want the entire thing to be clickable
                 $div.attr({
-                    "data-filter-set" : $item.attr('data-filter-set'),
-                    "class" : $item.attr('class')
+                    "class" : $item.attr('class'),
+                    "data-filter-set" : $item.attr('data-filter-set')
                 });
 
                 $div.append( $item.children().detach() );
@@ -1020,6 +1022,9 @@
 
             // Cloned images need to be updated
             window.iQ.update();
+
+            // HOLD ONTA YA BUTTS. How do I set a width on something that will use percentages?
+            $content.width( $newItems.length * itemWidth );
         },
 
         onCompareClosed : function() {
