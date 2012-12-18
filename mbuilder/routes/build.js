@@ -55,7 +55,7 @@ exports.generatePage = function(req, res) {
         moduleLength = req.body['module'].length;
     }
 
-    console.log('nb of element(s) : ' +  moduleLength);
+    console.log('nb of element(s) : ' + moduleLength);
 
     for (var i = 0; i < moduleLength; i++) {
 
@@ -69,7 +69,7 @@ exports.generatePage = function(req, res) {
             moduleDataFileName = req.body['moduleData'][i] || null;
         }
 
-        moduleList = moduleList + "<%-@partial('modules/" + moduleFileName + "', {this:this, data:@data('../data/" + moduleDataFileName + "')})%>\n";
+        moduleList = moduleList + "<%-@partial('modules/" + moduleFileName + "', @data('../data/" + moduleDataFileName + "'))%>\n";
 
     };
 

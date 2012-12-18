@@ -6,6 +6,7 @@
 		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/docs.css" rel="stylesheet">
 		<link href="css/mbuilder.css" rel="stylesheet">
+		<link href="css/codemirror.css" rel="stylesheet">
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
@@ -34,7 +35,7 @@
 						
 			</div>
 			<div id="main_data_edit" class="clearfix row">
-				<textarea rows="10" class="span11"></textarea>
+				<textarea id="mainEditor" rows="10" class="span11"></textarea>
 				
 			</div>
 			
@@ -81,7 +82,7 @@
 		    <label>FileName</label>
   			<input type="text">
   			<label>Content</label>
-  			<textarea rows="15"></textarea>
+  			<textarea id="popupEditor" rows="15"></textarea>
 		  </div>
 		  <div class="modal-footer">
 		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -95,6 +96,7 @@
 		<script src="js/bootstrap-modal.js"></script>
 		<script src="js/bootstrap-alert.js"></script>
 		<script src="js/bootstrap-button.js"></script>
+		<script src="js/codemirror.js"></script>
 		
 	</body>
 	

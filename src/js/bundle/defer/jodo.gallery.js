@@ -934,14 +934,17 @@
                 // Clone all visible
                 $currentItems = shuffle.$items.filter('.filtered').clone(),
                 $newItems = $(),
-                itemWidth = $('.container').outerWidth() / 4,
+                // itemWidth = $('.container').outerWidth() / 4,
+                contentWidth = 0,
                 // Get product count
                 productCount = $currentItems.length,
                 $container = $('<div class="container">'),
-                $content = $('<div class="compare-container row">'),
+                $content = $('<div class="compare-container clearfix">'),
                 $label = self.$compareTool.find('#compare-tool-label'),
                 originalLabel = $label.text(),
                 newLabel = originalLabel + ' ' + self.$container.find('.compare-name').text(),
+
+                $labelColumn = $('<div class="span2 detail-label-group">'),
 
                 // Clone sort button
                 $sortOpts = self.$container.find('.sort-options').clone();
@@ -981,6 +984,15 @@
             // Set item count
             self.$compareCount.text( productCount );
 
+
+            // Create labels column
+            self.$container.find('.comparables [data-label]').each(function() {
+                var $label = $(this).clone();
+                $label.text( $label.attr('data-label') );
+                $labelColumn.append($label);
+            });
+
+
             // Set up sort events
             $sortOpts.find('.dropdown a').on('click', $.proxy( self.sortComparedItems, self ));
 
@@ -1010,6 +1022,7 @@
                 label: originalLabel
             };
 
+            $content.append( $labelColumn );
             $content.append( $newItems );
             $container.append( $content );
 
@@ -1024,7 +1037,11 @@
             window.iQ.update();
 
             // HOLD ONTA YA BUTTS. How do I set a width on something that will use percentages?
-            $content.width( $newItems.length * itemWidth );
+            $content.children().each(function() {
+                contentWidth += $(this).outerWidth(true);
+            });
+            $content.width( contentWidth );
+            // $content.width( $newItems.length * itemWidth );
         },
 
         onCompareClosed : function() {
