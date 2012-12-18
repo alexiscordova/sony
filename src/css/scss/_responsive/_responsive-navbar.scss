@@ -53,13 +53,8 @@
       //left:$navTrayDividerPosition;
     }
     .navtray{
-      width:auto;
+      width:100%;
 
-      .navtray-section-featured{ // section right
-        padding-top:67px;
-        width: (100-$navTrayDividerPosition); 
-        padding-left: 2.8%;
-      }
       .navtray-section-main{ // section left
         padding-top:56px;
         width: $navTrayDividerPosition;
@@ -85,10 +80,26 @@
         }
       } // end .navtray-section-main
 
+      .navtray-section-featured{ // section right
+        padding-top:47px;
+        &.navtray-section-featured-short{
+          padding-top:0;
+        }
+        width: (100-$navTrayDividerPosition); 
+        padding-left: 2.8%;
+        .navtray-secondary-promo{
+          width: 192px;
+          margin-top: 36px;
+        } // .navtray-secondary-promo
+        
+      }
+
       .btn-nav-view-all{
         margin-left: 5.7%;
       }
     } // end .nav-tray
+
+
   } // end .navtray-wrapper
 
   // Required to make the collapsing navbar work on regular desktops
@@ -110,12 +121,28 @@
     }
     .navtray-wrapper{
       .navtray{
+        position:relative;
         width:1190px;
+        left:50%;
+        margin-left:-595px;
 
         .navtray-section-featured{ // section right
           width: 100 - ($navTrayDividerPosition + 2);
           padding-left: 4%;
-        }
+
+          .navtray-secondary-promo{
+            width: 208px;
+            margin-top: 43px;
+
+          } // .navtray-secondary-promo
+          &.navtray-section-featured-short{
+            padding-top:0;
+            
+            .navtray-secondary-promo{
+              margin-top: 36px;
+            }
+          } //.navtray-section-featured-short
+        } //.navtray-section-featured
         .navtray-section-main{ // section left
           width: ($navTrayDividerPosition + 2);
         }
@@ -128,7 +155,7 @@
         position:absolute;
         top:0;
         left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
-        z-index:10;
+        z-index:1;
         background: $navTrayBackgroundAlt;
       }
     }
@@ -155,7 +182,7 @@
         > li > a{
           line-height: $navbarLineHeight;
           margin-top: 11px;
-          // margin-bottom:14px;
+          margin-bottom:13px;
           font-size: $font_13_16;
           padding: 0 7px;
 
@@ -177,11 +204,6 @@
       .navtray {
         width:auto;
 
-        .navtray-section-featured{ // section right
-          padding-top: 47px;
-          padding-left:2.3%;
-          width: 100 - ($navTrayDividerPosition - 4);
-        }
         .navtray-section-main{ // section left - contents
           padding-top: 38px;
           width: ($navTrayDividerPosition - 4);
@@ -216,7 +238,17 @@
           .btn-nav-view-all{
             margin-left: 10%;
           }
-        }
+        } // .navtray-section-main
+
+        .navtray-section-featured{ // section right
+          padding-top: 47px;
+          padding-left:2.3%;
+          width: 100 - ($navTrayDividerPosition - 4);
+
+          &.navtray-section-featured-short{
+            padding-top: 10px;
+          }
+        } //.navtray-section-featured
       }
     }
   }
