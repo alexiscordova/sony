@@ -93,9 +93,9 @@ module.exports = function(grunt) {
 			}
 		},
 		clean:{
-			debug:'../build/debug/',
-			deploy:'../build/deploy/',
-			docs:'../docs/'
+			debug:['../build/debug/'],
+			deploy:['../build/deploy/'],
+			docs:['../docs/']
 		},
 		copy:{
 			debug:{

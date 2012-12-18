@@ -2,6 +2,7 @@
 desc: 'Here are some modules with unique data:'
 layout1: [ "large", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
 layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
+layout3: "normal"
 ---
 
 <div class="hero">
@@ -266,31 +267,21 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
       </div>
 
       <div class="grid5 container">
+
         <% for accessory in @data.accessories: %>
         <div class="product-strip-wrap">
-          <a class="tl pull-right" href="#"><%- this.callout %></a>
-          <h6 class="product-strip-heading"><%- this.title %></h6>
+          <a class="tl pull-right" href="#"><%- accessory.callout %></a>
+          <h6 class="product-strip-heading"><%- accessory.title %></h6>
           <div class="product-strip grid full-bleed">
-            <% for item in accessory.list: %>
-            <a class="span1 gallery-item" href="#">
-              <div class="product-img">
-                <div class="ghost-center-wrap">
-                  <div class="ghost-center">
-                    <img class="iq-img" alt="<%- item.img.alt %>" data-src="<%- item.img.src %>">
-                    <noscript>
-                      <img src="<%- item.img.src %>" alt="<%- item.img.alt %>">
-                    </noscript>
-                  </div>
-                </div>
-              </div>
-              <div class="product-content">
-                <div class="p3 product-name"><%- item.name %></div>
-                <div class="product-price">
-                  <p class="p5 price-title">Starting at</p>
-                  <p class="price"><span class="l2">$<%- item.price %></span> <span class="p5 msrp">MSRP</span></p>
-                </div>
-              </div>
-            </a>
+            <% count = 0 %>
+            <% for module in @data.submodules: %>
+              <% d = @this.data(module.data) %>
+              <% if d.type == "accessory" && d.subtype == accessory.subtype && count < 5 : %>
+                <% d.layout = @document.layout3 %>
+                <% d.view = "basic" %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+                <% count += 1 %>
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -369,9 +360,9 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
 
 <div id="compare-tool" class="modal takeover hide fade" tabindex="-1" role="dialog" aria-labelledby="compare-tool-label" aria-hidden="true">
   <div class="modal-header container">
+    <h3 class="pull-left" id="compare-tool-label">Compare</h3>
     <button class="box-close" data-dismiss="modal" aria-hidden="true"><i class="icon-ui-x-tiny"></i></button>
-    <h3 class="ib" id="compare-tool-label">Compare</h3>
-    <button class="btn btn-small disabled js-compare-reset">Reset</button>
+    <button class="pull-right btn btn-small disabled js-compare-reset">Reset</button>
   </div>
   <div class="modal-body">
     <div class="container"><span class="js-compare-count">0</span>&nbsp;Products</div>
