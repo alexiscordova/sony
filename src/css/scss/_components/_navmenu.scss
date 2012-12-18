@@ -5,19 +5,17 @@
   .navmenu-wrapper{ 
     z-index: 190;
     position: absolute;
-    overflow: hidden;
+    overflow: visible;
     top: $navbarTotalHeight;
     background: $navMenuBackground;
     @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
-
-    @include transition(opacity $transitionNormal ease-in 0s, left 0s linear $transitionNormal);
     @include border-bottom-radius(2px);
 
-    // left: -9999px;
-    // opacity:0;
     &.navmenu-wrapper-account{
       width: 220px;
       padding: 16px 20px 22px;
+
+      @include hideshow-navmenu-hide(left);
 
       .btn-login,
       .btn-logout{
@@ -56,8 +54,15 @@
       }
     }
     &.navmenu-wrapper-search{
-      right:4px;
+      margin-right:4px;
       width:467px;
+
+      @include hideshow-navmenu-hide(right);
+
+      .sprite-mini-global-nav-indicator{
+        left:auto;
+        right:15px;
+      }
 
       ul {
         margin:0;
@@ -209,17 +214,24 @@
         }
       }
     }
+
+
+    .sprite-mini-global-nav-indicator{
+      position:absolute;
+      top:-9px;
+      left:27px;
+    }
+  } // end .navmenu-wrapper
+
+
+
+  .nav-li-selected .navmenu-wrapper-account {
+    @include hideshow-navmenu-show(left);
+  }
+  .nav-li-selected .navmenu-wrapper-search {
+    @include hideshow-navmenu-show(right);
   }
 
-  &.navmenu-wrapper-visible{
-    left:0;
-    opacity:1;   
-    @include transition(opacity $transitionNormal ease-out 0s, left 0s linear 0s);
-    
-    &.navmenu-wrapper-search{
-      right:3px;
-    }
-  }
   .navmenu-list-main{
     margin:0;
   }

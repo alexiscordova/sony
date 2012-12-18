@@ -34,19 +34,24 @@
     line-height:0.65em * $baseLineHeight;
     position:relative;
 
-    .sprite-mini-global-nav-indicator{
-      display:none;
+    .global-nav-indicator-bar{
+      display:block;
       position:absolute;
       bottom:0;
-      left:36%;
-    }
-    &#nav-li-search .sprite-mini-global-nav-indicator{
-      left:33%;
+      width:100%;
+
+      border-color: $blue;
+      border-style: solid;
+      border-top-width: 0px;
+
+      @include transition(border-top-width $transitionFast linear 0);
     }
 
-    &.nav-li-selected .sprite-mini-global-nav-indicator{
-      display:block;
+    &.nav-li-selected .global-nav-indicator-bar{
+      border-top-width: 5px;
     }
+
+
 
     // Links
     > a {
