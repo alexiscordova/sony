@@ -28,19 +28,31 @@ module.exports = function(grunt) {
 		watch: {
 			js:{
 				files: ['js/**/*.js'],
-				tasks: ['debug-js']
+				tasks: ['debug-js'],
+				options: {
+					forceWatchMethod: 'old'
+				}
 			},
 			css:{
 				files: ['css/scss/**/*.scss'],
-				tasks: ['debug-css']
+				tasks: ['debug-css'],
+				options: {
+					forceWatchMethod: 'old'
+				}
 			},
 			html:{
 				files: ['html/**/*.*'],
-				tasks: ['debug-html']
+				tasks: ['debug-html'],
+				options: {
+					forceWatchMethod: 'old'
+				}
 			},
 			images:{
 				files: ['img/**/*.*'],
-				tasks: ['debug-img']
+				tasks: ['debug-img'],
+				options: {
+					forceWatchMethod: 'old'
+				}
 			}
 			
 		},
