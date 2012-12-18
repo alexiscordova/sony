@@ -958,8 +958,6 @@
             self._pageY = point.pageY;
             self._startPagePos = self._accelerationPos = (!isThumbs ? self._slidesHorizontal : self._thumbsHorizontal) ? point.pageX : point.pageY;
 
-            
-            
             self._horDir = 0;
             self._verDir = 0;
 
@@ -1120,9 +1118,7 @@
                 newDuration,
                 blockLink;
 
-            
             self.ev.trigger('scDragRelease');
-
 
             self._renderMoveEvent = null;
             self._isDragging = false;
@@ -1145,7 +1141,6 @@
             if(self.hasTouch) {
                 self._sliderOverflow.off(self._cancelEvent);    
             }
-
             
             self._setGrabCursor();
             if (!self._hasMoved && !self._multipleTouches) {
@@ -1695,7 +1690,7 @@
                 oldBlock,
                 animBlock;
 
-            var animObj = {};
+            
             if(isNaN(self._currAnimSpeed)) {
                 self._currAnimSpeed = 400;
             } 
@@ -1708,7 +1703,7 @@
 
             //$(self._currContent.get(0)).trigger('slidestart.sonycarousel');
             self._currentSlideContent = self.slidesJQ[self.currSlideId].find('.scContent');
-
+            
             console.log('ANIMATION STARTED' , self._currentSlideContent.attr('id'));
 
             self._currentSlideContent.trigger('slidestart.sc');

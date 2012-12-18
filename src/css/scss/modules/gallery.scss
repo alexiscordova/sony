@@ -65,10 +65,32 @@ $detailedGalleryItemHeight: 480px;
 .gallery-item {
   position: relative;
   display: block;
+  // height: 0;
+  // padding-bottom: 165.19607843137254%;
+  // padding-bottom: 60.534124629080125%;
   margin-top: $grid5GutterWidth;
-  height: $galleryItemHeight;
+  // height: $galleryItemHeight;
   overflow: hidden;
   background: $white;
+  // background: $transparentBlack;
+
+  &:after {
+    content: '';
+    display: block;
+    padding-top: 165.19607843137254%;
+  }
+
+  .shuffle-6 &:after {
+    padding-top: 176.5%;
+  }
+
+  .gallery-item-inner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 
   p,
   div,
@@ -79,7 +101,7 @@ $detailedGalleryItemHeight: 480px;
   // Container for product images
   .product-img {
     position: relative;
-    height: $galleryItemImgHeight;
+    // height: $galleryItemImgHeight;
     width: 100%;
     overflow: hidden;
     text-align: center;
@@ -91,10 +113,25 @@ $detailedGalleryItemHeight: 480px;
       background-color: $grayLighter;
     }
 
+    &:after {
+      content: '';
+      display: block;
+      padding-top: 107.84313725490196%;
+    }
+
+    .product-img-wrap {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
     img {
       display: block;
       max-height: 100%;
       max-width: 100%;
+      margin: auto;
     }
 
     .color-swatches {
@@ -106,21 +143,111 @@ $detailedGalleryItemHeight: 480px;
 
   // large is height * 2
   &.large {
-    height: ($galleryItemHeight * 2) + $grid5GutterWidth;
+    // height: ($galleryItemHeight * 2) + $grid5GutterWidth;
+    // padding-bottom: 94.40459110473458%;
+    // padding-bottom: 105.92705167173253%;
+
+    &:after {
+      padding-top: 105.92705167173253%;
+    }
+
+    // 3 column grid
+    .shuffle-3 & .product-img:after {
+      padding-top: 107.045%;
+    }
+
+    // Change padding for 4 column grid
+    .shuffle-4 &:after {
+      padding-top: 77.8%;
+    }
+
+    // 4 column grid
+    .shuffle-4 & .product-img:after {
+      padding-top: 50.7%;
+    }
+
+    @media (min-width:1339px) {
+      .shuffle-6 &:after {
+        padding-top: 104.32%;
+      }
+    }
+
+    @media (min-width:1400px) {
+      .shuffle-6 &:after {
+        padding-top: 103.82%;
+      }
+    }
+
+    .product-img:after {
+      padding-top: 88.14589665653495%;
+    }
+
+    .shuffle-6 & .product-img:after {
+      padding-top: 84.3%;
+    }
   }
 
   // Double the height and include margin
   &.large .product-img {
-    height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
+    // height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
   }
 
   // Promo gallery item images are the full height
   &.promo {
+    color: $white;
+
+    &:after {
+      padding-top: 78.19025522041764%;
+    }
+
+    .shuffle-4 &:after {
+      padding-top: 77.790255%;
+    }
+
+    .text-promo-title {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      margin: 0;
+      max-width: 225px;
+
+      i {
+        margin-top: 8px;
+        margin-left: 10px;
+      }
+
+      @media (max-width:767px) {
+        font-size: $font_14_16;
+        top: 10px;
+        left: 10px;
+        max-width: initial;
+
+        i {
+          margin-top: 1px;
+        }
+      }
+    }
+
+    .text-count {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      margin: 0;
+
+      @media (max-width:767px) {
+        bottom: 10px;
+        left: 10px;
+      }
+    }
+
+    strong { color: $white; }
 
     .product-content {
       position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
       text-align: left;
     }
 
@@ -148,10 +275,6 @@ $detailedGalleryItemHeight: 480px;
     .text-count .text { font-size: $font_12_15; }
   }
 
-  .gallery-detailed & {
-    height: $detailedGalleryItemHeight;
-  }
-
   .label {
     position: absolute;
     z-index: 10;
@@ -167,16 +290,32 @@ $detailedGalleryItemHeight: 480px;
   }
 }
 
+.gallery-detailed {
+
+  .gallery-item {
+    // height: $detailedGalleryItemHeight;
+
+    &:after {
+      padding-top: 135.2112676056338%;
+    }
+  }
+
+  .product-img:after {
+    padding-top: 76.05633802816901%;
+  }
+
+}
+
 @media (min-width:768px) and (max-width:979px) {
   .gallery-detailed,
   .compare-container {
 
     .gallery-item {
-      height: 434px;
+      // height: 434px;
     }
 
     .product-img {
-      height: 174px;
+      // height: 174px;
     }
 
   }
@@ -184,20 +323,61 @@ $detailedGalleryItemHeight: 480px;
 
 
 @media (max-width: 767px) {
+
+  // Remove percentage heights
   .gallery-item {
-    margin-top: 10px;
+
+    &:after {
+      content: none;
+    }
+
+    .gallery-item-inner {
+      position: relative;
+    }
+
+    .product-img:after {
+      content: none;
+    }
+
+    .product-img .product-img-wrap {
+      position: relative;
+    }
+  }
+
+  // Put percentage heights back for editorial
+  .gallery-editorial {
+
+    .gallery-item {
+      margin-top: 10px;
+
+       &:after {
+        content: '';
+        padding-top: 165.19607843137254%;
+      }
+    }
+
+    .gallery-item-inner,
+    .product-img .product-img-wrap {
+      position: absolute;
+    }
 
     // Make it a 1x1 instead of 2x2 or 1x2
     // need .gallery selector to override .grid5
-    .gallery &.promo,
-    .gallery &.large {
-      height: $galleryItemHeight;
+    .promo,
+    .large {
+      // height: $galleryItemHeight;
     }
 
-    .gallery &.large .product-img {
-      height: $galleryItemImgHeight;
+    .large .product-img {
+      // height: $galleryItemImgHeight;
+    }
+
+    .product-img:after {
+      content: '';
+      padding-top: 107.84313725490196%;
     }
   }
+
 
   .gallery-detailed {
 
@@ -208,14 +388,16 @@ $detailedGalleryItemHeight: 480px;
 
     .gallery-item {
       display: table;
-      height: auto; // ???
+      height: auto;
     }
+
 
     .product-img {
       display: table-cell;
       width: 33.33%;
       vertical-align: middle;
     }
+
 
     .product-content {
       display: table-cell;
@@ -523,7 +705,6 @@ $detailedGalleryItemHeight: 480px;
 // Compare Tool
 // -------------------------
 .compare-container {
-  // @include lightGrayInset();
   padding: 15px 0;
 }
 
@@ -548,13 +729,17 @@ $detailedGalleryItemHeight: 480px;
   cursor: pointer;
 
   i {
-    vertical-align: middle;
+    vertical-align: baseline;
   }
 }
 
 .box-close-small {
   @include square(20px);
 
+
+  i {
+    vertical-align: middle;
+  }
 }
 
 .compare-box {

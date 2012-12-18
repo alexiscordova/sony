@@ -134,7 +134,7 @@
 
 .ghost-center {
   display: inline-block;
-  
+
   // For Firefox...
   max-width: 100%;
   max-height: 100%;
@@ -168,20 +168,20 @@ $overlayColor: rgba($linkColor, .8);
   }
 
   // Only overlay color on IE9+ (double colon ignored in IE8)
-  .hero-img-wrap::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $overlayColor;
-  }
+  // .hero-img-wrap::after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   background-color: $overlayColor;
+  // }
 
   & > .container-px-width {
     position: relative;
   }
-  
+
   .hero-text-wrap {
     position: absolute;
     z-index: 5;
@@ -193,6 +193,21 @@ $overlayColor: rgba($linkColor, .8);
 
   .hero-text {
     width: 100%;
+  }
+
+  .primary-tout-subtitle {
+    margin-bottom: 0;
+    color: $grayLighter;
+  }
+
+  .primary-tout-title {
+    margin-top: 0;
+    color: $white;
+
+    small {
+      color: inherit;
+      font-size: 18px; // Fuckin' 75% of ems and shit. Give me some pixels.
+    }
   }
 }
 
@@ -218,4 +233,4 @@ $overlayColor: rgba($linkColor, .8);
 // classes that just include the el-hidden/shown mixins, so if you want you can add/remove the class el-hidden or el-shown on your elements;
 // or you can make your .active or .selected class act as a el-hidden or el-shown element by using the mixin on your class directly. Options!
 .el-hidden{ @include el-hidden(); }
-.el-shown{  @include el-shown(); } 
+.el-shown{  @include el-shown(); }

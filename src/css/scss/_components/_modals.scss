@@ -114,6 +114,16 @@ body.modal-open {
 
   &.fade.in { top: 0; }
 
+  .modal-header {
+    padding: 52px 0 34px;
+    border: none;
+  }
+
+  // Give modal header children a margin-left except for the h3
+  .modal-header > *:not(#compare-tool-label) {
+    margin: 0 0 0 8px;
+  }
+
   .modal-body {
     max-height: initial;
     padding: 0;

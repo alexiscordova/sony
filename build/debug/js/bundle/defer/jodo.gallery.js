@@ -1,3 +1,35 @@
+/*global Exports*/
+
+/*
+
+
+{
+    "label": "TVs",
+    "slug": "tvs",
+    "icon": "tv"
+},
+{
+    "label": "Tablets",
+    "slug": "tablets",
+    "icon": "tablet"
+},
+{
+    "label": "Waterproof",
+    "slug": "waterproof",
+    "icon": "water-drop"
+},
+{
+    "label": "Mics",
+    "slug": "mics",
+    "icon": "mic"
+},
+{
+    "label": "Projectors",
+    "slug": "projectors",
+    "icon": "projector"
+},
+ */
+
 
 (function($, Modernizr, window, undefined) {
 
@@ -19,7 +51,7 @@
         self.$activeFilters = self.$container.find('.active-filters');
         self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
         self.$favorites = self.$grid.find('.js-favorite');
-        
+
         // Compare modal
         self.$compareBtn = self.$container.find('.js-compare-toggle');
         self.hasCompareModal = self.$compareBtn.length > 0;
@@ -128,7 +160,7 @@
             } else {
                 self.$grid.shuffle('all');
             }
-                
+
             self.setFilterStatuses();
         },
 
@@ -259,7 +291,7 @@
                 frag.appendChild( $label[0] );
             });
 
-            
+
             self.$activeFilters.empty().append(frag);
         },
 
@@ -345,7 +377,7 @@
             var self = this,
                 data = $(evt.target).data(),
                 filterType = self.filterTypes[ data.filterName ];
-            
+
             // Remove from internal data
             self.undoFilter( data.filter, data.filterName, filterType );
 
@@ -561,7 +593,7 @@
                 if ( $this.is('[disabled]') ) {
                     return;
                 }
-                
+
                 if ( isMediaGroup ) {
                     $this.find('.btn').button('toggle');
                     $this.toggleClass('active');
@@ -662,7 +694,7 @@
 
                 // Filter results only if values have changed
                 if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
-                    
+
                     // Save current filters
                     self.filters.range[ filterName ].min = self.price.min;
                     self.filters.range[ filterName ].max = self.price.max;
@@ -903,15 +935,15 @@
                 $newItems = $(),
                 // Get product count
                 productCount = $currentItems.length,
-                $container = $('<div class="container-fluid">'),
+                $container = $('<div class="container">'),
                 $content = $('<div class="compare-container clearfix">'),
                 $label = self.$compareTool.find('#compare-tool-label'),
                 originalLabel = $label.text(),
                 newLabel = originalLabel + ' ' + self.$container.find('.compare-name').text(),
-                
+
                 // Clone sort button
                 $sortOpts = self.$container.find('.sort-options').clone();
-            
+
 
             // Build / manipulate compare items from the gallery items
             $currentItems.each(function() {
@@ -1037,37 +1069,7 @@
         },
 
         setColumnMode : function() {
-            var self = this,
-                // Five columns
-                fiveColumns = 5,
-                twelveColumns = 12,
-
-                fluidGridColumnWidth = 204,
-                fluidGridGutterWidth = 23,
-                fullWidth = (fiveColumns * fluidGridColumnWidth) + (fluidGridGutterWidth * (fiveColumns - 1)),
-                COLUMN_WIDTH = fluidGridColumnWidth / fullWidth,
-                GUTTER_WIDTH = fluidGridGutterWidth / fullWidth,
-
-                // Twelve columns @ 768 TODO GLOBALIZE
-                colWidth768 = 34,
-                gutWidth768 = 22,
-                fullWidth768 = (twelveColumns * colWidth768) + (gutWidth768 * (twelveColumns - 1)),
-                COLUMN_WIDTH_768 = colWidth768 / fullWidth768,
-                GUTTER_WIDTH_768 = gutWidth768 / fullWidth768,
-
-                // Twelve columns @ 980 TODO GLOBALIZE
-                colWidth980 = 43,
-                gutWidth980 = 30,
-                fullWidth980 = (twelveColumns * colWidth980) + (gutWidth980 * (twelveColumns - 1)),
-                COLUMN_WIDTH_980 = colWidth980 / fullWidth980,
-                GUTTER_WIDTH_980 = gutWidth980 / fullWidth980,
-
-                // Twelve columns @ 1200 TODO GLOBALIZE
-                colWidth1200 = 52,
-                gutWidth1200 = 36,
-                fullWidth1200 = (twelveColumns * colWidth1200) + (gutWidth1200 * (twelveColumns - 1)),
-                COLUMN_WIDTH_1200 = colWidth1200 / fullWidth1200,
-                GUTTER_WIDTH_1200 = gutWidth1200 / fullWidth1200;
+            var self = this;
 
             if ( self.mode !== 'detailed' ) {
                 // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
@@ -1079,19 +1081,19 @@
 
                     // Large desktop ( 6 columns )
                     if ( Modernizr.mq('(min-width: 1200px)') ) {
-                        column = COLUMN_WIDTH_1200 * containerWidth;
+                        column = Exports.COLUMN_WIDTH_1200 * containerWidth;
 
                     // Landscape tablet + desktop ( 5 columns )
                     } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                        column = COLUMN_WIDTH * containerWidth; // ~18% of container width
+                        column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
 
                     // Portrait Tablet ( 4 columns )
                     // } else if ( Modernizr.mq('(min-width: 768px)') ) {
-                    //     column = COLUMN_WIDTH_768 * containerWidth;
+                    //     column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
                     // Between Portrait tablet and phone ( 3 columns )
                     } else if ( Modernizr.mq('(min-width: 481px)') ) {
-                        column = COLUMN_WIDTH_768 * containerWidth;
+                        column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
                     // Phone ( 2 columns )
                     } else {
@@ -1108,22 +1110,22 @@
 
                     // Large desktop ( 6 columns )
                     if ( Modernizr.mq('(min-width: 1200px)') ) {
-                        gutter = GUTTER_WIDTH_1200 * containerWidth;
+                        gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
                         numColumns = 6;
 
                     // Landscape tablet + desktop ( 5 columns )
                     } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                        gutter = GUTTER_WIDTH * containerWidth;
+                        gutter = Exports.GUTTER_WIDTH * containerWidth;
                         numColumns = 5;
 
                     // // Portrait Tablet ( 4 columns ) - masonry
                     } else if ( Modernizr.mq('(min-width: 768px)') ) {
                         numColumns = 4;
-                        gutter = GUTTER_WIDTH_768 * containerWidth;
-                        
+                        gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+
                     // Between Portrait tablet and phone ( 3 columns )
                     } else if ( Modernizr.mq('(min-width: 481px)') ) {
-                        gutter = GUTTER_WIDTH_768 * containerWidth;
+                        gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
                         numColumns = 3;
 
 
@@ -1146,13 +1148,13 @@
                     var column;
 
                     if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
-                        column = COLUMN_WIDTH_768 * containerWidth;
+                        column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
                     } else if ( Modernizr.mq('(min-width: 1200px)') ) {
-                        column = COLUMN_WIDTH_1200 * containerWidth;
+                        column = Exports.COLUMN_WIDTH_1200 * containerWidth;
 
                     } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                        column = COLUMN_WIDTH_980 * containerWidth;
+                        column = Exports.COLUMN_WIDTH_980 * containerWidth;
 
                     } else {
                         column = containerWidth;
@@ -1165,13 +1167,13 @@
                     var gutter;
 
                     if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
-                        gutter = GUTTER_WIDTH_768 * containerWidth;
+                        gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
 
                     } else if ( Modernizr.mq('(min-width: 1200px)') ) {
-                        gutter = GUTTER_WIDTH_1200 * containerWidth;
-                        
+                        gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
+
                     } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                        gutter = GUTTER_WIDTH_980 * containerWidth;
+                        gutter = Exports.GUTTER_WIDTH_980 * containerWidth;
 
                     } else {
                         gutter = 0;
@@ -1198,7 +1200,7 @@
             // Large desktop ( 6 columns )
             if ( numColumns === 6 ) {
                 if ( !self.$grid.hasClass(shuffleDash+6) ) {
-                    
+
                     // add .grid5
                     self.$grid
                         .removeClass(gridClasses)
@@ -1206,7 +1208,7 @@
                         .parent()
                         .removeClass(grid5);
 
-                    
+
                     self.$grid.children(itemSelector)
                         .removeClass(allSpans) // Remove current grid span
                         .filter(large) // Select large tiles
@@ -1222,7 +1224,7 @@
             // Landscape tablet + desktop ( 5 columns )
             } else if ( numColumns === 5 ) {
                 if ( !self.$grid.hasClass(shuffleDash+5) ) {
-                    
+
                     // add .grid5
                     self.$grid
                         .removeClass(gridClasses)
@@ -1230,7 +1232,7 @@
                         .parent()
                         .addClass(grid5);
 
-                    
+
                     self.$grid.children(itemSelector)
                         .removeClass(allSpans) // Remove current grid span
                         .filter(large) // Select large tiles
@@ -1246,7 +1248,7 @@
             // Portrait Tablet ( 4 columns ) - masonry
             } else if ( numColumns === 4 ) {
                 if ( !self.$grid.hasClass(shuffleDash+4) ) {
-                    
+
                     // Remove .grid5
                     self.$grid
                         .removeClass(gridClasses)
@@ -1254,7 +1256,7 @@
                         .parent()
                         .removeClass(grid5);
 
-                    
+
                     self.$grid.children(itemSelector)
                         .removeClass(allSpans) // Remove current grid span
                         .filter(largeAndPromo) // Select large and promo tiles
@@ -1263,11 +1265,11 @@
                         .not(largeAndPromo) // Select tiles not large nor promo
                         .addClass(span+3); // Make them quarter width
                 }
-                
+
             // Between Portrait tablet and phone ( 3 columns )
             } else if ( numColumns === 3 ) {
                 if ( !self.$grid.hasClass(shuffleDash+3) ) {
-                    
+
                     // Remove .grid5, add .grid-small
                     self.$grid
                         .removeClass(gridClasses)
@@ -1285,7 +1287,7 @@
             // Phone ( 2 columns )
             } else if ( numColumns === 2 ) {
                 if ( !self.$grid.parent().hasClass(grid5) ) {
-                    
+
                     // add .grid5
                     self.$grid
                         .removeClass(gridClasses)
