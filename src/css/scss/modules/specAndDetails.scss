@@ -3,6 +3,10 @@
 
 .container.module-spec{
   
+  .center{text-align:center;}
+  .imgMarginBottom{margin-bottom:20px;}
+  .imgMarginTop{margin-top:50px !important;}
+  
   //Set the default font to SST Roman
   @include fontRegular();
   color:$black;
@@ -30,6 +34,7 @@
   }
   
   .spec-title{ 
+    margin-bottom:0 !important;
     float:left;
     //Text over the title
     p.title-link{margin:0; text-transform:uppercase; font-size:$font_13_16; @include fontMedium();}
@@ -47,7 +52,7 @@
         
         a{
           color:$blackLight;
-          padding:0 15px 13px 15px;
+          padding:0 15px 10px;
         }
         a.active{border-bottom:4px solid #5787f4;}
       }
@@ -75,7 +80,7 @@
     margin-bottom:20px;
     
     >h2{font-size:$font_18_16; margin-bottom:20px;}
-    >h2.h2-bigger{font-size:$font_26_16; margin:30px 0;}
+    >h2.h2-bigger{font-size:$font_22_16; @include fontBold(); margin:30px 0; border-bottom:3px solid #e9e9eb; padding-bottom:20px; text-transform:uppercase;}
     
     .grid > div
     {
@@ -107,11 +112,17 @@
   
   .grid.no-border{
     margin-bottom:30px !important;
-    h3{font-size:$font_18_16; margin-bottom:15px;}
+    
+    h3{
+      @include fontMedium();
+      font-size:$font_18_16;
+      margin-bottom:15px;
+    }
+    
     border-bottom:none !important;
     padding-bottom:0;
     margin-bottom:0;
-    p{font-size:$font_12_16;}
+    p{font-size:$font_13_16; color:$gray;}
   }
   
   // both kind of table
@@ -163,6 +174,17 @@
       > .row{
         display: table-row;
         
+        > .cell:first-child{text-align:right; color:$grayDarkerFieldSmall;
+          p
+          {
+            font-size:$font_15_16;
+            span{
+              color:$gray;
+              font-size:$font_13_15 !important;
+              display:inline;
+            }
+          }
+        }
         > .cell{
           //width:25%;
           padding:20px;
@@ -194,12 +216,17 @@
         display: table-row;
         position:relative;
         
+        >.cell.intel7 >div{
+          background:url('../../img/spec/inteli7.png') bottom left no-repeat;
+        }
+        
         //All Cells
         >.cell{
+          position:relative;
           border-left:1px solid #dfe3e7;
           border-bottom:1px solid #dfe3e7;
           padding:20px;
-          
+
           //hidden titles
           >h2{
             font-size: $font_14_16;
@@ -402,6 +429,7 @@
   // MEDIA QUERIES (640px AND BELOW)
   @media all and (max-width: 500px) {
     
+    .tableZoom{display:none !important;}
     .desktopNav{display:none;}
     
     .tabs-container{

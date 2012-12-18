@@ -89,7 +89,12 @@ $.fn.tableToDiv = function() {
 			});
 
 			$table.find('td').replaceWith(function() {
-				return $('<div class="cell">').append($(this).contents());
+				getClass = '';
+				
+				if ($(this).attr('class'))
+					getClass = $(this).attr('class');
+				
+				return $('<div class="cell '+getClass+'">').append($(this).contents());
 			});
 
 			$table.replaceWith(function() {

@@ -14,10 +14,10 @@ http://handlebarsjs.com/
 		<div class="clearfix">
 			<div class="spec-title">
 				<p class="title-link">
-					<a href="#">Vaio E</a>
+					<a href="#">Vaio Z</a>
 				</p>
 				<h1>VAIO E Details</h1>
-	
+
 				<div class="clearfix">
 					<p>
 						<a class="active" href="#">Specifications</a>
@@ -27,11 +27,15 @@ http://handlebarsjs.com/
 					</p>
 				</div>
 			</div>
-			
+
 			<div class="sonyRecommends">
-				<p>Sony recommends</p>
+				<p>
+					Sony recommends
+				</p>
 			</div>
 		</div>
+		
+		<!-- <a href="#" id="button">test</a> -->
 
 		<div class="tab-strip gallery-tabs">
 
@@ -43,67 +47,84 @@ http://handlebarsjs.com/
 
 							{{#each productTable}}
 							<th>{{#if this.productTitle}}<h2>{{this.productTitle}}</h2>{{/if}}
-								{{#if this.productTitleDescription}}<p>{{this.productTitleDescription}}</p>{{/if}}
-							</th>
+							{{#if this.productTitleDescription}}
+							<p>
+								{{this.productTitleDescription}}
+							</p>{{/if}} </th>
 							{{/each}}
 						</tr>
 					</thead>
 
 					<tbody>
-						
+
 						<tr>
-							<th><p>Processor</p></th>
-							{{#each productTable}}
-							
-							<td>
-								<p>
-									{{this.processor}}
-								</p>
-								
-								<p class="infoTitle">Configurable options</p>
-								
-								<ul>
-								{{#each this.processorConfig}}
-									<li><p>{{this}}</p></li>
-								{{/each}}
-								</ul>
-								
-								{{#if this.intelImg}}
-								<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.intelImg}}">
-									<noscript>
-										<img src="img/spec/{{this.intelImg}}">
-									</noscript>
+							<th>
+								<div>
+									<p>
+										Processor
+									</p>
 								</div>
-								{{/if}}
+							</th>
+							{{#each productTable}}
+
+							<td class="intel7">
+								<div>
+									<p>{{this.processor}}</p>
+									<p class="infoTitle">Configurable options</p>
+									<ul>
+										{{#each this.processorConfig}}
+										<li>
+											<p>
+												{{this}}
+											</p>
+										</li>
+										{{/each}}
+									</ul>
+								</div>
 							</td>
-							
-							
+
 							{{/each}}
 						</tr>
-						
+
 						<tr>
-							<th><p>Operating System</p></th>
+							<th>
+								<div>
+									<p>
+										Operating System
+									</p>
+								</div>
+							</th>
 							{{#each productTable}}
 							<td>
-							<p>
-								{{{this.operatingSystem}}}
-							</p> {{#if this.operatingSystemNote}}
-							<p>
-								<span>{{this.operatingSystemNote}}</span>
-							</p> {{/if}} </td>
+								<div>
+									<p>
+										{{{this.operatingSystem}}}
+									</p> {{#if this.operatingSystemNote}}
+									<p>
+										<span>{{this.operatingSystemNote}}</span>
+									</p> {{/if}}
+								</div>
+							</td>
 							{{/each}}
 						</tr>
-						
+
 						<tr>
-							<th><p>Dimensions</p></th>
+							<th>
+								<div>
+									<p>
+										Dimensions
+									</p>
+								</div>
+							</th>
 							{{#each productTable}}
-							<td>{{#if this.productImage}}
-							<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.productImage}}">
+							<td>
+								<div>
+								{{#if this.productImage}}
+							<div class="img-respons center imgMarginBottom"><img class="iq-img" data-base="img/spec/" data-src="{{this.productImage}}">
 								<noscript>
 									<img src="img/spec/{{this.productImage}}">
 								</noscript>
 							</div>{{/if}}
-							
 							<table>
 								<tbody>
 									{{#if this.dimensions.width}}
@@ -158,205 +179,272 @@ http://handlebarsjs.com/
 									</tr>
 									{{/if}}
 								</tbody>
-							</table></td>
+							</table>
+							</div>
+							</td>
 							{{/each}}
 						</tr>
 
 						<tr>
-							<th><p>Display</p></th>
+							<th><div>
+							<p>
+								Display
+							</p></div></th>
 							{{#each productTable}}
 							<td>
-							<p>
-								{{this.display}}
-							</p> {{#if this.displayDescription}}
-							<p>
-								<span>{{this.displayDescription}}</span>
-							</p> {{/if}} </td>
+								<div>
+									<p>
+										{{this.display}}
+									</p> {{#if this.displayDescription}}
+									<p>
+										<span>{{this.displayDescription}}</span>
+									</p> {{/if}}
+								</div>
+							</td>
 							{{/each}}
 						</tr>
 
 						<tr>
-							<th><p>Color Options</p></th>
+							<th>
+								<div>
+									<p>
+										Color Options
+									</p>
+								</div>
+							</th>
 							{{#each productTable}}
 							<td>
-							<div class="clearfix">
-								{{{this.colorOptions}}}
-							</div></td>
+								<div>
+									<div class="clearfix">
+										{{{this.colorOptions}}}
+									</div>
+								</div>
+							</td>
 							{{/each}}
 						</tr>
 						<tr>
-							<th><p>Memory</p></th>
+							<th>
+								<div>
+									<p>
+										Memory
+									</p>
+								</div>
+							</th>
 							{{#each productTable}}
 							<td>
+								<div>
 							<p>
 								{{this.memory}}
-							</p> 
-							
-							{{#if this.memoryNote}}
-							<p class="infoTitle">Configurable to:</p>
+							</p> {{#if this.memoryNote}}
+							<p class="infoTitle">
+								Configurable to:
+							</p>
 							<p>
 								<span>{{this.memoryNote}}</span>
-							</p> {{/if}} </td>
+							</p> {{/if}}</div></td>
 							{{/each}}
 						</tr>
 						<tr>
-							<th><p>Hard Drive</p></th>
+							<th><div>
+							<p>
+								Hard Drive
+							</p>
+							</div>
+							</th>
 							{{#each productTable}}
-							<td>
-								{{#if this.emphasisInfo}}
-									<div class="clearfix">
-										<div class="emphasis-info">
-											{{this.emphasisInfo}}
-										</div>
-									</div>
-								{{/if}}
+							<td><div> {{#if this.emphasisInfo}}
+							<div class="clearfix">
+								<div class="emphasis-info">
+									{{this.emphasisInfo}}
+								</div>
+							</div> {{/if}}
 							<p>
 								{{this.hardDrive}}
-							</p> 
-							
-							{{#if this.hardDriveNote}}
-							<p class="infoTitle">Configurable to:</p>
-								
-								<ul>
-									{{#each this.hardDriveNote}}
-										
-											<li><p>{{this}}</p></li>
-										
-									{{/each}}
-								</ul>
-							{{/if}}
-							</td>
-							{{/each}}
-						</tr>
-						
-						<tr>
-							<th><p>Communications</p></th>
-							{{#each productTable}}
-							<td> 
-								
-								<ul>
-								{{#each this.communications}}
-									<li><p>{{this}}</p></li>
-								{{/each}} 
-								</ul>
-							
-							</td>
-							{{/each}}
-						</tr>
+							</p> {{#if this.hardDriveNote}}
+							<p class="infoTitle">
+								Configurable to:
+							</p>
+							<ul>
+								{{#each this.hardDriveNote}}
 
-						<tr>
-							<th><p>Hardware</p></th>
+								<li>
+									<p>
+										{{this}}
+									</p>
+								</li>
 
-							{{#each productTable}}
-							<td>
-								<ul> 
-								{{#each this.hardware}}
-									<li>
-										<p>
-											{{this}}
-										</p>
-									</li>
 								{{/each}}
-								</ul> 
+							</ul> {{/if}} </div></td>
+							{{/each}}
+						</tr>
+
+						<tr>
+							<th>
+								<div>
+									<p>
+										Communications
+									</p>
+								</div>
+							</th>
+							{{#each productTable}}
+							<td>
+								<div>
+									<ul>
+										{{#each this.communications}}
+										<li>
+											<p>
+												{{this}}
+											</p>
+										</li>
+										{{/each}}
+									</ul>
+								</div>
 							</td>
 							{{/each}}
 						</tr>
 
 						<tr>
-							<th><p>Ports</p></th>
+							<th>
+								<div>
+									<p>
+										Hardware
+									</p>
+								</div>
+							</th>
+
 							{{#each productTable}}
-							
 							<td>
-							{{#if this.portsImg}}
-							<div class="img-respons">
+								<div>
+									<ul>
+										{{#each this.hardware}}
+										<li>
+											<p>
+												{{this}}
+											</p>
+										</li>
+										{{/each}}
+									</ul>
+								</div>
+							</td>
+							{{/each}}
+						</tr>
+
+						<tr>
+							<th>
+								<div>
+								<p>
+									Ports
+								</p>
+								</div>
+							</th>
+							{{#each productTable}}
+
+							<td><div> {{#if this.portsImg}}
+							<div class="img-respons imgMarginTop">
 								<img class="iq-img" data-base="img/spec/" data-src="{{this.portsImg}}">
 								<noscript>
 									<img src="img/spec/{{this.portsImg}}">
 								</noscript>
+							</div> {{/if}}
+							<p class="tableZoom">
+								<a href="#myModal{{this.id}}" role="button" class="enlarge" data-toggle="modal">Enlarge</a>
+							</p>
+							<div id="myModal{{this.id}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+								<div class="modal-body">
+									{{#if this.productTitle}}<h2>{{this.productTitle}} - {{this.productTitleDescription}}</h2>{{/if}}
+
+									{{#if this.portsBigImg}}
+									<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.portsBigImg}}">
+										<noscript>
+											<img src="img/spec/{{this.portsBigImg}}">
+										</noscript>
+									</div>
+									{{/if}}
+									<button class="close" data-dismiss="modal" aria-hidden="true">
+										x
+									</button>
+								</div>
 							</div>
-							{{/if}}
-							
-							  <p class="tableZoom"><a href="#myModal{{this.id}}" role="button" class="enlarge" data-toggle="modal">Enlarge</a></p>
-								<div id="myModal{{this.id}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							    
-							    <div class="modal-body">
-							    	{{#if this.productTitle}}<h2>{{this.productTitle}} - {{this.productTitleDescription}}</h2>{{/if}}
-							    	
-									  {{#if this.portsBigImg}}
-										<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="{{this.portsBigImg}}">
-											<noscript>
-												<img src="img/spec/{{this.portsBigImg}}">
-											</noscript>
-										</div>
-										{{/if}}
-							    	<button class="close" data-dismiss="modal" aria-hidden="true">x</button>
-							    </div>
-						    </div>
-								
-								
-								<ul>
-									{{#each this.ports}}
-									<li>
-										<p>{{this}}</p>
-									</li>
-									{{/each}}
-								</ul>
-								
-
-								
-							</td>
+							<ul>
+								{{#each this.ports}}
+								<li>
+									<p>
+										{{this}}
+									</p>
+								</li>
+								{{/each}}
+							</ul></div></td>
 							{{/each}}
 						</tr>
 
 						<tr>
-							<th><p>Battery and Power</p></th>
+							<th>
+								<div>
+							<p>
+								Battery and Power
+							</p>
+							</div>
+							</th>
 							{{#each productTable}}
 							<td>
-								<p>
-									{{this.batteryAndPower}}
-								</p> {{#if this.batteryAndPowerDescription}}
-								
-								<p>
-									<span>{{this.batteryAndPowerDescription}}</span>
-								</p> {{/if}} 
-								
-								
-								{{#if this.batteryAndPowerSpec}}
-								<ul>
-									{{#each this.batteryAndPowerSpec}}
-									<li>
-										<p>{{this}}</p>
-									</li>
-									{{/each}}
-								</ul>
-								{{/if}}
-								
+								<div>
+							<p>
+								{{this.batteryAndPower}}
+							</p> {{#if this.batteryAndPowerDescription}}
+							<p>
+								<span>{{this.batteryAndPowerDescription}}</span>
+							</p> {{/if}}
+
+							{{#if this.batteryAndPowerSpec}}
+							<ul>
+								{{#each this.batteryAndPowerSpec}}
+								<li>
+									<p>
+										{{this}}
+									</p>
+								</li>
+								{{/each}}
+							</ul> {{/if}}
+
 							{{#if this.batterySettings}}
-							<p class="infoTitle">Default settings:</p>
-								
-								<ul>
-									{{#each this.batterySettings}}
-											<li><p>{{this}}</p></li>
-									{{/each}}
-								</ul>
-							{{/if}}
-								
-							</td>
+							<p class="infoTitle">
+								Default settings:
+							</p>
+							<ul>
+								{{#each this.batterySettings}}
+								<li>
+									<p>
+										{{this}}
+									</p>
+								</li>
+								{{/each}}
+							</ul> {{/if}} </div></td>
 							{{/each}}
 						</tr>
 
 						<tr>
-							<th><p>In the Box</p></th>
+							<th>
+								<div>
+									<p>
+										In the Box
+									</p>
+								</div>
+							</th>
 
 							{{#each productTable}}
 							<td>
-								<ul>
-									{{#each this.inTheBox}}
-									<li>
-										<p>{{this}}</p>
-									</li>
-									{{/each}}
-								</ul>
+								<div>
+									<ul>
+										{{#each this.inTheBox}}
+										<li>
+											<p>
+												{{this}}
+											</p>
+										</li>
+										{{/each}}
+									</ul>
+								</div>
 							</td>
 							{{/each}}
 						</tr>

@@ -26,7 +26,9 @@ $(window).load(function() {
 
 	//Clone it without the first column
 	$tableContainerBackup = $('.tableContainer').clone();
-
+	
+	console.info($tableContainerBackup);
+	
 	//init.
 	resize('init', ifMobile, $browser, $tableContainerBackup);
 
@@ -40,11 +42,8 @@ $(window).load(function() {
 		 resize('resize', ifMobile, $browser, $tableContainerBackup);
 		 });
 	*/
-
-	
-
-
 });
+
 
 $(window).resize(function() {
 	var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
