@@ -12,6 +12,27 @@ mb.modulePaths = [];
 $(document).ready(function(){	
 	$('#data_control, #main_data_edit, #buttons, #submodule_section').hide();
 	
+	//turn text area into a codemirror editor
+	mb.mainCodeEditor = CodeMirror(
+		function(elt) {
+	  		mainEditor.parentNode.replaceChild(elt, mainEditor);
+		}, {
+			value: mainEditor.value, 
+			lineNumbers: true,
+	        matchBrackets: true
+        }
+    );
+        
+    mb.popupCodeEditor = CodeMirror(
+    	function(elt) {
+    		popupEditor.parentNode.replaceChild(elt, popupEditor);
+		}, {
+			value: popupEditor.value, 
+			lineNumbers: true,
+        	matchBrackets: true
+        }
+    );
+	
 	// loads module names
 	$.ajax({
 	  url: "/mnames"
@@ -57,7 +78,8 @@ $(document).ready(function(){
 	
 	//on data select
 	$('#data_select').change(function(e){
-		$('#main_data_edit textarea, #submodule_list').html("");
+		$('#submodule_list').html("");
+		mb.mainCodeEditor.setValue("");
 		$('#submodule_section').find('.add-me').unbind('click');
 		$('#submodule_section').hide();
 		mb.subModules = null;
@@ -91,8 +113,8 @@ $(document).ready(function(){
 				})
 			}
 			//add the remaining data to the module edit text field
-			$('#main_data_edit textarea').val(JSON.stringify(mb.moduleData, null, '    '));
-			$('#main_data_edit textarea').trigger('keyup');
+			mb.mainCodeEditor.setValue(JSON.stringify(mb.moduleData, null, '    '))
+			mb.mainCodeEditor.change();
 			$('#edit_box input:first, #save_as_box input:first').val($('#data_select').val())
 		});
 	})
@@ -127,8 +149,8 @@ $(document).ready(function(){
 			$.ajax({
 			  url: "/getjson",
 			  data: {path: p}
-			}).done(function(res) {		
-				$('#edit_box .modal-body textarea').val(JSON.stringify(JSON.parse(res), null, '    '));
+			}).done(function(res) {
+				mb.popupCodeEditor.setValue(JSON.stringify(JSON.parse(res), null, '    '));
 			})
 		})				
 		
@@ -159,10 +181,14 @@ $(document).ready(function(){
 	
 	
 	
-	//on textarea edit run JSLINT to test for valid json
-	$('#main_data_edit textarea').bind('keyup',function(e){
-		var res = JSLINT($('#main_data_edit textarea').val())
-		$('#main_data_edit textarea').toggleClass('error', !res);
+	//on code edit run JSLINT to test for valid json
+	mb.mainCodeEditor.on('change',function(){
+		var res = JSLINT(mb.mainCodeEditor.getValue())
+		$('#main_data_edit').toggleClass('error', !res);
+	});
+	mb.popupCodeEditor.on('change', function(){
+		var res = JSLINT(mb.popupCodeEditor.getValue());
+		$('.modal-body').toggleClass('error', !res);
 	})
 	
 	//when you pop up the save as dialog focus the filename
@@ -175,25 +201,25 @@ $(document).ready(function(){
 		if($('#data_text').hasClass('error')){
 			return;
 		} else{
-			doSave($('#data_select').val(), $('#main_data_edit textarea:first').val(), mb.isSuperModule);
+			doSave($('#data_select').val(), mb.mainCodeEditor.getValue(), mb.isSuperModule);
 		}
 	})
 
 	//when you hit save as submit the new filename
 	$('#save_as_submit').bind('click', function(e){
-		if($('#main_data_edit textarea:first').hasClass('error')){
+		if($('#main_data_edit').hasClass('error')){
 			return;
 		}else{
-			doSave($('#save_as_box input:first').val(), $('#main_data_edit textarea:first').val(), mb.isSuperModule);
+			doSave($('#save_as_box input:first').val(), mb.mainCodeEditor.getValue(), mb.isSuperModule);
 		}
 	})
 	
 	//when you hit save in the edit submodule popup
 	$('#edit_submit').bind('click', function(e){
-		if($('#edit_box textarea:first').hasClass('error')){
+		if($('.modal-body').hasClass('error')){
 			return;
 		}else{
-			doSave($('#edit_box input:first').val(), $('#edit_box textarea:first').val(), false);
+			doSave($('#edit_box input:first').val(), mb.popupCodeEditor.getValue(), false);
 		}
 		
 	})
@@ -230,9 +256,10 @@ $(document).ready(function(){
 			$('body').prepend('<div id="save_success" class="alert alert-success">Success: File Saved!<button type="button" class="close" data-dismiss="alert">×</button></div>');
 			$('#save_success').alert();
 			var v = $('#data_select').val()
-			$('#module_select').trigger('change')
+			$('#module_select').trigger('change');
 			setTimeout(function(){
 				$('#data_select option[value="'+v+'"]').prop('selected', true);
+				$('#data_select').trigger('change');
 			},200)
 			$('#edit_box, #save_as_box').modal('hide');	
 		});
@@ -267,7 +294,7 @@ $(document).ready(function(){
 
 	//turn build into a bootstrap button
 	$("#build").button();
-
+	
 })
 
 
