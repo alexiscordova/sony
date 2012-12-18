@@ -1,4 +1,6 @@
 /*global module:false*/
+mymod = 'editorial';
+
 module.exports = function(grunt) {
 
 // Project configuration.
@@ -24,10 +26,35 @@ module.exports = function(grunt) {
     		}
 		},
 		watch: {
-			files: ['css/scss/**/*.scss', 
-					'js/**/*.js', 
-					'html/**/*.*'],
-			tasks: ['debug-light']
+			js:{
+				files: ['js/**/*.js'],
+				tasks: ['debug-js'],
+				options: {
+					forceWatchMethod: 'old'
+				}
+			},
+			css:{
+				files: ['css/scss/**/*.scss'],
+				tasks: ['debug-css'],
+				options: {
+					forceWatchMethod: 'old'
+				}
+			},
+			html:{
+				files: ['html/**/*.*'],
+				tasks: ['debug-html'],
+				options: {
+					forceWatchMethod: 'old'
+				}
+			},
+			images:{
+				files: ['img/**/*.*'],
+				tasks: ['debug-img'],
+				options: {
+					forceWatchMethod: 'old'
+				}
+			}
+			
 		},
 		compass: {
 		    debug: {
@@ -93,9 +120,9 @@ module.exports = function(grunt) {
 			}
 		},
 		clean:{
-			debug:'../build/debug/',
-			deploy:'../build/deploy/',
-			docs:'../docs/'
+			debug:['../build/debug/'],
+			deploy:['../build/deploy/'],
+			docs:['../docs/']
 		},
 		copy:{
 			debug:{
@@ -182,12 +209,14 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-yui-compressor');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');
 	grunt.registerTask('mbuilder', 'shell:docpad_mbuilder')
 	grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
-	grunt.registerTask('debug-html', 'shell:docpad_debug');
+	grunt.registerTask('debug-html', 'lint shell:docpad_debug');
+	grunt.registerTask('debug-js', 'lint copy:debuglight');
 	grunt.registerTask('debug-css', 'compass:debug');
 	grunt.registerTask('debug-img', 'copy:debugimg');
 	grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
