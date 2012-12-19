@@ -1,0 +1,16 @@
+---
+title: Tertiary Content Container Module (TCC)
+containerTypes: ["category", "pdp", "homepage"]
+---
+
+<section class="container full-bleed tertiary-wrapper">
+	<div class="grid full-bleed"><%= @data.containerType %></div>
+  <div class="grid full-bleed tertiary">
+		<% for module in @data.contentModules: %>
+				<% console.log(module) %>
+		   <div class="span12 l1 content-block"><img src="<%= @data.imgSrc %>" alt="<%= @data.imgAltTxt %>"></div>
+		<% end %>
+  </div>
+</section>
+
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> 

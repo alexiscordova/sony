@@ -1,0 +1,79 @@
+//
+// Tertiary Content Container (TCC) 
+// --------------------------------------------------
+
+// TEMP
+@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/mixins";
+
+.clearfix {
+  @include clearfix;
+}
+
+*{
+  @include borderBox;
+  @include noTouchHold;
+}
+
+// END TEMP
+
+.tertiary-wrapper{
+  @include debug($grayLight, 1px, $grayLightFieldLarge);
+  
+  .grid{
+    @include debug($white, 1px, $grayLightFieldSmall);
+  } // end grid
+
+} // end .tcc-wrapper 
+
+
+
+	// * {
+	// -moz-box-sizing: border-box;
+	// 	-webkit-box-sizing: border-box;
+ //     box-sizing: border-box;
+	// }	
+
+	// body {
+	// 	background-color: #999;
+	// 	position:relative;
+	// }
+
+	// .wrapper-free {
+	// 	display: block;
+	// 	overflow: auto;
+	// 	outline: 4px dashed black;
+	// 	position: relative;
+	// 	clear: both;
+	// 	text-align: center;
+	// 	background: #fff;
+	// 	z-index: 1; /* On older OS versions "position" and "z-index" must be defined, */
+	// 	margin-top: 4px;
+	// }
+
+	// .content {
+	// 	margin:0 auto;
+	// 	position: relative;
+	// 	direction: ltr;
+	// 	overflow: hidden;
+	// 	padding: 10px 0 10px 0;
+	// 	height: 165px;
+	// }
+
+	// .block {
+	// 	display: block;
+	// 	width: 150px;
+	// 	height: 166px;
+	// 	/*outline: 1px dashed black;*/
+	// 	float: left;
+	// 	vertical-align: middle;
+	// 	text-align: center;
+	// 	color: white;
+	// 	font-size: 24px;
+	// 	margin: 0 20px;
+	// 	padding:10px;
+	// }
+
+	// .block img {
+	// 	width: 100%;
+	// }

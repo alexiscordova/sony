@@ -32,7 +32,8 @@
 		
 		$( t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length );
 		
-		//$( t.$contentContainer).css('width' , 1968 + 'px');
+		// TODO: Determine if we still need this...
+		$( t.$contentContainer).css('width' , 1968 + 'px');
 
 		//override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
@@ -188,7 +189,7 @@
 
 	  //iscroll props get mixed in
 	  iscrollProps: {
-			snap: false,
+			snap: true,
 			hScroll: true,
 			vScroll: false,
 			hScrollbar: false,
