@@ -14,6 +14,8 @@
 	$grayDark:              rgb(47,53,61) !default;
 	$gray:                  rgb(131,131,143) !default;
 
+	$grayLightness:         rgb(145,145,158) !default; // we need to cut down on some of these...
+
 	$grayLight:             rgb(188,188,204) !default;
 	$grayLightish:          rgb(210,210,219) !default; // seriously, idk what to do w/all these colors.
 	$grayLighter:           rgb(228,231,235) !default;
@@ -84,33 +86,23 @@
 // -------------------------
 .TYPOGRAPHY{} // this is just here for a SublimeText code-folding collapse point
 
-// Christopher's fonts - these are probably dead now.
-	$sansFontFamily:        		"SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyItalic:  		"SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyBold:    		"SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyBoldItalic: "SST-Bold-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMedium:  		"SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	
-// FONTS.COM FONTS:
-// $sansFontFamily:        		"SST W01 Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyItalic:  		"SST W01 Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyBold:    		"SST W01 Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyBoldItalic:	"SST W01 Bold Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyMedium:  		"SST W01 Medium", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyMediumItalic:"SST W01 Medium Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyLight:   		"SST W01 Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyLightItalic: "SST W01 Light Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// "Comic Sans MS" and Monaco are here for testing, so it's obvious when the webfont is not working.
+// Font names are now standardized, so these are the same whether you're using fonts.com or local fonts. That is determined in css_debug/deploy.html or docs_head.html
+$sansFontFamily:        					"SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyItalic:  					"SST W01 Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyBold:    					"SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyBoldItalic: 				"SST W01 Bold Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyMedium:  					"SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyMediumItalic:			"SST W01 Medium Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyLight:   					"SST W01 Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$sansFontFamilyLightItalic: 			"SST W01 Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 // // Extras as defined by Fonts.com - but not used on this site (yet):
-// $sansFontFamilyCondensed: 			"SST W01 Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyCondensedBold:		"SST W01 Condensed Bold", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyHeavy:    				"SST W01 Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyHeavyItalic: 		"SST W01 Heavy Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyUltraLight:  		"SST W01 Ultra Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-// $sansFontFamilyUltraLightItalic:"SST W01 Ultra Light Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-
+// $sansFontFamilyCondensed: 				"SST W01 Condensed", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// $sansFontFamilyCondensedBold:		"SST W01 Condensed Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// $sansFontFamilyHeavy:    				"SST W01 Heavy", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// $sansFontFamilyHeavyItalic: 			"SST W01 Heavy Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// $sansFontFamilyUltraLight:  			"SST W01 Ultra Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+// $sansFontFamilyUltraLightItalic:	"SST W01 Ultra Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 
 
 $serifFontFamily:       		Georgia, "Times New Roman", Times, serif !default;
@@ -604,10 +596,10 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 // --------------------------------------------------
 .TRANSITION-SPEEDS{} 
 $transitionSuperslow:   0.5s;
-$transitionSlower:   	0.4s;
+$transitionSlower:   		0.4s;
 $transitionSlow:        0.3s;
 $transitionNormal:      0.2s;
-$transitionFast:		0.15s;
+$transitionFast:				0.15s;
 $transitionFaster:      0.10s;
 $transitionSuperfast:   0.05s;
 
@@ -619,5 +611,7 @@ $easeOutQuad: 		cubic-bezier(0.250, 0.460, 0.450, 0.940);
 $easeOutCubic: 		cubic-bezier(0.215, 0.610, 0.355, 1.000);
 $easeOutQuart: 		cubic-bezier(0.165, 0.840, 0.440, 1.000);
 $easeOutExpo: 		cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$easeOutNav:			cubic-bezier(0.455, 0.030, 0.515, 0.955);
+
 $easeNormal:		ease-out;
 
