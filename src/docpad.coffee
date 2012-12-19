@@ -33,14 +33,14 @@ docpadConfig = {
       title:'Sony Global'
     }
     data:(path) ->  output = JSON.parse( require('fs').readFileSync(require('path').normalize(docpad.config.rootPath + '/html/data/' + path), 'utf8') );
-    polyfills: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/')).pluck('filename')
-    require: ->     output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/require/')).pluck('filename')
-    secondary: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/secondary/')).pluck('filename')
-    defer: ->       output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/')).pluck('filename')
-    modulescss: ->  output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/')).pluck('filename')
-    modulepages: -> output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/html/pages/')).pluck('filename')
-    title:(name) -> output = docpad.database.findOne({id:name}).attributes.title
-    desc:(name) ->  output = docpad.database.findOne({id:name}).attributes.description
+    polyfills: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/')).pluck('filename');
+    require: ->     output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/require/')).pluck('filename');
+    secondary: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/secondary/')).pluck('filename');
+    defer: ->       output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/')).pluck('filename');
+    modulescss: ->  output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/')).pluck('filename');
+    modulepages: -> output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/html/pages/')).pluck('filename');
+    title:(name) -> output = docpad.database.findOne({id:name}).attributes.title;
+    desc:(name) ->  output = docpad.database.findOne({id:name}).attributes.description;
   }
   
   plugins:{
