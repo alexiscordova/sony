@@ -69,15 +69,15 @@ exports.generatePage = function(req, res) {
             moduleDataFileName = req.body['moduleData'][i] || null;
         }
 
-        moduleList = moduleList + "<%-@partial('modules/" + moduleFileName + "', @data('../data/" + moduleDataFileName + "'))%>\n";
+        moduleList = moduleList + "<%-@partial('modules/" + moduleFileName + "',{this:this, data:@data('../data/" + moduleDataFileName + "')})%>\n";
 
     };
 
     var t = "page" + "_" + Math.floor(Date.now() / 1000);
     var p = '../src/html/generated/' + t + ".html.eco";
     var d = String(fs.readFileSync('pages_template.html.eco'));
-    d = d.replace(/{{{{t}}}}/g, t);
-    d = d.replace(/{{{{d}}}}/g, "This page page was generated from the module builder");
+   // d = d.replace(/{{{{t}}}}/g, t);
+   // d = d.replace(/{{{{d}}}}/g, "This page page was generated from the module builder");
     d = d.replace(/{{{{b}}}}/g, moduleList);
 
     fs.writeFile(p, d, 'utf8', function(err) {
