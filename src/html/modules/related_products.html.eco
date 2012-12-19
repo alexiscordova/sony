@@ -1,10 +1,10 @@
 ---
 desc: 'Here are some modules with unique data:'
 layout1: [ "normal" , "medium", "promo" , "normal" , "normal" ]
-layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
+layout2: [ "normal" , "medium", "promo" , "normal" , "normal" ]
 ---
 <div class="container grid5" style="background-color:#f1f2f4;">
-  <div class="grid grid-small" style="height:100%; padding:0 20px 0 20px;">
+  <div class="rpGrid grid grid-small">
     <section class="related-products">
       <div class="rpOverflow" id="rpOverflow">
         <div class="rpContainer">
@@ -13,7 +13,7 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
             <% for module in @data.submodules: %>
                 <% d = @this.data(module.data) %>
                 <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
+                <% d.layout = @document[@data.featured.layout[0]][i++] %>
                 <% d.view = "basic" %>
                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
@@ -24,7 +24,7 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
             <% for module in @data.submodules: %>
                 <% d = @this.data(module.data) %>
                 <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
+                <% d.layout = @document[@data.featured.layout[1]][i++] %>
                 <% d.view = "basic" %>
                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
@@ -35,7 +35,7 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
             <% for module in @data.submodules: %>
                 <% d = @this.data(module.data) %>
                 <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
+                <% d.layout = @document[@data.featured.layout[0]][i++] %>
                 <% d.view = "basic" %>
                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
@@ -46,7 +46,7 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
             <% for module in @data.submodules: %>
                 <% d = @this.data(module.data) %>
                 <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
+                <% d.layout = @document[@data.featured.layout[1]][i++] %>
                 <% d.view = "basic" %>
                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
@@ -57,7 +57,7 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
             <% for module in @data.submodules: %>
                 <% d = @this.data(module.data) %>
                 <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
+                <% d.layout = @document[@data.featured.layout[0]][i++] %>
                 <% d.view = "basic" %>
                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>

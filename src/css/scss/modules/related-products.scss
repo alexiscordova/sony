@@ -41,12 +41,35 @@ section {
   display: block;
 }
 
+  .rpGrid {
+    padding: 0 80px 0 80px;
+    height: 100%;
+
+  } 
+
+    @media (max-width: 480px) {
+      .rpGrid{
+        padding:0;
+      }
+    }
+
+
+    @media (max-width: 480px) {
+      /* line 142, ../../../src/css/scss/_responsive/_responsive-767px-max.scss */
+      .related-products .gallery-item.small-size {
+        float: left;
+        min-height: 1px;
+        margin-left: 20px ;
+        width: 204px ;
+      }
+    }
+
   .related-products {
     width: 100%;
     
     /* height: 450px; */
     margin: 15px 0 0 0;
-    padding: 0 ;
+    padding: 0 ;  
 
 /*     max-width: 1400px; /* Both Must be set for JS to size proportiontely */
   /*   max-height: 870px; */ 
@@ -62,9 +85,20 @@ section {
       display: block;
     } 
 
+    .small-size {
+      width: 204px;
+      height:337px;
+      display:block;
+      float:left;
+      margin-left:20px;
+ 
+      .gallery-item-inner {
+        height: 337px;
+      }
+    }
 
     .normal:after {
-      padding-top: 125.2900232%;
+      //padding-top: 125.2900232%;
     }
 
     .normal .product-img:after {
@@ -82,6 +116,14 @@ section {
 
     .promo:after {
       padding-top: 54.524361948956%;
+    }
+
+    .gallery-item {
+      background:none;
+
+      .product-img {
+        background: #ffffff;
+      }
     }
 
 
@@ -102,13 +144,9 @@ section {
       }
     } */
 
-    .small-size {
-      width: 204px;
-      height:337px;
-      display:block;
-      float:left;
-      margin-left:20px;
-    }
+
+
+
 
 
 
@@ -159,7 +197,7 @@ section {
       bottom:0;
       left:0;
 
-      background: #E9E9E9;
+      /* background: #E9E9E9; */
       -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
       -moz-user-select: -moz-none;
       -webkit-user-select: none;
@@ -179,6 +217,7 @@ section {
 
       /* Mobile view tiles */
 
+
       .whoa {
         display:block ;
         float:left;
@@ -194,7 +233,7 @@ section {
     .rpSlide {
       position: absolute;
       left: 0;
-      top: 0;
+      top: -20px;
       display: block;
       height: 100%;
       width: 100%;
@@ -348,11 +387,30 @@ section {
 
     }
   }
+    .rpNav {
+      .paddle {
+      width: 50px;
+      height: 88px;
+      display:block;
+      background: #909398;
 
-.rpArrow {
+      position: absolute;
+      top:25%;
+      margin: -44px 0 0 0;
+      
+      &.left {
+        left: 6.5%;
+        right: auto;
+      }
+
+      &.right {
+        left: auto;
+        right: 6.5%;
+      }
+    }
 
 
-}
+  }
 
 
 

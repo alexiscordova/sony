@@ -46,16 +46,31 @@ section {
 /* line 44, ../../../src/css/scss/modules/related-products.scss */
 .related-products {
   width: 100%;
-  height: 450px;
+  /* height: 450px; */
   margin: 15px 0 0 0;
   padding: 0;
-  max-width: 1400px;
-  /* Both Must be set for JS to size proportiontely */
-  max-height: 870px;
+  /*     max-width: 1400px; /* Both Must be set for JS to size proportiontely */
+  /*   max-height: 870px; */
   position: relative;
   direction: ltr;
   /* border: 5px dashed #ccc; */
   overflow: hidden;
+  /*     @media (max-width: 767px) {
+        .gallery-item {
+          margin-top: 10px;
+          width: 20%;
+          // Make it a 1x1 instead of 2x2 or 1x2
+          // need .gallery selector to override .grid5
+          .gallery &.promo,
+          .gallery &.large {
+           
+          }
+  
+          .gallery &.large .product-img {
+            
+          }
+        }
+      } */
   /* 
       @media (min-width:480px) {
         .grid5 {
@@ -63,22 +78,34 @@ section {
         }
       } */
 }
-@media (max-width: 767px) {
-  /* line 62, ../../../src/css/scss/modules/related-products.scss */
-  .related-products .gallery-item {
-    margin-top: 10px;
-    width: 20%;
-  }
-  /* line 68, ../../../src/css/scss/modules/related-products.scss */
-  .gallery .related-products .gallery-item.promo, .gallery .related-products .gallery-item.large {
-    height: 337px;
-  }
-  /* line 72, ../../../src/css/scss/modules/related-products.scss */
-  .gallery .related-products .gallery-item.large .product-img {
-    height: 220px;
-  }
+/* line 59, ../../../src/css/scss/modules/related-products.scss */
+.related-products:after {
+  content: '';
+  margin-top: 49.761151%;
+  display: block;
+}
+/* line 66, ../../../src/css/scss/modules/related-products.scss */
+.related-products .normal:after {
+  padding-top: 125.2900232%;
+}
+/* line 70, ../../../src/css/scss/modules/related-products.scss */
+.related-products .normal .product-img:after {
+  padding-top: 75.980392156863%;
+}
+/* line 74, ../../../src/css/scss/modules/related-products.scss */
+.related-products .medium:after {
+  padding-top: 118.490023%;
 }
 /* line 78, ../../../src/css/scss/modules/related-products.scss */
+.related-products .medium .product-img:after {
+  padding-top: 95.127610208817%;
+  /* padding-top: 75.127610208817%; */
+}
+/* line 83, ../../../src/css/scss/modules/related-products.scss */
+.related-products .promo:after {
+  padding-top: 54.524361948956%;
+}
+/* line 105, ../../../src/css/scss/modules/related-products.scss */
 .related-products .small-size {
   width: 204px;
   height: 337px;
@@ -86,7 +113,7 @@ section {
   float: left;
   margin-left: 20px;
 }
-/* line 96, ../../../src/css/scss/modules/related-products.scss */
+/* line 123, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpBullets {
   position: absolute;
   z-index: 35;
@@ -95,13 +122,12 @@ section {
   width: 100%;
   height: auto;
   margin: 0 auto;
-  background: #000;
-  background: rgba(0, 0, 0, 0.75);
   text-align: center;
   line-height: 18px;
   overflow: hidden;
+  visibility: hidden;
 }
-/* line 113, ../../../src/css/scss/modules/related-products.scss */
+/* line 137, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpBullet {
   width: 10px;
   height: 10px;
@@ -113,15 +139,19 @@ section {
   background: #666;
   cursor: pointer;
 }
-/* line 125, ../../../src/css/scss/modules/related-products.scss */
+/* line 149, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpBullet.rpNavSelected {
   background-color: #4295E2;
 }
-/* line 129, ../../../src/css/scss/modules/related-products.scss */
+/* line 153, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpOverflow {
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: #E9E9E9;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-user-select: -moz-none;
@@ -136,7 +166,7 @@ section {
     min-height: 370px;
   }
 }
-/* line 145, ../../../src/css/scss/modules/related-products.scss */
+/* line 174, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpContainer {
   position: relative;
   width: 100%;
@@ -144,7 +174,7 @@ section {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /* Mobile view tiles */
 }
-/* line 153, ../../../src/css/scss/modules/related-products.scss */
+/* line 182, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpContainer .whoa {
   display: block;
   float: left;
@@ -154,7 +184,7 @@ section {
   background: #5787f4;
   margin: 0 20px 0 20px;
 }
-/* line 165, ../../../src/css/scss/modules/related-products.scss */
+/* line 194, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide {
   position: absolute;
   left: 0;
@@ -164,7 +194,7 @@ section {
   width: 100%;
   overflow: hidden;
 }
-/* line 177, ../../../src/css/scss/modules/related-products.scss */
+/* line 206, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-1-up {
   position: relative;
   width: 20%;
@@ -175,7 +205,7 @@ section {
   float: left;
   text-align: center;
 }
-/* line 187, ../../../src/css/scss/modules/related-products.scss */
+/* line 216, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-1-up div {
   width: 98%;
   height: 98%;
@@ -183,7 +213,7 @@ section {
   margin: 2% 0 0 0;
   display: block;
 }
-/* line 195, ../../../src/css/scss/modules/related-products.scss */
+/* line 224, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-1-up img {
   position: absolute;
   top: 0;
@@ -192,7 +222,7 @@ section {
   height: auto;
   text-align: center;
 }
-/* line 205, ../../../src/css/scss/modules/related-products.scss */
+/* line 234, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-2-up {
   position: relative;
   width: 40%;
@@ -202,7 +232,7 @@ section {
   display: block;
   float: left;
 }
-/* line 214, ../../../src/css/scss/modules/related-products.scss */
+/* line 243, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-2-up img {
   position: absolute;
   top: 0;
@@ -212,7 +242,7 @@ section {
   display: block;
   text-align: center;
 }
-/* line 224, ../../../src/css/scss/modules/related-products.scss */
+/* line 253, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-2-up .col-1-up {
   position: relative;
   width: 47%;
@@ -223,12 +253,12 @@ section {
   background: #666;
   float: left;
 }
-/* line 234, ../../../src/css/scss/modules/related-products.scss */
+/* line 263, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-2-up .col-1-up.odd {
   width: 50%;
   background: #ccc;
 }
-/* line 240, ../../../src/css/scss/modules/related-products.scss */
+/* line 269, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-2-up .col-2-up {
   position: relative;
   width: 98%;
@@ -239,7 +269,7 @@ section {
   background: #ccc;
   float: left;
 }
-/* line 250, ../../../src/css/scss/modules/related-products.scss */
+/* line 279, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-2-up .col-2-up img {
   position: absolute;
   top: 0;
@@ -250,7 +280,7 @@ section {
   display: block;
   max-width: 490px;
 }
-/* line 263, ../../../src/css/scss/modules/related-products.scss */
+/* line 292, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-4-up {
   position: relative;
   width: 50%;
@@ -261,7 +291,7 @@ section {
   float: left;
   text-align: center;
 }
-/* line 273, ../../../src/css/scss/modules/related-products.scss */
+/* line 302, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-4-up div {
   width: 99%;
   height: 98%;
@@ -269,7 +299,7 @@ section {
   margin: 1% 0 0 1%;
   display: block;
 }
-/* line 281, ../../../src/css/scss/modules/related-products.scss */
+/* line 310, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-4-up img {
   position: absolute;
   top: 0;
@@ -278,7 +308,7 @@ section {
   height: auto;
   text-align: center;
 }
-/* line 292, ../../../src/css/scss/modules/related-products.scss */
+/* line 321, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-5-up {
   position: relative;
   width: 60%;
@@ -289,7 +319,7 @@ section {
   float: left;
   text-align: center;
 }
-/* line 302, ../../../src/css/scss/modules/related-products.scss */
+/* line 331, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-5-up div {
   width: 99%;
   height: 98%;
@@ -297,7 +327,7 @@ section {
   margin: 1% 0 0 1%;
   display: block;
 }
-/* line 310, ../../../src/css/scss/modules/related-products.scss */
+/* line 339, ../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide .row-5-up img {
   position: absolute;
   top: 0;
