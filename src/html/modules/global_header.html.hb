@@ -7,6 +7,7 @@ meta_data: {a:'foo', b:'bar'}
       <nav class="container full-bleed-no-max nav-wrapper">
 
       	<div class="container navbar">
+      		<a class="btn btn-mobile-nav" href="#"><i class="icon-ui-mobile-menu-btn"></i></a>
 	        <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
 	        <ul class="nav nav-primary">
 	          <li id="nav-li-store"><a href="#">Store</a></li>
