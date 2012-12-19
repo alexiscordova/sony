@@ -76,6 +76,7 @@ $(window).resize(function() {
 function resize(status, device, browser, tableContainerBackup) {
 
 	//hide any modal on resize.
+	if ($('.modal').length > 0)
 	$('.modal').modal('hide');
 
 	//Put it in the scope.

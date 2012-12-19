@@ -8,7 +8,6 @@ if ( !Exports ) {
 // Five columns
 Exports.fiveColumns = 5;
 Exports.twelveColumns = 12;
-
 Exports.col5Width = 204;
 Exports.gut5Width = 23;
 Exports.fullWidth = (Exports.fiveColumns * Exports.col5Width) + (Exports.gut5Width * (Exports.fiveColumns - 1));
@@ -122,6 +121,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
     windowWidth = $window.width();
     windowHeight = $window.height();
     tabWidth = initialTabWidth = $tabs.outerWidth();
+    console.log('initialTabWidth', initialTabWidth);
 
     // New tab shown event
     $tabs.on('shown', _tabShown);

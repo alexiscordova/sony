@@ -935,7 +935,7 @@
                 $newItems = $(),
                 // Get product count
                 productCount = $currentItems.length,
-                $container = $('<div class="container-fluid">'),
+                $container = $('<div class="container">'),
                 $content = $('<div class="compare-container clearfix">'),
                 $label = self.$compareTool.find('#compare-tool-label'),
                 originalLabel = $label.text(),

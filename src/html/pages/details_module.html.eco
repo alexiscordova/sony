@@ -29,7 +29,7 @@ description: This is the details module.
 			/details/default.json
 			/details-lens/default.json
 		-->
-		<%-@partial('modules/module_details.html.hb', @data('/details/default.json')) %>
+		<%-@partial('modules/module_details.html.eco', {this:this, data:@data('details/default.json')} ) %>
 		
 <% if 'debug' in @getEnvironments():%>
 		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>

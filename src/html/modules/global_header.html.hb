@@ -10,16 +10,16 @@ meta_data: {a:'foo', b:'bar'}
 	        <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
 	        <ul class="nav nav-primary">
 	          <li id="nav-li-store"><a href="#">Store</a></li>
-	          <li id="nav-li-electronics"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><i class="sprite-mini-global-nav-indicator"></i></li>
-	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><i class="sprite-mini-global-nav-indicator"></i></li>
+	          <li id="nav-li-electronics"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
+	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
 	          <li id="nav-li-support"><a href="#">Support</a></li>
 	        </ul>
 	        <ul class="nav nav-utility">
 	          <li id="nav-li-account">
 	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navmenu-wrapper-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
-	          	<i class="sprite-mini-global-nav-indicator"></i>
 
 					    <div class="navmenu-wrapper navmenu-wrapper-account Xlogged-inX">
+					    	<i class="sprite-mini-global-nav-indicator"></i>
 					    	<a href="#" class="btn btn-login">Log in</a>
 				        <ul class="navmenu-list-main">
 				        	<li id="navmenu-li-account"><a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a></li>
@@ -35,10 +35,10 @@ meta_data: {a:'foo', b:'bar'}
 	          <li id="nav-li-cart"><a class="iconTrigger-ui-cart disabled" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
 	          <li id="nav-li-universal"><a class="btn nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
 	          <li id="nav-li-search">
-	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a><i class="sprite-mini-global-nav-indicator"></i>
-	          	<i class="sprite-mini-global-nav-indicator"></i>
+	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a>
 
 					    <div class="navmenu-wrapper navmenu-wrapper-search Xsearching">
+	          	 	<i class="sprite-mini-global-nav-indicator"></i>					    	
 					    	<i class="sprite-mini-nav-search-input"></i>
 					    	<form method="post" action="" class="navmenu-search-section-input">
 						        <input type="text" name="navSearch" id="navSearch" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search"/>
@@ -125,7 +125,13 @@ meta_data: {a:'foo', b:'bar'}
 		        		<li id="navtray-li-computing"><a href="#" class="tl">Computing</a></li>
 		        		<li id="navtray-li-music"><a href="#" class="tl">Music</a></li>
 		        	</ul>
-		        	<div class="navtray-secondary-promo"><a href="#">Play. Watch Listen. Create</a></div>
+		        	<p class="navtray-secondary-promo">
+		        		<a href="#">
+		        			<img src="img/global/global-nav/promo-header-electronics.jpg" alt="">
+		        			<span class="p2">Play.Watch.Listen.Create.</span>
+		        			<span class="p3">Enjoy your photos and videos across any devices</span>
+		        		</a>
+		        	</p>
 		        </div>
 		      </div>
 	      </div><!-- end #navtray-electronics --> 
@@ -140,8 +146,14 @@ meta_data: {a:'foo', b:'bar'}
 			        	<li id="navtray-li-computers"><a href="#" class="tl"><img src="img/global/global-nav/tray-ebooks.png" alt="eBooks"><span class="nav-label">eBooks</span></a></li>
 			        </ul>
 			      </div>
-		        <div class="navtray-section navtray-section-featured">
-		        	<div class="navtray-secondary-promo"><a href="#">Play. Watch Listen. Create</a></div>
+		        <div class="navtray-section navtray-section-featured navtray-section-featured-short">
+		        	<p class="navtray-secondary-promo navtray-secondary-promo-short">
+		        		<a href="#">
+		        			<img src="img/global/global-nav/promo-header-entertainment.jpg" alt="">
+		        			<span class="p2">Play.Watch.Listen.Create.</span>
+		        			<span class="p3">Enjoy your photos and videos across any devices</span>
+		        		</a>
+		        	</p>
 		        </div>
 		      </div>
 	      </div><!-- end #navtray-entertainment -->
