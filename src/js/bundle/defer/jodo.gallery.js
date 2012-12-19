@@ -30,7 +30,6 @@
 },
  */
 
-
 (function($, Modernizr, window, undefined) {
 
     var Gallery = function( $container, options ) {
@@ -56,7 +55,6 @@
         self.$compareBtn = self.$container.find('.js-compare-toggle');
         self.hasCompareModal = self.$compareBtn.length > 0;
         self.$compareTool = $('#compare-tool');
-        self.$compareCount = self.$compareTool.find('.js-compare-count');
         self.$compareReset = self.$compareTool.find('.js-compare-reset');
 
         // Other vars
@@ -135,6 +133,7 @@
         if ( self.hasCompareModal ) {
             self.$compareBtn.on('click', $.proxy( self.onCompareLaunch, self ));
             self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
+            self.$compareTool.on('shown', $.proxy( self.onCompareShown, self ));
             self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
         }
 
@@ -938,13 +937,16 @@
                 contentWidth = 0,
                 // Get product count
                 productCount = $currentItems.length,
+                $count = $('<div><span class="js-compare-count">0</span> Products</div>'),
+
                 $container = $('<div class="container">'),
                 $content = $('<div class="compare-container clearfix">'),
                 $label = self.$compareTool.find('#compare-tool-label'),
                 originalLabel = $label.text(),
                 newLabel = originalLabel + ' ' + self.$container.find('.compare-name').text(),
 
-                $labelColumn = $('<div class="span2 detail-label-group">'),
+                $labelColumn = $('<div class="span2 detail-labels-wrap">'),
+                $labelGroup = $('<div class="detail-label-group">'),
 
                 // Clone sort button
                 $sortOpts = self.$container.find('.sort-options').clone();
@@ -981,15 +983,12 @@
                 $newItems = $newItems.add( $div );
             });
 
-            // Set item count
-            self.$compareCount.text( productCount );
-
 
             // Create labels column
             self.$container.find('.comparables [data-label]').each(function() {
                 var $label = $(this).clone();
                 $label.text( $label.attr('data-label') );
-                $labelColumn.append($label);
+                $labelGroup.append($label);
             });
 
 
@@ -1014,6 +1013,11 @@
             // Intialize carousel
             // TODO
 
+            $(window).on('resize.comparetool', function() {
+                self.$compareTool.find('.detail').css('height', '');
+                self.setCompareRowHeights();
+            });
+
             // Save state for reset
             self.compareState = {
                 count: productCount,
@@ -1022,6 +1026,7 @@
                 label: originalLabel
             };
 
+            $labelColumn.append( $count, $labelGroup );
             $content.append( $labelColumn );
             $content.append( $newItems );
             $container.append( $content );
@@ -1036,12 +1041,31 @@
             // Cloned images need to be updated
             window.iQ.update();
 
+
+            // WORK TO DO AFTER ITEMS HAVE BEEN PUT INTO THE DOM
+            // -----------------------
+
+            // INSTEAD OF HARD-CODING "Products", IT COULD BE A DATA-* ATTR OR TAKEN FROM THE DOM AND REPLACED <--- DO THAT
+            // Set item count
+            self.$compareCount = $count.find('.js-compare-count');
+            self.$compareCount.text( productCount );
+
             // HOLD ONTA YA BUTTS. How do I set a width on something that will use percentages?
             $content.children().each(function() {
                 contentWidth += $(this).outerWidth(true);
             });
             $content.width( contentWidth );
             // $content.width( $newItems.length * itemWidth );
+
+
+        },
+
+        onCompareShown : function() {
+            var self = this;
+
+            var now = new Date().getTime();
+            self.setCompareRowHeights();
+            console.log( (new Date().getTime() - now) / 1000, 'seconds passed calculating heights');
         },
 
         onCompareClosed : function() {
@@ -1069,6 +1093,9 @@
 
             // Set state to null
             self.compareState = null;
+
+            // Remove resize event
+            $(window).off('.comparetool');
         },
 
         onCompareReset : function() {
@@ -1317,6 +1344,38 @@
                         .addClass(grid5);
                 }
             }
+        },
+
+        setCompareRowHeights : function() {
+            var self = this,
+                $items = self.$compareTool.find('.compare-item'),
+                $detailGroup = $items.find('.detail-group').first(),
+                offset = 0;
+
+            console.log('setCompareRowHeights', $items.length);
+
+            self.$compareTool.find('.detail-label').each(function(i) {
+                var $detailLabel = $(this),
+                    maxHeight = parseFloat( $detailLabel.css('height') ) + parseFloat( $detailLabel.css('paddingTop') ),
+                    $detail = $items.find('.detail').eq(i);
+
+                // Find all detail lines that have this "name"
+                $detail.each(function() {
+                    var $this = $(this),
+                        height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
+
+                    if ( height > maxHeight ) {
+                        maxHeight = height;
+                    }
+                }).css('height', maxHeight);
+
+                $detailLabel.css('height', maxHeight);
+            });
+
+            // Set the top offset for the labels
+            offset = $detailGroup.position().top;
+            offset += parseFloat( $detailGroup.css('marginTop') );
+            self.$compareTool.find('.detail-label-group').css('top', offset);
         }
 
     };

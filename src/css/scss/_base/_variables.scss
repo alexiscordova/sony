@@ -1,10 +1,10 @@
 //
 // Variables
-// In SublimeText, use Command-K-1 to collapse all sections, Command-K-0 to expand all.
+// In SublimeText, use Command-K-1 to collapse all sections, Command-K-0 (or CMD+K+J) to expand all.
 // -------------------------------------------------------------------------
 
 
-// Colors 
+// Colors
 // -------------------------
 #COLORS{} // this is just here for a SublimeText code-folding collapse point
 	// Grays
@@ -17,7 +17,7 @@
 	$grayLightness:         rgb(145,145,158) !default; // we need to cut down on some of these...
 
 	$grayLight:             rgb(188,188,204) !default;
-	$grayLightish:          rgb(210,210,219) !default; // seriously, idk what to do w/all these colors.
+	$grayLightish:          rgb(210,210,219) !default; // seriously, idk what to do w/all these colors. inorite?
 	$grayLighter:           rgb(228,231,235) !default;
 	$white:                 rgb(255,255,255) !default;
 
@@ -95,7 +95,7 @@
 	$sansFontFamilyMediumItalic:"SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 	$sansFontFamilyLight:   		"SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 	$sansFontFamilyLightItalic: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	
+
 // FONTS.COM FONTS:
 // $sansFontFamily:        		"SST W01 Roman", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 // $sansFontFamilyItalic:  		"SST W01 Italic", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
@@ -134,10 +134,10 @@ $altFontFamily:         		$serifFontFamily !default;
 $headingsFontFamily:    		$sansFontFamily !default;
 $headingsFontFamilyItalic: 	$sansFontFamilyItalic !default;
 	$headingsColor:         		$grayDark !default; // empty to use BS default, $textColor
-	
+
 
 	// use these font-size variables instead of doing the math yourself every time!
-										 // context/target 
+										 // context/target
 
 	$font_60_16: 3.75em;   // 60px/16px
 	$font_54_16: 3.375em;  // 54px/16px
@@ -151,7 +151,7 @@ $headingsFontFamilyItalic: 	$sansFontFamilyItalic !default;
 	$font_22_16: 1.375em;  // 22px/16px
 	$font_20_16: 1.25em;   // 20px/16px
 	$font_18_16: 1.125em;  // 18px/16px
-	$font_16_16: 1.0em;    // 16px/16px 
+	$font_16_16: 1.0em;    // 16px/16px
 	$font_15_16: 0.9375em; // 15px/16px
 	$font_14_16: 0.875em;  // 14px/16px
 	$font_13_16: 0.8125em; // 13px/16px
@@ -159,14 +159,14 @@ $headingsFontFamilyItalic: 	$sansFontFamilyItalic !default;
 	$font_11_16: 0.6875em; // 11px/16px
 	$font_10_16: 0.625em;  // 10px/16px
 
-	$font_32_15: 2.133333333333333em;  // 32px/15px; 
-	$font_26_15: 1.733333333333333em;  // 26px/15px; 
-	$font_20_15: 1.333333333333333em;  // 20px/15px; 
-	$font_18_15: 1.2em;                // 18px/15px; 
+	$font_32_15: 2.133333333333333em;  // 32px/15px;
+	$font_26_15: 1.733333333333333em;  // 26px/15px;
+	$font_20_15: 1.333333333333333em;  // 20px/15px;
+	$font_18_15: 1.2em;                // 18px/15px;
 	$font_16_15: 1.066666666666667em;  // 16px/15px;
 	$font_15_15: 1.0em;                // 15px/15px;
 	$font_14_15: 0.933333333333333em;  // 14px/15px;
-	$font_13_15: 0.866666666666667em;  // 13px/15px; 
+	$font_13_15: 0.866666666666667em;  // 13px/15px;
 	$font_12_15: 0.8em;                // 12px/15px;
 	$font_11_15: 0.733333333333333em;  // 11px/15px;
 	$font_10_15: 0.666666666666667em;  // 10px/15px;
@@ -277,7 +277,7 @@ $formActionsBackground:         rgb(245,245,245) !default;
 	$dropdownLinkBackgroundActive:  $linkColor !default;
 	$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
 
-	
+
 	$dropdownAltBackground:            $white !default;
 	$dropdownAltBorder:                rgba(0,0,0,.2) !default;
 	$dropdownAltDividerTop:            rgb(229,229,229) !default;
@@ -490,16 +490,16 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 
 // GRID
 // -----------------------------
-// 
+//
 
-.GRID{} 
-	// margin and padding are used interchangably in variable names here. In reality, we're calculating the width of the 
+.GRID{}
+	// margin and padding are used interchangably in variable names here. In reality, we're calculating the width of the
 	// container and grid, and specifying margin-left/right:auto to center them.
 	// All of the fixed width grid values are based on having the containerMarginWidth and gridMarginWidths applied by default.
 	// For .full-bleed, the widths are just overridden with 100%. For fixed-width-grids, that's not gonna work so well,
 	// but then there shouldn't be fixed-width grids with .full-bleed
 
-	$gridColumns:					12 !default; 
+	$gridColumns:					12 !default;
 	$grid5Columns:					5;
 
 	// Default 980px-1199px
@@ -513,7 +513,7 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 	$gridMarginWidth1200:				45px !default;
 	$gridColumnWidth1200:   		52px !default;
 	$gridGutterWidth1200:   		36px !default;
-	
+
 	$containerWidthMax:					1400px; // if the browser is wider than this, the content will have a set width & side margins will be auto.
 	$containerMarginWidthMax:		79px !default; // if containerWidthMax changes, these all need to be adjusted to add up to it.
 	$gridMarginWidthMax:				64px !default;
@@ -540,7 +540,7 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 	$containerWidthFullBleed: 980px;
 	$containerWidth:					$containerWidthFullBleed - ($containerMarginWidth*2);
 	$gridWidth:            		($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
-	// we calculate containerWidth based on its margins. 
+	// we calculate containerWidth based on its margins.
 	// We don't actually need the gridMarginWidth for calculating anything, but it should end up being the same as the amount of space that's left for it in the end.
 	// we calculate gridWidth based on its contents to make sure it's wide enough to hold everything.
 
@@ -568,7 +568,7 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 
 	// Fluid grid
 	// -------------------------
-	// 
+	//
 	// these should be deleted once all the updates equations are done, but they break things if they're not defined right now.
 
 
@@ -578,7 +578,7 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 	$fluidGridColumnWidth:  percentage($gridColumnWidth/$gridWidth) !default;
 	$fluidGridGutterWidth:  percentage($gridGutterWidth/$gridWidth) !default;
 
-	// 1200px min - 
+	// 1200px min -
 	$fluidContainerWidth1200:	percentage($containerWidth1200/1200px) !default;
 	$fluidGridWidth1200: 			percentage($gridWidth1200/$containerWidth1200) !default;
 	$fluidGridColumnWidth1200:percentage($gridColumnWidth1200/$gridWidth1200) !default;
@@ -589,7 +589,7 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 	$fluidGridWidth768: 			percentage($gridWidth768/$containerWidth768) !default;
 	$fluidGridColumnWidth768: percentage($gridColumnWidth768/$gridWidth768) !default;
 	$fluidGridGutterWidth768: percentage($gridGutterWidth768/$gridWidth768) !default;
-	
+
 	// 767px max (mobile)
 	$fluidContainerMarginWidth767:	15px !default; // TODO -- SHOULD BE %
 	$fluidGridMarginWidth767: 			15px !default; // TODO -- SHOULD BE %
@@ -604,7 +604,7 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 
 // Transition Speeds
 // --------------------------------------------------
-.TRANSITION-SPEEDS{} 
+.TRANSITION-SPEEDS{}
 $transitionSuperslow:   0.5s;
 $transitionSlower:   		0.4s;
 $transitionSlow:        0.3s;
@@ -616,7 +616,7 @@ $transitionSuperfast:   0.05s;
 
 // Transition Timing Functions
 // --------------------------------------------------
-.TRANSITION-FUNCTIONS{} 
+.TRANSITION-FUNCTIONS{}
 $easeOutQuad: 		cubic-bezier(0.250, 0.460, 0.450, 0.940);
 $easeOutCubic: 		cubic-bezier(0.215, 0.610, 0.355, 1.000);
 $easeOutQuart: 		cubic-bezier(0.165, 0.840, 0.440, 1.000);

@@ -714,10 +714,6 @@ $detailedGalleryItemHeight: 480px;
   padding: 15px 0;
 }
 
-.detail-label-group {
-  position: relative;
-}
-
 .compare-item {
   position: relative;
   margin-left: 3px;
@@ -731,12 +727,25 @@ $detailedGalleryItemHeight: 480px;
   .detail-group {
     margin-top: 1.25em;
   }
+}
 
-  .detail {
-    padding-top: 0.625em;
-    min-height: 2.5em;
-    border-top: 1px solid $grayLightFieldLarge;
-  }
+.detail-labels-wrap {
+  position: relative;
+}
+
+.detail-label-group {
+  position: absolute;
+}
+
+.compare-container .detail {
+  padding-top: 0.625em;
+  min-height: 2.5em;
+  border-top: 1px solid $grayLightFieldLarge;
+}
+
+// Make labels have a darker border
+.compare-container .detail-label {
+  border-color: $grayLight;
 }
 
 .compare-item-remove {
