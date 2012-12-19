@@ -55,7 +55,6 @@
         self.$compareBtn = self.$container.find('.js-compare-toggle');
         self.hasCompareModal = self.$compareBtn.length > 0;
         self.$compareTool = $('#compare-tool');
-        self.$compareReset = self.$compareTool.find('.js-compare-reset');
 
         // Other vars
         self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
@@ -134,7 +133,6 @@
             self.$compareBtn.on('click', $.proxy( self.onCompareLaunch, self ));
             self.$compareTool.on('hidden', $.proxy( self.onCompareClosed, self ));
             self.$compareTool.on('shown', $.proxy( self.onCompareShown, self ));
-            self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
         }
 
         // We're done.
@@ -933,24 +931,35 @@
                 // Clone all visible
                 $currentItems = shuffle.$items.filter('.filtered').clone(),
                 $newItems = $(),
-                // itemWidth = $('.container').outerWidth() / 4,
+
                 contentWidth = 0,
                 // Get product count
                 productCount = $currentItems.length,
-                $count = $('<div><span class="js-compare-count">0</span> Products</div>'),
 
                 $container = $('<div class="container">'),
                 $content = $('<div class="compare-container clearfix">'),
+                $header = self.$compareTool.find('.modal-header'),
+
                 $label = self.$compareTool.find('#compare-tool-label'),
                 originalLabel = $label.text(),
                 newLabel = originalLabel + ' ' + self.$container.find('.compare-name').text(),
 
-                $labelColumn = $('<div class="span2 detail-labels-wrap">'),
+                $labelColumn = $('<div class="span2 detail-labels-wrap hidden-phone">'),
                 $labelGroup = $('<div class="detail-label-group">'),
 
                 // Clone sort button
-                $sortOpts = self.$container.find('.sort-options').clone();
+                $sortOpts = self.$container.find('.sort-options').clone(),
+                isStickyHeader = false;
 
+            // Clone the product count
+            self.$compareCountWrap = self.$container.find('.product-count-wrap').clone();
+
+            // Create reset button
+            self.$compareReset = $('<button/>', {
+                'class' : 'btn btn-small disabled js-compare-reset',
+                'text' : $header.data('resetLabel')
+            });
+            self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
 
             // Build / manipulate compare items from the gallery items
             $currentItems.each(function() {
@@ -967,10 +976,13 @@
                     .removeClass('hidden')
                     .end()
                     .find('.label')
+                    .remove()
+                    .end()
+                    .find('.product-meta')
                     .remove();
 
                 $swatches = $item.find('.product-img .color-swatches').detach();
-                $item.find('.price').after($swatches);
+                $item.find('.product-price').after($swatches);
 
                 // Create a new div with the same attributes as the anchor tag
                 // We no longer want the entire thing to be clickable
@@ -983,7 +995,6 @@
                 $newItems = $newItems.add( $div );
             });
 
-
             // Create labels column
             self.$container.find('.comparables [data-label]').each(function() {
                 var $label = $(this).clone();
@@ -991,29 +1002,90 @@
                 $labelGroup.append($label);
             });
 
-
-            // Set up sort events
-            $sortOpts.find('.dropdown a').on('click', $.proxy( self.sortComparedItems, self ));
-
-            // Append sort dropdown
-            self.$compareTool.find('.modal-header').append( $sortOpts );
-
-            // Set current sort
-            // TODO
-
-            // Set the right heading. e.g. Compare Cyber-shot
-            $label.text( newLabel );
-
             // Remove compare items on click
             $newItems.find('.compare-item-remove').on('click', function() {
                 $(this).parent().addClass('hide');
                 self.$compareReset.removeClass('disabled');
+                var remaining = self.$compareTool.find('.compare-item:not(.hide)').length;
+                self.$compareCount.text( remaining );
+
+                if ( remaining < 3 ) {
+                    $newItems.find('.compare-item-remove').addClass('hide');
+                }
             });
+
+            // Set up sort events
+            $sortOpts.find('.dropdown a').on('click', $.proxy( self.sortComparedItems, self ));
+
+            // Set current sort
+            // TODO
+
+            // Set the right heading. e.g. Compare Cyber-shot®
+            $label.text( newLabel );
 
             // Intialize carousel
             // TODO
 
+            // Phone = sticky header
+            if ( Modernizr.mq('(max-width: 480px)') ) {
+                isStickyHeader = true;
+
+                var $subheader = $('<div class="modal-subheader clearfix">');
+                $subheader.append( self.$compareCountWrap, self.$compareReset, $sortOpts );
+
+                // Insert subhead after the header
+                $header.after( $subheader );
+
+                // Put the reset button the left
+                self.$compareReset.addClass('pull-left');
+
+            // Larger than phone
+            } else {
+                // Append sort dropdown
+                $header.append( self.$compareReset, $sortOpts );
+
+                // Append count and labels
+                $labelColumn.append( self.$compareCountWrap );
+
+                self.$compareReset.addClass('pull-right');
+            }
+            $labelColumn.append( $labelGroup );
+
+            // On window resize
             $(window).on('resize.comparetool', function() {
+                // Phone = sticky header
+                if ( Modernizr.mq('(max-width: 480px)') ) {
+
+                    // Setup sticky header
+                    if ( !isStickyHeader ) {
+                        isStickyHeader = true;
+                        var $subheader = $('<div class="modal-subheader clearfix">');
+                        $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
+
+                        // Insert subhead after the header
+                        $header.after( $subheader );
+
+                        // Put the reset button the left
+                        self.$compareReset.removeClass('pull-right').addClass('pull-left');
+                    }
+
+                // Larger than phone
+                } else {
+
+                    if ( isStickyHeader ) {
+                        isStickyHeader = false;
+                        // Append sort dropdown
+                        $header.append( self.$compareReset.detach(), $sortOpts.detach() );
+
+                        // Append count and labels
+                        $labelColumn.prepend( self.$compareCountWrap.detach() );
+
+                        self.$compareTool.find('.modal-subheader').remove();
+
+                        self.$compareReset.removeClass('pull-left').addClass('pull-right');
+                    }
+                }
+
                 self.$compareTool.find('.detail').css('height', '');
                 self.setCompareRowHeights();
             });
@@ -1026,11 +1098,11 @@
                 label: originalLabel
             };
 
-            $labelColumn.append( $count, $labelGroup );
             $content.append( $labelColumn );
             $content.append( $newItems );
             $container.append( $content );
 
+            // Trigger modal
             self.$compareTool
                 .find('.modal-body')
                 .append($container)
@@ -1045,9 +1117,9 @@
             // WORK TO DO AFTER ITEMS HAVE BEEN PUT INTO THE DOM
             // -----------------------
 
-            // INSTEAD OF HARD-CODING "Products", IT COULD BE A DATA-* ATTR OR TAKEN FROM THE DOM AND REPLACED <--- DO THAT
+            // Save a reference to the count
+            self.$compareCount = self.$compareTool.find('.product-count');
             // Set item count
-            self.$compareCount = $count.find('.js-compare-count');
             self.$compareCount.text( productCount );
 
             // HOLD ONTA YA BUTTS. How do I set a width on something that will use percentages?
@@ -1079,17 +1151,27 @@
             self.$compareTool.removeData('galleryId');
 
             // Clean up
-            self.$compareTool.find('.dropdown').remove();
+            self.$compareTool.find('.sort-options').remove();
 
             // Destroy carousel
             // TODO
 
             // Empty out html
-            self.$compareTool.find('.compare-container').remove();
+            self.$compareTool
+              .find('.modal-body')
+              .empty()
+              .end()
+              .find('.modal-subheader')
+              .remove()
+              .end()
+              .find('#compare-tool-label')
+              .text( self.compareState.label );
 
             // Set count to zero
             self.$compareCount.text(0);
-            self.$compareTool.find('#compare-tool-label').text( self.compareState.label );
+
+            self.$compareReset.remove();
+            self.$compareReset = null;
 
             // Set state to null
             self.compareState = null;
@@ -1107,7 +1189,7 @@
             }
 
             self.$compareCount.text( state.count );
-            state.$items.find('.compare-item-remove').parent().removeClass('hide');
+            state.$items.find('.compare-item-remove').parent().andSelf().removeClass('hide');
 
             // Disable reset button
             self.$compareReset.addClass('disabled');
@@ -1352,12 +1434,11 @@
                 $detailGroup = $items.find('.detail-group').first(),
                 offset = 0;
 
-            console.log('setCompareRowHeights', $items.length);
-
+            // Set detail rows to even heights
             self.$compareTool.find('.detail-label').each(function(i) {
                 var $detailLabel = $(this),
                     maxHeight = parseFloat( $detailLabel.css('height') ) + parseFloat( $detailLabel.css('paddingTop') ),
-                    $detail = $items.find('.detail').eq(i);
+                    $detail = $items.find('.detail:nth-child(' + (i + 1) + ')');
 
                 // Find all detail lines that have this "name"
                 $detail.each(function() {
@@ -1367,9 +1448,9 @@
                     if ( height > maxHeight ) {
                         maxHeight = height;
                     }
-                }).css('height', maxHeight);
+                });
 
-                $detailLabel.css('height', maxHeight);
+                $detail.add($detailLabel).css('height', maxHeight);
             });
 
             // Set the top offset for the labels
