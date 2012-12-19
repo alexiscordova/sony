@@ -350,7 +350,6 @@
             });
             self._updateArrowsNav();
         }
-
             
         
         self._hasDrag = (!self.hasTouch && self.st.sliderDrag) ||  (self.hasTouch && self.st.sliderTouch);
@@ -1685,20 +1684,22 @@
             }
         },
         _animateTo:function(pos, dir,  loadAll, inOutEasing, customComplete) {
+        		
             var self = this,
                 moveProp,
                 oldBlock,
-                animBlock;
-
-            
+                animBlock,
+                animObj = {};
+                
             if(isNaN(self._currAnimSpeed)) {
                 self._currAnimSpeed = 400;
             } 
             
             self._sPosition = self._currRenderPosition = pos;
-
+						
             self.ev.trigger('scBeforeAnimStart');
-
+						
+						
             if (self.st.beforeSlideChange) self.st.beforeSlideChange.call(self);
 
             //$(self._currContent.get(0)).trigger('slidestart.sonycarousel');
@@ -1892,7 +1893,8 @@
             self._oldSlideContent.trigger('slideend.sc');
 
             console.log('ANIMATION COMPLETE' , self._oldSlideContent.attr('id'));
-
+           	iQ.update();
+            
             if (self.st.afterSlideChange) self.st.afterSlideChange.call(self);
         },
         _doBackAndForthAnim:function(type, userAction) {

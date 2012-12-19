@@ -3,37 +3,42 @@ title: Spec Module
 description: This is the spec module.
 ---
 
-
 <!DOCTYPE html>
 <!--[if lt IE8 ]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="modern" lang="en">
+	<!--<![endif]-->
 	<head>
 		<%-@partial('includes/meta.html')%>
-		
-<% if 'debug' in @getEnvironments():%> 
-<%" !! if you want to manually include your css for debugging instead of relying on the auto include comment this out and replace with bootstrap.css, responsive.css and your css "%>
-		<%-@partial('includes/css_debug.html.eco', {this: this})%>
-<% else: %>
-		<%-@partial('includes/css_deploy.html')%>
-<% end %>
-		<link rel="stylesheet" href="css/modules/video.css">
-		<%-@partial('includes/js_head.html')%>
-	
-	</head>
-	<body>
-		
-		<%-@partial('modules/module_spec.html.hb', @data('/spec/default.json')) %>
-		
-<% if 'debug' in @getEnvironments():%>
-		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
-<% else: %>
-		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
-<% end %>
 
-<!-- include your module js here -->
-		<script src="js/bundle/defer/experiment.js"></script>
-		
+		<% if 'debug' in @getEnvironments():%>
+		<%" !! if you want to manually include your css for debugging instead of relying on the auto include comment this out and replace with bootstrap.css, responsive.css and your css "%>
+		<%-@partial('includes/css_debug.html.eco', {this: this})%>
+		<% else: %>
+		<%-@partial('includes/css_deploy.html')%>
+		<% end %>
+
+		<link rel="stylesheet" href="css/modules/specAndDetails.css">
+
+		<%-@partial('includes/js_head.html')%>
+
+	</head>
+	<body class="gallery-module bootstrap-override">
+		<!--
+		***------Exemples------***
+		/spec/default.json
+		-->
+		<%-@partial('modules/module_spec.html.eco', {this:this, data:@data('spec/default.json')} ) %>
+
+		<% if 'debug' in @getEnvironments():%>
+		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
+		<% else: %>
+		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
+		<% end %>
+
+		<script src="js/libs/bootstrap.js"></script>
+
 	</body>
 </html>
