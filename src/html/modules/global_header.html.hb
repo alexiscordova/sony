@@ -11,7 +11,7 @@ meta_data: {a:'foo', b:'bar'}
 	        <ul class="nav nav-primary">
 	          <li id="nav-li-store"><a href="#">Store</a></li>
 	          <li id="nav-li-electronics"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
-	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
+	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
 	          <li id="nav-li-support"><a href="#">Support</a></li>
 	        </ul>
 	        <ul class="nav nav-utility">
@@ -101,7 +101,7 @@ meta_data: {a:'foo', b:'bar'}
 	        </ul>
 		    </div><!-- end .navbar -->
 
-		    <div class="navtray-wrapper navtray-wrapper-fullwidth-3-4 navtray-wrapper-electronics">
+		    <div class="navtray-wrapper navtray-wrapper-fullwidth-3-4 navtray-wrapper-electronics navtray-wrapper-tall">
 		    	<div class="navtray">
 	      		<div class="navtray-section navtray-section-main navtray-section-main-w-all-btn">
 			        <ul class="navtray-list-main">
@@ -136,7 +136,7 @@ meta_data: {a:'foo', b:'bar'}
 		      </div>
 	      </div><!-- end #navtray-electronics --> 
 
-		    <div class="navtray-wrapper navtray-wrapper-fullwidth-3-4 navtray-wrapper-entertainment">
+		    <div class="navtray-wrapper navtray-wrapper-fullwidth-3-4 navtray-wrapper-entertainment navtray-wrapper-short">
 		    	<div class="navtray">
 	      		<div class="navtray-section navtray-section-main">
 			        <ul class="navtray-list-main">
