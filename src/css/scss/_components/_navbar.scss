@@ -27,6 +27,10 @@
     color: $navbarText;
     position: relative;
     z-index: 200;
+    
+    max-width: 1125px;
+
+    -webkit-transform: translate3d(0, 0, 0); // fix janky text
 
     // Prevent floats from breaking the navbar
     @include clearfix();
@@ -34,6 +38,22 @@
     // Override the default collapsed state
     &.nav-collapse.collapse {
       height: auto;
+    }
+
+    .btn-mobile-nav{
+      display:block;
+      width:19px;
+      height:18px;
+      padding:15px 19px;
+      margin:0;
+      border:none;
+      box-sizing: content-box;
+      background:$black;
+      display:none;
+
+      i{
+        margin:auto;
+      }
     }
 
 
