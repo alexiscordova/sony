@@ -1,49 +1,63 @@
 var $tableContainerBackup;
 var refreshData = null;
+var arrayTableContainer = [];
+var arrayTableFirstColumn = [];
+var tableContainerBackup;
 
 $(window).load(function() {
 
-	//nb of cell in the first column
-	var firstColumnNbCell = $('.tableContainer').findColumn(1).size();
+	$('.tableContainer').each(function(indexTable) {
 
-	//for each row
-	for ( i = 1; i <= firstColumnNbCell; i++) {
-		var get_title = $('.tableContainer').find('.tbody:first > .row:nth-child(' + i + ') > .cell:first-child').text();
+		arrayTableContainer.push([]);
+		arrayTableFirstColumn.push([]);
 
-		var j = 2;
-		$('.tableContainer').find('.tbody:first > .row').each(function() {
+		//nb of cell in the first column
+		var $firstColumn = $(this).findColumn(1);
+		var firstColumnNbCell = $($firstColumn).size();
 
-			//add an hidden title for each cell
-			$('.tableContainer').find('.tbody:first > .row:nth-child(' + i + ') > .cell:nth-child(' + j + ')').prepend('<h2>' + get_title + '</h2>');
-			j++;
+		$(this).find('.tbody:first > .row').each(function(indexRow){
+			$(this).find('>.cell').not(':first-child').each(function(indexCell){
+				$(this).prepend('<h2>' + $firstColumn[indexRow+1].textContent + '</h2>');
+			});
 		});
-	}
-	
+		
+		var nbColumn = ($(this).find('.thead > .row > .cell').size());
+		
+		if(nbColumn>2)
+			dumpText = ' Models';
+		else
+			dumpText = ' Model';
+			
+		$(this).find('.thead > .row > .cell:first-child').append('<p>'+(nbColumn-1)+'<span>'+dumpText+'</span></p>');
+		
 
-	//Clone the first column (we will push it for each table)
-	$firstColumnTablesBackup = $('.tableContainer').findColumn(1).clone();
-	$('.tableContainer').findColumn(1).remove();
+		//Clone the first column (we will push it for each table)
+		$firstColumnTablesBackup = $(this).findColumn(1).clone();
+		arrayTableFirstColumn[indexTable].push($firstColumnTablesBackup);
 
-	//Clone it without the first column
-	$tableContainerBackup = $('.tableContainer').clone();
-	
-	console.info($tableContainerBackup);
-	
+		$(this).findColumn(1).remove();
+
+		//Clone it without the first column
+		$tableContainerBackup = $(this).clone();
+		arrayTableContainer[indexTable].push($tableContainerBackup);
+
+	});
+
 	//init.
 	resize('init', ifMobile, $browser, $tableContainerBackup);
 
 	//Strike the resize
+	 
+	 /*
+	 $("#button").click(function(e) {
+	 e.preventDefault();
+	 var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
 
-	/*
-		 $("#button").click(function(e) {
-		 e.preventDefault();
-		 var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
-	
-		 resize('resize', ifMobile, $browser, $tableContainerBackup);
-		 });
-	*/
+	 resize('resize', ifMobile, $browser, $tableContainerBackup);
+	 });
+	 */
+
 });
-
 
 $(window).resize(function() {
 	var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
@@ -62,7 +76,8 @@ $(window).resize(function() {
 function resize(status, device, browser, tableContainerBackup) {
 
 	//hide any modal on resize.
-  $('.modal').modal('hide');
+	if ($('.modal').length > 0)
+	$('.modal').modal('hide');
 
 	//Put it in the scope.
 	var browser = browser;
@@ -83,8 +98,10 @@ function resize(status, device, browser, tableContainerBackup) {
 	//If it's necessary to refresh the number of data
 	if ((refreshData == null) || (refreshData !== nbElementByPage)) {
 
-		$('section > .gallery-tabs > .tableContainer').each(function() {
+		//index of each container.
+		var indexContainer;
 
+		$('section > .gallery-tabs > .tableContainer').each(function(indexContainer) {
 			$_this = $(this);
 
 			//#############
@@ -101,6 +118,9 @@ function resize(status, device, browser, tableContainerBackup) {
 
 			//#############
 
+			//get the tableContainer
+			tableContainerBackup = $(arrayTableContainer)[indexContainer][0].clone();
+			
 			//get all cells
 			var $myCells = tableContainerBackup.clone().find(".specsTable > .thead > .row > .cell, .specsTable > .tbody > .row > .cell");
 
@@ -109,7 +129,7 @@ function resize(status, device, browser, tableContainerBackup) {
 
 			//nb of table to show
 			var nbTableToShow = nbCol / nbElementByPage;
-
+			
 			//#############
 			//matrix
 			var matrix = listToMatrix($myCells, nbCol);
@@ -121,7 +141,7 @@ function resize(status, device, browser, tableContainerBackup) {
 				var tabInnerContainer = $('<div class="tabs">');
 
 				$(matrix[0]).each(function(index) {
-					tabInnerContainer.append($(this).clone().addClass('tab table-' + (index + 1)));
+					tabInnerContainer.append($(this).clone().addClass('tab table-' + (indexContainer + '-' + index + 1)));
 				});
 
 				tabContainer.append(tabInnerContainer);
@@ -135,16 +155,15 @@ function resize(status, device, browser, tableContainerBackup) {
 
 			//Loop each table to add.
 			for (var i = 0; i < Math.ceil(nbTableToShow); i++) {
-
 				var $table = "";
 
 				if (browser == 'modern') {//Table div layout
-					$table = $('<div class="specsTable" id="table-' + (i + 1) + '">');
+					$table = $('<div class="specsTable" id="table-' + indexContainer + '-' + (i + 1) + '">');
 
 					var $thead = $("<div class='thead'></div>");
 					var $tbody = $("<div class='tbody'></div>");
 				} else {//Table layout
-					$table = $('<table class="specsTable" id="table-' + (i + 1) + '">');
+					$table = $('<table class="specsTable" id="table-' + indexContainer + '-' + (i + 1) + '">');
 
 					var $thead = $("<thead class='thead'></thead>");
 					var $tbody = $("<tbody class='tbody'></tbody>");
@@ -184,17 +203,17 @@ function resize(status, device, browser, tableContainerBackup) {
 					$_this.append($table);
 				});
 			};
-			
+
 			if (!device) {
 				//Desktop
-				
+
 				//Start it.
 				$_this.sonyCarousel({
-					keyboardNavEnabled: true,
-					sliderDrag: false,
-					navigateByClick: false
+					keyboardNavEnabled : true,
+					sliderDrag : false,
+					navigateByClick : false
 				});
-				
+
 				if ($_this.parent('.gallery-tabs').find('.desktopNav').length <= 0)
 					$_this.before('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
 
@@ -209,20 +228,19 @@ function resize(status, device, browser, tableContainerBackup) {
 					var sonySlider = $_this.data('sonyCarousel');
 					sonySlider.prev();
 				});
-				
+
 			} else {
 				//Mobile
-				
+
 				//Start it.
 				$_this.sonyCarousel({
-					keyboardNavEnabled: false,
-					drag: true
+					keyboardNavEnabled : false,
+					drag : true
 				});
-				
-				console.info('mobile');
+
 				//Mobile version
 				var sonySlider = $_this.data('sonyCarousel');
-				
+
 				//When you click on tabs
 				$_this.prev().find('.tab').click(function() {
 					$(this).parent().find('.tab').removeClass('active').removeAttr('style');
@@ -232,23 +250,52 @@ function resize(status, device, browser, tableContainerBackup) {
 
 				var sonySlider = $('.tableContainer').data('sonyCarousel');
 				sonySlider.ev.on('scAfterSlideChange', function(event) {
-					
+
 					// triggers after slide change
 					$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
-					$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-'+(sonySlider.currSlideId+1)).addClass('active');
+					$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-' + indexContainer + '-' + (sonySlider.currSlideId + 1)).addClass('active');
 				});
 			}
+
+			leftTitle = $(arrayTableFirstColumn)[indexContainer][0].clone();
+
+			//Add a title to the left of each row.
+			$(leftTitle).each(function(index) {
+				if (index == '0')
+					$_this.find('.specsTable > .thead > .row:nth-child(' + (index + 1) + ')').prepend($(this));
+				else {
+					$_this.find('.specsTable > .tbody > .row:nth-child(' + (index) + ')').prepend($(this));
+				}
+			})
+			
+			
+			//Set the same height for each column of each tables.
+			/*
+			for ( i = 0; i <= nbRow; i++) {
+			 	console.info(i);
+			}
+			*/
+			var array = [];
+			
+
+		 $_this.find('.specsTable >.tbody > .row').each(function(indexRow){
+		 	$(this).find('>.cell > div').not(':first-child').each(function(indexCell){
+		 		
+		 		//console.info('indexRow: '+indexRow);
+				
+				//array.push($(this).height());
+		 	});
+		 	
+		 	
+		 	//get the biggest height and use it.
+		 	
+		 	
+		 	array = [];
+		 });
+
+
 		});
 
-		leftTitle = $firstColumnTablesBackup.clone();
-
-		//Add a title to the left of each row.
-		$(leftTitle).each(function(index) {
-			if (index == '0')
-				$('.specsTable').find('> .thead > .row:nth-child(' + (index + 1) + ')').prepend($(this));
-			else
-				$('.specsTable').find('> .tbody > .row:nth-child(' + (index) + ')').prepend($(this));
-		})
 		//modify the new current nbElementByPage
 		refreshData = nbElementByPage;
 
@@ -261,29 +308,32 @@ function resize(status, device, browser, tableContainerBackup) {
 		//init the active class for the tabs
 		activeTab = $('.tableContainer .specsTable:in-viewport').attr('id');
 		$('.tabs-container .tabs').children('.cell.' + activeTab).addClass('active');
-		
-		$('.tableContainer').each(function(){
-			$(this).setContainerHeight();	
-		})
-		
 	}
-	//console.info(status, device, browser);
 	
+	//console.info(status, device, browser);
+
 }
 
+
+	//console.info(status, device, browser);
+	$('.tableContainer').each(function() {
+		$(this).setContainerHeight();
+	});
+
+	
+	
+	
+	
+
 /*
-var sonySlider = $('.tableContainer').data('sonyCarousel');
-sonySlider.ev.on('scAfterSlideChange', function(event)
-{	
-	// triggers after slide change
-	$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
-	$_this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-'+(sonySlider.currSlideId+1)).addClass('active');
-});
-*/
-
-
-
-
+ var sonySlider = $('.tableContainer').data('sonyCarousel');
+ sonySlider.ev.on('scAfterSlideChange', function(event)
+ {
+ // triggers after slide change
+ $_this.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
+ $_this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-'+(sonySlider.currSlideId+1)).addClass('active');
+ });
+ */
 
 /*
  var sonySlider = $_this.data('sonyCarousel');
