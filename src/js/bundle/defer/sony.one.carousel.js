@@ -94,7 +94,7 @@
 
       t.numSlides  = t.$slides.length;
       t.previousId = -1;
-      t.currentId = 0;
+      t.currentId = 3;
       t.slidePosition = 0;
       t.animationSpeed = 700; //ms
       t.slideCount = 0;
@@ -195,8 +195,8 @@
       t.ev.trigger('ssOnUpdateNav');
 
       setTimeout(function(){
-        t.gotoSlide(1);
-      } , 500);
+        t.gotoSlide( Math.floor(Math.random() * t.numSlides) );
+      } , Math.random() * 500 + 500);
 
     }//
 
