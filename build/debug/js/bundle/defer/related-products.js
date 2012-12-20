@@ -96,7 +96,7 @@
       t.$galleryItems.each(function(){
         var $item = $(this);
         $item.data('slide' , $item.parent());
-        console.log("My Slide Parent »",$item);
+//        console.log("My Slide Parent »",$item);
       });
    
 
@@ -851,6 +851,7 @@
 
 /*          setTimeout(function(){
             $(window).trigger('resize');
+            
           } , 1000);*/
             
           //t.scroller.destroy();  

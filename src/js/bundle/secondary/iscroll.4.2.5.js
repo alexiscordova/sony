@@ -123,6 +123,7 @@ var m = Math,
 			wheelAction: 'scroll',
 
 			// Snap
+
 			snap: false,
 			snapThreshold: 1,
 
