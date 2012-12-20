@@ -4,258 +4,400 @@
 
 
 
+// -----------------------------------------
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
-.nav-wrapper{
+//  .d8888b.   .d8888b.   .d8888b.                         d888    d888   .d8888b.   .d8888b.                    
+// d88P  Y88b d88P  Y88b d88P  Y88b                       d8888   d8888  d88P  Y88b d88P  Y88b                   
+// 888    888 Y88b. d88P 888    888                         888     888  888    888 888    888                   
+// Y88b. d888  "Y88888"  888    888 88888b.  888  888       888     888  Y88b. d888 Y88b. d888 88888b.  888  888 
+//  "Y888P888 .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888     888   "Y888P888  "Y888P888 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888 888     888         888        888 888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888     888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888 8888888 "Y8888P"   "Y8888P"  88888P"  888  888 
+//                                  888                                                        888               
+//                                  888                                                        888               
+//                                  888                              
+// -----------------------------------------
 
-  .navbar{
-    // padding:0 $navbarMinSidePadding;
+.nav{
+  > li > a{
+    line-height:$navbarLineHeight;
+    padding: 0 6px;
+    margin: 10px 9px 14px 9px;
+    font-size:$navbarTextSize;
 
-    .nav{
-      > li > a{
-        line-height:$navbarLineHeight;
-        padding: 0 6px;
-        margin: 10px 8px 14px 8px;
-        font-size:$navbarTextSize;
-
-        &.nav-dropdown-toggle-text{
-          padding-right: 3px;
-          margin-right: 3px;
-          .icon-ui-arrowhead-down-gray{
-            margin-left: 7px;
-            margin-top: 11px;
-          }
-        }
-      }
-      &.nav-primary{
-        margin-left:3%;
-      }
-      &.nav-utility{
-        > li > a{
-          line-height:$navbarLineHeight;
-          padding: 0 6px;
-          margin: 11px 3px 13px 7px;
-          font-size:$navbarSmTextSize;
-
-          &.nav-dropdown-toggle-text{
-            .icon-ui-arrowhead-down-gray{
-              margin-left: 6px;
-              margin-top: 9px;
-            }
-          }
-        }
+    &.nav-dropdown-toggle-text{
+      padding-right: 3px;
+      margin-right: 3px;
+      .icon-ui-arrowhead-down-gray{
+        margin-left: 8px;
+        margin-top: 11px;
       }
     }
-  } // end .navbar
-
-  .navtray-wrapper{
-    &.navtray-wrapper-tall:after{ // background gray under the right side -- just needs to cover up the right margin
-      //left:$navTrayDividerPosition;
-    }
-    .navtray{
-      width:100%;
-
-      .navtray-section-main{ // section left
-        padding-top:56px;
-        width: $navTrayDividerPosition;
-
-        .navtray-list-main{
-          margin: 0 1.6% 2.1% 4.1%;
-          overflow:hidden;
-
-          &:after{ // HR
-            width:97%;
-            height:14px;
-            margin-left: 1.7%;
-          }
-
-          > li{
-            width:23.1%;
-            margin:2% 1.9% 2% 0;
-          }
-          > li > a > img {
-            width:83%;
-          }
-        }
-      } // end .navtray-section-main
-
-      .navtray-section-featured{ // section right
-        padding-top:47px;
-        &.navtray-section-featured-short{
-          padding-top:0;
-        }
-        width: (100-$navTrayDividerPosition); 
-        padding-left: 2.8%;
-        .navtray-secondary-promo{
-          width: 192px;
-          margin-top: 36px;
-        } // .navtray-secondary-promo
-        
-      }
-
-      .btn-nav-view-all{
-        margin-left: 5.7%;
-      }
-    } // end .nav-tray
-
-
-  } // end .navtray-wrapper
-
-  // Required to make the collapsing navbar work on regular desktops
-  .nav-collapse.collapse {
-    height: auto !important;
-    overflow: visible !important;
   }
-} // end .nav-wrapper
+  &.nav-primary{
+    margin-left:3%;
+  }
+  &.nav-utility{
+    > li > a{
+      line-height:$navbarLineHeight;
+      margin: 11px 3px 13px 7px;
+      font-size:$navbarSmTextSize;
+
+      &.btn-nav-block{
+        width: auto;
+        margin: 13px 0px 0px 7px;
+        line-height: 37px;
+        font-size: $font_13_16;
+      }
+
+      &.btn-nav-iconed{
+        height: 25px;
+        padding: 4px;
+        margin: 19px 0px 0 6px;
+        line-height: 1.5;
+      }
+
+      &.nav-dropdown-toggle-text{
+        .icon-ui-arrowhead-down-gray{
+          margin-left: 6px;
+          margin-top: 9px;
+        }
+      }
+    } // > li > a
+  } // .nav-utility
+
+  > li {
+    &#nav-li-favorites{
+      > a {
+        margin-left:7px;
+      }
+    }
+    &#nav-li-cart{
+      > a {
+        font-size: $font_12_16;
+        > i.icon-ui-cart {
+          margin-right: 2px;
+          margin-top: 1px;
+        }
+      }
+    }
+    &#nav-li-search{
+      > a {
+        margin-left: 15px;
+        padding: 0px 16px 0px 12px;
+        > i.icon-ui-search {
+          margin: 12px 6px 0 0;
+        }
+      }
+    }
+    &#nav-li-universal{
+      > a {
+        margin-right:-8px;
+        padding: 0px 8px;
+        > i.icon-ui-plus-tiny {
+          margin: 4px 0 0 10px;
+        }
+      }
+    }
+  } // .nav > li
+} // .nav
+
+.navtray-w{
+  &.navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
+    //left:$navTrayDividerPosition;
+  }
+}
+.navtray{
+  width:100%;
+
+  .btn-nav-view-all{
+    margin-left: 5.7%;
+  }
+} // end .nav-tray
+
+.navtray-section-main{ // section left
+  padding-top:56px;
+  width: $navTrayDividerPosition;
+
+  .navtray-list-main{
+    margin: 0 1.6% 2.1% 4.1%;
+    overflow:hidden;
+
+    &:after{ // HR
+      width:97%;
+      height:14px;
+      margin-left: 1.7%;
+    }
+
+    > li{
+      width:23.1%;
+      margin:2% 1.9% 2% 0;
+    }
+    > li > a > img {
+      width:83%;
+    }
+  }
+} // end .navtray-section-main
+.navtray-section-featured{ // section right
+  padding-top:47px;
+  &.navtray-section-featured-short{
+    padding-top:0;
+  }
+  width: (100-$navTrayDividerPosition); 
+  padding-left: 2.8%;
+  .navtray-secondary-promo{
+    width: 192px;
+    margin-top: 36px;
+  } // .navtray-secondary-promo
+} // .navtray-section-featured
+
+
+// Required to make the collapsing navbar work on regular desktops
+.nav-collapse.collapse {
+  height: auto !important;
+  overflow: visible !important;
+}
+// END 980px-1199px Default
 
 
 
 
+
+
+
+
+
+// ------------------------------------------------
 // LARGE DESKTOP
 // ------------------------------------------------
+//  d888    .d8888b.   .d8888b.   .d8888b.                            
+// d8888   d88P  Y88b d88P  Y88b d88P  Y88b                           
+//   888          888 888    888 888    888                           
+//   888        .d88P 888    888 888    888 88888b.  888  888   888   
+//   888    .od888P"  888    888 888    888 888 "88b `Y8bd8P' 8888888 
+//   888   d88P"      888    888 888    888 888  888   X88K     888   
+//   888   888"       Y88b  d88P Y88b  d88P 888 d88P .d8""8b.         
+// 8888888 888888888   "Y8888P"   "Y8888P"  88888P"  888  888         
+//                                          888                       
+//                                          888                       
+//                                          888 
+// ------------------------------------------------
+
 @media (min-width: 1200px) {
-  .nav-wrapper{
-    .navbar{
-      // width:$navMaxWidth;
+.nav {
+  &.nav-primary{
+  }
+}
+
+.navtray.navtray-absolute{
+  position: absolute;
+  bottom: 0;
+  width:$navtrayMaxWidth;
+  margin-left:- ($navtrayMaxWidth / 2);
+  left:50%;
+}
+
+.navtray-section-featured{ // section right
+  width: 100 - ($navTrayDividerPosition + 2);
+  padding-left: 3.7%;
+  padding-top: 53px;
+
+  .navtray-secondary-promo{
+    width: 208px;
+    margin-top: 43px;
+
+  } // .navtray-secondary-promo
+  &.navtray-section-featured-short{
+    padding-top:0;
+    
+    .navtray-secondary-promo{
+      margin-top: 36px;
     }
-    .navtray-wrapper{
-      .navtray{
-        position:relative;
-        width:1200px;
-        left:50%;
-        margin-left:-595px;
+  } //.navtray-section-featured-short
+} //.navtray-section-featured
 
-        .navtray-section-featured{ // section right
-          width: 100 - ($navTrayDividerPosition + 2);
-          padding-left: 4%;
+.navtray-section-main{ // section left
+  width: ($navTrayDividerPosition + 2);
+  padding-top: 39px;
 
-          .navtray-secondary-promo{
-            width: 208px;
-            margin-top: 43px;
+  .navtray-list-main{
+    margin-right:4.7%;
+    margin-top:0px;
 
-          } // .navtray-secondary-promo
-          &.navtray-section-featured-short{
-            padding-top:0;
-            
-            .navtray-secondary-promo{
-              margin-top: 36px;
-            }
-          } //.navtray-section-featured-short
-        } //.navtray-section-featured
-        .navtray-section-main{ // section left
-          width: ($navTrayDividerPosition + 2);
-        }
-      }
-      &.navtray-wrapper-fullwidth-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
-        content: "";
-        display: block;
-        width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
-        height: 100%;
-        position:absolute;
-        top:0;
-        left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
-        z-index:1;
-        background: $navTrayBackgroundAlt;
-      }
+    > li {
+      width: 24%;
+      margin: 5.5% 0.7% 2% 0;
     }
   }
 }
 
+.navtray-w-fullwidth-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
+  content: "";
+  display: block;
+  width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
+  height: 100%;
+  position:absolute;
+  top:0;
+  left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
+  z-index:1;
+  background: $navTrayBackgroundAlt;
+}
+} // END min-width: 1200px
 
+
+
+
+
+// ------------------------------------------------
 // EXTRA LARGE DESKTOP
 // ------------------------------------------------
+//  d888      d8888   .d8888b.   .d8888b.                            
+// d8888     d8P888  d88P  Y88b d88P  Y88b                           
+//   888    d8P 888  888    888 888    888                           
+//   888   d8P  888  888    888 888    888 88888b.  888  888   888   
+//   888  d88   888  888    888 888    888 888 "88b `Y8bd8P' 8888888 
+//   888  8888888888 888    888 888    888 888  888   X88K     888   
+//   888        888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.         
+// 8888888      888   "Y8888P"   "Y8888P"  88888P"  888  888         
+//                                         888                       
+//                                         888  
+// ------------------------------------------------                     
+                            
 @media (min-width: 1400px) {
   
-}
+} // END min-width: 1400px
 
+
+
+
+
+
+// ------------------------------------------------
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
+// 8888888888  .d8888b.   .d8888b.                           .d8888b.  8888888888  .d8888b.                    
+//       d88P d88P  Y88b d88P  Y88b                         d88P  Y88b       d88P d88P  Y88b                   
+//      d88P  888        Y88b. d88P                         888    888      d88P  888    888                   
+//     d88P   888d888b.   "Y88888"  88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
+//  88888888  888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
+//   d88P     888    888 888    888 888  888   X88K  888888        888   d88P            888 888  888   X88K   
+//  d88P      Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
+// d88P        "Y8888P"   "Y8888P"  88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
+//                                  888                                                      888               
+//                                  888                                                      888               
+//                                  888                                                      888   
+// ------------------------------------------------
 @media (min-width: 768px) and (max-width: 979px) {
-  .nav-wrapper { 
-    .navbar{
+.nav.nav-primary{
+  margin-left: 1.5%;
+  > li > a{
+    line-height: $navbarLineHeight;
+    margin-top: 11px;
+    margin-bottom:13px;
+    font-size: $font_13_16;
+    padding: 0 7px;
 
-      .nav{
-        &.nav-primary{
-          margin-left: 1.5%;
-        }
-        > li > a{
-          line-height: $navbarLineHeight;
-          margin-top: 11px;
-          margin-bottom:13px;
-          font-size: $font_13_16;
-          padding: 0 7px;
-
-          &.nav-dropdown-toggle-text{
-            // padding-right:3px;
-            // margin-right:6px;
-            .icon-ui-arrowhead-down-gray{
-              // margin-left: 7px;              
-              margin-top: 9px;
-            }
-          }
-        }
-      }
-    }
-
-
-
-    .navtray-wrapper {
-      .navtray {
-        width:auto;
-
-        .navtray-section-main{ // section left - contents
-          padding-top: 38px;
-          width: ($navTrayDividerPosition - 4);
-
-          .navtray-list-main {
-            margin-left:8.2%;
-            margin-right:0;
-
-            &:after{ // HR
-              width: 94%;
-              height: 10px;
-              margin-left: 1.9%;
-            };
-
-            > li{
-              width:31.9%;
-              margin:2% 0.2% 2% 0;
-            }
-            > li > a {
-              padding-bottom:13px;
-
-              > img {
-                width:83%;
-                // height:83%;
-                margin:0 auto;
-              }
-              > .nav-label{
-                margin-top:6px;
-              }
-            }
-          }
-          .btn-nav-view-all{
-            margin-left: 10%;
-          }
-        } // .navtray-section-main
-
-        .navtray-section-featured{ // section right
-          padding-top: 47px;
-          padding-left:2.3%;
-          width: 100 - ($navTrayDividerPosition - 4);
-
-          &.navtray-section-featured-short{
-            padding-top: 10px;
-          }
-        } //.navtray-section-featured
+    &.nav-dropdown-toggle-text{
+      // padding-right:3px;
+      // margin-right:6px;
+      .icon-ui-arrowhead-down-gray{
+        // margin-left: 7px;              
+        margin-top: 9px;
       }
     }
   }
+} // .nav.nav-primary
+
+.navtray {
+  width:auto;
 }
+.navtray-section-main{ // section left - contents
+  padding-top: 38px;
+  width: ($navTrayDividerPosition - 4);
+
+  .navtray-list-main {
+    margin-left:8.2%;
+    margin-right:0;
+
+    &:after{ // HR
+      width: 94%;
+      height: 10px;
+      margin-left: 1.9%;
+    }
+
+    > li{
+      width:31.9%;
+      margin:2% 0.2% 2% 0;
+    }
+    > li > a {
+      padding-bottom:13px;
+
+      > img {
+        width:83%;
+        // height:83%;
+        margin:0 auto;
+      }
+      > .nav-label{
+        margin-top:6px;
+      }
+    }
+  }
+  .btn-nav-view-all{
+    margin-left: 10%;
+  }
+} // .navtray-section-main
+
+.navtray-section-featured{ // section right
+  padding-top: 47px;
+  padding-left:2.3%;
+  width: 100 - ($navTrayDividerPosition - 4);
+
+  &.navtray-section-featured-short{
+    padding-top: 10px;
+  }
+} //.navtray-section-featured
+} // END min-width: 768px and max-width: 979px
 
 
-// SMALLER THAN PORTRAIT TABLET -- MOBILE-LARGE
-@media (max-width: 600px) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------------------
+// MOBILE-LARGE (mostly the same as mobile, but a little bigger.)
+// ------------------------------------------------
+//     d8888   .d8888b.   .d8888b.                          8888888888  .d8888b.  8888888888                  
+//    d8P888  d88P  Y88b d88P  Y88b                               d88P d88P  Y88b       d88P                  
+//   d8P 888  Y88b. d88P 888    888                              d88P  888             d88P                   
+//  d8P  888   "Y88888"  888    888 88888b.  888  888           d88P   888d888b.      d88P  88888b.  888  888 
+// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'        88888888  888P "Y88b  88888888 888 "88b `Y8bd8P' 
+// 8888888888 888    888 888    888 888  888   X88K  888888   d88P     888    888   d88P    888  888   X88K   
+//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.        d88P      Y88b  d88P  d88P     888 d88P .d8""8b. 
+//       888   "Y8888P"   "Y8888P"  88888P"  888  888       d88P        "Y8888P"  d88P      88888P"  888  888 
+//                                  888                                                     888               
+//                                  888                                                     888               
+//                                  888                                                     888       
+// ------------------------------------------------    
+
+@media (max-width: 767px) {
 
   // Padding to set content in a bit
   body {
@@ -404,10 +546,31 @@
 }
 
 
+
+
+
+
+
+
+// ------------------------------------------------
 // LANDSCAPE PHONE AND BELOW
-@media (max-width: 480px) {
+// ------------------------------------------------
+//     d8888  8888888888  .d8888b.                           .d8888b.                                  888                  
+//    d8P888        d88P d88P  Y88b                         d88P  "88b                                 888                  
+//   d8P 888       d88P  888    888                         Y88b. d88P                                 888                  
+//  d8P  888      d88P   Y88b. d888 88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+// d88   888   88888888   "Y888P888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+// 8888888888   d88P            888 888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//       888   d88P      Y88b  d88P 888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//       888  d88P        "Y8888P"  88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                  888                                                                                     
+//                                  888                                                                                     
+//                                  888    
+// ------------------------------------------------
+
+@media (max-width: 479px) {
 }
 
 
-// DEFAULT DESKTOP
-// ---------------
+
+

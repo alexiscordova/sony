@@ -352,6 +352,7 @@ $zindexModal:             1050 !default;
 // Global values for Nav & Subanv to share.
 .NAV{}
 $navMaxWidth:                 1190px !default;
+$navtrayMaxWidth:             1200px !default;
 
 
 // Global Nav (navbar)
@@ -397,7 +398,7 @@ $navbarLineHeight:                40px !default;
 
   $navTrayBackground:               $white;
   $navTrayBackgroundAlt:            $grayLightFieldLarge;
-  $navTrayDividerPosition:          73%;
+  $navTrayDividerPosition:          72%;
 
   $navMenuBackground:               $white;
   $navMenuBackgroundAlt:            $grayLightFieldLarge;
@@ -516,11 +517,14 @@ $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
   $gridMarginWidth768:        18px !default;
   $gridColumnWidth768:        39px !default;
   $gridGutterWidth768:        20px !default;
-  // trying these out -- the ones above are Steve's, but I don't think the margins are good at this size.
-  // $containerMarginWidth768:    10px !default;
-  // $gridMarginWidth768:       13px !default;
-  // $gridColumnWidth768:       40px !default;
-  // $gridGutterWidth768:       22px !default;
+
+
+  // 320px-767px breakpoints
+  $containerMarginWidth320:   12px !default;
+  $gridMarginWidth320:        18px !default;
+  $gridColumnWidth320:        39px !default;
+  $gridGutterWidth320:        20px !default;
+
 
 
   // Calculated grid values
@@ -606,9 +610,7 @@ $transitionFastest:     0.025s;
 
 
 $navtrayOpenSpeed:       0.5s;
-$navtrayBarOpenSpeed:    ($navtrayOpenSpeed * 0.5);
 $navtrayCloseSpeed:      0.35s;
-$navtrayBarCloseSpeed:   0.15s;
 $navtrayShortOpenSpeed:  0.4s;
 $navtrayShortCloseSpeed: 0.25s;
 

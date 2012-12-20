@@ -2,7 +2,8 @@
 name: 'global header'
 meta_data: {a:'foo', b:'bar'}
 ---
-		
+
+<%@document%>
 
       <nav class="container full-bleed-no-max nav-wrapper">
 
@@ -11,8 +12,8 @@ meta_data: {a:'foo', b:'bar'}
 	        <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
 	        <ul class="nav nav-primary">
 	          <li id="nav-li-store"><a href="#">Store</a></li>
-	          <li id="nav-li-electronics"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
-	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-wrapper-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
+	          <li id="nav-li-electronics"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-w-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
+	          <li id="nav-li-entertainment"><a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-w-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
 	          <li id="nav-li-support"><a href="#">Support</a></li>
 	        </ul>
 	        <ul class="nav nav-utility">
@@ -32,11 +33,10 @@ meta_data: {a:'foo', b:'bar'}
 				      </div><!-- end #navmenu-wrapper-account -->
 
 	          </li>
-	          <li id="nav-li-favorites"><a class="hidden-text iconTrigger-ui-favorite" data-target="navtray-wrapper-favorites" href="#"><i class="icon-ui-favorite"></i>Favorites</a></li>
-	          <li id="nav-li-cart"><a class="iconTrigger-ui-cart disabled" data-target="navtray-wrapper-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
-	          <li id="nav-li-universal"><a class="btn nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
+	          <li id="nav-li-favorites"><a class="btn-nav-iconed iconTrigger-ui-favorite" data-target="navtray-w-favorites" href="#"><i class="icon-ui-favorite"></i><span class="visuallyhidden">Favorites</span></a></li>
+	          <li id="nav-li-cart"><a class="btn-nav-iconed iconTrigger-ui-cart disabled" data-target="navtray-w-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
 	          <li id="nav-li-search">
-	          	<a class="nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search hidden-text" data-target="navtray-wrapper-search" href="#">Search<i class="icon-ui-search"></i></a>
+	          	<a class="btn-nav-block nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search" data-target="navtray-w-search" href="#">Search<i class="icon-ui-search"></i></a>
 
 					    <div class="navmenu-wrapper navmenu-wrapper-search Xsearching">
 	          	 	<i class="sprite-mini-global-nav-indicator"></i>					    	
@@ -99,10 +99,11 @@ meta_data: {a:'foo', b:'bar'}
 							    </div>
 						    </div>
 					    </li>
+					  <li id="nav-li-universal"><a class="btn-nav-block nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
 	        </ul>
 		    </div><!-- end .navbar -->
 
-		    <div class="navtray-wrapper navtray-wrapper-fullwidth-3-4 navtray-wrapper-electronics navtray-wrapper-tall">
+		    <div class="navtray-w navtray-w-fullwidth-3-4 navtray-w-electronics navtray-w-tall">
 		    	<div class="navtray">
 	      		<div class="navtray-section navtray-section-main navtray-section-main-w-all-btn">
 			        <ul class="navtray-list-main">
@@ -111,7 +112,7 @@ meta_data: {a:'foo', b:'bar'}
 			        	<li id="navtray-li-playstation"><a href="#" class="tl"><img src="img/global/global-nav/tray-playstation.png" alt="PlayStation"><span class="nav-label">PlayStation</span></a></li>
 			        	<li id="navtray-li-computers"><a href="#" class="tl"><img src="img/global/global-nav/tray-computers.png" alt="Computers"><span class="nav-label">Computers</span></a></li>
 			        	<li id="navtray-li-video-cameras"><a href="#" class="tl"><img src="img/global/global-nav/tray-video-cameras.png" alt="Video Cameras"><span class="nav-label">Video Cameras</span></a></li>
-			        	<li id="navtray-li-televisions"><a href="#" class="tl"><img src="img/global/global-nav/tray-televisions.png" alt="Televisions"><span class="nav-label">Televisions</span></a></li>
+			        	<li id="navtray-li-televisions"><a href="#" class="tl"><img src="img/global/global-nav/tray-televisions.png" alt="Televisions"><span class="nav-label">Televisions &amp;<br>Home Cinema</span></a></li>
 			        	<li id="navtray-li-audio"><a href="#" class="tl"><img src="img/global/global-nav/tray-audio.png" alt="Audio"><span class="nav-label">Audio</span></a></li>
 			        	<li id="navtray-li-car"><a href="#" class="tl"><img src="img/global/global-nav/tray-car.png" alt="Car &amp; Marine"><span class="nav-label">Car &amp; Marine</span></a></li>
 			        </ul>
@@ -137,7 +138,7 @@ meta_data: {a:'foo', b:'bar'}
 		      </div>
 	      </div><!-- end #navtray-electronics --> 
 
-		    <div class="navtray-wrapper navtray-wrapper-fullwidth-3-4 navtray-wrapper-entertainment navtray-wrapper-short">
+		    <div class="navtray-w navtray-w-fullwidth-3-4 navtray-w-entertainment navtray-w-short">
 		    	<div class="navtray">
 	      		<div class="navtray-section navtray-section-main">
 			        <ul class="navtray-list-main">
@@ -163,12 +164,4 @@ meta_data: {a:'foo', b:'bar'}
     	</nav><!-- end .nav-wrapper --> 
 
 
-<!-- 
-		<div>
-			<h1>{{document.name}}: {{mode}}</h1>
-			<ul>
-				<li>{{content.a}} {{document.meta_data.a}}</li>
-				<li>{{content.b}} {{document.meta_data.b}}</li>
-			</ul>
-		</div>
---> 
+
