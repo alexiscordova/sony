@@ -87,7 +87,11 @@
       > a {
         margin-left: 15px;
         padding: 0px 16px 0px 12px;
+        > span.navtray-label{
+          display:inline-block;
+        }
         > i.icon-ui-search {
+          float: left;
           margin: 12px 6px 0 0;
         }
       }
@@ -274,6 +278,65 @@
 
 
 
+
+// ------------------------------------------------
+// PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
+// ------------------------------------------------
+//   .d8888b.  8888888888  .d8888b.                         .d8888b.                                  888                  
+//  d88P  Y88b       d88P d88P  Y88b                       d88P  "88b                                 888                  
+//  888    888      d88P  888    888                       Y88b. d88P                                 888                  
+//  Y88b. d888     d88P   Y88b. d888 88888b.  888  888      "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//   "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P'     .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//         888   d88P            888 888  888   X88K       888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//  Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b.     Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//   "Y8888P"  d88P        "Y8888P"  88888P"  888  888      "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                   888               
+//                                   888               
+//                                   888   
+// ------------------------------------------------
+@media (max-width: 979px) {
+.nav {
+  > li#nav-li-search{ // change the button to simple square no-text.
+    > a {
+      padding: 0px 12px 0px 12px;
+      
+      > span.navtray-label{
+        display:none;
+      }
+      > i.icon-ui-search {  
+        float:none;
+        margin:2px 0px 0 0;
+      }
+    }
+  } // li#nav-li-search
+
+  > li#nav-li-universal{
+    > a {
+      margin-left:4px;
+      margin-right:-10px;
+      // padding: 0px 8px;
+      > i.icon-ui-plus-tiny {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  &.nav-utility{
+    > li > a{
+      &.btn-nav-block{
+        // margin: 13px 0px 0px 7px;
+        // line-height: 37px;
+        font-size: $font_12_16;
+      }
+    }
+  } // .nav-utility
+} // .nav
+
+} // END max-width: 979px
+
+
+
+
 // ------------------------------------------------
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
@@ -367,18 +430,9 @@
   }
 } //.navtray-section-featured
 
-.nav {
-  &#nav-li-search{
-    > a {
-      margin-left: 15px;
-      padding: 0px 16px 0px 12px;
-      > i.icon-ui-search {
-        margin: 12px 6px 0 0;
-      }
-    }
-  }
-}
 } // END min-width: 768px and max-width: 979px
+
+
 
 
 

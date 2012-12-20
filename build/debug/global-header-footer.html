@@ -32,9 +32,9 @@
     
         <link rel="stylesheet" href="css/modules/carousel.css">
         <link rel="stylesheet" href="css/modules/editorial.css">
+        <link rel="stylesheet" href="css/modules/gallery.css">
         <link rel="stylesheet" href="css/modules/hotspot_explorer.css">
         <link rel="stylesheet" href="css/modules/mymodule.css">
-        <link rel="stylesheet" href="css/modules/gallery.css">
         <link rel="stylesheet" href="css/modules/related-products.css">
         <link rel="stylesheet" href="css/modules/sonycarousel.css">
         <link rel="stylesheet" href="css/modules/specAndDetails.css">
@@ -74,9 +74,13 @@
               <li id="nav-li-account">
                   <a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navmenu-wrapper-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
 
-                        <div class="navmenu-wrapper navmenu-wrapper-account Xlogged-inX">
+                        <div class="navmenu-wrapper navmenu-wrapper-account logged-in">
                             <i class="sprite-mini-global-nav-indicator"></i>
                             <a href="#" class="btn btn-login">Log in</a>
+                        <ul class="navmenu-list-extended">
+                            <li id="navmenu-li-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="cart-count">2</span></a></li>
+                            <li id="navmenu-li-favorites"><a href="#" class="tl"><i class="icon-ui-navmenu-favorites"></i>Favorites</a></li>
+                        </ul>
                         <ul class="navmenu-list-main">
                             <li id="navmenu-li-account"><a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a></li>
                             <li id="navmenu-li-orders"><a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a></li>
@@ -90,7 +94,7 @@
               <li id="nav-li-favorites"><a class="btn-nav-iconed iconTrigger-ui-favorite" data-target="navtray-w-favorites" href="#"><i class="icon-ui-favorite"></i><span class="visuallyhidden">Favorites</span></a></li>
               <li id="nav-li-cart"><a class="btn-nav-iconed iconTrigger-ui-cart disabled" data-target="navtray-w-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
               <li id="nav-li-search">
-                  <a class="btn-nav-block nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search" data-target="navtray-w-search" href="#"><span class="visible-desktop">Search</span><i class="icon-ui-search"></i></a>
+                  <a class="btn-nav-block nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search" data-target="navtray-w-search" href="#"><span class="navtray-label">Search</span><i class="icon-ui-search"></i></a>
 
                         <div class="navmenu-wrapper navmenu-wrapper-search Xsearching">
                        <i class="sprite-mini-global-nav-indicator"></i>                            
@@ -228,8 +232,8 @@
         <script src="js/bundle/require/require2.js"></script>
         
         
-        <script src="js/bundle/secondary/secondary1.js"></script>
         <script src="js/bundle/secondary/iscroll.4.2.5.js"></script>
+        <script src="js/bundle/secondary/secondary1.js"></script>
         <script src="js/bundle/secondary/secondary2.js"></script>
         <script src="js/bundle/secondary/sony.carousel.1.0.js"></script>
         
@@ -241,10 +245,10 @@
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
-        <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
-        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jodo.gallery.js"></script>
+        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
