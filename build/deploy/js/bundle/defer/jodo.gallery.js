@@ -1,4 +1,12 @@
-/*global Exports*/
+/*global jQuery, Modernizr, Exports*/
+
+// ------------ Sony Gallery ------------
+// Module: Gallery
+// Version: 1.0
+// Modified: 01/01/2013
+// Dependencies: jQuery 1.7+, Modernizr
+// Author: Glen Cheney
+// --------------------------------------
 
 (function($, Modernizr, window, undefined) {
 
@@ -205,58 +213,58 @@
 
       // self.filters ~= self.filters.button.megapixels["14-16", "16-18"]
       for ( filterType in self.filters ) {
-          if ( !self.filters.hasOwnProperty(filterType) ) {
-              continue;
+        if ( !self.filters.hasOwnProperty(filterType) ) {
+          continue;
+        }
+
+        // Loop through filter types because there could be more than one 'button' or 'checkbox'
+        if ( filterType === 'button' || filterType === 'checkbox' ) {
+          for ( filterName in self.filters[ filterType ] ) {
+            var activeFilters = self.filters[ filterType ][ filterName ];
+
+            // This filterType.filterName has some active filters, build an object of its labels and filter names
+            if ( activeFilters.length ) {
+              for ( var j = 0; j < activeFilters.length; j++ ) {
+                var label = self.filterLabels[ filterName ][ activeFilters[ j ] ];
+                filters[ activeFilters[ j ] ] = {
+                  label: label,
+                  name: filterName
+                };
+              }
+            }
           }
 
-          // Loop through filter types because there could be more than one 'button' or 'checkbox'
-          if ( filterType === 'button' || filterType === 'checkbox' ) {
-              for ( filterName in self.filters[ filterType ] ) {
-                  var activeFilters = self.filters[ filterType ][ filterName ];
-
-                  // This filterType.filterName has some active filters, build an object of its labels and filter names
-                  if ( activeFilters.length ) {
-                      for ( var j = 0; j < activeFilters.length; j++ ) {
-                          var label = self.filterLabels[ filterName ][ activeFilters[ j ] ];
-                          filters[ activeFilters[ j ] ] = {
-                              label: label,
-                              name: filterName
-                          };
-                      }
-                  }
-              }
-
-          // Handle range control a bit differently
-          } else if ( filterType === 'range' ) {
-              if ( self.price.min !== self.MIN_PRICE ) {
-                  filters['min'] = {
-                      key: 'price',
-                      label: 'Min price: $' + self.price.min,
-                      name: 'min'
-                  };
-              }
-              if ( self.price.max !== self.MAX_PRICE) {
-                  filters['max'] = {
-                      key: 'price',
-                      label: 'Max price: $' + self.price.max,
-                      name: 'max'
-                  };
-              }
+        // Handle range control a bit differently
+        } else if ( filterType === 'range' ) {
+          if ( self.price.min !== self.MIN_PRICE ) {
+            filters['min'] = {
+              key: 'price',
+              label: 'Min price: $' + self.price.min,
+              name: 'min'
+            };
           }
+          if ( self.price.max !== self.MAX_PRICE) {
+            filters['max'] = {
+              key: 'price',
+              label: 'Max price: $' + self.price.max,
+              name: 'max'
+            };
+          }
+        }
       }
 
 
       // Create labels showing current filters
       $.each(filters, function(key, obj) {
-          var $label = $('<span>', {
-              "class" : "label label-close",
-              "data-filter" : key,
-              "data-filter-name" : obj.key || obj.name,
-              text : obj.label,
-              click : $.proxy( self.onRemoveFilter, self )
-          });
+        var $label = $('<span>', {
+          "class" : "label label-close",
+          "data-filter" : key,
+          "data-filter-name" : obj.key || obj.name,
+          text : obj.label,
+          click : $.proxy( self.onRemoveFilter, self )
+        });
 
-          frag.appendChild( $label[0] );
+        frag.appendChild( $label[0] );
       });
 
 
@@ -269,10 +277,10 @@
           pos;
 
       if ( filterType === 'button' || filterType === 'checkbox' ) {
-          pos = $.inArray( filterValue, self.filters[ filterType ][ filterName ] );
-          self.filters[ filterType ][ filterName ].splice( pos, 1 );
+        pos = $.inArray( filterValue, self.filters[ filterType ][ filterName ] );
+        self.filters[ filterType ][ filterName ].splice( pos, 1 );
       } else if ( filterType === 'range' ) {
-          delete self.filters[ filterType ][ filterName ][ filterValue ];
+        delete self.filters[ filterType ][ filterName ][ filterValue ];
       }
     },
 
@@ -285,22 +293,22 @@
 
       // There's probably a better way to do this... (store jQuery objects for each filter?)
       if ( filterType === 'button' ) {
-          // [data-filter="megapixels"] [data-megapixels="14-16"]
-          selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
-          self.$container.find( selector ).button('toggle');
+        // [data-filter="megapixels"] [data-megapixels="14-16"]
+        selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
+        self.$container.find( selector ).button('toggle');
 
-          // Handle media groups
-          self.$container.find( selector + ' .active' ).button('toggle');
+        // Handle media groups
+        self.$container.find( selector + ' .active' ).button('toggle');
 
       } else if ( filterType === 'checkbox' ) {
-          selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
-          self.$container.find( selector ).prop('checked', false);
+        selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
+        self.$container.find( selector ).prop('checked', false);
 
       } else if ( filterType === 'range' ) {
-          // Slide appropriate handle to the intial value
-          rangeControl = self.$rangeControl.data('rangeControl');
-          method = filterValue === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
-          rangeControl[ method ]();
+        // Slide appropriate handle to the intial value
+        rangeControl = self.$rangeControl.data('rangeControl');
+        method = filterValue === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
+        rangeControl[ method ]();
       }
     },
 
@@ -310,15 +318,15 @@
 
       // There's probably a better way to do this... (store jQuery objects for each filter?)
       if ( filterType === 'button' ) {
-          // [data-filter="megapixels"] [data-megapixels="14-16"]
-          selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
-          self.$container.find( selector ).attr('disabled', 'disabled');
+        // [data-filter="megapixels"] [data-megapixels="14-16"]
+        selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
+        self.$container.find( selector ).attr('disabled', 'disabled');
 
-          // Handle media groups
-          self.$container.find( selector + ' .btn' ).attr('disabled', 'disabled');
+        // Handle media groups
+        self.$container.find( selector + ' .btn' ).attr('disabled', 'disabled');
       } else if ( filterType === 'checkbox' ) {
-          selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
-          self.$container.find( selector ).prop('disabled', true);
+        selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
+        self.$container.find( selector ).prop('disabled', true);
       }
 
     },
@@ -329,15 +337,15 @@
 
       // There's probably a better way to do this... (store jQuery objects for each filter?)
       if ( filterType === 'button' ) {
-          // [data-filter="megapixels"] [data-megapixels="14-16"]
-          selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
-          self.$container.find( selector ).removeAttr('disabled');
+        // [data-filter="megapixels"] [data-megapixels="14-16"]
+        selector = '[data-filter="' + filterName + '"] [data-' + filterName + '="' + filterValue + '"]';
+        self.$container.find( selector ).removeAttr('disabled');
 
-          // Handle media groups
-          self.$container.find( selector + ' .btn' ).removeAttr('disabled');
+        // Handle media groups
+        self.$container.find( selector + ' .btn' ).removeAttr('disabled');
       } else if ( filterType === 'checkbox' ) {
-          selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
-          self.$container.find( selector ).prop('disabled', false);
+        selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
+        self.$container.find( selector ).prop('disabled', false);
       }
     },
 
@@ -363,45 +371,45 @@
       var self = this;
 
       self.filters = {
-          range: {},
-          button: {},
-          checkbox: {}
+        range: {},
+        button: {},
+        checkbox: {}
       };
       self.filterTypes = {};
       self.filterLabels = {};
       self.filterValues = {};
 
       self.$filterOpts.find('[data-filter]').each(function() {
-          var $this = $(this),
-              data = $this.data(),
-              type = data.filterType,
-              name = data.filter,
-              init = [];
+        var $this = $(this),
+            data = $this.data(),
+            type = data.filterType,
+            name = data.filter,
+            init = [];
 
 
-          // Initialize it based on type
-          switch ( type ) {
-              case 'range':
-                  init = {};
-                  self.range( $this, name, data.min, data.max );
-                  break;
-              case 'button':
-                  self.button( $this, name );
-                  break;
-              case 'group':
-              case 'color':
-                  // Treat groups and colors the same as buttons
-                  type = 'button';
-                  self.button( $this, name );
-                  break;
-              case 'checkbox':
-                  self.checkbox ( $this, name );
-                  break;
-          }
+        // Initialize it based on type
+        switch ( type ) {
+          case 'range':
+            init = {};
+            self.range( $this, name, data.min, data.max );
+            break;
+          case 'button':
+            self.button( $this, name );
+            break;
+          case 'group':
+          case 'color':
+            // Treat groups and colors the same as buttons
+            type = 'button';
+            self.button( $this, name );
+              break;
+          case 'checkbox':
+            self.checkbox ( $this, name );
+            break;
+        }
 
-          // Save the active filters in this filter to an empty array or object
-          self.filters[ type ][ name ] = init;
-          self.filterTypes[ name ] = type;
+        // Save the active filters in this filter to an empty array or object
+        self.filters[ type ][ name ] = init;
+        self.filterTypes[ name ] = type;
       });
 
       // Show first dropdown as active
@@ -413,32 +421,31 @@
       var self = this;
 
       self.$grid.infinitescroll({
-          local: true,
-          // debug: true,
-          bufferPx: -100, // Load 100px after the navSelector has entered the viewport
-          navSelector: 'div.navigation', // selector for the paged navigation
-          nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
-          itemSelector: '.gallery-item', // selector for all items you'll retrieve
-          loading: {
-              selector: '.infscr-holder',
-              msgText: "<em>Loading the next set of products...</em>",
-              finishedMsg: "<em>Finished loading products.</em>",
-              img: self.loadingGif,
-            }
+        local: true,
+        // debug: true,
+        bufferPx: -100, // Load 100px after the navSelector has entered the viewport
+        navSelector: 'div.navigation', // selector for the paged navigation
+        nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
+        itemSelector: '.gallery-item', // selector for all items you'll retrieve
+        loading: {
+          selector: '.infscr-holder',
+          msgText: "<em>Loading the next set of products...</em>",
+          finishedMsg: "<em>Finished loading products.</em>",
+          img: self.loadingGif,
+        }
       },
       // call shuffle as a callback
       function( newElements ) {
-          self.$grid.shuffle( 'appended', $( newElements ).addClass('via-ajax') );
-          // Show new product count
-          self.$productCount.text( self.$grid.data('shuffle').visibleItems );
-          // Update iQ images
-          window.iQ.update(true);
-      }
-      );
+        self.$grid.shuffle( 'appended', $( newElements ).addClass('via-ajax') );
+        // Show new product count
+        self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+        // Update iQ images
+        window.iQ.update(true);
+      });
 
       // Pause infinite scrolls that are in hidden tabs
       if ( !self.$container.hasClass('active') ) {
-          self.$grid.infinitescroll('pause');
+        self.$grid.infinitescroll('pause');
       }
     },
 
@@ -452,11 +459,11 @@
               $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
 
           $swatch.hover(function() {
-              $productImg.addClass('hidden');
-              $swatchImg.removeClass('hidden');
+            $productImg.addClass('hidden');
+            $swatchImg.removeClass('hidden');
           }, function() {
-              $productImg.removeClass('hidden');
-              $swatchImg.addClass('hidden');
+            $productImg.removeClass('hidden');
+            $swatchImg.addClass('hidden');
           });
       });
     },
@@ -469,13 +476,13 @@
 
       // Reset stored data by setting all filterValue values to null
       for ( filterName in self.filterValues ) {
-          if ( !self.filterValues.hasOwnProperty(filterName) ) {
-              continue;
-          }
+        if ( !self.filterValues.hasOwnProperty(filterName) ) {
+          continue;
+        }
 
-          for ( filterValue in self.filterValues[ filterName ] ) {
-              self.filterValues[ filterName ][ filterValue ] = null;
-          }
+        for ( filterValue in self.filterValues[ filterName ] ) {
+          self.filterValues[ filterName ][ filterValue ] = null;
+        }
       }
 
       // Build up the dictionary of the filters that should be shown/hidden
@@ -486,39 +493,39 @@
               filterName;
 
           for ( filterName in self.filterValues ) {
-              if ( !self.filterValues.hasOwnProperty(filterName) ) {
+            if ( !self.filterValues.hasOwnProperty(filterName) ) {
+              continue;
+            }
+
+
+            for ( filterValue in self.filterValues[ filterName ] ) {
+              // If we've already set this to false, we don't need to check again on another element
+              if ( self.filterValues[ filterName ][ filterValue ] === true ) {
                   continue;
               }
 
+              var isArray = $.isArray( filterSet[ filterName ] ),
+                  shouldEnable;
 
-              for ( filterValue in self.filterValues[ filterName ] ) {
-                  // If we've already set this to false, we don't need to check again on another element
-                  if ( self.filterValues[ filterName ][ filterValue ] === true ) {
-                      continue;
-                  }
+              shouldEnable = isArray ?
+                  self.valueInArray( filterValue, filterSet[ filterName ] ) :
+                  filterValue === filterSet[ filterName ];
 
-                  var isArray = $.isArray( filterSet[ filterName ] ),
-                      shouldEnable;
-
-                  shouldEnable = isArray ?
-                      self.valueInArray( filterValue, filterSet[ filterName ] ) :
-                      filterValue === filterSet[ filterName ];
-
-                  self.filterValues[ filterName ][ filterValue ] = shouldEnable;
-              }
+              self.filterValues[ filterName ][ filterValue ] = shouldEnable;
+            }
           }
       });
 
       // Loop through all filters again to disable/enable them
       for ( filterName in self.filterValues ) {
-          if ( !self.filterValues.hasOwnProperty(filterName) ) {
-              continue;
-          }
+        if ( !self.filterValues.hasOwnProperty(filterName) ) {
+          continue;
+        }
 
-          for ( filterValue in self.filterValues[ filterName ] ) {
-              method = self.filterValues[ filterName ][ filterValue ] ? 'enable' : 'disable';
-              self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
-          }
+        for ( filterValue in self.filterValues[ filterName ] ) {
+          method = self.filterValues[ filterName ][ filterValue ] ? 'enable' : 'disable';
+          self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
+        }
       }
 
     },
@@ -533,14 +540,14 @@
 
       // Convert groups into object which we can test the keys
       for (j = 0; j < arrToTest.length; j++) {
-          dictionary[ arrToTest[j] ] = true;
+        dictionary[ arrToTest[j] ] = true;
       }
 
       // Loop through selected features, if that feature is not in this elements groups, return false
       for (; i < requiredArr.length; i++) {
-          if ( dictionary[ requiredArr[i] ] === undefined ) {
-              return false;
-          }
+        if ( dictionary[ requiredArr[i] ] === undefined ) {
+          return false;
+        }
       }
       return true;
     },
@@ -552,42 +559,42 @@
           $btns = $parent.children();
 
       $btns.on('click', function() {
-          var $this = $(this),
-              isMediaGroup = $this.hasClass('media'),
-              $checked,
-              checked = [];
+        var $this = $(this),
+            isMediaGroup = $this.hasClass('media'),
+            $checked,
+            checked = [];
 
-          // Abort if this button is disabled
-          if ( $this.is('[disabled]') ) {
-              return;
-          }
+        // Abort if this button is disabled
+        if ( $this.is('[disabled]') ) {
+          return;
+        }
 
-          if ( isMediaGroup ) {
-              $this.find('.btn').button('toggle');
-              $this.toggleClass('active');
-          } else {
-              $this.button('toggle');
-          }
+        if ( isMediaGroup ) {
+          $this.find('.btn').button('toggle');
+          $this.toggleClass('active');
+        } else {
+          $this.button('toggle');
+        }
 
-          $checked = $parent.find('> .active');
+        $checked = $parent.find('> .active');
 
-          // Get all data-* filters
-          if ( $checked.length !== 0 ) {
-              $checked.each(function() {
-                  var filter = $(this).data( filterName );
-                  checked.push( filter );
-              });
-          }
-          self.filters.button[ filterName ] = checked;
+        // Get all data-* filters
+        if ( $checked.length !== 0 ) {
+          $checked.each(function() {
+            var filter = $(this).data( filterName );
+            checked.push( filter );
+          });
+        }
+        self.filters.button[ filterName ] = checked;
 
-          self.filter();
+        self.filter();
       })
 
       // Save each label to the labels object
       .each(function() {
-          var data = $(this).data();
-          labels[ data[ filterName ] ] = data.label;
-          values[ data[ filterName ] ] = data[ filterName ];
+        var data = $(this).data();
+        labels[ data[ filterName ] ] = data.label;
+        values[ data[ filterName ] ] = data[ filterName ];
       });
 
       self.filterLabels[ filterName ] = labels;
@@ -601,26 +608,26 @@
           $inputs = $parent.find('input');
 
       $inputs.on('change', function() {
-          var $checked = $parent.find('input:checked'),
-          checked = [];
+        var $checked = $parent.find('input:checked'),
+        checked = [];
 
-          // At least one checkbox is checked, clear the array and loop through the checked checkboxes
-          // to build an array of strings
-          if ( $checked.length !== 0 ) {
-              $checked.each(function() {
-                  checked.push(this.value);
-              });
-          }
-          self.filters.checkbox[ filterName ] = checked;
+        // At least one checkbox is checked, clear the array and loop through the checked checkboxes
+        // to build an array of strings
+        if ( $checked.length !== 0 ) {
+          $checked.each(function() {
+            checked.push(this.value);
+          });
+        }
+        self.filters.checkbox[ filterName ] = checked;
 
-          self.filter();
+        self.filter();
       })
 
       // Save each label to the labels object
       .each(function() {
-          var data = $(this).data();
-          labels[ this.value ] = data.label;
-          values[ this.value ] = this.value;
+        var data = $(this).data();
+        labels[ this.value ] = data.label;
+        values[ this.value ] = this.value;
       });
 
       self.filterLabels[ filterName ] = labels;
@@ -631,8 +638,8 @@
       this.MAX_PRICE = max;
       this.MIN_PRICE = min;
       this.price = {
-          min: this.MIN_PRICE,
-          max: this.MAX_PRICE
+        min: this.MIN_PRICE,
+        max: this.MAX_PRICE
       };
 
       var self = this,
@@ -642,55 +649,55 @@
       $maxOutput = $output.find('.range-output-max'),
 
       getPrice = function(percent) {
-          return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
+        return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
       },
 
       // Range control update callback
       update = function(evt, positions, percents) {
-          var minPrice = getPrice(percents.min),
-          maxPrice = getPrice(percents.max),
-          maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
-          prevMin = self.price.min,
-          prevMax = self.price.max;
+        var minPrice = getPrice(percents.min),
+        maxPrice = getPrice(percents.max),
+        maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
+        prevMin = self.price.min,
+        prevMax = self.price.max;
 
-          // Display values
-          displayValues(minPrice, maxPriceStr, percents);
+        // Display values
+        displayValues(minPrice, maxPriceStr, percents);
 
-          // Save values
-          self.price.min = minPrice;
-          self.price.max = maxPrice;
+        // Save values
+        self.price.min = minPrice;
+        self.price.max = maxPrice;
 
-          // Filter results only if values have changed
-          if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
+        // Filter results only if values have changed
+        if ( (prevMin !== self.price.min || prevMax !== self.price.max) && self.isInitialized ) {
 
-              // Save current filters
-              self.filters.range[ filterName ].min = self.price.min;
-              self.filters.range[ filterName ].max = self.price.max;
+          // Save current filters
+          self.filters.range[ filterName ].min = self.price.min;
+          self.filters.range[ filterName ].max = self.price.max;
 
-              // Throttle filtering (especially on touch)
-              if ( $.throttle ) {
-                  var delay, method;
-                  if ( self.isTouch ) {
-                      delay = 2500;
-                      method = 'debounce';
-                  } else {
-                      delay = 250;
-                      method = 'throttle';
-                  }
-                  $[ method ]( delay, function() {
-                      self.filter();
-                  })();
-              } else {
-                  self.filter();
-              }
+          // Throttle filtering (especially on touch)
+          if ( $.throttle ) {
+            var delay, method;
+            if ( self.isTouch ) {
+              delay = 2500;
+              method = 'debounce';
+            } else {
+              delay = 250;
+              method = 'throttle';
+            }
+            $[ method ]( delay, function() {
+              self.filter();
+            })();
+          } else {
+            self.filter();
           }
+        }
       },
 
       // Show what's happening with the range control
       displayValues = function( min, max, percents ) {
-          // $output.html('$' + min + ' - $' + max);
-          $minOutput.css('left', percents.min + '%').html('<sup>$</sup>' + min);
-          $maxOutput.css('left', percents.max + '%').html('<sup>$</sup>' + max);
+        // $output.html('$' + min + ' - $' + max);
+        $minOutput.css('left', percents.min + '%').html('<sup>$</sup>' + min);
+        $maxOutput.css('left', percents.max + '%').html('<sup>$</sup>' + max);
       };
 
       // Store jQuery object for later access
@@ -700,9 +707,9 @@
       self.$rangeControl.on('slid.rangecontrol', update);
 
       self.$rangeControl.rangeControl({
-          initialMin: '0%',
-          initialMax: '100%',
-          range: true
+        initialMin: '0%',
+        initialMax: '100%',
+        range: true
       });
     },
 
@@ -711,8 +718,8 @@
       var th = this,
           $rangeControl = th.$container.find('.range-control');
       if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
-          $rangeControl.rangeControl('reset');
-          return true;
+        $rangeControl.rangeControl('reset');
+        return true;
       }
       return false;
     },
@@ -728,26 +735,26 @@
 
       // Get variables based on what kind of component we're working with
       if ( isSelect ) {
-          filterName = $target.val();
-          reverse = evt.target[ evt.target.selectedIndex ].getAttribute('data-reverse');
-          reverse = reverse === 'true' ? true : false;
+        filterName = $target.val();
+        reverse = evt.target[ evt.target.selectedIndex ].getAttribute('data-reverse');
+        reverse = reverse === 'true' ? true : false;
       } else {
-          data = $target.data();
-          filterName = data.value;
-          reverse = data.reverse ? true : false;
+        data = $target.data();
+        filterName = data.value;
+        reverse = data.reverse ? true : false;
 
-          evt.preventDefault();
-          self.$dropdownToggleText.text( $target.text() );
+        evt.preventDefault();
+        self.$dropdownToggleText.text( $target.text() );
       }
 
       if ( filterName !== 'default' ) {
-          sortObj = {
-              reverse: reverse,
-              by: function($el) {
-                  // e.g. filterSet.price
-                  return $el.data('filterSet')[ filterName ];
-              }
-          };
+        sortObj = {
+          reverse: reverse,
+          by: function($el) {
+            // e.g. filterSet.price
+            return $el.data('filterSet')[ filterName ];
+          }
+        };
       }
 
       self.currentSort = filterName;
@@ -759,18 +766,18 @@
           isTablet = Modernizr.mq('(max-width: 767px)');
 
       if ( isTablet && !self.sorted ) {
-          self.$grid.shuffle('sort', {
-              by: function($el) {
-                  var priority = $el.data('priority');
+        self.$grid.shuffle('sort', {
+          by: function($el) {
+            var priority = $el.data('priority');
 
-                  // Returning undefined to the sort plugin will cause it to revert to the original array
-                  return priority ? priority : undefined;
-              }
-          });
-          self.sorted = true;
+            // Returning undefined to the sort plugin will cause it to revert to the original array
+            return priority ? priority : undefined;
+          }
+        });
+        self.sorted = true;
       } else if ( !isTablet && self.sorted ) {
-          self.$grid.shuffle('sort', {});
-          self.sorted = false;
+        self.$grid.shuffle('sort', {});
+        self.sorted = false;
       }
     },
 
@@ -789,19 +796,19 @@
       self.$compareTool.find('.js-toggle-text').text( $target.text() );
 
       if ( data.value !== 'default' ) {
-          sortObj = {
-              reverse: reverse,
-              by: function($el) {
-                  // e.g. filterSet.price
-                  return $el.data('filterSet')[ data.value ];
-              }
-          };
+        sortObj = {
+          reverse: reverse,
+          by: function($el) {
+            // e.g. filterSet.price
+            return $el.data('filterSet')[ data.value ];
+          }
+        };
       }
 
       sortedItems = self.$compareTool.find('.gallery-item').sorted( sortObj );
 
       $.each(sortedItems, function(i, element) {
-          console.log(i, element);
+        console.log(i, element);
       });
 
     },
@@ -811,7 +818,7 @@
 
       // Don't change columns for detail galleries
       if ( self.mode === 'detailed' ) {
-          return;
+        return;
       }
 
       self.sortByPriority();
@@ -827,11 +834,11 @@
       var that;
 
       if ( evt.prevPane ) {
-          that = evt.prevPane.find('.gallery').data('gallery');
+        that = evt.prevPane.find('.gallery').data('gallery');
       }
 
       if ( that && that.hasInfiniteScroll ) {
-          that.$grid.infinitescroll('pause');
+        that.$grid.infinitescroll('pause');
       }
     },
 
@@ -843,23 +850,23 @@
 
       // Only continue if this is a tab shown event.
       if ( !evt.prevPane ) {
-          return;
+        return;
       }
 
       // Respond to tab shown event.Update the columns if we're in need of an update
       if ( self.$grid.data('shuffle').needsUpdate || windowHasResized ) {
-          self.$grid.shuffle('update');
+        self.$grid.shuffle('update');
       }
 
       // Save new window size
       if ( windowHasResized ) {
-          self.windowSize = windowWidth;
+        self.windowSize = windowWidth;
       }
 
       // Resume infinite scroll if it's there yo
       if ( self.hasInfiniteScroll ) {
-          self.$grid.infinitescroll('updateNavLocation');
-          self.$grid.infinitescroll('resume');
+        self.$grid.infinitescroll('updateNavLocation');
+        self.$grid.infinitescroll('resume');
       }
     },
 
@@ -921,8 +928,7 @@
 
           // Clone sort button
           $sortOpts = self.$container.find('.sort-options').clone(),
-          isFixedHeader = false,
-          $stickyHeaders;
+          isFixedHeader = false;
 
       // Clone the product count
       self.$compareCountWrap = self.$container.find('.product-count-wrap').clone();
@@ -936,51 +942,51 @@
 
       // Build / manipulate compare items from the gallery items
       $currentItems.each(function() {
-          var $item = $(this),
-              $swatches,
-              $div = $('<div/>');
+        var $item = $(this),
+            $swatches,
+            $div = $('<div/>');
 
-          // Create remove button, show detail group, remove label, remove product-meta,
-          // wrap name and model in a container (to set the height on), create fixed header clones
-          $item
-              .removeClass()
-              .addClass('span4 compare-item')
-              .removeAttr('style')
-              .append('<span class="box-close box-close-small compare-item-remove"><i class="icon-ui-x-tiny"></i></span>')
-              .find('.detail-group')
-              .removeClass('hidden')
-              .end()
-              .find('.label')
-              .remove()
-              .end()
-              .find('.product-meta')
-              .remove()
-              .end()
-              .find('.product-name, .product-model')
-              .wrapAll('<div class="product-name-wrap"/>')
-              .end()
-              .prepend('<div class="compare-sticky-header">');
+        // Create remove button, show detail group, remove label, remove product-meta,
+        // wrap name and model in a container (to set the height on), create fixed header clones
+        $item
+          .removeClass()
+          .addClass('span4 compare-item')
+          .removeAttr('style')
+          .append('<span class="box-close box-close-small compare-item-remove"><i class="icon-ui-x-tiny"></i></span>')
+          .find('.detail-group')
+          .removeClass('hidden')
+          .end()
+          .find('.label')
+          .remove()
+          .end()
+          .find('.product-meta')
+          .remove()
+          .end()
+          .find('.product-name, .product-model')
+          .wrapAll('<div class="product-name-wrap"/>')
+          .end()
+          .prepend('<div class="compare-sticky-header">');
 
-          // Remove and reattach the swatches to after the price
-          $swatches = $item.find('.product-img .color-swatches').detach();
-          $item.find('.product-price').after($swatches);
+        // Remove and reattach the swatches to after the price
+        $swatches = $item.find('.product-img .color-swatches').detach();
+        $item.find('.product-price').after($swatches);
 
-          // Needed to detach swatches before cloning!
-          $item
-              .find('.product-img, .product-name-wrap, .compare-item-remove')
-              .clone(true) // true for compare item remove's functionality
-              .appendTo( $item.find('.compare-sticky-header') );
+        // Needed to detach swatches before cloning!
+        $item
+          .find('.product-img, .product-name-wrap, .compare-item-remove')
+          .clone(true) // true for compare item remove's functionality
+          .appendTo( $item.find('.compare-sticky-header') );
 
 
-          // Create a new div with the same attributes as the anchor tag
-          // We no longer want the entire thing to be clickable
-          $div.attr({
-              "class" : $item.attr('class'),
-              "data-filter-set" : $item.attr('data-filter-set')
-          });
+        // Create a new div with the same attributes as the anchor tag
+        // We no longer want the entire thing to be clickable
+        $div.attr({
+            "class" : $item.attr('class'),
+            "data-filter-set" : $item.attr('data-filter-set')
+        });
 
-          $div.append( $item.children().detach() );
-          $newItems = $newItems.add( $div );
+        $div.append( $item.children().detach() );
+        $newItems = $newItems.add( $div );
       });
 
       // Create labels column
@@ -1008,77 +1014,79 @@
       // Append the count, reset, and sort in the right spots
       // Phone = sticky header
       if ( Modernizr.mq('(max-width: 480px)') ) {
-          isFixedHeader = true;
+        isFixedHeader = true;
 
-          var $subheader = $('<div class="modal-subheader clearfix">');
-          $subheader.append( self.$compareCountWrap, self.$compareReset, $sortOpts );
+        var $subheader = $('<div class="modal-subheader clearfix">');
+        $subheader.append( self.$compareCountWrap, self.$compareReset, $sortOpts );
 
-          // Insert subhead after the header
-          $header.after( $subheader );
+        // Insert subhead after the header
+        $header.after( $subheader );
 
-          // Put the reset button the left
-          self.$compareReset.addClass('pull-left');
+        // Put the reset button the left
+        self.$compareReset.addClass('pull-left');
 
       // Larger than phone
       } else {
-          // Append sort dropdown
-          $header.append( self.$compareReset, $sortOpts );
+        // Append sort dropdown
+        $header.append( self.$compareReset, $sortOpts );
 
-          // Append count and labels
-          $labelColumn.append( self.$compareCountWrap );
+        // Append count and labels
+        $labelColumn.append( self.$compareCountWrap );
 
-          self.$compareReset.addClass('pull-right');
+        self.$compareReset.addClass('pull-right');
       }
       $labelColumn.append( $labelGroup );
 
       // Animate sticky header
-      $stickyHeaders = $newItems.find('.compare-sticky-header');
-      $stickyHeaders.hover(function() {
-          $stickyHeaders.addClass('with-img');
+      self.$stickyHeaders = $newItems.find('.compare-sticky-header');
+      self.$stickyHeaders.hover(function() {
+        self.$stickyHeaders.addClass('with-img');
       }, function() {
-          $stickyHeaders.removeClass('with-img');
+        self.$stickyHeaders.removeClass('with-img');
       });
 
       // On window resize
-      $(window).on('resize.comparetool', function() {
-          // Phone = sticky header
-          if ( Modernizr.mq('(max-width: 480px)') ) {
+      $(window).on('smartresize.comparetool', function() {
+        // Phone = sticky header
+        if ( Modernizr.mq('(max-width: 480px)') ) {
 
-              // Setup sticky header
-              if ( !isFixedHeader ) {
-                  isFixedHeader = true;
-                  var $subheader = $('<div class="modal-subheader clearfix">');
-                  $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
+          // Setup sticky header
+          if ( !isFixedHeader ) {
+            isFixedHeader = true;
+            var $subheader = $('<div class="modal-subheader clearfix">');
+            $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
 
-                  // Insert subhead after the header
-                  $header.after( $subheader );
+            // Insert subhead after the header
+            $header.after( $subheader );
 
-                  // Put the reset button the left
-                  self.$compareReset.removeClass('pull-right').addClass('pull-left');
-              }
-
-          // Larger than phone
-          } else {
-
-              if ( isFixedHeader ) {
-                  isFixedHeader = false;
-                  // Append sort dropdown
-                  $header.append( self.$compareReset.detach(), $sortOpts.detach() );
-
-                  // Append count and labels
-                  $labelColumn.prepend( self.$compareCountWrap.detach() );
-
-                  self.$compareTool.find('.modal-subheader').remove();
-
-                  self.$compareReset.removeClass('pull-left').addClass('pull-right');
-              }
+            // Put the reset button the left
+            self.$compareReset.removeClass('pull-right').addClass('pull-left');
           }
 
-          self.$compareTool
-            .find('.detail')
-            .add(self.$compareTool.find('.product-name-wrap'))
-            .css('height', '');
-          self.setCompareRowHeights();
+        // Larger than phone
+        } else {
+
+          if ( isFixedHeader ) {
+            isFixedHeader = false;
+            // Append sort dropdown
+            $header.append( self.$compareReset.detach(), $sortOpts.detach() );
+
+            // Append count and labels
+            $labelColumn.prepend( self.$compareCountWrap.detach() );
+
+            self.$compareTool.find('.modal-subheader').remove();
+
+            self.$compareReset.removeClass('pull-left').addClass('pull-right');
+          }
+        }
+
+        self.$compareTool
+          .find('.detail')
+          .add(self.$compareTool.find('.product-name-wrap'))
+          .css('height', '');
+
+        self.setCompareRowHeights();
+        self.setStickyHeaderPos();
       });
 
       // Save state for reset
@@ -1095,11 +1103,11 @@
 
       // Trigger modal
       self.$compareTool
-          .find('.modal-body')
-          .append($container)
-          .end()
-          .data('galleryId', self.id) // Set some data on the modal so we know which gallery it belongs to
-          .modal('show'); // Show the modal
+        .find('.modal-body')
+        .append($container)
+        .end()
+        .data('galleryId', self.id) // Set some data on the modal so we know which gallery it belongs to
+        .modal('show'); // Show the modal
 
       // Cloned images need to be updated
       window.iQ.update();
@@ -1115,7 +1123,7 @@
 
       // HOLD ONTA YA BUTTS. How do I set a width on something that will use percentages?
       $content.children().each(function() {
-          contentWidth += $(this).outerWidth(true);
+        contentWidth += $(this).outerWidth(true);
       });
       $content.width( contentWidth );
       // $content.width( $newItems.length * itemWidth );
@@ -1125,8 +1133,7 @@
     onCompareShown : function() {
       var self = this,
           offsetTop = 0,
-          extra = 0,
-          $stickyHeaders = self.$compareTool.find('.compare-sticky-header');
+          extra = 0;
 
       // Don't let the user scroll - CAN'T SCROLL ANYTHING WITH THIS
       // $('body').on('wheel.modal mousewheel.modal', function () {
@@ -1134,42 +1141,48 @@
       // });
 
       // Position sticky headers
+      self.setStickyHeaderPos();
       offsetTop = self.$compareTool.find('.compare-item').first().offset().top;
       extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
       offsetTop += extra;
 
       // Scroll event for the takeover modal watches for when to show sticky headers
+      // TODO, opening compare modal when scrolled already throws off the scrollTop value
       self.$compareTool.on('scroll.comparetool', function() {
-          var scrollTop = self.$compareTool.scrollTop(),
-              offset = (scrollTop - offsetTop) + extra - 1;
-          if ( scrollTop >= offsetTop ) {
-              if ( !$stickyHeaders.hasClass('open') ) {
-                  $stickyHeaders.addClass('open');
-              }
+        var scrollTop = self.$compareTool.scrollTop(),
+            scrollLeft = self.$compareTool.scrollLeft();
 
-              var prop = 'top',
-                  value = offset + 'px';
-
-              $stickyHeaders.css( prop, value );
-
-          } else {
-              if ( $stickyHeaders.hasClass('open') ) {
-                  $stickyHeaders.removeClass('open');
-              }
+        if ( scrollTop >= offsetTop ) {
+          if ( !self.$stickyHeaders.hasClass('open') ) {
+            self.$stickyHeaders.addClass('open');
           }
+
+        } else {
+          if ( self.$stickyHeaders.hasClass('open') ) {
+            self.$stickyHeaders.removeClass('open');
+          }
+        }
+
+        // Reposition sticky headers on side scroll
+        if ( scrollLeft > 0 ) {
+          self.setStickyHeaderPos();
+        }
       });
+
 
       var now = new Date().getTime();
       self.setCompareRowHeights();
       console.log( (new Date().getTime() - now) / 1000, 'seconds passed calculating heights');
       self.$compareTool.find('.detail-label-group').addClass('complete');
+
+      return self;
     },
 
     onCompareClosed : function() {
       var self = this;
 
       if ( self.$compareTool.data('galleryId') !== self.id ) {
-          return;
+        return;
       }
 
       // Let the user scroll the page again
@@ -1210,6 +1223,8 @@
 
       // Remove resize event
       $(window).off('.comparetool');
+
+      return self;
     },
 
     onCompareReset : function() {
@@ -1217,7 +1232,7 @@
           state = self.compareState;
 
       if ( self.$compareTool.data('galleryId') !== self.id ) {
-          return;
+        return;
       }
 
       self.$compareCount.text( state.count );
@@ -1229,137 +1244,169 @@
       // Reset sort
 
       // Reset carousel
+
+      // Reset sticky headers
+      self.setStickyHeaderPos();
+
+      return self;
     },
 
     onCompareItemRemove : function( evt ) {
       console.log('onCompareItemRemove');
       var self = this,
           remaining;
-      $(evt.target).parent().addClass('hide');
+
+      // Hidet the column
+      $(evt.target).closest('.compare-item').addClass('hide');
+
+      // Make sure we can press reset
       self.$compareReset.removeClass('disabled');
+
+      // Get remaining
       remaining = self.$compareTool.find('.compare-item:not(.hide)').length;
+
+      // Set remaining text
       self.$compareCount.text( remaining );
 
+      // Hide close button if there are only 2 left
       if ( remaining < 3 ) {
-          self.$compareTool.find('.compare-item-remove').addClass('hide');
+        self.$compareTool.find('.compare-item-remove').addClass('hide');
       }
+
+      // Reposition sticky headers
+      self.setStickyHeaderPos();
+
+      return self;
+    },
+
+    setStickyHeaderPos : function() {
+      var self = this;
+
+      self.$stickyHeaders.each(function(i, el) {
+        var parentOffsetLeft = $(el).parent().offset().left;
+        el.style.position = 'fixed';
+        el.style.left = parentOffsetLeft + 'px';
+      });
+
+      return self;
     },
 
     setColumnMode : function() {
       var self = this;
 
       if ( self.mode !== 'detailed' ) {
-          // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
-          self.$grid.parent().addClass('grid5');
+        // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
+        self.$grid.parent().addClass('grid5');
 
-          // 5 columns that break down to 2 on smaller screens
-          self.shuffleColumns = function( containerWidth ) {
-              var column;
+        // 5 columns that break down to 2 on smaller screens
+        self.shuffleColumns = function( containerWidth ) {
+          var column;
 
-              // Large desktop ( 6 columns )
-              if ( Modernizr.mq('(min-width: 1200px)') ) {
-                  column = Exports.COLUMN_WIDTH_1200 * containerWidth;
+          // Large desktop ( 6 columns )
+          if ( Modernizr.mq('(min-width: 1200px)') ) {
+            column = Exports.COLUMN_WIDTH_1200 * containerWidth;
 
-              // Landscape tablet + desktop ( 5 columns )
-              } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                  column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
+          // Landscape tablet + desktop ( 5 columns )
+          } else if ( Modernizr.mq('(min-width: 980px)') ) {
+            column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
 
-              // Portrait Tablet ( 4 columns )
-              // } else if ( Modernizr.mq('(min-width: 768px)') ) {
-              //     column = Exports.COLUMN_WIDTH_768 * containerWidth;
+          // Portrait Tablet ( 4 columns )
+          // } else if ( Modernizr.mq('(min-width: 768px)') ) {
+          //   column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
-              // Between Portrait tablet and phone ( 3 columns )
-              } else if ( Modernizr.mq('(min-width: 481px)') ) {
-                  column = Exports.COLUMN_WIDTH_768 * containerWidth;
+          // Between Portrait tablet and phone ( 3 columns )
+          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+            column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
-              // Phone ( 2 columns )
-              } else {
-                  column = 0.48 * containerWidth; // 48% of container width
-              }
-
-
-              return column;
-          };
-
-          self.shuffleGutters = function( containerWidth ) {
-              var gutter,
-                  numColumns = 0;
-
-              // Large desktop ( 6 columns )
-              if ( Modernizr.mq('(min-width: 1200px)') ) {
-                  gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
-                  numColumns = 6;
-
-              // Landscape tablet + desktop ( 5 columns )
-              } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                  gutter = Exports.GUTTER_WIDTH * containerWidth;
-                  numColumns = 5;
-
-              // // Portrait Tablet ( 4 columns ) - masonry
-              } else if ( Modernizr.mq('(min-width: 768px)') ) {
-                  numColumns = 4;
-                  gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
-
-              // Between Portrait tablet and phone ( 3 columns )
-              } else if ( Modernizr.mq('(min-width: 481px)') ) {
-                  gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
-                  numColumns = 3;
+          // Phone ( 2 columns )
+          } else {
+            column = 0.48 * containerWidth; // 48% of container width
+          }
 
 
-              // Phone ( 2 columns )
-              } else {
-                  gutter = 0.02 * containerWidth; // 2% of container width
-                  numColumns = 2;
-              }
+          return column;
+        };
 
-              self.setColumns(numColumns);
+        self.shuffleGutters = function( containerWidth ) {
+          var gutter,
+              numColumns = 0;
 
-              return gutter;
+          // Large desktop ( 6 columns )
+          if ( Modernizr.mq('(min-width: 1200px)') ) {
+            gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
+            numColumns = 6;
 
-          };
+          // Landscape tablet + desktop ( 5 columns )
+          } else if ( Modernizr.mq('(min-width: 980px)') ) {
+            gutter = Exports.GUTTER_WIDTH * containerWidth;
+            numColumns = 5;
+
+          // // Portrait Tablet ( 4 columns ) - masonry
+          } else if ( Modernizr.mq('(min-width: 768px)') ) {
+            numColumns = 4;
+            gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+
+          // Between Portrait tablet and phone ( 3 columns )
+          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+            gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+            numColumns = 3;
+
+
+          // Phone ( 2 columns )
+          } else {
+            gutter = 0.02 * containerWidth; // 2% of container width
+            numColumns = 2;
+          }
+
+          self.setColumns(numColumns);
+
+          return gutter;
+        };
       } else {
-          // Use the default 12 column grid.
-          // Have to do more work here to get the right percentages for each breakpoint
+        // Use the default 12 column grid.
+        // Have to do more work here to get the right percentages for each breakpoint
 
-          self.shuffleColumns = function( containerWidth ) {
-              var column;
+        self.shuffleColumns = function( containerWidth ) {
+          var column;
 
-              if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
-                  column = Exports.COLUMN_WIDTH_768 * containerWidth;
+          if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
+            column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
-              } else if ( Modernizr.mq('(min-width: 1200px)') ) {
-                  column = Exports.COLUMN_WIDTH_1200 * containerWidth;
+          } else if ( Modernizr.mq('(min-width: 1200px)') ) {
+            column = Exports.COLUMN_WIDTH_1200 * containerWidth;
 
-              } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                  column = Exports.COLUMN_WIDTH_980 * containerWidth;
+          } else if ( Modernizr.mq('(min-width: 980px)') ) {
+            column = Exports.COLUMN_WIDTH_980 * containerWidth;
 
-              } else {
-                  column = containerWidth;
-              }
+          } else {
+            column = containerWidth;
+          }
 
-              return column;
-          };
+          return column;
+        };
 
-          self.shuffleGutters = function( containerWidth ) {
-              var gutter;
+        self.shuffleGutters = function( containerWidth ) {
+          var gutter;
 
-              if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
-                  gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+          if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
+            gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
 
-              } else if ( Modernizr.mq('(min-width: 1200px)') ) {
-                  gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
+          } else if ( Modernizr.mq('(min-width: 1200px)') ) {
+            gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
 
-              } else if ( Modernizr.mq('(min-width: 980px)') ) {
-                  gutter = Exports.GUTTER_WIDTH_980 * containerWidth;
+          } else if ( Modernizr.mq('(min-width: 980px)') ) {
+            gutter = Exports.GUTTER_WIDTH_980 * containerWidth;
 
-              } else {
-                  gutter = 0;
-              }
+          } else {
+            gutter = 0;
+          }
 
-              return gutter;
+          return gutter;
 
-          };
+        };
       }
+
+      return self;
     },
 
     setColumns : function( numColumns ) {
@@ -1376,102 +1423,103 @@
 
       // Large desktop ( 6 columns )
       if ( numColumns === 6 ) {
-          if ( !self.$grid.hasClass(shuffleDash+6) ) {
+        if ( !self.$grid.hasClass(shuffleDash+6) ) {
 
-              // add .grid5
-              self.$grid
-                  .removeClass(gridClasses)
-                  .addClass(shuffleDash+6)
-                  .parent()
-                  .removeClass(grid5);
+          // add .grid5
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+6)
+            .parent()
+            .removeClass(grid5);
 
 
-              self.$grid.children(itemSelector)
-                  .removeClass(allSpans) // Remove current grid span
-                  .filter(large) // Select large tiles
-                  .addClass(span+6) // Make them 6/12 width
-                  .end() // Go back to all items
-                  .filter(promo) // Select promo tiles
-                  .addClass(span+4) // Make them 4/12 width
-                  .end() // Go back to all items
-                  .not(largeAndPromo) // Select tiles not large nor promo
-                  .addClass(span+2); // Make them 2/12 width
-          }
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans) // Remove current grid span
+            .filter(large) // Select large tiles
+            .addClass(span+6) // Make them 6/12 width
+            .end() // Go back to all items
+            .filter(promo) // Select promo tiles
+            .addClass(span+4) // Make them 4/12 width
+            .end() // Go back to all items
+            .not(largeAndPromo) // Select tiles not large nor promo
+            .addClass(span+2); // Make them 2/12 width
+        }
 
       // Landscape tablet + desktop ( 5 columns )
       } else if ( numColumns === 5 ) {
-          if ( !self.$grid.hasClass(shuffleDash+5) ) {
+        if ( !self.$grid.hasClass(shuffleDash+5) ) {
 
-              // add .grid5
-              self.$grid
-                  .removeClass(gridClasses)
-                  .addClass(shuffleDash+5)
-                  .parent()
-                  .addClass(grid5);
+          // add .grid5
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+5)
+            .parent()
+            .addClass(grid5);
 
 
-              self.$grid.children(itemSelector)
-                  .removeClass(allSpans) // Remove current grid span
-                  .filter(large) // Select large tiles
-                  .addClass(span+3) // Make them 3/5 width
-                  .end() // Go back to all items
-                  .filter(promo) // Select promo tiles
-                  .addClass(span+2) // Make them 2/5 width
-                  .end() // Go back to all items
-                  .not(largeAndPromo) // Select tiles not large nor promo
-                  .addClass(span+1); // Make them 1/5 width
-          }
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans) // Remove current grid span
+            .filter(large) // Select large tiles
+            .addClass(span+3) // Make them 3/5 width
+            .end() // Go back to all items
+            .filter(promo) // Select promo tiles
+            .addClass(span+2) // Make them 2/5 width
+            .end() // Go back to all items
+            .not(largeAndPromo) // Select tiles not large nor promo
+            .addClass(span+1); // Make them 1/5 width
+        }
 
       // Portrait Tablet ( 4 columns ) - masonry
       } else if ( numColumns === 4 ) {
-          if ( !self.$grid.hasClass(shuffleDash+4) ) {
+        if ( !self.$grid.hasClass(shuffleDash+4) ) {
 
-              // Remove .grid5
-              self.$grid
-                  .removeClass(gridClasses)
-                  .addClass(shuffleDash+4)
-                  .parent()
-                  .removeClass(grid5);
+          // Remove .grid5
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+4)
+            .parent()
+            .removeClass(grid5);
 
 
-              self.$grid.children(itemSelector)
-                  .removeClass(allSpans) // Remove current grid span
-                  .filter(largeAndPromo) // Select large and promo tiles
-                  .addClass(span+6) // Make them half width
-                  .end() // Go back to all items
-                  .not(largeAndPromo) // Select tiles not large nor promo
-                  .addClass(span+3); // Make them quarter width
-          }
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans) // Remove current grid span
+            .filter(largeAndPromo) // Select large and promo tiles
+            .addClass(span+6) // Make them half width
+            .end() // Go back to all items
+            .not(largeAndPromo) // Select tiles not large nor promo
+            .addClass(span+3); // Make them quarter width
+        }
 
       // Between Portrait tablet and phone ( 3 columns )
       } else if ( numColumns === 3 ) {
-          if ( !self.$grid.hasClass(shuffleDash+3) ) {
+        if ( !self.$grid.hasClass(shuffleDash+3) ) {
 
-              // Remove .grid5, add .grid-small
-              self.$grid
-                  .removeClass(gridClasses)
-                  .addClass(shuffleDash+3 + ' grid-small')
-                  .parent()
-                  .removeClass(grid5);
+          // Remove .grid5, add .grid-small
+          self.$grid
+            .removeClass(gridClasses)
+            .addClass(shuffleDash+3 + ' grid-small')
+            .parent()
+            .removeClass(grid5);
 
-              // Remove current grid span
-              self.$grid.children(itemSelector)
-                  .removeClass(allSpans)
-                  .addClass(span+4);
-          }
+          // Remove current grid span
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans)
+            .addClass(span+4);
+        }
 
 
       // Phone ( 2 columns )
       } else if ( numColumns === 2 ) {
-          if ( !self.$grid.parent().hasClass(grid5) ) {
+        if ( !self.$grid.parent().hasClass(grid5) ) {
 
-              // add .grid5
-              self.$grid
-                  .removeClass(gridClasses)
-                  .parent()
-                  .addClass(grid5);
-          }
+          // add .grid5
+          self.$grid
+            .removeClass(gridClasses)
+            .parent()
+            .addClass(grid5);
+        }
       }
+      return self;
     },
 
     setCompareRowHeights : function() {
@@ -1482,37 +1530,39 @@
           nameMaxHeight = 0;
 
       $items.find('.product-name-wrap').each(function() {
-          var $this = $(this),
-              height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
+        var $this = $(this),
+            height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
 
-          if ( height > nameMaxHeight ) {
-            nameMaxHeight = height;
-          }
+        if ( height > nameMaxHeight ) {
+          nameMaxHeight = height;
+        }
       }).css('height', nameMaxHeight);
 
       // Set detail rows to even heights
       self.$compareTool.find('.detail-label').each(function(i) {
-          var $detailLabel = $(this),
-              maxHeight = parseFloat( $detailLabel.css('height') ) + parseFloat( $detailLabel.css('paddingTop') ),
-              $detail = $items.find('.detail:nth-child(' + (i + 1) + ')');
+        var $detailLabel = $(this),
+            maxHeight = parseFloat( $detailLabel.css('height') ) + parseFloat( $detailLabel.css('paddingTop') ),
+            $detail = $items.find('.detail:nth-child(' + (i + 1) + ')');
 
-          // Find all detail lines that have this "name"
-          $detail.each(function() {
-              var $this = $(this),
-                  height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
+        // Find all detail lines that have this "name"
+        $detail.each(function() {
+          var $this = $(this),
+              height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
 
-              if ( height > maxHeight ) {
-                maxHeight = height;
-              }
-          });
+          if ( height > maxHeight ) {
+            maxHeight = height;
+          }
+        });
 
-          $detail.add($detailLabel).css('height', maxHeight);
+        $detail.add($detailLabel).css('height', maxHeight);
       });
 
       // Set the top offset for the labels
       offset = $detailGroup.position().top;
       offset += parseFloat( $detailGroup.css('marginTop') );
       self.$compareTool.find('.detail-label-group').css('top', offset);
+
+      return self;
     }
 
   };

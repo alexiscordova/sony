@@ -1,5 +1,13 @@
 /*global jQuery, Modernizr, Exports*/
 
+// ------------ Sony Gallery ------------
+// Module: Gallery
+// Version: 1.0
+// Modified: 01/01/2013
+// Dependencies: jQuery 1.7+, Modernizr
+// Author: Glen Cheney
+// --------------------------------------
+
 (function($, Modernizr, window, undefined) {
 
   var Gallery = function( $container, options ) {
@@ -920,8 +928,7 @@
 
           // Clone sort button
           $sortOpts = self.$container.find('.sort-options').clone(),
-          isFixedHeader = false,
-          $stickyHeaders;
+          isFixedHeader = false;
 
       // Clone the product count
       self.$compareCountWrap = self.$container.find('.product-count-wrap').clone();
@@ -1031,15 +1038,15 @@
       $labelColumn.append( $labelGroup );
 
       // Animate sticky header
-      $stickyHeaders = $newItems.find('.compare-sticky-header');
-      $stickyHeaders.hover(function() {
-        $stickyHeaders.addClass('with-img');
+      self.$stickyHeaders = $newItems.find('.compare-sticky-header');
+      self.$stickyHeaders.hover(function() {
+        self.$stickyHeaders.addClass('with-img');
       }, function() {
-        $stickyHeaders.removeClass('with-img');
+        self.$stickyHeaders.removeClass('with-img');
       });
 
       // On window resize
-      $(window).on('resize.comparetool', function() {
+      $(window).on('smartresize.comparetool', function() {
         // Phone = sticky header
         if ( Modernizr.mq('(max-width: 480px)') ) {
 
@@ -1077,7 +1084,9 @@
           .find('.detail')
           .add(self.$compareTool.find('.product-name-wrap'))
           .css('height', '');
+
         self.setCompareRowHeights();
+        self.setStickyHeaderPos();
       });
 
       // Save state for reset
@@ -1124,8 +1133,7 @@
     onCompareShown : function() {
       var self = this,
           offsetTop = 0,
-          extra = 0,
-          $stickyHeaders = self.$compareTool.find('.compare-sticky-header');
+          extra = 0;
 
       // Don't let the user scroll - CAN'T SCROLL ANYTHING WITH THIS
       // $('body').on('wheel.modal mousewheel.modal', function () {
@@ -1133,35 +1141,41 @@
       // });
 
       // Position sticky headers
+      self.setStickyHeaderPos();
       offsetTop = self.$compareTool.find('.compare-item').first().offset().top;
       extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
       offsetTop += extra;
 
       // Scroll event for the takeover modal watches for when to show sticky headers
+      // TODO, opening compare modal when scrolled already throws off the scrollTop value
       self.$compareTool.on('scroll.comparetool', function() {
         var scrollTop = self.$compareTool.scrollTop(),
-            offset = (scrollTop - offsetTop) + extra - 1;
+            scrollLeft = self.$compareTool.scrollLeft();
+
         if ( scrollTop >= offsetTop ) {
-          if ( !$stickyHeaders.hasClass('open') ) {
-            $stickyHeaders.addClass('open');
+          if ( !self.$stickyHeaders.hasClass('open') ) {
+            self.$stickyHeaders.addClass('open');
           }
-
-          var prop = 'top',
-              value = offset + 'px';
-
-          $stickyHeaders.css( prop, value );
 
         } else {
-          if ( $stickyHeaders.hasClass('open') ) {
-            $stickyHeaders.removeClass('open');
+          if ( self.$stickyHeaders.hasClass('open') ) {
+            self.$stickyHeaders.removeClass('open');
           }
         }
+
+        // Reposition sticky headers on side scroll
+        if ( scrollLeft > 0 ) {
+          self.setStickyHeaderPos();
+        }
       });
+
 
       var now = new Date().getTime();
       self.setCompareRowHeights();
       console.log( (new Date().getTime() - now) / 1000, 'seconds passed calculating heights');
       self.$compareTool.find('.detail-label-group').addClass('complete');
+
+      return self;
     },
 
     onCompareClosed : function() {
@@ -1209,6 +1223,8 @@
 
       // Remove resize event
       $(window).off('.comparetool');
+
+      return self;
     },
 
     onCompareReset : function() {
@@ -1228,20 +1244,51 @@
       // Reset sort
 
       // Reset carousel
+
+      // Reset sticky headers
+      self.setStickyHeaderPos();
+
+      return self;
     },
 
     onCompareItemRemove : function( evt ) {
       console.log('onCompareItemRemove');
       var self = this,
           remaining;
-      $(evt.target).parent().addClass('hide');
+
+      // Hidet the column
+      $(evt.target).closest('.compare-item').addClass('hide');
+
+      // Make sure we can press reset
       self.$compareReset.removeClass('disabled');
+
+      // Get remaining
       remaining = self.$compareTool.find('.compare-item:not(.hide)').length;
+
+      // Set remaining text
       self.$compareCount.text( remaining );
 
+      // Hide close button if there are only 2 left
       if ( remaining < 3 ) {
         self.$compareTool.find('.compare-item-remove').addClass('hide');
       }
+
+      // Reposition sticky headers
+      self.setStickyHeaderPos();
+
+      return self;
+    },
+
+    setStickyHeaderPos : function() {
+      var self = this;
+
+      self.$stickyHeaders.each(function(i, el) {
+        var parentOffsetLeft = $(el).parent().offset().left;
+        el.style.position = 'fixed';
+        el.style.left = parentOffsetLeft + 'px';
+      });
+
+      return self;
     },
 
     setColumnMode : function() {
@@ -1358,6 +1405,8 @@
 
         };
       }
+
+      return self;
     },
 
     setColumns : function( numColumns ) {
@@ -1468,8 +1517,9 @@
             .removeClass(gridClasses)
             .parent()
             .addClass(grid5);
+        }
       }
-      }
+      return self;
     },
 
     setCompareRowHeights : function() {
@@ -1511,6 +1561,8 @@
       offset = $detailGroup.position().top;
       offset += parseFloat( $detailGroup.css('marginTop') );
       self.$compareTool.find('.detail-label-group').css('top', offset);
+
+      return self;
     }
 
   };
