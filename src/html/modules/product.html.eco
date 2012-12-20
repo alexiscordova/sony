@@ -60,6 +60,15 @@
           <% end %>
         </div>
       </div>
+      <% if @data.img && @data.img.colors: %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      </div>
+      <% else if @data.imgSmall && @data.imgSmall.colors: %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      </div>
+      <% end %>
     </div>
     <div class="product-content">
       <p class="p3 product-name"><%- @data.name %></p>
@@ -96,8 +105,8 @@
         </div>
       </div>
       <% if @data.img.colors: %>
-      <div class="color-swatches">
-        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %>" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
       </div>
       <% end %>
     </div>

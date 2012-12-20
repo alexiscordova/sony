@@ -812,6 +812,8 @@
                 sortObj = {},
                 sortedItems;
 
+            console.log( 'sortComparedItems', evt );
+
             evt.preventDefault();
 
             self.$compareTool.find('.js-toggle-text').text( $target.text() );
@@ -949,7 +951,8 @@
 
                 // Clone sort button
                 $sortOpts = self.$container.find('.sort-options').clone(),
-                isStickyHeader = false;
+                isFixedHeader = false,
+                $stickyHeaders;
 
             // Clone the product count
             self.$compareCountWrap = self.$container.find('.product-count-wrap').clone();
@@ -967,6 +970,8 @@
                     $swatches,
                     $div = $('<div/>');
 
+                // Create remove button, show detail group, remove label, remove product-meta,
+                // wrap name and model in a container (to set the height on), create fixed header clones
                 $item
                     .removeClass()
                     .addClass('span4 compare-item')
@@ -979,10 +984,23 @@
                     .remove()
                     .end()
                     .find('.product-meta')
-                    .remove();
+                    .remove()
+                    .end()
+                    .find('.product-name, .product-model')
+                    .wrapAll('<div class="product-name-wrap"/>')
+                    .end()
+                    .prepend('<div class="compare-sticky-header">');
 
+                // Remove and reattach the swatches to after the price
                 $swatches = $item.find('.product-img .color-swatches').detach();
                 $item.find('.product-price').after($swatches);
+
+                // Needed to detach swatches before cloning!
+                $item
+                    .find('.product-img, .product-name-wrap, .compare-item-remove')
+                    .clone(true) // true for compare item remove's functionality
+                    .appendTo( $item.find('.compare-sticky-header') );
+
 
                 // Create a new div with the same attributes as the anchor tag
                 // We no longer want the entire thing to be clickable
@@ -1003,16 +1021,7 @@
             });
 
             // Remove compare items on click
-            $newItems.find('.compare-item-remove').on('click', function() {
-                $(this).parent().addClass('hide');
-                self.$compareReset.removeClass('disabled');
-                var remaining = self.$compareTool.find('.compare-item:not(.hide)').length;
-                self.$compareCount.text( remaining );
-
-                if ( remaining < 3 ) {
-                    $newItems.find('.compare-item-remove').addClass('hide');
-                }
-            });
+            $newItems.find('.compare-item-remove').on('click', $.proxy( self.onCompareItemRemove, self ));
 
             // Set up sort events
             $sortOpts.find('.dropdown a').on('click', $.proxy( self.sortComparedItems, self ));
@@ -1026,9 +1035,10 @@
             // Intialize carousel
             // TODO
 
+            // Append the count, reset, and sort in the right spots
             // Phone = sticky header
             if ( Modernizr.mq('(max-width: 480px)') ) {
-                isStickyHeader = true;
+                isFixedHeader = true;
 
                 var $subheader = $('<div class="modal-subheader clearfix">');
                 $subheader.append( self.$compareCountWrap, self.$compareReset, $sortOpts );
@@ -1051,14 +1061,22 @@
             }
             $labelColumn.append( $labelGroup );
 
+            // Animate sticky header
+            $stickyHeaders = $newItems.find('.compare-sticky-header');
+            $stickyHeaders.hover(function() {
+                $stickyHeaders.addClass('with-img');
+            }, function() {
+                $stickyHeaders.removeClass('with-img');
+            });
+
             // On window resize
             $(window).on('resize.comparetool', function() {
                 // Phone = sticky header
                 if ( Modernizr.mq('(max-width: 480px)') ) {
 
                     // Setup sticky header
-                    if ( !isStickyHeader ) {
-                        isStickyHeader = true;
+                    if ( !isFixedHeader ) {
+                        isFixedHeader = true;
                         var $subheader = $('<div class="modal-subheader clearfix">');
                         $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
 
@@ -1072,8 +1090,8 @@
                 // Larger than phone
                 } else {
 
-                    if ( isStickyHeader ) {
-                        isStickyHeader = false;
+                    if ( isFixedHeader ) {
+                        isFixedHeader = false;
                         // Append sort dropdown
                         $header.append( self.$compareReset.detach(), $sortOpts.detach() );
 
@@ -1086,7 +1104,10 @@
                     }
                 }
 
-                self.$compareTool.find('.detail').css('height', '');
+                self.$compareTool
+                  .find('.detail')
+                  .add(self.$compareTool.find('.product-name-wrap'))
+                  .css('height', '');
                 self.setCompareRowHeights();
             });
 
@@ -1129,15 +1150,49 @@
             $content.width( contentWidth );
             // $content.width( $newItems.length * itemWidth );
 
-
         },
 
         onCompareShown : function() {
-            var self = this;
+            var self = this,
+                offsetTop = 0,
+                extra = 0,
+                $stickyHeaders = self.$compareTool.find('.compare-sticky-header');
+
+            // Don't let the user scroll - CAN'T SCROLL ANYTHING WITH THIS
+            // $('body').on('wheel.modal mousewheel.modal', function () {
+            //   return false;
+            // });
+
+            // Position sticky headers
+            offsetTop = self.$compareTool.find('.compare-item').first().offset().top;
+            extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
+            offsetTop += extra;
+
+            // Scroll event for the takeover modal watches for when to show sticky headers
+            self.$compareTool.on('scroll.comparetool', function() {
+                var scrollTop = self.$compareTool.scrollTop(),
+                    offset = (scrollTop - offsetTop) + extra - 1;
+                if ( scrollTop >= offsetTop ) {
+                    if ( !$stickyHeaders.hasClass('open') ) {
+                        $stickyHeaders.addClass('open');
+                    }
+
+                    var prop = 'top',
+                        value = offset + 'px';
+
+                    $stickyHeaders.css( prop, value );
+
+                } else {
+                    if ( $stickyHeaders.hasClass('open') ) {
+                        $stickyHeaders.removeClass('open');
+                    }
+                }
+            });
 
             var now = new Date().getTime();
             self.setCompareRowHeights();
             console.log( (new Date().getTime() - now) / 1000, 'seconds passed calculating heights');
+            self.$compareTool.find('.detail-label-group').addClass('complete');
         },
 
         onCompareClosed : function() {
@@ -1146,6 +1201,9 @@
             if ( self.$compareTool.data('galleryId') !== self.id ) {
                 return;
             }
+
+            // Let the user scroll the page again
+            // $('body').off('wheel.modal mousewheel.modal');
 
             // Delete the id from memory
             self.$compareTool.removeData('galleryId');
@@ -1157,6 +1215,7 @@
             // TODO
 
             // Empty out html
+            // Remove scroll event
             self.$compareTool
               .find('.modal-body')
               .empty()
@@ -1165,7 +1224,9 @@
               .remove()
               .end()
               .find('#compare-tool-label')
-              .text( self.compareState.label );
+              .text( self.compareState.label )
+              .end()
+              .off('.comparetool');
 
             // Set count to zero
             self.$compareCount.text(0);
@@ -1175,6 +1236,7 @@
 
             // Set state to null
             self.compareState = null;
+
 
             // Remove resize event
             $(window).off('.comparetool');
@@ -1197,6 +1259,20 @@
             // Reset sort
 
             // Reset carousel
+        },
+
+        onCompareItemRemove : function( evt ) {
+            console.log('onCompareItemRemove');
+            var self = this,
+                remaining;
+            $(evt.target).parent().addClass('hide');
+            self.$compareReset.removeClass('disabled');
+            remaining = self.$compareTool.find('.compare-item:not(.hide)').length;
+            self.$compareCount.text( remaining );
+
+            if ( remaining < 3 ) {
+                self.$compareTool.find('.compare-item-remove').addClass('hide');
+            }
         },
 
         setColumnMode : function() {
@@ -1432,7 +1508,17 @@
             var self = this,
                 $items = self.$compareTool.find('.compare-item'),
                 $detailGroup = $items.find('.detail-group').first(),
-                offset = 0;
+                offset = 0,
+                nameMaxHeight = 0;
+
+            $items.find('.product-name-wrap').each(function() {
+                var $this = $(this),
+                    height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
+
+                if ( height > nameMaxHeight ) {
+                    nameMaxHeight = height;
+                }
+            }).css('height', nameMaxHeight);
 
             // Set detail rows to even heights
             self.$compareTool.find('.detail-label').each(function(i) {

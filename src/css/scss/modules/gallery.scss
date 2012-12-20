@@ -17,6 +17,10 @@
     color: $grayDark;
   }
 
+  .product-model {
+    color: $gray;
+  }
+
   .price-title {
     margin: 0;
   }
@@ -711,7 +715,7 @@ $detailedGalleryItemHeight: 480px;
 // Compare Tool
 // -------------------------
 .compare-container {
-  padding: 15px 0;
+  padding: 1.875em 0 5em;
 }
 
 .compare-item {
@@ -720,16 +724,19 @@ $detailedGalleryItemHeight: 480px;
   background: $white;
   color: $grayDark;
 
-  .product-name {
-    height: 40px;
+  .product-content .product-name-wrap,
+  .product-rating,
+  .product-price,
+  .color-swatches {
+    margin-bottom: 1.25em;
   }
 
   .product-content {
     padding: 0 1.25em;
   }
 
-  .detail-group {
-    margin-top: 1.25em;
+  .product-model {
+    color: $gray;
   }
 }
 
@@ -739,6 +746,14 @@ $detailedGalleryItemHeight: 480px;
 
 .detail-label-group {
   position: absolute;
+  margin-left: -10px;
+  @include opacity(0);
+  @include transition(opacity $transitionNormal $easeNormal, margin $transitionNormal $easeNormal);
+
+  &.complete {
+    margin-left: 0;
+    @include opacity(100);
+  }
 }
 
 .compare-container .detail {
@@ -750,6 +765,48 @@ $detailedGalleryItemHeight: 480px;
 // Make labels have a darker border
 .compare-container .detail-label {
   border-color: $grayLight;
+}
+
+// Sticky header
+.compare-sticky-header {
+  position: absolute; // will be changed to fixed with js after the `left` is measured
+  z-index: 10;
+  top: 0;
+  left: -9999px;
+  width: inherit; // position fixed not inheriting correct width?...
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  background: $grayLightFieldLarge;
+  -webkit-transform: translate(0, -100px);
+          transform: translate(0, -100px);
+  @include box-shadow(0 2px 5px 0 $transparentBlack);
+  -webkit-transition: opacity $transitionNormal $easeNormal, -webkit-transform $transitionNormal $easeNormal;
+          transition: opacity $transitionNormal $easeNormal, transform $transitionNormal $easeNormal;
+
+  // Make sticky header visible
+  &.open {
+    left: 0; // Show it
+    padding: 1em 0; // Some padding
+    max-height: 800px;
+    opacity: 1; // Fade in
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0); // Slide down
+  }
+
+  .product-name-wrap {
+    padding: 0 1.25em;
+  }
+
+  .product-img {
+    max-height: 0;
+    overflow: hidden;
+    @include transition(max-height $transitionNormal $easeNormal);
+  }
+
+  &.with-img .product-img {
+    max-height: 400px; // arbitrary number that will be larger than the image
+  }
 }
 
 .compare-item-remove {
