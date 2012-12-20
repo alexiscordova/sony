@@ -92,11 +92,11 @@
       t.$slides = t.$el.find('.ssContent');
       t.$gridW = t.$el.find('.ss-grid').eq(0);
 
-      t.numSlides  = t.$slides;
+      t.numSlides  = t.$slides.length;
       t.previousId = -1;
       t.currentId = 0;
       t.slidePosition = 0;
-      t.animationSpeed = 400; //ms
+      t.animationSpeed = 700; //ms
       t.slideCount = 0;
       t.isFreeDrag = false; //MODE: TODO
       t.currentContainerWidth = 0;
@@ -145,8 +145,59 @@
           }, t.throttleTime);          
       });
 
+      t.tapOrClick = function(){
+        return t.hasTouch ? 'touchend' : 'click'; 
+      }
+
+      t.ev.on('ssOnUpdateNav', function() {
+        var id = t.currentId,
+          currItem,
+          prevItem;
+        if(t.prevNavItem) {
+          t.prevNavItem.removeClass('ssNavSelected');
+        }
+        currItem = $(t.controlNavItems[id]);
+
+        currItem.addClass('ssNavSelected');
+        t.prevNavItem = currItem;
+      });
+      
+
+     function createNavigation(){
+        var itemHTML = '<div class="ssNavItem ssBullet"></div>';
+        
+        //t.controlNavEnabled = true;
+        //t.$container.addClass('ssWithBullets');
+        var out = '<div class="ssNav ssBullets">';
+        for(var i = 0; i < t.numSlides; i++) {
+          out += itemHTML;
+        }
+        out += '</div>';
+        out = $(out);
+        t.controlNav = out;
+        t.controlNavItems = out.children();
+        t.$el.append(out);
+
+        t.controlNav.on( t.tapOrClick() , function(e) {
+          var item = $(e.target).closest('.ssNavItem');
+          if(item.length) {
+            t.currentId = item.index();
+            t.moveTo();
+          }
+        }); 
+
+      }
+
+      createNavigation();
+
       //set initial heights
-      t.$win.trigger('resize.soc');
+      t.$win.trigger('resize.soc');   
+      t.ev.trigger('ssOnUpdateNav');
+
+      setTimeout(function(){
+        t.gotoSlide(1);
+      } , 500);
+
     }//
 
     SonyOneCarousel.prototype = {
@@ -158,7 +209,7 @@
         t.$container.css('height' , newH );
         t.$slides.css( 'height' ,  newH );
 
-        console.log("Container set height »", t.$container.length , newH);
+        //console.log("Container set height »", t.$container.length , newH);
       },
 
       _updateSlides: function(){
@@ -208,6 +259,8 @@
       },
 
       moveTo: function(type,  speed, inOutEasing, userAction, fromSwipe){
+         window.iQ.update();
+
         var t = this,
             newPos = -t.currentId * t.$gridW.width(),
             diff,
@@ -232,7 +285,7 @@
   
           t.$containerInner.css( animObj );  
 
-          console.log("MOVING? »", animObj);
+          //console.log("MOVING? »", animObj);
 
           //IQ Update
           t.$containerInner.one($.support.transition.end , function(){
@@ -244,7 +297,7 @@
         //update the overall position
         t.sPosition = t.currRenderPosition = newPos;
 
-        //t.ev.trigger('rpOnUpdateNav');
+        t.ev.trigger('ssOnUpdateNav');
 
 
         //console.log(t.ev , ' <---- events object');
@@ -254,6 +307,11 @@
 
     };
 
+    $.ssCSS3Easing = {
+        //add additional ease types here
+        easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
+        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)'
+    };
 
     $.fn.sonyOneCarousel = function(options) {      
       var args = arguments;
