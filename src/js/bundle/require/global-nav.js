@@ -86,7 +86,7 @@
 
                 var $oldNavTarget = $("." + t.$currentOpenNavBtn.data("target"));
 
-                if ($oldNavTarget.hasClass("navtray-wrapper")){
+                if ($oldNavTarget.hasClass("navtray-w")){
                   // if the open target was a navtray, delay opening the new one until the old tray has a chance to close.
                   setTimeout(function(){
                     t.setActivePrimaryNavBtn($thPrimaryNavBtn);
@@ -134,7 +134,7 @@
       if ($oldNavBtn.data("target").length){
         var $thNavTarget = $("." + $oldNavBtn.data("target"));
 
-        if ($thNavTarget.hasClass("navtray-wrapper")){
+        if ($thNavTarget.hasClass("navtray-w")){
           t.slideNavTray($thNavTarget,false);
         } else {
           $(".navmenu-wrapper-visible").removeClass("navmenu-wrapper-visible");
@@ -175,9 +175,9 @@
             .one(t.transitionEnd, onNavTrayComplete);
 
             if (opening){
-              $navTray.addClass("navtray-wrapper-visible");
+              $navTray.addClass("navtray-w-visible");
             } else {
-              $navTray.removeClass("navtray-wrapper-visible");
+              $navTray.removeClass("navtray-w-visible");
             }
 
         },1);
@@ -208,7 +208,7 @@
       if ($newNavBtn.data("target").length){
         var $thNavTarget = $("." + $newNavBtn.data("target"));
         // figure out if this is a tray or menu.
-        if ($thNavTarget.hasClass("navtray-wrapper")){
+        if ($thNavTarget.hasClass("navtray-w")){
           // Tray-style
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
