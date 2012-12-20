@@ -7,7 +7,7 @@
 // ----------
 // This has been modified just for Sony Global Nav.
 // If you need to use the regular Bootstrap nav module, use simple-nav.
-.nav-wrapper .navbar .nav {
+.nav {
   // position: relative;
   z-index:100;
   left: 0;
@@ -21,14 +21,11 @@
     float: right;
   }
   // Space them out when they follow another list item (link)
-  li + .nav-header {
+  > li + .nav-header {
     margin-top: 9px;
   }
 
-  &.nav-utility {
-    float: right; // redeclare due to specificity
-    margin-right: 0; // remove margin on float right nav
-  }
+
   > li {
     float: left;
     line-height:0.65em * $baseLineHeight;
@@ -38,22 +35,23 @@
       display:block;
       position:absolute;
       bottom:0;
-      width:100%;
+      width: 92%;
+      margin-left:11px;
 
       border-color: $blue;
       border-style: solid;
       border-top-width: 0px;
 
-      @include transition(border-top-width $transitionFast linear 0);
-    }
+      @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayOpenSpeed * 0.3));
 
+      &.for-navtray-short{
+        @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayShortOpenSpeed * 0.3));        
+      }
+    }
     &.nav-li-selected .global-nav-indicator-bar{
-      border-top-width: 5px;
+      border-top-width: 4px;
     }
 
-
-
-    // Links
     > a {
       display: block;
       float: none;
@@ -68,7 +66,8 @@
         color: $navbarLinkColorHover;
         text-decoration: none;
       }
-    }
+    } // .nav > li > a
+
 
     // Active nav items
     &.active > a,
@@ -90,80 +89,120 @@
       margin-right:2px;
       margin-left:2px;
     }
+  }
+
+  &.nav-utility {
+    float: right; // redeclare due to specificity
+    margin-right: 0; // remove margin on float right nav
+
+// Most of this stuff is in _responsive-navbar.
+    > li > a{
+      &.btn-nav-block{
+        width: auto;
+        font-family: $sansFontFamilyMedium;
+      }
+    }
+  } // .nav-utility
+
+  > li {
     &#nav-li-favorites{
       > a {
-        height: 19px;
-        padding: 3px;
-        margin: 22px 0px 24px 2px;
         > i {
-          display: block;
         }
       }
     }
     &#nav-li-cart{
       > a {
-        height:22px;
-        margin:19px 4px 23px 2px;
-        padding-top:3px;
-        line-height: 1.1;
-        font-size: $font_13_16;
         font-family: $sansFontFamilyBold;
-        > i.icon-ui-cart {
-          margin-right: 3px;
-          margin-top: 2px;
+      }
+    }
+    &#nav-li-search{
+      > a {
+        background-color: $navbarTertiaryColor;
+        border-color: $navbarTertiaryColor;
+        @include border-radius(1px);
+        &:hover{
+          background-color: lighten($navbarTertiaryColor,5%);
+          border-color: lighten($navbarTertiaryColor,5%);
+        }
+        > i.icon-ui-search {
+          display: block;
+          float: left;
         }
       }
     }
     &#nav-li-universal{
       > a {
-        width: auto;
-        margin: 13px 4px 14px 6px;
-        padding: 5px 13px 7px 16px;
-        line-height: 23px;
-        font-size: $font_13_16;
-        background-color: $navbarTertiaryColor;
-        border-color: $navbarTertiaryColor;
-        &:hover{
-          background-color: lighten($navbarTertiaryColor,5%);
-          border-color: lighten($navbarTertiaryColor,5%);
-        };
-        > i.icon-ui-plus-tiny {
-          margin: 5px 0 0 12px;
-        }
-      }
-    }
-    &#nav-li-search{
-      > a {
-        width: 51px;
-        height: 37px;
-        overflow: visible;
-        margin: 13px 4px 14px 4px;
-        padding:0;
-        background-color: $navbarBackground;
-        border: solid 2px $navbarTertiaryColor;
-        line-height:1;
+        background-color: $navbarBackground; 
+        border-color: $navbarBackground; 
         @include border-radius(1px);
         &:hover{
-          background-color: lighten($navbarBackground,10%);
-        };
-        > i.icon-ui-search {
-          display: block;
-          float: left;
-          margin: 10px 8px 10px 10px;
+          background-color: $navbarTertiaryColor;
+          border-color: $navbarTertiaryColor;
         }
-      }
-      &.nav-li-selected{
-        > a {
-          background:$linkColor;
-          border-color:$linkColor;
+        > i.icon-ui-plus-tiny {
         }
       }
     }
-  } // end li
-} // end .nav
+  } // .nav > li
+} // .nav
 
 
-// BELOW AREN'T TOUCHED YET
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// **************************************************************************************************
+// **************************************************************************************************
+// **************************************************************************************************
+// **************************************************************************************************
+// **************************************************************************************************
+// **************************************************************************************************
+// BELOW AREN'T TOUCHED YET - might be able to just delete
+// **************************************************************************************************
+// **************************************************************************************************
+// **************************************************************************************************
+// **************************************************************************************************
+// **************************************************************************************************
+// **************************************************************************************************
 
 // Right aligned menus need alt position
 // **still inside of .navbar**

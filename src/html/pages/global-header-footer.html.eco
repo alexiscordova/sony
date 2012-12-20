@@ -21,7 +21,7 @@
 	<body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">
 
 <!-- include your module markup templates here -->
-		<%-@partial('modules/global_header.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
+		<%-@partial('modules/global_header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
 
 <% if 'debug' in @getEnvironments():%>
 		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
