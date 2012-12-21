@@ -137,7 +137,7 @@
         if ($thNavTarget.hasClass("navtray-w")){
           t.slideNavTray($thNavTarget,false);
         } else {
-          $(".navmenu-wrapper-visible").removeClass("navmenu-wrapper-visible");
+          $(".navmenu-w-visible").removeClass("navmenu-w-visible");
         }
       }
     },
@@ -219,14 +219,13 @@
       }
     },
 
-
     // ***********************************
     // SEARCH MENU
     // ***********************************
     initSearchMenu: function(){
       var t = this;
       t.$root = $("#nav-li-search"),
-      t.$wrapper = t.$root.find(".navmenu-wrapper-search");
+      t.$wrapper = t.$root.find(".navmenu-w-search");
       t.$input = $("#navSearch"),
       t.$clearBtn = t.$root.find(".btn-clear-search-input"),
       t.$searchIcon = $(".sprite-mini-nav-search-input");
@@ -294,7 +293,6 @@
       var t = this;
       t.clearSearchResults();
     }
-
   };
 
   // Plugin definition
@@ -331,3 +329,5 @@
 
 
 $(".nav-wrapper").globalNav();
+
+

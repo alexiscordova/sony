@@ -12,6 +12,7 @@
 // Core variables and mixins
 @import "_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "_base/mixins";
+@import "_base/sprites";
 
 // CSS Reset
 @import "_base/reset";
@@ -33,7 +34,6 @@
 @import "_components/alerts"; // Note: alerts share common CSS with buttons and thus have styles in buttons
 
 // Components: common
-@import "_base/sprites";
 @import "_base/swatches";
 @import "_components/dropdowns";
 @import "_base/wells";
@@ -68,6 +68,8 @@
 // Utility classes
 @import "_base/utilities"; // Has to be last to override when necessary
 
+// Hires DPI
+@import "_responsive/retina";
 
 // Debug classes
 @import "_debug/debug-media-query-bar";

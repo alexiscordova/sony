@@ -62,27 +62,31 @@
             </ul>
             <ul class="nav nav-utility">
               <li id="nav-li-account">
-                  <a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navmenu-wrapper-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
+                  <a class="nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navmenu-w-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
 
-                        <div class="navmenu-wrapper navmenu-wrapper-account Xlogged-inX">
+                        <div class="navmenu-w navmenu-w-account logged-in">
                             <i class="sprite-mini-global-nav-indicator"></i>
                             <a href="#" class="btn btn-login">Log in</a>
-                        <ul class="navmenu-list-main">
-                            <li id="navmenu-li-account"><a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a></li>
-                            <li id="navmenu-li-orders"><a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a></li>
-                            <li id="navmenu-li-newsletter"><a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a></li>
-                            <li id="navmenu-li-registered-products"><a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a></li>
+                        <ul class="navmenu-list navmenu-list-prefixed">
+                            <li class="navmenu-line" id="navmenu-li-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="cart-count">2</span></a></li>
+                            <li class="navmenu-line" id="navmenu-li-favorites"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
+                        </ul>
+                        <ul class="navmenu-list navmenu-list-main">
+                            <li class="navmenu-line" id="navmenu-li-account"><a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a></li>
+                            <li class="navmenu-line" id="navmenu-li-orders"><a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a></li>
+                            <li class="navmenu-line" id="navmenu-li-newsletter"><a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a></li>
+                            <li class="navmenu-line" id="navmenu-li-registered-products"><a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a></li>
                         </ul>
                             <a href="#" class="btn btn-logout">Sign Out</a>
-                      </div><!-- end #navmenu-wrapper-account -->
+                      </div><!-- end #navmenu-w-account -->
 
               </li>
               <li id="nav-li-favorites"><a class="btn-nav-iconed iconTrigger-ui-favorite" data-target="navtray-w-favorites" href="#"><i class="icon-ui-favorite"></i><span class="visuallyhidden">Favorites</span></a></li>
-              <li id="nav-li-cart"><a class="btn-nav-iconed iconTrigger-ui-cart disabled" data-target="navtray-w-cart" href="#"><i class="icon-ui-cart"></i>5</a></li>
+              <li id="nav-li-cart"><a class="btn-nav-iconed iconTrigger-ui-cart disabled" data-target="navtray-w-cart" href="#"><i class="icon-ui-cart"></i>2</a></li>
               <li id="nav-li-search">
-                  <a class="btn-nav-block nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search" data-target="navtray-w-search" href="#">Search<i class="icon-ui-search"></i></a>
+                  <a class="btn-nav-block nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search" data-target="navtray-w-search" href="#"><span class="navtray-label">Search</span><i class="icon-ui-search"></i></a>
 
-                        <div class="navmenu-wrapper navmenu-wrapper-search Xsearching">
+                        <div class="navmenu-w navmenu-w-search Xsearching">
                        <i class="sprite-mini-global-nav-indicator"></i>                            
                             <i class="sprite-mini-nav-search-input"></i>
                             <form method="post" action="" class="navmenu-search-section-input">
@@ -92,18 +96,18 @@
                         <div class="navmenu-search-section-results">
                             <div class="navmenu-search-popular-searches">
                                 <p class="l3">Popular Searches</p>
-                                <ul class="navmenu-list-extended">
-                                    <li><a href="#" class="tl">Laptops </a></li>
-                                    <li><a href="#" class="tl">VAIO</a></li>
-                                    <li><a href="#" class="tl">Headphones</a></li>
-                                    <li><a href="#" class="tl">PSP</a></li>
-                                    <li><a href="#" class="tl">Playstation</a></li>
-                                    <li><a href="#" class="tl">NEX</a></li>
+                                <ul class="navmenu-list navmenu-list-extended">
+                                    <li class="search-result-line"><a href="#" class="tl">Laptops </a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">VAIO</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">Headphones</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">PSP</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">Playstation</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">NEX</a></li>
                                 </ul>
                               </div>
                               <div class="navmenu-search-results">
-                                <ul class="navmenu-list-results">
-                                    <li>
+                                <ul class="navmenu-list navmenu-list-results">
+                                    <li class="search-result-line">
                                         <a href="#">
                                             <img src="img/global/global-nav/search-results-images/nex-6.png" alt="α NEX-6" width="83" height="64">
                                             <span class="search-result-p">
@@ -113,7 +117,7 @@
                                             <i class="icon-ui2-chevron-18-blue"></i>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="search-result-line">
                                         <a href="#">
                                             <img src="img/global/global-nav/search-results-images/nex-5.png" alt="α NEX-5" width="83" height="64">
                                             <span class="search-result-p">
@@ -123,7 +127,7 @@
                                             <i class="icon-ui2-chevron-18-blue"></i>
                                         </a>
                                     </li>
-                                    <li class="search-result-canned">
+                                    <li class="search-result-line search-result-canned">
                                         <a href="#">
                                             <i class="icon-uibig-support"></i>
                                             <span class="search-result-p">
@@ -134,10 +138,10 @@
                                     </li>
                                 </ul>
                                 <ul class="navmenu-list-extended">
-                                    <li><a href="#" class="tl">α NEX-3</a></li>
-                                    <li><a href="#" class="tl">α NEX Accessories</a></li>
-                                    <li><a href="#" class="tl">α NEX Lenses</a></li>
-                                    <li><a href="#" class="tl">α NEX</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">α NEX-3</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">α NEX Accessories</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">α NEX Lenses</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">α NEX</a></li>
                                 </ul>
                                     <a href="#" class="btn btn-show-all-results">Show All Results</a>
                                 </div>
