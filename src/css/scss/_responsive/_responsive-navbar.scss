@@ -21,21 +21,29 @@
 // -----------------------------------------
 
 .nav{
-  > li > a{
-    line-height:$navbarLineHeight;
-    padding: 0 6px;
-    margin: 10px 9px 14px 9px;
-    font-size:$font_15_16;
+  > li {
 
-    &.nav-dropdown-toggle-text{
-      padding-right: 3px;
-      margin-right: 3px;
-      .icon-ui-arrowhead-down-gray{
-        margin-left: 8px;
-        margin-top: 11px;
-      }
+    .global-nav-indicator-bar{
+      margin-left:11px;
     }
-  }
+
+    > a{
+      line-height:$navbarLineHeight;
+      padding: 0 6px;
+      margin: 10px 9px 14px 9px;
+      font-size:$font_15_16;
+
+      &.nav-dropdown-toggle-text{
+        padding-right: 3px;
+        margin-right: 3px;
+        .icon-ui-arrowhead-down-gray{
+          margin-left: 8px;
+          margin-top: 11px;
+        }
+      }
+    } // > a
+  } // > li
+
   &.nav-primary{
     margin-left:3%;
   }
@@ -379,6 +387,12 @@
   @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
   .sprite-reg-nav-sony-logo{
     margin-top:18px;
+  }
+}
+
+.nav > li {
+  .global-nav-indicator-bar{
+    margin-left:3px;
   }
 }
 
