@@ -5,26 +5,26 @@
   overflow: visible;
 }
 
-/* line 6, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ssContainer {
-  /* background: #c74bba; */
+/* line 7, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-container {
   width: 100%;
-  /* height: 400px; //just to see it*/
   overflow: hidden;
   position: relative;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* line 14, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ssContainer-inner {
+.soc-container-inner {
   width: 100%;
   display: block;
   position: absolute;
   top: 0;
   left: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* line 23, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ssNav.ssBullets {
+/* line 24, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-nav.soc-bullets {
   position: absolute;
   z-index: 35;
   left: 0;
@@ -32,69 +32,47 @@
   width: 100%;
   height: auto;
   margin: 0 auto;
-  /*       background: #000;
-        background: rgba(0, 0, 0, 0.75); */
   text-align: center;
   line-height: 18px;
   overflow: hidden;
-  /*  visibility: hidden; */
 }
-/* line 40, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ssNav .ssBullet {
+/* line 37, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-nav .soc-bullet {
   width: 10px;
   height: 10px;
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  margin: 5px 0 0 5px;
+  margin: 5px 0 0 6px;
   border-radius: 5px;
   background: #bdbccc;
   cursor: pointer;
   position: relative;
   overflow: hidden;
 }
-/* line 54, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ssNav .ssBullet.ssNavSelected {
+/* line 51, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-nav .soc-bullet.soc-nav-selected {
   background-color: #2e3339;
 }
 
-/* line 61, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ssContent {
-  /* background: #d1ed17; */
+/* line 56, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-content {
   width: 100%;
   display: block;
   position: absolute;
   top: 0;
   left: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
 }
 
-/* line 71, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.span1 {
-  background: black;
-}
-
-/* line 76, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.span3 {
-  background: #ed179f;
-}
-
-/* line 81, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.span2 {
-  background: #348ce6;
-}
-
-/* line 86, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.span5 {
-  background: #2cee23;
-}
-
-/* line 91, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.grid {
+/* line 66, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-grid {
   max-width: 1400px;
 }
 
-/* line 95, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ss-item {
+/* line 70, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-item {
   position: relative;
   display: block;
   height: 100%;
@@ -102,14 +80,8 @@
   background-position: center center;
 }
 
-/* 
-  .ss-item:after {
-    content: '';
-    display: block;
-    padding-top: 42.488888888889%;
-  } */
-/* line 109, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ss-item-inner {
+/* line 78, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-item-inner {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -117,24 +89,21 @@
   right: 0;
 }
 
-/* line 117, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ss-item img {
+/* line 86, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-item img {
   display: block;
   max-height: 100%;
   max-width: 100%;
   margin: auto;
 }
 
-/* line 124, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ss-grid {
+/* line 93, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-grid {
   padding: 0 120px 0 120px;
   height: 100%;
 }
 
-/*ratio 
- 42.488888888889%;
-*/
-/* line 131, ../../../../src/css/scss/modules/sony_one_carousel.scss */
-.ss-grid [class*="span"] {
+/* line 98, ../../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-grid [class*="span"] {
   margin-left: 2.06835%;
 }
