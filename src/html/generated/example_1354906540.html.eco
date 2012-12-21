@@ -1,0 +1,35 @@
+---
+title: example_1354906540
+description: This module page was generated from the module builder
+---
+
+
+<!DOCTYPE html>
+<!--[if lt IE 8 ]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+	<head>
+		<%-@partial('includes/meta.html')%>
+
+<% if 'debug' in @getEnvironments():%> 
+		<%-@partial('includes/css_debug.html.eco', {this: this})%>
+<% else: %>
+		<%-@partial('includes/css_deploy.html')%>
+<% end %>
+
+		<%-@partial('includes/js_head.html')%>	
+		
+	</head>
+	<body>
+
+<%-@partial('modules/example.html.hb', @, @data('example/default.json'))%>
+
+<% if 'debug' in @getEnvironments():%>
+		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
+<% else: %>
+		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
+<% end %>
+
+	</body>
+</html>

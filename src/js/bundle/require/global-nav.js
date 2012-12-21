@@ -86,7 +86,7 @@
 
                 var $oldNavTarget = $("." + t.$currentOpenNavBtn.data("target"));
 
-                if ($oldNavTarget.hasClass("navtray-wrapper")){
+                if ($oldNavTarget.hasClass("navtray-w")){
                   // if the open target was a navtray, delay opening the new one until the old tray has a chance to close.
                   setTimeout(function(){
                     t.setActivePrimaryNavBtn($thPrimaryNavBtn);
@@ -134,10 +134,10 @@
       if ($oldNavBtn.data("target").length){
         var $thNavTarget = $("." + $oldNavBtn.data("target"));
 
-        if ($thNavTarget.hasClass("navtray-wrapper")){
+        if ($thNavTarget.hasClass("navtray-w")){
           t.slideNavTray($thNavTarget,false);
         } else {
-          $(".navmenu-wrapper-visible").removeClass("navmenu-wrapper-visible");
+          $(".navmenu-w-visible").removeClass("navmenu-w-visible");
         }
       }
     },
@@ -175,9 +175,9 @@
             .one(t.transitionEnd, onNavTrayComplete);
 
             if (opening){
-              $navTray.addClass("navtray-wrapper-visible");
+              $navTray.addClass("navtray-w-visible");
             } else {
-              $navTray.removeClass("navtray-wrapper-visible");
+              $navTray.removeClass("navtray-w-visible");
             }
 
         },1);
@@ -208,7 +208,7 @@
       if ($newNavBtn.data("target").length){
         var $thNavTarget = $("." + $newNavBtn.data("target"));
         // figure out if this is a tray or menu.
-        if ($thNavTarget.hasClass("navtray-wrapper")){
+        if ($thNavTarget.hasClass("navtray-w")){
           // Tray-style
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
@@ -219,14 +219,13 @@
       }
     },
 
-
     // ***********************************
     // SEARCH MENU
     // ***********************************
     initSearchMenu: function(){
       var t = this;
       t.$root = $("#nav-li-search"),
-      t.$wrapper = t.$root.find(".navmenu-wrapper-search");
+      t.$wrapper = t.$root.find(".navmenu-w-search");
       t.$input = $("#navSearch"),
       t.$clearBtn = t.$root.find(".btn-clear-search-input"),
       t.$searchIcon = $(".sprite-mini-nav-search-input");
@@ -294,7 +293,6 @@
       var t = this;
       t.clearSearchResults();
     }
-
   };
 
   // Plugin definition
@@ -331,3 +329,5 @@
 
 
 $(".nav-wrapper").globalNav();
+
+

@@ -1,0 +1,686 @@
+<div class="container module-spec">
+
+	<% if @data.productDetails.length: %>
+	<% for productDetails in @data.productDetails: %>
+		<div class="clearfix">
+			<div class="spec-title">
+				<p class="title-link"><a href="#"><%= productDetails.productName%></a></p>
+				
+				<% if productDetails.productName: %>
+				<h1><%= productDetails.productName%> Details</h1>
+				<% end %>
+				
+				<div class="clearfix">
+					<p><a class="active" href="#">Specifications</a></p>
+					<p><a href="#">Features</a></p>
+				</div>
+			</div>
+		</div>
+		
+		<section class="details">
+			<div class="grid">
+				
+				<% if productDetails.infos: %>
+				<div class="span4">
+					<h2>What's in the Box</h2>
+					
+					<ul>
+					<% for infos , i in productDetails.infos: %>
+						<li><%- productDetails.infos[i] %></li>
+					<% end %>
+					</ul>
+				</div>
+				<% end %>
+			
+			<div class="span4">
+				<h2>Size and Weight</h2>
+				<table>
+					<% if productDetails.dimension: %>
+					<tr>
+						<th><h3>Dimension:</h3></th>
+						<td><p><%- productDetails.dimension %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.weight: %>
+					<tr>
+						<th><h3>Weight:</h3></th>
+						<td><p><%- productDetails.weight %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		
+		<% if productDetails.lens: %>
+		<h2>Optics/Lens</h2>
+		<div class="grid">
+			
+			<% if productDetails.lens.rows1: %>
+			<div class="span4">
+				<table>
+					<% if productDetails.lens.rows1.lensType: %>
+					<tr>
+						<th><h3>Lens Type:</h3></th>
+						<td><p><%- productDetails.lens.rows1.lensType %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows1.lensMountType: %>
+					<tr>
+						<th><h3>Lens Mount Type:</h3></th>
+						<td><p><%- productDetails.lens.rows1.lensMountType %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows1.aperture: %>
+					<tr>
+						<th><h3>Aperture:</h3></th>
+						<td><p><%- productDetails.lens.rows1.aperture %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows1.apertureMax: %>
+					<tr>
+						<th><h3>Aperture (Max.):</h3></th>
+						<td><p><%- productDetails.lens.rows1.apertureMax %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows1.apertureMin: %>
+					<tr>
+						<th><h3>Aperture (Min.):</h3></th>
+						<td><p><%- productDetails.lens.rows1.apertureMin %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows1.focalLength: %>
+					<tr>
+						<th><h3>Focal Length:</h3></th>
+						<td><p><%- productDetails.lens.rows1.focalLength %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows1.shotMode: %>
+					<tr>
+						<th><h3>Steady Shot Mode:</h3></th>
+						<td><p><%- productDetails.lens.rows1.shotMode %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows1.opticalZoom: %>
+					<tr>
+						<th><h3>Optical Zoom:</h3></th>
+						<td><p><%- productDetails.lens.rows1.opticalZoom %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows1.digitalZoom: %>
+					<tr>
+						<th><h3>Digital Zoom:</h3></th>
+						<td><p><%- productDetails.lens.rows1.digitalZoom %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			<% end %>
+			
+			<% if productDetails.lens.rows2: %>
+			<div class="span4">
+				<table>
+					<% if productDetails.lens.rows2.focalLength: %>
+					<tr>
+						<th><h3>Focal Length:</h3></th>
+						<td><p><%- productDetails.lens.rows2.focalLength %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows2.filterDiameter: %>
+					<tr>
+						<th><h3>Filter Diameter:</h3></th>
+						<td><p><%- productDetails.lens.rows2.filterDiameter %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows2.lensGroup: %>
+					<tr>
+						<th><h3>Lens Groups- Elements:</h3></th>
+						<td><p><%- productDetails.lens.rows2.lensGroup %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows2.minimumFocus: %>
+					<tr>
+						<th><h3>Minimum Focus Distance:</h3></th>
+						<td><p><%- productDetails.lens.rows2.minimumFocus %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows2.angleOfView: %>
+					<tr>
+						<th><h3>Angle of View:</h3></th>
+						<td><p><%- productDetails.lens.rows2.angleOfView %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows2.lensConstruction: %>
+					<tr>
+						<th><h3>Lens Construction:</h3></th>
+						<td><p><%- productDetails.lens.rows2.lensConstruction %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows2.apertureBlade: %>
+					<tr>
+						<th><h3>Aperture Blade:</h3></th>
+						<td><p><%- productDetails.lens.rows2.apertureBlade %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows2.clearImageZoom: %>
+					<tr>
+						<th><h3>Clear Image Zoom: </h3></th>
+						<td><p><%- productDetails.lens.rows2.clearImageZoom %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			<% end %>
+			
+			<% if productDetails.lens.rows3: %>
+			<div class="span4">
+				<table>
+					<% if productDetails.lens.rows3.focalDistance: %>
+					<tr>
+						<th><h3>Focal Distance:</h3></th>
+						<td><p><%- productDetails.lens.rows3.focalDistance %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows3.asphericElements: %>
+					<tr>
+						<th><h3>Aspheric Elements:</h3></th>
+						<td><p><%- productDetails.lens.rows3.asphericElements %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows3.distanceEncoder: %>
+					<tr>
+						<th><h3>Distance Encoder:</h3></th>
+						<td><p><%- productDetails.lens.rows3.distanceEncoder %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows3.exteriorFinish: %>
+					<tr>
+						<th><h3>Exterior Finish:</h3></th>
+						<td><p><%- productDetails.lens.rows3.exteriorFinish %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows3.internalMotor: %>
+					<tr>
+						<th><h3>Internal Motor:</h3></th>
+						<td><p><%- productDetails.lens.rows3.internalMotor %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows3.maximumMagnification: %>
+					<tr>
+						<th><h3>Maximum Magnification:</h3></th>
+						<td><p><%- productDetails.lens.rows3.maximumMagnification %></p></td>
+					</tr>
+					<% end %>
+					<% if productDetails.lens.rows3.steadyShotMode: %>
+					<tr>
+						<th><h3>Steady Shot Mode:</h3></th>
+						<td><p><%- productDetails.lens.rows3.steadyShotMode %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			<% end %>
+		</div>
+		<% end %>
+		
+		<% if productDetails.exposure: %>
+		<h2>Exposure System</h2>
+		<div class="grid">
+			<div class="span4">
+				
+				<table>
+					<% if productDetails.exposure.meteringModes: %>
+					<tr>
+						<th><h3>Metering Modes:</h3></th>
+						<td><p><%- productDetails.exposure.meteringModes %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.exposure.exposureCompensation: %>
+					<tr>
+						<th><h3>exposure Compensation:</h3></th>
+						<td><p><%- productDetails.exposure.exposureCompensation %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.exposure.sceneMode: %>
+					<tr>
+						<th><h3>Scene mode:</h3></th>
+						<td><p><%- productDetails.exposure.sceneMode %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span4">
+				<table>
+					<% if productDetails.exposure.rangeOptimizer: %>
+					<tr>
+						<th><h3>D-Range Optimizer:</h3></th>
+						<td><p><%- productDetails.exposure.rangeOptimizer %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.exposure.creativeStyle: %>
+					<tr>
+						<th><h3>Creative Style:</h3></th>
+						<td><p><%- productDetails.exposure.creativeStyle %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.exposure.whiteBalanceMode: %>
+					<tr>
+						<th><h3>White Balance Mode:</h3></th>
+						<td><p><%- productDetails.exposure.whiteBalanceMode %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+	
+			<div class="span4">
+				<table>
+					<% if productDetails.exposure.isoSensitivity: %>
+					<tr>
+						<th><h3>ISO Sensitivity (Movie):</h3></th>
+						<td><p><%- productDetails.exposure.isoSensitivity %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.exposure.pictureEffect: %>
+					<tr>
+						<th><h3>Picture Effect:</h3></th>
+						<td><p><%- productDetails.exposure.pictureEffect %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+
+		<% if productDetails.sensor: %>
+		<h2>Imaging Sensor</h2>
+		<div class="grid">
+			<div class="span4">
+				
+				<table>
+					<% if productDetails.sensor.imagingSensor: %>
+					<tr>
+						<th><h3>Imaging Sensor:</h3></th>
+						<td><p><%- productDetails.sensor.imagingSensor %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span4">
+				<table>
+					<% if productDetails.sensor.pixelGross: %>
+					<tr>
+						<th><h3>Pixel Gross:</h3></th>
+						<td><p><%- productDetails.sensor.pixelGross %></p></td>
+					</tr>
+					<% end %>
+				
+					<% if productDetails.sensor.creativeStyle: %>
+					<tr>
+						<th><h3>Picture Resolution:</h3></th>
+						<td><p><%- productDetails.sensor.pictureResolution %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		
+		<% if productDetails.lcdDisplay: %>
+		<h2>LCD Display</h2>
+		<div class="grid">
+			<div class="span4">
+				<table>
+					<% if productDetails.lcdDisplay.type: %>
+					<tr>
+						<th><h3>LCD Type:</h3></th>
+						<td><p><%- productDetails.lcdDisplay.type %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span4">
+				<table>
+					<% if productDetails.lcdDisplay.brightness: %>
+					<tr>
+						<th><h3>Brightness Control:</h3></th>
+						<td><p><%- productDetails.lcdDisplay.brightness %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		<% if productDetails.driveSystem: %>
+		<h2>Drive System</h2>
+		<div class="grid">
+			<div class="span4">
+				<table>
+					<% if productDetails.driveSystem.shutterType: %>
+					<tr>
+						<th><h3>Shutter Type:</h3></th>
+						<td><p><%- productDetails.driveSystem.shutterType %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span4">
+				<table>
+					<% if productDetails.driveSystem.shootingSpeed: %>
+					<tr>
+						<th><h3>Shooting Speed:</h3></th>
+						<td><p><%- productDetails.driveSystem.shootingSpeed %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.driveSystem.selfTimer: %>
+					<tr>
+						<th><h3>Self-timer:</h3></th>
+						<td><p><%- productDetails.driveSystem.selfTimer %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		<% if productDetails.advancedFeatures: %>
+		<h2>Advanced Features</h2>
+		<div class="grid">
+			<div class="span3">
+				<table>
+					<% if productDetails.advancedFeatures.sweepPanorama: %>
+					<tr>
+						<th><h3>Sweep Panorama:</h3></th>
+						<td><p><%- productDetails.advancedFeatures.sweepPanorama %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.advancedFeatures.faceDetection: %>
+					<tr>
+						<th><h3>Face Detection:</h3></th>
+						<td><p><%- productDetails.advancedFeatures.faceDetection %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.advancedFeatures.imageStabilization: %>
+					<tr>
+						<th><h3>Image Stabilization:</h3></th>
+						<td><p><%- productDetails.advancedFeatures.imageStabilization %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span3">
+				<table>
+					<% if productDetails.advancedFeatures.intelligentAuto: %>
+					<tr>
+						<th><h3>Intelligent Auto:</h3></th>
+						<td><p><%- productDetails.advancedFeatures.intelligentAuto %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.advancedFeatures.superiorAuto: %>
+					<tr>
+						<th><h3>Superior Auto:</h3></th>
+						<td><p><%- productDetails.advancedFeatures.superiorAuto %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.advancedFeatures.PhotoCreativity: %>
+					<tr>
+						<th><h3>Photo Creativity:</h3></th>
+						<td><p><%- productDetails.advancedFeatures.PhotoCreativity %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		<% if productDetails.Recording: %>
+		<h2>Recording</h2>
+		<div class="grid">
+			<div class="span4">
+				<table>
+					<% if productDetails.Recording.mediaType: %>
+					<tr>
+						<th><h3>Media Type:</h3></th>
+						<td><p><%- productDetails.Recording.mediaType %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.Recording.imageMode: %>
+					<tr>
+						<th><h3>Still Image Mode:</h3></th>
+						<td><p><%- productDetails.Recording.imageMode %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span4">
+				<table>
+					<% if productDetails.Recording.imageSize169: %>
+					<tr>
+						<th><h3>Still Image Size 16:9:</h3></th>
+						<td><p><%- productDetails.Recording.imageSize169 %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.Recording.imageSize32: %>
+					<tr>
+						<th><h3>Still Image Size 3:2:</h3></th>
+						<td><p><%- productDetails.Recording.imageSize32 %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.Recording.imageSize43: %>
+					<tr>
+						<th><h3>Still Image Size 4:3:</h3></th>
+						<td><p><%- productDetails.Recording.imageSize43 %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.Recording.videoFormat: %>
+					<tr>
+						<th><h3>Video Format:</h3></th>
+						<td><p><%- productDetails.Recording.videoFormat %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span4">
+				<table>
+					<% if productDetails.Recording.panoramaImageSize: %>
+					<tr>
+						<th><h3>Panorama Image Size:</h3></th>
+						<td><p><%- productDetails.Recording.panoramaImageSize %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.Recording.videoMode: %>
+					<tr>
+						<th><h3>Video Mode:</h3></th>
+						<td><p><%- productDetails.Recording.videoMode %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.Recording.photoCapture: %>
+					<tr>
+						<th><h3>Photo Capture (Movie):</h3></th>
+						<td><p><%- productDetails.Recording.photoCapture %></p></td>
+					</tr>
+					<% end %>
+					
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		<% if productDetails.focusControl: %>
+		<h2>Focus Control</h2>
+		<div class="grid">
+			<div class="span4">
+				<table>
+					<% if productDetails.focusControl.focusSystem: %>
+					<tr>
+						<th><h3>Focus System:</h3></th>
+						<td><p><%- productDetails.focusControl.focusSystem %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span4">
+				<table>
+					<% if productDetails.focusControl.afModes: %>
+					<tr>
+						<th><h3>AF Modes:</h3></th>
+						<td><p><%- productDetails.focusControl.afModes %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		<% if productDetails.power: %>
+		<h2>Power</h2>
+		<div class="grid">
+			<div class="span4">
+				<table>
+					<% if productDetails.power.batteryType: %>
+					<tr>
+						<th><h3>Battery Type:</h3></th>
+						<td><p><%- productDetails.power.batteryType %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.power.powerConsumption: %>
+					<tr>
+						<th><h3>Power Consumption:</h3></th>
+						<td><p><%- productDetails.power.powerConsumption %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		<% if productDetails.interface: %>
+		<h2>Interface</h2>
+		<div class="grid">
+			<div class="span4">
+				<table>
+					<% if productDetails.interface.memoryCardSlot: %>
+					<tr>
+						<th><h3>Memory Card Slot:</h3></th>
+						<td><p><%- productDetails.interface.memoryCardSlot %></p></td>
+					</tr>
+					<% end %>
+					
+					<% if productDetails.interface.hdOutput: %>
+					<tr>
+						<th><h3>HD Output:</h3></th>
+						<td><p><%- productDetails.interface.hdOutput %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+			
+			<div class="span4">
+				<table>
+					<% if productDetails.interface.usbPorts: %>
+					<tr>
+						<th><h3>USB Port(s):</h3></th>
+						<td><p><%- productDetails.interface.usbPorts %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		<% if productDetails.convenienceFeatures: %>
+		<h2>Convenience Features</h2>
+		<div class="grid">
+			<div class="span4">
+				<table>
+					<% if productDetails.convenienceFeatures.imagePlayback: %>
+					<tr>
+						<th><h3>Still Image Playback:</h3></th>
+						<td><p><%- productDetails.convenienceFeatures.imagePlayback %></p></td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+		<% end %>
+		
+		<% if productDetails.features: %>
+		<h2 class="h2-bigger">Features</h2>
+		
+		<div class="grid no-border">
+			<div class="span4">
+				<% if productDetails.features.a: %>
+				<h3><%- productDetails.features.a.title %></h3>
+				<p><%- productDetails.features.a.description %></p>
+				<% end %>
+			</div>
+			
+			<div class="span4">
+				<% if productDetails.features.b: %>
+				<h3><%- productDetails.features.b.title %></h3>
+				<p><%- productDetails.features.b.description %></p>
+				<% end %>
+			</div>
+			
+			<div class="span4">
+				<% if productDetails.features.c: %>
+				<h3><%- productDetails.features.c.title %></h3>
+				<p><%- productDetails.features.c.description %></p>
+				<% end %>
+			</div>
+		</div>
+		
+		<div class="grid no-border">
+			<div class="span4">
+				<% if productDetails.features.d: %>
+				<h3><%- productDetails.features.d.title %></h3>
+				<p><%- productDetails.features.d.description %></p>
+				<% end %>
+			</div>
+			
+			<div class="span4">
+				<% if productDetails.features.e: %>
+				<h3><%- productDetails.features.e.title %></h3>
+				<p><%- productDetails.features.e.description %></p>
+				<% end %>
+			</div>
+			
+			<div class="span4">
+				<% if productDetails.features.f: %>
+				<h3><%- productDetails.features.f.title %></h3>
+				<p><%- productDetails.features.f.description %></p>
+				<% end %>
+			</div>
+		</div>
+		<% end %>
+		
+	</section>
+	<% end %>
+</div>

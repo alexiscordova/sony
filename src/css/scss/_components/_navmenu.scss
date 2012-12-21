@@ -1,239 +1,285 @@
 // NavMenus - the Nav popover menus, for Account, Search,  
 
-.nav-wrapper{ // encompasses the entire nav, including the navbar and navmenus, to 100% width of the page.
 
-  .navmenu-wrapper{ 
-    z-index: 190;
-    position: absolute;
-    overflow: visible;
-    top: $navbarTotalHeight;
-    background: $navMenuBackground;
-    @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
-    @include border-bottom-radius(2px);
+.navmenu-w{ 
+  z-index: 190;
+  position: absolute;
+  overflow: visible;
+  top: $navbarTotalHeight;
+  background: $navMenuBackground;
+  @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
+  @include border-bottom-radius(2px);
 
-    &.navmenu-wrapper-account{
-      width: 220px;
-      padding: 16px 20px 22px;
-
-      @include hideshow-navmenu-hide(left);
-
-      .btn-login,
-      .btn-logout{
-        display: block;
-        width: auto;
-        font-size: $font_10_15;
-      }
-      .btn-login{
-        margin:9px 0 10px 0;
-      }
-      .btn-logout{
-        @extend .btn-alt;
-        margin: 10px 0 0 0;
-        display: none;
-      }
-      &.logged-in{
-        .btn-login{
-          display: none;
-        }
-        .btn-logout{
-          display: block;
-        }        
-      }
-
-      > ul {
-        > li {
-          line-height:31px;
-          > a.tl {
-            font-size:$font_12_15;
-            > i {
-              box-sizing:content-box;
-              padding-right:10px;
-            }
-          }
-        }
-      }
-    }
-    &.navmenu-wrapper-search{
-      margin-right:4px;
-      width:467px;
-
-      @include hideshow-navmenu-hide(right);
-
-      .sprite-mini-global-nav-indicator{
-        left:auto;
-        right:15px;
-      }
-
-      ul {
-        margin:0;
-        li {
-          line-height:1.9;
-        }
-      }
-
-      .sprite-mini-nav-search-input{
-        position:absolute;
-        top: 25px;
-        left: 46px;
-        cursor:text;
-      }
-      .navmenu-search-section-input{
-        background:#fff;
-        padding:10px 29px 12px;
-        margin:0;
-
-        input[type=text]{
-          border:none;
-          margin:0;
-          padding:0;
-          font-size:$font_30_16;
-          height:auto;
-          width:auto;
-          @include transition(all, 0s);
-          &:focus{
-            @include fontRegular;
-            color:$grayDark;
-          }
-        }
-      }
-      .btn-clear-search-input{
-        line-height:0;
-        padding:6px;
-        position:absolute;
-        right: 30px;
-        top: 22px;
-        display:none;
-
-        &:hover{
-          background-color:$grayLighter;
-        };
-      }
-      .navmenu-search-section-results{
-        padding:13px 0 22px;
-        background:$grayLighter;
-
-        .navmenu-search-popular-searches{
-          display:block;
-          padding:3px 0 0 30px;
-          p.l3{
-            font-size:$font_11_16;
-            margin-bottom:0.525em;
-          }
-        }
-        .navmenu-search-results{
-          display:none;
-          
-          .navmenu-list-results{
-            > li {
-              margin-bottom:1px; // make room for the hr (:after)
-              > a {
-                display:block;
-                overflow:hidden;
-                box-sizing:content-box;
-                padding:10px 29px 13px;
-                height:64px;
-                > img {
-                  margin-right:11px;
-                  float:left;
-                }
-                &:hover{
-                  background-color:rgb(230,230,230);
-                  background-color:rgba(255,255,255,0.8);
-                }
-                .search-result-p{
-                  display:block;
-                  float:left;
-                  padding-top: 7px;
-                  line-height:1.4;
-                  .search-result-headline{
-                    display:block;
-                    font-size:$font_18_16;
-                  }
-                  .search-result-descript{
-                    display:block;
-                    font-size:$font_13_16;
-                    color:$gray;
-                  }
-                }
-                > i.icon-ui2-chevron-18-blue{
-                  float:right;
-                  margin: 24px 10px 0 0;
-                }
-              }
-            }
-            > li.search-result-canned{
-              > a {
-                > i.icon-uibig-support{
-                  float:left;
-                  margin: 11px 22px 0 15px;
-                }
-                > .search-result-p{
-                  padding-top:18px;
-                }
-              }
-            }
-            > li:after{ // HR after each search result
-              @include pseudoEl-block(406px, 0px);
-              margin:0 0 0 30px;
-              border-bottom:solid 1px $grayLightish;
-            }
-          }
-          .navmenu-list-extended{
-            margin-top:25px;
-            > li {
-              > a {
-                display:block;
-                padding-left: 30px;
-                padding-right: 26px;
-                line-height: 2.25;
-                &:hover{
-                  background-color:rgb(230,230,230);
-                  background-color:rgba(255,255,255,0.8);
-                }
-              }
-            }
-          }
-        }
-      }
-
-      &.searching{
-        .btn-clear-search-input{
-          display:block;
-        }
-        .navmenu-search-section-results{
-          .navmenu-search-popular-searches{
-            display:none;
-          }
-          .navmenu-search-results{
-            display:block;
-            .btn-show-all-results{
-              margin: 19px 0 8px 30px;
-              font-size:$font_13_16;
-            }
-          }
-        }
-      }
-    }
-
-
-    .sprite-mini-global-nav-indicator{
-      position:absolute;
-      top:-9px;
-      left:27px;
-    }
-  } // end .navmenu-wrapper
-
-
-
-  .nav-li-selected .navmenu-wrapper-account {
-    @include hideshow-navmenu-show(left);
+  // -webkit-transform: translate3d(0, 0, 0); // fix janky animation
+  // 
+  .sprite-mini-global-nav-indicator{
+    position:absolute;
+    top:-11px;
+    left:33px;
   }
-  .nav-li-selected .navmenu-wrapper-search {
-    @include hideshow-navmenu-show(right);
-  }
+}
+.nav-li-selected .navmenu-w-account {
+  @include hideshow-navmenu-show(right,-125px);
+}
+.nav-li-selected .navmenu-w-search {
+  @include hideshow-navmenu-show(right);
+}
 
-  .navmenu-list-main{
+// NavMenu
+.navmenu-w-account{
+  width: 215px;
+  padding: 10px 0 22px;
+
+  @include hideshow-navmenu-hide(right);
+
+  .navmenu-list{
     margin:0;
   }
+  .navmenu-list-main{
+    padding-top:3px;
+  }
 
-} // end .nav-wrapper
+  .navmenu-line {
+    line-height:24px;
+    margin:0 10px 0 18px;
+    > a.tl {
+      display:block;
+      font-size:$font_12_15;
+      padding:4px 0 4px 4px;
+      > i {
+        box-sizing:content-box;
+        padding-right:10px;
+        margin-top:1px;
+      }
+    }
+  }
+  #navmenu-li-cart .cart-count{
+    display:inline-block;
+    padding:0 9px;
+    margin:3px 0 0 10px;
+    line-height:21px;
+    background:$highlightColor;
+    color:$white;
+    font-size:$font_11_12;
+    @include fontMedium;
+    @include border-radius(1px);
+  }
+
+
+
+
+
+  .btn-login,
+  .btn-logout{
+    display: block;
+    width: auto;
+    font-size: $font_10_15;
+    margin:0 20px;
+  }
+  .btn-login{
+    margin-top:9px;
+    margin-bottom:10px;
+  }
+  .btn-logout{
+    margin-top: 10px;
+    display: none;
+  }
+  &.logged-in{
+    .btn-login{
+      display: none;
+    }
+    .btn-logout{
+      display: block;
+    }        
+  }
+} // .navmenu-w-account
+.navmenu-w-search{
+  width:467px;
+
+  @include hideshow-navmenu-hide(right);
+
+  .sprite-mini-global-nav-indicator{
+    left:auto; // right declared in _responsive
+  }
+
+  .navmenu-list {
+    margin:0;
+    .navmenu-line {
+      line-height:1.9;
+    }
+  }
+
+  .sprite-mini-nav-search-input{
+    position:absolute;
+    top: 25px;
+    left: 46px;
+    cursor:text;
+  }
+  .navmenu-search-section-input{
+    background:#fff;
+    padding:10px 29px 12px;
+    margin:0;
+
+    input[type=text]{
+      border:none;
+      margin:0;
+      padding:0;
+      font-size:$font_30_16;
+      height:auto;
+      width:auto;
+      @include transition(all, 0s);
+      &:focus{
+        @include fontRegular;
+        color:$grayDark;
+      }
+    }
+  }
+  .btn-clear-search-input{
+    line-height:0;
+    padding:6px;
+    position:absolute;
+    right: 30px;
+    top: 22px;
+    display:none;
+
+    &:hover{
+      background-color:$grayLighter;
+    };
+  }
+  .navmenu-search-section-results{
+    padding:13px 0 24px;
+    background:$grayLighter;
+  }
+  .navmenu-search-popular-searches{
+    display:block;
+    padding:3px 0 0 0;
+    p.l3{
+      font-size:$font_11_16;
+      margin-bottom:4px;
+      margin-left:30px;
+    }
+    .navmenu-list-extended{
+      margin-top:5px;
+
+      .search-result-line{
+        > a.tl {
+        }
+      } // .search-result-line    
+    } // .navmenu-list-extended
+
+  }
+  .navmenu-search-results{
+    display:none;
+  }
+  .navmenu-list-results{
+    .search-result-line {
+      margin-bottom:1px; // make room for the hr (:after)
+
+      &:after{ // HR after each search result
+        @include pseudoEl-block(406px, 0px);
+        margin:0 0 0 30px;
+        border-bottom:solid 1px $grayLightish;
+      }
+      > a {
+        display:block;
+        overflow:hidden;
+        box-sizing:content-box;
+        padding:11px 29px 13px;
+        height:64px;
+        > img {
+          margin-right:11px;
+          float:left;
+        }
+        &:hover{
+          background-color:rgb(230,230,230);
+          background-color:rgba(255,255,255,0.8);
+        }
+        > i.icon-ui2-chevron-18-blue{
+          float:right;
+          margin: 24px 10px 0 0;
+        }
+      } // > a
+    } // .search-result-line
+  } // .navmenu-list-results
+
+  
+  .search-result-p{
+    display:block;
+    float:left;
+    padding-top: 7px;
+    line-height:1.4;
+    .search-result-headline{
+      display:block;
+      font-size:$font_18_16;
+    }
+    .search-result-descript{
+      display:block;
+      font-size:$font_13_16;
+      color:$gray;
+    }
+  } // .search-result-p
+  .search-result-line.search-result-canned{
+    > a {
+      i.icon-uibig-support{
+        float:left;
+        margin: 11px 22px 0 15px;
+      }
+      .search-result-p{
+        padding-top:18px;
+      }
+    }
+  } // .search-result-canned
+  
+  .navmenu-list-extended{
+    margin-top:25px;
+    margin-left:0;
+
+    .search-result-line{
+      > a.tl {
+        display:block;
+        padding-left: 30px;
+        padding-right: 26px;
+        line-height: 2.0;
+        font-size:$font_14_15;
+        &:hover{
+          background-color:rgb(230,230,230);
+          background-color:rgba(255,255,255,0.8);
+        }
+      }
+    } // .search-result-line    
+  } // .navmenu-list-extended
+
+ 
+
+  &.searching{
+    .btn-clear-search-input{
+      display:block;
+    }
+    .navmenu-search-section-results{
+      .navmenu-search-popular-searches{
+        display:none;
+      }
+      .navmenu-search-results{
+        display:block;
+        .btn-show-all-results{
+          margin: 49px 0 8px 31px;
+          font-size:$font_13_16;
+        }
+      }
+    }
+  }
+} // .navmenu-w-search
+
+
+
+
+
+
+
+
+
+
+
+
+
+

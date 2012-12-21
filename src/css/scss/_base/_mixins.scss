@@ -543,16 +543,16 @@ $default-transition-delay    : 0s;
 
 
 // transitions for specific components
-@mixin hideshow-navmenu-show($leftOrRight:left){
+@mixin hideshow-navmenu-show($leftOrRight:left, $x: 0){
   @if ($leftOrRight == left){
-  	left:0;
+  	left:$x;
   	right:auto;
   } @else {
-  	right:0;
+  	right:$x;
   	left:auto;
   }
   opacity:1;
-  @include transition(opacity $transitionFast linear 0s, left 0s linear 0s, right 0s linear 0s); 
+  @include transition(opacity $transitionFast linear 0s, $leftOrRight 0s linear 0s); 
 }
 @mixin hideshow-navmenu-hide($leftOrRight:left){
   @if ($leftOrRight == left){
@@ -563,7 +563,7 @@ $default-transition-delay    : 0s;
   	left:auto;
   }
   opacity:0;
-  @include transition(opacity $transitionFaster linear 0s, left 0s linear $transitionFaster, right 0s linear $transitionFaster);
+  @include transition(opacity $transitionFaster linear 0s, $leftOrRight 0s linear $transitionFaster);
 }
 
 
