@@ -25,7 +25,7 @@
     line-height:$navbarLineHeight;
     padding: 0 6px;
     margin: 10px 9px 14px 9px;
-    font-size:$navbarTextSize;
+    font-size:$font_15_16;
 
     &.nav-dropdown-toggle-text{
       padding-right: 3px;
@@ -43,7 +43,7 @@
     > li > a{
       line-height:$navbarLineHeight;
       margin: 11px 3px 13px 7px;
-      font-size:$navbarSmTextSize;
+      font-size:$font_13_16;
 
       &.btn-nav-block{
         width: auto;
@@ -108,6 +108,12 @@
   } // .nav > li
 } // .nav
 
+.navmenu-w-search{
+  .sprite-mini-global-nav-indicator{
+    right: 33px;
+  }
+}
+
 .navtray-w{
   &.navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
     //left:$navTrayDividerPosition;
@@ -162,6 +168,15 @@
 .nav-collapse.collapse {
   height: auto !important;
   overflow: visible !important;
+}
+
+
+.navmenu-w-account{
+  .navmenu-list-prefixed{
+    border-bottom:solid 1px $grayLightish;
+    padding-bottom:6px;
+    display:none;
+  }
 }
 // END 980px-1199px Default
 
@@ -277,28 +292,25 @@
 
 
 
-
-
 // ------------------------------------------------
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
-//   .d8888b.  8888888888  .d8888b.                         .d8888b.                                  888                  
-//  d88P  Y88b       d88P d88P  Y88b                       d88P  "88b                                 888                  
-//  888    888      d88P  888    888                       Y88b. d88P                                 888                  
-//  Y88b. d888     d88P   Y88b. d888 88888b.  888  888      "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
-//   "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P'     .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
-//         888   d88P            888 888  888   X88K       888"  Y888P"        888  888 888  888 888  888 88888888 888     
-//  Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b.     Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
-//   "Y8888P"  d88P        "Y8888P"  88888P"  888  888      "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
-//                                   888               
-//                                   888               
-//                                   888   
+//  d888    .d8888b.   .d8888b.   .d8888b.         .d8888b.                                  888                  
+// d8888   d88P  Y88b d88P  Y88b d88P  Y88b       d88P  "88b                                 888                  
+//   888   888    888        888      .d88P       Y88b. d88P                                 888                  
+//   888   888    888      .d88P     8888"         "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//   888   888    888  .od888P"       "Y8b.       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//   888   888    888 d88P"      888    888       888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//   888   Y88b  d88P 888"       Y88b  d88P       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+// 8888888  "Y8888P"  888888888   "Y8888P"         "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
 // ------------------------------------------------
-@media (max-width: 979px) {
+@media (max-width: 1023px) {
 .nav {
   > li#nav-li-search{ // change the button to simple square no-text.
     > a {
       padding: 0px 12px 0px 12px;
+      margin-left: 10px;
+      margin-top: 12px;
       
       > span.navtray-label{
         display:none;
@@ -312,27 +324,35 @@
 
   > li#nav-li-universal{
     > a {
-      margin-left:4px;
-      margin-right:-10px;
+      margin-left: 7px;
+      margin-right: -10px;
       // padding: 0px 8px;
       > i.icon-ui-plus-tiny {
         margin-left: 8px;
       }
     }
-  }
+  } // li#nav-li-universal
 
-  &.nav-utility{
-    > li > a{
-      &.btn-nav-block{
-        // margin: 13px 0px 0px 7px;
-        // line-height: 37px;
-        font-size: $font_12_16;
-      }
-    }
-  } // .nav-utility
+  .navmenu-w-account .navmenu-list-prefixed{
+    display:block;
+  }
+  #nav-li-favorites,
+  #nav-li-cart{
+    display:none;
+  }
 } // .nav
 
-} // END max-width: 979px
+.navmenu-w-search{
+  .sprite-mini-global-nav-indicator{
+    // right:15px;
+  }
+}
+.nav-li-selected .navmenu-w-search{
+  right:-26px;
+}
+
+} // END max-width: 1023px
+
 
 
 
@@ -384,6 +404,25 @@
 .navtray {
   width:auto;
 }
+
+
+.nav.nav-utility{
+  > li > a{
+    font-size:$font_11_16;
+    margin-top:12px;
+
+    &.nav-dropdown-toggle-text{
+      .icon-ui-arrowhead-down-gray{
+        margin-top: 8px;
+      }
+    }
+    &.btn-nav-block{
+      font-size: $font_11_16;
+    }
+  }
+} // .nav-utility
+
+
 .navtray-section-main{ // section left - contents
   padding-top: 38px;
   width: ($navTrayDividerPosition - 4);
