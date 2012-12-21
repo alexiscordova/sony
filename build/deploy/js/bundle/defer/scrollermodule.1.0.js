@@ -29,10 +29,7 @@
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
 		t.$sampleElement		= t.$elements.eq(0);
 
-		
 		$( t.$contentContainer).css('width' , (t.$sampleElement.outerWidth(true) * t.$elements.length) + 500 );
-		
-		//$( t.$contentContainer).css('width' , 1968 + 'px');
 
 		//override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
