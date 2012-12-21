@@ -63,7 +63,7 @@
       
         __out.push(this.partial('includes/js_head.html'));
       
-        __out.push('\t\n\n\n  \t<script src="js/libs/jquery.throttle-debounce.min.js"></script>\n\t\t<!-- This should be moved into js_footer files once completed: --> \n\t\t<script src="js/bundle/require/global-nav.js" type="text/javascript"></script>\n\t\t\n\t</head>\n\t<body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">\n\n<!-- include your module markup templates here -->\n\t\t');
+        __out.push('\t\n\n\n  \t<script src="js/libs/jquery.throttle-debounce.min.js"></script>\n\t\t<!-- This should be moved into js_footer files once completed: --> \n\t\t<script src="js/bundle/require/global-nav.js" type="text/javascript"></script>\n\t\t\n\t</head>\n\t<body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">\n\t\t<div class="page-wrap-outer">\n\t\t\t<div id="page-wrap-inner" class="page-wrap-inner XXshow-mobile-menu">\n\n<!-- include your module markup templates here -->\n\t\t');
       
         __out.push(this.partial('modules/global_header.html.eco', {
           mode: 'two',
@@ -89,7 +89,7 @@
           __out.push('\n');
         }
       
-        __out.push('\n\n\t<!-- <script>document.write(\'<script src="http://\' + (location.host || \'localhost\').split(\':\')[0] + \':35729/livereload.js?snipver=1"></\' + \'script>\')</script> --> \n\t</body>\n</html>\n');
+        __out.push('\n\n\t\t\t</div>\n\t\t</div>\n\t</body>\n</html>\n');
       
       }).call(this);
       

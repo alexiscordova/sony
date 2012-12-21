@@ -21,119 +21,106 @@
 // -----------------------------------------
 
 .nav{
-  > li {
-
-    .global-nav-indicator-bar{
-      margin-left:11px;
-    }
-
-    > a{
-      line-height:$navbarLineHeight;
-      padding: 0 6px;
-      margin: 10px 9px 14px 9px;
-      font-size:$font_15_16;
-
-      &.nav-dropdown-toggle-text{
-        padding-right: 3px;
-        margin-right: 3px;
-        .icon-ui-arrowhead-down-gray{
-          margin-left: 8px;
-          margin-top: 11px;
-        }
-      }
-    } // > a
-  } // > li
 
   &.nav-primary{
     margin-left:3%;
   }
   &.nav-utility{
-    > li > a{
+    .nav-li{
+    }
+    .nav-li-link{
       line-height:$navbarLineHeight;
-      margin: 11px 3px 13px 7px;
+      margin: 11px 3px 12px 7px;
       font-size:$font_13_16;
-
-      &.btn-nav-block{
-        width: auto;
-        margin: 13px 0px 0px 7px;
-        line-height: 37px;
-        font-size: $font_13_16;
-      }
-
-      &.btn-nav-iconed{
-        height: 25px;
-        padding: 4px;
-        margin: 19px 0px 0 6px;
-        line-height: 1.5;
-      }
-
-      &.nav-dropdown-toggle-text{
-        .icon-ui-arrowhead-down-gray{
-          margin-left: 6px;
-          margin-top: 9px;
-        }
-      }
-    } // > li > a
+    }
+    .nav-li-link.nav-dropdown-toggle-text .icon-ui-arrowhead-down-gray{
+      margin-left: 6px;
+      margin-top: 9px;
+    }
   } // .nav-utility
 
-  > li {
-    &#nav-li-favorites{
-      > a {
-        margin-left:7px;
-      }
-    }
-    &#nav-li-cart{
-      > a {
-        font-size: $font_12_16;
-        > i.icon-ui-cart {
-          margin-right: 2px;
-          margin-top: 1px;
-        }
-      }
-    }
-    &#nav-li-search{
-      > a {
-        margin-left: 15px;
-        padding: 0px 16px 0px 12px;
-        > span.navtray-label{
-          display:inline-block;
-        }
-        > i.icon-ui-search {
-          float: left;
-          margin: 12px 6px 0 0;
-        }
-      }
-    }
-    &#nav-li-universal{
-      > a {
-        margin-right:-8px;
-        padding: 0px 8px;
-        > i.icon-ui-plus-tiny {
-          margin: 4px 0 0 10px;
-        }
-      }
-    }
-  } // .nav > li
-} // .nav
+  .nav-li-link.btn-nav-block{
+    width: auto;
+    margin: 13px 0px 0px 7px;
+    line-height: 37px;
+    font-size: $font_13_16;
+  }
 
-.navmenu-w-search{
-  .sprite-mini-global-nav-indicator{
+  .nav-li-link.btn-nav-iconed{
+    height: 25px;
+    padding: 4px;
+    margin: 19px 0px 0 6px;
+    line-height: 1.5;
+  }
+
+  .global-nav-indicator-bar{
+    margin-left:11px;
+  }
+
+
+  .nav-li-link{
+    line-height:$navbarLineHeight;
+    padding: 0 6px;
+    margin: 10px 9px 14px 9px;
+    font-size:$font_15_16;
+  }
+  .nav-li-link.nav-dropdown-toggle-text{
+    padding-right: 3px;
+    margin-right: 3px;
+  }
+  .nav-li-link.nav-dropdown-toggle-text .icon-ui-arrowhead-down-gray{
+    margin-left: 8px;
+    margin-top: 11px;
+  }
+
+  
+
+  .nav-li-favorites .nav-li-link {
+    margin-left:7px;
+  }
+  .nav-li-cart .nav-li-link {
+    font-size: $font_12_16;
+    > i.icon-ui-cart {
+      margin-right: 2px;
+      margin-top: 1px;
+    }
+  }
+  .nav-li-search .nav-li-link {
+    margin-left: 15px;
+    padding: 0px 16px 0px 12px;
+    > span.navtray-label{
+      display:inline-block;
+    }
+    > i.icon-ui-search {
+      float: left;
+      margin: 12px 6px 0 0;
+    }
+  }
+  .nav-li-universal .nav-li-link {
+    margin-right:-8px;
+    padding: 0px 8px;
+    > i.icon-ui-plus-tiny {
+      margin: 4px 0 0 10px;
+    }
+  }
+
+
+  .navmenu-w-search .sprite-mini-global-nav-indicator{
     right: 33px;
   }
+} // .nav
+
+.navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
+  //left:$navTrayDividerPosition;
 }
 
-.navtray-w{
-  &.navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
-    //left:$navTrayDividerPosition;
-  }
-}
 .navtray{
   width:100%;
 
   .btn-nav-view-all{
     margin-left: 5.7%;
   }
-} // end .nav-tray
+} // end .navtray
 
 .navtray-section-main{ // section left
   padding-top:56px;
@@ -143,17 +130,17 @@
     margin: 0 1.6% 2.1% 4.1%;
     overflow:hidden;
 
-    &:after{ // HR
+    &:after { // HR
       width:97%;
       height:14px;
       margin-left: 1.7%;
     }
 
-    > li{
+    .navtray-li {
       width:23.1%;
       margin:2% 1.9% 2% 0;
     }
-    > li > a > img {
+    .navtray-li-link > img {
       width:83%;
     }
   }
@@ -179,13 +166,13 @@
 }
 
 
-.navmenu-w-account{
-  .navmenu-list-prefixed{
-    border-bottom:solid 1px $grayLightish;
-    padding-bottom:6px;
-    display:none;
-  }
+.navmenu-w-account .navmenu-list-prefixed{
+  border-bottom:solid 1px $grayLightish;
+  padding-bottom:6px;
+  display:none;
 }
+
+
 // END 980px-1199px Default
 
 
@@ -236,7 +223,7 @@
     margin-top: 43px;
 
   } // .navtray-secondary-promo
-  &.navtray-section-featured-short{
+  .navtray-section-featured-short{
     padding-top:0;
     
     .navtray-secondary-promo{
@@ -253,7 +240,7 @@
     margin-right:4.7%;
     margin-top:0px;
 
-    > li {
+    .navtray-li {
       width: 24%;
       margin: 5.5% 0.7% 2% 0;
     }
@@ -314,38 +301,35 @@
 // ------------------------------------------------
 @media (max-width: 1023px) {
 .nav {
-  > li#nav-li-search{ // change the button to simple square no-text.
-    > a {
-      padding: 0px 12px 0px 12px;
-      margin-left: 10px;
-      margin-top: 12px;
-      
-      > span.navtray-label{
-        display:none;
-      }
-      > i.icon-ui-search {  
-        float:none;
-        margin:2px 0px 0 0;
-      }
+  .nav-li-search .nav-li-link {// change the button to simple square no-text.
+    padding: 0px 12px 0px 12px;
+    margin-left: 10px;
+    margin-top: 12px;
+    
+    > span.navtray-label{
+      display:none;
     }
-  } // li#nav-li-search
+    > i.icon-ui-search {  
+      float:none;
+      margin:2px 0px 0 0;
+    }
+  }
 
-  > li#nav-li-universal{
-    > a {
-      margin-left: 7px;
-      margin-right: -10px;
-      // padding: 0px 8px;
-      > i.icon-ui-plus-tiny {
-        margin-left: 8px;
-      }
+
+  .nav-li-universal .nav-li-link {
+    margin-left: 7px;
+    margin-right: -10px;
+    // padding: 0px 8px;
+    > i.icon-ui-plus-tiny {
+      margin-left: 8px;
     }
-  } // li#nav-li-universal
+  }
 
   .navmenu-w-account .navmenu-list-prefixed{
     display:block;
   }
-  #nav-li-favorites,
-  #nav-li-cart{
+  .nav-li-favorites,
+  .nav-li-cart{
     display:none;
   }
 } // .nav
@@ -390,7 +374,7 @@
   }
 }
 
-.nav > li {
+.nav .nav-li {
   .global-nav-indicator-bar{
     margin-left:3px;
   }
@@ -398,12 +382,11 @@
 
 .nav.nav-primary{
   margin-left: 2.6%;
-  > li > a{
+  .nav-li-link{
     line-height: $navbarLineHeight;
     margin:11px 1px 13px 1px;
     font-size: $font_13_16;
     padding: 0 7px;
-
     &.nav-dropdown-toggle-text{
       // padding-right:3px;
       // margin-right:6px;
@@ -421,7 +404,7 @@
 
 
 .nav.nav-utility{
-  > li > a{
+  .nav-li-link{
     font-size:$font_11_16;
     margin-top:12px;
 
@@ -451,11 +434,11 @@
       margin-left: 1.9%;
     }
 
-    > li{
+    .nav-li{
       width:31.9%;
       margin:2% 0.2% 2% 0;
     }
-    > li > a {
+    .nav-li-link {
       padding-bottom:13px;
 
       > img {
@@ -483,7 +466,7 @@
   }
 } //.navtray-section-featured
 
-} // END min-width: 768px and max-width: 979px
+} // min-width: 768px and max-width: 979px
 
 
 
@@ -526,6 +509,10 @@
 
 @media (max-width: 767px) {
 
+.page-wrap-inner.show-mobile-menu{
+  left:70%;
+}
+
 .nav-wrapper{
   height:64px;
 }
@@ -534,13 +521,14 @@
     display:none;
   }
   .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-    #nav-li-account,
-    #nav-li-favorites,
-    #nav-li-search,
-    #nav-li-universal{
+    .nav-li-account,
+    .nav-li-favorites,
+    .nav-li-search,
+    .nav-li-universal{
       display:none;
     }
   }
+
   .btn-mobile-nav{
     display:block;
     margin-top:0;
@@ -554,23 +542,23 @@
     @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
   }
   .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-    > li#nav-li-cart{
-      display:block;
-      float:right;
-      > a{  
-        margin:0;
-        padding:20px 0 23px 18px;
-        width:64px;
-        height:64px;
-        border-left:solid 1px $grayDark;
-        font-size:$font_15_16;
+  }
+  .nav-li-cart{
+    display:block;
+    float:right;
+    .nav-li-link{  
+      margin:0;
+      padding:20px 0 23px 18px;
+      width:64px;
+      height:64px;
+      border-left:solid 1px $grayDark;
+      font-size:$font_15_16;
 
-        // override the default icon with the bigger one.
-        @include icon-ui(cart, -1050px,   19px,   17px);
-        i {
-          margin-top:1px;
-          margin-right:4px;
-        }
+      // override the default icon with the bigger one.
+      @include icon-ui(cart, -1050px,   19px,   17px);
+      i {
+        margin-top:1px;
+        margin-right:4px;
       }
     }
   }
@@ -580,7 +568,21 @@
     margin-left:-45px;
     left:50%;
   }
-}
+} // .navbar
+
+} // max-width: 767px
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -722,8 +724,10 @@
     padding-left:  10px;
     padding-right: 10px;
   }
-}
-} // max-width: 767px
+} // END DISABLED
+
+
+
 
 
 
@@ -750,6 +754,9 @@
 
 @media (max-width: 479px) {
 
+.page-wrap-inner.show-mobile-menu{
+  left:86%;
+}
 .nav-wrapper{
   height:48px; // -16
 }
@@ -772,25 +779,23 @@
     @include icon-ui(mobile-menu-btn, -990px,   19px,   16px);
   }
   .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-    > li#nav-li-cart{
-      > a{  
-        padding:13px 0 0px 12px;
-        width:54px;
-        height:48px;
-        border-left:solid 1px $grayDark;
-        font-size:$font_15_16;
+  }
+  .nav-li-cart .nav-li-link{  
+    padding:13px 0 0px 12px;
+    width:54px;
+    height:48px;
+    border-left:solid 1px $grayDark;
+    font-size:$font_15_16;
 
-        // override the default icon with the bigger one.
-        @include icon-ui(cart, -1050px,   19px,   17px);
-        i {
-          margin-top:1px;
-          margin-right:4px;
-        }
-      }
+    // override the default icon with the bigger one.
+    @include icon-ui(cart, -1050px,   19px,   17px);
+    i {
+      margin-top:1px;
+      margin-right:4px;
     }
   }
-}
-}
+} // .navbar
+} // max-width: 479px
 
 
 

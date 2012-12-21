@@ -19,6 +19,8 @@
 		
 	</head>
 	<body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">
+		<div class="page-wrap-outer">
+			<div id="page-wrap-inner" class="page-wrap-inner XXshow-mobile-menu">
 
 <!-- include your module markup templates here -->
 		<%-@partial('modules/global_header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
@@ -29,6 +31,7 @@
 		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
 <% end %>
 
-	<!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> --> 
+			</div>
+		</div>
 	</body>
 </html>

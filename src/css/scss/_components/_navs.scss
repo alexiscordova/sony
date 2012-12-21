@@ -16,192 +16,170 @@
   float: left;
   list-style: none;
 
-  // Redeclare pull classes because of specifity
-  > .pull-right {
-    float: right;
+  &.nav-utility {
+    float: right; // redeclare due to specificity
+    margin-right: 0; // remove margin on float right nav
   }
   // Space them out when they follow another list item (link)
-  > li + .nav-header {
-    margin-top: 9px;
-  }
-
-
-  > li {
+  .nav-li {
     float: left;
     line-height:0.65em * $baseLineHeight;
     position:relative;
 
-    .global-nav-indicator-bar{
-      display:block;
-      position:absolute;
-      bottom:0;
-      width: 92%;
-      &#nav-li-electronics{
-        width: 89%;
-      }
+    border-color: $blue;
+    border-style: solid;
+    border-top-width: 0px;
 
-      border-color: $blue;
-      border-style: solid;
-      border-top-width: 0px;
-
-      @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayOpenSpeed * 0.3));
-
-      &.for-navtray-short{
-        @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayShortOpenSpeed * 0.3));        
-      }
-    }
-    &.nav-li-selected .global-nav-indicator-bar{
-      border-top-width: 4px;
-    }
-
-    > a {
-      display: block;
-      float: none;
-      color: $navbarLinkColor;
-      text-decoration: none;
-      position:relative;
-
-      // Hover
-      &:focus,
-      &:hover {
-        background-color: $navbarLinkBackgroundHover; // "transparent" is default to differentiate :hover from .active
-        color: $navbarLinkColorHover;
-        text-decoration: none;
-      }
-    } // .nav > li > a
-
-
-    // Active nav items
-    &.active > a,
-    &.active > a:hover,
-    &.active > a:focus {
+    &.active .nav-li-link,
+    &.active .nav-li-link:hover,
+    &.active .nav-li-link:focus {
       color: $navbarLinkColorActive;
       text-decoration: none;
       background-color: $navbarLinkBackgroundActive;
     }
-    > a.nav-dropdown-toggle-text{
-      .icon-ui-arrowhead-down-gray{
-        display: inline-block;
-        position: relative;
-      }
+
+    + .nav-header {
+      margin-top: 9px;
     }
-    > a.nav-dropdown-toggle-btn-mini{
-      display: block;
-      padding: 3px;
-      margin-right:2px;
-      margin-left:2px;
+  } // .nav-li
+
+  .nav-li-link {
+    display: block;
+    float: none;
+    color: $navbarLinkColor;
+    text-decoration: none;
+    position:relative;
+
+    // Hover
+    &:focus,
+    &:hover {
+      background-color: $navbarLinkBackgroundHover; // "transparent" is default to differentiate :hover from .active
+      color: $navbarLinkColorHover;
+      text-decoration: none;
+    }
+  }
+  .nav-li-link.nav-dropdown-toggle-text{
+    .icon-ui-arrowhead-down-gray{
+      display: inline-block;
+      position: relative;
+    }
+  }
+  .nav-li-link.nav-dropdown-toggle-btn-mini{
+    display: block;
+    padding: 3px;
+    margin-right:2px;
+    margin-left:2px;
+  }
+  .nav-li-link.btn-nav-block{
+    width: auto;
+    font-family: $sansFontFamilyMedium;
+  }
+  .nav-li-cart .nav-li-link {
+    font-family: $sansFontFamilyBold;
+  }
+
+  .nav-li-search .nav-li-link {
+    background-color: $navbarTertiaryColor;
+    border-color: $navbarTertiaryColor;
+    @include border-radius(1px);
+    &:hover{
+      background-color: lighten($navbarTertiaryColor,5%);
+      border-color: lighten($navbarTertiaryColor,5%);
+    }
+  }
+  .nav-li-universal .nav-li-link {
+    background-color: $navbarBackground; 
+    border-color: $navbarBackground; 
+    @include border-radius(1px);
+    &:hover{
+      background-color: $navbarTertiaryColor;
+      border-color: $navbarTertiaryColor;
     }
   }
 
-  &.nav-utility {
-    float: right; // redeclare due to specificity
-    margin-right: 0; // remove margin on float right nav
 
-// Most of this stuff is in _responsive-navbar.
-    > li > a{
-      &.btn-nav-block{
-        width: auto;
-        font-family: $sansFontFamilyMedium;
-      }
-    }
-  } // .nav-utility
 
-  > li {
-    &#nav-li-favorites{
-      > a {
-        > i {
-        }
-      }
+
+  .global-nav-indicator-bar{
+    display:block;
+    position:absolute;
+    bottom:0;
+    width: 92%;
+
+    border-color: #049cdb;
+    border-style: solid;
+    border-top-width: 0px;
+    
+    @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayOpenSpeed * 0.3));
+
+    &.for-navtray-short{
+      @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayShortOpenSpeed * 0.3));        
     }
-    &#nav-li-cart{
-      > a {
-        font-family: $sansFontFamilyBold;
-      }
-    }
-    &#nav-li-search{
-      > a {
-        background-color: $navbarTertiaryColor;
-        border-color: $navbarTertiaryColor;
-        @include border-radius(1px);
-        &:hover{
-          background-color: lighten($navbarTertiaryColor,5%);
-          border-color: lighten($navbarTertiaryColor,5%);
-        }
-        > i.icon-ui-search {
-        }
-      }
-    }
-    &#nav-li-universal{
-      > a {
-        background-color: $navbarBackground; 
-        border-color: $navbarBackground; 
-        @include border-radius(1px);
-        &:hover{
-          background-color: $navbarTertiaryColor;
-          border-color: $navbarTertiaryColor;
-        }
-        > i.icon-ui-plus-tiny {
-        }
-      }
-    }
-  } // .nav > li
+  }
+  .nav-li-selected .global-nav-indicator-bar{
+    border-top-width: 4px;
+  }
+  .nav-li-electronics .global-nav-indicator-bar{
+    width: 89%;
+  }
+
+
+
+
+  // DISABLED STATES
+  // ---------------
+
+  // Gray out text
+  > .disabled > a {
+    color: $grayLight;
+  }
+  // Nuke hover effects
+  > .disabled > a:hover {
+    text-decoration: none;
+    background-color: transparent;
+    cursor: default;
+  }
+
+
 } // .nav
 
 
 
+  // **************************************************************************************************
+  // **************************************************************************************************
+  // BELOW AREN'T TOUCHED YET - might be able to just delete
+  // **************************************************************************************************
+  // **************************************************************************************************
 
-// **************************************************************************************************
-// **************************************************************************************************
-// BELOW AREN'T TOUCHED YET - might be able to just delete
-// **************************************************************************************************
-// **************************************************************************************************
-
-// NAV LIST
-// --------
-.DISABLED{
-  .nav-list {
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-bottom: 0;
+  // NAV LIST
+  // --------
+  .DISABLED{
+    .nav-list {
+      padding-left: 15px;
+      padding-right: 15px;
+      margin-bottom: 0;
+    }
+    .nav-list > li > a,
+    .nav-list .nav-header {
+      margin-left:  -15px;
+      margin-right: -15px;
+      text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    }
+    .nav-list > li > a {
+      padding: 3px 15px;
+    }
+    .nav-list > .active > a,
+    .nav-list > .active > a:hover {
+      color: $white;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+      background-color: $linkColor;
+    }
+    .nav-list [class^="icon-"] {
+      margin-right: 2px;
+    }
+    // Dividers (basically an hr) within the dropdown
+    .nav-list .divider {
+      @include nav-divider();
+    }
   }
-  .nav-list > li > a,
-  .nav-list .nav-header {
-    margin-left:  -15px;
-    margin-right: -15px;
-    text-shadow: 0 1px 0 rgba(255,255,255,.5);
-  }
-  .nav-list > li > a {
-    padding: 3px 15px;
-  }
-  .nav-list > .active > a,
-  .nav-list > .active > a:hover {
-    color: $white;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
-    background-color: $linkColor;
-  }
-  .nav-list [class^="icon-"] {
-    margin-right: 2px;
-  }
-  // Dividers (basically an hr) within the dropdown
-  .nav-list .divider {
-    @include nav-divider();
-  }
-}
 
-
-
-
-
-// DISABLED STATES
-// ---------------
-
-// Gray out text
-.nav > .disabled > a {
-  color: $grayLight;
-}
-// Nuke hover effects
-.nav > .disabled > a:hover {
-  text-decoration: none;
-  background-color: transparent;
-  cursor: default;
-}
