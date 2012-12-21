@@ -17,6 +17,10 @@
     color: $grayDark;
   }
 
+  .product-model {
+    color: $gray;
+  }
+
   .price-title {
     margin: 0;
   }
@@ -65,14 +69,9 @@ $detailedGalleryItemHeight: 480px;
 .gallery-item {
   position: relative;
   display: block;
-  // height: 0;
-  // padding-bottom: 165.19607843137254%;
-  // padding-bottom: 60.534124629080125%;
   margin-top: $grid5GutterWidth;
-  // height: $galleryItemHeight;
   overflow: hidden;
   background: $white;
-  // background: $transparentBlack;
 
   &:after {
     content: '';
@@ -101,7 +100,6 @@ $detailedGalleryItemHeight: 480px;
   // Container for product images
   .product-img {
     position: relative;
-    // height: $galleryItemImgHeight;
     width: 100%;
     overflow: hidden;
     text-align: center;
@@ -143,9 +141,6 @@ $detailedGalleryItemHeight: 480px;
 
   // large is height * 2
   &.large {
-    // height: ($galleryItemHeight * 2) + $grid5GutterWidth;
-    // padding-bottom: 94.40459110473458%;
-    // padding-bottom: 105.92705167173253%;
 
     &:after {
       padding-top: 105.92705167173253%;
@@ -164,6 +159,12 @@ $detailedGalleryItemHeight: 480px;
     // 4 column grid
     .shuffle-4 & .product-img:after {
       padding-top: 50.7%;
+    }
+
+    @media (min-width:1150px) {
+      .shuffle-6 &:after {
+        padding-top: 104.827052%;
+      }
     }
 
     @media (min-width:1339px) {
@@ -185,11 +186,6 @@ $detailedGalleryItemHeight: 480px;
     .shuffle-6 & .product-img:after {
       padding-top: 84.3%;
     }
-  }
-
-  // Double the height and include margin
-  &.large .product-img {
-    // height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
   }
 
   // Promo gallery item images are the full height
@@ -220,7 +216,7 @@ $detailedGalleryItemHeight: 480px;
         font-size: $font_14_16;
         top: 10px;
         left: 10px;
-        max-width: initial;
+        max-width: none;
 
         i {
           margin-top: 1px;
@@ -256,8 +252,8 @@ $detailedGalleryItemHeight: 480px;
     }
 
     img {
-      max-height: initial;
-      max-width: initial;
+      max-height: none;
+      max-width: none;
     }
 
     div.iq-img {
@@ -292,12 +288,8 @@ $detailedGalleryItemHeight: 480px;
 
 .gallery-detailed {
 
-  .gallery-item {
-    // height: $detailedGalleryItemHeight;
-
-    &:after {
-      padding-top: 135.2112676056338%;
-    }
+  .gallery-item:after {
+    padding-top: 135.2112676056338%;
   }
 
   .product-img:after {
@@ -307,18 +299,7 @@ $detailedGalleryItemHeight: 480px;
 }
 
 @media (min-width:768px) and (max-width:979px) {
-  .gallery-detailed,
-  .compare-container {
 
-    .gallery-item {
-      // height: 434px;
-    }
-
-    .product-img {
-      // height: 174px;
-    }
-
-  }
 }
 
 
@@ -359,17 +340,6 @@ $detailedGalleryItemHeight: 480px;
     .gallery-item-inner,
     .product-img .product-img-wrap {
       position: absolute;
-    }
-
-    // Make it a 1x1 instead of 2x2 or 1x2
-    // need .gallery selector to override .grid5
-    .promo,
-    .large {
-      // height: $galleryItemHeight;
-    }
-
-    .large .product-img {
-      // height: $galleryItemImgHeight;
     }
 
     .product-img:after {
@@ -705,11 +675,98 @@ $detailedGalleryItemHeight: 480px;
 // Compare Tool
 // -------------------------
 .compare-container {
-  padding: 15px 0;
+  padding: 1.875em 0 5em;
 }
 
 .compare-item {
   position: relative;
+  margin-left: 3px;
+  background: $white;
+  color: $grayDark;
+
+  .product-content .product-name-wrap,
+  .product-rating,
+  .product-price,
+  .color-swatches {
+    margin-bottom: 1.25em;
+  }
+
+  .product-content {
+    padding: 0 1.25em;
+  }
+
+  .product-model {
+    color: $gray;
+  }
+}
+
+.detail-labels-wrap {
+  position: relative;
+}
+
+.detail-label-group {
+  position: absolute;
+  margin-left: -10px;
+  @include opacity(0);
+  @include transition(opacity $transitionNormal $easeNormal .1s, margin $transitionNormal $easeNormal .1s);
+
+  &.complete {
+    margin-left: 0;
+    @include opacity(100);
+  }
+}
+
+.compare-container .detail {
+  padding-top: 0.625em;
+  min-height: 2.5em;
+  border-top: 1px solid $grayLightFieldLarge;
+}
+
+// Make labels have a darker border
+.compare-container .detail-label {
+  border-color: $grayLight;
+}
+
+// Sticky header
+.compare-sticky-header {
+  position: absolute; // will be changed to fixed with js after the `left` is measured
+  z-index: 10;
+  top: 0;
+  left: -9999px;
+  width: inherit; // position fixed not inheriting correct width?...
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  background: $grayLightFieldLarge;
+  -webkit-transform: translate(0, -100px);
+          transform: translate(0, -100px);
+  @include box-shadow(0 2px 5px 0 $transparentBlack);
+  -webkit-transition: opacity $transitionNormal $easeNormal, -webkit-transform $transitionNormal $easeNormal;
+          transition: opacity $transitionNormal $easeNormal, transform $transitionNormal $easeNormal;
+
+  // Make sticky header visible
+  &.open {
+    left: 0; // Show it
+    padding: 1em 0; // Some padding
+    max-height: 800px;
+    opacity: 1; // Fade in
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0); // Slide down
+  }
+
+  .product-name-wrap {
+    padding: 0 1.25em;
+  }
+
+  .product-img {
+    max-height: 0;
+    overflow: hidden;
+    @include transition(max-height $transitionNormal $easeNormal);
+  }
+
+  &.with-img .product-img {
+    max-height: 400px; // arbitrary number that will be larger than the image
+  }
 }
 
 .compare-item-remove {
@@ -748,5 +805,6 @@ $detailedGalleryItemHeight: 480px;
   color: $white;
   background: $gray;
 }
+
 
 
