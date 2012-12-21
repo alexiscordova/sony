@@ -497,25 +497,80 @@
 // ------------------------------------------------
 // MOBILE-LARGE (mostly the same as mobile, but a little bigger.)
 // ------------------------------------------------
-//     d8888   .d8888b.   .d8888b.                          8888888888  .d8888b.  8888888888                  
-//    d8P888  d88P  Y88b d88P  Y88b                               d88P d88P  Y88b       d88P                  
-//   d8P 888  Y88b. d88P 888    888                              d88P  888             d88P                   
-//  d8P  888   "Y88888"  888    888 88888b.  888  888           d88P   888d888b.      d88P  88888b.  888  888 
-// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'        88888888  888P "Y88b  88888888 888 "88b `Y8bd8P' 
-// 8888888888 888    888 888    888 888  888   X88K  888888   d88P     888    888   d88P    888  888   X88K   
-//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.        d88P      Y88b  d88P  d88P     888 d88P .d8""8b. 
-//       888   "Y8888P"   "Y8888P"  88888P"  888  888       d88P        "Y8888P"  d88P      88888P"  888  888 
-//                                  888                                                     888               
-//                                  888                                                     888               
-//                                  888                                                     888       
+//  8888888888  .d8888b.  8888888888                         .d8888b.                                  888                    
+//        d88P d88P  Y88b       d88P                        d88P  "88b                                 888                 
+//       d88P  888             d88P                         Y88b. d88P                                 888                 
+//      d88P   888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888
+//   88888888  888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"  
+//    d88P     888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888    
+//   d88P      Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888    
+//  d88P        "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888    
+//                                  888               
+//                                  888               
+//                                  888       
 // ------------------------------------------------    
 
 @media (max-width: 767px) {
 
-  // Padding to set content in a bit
-  body {
+.nav-wrapper{
+  height:64px;
+}
+.navbar{
+  .nav-primary{
+    display:none;
   }
-  // Negative indent the now static "fixed" navbar
+  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
+    #nav-li-account,
+    #nav-li-favorites,
+    #nav-li-search,
+    #nav-li-universal{
+      display:none;
+    }
+  }
+  .btn-mobile-nav{
+    display:block;
+    margin-top:0;
+    float:left;
+    width:22px;
+    height:19px;
+    padding:20px 19px 25px;
+    border-right:solid 1px $grayDark;
+
+    // override the default icon with the bigger one.
+    @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
+  }
+  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
+    > li#nav-li-cart{
+      display:block;
+      float:right;
+      > a{  
+        margin:0;
+        padding:20px 0 23px 18px;
+        width:64px;
+        height:64px;
+        border-left:solid 1px $grayDark;
+        font-size:$font_15_16;
+
+        // override the default icon with the bigger one.
+        @include icon-ui(cart, -1050px,   19px,   17px);
+        i {
+          margin-top:1px;
+          margin-right:4px;
+        }
+      }
+    }
+  }
+  .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
+    position:absolute;
+    width:90px;
+    margin-left:-45px;
+    left:50%;
+  }
+}
+
+
+
+.DISABLED{
   .navbar-fixed-top,
   .navbar-fixed-bottom,
   .navbar-static-top {
@@ -523,9 +578,6 @@
     margin-right: -20px;
   }
 
-  .nav-wrapper .navbar .btn-mobile-nav{
-    display:block;
-  }
   // Account for brand name
   .navbar .brand {
     padding-left: 10px;
@@ -657,6 +709,7 @@
     padding-right: 10px;
   }
 }
+} // max-width: 767px
 
 
 
@@ -682,6 +735,47 @@
 // ------------------------------------------------
 
 @media (max-width: 479px) {
+
+.nav-wrapper{
+  height:48px; // -16
+}
+.navbar{
+
+  // override the default logo sprite with the smaller one.
+  @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
+  .sprite-reg-nav-sony-logo{
+    margin-top:10px;
+    width:80px;
+    margin-left:-40px;
+  }
+
+  .btn-mobile-nav{
+    width:22px;
+    height:18px;
+    padding:14px 14px 16px;
+
+    // back to the regular icon size.
+    @include icon-ui(mobile-menu-btn, -990px,   19px,   16px);
+  }
+  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
+    > li#nav-li-cart{
+      > a{  
+        padding:13px 0 0px 12px;
+        width:54px;
+        height:48px;
+        border-left:solid 1px $grayDark;
+        font-size:$font_15_16;
+
+        // override the default icon with the bigger one.
+        @include icon-ui(cart, -1050px,   19px,   17px);
+        i {
+          margin-top:1px;
+          margin-right:4px;
+        }
+      }
+    }
+  }
+}
 }
 
 
