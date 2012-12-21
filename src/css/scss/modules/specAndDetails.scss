@@ -62,11 +62,12 @@
   .sonyRecommends{
     float:right;
     color:$gray;
-    margin-top:65px;
+    margin-top:30px;
     background:url('../../img/spec/ico/sonyRecommend.jpg') right center no-repeat;
     padding-right:123px;
     
     p{
+      font-size:$font_12_16;
       margin:0;
       line-height:34px;
     }
@@ -74,12 +75,12 @@
   
   .gallery-tabs .tabs{height:auto !important;}
   
-  // Specific to the details page
-  section.details
+  // Specific to the details page && the bottom spec page.
+  section
   {
     margin-bottom:20px;
     
-    >h2{font-size:$font_18_16; margin-bottom:20px;}
+    >h2{font-size:$font_18_16; @include fontMedium(); margin-bottom:20px;}
     >h2.h2-bigger{font-size:$font_22_16; @include fontBold(); margin:30px 0; border-bottom:3px solid #e9e9eb; padding-bottom:20px; text-transform:uppercase;}
     
     .grid > div
@@ -89,10 +90,6 @@
     }
     
     .grid{
-      border-bottom:1px solid #ccc;
-      margin-bottom:20px;
-      padding-bottom:20px;
-      
       h2{margin-bottom:20px;}
       
       ul{
@@ -102,11 +99,18 @@
     }
   }
   
-  /*
-  ul{margin-left:0;
-    li{font-size:$font_12_16;}
+  section.details{
+    
+    .grid{
+      margin:20px 0;
+      
+      ul{margin:0;
+        li{
+          font-size:$font_12_16;
+        }
+      }
+    }
   }
-  */
  
   .label {font-weight: bold;}
   
@@ -129,7 +133,7 @@
   .smallTable, .specsTable{
      .thead
      {
-       .cell{
+       .specCell{
          text-align:left;
        }
      }
@@ -139,8 +143,8 @@
   .smallTable {
     display: table;
     
-    .row {display: table-row;}
-    .cell{
+    .specRow {display: table-row;}
+    .specCell{
       display: table-cell;
       padding-right:10px;
       
@@ -171,13 +175,17 @@
       background:#f1f5f9;
       display: table-header-group;
       
-      > .row{
+      > .specRow{
         display: table-row;
         
-        > .cell:first-child{text-align:right; color:$grayDarkerFieldSmall;
+        > .specCell:first-child{
           p
           {
+            position:absolute;
+            top:20px;
+            left:20px;
             font-size:$font_15_16;
+            color:$grayDarkerFieldSmall;
             span{
               color:$gray;
               font-size:$font_13_15 !important;
@@ -185,7 +193,7 @@
             }
           }
         }
-        > .cell{
+        > .specCell{
           //width:25%;
           padding:20px;
           border-left:1px solid #DFE3E7;
@@ -202,7 +210,7 @@
             margin:0;
           }
         }
-        > .cell:first-child{
+        > .specCell:first-child{
           //width:0.5%;
           border-left:none !important;
         }
@@ -212,17 +220,17 @@
     //Tbody
     > .tbody {
       display:table-row-group;
-      > .row {
+      > .specRow {
         display: table-row;
         position:relative;
         
-        >.cell.intel7 >div{
+        >.specCell.intel7 >div{
           background:url('../../img/spec/inteli7.png') bottom left no-repeat;
           padding-bottom:60px;
         }
         
         //All Cells
-        >.cell{
+        >.specCell{
           position:relative;
           border-left:1px solid #dfe3e7;
           border-bottom:1px solid #dfe3e7;
@@ -272,7 +280,7 @@
         }
         
         //First cells
-        >.cell:first-child{
+        >.specCell:first-child{
           border-left:none !important;
           
           p
@@ -283,13 +291,13 @@
           }
         }
   
-        &:last-child .cell {
+        &:last-child .specCell {
           border-bottom: none !important;
         }
       }
     }
     
-    .cell
+    .specCell
     {
       display: table-cell;
       padding-right:10px;
@@ -381,7 +389,7 @@
     h2:first-child{border-top:none; margin-top:0;}
     
     .thead{
-      .cell{
+      .specCell{
         p{
           font-size:18px; font-weight:normal;
         }
@@ -393,7 +401,7 @@
       line-height:1.5em;
       display:block;
     }
-    .tbody .row .cell{
+    .tbody .specRow .specCell{
       p{margin:0;}
     }
     
@@ -434,8 +442,9 @@
   
   
   // MEDIA QUERIES (640px AND BELOW)
-  @media all and (max-width: 500px) {
+  @media all and (max-width: 640px) {
     
+    .fixed-header .sonyRecommends{display:none;}
     .tableZoom{display:none !important;}
     .desktopNav{display:none;}
     
@@ -445,15 +454,15 @@
     }
     
     //Hide the first column of each table.
-    .tableContainer .specsTable > .thead > .row > .cell:first-child,
-    .tableContainer .specsTable > .tbody > .row > .cell:first-child{
+    .tableContainer .specsTable > .thead > .specRow > .specCell:first-child,
+    .tableContainer .specsTable > .tbody > .specRow > .specCell:first-child{
       display:none;
     }
     
-    .tableContainer .specsTable > .tbody > .row > .cell h2{display:block;}
+    .tableContainer .specsTable > .tbody > .specRow > .specCell h2{display:block;}
     
     //Hide the first row of each table.
-    .tableContainer .specsTable > .thead > .row:first-child{
+    .tableContainer .specsTable > .thead > .specRow:first-child{
       display:none;
     }
     
@@ -495,233 +504,3 @@
     }
   }
 }
-
-
-
-
-
-  /*
-  
-
-    
-    // Mobile tabs
-    .table-mobile-tabs {
-      margin: 0 !important;
-      li:first-child{display:none;}
-      li {
-        float: left;
-        display: block;
-        cursor: pointer;
-        padding: 10px;
-        background: #ccc;
-        color:#000;
-        &:hover {
-          background: #c0c0c0;
-        }
-      }
-    }
-
-    > .specsTable{
-      float:left;
-    }
-  }
-  
-  
-
-  
-  // OVERRIDE - for each smallTable
-  .table.smallTable{
-    .row{
-      .cell{
-        padding:0 10px 0 0;
-        h3{color:$black; font-size:$font_13_15 !important;}
-        p{color:#555; font-size:$font_13_15 !important;}
-      }
-    }
-  }
-  
-  // General End
-
-
-
-
-  // Big Tables Colors and skins
-  .table.specsTable
-  {
-  	background: #F7F7F7;
-  	color: $black;
-  	
-  	p{font-size:$font_13_15 !important;}
-  	span{
-  	  font-size:$font_15_15 !important;
-  	  line-height:1.5em;
-  	  display:block;
-    }
-  	
-  	.cell
-  	{
-  		padding: 10px 20px;
-  		// Defines a table cell
-  		border-bottom: 1px solid #eee;
-  		border-right: 1px solid #eee;
-  		&:last-child {
-  			border-right: none !important;
-  		}
-  		&:hover {
-  			background: #f9f9f9;
-  		}
-  	}
-  	
-  	.thead {
-  	  .row{
-    		.cell {
-    			color: $black;
-    			border-bottom: 2px solid #eee !important;
-    			border-left:none !important;
-    			border-right:none !important;
-    		}
-    	}
-  	}
-  	
-  	.tbody{
-  	  .row{
-        .table
-        {
-          .cell:first-child{
-            font-weight:normal;
-            padding-right:8px;
-            width:20%;
-          }
-          .cell{
-            p{margin:0; font-size:$font_15_15 !important;
-            span{font-size:$font_15_15 !important;}
-            }
-            padding:0;
-            border:none !important;
-          }
-        }
-  	  }
-  	}
-  }
-  
-  // OVERRIDE
-  .sonyCarousel{
-    width:100%;
-    h2{font-size:18px !important; color:$black; padding:20px 0; margin-top:20px; border-top:1px solid #eee;}
-    h2:first-child{border-top:none; margin-top:0;}
-    p{font-size:14px !important; font-weight:normal;}
-    span{
-      font-size:$font_14_15 !important;
-      line-height:1.5em;
-      display:block;
-    }
-    .tbody .row .cell{
-      padding:0 !important;
-      border:none !important;
-      p{margin:0;}
-    }
-  }
-  .sonyCarousel .scSlide
-  {
-    height:auto !important;
-    p{
-      position:relative;
-      top:0;
-      left:0;
-      background:none;
-      max-width:100%;
-      height:auto;
-      padding:0;
-      color:$black;
-    }
-  }
-  
-  .tableContainer.desktopNav{
-    .scSlide{height:auto !important;}
-    .scOverflow{height:2100px !important;}
-    p{
-      position:relative;
-      top:0;
-      left:0;
-      background:none;
-      max-width:100%;
-      height:auto;
-      padding:0;
-      color:$black;
-    }
-  }
-  
-  
-  div.table.smallTable{
-    p{margin:0;}
-  }
-  
-  
-
-
-
-  
-  
-  
-  
-  
-  // MEDIA QUERIES (640px AND BELOW)
-  @media all and (max-width: 640px) {
-  	
-  	.table.smallTable{
-  		.row{display:block;}
-  		.cell{display:block;}
-  	}
-  	
-  	//BIG TABLES *TABLE STYLE* - (DESKTOP ONLY)
-    .table.specsTable {
-      width: 100%;
-      .row .cell:first-child {
-        display: none;
-      }
-      
-      .tbody .cell {
-        h2 {
-          display: block;
-          font-size:$font_18_15;
-        }
-        display: none;
-      }
-      .thead .cell {
-        display: none;
-      }
-      
-      .cell.show {
-        display: block;
-      }
-      
-      .tbody .tbody .cell{display:block !important;}
-    }
-    
-    //BIG TABLES *CAROUSEL* - (MOBILE ONLY)
-    .sonyCarousel{
-      .tbody .row .cell{
-        display:block !important;
-      }
-    }
-  }
-
-  // MEDIA QUERIES (640px TO 767px)
-  @media all and (min-width: 640px) and (max-width: 767px) {
-    .grid{
-      >div{
-        >.table.smallTable{
-          >.tbody{
-            >.row{
-              >.cell
-              {
-                width:50% !important;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-*/

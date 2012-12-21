@@ -1,6 +1,6 @@
 <div class="container">
 	<section class="spec">
-		<div class="clearfix">
+		<div class="clearfix fixed-header">
 			<div class="spec-title">
 				<p class="title-link">
 					<a href="#">Vaio Z</a>
@@ -12,11 +12,11 @@
 						<a class="active" href="#">Specifications</a>
 					</p>
 					<p>
-						<a href="#">Features</a>
+						<a href="details_module.html">Features</a>
 					</p>
 				</div>
 			</div>
-
+			
 			<div class="sonyRecommends">
 				<p>
 					Sony recommends
@@ -502,7 +502,7 @@
 		<% if @data.computersFeatures: %>
 			<h2 class="h2-bigger">Features</h2>
 	
-			<div class="grid no-border">
+			<div class="grid no-border full-bleed">
 				<div class="span4">
 					<% if @data.computersFeatures.a: %>
 						<h3><%- @data.computersFeatures.a.title %></h3>
@@ -525,7 +525,7 @@
 				</div>
 			</div>
 	
-			<div class="grid no-border">
+			<div class="grid no-border full-bleed">
 				<div class="span4">
 					<% if @data.computersFeatures.d: %>
 					<h3><%- @data.computersFeatures.d.title %></h3>
