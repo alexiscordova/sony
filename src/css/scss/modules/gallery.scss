@@ -69,14 +69,9 @@ $detailedGalleryItemHeight: 480px;
 .gallery-item {
   position: relative;
   display: block;
-  // height: 0;
-  // padding-bottom: 165.19607843137254%;
-  // padding-bottom: 60.534124629080125%;
   margin-top: $grid5GutterWidth;
-  // height: $galleryItemHeight;
   overflow: hidden;
   background: $white;
-  // background: $transparentBlack;
 
   &:after {
     content: '';
@@ -105,7 +100,6 @@ $detailedGalleryItemHeight: 480px;
   // Container for product images
   .product-img {
     position: relative;
-    // height: $galleryItemImgHeight;
     width: 100%;
     overflow: hidden;
     text-align: center;
@@ -147,9 +141,6 @@ $detailedGalleryItemHeight: 480px;
 
   // large is height * 2
   &.large {
-    // height: ($galleryItemHeight * 2) + $grid5GutterWidth;
-    // padding-bottom: 94.40459110473458%;
-    // padding-bottom: 105.92705167173253%;
 
     &:after {
       padding-top: 105.92705167173253%;
@@ -195,11 +186,6 @@ $detailedGalleryItemHeight: 480px;
     .shuffle-6 & .product-img:after {
       padding-top: 84.3%;
     }
-  }
-
-  // Double the height and include margin
-  &.large .product-img {
-    // height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
   }
 
   // Promo gallery item images are the full height
@@ -302,12 +288,8 @@ $detailedGalleryItemHeight: 480px;
 
 .gallery-detailed {
 
-  .gallery-item {
-    // height: $detailedGalleryItemHeight;
-
-    &:after {
-      padding-top: 135.2112676056338%;
-    }
+  .gallery-item:after {
+    padding-top: 135.2112676056338%;
   }
 
   .product-img:after {
@@ -317,18 +299,7 @@ $detailedGalleryItemHeight: 480px;
 }
 
 @media (min-width:768px) and (max-width:979px) {
-  .gallery-detailed,
-  .compare-container {
 
-    .gallery-item {
-      // height: 434px;
-    }
-
-    .product-img {
-      // height: 174px;
-    }
-
-  }
 }
 
 
@@ -369,17 +340,6 @@ $detailedGalleryItemHeight: 480px;
     .gallery-item-inner,
     .product-img .product-img-wrap {
       position: absolute;
-    }
-
-    // Make it a 1x1 instead of 2x2 or 1x2
-    // need .gallery selector to override .grid5
-    .promo,
-    .large {
-      // height: $galleryItemHeight;
-    }
-
-    .large .product-img {
-      // height: $galleryItemImgHeight;
     }
 
     .product-img:after {
@@ -748,7 +708,7 @@ $detailedGalleryItemHeight: 480px;
   position: absolute;
   margin-left: -10px;
   @include opacity(0);
-  @include transition(opacity $transitionNormal $easeNormal, margin $transitionNormal $easeNormal);
+  @include transition(opacity $transitionNormal $easeNormal .1s, margin $transitionNormal $easeNormal .1s);
 
   &.complete {
     margin-left: 0;

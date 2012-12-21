@@ -257,9 +257,9 @@
       // Create labels showing current filters
       $.each(filters, function(key, obj) {
         var $label = $('<span>', {
-          "class" : "label label-close",
-          "data-filter" : key,
-          "data-filter-name" : obj.key || obj.name,
+          'class' : 'label label-close',
+          'data-filter' : key,
+          'data-filter-name' : obj.key || obj.name,
           text : obj.label,
           click : $.proxy( self.onRemoveFilter, self )
         });
@@ -429,9 +429,9 @@
         itemSelector: '.gallery-item', // selector for all items you'll retrieve
         loading: {
           selector: '.infscr-holder',
-          msgText: "<em>Loading the next set of products...</em>",
-          finishedMsg: "<em>Finished loading products.</em>",
-          img: self.loadingGif,
+          msgText: '<em>Loading the next set of products...</em>',
+          finishedMsg: '<em>Finished loading products.</em>',
+          img: self.loadingGif
         }
       },
       // call shuffle as a callback
@@ -724,41 +724,79 @@
       return false;
     },
 
-    sort : function( evt ) {
-      var self = this,
-          $target = $(evt.target),
+    getSortObject : function( evt, $btnText ) {
+      var $target = $(evt.target),
           isSelect = $target.is('select'),
           data,
           filterName,
           reverse,
-          sortObj = {};
+          sortObj = {},
+          index;
 
       // Get variables based on what kind of component we're working with
       if ( isSelect ) {
         filterName = $target.val();
-        reverse = evt.target[ evt.target.selectedIndex ].getAttribute('data-reverse');
+        index = evt.target.selectedIndex;
+        reverse = evt.target[ index ].getAttribute('data-reverse');
         reverse = reverse === 'true' ? true : false;
       } else {
         data = $target.data();
         filterName = data.value;
         reverse = data.reverse ? true : false;
-
+        index = $target.closest('li').index();
         evt.preventDefault();
-        self.$dropdownToggleText.text( $target.text() );
+        $btnText.text( $target.text() );
       }
 
       if ( filterName !== 'default' ) {
         sortObj = {
+          sortIndex: index,
           reverse: reverse,
           by: function($el) {
             // e.g. filterSet.price
             return $el.data('filterSet')[ filterName ];
           }
         };
+      } else {
+        sortObj.sortIndex = index;
       }
 
-      self.currentSort = filterName;
+      return sortObj;
+
+    },
+
+    updateSortDisplay : function( $container ) {
+      var self = this,
+          currentSortValue = '';
+
+      if ( Modernizr.mq('(max-width: 767px)') ) {
+        // Dealing with the select option menu
+        currentSortValue = $container.find('select').children().eq( self.currentSort ).val();
+        $container
+          .find('select')
+          .val( currentSortValue )
+          .trigger('change');
+      } else {
+        // The dropdown component
+        $container
+          .find('.dropdown-menu')
+          .children()
+          .eq( self.currentSort )
+          .find('a')
+          .trigger('click');
+      }
+
+      return self;
+    },
+
+    sort : function( evt ) {
+      var self = this,
+          sortObj = self.getSortObject( evt, self.$dropdownToggleText );
+
+      self.currentSort = sortObj.sortIndex;
       self.$grid.shuffle('sort', sortObj);
+
+      return self;
     },
 
     sortByPriority : function() {
@@ -783,34 +821,41 @@
 
     sortComparedItems : function( evt ) {
       var self = this,
-          $target = $(evt.target),
-          data = $target.data(),
-          reverse = data.reverse ? true : false,
-          sortObj = {},
-          sortedItems;
+          sortObj = self.getSortObject( evt, self.$compareTool.find('.js-toggle-text') ),
+          sortedItems,
+          frag = document.createDocumentFragment();
 
-      console.log( 'sortComparedItems', evt );
+      console.log('sortComparedItems');
 
-      evt.preventDefault();
+      // Sort elements
+      sortedItems = self.$compareItems.sorted( sortObj );
 
-      self.$compareTool.find('.js-toggle-text').text( $target.text() );
+      // Remove old elements from DOM
+      self.$compareItems.detach();
 
-      if ( data.value !== 'default' ) {
-        sortObj = {
-          reverse: reverse,
-          by: function($el) {
-            // e.g. filterSet.price
-            return $el.data('filterSet')[ data.value ];
-          }
-        };
+      // Not default order
+      if ( sortObj.by ) {
+        // Append sorted elements to a document fragment
+        $.each(sortedItems, function(i, element) {
+          frag.appendChild( element );
+        });
+
+        // Append document fragment to the compare-item container
+        self.$compareTool.find('.compare-container').append( frag );
+
+        // Save our new compare items
+        self.$compareItems = $( sortedItems );
+
+      // Default order is saved in the state variable
+      } else {
+        self.$compareItems = self.compareState.$items;
+        self.$compareTool.find('.compare-container').append( self.$compareItems );
       }
 
-      sortedItems = self.$compareTool.find('.gallery-item').sorted( sortObj );
+      // Make sure we can press reset
+      self.$compareReset.removeClass('disabled');
 
-      $.each(sortedItems, function(i, element) {
-        console.log(i, element);
-      });
-
+      return self;
     },
 
     onResize : function() {
@@ -889,7 +934,7 @@
     },
 
     onShuffleLoading : function() {
-      var $div = $('<div>', { "class" : "gallery-loader text-center" }),
+      var $div = $('<div>', { 'class' : 'gallery-loader text-center' }),
           $img = $('<img>', { src: this.loadingGif });
       $div.append($img);
       $div.insertBefore(this.$grid);
@@ -909,7 +954,6 @@
 
           // Clone all visible
           $currentItems = shuffle.$items.filter('.filtered').clone(),
-          $newItems = $(),
 
           contentWidth = 0,
           // Get product count
@@ -927,8 +971,7 @@
           $labelGroup = $('<div class="detail-label-group">'),
 
           // Clone sort button
-          $sortOpts = self.$container.find('.sort-options').clone(),
-          isFixedHeader = false;
+          $sortOpts = self.$container.find('.sort-options').clone();
 
       // Clone the product count
       self.$compareCountWrap = self.$container.find('.product-count-wrap').clone();
@@ -940,54 +983,11 @@
       });
       self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
 
-      // Build / manipulate compare items from the gallery items
-      $currentItems.each(function() {
-        var $item = $(this),
-            $swatches,
-            $div = $('<div/>');
+      self.isFixedHeader = false;
 
-        // Create remove button, show detail group, remove label, remove product-meta,
-        // wrap name and model in a container (to set the height on), create fixed header clones
-        $item
-          .removeClass()
-          .addClass('span4 compare-item')
-          .removeAttr('style')
-          .append('<span class="box-close box-close-small compare-item-remove"><i class="icon-ui-x-tiny"></i></span>')
-          .find('.detail-group')
-          .removeClass('hidden')
-          .end()
-          .find('.label')
-          .remove()
-          .end()
-          .find('.product-meta')
-          .remove()
-          .end()
-          .find('.product-name, .product-model')
-          .wrapAll('<div class="product-name-wrap"/>')
-          .end()
-          .prepend('<div class="compare-sticky-header">');
+      // Convert cloned gallery items to compare items
+      self.$compareItems = self.getCompareItems( $currentItems );
 
-        // Remove and reattach the swatches to after the price
-        $swatches = $item.find('.product-img .color-swatches').detach();
-        $item.find('.product-price').after($swatches);
-
-        // Needed to detach swatches before cloning!
-        $item
-          .find('.product-img, .product-name-wrap, .compare-item-remove')
-          .clone(true) // true for compare item remove's functionality
-          .appendTo( $item.find('.compare-sticky-header') );
-
-
-        // Create a new div with the same attributes as the anchor tag
-        // We no longer want the entire thing to be clickable
-        $div.attr({
-            "class" : $item.attr('class'),
-            "data-filter-set" : $item.attr('data-filter-set')
-        });
-
-        $div.append( $item.children().detach() );
-        $newItems = $newItems.add( $div );
-      });
 
       // Create labels column
       self.$container.find('.comparables [data-label]').each(function() {
@@ -997,24 +997,18 @@
       });
 
       // Remove compare items on click
-      $newItems.find('.compare-item-remove').on('click', $.proxy( self.onCompareItemRemove, self ));
+      self.$compareItems.find('.compare-item-remove').on('click', $.proxy( self.onCompareItemRemove, self ));
 
       // Set up sort events
       $sortOpts.find('.dropdown a').on('click', $.proxy( self.sortComparedItems, self ));
 
-      // Set current sort
-      // TODO
-
       // Set the right heading. e.g. Compare Cyber-shot®
       $label.text( newLabel );
-
-      // Intialize carousel
-      // TODO
 
       // Append the count, reset, and sort in the right spots
       // Phone = sticky header
       if ( Modernizr.mq('(max-width: 480px)') ) {
-        isFixedHeader = true;
+        self.isFixedHeader = true;
 
         var $subheader = $('<div class="modal-subheader clearfix">');
         $subheader.append( self.$compareCountWrap, self.$compareReset, $sortOpts );
@@ -1038,7 +1032,7 @@
       $labelColumn.append( $labelGroup );
 
       // Animate sticky header
-      self.$stickyHeaders = $newItems.find('.compare-sticky-header');
+      self.$stickyHeaders = self.$compareItems.find('.compare-sticky-header');
       self.$stickyHeaders.hover(function() {
         self.$stickyHeaders.addClass('with-img');
       }, function() {
@@ -1047,58 +1041,25 @@
 
       // On window resize
       $(window).on('smartresize.comparetool', function() {
-        // Phone = sticky header
-        if ( Modernizr.mq('(max-width: 480px)') ) {
-
-          // Setup sticky header
-          if ( !isFixedHeader ) {
-            isFixedHeader = true;
-            var $subheader = $('<div class="modal-subheader clearfix">');
-            $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
-
-            // Insert subhead after the header
-            $header.after( $subheader );
-
-            // Put the reset button the left
-            self.$compareReset.removeClass('pull-right').addClass('pull-left');
-          }
-
-        // Larger than phone
-        } else {
-
-          if ( isFixedHeader ) {
-            isFixedHeader = false;
-            // Append sort dropdown
-            $header.append( self.$compareReset.detach(), $sortOpts.detach() );
-
-            // Append count and labels
-            $labelColumn.prepend( self.$compareCountWrap.detach() );
-
-            self.$compareTool.find('.modal-subheader').remove();
-
-            self.$compareReset.removeClass('pull-left').addClass('pull-right');
-          }
-        }
-
-        self.$compareTool
-          .find('.detail')
-          .add(self.$compareTool.find('.product-name-wrap'))
-          .css('height', '');
-
-        self.setCompareRowHeights();
-        self.setStickyHeaderPos();
+        self.onCompareResize( $header, $sortOpts, $labelColumn );
       });
+
+      // Intialize carousel
+      // TODO
 
       // Save state for reset
       self.compareState = {
           count: productCount,
           sort: self.currentSort,
-          $items : $newItems,
+          $items : self.$compareItems,
           label: originalLabel
       };
 
+      // Set current sort. After saving state so we get the correct DOM order for compareItems
+      self.updateSortDisplay( $sortOpts );
+
       $content.append( $labelColumn );
-      $content.append( $newItems );
+      $content.append( self.$compareItems );
       $container.append( $content );
 
       // Trigger modal
@@ -1142,7 +1103,7 @@
 
       // Position sticky headers
       self.setStickyHeaderPos();
-      offsetTop = self.$compareTool.find('.compare-item').first().offset().top;
+      offsetTop = self.$compareItems.first().offset().top;
       extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
       offsetTop += extra;
 
@@ -1216,9 +1177,11 @@
 
       self.$compareReset.remove();
       self.$compareReset = null;
+      self.$compareItems = null;
 
       // Set state to null
       self.compareState = null;
+      self.isFixedHeader = null;
 
 
       // Remove resize event
@@ -1242,6 +1205,8 @@
       self.$compareReset.addClass('disabled');
 
       // Reset sort
+      self.$compareItems.detach();
+      self.$compareTool.find('.compare-container').append( state.$items );
 
       // Reset carousel
 
@@ -1263,7 +1228,7 @@
       self.$compareReset.removeClass('disabled');
 
       // Get remaining
-      remaining = self.$compareTool.find('.compare-item:not(.hide)').length;
+      remaining = self.$compareItems.not('.hide').length;
 
       // Set remaining text
       self.$compareCount.text( remaining );
@@ -1277,6 +1242,106 @@
       self.setStickyHeaderPos();
 
       return self;
+    },
+
+    onCompareResize : function( $header, $sortOpts, $labelColumn ) {
+      var self = this;
+
+      // Phone = sticky header
+      if ( Modernizr.mq('(max-width: 480px)') ) {
+
+        // Setup sticky header
+        if ( !self.isFixedHeader ) {
+          self.isFixedHeader = true;
+          var $subheader = $('<div class="modal-subheader clearfix">');
+          $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
+
+          // Insert subhead after the header
+          $header.after( $subheader );
+
+          // Put the reset button the left
+          self.$compareReset.removeClass('pull-right').addClass('pull-left');
+        }
+
+      // Larger than phone
+      } else {
+
+        if ( self.isFixedHeader ) {
+          self.isFixedHeader = false;
+          // Append sort dropdown
+          $header.append( self.$compareReset.detach(), $sortOpts.detach() );
+
+          // Append count and labels
+          $labelColumn.prepend( self.$compareCountWrap.detach() );
+
+          self.$compareTool.find('.modal-subheader').remove();
+
+          self.$compareReset.removeClass('pull-left').addClass('pull-right');
+        }
+      }
+
+      self.$compareTool
+        .find('.detail')
+        .add(self.$compareTool.find('.product-name-wrap'))
+        .css('height', '');
+
+      self.setCompareRowHeights();
+      self.setStickyHeaderPos();
+    },
+
+    getCompareItems : function( $items ) {
+      var $newItems = $();
+
+      // Build / manipulate compare items from the gallery items
+      $items.each(function() {
+        var $item = $(this),
+            $swatches,
+            $div = $('<div/>');
+
+        // Create remove button, show detail group, remove label, remove product-meta,
+        // wrap name and model in a container (to set the height on), create fixed header clones
+        $item
+          .removeClass()
+          .addClass('span4 compare-item')
+          .removeAttr('style')
+          .append('<span class="box-close box-close-small compare-item-remove"><i class="icon-ui-x-tiny"></i></span>')
+          .find('.detail-group')
+          .removeClass('hidden')
+          .end()
+          .find('.label')
+          .remove()
+          .end()
+          .find('.product-meta')
+          .remove()
+          .end()
+          .find('.product-name, .product-model')
+          .wrapAll('<div class="product-name-wrap"/>')
+          .end()
+          .prepend('<div class="compare-sticky-header">');
+
+        // Remove and reattach the swatches to after the price
+        $swatches = $item.find('.product-img .color-swatches').detach();
+        $item.find('.product-price').after($swatches);
+
+        // Needed to detach swatches before cloning!
+        $item
+          .find('.product-img, .product-name-wrap, .compare-item-remove')
+          .clone(true) // true for compare item remove's functionality
+          .appendTo( $item.find('.compare-sticky-header') );
+
+
+        // Create a new div with the same attributes as the anchor tag
+        // We no longer want the entire thing to be clickable
+        $div.attr({
+            'class' : $item.attr('class'),
+            'data-filter-set' : $item.attr('data-filter-set')
+        });
+
+        $div.append( $item.children().detach() );
+        $newItems = $newItems.add( $div );
+      });
+
+      return $newItems;
     },
 
     setStickyHeaderPos : function() {
@@ -1524,12 +1589,11 @@
 
     setCompareRowHeights : function() {
       var self = this,
-          $items = self.$compareTool.find('.compare-item'),
-          $detailGroup = $items.find('.detail-group').first(),
+          $detailGroup = self.$compareItems.find('.detail-group').first(),
           offset = 0,
           nameMaxHeight = 0;
 
-      $items.find('.product-name-wrap').each(function() {
+      self.$compareItems.find('.product-name-wrap').each(function() {
         var $this = $(this),
             height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
 
@@ -1542,7 +1606,7 @@
       self.$compareTool.find('.detail-label').each(function(i) {
         var $detailLabel = $(this),
             maxHeight = parseFloat( $detailLabel.css('height') ) + parseFloat( $detailLabel.css('paddingTop') ),
-            $detail = $items.find('.detail:nth-child(' + (i + 1) + ')');
+            $detail = self.$compareItems.find('.detail:nth-child(' + (i + 1) + ')');
 
         // Find all detail lines that have this "name"
         $detail.each(function() {
