@@ -9,6 +9,7 @@
 // --------------------------------------
 
 (function($, Modernizr, window, undefined) {
+  'use strict';
 
   var Gallery = function( $container, options ) {
     var self = this;
@@ -1040,9 +1041,9 @@
       });
 
       // On window resize
-      $(window).on('smartresize.comparetool', function() {
+      $(window).on('resize.comparetool', $.throttle(250, function() {
         self.onCompareResize( $header, $sortOpts, $labelColumn );
-      });
+      }));
 
       // Intialize carousel
       // TODO

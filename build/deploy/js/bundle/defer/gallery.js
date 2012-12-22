@@ -131,7 +131,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
 
     // Decide which tabs to make
     if ( Modernizr.mq('(max-width: 767px)') ) {
-      _setupStickyTabs();
+      // _setupStickyTabs();
     } else if ( Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
       _setTabCarouselVars();
       _setupTabCarousel();
@@ -167,10 +167,10 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       }
 
       if ( !isStickyTabs ) {
-        _setupStickyTabs();
+        // _setupStickyTabs();
       }
 
-      _animateTab();
+      // _animateTab();
 
     // Tablet
     } else if ( Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
