@@ -510,7 +510,7 @@
 @media (max-width: 767px) {
 
 .page-wrap-inner.show-mobile-menu{
-  left:70%;
+  left:$mobileNavWidthLarge;
 }
 
 .nav-wrapper{
@@ -518,14 +518,14 @@
 }
 .navbar{
   .nav-primary{
-    display:none;
+    // display:none;
   }
   .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
     .nav-li-account,
     .nav-li-favorites,
     .nav-li-search,
     .nav-li-universal{
-      display:none;
+      // display:none;
     }
   }
 
@@ -541,27 +541,27 @@
     // override the default icon with the bigger one.
     @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
   }
-  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-  }
-  .nav-li-cart{
-    display:block;
-    float:right;
-    .nav-li-link{  
-      margin:0;
-      padding:20px 0 23px 18px;
-      width:64px;
-      height:64px;
-      border-left:solid 1px $grayDark;
-      font-size:$font_15_16;
 
-      // override the default icon with the bigger one.
-      @include icon-ui(cart, -1050px,   19px,   17px);
-      i {
-        margin-top:1px;
-        margin-right:4px;
-      }
-    }
-  }
+  // Don't know about this one -- might have to make a separate cart link, so we can use the rest of the menu in the actual menu.
+  // .nav-li-cart{
+  //   display:block;
+  //   float:right;
+  //   .nav-li-link{  
+  //     margin:0;
+  //     padding:20px 0 23px 18px;
+  //     width:64px;
+  //     height:64px;
+  //     border-left:solid 1px $grayDark;
+  //     font-size:$font_15_16;
+
+  //     // override the default icon with the bigger one.
+  //     @include icon-ui(cart, -1050px,   19px,   17px);
+  //     i {
+  //       margin-top:1px;
+  //       margin-right:4px;
+  //     }
+  //   }
+  // }
   .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
     position:absolute;
     width:90px;
@@ -755,7 +755,7 @@
 @media (max-width: 479px) {
 
 .page-wrap-inner.show-mobile-menu{
-  left:86%;
+  left:$mobileNavWidthSmall;
 }
 .nav-wrapper{
   height:48px; // -16
