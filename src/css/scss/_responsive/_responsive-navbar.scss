@@ -21,21 +21,29 @@
 // -----------------------------------------
 
 .nav{
-  > li > a{
-    line-height:$navbarLineHeight;
-    padding: 0 6px;
-    margin: 10px 9px 14px 9px;
-    font-size:$navbarTextSize;
+  > li {
 
-    &.nav-dropdown-toggle-text{
-      padding-right: 3px;
-      margin-right: 3px;
-      .icon-ui-arrowhead-down-gray{
-        margin-left: 8px;
-        margin-top: 11px;
-      }
+    .global-nav-indicator-bar{
+      margin-left:11px;
     }
-  }
+
+    > a{
+      line-height:$navbarLineHeight;
+      padding: 0 6px;
+      margin: 10px 9px 14px 9px;
+      font-size:$font_15_16;
+
+      &.nav-dropdown-toggle-text{
+        padding-right: 3px;
+        margin-right: 3px;
+        .icon-ui-arrowhead-down-gray{
+          margin-left: 8px;
+          margin-top: 11px;
+        }
+      }
+    } // > a
+  } // > li
+
   &.nav-primary{
     margin-left:3%;
   }
@@ -43,7 +51,7 @@
     > li > a{
       line-height:$navbarLineHeight;
       margin: 11px 3px 13px 7px;
-      font-size:$navbarSmTextSize;
+      font-size:$font_13_16;
 
       &.btn-nav-block{
         width: auto;
@@ -87,7 +95,11 @@
       > a {
         margin-left: 15px;
         padding: 0px 16px 0px 12px;
+        > span.navtray-label{
+          display:inline-block;
+        }
         > i.icon-ui-search {
+          float: left;
           margin: 12px 6px 0 0;
         }
       }
@@ -103,6 +115,12 @@
     }
   } // .nav > li
 } // .nav
+
+.navmenu-w-search{
+  .sprite-mini-global-nav-indicator{
+    right: 33px;
+  }
+}
 
 .navtray-w{
   &.navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
@@ -158,6 +176,15 @@
 .nav-collapse.collapse {
   height: auto !important;
   overflow: visible !important;
+}
+
+
+.navmenu-w-account{
+  .navmenu-list-prefixed{
+    border-bottom:solid 1px $grayLightish;
+    padding-bottom:6px;
+    display:none;
+  }
 }
 // END 980px-1199px Default
 
@@ -273,6 +300,70 @@
 
 
 
+// ------------------------------------------------
+// PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
+// ------------------------------------------------
+//  d888    .d8888b.   .d8888b.   .d8888b.         .d8888b.                                  888                  
+// d8888   d88P  Y88b d88P  Y88b d88P  Y88b       d88P  "88b                                 888                  
+//   888   888    888        888      .d88P       Y88b. d88P                                 888                  
+//   888   888    888      .d88P     8888"         "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//   888   888    888  .od888P"       "Y8b.       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//   888   888    888 d88P"      888    888       888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//   888   Y88b  d88P 888"       Y88b  d88P       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+// 8888888  "Y8888P"  888888888   "Y8888P"         "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
+// ------------------------------------------------
+@media (max-width: 1023px) {
+.nav {
+  > li#nav-li-search{ // change the button to simple square no-text.
+    > a {
+      padding: 0px 12px 0px 12px;
+      margin-left: 10px;
+      margin-top: 12px;
+      
+      > span.navtray-label{
+        display:none;
+      }
+      > i.icon-ui-search {  
+        float:none;
+        margin:2px 0px 0 0;
+      }
+    }
+  } // li#nav-li-search
+
+  > li#nav-li-universal{
+    > a {
+      margin-left: 7px;
+      margin-right: -10px;
+      // padding: 0px 8px;
+      > i.icon-ui-plus-tiny {
+        margin-left: 8px;
+      }
+    }
+  } // li#nav-li-universal
+
+  .navmenu-w-account .navmenu-list-prefixed{
+    display:block;
+  }
+  #nav-li-favorites,
+  #nav-li-cart{
+    display:none;
+  }
+} // .nav
+
+.navmenu-w-search{
+  .sprite-mini-global-nav-indicator{
+    // right:15px;
+  }
+}
+.nav-li-selected .navmenu-w-search{
+  right:-26px;
+}
+
+} // END max-width: 1023px
+
+
+
+
 
 // ------------------------------------------------
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
@@ -290,12 +381,26 @@
 //                                  888                                                      888   
 // ------------------------------------------------
 @media (min-width: 768px) and (max-width: 979px) {
+
+.navbar{
+  // override the default logo sprite with the smaller one.
+  @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
+  .sprite-reg-nav-sony-logo{
+    margin-top:18px;
+  }
+}
+
+.nav > li {
+  .global-nav-indicator-bar{
+    margin-left:3px;
+  }
+}
+
 .nav.nav-primary{
-  margin-left: 1.5%;
+  margin-left: 2.6%;
   > li > a{
     line-height: $navbarLineHeight;
-    margin-top: 11px;
-    margin-bottom:13px;
+    margin:11px 1px 13px 1px;
     font-size: $font_13_16;
     padding: 0 7px;
 
@@ -303,8 +408,8 @@
       // padding-right:3px;
       // margin-right:6px;
       .icon-ui-arrowhead-down-gray{
-        // margin-left: 7px;              
         margin-top: 9px;
+        margin-left: 6px;
       }
     }
   }
@@ -313,6 +418,25 @@
 .navtray {
   width:auto;
 }
+
+
+.nav.nav-utility{
+  > li > a{
+    font-size:$font_11_16;
+    margin-top:12px;
+
+    &.nav-dropdown-toggle-text{
+      .icon-ui-arrowhead-down-gray{
+        margin-top: 8px;
+      }
+    }
+    &.btn-nav-block{
+      font-size: $font_11_16;
+    }
+  }
+} // .nav-utility
+
+
 .navtray-section-main{ // section left - contents
   padding-top: 38px;
   width: ($navTrayDividerPosition - 4);
@@ -358,7 +482,10 @@
     padding-top: 10px;
   }
 } //.navtray-section-featured
+
 } // END min-width: 768px and max-width: 979px
+
+
 
 
 
@@ -384,25 +511,80 @@
 // ------------------------------------------------
 // MOBILE-LARGE (mostly the same as mobile, but a little bigger.)
 // ------------------------------------------------
-//     d8888   .d8888b.   .d8888b.                          8888888888  .d8888b.  8888888888                  
-//    d8P888  d88P  Y88b d88P  Y88b                               d88P d88P  Y88b       d88P                  
-//   d8P 888  Y88b. d88P 888    888                              d88P  888             d88P                   
-//  d8P  888   "Y88888"  888    888 88888b.  888  888           d88P   888d888b.      d88P  88888b.  888  888 
-// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'        88888888  888P "Y88b  88888888 888 "88b `Y8bd8P' 
-// 8888888888 888    888 888    888 888  888   X88K  888888   d88P     888    888   d88P    888  888   X88K   
-//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.        d88P      Y88b  d88P  d88P     888 d88P .d8""8b. 
-//       888   "Y8888P"   "Y8888P"  88888P"  888  888       d88P        "Y8888P"  d88P      88888P"  888  888 
-//                                  888                                                     888               
-//                                  888                                                     888               
-//                                  888                                                     888       
+//  8888888888  .d8888b.  8888888888                         .d8888b.                                  888                    
+//        d88P d88P  Y88b       d88P                        d88P  "88b                                 888                 
+//       d88P  888             d88P                         Y88b. d88P                                 888                 
+//      d88P   888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888
+//   88888888  888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"  
+//    d88P     888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888    
+//   d88P      Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888    
+//  d88P        "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888    
+//                                  888               
+//                                  888               
+//                                  888       
 // ------------------------------------------------    
 
 @media (max-width: 767px) {
 
-  // Padding to set content in a bit
-  body {
+.nav-wrapper{
+  height:64px;
+}
+.navbar{
+  .nav-primary{
+    display:none;
   }
-  // Negative indent the now static "fixed" navbar
+  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
+    #nav-li-account,
+    #nav-li-favorites,
+    #nav-li-search,
+    #nav-li-universal{
+      display:none;
+    }
+  }
+  .btn-mobile-nav{
+    display:block;
+    margin-top:0;
+    float:left;
+    width:22px;
+    height:19px;
+    padding:20px 19px 25px;
+    border-right:solid 1px $grayDark;
+
+    // override the default icon with the bigger one.
+    @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
+  }
+  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
+    > li#nav-li-cart{
+      display:block;
+      float:right;
+      > a{  
+        margin:0;
+        padding:20px 0 23px 18px;
+        width:64px;
+        height:64px;
+        border-left:solid 1px $grayDark;
+        font-size:$font_15_16;
+
+        // override the default icon with the bigger one.
+        @include icon-ui(cart, -1050px,   19px,   17px);
+        i {
+          margin-top:1px;
+          margin-right:4px;
+        }
+      }
+    }
+  }
+  .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
+    position:absolute;
+    width:90px;
+    margin-left:-45px;
+    left:50%;
+  }
+}
+
+
+
+.DISABLED{
   .navbar-fixed-top,
   .navbar-fixed-bottom,
   .navbar-static-top {
@@ -410,9 +592,6 @@
     margin-right: -20px;
   }
 
-  .nav-wrapper .navbar .btn-mobile-nav{
-    display:block;
-  }
   // Account for brand name
   .navbar .brand {
     padding-left: 10px;
@@ -544,6 +723,7 @@
     padding-right: 10px;
   }
 }
+} // max-width: 767px
 
 
 
@@ -569,6 +749,47 @@
 // ------------------------------------------------
 
 @media (max-width: 479px) {
+
+.nav-wrapper{
+  height:48px; // -16
+}
+.navbar{
+
+  // override the default logo sprite with the smaller one.
+  @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
+  .sprite-reg-nav-sony-logo{
+    margin-top:10px;
+    width:80px;
+    margin-left:-40px;
+  }
+
+  .btn-mobile-nav{
+    width:22px;
+    height:18px;
+    padding:14px 14px 16px;
+
+    // back to the regular icon size.
+    @include icon-ui(mobile-menu-btn, -990px,   19px,   16px);
+  }
+  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
+    > li#nav-li-cart{
+      > a{  
+        padding:13px 0 0px 12px;
+        width:54px;
+        height:48px;
+        border-left:solid 1px $grayDark;
+        font-size:$font_15_16;
+
+        // override the default icon with the bigger one.
+        @include icon-ui(cart, -1050px,   19px,   17px);
+        i {
+          margin-top:1px;
+          margin-right:4px;
+        }
+      }
+    }
+  }
+}
 }
 
 
