@@ -1154,8 +1154,9 @@ $default-transition-delay    : 0s;
 }
 
 // Debug (outline and background color)
-@mixin debug($outlineColor,$outlineWidth:0px,$backgroundColor:transparent){
-  outline:$outlineWidth solid $outlineColor;
+@mixin debug($color,$width,$backgroundColor:transparent){
+  //outline:$width solid $color;
+  border:$width dashed $color;
   background-color:$backgroundColor;
 }
 

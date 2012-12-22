@@ -4,6 +4,11 @@
 // Modified: 2012-12-11 by Telly Koosis, Tyler Madison
 // Dependencies: jQuery 1.7+, Modernizr, iScroll v4.2.5
 // -------------------------------------------------------------------------
+// TODO: t = self
+// TODO: broadcast if pagination (including page number)
+// TODO: add listener for prev and next page.
+//  
+//
 (function(window){
     'use strict';
     var sony = window.sony = window.sony || {};
@@ -29,12 +34,23 @@
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
 		t.$sampleElement		= t.$elements.eq(0);
 
-		
-		$( t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length );
-		
-		// TODO: Determine if we still need this...
-		$( t.$contentContainer).css('width' , 1968 + 'px');
 
+		$(t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length);
+
+		//if (t.calcWidth){
+			//$(t.$contentContainer).css({'width':990});
+			//$(t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length);	
+		//}
+			//t.fixedWidth ? setWidth( t.$contentContainer, t.fixedWidth) : setWidth( t.$contentContainer , numPages * wW);
+		//	if(t.fixedWidth){
+				// set container to width passed in
+			//	$( t.$contentContainer).css('width' , t.fixedWidth);
+				
+			//}{
+				// automatically figure it out based on items in container
+				//setWidth( t.$contentContainer , numPages * wW);
+			//}
+				
 		//override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
 
@@ -43,7 +59,7 @@
 		t.scroller = new iScroll(t.$el[0],t.iscrollProps);
 
 		function paginate(){
-			//console.group("function paginate");
+			//console.group("paginate");
 
 			var lastSlideCentered = t.lastPageCenter,
 					$itemCount        = t.$elements.length,
@@ -56,10 +72,8 @@
 			wW += t.extraSpacing;
 
 			//console.log("Number of pages » " , numPages , wW , t.$sampleElement);
-
 			//console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
-
-			if(availToFit > $itemCount) { return; } //stop processing function /maybe hide paddles or UI?
+			if(availToFit > $itemCount) { return; } //stop processing function /TODO: maybe hide paddles or UI?
 
 			function buildPage(pageNo, startIndx, endIndx){
 
@@ -96,31 +110,39 @@
 				for (i = 0 ; i < numPages; i ++){
 					var startIndx = i * availToFit,
 					endIndx       = startIndx + availToFit - 1;
-
 					buildPage( i , startIndx , endIndx );
 				}
 			}
-
+			
 			//update the width again to the new width based on however many 'pages' there are now
-			t.$contentContainer.css('width' , numPages * wW );
+			if(t.calcWidth){
+				setWidth( t.$contentContainer , numPages * wW);
+			}
+			//t.$contentContainer.css('width' , numPages * wW );
 
 			//console.groupEnd();
 
-			t.$ev.trigger('onPaginationComplete.sm');
+			t.$ev.trigger('onPaginationComplete.scroller');
+		}
+
+		function setWidth(el,value){
+			$(el).css({'width':value});
 		}
 
 		function update(){
+			//console.log("update »");
 			if(t.mode === 'paginate'){
 				paginate();
 			}
-	  	
+	  	 
 	  	t.scroller.refresh(); //update scroller
 
+	  	// reset to first position
 	  	if(t.mode === 'paginate'){
 	  		t.scroller.scrollToPage(0, 0, 200);
 	  	}
 	  	
-	  	t.$ev.trigger('onUpdate.sm');
+	  	t.$ev.trigger('onUpdate.scroller');
 		};
 
 		var resizeTimer,
@@ -156,7 +178,7 @@
 		_onScrollEnd : function(){
 			var t = this;
 
-			t.$ev.trigger('onAfterSroll.sm');
+			t.$ev.trigger('onAfterSroll.scroller');
 		}
 	}
 
@@ -186,6 +208,8 @@
 	  mode: 'free',
 	  lastPageCenter: false,
 	  extraSpacing: 0,
+	  //fixedWidth:null, // if value is passed that'll be used
+	  //calcWidth:true, // on resize and init, should scoller calc width based on items?
 
 	  //iscroll props get mixed in
 	  iscrollProps: {
@@ -201,4 +225,8 @@
 	 
 	};
 
+
+
 })(jQuery , window , undefined , Modernizr);
+
+

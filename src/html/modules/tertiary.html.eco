@@ -2,15 +2,25 @@
 title: Tertiary Content Container Module (TCC)
 containerTypes: ["category", "pdp", "homepage"]
 ---
+<% moduleCount = @data.contentModules.length %>
+<% console.log("contentModules count »", moduleCount);%>
 
-<section class="container full-bleed tertiary-wrapper">
-	<div class="grid full-bleed"><%= @data.containerType %></div>
-  <div class="grid full-bleed tertiary">
-		<% for module in @data.contentModules: %>
-				<% console.log(module) %>
-		   <div class="span12 l1 content-block"><img src="<%= @data.imgSrc %>" alt="<%= @data.imgAltTxt %>"></div>
-		<% end %>
-  </div>
+<section class="container full-bleed-no-max tcc-wrapper">
+	<header class="container tcc-header-wrapper">
+		<div class="tcc-header">
+			<p class="l1 tcc-header-title">Latest News</p>
+			<p class="tcc-header-link"><a class="tl tl-large" href="#">Go to Sony Press Center</a></p> 
+		</div>
+	</header>
+
+	<section class="tcc">
+	  <div class="tcc-modules-wrapper">
+			<div class="tcc-content-module" data-tcc-module-type="a">1</div>
+			<div class="tcc-content-module" data-tcc-module-type="b">2</div>
+			<div class="tcc-content-module" data-tcc-module-type="c">3</div>
+ 		</div>
+	</section>
+
 </section>
 
 <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> 

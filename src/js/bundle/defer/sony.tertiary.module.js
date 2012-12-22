@@ -5,26 +5,28 @@
 // Dependencies: jQuery 1.7+, Modernizr, scrollermodule.1.0.js, iscroll.4.2.5.js
 // -------------------------------------------------------------------------
 
-(function(window){
-    'use strict';
-    var sony = window.sony = window.sony || {};
-    sony.modules = sony.modules || {};
-    sony.ev = sony.ev || $('<div />'); // events object
-})(window);
+// (function(window){
+//     'use strict';
+//     var sony = window.sony = window.sony || {};
+//     sony.modules = sony.modules || {};
+//     sony.ev = sony.ev || $('<div />'); // events object
+// })(window);
 
 $(document).ready(function(){
-  var $scroller = $(".tertiary-wrapper").eq(0); // TODO: allow init of more than one scroller on a page
+  var $scroller = $(".tcc");//.eq(0); // TODO: allow init of more than one scroller on a page
 
   if ($scroller.length > 0) {
     console.log("initilizing scroller »", $scroller);
     var scrollerOpts = {
-      contentSelector: '.tertiary',
-      itemElementSelector: '.content-block',
+      contentSelector: '.tcc-modules-wrapper',
+      itemElementSelector: '.tcc-content-module',
+      calcWidth:true,
       mode:"paginate"
+      //lastPageCenter:true,
+      //fixedWidth:"91.2%"
     }
-    
-    $scroller.scrollerModule(scrollerOpts);    
+
+   $scroller.scrollerModule(scrollerOpts);    
+
   }
-
 });
-

@@ -3,77 +3,70 @@
 // --------------------------------------------------
 
 // TEMP
-@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
-@import "../_base/mixins";
+	@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+	@import "../_base/mixins";
 
-.clearfix {
-  @include clearfix;
-}
+	.clearfix {
+	  @include clearfix;
+	}
 
-*{
-  @include borderBox;
-  @include noTouchHold;
-}
-
+	*{
+	  @include borderBox;
+	  @include noTouchHold;
+	}
 // END TEMP
 
-.tertiary-wrapper{
-  @include debug($grayLight, 1px, $grayLightFieldLarge);
-  
-  .grid{
-    @include debug($white, 1px, $grayLightFieldSmall);
-  } // end grid
+
+.tcc-wrapper{
+	position: relative;
+  background-color:$grayLightFieldLarge;
+  overflow:auto; // scroller
+  text-align: center; // scroller
+  padding:40px 0;
+
+	.tcc{
+		display: block;
+		overflow: auto;
+		position: relative;
+		text-align: center;
+		z-index: 1;
+	} // end .tcc main
 
 } // end .tcc-wrapper 
 
+.tcc-header-wrapper{
+	border-bottom: 2px solid $grayLighter;
 
+	.tcc-header{
+		position: relative;
+	} // end .tcc-header
 
-	// * {
-	// -moz-box-sizing: border-box;
-	// 	-webkit-box-sizing: border-box;
- //     box-sizing: border-box;
-	// }	
+	.tcc-header-title{
+		float:left;
+		margin:0;
+	} // end .tcc-header-title
 
-	// body {
-	// 	background-color: #999;
-	// 	position:relative;
-	// }
+	.tcc-header-link{
+		float:right;
+		margin:14px 0 0 0;
+	} // end .tcc-header-link
 
-	// .wrapper-free {
-	// 	display: block;
-	// 	overflow: auto;
-	// 	outline: 4px dashed black;
-	// 	position: relative;
-	// 	clear: both;
-	// 	text-align: center;
-	// 	background: #fff;
-	// 	z-index: 1; /* On older OS versions "position" and "z-index" must be defined, */
-	// 	margin-top: 4px;
-	// }
+} // end .tcc-header-wrapper
 
-	// .content {
-	// 	margin:0 auto;
-	// 	position: relative;
-	// 	direction: ltr;
-	// 	overflow: hidden;
-	// 	padding: 10px 0 10px 0;
-	// 	height: 165px;
-	// }
+.tcc-modules-wrapper{
+	display:inline-block;
+	margin-top:30px;
+	height:315px;
 
-	// .block {
-	// 	display: block;
-	// 	width: 150px;
-	// 	height: 166px;
-	// 	/*outline: 1px dashed black;*/
-	// 	float: left;
-	// 	vertical-align: middle;
-	// 	text-align: center;
-	// 	color: white;
-	// 	font-size: 24px;
-	// 	margin: 0 20px;
-	// 	padding:10px;
-	// }
+	// Content Modules
+	.tcc-content-module{
+		height:315px;
+		float:left;
+	} // end .tcc-content-module
 
-	// .block img {
-	// 	width: 100%;
-	// }
+	.tcc-content-module:hover{
+		cursor: pointer;
+		background-color: white;
+	}
+
+} // end .tcc-modules-wrapper

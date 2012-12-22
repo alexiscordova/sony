@@ -2,43 +2,166 @@
 // Responsive: Tertiary Content Container
 // --------------------------------------------------
 
+// TEMP
+  @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+  @import "../_base/mixins";
+
+$colorMobileSmall:blue;
+$colorMobileLarge:#ff00d6;
+$colorTablet:orange;
+$colorDefault:black;
+$color1200:#90a600;
+$color1400:#00ff33;
+
+// END TEMP
 
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
-.tertiary-wrapper{  
-} // end .tertiary-wrapper
+
+.tcc-wrapper{
+  @include debug($colorDefault, 2px);
+  
+  .tcc-header-wrapper{
+    //@include debug($colorDefault, 1px);
+  } // end .tcc-header-wrapper
+
+} // end .tcc-wrapper
+
+.tcc-modules-wrapper{
+  //width:91.5%;
+  @include debug($colorDefault,2px);
+
+  .tcc-content-module{
+    //width:33.3%;
+    width:330px;
+    // margin-left:5%;
+    @include debug($colorDefault,1px);
+  } // end .tcc-content-module
+
+  // &:first-child{
+  //   margin-left:0;
+  // };
+
+} // end .tcc-modules-wrapper
+
 
 
 // LARGE DESKTOP
 // ------------------------------------------------
 @media (min-width: 1200px) {
-  .tertiary-wrapper{
-  } // end .tertiary-wrapper
-}
+  .tcc-wrapper{
+    @include debug($color1200, 2px);
+
+    .tcc-header-wrapper{
+     // @include debug($color1200, 1px);
+    } // end .tcc-header-wrapper
+
+  } // end .tcc-wrapper
+
+  .tcc-modules-wrapper{
+    @include debug($color1200,2px);
+
+    .tcc-content-module{
+      @include debug($color1200,1px);
+    } // end .tcc-content-module
+
+  } // end .tcc-modules-wrapper
+
+} // end mQ 1200
 
 
 // EXTRA LARGE DESKTOP
 // ------------------------------------------------
 @media (min-width: 1400px) {
-  .tertiary-wrapper{
-  } // end .tertiary-wrapper
-}
+  .tcc-wrapper{
+    @include debug($color1400, 2px);
+
+    .tcc-header-wrapper{
+     // @include debug($color1400, 1px);
+    } // end .tcc-header-wrapper
+
+  } // end .tcc-wrapper
+  
+  .tcc-modules-wrapper{
+  //  width:91.5%;
+    @include debug($color1400,2px);
+
+    .tcc-content-module{
+      @include debug($color1400,1px);
+   //   width:33.3%;
+    } // end .tcc-content-module
+
+  } // end .tcc-modules-wrapper
+
+} // end mQ 1400
 
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
 @media (min-width: 768px) and (max-width: 979px) {
-  .tertiary-wrapper{
-  } // end .tertiary-wrapper
-}
+  .tcc-wrapper{
+    @include debug($colorTablet, 2px);
+
+    .tcc-header-wrapper{
+      //@include debug($colorTablet, 1px);
+    } // end .tcc-header-wrapper
+
+  } // end .tcc-wrapper
+
+  .tcc-modules-wrapper{
+    @include debug($colorTablet,2px);
+
+    .tcc-content-module{
+      //width:330px;
+      @include debug($colorTablet,1px);
+    } // end .tcc-content-module
+
+  } // end .tcc-modules-wrapper
+
+} // end 768 979
 
 // SMALLER THAN PORTRAIT TABLET -- MOBILE-LARGE
 @media (max-width: 767px) {
-  .tertiary-wrapper{    
-  } // end .tertiary-wrapper
-}
+  .tcc-wrapper{
+    @include debug($colorMobileLarge, 2px);
+
+    .tcc-header-wrapper{
+      //@include debug($colorMobileLarge, 1px);
+    } // end .tcc-header-wrapper
+
+  } // end .tcc-wrapper
+
+  .tcc-modules-wrapper{
+    @include debug($colorMobileLarge,2px);
+    //width:100%;
+
+    .tcc-content-module{
+     // width:330px;
+      @include debug($colorMobileLarge,1px);
+    } // end .tcc-content-module
+
+  } // end .tcc-modules-wrapper
+
+
+} // end > 767
 
 // LANDSCAPE PHONE AND BELOW
 @media (max-width: 480px) {
-  .tertiary-wrapper{     
-  } // end .tertiary-wrapper
-}
+  .tcc-wrapper{
+    @include debug($colorMobileSmall, 2px);
+
+    .tcc-header-wrapper{
+      //@include debug($colorMobileSmall, 1px);
+    } // end .tcc-header-wrapper
+
+  } // end .tcc-wrapper
+
+  .tcc-modules-wrapper{
+    @include debug($colorMobileSmall,2px);
+
+    .tcc-content-module{
+      @include debug($colorMobileSmall,1px);
+    } // end .tcc-content-module
+
+  } // end .tcc-modules-wrapper
+
+} // end > 480
