@@ -66,7 +66,7 @@
       
         __out.push(this.partial('includes/js_head.html'));
       
-        __out.push('\n\t\n\t</head>\n\t<body>\n\t\t\n\t\t<!--\n\t\t\t***------Exemples------***\n\t\t\t/details/default.json\n\t\t\t/details-lens/default.json\n\t\t-->\n\t\t');
+        __out.push('\n\t\n\t</head>\n\t<body class="module-spec">\n\t\t<!--\n\t\t\t***------Exemples------***\n\t\t\t/details/default.json\n\t\t\t/details-lens/default.json\n\t\t-->\n\t\t');
       
         __out.push(this.partial('modules/module_details.html.eco', {
           "this": this,

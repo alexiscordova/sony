@@ -39,6 +39,9 @@
     }
   } // .nav-utility
 
+  .btn-mobile-cart{
+    display:none;
+  }
   .nav-li-link.btn-nav-block{
     width: auto;
     margin: 13px 0px 0px 7px;
@@ -529,37 +532,41 @@
     }
   }
 
-  .btn-mobile-nav{
+  .btn-mobile-nav,
+  .btn-mobile-cart{
+    border:none;
+    margin:0;
     display:block;
+    background:$navbarBackground;
+  }
+  .btn-mobile-nav{
+    box-sizing: content-box;
     margin-top:0;
     float:left;
     width:22px;
     height:19px;
     padding:20px 19px 25px;
     border-right:solid 1px $grayDark;
-
+    i {
+      margin:auto;
+    }
     // override the default icon with the bigger one.
     @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
   }
-  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-  }
-  .nav-li-cart{
-    display:block;
-    float:right;
-    .nav-li-link{  
-      margin:0;
-      padding:20px 0 23px 18px;
-      width:64px;
-      height:64px;
-      border-left:solid 1px $grayDark;
-      font-size:$font_15_16;
+  .btn-mobile-cart{
+    float:right; 
+    padding:20px 0 23px 5px;
+    width:64px;
+    height:64px;
+    border-left:solid 1px $grayDark;
+    font-size:$font_15_16;
+    color:$white;
 
-      // override the default icon with the bigger one.
-      @include icon-ui(cart, -1050px,   19px,   17px);
-      i {
-        margin-top:1px;
-        margin-right:4px;
-      }
+    // override the default icon with the bigger one.
+    @include icon-ui(cart, -1050px,   19px,   17px,  false);
+    i {
+      margin-top:1px;
+      margin-right:4px;
     }
   }
   .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
@@ -710,13 +717,7 @@
     overflow: hidden;
     height: 0;
   }
-  // Navbar button
-  .navbar .btn-mobile-navbar-menu-trigger {
-    display: block;
-    width: auto;
-    border:none;
-    margin-top:5px;
-  }
+
 
   // STATIC NAVBAR
   // -------------
@@ -778,21 +779,10 @@
     // back to the regular icon size.
     @include icon-ui(mobile-menu-btn, -990px,   19px,   16px);
   }
-  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-  }
-  .nav-li-cart .nav-li-link{  
-    padding:13px 0 0px 12px;
+  .btn-mobile-cart{
+    padding:13px 0 0px 4px;
     width:54px;
     height:48px;
-    border-left:solid 1px $grayDark;
-    font-size:$font_15_16;
-
-    // override the default icon with the bigger one.
-    @include icon-ui(cart, -1050px,   19px,   17px);
-    i {
-      margin-top:1px;
-      margin-right:4px;
-    }
   }
 } // .navbar
 } // max-width: 479px
