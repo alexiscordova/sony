@@ -106,11 +106,6 @@
       margin: 4px 0 0 10px;
     }
   }
-
-
-  .navmenu-w-search .sprite-mini-global-nav-indicator{
-    right: 33px;
-  }
 } // .nav
 
 .navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
@@ -143,8 +138,12 @@
       width:23.1%;
       margin:2% 1.9% 2% 0;
     }
-    .navtray-li-link > img {
-      width:83%;
+    .navtray-li-link {
+      .nav-img-w {
+        img {
+          width:83%;
+        } 
+      }
     }
   }
 } // end .navtray-section-main
@@ -169,11 +168,30 @@
 }
 
 
-.navmenu-w-account .navmenu-list-prefixed{
-  border-bottom:solid 1px $grayLightish;
-  padding-bottom:6px;
-  display:none;
+.navmenu-w-search{
+  @include hideshow-navmenu-hide(right);
+
+  .sprite-mini-global-nav-indicator{
+    right:31px;
+  }
 }
+
+.navmenu-w-account{
+  width: 215px;
+  padding: 10px 0 22px;
+
+  @include hideshow-navmenu-hide(right);
+
+  .navmenu-list-prefixed{
+    border-bottom:solid 1px $grayLightish;
+    padding-bottom:6px;
+    display:none;
+  }
+}
+
+// .navbar-mobile{
+//   display:none;
+// }
 
 
 // END 980px-1199px Default
@@ -207,7 +225,6 @@
   &.nav-primary{
   }
 }
-
 .navtray.navtray-absolute{
   position: absolute;
   bottom: 0;
@@ -317,33 +334,28 @@
       margin:2px 0px 0 0;
     }
   }
+}
 
 
-  .nav-li-universal .nav-li-link {
-    margin-left: 7px;
-    margin-right: -10px;
-    // padding: 0px 8px;
-    > i.icon-ui-plus-tiny {
-      margin-left: 8px;
-    }
-  }
-
-  .navmenu-w-account .navmenu-list-prefixed{
-    display:block;
-  }
-  .nav-li-favorites,
-  .nav-li-cart{
-    display:none;
-  }
-} // .nav
-
-.navmenu-w-search{
-  .sprite-mini-global-nav-indicator{
-    // right:15px;
+.nav-li-universal .nav-li-link {
+  margin-left: 7px;
+  margin-right: -10px;
+  // padding: 0px 8px;
+  > i.icon-ui-plus-tiny {
+    margin-left: 8px;
   }
 }
-.nav-li-selected .navmenu-w-search{
-  right:-26px;
+
+.navmenu-w-search{
+  margin-left: 25px;
+}
+
+.navmenu-w-account .navmenu-list-prefixed{
+  display:block;
+}
+.nav-li-favorites,
+.nav-li-cart{
+  display:none;
 }
 
 } // END max-width: 1023px
@@ -427,9 +439,18 @@
   padding-top: 38px;
   width: ($navTrayDividerPosition - 4);
 
+  .navtray-w-short &{
+    padding-bottom: 27px;    
+  }
+
   .navtray-list-main {
     margin-left:8.2%;
     margin-right:0;
+
+    .navtray-li {
+      width:31%;
+      margin:1% 1.9% 1.1% 0;
+    }
 
     &:after{ // HR
       width: 94%;
@@ -513,24 +534,87 @@
 @media (max-width: 767px) {
 
 .page-wrap-inner.show-mobile-menu{
-  left:70%;
+  left:$navMobileWidthLarge;
+}
+.nav-outer-container{
+  width:$navMobileWidthLarge;
+}
+.nav-wrapper{
+  height:auto;
 }
 
-.nav-wrapper{
-  height:64px;
+.navtray-section-featured{
+  display:none;
 }
 .navbar{
-  .nav-primary{
+  .nav-primary,
+  .nav-li-account .nav-li-link,
+  .nav-li-search,
+  .nav-li-favorites,
+  .nav-li-search,
+  .sprite-reg-nav-sony-logo{
     display:none;
   }
-  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-    .nav-li-account,
-    .nav-li-favorites,
-    .nav-li-search,
-    .nav-li-universal{
-      display:none;
+} // .navbar
+
+.navmenu-w{
+  @include border-radius(0);
+}
+.navmenu-w-mobile-top{
+  padding-top:16px;
+  padding-bottom:28px;
+}
+
+.navmenu-w-search{
+  width:100%;
+  background:$grayLighter;
+  padding:9px;
+
+  .navmenu-search-section-input{
+    padding:7px 12px 10px 8px;
+
+    input[type=text]{
+      font-size:$font_15_16;
+      @include fontRegular;
+      line-height:1;
+      width:100%;
     }
   }
+
+  @include sprite-mini(nav-search-input,  -60px,  16px,   16px);
+  .sprite-mini-nav-search-input{
+    top: 23px;
+    left: 18px;
+  }
+}
+.navmenu-w-account{
+  width:100%;
+}
+
+.navmenu-list{
+  .navmenu-line{
+    margin-left:14px;
+    a.tl{
+      font-size:$font_14_15;
+      padding:5px 0 5px 4px;
+      i{
+        padding-right:7px;
+      }
+    }
+  }
+}
+.nav .nav-li{
+  width:100%;
+}
+
+.navmenu-list.navmenu-list-prefixed,
+.sprite-mini-global-nav-indicator,
+.navmenu-search-section-results{
+  display:none;
+}
+
+.navbar-mobile{
+  display:block;
 
   .btn-mobile-nav,
   .btn-mobile-cart{
@@ -569,14 +653,76 @@
       margin-right:4px;
     }
   }
-  .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
-    position:absolute;
+  .sprite-reg-nav-sony-logo{
+    // this is the normal (larger) size logo. Switch to small under 480px.
     width:90px;
     margin-left:-45px;
-    left:50%;
+    margin-top:15px;
   }
-} // .navbar
+}
 
+.navmenu-w,
+.navtray-w,
+.nav.nav-primary,
+.nav.nav-utility{
+  @include hideshow-navmenu-reset;
+}
+
+.navtray,
+.navtray-section-main{
+  background:$navTrayBackgroundAlt;
+}
+.navtray-section-main{
+  padding-top:0;
+  width:100%;
+
+  h4{
+    font-size:$font_13_16;
+    @include fontBold;
+    padding:18px 0 2.5% 5.2%;
+    text-transform:uppercase;
+  }
+  .navtray-list-main{
+    margin: 0 0 0 5.2%;
+    overflow:hidden;
+
+    &:after { // HR
+      border:0;
+      width:97%;
+      height:14px;
+      margin-left: 1.7%;
+    }
+
+    .navtray-li {
+      width:45%;
+      margin:2% 4.3% 0 0;
+    }
+    .navtray-li-link {
+      .nav-img-w{
+        display:block;
+        overflow:hidden;
+        background:$white;
+        padding:7% 0 14%;
+        img {
+          width:73%;
+        } 
+      }
+      .nav-label{
+        font-size:$font_16_16;
+      }
+    }
+  }
+  .btn-nav-view-all,
+  .btn-nav-view-all:hover,
+  .btn-nav-view-all:active{
+    background:$white;
+    border:$white;
+    color:$linkColor;
+  }
+}
+
+
+  
 } // max-width: 767px
 
 
@@ -756,13 +902,13 @@
 @media (max-width: 479px) {
 
 .page-wrap-inner.show-mobile-menu{
-  left:86%;
+  left:$navMobileWidth;
 }
-.nav-wrapper{
+.nav-outer-container{
+  width:$navMobileWidth;
+}
+.navbar-mobile{
   height:48px; // -16
-}
-.navbar{
-
   // override the default logo sprite with the smaller one.
   @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
   .sprite-reg-nav-sony-logo{
@@ -770,7 +916,6 @@
     width:80px;
     margin-left:-40px;
   }
-
   .btn-mobile-nav{
     width:22px;
     height:18px;
@@ -784,7 +929,18 @@
     width:54px;
     height:48px;
   }
-} // .navbar
+}
+
+.navtray-section-main{
+  .navtray-list-main{
+    .navtray-li-link {
+      .nav-label {
+        font-size:$font_15_16;
+      }
+    }
+  }
+}
+
 } // max-width: 479px
 
 

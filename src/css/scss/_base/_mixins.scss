@@ -687,7 +687,17 @@ $default-transition-delay    : 0s;
 
 
 
-
+@mixin hideshow-navmenu-reset(){
+  opacity:1;
+  position:relative;
+  left:auto;
+  right:auto;
+  top:auto;
+  left:auto;
+  @include transition(none);
+  float:none;
+  margin:0;
+}
 
 // transitions for specific components
 @mixin hideshow-navmenu-show($leftOrRight:left, $x: 0){

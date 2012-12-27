@@ -27,7 +27,7 @@
   z-index: 200;
   
   &.container{
-    max-width: 1125px;
+    max-width: $navMaxWidth;
   }
 
   -webkit-transform: translate3d(0, 0, 0); // fix janky text
@@ -56,7 +56,7 @@
 
   // Brand: website name
   // -------------------------
-  .sprite-reg-nav-sony-logo {
+  .sprite-reg-nav-sony-logo { // desktop version (inside navbar)
     float: left;
     display: block;
     margin: 16px 0 0;
@@ -153,3 +153,13 @@
     width: 100%;
   }
 } // end .navbar
+
+
+
+.navbar-mobile{
+  .sprite-reg-nav-sony-logo{
+    display:block; // this is the normal (larger) size logo. Switch to small under 480px.
+    position:absolute;
+    left:50%;
+  }
+}
