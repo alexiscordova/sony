@@ -564,7 +564,6 @@
   padding-top:16px;
   padding-bottom:28px;
 }
-
 .navmenu-w-search{
   width:100%;
   background:$grayLighter;
@@ -607,6 +606,22 @@
   width:100%;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .navmenu-list.navmenu-list-prefixed,
 .sprite-mini-global-nav-indicator,
 .navmenu-search-section-results{
@@ -647,19 +662,21 @@
     color:$white;
 
     // override the default icon with the bigger one.
-    @include icon-ui(cart, -1050px,   19px,   17px,  false);
+    @include icon-ui(cart, -1050px,   19px,   17px);
     i {
       margin-top:1px;
       margin-right:4px;
     }
   }
-  .sprite-reg-nav-sony-logo{
-    // this is the normal (larger) size logo. Switch to small under 480px.
-    width:90px;
-    margin-left:-45px;
-    margin-top:15px;
-  }
 }
+.sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
+  position:absolute;
+  width:90px;
+  margin-left:-45px;
+  margin-top:15px;
+}
+
+
 
 .navmenu-w,
 .navtray-w,
