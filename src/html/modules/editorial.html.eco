@@ -1,7 +1,7 @@
 <div class="editorial container <%- @data.layout.media %> clearfix">
 
 <% if @data.layout.media == "full" : %>
-	<% if  @data.layout.inner : %>
+	<% if  @data.layout.inner == "true" : %>
 	<div class="grid">
 		<div class="span12">
 			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
