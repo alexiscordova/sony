@@ -5,7 +5,6 @@
   z-index: 190;
   position: absolute;
   overflow: visible;
-  top: $navbarTotalHeight;
   background: $navMenuBackground;
   @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
   @include border-bottom-radius(2px);
@@ -26,10 +25,12 @@
   .navmenu-line {
     line-height:24px;
     margin:0 10px 0 18px;
+    
     a.tl {
       display:inline-block;
       font-size:$font_12_15;
       padding:4px 0 4px 4px;
+
       i {
         box-sizing:content-box;
         padding-right:10px;
@@ -37,17 +38,6 @@
       }
     }
   }
-}
-.nav-li-count{
-  display:inline-block;
-  padding:0 9px;
-  margin:2px 0 0 10px;
-  line-height:21px;
-  background:$highlightColor;
-  color:$white;
-  font-size:$font_11_12;
-  @include fontMedium;
-  @include border-radius(1px);
 }
 .navmenu-li-ext-text{
   font-style:italic;
@@ -64,14 +54,12 @@
     display: block;
     width: auto;
     font-size: $font_10_15;
-    margin:0 20px;
+    margin:10px 20px;
   }
   .btn-login{
-    margin-top:9px;
-    margin-bottom:10px;
+    margin-top:0;
   }
   .btn-logout{
-    margin-top: 10px;
     display: none;
   }
   &.logged-in{

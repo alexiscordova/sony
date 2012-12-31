@@ -21,8 +21,9 @@
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
       // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
-      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
     </script>
   <!--<![endif]-->
 
@@ -33,8 +34,8 @@
         <link rel="stylesheet" href="css/modules/carousel.css">
         <link rel="stylesheet" href="css/modules/editorial.css">
         <link rel="stylesheet" href="css/modules/gallery.css">
-        <link rel="stylesheet" href="css/modules/mymodule.css">
         <link rel="stylesheet" href="css/modules/hotspot_explorer.css">
+        <link rel="stylesheet" href="css/modules/mymodule.css">
         <link rel="stylesheet" href="css/modules/related-products.css">
         <link rel="stylesheet" href="css/modules/sonycarousel.css">
         <link rel="stylesheet" href="css/modules/specAndDetails.css">
@@ -63,38 +64,8 @@
 
       <nav class="container full-bleed-no-max nav-wrapper">
 
-          <!-- 
-                Mobile Nav Structure:
-                
-                .navbar-mobile (mobile only)
-                
-                .nav-outer-container <- - Make this to surround everything that'll be in the mobile nav
-                    
-                    .navmenu-search (both)
-                    
-                    .navmenu-w-mobile-top (mobile only)
-                        STORE 
-                        FIND-A-STORE 
-                        SUPPORT 
-                        FAVORITES
-
-                    ELECTRONICS                                                     (title: mobile only)
-                    .navtray-w-electronics
-
-                    ENTERTAINMENT                                                 (title: mobile only)
-                    .navtray-w-electronics
-
-                    .navbar
-                        HI ROBERT                                                            (title: mobiole only)
-                        ACCOUNT MENU                                                     
-                        SONY SITES BTN
-
-                </div>
-
-          -->
-
                <div class="container navbar-mobile visible-phone">
-              <a class="btn btn-mobile-nav" href="#"><i class="icon-ui-mobile-menu-btn"></i></a>
+              <a class="btn btn-mobile-nav" id="btn-mobile-nav" href="#"><i class="icon-ui-mobile-menu-btn"></i></a>
             <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
               <a class="btn btn-mobile-cart" href="#"><i class="icon-ui-cart-large"></i>2</a>
           </div>
@@ -196,7 +167,7 @@
                             <li class="navtray-li navtray-li-audio"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-audio.png" alt="Audio"></span><span class="nav-label">Audio</span></a></li>
                             <li class="navtray-li navtray-li-car"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-car.png" alt="Car &amp; Marine"></span><span class="nav-label">Car &amp; Marine</span></a></li>
                         </ul>
-                        <a class="btn btn-small btn-alt btn-icon-ui-left btn-nav-view-all" href="#"><i class="icon-ui-grid"></i>All Electronics</a>
+                        <a class="btn btn-icon-ui-left btn-nav-view-all" href="#"><i class="icon-ui-grid"></i><span class="linkBtn-label">View All Electronics</span></a>
                       </div>
                     <div class="navtray-section navtray-section-featured">
                         <h6 class="l2">Community</h6>
@@ -208,11 +179,9 @@
                             <li class="navtray-li navtray-li-music"><a href="#" class="navtray-li-link tl">Music</a></li>
                         </ul>
                         <p class="navtray-secondary-promo">
-                            <a href="#">
-                                <img src="img/global/global-nav/promo-header-electronics.jpg" alt="">
-                                <span class="p2">Play.Watch.Listen.Create.</span>
-                                <span class="p3">Enjoy your photos and videos across any devices</span>
-                            </a>
+                            <img src="img/global/global-nav/promo-header-electronics.png" alt="">
+                            <span class="p2">Play. Watch. Listen. Create.</span>
+                            <span class="p3">Enjoy your photos and videos across any devices. <a href="#">Explore&nbsp;now</a></span>
                         </p>
                     </div>
                   </div>
@@ -231,11 +200,9 @@
                       </div>
                     <div class="navtray-section navtray-section-featured navtray-section-featured-short">
                         <p class="navtray-secondary-promo navtray-secondary-promo-short">
-                            <a href="#">
-                                <img src="img/global/global-nav/promo-header-entertainment.jpg" alt="">
-                                <span class="p2">Play.Watch.Listen.Create.</span>
-                                <span class="p3">Enjoy your photos and videos across any devices</span>
-                            </a>
+                            <img src="img/global/global-nav/promo-header-entertainment.png" alt="">
+                            <span class="p2">Pottermore</span>
+                            <span class="p3">An online Harry Potter experience by J.K. Rowling. <a href="#">Explore&nbsp;Now</a></span>
                         </p>
                     </div>
                   </div>
@@ -246,38 +213,53 @@
 
                 <ul class="nav nav-primary">
                   <li class="nav-li nav-li-store"><a class="nav-li-link" href="#">Store</a></li>
-                  <li class="nav-li nav-li-electronics"><a class="nav-li-link nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-w-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
-                  <li class="nav-li nav-li-entertainment"><a class="nav-li-link nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navtray-w-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
+                  <li class="nav-li nav-li-electronics"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
+                  <li class="nav-li nav-li-entertainment"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
                   <li class="nav-li nav-li-support"><a class="nav-li-link" href="#">Support</a></li>
                 </ul>
 
                 <ul class="nav nav-utility">
                   <li class="nav-li nav-li-account">
-                      <a class="nav-li-link nav-dropdown-toggle nav-dropdown-toggle-text" data-target="navmenu-w-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
+                      <a class="nav-li-link nav-dropdown-toggle" data-target="navmenu-w-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
 
                             <div class="navmenu-w navmenu-w-account logged-in">
                                 <i class="sprite-mini-global-nav-indicator"></i>
                                 <a href="#" class="btn btn-login">Log in</a>
                             <ul class="navmenu-list navmenu-list-prefixed">
-                                <li class="navmenu-line navmenu-li-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="nav-li-count">2</span></a></li>
-                                <li class="navmenu-line navmenu-li-favorites"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
+                                <li class="navmenu-line navmenu-li-cart iconTrigger-ui-navmenu-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="nav-li-count">2</span></a></li>
+                                <li class="navmenu-line navmenu-li-favorites iconTrigger-ui-navmenu-favorite"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
                             </ul>
                             <ul class="navmenu-list navmenu-list-main">
-                                <li class="navmenu-line navmenu-li-account"><a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a></li>
-                                <li class="navmenu-line navmenu-li-orders"><a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a></li>
-                                <li class="navmenu-line navmenu-li-newsletter"><a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a></li>
-                                <li class="navmenu-line navmenu-li-registered-products"><a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a></li>
+                                <li class="navmenu-line navmenu-li-welcome visible-phone">Hi Robert</li>
+                                <li class="navmenu-line navmenu-li-account iconTrigger-ui-navmenu-account">
+                                    <a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a>
+                                </li>
+                                <li class="navmenu-line navmenu-li-orders iconTrigger-ui-navmenu-orders">
+                                    <a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a>
+                                </li>
+                                <li class="navmenu-line navmenu-li-newsletter iconTrigger-ui-navmenu-newsletter">
+                                    <a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a>
+                                </li>
+                                <li class="navmenu-line navmenu-li-registered-products iconTrigger-ui-navmenu-reg-prod">
+                                    <a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a>
+                                </li>
                             </ul>
                                 <a href="#" class="btn btn-logout">Sign Out</a>
                           </div><!-- end #navmenu-w-account -->
 
                   </li>
-                  <li class="nav-li nav-li-favorites"><a class="nav-li-link btn-nav-iconed iconTrigger-ui-favorite" href="#"><i class="icon-ui-favorite"></i><span class="visuallyhidden">Favorites</span></a></li>
-                  <li class="nav-li nav-li-cart"><a class="nav-li-link btn-nav-iconed iconTrigger-ui-cart" href="#"><i class="icon-ui-cart"></i>2</a></li>
+                  <li class="nav-li nav-li-favorites">
+                      <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-favorite" href="#"><i class="icon-ui-favorite"></i><span class="nav-li-count">2</span><span class="visuallyhidden">Favorites</span></a>
+                  </li>
+                  <li class="nav-li nav-li-cart">
+                      <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-cart" href="#"><i class="icon-ui-cart"></i><span class="nav-li-count">2</span></a>
+                  </li>
                   <li class="nav-li nav-li-search">
-                      <a class="nav-li-link btn-nav-block nav-dropdown-toggle nav-dropdown-toggle-btn iconTrigger-ui-search" data-target="navmenu-w-search" href="#"><span class="navtray-label">Search</span><i class="icon-ui-search"></i></a>
+                      <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-search nav-dropdown-toggle nav-dropdown-toggle-btn" data-target="navmenu-w-search" href="#"><i class="fonticon-ui-reg-search"></i><span class="linkBtn-label">Search</span></a>
                           </li>
-                          <li class="nav-li nav-li-universal"><a class="nav-li-link btn-nav-block nav-dropdown-toggle-btn" href="#">Sony Sites<i class="icon-ui-plus-tiny"></i></a></li>
+                          <li class="nav-li nav-li-universal iconTrigger-ui-universal">
+                              <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-plus-tiny-boxed" href="#"><i class="icon-ui-plus-tiny-boxed"></i><span class="linkBtn-label">Sony Sites</span></a>
+                          </li>
                 </ul>
                 </div><!-- end .navbar -->
               </div><!-- end .nav-outer-container --> 
@@ -309,8 +291,8 @@
         <script src="js/bundle/require/require2.js"></script>
         
         
-        <script src="js/bundle/secondary/iscroll.4.2.5.js"></script>
         <script src="js/bundle/secondary/secondary1.js"></script>
+        <script src="js/bundle/secondary/iscroll.4.2.5.js"></script>
         <script src="js/bundle/secondary/secondary2.js"></script>
         <script src="js/bundle/secondary/sony.carousel.1.0.js"></script>
         

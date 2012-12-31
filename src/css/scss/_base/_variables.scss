@@ -12,6 +12,7 @@
 	$black:                 rgb(0,0,0) !default;       //#000
 	$blackLight:		        rgb(35,35,35) !default;    //#232323
 	$grayDark:              rgb(47,53,61) !default;    //#2F353D
+	$grayDark1: 						rgb(80,77,86) !default;
 	$gray:                  rgb(131,131,143) !default; //#83838F
 
   $grayLightness:         rgb(145,145,158) !default; // we need to cut down on some of these...
@@ -52,7 +53,7 @@
   $highlightColor:        rgb(243,84,41) !default;
   $highlightColorHover:   lighten($highlightColor, 5%) !default;
   $highlightColorActive:  $highlightColor !default;
-  $highlightColorDark:  rgb(219,76,37);
+  $highlightColorDark:    rgb(219,76,37);
 
   $themeGreen:            rgb(34,192,131) !default;
 
@@ -70,8 +71,9 @@
   // Links
   // -------------------------
   $linkColor:             rgb(69,113,236) !default;
-  $linkColorHover:        rgb(87,135,244) !default;
-
+  $linkColorHover:        rgb(31,68,183) !default;
+  $linkColorLight:				rgb(87,135,244) !default;
+  
 
   // Transparent colors
   // -------------------------
@@ -218,7 +220,7 @@
 	$btnAltSmallPadding:              8px 0 9px;
 	$btnAltMiniPadding:               8px 0 9px;
 
-	$btnSquarePadding:                  14px 0 13px;
+	$btnSquarePadding:                14px 0 13px;
   // $btnSquareLargePadding:              7px 0 10px;
   // $btnSquareSmallPadding:              8px 0 9px;
   // $btnSquareMiniPadding:               8px 0 9px;
@@ -226,8 +228,8 @@
 
   // Hotspots
   // -------------------------
-  $hotspotHalo:       rgba(47,53,61,0.1) !default;
-  $hotspotHaloHover:      rgba(47,53,61,0.15) !default;
+  $hotspotHalo:       	 rgba(47,53,61,0.1) !default;
+  $hotspotHaloHover:     rgba(47,53,61,0.15) !default;
 
 
 
@@ -376,19 +378,23 @@
 .NAVBAR{}
 	$navbarCollapseWidth:             979px !default;
 
-	$navbarTotalHeight:               64px !default;
+	$navbarHeight:               			64px !default;
+	$navbarHeightShort:              	60px !default;
+	$navbarMobileHeightTall:					60px !default;
+	$navbarMobileHeight:							48px !default;
+
 	$navbarLineHeight:                40px !default;
  	$navbarMinSidePadding:            43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
 
   $navbarBackground:                $black !default;
   $navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
-  $navbarTertiaryColor:             rgb(55,53,59) !default;
+  $navbarTertiaryColor:             $grayDark1 !default;
 
   $navbarTextSize:                  0.9375em; // 15px/16px
   $navbarSmTextSize:                0.8125em; // 13px/16px
   $navbarText:                      $white !default;
   $navbarLinkColor:                 $white !default;
-  $navbarLinkColorHover:            $white !default;
+  $navbarLinkColorHover:            $highlightColor !default;
   $navbarLinkColorActive:           lighten($linkColorHover,5%) !default;
   $navbarLinkBackgroundHover:       transparent !default;
   $navbarLinkBackgroundActive:      darken($navbarBackground, 5.25%) !default;
@@ -414,12 +420,12 @@
 
   $navTrayBackground:               $white;
   $navTrayBackgroundAlt:            $grayLightFieldLarge;
-  $navTrayDividerPosition:          72%;
+  $navTrayDividerPosition:          74%;
 
   $navMenuBackground:               $white;
   $navMenuBackgroundAlt:            $grayLightFieldLarge;
 
-  $navMobileWidth:		81%;
+  $navMobileWidth:				81%;
   $navMobileWidthLarge:		70%;
 
 
