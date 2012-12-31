@@ -55,7 +55,7 @@
       <nav class="container full-bleed-no-max nav-wrapper">
 
                <div class="container navbar-mobile visible-phone">
-              <a class="btn btn-mobile-nav" href="#"><i class="icon-ui-mobile-menu-btn"></i></a>
+              <a class="btn btn-mobile-nav" id="btn-mobile-nav" href="#"><i class="icon-ui-mobile-menu-btn"></i></a>
             <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
               <a class="btn btn-mobile-cart" href="#"><i class="icon-ui-cart-large"></i>2</a>
           </div>
@@ -157,7 +157,7 @@
                             <li class="navtray-li navtray-li-audio"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-audio.png" alt="Audio"></span><span class="nav-label">Audio</span></a></li>
                             <li class="navtray-li navtray-li-car"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-car.png" alt="Car &amp; Marine"></span><span class="nav-label">Car &amp; Marine</span></a></li>
                         </ul>
-                        <a class="btn btn-small btn-alt btn-icon-ui-left btn-nav-view-all" href="#"><i class="icon-ui-grid"></i>All Electronics</a>
+                        <a class="btn btn-icon-ui-left btn-nav-view-all" href="#"><i class="icon-ui-grid"></i><span class="linkBtn-label">View All Electronics</span></a>
                       </div>
                     <div class="navtray-section navtray-section-featured">
                         <h6 class="l2">Community</h6>
@@ -169,11 +169,9 @@
                             <li class="navtray-li navtray-li-music"><a href="#" class="navtray-li-link tl">Music</a></li>
                         </ul>
                         <p class="navtray-secondary-promo">
-                            <a href="#">
-                                <img src="img/global/global-nav/promo-header-electronics.jpg" alt="">
-                                <span class="p2">Play.Watch.Listen.Create.</span>
-                                <span class="p3">Enjoy your photos and videos across any devices</span>
-                            </a>
+                            <img src="img/global/global-nav/promo-header-electronics.png" alt="">
+                            <span class="p2">Play. Watch. Listen. Create.</span>
+                            <span class="p3">Enjoy your photos and videos across any devices. <a href="#">Explore&nbsp;now</a></span>
                         </p>
                     </div>
                   </div>
@@ -192,11 +190,9 @@
                       </div>
                     <div class="navtray-section navtray-section-featured navtray-section-featured-short">
                         <p class="navtray-secondary-promo navtray-secondary-promo-short">
-                            <a href="#">
-                                <img src="img/global/global-nav/promo-header-entertainment.jpg" alt="">
-                                <span class="p2">Play.Watch.Listen.Create.</span>
-                                <span class="p3">Enjoy your photos and videos across any devices</span>
-                            </a>
+                            <img src="img/global/global-nav/promo-header-entertainment.png" alt="">
+                            <span class="p2">Pottermore</span>
+                            <span class="p3">An online Harry Potter experience by J.K. Rowling. <a href="#">Explore&nbsp;Now</a></span>
                         </p>
                     </div>
                   </div>
@@ -220,21 +216,21 @@
                                 <i class="sprite-mini-global-nav-indicator"></i>
                                 <a href="#" class="btn btn-login">Log in</a>
                             <ul class="navmenu-list navmenu-list-prefixed">
-                                <li class="navmenu-line navmenu-li-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="nav-li-count">2</span></a></li>
-                                <li class="navmenu-line navmenu-li-favorites"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
+                                <li class="navmenu-line navmenu-li-cart iconTrigger-ui-navmenu-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="nav-li-count">2</span></a></li>
+                                <li class="navmenu-line navmenu-li-favorites iconTrigger-ui-navmenu-favorite"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
                             </ul>
                             <ul class="navmenu-list navmenu-list-main">
                                 <li class="navmenu-line navmenu-li-welcome visible-phone">Hi Robert</li>
-                                <li class="navmenu-line navmenu-li-account">
+                                <li class="navmenu-line navmenu-li-account iconTrigger-ui-navmenu-account">
                                     <a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a>
                                 </li>
-                                <li class="navmenu-line navmenu-li-orders">
+                                <li class="navmenu-line navmenu-li-orders iconTrigger-ui-navmenu-orders">
                                     <a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a>
                                 </li>
-                                <li class="navmenu-line navmenu-li-newsletter">
+                                <li class="navmenu-line navmenu-li-newsletter iconTrigger-ui-navmenu-newsletter">
                                     <a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a>
                                 </li>
-                                <li class="navmenu-line navmenu-li-registered-products">
+                                <li class="navmenu-line navmenu-li-registered-products iconTrigger-ui-navmenu-reg-prod">
                                     <a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a>
                                 </li>
                             </ul>
@@ -286,21 +282,21 @@
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
-        <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
-        <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
-        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jodo.gallery.js"></script>
+        <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
+        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
-        <script src="js/bundle/defer/jquery.viewport.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
-        <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
+        <script src="js/bundle/defer/jquery.viewport.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>
-        <script src="js/bundle/defer/sony.sequencer.1.0.js"></script>
-        <script src="js/bundle/defer/spec.js"></script>
-        <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
         <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
+        <script src="js/bundle/defer/sony.sequencer.1.0.js"></script>
+        <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/spec.js"></script>
         
         <!--[if lt IE 9 ]>
             <script src="js/polyfill.min.js"></script>
