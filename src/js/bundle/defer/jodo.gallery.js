@@ -1135,7 +1135,7 @@
       var now = new Date().getTime();
       self.setCompareRowHeights();
       console.log( (new Date().getTime() - now) / 1000, 'seconds passed calculating heights');
-      self.$compareTool.find('.detail-label-group').addClass('complete');
+      self.$compareTool.find('.detail-labels-wrap').addClass('complete');
 
       return self;
     },

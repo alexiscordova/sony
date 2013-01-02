@@ -44,16 +44,20 @@
       self.windowWidth = self.$window.width();
       self.windowHeight = self.$window.height();
       self.tabWidth = self.$tabs.outerWidth();
+      self.tabletMode = self.$container.data('tabletMode');
 
       // New tab shown event
       self.$tabs.on('shown', $.proxy( self._onTabShown, self ));
 
+      // Window resize
+      self.$window.on('resize.stickytabs', $.proxy( self._onResize, self ));
+
       // Decide which tabs to make
       if ( Modernizr.mq('(max-width: 767px)') ) {
         self.setup();
+      } else if ( self.tabletMode === 'carousel' && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+        self.setupCarousel();
       }
-
-      // $panes.not('.active').addClass('off-screen');
     },
 
     _getBounded : function( value ) {
@@ -73,7 +77,7 @@
         // }
 
         if ( !self.isStickyTabs ) {
-          self._setupStickyTabs();
+          self.setup();
         }
 
         self.animateTab();
@@ -90,7 +94,7 @@
       // Desktop
       } else {
         if ( self.isStickyTabs ) {
-          self._teardownStickyTabs();
+          self.teardown();
         }
         // if ( isTabCarousel ) {
         //   _teardownTabCarousel();
@@ -118,7 +122,7 @@
     _onTabSelected : function() {
       var self = this;
 
-      console.log('_onTabSelected');
+      console.log('onTabSelected: StickyTabs');
       self.$tabs.removeAttr('style');
       self.lastSL = self.$tabsWrap.scrollLeft();
       self.data = null;
@@ -144,6 +148,7 @@
     },
 
     animateTab : function() {
+      console.log('animateTab: StickyTabs');
       var self = this,
           sl = self.$tabsWrap.scrollLeft(),
           distance = self.lastSL - sl, // last scroll left - current scoll left = distance since last _animateTab call
@@ -168,7 +173,7 @@
     setup : function() {
       var self = this;
 
-      console.log('_setupStickyTabs');
+      console.log('setup: StickyTabs');
       self.isStickyTabs = true;
       self.$tabsWrap
         .on('scroll', $.proxy( self.animateTab, self ))
@@ -194,19 +199,45 @@
         //   }
         // });
       self._onTabSelected();
-
-      // Window resize
-      self.$window.on('resize.stickytabs', $.proxy( self._onResize, self ));
     },
 
     teardown : function() {
       var self = this;
 
-      console.log('_teardownStickyTabs');
+      console.log('teardown: StickyTabs');
       self.$tabsWrap.off('scroll').removeClass('sticky');
       self.$tabs.removeAttr('style');
       self.isStickyTabs = false;
-      self.$window.off('.stickytabs');
+    },
+
+    setupCarousel : function() {
+      var self = this;
+
+      // Do initialzation for carousel
+      console.log('Do initialzation for carousel');
+      // self.$tabsWrap
+      //   .on('scroll', $.proxy( self.animateTab, self ))
+      //   .addClass('carousel')
+      //   .parent()
+      //   .scrollerModule({
+      //     contentSelector: '.tabs',
+      //     itemElementSelector: '.tab',
+      //     mode: 'paginate',
+      //     lastPageCenter: false,
+      //     extraSpacing: 0,
+
+      //     //iscroll props get mixed in
+      //     iscrollProps: {
+      //       snap: true,
+      //       hScroll: true,
+      //       vScroll: false,
+      //       hScrollbar: false,
+      //       vScrollbar: false,
+      //       momentum: true,
+      //       bounce: true,
+      //       onScrollEnd: null
+      //     }
+      //   });
     },
 
     update : function() {
@@ -256,4 +287,3 @@
 
 }(jQuery, Modernizr, window));
 
-$('.gallery').length > 0 && $('.tab-strip').stickyTabs();

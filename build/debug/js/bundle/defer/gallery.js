@@ -89,14 +89,11 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
   $navPrev,
   $window,
   $panes,
-  tabOffset = 0,
   initialTabWidth = 0,
   tabWidth = 0,
   tabsWidth = 0,
   windowWidth = 0,
   windowHeight = 0,
-  data = null,
-  lastSL = null,
   isStickyTabs = false,
   isTabCarousel = false,
   pages = 0,
@@ -136,11 +133,9 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       _setTabCarouselVars();
       _setupTabCarousel();
     }
-
-    $panes.not('.active').addClass('off-screen');
   },
 
-  _tabShown = function(evt) {
+  _tabShown = function() {
     var $tab = $(this);
 
     // Update iQ images
@@ -268,94 +263,6 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       $navNext.show();
     }
 
-  },
-
-  // Initializes sticky tabs
-  _setupStickyTabs = function() {
-    console.log('_setupStickyTabs');
-    isStickyTabs = true;
-    $tabsWrap
-      .on('scroll', _animateTab)
-      .addClass('sticky')
-      // .parent()
-      // .scrollerModule({
-      //   contentSelector: '.tabs',
-      //   itemElementSelector: '.tab',
-      //   mode: 'free',
-      //   lastPageCenter: false,
-      //   extraSpacing: 0,
-
-      //   //iscroll props get mixed in
-      //   iscrollProps: {
-      //     snap: false,
-      //     hScroll: true,
-      //     vScroll: false,
-      //     hScrollbar: false,
-      //     vScrollbar: false,
-      //     momentum: true,
-      //     bounce: true,
-      //     onScrollEnd: null
-      //   }
-      // });
-    _initStickyTab();
-  },
-
-  // Removes sticky tabs
-  _teardownStickyTabs = function() {
-    console.log('_teardownStickyTabs');
-    $tabsWrap.off('scroll').removeClass('sticky');
-    $tabs.removeAttr('style');
-    isStickyTabs = false;
-  },
-
-  _initStickyTab = function() {
-    console.log('_initStickyTab');
-    lastSL = $tabsWrap.scrollLeft();
-    data = null;
-
-    // Get offset from left side
-    tabOffset = $activeTab.offset().left;
-
-    // Set initail css on active tab
-    $activeTab.css({
-      position: 'absolute',
-      left: _getBounded( tabOffset )
-    });
-
-    console.log('new sticky tab set', _getBounded( tabOffset ), tabOffset );
-
-    // Add a margin to the next (or previous if it's the last tab) tab because
-    // the active one is positioned absolutely, taking up no space
-    if ( !$activeTab.is(':last-child') ) {
-      $activeTab.next().css('marginLeft', tabWidth);
-    } else {
-      $activeTab.prev().css('marginRight', tabWidth);
-    }
-  },
-
-  _animateTab = function() {
-    var sl = $tabsWrap.scrollLeft(),
-        distance = lastSL - sl, // last scroll left - current scoll left = distance since last _animateTab call
-        tmpX = data ? data.overlap + distance : tabOffset + distance,
-        newX = _getBounded( tmpX ); // contrain the tab to 0 and the scrollwidth
-
-    // If the value has been constrained, save the overlap
-    if ( newX !== tmpX ) {
-      data = {
-        overlap: tmpX
-      };
-    } else {
-      data = null;
-    }
-
-    lastSL = sl;
-    tabOffset = newX;
-
-    $activeTab.css('left', tabOffset);
-  },
-
-  _getBounded = function( value ) {
-    return Exports.constrain( value, 0, windowWidth - tabWidth );
   };
 
   return {
@@ -367,7 +274,12 @@ $(document).ready(function() {
 
   if ( $('.gallery').length > 0 ) {
     Exports.Modules.Gallery.init();
-    Exports.Modules.Tabs.init();
+    // Exports.Modules.Tabs.init();
+
+    $('.tab-strip').stickyTabs();
+
+    // Hide other tabs
+    $('.tab-pane:not(.active)').addClass('off-screen');
 
     // // Should be called after everything is initialized
     $(window).trigger('hashchange');
