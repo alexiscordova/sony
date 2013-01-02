@@ -1,0 +1,39 @@
+<div class="primary-tout container <%- @data.mode %> clearfix">
+	<%  if @data.mode == "primaryTout": %>
+		<div class="grid">
+			<div class="span12">
+				<%- @this.partial('modules/image.html.eco' , {this:@this, data:@data.image} ) %>
+				<div class="inner grid">
+					<div class="span5">
+						<% if @data.kicker : %><h6><%- @data.kicker %></h6><% end %>
+						<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
+						<% if @data.body : %><p><%- @data.body %></p><% end %>
+						<% if @data.links : %>
+							<% for link in @data.links :%>
+								<a class="<%- link.type %>" href="<%- link.url %>"><%- link.text %></a>
+							<% end %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% else if @data.mode == "productIntroPlate" : %>
+		<div class="grid">
+			<div class="span12">
+				<%- @this.partial('modules/image.html.eco' , {this:@this, data:@data.image} ) %>
+				<div class="inner grid">
+					<div class="span5">
+						<% if @data.kicker : %><h6><%- @data.kicker %></h6><% end %>
+						<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
+						<% if @data.body : %><p><%- @data.body %></p><% end %>
+						<% if @data.links : %>
+							<% for link in @data.links :%>
+								<a class="<%- link.type %>" href="<%- link.url %>"><%- link.text %></a>
+							<% end %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>
