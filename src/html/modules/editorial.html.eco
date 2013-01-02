@@ -2,7 +2,7 @@
 
 <% if @data.layout.media == "full" : %>
 	<% if  @data.layout.inner == "true" : %>
-	<div class="grid">
+	<div class="grid <%- @data.style %>">
 		<div class="span12">
 			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 			<div class="grid">
@@ -11,6 +11,7 @@
 			<% else if  @data.layout.text == "right" : %>
 				<div class="inner span<%- @data.layout.columns[1] %> offset<%- @data.layout.columns[0] %>">
 			<% end %>
+					<% if @data.h1 : %><h1><%- @data.h1 %></h1><% end %>
 					<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 					<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
 					<% if @data.body : %><p><%- @data.body %></p><% end %>
@@ -20,8 +21,9 @@
 		</div>
 	</div>
 	<% else :%>
-	<div class="grid">
+	<div class="grid <%- @data.style %>">
 		<div class="span12">
+			<% if @data.h1 : %><h1><%- @data.h1 %></h1><% end %>
 			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
 			<% if @data.body : %><p><%- @data.body %></p><% end %>
@@ -38,6 +40,7 @@
 <% else if  @data.layout.media == "mediaright" : %>
 	<div class="grid">
 		<div class="span<%- @data.layout.columns[0] %>">
+			<% if @data.h1 : %><h1><%- @data.h1 %></h1><% end %>
 			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
 			<% if @data.body : %><p><%- @data.body %></p><% end %>
@@ -54,6 +57,7 @@
 			<%- @this.partial('modules/'+ @data.submodules[0].type , {this:@this, data:@this.data(@data.submodules[0].data)} ) %>
 		</div>
 		<div class="span<%- @data.layout.columns[1] %>">
+			<% if @data.h1 : %><h1><%- @data.h1 %></h1><% end %>
 			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
 			<% if @data.body : %><p><%- @data.body %></p><% end %>
@@ -62,7 +66,8 @@
 	</div>
 
 <% else if  @data.layout.media == "full3up": %>
-	<div class="grid <%- @data.layout.text %>">
+	<div class="grid <%- @data.layout.text %> <%- @data.style %>">
+		<% if @data.h1 : %><h1><%- @data.h1 %></h1><% end %>
 		<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 		<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
 		<% if @data.body : %><p><%- @data.body %></p><% end %>
@@ -80,7 +85,8 @@
 	</div>
 	
 <% else if  @data.layout.media == "m3up" ||  @data.layout.media == "m2up": %>
-	<div class="grid">
+	<div class="grid <%- @data.style %>">
+		<% if @data.h1 : %><h1><%- @data.h1 %></h1><% end %>
 		<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 		<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
 		<% if @data.body : %><p><%- @data.body %></p><% end %>
@@ -114,7 +120,7 @@
 		<% else if  @data.layout.text == "center" : %>
 		<div class="span<%- @data.layout.columns[1] %> offset<%- @data.layout.columns[0] %>">
 		<% end %>
-
+			<% if @data.h1 : %><h1><%- @data.h1 %></h1><% end %>
 			<% if @data.h2 : %><h2><%- @data.h2 %></h2><% end %>
 			<% if @data.h3 : %><h3><%- @data.h3 %></h3><% end %>
 			<% if @data.body : %><p><%- @data.body %></p><% end %>
