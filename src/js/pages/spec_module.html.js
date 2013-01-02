@@ -66,7 +66,7 @@
       
         __out.push(this.partial('includes/js_head.html'));
       
-        __out.push('\n\n\t</head>\n\t<body class="gallery-module bootstrap-override">\n\t\t<!--\n\t\t***------Exemples------***\n\t\t/spec/default.json\n\t\t-->\n\t\t');
+        __out.push('\n\t</head>\n\t<body class="module-spec gallery-module bootstrap-override">\n \n\t\t');
       
         __out.push(this.partial('modules/module_spec.html.eco', {
           "this": this,

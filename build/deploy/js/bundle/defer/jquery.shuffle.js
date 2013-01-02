@@ -100,7 +100,7 @@
         // Set up css for transitions
         self.$container.css('position', 'relative')[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
         self._initItems( !self.showInitialTransition );
-        
+
         // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
         self.windowHeight = $window.height();
         self.windowWidth = $window.width();
@@ -143,7 +143,7 @@
             self.filter( category );
             // Save the last filter in case elements are appended.
             self.lastFilter = category;
-            
+
             // How many filtered elements?
             self.visibleItems = self.$items.filter('.filtered').length;
 
@@ -216,7 +216,7 @@
 
             self.$items.each(function() {
                 $(this).css(self.itemCss);
-                
+
                 // Set CSS transition for transforms and opacity
                 if ( self.supported && !withoutTransition ) {
                     self._setTransition(this);
@@ -279,7 +279,7 @@
                 self.needsUpdate = false;
             }
         },
-        
+
         /**
          * Adjust the height of the grid
          */
@@ -309,7 +309,7 @@
             var self = this;
 
             fn = fn || self.filterEnd;
-            
+
             self.layoutTransitionEnded = false;
             $.each(items, function(index) {
                 var $this = $(items[index]),
@@ -374,8 +374,10 @@
                 shortCol = 0;
 
             // Find index of short column, the first from the left where this item will go
+            // if ( setY[i] === minimumY ) requires items' height to be exact every time.
+            // The buffer value is very useful when the height is a percentage of the width
             for (var i = 0, len = setY.length; i < len; i++) {
-                if ( setY[i] === minimumY ) {
+                if ( setY[i] >= minimumY - self.buffer && setY[i] <= minimumY + self.buffer ) {
                     shortCol = i;
                     break;
                 }
@@ -421,7 +423,7 @@
             }
 
         },
-        
+
         /**
          * Hides the elements that don't match our filter
          */
@@ -476,7 +478,7 @@
             });
             self.lastSort = opts;
         },
-        
+
         /**
          * Uses Modernizr's prefixed() to get the correct vendor property name and sets it using jQuery .css()
          *
@@ -499,7 +501,7 @@
             var styleName = this.prefixed(prop);
             return styleName ? styleName.replace(/([A-Z])/g, function(str,m1){ return '-' + m1.toLowerCase(); }).replace(/^ms-/,'-ms-') : styleName;
         },
-        
+
         /**
          * Transitions an item in the grid
          *
@@ -669,7 +671,7 @@
 
     };
 
-            
+
     // Plugin definition
     $.fn.shuffle = function(opts, sortObj) {
         var args = Array.prototype.slice.call( arguments, 1 );
@@ -686,7 +688,7 @@
             // If passed a string, lets decide what to do with it. Or they've provided a function to filter by
             if ($.isFunction(opts)) {
                 shuffle.shuffle(opts);
-                
+
             // Key should be an object with propreties reversed and by.
             } else if (typeof opts === 'string') {
                 if (opts === 'sort') {
@@ -716,6 +718,7 @@
         columnWidth : 0,// a static number or function that returns a number which tells the plugin how wide the columns are (in pixels)
         showInitialTransition : true, // If set to false, the shuffle-items will only have a transition applied to them after the first layout
         delimeter : null, // if your group is not json, and is comma delimeted, you could set delimeter to ','
+        buffer: 0,
         keepSorted : true
     };
 

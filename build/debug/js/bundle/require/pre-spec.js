@@ -25,7 +25,7 @@ $.fn.setContainerHeight = function() {
 //Usage: $('.tableContainer').findColumn(index); //Morph a table into a div table layout.
 $.fn.findColumn = function(index) {
 
-	$column = $(this).find('.specsTable > .thead > .row > .cell:nth-child('+index+'), .specsTable > .tbody > .row > .cell:nth-child('+index+')');
+	$column = $(this).find('.specsTable > .thead > .specRow > .specCell:nth-child('+index+'), .specsTable > .tbody > .specRow > .specCell:nth-child('+index+')');
 
 	return $column;
 }
@@ -49,9 +49,9 @@ $.fn.tableToDiv = function() {
 			$table.addClass('table, ' + tableClass + '');
 			$table.find('thead').addClass('thead');
 			$table.find('tbody').addClass('tbody');
-			$table.find('tr').addClass('row');
+			$table.find('tr').addClass('specRow');
 			$table.find('tr:nth-child(even)').addClass('odd_rows');
-			$table.find('th, td').addClass('cell');
+			$table.find('th, td').addClass('specCell');
 		});
 
 	} else {
@@ -81,11 +81,11 @@ $.fn.tableToDiv = function() {
 			});
 
 			$table.find('tr').replaceWith(function() {
-				return $('<div class="row">').append($(this).contents());
+				return $('<div class="specRow">').append($(this).contents());
 			});
 
 			$table.find('th').replaceWith(function() {
-				return $('<div class="cell">').append($(this).contents());
+				return $('<div class="specCell">').append($(this).contents());
 			});
 
 			$table.find('td').replaceWith(function() {
@@ -94,7 +94,7 @@ $.fn.tableToDiv = function() {
 				if ($(this).attr('class'))
 					getClass = $(this).attr('class');
 				
-				return $('<div class="cell '+getClass+'">').append($(this).contents());
+				return $('<div class="specCell '+getClass+'">').append($(this).contents());
 			});
 
 			$table.replaceWith(function() {
@@ -102,7 +102,7 @@ $.fn.tableToDiv = function() {
 			});
 
 			// Odd and Even Classes
-			$table.find('.row:nth-child(even)').addClass('odd_rows');
+			$table.find('.specRow:nth-child(even)').addClass('odd_rows');
 		});
 	}
 
@@ -150,97 +150,3 @@ var delay = (function() {
 
 $('table').tableToDiv();
 
-
-
-/*
-// SWITCH CASE START //
-switch(deviceLoaded) {
-
-//DESKTOP ---
-case 'desktop':
-
-//execute the code here
-console.info('desktop');
-
-//Morph each table into a Div Table layout.
-$('.table').each(function() {
-$(this).tableToDiv();
-})
-
-break;
-
-//MOBILE ---
-case 'mobile':
-
-//execute the code here
-console.info('mobile');
-
-//Morph the table into a Div Table layout.
-$('.table').each(function() {
-$(this).tableToDiv();
-})
-
-break;
-
-//INTERNET EXPLORER 7 ---
-case 'ie7':
-//execute the code here
-console.info('ie7');
-
-//Add support for old browser (Adding class instead of morphing the table into a div table layout)
-$('table').addClass('table');
-$('thead').addClass('thead');
-$('tbody').addClass('tbody');
-$('tr').addClass('row');
-$('tr:nth-child(even)').addClass('odd_rows');
-$('th, td').addClass('cell');
-
-break;
-}
-// SWITCH CASE END //
-*/
-
-
-
-/*
-$.fn.responsiveTableContainer = function() {
-	//pre-module js here (Has to be before the sony gallery for the mobile version)
-	this.each(function()
-	{
-		$tableContainer = $(this);
-
-		//If we are in mobile view and there is more than one table.
-		if (ifMobile && $tableContainer.children().length > 1)
-		{
-			//first table to insert the data.
-			$firstTable = $tableContainer.find('table:first-child');
-			
-			$tableContainer.children('table').not(':first-child').each(function()
-			{
-				$currentTable = $(this);
-				
-				//column per table (not the first)
-				var column_count = $currentTable.find('thead th').not(':first-child').size();
-				for ( i=1; i <= column_count; i++ )
-				{
-					//append each th
-					$firstTable.find('thead tr').append($currentTable.find('thead tr th').not(':first-child'));
-					
-					//rows
-					var row_count = $currentTable.find('tbody td').size();
-					for ( j=1; j <= row_count; j++ )
-					{
-						$firstTable.find('tbody > tr:nth-child('+j+')').append($currentTable.find('tbody > tr:nth-child('+j+') td'));
-					}
-				}
-				
-				$currentTable.remove();
-			})
-		}
-	});
-	
-	return this;
-}
-
-$('.tableContainer').responsiveTableContainer();
-*/

@@ -41,14 +41,14 @@
       (function() {
         var i, infos, productDetails, _i, _j, _len, _len1, _ref, _ref1;
       
-        __out.push('<div class="container module-spec">\n\n\t');
+        __out.push('<div class="container">\n\t');
       
         if (this.data.productDetails.length) {
           __out.push('\n\t');
           _ref = this.data.productDetails;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             productDetails = _ref[_i];
-            __out.push('\n\t\t<div class="clearfix">\n\t\t\t<div class="spec-title">\n\t\t\t\t<p class="title-link"><a href="#">');
+            __out.push('\n\t\t<div class="clearfix fixed-header">\n\t\t\t<div class="spec-title">\n\t\t\t\t<p class="title-link"><a href="#">');
             __out.push(__sanitize(productDetails.productName));
             __out.push('</a></p>\n\t\t\t\t\n\t\t\t\t');
             if (productDetails.productName) {
@@ -56,7 +56,7 @@
               __out.push(__sanitize(productDetails.productName));
               __out.push(' Details</h1>\n\t\t\t\t');
             }
-            __out.push('\n\t\t\t\t\n\t\t\t\t<div class="clearfix">\n\t\t\t\t\t<p><a class="active" href="#">Specifications</a></p>\n\t\t\t\t\t<p><a href="#">Features</a></p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<section class="details">\n\t\t\t<div class="grid">\n\t\t\t\t\n\t\t\t\t');
+            __out.push('\n\t\t\t\t\n\t\t\t\t<div class="clearfix">\n\t\t\t\t\t<p><a href="spec_module.html">Specifications</a></p>\n\t\t\t\t\t<p><a class="active" href="#">Features</a></p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<section class="details">\n\t\t\t<div class="grid full-bleed">\n\t\t\t\t\n\t\t\t\t');
             if (productDetails.infos) {
               __out.push('\n\t\t\t\t<div class="span4">\n\t\t\t\t\t<h2>What\'s in the Box</h2>\n\t\t\t\t\t\n\t\t\t\t\t<ul>\n\t\t\t\t\t');
               _ref1 = productDetails.infos;
@@ -82,7 +82,7 @@
             }
             __out.push('\n\t\t\t\t</table>\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t');
             if (productDetails.lens) {
-              __out.push('\n\t\t<h2>Optics/Lens</h2>\n\t\t<div class="grid">\n\t\t\t\n\t\t\t');
+              __out.push('\n\t\t<h2>Optics/Lens</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t\n\t\t\t');
               if (productDetails.lens.rows1) {
                 __out.push('\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
                 if (productDetails.lens.rows1.lensType) {
@@ -242,7 +242,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails.exposure) {
-              __out.push('\n\t\t<h2>Exposure System</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Exposure System</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.exposure.meteringModes) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Metering Modes:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.exposure.meteringModes);
@@ -294,7 +294,7 @@
             }
             __out.push('\n\t\t\n\n\t\t');
             if (productDetails.sensor) {
-              __out.push('\n\t\t<h2>Imaging Sensor</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Imaging Sensor</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.sensor.imagingSensor) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Imaging Sensor:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.sensor.imagingSensor);
@@ -316,7 +316,7 @@
             }
             __out.push('\n\t\t\n\t\t\n\t\t');
             if (productDetails.lcdDisplay) {
-              __out.push('\n\t\t<h2>LCD Display</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>LCD Display</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.lcdDisplay.type) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>LCD Type:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.lcdDisplay.type);
@@ -332,7 +332,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails.driveSystem) {
-              __out.push('\n\t\t<h2>Drive System</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Drive System</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.driveSystem.shutterType) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Shutter Type:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.driveSystem.shutterType);
@@ -354,7 +354,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails.advancedFeatures) {
-              __out.push('\n\t\t<h2>Advanced Features</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span3">\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Advanced Features</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span3">\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.advancedFeatures.sweepPanorama) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Sweep Panorama:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.advancedFeatures.sweepPanorama);
@@ -394,7 +394,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails.Recording) {
-              __out.push('\n\t\t<h2>Recording</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Recording</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.Recording.mediaType) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Media Type:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.Recording.mediaType);
@@ -452,7 +452,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails.focusControl) {
-              __out.push('\n\t\t<h2>Focus Control</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Focus Control</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.focusControl.focusSystem) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Focus System:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.focusControl.focusSystem);
@@ -468,7 +468,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails.power) {
-              __out.push('\n\t\t<h2>Power</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Power</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.power.batteryType) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Battery Type:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.power.batteryType);
@@ -484,7 +484,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails["interface"]) {
-              __out.push('\n\t\t<h2>Interface</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Interface</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails["interface"].memoryCardSlot) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Memory Card Slot:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails["interface"].memoryCardSlot);
@@ -506,7 +506,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails.convenienceFeatures) {
-              __out.push('\n\t\t<h2>Convenience Features</h2>\n\t\t<div class="grid">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
+              __out.push('\n\t\t<h2>Convenience Features</h2>\n\t\t<div class="grid full-bleed">\n\t\t\t<div class="span4">\n\t\t\t\t<table>\n\t\t\t\t\t');
               if (productDetails.convenienceFeatures.imagePlayback) {
                 __out.push('\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th><h3>Still Image Playback:</h3></th>\n\t\t\t\t\t\t<td><p>');
                 __out.push(productDetails.convenienceFeatures.imagePlayback);
@@ -516,7 +516,7 @@
             }
             __out.push('\n\t\t\n\t\t');
             if (productDetails.features) {
-              __out.push('\n\t\t<h2 class="h2-bigger">Features</h2>\n\t\t\n\t\t<div class="grid no-border">\n\t\t\t<div class="span4">\n\t\t\t\t');
+              __out.push('\n\t\t<h2 class="h2-bigger">Features</h2>\n\t\t\n\t\t<div class="grid full-bleed no-border">\n\t\t\t<div class="span4">\n\t\t\t\t');
               if (productDetails.features.a) {
                 __out.push('\n\t\t\t\t<h3>');
                 __out.push(productDetails.features.a.title);
@@ -540,7 +540,7 @@
                 __out.push(productDetails.features.c.description);
                 __out.push('</p>\n\t\t\t\t');
               }
-              __out.push('\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<div class="grid no-border">\n\t\t\t<div class="span4">\n\t\t\t\t');
+              __out.push('\n\t\t\t</div>\n\t\t</div>\n\t\t\n\t\t<div class="grid full-bleed no-border">\n\t\t\t<div class="span4">\n\t\t\t\t');
               if (productDetails.features.d) {
                 __out.push('\n\t\t\t\t<h3>');
                 __out.push(productDetails.features.d.title);

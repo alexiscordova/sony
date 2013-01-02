@@ -369,6 +369,9 @@ $(document).ready(function() {
     Exports.Modules.Gallery.init();
     Exports.Modules.Tabs.init();
 
+    // // Should be called after everything is initialized
+    $(window).trigger('hashchange');
+
     // debug, show second tab
     // $('[data-target="overhead"]').tab('show');
   }

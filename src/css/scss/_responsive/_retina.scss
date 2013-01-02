@@ -1,0 +1,18 @@
+// http://www.brettjankord.com/2012/11/28/cross-browser-retinahigh-resolution-media-queries/
+
+// 1.5 dpr
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+
+  // IMPORTANT!
+  // The size of the @2x spritesheet is too large to be display on the iPhone.
+  // Advise looking into icon font.
+  // The width * height of an image has to be < 5 * 1024 * 1024 (5MB) for iOS devices with > 256MB of RAM
+  // (3MB for devices with 256MB).
+
+  // Also, checkmarks won't be @2x if .no-touch precedes %icon (it uses .csstransforms which is also on the html element)
+
+  .no-touch %icon {
+    background-image: url($iconSpritePath2x);
+    background-size: 1080px 1290px;
+  }
+}

@@ -1,8 +1,7 @@
-<div class="container module-spec">
-
+<div class="container">
 	<% if @data.productDetails.length: %>
 	<% for productDetails in @data.productDetails: %>
-		<div class="clearfix">
+		<div class="clearfix fixed-header">
 			<div class="spec-title">
 				<p class="title-link"><a href="#"><%= productDetails.productName%></a></p>
 				
@@ -11,14 +10,14 @@
 				<% end %>
 				
 				<div class="clearfix">
-					<p><a class="active" href="#">Specifications</a></p>
-					<p><a href="#">Features</a></p>
+					<p><a href="spec_module.html">Specifications</a></p>
+					<p><a class="active" href="#">Features</a></p>
 				</div>
 			</div>
 		</div>
 		
 		<section class="details">
-			<div class="grid">
+			<div class="grid full-bleed">
 				
 				<% if productDetails.infos: %>
 				<div class="span4">
@@ -54,7 +53,7 @@
 		
 		<% if productDetails.lens: %>
 		<h2>Optics/Lens</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			
 			<% if productDetails.lens.rows1: %>
 			<div class="span4">
@@ -225,7 +224,7 @@
 		
 		<% if productDetails.exposure: %>
 		<h2>Exposure System</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				
 				<table>
@@ -300,7 +299,7 @@
 
 		<% if productDetails.sensor: %>
 		<h2>Imaging Sensor</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				
 				<table>
@@ -336,7 +335,7 @@
 		
 		<% if productDetails.lcdDisplay: %>
 		<h2>LCD Display</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				<table>
 					<% if productDetails.lcdDisplay.type: %>
@@ -363,7 +362,7 @@
 		
 		<% if productDetails.driveSystem: %>
 		<h2>Drive System</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				<table>
 					<% if productDetails.driveSystem.shutterType: %>
@@ -397,7 +396,7 @@
 		
 		<% if productDetails.advancedFeatures: %>
 		<h2>Advanced Features</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span3">
 				<table>
 					<% if productDetails.advancedFeatures.sweepPanorama: %>
@@ -452,7 +451,7 @@
 		
 		<% if productDetails.Recording: %>
 		<h2>Recording</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				<table>
 					<% if productDetails.Recording.mediaType: %>
@@ -533,7 +532,7 @@
 		
 		<% if productDetails.focusControl: %>
 		<h2>Focus Control</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				<table>
 					<% if productDetails.focusControl.focusSystem: %>
@@ -560,7 +559,7 @@
 		
 		<% if productDetails.power: %>
 		<h2>Power</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				<table>
 					<% if productDetails.power.batteryType: %>
@@ -583,7 +582,7 @@
 		
 		<% if productDetails.interface: %>
 		<h2>Interface</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				<table>
 					<% if productDetails.interface.memoryCardSlot: %>
@@ -617,7 +616,7 @@
 		
 		<% if productDetails.convenienceFeatures: %>
 		<h2>Convenience Features</h2>
-		<div class="grid">
+		<div class="grid full-bleed">
 			<div class="span4">
 				<table>
 					<% if productDetails.convenienceFeatures.imagePlayback: %>
@@ -634,7 +633,7 @@
 		<% if productDetails.features: %>
 		<h2 class="h2-bigger">Features</h2>
 		
-		<div class="grid no-border">
+		<div class="grid full-bleed no-border">
 			<div class="span4">
 				<% if productDetails.features.a: %>
 				<h3><%- productDetails.features.a.title %></h3>
@@ -657,7 +656,7 @@
 			</div>
 		</div>
 		
-		<div class="grid no-border">
+		<div class="grid full-bleed no-border">
 			<div class="span4">
 				<% if productDetails.features.d: %>
 				<h3><%- productDetails.features.d.title %></h3>

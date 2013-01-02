@@ -18,56 +18,46 @@
     left:33px;
   }
 }
-.nav-li-selected .navmenu-w-account {
-  @include hideshow-navmenu-show(right,-125px);
-}
-.nav-li-selected .navmenu-w-search {
-  @include hideshow-navmenu-show(right);
-}
-
 // NavMenu
-.navmenu-w-account{
-  width: 215px;
-  padding: 10px 0 22px;
 
-  @include hideshow-navmenu-hide(right);
-
-  .navmenu-list{
-    margin:0;
-  }
-  .navmenu-list-main{
-    padding-top:3px;
-  }
-
+.navmenu-list{
+  margin:0;
+  
   .navmenu-line {
     line-height:24px;
     margin:0 10px 0 18px;
-    > a.tl {
-      display:block;
+    a.tl {
+      display:inline-block;
       font-size:$font_12_15;
       padding:4px 0 4px 4px;
-      > i {
+      i {
         box-sizing:content-box;
         padding-right:10px;
         margin-top:1px;
       }
     }
   }
-  #navmenu-li-cart .cart-count{
-    display:inline-block;
-    padding:0 9px;
-    margin:3px 0 0 10px;
-    line-height:21px;
-    background:$highlightColor;
-    color:$white;
-    font-size:$font_11_12;
-    @include fontMedium;
-    @include border-radius(1px);
+}
+.nav-li-count{
+  display:inline-block;
+  padding:0 9px;
+  margin:2px 0 0 10px;
+  line-height:21px;
+  background:$highlightColor;
+  color:$white;
+  font-size:$font_11_12;
+  @include fontMedium;
+  @include border-radius(1px);
+}
+.navmenu-li-ext-text{
+  font-style:italic;
+  color:$grayDark;
+}
+
+.navmenu-w-account{
+  .navmenu-list-main{
+    padding-top:3px;
   }
-
-
-
-
 
   .btn-login,
   .btn-logout{
@@ -93,10 +83,22 @@
     }        
   }
 } // .navmenu-w-account
+.nav-li-selected .navmenu-w-account {
+  @include hideshow-navmenu-show(right,-125px);
+}
+
+
+.navmenu-w-search-container{
+  position:relative;
+}
 .navmenu-w-search{
   width:467px;
 
   @include hideshow-navmenu-hide(right);
+
+  &.navmenu-w-visible{
+    @include hideshow-navmenu-show(right);
+  }
 
   .sprite-mini-global-nav-indicator{
     left:auto; // right declared in _responsive
@@ -269,6 +271,9 @@
     }
   }
 } // .navmenu-w-search
+.nav-li-selected .navmenu-w-search {
+  @include hideshow-navmenu-show(right);
+}
 
 
 
