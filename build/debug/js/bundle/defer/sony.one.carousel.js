@@ -153,8 +153,6 @@
         self.yProp = 'top';
       }
 
-
-
       self.$win.on( 'resize.soc', function() {  
         if( resizeTimer ) {
           clearTimeout( resizeTimer );          
