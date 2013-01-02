@@ -6,7 +6,7 @@ $backgroundOpacity: 0.8;
 $overallOpacity: 0.8;
 
 body.debug::before {
-  content: 'Default: 980px - 1199px';
+  content: 'Default: 980px - 1199px  (1024+)';
   position: fixed;
   z-index: 99999 !important;
   top: 0;
@@ -20,6 +20,26 @@ body.debug::before {
        -o-transition: background .2s ease;
           transition: background .2s ease;
 }
+
+@media (min-width: 980px) and (max-width: 1023px) {
+  body.debug::before {
+    content: 'Default: 980px - 1199px  (below 1024)';
+    background-color: hsla(110, 80%, 60%, $backgroundOpacity);
+  }
+}
+@media (min-width: 1024px) and (max-width: 1024px) {
+  body.debug::before {
+    content: '1024px - Tablet Landscape';
+    background-color: hsla(110, 50%, 30%, $backgroundOpacity);
+  }
+}
+@media (min-width: 1025px) and (max-width: 1199px) {
+  body.debug::before {
+    content: 'Default: 980px - 1199px  (above 1024)';
+    background-color: hsla(110, 50%, 60%, $backgroundOpacity);
+  }
+}
+
 
 @media (min-width: 1200px) {
   body.debug::before {
@@ -42,14 +62,14 @@ body.debug::before {
   }
 }
 
-@media (max-width: 767px) {
+@media (min-width: 480px) and (max-width: 767px) {
   body.debug::before {
-    content: 'Phones to Tablets: < 767px';
+    content: 'Phones to Tablets: < 768px';
     background-color: hsla(210, 50%, 60%, $backgroundOpacity);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 479px) {
   body.debug::before {
     content: 'Phones: < 480px';
     background-color: hsla(300, 50%, 60%, $backgroundOpacity);

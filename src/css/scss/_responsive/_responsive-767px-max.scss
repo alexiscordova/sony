@@ -2,30 +2,23 @@
 // Responsive: Landscape phone to desktop/tablet
 // --------------------------------------------------
 //
-// This space intentionally left blank.
-// so these classes will line up through all the responsive files.
-//
-//
-//
-//
 @media (max-width: 767px) {
 
   // Fluid grid
-  .container {
-    width: 100%;
-  }
-  .grid{
-    width: 100%;
-  }
-
-
-
-  // Fixed grid
-  .container-px-width {
-    width: 100%;
-  }
+  .container,
+  .grid,
+  .container-px-width,
   .grid-px-width{
     width: 100%;
+  }
+
+  .mobile-container-padded{
+    padding-left:$containerMarginWidth480;
+    padding-right:$containerMarginWidth480;
+  }
+  .mobile-container-margined{
+    margin-left:$containerMarginWidth480;
+    margin-right:$containerMarginWidth480;
   }
 
 
@@ -127,10 +120,27 @@
 
 
 
+
+
+
+
+
+
+
+
 // UP TO LANDSCAPE PHONE
 // ---------------------
 
-@media (max-width: 480px) {
+@media (max-width: 479px) {
+
+  .mobile-container-padded{
+    padding-left:$containerMarginWidth320;
+    padding-right:$containerMarginWidth320;
+  }
+  .mobile-container-margined{
+    margin-left:$containerMarginWidth320;
+    margin-right:$containerMarginWidth320;
+  }
 
   .grid5 {
 

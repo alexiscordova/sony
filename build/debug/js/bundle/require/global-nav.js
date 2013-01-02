@@ -9,6 +9,10 @@
 
 (function($, Modernizr, window, undefined) {
 
+  $(window).resize(function() {
+    console.log("width: " + $(window).width());
+  });
+
   var GlobalNav = function( $container ) {
     var t = this;
     t.searchMenu = {};
@@ -114,6 +118,9 @@
         });
       } else {
         // Init Mobile Nav
+        $("#btn-mobile-nav").on(t.tapOrClick,function(){
+          $("#page-wrap-inner").toggleClass("show-mobile-menu");
+        });
       }
     },
 

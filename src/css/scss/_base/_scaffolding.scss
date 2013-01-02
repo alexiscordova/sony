@@ -62,3 +62,23 @@ a:hover {
   @include border-radius(500px); // crank the border-radius so it works with most reasonably sized images
 }
 
+
+
+
+/* Debug grid styles
+-------------------------------------------------- */
+.show-grid {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.show-grid [class*="span"] {
+  background-color: rgba(125,125,125,0.5) !important;
+  @include box-shadow(inset 0 0 2px rgba(0,0,0,0.9));
+}
+.show-grid:hover [class*="span"] {
+  background: rgba(215,125,125,0.9) !important;
+}
+.show-grid .show-grid [class*="span"] {
+  background-color: rgba(255,125,0,0.9) !important;
+}
+

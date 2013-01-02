@@ -12,6 +12,7 @@
 	$black:                 rgb(0,0,0) !default;       //#000
 	$blackLight:		        rgb(35,35,35) !default;    //#232323
 	$grayDark:              rgb(47,53,61) !default;    //#2F353D
+	$grayDark1: 						rgb(80,77,86) !default;
 	$gray:                  rgb(131,131,143) !default; //#83838F
 
   $grayLightness:         rgb(145,145,158) !default; // we need to cut down on some of these...
@@ -52,9 +53,15 @@
   $highlightColor:        rgb(243,84,41) !default;
   $highlightColorHover:   lighten($highlightColor, 5%) !default;
   $highlightColorActive:  $highlightColor !default;
-  $highlightColorDark:  rgb(219,76,37);
+  $highlightColorDark:    rgb(219,76,37);
 
   $themeGreen:            rgb(34,192,131) !default;
+
+
+  $twitterColor:					rgb(43,180,245) !default;
+  $facebookColor:					rgb(62,75,203) !default;
+  $gplusColor:						rgb(219,64,44) !default;
+  $youtubeColor:					rgb(145,7,7) !default;
 
 
   // Scaffolding
@@ -66,12 +73,12 @@
   $textColorDark:         $grayDark !default;
 
 
-
   // Links
   // -------------------------
   $linkColor:             rgb(69,113,236) !default;
-  $linkColorHover:        rgb(87,135,244) !default;
-
+  $linkColorHover:        rgb(31,68,183) !default;
+  $linkColorLight:				rgb(87,135,244) !default;
+  
 
   // Transparent colors
   // -------------------------
@@ -150,6 +157,7 @@
   $font_12_16: 0.75em;   // 12px/16px
   $font_11_16: 0.6875em; // 11px/16px
   $font_10_16: 0.625em;  // 10px/16px
+  $font_9_16:  0.5625em; //  9px/16px
 
   $font_32_15: 2.133333333333333em;  // 32px/15px;
   $font_26_15: 1.733333333333333em;  // 26px/15px;
@@ -218,7 +226,7 @@
 	$btnAltSmallPadding:              8px 0 9px;
 	$btnAltMiniPadding:               8px 0 9px;
 
-	$btnSquarePadding:                  14px 0 13px;
+	$btnSquarePadding:                14px 0 13px;
   // $btnSquareLargePadding:              7px 0 10px;
   // $btnSquareSmallPadding:              8px 0 9px;
   // $btnSquareMiniPadding:               8px 0 9px;
@@ -226,8 +234,8 @@
 
   // Hotspots
   // -------------------------
-  $hotspotHalo:       rgba(47,53,61,0.1) !default;
-  $hotspotHaloHover:      rgba(47,53,61,0.15) !default;
+  $hotspotHalo:       	 rgba(47,53,61,0.1) !default;
+  $hotspotHaloHover:     rgba(47,53,61,0.15) !default;
 
 
 
@@ -365,10 +373,18 @@
   $wellBackground:                  rgb(245,245,245) !default;
 
 
+
+
+.FOOTER{}
+	$footerBackground: 	$blackLight;
+
+
+
 // Global values for Nav & Subanv to share.
 .NAV{}
 	$navMaxWidth:                 1125px !default;
 	$navtrayMaxWidth:             1200px !default;
+
 
 
 // Global Nav (navbar)
@@ -376,18 +392,22 @@
 .NAVBAR{}
 	$navbarCollapseWidth:             979px !default;
 
-	$navbarTotalHeight:               64px !default;
+	$navbarHeight:               			64px !default;
+	$navbarHeightShort:              	60px !default;
+	$navbarMobileHeightTall:					60px !default;
+	$navbarMobileHeight:							48px !default;
+
 	$navbarLineHeight:                40px !default;
  	$navbarMinSidePadding:            43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
 
   $navbarBackground:                $black !default;
   $navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
-  $navbarTertiaryColor:             rgb(55,53,59) !default;
+  $navbarTertiaryColor:             $grayDark1 !default;
 
   $navbarTextSize:                  0.9375em; // 15px/16px
   $navbarSmTextSize:                0.8125em; // 13px/16px
-  $navbarText:                      $white !default;
-  $navbarLinkColor:                 $white !default;
+  $navbarText:                      $grayLighter !default;
+  $navbarLinkColor:                 $grayLighter !default;
   $navbarLinkColorHover:            $white !default;
   $navbarLinkColorActive:           lighten($linkColorHover,5%) !default;
   $navbarLinkBackgroundHover:       transparent !default;
@@ -414,12 +434,12 @@
 
   $navTrayBackground:               $white;
   $navTrayBackgroundAlt:            $grayLightFieldLarge;
-  $navTrayDividerPosition:          72%;
+  $navTrayDividerPosition:          74%;
 
   $navMenuBackground:               $white;
   $navMenuBackgroundAlt:            $grayLightFieldLarge;
 
-  $navMobileWidth:		81%;
+  $navMobileWidth:				81%;
   $navMobileWidthLarge:		70%;
 
 
@@ -509,8 +529,8 @@
   // For .full-bleed, the widths are just overridden with 100%. For fixed-width-grids, that's not gonna work so well,
   // but then there shouldn't be fixed-width grids with .full-bleed
 
-  $gridColumns:         12 !default;
-  $grid5Columns:          5;
+  $gridColumns:         		12 !default;
+  $grid5Columns:          	5  !default;
 
   // Default 980px-1199px
   $containerMarginWidth:      34px !default;
@@ -539,7 +559,14 @@
 
 
   // 320px-767px breakpoints
-  $containerMarginWidth320:   12px !default;
+  $containerMarginWidth480px: 20 !default;
+  $containerMarginWidth320px: 20 !default;
+  $containerMarginWidth480: percentage($containerMarginWidth480px / 480) !default;
+  $containerMarginWidth320: percentage($containerMarginWidth320px / 320) !default;
+
+
+
+  // not sure if we're using these or not.
   $gridMarginWidth320:        18px !default;
   $gridColumnWidth320:        39px !default;
   $gridGutterWidth320:        20px !default;
@@ -568,14 +595,11 @@
   $containerWidth768:           $containerWidthFullBleed768 - ($containerMarginWidth768*2);
   $gridWidth768:                ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
-
-
   // I haven't updated grid5 for any of the new padding/margin business. Do what you need to do, if anything.
   // 5 Column Grid
   $grid5ColWidth:         204px;
   $grid5GutterWidth:      23px;
   $grid5RowWidth:         ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
-
 
 
 
