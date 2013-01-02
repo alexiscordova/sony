@@ -44,7 +44,7 @@
       // feature detection, some ideas taken from Modernizr
       var tempStyle = document.createElement('div').style,
           vendors = ['webkit','Moz','ms','O'],
-          vendor = '',
+          vendor = '', 
           lastTime = 0,
           tempV;
 
@@ -115,6 +115,12 @@
       t.win = $(window);
       t.newSlideId = 0;
       t.sPosition = 0;
+
+      //modes
+      t.isMobileMode = false;
+      t.isDesktopMode = false;
+      t.isTabletMode = false;
+      
       t.accelerationPos = 0;
       t.maxWidth = parseInt(t.sliderOverflow.parent().css('maxWidth'), 10);
       t.maxHeight = parseInt(t.sliderOverflow.parent().css('maxHeight'), 10);
@@ -359,34 +365,36 @@
 
                 t.isDesktopMode = true;
 
-               // t.ev.trigger('ondesktopbreakpoint.rp');
+                t.ev.trigger('ondesktopbreakpoint.rp');
 
               break;
 
               case 'tablet':
 
-                if(t.isMobileMode === true || t.isTabletMode === true){
+                if(t.isTabletMode === true){
                   return;
                 }
+
+                console.log("Are we in tablet mode? »", t.isTabletMode);
 
                 t.isMobileMode = t.isDesktopMode = false;
 
                 t.$el.removeClass('rpDesktop rpMobile')
                         .addClass('rpTablet');
 
-                t.isTabletMode = t.isMobileMode = true;
-
-               // t.ev.trigger('ontabletbreakpoint.rp');
-
-               t.ev.trigger('onmobilebreakpoint.rp');
+                t.ev.trigger('ontabletbreakpoint.rp');
 
               break;
 
               case 'mobile':
                 
-                if(t.isMobileMode === true || t.isTabletMode === true){
+
+
+                if(t.isMobileMode === true){
                   return;
                 }
+
+                
 
                 t.isTabletMode = t.isDesktopMode = false;
 
@@ -430,14 +438,27 @@
       updateSliderSize: function(){
         var t = this;
         
+        //handle resize for various layouts
+
+
+        if(t.isTabletMode === true){
+
+          //ratio based on comp around 768/922
+          t.$el.css('height' , 1.2005208333 * t.$el.width());
+
+          return;
+        }
+
+
         t.$el.css('height' , (0.4977817214) * t.$el.width());
         
         if($(window).width() < 1085 && $(window).width() > 930){
           t.$el.css('height' , (0.4977817214 + 0.06) * t.$el.width());
         }else if($(window).width() < 930) {
           t.$el.css('height' , (0.4977817214 + 0.1) * t.$el.width());
-          
         }
+
+        //t.isTabletMode = true;
 
   
         //t.$el.css('height' , (0.80) * t.$el.width());
@@ -932,6 +953,9 @@
  })(jQuery, Modernizr, window,undefined);
 
 //Related Products Plugin/s / modes
+//t.ev.on( 'onmobilebreakpoint.rp' , handleBreakpoint );
+
+
 (function($, Modernizr, window, undefined) {
     
     'use strict';
@@ -942,6 +966,8 @@
         var t = this;
 
         function handleBreakpoint(){
+
+
           
           console.log("OPERATE ON ME! I am in tablet / Mobile view.... »",true);
 
@@ -950,6 +976,8 @@
 
           // 2. hide paddles 
           $('.paddle').hide();
+
+          $('.rpNav').hide();
 
           // 3. gather gallery items and save local reference - may need to set on t
           var galleryItems = $('.gallery-item').detach().addClass('small-size ');
@@ -965,8 +993,6 @@
 
           // 7. init the scroller module
           setTimeout(function(){
-            
-
 
             $('.rpOverflow').scrollerModule({
               contentSelector: '.rpContainer',
@@ -977,12 +1003,9 @@
             }).data('scrollerModule');
 
             //t.scroller.enable();
-
             //iQ.update();
 
-
           }, 500);
-
 
           return;
 
@@ -1067,14 +1090,7 @@
               //update container width
             }, 250);
 
-
-
           });*/
-
-
-
-
-
 
           //TODO: destroy this instance - t.iscroll.destroy();
           //t.iscroll = null;
@@ -1102,5 +1118,43 @@
 
 
  })(jQuery, Modernizr, window,undefined);
+
+
+//
+(function($, Modernizr, window, undefined) {
+
+    'use strict';
+
+    $.extend($.rpProto, {
+      _initTabletBreakpoint: function(){
+        var t = this;
+        function handleBreakpoint() {
+
+          console.log("RP Tablet breakpoint »");
+
+          if(!!t.isTabletMode){ console.log("Already In Tablet VIEW »"); return false; } //if we are already in tablet exit
+
+          t.isTabletMode = true;
+
+          //hide paddles
+          $('.paddle').hide();
+
+          //unwrap HTML
+
+          var items = $('.gallery-item')/*.detach()*/.addClass('tablet-size');
+          
+         /*$('.product-img' ).css('height' , '');
+          items.css('height' , '').addClass('small-size');
+          $('[class*="rpSlide"]').remove();
+          items.appendTo(t.$container);*/
+
+        }
+
+        t.ev.on( 'ontabletbreakpoint.rp' , handleBreakpoint );
+      }
+
+    });
+    $.rpModules.tabletBreakpoint = $.rpProto._initTabletBreakpoint;
+  })(jQuery, Modernizr, window,undefined);
 
 
