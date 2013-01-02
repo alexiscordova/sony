@@ -23,13 +23,9 @@ description: This is the spec module.
 		<link rel="stylesheet" href="css/modules/specAndDetails.css">
 
 		<%-@partial('includes/js_head.html')%>
-
 	</head>
-	<body class="gallery-module bootstrap-override">
-		<!--
-		***------Exemples------***
-		/spec/default.json
-		-->
+	<body class="module-spec gallery-module bootstrap-override">
+ 
 		<%-@partial('modules/module_spec.html.eco', {this:this, data:@data('spec/default.json')} ) %>
 
 		<% if 'debug' in @getEnvironments():%>

@@ -1,8 +1,10 @@
+//Global variables.
 var $tableContainerBackup;
 var refreshData = null;
 var arrayTableContainer = [];
 var arrayTableFirstColumn = [];
 var tableContainerBackup;
+var array = [];
 
 $(window).load(function() {
 
@@ -15,21 +17,20 @@ $(window).load(function() {
 		var $firstColumn = $(this).findColumn(1);
 		var firstColumnNbCell = $($firstColumn).size();
 
-		$(this).find('.tbody:first > .row').each(function(indexRow){
-			$(this).find('>.cell').not(':first-child').each(function(indexCell){
-				$(this).prepend('<h2>' + $firstColumn[indexRow+1].textContent + '</h2>');
+		$(this).find('.tbody:first > .specRow').each(function(indexRow) {
+			$(this).find('>.specCell').not(':first-child').each(function(indexCell) {
+				$(this).prepend('<h2>' + $firstColumn[indexRow + 1].textContent + '</h2>');
 			});
 		});
-		
-		var nbColumn = ($(this).find('.thead > .row > .cell').size());
-		
-		if(nbColumn>2)
+
+		var nbColumn = ($(this).find('.thead > .specRow > .specCell').size());
+
+		if (nbColumn > 2)
 			dumpText = ' Models';
 		else
 			dumpText = ' Model';
-			
-		$(this).find('.thead > .row > .cell:first-child').append('<p>'+(nbColumn-1)+'<span>'+dumpText+'</span></p>');
-		
+
+		$(this).find('.thead > .specRow > .specCell:first-child').append('<p>' + (nbColumn - 1) + '<span>' + dumpText + '</span></p>');
 
 		//Clone the first column (we will push it for each table)
 		$firstColumnTablesBackup = $(this).findColumn(1).clone();
@@ -45,18 +46,6 @@ $(window).load(function() {
 
 	//init.
 	resize('init', ifMobile, $browser, $tableContainerBackup);
-
-	//Strike the resize
-	 
-	 /*
-	 $("#button").click(function(e) {
-	 e.preventDefault();
-	 var ifMobile = Modernizr.mq('only all and (max-width: 640px)');
-
-	 resize('resize', ifMobile, $browser, $tableContainerBackup);
-	 });
-	 */
-
 });
 
 $(window).resize(function() {
@@ -65,6 +54,7 @@ $(window).resize(function() {
 	delay(function() {
 		resize('resize', ifMobile, $browser, $tableContainerBackup);
 	}, 100);
+	//var sonySlider = $('section > .gallery-tabs > .tableContainer').data('sonyCarousel');
 });
 
 //When you resize.
@@ -76,9 +66,10 @@ $(window).resize(function() {
 function resize(status, device, browser, tableContainerBackup) {
 
 	//hide any modal on resize.
-	if ($('.modal').length > 0)
-	$('.modal').modal('hide');
-
+	if ($('.module-spec .modal').length > 0) {
+		$('.module-spec .modal').modal('hide');
+	}
+	
 	//Put it in the scope.
 	var browser = browser;
 	var device = device;
@@ -87,7 +78,7 @@ function resize(status, device, browser, tableContainerBackup) {
 	var windowWidth = $(window).width();
 
 	//minimum per table (column)
-	var minWidthTable = 300;
+	var minWidthTable = 321;
 
 	// Number of element present in the viewport (visible element)
 	var elemMinWidth = (windowWidth / minWidthTable);
@@ -120,16 +111,16 @@ function resize(status, device, browser, tableContainerBackup) {
 
 			//get the tableContainer
 			tableContainerBackup = $(arrayTableContainer)[indexContainer][0].clone();
-			
+
 			//get all cells
-			var $myCells = tableContainerBackup.clone().find(".specsTable > .thead > .row > .cell, .specsTable > .tbody > .row > .cell");
+			var $myCells = tableContainerBackup.clone().find(".specsTable > .thead > .specRow > .specCell, .specsTable > .tbody > .specRow > .specCell");
 
 			//nb total column
-			var nbCol = tableContainerBackup.clone().find(".row:first .cell").length;
+			var nbCol = tableContainerBackup.clone().find(".specRow:first .specCell").length;
 
 			//nb of table to show
 			var nbTableToShow = nbCol / nbElementByPage;
-			
+
 			//#############
 			//matrix
 			var matrix = listToMatrix($myCells, nbCol);
@@ -173,11 +164,11 @@ function resize(status, device, browser, tableContainerBackup) {
 				$(listToMatrix($myCells, nbCol)).each(function(index) {
 
 					if (browser == 'modern') {//Table div layout
-						var $curentRow = new $("<div class='row'></div>");
-						var $firstCurentRow = new $("<div class='row'></div>");
+						var $curentRow = new $("<div class='specRow'></div>");
+						var $firstCurentRow = new $("<div class='specRow'></div>");
 					} else {//Table layout
-						var $curentRow = new $("<tr class='row'></tr>");
-						var $firstCurentRow = new $("<tr class='row'></tr>");
+						var $curentRow = new $("<tr class='specRow'></tr>");
+						var $firstCurentRow = new $("<tr class='specRow'></tr>");
 					}
 
 					for ( j = 1; j <= index; j++) {
@@ -211,10 +202,14 @@ function resize(status, device, browser, tableContainerBackup) {
 				$_this.sonyCarousel({
 					keyboardNavEnabled : true,
 					sliderDrag : false,
-					navigateByClick : false
+					navigateByClick : false,
+					autoScaleSlider: false,
+					autoHeight: true
 				});
 
-				if ($_this.parent('.gallery-tabs').find('.desktopNav').length <= 0)
+				$desktopNav = $_this.parent('.gallery-tabs').find('.desktopNav');
+
+				if ($desktopNav.length <= 0)
 					$_this.before('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
 
 				//Prev
@@ -229,13 +224,26 @@ function resize(status, device, browser, tableContainerBackup) {
 					sonySlider.prev();
 				});
 
+
+				var sonySlider = $_this.data('sonyCarousel');
+				
+				//init
+				slideChange(sonySlider);
+				
+				sonySlider.ev.on('scAfterSlideChange', function(event) {
+					//After each slide change.. Look if it's necessary to show the Next & Previous button.
+					slideChange(sonySlider);
+				});
+
 			} else {
 				//Mobile
 
 				//Start it.
 				$_this.sonyCarousel({
 					keyboardNavEnabled : false,
-					drag : true
+					drag : true,
+					autoScaleSlider: false,
+					autoHeight: true
 				});
 
 				//Mobile version
@@ -262,309 +270,127 @@ function resize(status, device, browser, tableContainerBackup) {
 			//Add a title to the left of each row.
 			$(leftTitle).each(function(index) {
 				if (index == '0')
-					$_this.find('.specsTable > .thead > .row:nth-child(' + (index + 1) + ')').prepend($(this));
+					$_this.find('.specsTable > .thead > .specRow:nth-child(' + (index + 1) + ')').prepend($(this));
 				else {
-					$_this.find('.specsTable > .tbody > .row:nth-child(' + (index) + ')').prepend($(this));
+					$_this.find('.specsTable > .tbody > .specRow:nth-child(' + (index) + ')').prepend($(this));
 				}
 			})
-			
-			
-			//Set the same height for each column of each tables.
-			/*
-			for ( i = 0; i <= nbRow; i++) {
-			 	console.info(i);
-			}
-			*/
-			var array = [];
-			
-
-		 $_this.find('.specsTable >.tbody > .row').each(function(indexRow){
-		 	$(this).find('>.cell > div').not(':first-child').each(function(indexCell){
-		 		
-		 		//console.info('indexRow: '+indexRow);
-				
-				//array.push($(this).height());
-		 	});
-		 	
-		 	
-		 	//get the biggest height and use it.
-		 	
-		 	
-		 	array = [];
-		 });
-
-
 		});
 
 		//modify the new current nbElementByPage
 		refreshData = nbElementByPage;
 
 		//Load iq (we load images)
-		iQ.update();
+		iQ.update({
+			asyncDistance : -1
+		});
 
 		//remove the active class.
-		$('.tabs-container .tabs .cell').removeClass('active');
+		$('.tabs-container .tabs .specCell').removeClass('active');
 
 		//init the active class for the tabs
 		activeTab = $('.tableContainer .specsTable:in-viewport').attr('id');
-		$('.tabs-container .tabs').children('.cell.' + activeTab).addClass('active');
+		$('.tabs-container .tabs').children('.specCell.' + activeTab).addClass('active');
 	}
-	
-	//console.info(status, device, browser);
 
-}
+	var arrayCel = [];
+	$('.tableContainer .specsTable > .tbody >.specRow > .specCell > div').attr("style","min-height:0");
+	//This section is always running while resizing.
+	$('section > .gallery-tabs > .tableContainer .specsTable').each(function(indexContainer) {
+
+		//	self = $(this);
+
+		if (arrayCel.length == 0) {
+			isFirstTable = true;
+		} else {
+			isFirstTable = false;
+		}
+
+		$(this).find('>.tbody>.specRow').each(function(indexR) {
+
+			var storedRowHeight = 0;
+			var currentCellHeight = $($(this).find('.specCell')[1]).height();
+
+			if (isFirstTable) {
+				arrayCel.push(currentCellHeight);
+			} else {
+				storedRowHeight = arrayCel[indexR];
+				if (currentCellHeight > storedRowHeight) {
+					arrayCel[indexR] = currentCellHeight;
+				}
+			}
+
+		});
+	});
+
+	$('section > .gallery-tabs > .tableContainer .specsTable').each(function(indexTable) {
+		self = $(this);
+
+		$(arrayCel).each(function(index) {
+			var rows = self.find('> .tbody > .specRow')[index];
+			$(rows).find("> .specCell > div").attr("style","min-height:" + arrayCel[index]+"px;" );
+		});
+	});
+	arrayCel = [];
 
 
 	//console.info(status, device, browser);
 	$('.tableContainer').each(function() {
 		$(this).setContainerHeight();
 	});
+	
+	//fit the fixed header on resize.
+	fixedHeader();
+}
 
+
+function slideChange(sonySlider)
+{
+	currentSlide = (parseInt(sonySlider.currSlideId)+1);
+	totalSlide = (sonySlider.numSlides);
+	
+	if(currentSlide === 1){
+		//Hide the left arrow
+		$('.desktopNav').find('.prev').hide();
+	}
+	else{
+		$('.desktopNav').find('.prev').show();
+	}
+	
+	if(totalSlide === currentSlide){
+		//Hide the right arrow
+		$('.desktopNav').find('.next').hide();
+	}
+	else{
+		$('.desktopNav').find('.next').show();
+	}
+}
+
+
+$(window).bind("scroll", function(event) {
+	fixedHeader();
+});
+
+function fixedHeader()
+{
+	windowWidth = $(window).width();
+	sectionWidth = $('.container > section').width();
+	currentFixedHeader = $('.fixed-header').width();
+
+	/*
+	spaceAvail = (windowWidth-sectionWidth);
+	
+	console.info('Window width: '+windowWidth);
+	console.info('FixedHeader width: '+currentFixedHeader);
+	console.info('Avail space: '+spaceAvail);
 	
 	
 	
-	
+  $(".fixed-header:above-the-top").each(function() {
+  	$('.fixed-header').attr('style', 'position:fixed;top:0;background:#fff;z-index:99999; width:92.5%;');
+  	$('.fixed-header').next().attr('style', 'padding-top:105px;')
+  	$('.fixed-header').next().find('.desktopNav').attr('style', 'top:105px;')
+  });
+  */
+}
 
-/*
- var sonySlider = $('.tableContainer').data('sonyCarousel');
- sonySlider.ev.on('scAfterSlideChange', function(event)
- {
- // triggers after slide change
- $_this.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
- $_this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-'+(sonySlider.currSlideId+1)).addClass('active');
- });
- */
-
-/*
- var sonySlider = $_this.data('sonyCarousel');
- sonySlider.ev.on('rsAfterSlideChange', function(event) {
- // triggers after slide change
- sliderAction(sonySlider.currSlideId);
- });
- */
-
-/*
- $(window).load(function() {
-
- $Layout = requestLayout();
-
- // When all images are loaded.
- $(window).load(function() {
- var sonySlider = $(".sonyCarousel").data('sonyCarousel');
- $('.table-mobile-tabs li').click(function() {
- var indexToSwap = $(this).index();
- sonySlider.goTo(indexToSwap - 1);
- });
-
- //When you resize.
- function resize(status) {
- var windowWidth = $(window).width();
- $Layout = requestLayout();
-
- $('table, .table').responsiveTable($Layout, status);
-
- //Set the height of each big table
- $('.tableContainer').each(function() {
- //mobile version
- var tallestMobile = $(this).find('.scContainer > div').maxHeight();
- //pc version
- var tallestPc = $(this).find('.specsTable').maxHeight();
- //get the biggest number..
- var tallest = Math.max(tallestMobile, tallestPc);
- $(this).height(tallest);
-
- $(this).children('.specsTable').children('.scOverflow').height(tallest);
- });
-
- // when the window is less or equal to 640px wide.
- if (windowWidth <= 640) {
- if ($('.table .cell.show').length <= 0) {
- //We need to add the class for each column
- $('.table .tbody .row').each(function() {
- $(this).children('.cell:nth-child(2)').addClass('show');
- })
- }
- }
- }
-
- });
-
- //########################################################//
- //Usage: $('table').responsiveTable();
- // params : desktop/mobile/ie7
- $.fn.responsiveTable = function(deviceLoaded, status) {
-
- //status = 'mobile', 'desktop' or 'ie7'
- //deviceLoaded = 'init' or 'resize'
-
- //Each table
- this.each(function() {
- //init the $table variable
- $table = $(this);
-
- //Apply when a table appear && IE7 is not the browser.
- if ($.browser.version != 7) {
-
- var head_col_count = $table.find('thead th').size();
-
- for ( i = 0; i <= head_col_count; i++) {
- var head_col_label = $table.find('thead th:nth-child(' + i + ')').text();
-
- $table.find('tr td:nth-child(' + i + ')').replaceWith(function() {
- return $('<div class="cell" data-label="' + head_col_label + '">').append($(this).contents());
- });
- }
-
- // Only apply to the big table. (not every table)
- if ($table.is('.specsTable')) {
- $tableBig = $(this);
-
- // Table title (hidden)
- var first_column_count = $tableBig.find('tbody tr th:first-child').size();
- for ( i = 1; i <= (first_column_count); i++) {
- var get_title = $tableBig.find('tbody tr:nth-child(' + i + ') th:first-child').text();
- j = 2;
- $tableBig.find('>tbody >tr').each(function() {
- $tableBig.find('>tbody > tr:nth-child(' + i + ') > .cell:nth-child(' + j + ')').prepend('<h2>' + get_title + '</h2>');
- j++;
- });
- }
- }
-
- // replaces table with <div class="table"> && add class "specsTable" when needed else it's considered as a small Table
- $table.replaceWith(function() {
- var tableKind = 'smallTable';
- if ($table.hasClass('specsTable')) {
- tableKind = 'specsTable';
- }
- return $('<div class="table ' + tableKind + ' rTable">').append($(this).contents());
- });
-
- //Add the tab navigation only for the mobile.
- if (ifMobile) {
- //Mobile navigation
- var $myUl = $('<ul class="table-mobile-tabs clearfix">');
- $('.tableContainer > .table.specsTable').each(function() {
-
- $(this).find('thead th').each(function() {
- $myUl.append('<li>' + $(this).text() + '</li>');
- });
-
- $(this).find("li:first-child").remove();
- $(this).before($myUl);
- });
- } else// check if we need to add some navigation for the desktop version.
- {
- //if there's more than one table inside the tableContainer..!
- $('.tableContainer').each(function() {
- if ($(this).children('.table').length > 1) {
- $(this).sonyCarousel({
- keyboardNavEnabled : true,
- navigateByClick : false,
- sliderDrag : false
- });
- $(this).addClass('desktopNav');
- $(this).append('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
-
- var tableSlider = $(this).data('sonyCarousel');
-
- //Prev
- $(this).find('a.next').click(function() {
- tableSlider.next();
- });
- //Next
- $(this).find('a.prev').click(function() {
- tableSlider.prev();
- });
-
- //var tallestTable = $(this).find('.specsTable').maxHeight();
- //console.info(tallestTable);
- //$(this).children().height(tallestTable);
-
- }
- });
- }
-
- $('.table').each(function() {
- $table = $(this);
-
- //If mobile version **** Apply to the big table only.
- if (ifMobile && $table.hasClass('specsTable')) {
-
- //Number of column
- var col_count = $table.find('thead tr:first-child th').size();
- for ( i = 1; i <= (col_count - 1); i++) {
- //i = nb of column
- $table.append('<div class="cell cell' + i + '">');
- var row_count = $table.find('thead > tr, tbody > tr').size();
- for ( j = 1; j <= (row_count - 1); j++) {
-
- //j = nb of rows
- $table.find('tr').children(':nth-child(' + (i + 1) + ')').each(function() {
- $table.find('.cell' + i).append($(this).children());
- });
- }
- }
-
- $table.addClass('sonyCarousel');
- $table.find('tr, thead, tbody').remove();
- //remove the useless stuff.
-
- // Odd and Even Classes
- //$('.row:nth-child(even)').addClass('odd_rows');
- }
- });
- }
-
- // SWITCH CASE START //
- switch(deviceLoaded) {
-
- //DESKTOP ---
- case 'desktop':
-
- //execute the code here
- console.info('desktop');
-
- //Morph each table into a Div Table layout.
- $('.table').each(function() {
- $(this).tableToDiv();
- })
-
- break;
-
- //MOBILE ---
- case 'mobile':
-
- //execute the code here
- console.info('mobile');
-
- //Morph the table into a Div Table layout.
- $('.table').each(function() {
- $(this).tableToDiv();
- })
-
- break;
-
- //INTERNET EXPLORER 7 ---
- case 'ie7':
- //execute the code here
- console.info('ie7');
-
- //Add support for old browser (Adding class instead of morphing the table into a div table layout)
- $('table').addClass('table');
- $('thead').addClass('thead');
- $('tbody').addClass('tbody');
- $('tr').addClass('row');
- $('tr:nth-child(even)').addClass('odd_rows');
- $('th, td').addClass('cell');
-
- break;
- }
- // SWITCH CASE END //
-
- });
- // EACH TABLE END //
-
- return this;
- };
- */
