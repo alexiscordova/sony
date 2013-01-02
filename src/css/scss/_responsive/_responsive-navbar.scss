@@ -55,7 +55,8 @@
 
 .nav-li-link{
   &:hover,
-  &:active{
+  &:active,
+  &:focus{
     color: $white;
   }
 }
@@ -76,7 +77,8 @@
 .nav-primary .nav-li-link,
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
   &:hover,
-  &:active{
+  &:active,
+  &:focus{
     background-color: $grayDark;
     border-color: $grayDark;
     color:$navbarLinkColorHover;
@@ -93,7 +95,9 @@
   background-color: $navbarBackground; 
   border-color: $navbarBackground;
 
-  &:hover{
+  &:hover,
+  &:active,
+  &:focus{
     background-color: $grayDark;
     border-color: $grayDark;
     color:$white;
@@ -155,7 +159,9 @@
   background-color: $navbarTertiaryColor;
   border-color: $navbarTertiaryColor;
   @include border-radius(1px);
-  &:hover{
+  &:hover,
+  &:active,
+  &:focus{
     background-color: $linkColor;
     border-color: $linkColor;
     i,
@@ -196,7 +202,8 @@
       margin-right:10px;
     }
     &:hover,
-    &:active{
+    &:active,
+    &:focus{
       background:$grayLightFieldSmall;
     }
   }
@@ -222,7 +229,9 @@
       margin: 2% 3.3% 0 0;
       padding:27px 0 0 0;
 
-      &:hover{
+      &:hover,
+      &:active,
+      &:focus{
         background:$grayLightFieldSmall;
       }
       .nav-img-w img {

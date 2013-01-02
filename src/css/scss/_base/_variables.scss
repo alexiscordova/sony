@@ -58,6 +58,12 @@
   $themeGreen:            rgb(34,192,131) !default;
 
 
+  $twitterColor:					rgb(43,180,245) !default;
+  $facebookColor:					rgb(62,75,203) !default;
+  $gplusColor:						rgb(219,64,44) !default;
+  $youtubeColor:					rgb(145,7,7) !default;
+
+
   // Scaffolding
   // -------------------------
   $bodyBackground:        $white !default;
@@ -65,7 +71,6 @@
   $textColorLight:        $grayLight !default;
   $textColorLightest:     $grayLight !default;
   $textColorDark:         $grayDark !default;
-
 
 
   // Links
@@ -152,6 +157,7 @@
   $font_12_16: 0.75em;   // 12px/16px
   $font_11_16: 0.6875em; // 11px/16px
   $font_10_16: 0.625em;  // 10px/16px
+  $font_9_16:  0.5625em; //  9px/16px
 
   $font_32_15: 2.133333333333333em;  // 32px/15px;
   $font_26_15: 1.733333333333333em;  // 26px/15px;
@@ -367,10 +373,18 @@
   $wellBackground:                  rgb(245,245,245) !default;
 
 
+
+
+.FOOTER{}
+	$footerBackground: 	$blackLight;
+
+
+
 // Global values for Nav & Subanv to share.
 .NAV{}
 	$navMaxWidth:                 1125px !default;
 	$navtrayMaxWidth:             1200px !default;
+
 
 
 // Global Nav (navbar)
@@ -515,8 +529,8 @@
   // For .full-bleed, the widths are just overridden with 100%. For fixed-width-grids, that's not gonna work so well,
   // but then there shouldn't be fixed-width grids with .full-bleed
 
-  $gridColumns:         12 !default;
-  $grid5Columns:          5;
+  $gridColumns:         		12 !default;
+  $grid5Columns:          	5  !default;
 
   // Default 980px-1199px
   $containerMarginWidth:      34px !default;
@@ -545,7 +559,14 @@
 
 
   // 320px-767px breakpoints
-  $containerMarginWidth320:   12px !default;
+  $containerMarginWidth480px: 20 !default;
+  $containerMarginWidth320px: 20 !default;
+  $containerMarginWidth480: percentage($containerMarginWidth480px / 480) !default;
+  $containerMarginWidth320: percentage($containerMarginWidth320px / 320) !default;
+
+
+
+  // not sure if we're using these or not.
   $gridMarginWidth320:        18px !default;
   $gridColumnWidth320:        39px !default;
   $gridGutterWidth320:        20px !default;
@@ -574,14 +595,11 @@
   $containerWidth768:           $containerWidthFullBleed768 - ($containerMarginWidth768*2);
   $gridWidth768:                ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
-
-
   // I haven't updated grid5 for any of the new padding/margin business. Do what you need to do, if anything.
   // 5 Column Grid
   $grid5ColWidth:         204px;
   $grid5GutterWidth:      23px;
   $grid5RowWidth:         ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
-
 
 
 
