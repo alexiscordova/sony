@@ -29,10 +29,7 @@
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
 		t.$sampleElement		= t.$elements.eq(0);
 
-
-		$( t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length );
-
-		//$( t.$contentContainer).css('width' , 1968 + 'px');
+		$( t.$contentContainer).css('width' , (t.$sampleElement.outerWidth(true) * t.$elements.length) + 500 );
 
 		//override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
@@ -89,7 +86,7 @@
 
 				//console.log("Building new page »", [startIndx , endIndx] ,$elemsInPage.length);
 
-			}
+			}	
 
 			if(t.mode.toLowerCase() === 'paginate'){
 				for (i = 0 ; i < numPages; i ++){
@@ -112,24 +109,24 @@
 			if(t.mode === 'paginate'){
 				paginate();
 			}
-
+	  	
 	  	t.scroller.refresh(); //update scroller
 
 	  	if(t.mode === 'paginate'){
 	  		t.scroller.scrollToPage(0, 0, 200);
 	  	}
-
+	  	
 	  	t.$ev.trigger('onUpdate.sm');
 		};
 
 		var resizeTimer,
 		resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-    $(window).on(resizeEvent, function(e) {
+    $(window).on(resizeEvent, function(e) {  
         if(resizeTimer) { clearTimeout(resizeTimer); }
-        resizeTimer = setTimeout(function() {
+        resizeTimer = setTimeout(function() { 
         	update();
-        }, t.throttleTime);
-    });
+        }, t.throttleTime);          
+    });	
 
     $(window).trigger(resizeEvent);
 	};
@@ -152,42 +149,54 @@
 			t.scroller = null;
 		},
 
+		disable: function(){
+			var t = this;
+
+			t.scroller.disable();
+		},
+
+		enable: function(){
+			var t = this;
+			t.scroller.enable();
+		},
+
 		_onScrollEnd : function(){
 			var t = this;
 
-			t.$ev.trigger('onAfterScroll.sm');
+			t.$ev.trigger('onAfterSroll.sm');
 		}
-	};
+	}
 
 	//plugin definition
-	$.fn.scrollerModule = function(options) {
-		var args = arguments;
-		return this.each(function(){
-			var t = $(this);
-			if (typeof options === "object" ||  !options) {
-				if( !t.data('scrollerModule') ) {
-					t.data('scrollerModule', new ScrollerModule(t, options));
-				}
-			} else {
-				var scrollerModule = t.data('scrollerModule');
-				if (scrollerModule && scrollerModule[options]) {
-					return scrollerModule[options].apply(scrollerModule, Array.prototype.slice.call(args, 1));
-				}
-			}
-		});
+	$.fn.scrollerModule = function(options) {      
+	  var args = arguments;
+	  return this.each(function(){
+	    var t = $(this);
+	    if (typeof options === "object" ||  !options) {
+	      if( !t.data('scrollerModule') ) {
+	        t.data('scrollerModule', new ScrollerModule(t, options));
+	      }
+	    } else {
+	    	alert('already inited');
+	      var scrollerModule = t.data('scrollerModule');
+	      if (scrollerModule && scrollerModule[options]) {
+	          return scrollerModule[options].apply(scrollerModule, Array.prototype.slice.call(args, 1));
+	      }
+	    }
+	  });
 	};
 
-	//defaults
-	$.fn.scrollerModule.defaults = {
-		throttleTime: 25,
-		contentSelector: '.content',
-		itemElementSelector: '.block',
-		mode: 'free',
-		lastPageCenter: false,
-		extraSpacing: 0,
+	//defaults    
+	$.fn.scrollerModule.defaults = { 
+	  throttleTime: 25,
+	  contentSelector: '.content',
+	  itemElementSelector: '.block',
+	  mode: 'free',
+	  lastPageCenter: false,
+	  extraSpacing: 0,
 
-		//iscroll props get mixed in
-		iscrollProps: {
+	  //iscroll props get mixed in
+	  iscrollProps: {
 			snap: false,
 			hScroll: true,
 			vScroll: false,
@@ -195,9 +204,9 @@
 			vScrollbar: false,
 			momentum: true,
 			bounce: true,
-			onScrollEnd: null
-		}
-
+			onScrollEnd: null 	
+	  }
+	 
 	};
 
 })(jQuery , window , undefined , Modernizr);

@@ -41,7 +41,7 @@
       (function() {
         var batteryAndPowerSpec, batterySettings, communications, displayDescription, hardDriveNote, hardware, i, inTheBox, ports, processorConfig, productTable, _aa, _ab, _ac, _ad, _i, _j, _k, _l, _len, _len1, _len10, _len11, _len12, _len13, _len14, _len15, _len16, _len17, _len18, _len19, _len2, _len20, _len21, _len3, _len4, _len5, _len6, _len7, _len8, _len9, _m, _n, _o, _p, _q, _r, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _s, _t, _u, _v, _w, _x, _y, _z;
       
-        __out.push('<div class="container module-spec">\n\n\t<section class="spec">\n\t\t<div class="clearfix">\n\t\t\t<div class="spec-title">\n\t\t\t\t<p class="title-link">\n\t\t\t\t\t<a href="#">Vaio Z</a>\n\t\t\t\t</p>\n\t\t\t\t<h1>VAIO E Details</h1>\n\n\t\t\t\t<div class="clearfix">\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<a class="active" href="#">Specifications</a>\n\t\t\t\t\t</p>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<a href="#">Features</a>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class="sonyRecommends">\n\t\t\t\t<p>\n\t\t\t\t\tSony recommends\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!-- <a href="#" id="button">test</a> -->\n\n\t\t<div class="tab-strip gallery-tabs">\n\n\t\t\t<div class="tableContainer clearfix">\n\t\t\t\t<table class="specsTable">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>&nbsp;</th>\n\t\t\t\t\t\t\t');
+        __out.push('<div class="container">\n\t<section class="spec">\n\t\t<div class="clearfix fixed-header">\n\t\t\t<div class="spec-title">\n\t\t\t\t<p class="title-link">\n\t\t\t\t\t<a href="#">Vaio Z</a>\n\t\t\t\t</p>\n\t\t\t\t<h1>VAIO E Details</h1>\n\n\t\t\t\t<div class="clearfix">\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<a class="active" href="#">Specifications</a>\n\t\t\t\t\t</p>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t<a href="details_module.html">Features</a>\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class="sonyRecommends">\n\t\t\t\t<p>\n\t\t\t\t\tSony recommends\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!-- <a href="#" id="button">test</a> -->\n\n\t\t<div class="tab-strip gallery-tabs">\n\n\t\t\t<div class="tableContainer clearfix">\n\t\t\t\t<table class="specsTable">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>&nbsp;</th>\n\t\t\t\t\t\t\t');
       
         if (this.data.productTable.length) {
           __out.push('\n\t\t\t\t\t\t\t');
@@ -376,7 +376,7 @@
         __out.push('\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n\t\t\t</div>\n\t\t</div>\n\n\t\t');
       
         if (this.data.computersFeatures) {
-          __out.push('\n\t\t\t<h2 class="h2-bigger">Features</h2>\n\t\n\t\t\t<div class="grid no-border">\n\t\t\t\t<div class="span4">\n\t\t\t\t\t');
+          __out.push('\n\t\t\t<h2 class="h2-bigger">Features</h2>\n\t\n\t\t\t<div class="grid no-border full-bleed">\n\t\t\t\t<div class="span4">\n\t\t\t\t\t');
           if (this.data.computersFeatures.a) {
             __out.push('\n\t\t\t\t\t\t<h3>');
             __out.push(this.data.computersFeatures.a.title);
@@ -400,7 +400,7 @@
             __out.push(this.data.computersFeatures.c.description);
             __out.push('</p>\n\t\t\t\t\t');
           }
-          __out.push('\n\t\t\t\t</div>\n\t\t\t</div>\n\t\n\t\t\t<div class="grid no-border">\n\t\t\t\t<div class="span4">\n\t\t\t\t\t');
+          __out.push('\n\t\t\t\t</div>\n\t\t\t</div>\n\t\n\t\t\t<div class="grid no-border full-bleed">\n\t\t\t\t<div class="span4">\n\t\t\t\t\t');
           if (this.data.computersFeatures.d) {
             __out.push('\n\t\t\t\t\t<h3>');
             __out.push(this.data.computersFeatures.d.title);

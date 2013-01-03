@@ -9,6 +9,10 @@
 
 (function($, Modernizr, window, undefined) {
 
+  $(window).resize(function() {
+    console.log("width: " + $(window).width());
+  });
+
   var GlobalNav = function( $container ) {
     var t = this;
     t.searchMenu = {};
@@ -114,6 +118,9 @@
         });
       } else {
         // Init Mobile Nav
+        $("#btn-mobile-nav").on(t.tapOrClick,function(){
+          $("#page-wrap-inner").toggleClass("show-mobile-menu");
+        });
       }
     },
 
@@ -185,11 +192,11 @@
 
       function onNavTrayComplete(){
         // prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.
-        t.setNavTrayNaturalFlow($navTray);
+        t.setNavTrayContentNaturalFlow($navTray);
       }
     },
 
-    setNavTrayNaturalFlow: function($navTray){
+    setNavTrayContentNaturalFlow: function($navTray){
       $navTray
         .css("height","")
         .addClass("no-transition")
@@ -214,7 +221,16 @@
           // expand the tray. When it's done, set it to position:relative and natural heights.
           t.slideNavTray($thNavTarget, true);
         } else {
-          // Menu-style - show the menu -- all done in css!
+          // Menu-style - show the menu. 
+          $thNavTarget.addClass("navmenu-w-visible")
+
+          // just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
+          if ($thNavTarget.hasClass("navmenu-w-search")){
+            // Line it up with the right edge of the search button.
+            var btnRightEdge = $newNavBtn.parent().position().left + parseInt($newNavBtn.css("marginLeft")) + $newNavBtn.innerWidth();
+            var leftPos = btnRightEdge - $thNavTarget.innerWidth();
+            $thNavTarget.css({"right":"auto","left":leftPos+"px"});
+          }
         }
       }
     },
@@ -224,33 +240,31 @@
     // ***********************************
     initSearchMenu: function(){
       var t = this;
-      t.$root = $("#nav-li-search"),
-      t.$wrapper = t.$root.find(".navmenu-w-search");
-      t.$input = $("#navSearch"),
-      t.$clearBtn = t.$root.find(".btn-clear-search-input"),
+      t.$searchWrapper = $("#navmenu-w-search");
+      t.$searchInput = $("#navSearch");
+      t.$searchClearBtn = t.$searchWrapper.find(".btn-clear-search-input");
       t.$searchIcon = $(".sprite-mini-nav-search-input");
-      t.watermarkText = t.$input.val();
+      t.watermarkText = t.$searchInput.val();
       t.clearBtnClicked = false;
 
-      t.$input.on("focus", function(){
+      t.$searchInput.on("focus", function(){
         // clear watermarkText on focus
-        if (t.$input.val() == t.watermarkText){
-          t.$input.val("");
+        if (t.$searchInput.val() == t.watermarkText){
+          t.$searchInput.val("");
           t.$searchIcon.hide();
         };
       }).on("blur", function(){
-        if (t.$input.val() == ""){
-          t.$input.val(t.watermarkText);
+        if (t.$searchInput.val() == ""){
+          t.$searchInput.val(t.watermarkText);
           t.$searchIcon.show();
         };
       }).on('mouseup keyup change cut paste', function(){
-        console.log("X");
-        if (!t.$wrapper.hasClass("searching")){
-          if (!(t.$input.val() == "" || t.$input.val() == t.watermarkText)){
-            t.$wrapper.addClass("searching");
+        if (!t.$searchWrapper.hasClass("searching")){
+          if (!(t.$searchInput.val() == "" || t.$searchInput.val() == t.watermarkText)){
+            t.$searchWrapper.addClass("searching");
             t.doSearch();
           }
-        } else if (t.$input.val() == ""){
+        } else if (t.$searchInput.val() == ""){
           t.resetSearchResults();
         } else {
           t.doSearch();
@@ -258,13 +272,13 @@
       });
 
       t.$searchIcon.on("click",function(){
-        t.$input.focus();
+        t.$searchInput.focus();
       });
 
-      t.$clearBtn.on("click",function(){
+      t.$searchClearBtn.on("click",function(){
         t.clearBtnClicked = true;
         t.clearSearchResults();
-        t.$input.focus();
+        t.$searchInput.focus();
       }).on("mouseleave",function(){
         t.clearBtnClicked = false; // just make sure it's cleared
       });
@@ -272,21 +286,21 @@
 
     doSearch: function(){
       var t = this;
-      t.queryStr = t.$input.val();
+      t.queryStr = t.$searchInput.val();
       console.log("t.queryStr: " + t.queryStr);
     },
 
     clearSearchResults: function(){
       var t = this;
-      t.$input.val("");
-      t.$wrapper.removeClass("searching");
+      t.$searchInput.val("");
+      t.$searchWrapper.removeClass("searching");
       t.$searchIcon.hide();
     },
 
     // this just resets the actual results, for instance, when the search term is blank.
     resetSearchResults: function(){
       var t = this;
-      t.$wrapper.removeClass("searching");      
+      t.$searchWrapper.removeClass("searching");      
     },
 
     resetSearchMenu: function(){

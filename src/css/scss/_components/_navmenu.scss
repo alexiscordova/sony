@@ -5,7 +5,6 @@
   z-index: 190;
   position: absolute;
   overflow: visible;
-  top: $navbarTotalHeight;
   background: $navMenuBackground;
   @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
   @include border-bottom-radius(2px);
@@ -18,70 +17,49 @@
     left:33px;
   }
 }
-.nav-li-selected .navmenu-w-account {
-  @include hideshow-navmenu-show(right,-125px);
-}
-.nav-li-selected .navmenu-w-search {
-  @include hideshow-navmenu-show(right);
-}
-
 // NavMenu
-.navmenu-w-account{
-  width: 215px;
-  padding: 10px 0 22px;
 
-  @include hideshow-navmenu-hide(right);
-
-  .navmenu-list{
-    margin:0;
-  }
-  .navmenu-list-main{
-    padding-top:3px;
-  }
-
+.navmenu-list{
+  margin:0;
+  
   .navmenu-line {
     line-height:24px;
     margin:0 10px 0 18px;
-    > a.tl {
-      display:block;
+
+    a.tl {
+      display:inline-block;
       font-size:$font_12_15;
       padding:4px 0 4px 4px;
-      > i {
+
+      i {
         box-sizing:content-box;
         padding-right:10px;
         margin-top:1px;
       }
     }
   }
-  #navmenu-li-cart .cart-count{
-    display:inline-block;
-    padding:0 9px;
-    margin:3px 0 0 10px;
-    line-height:21px;
-    background:$highlightColor;
-    color:$white;
-    font-size:$font_11_12;
-    @include fontMedium;
-    @include border-radius(1px);
+}
+.navmenu-li-ext-text{
+  font-style:italic;
+  color:$grayDark;
+}
+
+.navmenu-w-account{
+  .navmenu-list-main{
+    padding-top:3px;
   }
-
-
-
-
 
   .btn-login,
   .btn-logout{
     display: block;
     width: auto;
     font-size: $font_10_15;
-    margin:0 20px;
+    margin:10px 20px;
   }
   .btn-login{
-    margin-top:9px;
-    margin-bottom:10px;
+    margin-top:0;
   }
   .btn-logout{
-    margin-top: 10px;
     display: none;
   }
   &.logged-in{
@@ -93,10 +71,22 @@
     }        
   }
 } // .navmenu-w-account
+.nav-li-selected .navmenu-w-account {
+  @include hideshow-navmenu-show(right,-125px);
+}
+
+
+.navmenu-w-search-container{
+  position:relative;
+}
 .navmenu-w-search{
   width:467px;
 
   @include hideshow-navmenu-hide(right);
+
+  &.navmenu-w-visible{
+    @include hideshow-navmenu-show(right);
+  }
 
   .sprite-mini-global-nav-indicator{
     left:auto; // right declared in _responsive
@@ -142,7 +132,9 @@
     top: 22px;
     display:none;
 
-    &:hover{
+    &:hover,
+    &:active,
+    &:focus{
       background-color:$grayLighter;
     };
   }
@@ -190,7 +182,9 @@
           margin-right:11px;
           float:left;
         }
-        &:hover{
+        &:hover,
+        &:active,
+        &:focus{
           background-color:rgb(230,230,230);
           background-color:rgba(255,255,255,0.8);
         }
@@ -241,7 +235,9 @@
         padding-right: 26px;
         line-height: 2.0;
         font-size:$font_14_15;
-        &:hover{
+        &:hover,
+        &:active,
+        &:focus{
           background-color:rgb(230,230,230);
           background-color:rgba(255,255,255,0.8);
         }
@@ -269,6 +265,9 @@
     }
   }
 } // .navmenu-w-search
+.nav-li-selected .navmenu-w-search {
+  @include hideshow-navmenu-show(right);
+}
 
 
 

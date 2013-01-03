@@ -173,6 +173,10 @@
     setup : function() {
       var self = this;
 
+      // Problems with scrollerModule + stickyTabs
+        // Is there a callback every frame?
+        // Clicking and dragging results in changing tabs
+
       console.log('setup: StickyTabs');
       self.isStickyTabs = true;
       self.$tabsWrap
@@ -215,29 +219,29 @@
 
       // Do initialzation for carousel
       console.log('Do initialzation for carousel');
-      // self.$tabsWrap
-      //   .on('scroll', $.proxy( self.animateTab, self ))
-      //   .addClass('carousel')
-      //   .parent()
-      //   .scrollerModule({
-      //     contentSelector: '.tabs',
-      //     itemElementSelector: '.tab',
-      //     mode: 'paginate',
-      //     lastPageCenter: false,
-      //     extraSpacing: 0,
+      self.$tabsWrap
+        .on('scroll', $.proxy( self.animateTab, self ))
+        .addClass('carousel')
+        .parent()
+        .scrollerModule({
+          contentSelector: '.tabs',
+          itemElementSelector: '.tab',
+          mode: 'paginate',
+          lastPageCenter: false,
+          extraSpacing: 0,
 
-      //     //iscroll props get mixed in
-      //     iscrollProps: {
-      //       snap: true,
-      //       hScroll: true,
-      //       vScroll: false,
-      //       hScrollbar: false,
-      //       vScrollbar: false,
-      //       momentum: true,
-      //       bounce: true,
-      //       onScrollEnd: null
-      //     }
-      //   });
+          //iscroll props get mixed in
+          iscrollProps: {
+            snap: true,
+            hScroll: true,
+            vScroll: false,
+            hScrollbar: false,
+            vScrollbar: false,
+            momentum: true,
+            bounce: true,
+            onScrollEnd: null
+          }
+        });
     },
 
     update : function() {
