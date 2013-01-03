@@ -29,10 +29,7 @@
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
 		t.$sampleElement		= t.$elements.eq(0);
 
-		
-		$( t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length );
-		
-		//$( t.$contentContainer).css('width' , 1968 + 'px');
+		$( t.$contentContainer).css('width' , (t.$sampleElement.outerWidth(true) * t.$elements.length) + 500 );
 
 		//override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
@@ -152,6 +149,17 @@
 			t.scroller = null;
 		},
 
+		disable: function(){
+			var t = this;
+
+			t.scroller.disable();
+		},
+
+		enable: function(){
+			var t = this;
+			t.scroller.enable();
+		},
+
 		_onScrollEnd : function(){
 			var t = this;
 
@@ -169,6 +177,7 @@
 	        t.data('scrollerModule', new ScrollerModule(t, options));
 	      }
 	    } else {
+	    	alert('already inited');
 	      var scrollerModule = t.data('scrollerModule');
 	      if (scrollerModule && scrollerModule[options]) {
 	          return scrollerModule[options].apply(scrollerModule, Array.prototype.slice.call(args, 1));

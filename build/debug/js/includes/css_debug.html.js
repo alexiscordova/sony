@@ -41,7 +41,7 @@
       (function() {
         var name, _i, _len, _ref;
       
-        __out.push('\t\t<link rel="stylesheet" href="css/bootstrap.css">\n\t\t<link rel="stylesheet" href="css/responsive.css">\n\n  <!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->\n  <!--[if (gte IE 9)|!(IE)]><!-->\n    <script type="text/javascript">\n      // Android needs otf/ttf fonts.\n      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";\n      document.write(unescape("%3Clink rel=\'stylesheet\' href=\'css/fonts/"+fontType+".css\'%3E"));\n    </script>\n  <!--<![endif]-->\n\n  <!-- FONTS.COM -->\n  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->\n\n\t');
+        __out.push('\t\t<link rel="stylesheet" href="css/bootstrap.css">\n\t\t<link rel="stylesheet" href="css/responsive.css">\n\n  <!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->\n  <!--[if (gte IE 9)|!(IE)]><!-->\n    <script type="text/javascript">\n      // Android needs otf/ttf fonts.\n      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";\n      document.write(unescape("%3Clink rel=\'stylesheet\' href=\'fonts/_fonts-"+fontType+".css\'%3E"));\n      document.write(unescape("%3Clink rel=\'stylesheet\' href=\'fonts/_icons-ui-"+fontType+".css\'%3E"));\n    </script>\n  <!--<![endif]-->\n\n  <!-- FONTS.COM -->\n  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->\n\n\t');
       
         _ref = this["this"].modulescss();
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {

@@ -152,7 +152,7 @@ $default-transition-delay    : 0s;
 // --------------------------------------------------
 
 
-	@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
+@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
 		font-family: $fontFamily;
 		font-weight: $fontWeight;
 		font-style: $fontStyle;
@@ -163,12 +163,6 @@ $default-transition-delay    : 0s;
 	}
 	@mixin fontItalic(){ // SST W01 Italic
 		@include font($baseFontFamilyItalic);
-	}
-	@mixin fontBold(){ // SST W01 Bold
-		@include font($baseFontFamilyBold);
-	}
-	@mixin fontBoldItalic(){ // SST W01 Bold Italic
-		@include font($baseFontFamilyBoldItalic);
 	}
 	@mixin fontMedium(){ // SST W01 Medium
 		@include font($baseFontFamilyMedium);
@@ -181,6 +175,12 @@ $default-transition-delay    : 0s;
 	}
 	@mixin fontLightItalic(){ // SST W01 Light Italic
 		@include font($baseFontFamilyLightItalic);
+	}
+	@mixin fontBold(){ // SST W01 Bold
+		@include font($baseFontFamilyBold);
+	}
+	@mixin fontBoldItalic(){ // SST W01 Bold Italic
+		@include font($baseFontFamilyBoldItalic);
 	}
 
 	@mixin fontHeading(){ // SST W01 Roman
@@ -1007,7 +1007,7 @@ $default-transition-delay    : 0s;
 // Vertically center elements in the navbar.
 // Example: an element has a height of 30px, so write out `.navbarVerticalAlign(30px);` to calculate the appropriate top margin.
 @mixin navbarVerticalAlign($elementHeight) {
-	margin-top: ($navbarTotalHeight - $elementHeight) / 2;
+	margin-top: ($navbarHeight - $elementHeight) / 2;
 }
 
 

@@ -61,8 +61,8 @@
 
 
 //  ----------------------------------------------  x-pos,    width,  height, hasHover, hasActive, activeIsHover, iconTrigger, margin
-@include icon-ui(favorite,                          0px,      16px,   14px,   true,     false,     false,         true);
-@include icon-ui(cart,                              -30px,    17px,   14px,   true,     false,     false,         true);
+@include icon-ui(favorite,                          0px,      16px,   14px);
+@include icon-ui(cart,                              -30px,    17px,   14px);
 @include icon-ui(search,                            -60px,    15px,   13px,   false);
 @include icon-ui(arrowhead-down-gray,               -90px,    8px,    4px);
 @include icon-ui(arrowhead-up-gray,                 -120px,   8px,    4px);
@@ -72,11 +72,11 @@
 // @include icon-ui(nav-search-input,                  -240px,   23px,   24px);
 @include icon-ui(arrow-right-white,                 -270px,   11px,   8px);
 @include icon-ui(arrow-right-blue,                  -300px,   11px,   8px);
-@include icon-ui(grid,                              -330px,   16px,   16px);
+@include icon-ui(grid-sm,                           -330px,   13px,   13px);
 @include icon-ui(star,                              -360px,   13px,   13px,   false,    true);
 @include icon-ui(starhalf,                          -390px,   13px,   13px,   false,    true);
 @include icon-ui(arrowheads-up-down-gray,           -420px,   8px,    11px);
-@include icon-ui(plus-tiny,                         -450px,   9px,    9px);
+@include icon-ui(plus-tiny-boxed,                   -450px,   14px,   14px);
 @include icon-ui(plus-skinny,                       -480px,   16px,   16px);
 @include icon-ui(x-skinny,                          -510px,   16px,   16px);
 @include icon-ui(revealer-l-r-xl,                   -540px,   32px,   32px);
@@ -84,28 +84,29 @@
 @include icon-ui(x-tiny,                            -630px,   10px,   10px);
 @include icon-ui(close,                             -660px,   15px,   15px);
 
-@include icon-ui(navmenu-account,                   -690px,   17px,   17px);
-@include icon-ui(navmenu-orders,                    -720px,   17px,   17px);
-@include icon-ui(navmenu-newsletter,                -750px,   17px,   17px);
-@include icon-ui(navmenu-reg-prod,                  -780px,   17px,   17px);
-@include icon-ui(navmenu-favorite,                  -810px,   17px,   17px);
-@include icon-ui(navmenu-cart,                      -840px,   17px,   17px);
-@include icon-ui(navmenu-gps,                       -870px,   17px,   17px);
-@include icon-ui(navmenu-support,                   -900px,   17px,   17px);
-@include icon-ui(navmenu-search,                    -930px,   17px,   17px);
-@include icon-ui(navmenu-grid,                      -960px,   16px,   16px);
+@include icon-ui(navmenu-account,                   -690px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(navmenu-orders,                    -720px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(navmenu-newsletter,                -750px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(navmenu-reg-prod,                  -780px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(navmenu-favorite,                  -810px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(navmenu-cart,                      -840px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(navmenu-gps,                       -870px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(navmenu-support,                   -900px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(navmenu-search,                    -930px,   17px,   17px,   true,  false,  false,  true);
+@include icon-ui(grid,                              -960px,   16px,   16px);
 
 @include icon-ui(mobile-menu-btn,                   -990px,   19px,   16px);
 @include icon-ui(mobile-menu-btn-large,             -1020px,  22px,   19px);
 @include icon-ui(cart-large,                        -1050px,  19px,   17px);
 
+@include icon-ui2(x-14-blue,                        0px,      14px,   15px); // the number in the class name is how tall (in px) the icon is -- there are gonna be a ton of these, so mini/small/large/etc aren't gonna cut it.
+@include icon-ui2(chevron-18-blue,                  -30px,    8px,    18px); // the number in the class name is how tall (in px) the chrvron is -- there are gonna be a ton of chevrons, so mini/small/large/etc aren't gonna cut it.
 
-
-
-@include icon-ui2(x-14-blue,                        0px,   14px,   15px); // the number in the class name is how tall (in px) the icon is -- there are gonna be a ton of these, so mini/small/large/etc aren't gonna cut it.
-@include icon-ui2(chevron-18-blue,                  -30px, 8px,    18px); // the number in the class name is how tall (in px) the chrvron is -- there are gonna be a ton of chevrons, so mini/small/large/etc aren't gonna cut it.
-
-@include icon-uibig(support, 0px, 55px, 50px);
+@include icon-uibig(support,                        0px,      55px,   50px,   true);
+@include icon-uibig(twitter,                        -60px,    36px,   32px,   true);
+@include icon-uibig(facebook,                       -120px,   36px,   32px,   true);
+@include icon-uibig(gplus,                          -180px,   36px,   32px,   true);
+@include icon-uibig(youtube,                        -240px,   36px,   32px,   true);
 
 
 .icon-ui-pseudo-el-arrow-right-blue { @include icon-ui-pseudo-el(-300px, 11px, 8px); }
