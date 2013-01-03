@@ -470,10 +470,10 @@ $detailedGalleryItemHeight: 480px;
 }
 
 .product-count {
-  display: inline-block;
-  min-width: 23px; // keep a constant width so the filter buttons don't move
+  // display: inline-block;
+  // min-width: 23px; // keep a constant width so the filter buttons don't move
   font-size: $font_15_15;
-  text-align: right;
+  // text-align: right;
 }
 
 @media (max-width: 767px) {
@@ -668,7 +668,7 @@ $detailedGalleryItemHeight: 480px;
 // Compare Tool
 // -------------------------
 .compare-container {
-  padding: 1.875em 0 5em;
+  margin-top: 1.25em;
 }
 
 .compare-item {
@@ -677,24 +677,39 @@ $detailedGalleryItemHeight: 480px;
   background: $white;
   color: $grayDark;
 
+  .product-model {
+    color: $gray;
+  }
+
+  .compare-sticky-header .product-name-wrap {
+    padding-right: 2.5em;
+  }
+
   .product-content .product-name-wrap,
   .product-rating,
   .product-price,
   .color-swatches {
     margin-bottom: 1.25em;
+    padding-right: 1.25em;
+    padding-left: 1.25em;
   }
 
-  .product-content {
-    padding: 0 1.25em;
+  .detail {
+    min-height: 2.5em;
+    padding-right: 1.25em;
+    padding-left: 1.25em;
   }
 
-  .product-model {
-    color: $gray;
+  .detail.highlighted {
+    background: $lemon;
   }
 }
 
 .detail-labels-wrap {
   position: relative;
+}
+
+.detail-labels-wrapping {
   @include translate(-10px, 0);
   @include opacity(0);
   -webkit-transition: opacity $transitionNormal $easeNormal .1s, -webkit-transform $transitionNormal $easeNormal .1s;
@@ -710,15 +725,38 @@ $detailedGalleryItemHeight: 480px;
   position: absolute;
 }
 
-.compare-container .detail {
+.detail-label-group,
+.detail-labels-wrapping .product-count-wrap {
+  width: 100%;
+  width: -webkit-calc(100% - 10px);
+  width:         calc(100% - 10px);
+}
+
+// Gray border top for labels
+.compare-container .detail,
+.detail-labels-wrapping .product-count-wrap {
+  position: relative;
   padding-top: 0.625em;
-  min-height: 2.5em;
-  border-top: 1px solid $grayLightFieldLarge;
+
+  // Simulate border top because the "border" is not 100% of the width,
+  // therefore, we can't actually use the border property
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 90%;
+    height: 1px;
+    background: $grayLightFieldLarge;
+  }
 }
 
 // Make labels have a darker border
-.compare-container .detail-label {
-  border-color: $grayLight;
+.compare-container .detail-label:before,
+.detail-labels-wrapping .product-count-wrap:before {
+  left: 0;
+  width: 100%;
+  background: $grayLightish;
 }
 
 // Sticky header
@@ -728,37 +766,42 @@ $detailedGalleryItemHeight: 480px;
   top: 0;
   left: -9999px;
   width: inherit; // position fixed not inheriting correct width?...
-  max-height: 0;
-  overflow: hidden;
+  padding: 1em 0 0.5em;
   opacity: 0;
   background: $grayLightFieldLarge;
   @include translate(0, -100px);
-  @include box-shadow(0 2px 5px 0 $transparentBlack);
   -webkit-transition: opacity $transitionNormal $easeNormal, -webkit-transform $transitionNormal $easeNormal;
           transition: opacity $transitionNormal $easeNormal, transform $transitionNormal $easeNormal;
+
+  // The sticky-count uses a pseudo element for the box-shadow
+  &:not(.sticky-count) {
+    @include box-shadow(0 2px 5px 0 $transparentBlack);
+  }
 
   // Make sticky header visible
   &.open {
     left: 0; // Show it
-    padding: 1em 0; // Some padding
-    max-height: 800px;
     opacity: 1; // Fade in
     @include translate(0, 0); // Slide down
   }
 
-  .product-name-wrap {
-    padding: 0 1.25em;
+  // Create a sticky header box, but position it behind the text and off to the left
+  // so that it looks like it extends the length of the window
+  .detail-labels-wrap &:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: -3px; // Same as margin-left for compare-items
+    width: 2000px;
+    height: 100%;
+    background: $grayLightFieldLarge;
+    border-right: 1px solid rgba(0,0,0,0.05);
+    @include box-shadow(0 2px 5px 0 $transparentBlack);
   }
 
-  .product-img {
-    max-height: 0;
-    overflow: hidden;
-    @include transition(max-height $transitionSlower ease-in);
-  }
-
-  &.with-img .product-img {
-    max-height: 400px; // arbitrary number that will be larger than the image
-    @include transition-timing-function(ease-out);
+  .media .pull-left {
+    max-width: 33.3333%;
   }
 }
 

@@ -155,7 +155,7 @@
 		_onScrollEnd : function(){
 			var t = this;
 
-			t.$ev.trigger('onAfterSroll.sm');
+			t.$ev.trigger('onAfterScroll.sm');
 		}
 	};
 
