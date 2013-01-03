@@ -71,7 +71,7 @@
 
 			wW += t.extraSpacing;
 
-			//console.log("Number of pages » " , numPages , wW , t.$sampleElement);
+			//console.log("Number of pages Â» " , numPages , wW , t.$sampleElement);
 			//console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
 			if(availToFit > $itemCount) { return; } //stop processing function /TODO: maybe hide paddles or UI?
 
@@ -80,16 +80,16 @@
 				var $elemsInPage = t.$elements.slice(startIndx, endIndx + 1);
 
 		    if(pageNo === numPages - 1 && lastSlideCentered === true){
-		    	console.log("LAST PAGE »", pageNo+1);
+		    	console.log("LAST PAGE Â»", pageNo+1);
 		    	totalBlockWidth = t.$sampleElement.outerWidth(true) * $elemsInPage.length;
 		    }
 
 				var offsetX = Math.floor((wW - totalBlockWidth) * 0.5),
 				startX      = Math.floor((pageNo * wW) + offsetX);
 
-		    //console.log("left over »", (wW - totalBlockWidth));
-		    //console.log("offsetX »", offsetX);
-		    //.log("startX »", startX);
+		    //console.log("left over Â»", (wW - totalBlockWidth));
+		    //console.log("offsetX Â»", offsetX);
+		    //.log("startX Â»", startX);
 
 				$elemsInPage.css({
 					'position' : 'absolute',
@@ -102,7 +102,7 @@
 					$el.css('left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px');
 				});
 
-				//console.log("Building new page »", [startIndx , endIndx] ,$elemsInPage.length);
+				//console.log("Building new page Â»", [startIndx , endIndx] ,$elemsInPage.length);
 
 			}	
 
@@ -130,7 +130,7 @@
 		}
 
 		function update(){
-			//console.log("update »");
+			//console.log("update Â»");
 			if(t.mode === 'paginate'){
 				paginate();
 			}
@@ -228,5 +228,4 @@
 
 
 })(jQuery , window , undefined , Modernizr);
-
 
