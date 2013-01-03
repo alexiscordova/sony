@@ -1365,6 +1365,7 @@
     setStickyHeaderPos : function() {
       var self = this;
 
+      // IE9 error: unable to get value of property 'each': object is null or undefined
       self.$stickyHeaders.each(function(i, el) {
         var parentOffsetLeft = $(el).parent().offset().left;
         el.style.position = 'fixed';

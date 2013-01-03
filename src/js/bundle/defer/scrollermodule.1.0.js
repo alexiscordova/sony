@@ -86,7 +86,7 @@
 
 				//console.log("Building new page »", [startIndx , endIndx] ,$elemsInPage.length);
 
-			}	
+			}
 
 			if(t.mode.toLowerCase() === 'paginate'){
 				for (i = 0 ; i < numPages; i ++){
@@ -109,44 +109,71 @@
 			if(t.mode === 'paginate'){
 				paginate();
 			}
-	  	
+
 	  	t.scroller.refresh(); //update scroller
 
 	  	if(t.mode === 'paginate'){
 	  		t.scroller.scrollToPage(0, 0, 200);
 	  	}
-	  	
-	  	t.$ev.trigger('onUpdate.sm');
+
+	  	t.$ev.trigger('update.sm');
 		};
 
-		var resizeTimer,
-		resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-    $(window).on(resizeEvent, function(e) {  
-        if(resizeTimer) { clearTimeout(resizeTimer); }
-        resizeTimer = setTimeout(function() { 
-        	update();
-        }, t.throttleTime);          
-    });	
+		t.resizeTimer = null;
+		t.resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+    t.$win.on(t.resizeEvent + '.sm', function(e) {
+        // Clear the timer if it exists
+        if ( t.resizeTimer ) { clearTimeout( t.resizeTimer ); }
 
-    $(window).trigger(resizeEvent);
+        // Set a new timer
+        t.resizeTimer = setTimeout(function() {
+        	if ( !t.destroyed ) {
+        		update();
+        	}
+        }, t.throttleTime);
+    });
+
+    // $(window).trigger(resizeEvent);
+    update();
 	};
 
 	ScrollerModule.prototype = {
+		constructor: ScrollerModule,
+
 		goto: function(pageNo , duration){
 			var t = this;
 
 			t.scroller.scrollToPage(pageNo , 0 , duration || 300);
 		},
+
+		next: function() {
+			this.goto('next');
+		},
+
+		prev: function() {
+			this.goto('prev');
+		},
+
 		refresh: function(){
 			var t = this;
 			t.update();
 		},
+
 		destroy: function(){
 			var t = this;
 
-			//destroy the scroller
+			t.$contentContainer.css('width', '');
+
+			// Destroy our resize timer. NOT SURE WHY THIS ISN'T WORKING
+			clearTimeout( t.resizeTimer );
+			t.destroyed = true; // work around for above
+
+			// Destroy the scroller
 			t.scroller.destroy();
-			t.scroller = null;
+
+			// Remove resize event
+			t.$win.off('.sm');
+			t.$el.removeData('scrollerModule');
 		},
 
 		disable: function(){
@@ -163,40 +190,40 @@
 		_onScrollEnd : function(){
 			var t = this;
 
-			t.$ev.trigger('onAfterSroll.sm');
+			t.$ev.trigger('scrolled.sm');
 		}
-	}
-
-	//plugin definition
-	$.fn.scrollerModule = function(options) {      
-	  var args = arguments;
-	  return this.each(function(){
-	    var t = $(this);
-	    if (typeof options === "object" ||  !options) {
-	      if( !t.data('scrollerModule') ) {
-	        t.data('scrollerModule', new ScrollerModule(t, options));
-	      }
-	    } else {
-	    	alert('already inited');
-	      var scrollerModule = t.data('scrollerModule');
-	      if (scrollerModule && scrollerModule[options]) {
-	          return scrollerModule[options].apply(scrollerModule, Array.prototype.slice.call(args, 1));
-	      }
-	    }
-	  });
 	};
 
-	//defaults    
-	$.fn.scrollerModule.defaults = { 
-	  throttleTime: 25,
-	  contentSelector: '.content',
-	  itemElementSelector: '.block',
-	  mode: 'free',
-	  lastPageCenter: false,
-	  extraSpacing: 0,
+	// Plugin definition
+  $.fn.scrollerModule = function( options ) {
+    var args = Array.prototype.slice.call( arguments, 1 );
+    return this.each(function() {
+      var self = $(this),
+          scrollerModule = self.data('scrollerModule');
 
-	  //iscroll props get mixed in
-	  iscrollProps: {
+      // If we don't have a stored scrollerModule, make a new one and save it
+      if ( !scrollerModule ) {
+        scrollerModule = new ScrollerModule( self, options );
+        self.data( 'scrollerModule', scrollerModule );
+      }
+
+      if ( typeof options === 'string' ) {
+        scrollerModule[ options ].apply( scrollerModule, args );
+      }
+    });
+  };
+
+	//defaults
+	$.fn.scrollerModule.defaults = {
+		throttleTime: 25,
+		contentSelector: '.content',
+		itemElementSelector: '.block',
+		mode: 'free',
+		lastPageCenter: false,
+		extraSpacing: 0,
+
+		//iscroll props get mixed in
+		iscrollProps: {
 			snap: false,
 			hScroll: true,
 			vScroll: false,
@@ -204,9 +231,9 @@
 			vScrollbar: false,
 			momentum: true,
 			bounce: true,
-			onScrollEnd: null 	
-	  }
-	 
+			onScrollEnd: null
+		}
+
 	};
 
 })(jQuery , window , undefined , Modernizr);

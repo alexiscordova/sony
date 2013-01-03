@@ -29,22 +29,31 @@
       var self = this;
 
       self.$tabsWrap = $(self.tabsWrapSelector);
+      self.$tabsContainer = self.$tabsWrap.parent();
       self.$tabs = self.$tabsWrap.children('.tab');
 
       // No tabs on the page
       if ( self.$tabs.length === 0 ) { return; }
 
       // Set variables
-      // $tabContent = $('.tab-content');
       self.$activeTab = self.$tabs.filter('.active');
       self.$window = $(window);
-      // $navNext = $('.tab-nav-next');
-      // $navPrev = $('.tab-nav-prev');
-      // $panes = $tabContent.find('.tab-pane');
       self.windowWidth = self.$window.width();
       self.windowHeight = self.$window.height();
       self.tabWidth = self.$tabs.outerWidth();
       self.tabletMode = self.$container.data('tabletMode');
+      self.isCarousel = self.tabletMode === 'carousel';
+
+      if ( self.isCarousel ) {
+        self.$navNext = self.$container.find('.tab-nav-next');
+        self.$navPrev = self.$container.find('.tab-nav-prev');
+        self.$navNext.on('click', function() {
+          self.$tabsContainer.scrollerModule('next');
+        });
+        self.$navPrev.on('click', function() {
+          self.$tabsContainer.scrollerModule('prev');
+        });
+      }
 
       // New tab shown event
       self.$tabs.on('shown', $.proxy( self._onTabShown, self ));
@@ -55,7 +64,7 @@
       // Decide which tabs to make
       if ( Modernizr.mq('(max-width: 767px)') ) {
         self.setup();
-      } else if ( self.tabletMode === 'carousel' && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+      } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
         self.setupCarousel();
       }
     },
@@ -72,9 +81,9 @@
 
       // Phone
       if ( Modernizr.mq('(max-width: 767px)') ) {
-        // if ( self.isTabCarousel ) {
-        //   self._teardownTabCarousel();
-        // }
+        if ( self.isTabCarousel ) {
+          self.teardownCarousel();
+        }
 
         if ( !self.isStickyTabs ) {
           self.setup();
@@ -83,12 +92,14 @@
         self.animateTab();
 
       // Tablet
-      // } else if ( Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+      } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+        if ( self.isStickyTabs ) {
+          self.teardown();
+        }
 
-      //   if ( !isTabCarousel && $tabs.length > tabsPerPage ) {
-      //     _setTabCarouselVars();
-      //     _setupTabCarousel();
-      //   }
+        if ( !self.isTabCarousel ) {
+          self.setupCarousel();
+        }
 
 
       // Desktop
@@ -96,9 +107,9 @@
         if ( self.isStickyTabs ) {
           self.teardown();
         }
-        // if ( isTabCarousel ) {
-        //   _teardownTabCarousel();
-        // }
+        if ( self.isTabCarousel ) {
+          self.teardownCarousel();
+        }
       }
     },
 
@@ -182,26 +193,25 @@
       self.$tabsWrap
         .on('scroll', $.proxy( self.animateTab, self ))
         .addClass('sticky');
-        // .parent()
-        // .scrollerModule({
-        //   contentSelector: '.tabs',
-        //   itemElementSelector: '.tab',
-        //   mode: 'free',
-        //   lastPageCenter: false,
-        //   extraSpacing: 0,
+      // self.$tabsContainer.scrollerModule({
+      //   contentSelector: '.tabs',
+      //   itemElementSelector: '.tab',
+      //   mode: 'free',
+      //   lastPageCenter: false,
+      //   extraSpacing: 0,
 
-        //   //iscroll props get mixed in
-        //   iscrollProps: {
-        //     snap: false,
-        //     hScroll: true,
-        //     vScroll: false,
-        //     hScrollbar: false,
-        //     vScrollbar: false,
-        //     momentum: true,
-        //     bounce: true,
-        //     onScrollEnd: null
-        //   }
-        // });
+      //   //iscroll props get mixed in
+      //   iscrollProps: {
+      //     snap: false,
+      //     hScroll: true,
+      //     vScroll: false,
+      //     hScrollbar: false,
+      //     vScrollbar: false,
+      //     momentum: true,
+      //     bounce: true,
+      //     onScrollEnd: null
+      //   }
+      // });
       self._onTabSelected();
     },
 
@@ -217,31 +227,60 @@
     setupCarousel : function() {
       var self = this;
 
+      console.log('setup: Carousel tabs');
       // Do initialzation for carousel
-      console.log('Do initialzation for carousel');
-      self.$tabsWrap
-        .on('scroll', $.proxy( self.animateTab, self ))
-        .addClass('carousel')
-        .parent()
-        .scrollerModule({
-          contentSelector: '.tabs',
-          itemElementSelector: '.tab',
-          mode: 'paginate',
-          lastPageCenter: false,
-          extraSpacing: 0,
+      self.$navPrev.addClass('in');
+      self.$navNext.addClass('in');
+      self.$tabsWrap.addClass('tab-carousel');
 
-          //iscroll props get mixed in
-          iscrollProps: {
-            snap: true,
-            hScroll: true,
-            vScroll: false,
-            hScrollbar: false,
-            vScrollbar: false,
-            momentum: true,
-            bounce: true,
-            onScrollEnd: null
+      self.$tabsContainer.scrollerModule({
+        contentSelector: '.tabs',
+        itemElementSelector: '.tab',
+        mode: 'paginate',
+        lastPageCenter: false,
+        extraSpacing: 0,
+
+        iscrollProps: {
+          snap: true,
+          hScroll: true,
+          vScroll: false,
+          hScrollbar: false,
+          vScrollbar: false,
+          momentum: true,
+          bounce: true,
+          onScrollEnd: null,
+          onAnimationEnd: function() {
+            var iscroll = this;
+            // Hide show prev button depending on where we are
+            if ( iscroll.currPageX === 0 ) {
+              self.$navPrev.removeClass('in');
+            } else {
+              self.$navPrev.addClass('in');
+            }
+
+            // Hide show next button depending on where we are
+            if ( iscroll.currPageX === iscroll.pagesX.length - 1 ) {
+              self.$navNext.removeClass('in');
+            } else {
+              self.$navNext.addClass('in');
+            }
           }
-        });
+        }
+      });
+
+      self.isTabCarousel = true;
+    },
+
+    teardownCarousel : function() {
+      var self = this;
+
+      console.log('teardown: Carousel tabs');
+      self.$navPrev.removeClass('in');
+      self.$navNext.removeClass('in');
+      self.$tabsWrap.removeClass('tab-carousel');
+      self.$tabsContainer.scrollerModule('destroy');
+
+      self.isTabCarousel = false;
     },
 
     update : function() {
