@@ -114,7 +114,7 @@ layout3: "normal"
         </div>
         <% end %>
 
-        <p class="ib"><span class="text-dark product-count"><%- @data.productCards.total %></span> Products</p>
+        <p class="ib product-count-wrap"><span class="text-dark product-count"><%- @data.productCards.total %></span> Products</p>
         <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#<%- @data.productCards.name %>-filters">Filter</button>
         <button class="btn btn-alt-special btn-alt-plus js-compare-toggle" data-target="#compare-tool">Compare</button>
       </div>
@@ -225,7 +225,7 @@ layout3: "normal"
       <div class="comparables hidden">
         <div class="compare-name"><%- @data.productCards.galleryName %></div>
       <% for detail in @data.productCards.comparable: %>
-        <div data-slug="<%- this.slug %>" data-label="<%- this.label %>"></div>
+        <div class="l3 detail-label detail" data-slug="<%- detail.slug %>" data-label="<%- detail.label %>"></div>
       <% end %>
       </div>
 
@@ -359,14 +359,11 @@ layout3: "normal"
 </div>
 
 <div id="compare-tool" class="modal takeover hide fade" tabindex="-1" role="dialog" aria-labelledby="compare-tool-label" aria-hidden="true">
-  <div class="modal-header container">
+  <div class="modal-header container" data-reset-label="Reset">
     <h3 class="pull-left" id="compare-tool-label">Compare</h3>
     <button class="box-close" data-dismiss="modal" aria-hidden="true"><i class="icon-ui-x-tiny"></i></button>
-    <button class="pull-right btn btn-small disabled js-compare-reset">Reset</button>
   </div>
-  <div class="modal-body">
-    <div class="container"><span class="js-compare-count">0</span>&nbsp;Products</div>
-  </div>
+  <div class="modal-body"></div>
 </div>
 
 

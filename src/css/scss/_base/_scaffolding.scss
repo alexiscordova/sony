@@ -15,6 +15,16 @@ body {
 }
 
 
+.page-wrap-outer{ // always full browser width, never moves
+  width:100%;
+  overflow:hidden;
+}
+.page-wrap-inner{ // this is to shift the entire content over for the side slide-in menu on mobile
+  width:100%;
+  position:relative;
+}
+
+
 // Links
 // -------------------------
 
@@ -50,5 +60,25 @@ a:hover {
 // Perfect circle
 .img-circle {
   @include border-radius(500px); // crank the border-radius so it works with most reasonably sized images
+}
+
+
+
+
+/* Debug grid styles
+-------------------------------------------------- */
+.show-grid {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.show-grid [class*="span"] {
+  background-color: rgba(125,125,125,0.5) !important;
+  @include box-shadow(inset 0 0 2px rgba(0,0,0,0.9));
+}
+.show-grid:hover [class*="span"] {
+  background: rgba(215,125,125,0.9) !important;
+}
+.show-grid .show-grid [class*="span"] {
+  background-color: rgba(255,125,0,0.9) !important;
 }
 

@@ -322,7 +322,7 @@ Exports.Modules.Tabs = (function($, Modernizr, window, undefined) {
       left: _getBounded( tabOffset )
     });
 
-    console.log('new sticky tab set', _getBounded( tabOffset ) );
+    console.log('new sticky tab set', _getBounded( tabOffset ), tabOffset );
 
     // Add a margin to the next (or previous if it's the last tab) tab because
     // the active one is positioned absolutely, taking up no space
@@ -369,8 +369,10 @@ $(document).ready(function() {
     Exports.Modules.Gallery.init();
     Exports.Modules.Tabs.init();
 
-
     // // Should be called after everything is initialized
     $(window).trigger('hashchange');
+
+    // debug, show second tab
+    // $('[data-target="overhead"]').tab('show');
   }
 });

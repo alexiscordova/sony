@@ -129,7 +129,7 @@
           .appendTo( document.body );
 
         window.location.hash = hash;
-        
+
         $fake.remove();
 
         if ( $target && $target.length ) {

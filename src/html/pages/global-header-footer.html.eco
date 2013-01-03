@@ -16,12 +16,22 @@
   	<script src="js/libs/jquery.throttle-debounce.min.js"></script>
 		<!-- This should be moved into js_footer files once completed: --> 
 		<script src="js/bundle/require/global-nav.js" type="text/javascript"></script>
+		<script src="js/bundle/require/global-footer.js" type="text/javascript"></script>
+		<script src="js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
 		
 	</head>
 	<body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">
+		<div class="page-wrap-outer">
+			<div id="page-wrap-inner" class="page-wrap-inner XXshow-mobile-menu">
 
-<!-- include your module markup templates here -->
-		<%-@partial('modules/global_header.html.hb', {mode:'two', content:{a:'3',b:'4'}}) %>
+		<!-- include your module markup templates here -->
+		<%-@partial('modules/global_header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
+
+    	<section class="container" style="background:rgb(0, 70, 0); padding:80px;">test</section>
+    	<section class="container" style="background:rgb(0, 0, 125); padding:80px;">test</section>
+    	<section class="container" style="background:rgb(0, 70, 0); padding:80px;">test</section>
+
+		<%-@partial('modules/global_footer.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
 
 <% if 'debug' in @getEnvironments():%>
 		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
@@ -29,6 +39,7 @@
 		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
 <% end %>
 
-	<!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> --> 
+			</div>
+		</div>
 	</body>
 </html>
