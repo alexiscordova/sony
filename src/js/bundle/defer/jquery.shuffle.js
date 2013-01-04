@@ -96,9 +96,13 @@
             top: 0,
             left: 0
         };
-
+        
+        if ( self.$container.css('position') === 'static' ) {
+            self.$container.css('position', 'relative');
+        }
+       
         // Set up css for transitions
-        self.$container.css('position', 'relative')[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
+        self.$container[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
         self._initItems( !self.showInitialTransition );
 
         // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer

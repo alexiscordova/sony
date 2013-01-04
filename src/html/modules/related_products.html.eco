@@ -1,9 +1,9 @@
 ---
 desc: 'Here are some modules with unique data:'
-layout1: [ "normal" , "medium", "promo" , "normal" , "normal" ]
-layout2: [ "normal" , "medium", "promo" , "normal" , "normal" ]
+layout1: [ "medium" , "normal" ,"plate" , "normal" ,  "normal" , "normal"]
+layout2: [ "medium" , "normal" , "plate" , "normal" , "normal" , "normal"]
 ---
-<div class="container grid5" style="background-color:#f1f2f4;">
+<div class="container grid5">
   <div class="rpGrid grid grid-small">
     <section class="related-products">
       <div class="rpOverflow" id="rpOverflow">
@@ -11,33 +11,33 @@ layout2: [ "normal" , "medium", "promo" , "normal" , "normal" ]
           <div class="rpSlide">
             <% i = 0 %> 
             <% for module in @data.submodules: %>
-                <% d = @this.data(module.data) %>
-                <% if d.featured && d.type == "product" : %>
+              <% d = @this.data(module.data) %>
+              <% if d.featured && d.type == "product" : %>
                 <% d.layout = @document[@data.featured.layout[0]][i++] %>
                 <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
             <% end %>     
           </div>
           <div class="rpSlide">
             <% i = 0 %> 
             <% for module in @data.submodules: %>
-                <% d = @this.data(module.data) %>
-                <% if d.featured && d.type == "product" : %>
+              <% d = @this.data(module.data) %>
+              <% if d.featured && d.type == "product" : %>
                 <% d.layout = @document[@data.featured.layout[1]][i++] %>
                 <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
             <% end %>     
           </div>
           <div class="rpSlide">
             <% i = 0 %> 
             <% for module in @data.submodules: %>
-                <% d = @this.data(module.data) %>
-                <% if d.featured && d.type == "product" : %>
+              <% d = @this.data(module.data) %>
+              <% if d.featured && d.type == "product" : %>
                 <% d.layout = @document[@data.featured.layout[0]][i++] %>
                 <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
             <% end %>     
           </div>
@@ -48,7 +48,7 @@ layout2: [ "normal" , "medium", "promo" , "normal" , "normal" ]
                 <% if d.featured && d.type == "product" : %>
                 <% d.layout = @document[@data.featured.layout[1]][i++] %>
                 <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
             <% end %>     
           </div>
