@@ -12,72 +12,64 @@
 
 })(window);
 
-(function($ , window , undefined , Modernizr) {
+(function($, Modernizr, window, undefined) {
 
 	'use strict';
 
-	var ScrollerModule = function(element, opts) {
+	var ScrollerModule = function( element, options ) {
 
-		var t = this;
+		var self = this;
 
-		$.extend(t, {} , $.fn.scrollerModule.defaults , opts);
+		$.extend(self, $.fn.scrollerModule.defaults , options);
 
-		t.$el 							= $(element),
-		t.$win              = $(window),
-		t.$contentContainer = $(t.contentSelector);
-		t.$ev               = $(); //events object
-		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
-		t.$sampleElement		= t.$elements.eq(0);
+		self.$el = $(element),
+		self.$win = $(window),
+		self.$contentContainer = $(self.contentSelector);
+		self.$ev = $(); //events object
+		self.$elements = $(self.itemElementSelector, self.$contentContainer),
+		self.$sampleElement = self.$elements.eq(0);
 
-		$( t.$contentContainer).css('width' , (t.$sampleElement.outerWidth(true) * t.$elements.length) + 500 );
+		$(self.$contentContainer).css('width' , (self.$sampleElement.outerWidth(true) * self.$elements.length) + 500 );
 
 		// Override the onscrollend for our own use - listen for 'onAfterSroll'
-		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
+		self.iscrollProps.onScrollEnd = $.proxy(self._onScrollEnd , self);
 
 		// Create instance of scroller and pass it defaults
-		t.iscrollProps.onTouchEnd = t.iscrollProps.onScrollEnd = window.iQ.update;
-		t.scroller = new iScroll(t.$el[0],t.iscrollProps);
+		self.iscrollProps.onTouchEnd = self.iscrollProps.onScrollEnd = window.iQ.update;
+		self.scroller = new iScroll( self.$el[0], self.iscrollProps );
 
 		function paginate() {
-			// console.group("function paginate");
 
-			var lastSlideCentered = t.lastPageCenter,
-					itemCount					= t.$elements.length,
-					wW                = t.$el.width() - t.extraSpacing,
-					availToFit        = Math.floor(wW / t.$sampleElement.outerWidth(true)),
+			var lastSlideCentered = self.lastPageCenter,
+					itemCount					= self.$elements.length,
+					wW                = self.$el.width() - self.extraSpacing,
+					availToFit        = Math.floor(wW / self.$sampleElement.outerWidth(true)),
 					numPages          = Math.ceil( itemCount / availToFit ),
-					i        		  		= 0,
-					totalBlockWidth   = t.$sampleElement.outerWidth(true) * availToFit;
+					i									= 0,
+					totalBlockWidth   = self.$sampleElement.outerWidth(true) * availToFit;
 
-			wW += t.extraSpacing;
-
-			// console.log("Number of pages » " , numPages , wW , t.$sampleElement);
-
-			// console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
+			wW += self.extraSpacing;
 
 			//stop processing function /maybe hide paddles or UI?
 			if ( numPages === 1 || availToFit > itemCount ) {
-				t.isPaginated = false;
+				self.isPaginated = false;
 				return false;
 			} else {
-				t.isPaginated = true;
+				self.isPaginated = true;
 			}
 
 			function buildPage(pageNo, startIndx, endIndx) {
 
-				var $elemsInPage = t.$elements.slice(startIndx, endIndx + 1);
+				var $elemsInPage = self.$elements.slice(startIndx, endIndx + 1),
+						offsetX,
+						startX;
 
-		    if ( pageNo === numPages - 1 && lastSlideCentered === true ) {
-		    	console.log("LAST PAGE »", pageNo+1);
-		    	totalBlockWidth = t.$sampleElement.outerWidth(true) * $elemsInPage.length;
-		    }
+				if ( pageNo === numPages - 1 && lastSlideCentered === true ) {
+					totalBlockWidth = self.$sampleElement.outerWidth(true) * $elemsInPage.length;
+				}
 
-				var offsetX = Math.floor((wW - totalBlockWidth) * 0.5),
-				startX      = Math.floor((pageNo * wW) + offsetX);
-
-		    //console.log("left over »", (wW - totalBlockWidth));
-		    //console.log("offsetX »", offsetX);
-		    //.log("startX »", startX);
+				offsetX = Math.floor((wW - totalBlockWidth) * 0.5),
+				startX = Math.floor((pageNo * wW) + offsetX);
 
 				$elemsInPage.css({
 					'position' : 'absolute',
@@ -85,15 +77,14 @@
 					'left' : '0'
 				});
 
-				$.each($elemsInPage , function(i){
+				$.each($elemsInPage , function(i) {
 					var $el = $(this);
 					$el.css('left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px');
 				});
 
-				//console.log("Building new page »", [startIndx , endIndx] ,$elemsInPage.length);
 			}
 
-			if ( t.mode.toLowerCase() === 'paginate' ) {
+			if ( self.mode.toLowerCase() === 'paginate' ) {
 				for (i = 0 ; i < numPages; i ++) {
 					var startIndx = i * availToFit,
 					endIndx       = startIndx + availToFit - 1;
@@ -103,11 +94,10 @@
 			}
 
 			// Update the width again to the new width based on however many 'pages' there are now
-			t.$contentContainer.css('width' , numPages * wW );
+			self.$contentContainer.css('width' , numPages * wW );
 
-			//console.groupEnd();
 
-			t.$ev.trigger('onPaginationComplete.sm');
+			self.$ev.trigger('onPaginationComplete.sm');
 
 			return true;
 		}
@@ -117,38 +107,38 @@
 
 			// Paginate() will return false if there aren't enough items to be paginated
 			// If there aren't enough items, we don't want to create an iScroll instance
-			if ( t.mode === 'paginate' ) {
+			if ( self.mode === 'paginate' ) {
 				paginated = paginate();
 			}
 
 			// Is this needed? iScroll calls refresh() on itself on window resize already.
-	  	if ( paginated ) {
-	  		t.scroller.refresh(); //update scroller
-	  	}
+			if ( paginated ) {
+				self.scroller.refresh(); //update scroller
+			}
 
-	  	if ( t.mode === 'paginate' && paginated ) {
-	  		t.scroller.scrollToPage(0, 0, 200);
-	  	}
+			if ( self.mode === 'paginate' && paginated ) {
+				self.scroller.scrollToPage(0, 0, 200);
+			}
 
-	  	t.$ev.trigger('update.sm');
-		};
+			self.$ev.trigger('update.sm');
+		}
 
-		t.resizeTimer = null;
-		t.resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-    t.$win.on(t.resizeEvent + '.sm', function(e) {
+		self.resizeTimer = null;
+		self.resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+    self.$win.on(self.resizeEvent + '.sm', function() {
         // Clear the timer if it exists
-        if ( t.resizeTimer ) { clearTimeout( t.resizeTimer ); }
+        if ( self.resizeTimer ) { clearTimeout( self.resizeTimer ); }
 
         // Set a new timer
-        t.resizeTimer = setTimeout(function() {
-        	if ( !t.destroyed ) {
-        		update();
-        	}
-        }, t.throttleTime);
+        self.resizeTimer = setTimeout(function() {
+					if ( !self.destroyed ) {
+						update();
+					}
+        }, self.throttleTime);
     });
 
     // Initially set the isPaginated boolean. This may be changed later inside paginate()
-    t.isPaginated = t.mode === 'paginate';
+    self.isPaginated = self.mode === 'paginate';
 
     // $(window).trigger(resizeEvent);
     update();
@@ -158,9 +148,7 @@
 		constructor: ScrollerModule,
 
 		goto: function(pageNo , duration){
-			var t = this;
-
-			t.scroller.scrollToPage(pageNo , 0 , duration || 300);
+			this.scroller.scrollToPage(pageNo , 0 , duration || 300);
 		},
 
 		next: function() {
@@ -172,42 +160,36 @@
 		},
 
 		refresh: function() {
-			var t = this;
-			t.update();
+			this.update();
 		},
 
 		destroy: function() {
-			var t = this;
+			var self = this;
 
-			t.$contentContainer.css('width', '');
+			self.$contentContainer.css('width', '');
 
 			// Destroy our resize timer. NOT SURE WHY THIS ISN'T WORKING
-			clearTimeout( t.resizeTimer );
-			t.destroyed = true; // work around for above
+			clearTimeout( self.resizeTimer );
+			self.destroyed = true; // work around for above
 
 			// Destroy the scroller
-			t.scroller.destroy();
+			self.scroller.destroy();
 
 			// Remove resize event
-			t.$win.off('.sm');
-			t.$el.removeData('scrollerModule');
+			self.$win.off('.sm');
+			self.$el.removeData('scrollerModule');
 		},
 
 		disable: function() {
-			var t = this;
-
-			t.scroller.disable();
+			this.scroller.disable();
 		},
 
 		enable: function() {
-			var t = this;
-			t.scroller.enable();
+			this.scroller.enable();
 		},
 
 		_onScrollEnd : function() {
-			var t = this;
-
-			t.$ev.trigger('scrolled.sm');
+			this.$ev.trigger('scrolled.sm');
 		}
 	};
 
@@ -253,4 +235,4 @@
 
 	};
 
-})(jQuery , window , undefined , Modernizr);
+})(jQuery, Modernizr, window);
