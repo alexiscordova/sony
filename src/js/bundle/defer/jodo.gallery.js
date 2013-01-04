@@ -955,12 +955,14 @@
 
           // Clone all visible
           $currentItems = shuffle.$items.filter('.filtered').clone(),
+          $compareItemsContainer = $('<div class="compare-items-container">'),
+          $compareItemsWrapper = $('<div class="compare-items-wrap">'),
 
           contentWidth = 0,
           // Get product count
           productCount = $currentItems.length,
 
-          $container = $('<div class="container">'),
+          $container = $('<div class="container js-compare-wrap">'),
           $content = $('<div class="compare-container clearfix">'),
           $header = self.$compareTool.find('.modal-header'),
 
@@ -992,7 +994,7 @@
 
       // Create sticky header for count
       $labelColumnWrap
-        .append('<div class="compare-sticky-header sticky-count">')
+        .append('<div class="span2 compare-sticky-header sticky-count">')
         .find('.compare-sticky-header')
         .append( self.$compareCountWrap.clone() );
 
@@ -1044,9 +1046,6 @@
         self.onCompareResize( $header, $sortOpts, $labelColumn );
       }));
 
-      // Intialize carousel
-      // TODO
-
       // Save state for reset
       self.compareState = {
           count: productCount,
@@ -1060,7 +1059,9 @@
 
       $labelColumnWrap.append( $labelColumn );
       $content.append( $labelColumnWrap );
-      $content.append( self.$compareItems );
+      $compareItemsContainer.append( self.$compareItems );
+      $compareItemsWrapper.append( $compareItemsContainer );
+      $content.append( $compareItemsWrapper );
       $container.append( $content );
 
       // Trigger modal
@@ -1085,11 +1086,15 @@
 
       self.$stickyHeaders = self.$compareTool.find('.compare-sticky-header');
 
+      // Re-parent sticky headers because of webkit bug. Anything with fixed positioning cannot have a parent
+      // which has a transform. Sad face.
+      self.reparentStickyHeaders();
+
       // HOLD ONTA YA BUTTS. How do I set a width on something that will use percentages?
-      $content.children().each(function() {
-        contentWidth += $(this).outerWidth(true);
-      });
-      $content.width( contentWidth );
+      // $content.children().each(function() {
+      //   contentWidth += $(this).outerWidth(true);
+      // });
+      // $content.width( contentWidth );
       // $content.width( $newItems.length * itemWidth );
 
     },
@@ -1104,8 +1109,6 @@
       //   return false;
       // });
 
-      // Position sticky headers
-      self.setStickyHeaderPos();
       offsetTop = self.$compareItems.first().offset().top;
       extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
       offsetTop += extra;
@@ -1137,6 +1140,40 @@
       var now = new Date().getTime();
       self.setCompareRowHeights( true );
       console.log( (new Date().getTime() - now) / 1000, 'seconds passed calculating heights');
+
+      self.$compareTool.find('.compare-items-wrap').height( self.$compareItems.first().height() );
+
+      self.$compareTool.find('.compare-items-wrap').scrollerModule({
+        contentSelector: '.compare-items-container',
+        itemElementSelector: '.compare-item',
+        mode: 'free',
+        nextSelector: '',
+        prevSelector: '',
+
+        iscrollProps: {
+          snap: true,
+          hScroll: true,
+          vScroll: false,
+          hScrollbar: false,
+          vScrollbar: false,
+          momentum: true,
+          bounce: true,
+          onScrollMove: function() {
+            self.setStickyHeaderPos();
+          },
+          onBeforeScrollEnd: function() {
+            self.setStickyHeaderPos();
+          },
+          onAnimationEnd: function() {
+            self.setStickyHeaderPos();
+          }
+        }
+      });
+
+      // Position sticky headers
+      self.setStickyHeaderPos();
+
+      // Fade in the labels to hide the fact that it took so long to compute heights.
       self.$compareTool.find('.detail-labels-wrapping').addClass('complete');
 
       return self;
@@ -1159,13 +1196,13 @@
       self.$compareTool.find('.sort-options').remove();
 
       // Destroy carousel
-      // TODO
+      self.$compareTool.find('.compare-items-wrap').scrollerModule('destroy');
 
       // Empty out html
       // Remove scroll event
       self.$compareTool
-        .find('.modal-body')
-        .empty()
+        .find('.js-compare-wrap')
+        .remove()
         .end()
         .find('.modal-subheader')
         .remove()
@@ -1321,7 +1358,7 @@
           .find('.product-name, .product-model')
           .wrapAll('<div class="product-name-wrap"/>')
           .end()
-          .prepend('<div class="compare-sticky-header">')
+          .prepend('<div class="span4 compare-sticky-header">')
           .find('.compare-sticky-header')
           .append('<div class="media">');
 
@@ -1362,12 +1399,27 @@
       return $newItems;
     },
 
+    // http://stackoverflow.com/questions/2637058/positions-fixed-doesnt-work-when-using-webkit-transform
+    reparentStickyHeaders : function() {
+      var self = this,
+          $container = $('<div class="sticky-headers">');
+
+      // Save a reference to its old so we can get the left offset parent
+      self.$stickyHeaders.each(function(i, el) {
+        $(el).data( '$parent', $(el).parent() );
+      });
+
+      self.$stickyHeaders.detach();
+      $container.append( self.$stickyHeaders );
+      self.$compareTool.find('.compare-container').append( $container );
+    },
+
     setStickyHeaderPos : function() {
       var self = this;
 
       // IE9 error: unable to get value of property 'each': object is null or undefined
       self.$stickyHeaders.each(function(i, el) {
-        var parentOffsetLeft = $(el).parent().offset().left;
+        var parentOffsetLeft = $(el).data('$parent').offset().left;
         el.style.position = 'fixed';
         el.style.left = parentOffsetLeft + 'px';
       });
@@ -1608,7 +1660,7 @@
 
     setCompareRowHeights : function( isFirst ) {
       var self = this,
-          $detailGroup = self.$compareItems.find('.detail-group').first(),
+          $detailGroup = self.$compareItems.not('.hide').find('.detail-group').first(),
           offset = 0,
           nameMaxHeight = 0;
 

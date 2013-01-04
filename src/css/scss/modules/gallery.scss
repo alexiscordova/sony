@@ -759,7 +759,7 @@ $detailedGalleryItemHeight: 480px;
   z-index: 10;
   top: 0;
   left: -9999px;
-  width: inherit; // position fixed not inheriting correct width?...
+  // width: inherit; // position fixed not inheriting correct width?...
   padding: 1em 0 0.5em;
   opacity: 0;
   background: $grayLightFieldLarge;
@@ -772,6 +772,11 @@ $detailedGalleryItemHeight: 480px;
     @include box-shadow(0 2px 5px 0 $transparentBlack);
   }
 
+  // Needs more specificity to override span margins
+  .sticky-headers & {
+    margin: 0;
+  }
+
   // Make sticky header visible
   &.open {
     left: 0; // Show it
@@ -781,7 +786,7 @@ $detailedGalleryItemHeight: 480px;
 
   // Create a sticky header box, but position it behind the text and off to the left
   // so that it looks like it extends the length of the window
-  .detail-labels-wrap &:before {
+  &.sticky-count:before {
     content: '';
     position: absolute;
     z-index: -1;
