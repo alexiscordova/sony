@@ -29,31 +29,44 @@
       var self = this;
 
       self.$tabsWrap = $(self.tabsWrapSelector);
+      self.$tabsContainer = self.$tabsWrap.parent();
       self.$tabs = self.$tabsWrap.children('.tab');
 
       // No tabs on the page
       if ( self.$tabs.length === 0 ) { return; }
 
       // Set variables
-      // $tabContent = $('.tab-content');
       self.$activeTab = self.$tabs.filter('.active');
       self.$window = $(window);
-      // $navNext = $('.tab-nav-next');
-      // $navPrev = $('.tab-nav-prev');
-      // $panes = $tabContent.find('.tab-pane');
       self.windowWidth = self.$window.width();
       self.windowHeight = self.$window.height();
       self.tabWidth = self.$tabs.outerWidth();
+      self.tabletMode = self.$container.data('tabletMode');
+      self.isCarousel = self.tabletMode === 'carousel';
+
+      if ( self.isCarousel ) {
+        self.$navNext = self.$container.find('.tab-nav-next');
+        self.$navPrev = self.$container.find('.tab-nav-prev');
+        self.$navNext.on('click', function() {
+          self.$tabsContainer.scrollerModule('next');
+        });
+        self.$navPrev.on('click', function() {
+          self.$tabsContainer.scrollerModule('prev');
+        });
+      }
 
       // New tab shown event
       self.$tabs.on('shown', $.proxy( self._onTabShown, self ));
 
+      // Window resize
+      self.$window.on('resize.stickytabs', $.proxy( self._onResize, self ));
+
       // Decide which tabs to make
       if ( Modernizr.mq('(max-width: 767px)') ) {
         self.setup();
+      } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+        self.setupCarousel();
       }
-
-      // $panes.not('.active').addClass('off-screen');
     },
 
     _getBounded : function( value ) {
@@ -68,33 +81,35 @@
 
       // Phone
       if ( Modernizr.mq('(max-width: 767px)') ) {
-        // if ( self.isTabCarousel ) {
-        //   self._teardownTabCarousel();
-        // }
+        if ( self.isTabCarousel ) {
+          self.teardownCarousel();
+        }
 
         if ( !self.isStickyTabs ) {
-          self._setupStickyTabs();
+          self.setup();
         }
 
         self.animateTab();
 
       // Tablet
-      // } else if ( Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+      } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+        if ( self.isStickyTabs ) {
+          self.teardown();
+        }
 
-      //   if ( !isTabCarousel && $tabs.length > tabsPerPage ) {
-      //     _setTabCarouselVars();
-      //     _setupTabCarousel();
-      //   }
+        if ( !self.isTabCarousel ) {
+          self.setupCarousel();
+        }
 
 
       // Desktop
       } else {
         if ( self.isStickyTabs ) {
-          self._teardownStickyTabs();
+          self.teardown();
         }
-        // if ( isTabCarousel ) {
-        //   _teardownTabCarousel();
-        // }
+        if ( self.isTabCarousel ) {
+          self.teardownCarousel();
+        }
       }
     },
 
@@ -118,7 +133,7 @@
     _onTabSelected : function() {
       var self = this;
 
-      console.log('_onTabSelected');
+      console.log('onTabSelected: StickyTabs');
       self.$tabs.removeAttr('style');
       self.lastSL = self.$tabsWrap.scrollLeft();
       self.data = null;
@@ -144,6 +159,7 @@
     },
 
     animateTab : function() {
+      console.log('animateTab: StickyTabs');
       var self = this,
           sl = self.$tabsWrap.scrollLeft(),
           distance = self.lastSL - sl, // last scroll left - current scoll left = distance since last _animateTab call
@@ -168,45 +184,107 @@
     setup : function() {
       var self = this;
 
-      console.log('_setupStickyTabs');
+      // Problems with scrollerModule + stickyTabs
+        // Is there a callback every frame?
+        // Clicking and dragging results in changing tabs
+
+      console.log('setup: StickyTabs');
       self.isStickyTabs = true;
       self.$tabsWrap
         .on('scroll', $.proxy( self.animateTab, self ))
         .addClass('sticky');
-        // .parent()
-        // .scrollerModule({
-        //   contentSelector: '.tabs',
-        //   itemElementSelector: '.tab',
-        //   mode: 'free',
-        //   lastPageCenter: false,
-        //   extraSpacing: 0,
+      // self.$tabsContainer.scrollerModule({
+      //   contentSelector: '.tabs',
+      //   itemElementSelector: '.tab',
+      //   mode: 'free',
+      //   lastPageCenter: false,
+      //   extraSpacing: 0,
 
-        //   //iscroll props get mixed in
-        //   iscrollProps: {
-        //     snap: false,
-        //     hScroll: true,
-        //     vScroll: false,
-        //     hScrollbar: false,
-        //     vScrollbar: false,
-        //     momentum: true,
-        //     bounce: true,
-        //     onScrollEnd: null
-        //   }
-        // });
+      //   //iscroll props get mixed in
+      //   iscrollProps: {
+      //     snap: false,
+      //     hScroll: true,
+      //     vScroll: false,
+      //     hScrollbar: false,
+      //     vScrollbar: false,
+      //     momentum: true,
+      //     bounce: true,
+      //     onScrollEnd: null
+      //   }
+      // });
       self._onTabSelected();
-
-      // Window resize
-      self.$window.on('resize.stickytabs', $.proxy( self._onResize, self ));
     },
 
     teardown : function() {
       var self = this;
 
-      console.log('_teardownStickyTabs');
+      console.log('teardown: StickyTabs');
       self.$tabsWrap.off('scroll').removeClass('sticky');
       self.$tabs.removeAttr('style');
       self.isStickyTabs = false;
-      self.$window.off('.stickytabs');
+    },
+
+    setupCarousel : function() {
+      var self = this;
+
+      self.$navPrev.hide();
+      self.$navNext.hide();
+
+      self.$tabsContainer.scrollerModule({
+        contentSelector: '.tabs',
+        itemElementSelector: '.tab',
+        mode: 'paginate',
+        lastPageCenter: false,
+        extraSpacing: 0,
+
+        iscrollProps: {
+          snap: true,
+          hScroll: true,
+          vScroll: false,
+          hScrollbar: false,
+          vScrollbar: false,
+          momentum: true,
+          bounce: true,
+          onScrollEnd: null,
+          onAnimationEnd: function() {
+            var iscroll = this;
+            // Hide show prev button depending on where we are
+            if ( iscroll.currPageX === 0 ) {
+              self.$navPrev.hide();
+            } else {
+              self.$navPrev.show();
+            }
+
+            // Hide show next button depending on where we are
+            if ( iscroll.currPageX === iscroll.pagesX.length - 1 ) {
+              self.$navNext.hide();
+            } else {
+              self.$navNext.show();
+            }
+          }
+        }
+      });
+
+      // Check to make sure we actually have paginated tabs
+      if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {
+        // self.$navPrev.show();
+        self.$navNext.show();
+        self.$tabsWrap.addClass('tab-carousel');
+      }
+
+      self.isTabCarousel = true;
+    },
+
+    teardownCarousel : function() {
+      var self = this;
+
+      console.log('teardown: Carousel tabs');
+      self.$navPrev.hide();
+      self.$navNext.hide();
+      self.$tabsWrap.removeClass('tab-carousel');
+      self.$tabsContainer.scrollerModule('destroy');
+
+      self.isTabCarousel = false;
     },
 
     update : function() {
@@ -256,4 +334,3 @@
 
 }(jQuery, Modernizr, window));
 
-$('.gallery').length > 0 && $('.tab-strip').stickyTabs();

@@ -56,14 +56,8 @@
   </div>
 </div>
 
-<div class="tab-strip gallery-tabs">
+<div class="tab-strip gallery-tabs" data-tablet-mode="carousel">
 
-  <div class="tab-nav-wrap container">
-    <nav class="tab-nav-btns">
-      <div class="tab-nav tab-nav-prev"></div>
-      <div class="tab-nav tab-nav-next"></div>
-    </nav>
-  </div>
 
   <div class="tabs-container container">
     <div class="tabs">
@@ -84,6 +78,10 @@
         </div>
       </div>
     </div>
+    <nav class="tab-nav-btns">
+      <div class="fade tab-nav tab-nav-prev"></div>
+      <div class="fade tab-nav tab-nav-next"></div>
+    </nav>
   </div>
 
 </div>
@@ -1226,7 +1224,7 @@
           
         </div>
         
-        <div class="detail" itemprop="sensor">
+        <div class="detail highlighted" itemprop="sensor">
           
               <p class="compare-box">20.2MP</p>
               <p>20.2 megapixels</p>
@@ -1287,7 +1285,7 @@
           
         </div>
         
-        <div class="detail" itemprop="recordingFormat">
+        <div class="detail highlighted" itemprop="recordingFormat">
           
             Still: JPEG, RAW Movie: AVCHD Ver. 2.0, MP4
           
@@ -1468,7 +1466,7 @@
           
         </div>
         
-        <div class="detail" itemprop="opticalZoom">
+        <div class="detail highlighted" itemprop="opticalZoom">
           
             20x
           
@@ -1719,7 +1717,7 @@
           
         </div>
         
-        <div class="detail" itemprop="lcdScreen">
+        <div class="detail highlighted" itemprop="lcdScreen">
           
             
             <div class="icon-ui-check"></div>3" touchscreen
@@ -1934,7 +1932,7 @@
           
         </div>
         
-        <div class="detail" itemprop="gpsTagging">
+        <div class="detail highlighted" itemprop="gpsTagging">
           
             
             <div class="icon-ui-check"></div>
@@ -2450,7 +2448,7 @@
           
         </div>
         
-        <div class="detail" itemprop="opticalZoom">
+        <div class="detail highlighted" itemprop="opticalZoom">
           
             30x
           
@@ -2954,7 +2952,7 @@
       
         <div class="l3 detail-label detail" data-slug="dimensions" data-label="Dimensions"></div>
       
-        <div class="l3 detail-label detail" data-slug="sensor" data-label="Sensor"></div>
+        <div class="l3 detail-label detail" data-slug="sensor" data-label="Megapixels &amp; Sensor"></div>
       
         <div class="l3 detail-label detail" data-slug="bestFor" data-label="Best For"></div>
       
@@ -3567,9 +3565,33 @@
     <h3 class="pull-left" id="compare-tool-label">Compare</h3>
     <button class="box-close" data-dismiss="modal" aria-hidden="true"><i class="icon-ui-x-tiny"></i></button>
   </div>
-  <div class="modal-body"></div>
+  <div class="modal-body">
+    <div class="container p4"><i class="swatch-lemon mini-swatch"></i> Highlights indicate highest performance features</div>
+  </div>
 </div>
 
+<!--
+        {
+            "label": "Tab 2",
+            "slug": "tab2",
+            "icon": "tablet"
+        },
+        {
+            "label": "Tab 3",
+            "slug": "tab3",
+            "icon": "memory-stick"
+        },
+        {
+            "label": "Tab 4",
+            "slug": "tab4",
+            "icon": "water-drop"
+        },
+        {
+            "label": "Tab 5",
+            "slug": "tab5",
+            "icon": "headphones"
+        },
+      -->
 
 
 <div style="padding-bottom:100px"></div>
@@ -3599,8 +3621,9 @@
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
+        <script src="js/bundle/defer/jquery.stickytabs.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
         <script src="js/bundle/defer/jquery.viewport.js"></script>

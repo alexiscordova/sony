@@ -4,7 +4,7 @@
 // Modified: 2012-12-11 by Telly Koosis, Tyler Madison
 // Dependencies: jQuery 1.7+, Modernizr, iScroll v4.2.5
 // -------------------------------------------------------------------------
-(function(window){
+(function(window) {
     'use strict';
     var sony = window.sony = window.sony || {};
     sony.modules = sony.modules || {};
@@ -12,13 +12,13 @@
 
 })(window);
 
-(function($ , window , undefined , Modernizr){
+(function($ , window , undefined , Modernizr) {
 
 	'use strict';
 
-	var ScrollerModule = function(element, opts){
+	var ScrollerModule = function(element, opts) {
 
-		var t      = this;
+		var t = this;
 
 		$.extend(t, {} , $.fn.scrollerModule.defaults , opts);
 
@@ -31,37 +31,43 @@
 
 		$( t.$contentContainer).css('width' , (t.$sampleElement.outerWidth(true) * t.$elements.length) + 500 );
 
-		//override the onscrollend for our own use - listen for 'onAfterSroll'
+		// Override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
 
-		//create instance of scroller and pass it defaults
+		// Create instance of scroller and pass it defaults
 		t.iscrollProps.onTouchEnd = t.iscrollProps.onScrollEnd = window.iQ.update;
 		t.scroller = new iScroll(t.$el[0],t.iscrollProps);
 
-		function paginate(){
-			//console.group("function paginate");
+		function paginate() {
+			// console.group("function paginate");
 
 			var lastSlideCentered = t.lastPageCenter,
-					$itemCount        = t.$elements.length,
+					itemCount					= t.$elements.length,
 					wW                = t.$el.width() - t.extraSpacing,
 					availToFit        = Math.floor(wW / t.$sampleElement.outerWidth(true)),
-					numPages          = Math.ceil( $itemCount / availToFit ),
+					numPages          = Math.ceil( itemCount / availToFit ),
 					i        		  		= 0,
 					totalBlockWidth   = t.$sampleElement.outerWidth(true) * availToFit;
 
 			wW += t.extraSpacing;
 
-			//console.log("Number of pages » " , numPages , wW , t.$sampleElement);
+			// console.log("Number of pages » " , numPages , wW , t.$sampleElement);
 
-			//console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
+			// console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
 
-			if(availToFit > $itemCount) { return; } //stop processing function /maybe hide paddles or UI?
+			//stop processing function /maybe hide paddles or UI?
+			if ( numPages === 1 || availToFit > itemCount ) {
+				t.isPaginated = false;
+				return false;
+			} else {
+				t.isPaginated = true;
+			}
 
-			function buildPage(pageNo, startIndx, endIndx){
+			function buildPage(pageNo, startIndx, endIndx) {
 
 				var $elemsInPage = t.$elements.slice(startIndx, endIndx + 1);
 
-		    if(pageNo === numPages - 1 && lastSlideCentered === true){
+		    if ( pageNo === numPages - 1 && lastSlideCentered === true ) {
 		    	console.log("LAST PAGE »", pageNo+1);
 		    	totalBlockWidth = t.$sampleElement.outerWidth(true) * $elemsInPage.length;
 		    }
@@ -85,11 +91,10 @@
 				});
 
 				//console.log("Building new page »", [startIndx , endIndx] ,$elemsInPage.length);
-
 			}
 
-			if(t.mode.toLowerCase() === 'paginate'){
-				for (i = 0 ; i < numPages; i ++){
+			if ( t.mode.toLowerCase() === 'paginate' ) {
+				for (i = 0 ; i < numPages; i ++) {
 					var startIndx = i * availToFit,
 					endIndx       = startIndx + availToFit - 1;
 
@@ -97,22 +102,31 @@
 				}
 			}
 
-			//update the width again to the new width based on however many 'pages' there are now
+			// Update the width again to the new width based on however many 'pages' there are now
 			t.$contentContainer.css('width' , numPages * wW );
 
 			//console.groupEnd();
 
 			t.$ev.trigger('onPaginationComplete.sm');
+
+			return true;
 		}
 
-		function update(){
-			if(t.mode === 'paginate'){
-				paginate();
+		function update() {
+			var paginated = true;
+
+			// Paginate() will return false if there aren't enough items to be paginated
+			// If there aren't enough items, we don't want to create an iScroll instance
+			if ( t.mode === 'paginate' ) {
+				paginated = paginate();
 			}
 
-	  	t.scroller.refresh(); //update scroller
+			// Is this needed? iScroll calls refresh() on itself on window resize already.
+	  	if ( paginated ) {
+	  		t.scroller.refresh(); //update scroller
+	  	}
 
-	  	if(t.mode === 'paginate'){
+	  	if ( t.mode === 'paginate' && paginated ) {
 	  		t.scroller.scrollToPage(0, 0, 200);
 	  	}
 
@@ -132,6 +146,9 @@
         	}
         }, t.throttleTime);
     });
+
+    // Initially set the isPaginated boolean. This may be changed later inside paginate()
+    t.isPaginated = t.mode === 'paginate';
 
     // $(window).trigger(resizeEvent);
     update();
@@ -154,12 +171,12 @@
 			this.goto('prev');
 		},
 
-		refresh: function(){
+		refresh: function() {
 			var t = this;
 			t.update();
 		},
 
-		destroy: function(){
+		destroy: function() {
 			var t = this;
 
 			t.$contentContainer.css('width', '');
@@ -176,18 +193,18 @@
 			t.$el.removeData('scrollerModule');
 		},
 
-		disable: function(){
+		disable: function() {
 			var t = this;
 
 			t.scroller.disable();
 		},
 
-		enable: function(){
+		enable: function() {
 			var t = this;
 			t.scroller.enable();
 		},
 
-		_onScrollEnd : function(){
+		_onScrollEnd : function() {
 			var t = this;
 
 			t.$ev.trigger('scrolled.sm');
@@ -213,7 +230,7 @@
     });
   };
 
-	//defaults
+	// Defaults
 	$.fn.scrollerModule.defaults = {
 		throttleTime: 25,
 		contentSelector: '.content',
@@ -222,7 +239,7 @@
 		lastPageCenter: false,
 		extraSpacing: 0,
 
-		//iscroll props get mixed in
+		// iscroll props get mixed in
 		iscrollProps: {
 			snap: false,
 			hScroll: true,

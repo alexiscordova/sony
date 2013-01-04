@@ -227,11 +227,8 @@
     setupCarousel : function() {
       var self = this;
 
-      console.log('setup: Carousel tabs');
-      // Do initialzation for carousel
-      self.$navPrev.addClass('in');
-      self.$navNext.addClass('in');
-      self.$tabsWrap.addClass('tab-carousel');
+      self.$navPrev.hide();
+      self.$navNext.hide();
 
       self.$tabsContainer.scrollerModule({
         contentSelector: '.tabs',
@@ -253,20 +250,27 @@
             var iscroll = this;
             // Hide show prev button depending on where we are
             if ( iscroll.currPageX === 0 ) {
-              self.$navPrev.removeClass('in');
+              self.$navPrev.hide();
             } else {
-              self.$navPrev.addClass('in');
+              self.$navPrev.show();
             }
 
             // Hide show next button depending on where we are
             if ( iscroll.currPageX === iscroll.pagesX.length - 1 ) {
-              self.$navNext.removeClass('in');
+              self.$navNext.hide();
             } else {
-              self.$navNext.addClass('in');
+              self.$navNext.show();
             }
           }
         }
       });
+
+      // Check to make sure we actually have paginated tabs
+      if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {
+        // self.$navPrev.show();
+        self.$navNext.show();
+        self.$tabsWrap.addClass('tab-carousel');
+      }
 
       self.isTabCarousel = true;
     },
@@ -275,8 +279,8 @@
       var self = this;
 
       console.log('teardown: Carousel tabs');
-      self.$navPrev.removeClass('in');
-      self.$navNext.removeClass('in');
+      self.$navPrev.hide();
+      self.$navNext.hide();
       self.$tabsWrap.removeClass('tab-carousel');
       self.$tabsContainer.scrollerModule('destroy');
 
