@@ -561,8 +561,6 @@
   // 320px-767px breakpoints
   $containerMarginWidth480px: 20 !default;
   $containerMarginWidth320px: 20 !default;
-  $containerMarginWidth480: percentage($containerMarginWidth480px / 480) !default;
-  $containerMarginWidth320: percentage($containerMarginWidth320px / 320) !default;
 
 
 
@@ -627,9 +625,12 @@
   $fluidGridColumnWidth768: percentage($gridColumnWidth768/$gridWidth768) !default;
   $fluidGridGutterWidth768: percentage($gridGutterWidth768/$gridWidth768) !default;
 
-  // 767px max (mobile)
-  $fluidContainerMarginWidth767:  15px !default; // TODO -- SHOULD BE %
-  $fluidGridMarginWidth767:       15px !default; // TODO -- SHOULD BE %
+  // 320px-767px (Mobile)
+  $containerMarginWidth480px: 21 !default;
+  $containerMarginWidth320px: 21 !default;
+  $containerMarginWidth480: percentage($containerMarginWidth480px / 480) !default;
+  $containerMarginWidth320: percentage($containerMarginWidth320px / 320) !default;
+
 
   // 5 Column Grid
   $fluidGrid5ColWidth:    percentage($grid5ColWidth / $grid5RowWidth);
