@@ -135,7 +135,7 @@
       <div class="detail-group hidden">
         <% if @data.details: %>
         <% for detail in @data.details: %>
-        <div class="detail" itemprop="<%- detail.slug %>">
+        <div class="detail<% if detail.isHighlighted: %> highlighted<% end %>" itemprop="<%- detail.slug %>">
           <% if detail.value.check: %>
             <% if detail.value.checked: %>
             <div class="icon-ui-check"></div><%- detail.value.text %>
