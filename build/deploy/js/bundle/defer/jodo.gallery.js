@@ -9,6 +9,7 @@
 // --------------------------------------
 
 (function($, Modernizr, window, undefined) {
+  'use strict';
 
   var Gallery = function( $container, options ) {
     var self = this;
@@ -967,14 +968,15 @@
           originalLabel = $label.text(),
           newLabel = originalLabel + ' ' + self.$container.find('.compare-name').text(),
 
-          $labelColumn = $('<div class="span2 detail-labels-wrap hidden-phone">'),
+          $labelColumnWrap = $('<div class="span2 detail-labels-wrap hidden-phone">'),
+          $labelColumn = $('<div class="detail-labels-wrapping">'),
           $labelGroup = $('<div class="detail-label-group">'),
 
           // Clone sort button
           $sortOpts = self.$container.find('.sort-options').clone();
 
       // Clone the product count
-      self.$compareCountWrap = self.$container.find('.product-count-wrap').clone();
+      self.$compareCountWrap = self.$container.find('.product-count-wrap').clone().removeClass('ib');
 
       // Create reset button
       self.$compareReset = $('<button/>', {
@@ -988,6 +990,11 @@
       // Convert cloned gallery items to compare items
       self.$compareItems = self.getCompareItems( $currentItems );
 
+      // Create sticky header for count
+      $labelColumnWrap
+        .append('<div class="compare-sticky-header sticky-count">')
+        .find('.compare-sticky-header')
+        .append( self.$compareCountWrap.clone() );
 
       // Create labels column
       self.$container.find('.comparables [data-label]').each(function() {
@@ -1031,18 +1038,11 @@
       }
       $labelColumn.append( $labelGroup );
 
-      // Animate sticky header
-      self.$stickyHeaders = self.$compareItems.find('.compare-sticky-header');
-      self.$stickyHeaders.hover(function() {
-        self.$stickyHeaders.addClass('with-img');
-      }, function() {
-        self.$stickyHeaders.removeClass('with-img');
-      });
 
       // On window resize
-      $(window).on('smartresize.comparetool', function() {
+      $(window).on('resize.comparetool', $.throttle(250, function() {
         self.onCompareResize( $header, $sortOpts, $labelColumn );
-      });
+      }));
 
       // Intialize carousel
       // TODO
@@ -1058,7 +1058,8 @@
       // Set current sort. After saving state so we get the correct DOM order for compareItems
       self.updateSortDisplay( $sortOpts );
 
-      $content.append( $labelColumn );
+      $labelColumnWrap.append( $labelColumn );
+      $content.append( $labelColumnWrap );
       $content.append( self.$compareItems );
       $container.append( $content );
 
@@ -1081,6 +1082,8 @@
       self.$compareCount = self.$compareTool.find('.product-count');
       // Set item count
       self.$compareCount.text( productCount );
+
+      self.$stickyHeaders = self.$compareTool.find('.compare-sticky-header');
 
       // HOLD ONTA YA BUTTS. How do I set a width on something that will use percentages?
       $content.children().each(function() {
@@ -1132,9 +1135,9 @@
 
 
       var now = new Date().getTime();
-      self.setCompareRowHeights();
+      self.setCompareRowHeights( true );
       console.log( (new Date().getTime() - now) / 1000, 'seconds passed calculating heights');
-      self.$compareTool.find('.detail-label-group').addClass('complete');
+      self.$compareTool.find('.detail-labels-wrapping').addClass('complete');
 
       return self;
     },
@@ -1296,7 +1299,8 @@
       $items.each(function() {
         var $item = $(this),
             $swatches,
-            $div = $('<div/>');
+            $div = $('<div/>'),
+            $stickyHeader;
 
         // Create remove button, show detail group, remove label, remove product-meta,
         // wrap name and model in a container (to set the height on), create fixed header clones
@@ -1317,17 +1321,31 @@
           .find('.product-name, .product-model')
           .wrapAll('<div class="product-name-wrap"/>')
           .end()
-          .prepend('<div class="compare-sticky-header">');
+          .prepend('<div class="compare-sticky-header">')
+          .find('.compare-sticky-header')
+          .append('<div class="media">');
 
         // Remove and reattach the swatches to after the price
         $swatches = $item.find('.product-img .color-swatches').detach();
         $item.find('.product-price').after($swatches);
 
+        $stickyHeader = $item.find('.compare-sticky-header');
         // Needed to detach swatches before cloning!
         $item
-          .find('.product-img, .product-name-wrap, .compare-item-remove')
+          .find('.compare-item-remove')
           .clone(true) // true for compare item remove's functionality
-          .appendTo( $item.find('.compare-sticky-header') );
+          .appendTo( $stickyHeader );
+        $item
+          .find('.product-img .js-product-img-main')
+          .clone()
+          .addClass('media-object')
+          .appendTo( $stickyHeader.find('.media') )
+          .wrap('<div class="pull-left">');
+        $item
+          .find('.product-name-wrap')
+          .clone()
+          .addClass('media-body')
+          .appendTo( $stickyHeader.find('.media') );
 
 
         // Create a new div with the same attributes as the anchor tag
@@ -1347,6 +1365,7 @@
     setStickyHeaderPos : function() {
       var self = this;
 
+      // IE9 error: unable to get value of property 'each': object is null or undefined
       self.$stickyHeaders.each(function(i, el) {
         var parentOffsetLeft = $(el).parent().offset().left;
         el.style.position = 'fixed';
@@ -1587,20 +1606,23 @@
       return self;
     },
 
-    setCompareRowHeights : function() {
+    setCompareRowHeights : function( isFirst ) {
       var self = this,
           $detailGroup = self.$compareItems.find('.detail-group').first(),
           offset = 0,
           nameMaxHeight = 0;
 
-      self.$compareItems.find('.product-name-wrap').each(function() {
-        var $this = $(this),
-            height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
-
-        if ( height > nameMaxHeight ) {
-          nameMaxHeight = height;
-        }
-      }).css('height', nameMaxHeight);
+      // Calling this multiple times is resulting in an ever-growing height...
+      if ( isFirst ) {
+        self.$compareTool.find('.compare-sticky-header').each(function() {
+          var $this = $(this),
+              height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
+          console.log(height);
+          if ( height > nameMaxHeight ) {
+            nameMaxHeight = height;
+          }
+        }).css('height', nameMaxHeight);
+      }
 
       // Set detail rows to even heights
       self.$compareTool.find('.detail-label').each(function(i) {
