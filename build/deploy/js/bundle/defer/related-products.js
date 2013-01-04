@@ -44,7 +44,7 @@
       // feature detection, some ideas taken from Modernizr
       var tempStyle = document.createElement('div').style,
           vendors = ['webkit','Moz','ms','O'],
-          vendor = '',
+          vendor = '', 
           lastTime = 0,
           tempV;
 
@@ -92,6 +92,14 @@
       t.ev = $({}); //event object
       t.$el = $(element);
       t.$slides = t.$el.find('.rpSlide');
+      t.$galleryItems = $('.gallery-item');
+      t.$galleryItems.each(function(){
+        var $item = $(this);
+        $item.data('slide' , $item.parent());
+//        console.log("My Slide Parent »",$item);
+      });
+   
+
       t.numSlides = t.$slides.length;
       t.$container = t.$el.find('.rpContainer').eq(0);
       t.sliderOverflow = t.$el.find('.rpOverflow').eq(0);
@@ -107,6 +115,12 @@
       t.win = $(window);
       t.newSlideId = 0;
       t.sPosition = 0;
+
+      //modes
+      t.isMobileMode = false;
+      t.isDesktopMode = false;
+      t.isTabletMode = false;
+      
       t.accelerationPos = 0;
       t.maxWidth = parseInt(t.sliderOverflow.parent().css('maxWidth'), 10);
       t.maxHeight = parseInt(t.sliderOverflow.parent().css('maxHeight'), 10);
@@ -118,6 +132,8 @@
       $.each($.rpModules, function (helper, opts) {
           opts.call(t);
       });
+
+
 
       console.log('Related Products - ' , t.numSlides , 'Max Width: ' , ( t.maxHeight / t.maxWidth) * 980);
 
@@ -198,53 +214,6 @@
             t.updateSliderSize();
             t.updateSlides();
 
-            (function (){
-
-              if(t.isTabletMode || t.isMobileMode) {
-
-                $('.product-img' ).css('height' , '');
-                $('.gallery-item' ).css('height' , '').addClass('small-size');
-
-                return;
-              }else{
-                //t.goBackToDesktop();
-                //$('.gallery-item' ).removeClass('small-size');
-              }
-
-
-              if(t.isDesktopMode === true){
-
-                var $larges = t.$container.find('.large'),
-                    $lrgIms = t.$container.find('.large .product-img'),
-                    $lTest = $larges.eq(0),
-                    lW = $lTest.outerWidth();
-
-                    $lrgIms.css('height' , 79.8275861 + '%');
-
-                    //$lrgIms.css('');
-                    $larges.css('height' , lW * Exports.GALLERY_RATIOS.large);
-                
-                var $promos = t.$container.find('.promo'),
-                    $pIms = t.$container.find('.promo .product-img'),
-                    $pTest = $promos.eq(0),
-                    pW = $pTest.outerWidth();
-
-                    //
-                    $promos.css('height' , pW * 0.66 ) ;
-
-                var $normals = t.$container.find('.normal'),
-                    $nTest = $normals.eq(0),
-                    $nIms = t.$container.find('.normal .product-img'),
-                    nW = $nTest.outerWidth(); // 
-
-                    $nIms.css('height' , 65.28189911 + '%');
-                    $normals.css('height' , nW  * 1.52);        
-
-                    console.log("exports  »",Exports.GALLERY_RATIOS);  
-
-              }    
-            })();
-
           }, t.throttleTime);          
       });
 
@@ -301,6 +270,70 @@
 
       if(t.navigationControl.toLowerCase() === 'bullets'){
         createNavigation();
+        createPaddles();
+      }
+
+
+      function createPaddles(){
+
+        var itemHTML = '<div class="paddle"></div>';
+        
+        t.paddlesEnabled = true;
+        var out = '<div class="rpNav rpPaddles">';
+        for(var i = 0; i < 2; i++) {
+          out += itemHTML;
+        }
+        out += '</div>';
+        out = $(out);
+
+        $('.rpGrid').append(out);
+
+        t.$paddles = $('.rpGrid').find('.paddle');
+        t.$leftPaddle = t.$paddles.eq(0).addClass('left');
+        t.$rightPaddle = t.$paddles.eq(1).addClass('right');
+
+        t.$paddles.on(t.tapOrClick() , function(){
+          var p = $(this);
+
+          if(p.hasClass('left')){
+            console.log('Left paddle click');
+
+            t.currentId --;
+            if(t.currentId < 0){
+              t.currentId = 0;
+            }
+
+            t.moveTo();
+
+          }else{
+            console.log('Right paddle click');
+
+            t.currentId ++;
+
+            if(t.currentId >= t.$slides.length){
+              t.currentId = t.$slides.length - 1;
+            }
+
+            t.moveTo();
+          }
+
+        });
+
+/*        t.controlNav = out;
+        t.controlNavItems = out.children();*/
+        //
+
+/*        t.controlNav.on( t.tapOrClick() , function(e) {
+          var item = $(e.target).closest('.rpNavItem');
+          if(item.length) {
+            t.currentId = item.index();
+            t.moveTo();
+          }
+        }); */
+
+
+       // t.onNavUpdate(); 
+       // t.ev.on('rpOnUpdateNav' , $.proxy(t.onNavUpdate , t));     
       }
 
       //need to call this first before updating slide(s) positions
@@ -332,25 +365,37 @@
 
                 t.isDesktopMode = true;
 
-               // t.ev.trigger('ondesktopbreakpoint.rp');
+                t.ev.trigger('ondesktopbreakpoint.rp');
 
               break;
 
               case 'tablet':
+
+                if(t.isTabletMode === true){
+                  return;
+                }
+
+                console.log("Are we in tablet mode? »", t.isTabletMode);
+
                 t.isMobileMode = t.isDesktopMode = false;
 
                 t.$el.removeClass('rpDesktop rpMobile')
                         .addClass('rpTablet');
 
-                t.isTabletMode = true;
-
-               // t.ev.trigger('ontabletbreakpoint.rp');
-
-               t.ev.trigger('onmobilebreakpoint.rp');
+                t.ev.trigger('ontabletbreakpoint.rp');
 
               break;
 
               case 'mobile':
+                
+
+
+                if(t.isMobileMode === true){
+                  return;
+                }
+
+                
+
                 t.isTabletMode = t.isDesktopMode = false;
 
                 t.$el.removeClass('rpTablet rpDesktop')
@@ -392,6 +437,34 @@
 
       updateSliderSize: function(){
         var t = this;
+        
+        //handle resize for various layouts
+
+
+        if(t.isTabletMode === true){
+
+          //ratio based on comp around 768/922
+          t.$el.css('height' , 1.2005208333 * t.$el.width());
+
+          return;
+        }
+
+
+        t.$el.css('height' , (0.4977817214) * t.$el.width());
+        
+        if($(window).width() < 1085 && $(window).width() > 930){
+          t.$el.css('height' , (0.4977817214 + 0.06) * t.$el.width());
+        }else if($(window).width() < 930) {
+          t.$el.css('height' , (0.4977817214 + 0.1) * t.$el.width());
+        }
+
+        //t.isTabletMode = true;
+
+  
+        //t.$el.css('height' , (0.80) * t.$el.width());
+
+        return;
+
         if(t.autoScaleContainer === true){
 
           console.log('setting new height on container: ' , t.resizeRatio * t.$el.width() < 365);
@@ -514,6 +587,9 @@
       },
 
       setPosition: function(pos) {
+
+        iQ.update();
+
         var t = this;
         var pos = t.sPosition = pos;
 
@@ -646,6 +722,9 @@
       },  
 
       dragMove: function(e , isThumbs){
+
+
+
         var t = this,
             point;
 
@@ -726,7 +805,12 @@
             animObj = {};
 
         t.$slides.each(function(i){
-          $(this).css('left', i * cw + 'px');  
+          $(this).css({
+            'left': i * cw + 'px',
+            'z-index' : i
+          });  
+
+          //console.log("My new z-index »",$(this).css('zIndex'));
         });
 
         //set containers over all position based on current slide
@@ -776,14 +860,42 @@
         t.ev.trigger('rpOnUpdateNav');
 
 
-        console.log(t.ev , ' <---- events object');
+        //console.log(t.ev , ' <---- events object');
       },
 
       goBackToDesktop: function(){
         var t = this;
         if(t.isDesktopMode === false){
           t.isDesktopMode = true;
-          t.$container.html(t.markup);
+          //t.$container.html(t.markup);
+          //iQ.update();
+
+/*          setTimeout(function(){
+            $(window).trigger('resize');
+            
+          } , 1000);*/
+            
+          //t.scroller.destroy();  
+          
+          //t.scroller.disable();
+
+          t.$galleryItems.each(function(){
+            var item = $(this).removeClass('small-size'),
+                slide = item.data('slide');
+
+                item.appendTo(slide);
+          });
+
+          t.$container.css( 'width' , '' );
+          t.$container.append(t.$slides);
+          
+          //t.$container.off('.rp');
+          //restart listener for slideshow
+          t.$container.on(t.downEvent, function(e) { t.onDragStart(e); });
+        
+
+          $('.paddle').show();
+          
           console.log('go back to desktop?');
         }
       }
@@ -828,7 +940,7 @@
 
     //defaults for the related products    
     $.fn.relatedProducts.defaults = { 
-      throttleTime: 25,
+      throttleTime: 10,
       autoScaleContainer: true,
       minSlideOffset: 10,
       navigationControl: 'bullets'  
@@ -841,6 +953,9 @@
  })(jQuery, Modernizr, window,undefined);
 
 //Related Products Plugin/s / modes
+//t.ev.on( 'onmobilebreakpoint.rp' , handleBreakpoint );
+
+
 (function($, Modernizr, window, undefined) {
     
     'use strict';
@@ -851,7 +966,49 @@
         var t = this;
 
         function handleBreakpoint(){
+
+
           
+          console.log("OPERATE ON ME! I am in tablet / Mobile view.... »",true);
+
+          // 1. step one  - cancel touch events for the 'slideshow'
+          t.$container.off('.rp');
+
+          // 2. hide paddles 
+          $('.paddle').hide();
+
+          $('.rpNav').hide();
+
+          // 3. gather gallery items and save local reference - may need to set on t
+          var galleryItems = $('.gallery-item').detach().addClass('small-size ');
+          
+          // 4. remove the slides
+          t.$slides.detach();
+
+          //5 . put the item back into the container
+          galleryItems.appendTo(t.$container);
+            
+          // 6. set width of the container before initing the scroller module
+          //t.$container.css( 'width' , 4750 + 'px' );
+
+          // 7. init the scroller module
+          setTimeout(function(){
+
+            $('.rpOverflow').scrollerModule({
+              contentSelector: '.rpContainer',
+              itemElementSelector: '.gallery-item',
+              mode: 'free',
+              lastPageCenter: false,
+              extraSpacing: 0
+            }).data('scrollerModule');
+
+            //t.scroller.enable();
+            //iQ.update();
+
+          }, 500);
+
+          return;
+
           if(!!t.isMobileMode){ console.log("ALREADY IN MOBILE VIEW »", t.scroller); return false; } //if we are already in mobile exit
 
           t.isMobileMode = true;
@@ -933,14 +1090,7 @@
               //update container width
             }, 250);
 
-
-
           });*/
-
-
-
-
-
 
           //TODO: destroy this instance - t.iscroll.destroy();
           //t.iscroll = null;
@@ -968,5 +1118,43 @@
 
 
  })(jQuery, Modernizr, window,undefined);
+
+
+//
+(function($, Modernizr, window, undefined) {
+
+    'use strict';
+
+    $.extend($.rpProto, {
+      _initTabletBreakpoint: function(){
+        var t = this;
+        function handleBreakpoint() {
+
+          console.log("RP Tablet breakpoint »");
+
+          if(!!t.isTabletMode){ console.log("Already In Tablet VIEW »"); return false; } //if we are already in tablet exit
+
+          t.isTabletMode = true;
+
+          //hide paddles
+          $('.paddle').hide();
+
+          //unwrap HTML
+
+          var items = $('.gallery-item')/*.detach()*/.addClass('tablet-size');
+          
+         /*$('.product-img' ).css('height' , '');
+          items.css('height' , '').addClass('small-size');
+          $('[class*="rpSlide"]').remove();
+          items.appendTo(t.$container);*/
+
+        }
+
+        t.ev.on( 'ontabletbreakpoint.rp' , handleBreakpoint );
+      }
+
+    });
+    $.rpModules.tabletBreakpoint = $.rpProto._initTabletBreakpoint;
+  })(jQuery, Modernizr, window,undefined);
 
 

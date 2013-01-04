@@ -5,6 +5,8 @@
     span3 large
   <% else if @data.layout == "promo": %>
     span2 promo
+  <% else if @data.layout == "medium": %>
+    span2 medium
   <% else: %>
     span1 normal
   <% end %>"
@@ -49,9 +51,26 @@
           <noscript>
             <img src="<%- @data.imgSmall.noscriptsrc %>" alt="<%- @data.imgSmall.alt %>">
           </noscript>
+          <% if @data.imgSmall.colors: %>
+            <% for img in @data.imgSmall.colors: %>
+            <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
+            <noscript>
+              <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+            </noscript>
+            <% end %>
+          <% end %>
           <% end %>
         </div>
       </div>
+      <% if @data.img && @data.img.colors: %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      </div>
+      <% else if @data.imgSmall && @data.imgSmall.colors: %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      </div>
+      <% end %>
     </div>
     <div class="product-content">
       <p class="p3 product-name"><%- @data.name %></p>
@@ -73,21 +92,23 @@
     <span class="label label-success"><%- @data.label %></span>
     <% end %>
     <div class="product-img">
-      <div class="product-img-wrap js-product-imgs">
-        <img class="iq-img js-product-img-main" itemprop="image" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
-        <noscript>
-          <img src="<%- @data.img.noscriptsrc %>" itemprop="image" alt="<%- @data.img.alt %>">
-        </noscript>
-        <% for img in @data.img.colors: %>
-        <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
-        <noscript>
-          <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
-        </noscript>
-        <% end %>
+      <div class="product-img-wrap ghost-center-wrap js-product-imgs">
+        <div class="ghost-center">
+          <img class="iq-img js-product-img-main" itemprop="image" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+          <noscript>
+            <img src="<%- @data.img.noscriptsrc %>" itemprop="image" alt="<%- @data.img.alt %>">
+          </noscript>
+          <% for img in @data.img.colors: %>
+          <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
+          <noscript>
+            <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+          </noscript>
+          <% end %>
+        </div>
       </div>
       <% if @data.img.colors: %>
-      <div class="color-swatches">
-        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %>" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
       </div>
       <% end %>
     </div>
@@ -114,7 +135,7 @@
       <div class="detail-group hidden">
         <% if @data.details: %>
         <% for detail in @data.details: %>
-        <div class="detail" itemprop="<%- detail.slug %>">
+        <div class="detail<% if detail.isHighlighted: %> highlighted<% end %>" itemprop="<%- detail.slug %>">
           <% if detail.value.check: %>
             <% if detail.value.checked: %>
             <div class="icon-ui-check"></div><%- detail.value.text %>

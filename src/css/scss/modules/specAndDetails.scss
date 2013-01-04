@@ -1,0 +1,506 @@
+@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/mixins";
+
+.module-spec{
+  
+  .center{text-align:center;}
+  .imgMarginBottom{margin-bottom:20px;}
+  .imgMarginTop{margin-top:50px !important;}
+  
+  //Set the default font to SST Roman
+  @include fontRegular();
+  color:$black;
+  
+  // General
+  .tableZoom{
+    font-size:$font_13_16;
+    margin:20px 0 30px !important;
+    a{
+      color:$grayDark;
+      font-size:$font_13_16;
+      padding:2px 0 2px 25px;
+      background:url('../../img/spec/ico/zoom.png') left center no-repeat;
+    }
+  }
+  
+  .emphasis-info{
+    padding:3px 5px;
+    font-size:$font_18_16;
+    float:left;
+    background:$gray;
+    margin-bottom:20px;
+    text-align:center; 
+    color:$white;
+  }
+  
+  .spec-title{ 
+    margin-bottom:0 !important;
+    float:left;
+    //Text over the title
+    p.title-link{margin:0; text-transform:uppercase; font-size:$font_13_16; @include fontMedium();}
+    
+    // Main title
+    > h1{font-size:$font_32_16; margin-top:0 !important;}
+    margin-bottom:35px;
+
+    //subtitle
+    .clearfix{
+      p{
+        float:left;
+        margin-right:10px;
+        font-size:$font_13_16;
+        
+        a{
+          color:$blackLight;
+          padding:0 15px 10px;
+        }
+        a.active{border-bottom:4px solid #5787f4;}
+      }
+    }
+  }
+  
+  .sonyRecommends{
+    float:right;
+    color:$gray;
+    margin-top:30px;
+    background:url('../../img/spec/ico/sonyRecommend.jpg') right center no-repeat;
+    padding-right:123px;
+    
+    p{
+      font-size:$font_12_16;
+      margin:0;
+      line-height:34px;
+    }
+  }
+  
+  .gallery-tabs .tabs{height:auto !important;}
+  
+  // Specific to the details page && the bottom spec page.
+  section
+  {
+    margin-bottom:20px;
+    
+    >h2{font-size:$font_18_16; @include fontMedium(); margin-bottom:20px;}
+    >h2.h2-bigger{font-size:$font_22_16; @include fontBold(); margin:30px 0; border-bottom:3px solid #e9e9eb; padding-bottom:20px; text-transform:uppercase;}
+    
+    .grid > div
+    {
+      >h2{font-size:$font_18_16; margin-bottom:20px;}
+      >h3{font-weight:normal; font-size:$font_12_16;}
+    }
+    
+    .grid{
+      h2{margin-bottom:20px;}
+      
+      ul{
+        margin-bottom:0;
+        li{margin:5px 0;}
+      }
+    }
+  }
+  
+  section.details{
+    
+    .grid{
+      margin:20px 0;
+      
+      ul{margin:0;
+        li{
+          font-size:$font_12_16;
+        }
+      }
+    }
+  }
+ 
+  .label {font-weight: bold;}
+  
+  .grid.no-border{
+    margin-bottom:30px !important;
+    
+    h3{
+      @include fontMedium();
+      font-size:$font_18_16;
+      margin-bottom:15px;
+    }
+    
+    border-bottom:none !important;
+    padding-bottom:0;
+    margin-bottom:0;
+    p{font-size:$font_13_16; color:$gray;}
+  }
+  
+  // both kind of table
+  .smallTable, .specsTable{
+     .thead
+     {
+       .specCell{
+         text-align:left;
+       }
+     }
+  }
+  
+  // smallTable only
+  .smallTable {
+    display: table;
+    
+    .specRow {display: table-row;}
+    .specCell{
+      display: table-cell;
+      padding-right:10px;
+      
+      h3{font-size:$font_12_16; font-weight:normal;}
+      p{font-size:$font_12_16;}
+    }
+    .tbody{display:table-row-group;}
+    
+    ul {
+      list-style: none !important;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  
+  // specsTable only
+  .specsTable {
+    display: table;
+    
+    .smallTable {
+      p{font-size:$font_12_16 !important; text-transform:uppercase; color:$grayDarkerFieldSmall;
+        span{font-size:1.083em !important; text-transform:normal; color:$gray;}
+      }
+    }
+    
+    //Thead
+    > .thead {
+      background:#f1f5f9;
+      display: table-header-group;
+      
+      > .specRow{
+        display: table-row;
+        
+        > .specCell:first-child{
+          p
+          {
+            position:absolute;
+            top:20px;
+            left:20px;
+            font-size:$font_15_16;
+            color:$grayDarkerFieldSmall;
+            span{
+              color:$gray;
+              font-size:$font_13_15 !important;
+              display:inline;
+            }
+          }
+        }
+        > .specCell{
+          //width:25%;
+          padding:20px;
+          border-left:1px solid #DFE3E7;
+          
+        h2{
+            font-size: $font_18_16;
+            color: #2f353d;
+            margin:0;
+            padding:0 !important;
+          }
+          p{
+            color:$grayDark;
+            @include fontBold();
+            margin:0;
+          }
+        }
+        > .specCell:first-child{
+          //width:0.5%;
+          border-left:none !important;
+        }
+      }
+    }
+    
+    //Tbody
+    > .tbody {
+      display:table-row-group;
+      > .specRow {
+        display: table-row;
+        position:relative;
+        
+        >.specCell.intel7 >div{
+          background:url('../../img/spec/inteli7.png') bottom left no-repeat;
+          padding-bottom:60px;
+        }
+        
+        //All Cells
+        >.specCell{
+          position:relative;
+          border-left:1px solid #dfe3e7;
+          border-bottom:1px solid #dfe3e7;
+          padding:20px;
+
+          //hidden titles
+          >h2{
+            font-size: $font_14_16;
+          color: $black;
+          font-weight: bold;
+          margin-bottom: 1em;
+          display: none;}
+          
+          >p{font-size:$font_15_16; margin-bottom:15px !important;}
+          >p > span{
+            color: $gray;
+            font-size: $font_13_15 !important;
+          }
+          
+          .infoTitle{
+            background:url('../../img/spec/titleInfoLine.jpg') top left no-repeat;
+            @include fontMedium();
+            font-size:$font_11_16;
+            color:$grayDark;
+            text-transform:uppercase;
+            padding:15px 0 7px 0;
+            margin-bottom:0 !important;
+            margin-top:20px !important;
+          }
+          
+          ul{
+            margin-bottom:40px;
+            
+            li{
+              margin-bottom:7px;
+              p{
+                font-size:$font_13_16;
+                color:$gray; 
+              }
+            }
+          }
+          
+          ul.listNoTitle
+          {
+            margin:20px 0 0 0 !important;
+          }
+        }
+        
+        //First cells
+        >.specCell:first-child{
+          border-left:none !important;
+          
+          p
+          {
+            color:$black;
+            font-size:$font_12_16 !important;
+            text-transform:uppercase;
+          }
+        }
+  
+        &:last-child .specCell {
+          border-bottom: none !important;
+        }
+      }
+    }
+    
+    .specCell
+    {
+      display: table-cell;
+      padding-right:10px;
+    }
+    
+    span {
+      &.color {
+        display: block;
+        width: 14px;
+        height: 14px;
+        float: left;
+        margin-right: 1px;
+        @include border-radius(2px);
+        
+        &.white {
+          background: #fff;
+          border:1px solid #c6c6c6;
+        }
+        &.gray {
+          background: $gray;
+        }
+        &.darkGrey {
+          background: $grayDark;
+        }
+        &.black {
+          background: $black;
+        }
+        &.red {
+          background: $redLight;
+        }
+      }
+    }
+    ul {
+      list-style: none !important;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  
+  //desktop only (Arrows)
+  .desktopNav{
+      
+      position:absolute;
+      z-index:99;
+      top:0;
+      left:0;
+      width:100%;
+      height:92px;
+      
+      .next, .prev{
+        top:22px;
+        height:48px;
+        width:32px;
+        padding:15px 12px;
+        text-indent:-9999px;
+        overflow:hidden;
+        display:block;
+        @include border-radius(5px);
+      }
+      
+      .next{
+        position:absolute;
+        right:10px;
+        overflow:hidden;
+        background:$grayLight2 url('../../img/spec/ico/right-arrow.png') center center no-repeat;
+        
+      }
+      
+      .prev{
+        position:absolute;
+        left:10px;
+        overflow:hidden;
+        background:$grayLight2 url('../../img/spec/ico/left-arrow.png') center center no-repeat;
+      }
+    }
+  
+  // Table Container
+  .tableContainer{
+    background:#fff;
+    position:relative;
+    width:100%;
+    overflow:hidden;
+  }
+  
+  // OVERRIDE
+  .tableContainer.scHor{
+    width:100%;
+    h2{font-size:18px !important; color:$black; padding:20px 0; margin-top:20px; border-top:1px solid #eee;}
+    h2:first-child{border-top:none; margin-top:0;}
+    
+    .thead{
+      .specCell{
+        p{
+          font-size:18px; font-weight:normal;
+        }
+      }
+    }
+
+    span{
+      font-size:$font_14_15 !important;
+      line-height:1.5em;
+      display:block;
+    }
+    .tbody .specRow .specCell{
+      p{margin:0;}
+    }
+    
+    .scSlide
+    {
+      height:auto !important;
+      p{
+        position:relative;
+        top:0;
+        left:0;
+        background:none;
+        max-width:100%;
+        height:auto;
+        padding:0;
+        color:$black;
+      }
+    }
+  }
+  
+  //Hide the tab navigation for the desktop
+  .tabs-container{
+   display:none; 
+  }
+  
+  
+  .gallery-tabs.tab-strip{
+    background:none;
+    .tabs-container{
+      background:#E4E7EB;
+    }
+  }
+  
+  .gallery-tabs .tab
+  {
+    width:auto !important; height:auto !important; padding:20px !important;
+    h2{font-size:$font_20_16 !important;}
+  }
+  
+  
+  // MEDIA QUERIES (640px AND BELOW)
+  @media all and (max-width: 640px) {
+    
+    .fixed-header .sonyRecommends{display:none;}
+    .tableZoom{display:none !important;}
+    .desktopNav{display:none;}
+    
+    .tabs-container{
+      display:block;
+      margin-bottom:20px;
+    }
+    
+    //Hide the first column of each table.
+    .tableContainer .specsTable > .thead > .specRow > .specCell:first-child,
+    .tableContainer .specsTable > .tbody > .specRow > .specCell:first-child{
+      display:none;
+    }
+    
+    .tableContainer .specsTable > .tbody > .specRow > .specCell h2{display:block;}
+    
+    //Hide the first row of each table.
+    .tableContainer .specsTable > .thead > .specRow:first-child{
+      display:none;
+    }
+    
+  }
+  
+  //Bootstrap override
+  .modal-backdrop{
+    display:none;
+  }
+  .modal{
+    outline:none !important;
+    width:70% !important;
+    height:80% !important;
+    left:33% !important;
+    
+    .modal-body
+    {
+      max-height:600px !important;
+      padding:30px;
+      position:relative;
+      
+      h2{padding-top:0 !important;}
+      
+      .img-respons{text-align:center;}
+      
+      button.close{
+        position:absolute;
+        top:0;
+        right:0;
+        background:#979a9e !important;
+        padding:7px 13px 10px;
+        color:$white !important;
+        line-height:1em;
+        opacity:1 !important;
+      }
+      button.close:hover{
+        background:$grayLight !important;
+      }
+    }
+  }
+}

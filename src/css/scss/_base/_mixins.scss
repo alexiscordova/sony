@@ -25,7 +25,7 @@ $default-transition-delay    : 0s;
   @if $o and $experimental-support-for-opera {
     -o-#{$property}: $value; }
   @if $official {
-    #{$property}: $value; } 
+    #{$property}: $value; }
 }
 @mixin experimental-value($property, $value, $moz: $experimental-support-for-mozilla, $webkit: $experimental-support-for-webkit, $o: $experimental-support-for-opera, $ms: $experimental-support-for-microsoft, $khtml: $experimental-support-for-khtml, $official: true) {
   @if $webkit and $experimental-support-for-webkit {
@@ -39,7 +39,7 @@ $default-transition-delay    : 0s;
   @if $o and $experimental-support-for-opera {
     #{$property}: -o-#{$value}; }
   @if $official {
-    #{$property}: #{$value}; } 
+    #{$property}: #{$value}; }
 }
 
 
@@ -152,40 +152,40 @@ $default-transition-delay    : 0s;
 // --------------------------------------------------
 
 
-	@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
+@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
 		font-family: $fontFamily;
 		font-weight: $fontWeight;
-		font-style: $fontStyle;		
+		font-style: $fontStyle;
 	}
 
 	@mixin fontRegular(){ // SST W01 Roman
 		@include font($baseFontFamily);
 	}
 	@mixin fontItalic(){ // SST W01 Italic
-		@include font($baseFontFamilyItalic); 
+		@include font($baseFontFamilyItalic);
 	}
-	@mixin fontBold(){ // SST W01 Bold
-		@include font($baseFontFamilyBold); 
-	}
-	@mixin fontBoldItalic(){ // SST W01 Bold Italic
-		@include font($baseFontFamilyBoldItalic);
-	}   	
 	@mixin fontMedium(){ // SST W01 Medium
 		@include font($baseFontFamilyMedium);
-	}   		
+	}
 	@mixin fontMediumItalic(){ // SST W01 Medium Italic
 		@include font($baseFontFamilyMediumItalic);
 	}
 	@mixin fontLight(){ // SST W01 Light
 		@include font($baseFontFamilyLight);
-	}   		
+	}
 	@mixin fontLightItalic(){ // SST W01 Light Italic
 		@include font($baseFontFamilyLightItalic);
-	}	
+	}
+	@mixin fontBold(){ // SST W01 Bold
+		@include font($baseFontFamilyBold);
+	}
+	@mixin fontBoldItalic(){ // SST W01 Bold Italic
+		@include font($baseFontFamilyBoldItalic);
+	}
 
 	@mixin fontHeading(){ // SST W01 Roman
 		@include font($headingsFontFamily);
-	}			
+	}
 	@mixin fontHeadingItalic(){ // SST W01 Italic
 		@include font($headingsFontFamilyItalic);
 	}
@@ -197,6 +197,153 @@ $default-transition-delay    : 0s;
 	line-height:$lineHeight;
 }
 
+
+// SPRITES
+// --------------------------------------------------
+
+
+// Tab Icons
+// ----------------------
+@mixin icon-tab($name, $x, $w, $h) {
+  .icon-tab-#{$name} {
+    background-position: $x $icon_tab_Y;
+    @include size($h, $w);
+
+    &.state2 { background-position: $x ($icon_tab_Y - 30px); }
+
+    // &:hover,
+    // &:focus,
+    .tab:focus &,
+    .tab:hover &,
+    .no-touch .tab:active &,
+    .tab.active & { background-position: $x ($icon_tab_Y - 60px); }
+  }
+}
+
+// Icon Best for
+// ----------------------
+@mixin icon-bestfor($name, $x, $w, $h) {
+  .icon-bestfor-#{$name} {
+    background-position: $x $icon_bestfor_Y;
+    @include size($h, $w);
+
+    .btn:not([disabled]):hover &,
+    .btn:not([disabled]):focus & { background-position: $x ($icon_bestfor_Y - 30px); }
+
+    // Could there be more scenarios? possibly
+    .btn.active:hover,
+    .btn.active & { background-position: $x ($icon_bestfor_Y - 60px); }
+  }
+}
+
+
+
+// Icons with standard hover, focus, & active states can be built using the iconBuilder mixin.
+// The first parameters are specific to the iconType ($iconType, $y, $hoverOffsetY)
+// The other parameters are specific to the icon, and are simply passed through from the specific icon mixin.
+@mixin icon($iconType, $y, $hoverOffsetY, $name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+  .icon-#{$iconType}-#{$name} {
+    background-position: $x $y;
+    @include size($h, $w);
+
+    @if ( $margin ) {
+      margin: $margin;
+    }
+    @if ( $iconTrigger != true ) { // see below for what $iconTrigger is for
+      @if ( $hasHover ) {
+        &:not([disabled]):hover,
+        &:not([disabled]):focus,
+        &:not(.disabled):hover,
+        &:not(.disabled):focus { background-position: $x ($y - $hoverOffsetY); }
+      }
+
+      @if ( $activeIsHover ) {
+        &.active,
+        .active > &, { background-position: $x ($y - $hoverOffsetY); }
+
+      } @else if ( $hasActive ) {
+        &.active,
+        .active > &, { background-position: $x ($y - ($hoverOffsetY * 2)); }
+      }
+    }
+  }
+  // iconTrigger: Set to true when you want a PARENT of the icon to trigger the hover/active state.
+  // Like in a button - you want to trigger the hover state of the icon when you hover over any part
+  // of the button, not just the icon itself. Use it like this:
+  // <a class="iconTrigger-ui-cart"><i class="icon-ui-cart"></i>12</a>
+  @if ( $iconTrigger ) {
+    @if ( $hasHover ) {
+      // :not(.disabled):hover is NOT working (it still triggers hover) - don't know why.
+      // Should look into it if we actually end up implementing it.
+      .iconTrigger-#{$iconType}-#{$name}:not([disabled]):hover .icon-#{$iconType}-#{$name},
+      .iconTrigger-#{$iconType}-#{$name}:not([disabled]).hover .icon-#{$iconType}-#{$name},
+      .iconTrigger-#{$iconType}-#{$name}:not(.disabled):hover .icon-#{$iconType}-#{$name},
+      .iconTrigger-#{$iconType}-#{$name}:not(.disabled).hover .icon-#{$iconType}-#{$name} {
+        background-position: $x ($y - $hoverOffsetY);
+      }
+    }
+    @if ( $activeIsHover ) {
+      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} {
+        background-position: $x ($y - $hoverOffsetY);
+      }
+    } @else if ( $hasActive ) {
+      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} {
+        background-position: $x ($y - ($hoverOffsetY * 2));
+      }
+    }
+  }
+}
+
+@mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+  @include icon(ui, $icon_ui_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+}
+@mixin icon-ui2($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+  @include icon(ui2, $icon_ui2_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+}
+@mixin icon-uibig($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+  @include icon(uibig, $icon_uibig_Y, 60px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+}
+
+
+// I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make
+// it a <i> like all the others so I don't need this mixin.
+@mixin icon-ui-pseudo-el($x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:false) {
+  @extend %icon;
+  background-position: $x 0px;
+  @include size($h, $w);
+
+  @if ( $margin ) {
+    margin: $margin;
+  }
+}
+
+@mixin sprite($spriteType, $y, $name, $x, $w, $h, $margin) {
+
+  .sprite-#{$spriteType}-#{$name} {
+    background-position: $x $y;
+    @include size($h, $w);
+
+    @if ( $margin ) {
+      margin: $margin;
+    }
+  }
+}
+
+@mixin sprite-specsicon($name, $x, $w, $h, $margin:false) {
+  @include sprite(specsicon, $sprite_Specsicon_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-mini($name, $x, $w, $h, $margin:false) {
+  @include sprite(mini, $sprite_Mini_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-reg($name, $x, $w, $h, $margin:false) {
+  @include sprite(reg, $sprite_Reg_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-big($name, $x, $w, $h, $margin:false) {
+  @include sprite(big, $sprite_Big_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-tall($name, $x, $w, $h, $margin:false) {
+  @include sprite(tall, $sprite_Tall_Y, $name, $x, $w, $h, $margin);
+}
 
 // FORMS
 // --------------------------------------------------
@@ -300,7 +447,7 @@ $default-transition-delay    : 0s;
 
 // Box shadows
 // @all, -ms- and -o- box-shadow doesn't exist + box-shadow != drop-shadow
-@mixin box-shadow($shadow1, $shadow2:null, $shadow3:null) { 
+@mixin box-shadow($shadow1, $shadow2:null, $shadow3:null) {
 	@if ($shadow3!=null) {
     -webkit-box-shadow: $shadow1, $shadow2, $shadow3;
        -moz-box-shadow: $shadow1, $shadow2, $shadow3;
@@ -540,6 +687,42 @@ $default-transition-delay    : 0s;
 
 
 
+@mixin hideshow-navmenu-reset(){
+  opacity:1;
+  position:relative;
+  left:auto;
+  right:auto;
+  top:auto;
+  left:auto;
+  @include transition(none);
+  float:none;
+  margin:0;
+}
+
+// transitions for specific components
+@mixin hideshow-navmenu-show($leftOrRight:left, $x: 0){
+  @if ($leftOrRight == left){
+  	left:$x;
+  	right:auto;
+  } @else {
+  	right:$x;
+  	left:auto;
+  }
+  opacity:1;
+  @include transition(opacity $transitionFast linear 0s, $leftOrRight 0s linear 0s);
+}
+@mixin hideshow-navmenu-hide($leftOrRight:left){
+  @if ($leftOrRight == left){
+  	left:-9999px;
+  	right:auto;
+  } @else {
+  	right:9999px;
+  	left:auto;
+  }
+  opacity:0;
+  @include transition(opacity $transitionFaster linear 0s, $leftOrRight 0s linear $transitionFaster);
+}
+
 
 
 
@@ -549,36 +732,36 @@ $default-transition-delay    : 0s;
 @mixin rotate($degrees) {
 	-webkit-transform: rotate($degrees);
 	   // -moz-transform: rotate($degrees);
-		-ms-transform: rotate($degrees);
+			-ms-transform: rotate($degrees);
 		 // -o-transform: rotate($degrees);
-			transform: rotate($degrees);
+					transform: rotate($degrees);
 }
 @mixin scale($ratio) {
 	-webkit-transform: scale($ratio);
 	   // -moz-transform: scale($ratio);
-		-ms-transform: scale($ratio);
+			-ms-transform: scale($ratio);
 		 // -o-transform: scale($ratio);
-			transform: scale($ratio);
+					transform: scale($ratio);
 }
 @mixin translate($x, $y) {
 	-webkit-transform: translate($x, $y);
-	   // -moz-transform: translate($x, $y);
-		-ms-transform: translate($x, $y);
-		 // -o-transform: translate($x, $y);
-			transform: translate($x, $y);
+		 // -moz-transform: translate($x, $y);
+			-ms-transform: translate($x, $y);
+			 // -o-transform: translate($x, $y);
+					transform: translate($x, $y);
 }
 @mixin skew($x, $y) {
 	-webkit-transform: skew($x, $y);
 	   // -moz-transform: skew($x, $y);
-		-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
+			-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
 		 // -o-transform: skew($x, $y);
-			transform: skew($x, $y);
+					transform: skew($x, $y);
 }
 @mixin translate3d($x, $y, $z) {
 	-webkit-transform: translate3d($x, $y, $z);
 	   // -moz-transform: translate3d($x, $y, $z);
 		 // -o-transform: translate3d($x, $y, $z);
-			transform: translate3d($x, $y, $z);
+					transform: translate3d($x, $y, $z);
 }
 
 // Backface visibility
@@ -753,7 +936,7 @@ $default-transition-delay    : 0s;
 // Examples:
 // .your-container .hotspot .popover { @include el-hidden(); }
 // .your-container .hotspot:hover .popover { @include el-shown(); }
-// 
+//
 // .your-container .hotspot{
 //   left:500px;
 //   top:500px;
@@ -768,10 +951,10 @@ $default-transition-delay    : 0s;
 //     margin-top:-50px;
 //     @include el-hidden();
 //   }
-//   &:hover .popover{ 
-//     @include el-shown(); 
+//   &:hover .popover{
+//     @include el-shown();
 //     left:-192px;
-//   } 
+//   }
 // }
 
 
@@ -824,7 +1007,7 @@ $default-transition-delay    : 0s;
 // Vertically center elements in the navbar.
 // Example: an element has a height of 30px, so write out `.navbarVerticalAlign(30px);` to calculate the appropriate top margin.
 @mixin navbarVerticalAlign($elementHeight) {
-	margin-top: ($navbarTotalHeight - $elementHeight) / 2;
+	margin-top: ($navbarHeight - $elementHeight) / 2;
 }
 
 
@@ -878,7 +1061,7 @@ $default-transition-delay    : 0s;
 @mixin grid-core-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
 	@while $gridColumns > 0 {
 		.span#{$gridColumns} { @include grid-core-span($gridColumns, $gridColumnWidth, $gridGutterWidth)}
-		$gridColumns: $gridColumns - 1; 
+		$gridColumns: $gridColumns - 1;
 	}
 }
 
@@ -907,7 +1090,7 @@ $default-transition-delay    : 0s;
 // 		$gridName = grid-px-width;
 // 	} else {
 // 		$containerName = container;
-// 		$gridName = grid;		
+// 		$gridName = grid;
 // 	}
 // 	.#{$containerName} { width: $containerWidth; }
 // 	.#{$containerName}.full-bleed { width:$containerMaxWidth; }
@@ -920,14 +1103,14 @@ $default-transition-delay    : 0s;
 @mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns) {
 	.grid {
 		@include clearfix();
-		
+
 		[class*="span"] {
 			@include input-block-level();
 			float: left;
 			margin-left: $fluidGridGutterWidth;
 			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 		}
-		
+
 		[class*="span"]:first-child {
 			margin-left: 0;
 		}
@@ -956,7 +1139,7 @@ $default-transition-delay    : 0s;
 	.grid {
 		@while $gridColumns > 0 {
 			// .offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-			.offset#{$gridColumns}:first-child { 
+			.offset#{$gridColumns}:first-child {
 				margin-left:0;
 			}
 			$gridColumns: $gridColumns - 1;
@@ -1029,7 +1212,7 @@ $default-transition-delay    : 0s;
 	@if ($h == null) {
 		height: $w;
 	} @else{
-		height: $h;		
+		height: $h;
 	}
 }
 // quickly set absolute position, and top/left parameters. If only 1 val is passed in, it sets both to the same
@@ -1037,7 +1220,7 @@ $default-transition-delay    : 0s;
 	position: absolute;
 	left: $x;
 	@if($y == null){
-		top: $x;	
+		top: $x;
 	} @else{
 		top: $y;
 	}
@@ -1057,12 +1240,12 @@ $default-transition-delay    : 0s;
 	top: 50%;
 	left: 50%;
 	width: $width;
-	height: $width; 
-	margin: (-$width / 2) 0 0 (-$width / 2);  
+	height: $width;
+	margin: (-$width / 2) 0 0 (-$width / 2);
 }
 @mixin circleCentered($dia) {
 	@include squareCentered($dia);
-	@include border-radius($dia / 2);  
+	@include border-radius($dia / 2);
 }
 
 // set up an element to be centered horizontally & vertically within its parent, using negative margins
@@ -1082,7 +1265,7 @@ $default-transition-delay    : 0s;
 		margin-top: -$height/2;
 	}
 	top: 50%;
-	left: 50%;	
+	left: 50%;
 }
 
 @mixin pseudoEl-block($w: 50px, $h: 50px) {
@@ -1101,7 +1284,7 @@ $default-transition-delay    : 0s;
 
 @mixin background-sprite-icon-small{
   background-image: url($iconSmallSpritePath);
-  background-repeat: no-repeat;  
+  background-repeat: no-repeat;
 }
 
 @mixin pseudoEl-inline-block-icon($w: 15px, $h: 15px) {

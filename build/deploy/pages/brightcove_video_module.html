@@ -15,20 +15,24 @@
         <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
-
+ 
         
             <link rel="stylesheet" href="css/styles.min.css">
-  
+
   <!-- WE NEED TO SET UP SEPARATE FONT FILES THAT DON'T GET COMPILED INTO styles.min.css -->
-  
-  <!--[if lt IE9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
-  <!--[if (gte IE 9)|!(IE)]><!--> 
+
+  <!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
       // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
-      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
     </script>
   <!--<![endif]-->
+
+  <!-- FONTS.COM -->
+  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->
         
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -41,13 +45,14 @@
         <link rel="stylesheet" href="css/modules/experiment.css">
     </head>
     <body >
-
+ 
         
-<div class="row-fluid">
+
+<div class="grid">
     <div class="span10 offset1">
         <h2>Robot</h2>
         <div id="myvid01" class="video-container" data-media='{&quot;videoID&quot; : &quot;robot&quot;,&quot;playerID&quot; : &quot;2014315899001&quot;,&quot;playerKey&quot; : &quot;AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U&quot;,&quot;autoStart&quot; : false,&quot;imgMissingVideoID&quot; : &quot;img/modules/brightcovevideo/poster-missing-video.png&quot;}'>
-            <img src="img/modules/brightcovevideo/poster-169.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="video-poster update-always" >
+            <img src="img/modules/brightcovevideo/poster-169.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="update-always" >
         </div>
         <button type="button" data-target="myvid01" class="btn btn-primary action-video" >
             action
@@ -61,11 +66,11 @@
     </div>
 </div>
 
-<div class="row-fluid">
+<div class="grid">
     <div class="span10 offset1">
         <h2>Space Alone</h2>
         <div id="myvid02" class="video-container" data-media='{&quot;videoID&quot; : &quot;space&quot;,&quot;playerID&quot; : &quot;2014315899001&quot;,&quot;playerKey&quot; : &quot;AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U&quot;,&quot;autoStart&quot; : false,&quot;imgMissingVideoID&quot; : &quot;img/modules/brightcovevideo/poster-missing-video.png&quot;,&quot;videoWidth&quot; : &quot;320&quot;,&quot;videoHeight&quot; : &quot;240&quot;}'>
-            <img src="img/modules/brightcovevideo/poster-43.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="video-poster update-always" >
+            <img src="img/modules/brightcovevideo/poster-43.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="update-always" >
         </div>
         <button type="button" data-target="myvid02" class="btn btn-primary action-video" >
             action
@@ -79,11 +84,11 @@
     </div>
 </div>
 
-<div class="row-fluid">
+<div class="grid">
     <div class="span10 offset1">
         <h2>No videoID</h2>
         <div id="myvid03" class="video-container" data-media='{&quot;playerID&quot; : &quot;2014315899001&quot;,&quot;playerKey&quot; : &quot;AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U&quot;,&quot;autoStart&quot; : false,&quot;imgMissingVideoID&quot; : &quot;img/modules/brightcovevideo/poster-missing-video.png&quot;,&quot;videoWidth&quot; : &quot;320&quot;,&quot;videoHeight&quot; : &quot;240&quot;}'>
-            <img src="img/modules/brightcovevideo/poster-169.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="video-poster update-always" >
+            <img src="img/modules/brightcovevideo/poster-169.png" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." class="update-always" >
         </div>
         <button type="button" data-target="myvid03" class="btn btn-primary action-video" >
             action
@@ -96,6 +101,8 @@
         </button>
     </div>
 </div>
+
+
 
 <!--
 Start of Brightcove Player
@@ -187,28 +194,31 @@ Should be include once
         <script src="js/bundle/defer/brightcove-builder.js"></script>
         <script src="js/bundle/defer/defer1.js"></script>
         <script src="js/bundle/defer/defer2.js"></script>
-        <script src="js/bundle/defer/experiment.js"></script>
-        <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
+        <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
-        <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
-        <script src="js/bundle/defer/mymodule.js"></script>
+        <script src="js/bundle/defer/jquery.stickytabs.js"></script>
+        <script src="js/bundle/defer/jquery.viewport.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
-        <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
+        <script src="js/bundle/defer/mymodule.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
+        <script src="js/bundle/defer/sony.one.carousel.js"></script>
         <script src="js/bundle/defer/sony.sequencer.1.0.js"></script>
+        <script src="js/bundle/defer/spec.js"></script>
         
         <!--[if lt IE 9 ]>
             <script src="js/polyfill.min.js"></script>
         <![endif]-->
         
         
-    </body>
+    </body> 
 </html>

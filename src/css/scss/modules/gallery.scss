@@ -1,9 +1,5 @@
-/* TO BE GLOBAL */
-
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
-
-
 
 * {
   -moz-box-sizing: border-box;
@@ -15,6 +11,10 @@
 
   .product-name {
     color: $grayDark;
+  }
+
+  .product-model {
+    color: $gray;
   }
 
   .price-title {
@@ -65,14 +65,9 @@ $detailedGalleryItemHeight: 480px;
 .gallery-item {
   position: relative;
   display: block;
-  // height: 0;
-  // padding-bottom: 165.19607843137254%;
-  // padding-bottom: 60.534124629080125%;
   margin-top: $grid5GutterWidth;
-  // height: $galleryItemHeight;
   overflow: hidden;
   background: $white;
-  // background: $transparentBlack;
 
   &:after {
     content: '';
@@ -101,7 +96,6 @@ $detailedGalleryItemHeight: 480px;
   // Container for product images
   .product-img {
     position: relative;
-    // height: $galleryItemImgHeight;
     width: 100%;
     overflow: hidden;
     text-align: center;
@@ -143,9 +137,6 @@ $detailedGalleryItemHeight: 480px;
 
   // large is height * 2
   &.large {
-    // height: ($galleryItemHeight * 2) + $grid5GutterWidth;
-    // padding-bottom: 94.40459110473458%;
-    // padding-bottom: 105.92705167173253%;
 
     &:after {
       padding-top: 105.92705167173253%;
@@ -164,6 +155,12 @@ $detailedGalleryItemHeight: 480px;
     // 4 column grid
     .shuffle-4 & .product-img:after {
       padding-top: 50.7%;
+    }
+
+    @media (min-width:1150px) {
+      .shuffle-6 &:after {
+        padding-top: 104.827052%;
+      }
     }
 
     @media (min-width:1339px) {
@@ -185,11 +182,6 @@ $detailedGalleryItemHeight: 480px;
     .shuffle-6 & .product-img:after {
       padding-top: 84.3%;
     }
-  }
-
-  // Double the height and include margin
-  &.large .product-img {
-    // height: $galleryItemHeight + $grid5GutterWidth + $galleryItemImgHeight;
   }
 
   // Promo gallery item images are the full height
@@ -220,7 +212,7 @@ $detailedGalleryItemHeight: 480px;
         font-size: $font_14_16;
         top: 10px;
         left: 10px;
-        max-width: initial;
+        max-width: none;
 
         i {
           margin-top: 1px;
@@ -256,8 +248,8 @@ $detailedGalleryItemHeight: 480px;
     }
 
     img {
-      max-height: initial;
-      max-width: initial;
+      max-height: none;
+      max-width: none;
     }
 
     div.iq-img {
@@ -292,12 +284,8 @@ $detailedGalleryItemHeight: 480px;
 
 .gallery-detailed {
 
-  .gallery-item {
-    // height: $detailedGalleryItemHeight;
-
-    &:after {
-      padding-top: 135.2112676056338%;
-    }
+  .gallery-item:after {
+    padding-top: 135.2112676056338%;
   }
 
   .product-img:after {
@@ -307,18 +295,7 @@ $detailedGalleryItemHeight: 480px;
 }
 
 @media (min-width:768px) and (max-width:979px) {
-  .gallery-detailed,
-  .compare-container {
 
-    .gallery-item {
-      // height: 434px;
-    }
-
-    .product-img {
-      // height: 174px;
-    }
-
-  }
 }
 
 
@@ -359,17 +336,6 @@ $detailedGalleryItemHeight: 480px;
     .gallery-item-inner,
     .product-img .product-img-wrap {
       position: absolute;
-    }
-
-    // Make it a 1x1 instead of 2x2 or 1x2
-    // need .gallery selector to override .grid5
-    .promo,
-    .large {
-      // height: $galleryItemHeight;
-    }
-
-    .large .product-img {
-      // height: $galleryItemImgHeight;
     }
 
     .product-img:after {
@@ -504,10 +470,10 @@ $detailedGalleryItemHeight: 480px;
 }
 
 .product-count {
-  display: inline-block;
-  min-width: 23px; // keep a constant width so the filter buttons don't move
+  // display: inline-block;
+  // min-width: 23px; // keep a constant width so the filter buttons don't move
   font-size: $font_15_15;
-  text-align: right;
+  // text-align: right;
 }
 
 @media (max-width: 767px) {
@@ -614,13 +580,6 @@ $detailedGalleryItemHeight: 480px;
 
   // Tablet tab carousel nav buttons
   .tab-nav-btns {
-    position: absolute;
-    z-index: 5;
-    height: $tabHeight;
-  }
-
-  .tab-nav-wrap {
-    position: relative;
     display: none;
   }
 
@@ -630,8 +589,8 @@ $detailedGalleryItemHeight: 480px;
     position: absolute;
     z-index: 5;
     top: 0;
-    left: -30px;
-    display: none;
+    left: 0;
+    // display: none;
     width: 30px;
     height: 100%;
     background: #f2f2f2;
@@ -639,7 +598,8 @@ $detailedGalleryItemHeight: 480px;
   }
 
   .tab-nav-next {
-    left: 724px;
+    right: 0;
+    left: auto;
   }
 
   // Arrow
@@ -684,7 +644,7 @@ $detailedGalleryItemHeight: 480px;
       overflow: hidden;
     }
 
-    .tab-nav-wrap {
+    .tab-nav-btns {
       display: block;
     }
   }
@@ -697,19 +657,146 @@ $detailedGalleryItemHeight: 480px;
   text-align: right;
 }
 
-// Takeover
-// -------------------------
-
 
 
 // Compare Tool
 // -------------------------
 .compare-container {
-  padding: 15px 0;
+  margin-top: 1.25em;
 }
 
 .compare-item {
   position: relative;
+  margin-left: 3px;
+  background: $white;
+  color: $grayDark;
+
+  .product-model {
+    color: $gray;
+  }
+
+  .compare-sticky-header .product-name-wrap {
+    padding-right: 2.5em;
+  }
+
+  .product-content .product-name-wrap,
+  .product-rating,
+  .product-price,
+  .color-swatches {
+    margin-bottom: 1.25em;
+    padding-right: 1.25em;
+    padding-left: 1.25em;
+  }
+
+  .detail {
+    min-height: 2.5em;
+    padding-right: 1.25em;
+    padding-left: 1.25em;
+  }
+
+  .detail.highlighted {
+    background: $lemon;
+  }
+}
+
+.detail-labels-wrap {
+  position: relative;
+}
+
+.detail-labels-wrapping {
+  @include translate(-10px, 0);
+  @include opacity(0);
+  -webkit-transition: opacity $transitionNormal $easeNormal .1s, -webkit-transform $transitionNormal $easeNormal .1s;
+          transition: opacity $transitionNormal $easeNormal .1s, transform $transitionNormal $easeNormal .1s;
+
+  &.complete {
+    @include translate(0, 0);
+    @include opacity(100);
+  }
+}
+
+.detail-label-group {
+  position: absolute;
+}
+
+.detail-label-group,
+.detail-labels-wrapping .product-count-wrap {
+  width: 100%;
+  width: -webkit-calc(100% - 10px);
+  width:         calc(100% - 10px);
+}
+
+// Gray border top for labels
+.compare-container .detail,
+.detail-labels-wrapping .product-count-wrap {
+  position: relative;
+  padding-top: 0.625em;
+
+  // Simulate border top because the "border" is not 100% of the width,
+  // therefore, we can't actually use the border property
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 90%;
+    height: 1px;
+    background: $grayLightFieldLarge;
+  }
+}
+
+// Make labels have a darker border
+.compare-container .detail-label:before,
+.detail-labels-wrapping .product-count-wrap:before {
+  left: 0;
+  width: 100%;
+  background: $grayLightish;
+}
+
+// Sticky header
+.compare-sticky-header {
+  position: absolute; // will be changed to fixed with js after the `left` is measured
+  z-index: 10;
+  top: 0;
+  left: -9999px;
+  width: inherit; // position fixed not inheriting correct width?...
+  padding: 1em 0 0.5em;
+  opacity: 0;
+  background: $grayLightFieldLarge;
+  @include translate(0, -100px);
+  -webkit-transition: opacity $transitionNormal $easeNormal, -webkit-transform $transitionNormal $easeNormal;
+          transition: opacity $transitionNormal $easeNormal, transform $transitionNormal $easeNormal;
+
+  // The sticky-count uses a pseudo element for the box-shadow
+  &:not(.sticky-count) {
+    @include box-shadow(0 2px 5px 0 $transparentBlack);
+  }
+
+  // Make sticky header visible
+  &.open {
+    left: 0; // Show it
+    opacity: 1; // Fade in
+    @include translate(0, 0); // Slide down
+  }
+
+  // Create a sticky header box, but position it behind the text and off to the left
+  // so that it looks like it extends the length of the window
+  .detail-labels-wrap &:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: -3px; // Same as margin-left for compare-items
+    width: 2000px;
+    height: 100%;
+    background: $grayLightFieldLarge;
+    border-right: 1px solid rgba(0,0,0,0.05);
+    @include box-shadow(0 2px 5px 0 $transparentBlack);
+  }
+
+  .media .pull-left {
+    max-width: 33.3333%;
+  }
 }
 
 .compare-item-remove {
@@ -748,5 +835,6 @@ $detailedGalleryItemHeight: 480px;
   color: $white;
   background: $gray;
 }
+
 
 

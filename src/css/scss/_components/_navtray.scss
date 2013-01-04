@@ -1,125 +1,146 @@
-//
-// Navbars (Redux) -- THIS IS NOW THE GLOBAL NAV
-// --------------------------------------------------
-
-
-
-// COMMON STYLES
-// -------------
-
-// Base class and wrapper
-// This has been modified just for Sony Global Nav
-// If you need to use the regular Bootstrap nav module, use simple-nav.
-
 // .nav-wrapper extends the full width of the browser, 
 // even when the navbar is at a set width for a particular breakpoint.
 
-.nav-wrapper{ // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
+/* 
+  .navtray-w == .navtray-wrapper
+*/
+.navtray-w{ // 100% width for trays to reach edges of browser
+  z-index:190;
+  position: absolute;
+  overflow:hidden;
+  left: -9999px;
+  width:100%;
+  background: $navTrayBackground;
+  border-bottom:solid 1px $grayLighter;
+  @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
 
-  .navtray-wrapper{ // 100% width for trays to reach edges of browser
-    z-index:190;
-    position: absolute;
-    overflow:hidden;
-    top: $navbarTotalHeight;
-    left: -9999px;
-    width:100%;
-    background: $navTrayBackground;
-    border-bottom:solid 1px $grayLighter;
-    @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
+  @include transition(height $navtrayCloseSpeed ease-in 0s, left 0s linear $navtrayCloseSpeed);
+}
+.navtray-w-short{
+  @include transition(height $navtrayShortCloseSpeed ease-in 0s, left 0s linear $navtrayShortCloseSpeed);      
+}
+  // -webkit-transform: translate3d(0, 0, 0); // fix janky animation
 
-    @include transition(height $transitionSlow ease-in 0s, left 0s linear $transitionSlow);
-    // height:1px;
-    // opacity:0;
+.navtray-w-visible{
+  left:0;
+  opacity:1;
 
-    &.navtray-wrapper-visible{
-      left:0;
-      // height:auto;
-      opacity:1;   
-      @include transition(height $transitionSuperslow ease-out 0s, left 0s linear 0s);   
-    }
+  @include transition(height $navtrayOpenSpeed $easeOutNav 0s, left 0s linear 0s);  
+  &.navtray-w-short{
+    @include transition(height $navtrayShortOpenSpeed $easeOutNav 0s, left 0s linear 0s);      
+  }
+}
+
+.no-transition.navtray-w,
+.no-transition.navtray-w-short,
+.no-transition.navtray-w-visible,
+.no-transition.navtray-w-visible.navtray-w-short{
+  @include transition(none); 
+}
 
 
-    .navtray{ // container the same width as the nav, contains left & right sections
-      z-index: 10;
-      overflow:hidden;
-      margin: 0 auto;
-      list-style: none;
+.navtray{ // container the same width as the nav, contains left & right sections
+  z-index: 10;
+  overflow:hidden;
+  margin: 0 auto;
+  list-style: none;
+  max-width:$navtrayMaxWidth;
 
-      background: $navTrayBackgroundAlt; // right side background color
-      // display: none;
+  background: $navTrayBackgroundAlt; // right side background color
+}
+.navtray-section-main{ // section left
+  float: left;
+  padding-bottom: 17px;
+  background: $navTrayBackground; // left side background color
+}
+
+.navtray-section-featured{ // section right
+  float: left;
+  z-index: 20;
+  position: relative;
+
+  .navtray-list-secondary{
+    margin-left: 0;
+    padding-top:2px;
+
+    .navtray-li {
+      line-height:1.4;
       
-      .navtray-section-main{ // section left
-        float: left;
-        padding-bottom: 17px;
-        background: $navTrayBackground; // left side background color
+      .navtray-li-link {
+        font-size: $font_13_16;
       }
-      .navtray-section-featured{ // section right
-        float: left;
-        z-index: 20;
-        position: relative;
+    }
+  }
+  .navtray-secondary-promo{
+    img{
+      width:100%;
+      height:auto;
+    }
+    .p2,
+    .p3{
+      display:block;
+    }
+    .p2{
+      color:$grayDark;
+    }
+    .p3{
+      color:$grayLightness;
+    }
+  } // .navtray-secondary-promo
+} // .navtray-section-featured
 
-        ul.navtray-list-secondary{
-          margin-left: 0;
-          padding-top:2px;
+.navtray-section-main{ // section left - contents
+  .navtray-list-main{ 
+    overflow:hidden;
 
-          > li {
-            line-height:1.4;
-            
-            > a {
-              font-size: $font_13_16;
-            }
-          }
+    .navtray-li{
+      line-height: 3.25;
+      display:block;
+      float:left;
+
+      .navtray-li-link {
+        display:block;
+        text-align:center;
+
+        img {
+          margin:0 auto;
+        }
+        .nav-label{
+          display:block;
+          margin-top:6px;
+          line-height: 1.3;
         }
       }
+    }
+  }
+}
 
-      .navtray-section-main{ // section left - contents
-        .navtray-list-main{ 
-          overflow:hidden;
+.navtray-section-main-w-all-btn{
+  padding-bottom: 50px;
 
-          > li{
-            line-height: 3.25;
-            display:block;
-            float:left;
-          }
-          > li > a {
-            display:block;
-            text-align:center;
-            padding-bottom:13px;
+  .navtray-list-main{
+    .navtray-li{
+      line-height: inherit;
+    }
+    &:after{ // HR
+      content: '';
+      display:block;
+      clear:both;
+      border-bottom: solid 1px $grayLighter;
+    }
+  }
+}
+.navtray-section-featured{
+  .l2{
+    font-size: $font_11_16;
+  }
+}
 
-            > img {
-              margin:0 auto;
-            }
-            > .nav-label{
-              display:block;
-              margin-top:2px;
-            }
-          }
-        }
-      }
+.navtray.navtray-absolute{
+  position: absolute;
+  bottom: 0;
+}
 
-      .navtray-section-main-w-all-btn{
-        padding-bottom: 50px;
-
-        .navtray-list-main{
-          > li{
-            line-height: inherit;
-          }
-          &:after{ // HR
-            content: '';
-            display:block;
-            clear:both;
-            border-bottom: solid 1px $grayLighter;
-          }
-          .btn-nav-view-all{
-            width:140px;
-          }
-        }
-      }
-      .navtray-section-featured{
-        .l2{
-          font-size: 0.625em;
-        }
-      }
-    } // end .navtray
-  } // end .navtray-wrapper
-} // end .nav-wrapper
+.no-transition{
+  @include transition(none); 
+}
