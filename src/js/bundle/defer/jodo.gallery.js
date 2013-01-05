@@ -842,7 +842,7 @@
         });
 
         // Append document fragment to the compare-item container
-        self.$compareTool.find('.compare-container').append( frag );
+        self.$compareTool.find('.compare-items-container').append( frag );
 
         // Save our new compare items
         self.$compareItems = $( sortedItems );
@@ -850,7 +850,7 @@
       // Default order is saved in the state variable
       } else {
         self.$compareItems = self.compareState.$items;
-        self.$compareTool.find('.compare-container').append( self.$compareItems );
+        self.$compareTool.find('.compare-items-container').append( self.$compareItems );
       }
 
       // Make sure we can press reset
@@ -958,7 +958,7 @@
           $compareItemsContainer = $('<div class="compare-items-container">'),
           $compareItemsWrapper = $('<div class="compare-items-wrap">'),
 
-          contentWidth = 0,
+          // contentWidth = 0,
           // Get product count
           productCount = $currentItems.length,
 
@@ -1143,32 +1143,34 @@
 
       self.$compareTool.find('.compare-items-wrap').height( self.$compareItems.first().height() );
 
-      self.$compareTool.find('.compare-items-wrap').scrollerModule({
-        contentSelector: '.compare-items-container',
-        itemElementSelector: '.compare-item',
-        mode: 'free',
-        nextSelector: '',
-        prevSelector: '',
+      var iscroll = new iScroll( self.$compareTool.find('.compare-items-wrap')[0] );
 
-        iscrollProps: {
-          snap: true,
-          hScroll: true,
-          vScroll: false,
-          hScrollbar: false,
-          vScrollbar: false,
-          momentum: true,
-          bounce: true,
-          onScrollMove: function() {
-            self.setStickyHeaderPos();
-          },
-          onBeforeScrollEnd: function() {
-            self.setStickyHeaderPos();
-          },
-          onAnimationEnd: function() {
-            self.setStickyHeaderPos();
-          }
-        }
-      });
+      // self.$compareTool.find('.compare-items-wrap').scrollerModule({
+      //   contentSelector: '.compare-items-container',
+      //   itemElementSelector: '.compare-item',
+      //   mode: 'free',
+      //   nextSelector: '',
+      //   prevSelector: '',
+
+      //   iscrollProps: {
+      //     snap: true,
+      //     hScroll: true,
+      //     vScroll: true,
+      //     hScrollbar: true,
+      //     vScrollbar: true,
+      //     momentum: true,
+      //     bounce: true,
+      //     onScrollMove: function() {
+      //       // self.setStickyHeaderPos();
+      //     },
+      //     onBeforeScrollEnd: function() {
+      //       // self.setStickyHeaderPos();
+      //     },
+      //     onAnimationEnd: function() {
+      //       // self.setStickyHeaderPos();
+      //     }
+      //   }
+      // });
 
       // Position sticky headers
       self.setStickyHeaderPos();
