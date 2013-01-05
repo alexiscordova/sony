@@ -149,6 +149,9 @@ form.footer-store-locator-form{
   margin-left:0;
   float:left;
 }
+.footer-lang-selectors{
+  overflow:hidden;
+}
 .footer-social-links{
   display:inline-block;
 
@@ -181,6 +184,17 @@ form.footer-store-locator-form{
       background-color:$youtubeColor;
     }
   }
+}
+
+.footer-signature{
+  position:relative
+}
+.footer-copyright{
+  font-size:$font_10_16;
+  text-transform:uppercase;
+  position:absolute;
+  left: 90px;
+  top: 4px;
 }
 
 
@@ -414,6 +428,14 @@ form.footer-store-locator-form{
   h5{
     margin-bottom: 13px;
   }
+
+
+  .btn-group.lang-selector{
+    width:20%;
+  }
+  .btn-group.l11n-selector{
+    width: 78%;
+  }
 }
 .mobile-container-padded{
 }
@@ -482,14 +504,21 @@ form.footer-store-locator-form{
   overflow:hidden;
   padding-top: 28px;
   margin-top:30px;
-  border-top: solid 2px;  
+  border-top: solid 2px; 
+
+  .footer-lang-selectors{
+    max-width:300px;
+    margin:0 auto;
+  }
 }
+
+
 
 .footer-signature-w{
   border:none;
   margin-top:0;
 }
-.sprite-reg-nav-sony-logo {
+.footer-signature .sprite-reg-nav-sony-logo {
   position: relative;
   margin:0 0 9px 0;
 }
@@ -497,11 +526,11 @@ form.footer-store-locator-form{
   text-align:center;
 }
 .footer-copyright{
-  display:block;
+  position:static;
+  top:auto;
 }
 
 .footer-legal-links{
-  padding-bottom:8px;
   a{
     display:block;
     font-size:$font_11_16;
