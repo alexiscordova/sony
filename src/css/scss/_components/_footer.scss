@@ -5,6 +5,10 @@
 .footer-wrapper{
   background:$footerBackground;
 
+  a{
+    @include transition(background-color $transitionSlowish linear, color $transitionSlowish linear); 
+  }
+
   h5{
     color:$gray;
   }
