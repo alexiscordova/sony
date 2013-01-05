@@ -19,7 +19,7 @@
 				<li><!-- not sure how to add the header+footer modules to a single page, so I'm just hard-coding it --> 
 					<a href="../build/debug/global-header-footer.html">Global Header / Footer</a>: Example page with global Header &amp; Footer.
 				</li>
-			<% for name in @modulepages(): %>
+			<% for name, i in @modulepages(): %>
 				<% if name != 'index.html.eco' && name.indexOf('_module.html')!= -1 : %>
 					<li><a href='../build/debug/<%= name.replace(/(.eco|.hb)/g, '') %>'><%= @title(name) || name.replace(/(.html.eco|.html.hb)/g, '').replace(/(_|-)/g, ' ') %></a>: <%= @desc(name) %></li><% end %><% end %>
 			</ul>

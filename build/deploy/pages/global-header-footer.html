@@ -40,14 +40,12 @@
         <script src="js/libs/modernizr-2.6.2.min.js"></script>    
 
 
+        <!-- This should be moved into js_footer once completed: -->
       <script src="js/libs/jquery.throttle-debounce.min.js"></script>
-        <!-- This should be moved into js_footer files once completed: --> 
-        <script src="js/bundle/require/global-nav.js" type="text/javascript"></script>
-        <script src="js/bundle/require/global-footer.js" type="text/javascript"></script>
         <script src="js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
         
     </head>
-    <body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">
+    <body>
         <div class="page-wrap-outer">
             <div id="page-wrap-inner" class="page-wrap-inner XXshow-mobile-menu">
 
@@ -201,73 +199,72 @@
               </div><!-- end #navtray-entertainment -->
 
               <div class="container navbar">
-                <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
+                  <div class="XXgrid">
+                    <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
 
-                <ul class="nav nav-primary">
-                  <li class="nav-li nav-li-store"><a class="nav-li-link" href="#">Store</a></li>
-                  <li class="nav-li nav-li-electronics"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
-                  <li class="nav-li nav-li-entertainment"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
-                  <li class="nav-li nav-li-support"><a class="nav-li-link" href="#">Support</a></li>
-                </ul>
+                    <ul class="nav nav-primary">
+                      <li class="nav-li nav-li-store"><a class="nav-li-link" href="#">Store</a></li>
+                      <li class="nav-li nav-li-electronics"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
+                      <li class="nav-li nav-li-entertainment"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
+                      <li class="nav-li nav-li-support"><a class="nav-li-link" href="#">Support</a></li>
+                    </ul>
 
-                <ul class="nav nav-utility">
-                  <li class="nav-li nav-li-account">
-                      <a class="nav-li-link nav-dropdown-toggle" data-target="navmenu-w-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
+                    <ul class="nav nav-utility">
+                      <li class="nav-li nav-li-account">
+                          <a class="nav-li-link nav-dropdown-toggle" data-target="navmenu-w-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
 
-                            <div class="navmenu-w navmenu-w-account logged-in">
-                                <i class="sprite-mini-global-nav-indicator"></i>
-                                <a href="#" class="btn btn-login">Log in</a>
-                            <ul class="navmenu-list navmenu-list-prefixed">
-                                <li class="navmenu-line navmenu-li-cart iconTrigger-ui-navmenu-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="nav-li-count">2</span></a></li>
-                                <li class="navmenu-line navmenu-li-favorites iconTrigger-ui-navmenu-favorite"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
-                            </ul>
-                            <ul class="navmenu-list navmenu-list-main">
-                                <li class="navmenu-line navmenu-li-welcome visible-phone">Hi Robert</li>
-                                <li class="navmenu-line navmenu-li-account iconTrigger-ui-navmenu-account">
-                                    <a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a>
-                                </li>
-                                <li class="navmenu-line navmenu-li-orders iconTrigger-ui-navmenu-orders">
-                                    <a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a>
-                                </li>
-                                <li class="navmenu-line navmenu-li-newsletter iconTrigger-ui-navmenu-newsletter">
-                                    <a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a>
-                                </li>
-                                <li class="navmenu-line navmenu-li-registered-products iconTrigger-ui-navmenu-reg-prod">
-                                    <a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a>
-                                </li>
-                            </ul>
-                                <a href="#" class="btn btn-logout">Sign Out</a>
-                          </div><!-- end #navmenu-w-account -->
+                                <div class="navmenu-w navmenu-w-account logged-in">
+                                    <i class="sprite-mini-global-nav-indicator"></i>
+                                    <a href="#" class="btn btn-login">Log in</a>
+                                <ul class="navmenu-list navmenu-list-prefixed">
+                                    <li class="navmenu-line navmenu-li-cart iconTrigger-ui-navmenu-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="nav-li-count">2</span></a></li>
+                                    <li class="navmenu-line navmenu-li-favorites iconTrigger-ui-navmenu-favorite"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
+                                </ul>
+                                <ul class="navmenu-list navmenu-list-main">
+                                    <li class="navmenu-line navmenu-li-welcome visible-phone">Hi Robert</li>
+                                    <li class="navmenu-line navmenu-li-account iconTrigger-ui-navmenu-account">
+                                        <a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a>
+                                    </li>
+                                    <li class="navmenu-line navmenu-li-orders iconTrigger-ui-navmenu-orders">
+                                        <a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a>
+                                    </li>
+                                    <li class="navmenu-line navmenu-li-newsletter iconTrigger-ui-navmenu-newsletter">
+                                        <a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a>
+                                    </li>
+                                    <li class="navmenu-line navmenu-li-registered-products iconTrigger-ui-navmenu-reg-prod">
+                                        <a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a>
+                                    </li>
+                                </ul>
+                                    <a href="#" class="btn btn-logout">Sign Out</a>
+                              </div><!-- end #navmenu-w-account -->
 
-                  </li>
-                  <li class="nav-li nav-li-favorites">
-                      <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-favorite" href="#"><i class="icon-ui-favorite"></i><span class="nav-li-count">2</span><span class="visuallyhidden">Favorites</span></a>
-                  </li>
-                  <li class="nav-li nav-li-cart">
-                      <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-cart" href="#"><i class="icon-ui-cart"></i><span class="nav-li-count">2</span></a>
-                  </li>
-                  <li class="nav-li nav-li-search">
-                      <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-search nav-dropdown-toggle nav-dropdown-toggle-btn" data-target="navmenu-w-search" href="#"><i class="fonticon-ui-reg-search"></i><span class="linkBtn-label">Search</span></a>
-                          </li>
-                          <li class="nav-li nav-li-universal iconTrigger-ui-universal">
-                              <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-plus-tiny-boxed" href="#"><i class="icon-ui-plus-tiny-boxed"></i><span class="linkBtn-label">Sony Sites</span></a>
-                          </li>
-                </ul>
+                      </li>
+                      <li class="nav-li nav-li-favorites">
+                          <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-favorite" href="#"><i class="icon-ui-favorite"></i><span class="nav-li-count">2</span><span class="visuallyhidden">Favorites</span></a>
+                      </li>
+                      <li class="nav-li nav-li-cart">
+                          <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-cart" href="#"><i class="icon-ui-cart"></i><span class="nav-li-count">2</span></a>
+                      </li>
+                      <li class="nav-li nav-li-search">
+                          <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-search nav-dropdown-toggle nav-dropdown-toggle-btn" data-target="navmenu-w-search" href="#"><i class="fonticon-ui-reg-search"></i><span class="linkBtn-label">Search</span></a>
+                              </li>
+                              <li class="nav-li nav-li-universal iconTrigger-ui-universal">
+                                  <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-plus-tiny-boxed" href="#"><i class="icon-ui-plus-tiny-boxed"></i><span class="linkBtn-label">Sony Sites</span></a>
+                              </li>
+                    </ul>
+                  </div><!-- end .grid --> 
                 </div><!-- end .navbar -->
               </div><!-- end .nav-outer-container --> 
           
         </nav><!-- end .nav-wrapper -->
 
-        <section class="container" style="background:rgb(0, 70, 0); padding:80px;">test</section>
-        <section class="container" style="background:rgb(0, 0, 125); padding:80px;">test</section>
-        <section class="container" style="background:rgb(0, 70, 0); padding:80px;">test</section>
+        <section class="container" style="background:rgb(70, 70, 70); height:650px;"></section>
 
         
-
+    
     <footer class="container full-bleed-no-max footer-wrapper">
         <div class="container">
-            
-            <div class="grid">
+            <div class="grid grid-footer">
                 <div class="footer-store-locator span3 footer-mobile-section mobile-container-padded">
                     <h5>Find a Store</h5>
                     <div class="store-locator-input-w">
@@ -313,59 +310,67 @@
                         </form>
                       </div>
                 </div>
-            </div><!-- end grid -->
 
 
-            <div class="footer-ex grid mobile-container-padded">
-                <div class="footer-contact span6"><!-- footer-contact and footer-language are flipped in order for mobile. floats make them display in the correct order on desktop. --> 
-                    <p>
-                        <a href="#">For Professionals</a>
-                        <a href="#">Contact Us</a>
-                    </p>
-                    <div class="footer-social-links">
-                        <a href="#" class="footer-social-twitter icon-uibig-twitter"><span class="visuallyhidden">Twitter</span></a>
-                        <a href="#" class="footer-social-facebook icon-uibig-facebook"><span class="visuallyhidden">Facebook</span></a>
-                        <a href="#" class="footer-social-gplus icon-uibig-gplus"><span class="visuallyhidden">Google+</span></a>
-                        <a href="#" class="footer-social-youtube icon-uibig-youtube"><span class="visuallyhidden">YouTube</span></a>
+                <div class="footer-ex">
+                    <div class="footer-contact span6 mobile-container-padded"><!-- footer-contact and footer-language are flipped in order for mobile. floats make them display in the correct order on desktop. --> 
+                        <p>
+                            <a href="#">For Professionals</a>
+                            <a href="#">Contact Us</a>
+                        </p>
+                        <div class="footer-social-links">
+                            <a href="#" class="footer-social-twitter icon-uibig-twitter"><span class="visuallyhidden">Twitter</span></a>
+                            <a href="#" class="footer-social-facebook icon-uibig-facebook"><span class="visuallyhidden">Facebook</span></a>
+                            <a href="#" class="footer-social-gplus icon-uibig-gplus"><span class="visuallyhidden">Google+</span></a>
+                            <a href="#" class="footer-social-youtube icon-uibig-youtube"><span class="visuallyhidden">YouTube</span></a>
+                        </div>
                     </div>
-                </div>
-                <div class="footer-language span6">
-                    <div class="btn-group l11n-selector">
-                          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-l11n-uk"></i><span class="dropdown-label">United Kingdom</span><i class="icon-ui-arrowhead-down-gray"></i></a>
-                          <ul class="dropdown-menu">
-                            <li><a href="#"><i class="icon-l11n-us"></i><span class="dropdown-label">United States</span></a></li>
-                            <li><a href="#"><i class="icon-l11n-xx"></i><span class="dropdown-label">LocalizationX</span></a></li>
-                            <li><a href="#"><i class="icon-l11n-yy"></i><span class="dropdown-label">LocalizationY</span></a></li>
-                          </ul>
-                        </div>
-                        <div class="btn-group lang-selector">
-                          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="dropdown-label">EN</span><i class="icon-ui-arrowhead-down-gray"></i></a>
-                          <ul class="dropdown-menu">
-                            <li><a href="#"><i class="icon-lang-us"></i><span class="dropdown-label">SP</span></a></li>
-                            <li><a href="#"><i class="icon-lang-xx"></i><span class="dropdown-label">XX</span></a></li>
-                            <li><a href="#"><i class="icon-lang-yy"></i><span class="dropdown-label">YY</span></a></li>
-                          </ul>
-                        </div>
+                    <div class="footer-language span6 mobile-container-padded">
+                        <div class="footer-lang-selectors">
+                            <div class="btn-group l11n-selector">
+                                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-l11n-uk"></i><span class="dropdown-label">United Kingdom</span><i class="icon-ui-arrowhead-down-gray"></i></a>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#"><i class="icon-l11n-us"></i><span class="dropdown-label">United States</span></a></li>
+                                    <li><a href="#"><i class="icon-l11n-xx"></i><span class="dropdown-label">LocalizationX</span></a></li>
+                                    <li><a href="#"><i class="icon-l11n-yy"></i><span class="dropdown-label">LocalizationY</span></a></li>
+                                  </ul>
+                                </div>
+                                <div class="btn-group lang-selector">
+                                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="dropdown-label">EN</span><i class="icon-ui-arrowhead-down-gray"></i></a>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#"><i class="icon-lang-us"></i><span class="dropdown-label">SP</span></a></li>
+                                    <li><a href="#"><i class="icon-lang-xx"></i><span class="dropdown-label">XX</span></a></li>
+                                    <li><a href="#"><i class="icon-lang-yy"></i><span class="dropdown-label">YY</span></a></li>
+                                  </ul>
+                                </div>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div><!-- .container -->
         <div class="container full-bleed-no-max footer-signature-w  mobile-container-padded">
             <div class="container">
-                <div class="footer-signature grid">
-                    <span class="sprite-reg-nav-sony-logo"><span class="visuallyhidden">Sony</span></span>
-                    <span class="footer-copyright">&copy;2013 Copyright Sony Europe Limited.</span>
+                <div class="grid grid-footer">
+                    <div class="footer-signature">
+                        <span class="sprite-reg-nav-sony-logo"><span class="visuallyhidden">Sony</span></span>
 
-                    <p class="footer-legal-links">
-                        <a href="#">Privacy Statement &amp; Cookies</a>
-                        <a href="#">Terms &amp; Conditions of Sales</a>
-                        <a href="#">Terms &amp; Conditions of Website Use</a>
-                        <a href="#">Recalls</a>
-                    </p>
+                        <p class="footer-legal-links">
+                            <a href="#">Privacy Statement &amp; Cookies</a>
+                            <a href="#">Terms &amp; Conditions of Sales</a>
+                            <a href="#">Terms &amp; Conditions of Website Use</a>
+                            <a href="#">Recalls</a>
+                        </p>
+                        
+                        <span class="footer-copyright">&copy;2013 Copyright Sony Europe Limited.</span>
 
+                    </div>
                 </div>
             </div>
           </div>
-      </footer><!-- end .footer-wrapper -->
+      </footer><!-- end .footer-wrapper --> 
+
+
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 
 
                 <script src="js/require.min.js"></script>
@@ -379,8 +384,8 @@
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
-        <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
@@ -388,6 +393,7 @@
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
         <script src="js/bundle/defer/jquery.viewport.js"></script>
+        <script src="js/bundle/defer/jquery.stickytabs.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>

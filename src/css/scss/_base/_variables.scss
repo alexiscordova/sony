@@ -55,6 +55,8 @@
   $highlightColorActive:  $highlightColor !default;
   $highlightColorDark:    rgb(219,76,37);
 
+  $lemon:                 rgb(255,254,201) !default; // #fffec9
+
   $themeGreen:            rgb(34,192,131) !default;
 
 
@@ -530,7 +532,8 @@
   // but then there shouldn't be fixed-width grids with .full-bleed
 
   $gridColumns:         		12 !default;
-  $grid5Columns:          	5  !default;
+  $grid5Columns:            5  !default;
+  $grid4Columns:          	4  !default;
 
   // Default 980px-1199px
   $containerMarginWidth:      34px !default;
@@ -599,6 +602,10 @@
   $grid5GutterWidth:      23px;
   $grid5RowWidth:         ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
 
+  //4 Column Grid
+  $grid4ColWidth:         157px;
+  $grid4GutterWidth:      20px;
+  $grid4RowWidth:         ($grid4Columns * $grid4ColWidth) + ($grid4GutterWidth * ($grid4Columns - 1));
 
 
   // Fluid grid
@@ -636,7 +643,9 @@
   $fluidGrid5ColWidth:    percentage($grid5ColWidth / $grid5RowWidth);
   $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
-
+  // 4 Column Grid
+  $fluidGrid4ColWidth:    percentage($grid4ColWidth / $grid4RowWidth);
+  $fluidGrid4GutterWidth: percentage($grid4GutterWidth / $grid4RowWidth);
 
 
 

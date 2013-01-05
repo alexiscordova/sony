@@ -1,0 +1,31 @@
+<section class="primary-tout container full-bleed <%- @data.mode %>">
+	<%- @this.partial('modules/image.html.eco' , {this:@this, data:@data.image} )%>
+	<div class="container">
+	<%  if @data.mode == "primaryTout": %>
+		<div class="inner grid">
+			<div class="span5 titleplate <%- @data.style %>">
+				<% if @data.kicker : %><p class="kicker"><%- @data.kicker %></p><% end %>
+				<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
+				<% if @data.body : %><p><%- @data.body %></p><% end %>
+				<% if @data.links : %>
+					<% for link in @data.links :%>
+						<a class="<%- link.type %>" href="<%- link.url %>"><%- link.text %></a>
+					<% end %>
+				<% end %>
+			</div>
+		</div>
+	<% else if @data.mode == "productIntroPlate" : %>
+		<div class="inner grid">
+			<div class="span5 titleplate <%- @data.style %>">
+				<% if @data.kicker : %><p class="kicker"><%- @data.kicker %></p><% end %>
+				<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
+				<% if @data.body : %><p><%- @data.body %></p><% end %>
+				<% if @data.links : %>
+					<% for link in @data.links :%>
+						<a class="<%- link.type %>" href="<%- link.url %>"><%- link.text %></a>
+					<% end %>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+</section>

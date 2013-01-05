@@ -116,6 +116,9 @@
       t.newSlideId = 0;
       t.sPosition = 0;
 
+      t.shuffleSpeed = 250;
+      t.shuffleEasing = 'ease-out';
+
       //modes
       t.isMobileMode = false;
       t.isDesktopMode = false;
@@ -133,6 +136,9 @@
           opts.call(t);
       });
 
+
+      //TODO: remove this
+      //$('body').css( { 'backgroundColor' : '#2e2e2e' } );
 
 
       console.log('Related Products - ' , t.numSlides , 'Max Width: ' , ( t.maxHeight / t.maxWidth) * 980);
@@ -197,7 +203,8 @@
           t.yProp = 'top';
       }
 
-      t.$container.on(t.downEvent, function(e) { t.onDragStart(e); });   
+      //init dragging , slideshow
+      //t.$container.on(t.downEvent, function(e) { t.onDragStart(e); });   
 
       t.tapOrClick = function(){
         return t.hasTouch ? 'touchend' : 'click'; 
@@ -340,15 +347,238 @@
 /*      t.updateSliderSize();  
       t.updateSlides();  */ 
 
+      
+
+      var self = t;
+
+
+      //loading
+      //self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
+      //self.$grid.on('done.shuffle', $.proxy( self.onShuffleDone, self ));
+
+      // instantiate shuffle
+
+
+      t.shuffleColumns = function( containerWidth ) {
+          var column;
+
+          console.log("Shuffle columns »", containerWidth + 'px');
+
+          // Large desktop ( 6 columns )
+/*          if ( Modernizr.mq('(min-width: 1200px)') ) {
+            column = Exports.COLUMN_WIDTH_1200 * containerWidth;
+
+          // Landscape tablet + desktop ( 5 columns )
+          } else */
+          if ( Modernizr.mq('(min-width: 980px)') ) {
+            column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
+
+          // Portrait Tablet ( 4 columns )
+          // } else if ( Modernizr.mq('(min-width: 768px)') ) {
+          //   column = Exports.COLUMN_WIDTH_768 * containerWidth;
+
+          // Between Portrait tablet and phone ( 3 columns )
+          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+            column = Exports.COLUMN_WIDTH_768 * containerWidth;
+
+          // Phone ( 2 columns )
+          } else {
+            column = 0.48 * containerWidth; // 48% of container width
+          }
+
+          return column;
+      };
+
+      t.shuffleGutters = function( containerWidth ) {
+        var gutter,
+            numColumns = 0;
+
+        // Large desktop ( 6 columns )
+/*        if ( Modernizr.mq('(min-width: 1200px)') ) {
+          gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
+          numColumns = 5;
+
+        // Landscape tablet + desktop ( 5 columns )
+        } else*/
+
+        if ( Modernizr.mq('(min-width: 980px)') ) {
+          gutter = Exports.GUTTER_WIDTH * containerWidth;
+          numColumns = 5;
+
+        // // Portrait Tablet ( 4 columns ) - masonry
+        } else if ( Modernizr.mq('(min-width: 768px)') ) {
+          numColumns = 4;
+          gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+
+        // Between Portrait tablet and phone ( 3 columns )
+        } else if ( Modernizr.mq('(min-width: 481px)') ) {
+          gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+          numColumns = 3;
+
+
+        // Phone ( 2 columns )
+        } else {
+          gutter = 0.02 * containerWidth; // 2% of container width
+          numColumns = 2;
+        }
+
+        self.setColumns(numColumns);
+
+        return gutter;
+      };
+
+    t.shuffle = self.$slides.shuffle({
+        itemSelector: '.gallery-item',
+        speed: self.shuffleSpeed,
+        easing: self.shuffleEasing,
+        columnWidth: self.shuffleColumns,
+        gutterWidth: self.shuffleGutters,
+        showInitialTransition: true,
+        buffer: 5
+      }).data('shuffle');
+
       $(window).trigger('resize');
 
+/*      $('.paddle').hide();
+      $('.rpNav').hide();*/
 
-
+      //TODO: dont actually do this
+      $('.color-swatches').remove();
 
     };
 
     RelatedProducts.prototype = {
 
+      setColumns : function( numColumns ) {
+
+        return;
+
+        var self = this,
+            allSpans = 'span1 span2 span3 span4 span6',
+            shuffleDash = 'shuffle-',
+            gridClasses = [ shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, 'grid-small' ].join(' '),
+            itemSelector = '.gallery-item',
+            grid5 = 'grid5',
+            span = 'span',
+            large = '.large',
+            promo = '.promo',
+            medium = '.medium',
+            largeAndPromoAndMedium = large + ',' + promo + ',' + medium;
+
+        // Large desktop ( 6 columns )
+        if ( numColumns === 6 ) {
+          if ( !self.$slides.hasClass(shuffleDash+6) ) {
+
+            // add .grid5
+            self.$slides
+              .removeClass(gridClasses)
+              .addClass(shuffleDash+6)
+              .parent()
+              .removeClass(grid5);
+
+
+            self.$slides.children(itemSelector)
+              .removeClass(allSpans) // Remove current grid span
+              .filter(large) // Select large tiles
+              .addClass(span+6) // Make them 6/12 width
+              .end() // Go back to all items
+              .filter(promo) // Select promo tiles
+              .addClass(span+4) // Make them 4/12 width
+              .end() // Go back to all items
+              .not(largeAndPromoAndMedium) // Select tiles not large nor promo
+              .addClass(span+2); // Make them 2/12 width
+          }
+
+        // Landscape tablet + desktop ( 5 columns )
+        } else if ( numColumns === 5 ) {
+          if ( !self.$slides.hasClass(shuffleDash+5) ) {
+
+            // add .grid5
+            self.$slides
+              .removeClass(gridClasses)
+              .addClass(shuffleDash+5)
+              .parent()
+              .addClass(grid5);
+
+
+            self.$slides.children(itemSelector)
+              .removeClass(allSpans) // Remove current grid span
+              .filter(large) // Select large tiles
+              .addClass(span+3) // Make them 3/5 width
+              .end() // Go back to all items
+              .filter(promo) // Select promo tiles
+              .addClass(span+2) // Make them 2/5 width
+              .end() // Go back to all items
+              .not(largeAndPromoAndMedium) // Select tiles not large nor promo
+              .addClass(span+1); // Make them 1/5 width
+          }
+
+        // Portrait Tablet ( 4 columns ) - masonry
+        } else if ( numColumns === 4 ) {
+          if ( !self.$slides.hasClass(shuffleDash+4) ) {
+
+            // Remove .grid5
+            self.$slides
+              .removeClass(gridClasses)
+              .addClass(shuffleDash+4)
+              .parent()
+              .removeClass(grid5);
+
+
+            self.$slides.children(itemSelector)
+              .removeClass(allSpans) // Remove current grid span
+              .filter(largeAndPromoAndMedium) // Select large and promo tiles
+              .addClass(span+6) // Make them half width
+              .end() // Go back to all items
+              .not(largeAndPromoAndMedium) // Select tiles not large nor promo
+              .addClass(span+3); // Make them quarter width
+          }
+
+        // Between Portrait tablet and phone ( 3 columns )
+        } else if ( numColumns === 3 ) {
+          if ( !self.$slides.hasClass(shuffleDash+3) ) {
+
+            // Remove .grid5, add .grid-small
+            self.$slides
+              .removeClass(gridClasses)
+              .addClass(shuffleDash+3 + ' grid-small')
+              .parent()
+              .removeClass(grid5);
+
+            // Remove current grid span
+            self.$slides.children(itemSelector)
+              .removeClass(allSpans)
+              .addClass(span+4);
+          }
+
+
+        // Phone ( 2 columns )
+        } else if ( numColumns === 2 ) {
+          if ( !self.$slides.parent().hasClass(grid5) ) {
+
+            // add .grid5
+            self.$slides
+              .removeClass(gridClasses)
+              .parent()
+              .addClass(grid5);
+          }
+        }
+        return self;
+      },      
+/*      onShuffleLoading : function() {
+        var $div = $('<div>', { 'class' : 'gallery-loader text-center' }),
+            $img = $('<img>', { src: this.loadingGif });
+        $div.append($img);
+        $div.insertBefore(this.$grid);
+      },
+
+      onShuffleDone : function() {
+        var self = this;
+        setTimeout(function() {
+          self.$container.find('.gallery-loader').remove();
+          self.$container.addClass('in');
+        }, 250);
+      },*/
       checkForBreakpoints: function(){
         var t = this,
             wW = t.win.width(),
@@ -879,6 +1109,8 @@
           
           //t.scroller.disable();
 
+          $('.container').removeClass('grid4').addClass('grid5');
+
           t.$galleryItems.each(function(){
             var item = $(this).removeClass('small-size'),
                 slide = item.data('slide');
@@ -891,7 +1123,7 @@
           
           //t.$container.off('.rp');
           //restart listener for slideshow
-          t.$container.on(t.downEvent, function(e) { t.onDragStart(e); });
+          //t.$container.on(t.downEvent, function(e) { t.onDragStart(e); });
         
 
           $('.paddle').show();
@@ -1138,6 +1370,8 @@
 
           //hide paddles
           $('.paddle').hide();
+
+          $('.container').removeClass('grid5').addClass('grid4');
 
           //unwrap HTML
 
