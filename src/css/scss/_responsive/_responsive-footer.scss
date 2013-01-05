@@ -266,13 +266,10 @@ form.footer-store-locator-form{
 //   888   Y88b  d88P 888"       Y88b  d88P       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
 // 8888888  "Y8888P"  888888888   "Y8888P"         "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
 // ------------------------------------------------
-@media (min-width: 768px) and (max-width: 1023px) {
 
+@media (max-width: 1023px) {
 
-.footer-wrapper .span3{
-  width:30.9%;
-}
-.footer-store-locator.span3{
+.footer-wrapper .footer-store-locator.span3{
   width:100%;
   float:none;
   overflow:hidden;
@@ -298,6 +295,22 @@ form.footer-store-locator-form{
 .footer-store-locator-caption{
   float:left;
   padding:9px 0 0 16px;
+}
+}
+
+
+
+
+
+
+
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+
+.footer-wrapper .span3{
+  width:30.9%;
 }
 
 .footer-newsletter{
@@ -369,9 +382,6 @@ form.footer-store-locator-form{
 .footer-wrapper .span3{
   width:31.3%;
 }
-.footer-wrapper .footer-store-locator.span3{
-  width:100%;
-}
 
 
 } // min-width: 768px and max-width: 979px
@@ -408,6 +418,8 @@ form.footer-store-locator-form{
 @media (max-width: 767px) {
 
 
+
+
 .footer-wrapper{
 
   [class*="span"] {
@@ -423,7 +435,7 @@ form.footer-store-locator-form{
   .footer-mobile-section{
     padding-bottom: 19px;
     margin-bottom: 9px;
-    border-bottom: solid 1px;
+    border-bottom: solid 1px $grayDarkFieldLarge;
   }
   h5{
     margin-bottom: 13px;
@@ -436,6 +448,14 @@ form.footer-store-locator-form{
   .btn-group.l11n-selector{
     width: 78%;
   }
+
+
+  .footer-store-locator.span3{
+    h5{
+      width:100%;
+      padding-bottom:10px;
+    }
+  }
 }
 .mobile-container-padded{
 }
@@ -445,21 +465,7 @@ form.footer-store-locator-form{
 }
 
 
-.footer-store-locator.span3{
 
-  h5{
-    margin-bottom:23px;
-  }
-  .footer-store-locator-form.footer-form-border{
-    width:100%;
-    .footer-btn{
-      width:25%;
-    }
-  }
-}
-.footer-store-locator-caption{
-  padding:0;
-}
 
 .footer-newsletter {
   margin-top: 24px;
@@ -504,7 +510,7 @@ form.footer-store-locator-form{
   overflow:hidden;
   padding-top: 28px;
   margin-top:30px;
-  border-top: solid 2px; 
+  border-top: solid 2px $grayDarkFieldLarge; 
 
   .footer-lang-selectors{
     max-width:300px;
@@ -576,6 +582,19 @@ form.footer-store-locator-form{
 
 @media (max-width: 479px) {
 
+.footer-wrapper{
+  .footer-store-locator.span3{
+    h5{
+    }
+    .footer-store-locator-form{
+      width:100%;
+    }
+    .footer-store-locator-caption{
+      padding:0;
+      color:$white;
+    }
+  }
+}
 
 } // max-width: 479px
 
