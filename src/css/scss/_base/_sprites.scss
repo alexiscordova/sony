@@ -16,20 +16,67 @@
   @include ie7-restore-right-whitespace();
   line-height: 15px;
   vertical-align: text-top;
-  // background-image: url($iconSpritePath);
-  background-image: url($iconSpritePathFallback);
   background-repeat: no-repeat;
 }
+
 
 [class^="sprite-"],
 [class*=" sprite-"],
 [class^="icon-"],
-[class*=" icon-"] {
-  @extend %icon;
+[class*=" icon-"]{
+  @extend %icon;  
+}
 
-  .no-svg & {
-    background-image: url($iconSpritePathFallback);
-  }
+// I'm breaking these out because we're going to have to have separate spritesheets for the different kinds of sprites/icons or the retina sized spritesheets get too big.
+// So while they all point to the same spritesheet right now, they probably won't later, and this will make it easier to change them.
+// If you update them, don't forget to update the _retina versions as well (in _retina.scss)
+
+[class^="sprite-"],
+[class*=" sprite-"]{
+  // background-image: url($iconSpritePath);
+  background-image: url($iconSpritePathFallback);
+  .no-svg & { background-image: url($iconSpritePathFallback); }
+}
+[class^="icon-tab-"],
+[class*=" icon-tab-"]{
+  // background-image: url($iconSpritePath);
+  background-image: url($iconSpritePathFallback);
+  .no-svg & { background-image: url($iconSpritePathFallback); }  
+}
+[class^="icon-bestfor-"],
+[class*=" icon-bestfor-"] {
+  // background-image: url($iconSpritePath);
+  background-image: url($iconSpritePathFallback);
+  .no-svg & { background-image: url($iconSpritePathFallback); }
+}
+[class^="icon-ui-"],
+[class*=" icon-ui-"] {
+  // background-image: url($iconSpritePath);
+  background-image: url($iconSpritePathFallback);
+  .no-svg & { background-image: url($iconSpritePathFallback); }
+}
+[class^="icon-ui2-"],
+[class*=" icon-ui2-"] {
+  // background-image: url($iconSpritePath);
+  background-image: url($iconSpritePathFallback);
+  .no-svg & { background-image: url($iconSpritePathFallback); }
+}
+[class^="icon-uibig-"],
+[class*=" icon-uibig-"] {
+  // background-image: url($iconSpritePath);
+  background-image: url($iconSpritePathFallback);
+  .no-svg & { background-image: url($iconSpritePathFallback); }
+}
+[class^="icon-flag-"],
+[class*=" icon-flag-"],
+[class^="icon-flagBig-"],
+[class*=" icon-flagBig-"] {
+  background-image: url($flagSpritePath);
+}
+[class^="icon-flagBig-"],
+[class*=" icon-flagBig-"]{
+  margin-top: 2px;
+  margin-right: 10px;
 }
 
 
@@ -113,9 +160,22 @@
 
 
 
+
+
+// --------------------------------------------
+// FLAGS
+// ------------------------------------------
+@include icon-flags-reg-and-big(uk,    -550px);
+@include icon-flags-reg-and-big(us,    -572px);
+
+
+
+
+
+
 // --------------------------------------------
 // SPRITES
-// Sprites are guaranteed not to need a hover state - that's what makes them different from "icons"
+// Sprites are guaranteed NOT to need hover or active states - that's what makes them different from "icons"
 // --------------------------------------------
 
 @include sprite-mini(global-nav-indicator,     0px,    25px,   11px);

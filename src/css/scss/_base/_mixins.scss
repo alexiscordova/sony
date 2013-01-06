@@ -241,7 +241,7 @@ $default-transition-delay    : 0s;
 // Icons with standard hover, focus, & active states can be built using the iconBuilder mixin.
 // The first parameters are specific to the iconType ($iconType, $y, $hoverOffsetY)
 // The other parameters are specific to the icon, and are simply passed through from the specific icon mixin.
-@mixin icon($iconType, $y, $hoverOffsetY, $name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+@mixin icon($iconType, $y, $name, $x, $w, $h, $hoverOffsetY:0, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
   .icon-#{$iconType}-#{$name} {
     background-position: $x $y;
     @include size($h, $w);
@@ -295,15 +295,25 @@ $default-transition-delay    : 0s;
 }
 
 @mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui, $icon_ui_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(ui, $icon_ui_Y, $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 @mixin icon-ui2($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui2, $icon_ui2_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(ui2, $icon_ui2_Y $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 @mixin icon-uibig($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(uibig, $icon_uibig_Y, 60px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(uibig, $icon_uibig_Y, $name, $x, $w, $h, 60px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 
+@mixin icon-flag($name, $x) {
+  @include icon(flag, $icon_flag_Y, $name, $x, 14px, 11px);
+}
+@mixin icon-flagBig($name, $x) {
+  @include icon(flagBig, $icon_flagBig_Y, $name, $x, 22px, 15px);
+}
+@mixin icon-flags-reg-and-big($name, $x) {
+	@include icon-flag($name, $x);
+	@include icon-flagBig($name, $x);
+}
 
 // I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make
 // it a <i> like all the others so I don't need this mixin.
@@ -1280,17 +1290,6 @@ $default-transition-delay    : 0s;
 	display: inline-block;
 	width: $w;
 	height: $h;
-}
-
-@mixin background-sprite-icon-small{
-  background-image: url($iconSmallSpritePath);
-  background-repeat: no-repeat;
-}
-
-@mixin pseudoEl-inline-block-icon($w: 15px, $h: 15px) {
-	@include background-sprite-icon-small();
-	@include pseudoEl-inline-block($w,$h);
-  // @include ie7-restore-right-whitespace();
 }
 
 

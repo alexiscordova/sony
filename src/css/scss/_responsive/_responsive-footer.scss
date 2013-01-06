@@ -86,6 +86,11 @@
     width:72%;  
     float:left; 
     background:$footerBackground;
+    color:$white;
+
+    &:focus{
+      color:$white;
+    }
   }
   .footer-btn{
     margin:3px;
@@ -150,7 +155,7 @@ form.footer-store-locator-form{
   float:left;
 }
 .footer-lang-selectors{
-  overflow:hidden;
+  @include clearfix;
 }
 .footer-social-links{
   display:inline-block;
@@ -248,6 +253,20 @@ form.footer-store-locator-form{
                             
 @media (min-width: 1400px) {
   
+
+.footer-wrapper{
+  .footer-lang-selectors{
+    width: 46.2%;
+  }
+  .btn-group.l11n-selector{
+    width: 76%;
+    float:left;
+  }
+  .btn-group.lang-selector{
+    width: 22%;
+  }
+}
+
 } // END min-width: 1400px
 
 
@@ -297,11 +316,6 @@ form.footer-store-locator-form{
   padding:9px 0 0 16px;
 }
 }
-
-
-
-
-
 
 
 
