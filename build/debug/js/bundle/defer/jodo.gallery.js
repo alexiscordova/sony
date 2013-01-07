@@ -965,6 +965,7 @@
           $container = $('<div class="container js-compare-wrap">'),
           $content = $('<div class="compare-container clearfix">'),
           $header = self.$compareTool.find('.modal-header'),
+          $modalBody = self.$compareTool.find('.modal-body'),
 
           $label = self.$compareTool.find('#compare-tool-label'),
           originalLabel = $label.text(),
@@ -1022,8 +1023,8 @@
         var $subheader = $('<div class="modal-subheader clearfix">');
         $subheader.append( self.$compareCountWrap, self.$compareReset, $sortOpts );
 
-        // Insert subhead after the header
-        $header.after( $subheader );
+        // Insert subhead in the modal-body
+        $modalBody.prepend( $subheader );
 
         // Put the reset button the left
         self.$compareReset.addClass('pull-left');
@@ -1063,12 +1064,10 @@
       $compareItemsWrapper.append( $compareItemsContainer );
       $content.append( $compareItemsWrapper );
       $container.append( $content );
+      $modalBody.append( $container );
 
       // Trigger modal
       self.$compareTool
-        .find('.modal-body')
-        .append($container)
-        .end()
         .data('galleryId', self.id) // Set some data on the modal so we know which gallery it belongs to
         .modal('show'); // Show the modal
 
@@ -1088,14 +1087,7 @@
 
       // Re-parent sticky headers because of webkit bug. Anything with fixed positioning cannot have a parent
       // which has a transform. Sad face.
-      self.reparentStickyHeaders();
-
-      // HOLD ONTA YA BUTTS. How do I set a width on something that will use percentages?
-      // $content.children().each(function() {
-      //   contentWidth += $(this).outerWidth(true);
-      // });
-      // $content.width( contentWidth );
-      // $content.width( $newItems.length * itemWidth );
+      // self.reparentStickyHeaders();
 
     },
 
@@ -1115,35 +1107,30 @@
 
       // Scroll event for the takeover modal watches for when to show sticky headers
       // TODO, opening compare modal when scrolled already throws off the scrollTop value
-      self.$compareTool.on('scroll.comparetool', function() {
-        var scrollTop = self.$compareTool.scrollTop(),
-            scrollLeft = self.$compareTool.scrollLeft();
-
-        if ( scrollTop >= offsetTop ) {
-          if ( !self.$stickyHeaders.hasClass('open') ) {
-            self.$stickyHeaders.addClass('open');
-          }
-
-        } else {
-          if ( self.$stickyHeaders.hasClass('open') ) {
-            self.$stickyHeaders.removeClass('open');
-          }
-        }
-
-        // Reposition sticky headers on side scroll
-        if ( scrollLeft > 0 ) {
-          self.setStickyHeaderPos();
-        }
-      });
+      // self.$compareTool.on('scroll.comparetool', );
 
 
       var now = new Date().getTime();
       self.setCompareRowHeights( true );
       console.log( (new Date().getTime() - now) / 1000, 'seconds passed calculating heights');
 
-      self.$compareTool.find('.compare-items-wrap').height( self.$compareItems.first().height() );
+      self.setCompareHeight();
 
-      var iscroll = new iScroll( self.$compareTool.find('.compare-items-wrap')[0] );
+      self.outerScroller = new iScroll( self.$compareTool[0], {
+        onBeforeScrollStart : function(e) {
+          if ( !$(e.target).is('select') ) {
+            e.preventDefault();
+          }
+        },
+        onScrollMove : function() {
+          self.onCompareScroll( offsetTop, this );
+        },
+        onAnimationEnd : function() {
+          self.onCompareScroll( offsetTop, this );
+        }
+      });
+
+      self.innerScroller = new iScroll( self.$compareTool.find('.compare-items-wrap')[0]);
 
       // self.$compareTool.find('.compare-items-wrap').scrollerModule({
       //   contentSelector: '.compare-items-container',
@@ -1153,7 +1140,7 @@
       //   prevSelector: '',
 
       //   iscrollProps: {
-      //     snap: true,
+      //     snap: false,
       //     hScroll: true,
       //     vScroll: true,
       //     hScrollbar: true,
@@ -1197,8 +1184,10 @@
       // Clean up
       self.$compareTool.find('.sort-options').remove();
 
-      // Destroy carousel
-      self.$compareTool.find('.compare-items-wrap').scrollerModule('destroy');
+      // Destroy iscrolls
+      self.outerScroller.destroy();
+      self.innerScroller.destroy();
+
 
       // Empty out html
       // Remove scroll event
@@ -1298,8 +1287,8 @@
           var $subheader = $('<div class="modal-subheader clearfix">');
           $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
 
-          // Insert subhead after the header
-          $header.after( $subheader );
+          // Insert subhead in the modal body
+          self.$compareTool.find('.modal-body').prepend( $subheader );
 
           // Put the reset button the left
           self.$compareReset.removeClass('pull-right').addClass('pull-left');
@@ -1327,8 +1316,27 @@
         .add(self.$compareTool.find('.product-name-wrap'))
         .css('height', '');
 
-      self.setCompareRowHeights();
-      self.setStickyHeaderPos();
+      self
+        .setCompareRowHeights()
+        .setCompareHeight()
+        .setStickyHeaderPos();
+    },
+
+    onCompareScroll : function( offsetTop, iscroll ) {
+      var self = this,
+          scrollTop = iscroll.y * -1;
+
+      if ( scrollTop >= offsetTop ) {
+        if ( !self.$stickyHeaders.hasClass('open') ) {
+          self.$stickyHeaders.addClass('open');
+        }
+        self.setStickyHeaderPos();
+
+      } else {
+        if ( self.$stickyHeaders.hasClass('open') ) {
+          self.$stickyHeaders.removeClass('open');
+        }
+      }
     },
 
     getCompareItems : function( $items ) {
@@ -1402,7 +1410,7 @@
     },
 
     // http://stackoverflow.com/questions/2637058/positions-fixed-doesnt-work-when-using-webkit-transform
-    reparentStickyHeaders : function() {
+    /*reparentStickyHeaders : function() {
       var self = this,
           $container = $('<div class="sticky-headers">');
 
@@ -1414,16 +1422,25 @@
       self.$stickyHeaders.detach();
       $container.append( self.$stickyHeaders );
       self.$compareTool.find('.compare-container').append( $container );
-    },
+
+      return self;
+    },*/
 
     setStickyHeaderPos : function() {
-      var self = this;
+      var self = this,
+          translateZ = Modernizr.csstransforms3d ? ' translateZ(0)' : '';
 
       // IE9 error: unable to get value of property 'each': object is null or undefined
       self.$stickyHeaders.each(function(i, el) {
-        var parentOffsetLeft = $(el).data('$parent').offset().left;
-        el.style.position = 'fixed';
-        el.style.left = parentOffsetLeft + 'px';
+        var $el = $(el),
+            offsetTop = $el.parent().offset().top * -1;
+
+        if ( Modernizr.csstransforms ) {
+          // Get jQuery to prefix the transform for us.
+          $el.css('transform', 'translate(0,' + offsetTop + 'px)' + translateZ);
+        } else {
+          el.style.top = offsetTop + 'px';
+        }
       });
 
       return self;
@@ -1660,6 +1677,26 @@
       return self;
     },
 
+    setCompareHeight : function() {
+      var self = this,
+          windowHeight = $(window).height(),
+          contentWidth = 0;
+
+      console.log('setCompareHeight');
+
+      self.$compareItems.each(function() {
+        contentWidth += $(this).outerWidth(true);
+      });
+      contentWidth += self.$compareTool.find('.detail-labels-wrap').outerWidth(true);
+      self.$compareTool.find('.compare-items-container').width( contentWidth );
+
+      self.$compareTool.find('.compare-container').height( self.$compareItems.first().height() );
+      // self.$compareTool.find('.js-compare-wrap').height(diff);
+      self.$compareTool.height( windowHeight ); // has height 100% on it. Is that enough?
+
+      return self;
+    },
+
     setCompareRowHeights : function( isFirst ) {
       var self = this,
           $detailGroup = self.$compareItems.not('.hide').find('.detail-group').first(),
@@ -1701,6 +1738,11 @@
       offset = $detailGroup.position().top;
       offset += parseFloat( $detailGroup.css('marginTop') );
       self.$compareTool.find('.detail-label-group').css('top', offset);
+
+      // Refresh outer iScroll
+      if ( self.outerScroller ) {
+        self.outerScroller.refresh();
+      }
 
       return self;
     }

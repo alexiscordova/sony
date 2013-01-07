@@ -43,7 +43,7 @@
 		};
 
 		// Create instance of scroller and pass it defaults
-		self.iscrollProps.onTouchEnd = self.iscrollProps.onScrollEnd = window.iQ.update;
+		// self.iscrollProps.onTouchEnd = self.iscrollProps.onScrollEnd = window.iQ.update;
 		self.scroller = new iScroll( self.$el[0], self.iscrollProps );
 
 		console.log(self.iscrollProps);
@@ -142,6 +142,7 @@
 		},
 
 		_update : function() {
+			console.log('ScrollerModule._update()');
 			var self = this,
 					paginated = true;
 
@@ -159,7 +160,7 @@
 			}
 
 			if ( self.mode === 'paginate' && paginated ) {
-				self.scroller.scrollToPage(0, 0, 200);
+				self.scroller.scrollToPage(0, 0, 400);
 			}
 
 			self.$ev.trigger('update.sm');
@@ -222,7 +223,7 @@
 		 */
 
 		goto: function( pageNo, duration ) {
-			this.scroller.scrollToPage(pageNo , 0 , duration || 300);
+			this.scroller.scrollToPage(pageNo , 0 , duration || 400);
 		},
 
 		next: function() {

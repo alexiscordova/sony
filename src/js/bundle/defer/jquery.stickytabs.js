@@ -47,12 +47,6 @@
       if ( self.isCarousel ) {
         self.$navNext = self.$container.find('.tab-nav-next');
         self.$navPrev = self.$container.find('.tab-nav-prev');
-        // self.$navNext.on('click', function() {
-        //   self.$tabsContainer.scrollerModule('next');
-        // });
-        // self.$navPrev.on('click', function() {
-        //   self.$tabsContainer.scrollerModule('prev');
-        // });
       }
 
       // New tab shown event
