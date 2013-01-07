@@ -6,16 +6,13 @@
 // Optional: jQuery throttle-debounce (only used on window resize)
 // -------------------------------------------------------------------------
 
-
 (function($, Modernizr, window, undefined) {
     
   'use strict';
 
-  $(window).resize(function() {
-    console.log("width: " + $(window).width());
-  });
-
+  // Start module
   var GlobalNav = function( $container ) {
+
     var self = this;
     self.searchMenu = {};
     self.$container = $container;
@@ -50,8 +47,10 @@
 
     if ( $(window).width() <= 767 ) {
       self.initPrimaryNavBtns(false);
+      self.initFooter(false);
     } else {
       self.initPrimaryNavBtns(true);
+      self.initFooter(true);
     }
     // });
 
@@ -232,6 +231,17 @@
           }
         }
       }
+    },
+
+    initFooter : function( isDesktop ) {
+      console.log("initFooter");
+      $('#l11n-selector').on('hover',function(){
+
+        var pageContainerWidth = $(this).closest('.grid-footer').width();
+        console.log("pageContainerWidth: " + pageContainerWidth);
+        console.log($(this).find('.dropdown-hover-menu-lists-w'));
+        $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
+      })
     }
   };
 
@@ -239,13 +249,13 @@
   $.fn.globalNav = function( opts ) {
     var args = Array.prototype.slice.apply( arguments );
     return this.each(function() {
-      var $this = $(this),
-        globalNav = $this.data('globalNav');
+      var self = $(this),
+        globalNav = self.data('globalNav');
 
       // If we don't have a stored globalNav, make a new one and save it
       if ( !globalNav ) {
-        globalNav = new GlobalNav( $this );
-        $this.data( 'globalNav', globalNav );
+        globalNav = new GlobalNav( self );
+        self.data( 'globalNav', globalNav );
       }
 
       if ( typeof opts === 'string' ) {
@@ -257,10 +267,12 @@
 
   // Overrideable options
   $.fn.globalNav.options = {
+    sampleOption: 0
   };
 
   // Not overrideable
   $.fn.globalNav.settings = {
+    isTouch: !!( 'ontouchstart' in window ),
     isInitialized: false
   };
 

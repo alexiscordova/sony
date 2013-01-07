@@ -241,10 +241,13 @@ $default-transition-delay    : 0s;
 // Icons with standard hover, focus, & active states can be built using the iconBuilder mixin.
 // The first parameters are specific to the iconType ($iconType, $y, $hoverOffsetY)
 // The other parameters are specific to the icon, and are simply passed through from the specific icon mixin.
-@mixin icon($iconType, $y, $name, $x, $w, $h, $hoverOffsetY:0, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+@mixin icon($iconType, $y, $name, $x, $w:false, $h:false, $hoverOffsetY:0, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
   .icon-#{$iconType}-#{$name} {
     background-position: $x $y;
-    @include size($h, $w);
+    
+    @if ( $w ) {
+    	@include size($h, $w);
+    }
 
     @if ( $margin ) {
       margin: $margin;
@@ -305,10 +308,10 @@ $default-transition-delay    : 0s;
 }
 
 @mixin icon-flag($name, $x) {
-  @include icon(flag, $icon_flag_Y, $name, $x, 14px, 11px);
+  @include icon(flag, $icon_flag_Y, $name, $x);
 }
 @mixin icon-flagBig($name, $x) {
-  @include icon(flagBig, $icon_flagBig_Y, $name, $x, 22px, 15px);
+  @include icon(flagBig, $icon_flagBig_Y, $name, $x);
 }
 @mixin icon-flags-reg-and-big($name, $x) {
 	@include icon-flag($name, $x);
@@ -970,6 +973,7 @@ $default-transition-delay    : 0s;
 
 // there is also a .el-hidden class in utilities that just includes the mixin.
 @mixin el-hidden {
+	display:block;
 	position: absolute;
 	-webkit-backface-visibility: hidden; // flicker fix
 

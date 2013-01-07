@@ -5,10 +5,6 @@
 .footer-wrapper{
   background:$footerBackground;
 
-  a{
-    @include transition(background-color $transitionSlowish linear, color $transitionSlowish linear); 
-  }
-
   h5{
     color:$gray;
   }
@@ -25,15 +21,87 @@
       color:$linkColorLight;
     };
   } 
-  .btn.dropdown-toggle{
+  .btn.dropdown-toggle,
+  .btn-group.open .btn.dropdown-toggle{
+    color:$white;
     background-color: $grayDark;
     border-color: $grayDark;
-    padding:6px 14px 8px 12px;
+    padding:6px 14px 8px 11px;
+    @include box-shadow(none);
+
+    &:hover{
+      color:$white;
+      background-color: $grayDark1;
+      border-color: $grayDark1;
+    }
   }
-  .btn-group.open .btn.dropdown-toggle{
-    background-color: $grayDarkFieldLarge;
-    border-color: $grayDarkFieldLarge;
+
+
+  .btn-hover-group{
+    .btn.dropdown-hover-toggle{
+      text-align: left;
+      color:$white;
+      background-color: $grayDark;
+      border-color: $grayDark;
+      padding:6px 14px 8px 12px;
+      @include box-shadow(none);
+    }
+    .dropdown-hover-menu{
+      display:block;
+      background-color:transparent;
+      border:none;
+      float:none;
+      padding-bottom:3px;
+      @include box-shadow(none);
+      @include el-hidden;
+    }
+    .dropdown-hover-menu-lists-w{
+      background-color: $grayDark;
+      width:900px; // overwritten by js
+      padding:24px 0 24px 0px;
+      @include clearfix;     
+    }
+    .dropdown-hover-menu-list{
+      margin:0;
+      float:left;
+      padding:0 10px;
+
+      li{
+        a{
+          font-size:$font_13_16;
+          color:$grayLight;
+          line-height: 1.85;
+          padding:3px 0 4px 10px;
+
+          &:hover,
+          &:active,
+          &:focus{
+            display:block;
+            color:$white;
+            background-color: $grayDark1;
+          }
+        }
+      }
+    }
+
+    &:hover{
+      .btn.dropdown-hover-toggle{
+        color:$white;
+        background-color: $grayDark1;
+        border-color: $grayDark1;
+      }
+      .dropdown-hover-menu{
+        @include el-shown;
+      }
+    }
   }
+
+
+  .dropdown-menu{
+    background-color: $grayDark;
+    border-color: $grayDark;    
+  }
+
   .grid.grid-footer{
     width:100%; // no grid margins in the footer, but still need .grid to make the spans fluid widths.
   }
