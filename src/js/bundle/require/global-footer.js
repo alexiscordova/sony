@@ -10,7 +10,7 @@
 (function($, Modernizr, window, undefined) {
 
   $(window).resize(function() {
-    console.log("width: " + $(window).width());
+    //console.log("width: " + $(window).width());
   });
 
   var GlobalFooter = function( $container ) {

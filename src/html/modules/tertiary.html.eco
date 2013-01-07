@@ -6,18 +6,58 @@ containerTypes: ["category", "pdp", "homepage"]
 <% console.log("contentModules count »", moduleCount);%>
 
 <section class="container full-bleed-no-max tcc-wrapper">
+
 	<header class="container tcc-header-wrapper">
-		<div class="tcc-header">
+		<div class="grid tcc-header">
 			<p class="l1 tcc-header-title">Latest News</p>
-			<p class="tcc-header-link"><a class="tl tl-large" href="#">Go to Sony Press Center</a></p> 
+			<!-- <p class="tcc-header-link"><a class="tl" href="#">Go to Sony Press Center</a></p>  -->
+			<p class="tcc-header-link"><a class="tl" href="#">Go to Sony Press Center</a></p>
 		</div>
 	</header>
 
-	<section class="tcc">
-	  <div class="tcc-modules-wrapper">
-			<div class="tcc-content-module" data-tcc-module-type="a">1</div>
-			<div class="tcc-content-module" data-tcc-module-type="b">2</div>
-			<div class="tcc-content-module" data-tcc-module-type="c">3</div>
+	<section class="container tcc-body-wrapper"> 
+	  <div class="grid tcc-body">
+			<div class="span4 tcc-content-module article-default" data-tcc-module-type="article" data-tcc-module-mode="default">
+	
+				<!-- image (optional) -->	
+				<img class="iq-img" alt="article default image" data-src="img/tertiary/article-default.png">
+				<noscript><img src="img/article-default-desktop.png"></noscript>
+
+				<div class="tcc-copy">
+					
+					<!-- title (required) -->
+					<p class="l1">Sony Unveils its First Hybrid Ultrabook™</p>
+
+					<!-- body copy (optional) -->
+					<p class="p3">
+						Sony has released its first mobile Tabletop PC for the U.S. market — the VAIO® Duo 11 Ultrabook™. <a class="tl" href="#">Read More</a> <!-- link (optional) -->
+					</p>	
+				</div>
+			</div>
+			<div class="span4 tcc-content-module article-default" data-tcc-module-type="article" data-tcc-module-mode="default">
+				<img class="iq-img" alt="article default image" data-src="img/tertiary/article-default-2.png">
+				<noscript><img src="img/article-default-2-desktop.png"></noscript>
+				<div class="tcc-copy">
+					<p class="l1">Introducing Sony Reader App for iOS</p>
+					<p class="p3">The Sony Reader™ Store has launched Reader for iOS, a free application that brings its ebook software to both... <a class="tl" href="#">Read More</a>
+					</p>	
+				</div>
+			</div>
+			<div class="span4 tcc-content-module sonys-voice" data-tcc-module-type="sonys-voice" data-tcc-module-mode="twitter">
+				<img src="img/icon_twitter.png">	<!-- icon (required) -->
+				<div class="meta">
+					<span class="l3">SonyElectronics</span> <!-- user (required) -->
+					<span class="l4">3 hours ago</span> <!-- timestamp (required) -->
+				</div>
+				<!-- quote (required) -->
+				<blockquote class="bq2"><p>Three of our cameras made @engadget’s gift guide. See which ones: ow.ly/ftFuu</p></blockquote>
+
+				<!-- social link (required) -->
+				<p>
+				  <a class="btn">Follow us on Twitter</a>
+				</p>
+
+			</div>		
  		</div>
 	</section>
 

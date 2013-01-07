@@ -1,15 +1,15 @@
 // ------------  ------------
 // Module: Generic Scroller
 // Version: 1.0
-// Modified: 2012-12-11 by Telly Koosis, Tyler Madison
+// Modified: 2013-1-7 by Telly Koosis, Tyler Madison, Glen Cheney
 // Dependencies: jQuery 1.7+, Modernizr, iScroll v4.2.5
 // -------------------------------------------------------------------------
-// TODO: t = self
+
 // TODO: broadcast if pagination (including page number)
 // TODO: add listener for prev and next page.
-//  
-//
-(function(window){
+// TODO: allow init of more than one scroller on a page
+
+(function(window) {
     'use strict';
     var sony = window.sony = window.sony || {};
     sony.modules = sony.modules || {};
@@ -17,71 +17,64 @@
 
 })(window);
 
-(function($ , window , undefined , Modernizr){
+(function($ , window , undefined , Modernizr) {
 
 	'use strict';
 
-	var ScrollerModule = function(element, opts){
+	var ScrollerModule = function(element, opts) {
 
-		var t      = this;
+		var t = this;
 
-		$.extend(t, {} , $.fn.scrollerModule.defaults , opts);
+		$.extend(self, {} , $.fn.scrollerModule.defaults , opts);
 
-		t.$el 							= $(element),
-		t.$win              = $(window),
-		t.$contentContainer = $(t.contentSelector);
-		t.$ev               = $(); //events object
-		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
-		t.$sampleElement		= t.$elements.eq(0);
+		self.$el 							= $(element),
+		self.$win              = $(window),
+		self.$contentContainer = $(self.contentSelector);
+		self.$ev               = $(); //events object
+		self.$elements					= $(self.itemElementSelector , self.$contentContainer),
+		self.$sampleElement		= self.$elements.eq(0);
 
+		$( self.$contentContainer).css('width' , (self.$sampleElement.outerWidth(true) * self.$elements.length) + 500 );
 
-		$(t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length);
+		// Override the onscrollend for our own use - listen for 'onAfterSroll'
+		self.iscrollProps.onScrollEnd = $.proxy(self._onScrollEnd , self);
 
-		//if (t.calcWidth){
-			//$(t.$contentContainer).css({'width':990});
-			//$(t.$contentContainer).css('width' , t.$sampleElement.outerWidth(true) * t.$elements.length);	
-		//}
-			//t.fixedWidth ? setWidth( t.$contentContainer, t.fixedWidth) : setWidth( t.$contentContainer , numPages * wW);
-		//	if(t.fixedWidth){
-				// set container to width passed in
-			//	$( t.$contentContainer).css('width' , t.fixedWidth);
-				
-			//}{
-				// automatically figure it out based on items in container
-				//setWidth( t.$contentContainer , numPages * wW);
-			//}
-				
-		//override the onscrollend for our own use - listen for 'onAfterSroll'
-		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
+		// Create instance of scroller and pass it defaults
+		self.iscrollProps.onTouchEnd = self.iscrollProps.onScrollEnd = window.iQ.update;
+		self.scroller = new iScroll(self.$el[0],self.iscrollProps);
 
-		//create instance of scroller and pass it defaults
-		t.iscrollProps.onTouchEnd = t.iscrollProps.onScrollEnd = window.iQ.update;
-		t.scroller = new iScroll(t.$el[0],t.iscrollProps);
+		function paginate() {
+			// console.group("function paginate");
 
-		function paginate(){
-			//console.group("paginate");
-
-			var lastSlideCentered = t.lastPageCenter,
-					$itemCount        = t.$elements.length,
-					wW                = t.$el.width() - t.extraSpacing,
-					availToFit        = Math.floor(wW / t.$sampleElement.outerWidth(true)),
-					numPages          = Math.ceil( $itemCount / availToFit ),
+			var lastSlideCentered = self.lastPageCenter,
+					itemCount					= self.$elements.length,
+					wW                = self.$el.width() - self.extraSpacing,
+					availToFit        = Math.floor(wW / self.$sampleElement.outerWidth(true)),
+					numPages          = Math.ceil( itemCount / availToFit ),
 					i        		  		= 0,
-					totalBlockWidth   = t.$sampleElement.outerWidth(true) * availToFit;
+					totalBlockWidth   = self.$sampleElement.outerWidth(true) * availToFit;
 
-			wW += t.extraSpacing;
+			wW += self.extraSpacing;
 
-			//console.log("Number of pages Â» " , numPages , wW , t.$sampleElement);
-			//console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
-			if(availToFit > $itemCount) { return; } //stop processing function /TODO: maybe hide paddles or UI?
+			// console.log("Number of pages Â» " , numPages , wW , self.$sampleElement);
 
-			function buildPage(pageNo, startIndx, endIndx){
+			// console.log('Available blocks to fit in MyScroller:' , availToFit , ' Number of pages:' , numPages);
 
-				var $elemsInPage = t.$elements.slice(startIndx, endIndx + 1);
+			//stop processing function /maybe hide paddles or UI?
+			if ( numPages === 1 || availToFit > itemCount ) {
+				self.isPaginated = false;
+				return false;
+			} else {
+				self.isPaginated = true;
+			}
 
-		    if(pageNo === numPages - 1 && lastSlideCentered === true){
+			function buildPage(pageNo, startIndx, endIndx) {
+
+				var $elemsInPage = self.$elements.slice(startIndx, endIndx + 1);
+
+		    if ( pageNo === numPages - 1 && lastSlideCentered === true ) {
 		    	console.log("LAST PAGE Â»", pageNo+1);
-		    	totalBlockWidth = t.$sampleElement.outerWidth(true) * $elemsInPage.length;
+		    	totalBlockWidth = self.$sampleElement.outerWidth(true) * $elemsInPage.length;
 		    }
 
 				var offsetX = Math.floor((wW - totalBlockWidth) * 0.5),
@@ -103,129 +96,167 @@
 				});
 
 				//console.log("Building new page Â»", [startIndx , endIndx] ,$elemsInPage.length);
+			}
 
-			}	
-
-			if(t.mode.toLowerCase() === 'paginate'){
-				for (i = 0 ; i < numPages; i ++){
+			if ( self.mode.toLowerCase() === 'paginate' ) {
+				for (i = 0 ; i < numPages; i ++) {
 					var startIndx = i * availToFit,
 					endIndx       = startIndx + availToFit - 1;
+
 					buildPage( i , startIndx , endIndx );
 				}
 			}
-			
-			//update the width again to the new width based on however many 'pages' there are now
-			if(t.calcWidth){
-				setWidth( t.$contentContainer , numPages * wW);
-			}
-			//t.$contentContainer.css('width' , numPages * wW );
+
+			// Update the width again to the new width based on however many 'pages' there are now
+			self.$contentContainer.css('width' , numPages * wW );
 
 			//console.groupEnd();
 
-			t.$ev.trigger('onPaginationComplete.scroller');
+			self.$ev.trigger('onPaginationComplete.sm');
+
+			return true;
 		}
 
-		function setWidth(el,value){
-			$(el).css({'width':value});
-		}
+		function update() {
+			var paginated = true;
 
-		function update(){
-			//console.log("update Â»");
-			if(t.mode === 'paginate'){
-				paginate();
+			// Paginate() will return false if there aren't enough items to be paginated
+			// If there aren't enough items, we don't want to create an iScroll instance
+			if ( self.mode === 'paginate' ) {
+				paginated = paginate();
 			}
-	  	 
-	  	t.scroller.refresh(); //update scroller
 
-	  	// reset to first position
-	  	if(t.mode === 'paginate'){
-	  		t.scroller.scrollToPage(0, 0, 200);
+			// Is this needed? iScroll calls refresh() on itself on window resize already.
+	  	if ( paginated ) {
+	  		self.scroller.refresh(); //update scroller
 	  	}
-	  	
-	  	t.$ev.trigger('onUpdate.scroller');
+
+	  	if ( self.mode === 'paginate' && paginated ) {
+	  		self.scroller.scrollToPage(0, 0, 400);
+	  	}
+
+	  	self.$ev.trigger('update.sm');
+	  	$(document).trigger('update.sm');
 		};
 
-		var resizeTimer,
-		resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-    $(window).on(resizeEvent, function(e) {  
-        if(resizeTimer) { clearTimeout(resizeTimer); }
-        resizeTimer = setTimeout(function() { 
-        	update();
-        }, t.throttleTime);          
-    });	
+		self.resizeTimer = null;
+		self.resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+    self.$win.on(self.resizeEvent + '.sm', function(e) {
+        // Clear the timer if it exists
+        if ( self.resizeTimer ) { clearTimeout( self.resizeTimer ); }
 
-    $(window).trigger(resizeEvent);
+        // Set a new timer
+        self.resizeTimer = setTimeout(function() {
+        	if ( !self.destroyed ) {
+        		update();
+        	}
+        }, self.throttleTime);
+    });
+
+    // Initially set the isPaginated boolean. This may be changed later inside paginate()
+    self.isPaginated = self.mode === 'paginate';
+
+    // $(window).trigger(resizeEvent);
+    update();
 	};
 
 	ScrollerModule.prototype = {
+		constructor: ScrollerModule,
+
 		goto: function(pageNo , duration){
 			var t = this;
 
-			t.scroller.scrollToPage(pageNo , 0 , duration || 300);
-		},
-		refresh: function(){
-			var t = this;
-			t.update();
-		},
-		destroy: function(){
-			var t = this;
-
-			//destroy the scroller
-			t.scroller.destroy();
-			t.scroller = null;
+			self.scroller.scrollToPage(pageNo , 0 , duration || 400);
 		},
 
-		_onScrollEnd : function(){
+		next: function() {
+			this.goto('next');
+		},
+
+		prev: function() {
+			this.goto('prev');
+		},
+
+		refresh: function() {
+			var t = this;
+			self.update();
+		},
+
+		destroy: function() {
 			var t = this;
 
-			t.$ev.trigger('onAfterSroll.scroller');
+			self.$contentContainer.css('width', '');
+
+			// Destroy our resize timer. NOT SURE WHY THIS ISN'T WORKING
+			clearTimeout( self.resizeTimer );
+			self.destroyed = true; // work around for above
+
+			// Destroy the scroller
+			self.scroller.destroy();
+
+			// Remove resize event
+			self.$win.off('.sm');
+			self.$el.removeData('scrollerModule');
+		},
+
+		disable: function() {
+			var t = this;
+
+			self.scroller.disable();
+		},
+
+		enable: function() {
+			var t = this;
+			self.scroller.enable();
+		},
+
+		_onScrollEnd : function() {
+			var t = this;
+
+			self.$ev.trigger('scrolled.sm');
 		}
-	}
-
-	//plugin definition
-	$.fn.scrollerModule = function(options) {      
-	  var args = arguments;
-	  return this.each(function(){
-	    var t = $(this);
-	    if (typeof options === "object" ||  !options) {
-	      if( !t.data('scrollerModule') ) {
-	        t.data('scrollerModule', new ScrollerModule(t, options));
-	      }
-	    } else {
-	      var scrollerModule = t.data('scrollerModule');
-	      if (scrollerModule && scrollerModule[options]) {
-	          return scrollerModule[options].apply(scrollerModule, Array.prototype.slice.call(args, 1));
-	      }
-	    }
-	  });
 	};
 
-	//defaults    
-	$.fn.scrollerModule.defaults = { 
-	  throttleTime: 25,
-	  contentSelector: '.content',
-	  itemElementSelector: '.block',
-	  mode: 'free',
-	  lastPageCenter: false,
-	  extraSpacing: 0,
-	  //fixedWidth:null, // if value is passed that'll be used
-	  //calcWidth:true, // on resize and init, should scoller calc width based on items?
+	// Plugin definition
+  $.fn.scrollerModule = function( options ) {
+    var args = Array.prototype.slice.call( arguments, 1 );
+    return this.each(function() {
+      var self = $(this),
+          scrollerModule = self.data('scrollerModule');
 
-	  //iscroll props get mixed in
-	  iscrollProps: {
-			snap: true,
+      // If we don't have a stored scrollerModule, make a new one and save it
+      if ( !scrollerModule ) {
+        scrollerModule = new ScrollerModule( self, options );
+        self.data( 'scrollerModule', scrollerModule );
+      }
+
+      if ( typeof options === 'string' ) {
+        scrollerModule[ options ].apply( scrollerModule, args );
+      }
+    });
+  };
+
+	// Defaults
+	$.fn.scrollerModule.defaults = {
+		throttleTime: 25,
+		contentSelector: '.content',
+		itemElementSelector: '.block',
+		mode: 'free',
+		lastPageCenter: false,
+		extraSpacing: 0,
+
+		// iscroll props get mixed in
+		iscrollProps: {
+			snap: false,
 			hScroll: true,
 			vScroll: false,
 			hScrollbar: false,
 			vScrollbar: false,
 			momentum: true,
 			bounce: true,
-			onScrollEnd: null 	
-	  }
-	 
+			onScrollEnd: null
+		}
+
 	};
 
-
-
 })(jQuery , window , undefined , Modernizr);
-

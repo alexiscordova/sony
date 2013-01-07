@@ -186,7 +186,7 @@
         viewportWidth = getViewportWidthInCssPixels(); 
         breakpoint = getBreakpoint(breakpoints, viewportWidth);
    		breakpointName = breakpoint.name;
-   		console.log(breakpointName)
+   		//console.log(breakpointName);
    		var newsrc = getImageSrc(img, breakpointName);
         
 		
@@ -556,7 +556,7 @@
             if (isImmediate) {
                 result = func.apply(thisArg, args);
             }
-            return result;
+            return result;	
         };
     };
 	
@@ -596,6 +596,6 @@
 
 	// DOM does not need to be ready to begin the network connection speed test
 	initSpeedTest();
-	console.log(bandwidth, connTestResult, devicePixelRatio)
+	//console.log(bandwidth, connTestResult, devicePixelRatio)
 	
 } (this.iQ = this.iQ || {}, jQuery, Modernizr));

@@ -22,9 +22,8 @@
   background-color:$grayLightFieldLarge;
   overflow:auto; // scroller
   text-align: center; // scroller
-  padding:40px 0;
 
-	.tcc{
+	.tcc-body-wrapper{
 		display: block;
 		overflow: auto;
 		position: relative;
@@ -35,38 +34,62 @@
 } // end .tcc-wrapper 
 
 .tcc-header-wrapper{
-	border-bottom: 2px solid $grayLighter;
 
 	.tcc-header{
+		border-bottom: 2px solid $grayLighter;
+		padding-bottom: 20px;
 		position: relative;
 	} // end .tcc-header
 
-	.tcc-header-title{
-		float:left;
-		margin:0;
-	} // end .tcc-header-title
-
-	.tcc-header-link{
-		float:right;
-		margin:14px 0 0 0;
-	} // end .tcc-header-link
-
 } // end .tcc-header-wrapper
 
-.tcc-modules-wrapper{
+.tcc-body{
 	display:inline-block;
 	margin-top:30px;
-	height:315px;
+	height:330px;
 
 	// Content Modules
 	.tcc-content-module{
-		height:315px;
+		height:330px;
 		float:left;
+		overflow: hidden;
 	} // end .tcc-content-module
 
 	.tcc-content-module:hover{
 		cursor: pointer;
 		background-color: white;
-	}
+	} // end .tcc-content-module:hover
 
-} // end .tcc-modules-wrapper
+} // end .tcc-body
+
+.article-default{		
+	.l1{
+		text-transform: none;
+		line-height:1.2em;
+		font-size: $font_18_16;
+	} // end l1
+
+	.p3{
+		line-height: 1.4em;
+	} // end .p3
+
+} // end .article-default
+
+.sonys-voice{
+	.l4,
+	.l3{
+		text-transform: none;
+	} // end .l4 .l3
+
+	.bq2 > p{
+		font-size: $font_22_16;
+		color:$gray;
+		line-height: 1.35em;
+		padding-bottom:13.636363636364%; //45px / 330px
+	} // end .bq2 > p
+
+	.btn{
+		width:196px;
+	} // end .btn
+
+} // end .sonys-voice
