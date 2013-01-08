@@ -1,7 +1,7 @@
 
 <% if @data.view == "basic": %>
 <a class="gallery-item
-  <% if @data.layout == "large": %>
+  <% if @data.layout == "large" || @data.layout == "carousel": %>
     span3 large
   <% else if @data.layout == "promo": %>
     span2 promo
@@ -11,7 +11,7 @@
     span2 plate
   <% else: %>
     span1 normal
-  <% end %>" 
+  <% end %>"
   data-priority="<%- @data.priority %>" href="<% if @data.href: %><%- @data.href %><% else: %>#<% end %>">
   <div class="gallery-item-inner">
     <% if @data.label: %>
@@ -34,7 +34,7 @@
     </div>
     <% else if @data.layout == "plate": %>
     <div class="product-img" <% if @data.backgroundColor: %> style="background-color: <%- @data.backgroundColor %>" <% end %>>
-      
+
       <div class="product-content">
         <p class="text-promo-title">
           <strong><%- @data.title %></strong><%- @data.emphasis %>
@@ -51,7 +51,7 @@
     <div class="product-img">
       <div class="product-img-wrap ghost-center-wrap">
         <div class="ghost-center">
-          <% if @data.imgCarousel && @data.layout == "large": %>
+          <% if @data.layout == "carousel": %>
             <% for img in @data.imgCarousel: %>
             <img class="iq-img" alt="<%- img.alt %>" data-src="<%- img.src %>">
             <noscript>
