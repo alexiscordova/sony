@@ -125,9 +125,9 @@
 		loadImages();
 	},
 
-    updateImages = function( imagesWereAdded ) {
-        loadImages( imagesWereAdded !== false );
-    },
+  updateImages = function( imagesWereAdded ) {
+      loadImages( imagesWereAdded !== false );
+  },
 	
 	loadImages = function(update){
 			var current, i;
@@ -532,6 +532,7 @@
      * N milliseconds. If `immediate` is passed, trigger the function on the
      * leading edge, instead of the trailing.
      */
+    
     function debounce(func, wait, immediate) {
         var args,
         	result,

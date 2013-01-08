@@ -10,23 +10,13 @@ $(document).ready(function(){
   var $scroller = $(".tcc-body-wrapper");
 
   // if we're in phone breakpoint
-  if ( Modernizr.mq('(max-width: 480px)') ) {
+  //if ( Modernizr.mq('(max-width: 480px)') ) {
     
     // if there's a scroller to be had... 
-    if ($scroller.length > 0) {
+    //if ($scroller.length > 0) {
       console.log("initilizing scroller »", $scroller);
 
       //init
-      // $scroller.scrollerModule({
-      //   contentSelector: '.tcc-body',
-      //   itemElementSelector: '.tcc-content-module',
-      //   mode:"paginate"
-      //   // snap: false,
-      //   // momentum: true, 
-      //   // hScrollbar: false,
-      //   // vScrollbar: false
-      // });
-
       $scroller.scrollerModule({
         contentSelector: '.tcc-body',
         itemElementSelector: '.tcc-content-module',
@@ -41,19 +31,18 @@ $(document).ready(function(){
           momentum: true,
           bounce: true,
         }
+
       });
 
-
-
       // setup listener
-      //$scroller.on('update.sm',handleScroller);
+      $scroller.on('update.sm',handleScroller);
 
       // define event function
       function handleScroller(){
         console.group("handleScroller");
         
         
-        var isScrollerModule = true; // check here if there's a scroller module
+        // var isScrollerModule = true; // check here if there's a scroller module
 
 
         // if ( Modernizr.mq('(max-width: 480px)') ) { // Phone
@@ -76,20 +65,23 @@ $(document).ready(function(){
         console.groupEnd();
       }
   
-    } 
+    //} 
 
-  }
+ // }
 
 });
 
 
-// reinit scroller
-// if(self.scrollerModule != null){
 
-//   self.scrollerModule.destroy();
-//   self.scrollerModule = null;
-// }
-
+// $scroller.scrollerModule({
+//   contentSelector: '.tcc-body',
+//   itemElementSelector: '.tcc-content-module',
+//   mode:"paginate"
+//   // snap: false,
+//   // momentum: true, 
+//   // hScrollbar: false,
+//   // vScrollbar: false
+// });
 
 
 

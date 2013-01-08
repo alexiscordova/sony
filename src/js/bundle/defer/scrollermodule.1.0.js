@@ -8,6 +8,7 @@
 // TODO: broadcast if pagination (including page number)
 // TODO: add listener for prev and next page.
 // TODO: allow init of more than one scroller on a page
+// TODO: allEqual: t/f option: if true, then grab any $sampleElement otherwise add in func to tally total (or handle differences)
 
 (function(window) {
     'use strict';
@@ -27,14 +28,14 @@
 
 		$.extend(self, {} , $.fn.scrollerModule.defaults , opts);
 
-		self.$el 							= $(element),
+		self.$el               = $(element),
 		self.$win              = $(window),
 		self.$contentContainer = $(self.contentSelector);
 		self.$ev               = $(); //events object
-		self.$elements					= $(self.itemElementSelector , self.$contentContainer),
-		self.$sampleElement		= self.$elements.eq(0);
+		self.$elements         = $(self.itemElementSelector , self.$contentContainer),
+		self.$sampleElement    = self.$elements.eq(0);
 
-		$( self.$contentContainer).css('width' , (self.$sampleElement.outerWidth(true) * self.$elements.length) + 500 );
+		$( self.$contentContainer).css('width' , (self.$sampleElement.outerWidth(true) * self.$elements.length));
 
 		// Override the onscrollend for our own use - listen for 'onAfterSroll'
 		self.iscrollProps.onScrollEnd = $.proxy(self._onScrollEnd , self);
@@ -118,6 +119,7 @@
 		}
 
 		function update() {
+			return;
 			var paginated = true;
 
 			// Paginate() will return false if there aren't enough items to be paginated
@@ -127,30 +129,42 @@
 			}
 
 			// Is this needed? iScroll calls refresh() on itself on window resize already.
-	  	if ( paginated ) {
-	  		self.scroller.refresh(); //update scroller
-	  	}
+	  	// if ( paginated ) {
+	  	// 	self.scroller.refresh(); //update scroller
+	  	// }
 
 	  	if ( self.mode === 'paginate' && paginated ) {
 	  		self.scroller.scrollToPage(0, 0, 400);
 	  	}
 
 	  	self.$ev.trigger('update.sm');
-	  	$(document).trigger('update.sm');
+	  	self.$win.trigger('update.sm');
 		};
 
 		self.resizeTimer = null;
 		self.resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
     self.$win.on(self.resizeEvent + '.sm', function(e) {
+        
         // Clear the timer if it exists
-        if ( self.resizeTimer ) { clearTimeout( self.resizeTimer ); }
+        // if ( self.resizeTimer ) { clearTimeout( self.resizeTimer ); }
 
-        // Set a new timer
-        self.resizeTimer = setTimeout(function() {
-        	if ( !self.destroyed ) {
-        		update();
-        	}
-        }, self.throttleTime);
+        // // Set a new timer
+        // self.resizeTimer = setTimeout(function() {
+        // 	if ( !self.destroyed ) {
+        // 		console.log("update() »");
+        // 		update();
+        // 	}
+        // }, self.throttleTime);
+
+					// debounce(function() {
+					//         loadImages();
+					//     }, DELAY)
+
+				$.throttle(500, function(){
+					console.log("resizeEvent »", self.resizeEvent);
+					update();
+				});
+
     });
 
     // Initially set the isPaginated boolean. This may be changed later inside paginate()
@@ -170,10 +184,12 @@
 		},
 
 		next: function() {
+
 			this.goto('next');
 		},
 
 		prev: function() {
+
 			this.goto('prev');
 		},
 
@@ -197,6 +213,12 @@
 			// Remove resize event
 			self.$win.off('.sm');
 			self.$el.removeData('scrollerModule');
+
+
+			if(self.scrollerModule != null){
+			  self.scrollerModule.destroy();
+			  self.scrollerModule = null;
+			}
 		},
 
 		disable: function() {
@@ -215,6 +237,7 @@
 
 			self.$ev.trigger('scrolled.sm');
 		}
+
 	};
 
 	// Plugin definition
@@ -238,7 +261,7 @@
 
 	// Defaults
 	$.fn.scrollerModule.defaults = {
-		throttleTime: 25,
+		throttleTime: 250,
 		contentSelector: '.content',
 		itemElementSelector: '.block',
 		mode: 'free',
