@@ -8,18 +8,11 @@
 
 (function($, Modernizr, window, undefined) {
   
-  // var myScroll;
-  // function loaded() {
-  //   myScroll = new iScroll('#nav-outer-container');
-  // }
-  // document.addEventListener('DOMContentLoaded', loaded, false);
-  
-  // var myScroll;
-  // function loaded() {
-  //   myScroll = new iScroll('navoutercontainer');
-  // }
-
-  // window.addEventListener('load', setTimeout(function () { loaded(); }, 200), false);
+  var myScroll;
+  function loaded() {
+    myScroll = new iScroll('#nav-outer-container');
+  }
+  document.addEventListener('DOMContentLoaded', loaded, false);
 
   'use strict';
 
@@ -131,17 +124,15 @@
         // Init Mobile Nav
         console.log("init mobile nav");
         
-        // var mobileNavIScroll = null,
-        var mobileNavVisible = false;
+        var mobileNavIScroll = null,
+          mobileNavVisible = false;
 
         $("#btn-mobile-nav").on(self.tapOrClick,function(){
-
-          
           // if the nav is hidden, show it.
           if (!mobileNavVisible){
 
             if (!mobileNavIScroll){
-              var mobileNavIScroll = new iScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, vScrollbar: false, snap: false, momentum: true, bounce:false });
+              // mobileNavIScroll = new iScroll('nav-outer-container', { hScroll: false, hScrollbar: false, vScrollbar: false });
             }
 
             $("#page-wrap-inner").addClass("show-mobile-menu");

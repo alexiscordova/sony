@@ -7,7 +7,20 @@
 // -------------------------------------------------------------------------
 
 (function($, Modernizr, window, undefined) {
-    
+  
+  // var myScroll;
+  // function loaded() {
+  //   myScroll = new iScroll('#nav-outer-container');
+  // }
+  // document.addEventListener('DOMContentLoaded', loaded, false);
+  
+  // var myScroll;
+  // function loaded() {
+  //   myScroll = new iScroll('navoutercontainer');
+  // }
+
+  // window.addEventListener('load', setTimeout(function () { loaded(); }, 200), false);
+
   'use strict';
 
   // Start module
@@ -116,8 +129,26 @@
         });
       } else {
         // Init Mobile Nav
+        console.log("init mobile nav");
+        
+        // var mobileNavIScroll = null,
+        var mobileNavVisible = false;
+
         $("#btn-mobile-nav").on(self.tapOrClick,function(){
-          $("#page-wrap-inner").toggleClass("show-mobile-menu");
+
+          
+          // if the nav is hidden, show it.
+          if (!mobileNavVisible){
+
+            if (!mobileNavIScroll){
+              var mobileNavIScroll = new iScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, vScrollbar: false, snap: false, momentum: true, bounce:false });
+            }
+
+            $("#page-wrap-inner").addClass("show-mobile-menu");
+            
+          } else {
+            $("#page-wrap-inner").removeClass("show-mobile-menu");
+          }
         });
       }
     },
@@ -235,7 +266,7 @@
 
     initFooter : function( isDesktop ) {
       console.log("initFooter");
-      $('#l11n-selector').on('hover',function(){
+      $('#country-selector').on('hover',function(){
 
         var pageContainerWidth = $(this).closest('.grid-footer').width();
         console.log("pageContainerWidth: " + pageContainerWidth);
