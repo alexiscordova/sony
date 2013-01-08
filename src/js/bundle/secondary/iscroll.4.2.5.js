@@ -49,11 +49,11 @@ var m = Math,
 		if ( vendor === false ) return false;
 
 		var transitionEnd = {
-				''			: 'transitionend',
+				''			  : 'transitionend',
 				'webkit'	: 'webkitTransitionEnd',
-				'Moz'		: 'transitionend',
-				'O'			: 'otransitionend',
-				'ms'		: 'MSTransitionEnd'
+				'Moz'			: 'transitionend',
+				'O'				: 'otransitionend',
+				'ms'			: 'MSTransitionEnd'
 			};
 
 		return transitionEnd[vendor];

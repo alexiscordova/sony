@@ -119,7 +119,6 @@
 		}
 
 		function update() {
-			return;
 			var paginated = true;
 
 			// Paginate() will return false if there aren't enough items to be paginated
@@ -138,7 +137,7 @@
 	  	}
 
 	  	self.$ev.trigger('update.sm');
-	  	self.$win.trigger('update.sm');
+	
 		};
 
 		self.resizeTimer = null;
@@ -156,21 +155,17 @@
         // 	}
         // }, self.throttleTime);
 
-					// debounce(function() {
-					//         loadImages();
-					//     }, DELAY)
-
-				$.throttle(500, function(){
-					console.log("resizeEvent »", self.resizeEvent);
-					update();
-				});
+				// $.throttle(500, function(){
+				// 	console.log("resizeEvent »", self.resizeEvent);
+				// 	//update();
+				// });
 
     });
 
     // Initially set the isPaginated boolean. This may be changed later inside paginate()
     self.isPaginated = self.mode === 'paginate';
 
-    // $(window).trigger(resizeEvent);
+    //$(window).trigger(resizeEvent);
     update();
 	};
 
@@ -213,12 +208,6 @@
 			// Remove resize event
 			self.$win.off('.sm');
 			self.$el.removeData('scrollerModule');
-
-
-			if(self.scrollerModule != null){
-			  self.scrollerModule.destroy();
-			  self.scrollerModule = null;
-			}
 		},
 
 		disable: function() {

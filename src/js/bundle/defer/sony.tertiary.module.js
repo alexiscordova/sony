@@ -7,71 +7,96 @@
 
 $(document).ready(function(){
 
-  var $scroller = $(".tcc-body-wrapper");
+  var $scroller = $(".scroller"),
+      $scrollerMod = null,
+      mobileBreakpoint = 480;
+ 
+  // if there's a scroller to be had... 
+  if ($scroller.length > 0) {
+    console.log("We have a scroller module! »", $scroller);
 
-  // if we're in phone breakpoint
-  //if ( Modernizr.mq('(max-width: 480px)') ) {
+    var $win = $(window),
+        resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize',
+        resizeThrottle = function(){
+          console.log("resize called »");
+          handleTccResize();
+        };
+
+    // listener for window resize // debounce so as not to overwhelm
+    $win.on(resizeEvent + '.tcc', $.debounce(100, resizeThrottle));
+
+    // if we're in phone breakpoint
+    if ( Modernizr.mq('(max-width:'+ mobileBreakpoint+'px)') ) {
+      console.log(" We're in mobile breakpoint on load, init scroller »");
+      
+      $scrollerMod = initScrollerModule();
+      
+    }else{
+      console.log("don't init scroller yet »");
+    }
     
-    // if there's a scroller to be had... 
-    //if ($scroller.length > 0) {
-      console.log("initilizing scroller »", $scroller);
-
-      //init
-      $scroller.scrollerModule({
+    function initScrollerModule(){
+      console.group("initScrollerModule");
+      
+      
+      // init scroller module
+      var scroller =  $scroller.scrollerModule({
         contentSelector: '.tcc-body',
         itemElementSelector: '.tcc-content-module',
-        mode: 'paginate',
-
-        iscrollProps: {
-          snap: true,
-          hScroll: true,
-          vScroll: false,
-          hScrollbar: false,
-          vScrollbar: false,
-          momentum: true,
-          bounce: true,
-        }
-
+        mode: 'paginate'
+        //snap: true
       });
+      
+      console.groupEnd();
 
-      // setup listener
-      $scroller.on('update.sm',handleScroller);
+      return scroller;
+    };
 
-      // define event function
-      function handleScroller(){
-        console.group("handleScroller");
+    function destroy(){
+      $scrollerMod.scrollerModule('destroy');
+      $scrollerMod = null;
+      $(".tcc-content-module, .tcc-body, .tcc-body-wrapper").removeAttr("style");
+    }
+
+    // define event function
+    function handleTccResize(){
+      console.group("handleScroller");
+             
+      var isScrollerModule = $scrollerMod != null ? true : false; // check here if there's a scroller module
+
+      console.log("isScrollerModule »",isScrollerModule);
+
+      if ( Modernizr.mq('(max-width:'+ mobileBreakpoint+'px)') ) { // Phone
+       
+       console.log("on mobile");
+       
+       // if there's a scroller module
+       if(!isScrollerModule){
+          console.log("there is NOT a scroller module set-up, init it »");
+          $scrollerMod = initScrollerModule();
+       }else{
+          console.log("there IS a scroller module set-up, we're good »", $scroller);
+       }
+
+      }else{
+        console.log("on desktop/tablet");
         
-        
-        // var isScrollerModule = true; // check here if there's a scroller module
-
-
-        // if ( Modernizr.mq('(max-width: 480px)') ) { // Phone
-        //   console.log("on mobile, is there a scroller module? »",isScrollerModule);
-        //   // yes: do nothing
-        //   // no: enable 
-        //   $scroller.scrollerModule.destroy();          
-        //   $scroller.scrollerModule();
-
-        // } else { // Desktop
-
-        //   console.log("on desktop, is there a scroller module? »",isScrollerModule);
-        //   // is there a scroller module?
-        //   // yes: destroy
-        //   // no: do nothing
-        //   // $scroller.scrollerModule();
-        //   $scroller.scrollerModule.destroy();
-        // }
-
-        console.groupEnd();
+        if(isScrollerModule){
+          console.log("there's a scroller module, kill it »", $scrollerMod);
+          destroy();
+        }else{
+          console.log("there isn't a scroller module initalized, do nothing »");
+        }
       }
-  
-    //} 
 
- // }
+      console.groupEnd();
+    }
+  
+  }
 
 });
 
-
+// DESTROY
 
 // $scroller.scrollerModule({
 //   contentSelector: '.tcc-body',
