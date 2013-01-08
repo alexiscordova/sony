@@ -27,9 +27,13 @@
 		t.$contentContainer = $(t.contentSelector);
 		t.$ev               = $(); //events object
 		t.$elements					= $(t.itemElementSelector , t.$contentContainer),
-		t.$sampleElement		= t.$elements.eq(0);
+		t.$sampleElement		= t.$elements.eq(1);
 
-		$( t.$contentContainer).css('width' , (t.$sampleElement.outerWidth(true) * t.$elements.length) + 500 );
+		$( t.$contentContainer).css('width' , (t.$sampleElement.outerWidth(true) * t.$elements.length)/*hack: + 500*/ );
+
+		console.log("Sample element width »", t.$sampleElement.outerWidth(true));
+
+		console.log("Total container width »",(t.$sampleElement.outerWidth(true) * t.$elements.length));
 
 		// Override the onscrollend for our own use - listen for 'onAfterSroll'
 		t.iscrollProps.onScrollEnd = $.proxy(t._onScrollEnd , t);
@@ -113,6 +117,10 @@
 		}
 
 		function update() {
+
+			return;
+
+			
 			var paginated = true;
 
 			// Paginate() will return false if there aren't enough items to be paginated
@@ -187,6 +195,8 @@
 
 			// Destroy the scroller
 			t.scroller.destroy();
+
+			t.scroller = null;
 
 			// Remove resize event
 			t.$win.off('.sm');

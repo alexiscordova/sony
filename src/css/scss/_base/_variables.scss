@@ -46,6 +46,7 @@
 	$orange:                rgb(248,148,6) !default;  //#F89406
 	$pink:                  rgb(195,50,95) !default;  //#C3325F
 	$purple:                rgb(122,67,182) !default; //#7A43B6
+  $green:                 rgb(34,192,131) !default;
 
 
   // Sony Accent colors
@@ -57,7 +58,16 @@
 
   $lemon:                 rgb(255,254,201) !default; // #fffec9
 
-  $themeGreen:            rgb(34,192,131) !default;
+
+
+  // UX Theme Colors  
+  $themeRed:              rgb(201,42,41) !default;
+  $themePurple:           rgb(147,48,142) !default;
+  $themeBlueLight:        rgb(47,172,207) !default;
+  $themeGreen:            rgb(143,196,47) !default;
+  $themeOrange:           rgb(230,118,34) !default;
+  $themeBlueDark:         rgb(16,88,158) !default;
+
 
 
   $twitterColor:					rgb(43,180,245) !default;
@@ -561,23 +571,28 @@
   $gridGutterWidthMax:        38px !default;
 
 
-  // 768px-979px breakpoints
-  $containerMarginWidth768:   22px !default;
-  $gridMarginWidth768:        18px !default;
-  $gridColumnWidth768:        39px !default;
-  $gridGutterWidth768:        20px !default;
+
+  // 768px-979px breakpoints -- THESE ARE NEW - UPDATED 1/8/13
+  $containerMarginWidth768:   30px !default;
+  $gridMarginWidth768:        29px !default;
+  $gridColumnWidth768:        34px !default;
+  $gridGutterWidth768:        22px !default;
+
+  // 768px-979px breakpoints - OLD ONES
+  // $containerMarginWidth768:   22px !default;
+  // $gridMarginWidth768:        18px !default;
+  // $gridColumnWidth768:        39px !default;
+  // $gridGutterWidth768:        20px !default;
 
 
-  // 320px-767px breakpoints
-  $containerMarginWidth480px: 20 !default;
-  $containerMarginWidth320px: 20 !default;
-
-
+  // 320px-767px breakpoints - THESE WILL CHANGE - FULL MOBILE GRID COMING SOON.
+  $containerMarginWidth480px: 21 !default;
+  $containerMarginWidth320px: 21 !default;
 
   // not sure if we're using these or not.
-  $gridMarginWidth320:        18px !default;
-  $gridColumnWidth320:        39px !default;
-  $gridGutterWidth320:        20px !default;
+  $gridMarginWidth320:        12px !default;
+  $gridColumnWidth320:        36px !default;
+  $gridGutterWidth320:        12px !default;
 
 
 
@@ -640,8 +655,6 @@
   $fluidGridGutterWidth768: percentage($gridGutterWidth768/$gridWidth768) !default;
 
   // 320px-767px (Mobile)
-  $containerMarginWidth480px: 21 !default;
-  $containerMarginWidth320px: 21 !default;
   $containerMarginWidth480: percentage($containerMarginWidth480px / 480) !default;
   $containerMarginWidth320: percentage($containerMarginWidth320px / 320) !default;
 
