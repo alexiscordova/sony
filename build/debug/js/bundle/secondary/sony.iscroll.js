@@ -1,6 +1,7 @@
 /*!
  * iScroll v4.2.5 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
+ * Modified: 01/07/2013 by Glen Cheney (added onAnimate + more cleanup in destroy())
  */
 (function(window, doc){
 var m = Math,
@@ -86,7 +87,7 @@ var m = Math,
 			i;
 
 
-		that.wrapper = typeof el == 'object' ? el : document.getElementById(el);
+		that.wrapper = typeof el == 'object' ? el : doc.getElementById(el);
 
 		that.wrapper.style.overflow = 'hidden';
 		that.scroller = that.wrapper.children[0];
