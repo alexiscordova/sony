@@ -275,7 +275,7 @@
             // Was flooring 4.999999999999999 to 4 :(
             self.cols = Math.floor( ( containerWidth + gutter + 0.000000000001 ) / self.colWidth );
             self.cols = Math.max( self.cols, 1 );
-
+            
             // This can happen when .shuffle is called on something hidden (e.g. display:none for tabs)
             if ( !self.colWidth || isNaN( self.cols ) || !containerWidth ) {
                 self.needsUpdate = true;

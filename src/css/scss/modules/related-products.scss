@@ -58,11 +58,33 @@ section {
  .gallery-item.plate:after {
     padding-top: 59.190255%;
   } 
+
+  @media (min-width: 481px) and (max-width: 768px){
+/*     .span2 {
+      width: 23.71158%;
+      *width: 23.71158%;
+    }
+
+    .medium.span2 {
+      width: 49.71158%;
+      *width: 49.71158%;
+    }
+
+    .plate.span2 {
+      width: 49.71158%;
+      *width: 49.71158%;
+    } */
+
+    .gallery-item .product-img:after {
+      padding-top: 59.843137%;
+    }
+  }
 } 
+
 
 @media (max-width: 480px) {
   .rpGrid{
-    padding:0;
+    padding: 0 10px 0 10px;
   }
 }
 
@@ -72,22 +94,55 @@ section {
   }
 }
 
+/* @media (min-width: 418px){
+
+  .grid5 .grid .span1 {
+    width: 18.34532%;
+    *width: 18.28622%;
+  }
+} */
+
+  .gallery-item.plate .product-img:after {
+    content: '';
+  }
+
 @media (max-width: 480px) {
   /* line 142, ../../../src/css/scss/_responsive/_responsive-767px-max.scss */
   .related-products .gallery-item.small-size {
-    float: left;
+    //float: left;
     min-height: 1px;
     margin-left: 20px ;
     width: 204px ;
+    max-height: 225px;
   }
 }
 
 .related-products {
 
+  .teal-color {
+    background-color: #45afc9;
+  }
+
   .row-fluid .gallery-item,
   .grid .gallery-item {
     margin-left: 0;
   }
+
+  .gallery-item:after {
+    content: '';
+  }
+
+  .product-img:after {
+    content: '';
+  }
+
+  @media (max-width: 481px){
+
+    .product-img:after {
+      content: none;
+    } 
+  }
+
 
   width: 100%;
   margin: 15px 0 0 0;
@@ -102,6 +157,13 @@ section {
     display: block;
   } 
 
+  @media (max-width: 481px){
+
+    &:after {
+      content: none;
+    } 
+  }
+
   .small-size {
     width: 204px;
     height:337px;
@@ -110,7 +172,7 @@ section {
     margin-left:20px;
 
     .gallery-item-inner {
-      height: 337px;
+      height: 160px;
     }
   }
 
@@ -131,9 +193,47 @@ section {
   }
 
   .medium .product-img:after {
-      padding-top: 99.62761%;
+    padding-top: 100.22761%;
+    /* padding-top: 75.127610208817%; */
+  }
+
+  @media (max-width: 481px){
+    .medium .product-img:after {
+      padding-top: 75.980392156863%;
+      
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 768px){
+
+    .rpGrid {
+      padding: 0 40px 0 40px;
+    }
+
+    .gallery-item:after {
+      padding-top: 127.196078%;
+    }
+
+    .gallery-item .gallery-item-inner,
+    .product-img .product-img-wrap {
+      position: absolute;
+    }
+
+    .medium.gallery-item:after {
+      padding-top: 140.796078%;
+    }
+
+    .medium .product-img:after {
+      padding-top: 115.12761%;
+      padding-top: 118.12761%;
       /* padding-top: 75.127610208817%; */
     }
+
+    .gallery-item.plate:after {
+      padding-top: 72.290255%;
+    }
+
+  }
 
   .promo:after {
     padding-top: 54.524361948956%;
@@ -141,6 +241,7 @@ section {
 
   .gallery-item {
     background:none;
+    margin-left: 0;
 
     .product-img {
       background: #ffffff; //we will be alternating during modes / variations so this for now override
@@ -152,17 +253,19 @@ section {
     position: absolute;
     z-index: 35;
     left: 0;
-    bottom: 0;
+    bottom: 0px;
     width: 100%;
     height: auto;
     margin: 0 auto;
     text-align: center;
     line-height: 18px;
     overflow: hidden;
+    cursor: pointer;
+
     /* visibility: hidden; */
   }
 
-  .rpBullet {
+/*   .rpBullet {
     width: 10px;
     height: 10px;
     display: inline-block;
@@ -178,7 +281,30 @@ section {
 
   .rpBullet.rpNavSelected  {
     background-color: #2f353d;
+  } */
+
+  .rpBullet {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    *display:inline; 
+    *zoom:1;
+    padding: 10px 9px 10px 8px;
+    cursor: pointer;
   }
+
+  .rpBullet span {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #bcbccc;
+  }
+
+  .rpBullet.rpNavSelected span {
+    background: #2f353d;
+  }
+
 
   .rpOverflow {
     width: 100%;
@@ -189,7 +315,7 @@ section {
     bottom:0;
     left:0;
 
-    /* background: #E9E9E9; */
+ /*    background: #E9E9E9; */
     -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
     -moz-user-select: -moz-none;
     -webkit-user-select: none;
@@ -220,7 +346,15 @@ section {
 
 }
 
+  @media (min-width: 481px) and (max-width: 768px){
+    .rpGrid {
+      padding: 0;
+     
+    }
+  }
+
 .rpNav {
+
   .paddle {
     width: 50px;
     height: 88px;
