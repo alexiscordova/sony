@@ -32,7 +32,7 @@ var m = Math,
 
     // Browser capabilities
 	isAndroid = (/android/gi).test(navigator.appVersion),
-	isIDevice = (/iphone|ipad/gi).test(navigator.appVersion),
+	isIDevice = (/iphone|ipad|ipod/gi).test(navigator.appVersion),
 	isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
 
     has3d = prefixStyle('perspective') in dummyStyle,
@@ -284,7 +284,7 @@ iScroll.prototype = {
 
 	_resize: function () {
 		var that = this;
-		setTimeout(function () { that.refresh(); }, isAndroid ? 200 : 0);
+		that.resizeTimer = setTimeout(function () { that.refresh(); }, isAndroid ? 400 : 250);
 	},
 
 	_pos: function (x, y) {
@@ -766,6 +766,7 @@ iScroll.prototype = {
 			newX = (step.x - startX) * easeOut + startX;
 			newY = (step.y - startY) * easeOut + startY;
 			that._pos(newX, newY);
+			if (that.options.onAnimate) that.options.onAnimate.call(that);
 			if (that.animating) that.aniTime = nextFrame(animate);
 		};
 
@@ -901,6 +902,8 @@ iScroll.prototype = {
 			that._unbind('DOMMouseScroll');
 			that._unbind('mousewheel');
 		}
+
+		if (that.resizeTimer) clearTimeout(that.resizeTimer);
 
 		if (that.options.useTransition) that._unbind(TRNEND_EV);
 

@@ -46,8 +46,6 @@
 		// self.iscrollProps.onTouchEnd = self.iscrollProps.onScrollEnd = window.iQ.update;
 		self.scroller = new iScroll( self.$el[0], self.iscrollProps );
 
-		console.log(self.iscrollProps);
-
     self.$win.on(self.resizeEvent + '.sm', $.proxy( self._onResize, self ));
 
     // Initially set the isPaginated boolean. This may be changed later inside paginate()

@@ -664,7 +664,6 @@ $detailedGalleryItemHeight: 480px;
 .compare-container {
   margin-top: 1.25em;
   padding-bottom: 5em;
-  // overflow: hidden;
 }
 
 .compare-item {
@@ -703,6 +702,26 @@ $detailedGalleryItemHeight: 480px;
 
 .detail-labels-wrap {
   position: relative;
+  z-index: 5;
+  height: 100%;
+
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 2000px;
+    right: 0;
+    top: 0;
+    background-color: $grayLightFieldLarge;
+
+    @include transition(box-shadow $transitionFast ease-in);
+  }
+
+  &.overflowing:before {
+    @include box-shadow(1px 1px 3px $transparentBlack);
+    @include transition-timing-function(ease-out);
+  }
 }
 
 .detail-labels-wrapping {
