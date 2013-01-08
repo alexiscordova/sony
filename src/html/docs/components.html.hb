@@ -26,7 +26,7 @@
 			<!--==================================================
 			 Docs nav
 			================================================== -->
-			    <div class="grid">
+			    <div class="grid full-bleed">
 			      <div class="span3 bs-docs-sidebar">
 			        <ul class="simple-nav simple-nav-list bs-docs-sidenav">
 			          <li><a href="#overview"><i class="icon-chevron-right"></i> Overview</a></li>

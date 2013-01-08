@@ -57,106 +57,106 @@
 			          <div class="bs-docs-example bs-docs-example-headings">
 			
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h1&gt;</strong> — Major features</p>
 			                <h1>Pocket professional</h1>
 			              </div>
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h2&gt;</strong> — Hero</p>
 			                <h2>Small size, large&nbsp;impact</h2>
 			              </div>
 			            </div>
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h3&gt;</strong> — Feature heads</p>
 			                <h3>Mini body, mega&nbsp;sensor  <span class="chevron">&rsaquo;</span></h3>
 			              </div>
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h4&gt;</strong> — Sub-head 1</p>
 			                <h4>Pick your lens</h4>
 			              </div>
 			            </div>
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>&lt;h5&gt;</strong> — Sub-head 2</p>
 			                <h5>Print your shots5</h5>
 			              </div>
-			              <div class="span4 big-bottom-margin">           
+			              <div class="span6 big-bottom-margin">           
 			                <p class="title-docs"><strong>&lt;h6&gt;</strong> — Sub-head 3</p>
 			                <h6>Exmor<sup>&trade;</sup> APS HD CMOS&nbsp;sensor</h6>
 			              </div>
 			            </div>
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>.l1</strong> — Label 1 — Section</p>
 			                <p class="l1">Details</p>
 			              </div>
-			              <div class="span4 big-bottom-margin">           
+			              <div class="span6 big-bottom-margin">           
 			                <p class="title-docs"><strong>.l2</strong> — Label 2 — Hero</p>
 			                <p class="l2">α NEX-6 camera</p>
 			              </div>
 			            </div>
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>.l3</strong> — Label 3 — Callout strong</p>
 			                <p class="l3">3.0” Tiltable LCD&nbsp;Screen</p>
 			              </div>
-			              <div class="span4 big-bottom-margin">           
+			              <div class="span6 big-bottom-margin">           
 			                <p class="title-docs"><strong>.l4</strong> — Label 4 — Callout subtle</p>
 			                <p class="l4">View Angles</p>
 			              </div>
 			            </div>
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>.p1</strong> — Body Copy 1 — Supports major features</p>
 			                <p class="p1">The NEX-6 is as fast as the world you're trying to capture. It epitomizes the leanest of technology.</p>
 			              </div>
-			              <div class="span4 big-bottom-margin">           
+			              <div class="span6 big-bottom-margin">           
 			                <p class="title-docs"><strong>&lt;p&gt;, .p2</strong> — Body Copy 2 — Supports features</p>
 			                <p >The bigger the sensor, the better the picture. Experience the quality and performance of a DSLR in about half the size and half the weight of one. The NEX is the smallest interchangeable lens digital camera capable of handling a mega-sized Exmor&trade; sensor.</p>
 			              </div>
 			            </div>
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>.p3</strong> — Body Copy 3 — Supports subheads</p>
 			                <p class="p3">Amazing resolution and high contrast prints with massive color and depth.</p>
 			              </div>
-			              <div class="span4 big-bottom-margin">           
+			              <div class="span6 big-bottom-margin">           
 			                <p class="title-docs"><strong>.p4</strong> — Body Copy 4 — Subtext 1</p>
 			                <p class="p4">Lead Product Design</p>
 			              </div>
 			            </div>            
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">           
+			              <div class="span6 big-bottom-margin">           
 			                <p class="title-docs"><strong>.p5</strong> — Body Copy 5 — Subtext 2</p>
 			                <p class="p5">Starting at</p>
 			              </div>
 			            </div>
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>blockquote.bq1 > p</strong> — Special content — Personal quote 1</p>
 			                <blockquote class="bq1"><p>I can now get extreme detail in low light situations. Night shooting is now a reality.</p></blockquote>
 			              </div>
-			              <div class="span4 big-bottom-margin">           
+			              <div class="span6 big-bottom-margin">           
 			                <p class="title-docs"><strong>blockquote.bq2 > p</strong> — Special content — Personal quote 2</p>
 			                <blockquote class="bq2"><p>Our first step is to think about where people are when they hold it.</p></blockquote>
 			              </div>
 			            </div>
 			            
 			            <div class="grid">
-			              <div class="span4 big-bottom-margin">
+			              <div class="span6 big-bottom-margin">
 			                <p class="title-docs"><strong>.text-number-callout-large</strong> — Special content — Number callout</p>
 			                <p class="text-number-callout-large">01</p>
 			              </div>
-			              <div class="span4 big-bottom-margin">           
+			              <div class="span6 big-bottom-margin">           
 			                <p class="title-docs"><strong>.text-promo-title</strong> — Special content — Promo title</p>
 			                <p class="text-promo-title"><strong>Exmor<br></strong> Technology</p>
 			              </div>

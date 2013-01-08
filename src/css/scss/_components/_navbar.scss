@@ -16,7 +16,6 @@
 //  -- even their default values, so it's all kept together.
 
 .nav-wrapper{ // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
-  height: $navbarTotalHeight;
   background:$navbarBackground;
 }
 
@@ -27,7 +26,7 @@
   z-index: 200;
   
   &.container{
-    max-width: 1125px;
+    // max-width: $navMaxWidth;
   }
 
   -webkit-transform: translate3d(0, 0, 0); // fix janky text
@@ -40,20 +39,23 @@
     height: auto;
   }
 
-  .btn-mobile-nav{ // only visible on mobile
-    margin:0;
-    border:none;
-    box-sizing: content-box;
-    background:$black;
+  .btn-mobile-nav,
+  .btn-mobile-cart{ // only visible on mobile
     display:none;
-
-    i {
-      margin:auto;
-    }
   }
+
+  .btn-mobile-cart {
+    font-family: $sansFontFamilyBold;
+    height: 25px;
+    padding: 4px;
+    margin: 19px 0px 0 6px;
+    line-height: 1.5;
+  }
+
+
   // Brand: website name
   // -------------------------
-  .sprite-reg-nav-sony-logo {
+  .sprite-reg-nav-sony-logo { // desktop version (inside navbar)
     float: left;
     display: block;
     margin: 16px 0 0;
@@ -149,37 +151,14 @@
     position: static;
     width: 100%;
   }
-
-
-
-  // Navbar button for toggling navbar items in responsive layouts
-  // These definitions need to come after '.navbar .btn'
-  // the .btn-mobile-navbar-menu-trigger is the "menu" button when on mobile-size device
-  // **still inside of .navbar**
-  .btn-mobile-navbar-menu-trigger {
-    display: none;
-    float: right;
-    padding: 7px 10px;
-    margin-left: 5px;
-    margin-right: 5px; 
-    background:darken($navbarBackgroundHighlight, 5%); 
-    @include box-shadow(inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075));
-  }
-  // icon-bar are simply the 3 white lines on the btn-mobile-navbar-menu-trigger button.
-  .btn-mobile-navbar-menu-trigger .icon-bar {
-    display: block;
-    width: 18px;
-    height: 2px;
-    background-color: #f5f5f5;
-    @include border-radius(1px);
-    @include box-shadow(0 1px 0 rgba(0,0,0,.25));
-  }
-  .btn-mobile-navbar-menu-trigger .icon-bar + .icon-bar {
-    margin-top: 3px;
-  }
-
-  // Navbar collapse button
-  .btn-mobile-navbar-menu-trigger {
-    background:darken($navbarInverseBackgroundHighlight, 5%);
-  }
 } // end .navbar
+
+
+
+.navbar-mobile{
+  .sprite-reg-nav-sony-logo{
+    display:block; // this is the normal (larger) size logo. Switch to small under 480px.
+    position:absolute;
+    left:50%;
+  }
+}

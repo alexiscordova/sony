@@ -20,18 +20,12 @@ section {
 }
 
 /* line 26, ../../../../src/css/scss/modules/related-products.scss */
-#demo {
-  /*  width: 100%;
-   height: 500px; */
-}
-
-/* line 31, ../../../../src/css/scss/modules/related-products.scss */
 .rpWebkit3d * {
   -webkit-backface-visibility: hidden;
   -webkit-transform: translateZ(0);
 }
 
-/* line 36, ../../../../src/css/scss/modules/related-products.scss */
+/* line 31, ../../../../src/css/scss/modules/related-products.scss */
 .rpWrapper {
   max-width: 600px;
   width: 100%;
@@ -40,42 +34,74 @@ section {
   display: block;
 }
 
+/* line 40, ../../../../src/css/scss/modules/related-products.scss */
+.grid4 .rpGrid {
+  padding: 0 30px 0 30px;
+}
+
 /* line 44, ../../../../src/css/scss/modules/related-products.scss */
+.rpGrid {
+  padding: 0;
+  height: 100%;
+}
+/* line 48, ../../../../src/css/scss/modules/related-products.scss */
+.rpGrid x
+.gallery-item:after {
+  content: '';
+  display: block;
+}
+/* line 54, ../../../../src/css/scss/modules/related-products.scss */
+.rpGrid .span1.gallery-item:after {
+  padding-top: 125.196078%;
+}
+/* line 58, ../../../../src/css/scss/modules/related-products.scss */
+.rpGrid .gallery-item.plate:after {
+  padding-top: 59.190255%;
+}
+
+@media (max-width: 480px) {
+  /* line 64, ../../../../src/css/scss/modules/related-products.scss */
+  .rpGrid {
+    padding: 0;
+  }
+}
+@media (min-width: 768px) {
+  /* line 70, ../../../../src/css/scss/modules/related-products.scss */
+  .grid5 .grid [class*="span"] {
+    margin-left: 0;
+  }
+}
+@media (max-width: 480px) {
+  /* line 142, ../../../src/css/scss/_responsive/_responsive-767px-max.scss */
+  /* line 77, ../../../../src/css/scss/modules/related-products.scss */
+  .related-products .gallery-item.small-size {
+    float: left;
+    min-height: 1px;
+    margin-left: 20px;
+    width: 204px;
+  }
+}
+/* line 85, ../../../../src/css/scss/modules/related-products.scss */
 .related-products {
   width: 100%;
-  height: 450px;
   margin: 15px 0 0 0;
   padding: 0;
-  max-width: 1400px;
-  /* Both Must be set for JS to size proportiontely */
-  max-height: 870px;
   position: relative;
   direction: ltr;
-  /* border: 5px dashed #ccc; */
   overflow: hidden;
-  /* 
-      @media (min-width:480px) {
-        .grid5 {
-          @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-        }
-      } */
 }
-@media (max-width: 767px) {
-  /* line 62, ../../../../src/css/scss/modules/related-products.scss */
-  .related-products .gallery-item {
-    margin-top: 10px;
-    width: 20%;
-  }
-  /* line 68, ../../../../src/css/scss/modules/related-products.scss */
-  .gallery .related-products .gallery-item.promo, .gallery .related-products .gallery-item.large {
-    height: 337px;
-  }
-  /* line 72, ../../../../src/css/scss/modules/related-products.scss */
-  .gallery .related-products .gallery-item.large .product-img {
-    height: 220px;
-  }
+/* line 88, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .row-fluid .gallery-item,
+.related-products .grid .gallery-item {
+  margin-left: 0;
 }
-/* line 78, ../../../../src/css/scss/modules/related-products.scss */
+/* line 99, ../../../../src/css/scss/modules/related-products.scss */
+.related-products:after {
+  content: '';
+  margin-top: 49.761151%;
+  display: block;
+}
+/* line 105, ../../../../src/css/scss/modules/related-products.scss */
 .related-products .small-size {
   width: 204px;
   height: 337px;
@@ -83,7 +109,41 @@ section {
   float: left;
   margin-left: 20px;
 }
-/* line 96, ../../../../src/css/scss/modules/related-products.scss */
+/* line 112, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .small-size .gallery-item-inner {
+  height: 337px;
+}
+/* line 117, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .gallery-item.plate strong {
+  display: block;
+}
+/* line 125, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .normal .product-img:after {
+  padding-top: 75.980392156863%;
+}
+/* line 129, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .medium:after {
+  padding-top: 118.490023%;
+}
+/* line 133, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .medium .product-img:after {
+  padding-top: 99.62761%;
+  /* padding-top: 75.127610208817%; */
+}
+/* line 138, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .promo:after {
+  padding-top: 54.524361948956%;
+}
+/* line 142, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .gallery-item {
+  background: none;
+}
+/* line 145, ../../../../src/css/scss/modules/related-products.scss */
+.related-products .gallery-item .product-img {
+  background: #ffffff;
+  background: #f3f4f6;
+}
+/* line 151, ../../../../src/css/scss/modules/related-products.scss */
 .related-products .rpBullets {
   position: absolute;
   z-index: 35;
@@ -92,214 +152,88 @@ section {
   width: 100%;
   height: auto;
   margin: 0 auto;
-  background: #000;
-  background: rgba(0, 0, 0, 0.75);
   text-align: center;
   line-height: 18px;
   overflow: hidden;
+  /* visibility: hidden; */
 }
-/* line 113, ../../../../src/css/scss/modules/related-products.scss */
+/* line 165, ../../../../src/css/scss/modules/related-products.scss */
 .related-products .rpBullet {
   width: 10px;
   height: 10px;
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  margin: 7px 0 4px 4px;
-  border-radius: 100%;
-  background: #666;
+  margin: 0 0 0 5px;
+  border-radius: 5px;
+  background: #bcbccc;
   cursor: pointer;
+  padding: 5px;
+  overflow: hidden;
 }
-/* line 125, ../../../../src/css/scss/modules/related-products.scss */
+/* line 179, ../../../../src/css/scss/modules/related-products.scss */
 .related-products .rpBullet.rpNavSelected {
-  background-color: #4295E2;
+  background-color: #2f353d;
 }
-/* line 129, ../../../../src/css/scss/modules/related-products.scss */
+/* line 183, ../../../../src/css/scss/modules/related-products.scss */
 .related-products .rpOverflow {
   width: 100%;
   height: 100%;
-  position: relative;
-  background: #E9E9E9;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* background: #E9E9E9; */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -moz-user-select: -moz-none;
   -webkit-user-select: none;
   user-select: none;
 }
 @media (max-width: 767px) {
-  /* line 44, ../../../../src/css/scss/modules/related-products.scss */
+  /* line 85, ../../../../src/css/scss/modules/related-products.scss */
   .related-products {
     max-width: 980px;
     /* Both Must be set for JS to size proportiontely */
     min-height: 370px;
   }
 }
-/* line 145, ../../../../src/css/scss/modules/related-products.scss */
+/* line 204, ../../../../src/css/scss/modules/related-products.scss */
 .related-products .rpContainer {
   position: relative;
   width: 100%;
   height: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /* Mobile view tiles */
 }
-/* line 153, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpContainer .whoa {
-  display: block;
-  float: left;
-  width: 100%;
-  max-width: 150px;
-  height: 170px;
-  background: #5787f4;
-  margin: 0 20px 0 20px;
-}
-/* line 165, ../../../../src/css/scss/modules/related-products.scss */
+/* line 211, ../../../../src/css/scss/modules/related-products.scss */
 .related-products .rpSlide {
   position: absolute;
   left: 0;
-  top: 0;
+  top: -20px;
   display: block;
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
-/* line 177, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-1-up {
-  position: relative;
-  width: 20%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: block;
-  float: left;
-  text-align: center;
-}
-/* line 187, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-1-up div {
-  width: 98%;
-  height: 98%;
-  background: #333;
-  margin: 2% 0 0 0;
-  display: block;
-}
-/* line 195, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-1-up img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  text-align: center;
-}
-/* line 205, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-2-up {
-  position: relative;
-  width: 40%;
-  height: 50%;
-  margin: 0;
-  padding: 0;
-  display: block;
-  float: left;
-}
-/* line 214, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-2-up img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  display: block;
-  text-align: center;
-}
+
 /* line 224, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-2-up .col-1-up {
-  position: relative;
-  width: 47%;
-  height: 98%;
-  margin: 1% 0 0 1%;
-  padding: 0;
+.rpNav .paddle {
+  width: 50px;
+  height: 88px;
   display: block;
-  background: #666;
-  float: left;
+  background: #909398;
+  position: absolute;
+  top: 25%;
+  margin: -44px 0 0 0;
+  cursor: pointer;
 }
 /* line 234, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-2-up .col-1-up.odd {
-  width: 50%;
-  background: #ccc;
+.rpNav .paddle.left {
+  left: 6.5%;
+  right: auto;
 }
-/* line 240, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-2-up .col-2-up {
-  position: relative;
-  width: 98%;
-  height: 97%;
-  margin: 1% 1% 0 1%;
-  padding: 0;
-  display: block;
-  background: #ccc;
-  float: left;
-}
-/* line 250, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-2-up .col-2-up img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  text-align: center;
-  display: block;
-  max-width: 490px;
-}
-/* line 263, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-4-up {
-  position: relative;
-  width: 50%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: block;
-  float: left;
-  text-align: center;
-}
-/* line 273, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-4-up div {
-  width: 99%;
-  height: 98%;
-  background: #333;
-  margin: 1% 0 0 1%;
-  display: block;
-}
-/* line 281, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-4-up img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  text-align: center;
-}
-/* line 292, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-5-up {
-  position: relative;
-  width: 60%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: block;
-  float: left;
-  text-align: center;
-}
-/* line 302, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-5-up div {
-  width: 99%;
-  height: 98%;
-  background: #666;
-  margin: 1% 0 0 1%;
-  display: block;
-}
-/* line 310, ../../../../src/css/scss/modules/related-products.scss */
-.related-products .rpSlide .row-5-up img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  text-align: center;
+/* line 239, ../../../../src/css/scss/modules/related-products.scss */
+.rpNav .paddle.right {
+  left: auto;
+  right: 6.5%;
 }

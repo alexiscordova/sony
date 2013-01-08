@@ -152,7 +152,7 @@ $default-transition-delay    : 0s;
 // --------------------------------------------------
 
 
-	@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
+@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
 		font-family: $fontFamily;
 		font-weight: $fontWeight;
 		font-style: $fontStyle;
@@ -163,12 +163,6 @@ $default-transition-delay    : 0s;
 	}
 	@mixin fontItalic(){ // SST W01 Italic
 		@include font($baseFontFamilyItalic);
-	}
-	@mixin fontBold(){ // SST W01 Bold
-		@include font($baseFontFamilyBold);
-	}
-	@mixin fontBoldItalic(){ // SST W01 Bold Italic
-		@include font($baseFontFamilyBoldItalic);
 	}
 	@mixin fontMedium(){ // SST W01 Medium
 		@include font($baseFontFamilyMedium);
@@ -181,6 +175,12 @@ $default-transition-delay    : 0s;
 	}
 	@mixin fontLightItalic(){ // SST W01 Light Italic
 		@include font($baseFontFamilyLightItalic);
+	}
+	@mixin fontBold(){ // SST W01 Bold
+		@include font($baseFontFamilyBold);
+	}
+	@mixin fontBoldItalic(){ // SST W01 Bold Italic
+		@include font($baseFontFamilyBoldItalic);
 	}
 
 	@mixin fontHeading(){ // SST W01 Roman
@@ -241,10 +241,13 @@ $default-transition-delay    : 0s;
 // Icons with standard hover, focus, & active states can be built using the iconBuilder mixin.
 // The first parameters are specific to the iconType ($iconType, $y, $hoverOffsetY)
 // The other parameters are specific to the icon, and are simply passed through from the specific icon mixin.
-@mixin icon($iconType, $y, $hoverOffsetY, $name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+@mixin icon($iconType, $y, $name, $x, $w:false, $h:false, $hoverOffsetY:0, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
   .icon-#{$iconType}-#{$name} {
     background-position: $x $y;
-    @include size($h, $w);
+    
+    @if ( $w ) {
+    	@include size($h, $w);
+    }
 
     @if ( $margin ) {
       margin: $margin;
@@ -295,15 +298,25 @@ $default-transition-delay    : 0s;
 }
 
 @mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui, $icon_ui_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(ui, $icon_ui_Y, $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 @mixin icon-ui2($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui2, $icon_ui2_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(ui2, $icon_ui2_Y $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 @mixin icon-uibig($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(uibig, $icon_uibig_Y, 60px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(uibig, $icon_uibig_Y, $name, $x, $w, $h, 60px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 
+@mixin icon-flag($name, $x) {
+  @include icon(flag, $icon_flag_Y, $name, $x);
+}
+@mixin icon-flagBig($name, $x) {
+  @include icon(flagBig, $icon_flagBig_Y, $name, $x);
+}
+@mixin icon-flags-reg-and-big($name, $x) {
+	@include icon-flag($name, $x);
+	@include icon-flagBig($name, $x);
+}
 
 // I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make
 // it a <i> like all the others so I don't need this mixin.
@@ -687,7 +700,17 @@ $default-transition-delay    : 0s;
 
 
 
-
+@mixin hideshow-navmenu-reset(){
+  opacity:1;
+  position:relative;
+  left:auto;
+  right:auto;
+  top:auto;
+  left:auto;
+  @include transition(none);
+  float:none;
+  margin:0;
+}
 
 // transitions for specific components
 @mixin hideshow-navmenu-show($leftOrRight:left, $x: 0){
@@ -722,36 +745,36 @@ $default-transition-delay    : 0s;
 @mixin rotate($degrees) {
 	-webkit-transform: rotate($degrees);
 	   // -moz-transform: rotate($degrees);
-		-ms-transform: rotate($degrees);
+			-ms-transform: rotate($degrees);
 		 // -o-transform: rotate($degrees);
-			transform: rotate($degrees);
+					transform: rotate($degrees);
 }
 @mixin scale($ratio) {
 	-webkit-transform: scale($ratio);
 	   // -moz-transform: scale($ratio);
-		-ms-transform: scale($ratio);
+			-ms-transform: scale($ratio);
 		 // -o-transform: scale($ratio);
-			transform: scale($ratio);
+					transform: scale($ratio);
 }
 @mixin translate($x, $y) {
 	-webkit-transform: translate($x, $y);
-	   // -moz-transform: translate($x, $y);
-		-ms-transform: translate($x, $y);
-		 // -o-transform: translate($x, $y);
-			transform: translate($x, $y);
+		 // -moz-transform: translate($x, $y);
+			-ms-transform: translate($x, $y);
+			 // -o-transform: translate($x, $y);
+					transform: translate($x, $y);
 }
 @mixin skew($x, $y) {
 	-webkit-transform: skew($x, $y);
 	   // -moz-transform: skew($x, $y);
-		-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
+			-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
 		 // -o-transform: skew($x, $y);
-			transform: skew($x, $y);
+					transform: skew($x, $y);
 }
 @mixin translate3d($x, $y, $z) {
 	-webkit-transform: translate3d($x, $y, $z);
 	   // -moz-transform: translate3d($x, $y, $z);
 		 // -o-transform: translate3d($x, $y, $z);
-			transform: translate3d($x, $y, $z);
+					transform: translate3d($x, $y, $z);
 }
 
 // Backface visibility
@@ -950,6 +973,7 @@ $default-transition-delay    : 0s;
 
 // there is also a .el-hidden class in utilities that just includes the mixin.
 @mixin el-hidden {
+	display:block;
 	position: absolute;
 	-webkit-backface-visibility: hidden; // flicker fix
 
@@ -997,7 +1021,7 @@ $default-transition-delay    : 0s;
 // Vertically center elements in the navbar.
 // Example: an element has a height of 30px, so write out `.navbarVerticalAlign(30px);` to calculate the appropriate top margin.
 @mixin navbarVerticalAlign($elementHeight) {
-	margin-top: ($navbarTotalHeight - $elementHeight) / 2;
+	margin-top: ($navbarHeight - $elementHeight) / 2;
 }
 
 
@@ -1270,17 +1294,6 @@ $default-transition-delay    : 0s;
 	display: inline-block;
 	width: $w;
 	height: $h;
-}
-
-@mixin background-sprite-icon-small{
-  background-image: url($iconSmallSpritePath);
-  background-repeat: no-repeat;
-}
-
-@mixin pseudoEl-inline-block-icon($w: 15px, $h: 15px) {
-	@include background-sprite-icon-small();
-	@include pseudoEl-inline-block($w,$h);
-  // @include ie7-restore-right-whitespace();
 }
 
 

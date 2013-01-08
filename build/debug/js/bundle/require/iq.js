@@ -44,7 +44,7 @@
 	
 	//high res settings
 	minDevicePixelRatio = opts.minDevicePixelRatio || 2,
-	highResPathSuffix = opts.highResPathSuffix || '@2x',
+	highResPathSuffix = opts.highResPathSuffix || '',
 	
 	//deferred loading 
 	asyncDistance = opts.asyncDistance || 0,
