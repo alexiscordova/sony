@@ -38,10 +38,12 @@
     font-size:$font_14_16;
   }
 
-  .btn-group.l11n-selector{
+  .btn-group.l11n-selector,
+  .btn-hover-group.l11n-selector{
     width: 46.2%;
     float:left;
-    .btn.dropdown-toggle{
+    .btn.dropdown-toggle,
+    .btn.dropdown-hover-toggle{
       width: 100%;
 
       .icon-ui-arrowhead-down-gray{
@@ -49,17 +51,22 @@
         margin-top:10px;
       }
     }
+    .dropdown-hover-menu-list{
+      width:19.8%;
+    }
   }
 
   @include sprite-reg(nav-sony-logo, -90px,   79px,   18px);
   .sprite-reg-nav-sony-logo{
   }
 
-  .btn-group.lang-selector{
+  .btn-group.lang-selector,
+  .btn-hover-group.lang-selector{
     width: 61px;
     float:left;
 
-    .btn.dropdown-toggle{
+    .btn.dropdown-toggle,
+    .btn.dropdown-hover-toggle{
       width: 100%;
 
       .icon-ui-arrowhead-down-gray{
@@ -86,6 +93,11 @@
     width:72%;  
     float:left; 
     background:$footerBackground;
+    color:$white;
+
+    &:focus{
+      color:$white;
+    }
   }
   .footer-btn{
     margin:3px;
@@ -149,6 +161,9 @@ form.footer-store-locator-form{
   margin-left:0;
   float:left;
 }
+.footer-lang-selectors{
+  @include clearfix;
+}
 .footer-social-links{
   display:inline-block;
 
@@ -181,6 +196,17 @@ form.footer-store-locator-form{
       background-color:$youtubeColor;
     }
   }
+}
+
+.footer-signature{
+  position:relative
+}
+.footer-copyright{
+  font-size:$font_10_16;
+  text-transform:uppercase;
+  position:absolute;
+  left: 90px;
+  top: 4px;
 }
 
 
@@ -234,6 +260,22 @@ form.footer-store-locator-form{
                             
 @media (min-width: 1400px) {
   
+
+.footer-wrapper{
+  .footer-lang-selectors{
+    width: 46.2%;
+  }
+  .btn-group.l11n-selector,
+  .btn-hover-group.l11n-selector{
+    width: 76%;
+    float:left;
+  }
+  .btn-group.lang-selector,
+  .btn-hover-group.lang-selector{
+    width: 22%;
+  }
+}
+
 } // END min-width: 1400px
 
 
@@ -252,13 +294,10 @@ form.footer-store-locator-form{
 //   888   Y88b  d88P 888"       Y88b  d88P       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
 // 8888888  "Y8888P"  888888888   "Y8888P"         "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
 // ------------------------------------------------
+
 @media (max-width: 1023px) {
 
-
-.footer-wrapper .span3{
-  width:30.9%;
-}
-.footer-store-locator.span3{
+.footer-wrapper .footer-store-locator.span3{
   width:100%;
   float:none;
   overflow:hidden;
@@ -284,6 +323,17 @@ form.footer-store-locator-form{
 .footer-store-locator-caption{
   float:left;
   padding:9px 0 0 16px;
+}
+}
+
+
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+
+.footer-wrapper .span3{
+  width:30.9%;
 }
 
 .footer-newsletter{
@@ -355,9 +405,6 @@ form.footer-store-locator-form{
 .footer-wrapper .span3{
   width:31.3%;
 }
-.footer-wrapper .footer-store-locator.span3{
-  width:100%;
-}
 
 
 } // min-width: 768px and max-width: 979px
@@ -396,6 +443,131 @@ form.footer-store-locator-form{
 
 
 
+.footer-wrapper{
+
+  [class*="span"] {
+    margin-left:inherit;
+    float:none;
+    width:100%;
+  }
+
+  .span3{
+    width:100%;
+    overflow:hidden;
+  }
+  .footer-mobile-section{
+    padding-bottom: 19px;
+    margin-bottom: 9px;
+    border-bottom: solid 1px $grayDarkFieldLarge;
+  }
+  h5{
+    margin-bottom: 13px;
+  }
+
+
+  .btn-group.lang-selector,
+  .btn-hover-group.lang-selector{
+    width:20%;
+  }
+  .btn-group.l11n-selector,
+  .btn-hover-group.l11n-selector{
+    width: 78%;
+  }
+
+
+  .footer-store-locator.span3{
+    h5{
+      width:100%;
+      padding-bottom:10px;
+    }
+  }
+}
+.mobile-container-padded{
+}
+
+.footer-link-li{
+  line-height: 1.9;
+}
+
+
+
+
+.footer-newsletter {
+  margin-top: 24px;
+  margin-bottom: 7px;
+
+  .footer-form-border{
+    margin-bottom:0;
+
+    .footer-input{
+      width:72%;
+    }
+    .footer-btn{
+      position:inherit;
+      top:auto;
+      left:auto;
+      float:right;
+    }
+  }
+}
+.footer-contact.span6{
+  width:auto;
+  float:none;
+  text-align:center;
+
+  > p{
+    display:block;
+    font-size:$font_16_16;
+    line-height:1.85;
+    margin-top:12px;
+
+    a,
+    a:first-child{
+      margin-right:0;
+      top:auto;
+      display:block;
+      text-align:center;
+    }
+  }
+}
+
+.footer-language.span6{
+  overflow:hidden;
+  padding-top: 28px;
+  margin-top:30px;
+  border-top: solid 2px $grayDarkFieldLarge; 
+
+  .footer-lang-selectors{
+    max-width:300px;
+    margin:0 auto;
+  }
+}
+
+
+
+.footer-signature-w{
+  border:none;
+  margin-top:0;
+}
+.footer-signature .sprite-reg-nav-sony-logo {
+  position: relative;
+  margin:0 0 9px 0;
+}
+.footer-signature{
+  text-align:center;
+}
+.footer-copyright{
+  position:static;
+  top:auto;
+}
+
+.footer-legal-links{
+  a{
+    display:block;
+    font-size:$font_11_16;
+    line-height: 2.4;
+  }
+}
   
 } // max-width: 767px
 
@@ -435,6 +607,19 @@ form.footer-store-locator-form{
 
 @media (max-width: 479px) {
 
+.footer-wrapper{
+  .footer-store-locator.span3{
+    h5{
+    }
+    .footer-store-locator-form{
+      width:100%;
+    }
+    .footer-store-locator-caption{
+      padding:0;
+      color:$white;
+    }
+  }
+}
 
 } // max-width: 479px
 

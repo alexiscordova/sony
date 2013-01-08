@@ -142,6 +142,8 @@ $detailedGalleryItemHeight: 480px;
       padding-top: 105.92705167173253%;
     }
 
+
+
     // 3 column grid
     .shuffle-3 & .product-img:after {
       padding-top: 107.045%;
@@ -182,6 +184,95 @@ $detailedGalleryItemHeight: 480px;
     .shuffle-6 & .product-img:after {
       padding-top: 84.3%;
     }
+  }
+
+  //Title plate 
+  &.plate {
+    color: $white;
+
+    &:after {
+      padding-top: 59.190255%;
+    }
+
+    .shuffle-4 &:after {
+      padding-top: 77.790255%;
+    }
+
+    .text-promo-title {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      margin: 0;
+      max-width: 340px;
+      color: #75e7ef;
+
+/*       i {
+        margin-top: 8px;
+        margin-left: 10px;
+      } *///dont need this 
+
+      @media (max-width:767px) {
+        font-size: $font_14_16;
+        top: 10px;
+        left: 10px;
+        max-width: none;
+
+/*         i {
+          margin-top: 1px;
+        } */
+      }
+    }
+
+    .text-count {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      margin: 0;
+      color: #ffffff;
+
+      @media (max-width:767px) {
+        bottom: 10px;
+        left: 10px;
+      }
+
+      .text {
+        color: #ffffff;
+      }
+    }
+
+    strong { color: $white; }
+
+    .product-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+    }
+
+    .product-img {
+      height: 100%;
+    }
+
+    img {
+      max-height: none;
+      max-width: none;
+    }
+
+    div.iq-img {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .number {
+      font-size: $font_18_15;
+    }
+
+    .text-count .text { font-size: $font_12_15; }    
   }
 
   // Promo gallery item images are the full height

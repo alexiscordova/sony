@@ -37,6 +37,15 @@ a:hover {
   text-decoration: none;
 }
 
+a,
+.btn{
+  @include transition(
+    background-color $transitionSlowish linear, 
+    color $transitionSlowish linear, 
+    border-color $transitionSlowish linear
+  ); 
+}
+
 
 // Images
 // -------------------------
