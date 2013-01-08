@@ -4,7 +4,8 @@
 
 
 // Make the div behave like a button
-.btn-group {
+.btn-group,
+.btn-hover-group {
   position: relative;
   vertical-align: middle; // match .btn alignment given font-size hack above
   white-space: nowrap; // prevent buttons from wrapping when in tight spaces (e.g., the table on the tests page)
@@ -12,8 +13,9 @@
 }
 
 // Space out series of button groups
-.btn-group + .btn-group {
-  margin-left: 5px;
+.btn-group + .btn-group,
+.btn-hover-group + .btn-hover-group {
+  margin-left: 3px;
 }
 
 // Optional: Group multiple button groups together for a toolbar

@@ -1,6 +1,7 @@
 /*!
  * iScroll v4.2.5 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
+ * Modified: 01/07/2013 by Glen Cheney (added onAnimate + more cleanup in destroy())
  */
 (function(window, doc){
 var m = Math,
@@ -32,7 +33,7 @@ var m = Math,
 
     // Browser capabilities
 	isAndroid = (/android/gi).test(navigator.appVersion),
-	isIDevice = (/iphone|ipad/gi).test(navigator.appVersion),
+	isIDevice = (/iphone|ipad|ipod/gi).test(navigator.appVersion),
 	isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
 
     has3d = prefixStyle('perspective') in dummyStyle,
@@ -86,7 +87,7 @@ var m = Math,
 			i;
 
 
-		that.wrapper = typeof el == 'object' ? el : el;
+		that.wrapper = typeof el == 'object' ? el : doc.getElementById(el);
 
 		that.wrapper.style.overflow = 'hidden';
 		that.scroller = that.wrapper.children[0];
@@ -284,7 +285,7 @@ iScroll.prototype = {
 
 	_resize: function () {
 		var that = this;
-		setTimeout(function () { that.refresh(); }, isAndroid ? 200 : 0);
+		that.resizeTimer = setTimeout(function () { that.refresh(); }, isAndroid ? 400 : 250);
 	},
 
 	_pos: function (x, y) {
@@ -766,6 +767,7 @@ iScroll.prototype = {
 			newX = (step.x - startX) * easeOut + startX;
 			newY = (step.y - startY) * easeOut + startY;
 			that._pos(newX, newY);
+			if (that.options.onAnimate) that.options.onAnimate.call(that);
 			if (that.animating) that.aniTime = nextFrame(animate);
 		};
 
@@ -901,6 +903,8 @@ iScroll.prototype = {
 			that._unbind('DOMMouseScroll');
 			that._unbind('mousewheel');
 		}
+
+		if (that.resizeTimer) clearTimeout(that.resizeTimer);
 
 		if (that.options.useTransition) that._unbind(TRNEND_EV);
 

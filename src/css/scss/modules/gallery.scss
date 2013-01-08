@@ -142,6 +142,8 @@ $detailedGalleryItemHeight: 480px;
       padding-top: 105.92705167173253%;
     }
 
+
+
     // 3 column grid
     .shuffle-3 & .product-img:after {
       padding-top: 107.045%;
@@ -182,6 +184,95 @@ $detailedGalleryItemHeight: 480px;
     .shuffle-6 & .product-img:after {
       padding-top: 84.3%;
     }
+  }
+
+  //Title plate 
+  &.plate {
+    color: $white;
+
+    &:after {
+      padding-top: 59.190255%;
+    }
+
+    .shuffle-4 &:after {
+      padding-top: 77.790255%;
+    }
+
+    .text-promo-title {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      margin: 0;
+      max-width: 340px;
+      color: #75e7ef;
+
+/*       i {
+        margin-top: 8px;
+        margin-left: 10px;
+      } *///dont need this 
+
+      @media (max-width:767px) {
+        font-size: $font_14_16;
+        top: 10px;
+        left: 10px;
+        max-width: none;
+
+/*         i {
+          margin-top: 1px;
+        } */
+      }
+    }
+
+    .text-count {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      margin: 0;
+      color: #ffffff;
+
+      @media (max-width:767px) {
+        bottom: 10px;
+        left: 10px;
+      }
+
+      .text {
+        color: #ffffff;
+      }
+    }
+
+    strong { color: $white; }
+
+    .product-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+    }
+
+    .product-img {
+      height: 100%;
+    }
+
+    img {
+      max-height: none;
+      max-width: none;
+    }
+
+    div.iq-img {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .number {
+      font-size: $font_18_15;
+    }
+
+    .text-count .text { font-size: $font_12_15; }    
   }
 
   // Promo gallery item images are the full height
@@ -663,6 +754,7 @@ $detailedGalleryItemHeight: 480px;
 // -------------------------
 .compare-container {
   margin-top: 1.25em;
+  padding-bottom: 5em;
 }
 
 .compare-item {
@@ -701,6 +793,26 @@ $detailedGalleryItemHeight: 480px;
 
 .detail-labels-wrap {
   position: relative;
+  z-index: 5;
+  height: 100%;
+
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 2000px;
+    right: 0;
+    top: 0;
+    background-color: $grayLightFieldLarge;
+
+    @include transition(box-shadow $transitionFast ease-in);
+  }
+
+  &.overflowing:before {
+    @include box-shadow(1px 1px 3px $transparentBlack);
+    @include transition-timing-function(ease-out);
+  }
 }
 
 .detail-labels-wrapping {
@@ -759,29 +871,39 @@ $detailedGalleryItemHeight: 480px;
   z-index: 10;
   top: 0;
   left: -9999px;
-  width: inherit; // position fixed not inheriting correct width?...
+  // width: inherit; // position fixed not inheriting correct width?...
   padding: 1em 0 0.5em;
   opacity: 0;
   background: $grayLightFieldLarge;
-  @include translate(0, -100px);
-  -webkit-transition: opacity $transitionNormal $easeNormal, -webkit-transform $transitionNormal $easeNormal;
-          transition: opacity $transitionNormal $easeNormal, transform $transitionNormal $easeNormal;
+  // @include translate(0, -100px);
+  // -webkit-transition: opacity $transitionNormal $easeNormal, -webkit-transform $transitionNormal $easeNormal;
+  //         transition: opacity $transitionNormal $easeNormal, transform $transitionNormal $easeNormal;
+  top: -100px;
+  @include transition(opacity $transitionNormal ease-in, top $transitionNormal ease-in, left 0s $transitionNormal);
 
   // The sticky-count uses a pseudo element for the box-shadow
   &:not(.sticky-count) {
     @include box-shadow(0 2px 5px 0 $transparentBlack);
   }
 
+  // Needs more specificity to override span margins
+  .sticky-headers & {
+    margin: 0;
+  }
+
   // Make sticky header visible
   &.open {
     left: 0; // Show it
     opacity: 1; // Fade in
-    @include translate(0, 0); // Slide down
+    // @include translate(0, 0); // Slide down
+    top: 0;
+    @include transition-delay(0s);
+    @include transition-timing-function(ease-out);
   }
 
   // Create a sticky header box, but position it behind the text and off to the left
   // so that it looks like it extends the length of the window
-  .detail-labels-wrap &:before {
+  &.sticky-count:before {
     content: '';
     position: absolute;
     z-index: -1;
