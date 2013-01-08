@@ -129,10 +129,9 @@
         });
       } else {
         // Init Mobile Nav
-        console.log("init mobile nav");
         
-        // var mobileNavIScroll = null,
-        var mobileNavVisible = false;
+        var mobileNavIScroll = null,
+          mobileNavVisible = false;
 
         $("#btn-mobile-nav").on(self.tapOrClick,function(){
 
@@ -141,13 +140,16 @@
           if (!mobileNavVisible){
 
             if (!mobileNavIScroll){
-              var mobileNavIScroll = new iScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, vScrollbar: false, snap: false, momentum: true, bounce:false });
+              console.log("init mobileNavIScroll");
+              mobileNavIScroll = new iScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, vScrollbar: false, snap: false, momentum: true, bounce:false });
             }
 
             $("#page-wrap-inner").addClass("show-mobile-menu");
+            mobileNavVisible = true;
             
           } else {
             $("#page-wrap-inner").removeClass("show-mobile-menu");
+            mobileNavVisible = false;
           }
         });
       }
