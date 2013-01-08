@@ -38,13 +38,14 @@ $(document).ready(function(){
     function initScrollerModule(){
       console.group("initScrollerModule");
       
-      
       // init scroller module
       var scroller =  $scroller.scrollerModule({
         contentSelector: '.tcc-body',
         itemElementSelector: '.tcc-content-module',
-        mode: 'paginate'
-        //snap: true
+        mode: 'paginate',
+        snap: false,
+        momentum: false,
+        bounce: false
       });
       
       console.groupEnd();

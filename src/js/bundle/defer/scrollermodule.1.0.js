@@ -41,7 +41,7 @@
 		self.iscrollProps.onScrollEnd = $.proxy(self._onScrollEnd , self);
 
 		// Create instance of scroller and pass it defaults
-		self.iscrollProps.onTouchEnd = self.iscrollProps.onScrollEnd = window.iQ.update;
+		//self.iscrollProps.onTouchEnd = self.iscrollProps.onScrollEnd = window.iQ.update;
 		self.scroller = new iScroll(self.$el[0],self.iscrollProps);
 
 		function paginate() {
