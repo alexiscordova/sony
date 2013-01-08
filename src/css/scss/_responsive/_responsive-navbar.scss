@@ -20,6 +20,10 @@
 //                                  888                              
 // -----------------------------------------
 
+.nav-wrapper a{
+  @include transition(background-color $transitionSlowish linear, color $transitionSlowish linear); 
+}
+
 .nav-wrapper,
 .navbar{
   height: $navbarHeight;
@@ -292,6 +296,10 @@
   .sprite-mini-global-nav-indicator{
     right:31px;
   }
+  .btn-clear-search-input{
+    right: 30px;
+    top: 22px;
+  }
 }
 
 .navmenu-w-account{
@@ -352,6 +360,12 @@
 
 
 
+
+
+
+
+
+
 // ------------------------------------------------
 // LARGE DESKTOP
 // ------------------------------------------------
@@ -395,6 +409,11 @@
   z-index:1;
   background: $navTrayBackgroundAlt;
 }
+
+.nav-li-universal{
+  margin-right: -11px;
+}
+
 } // END min-width: 1200px
 
 
@@ -628,6 +647,10 @@
   margin-left:33.4%;
 }
 
+.navmenu-w-search{
+  margin-left: 27px;
+}
+
 .navtray-section-featured{ // section right
   padding-top: 35px;
   padding-left: 3.3%;
@@ -784,6 +807,10 @@
   .sprite-mini-nav-search-input{
     top: 23px;
     left: 18px;
+  }
+  .btn-clear-search-input{
+    right: 17px;
+    top: 17px;
   }
 }
 
