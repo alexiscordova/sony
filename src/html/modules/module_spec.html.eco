@@ -16,8 +16,8 @@
 					</p>
 				</div>
 			</div>
-			
-			<div class="sonyRecommends">
+
+			<div class="sony-recommends">
 				<p>
 					Sony recommends
 				</p>
@@ -35,20 +35,20 @@
 							<th>&nbsp;</th>
 							<% if @data.productTable.length: %>
 							<% for productTable in @data.productTable: %>
-									
+
 							<th><% if productTable.productTitle: %> <h2>
 								<%= productTable.productTitle%> </h2>
 								<% end %>
-								<% if productTable.productTitleDescription: %> 
-						
-							<p><%= productTable.productTitleDescription%> 
+								<% if productTable.productTitleDescription: %>
+
+							<p><%= productTable.productTitleDescription%>
 							</p><% end %></th>
 
 							<% end %>
 							<% end %>
 						</tr>
 					</thead>
-					
+
 					<tbody>
 						<tr>
 								<th>
@@ -58,21 +58,21 @@
 										</p>
 									</div>
 								</th>
-								
+
 								<% for productTable , i in @data.productTable: %>
 								<td class="intel7">
 									<div>
-										
+
 										<% if productTable.processor: %>
 										<p>
 											<%- productTable.processor %>
 										</p>
 										<% end %>
-										
+
 										<p class="infoTitle">
 											Configurable options
 										</p>
-										
+
 										<ul>
 											<% for processorConfig, i in productTable.processorConfig: %>
 											<li>
@@ -82,7 +82,7 @@
 										</ul>
 									</div>
 								</td>
-	
+
 								<% end %>
 							</tr>
 
@@ -94,7 +94,7 @@
 										</p>
 									</div>
 								</th>
-								
+
 								<% for productTable , i in @data.productTable: %>
 								<td>
 									<div>
@@ -103,7 +103,7 @@
 											<%- productTable.operatingSystem %>
 										</p>
 										<% end %>
-										
+
 										<% if productTable.operatingSystemNote: %>
 										<p>
 											<span><%- productTable.operatingSystemNote %></span>
@@ -113,8 +113,8 @@
 								</td>
 								<% end %>
 							</tr>
-							
-							
+
+
 							<tr>
 								<th>
 								<div>
@@ -126,7 +126,7 @@
 								<td>
 								<div>
 									<% if productTable.productImage: %>
-									<div class="img-respons center imgMarginBottom"><img class="iq-img" data-base="img/spec/" data-src="<%- productTable.productImage %>">
+									<div class="img-respons text-center imgMarginBottom"><img class="iq-img" data-base="img/spec/" data-src="<%- productTable.productImage %>">
 										<noscript>
 											<img src="img/spec/<%- productTable.productImage %>">
 										</noscript>
@@ -146,7 +146,7 @@
 												</p></td>
 											</tr>
 											<% end %>
-											
+
 											<% if productTable.dimensions.height: %>
 											<tr>
 												<td>
@@ -159,7 +159,7 @@
 												</p></td>
 											</tr>
 											<% end %>
-											
+
 											<% if productTable.dimensions.depth: %>
 											<tr>
 												<td>
@@ -172,7 +172,7 @@
 												</p></td>
 											</tr>
 											<% end %>
-											
+
 											<% if productTable.dimensions.weight: %>
 											<tr>
 												<td>
@@ -190,8 +190,8 @@
 								</div></td>
 								<% end %>
 							</tr>
-							
-							
+
+
 							<tr>
 								<th>
 								<div>
@@ -205,7 +205,7 @@
 									<p>
 										<%- productTable.display %>
 									</p>
-									
+
 									<% if productTable.displayDescription: %>
 									<ul class="listNoTitle">
 										<% for displayDescription, i in productTable.displayDescription: %>
@@ -216,8 +216,8 @@
 								</div></td>
 								<% end %>
 							</tr>
-							
-							
+
+
 							<tr>
 								<th>
 								<div>
@@ -234,8 +234,8 @@
 								</div></td>
 								<% end %>
 							</tr>
-							
-							
+
+
 							<tr>
 								<th>
 								<div>
@@ -251,7 +251,7 @@
 										<%- productTable.memory %>
 									</p>
 									<% end %>
-									
+
 									<% if productTable.memoryNote: %>
 									<p class="infoTitle">
 										Configurable to:
@@ -263,8 +263,8 @@
 								</div></td>
 								<% end %>
 							</tr>
-							
-							
+
+
 							<tr>
 								<th>
 									<div>
@@ -283,18 +283,18 @@
 										</div>
 									</div>
 									<% end %>
-									
+
 									<% if productTable.hardDrive: %>
 									<p>
 										<%- productTable.hardDrive %>
 									</p>
 									<% end %>
-									
+
 									<% if productTable.hardDriveNote: %>
 									<p class="infoTitle">
 										Configurable to:
 									</p>
-									
+
 									<ul>
 										<% for hardDriveNote, i in productTable.hardDriveNote: %>
 										<li>
@@ -308,7 +308,7 @@
 								</div></td>
 								<% end %>
 							</tr>
-									
+
 							<tr>
 								<th>
 									<div>
@@ -333,7 +333,7 @@
 								</td>
 								<% end %>
 							</tr>
-							
+
 							<tr>
 								<th>
 								<div>
@@ -341,7 +341,7 @@
 										Hardware
 									</p>
 								</div></th>
-	
+
 								<% for productTable , i in @data.productTable: %>
 								<td>
 								<div>
@@ -357,7 +357,7 @@
 								</div></td>
 								<% end %>
 							</tr>
-							
+
 							<tr>
 								<th>
 								<div>
@@ -366,7 +366,7 @@
 									</p>
 								</div></th>
 								<% for productTable , i in @data.productTable: %>
-	
+
 								<td>
 								<div>
 									<% if productTable.portsImg: %>
@@ -377,17 +377,17 @@
 										</noscript>
 									</div>
 									<% end %>
-									
-									<p class="tableZoom">
+
+									<p class="table-zoom">
 										<a href="#myModal<%- productTable.id %>" role="button" class="enlarge" data-toggle="modal">Enlarge</a>
 									</p>
 									<div id="myModal<%- productTable.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	
+
 										<div class="modal-body">
 											<% if productTable.productTitle: %>
 												<h2><%- productTable.productTitle %><% if productTable.productTitleDescription: %> - <%- productTable.productTitleDescription %><% end %></h2>
 											<% end %>
-	
+
 											<% if productTable.portsBigImg: %>
 											<div class="img-respons"><img class="iq-img" data-base="img/spec/" data-src="<%- productTable.portsBigImg %>">
 												<noscript>
@@ -414,7 +414,7 @@
 								</div></td>
 								<% end %>
 							</tr>
-							
+
 							<tr>
 								<th>
 								<div>
@@ -422,7 +422,7 @@
 										Battery and Power
 									</p>
 								</div></th>
-								
+
 								<% for productTable , i in @data.productTable: %>
 								<td>
 									<div>
@@ -431,13 +431,13 @@
 											<%- productTable.batteryAndPower %>
 										</p>
 										<% end %>
-										
+
 										<% if productTable.batteryAndPowerDescription: %>
 										<p>
 											<span><%- productTable.batteryAndPowerDescription %></span>
 										</p>
 										<% end %>
-										
+
 										<% if productTable.batteryAndPowerSpec: %>
 										<ul>
 											<% for batteryAndPowerSpec, i in productTable.batteryAndPowerSpec: %>
@@ -449,7 +449,7 @@
 											<% end %>
 										</ul>
 										<% end %>
-										
+
 										<% if productTable.batterySettings: %>
 										<p class="infoTitle">
 											Default settings:
@@ -468,7 +468,7 @@
 								</td>
 								<% end %>
 							</tr>
-							
+
 							<tr>
 								<th>
 								<div>
@@ -476,7 +476,7 @@
 										In the Box
 									</p>
 								</div></th>
-	
+
 								<% for productTable , i in @data.productTable: %>
 								<td>
 									<div>
@@ -492,7 +492,7 @@
 									</div>
 								</td>
 								<% end %>
-								
+
 							</tr>
 						</tbody>
 				</table>
@@ -501,7 +501,7 @@
 
 		<% if @data.computersFeatures: %>
 			<h2 class="h2-bigger">Features</h2>
-	
+
 			<div class="grid no-border full-bleed">
 				<div class="span4">
 					<% if @data.computersFeatures.a: %>
@@ -509,14 +509,14 @@
 						<p><%- @data.computersFeatures.a.description %></p>
 					<% end %>
 				</div>
-	
+
 				<div class="span4">
 					<% if @data.computersFeatures.b: %>
 					<h3><%- @data.computersFeatures.b.title %></h3>
 					<p><%- @data.computersFeatures.b.description %></p>
 					<% end %>
 				</div>
-	
+
 				<div class="span4">
 					<% if @data.computersFeatures.c: %>
 					<h3><%- @data.computersFeatures.c.title %></h3>
@@ -524,7 +524,7 @@
 					<% end %>
 				</div>
 			</div>
-	
+
 			<div class="grid no-border full-bleed">
 				<div class="span4">
 					<% if @data.computersFeatures.d: %>
@@ -534,7 +534,7 @@
 					</p>
 					<% end %>
 				</div>
-	
+
 				<div class="span4">
 					<% if @data.computersFeatures.e: %>
 					<h3><%- @data.computersFeatures.e.title %></h3>
@@ -543,7 +543,7 @@
 					</p>
 					<% end %>
 				</div>
-	
+
 				<div class="span4">
 					<% if @data.computersFeatures.f: %>
 					<h3><%- @data.computersFeatures.f.title %></h3>
@@ -555,3 +555,6 @@
 
 	</section>
 </div>
+
+
+<script src="js/libs/jquery.throttle-debounce.min.js"></script>

@@ -65,7 +65,7 @@ $.fn.tableToDiv = function() {
 			if ($table.hasClass('specsTable'))
 			{
 				tableClass = 'specsTable';
-				
+
 				//keep in memory
 				myArray.push($table);
 			}
@@ -90,10 +90,10 @@ $.fn.tableToDiv = function() {
 
 			$table.find('td').replaceWith(function() {
 				getClass = '';
-				
+
 				if ($(this).attr('class'))
 					getClass = $(this).attr('class');
-				
+
 				return $('<div class="specCell '+getClass+'">').append($(this).contents());
 			});
 
@@ -129,14 +129,6 @@ function listToMatrix(list, elementsPerSubArray) {
 
 
 /*********************************************************/
-//Usage: var tallest = $('div').maxHeight(); // Returns the height of the tallest div.
-$.fn.maxHeight = function() {
-	var max = 0;
-	this.each(function() {
-		max = Math.max(max, $(this).height());
-	});
-	return max;
-};
 
 /*********************************************************/
 //Usage: delay(function(){functionToCall();}, 10); //Set a delay.
