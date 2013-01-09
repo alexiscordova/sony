@@ -13,12 +13,12 @@ Exports.gut5Width = 23;
 Exports.fullWidth = (Exports.fiveColumns * Exports.col5Width) + (Exports.gut5Width * (Exports.fiveColumns - 1));
 Exports.COLUMN_WIDTH = Exports.col5Width / Exports.fullWidth;
 Exports.GUTTER_WIDTH = Exports.gut5Width / Exports.fullWidth;
-Exports.GALLERY_ITEM_HEIGHT = 337;
-Exports.GALLERY_RATIOS = {
-  normal: Exports.col5Width / Exports.GALLERY_ITEM_HEIGHT,
-  promo: ((Exports.col5Width * 2) + Exports.gut5Width) / Exports.GALLERY_ITEM_HEIGHT,
-  large: ((Exports.col5Width * 3) + (Exports.gut5Width * 2)) / ((Exports.GALLERY_ITEM_HEIGHT * 2) + Exports.gut5Width)
-};
+// Exports.GALLERY_ITEM_HEIGHT = 337;
+// Exports.GALLERY_RATIOS = {
+//   normal: Exports.col5Width / Exports.GALLERY_ITEM_HEIGHT,
+//   promo: ((Exports.col5Width * 2) + Exports.gut5Width) / Exports.GALLERY_ITEM_HEIGHT,
+//   large: ((Exports.col5Width * 3) + (Exports.gut5Width * 2)) / ((Exports.GALLERY_ITEM_HEIGHT * 2) + Exports.gut5Width)
+// };
 
 // Twelve columns @ 768
 Exports.colWidth768 = 34;

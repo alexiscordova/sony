@@ -1436,7 +1436,7 @@
             column = Exports.COLUMN_WIDTH_1200 * containerWidth;
 
           // Landscape tablet + desktop ( 5 columns )
-          } else if ( Modernizr.mq('(min-width: 980px)') ) {
+          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
             column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
 
           // Portrait Tablet ( 4 columns )
@@ -1466,7 +1466,7 @@
             numColumns = 6;
 
           // Landscape tablet + desktop ( 5 columns )
-          } else if ( Modernizr.mq('(min-width: 980px)') ) {
+          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
             gutter = Exports.GUTTER_WIDTH * containerWidth;
             numColumns = 5;
 
@@ -1504,7 +1504,7 @@
           } else if ( Modernizr.mq('(min-width: 1200px)') ) {
             column = Exports.COLUMN_WIDTH_1200 * containerWidth;
 
-          } else if ( Modernizr.mq('(min-width: 980px)') ) {
+          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
             column = Exports.COLUMN_WIDTH_980 * containerWidth;
 
           } else {
@@ -1523,7 +1523,7 @@
           } else if ( Modernizr.mq('(min-width: 1200px)') ) {
             gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
 
-          } else if ( Modernizr.mq('(min-width: 980px)') ) {
+          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
             gutter = Exports.GUTTER_WIDTH_980 * containerWidth;
 
           } else {

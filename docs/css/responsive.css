@@ -2859,50 +2859,58 @@ textarea.span1,
   /* line 746, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-wrapper,
   .navbar {
-    height: 60px;
+    height: auto;
   }
 
   /* line 750, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .page-wrap-inner {
     -webkit-transition: left 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
     transition: left 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
+    position: relative;
   }
 
-  /* line 753, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 757, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .page-wrap-inner.show-mobile-menu {
     left: 70%;
+    position: fixed;
   }
 
-  /* line 756, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 762, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  .mobile-screen-overlay {
+    top: 60px;
+    position: absolute;
+    left: 0;
+    z-index: 1040;
+    background-color: rgba(0, 0, 0, 0.7);
+    -webkit-transition: opacity 0.5s linear;
+    transition: opacity 0.5s linear;
+  }
+
+  /* line 772, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-outer-container {
     position: absolute;
     width: 70%;
     left: -70%;
     top: 0;
-    height: 800px;
-  }
-  /* line 762, ../../src/css/scss/_responsive/_responsive-navbar.scss */
-  .nav-outer-container .nav-mobile-scroller {
-    height: 2500px;
   }
 
-  /* line 766, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 778, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-w {
     border-bottom: none;
   }
 
-  /* line 769, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 781, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-featured {
     display: none;
   }
 
-  /* line 772, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 784, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-li {
     width: 100%;
     float: none;
   }
 
-  /* line 782, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 794, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar .nav-primary,
   .navbar .nav-li-account .nav-li-link,
   .navbar .nav-li-search,
@@ -2912,30 +2920,30 @@ textarea.span1,
     display: none;
   }
 
-  /* line 787, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 799, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
   }
 
-  /* line 790, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 802, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-mobile-top {
     padding-top: 16px;
     padding-bottom: 28px;
   }
 
-  /* line 794, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 806, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-search {
     width: 100%;
     background: #e4e7eb;
     padding: 9px;
   }
-  /* line 799, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 811, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-search .navmenu-search-section-input {
     padding: 7px 12px 9px 8px;
   }
-  /* line 802, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 814, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-search .navmenu-search-section-input input[type=text] {
     font-size: 0.9375em;
     font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -2950,36 +2958,36 @@ textarea.span1,
     width: 16px;
     height: 16px;
   }
-  /* line 811, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 823, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-search .sprite-mini-nav-search-input {
     top: 23px;
     left: 18px;
   }
-  /* line 815, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 827, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-search .btn-clear-search-input {
     right: 17px;
     top: 17px;
   }
 
-  /* line 821, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 833, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-account {
     width: 100%;
     padding-bottom: 30px;
   }
-  /* line 825, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 837, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-account .btn-logout {
     margin-top: 15px;
   }
-  /* line 829, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 841, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-account.logged-in .btn-login {
     display: none;
   }
-  /* line 832, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 844, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-account.logged-in .btn-logout {
     display: block;
   }
 
-  /* line 841, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 853, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-account .btn-login,
   .navmenu-w-account .btn-logout,
   .nav-li-universal .nav-li-link,
@@ -2992,28 +3000,28 @@ textarea.span1,
     max-width: 220px;
   }
 
-  /* line 852, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 864, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-account .btn-login,
   .navmenu-w-account .btn-logout {
     font-size: 0.86667em;
   }
 
-  /* line 855, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 867, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray .btn-nav-view-all {
     margin-top: 28px;
   }
-  /* line 857, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 869, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray .btn-nav-view-all .linkBtn-label {
     font-size: 0.93333em;
   }
 
-  /* line 861, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 873, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-li-universal {
     background: #1f2024;
     padding-top: 7px;
     padding-bottom: 39px;
   }
-  /* line 866, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 878, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-li-universal .nav-li-linkBtn {
     height: auto;
     background: #726e7a;
@@ -3021,32 +3029,32 @@ textarea.span1,
     text-align: center;
     padding: 9px 0 14px;
   }
-  /* line 873, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 885, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-li-universal .nav-li-linkBtn .icon-ui-plus-tiny-boxed,
   .nav-li-universal .nav-li-linkBtn .linkBtn-label {
     display: inline-block;
     float: none;
     font-size: 0.9375em;
   }
-  /* line 878, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 890, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-li-universal .nav-li-linkBtn .icon-ui-plus-tiny-boxed {
     margin-top: 5px;
   }
 
-  /* line 885, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 897, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-list .navmenu-line {
     margin-left: 14px;
   }
-  /* line 887, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 899, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-list .navmenu-line a.tl {
     font-size: 0.93333em;
     padding: 5px 0 5px 4px;
   }
-  /* line 890, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 902, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-list .navmenu-line a.tl i {
     padding-right: 7px;
   }
-  /* line 895, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 907, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-list .navmenu-li-welcome {
     color: #726e7a;
     text-transform: uppercase;
@@ -3057,18 +3065,18 @@ textarea.span1,
     margin: 4px 0 0 17px;
   }
 
-  /* line 908, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 920, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-list.navmenu-list-prefixed,
   .sprite-mini-global-nav-indicator,
   .navmenu-search-section-results {
     display: none;
   }
 
-  /* line 912, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 924, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile {
     display: block;
   }
-  /* line 916, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 929, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile .btn-mobile-nav,
   .navbar-mobile .btn-mobile-cart {
     border: none;
@@ -3079,13 +3087,13 @@ textarea.span1,
     height: 60px;
     padding: 18px 19px 0;
   }
-  /* line 925, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 938, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile .btn-mobile-nav {
     margin-top: 0;
     float: left;
     border-right: solid 1px #2f353d;
   }
-  /* line 929, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 942, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile .btn-mobile-nav i {
     margin: auto;
   }
@@ -3095,7 +3103,7 @@ textarea.span1,
     width: 22px;
     height: 19px;
   }
-  /* line 935, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 948, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile .btn-mobile-cart {
     float: right;
     padding: 19px 0 0;
@@ -3111,13 +3119,13 @@ textarea.span1,
     width: 19px;
     height: 17px;
   }
-  /* line 946, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 959, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile .btn-mobile-cart i {
     margin-top: 1px;
     margin-right: 4px;
   }
 
-  /* line 952, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 965, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .sprite-reg-nav-sony-logo {
     position: absolute;
     width: 90px;
@@ -3125,7 +3133,7 @@ textarea.span1,
     margin-top: 15px;
   }
 
-  /* line 964, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 977, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w,
   .navtray-w,
   .nav.nav-primary,
@@ -3142,18 +3150,18 @@ textarea.span1,
     margin: 0;
   }
 
-  /* line 969, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 982, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray,
   .navtray-section-main {
     background: #f3f4f6;
   }
 
-  /* line 976, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 989, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main {
     padding-top: 0;
     width: 100%;
   }
-  /* line 980, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 993, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main h4 {
     font-size: 0.75em;
     font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -3163,24 +3171,24 @@ textarea.span1,
     text-transform: uppercase;
     color: #726e7a;
   }
-  /* line 987, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1000, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main .navtray-list-main {
     margin: 0 0 1.2% 5.3%;
     overflow: visible;
   }
-  /* line 991, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1004, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main .navtray-list-main .navtray-li {
     width: 45%;
     margin: 5% 4.3% 0 0;
   }
-  /* line 995, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1008, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main .navtray-list-main .navtray-li-link {
     height: auto;
     padding-top: 0;
     margin-right: 0;
     padding-bottom: 0;
   }
-  /* line 1001, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1014, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main .navtray-list-main .navtray-li-link .nav-img-w {
     display: block;
     overflow: hidden;
@@ -3190,24 +3198,24 @@ textarea.span1,
     -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.1);
   }
-  /* line 1007, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1020, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main .navtray-list-main .navtray-li-link .nav-img-w img {
     width: 73%;
   }
-  /* line 1011, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1024, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main .navtray-list-main .navtray-li-link .nav-label {
     font-size: 1em;
   }
 
-  /* line 1017, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1030, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main-w-all-btn {
     padding-bottom: 0;
   }
-  /* line 1019, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1032, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main-w-all-btn .navtray-list-main:after {
     border: none;
   }
-  /* line 1022, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1035, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main-w-all-btn:after {
     content: '';
     display: block;
@@ -3218,22 +3226,31 @@ textarea.span1,
   }
 }
 @media (max-width: 479px) {
-  /* line 1074, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1086, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-wrapper,
-  .navbar,
+  .navbar {
+    height: auto;
+  }
+
+  /* line 1089, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile {
     height: 48px;
   }
 
-  /* line 1078, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1093, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .page-wrap-inner.show-mobile-menu {
-    left: 81%;
+    left: 85.5%;
   }
 
-  /* line 1081, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1096, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  .mobile-screen-overlay {
+    top: 48px;
+  }
+
+  /* line 1100, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .nav-outer-container {
-    width: 81%;
-    left: -81%;
+    width: 85.5%;
+    left: -85.5%;
   }
 
   /* line 335, ../../src/css/scss/_base/_mixins.scss */
@@ -3242,13 +3259,13 @@ textarea.span1,
     width: 79px;
     height: 28px;
   }
-  /* line 1092, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1111, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile .sprite-reg-nav-sony-logo {
     margin-top: 10px;
     width: 80px;
     margin-left: -40px;
   }
-  /* line 1097, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1116, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile .btn-mobile-nav {
     width: 48px;
     height: 48px;
@@ -3260,14 +3277,14 @@ textarea.span1,
     width: 19px;
     height: 16px;
   }
-  /* line 1105, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1124, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navbar-mobile .btn-mobile-cart {
     padding: 13px 0 0px 4px;
     width: 54px;
     height: 48px;
   }
 
-  /* line 1115, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1134, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navmenu-w-account .btn-login,
   .navmenu-w-account .btn-logout,
   .nav-li-universal .nav-li-link,
@@ -3277,7 +3294,7 @@ textarea.span1,
     margin-right: 20px;
   }
 
-  /* line 1124, ../../src/css/scss/_responsive/_responsive-navbar.scss */
+  /* line 1143, ../../src/css/scss/_responsive/_responsive-navbar.scss */
   .navtray-section-main .navtray-list-main .navtray-li-link .nav-label {
     font-size: 0.9375em;
   }
