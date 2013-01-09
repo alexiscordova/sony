@@ -1,10 +1,10 @@
 <section class="primary-tout container full-bleed <%- @data.mode %>">
 	<%- @this.partial('modules/image.html.eco' , {this:@this, data:@data.image} )%>
-	<div class="container">
-	<%  if @data.mode == "primaryTout": %>
+	<div class="container full-bleed">
+	<%  if @data.mode == "primary-tout": %>
 		<div class="inner grid">
-			<div class="span5 titleplate <%- @data.style %>">
-				<% if @data.kicker : %><p class="kicker"><%- @data.kicker %></p><% end %>
+			<div class="span5 hero-unit <%- @data.style %>">
+				<% if @data.kicker : %><p class="kicker l2"><%- @data.kicker %></p><% end %>
 				<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
 				<% if @data.body : %><p><%- @data.body %></p><% end %>
 				<% if @data.links : %>
@@ -14,10 +14,10 @@
 				<% end %>
 			</div>
 		</div>
-	<% else if @data.mode == "productIntroPlate" : %>
+	<% else if @data.mode == "product-intro-plate" : %>
 		<div class="inner grid">
-			<div class="span5 titleplate <%- @data.style %>">
-				<% if @data.kicker : %><p class="kicker"><%- @data.kicker %></p><% end %>
+			<div class="span5 hero-unit <%- @data.style %>">
+				<% if @data.kicker : %><p class="kicker l2"><%- @data.kicker %></p><% end %>
 				<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
 				<% if @data.body : %><p><%- @data.body %></p><% end %>
 				<% if @data.links : %>
@@ -27,5 +27,32 @@
 				<% end %>
 			</div>
 		</div>
+	<% else if @data.mode == "home-page" : %>
+		<div class="container full-bleed inner <%- @data.style %>">
+			<div class="grid">
+				<div class="span5 offset1">
+					<div class="fill ghost-center-wrap">
+						<div class="ghost-center">
+							<% if @data.kicker : %><p class="kicker l2"><%- @data.kicker %></p><% end %>
+							<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="grid hero-unit">
+				<div class="span6">
+					<% if @data.subhead : %><h5><%- @this.plusify(@data.subhead) %></h5><% end %>
+					<% if @data.body : %><p class="p3"><%- @data.body %></p><% end %>
+				</div>
+				<div class="span3 offset3">
+					<% if @data.links : %>
+						<% for link in @data.links :%>
+							<a class="<%- link.type %>" href="<%- link.url %>"><%- link.text %></a>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>	
 	<% end %>
 </section>
