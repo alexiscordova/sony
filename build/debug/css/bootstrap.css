@@ -8693,12 +8693,12 @@ a.label:hover, a.badge:hover {
 }
 /* line 8, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
 body.debug::before {
-  content: 'Default: 980px - 1199px  (1024+)';
+  content: '980px-1199px (Default - Tablet/Desktop)';
   position: fixed;
   z-index: 99999 !important;
   top: 0;
-  left: 0;
   width: 100%;
+  text-indent: 5px;
   color: white;
   font-size: 12px;
   background-color: rgba(119, 204, 102, 0.8);
@@ -8708,60 +8708,95 @@ body.debug::before {
   transition: background .2s ease;
 }
 
-@media (min-width: 980px) and (max-width: 1023px) {
-  /* line 25, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+@media (max-width: 479px) {
+  /* line 26, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Default: 980px - 1199px  (below 1024)';
+    content: '320px-567px - Under 480 (Phone Portrait)';
+    background-color: rgba(235, 71, 235, 0.8);
+  }
+}
+@media (min-width: 480px) and (max-width: 480px) {
+  /* line 32, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  body.debug::before {
+    content: '320px-567px - Exactly 480 (Phone Landscape)';
+    background-color: rgba(38, 76, 115, 0.8);
+  }
+}
+@media (min-width: 481px) and (max-width: 567px) {
+  /* line 38, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  body.debug::before {
+    content: '320px-567px (Phone Landscape / Small Tablet Portrait)';
+    background-color: rgba(71, 153, 235, 0.8);
+  }
+}
+@media (min-width: 568px) and (max-width: 568px) {
+  /* line 44, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  body.debug::before {
+    content: '568px-979px - Exactly 568 (Large Phone Landscape / Small Tablet Portrait)';
+    background-color: rgba(115, 102, 38, 0.8);
+  }
+}
+@media (min-width: 569px) and (max-width: 767px) {
+  /* line 50, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  body.debug::before {
+    content: '568px-979px - below 768 (Large Phone Landscape / Small Tablet Portrait)';
+    background-color: rgba(235, 207, 71, 0.8);
+  }
+}
+@media (min-width: 768px) and (max-width: 768px) {
+  /* line 56, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  body.debug::before {
+    content: '568px-979px - Exactly 768 (Tablet Portrait)';
+    background-color: rgba(115, 102, 38, 0.8);
+  }
+}
+@media (min-width: 769px) and (max-width: 979px) {
+  /* line 62, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  body.debug::before {
+    content: '568px-979px - above 768 (Small Tablet Landscape)';
+    background-color: rgba(204, 187, 102, 0.8);
+  }
+}
+@media (min-width: 980px) and (max-width: 980px) {
+  /* line 68, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  body.debug::before {
+    content: '980px-1199px - Exactly 980 (Small Tablet Landscape / Small Desktop)';
+    background-color: rgba(51, 115, 38, 0.8);
+  }
+}
+@media (min-width: 981px) and (max-width: 1023px) {
+  /* line 74, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  body.debug::before {
+    content: '980px-1199px - below 1024 (Small Desktop / Small Tablet Landscape)';
     background-color: rgba(99, 235, 71, 0.8);
   }
 }
 @media (min-width: 1024px) and (max-width: 1024px) {
-  /* line 31, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  /* line 80, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: '1024px - Tablet Landscape';
+    content: '980px-1199px - Exactly 1024px (Tablet Landscape / Desktop)';
     background-color: rgba(51, 115, 38, 0.8);
   }
 }
 @media (min-width: 1025px) and (max-width: 1199px) {
-  /* line 37, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  /* line 86, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Default: 980px - 1199px  (above 1024)';
+    content: '980px-1199px - above 1024 (Desktop / Widescreen Tablet Landscape)';
     background-color: rgba(119, 204, 102, 0.8);
   }
 }
 @media (min-width: 1200px) {
-  /* line 45, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  /* line 92, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Large Desktop: 1200px+';
+    content: '1200px-1400px (Large Desktop / Large Widescreen Tablet Landscape)';
     background-color: rgba(204, 119, 102, 0.8);
   }
 }
 @media (min-width: 1400px) {
-  /* line 52, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
+  /* line 98, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
   body.debug::before {
-    content: 'Extra Large Desktop: 1400px+';
+    content: '1400px+ (Extra Large Desktop)';
     background-color: rgba(136, 102, 204, 0.8);
-  }
-}
-@media (min-width: 768px) and (max-width: 979px) {
-  /* line 59, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
-  body.debug::before {
-    content: 'Portrait tablet to landscape and small desktop: > 768px && < 979px';
-    background-color: rgba(204, 187, 102, 0.8);
-  }
-}
-@media (min-width: 480px) and (max-width: 767px) {
-  /* line 66, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
-  body.debug::before {
-    content: 'Phones to Tablets: < 768px';
-    background-color: rgba(102, 153, 204, 0.8);
-  }
-}
-@media (max-width: 479px) {
-  /* line 73, ../../../src/css/scss/_debug/_debug-media-query-bar.scss */
-  body.debug::before {
-    content: 'Phones: < 480px';
-    background-color: rgba(204, 102, 204, 0.8);
   }
 }
 /* line 5, ../../../src/css/scss/_debug/_debug-misc.scss */
