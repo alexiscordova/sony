@@ -1,3 +1,4 @@
+//adds a resize listener to vertically re-center the h1
 $(document).ready(function() {
   if ( $('.primary-tout.home-page').length > 0 ) {
   	$.guid= 0

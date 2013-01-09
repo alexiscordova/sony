@@ -37,6 +37,7 @@
   .btn-group.country-selector,
   .btn-hover-group.country-selector{
     width: 46.2%;
+    min-width:185px;
     float:left;
     .dropdown-hover-menu-lists-w{
       padding:24px 0 24px 0px;
@@ -308,7 +309,7 @@ form.footer-store-locator-form{
 
 
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 568px) and (max-width: 1023px) {
 
 
 .footer-wrapper .span3{
@@ -366,23 +367,23 @@ form.footer-store-locator-form{
 // ------------------------------------------------
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
-// 8888888888  .d8888b.   .d8888b.                           .d8888b.  8888888888  .d8888b.                    
-//       d88P d88P  Y88b d88P  Y88b                         d88P  Y88b       d88P d88P  Y88b                   
-//      d88P  888        Y88b. d88P                         888    888      d88P  888    888                   
-//     d88P   888d888b.   "Y88888"  88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
-//  88888888  888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
-//   d88P     888    888 888    888 888  888   X88K  888888        888   d88P            888 888  888   X88K   
-//  d88P      Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
-// d88P        "Y8888P"   "Y8888P"  88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
-//                                  888                                                      888               
-//                                  888                                                      888               
-//                                  888                                                      888   
+// 888888888   .d8888b.  8888888888                         .d8888b.  8888888888  .d8888b.                    
+// 888        d88P  Y88b       d88P                        d88P  Y88b       d88P d88P  Y88b                   
+// 888        888             d88P                         888    888      d88P  888    888                   
+// 8888888b.  888d888b.      d88P  88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
+//        888 888    888   d88P    888  888   X88K  888888        888   d88P            888 888  888   X88K   
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
+//                                 888                                                      888               
+//                                 888                                                      888               
+//                                 888                                                      888                        
 // ------------------------------------------------
-@media (min-width: 768px) and (max-width: 979px) {
+@media (min-width: 568px) and (max-width: 979px) {
 
 
 .footer-wrapper .span3{
-  width:31.3%;
+  width:30.9%;
 }
 
 
@@ -402,7 +403,7 @@ form.footer-store-locator-form{
 
 
 // ------------------------------------------------
-// MOBILE-LARGE (mostly the same as mobile, but a little bigger.)
+// MOBILE-LARGE (somewhere between tablet & mobile)
 // ------------------------------------------------
 //  8888888888  .d8888b.  8888888888                         .d8888b.                                  888                    
 //        d88P d88P  Y88b       d88P                        d88P  "88b                                 888                 
@@ -418,9 +419,31 @@ form.footer-store-locator-form{
 // ------------------------------------------------    
 
 @media (max-width: 767px) {
+  
+} // max-width: 767px
 
 
 
+
+
+
+
+// ------------------------------------------------
+// LANDSCAPE PHONE AND BELOW
+// ------------------------------------------------
+// 888888888   .d8888b.  8888888888                         .d8888b.                                  888                  
+// 888        d88P  Y88b       d88P                        d88P  "88b                                 888                  
+// 888        888             d88P                         Y88b. d88P                                 888                  
+// 8888888b.  888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//        888 888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                 888                                                                                     
+//                                 888                                                                                     
+//                                 888                                                                                     
+
+@media (max-width: 567px) {
 
 .footer-wrapper{
 
@@ -435,9 +458,15 @@ form.footer-store-locator-form{
     overflow:hidden;
   }
   .footer-mobile-section{
+    overflow:hidden;
     padding-bottom: 19px;
     margin-bottom: 9px;
     border-bottom: solid 1px $grayDarkFieldLarge;
+    @include transition(height $transitionNormal ease-out);
+
+    &.collapse{
+      height:41px;
+    }
   }
   h5{
     margin-bottom: 13px;
@@ -455,13 +484,12 @@ form.footer-store-locator-form{
 
 
   .footer-store-locator.span3{
+    border-top: solid 1px $grayDarkFieldLarge;    
     h5{
       width:100%;
       padding-bottom:10px;
     }
   }
-}
-.mobile-container-padded{
 }
 
 .footer-link-li{
@@ -511,7 +539,7 @@ form.footer-store-locator-form{
 }
 
 .footer-language.span6{
-  overflow:hidden;
+  // overflow:hidden;
   padding-top: 28px;
   margin-top:30px;
   border-top: solid 2px $grayDarkFieldLarge; 
@@ -519,6 +547,9 @@ form.footer-store-locator-form{
   .footer-language-selectors{
     max-width:300px;
     margin:0 auto;
+  }
+  .dropdown-hover-menu-lists-w{
+    @include box-shadow(0 0px 5px rgba(0,0,0,0.5));
   }
 }
 
@@ -547,19 +578,9 @@ form.footer-store-locator-form{
     line-height: 2.4;
   }
 }
-  
-} // max-width: 767px
 
 
-
-
-
-
-
-
-
-
-
+} // max-width: 567px
 
 
 
