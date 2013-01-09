@@ -1349,4 +1349,32 @@ $default-transition-delay    : 0s;
 	}
 }
 
+// Debug (outline and background color)
+@mixin debug($color,$width,$backgroundColor:transparent){
+  outline:$width solid $color;
+  //border:$width solid $color;
+  background-color:$backgroundColor;
+}
 
+
+// deactivate the touch / hold
+@mixin noTouchHold{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}
+
+@mixin borderBox{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+@mixin debugAfter{
+  position:absolute;
+  top:0;
+  left:0;
+  opacity:0.4;
+  width:auto;
+  color:white;
+  font-size:0.8em;
+}
