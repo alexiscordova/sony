@@ -1,4 +1,4 @@
-sony = sony || {};
+var sony = sony || {};
 
 
 iQ = {

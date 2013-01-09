@@ -70,7 +70,7 @@ $(document).ready(function(){
     function destroy(){
       $scrollerInstance.scrollerModule('destroy');
       $scrollerInstance = null;
-      $(".tcc-content-module, .tcc-body, .tcc-body-wrapper").removeAttr("style");
+      //$(".tcc-content-module, .tcc-body, .tcc-body-wrapper").removeAttr("style");
     }
 
     function setContentModuleSize(){
@@ -80,7 +80,7 @@ $(document).ready(function(){
       
       console.log("sizeTo »",sizeTo);
 
-      $contentModules.width(sizeTo); // just wait a sec before we init scroller instance
+     $contentModules.width(sizeTo); // just wait a sec before we init scroller instance
 
       console.groupEnd();
     }

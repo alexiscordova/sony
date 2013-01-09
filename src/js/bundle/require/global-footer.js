@@ -38,8 +38,6 @@
     t.transitionEasing = Modernizr.prefixed('transitionTimingFunction');
     t.transitionEnd = transEndEventNames[t.transitionName];
 
-
-
     if ( t.mode == 'mobile' ) {
       // do something
     }
