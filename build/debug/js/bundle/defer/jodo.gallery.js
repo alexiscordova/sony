@@ -1723,6 +1723,7 @@
       var self = this,
           $detailGroup = self.$compareItems.not('.hide').find('.detail-group').first(),
           offset = 0,
+          stickyMaxHeight = 0,
           nameMaxHeight = 0;
 
       // Calling this multiple times is resulting in an ever-growing height...
@@ -1731,11 +1732,21 @@
           var $this = $(this),
               height = parseFloat( $this.css('height') ) + parseFloat( $this.css('paddingTop') );
 
-          if ( height > nameMaxHeight ) {
-            nameMaxHeight = height;
+          if ( height > stickyMaxHeight ) {
+            stickyMaxHeight = height;
           }
-        }).css('height', nameMaxHeight);
+        }).css('height', stickyMaxHeight);
       }
+
+      // Set the height of the product name + model because the text can wrap and make it taller
+      self.$compareTool.find('.product-name-wrap').each(function() {
+        var $this = $(this),
+            height = parseFloat( $this.css('height') );
+
+        if ( height > nameMaxHeight ) {
+          nameMaxHeight = height;
+        }
+      }).css('height', nameMaxHeight);
 
       // Set detail rows to even heights
       self.$compareTool.find('.detail-label').each(function(i) {
