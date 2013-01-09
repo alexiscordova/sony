@@ -13,8 +13,7 @@
 		<%-@partial('includes/js_head.html')%>	
 
 
-		<!-- This should be moved into js_footer once completed: -->
-  	<script src="js/libs/jquery.throttle-debounce.min.js"></script>
+		<!-- This should be moved once completed testing: -->
 		<script src="js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
 		
 	</head>
@@ -24,9 +23,7 @@
 
 		<!-- include your module markup templates here -->
 		<%-@partial('modules/global_header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
-
-    	<section class="container" style="background:rgb(70, 70, 70); height:650px;"></section>
-
+    	<section class="container" style="background:rgb(70, 70, 70); height:500px;"></section>
 		<%-@partial('modules/global_footer.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
 
 <% if 'debug' in @getEnvironments():%>
