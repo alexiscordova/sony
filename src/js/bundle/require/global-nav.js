@@ -319,14 +319,12 @@
     },
 
     initFooter : function( isDesktop ) {
-      console.log("initFooter");
       $('#country-selector').on('hover',function(){
-
         var pageContainerWidth = $(this).closest('.grid-footer').width();
-        console.log("pageContainerWidth: " + pageContainerWidth);
-        console.log($(this).find('.dropdown-hover-menu-lists-w'));
         $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
-      })
+      });
+
+      
     }
   };
 
