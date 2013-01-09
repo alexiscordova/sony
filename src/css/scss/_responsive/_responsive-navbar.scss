@@ -744,15 +744,31 @@
 
 .nav-wrapper,
 .navbar{
-  height: $navbarMobileHeightTall;
+  height:auto;
 }
 
 .page-wrap-inner{
   @include transition(left $transitionSlower $easeOutNav 0s);
+  position:relative;
+}
+
+.page-wrap-outer{
 }
 .page-wrap-inner.show-mobile-menu{
   left:$navMobileWidthLarge;
+  position:fixed; // so the "main" content area doesn't scroll; just the nav
 }
+
+.mobile-screen-overlay{
+  top: $navbarMobileHeightTall;
+  position:absolute;
+  left: 0;
+  z-index: $zindexModalBackdrop;
+  background-color: $modalBackgroundColor;
+  @include transition(opacity $transitionSuperslow linear);
+}
+
+
 .nav-outer-container{
   position:absolute;
   width:$navMobileWidthLarge;
@@ -907,6 +923,7 @@
 
 .navbar-mobile{
   display:block;
+  // border-top: solid 1px #2f353d;
 
   .btn-mobile-nav,
   .btn-mobile-cart{
@@ -1066,7 +1083,9 @@
 @media (max-width: 479px) {
 
 .nav-wrapper,
-.navbar,
+.navbar{
+  height:auto;
+}
 .navbar-mobile{
   height: $navbarMobileHeight;
 }
@@ -1074,6 +1093,10 @@
 .page-wrap-inner.show-mobile-menu{
   left:$navMobileWidth;
 }
+.mobile-screen-overlay{
+  top: $navbarMobileHeight;
+}
+
 .nav-outer-container{
   width:$navMobileWidth;
   left:-$navMobileWidth;
