@@ -573,7 +573,32 @@
     display: initial !important;
     vertical-align: baseline;
   }
+}
 
+@media (max-width: 767px) {
+  .filter-display-bar {
+
+    .product-count-wrap {
+      display: block;
+      float: left;
+    }
+
+    .slide-toggle {
+      clear: both;
+      margin-left: 0;
+      float: left;
+    }
+
+    .js-compare-toggle {
+      float: right;
+      margin-left: 2%;
+    }
+
+    .slide-toggle,
+    .js-compare-toggle {
+      width: 48%;
+    }
+  }
 }
 
 
@@ -754,6 +779,10 @@
 .compare-container {
   margin-top: 1.25em;
   padding-bottom: 5em;
+}
+
+.compare-items-wrap {
+  overflow: visible !important; // override iscroll
 }
 
 .compare-item {

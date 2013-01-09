@@ -7,7 +7,7 @@
 // -------------------------
 
 body {
-  margin: 0;  
+  margin: 0;
   font-family: $baseFontFamily;
   line-height: $baseLineHeight;
   color: $textColor;
@@ -37,13 +37,15 @@ a:hover {
   text-decoration: none;
 }
 
+
+// Who put this here? I don't like it (it puts transitions on everything!!) -Glen
 a,
 .btn{
   @include transition(
-    background-color $transitionSlowish linear, 
-    color $transitionSlowish linear, 
+    background-color $transitionSlowish linear,
+    color $transitionSlowish linear,
     border-color $transitionSlowish linear
-  ); 
+  );
 }
 
 

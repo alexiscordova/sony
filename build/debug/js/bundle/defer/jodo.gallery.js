@@ -963,7 +963,7 @@
           // Get product count
           productCount = $currentItems.length,
 
-          $container = $('<div class="container js-compare-wrap">'),
+          $container = $('<div class="container mobile-container-padded js-compare-wrap">'),
           $content = $('<div class="compare-container clearfix">'),
           $header = self.$compareTool.find('.modal-header'),
           $modalBody = self.$compareTool.find('.modal-body'),
@@ -1021,10 +1021,11 @@
 
       // Append the count, reset, and sort in the right spots
       // Phone = sticky header
-      if ( Modernizr.mq('(max-width: 480px)') ) {
+      if ( Modernizr.mq('(max-width: 767px)') ) {
+        console.log('fixing header');
         self.isFixedHeader = true;
 
-        var $subheader = $('<div class="modal-subheader clearfix">');
+        var $subheader = $('<div class="modal-subheader container mobile-container-padded">');
         $subheader.append( self.$compareCountWrap, self.$compareReset, $sortOpts );
 
         // Insert subhead in the modal-body
@@ -1044,6 +1045,22 @@
         self.$compareReset.addClass('pull-right');
       }
       $labelColumn.append( $labelGroup );
+
+      if ( Modernizr.mq('(max-width: 479px)') ) {
+        self.$compareReset.addClass('btn-block').removeClass('pull-left');
+        self.$compareTool.find('.sort-options').css({
+          'display': 'block',
+          'float': 'none',
+          'marginTop' : '0.5em'
+        });
+      } else {
+        self.$compareReset.removeClass('btn-block').addClass('pull-left');
+        self.$compareTool.find('.sort-options').css({
+          'display': '',
+          'float': '',
+          'marginTop' : ''
+        });
+      }
 
 
       // On window resize
@@ -1261,12 +1278,12 @@
       var self = this;
 
       // Phone = sticky header
-      if ( Modernizr.mq('(max-width: 480px)') ) {
+      if ( Modernizr.mq('(max-width: 767px)') ) {
 
         // Setup sticky header
         if ( !self.isFixedHeader ) {
           self.isFixedHeader = true;
-          var $subheader = $('<div class="modal-subheader clearfix">');
+          var $subheader = $('<div class="modal-subheader container mobile-container-padded">');
           $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
 
           // Insert subhead in the modal body
@@ -1291,6 +1308,22 @@
 
           self.$compareReset.removeClass('pull-left').addClass('pull-right');
         }
+      }
+
+      if ( Modernizr.mq('(max-width: 479px)') ) {
+        self.$compareReset.addClass('btn-block').removeClass('pull-left');
+        self.$compareTool.find('.sort-options').css({
+          'display': 'block',
+          'float': 'none',
+          'marginTop' : '0.5em'
+        });
+      } else {
+        self.$compareReset.removeClass('btn-block').addClass('pull-left');
+        self.$compareTool.find('.sort-options').css({
+          'display': '',
+          'float': '',
+          'marginTop' : ''
+        });
       }
 
       self.$compareTool
@@ -1384,6 +1417,11 @@
           .clone()
           .addClass('media-body')
           .appendTo( $stickyHeader.find('.media') );
+
+        // Remove class that makes product name smaller (after it has been cloned)
+        $item
+          .find('.product-content .product-name')
+          .removeClass('p3');
 
 
         // Create a new div with the same attributes as the anchor tag

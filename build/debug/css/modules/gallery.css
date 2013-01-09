@@ -513,42 +513,65 @@
     vertical-align: baseline;
   }
 }
-/* line 583, ../../../../src/css/scss/modules/gallery.scss */
+@media (max-width: 767px) {
+  /* line 581, ../../../../src/css/scss/modules/gallery.scss */
+  .filter-display-bar .product-count-wrap {
+    display: block;
+    float: left;
+  }
+  /* line 586, ../../../../src/css/scss/modules/gallery.scss */
+  .filter-display-bar .slide-toggle {
+    clear: both;
+    margin-left: 0;
+    float: left;
+  }
+  /* line 592, ../../../../src/css/scss/modules/gallery.scss */
+  .filter-display-bar .js-compare-toggle {
+    float: right;
+    margin-left: 2%;
+  }
+  /* line 598, ../../../../src/css/scss/modules/gallery.scss */
+  .filter-display-bar .slide-toggle,
+  .filter-display-bar .js-compare-toggle {
+    width: 48%;
+  }
+}
+/* line 608, ../../../../src/css/scss/modules/gallery.scss */
 .range-control-wrap {
   margin-top: 10px;
   padding: 0 10px;
 }
 
-/* line 588, ../../../../src/css/scss/modules/gallery.scss */
+/* line 613, ../../../../src/css/scss/modules/gallery.scss */
 .range-output {
   margin-top: 10px;
   text-align: center;
 }
 
-/* line 595, ../../../../src/css/scss/modules/gallery.scss */
+/* line 620, ../../../../src/css/scss/modules/gallery.scss */
 .tab-content {
   margin-top: 1.25em;
   overflow: visible;
 }
 
-/* line 609, ../../../../src/css/scss/modules/gallery.scss */
+/* line 634, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs.tab-strip {
   position: relative;
   background-color: #e4e7eb;
 }
-/* line 616, ../../../../src/css/scss/modules/gallery.scss */
+/* line 641, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tabs-container {
   position: relative;
   overflow: hidden;
 }
-/* line 622, ../../../../src/css/scss/modules/gallery.scss */
+/* line 647, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tabs {
   z-index: 1;
   height: 100px;
   overflow-x: auto;
   white-space: nowrap;
 }
-/* line 629, ../../../../src/css/scss/modules/gallery.scss */
+/* line 654, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tab {
   position: relative;
   z-index: 1;
@@ -563,35 +586,35 @@
   -webkit-transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
   transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
 }
-/* line 641, ../../../../src/css/scss/modules/gallery.scss */
+/* line 666, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tab:focus, .gallery-tabs .tab:hover {
   background-color: #f3f4f6;
 }
-/* line 646, ../../../../src/css/scss/modules/gallery.scss */
+/* line 671, ../../../../src/css/scss/modules/gallery.scss */
 .no-touch .gallery-tabs .tab:active, .gallery-tabs .tab.active {
   z-index: 2;
   background-color: white;
   box-shadow: 0 3px 0 white, 0 0 4px 1px rgba(0, 0, 0, 0.15);
 }
 @media (max-width: 767px) {
-  /* line 656, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 681, ../../../../src/css/scss/modules/gallery.scss */
   .no-touch .gallery-tabs .tab:active, .gallery-tabs .tab.active {
     top: -2px;
   }
 }
-/* line 662, ../../../../src/css/scss/modules/gallery.scss */
+/* line 687, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .holder-for-icon {
   height: 30px;
 }
-/* line 666, ../../../../src/css/scss/modules/gallery.scss */
+/* line 691, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tab-label {
   margin-top: 10px;
 }
-/* line 672, ../../../../src/css/scss/modules/gallery.scss */
+/* line 697, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tab-nav-btns {
   display: none;
 }
-/* line 678, ../../../../src/css/scss/modules/gallery.scss */
+/* line 703, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tab-nav {
   position: absolute;
   z-index: 5;
@@ -602,12 +625,12 @@
   background: #f2f2f2;
   cursor: pointer;
 }
-/* line 690, ../../../../src/css/scss/modules/gallery.scss */
+/* line 715, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tab-nav-next {
   right: 0;
   left: auto;
 }
-/* line 696, ../../../../src/css/scss/modules/gallery.scss */
+/* line 721, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tab-nav:before {
   content: '';
   position: absolute;
@@ -621,7 +644,7 @@
   border-right: 5px solid #049cdb;
   border-bottom: 5px solid transparent;
 }
-/* line 711, ../../../../src/css/scss/modules/gallery.scss */
+/* line 736, ../../../../src/css/scss/modules/gallery.scss */
 .gallery-tabs .tab-nav-next:before {
   border-top: 5px solid transparent;
   border-right: none;
@@ -630,7 +653,7 @@
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-  /* line 724, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 749, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-tabs .tabs {
     position: relative;
     overflow-x: hidden;
@@ -639,42 +662,47 @@
     -o-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
   }
-  /* line 733, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 758, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-tabs .tabs-container {
     overflow: hidden;
   }
-  /* line 737, ../../../../src/css/scss/modules/gallery.scss */
+  /* line 762, ../../../../src/css/scss/modules/gallery.scss */
   .gallery-tabs .tab-nav-btns {
     display: block;
   }
 }
-/* line 746, ../../../../src/css/scss/modules/gallery.scss */
+/* line 771, ../../../../src/css/scss/modules/gallery.scss */
 .gallery .see-all {
   text-align: right;
 }
 
-/* line 754, ../../../../src/css/scss/modules/gallery.scss */
+/* line 779, ../../../../src/css/scss/modules/gallery.scss */
 .compare-container {
   margin-top: 1.25em;
   padding-bottom: 5em;
 }
 
-/* line 759, ../../../../src/css/scss/modules/gallery.scss */
+/* line 784, ../../../../src/css/scss/modules/gallery.scss */
+.compare-items-wrap {
+  overflow: visible !important;
+}
+
+/* line 788, ../../../../src/css/scss/modules/gallery.scss */
 .compare-item {
   position: relative;
   margin-left: 3px;
   background: white;
   color: #2f353d;
 }
-/* line 765, ../../../../src/css/scss/modules/gallery.scss */
+/* line 794, ../../../../src/css/scss/modules/gallery.scss */
 .compare-item .product-model {
   color: #83838f;
 }
-/* line 769, ../../../../src/css/scss/modules/gallery.scss */
+/* line 798, ../../../../src/css/scss/modules/gallery.scss */
 .compare-item .compare-sticky-header .product-name-wrap {
   padding-right: 2.5em;
 }
-/* line 776, ../../../../src/css/scss/modules/gallery.scss */
+/* line 805, ../../../../src/css/scss/modules/gallery.scss */
 .compare-item .product-content .product-name-wrap,
 .compare-item .product-rating,
 .compare-item .product-price,
@@ -683,24 +711,24 @@
   padding-right: 1.25em;
   padding-left: 1.25em;
 }
-/* line 782, ../../../../src/css/scss/modules/gallery.scss */
+/* line 811, ../../../../src/css/scss/modules/gallery.scss */
 .compare-item .detail {
   min-height: 2.5em;
   padding-right: 1.25em;
   padding-left: 1.25em;
 }
-/* line 788, ../../../../src/css/scss/modules/gallery.scss */
+/* line 817, ../../../../src/css/scss/modules/gallery.scss */
 .compare-item .detail.highlighted {
   background: #fffec9;
 }
 
-/* line 793, ../../../../src/css/scss/modules/gallery.scss */
+/* line 822, ../../../../src/css/scss/modules/gallery.scss */
 .detail-labels-wrap {
   position: relative;
   z-index: 5;
   height: 100%;
 }
-/* line 798, ../../../../src/css/scss/modules/gallery.scss */
+/* line 827, ../../../../src/css/scss/modules/gallery.scss */
 .detail-labels-wrap:before {
   content: '';
   position: absolute;
@@ -713,7 +741,7 @@
   -webkit-transition: box-shadow 0.15s ease-in;
   transition: box-shadow 0.15s ease-in;
 }
-/* line 811, ../../../../src/css/scss/modules/gallery.scss */
+/* line 840, ../../../../src/css/scss/modules/gallery.scss */
 .detail-labels-wrap.overflowing:before {
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
@@ -722,7 +750,7 @@
   transition-timing-function: ease-out;
 }
 
-/* line 817, ../../../../src/css/scss/modules/gallery.scss */
+/* line 846, ../../../../src/css/scss/modules/gallery.scss */
 .detail-labels-wrapping {
   -webkit-transform: translate(-10px, 0);
   -ms-transform: translate(-10px, 0);
@@ -732,7 +760,7 @@
   -webkit-transition: opacity 0.2s ease-out 0.1s, -webkit-transform 0.2s ease-out 0.1s;
   transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
 }
-/* line 823, ../../../../src/css/scss/modules/gallery.scss */
+/* line 852, ../../../../src/css/scss/modules/gallery.scss */
 .detail-labels-wrapping.complete {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
@@ -741,12 +769,12 @@
   filter: alpha(opacity=100);
 }
 
-/* line 829, ../../../../src/css/scss/modules/gallery.scss */
+/* line 858, ../../../../src/css/scss/modules/gallery.scss */
 .detail-label-group {
   position: absolute;
 }
 
-/* line 834, ../../../../src/css/scss/modules/gallery.scss */
+/* line 863, ../../../../src/css/scss/modules/gallery.scss */
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
@@ -754,13 +782,13 @@
   width: calc(100% - 10px);
 }
 
-/* line 842, ../../../../src/css/scss/modules/gallery.scss */
+/* line 871, ../../../../src/css/scss/modules/gallery.scss */
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
   padding-top: 0.625em;
 }
-/* line 848, ../../../../src/css/scss/modules/gallery.scss */
+/* line 877, ../../../../src/css/scss/modules/gallery.scss */
 .compare-container .detail:before,
 .detail-labels-wrapping .product-count-wrap:before {
   content: '';
@@ -772,7 +800,7 @@
   background: #f3f4f6;
 }
 
-/* line 861, ../../../../src/css/scss/modules/gallery.scss */
+/* line 890, ../../../../src/css/scss/modules/gallery.scss */
 .compare-container .detail-label:before,
 .detail-labels-wrapping .product-count-wrap:before {
   left: 0;
@@ -780,7 +808,7 @@
   background: #d2d2db;
 }
 
-/* line 868, ../../../../src/css/scss/modules/gallery.scss */
+/* line 897, ../../../../src/css/scss/modules/gallery.scss */
 .compare-sticky-header {
   position: absolute;
   z-index: 10;
@@ -793,17 +821,17 @@
   -webkit-transition: opacity 0.2s ease-in, top 0.2s ease-in, left 0s 0.2s;
   transition: opacity 0.2s ease-in, top 0.2s ease-in, left 0s 0.2s;
 }
-/* line 884, ../../../../src/css/scss/modules/gallery.scss */
+/* line 913, ../../../../src/css/scss/modules/gallery.scss */
 .compare-sticky-header:not(.sticky-count) {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 }
-/* line 889, ../../../../src/css/scss/modules/gallery.scss */
+/* line 918, ../../../../src/css/scss/modules/gallery.scss */
 .sticky-headers .compare-sticky-header {
   margin: 0;
 }
-/* line 894, ../../../../src/css/scss/modules/gallery.scss */
+/* line 923, ../../../../src/css/scss/modules/gallery.scss */
 .compare-sticky-header.open {
   left: 0;
   opacity: 1;
@@ -813,7 +841,7 @@
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 905, ../../../../src/css/scss/modules/gallery.scss */
+/* line 934, ../../../../src/css/scss/modules/gallery.scss */
 .compare-sticky-header.sticky-count:before {
   content: '';
   position: absolute;
@@ -828,19 +856,19 @@
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 }
-/* line 918, ../../../../src/css/scss/modules/gallery.scss */
+/* line 947, ../../../../src/css/scss/modules/gallery.scss */
 .compare-sticky-header .media .pull-left {
   max-width: 33.3333%;
 }
 
-/* line 923, ../../../../src/css/scss/modules/gallery.scss */
+/* line 952, ../../../../src/css/scss/modules/gallery.scss */
 .compare-item-remove {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-/* line 929, ../../../../src/css/scss/modules/gallery.scss */
+/* line 958, ../../../../src/css/scss/modules/gallery.scss */
 .box-close {
   float: right;
   width: 36px;
@@ -852,22 +880,22 @@
   text-align: center;
   cursor: pointer;
 }
-/* line 939, ../../../../src/css/scss/modules/gallery.scss */
+/* line 968, ../../../../src/css/scss/modules/gallery.scss */
 .box-close i {
   vertical-align: baseline;
 }
 
-/* line 944, ../../../../src/css/scss/modules/gallery.scss */
+/* line 973, ../../../../src/css/scss/modules/gallery.scss */
 .box-close-small {
   width: 20px;
   height: 20px;
 }
-/* line 948, ../../../../src/css/scss/modules/gallery.scss */
+/* line 977, ../../../../src/css/scss/modules/gallery.scss */
 .box-close-small i {
   vertical-align: middle;
 }
 
-/* line 953, ../../../../src/css/scss/modules/gallery.scss */
+/* line 982, ../../../../src/css/scss/modules/gallery.scss */
 .compare-box {
   display: inline-block;
   padding: 10px;
