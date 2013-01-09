@@ -24,6 +24,9 @@
 		self.$elements = $(self.itemElementSelector, self.$contentContainer),
 		self.$sampleElement = self.$elements.eq(0);
 
+		console.log("self.$elements »",self.$elements);
+		console.log("self.$sampleElement »",self.$sampleElement);
+
 		self._setContainerWidth();
 
 		// Override the onscrollend for our own use
@@ -72,16 +75,33 @@
 		 */
 
 		_paginate : function() {
+			console.group("_paginate");
+
 			var self = this,
+					widthOfOneElement = self.$sampleElement.outerWidth(true),
 					lastSlideCentered = self.lastPageCenter,
 					itemCount	= self.$elements.length,
-					wW = self.$el.width() - self.extraSpacing,
-					availToFit = Math.floor(wW / self.$sampleElement.outerWidth(true)),
+					windowWidth = self.$el.width() - self.extraSpacing,
+					//availToFit = Math.floor(windowWidth / widthOfOneElement),
+					availToFit = 3,
 					numPages = Math.ceil( itemCount / availToFit ),
 					i	= 0,
-					totalBlockWidth = self.$sampleElement.outerWidth(true) * availToFit;
+					totalBlockWidth = widthOfOneElement * availToFit;
 
-			wW += self.extraSpacing;
+			windowWidth += self.extraSpacing;
+
+			// ===================
+			// var integerNum = windowWidth / self.$sampleElement.outerWidth(true);
+			var widthOfOneElement = self.$sampleElement.outerWidth(true);
+			console.log("self »",self);
+			console.log("windowWidth »",windowWidth, "(", typeof(windowWidth) ,")");
+			console.log("self.$el.width() »",self.$el.width(), "(", typeof(self.$el.width()) , ")");
+			console.log("widthOfOneElement »",widthOfOneElement, "(", typeof(widthOfOneElement) , ")");
+			console.log(" availToFit »", Math.floor(windowWidth / widthOfOneElement), "(", typeof(Math.floor(windowWidth / widthOfOneElement)) , ")");
+			//console.log("paginate value »", integerNum, "(", typeof(integerNum) ,")");
+			//console.log("paginate value parseInt »", parseInt(integerNum), "(", typeof(parseInt(integerNum)) ,")");
+			//console.log("Math.floor(windowWidth / self.$sampleElement.outerWidth(true)) »", Math.floor(parseInt(integerNum)));
+			// ===================
 
 			//stop processing function /maybe hide paddles or UI?
 			if ( numPages === 1 || availToFit > itemCount ) {
@@ -101,8 +121,8 @@
 					totalBlockWidth = self.$sampleElement.outerWidth(true) * $elemsInPage.length;
 				}
 
-				offsetX = Math.floor((wW - totalBlockWidth) * 0.5),
-				startX = Math.floor((pageNo * wW) + offsetX);
+				offsetX = Math.floor((windowWidth - totalBlockWidth) * 0.5),
+				startX = Math.floor((pageNo * windowWidth) + offsetX);
 
 				$elemsInPage.css({
 					'position' : 'absolute',
@@ -126,16 +146,16 @@
 			}
 
 			// Update the width again to the new width based on however many 'pages' there are now
-			self.$contentContainer.css('width' , numPages * wW );
-
+			self.$contentContainer.css('width' , numPages * windowWidth );
 
 			self.$ev.trigger('onPaginationComplete.sm');
+			
+			console.groupEnd();
 
 			return true;
 		},
 
 		_update : function() {
-			console.log('ScrollerModule._update()');
 			var self = this,
 					paginated = true;
 
@@ -221,7 +241,6 @@
       });
 
       // console.log(contentWidth, self.$sampleElement.outerWidth(true) * self.$elements.length);
-
       // $( self.$contentContainer).css('width' , (self.$sampleElement.outerWidth(true) * self.$elements.length)/*hack: + 500*/ );
 
       // Set it
@@ -319,7 +338,8 @@
 			vScrollbar: false,
 			momentum: true,
 			bounce: true,
-			onScrollEnd: null
+			onScrollEnd: null,
+			lockDirection:true
 		}
 
 	};

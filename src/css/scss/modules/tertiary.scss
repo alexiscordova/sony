@@ -44,20 +44,26 @@
 
 .tcc-body{
 	display:inline-block;
-	margin-top:30px;
-	height:330px;
+	//height:330px;
 
 	// Content Modules
 	.tcc-content-module{
 		height:330px;
+		padding-top:30px;
 		float:left;
 		overflow: hidden;
 	} // end .tcc-content-module
 
-	.tcc-content-module:hover{
+	// certain tertiary content modules have hover states
+	div[data-tcc-module-type="article"][data-tcc-module-mode="default"]:hover{
 		cursor: pointer;
 		background-color: white;
-	} // end .tcc-content-module:hover
+	} // end 
+	
+	// certain tertiary content modules do not have hover states
+	div[data-tcc-module-type="sonys-voice"][data-tcc-module-mode="twitter"]:hover{
+		background-color: transparent;
+	}
 
 } // end .tcc-body
 
@@ -84,5 +90,9 @@
 		color:$gray;
 		line-height: 1.35em;
 	} // end .bq2 > p
+
+	.bq2 > p:first-child{
+		text-indent: 0;
+	}
 
 } // end .sonys-voice

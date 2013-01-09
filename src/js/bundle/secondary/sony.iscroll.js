@@ -86,7 +86,6 @@ var m = Math,
 		var that = this,
 			i;
 
-
 		that.wrapper = typeof el == 'object' ? el : doc.getElementById(el);
 
 		that.wrapper.style.overflow = 'hidden';

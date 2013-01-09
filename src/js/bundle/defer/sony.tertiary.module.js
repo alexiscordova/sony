@@ -43,9 +43,18 @@ $(document).ready(function(){
         contentSelector: '.tcc-body',
         itemElementSelector: '.tcc-content-module',
         mode: 'paginate',
-        snap: false,
-        momentum: false,
-        bounce: false
+        iscrollProps: {
+          snap: true,
+          momentum: true,
+          bounce: true,
+          lockDirection: false,
+          hScroll: true,
+          vScroll: false,
+          hScrollbar: false,
+          vScrollbar: false,   
+          onScrollEnd: null,
+        }
+
       });
       
       console.groupEnd();
@@ -56,7 +65,7 @@ $(document).ready(function(){
     function destroy(){
       $scrollerMod.scrollerModule('destroy');
       $scrollerMod = null;
-      $(".tcc-content-module, .tcc-body, .tcc-body-wrapper").removeAttr("style");
+      //$(".tcc-content-module, .tcc-body, .tcc-body-wrapper").removeAttr("style");
     }
 
     // define event function
