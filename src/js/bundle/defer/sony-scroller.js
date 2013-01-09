@@ -24,8 +24,8 @@
 		self.$elements = $(self.itemElementSelector, self.$contentContainer),
 		self.$sampleElement = self.$elements.eq(0);
 
-		console.log("self.$elements »",self.$elements);
-		console.log("self.$sampleElement »",self.$sampleElement);
+		//console.log("self.$elements »",self.$elements);
+		//console.log("self.$sampleElement »",self.$sampleElement);
 
 		self._setContainerWidth();
 
@@ -75,15 +75,14 @@
 		 */
 
 		_paginate : function() {
-			console.group("_paginate");
+			//console.group("_paginate");
 
 			var self = this,
 					widthOfOneElement = self.$sampleElement.outerWidth(true),
 					lastSlideCentered = self.lastPageCenter,
 					itemCount	= self.$elements.length,
-					windowWidth = self.$el.width() - self.extraSpacing,
-					//availToFit = Math.floor(windowWidth / widthOfOneElement),
-					availToFit = 3,
+					windowWidth = self.$el.width() - self.extraSpacing,				
+					availToFit = self.fitPerPage || Math.floor(windowWidth / widthOfOneElement), // TODO: debug why Math.floor() freezes on mobile
 					numPages = Math.ceil( itemCount / availToFit ),
 					i	= 0,
 					totalBlockWidth = widthOfOneElement * availToFit;
@@ -92,13 +91,17 @@
 
 			// ===================
 			// var integerNum = windowWidth / self.$sampleElement.outerWidth(true);
-			var widthOfOneElement = self.$sampleElement.outerWidth(true);
-			console.log("self »",self);
-			console.log("windowWidth »",windowWidth, "(", typeof(windowWidth) ,")");
-			console.log("self.$el.width() »",self.$el.width(), "(", typeof(self.$el.width()) , ")");
-			console.log("widthOfOneElement »",widthOfOneElement, "(", typeof(widthOfOneElement) , ")");
-			console.log(" availToFit »", Math.floor(windowWidth / widthOfOneElement), "(", typeof(Math.floor(windowWidth / widthOfOneElement)) , ")");
-			//console.log("paginate value »", integerNum, "(", typeof(integerNum) ,")");
+			// var widthOfOneElement = self.$sampleElement.outerWidth(true);
+			// console.log("self »",self);
+			// console.log("windowWidth »",windowWidth, "(", typeof(windowWidth) ,")");
+			// //console.log("self.$el.width() »",self.$el.width(), "(", typeof(self.$el.width()) , ")");
+			// console.log("widthOfOneElement »",widthOfOneElement, "(", typeof(widthOfOneElement) , ")");
+			// console.log("Math.floor(windowWidth / widthOfOneElement) »",Math.floor(windowWidth / widthOfOneElement));
+
+			
+			//console.log(" availToFit »", windowWidth / widthOfOneElement, "(", typeof(Math.floor(windowWidth / widthOfOneElement)) , ")");
+			//console.log(" availToFit »",availToFit , "(", typeof(availToFit) , ")");
+			// //console.log("paginate value »", integerNum, "(", typeof(integerNum) ,")");
 			//console.log("paginate value parseInt »", parseInt(integerNum), "(", typeof(parseInt(integerNum)) ,")");
 			//console.log("Math.floor(windowWidth / self.$sampleElement.outerWidth(true)) »", Math.floor(parseInt(integerNum)));
 			// ===================
@@ -150,7 +153,7 @@
 
 			self.$ev.trigger('onPaginationComplete.sm');
 			
-			console.groupEnd();
+			//console.groupEnd();
 
 			return true;
 		},
@@ -328,6 +331,7 @@
 		extraSpacing: 0,
 		nextSelector: '', // selector for next paddle
 		prevSelector: '', // selector for previous paddle
+		fitPerPage: null,
 
 		// iscroll props get mixed in
 		iscrollProps: {

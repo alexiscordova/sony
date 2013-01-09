@@ -8,7 +8,8 @@
 $(document).ready(function(){
 
   var $scroller = $(".scroller"),
-      $scrollerMod = null,
+      $contentModules = $scroller.find(".tcc-content-module"),
+      $scrollerInstance = null,
       mobileBreakpoint = 480;
  
   // if there's a scroller to be had... 
@@ -29,20 +30,27 @@ $(document).ready(function(){
     if ( Modernizr.mq('(max-width:'+ mobileBreakpoint+'px)') ) {
       console.log(" We're in mobile breakpoint on load, init scroller »");
       
-      $scrollerMod = initScrollerModule();
+      $scrollerInstance = initScrollerModule();
       
     }else{
       console.log("don't init scroller yet »");
     }
     
     function initScrollerModule(){
-      console.group("initScrollerModule");
-      
+      console.group("initScrollerModule group");
+
+      // TODO: optimize this if things are laggy as it happens on a (throttled) window resize in mobile only
+      setContentModuleSize(); // things get a detailed >480 for content modules, size each based on wrapper width...
+
+      console.groupEnd();
+
       // init scroller module
-      var scroller =  $scroller.scrollerModule({
+      return $scroller.scrollerModule({
         contentSelector: '.tcc-body',
         itemElementSelector: '.tcc-content-module',
         mode: 'paginate',
+        fitPerPage:1,
+        
         iscrollProps: {
           snap: true,
           momentum: true,
@@ -54,25 +62,35 @@ $(document).ready(function(){
           vScrollbar: false,   
           onScrollEnd: null,
         }
-
       });
       
-      console.groupEnd();
-
-      return scroller;
+      //return scroller;
     };
 
     function destroy(){
-      $scrollerMod.scrollerModule('destroy');
-      $scrollerMod = null;
-      //$(".tcc-content-module, .tcc-body, .tcc-body-wrapper").removeAttr("style");
+      $scrollerInstance.scrollerModule('destroy');
+      $scrollerInstance = null;
+      $(".tcc-content-module, .tcc-body, .tcc-body-wrapper").removeAttr("style");
+    }
+
+    function setContentModuleSize(){
+      console.group("setContentModuleSize");
+      
+      var sizeTo = $scroller.outerWidth(false); // false, because we do not want margins
+      
+      console.log("sizeTo »",sizeTo);
+
+      $contentModules.width(sizeTo); // just wait a sec before we init scroller instance
+
+      console.groupEnd();
     }
 
     // define event function
     function handleTccResize(){
       console.group("handleScroller");
+      console.log(" resizeEvent is »",resizeEvent);
              
-      var isScrollerModule = $scrollerMod != null ? true : false; // check here if there's a scroller module
+      var isScrollerModule = $scrollerInstance != null ? true : false; // check here if there's a scroller module
 
       console.log("isScrollerModule »",isScrollerModule);
 
@@ -83,16 +101,25 @@ $(document).ready(function(){
        // if there's a scroller module
        if(!isScrollerModule){
           console.log("there is NOT a scroller module set-up, init it »");
-          $scrollerMod = initScrollerModule();
+          $scrollerInstance = initScrollerModule();
        }else{
-          console.log("there IS a scroller module set-up, we're good »", $scroller);
+          console.log("there IS a scroller module set-up »", $scroller);
+
+          // if orientation event happened set up a new scroller instance
+          if(resizeEvent == "orientationchange"){            
+              // destroy first
+              destroy();
+
+              // out of the ashes, create
+              $scrollerInstance = initScrollerModule();
+          }
        }
 
       }else{
         console.log("on desktop/tablet");
         
         if(isScrollerModule){
-          console.log("there's a scroller module, kill it »", $scrollerMod);
+          console.log("there's a scroller module, kill it »", $scrollerInstance);
           destroy();
         }else{
           console.log("there isn't a scroller module initalized, do nothing »");
@@ -105,62 +132,3 @@ $(document).ready(function(){
   }
 
 });
-
-// DESTROY
-
-// $scroller.scrollerModule({
-//   contentSelector: '.tcc-body',
-//   itemElementSelector: '.tcc-content-module',
-//   mode:"paginate"
-//   // snap: false,
-//   // momentum: true, 
-//   // hScrollbar: false,
-//   // vScrollbar: false
-// });
-
-
-
-
-// tablet 
-// else if ( Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
-
-   // setupCarousel : function() {
-   //    var self = this;
-
-   //    self.$navPrev.hide();
-   //    self.$navNext.hide();
-
-   //    self.$tabsContainer.scrollerModule({
-   //      contentSelector: '.tabs',
-   //      itemElementSelector: '.tab',
-   //      mode: 'paginate',
-   //      lastPageCenter: false,
-   //      extraSpacing: 0,
-
-   //      iscrollProps: {
-   //        snap: true,
-   //        hScroll: true,
-   //        vScroll: false,
-   //        hScrollbar: false,
-   //        vScrollbar: false,
-   //        momentum: true,
-   //        bounce: true,
-   //        onScrollEnd: null,
-   //        onAnimationEnd: function() {
-   //          var iscroll = this;
-   //          // Hide show prev button depending on where we are
-   //          if ( iscroll.currPageX === 0 ) {
-   //            self.$navPrev.hide();
-   //          } else {
-   //            self.$navPrev.show();
-   //          }
-
-   //          // Hide show next button depending on where we are
-   //          if ( iscroll.currPageX === iscroll.pagesX.length - 1 ) {
-   //            self.$navNext.hide();
-   //          } else {
-   //            self.$navNext.show();
-   //          }
-   //        }
-   //      }
-   //    });
