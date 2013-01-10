@@ -456,8 +456,10 @@
           columnWidth: self.shuffleColumns,
           gutterWidth: self.shuffleGutters,
           showInitialTransition: false,
-          buffer: 100
+          // buffer: 100
+          buffer: 5
         }).data('shuffle');
+        console.log("SFuffle created »");
 
       },
 
