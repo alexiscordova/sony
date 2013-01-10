@@ -58,6 +58,11 @@
               <img src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
             </noscript>
             <% end %>
+          <% else if @data.layout == "medium": %>
+          <img class="iq-img" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+          <noscript>
+            <img src="<%- @data.img.noscriptsrc %>" alt="<%- @data.img.alt %>">
+          </noscript>
           <% else if @data.layout == "large": %>
           <img class="iq-img" alt="<%- @data.imgLarge.alt %>" data-src="<%- @data.imgLarge.src %>">
           <noscript>
