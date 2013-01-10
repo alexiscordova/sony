@@ -334,9 +334,9 @@
 		// iscroll props get mixed in
 		iscrollProps: {
 			snap: false,
-			hScroll: false,
+			hScroll: true,
 			vScroll: false,
-			hScrollbar: true,
+			hScrollbar: false,
 			vScrollbar: false,
 			momentum: true,
 			bounce: true,
