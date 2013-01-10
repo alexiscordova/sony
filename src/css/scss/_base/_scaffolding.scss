@@ -39,8 +39,8 @@ a:focus {
   text-decoration: none;
 }
 
-.no-touch a,
-.no-touch .btn{
+.no-touch a:not(.no-hover-transition),
+.no-touch .btn:not(.no-hover-transition){
   @include transition(
     background-color $transitionSlowish linear, 
     color $transitionSlowish linear, 

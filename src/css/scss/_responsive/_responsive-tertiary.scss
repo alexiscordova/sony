@@ -60,7 +60,7 @@ $mobileHeight:349px;
 } // end .tcc-header-wrapper
 
 .tcc-content-module{
-  @include debug(red, 1px);
+  @include debug(red, 0px);
   // height:100%;
   height:365px;
   
@@ -96,6 +96,15 @@ $mobileHeight:349px;
   } // end .btn
 } // end .sonys-voice
 
+.article-default{   
+  .p3{
+    line-height: 1.4em;
+    font-size:$font_13_15;
+  } // end .p3
+
+} // end .article-default
+
+
 // LARGE DESKTOP - 1200px
 // ------------------------------------------------
 @media (min-width: 1200px) {
@@ -103,11 +112,11 @@ $mobileHeight:349px;
     @include debug($color1200, 0px);  
 
     .tcc-body{
-      @include debug($color1200, 1px);
+      @include debug($color1200, 0px);
     } // end .tcc-body
 
     .tcc-content-module{
-      @include debug(white, 1px);
+      @include debug(white, 0px);
       height:370px;
     }
 
@@ -132,12 +141,12 @@ $mobileHeight:349px;
     @include debug($colorTablet, 0px);  
 
     .tcc-body{
-      @include debug($colorTablet, 1px);
+      @include debug($colorTablet, 0px);
     } // end .tcc-body
 
 
     .tcc-content-module{
-      @include debug(white, 1px);
+      @include debug(white, 0px);
       height:330px;
     } // end .tcc-content-module
 
@@ -180,11 +189,11 @@ $mobileHeight:349px;
     @include debug($colorMobileLarge, 0px);  
 
     .tcc-body{
-      @include debug($colorMobileLarge, 1px);
+      @include debug($colorMobileLarge, 0px);
     } // end .tcc-body
 
     .tcc-content-module{
-      @include debug(white, 1px);
+      @include debug(white, 0px);
     } // end .tcc-content-module
   
     .grid:not(.grid-small) [class*="span"]{
@@ -212,6 +221,16 @@ $mobileHeight:349px;
     } // end .bq2 > p
 
   } //end .sonys-voice
+
+  .article-default{   
+    .p3{
+      line-height: 1.4em;
+      font-size:$font_13_16;
+    } // end .p3
+
+  } // end .article-default
+
+
 } // end mQ
 
 // LANDSCAPE PHONE AND BELOW -- 480px
@@ -241,16 +260,16 @@ $mobileHeight:349px;
 
 
   .tcc-body-wrapper{
-    @include debug(red, 1px); 
+    @include debug(red, 0px); 
     height:$mobileHeight;
 
     .tcc-body{
-      @include debug($colorMobileSmall, 1px);
+      @include debug($colorMobileSmall, 0px);
       height:$mobileHeight;
     } // end .tcc-body
 
     .tcc-content-module{
-      @include debug(green, 1px);
+      @include debug(green, 0px);
       height:$mobileHeight;
     } // end .tcc-content-module
 
@@ -274,5 +293,7 @@ $mobileHeight:349px;
     } // end .btn
     
   } // end .sonys-voice
+
+
 
 } // end > 480

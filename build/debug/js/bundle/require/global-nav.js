@@ -79,7 +79,7 @@
 
     initPrimaryNavBtns : function( isDesktop ) {
       var self = this;
-      // console.log("initPrimaryNavBtns: " + isDesktop);
+      // console.log("## ## initPrimaryNavBtns: " + isDesktop);
 
       // Set up primary nav buttons
       if (isDesktop){
@@ -90,16 +90,19 @@
           self.resetPrimaryNavBtn($(this));
 
           $(this).on('click', function() {
-            // console.log("######CLICK######");
+            // console.log("## ## ######CLICK######");
             var $thPrimaryNavBtn = $(this);
             var $thNavTarget = $("." + $thPrimaryNavBtn.data("target"));
+
+            // console.log("## CLICK $thNavTarget.height: " + $thNavTarget.outerHeight());
+
             if (!$thPrimaryNavBtn.parent().hasClass("nav-li-selected")){
               // if this button isn't already activated, deactivate any others, and activate this one.
-              // console.log("inactive button clicked");
+              // console.log("## ## inactive button clicked");
               
               // if there's another button already activated, deactivate it first, and delay opening the new one.
               if (self.$currentOpenNavBtn != false ){
-                // console.log("old nav was open - close it now." );
+                // console.log("## ## old nav was open - close it now." );
                 self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
 
                 var $oldNavTarget = $("." + self.$currentOpenNavBtn.data("target"));
@@ -124,7 +127,7 @@
 
             } else {
               // if this tray was already visible, hide/reset it.
-              // console.log("this is already open - close it now." );
+              // console.log("## ## this is already open - close it now." );
               self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
               self.$currentOpenNavBtn = false;
             }
@@ -141,6 +144,131 @@
             self.hideMobileNav();
           }
         });
+      }
+    },
+
+    setActivePrimaryNavBtn: function( $btn ){
+      var self = this;
+      self.activatePrimaryNavBtn($btn);
+      self.$currentOpenNavBtn = $btn;
+    },
+
+    resetPrimaryNavBtn : function ( $oldNavBtn ) {
+      var self = this;
+      // console.log("## ## resetPrimaryNavBtn: " + $oldNavBtn.attr("class"));
+
+      // reset this button
+      $oldNavBtn.removeClass("active").parent().removeClass("nav-li-selected");
+
+      // if there's a navTray/navMenu, reset it
+      if ($oldNavBtn.data("target").length){
+        var $thNavTarget = $("." + $oldNavBtn.data("target"));
+
+        if ($thNavTarget.hasClass("navtray-w")){
+          self.slideNavTray($thNavTarget,false);
+        } else {
+          $(".navmenu-w-visible").removeClass("navmenu-w-visible");
+        }
+      }
+    },
+
+    slideNavTray: function( $navTray, opening ){
+      // console.log("## ## slideNavTray $navTray.outerHeight(): " + $navTray.outerHeight());
+      var self = this, 
+        startHeight, 
+        endHeight,
+        expandedHeight = $navTray.outerHeight();
+
+      $navTray.data("expandedHeight",expandedHeight);
+
+      // console.log("#### $navTray.data(): ", $navTray.data('expandedHeight'));
+
+      if (opening){
+        startHeight = "1px";
+        endHeight = expandedHeight;
+      } else {
+        // if you're not opening, it's just initializing on page load
+        startHeight = expandedHeight;
+        endHeight = "1px";
+      }
+
+      // console.log("## ## $navTray: " + $navTray.attr("class"))
+      // console.log("## ## opening: " + opening + ", startHeight: " + startHeight + ", expandedHeight: " + expandedHeight);
+
+      $navTray
+        .data("expandedHeight",startHeight)
+        .css("height", startHeight)
+        .find(".navtray")
+          .addClass("navtray-absolute")
+          .css("height",expandedHeight);
+
+      setTimeout(function(){ // wait just a moment to make sure the height is applied
+        // console.log("## ## setTimeout1 " + $navTray.attr('class'));
+        $navTray
+          .removeClass("no-transition")
+
+        setTimeout(function(){ // wait just a moment to make sure the height is applied
+          // console.log("## ## setTimeout2: opening: " + opening + ", endHeight: " + endHeight + ", self.transitionEnd: " + self.transitionEnd);
+          $navTray
+            .css("height",endHeight)
+            // .one(self.transitionEnd, function(){console.log("## ## ## ## WTFFFFFFFFFFFF ## ## ## ");});
+            .one(self.transitionEnd, onNavTrayComplete);
+
+            if (opening){
+              $navTray.addClass("navtray-w-visible");
+            } else {
+              $navTray.removeClass("navtray-w-visible");
+            }
+
+        },1);
+      },1);
+
+      function onNavTrayComplete(){
+        // console.log("## ## onNavTrayComplete");
+        // prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.
+        self.setNavTrayContentNaturalFlow($navTray);
+      }
+    },
+
+    setNavTrayContentNaturalFlow: function($navTray){
+      $navTray
+        .css("height","")
+        .addClass("no-transition")
+        .find(".navtray")
+          .removeClass("navtray-absolute")
+          .css("height","");      
+    },
+
+    activatePrimaryNavBtn : function ($newNavBtn) {
+      var self = this;
+      // console.log("## ## activatePrimaryNavBtn: " + $newNavBtn.attr("class"));
+      
+      $newNavBtn.addClass("active").parent().addClass("nav-li-selected");
+
+      // if there's a navTray/navMenu, reset it to get its height
+      if ($newNavBtn.data("target").length){
+        var $thNavTarget = $("." + $newNavBtn.data("target"));
+
+        // console.log("## ## thNavTarget.outerHeight(): " + $thNavTarget.outerHeight());
+
+        // figure out if this is a tray or menu.
+        if ($thNavTarget.hasClass("navtray-w")){
+          // Tray-style
+          // first get the tray's natural height, which it should have offscreen.
+          // expand the tray. When it's done, set it to position:relative and natural heights.
+          self.slideNavTray($thNavTarget, true);
+        } else {
+          // Menu-style - show the menu. 
+          $thNavTarget.addClass("navmenu-w-visible")
+
+          // just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
+          if ($thNavTarget.hasClass("navmenu-w-search")){
+            // Line it up with the right edge of the search button.
+            var btnRightEdge = $newNavBtn.parent().position().left + parseInt($newNavBtn.css("marginLeft")) + $newNavBtn.innerWidth();
+            var leftPos = btnRightEdge - $thNavTarget.innerWidth();
+            $thNavTarget.css({"right":"auto","left":leftPos+"px"});
+          }
+        }
       }
     },
 
@@ -205,117 +333,6 @@
       });
 
       self.$mobileScreenOverlay.removeClass("opacity1").addClass("opacity0");
-    },
-
-    setActivePrimaryNavBtn: function( $btn ){
-      var self = this;
-      self.activatePrimaryNavBtn($btn);
-      self.$currentOpenNavBtn = $btn;
-    },
-
-    resetPrimaryNavBtn : function ( $oldNavBtn ) {
-      var self = this;
-      // console.log("resetPrimaryNavBtn: " + $oldNavBtn.attr("class"));
-
-      // reset this button
-      $oldNavBtn.removeClass("active").parent().removeClass("nav-li-selected");
-
-      // if there's a navTray/navMenu, reset it
-      if ($oldNavBtn.data("target").length){
-        var $thNavTarget = $("." + $oldNavBtn.data("target"));
-
-        if ($thNavTarget.hasClass("navtray-w")){
-          self.slideNavTray($thNavTarget,false);
-        } else {
-          $(".navmenu-w-visible").removeClass("navmenu-w-visible");
-        }
-      }
-    },
-
-    slideNavTray: function( $navTray, opening ){
-      var self = this, 
-        startHeight, 
-        endHeight,
-        expandedHeight = $navTray.outerHeight();
-
-      $navTray.data("expandedHeight",expandedHeight);
-
-      if (opening){
-        startHeight = "1px";
-        endHeight = expandedHeight;
-      } else {
-        startHeight = expandedHeight;
-        endHeight = "1px";
-      }
-
-      $navTray
-        .data("expandedHeight",startHeight)
-        .css("height", startHeight)
-        .find(".navtray")
-          .addClass("navtray-absolute")
-          .css("height",expandedHeight);
-
-      setTimeout(function(){ // wait just a moment to make sure the height is applied
-        $navTray
-          .removeClass("no-transition")
-
-        setTimeout(function(){ // wait just a moment to make sure the height is applied
-          $navTray
-            .css("height",endHeight)
-            .one(self.transitionEnd, onNavTrayComplete);
-
-            if (opening){
-              $navTray.addClass("navtray-w-visible");
-            } else {
-              $navTray.removeClass("navtray-w-visible");
-            }
-
-        },1);
-      },1);
-
-      function onNavTrayComplete(){
-        // prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.
-        self.setNavTrayContentNaturalFlow($navTray);
-      }
-    },
-
-    setNavTrayContentNaturalFlow: function($navTray){
-      $navTray
-        .css("height","")
-        .addClass("no-transition")
-        .find(".navtray")
-          .removeClass("navtray-absolute")
-          .css("height","");      
-    },
-
-    activatePrimaryNavBtn : function ($newNavBtn) {
-      var self = this;
-      // console.log("activatePrimaryNavBtn: " + $newNavBtn.attr("class"));
-      
-      $newNavBtn.addClass("active").parent().addClass("nav-li-selected");
-
-      // if there's a navTray/navMenu, reset it
-      if ($newNavBtn.data("target").length){
-        var $thNavTarget = $("." + $newNavBtn.data("target"));
-        // figure out if this is a tray or menu.
-        if ($thNavTarget.hasClass("navtray-w")){
-          // Tray-style
-          // first get the tray's natural height, which it should have offscreen.
-          // expand the tray. When it's done, set it to position:relative and natural heights.
-          self.slideNavTray($thNavTarget, true);
-        } else {
-          // Menu-style - show the menu. 
-          $thNavTarget.addClass("navmenu-w-visible")
-
-          // just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
-          if ($thNavTarget.hasClass("navmenu-w-search")){
-            // Line it up with the right edge of the search button.
-            var btnRightEdge = $newNavBtn.parent().position().left + parseInt($newNavBtn.css("marginLeft")) + $newNavBtn.innerWidth();
-            var leftPos = btnRightEdge - $thNavTarget.innerWidth();
-            $thNavTarget.css({"right":"auto","left":leftPos+"px"});
-          }
-        }
-      }
     },
 
     initFooter : function( isDesktop ) {

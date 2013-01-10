@@ -43,7 +43,7 @@ section {
 
 .rpGrid {
   padding: 0;
-  height: 100%;x
+  height: 100%;
 
   .gallery-item:after {
     content: '';
@@ -144,6 +144,16 @@ section {
     .p5:not(.msrp) {
       display:block;
       color: #83838f;
+    }
+  }
+
+  .gallery-item {
+    .product-img {
+      &:hover {
+        @include box-shadow(none);
+        background-color: none;
+      }
+
     }
   }
 
