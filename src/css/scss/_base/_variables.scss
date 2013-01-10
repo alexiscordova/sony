@@ -46,6 +46,7 @@
 	$orange:                rgb(248,148,6) !default;  //#F89406
 	$pink:                  rgb(195,50,95) !default;  //#C3325F
 	$purple:                rgb(122,67,182) !default; //#7A43B6
+  $green:                 rgb(34,192,131) !default;
 
 
   // Sony Accent colors
@@ -57,7 +58,16 @@
 
   $lemon:                 rgb(255,254,201) !default; // #fffec9
 
-  $themeGreen:            rgb(34,192,131) !default;
+
+
+  // UX Theme Colors  
+  $themeRed:              rgb(201,42,41) !default;
+  $themePurple:           rgb(147,48,142) !default;
+  $themeBlueLight:        rgb(47,172,207) !default;
+  $themeGreen:            rgb(143,196,47) !default;
+  $themeOrange:           rgb(230,118,34) !default;
+  $themeBlueDark:         rgb(16,88,158) !default;
+
 
 
   $twitterColor:					rgb(43,180,245) !default;
@@ -84,8 +94,12 @@
 
   // Transparent colors
   // -------------------------
-  $transparentBlack:    rgba(0,0,0,0.12) !default;
-  $innerGlow:           rgba(255, 255, 255, 1);
+  $transparentBlack:      rgba(0,0,0,0.12) !default;
+  $innerGlow:             rgba(255, 255, 255, 1);
+  $modalOpacity:          0.7;
+  $modalBackgroundColor:  rgba(0,0,0,$modalOpacity);
+  $titleBlack:            rgba(33, 37, 48, 0.95);
+  $titleWhite:            rgba(255,255,255,0.95);
 
 
 
@@ -262,11 +276,11 @@
 	$inputTextFocus:                $gray !default;
 	$inputBorder:                   $grayLighter !default;
 	$inputBorderFocus:              $grayLight !default;
-	$inputBorderFocus:              $grayLight !default;
 	$inputBorderWidth:              2px !default;
 	$inputBorderRadius:             0px !default;
 	$inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
 	$formActionsBackground:         rgb(245,245,245) !default;
+
 
   // Dropdowns
   // -------------------------
@@ -336,10 +350,14 @@
 
   // Sprite icons path
   // -------------------------
-  $iconSpritePath:          "../img/spritesheet.svg" !default;
-  $iconSpritePathFallback:  "../img/spritesheet.png" !default;
-  $iconSpritePath2x:        "../img/spritesheet@2x.png" !default;
-  $iconSmallSpritePath:     "../img/spritesheet-icons-small.png" !default;
+  $iconSpritePath:          "../img/spritesheets/spritesheet.svg" !default;
+  $iconSpritePathFallback:  "../img/spritesheets/spritesheet.png" !default;
+  $iconSpritePath_2x:       "../img/spritesheets/spritesheet@2x.png" !default;
+  $flagSpritePath:          "../img/spritesheets/flags.png" !default;
+  $flagSpritePath_2x:       "../img/spritesheets/flags@2x.png" !default;
+
+  $iconSpritePath_2x_size:  1080px 1290px;
+  $flagSpritePath_2x_size:  850px 26px;
 
 
   $icon_ui_Y :          0px;
@@ -354,6 +372,9 @@
   $sprite_Reg_Y :       -810px;
   $sprite_Big_Y :       -870px;
   $sprite_Tall_Y :      -990px;
+
+  $icon_flagBig_Y :     0px;
+  $icon_flag_Y :        -15px;
 
   // Input placeholder text color
   // -------------------------
@@ -408,9 +429,9 @@
 
   $navbarTextSize:                  0.9375em; // 15px/16px
   $navbarSmTextSize:                0.8125em; // 13px/16px
-  $navbarText:                      $grayLighter !default;
-  $navbarLinkColor:                 $grayLighter !default;
-  $navbarLinkColorHover:            $white !default;
+  $navbarText:                      $white !default;
+  $navbarLinkColor:                 $white !default;
+  $navbarLinkColorHover:            $grayLighter !default;
   $navbarLinkColorActive:           lighten($linkColorHover,5%) !default;
   $navbarLinkBackgroundHover:       transparent !default;
   $navbarLinkBackgroundActive:      darken($navbarBackground, 5.25%) !default;
@@ -441,7 +462,7 @@
   $navMenuBackground:               $white;
   $navMenuBackgroundAlt:            $grayLightFieldLarge;
 
-  $navMobileWidth:				81%;
+  $navMobileWidth:				85.5%;
   $navMobileWidthLarge:		70%;
 
 
@@ -532,7 +553,8 @@
   // but then there shouldn't be fixed-width grids with .full-bleed
 
   $gridColumns:         		12 !default;
-  $grid5Columns:          	5  !default;
+  $grid5Columns:            5  !default;
+  $grid4Columns:          	4  !default;
 
   // Default 980px-1199px
   $containerMarginWidth:      34px !default;
@@ -553,25 +575,28 @@
   $gridGutterWidthMax:        38px !default;
 
 
-  // 768px-979px breakpoints
-  $containerMarginWidth768:   22px !default;
-  $gridMarginWidth768:        18px !default;
-  $gridColumnWidth768:        39px !default;
-  $gridGutterWidth768:        20px !default;
+
+  // 768px-979px breakpoints -- THESE ARE NEW - UPDATED 1/8/13
+  $containerMarginWidth768:   30px !default;
+  $gridMarginWidth768:        29px !default;
+  $gridColumnWidth768:        34px !default;
+  $gridGutterWidth768:        22px !default;
+
+  // 768px-979px breakpoints - OLD ONES
+  // $containerMarginWidth768:   22px !default;
+  // $gridMarginWidth768:        18px !default;
+  // $gridColumnWidth768:        39px !default;
+  // $gridGutterWidth768:        20px !default;
 
 
-  // 320px-767px breakpoints
-  $containerMarginWidth480px: 20 !default;
-  $containerMarginWidth320px: 20 !default;
-  $containerMarginWidth480: percentage($containerMarginWidth480px / 480) !default;
-  $containerMarginWidth320: percentage($containerMarginWidth320px / 320) !default;
-
-
+  // 320px-767px breakpoints - THESE WILL CHANGE - FULL MOBILE GRID COMING SOON.
+  $containerMarginWidth480px: 21 !default;
+  $containerMarginWidth320px: 21 !default;
 
   // not sure if we're using these or not.
-  $gridMarginWidth320:        18px !default;
-  $gridColumnWidth320:        39px !default;
-  $gridGutterWidth320:        20px !default;
+  $gridMarginWidth320:        12px !default;
+  $gridColumnWidth320:        36px !default;
+  $gridGutterWidth320:        12px !default;
 
 
 
@@ -603,6 +628,10 @@
   $grid5GutterWidth:      23px;
   $grid5RowWidth:         ($grid5Columns * $grid5ColWidth) + ($grid5GutterWidth * ($grid5Columns - 1));
 
+  //4 Column Grid
+  $grid4ColWidth:         157px;
+  $grid4GutterWidth:      20px;
+  $grid4RowWidth:         ($grid4Columns * $grid4ColWidth) + ($grid4GutterWidth * ($grid4Columns - 1));
 
 
   // Fluid grid
@@ -629,15 +658,18 @@
   $fluidGridColumnWidth768: percentage($gridColumnWidth768/$gridWidth768) !default;
   $fluidGridGutterWidth768: percentage($gridGutterWidth768/$gridWidth768) !default;
 
-  // 767px max (mobile)
-  $fluidContainerMarginWidth767:  15px !default; // TODO -- SHOULD BE %
-  $fluidGridMarginWidth767:       15px !default; // TODO -- SHOULD BE %
+  // 320px-767px (Mobile)
+  $containerMarginWidth480: percentage($containerMarginWidth480px / 480) !default;
+  $containerMarginWidth320: percentage($containerMarginWidth320px / 320) !default;
+
 
   // 5 Column Grid
   $fluidGrid5ColWidth:    percentage($grid5ColWidth / $grid5RowWidth);
   $fluidGrid5GutterWidth: percentage($grid5GutterWidth / $grid5RowWidth);
 
-
+  // 4 Column Grid
+  $fluidGrid4ColWidth:    percentage($grid4ColWidth / $grid4RowWidth);
+  $fluidGrid4GutterWidth: percentage($grid4GutterWidth / $grid4RowWidth);
 
 
 
@@ -647,6 +679,7 @@
   $transitionSuperslow:   0.5s;
   $transitionSlower:      0.4s;
   $transitionSlow:        0.3s;
+  $transitionSlowish:     0.25s;
   $transitionNormal:      0.2s;
   $transitionFast:        0.15s;
   $transitionFaster:      0.10s;

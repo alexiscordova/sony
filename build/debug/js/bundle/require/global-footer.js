@@ -10,7 +10,7 @@
 (function($, Modernizr, window, undefined) {
 
   $(window).resize(function() {
-    console.log("width: " + $(window).width());
+    //console.log("width: " + $(window).width());
   });
 
   var GlobalFooter = function( $container ) {
@@ -37,8 +37,6 @@
     t.transitionDuration = Modernizr.prefixed('transitionDuration');
     t.transitionEasing = Modernizr.prefixed('transitionTimingFunction');
     t.transitionEnd = transEndEventNames[t.transitionName];
-
-
 
     if ( t.mode == 'mobile' ) {
       // do something

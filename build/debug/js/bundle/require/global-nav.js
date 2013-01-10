@@ -6,22 +6,37 @@
 // Optional: jQuery throttle-debounce (only used on window resize)
 // -------------------------------------------------------------------------
 
-
 (function($, Modernizr, window, undefined) {
+  
+  // var myScroll;
+  // function loaded() {
+  //   myScroll = new iScroll('#nav-outer-container');
+  // }
+  // document.addEventListener('DOMContentLoaded', loaded, false);
+  
+  // var myScroll;
+  // function loaded() {
+  //   myScroll = new iScroll('navoutercontainer');
+  // }
 
-  $(window).resize(function() {
-    console.log("width: " + $(window).width());
-  });
+  // window.addEventListener('load', setTimeout(function () { loaded(); }, 200), false);
 
+  'use strict';
+
+  // Start module
   var GlobalNav = function( $container ) {
-    var t = this;
-    t.searchMenu = {};
-    t.$container = $container;
-    t.$activePrimaryNavBtns = t.$container.find('.nav-dropdown-toggle');
-    t.$currentOpenNavBtn = false;
+
+    var self = this;
+    self.searchMenu = {};
+    self.$container = $container;
+    self.$activePrimaryNavBtns = self.$container.find('.nav-dropdown-toggle');
+    self.$currentOpenNavBtn = false;
+    self.$pageWrapOuter = $("#page-wrap-outer");
+    self.mobileNavIScroll = false,
+    self.mobileNavVisible = false;
 
     // we should make a bunch of this stuff global.
-    transEndEventNames = {
+    self.transEndEventNames = {
         'WebkitTransition' : 'webkitTransitionEnd',
         'MozTransition'    : 'transitionend',
         'OTransition'      : 'oTransitionEnd',
@@ -30,50 +45,49 @@
     };
 
     // Get the right prefixed names e.g. WebkitTransitionDuration
-    t.tapOrClick = t.hasTouch ? 'touchstart' : 'click';
-    t.transformName = Modernizr.prefixed('transform'); // css version
-    t.transitionName = Modernizr.prefixed('transition');
-    t.transitionProperty = Modernizr.prefixed('transitionProperty');
-    t.transitionDuration = Modernizr.prefixed('transitionDuration');
-    t.transitionEasing = Modernizr.prefixed('transitionTimingFunction');
-    t.transitionEnd = transEndEventNames[t.transitionName];
+    self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
+    self.transformName = Modernizr.prefixed('transform'); // css version
+    self.transitionName = Modernizr.prefixed('transition');
+    self.transitionProperty = Modernizr.prefixed('transitionProperty');
+    self.transitionDuration = Modernizr.prefixed('transitionDuration');
+    self.transitionEasing = Modernizr.prefixed('transitionTimingFunction');
+    self.transitionEnd = self.transEndEventNames[self.transitionName];
 
 
 
-    if ( t.mode == 'mobile' ) {
+    if ( self.mode == 'mobile' ) {
       // do something
     }
 
     // function() { // this needs a debounce
 
     if ( $(window).width() <= 767 ) {
-      t.initPrimaryNavBtns(false);
+      self.initPrimaryNavBtns(false);
+      self.initFooter(false);
     } else {
-      t.initPrimaryNavBtns(true);
+      self.initPrimaryNavBtns(true);
+      self.initFooter(true);
     }
     // });
 
-    t.isInitialized = true;
-
-    // this should be moved so it doesn't get inited until the search menu is opened.
-    t.initSearchMenu();
+    self.isInitialized = true;
   };
 
   GlobalNav.prototype = {
 
     constructor: GlobalNav,
 
-    initPrimaryNavBtns : function(isDesktop) {
-      var t = this;
+    initPrimaryNavBtns : function( isDesktop ) {
+      var self = this;
       // console.log("initPrimaryNavBtns: " + isDesktop);
 
       // Set up primary nav buttons
       if (isDesktop){
         // Init Desktop Nav
-        t.$activePrimaryNavBtns.each(function(){
+        self.$activePrimaryNavBtns.each(function(){
 
           // init
-          t.resetPrimaryNavBtn($(this));
+          self.resetPrimaryNavBtn($(this));
 
           $(this).on('click', function() {
             // console.log("######CLICK######");
@@ -84,54 +98,123 @@
               // console.log("inactive button clicked");
               
               // if there's another button already activated, deactivate it first, and delay opening the new one.
-              if (t.$currentOpenNavBtn != false ){
+              if (self.$currentOpenNavBtn != false ){
                 // console.log("old nav was open - close it now." );
-                t.resetPrimaryNavBtn(t.$currentOpenNavBtn);
+                self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
 
-                var $oldNavTarget = $("." + t.$currentOpenNavBtn.data("target"));
+                var $oldNavTarget = $("." + self.$currentOpenNavBtn.data("target"));
 
                 if ($oldNavTarget.hasClass("navtray-w")){
                   // if the open target was a navtray, delay opening the new one until the old tray has a chance to close.
                   setTimeout(function(){
-                    t.setActivePrimaryNavBtn($thPrimaryNavBtn);
+                    self.setActivePrimaryNavBtn($thPrimaryNavBtn);
                   },350)
                 } else {
                   // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
                   setTimeout(function(){
-                    t.setActivePrimaryNavBtn($thPrimaryNavBtn);
+                    self.setActivePrimaryNavBtn($thPrimaryNavBtn);
                   },150)
                 }
 
               } else {
                 // update the Nav button & open the new tray immediately
-                t.setActivePrimaryNavBtn($thPrimaryNavBtn);
+                self.setActivePrimaryNavBtn($thPrimaryNavBtn);
               }
               
 
             } else {
               // if this tray was already visible, hide/reset it.
               // console.log("this is already open - close it now." );
-              t.resetPrimaryNavBtn(t.$currentOpenNavBtn);
-              t.$currentOpenNavBtn = false;
+              self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
+              self.$currentOpenNavBtn = false;
             }
           });
         });
       } else {
         // Init Mobile Nav
-        $("#btn-mobile-nav").on(t.tapOrClick,function(){
-          $("#page-wrap-inner").toggleClass("show-mobile-menu");
+        
+
+        $("#btn-mobile-nav").on(self.tapOrClick,function(){
+          if (!self.mobileNavVisible){
+            self.showMobileNav();
+          } else {
+            self.hideMobileNav();
+          }
         });
       }
     },
 
-    setActivePrimaryNavBtn: function($btn){
-      var t = this;
-      t.activatePrimaryNavBtn($btn);
-      t.$currentOpenNavBtn = $btn;
+    showMobileNav: function(){
+      var self = this;
+
+      self.showMobileBackdrop();
+
+      // Since the page-wrap-inner is going to be fixed, the browser will see the page as having no height.
+      // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
+      // page some height, so the Safari nav will hide.
+      // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
+      var pageHeight = parseInt($(window).height()) + 60 + "px";
+      self.$pageWrapOuter.height(pageHeight); 
+
+      if (!self.mobileNavIScroll){
+        var $outer = $("#nav-outer-container"),
+          $inner = $outer.find(".nav-mobile-scroller");
+
+        $outer.height(pageHeight);
+        $inner.height($inner.height());
+
+        setTimeout(function(){ // make sure heights are already set before initializing iScroll.
+          self.mobileNavIScroll = new iScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
+        },1);
+      }
+
+      $("#page-wrap-inner").addClass("show-mobile-menu");
+      self.mobileNavVisible = true;
     },
 
-    resetPrimaryNavBtn : function ($oldNavBtn) {
-      var t = this;
+    hideMobileNav: function(){
+      var self = this;
+      self.hideMobileBackdrop();
+
+      $("#page-wrap-inner").one(self.transitionEnd, function(e){
+        // wait until the $("#page-wrap-inner") is done animating closed before destroying the iScroll.
+        self.mobileNavIScroll.destroy();
+        self.mobileNavIScroll = false;
+        self.$pageWrapOuter.css("height","");
+      }); 
+      $("#page-wrap-inner").removeClass("show-mobile-menu");
+      self.mobileNavVisible = false;
+    },
+
+    showMobileBackdrop: function(){
+      var self = this;
+
+      self.$mobileScreenOverlay = $('<div class="modal-backdrop mobile-screen-overlay opacity0" />')
+        .appendTo($("#page-wrap-inner"));
+
+      setTimeout(function(){
+        self.$mobileScreenOverlay.removeClass("opacity0").addClass("opacity1");
+      },1);
+    },
+
+    hideMobileBackdrop: function(){
+      var self = this;
+
+      self.$mobileScreenOverlay.one(self.transitionEnd, function(){
+        self.$mobileScreenOverlay.remove();
+      });
+
+      self.$mobileScreenOverlay.removeClass("opacity1").addClass("opacity0");
+    },
+
+    setActivePrimaryNavBtn: function( $btn ){
+      var self = this;
+      self.activatePrimaryNavBtn($btn);
+      self.$currentOpenNavBtn = $btn;
+    },
+
+    resetPrimaryNavBtn : function ( $oldNavBtn ) {
+      var self = this;
       // console.log("resetPrimaryNavBtn: " + $oldNavBtn.attr("class"));
 
       // reset this button
@@ -142,15 +225,15 @@
         var $thNavTarget = $("." + $oldNavBtn.data("target"));
 
         if ($thNavTarget.hasClass("navtray-w")){
-          t.slideNavTray($thNavTarget,false);
+          self.slideNavTray($thNavTarget,false);
         } else {
           $(".navmenu-w-visible").removeClass("navmenu-w-visible");
         }
       }
     },
 
-    slideNavTray: function($navTray, opening){
-      var t = this, 
+    slideNavTray: function( $navTray, opening ){
+      var self = this, 
         startHeight, 
         endHeight,
         expandedHeight = $navTray.outerHeight();
@@ -179,7 +262,7 @@
         setTimeout(function(){ // wait just a moment to make sure the height is applied
           $navTray
             .css("height",endHeight)
-            .one(t.transitionEnd, onNavTrayComplete);
+            .one(self.transitionEnd, onNavTrayComplete);
 
             if (opening){
               $navTray.addClass("navtray-w-visible");
@@ -192,7 +275,7 @@
 
       function onNavTrayComplete(){
         // prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.
-        t.setNavTrayContentNaturalFlow($navTray);
+        self.setNavTrayContentNaturalFlow($navTray);
       }
     },
 
@@ -206,7 +289,7 @@
     },
 
     activatePrimaryNavBtn : function ($newNavBtn) {
-      var t = this;
+      var self = this;
       // console.log("activatePrimaryNavBtn: " + $newNavBtn.attr("class"));
       
       $newNavBtn.addClass("active").parent().addClass("nav-li-selected");
@@ -219,7 +302,7 @@
           // Tray-style
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
-          t.slideNavTray($thNavTarget, true);
+          self.slideNavTray($thNavTarget, true);
         } else {
           // Menu-style - show the menu. 
           $thNavTarget.addClass("navmenu-w-visible")
@@ -235,77 +318,13 @@
       }
     },
 
-    // ***********************************
-    // SEARCH MENU
-    // ***********************************
-    initSearchMenu: function(){
-      var t = this;
-      t.$searchWrapper = $("#navmenu-w-search");
-      t.$searchInput = $("#navSearch");
-      t.$searchClearBtn = t.$searchWrapper.find(".btn-clear-search-input");
-      t.$searchIcon = $(".sprite-mini-nav-search-input");
-      t.watermarkText = t.$searchInput.val();
-      t.clearBtnClicked = false;
-
-      t.$searchInput.on("focus", function(){
-        // clear watermarkText on focus
-        if (t.$searchInput.val() == t.watermarkText){
-          t.$searchInput.val("");
-          t.$searchIcon.hide();
-        };
-      }).on("blur", function(){
-        if (t.$searchInput.val() == ""){
-          t.$searchInput.val(t.watermarkText);
-          t.$searchIcon.show();
-        };
-      }).on('mouseup keyup change cut paste', function(){
-        if (!t.$searchWrapper.hasClass("searching")){
-          if (!(t.$searchInput.val() == "" || t.$searchInput.val() == t.watermarkText)){
-            t.$searchWrapper.addClass("searching");
-            t.doSearch();
-          }
-        } else if (t.$searchInput.val() == ""){
-          t.resetSearchResults();
-        } else {
-          t.doSearch();
-        }
+    initFooter : function( isDesktop ) {
+      $('#country-selector').on('hover',function(){
+        var pageContainerWidth = $(this).closest('.grid-footer').width();
+        $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
       });
 
-      t.$searchIcon.on("click",function(){
-        t.$searchInput.focus();
-      });
-
-      t.$searchClearBtn.on("click",function(){
-        t.clearBtnClicked = true;
-        t.clearSearchResults();
-        t.$searchInput.focus();
-      }).on("mouseleave",function(){
-        t.clearBtnClicked = false; // just make sure it's cleared
-      });
-    },
-
-    doSearch: function(){
-      var t = this;
-      t.queryStr = t.$searchInput.val();
-      console.log("t.queryStr: " + t.queryStr);
-    },
-
-    clearSearchResults: function(){
-      var t = this;
-      t.$searchInput.val("");
-      t.$searchWrapper.removeClass("searching");
-      t.$searchIcon.hide();
-    },
-
-    // this just resets the actual results, for instance, when the search term is blank.
-    resetSearchResults: function(){
-      var t = this;
-      t.$searchWrapper.removeClass("searching");      
-    },
-
-    resetSearchMenu: function(){
-      var t = this;
-      t.clearSearchResults();
+      
     }
   };
 
@@ -313,13 +332,13 @@
   $.fn.globalNav = function( opts ) {
     var args = Array.prototype.slice.apply( arguments );
     return this.each(function() {
-      var $this = $(this),
-        globalNav = $this.data('globalNav');
+      var self = $(this),
+        globalNav = self.data('globalNav');
 
       // If we don't have a stored globalNav, make a new one and save it
       if ( !globalNav ) {
-        globalNav = new GlobalNav( $this );
-        $this.data( 'globalNav', globalNav );
+        globalNav = new GlobalNav( self );
+        self.data( 'globalNav', globalNav );
       }
 
       if ( typeof opts === 'string' ) {
@@ -331,10 +350,12 @@
 
   // Overrideable options
   $.fn.globalNav.options = {
+    sampleOption: 0
   };
 
   // Not overrideable
   $.fn.globalNav.settings = {
+    isTouch: !!( 'ontouchstart' in window ),
     isInitialized: false
   };
 

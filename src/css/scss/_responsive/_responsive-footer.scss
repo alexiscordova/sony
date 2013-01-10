@@ -30,45 +30,32 @@
   h6{
     font-size:$font_11_16;
   }
-  a{
-  }
-
-
   .dropdown-label{
     font-size:$font_14_16;
   }
 
-  .btn-group.l11n-selector{
+  .btn-group.country-selector,
+  .btn-hover-group.country-selector{
     width: 46.2%;
+    min-width:185px;
     float:left;
-    .btn.dropdown-toggle{
-      width: 100%;
-
-      .icon-ui-arrowhead-down-gray{
-        float:right;
-        margin-top:10px;
-      }
+    .dropdown-hover-menu-lists-w{
+      padding:24px 0 24px 0px;
+    }
+    .dropdown-hover-menu-list{
+      width:19.8%;
     }
   }
 
-  @include sprite-reg(nav-sony-logo, -90px,   79px,   18px);
-  .sprite-reg-nav-sony-logo{
-  }
-
-  .btn-group.lang-selector{
+  .btn-group.language-selector,
+  .btn-hover-group.language-selector{
     width: 61px;
     float:left;
-
-    .btn.dropdown-toggle{
-      width: 100%;
-
-      .icon-ui-arrowhead-down-gray{
-        float:right;
-        margin-top:10px;
-      }
-    }
   }
 }
+
+
+
 .footer-form-border{
   position:relative;
   border-width:2px;
@@ -86,6 +73,11 @@
     width:72%;  
     float:left; 
     background:$footerBackground;
+    color:$white;
+
+    &:focus{
+      color:$white;
+    }
   }
   .footer-btn{
     margin:3px;
@@ -149,6 +141,9 @@ form.footer-store-locator-form{
   margin-left:0;
   float:left;
 }
+.footer-language-selectors{
+  @include clearfix;
+}
 .footer-social-links{
   display:inline-block;
 
@@ -181,6 +176,17 @@ form.footer-store-locator-form{
       background-color:$youtubeColor;
     }
   }
+}
+
+.footer-signature{
+  position:relative
+}
+.footer-copyright{
+  font-size:$font_10_16;
+  text-transform:uppercase;
+  position:absolute;
+  left: 90px;
+  top: 4px;
 }
 
 
@@ -234,6 +240,22 @@ form.footer-store-locator-form{
                             
 @media (min-width: 1400px) {
   
+
+.footer-wrapper{
+  .footer-language-selectors{
+    width: 46.2%;
+  }
+  .btn-group.country-selector,
+  .btn-hover-group.country-selector{
+    width: 76%;
+    float:left;
+  }
+  .btn-group.language-selector,
+  .btn-hover-group.language-selector{
+    width: 22%;
+  }
+}
+
 } // END min-width: 1400px
 
 
@@ -252,13 +274,10 @@ form.footer-store-locator-form{
 //   888   Y88b  d88P 888"       Y88b  d88P       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
 // 8888888  "Y8888P"  888888888   "Y8888P"         "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
 // ------------------------------------------------
+
 @media (max-width: 1023px) {
 
-
-.footer-wrapper .span3{
-  width:30.9%;
-}
-.footer-store-locator.span3{
+.footer-wrapper .footer-store-locator.span3{
   width:100%;
   float:none;
   overflow:hidden;
@@ -284,6 +303,28 @@ form.footer-store-locator-form{
 .footer-store-locator-caption{
   float:left;
   padding:9px 0 0 16px;
+}
+}
+
+
+
+// 888888888   .d8888b.   .d8888b.                         d888    .d8888b.   .d8888b.   .d8888b.                    
+// 888        d88P  Y88b d88P  Y88b                       d8888   d88P  Y88b d88P  Y88b d88P  Y88b                   
+// 888        888        Y88b. d88P                         888   888    888        888      .d88P                   
+// 8888888b.  888d888b.   "Y88888"  88888b.  888  888       888   888    888      .d88P     8888"  88888b.  888  888 
+//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'       888   888    888  .od888P"       "Y8b. 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888 888   888    888 d88P"      888    888 888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888   Y88b  d88P 888"       Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888  "Y8888P"  888888888   "Y8888P"  88888P"  888  888 
+//                                  888                                                            888               
+//                                  888                                                            888               
+//                                  888                                                            888               
+@media (min-width: 768px) and (max-width: 1023px) {
+
+
+.footer-wrapper.desktop-layout-to-568 .span3,
+.footer-wrapper .span3{
+  width:30.9%;
 }
 
 .footer-newsletter{
@@ -337,26 +378,22 @@ form.footer-store-locator-form{
 // ------------------------------------------------
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
-// 8888888888  .d8888b.   .d8888b.                           .d8888b.  8888888888  .d8888b.                    
-//       d88P d88P  Y88b d88P  Y88b                         d88P  Y88b       d88P d88P  Y88b                   
-//      d88P  888        Y88b. d88P                         888    888      d88P  888    888                   
-//     d88P   888d888b.   "Y88888"  88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
-//  88888888  888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
-//   d88P     888    888 888    888 888  888   X88K  888888        888   d88P            888 888  888   X88K   
-//  d88P      Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
-// d88P        "Y8888P"   "Y8888P"  88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
-//                                  888                                                      888               
-//                                  888                                                      888               
-//                                  888                                                      888   
+// 888888888   .d8888b.  8888888888                         .d8888b.  8888888888  .d8888b.                    
+// 888        d88P  Y88b       d88P                        d88P  Y88b       d88P d88P  Y88b                   
+// 888        888             d88P                         888    888      d88P  888    888                   
+// 8888888b.  888d888b.      d88P  88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
+//        888 888    888   d88P    888  888   X88K  888888        888   d88P            888 888  888   X88K   
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
+//                                 888                                                      888               
+//                                 888                                                      888               
+//                                 888                                                      888                        
 // ------------------------------------------------
-@media (min-width: 768px) and (max-width: 979px) {
+@media (min-width: 568px) and (max-width: 979px) {
 
 
 .footer-wrapper .span3{
-  width:31.3%;
-}
-.footer-wrapper .footer-store-locator.span3{
-  width:100%;
 }
 
 
@@ -376,7 +413,7 @@ form.footer-store-locator-form{
 
 
 // ------------------------------------------------
-// MOBILE-LARGE (mostly the same as mobile, but a little bigger.)
+// MOBILE-LARGE (somewhere between tablet & mobile)
 // ------------------------------------------------
 //  8888888888  .d8888b.  8888888888                         .d8888b.                                  888                    
 //        d88P d88P  Y88b       d88P                        d88P  "88b                                 888                 
@@ -392,10 +429,6 @@ form.footer-store-locator-form{
 // ------------------------------------------------    
 
 @media (max-width: 767px) {
-
-
-
-
   
 } // max-width: 767px
 
@@ -405,10 +438,159 @@ form.footer-store-locator-form{
 
 
 
+// ------------------------------------------------
+// LANDSCAPE PHONE AND BELOW
+// ------------------------------------------------
+// 888888888   .d8888b.  8888888888                         .d8888b.                                  888                  
+// 888        d88P  Y88b       d88P                        d88P  "88b                                 888                  
+// 888        888             d88P                         Y88b. d88P                                 888                  
+// 8888888b.  888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//        888 888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                 888                                                                                     
+//                                 888                                                                                     
+//                                 888                                                                                     
+
+@media (max-width: 767px) {
+
+.footer-wrapper{
+
+  [class*="span"] {
+    margin-left:inherit;
+    float:none;
+    width:100%;
+  }
+
+  .span3{
+    width:100%;
+    overflow:hidden;
+  }
+  .footer-mobile-section{
+    overflow:hidden;
+    padding-bottom: 19px;
+    margin-bottom: 9px;
+    border-bottom: solid 1px $grayDarkFieldLarge;
+    @include transition(height $transitionNormal ease-out);
+
+    &.collapse{
+      height:41px;
+    }
+  }
+  h5{
+    margin-bottom: 13px;
+  }
+
+
+  .btn-group.language-selector,
+  .btn-hover-group.language-selector{
+    width:20%;
+  }
+  .btn-group.country-selector,
+  .btn-hover-group.country-selector{
+    width: 78%;
+  }
+
+
+  .footer-store-locator.span3{
+    border-top: solid 1px $grayDarkFieldLarge;    
+    h5{
+      width:100%;
+      padding-bottom:10px;
+    }
+  }
+}
+
+.footer-link-li{
+  line-height: 1.9;
+}
 
 
 
 
+.footer-newsletter {
+  margin-top: 24px;
+  margin-bottom: 7px;
+
+  .footer-form-border{
+    margin-bottom:0;
+
+    .footer-input{
+      width:72%;
+    }
+    .footer-btn{
+      position:inherit;
+      top:auto;
+      left:auto;
+      float:right;
+    }
+  }
+}
+.footer-contact.span6{
+  width:auto;
+  float:none;
+  text-align:center;
+
+  > p{
+    display:block;
+    font-size:$font_16_16;
+    line-height:1.85;
+    margin-top:12px;
+
+    a,
+    a:first-child{
+      margin-right:0;
+      top:auto;
+      display:block;
+      text-align:center;
+    }
+  }
+}
+
+.footer-language.span6{
+  // overflow:hidden;
+  padding-top: 28px;
+  margin-top:30px;
+  border-top: solid 2px $grayDarkFieldLarge; 
+
+  .footer-language-selectors{
+    max-width:300px;
+    margin:0 auto;
+  }
+  .dropdown-hover-menu-lists-w{
+    @include box-shadow(0 0px 5px rgba(0,0,0,0.5));
+  }
+}
+
+
+
+.footer-signature-w{
+  border:none;
+  margin-top:0;
+}
+.footer-signature .sprite-reg-nav-sony-logo {
+  position: relative;
+  margin:0 0 9px 0;
+}
+.footer-signature{
+  text-align:center;
+}
+.footer-copyright{
+  position:static;
+  top:auto;
+}
+
+.footer-legal-links{
+  a{
+    display:block;
+    font-size:$font_11_16;
+    line-height: 2.4;
+  }
+}
+
+
+} // max-width: 567px
 
 
 
@@ -435,6 +617,19 @@ form.footer-store-locator-form{
 
 @media (max-width: 479px) {
 
+.footer-wrapper{
+  .footer-store-locator.span3{
+    h5{
+    }
+    .footer-store-locator-form{
+      width:100%;
+    }
+    .footer-store-locator-caption{
+      padding:0;
+      color:$white;
+    }
+  }
+}
 
 } // max-width: 479px
 
