@@ -107,6 +107,32 @@
       self.sPosition             = 0;
       self.accelerationPos       = 0;
 
+      //view mode variables set by breakpoint resize listener
+      self.isDesktopMode = true; //we start off in this mode by default
+      self.isTabletMode  = false;
+      self.isMobileMode  = false;
+      self.currentMode   = 'desktop'; //default
+
+      //slide collections change as window modes change
+      self.$desktopSlides = $();
+      self.$tabletSlides = $();
+      self.$mobileSlides = $();
+
+      self.$desktopSlides = self.$slides;
+      self.originalSlideCount = self.$desktopSlides.length;
+
+      //store a referece to the orginal slide
+      self.$slides.each(function(i){
+        var $this = $(this),
+        $item     = null; 
+
+        $this.find('.soc-item').each(function(j){
+          $item = $(this);
+          $item.data('slideGroupId' , i);
+        });
+      
+      });
+
       //figure out what events to use
       if('ontouchstart' in window || 'createTouch' in document) {
         self.hasTouch = true;
@@ -158,6 +184,7 @@
           clearTimeout( resizeTimer );          
         }
         resizeTimer = setTimeout( function() { 
+          self.checkForBreakPoint();
           self.update();
           self.updateSlides();
           //do other stuff on window resize
@@ -182,41 +209,15 @@
         self.prevNavItem = currItem;
         
       } );
-      
-
-     function createNavigation( ){
-        var itemHTML = '<div class="soc-nav-item soc-bullet"></div>',
-        out          = '<div class="soc-nav soc-bullets">';
-        
-        //self.controlNavEnabled = true;
-        //self.$container.addClass('ssWithBullets');
-        for(var i = 0; i < self.numSlides; i++) {
-          out += itemHTML;
-        }
-        out += '</div>';
-        out = $( out );
-        self.controlNav = out;
-        self.controlNavItems = out.children();
-        self.$el.append( out );
-
-        self.controlNav.on( self.tapOrClick() , function( e ) {
-          var item = $(e.target).closest( '.soc-nav-item' );
-          if( item.length ) {
-            self.currentId = item.index();
-            self.moveTo();
-          }
-        } );
-
-      }
-
-      createNavigation();
-
-      //set initial heights
-      self.$win.trigger( 'resize.soc' );   
-      self.ev.trigger( 'socOnUpdateNav' );
 
       self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });
 
+
+      self.createNavigation();
+
+      self.$win.trigger( 'resize.soc' );
+
+      //self.checkForBreakPoint();
     }
 
     SonyOneCarousel.prototype = {
@@ -342,7 +343,10 @@
         loop         = self.loop,
         changeHash   = false,
         distOffset   = 0,
-        dragDirection;
+        dragDirection,
+        //This makes sure depending on mode we use the right slide collection!
+        $currSlides = (self.isDesktopMode ? self.$desktopSlides : 
+                      self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
         
         totalMoveDist = Math.abs(pPos - sPos);
 
@@ -360,8 +364,8 @@
           if(dragDirection === 1){
             self.currentId ++;
             console.log('snap to next slide');
-            if(self.currentId >= self.$slides.length){
-              self.currentId = self.$slides.length - 1;
+            if(self.currentId >= $currSlides.length){
+              self.currentId = $currSlides.length - 1;
             } 
           }else{
             self.currentId --;
@@ -530,6 +534,12 @@
         newId,
         animObj  = {};
 
+
+        if(self.isMobileMode === true){
+          var delta = ($('.soc-content').eq(0).width() - $('.soc-item').eq(0).width()) / 2;
+          newPos += delta - (self.currentId * 10);
+        }
+
         if( !self.useCSS3Transitions ) {
           
           //jQuery fallback
@@ -564,26 +574,357 @@
       update: function(){
         var self = this,
         cw       = self.currentContainerWidth = self.$gridW.width(),
-        newH     = self.resizeRatio * cw + 'px';
+        newH     = self.resizeRatio * cw + 'px',
+        $currSlides = (self.isDesktopMode ? self.$desktopSlides : 
+                      self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
 
-        self.$container.css( 'height' , newH );
-        self.$slides.css( 'height' ,  newH );
+        if(self.isDesktopMode || self.isTabletMode){
+          self.$container.css( 'height' , newH );
+          $currSlides.css( 'height' ,  newH );
+        }else{  
+          newH = $('.soc-item').eq(0).height();
+          self.$container.css( 'height' ,  newH  + 'px' );
+        }
+        //console.log("Updating 'soc-container'.height to »",newH );
+      },
+
+      shuffleClasses: function(){
+        var self     = this,
+        mode         = self.currentMode.toLowerCase(),
+        allSpans     = 'span4 span6 span8 span12',
+        itemSelector = '.soc-item',
+        oneUp        = '.soc-1up',
+        threeUp      = '.soc-3up';
+
+        console.log("Current Mode »", mode);
+
+        switch(mode){
+          case 'desktop':
+
+            self.$desktopSlides
+            .find(itemSelector)
+            .removeClass(allSpans)
+            .filter(oneUp).addClass('span4')
+            .end()
+            .filter(threeUp).addClass('span8');
+
+          break;
+
+          case 'tablet':
+            //get all the spans off and add
+            self.$tabletSlides
+            .find(itemSelector)
+            .removeClass(allSpans)
+            .filter(oneUp).addClass('span6')
+            .end()
+            .filter(threeUp).addClass('span6');
+
+          break;
+
+          case 'mobile':
+            //something entirely different here
+            self.$mobileSlides
+            .find(itemSelector)
+            .removeClass(allSpans)
+            .addClass('span12');
+          break;
+
+        }
+
+      },
+
+      checkForBreakPoint: function(){
+        var self = this,
+        wW = self.$win.width(),
+        view = wW > 979 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile';
+
+        switch(view){
+          case 'desktop':
+            //handle desktop
+            if(self.isDesktopMode){ return; }
+            self.isMobileMode = self.isTabletMode = false;
+            self.isDesktopMode = true;
+            self.currentMode = view;
+
+            self.resizeRatio = 0.4120689655;
+            self.createDesktopSlides();
+            self.shuffleClasses();
+
+          break;
+
+          case 'tablet':
+            //handle tablet
+            if(self.isTabletMode){ return; }
+            self.isMobileMode = self.isDesktopMode = false;
+            self.isTabletMode = true;
+            self.currentMode = view;
+
+            self.resizeRatio = 0.64615384615385;
+            self.createTableSlides();
+            self.shuffleClasses();
+
+          break;
+
+          case 'mobile':
+            //handle mobile
+            if(self.isMobileMode){ return; }
+            self.isTabletMode = self.isDesktopMode = false;
+            self.isMobileMode = true;
+            self.currentMode = view;
+
+            self.resizeRatio = 1.33574007220217;
+            self.createMobileSlides();
+            self.shuffleClasses();
+          
+          break;       
+        }
+
+        //do other stuff here
+      },
+
+      createDesktopSlides: function(){
+        var self = this;
+
+        // 1. grab all of the gallery items  
+        self.$galleryItems = $('.soc-item').detach();
+
+        //2. remove the slides from desktop / mobile
+        self.$tabletSlides.remove();
+        self.$mobileSlides.remove();      
+
+        var slideCount = 0;
+
+        for (var i = 0; i < self.originalSlideCount; i ++) {
+          
+            var $contentDiv = $('<div class="soc-content" />'),
+            $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
+            $item           = null;
+
+            self.$galleryItems.each(function(j){
+              var $item = $(this);
+
+              if($item.data('slideGroupId') === i){
+                $item.appendTo($gridDiv);
+              }
+
+            });
+            
+            $gridDiv.appendTo($contentDiv);
+            $contentDiv.appendTo(self.$containerInner);        
+        }
+
+        self.$desktopSlides = self.$container.find('.soc-content');
+
+        self.numSlides = self.$desktopSlides.length;
+
+        self.createNavigation();
+
+        self.$win.trigger('resize.soc');
+
+        console.log("Modile Slides are now cached up »" , self.numSlides);     
+
+      },  
+
+      createTableSlides: function(){
+        var self = this;
+
+        // 1. grab all of the gallery items  
+        self.$galleryItems = $('.soc-item').detach();
+
+        //2. remove the slides from desktop / mobile
+        self.$desktopSlides.remove();
+        self.$mobileSlides.remove();
+  
+        var slideCount = 0,
+        galLen = self.$galleryItems.length;
+
+        for (var i = 0; i < galLen; i ++) {
+
+          var createSlide = function(orphaned){
+            var $contentDiv = $('<div class="soc-content" />'),
+            $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
+            $item1          = self.$galleryItems.eq(i-1),
+            $item2          = self.$galleryItems.eq(i);
+
+            if(orphaned === true){
+              $item1 = self.$galleryItems.eq(i);
+              $item2 = $();
+            }
+
+            $gridDiv.appendTo($contentDiv);
+
+            if($item1.length > 0){
+              $item1.appendTo($gridDiv);
+            }
+            
+            if($item2.length > 0){
+              $item2.appendTo($gridDiv);
+            }
+
+            $contentDiv.appendTo(self.$containerInner);
+
+            slideCount++;        
+          };
+
+          if(i%2){
+            createSlide(false);
+          }  
+
+          if(i === galLen - 1 && galLen > slideCount * 2){
+            console.log("You have an orphaned element that needs a slide by itself");
+            createSlide(true);
+          }
+        } 
+
+        self.$tabletSlides = self.$container.find('.soc-content');
+
+        self.numSlides = self.$tabletSlides.length;
+
+        self.createNavigation();
+
+        self.$win.trigger('resize.soc');
+
+        console.log("Modile Slides are now cached up »" , self.numSlides);
+      },
+      
+      createMobileSlides: function(){
+        var self = this;
+
+        // 1. grab the gallery items
+        self.$galleryItems = $('.soc-item').detach();
+        
+        //2. remove the slides from desktop / tablet
+        self.$desktopSlides.remove(); 
+        self.$tabletSlides.remove(); 
+
+        for (var i = 0; i < self.$galleryItems.length; i ++) {
+          var $contentDiv = $('<div class="soc-content" />'),
+          $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
+          $item           = self.$galleryItems.eq(i);
+
+          //$gridDiv.appendTo($contentDiv);
+          $item.appendTo($contentDiv);
+
+          $contentDiv.appendTo(self.$containerInner);
+        }
+
+        
+        self.$mobileSlides = self.$container.find('.soc-content');
+
+        self.numSlides = self.$mobileSlides.length;
+
+        self.createNavigation();
+
+        self.$win.trigger('resize.soc');
+
+        console.log("Modile Slides are now cached up »" , self.numSlides);
+
+      },
+
+      createNavigation: function (){
+        var self = this,
+        itemHTML = '<div class="soc-nav-item soc-bullet"></div>',
+        out          = '<div class="soc-nav soc-bullets">';
+        
+        //remove other references 
+        $('.soc-nav.soc-bullets').remove();
+
+        //reset current slide id 
+        self.currentId = 0;
+
+        //self.controlNavEnabled = true;
+        //self.$container.addClass('ssWithBullets');
+        for(var i = 0; i < self.numSlides; i++) {
+          out += itemHTML;
+        }
+        out += '</div>';
+        out = $( out );
+        self.controlNav = out;
+        self.controlNavItems = out.children();
+        self.$el.append( out );
+
+        self.controlNav.on( self.tapOrClick() , function( e ) {
+          var item = $(e.target).closest( '.soc-nav-item' );
+          if( item.length ) {
+            self.currentId = item.index();
+            self.moveTo();
+            console.log("Current Slide ID # »",self.currentId);
+          }
+        } );
+
+        self.ev.trigger( 'socOnUpdateNav' );
+
       },
 
       updateSlides: function(){
         var self = this,
-        cw       = self.$gridW.width(),
-        animObj  = {};
+        cw       = 0,
+        animObj  = {},
+        mobileGutter = 10;
 
-        self.$slides.each(function(i){
-          $(this).css( { 'left': i * cw + 'px', 'z-index' : i } );  
-        });
+        if(self.isDesktopMode === true){
+          //console.log(" »",);
+          self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
+          cw = self.$gridW.width();
+          self.$desktopSlides.each(function(i){
+            $(this).css( { 'left': i * cw + 'px', 'z-index' : i } );  
+          });       
+        }
+
+        if(self.isTabletMode === true){
+          self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
+          cw = self.$gridW.width();
+          self.$tabletSlides.each(function(i){
+            $(this).css( { 
+            'left': i * cw + 'px',
+            'height' : $('.soc-item').eq(0).height()  + 'px',
+            'z-index' : i
+          } ); 
+
+            $(this).find('.soc-item').css({
+              'position': '',
+              'top' : '',
+              'left' : ''
+            }); 
+          });  
+
+          console.log("updating slides in tbalet mode »");
+
+        }
+
+        if(self.isMobileMode === true){
+          console.log("Starting - Placing items for mobile mode »");
+          cw = self.currentContainerWidth = $('.soc-item').eq(0).width();
+          self.$mobileSlides.each(function(i){
+            //$(this).css( { 'left': (i * 286) + (i === 0 ? 10 : 0) + 'px', 'z-index' : i } );  
+            $(this).css( { 
+              'left': i * (cw + mobileGutter) + 'px',
+              'height' : 370  + 'px', //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
+              'z-index' : i 
+            } );  
+
+            var delta = ($('.soc-content').eq(0).width() - $('.soc-item').eq(0).width()) / 2;
+
+            $(this).find('.soc-item').css({
+              'position': 'absolute',
+              'top' : '0',
+              //  'left' : ($('.soc-content').eq(0).width() - $('.soc-item').eq(0).width()) - delta + 'px',
+              'left' : '0'
+            });
+          }); 
+
+          console.log("Finished - Placing items for mobile mode »" , $('.soc-item').eq(0).height());
+        } 
+
+
+        //make sure it updates position based on current slide index
+        self.moveTo();  
 
        //set containers over all position based on current slide
-        animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed * 0.25 + 'ms';
+/*        animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed * 0.25 + 'ms';
         animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing[ 'easeInOutSine' ];
         animObj[ self.xProp ] = self.tPref1 + ( ( -self.currentId * cw ) + self.tPref2 + 0 ) + self.tPref3;
-        self.$containerInner.css( animObj );
+        self.$containerInner.css( animObj );*/
       },
 
       gotoSlide: function(slideIndx){

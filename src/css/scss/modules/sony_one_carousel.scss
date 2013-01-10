@@ -2,11 +2,10 @@
 .sony-one-carousel {
   position: relative;
   overflow: visible;
+
 }
 
-.soc-webkit3d {
-  
-}
+.soc-webkit3d {}
 
 .soc-container {
   width: 100%;
@@ -24,7 +23,9 @@
   -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
+
 .soc-nav {
+
   &.soc-bullets {
     position: absolute;
     z-index: 35;  
@@ -36,6 +37,10 @@
     text-align: center;
     line-height: 18px;
     overflow: hidden;
+
+    @media (max-width:479px) {
+      bottom: -20px;
+    }
   }
 
   .soc-bullet {
@@ -50,6 +55,13 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+
+    @media (max-width:479px) {
+      width: 7px;
+      height: 7px;
+      margin: 0 0 0 3px;
+      border-radius: 4px;
+    }
   }
 
   .soc-bullet.soc-nav-selected  {
@@ -77,6 +89,16 @@
   height: 100%;
   background-size: cover;
   background-position: center center;
+  
+  @media (max-width: 480px) {
+    &.span12 {
+      width: 276px;
+      height: 370px;
+      *width: 277px;
+      *height:371px;    
+    }
+  }
+
 }
 
 .soc-item-inner {
@@ -97,6 +119,29 @@
 .soc-grid {
   padding: 0 120px 0 120px;
   height: 100%;
+
+
+  @media (min-width: 481px) and (max-width: 768px) {
+      padding: 0 30px 0 30px;
+  }
+
+  @media (max-width: 480px) {
+      padding: 0 40px 0 40px;
+
+      .span12 {
+        width: 276px;
+        height: 370px;
+        *width: 277px;
+        *height:371px;
+      } 
+
+      padding: 0 10px 0 10px;
+
+      .soc-grid [class*="span"] {
+        margin-left: 0;
+      }
+  }
+
 }
 
 .soc-grid [class*="span"] {

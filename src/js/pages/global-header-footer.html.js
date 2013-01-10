@@ -63,9 +63,19 @@
       
         __out.push(this.partial('includes/js_head.html'));
       
-        __out.push('\t\n\n\n  \t<script src="js/libs/jquery.throttle-debounce.min.js"></script>\n\t\t<!-- This should be moved into js_footer files once completed: --> \n\t\t<script src="js/bundle/require/global-nav.js" type="text/javascript"></script>\n\t\t\n\t</head>\n\t<body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">\n\t\t<div class="page-wrap-outer">\n\t\t\t<div id="page-wrap-inner" class="page-wrap-inner XXshow-mobile-menu">\n\n<!-- include your module markup templates here -->\n\t\t');
+        __out.push('\t\n\n\n\t\t<!-- This should be moved into js_footer once completed: -->\n  \t<script src="js/libs/jquery.throttle-debounce.min.js"></script>\n\t\t<script src="js/libs/bootstrap-dropdown.js" type="text/javascript"></script>\n\t\t\n\t</head>\n\t<body style="background:url(img/FPO-Homepage-bg.jpg) no-repeat 50% 0;">\n\t\t<div class="page-wrap-outer">\n\t\t\t<div id="page-wrap-inner" class="page-wrap-inner XXshow-mobile-menu">\n\n\t\t<!-- include your module markup templates here -->\n\t\t');
       
         __out.push(this.partial('modules/global_header.html.eco', {
+          mode: 'two',
+          content: {
+            a: '3',
+            b: '4'
+          }
+        }));
+      
+        __out.push('\n\n    \t<section class="container" style="background:rgb(0, 70, 0); padding:80px;">test</section>\n    \t<section class="container" style="background:rgb(0, 0, 125); padding:80px;">test</section>\n    \t<section class="container" style="background:rgb(0, 70, 0); padding:80px;">test</section>\n\n\t\t');
+      
+        __out.push(this.partial('modules/global_footer.html.eco', {
           mode: 'two',
           content: {
             a: '3',

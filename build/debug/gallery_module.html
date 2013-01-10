@@ -21,8 +21,9 @@
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
       // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
-      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
     </script>
   <!--<![endif]-->
 
@@ -33,9 +34,11 @@
         <link rel="stylesheet" href="css/modules/carousel.css">
         <link rel="stylesheet" href="css/modules/editorial.css">
         <link rel="stylesheet" href="css/modules/gallery.css">
-        <link rel="stylesheet" href="css/modules/mymodule.css">
         <link rel="stylesheet" href="css/modules/hotspot_explorer.css">
+        <link rel="stylesheet" href="css/modules/mymodule.css">
+        <link rel="stylesheet" href="css/modules/primarytout.css">
         <link rel="stylesheet" href="css/modules/related-products.css">
+        <link rel="stylesheet" href="css/modules/sony_one_carousel.css">
         <link rel="stylesheet" href="css/modules/sonycarousel.css">
         <link rel="stylesheet" href="css/modules/specAndDetails.css">
         <link rel="stylesheet" href="css/modules/video.css">
@@ -65,14 +68,8 @@
   </div>
 </div>
 
-<div class="tab-strip gallery-tabs">
+<div class="tab-strip gallery-tabs" data-tablet-mode="carousel">
 
-  <div class="tab-nav-wrap container">
-    <nav class="tab-nav-btns">
-      <div class="tab-nav tab-nav-prev"></div>
-      <div class="tab-nav tab-nav-next"></div>
-    </nav>
-  </div>
 
   <div class="tabs-container container">
     <div class="tabs">
@@ -93,6 +90,10 @@
         </div>
       </div>
     </div>
+    <nav class="tab-nav-btns">
+      <div class="fade tab-nav tab-nav-prev"></div>
+      <div class="fade tab-nav tab-nav-next"></div>
+    </nav>
   </div>
 
 </div>
@@ -115,7 +116,7 @@
 <a class="gallery-item
   
     span3 large
-  "
+  " 
   data-priority="2" href="#">
   <div class="gallery-item-inner">
     
@@ -126,10 +127,27 @@
       <div class="product-img-wrap ghost-center-wrap">
         <div class="ghost-center">
           
-          <img class="iq-img" alt="" data-src="img/cameras/rx100-front-lrg.png">
-          <noscript>
-            <img src="img/cameras/rx100-front-lrg-desktop.png" alt="">
-          </noscript>
+            
+            <img class="iq-img" alt="" data-src="img/cameras/rx100-front-lrg.png">
+            <noscript>
+              <img src="" alt="">
+            </noscript>
+            
+            <img class="iq-img" alt="" data-src="img/cameras/rx100-profile-lrg.png">
+            <noscript>
+              <img src="" alt="">
+            </noscript>
+            
+            <img class="iq-img" alt="" data-src="img/cameras/rx100-back-lrg.png">
+            <noscript>
+              <img src="" alt="">
+            </noscript>
+            
+            <img class="iq-img" alt="" data-src="img/cameras/rx100-top-lrg.png">
+            <noscript>
+              <img src="" alt="">
+            </noscript>
+            
           
         </div>
       </div>
@@ -162,12 +180,12 @@
 <a class="gallery-item
   
     span2 promo
-  "
+  " 
   data-priority="1" href="#">
   <div class="gallery-item-inner">
     
     
-    <div class="product-img">
+    <div class="product-img"  style="background-color: #45afc9" >
       <div class="iq-img" data-src="img/cameras/lens-tout.png"></div>
       <div class="product-content">
         <p class="text-promo-title">
@@ -198,7 +216,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="10" href="#">
   <div class="gallery-item-inner">
     
@@ -244,7 +262,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="8" href="#">
   <div class="gallery-item-inner">
     
@@ -290,7 +308,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="9" href="#">
   <div class="gallery-item-inner">
     
@@ -336,7 +354,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="3" href="#">
   <div class="gallery-item-inner">
     
@@ -382,7 +400,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="5" href="#">
   <div class="gallery-item-inner">
     
@@ -430,7 +448,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="7" href="#">
   <div class="gallery-item-inner">
     
@@ -479,7 +497,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="2" href="#">
   <div class="gallery-item-inner">
     
@@ -595,7 +613,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="3" href="#">
   <div class="gallery-item-inner">
     
@@ -637,7 +655,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="10" href="#">
   <div class="gallery-item-inner">
     
@@ -679,7 +697,7 @@
 <a class="gallery-item
   
     span3 large
-  "
+  " 
   data-priority="2" href="#">
   <div class="gallery-item-inner">
     
@@ -722,12 +740,12 @@
 <a class="gallery-item
   
     span2 promo
-  "
+  " 
   data-priority="4" href="#">
   <div class="gallery-item-inner">
     
     
-    <div class="product-img">
+    <div class="product-img" >
       <div class="iq-img" data-src="img/cameras/summer.png"></div>
       <div class="product-content">
         <p class="text-promo-title">
@@ -758,7 +776,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="6" href="#">
   <div class="gallery-item-inner">
     
@@ -800,7 +818,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="9" href="#">
   <div class="gallery-item-inner">
     
@@ -842,7 +860,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="3" href="#">
   <div class="gallery-item-inner">
     
@@ -884,7 +902,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="9" href="#">
   <div class="gallery-item-inner">
     
@@ -926,7 +944,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="2" href="#">
   <div class="gallery-item-inner">
     
@@ -1182,9 +1200,9 @@
     <div class="product-img">
       <div class="product-img-wrap ghost-center-wrap js-product-imgs">
         <div class="ghost-center">
-          <img class="iq-img js-product-img-main" itemprop="image" alt="" data-src="img/cameras/DSCRX100B-frt-med.png">
+          <img class="iq-img js-product-img-main" itemprop="image" alt="" data-src="img/cameras/rx100-front-lrg.png">
           <noscript>
-            <img src="img/cameras/DSCRX100B-frt-med-desktop.png" itemprop="image" alt="">
+            <img src="img/cameras/rx100-front-lrg-desktop-desktop.png" itemprop="image" alt="">
           </noscript>
           
           <img class="iq-img hidden" itemprop="image" data-color="black" alt="" data-src="img/cameras/DSCRX100B-frt-med.png">
@@ -1235,7 +1253,7 @@
           
         </div>
         
-        <div class="detail" itemprop="sensor">
+        <div class="detail highlighted" itemprop="sensor">
           
               <p class="compare-box">20.2MP</p>
               <p>20.2 megapixels</p>
@@ -1296,7 +1314,7 @@
           
         </div>
         
-        <div class="detail" itemprop="recordingFormat">
+        <div class="detail highlighted" itemprop="recordingFormat">
           
             Still: JPEG, RAW Movie: AVCHD Ver. 2.0, MP4
           
@@ -1477,7 +1495,7 @@
           
         </div>
         
-        <div class="detail" itemprop="opticalZoom">
+        <div class="detail highlighted" itemprop="opticalZoom">
           
             20x
           
@@ -1728,7 +1746,7 @@
           
         </div>
         
-        <div class="detail" itemprop="lcdScreen">
+        <div class="detail highlighted" itemprop="lcdScreen">
           
             
             <div class="icon-ui-check"></div>3" touchscreen
@@ -1943,7 +1961,7 @@
           
         </div>
         
-        <div class="detail" itemprop="gpsTagging">
+        <div class="detail highlighted" itemprop="gpsTagging">
           
             
             <div class="icon-ui-check"></div>
@@ -2459,7 +2477,7 @@
           
         </div>
         
-        <div class="detail" itemprop="opticalZoom">
+        <div class="detail highlighted" itemprop="opticalZoom">
           
             30x
           
@@ -2963,7 +2981,7 @@
       
         <div class="l3 detail-label detail" data-slug="dimensions" data-label="Dimensions"></div>
       
-        <div class="l3 detail-label detail" data-slug="sensor" data-label="Sensor"></div>
+        <div class="l3 detail-label detail" data-slug="sensor" data-label="Megapixels &amp; Sensor"></div>
       
         <div class="l3 detail-label detail" data-slug="bestFor" data-label="Best For"></div>
       
@@ -3078,7 +3096,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="10" href="#">
   <div class="gallery-item-inner">
     
@@ -3181,7 +3199,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="3" href="#">
   <div class="gallery-item-inner">
     
@@ -3227,7 +3245,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="2" href="#">
   <div class="gallery-item-inner">
     
@@ -3275,7 +3293,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="6" href="#">
   <div class="gallery-item-inner">
     
@@ -3321,7 +3339,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="3" href="#">
   <div class="gallery-item-inner">
     
@@ -3367,7 +3385,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="2" href="#">
   <div class="gallery-item-inner">
     
@@ -3466,7 +3484,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="9" href="#">
   <div class="gallery-item-inner">
     
@@ -3512,7 +3530,7 @@
 <a class="gallery-item
   
     span1 normal
-  "
+  " 
   data-priority="9" href="#">
   <div class="gallery-item-inner">
     
@@ -3576,9 +3594,33 @@
     <h3 class="pull-left" id="compare-tool-label">Compare</h3>
     <button class="box-close" data-dismiss="modal" aria-hidden="true"><i class="icon-ui-x-tiny"></i></button>
   </div>
-  <div class="modal-body"></div>
+  <div class="modal-body">
+    <div class="container p4"><i class="swatch-lemon mini-swatch"></i> Highlights indicate highest performance features</div>
+  </div>
 </div>
 
+<!--
+        {
+            "label": "Tab 2",
+            "slug": "tab2",
+            "icon": "tablet"
+        },
+        {
+            "label": "Tab 3",
+            "slug": "tab3",
+            "icon": "memory-stick"
+        },
+        {
+            "label": "Tab 4",
+            "slug": "tab4",
+            "icon": "water-drop"
+        },
+        {
+            "label": "Tab 5",
+            "slug": "tab5",
+            "icon": "headphones"
+        },
+      -->
 
 
 <div style="padding-bottom:100px"></div>
@@ -3597,9 +3639,9 @@
         <script src="js/bundle/require/debug_toggle.js"></script>
         <script src="js/bundle/require/debug_warnings.js"></script>
         <script src="js/bundle/require/global-nav.js"></script>
-        <script src="js/bundle/require/iq.js"></script>
-        <script src="js/bundle/require/pre-spec.js"></script>
         <script src="js/bundle/require/require1.js"></script>
+        <script src="js/bundle/require/pre-spec.js"></script>
+        <script src="js/bundle/require/iq.js"></script>
         <script src="js/bundle/require/require2.js"></script>
         
         
@@ -3613,6 +3655,7 @@
         <script src="js/bundle/defer/brightcove-builder.js"></script>
         <script src="js/bundle/defer/defer1.js"></script>
         <script src="js/bundle/defer/defer2.js"></script>
+        <script src="js/bundle/defer/form-actions.js"></script>
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
@@ -3624,12 +3667,14 @@
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
+        <script src="js/bundle/defer/jquery.stickytabs.js"></script>
         <script src="js/bundle/defer/jquery.viewport.js"></script>
         <script src="js/bundle/defer/mymodule.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
-        <script src="js/bundle/defer/related-products.js"></script>
         <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
+        <script src="js/bundle/defer/related-products.js"></script>
         <script src="js/bundle/defer/sony.sequencer.1.0.js"></script>
+        <script src="js/bundle/defer/sony.one.carousel.js"></script>
         <script src="js/bundle/defer/spec.js"></script>
 
         <!--[if lt IE 9 ]>

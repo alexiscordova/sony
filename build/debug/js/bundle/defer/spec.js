@@ -69,7 +69,7 @@ function resize(status, device, browser, tableContainerBackup) {
 	if ($('.module-spec .modal').length > 0) {
 		$('.module-spec .modal').modal('hide');
 	}
-	
+
 	//Put it in the scope.
 	var browser = browser;
 	var device = device;
@@ -140,7 +140,10 @@ function resize(status, device, browser, tableContainerBackup) {
 
 				tabInnerContainer.children(':first-child').addClass('active')
 
-				Exports.Modules.Tabs.init();
+
+				// Initialize sticky tabs
+				// THERES NO DATA-TARGET ATTRIBUTE AND THEREFORE NO ACTIVE TAB
+				$('.tab-strip').stickyTabs();
 				$('.tabs').trigger("setup_stickytabs");
 			}
 
@@ -226,10 +229,10 @@ function resize(status, device, browser, tableContainerBackup) {
 
 
 				var sonySlider = $_this.data('sonyCarousel');
-				
+
 				//init
 				slideChange(sonySlider);
-				
+
 				sonySlider.ev.on('scAfterSlideChange', function(event) {
 					//After each slide change.. Look if it's necessary to show the Next & Previous button.
 					slideChange(sonySlider);
@@ -338,7 +341,7 @@ function resize(status, device, browser, tableContainerBackup) {
 	$('.tableContainer').each(function() {
 		$(this).setContainerHeight();
 	});
-	
+
 	//fit the fixed header on resize.
 	fixedHeader();
 }
@@ -348,7 +351,7 @@ function slideChange(sonySlider)
 {
 	currentSlide = (parseInt(sonySlider.currSlideId)+1);
 	totalSlide = (sonySlider.numSlides);
-	
+
 	if(currentSlide === 1){
 		//Hide the left arrow
 		$('.desktopNav').find('.prev').hide();
@@ -356,7 +359,7 @@ function slideChange(sonySlider)
 	else{
 		$('.desktopNav').find('.prev').show();
 	}
-	
+
 	if(totalSlide === currentSlide){
 		//Hide the right arrow
 		$('.desktopNav').find('.next').hide();
@@ -379,13 +382,13 @@ function fixedHeader()
 
 	/*
 	spaceAvail = (windowWidth-sectionWidth);
-	
+
 	console.info('Window width: '+windowWidth);
 	console.info('FixedHeader width: '+currentFixedHeader);
 	console.info('Avail space: '+spaceAvail);
-	
-	
-	
+
+
+
   $(".fixed-header:above-the-top").each(function() {
   	$('.fixed-header').attr('style', 'position:fixed;top:0;background:#fff;z-index:99999; width:92.5%;');
   	$('.fixed-header').next().attr('style', 'padding-top:105px;')
