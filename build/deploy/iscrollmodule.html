@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="sony global website">
+        <meta name="author" content="odopod">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+
+
+            <link rel="stylesheet" href="css/styles.min.css">
+
+  <!-- WE NEED TO SET UP SEPARATE FONT FILES THAT DON'T GET COMPILED INTO styles.min.css -->
+
+  <!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!-->
+    <script type="text/javascript">
+      // Android needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
+    </script>
+  <!--<![endif]-->
+
+  <!-- FONTS.COM -->
+  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->
+
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined'){
+               document.write(unescape("%3Cscript src='js/libs/jquery-1.8.2.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+        <script src="js/libs/modernizr-2.6.2.min.js"></script>  
+        
+    </head>
+    <body class="iscrolltestbed">
+
+        
+
+
+<style type="text/css">
+    
+    * {
+    -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+     box-sizing: border-box;
+    }    
+
+    body {
+        background-color: #999;
+        position:relative;
+    }
+
+    .wrapper-free {
+        display: block;
+        overflow: auto;
+        outline: 4px dashed black;
+        position: relative;
+        clear: both;
+        text-align: center;
+        background: #fff;
+        z-index: 1; /* On older OS versions "position" and "z-index" must be defined, */
+        margin-top: 4px;
+    }
+
+    .content {
+        margin:0 auto;
+        position: relative;
+        direction: ltr;
+        overflow: hidden;
+        padding: 10px 0 10px 0;
+        height: 165px;
+    }
+
+    .block {
+        display: block;
+        width: 150px;
+        height: 166px;
+        /*outline: 1px dashed black;*/
+        float: left;
+        vertical-align: middle;
+        text-align: center;
+        color: white;
+        font-size: 24px;
+        margin: 0 20px;
+        padding:10px;
+    }
+
+    .block img {
+        width: 100%;
+    }
+
+
+</style>
+
+
+
+<!-- <h3>-mobile-Scroller with free drag mode</h3> -->
+<div class="scrollerModule wrapper-free">
+    <div class="content content1">
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+        <div class="block"><img src="img/modules/scrollermodule/sample_headphones.jpg" alt=""></div>
+    </div>
+</div>
+
+<img class="qr_code" width="200" height="200" title="" alt="" />
+
+<!--  -->
+<script type="text/javascript">
+    
+    $(function(){
+
+        if(!Modernizr.touch){
+            $('.qr_code').attr('src' ,"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAIAAAAiOjnJAAAABmJLR0QA/wD/AP+gvaeTAAAEjklEQVR4nO3dwXKkRhBFUcvh///l8c4LYoZQNXkLkM/Zdjcg6UVFqjpJvn79+vUXTPv77gvgZxIsEoJFQrBICBYJwSIhWCQEi4RgkRAsEoJFQrBICBYJwSIhWCQEi8Q/H3zm6+tr/Dp+67wJ8XAZSx2LS5+98uaDwc8+5K/wJ1YsEoJFQrBICBaJT4r3g8H7fM4L0qVytSuEB498/m/B0lVt+yt8kxWLhGCRECwSgkVioHg/6ErO89r2ypb3UtU8eM3dZvpdhf9/rFgkBIuEYJEQLBLzxXtnW1fJlS6a81eX3vxqViwSgkVCsEgIFok3Fe+DNfW2I/9va3krFgnBIiFYJASLxHzx3pWcV2rbwZabK28ebMg5d3vhb8UiIVgkBIuEYJEYKN63jT254kqvS3db6ZVd+/M3386KRUKwSAgWCcEi8XX7Fu0e3d760onO/aS/hRWLhGCRECwSgkXi5jnv3biVwfEyB0sb4lcq/Sv/cAy++hkrFgnBIiFYJASLRD7nvSsbB4vo7mlQS4daerUbBjny81qxSAgWCcEiIVgkbp42c9eg822DawY74peuefA/m89YsUgIFgnBIiFYJAZ63rv6dFsXzV1N7ksnWjrvtu8S/sSKRUKwSAgWCcEi8Unxvm36yuCW92B92nXRnNvf+nKFFYuEYJEQLBKCRWKgeD/X9Zw8ZKDjFYN9MleOXEyft2KRECwSgkVCsEh80vP+zEb1c4MD1gdL7G6S++0TK61YJASLhGCRECwS86Miu3kyS68uvfmuDvFuUM/+2ZAHViwSgkVCsEgIFondO+8PKTmXjjx4GYP9KneNtfkmKxYJwSIhWCQEi8T8E1YfMhW903WkvOJO4G+yYpEQLBKCRUKwSMzfsNpV60ufPddNjjx3pcl9sCPezjtvJVgkBIuEYJG4+Qmr54fa1mNzZTO966a/8hOZ887PJFgkBIuEYJHI22YOBltBrpz33LZ2nW3D6A/svPNWgkVCsEgIFon8IU3bnmF08Io5791ldD0232TFIiFYJASLhGCRGGibOega1c9PNLjj/5C99e67hHN23nkuwSIhWCQEi0S+835u2wbxK57seuWqzj97oOedtxIsEoJFQrBIzBfvg28+eMjUyYf0BV2x4Qe0YpEQLBKCRUKwSMzfsNrZ3/vxwXnPveKeW8U7zyVYJASLhGCR+KTnfdt+8eA0xG2fXTI4ovJpQ2+sWCQEi4RgkRAsEvmc9yXdgMNuzvu57siDv3Y977yGYJEQLBKCRWJ+2kzX3NLdZtnNornSXX54teveKb5psGKRECwSgkVCsEjMF+/bbHsa1FItv3TkbSPyN4yXObBikRAsEoJFQrBIvLh4P1jaAb+ytz44P2ep8O++0tA2w2sIFgnBIiFYJG5+SNPgia7MW1/qVxms1q/8rp52h+qBFYuEYJEQLBKCRWKgeL9rWPnBlb3mu26UPTc4fX7DbMgDKxYJwSIhWCQEi8Sb5rzzIlYsEoJFQrBICBYJwSIhWCQEi4RgkRAsEoJFQrBICBYJwSIhWCQEi4RgkRAsEv8CX4wcoW3Q00oAAAAASUVORK5CYII=");
+        }
+
+
+    });
+
+</script>
+<!-- <h3>-mobile-Scroller with snapping to element</h3>
+<div class="wrapper" id="wrapper2">
+    <div class="content content2">
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+    </div>
+</div> 
+
+<div class="mainWrap" style='max-width: 768px; width:70%; overflow:hidden; position:relative; margin:0 auto; display:block;'>
+    <h3>-mobile-Scroller with snapping to page</h3>
+    <div class="wrapper" id="wrapper3">
+        <div class="content content3">
+            <div class="block">1</div>
+            <div class="block">2</div>
+            <div class="block">3</div>
+            <div class="block">4</div>
+            <div class="block">5</div>
+            <div class="block">6</div>
+            <div class="block">7</div>
+            <div class="block">8</div>
+            <div class="block">9</div>
+            <div class="block">10</div>
+            <div class="block">11</div>
+            <div class="block">12</div>
+            <div class="block">13</div>
+            <div class="block">14</div>
+            <div class="block">15</div>
+            <div class="block">16</div>
+            <div class="block">17</div>
+            <div class="block">18</div>
+            <div class="block">19</div>
+            <div class="block">20</div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+                <script src="js/require.min.js"></script>
+        <script src="js/secondary.min.js"></script>
+        
+        
+        <script src="js/bundle/defer/bootstrap-tab.js"></script>
+        <script src="js/bundle/defer/brightcove-builder.js"></script>
+        <script src="js/bundle/defer/form-actions.js"></script>
+        <script src="js/bundle/defer/gallery.js"></script>
+        <script src="js/bundle/defer/hotspot_explorer.js"></script>
+        <script src="js/bundle/defer/iscrollmodule.test.js"></script>
+        <script src="js/bundle/defer/jodo.gallery.js"></script>
+        <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
+        <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
+        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
+        <script src="js/bundle/defer/jquery.shuffle.js"></script>
+        <script src="js/bundle/defer/jquery.stickytabs.js"></script>
+        <script src="js/bundle/defer/jquery.viewport.js"></script>
+        <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
+        <script src="js/bundle/defer/primary-tout.js"></script>
+        <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/sony-scroller.js"></script>
+        <script src="js/bundle/defer/sony-sequencer.js"></script>
+        <script src="js/bundle/defer/sony-tertiary-module.js"></script>
+        <script src="js/bundle/defer/sony.one.carousel.js"></script>
+        <script src="js/bundle/defer/spec.js"></script>
+        
+        <!--[if lt IE 9 ]>
+            <script src="js/polyfill.min.js"></script>
+        <![endif]-->
+
+
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+    </body>
+</html>
