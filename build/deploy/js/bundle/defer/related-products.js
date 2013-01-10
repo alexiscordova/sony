@@ -456,8 +456,10 @@
           columnWidth: self.shuffleColumns,
           gutterWidth: self.shuffleGutters,
           showInitialTransition: false,
-          buffer: 100
+          // buffer: 100
+          buffer: 5
         }).data('shuffle');
+        console.log("SFuffle created »");
 
       },
 
@@ -625,11 +627,11 @@
                   self.createShuffle();
                 }
 
-              
-                setTimeout(function(){
+              self.sortByPriority();
+    /*            setTimeout(function(){
                   //self.sorted = true;
-                  self.sortByPriority();
-                } , 100);
+                  
+                } , 100);*/
                 
 
                 iQ.update();
