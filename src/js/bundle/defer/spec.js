@@ -1,4 +1,5 @@
 //Global variables.
+
 var $tableContainerBackup;
 var refreshData = null;
 var arrayTableContainer = [];
@@ -6,6 +7,7 @@ var arrayTableFirstColumn = [];
 var tableContainerBackup;
 var array = [];
 
+/*
 $(window).load(function() {
 
 	$('.tableContainer').each(function(indexTable) {
@@ -56,6 +58,7 @@ $(window).resize(function() {
 	}, 100);
 	//var sonySlider = $('section > .gallery-tabs > .tableContainer').data('sonyCarousel');
 });
+*/
 
 //When you resize.
 //params--------------------------------------------
