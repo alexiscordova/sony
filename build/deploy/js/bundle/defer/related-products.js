@@ -1343,13 +1343,29 @@
               itemElementSelector: '.gallery-item',
               mode: 'free',
               lastPageCenter: false,
-              extraSpacing: 0
+              extraSpacing: 0,
+
+              iscrollProps: {
+                snap: false,
+                hScroll: true,
+                vScroll: false,
+                hScrollbar: false,
+                vScrollbar: false,
+                momentum: true,
+                bounce: true,
+                onScrollEnd: null,
+                lockDirection:true,
+                onBeforeScrollStart:null,
+              }
+
             }).data('scrollerModule');
 
             //self.scroller.enable();
             iQ.update();
 
-            console.log("Instantiating scroller module »");
+            console.log("Instantiating scroller module »", self.scrollerModule);
+
+
 
           }, 100); 
 
