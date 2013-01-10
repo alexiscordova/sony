@@ -13,7 +13,10 @@ $colorDefault:black;
 $color1200:#90a600;
 // $color1400:#00ff33;
 
-// END TEMP
+$mobileHeight:349px;
+
+
+
 
 
 .clearfix {
@@ -32,9 +35,12 @@ $color1200:#90a600;
 
   .tcc-body{
     @include debug($colorDefault, 0px);
+    //overflow:hidden;
     //height:auto;
   } // end .tcc-body
 } // end .tcc-body-wrapper
+
+
   
 .tcc-header-wrapper{
 
@@ -101,6 +107,7 @@ $color1200:#90a600;
 
     .tcc-content-module{
       @include debug(white, 1px);
+      height:370px;
     }
 
     .sonys-voice{
@@ -132,19 +139,25 @@ $color1200:#90a600;
       @include debug(white, 1px);
     } // end .tcc-content-module
 
-    .grid:not(.grid-small) [class*="span"]{
-      //height:262px;
-    } // end .grid
+    // .grid:not(.grid-small) [class*="span"]{
+    //   //height:262px;
+    // } // end .grid
 
   } // end .tcc-body-wrapper
 
   .sonys-voice{
+
+    .bq2 > p{
+      font-size: 1.1em;
+    } // end .bq2 > p
+
 
     .btn{
       width:160px;
     } // end .btn
 
   } // end .sonys-voice
+
 } // end 768 979
 
 @media (min-width: 480px) and (max-width: 767px) {
@@ -225,15 +238,17 @@ $color1200:#90a600;
 
 
   .tcc-body-wrapper{
-    @include debug(red, 1px);  
+    @include debug(red, 1px); 
+    height:$mobileHeight;
 
     .tcc-body{
       @include debug($colorMobileSmall, 1px);
-      //height:100%;
+      height:$mobileHeight;
     } // end .tcc-body
 
     .tcc-content-module{
       @include debug(green, 1px);
+      height:$mobileHeight;
     } // end .tcc-content-module
 
     .grid:not(.grid-small) [class*="span"]{
@@ -245,6 +260,11 @@ $color1200:#90a600;
   } // end .tcc-body-wrapper
 
   .sonys-voice{
+
+    .bq2 > p{
+      color:$gray;
+      font-size: 1.275em;
+    } // end .bq2 > p
 
     .btn{
       width:91.5%;

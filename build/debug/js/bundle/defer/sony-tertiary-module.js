@@ -61,26 +61,32 @@ $(document).ready(function(){
           hScrollbar: false,
           vScrollbar: false,   
           onScrollEnd: null,
+          lockDirection:true,
+          onBeforeScrollStart:null,
         }
       });
-      
-      //return scroller;
+           
     };
 
     function destroy(){
       $scrollerInstance.scrollerModule('destroy');
       $scrollerInstance = null;
-      $(".tcc-content-module, .tcc-body, .tcc-body-wrapper").removeAttr("style");
+      $('.tcc-content-module, .tcc-body, .tcc-body-wrapper').removeAttr('style');
     }
 
     function setContentModuleSize(){
       console.group("setContentModuleSize");
       
-      var sizeTo = $scroller.outerWidth(false); // false, because we do not want margins
-      
-      console.log("sizeTo »",sizeTo);
+      var sizeTo = 0,
+          containerSize = Math.round($scroller.outerWidth());
+       
+      $contentModules.each(function() {
+        // $(this).css({
+        //   "width":containerSize - parseInt($(this).css('padding-left') - $(this).css('padding-right'))
+        // }); 
+        $(this).outerWidth(containerSize);
+      });
 
-     $contentModules.width(sizeTo); // just wait a sec before we init scroller instance
 
       console.groupEnd();
     }
@@ -90,7 +96,8 @@ $(document).ready(function(){
       console.group("handleScroller");
       console.log(" resizeEvent is »",resizeEvent);
              
-      var isScrollerModule = $scrollerInstance != null ? true : false; // check here if there's a scroller module
+      var isScrollerModule = $scrollerInstance != null ? true : false, // check here if there's a scroller module
+          initNewScroller  = false;
 
       console.log("isScrollerModule »",isScrollerModule);
 
@@ -101,20 +108,21 @@ $(document).ready(function(){
        // if there's a scroller module
        if(!isScrollerModule){
           console.log("there is NOT a scroller module set-up, init it »");
-          $scrollerInstance = initScrollerModule();
+          initNewScroller = true;
        }else{
           console.log("there IS a scroller module set-up »", $scroller);
 
           // if orientation event happened set up a new scroller instance
-          if(resizeEvent == "orientationchange"){            
+          //if(resizeEvent == "orientationchange"){            
               // destroy first
-              destroy();
+              // destroy();
+              // initNewScroller = true;
+         // }
 
-              // out of the ashes, create
-              $scrollerInstance = initScrollerModule();
-          }
+        destroy();
+        initNewScroller = true;
+
        }
-
       }else{
         console.log("on desktop/tablet");
         
@@ -124,6 +132,16 @@ $(document).ready(function(){
         }else{
           console.log("there isn't a scroller module initalized, do nothing »");
         }
+      }
+
+
+      if(initNewScroller){
+
+        // create a new one
+        $scrollerInstance = initScrollerModule();
+
+        // refresh TEST IF THIS 
+        $scrollerInstance.delay(2500).scrollerModule('refresh');
       }
 
       console.groupEnd();

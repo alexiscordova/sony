@@ -123,7 +123,6 @@ var m = Math,
 			wheelAction: 'scroll',
 
 			// Snap
-
 			snap: false,
 			snapThreshold: 1,
 
@@ -132,7 +131,7 @@ var m = Math,
 			onBeforeScrollStart: function (e) { e.preventDefault(); },
 			onScrollStart: null,
 			onBeforeScrollMove: null,
-			onScrollMove: null,
+			onScrollMove: null,	
 			onBeforeScrollEnd: null,
 			onScrollEnd: null,
 			onTouchEnd: null,
