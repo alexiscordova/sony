@@ -27,6 +27,7 @@
 		$blocks3.each(function(){
 			//$(this).css('backgroundColor' , '#'+Math.floor(Math.random()*16777215).toString(16));
 		});
+		
 		$('.content1').css('width' , $blocks.eq(0).outerWidth(true) * $blocks.length );
 		$('.content2').css('width' , $blocks2.eq(0).outerWidth(true) * $blocks2.length );
 		$('.content3').css('width' , $blocks3.eq(0).outerWidth(true) * $blocks3.length );

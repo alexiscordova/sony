@@ -72,6 +72,7 @@
 
 // The dropdown menu (ul)
 // ----------------------
+.dropdown-hover-menu,
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -103,6 +104,16 @@
   .divider {
     @include nav-divider($dropdownDividerTop, $dropdownDividerBottom);
   }
+
+
+  &.bottom-up {
+    top: auto;
+    bottom: 100%;
+  }
+  // .navbar .dropdown-menu.bottom-up:before { border-bottom: 0px solid transparent !important; border-top: 7px solid rgba(0, 0, 0, 0.2); top: auto !important; bottom: -7px; }
+  // .navbar .dropdown-menu.bottom-up:after  { border-bottom: 0px solid transparent !important; border-top: 6px solid white;              top: auto !important; bottom: -6px; }
+
+
 
   // Links within the dropdown menu
   a {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
@@ -23,8 +23,9 @@
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
       // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("chrome") > -1 ? "otf" : "woff";
-      document.write(unescape("%3Clink rel='stylesheet' href='css/fonts/"+fontType+".css'%3E"));
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
     </script>
   <!--<![endif]-->
 
@@ -49,16 +50,18 @@
         <div class="span5">
             <h2>h2 title</h2>
             
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elits.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
             <a class="button" href="http://www.google.com">click here</a>
         </div>
         <div class="span7">
-            <div class="image-module">
-    <img class="iq-img update-always" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elits." data-src="category_series_expl_cyber.png" data-base="http://devopod.appspot.com/images/">
+            
+<div class="image-module">
+    <img class="iq-img update-always" alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." data-src="category_series_expl_cyber.png" data-base="http://devopod.appspot.com/images/">
     <noscript>
         <img src="http://devopod.appspot.com/images/category_series_expl_cyber-desktop.png">
     </noscript>
 </div>
+
 
         </div>
     </div>
@@ -77,26 +80,27 @@
         
         <script src="js/bundle/defer/bootstrap-tab.js"></script>
         <script src="js/bundle/defer/brightcove-builder.js"></script>
-        <script src="js/bundle/defer/defer1.js"></script>
-        <script src="js/bundle/defer/defer2.js"></script>
+        <script src="js/bundle/defer/form-actions.js"></script>
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
-        <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
         <script src="js/bundle/defer/jodo.gallery.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
+        <script src="js/bundle/defer/jquery.stickytabs.js"></script>
         <script src="js/bundle/defer/jquery.viewport.js"></script>
-        <script src="js/bundle/defer/mymodule.js"></script>
-        <script src="js/bundle/defer/related-products.js"></script>
-        <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
-        <script src="js/bundle/defer/sony.sequencer.1.0.js"></script>
+        <script src="js/bundle/defer/primary-tout.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
+        <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/sony-scroller.js"></script>
+        <script src="js/bundle/defer/sony-sequencer.js"></script>
+        <script src="js/bundle/defer/sony-tertiary-module.js"></script>
+        <script src="js/bundle/defer/sony.one.carousel.js"></script>
         <script src="js/bundle/defer/spec.js"></script>
         
         <!--[if lt IE 9 ]>

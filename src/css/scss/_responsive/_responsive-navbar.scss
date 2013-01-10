@@ -20,156 +20,267 @@
 //                                  888                              
 // -----------------------------------------
 
+.nav-wrapper a{
+  @include transition(background-color $transitionSlowish linear, color $transitionSlowish linear); 
+}
+
+.nav-wrapper,
+.navbar{
+  height: $navbarHeight;
+}
+.navtray-w,
+.navmenu-w {
+  top: $navbarHeight;
+}
+.nav-primary{
+  margin-left:3%;
+}
 .nav{
-  > li {
-
-    .global-nav-indicator-bar{
-      margin-left:11px;
-    }
-
-    > a{
-      line-height:$navbarLineHeight;
-      padding: 0 6px;
-      margin: 10px 9px 14px 9px;
-      font-size:$font_15_16;
-
-      &.nav-dropdown-toggle-text{
-        padding-right: 3px;
-        margin-right: 3px;
-        .icon-ui-arrowhead-down-gray{
-          margin-left: 8px;
-          margin-top: 11px;
-        }
-      }
-    } // > a
-  } // > li
-
-  &.nav-primary{
-    margin-left:3%;
+  .btn-mobile-cart{
+    display:none;
   }
-  &.nav-utility{
-    > li > a{
-      line-height:$navbarLineHeight;
-      margin: 11px 3px 13px 7px;
-      font-size:$font_13_16;
+}
+.global-nav-indicator-bar{
+  margin-left:11px;
+}
 
-      &.btn-nav-block{
-        width: auto;
-        margin: 13px 0px 0px 7px;
-        line-height: 37px;
-        font-size: $font_13_16;
-      }
 
-      &.btn-nav-iconed{
-        height: 25px;
-        padding: 4px;
-        margin: 19px 0px 0 6px;
-        line-height: 1.5;
-      }
-
-      &.nav-dropdown-toggle-text{
-        .icon-ui-arrowhead-down-gray{
-          margin-left: 6px;
-          margin-top: 9px;
-        }
-      }
-    } // > li > a
-  } // .nav-utility
-
-  > li {
-    &#nav-li-favorites{
-      > a {
-        margin-left:7px;
-      }
-    }
-    &#nav-li-cart{
-      > a {
-        font-size: $font_12_16;
-        > i.icon-ui-cart {
-          margin-right: 2px;
-          margin-top: 1px;
-        }
-      }
-    }
-    &#nav-li-search{
-      > a {
-        margin-left: 15px;
-        padding: 0px 16px 0px 12px;
-        > span.navtray-label{
-          display:inline-block;
-        }
-        > i.icon-ui-search {
-          float: left;
-          margin: 12px 6px 0 0;
-        }
-      }
-    }
-    &#nav-li-universal{
-      > a {
-        margin-right:-8px;
-        padding: 0px 8px;
-        > i.icon-ui-plus-tiny {
-          margin: 4px 0 0 10px;
-        }
-      }
-    }
-  } // .nav > li
-} // .nav
-
-.navmenu-w-search{
-  .sprite-mini-global-nav-indicator{
-    right: 33px;
+.nav-li-link{
+  line-height:$navbarLineHeight;
+  padding: 0 9px;
+  margin: 10px 0 14px 3px;
+}
+.nav-li-store,
+.nav-li-support{
+  .nav-li-link{
+    font-size:$font_15_16;
   }
 }
 
-.navtray-w{
-  &.navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
-    //left:$navTrayDividerPosition;
+.nav-li-link{
+  &:hover,
+  &:active,
+  &:focus{
+    color: $navbarLinkColor;
   }
 }
+
+.nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
+  padding-right: 9px;
+  margin-right: 0px;
+  font-size:$font_15_16;
+  color:$navbarLinkColor;
+
+  .icon-ui-arrowhead-down-gray{
+    margin-left: 8px;
+    margin-top: 11px;
+  }
+}
+
+
+.nav-primary .nav-li-link,
+.nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
+  &:hover,
+  &:active,
+  &:focus{
+    // background-color: $grayDark;
+    // border-color: $grayDark;
+    color:$navbarLinkColorHover;
+  }
+}
+
+.nav-li-linkBtn{
+  height: 37px;
+  margin: 13px 0 14px 4px;
+  padding: 11px 11px 0px 10px;
+  line-height: 1;
+  @include border-radius(1px);
+
+  background-color: $navbarBackground; 
+  border-color: $navbarBackground;
+
+  &:hover,
+  &:active,
+  &:focus{
+    background-color: $grayDark;
+    border-color: $grayDark;
+    color:$navbarLinkColorHover;
+  }
+
+  &.nav-li-linkBtn-mini{
+    padding-right:10px;
+    padding-left:5px;
+  }
+
+  .linkBtn-label,
+  .nav-li-count,
+  [class^="fonticon-ui-"],
+  [class*=" fonticon-ui-"],
+  [class^="icon-ui-"],
+  [class*=" icon-ui-"]{
+    display:block;
+    float: left;
+  }
+  .linkBtn-label{
+    font-size:$font_12_16;
+    @include fontMedium;
+    margin-left:5px;
+  }
+  .nav-li-count{
+    display:block;
+    float:left;
+    font-size: $font_13_16;
+    @include fontBold;
+    margin-top:0px;
+  }
+  [class^="fonticon-ui-"],
+  [class*=" fonticon-ui-"]{
+    margin: 2px 0 0 0;
+  }
+  [class^="icon-ui-"],
+  [class*=" icon-ui-"]{
+    margin: 1px 2px 0 2px;
+  }
+}
+
+
+.nav-li-account{
+  .nav-li-link.nav-dropdown-toggle{
+    line-height: 37px;
+    margin: 13px 0px 10px 7px;
+
+    // line-height:$navbarLineHeight;
+    // margin: 11px 0px 12px 7px;
+    font-size:$font_13_16;
+    .icon-ui-arrowhead-down-gray{
+      margin-left: 6px;
+      margin-top: 9px;
+    }
+  }
+}
+.nav-li-favorites .nav-li-link {
+  margin-left:3px;
+}
+
+.nav-li-search .nav-li-linkBtn {
+  background-color: $navbarTertiaryColor;
+  border-color: $navbarTertiaryColor;
+  @include border-radius(1px);
+  &:hover,
+  &:active,
+  &:focus{
+    background-color: $linkColor;
+    border-color: $linkColor;
+    i,
+    .linkBtn-label{
+      color:$navbarLinkColor;
+    }
+  }
+}
+.nav-li-universal .nav-li-linkBtn {
+  [class^="icon-ui-"],
+  [class*=" icon-ui-"]{
+    margin-top: 0;
+  }
+}
+
+.navtray-w-tall:after{ // background gray under the right side -- just needs to cover up the right margin
+  //left:$navTrayDividerPosition;
+}
+
 .navtray{
   width:100%;
 
   .btn-nav-view-all{
-    margin-left: 5.7%;
+    display:inline-block;
+    width:auto;
+    background:$white;
+    border:$white;
+    margin:0 0 0 39.4%;
+    padding-left:20px;
+    padding-right:20px;
+
+    .linkBtn-label{
+      color:$linkColor;
+      font-size:$font_15_16;
+    }
+    i{
+      margin-top:2px;
+      margin-right:10px;
+    }
+    &:hover,
+    &:active,
+    &:focus{
+      background:$grayLightFieldSmall;
+    }
   }
-} // end .nav-tray
+} // end .navtray
 
 .navtray-section-main{ // section left
-  padding-top:56px;
+  padding-top:50px;
   width: $navTrayDividerPosition;
 
+  .navtray-w-short &{
+    min-height: 260px;
+  }
+
   .navtray-list-main{
-    margin: 0 1.6% 2.1% 4.1%;
+    margin: 0 4.0% 1.0% 4.0%;
     overflow:hidden;
 
-    &:after{ // HR
-      width:97%;
-      height:14px;
-      margin-left: 1.7%;
+    .navtray-li {
+      width: 24.8%;
     }
 
-    > li{
-      width:23.1%;
-      margin:2% 1.9% 2% 0;
+    .navtray-li-link {
+      margin: 2% 3.3% 0 0;
+      padding:27px 0 0 0;
+
+      &:hover,
+      &:active,
+      &:focus{
+        background:$grayLightFieldSmall;
+      }
+      .nav-img-w img {
+        width:83%;
+      }
     }
-    > li > a > img {
-      width:83%;
+
+    &:after { // HR
+      width:98.4%;
+      height:1px;
     }
   }
 } // end .navtray-section-main
+
+
 .navtray-section-featured{ // section right
   padding-top:47px;
   &.navtray-section-featured-short{
     padding-top:0;
   }
   width: (100-$navTrayDividerPosition); 
-  padding-left: 2.8%;
+  padding-left: 3.8%;
   .navtray-secondary-promo{
-    width: 192px;
-    margin-top: 36px;
-  } // .navtray-secondary-promo
-} // .navtray-section-featured
+    max-width: 218px;
+    margin-top: 57px;
+    margin-right:14%;
+    img{
+      padding-bottom:6px;
+    }
+    .p2,
+    .p3{
+      font-size:$font_13_15;
+      padding:3px 15px 0 0;
+    }
+    .p2{
+      font-size:$font_16_16;
+    }
+    .p3{
+      line-height: 1.5;
+    }
+  }
+}
 
 
 // Required to make the collapsing navbar work on regular desktops
@@ -179,7 +290,24 @@
 }
 
 
+.navmenu-w-search{
+  @include hideshow-navmenu-hide(right);
+
+  .sprite-mini-global-nav-indicator{
+    right:31px;
+  }
+  .btn-clear-search-input{
+    right: 30px;
+    top: 22px;
+  }
+}
+
 .navmenu-w-account{
+  width: 215px;
+  padding: 16px 0 9px;
+
+  @include hideshow-navmenu-hide(right);
+
   .navmenu-list-prefixed{
     border-bottom:solid 1px $grayLightish;
     padding-bottom:6px;
@@ -187,6 +315,48 @@
   }
 }
 // END 980px-1199px Default
+
+
+@media (min-width: 980px) and (max-width: 1039px) {
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{ 
+  padding-top:25px;
+  height: 155px;
+}
+.navtray-section-featured .navtray-secondary-promo{
+    margin-top: 32px;
+}
+}
+
+@media (min-width: 1040px) and (max-width: 1099px) {
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{ 
+  padding-top:25px;
+  height: 165px;
+}
+}
+
+@media (min-width: 1040px) {
+.navtray-w-short .navtray-section-main{
+  min-height: 300px;
+}
+}
+
+@media (min-width: 1100px) and (max-width: 1149px) {
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+  height: 175px;
+}
+}
+
+@media (min-width: 1150px) {
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+  height: 185px;
+}
+}
+
+
+
+
+
+
 
 
 
@@ -213,10 +383,6 @@
 // ------------------------------------------------
 
 @media (min-width: 1200px) {
-.nav {
-  &.nav-primary{
-  }
-}
 
 .navtray.navtray-absolute{
   position: absolute;
@@ -227,36 +393,8 @@
 }
 
 .navtray-section-featured{ // section right
-  width: 100 - ($navTrayDividerPosition + 2);
-  padding-left: 3.7%;
-  padding-top: 53px;
-
-  .navtray-secondary-promo{
-    width: 208px;
-    margin-top: 43px;
-
-  } // .navtray-secondary-promo
-  &.navtray-section-featured-short{
+  .navtray-section-featured-short{
     padding-top:0;
-    
-    .navtray-secondary-promo{
-      margin-top: 36px;
-    }
-  } //.navtray-section-featured-short
-} //.navtray-section-featured
-
-.navtray-section-main{ // section left
-  width: ($navTrayDividerPosition + 2);
-  padding-top: 39px;
-
-  .navtray-list-main{
-    margin-right:4.7%;
-    margin-top:0px;
-
-    > li {
-      width: 24%;
-      margin: 5.5% 0.7% 2% 0;
-    }
   }
 }
 
@@ -271,6 +409,11 @@
   z-index:1;
   background: $navTrayBackgroundAlt;
 }
+
+.nav-li-universal{
+  margin-right: -11px;
+}
+
 } // END min-width: 1200px
 
 
@@ -313,50 +456,43 @@
 // 8888888  "Y8888P"  888888888   "Y8888P"         "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
 // ------------------------------------------------
 @media (max-width: 1023px) {
-.nav {
-  > li#nav-li-search{ // change the button to simple square no-text.
-    > a {
-      padding: 0px 12px 0px 12px;
-      margin-left: 10px;
-      margin-top: 12px;
-      
-      > span.navtray-label{
-        display:none;
-      }
-      > i.icon-ui-search {  
-        float:none;
-        margin:2px 0px 0 0;
-      }
-    }
-  } // li#nav-li-search
 
-  > li#nav-li-universal{
-    > a {
-      margin-left: 7px;
-      margin-right: -10px;
-      // padding: 0px 8px;
-      > i.icon-ui-plus-tiny {
-        margin-left: 8px;
-      }
-    }
-  } // li#nav-li-universal
-
-  .navmenu-w-account .navmenu-list-prefixed{
-    display:block;
-  }
-  #nav-li-favorites,
-  #nav-li-cart{
+.nav-li-search .nav-li-linkBtn {
+  .linkBtn-label{
     display:none;
   }
-} // .nav
+}
+.nav-li-count{
+  display:inline-block;
+  padding:0 9px;
+  margin:2px 0 0 12px;
+  line-height:21px;
+  background:$themeGreen;
+  color:$navbarLinkColor;
+  font-size:$font_11_12;
+  @include fontMedium;
+  @include border-radius(1px);
+}
+
+
+
+.nav-li-universal .nav-li-link {
+  // margin-right: -10px;
+  // > i.fonticon-ui-mini-bold-plus {
+  //   margin-left: 8px;
+  // }
+}
 
 .navmenu-w-search{
-  .sprite-mini-global-nav-indicator{
-    // right:15px;
-  }
+  margin-left: 25px;
 }
-.nav-li-selected .navmenu-w-search{
-  right:-26px;
+
+.navmenu-w-account .navmenu-list-prefixed{
+  display:block;
+}
+.nav-li-favorites,
+.nav-li-cart{
+  display:none;
 }
 
 } // END max-width: 1023px
@@ -385,28 +521,37 @@
 .navbar{
   // override the default logo sprite with the smaller one.
   @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
+
   .sprite-reg-nav-sony-logo{
-    margin-top:18px;
+    margin-top:16px;
   }
 }
-
-.nav > li {
-  .global-nav-indicator-bar{
-    margin-left:3px;
-  }
+.nav-wrapper,
+.navbar{
+  height: $navbarHeightShort;
+}
+.navtray-w,
+.navmenu-w {
+  top: $navbarHeightShort;
 }
 
-.nav.nav-primary{
-  margin-left: 2.6%;
-  > li > a{
+.global-nav-indicator-bar{
+  margin-left:3px;
+}
+
+.nav-primary{
+  margin-left: 2.4%;
+  .nav-li-link,
+  .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) {
+
+    // line-height: 37px;
+    // margin: 13px 0px 10px 7px;
+
     line-height: $navbarLineHeight;
-    margin:11px 1px 13px 1px;
+    margin:10px 1px 10px 1px;
     font-size: $font_13_16;
     padding: 0 7px;
-
-    &.nav-dropdown-toggle-text{
-      // padding-right:3px;
-      // margin-right:6px;
+    &.nav-dropdown-toggle{
       .icon-ui-arrowhead-down-gray{
         margin-top: 9px;
         margin-left: 6px;
@@ -420,42 +565,69 @@
 }
 
 
-.nav.nav-utility{
-  > li > a{
+.nav-li-account{
+  .nav-li-link.nav-dropdown-toggle{
     font-size:$font_11_16;
-    margin-top:12px;
+    margin: 14px 0px 10px 7px;
+    line-height:31px;
 
-    &.nav-dropdown-toggle-text{
-      .icon-ui-arrowhead-down-gray{
-        margin-top: 8px;
-      }
-    }
-    &.btn-nav-block{
-      font-size: $font_11_16;
+    .icon-ui-arrowhead-down-gray{
+      margin-top: 8px;
     }
   }
-} // .nav-utility
+}
 
 
-.navtray-section-main{ // section left - contents
+.nav-li-linkBtn{
+  height: 31px;
+  margin: 14px 0 9px 3px;
+  padding: 9px 8px 0px;
+  [class^="fonticon-ui-"]::before,
+  [class*=" fonticon-ui-"]::before {
+    font-size: 1em;
+  }
+  [class^="fonticon-ui-"],
+  [class*=" fonticon-ui-"] {
+    margin-top: 0;
+  }
+}
+
+.navtray-section-main{ // section left
   padding-top: 38px;
   width: ($navTrayDividerPosition - 4);
 
-  .navtray-list-main {
-    margin-left:8.2%;
-    margin-right:0;
+  .navtray-w-short &{
+    padding-bottom: 0;    
+  }
 
-    &:after{ // HR
-      width: 94%;
-      height: 10px;
-      margin-left: 1.9%;
+  .navtray-list-main{
+    margin-left: 4.1%;
+    margin-right: 3%;
+
+
+    .navtray-li {
+      width: 33.1%;
+    }
+    .navtray-li-link {
+      margin: 1% 1.4% 1.1% 0;
+
+      .nav-label{
+        font-size:$font_15_16;
+        line-height:1.2;
+      }
     }
 
-    > li{
+    &:after{ // HR
+      width: 94.45%;
+      height: 1px;
+      margin-left: 0;
+    } 
+
+    .nav-li{
       width:31.9%;
       margin:2% 0.2% 2% 0;
     }
-    > li > a {
+    .nav-li-link {
       padding-bottom:13px;
 
       > img {
@@ -468,25 +640,68 @@
       }
     }
   }
-  .btn-nav-view-all{
-    margin-left: 10%;
-  }
 } // .navtray-section-main
 
+
+.navtray .btn-nav-view-all{
+  margin-left:33.4%;
+}
+
+.navmenu-w-search{
+  margin-left: 27px;
+}
+
 .navtray-section-featured{ // section right
-  padding-top: 47px;
-  padding-left:2.3%;
+  padding-top: 35px;
+  padding-left: 3.3%;
   width: 100 - ($navTrayDividerPosition - 4);
+
+  .navtray-secondary-promo{
+    margin-top: 32px;
+
+    &.navtray-secondary-promo-short{
+      margin-top: 32px;
+    }
+
+    img{
+      padding-bottom:10px;
+    }
+    .p2{
+      padding-right: 35px;
+    }
+    .p3{
+      display:inline-block;
+      padding-right: 50px;
+      padding-top:5px;
+    }
+  }
 
   &.navtray-section-featured-short{
     padding-top: 10px;
   }
 } //.navtray-section-featured
 
-} // END min-width: 768px and max-width: 979px
+} // min-width: 768px and max-width: 979px
 
 
-
+@media (min-width: 768px) and (max-width: 839px) {
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+  padding-top:15px;
+  height: 150px;
+}
+}
+@media (min-width: 840px) and (max-width: 899px) {
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+  padding-top:20px;
+  height: 170px;
+}
+}
+@media (min-width: 900px) and (max-width: 979px) {
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+  padding-top:25px;
+  height: 190px;
+}
+}
 
 
 
@@ -526,204 +741,336 @@
 
 @media (max-width: 767px) {
 
-.nav-wrapper{
-  height:64px;
+
+.nav-wrapper,
+.navbar{
+  height:auto;
+}
+
+.page-wrap-inner{
+  @include transition(left $transitionSlower $easeOutNav 0s);
+  position:relative;
+}
+
+.page-wrap-outer{
+}
+.page-wrap-inner.show-mobile-menu{
+  left:$navMobileWidthLarge;
+  position:fixed; // so the "main" content area doesn't scroll; just the nav
+}
+
+.mobile-screen-overlay{
+  top: $navbarMobileHeightTall;
+  position:absolute;
+  left: 0;
+  z-index: $zindexModalBackdrop;
+  background-color: $modalBackgroundColor;
+  @include transition(opacity $transitionSuperslow linear);
+}
+
+
+.nav-outer-container{
+  position:absolute;
+  width:$navMobileWidthLarge;
+  left:-$navMobileWidthLarge;
+  top:0;
+}
+.navtray-w{
+  border-bottom:none;
+}
+.navtray-section-featured{
+  display:none;
+}
+.nav-li{
+  width:100%;
+  float:none;
 }
 .navbar{
-  .nav-primary{
+  .nav-primary,
+  .nav-li-account .nav-li-link,
+  .nav-li-search,
+  .nav-li-favorites,
+  .nav-li-search,
+  .sprite-reg-nav-sony-logo{
     display:none;
   }
-  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-    #nav-li-account,
-    #nav-li-favorites,
-    #nav-li-search,
-    #nav-li-universal{
-      display:none;
+} // .navbar
+
+.navmenu-w{
+  @include border-radius(0);
+}
+.navmenu-w-mobile-top{
+  padding-top:16px;
+  padding-bottom:28px;
+}
+.navmenu-w-search{
+  width:100%;
+  background:$grayLighter;
+  padding:9px;
+
+  .navmenu-search-section-input{
+    padding:7px 12px 9px 8px;
+
+    input[type=text]{
+      font-size:$font_15_16;
+      @include fontRegular;
+      line-height:1;
+      width:100%;
     }
   }
-  .btn-mobile-nav{
+
+  @include sprite-mini(nav-search-input,  -60px,  16px,   16px);
+  .sprite-mini-nav-search-input{
+    top: 23px;
+    left: 18px;
+  }
+  .btn-clear-search-input{
+    right: 17px;
+    top: 17px;
+  }
+}
+
+.navmenu-w-account{
+  width:100%;
+  padding-bottom:30px;
+
+  .btn-logout{
+    margin-top:15px;
+  }
+  &.logged-in{
+    .btn-login{
+      display: none;
+    }
+    .btn-logout{
+      display: block;
+    }        
+  }
+}
+
+.navmenu-w-account .btn-login,
+.navmenu-w-account .btn-logout,
+.nav-li-universal .nav-li-link,
+.navtray .btn-nav-view-all{
+  display: block;
+  width: auto;
+  padding:10px 0 12px;
+
+  margin-left:auto;
+  margin-right:auto;
+  max-width:220px;
+}
+
+.navmenu-w-account .btn-login,
+.navmenu-w-account .btn-logout{
+  font-size: $font_13_15;
+}
+.navtray .btn-nav-view-all{
+  margin-top: 28px;
+  .linkBtn-label{
+    font-size: $font_14_15;    
+  }
+}
+.nav-li-universal{
+  background:$grayDarkerFieldLarge;
+  padding-top:7px;
+  padding-bottom: 39px;
+
+  .nav-li-linkBtn{
+    height:auto;
+    background:$grayDarkFieldSmall;
+    border-color:$grayDarkFieldSmall;
+    text-align:center;
+    padding:9px 0 14px;
+    .icon-ui-plus-tiny-boxed,
+    .linkBtn-label{
+      display:inline-block;
+      float:none;
+      font-size:$font_15_16;
+    }
+    .icon-ui-plus-tiny-boxed{
+      margin-top: 5px;
+    }
+  }
+}
+
+.navmenu-list{
+  .navmenu-line{
+    margin-left:14px;
+    a.tl{
+      font-size:$font_14_15;
+      padding:5px 0 5px 4px;
+      i{
+        padding-right:7px;
+      }
+    }
+  }
+  .navmenu-li-welcome{
+    color:$grayDarkFieldSmall;
+    text-transform:uppercase;
+    font-size:$font_12_16;
+    @include fontBold;
+    margin: 4px 0 0 17px;
+  }
+}
+
+
+
+.navmenu-list.navmenu-list-prefixed,
+.sprite-mini-global-nav-indicator,
+.navmenu-search-section-results{
+  display:none;
+}
+
+.navbar-mobile{
+  display:block;
+  // border-top: solid 1px #2f353d;
+
+  .btn-mobile-nav,
+  .btn-mobile-cart{
+    border:none;
+    margin:0;
     display:block;
+    background:$navbarBackground;
+    width: $navbarMobileHeightTall;
+    height: $navbarMobileHeightTall;
+    padding: 18px 19px 0;
+  }
+  .btn-mobile-nav{
     margin-top:0;
     float:left;
-    width:22px;
-    height:19px;
-    padding:20px 19px 25px;
     border-right:solid 1px $grayDark;
-
+    i {
+      margin:auto;
+    }
     // override the default icon with the bigger one.
     @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
   }
-  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-    > li#nav-li-cart{
-      display:block;
-      float:right;
-      > a{  
-        margin:0;
-        padding:20px 0 23px 18px;
-        width:64px;
-        height:64px;
-        border-left:solid 1px $grayDark;
-        font-size:$font_15_16;
+  .btn-mobile-cart{
+    float:right; 
+    padding:19px 0 0;
+    width:$navbarMobileHeightTall;
+    height:$navbarMobileHeightTall;
+    border-left:solid 1px $grayDark;
+    font-size:$font_15_16;
+    color:$navbarLinkColor;
 
-        // override the default icon with the bigger one.
-        @include icon-ui(cart, -1050px,   19px,   17px);
-        i {
-          margin-top:1px;
-          margin-right:4px;
-        }
-      }
+    // override the default icon with the bigger one.
+    @include icon-ui(cart, -1050px,   19px,   17px);
+    i {
+      margin-top:1px;
+      margin-right:4px;
     }
   }
   .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
     position:absolute;
     width:90px;
     margin-left:-45px;
-    left:50%;
+    margin-top:15px;
   }
 }
 
 
 
-.DISABLED{
-  .navbar-fixed-top,
-  .navbar-fixed-bottom,
-  .navbar-static-top {
-    margin-left: -20px;
-    margin-right: -20px;
-  }
+.navmenu-w,
+.navtray-w,
+.nav.nav-primary,
+.nav.nav-utility{
+  @include hideshow-navmenu-reset;
+}
 
-  // Account for brand name
-  .navbar .brand {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 0 0 0 -5px;
-  }
+.navtray,
+.navtray-section-main{
+  background:$navTrayBackgroundAlt;
+}
 
-  // COLLAPSIBLE NAVBAR
-  // ------------------
-  // Nav collapse clears brand
-  .nav-collapse {
-    clear: both;
+
+
+
+.navtray-section-main{
+  padding-top:0;
+  width:100%;
+
+  h4{
+    font-size:$font_12_16;
+    @include fontBold;
+    padding:18px 0 2.5% 5.2%;
+    text-transform:uppercase;
+    color:$grayDarkFieldSmall;
   }
-  // Block-level the nav
-  .nav-collapse .nav {
-    float: none;
-    margin-bottom:28px;
-  }
-  .nav-collapse .nav > li {
-    float: none;
-    line-height: 0.35;
-  }
-  .nav-collapse .nav > li > a {
-    margin-bottom: 2px;
-  }
-  .nav-collapse .nav > .divider-vertical {
-    display: none;
-  }
-  .nav-collapse .nav .nav-header {
-    color: $navbarText;
-    text-shadow: none;
-  }
-  // Nav and dropdown links in navbar
-  .nav-collapse .nav > li > a,
-  .nav-collapse .dropdown-menu a {
-    padding: 9px 15px;
-    font-weight: bold;
-    color: $navbarLinkColor;
-    @include border-radius(3px);
-  }
-  // Buttons
-  .nav-collapse .btn {
-    padding: 4px 10px 4px;
-    font-weight: normal;
-    @include border-radius(4px);
-  }
-  .nav-collapse .dropdown-menu li + li a {
-    margin-bottom: 2px;
-  }
-  .nav-collapse .nav > li > a:hover,
-  .nav-collapse .dropdown-menu a:hover {
-    background-color: $navbarBackground;
-  }
-  .navbar-inverse .nav-collapse .nav > li > a:hover,
-  .navbar-inverse .nav-collapse .dropdown-menu a:hover {
-    background-color: $navbarInverseBackground;
-  }
-  // Buttons in the navbar
-  .nav-collapse.in .btn-group {
-    margin-top: 5px;
-    padding: 0;
-  }
-  // Dropdowns in the navbar
-  .nav-collapse .dropdown-menu {
-    position: static;
-    top: auto;
-    left: auto;
-    float: none;
-    display: block;
-    max-width: none;
-    margin: 0 15px;
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    @include border-radius(0);
-    @include box-shadow(none);
-  }
-  .nav-collapse .dropdown-menu:before,
-  .nav-collapse .dropdown-menu:after {
-    display: none;
-  }
-  .nav-collapse .dropdown-menu .divider {
-    display: none;
-  }
-  .nav-collapse .nav > li > .dropdown-menu {
-    &:before,
-    &:after {
-      display: none;
+  .navtray-list-main{
+    margin: 0 0 1.2% 5.3%;
+    overflow:visible;
+
+    .navtray-li {
+      width:45%;
+      margin:5% 4.3% 0 0;
+    }
+    .navtray-li-link {
+      height:auto;
+      padding-top:0;
+      margin-right:0;
+      padding-bottom:0;
+
+      .nav-img-w{
+        display:block;
+        overflow:hidden;
+        background:$white;
+        padding:7% 0 14%;
+        @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.1));
+        img {
+          width:73%;
+        } 
+      }
+      .nav-label{
+        font-size:$font_16_16;
+      }
     }
   }
-  // Forms in navbar
-  .nav-collapse .navbar-form,
-  .nav-collapse .navbar-search {
-    float: none;
-    padding: ($baseLineHeight / 2) 15px;
-    margin: ($baseLineHeight / 2) 0;
-    border-top: 1px solid $navbarBackground;
-    border-bottom: 1px solid $navbarBackground;
-    @include box-shadow(inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1));
-  }
-  .navbar-inverse .nav-collapse .navbar-form,
-  .navbar-inverse .nav-collapse .navbar-search {
-    border-top-color: $navbarInverseBackground;
-    border-bottom-color: $navbarInverseBackground;
-  }
-  // Pull right (secondary) nav content
-  .navbar .nav-collapse .nav.pull-right {
-    float: none;
-    margin-left: 0;
-  }
-  // Hide everything in the navbar save .brand and toggle button */
-  .nav-collapse,
-  .nav-collapse.collapse {
-    overflow: hidden;
-    height: 0;
-  }
-  // Navbar button
-  .navbar .btn-mobile-navbar-menu-trigger {
-    display: block;
-    width: auto;
+}
+.navtray-section-main-w-all-btn{
+  padding-bottom:0;
+  .navtray-list-main:after{
     border:none;
-    margin-top:5px;
   }
-
-  // STATIC NAVBAR
-  // -------------
-  .navbar-static .navbar-inner {
-    padding-left:  10px;
-    padding-right: 10px;
+  &:after{ // HR
+    content: '';
+    display:block;
+    clear:both;
+    border-bottom: solid 3px $grayLighter;
+    height:24px;
+    margin:0 20px;
   }
 }
+
+
+  
 } // max-width: 767px
+
+
+
+
+
+
+
+// ------------------------------------------------
+// LANDSCAPE PHONE AND BELOW
+// ------------------------------------------------
+// 888888888   .d8888b.  8888888888                         .d8888b.                                  888                  
+// 888        d88P  Y88b       d88P                        d88P  "88b                                 888                  
+// 888        888             d88P                         Y88b. d88P                                 888                  
+// 8888888b.  888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//        888 888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                 888                                                                                     
+//                                 888                                                                                     
+//                                 888                                                                                     
+
+@media (max-width: 567px) {
+
+}
+
 
 
 
@@ -750,11 +1097,30 @@
 
 @media (max-width: 479px) {
 
-.nav-wrapper{
-  height:48px; // -16
-}
+.nav-wrapper,
 .navbar{
+  height:auto;
+}
+.navbar-mobile{
+  height: $navbarMobileHeight;
+}
 
+.page-wrap-inner.show-mobile-menu{
+  left:$navMobileWidth;
+}
+.mobile-screen-overlay{
+  top: $navbarMobileHeight;
+}
+
+.nav-outer-container{
+  width:$navMobileWidth;
+  left:-$navMobileWidth;
+}
+
+
+
+
+.navbar-mobile{
   // override the default logo sprite with the smaller one.
   @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
   .sprite-reg-nav-sony-logo{
@@ -762,35 +1128,41 @@
     width:80px;
     margin-left:-40px;
   }
-
   .btn-mobile-nav{
-    width:22px;
-    height:18px;
-    padding:14px 14px 16px;
+    width: $navbarMobileHeight;
+    height: $navbarMobileHeight;
+    padding:14px 12px 0 14px;
 
     // back to the regular icon size.
     @include icon-ui(mobile-menu-btn, -990px,   19px,   16px);
   }
-  .nav-utility{ // we're just showing the cart link from this one. Hide everything else.
-    > li#nav-li-cart{
-      > a{  
-        padding:13px 0 0px 12px;
-        width:54px;
-        height:48px;
-        border-left:solid 1px $grayDark;
-        font-size:$font_15_16;
+  .btn-mobile-cart{
+    padding:13px 0 0px 4px;
+    width:54px;
+    height:48px;
+  }
+}
 
-        // override the default icon with the bigger one.
-        @include icon-ui(cart, -1050px,   19px,   17px);
-        i {
-          margin-top:1px;
-          margin-right:4px;
-        }
+.navmenu-w-account .btn-login,
+.navmenu-w-account .btn-logout,
+.nav-li-universal .nav-li-link,
+.navtray .btn-nav-view-all{
+  max-width:100%;
+  margin-left:20px;
+  margin-right:20px;
+}
+
+.navtray-section-main{
+  .navtray-list-main{
+    .navtray-li-link {
+      .nav-label {
+        font-size:$font_15_16;
       }
     }
   }
 }
-}
+
+} // max-width: 479px
 
 
 
