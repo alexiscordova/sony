@@ -21,31 +21,60 @@
       color:$linkColorLight;
     };
   } 
-  .btn.dropdown-toggle,
-  .btn-group.open .btn.dropdown-toggle{
-    color:$white;
-    background-color: $grayDark;
-    border-color: $grayDark;
-    padding:6px 14px 8px 11px;
-    @include box-shadow(none);
-
-    &:hover{
-      color:$white;
-      background-color: $grayDark1;
-      border-color: $grayDark1;
-    }
+  .grid.grid-footer{
+    width:100%; // no grid margins in the footer, but still need .grid to make the spans have fluid widths.
   }
 
 
-  .btn-hover-group{
+
+  .btn-hover-group,
+  .btn-hover-group.open{ // overrides the .open settings for the regular .dropdown-toggle
+
+
     .btn.dropdown-hover-toggle{
+      width: 100%;
       text-align: left;
       color:$white;
       background-color: $grayDark;
       border-color: $grayDark;
-      padding:6px 14px 8px 12px;
+      padding:6px 14px 8px 11px;
       @include box-shadow(none);
+      @include flickerfix;
+
+      .icon-ui-arrowhead-down-gray{
+        float:right;
+        margin-top:10px;
+        @include transition(all $transitionFast linear);
+        @include flickerfix;
+
+      }
     }
+    &:hover{
+      .btn.dropdown-hover-toggle{
+        color:$white;
+        background-color: $grayDark1;
+        border-color: $grayDark1;
+      }
+      .icon-ui-arrowhead-down-gray{
+        @include rotate(-180deg);
+      }
+      .dropdown-hover-menu{
+        @include el-shown;
+      }
+    }
+    &.DISABLE-MENU,
+    &.DISABLE-MENU:hover{
+      .btn.dropdown-hover-toggle{
+      }
+      .icon-ui-arrowhead-down-gray{
+        display:none;
+      }
+      .dropdown-hover-menu{
+        @include el-hidden;
+      }      
+    }
+
+
     .dropdown-hover-menu{
       display:block;
       background-color:transparent;
@@ -57,14 +86,12 @@
     }
     .dropdown-hover-menu-lists-w{
       background-color: $grayDark;
-      width:900px; // overwritten by js
-      padding:24px 0 24px 0px;
-      @include clearfix;     
+      @include clearfix;
     }
+
     .dropdown-hover-menu-list{
       margin:0;
       float:left;
-      padding:0 10px;
 
       li{
         a{
@@ -82,37 +109,59 @@
           }
         }
       }
-    }
+    } // dropdown-hover-menu-list
 
-    &:hover{
-      .btn.dropdown-hover-toggle{
-        color:$white;
-        background-color: $grayDark1;
-        border-color: $grayDark1;
+    &.country-selector{ // specific to the custom big country selector.
+      .dropdown-hover-menu-list{
+        padding:0 10px;
       }
+    }
+    &.language-selector{
       .dropdown-hover-menu{
-        @include el-shown;
+        @include el-hidden(right);
+      }
+      &:hover{
+        .dropdown-hover-menu{
+          @include el-shown(right);
+        }
+      }
+    }
+  } // .btn-hover-group, .btn-hover-group.open
+
+  .btn-hover-group.language-selector{
+    .dropdown-hover-menu-list{
+      li{
+        a{
+          font-size:$font_15_16;
+          color:$white;
+          padding:3px 27px 4px 27px;
+          min-width:185px;
+
+          &:hover,
+          &:active,
+          &:focus{
+            color:$highlightColor;
+          }
+        }
       }
     }
   }
 
 
-  .dropdown-menu{
-    background-color: $grayDark;
-    border-color: $grayDark;    
-  }
 
-  .grid.grid-footer{
-    width:100%; // no grid margins in the footer, but still need .grid to make the spans fluid widths.
-  }
 
+
+
+  @include sprite-reg(nav-sony-logo, -90px,   79px,   18px);
 }
 
 .footer-links-list{
   margin:0;
 }
 .footer-link-li{
-  line-height:1.5;
+  // line-height: 1;
+  // padding-bottom: 5px;
+  // padding-top: 4px;
   a{
     font-size:$font_13_16;
   }
@@ -136,6 +185,7 @@
   border-top:solid 1px $grayDarkFieldLarge;
   margin-top: 13px;
   padding-top:28px;
+  @include flickerfix;
 }
 .footer-legal-links{
   a{

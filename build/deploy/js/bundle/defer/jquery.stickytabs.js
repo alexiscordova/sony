@@ -47,12 +47,6 @@
       if ( self.isCarousel ) {
         self.$navNext = self.$container.find('.tab-nav-next');
         self.$navPrev = self.$container.find('.tab-nav-prev');
-        self.$navNext.on('click', function() {
-          self.$tabsContainer.scrollerModule('next');
-        });
-        self.$navPrev.on('click', function() {
-          self.$tabsContainer.scrollerModule('prev');
-        });
       }
 
       // New tab shown event
@@ -209,7 +203,28 @@
       //     vScrollbar: false,
       //     momentum: true,
       //     bounce: true,
-      //     onScrollEnd: null
+      //     onAnimationEnd: function() {
+      //       console.log('onAnimationEnd');
+      //     },
+
+      //     onScrollStart: function() {
+      //       console.log('onScrollStart');
+      //     },
+      //     onBeforeScrollMove: function() {
+      //       console.log('onBeforeScrollMove');
+      //     },
+      //     onScrollMove: function() {
+      //       console.log('onScrollMove');
+      //     },
+      //     onBeforeScrollEnd: function() {
+      //       console.log('onBeforeScrollEnd');
+      //     },
+      //     onScrollEnd: function() {
+      //       console.log('onScrollEnd');
+      //     },
+      //     onTouchEnd: function() {
+      //       console.log('onTouchEnd');
+      //     }
       //   }
       // });
       self._onTabSelected();
@@ -234,8 +249,8 @@
         contentSelector: '.tabs',
         itemElementSelector: '.tab',
         mode: 'paginate',
-        lastPageCenter: false,
-        extraSpacing: 0,
+        nextSelector: '.tab-nav-next',
+        prevSelector: '.tab-nav-prev',
 
         iscrollProps: {
           snap: true,
@@ -245,23 +260,6 @@
           vScrollbar: false,
           momentum: true,
           bounce: true,
-          onScrollEnd: null,
-          onAnimationEnd: function() {
-            var iscroll = this;
-            // Hide show prev button depending on where we are
-            if ( iscroll.currPageX === 0 ) {
-              self.$navPrev.hide();
-            } else {
-              self.$navPrev.show();
-            }
-
-            // Hide show next button depending on where we are
-            if ( iscroll.currPageX === iscroll.pagesX.length - 1 ) {
-              self.$navNext.hide();
-            } else {
-              self.$navNext.show();
-            }
-          }
         }
       });
 

@@ -5,7 +5,7 @@ meta_data: {a:'foo', b:'bar'}
 
 <%@document%>
 	
-    <footer class="container full-bleed-no-max footer-wrapper" id="footer-wrapper">
+    <footer class="container full-bleed-no-max footer-wrapper XXdesktop-layout-to-568" id="footer-wrapper">
     	<div class="container">
 	    	<div class="grid grid-footer">
 		    	<div class="footer-store-locator span3 footer-mobile-section mobile-container-padded input-outer-wrapper">
@@ -69,8 +69,8 @@ meta_data: {a:'foo', b:'bar'}
 		    			</div>
 		    		</div>
 		    		<div class="footer-language span6 mobile-container-padded">
-		    			<div class="footer-lang-selectors">
-			    			<div class="btn-hover-group l11n-selector" id="l11n-selector">
+		    			<div class="footer-language-selectors">
+			    			<div class="btn-hover-group country-selector DISABLE-MENU" id="country-selector">
 								  <div class="btn dropdown-hover-toggle" data-toggle="dropdown" href="#">
 								  	<i class="icon-flagBig-uk"></i>
 								  	<span class="dropdown-label">United Kingdom</span>
@@ -78,7 +78,7 @@ meta_data: {a:'foo', b:'bar'}
 								  </div>
 								  <div class="dropdown-hover-menu bottom-up">
 									  <div class="dropdown-hover-menu-lists-w">
-									  	<!-- start cntCountryList -->
+									  	<!-- start locationList -->
 											<ul class="dropdown-hover-menu-list">
 												<li><a href="http://www.sony.ru/"><i class="icon-flag-armenia"></i>Armenia</a></li>
 												<li><a href="http://www.sony.at/"><i class="icon-flag-austria"></i>Austria</a></li>
@@ -132,18 +132,20 @@ meta_data: {a:'foo', b:'bar'}
 												<li><a href="http://www.sony.co.uk/"><i class="icon-flag-unitedkingdom"></i>United Kingdom</a></li>
 												<li><a href="http://www.sony.ru/"><i class="icon-flag-uzbekistan"></i>Uzbekistan</a></li>
 											</ul>
-											<!-- end cntCountryList -->
+											<!-- end locationList -->
 										</div>
 									</div>
 								</div>
-								<div class="btn-hover-group lang-selector">
+								<div class="btn-hover-group language-selector">
 								  <a class="btn dropdown-hover-toggle" data-toggle="dropdown" href="#"><span class="dropdown-label">EN</span><i class="icon-ui-arrowhead-down-gray"></i></a>
 								  <div class="dropdown-hover-menu bottom-up">
-									  <ul class="dropdown-hover-menu-list">
-									    <li><a href="#"><span class="dropdown-label">SP</span></a></li>
-									    <li><a href="#"><span class="dropdown-label">XX</span></a></li>
-									    <li><a href="#"><span class="dropdown-label">YY</span></a></li>
-									  </ul>
+									  <div class="dropdown-hover-menu-lists-w"><!-- in case there's more than 1 list, for multiple columns we need a container --> 
+										  <ul class="dropdown-hover-menu-list">
+										    <li><a href="#"><span class="dropdown-label">English</span></a></li>
+										    <li><a href="#"><span class="dropdown-label">Welsh</span></a></li>
+										    <li><a href="#"><span class="dropdown-label">French</span></a></li>
+										  </ul>
+										</div>
 									</div>
 								</div>
 							</div>
