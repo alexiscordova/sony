@@ -1,7 +1,7 @@
 <section class="primary-tout container full-bleed <%- @data.mode %>">
 	<%- @this.partial('modules/image.html.eco' , {this:@this, data:@data.image} )%>
-	<div class="container">
-	<%  if @data.mode == "primaryTout": %>
+	<div class="container full-bleed">
+	<%  if @data.mode == "primary-tout": %>
 		<div class="inner grid">
 			<div class="span5 hero-unit <%- @data.style %>">
 				<% if @data.kicker : %><p class="kicker l2"><%- @data.kicker %></p><% end %>
@@ -14,7 +14,7 @@
 				<% end %>
 			</div>
 		</div>
-	<% else if @data.mode == "productIntroPlate" : %>
+	<% else if @data.mode == "product-intro-plate" : %>
 		<div class="inner grid">
 			<div class="span5 hero-unit <%- @data.style %>">
 				<% if @data.kicker : %><p class="kicker l2"><%- @data.kicker %></p><% end %>
@@ -27,12 +27,17 @@
 				<% end %>
 			</div>
 		</div>
-	<% else if @data.mode == "homePage" : %>
-		<div class="inner <%- @data.style %>">
+	<% else if @data.mode == "home-page" : %>
+		<div class="container full-bleed inner <%- @data.style %>">
 			<div class="grid">
 				<div class="span5 offset1">
-					<% if @data.kicker : %><p class="kicker l2"><%- @data.kicker %></p><% end %>
-					<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
+					<div class="fill ghost-center-wrap">
+						<div class="ghost-center">
+							<% if @data.kicker : %><p class="kicker l2"><%- @data.kicker %></p><% end %>
+							<% if @data.headline : %><h1><%- @data.headline %></h1><% end %>
+						</div>
+					</div>
+
 				</div>
 			</div>
 			<div class="grid hero-unit">

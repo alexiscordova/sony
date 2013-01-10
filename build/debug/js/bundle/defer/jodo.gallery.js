@@ -919,12 +919,19 @@
 
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
+      var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.removeClass('in');
+      $toggle.find('.up').addClass('hide');
+      $toggle.find('.down').removeClass('hide');
     },
 
     onFiltersShow : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
+      var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.addClass('in');
+      $toggle.find('.up').removeClass('hide');
+      $toggle.find('.down').addClass('hide');
+
     },
 
     onFiltersShown : function( evt ) {

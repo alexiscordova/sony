@@ -7,7 +7,20 @@
 // -------------------------------------------------------------------------
 
 (function($, Modernizr, window, undefined) {
-    
+  
+  // var myScroll;
+  // function loaded() {
+  //   myScroll = new iScroll('#nav-outer-container');
+  // }
+  // document.addEventListener('DOMContentLoaded', loaded, false);
+  
+  // var myScroll;
+  // function loaded() {
+  //   myScroll = new iScroll('navoutercontainer');
+  // }
+
+  // window.addEventListener('load', setTimeout(function () { loaded(); }, 200), false);
+
   'use strict';
 
   // Start module
@@ -18,6 +31,9 @@
     self.$container = $container;
     self.$activePrimaryNavBtns = self.$container.find('.nav-dropdown-toggle');
     self.$currentOpenNavBtn = false;
+    self.$pageWrapOuter = $("#page-wrap-outer");
+    self.mobileNavIScroll = false,
+    self.mobileNavVisible = false;
 
     // we should make a bunch of this stuff global.
     self.transEndEventNames = {
@@ -116,10 +132,79 @@
         });
       } else {
         // Init Mobile Nav
+        
+
         $("#btn-mobile-nav").on(self.tapOrClick,function(){
-          $("#page-wrap-inner").toggleClass("show-mobile-menu");
+          if (!self.mobileNavVisible){
+            self.showMobileNav();
+          } else {
+            self.hideMobileNav();
+          }
         });
       }
+    },
+
+    showMobileNav: function(){
+      var self = this;
+
+      self.showMobileBackdrop();
+
+      // Since the page-wrap-inner is going to be fixed, the browser will see the page as having no height.
+      // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
+      // page some height, so the Safari nav will hide.
+      // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
+      var pageHeight = parseInt($(window).height()) + 60 + "px";
+      self.$pageWrapOuter.height(pageHeight); 
+
+      if (!self.mobileNavIScroll){
+        var $outer = $("#nav-outer-container"),
+          $inner = $outer.find(".nav-mobile-scroller");
+
+        $outer.height(pageHeight);
+        $inner.height($inner.height());
+
+        setTimeout(function(){ // make sure heights are already set before initializing iScroll.
+          self.mobileNavIScroll = new iScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
+        },1);
+      }
+
+      $("#page-wrap-inner").addClass("show-mobile-menu");
+      self.mobileNavVisible = true;
+    },
+
+    hideMobileNav: function(){
+      var self = this;
+      self.hideMobileBackdrop();
+
+      $("#page-wrap-inner").one(self.transitionEnd, function(e){
+        // wait until the $("#page-wrap-inner") is done animating closed before destroying the iScroll.
+        self.mobileNavIScroll.destroy();
+        self.mobileNavIScroll = false;
+        self.$pageWrapOuter.css("height","");
+      }); 
+      $("#page-wrap-inner").removeClass("show-mobile-menu");
+      self.mobileNavVisible = false;
+    },
+
+    showMobileBackdrop: function(){
+      var self = this;
+
+      self.$mobileScreenOverlay = $('<div class="modal-backdrop mobile-screen-overlay opacity0" />')
+        .appendTo($("#page-wrap-inner"));
+
+      setTimeout(function(){
+        self.$mobileScreenOverlay.removeClass("opacity0").addClass("opacity1");
+      },1);
+    },
+
+    hideMobileBackdrop: function(){
+      var self = this;
+
+      self.$mobileScreenOverlay.one(self.transitionEnd, function(){
+        self.$mobileScreenOverlay.remove();
+      });
+
+      self.$mobileScreenOverlay.removeClass("opacity1").addClass("opacity0");
     },
 
     setActivePrimaryNavBtn: function( $btn ){
@@ -234,14 +319,12 @@
     },
 
     initFooter : function( isDesktop ) {
-      console.log("initFooter");
-      $('#l11n-selector').on('hover',function(){
-
+      $('#country-selector').on('hover',function(){
         var pageContainerWidth = $(this).closest('.grid-footer').width();
-        console.log("pageContainerWidth: " + pageContainerWidth);
-        console.log($(this).find('.dropdown-hover-menu-lists-w'));
         $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
-      })
+      });
+
+      
     }
   };
 

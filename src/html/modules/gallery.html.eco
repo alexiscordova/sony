@@ -113,8 +113,15 @@ layout3: "normal"
         <% end %>
 
         <p class="ib product-count-wrap"><span class="text-dark product-count"><%- @data.productCards.total %></span> Products</p>
-        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#<%- @data.productCards.name %>-filters">Filter</button>
-        <button class="btn btn-alt-special btn-alt-plus js-compare-toggle" data-target="#compare-tool">Compare</button>
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#<%- @data.productCards.name %>-filters">
+            Filter
+            <i class="icon-ui-arrowhead-up-white up hide"></i>
+            <i class="icon-ui-arrowhead-down-white down"></i>
+        </button>
+        <button class="btn btn-alt-special btn-alt-plus js-compare-toggle icontrigger-ui-plus-tiny" data-target="#compare-tool">
+          Compare
+          <i class="icon-ui-plus-tiny"></i>
+        </button>
       </div>
 
       <div class="container mobile-container-padded slide-arrow-under fade">
@@ -239,7 +246,11 @@ layout3: "normal"
   <div class="tab-pane fade" data-tab="<%- @data.tabs[2].slug %>">
     <section>
       <div class="slide-toggle-parent container mobile-container-padded">
-        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">
+          Accessory Finder
+          <i class="icon-ui-arrowhead-up-white up hide"></i>
+          <i class="icon-ui-arrowhead-down-white down"></i>
+        </button>
       </div>
 
       <div class="container mobile-container-padded slide-arrow-under fade">
@@ -371,8 +382,6 @@ layout3: "normal"
 
 <div style="padding-bottom:150px"></div>
 
-<!-- include your module js here -->
-<script src="js/libs/jquery.throttle-debounce.min.js"></script>
 <script src="js/libs/jquery.infinitescroll.js"></script>
 <script src="js/libs/bootstrap-transition.js"></script>
 <script src="js/libs/bootstrap-button.js"></script>
