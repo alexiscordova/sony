@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 (function($, Modernizr, window, undefined) {
-  
+
   // var myScroll;
   // function loaded() {
   //   myScroll = new iScroll('#nav-outer-container');
@@ -59,7 +59,6 @@
       // do something
     }
 
-    // function() { // this needs a debounce
 
     if ( $(window).width() <= 767 ) {
       self.initPrimaryNavBtns(false);
@@ -68,7 +67,6 @@
       self.initPrimaryNavBtns(true);
       self.initFooter(true);
     }
-    // });
 
     self.isInitialized = true;
   };
@@ -336,12 +334,64 @@
     },
 
     initFooter : function( isDesktop ) {
+      var self = this;
+
       $('#country-selector').on('hover',function(){
         var pageContainerWidth = $(this).closest('.grid-footer').width();
         $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
       });
 
-      
+      var footerNavCollapseHeight = 51;
+      $("#footer-wrapper .footer-mobile-section h5").on(self.tapOrClick,function(){
+        if ($(window).width() <= 767 ){
+
+          // console.log("COLLAPSE FOOTER SECTION");
+
+          var $thFootSection = $(this).parent();
+
+          // console.log("$thFootSection: ", $thFootSection);
+          // console.log("$thFootSection.height: ", $thFootSection.height());
+          // console.log("$thFootSection.outerHeight: ", $thFootSection.outerHeight());
+          // console.log("$thFootSection.innerHeight: ", $thFootSection.innerHeight());
+          // console.log("$thFootSection classes: " + $thFootSection.attr('class'));
+
+
+          if ($thFootSection.hasClass("collapsed")){
+            // collapsed height - expand it.
+             // console.log("COLLAPSED expHeight: ", $thFootSection.data("expHeight"));
+            // console.log("$thFootSection.data(expHeight) " , $thFootSection.data("expHeight"));
+            
+            $thFootSection
+              .height($thFootSection.data("expHeight"))
+              .removeClass("collapsed");
+
+          } else {
+            // natural height - collapse it.
+            // console.log("NOT COLLAPSED");
+            var expHeight = $thFootSection.height();
+
+            $thFootSection
+              .data("expHeight",expHeight)
+              .height(expHeight);
+
+            setTimeout(function(){
+              $thFootSection.addClass("transition-height");
+              setTimeout(function(){
+                $thFootSection
+                  .height(footerNavCollapseHeight)
+                  .addClass("collapsed");
+              },1);
+            },1);
+            
+            // setTimeout(function(){
+            //   $thFootSection
+            //     .height(footerNavCollapseHeight)
+            //     .addClass("collapsed");
+            // },1);
+
+          }
+        }
+      });   
     }
   };
 
