@@ -20,23 +20,29 @@ description: Here's a page with a bunch of modules on it like a website homepage
 		
 	</head>
 	<body>
+	
+		<div id="page-wrap-outer" class="page-wrap-outer">
+				<div id="page-wrap-inner" class="page-wrap-inner">
 
-	<%-@partial('modules/global_header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
-	<%-@partial('modules/primary_tout.html.eco', {this:this, data:@data('primary_tout/homepage.json')} ) %>
-	<%-@partial('modules/sony_one_carousel.html.eco', {this:this, data:@data('sony_one_carousel/default.json')}) %>
-	<%-@partial('modules/related_products.html.eco', {this:this, data:@data('related_products/default.json')}) %>
-	<%-@partial('modules/global_footer.html.eco', {mode:'two', content:{a:'3',b:'4'} }) %>
-
-<!-- if you're missing some javascript maybe it belongs here -->
-  	<script src="js/libs/jquery.throttle-debounce.min.js"></script>
-	<script src="js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
-
+				<%-@partial('modules/global_header.html.eco', 		{}) %>
+				<%-@partial('modules/primary_tout.html.eco', 		{this:this, data:@data('primary_tout/homepage.json')} ) %>
+				<%-@partial('modules/sony_one_carousel.html.eco', 	{this:this, data:@data('sony_one_carousel/default.json')}) %>
+				<%-@partial('modules/related_products.html.eco', 	{this:this, data:@data('related_products/default.json')}) %>
+				<%-@partial('modules/tertiary.html.eco', 			{this:this, data:@data('tertiary/default.json')}) %>
+				<%-@partial('modules/global_footer.html.eco', 		{}) %>
+				
+			</div>
+		</div>
 
 <% if 'debug' in @getEnvironments():%>
 		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
 <% else: %>
 		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
 <% end %>
+
+<!-- if you're missing some javascript maybe it belongs here -->
+  	<script src="js/libs/jquery.throttle-debounce.min.js"></script>
+	<script src="js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
 
 
 	</body>
