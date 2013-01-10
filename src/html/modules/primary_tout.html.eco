@@ -1,6 +1,6 @@
-<section class="primary-tout container full-bleed <%- @data.mode %>">
+<section class="primary-tout container full-bleed <%- @data.mode %>" style="max-width:100%;">
 	<%- @this.partial('modules/image.html.eco' , {this:@this, data:@data.image} )%>
-	<div class="container full-bleed">
+	<div class="container" style="max-width: 1400px;">
 	<%  if @data.mode == "primary-tout": %>
 		<div class="inner grid">
 			<div class="span5 hero-unit <%- @data.style %>">
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 	<% else if @data.mode == "home-page" : %>
-		<div class="container full-bleed inner <%- @data.style %>">
+		<div class="container full-bleed inner <%- @data.style %>" style="max-width:1400px">
 			<div class="grid">
 				<div class="span5 offset1">
 					<div class="fill ghost-center-wrap">
