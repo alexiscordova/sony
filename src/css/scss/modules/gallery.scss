@@ -505,6 +505,18 @@
   .slide-toggle {
     margin-left: 20px;
   }
+
+  .btn-alt-plus {
+    color: $grayDark;
+    background-color: $grayLighter;
+    border-color: $grayLighter;
+
+    &:hover {
+      color: $white;
+      background-color: $gray;
+      border-color: $gray;
+    }
+  }
 }
 
 .filter-options {
@@ -573,7 +585,32 @@
     display: initial !important;
     vertical-align: baseline;
   }
+}
 
+@media (max-width: 767px) {
+  .filter-display-bar {
+
+    .product-count-wrap {
+      display: block;
+      float: left;
+    }
+
+    .slide-toggle {
+      clear: both;
+      margin-left: 0;
+      float: left;
+    }
+
+    .js-compare-toggle {
+      float: right;
+      margin-left: 2%;
+    }
+
+    .slide-toggle,
+    .js-compare-toggle {
+      width: 48%;
+    }
+  }
 }
 
 
@@ -756,6 +793,10 @@
   padding-bottom: 5em;
 }
 
+.compare-items-wrap {
+  overflow: visible !important; // override iscroll
+}
+
 .compare-item {
   position: relative;
   margin-left: 3px;
@@ -788,6 +829,10 @@
   .detail.highlighted {
     background: $lemon;
   }
+
+  .media p:not(.media-heading) {
+    color: $gray;
+  }
 }
 
 .detail-labels-wrap {
@@ -809,7 +854,7 @@
   }
 
   &.overflowing:before {
-    @include box-shadow(1px 1px 3px $transparentBlack);
+    @include box-shadow(2px 0px 3px -1px $transparentBlack);
     @include transition-timing-function(ease-out);
   }
 }
@@ -845,7 +890,7 @@
 
   // Simulate border top because the "border" is not 100% of the width,
   // therefore, we can't actually use the border property
-  &:before {
+  &:after {
     content: '';
     position: absolute;
     top: 0;
@@ -857,8 +902,8 @@
 }
 
 // Make labels have a darker border
-.compare-container .detail-label:before,
-.detail-labels-wrapping .product-count-wrap:before {
+.compare-container .detail-label:after,
+.detail-labels-wrapping .product-count-wrap:after {
   left: 0;
   width: 100%;
   background: $grayLightish;
@@ -952,9 +997,25 @@
 
 .compare-box {
   display: inline-block;
-  padding: 10px;
+  padding: 0.5em 0.8em;
   color: $white;
   background: $gray;
+}
+
+@media (max-width: 767px) {
+  .compare-item .detail:before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.625em;
+
+    // .l4
+    // ------------
+    color: $gray;
+    @include fontMedium;
+    text-transform: uppercase;
+    font-size: $font_11_16;
+    // ------------
+  }
 }
 
 
