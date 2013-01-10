@@ -1,6 +1,11 @@
 @import "../_base/variables";
 @import "../_base/mixins";
 
+$phoneMax: 567px;
+$tabletMin: 568px;
+$tabletMax: 979px;
+$desktopMin: 980px;
+
 .primary-tout{
   position:relative;
   .hero-image{
@@ -56,6 +61,7 @@
   .container{
     .inner{
       h1{
+        @include hyphens;
       }
       .hero-unit{
         position:relative;
@@ -78,14 +84,14 @@
     }
   }
 }
-@media (min-width: 768px) {
+@media (min-width: $desktopMin) {
   .primary-tout{
     .hero-image{
       height:640px;
     }
   }
 }
-@media (min-width: 481px) and (max-width:767px) {
+@media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .primary-tout{
     .hero-image{
       height:500px;
@@ -114,26 +120,21 @@
         padding: 0 18px 18px 18px;
         h1{
           font-size:2.5em;
-          max-width:60%;
-        }
-        .offset1{
-          padding:25px;
         }
         .hero-unit{
           position:relative;
           margin-bottom:0;
           padding:25px;
           .btn{
-            position:relative;
-            right:auto;
-            bottom:auto;
+            right:25px;
+            bottom:25px;
           }          
         }
       }
     }
   }
 }
-@media (max-width: 480px) {
+@media (max-width: $phoneMax) {
   .primary-tout{
     .hero-image{
       height:400px;
@@ -165,7 +166,7 @@
           max-width:70%;
         }
         .offset1{
-          padding:25px;
+          padding-left:25px;
         }
         .hero-unit{
           position:relative;
