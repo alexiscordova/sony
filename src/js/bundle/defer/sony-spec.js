@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports*/
+/*global jQuery, Modernizr, iQ*/
 
 // ----------- Sony Specs Module --------
 // Module: Sticky Tabs
@@ -13,6 +13,8 @@
 
   var Spec = function( $container, options ) {
     var self = this;
+
+    console.log('Spec constructor');
 
     $.extend(self, $.fn.spec.options, options, $.fn.spec.settings);
 
@@ -29,6 +31,8 @@
     _init : function() {
       var self = this;
 
+      console.log('_init');
+
       self.$tableContainerBackup = null;
       self.refreshData = null;
       self.arrayTableContainer = [];
@@ -36,25 +40,32 @@
       self.tableContainerBackup = null;
       self.array = [];
 
+
+      // Convert tables to divs...
+      self._tableToDiv();
+
+      // What is this doing?
       self.$container.find('.tableContainer').each(function(indexTable) {
 
         var $container = $(this),
             $firstColumn = self._findColumn( $container, 1 ), // nb of cell in the first column
-            firstColumnNbCell = $($firstColumn).length,
-            nbColumn = $container.find('.thead > .specRow > .specCell').length,
-            dumpText = nbColumn > 2 ? ' Models' : ' Model',
+            numColumn = $container.find('.thead > .specRow > .specCell').length,
+            dumpText = numColumn > 2 ? ' Models' : ' Model',
             $firstColumnTablesBackup;
 
         self.arrayTableContainer.push([]);
         self.arrayTableFirstColumn.push([]);
 
-        $container.find('.tbody:first > .specRow').each(function(indexRow) {
-          $(this).find('>.specCell').not(':first-child').each(function(indexCell) {
-            $(this).prepend('<h2>' + $firstColumn[indexRow + 1].textContent + '</h2>');
+        // Take the label from the first column and prepend it to each cell...
+        $container.find('.tbody').first().find('> .specRow').each(function(indexRow) {
+          $(this).find('>.specCell:not(:first-child)').each(function() {
+            var text = $.trim( $firstColumn.eq( indexRow ).text() );
+            // console.log(text);
+            $(this).prepend('<h2>' + text + '</h2>');
           });
         });
 
-        $container.find('.thead > .specRow > .specCell:first-child').append('<p>' + (nbColumn - 1) + '<span>' + dumpText + '</span></p>');
+        $container.find('.thead > .specRow > .specCell:first-child').append('<p>' + (numColumn - 1) + '<span>' + dumpText + '</span></p>');
 
         // Clone the first column (we will push it for each table)
         $firstColumnTablesBackup = self._findColumn( $container, 1 ).clone();
@@ -65,10 +76,11 @@
         // Clone it without the first column
         self.$tableContainerBackup = $container.clone();
         self.arrayTableContainer[indexTable].push(self.$tableContainerBackup);
-
       });
 
+
       self.$window.on('resize', $.throttle(100, $.proxy( self._onResize, self )));
+      // self.$window.on('scroll', $.proxy( self._fixHeader, self ));
 
       self.refresh('init');
     },
@@ -76,11 +88,9 @@
     _onResize : function() {
       var self = this;
 
-      console.log('_onResize->self', self);
-
       self.isMobile = Modernizr.mq('only all and (max-width: 640px)');
 
-      self.refresh('resize');
+      self.refresh();
     },
 
     _slideChanged : function( sonySlider ) {
@@ -180,22 +190,128 @@
       return this;
     },
 
-    // Usage: $(listToMatrix(nbCells, nbCol));
-    _listToMatrix : function( list, elementsPerSubArray ) {
+    // Usage: $(listToMatrix(nbCells, numCol));
+    _listToMatrix : function( $list, elementsPerSubArray ) {
       var matrix = [],
       i = 0,
       k = -1;
 
-      for ( ; i < list.length; i++) {
+      for ( ; i < $list.length; i++) {
           if (i % elementsPerSubArray === 0) {
               k++;
-              matrix[k] = [];
+              matrix[ k ] = [];
           }
 
-          matrix[k].push(list[i]);
+          matrix[ k ].push( $list[ i ] );
       }
 
       return matrix;
+    },
+
+    _fixHeader : function() {
+        var windowWidth = $(window).width(),
+            sectionWidth = $('.container > section').width(),
+            currentFixedHeader = $('.fixed-header').width();
+
+        /*
+        spaceAvail = (windowWidth-sectionWidth);
+
+        console.info('Window width: '+windowWidth);
+        console.info('FixedHeader width: '+currentFixedHeader);
+        console.info('Avail space: '+spaceAvail);
+
+
+
+        $(".fixed-header:above-the-top").each(function() {
+          $('.fixed-header').attr('style', 'position:fixed;top:0;background:#fff;z-index:99999; width:92.5%;');
+          $('.fixed-header').next().attr('style', 'padding-top:105px;')
+          $('.fixed-header').next().find('.desktopNav').attr('style', 'top:105px;')
+        });
+        */
+    },
+
+    // headers? idk (matrix[0])
+    _buildStickyTabs : function( $tableContainer, headers, indexContainer ) {
+      console.log('_buildStickyTabs', $tableContainer, headers, indexContainer);
+      if ( $tableContainer.parent().find('.tabs-container').length <= 0 ) {
+        console.log('building sticky headers');
+        var tabContainer = $('<div class="tabs-container">'),
+            tabInnerContainer = $('<div class="tabs">');
+
+        $( headers ).each(function(index) {
+          tabInnerContainer.append($(this).clone().addClass('tab table-' + (indexContainer + '-' + index + 1)));
+        });
+
+        tabContainer.append(tabInnerContainer);
+        $tableContainer.before(tabContainer);
+
+        tabInnerContainer.children(':first-child').addClass('active');
+
+        // Initialize sticky tabs
+        // THERES NO DATA-TARGET ATTRIBUTE AND THEREFORE NO ACTIVE TAB
+        $('.tab-strip').stickyTabs();
+        $('.tabs').trigger("setup_stickytabs");
+      }
+    },
+
+    _initCarousel : function( $tableContainer, indexContainer ) {
+      var self = this,
+          opts = {
+            keyboardNavEnabled : !self.isMobile,
+            sliderDrag : self.isMobile,
+            navigateByClick : false,
+            autoScaleSlider: false,
+            autoHeight: true
+          },
+          sonySlider;
+
+      sonySlider = $tableContainer.sonyCarousel( opts ).data('sonyCarousel');
+
+      if ( !self.isMobile ) {
+        // Desktop
+
+
+        var $desktopNav = $tableContainer.closest('.gallery-tabs').find('.desktopNav');
+
+        if ( $desktopNav.length <= 0 ) {
+          $tableContainer.before('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
+        }
+
+        // Prev
+        $tableContainer.prev().find('a.next').click(function() {
+          sonySlider.next();
+        });
+
+        // Next
+        $tableContainer.prev().find('a.prev').click(function() {
+          sonySlider.prev();
+        });
+
+        // init
+        self._slideChanged( sonySlider );
+
+        sonySlider.ev.on('scAfterSlideChange', function() {
+          //After each slide change.. Look if it's necessary to show the Next & Previous button.
+          console.log('scAfterSlideChange arguments:', arguments);
+          self._slideChanged( sonySlider );
+        });
+
+      } else {
+        // Mobile
+
+        //When you click on tabs
+        $tableContainer.prev().find('.tab').click(function() {
+          $(this).parent().find('.tab').removeClass('active').removeAttr('style');
+          $(this).addClass('active');
+          $tableContainer.sonyCarousel('goTo', $(this).index());
+        });
+
+        sonySlider.ev.on('scAfterSlideChange', function() {
+          // triggers after slide change
+          $tableContainer.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
+          $tableContainer.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-' + indexContainer + '-' + (sonySlider.currSlideId + 1)).addClass('active');
+        });
+      }
     },
 
 
@@ -206,23 +322,24 @@
         $('.module-spec .modal').modal('hide');
       }
 
-
       var self = this,
           windowWidth = $(window).width(), // Get the window width.
           minWidthTable = 321, // Minimum per table (column)
           elemMinWidth = windowWidth / minWidthTable, // Number of element present in the viewport (visible element)
-          nbElementByPage = Math.min(Math.max(Math.floor(elemMinWidth), 1), 4); // Get the number of column to display.
+          numElementByPage = Math.min(Math.max(Math.floor(elemMinWidth), 1), 4); // Get the number of column to display.
+
+
 
       // If it's necessary to refresh the number of data
-      if ( (self.refreshData === null) || ( self.refreshData !== nbElementByPage) ) {
+      if ( (self.refreshData === null) || ( self.refreshData !== numElementByPage) ) {
 
+        // just
         $('section > .gallery-tabs > .tableContainer').each(function(indexContainer) {
-          var $this = $(this),
-              sonySlider = $this.data('sonyCarousel'), // Define the carousel
-              tableContainerBackup = $(self.arrayTableContainer)[indexContainer][0].clone(),
+          var $tableContainer = $(this),
+              sonySlider = $tableContainer.data('sonyCarousel'), // Define the carousel
               $myCells,
-              nbCol,
-              nbTableToShow,
+              numCol,
+              numTablesToShow,
               matrix,
               i = 0;
 
@@ -232,42 +349,30 @@
           }
 
           // Empty the container.
-          $this.empty();
+          $tableContainer.empty();
+
+          self.tableContainerBackup = $(self.arrayTableContainer)[indexContainer][0].clone();
 
           // Get all cells
-          $myCells = tableContainerBackup.clone().find(".specsTable > .thead > .specRow > .specCell, .specsTable > .tbody > .specRow > .specCell");
+          $myCells = self.tableContainerBackup.clone().find(".specsTable > .thead > .specRow > .specCell, .specsTable > .tbody > .specRow > .specCell");
 
           // nb total column
-          nbCol = tableContainerBackup.clone().find(".specRow:first .specCell").length;
+          numCol = self.tableContainerBackup.clone().find(".specRow:first .specCell").length;
 
           // nb of table to show
-          nbTableToShow = nbCol / nbElementByPage;
+          numTablesToShow = Math.ceil( numCol / numElementByPage );
 
           // Matrix
-          matrix = self._listToMatrix( $myCells, nbCol );
+          matrix = self._listToMatrix( $myCells, numCol );
+
+          console.log('numTablesToShow:', numTablesToShow, 'numCol:', numCol );
 
           // Build the sticky nav. - We only add it once.
-          if ( $this.parent().find('.tabs-container').length <= 0 ) {
-            var tabContainer = $('<div class="tabs-container">'),
-                tabInnerContainer = $('<div class="tabs">');
+          self._buildStickyTabs( $tableContainer, matrix[0], indexContainer );
 
-            $(matrix[0]).each(function(index) {
-              tabInnerContainer.append($(this).clone().addClass('tab table-' + (indexContainer + '-' + index + 1)));
-            });
-
-            tabContainer.append(tabInnerContainer);
-            $this.before(tabContainer);
-
-            tabInnerContainer.children(':first-child').addClass('active');
-
-            // Initialize sticky tabs
-            // THERES NO DATA-TARGET ATTRIBUTE AND THEREFORE NO ACTIVE TAB
-            $('.tab-strip').stickyTabs();
-            $('.tabs').trigger("setup_stickytabs");
-          }
 
           // Loop each table to add.
-          for (; i < Math.ceil(nbTableToShow); i++) {
+          for (; i < numTablesToShow; i++) {
             var $table,
                 $thead,
                 $tbody;
@@ -286,8 +391,11 @@
             }
 
             // Loop in each row
-            $( self._listToMatrix($myCells, nbCol) ).each(function(index) {
-              var $this = $(this),
+            var cellMatrix = self._listToMatrix($myCells, numCol);
+            console.log('cellMatrix:', cellMatrix);
+
+            $.each( cellMatrix, function( cellIndex, cells ) {
+              var $cells = $(cells),
                   $currentRow,
                   $firstCurrentRow,
                   j = 1,
@@ -304,10 +412,10 @@
                 $firstCurrentRow = $('<tr class="specRow"></tr>');
               }
 
-              for ( ; j <= index; j++) {
-                titleToCopy = $this.text();
+              for (; j <= cellIndex; j++) {
+                titleToCopy = $cells.text();
 
-                $this.each(function() {
+                $cells.each(function() {
                   var $that = $(this);
 
                   if ( $that.find('h2').length <= 0 ) {
@@ -316,91 +424,27 @@
                 });
               }
 
-              // Put the first row inside the .thead
-              if ( index === 0 ) {
-                $firstCurrentRow.append( self._listToMatrix(this, nbElementByPage)[i] );
-                $thead.append($firstCurrentRow);
-              } else {//Else, put them inside the .tbody
 
-                $currentRow.append( self._listToMatrix(this, nbElementByPage)[i] );
-                $tbody.append($currentRow);
+              var theMatrix = self._listToMatrix(cells, numElementByPage)[i];
+
+              // Put the first row inside the .thead
+              if ( cellIndex === 0 ) {
+                $firstCurrentRow.append( theMatrix );
+                $thead.append( $firstCurrentRow );
+
+              // Else, put them inside the .tbody
+              } else {
+                $currentRow.append( theMatrix );
+                $tbody.append( $currentRow );
               }
 
               //Build each table.
               $table.append($thead, $tbody);
-              $this.append($table);
+              $tableContainer.append($table);
             });
-          }
+          } // end for
 
-          if ( !self.isMobile ) {
-            //Desktop
-
-            //Start it.
-            $this.sonyCarousel({
-              keyboardNavEnabled : true,
-              sliderDrag : false,
-              navigateByClick : false,
-              autoScaleSlider: false,
-              autoHeight: true
-            });
-
-            var $desktopNav = $this.closest('.tab-strip').find('.desktopNav');
-
-            if ( $desktopNav.length <= 0 ) {
-              $this.before('<div class="desktopNav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
-            }
-
-            // Prev
-            $this.prev().find('a.next').click(function() {
-              $(this).data('sonyCarousel').next();
-            });
-
-            // Next
-            $this.prev().find('a.prev').click(function() {
-              $(this).data('sonyCarousel').prev();
-            });
-
-
-            var sonySlider = $this.data('sonyCarousel');
-
-            // init
-            self._slideChanged( sonySlider );
-
-            sonySlider.ev.on('scAfterSlideChange', function() {
-              //After each slide change.. Look if it's necessary to show the Next & Previous button.
-              console.log('scAfterSlideChange arguments:', arguments);
-              self._slideChanged( sonySlider );
-            });
-
-          } else {
-            // Mobile
-
-            // Start it.
-            $this.sonyCarousel({
-              keyboardNavEnabled : false,
-              drag : true,
-              autoScaleSlider: false,
-              autoHeight: true
-            });
-
-            //Mobile version
-            var sonySlider = $this.data('sonyCarousel');
-
-            //When you click on tabs
-            $this.prev().find('.tab').click(function() {
-              $(this).parent().find('.tab').removeClass('active').removeAttr('style');
-              $(this).addClass('active');
-              $this.sonyCarousel('goTo', $(this).index());
-            });
-
-            var sonySlider = $('.tableContainer').data('sonyCarousel');
-            sonySlider.ev.on('scAfterSlideChange', function(event) {
-
-              // triggers after slide change
-              $this.closest('.tableContainer').prev().find('.tabs.sticky .tab').removeClass('active').removeAttr('style');
-              $this.closest('.tableContainer').prev().find('.tabs.sticky .tab.table-' + indexContainer + '-' + (sonySlider.currSlideId + 1)).addClass('active');
-            });
-          }
+          self._initCarousel( $tableContainer, indexContainer );
 
           var leftTitle = $(self.arrayTableFirstColumn)[indexContainer][0].clone();
 
@@ -408,15 +452,15 @@
           $(leftTitle).each(function(index) {
             // index += 1
             if (index === 0) {
-              $this.find('.specsTable > .thead > .specRow:nth-child(' + (index + 1) + ')').prepend($(this));
+              $tableContainer.find('.specsTable > .thead > .specRow:nth-child(' + (index + 1) + ')').prepend($(this));
             } else {
-              $this.find('.specsTable > .tbody > .specRow:nth-child(' + (index) + ')').prepend($(this));
+              $tableContainer.find('.specsTable > .tbody > .specRow:nth-child(' + (index) + ')').prepend($(this));
             }
           });
         });
 
-        // Modify the new current nbElementByPage
-        self.refreshData = nbElementByPage;
+        // Modify the new current numElementByPage
+        self.refreshData = numElementByPage;
 
         // Load iq (we load images)
         iQ.update({
@@ -427,27 +471,24 @@
         $('.tabs-container .tabs .specCell').removeClass('active');
 
         //init the active class for the tabs
-        activeTab = $('.tableContainer .specsTable:in-viewport').attr('id');
+        var activeTab = $('.tableContainer .specsTable:in-viewport').attr('id');
         $('.tabs-container .tabs').children('.specCell.' + activeTab).addClass('active');
       }
 
       var arrayCel = [];
+
+      // Apparently resetting all styles except for min-height?
       $('.tableContainer .specsTable > .tbody >.specRow > .specCell > div').attr("style","min-height:0");
-      //This section is always running while resizing.
-      $('section > .gallery-tabs > .tableContainer .specsTable').each(function(indexContainer) {
 
-        //  self = $(this);
+      // This section is always running while resizing.
+      $('section > .gallery-tabs > .tableContainer .specsTable').each(function() {
+        var $specsTable = $(this),
+            isFirstTable = !!arrayCel.length;
 
-        if (arrayCel.length == 0) {
-          isFirstTable = true;
-        } else {
-          isFirstTable = false;
-        }
-
-        $(this).find('>.tbody>.specRow').each(function(indexR) {
-
-          var storedRowHeight = 0;
-          var currentCellHeight = $($(this).find('.specCell')[1]).height();
+        $specsTable.find('> .tbody > .specRow').each(function(indexR) {
+          var $row = $(this),
+              storedRowHeight = 0,
+              currentCellHeight = $row.find('.specCell').eq(1).height();
 
           if (isFirstTable) {
             arrayCel.push(currentCellHeight);
@@ -461,24 +502,23 @@
         });
       });
 
-      $('section > .gallery-tabs > .tableContainer .specsTable').each(function(indexTable) {
-        self = $(this);
+      $('section > .gallery-tabs > .tableContainer .specsTable').each(function() {
+        var $specsTable = $(this);
 
         $(arrayCel).each(function(index) {
-          var rows = self.find('> .tbody > .specRow')[index];
+          var rows = $specsTable.find('> .tbody > .specRow')[index];
           $(rows).find("> .specCell > div").attr("style","min-height:" + arrayCel[index]+"px;" );
         });
       });
       arrayCel = [];
 
 
-      //console.info(status, device, browser);
       $('.tableContainer').each(function() {
         self._setContainerHeight( $(this) );
       });
 
-      //fit the fixed header on resize.
-      fixedHeader();
+      // Fit the fixed header on resize.
+      self._fixHeader();
     }
 
   };
@@ -492,6 +532,7 @@
 
       // If we don't have a stored spec, make a new one and save it
       if ( !spec ) {
+        console.log('new Spec');
         spec = new Spec( self, options );
         self.data( 'spec', spec );
       }

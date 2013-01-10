@@ -36,11 +36,12 @@
         <link rel="stylesheet" href="css/modules/gallery.css">
         <link rel="stylesheet" href="css/modules/hotspot_explorer.css">
         <link rel="stylesheet" href="css/modules/mymodule.css">
-        <link rel="stylesheet" href="css/modules/primarytout.css">
+        <link rel="stylesheet" href="css/modules/primary-tout.css">
         <link rel="stylesheet" href="css/modules/related-products.css">
         <link rel="stylesheet" href="css/modules/sony_one_carousel.css">
         <link rel="stylesheet" href="css/modules/sonycarousel.css">
         <link rel="stylesheet" href="css/modules/spec-details.css">
+        <link rel="stylesheet" href="css/modules/tertiary.css">
         <link rel="stylesheet" href="css/modules/video.css">
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -54,233 +55,231 @@
         <script src="js/libs/modernizr-2.6.2.min.js"></script>    
 
 
-        <!-- This should be moved into js_footer once completed: -->
-      <script src="js/libs/jquery.throttle-debounce.min.js"></script>
+        <!-- This should be moved once completed testing: -->
         <script src="js/libs/bootstrap-dropdown.js" type="text/javascript"></script>
         
     </head>
     <body>
-        <div class="page-wrap-outer">
-            <div id="page-wrap-inner" class="page-wrap-inner XXshow-mobile-menu">
+        <div id="page-wrap-outer" class="page-wrap-outer">
+            <div id="page-wrap-inner" class="page-wrap-inner">
 
-        <!-- include your module markup templates here -->
         
 
-      <nav class="container full-bleed-no-max nav-wrapper">
-          
+      <nav class="container full-bleed-no-max nav-wrapper" id="nav-wrapper">
+
                <div class="container navbar-mobile visible-phone">
               <a class="btn btn-mobile-nav" id="btn-mobile-nav" href="#"><i class="icon-ui-mobile-menu-btn"></i></a>
             <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
               <a class="btn btn-mobile-cart" href="#"><i class="icon-ui-cart-large"></i>2</a>
           </div>
                 
-                <div class="nav-outer-container"><!-- this is just to contain all the mobile nav pieces in one container --> 
+                <div class="nav-outer-container" id="nav-outer-container"><!-- this is just to contain all the mobile nav pieces in one container --> 
+                    <div class="nav-mobile-scroller">
+            
+                        <!-- the search menu wrapper is first for mobile, and positioned absolute for desktop --> 
+                        <div class="container navmenu-w-search-container">
 
-                    <!-- the search menu wrapper is first for mobile, and positioned absolute for desktop --> 
-                    <div class="container navmenu-w-search-container">
+                            <div id="navmenu-w-search" class="navmenu-w navmenu-w-search Xsearching input-outer-wrapper">
+                              <i class="sprite-mini-global-nav-indicator"></i>                            
+                            <form method="post" action="" class="navmenu-search-section-input input-group">
+                                <i class="sprite-mini-nav-search-input input-icon"></i>
+                              <input type="text" name="navSearch" id="nav-search-input" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search">
+                              <a href="#" class="btn-clear-search-input iconTrigger-ui2-x-14-blue input-clear-btn"><i class="icon-ui2-x-14-blue"></i></a>
+                            </form>
+                        
+                        <div class="navmenu-search-section-results">
+                            <div class="navmenu-search-popular-searches">
+                                <p class="l3">Popular Searches</p>
+                                <ul class="navmenu-list navmenu-list-extended">
+                                    <li class="search-result-line"><a href="#" class="tl">Laptops </a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">VAIO</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">Headphones</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">PSP</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">Playstation</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">NEX</a></li>
+                                </ul>
+                              </div>
+                              <div class="navmenu-search-results">
+                                <ul class="navmenu-list navmenu-list-results">
+                                    <li class="search-result-line">
+                                        <a href="#">
+                                            <img src="img/global/global-nav/search-results-images/nex-6.png" alt="α NEX-6" width="83" height="64">
+                                            <span class="search-result-p">
+                                                <span class="search-result-headline">α NEX-6</span>
+                                                <span class="search-result-descript">The Future of Photography.</span>
+                                            </span>
+                                            <i class="icon-ui2-chevron-18-blue"></i>
+                                        </a>
+                                    </li>
+                                    <li class="search-result-line">
+                                        <a href="#">
+                                            <img src="img/global/global-nav/search-results-images/nex-5.png" alt="α NEX-5" width="83" height="64">
+                                            <span class="search-result-p">
+                                                <span class="search-result-headline">α NEX-5</span>
+                                                <span class="search-result-descript">Pocket DSLR</span>
+                                            </span>
+                                            <i class="icon-ui2-chevron-18-blue"></i>
+                                        </a>
+                                    </li>
+                                    <li class="search-result-line search-result-canned">
+                                        <a href="#">
+                                            <i class="icon-uibig-support"></i>
+                                            <span class="search-result-p">
+                                                <span class="search-result-headline">α NEX Support</span>
+                                            </span>
+                                            <i class="icon-ui2-chevron-18-blue"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="navmenu-list-extended">
+                                    <li class="search-result-line"><a href="#" class="tl">α NEX-3</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">α NEX Accessories</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">α NEX Lenses</a></li>
+                                    <li class="search-result-line"><a href="#" class="tl">α NEX</a></li>
+                                </ul>
+                                    <a href="#" class="btn btn-show-all-results">Show All Results</a>
+                                </div><!-- end navmenu-search-results --> 
+                            </div><!-- end navmenu-search-section-results --> 
+                          </div> <!-- end navmenu-w-search --> 
+                        </div><!-- end navmenu-w-search-container --> 
 
-                        <div id="navmenu-w-search" class="navmenu-w navmenu-w-search Xsearching input-outer-wrapper">
-                          <i class="sprite-mini-global-nav-indicator"></i>                            
-                        <form method="post" action="" class="navmenu-search-section-input input-group">
-                            <i class="sprite-mini-nav-search-input input-icon"></i>
-                          <input type="text" name="navSearch" id="nav-search-input" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search">
-                          <a href="#" class="btn-clear-search-input iconTrigger-ui2-x-14-blue input-clear-btn"><i class="icon-ui2-x-14-blue"></i></a>
-                        </form>
-                    
-                    <div class="navmenu-search-section-results">
-                        <div class="navmenu-search-popular-searches">
-                            <p class="l3">Popular Searches</p>
-                            <ul class="navmenu-list navmenu-list-extended">
-                                <li class="search-result-line"><a href="#" class="tl">Laptops </a></li>
-                                <li class="search-result-line"><a href="#" class="tl">VAIO</a></li>
-                                <li class="search-result-line"><a href="#" class="tl">Headphones</a></li>
-                                <li class="search-result-line"><a href="#" class="tl">PSP</a></li>
-                                <li class="search-result-line"><a href="#" class="tl">Playstation</a></li>
-                                <li class="search-result-line"><a href="#" class="tl">NEX</a></li>
+
+                        <div class="navmenu-w navmenu-w-mobile-top visible-phone logged-in">
+                    <ul class="navmenu-list navmenu-list-main">
+                        <li class="navmenu-line navmenu-li-store"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Store</a></li>
+                        <li class="navmenu-line navmenu-li-location"><a href="#" class="tl"><i class="icon-ui-navmenu-gps"></i>Find a Store</a><span class="navmenu-li-ext-text"> - London</span></li>
+                        <li class="navmenu-line navmenu-li-support"><a href="#" class="tl"><i class="icon-ui-navmenu-support"></i>Support</a></li>
+                        <li class="navmenu-line navmenu-li-favorites"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites<span class="nav-li-count">2</span></a></li>
+                    </ul>
+                  </div><!-- end #navmenu-w-account -->
+
+
+
+                  
+                        <!-- The navtrays are before the navbar for correct ordering of the mobile nav menu --> 
+                  <div class="navtray-w navtray-w-fullwidth-3-4 navtray-w-electronics navtray-w-tall">
+                        <div class="navtray">
+                          <div class="navtray-section navtray-section-main navtray-section-main-w-all-btn">
+                              <h4 class="visible-phone">Electronics</h4>
+                            <ul class="navtray-list-main">
+                                <li class="navtray-li navtray-li-cameras"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-cameras.png" alt="Cameras"></span><span class="nav-label">Cameras</span></a></li>
+                                <li class="navtray-li navtray-li-mobile"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-mobile.png" alt="Mobile &amp; Tablets"></span><span class="nav-label">Mobile &amp; Tablets</span></a></li>
+                                <li class="navtray-li navtray-li-playstation"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-playstation.png" alt="PlayStation"></span><span class="nav-label">PlayStation</span></a></li>
+                                <li class="navtray-li navtray-li-computers"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-computers.png" alt="Computers"></span><span class="nav-label">Computers</span></a></li>
+                                <li class="navtray-li navtray-li-video-cameras"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-video-cameras.png" alt="Video Cameras"></span><span class="nav-label">Video Cameras</span></a></li>
+                                <li class="navtray-li navtray-li-televisions"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-televisions.png" alt="Televisions"></span><span class="nav-label">Televisions &amp;<br>Home Cinema</span></a></li>
+                                <li class="navtray-li navtray-li-audio"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-audio.png" alt="Audio"></span><span class="nav-label">Audio</span></a></li>
+                                <li class="navtray-li navtray-li-car"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-car.png" alt="Car &amp; Marine"></span><span class="nav-label">Car &amp; Marine</span></a></li>
+                            </ul>
+                            <a class="btn btn-icon-ui-left btn-nav-view-all" href="#"><i class="icon-ui-grid"></i><span class="linkBtn-label">View All Electronics</span></a>
+                          </div>
+                        <div class="navtray-section navtray-section-featured">
+                            <h6 class="l2">Community</h6>
+                            <ul class="navtray-list-secondary">
+                                <li class="navtray-li navtray-li-photography"><a href="#" class="navtray-li-link tl">Photography</a></li>
+                                <li class="navtray-li navtray-li-reading"><a href="#" class="navtray-li-link tl">Reading</a></li>
+                                <li class="navtray-li navtray-li-film"><a href="#" class="navtray-li-link tl">Film &amp; 3D</a></li>
+                                <li class="navtray-li navtray-li-computing"><a href="#" class="navtray-li-link tl">Computing</a></li>
+                                <li class="navtray-li navtray-li-music"><a href="#" class="navtray-li-link tl">Music</a></li>
+                            </ul>
+                            <p class="navtray-secondary-promo">
+                                <img src="img/global/global-nav/promo-header-electronics.png" alt="">
+                                <span class="p2">Play. Watch. Listen. Create.</span>
+                                <span class="p3">Enjoy your photos and videos across any devices. <a href="#">Explore&nbsp;now</a></span>
+                            </p>
+                        </div>
+                      </div>
+                  </div><!-- end #navtray-electronics --> 
+
+                    <div class="navtray-w navtray-w-fullwidth-3-4 navtray-w-entertainment navtray-w-short">
+                        <div class="navtray">
+                          <div class="navtray-section navtray-section-main">
+                              <h4 class="visible-phone">Entertainment</h4>
+                            <ul class="navtray-list-main">
+                                <li class="navtray-li navtray-li-cameras"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-games.png" alt="Games"></span><span class="nav-label">Games</span></a></li>
+                                <li class="navtray-li navtray-li-mobile"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-moviestv.png" alt="Movies &amp; TV Shows"></span><span class="nav-label">Movies &amp; TV Shows</span></a></li>
+                                <li class="navtray-li navtray-li-playstation"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-music.png" alt="Music"></span><span class="nav-label">Music</span></a></li>
+                                <li class="navtray-li navtray-li-computers"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-ebooks.png" alt="eBooks"></span><span class="nav-label">eBooks</span></a></li>
                             </ul>
                           </div>
-                          <div class="navmenu-search-results">
-                            <ul class="navmenu-list navmenu-list-results">
-                                <li class="search-result-line">
-                                    <a href="#">
-                                        <img src="img/global/global-nav/search-results-images/nex-6.png" alt="α NEX-6" width="83" height="64">
-                                        <span class="search-result-p">
-                                            <span class="search-result-headline">α NEX-6</span>
-                                            <span class="search-result-descript">The Future of Photography.</span>
-                                        </span>
-                                        <i class="icon-ui2-chevron-18-blue"></i>
-                                    </a>
-                                </li>
-                                <li class="search-result-line">
-                                    <a href="#">
-                                        <img src="img/global/global-nav/search-results-images/nex-5.png" alt="α NEX-5" width="83" height="64">
-                                        <span class="search-result-p">
-                                            <span class="search-result-headline">α NEX-5</span>
-                                            <span class="search-result-descript">Pocket DSLR</span>
-                                        </span>
-                                        <i class="icon-ui2-chevron-18-blue"></i>
-                                    </a>
-                                </li>
-                                <li class="search-result-line search-result-canned">
-                                    <a href="#">
-                                        <i class="icon-uibig-support"></i>
-                                        <span class="search-result-p">
-                                            <span class="search-result-headline">α NEX Support</span>
-                                        </span>
-                                        <i class="icon-ui2-chevron-18-blue"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="navmenu-list-extended">
-                                <li class="search-result-line"><a href="#" class="tl">α NEX-3</a></li>
-                                <li class="search-result-line"><a href="#" class="tl">α NEX Accessories</a></li>
-                                <li class="search-result-line"><a href="#" class="tl">α NEX Lenses</a></li>
-                                <li class="search-result-line"><a href="#" class="tl">α NEX</a></li>
-                            </ul>
-                                <a href="#" class="btn btn-show-all-results">Show All Results</a>
-                            </div><!-- end navmenu-search-results --> 
-                        </div><!-- end navmenu-search-section-results --> 
-                      </div> <!-- end navmenu-w-search --> 
-                    </div><!-- end navmenu-w-search-container --> 
-
-
-                    <div class="navmenu-w navmenu-w-mobile-top visible-phone logged-in">
-                <ul class="navmenu-list navmenu-list-main">
-                    <li class="navmenu-line navmenu-li-store"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Store</a></li>
-                    <li class="navmenu-line navmenu-li-location"><a href="#" class="tl"><i class="icon-ui-navmenu-gps"></i>Find a Store</a><span class="navmenu-li-ext-text"> - London</span></li>
-                    <li class="navmenu-line navmenu-li-support"><a href="#" class="tl"><i class="icon-ui-navmenu-support"></i>Support</a></li>
-                    <li class="navmenu-line navmenu-li-favorites"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites<span class="nav-li-count">2</span></a></li>
-                </ul>
-              </div><!-- end #navmenu-w-account -->
-
-
-
-              
-                    <!-- The navtrays are before the navbar for correct ordering of the mobile nav menu --> 
-              <div class="navtray-w navtray-w-fullwidth-3-4 navtray-w-electronics navtray-w-tall">
-                    <div class="navtray">
-                      <div class="navtray-section navtray-section-main navtray-section-main-w-all-btn">
-                          <h4 class="visible-phone">Electronics</h4>
-                        <ul class="navtray-list-main">
-                            <li class="navtray-li navtray-li-cameras"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-cameras.png" alt="Cameras"></span><span class="nav-label">Cameras</span></a></li>
-                            <li class="navtray-li navtray-li-mobile"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-mobile.png" alt="Mobile &amp; Tablets"></span><span class="nav-label">Mobile &amp; Tablets</span></a></li>
-                            <li class="navtray-li navtray-li-playstation"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-playstation.png" alt="PlayStation"></span><span class="nav-label">PlayStation</span></a></li>
-                            <li class="navtray-li navtray-li-computers"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-computers.png" alt="Computers"></span><span class="nav-label">Computers</span></a></li>
-                            <li class="navtray-li navtray-li-video-cameras"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-video-cameras.png" alt="Video Cameras"></span><span class="nav-label">Video Cameras</span></a></li>
-                            <li class="navtray-li navtray-li-televisions"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-televisions.png" alt="Televisions"></span><span class="nav-label">Televisions &amp;<br>Home Cinema</span></a></li>
-                            <li class="navtray-li navtray-li-audio"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-audio.png" alt="Audio"></span><span class="nav-label">Audio</span></a></li>
-                            <li class="navtray-li navtray-li-car"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-car.png" alt="Car &amp; Marine"></span><span class="nav-label">Car &amp; Marine</span></a></li>
-                        </ul>
-                        <a class="btn btn-icon-ui-left btn-nav-view-all" href="#"><i class="icon-ui-grid"></i><span class="linkBtn-label">View All Electronics</span></a>
+                        <div class="navtray-section navtray-section-featured navtray-section-featured-short">
+                            <p class="navtray-secondary-promo navtray-secondary-promo-short">
+                                <img src="img/global/global-nav/promo-header-entertainment.png" alt="">
+                                <span class="p2">Pottermore</span>
+                                <span class="p3">An online Harry Potter experience by J.K. Rowling. <a href="#">Explore&nbsp;Now</a></span>
+                            </p>
+                        </div>
                       </div>
-                    <div class="navtray-section navtray-section-featured">
-                        <h6 class="l2">Community</h6>
-                        <ul class="navtray-list-secondary">
-                            <li class="navtray-li navtray-li-photography"><a href="#" class="navtray-li-link tl">Photography</a></li>
-                            <li class="navtray-li navtray-li-reading"><a href="#" class="navtray-li-link tl">Reading</a></li>
-                            <li class="navtray-li navtray-li-film"><a href="#" class="navtray-li-link tl">Film &amp; 3D</a></li>
-                            <li class="navtray-li navtray-li-computing"><a href="#" class="navtray-li-link tl">Computing</a></li>
-                            <li class="navtray-li navtray-li-music"><a href="#" class="navtray-li-link tl">Music</a></li>
+                  </div><!-- end #navtray-entertainment -->
+
+                  <div class="container navbar">
+                      <div class="XXgrid">
+                        <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
+
+                        <ul class="nav nav-primary">
+                          <li class="nav-li nav-li-store"><a class="nav-li-link" href="#">Store</a></li>
+                          <li class="nav-li nav-li-electronics"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
+                          <li class="nav-li nav-li-entertainment"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
+                          <li class="nav-li nav-li-support"><a class="nav-li-link" href="#">Support</a></li>
                         </ul>
-                        <p class="navtray-secondary-promo">
-                            <img src="img/global/global-nav/promo-header-electronics.png" alt="">
-                            <span class="p2">Play. Watch. Listen. Create.</span>
-                            <span class="p3">Enjoy your photos and videos across any devices. <a href="#">Explore&nbsp;now</a></span>
-                        </p>
-                    </div>
-                  </div>
-              </div><!-- end #navtray-electronics --> 
 
-                <div class="navtray-w navtray-w-fullwidth-3-4 navtray-w-entertainment navtray-w-short">
-                    <div class="navtray">
-                      <div class="navtray-section navtray-section-main">
-                          <h4 class="visible-phone">Entertainment</h4>
-                        <ul class="navtray-list-main">
-                            <li class="navtray-li navtray-li-cameras"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-games.png" alt="Games"></span><span class="nav-label">Games</span></a></li>
-                            <li class="navtray-li navtray-li-mobile"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-moviestv.png" alt="Movies &amp; TV Shows"></span><span class="nav-label">Movies &amp; TV Shows</span></a></li>
-                            <li class="navtray-li navtray-li-playstation"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-music.png" alt="Music"></span><span class="nav-label">Music</span></a></li>
-                            <li class="navtray-li navtray-li-computers"><a href="#" class="navtray-li-link tl"><span class="nav-img-w"><img src="img/global/global-nav/tray-ebooks.png" alt="eBooks"></span><span class="nav-label">eBooks</span></a></li>
+                        <ul class="nav nav-utility">
+                          <li class="nav-li nav-li-account">
+                              <a class="nav-li-link nav-dropdown-toggle" data-target="navmenu-w-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
+
+                                    <div class="navmenu-w navmenu-w-account logged-in">
+                                        <i class="sprite-mini-global-nav-indicator"></i>
+                                        <a href="#" class="btn btn-login">Log in</a>
+                                    <ul class="navmenu-list navmenu-list-prefixed">
+                                        <li class="navmenu-line navmenu-li-cart iconTrigger-ui-navmenu-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="nav-li-count">2</span></a></li>
+                                        <li class="navmenu-line navmenu-li-favorites iconTrigger-ui-navmenu-favorite"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
+                                    </ul>
+                                    <ul class="navmenu-list navmenu-list-main">
+                                        <li class="navmenu-line navmenu-li-welcome visible-phone">Hi Robert</li>
+                                        <li class="navmenu-line navmenu-li-account iconTrigger-ui-navmenu-account">
+                                            <a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a>
+                                        </li>
+                                        <li class="navmenu-line navmenu-li-orders iconTrigger-ui-navmenu-orders">
+                                            <a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a>
+                                        </li>
+                                        <li class="navmenu-line navmenu-li-newsletter iconTrigger-ui-navmenu-newsletter">
+                                            <a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a>
+                                        </li>
+                                        <li class="navmenu-line navmenu-li-registered-products iconTrigger-ui-navmenu-reg-prod">
+                                            <a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a>
+                                        </li>
+                                    </ul>
+                                        <a href="#" class="btn btn-logout">Sign Out</a>
+                                  </div><!-- end #navmenu-w-account -->
+
+                          </li>
+                          <li class="nav-li nav-li-favorites">
+                              <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-favorite" href="#"><i class="icon-ui-favorite"></i><span class="nav-li-count">2</span><span class="visuallyhidden">Favorites</span></a>
+                          </li>
+                          <li class="nav-li nav-li-cart">
+                              <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-cart" href="#"><i class="icon-ui-cart"></i><span class="nav-li-count">2</span></a>
+                          </li>
+                          <li class="nav-li nav-li-search">
+                              <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-search nav-dropdown-toggle nav-dropdown-toggle-btn" data-target="navmenu-w-search" href="#"><i class="fonticon-ui-reg-search"></i><span class="linkBtn-label">Search</span></a>
+                                  </li>
+                                  <li class="nav-li nav-li-universal iconTrigger-ui-universal">
+                                      <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-plus-tiny-boxed" href="#"><i class="icon-ui-plus-tiny-boxed"></i><span class="linkBtn-label">Sony Sites</span></a>
+                                  </li>
                         </ul>
-                      </div>
-                    <div class="navtray-section navtray-section-featured navtray-section-featured-short">
-                        <p class="navtray-secondary-promo navtray-secondary-promo-short">
-                            <img src="img/global/global-nav/promo-header-entertainment.png" alt="">
-                            <span class="p2">Pottermore</span>
-                            <span class="p3">An online Harry Potter experience by J.K. Rowling. <a href="#">Explore&nbsp;Now</a></span>
-                        </p>
-                    </div>
-                  </div>
-              </div><!-- end #navtray-entertainment -->
-
-              <div class="container navbar">
-                  <div class="XXgrid">
-                    <a class="brand hidden-text sprite-reg-nav-sony-logo" href="#">SONY make.believe</a>
-
-                    <ul class="nav nav-primary">
-                      <li class="nav-li nav-li-store"><a class="nav-li-link" href="#">Store</a></li>
-                      <li class="nav-li nav-li-electronics"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-electronics" href="#">Electronics<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar"></span></li>
-                      <li class="nav-li nav-li-entertainment"><a class="nav-li-link nav-dropdown-toggle" data-target="navtray-w-entertainment" href="#">Entertainment<i class="icon-ui-arrowhead-down-gray"></i></a><span class="global-nav-indicator-bar for-navtray-short"></span></li>
-                      <li class="nav-li nav-li-support"><a class="nav-li-link" href="#">Support</a></li>
-                    </ul>
-
-                    <ul class="nav nav-utility">
-                      <li class="nav-li nav-li-account">
-                          <a class="nav-li-link nav-dropdown-toggle" data-target="navmenu-w-account" href="#">Account<i class="icon-ui-arrowhead-down-gray"></i></a>
-
-                                <div class="navmenu-w navmenu-w-account logged-in">
-                                    <i class="sprite-mini-global-nav-indicator"></i>
-                                    <a href="#" class="btn btn-login">Log in</a>
-                                <ul class="navmenu-list navmenu-list-prefixed">
-                                    <li class="navmenu-line navmenu-li-cart iconTrigger-ui-navmenu-cart"><a href="#" class="tl"><i class="icon-ui-navmenu-cart"></i>Cart<span class="nav-li-count">2</span></a></li>
-                                    <li class="navmenu-line navmenu-li-favorites iconTrigger-ui-navmenu-favorite"><a href="#" class="tl"><i class="icon-ui-navmenu-favorite"></i>Favorites</a></li>
-                                </ul>
-                                <ul class="navmenu-list navmenu-list-main">
-                                    <li class="navmenu-line navmenu-li-welcome visible-phone">Hi Robert</li>
-                                    <li class="navmenu-line navmenu-li-account iconTrigger-ui-navmenu-account">
-                                        <a href="#" class="tl"><i class="icon-ui-navmenu-account"></i>Account Info</a>
-                                    </li>
-                                    <li class="navmenu-line navmenu-li-orders iconTrigger-ui-navmenu-orders">
-                                        <a href="#" class="tl"><i class="icon-ui-navmenu-orders"></i>Orders</a>
-                                    </li>
-                                    <li class="navmenu-line navmenu-li-newsletter iconTrigger-ui-navmenu-newsletter">
-                                        <a href="#" class="tl"><i class="icon-ui-navmenu-newsletter"></i>Newsletter Subscriptions</a>
-                                    </li>
-                                    <li class="navmenu-line navmenu-li-registered-products iconTrigger-ui-navmenu-reg-prod">
-                                        <a href="#" class="tl"><i class="icon-ui-navmenu-reg-prod"></i>Registered Products</a>
-                                    </li>
-                                </ul>
-                                    <a href="#" class="btn btn-logout">Sign Out</a>
-                              </div><!-- end #navmenu-w-account -->
-
-                      </li>
-                      <li class="nav-li nav-li-favorites">
-                          <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-favorite" href="#"><i class="icon-ui-favorite"></i><span class="nav-li-count">2</span><span class="visuallyhidden">Favorites</span></a>
-                      </li>
-                      <li class="nav-li nav-li-cart">
-                          <a class="nav-li-link nav-li-linkBtn nav-li-linkBtn-mini iconTrigger-ui-cart" href="#"><i class="icon-ui-cart"></i><span class="nav-li-count">2</span></a>
-                      </li>
-                      <li class="nav-li nav-li-search">
-                          <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-search nav-dropdown-toggle nav-dropdown-toggle-btn" data-target="navmenu-w-search" href="#"><i class="fonticon-ui-reg-search"></i><span class="linkBtn-label">Search</span></a>
-                              </li>
-                              <li class="nav-li nav-li-universal iconTrigger-ui-universal">
-                                  <a class="nav-li-link nav-li-linkBtn iconTrigger-ui-plus-tiny-boxed" href="#"><i class="icon-ui-plus-tiny-boxed"></i><span class="linkBtn-label">Sony Sites</span></a>
-                              </li>
-                    </ul>
-                  </div><!-- end .grid --> 
-                </div><!-- end .navbar -->
+                      </div><!-- end .grid --> 
+                    </div><!-- end .navbar -->
+                  </div><!-- end .nav-mobile-scroller --> 
               </div><!-- end .nav-outer-container --> 
           
         </nav><!-- end .nav-wrapper -->
-
-        <section class="container" style="background:rgb(70, 70, 70); height:650px;"></section>
-
+        <section class="container" style="background:rgb(70, 70, 70); height:500px;"></section>
         
     
-    <footer class="container full-bleed-no-max footer-wrapper" id="footer-wrapper">
+    <footer class="container full-bleed-no-max footer-wrapper XXdesktop-layout-to-568" id="footer-wrapper">
         <div class="container">
             <div class="grid grid-footer">
                 <div class="footer-store-locator span3 footer-mobile-section mobile-container-padded input-outer-wrapper">
-                    <h5>Find a Store</h5>
+                    <h5>Find a Store<i class="icon-ui-arrowhead-down-gray visible-phone"></i></h5>
                     <div class="store-locator-input-w">
                         <form method="post" action="" class="footer-store-locator-form footer-form-border input-group">
                         <i class="fonticon-ui-reg-gps input-icon"></i>
@@ -291,7 +290,7 @@
                     <p class="footer-store-locator-caption">Change location</p>
                 </div>
                 <div class="footer-stores span3 footer-mobile-section mobile-container-padded">
-                    <h5>Shop Online</h5>
+                    <h5>Shop Online<i class="icon-ui-arrowhead-down-gray visible-phone"></i></h5>
                     <ul class="footer-links-list">
                         <li class="footer-link-li"><a href="#">Sony Store Online</a></li>
                         <li class="footer-link-li"><a href="#">Store Help</a></li>
@@ -301,7 +300,7 @@
                     </ul>
                 </div>
                 <div class="footer-communities span3 footer-mobile-section mobile-container-padded">
-                    <h5>Our Communities</h5>
+                    <h5>Our Communities<i class="icon-ui-arrowhead-down-gray visible-phone"></i></h5>
                     <ul class="footer-links-list">
                         <li class="footer-link-li"><a href="#">Photography</a></li>
                         <li class="footer-link-li"><a href="#">Reading</a></li>
@@ -311,7 +310,7 @@
                     </ul>
                 </div>
                 <div class="footer-news span3 footer-mobile-section mobile-container-padded">
-                    <h5>In the News</h5>
+                    <h5>In the News<i class="icon-ui-arrowhead-down-gray visible-phone"></i></h5>
                     <ul class="footer-links-list">
                         <li class="footer-link-li"><a href="#">Press Center</a></li>
                         <li class="footer-link-li"><a href="#">RSS Feeds</a></li>
@@ -340,8 +339,8 @@
                         </div>
                     </div>
                     <div class="footer-language span6 mobile-container-padded">
-                        <div class="footer-lang-selectors">
-                            <div class="btn-hover-group l11n-selector" id="l11n-selector">
+                        <div class="footer-language-selectors">
+                            <div class="btn-hover-group country-selector DISABLE-MENU" id="country-selector">
                                   <div class="btn dropdown-hover-toggle" data-toggle="dropdown" href="#">
                                       <i class="icon-flagBig-uk"></i>
                                       <span class="dropdown-label">United Kingdom</span>
@@ -349,7 +348,7 @@
                                   </div>
                                   <div class="dropdown-hover-menu bottom-up">
                                       <div class="dropdown-hover-menu-lists-w">
-                                          <!-- start cntCountryList -->
+                                          <!-- start locationList -->
                                             <ul class="dropdown-hover-menu-list">
                                                 <li><a href="http://www.sony.ru/"><i class="icon-flag-armenia"></i>Armenia</a></li>
                                                 <li><a href="http://www.sony.at/"><i class="icon-flag-austria"></i>Austria</a></li>
@@ -403,18 +402,20 @@
                                                 <li><a href="http://www.sony.co.uk/"><i class="icon-flag-unitedkingdom"></i>United Kingdom</a></li>
                                                 <li><a href="http://www.sony.ru/"><i class="icon-flag-uzbekistan"></i>Uzbekistan</a></li>
                                             </ul>
-                                            <!-- end cntCountryList -->
+                                            <!-- end locationList -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="btn-hover-group lang-selector">
+                                <div class="btn-hover-group language-selector">
                                   <a class="btn dropdown-hover-toggle" data-toggle="dropdown" href="#"><span class="dropdown-label">EN</span><i class="icon-ui-arrowhead-down-gray"></i></a>
                                   <div class="dropdown-hover-menu bottom-up">
-                                      <ul class="dropdown-hover-menu-list">
-                                        <li><a href="#"><span class="dropdown-label">SP</span></a></li>
-                                        <li><a href="#"><span class="dropdown-label">XX</span></a></li>
-                                        <li><a href="#"><span class="dropdown-label">YY</span></a></li>
-                                      </ul>
+                                      <div class="dropdown-hover-menu-lists-w"><!-- in case there's more than 1 list, for multiple columns we need a container --> 
+                                          <ul class="dropdown-hover-menu-list">
+                                            <li><a href="#"><span class="dropdown-label">English</span></a></li>
+                                            <li><a href="#"><span class="dropdown-label">Welsh</span></a></li>
+                                            <li><a href="#"><span class="dropdown-label">French</span></a></li>
+                                          </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -450,16 +451,13 @@
                 
         <script src="js/bundle/require/_pre-spec.js"></script>
         <script src="js/bundle/require/debug_toggle.js"></script>
-        <script src="js/bundle/require/debug_warnings.js"></script>
+        <script src="js/bundle/require/global-init.js"></script>
         <script src="js/bundle/require/global-nav.js"></script>
+        <script src="js/bundle/require/jquery.throttle-debounce.min.js"></script>
         <script src="js/bundle/require/iq.js"></script>
-        <script src="js/bundle/require/require1.js"></script>
-        <script src="js/bundle/require/require2.js"></script>
         
         
-        <script src="js/bundle/secondary/secondary1.js"></script>
-        <script src="js/bundle/secondary/secondary2.js"></script>
-        <script src="js/bundle/secondary/sony.iscroll.js"></script>
+        <script src="js/bundle/secondary/sony-iscroll.js"></script>
         <script src="js/bundle/secondary/sony.carousel.1.0.js"></script>
         
         
@@ -473,21 +471,23 @@
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
-        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
-        <script src="js/bundle/defer/jodo.gallery.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
+        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
         <script src="js/bundle/defer/jquery.stickytabs.js"></script>
         <script src="js/bundle/defer/jquery.viewport.js"></script>
+        <script src="js/bundle/defer/primary-tout.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
-        <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/sony-sequencer.js"></script>
+        <script src="js/bundle/defer/sony-scroller.js"></script>
         <script src="js/bundle/defer/sony-spec.js"></script>
-        <script src="js/bundle/defer/sony.sequencer.1.0.js"></script>
+        <script src="js/bundle/defer/sony-tertiary-module.js"></script>
+        <script src="js/bundle/defer/sony-gallery.js"></script>
         <script src="js/bundle/defer/sony.one.carousel.js"></script>
 
         <!--[if lt IE 9 ]>

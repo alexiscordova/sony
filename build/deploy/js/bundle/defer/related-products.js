@@ -456,8 +456,10 @@
           columnWidth: self.shuffleColumns,
           gutterWidth: self.shuffleGutters,
           showInitialTransition: false,
-          buffer: 100
+          // buffer: 100
+          buffer: 5
         }).data('shuffle');
+        console.log("SFuffle created »");
 
       },
 
@@ -625,11 +627,11 @@
                   self.createShuffle();
                 }
 
-              
-                setTimeout(function(){
+              self.sortByPriority();
+    /*            setTimeout(function(){
                   //self.sorted = true;
-                  self.sortByPriority();
-                } , 100);
+                  
+                } , 100);*/
                 
 
                 iQ.update();
@@ -1341,13 +1343,29 @@
               itemElementSelector: '.gallery-item',
               mode: 'free',
               lastPageCenter: false,
-              extraSpacing: 0
+              extraSpacing: 0,
+
+              iscrollProps: {
+                snap: false,
+                hScroll: true,
+                vScroll: false,
+                hScrollbar: false,
+                vScrollbar: false,
+                momentum: true,
+                bounce: true,
+                onScrollEnd: null,
+                lockDirection:true,
+                onBeforeScrollStart:null,
+              }
+
             }).data('scrollerModule');
 
             //self.scroller.enable();
             iQ.update();
 
-            console.log("Instantiating scroller module »");
+            console.log("Instantiating scroller module »", self.scrollerModule);
+
+
 
           }, 100); 
 

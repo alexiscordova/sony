@@ -7,7 +7,20 @@
 // -------------------------------------------------------------------------
 
 (function($, Modernizr, window, undefined) {
-    
+
+  // var myScroll;
+  // function loaded() {
+  //   myScroll = new iScroll('#nav-outer-container');
+  // }
+  // document.addEventListener('DOMContentLoaded', loaded, false);
+  
+  // var myScroll;
+  // function loaded() {
+  //   myScroll = new iScroll('navoutercontainer');
+  // }
+
+  // window.addEventListener('load', setTimeout(function () { loaded(); }, 200), false);
+
   'use strict';
 
   // Start module
@@ -18,6 +31,9 @@
     self.$container = $container;
     self.$activePrimaryNavBtns = self.$container.find('.nav-dropdown-toggle');
     self.$currentOpenNavBtn = false;
+    self.$pageWrapOuter = $("#page-wrap-outer");
+    self.mobileNavIScroll = false,
+    self.mobileNavVisible = false;
 
     // we should make a bunch of this stuff global.
     self.transEndEventNames = {
@@ -43,7 +59,6 @@
       // do something
     }
 
-    // function() { // this needs a debounce
 
     if ( $(window).width() <= 767 ) {
       self.initPrimaryNavBtns(false);
@@ -52,7 +67,6 @@
       self.initPrimaryNavBtns(true);
       self.initFooter(true);
     }
-    // });
 
     self.isInitialized = true;
   };
@@ -63,7 +77,7 @@
 
     initPrimaryNavBtns : function( isDesktop ) {
       var self = this;
-      // console.log("initPrimaryNavBtns: " + isDesktop);
+      // console.log("## ## initPrimaryNavBtns: " + isDesktop);
 
       // Set up primary nav buttons
       if (isDesktop){
@@ -74,16 +88,19 @@
           self.resetPrimaryNavBtn($(this));
 
           $(this).on('click', function() {
-            // console.log("######CLICK######");
+            // console.log("## ## ######CLICK######");
             var $thPrimaryNavBtn = $(this);
             var $thNavTarget = $("." + $thPrimaryNavBtn.data("target"));
+
+            // console.log("## CLICK $thNavTarget.height: " + $thNavTarget.outerHeight());
+
             if (!$thPrimaryNavBtn.parent().hasClass("nav-li-selected")){
               // if this button isn't already activated, deactivate any others, and activate this one.
-              // console.log("inactive button clicked");
+              // console.log("## ## inactive button clicked");
               
               // if there's another button already activated, deactivate it first, and delay opening the new one.
               if (self.$currentOpenNavBtn != false ){
-                // console.log("old nav was open - close it now." );
+                // console.log("## ## old nav was open - close it now." );
                 self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
 
                 var $oldNavTarget = $("." + self.$currentOpenNavBtn.data("target"));
@@ -108,7 +125,7 @@
 
             } else {
               // if this tray was already visible, hide/reset it.
-              // console.log("this is already open - close it now." );
+              // console.log("## ## this is already open - close it now." );
               self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
               self.$currentOpenNavBtn = false;
             }
@@ -116,8 +133,14 @@
         });
       } else {
         // Init Mobile Nav
+        
+
         $("#btn-mobile-nav").on(self.tapOrClick,function(){
-          $("#page-wrap-inner").toggleClass("show-mobile-menu");
+          if (!self.mobileNavVisible){
+            self.showMobileNav();
+          } else {
+            self.hideMobileNav();
+          }
         });
       }
     },
@@ -130,7 +153,7 @@
 
     resetPrimaryNavBtn : function ( $oldNavBtn ) {
       var self = this;
-      // console.log("resetPrimaryNavBtn: " + $oldNavBtn.attr("class"));
+      // console.log("## ## resetPrimaryNavBtn: " + $oldNavBtn.attr("class"));
 
       // reset this button
       $oldNavBtn.removeClass("active").parent().removeClass("nav-li-selected");
@@ -148,6 +171,7 @@
     },
 
     slideNavTray: function( $navTray, opening ){
+      // console.log("## ## slideNavTray $navTray.outerHeight(): " + $navTray.outerHeight());
       var self = this, 
         startHeight, 
         endHeight,
@@ -155,13 +179,19 @@
 
       $navTray.data("expandedHeight",expandedHeight);
 
+      // console.log("#### $navTray.data(): ", $navTray.data('expandedHeight'));
+
       if (opening){
         startHeight = "1px";
         endHeight = expandedHeight;
       } else {
+        // if you're not opening, it's just initializing on page load
         startHeight = expandedHeight;
         endHeight = "1px";
       }
+
+      // console.log("## ## $navTray: " + $navTray.attr("class"))
+      // console.log("## ## opening: " + opening + ", startHeight: " + startHeight + ", expandedHeight: " + expandedHeight);
 
       $navTray
         .data("expandedHeight",startHeight)
@@ -171,12 +201,15 @@
           .css("height",expandedHeight);
 
       setTimeout(function(){ // wait just a moment to make sure the height is applied
+        // console.log("## ## setTimeout1 " + $navTray.attr('class'));
         $navTray
           .removeClass("no-transition")
 
         setTimeout(function(){ // wait just a moment to make sure the height is applied
+          // console.log("## ## setTimeout2: opening: " + opening + ", endHeight: " + endHeight + ", self.transitionEnd: " + self.transitionEnd);
           $navTray
             .css("height",endHeight)
+            // .one(self.transitionEnd, function(){console.log("## ## ## ## WTFFFFFFFFFFFF ## ## ## ");});
             .one(self.transitionEnd, onNavTrayComplete);
 
             if (opening){
@@ -189,6 +222,7 @@
       },1);
 
       function onNavTrayComplete(){
+        // console.log("## ## onNavTrayComplete");
         // prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.
         self.setNavTrayContentNaturalFlow($navTray);
       }
@@ -205,13 +239,16 @@
 
     activatePrimaryNavBtn : function ($newNavBtn) {
       var self = this;
-      // console.log("activatePrimaryNavBtn: " + $newNavBtn.attr("class"));
+      // console.log("## ## activatePrimaryNavBtn: " + $newNavBtn.attr("class"));
       
       $newNavBtn.addClass("active").parent().addClass("nav-li-selected");
 
-      // if there's a navTray/navMenu, reset it
+      // if there's a navTray/navMenu, reset it to get its height
       if ($newNavBtn.data("target").length){
         var $thNavTarget = $("." + $newNavBtn.data("target"));
+
+        // console.log("## ## thNavTarget.outerHeight(): " + $thNavTarget.outerHeight());
+
         // figure out if this is a tray or menu.
         if ($thNavTarget.hasClass("navtray-w")){
           // Tray-style
@@ -233,15 +270,128 @@
       }
     },
 
-    initFooter : function( isDesktop ) {
-      console.log("initFooter");
-      $('#l11n-selector').on('hover',function(){
+    showMobileNav: function(){
+      var self = this;
 
+      self.showMobileBackdrop();
+
+      // Since the page-wrap-inner is going to be fixed, the browser will see the page as having no height.
+      // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
+      // page some height, so the Safari nav will hide.
+      // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
+      var pageHeight = parseInt($(window).height()) + 60 + "px";
+      self.$pageWrapOuter.height(pageHeight); 
+
+      if (!self.mobileNavIScroll){
+        var $outer = $("#nav-outer-container"),
+          $inner = $outer.find(".nav-mobile-scroller");
+
+        $outer.height(pageHeight);
+        $inner.height($inner.height());
+
+        setTimeout(function(){ // make sure heights are already set before initializing iScroll.
+          self.mobileNavIScroll = new iScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
+        },1);
+      }
+
+      $("#page-wrap-inner").addClass("show-mobile-menu");
+      self.mobileNavVisible = true;
+    },
+
+    hideMobileNav: function(){
+      var self = this;
+      self.hideMobileBackdrop();
+
+      $("#page-wrap-inner").one(self.transitionEnd, function(e){
+        // wait until the $("#page-wrap-inner") is done animating closed before destroying the iScroll.
+        self.mobileNavIScroll.destroy();
+        self.mobileNavIScroll = false;
+        self.$pageWrapOuter.css("height","");
+      }); 
+      $("#page-wrap-inner").removeClass("show-mobile-menu");
+      self.mobileNavVisible = false;
+    },
+
+    showMobileBackdrop: function(){
+      var self = this;
+
+      self.$mobileScreenOverlay = $('<div class="modal-backdrop mobile-screen-overlay opacity0" />')
+        .appendTo($("#page-wrap-inner"));
+
+      setTimeout(function(){
+        self.$mobileScreenOverlay.removeClass("opacity0").addClass("opacity1");
+      },1);
+    },
+
+    hideMobileBackdrop: function(){
+      var self = this;
+
+      self.$mobileScreenOverlay.one(self.transitionEnd, function(){
+        self.$mobileScreenOverlay.remove();
+      });
+
+      self.$mobileScreenOverlay.removeClass("opacity1").addClass("opacity0");
+    },
+
+    initFooter : function( isDesktop ) {
+      var self = this;
+
+      $('#country-selector').on('hover',function(){
         var pageContainerWidth = $(this).closest('.grid-footer').width();
-        console.log("pageContainerWidth: " + pageContainerWidth);
-        console.log($(this).find('.dropdown-hover-menu-lists-w'));
         $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
-      })
+      });
+
+      var footerNavCollapseHeight = 51;
+      $("#footer-wrapper .footer-mobile-section h5").on(self.tapOrClick,function(){
+        if ($(window).width() <= 767 ){
+
+          // console.log("COLLAPSE FOOTER SECTION");
+
+          var $thFootSection = $(this).parent();
+
+          // console.log("$thFootSection: ", $thFootSection);
+          // console.log("$thFootSection.height: ", $thFootSection.height());
+          // console.log("$thFootSection.outerHeight: ", $thFootSection.outerHeight());
+          // console.log("$thFootSection.innerHeight: ", $thFootSection.innerHeight());
+          // console.log("$thFootSection classes: " + $thFootSection.attr('class'));
+
+
+          if ($thFootSection.hasClass("collapsed")){
+            // collapsed height - expand it.
+             // console.log("COLLAPSED expHeight: ", $thFootSection.data("expHeight"));
+            // console.log("$thFootSection.data(expHeight) " , $thFootSection.data("expHeight"));
+            
+            $thFootSection
+              .height($thFootSection.data("expHeight"))
+              .removeClass("collapsed");
+
+          } else {
+            // natural height - collapse it.
+            // console.log("NOT COLLAPSED");
+            var expHeight = $thFootSection.height();
+
+            $thFootSection
+              .data("expHeight",expHeight)
+              .height(expHeight);
+
+            setTimeout(function(){
+              $thFootSection.addClass("transition-height");
+              setTimeout(function(){
+                $thFootSection
+                  .height(footerNavCollapseHeight)
+                  .addClass("collapsed");
+              },1);
+            },1);
+            
+            // setTimeout(function(){
+            //   $thFootSection
+            //     .height(footerNavCollapseHeight)
+            //     .addClass("collapsed");
+            // },1);
+
+          }
+        }
+      });   
     }
   };
 

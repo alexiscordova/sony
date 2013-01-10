@@ -467,7 +467,7 @@
   padding:0 9px;
   margin:2px 0 0 12px;
   line-height:21px;
-  background:$themeGreen;
+  background:$green;
   color:$navbarLinkColor;
   font-size:$font_11_12;
   @include fontMedium;
@@ -744,15 +744,31 @@
 
 .nav-wrapper,
 .navbar{
-  height: $navbarMobileHeightTall;
+  height:auto;
 }
 
 .page-wrap-inner{
   @include transition(left $transitionSlower $easeOutNav 0s);
+  position:relative;
+}
+
+.page-wrap-outer{
 }
 .page-wrap-inner.show-mobile-menu{
   left:$navMobileWidthLarge;
+  position:fixed; // so the "main" content area doesn't scroll; just the nav
 }
+
+.mobile-screen-overlay{
+  top: $navbarMobileHeightTall;
+  position:absolute;
+  left: 0;
+  z-index: $zindexModalBackdrop;
+  background-color: $modalBackgroundColor;
+  @include transition(opacity $transitionSuperslow linear);
+}
+
+
 .nav-outer-container{
   position:absolute;
   width:$navMobileWidthLarge;
@@ -907,6 +923,7 @@
 
 .navbar-mobile{
   display:block;
+  // border-top: solid 1px #2f353d;
 
   .btn-mobile-nav,
   .btn-mobile-cart{
@@ -944,12 +961,12 @@
       margin-right:4px;
     }
   }
-}
-.sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
-  position:absolute;
-  width:90px;
-  margin-left:-45px;
-  margin-top:15px;
+  .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
+    position:absolute;
+    width:90px;
+    margin-left:-45px;
+    margin-top:15px;
+  }
 }
 
 
@@ -1035,9 +1052,24 @@
 
 
 
+// ------------------------------------------------
+// LANDSCAPE PHONE AND BELOW
+// ------------------------------------------------
+// 888888888   .d8888b.  8888888888                         .d8888b.                                  888                  
+// 888        d88P  Y88b       d88P                        d88P  "88b                                 888                  
+// 888        888             d88P                         Y88b. d88P                                 888                  
+// 8888888b.  888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//        888 888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                 888                                                                                     
+//                                 888                                                                                     
+//                                 888                                                                                     
 
+@media (max-width: 567px) {
 
-
+}
 
 
 
@@ -1066,7 +1098,9 @@
 @media (max-width: 479px) {
 
 .nav-wrapper,
-.navbar,
+.navbar{
+  height:auto;
+}
 .navbar-mobile{
   height: $navbarMobileHeight;
 }
@@ -1074,6 +1108,10 @@
 .page-wrap-inner.show-mobile-menu{
   left:$navMobileWidth;
 }
+.mobile-screen-overlay{
+  top: $navbarMobileHeight;
+}
+
 .nav-outer-container{
   width:$navMobileWidth;
   left:-$navMobileWidth;
@@ -1096,7 +1134,7 @@
     padding:14px 12px 0 14px;
 
     // back to the regular icon size.
-    @include icon-ui(mobile-menu-btn, -990px,   19px,   16px);
+    @include icon-ui(mobile-menu-btn, -1020px,   19px,   16px);
   }
   .btn-mobile-cart{
     padding:13px 0 0px 4px;

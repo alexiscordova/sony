@@ -245,7 +245,7 @@ $default-transition-delay    : 0s;
   .icon-#{$iconType}-#{$name} {
     background-position: $x $y;
     
-    @if ( $w ) {
+    @if ( $w != false ) {
     	@include size($h, $w);
     }
 
@@ -301,7 +301,7 @@ $default-transition-delay    : 0s;
   @include icon(ui, $icon_ui_Y, $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 @mixin icon-ui2($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui2, $icon_ui2_Y $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(ui2, $icon_ui2_Y, $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 @mixin icon-uibig($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
   @include icon(uibig, $icon_uibig_Y, $name, $x, $w, $h, 60px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
@@ -779,12 +779,15 @@ $default-transition-delay    : 0s;
 
 // Backface visibility
 // Prevent browsers from flickering when using CSS 3D transforms.
-// Default value is `visible`, but can be changed to `hidden
+// Default value is 'hidden', but can be changed to 'visible'
 // See git pull https://github.com/dannykeane/bootstrap.git backface-visibility for examples
-@mixin backface-visibility($visibility){
+@mixin backface-visibility($visibility:hidden){
 	-webkit-backface-visibility: $visibility;
 	   -moz-backface-visibility: $visibility;
 			backface-visibility: $visibility;
+}
+@mixin flickerfix{
+	@include backface-visibility(hidden);
 }
 
 // Background clipping
@@ -972,25 +975,58 @@ $default-transition-delay    : 0s;
 
 
 // there is also a .el-hidden class in utilities that just includes the mixin.
-@mixin el-hidden {
+@mixin el-hidden ( $leftOrRight:left, $transition:true ) {
 	display:block;
 	position: absolute;
 	-webkit-backface-visibility: hidden; // flicker fix
 
 	opacity: 0;
-	left: -9999px;
 	visibility: hidden;
-	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
+
+	@if ($leftOrRight == left){
+		right:auto;
+		left: -9999px;
+	} @else {
+		right:-9999px;
+		left: auto;
+	}
+	
+	@if ( $transition != false ){
+		// if $transition is false, don't apply any transition.
+		@if ( $transition == true ){
+			// if $transition is true, apply the default transition.
+			@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
+		} @else {
+			// if $transition is anything other than true or false, use $transition as the transition.
+			@include transition( $transition );
+		}
+	}
 }
 
 // there is also a .el-shown class in utilities that just includes the mixin.
-@mixin el-shown {
+@mixin el-shown ( $leftOrRight:left, $transition:true ) {
 	opacity: 1;
-	left: 0;
 	visibility: visible;
-	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
-}
 
+	@if ($leftOrRight == left){
+		right:auto;
+		left: 0;
+	} @else {
+		right:0;
+		left: auto;
+	}
+
+	@if ( $transition != false ){
+		// if $transition is false, don't apply any transition.
+		@if ( $transition == true ){
+			// if $transition is true, apply the default transition.
+	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
+		} @else {
+			// if $transition is anything other than true or false, use $transition as the transition.
+			@include transition( $transition );
+		}
+	}
+}
 
 
 
@@ -1313,4 +1349,32 @@ $default-transition-delay    : 0s;
 	}
 }
 
+// Debug (outline and background color)
+@mixin debug($color,$width,$backgroundColor:transparent){
+  outline:$width solid $color;
+  //border:$width solid $color;
+  background-color:$backgroundColor;
+}
 
+
+// deactivate the touch / hold
+@mixin noTouchHold{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}
+
+@mixin borderBox{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+@mixin debugAfter{
+  position:absolute;
+  top:0;
+  left:0;
+  opacity:0.4;
+  width:auto;
+  color:white;
+  font-size:0.8em;
+}

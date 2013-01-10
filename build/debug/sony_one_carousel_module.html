@@ -38,11 +38,12 @@
         <link rel="stylesheet" href="css/modules/gallery.css">
         <link rel="stylesheet" href="css/modules/hotspot_explorer.css">
         <link rel="stylesheet" href="css/modules/mymodule.css">
-        <link rel="stylesheet" href="css/modules/primarytout.css">
+        <link rel="stylesheet" href="css/modules/primary-tout.css">
         <link rel="stylesheet" href="css/modules/related-products.css">
         <link rel="stylesheet" href="css/modules/sony_one_carousel.css">
         <link rel="stylesheet" href="css/modules/sonycarousel.css">
         <link rel="stylesheet" href="css/modules/spec-details.css">
+        <link rel="stylesheet" href="css/modules/tertiary.css">
         <link rel="stylesheet" href="css/modules/video.css">
 
 
@@ -64,54 +65,26 @@
   TODO:// add templating markup
 -->
 <!-- START Sony One Carousel Template -->
-<section class="sony-one-carousel container full-bleed-no-max" style="margin-top: 100px; ">
+<section class="sony-one-carousel container full-bleed-no-max">
   <div class="soc-container">
     <div class="soc-container-inner">
       <div class="soc-content">
-        <div class="soc-grid grid">
-          <div class="soc-item span2" style="background-color: #464646;"></div>
-          <div class="soc-item span2" style="background-color: #464646;"></div>
-          <div class="soc-item span4" style="background-color: #464646;"></div>
-          <div class="soc-item span2" style="background-color: #464646;"></div>  
-          <div class="soc-item span1" style="background-color: #464646;"></div>
-          <div class="soc-item span1" style="background-color: #464646;"></div>
+        <div class="soc-grid grid grid-small">
+          <div class="soc-item soc-3up span8 iq-img" data-src="img/sonyonecarousel/spiderman.jpg"></div>
+          <div class="soc-item soc-1up span4 iq-img" data-src="img/sonyonecarousel/sony_vita.jpg"></div>
         </div>
       </div>
       <div class="soc-content">
-        <div class="soc-grid grid">
-          <div class="soc-item span8 iq-img" data-src="img/sonyonecarousel/span3-img.jpg"></div>
-          <div class="soc-item span4 iq-img" data-src="img/sonyonecarousel/span2-img.jpg"></div>
+        <div class="soc-grid grid grid-small">
+          <div class="soc-item soc-1up span4 iq-img" data-src="img/sonyonecarousel/assassins_creed.jpg"></div>
+          <div class="soc-item soc-3up span8 iq-img" data-src="img/sonyonecarousel/harry_potter.jpg"></div>
         </div>
       </div>
       <div class="soc-content">
-        <div class="soc-grid grid">
-          <div class="soc-item span8 iq-img" data-src="img/sonyonecarousel/span3-img.jpg"></div>
-          <div class="soc-item span4 iq-img" data-src="img/sonyonecarousel/span2-img.jpg"></div>
-        </div>
-      </div>
-      <div class="soc-content">
-        <div class="soc-grid grid">
-          <div class="soc-item span3" style="background-color: #464646;"></div>
-          <div class="soc-item span9" style="background-color: #464646;"></div>
-        </div>
-      </div>
-      <div class="soc-content">
-        <div class="soc-grid grid">
-          <div class="soc-item span6" style="background-color: #1e1e1e;"></div>
-          <div class="soc-item span6" style="background-color: #1e1e1e;"></div>
-        </div>
-      </div>
-      <div class="soc-content">
-        <div class="soc-grid grid">
-          <div class="soc-item span4" style="background-color: #464646;"></div>
-          <div class="soc-item span4" style="background-color: #464646;"></div>
-          <div class="soc-item span4" style="background-color: #464646;"></div>
-        </div>
-      </div>
-      <div class="soc-content">
-        <div class="soc-grid grid">
-          <div class="soc-item span8 iq-img" data-src="img/sonyonecarousel/span3-img.jpg"></div>
-          <div class="soc-item span4 iq-img" data-src="img/sonyonecarousel/span2-img.jpg"></div>
+        <div class="soc-grid grid grid-small">
+          <div class="soc-item soc-1up span4 iq-img" data-src="img/sonyonecarousel/sony_connected.jpg"></div>
+          <div class="soc-item soc-1up span4 iq-img" data-src="img/sonyonecarousel/labrinth_store.jpg"></div>
+          <div class="soc-item soc-1up span4 iq-img" data-src="img/sonyonecarousel/sony_headphones.jpg"></div>
         </div>
       </div>
     </div>
@@ -127,16 +100,13 @@
                 
         <script src="js/bundle/require/_pre-spec.js"></script>
         <script src="js/bundle/require/debug_toggle.js"></script>
-        <script src="js/bundle/require/debug_warnings.js"></script>
+        <script src="js/bundle/require/global-init.js"></script>
         <script src="js/bundle/require/global-nav.js"></script>
+        <script src="js/bundle/require/jquery.throttle-debounce.min.js"></script>
         <script src="js/bundle/require/iq.js"></script>
-        <script src="js/bundle/require/require1.js"></script>
-        <script src="js/bundle/require/require2.js"></script>
         
         
-        <script src="js/bundle/secondary/secondary1.js"></script>
-        <script src="js/bundle/secondary/secondary2.js"></script>
-        <script src="js/bundle/secondary/sony.iscroll.js"></script>
+        <script src="js/bundle/secondary/sony-iscroll.js"></script>
         <script src="js/bundle/secondary/sony.carousel.1.0.js"></script>
         
         
@@ -150,21 +120,23 @@
         <script src="js/bundle/defer/gallery.js"></script>
         <script src="js/bundle/defer/hotspot_explorer.js"></script>
         <script src="js/bundle/defer/iscrollmodule.test.js"></script>
-        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.bullets.js"></script>
         <script src="js/bundle/defer/jodo.rangecontrol.1.4.js"></script>
-        <script src="js/bundle/defer/jodo.gallery.js"></script>
-        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
+        <script src="js/bundle/defer/jquery.sc.tabbednav.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbnails.js"></script>
+        <script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script>
         <script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script>
         <script src="js/bundle/defer/jquery.shuffle.js"></script>
         <script src="js/bundle/defer/jquery.stickytabs.js"></script>
         <script src="js/bundle/defer/jquery.viewport.js"></script>
+        <script src="js/bundle/defer/primary-tout.js"></script>
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
-        <script src="js/bundle/defer/scrollermodule.1.0.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
+        <script src="js/bundle/defer/sony-sequencer.js"></script>
+        <script src="js/bundle/defer/sony-scroller.js"></script>
         <script src="js/bundle/defer/sony-spec.js"></script>
-        <script src="js/bundle/defer/sony.sequencer.1.0.js"></script>
+        <script src="js/bundle/defer/sony-tertiary-module.js"></script>
+        <script src="js/bundle/defer/sony-gallery.js"></script>
         <script src="js/bundle/defer/sony.one.carousel.js"></script>
 
         <!--[if lt IE 9 ]>

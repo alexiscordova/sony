@@ -4,37 +4,35 @@ description: This is the spec module.
 ---
 
 <!DOCTYPE html>
-<!--[if lt IE8 ]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!-->
-<html class="modern" lang="en">
-	<!--<![endif]-->
-	<head>
-		<%-@partial('includes/meta.html')%>
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
+    <head>
+        <%-@partial('includes/meta.html')%>
+    <% if 'debug' in @getEnvironments():%>
+        <%-@partial('includes/css_debug.html.eco', {this: this})%>
+    <% else: %>
+        <%-@partial('includes/css_deploy.html')%>
+    <% end %>
+        <%-@partial('includes/js_head.html')%>
 
-		<% if 'debug' in @getEnvironments():%>
-		<%" !! if you want to manually include your css for debugging instead of relying on the auto include comment this out and replace with bootstrap.css, responsive.css and your css "%>
-		<%-@partial('includes/css_debug.html.eco', {this: this})%>
-		<% else: %>
-		<%-@partial('includes/css_deploy.html')%>
-		<% end %>
+    </head>
+    <body class="module-spec gallery-module bootstrap-override">
+        <div id="page-wrap-outer" class="page-wrap-outer">
+            <div id="page-wrap-inner" class="page-wrap-inner">
 
-		<link rel="stylesheet" href="css/modules/specAndDetails.css">
+        <%- @partial('modules/global_header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
+        <%- @partial('modules/spec.html.eco', {this:this, data:@data('spec/default.json')} ) %>
+        <%- @partial('modules/global_footer.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
 
-		<%-@partial('includes/js_head.html')%>
-	</head>
-	<body class="module-spec gallery-module bootstrap-override">
- 
-		<%-@partial('modules/module_spec.html.eco', {this:this, data:@data('spec/default.json')} ) %>
+    <% if 'debug' in @getEnvironments():%>
+        <%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
+    <% else: %>
+        <%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
+    <% end %>
 
-		<% if 'debug' in @getEnvironments():%>
-		<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
-		<% else: %>
-		<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
-		<% end %>
-
-		<script src="js/libs/bootstrap.js"></script>
-
-	</body>
+            </div>
+        </div>
+    </body>
 </html>

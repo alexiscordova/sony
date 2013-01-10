@@ -32,18 +32,20 @@ a {
   color: $linkColor;
   text-decoration: none;
 }
-a:hover {
+a:hover,
+a:active,
+a:focus {
   color: $linkColorHover;
   text-decoration: none;
 }
 
-a,
-.btn{
+.no-touch a:not(.no-hover-transition),
+.no-touch .btn:not(.no-hover-transition){
   @include transition(
     background-color $transitionSlowish linear, 
     color $transitionSlowish linear, 
     border-color $transitionSlowish linear
-  ); 
+  );
 }
 
 

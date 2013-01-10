@@ -130,8 +130,7 @@ module.exports = function(grunt) {
 					'../build/debug/img/' 		: 'img/build/**',
 					'../build/debug/js/' 		: 'js/**',
 					'../build/debug/ico/' 		: 'img/ico/**',
-					'../build/debug/fonts/' 	: 'fonts/**',
-					'../build/debug/json/' 		: 'json/**'
+					'../build/debug/fonts/' 	: 'fonts/**'
 				}
 			},
 			debuglight:{
@@ -151,8 +150,7 @@ module.exports = function(grunt) {
 					'../build/deploy/js/libs/' 	: 'js/libs/*',
 					'../build/deploy/img/' 		: 'img/build/**',
 					'../build/deploy/ico/' 		: 'img/ico/**',
-					'../build/deploy/fonts/' 	: 'fonts/**',
-					'../build/deploy/json/' 	: 'json/**'
+					'../build/deploy/fonts/' 	: 'fonts/**'
 				}
 			},
 			docs:{
