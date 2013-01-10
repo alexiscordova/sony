@@ -45,7 +45,7 @@ layout3: "normal"
 
     <% i = 0 %>
 
-    <section class="container fade gallery" data-mode="<%- @data.featured.mode %>">
+    <section class="container mobile-container-padded fade gallery" data-mode="<%- @data.featured.mode %>">
       <h6><%- @data.featured.title %></h6>
       <div class="products grid full-bleed">
           <% for module in @data.submodules: %>
@@ -65,7 +65,7 @@ layout3: "normal"
 
     <% i = 0 %>
 
-    <section class="container fade gallery" data-mode="<%- @data.featured2.mode %>">
+    <section class="container mobile-container-padded fade gallery" data-mode="<%- @data.featured2.mode %>">
       <h6><%- @data.featured2.title %></h6>
       <div class="products grid full-bleed">
           <% for module in @data.submodules: %>
@@ -89,7 +89,7 @@ layout3: "normal"
     <section class="gallery" id="<%- @data.productCards.name %>-gallery" data-mode="<%- @data.productCards.mode %>">
       <% if @data.productCards.filterSet: %>
 
-      <div class="container filter-display-bar slide-toggle-parent">
+      <div class="container mobile-container-padded filter-display-bar slide-toggle-parent">
         <% if @data.productCards.sortSet: %>
         <div class="sort-options pull-right">
           <span class="l4">Sort By:&nbsp;</span>
@@ -104,7 +104,7 @@ layout3: "normal"
             </ul>
           </div>
 
-          <select class="native-dropdown visible-phone">
+          <select class="native-dropdown select-small visible-phone">
             <% for sort in @data.productCards.sortSet: %>
             <option value="<%- sort.name %>" data-reverse="<%- sort.reverse %>"><%- sort.label %></option>
             <% end %>
@@ -113,23 +113,30 @@ layout3: "normal"
         <% end %>
 
         <p class="ib product-count-wrap"><span class="text-dark product-count"><%- @data.productCards.total %></span> Products</p>
-        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#<%- @data.productCards.name %>-filters">Filter</button>
-        <button class="btn btn-alt-special btn-alt-plus js-compare-toggle" data-target="#compare-tool">Compare</button>
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#<%- @data.productCards.name %>-filters">
+            Filter
+            <i class="icon-ui-arrowhead-up-white up hide"></i>
+            <i class="icon-ui-arrowhead-down-white down"></i>
+        </button>
+        <button class="btn btn-alt-special btn-alt-plus js-compare-toggle icontrigger-ui-plus-tiny" data-target="#compare-tool">
+          Compare
+          <i class="icon-ui-plus-tiny"></i>
+        </button>
       </div>
 
-      <div class="container slide-arrow-under fade">
+      <div class="container mobile-container-padded slide-arrow-under fade">
         <div class="relative">
           <div class="slide-toggle-arrow"></div>
         </div>
       </div>
-      <div class="container slide-arrow-over fade">
+      <div class="container mobile-container-padded slide-arrow-over fade">
         <div class="relative">
           <div class="slide-toggle-arrow"></div>
         </div>
       </div>
 
       <div class="collapse slide-toggle-target" id="<%- @data.productCards.name %>-filters">
-        <div class="filter-options container">
+        <div class="filter-options container mobile-container-padded">
           <div class="grid full-bleed">
             <div class="span8 regular-filters">
             <% for filterSet in @data.productCards.filterSet: %>
@@ -205,9 +212,9 @@ layout3: "normal"
       <% end %>
 
 
-      <div class="container active-filters"></div>
+      <div class="container active-filters mobile-container-padded"></div>
 
-      <div class="container">
+      <div class="container mobile-container-padded">
         <div class="products grid full-bleed">
           <% for module in @data.submodules: %>
             <% d = @this.data(module.data) %>
@@ -238,23 +245,27 @@ layout3: "normal"
 
   <div class="tab-pane fade" data-tab="<%- @data.tabs[2].slug %>">
     <section>
-      <div class="slide-toggle-parent container">
-        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">Accessory Finder</button>
+      <div class="slide-toggle-parent container mobile-container-padded">
+        <button class="btn btn-alt-special slide-toggle collapsed" data-toggle="collapse" data-target="#IDGOESHERE">
+          Accessory Finder
+          <i class="icon-ui-arrowhead-up-white up hide"></i>
+          <i class="icon-ui-arrowhead-down-white down"></i>
+        </button>
       </div>
 
-      <div class="container slide-arrow-under fade">
+      <div class="container mobile-container-padded slide-arrow-under fade">
         <div class="relative">
           <div class="slide-toggle-arrow"></div>
         </div>
       </div>
-      <div class="container slide-arrow-over fade">
+      <div class="container mobile-container-padded slide-arrow-over fade">
         <div class="relative">
           <div class="slide-toggle-arrow"></div>
         </div>
       </div>
 
       <div class="collapse slide-toggle-target" id="IDGOESHERE">
-        <div class="container">
+        <div class="container mobile-container-padded">
           <h1>Collapse</h1>
           <h2>Collapse</h2>
           <h3>Collapse</h3>
@@ -264,7 +275,7 @@ layout3: "normal"
         </div>
       </div>
 
-      <div class="grid5 container">
+      <div class="grid5 container mobile-container-padded">
 
         <% for accessory in @data.accessories: %>
         <div class="product-strip-wrap">
@@ -358,44 +369,19 @@ layout3: "normal"
 
 <div id="compare-tool" class="modal takeover hide fade" tabindex="-1" role="dialog" aria-labelledby="compare-tool-label" aria-hidden="true">
   <div class="modal-inner">
-    <div class="modal-header container" data-reset-label="Reset">
+    <div class="modal-header container mobile-container-padded" data-reset-label="Reset">
       <h3 class="pull-left" id="compare-tool-label">Compare</h3>
       <button class="box-close" data-dismiss="modal" aria-hidden="true"><i class="icon-ui-x-tiny"></i></button>
     </div>
     <div class="modal-body">
-      <div class="container p4"><i class="swatch-lemon mini-swatch"></i> Highlights indicate highest performance features</div>
+      <div class="container mobile-container-padded p4"><i class="swatch-lemon mini-swatch"></i> Highlights indicate highest performance features</div>
     </div>
   </div>
 </div>
 
-<!--
-        {
-            "label": "Tab 2",
-            "slug": "tab2",
-            "icon": "tablet"
-        },
-        {
-            "label": "Tab 3",
-            "slug": "tab3",
-            "icon": "memory-stick"
-        },
-        {
-            "label": "Tab 4",
-            "slug": "tab4",
-            "icon": "water-drop"
-        },
-        {
-            "label": "Tab 5",
-            "slug": "tab5",
-            "icon": "headphones"
-        },
-      -->
 
+<div style="padding-bottom:150px"></div>
 
-<div style="padding-bottom:100px"></div>
-
-<!-- include your module js here -->
-<script src="js/libs/jquery.throttle-debounce.min.js"></script>
 <script src="js/libs/jquery.infinitescroll.js"></script>
 <script src="js/libs/bootstrap-transition.js"></script>
 <script src="js/libs/bootstrap-button.js"></script>
