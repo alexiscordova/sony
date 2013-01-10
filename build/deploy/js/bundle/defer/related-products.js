@@ -625,11 +625,11 @@
                   self.createShuffle();
                 }
 
-              
-                setTimeout(function(){
+              self.sortByPriority();
+    /*            setTimeout(function(){
                   //self.sorted = true;
-                  self.sortByPriority();
-                } , 100);
+                  
+                } , 100);*/
                 
 
                 iQ.update();
