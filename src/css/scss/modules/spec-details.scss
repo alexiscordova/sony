@@ -17,11 +17,11 @@
 
 .spec-title-wrap {
   margin-bottom: 0;
+}
 
-  // Text over the title
-  .title-link {
-    margin:  0;
-  }
+// Text over the title
+.spec-title-link {
+  margin:  0;
 }
 
 .spec-title {
@@ -53,8 +53,8 @@ ul.spec-views li {
 }
 
 // table?
-.smallTable,
-.specsTable {
+.small-table,
+.spec-table {
   display: table;
 }
 
@@ -67,23 +67,19 @@ ul.spec-views li {
 }
 
 // trow?
-.specRow {
+.spec-row {
   display: table-row;
 }
 
 // tcell?
-.specCell {
+.spec-cell {
   display: table-cell;
 }
-
-
 
 .spec-module {
   margin-bottom: 1.25em;
 
-  .img-margin-bottom { margin-bottom: 1.25em; }
-  .img-margin-top { margin-top: 50px; }
-
+  // background: $grayLightFieldSmall;
 
   .sony-recommends {
     color: $gray;
@@ -99,32 +95,6 @@ ul.spec-views li {
     height: auto;
   }
 
-
-  .specCell ul {
-    margin-bottom: 0;
-  }
-
-  .specCell li {
-    margin: 5px 0;
-  }
-
-  &.details {
-
-    .grid {
-      margin: 1.25em 0;
-    }
-
-    .specCell ul {
-      margin: 0;
-    }
-
-    .specCell li {
-      // font-size: $font_12_16;
-    }
-  }
-
-  // .label {font-weight: bold;}
-
   .product-name {
     margin: 0;
   }
@@ -133,325 +103,20 @@ ul.spec-views li {
     font-size: $font_18_16;
   }
 
-  .grid.no-border {
-    margin-bottom: 30px;
-
-    h3 {
-      margin-bottom: 15px;
-    }
-
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    p {font-size: $font_13_16; color: $gray;}
+  .dl-horizontal dt {
+    text-align: left;
+    width: 55px;
   }
-
-  // both kind of table
-  .smallTable, .specsTable {
-     .thead
-     {
-       .specCell {
-         text-align: left;
-       }
-     }
-  }
-
-  // smallTable only
-  .smallTable {
-    display: table;
-
-    .specCell {
-      display: table-cell;
-      padding-right: 10px;
-
-      h3 {font-size: $font_12_16; font-weight: normal;}
-      p {font-size: $font_12_16;}
-    }
-
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-  }
-
-  // specsTable only
-  .specsTable {
-
-    .smallTable {
-      p {
-        font-size: $font_12_16;
-        text-transform: uppercase;
-        color: $grayDarkerFieldSmall;
-
-        span {
-          font-size: 1.083em;
-          text-transform: normal;
-          color: $gray;
-        }
-      }
-    }
-
-    // Thead
-    // TODO: variable
-    .thead {
-      background: #f1f5f9;
-    }
-
-    // .specCell:first-child p {
-    //   position: absolute;
-    //   top: 1.25em;
-    //   left: 1.25em;
-    //   font-size: $font_15_16;
-    //   color: $grayDarkerFieldSmall;
-
-    //   span {
-    //     color: $gray;
-    //     font-size:$font_13_15;
-    //     display: inline;
-    //   }
-    // }
-
-    .thead .specCell {
-      padding: 1.25em;
-      border-left: 1px solid #DFE3E7;
-    }
-
-    .thead .specRow .specCell:first-child {
-      border-left: none;
-    }
-
-    // Tbody
-
-    .specRow {
-      position: relative;
-    }
-
-    .specCell.intel7 > div {
-      background: url('../../img/spec/inteli7.png') bottom left no-repeat;
-      padding-bottom: 60px;
-    }
-
-    // All Cells
-    .specCell {
-      position: relative;
-      border-left: 1px solid #dfe3e7;
-      border-bottom: 1px solid #dfe3e7;
-      padding: 1.25em;
-    }
-
-    // Hidden titles
-    .specCell h2 {
-      font-size: $font_14_16;
-      color: $black;
-      font-weight: bold;
-      margin-bottom: 1em;
-      display: none;
-    }
-
-    .specCell p {
-      font-size: $font_15_16;
-      margin-bottom: 15px;
-    }
-
-    .specCell p span {
-      color: $gray;
-      font-size: $font_13_15;
-    }
-
-    .specCell ul {
-      margin-bottom: 40px;
-    }
-
-    .specCell li {
-      margin-bottom: 7px;
-    }
-
-    .specCell li p {
-      font-size: $font_13_16;
-      color: $gray;
-    }
-
-    .specCell .list-no-title {
-      margin: 1.25em 0 0 0;
-    }
-
-    // First cells
-    .specRow .specCell:first-child {
-      border-left: none;
-
-      // Column Label
-      p {
-        color: $black;
-        font-size: $font_12_16;
-        text-transform: uppercase;
-      }
-    }
-
-    .specRow:last-child .specCell {
-      border-bottom: none;
-    }
-
-    .specCell {
-      padding-right: 10px;
-    }
-  }
-
-  // desktop only (Arrows)
-  .desktopNav {
-
-      position: absolute;
-      z-index: 99;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 92px;
-
-      .next,
-      .prev {
-        position: absolute;
-        top: 22px;
-        height: 48px;
-        width: 32px;
-        padding: 15px 12px;
-        text-indent: -9999px;
-        overflow: hidden;
-        display: block;
-        @include border-radius(5px);
-      }
-
-      .next {
-        right: 10px;
-        overflow: hidden;
-        background:$grayLight2 url('../../img/spec/ico/right-arrow.png') center center no-repeat;
-
-      }
-
-      .prev {
-        left: 10px;
-        overflow: hidden;
-        background:$grayLight2 url('../../img/spec/ico/left-arrow.png') center center no-repeat;
-      }
-    }
-
-  // Table Container
-  .tableContainer {
-    background: #fff;
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  // OVERRIDE
-  .tableContainer.scHor {
-    width: 100%;
-
-    .thead .specCell p {
-      font-size: 18px; font-weight: normal;
-    }
-
-    span {
-      font-size:$font_14_15;
-      line-height: 1.5em;
-      display: block;
-    }
-
-    .tbody .specRow .specCell p {
-      margin: 0;
-    }
-
-    .scSlide {
-      height: auto;
-    }
-  }
-
-  //Hide the tab navigation for the desktop
-  .tabs-container {
-   display: none;
+  .dl-horizontal dd {
+    margin-left: 70px;
   }
 
 
-  .gallery-tabs.tab-strip {
-    background: none;
-    .tabs-container {
-      background: #E4E7EB;
-    }
-  }
-
-  .gallery-tabs .tab {
-    width: auto;
-    height: auto;
-    padding: 1.25em;
-
-    h2 {
-      // font-size:$font_20_16;
-    }
-  }
 
 
-  // MEDIA QUERIES (640px AND BELOW)
-  @media all and (max-width: 640px) {
 
-    .fixed-header .sony-recommends {display: none;}
-    .table-zoom {display: none;}
-    .desktopNav {display: none;}
 
-    .tabs-container {
-      display: block;
-      margin-bottom: 1.25em;
-    }
 
-    //Hide the first column of each table.
-    .tableContainer .specsTable > .thead > .specRow > .specCell:first-child,
-    .tableContainer .specsTable > .tbody > .specRow > .specCell:first-child {
-      display: none;
-    }
 
-    .tableContainer .specsTable > .tbody > .specRow > .specCell h2 {
-      display: block;
-      background: #bada55;
-    }
 
-    //Hide the first row of each table.
-    .tableContainer .specsTable > .thead > .specRow:first-child {
-      display: none;
-    }
-
-  }
-
-  //Bootstrap override
-  .modal-backdrop {
-    display: none;
-  }
-  .modal {
-    outline: none;
-    width: 70%;
-    height: 80%;
-    left: 33%;
-
-    .modal-body
-    {
-      max-height: 600px;
-      padding: 30px;
-      position: relative;
-
-      h2 {padding-top: 0;}
-
-      .img-respons {text-align: center;}
-
-      button.close {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: #979a9e;
-        padding: 7px 13px 10px;
-        color:$white;
-        line-height: 1em;
-        opacity: 1;
-      }
-      button.close:hover {
-        background:$grayLight;
-      }
-    }
-  }
 }
