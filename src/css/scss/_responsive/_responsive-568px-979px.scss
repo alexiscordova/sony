@@ -6,13 +6,13 @@
 // so these classes will line up through all the responsive files.
 //
 //
-//
-@media (min-width: 768px) and (max-width: 979px) {
+//  changed from 768
+@media (min-width: 568px) and (max-width: 979px) {
 
   // Fluid grid
   .container {
     width: $fluidContainerWidth768;
-	}
+  }
   .grid {
     width: $fluidGridWidth768;
   }
@@ -34,8 +34,16 @@
 
 }
 
+
+
+
+@media (min-width:568px) {
+  .grid5:not(.mobile-to-767) {
+    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+  }
+}
 @media (min-width:768px) {
-  .grid5 {
+  .grid5{
     @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
   }
 }
