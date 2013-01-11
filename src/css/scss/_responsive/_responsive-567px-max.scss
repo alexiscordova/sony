@@ -1,4 +1,7 @@
 //
+//
+//
+//
 // Responsive: Landscape phone to desktop/tablet
 // ---------------------------------------------------------------------------------------------------
 // 888888888   .d8888b.   .d8888b.                          .d8888b.                                  888                  
@@ -14,7 +17,8 @@
 //                                  888                                                                                    
 // ---------------------------------------------------------------------------------------------------
 
-
+// I put the contents of the breakpoint into a mixin, so it can easily be defined for the default use (tablet down to 568),
+// and redefined for use with the "mobile-to-767" class, so we don't have to manage 2 identical versions.
 @mixin collapse-for-mobile ($overrideClass:""){
   #{$overrideClass}.grid4,
   #{$overrideClass} .grid4, {
@@ -35,13 +39,13 @@
 
   #{$overrideClass}.mobile-container-padded,
   #{$overrideClass} .mobile-container-padded{
-    padding-left:$containerMarginWidth480;
-    padding-right:$containerMarginWidth480;
+    padding-left:$fluidContainerWidth480;
+    padding-right:$fluidContainerWidth480;
   }
   #{$overrideClass}.mobile-container-margined,
   #{$overrideClass} .mobile-container-margined{
-    margin-left:$containerMarginWidth480;
-    margin-right:$containerMarginWidth480;
+    margin-left:$fluidContainerWidth480;
+    margin-right:$fluidContainerWidth480;
   }
 
 
@@ -148,7 +152,7 @@
 } // end @mixin collapse-for-mobile
 
 
-// changed from 768
+
 @media (max-width: 567px) {
   @include collapse-for-mobile();
 }
@@ -157,66 +161,6 @@
 }
 
 
-
-
-
-
-// -----------------------------------------------------------------------------------------------------------
-// OVERRIDE TO DELAY MOBILE BREAKPOINT UNTIL BELOW 568 (IPHONE 5 LANDSCAPE)
-// -----------------------------------------------------------------------------------------------------------
-// 888888888   .d8888b.   .d8888b.                          8888888888  .d8888b.  8888888888                  
-// 888        d88P  Y88b d88P  Y88b                               d88P d88P  Y88b       d88P                  
-// 888        888        Y88b. d88P                              d88P  888             d88P                   
-// 8888888b.  888d888b.   "Y88888"  88888b.  888  888           d88P   888d888b.      d88P  88888b.  888  888 
-//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'        88888888  888P "Y88b  88888888 888 "88b `Y8bd8P' 
-//        888 888    888 888    888 888  888   X88K  888888   d88P     888    888   d88P    888  888   X88K   
-// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.        d88P      Y88b  d88P  d88P     888 d88P .d8""8b. 
-//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888       d88P        "Y8888P"  d88P      88888P"  888  888 
-//                                  888                                                     888               
-//                                  888                                                     888               
-//                                  888                                                     888               
-// -----------------------------------------------------------------------------------------------------------
-
-// @media (min-width: 568px) and (max-width: 767px) {
-
-//   // Fluid grid
-//   .desktop-layout-to-568.container:not(.full-bleed, .full-bleed-no-max),
-//   .desktop-layout-to-568 .container:not(.full-bleed, .full-bleed-no-max){
-//     width: $fluidContainerWidth768;
-//   }
-//   .desktop-layout-to-568.grid:not(.full-bleed, .grid-footer),
-//   .desktop-layout-to-568 .grid:not(.full-bleed, .grid-footer){
-//     width: $fluidGridWidth768;
-//   }
-//   .desktop-layout-to-568:not(.full-bleed, .full-bleed-no-max){
-//     @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
-//   }
-
-//   // Fixed grid
-//   .desktop-layout-to-568.container-px-width:not(.full-bleed, .full-bleed-no-max),
-//   .desktop-layout-to-568 .container-px-width:not(.full-bleed, .full-bleed-no-max){  
-//     width: $containerWidth768;
-//   }
-//   .desktop-layout-to-568.grid-px-width:not(.full-bleed, .grid-footer),
-//   .desktop-layout-to-568 .grid-px-width:not(.full-bleed, .grid-footer){
-//     width: $gridWidth768;
-//   }
-//   .desktop-layout-to-568:not(.full-bleed, .full-bleed-no-max, .grid-footer){
-//     @include grid-core($gridColumnWidth768, $gridGutterWidth768);
-//     // Input grid
-//     @include grid-input($gridColumnWidth768, $gridGutterWidth768);
-//   }
-
-//   // No need to reset .thumbnails here since it's the same $gridGutterWidth
-
-// }
-
-// @media (min-width:568px) {
-//   .desktop-layout-to-568.grid5:not(.full-bleed),
-//   .desktop-layout-to-568 .grid5:not(.full-bleed) {
-//     @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-//   }
-// }
 
 
 
