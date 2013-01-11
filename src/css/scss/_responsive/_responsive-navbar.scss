@@ -20,10 +20,6 @@
 //                                  888                              
 // -----------------------------------------
 
-.nav-wrapper a{
-  @include transition(background-color $transitionSlowish linear, color $transitionSlowish linear); 
-}
-
 .nav-wrapper,
 .navbar{
   height: $navbarHeight;
@@ -775,12 +771,8 @@
   left:-$navMobileWidthLarge;
   top:0;
 }
-.navtray-w{
-  border-bottom:none;
-}
-.navtray-section-featured{
-  display:none;
-}
+
+
 .nav-li{
   width:100%;
   float:none;
@@ -859,15 +851,33 @@
   margin-right:auto;
   max-width:220px;
 }
-
 .navmenu-w-account .btn-login,
 .navmenu-w-account .btn-logout{
   font-size: $font_13_15;
 }
-.navtray .btn-nav-view-all{
+
+
+
+.navtray-w{
+  border-bottom:none;
+}
+.navtray-section-featured{
+  display:none;
+}
+
+
+.navtray .btn.btn-nav-view-all{
   margin-top: 28px;
   .linkBtn-label{
     font-size: $font_14_15;    
+  }
+  &:hover,
+  &:active,
+  &:focus{
+    background:$linkColorLight;
+    .linkBtn-label{
+      color:$white;
+    }
   }
 }
 .nav-li-universal{
@@ -1023,6 +1033,14 @@
       }
       .nav-label{
         font-size:$font_16_16;
+      }
+
+      &:hover,
+      &:active,
+      &:focus{
+        .nav-img-w{
+          @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.025));
+        }
       }
     }
   }

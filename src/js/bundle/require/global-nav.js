@@ -8,21 +8,8 @@
 
 (function($, Modernizr, window, undefined) {
 
-  // var myScroll;
-  // function loaded() {
-  //   myScroll = new iScroll('#nav-outer-container');
-  // }
-  // document.addEventListener('DOMContentLoaded', loaded, false);
-  
-  // var myScroll;
-  // function loaded() {
-  //   myScroll = new iScroll('navoutercontainer');
-  // }
-
-  // window.addEventListener('load', setTimeout(function () { loaded(); }, 200), false);
-
   'use strict';
-
+ 
   // Start module
   var GlobalNav = function( $container ) {
 
@@ -429,7 +416,8 @@
 }(jQuery, Modernizr, window));
 
 
-
-$(".nav-wrapper").globalNav();
+$(function() {
+  $(".nav-wrapper").globalNav();
+});
 
 
