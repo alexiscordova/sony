@@ -292,7 +292,6 @@
 
         sonySlider.ev.on('scAfterSlideChange', function() {
           //After each slide change.. Look if it's necessary to show the Next & Previous button.
-          console.log('scAfterSlideChange arguments:', arguments);
           self._slideChanged( sonySlider );
         });
 
@@ -573,9 +572,9 @@
 
 $(document).ready(function() {
 
-  if ( $('.module-spec').length > 0 ) {
+  if ( $('.spec-module').length > 0 ) {
 
-    $('.spec').spec();
+    $('.spec-module').spec();
 
   }
 });
