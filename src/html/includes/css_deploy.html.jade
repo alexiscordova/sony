@@ -1,0 +1,16 @@
+	<link rel="stylesheet" href="css/styles.min.css">
+
+  <!-- WE NEED TO SET UP SEPARATE FONT FILES THAT DON'T GET COMPILED INTO styles.min.css -->
+
+  <!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!-->
+    <script type="text/javascript">
+      // Android needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
+    </script>
+  <!--<![endif]-->
+
+  <!-- FONTS.COM -->
+  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->

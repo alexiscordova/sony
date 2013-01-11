@@ -1,0 +1,27 @@
+---
+title: Primary Tout Module
+description: This is the Primary Tout Module, it contains text and media elements which can be nested modules.
+---
+l = {"locals": locals}
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+head
+  !{partial('includes/meta.html')}
+  !{partial('includes/fonts.html')}
+
+  if 'debug' == getEnvironments()
+	!{partial('includes/css_debug.html.jade', l)}
+  else
+	!{partial('includes/css_deploy.html.jade', l)}  
+
+  !{partial('includes/js_head.html')}
+
+body
+  e = {"locals":locals, "data":data('primary_tout/default.json')}
+  !{partial('modules/primary_tout.html.jade', e)}
+
+ if 'debug' == getEnvironments()
+	!{partial('includes/js_footer_debug.html.jade', l)}
+  else
+	!{partial('includes/js_footer_deploy.html.jade', l)}

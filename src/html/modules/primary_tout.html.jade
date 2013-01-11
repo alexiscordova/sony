@@ -1,0 +1,52 @@
+section.primary-tout.container.full-bleed(class= data.mode)
+	e = {"locals":locals, "data":data.image}
+	!{locals.partial('modules/image.html.eco' , e)}
+	.container
+		if data.mode == "primary-tout"
+			.inner.grid
+				.span5.hero-unit(class = data.style)
+					if data.kicker 
+						p.kicker.l2 !{data.kicker}
+					if data.headline 
+						h1 !{data.headline}
+					if data.body 
+						p !{data.body}
+					if data.links
+						for link in data.links
+							a(class = link.type, href= link.url) !{link.text}
+							
+		else if data.mode == "product-intro-plate"
+			.inner.grid
+				.span5.hero-unit(class = data.style)
+					if data.kicker 
+						p.kicker.l2 !{data.kicker}
+					if data.headline 
+						h1 !{data.headline}
+					if data.body 
+						p !{data.body}
+					if data.links
+						for link in data.links
+							a(class = link.type, href= link.url) !{link.text}
+
+		else if data.mode == "home-page" 
+			.container.full-bleed.inner(class= data.style)
+				.grid
+					.span5.offset1
+						.fill.ghost-center-wrap
+							.ghost-center
+								if data.kicker 
+									p.kicker.l2 !{data.kicker}
+								if data.headline
+									h1 !{data.headline}
+	
+				.grid.hero-unit
+					.span6
+						if data.subhead 
+							h5 !{locals.plusify(data.subhead)}
+						if data.body 
+							p.p3 !{data.body}
+	
+					.span3.offset3
+						if data.links
+							for link in data.links
+								a(class = link.type, href = link.url) !{link.text}
