@@ -13,8 +13,7 @@ $colorDefault:black;
 $color1200:#90a600;
 // $color1400:#00ff33;
 
-// END TEMP
-
+$mobileHeight:349px;
 
 .clearfix {
   @include clearfix;
@@ -32,9 +31,10 @@ $color1200:#90a600;
 
   .tcc-body{
     @include debug($colorDefault, 0px);
-    //height:auto;
   } // end .tcc-body
 } // end .tcc-body-wrapper
+
+
   
 .tcc-header-wrapper{
 
@@ -54,8 +54,9 @@ $color1200:#90a600;
 } // end .tcc-header-wrapper
 
 .tcc-content-module{
-  @include debug(red, 1px);
-  height:100%;
+  @include debug(red, 0px);
+  // height:100%;
+  height:365px;
   
   .tcc-copy{
     padding:6.969696969697% 7.63358778626% 0px 7.63358778626%;
@@ -89,6 +90,15 @@ $color1200:#90a600;
   } // end .btn
 } // end .sonys-voice
 
+.article-default{   
+  .p3{
+    line-height: 1.4em;
+    font-size:$font_13_15;
+  } // end .p3
+
+} // end .article-default
+
+
 // LARGE DESKTOP - 1200px
 // ------------------------------------------------
 @media (min-width: 1200px) {
@@ -96,11 +106,12 @@ $color1200:#90a600;
     @include debug($color1200, 0px);  
 
     .tcc-body{
-      @include debug($color1200, 1px);
+      @include debug($color1200, 0px);
     } // end .tcc-body
 
     .tcc-content-module{
-      @include debug(white, 1px);
+      @include debug(white, 0px);
+      height:370px;
     }
 
     .sonys-voice{
@@ -124,27 +135,34 @@ $color1200:#90a600;
     @include debug($colorTablet, 0px);  
 
     .tcc-body{
-      @include debug($colorTablet, 1px);
+      @include debug($colorTablet, 0px);
     } // end .tcc-body
 
 
     .tcc-content-module{
-      @include debug(white, 1px);
+      @include debug(white, 0px);
+      height:330px;
     } // end .tcc-content-module
 
-    .grid:not(.grid-small) [class*="span"]{
-      //height:262px;
-    } // end .grid
+    // .grid:not(.grid-small) [class*="span"]{
+    //   //height:262px;
+    // } // end .grid
 
   } // end .tcc-body-wrapper
 
   .sonys-voice{
+
+    .bq2 > p{
+      font-size: 1em;
+    } // end .bq2 > p
+
 
     .btn{
       width:160px;
     } // end .btn
 
   } // end .sonys-voice
+
 } // end 768 979
 
 @media (min-width: 480px) and (max-width: 767px) {
@@ -165,16 +183,17 @@ $color1200:#90a600;
     @include debug($colorMobileLarge, 0px);  
 
     .tcc-body{
-      @include debug($colorMobileLarge, 1px);
+      @include debug($colorMobileLarge, 0px);
     } // end .tcc-body
 
     .tcc-content-module{
-      @include debug(white, 1px);
+      @include debug(white, 0px);
     } // end .tcc-content-module
   
     .grid:not(.grid-small) [class*="span"]{
       float:left;
-      width:31%;
+      width:33%;
+      height: 330px;
     } // end .grid
 
   } // end .tcc-body-wrapper
@@ -196,13 +215,23 @@ $color1200:#90a600;
     } // end .bq2 > p
 
   } //end .sonys-voice
+
+  .article-default{   
+    .p3{
+      line-height: 1.4em;
+      font-size:$font_13_16;
+    } // end .p3
+
+  } // end .article-default
+
+
 } // end mQ
 
 // LANDSCAPE PHONE AND BELOW -- 480px
 @media (max-width: 479px) {
 
   .tcc-wrapper{
-    padding:80px 21px;
+    padding:20px 21px;
   } // end .tcc-wrapper
   
   .tcc-header-wrapper{
@@ -225,15 +254,17 @@ $color1200:#90a600;
 
 
   .tcc-body-wrapper{
-    @include debug(red, 1px);  
+    @include debug(red, 0px); 
+    height:$mobileHeight;
 
     .tcc-body{
-      @include debug($colorMobileSmall, 1px);
-      //height:100%;
+      @include debug($colorMobileSmall, 0px);
+      height:$mobileHeight;
     } // end .tcc-body
 
     .tcc-content-module{
-      @include debug(green, 1px);
+      @include debug(green, 0px);
+      height:$mobileHeight;
     } // end .tcc-content-module
 
     .grid:not(.grid-small) [class*="span"]{
@@ -246,10 +277,17 @@ $color1200:#90a600;
 
   .sonys-voice{
 
+    .bq2 > p{
+      color:$gray;
+      font-size: 1.275em;
+    } // end .bq2 > p
+
     .btn{
       width:91.5%;
     } // end .btn
     
   } // end .sonys-voice
+
+
 
 } // end > 480

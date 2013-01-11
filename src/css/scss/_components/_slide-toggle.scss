@@ -6,22 +6,15 @@
   background: $highlightColor;
   border-color: $highlightColor;
 
-  &:after {
-    content: '';
+  & i {
     position: absolute;
     right: $btnAltSpecialPadding;
     margin-top: 10px;
-    @extend %icon;
-    @extend .icon-ui-arrowhead-up-white;
   }
 
   &.collapsed {
     background: $btnAltBackground;
     border-color: $btnAltBackground;
-  }
-
-  &.collapsed:after {
-    @extend .icon-ui-arrowhead-down-white;
   }
 }
 

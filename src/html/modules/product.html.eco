@@ -58,6 +58,11 @@
               <img src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
             </noscript>
             <% end %>
+          <% else if @data.layout == "medium": %>
+          <img class="iq-img" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+          <noscript>
+            <img src="<%- @data.img.noscriptsrc %>" alt="<%- @data.img.alt %>">
+          </noscript>
           <% else if @data.layout == "large": %>
           <img class="iq-img" alt="<%- @data.imgLarge.alt %>" data-src="<%- @data.imgLarge.src %>">
           <noscript>
@@ -152,13 +157,9 @@
       <div class="detail-group hidden">
         <% if @data.details: %>
         <% for detail in @data.details: %>
-        <div class="detail<% if detail.isHighlighted: %> highlighted<% end %>" itemprop="<%- detail.slug %>">
+        <div class="detail<% if detail.isHighlighted: %> highlighted<% end %>" itemprop="<%- detail.slug %>" data-label="<%- detail.label %>">
           <% if detail.value.check: %>
-            <% if detail.value.checked: %>
-            <div class="icon-ui-check"></div><%- detail.value.text %>
-            <% else: %>
-            <div class="icon-ui-ban"></div>NOPE
-            <% end %>
+            <%- detail.value.text %>
           <% else if detail.value.box: %>
               <p class="compare-box"><%- detail.value.box %></p>
               <p><%- detail.value.lineOne %></p>
@@ -173,11 +174,11 @@
               <% for value in detail.value: %>
               <li class="media">
                 <div class="pull-left">
-                  <i class="media-object icon-bestfor-<%- detail.icon %>"></i>
+                  <i class="media-object icon-bestfor-<%- value.icon %>"></i>
                 </div>
                 <div class="media-body">
-                  <p class="media-heading p3 text-dark"><%- detail.label %></p>
-                  <p class="p3"><%- detail.description %></p>
+                  <p class="media-heading p3 text-dark"><%- value.label %></p>
+                  <p class="p3"><%- value.description %></p>
                 </div>
               </li>
               <% end %>

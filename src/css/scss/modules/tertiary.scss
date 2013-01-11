@@ -6,16 +6,12 @@
 	@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 	@import "../_base/mixins";
 
-	.clearfix {
-	  @include clearfix;
-	}
-
 	*{
 	  @include borderBox;
-	  @include noTouchHold;
+	  // @include noTouchHold;
 	}
-// END TEMP
 
+// END TEMP
 
 .tcc-wrapper{
 	position: relative;
@@ -25,7 +21,8 @@
 
 	.tcc-body-wrapper{
 		display: block;
-		overflow: auto;
+		//overflow: auto;
+		overflow: hidden;
 		position: relative;
 		text-align: center;
 		z-index: 1;
@@ -44,11 +41,11 @@
 
 .tcc-body{
 	display:inline-block;
-	height:330px;
+	//height:330px;
 
 	// Content Modules
 	.tcc-content-module{
-		height:330px;
+		// height:330px;
 		padding-top:30px;
 		float:left;
 		overflow: hidden;
@@ -73,10 +70,6 @@
 		line-height:1.2em;
 		font-size: $font_18_16;
 	} // end l1
-
-	.p3{
-		line-height: 1.4em;
-	} // end .p3
 
 } // end .article-default
 

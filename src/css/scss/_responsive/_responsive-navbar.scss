@@ -20,10 +20,6 @@
 //                                  888                              
 // -----------------------------------------
 
-.nav-wrapper a{
-  @include transition(background-color $transitionSlowish linear, color $transitionSlowish linear); 
-}
-
 .nav-wrapper,
 .navbar{
   height: $navbarHeight;
@@ -467,7 +463,7 @@
   padding:0 9px;
   margin:2px 0 0 12px;
   line-height:21px;
-  background:$themeGreen;
+  background:$green;
   color:$navbarLinkColor;
   font-size:$font_11_12;
   @include fontMedium;
@@ -775,12 +771,8 @@
   left:-$navMobileWidthLarge;
   top:0;
 }
-.navtray-w{
-  border-bottom:none;
-}
-.navtray-section-featured{
-  display:none;
-}
+
+
 .nav-li{
   width:100%;
   float:none;
@@ -859,15 +851,33 @@
   margin-right:auto;
   max-width:220px;
 }
-
 .navmenu-w-account .btn-login,
 .navmenu-w-account .btn-logout{
   font-size: $font_13_15;
 }
-.navtray .btn-nav-view-all{
+
+
+
+.navtray-w{
+  border-bottom:none;
+}
+.navtray-section-featured{
+  display:none;
+}
+
+
+.navtray .btn.btn-nav-view-all{
   margin-top: 28px;
   .linkBtn-label{
     font-size: $font_14_15;    
+  }
+  &:hover,
+  &:active,
+  &:focus{
+    background:$linkColorLight;
+    .linkBtn-label{
+      color:$white;
+    }
   }
 }
 .nav-li-universal{
@@ -1024,6 +1034,14 @@
       .nav-label{
         font-size:$font_16_16;
       }
+
+      &:hover,
+      &:active,
+      &:focus{
+        .nav-img-w{
+          @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.025));
+        }
+      }
     }
   }
 }
@@ -1134,7 +1152,7 @@
     padding:14px 12px 0 14px;
 
     // back to the regular icon size.
-    @include icon-ui(mobile-menu-btn, -990px,   19px,   16px);
+    @include icon-ui(mobile-menu-btn, -1020px,   19px,   16px);
   }
   .btn-mobile-cart{
     padding:13px 0 0px 4px;

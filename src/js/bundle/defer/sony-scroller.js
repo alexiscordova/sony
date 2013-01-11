@@ -240,11 +240,8 @@
 
       // Count it
       self.$el.find(self.itemElementSelector).each(function() {
-        contentWidth += $(this).outerWidth(true);
+        contentWidth += Math.round($(this).outerWidth(true));
       });
-
-      // console.log(contentWidth, self.$sampleElement.outerWidth(true) * self.$elements.length);
-      // $( self.$contentContainer).css('width' , (self.$sampleElement.outerWidth(true) * self.$elements.length)/*hack: + 500*/ );
 
       // Set it
       self.$contentContainer.css('width' , contentWidth );
@@ -267,6 +264,7 @@
 		},
 
 		refresh: function() {
+			console.log("refresh »");
 			this._update();
 		},
 
@@ -343,7 +341,8 @@
 			momentum: true,
 			bounce: true,
 			onScrollEnd: null,
-			lockDirection:true
+			lockDirection:true,
+			onBeforeScrollStart:null,
 		}
 
 	};
