@@ -21,7 +21,7 @@ docpadConfig = {
       outPath: '../build/deploy/'
     },
     docs:{
-      layoutsPaths: ['pages/']
+      layoutsPaths: []
       srcPath:'html/'
       documentsPaths: ['docs']
       outPath: '../docs/'
@@ -32,6 +32,7 @@ docpadConfig = {
     site:{
       title:'Sony Global'
     }
+    plusify:(string) -> output = string.replace(/\[\+\]/g , '<span class="iconContainer-plus"><i class="icon-ui-plus-bold"></i></span>');
     data:(path) ->  output = JSON.parse( require('fs').readFileSync(require('path').normalize(docpad.config.rootPath + '/html/data/' + path), 'utf8') );
     polyfills: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/')).pluck('filename');
     require: ->     output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/require/')).pluck('filename');
@@ -39,8 +40,8 @@ docpadConfig = {
     defer: ->       output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/')).pluck('filename');
     modulescss: ->  output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/')).pluck('filename');
     modulepages: -> output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/html/pages/')).pluck('filename');
-    title:(name) -> output = docpad.database.findOne({id:name}).attributes.title;
-    desc:(name) ->  output = docpad.database.findOne({id:name}).attributes.description;
+    title:(name) -> output = docpad.database.findOne({id:'pages/'+name}).attributes.title;
+    desc:(name) ->  output = docpad.database.findOne({id:'pages/'+name}).attributes.description;
   }
   
   plugins:{

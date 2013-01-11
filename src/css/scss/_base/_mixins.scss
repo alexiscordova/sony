@@ -152,7 +152,7 @@ $default-transition-delay    : 0s;
 // --------------------------------------------------
 
 
-	@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
+@mixin font($fontFamily:$baseFontFamily, $fontWeight: normal, $fontStyle: normal){ // this is a utility mixin for use by the actual font mixins below. You shouldn't use it.
 		font-family: $fontFamily;
 		font-weight: $fontWeight;
 		font-style: $fontStyle;
@@ -163,12 +163,6 @@ $default-transition-delay    : 0s;
 	}
 	@mixin fontItalic(){ // SST W01 Italic
 		@include font($baseFontFamilyItalic);
-	}
-	@mixin fontBold(){ // SST W01 Bold
-		@include font($baseFontFamilyBold);
-	}
-	@mixin fontBoldItalic(){ // SST W01 Bold Italic
-		@include font($baseFontFamilyBoldItalic);
 	}
 	@mixin fontMedium(){ // SST W01 Medium
 		@include font($baseFontFamilyMedium);
@@ -181,6 +175,12 @@ $default-transition-delay    : 0s;
 	}
 	@mixin fontLightItalic(){ // SST W01 Light Italic
 		@include font($baseFontFamilyLightItalic);
+	}
+	@mixin fontBold(){ // SST W01 Bold
+		@include font($baseFontFamilyBold);
+	}
+	@mixin fontBoldItalic(){ // SST W01 Bold Italic
+		@include font($baseFontFamilyBoldItalic);
 	}
 
 	@mixin fontHeading(){ // SST W01 Roman
@@ -241,10 +241,13 @@ $default-transition-delay    : 0s;
 // Icons with standard hover, focus, & active states can be built using the iconBuilder mixin.
 // The first parameters are specific to the iconType ($iconType, $y, $hoverOffsetY)
 // The other parameters are specific to the icon, and are simply passed through from the specific icon mixin.
-@mixin icon($iconType, $y, $hoverOffsetY, $name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+@mixin icon($iconType, $y, $name, $x, $w:false, $h:false, $hoverOffsetY:0, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
   .icon-#{$iconType}-#{$name} {
     background-position: $x $y;
-    @include size($h, $w);
+    
+    @if ( $w != false ) {
+    	@include size($h, $w);
+    }
 
     @if ( $margin ) {
       margin: $margin;
@@ -295,15 +298,25 @@ $default-transition-delay    : 0s;
 }
 
 @mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui, $icon_ui_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(ui, $icon_ui_Y, $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 @mixin icon-ui2($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui2, $icon_ui2_Y, 30px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(ui2, $icon_ui2_Y, $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 @mixin icon-uibig($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(uibig, $icon_uibig_Y, 60px, $name, $x, $w, $h, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
+  @include icon(uibig, $icon_uibig_Y, $name, $x, $w, $h, 60px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
 }
 
+@mixin icon-flag($name, $x) {
+  @include icon(flag, $icon_flag_Y, $name, $x);
+}
+@mixin icon-flagBig($name, $x) {
+  @include icon(flagBig, $icon_flagBig_Y, $name, $x);
+}
+@mixin icon-flags-reg-and-big($name, $x) {
+	@include icon-flag($name, $x);
+	@include icon-flagBig($name, $x);
+}
 
 // I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make
 // it a <i> like all the others so I don't need this mixin.
@@ -732,46 +745,49 @@ $default-transition-delay    : 0s;
 @mixin rotate($degrees) {
 	-webkit-transform: rotate($degrees);
 	   // -moz-transform: rotate($degrees);
-		-ms-transform: rotate($degrees);
+			-ms-transform: rotate($degrees);
 		 // -o-transform: rotate($degrees);
-			transform: rotate($degrees);
+					transform: rotate($degrees);
 }
 @mixin scale($ratio) {
 	-webkit-transform: scale($ratio);
 	   // -moz-transform: scale($ratio);
-		-ms-transform: scale($ratio);
+			-ms-transform: scale($ratio);
 		 // -o-transform: scale($ratio);
-			transform: scale($ratio);
+					transform: scale($ratio);
 }
 @mixin translate($x, $y) {
 	-webkit-transform: translate($x, $y);
-	   // -moz-transform: translate($x, $y);
-		-ms-transform: translate($x, $y);
-		 // -o-transform: translate($x, $y);
-			transform: translate($x, $y);
+		 // -moz-transform: translate($x, $y);
+			-ms-transform: translate($x, $y);
+			 // -o-transform: translate($x, $y);
+					transform: translate($x, $y);
 }
 @mixin skew($x, $y) {
 	-webkit-transform: skew($x, $y);
 	   // -moz-transform: skew($x, $y);
-		-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
+			-ms-transform: skewX($x) skewY($y); // See https://github.com/twitter/bootstrap/issues/4885
 		 // -o-transform: skew($x, $y);
-			transform: skew($x, $y);
+					transform: skew($x, $y);
 }
 @mixin translate3d($x, $y, $z) {
 	-webkit-transform: translate3d($x, $y, $z);
 	   // -moz-transform: translate3d($x, $y, $z);
 		 // -o-transform: translate3d($x, $y, $z);
-			transform: translate3d($x, $y, $z);
+					transform: translate3d($x, $y, $z);
 }
 
 // Backface visibility
 // Prevent browsers from flickering when using CSS 3D transforms.
-// Default value is `visible`, but can be changed to `hidden
+// Default value is 'hidden', but can be changed to 'visible'
 // See git pull https://github.com/dannykeane/bootstrap.git backface-visibility for examples
-@mixin backface-visibility($visibility){
+@mixin backface-visibility($visibility:hidden){
 	-webkit-backface-visibility: $visibility;
 	   -moz-backface-visibility: $visibility;
 			backface-visibility: $visibility;
+}
+@mixin flickerfix{
+	@include backface-visibility(hidden);
 }
 
 // Background clipping
@@ -959,24 +975,58 @@ $default-transition-delay    : 0s;
 
 
 // there is also a .el-hidden class in utilities that just includes the mixin.
-@mixin el-hidden {
+@mixin el-hidden ( $leftOrRight:left, $transition:true ) {
+	display:block;
 	position: absolute;
 	-webkit-backface-visibility: hidden; // flicker fix
 
 	opacity: 0;
-	left: -9999px;
 	visibility: hidden;
-	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
+
+	@if ($leftOrRight == left){
+		right:auto;
+		left: -9999px;
+	} @else {
+		right:-9999px;
+		left: auto;
+	}
+	
+	@if ( $transition != false ){
+		// if $transition is false, don't apply any transition.
+		@if ( $transition == true ){
+			// if $transition is true, apply the default transition.
+			@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0.15s,  visibility 0s linear 0.15s ); // fade out & then move offscreen & make hidden.
+		} @else {
+			// if $transition is anything other than true or false, use $transition as the transition.
+			@include transition( $transition );
+		}
+	}
 }
 
 // there is also a .el-shown class in utilities that just includes the mixin.
-@mixin el-shown {
+@mixin el-shown ( $leftOrRight:left, $transition:true ) {
 	opacity: 1;
-	left: 0;
 	visibility: visible;
-	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
-}
 
+	@if ($leftOrRight == left){
+		right:auto;
+		left: 0;
+	} @else {
+		right:0;
+		left: auto;
+	}
+
+	@if ( $transition != false ){
+		// if $transition is false, don't apply any transition.
+		@if ( $transition == true ){
+			// if $transition is true, apply the default transition.
+	@include transition( opacity 0.15s ease-in 0s,  left 0s linear 0s,  visibility 0s linear 0s ); // move onscreen & make visible immediately, then fade in.
+		} @else {
+			// if $transition is anything other than true or false, use $transition as the transition.
+			@include transition( $transition );
+		}
+	}
+}
 
 
 
@@ -1007,7 +1057,7 @@ $default-transition-delay    : 0s;
 // Vertically center elements in the navbar.
 // Example: an element has a height of 30px, so write out `.navbarVerticalAlign(30px);` to calculate the appropriate top margin.
 @mixin navbarVerticalAlign($elementHeight) {
-	margin-top: ($navbarTotalHeight - $elementHeight) / 2;
+	margin-top: ($navbarHeight - $elementHeight) / 2;
 }
 
 
@@ -1282,17 +1332,6 @@ $default-transition-delay    : 0s;
 	height: $h;
 }
 
-@mixin background-sprite-icon-small{
-  background-image: url($iconSmallSpritePath);
-  background-repeat: no-repeat;
-}
-
-@mixin pseudoEl-inline-block-icon($w: 15px, $h: 15px) {
-	@include background-sprite-icon-small();
-	@include pseudoEl-inline-block($w,$h);
-  // @include ie7-restore-right-whitespace();
-}
-
 
 
 // A ghost element used to vertically center something
@@ -1310,4 +1349,32 @@ $default-transition-delay    : 0s;
 	}
 }
 
+// Debug (outline and background color)
+@mixin debug($color,$width,$backgroundColor:transparent){
+  outline:$width solid $color;
+  //border:$width solid $color;
+  background-color:$backgroundColor;
+}
 
+
+// deactivate the touch / hold
+@mixin noTouchHold{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}
+
+@mixin borderBox{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+@mixin debugAfter{
+  position:absolute;
+  top:0;
+  left:0;
+  opacity:0.4;
+  width:auto;
+  color:white;
+  font-size:0.8em;
+}

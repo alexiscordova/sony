@@ -23,14 +23,9 @@ section {
   }
 }
 
-#demo {
- /*  width: 100%;
-  height: 500px; */
-}
-
 .rpWebkit3d *  {
   -webkit-backface-visibility: hidden;
-  -webkit-transform: translateZ(0); 
+  -webkit-transform: translateZ(0);
 }
 
 .rpWrapper {
@@ -41,289 +36,406 @@ section {
   display: block;
 }
 
-  .related-products {
-    width: 100%;
-    height: 450px;
-    margin: 15px 0 0 0;
-    padding: 0 ;
-    max-width: 1400px; /* Both Must be set for JS to size proportiontely */
-    max-height: 870px;
 
-    position: relative;
-    direction: ltr;
-    /* border: 5px dashed #ccc; */
-    overflow: hidden;
-   
-    $galleryItemHeight: 337px;
-    $galleryItemImgHeight: 220px;
-    $detailedGalleryItemHeight: 480px;
+.grid4 .rpGrid {
+  padding: 0 30px 0 30px;
+}
 
-    @media (max-width: 767px) {
-      .gallery-item {
-        margin-top: 10px;
-        width: 20%;
-        // Make it a 1x1 instead of 2x2 or 1x2
-        // need .gallery selector to override .grid5
-        .gallery &.promo,
-        .gallery &.large {
-          height: $galleryItemHeight;
-        }
+.rpGrid {
+  padding: 0;
+  height: 100%;
 
-        .gallery &.large .product-img {
-          height: $galleryItemImgHeight;
-        }
-      }
+  .gallery-item:after {
+    content: '';
+    display: block;
+    //padding-top: 113.196078%;
+  }
+
+  .span1.gallery-item:after {
+    padding-top: 125.196078%;
+  }
+
+ .gallery-item.plate:after {
+   /*  padding-top: 59.190255%; */
+  }
+
+  @media (min-width: 481px) and (max-width: 979px){
+/*     .span2 {
+      width: 23.71158%;
+      *width: 23.71158%;
     }
 
-    .small-size {
-      width: 204px;
-      height:337px;
-      display:block;
-      float:left;
-      margin-left:20px;
+    .medium.span2 {
+      width: 49.71158%;
+      *width: 49.71158%;
     }
 
-
-
-/* 
-    @media (min-width:480px) {
-      .grid5 {
-        @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-      }
+    .plate.span2 {
+      width: 49.71158%;
+      *width: 49.71158%;
     } */
 
-
-    .rpBullets {
-      position: absolute;
-      z-index: 35;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: auto;
-      margin: 0 auto; 
-      background: #000;
-      background: rgba(0,0,0,0.75);
-      text-align: center;
-      line-height: 18px;
-      overflow: hidden;
-      //display:none;
-      //visibility: hidden;
+    .gallery-item .product-img:after {
+      padding-top: 59.843137%;
     }
+  }
+}
 
-    .rpBullet {
-      width: 10px;
-      height: 10px;
-      display: inline-block;
-      *display: inline;
-      *zoom: 1;
-      margin: 7px 0 4px 4px;
-      border-radius: 100%;
-      background: #666;
-      cursor: pointer;
+
+/*  @media (max-width: 480px) {
+  .rpGrid{
+    padding: 0 10px 0 10px;
+  }
+}  */
+
+
+
+
+@media (min-width: 768px) {
+  .grid5 .grid .related-products[class*="span"] {
+    margin-left: 0;
+  }
+}
+
+/* @media (min-width: 418px){
+
+  .grid5 .grid .span1 {
+    width: 18.34532%;
+    *width: 18.28622%;
+  }
+} */
+
+  .gallery-item.plate .product-img:after {
+    content: '';
+  }
+
+@media (max-width: 480px) {
+  /* line 142, ../../../src/css/scss/_responsive/_responsive-767px-max.scss */
+  .related-products .gallery-item.small-size {
+    //float: left;
+    min-height: 1px;
+    margin-left: 20px ;
+    width: 204px ;
+    max-height: 225px;
+  }
+}
+  
+  .grid5  .grid .related-products [class*="span"] {
+    margin-left: 0;
+  }
+
+.related-products {
+
+  .teal-color {
+    background-color: #45afc9;
+  }
+
+  .row-fluid .gallery-item,
+  .grid .gallery-item {
+    margin-left: 0;
+  }
+
+  .product-content {
+    font-family: $sansFontFamilyMedium;
+    font-size: $font_13_16;
+
+    color: $grayDark;
+
+    .p5:not(.msrp) {
+      display:block;
+      color: #83838f;
     }
+  }
 
-    .rpBullet.rpNavSelected  {
-      background-color: #4295E2;
-    }
-
-    .rpOverflow {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      background: #E9E9E9;
-      -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
-      -moz-user-select: -moz-none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    @media (max-width: 767px) {
-      max-width: 980px; /* Both Must be set for JS to size proportiontely */
-      min-height: 370px;
-    }    
-
-    .rpContainer {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
-
-      /* Mobile view tiles */
-
-      .whoa {
-        display:block ;
-        float:left;
-        width:100%;
-        max-width: 150px;
-        height:170px;
-        background: #5787f4;
-        margin:0 20px 0 20px;
-      }
-
-    }
-
-    .rpSlide {
-      position: absolute;
-      left: 0;
-      top: 0;
-      display: block;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-
-
-
-
-      .row-1-up {
-        position: relative;
-        width: 20%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        display: block;
-        float: left;
-        text-align: center;
-
-        div {
-          width: 98%;
-          height: 98%;
-          background: #333;
-          margin: 2% 0 0 0;
-          display: block;
-        }
-
-        img {
-          position: absolute;
-          top:0;
-          left:0;
-          width: 100%;
-          height: auto;
-          text-align:center;
-        } 
-      }
-
-      .row-2-up {
-        position: relative;
-        width: 40%;
-        height: 50%;
-        margin: 0;
-        padding: 0;
-        display: block;
-        float:left;
-
-        img {
-          position: absolute;
-          top:0;
-          left:0;
-          width: 100%;
-          height: auto;
-          display: block;
-          text-align:center;
-        }
-
-        .col-1-up {
-          position: relative;
-          width: 47%;
-          height: 98%;
-          margin: 1% 0 0 1%;
-          padding: 0;
-          display: block;
-          background: #666;
-          float:left;
-
-          &.odd {
-            width: 50%;
-            background: #ccc ;
-          }
-        }
-
-        .col-2-up {
-          position: relative;
-          width: 98%;
-          height: 97%;
-          margin: 1% 1% 0 1%;
-          padding: 0;
-          display: block;
-          background: #ccc;
-          float:left;
-
-          img {
-            position: absolute;
-            top:0;
-            left:0;
-            width: 100%;
-            height: auto;
-            text-align: center;
-            display: block;
-            max-width:490px;
-          }          
-        }
-      }
-
-      .row-4-up {
-        position: relative;
-        width: 50%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        display: block;
-        float: left;
-        text-align: center;
-
-        div {
-          width: 99%;
-          height: 98%;
-          background: #333;
-          margin: 1% 0 0 1%;
-          display: block;
-        }
-
-        img {
-          position: absolute;
-          top:0;
-          left:0;
-          width: 100%;
-          height: auto;
-          text-align:center;
-        } 
-      }
-
-
-      .row-5-up {
-        position: relative;
-        width: 60%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        display: block;
-        float: left;
-        text-align: center;
-
-        div {
-          width: 99%;
-          height: 98%;
-          background: #666;
-          margin: 1% 0 0 1%;
-          display: block;
-        }
-
-        img {
-          position: absolute;
-          top:0;
-          left:0;
-          width: 100%;
-          height: auto;
-          text-align:center;
-        } 
+  .gallery-item {
+    .product-img {
+      &:hover {
+        @include box-shadow(none);
+        background-color: none;
       }
 
     }
   }
 
-.rpArrow {
+  .gallery-item.plate .text-promo-title {
+    font-size: $font_25_16;
+    max-width: 265px;
+    top:30px;
 
+    strong {
+      font-family: $sansFontFamily;
+    }
+
+    @media (max-width:480px) {
+      font-size: $font_18_16;
+      top: 10px;
+      left: 10px;
+      max-width: none;
+    }
+  }
+
+  .gallery-item:after {
+    content: '';
+  }
+
+  .product-img:after {
+    content: '';
+  }
+
+  @media (max-width: 481px){
+
+    .product-img:after {
+      content: none;
+    }
+  }
+
+
+  width: 100%;
+  margin: 15px 0 0 0;
+  padding: 0 ;
+  position: relative;
+  direction: ltr;
+  overflow: hidden;
+
+   &:after {
+    content:'';
+    margin-top: 49.761151%;
+    display: block;
+  }
+
+  @media (max-width: 481px){
+
+    &:after {
+      content: none;
+    }
+  }
+
+  .small-size {
+    width: 204px;
+    height:337px;
+    display:block;
+    float:left;
+    margin-left:20px;
+
+    .gallery-item-inner {
+      height: 160px;
+    }
+  }
+
+  .gallery-item.plate strong {
+    display: block;
+  }
+
+  .normal:after {
+    //padding-top: 125.2900232%;
+  }
+
+  .normal .product-img:after {
+    /* padding-top: 75.980392156863%; */
+    padding-top: 80.980392%;
+  }
+
+  .medium:after {
+    /* padding-top: 118.490023%; */
+    padding-top: 142.290023%;
+  }
+
+  .medium .product-img:after {
+    padding-top: 100.22761%;
+    /* padding-top: 75.127610208817%; */
+  }
+
+  @media (max-width: 481px){
+    .medium .product-img:after {
+      padding-top: 75.980392156863%;
+
+    }
+  }
+
+  @media (max-width: 979px) {
+    
+    .related-products .medium:after {
+      padding-top: 142.290023%;
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 979px){
+
+    .rpGrid {
+      padding: 0 40px 0 40px;
+    }
+
+    .gallery-item:after {
+      padding-top: 127.196078%;
+    }
+
+    .gallery-item .gallery-item-inner,
+    .product-img .product-img-wrap {
+      position: absolute;
+    }
+
+    .medium.gallery-item:after {
+      /* padding-top: 140.796078%; */
+      padding-top: 142.896078%;
+    }
+
+    .medium .product-img:after {
+/*       padding-top: 115.12761%;
+      padding-top: 118.12761%; */
+      padding-top: 121.22761%;
+      /* padding-top: 75.127610208817%; */
+    }
+
+    .gallery-item.plate:after {
+      /* padding-top: 72.290255%; */
+      padding-top: 76.190255%
+    }
+
+  }
+
+  @media (min-width: 481px) and (max-width: 979px){
+    padding-top: 76.190255%
+  }
+
+  .promo:after {
+    padding-top: 54.524361948956%;
+  }
+
+  .gallery-item {
+    background:none;
+    margin-left: 0;
+
+    .product-img {
+      background: #ffffff; //we will be alternating during modes / variations so this for now override
+      background: #f3f4f6;
+    }
+  }
+
+  .rpBullets {
+    position: absolute;
+    z-index: 35;
+    left: 0;
+    bottom: 0px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 18px;
+    overflow: hidden;
+    cursor: pointer;
+
+    /* visibility: hidden; */
+  }
+
+/*   .rpBullet {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin: 0 0 0 5px;
+    border-radius: 5px;
+    background: #bcbccc;
+    cursor: pointer;
+    padding: 5px;
+    overflow: hidden;
+  }
+
+  .rpBullet.rpNavSelected  {
+    background-color: #2f353d;
+  } */
+
+  .rpBullet {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    *display:inline;
+    *zoom:1;
+    padding: 10px 9px 10px 8px;
+    cursor: pointer;
+  }
+
+  .rpBullet span {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #bcbccc;
+  }
+
+  .rpBullet.rpNavSelected span {
+    background: #2f353d;
+  }
+
+
+  .rpOverflow {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+
+ /*    background: #E9E9E9; */
+    -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  @media (max-width: 767px) {
+    max-width: 980px; /* Both Must be set for JS to size proportiontely */
+    min-height: 370px;
+  }
+
+  .rpContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
+  }
+
+  .rpSlide {
+    position: absolute;
+    left: 0;
+    top: -20px;
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
 
 }
 
+  @media (min-width: 481px) and (max-width: 768px){
+    .rpGrid {
+      padding: 0;
 
+    }
+  }
+
+.rpNav {
+
+  .paddle {
+    width: 50px;
+    height: 88px;
+    display:block;
+    background: #909398;
+    position: absolute;
+    top:25%;
+    margin: -44px 0 0 0;
+    cursor: pointer;
+
+    &.left {
+      left: 6.5%;
+      right: auto;
+    }
+
+    &.right {
+      left: auto;
+      right: 6.5%;
+    }
+  }
+}
 

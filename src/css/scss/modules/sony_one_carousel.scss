@@ -1,0 +1,150 @@
+/*  */
+.sony-one-carousel {
+  position: relative;
+  overflow: visible;
+
+}
+
+.soc-webkit3d {}
+
+.soc-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+.soc-container-inner {
+  width:100%;
+  display:block;
+  position: absolute;
+  top:0;
+  left:0;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+
+.soc-nav {
+
+  &.soc-bullets {
+    position: absolute;
+    z-index: 35;  
+    left: 0;
+    bottom: -30px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 18px;
+    overflow: hidden;
+
+    @media (max-width:479px) {
+      bottom: -20px;
+    }
+  }
+
+  .soc-bullet {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin: 5px 0 0 6px;
+    border-radius: 5px;
+    background: #bdbccc;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    @media (max-width:479px) {
+      width: 7px;
+      height: 7px;
+      margin: 0 0 0 3px;
+      border-radius: 4px;
+    }
+  }
+
+  .soc-bullet.soc-nav-selected  {
+    background-color: #2e3339;
+  }
+}
+
+.soc-content {
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0); 
+}
+
+.soc-grid {
+  max-width: 1400px ;
+}
+
+.soc-item {
+  position: relative;
+  display: block;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  cursor: pointer;
+  
+  @media (max-width: 480px) {
+    &.span12 {
+      width: 276px;
+      height: 370px;
+      *width: 277px;
+      *height:371px;    
+    }
+  }
+
+}
+
+.soc-item-inner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;  
+}
+
+.soc-item img {
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+  margin: auto;
+}
+
+.soc-grid {
+  padding: 0 120px 0 120px;
+  height: 100%;
+
+
+  @media (min-width: 481px) and (max-width: 768px) {
+      padding: 0 30px 0 30px;
+  }
+
+  @media (max-width: 480px) {
+      padding: 0 40px 0 40px;
+
+      .span12 {
+        width: 276px;
+        height: 370px;
+        *width: 277px;
+        *height:371px;
+      } 
+
+      padding: 0 10px 0 10px;
+
+      .soc-grid [class*="span"] {
+        margin-left: 0;
+      }
+  }
+
+}
+
+.soc-grid [class*="span"] {
+  margin-left: 2.06835%
+}

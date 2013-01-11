@@ -16,7 +16,6 @@
 //  -- even their default values, so it's all kept together.
 
 .nav-wrapper{ // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
-  height: $navbarTotalHeight;
   background:$navbarBackground;
 }
 
@@ -27,7 +26,7 @@
   z-index: 200;
   
   &.container{
-    max-width: $navMaxWidth;
+    // max-width: $navMaxWidth;
   }
 
   -webkit-transform: translate3d(0, 0, 0); // fix janky text
@@ -156,7 +155,9 @@
 
 
 
-.navbar-mobile{
+.navbar-mobile.container{
+  width:100%;
+  
   .sprite-reg-nav-sony-logo{
     display:block; // this is the normal (larger) size logo. Switch to small under 480px.
     position:absolute;

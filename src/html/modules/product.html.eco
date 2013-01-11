@@ -1,10 +1,14 @@
 
 <% if @data.view == "basic": %>
 <a class="gallery-item
-  <% if @data.layout == "large": %>
+  <% if @data.layout == "large" || @data.layout == "carousel": %>
     span3 large
   <% else if @data.layout == "promo": %>
     span2 promo
+  <% else if @data.layout == "medium": %>
+    span2 medium
+  <% else if @data.layout == "plate": %>
+    span2 plate
   <% else: %>
     span1 normal
   <% end %>"
@@ -14,7 +18,7 @@
     <span class="label label-success"><%- @data.label %></span>
     <% end %>
     <% if @data.layout == "promo": %>
-    <div class="product-img">
+    <div class="product-img" <% if @data.backgroundColor: %> style="background-color: <%- @data.backgroundColor %>" <% end %>>
       <div class="iq-img" data-src="<%- @data.img.src %>"></div>
       <div class="product-content">
         <p class="text-promo-title">
@@ -28,17 +32,37 @@
         <% end %>
       </div>
     </div>
+    <% else if @data.layout == "plate": %>
+    <div class="product-img" <% if @data.backgroundColor: %> style="background-color: <%- @data.backgroundColor %>" <% end %>>
+
+      <div class="product-content">
+        <p class="text-promo-title">
+          <strong><%- @data.title %></strong><%- @data.emphasis %>
+        </p>
+        <% if @data.count: %>
+        <p class="text-count">
+          <span class="number l2"><%- @data.count.number %></span>&nbsp;
+          <span class="text l3"><%- @data.count.text %></span>
+        </p>
+        <% end %>
+      </div>
+    </div>
     <% else: %>
     <div class="product-img">
       <div class="product-img-wrap ghost-center-wrap">
         <div class="ghost-center">
-          <% if @data.imgCarousel && @data.layout == "largeASDFASDFASDFASDFASDFASDFASDFASDF": %>
+          <% if @data.layout == "carousel": %>
             <% for img in @data.imgCarousel: %>
             <img class="iq-img" alt="<%- img.alt %>" data-src="<%- img.src %>">
             <noscript>
               <img src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
             </noscript>
             <% end %>
+          <% else if @data.layout == "medium": %>
+          <img class="iq-img" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+          <noscript>
+            <img src="<%- @data.img.noscriptsrc %>" alt="<%- @data.img.alt %>">
+          </noscript>
           <% else if @data.layout == "large": %>
           <img class="iq-img" alt="<%- @data.imgLarge.alt %>" data-src="<%- @data.imgLarge.src %>">
           <noscript>
@@ -133,13 +157,9 @@
       <div class="detail-group hidden">
         <% if @data.details: %>
         <% for detail in @data.details: %>
-        <div class="detail" itemprop="<%- detail.slug %>">
+        <div class="detail<% if detail.isHighlighted: %> highlighted<% end %>" itemprop="<%- detail.slug %>" data-label="<%- detail.label %>">
           <% if detail.value.check: %>
-            <% if detail.value.checked: %>
-            <div class="icon-ui-check"></div><%- detail.value.text %>
-            <% else: %>
-            <div class="icon-ui-ban"></div>NOPE
-            <% end %>
+            <%- detail.value.text %>
           <% else if detail.value.box: %>
               <p class="compare-box"><%- detail.value.box %></p>
               <p><%- detail.value.lineOne %></p>
@@ -154,11 +174,11 @@
               <% for value in detail.value: %>
               <li class="media">
                 <div class="pull-left">
-                  <i class="media-object icon-bestfor-<%- detail.icon %>"></i>
+                  <i class="media-object icon-bestfor-<%- value.icon %>"></i>
                 </div>
                 <div class="media-body">
-                  <p class="media-heading p3 text-dark"><%- detail.label %></p>
-                  <p class="p3"><%- detail.description %></p>
+                  <p class="media-heading p3 text-dark"><%- value.label %></p>
+                  <p class="p3"><%- value.description %></p>
                 </div>
               </li>
               <% end %>

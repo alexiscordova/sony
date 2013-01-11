@@ -1,0 +1,679 @@
+//
+// Responsive: Footer
+// --------------------------------------------------
+
+
+
+// -----------------------------------------
+// DEFAULT: 980px - 1199px;
+// -----------------------------------------
+//  .d8888b.   .d8888b.   .d8888b.                         d888    d888   .d8888b.   .d8888b.                    
+// d88P  Y88b d88P  Y88b d88P  Y88b                       d8888   d8888  d88P  Y88b d88P  Y88b                   
+// 888    888 Y88b. d88P 888    888                         888     888  888    888 888    888                   
+// Y88b. d888  "Y88888"  888    888 88888b.  888  888       888     888  Y88b. d888 Y88b. d888 88888b.  888  888 
+//  "Y888P888 .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888     888   "Y888P888  "Y888P888 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888 888     888         888        888 888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888     888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888 8888888 "Y8888P"   "Y8888P"  88888P"  888  888 
+//                                  888                                                        888               
+//                                  888                                                        888               
+//                                  888                              
+// -----------------------------------------
+
+.footer-wrapper{
+  padding:60px 0;
+
+  h5{
+    font-size:$font_15_16;
+    margin-bottom: 17px;
+  }
+  h6{
+    font-size:$font_11_16;
+  }
+  .dropdown-label{
+    font-size:$font_14_16;
+  }
+
+  .btn-group.country-selector,
+  .btn-hover-group.country-selector{
+    width: 46.2%;
+    min-width:185px;
+    float:left;
+    .dropdown-hover-menu-lists-w{
+      padding:24px 0 24px 0px;
+    }
+    .dropdown-hover-menu-list{
+      width:19.8%;
+    }
+  }
+
+  .btn-group.language-selector,
+  .btn-hover-group.language-selector{
+    width: 61px;
+    float:left;
+  }
+}
+
+
+
+.footer-form-border{
+  position:relative;
+  border-width:2px;
+  border-color:$grayDarkFieldLarge;
+  border-style:solid;
+  padding:6px;
+  overflow:hidden;
+
+  .footer-input{
+    border:none;
+    height:28px;
+    padding:0px 4px 3px 9px;
+    margin:0;
+    font-size:$font_13_16; 
+    width:72%;  
+    float:left; 
+    background:$footerBackground;
+    color:$white;
+
+    &:focus{
+      color:$white;
+    }
+  }
+  .footer-btn{
+    margin:3px;
+    padding-top:5px;
+    height:28px;
+    width:27%;
+    float:right;
+    margin:0;
+    font-size:$font_11_16;
+    @include fontRegular;
+  }
+}
+
+form.footer-store-locator-form{
+  margin:0;
+  i{
+    position:absolute;
+    font-size:$font_18_16;
+    margin:2px 0 0 1px;
+    color:$highlightColor;
+  }
+  .footer-store-locator-input{
+  }
+  .store-locator-submit-btn{
+  }
+}
+
+.footer-store-locator-caption{
+  font-size:$font_11_16;
+  margin:5px 0 0 0;
+}
+.footer-newsletter{
+  margin-top: 38px;
+  margin-bottom:45px;
+
+  h6{
+    margin-bottom:14px;
+  }
+  form{
+    margin-bottom:0;
+  }
+}
+
+.footer-contact.span6{
+  float:right;
+  padding-top: 5px;
+  text-align:right;
+  > p{
+    display:inline-block;
+
+    a{
+      display:inline-block;
+      position:relative;
+      top:-11px;
+      font-size:$font_13_16;
+      margin-right:20px;
+    }
+  }
+}
+.footer-language.span6{
+  margin-left:0;
+  float:left;
+}
+.footer-language-selectors{
+  @include clearfix;
+}
+.footer-social-links{
+  display:inline-block;
+
+  a{
+    display:inline-block;
+    width:36px;
+    height:32px;
+    float:left;
+    margin-left:2px;
+    background-color:$grayDark;
+
+    &.footer-social-twitter:hover,
+    &.footer-social-twitter:active,
+    &.footer-social-twitter:focus{
+      background-color:$twitterColor;
+    }
+    &.footer-social-facebook:hover,
+    &.footer-social-facebook:active,
+    &.footer-social-facebook:focus{
+      background-color:$facebookColor;
+    }
+    &.footer-social-gplus:hover,
+    &.footer-social-gplus:active,
+    &.footer-social-gplus:focus{
+      background-color:$gplusColor;
+    }
+    &.footer-social-youtube:hover,
+    &.footer-social-youtube:active,
+    &.footer-social-youtube:focus{
+      background-color:$youtubeColor;
+    }
+  }
+}
+
+.footer-signature{
+  position:relative
+}
+.footer-copyright{
+  font-size:$font_10_16;
+  text-transform:uppercase;
+  position:absolute;
+  left: 90px;
+  top: 4px;
+}
+
+
+
+// END 980px-1199px Default
+
+
+
+
+
+
+
+// ------------------------------------------------
+// LARGE DESKTOP
+// ------------------------------------------------
+//  d888    .d8888b.   .d8888b.   .d8888b.                            
+// d8888   d88P  Y88b d88P  Y88b d88P  Y88b                           
+//   888          888 888    888 888    888                           
+//   888        .d88P 888    888 888    888 88888b.  888  888   888   
+//   888    .od888P"  888    888 888    888 888 "88b `Y8bd8P' 8888888 
+//   888   d88P"      888    888 888    888 888  888   X88K     888   
+//   888   888"       Y88b  d88P Y88b  d88P 888 d88P .d8""8b.         
+// 8888888 888888888   "Y8888P"   "Y8888P"  88888P"  888  888         
+//                                          888                       
+//                                          888                       
+//                                          888 
+// ------------------------------------------------
+
+@media (min-width: 1200px) {
+
+} // END min-width: 1200px
+
+
+
+
+
+// ------------------------------------------------
+// EXTRA LARGE DESKTOP
+// ------------------------------------------------
+//  d888      d8888   .d8888b.   .d8888b.                            
+// d8888     d8P888  d88P  Y88b d88P  Y88b                           
+//   888    d8P 888  888    888 888    888                           
+//   888   d8P  888  888    888 888    888 88888b.  888  888   888   
+//   888  d88   888  888    888 888    888 888 "88b `Y8bd8P' 8888888 
+//   888  8888888888 888    888 888    888 888  888   X88K     888   
+//   888        888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.         
+// 8888888      888   "Y8888P"   "Y8888P"  88888P"  888  888         
+//                                         888                       
+//                                         888  
+// ------------------------------------------------                     
+                            
+@media (min-width: 1400px) {
+  
+
+.footer-wrapper{
+  .footer-language-selectors{
+    width: 46.2%;
+  }
+  .btn-group.country-selector,
+  .btn-hover-group.country-selector{
+    width: 76%;
+    float:left;
+  }
+  .btn-group.language-selector,
+  .btn-hover-group.language-selector{
+    width: 22%;
+  }
+}
+
+} // END min-width: 1400px
+
+
+
+
+
+// ------------------------------------------------
+// PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
+// ------------------------------------------------
+//  d888    .d8888b.   .d8888b.   .d8888b.         .d8888b.                                  888                  
+// d8888   d88P  Y88b d88P  Y88b d88P  Y88b       d88P  "88b                                 888                  
+//   888   888    888        888      .d88P       Y88b. d88P                                 888                  
+//   888   888    888      .d88P     8888"         "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//   888   888    888  .od888P"       "Y8b.       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//   888   888    888 d88P"      888    888       888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//   888   Y88b  d88P 888"       Y88b  d88P       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+// 8888888  "Y8888P"  888888888   "Y8888P"         "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
+// ------------------------------------------------
+
+@media (max-width: 1023px) {
+
+.footer-store-locator-form{
+  width:246px;
+  float:left;
+  margin-bottom:32px;
+}
+.footer-store-locator-caption{
+  float:left;
+}
+}
+
+
+
+// 888888888   .d8888b.   .d8888b.                         d888    .d8888b.   .d8888b.   .d8888b.                    
+// 888        d88P  Y88b d88P  Y88b                       d8888   d88P  Y88b d88P  Y88b d88P  Y88b                   
+// 888        888        Y88b. d88P                         888   888    888        888      .d88P                   
+// 8888888b.  888d888b.   "Y88888"  88888b.  888  888       888   888    888      .d88P     8888"  88888b.  888  888 
+//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'       888   888    888  .od888P"       "Y8b. 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888 888   888    888 d88P"      888    888 888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888   Y88b  d88P 888"       Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888  "Y8888P"  888888888   "Y8888P"  88888P"  888  888 
+//                                  888                                                            888               
+//                                  888                                                            888               
+//                                  888                                                            888               
+@media (min-width: 768px) and (max-width: 1023px) {
+
+.footer-wrapper.desktop-layout-to-568 .span3,
+.footer-wrapper .span3{
+  width:30.9%;
+}
+
+
+.footer-wrapper .footer-store-locator.span3{
+  width:100%;
+  float:none;
+  overflow:hidden;
+  padding-bottom: 30px;
+
+  h5{
+    display:block;
+    width:105px;
+    float:left;
+    position:relative;
+    top:5px;
+  }
+  + .span3{
+    margin-left:0;
+  }
+}
+
+.footer-newsletter{
+  .footer-form-border{
+    overflow:visible;
+    margin-bottom: 40px;
+
+    .footer-input{
+      width:99%;  
+      float:none; 
+    }
+    .footer-btn{
+      position:absolute;
+      top:47px;
+      left:0px;
+      width:66px;
+      float:none;
+      margin:0;
+    }
+  }
+  h6{
+    margin-bottom: 12px;
+  }
+}
+
+.footer-language.span6{
+  padding-top:67px;
+  padding-bottom:13px;
+}
+.footer-contact.span6{
+  padding-top:44px;
+  padding-right:4px;
+  > p{
+    display:block;
+    margin-bottom:0;
+    a{
+      margin-right:0; 
+    }
+    a:first-child{
+      margin-right:20px;      
+    }
+  }
+}
+
+} // END max-width: 1023px
+
+
+
+// ------------------------------------------------
+//     d8888   .d8888b.   .d8888b.                         d888    .d8888b.   .d8888b.   .d8888b.                    
+//    d8P888  d88P  Y88b d88P  Y88b                       d8888   d88P  Y88b d88P  Y88b d88P  Y88b                   
+//   d8P 888  Y88b. d88P 888    888                         888   888    888        888      .d88P                   
+//  d8P  888   "Y88888"  888    888 88888b.  888  888       888   888    888      .d88P     8888"  88888b.  888  888 
+// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888   888    888  .od888P"       "Y8b. 888 "88b `Y8bd8P' 
+// 8888888888 888    888 888    888 888  888   X88K  888888 888   888    888 d88P"      888    888 888  888   X88K   
+//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888   Y88b  d88P 888"       Y88b  d88P 888 d88P .d8""8b. 
+//       888   "Y8888P"   "Y8888P"  88888P"  888  888     8888888  "Y8888P"  888888888   "Y8888P"  88888P"  888  888 
+//                                  888                                                            888               
+//                                  888                                                            888               
+//                                  888                                                            888     
+// ------------------------------------------------
+@media (min-width: 480px) and (max-width: 1023px) {
+
+.footer-wrapper .footer-store-locator.span3{
+  .footer-store-locator-caption{
+    padding:9px 0 0 16px;
+  }
+}
+}
+
+
+
+// ------------------------------------------------
+// PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
+// ------------------------------------------------
+// 888888888   .d8888b.  8888888888                         .d8888b.  8888888888  .d8888b.                    
+// 888        d88P  Y88b       d88P                        d88P  Y88b       d88P d88P  Y88b                   
+// 888        888             d88P                         888    888      d88P  888    888                   
+// 8888888b.  888d888b.      d88P  88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
+//        888 888    888   d88P    888  888   X88K  888888        888   d88P            888 888  888   X88K   
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
+//                                 888                                                      888               
+//                                 888                                                      888               
+//                                 888                                                      888                        
+// ------------------------------------------------
+@media (min-width: 568px) and (max-width: 979px) {
+
+
+
+
+} // min-width: 768px and max-width: 979px
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------------------
+// MOBILE-LARGE (somewhere between tablet & mobile)
+// ------------------------------------------------
+//  8888888888  .d8888b.  8888888888                         .d8888b.                                  888                    
+//        d88P d88P  Y88b       d88P                        d88P  "88b                                 888                 
+//       d88P  888             d88P                         Y88b. d88P                                 888                 
+//      d88P   888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888
+//   88888888  888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"  
+//    d88P     888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888    
+//   d88P      Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888    
+//  d88P        "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888    
+//                                  888               
+//                                  888               
+//                                  888       
+// ------------------------------------------------    
+
+@media (max-width: 767px) {
+  
+
+} // max-width: 767px
+
+
+
+
+
+
+
+// ------------------------------------------------
+// LANDSCAPE PHONE AND BELOW
+// ------------------------------------------------
+// 888888888   .d8888b.  8888888888                         .d8888b.                                  888                  
+// 888        d88P  Y88b       d88P                        d88P  "88b                                 888                  
+// 888        888             d88P                         Y88b. d88P                                 888                  
+// 8888888b.  888d888b.      d88P  88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//        888 888    888   d88P    888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                 888                                                                                     
+//                                 888                                                                                     
+//                                 888                                                                                     
+
+@media (max-width: 767px) {
+
+.footer-wrapper{
+
+  padding:0 0 60px;
+  [class*="span"] {
+    margin-left:inherit;
+    float:none;
+    width:100%;
+  }
+
+  .span3{
+    width:100%;
+    overflow:hidden;
+  }
+  .footer-mobile-section[class*="span"]{
+    overflow:hidden;
+    border-bottom: solid 1px $grayDarkFieldLarge;
+
+    .footer-links-list{
+      padding-bottom: 19px;
+    }
+
+    &.collapsed{
+      height:51px;
+    }
+    &.transition-height{
+      @include transition(height $transitionNormal ease-out);
+    }
+  }
+  h5{ // these turn into clickable headers, so need to be blocky. move margins to padding.
+    position:relative;
+    margin-bottom:0;
+    margin-top:0;
+    padding-bottom: 13px;
+    padding-top:15px;
+
+    .icon-ui-arrowhead-down-gray{
+      position:absolute;
+      top:50%;
+      right:0;
+    }
+  }
+  .footer-store-locator-form{
+    margin-bottom:19px;
+  }
+
+
+  .btn-group.language-selector,
+  .btn-hover-group.language-selector{
+    width:20%;
+  }
+  .btn-group.country-selector,
+  .btn-hover-group.country-selector{
+    width: 78%;
+  }
+
+
+  .footer-store-locator.span3{
+    border-top: solid 1px $grayDarkFieldLarge;    
+    h5{
+      width:100%;
+      padding-top: 15px;
+      padding-bottom: 17px;
+      margin-top: 0;
+      margin-bottom:2px;
+    }
+  }
+}
+
+.footer-link-li{
+  line-height: 1.9;
+}
+
+
+
+
+.footer-newsletter {
+  margin-top: 24px;
+  margin-bottom: 26px;
+
+  .footer-form-border{
+    margin-bottom:0;
+
+    .footer-input{
+      width:72%;
+    }
+    .footer-btn{
+      position:inherit;
+      top:auto;
+      left:auto;
+      float:right;
+    }
+  }
+}
+.footer-contact.span6{
+  width:auto;
+  float:none;
+  text-align:center;
+
+  > p{
+    display:block;
+    font-size:$font_16_16;
+    line-height:1.85;
+    margin-top:21px;
+
+    a,
+    a:first-child{
+      margin-right:0;
+      top:auto;
+      display:block;
+      text-align:center;
+    }
+  }
+}
+
+.footer-language.span6{
+  // overflow:hidden;
+  padding-top: 28px;
+  margin-top:30px;
+  border-top: solid 2px $grayDarkFieldLarge; 
+
+  .footer-language-selectors{
+    max-width:300px;
+    margin:0 auto;
+  }
+  .dropdown-hover-menu-lists-w{
+    @include box-shadow(-1px 0px 1px 0px rgba(0,0,0,0.2));
+  }
+}
+
+
+
+.footer-signature-w{
+  border:none;
+  margin-top:0;
+}
+.footer-signature .sprite-reg-nav-sony-logo {
+  position: relative;
+  margin:0 0 9px 0;
+}
+.footer-signature{
+  text-align:center;
+}
+.footer-copyright{
+  position:static;
+  top:auto;
+}
+
+.footer-legal-links{
+  a{
+    display:block;
+    font-size:$font_11_16;
+    line-height: 2.4;
+  }
+}
+
+
+} // max-width: 567px
+
+
+
+
+
+
+
+
+// ------------------------------------------------
+// LANDSCAPE PHONE AND BELOW
+// ------------------------------------------------
+//     d8888  8888888888  .d8888b.                           .d8888b.                                  888                  
+//    d8P888        d88P d88P  Y88b                         d88P  "88b                                 888                  
+//   d8P 888       d88P  888    888                         Y88b. d88P                                 888                  
+//  d8P  888      d88P   Y88b. d888 88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+// d88   888   88888888   "Y888P888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+// 8888888888   d88P            888 888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//       888   d88P      Y88b  d88P 888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//       888  d88P        "Y8888P"  88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                  888                                                                                     
+//                                  888                                                                                     
+//                                  888    
+// ------------------------------------------------
+
+@media (max-width: 479px) {
+
+.footer-wrapper{
+  .footer-store-locator.span3{
+    h5{
+    }
+    .footer-store-locator-form{
+      width:100%;
+    }
+    .footer-store-locator-caption{
+      padding-bottom:3px;
+      color:$white;
+    }
+  }
+}
+
+} // max-width: 479px
+
+
+
+

@@ -58,35 +58,35 @@ h1, h2, h3, h4, h5, h6 {
     line-height: $baseLineHeight * 0.7;
     color: $gray;
   }
-  em{
+  em {
     @include fontHeadingItalic();
   }
 }
 
 h1 {
   font-size: $font_54_16;
-} 
-h2 { 
+}
+h2 {
   font-size: $font_44_16;
 }
-h3 { 
+h3 {
   font-size:  $font_32_16;
   line-height: $baseLineHeight * 0.75;
-} 
-h4 { 
+}
+h4 {
   font-size: $font_26_16;
-} 
-h5 { 
+}
+h5 {
   font-size: $font_18_16;
-} 
-h6 { 
+}
+h6 {
   font-size: $font_16_16;
 }
 
 // ----------------------------------
 // Labels
 // ----------------------------------
-.l1{
+.l1 {
   font-size:$font_22_16;
   text-transform:uppercase;
   @include fontBold;
@@ -94,19 +94,19 @@ h6 {
   em { @include fontBoldItalic; }
 }
 
-.l2, .l3, .l4{
+.l2, .l3, .l4 {
   text-transform:uppercase;
   @include fontMedium;
   em { @include fontMediumItalic; }
 }
-.l2{
+.l2 {
   font-size:$font_15_16;
 }
-.l3{
+.l3 {
   font-size:$font_12_16;
   color: $headingsColor;
 }
-.l4{
+.l4 {
   font-size:$font_11_16;
 }
 
@@ -114,21 +114,21 @@ h6 {
 // ----------------------------------
 // Paragraphs
 // ----------------------------------
-.p1{
+.p1 {
   font-size:$font_20_16;
   line-height: $baseLineHeight * 0.93;
 }
-.p2{ /* Standard P tag; P2 class is not necessary, but kept for sake of relative sizing logic */
+.p2 { /* Standard P tag; P2 class is not necessary, but kept for sake of relative sizing logic */
   // font-size:$font_15_16;
 }
-.p3{
+.p3 {
   font-size:$font_13_16;
 }
-.p4{
+.p4 {
   font-size: $font_12_16;
   @include fontItalic;
 }
-.p5{
+.p5 {
   font-size: $font_11_16;
 }
 
@@ -137,14 +137,14 @@ h6 {
 // ----------------------------------
 // TextLinks
 // ----------------------------------
-.tl{
+.tl {
   font-size: $font_13_15;  /* -- Default textlink size is small. */
 }
-.tl-large{
+.tl-large {
   font-size: $font_15_15;
 }
-.tl-arrow-right{
-  &:after{
+.tl-arrow-right {
+  &:after {
     @include pseudoEl-inline-block();
     @extend .icon-ui-pseudo-el-arrow-right-blue;
     position: relative;
@@ -152,7 +152,7 @@ h6 {
     margin-left: 9px;
     margin-top: 5px;
   };
-  &.tl-large:after{
+  &.tl-large:after {
     top: 3px;
   };
 }
@@ -176,35 +176,35 @@ blockquote {
   @include fontLightItalic;
   color: $headingsColor;
 
-  p{
+  p {
     line-height: $baseLineHeight;
   }
-  p:first-child{
+  p:first-child {
     text-indent:-14px;
   }
-  p:first-child:before{
+  p:first-child:before {
     content: "\201c";
     line-height:0; /* make sure it doesn't affect the real content. */
   }
-  p:last-child:after{
+  p:last-child:after {
     content: "\201d";
     line-height:0; /* make sure it doesn't affect the real content. */
   }
 }
 blockquote > p,
-blockquote.bq2 > p{
+blockquote.bq2 > p {
   font-size: $font_28_16;
-  line-height: $baseLineHeight * 0.76;    
+  line-height: $baseLineHeight * 0.76;
   letter-spacing:-0.035em;
-  &:first-child{
+  &:first-child {
     text-indent:-12px;
   }
 }
-blockquote.bq1 > p{
+blockquote.bq1 > p {
   font-size: $font_40_16;
-  line-height: $baseLineHeight * 0.76;  
-  letter-spacing:-0.025em; 
-  &:first-child{
+  line-height: $baseLineHeight * 0.76;
+  letter-spacing:-0.025em;
+  &:first-child {
     text-indent:-14px;
   }
 }
@@ -236,26 +236,26 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-  font-size: $font_13_16; 
+  font-size: $font_13_16;
   line-height: $baseLineHeight;
 }
 
-.text-number-callout-large{
+.text-number-callout-large {
   font-size: $font_60_16;
   font-family: $sansFontFamilyLight;
   @include fontLight;
   em { @include fontLightItalic; }
   color:$headingsColor;
 }
-.text-promo-title{
+.text-promo-title {
   font-size:$font_25_16;
   line-height: $baseLineHeight * 0.8;
   @include fontLight;
   em { @include fontLightItalic; }
-  strong{
+  strong {
     @include fontRegular;
     em { @include fontItalic; }
-    color:$headingsColor;    
+    color:$headingsColor;
   }
 }
 
@@ -358,28 +358,24 @@ address {
 
 
 
-.testing{}
+.testing {}
   // Type Tests -- These will be deleted once testing is complete.
-  
-  .SST-Roman{
-    @include fontRegular;
-  }
 
-  // .SST-Roman-ttf{
+  // .SST-Roman-ttf {
   //   font-family: "SST-Roman-ttf", "Helvetica Neue", Helvetica, Arial, sans-serif;
   //   font-weight:normal;
   //   font-style:normal;
   //   font-size:15px;
   //   line-height:1;
   // }
-  // .SST-Roman-otf{
+  // .SST-Roman-otf {
   //   font-family: "SST-Roman-otf", "Helvetica Neue", Helvetica, Arial, sans-serif;
   //   font-weight:normal;
   //   font-style:normal;
   //   font-size:15px;
   //   line-height:1;
   // }
-  // .SST-Roman-woff{
+  // .SST-Roman-woff {
   //   font-family: "SST-Roman-woff", "Helvetica Neue", Helvetica, Arial, sans-serif;
   //   font-weight:normal;
   //   font-style:normal;
@@ -387,88 +383,86 @@ address {
   //   line-height:1;
   // }
 
-  // .SST-Roman{
-  //   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
+
+
+
+  // .SST-Roman {
+  //   @include fontRegular;
   // }
-  // .SST-Italic{
-  //   font-family: "SST-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
+  // .SST-Italic {
+  //   @include fontItalic;
   // }
-  // .SST-Roman-i{
-  //   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style: italic;
+  // .SST-Light {
+  //   @include fontLight;
+  // }
+  // .SST-Light-Italic {
+  //   @include fontLightItalic;
+  // }
+  // .SST-Medium {
+  //   @include fontMedium;
+  // }
+  // .SST-Medium-Italic {
+  //   @include fontMediumItalic;
+  // }
+  // .SST-Bold {
+  //   @include fontBold;
+  // }
+  // .SST-Bold-Italic {
+  //   @include fontBoldItalic;
   // }
 
-  // .SST-Light{
-  //   font-family: "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  // }
-  // .SST-Light-Italic{
-  //   font-family: "SST-Light-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  // }
-  // .SST-Light-i{
-  //   font-family: "SST-Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style: italic;
-  // }
 
-  // .SST-Medium{
-  //   font-family: "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  // }
-  // .SST-Medium-Italic{
-  //   font-family: "SST-Medium-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  // }
-  // .SST-Medium-i{
-  //   font-family: "SST-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style: italic;
-  // }
 
-  // .SST-Bold{
-  //   font-family: "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  // }
-  // .SST-Roman-b{
-  //   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight: bold;
-  //   font-style:normal;
-  // }
-  // .SST-Bold-Italic{
-  //   font-family: "SST-Bold-Italic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  // }
-  // .SST-Bold-i{
-  //   font-family: "SST-Bold", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style: italic;
-  // }
-  // .SST-Roman-b-i{
-  //   font-family: "SST-Roman", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight: bold;
-  //   font-style: italic;
-  // }
 
-  // .SST-Heavy{
-  //   font-family: "SST-Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  // }
-  // .SST-Heavy-Italic{
-  //   font-family: "SST-Heavy", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  //   font-weight:normal;
-  //   font-style:normal;
-  // }
+.SST-Roman {
+  font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.SST-Italic {
+  font-family: "SST W01 Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.SST-Light {
+  font-family: "SST W01 Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.SST-Light-Italic {
+  font-family: "SST W01 Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.SST-Medium {
+  font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.SST-Medium-Italic {
+  font-family: "SST W01 Medium Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.SST-Bold {
+  font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.SST-Bold-Italic {
+  font-family: "SST W01 Bold Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+
 

@@ -1,112 +1,76 @@
 ---
 desc: 'Here are some modules with unique data:'
-layout1: [ "large" , "promo", "normal" , "normal" ]
-layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
+layout1: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
+layout2: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
 ---
-<!-- <section class="hero">
-  <div class="hero-img-wrap">
-    <img src="img/headphones-hero.jpg" alt="">
-  </div>
-  <div class="ghost-center-wrap hero-text-wrap">
-    <div class="hero-text ghost-center">
-      <div class="container">
-        <div class="hidden-phone">hi</div>
-        <h1>Related Products</h1>
-      </div>
-    </div>
-  </div>
-  
-<img class="iq-img" alt="sony camera" data-src="sony-camera.jpg">
-<noscript>
-  <img src="img/sony-camera-desktop.jpg">
-</noscript>
 
-</section> -->
-<!-- <h4>Related Products Module</h4>
-<div class="btn btn-mini btn-alt rpArrow left">Previous</div>
-<div class="btn btn-mini btn-alt rpArrow right">Next</div> -->
-<div class="container" style='max-width:980px'>
-  <section class="related-products">
-    <div class="rpOverflow" id="rpOverflow">
-      <div class="rpContainer grid5">
-        <div class='rpSlide grid grid-small'>
-          
+<div class="container grid5 mobile-container-padded">
+  <div class="rpGrid grid grid-small">
+    <h3 class="l1">WHAT'S HOT</h3>
+    <section class="related-products">
+      <div class="rpOverflow" id="rpOverflow">
+        <div class="rpContainer">
+          <div class="rpSlide">
             <% i = 0 %> 
-
+            <% for module in @data.submodules: %>
+              <% d = @this.data(module.data) %>
+              <% if d.featured && d.type == "product" : %>
+                <% d.layout = @document[@data.featured.layout[0]][i++] %>
+                <% d.view = "basic" %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+              <% end %>
+            <% end %>     
+          </div>
+          <div class="rpSlide">
+            <% i = 0 %> 
+            <% for module in @data.submodules: %>
+              <% d = @this.data(module.data) %>
+              <% if d.featured && d.type == "product" : %>
+                <% d.layout = @document[@data.featured.layout[1]][i++] %>
+                <% d.view = "basic" %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+              <% end %>
+            <% end %>     
+          </div>
+          <div class="rpSlide">
+            <% i = 0 %> 
+            <% for module in @data.submodules: %>
+              <% d = @this.data(module.data) %>
+              <% if d.featured && d.type == "product" : %>
+                <% d.layout = @document[@data.featured.layout[0]][i++] %>
+                <% d.view = "basic" %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+              <% end %>
+            <% end %>     
+          </div>
+          <div class="rpSlide">
+            <% i = 0 %>
             <% for module in @data.submodules: %>
                 <% d = @this.data(module.data) %>
                 <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
+                <% d.layout = @document[@data.featured.layout[1]][i++] %>
+                <% d.view = "basic" %>
+                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+              <% end %>
+            <% end %>     
+          </div>
+          <div class="rpSlide">
+            <% i = 0 %> 
+            <% for module in @data.submodules: %>
+                <% d = @this.data(module.data) %>
+                <% if d.featured && d.type == "product" : %>
+                <% d.layout = @document[@data.featured.layout[0]][i++] %>
                 <% d.view = "basic" %>
                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
               <% end %>
             <% end %>     
-          
-        </div>
-
-        <div class='rpSlide grid grid-small'>
-          
-            <% i = 0 %> 
-
-            <% for module in @data.submodules: %>
-                <% d = @this.data(module.data) %>
-                <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
-                <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
-          
-        </div>
-        <div class='rpSlide grid grid-small'>
-          
-            <% i = 0 %> 
-
-            <% for module in @data.submodules: %>
-                <% d = @this.data(module.data) %>
-                <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
-                <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
-          
-        </div>
-
-        <div class='rpSlide grid grid-small'>
-          
-            <% i = 0 %> 
-
-            <% for module in @data.submodules: %>
-                <% d = @this.data(module.data) %>
-                <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
-                <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
-          
-        </div>
-
-        <div class='rpSlide grid grid-small'>
-          
-            <% i = 0 %> 
-
-            <% for module in @data.submodules: %>
-                <% d = @this.data(module.data) %>
-                <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout][i++] %>
-                <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
-          
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
-<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 <script src="js/libs/bootstrap-transition.js"></script>
  

@@ -32,7 +32,7 @@ body.modal-open {
 
 .modal-backdrop,
 .modal-backdrop.fade.in {
-  @include opacity(80);
+  @include opacity(70);
 }
 
 // Base modal
@@ -115,7 +115,8 @@ body.modal-open {
   &.fade.in { top: 0; }
 
   .modal-header {
-    padding: 52px 0 34px;
+    padding-top: 3.25em;
+    padding-bottom: 2.125em;
     border: none;
   }
 
@@ -127,7 +128,7 @@ body.modal-open {
   .modal-body {
     overflow-y: visible;
     max-height: none;
-    padding: 0;
+    padding: 1.25em 0 0;
     @include lightGrayInset();
   }
 }

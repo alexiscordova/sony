@@ -165,8 +165,8 @@
 
   &.btn-small {
     width: 138px;
-    padding: $btnAltSmallPadding; 
-    font-size: 0.73333333333em; /* 11px/15px */ //inside of <p> or <td>   
+    padding: $btnAltSmallPadding;
+    font-size: 0.73333333333em; /* 11px/15px */ //inside of <p> or <td>
   }
 }
 
@@ -194,13 +194,10 @@
     border-color: $gray;
   }
 
-  &.btn-alt-plus:after {
-    content: '';
+  &.btn-alt-plus i {
     position: absolute;
     right: $btnAltSpecialPadding;
     margin-top: 8px;
-    @extend %icon;
-    @extend .icon-ui-plus-tiny;
   }
 }
 
@@ -242,15 +239,12 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    margin: 0;    
+    margin: 0;
   }
 }
 
-.btn-icon-ui-left {
-
-  i {
-    margin-right: 8px;
-  }
+.btn-icon-ui-left i {
+  margin-right: 8px;
 }
 
 // Text that shouldn't wrap
@@ -272,7 +266,7 @@
   font-size: 1.2em;
   line-height: $baseLineHeight * 1.1;
   &.btn-special{
-    padding: $btnSpecialLargePadding;    
+    padding: $btnSpecialLargePadding;
   }
 }
 .btn-large [class^="icon-"] {
@@ -285,7 +279,7 @@
   font-size: 0.8em;
   line-height: $baseLineHeight * 0.75;
   &.btn-special{
-    padding: $btnSpecialSmallPadding;    
+    padding: $btnSpecialSmallPadding;
   }
 }
 .btn-small [class^="icon-"] {
@@ -298,7 +292,7 @@
   font-size: 0.75em;
   line-height: $baseLineHeight * 0.6;
   &.btn-special{
-    padding: $btnSpecialMiniPadding;    
+    padding: $btnSpecialMiniPadding;
   }
 }
 
