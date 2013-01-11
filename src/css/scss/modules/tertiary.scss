@@ -6,16 +6,12 @@
 	@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 	@import "../_base/mixins";
 
-	.clearfix {
-	  @include clearfix;
-	}
-
 	*{
 	  @include borderBox;
-	  @include noTouchHold;
+	  // @include noTouchHold;
 	}
-// END TEMP
 
+// END TEMP
 
 .tcc-wrapper{
 	position: relative;
@@ -25,7 +21,8 @@
 
 	.tcc-body-wrapper{
 		display: block;
-		overflow: auto;
+		//overflow: auto;
+		overflow: hidden;
 		position: relative;
 		text-align: center;
 		z-index: 1;
