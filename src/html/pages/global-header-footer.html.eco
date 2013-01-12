@@ -22,7 +22,45 @@
 			<div id="page-wrap-inner" class="page-wrap-inner">
 
 		<%-@partial('modules/global_header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
-    	<section class="container" style="background:rgb(70, 70, 70); height:500px;"></section>
+    	<section class="container phone-layout-at-767 XXcontainer-mobile-full-bleed" style="background:rgb(70, 70, 70); XXheight:500px;">
+    		
+    		<div class="bs-docs-grid">
+          <div class="grid show-grid">
+            <div class="span1" data-original-title="">1</div>
+            <div class="span1" data-original-title="">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+            <div class="span1">1</div>
+          </div>
+          <div class="grid show-grid XXgrid-mobile-full-bleed">
+            <div class="span2" data-original-title="">2</div>
+            <div class="span3">3</div>
+            <div class="span3">3</div>
+            <div class="span4">4</div>
+          </div>
+          <div class="grid show-grid">
+            <div class="span6" data-original-title="">6</div>
+            <div class="span6">6</div>
+          </div>
+          <div class="grid show-grid">
+            <div class="span12" data-original-title="">12</div>
+          </div>
+        </div>
+
+        <div class="grid show-grid">
+          <div class="span3">3</div>
+          <div class="span4 offset2" data-original-title="">4 offset 2</div>
+          <div class="span3">3</div>
+        </div>
+
+    	</section>
 		<%-@partial('modules/global_footer.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
 
 <% if 'debug' in @getEnvironments():%>

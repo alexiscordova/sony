@@ -1,0 +1,133 @@
+// ------------------------------------------------------------------------------------
+// UP TO LANDSCAPE PHONE
+// ------------------------------------------------------------------------------------
+//     d8888  8888888888  .d8888b.                           .d8888b.                                  888                  
+//    d8P888        d88P d88P  Y88b                         d88P  "88b                                 888                  
+//   d8P 888       d88P  888    888                         Y88b. d88P                                 888                  
+//  d8P  888      d88P   Y88b. d888 88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+// d88   888   88888888   "Y888P888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+// 8888888888   d88P            888 888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//       888   d88P      Y88b  d88P 888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//       888  d88P        "Y8888P"  88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                  888                                                                                     
+//                                  888                                                                                     
+//                                  888                                                                                     
+// ------------------------------------------------------------------------------------
+
+@media (max-width: 479px) {
+
+  // .mobile-container-padded{
+  //   padding-left:$containerMarginWidth320;
+  //   padding-right:$containerMarginWidth320;
+  // }
+  // .mobile-container-margined{
+  //   margin-left:$containerMarginWidth320;
+  //   margin-right:$containerMarginWidth320;
+  // }
+
+  .grid5 {
+
+    .grid [class*="span"],
+    [class*="span"] {
+      float: left;
+      min-height: 1px;
+      margin-left: 2%;
+      width: 48%;
+    }
+
+    .grid [class*="span"]:first-child,
+    [class*="span"]:first-child {
+      margin-left: 0;
+    }
+
+  }
+
+  // Smooth out the collapsing/expanding nav
+  .nav-collapse {
+    -webkit-transform: translate3d(0, 0, 0); // activate the GPU
+  }
+
+  // Block level the page header small tag for readability
+  .page-header h1 small {
+    display: block;
+    line-height: $baseLineHeight;
+  }
+
+  // Update checkboxes for iOS
+  input[type="checkbox"],
+  input[type="radio"] {
+    border: 1px solid #ccc;
+  }
+
+  // Remove the horizontal form styles
+  .form-horizontal {
+    .control-label {
+      float: none;
+      width: auto;
+      padding-top: 0;
+      text-align: left;
+    }
+    // Move over all input controls and content
+    .controls {
+      margin-left: 0;
+    }
+    // Move the options list down to align with labels
+    .control-list {
+      padding-top: 0; // has to be padding because margin collaspes
+    }
+    // Move over buttons in .form-actions to align with .controls
+    .form-actions {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+
+  // Modals
+  .modal {
+    top:   10px;
+    left:  10px;
+    right: 10px;
+  }
+
+  .takeover {
+    top:   0;
+    left:  0;
+    right: 0;
+  }
+
+  .modal-header .close {
+    padding: 10px;
+    margin: -10px;
+  }
+
+  .takeover .modal-header {
+    position: fixed;
+    z-index: 10;
+    padding: 8px 2px;
+    height: 50px;
+    background: $grayDark;
+
+    h3 {
+      color: $white;
+      font-size: 1em;
+    }
+  }
+
+  .takeover .modal-subheader {
+    padding-top: 50px;
+  }
+
+  .takeover .product-count-wrap {
+    display: block;
+  }
+
+  .takeover .modal-header .box-close {
+
+  }
+
+  // Carousel
+  .carousel-caption {
+    position: static;
+  }
+
+}

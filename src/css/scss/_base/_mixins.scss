@@ -1062,9 +1062,19 @@ $default-transition-delay    : 0s;
 
 
 
-// Grid System
-// -----------
 
+
+// The Grid
+// --------------------------------------------
+//  .d8888b.          d8b      888 
+// d88P  Y88b         Y8P      888 
+// 888    888                  888 
+// 888        888d888 888  .d88888 
+// 888  88888 888P"   888 d88" 888 
+// 888    888 888     888 888  888 
+// Y88b  d88P 888     888 Y88b 888 
+//  "Y8888P88 888     888  "Y88888
+// --------------------------------------------
 
 // Table columns
 @mixin tableColumns($columnSpan: 1) {
@@ -1086,7 +1096,9 @@ $default-transition-delay    : 0s;
 }
 
 
-// The Grid
+
+
+//  
 @mixin grid-core($gridColumnWidth, $gridGutterWidth, $numColumns: $gridColumns) {
 
 	[class*="span"] {
@@ -1131,24 +1143,8 @@ $default-transition-delay    : 0s;
 }
 
 
-// @mixin container-and-grid-widths($fluidOrFixed, $containerWidth, $gridWidth){
-// 	@if ($fluidOrFixed == fixed){
-// 		$containerName = container-px-width;
-// 		$gridName = grid-px-width;
-// 	} else if ($fluidOrFixed == px) {
-// 		$containerName = container-px-width;
-// 		$gridName = grid-px-width;
-// 	} else {
-// 		$containerName = container;
-// 		$gridName = grid;
-// 	}
-// 	.#{$containerName} { width: $containerWidth; }
-// 	.#{$containerName}.full-bleed { width:$containerMaxWidth; }
-// 	.#{$containerName}.full-bleed-no-max { width:100%; }
 
-// 	.#{$gridName} { width:$gridWidth; }
-//   .#{$gridName}.full-bleed { width:100%; }
-// }
+
 
 @mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns) {
 	.grid {
@@ -1201,12 +1197,10 @@ $default-transition-delay    : 0s;
 	width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1));
 	*width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%);
 }
-
 @mixin grid-fluid-offset($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
 	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth * 2);
 	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + ($fluidGridGutterWidth * 2) - (.5 / $gridWidth * 100px * 1%);
 }
-
 @mixin grid-fluid-offset-first-child($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
 	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth);
 	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
@@ -1229,7 +1223,6 @@ $default-transition-delay    : 0s;
 	// generate .spanX
 	@include grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth);
 }
-
 @mixin grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
 	@while $gridColumns > 0 {
 		input.span#{$gridColumns},
@@ -1240,7 +1233,6 @@ $default-transition-delay    : 0s;
 		$gridColumns: $gridColumns - 1;
 	}
 }
-
 @mixin grid-input-span($columns, $gridColumnWidth, $gridGutterWidth) {
 	width: (($gridColumnWidth) * $columns) + ($gridGutterWidth * ($columns - 1)) - 14;
 }

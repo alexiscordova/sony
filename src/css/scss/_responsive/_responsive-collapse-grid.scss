@@ -1,0 +1,177 @@
+//
+//
+//
+//
+// Responsive: Optionally collapse the grid below a specified breakpoint.
+// ---------------------------------------------------------------------------------------------------
+//  .d8888b.           888 888                                            .d8888b.          d8b      888       888b     d888 d8b          d8b          
+// d88P  Y88b          888 888                                           d88P  Y88b         Y8P      888       8888b   d8888 Y8P          Y8P          
+// 888    888          888 888                                           888    888                  888       88888b.d88888                           
+// 888         .d88b.  888 888  8888b.  88888b.  .d8888b   .d88b.        888        888d888 888  .d88888       888Y88888P888 888 888  888 888 88888b.  
+// 888        d88""88b 888 888     "88b 888 "88b 88K      d8P  Y8b       888  88888 888P"   888 d88" 888       888 Y888P 888 888 `Y8bd8P' 888 888 "88b 
+// 888    888 888  888 888 888 .d888888 888  888 "Y8888b. 88888888       888    888 888     888 888  888       888  Y8P  888 888   X88K   888 888  888 
+// Y88b  d88P Y88..88P 888 888 888  888 888 d88P      X88 Y8b.           Y88b  d88P 888     888 Y88b 888       888   "   888 888 .d8""8b. 888 888  888 
+//  "Y8888P"   "Y88P"  888 888 "Y888888 88888P"   88888P'  "Y8888         "Y8888P88 888     888  "Y88888       888       888 888 888  888 888 888  888 
+//                                      888                                                                                                            
+//                                      888                                                                                                            
+//                                      888                                                                                                            
+// ---------------------------------------------------------------------------------------------------
+
+// I put the contents of the breakpoint into a mixin, so it can easily be defined for whatever breakpoint you need it to trigger at,
+@mixin collapse-grid ($overrideClass:""){
+  #{$overrideClass}.grid4,
+  #{$overrideClass} .grid4, {
+    @include grid-fluid($fluidGrid4ColWidth, $fluidGrid4GutterWidth, $grid4Columns);
+  }
+
+  .container.container-mobile-full-bleed{
+    width:100%;
+  }
+  .grid.grid-mobile-full-bleed{
+    width:100%;
+  }
+
+  // Fluid grid
+  // #{$overrideClass}.container,
+  // #{$overrideClass} .container,
+  // #{$overrideClass}.grid,
+  // #{$overrideClass} .grid,
+  // #{$overrideClass}.container-px-width,
+  // #{$overrideClass} .container-px-width,
+  // #{$overrideClass}.grid-px-width,
+  // #{$overrideClass} .grid-px-width{
+  //   width: 100%;
+  // }
+
+  // #{$overrideClass}.mobile-container-padded,
+  // #{$overrideClass} .mobile-container-padded{
+  //   padding-left:$fluidContainerWidth480;
+  //   padding-right:$fluidContainerWidth480;
+  // }
+  // #{$overrideClass}.mobile-container-margined,
+  // #{$overrideClass} .mobile-container-margined{
+  //   margin-left:$fluidContainerWidth480;
+  //   margin-right:$fluidContainerWidth480;
+  // }
+
+
+  // GRID & CONTAINERS
+  // -----------------
+
+  // Undo negative margin on fixed width grids and thumbnails
+  #{$overrideClass}.grid-px-width,
+  #{$overrideClass} .grid-px-width,
+  .thumbnails {
+    margin-left: 0;
+  }
+  .thumbnails > li {
+    float: none;
+    margin-left: 0; // Reset the default margin for all li elements when no .span* classes are present
+  }
+
+
+  // Make all grid-sized elements block level again
+  #{$overrideClass}.grid:not(.grid-small) [class*="span"],
+  #{$overrideClass} .grid:not(.grid-small) [class*="span"],
+  #{$overrideClass}.grid:not(.grid-small) [class*="offset"],
+  #{$overrideClass} .grid:not(.grid-small) [class*="offset"],
+  #{$overrideClass}.grid-px-width:not(.grid-small) [class*="span"],
+  #{$overrideClass} .grid-px-width:not(.grid-small) [class*="span"],
+  #{$overrideClass}.grid-px-width:not(.grid-small) [class*="offset"]
+  #{$overrideClass} .grid-px-width:not(.grid-small) [class*="offset"]
+  // [class*="span"],
+  // .grid [class*="span"],
+  // [class*="offset"],
+  // .grid [class*="offset"],
+  // [class*="span"]:first-child,
+  // .grid [class*="span"]:first-child,
+  // [class*="offset"]:first-child,
+  // .grid [class*="offset"]:first-child
+  {
+    float: none;
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    // @include box-sizing(border-box);
+  }
+
+  // FORM FIELDS
+  // -----------
+  // Make span* classes full width
+  #{$overrideClass} .input-large,
+  #{$overrideClass} .input-xlarge,
+  #{$overrideClass} .input-xxlarge,
+  #{$overrideClass} input[class*="span"],
+  #{$overrideClass} select[class*="span"],
+  #{$overrideClass} textarea[class*="span"],
+  #{$overrideClass} .uneditable-input {
+    @include input-block-level();
+  }
+  // But don't let it screw up prepend/append inputs
+  #{$overrideClass} .input-prepend input,
+  #{$overrideClass} .input-append input,
+  #{$overrideClass} .input-prepend input[class*="span"],
+  #{$overrideClass} .input-append input[class*="span"] {
+    display: inline-block; // redeclare so they don't wrap to new lines
+    width: auto;
+  }
+  #{$overrideClass} .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 0;
+  }
+
+  // Modals
+  #{$overrideClass}.modal,
+  #{$overrideClass} .modal {
+    position: fixed;
+    top:   20px;
+    left:  20px;
+    right: 20px;
+    width: auto;
+    margin: 0;
+    &.fade.in { top: auto; }
+  }
+
+  #{$overrideClass}.takeover,
+  #{$overrideClass} .takeover {
+    top:   0;
+    left:  0;
+    right: 0;
+
+    &.fade.in { top: 0; }
+  }
+
+
+
+  // TYPOGRAPHY
+  // ----------
+  // Reset horizontal dl
+  #{$overrideClass} .dl-horizontal {
+    dt {
+      float: none;
+      clear: none;
+      width: auto;
+      text-align: left;
+    }
+    dd {
+      margin-left: 0;
+    }
+  }
+} // end @mixin collapse-for-mobile
+
+
+
+
+
+@media (max-width: 320px) {
+  @include collapse-grid(".phone-layout-at-320");
+}
+@media (max-width: 479px) {
+  @include collapse-grid(".phone-layout-at-479");
+}
+@media (max-width: 567px) {
+  @include collapse-grid(".phone-layout-at-567");
+}
+@media (max-width: 767px) {
+  @include collapse-grid(".phone-layout-at-767");
+}
+
