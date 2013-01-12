@@ -2,19 +2,6 @@
 @import "../_base/mixins";
 
 
-// General
-.table-zoom {
-  font-size: $font_13_16;
-  margin: 1.25em 0 30px;
-
-  a {
-    color: $grayDark;
-    font-size: $font_13_16;
-    padding: 2px 0 2px 25px;
-    background: url('../../img/spec/ico/zoom.png') left center no-repeat;
-  }
-}
-
 .spec-title-wrap {
   margin-bottom: 0;
 }
@@ -52,43 +39,83 @@ ul.spec-views li {
   padding-left: .625em;
 }
 
-// table?
-.small-table,
-.spec-table {
-  display: table;
+$columnHeaderHeight: 85px;
+.spec-column-header {
+  height: $columnHeaderHeight;
+  width: 100%;
+  text-align: center;
 }
 
-.thead {
-  display: table-header-group;
+.spec-items-wrap {
+  overflow: visible !important; // Override iScroll
 }
 
-.tbody {
-  display: table-row-group;
+.spec-item {
+  position: relative;
+  margin: 0;
+  border-left: 1px solid $grayLighter;
 }
 
-// trow?
-.spec-row {
-  display: table-row;
+.spec-item-cell {
+  position: relative;
+  padding: 1.25em 1.25em 3.75em;
+
+  .btm-aligned {
+    position: absolute;
+    bottom: 3.75em;
+  }
+
+  .before-btm-aligned {
+    margin-bottom: 6em; // Could come back to bite me in the ass if the image changes
+  }
 }
 
-// tcell?
-.spec-cell {
-  display: table-cell;
+.spec-products {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $columnHeaderHeight;
+    background: $grayLightFieldSmall;
+  }
+
+  .product-count-wrap,
+  .detail-label-group {
+    width: 100%;
+  }
+
+  .product-count-wrap {
+    height: $columnHeaderHeight;
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+
+  // Disable bar
+  .detail-labels-wrap:before,
+  .product-count-wrap:after {
+    content: none;
+  }
+
+  .detail-label {
+    padding-left: 1.25em;
+  }
+}
+
+.spec-item-cell,
+.spec-products .detail-label {
+  border-bottom: 1px solid $grayLighter;
 }
 
 .spec-module {
   margin-bottom: 1.25em;
 
-  // background: $grayLightFieldSmall;
 
   .sony-recommends {
-    color: $gray;
-    margin-top: 30px;
     background: url('../../img/spec/ico/sonyRecommend.jpg') right center no-repeat;
-    padding-right: 123px;
-    font-size: $font_12_16;
-    margin: 0;
-    line-height: 34px;
   }
 
   .gallery-tabs .tabs {

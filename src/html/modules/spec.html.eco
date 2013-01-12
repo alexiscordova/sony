@@ -1,26 +1,69 @@
 
 <section class="spec-module">
 
-	<div class="container mobile-container-padded">
-		<div class="grid">
-			<p class="span12 spec-title-link">
-				<a href="#">Vaio Z</a>
-			</p>
-		</div>
-		<div class="grid">
-			<div class="spec-title-wrap pull-left">
-				<h1 class="spec-title">VAIO E Details</h1>
-			</div>
-			<p class="sony-recommends pull-right">Sony recommends</p>
-		</div>
+  <div class="container mobile-container-padded">
+    <div class="grid">
+      <p class="span12 spec-title-link">
+        <a href="#">Vaio Z</a>
+      </p>
+    </div>
 
-		<div class="grid">
-			<ul class="spec-views inline p3">
-				<li class="active"><a href="spec_module.html">Specifications</a></li>
-				<li><a href="details_module.html">Features</a></li>
-			</ul>
-		</div>
-	</div>
+    <div class="grid">
+      <h1 class="spec-title pull-left">VAIO E Details</h1>
+      <p class="sony-recommends pull-right">Sony recommends</p>
+    </div>
+
+    <div class="grid">
+      <ul class="spec-views inline p3">
+        <li class="active">
+          <a href="spec_module.html">Specifications</a>
+        </li>
+        <li>
+          <a href="details_module.html">Features</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tab-strip visible-phone">
+
+  </div>
+
+  <% numModels = 6 %>
+
+  <div class="spec-products">
+    <div class="container mobile-container-padded">
+      <!-- Wrap in a px grid? -->
+
+      <div class="span2 detail-labels-wrap hidden-phone">
+        <div class="detail-labels-wrapping complete">
+          <div class="product-count-wrap table-center-wrap">
+            <div class="table-center">
+              <span class="text-dark product-count"><%- numModels %></span> Models
+            </div>
+          </div>
+          <div class="detail-label-group">
+            <% for label in @data.labels: %>
+            <div class="l3 detail-label detail"><%- label %></div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="spec-items-wrap">
+        <div class="spec-items-container">
+          <% for module in @data.submodules: %>
+            <% d = @this.data(module.data) %>
+            <% if d.type == "product" : %>
+              <% d.view = "specs" %>
+              <%- @this.partial('modules/' + module.type, { this:@this, data:d, labels:@data.labels } ) %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>
 
 <script src="js/libs/bootstrap-transition.js"></script>
