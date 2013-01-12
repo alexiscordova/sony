@@ -11,37 +11,57 @@
 
     // Start module
     var TertiaryModule = function(element, options){
-      var self                = this;
+      var self               = this;
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
-      self.$el                = $( element );
-      self.$win               = $( window );
-      self.$doc               = $( document );
+      self.$el               = $( element );
+      self.$win              = $( window );
+      self.$doc              = $( document );
+      self.ev                = $( {} ); //event object
       
-      self.$tccBodyWrapper    = self.$el.find(".tcc-body-wrapper");
-      self.$tccBody           = self.$tccBodyWrapper.find(".tcc-body");
-      self.$contentModules    = self.$el.find(".tcc-content-module");
-      self.$scrollerInstance  = null;
+      self.$tccBodyWrapper   = self.$el; //self.$el.find(".tcc-body-wrapper");
+      self.$tccBody          = self.$tccBodyWrapper.find(".tcc-body");
+      self.$contentModules   = self.$el.find(".tcc-content-module");
+      self.$scrollerInstance = null;
+      self.numPages          = self.$contentModules.length;
       
-      self.resizeEvent        = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-      self.resizeThrottle     = function(){self.handleResize()};
+      self.outerNavClasses = new Array ( "tcc-nav", "tcc-bullets" );
+      self.innerNavClasses = new Array ( "tcc-nav-item", "tcc-bullet" );
 
-      self.sequencerSpeed      = 100;  // default
-      self.debounceSpeed       = 100; // default
+      self.navSelectedClass  = "tcc-nav-selected";
       
-      self.mobileBreakpoint   = 479;
-      //self.isMobileBreakpoint = self.checkMobileBreakpoint
-
-      // set scroller & iscroll options
-      self.setScrollerOptions(); 
+      self.resizeEvent       = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+      self.resizeThrottle    = function(){self.handleResize()};
+      
+      
+      self.hasTouch          = 'ontouchstart' in window || 'createTouch' in document ? true : false;
+      self.tapOrClick        = function(){return self.hasTouch ? 'touchend' : 'click';}
+      
+      self.sequencerSpeed    = 300;  // default
+      self.debounceSpeed     = 100; // default
+      self.scrollDuration    = 400; // default
+      
+      self.mobileBreakpoint  = 479;
 
       // resize listener
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle)); 
       
-      // build navigation (default hidden)
-      self.createNavigation();
-  
+      // nav update listener
+      self.ev.on( 'tccOnNavUpdate', function(){
+        console.group( '««« updateNavigation »»»' );       
+        console.log( 'self »' , self);
+
+        self.updateNavigation();
+
+        console.log( '« end »');      
+        console.groupEnd();
+      });
+
+      self.ev.on( 'onPaginationComplete.sm', function(){
+        console.log( 'onPaginationComplete.sm »');
+      });
+
       // go
       self.init(element); 
     }
@@ -55,43 +75,48 @@
         var self           = this,
         isMobileBreakpoint = self.checkMobileBreakpoint();
 
-        console.log( 'self »' , self);
-        console.log( 'isMobileBreakpoint »' , isMobileBreakpoint );
+        // console.log( 'self »' , self);
+        // console.log( 'isMobileBreakpoint »' , isMobileBreakpoint );
 
         // @ mobile breakpoint?
         if(isMobileBreakpoint){
-          console.log("is mobile (init) »");
-          self.setupScroller();
+          //console.log("is mobile (init) »");
+          self.setup();
         }
-
+       
+        console.log( '« end (init) »');
         console.groupEnd();
       },
 
-      setupScroller : function(){
-        console.group( '««« setupScroller »»»' );
+      setup : function(){
+        console.group( '««« setup »»»' );
         var self      = this,
         setupSequence = new Sequencer;
 
-        setupSequence.add(self,self.setContentModuleSizes,self.sequencerSpeed); // set content module sizes
-        setupSequence.add(self,self.createScroller,self.sequencerSpeed); // create scroller instance
-        setupSequence.add(self,self.showNavigation,self.sequencerSpeed); // show bullets 
+        setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed ); // set scroller & iscroll options
+        setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes
+        setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
+        setupSequence.add( self, self.createNavigation, self.sequencerSpeed); // create bullet nav
+        
         setupSequence.start();
 
+        console.log( '« end »');
         console.groupEnd();
       },
 
-      teardownScroller : function(){
-        console.group( '««« teardownScroller »»»' );
+      teardown : function(){
+        console.group( '««« teardown »»»' );
 
         var self         = this,
         teardownSequence = new Sequencer;
         
-        teardownSequence.add( self, self.hideNavigation, self.sequencerSpeed ); // hide bullets
-        teardownSequence.add( self, self.destroyScroller, self.sequencerSpeed ); // destroy scroller instance
         teardownSequence.add( self, self.removeStyleAttr, self.sequencerSpeed ); // remove scroller-specific style attributes
+        teardownSequence.add( self, self.destroyNavigation, self.sequencerSpeed ); // hide bullets
+        teardownSequence.add( self, self.destroyScroller, self.sequencerSpeed ); // destroy scroller instance
       
         teardownSequence.start();
 
+        console.log( '« end »');
         console.groupEnd();
       },      
 
@@ -100,8 +125,11 @@
         
         var self=this;
         
-        self.scrollerInstance = self.$el.scrollerModule( self.scrollerOptions );
+        self.$scrollerInstance = self.$el.scrollerModule( self.scrollerOptions );
 
+        // console.log( 'self.$scrollerInstance  »' , self.$scrollerInstance);
+
+        console.log( '« end »');
         console.groupEnd();
       },
 
@@ -109,9 +137,10 @@
         console.group('««« destroyScroller »»»');
         var self  = this;
       
-        self.scrollerInstance.scrollerModule('destroy');
-        self.scrollerInstance = null;       
+        self.$scrollerInstance.scrollerModule('destroy');
+        self.$scrollerInstance = null;       
       
+        console.log( '« end »');
         console.groupEnd();
       },
 
@@ -123,6 +152,7 @@
         // TODO: is this needed, causing display problems?
         $elements.removeAttr('style'); 
       
+        console.log( '« end »');
         console.groupEnd();
       },
 
@@ -139,7 +169,7 @@
 
           iscrollProps: {
             snap: true,
-            momentum: true,
+            momentum: false,
             bounce: true,
             hScroll: true,
             vScroll: false,
@@ -148,9 +178,23 @@
             onScrollEnd: null,
             lockDirection:true,
             onBeforeScrollStart:null,
+            onAnimationEnd: function(iscrollObj){
+              console.group( '««« onAnimationEnd »»»' );
+
+              if (self.controlNavItems) {
+                console.log( 'iscrollObj »' , iscrollObj);
+
+                self.updateCurrentId(iscrollObj.currPageX);
+                self.updateNavigation();  
+              };
+              
+              console.log( '« end »');
+              console.groupEnd();
+            },
           }
         };
       
+        console.log( '« end »');
         console.groupEnd();
       },
 
@@ -164,59 +208,108 @@
           $(this).outerWidth(containerSize);
         });
      
+        console.log( '« end »');
         console.groupEnd();
       },
 
       createNavigation : function(){
-        console.group('««« createNavigation »»» TODO');
-        var self = this;
+        console.group('««« createNavigation »»» ');
+
+        // TODO default hidden
+
+        var self     = this,      
+        itemHTML     = '<div class="' + self.innerNavClasses.join(" ") + '"></div>',
+        out          = '<div class="' + self.outerNavClasses.join(" ") + '">';
           
-        // default hidden
+        if(self.controlNav){
+          console.log( 'destroying existing nav first »', self.controlNav );
+          self.destroyNavigation(); // remove any existing 
+        }
+        
+        //reset current slide id 
+        self.currentId = 0;
 
-       //    itemHTML = '<div class="soc-nav-item soc-bullet"></div>',
-       //    out          = '<div class="soc-nav soc-bullets">';
-          
-       //    //remove other references 
-       //    $('.soc-nav.soc-bullets').remove();
+        for(var i = 0; i < self.numPages; i++) {
+          out += itemHTML;
+        }
+        
+        out += '</div>';
+        out = $( out );
+        self.controlNav = out;
+        self.controlNavItems = out.children();
+        self.$el.append( out );
 
-       //    //reset current slide id 
-       //    self.currentId = 0;
+        // if nav bullet is selected (instead of a swipe)       
+        self.controlNav.on( self.tapOrClick() , function( e ) {
+          self.handleNavClick(e);
+        });
 
-       //    //self.controlNavEnabled = true;
-       //    //self.$container.addClass('ssWithBullets');
-       //    for(var i = 0; i < self.numSlides; i++) {
-       //      out += itemHTML;
-       //    }
-       //    out += '</div>';
-       //    out = $( out );
-       //    self.controlNav = out;
-       //    self.controlNavItems = out.children();
-       //    self.$el.append( out );
+        self.ev.trigger( 'tccOnNavUpdate' );
 
-       //    self.controlNav.on( self.tapOrClick() , function( e ) {
-       //      var item = $(e.target).closest( '.soc-nav-item' );
-       //      if( item.length ) {
-       //        self.currentId = item.index();
-       //        self.moveTo();
-       //        console.log("Current Slide ID # »",self.currentId);
-       //      }
-       //    } );
-
-       //    self.ev.trigger( 'socOnUpdateNav' );
-
-
+        console.log( '« end »');
         console.groupEnd();
       },
 
-      showNavigation : function(){
-        console.group('««« showNavigation »»» TODO');
+      destroyNavigation : function(){
+        console.group( '««« destroyNavigation »»»' );
         var self = this;
+      
+        // remove references 
+        $( '.' + self.outerNavClasses.join(".") ).remove();
+      
         console.groupEnd();
       },
 
-      hideNavigation : function(){
-        console.group( '««« hideNavigation »»» TODO' );
+      updateNavigation : function(){
+        console.group( '««« updateNavigation »»»' );
         var self = this;
+      
+        var id = self.currentId,
+            currItem,
+            prevItem;
+
+        if(self.prevNavItem) {
+          self.prevNavItem.removeClass(self.navSelectedClass);
+        }
+
+        currItem = $(self.controlNavItems[id]);
+        currItem.addClass(self.navSelectedClass);
+
+        self.prevNavItem = currItem;       
+        
+        console.log( '« end »');
+        console.groupEnd();
+      },
+
+      handleNavClick : function( e ){
+        console.group( '««« handleNavClick »»»' );
+        var self = this,
+            item = $(e.target).closest( '.' + self.innerNavClasses.join(".") );
+
+        if( item.length ) {          
+          self.updateCurrentId(item.index());
+
+          // tell sony-iscroll what page to go to         
+          self.$scrollerInstance.scrollerModule('goto',( self.currentId ));
+
+          self.ev.trigger( 'tccOnNavUpdate' );
+        }
+      
+        console.log( '« end »');
+        console.groupEnd();
+      },
+
+      updateCurrentId : function(index){
+        console.group( '««« updateCurrentId »»»' );
+        var self = this;
+        
+        console.log( 'self.currentId was »' , self.currentId);
+
+        self.currentId = index;
+
+        console.log( 'self.currentId is now »' , self.currentId);
+
+        console.log( '« end »');
         console.groupEnd();
       },
 
@@ -232,30 +325,36 @@
         if( isMobileBreakpoint ){
           console.log("in mobile (resize) »");
           var resizeSequencer = new Sequencer;
-          resizeSequencer.add( self, self.teardownScroller, self.sequencerSpeed ); // teardown
-          resizeSequencer.add( self, self.setupScroller, self.sequencerSpeed + 100 ); // setup
+          if( self.$scrollerInstance != null ) {
+            resizeSequencer.add( self, self.teardown, self.sequencerSpeed ); // teardown 
+          }
+
+          resizeSequencer.add( self, self.setup, self.sequencerSpeed + 100 ); // setup
           resizeSequencer.start();
           
         }else{
           console.log( 'in desktop (resize) »' );
 
-          if( self.scrollerInstance != null ){
-            console.log( "there was a scrollerInstance »" , self.scrollerInstance );
+          if( self.$scrollerInstance != null ){
+            console.log( "there was a scrollerInstance »" , self.$scrollerInstance );
           
-            self.teardownScroller(); // teardown
+            self.teardown(); // teardown
 
-            console.log( 'it should now be destroyed »' , self.scrollerInstance );
+            console.log( 'it should now be destroyed »' , self.$scrollerInstance );
           }
 
         }
 
+        console.log( '« end »');
         console.groupEnd();
       },
 
       checkMobileBreakpoint : function(  ){
         console.group( '««« checkMobileBreakpoint »»»' );
+
         var self = this;
-        
+
+        console.log( '« end »');
         console.groupEnd();
         
         return Modernizr.mq('(max-width:'+ self.mobileBreakpoint+'px)') ? true : false; // bool
@@ -295,7 +394,7 @@
 
     $( function(){
       // if there isn't a .tcc-scroller on the page, nothing will happen...
-      var tertiaryContainer = $('.tcc-scroller').tertiaryModule({}).data('tertiaryModule');
+      var tertiaryContainer = window.tcc = $('.tcc-scroller').tertiaryModule({}).data('tertiaryModule');
     } );
 
  })(jQuery, Modernizr, window, undefined);
