@@ -1,0 +1,19 @@
+---
+title: Example Module Jade
+description: This is a sample module showing how to include data and partial includes to generate a page in jade. 
+---
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+head
+	!{partial('includes/head.html.jade', l)}
+
+body
+	e = {"locals":locals, "data":data('example/mode1.json')}
+	!{partial('modules/example.html.jade', e)}
+
+	e = {"loals":locals, "data":{"mode":"two", "content":{"a":3,"b":4}}}
+	!{partial('modules/example.html.jade', e)}
+
+	!{partial('includes/foot.html.jade', l)}

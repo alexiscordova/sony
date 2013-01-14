@@ -1,87 +1,102 @@
 /* line 9, ../../../src/css/scss/modules/tertiary.scss */
-.clearfix {
-  *zoom: 1;
-}
-/* line 52, ../../../src/css/scss/_base/_mixins.scss */
-.clearfix:before, .clearfix:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-/* line 59, ../../../src/css/scss/_base/_mixins.scss */
-.clearfix:after {
-  clear: both;
-}
-
-/* line 13, ../../../src/css/scss/modules/tertiary.scss */
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
 }
 
-/* line 20, ../../../src/css/scss/modules/tertiary.scss */
+/* line 16, ../../../src/css/scss/modules/tertiary.scss */
 .tcc-wrapper {
   position: relative;
   background-color: #f3f4f6;
   overflow: auto;
   text-align: center;
 }
-/* line 26, ../../../src/css/scss/modules/tertiary.scss */
+/* line 22, ../../../src/css/scss/modules/tertiary.scss */
 .tcc-wrapper .tcc-body-wrapper {
   display: block;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
   text-align: center;
   z-index: 1;
 }
 
-/* line 38, ../../../src/css/scss/modules/tertiary.scss */
+/* line 35, ../../../src/css/scss/modules/tertiary.scss */
 .tcc-header-wrapper .tcc-header {
   border-bottom: 2px solid #e4e7eb;
   position: relative;
 }
 
-/* line 45, ../../../src/css/scss/modules/tertiary.scss */
+/* line 42, ../../../src/css/scss/modules/tertiary.scss */
 .tcc-body {
   display: inline-block;
 }
-/* line 50, ../../../src/css/scss/modules/tertiary.scss */
+/* line 47, ../../../src/css/scss/modules/tertiary.scss */
 .tcc-body .tcc-content-module {
   padding-top: 30px;
   float: left;
   overflow: hidden;
 }
-/* line 58, ../../../src/css/scss/modules/tertiary.scss */
+/* line 55, ../../../src/css/scss/modules/tertiary.scss */
 .tcc-body div[data-tcc-module-type="article"][data-tcc-module-mode="default"]:hover {
   cursor: pointer;
   background-color: white;
 }
-/* line 64, ../../../src/css/scss/modules/tertiary.scss */
+/* line 61, ../../../src/css/scss/modules/tertiary.scss */
 .tcc-body div[data-tcc-module-type="sonys-voice"][data-tcc-module-mode="twitter"]:hover {
   background-color: transparent;
 }
 
-/* line 71, ../../../src/css/scss/modules/tertiary.scss */
+/* line 68, ../../../src/css/scss/modules/tertiary.scss */
 .article-default .l1 {
   text-transform: none;
   line-height: 1.2em;
   font-size: 1.125em;
 }
 
-/* line 81, ../../../src/css/scss/modules/tertiary.scss */
+/* line 77, ../../../src/css/scss/modules/tertiary.scss */
 .sonys-voice .l4,
 .sonys-voice .l3 {
   text-transform: none;
 }
-/* line 85, ../../../src/css/scss/modules/tertiary.scss */
+/* line 82, ../../../src/css/scss/modules/tertiary.scss */
 .sonys-voice .bq2 > p {
   color: #83838f;
   line-height: 1.35em;
 }
-/* line 90, ../../../src/css/scss/modules/tertiary.scss */
+/* line 87, ../../../src/css/scss/modules/tertiary.scss */
 .sonys-voice .bq2 > p:first-child {
   text-indent: 0;
+}
+
+/* line 96, ../../../src/css/scss/modules/tertiary.scss */
+.tcc-nav.tcc-bullets {
+  position: absolute;
+  z-index: 35;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 18px;
+  overflow: hidden;
+}
+/* line 110, ../../../src/css/scss/modules/tertiary.scss */
+.tcc-nav .tcc-bullet {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  margin: 5px 0 0 6px;
+  border-radius: 5px;
+  background: #bdbccc;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+/* line 133, ../../../src/css/scss/modules/tertiary.scss */
+.tcc-nav .tcc-bullet.tcc-nav-selected {
+  background-color: #2e3339;
 }

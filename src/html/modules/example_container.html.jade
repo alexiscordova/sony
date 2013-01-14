@@ -1,0 +1,28 @@
+---
+desc: 'Here are some modules with unique data:'
+layout1: ["big", "small", "small", "small"]
+layout2: ["small", "big", "small", "small"]
+---
+.container-module
+	h1 Container Module
+	h4 !{document.desc}
+	i = 0
+	h2 type a
+	ul
+		for module in data.submodules
+			d = locals.data(module.data)
+			if d.type == "a"
+				a = d.view = document[data.layout][i++]
+				e = {"locals":locals, "data":d}
+				li !{locals.partial('modules/'+module.type , e )}
+		
+	h2 type b
+	ul
+		for module in data.submodules
+			d = locals.data(module.data)
+			if d.type == "b"
+				a = d.view = document[data.layout][i++]
+				e = {"locals":locals, "data":d}
+				li !{locals.partial('modules/'+module.type , e )}
+	
+	h6 !{data.extra}

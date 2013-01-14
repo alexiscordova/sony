@@ -8,21 +8,8 @@
 
 (function($, Modernizr, window, undefined) {
 
-  // var myScroll;
-  // function loaded() {
-  //   myScroll = new iScroll('#nav-outer-container');
-  // }
-  // document.addEventListener('DOMContentLoaded', loaded, false);
-  
-  // var myScroll;
-  // function loaded() {
-  //   myScroll = new iScroll('navoutercontainer');
-  // }
-
-  // window.addEventListener('load', setTimeout(function () { loaded(); }, 200), false);
-
   'use strict';
-
+ 
   // Start module
   var GlobalNav = function( $container ) {
 
@@ -341,25 +328,15 @@
         $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
       });
 
-      var footerNavCollapseHeight = 51;
+      var footerNavCollapseHeight = 49; // plus 1 for the border
       $("#footer-wrapper .footer-mobile-section h5").on(self.tapOrClick,function(){
         if ($(window).width() <= 767 ){
 
-          // console.log("COLLAPSE FOOTER SECTION");
-
           var $thFootSection = $(this).parent();
-
-          // console.log("$thFootSection: ", $thFootSection);
-          // console.log("$thFootSection.height: ", $thFootSection.height());
-          // console.log("$thFootSection.outerHeight: ", $thFootSection.outerHeight());
-          // console.log("$thFootSection.innerHeight: ", $thFootSection.innerHeight());
-          // console.log("$thFootSection classes: " + $thFootSection.attr('class'));
 
 
           if ($thFootSection.hasClass("collapsed")){
             // collapsed height - expand it.
-             // console.log("COLLAPSED expHeight: ", $thFootSection.data("expHeight"));
-            // console.log("$thFootSection.data(expHeight) " , $thFootSection.data("expHeight"));
             
             $thFootSection
               .height($thFootSection.data("expHeight"))
@@ -367,7 +344,6 @@
 
           } else {
             // natural height - collapse it.
-            // console.log("NOT COLLAPSED");
             var expHeight = $thFootSection.height();
 
             $thFootSection
@@ -382,13 +358,6 @@
                   .addClass("collapsed");
               },1);
             },1);
-            
-            // setTimeout(function(){
-            //   $thFootSection
-            //     .height(footerNavCollapseHeight)
-            //     .addClass("collapsed");
-            // },1);
-
           }
         }
       });   
@@ -429,7 +398,8 @@
 }(jQuery, Modernizr, window));
 
 
-
-$(".nav-wrapper").globalNav();
+$(function() {
+  $(".nav-wrapper").globalNav();
+});
 
 

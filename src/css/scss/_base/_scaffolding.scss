@@ -39,13 +39,14 @@ a:focus {
   text-decoration: none;
 }
 
+// no link/button transitions on mobile, so there's instant feedback that the link was touched.
 .no-touch a:not(.no-hover-transition),
 .no-touch .btn:not(.no-hover-transition){
   @include transition(
     background-color $transitionSlowish linear, 
     color $transitionSlowish linear, 
     border-color $transitionSlowish linear
-  );
+  )
 }
 
 
