@@ -68,6 +68,17 @@ $columnHeaderHeight: 85px;
   .before-btm-aligned {
     margin-bottom: 6em; // Could come back to bite me in the ass if the image changes
   }
+
+  // Definition list image needs a set height because iQ doesn't load the images until
+  // after the dimensions for each cell have been calculated
+  .dl-img {
+    height: 135px;
+
+    // Don't clip image, shrink it
+    img {
+      max-height: 100%;
+    }
+  }
 }
 
 .spec-products {
@@ -101,7 +112,11 @@ $columnHeaderHeight: 85px;
   }
 
   .detail-label {
-    padding-left: 1.25em;
+    padding: 1.25em;
+  }
+
+  .spec-list li {
+    margin: 1.25em 0;
   }
 }
 

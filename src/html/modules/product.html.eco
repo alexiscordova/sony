@@ -207,12 +207,12 @@
   <div class="spec-item-cell">
     <h4 class="visible-phone"><%- @labels[i] %></h4>
 
-    <% if spec.name && spec.options && spec.img: %>
+    <% if spec.name && spec.list && spec.img: %>
 
       <p><%- spec.name %></p>
-      <p class="l3"><%- spec.optionsTitle %></p>
-      <ul class="unstyled p3 before-btm-aligned">
-        <% for option in spec.options: %>
+      <p class="l3"><%- spec.listTitle %></p>
+      <ul class="unstyled p3 before-btm-aligned spec-list">
+        <% for option in spec.list: %>
         <li><%- option %></li>
         <% end %>
       </ul>
@@ -225,6 +225,17 @@
       <p class="compare-box"><%- spec.callout %></p>
       <p><%- spec.text %></p>
 
+      <% if spec.list: %>
+        <% if spec.listTitle: %>
+          <p class="l3"><%- spec.listTitle %></p>
+        <% end %>
+        <ul class="unstyled p3 spec-list">
+          <% for li in spec.list: %>
+          <li><%- li %></li>
+          <% end %>
+        </ul>
+      <% end %>
+
     <% else if spec.text: %>
       <p><%- spec.text %></p>
       <% if spec.subtext: %>
@@ -232,7 +243,7 @@
       <% end %>
 
       <% if spec.sublist: %>
-        <ul class="unstyled p3">
+        <ul class="unstyled p3 spec-list">
         <% for item in spec.sublist: %>
           <li><%- item %></li>
         <% end %>
@@ -245,10 +256,14 @@
       </div>
 
     <% else if spec.definitionList: %>
-      <img class="iq-img" alt="<%- spec.img.alt %>" data-src="<%- spec.img.src %>">
-      <noscript>
-        <img src="<%- spec.img.noscriptsrc %>" alt="<%- spec.img.alt %>">
-      </noscript>
+      <% if spec.img: %>
+        <div class="text-center dl-img">
+          <img class="iq-img" alt="<%- spec.img.alt %>" data-src="<%- spec.img.src %>">
+          <noscript>
+            <img src="<%- spec.img.noscriptsrc %>" alt="<%- spec.img.alt %>">
+          </noscript>
+        </div>
+      <% end %>
       <dl class="dl-horizontal">
         <% for li in spec.definitionList: %>
           <dt class="l3"><%- li.term %></dt>
@@ -259,7 +274,7 @@
     <% else if spec.label && spec.callout && spec.list && spec.icon: %>
       <div><i class="icon-<%- spec.icon %>"><%- spec.icon %></i></div>
       <p><%- spec.callout %></p>
-      <ul class="unstyled p3">
+      <ul class="unstyled p3 spec-list">
       <% for item in spec.list: %>
         <li><%- item %></li>
       <% end %>
@@ -269,7 +284,7 @@
 
 
     <% else if spec.list: %>
-      <ul class="unstyled p3">
+      <ul class="unstyled p3 spec-list">
       <% for item in spec.list: %>
         <li><%- item %></li>
       <% end %>
