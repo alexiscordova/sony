@@ -1,7 +1,6 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
 
-
 section {
   overflow: hidden;
 }
@@ -31,7 +30,7 @@ section {
 .rpWrapper {
   max-width: 600px;
   width: 100%;
-  background: red;
+  background: none;
   padding: 115px 0 120px 0;
   display: block;
 }
@@ -44,52 +43,23 @@ section {
 .rpGrid {
   padding: 0;
   height: 100%;
+  width:100%;
 
   .gallery-item:after {
     content: '';
     display: block;
-    //padding-top: 113.196078%;
   }
 
   .span1.gallery-item:after {
-    padding-top: 125.196078%;
-  }
-
- .gallery-item.plate:after {
-   /*  padding-top: 59.190255%; */
+    padding-top: 130.196078%;
   }
 
   @media (min-width: 481px) and (max-width: 979px){
-/*     .span2 {
-      width: 23.71158%;
-      *width: 23.71158%;
-    }
-
-    .medium.span2 {
-      width: 49.71158%;
-      *width: 49.71158%;
-    }
-
-    .plate.span2 {
-      width: 49.71158%;
-      *width: 49.71158%;
-    } */
-
     .gallery-item .product-img:after {
       padding-top: 59.843137%;
     }
   }
 }
-
-
-/*  @media (max-width: 480px) {
-  .rpGrid{
-    padding: 0 10px 0 10px;
-  }
-}  */
-
-
-
 
 @media (min-width: 768px) {
   .grid5 .grid .related-products[class*="span"] {
@@ -97,22 +67,13 @@ section {
   }
 }
 
-/* @media (min-width: 418px){
-
-  .grid5 .grid .span1 {
-    width: 18.34532%;
-    *width: 18.28622%;
-  }
-} */
-
   .gallery-item.plate .product-img:after {
     content: '';
   }
 
 @media (max-width: 480px) {
-  /* line 142, ../../../src/css/scss/_responsive/_responsive-767px-max.scss */
+
   .related-products .gallery-item.small-size {
-    //float: left;
     min-height: 1px;
     margin-left: 20px ;
     width: 204px ;
@@ -126,8 +87,16 @@ section {
 
 .related-products {
 
+  .color-swatches {
+    display:none;
+    visibility: hidden;
+  }
   .teal-color {
     background-color: #45afc9;
+  }
+
+  .orange-color {
+    background-color: #f0b938;
   }
 
   .row-fluid .gallery-item,
@@ -148,12 +117,17 @@ section {
   }
 
   .gallery-item {
+
+    overflow: inherit;
+
     .product-img {
+      
+      background:none;
+
       &:hover {
         @include box-shadow(none);
         background-color: none;
       }
-
     }
   }
 
@@ -174,6 +148,10 @@ section {
     }
   }
 
+  .gallery-item.plate:after {
+    padding-top: 61.690255%;
+  }
+
   .gallery-item:after {
     content: '';
   }
@@ -183,12 +161,10 @@ section {
   }
 
   @media (max-width: 481px){
-
     .product-img:after {
       content: none;
     }
   }
-
 
   width: 100%;
   margin: 15px 0 0 0;
@@ -226,40 +202,37 @@ section {
     display: block;
   }
 
-  .normal:after {
-    //padding-top: 125.2900232%;
-  }
-
   .normal .product-img:after {
-    /* padding-top: 75.980392156863%; */
-    padding-top: 80.980392%;
+    padding-top: 84.980392%;
   }
 
-  .medium:after {
-    /* padding-top: 118.490023%; */
-    padding-top: 142.290023%;
+.medium:after {
+  padding-top: 130.290023%;
+
+  @media (min-width:481px) and (max-width: 980px ){
+     padding-top: 160.290023%;
   }
+}
 
   .medium .product-img:after {
-    padding-top: 100.22761%;
-    /* padding-top: 75.127610208817%; */
-  }
+    padding-top: 108.82761%;
+
+    @media (min-width:481px) and (max-width:768px){
+      padding-top: 122.32761%;
+    }
+
+    @media (min-width:769px) and (max-width:980px){
+      padding-top: 121.32761%;
+    }
 
   @media (max-width: 481px){
     .medium .product-img:after {
       padding-top: 75.980392156863%;
-
     }
   }
+}
 
-  @media (max-width: 979px) {
-    
-    .related-products .medium:after {
-      padding-top: 142.290023%;
-    }
-  }
-
-  @media (min-width: 481px) and (max-width: 979px){
+  @media (min-width: 481px) and (max-width: 980px){
 
     .rpGrid {
       padding: 0 40px 0 40px;
@@ -275,19 +248,10 @@ section {
     }
 
     .medium.gallery-item:after {
-      /* padding-top: 140.796078%; */
-      padding-top: 142.896078%;
-    }
-
-    .medium .product-img:after {
-/*       padding-top: 115.12761%;
-      padding-top: 118.12761%; */
-      padding-top: 121.22761%;
-      /* padding-top: 75.127610208817%; */
+      padding-top: 141.196078%;
     }
 
     .gallery-item.plate:after {
-      /* padding-top: 72.290255%; */
       padding-top: 76.190255%
     }
 
@@ -302,11 +266,10 @@ section {
   }
 
   .gallery-item {
-    background:none;
+    background: none;
     margin-left: 0;
 
     .product-img {
-      background: #ffffff; //we will be alternating during modes / variations so this for now override
       background: #f3f4f6;
     }
   }
@@ -326,24 +289,6 @@ section {
 
     /* visibility: hidden; */
   }
-
-/*   .rpBullet {
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    margin: 0 0 0 5px;
-    border-radius: 5px;
-    background: #bcbccc;
-    cursor: pointer;
-    padding: 5px;
-    overflow: hidden;
-  }
-
-  .rpBullet.rpNavSelected  {
-    background-color: #2f353d;
-  } */
 
   .rpBullet {
     width: 10px;
@@ -367,7 +312,6 @@ section {
     background: #2f353d;
   }
 
-
   .rpOverflow {
     width: 100%;
     height: 100%;
@@ -377,7 +321,6 @@ section {
     bottom:0;
     left:0;
 
- /*    background: #E9E9E9; */
     -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
     -moz-user-select: -moz-none;
     -webkit-user-select: none;
@@ -404,16 +347,23 @@ section {
     height: 100%;
     width: 100%;
     overflow: hidden;
-  }
+    
+    /* Experimental for full bleed stuff */  
+    //padding: 0 45px 0 45px;
+    padding: 0 7.5% 0 7.5%; //bingo for 1200px layout
+    max-width: 1200px;
 
+    @media (min-width:1201px){
+      padding:0 90px 0 90px;
+    }   
+  }
 }
 
-  @media (min-width: 481px) and (max-width: 768px){
-    .rpGrid {
-      padding: 0;
-
-    }
+@media (min-width: 481px) and (max-width: 768px){
+  .rpGrid {
+    padding: 0;
   }
+}
 
 .rpNav {
 

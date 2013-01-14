@@ -290,7 +290,7 @@
         setContainerSize : function() {
             var self = this,
             gridHeight = Math.max.apply( Math, self.colYs );
-            self.$container.css( 'height', gridHeight + 'px' );
+            self.$container.css( 'height', 534 + 'px' );
         },
 
         /**

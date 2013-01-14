@@ -4,66 +4,36 @@ layout1: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
 layout2: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
 ---
 
-<div class="container grid5 mobile-container-padded">
+<div class="container grid5 full-bleed-no-max">
   <div class="rpGrid grid grid-small">
-    <h3 class="l1">WHAT'S HOT</h3>
     <section class="related-products">
       <div class="rpOverflow" id="rpOverflow">
         <div class="rpContainer">
           <div class="rpSlide">
-            <% i = 0 %> 
-            <% for module in @data.submodules: %>
-              <% d = @this.data(module.data) %>
-              <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout[0]][i++] %>
-                <% d.view = "basic" %>
-                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
-          </div>
-          <div class="rpSlide">
-            <% i = 0 %> 
-            <% for module in @data.submodules: %>
-              <% d = @this.data(module.data) %>
-              <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout[1]][i++] %>
-                <% d.view = "basic" %>
-                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
-          </div>
-          <div class="rpSlide">
-            <% i = 0 %> 
-            <% for module in @data.submodules: %>
-              <% d = @this.data(module.data) %>
-              <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout[0]][i++] %>
-                <% d.view = "basic" %>
-                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
-          </div>
-          <div class="rpSlide">
-            <% i = 0 %>
-            <% for module in @data.submodules: %>
+            <div class="shuffleContainer">
+              <% i = 0 %> 
+              <% for module in @data.submodules: %>
                 <% d = @this.data(module.data) %>
                 <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout[1]][i++] %>
-                <% d.view = "basic" %>
-                <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
+                  <% d.layout = @document[@data.featured.layout[0]][i++] %>
+                  <% d.view = "basic" %>
+                  <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+                <% end %>
+              <% end %> 
+            </div>    
           </div>
           <div class="rpSlide">
-            <% i = 0 %> 
-            <% for module in @data.submodules: %>
+            <div class="shuffleContainer">
+              <% i = 0 %> 
+              <% for module in @data.submodules: %>
                 <% d = @this.data(module.data) %>
                 <% if d.featured && d.type == "product" : %>
-                <% d.layout = @document[@data.featured.layout[0]][i++] %>
-                <% d.view = "basic" %>
-               <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
-              <% end %>
-            <% end %>     
+                  <% d.layout = @document[@data.featured.layout[0]][i++] %>
+                  <% d.view = "basic" %>
+                  <%- @this.partial('modules/' + module.type, { this:@this, data:d } ) %>
+                <% end %>
+              <% end %> 
+            </div>    
           </div>
         </div>
       </div>
