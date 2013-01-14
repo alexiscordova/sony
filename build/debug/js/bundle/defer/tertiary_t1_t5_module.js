@@ -1,7 +1,7 @@
 // ------------ Sony Tertiary Content Container (Tertiary) Module ------------
 // Module: Tertiary Module
 // Version: 0.1
-// Modified: 01/10/2013
+// Modified: 01/14/2013
 // Dependencies: jQuery 1.7+, Modernizr, sony-iscroll.js, sony-scroller.js
 // -------------------------------------------------------------------------
 
@@ -11,38 +11,40 @@
 
     // Start module
     var TertiaryModule = function(element, options){
-      var self               = this;
+      var self                 = this;
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
-      self.$el               = $( element );
-      self.$win              = $( window );
-      self.$doc              = $( document );
-      self.ev                = $( {} ); //event object
+      self.$el                 = $( element );
+      self.$win                = $( window );
+      self.$doc                = $( document );
+      self.ev                  = $( {} ); //event object
       
-      self.$tccBodyWrapper   = self.$el; //self.$el.find(".tcc-body-wrapper");
-      self.$tccBody          = self.$tccBodyWrapper.find(".tcc-body");
-      self.$contentModules   = self.$el.find(".tcc-content-module");
-      self.$scrollerInstance = null;
-      self.numPages          = self.$contentModules.length;
+      self.mode                = null;
       
-      self.outerNavClasses = new Array ( "tcc-nav", "tcc-bullets" );
-      self.innerNavClasses = new Array ( "tcc-nav-item", "tcc-bullet" );
-
-      self.navSelectedClass  = "tcc-nav-selected";
+      self.$tccBodyWrapper     = self.$el;
+      self.$tccBody            = self.$tccBodyWrapper.find(".tcc-body");
+      self.$contentModules     = self.$el.find(".tcc-content-module");
+      self.$scrollerInstance   = null;
       
-      self.resizeEvent       = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-      self.resizeThrottle    = function(){self.handleResize()};
+      self.outerNavClasses     = new Array ( "tcc-nav", "tcc-bullets" );
+      self.innerNavClasses     = new Array ( "tcc-nav-item", "tcc-bullet" );
       
+      self.navSelectedClass    = "tcc-nav-selected";
       
-      self.hasTouch          = 'ontouchstart' in window || 'createTouch' in document ? true : false;
-      self.tapOrClick        = function(){return self.hasTouch ? 'touchend' : 'click';}
+      self.resizeEvent         = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+      self.resizeThrottle      = function(){self.handleResize()};
       
-      self.sequencerSpeed    = 300;  // default
-      self.debounceSpeed     = 100; // default
-      self.scrollDuration    = 400; // default
+      self.hasTouch            = 'ontouchstart' in window || 'createTouch' in document ? true : false;
+      self.tapOrClick          = function(){return self.hasTouch ? 'touchend' : 'click';}
       
-      self.mobileBreakpoint  = 479;
+      self.sequencerSpeed      = 300;  // default
+      self.debounceSpeed       = 250; // default
+      self.scrollDuration      = 400; // default
+      
+      self.phoneBreakpoint     = 479;
+      self.tabletBreakpointMin = self.phoneBreakpoint + 1;
+      self.tabletBreakpointMax = 768;
 
       // resize listener
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle)); 
@@ -58,10 +60,6 @@
         console.groupEnd();
       });
 
-      self.ev.on( 'onPaginationComplete.sm', function(){
-        console.log( 'onPaginationComplete.sm »');
-      });
-
       // go
       self.init(element); 
     }
@@ -72,18 +70,16 @@
       init : function( element ) {
         console.group("init");
 
-        var self           = this,
-        isMobileBreakpoint = self.checkMobileBreakpoint();
+        var self = this;
 
-        // console.log( 'self »' , self);
-        // console.log( 'isMobileBreakpoint »' , isMobileBreakpoint );
-
+        self.setMode();
+     
         // @ mobile breakpoint?
-        if(isMobileBreakpoint){
-          //console.log("is mobile (init) »");
+        if(self.mode != "desktop"){
+          console.log( 'is mobile mode »' , self.mode);
           self.setup();
         }
-       
+
         console.log( '« end (init) »');
         console.groupEnd();
       },
@@ -92,12 +88,11 @@
         console.group( '««« setup »»»' );
         var self      = this,
         setupSequence = new Sequencer;
-
-        setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed ); // set scroller & iscroll options
-        setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes
-        setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
-        setupSequence.add( self, self.createNavigation, self.sequencerSpeed); // create bullet nav
         
+        setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes
+        setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 300 ); // set scroller & iscroll options
+        setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
+        setupSequence.add( self, self.createNavigation, self.sequencerSpeed); // create bullet nav       
         setupSequence.start();
 
         console.log( '« end »');
@@ -113,6 +108,7 @@
         teardownSequence.add( self, self.removeStyleAttr, self.sequencerSpeed ); // remove scroller-specific style attributes
         teardownSequence.add( self, self.destroyNavigation, self.sequencerSpeed ); // hide bullets
         teardownSequence.add( self, self.destroyScroller, self.sequencerSpeed ); // destroy scroller instance
+        teardownSequence.add( self, self.setMode, self.sequencerSpeed ); // destroy scroller instance
       
         teardownSequence.start();
 
@@ -165,7 +161,8 @@
           contentSelector: '.tcc-body',
           itemElementSelector: '.tcc-content-module',
           mode: 'paginate',
-          fitPerPage:1,
+          fitPerPage:self.mode == 'phone' ? 1 : 2, // 2-up vs 1-up
+          lastPageCenter: false, //self.mode == 'phone' ? false : true,
 
           iscrollProps: {
             snap: true,
@@ -202,10 +199,37 @@
         console.group('««« setContentModuleSizes »»»');
       
         var self      = this,
-        containerSize = Math.round(self.$el.outerWidth());
-       
+        containerSize = Math.round(self.$el.outerWidth()); // assumes 'phone'
+
+        // tablet is 2-up not 1-up, so split
+        if(self.mode == "tablet"){
+          containerSize = Math.round(containerSize / 2);
+        }
+        
+        console.log( 'contentModules size »' , containerSize );
+
         self.$contentModules.each(function() {
-          $(this).outerWidth(containerSize);
+          var hasPaddingLeft = $(this).css('padding-left') == "0px" ? false : true,
+              hasPaddingRight = $(this).css('padding-right') == "0px" ? false : true;
+
+          if(hasPaddingRight){
+            console.log( 'this modules has padding right »' , $(this).css('padding-right') );
+          }else{
+            console.log( 'no padding right »');
+          }
+
+          if(hasPaddingLeft){
+            console.log( 'this modules has padding left »' , $(this).css('padding-left') ); 
+          }else{
+            console.log( 'no padding left »' );
+          }
+
+          // CONVERT PADDING TO PIXELS
+         // REMOVE FROM WIDTH
+
+          $(this).innerWidth(containerSize);
+
+
         });
      
         console.log( '« end »');
@@ -217,9 +241,12 @@
 
         // TODO default hidden
 
-        var self     = this,      
-        itemHTML     = '<div class="' + self.innerNavClasses.join(" ") + '"></div>',
-        out          = '<div class="' + self.outerNavClasses.join(" ") + '">';
+        var self = this,      
+        outerClasses = self.outerNavClasses.join(" "),
+        innerClasses = self.innerNavClasses.join(" "),
+        itemHTML = '<div class="' + innerClasses + '"></div>',
+        out      = '<div class="' + outerClasses + '">',
+        numPages = self.mode == "tablet" ? 2 : self.$contentModules.length;
           
         if(self.controlNav){
           console.log( 'destroying existing nav first »', self.controlNav );
@@ -229,7 +256,7 @@
         //reset current slide id 
         self.currentId = 0;
 
-        for(var i = 0; i < self.numPages; i++) {
+        for(var i = 0; i < numPages; i++) {
           out += itemHTML;
         }
         
@@ -244,6 +271,8 @@
           self.handleNavClick(e);
         });
 
+        $( '.' + self.outerNavClasses.join(".") ).addClass("on");
+
         self.ev.trigger( 'tccOnNavUpdate' );
 
         console.log( '« end »');
@@ -254,9 +283,13 @@
         console.group( '««« destroyNavigation »»»' );
         var self = this;
       
-        // remove references 
-        $( '.' + self.outerNavClasses.join(".") ).remove();
-      
+        // 'fade out' before removing 
+        $( '.' + self.outerNavClasses.join(".") )
+          .removeClass("on")
+          .delay(300) // let it fade out... 
+          .remove(); // remove references 
+
+
         console.groupEnd();
       },
 
@@ -316,15 +349,18 @@
       handleResize : function(){
         console.group( '««« handleResize »»»' );
         
-        var self           = this,
-        isMobileBreakpoint = self.checkMobileBreakpoint();
+        var self = this;
 
-        console.log('isMobileBreakpoint »', isMobileBreakpoint);
+        self.setMode();
+
+        console.log( 'mode is  »' , self.mode);
 
         // @ mobile breakpoint?
-        if( isMobileBreakpoint ){
-          console.log("in mobile (resize) »");
+        if( self.mode != "desktop" ){
+          console.log("in mobile (resize) »", self.mode);
+          
           var resizeSequencer = new Sequencer;
+          
           if( self.$scrollerInstance != null ) {
             resizeSequencer.add( self, self.teardown, self.sequencerSpeed ); // teardown 
           }
@@ -349,15 +385,21 @@
         console.groupEnd();
       },
 
-      checkMobileBreakpoint : function(  ){
-        console.group( '««« checkMobileBreakpoint »»»' );
-
+      setMode : function(){
+        console.group( '««« setMode »»»' );
         var self = this;
 
+        if( Modernizr.mq('(max-width:'+ self.phoneBreakpoint+'px)') ){
+          self.mode = "phone";
+        }else if ( Modernizr.mq('(min-width:' + self.tabletBreakpointMin + 'px) and (max-width:' + self.tabletBreakpointMax + 'px)') ) {
+          self.mode = "tablet";
+        }else{
+          self.mode = "desktop";
+        }
+
+        console.log( 'mode is »' , self.mode);
         console.log( '« end »');
         console.groupEnd();
-        
-        return Modernizr.mq('(max-width:'+ self.mobileBreakpoint+'px)') ? true : false; // bool
       }
 
     };
