@@ -1,26 +1,45 @@
 //
 // Responsive: Landscape phone to desktop/tablet
-// --------------------------------------------------
-// changed from 768
-@media (max-width: 567px) {
+// ---------------------------------------------------------------------------------------------------
+// 888888888   .d8888b.   .d8888b.                          .d8888b.                                  888                  
+// 888        d88P  Y88b d88P  Y88b                        d88P  "88b                                 888                  
+// 888        888        Y88b. d88P                        Y88b. d88P                                 888                  
+// 8888888b.  888d888b.   "Y88888"  88888b.  888  888       "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'      .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+//        888 888    888 888    888 888  888   X88K        888"  Y888P"        888  888 888  888 888  888 88888888 888     
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.      Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888       "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                  888                                                                                    
+//                                  888                                                                                    
+//                                  888                                                                                    
+// ---------------------------------------------------------------------------------------------------
 
-  .grid4 {
+
+@mixin collapse-for-mobile ($overrideClass:""){
+  #{$overrideClass}.grid4,
+  #{$overrideClass} .grid4, {
     @include grid-fluid($fluidGrid4ColWidth, $fluidGrid4GutterWidth, $grid4Columns);
   }
 
   // Fluid grid
-  .container,
-  .grid,
-  .container-px-width,
-  .grid-px-width{
+  #{$overrideClass}.container,
+  #{$overrideClass} .container,
+  #{$overrideClass}.grid,
+  #{$overrideClass} .grid,
+  #{$overrideClass}.container-px-width,
+  #{$overrideClass} .container-px-width,
+  #{$overrideClass}.grid-px-width,
+  #{$overrideClass} .grid-px-width{
     width: 100%;
   }
 
-  .mobile-container-padded{
+  #{$overrideClass}.mobile-container-padded,
+  #{$overrideClass} .mobile-container-padded{
     padding-left:$containerMarginWidth480;
     padding-right:$containerMarginWidth480;
   }
-  .mobile-container-margined{
+  #{$overrideClass}.mobile-container-margined,
+  #{$overrideClass} .mobile-container-margined{
     margin-left:$containerMarginWidth480;
     margin-right:$containerMarginWidth480;
   }
@@ -30,7 +49,8 @@
   // -----------------
 
   // Undo negative margin on fixed width grids and thumbnails
-  .grid-px-width,
+  #{$overrideClass}.grid-px-width,
+  #{$overrideClass} .grid-px-width,
   .thumbnails {
     margin-left: 0;
   }
@@ -40,10 +60,14 @@
   }
 
   // Make all grid-sized elements block level again
-  .grid:not(.grid-small) [class*="span"],
-  .grid:not(.grid-small) [class*="offset"],
-  .grid-px-width:not(.grid-small) [class*="span"],
-  .grid-px-width:not(.grid-small) [class*="offset"]
+  #{$overrideClass}.grid:not(.grid-small) [class*="span"],
+  #{$overrideClass} .grid:not(.grid-small) [class*="span"],
+  #{$overrideClass}.grid:not(.grid-small) [class*="offset"],
+  #{$overrideClass} .grid:not(.grid-small) [class*="offset"],
+  #{$overrideClass}.grid-px-width:not(.grid-small) [class*="span"],
+  #{$overrideClass} .grid-px-width:not(.grid-small) [class*="span"],
+  #{$overrideClass}.grid-px-width:not(.grid-small) [class*="offset"]
+  #{$overrideClass} .grid-px-width:not(.grid-small) [class*="offset"]
   // [class*="span"],
   // .grid [class*="span"],
   // [class*="offset"],
@@ -63,29 +87,30 @@
   // FORM FIELDS
   // -----------
   // Make span* classes full width
-  .input-large,
-  .input-xlarge,
-  .input-xxlarge,
+  #{$overrideClass} .input-large,
+  #{$overrideClass} .input-xlarge,
+  #{$overrideClass} .input-xxlarge,
   input[class*="span"],
   select[class*="span"],
   textarea[class*="span"],
-  .uneditable-input {
+  #{$overrideClass} .uneditable-input {
     @include input-block-level();
   }
   // But don't let it screw up prepend/append inputs
-  .input-prepend input,
-  .input-append input,
-  .input-prepend input[class*="span"],
-  .input-append input[class*="span"] {
+  #{$overrideClass} .input-prepend input,
+  #{$overrideClass} .input-append input,
+  #{$overrideClass} .input-prepend input[class*="span"],
+  #{$overrideClass} .input-append input[class*="span"] {
     display: inline-block; // redeclare so they don't wrap to new lines
     width: auto;
   }
-  .controls-row [class*="span"] + [class*="span"] {
+  #{$overrideClass} .controls-row [class*="span"] + [class*="span"] {
     margin-left: 0;
   }
 
   // Modals
-  .modal {
+  #{$overrideClass}.modal,
+  #{$overrideClass} .modal {
     position: fixed;
     top:   20px;
     left:  20px;
@@ -95,7 +120,8 @@
     &.fade.in { top: auto; }
   }
 
-  .takeover {
+  #{$overrideClass}.takeover,
+  #{$overrideClass} .takeover {
     top:   0;
     left:  0;
     right: 0;
@@ -103,34 +129,12 @@
     &.fade.in { top: 0; }
   }
 
-  .takeover .modal-header {
-    position: fixed;
-    z-index: 10;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    height: 50px;
-    background: $grayDark;
-
-    h3 {
-      color: $white;
-      font-size: 1em;
-    }
-  }
-
-  .takeover .modal-subheader {
-    padding-top: 50px;
-    margin-bottom: 1.25em;
-  }
-
-  .takeover .product-count-wrap {
-    display: block;
-  }
 
 
   // TYPOGRAPHY
   // ----------
   // Reset horizontal dl
-  .dl-horizontal {
+  #{$overrideClass} .dl-horizontal {
     dt {
       float: none;
       clear: none;
@@ -141,7 +145,15 @@
       margin-left: 0;
     }
   }
+} // end @mixin collapse-for-mobile
 
+
+// changed from 768
+@media (max-width: 567px) {
+  @include collapse-for-mobile();
+}
+@media (max-width: 767px) {
+  @include collapse-for-mobile(".mobile-to-767");
 }
 
 
@@ -149,13 +161,86 @@
 
 
 
+// -----------------------------------------------------------------------------------------------------------
+// OVERRIDE TO DELAY MOBILE BREAKPOINT UNTIL BELOW 568 (IPHONE 5 LANDSCAPE)
+// -----------------------------------------------------------------------------------------------------------
+// 888888888   .d8888b.   .d8888b.                          8888888888  .d8888b.  8888888888                  
+// 888        d88P  Y88b d88P  Y88b                               d88P d88P  Y88b       d88P                  
+// 888        888        Y88b. d88P                              d88P  888             d88P                   
+// 8888888b.  888d888b.   "Y88888"  88888b.  888  888           d88P   888d888b.      d88P  88888b.  888  888 
+//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'        88888888  888P "Y88b  88888888 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888   d88P     888    888   d88P    888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.        d88P      Y88b  d88P  d88P     888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888       d88P        "Y8888P"  d88P      88888P"  888  888 
+//                                  888                                                     888               
+//                                  888                                                     888               
+//                                  888                                                     888               
+// -----------------------------------------------------------------------------------------------------------
+
+// @media (min-width: 568px) and (max-width: 767px) {
+
+//   // Fluid grid
+//   .desktop-layout-to-568.container:not(.full-bleed, .full-bleed-no-max),
+//   .desktop-layout-to-568 .container:not(.full-bleed, .full-bleed-no-max){
+//     width: $fluidContainerWidth768;
+//   }
+//   .desktop-layout-to-568.grid:not(.full-bleed, .grid-footer),
+//   .desktop-layout-to-568 .grid:not(.full-bleed, .grid-footer){
+//     width: $fluidGridWidth768;
+//   }
+//   .desktop-layout-to-568:not(.full-bleed, .full-bleed-no-max){
+//     @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
+//   }
+
+//   // Fixed grid
+//   .desktop-layout-to-568.container-px-width:not(.full-bleed, .full-bleed-no-max),
+//   .desktop-layout-to-568 .container-px-width:not(.full-bleed, .full-bleed-no-max){  
+//     width: $containerWidth768;
+//   }
+//   .desktop-layout-to-568.grid-px-width:not(.full-bleed, .grid-footer),
+//   .desktop-layout-to-568 .grid-px-width:not(.full-bleed, .grid-footer){
+//     width: $gridWidth768;
+//   }
+//   .desktop-layout-to-568:not(.full-bleed, .full-bleed-no-max, .grid-footer){
+//     @include grid-core($gridColumnWidth768, $gridGutterWidth768);
+//     // Input grid
+//     @include grid-input($gridColumnWidth768, $gridGutterWidth768);
+//   }
+
+//   // No need to reset .thumbnails here since it's the same $gridGutterWidth
+
+// }
+
+// @media (min-width:568px) {
+//   .desktop-layout-to-568.grid5:not(.full-bleed),
+//   .desktop-layout-to-568 .grid5:not(.full-bleed) {
+//     @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+//   }
+// }
 
 
 
 
 
+
+
+
+
+// ------------------------------------------------------------------------------------
 // UP TO LANDSCAPE PHONE
-// ---------------------
+// ------------------------------------------------------------------------------------
+//     d8888  8888888888  .d8888b.                           .d8888b.                                  888                  
+//    d8P888        d88P d88P  Y88b                         d88P  "88b                                 888                  
+//   d8P 888       d88P  888    888                         Y88b. d88P                                 888                  
+//  d8P  888      d88P   Y88b. d888 88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+// d88   888   88888888   "Y888P888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+// 8888888888   d88P            888 888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//       888   d88P      Y88b  d88P 888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//       888  d88P        "Y8888P"  88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                  888                                                                                     
+//                                  888                                                                                     
+//                                  888                                                                                     
+// ------------------------------------------------------------------------------------
 
 @media (max-width: 479px) {
 
@@ -241,6 +326,27 @@
   .modal-header .close {
     padding: 10px;
     margin: -10px;
+  }
+
+  .takeover .modal-header {
+    position: fixed;
+    z-index: 10;
+    padding: 8px 2px;
+    height: 50px;
+    background: $grayDark;
+
+    h3 {
+      color: $white;
+      font-size: 1em;
+    }
+  }
+
+  .takeover .modal-subheader {
+    padding-top: 50px;
+  }
+
+  .takeover .product-count-wrap {
+    display: block;
   }
 
   .takeover .modal-header .box-close {

@@ -117,6 +117,14 @@
     // this just resets the actual results without clearing the input, for instance when the search term had been deleted & is blank.
     resetSearchResults: function( inputObj ){
       inputObj.$inputWrapper.removeClass("searching");      
+    },
+
+    initTouchToggles: function( $touchToggles ) {
+      $touchToggles.each(function(){
+        $(this).on("touchstart click",function(){
+          $(this).toggleClass("active");
+        });
+      });
     }
   };
 
@@ -162,10 +170,16 @@
  })(jQuery, Modernizr, window, undefined);
 
 
- // var $footerWrapper = $('body').formActions();
- // $footerWrapper.data('formActions').initInput($('#store-locator-search-input'));
- // $footerWrapper.data('formActions').initInput($('#footer-email-input'));
- // $footerWrapper.data('formActions').initInput($('#nav-search-input'));
+$(function() {
+   var $formActionsInit = $('body').formActions(),
+    $formActions = $formActionsInit.data('formActions');
+
+   $formActions.initInput($('#store-locator-search-input'));
+   $formActions.initInput($('#footer-email-input'));
+   $formActions.initInput($('#nav-search-input'));
+
+   $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
+});
 
 
 

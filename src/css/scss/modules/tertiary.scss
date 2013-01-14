@@ -6,16 +6,12 @@
 	@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 	@import "../_base/mixins";
 
-	.clearfix {
-	  @include clearfix;
-	}
-
 	*{
 	  @include borderBox;
-	  @include noTouchHold;
+	  // @include noTouchHold;
 	}
-// END TEMP
 
+// END TEMP
 
 .tcc-wrapper{
 	position: relative;
@@ -25,7 +21,8 @@
 
 	.tcc-body-wrapper{
 		display: block;
-		overflow: auto;
+		//overflow: auto;
+		overflow: hidden;
 		position: relative;
 		text-align: center;
 		z-index: 1;
@@ -92,3 +89,49 @@
 	}
 
 } // end .sonys-voice
+
+
+.tcc-nav {
+
+  &.tcc-bullets {
+    position: absolute;
+    z-index: 35;  
+    left: 0;
+    //bottom: -30px;
+    bottom: 0px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 18px;
+    overflow: hidden;
+  }
+
+  .tcc-bullet {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin: 5px 0 0 6px;
+    border-radius: 5px;
+    background: #bdbccc;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    // @media (max-width:479px) {
+    //   width: 7px;
+    //   height: 7px;
+    //   margin: 0 0 0 3px;
+    //   border-radius: 4px;
+    // }
+  }
+
+
+
+  .tcc-bullet.tcc-nav-selected  {
+    background-color: #2e3339;
+  }
+
+}

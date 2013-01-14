@@ -527,6 +527,7 @@
           self.$containerInner.css(self.xProp, pos);
         }
       },
+      
       moveTo: function(){
         var self = this,
         newPos   = -self.currentId * self.currentContainerWidth,
@@ -921,7 +922,7 @@
         self.moveTo();  
 
        //set containers over all position based on current slide
-/*        animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed * 0.25 + 'ms';
+        /*        animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed * 0.25 + 'ms';
         animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing[ 'easeInOutSine' ];
         animObj[ self.xProp ] = self.tPref1 + ( ( -self.currentId * cw ) + self.tPref2 + 0 ) + self.tPref3;
         self.$containerInner.css( animObj );*/
@@ -946,7 +947,6 @@
         animObj[ self.xProp ] = self.tPref1 + ( ( xpos ) + self.tPref2 + 0 ) + self.tPref3;
         self.$containerInner.css( animObj );        
       }
-
     };
 
     $.socCSS3Easing = {

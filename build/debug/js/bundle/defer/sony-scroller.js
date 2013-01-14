@@ -12,6 +12,7 @@
 	'use strict';
 
 	var ScrollerModule = function( $element, options ) {
+		console.group( 'ScrollerModule' );
 
 		var self = this;
 
@@ -31,12 +32,16 @@
 
 		// Override the onscrollend for our own use
 		self.onScrollEnd = self.iscrollProps.onScrollEnd;
+		
 		// NOT SURE WHY THIS ISN'T BEING CALLED
 		self.iscrollProps.onScrollEnd = function() {
 			self._onScrollEnd( this );
 		};
+
 		self.onAnimationEnd = self.iscrollProps.onAnimationEnd;
+		
 		self.iscrollProps.onAnimationEnd = function() {
+			console.log( 'this »' , this);
 			self._onAnimationEnd( this );
 		};
 
@@ -65,6 +70,10 @@
 
 
     self._update();
+
+
+    console.log( '« end (ScrollerModule) »');
+    console.groupEnd();
 	};
 
 	ScrollerModule.prototype = {
@@ -88,23 +97,6 @@
 					totalBlockWidth = widthOfOneElement * availToFit;
 
 			windowWidth += self.extraSpacing;
-
-			// ===================
-			// var integerNum = windowWidth / self.$sampleElement.outerWidth(true);
-			// var widthOfOneElement = self.$sampleElement.outerWidth(true);
-			// console.log("self »",self);
-			// console.log("windowWidth »",windowWidth, "(", typeof(windowWidth) ,")");
-			// //console.log("self.$el.width() »",self.$el.width(), "(", typeof(self.$el.width()) , ")");
-			// console.log("widthOfOneElement »",widthOfOneElement, "(", typeof(widthOfOneElement) , ")");
-			// console.log("Math.floor(windowWidth / widthOfOneElement) »",Math.floor(windowWidth / widthOfOneElement));
-
-			
-			//console.log(" availToFit »", windowWidth / widthOfOneElement, "(", typeof(Math.floor(windowWidth / widthOfOneElement)) , ")");
-			//console.log(" availToFit »",availToFit , "(", typeof(availToFit) , ")");
-			// //console.log("paginate value »", integerNum, "(", typeof(integerNum) ,")");
-			//console.log("paginate value parseInt »", parseInt(integerNum), "(", typeof(parseInt(integerNum)) ,")");
-			//console.log("Math.floor(windowWidth / self.$sampleElement.outerWidth(true)) »", Math.floor(parseInt(integerNum)));
-			// ===================
 
 			//stop processing function /maybe hide paddles or UI?
 			if ( numPages === 1 || availToFit > itemCount ) {
@@ -230,7 +222,8 @@
 			// If they've defined a callback as well, call it
 			// We saved their function to this reference so we could have our own onAnimationEnd
 			if ( self.onAnimationEnd ) {
-				self.onAnimationEnd();
+				//console.log( 'iscroll.currPageX »' , iscroll.currPageX);
+				self.onAnimationEnd(iscroll);
 			}
 		},
 
@@ -343,6 +336,7 @@
 			onScrollEnd: null,
 			lockDirection:true,
 			onBeforeScrollStart:null,
+			onAnimationEnd:null,
 		}
 
 	};

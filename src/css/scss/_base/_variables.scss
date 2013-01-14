@@ -2,98 +2,124 @@
 // Variables
 // In SublimeText, use Command-K-1 to collapse all sections, Command-K-0 to expand all.
 // -------------------------------------------------------------------------
-
-
-// Colors
-// -------------------------
-#COLORS{} // this is just here for a SublimeText code-folding collapse point
-	// Grays
-	// -------------------------
-	$black:                 rgb(0,0,0) !default;       //#000
-	$blackLight:		        rgb(35,35,35) !default;    //#232323
-	$grayDark:              rgb(47,53,61) !default;    //#2F353D
-	$grayDark1: 						rgb(80,77,86) !default;
-	$gray:                  rgb(131,131,143) !default; //#83838F
-
-  $grayLightness:         rgb(145,145,158) !default; // we need to cut down on some of these...
-
-	$grayLight:             rgb(188,188,204) !default; //#BCBCCC
-	$grayLight2:            rgb(213,215,216) !default; //#d5d7d8
-	$grayLightish:          rgb(210,210,219) !default; //#D2D2DB
-	$grayLighter:           rgb(228,231,235) !default; //#E4E7EB
-	$white:                 rgb(255,255,255) !default; //#fff
-
-
-	// Background Tones
-	// -----------------------------------
-	$grayDarkerFieldLarge:  rgb(31,32,36) !default;    //#1F2024
-	$grayDarkFieldLarge:    rgb(64,66,71) !default;    //#404247
-	$grayLightFieldLarge:   rgb(243,244,246) !default; //#F3F4F6
-
-	$grayDarkerFieldSmall:  rgb(33,37,48) !default;    //#212530
-	$grayDarkFieldSmall:    rgb(114,110,122) !default; //#726E7A
-	$grayLightFieldSmall:   rgb(241,245,249) !default; //#F1F5F9
-
-
-
-	// Accent colors
-	// -------------------------
-	$blue:                  rgb(4,156,219) !default;  //#049CDB
-	$blueDark:              rgb(0,100,205) !default;  //#0064CD
-	$red:                   rgb(157,38,29) !default;  //#9D261D
-	$redLight:              rgb(255,98,103) !default; //#ff6267
-	$yellow:                rgb(255,196,13) !default; //#FFC40D
-	$orange:                rgb(248,148,6) !default;  //#F89406
-	$pink:                  rgb(195,50,95) !default;  //#C3325F
-	$purple:                rgb(122,67,182) !default; //#7A43B6
-  $green:                 rgb(34,192,131) !default;
-
-
-  // Sony Accent colors
+//
+//
+//
+//
+// ------------------------------------------------
+//  .d8888b.           888                           
+// d88P  Y88b          888                           
+// 888    888          888                           
+// 888         .d88b.  888  .d88b.  888d888 .d8888b  
+// 888        d88""88b 888 d88""88b 888P"   88K      
+// 888    888 888  888 888 888  888 888     "Y8888b. 
+// Y88b  d88P Y88..88P 888 Y88..88P 888          X88 
+//  "Y8888P"   "Y88P"  888  "Y88P"  888      88888P' 
+// ------------------------------------------------
+#COLORS{} // this is just here for a SublimeText code-folding collapse point.
+  // Grays
   // -------------------------
+  $black:                 rgb(0,0,0) !default;       //#000
+  $blackLight:            rgb(35,35,35) !default;    //#232323
+  $grayDark:              rgb(47,53,61) !default;    //#2F353D
+  $grayDark1:             rgb(80,77,86) !default;
+  $gray:                  rgb(131,131,143) !default; //#83838F
+  $grayLightness:         rgb(145,145,158) !default; // we need to cut down on some of these...
+  $grayLight:             rgb(188,188,204) !default; //#BCBCCC
+  $grayLight2:            rgb(213,215,216) !default; //#d5d7d8
+  $grayLightish:          rgb(210,210,219) !default; //#D2D2DB
+  $grayLighter:           rgb(228,231,235) !default; //#E4E7EB
+  $white:                 rgb(255,255,255) !default; //#fff
+
+  // Background Tones
+  // -----------------------------------
+  $grayDarkerFieldLarge:  rgb(31,32,36) !default;    //#1F2024
+  $grayDarkFieldLarge:    rgb(64,66,71) !default;    //#404247
+  $grayLightFieldLarge:   rgb(243,244,246) !default; //#F3F4F6
+
+  $grayDarkerFieldSmall:  rgb(33,37,48) !default;    //#212530
+  $grayDarkFieldSmall:    rgb(114,110,122) !default; //#726E7A
+  $grayLightFieldSmall:   rgb(241,245,249) !default; //#F1F5F9
+
+
+
+
+  // I'm just trying out some new naming conventions. They're not implemented anywhere yet. 
+  // They would replace all of the black/gray/white colors above if this is what we want to use. -[cjm]
+  // --------------------------------------------------
+  $gray00:      rgb(0,0,0) !default;       //#000
+  $gray10:      rgb(35,35,35) !default;    //#232323
+  $gray20:      rgb(47,53,61) !default;    //#2F353D
+  $gray30:      rgb(80,77,86) !default;
+  $gray40:      ""; // nothing set.
+  $gray50:      rgb(131,131,143) !default; //#83838F
+  $gray60:      rgb(188,188,204) !default; //#BCBCCC
+  $gray70:      rgb(213,215,216) !default; //#d5d7d8
+  $gray80:      rgb(210,210,219) !default; //#D2D2DB
+  $gray90:      rgb(228,231,235) !default; //#E4E7EB
+  $gray100:     rgb(255,255,255) !default; //#fff
+
+  $grayCool10:  rgb(31,32,36) !default;    //#1F2024
+  $grayCool15:  rgb(33,37,48) !default;    //#212530
+  $grayCool20:  rgb(64,66,71) !default;    //#404247
+  $grayCool50:  rgb(114,110,122) !default; //#726E7A
+  $grayCool90:  rgb(241,245,249) !default; //#F1F5F9
+  $grayCool95:  rgb(243,244,246) !default; //#F3F4F6
+
+
+
+  // Sony Highlight colors
+  // --------------------------------------------------
   $highlightColor:        rgb(243,84,41) !default;
   $highlightColorHover:   lighten($highlightColor, 5%) !default;
   $highlightColorActive:  $highlightColor !default;
   $highlightColorDark:    rgb(219,76,37);
 
-  $lemon:                 rgb(255,254,201) !default; // #fffec9
 
+  // Links
+  // --------------------------------------------------
+  $linkColor:       rgb(69,113,236) !default;
+  $linkColorHover:  rgb(31,68,183) !default;
+  $linkColorLight:  rgb(87,135,244) !default;
+
+
+
+  // Accent colors -- these should be given more specific names. Theme? Primary? What?
+  // --------------------------------------------------
+  $blue:        rgb(4,156,219) !default;  //#049CDB
+  $blueDark:    rgb(0,100,205) !default;  //#0064CD
+  $red:         rgb(157,38,29) !default;  //#9D261D
+  $redLight:    rgb(255,98,103) !default; //#ff6267
+  $yellow:      rgb(255,196,13) !default; //#FFC40D
+  $orange:      rgb(248,148,6) !default;  //#F89406
+  $pink:        rgb(195,50,95) !default;  //#C3325F
+  $purple:      rgb(122,67,182) !default; //#7A43B6
+  $green:       rgb(34,192,131) !default;
+  $lemon:       rgb(255,254,201) !default; // #fffec9
 
 
   // UX Theme Colors  
-  $themeRed:              rgb(201,42,41) !default;
-  $themePurple:           rgb(147,48,142) !default;
-  $themeBlueLight:        rgb(47,172,207) !default;
-  $themeGreen:            rgb(143,196,47) !default;
-  $themeOrange:           rgb(230,118,34) !default;
-  $themeBlueDark:         rgb(16,88,158) !default;
+  // --------------------------------------------------
+  $themeRed:        rgb(201,42,41) !default;
+  $themePurple:     rgb(147,48,142) !default;
+  $themeBlueLight:  rgb(47,172,207) !default;
+  $themeGreen:      rgb(143,196,47) !default;
+  $themeOrange:     rgb(230,118,34) !default;
+  $themeBlueDark:   rgb(16,88,158) !default;
 
 
 
-  $twitterColor:					rgb(43,180,245) !default;
-  $facebookColor:					rgb(62,75,203) !default;
-  $gplusColor:						rgb(219,64,44) !default;
-  $youtubeColor:					rgb(145,7,7) !default;
-
-
-  // Scaffolding
-  // -------------------------
-  $bodyBackground:        $white !default;
-  $textColor:             $gray !default;
-  $textColorLight:        $grayLight !default;
-  $textColorLightest:     $grayLight !default;
-  $textColorDark:         $grayDark !default;
-
-
-  // Links
-  // -------------------------
-  $linkColor:             rgb(69,113,236) !default;
-  $linkColorHover:        rgb(31,68,183) !default;
-  $linkColorLight:				rgb(87,135,244) !default;
+  // 3rd Party Brand Colors  
+  // --------------------------------------------------
+  $twitterColor:   rgb(43,180,245) !default;
+  $facebookColor:  rgb(62,75,203) !default;
+  $gplusColor:     rgb(219,64,44) !default;
+  $youtubeColor:   rgb(145,7,7) !default;
   
 
-  // Transparent colors
-  // -------------------------
+
+  // Transparent colors - ??? island of misfit colors here?
+  // --------------------------------------------------
   $transparentBlack:      rgba(0,0,0,0.12) !default;
   $innerGlow:             rgba(255, 255, 255, 1);
   $modalOpacity:          0.7;
@@ -103,51 +129,74 @@
 
 
 
-  $squareHalo:        0 0 5px $innerGlow, 0 0 0 6px $transparentBlack;
+
+
+  // Scaffolding
+  // --------------------------------------------------
+  $bodyBackground:     $white !default;
+  $textColor:          $gray !default;
+  $textColorLight:     $grayLight !default;
+  $textColorLightest:  $grayLight !default;
+  $textColorDark:      $grayDark !default;
 
 
 
-// Typography
-// -------------------------
+
+
+
+
+// ------------------------------------------------
+// 88888888888                                                            888               
+//     888                                                                888               
+//     888                                                                888               
+//     888  888  888 88888b.   .d88b.   .d88b.  888d888  8888b.  88888b.  88888b.  888  888 
+//     888  888  888 888 "88b d88""88b d88P"88b 888P"       "88b 888 "88b 888 "88b 888  888 
+//     888  888  888 888  888 888  888 888  888 888     .d888888 888  888 888  888 888  888 
+//     888  Y88b 888 888 d88P Y88..88P Y88b 888 888     888  888 888 d88P 888  888 Y88b 888 
+//     888   "Y88888 88888P"   "Y88P"   "Y88888 888     "Y888888 88888P"  888  888  "Y88888 
+//               888 888                    888                  888                    888 
+//          Y8b d88P 888               Y8b d88P                  888               Y8b d88P 
+//           "Y88P"  888                "Y88P"                   888                "Y88P"  
+// ------------------------------------------------
 .TYPOGRAPHY{} // this is just here for a SublimeText code-folding collapse point
 
-	// "Comic Sans MS" and Monaco are here for testing, so it's obvious when the webfont is not working.
-	// Font names are now standardized, so these are the same whether you're using fonts.com or local fonts. That is determined in css_debug/deploy.html or docs_head.html
-	$sansFontFamily:                  "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyItalic:            "SST W01 Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyBold:              "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyBoldItalic:        "SST W01 Bold Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMedium:            "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyMediumItalic:      "SST W01 Medium Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLight:             "SST W01 Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	$sansFontFamilyLightItalic:       "SST W01 Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	// // Extras as defined by Fonts.com - but not used on this site (yet):
-	// $sansFontFamilyCondensed:        "SST W01 Condensed", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	// $sansFontFamilyCondensedBold:    "SST W01 Condensed Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	// $sansFontFamilyHeavy:            "SST W01 Heavy", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	// $sansFontFamilyHeavyItalic:      "SST W01 Heavy Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	// $sansFontFamilyUltraLight:       "SST W01 Ultra Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-	// $sansFontFamilyUltraLightItalic: "SST W01 Ultra Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  // "Comic Sans MS" and Monaco are here for testing, so it's obvious when the webfont is not working.
+  // Font names are now standardized, so these are the same whether you're using fonts.com or local fonts. That is determined in css_debug/deploy.html or docs_head.html
+  $sansFontFamily:              "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  $sansFontFamilyItalic:        "SST W01 Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  $sansFontFamilyBold:          "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  $sansFontFamilyBoldItalic:    "SST W01 Bold Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  $sansFontFamilyMedium:        "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  $sansFontFamilyMediumItalic:  "SST W01 Medium Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  $sansFontFamilyLight:         "SST W01 Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  $sansFontFamilyLightItalic:   "SST W01 Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  // // Extras as defined by Fonts.com - but not used on this site (yet):
+  // $sansFontFamilyCondensed:        "SST W01 Condensed", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  // $sansFontFamilyCondensedBold:    "SST W01 Condensed Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  // $sansFontFamilyHeavy:            "SST W01 Heavy", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  // $sansFontFamilyHeavyItalic:      "SST W01 Heavy Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  // $sansFontFamilyUltraLight:       "SST W01 Ultra Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+  // $sansFontFamilyUltraLightItalic: "SST W01 Ultra Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 
 
-	$serifFontFamily:           Georgia, "Times New Roman", Times, serif !default;
-	$monoFontFamily:            Monaco, Menlo, Consolas, "Courier New", monospace !default;
+  $serifFontFamily:           Georgia, "Times New Roman", Times, serif !default;
+  $monoFontFamily:            Monaco, Menlo, Consolas, "Courier New", monospace !default;
 
-	$baseFontFamily:            $sansFontFamily !default;
-	$baseFontFamilyItalic:      $sansFontFamilyItalic !default;
-	$baseFontFamilyBold:        $sansFontFamilyBold !default;
-	$baseFontFamilyBoldItalic:  $sansFontFamilyBoldItalic !default;
-	$baseFontFamilyMedium:      $sansFontFamilyMedium !default;
-	$baseFontFamilyMediumItalic:$sansFontFamilyMediumItalic !default;
-	$baseFontFamilyLight:       $sansFontFamilyLight !default;
-	$baseFontFamilyLightItalic: $sansFontFamilyLightItalic !default;
+  $baseFontFamily:            $sansFontFamily !default;
+  $baseFontFamilyItalic:      $sansFontFamilyItalic !default;
+  $baseFontFamilyBold:        $sansFontFamilyBold !default;
+  $baseFontFamilyBoldItalic:  $sansFontFamilyBoldItalic !default;
+  $baseFontFamilyMedium:      $sansFontFamilyMedium !default;
+  $baseFontFamilyMediumItalic:$sansFontFamilyMediumItalic !default;
+  $baseFontFamilyLight:       $sansFontFamilyLight !default;
+  $baseFontFamilyLightItalic: $sansFontFamilyLightItalic !default;
 
-	$baseFontSize:              1em !default;
-	$baseLineHeight:            1.65 !default;
-	$altFontFamily:             $serifFontFamily !default;
+  $baseFontSize:              1em !default;
+  $baseLineHeight:            1.65 !default;
+  $altFontFamily:             $serifFontFamily !default;
 
-	$headingsFontFamily:        $sansFontFamily !default;
-	$headingsFontFamilyItalic:  $sansFontFamilyItalic !default;
+  $headingsFontFamily:        $sansFontFamily !default;
+  $headingsFontFamilyItalic:  $sansFontFamilyItalic !default;
   $headingsColor:             $grayDark !default; // empty to use BS default, $textColor
 
 
@@ -186,63 +235,74 @@
   $font_12_15: 0.8em;                // 12px/15px;
   $font_11_15: 0.733333333333333em;  // 11px/15px;
   $font_10_15: 0.666666666666667em;  // 10px/15px;
+  $font_11_12: 0.916666666666667em;  // 11px/12px;
+  $font_10_12: 0.833333333333333em;  // 11px/12px;
 
-  $font_11_12: 0.91666666666667em;  // 11px/12px;
-  $font_10_12: 0.83333333333333em;  // 11px/12px;
 
 
-// Buttons & Hotspots
-// -------------------------
+
+
+
+// ------------------------------------------------
+// 888888b.            888    888                                      .d8888b.           888    888          888                               888             
+// 888  "88b           888    888                                     d88P  "88b          888    888          888                               888             
+// 888  .88P           888    888                                     Y88b. d88P          888    888          888                               888             
+// 8888888K.  888  888 888888 888888  .d88b.  88888b.  .d8888b         "Y8888P"           8888888888  .d88b.  888888 .d8888b  88888b.   .d88b.  888888 .d8888b  
+// 888  "Y88b 888  888 888    888    d88""88b 888 "88b 88K            .d88P88K.d88P       888    888 d88""88b 888    88K      888 "88b d88""88b 888    88K      
+// 888    888 888  888 888    888    888  888 888  888 "Y8888b.       888"  Y888P"        888    888 888  888 888    "Y8888b. 888  888 888  888 888    "Y8888b. 
+// 888   d88P Y88b 888 Y88b.  Y88b.  Y88..88P 888  888      X88       Y88b .d8888b        888    888 Y88..88P Y88b.       X88 888 d88P Y88..88P Y88b.       X88 
+// 8888888P"   "Y88888  "Y888  "Y888  "Y88P"  888  888  88888P'        "Y8888P" Y88b      888    888  "Y88P"   "Y888  88888P' 88888P"   "Y88P"   "Y888  88888P'
+// ------------------------------------------------
 .BUTTONS-and-HOTSPOTS{}
-	$btnBackground:                     rgb(87,135,244) !default;
-	$btnBackgroundHover:                rgb(100,142,245) !default;
-	$btnBackgroundActive:               $btnBackground !default;
-	$btnBorder:                         $btnBackground !default;
-	$btnBackgroundDisabled:       	    rgb(222,222,222);
+  $btnBackground:                   rgb(87,135,244) !default;
+  $btnBackgroundHover:              rgb(100,142,245) !default;
+  $btnBackgroundActive:             $btnBackground !default;
+  $btnBorder:                       $btnBackground !default;
+  $btnBackgroundDisabled:           rgb(222,222,222);
 
-	$btnText:                           $white !default;
+  $btnText:                         $white !default;
 
-	$btnSpecialBackground:              $highlightColor !default;
-	$btnSpecialBackgroundHover:         $highlightColorHover !default;
-	$btnSpecialBackgroundActive:        $highlightColorActive !default;
+  $btnSpecialBackground:            $highlightColor !default;
+  $btnSpecialBackgroundHover:       $highlightColorHover !default;
+  $btnSpecialBackgroundActive:      $highlightColorActive !default;
 
-	$btnAltBackground:                $grayDark !default;
-	$btnAltBackgroundHover:           darken($grayDark,4%) !default;
-	$btnAltBackgroundActive:          lighten($grayDark,4%) !default;
-	$btnAltSpecialPadding:        	  24px;
+  $btnAltBackground:                $grayDark !default;
+  $btnAltBackgroundHover:           darken($grayDark,4%) !default;
+  $btnAltBackgroundActive:          lighten($grayDark,4%) !default;
+  $btnAltSpecialPadding:            24px;
 
-	$btnPromoBackground:                $grayDarkerFieldSmall !default;
-	$btnPromoBackgroundHover:           darken($grayDarkerFieldSmall,5%) !default;
-	$btnPromoBackgroundActive:          $grayDarkerFieldSmall !default;
+  $btnPromoBackground:              $grayDarkerFieldSmall !default;
+  $btnPromoBackgroundHover:         darken($grayDarkerFieldSmall,5%) !default;
+  $btnPromoBackgroundActive:        $grayDarkerFieldSmall !default;
 
-	$btnSecondaryBackground:            $grayLight !default;
-	$btnSecondaryBackgroundHover:       lighten($grayLight,2%) !default;
-	$btnSecondaryBackgroundActive:      $grayLight !default;
+  $btnSecondaryBackground:          $grayLight !default;
+  $btnSecondaryBackgroundHover:     lighten($grayLight,2%) !default;
+  $btnSecondaryBackgroundActive:    $grayLight !default;
 
-	$btnDropdownBackground:            rgb(112,108,120) !default;
-	$btnDropdownBackgroundHover:       lighten($btnDropdownBackground,2%) !default;
-	$btnDropdownBackgroundActive:      $btnDropdownBackground !default;
+  $btnDropdownBackground:           rgb(112,108,120) !default;
+  $btnDropdownBackgroundHover:      lighten($btnDropdownBackground,2%) !default;
+  $btnDropdownBackgroundActive:     $btnDropdownBackground !default;
 
-	$btnDropdownAltBackground:         $white !default;
-	$btnDropdownAltBackgroundHover:    darken($white,2%) !default;
-	$btnDropdownAltBackgroundActive:   darken($white,1%) !default;
+  $btnDropdownAltBackground:        $white !default;
+  $btnDropdownAltBackgroundHover:   darken($white,2%) !default;
+  $btnDropdownAltBackgroundActive:  darken($white,1%) !default;
 
-	$btnPadding:                        8px 0 11px;
-	$btnLargePadding:                   7px 0 10px;
-	$btnSmallPadding:                   8px 0 10px;
-	$btnMiniPadding:                    8px 0 9px;
+  $btnPadding:               8px 0 11px;
+  $btnLargePadding:          7px 0 10px;
+  $btnSmallPadding:          8px 0 10px;
+  $btnMiniPadding:           8px 0 9px;
 
-	$btnSpecialPadding:                 13px 0 15px;
-	$btnSpecialLargePadding:            14px 0 14px;
-	$btnSpecialSmallPadding:            12px 0 14px;
-	$btnSpecialMiniPadding:             11px 0 12px;
+  $btnSpecialPadding:        13px 0 15px;
+  $btnSpecialLargePadding:   14px 0 14px;
+  $btnSpecialSmallPadding:   12px 0 14px;
+  $btnSpecialMiniPadding:    11px 0 12px;
 
-	$btnAltPadding:                   8px 0 11px;
-	$btnAltLargePadding:              7px 0 10px;
-	$btnAltSmallPadding:              8px 0 9px;
-	$btnAltMiniPadding:               8px 0 9px;
+  $btnAltPadding:            8px 0 11px;
+  $btnAltLargePadding:       7px 0 10px;
+  $btnAltSmallPadding:       8px 0 9px;
+  $btnAltMiniPadding:        8px 0 9px;
 
-	$btnSquarePadding:                14px 0 13px;
+  $btnSquarePadding:         14px 0 13px;
   // $btnSquareLargePadding:              7px 0 10px;
   // $btnSquareSmallPadding:              8px 0 9px;
   // $btnSquareMiniPadding:               8px 0 9px;
@@ -250,13 +310,24 @@
 
   // Hotspots
   // -------------------------
-  $hotspotHalo:       	 rgba(47,53,61,0.1) !default;
+  $hotspotHalo:          rgba(47,53,61,0.1) !default;
   $hotspotHaloHover:     rgba(47,53,61,0.15) !default;
 
 
 
-// Tables
-// -------------------------
+
+
+
+// ------------------------------------------------
+// 88888888888       888      888                   
+//     888           888      888                   
+//     888           888      888                   
+//     888   8888b.  88888b.  888  .d88b.  .d8888b  
+//     888      "88b 888 "88b 888 d8P  Y8b 88K      
+//     888  .d888888 888  888 888 88888888 "Y8888b. 
+//     888  888  888 888 d88P 888 Y8b.          X88 
+//     888  "Y888888 88888P"  888  "Y8888   88888P' 
+// ------------------------------------------------
 .TABLES{}
   $tableBackground:                   transparent !default; // overall background-color
   $tableBackgroundAccent:             rgb(249,249,249) !default; // for striping
@@ -266,20 +337,30 @@
 
 
 
-// Forms
-// -------------------------
+
+
+// ------------------------------------------------
+// 8888888888                                      
+// 888                                             
+// 888                                             
+// 8888888  .d88b.  888d888 88888b.d88b.  .d8888b  
+// 888     d88""88b 888P"   888 "888 "88b 88K      
+// 888     888  888 888     888  888  888 "Y8888b. 
+// 888     Y88..88P 888     888  888  888      X88 
+// 888      "Y88P"  888     888  888  888  88888P'
+// ------------------------------------------------
 .FORMS{}
-	$inputBackground:               $white !default;
-	$inputBackgroundAlt:            rgb(248,248,248) !default;
-	$inputBackgroundBtnAlt:         $grayLighter !default;
-	$inputText:                     $grayLight !default;
-	$inputTextFocus:                $gray !default;
-	$inputBorder:                   $grayLighter !default;
-	$inputBorderFocus:              $grayLight !default;
-	$inputBorderWidth:              2px !default;
-	$inputBorderRadius:             0px !default;
-	$inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
-	$formActionsBackground:         rgb(245,245,245) !default;
+  $inputBackground:               $white !default;
+  $inputBackgroundAlt:            rgb(248,248,248) !default;
+  $inputBackgroundBtnAlt:         $grayLighter !default;
+  $inputText:                     $grayLight !default;
+  $inputTextFocus:                $gray !default;
+  $inputBorder:                   $grayLighter !default;
+  $inputBorderFocus:              $grayLight !default;
+  $inputBorderWidth:              2px !default;
+  $inputBorderRadius:             0px !default;
+  $inputDisabledBackground:       darken($inputBackgroundAlt,1%) !default;
+  $formActionsBackground:         rgb(245,245,245) !default;
 
 
   // Dropdowns
@@ -313,43 +394,95 @@
 
   // Form states and alerts
   // -------------------------
-  $warningText:             rgb(192,152,83) !default;
-  $warningBackground:       rgb(252,248,227) !default;
-  $warningBorder:           darken(adjust-hue($warningBackground, -10), 3%) !default;
+  $warningText:         rgb(192,152,83) !default;
+  $warningBackground:   rgb(252,248,227) !default;
+  $warningBorder:       darken(adjust-hue($warningBackground, -10), 3%) !default;
 
-  $errorText:               rgb(185,74,72) !default;
-  $errorBackground:         rgb(242,222,222) !default;
-  $errorBorder:             darken(adjust-hue($errorBackground, -10), 3%) !default;
+  $errorText:           rgb(185,74,72) !default;
+  $errorBackground:     rgb(242,222,222) !default;
+  $errorBorder:         darken(adjust-hue($errorBackground, -10), 3%) !default;
 
-  $successText:             rgb(70,136,71) !default;
-  $successBackground:       rgb(223,240,216) !default;
-  $successBorder:           darken(adjust-hue($successBackground, -10), 5%) !default;
+  $successText:         rgb(70,136,71) !default;
+  $successBackground:   rgb(223,240,216) !default;
+  $successBorder:       darken(adjust-hue($successBackground, -10), 5%) !default;
 
-  $infoText:                rgb(58,135,173) !default;
-  $infoBackground:          rgb(217,237,247) !default;
-  $infoBorder:              darken(adjust-hue($infoBackground, -10), 7%) !default;
-
-
+  $infoText:            rgb(58,135,173) !default;
+  $infoBackground:      rgb(217,237,247) !default;
+  $infoBorder:          darken(adjust-hue($infoBackground, -10), 7%) !default;
 
 
-// Component variables
-// -------------------------
+
+
+
+
+// ------------------------------------------------
+//  .d8888b.                                                                      888          888     888                  d8b          888      888                   
+// d88P  Y88b                                                                     888          888     888                  Y8P          888      888                   
+// 888    888                                                                     888          888     888                               888      888                   
+// 888         .d88b.  88888b.d88b.  88888b.   .d88b.  88888b.   .d88b.  88888b.  888888       Y88b   d88P  8888b.  888d888 888  8888b.  88888b.  888  .d88b.  .d8888b  
+// 888        d88""88b 888 "888 "88b 888 "88b d88""88b 888 "88b d8P  Y8b 888 "88b 888           Y88b d88P      "88b 888P"   888     "88b 888 "88b 888 d8P  Y8b 88K      
+// 888    888 888  888 888  888  888 888  888 888  888 888  888 88888888 888  888 888            Y88o88P   .d888888 888     888 .d888888 888  888 888 88888888 "Y8888b. 
+// Y88b  d88P Y88..88P 888  888  888 888 d88P Y88..88P 888  888 Y8b.     888  888 Y88b.           Y888P    888  888 888     888 888  888 888 d88P 888 Y8b.          X88 
+//  "Y8888P"   "Y88P"  888  888  888 88888P"   "Y88P"  888  888  "Y8888  888  888  "Y888           Y8P     "Y888888 888     888 "Y888888 88888P"  888  "Y8888   88888P' 
+//                                   888                                                                                                                                
+//                                   888                                                                                                                                
+//                                   888                                                                                                                                
+// ------------------------------------------------
 .COMPONENT-VARIABLES{}
 
   // Z-index master list
   // -------------------------
   // Used for a bird's eye view of components dependent on the z-axis
   // Try to avoid customizing these :)
-	$zindexDropdown:          1000 !default;
-	$zindexPopover:           1010 !default;
-	$zindexTooltip:           1030 !default;
-	$zindexFixedNavbar:       1030 !default;
-	$zindexModalBackdrop:     1040 !default;
-	$zindexModal:             1050 !default;
+  $zindexDropdown:          1000 !default;
+  $zindexPopover:           1010 !default;
+  $zindexTooltip:           1030 !default;
+  $zindexFixedNavbar:       1030 !default;
+  $zindexModalBackdrop:     1040 !default;
+  $zindexModal:             1050 !default;
 
-
-  // Sprite icons path
+  // Input placeholder text color
   // -------------------------
+  $placeholderText: $grayLight !default;
+
+
+  // Hr border color
+  // -------------------------
+  $hrBorder: $grayLighter !default;
+
+
+  // Horizontal forms & lists
+  // -------------------------
+  $horizontalComponentOffset: 180px;
+
+
+  // Wells
+  // -------------------------
+  $wellBackground: rgb(245,245,245) !default;
+
+
+
+
+
+
+
+
+
+// Sprites & Icons
+// -----------------------------------------------------------------------------------------------
+//  .d8888b.                   d8b 888                             .d8888b.           8888888                                     
+// d88P  Y88b                  Y8P 888                            d88P  "88b            888                                       
+// Y88b.                           888                            Y88b. d88P            888                                       
+//  "Y888b.   88888b.  888d888 888 888888  .d88b.  .d8888b         "Y8888P"             888    .d8888b  .d88b.  88888b.  .d8888b  
+//     "Y88b. 888 "88b 888P"   888 888    d8P  Y8b 88K            .d88P88K.d88P         888   d88P"    d88""88b 888 "88b 88K      
+//       "888 888  888 888     888 888    88888888 "Y8888b.       888"  Y888P"          888   888      888  888 888  888 "Y8888b. 
+// Y88b  d88P 888 d88P 888     888 Y88b.  Y8b.          X88       Y88b .d8888b          888   Y88b.    Y88..88P 888  888      X88 
+//  "Y8888P"  88888P"  888     888  "Y888  "Y8888   88888P'        "Y8888P" Y88b      8888888  "Y8888P  "Y88P"  888  888  88888P' 
+//            888                                                                                                                 
+//            888                                                                                                                 
+//            888
+// -----------------------------------------------------------------------------------------------
+#SPRITES_ICONS{}
   $iconSpritePath:          "../img/spritesheets/spritesheet.svg" !default;
   $iconSpritePathFallback:  "../img/spritesheets/spritesheet.png" !default;
   $iconSpritePath_2x:       "../img/spritesheets/spritesheet@2x.png" !default;
@@ -376,52 +509,53 @@
   $icon_flagBig_Y :     0px;
   $icon_flag_Y :        -15px;
 
-  // Input placeholder text color
-  // -------------------------
-  $placeholderText:         $grayLight !default;
-
-
-  // Hr border color
-  // -------------------------
-  $hrBorder:                $grayLighter !default;
-
-
-  // Horizontal forms & lists
-  // -------------------------
-  $horizontalComponentOffset:       180px;
-
-
-  // Wells
-  // -------------------------
-  $wellBackground:                  rgb(245,245,245) !default;
 
 
 
 
+
+// ------------------------------------------------
+// 8888888888                888                     
+// 888                       888                     
+// 888                       888                     
+// 8888888  .d88b.   .d88b.  888888  .d88b.  888d888 
+// 888     d88""88b d88""88b 888    d8P  Y8b 888P"   
+// 888     888  888 888  888 888    88888888 888     
+// 888     Y88..88P Y88..88P Y88b.  Y8b.     888     
+// 888      "Y88P"   "Y88P"   "Y888  "Y8888  888     
+// ------------------------------------------------
 .FOOTER{}
-	$footerBackground: 	$blackLight;
+  $footerBackground:  $blackLight;
+
+
+
 
 
 
 // Global values for Nav & Subanv to share.
+// ------------------------------------------------
+//  .d8888b.  888          888               888       888b    888                   
+// d88P  Y88b 888          888               888       8888b   888                   
+// 888    888 888          888               888       88888b  888                   
+// 888        888  .d88b.  88888b.   8888b.  888       888Y88b 888  8888b.  888  888 
+// 888  88888 888 d88""88b 888 "88b     "88b 888       888 Y88b888     "88b 888  888 
+// 888    888 888 888  888 888  888 .d888888 888       888  Y88888 .d888888 Y88  88P 
+// Y88b  d88P 888 Y88..88P 888 d88P 888  888 888       888   Y8888 888  888  Y8bd8P  
+//  "Y8888P88 888  "Y88P"  88888P"  "Y888888 888       888    Y888 "Y888888   Y88P   
+// ------------------------------------------------
 .NAV{}
-	$navMaxWidth:                 1125px !default;
-	$navtrayMaxWidth:             1200px !default;
+  $navMaxWidth:                 1125px !default;
+  $navtrayMaxWidth:             1200px !default;
 
+  $navbarCollapseWidth:             979px !default;
 
+  $navbarHeight:                    64px !default;
+  $navbarHeightShort:               60px !default;
+  $navbarMobileHeightTall:          60px !default;
+  $navbarMobileHeight:              48px !default;
 
-// Global Nav (navbar)
-// -------------------------
-.NAVBAR{}
-	$navbarCollapseWidth:             979px !default;
-
-	$navbarHeight:               			64px !default;
-	$navbarHeightShort:              	60px !default;
-	$navbarMobileHeightTall:					60px !default;
-	$navbarMobileHeight:							48px !default;
-
-	$navbarLineHeight:                40px !default;
- 	$navbarMinSidePadding:            43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
+  $navbarLineHeight:                40px !default;
+  $navbarMinSidePadding:            43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
 
   $navbarBackground:                $black !default;
   $navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
@@ -462,8 +596,10 @@
   $navMenuBackground:               $white;
   $navMenuBackgroundAlt:            $grayLightFieldLarge;
 
-  $navMobileWidth:				85.5%;
-  $navMobileWidthLarge:		70%;
+  $navMobileWidth:        85.5%;
+  $navMobileWidthLarge:   70%;
+
+
 
 
 
@@ -471,13 +607,25 @@
 // Simple-Navbar
 // The original Bootstrap navbar has been renamed simpleNavbar.
 // Likewise, the original Bootstrap nav has been renamed simple-nav.
-// -------------------------
+// ------------------------------------------------
+//  .d8888b.  d8b                        888                888b    888                   888                       
+// d88P  Y88b Y8P                        888                8888b   888                   888                       
+// Y88b.                                 888                88888b  888                   888                       
+//  "Y888b.   888 88888b.d88b.  88888b.  888  .d88b.        888Y88b 888  8888b.  888  888 88888b.   8888b.  888d888 
+//     "Y88b. 888 888 "888 "88b 888 "88b 888 d8P  Y8b       888 Y88b888     "88b 888  888 888 "88b     "88b 888P"   
+//       "888 888 888  888  888 888  888 888 88888888       888  Y88888 .d888888 Y88  88P 888  888 .d888888 888     
+// Y88b  d88P 888 888  888  888 888 d88P 888 Y8b.           888   Y8888 888  888  Y8bd8P  888 d88P 888  888 888     
+//  "Y8888P"  888 888  888  888 88888P"  888  "Y8888        888    Y888 "Y888888   Y88P   88888P"  "Y888888 888     
+//                              888                                                                                 
+//                              888                                                                                 
+//                              888                                                                                 
+// ------------------------------------------------
 .SIMPLE-NAVBAR{}
-	$simpleNavbarCollapseWidth:             979px !default;
+  $simpleNavbarCollapseWidth:             979px !default;
 
-	$simpleNavbarHeight:                    64px !default;
-	$simpleNavbarBackground:                $black !default;
-	$simpleNavbarBackgroundHighlight:       lighten($simpleNavbarBackground,5%) !default;
+  $simpleNavbarHeight:                    64px !default;
+  $simpleNavbarBackground:                $black !default;
+  $simpleNavbarBackgroundHighlight:       lighten($simpleNavbarBackground,5%) !default;
 
   $simpleNavbarTextSize:                  0.875em; // 14px/16px
   $simpleNavbarText:                      $linkColor !default;
@@ -509,28 +657,56 @@
 
 
 
+
+
 // Pagination
-// -------------------------
+// ------------------------------------------------
+// 8888888b.                    d8b                   888    d8b                   
+// 888   Y88b                   Y8P                   888    Y8P                   
+// 888    888                                         888                          
+// 888   d88P  8888b.   .d88b.  888 88888b.   8888b.  888888 888  .d88b.  88888b.  
+// 8888888P"      "88b d88P"88b 888 888 "88b     "88b 888    888 d88""88b 888 "88b 
+// 888        .d888888 888  888 888 888  888 .d888888 888    888 888  888 888  888 
+// 888        888  888 Y88b 888 888 888  888 888  888 Y88b.  888 Y88..88P 888  888 
+// 888        "Y888888  "Y88888 888 888  888 "Y888888  "Y888 888  "Y88P"  888  888 
+//                          888                                                    
+//                     Y8b d88P                                                    
+//                      "Y88P"                                                     
+// ------------------------------------------------
 .PAGINATION{}
-	$paginationBackground:                rgb(255,255,255) !default;
-	$paginationBorder:                    rgb(221,221,221) !default;
-	$paginationActiveBackground:          rgb(245,245,245) !default;
+  $paginationBackground:                rgb(255,255,255) !default;
+  $paginationBorder:                    rgb(221,221,221) !default;
+  $paginationActiveBackground:          rgb(245,245,245) !default;
+
+
 
 
 
 
 // Tooltips and popovers
-// -------------------------
+// ------------------------------------------------
+// 88888888888                888 888    d8b                          .d8888b.                                                                                  
+//     888                    888 888    Y8P                         d88P  "88b                                                                                 
+//     888                    888 888                                Y88b. d88P                                                                                 
+//     888   .d88b.   .d88b.  888 888888 888 88888b.  .d8888b         "Y8888P"           88888b.   .d88b.  88888b.   .d88b.  888  888  .d88b.  888d888 .d8888b  
+//     888  d88""88b d88""88b 888 888    888 888 "88b 88K            .d88P88K.d88P       888 "88b d88""88b 888 "88b d88""88b 888  888 d8P  Y8b 888P"   88K      
+//     888  888  888 888  888 888 888    888 888  888 "Y8888b.       888"  Y888P"        888  888 888  888 888  888 888  888 Y88  88P 88888888 888     "Y8888b. 
+//     888  Y88..88P Y88..88P 888 Y88b.  888 888 d88P      X88       Y88b .d8888b        888 d88P Y88..88P 888 d88P Y88..88P  Y8bd8P  Y8b.     888          X88 
+//     888   "Y88P"   "Y88P"  888  "Y888 888 88888P"   88888P'        "Y8888P" Y88b      88888P"   "Y88P"  88888P"   "Y88P"    Y88P    "Y8888  888      88888P' 
+//                                           888                                         888               888                                                  
+//                                           888                                         888               888                                                  
+//                                           888                                         888               888                                                  
+// ------------------------------------------------
 .TOOLTIPS-AND-POPOVERS{}
-	$tooltipColor:            rgb(255,255,255) !default;
-	$tooltipBackground:       rgb(0,0,0) !default;
-	$tooltipArrowWidth:       5px !default;
-	$tooltipArrowColor:       $tooltipBackground !default;
+  $tooltipColor:            rgb(255,255,255) !default;
+  $tooltipBackground:       rgb(0,0,0) !default;
+  $tooltipArrowWidth:       5px !default;
+  $tooltipArrowColor:       $tooltipBackground !default;
 
-	$popoverBackground:       rgb(255,255,255) !default;
-	$popoverArrowWidth:       10px !default;
-	$popoverArrowColor:       rgb(255,255,255) !default;
-	$popoverTitleBackground:  darken($popoverBackground, 3%) !default;
+  $popoverBackground:       rgb(255,255,255) !default;
+  $popoverArrowWidth:       10px !default;
+  $popoverArrowColor:       rgb(255,255,255) !default;
+  $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
 
   // Special enhancement for popovers
   $popoverArrowOuterWidth:  $popoverArrowWidth + 1 !default;
@@ -542,9 +718,16 @@
 
 
 // GRID
-// -----------------------------
-//
-
+// ------------------------------------------------
+//  .d8888b.          d8b      888 
+// d88P  Y88b         Y8P      888 
+// 888    888                  888 
+// 888        888d888 888  .d88888 
+// 888  88888 888P"   888 d88" 888 
+// 888    888 888     888 888  888 
+// Y88b  d88P 888     888 Y88b 888 
+//  "Y8888P88 888     888  "Y88888 
+// ------------------------------------------------
 .GRID{}
   // margin and padding are used interchangably in variable names here. In reality, we're calculating the width of the
   // container and grid, and specifying margin-left/right:auto to center them.
@@ -552,9 +735,10 @@
   // For .full-bleed, the widths are just overridden with 100%. For fixed-width-grids, that's not gonna work so well,
   // but then there shouldn't be fixed-width grids with .full-bleed
 
-  $gridColumns:         		12 !default;
-  $grid5Columns:            5  !default;
-  $grid4Columns:          	4  !default;
+  $gridColumns:               12 !default;
+  $mobileGridColumns:         6  !default;
+  $grid5Columns:              5  !default;
+  $grid4Columns:              4  !default;
 
   // Default 980px-1199px
   $containerMarginWidth:      34px !default;
@@ -562,38 +746,33 @@
   $gridColumnWidth:           43px !default;
   $gridGutterWidth:           30px !default;
 
-  // 1200px breakpoint
+  // 1200px+ breakpoint
   $containerMarginWidth1200:  45px !default;
   $gridMarginWidth1200:       45px !default;
   $gridColumnWidth1200:       52px !default;
   $gridGutterWidth1200:       36px !default;
 
+  // 1400px+ breakpoint
   $containerWidthMax:         1400px; // if the browser is wider than this, the content will have a set width & side margins will be auto.
   $containerMarginWidthMax:   79px !default; // if containerWidthMax changes, these all need to be adjusted to add up to it.
   $gridMarginWidthMax:        64px !default;
   $gridColumnWidthMax:        58px !default;
   $gridGutterWidthMax:        38px !default;
 
-
-
-  // 768px-979px breakpoints -- THESE ARE NEW - UPDATED 1/8/13
+  // 768px-979px breakpoints (568px-979px)
   $containerMarginWidth768:   30px !default;
   $gridMarginWidth768:        29px !default;
   $gridColumnWidth768:        34px !default;
   $gridGutterWidth768:        22px !default;
 
-  // 768px-979px breakpoints - OLD ONES
-  // $containerMarginWidth768:   22px !default;
-  // $gridMarginWidth768:        18px !default;
-  // $gridColumnWidth768:        39px !default;
-  // $gridGutterWidth768:        20px !default;
+  // 480px-567px breakpoints
+  $containerMarginWidth480:   15px !default;
+  $gridMarginWidth480:        18px !default;
+  $gridColumnWidth480:        54px !default;
+  $gridGutterWidth480:        18px !default;
 
-
-  // 320px-767px breakpoints - THESE WILL CHANGE - FULL MOBILE GRID COMING SOON.
-  $containerMarginWidth480px: 21 !default;
-  $containerMarginWidth320px: 21 !default;
-
-  // not sure if we're using these or not.
+  // 320px-479px breakpoints
+  $containerMarginWidth320:   10px !default;
   $gridMarginWidth320:        12px !default;
   $gridColumnWidth320:        36px !default;
   $gridGutterWidth320:        12px !default;
@@ -622,7 +801,18 @@
   $containerWidth768:           $containerWidthFullBleed768 - ($containerMarginWidth768*2);
   $gridWidth768:                ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
 
-  // I haven't updated grid5 for any of the new padding/margin business. Do what you need to do, if anything.
+  // 480px-567px breakpoints
+  $containerWidthFullBleed480:  480px;
+  $containerWidth480:           $containerWidthFullBleed480 - ($containerMarginWidth480*2);
+  $gridWidth480:                ($mobileGridColumns * $gridColumnWidth480) + ($gridGutterWidth480 * ($mobileGridColumns - 1)) !default;
+
+  // 3200px-479px breakpoints
+  $containerWidthFullBleed320:  320px;
+  $containerWidth320:           $containerWidthFullBleed320 - ($containerMarginWidth320*2);
+  $gridWidth320:                ($mobileGridColumns * $gridColumnWidth320) + ($gridGutterWidth320 * ($mobileGridColumns - 1)) !default;
+
+
+
   // 5 Column Grid
   $grid5ColWidth:         204px;
   $grid5GutterWidth:      23px;
@@ -634,11 +824,11 @@
   $grid4RowWidth:         ($grid4Columns * $grid4ColWidth) + ($grid4GutterWidth * ($grid4Columns - 1));
 
 
-  // Fluid grid
-  // -------------------------
-  //
-  // these should be deleted once all the updates equations are done, but they break things if they're not defined right now.
 
+
+  // -------------------------
+  // FLUID GRID
+  // -------------------------
 
   // Default 980px-1199px
   $fluidContainerWidth:   percentage($containerWidth/980px) !default;
@@ -646,21 +836,30 @@
   $fluidGridColumnWidth:  percentage($gridColumnWidth/$gridWidth) !default;
   $fluidGridGutterWidth:  percentage($gridGutterWidth/$gridWidth) !default;
 
-  // 1200px min -
+  // 1200px+
   $fluidContainerWidth1200: percentage($containerWidth1200/1200px) !default;
   $fluidGridWidth1200:      percentage($gridWidth1200/$containerWidth1200) !default;
   $fluidGridColumnWidth1200:percentage($gridColumnWidth1200/$gridWidth1200) !default;
   $fluidGridGutterWidth1200:percentage($gridGutterWidth1200/$gridWidth1200) !default;
 
-  // 768px-979px
+  // 768px-979px (568px-979px)
   $fluidContainerWidth768:  percentage($containerWidth768/768px) !default;
   $fluidGridWidth768:       percentage($gridWidth768/$containerWidth768) !default;
   $fluidGridColumnWidth768: percentage($gridColumnWidth768/$gridWidth768) !default;
   $fluidGridGutterWidth768: percentage($gridGutterWidth768/$gridWidth768) !default;
 
-  // 320px-767px (Mobile)
-  $containerMarginWidth480: percentage($containerMarginWidth480px / 480) !default;
-  $containerMarginWidth320: percentage($containerMarginWidth320px / 320) !default;
+  // 480px-567px (Mobile)
+  $mobileContainerWidth480:  percentage($containerWidth480/480px) !default;
+  $mobileGridWidth480:       percentage($gridWidth480/$containerWidth480) !default;
+  $mobileGridColumnWidth480: percentage($gridColumnWidth480/$gridWidth480) !default;
+  $mobileGridGutterWidth480: percentage($gridGutterWidth480/$gridWidth480) !default;
+
+  // 320px-479px (Mobile)
+  $mobileContainerWidth320:  percentage($containerWidth320/320px) !default;
+  $mobileGridWidth320:       percentage($gridWidth320/$containerWidth320) !default;
+  $mobileGridColumnWidth320: percentage($gridColumnWidth320/$gridWidth320) !default;
+  $mobileGridGutterWidth320: percentage($gridGutterWidth320/$gridWidth320) !default;
+
 
 
   // 5 Column Grid
@@ -673,9 +872,23 @@
 
 
 
-// Transition Speeds
-// --------------------------------------------------
-.TRANSITION-SPEEDS{}
+
+
+
+// ------------------------------------------------
+// 88888888888                                 d8b 888    d8b                            
+//     888                                     Y8P 888    Y8P                            
+//     888                                         888                                   
+//     888  888d888  8888b.  88888b.  .d8888b  888 888888 888  .d88b.  88888b.  .d8888b  
+//     888  888P"       "88b 888 "88b 88K      888 888    888 d88""88b 888 "88b 88K      
+//     888  888     .d888888 888  888 "Y8888b. 888 888    888 888  888 888  888 "Y8888b. 
+//     888  888     888  888 888  888      X88 888 Y88b.  888 Y88..88P 888  888      X88 
+//     888  888     "Y888888 888  888  88888P' 888  "Y888 888  "Y88P"  888  888  88888P'
+// ------------------------------------------------
+.TRANSITIONS{}
+  // ------------------------------------------------
+  // Transition Speeds
+  // ------------------------------------------------
   $transitionSuperslow:   0.5s;
   $transitionSlower:      0.4s;
   $transitionSlow:        0.3s;
@@ -693,9 +906,9 @@
   $navtrayShortCloseSpeed: 0.25s;
 
 
-// Transition Timing Functions
-// --------------------------------------------------
-.TRANSITION-FUNCTIONS{}
+  // ------------------------------------------------
+  // Transition Timing Functions
+  // ------------------------------------------------
   $easeOutQuad:     cubic-bezier(0.250, 0.460, 0.450, 0.940);
   $easeOutCubic:    cubic-bezier(0.215, 0.610, 0.355, 1.000);
   $easeOutQuart:    cubic-bezier(0.165, 0.840, 0.440, 1.000);
@@ -703,4 +916,20 @@
   $easeOutNav:      cubic-bezier(0.455, 0.030, 0.515, 0.955);
 
   $easeNormal:    ease-out;
+
+
+
+// ------------------------------------------------
+// 888b     d888 d8b                   
+// 8888b   d8888 Y8P                   
+// 88888b.d88888                       
+// 888Y88888P888 888 .d8888b   .d8888b 
+// 888 Y888P 888 888 88K      d88P"    
+// 888  Y8P  888 888 "Y8888b. 888      
+// 888   "   888 888      X88 Y88b.    
+// 888       888 888  88888P'  "Y8888P 
+// ------------------------------------------------
+#MISC{}
+  $squareHalo: 0 0 5px $innerGlow, 0 0 0 6px $transparentBlack; // anybody using this?
+
 

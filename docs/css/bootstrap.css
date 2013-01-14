@@ -33,37 +33,40 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 /* HTML5 display-role reset for older browsers */
-/* line 30, ../../src/css/scss/_base/_reset.scss */
+/* line 31, ../../src/css/scss/_base/_reset.scss */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
-/* line 33, ../../src/css/scss/_base/_reset.scss */
+/* line 34, ../../src/css/scss/_base/_reset.scss */
 body {
   line-height: 1em;
 }
 
-/* line 36, ../../src/css/scss/_base/_reset.scss */
+/* line 37, ../../src/css/scss/_base/_reset.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 39, ../../src/css/scss/_base/_reset.scss */
+/* line 40, ../../src/css/scss/_base/_reset.scss */
 blockquote, q {
   quotes: none;
 }
 
-/* line 47, ../../src/css/scss/_base/_reset.scss */
+/* line 48, ../../src/css/scss/_base/_reset.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 70, ../../src/css/scss/_base/_reset.scss */
+/* line 71, ../../src/css/scss/_base/_reset.scss */
 audio,
 canvas,
 video {
@@ -72,7 +75,7 @@ video {
   *zoom: 1;
 }
 
-/* line 79, ../../src/css/scss/_base/_reset.scss */
+/* line 80, ../../src/css/scss/_base/_reset.scss */
 audio:not([controls]) {
   display: none;
   height: 0;
@@ -83,7 +86,7 @@ audio:not([controls]) {
  * and Safari 4.
  * Known issue: no IE 6 support.
  */
-/* line 90, ../../src/css/scss/_base/_reset.scss */
+/* line 91, ../../src/css/scss/_base/_reset.scss */
 [hidden] {
   display: none;
 }
@@ -97,26 +100,26 @@ audio:not([controls]) {
  * 2. Prevents iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
-/* line 105, ../../src/css/scss/_base/_reset.scss */
+/* line 106, ../../src/css/scss/_base/_reset.scss */
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
 }
 
-/* line 114, ../../src/css/scss/_base/_reset.scss */
+/* line 115, ../../src/css/scss/_base/_reset.scss */
 a:focus {
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 
-/* line 119, ../../src/css/scss/_base/_reset.scss */
+/* line 120, ../../src/css/scss/_base/_reset.scss */
 a:hover,
 a:active {
   outline: 0;
 }
 
-/* line 127, ../../src/css/scss/_base/_reset.scss */
+/* line 128, ../../src/css/scss/_base/_reset.scss */
 sub,
 sup {
   position: relative;
@@ -125,17 +128,17 @@ sup {
   vertical-align: baseline;
 }
 
-/* line 133, ../../src/css/scss/_base/_reset.scss */
+/* line 134, ../../src/css/scss/_base/_reset.scss */
 sup {
   top: -0.5em;
 }
 
-/* line 136, ../../src/css/scss/_base/_reset.scss */
+/* line 137, ../../src/css/scss/_base/_reset.scss */
 sub {
   bottom: -0.25em;
 }
 
-/* line 143, ../../src/css/scss/_base/_reset.scss */
+/* line 144, ../../src/css/scss/_base/_reset.scss */
 img {
   /* Responsive images (ensure images don't scale beyond their parents) */
   max-width: 100%;
@@ -148,12 +151,12 @@ img {
   -ms-interpolation-mode: bicubic;
 }
 
-/* line 154, ../../src/css/scss/_base/_reset.scss */
+/* line 155, ../../src/css/scss/_base/_reset.scss */
 #map_canvas img {
   max-width: none;
 }
 
-/* line 165, ../../src/css/scss/_base/_reset.scss */
+/* line 166, ../../src/css/scss/_base/_reset.scss */
 button,
 input,
 select,
@@ -161,21 +164,21 @@ textarea {
   vertical-align: middle;
 }
 
-/* line 169, ../../src/css/scss/_base/_reset.scss */
+/* line 170, ../../src/css/scss/_base/_reset.scss */
 button,
 input {
   *overflow: visible;
   line-height: normal;
 }
 
-/* line 174, ../../src/css/scss/_base/_reset.scss */
+/* line 175, ../../src/css/scss/_base/_reset.scss */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-/* line 181, ../../src/css/scss/_base/_reset.scss */
+/* line 182, ../../src/css/scss/_base/_reset.scss */
 button,
 input[type="button"],
 input[type="reset"],
@@ -184,7 +187,7 @@ input[type="submit"] {
   -webkit-appearance: button;
 }
 
-/* line 185, ../../src/css/scss/_base/_reset.scss */
+/* line 186, ../../src/css/scss/_base/_reset.scss */
 input[type="search"] {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -192,13 +195,13 @@ input[type="search"] {
   -webkit-appearance: textfield;
 }
 
-/* line 192, ../../src/css/scss/_base/_reset.scss */
+/* line 193, ../../src/css/scss/_base/_reset.scss */
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
 
-/* line 195, ../../src/css/scss/_base/_reset.scss */
+/* line 196, ../../src/css/scss/_base/_reset.scss */
 textarea {
   overflow: auto;
   vertical-align: top;
@@ -239,21 +242,21 @@ a:focus {
   text-decoration: none;
 }
 
-/* line 43, ../../src/css/scss/_base/_scaffolding.scss */
+/* line 44, ../../src/css/scss/_base/_scaffolding.scss */
 .no-touch a:not(.no-hover-transition),
 .no-touch .btn:not(.no-hover-transition) {
   -webkit-transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
   transition: background-color 0.25s linear, color 0.25s linear, border-color 0.25s linear;
 }
 
-/* line 56, ../../src/css/scss/_base/_scaffolding.scss */
+/* line 57, ../../src/css/scss/_base/_scaffolding.scss */
 .img-rounded {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
 }
 
-/* line 61, ../../src/css/scss/_base/_scaffolding.scss */
+/* line 62, ../../src/css/scss/_base/_scaffolding.scss */
 .img-polaroid {
   padding: 4px;
   background-color: #fff;
@@ -264,7 +267,7 @@ a:focus {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* line 72, ../../src/css/scss/_base/_scaffolding.scss */
+/* line 73, ../../src/css/scss/_base/_scaffolding.scss */
 .img-circle {
   -webkit-border-radius: 500px;
   -moz-border-radius: 500px;
@@ -273,13 +276,13 @@ a:focus {
 
 /* Debug grid styles
 -------------------------------------------------- */
-/* line 81, ../../src/css/scss/_base/_scaffolding.scss */
+/* line 82, ../../src/css/scss/_base/_scaffolding.scss */
 .show-grid {
   margin-top: 10px;
   margin-bottom: 20px;
 }
 
-/* line 85, ../../src/css/scss/_base/_scaffolding.scss */
+/* line 86, ../../src/css/scss/_base/_scaffolding.scss */
 .show-grid [class*="span"] {
   background-color: rgba(125, 125, 125, 0.5) !important;
   -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.9);
@@ -287,12 +290,12 @@ a:focus {
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.9);
 }
 
-/* line 89, ../../src/css/scss/_base/_scaffolding.scss */
+/* line 90, ../../src/css/scss/_base/_scaffolding.scss */
 .show-grid:hover [class*="span"] {
   background: rgba(215, 125, 125, 0.9) !important;
 }
 
-/* line 92, ../../src/css/scss/_base/_scaffolding.scss */
+/* line 93, ../../src/css/scss/_base/_scaffolding.scss */
 .show-grid .show-grid [class*="span"] {
   background-color: rgba(255, 125, 0, 0.9) !important;
 }
@@ -6934,13 +6937,15 @@ button.close {
 .footer-wrapper a:hover, .footer-wrapper a:active, .footer-wrapper a:focus {
   color: #5787f4;
 }
-/* line 24, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .grid.grid-footer {
-  width: 100%;
+/* line 335, ../../src/css/scss/_base/_mixins.scss */
+.footer-wrapper .sprite-reg-nav-sony-logo {
+  background-position: -90px -810px;
+  width: 79px;
+  height: 18px;
 }
+
 /* line 34, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group .btn.dropdown-hover-toggle,
-.footer-wrapper .btn-hover-group.open .btn.dropdown-hover-toggle {
+.btn-hover-group .btn.dropdown-hover-toggle {
   width: 100%;
   text-align: left;
   color: white;
@@ -6955,8 +6960,7 @@ button.close {
   backface-visibility: hidden;
 }
 /* line 44, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group .btn.dropdown-hover-toggle .icon-ui-arrowhead-down-gray,
-.footer-wrapper .btn-hover-group.open .btn.dropdown-hover-toggle .icon-ui-arrowhead-down-gray {
+.btn-hover-group .btn.dropdown-hover-toggle .icon-ui-arrowhead-down-gray {
   float: right;
   margin-top: 10px;
   -webkit-transition: all 0.15s linear;
@@ -6965,53 +6969,8 @@ button.close {
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-/* line 53, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group:hover .btn.dropdown-hover-toggle,
-.footer-wrapper .btn-hover-group.open:hover .btn.dropdown-hover-toggle {
-  color: white;
-  background-color: #504d56;
-  border-color: #504d56;
-}
-/* line 58, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group:hover .icon-ui-arrowhead-down-gray,
-.footer-wrapper .btn-hover-group.open:hover .icon-ui-arrowhead-down-gray {
-  -webkit-transform: rotate(-180deg);
-  -ms-transform: rotate(-180deg);
-  transform: rotate(-180deg);
-}
-/* line 61, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group:hover .dropdown-hover-menu,
-.footer-wrapper .btn-hover-group.open:hover .dropdown-hover-menu {
-  opacity: 1;
-  visibility: visible;
-  right: auto;
-  left: 0;
-  -webkit-transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
-  transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
-}
-/* line 69, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group.DISABLE-MENU .icon-ui-arrowhead-down-gray, .footer-wrapper .btn-hover-group.DISABLE-MENU:hover .icon-ui-arrowhead-down-gray,
-.footer-wrapper .btn-hover-group.open.DISABLE-MENU .icon-ui-arrowhead-down-gray,
-.footer-wrapper .btn-hover-group.open.DISABLE-MENU:hover .icon-ui-arrowhead-down-gray {
-  display: none;
-}
-/* line 72, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group.DISABLE-MENU .dropdown-hover-menu, .footer-wrapper .btn-hover-group.DISABLE-MENU:hover .dropdown-hover-menu,
-.footer-wrapper .btn-hover-group.open.DISABLE-MENU .dropdown-hover-menu,
-.footer-wrapper .btn-hover-group.open.DISABLE-MENU:hover .dropdown-hover-menu {
-  display: block;
-  position: absolute;
-  -webkit-backface-visibility: hidden;
-  opacity: 0;
-  visibility: hidden;
-  right: auto;
-  left: -9999px;
-  -webkit-transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
-  transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
-}
-/* line 78, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group .dropdown-hover-menu,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu {
+/* line 52, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group .dropdown-hover-menu {
   display: block;
   background-color: transparent;
   border: none;
@@ -7030,56 +6989,8 @@ button.close {
   -webkit-transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
   transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
 }
-/* line 87, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group .dropdown-hover-menu-lists-w,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-lists-w {
-  background-color: #2f353d;
-  *zoom: 1;
-}
-/* line 52, ../../src/css/scss/_base/_mixins.scss */
-.footer-wrapper .btn-hover-group .dropdown-hover-menu-lists-w:before, .footer-wrapper .btn-hover-group .dropdown-hover-menu-lists-w:after,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-lists-w:before,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-lists-w:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-/* line 59, ../../src/css/scss/_base/_mixins.scss */
-.footer-wrapper .btn-hover-group .dropdown-hover-menu-lists-w:after,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-lists-w:after {
-  clear: both;
-}
-/* line 92, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group .dropdown-hover-menu-list,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-list {
-  margin: 0;
-  float: left;
-}
-/* line 97, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group .dropdown-hover-menu-list li a,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-list li a {
-  font-size: 0.8125em;
-  color: #bcbccc;
-  line-height: 1.85;
-  padding: 3px 0 4px 10px;
-}
-/* line 105, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group .dropdown-hover-menu-list li a:hover, .footer-wrapper .btn-hover-group .dropdown-hover-menu-list li a:active, .footer-wrapper .btn-hover-group .dropdown-hover-menu-list li a:focus,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-list li a:hover,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-list li a:active,
-.footer-wrapper .btn-hover-group.open .dropdown-hover-menu-list li a:focus {
-  display: block;
-  color: white;
-  background-color: #504d56;
-}
-/* line 115, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group.country-selector .dropdown-hover-menu-list,
-.footer-wrapper .btn-hover-group.open.country-selector .dropdown-hover-menu-list {
-  padding: 0 10px;
-}
-/* line 120, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group.language-selector .dropdown-hover-menu,
-.footer-wrapper .btn-hover-group.open.language-selector .dropdown-hover-menu {
+/* line 62, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group.language-selector .dropdown-hover-menu {
   display: block;
   position: absolute;
   -webkit-backface-visibility: hidden;
@@ -7090,9 +7001,91 @@ button.close {
   -webkit-transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
   transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
 }
-/* line 124, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group.language-selector:hover .dropdown-hover-menu,
-.footer-wrapper .btn-hover-group.open.language-selector:hover .dropdown-hover-menu {
+/* line 66, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group .dropdown-hover-menu-lists-w {
+  background-color: #2f353d;
+  *zoom: 1;
+}
+/* line 52, ../../src/css/scss/_base/_mixins.scss */
+.btn-hover-group .dropdown-hover-menu-lists-w:before, .btn-hover-group .dropdown-hover-menu-lists-w:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+/* line 59, ../../src/css/scss/_base/_mixins.scss */
+.btn-hover-group .dropdown-hover-menu-lists-w:after {
+  clear: both;
+}
+/* line 71, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group .dropdown-hover-menu-list {
+  margin: 0;
+  float: left;
+}
+/* line 75, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group .dropdown-hover-menu-list li a {
+  display: block;
+  font-size: 0.9375em;
+  color: white;
+  padding: 3px 27px 4px 27px;
+  min-width: 185px;
+}
+/* line 84, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group .dropdown-hover-menu-list li a:hover, .btn-hover-group .dropdown-hover-menu-list li a:active, .btn-hover-group .dropdown-hover-menu-list li a:focus {
+  color: #f35429;
+  background-color: #504d56;
+  border-color: #504d56;
+}
+/* line 94, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group.country-selector .dropdown-hover-menu-list {
+  padding: 0 10px;
+}
+/* line 97, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group.country-selector .dropdown-hover-menu-list li a {
+  font-size: 0.8125em;
+  color: #bcbccc;
+  line-height: 1.85;
+  padding: 3px 0 4px 10px;
+}
+/* line 105, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group.country-selector .dropdown-hover-menu-list li a:hover, .btn-hover-group.country-selector .dropdown-hover-menu-list li a:active, .btn-hover-group.country-selector .dropdown-hover-menu-list li a:focus {
+  color: white;
+}
+/* line 113, ../../src/css/scss/_components/_footer.scss */
+.btn-hover-group.DISABLE-MENU .icon-ui-arrowhead-down-gray {
+  display: none;
+}
+
+/* line 123, ../../src/css/scss/_components/_footer.scss */
+.no-touch .btn-hover-group:hover .btn.dropdown-hover-toggle,
+.no-touch .btn-hover-group.open:hover .btn.dropdown-hover-toggle,
+.touch .btn-hover-group.open .btn.dropdown-hover-toggle {
+  color: white;
+  background-color: #504d56;
+  border-color: #504d56;
+}
+/* line 129, ../../src/css/scss/_components/_footer.scss */
+.no-touch .btn-hover-group:hover:not(.DISABLE-MENU) .icon-ui-arrowhead-down-gray,
+.no-touch .btn-hover-group.open:hover:not(.DISABLE-MENU) .icon-ui-arrowhead-down-gray,
+.touch .btn-hover-group.open:not(.DISABLE-MENU) .icon-ui-arrowhead-down-gray {
+  -webkit-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+}
+/* line 132, ../../src/css/scss/_components/_footer.scss */
+.no-touch .btn-hover-group:hover:not(.DISABLE-MENU) .dropdown-hover-menu,
+.no-touch .btn-hover-group.open:hover:not(.DISABLE-MENU) .dropdown-hover-menu,
+.touch .btn-hover-group.open:not(.DISABLE-MENU) .dropdown-hover-menu {
+  opacity: 1;
+  visibility: visible;
+  right: auto;
+  left: 0;
+  -webkit-transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
+  transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
+}
+/* line 136, ../../src/css/scss/_components/_footer.scss */
+.no-touch .btn-hover-group:hover:not(.DISABLE-MENU).language-selector .dropdown-hover-menu,
+.no-touch .btn-hover-group.open:hover:not(.DISABLE-MENU).language-selector .dropdown-hover-menu,
+.touch .btn-hover-group.open:not(.DISABLE-MENU).language-selector .dropdown-hover-menu {
   opacity: 1;
   visibility: visible;
   right: 0;
@@ -7100,40 +7093,23 @@ button.close {
   -webkit-transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
   transition: opacity 0.15s ease-in 0s, left 0s linear 0s, visibility 0s linear 0s;
 }
-/* line 134, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group.language-selector .dropdown-hover-menu-list li a {
-  font-size: 0.9375em;
-  color: white;
-  padding: 3px 27px 4px 27px;
-  min-width: 185px;
-}
-/* line 142, ../../src/css/scss/_components/_footer.scss */
-.footer-wrapper .btn-hover-group.language-selector .dropdown-hover-menu-list li a:hover, .footer-wrapper .btn-hover-group.language-selector .dropdown-hover-menu-list li a:active, .footer-wrapper .btn-hover-group.language-selector .dropdown-hover-menu-list li a:focus {
-  color: #f35429;
-}
-/* line 335, ../../src/css/scss/_base/_mixins.scss */
-.footer-wrapper .sprite-reg-nav-sony-logo {
-  background-position: -90px -810px;
-  width: 79px;
-  height: 18px;
-}
 
-/* line 158, ../../src/css/scss/_components/_footer.scss */
+/* line 148, ../../src/css/scss/_components/_footer.scss */
 .footer-links-list {
   margin: 0;
 }
 
-/* line 165, ../../src/css/scss/_components/_footer.scss */
+/* line 155, ../../src/css/scss/_components/_footer.scss */
 .footer-link-li a {
   font-size: 0.8125em;
 }
 
-/* line 172, ../../src/css/scss/_components/_footer.scss */
+/* line 162, ../../src/css/scss/_components/_footer.scss */
 .footer-newsletter .footer-form-border .footer-input {
   color: #bcbccc;
 }
 
-/* line 183, ../../src/css/scss/_components/_footer.scss */
+/* line 173, ../../src/css/scss/_components/_footer.scss */
 .footer-signature-w {
   border-top: solid 1px #404247;
   margin-top: 13px;
@@ -7143,7 +7119,7 @@ button.close {
   backface-visibility: hidden;
 }
 
-/* line 190, ../../src/css/scss/_components/_footer.scss */
+/* line 180, ../../src/css/scss/_components/_footer.scss */
 .footer-legal-links a {
   display: inline-block;
   margin-right: 10px;

@@ -202,7 +202,7 @@
         var gutter = 0,
             numColumns = 0;
 
-        if ( Modernizr.mq('(min-width: 980px)') ) { 
+        if ( Modernizr.mq('(min-width: 981px)') ) { 
           gutter = Exports.GUTTER_WIDTH * containerWidth;
           numColumns = 5;
 
@@ -215,6 +215,8 @@
 
         self.setColumns(numColumns);
 
+        //console.log("New Gutter Width »",gutter);
+
         return gutter;
       }
 
@@ -223,7 +225,7 @@
 
           //console.log("Shuffle columns »", containerWidth + 'px');
 
-          if ( Modernizr.mq('(min-width: 980px)') ) {
+          if ( Modernizr.mq('(min-width: 981px)') ) {
             column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
@@ -250,7 +252,7 @@
           //self.setupPaddles();
           
           //init dragging , slideshow
-          self.$container.on(self.downEvent, function(e) { self.onDragStart(e); }); 
+          //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); }); 
         }
 
         $(window).trigger('resize');
@@ -347,7 +349,7 @@
           gutterWidth: self.shuffleGutters,
           showInitialTransition: false,
           // buffer: 100
-          buffer: 5
+          buffer: 25
         }).data('shuffle');
        
       },
@@ -425,7 +427,7 @@
 
       sortByPriority : function() {
         var self = this,
-            isTablet = Modernizr.mq('(min-width: 481px) and (max-width: 979px)');
+            isTablet = Modernizr.mq('(min-width: 481px) and (max-width: 980px)');
 
         if ( isTablet && !self.sorted ) {
           self.$shuffleContainers.shuffle('sort', {
@@ -437,6 +439,7 @@
             }
           });
           self.sorted = true;
+          console.log("sorting »", true);
         } else if ( !isTablet && self.sorted ) {
           self.$shuffleContainers.shuffle('sort', {});
           console.log("Unsort... »");
@@ -559,6 +562,9 @@
 
       setGrabCursor:function() {     
         var self = this;
+
+        return; // need to toggle curosr on anchors inside for this to work properly
+
         if(!self.hasTouch) {
           if(self.grabbingCursor) {
             self.sliderOverflow.css('cursor', self.grabbingCursor);
@@ -575,17 +581,25 @@
         //handle resize for various layouts
         if(self.isTabletMode === true){
           //ratio based on comp around 768/922
-          self.$el.css('height' , 1.05 * self.$el.width());
+          //self.$el.css('height' , 1.05 * self.$el.width());
+          self.$el.css('height' , 1.05 * self.$shuffleContainers.eq(0).width());
           return;
         }
 
-        self.$el.css('height' , (0.4977817214) * self.$el.width());
+        //self.$el.css('height' , (0.4977817214) * self.$el.width());
+        self.$el.css('height' , (0.5313111546) * self.$shuffleContainers.eq(0).width());
+        self.$el.css('height' , (0.53) * self.$shuffleContainers.eq(0).width());
         
-        if($(window).width() < 1085 && $(window).width() > 930){
+        self.$el.css('height' , (1) * self.$shuffleContainers.eq(0).width());
+        self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 40);
+
+        console.log("Slider Height »",self.$el.height());
+        
+/*        if($(window).width() < 1085 && $(window).width() > 930){
           self.$el.css('height' , (0.4977817214 + 0.06) * self.$el.width());
         }else if($(window).width() < 930) {
           self.$el.css('height' , (0.4977817214 + 0.1) * self.$el.width());
-        }
+        }*/
 
         return;
 
@@ -1033,7 +1047,7 @@
 
     //defaults for the related products
     $.fn.relatedProducts.defaults = { 
-      throttleTime: 50,
+      throttleTime: 15,
       autoScaleContainer: true,
       minSlideOffset: 10,
       navigationControl: 'bullets'  
