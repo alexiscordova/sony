@@ -8,7 +8,6 @@
 
 	*{
 	  @include borderBox;
-	  // @include noTouchHold;
 	}
 
 // END TEMP
@@ -41,12 +40,10 @@
 
 .tcc-body{
 	display:inline-block;
-	//height:330px;
 
 	// Content Modules
 	.tcc-content-module{
-		// height:330px;
-		padding-top:30px;
+		padding-top:15px;
 		float:left;
 		overflow: hidden;
 	} // end .tcc-content-module
@@ -92,12 +89,11 @@
 
 
 .tcc-nav {
-
+	
   &.tcc-bullets {
     position: absolute;
     z-index: 35;  
     left: 0;
-    //bottom: -30px;
     bottom: 0px;
     width: 100%;
     height: auto;
@@ -105,6 +101,13 @@
     text-align: center;
     line-height: 18px;
     overflow: hidden;
+    opacity:0;
+		@include transition(opacity, $transitionNormal);		
+
+    &.on{
+    	@include transition(opacity, $transitionNormal);
+    	opacity:1;
+    }
   }
 
   .tcc-bullet {
@@ -119,19 +122,9 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-
-    // @media (max-width:479px) {
-    //   width: 7px;
-    //   height: 7px;
-    //   margin: 0 0 0 3px;
-    //   border-radius: 4px;
-    // }
   }
-
-
 
   .tcc-bullet.tcc-nav-selected  {
     background-color: #2e3339;
   }
-
-}
+} // end .tcc-nav
