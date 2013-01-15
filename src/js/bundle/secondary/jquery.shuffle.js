@@ -1,5 +1,4 @@
-// No block comment at start of file for docpad bug!
-/**
+/*!
  * jQuery Shuffle Plugin
  * Uses CSS Transforms to filter down a grid of items (degrades to jQuery's animate).
  * Inspired by Isotope http://isotope.metafizzy.co/
@@ -8,7 +7,7 @@
  * @version 1.6.1
  * @date 12/06/12
  */
-;(function($, Modernizr, undefined) {
+!(function($, Modernizr, undefined) {
     'use strict';
 
 
@@ -96,11 +95,11 @@
             top: 0,
             left: 0
         };
-        
+
         if ( self.$container.css('position') === 'static' ) {
             self.$container.css('position', 'relative');
         }
-       
+
         // Set up css for transitions
         self.$container[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
         self._initItems( !self.showInitialTransition );
@@ -275,7 +274,7 @@
             // Was flooring 4.999999999999999 to 4 :(
             self.cols = Math.floor( ( containerWidth + gutter + 0.000000000001 ) / self.colWidth );
             self.cols = Math.max( self.cols, 1 );
-            
+
             // This can happen when .shuffle is called on something hidden (e.g. display:none for tabs)
             if ( !self.colWidth || isNaN( self.cols ) || !containerWidth ) {
                 self.needsUpdate = true;

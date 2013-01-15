@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, iQ*/
+/*global jQuery, Modernizr, iQ, Exports*/
 
 // ----------- Sony Specs Module --------
 // Module: Sticky Tabs
@@ -32,12 +32,28 @@
       self.$specItems = self.$container.find('.spec-item');
 
       self.setRowHeights();
+      self._initFeatures();
+    },
+
+    _initFeatures : function() {
+      var self = this;
+
+      self.$specTiles = self.$container.find('.spec-tiles');
+      self.$specTiles.shuffle({
+        itemSelector: '.spec-tile',
+        easing: 'ease-out',
+        speed: 250,
+        columnWidth: Exports.masonryColumns,
+        gutterWidth: Exports.masonryGutters,
+        showInitialTransition: false
+      });
+      self.shuffle = self.$specTiles.data('shuffle');
     },
 
     setRowHeights : function( /*isFirst*/ ) {
-      var self = this,
+      var self = this;
           // $detailGroup = self.$container.find('.detail-group').first(),
-          offset = 0;
+          // offset = 0;
 
       // Calling this multiple times is resulting in an ever-growing height...
       // if ( isFirst ) {

@@ -1,10 +1,10 @@
 !{locals.partial('includes/meta.html')}
 !{locals.partial('includes/fonts.html')}
-  
+
 l = {"locals": locals}
 if 'debug' == locals.getEnvironments()
 	!{locals.partial('includes/css_debug.html.jade', l)}
 else
-	!{locals.partial('includes/css_deploy.html,jade', l)}  
+	!{locals.partial('includes/css_deploy.html.jade', l)}
 
 !{locals.partial('includes/js_head.html')}
