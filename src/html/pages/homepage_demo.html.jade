@@ -23,8 +23,8 @@ body
 			!{partial('modules/sony_one_carousel.html.eco', e)}
 		    section(style="height:75px;")
 		
-			e = {"this":locals, "data":data('related_products/default.json')}
-			!{partial('modules/related_products.html.eco', e)}
+			e = {"locals":locals, "data":data('related_products/default.json')}
+			!{partial('modules/related_products.html.jade', e)}
 			section(style="height:75px;")
 		
 			e = {"this":locals, "data":data('tertiary_t1_t5/default.json')}
