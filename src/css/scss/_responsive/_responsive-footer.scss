@@ -277,32 +277,14 @@ form.footer-store-locator-form{
 
 @media (max-width: 1023px) {
 
-.footer-wrapper .footer-store-locator.span3{
-  width:100%;
-  float:none;
-  overflow:hidden;
-  padding-bottom: 30px;
-
-  h5{
-    display:block;
-    width:105px;
-    float:left;
-    position:relative;
-    top:5px;
-  }
-
-  + .span3{
-    margin-left:0;
-  }
-}
-.footer-store-locator-form{
-  width:246px;
+form.footer-store-locator-form{
+  width:50%;
+  max-width:275px;
   float:left;
-  margin-bottom:32px;
+  // margin-bottom:32px;
 }
 .footer-store-locator-caption{
   float:left;
-  padding:9px 0 0 16px;
 }
 }
 
@@ -319,12 +301,30 @@ form.footer-store-locator-form{
 //                                  888                                                            888               
 //                                  888                                                            888               
 //                                  888                                                            888               
-@media (min-width: 768px) and (max-width: 1023px) {
-
+@media (min-width: 568px) and (max-width: 1023px) {
 
 .footer-wrapper.desktop-layout-to-568 .span3,
 .footer-wrapper .span3{
   width:30.9%;
+}
+
+
+.footer-wrapper .footer-store-locator.span3{
+  width:100%;
+  float:none;
+  overflow:hidden;
+  padding-bottom: 30px;
+
+  h5{
+    display:block;
+    width:105px;
+    float:left;
+    position:relative;
+    top:5px;
+  }
+  + .span3{
+    margin-left:0;
+  }
 }
 
 .footer-newsletter{
@@ -373,6 +373,28 @@ form.footer-store-locator-form{
 
 
 
+// ------------------------------------------------
+//     d8888   .d8888b.   .d8888b.                         d888    .d8888b.   .d8888b.   .d8888b.                    
+//    d8P888  d88P  Y88b d88P  Y88b                       d8888   d88P  Y88b d88P  Y88b d88P  Y88b                   
+//   d8P 888  Y88b. d88P 888    888                         888   888    888        888      .d88P                   
+//  d8P  888   "Y88888"  888    888 88888b.  888  888       888   888    888      .d88P     8888"  88888b.  888  888 
+// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888   888    888  .od888P"       "Y8b. 888 "88b `Y8bd8P' 
+// 8888888888 888    888 888    888 888  888   X88K  888888 888   888    888 d88P"      888    888 888  888   X88K   
+//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888   Y88b  d88P 888"       Y88b  d88P 888 d88P .d8""8b. 
+//       888   "Y8888P"   "Y8888P"  88888P"  888  888     8888888  "Y8888P"  888888888   "Y8888P"  88888P"  888  888 
+//                                  888                                                            888               
+//                                  888                                                            888               
+//                                  888                                                            888     
+// ------------------------------------------------
+@media (min-width: 480px) and (max-width: 1023px) {
+
+.footer-wrapper .footer-store-locator.span3{
+  .footer-store-locator-caption{
+    padding:9px 0 0 16px;
+  }
+}
+}
+
 
 
 // ------------------------------------------------
@@ -393,8 +415,6 @@ form.footer-store-locator-form{
 @media (min-width: 568px) and (max-width: 979px) {
 
 
-.footer-wrapper .span3{
-}
 
 
 } // min-width: 768px and max-width: 979px
@@ -430,7 +450,42 @@ form.footer-store-locator-form{
 
 @media (max-width: 767px) {
   
+
 } // max-width: 767px
+
+
+
+
+
+
+// ------------------------------------------------
+// PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
+// ------------------------------------------------
+//     d8888   .d8888b.   .d8888b.                         888888888   .d8888b.  8888888888                 
+//    d8P888  d88P  Y88b d88P  Y88b                        888        d88P  Y88b       d88P                 
+//   d8P 888  Y88b. d88P 888    888                        888        888             d88P                  
+//  d8P  888   "Y88888"  888    888 88888b.  888  888      8888888b.  888d888b.      d88P  88888b.  888  888
+// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'           "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'
+// 8888888888 888    888 888    888 888  888   X88K  888888       888 888    888   d88P    888  888   X88K  
+//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.      Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.
+//       888   "Y8888P"   "Y8888P"  88888P"  888  888       "Y8888P"   "Y8888P"  d88P      88888P"  888  888
+//                                  888                                                    888              
+//                                  888                                                    888              
+//                                  888                                                    888                       
+// ------------------------------------------------
+@media (min-width: 480px) and (max-width: 567px) {
+form.footer-store-locator-form{
+  margin-bottom:19px;
+}
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -453,10 +508,11 @@ form.footer-store-locator-form{
 //                                 888                                                                                     
 //                                 888                                                                                     
 
-@media (max-width: 767px) {
+@media (max-width: 567px) {
 
 .footer-wrapper{
 
+  padding:0 0 60px;
   [class*="span"] {
     margin-left:inherit;
     float:none;
@@ -467,19 +523,33 @@ form.footer-store-locator-form{
     width:100%;
     overflow:hidden;
   }
-  .footer-mobile-section{
+  .footer-mobile-section[class*="span"]{
     overflow:hidden;
-    padding-bottom: 19px;
-    margin-bottom: 9px;
     border-bottom: solid 1px $grayDarkFieldLarge;
-    @include transition(height $transitionNormal ease-out);
 
-    &.collapse{
-      height:41px;
+    .footer-links-list{
+      padding-bottom: 19px;
+    }
+
+    &.collapsed{
+      height:51px;
+    }
+    &.transition-height{
+      @include transition(height $transitionNormal ease-out);
     }
   }
-  h5{
-    margin-bottom: 13px;
+  h5{ // these turn into clickable headers, so need to be blocky. move margins to padding.
+    position:relative;
+    margin-bottom:0;
+    margin-top:0;
+    padding-bottom: 13px;
+    padding-top:15px;
+
+    .icon-ui-arrowhead-down-gray{
+      position:absolute;
+      top:50%;
+      right:0;
+    }
   }
 
 
@@ -497,7 +567,10 @@ form.footer-store-locator-form{
     border-top: solid 1px $grayDarkFieldLarge;    
     h5{
       width:100%;
-      padding-bottom:10px;
+      padding-top: 15px;
+      padding-bottom: 17px;
+      margin-top: 0;
+      margin-bottom:2px;
     }
   }
 }
@@ -510,8 +583,8 @@ form.footer-store-locator-form{
 
 
 .footer-newsletter {
-  margin-top: 24px;
-  margin-bottom: 7px;
+  margin-top: 5px;
+  margin-bottom: 26px;
 
   .footer-form-border{
     margin-bottom:0;
@@ -536,7 +609,7 @@ form.footer-store-locator-form{
     display:block;
     font-size:$font_16_16;
     line-height:1.85;
-    margin-top:12px;
+    margin-top:21px;
 
     a,
     a:first-child{
@@ -559,7 +632,7 @@ form.footer-store-locator-form{
     margin:0 auto;
   }
   .dropdown-hover-menu-lists-w{
-    @include box-shadow(0 0px 5px rgba(0,0,0,0.5));
+    @include box-shadow(-1px 0px 1px 0px rgba(0,0,0,0.2));
   }
 }
 
@@ -621,11 +694,12 @@ form.footer-store-locator-form{
   .footer-store-locator.span3{
     h5{
     }
-    .footer-store-locator-form{
+    form.footer-store-locator-form{
       width:100%;
+      margin-bottom:0;
     }
     .footer-store-locator-caption{
-      padding:0;
+      padding-bottom:22px;
       color:$white;
     }
   }

@@ -38,7 +38,7 @@
 
       $input.on("focus", function(){
         // clear watermarkText on focus
-        console.log("input: focus");
+        // console.log("input: focus");
 
         if ($input.val() == inputObj.watermarkText){
           $input.val("");
@@ -46,15 +46,15 @@
         };
       }).on("blur", function(){
         
-        console.log("input: blur");
+        // console.log("input: blur");
 
         if ($input.val() == ""){
           $input.val(inputObj.watermarkText);
           inputObj.$inputIcon.show();
         };
-      }).on('touch mouseup keyup change cut paste', function(){
+      }).on('mouseup keyup change cut paste', function(){
 
-        console.log("input: touch mouseup keyup change cut paste");
+        // console.log("input: touch mouseup keyup change cut paste");
 
         if (!inputObj.$inputWrapper.hasClass("searching")){
           if (!($input.val() == "" || $input.val() == inputObj.watermarkText)){
@@ -117,6 +117,14 @@
     // this just resets the actual results without clearing the input, for instance when the search term had been deleted & is blank.
     resetSearchResults: function( inputObj ){
       inputObj.$inputWrapper.removeClass("searching");      
+    },
+
+    initTouchToggles: function( $touchToggles ) {
+      $touchToggles.each(function(){
+        $(this).on("touchstart click",function(){
+          $(this).toggleClass("active");
+        });
+      });
     }
   };
 
@@ -162,10 +170,16 @@
  })(jQuery, Modernizr, window, undefined);
 
 
- var $footerWrapper = $('body').formActions();
- $footerWrapper.data('formActions').initInput($('#store-locator-search-input'));
- $footerWrapper.data('formActions').initInput($('#footer-email-input'));
- $footerWrapper.data('formActions').initInput($('#nav-search-input'));
+$(function() {
+   var $formActionsInit = $('body').formActions(),
+    $formActions = $formActionsInit.data('formActions');
+
+   $formActions.initInput($('#store-locator-search-input'));
+   $formActions.initInput($('#footer-email-input'));
+   $formActions.initInput($('#nav-search-input'));
+
+   $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
+});
 
 
 
