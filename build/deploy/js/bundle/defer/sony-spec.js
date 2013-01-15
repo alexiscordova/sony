@@ -1,10 +1,10 @@
-/*global jQuery, Modernizr, iQ*/
+/*global jQuery, Modernizr, iQ, Exports*/
 
 // ----------- Sony Specs Module --------
 // Module: Sticky Tabs
 // Version: 1.0
-// Author: JP Cotoure
-// Modified: 01/09/2013 by Glen Cheney
+// Author: Glen Cheney
+// Date: 01/14/13
 // Dependencies: jQuery 1.7+, Modernizr
 // --------------------------------------
 
@@ -32,12 +32,28 @@
       self.$specItems = self.$container.find('.spec-item');
 
       self.setRowHeights();
+      self._initFeatures();
+    },
+
+    _initFeatures : function() {
+      var self = this;
+
+      self.$specTiles = self.$container.find('.spec-tiles');
+      self.$specTiles.shuffle({
+        itemSelector: '.spec-tile',
+        easing: 'ease-out',
+        speed: 250,
+        columnWidth: Exports.masonryColumns,
+        gutterWidth: Exports.masonryGutters,
+        showInitialTransition: false
+      });
+      self.shuffle = self.$specTiles.data('shuffle');
     },
 
     setRowHeights : function( /*isFirst*/ ) {
-      var self = this,
+      var self = this;
           // $detailGroup = self.$container.find('.detail-group').first(),
-          offset = 0;
+          // offset = 0;
 
       // Calling this multiple times is resulting in an ever-growing height...
       // if ( isFirst ) {
@@ -72,11 +88,6 @@
 
         $cells.add($detailLabel).css('height', maxHeight);
       });
-
-      // Set the top offset for the labels
-      // offset = $detailGroup.position().top;
-      // offset += parseFloat( $detailGroup.css('marginTop') );
-      // self.$container.find('.detail-label-group').css('top', offset);
 
       // Refresh outer iScroll
       if ( self.outerScroller ) {

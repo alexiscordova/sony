@@ -21,25 +21,39 @@ section.spec-module
 
   .spec-products
     .container.mobile-container-padded
-      // Wrap in a px grid?
-      .span2.details-labels-wrap.hidden-phone
-        .detail-labels-wrapping.complete
-          .product-count-wrap.table-center-wrap
-            .table-center
-              span.text-dark.product-count= numModels
-              |  Models
+      .grid
+        .span2.details-labels-wrap.hidden-phone
+          .detail-labels-wrapping.complete
+            .product-count-wrap.table-center-wrap
+              .table-center
+                span.text-dark.product-count= numModels
+                |  Models
 
-          .detail-label-group
-            each label in data.labels
-              .l3.detail-label.detail= label
+            .detail-label-group
+              each label in data.labels
+                .l3.detail-label.detail= label
 
-      .spec-items-wrap
-        .spec-items-container
-          each module in data.submodules
-            d = locals.data(module.data)
-            if d.type == "product"
-              a = d.view = "specs"
-              e = { "locals" : locals, "data" : d, "labels" : data.labels }
-              i= a
-              b= e
-              !{locals.partial('modules/' + module.type, e )}
+        .spec-items-wrap
+          .spec-items-container
+            each module in data.submodules
+              d = locals.data(module.data)
+              if d.type == "product"
+                - d.view = "specs"
+                e = { "locals" : locals, "data" : d, "labels" : data.labels }
+                !{locals.partial('modules/' + module.type, e )}
+
+  .spec-tiles-wrap.container.mobile-container-padded
+    .grid
+      h2= data.features.title
+    .spec-tiles.grid
+      each tile in data.features.tiles
+        .spec-tile.span4
+          if tile.img
+            img.iq-img(data-src=tile.img.src, alt=tile.img.alt)
+            noscript
+              img(src=tile.img.noscriptsrc, alt=tile.img.alt)
+          .tile-content
+            h3= tile.title
+            p= tile.description
+            if tile.link
+              a.tl(href=tile.link.href)= tile.link.text

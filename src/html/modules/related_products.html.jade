@@ -1,11 +1,22 @@
 ---
 desc: 'Here are some modules with unique data:'
 layout1: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
-layout2: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
 ---
 .container.grid5.full-bleed-no-max.jade
   .rpGrid.grid.grid-small
-    section.related-products
+    section.related-products(data-mode=data.config.mode)
       .rpOverflow#rpOverflow
         .rpContainer
-        	p !{document[data.config.name]}
+        	.rpSlide
+        		.shuffleContainer
+	        		i = 0
+	        		for module in data.submodules
+								d = locals.data(module.data)
+								if d.type == 'product' && d.featured
+									- d.layout = document[data.config.layout][i++]
+									- d.view = 'basic'
+									e = { 'locals' : locals , 'data' : d }
+									!{locals.partial('modules/'+module.type , e )}   
+       
+
+

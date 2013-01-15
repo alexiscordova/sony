@@ -23,7 +23,7 @@ if data.view == "basic"
           p.text-promo-title
             strong= data.title
             | &nbsp;
-            | data.emphasis
+            | !{data.emphasis}
             i.icon-ui2-chevron-18-blue
           if data.count
             p.text-count
@@ -32,11 +32,11 @@ if data.view == "basic"
               span.text.l3= data.count.text
 
       else if data.layout == 'plate'
-        .product-img(style=data.backgroundColor)
+        .product-img(class=data.backgroundColorClass)
           .product-content
             .text-promo-title
               strong= data.title
-              | data.emphasis
+              | !{data.emphasis}
           if data.count
             p.text-count
               span.number.l2= data.count.number
@@ -85,16 +85,15 @@ if data.view == "basic"
                 theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
                 span(class=theClass, data-color=color.color, itemprop="color")= color.color
 
-      .product-content
-        .product-name.p3= data.name
-        .product-price
-          p.price
-            span.p5 Starting at &nbsp;
-            span.l2= '$' + data.price + '&nbsp;'
-            span.msrp.p5 MSRP
+        .product-content
+          .product-name.p3= data.name
+          .product-price
+            p.price
+              span.p5 Starting at &nbsp;
+              span.l2= '$' + data.price + '&nbsp;'
+              span.msrp.p5 MSRP
 
 
-//- Detailed Gallery items
 else if data.view == 'detailed'
   filterSet = JSON.stringify( data.filterSet )
   a.span4.gallery-item(data-filter-set=filterSet, data-priority=data.priority, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
@@ -184,76 +183,76 @@ else if data.view == "specs"
         .product-name.p3(itemprop="name")= data.name
         .product-model.p5(itemprop="model")= data.model
 
-        each spec, i in data.specs
-          .spec-item-cell
-            h4.visible-phoney= labels[i]
+    each spec, i in data.specs
+      .spec-item-cell
+        h4.visible-phone= labels[i]
 
-            if spec.name && spec.list && spec.img
-              p= spec.name
+        if spec.name && spec.list && spec.img
+          p= spec.name
+          p.l3= spec.listTitle
+          ul.unstyled.p3.before-btm-aligned.spec-list
+            each option in spec.list
+              li= option
+          img.iq-img.btm-aligned(data-src=spec.img.src, alt=spec.img.alt)
+          noscript
+            img.btm-aligned(src=spec.img.noscriptsrc, alt=spec.img.alt)
+
+        else if spec.callout && spec.text
+          p.compare-box= spec.callout
+          p= spec.text
+          if spec.list
+            if spec.listTitle
               p.l3= spec.listTitle
-              ul.unstyled.p3.before-btm-aligned.spec-list
-                each option in spec.list
-                  li= option
-              img.iq-img.btm-aligned(data-src=spec.img.src, alt=spec.img.alt)
+            ul.unstyled.p3.spec-list
+              each li in spec.list
+                li= li
+
+        else if spec.text
+          p= spec.text
+          if spec.subtext
+            p.p3= spec.subtext
+
+          if spec.sublist
+            ul.unstyled.p3.spec-list
+              each li in spec.sublist
+                li= li
+
+        else if spec.colors
+          .color-swatches.clearfix
+            each color in spec.colors
+              colorClass = 'mini-swatch swatch-' + color + ' pull-left'
+              span(class=colorClass, itemprop="color")= color
+
+        else if spec.definitionList
+          if spec.img
+            .text-center.dl-img
+              img.iq-img(data-src=spec.img.src, alt=spec.img.alt)
               noscript
-                img.btm-aligned(src=spec.img.noscriptsrc, alt=spec.img.alt)
+                img(src=spec.img.noscriptsrc, alt=spec.img.alt)
 
-            else if spec.callout && spec.text
-              p.compare-box= spec.callout
-              p= spec.text
-              if spec.list
-                if spec.listTitle
-                  p.l3= spec.listTitle
-                ul.unstyled.p3.spec-list
-                  each li in spec.list
-                    li= li
+          dl.dl-horizontal
+            each li in spec.definitionList
+              dt.l3= li.term
+              dd.p3= li.definition
 
-            else if spec.text
-              p= spec.text
-              if spec.subtext
-                p.p3= spec.subtext
+        else if spec.label && spec.callout && spec.list && spec.icon
+          div
+            iconClass = 'icon-' + spec.icon
+            i(class=iconClass)= spec.icon
+          p= spec.callout
+          ul.unstyled.p3.spec-list
+            each li in spec.list
+              li= li
+          p.l3= spec.label
+          p.p3= spec.labeledText
 
-              if spec.sublist
-                ul.unstyled.p3.spec-list
-                  each li in spec.sublist
-                    li= li
+        else if spec.list
+          ul.unstyled.p3.spec-list
+            each li in spec.list
+              li= li
 
-            else if spec.colors
-              .color-swatches.clearfix
-                each color in spec.colors
-                  colorClass = 'mini-swatch swatch-' + color + ' pull-left'
-                  span(class=colorClass, itemprop="color")= color
-
-            else if spec.definitionList
-              if spec.img
-                .text-center.dl-img
-                  img.iq-img(data-src=spec.img.src, alt=spec.img.alt)
-                  noscript
-                    img(src=spec.img.noscriptsrc, alt=spec.img.alt)
-
-              dl.dl-horizontal
-                each li in spec.definitionList
-                  dt.l3= li.term
-                  dd.p3= li.definition
-
-            else if spec.label && spec.callout && spec.list && spec.icon
-              div
-                iconClass = 'icon-' + spec.icon
-                i(class=iconClass)= spec.icon
-              p= spec.callout
-              ul.unstyled.p3.spec-list
-                each li in spec.list
-                  li= li
-              p.l3= spec.label
-              p.p3= spec.labeledText
-
-            else if spec.list
-              ul.unstyled.p3.spec-list
-                each li in spec.list
-                  li= li
-
-            else
-              .l4 Unable to parse the kind of specification you gav me :(
+        else
+          .l4 Unable to parse the kind of specification you gav me :(
 
 else
   em on noes, you don't have a view variable set :(

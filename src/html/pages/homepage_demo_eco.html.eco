@@ -11,16 +11,16 @@ description: Home Page Demo.
 	<head>
 		<%-@partial('includes/meta.html')%>
 
-<% if 'debug' in @getEnvironments():%> 
+<% if 'debug' in @getEnvironments():%>
 		<%-@partial('includes/css_debug.html.eco', {this: this})%>
 <% else: %>
 		<%-@partial('includes/css_deploy.html')%>
 <% end %>
-		<%-@partial('includes/js_head.html')%>	
-		
+		<%-@partial('includes/js_head.html')%>
+
 	</head>
 	<body>
-	
+
 		<div id="page-wrap-outer" class="page-wrap-outer">
 				<div id="page-wrap-inner" class="page-wrap-inner">
 
@@ -28,11 +28,11 @@ description: Home Page Demo.
 				<%-@partial('modules/primary_tout.html.eco', 		{this:this, data:@data('primary_tout/homepage.json')} ) %>
 		    	<section style="height:75px;"></section>
 				<%-@partial('modules/sony_one_carousel.html.eco', 	{this:this, data:@data('sony_one_carousel/default.json')}) %>
-
-		    	<section style="height:75px;"></section>				
+		    	<section style="height:75px;"></section>
+		    	<section style="height:75px;"></section>
 				<%-@partial('modules/tertiary_t1_t5.html.eco', 			{this:this, data:@data('tertiary_t1_t5/default.json')}) %>
 				<%-@partial('modules/global_footer.html.eco', 		{}) %>
-				
+
 			</div>
 		</div>
 
