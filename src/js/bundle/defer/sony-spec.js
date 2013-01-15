@@ -3,8 +3,8 @@
 // ----------- Sony Specs Module --------
 // Module: Sticky Tabs
 // Version: 1.0
-// Author: JP Cotoure
-// Modified: 01/09/2013 by Glen Cheney
+// Author: Glen Cheney
+// Date: 01/14/13
 // Dependencies: jQuery 1.7+, Modernizr
 // --------------------------------------
 
@@ -88,11 +88,6 @@
 
         $cells.add($detailLabel).css('height', maxHeight);
       });
-
-      // Set the top offset for the labels
-      // offset = $detailGroup.position().top;
-      // offset += parseFloat( $detailGroup.css('marginTop') );
-      // self.$container.find('.detail-label-group').css('top', offset);
 
       // Refresh outer iScroll
       if ( self.outerScroller ) {

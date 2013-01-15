@@ -8,7 +8,7 @@ doctype 5
 l = {"locals":locals}
 head
 	!{partial('includes/head.html.jade', l)}
-	
+
 body
 	#page-wrap-outer.page-wrap-outer
 		#page-wrap-inner.page-wrap-inner
@@ -18,18 +18,18 @@ body
 			e = {"locals":locals, "data":data('primary_tout/homepage.json')}
 			!{partial('modules/primary_tout.html.jade', e)}
 			section(style="height:75px;")
-			
+
 			e = {"this":locals, "data":data('sony_one_carousel/default.json')}
 			!{partial('modules/sony_one_carousel.html.eco', e)}
 		    section(style="height:75px;")
-		
+
 			e = {"this":locals, "data":data('related_products/default.json')}
-			!{partial('modules/related_products.html.eco', e)}
+			//- !{partial('modules/related_products.html.eco', e)}
 			section(style="height:75px;")
-		
+
 			e = {"this":locals, "data":data('tertiary_t1_t5/default.json')}
 			!{partial('modules/tertiary_t1_t5.html.eco', e)}
-		
+
 			e = {}
 			!{partial('modules/global_footer.html.eco', e)}
 
