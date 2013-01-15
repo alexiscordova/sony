@@ -424,7 +424,7 @@
 
       self.$grid.infinitescroll({
         local: true,
-        // debug: true,
+        debug: true,
         bufferPx: -100, // Load 100px after the navSelector has entered the viewport
         navSelector: 'div.navigation', // selector for the paged navigation
         nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
