@@ -33,8 +33,6 @@ $mobileHeight:349px;
     @include debug($colorDefault, 0px);
   } // end .tcc-body
 } // end .tcc-body-wrapper
-
-
   
 .tcc-header-wrapper{
 
@@ -69,7 +67,8 @@ $mobileHeight:349px;
   padding:0 4.770992366412%;//9.541984732824% 0; // 25 / 262
 
   .meta{
-    padding:2% 0 9.090909090909% 0; 
+    //padding:2% 0 9.090909090909% 0; 
+    padding:0 9.090909090909% 10px;
     // 15 / 330
     // 30 / 330
   } // end .meta
@@ -98,7 +97,6 @@ $mobileHeight:349px;
 
 } // end .article-default
 
-
 // LARGE DESKTOP - 1200px
 // ------------------------------------------------
 @media (min-width: 1200px) {
@@ -123,9 +121,7 @@ $mobileHeight:349px;
     } // end .sonys-voice
 
   } // end .tcc
-
 } // end mQ 1200
-
 
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
@@ -162,7 +158,6 @@ $mobileHeight:349px;
     } // end .btn
 
   } // end .sonys-voice
-
 } // end 768 979
 
 @media (min-width: 480px) and (max-width: 767px) {
@@ -181,19 +176,23 @@ $mobileHeight:349px;
 
   .tcc-body-wrapper{
     @include debug($colorMobileLarge, 0px);  
+    height:$mobileHeight;
 
     .tcc-body{
       @include debug($colorMobileLarge, 0px);
+      height:$mobileHeight;
     } // end .tcc-body
 
     .tcc-content-module{
       @include debug(white, 0px);
+      padding:6.969696969697% 25px 0px 25px;
+      height:$mobileHeight;
     } // end .tcc-content-module
   
     .grid:not(.grid-small) [class*="span"]{
       float:left;
-      width:33%;
-      height: 330px;
+      width:224px;
+      margin-left:0;
     } // end .grid
 
   } // end .tcc-body-wrapper
@@ -223,8 +222,6 @@ $mobileHeight:349px;
     } // end .p3
 
   } // end .article-default
-
-
 } // end mQ
 
 // LANDSCAPE PHONE AND BELOW -- 480px
@@ -249,7 +246,6 @@ $mobileHeight:349px;
       float:none;
       line-height: 1.35em;
     } // end .tcc-header-link
-
   } // end .tcc-header-wrapper
 
 
@@ -265,6 +261,7 @@ $mobileHeight:349px;
     .tcc-content-module{
       @include debug(green, 0px);
       height:$mobileHeight;
+      padding:6.969696969697% 0px;// 25px 0px 25px;
     } // end .tcc-content-module
 
     .grid:not(.grid-small) [class*="span"]{
@@ -279,15 +276,43 @@ $mobileHeight:349px;
 
     .bq2 > p{
       color:$gray;
-      font-size: 1.275em;
+      font-size: 1.475em;
+      padding:0 30px;
     } // end .bq2 > p
 
     .btn{
-      width:91.5%;
+      width:50%;
     } // end .btn
     
   } // end .sonys-voice
-
-
-
 } // end > 480
+
+
+// phone portrait
+@media (max-width: 320px){
+ 
+ .sonys-voice{
+
+    .bq2 > p{
+      padding:0 20px 20px;
+    } // end .bq2 > p
+
+   
+  } // end .sonys-voice
+
+}
+// // '320px-567px - Over 480 (Phone Landscape / Small Tablet Portrait)'
+// @media (min-width: 480px) and (max-width: 767px) {
+// }
+
+// // 568px-979px - Exactly 568 (Large Phone Landscape / Small Tablet Portrait)
+// @media (min-width: 568px) and (max-width: 568px) {
+// }
+
+// // 568px-979px - below 768 (Large Phone Landscape / Small Tablet Portrait)
+// @media (min-width: 569px) and (max-width: 767px) {
+// }
+
+// // 568px-979px - Exactly 768 (Tablet Portrait)
+// @media (min-width: 768px) and (max-width: 768px) {
+// }

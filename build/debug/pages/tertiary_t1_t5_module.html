@@ -13,10 +13,9 @@
         <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
-
-            <link rel="stylesheet" href="css/styles.min.css">
-
-  <!-- WE NEED TO SET UP SEPARATE FONT FILES THAT DON'T GET COMPILED INTO styles.min.css -->
+ 
+                <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/responsive.css">
 
   <!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
   <!--[if (gte IE 9)|!(IE)]><!-->
@@ -30,6 +29,20 @@
 
   <!-- FONTS.COM -->
   <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->
+
+    
+        <link rel="stylesheet" href="css/modules/carousel.css">
+        <link rel="stylesheet" href="css/modules/editorial.css">
+        <link rel="stylesheet" href="css/modules/gallery.css">
+        <link rel="stylesheet" href="css/modules/hotspot_explorer.css">
+        <link rel="stylesheet" href="css/modules/mymodule.css">
+        <link rel="stylesheet" href="css/modules/primary-tout.css">
+        <link rel="stylesheet" href="css/modules/related-products.css">
+        <link rel="stylesheet" href="css/modules/sony_one_carousel.css">
+        <link rel="stylesheet" href="css/modules/sonycarousel.css">
+        <link rel="stylesheet" href="css/modules/spec-details.css">
+        <link rel="stylesheet" href="css/modules/tertiary_t1_t5.css">
+        <link rel="stylesheet" href="css/modules/video.css">
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <!-- jQuery Migrate: Migrate older jQuery code to jQuery 1.9+ -->
@@ -63,11 +76,12 @@
      
       <div class="grid tcc-body">
         
+            <!-- ARTICLE : DEFAULT -->
             <div class="span4 tcc-content-module article-default" data-tcc-module-type="article" data-tcc-module-mode="default">
     
                 <!-- image (optional) -->    
-                <img class="iq-img" alt="article default image" data-src="img/tertiary/article-default.png">
-                <noscript><img src="img/article-default-desktop.png"></noscript>
+                <img class="iq-img" alt="article default image" data-src="img/tertiary_t1_t5/article-default.png">
+                <noscript><img src="img/tertiary_t1_t5/article-default-desktop.png"></noscript>
 
                 <div class="tcc-copy">
                     
@@ -81,8 +95,9 @@
                 </div>
             </div>
         
+            <!-- ARTICLE : DEFAULT -->
             <div class="span4 tcc-content-module article-default" data-tcc-module-type="article" data-tcc-module-mode="default">
-                <img class="iq-img" alt="article default image" data-src="img/tertiary/article-default-two.png">
+                <img class="iq-img" alt="article default image" data-src="img/tertiary_t1_t5/article-default-two.png">
                 <noscript><img src="img/article-default-two-desktop.png"></noscript>
                 <div class="tcc-copy">
                     <p class="l1">Introducing Sony Reader App for iOS</p>
@@ -91,6 +106,7 @@
                 </div>
             </div>
         
+            <!-- SONYS VOICE : TWITTER -->
             <div class="span4 tcc-content-module sonys-voice" data-tcc-module-type="sonys-voice" data-tcc-module-mode="twitter">
                 <img src="img/icon_twitter.png">    <!-- icon (required) -->
                 
@@ -100,12 +116,17 @@
                 </div>
                 
                 <!-- quote (required) -->
-                <blockquote class="bq2"><p>Three of our cameras made @engadget’s gift guide. See which ones: <a class="tl" href="#">ow.ly/ftFuu</a></p></blockquote>
-
+                <blockquote class="bq2">
+                    <p>
+                        Three of our cameras made @engadget’s gift guide. See which ones: <a class="tl" href="#">ow.ly/ftFuu</a>
+                    </p>
+                </blockquote>
+ 
                 <!-- social link (required) -->
                 <p>
                   <a class="btn">Follow us on Twitter</a>
                 </p>
+
             </div>        
          
          </div>
@@ -119,12 +140,20 @@
 <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 
 
-                <script src="js/require.min.js"></script>
-        <script src="js/secondary.min.js"></script>
+                
+        <script src="js/bundle/require/debug_toggle.js"></script>
+        <script src="js/bundle/require/global-init.js"></script>
+        <script src="js/bundle/require/global-nav.js"></script>
+        <script src="js/bundle/require/iq.js"></script>
+        <script src="js/bundle/require/jquery.throttle-debounce.min.js"></script>
         
         
-        <script src="js/bundle/defer/bootstrap-tab.js"></script>
+        <script src="js/bundle/secondary/sony-iscroll.js"></script>
+        <script src="js/bundle/secondary/sony.carousel.1.0.js"></script>
+        
+        
         <script src="js/bundle/defer/_sony-spec.js"></script>
+        <script src="js/bundle/defer/bootstrap-tab.js"></script>
         <script src="js/bundle/defer/brightcove-builder.js"></script>
         <script src="js/bundle/defer/form-actions.js"></script>
         <script src="js/bundle/defer/gallery.js"></script>
@@ -143,15 +172,20 @@
         <script src="js/bundle/defer/module.sony.carousel.1.0.js"></script>
         <script src="js/bundle/defer/related-products.js"></script>
         <script src="js/bundle/defer/sony-scroller.js"></script>
-        <script src="js/bundle/defer/sony-sequencer.js"></script>
         <script src="js/bundle/defer/sony-gallery.js"></script>
+        <script src="js/bundle/defer/sony-sequencer.js"></script>
         <script src="js/bundle/defer/sony-spec.js"></script>
-        <script src="js/bundle/defer/sony-tertiary-module.js"></script>
         <script src="js/bundle/defer/sony.one.carousel.js"></script>
-        
+        <script src="js/bundle/defer/tertiary_t1_t5_module.js"></script>
+
         <!--[if lt IE 9 ]>
-            <script src="js/polyfill.min.js"></script>
+            <script src="js/libs/polyfill/html5shiv.js"></script>
+            <script src="js/libs/polyfill/respond.min.js"></script>
+            <script src="js/libs/polyfill/selectivizr-min.js"></script>
         <![endif]-->
+        
+        
+        
 
 
         <script>
