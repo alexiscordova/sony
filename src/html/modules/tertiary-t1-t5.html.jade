@@ -1,13 +1,29 @@
 // START Tertiary Content Container
 
-section.tcc-wrapper.container.full-bleed-no-max
+for module in data.contentModules
+	type = !{module.type}
+	//- mode = !{module.mode}
+
+	if type == "article"
+		| article
+		
+		if mode == "default"
+			| default
+
+	if type == "sonys-voice"
+		| sonys-voice
+		
+		if mode == "twitter"
+			| twitter
+
+section.tcc-wrapper.container.full-bleed-no-max(data-tcc-type="homepage")
 
 	header.tcc-header-wrapper.container
 		.tcc-header.grid
 			p.tcc-header-title.l1 
 				| Latest News
 			p.tcc-header-link
-				a.tl
+				a.tl(href="#")
 					| Go to Sony Press Center
 	
 	section.tcc-scroller.tcc-body-wrapper.container
@@ -48,7 +64,7 @@ section.tcc-wrapper.container.full-bleed-no-max
 						| Introducing Sony Reader App for iOS
 
 					p.p3
-						| The Sony Reader™ Store has launched Reader for iOS, a free application that brings its ebook software to both... 					
+						| The Sony Reader™ Store has launched Reader for iOS, a free application that brings its ebook software to both...
 						a.tl(href="#")
 							| Read More
 			
@@ -60,10 +76,11 @@ section.tcc-wrapper.container.full-bleed-no-max
 				.meta
 					p.l3
 						//- user (required)
-						| SonyElectronics 
+						| SonyElectronics  
+
 					p.l4
 						//- timestamp (required)
-						| 3 hours ago 
+						|  3 hours ago 
 								
 				//- quote (required)
 				blockquote.bq2
@@ -74,7 +91,7 @@ section.tcc-wrapper.container.full-bleed-no-max
 
 				//- social link (required)
 				p
-				  a.btn
+				  a.btn(href="#")
 				  	| Follow us on Twitter
 
 // END Tertiary Content Container
