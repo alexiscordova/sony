@@ -16,14 +16,29 @@
 
 @media (max-width: 767px) {
 
-  // .mobile-container-padded{
-  //   padding-left:$containerMarginWidth320;
-  //   padding-right:$containerMarginWidth320;
-  // }
-  // .mobile-container-margined{
-  //   margin-left:$containerMarginWidth320;
-  //   margin-right:$containerMarginWidth320;
-  // }
+
+  .container.m-grid-at-767{
+    width: $mobileContainerWidth480;
+  }
+  .container.m-grid-at-767,
+  .m-grid-at-767 {
+    @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m");
+   
+    .grid {
+      width: $mobileGridWidth480;
+    }
+  }
+
+
+  .container.m-full-bleed,
+  .container.m-full-bleed-at-767{
+    width:100%;
+  }
+  .grid.m-full-bleed,
+  .grid.m-full-bleed-at-767{
+    width:100%;
+  }
+
 
   // .grid5 {
 

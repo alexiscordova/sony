@@ -14,7 +14,31 @@
 //                                  888                                                                                     
 // ------------------------------------------------------------------------------------
 
+
+// mobile 6col grid
 @media (max-width: 567px) {
+
+  .container.m-grid-at-567 {
+    width: $mobileContainerWidth480;
+  }
+  .container.m-grid-at-567,
+  .m-grid-at-567 {
+    @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m");
+   
+    .grid {
+      width: $mobileGridWidth480;
+    }
+  }
+
+  .container.m-full-bleed-at-567{
+    width:100%;
+  }
+  .grid.m-full-bleed-at-567{
+    width:100%;
+  }
+
+}
+
 
   // .mobile-container-padded{
   //   padding-left:$containerMarginWidth320;
@@ -130,4 +154,4 @@
   //   position: static;
   // }
 
-}
+

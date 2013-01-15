@@ -6,6 +6,61 @@
 //  changed from 768; overrides for 568-767 are in _responsive-567
 //  The 768 grid is going to be used down to 568.
 
+// under normal conditions, the 768 grid will flex up to 979px and down to 568px.
+@media (min-width: 568px) and (max-width: 979px) {
+
+  .container {
+    width: $fluidContainerWidth768;
+  }
+  .grid {
+    width: $fluidGridWidth768;
+  }
+
+
+  // Fixed grid -- Looks like the px-width-grid is just for docs. Don't really care about mobile/etc so we'll just leave these here.
+  .container-px-width{  
+    width: $containerWidth768;
+  }
+  .grid-px-width{
+    width: $gridWidth768;
+  }
+  @include grid-core($gridColumnWidth768, $gridGutterWidth768);
+  // Input grid
+  @include grid-input($gridColumnWidth768, $gridGutterWidth768);
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
+}
+
+// implement the default (desktop) grid if neither override classes are present.
+@media (min-width: 568px) and (max-width: 767px) {
+  .container:not(.no-grid-at-767):not(.m-grid-at-767) .grid{
+    @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
+  }
+}
+
+
+
+// -------------------------
+// grid5 is different - it doesn't max out at 767px.
+// -------------------------
+
+@media (min-width:568px) {  
+  .container:not(.no-grid-at-767):not(.m-grid-at-767) .grid5{
+    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+  }
+}
+@media (min-width:768px) {
+  .grid5{
+    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+  }
+}
+
+
+
+
+
 
 
 
@@ -14,7 +69,7 @@
 //   // Fluid grid
 //   // @if ($overrideClass){
 //   //   :not(#{$overrideClass}).container, 
-//   //   .container:not(#{$overrideClass}) { // if it's not .phone-layout-at-767, set it to use tablet-grid.
+//   //   .container:not(#{$overrideClass}) { // if it's not .no-grid-at-767, set it to use tablet-grid.
 //   //     width: $fluidContainerWidth768;
 //   //   }
 //   //   :not(#{$overrideClass}) .grid,
@@ -48,54 +103,3 @@
 
 //   // No need to reset .thumbnails here since it's the same $gridGutterWidth
 // } // end @mixin tablet-grid
-
-
-@media (min-width: 568px) and (max-width: 979px) {
-
-  .container {
-    width: $fluidContainerWidth768;
-  }
-  .grid {
-    width: $fluidGridWidth768;
-  }
-
-
-  // Fixed grid -- Looks like the px-width-grid is just for docs. Don't really care about mobile/etc so we'll just leave these here.
-  .container-px-width{  
-    width: $containerWidth768;
-  }
-  .grid-px-width{
-    width: $gridWidth768;
-  }
-  @include grid-core($gridColumnWidth768, $gridGutterWidth768);
-  // Input grid
-  @include grid-input($gridColumnWidth768, $gridGutterWidth768);
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-  @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
-}
-
-@media (min-width: 568px) and (max-width: 767px) {
-  .container:not(.phone-layout-at-767),
-  .grid:not(.phone-layout-at-767) {
-    @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
-  }
-}
-
-
-// -------------------------
-// grid5 is different - it doesn't max out at 767px.
-// -------------------------
-
-@media (min-width:568px) {  
-  :not(.phone-layout-at-767) .grid5,
-  .grid5:not(.phone-layout-at-767) {
-    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-  }
-}
-@media (min-width:768px) {
-  .grid5{
-    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-  }
-}

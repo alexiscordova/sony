@@ -25,57 +25,85 @@
   visibility: hidden;
 }
 
+
+
+// ------------------------------------
 // Visibility utilities
+// ------------------------------------
+
+@mixin visibility-tablet{
+  .visible-desktop   { display: none !important ; }
+  .visible-tablet    { display: inherit !important; }
+  .visible-phone     { display: none !important; }
+  .hidden-desktop    { display: inherit !important; }
+  .hidden-tablet     { display: none !important; }
+  .hidden-phone      { display: inherit !important; }
+}
+@mixin visibility-phone{
+  .hidden-desktop    { display: inherit !important; }
+  .hidden-tablet     { display: inherit !important; }
+  .hidden-phone      { display: none !important; }
+  .visible-desktop   { display: none !important ; }
+  .visible-tablet    { display: none !important; }
+  .visible-phone     { display: inherit !important; }  
+}
 
 // For desktops
-.visible-phone     { display: none !important; }
-.visible-tablet    { display: none !important; }
-.hidden-phone      { }
-.hidden-tablet     { }
-.hidden-desktop    { display: none !important; }
 .visible-desktop   { display: inherit !important; }
+.visible-tablet    { display: none !important; }
+.visible-phone     { display: none !important; }
+.hidden-desktop    { display: none !important; }
+.hidden-tablet     { }
+.hidden-phone      { }
 
-// Tablets & small desktops only
-@media (min-width: 568px) and (max-width: 979px) {
-  // Hide everything else
-  .hidden-desktop    { display: inherit !important; }
-  .visible-desktop   { display: none !important ; }
-  // Show
-  .visible-tablet    { display: inherit !important; }
-  // Hide
-  .hidden-tablet     { display: none !important; }
-}
-// Tablets & small desktops only
+// Tablets (& small desktops) only
 @media (min-width: 768px) and (max-width: 979px) {
-  // Hide everything else
-  .phone-layout-at-767{
-    .hidden-desktop    { display: inherit !important; }
-    .visible-desktop   { display: none !important ; }
-    // Show
-    .visible-tablet    { display: inherit !important; }
-    // Hide
-    .hidden-tablet     { display: none !important; }
-  }
+  @include visibility-tablet;
 }
-
-// Phones only
-@media (max-width: 567px) {
-  // Hide everything else
-  .hidden-desktop    { display: inherit !important; }
-  .visible-desktop   { display: none !important; }
-  // Show
-  .visible-phone     { display: inherit !important; } // Use inherit to restore previous behavior
-  // Hide
-  .hidden-phone      { display: none !important; }
-}
+// by default everything below 767 is a phone view (per bootstrap)
 @media (max-width: 767px) {
-  // Hide everything else
-  .phone-layout-at-767{
-    .hidden-desktop    { display: inherit !important; }
-    .visible-desktop   { display: none !important; }
-    // Show
-    .visible-phone     { display: inherit !important; } // Use inherit to restore previous behavior
-    // Hide
-    .hidden-phone      { display: none !important; }
+  @include visibility-phone;
+}
+// Smaller tablets (& small desktops) only, or phones
+@media (min-width: 568px) and (max-width: 767px) {
+
+  // if any of the override classes are present for lower breakpoints, we should
+  // keep this breakpoint at tablet view.
+  .no-grid-at-567
+  .no-grid-at-479,
+  .m-grid-at-567,
+  .m-grid-at-479,
+  .phone-at-567,
+  .phone-at-479{
+    @include visibility-tablet;
   }
+  
+  // overrides to treat small tablet as phone - I don't think this is necessary anymore since it's the default.
+  // .no-grid-at-767,
+  // .m-grid-at-767,
+  // .phone-at-767{
+  //   @include visibility-phone;
+  // }
+}
+// Smaller tablets (& small desktops) only, or phones
+@media (min-width: 480px) and (max-width: 567px) {
+
+  // if any of the override classes are present for lower breakpoints, we should
+  // keep this breakpoint at tablet view.
+  .no-grid-at-479,
+  .m-grid-at-479,
+  .phone-at-479{
+    @include visibility-tablet;
+  }
+  
+  // overrides to treat small tablet as phone - I don't think this is necessary anymore since it's the default.
+  // .no-grid-at-567,
+  // .m-grid-at-567,
+  // .phone-at-567{
+  //   @include visibility-phone;
+  // }
+}
+// below 480 is always treated as phone. - I don't think this is necessary anymore since it's the default.
+@media (max-width: 479px) {
+  // @include visibility-phone;
 }

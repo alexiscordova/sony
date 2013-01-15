@@ -15,15 +15,28 @@
 // ------------------------------------------------------------------------------------
 
 @media (max-width: 479px) {
+  
+  .container.m-grid-at-479 {
+    width: $mobileContainerWidth320;
+  }
+  .container.m-grid-at-479,
+  .m-grid-at-479 {
+    @include grid-fluid($mobileGridColumnWidth320, $mobileGridGutterWidth320, $mobileGridColumns, "m");
+   
+    .grid {
+      width: $mobileGridWidth320;
+    }
+  }
 
-  // .mobile-container-padded{
-  //   padding-left:$containerMarginWidth320;
-  //   padding-right:$containerMarginWidth320;
-  // }
-  // .mobile-container-margined{
-  //   margin-left:$containerMarginWidth320;
-  //   margin-right:$containerMarginWidth320;
-  // }
+  .container.m-full-bleed-at-479{
+    width:100%;
+  }
+  .grid.m-full-bleed-at-479{
+    width:100%;
+  }
+
+
+
 
   .grid5 {
 
