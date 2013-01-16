@@ -527,6 +527,7 @@
           self.$containerInner.css(self.xProp, pos);
         }
       },
+      
       moveTo: function(){
         var self = this,
         newPos   = -self.currentId * self.currentContainerWidth,

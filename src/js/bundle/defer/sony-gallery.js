@@ -1538,46 +1538,8 @@
         };
       } else {
         // Use the default 12 column grid.
-        // Have to do more work here to get the right percentages for each breakpoint
-
-        self.shuffleColumns = function( containerWidth ) {
-          var column;
-
-          if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
-            column = Exports.COLUMN_WIDTH_768 * containerWidth;
-
-          } else if ( Modernizr.mq('(min-width: 1200px)') ) {
-            column = Exports.COLUMN_WIDTH_1200 * containerWidth;
-
-          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
-            column = Exports.COLUMN_WIDTH_980 * containerWidth;
-
-          } else {
-            column = containerWidth;
-          }
-
-          return column;
-        };
-
-        self.shuffleGutters = function( containerWidth ) {
-          var gutter;
-
-          if ( Modernizr.mq('(min-width: 768px) and (max-width:979px)') ) {
-            gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
-
-          } else if ( Modernizr.mq('(min-width: 1200px)') ) {
-            gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
-
-          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
-            gutter = Exports.GUTTER_WIDTH_980 * containerWidth;
-
-          } else {
-            gutter = 0;
-          }
-
-          return gutter;
-
-        };
+        self.shuffleColumns = Exports.masonryColumns;
+        self.shuffleGutters = Exports.masonryGutters;
       }
 
       return self;
@@ -1828,3 +1790,28 @@
   };
 
 }(jQuery, Modernizr, window));
+
+
+
+
+
+if ( $('.gallery').length > 0 ) {
+
+  // Initialize galleries
+  $('.gallery').each(function() {
+    var $this = $(this),
+    data = $this.data(),
+    options = { mode : data.mode };
+
+    $this.addClass('gallery-' + data.mode).gallery(options);
+  });
+
+  // Initialize sticky tabs
+  $('.tab-strip').stickyTabs();
+
+  // Hide other tabs
+  $('.tab-pane:not(.active)').addClass('off-screen');
+
+  // // Should be called after everything is initialized
+  $(window).trigger('hashchange');
+}

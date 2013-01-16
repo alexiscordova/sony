@@ -1,0 +1,19 @@
+---
+title: Related-Products-G1
+description: This is the Jaded Template for the related products module
+---
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+
+	h6 5-up Teal Color Layout:
+  	e = {"locals":locals, "data":data('related_products/5up-teal-color.json')}
+  	!{partial('modules/related_products.html.jade', e)}
+ 	hr
+
+  !{partial('includes/foot.html.jade', l)}

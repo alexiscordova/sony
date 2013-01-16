@@ -1,0 +1,184 @@
+@import "../_base/variables";
+@import "../_base/mixins";
+
+
+
+// Spec Header
+// -------------------------
+.spec-title-wrap {
+  margin-bottom: 0;
+}
+
+// Text over the title
+.spec-title-link {
+  margin:  0;
+}
+
+.spec-title {
+  margin-top: 0;
+}
+
+.spec-views {
+  margin-bottom: 0;
+
+  li {
+    margin: 0;
+  }
+
+  .active {
+    padding-bottom: .625em;
+    border-bottom: 4px solid $blue;
+  }
+
+  a {
+    color: $grayDark;
+
+  }
+}
+
+// Needs to be more specific
+ul.spec-views li {
+  padding-right: .625em;
+  padding-left: .625em;
+}
+
+
+// Spec Items Wrapping and labels
+// -------------------------
+.spec-items-wrap {
+  overflow: visible !important; // Override iScroll
+}
+
+
+// Spec Items
+// -------------------------
+.spec-item {
+  position: relative;
+  margin: 0;
+  border-left: 1px solid $grayLighter;
+}
+
+.spec-items-container .spec-item {
+  margin: 0;
+}
+
+$columnHeaderHeight: 85px;
+.spec-column-header {
+  height: $columnHeaderHeight;
+  width: 100%;
+  text-align: center;
+}
+
+.spec-item-cell {
+  position: relative;
+  padding: 1.25em 1.25em 3.75em;
+
+  .btm-aligned {
+    position: absolute;
+    bottom: 3.75em;
+  }
+
+  .before-btm-aligned {
+    margin-bottom: 6em; // Could come back to bite me in the ass if the image changes
+  }
+
+  // Definition list image needs a set height because iQ doesn't load the images until
+  // after the dimensions for each cell have been calculated
+  .dl-img {
+    height: 135px;
+
+    // Don't clip image, shrink it
+    img {
+      max-height: 100%;
+    }
+  }
+}
+
+.spec-products {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $columnHeaderHeight;
+    background: $grayLightFieldSmall;
+  }
+
+  .product-count-wrap,
+  .detail-label-group {
+    width: 100%;
+  }
+
+  .product-count-wrap {
+    height: $columnHeaderHeight;
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+
+  // Disable bar
+  .detail-labels-wrap:before,
+  .product-count-wrap:after {
+    content: none;
+  }
+
+  .detail-label {
+    padding: 1.25em;
+  }
+
+  .spec-list li {
+    margin: 1.25em 0;
+  }
+}
+
+.spec-item-cell,
+.spec-products .detail-label {
+  border-bottom: 1px solid $grayLighter;
+}
+
+.spec-module {
+  margin-bottom: 1.25em;
+
+
+  .sony-recommends {
+    background: url('../../img/spec/ico/sonyRecommend.jpg') right center no-repeat;
+  }
+
+  .gallery-tabs .tabs {
+    height: auto;
+  }
+
+  .product-name {
+    margin: 0;
+  }
+
+  .product-subname {
+    font-size: $font_18_16;
+  }
+
+  .dl-horizontal dt {
+    text-align: left;
+    width: 55px;
+  }
+  .dl-horizontal dd {
+    margin-left: 70px;
+  }
+
+}
+
+// Spec Feature Tiles
+// -------------------------
+.spec-tiles .spec-tile {
+  margin-left: 0;
+}
+
+.spec-tile {
+  margin-top: 1.25em;
+  background: $grayLightFieldSmall;
+
+  .tile-content {
+    padding: 1.25em;
+  }
+}
