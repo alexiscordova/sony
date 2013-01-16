@@ -16,4 +16,14 @@ body
   	!{partial('modules/related_products.html.jade', e)}
  	hr
 
-  !{partial('includes/foot.html.jade', l)}
+	h6 4-up Purple Color Layout:
+  	e = {"locals":locals, "data":data('related_products/4up-purple-color.json')}
+  	!{partial('modules/related_products.html.jade', e)}
+ 	hr
+
+  h6 3-up Orange Color Layout:
+    e = {"locals":locals, "data":data('related_products/3up-orange-color.json')}
+    !{partial('modules/related_products.html.jade', e)}
+  hr
+
+!{partial('includes/foot.html.jade', l)}

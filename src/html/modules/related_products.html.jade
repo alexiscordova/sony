@@ -1,22 +1,41 @@
 ---
 desc: 'Here are some modules with unique data:'
 layout1: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
+layout2: [ "plate", "normal" , "blank-normal" , "normal" , "normal" , "medium"]
+layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
 ---
 .container.grid5.full-bleed-no-max.jade
-  .rpGrid.grid.grid-small
-    section.related-products(data-mode=data.config.mode)
-      .rpOverflow#rpOverflow
-        .rpContainer
-        	.rpSlide
-        		.shuffleContainer
-	        		i = 0
-	        		for module in data.submodules
-								d = locals.data(module.data)
-								if d.type == 'product' && d.featured
-									- d.layout = document[data.config.layout][i++]
-									- d.view = 'basic'
-									e = { 'locals' : locals , 'data' : d }
-									!{locals.partial('modules/'+module.type , e )}   
-       
-
-
+  .rp-grid.grid.grid-small
+    section.related-products(data-mode=data.config.mode , class=data.config.variation)
+      .rp-overflow#rpOverflow
+        .rp-container
+	        	.rp-slide
+	        		.shuffle-container
+		        		i = 0
+		        		for module in data.submodules
+									d = locals.data(module.data)
+									if d.type == 'product' && d.featured
+										- d.layout = document[data.config.layout][i++]
+										- d.view = 'basic'
+										e = { 'locals' : locals , 'data' : d }
+										!{locals.partial('modules/'+module.type , e )}   
+	        	.rp-slide
+	        		.shuffle-container
+		        		i = 0
+		        		for module in data.submodules
+									d = locals.data(module.data)
+									if d.type == 'product' && d.featured
+										- d.layout = document[data.config.layout][i++]
+										- d.view = 'basic'
+										e = { 'locals' : locals , 'data' : d }
+										!{locals.partial('modules/'+module.type , e )}   
+	        	.rp-slide
+	        		.shuffle-container
+		        		i = 0
+		        		for module in data.submodules
+									d = locals.data(module.data)
+									if d.type == 'product' && d.featured
+										- d.layout = document[data.config.layout][i++]
+										- d.view = 'basic'
+										e = { 'locals' : locals , 'data' : d }
+										!{locals.partial('modules/'+module.type , e )}

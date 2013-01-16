@@ -81,13 +81,13 @@
       self.vendorPrefix          = '-' + vendor + '-';
       self.ev                    = $({}); //event object
       self.$el                   = $(element);
-      self.$slides               = self.$el.find('.rpSlide');
-      self.$shuffleContainers    = self.$slides.find('.shuffleContainer');
+      self.$slides               = self.$el.find('.rp-slide');
+      self.$shuffleContainers    = self.$slides.find('.shuffle-container');
       self.$galleryItems         = $('.gallery-item');
       self.$bulletNav            = $();
       self.numSlides             = self.$slides.length;
-      self.$container            = self.$el.find('.rpContainer').eq(0);
-      self.sliderOverflow        = self.$el.find('.rpOverflow').eq(0);
+      self.$container            = self.$el.find('.rp-container').eq(0);
+      self.sliderOverflow        = self.$el.find('.rp-overflow').eq(0);
       self.previousId            = -1;
       self.currentId             = 0;
       self.slidePosition         = 0;
@@ -165,7 +165,7 @@
         
         if(self.use3dTransform) {
           if(isWebkit) {
-            self.$el.addClass('rpWebkit3d');
+            self.$el.addClass('rp-webkit3d');
           }
           self.tPref1 = 'translate3d(';
           self.tPref2 = 'px, ';
@@ -265,23 +265,23 @@
 
       createNavigation: function(){
         var self = this,
-        itemHTML = '<div class="rpNavItem rpBullet"><span></span></div>';
+        itemHTML = '<div class="rp-nav-item rp-bullet"><span></span></div>';
         
         self.controlNavEnabled = true;
-        self.$container.addClass('rpWithBullets');
-        var out = '<div class="rpNav rpBullets">';
+        self.$container.addClass('rp-with-bullets');
+        var out = '<div class="rp-nav rp-bullets">';
         for(var i = 0; i < self.numSlides; i++) {
           out += itemHTML;
         }
         out += '</div>';
         out = $(out);
         self.controlNav = out;
-        self.$bulletNav = $('.rpNav');
+        self.$bulletNav = $('.rp-nav');
         self.controlNavItems = out.children();
         self.$el.append(out);
 
         self.controlNav.on( self.tapOrClick() , function(e) {
-          var item = $(e.target).closest('.rpNavItem');
+          var item = $(e.target).closest('.rp-nav-item');
           if(item.length) {
             self.currentId = item.index();
             self.moveTo();
@@ -297,16 +297,16 @@
         itemHTML = '<div class="paddle"></div>';
         
         self.paddlesEnabled = true;
-        var out = '<div class="rpNav rpPaddles">';
+        var out = '<div class="rp-nav rp-paddles">';
         for(var i = 0; i < 2; i++) {
           out += itemHTML;
         }
         out += '</div>';
         out = $(out);
 
-        $('.rpGrid').append(out);
+        $('.rp-grid').append(out);
 
-        self.$paddles = $('.rpGrid').find('.paddle');
+        self.$paddles = $('.rp-grid').find('.paddle');
         self.$leftPaddle = self.$paddles.eq(0).addClass('left');
         self.$rightPaddle = self.$paddles.eq(1).addClass('right');
 
@@ -468,8 +468,8 @@
             }
 
             self.isDesktopMode = true;
-            self.$el.removeClass('rpTablet rpMobile')
-                                    .addClass('rpDesktop');
+            self.$el.removeClass('rp-tablet rp-mobile')
+                                    .addClass('rp-desktop');
 
             if(self.shuffle === null){
               self.createShuffle();
@@ -500,8 +500,8 @@
 
             self.isTabletMode = true;
 
-            self.$el.removeClass('rpDesktop rpMobile')
-                    .addClass('rpTablet');
+            self.$el.removeClass('rp-desktop rp-mobile')
+                    .addClass('rp-tablet');
 
             if(self.shuffle === null){
               self.createShuffle();
@@ -523,8 +523,8 @@
 
             self.isMobileMode = true;
 
-            self.$el.removeClass('rpTablet rpDesktop')
-                    .addClass('rpMobile');
+            self.$el.removeClass('rp-tablet rp-desktop')
+                    .addClass('rp-mobile');
 
             //destroy the shuffle instance
             if(self.shuffle != null){
@@ -551,12 +551,14 @@
         currItem = null;
 
         if(self.prevNavItem) {
-          self.prevNavItem.removeClass('rpNavSelected');
+          self.prevNavItem.removeClass('rp-nav-selected');
         }
 
         currItem = $(self.controlNavItems[self.currentId]);
-        currItem.addClass('rpNavSelected');
+        currItem.addClass('rp-nav-selected');
         self.prevNavItem = currItem;
+
+        console.log("Nav Update »",currItem);
   
       },
 
@@ -587,10 +589,10 @@
         }
 
         //self.$el.css('height' , (0.4977817214) * self.$el.width());
-        self.$el.css('height' , (0.5313111546) * self.$shuffleContainers.eq(0).width());
+/*        self.$el.css('height' , (0.5313111546) * self.$shuffleContainers.eq(0).width());
         self.$el.css('height' , (0.53) * self.$shuffleContainers.eq(0).width());
         
-        self.$el.css('height' , (1) * self.$shuffleContainers.eq(0).width());
+        self.$el.css('height' , (1) * self.$shuffleContainers.eq(0).width());*/
         self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 40);
 
         console.log("Slider Height »",self.$el.height());
@@ -919,7 +921,7 @@
             animObj = {},
             newPos = (-self.currentId * cw);
 
-            var a = ($(window).width() - $('.rpSlide').eq(0).outerWidth(true)) * (0.5);
+            var a = ($(window).width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
             
             if(a > 0){
               newPos += Math.ceil(a);
@@ -949,7 +951,7 @@
             newId,
             animObj = {};
 
-            var a = ($(window).width() - $('.rpSlide').eq(0).outerWidth(true)) * (0.5);
+            var a = ($(window).width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
             
             if(a > 0){
               newPos += Math.ceil(a);
@@ -972,9 +974,9 @@
           self.$container.css( animObj );  
 
           //IQ Update
-          self.$container.one($.support.transition.end , function(){
+/*          self.$container.one($.support.transition.end , function(){
             window.iQ.update();
-          });
+          });*/
         }
 
         //update the overall position
@@ -1003,7 +1005,7 @@
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
         
           $('.paddle').show();
-          $('.rpNav').show();
+          $('.rp-nav').show();
           
           console.log('go back to desktop?');
         }
@@ -1074,7 +1076,7 @@
 
           // 2. hide paddles and nav
           $('.paddle').hide();
-          $('.rpNav').hide();
+          $('.rp-nav').hide();
 
           //attemp to place the title plates in the first position before detaching
           self.$slides.each(function(){ 
@@ -1106,8 +1108,8 @@
               self.scrollerModule = null;
             }
 
-            self.scrollerModule = $('.rpOverflow').scrollerModule({
-              contentSelector: '.rpContainer',
+            self.scrollerModule = $('.rp-overflow').scrollerModule({
+              contentSelector: '.rp-container',
               itemElementSelector: '.gallery-item',
               mode: 'free',
               lastPageCenter: false,
