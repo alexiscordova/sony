@@ -122,8 +122,8 @@ form.footer-store-locator-form{
 }
 
 .container .grid .footer-contact.span6{
-  float:right;
   padding-top: 5px;
+  float:right;
   text-align:right;
   > p{
     display:inline-block;
@@ -451,13 +451,47 @@ form.footer-store-locator-form{
 // ------------------------------------------------    
 
 @media (max-width: 767px) {
-  
+
+
+  // .grid-footer [class*="span"]{    
+  //   width:100%;
+  //   $containerMargin: (100% - $mobileContainerWidth480)/2;
+  //   $gridMargin: (100% - $mobileGridWidth480)/2;
+  //   padding-left: $containerMargin + $gridMargin;
+  //   padding-right: $containerMargin + $gridMargin;
+  // }
 
 } // max-width: 767px
 
 
 
 
+
+
+// ------------------------------------------------
+//     d8888   .d8888b.   .d8888b.                         8888888888  .d8888b.  8888888888                 
+//    d8P888  d88P  Y88b d88P  Y88b                              d88P d88P  Y88b       d88P                 
+//   d8P 888  Y88b. d88P 888    888                             d88P  888             d88P                  
+//  d8P  888   "Y88888"  888    888 88888b.  888  888          d88P   888d888b.      d88P  88888b.  888  888
+// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       88888888  888P "Y88b  88888888 888 "88b `Y8bd8P'
+// 8888888888 888    888 888    888 888  888   X88K  888888  d88P     888    888   d88P    888  888   X88K  
+//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       d88P      Y88b  d88P  d88P     888 d88P .d8""8b.
+//       888   "Y8888P"   "Y8888P"  88888P"  888  888      d88P        "Y8888P"  d88P      88888P"  888  888
+//                                  888                                                    888              
+//                                  888                                                    888              
+//                                  888                                                    888              
+// ------------------------------------------------    
+
+@media (min-width: 480px) and (max-width: 767px) {
+
+.container .grid .footer-contact.span6{
+  width:41%;
+}
+.container .grid .footer-language.span6{
+  width:58%;
+}
+
+} // (min-width: 480px) and (max-width: 767px)
 
 
 // ------------------------------------------------
@@ -515,16 +549,12 @@ form.footer-store-locator-form{
 .footer-wrapper{
 
   padding:0 0 60px;
-  [class*="span"] {
-    margin-left:inherit;
-    float:none;
-    width:100%;
+
+  .grid.grid-footer{
+    @include container-m-full-bleed-padded-children-at("567","both");
   }
 
-  .span3{
-    width:100%;
-    overflow:hidden;
-  }
+
   .footer-mobile-section[class*="span"]{
     overflow:hidden;
     border-bottom: solid 1px $grayDarkFieldLarge;
@@ -699,8 +729,10 @@ form.footer-store-locator-form{
     form.footer-store-locator-form{
       width:100%;
       margin-bottom:0;
+      float:none;
     }
     .footer-store-locator-caption{
+      float:none;
       padding-bottom:22px;
       color:$white;
     }

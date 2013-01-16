@@ -12,7 +12,9 @@
   .container {
     width: $fluidContainerWidth768;
   }
-  .grid {
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
     width: $fluidGridWidth768;
   }
 
@@ -35,71 +37,12 @@
 
 // implement the default (desktop) grid if neither override classes are present.
 @media (min-width: 568px) and (max-width: 767px) {
-  .container:not(.no-grid-at-767):not(.m-grid-at-767) .grid{
+  .container:not(.no-grid-at-767):not(.m-grid-at-767) .grid,
+  .container:not(.no-grid-at-767):not(.m-grid-at-767) .slimgrid{
     @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
   }
-}
-
-
-
-// -------------------------
-// grid5 is different - it doesn't max out at 767px.
-// -------------------------
-
-@media (min-width:568px) {  
-  .container:not(.no-grid-at-767):not(.m-grid-at-767) .grid5{
-    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-  }
-}
-@media (min-width:768px) {
-  .grid5{
-    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-  }
-}
+} // (min-width: 568px) and (max-width: 979px) 
 
 
 
 
-
-
-
-
-// @mixin tablet-grid($overrideClass:false){
-  
-//   // Fluid grid
-//   // @if ($overrideClass){
-//   //   :not(#{$overrideClass}).container, 
-//   //   .container:not(#{$overrideClass}) { // if it's not .no-grid-at-767, set it to use tablet-grid.
-//   //     width: $fluidContainerWidth768;
-//   //   }
-//   //   :not(#{$overrideClass}) .grid,
-//   //   .grid:not(#{$overrideClass}) {
-//   //     width: $fluidGridWidth768;
-//   //   }
-//   //   :not(#{$overrideClass}){
-//   //     @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
-//   //   }
-//   // } else {
-//   //   .container {
-//   //     width: $fluidContainerWidth768;
-//   //   }
-//   //   .grid {
-//   //     width: $fluidGridWidth768;
-//   //   }
-//   //   @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
-//   // }
-
-
-//   // Fixed grid
-//   .container-px-width{  
-//     width: $containerWidth768;
-//   }
-//   .grid-px-width{
-//     width: $gridWidth768;
-//   }
-//   @include grid-core($gridColumnWidth768, $gridGutterWidth768);
-//   // Input grid
-//   @include grid-input($gridColumnWidth768, $gridGutterWidth768);
-
-//   // No need to reset .thumbnails here since it's the same $gridGutterWidth
-// } // end @mixin tablet-grid

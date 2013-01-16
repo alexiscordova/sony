@@ -11,6 +11,11 @@ $default-transition-duration : $transitionNormal;
 $default-transition-function : false;
 $default-transition-delay    : 0s;
 
+// convert px to em, with regard to its context. Most context will be 16px.
+@function px-em($target, $context:"16"){
+  @return ($target/$context)+0em;
+}
+
 // UTILITY MIXINS
 // --------------------------------------------------
 @mixin experimental($property, $value, $moz: $experimental-support-for-mozilla, $webkit: $experimental-support-for-webkit, $o: $experimental-support-for-opera, $ms: $experimental-support-for-microsoft, $khtml: $experimental-support-for-khtml, $official: true) {
@@ -1105,7 +1110,17 @@ $default-transition-delay    : 0s;
 	$spanName: "span" !default;
 	@if ($whichGrid == "m"){ $spanName: "m-span"; }
 
-	.grid {
+	@if ($whichGrid == "m"){
+	  .grid.show-grid [class*="m-span"]{
+	    background:#556 !important;
+	  }
+	}
+
+	$gridName: "grid" !default;
+	@if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
+	@else if ($whichGrid == "slim5"){ $gridName: "grid5, .slimgrid5"; }
+
+	.#{$gridName} {
 		@include clearfix();
 
 		[class*=#{$spanName}] {
@@ -1115,11 +1130,11 @@ $default-transition-delay    : 0s;
 			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 
 			&:first-child{
-				margin-left: 0;				
+				margin-left: 0;
 			}
 			@if ($whichGrid == "m"){
 				&.m-span-new-row{
-					margin-left: 0;				
+					margin-left: 0;
 				}
 			}
 		}
@@ -1162,7 +1177,10 @@ $default-transition-delay    : 0s;
 	$offsetName: "offset" !default;
 	@if ($whichGrid == "m"){ $offsetName: "m-offset"; }
 
-	.grid {
+	$gridName: "grid" !default;
+	@if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
+	@else if ($whichGrid == "slim5"){ $gridName: "grid5, .slimgrid5"; }
+	.#{$whichGrid} {
 		@while $gridColumns > 0 {
 			
 			// this first one was disabled, I'm not sure why.
@@ -1196,6 +1214,52 @@ $default-transition-delay    : 0s;
 	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 }
 
+// full-bleed-padded is necessary when you need the element to be 100% wide (full-bleed) for background or borders,
+// but need to have padding inside so its content still has the appearance of margins. It should be used inside of
+// a .container or .grid and affects all "span" elements inside of it. It's used on the footer, to be able to extend
+// the borders the full width of the window, but still have the regular padding.
+@mixin container-m-full-bleed-padded-children-at( $bp, $containerOrGridOrBoth ){
+  
+  width:100%;
+
+  [class*="span"]{
+    @if ($containerOrGridOrBoth == "container"){
+      
+      @if ($bp == "767" or $bp == "567"){
+        padding-left: (100% - $mobileContainerWidth480)/2;
+        padding-right: (100% - $mobileContainerWidth480)/2;
+      } @else if ($bp == "479"){
+        padding-left: (100% - $mobileContainerWidth320)/2;
+        padding-right: (100% - $mobileContainerWidth320)/2;          
+      }
+
+    } @else if ($containerOrGridOrBoth == "grid"){
+
+      @if ($bp == "767" or $bp == "567"){
+        padding-left: (100% - $mobileGridWidth480)/2;
+        padding-right: (100% - $mobileGridWidth480)/2;
+      } @else if ($bp == "479"){
+        padding-left: (100% - $mobileGridWidth320)/2;
+        padding-right: (100% - $mobileGridWidth320)/2;          
+      }
+
+    } @else if ($containerOrGridOrBoth == "both"){
+      $containerMargin:0%;
+      $gridMargin:0%;
+
+      @if ($bp == "767" or $bp == "567"){
+        $containerMargin: (100% - $mobileContainerWidth480)/2;
+        $gridMargin: (100% - $mobileGridWidth480)/2;
+      } @else if ($bp == "479"){
+        $containerMargin: (100% - $mobileContainerWidth320)/2;
+        $gridMargin: (100% - $mobileGridWidth320)/2;        
+      }
+      padding-left: $containerMargin + $gridMargin;
+      padding-right: $containerMargin + $gridMargin;
+
+    }
+  }
+}
 
 
 
