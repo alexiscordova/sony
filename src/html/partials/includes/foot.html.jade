@@ -1,0 +1,32 @@
+---
+cacheable: true
+---
+l = {"locals": locals}
+if 'debug' == locals.getEnvironments()
+	for name in locals.require()
+		sr = "js/bundle/require/" + name
+		script(src = sr)
+		
+	for name in locals.secondary()
+		sr = "js/bundle/secondary/" + name
+		script(src = sr)
+			
+	for name in locals.defer()
+		sr = "js/bundle/defer/" + name
+		script(src = sr)
+	
+	//if lt IE 9 
+		for name in locals.polyfills()
+			sr = "js/libs/polyfill/" + name
+			script(src = sr)
+			
+else
+	script(src="js/require.min.js")
+	script(src="js/secondary.min.js")
+			
+	for name in locals.defer()
+		sr = "js/bundle/defer/" + name
+		script(src = sr)
+			
+	//if lt IE 9
+		script(src="js/polyfill.min.js")
