@@ -1489,7 +1489,7 @@
           //   column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+          } else if ( Modernizr.mq('(min-width: 480px)') ) {
             column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
           // Phone ( 2 columns )
@@ -1521,7 +1521,7 @@
             gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+          } else if ( Modernizr.mq('(min-width: 480px)') ) {
             gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
             numColumns = 3;
 

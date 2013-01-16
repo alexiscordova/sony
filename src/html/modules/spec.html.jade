@@ -1,5 +1,11 @@
 
 section.spec-module
+
+  .tab-strip.gallery-tabs.visible-phone
+    .tabs-container.container
+      .tabs
+        //- .tab(data-target="", data-toggle="tab")
+
   .container.mobile-container-padded
     .grid
       .span12.spec-title-link
@@ -7,23 +13,22 @@ section.spec-module
 
     .grid
       h1.spec-title.pull-left Vaio Z Details
-      p.sony-recommends.pull-right Sony Recommends
+      p.pull-right
+        | Sony Recommends
+        i.sprite-windows8
 
     .grid
       ul.spec-views.inline.p3
         li.active: a(href="spec_module.html") Specifications
         li: a(href="details_module.html") Features
 
-
-  .tab-strip.visible-phone
-
-  numModels = 6
+  numModels = data.submodules.length
 
   .spec-products
     .container.mobile-container-padded
       .grid
-        .span2.details-labels-wrap.hidden-phone
-          .detail-labels-wrapping.complete
+        .span2.detail-labels-wrap.hidden-phone
+          .detail-labels-wrapping
             .product-count-wrap.table-center-wrap
               .table-center
                 span.text-dark.product-count= numModels
@@ -35,10 +40,11 @@ section.spec-module
 
         .spec-items-wrap
           .spec-items-container
-            each module in data.submodules
+            each module, i in data.submodules
               d = locals.data(module.data)
               if d.type == "product"
                 - d.view = "specs"
+                - d.iterator = i
                 e = { "locals" : locals, "data" : d, "labels" : data.labels }
                 !{locals.partial('modules/' + module.type, e )}
 

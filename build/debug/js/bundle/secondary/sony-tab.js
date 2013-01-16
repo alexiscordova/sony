@@ -10,7 +10,7 @@
 
   var Tab = function (element) {
     this.$el = $(element);
-    this.showHash = this.$el.data('hash') || true;
+    this.showHash = this.$el.data('hash') || false;
   };
 
   Tab.prototype = {
