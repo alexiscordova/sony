@@ -1113,6 +1113,7 @@ $default-transition-delay    : 0s;
 	@if ($whichGrid == "m"){
 	  .grid.show-grid [class*="m-span"]{
 	    background:#556 !important;
+	    margin-bottom:3px;
 	  }
 	}
 
@@ -1135,6 +1136,7 @@ $default-transition-delay    : 0s;
 			@if ($whichGrid == "m"){
 				&.m-span-new-row{
 					margin-left: 0;
+					clear:left;
 				}
 			}
 		}
@@ -1155,7 +1157,6 @@ $default-transition-delay    : 0s;
 		$gridColumns: $gridColumns - 1;
 	}
 }
-
 @mixin grid-fluid-offset-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid: "") {
 	
 	$offsetName: "offset" !default;
@@ -1213,6 +1214,136 @@ $default-transition-delay    : 0s;
 	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth);
 	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 }
+
+@mixin no-grid ($overrideClass:""){
+
+  // Make all grid-sized elements block level again
+  #{$overrideClass} .grid [class*="span"],
+  #{$overrideClass} .grid [class*="offset"],
+  #{$overrideClass} .grid [class*="span"]:first-child,
+  #{$overrideClass} .grid [class*="offset"]:first-child,
+
+  #{$overrideClass} .grid [class*="m-span"],
+  #{$overrideClass} .grid [class*="m-offset"],
+  #{$overrideClass} .grid [class*="m-span"]:first-child,
+  #{$overrideClass} .grid [class*="m-offset"]:first-child,
+
+  #{$overrideClass} .grid [class*="m-span"].m-span-new-row,
+  #{$overrideClass} .grid [class*="m-offset"].m-span-new-row,
+
+  // #{$overrideClass} .grid-px-width [class*="span"],
+  // #{$overrideClass} .grid-px-width [class*="offset"]
+  // 
+  // [class*="span"],
+  // .grid [class*="span"],
+  // [class*="offset"],
+  // .grid [class*="offset"],
+  // [class*="span"]:first-child,
+  // .grid [class*="span"]:first-child,
+  // [class*="offset"]:first-child,
+  // .grid [class*="offset"]:first-child
+  {
+    float: none;
+    display: block;
+    width: auto; // 100%
+    margin-left: 0;
+  }
+
+
+
+  // ----------------------------------------------------------------------------
+  // This is all from Bootstrap - we may be able to strip some of this out:
+  // ----------------------------------------------------------------------------
+    
+  // Undo negative margin on fixed width grids and thumbnails
+  #{$overrideClass} .grid-px-width,
+  .thumbnails {
+    margin-left: 0;
+  }
+  .thumbnails > li {
+    float: none;
+    margin-left: 0; // Reset the default margin for all li elements when no .span* classes are present
+  }
+
+  // Make inputs and span* classes full width
+  #{$overrideClass} .input-large,
+  #{$overrideClass} .input-xlarge,
+  #{$overrideClass} .input-xxlarge,
+  #{$overrideClass} input[class*="span"],
+  #{$overrideClass} select[class*="span"],
+  #{$overrideClass} textarea[class*="span"],
+  #{$overrideClass} .uneditable-input {
+    @include input-block-level();
+  }
+  // But don't let it screw up prepend/append inputs
+  #{$overrideClass} .input-prepend input,
+  #{$overrideClass} .input-append input,
+  #{$overrideClass} .input-prepend input[class*="span"],
+  #{$overrideClass} .input-append input[class*="span"] {
+    display: inline-block; // redeclare so they don't wrap to new lines
+    width: auto;
+  }
+  #{$overrideClass} .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 0;
+  }
+
+  // Modals
+  #{$overrideClass}.modal,
+  #{$overrideClass} .modal {
+    position: fixed;
+    top:   20px;
+    left:  20px;
+    right: 20px;
+    width: auto;
+    margin: 0;
+    &.fade.in { top: auto; }
+  }
+
+  #{$overrideClass}.takeover,
+  #{$overrideClass} .takeover {
+    top:   0;
+    left:  0;
+    right: 0;
+
+    &.fade.in { top: 0; }
+  }
+
+  // Reset horizontal dl
+  #{$overrideClass} .dl-horizontal {
+    dt {
+      float: none;
+      clear: none;
+      width: auto;
+      text-align: left;
+    }
+    dd {
+      margin-left: 0;
+    }
+  }
+
+  // Update checkboxes for iOS
+  input[type="checkbox"],
+  input[type="radio"] {
+    border: 1px solid #ccc;
+  }
+
+  // ----------------------------------------------------------------------------
+  // end Bootstrap stuff that we might be able to strip out
+  // ----------------------------------------------------------------------------
+
+
+  #{$overrideClass} .grid.show-grid [class*="span"],
+  #{$overrideClass} .grid.show-grid [class*="offset"],
+  #{$overrideClass} .grid.show-grid [class*="m-span"],
+  #{$overrideClass} .grid.show-grid [class*="m-offset"]{
+    background:#655 !important;
+  }
+  #{$overrideClass} .grid.show-grid [class*="m-span"],
+  #{$overrideClass} .grid.show-grid [class*="m-offset"]{
+    margin-bottom:0;
+  }
+} // end @mixin no-grid
+
 
 // full-bleed-padded is necessary when you need the element to be 100% wide (full-bleed) for background or borders,
 // but need to have padding inside so its content still has the appearance of margins. It should be used inside of
@@ -1343,6 +1474,7 @@ $default-transition-delay    : 0s;
 @mixin grid-input-span($columns, $gridColumnWidth, $gridGutterWidth) {
 	width: (($gridColumnWidth) * $columns) + ($gridGutterWidth * ($columns - 1)) - 14;
 }
+
 
 
 
