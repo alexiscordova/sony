@@ -177,15 +177,16 @@ else if data.view == 'detailed'
 
 else if data.view == "specs"
 
-  .span4.spec-item(itemscope, itemtype="http://schema.org/Product")
-    .spec-column-header.table-center-wrap
+  tabSlug = 'spec-tab' + data.iterator
+  .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
+    .spec-column-header.table-center-wrap.hidden-phone
       .table-center
         .product-name.p3(itemprop="name")= data.name
         .product-model.p5(itemprop="model")= data.model
 
     each spec, i in data.specs
       .spec-item-cell
-        h4.visible-phone= labels[i]
+        p.l3.visible-phone= labels[i]
 
         if spec.name && spec.list && spec.img
           p= spec.name

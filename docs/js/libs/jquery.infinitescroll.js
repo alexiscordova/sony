@@ -13,6 +13,8 @@
    + Documentation: http://infinite-scroll.com/
 */
 
+// Modified by Glen Cheney - added updateNavLocation() and replaced smartscroll with $.throttle
+
 (function (window, $, undefined) {
 	"use strict";
 
@@ -66,7 +68,7 @@
 
     $.infinitescroll.prototype = {
 
-        /*	
+        /*
             ----------------------------
             Private methods
             ----------------------------
@@ -92,11 +94,11 @@
             }
 
             if (binding === 'unbind') {
-                (this.options.binder).unbind('smartscroll.infscr.' + instance.options.infid);
+                (this.options.binder).unbind('scroll.infscr.' + instance.options.infid);
             } else {
-                (this.options.binder)[binding]('smartscroll.infscr.' + instance.options.infid, function () {
+                (this.options.binder)[binding]('scroll.infscr.' + instance.options.infid, $.throttle(100, function () {
                     instance.scroll();
-                });
+                }));
             }
 
             this._debug('Binding', binding);
@@ -261,7 +263,7 @@
             } else if (path.match(/^(.*?)\b2\b(.*?$)/)) {
                 path = path.match(/^(.*?)\b2\b(.*?$)/).slice(1);
 
-                // if there is any 2 in the url at all.    
+                // if there is any 2 in the url at all.
             } else if (path.match(/^(.*?)2(.*?$)/)) {
 
                 // page= is used in django:
@@ -482,7 +484,7 @@
                 $(this).parent().fadeOut(opts.loading.speed);
             });
 
-            // user provided callback when done    
+            // user provided callback when done
             opts.errorCallback.call($(opts.contentSelector)[0],'done');
         },
 
@@ -498,7 +500,7 @@
             return true;
         },
 
-        /*	
+        /*
             ----------------------------
             Public methods
             ----------------------------
@@ -688,7 +690,7 @@
     };
 
 
-    /*	
+    /*
         ----------------------------
         Infinite Scroll function
         ----------------------------
@@ -702,7 +704,7 @@
         - https://github.com/jsor/jcarousel/blob/master/lib/jquery.jcarousel.js
 
         Masonry
-        - https://github.com/desandro/masonry/blob/master/jquery.masonry.js		
+        - https://github.com/desandro/masonry/blob/master/jquery.masonry.js
 
 */
 
@@ -713,7 +715,7 @@
 
         switch (thisCall) {
 
-            // method 
+            // method
             case 'string':
                 var args = Array.prototype.slice.call(arguments, 1);
 
@@ -737,7 +739,7 @@
 
             break;
 
-            // creation 
+            // creation
             case 'object':
 
                 this.each(function () {
@@ -768,44 +770,6 @@
         }
 
         return this;
-    };
-
-
-
-    /* 
-     * smartscroll: debounced scroll event for jQuery *
-     * https://github.com/lukeshumard/smartscroll
-     * Based on smartresize by @louis_remi: https://github.com/lrbabe/jquery.smartresize.js *
-     * Copyright 2011 Louis-Remi & Luke Shumard * Licensed under the MIT license. *
-     */
-
-    var event = $.event,
-    scrollTimeout;
-
-    event.special.smartscroll = {
-        setup: function () {
-            $(this).bind("scroll", event.special.smartscroll.handler);
-        },
-        teardown: function () {
-            $(this).unbind("scroll", event.special.smartscroll.handler);
-        },
-        handler: function (event, execAsap) {
-            // Save the context
-            var context = this,
-            args = arguments;
-
-            // set correct event type
-            event.type = "smartscroll";
-
-            if (scrollTimeout) { clearTimeout(scrollTimeout); }
-            scrollTimeout = setTimeout(function () {
-                $.event.handle.apply(context, args);
-            }, execAsap === "execAsap" ? 0 : 100);
-        }
-    };
-
-    $.fn.smartscroll = function (fn) {
-        return fn ? this.bind("smartscroll", fn) : this.trigger("smartscroll", ["execAsap"]);
     };
 
 

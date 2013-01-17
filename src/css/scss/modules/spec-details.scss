@@ -2,6 +2,9 @@
 @import "../_base/mixins";
 
 
+.sony-recommends {
+  background: url('../../img/spec/ico/sonyRecommend.jpg') right center no-repeat;
+}
 
 // Spec Header
 // -------------------------
@@ -42,11 +45,17 @@ ul.spec-views li {
   padding-left: .625em;
 }
 
+$specItemWidth1200: 220px;
+$specLabelWidth1200: 140px;
+$columnHeaderHeight: 85px;
+$tableHeaderColor: $grayLightFieldSmall;
+$specStickyTabHeight: 50px;
+
 
 // Spec Items Wrapping and labels
 // -------------------------
 .spec-items-wrap {
-  overflow: visible !important; // Override iScroll
+  margin-left: $specLabelWidth1200;
 }
 
 
@@ -55,23 +64,34 @@ ul.spec-views li {
 .spec-item {
   position: relative;
   margin: 0;
-  border-left: 1px solid $grayLighter;
-}
+  border-right: 1px solid $grayLighter;
 
+  // Our position relative is overriding off-screen, reset that.
+  &.off-screen {
+    position: absolute;
+  }
+
+  .product-name {
+    margin: 0;
+  }
+
+  .product-subname {
+    font-size: $font_18_16;
+  }
+}
 .spec-items-container .spec-item {
   margin: 0;
+  width: $specItemWidth1200; // override % width
 }
 
-$columnHeaderHeight: 85px;
 .spec-column-header {
   height: $columnHeaderHeight;
   width: 100%;
-  text-align: center;
 }
 
 .spec-item-cell {
   position: relative;
-  padding: 1.25em 1.25em 3.75em;
+  padding: 1.125em 1em 3.75em; // 18px 16px 60px
 
   .btm-aligned {
     position: absolute;
@@ -92,6 +112,18 @@ $columnHeaderHeight: 85px;
       max-height: 100%;
     }
   }
+
+  .dl-horizontal dt {
+    text-align: left;
+    width: 55px;
+  }
+  .dl-horizontal dd {
+    margin-left: 70px;
+  }
+
+  .spec-list li {
+    margin: 1.25em 0;
+  }
 }
 
 .spec-products {
@@ -104,12 +136,25 @@ $columnHeaderHeight: 85px;
     left: 0;
     width: 100%;
     height: $columnHeaderHeight;
-    background: $grayLightFieldSmall;
+    background: $tableHeaderColor;
+  }
+
+  .detail-labels-wrap {
+    width: $specLabelWidth1200; // override % width
+    border-right: 1px solid $grayLighter;
   }
 
   .product-count-wrap,
   .detail-label-group {
     width: 100%;
+  }
+
+  .product-count-wrap {
+    background: $tableHeaderColor;
+  }
+
+  .detail-label-group {
+    position: relative;
   }
 
   .product-count-wrap {
@@ -119,18 +164,37 @@ $columnHeaderHeight: 85px;
   }
 
   // Disable bar
-  .detail-labels-wrap:before,
-  .product-count-wrap:after {
+  .detail-labels-wrap:before {
     content: none;
   }
 
-  .detail-label {
-    padding: 1.25em;
+  .detail-label-group:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    display: block;
+    height: 100%;
+    width: 2000px;
+    right: 0;
+    top: 0;
+    background-color: $white;
+    @include transition(box-shadow $transitionFast ease-in);
   }
 
-  .spec-list li {
-    margin: 1.25em 0;
+  .product-count-wrap:after {
+    content: '';
+    z-index: -1; // put behind model count
+    left: auto;
+    right: 0;
+    height: 100%;
+    width: 2000px;
+    background: $tableHeaderColor;
   }
+
+  .detail-label {
+    padding: 1.125em 1em 0 0;
+  }
+
 }
 
 .spec-item-cell,
@@ -139,34 +203,39 @@ $columnHeaderHeight: 85px;
 }
 
 .spec-module {
-  margin-bottom: 1.25em;
 
-
-  .sony-recommends {
-    background: url('../../img/spec/ico/sonyRecommend.jpg') right center no-repeat;
+  .sticky-tabs,
+  .tab {
+    height: $specStickyTabHeight;
   }
 
-  .gallery-tabs .tabs {
-    height: auto;
-  }
-
-  .product-name {
-    margin: 0;
-  }
-
-  .product-subname {
-    font-size: $font_18_16;
-  }
-
-  .dl-horizontal dt {
-    text-align: left;
-    width: 55px;
-  }
-  .dl-horizontal dd {
-    margin-left: 70px;
+  .tab {
+    padding-left: 0.625em;
   }
 
 }
+
+
+@media (max-width: 567px) {
+
+  .spec-products:before {
+    height: 1px;
+  }
+
+  .spec-items-container .spec-item {
+    width: auto;
+  }
+
+  .spec-items-wrap {
+    margin-left: 0;
+  }
+
+  .spec-item {
+    border-right: 0;
+  }
+
+}
+
 
 // Spec Feature Tiles
 // -------------------------
@@ -176,7 +245,7 @@ $columnHeaderHeight: 85px;
 
 .spec-tile {
   margin-top: 1.25em;
-  background: $grayLightFieldSmall;
+  background: $tableHeaderColor;
 
   .tile-content {
     padding: 1.25em;

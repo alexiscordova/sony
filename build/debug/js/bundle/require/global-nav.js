@@ -9,7 +9,7 @@
 (function($, Modernizr, window, undefined) {
 
   'use strict';
- 
+
   // Start module
   var GlobalNav = function( $container ) {
 
@@ -84,7 +84,7 @@
             if (!$thPrimaryNavBtn.parent().hasClass("nav-li-selected")){
               // if this button isn't already activated, deactivate any others, and activate this one.
               // console.log("## ## inactive button clicked");
-              
+
               // if there's another button already activated, deactivate it first, and delay opening the new one.
               if (self.$currentOpenNavBtn != false ){
                 // console.log("## ## old nav was open - close it now." );
@@ -108,7 +108,7 @@
                 // update the Nav button & open the new tray immediately
                 self.setActivePrimaryNavBtn($thPrimaryNavBtn);
               }
-              
+
 
             } else {
               // if this tray was already visible, hide/reset it.
@@ -120,7 +120,7 @@
         });
       } else {
         // Init Mobile Nav
-        
+
 
         $("#btn-mobile-nav").on(self.tapOrClick,function(){
           if (!self.mobileNavVisible){
@@ -159,8 +159,8 @@
 
     slideNavTray: function( $navTray, opening ){
       // console.log("## ## slideNavTray $navTray.outerHeight(): " + $navTray.outerHeight());
-      var self = this, 
-        startHeight, 
+      var self = this,
+        startHeight,
         endHeight,
         expandedHeight = $navTray.outerHeight();
 
@@ -221,13 +221,13 @@
         .addClass("no-transition")
         .find(".navtray")
           .removeClass("navtray-absolute")
-          .css("height","");      
+          .css("height","");
     },
 
     activatePrimaryNavBtn : function ($newNavBtn) {
       var self = this;
       // console.log("## ## activatePrimaryNavBtn: " + $newNavBtn.attr("class"));
-      
+
       $newNavBtn.addClass("active").parent().addClass("nav-li-selected");
 
       // if there's a navTray/navMenu, reset it to get its height
@@ -243,7 +243,7 @@
           // expand the tray. When it's done, set it to position:relative and natural heights.
           self.slideNavTray($thNavTarget, true);
         } else {
-          // Menu-style - show the menu. 
+          // Menu-style - show the menu.
           $thNavTarget.addClass("navmenu-w-visible")
 
           // just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
@@ -267,7 +267,7 @@
       // page some height, so the Safari nav will hide.
       // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
       var pageHeight = parseInt($(window).height()) + 60 + "px";
-      self.$pageWrapOuter.height(pageHeight); 
+      self.$pageWrapOuter.height(pageHeight);
 
       if (!self.mobileNavIScroll){
         var $outer = $("#nav-outer-container"),
@@ -277,7 +277,7 @@
         $inner.height($inner.height());
 
         setTimeout(function(){ // make sure heights are already set before initializing iScroll.
-          self.mobileNavIScroll = new iScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
+          self.mobileNavIScroll = new IScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
         },1);
       }
 
@@ -294,7 +294,7 @@
         self.mobileNavIScroll.destroy();
         self.mobileNavIScroll = false;
         self.$pageWrapOuter.css("height","");
-      }); 
+      });
       $("#page-wrap-inner").removeClass("show-mobile-menu");
       self.mobileNavVisible = false;
     },
@@ -337,7 +337,7 @@
 
           if ($thFootSection.hasClass("collapsed")){
             // collapsed height - expand it.
-            
+
             $thFootSection
               .height($thFootSection.data("expHeight"))
               .removeClass("collapsed");
@@ -360,7 +360,7 @@
             },1);
           }
         }
-      });   
+      });
     }
   };
 
