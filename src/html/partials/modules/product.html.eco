@@ -1,0 +1,303 @@
+
+<% if @data.view == "basic": %>
+<a class="gallery-item
+  <% if @data.layout == "large" || @data.layout == "carousel": %>
+    span3 large
+  <% else if @data.layout == "promo": %>
+    span2 promo
+  <% else if @data.layout == "medium": %>
+    span2 medium
+  <% else if @data.layout == "plate": %>
+    span2 plate
+  <% else: %>
+    span1 normal
+  <% end %>"
+  data-priority="<%- @data.priority %>" href="<% if @data.href: %><%- @data.href %><% else: %>#<% end %>">
+  <div class="gallery-item-inner">
+    <% if @data.label: %>
+    <span class="label label-success"><%- @data.label %></span>
+    <% end %>
+    <% if @data.layout == "promo": %>
+    <div class="product-img" <% if @data.backgroundColor: %> style="background-color: <%- @data.backgroundColor %>" <% end %>>
+      <div class="iq-img" data-src="<%- @data.img.src %>"></div>
+      <div class="product-content">
+        <p class="text-promo-title">
+          <strong><%- @data.title %></strong>&nbsp;<%- @data.emphasis %><i class="icon-ui2-chevron-18-blue"></i>
+        </p>
+        <% if @data.count: %>
+        <p class="text-count">
+          <span class="number l2"><%- @data.count.number %></span>&nbsp;
+          <span class="text l3"><%- @data.count.text %></span>
+        </p>
+        <% end %>
+      </div>
+    </div>
+    <% else if @data.layout == "plate": %>
+    <div class="product-img" <% if @data.backgroundColor: %> style="background-color: <%- @data.backgroundColor %>" <% end %>>
+
+      <div class="product-content">
+        <p class="text-promo-title">
+          <strong><%- @data.title %></strong><%- @data.emphasis %>
+        </p>
+        <% if @data.count: %>
+        <p class="text-count">
+          <span class="number l2"><%- @data.count.number %></span>&nbsp;
+          <span class="text l3"><%- @data.count.text %></span>
+        </p>
+        <% end %>
+      </div>
+    </div>
+    <% else: %>
+    <div class="product-img">
+      <div class="product-img-wrap ghost-center-wrap">
+        <div class="ghost-center">
+          <% if @data.layout == "carousel": %>
+            <% for img in @data.imgCarousel: %>
+            <img class="iq-img" alt="<%- img.alt %>" data-src="<%- img.src %>">
+            <noscript>
+              <img src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+            </noscript>
+            <% end %>
+          <% else if @data.layout == "medium": %>
+          <img class="iq-img" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+          <noscript>
+            <img src="<%- @data.img.noscriptsrc %>" alt="<%- @data.img.alt %>">
+          </noscript>
+          <% else if @data.layout == "large": %>
+          <img class="iq-img" alt="<%- @data.imgLarge.alt %>" data-src="<%- @data.imgLarge.src %>">
+          <noscript>
+            <img src="<%- @data.imgLarge.noscriptsrc %>" alt="<%- @data.imgLarge.alt %>">
+          </noscript>
+          <% else: %>
+          <img class="iq-img" alt="<%- @data.imgSmall.alt %>" data-src="<%- @data.imgSmall.src %>">
+          <noscript>
+            <img src="<%- @data.imgSmall.noscriptsrc %>" alt="<%- @data.imgSmall.alt %>">
+          </noscript>
+          <% if @data.imgSmall.colors: %>
+            <% for img in @data.imgSmall.colors: %>
+            <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
+            <noscript>
+              <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+            </noscript>
+            <% end %>
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+      <% if @data.img && @data.img.colors: %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      </div>
+      <% else if @data.imgSmall && @data.imgSmall.colors: %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      </div>
+      <% end %>
+    </div>
+    <div class="product-content">
+      <p class="p3 product-name"><%- @data.name %></p>
+      <div class="product-price">
+        <p class="price"><span class="p5">Starting at</span> <span class="l2">$<%- @data.price %></span> <span class="p5 msrp">MSRP</span></p>
+      </div>
+    </div>
+  <% end %>
+
+  </div>
+</a>
+
+<% else if @data.view == "detailed": %>
+
+
+<a class="span4 gallery-item" data-filter-set='<%- JSON.stringify(@data.filterSet) %>' data-priority="<%- @data.priority %>" itemscope itemtype="http://schema.org/Product" itemprop="url" href="<% if @data.href: %><%- @data.href %><% else: %>#<% end %>">
+  <div class="gallery-item-inner">
+    <% if @data.label: %>
+    <span class="label label-success"><%- @data.label %></span>
+    <% end %>
+    <div class="product-img">
+      <div class="product-img-wrap ghost-center-wrap js-product-imgs">
+        <div class="ghost-center">
+          <img class="iq-img js-product-img-main" itemprop="image" alt="<%- @data.img.alt %>" data-src="<%- @data.img.src %>">
+          <noscript>
+            <img src="<%- @data.img.noscriptsrc %>" itemprop="image" alt="<%- @data.img.alt %>">
+          </noscript>
+          <% for img in @data.img.colors: %>
+          <img class="iq-img hidden" itemprop="image" data-color="<%- img.color %>" alt="<%- img.alt %>" data-src="<%- img.src %>">
+          <noscript>
+            <img class="hidden" itemprop="image" src="<%- img.noscriptsrc %>" alt="<%- img.alt %>">
+          </noscript>
+          <% end %>
+        </div>
+      </div>
+      <% if @data.img.colors: %>
+      <div class="color-swatches clearfix">
+        <% for color in @data.img.colors: %><span class="mini-swatch swatch-<%- color.color %> pull-left" data-color="<%- color.color %>" itemprop="color"><%- color.color %></span><% end %>
+      </div>
+      <% end %>
+    </div>
+    <div class="product-content">
+      <div class="p3 product-name" itemprop="name"><%- @data.name %></div>
+      <div class="p5 product-model" itemprop="model"><%- @data.model %></div>
+      <div class="p5 product-rating" data-stars="<%- @data.rating.stars %>" itemprop="reviews" itemscope itemtype="http://schema.org/AggregateRating">
+        <meta itemprop="ratingValue" content="<%- @data.rating.stars %>">
+        <i class="icon-ui-star"></i
+        ><i class="icon-ui-star"></i
+        ><i class="icon-ui-star"></i
+        ><i class="icon-ui-star"></i
+        ><i class="icon-ui-star"></i>
+        ( <span itemprop="ratingCount"><%- @data.rating.reviews %></span> user reviews)
+      </div>
+      <ul class="p3 product-meta">
+        <% for meta in @data.meta: %>
+        <li><%- meta.value %> <span class="product-meta-name"><%- meta.name %></span></li>
+        <% end %>
+      </ul>
+      <div class="product-price">
+        <p class="price"><span class="p5">Starting at</span> <span class="l2" itemprop="price">$<%- @data.price %></span> <span class="p5 msrp">MSRP</span></p>
+      </div>
+      <div class="detail-group hidden">
+        <% if @data.details: %>
+        <% for detail in @data.details: %>
+        <div class="detail<% if detail.isHighlighted: %> highlighted<% end %>" itemprop="<%- detail.slug %>" data-label="<%- detail.label %>">
+          <% if detail.value.check: %>
+            <%- detail.value.text %>
+          <% else if detail.value.box: %>
+              <p class="compare-box"><%- detail.value.box %></p>
+              <p><%- detail.value.lineOne %></p>
+              <% if detail.value.lineTwo: %><p><%- detail.value.lineTwo %></p><% end %>
+              <% if detail.value.lineThree: %><p><%- detail.value.lineThree %></p><% end %>
+          <% else if detail.value.lineOne: %>
+            <p><%- detail.value.lineOne %></p>
+            <% if detail.value.lineTwo: %><p><%- detail.value.lineTwo %></p><% end %>
+            <% if detail.value.lineThree: %><p><%- detail.value.lineThree %></p><% end %>
+          <% else if detail.value[0].description: %>
+            <ul class="media-list">
+              <% for value in detail.value: %>
+              <li class="media">
+                <div class="pull-left">
+                  <i class="media-object icon-bestfor-<%- value.icon %>"></i>
+                </div>
+                <div class="media-body">
+                  <p class="media-heading p3 text-dark"><%- value.label %></p>
+                  <p class="p3"><%- value.description %></p>
+                </div>
+              </li>
+              <% end %>
+            </ul>
+          <% else: %>
+            <%- detail.value %>
+          <% end %>
+        </div>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</a>
+
+<% else if @data.view == "specs": %>
+
+<div class="span4 spec-item" itemscope itemtype="http://schema.org/Product">
+  <div class="spec-column-header table-center-wrap">
+    <div class="table-center">
+      <div class="p3 product-name" itemprop="name"><%- @data.name %></div>
+      <div class="p5 product-model" itemprop="model"><%- @data.model %></div>
+    </div>
+  </div>
+  <% for spec, i in @data.specs: %>
+  <div class="spec-item-cell">
+    <h4 class="visible-phone"><%- @labels[i] %></h4>
+
+    <% if spec.name && spec.list && spec.img: %>
+
+      <p><%- spec.name %></p>
+      <p class="l3"><%- spec.listTitle %></p>
+      <ul class="unstyled p3 before-btm-aligned spec-list">
+        <% for option in spec.list: %>
+        <li><%- option %></li>
+        <% end %>
+      </ul>
+      <img class="btm-aligned iq-img" alt="<%- spec.img.alt %>" data-src="<%- spec.img.src %>">
+      <noscript>
+        <img class="btm-aligned" src="<%- spec.img.noscriptsrc %>" alt="<%- spec.img.alt %>">
+      </noscript>
+
+    <% else if spec.callout && spec.text: %>
+      <p class="compare-box"><%- spec.callout %></p>
+      <p><%- spec.text %></p>
+
+      <% if spec.list: %>
+        <% if spec.listTitle: %>
+          <p class="l3"><%- spec.listTitle %></p>
+        <% end %>
+        <ul class="unstyled p3 spec-list">
+          <% for li in spec.list: %>
+          <li><%- li %></li>
+          <% end %>
+        </ul>
+      <% end %>
+
+    <% else if spec.text: %>
+      <p><%- spec.text %></p>
+      <% if spec.subtext: %>
+      <p class="p3"><%- spec.subtext %></p>
+      <% end %>
+
+      <% if spec.sublist: %>
+        <ul class="unstyled p3 spec-list">
+        <% for item in spec.sublist: %>
+          <li><%- item %></li>
+        <% end %>
+        </ul>
+      <% end %>
+
+    <% else if spec.colors: %>
+      <div class="color-swatches clearfix">
+        <% for color in spec.colors: %><span class="mini-swatch swatch-<%- color %> pull-left" itemprop="color"><%- color %></span><% end %>
+      </div>
+
+    <% else if spec.definitionList: %>
+      <% if spec.img: %>
+        <div class="text-center dl-img">
+          <img class="iq-img" alt="<%- spec.img.alt %>" data-src="<%- spec.img.src %>">
+          <noscript>
+            <img src="<%- spec.img.noscriptsrc %>" alt="<%- spec.img.alt %>">
+          </noscript>
+        </div>
+      <% end %>
+      <dl class="dl-horizontal">
+        <% for li in spec.definitionList: %>
+          <dt class="l3"><%- li.term %></dt>
+          <dd class="p3"><%- li.definition %></dd>
+        <% end %>
+      </dl>
+
+    <% else if spec.label && spec.callout && spec.list && spec.icon: %>
+      <div><i class="icon-<%- spec.icon %>"><%- spec.icon %></i></div>
+      <p><%- spec.callout %></p>
+      <ul class="unstyled p3 spec-list">
+      <% for item in spec.list: %>
+        <li><%- item %></li>
+      <% end %>
+      </ul>
+      <p class="l3"><%- spec.label %></p>
+      <p class="p3"><%- spec.labeledText %></p>
+
+
+    <% else if spec.list: %>
+      <ul class="unstyled p3 spec-list">
+      <% for item in spec.list: %>
+        <li><%- item %></li>
+      <% end %>
+      </ul>
+
+    <% else: %>
+      <div class="l2">Unable to parse the kind of specification you gave me :(</div>
+
+    <% end %>
+  </div>
+  <% end %>
+</div>
+
+<% else: %>
+<i>on noes, you don't have a view variable set :(</i>
+<% end %>

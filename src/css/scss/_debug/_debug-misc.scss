@@ -16,19 +16,21 @@
     margin-top:-50px;
     @include el-hidden();
   }
-  &:hover .popover{ 
-    @include el-shown(); 
+  &:hover .popover{
+    @include el-shown();
     left:-192px;
-  } 
+  }
 }
 
 
 .debug {
-  .products {
+  .products,
+  .spec-tiles {
     counter-reset: item;
   }
 
-  .gallery-item {
+  .gallery-item,
+  .spec-tile {
     counter-increment: item;
 
     &::before {

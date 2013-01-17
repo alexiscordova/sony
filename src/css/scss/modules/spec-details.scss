@@ -1,0 +1,253 @@
+@import "../_base/variables";
+@import "../_base/mixins";
+
+
+.sony-recommends {
+  background: url('../../img/spec/ico/sonyRecommend.jpg') right center no-repeat;
+}
+
+// Spec Header
+// -------------------------
+.spec-title-wrap {
+  margin-bottom: 0;
+}
+
+// Text over the title
+.spec-title-link {
+  margin:  0;
+}
+
+.spec-title {
+  margin-top: 0;
+}
+
+.spec-views {
+  margin-bottom: 0;
+
+  li {
+    margin: 0;
+  }
+
+  .active {
+    padding-bottom: .625em;
+    border-bottom: 4px solid $blue;
+  }
+
+  a {
+    color: $grayDark;
+
+  }
+}
+
+// Needs to be more specific
+ul.spec-views li {
+  padding-right: .625em;
+  padding-left: .625em;
+}
+
+$specItemWidth1200: 220px;
+$specLabelWidth1200: 140px;
+$columnHeaderHeight: 85px;
+$tableHeaderColor: $grayLightFieldSmall;
+$specStickyTabHeight: 50px;
+
+
+// Spec Items Wrapping and labels
+// -------------------------
+.spec-items-wrap {
+  margin-left: $specLabelWidth1200;
+}
+
+
+// Spec Items
+// -------------------------
+.spec-item {
+  position: relative;
+  margin: 0;
+  border-right: 1px solid $grayLighter;
+
+  // Our position relative is overriding off-screen, reset that.
+  &.off-screen {
+    position: absolute;
+  }
+
+  .product-name {
+    margin: 0;
+  }
+
+  .product-subname {
+    font-size: $font_18_16;
+  }
+}
+.spec-items-container .spec-item {
+  margin: 0;
+  width: $specItemWidth1200; // override % width
+}
+
+.spec-column-header {
+  height: $columnHeaderHeight;
+  width: 100%;
+}
+
+.spec-item-cell {
+  position: relative;
+  padding: 1.125em 1em 3.75em; // 18px 16px 60px
+
+  .btm-aligned {
+    position: absolute;
+    bottom: 3.75em;
+  }
+
+  .before-btm-aligned {
+    margin-bottom: 6em; // Could come back to bite me in the ass if the image changes
+  }
+
+  // Definition list image needs a set height because iQ doesn't load the images until
+  // after the dimensions for each cell have been calculated
+  .dl-img {
+    height: 135px;
+
+    // Don't clip image, shrink it
+    img {
+      max-height: 100%;
+    }
+  }
+
+  .dl-horizontal dt {
+    text-align: left;
+    width: 55px;
+  }
+  .dl-horizontal dd {
+    margin-left: 70px;
+  }
+
+  .spec-list li {
+    margin: 1.25em 0;
+  }
+}
+
+.spec-products {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $columnHeaderHeight;
+    background: $tableHeaderColor;
+  }
+
+  .detail-labels-wrap {
+    width: $specLabelWidth1200; // override % width
+    border-right: 1px solid $grayLighter;
+  }
+
+  .product-count-wrap,
+  .detail-label-group {
+    width: 100%;
+  }
+
+  .product-count-wrap {
+    background: $tableHeaderColor;
+  }
+
+  .detail-label-group {
+    position: relative;
+  }
+
+  .product-count-wrap {
+    height: $columnHeaderHeight;
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+
+  // Disable bar
+  .detail-labels-wrap:before {
+    content: none;
+  }
+
+  .detail-label-group:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    display: block;
+    height: 100%;
+    width: 2000px;
+    right: 0;
+    top: 0;
+    background-color: $white;
+    @include transition(box-shadow $transitionFast ease-in);
+  }
+
+  .product-count-wrap:after {
+    content: '';
+    z-index: -1; // put behind model count
+    left: auto;
+    right: 0;
+    height: 100%;
+    width: 2000px;
+    background: $tableHeaderColor;
+  }
+
+  .detail-label {
+    padding: 1.125em 1em 0 0;
+  }
+
+}
+
+.spec-item-cell,
+.spec-products .detail-label {
+  border-bottom: 1px solid $grayLighter;
+}
+
+.spec-module {
+
+  .sticky-tabs,
+  .tab {
+    height: $specStickyTabHeight;
+  }
+
+  .tab {
+    padding-left: 0.625em;
+  }
+
+}
+
+
+@media (max-width: 567px) {
+
+  .spec-products:before {
+    height: 1px;
+  }
+
+  .spec-items-container .spec-item {
+    width: auto;
+  }
+
+  .spec-items-wrap {
+    margin-left: 0;
+  }
+
+  .spec-item {
+    border-right: 0;
+  }
+
+}
+
+
+// Spec Feature Tiles
+// -------------------------
+.spec-tiles .spec-tile {
+  margin-left: 0;
+}
+
+.spec-tile {
+  margin-top: 1.25em;
+  background: $tableHeaderColor;
+
+  .tile-content {
+    padding: 1.25em;
+  }
+}

@@ -14,18 +14,18 @@
 	direction: ltr;
 }
 
-/* important to inlcude this on elements that have z-index as well, chrome had a bug */ 
+/* important to inlcude this on elements that have z-index as well, chrome had a bug */
 .scWebkit3d .scSlide,
 .scWebkit3d .scContainer,
 .scWebkit3d .scThumbs,
 .scWebkit3d .scPreloader,
 .scWebkit3d img,
-.scWebkit3d p, 
+.scWebkit3d p,
 .scWebkit3d .scOverflow,
 .scWebkit3d .scBtnCenterer,
 .scWebkit3d .scAbsoluteEl {
 	-webkit-backface-visibility: hidden;
-	-webkit-transform: translateZ(0); 
+	-webkit-transform: translateZ(0);
 }
 .scFade.scWebkit3d .scSlide,
 .scFade.scWebkit3d img,
@@ -33,17 +33,20 @@
 	-webkit-transform: none;
 }
 
-.scSlide p {
-	position: absolute;
-	top: 10%;
-	left: 5%;
-	z-index: 1;
-	color: #fff;
-	background: rgba(0, 0, 0, 0.7);
-	max-width: 300px;
-	height: 300px;
-	padding: 25px;
-}
+
+// Qualify the <p> with a class if you need to use these styles
+// so that it doesn't override everyone else's please.
+// .scSlide p {
+// 	position: absolute;
+// 	top: 10%;
+// 	left: 5%;
+// 	z-index: 1;
+// 	color: #fff;
+// 	background: rgba(0, 0, 0, 0.7);
+// 	max-width: 300px;
+// 	height: 300px;
+// 	padding: 25px;
+// }
 
 
 .scOverflow {
@@ -126,7 +129,7 @@
 	top: 0;
 	display: block;
 	overflow: hidden;
-	
+
 	height: 100%;
 	width: 100%;
 }
@@ -144,7 +147,7 @@
 
 .scPreloader {
 	position:absolute;
-	z-index: 0;	
+	z-index: 0;
 }
 
 .scNav {
@@ -229,10 +232,10 @@
 }
 
 .grab-cursor {
-	cursor:url(grab.png) 8 8, move; 
+	cursor:url(grab.png) 8 8, move;
 }
 
-.grabbing-cursor{ 
+.grabbing-cursor{
 	cursor:url(grabbing.png) 8 8, move;
 }
 
@@ -246,7 +249,7 @@
 	position:absolute;
 	width:100%;
 	height:100%;
-	display:block;	
+	display:block;
 	z-index: 20;
 	background: url(blank.gif);
 	-webkit-backface-visibility: hidden;
@@ -283,7 +286,7 @@
 .scDefault.scVer .scArrow {
 	width: 100%;
 	height: 44px;
-	
+
 }
 .scDefault.scVer .scArrowLeft { top: 0; left: 0; }
 .scDefault.scVer .scArrowRight { bottom: 0;  left: 0; }
@@ -291,20 +294,20 @@
 .scDefault.scHor .scArrowLeft { left: 0; top: 0; }
 .scDefault.scHor .scArrowRight { right: 0; top:0; }
 
-.scDefault .scArrowIcn {		
+.scDefault .scArrowIcn {
 	width: 32px;
 	height: 32px;
 	top: 50%;
 	left: 50%;
-	margin-top:-16px;	
+	margin-top:-16px;
 	margin-left: -16px;
 
-	position: absolute;	
-	cursor: pointer;	
+	position: absolute;
+	cursor: pointer;
 	/* background: url('rs-default.png'); */
 	background-color: rgba(0,122,255,0.75);
 	*background-color: #007AFF;
-	
+
 	border-radius: 2px;
 }
 .scDefault .scArrowIcn:hover {
@@ -333,7 +336,7 @@
 	bottom: 0;
 	width: 100%;
 	height: auto;
-	margin: 0 auto; 
+	margin: 0 auto;
 	background: #000;
 	background: rgba(0,0,0,0.75);
 	text-align: center;
@@ -346,7 +349,7 @@
 	width: 8px;
 	height: 8px;
 	display: inline-block;
-	*display:inline; 
+	*display:inline;
 	*zoom:1;
 	margin: 0 5px 1px;
 	border-radius: 50%;
@@ -399,7 +402,7 @@
 		visibility: visible;
 		height: 72px !important;
 		padding-bottom: 4px;
-	} 
+	}
 }
 
 .scDefault.scWithThumbsHor .scThumbsContainer {
@@ -439,8 +442,8 @@
 	width: 20px;
 	position: absolute;
 	display: block;
-	cursor: pointer;	
-	z-index: 21;	
+	cursor: pointer;
+	z-index: 21;
 	background: #000;
 	background: rgba(0,0,0,0.75);
 }
@@ -457,15 +460,15 @@
 .scDefault.scWithThumbsHor .scThumbsArrowLeft { left: 0; top: 0; }
 .scDefault.scWithThumbsHor .scThumbsArrowRight { right: 0; top:0; }
 
-.scDefault .scThumbsArrowIcn {		
+.scDefault .scThumbsArrowIcn {
 	width: 16px;
 	height: 16px;
 	top: 50%;
 	left: 50%;
-	margin-top:-8px;	
+	margin-top:-8px;
 	margin-left: -8px;
-	position: absolute;	
-	cursor: pointer;	
+	position: absolute;
+	cursor: pointer;
 	background: url('rs-default.png');
 }
 
@@ -503,7 +506,7 @@
 	height: auto;
 	margin: 0 auto;
 	text-align:center;
-	overflow: hidden; padding-top: 12px; 
+	overflow: hidden; padding-top: 12px;
 	position: absolute;
 	bottom:20px;
 }
@@ -525,14 +528,14 @@
 
 
 /* 	background-color: #FFF;
-	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4); 
+	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
 	background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
 	background-image:         linear-gradient(to bottom, #fefefe, #f4f4f4); */
 
 /* 	-webkit-box-shadow: inset 1px 0 0 #fff;
 	box-shadow: inset 1px 0 0 #fff; */
 
-	*display:inline; 
+	*display:inline;
 	*zoom:1;
 }
 .scDefault .scTab:first-child {
@@ -541,7 +544,7 @@
 	-webkit-border-bottom-left-radius: 4px;
 	border-bottom-left-radius: 4px; */
 }
-.scDefault .scTab:last-child { 
+.scDefault .scTab:last-child {
 /* 	-webkit-border-top-right-radius: 4px;
 	border-top-right-radius: 4px;
 	-webkit-border-bottom-right-radius: 4px;
@@ -549,13 +552,13 @@
 
 	border-right:  1px solid #cfcfcf; */
 }
-.scDefault .scTab:active { 
+.scDefault .scTab:active {
 	/* border: 1px solid #D9D9DD;    */
 	background-color: #fff;
 /* 	    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
 	box-shadow:  0 1px 4px rgba(0, 0, 0, 0.2) inset; */
 }
-.scDefault .scTab.scNavSelected { 
+.scDefault .scTab.scNavSelected {
 		color: black;
 	/* border: 1px solid #999; */
 	/* text-shadow: 1px 1px #838383; */
@@ -582,7 +585,7 @@
 	display: block;
 	position: absolute;
 	cursor: pointer;
-	
+
 }
 .scDefault .scFullscreenIcn {
 	display: block;
@@ -625,7 +628,7 @@
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	background:url(rs-default.png) no-repeat 0 -32px;
-	
+
 	background-color: rgba(0,0,0,0.75);
 	-webkit-transition: .3s;
 	-moz-transition: .3s;
@@ -652,7 +655,7 @@
 	cursor: pointer;
 	-webkit-backface-visibility: hidden;
 	-webkit-transform: translateZ(0);
-	
+
 }
 .scDefault .scCloseVideoBtn.sciOSBtn {
 	top: -38px;
@@ -687,7 +690,7 @@
 	left:50%;
 	top:50%;
 	margin-left:-10px;
-	margin-top:-10px;	
+	margin-top:-10px;
 }
 
 

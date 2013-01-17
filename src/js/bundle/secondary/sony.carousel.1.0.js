@@ -14,7 +14,7 @@
 })(window);
 
 (function($, Modernizr, window, undefined) {
-    
+
     'use strict';
 
     if(!$.scModules) {
@@ -23,7 +23,7 @@
 
     var SonyCarousel = function (element, options) {
 
-        console.log('---->' , options);
+        // console.log('---->' , options);
 
         var ua = navigator.userAgent.toLowerCase(),
             i,
@@ -48,10 +48,10 @@
                 vendor = tempV;
             }
             tempV = tempV.toLowerCase();
-            
+
             if(!window.requestAnimationFrame) {
                 window.requestAnimationFrame = window[tempV+'RequestAnimationFrame'];
-                window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame'] 
+                window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame']
                                    || window[tempV+'CancelRequestAnimationFrame'];
             }
         }
@@ -67,17 +67,17 @@
                 return id;
             };
         }
-        if (!window.cancelAnimationFrame) 
+        if (!window.cancelAnimationFrame)
             window.cancelAnimationFrame = function(id) { clearTimeout(id); };
 
         self.slider = $(element);
         self.ev = $({}); // event object
         self._doc = $(document);
-        self.st = $.extend({}, $.fn.sonyCarousel.defaults, options); 
+        self.st = $.extend({}, $.fn.sonyCarousel.defaults, options);
 
 
         //this is where we now have access to the mode and the variation
-        console.log(self.st.mode + ' - ' + self.st.variation);
+        // console.log(self.st.mode + ' - ' + self.st.variation);
 
         switch(self.st.mode){
             case 'full':
@@ -103,7 +103,7 @@
 
 
         self._currAnimSpeed = self.st.transitionSpeed;
- 
+
         if(self.st.allowCSS3) {
             if((!isWebkit || self.st.allowCSS3OnWebkit) ) {
                 var bT = vendor + (vendor ? 'T' : 't' );
@@ -113,10 +113,10 @@
                 }
             }
         }
-        
+
         vendor = vendor.toLowerCase();
         self._vendorPref = '-'+vendor+'-';
-        
+
         self._slidesHorizontal = (self.st.slidesOrientation === 'vertical') ? false : true;
         self._reorderProp = self._slidesHorizontal ? 'left' : 'top';
         self._sizeProp = self._slidesHorizontal ? 'width' : 'height';
@@ -140,13 +140,13 @@
         self._idCount = 0;
         var returnVal;
         var ts = self.st.slides ? $(self.st.slides) : self.slider.children().detach() ;
-        
-        console.log(ts);
+
+        // console.log(ts);
 
         ts.each(function() {
             self._parseNode(this, true);
 
-            console.log('Parsing Slide: ' , this);
+            // console.log('Parsing Slide: ' , this);
         });
 
         if(self.st.randomizeSlides) {
@@ -172,7 +172,7 @@
         self._slideSize = ( self._slidesHorizontal ? self.slider.width() : self.slider.height() ) + self.st.slidesSpacing;
 
         self._preload = Boolean(self._numPreloadImages > 0);
-        
+
         if(self.numSlides <= 1) {
             self._loop = false;
         }
@@ -184,11 +184,11 @@
 
         self._idOffset = 0;
         self.slidesJQ = [];
-        
+
         for(i =0; i < self.numSlides; i++) {
             self.slidesJQ.push( $(createItemHTML(i)) );
         }
-        
+
         sliderHTML += '</div></div>';
 
         self.slider.html(sliderHTML);
@@ -210,7 +210,7 @@
         self._currentSlideContent = self._oldSlideContent = self.slidesJQ[self.currSlideId].find('.scContent');
 
 
-        console.log('Current Slide Content: ' , self._currentSlideContent instanceof $ , 'Old Slide Content: ' , self._oldSlideContent instanceof $);
+        // console.log('Current Slide Content: ' , self._currentSlideContent instanceof $ , 'Old Slide Content: ' , self._oldSlideContent instanceof $);
 
         if('ontouchstart' in window || 'createTouch' in document) {
             self.hasTouch = true;
@@ -222,7 +222,7 @@
         } else {
             self.hasTouch = false;
             self._lastItemFriction = 0.2;
-            
+
             if(self.st.sliderDrag) {
                 if (br.msie || br.opera) {
                     self._grabCursor = self._grabbingCursor = "move";
@@ -241,7 +241,7 @@
             self._upEvent = 'mouseup.sc';
             self._cancelEvent = 'mouseup.sc';
         }
-        
+
         if(self._useCSS3Transitions) {
 
             // some constants for CSS3
@@ -273,24 +273,24 @@
             } else {
                 self._slidesContainer[(self._vendorPref + self._TP)] = (self._vendorPref + 'transform');
             }
-            
+
 
         } else {
             self._xProp = 'left';
             self._yProp = 'top';
         }
 
-        
+
         // resize
         var resizeTimer;
-        $(window).on('resize.sc', function() {  
+        $(window).on('resize.sc', function() {
             if(resizeTimer) {
-                clearTimeout(resizeTimer);          
+                clearTimeout(resizeTimer);
             }
-            resizeTimer = setTimeout(function() { self.updateSliderSize(); }, 50);          
-        }); 
-        
-    
+            resizeTimer = setTimeout(function() { self.updateSliderSize(); }, 50);
+        });
+
+
         self.ev.trigger('scAfterPropsSetup'); // navigation (bullets, thumbs...) is created here
         self.updateSliderSize();
 
@@ -326,7 +326,7 @@
                 var hoverEl = container;
                 hoverEl.one("mousemove.arrowshover",function() {
                     self._arrowLeft.removeClass('scHidden');
-                    self._arrowRight.removeClass('scHidden');           
+                    self._arrowRight.removeClass('scHidden');
                 });
 
 
@@ -343,18 +343,18 @@
                             self._arrowRight.addClass('scHidden');
                         }
                     }
-                );  
-            }   
+                );
+            }
             self.ev.on('scOnUpdateNav', function() {
                 self._updateArrowsNav();
             });
             self._updateArrowsNav();
         }
-            
-        
+
+
         self._hasDrag = (!self.hasTouch && self.st.sliderDrag) ||  (self.hasTouch && self.st.sliderTouch);
         if( self._hasDrag ) {
-            self._slidesContainer.on(self._downEvent, function(e) { self._onDragStart(e); });   
+            self._slidesContainer.on(self._downEvent, function(e) { self._onDragStart(e); });
         } else {
             self.dragSuccess = false;
         }
@@ -373,8 +373,8 @@
                              return true;
                         }
                         self._mouseNext(e);
-                    } 
-                } 
+                    }
+                }
             });
         //}
 
@@ -384,7 +384,7 @@
     /**
      *
      * SonyCarousel Core Prototype
-     * 
+     *
      */
     SonyCarousel.prototype = {
         _mouseNext: function(e) {
@@ -409,7 +409,7 @@
                 } else if(self.numSlides < 2) {
                     self.st.loopRewind = self._loop = false;
                 }
-                
+
             }
             if(self._loop && n > 0) {
                 if(self.numSlides <= 4) {
@@ -418,7 +418,7 @@
                     if(self.st.numImagesToPreload > (self.numSlides - 1) / 2 ) {
                         n = Math.floor( (self.numSlides - 1) / 2 );
                     }
-                } 
+                }
             }
             self._numPreloadImages = n;
         },
@@ -440,7 +440,7 @@
             obj.contentAdded = false;
             self._idCount++;
 
-            
+
             if(!obj.hasCover) {
                 if(content.hasClass('scImg')) {
                     tempEl = content;
@@ -509,7 +509,7 @@
             var self = this;
             self.ev.trigger('scBeforeDestroy');
             self._doc.off('keydown.sckb ' + self._moveEvent +' '+ self._upEvent );
-            self._slidesContainer.on(self._downEvent, function(e) { self._onDragStart(e); });   
+            self._slidesContainer.on(self._downEvent, function(e) { self._onDragStart(e); });
             self.slider.data('sonyCarousel', '');
             if(remove) {
                 self.slider.remove();
@@ -533,16 +533,16 @@
 
             var id = self.currSlideId;
             var groupOffset;
-            
+
             var itemsOnSide = beforeTransition ? (Math.abs(self._prevSlideId - self.currSlideId) >= self.numSlides - 1 ? 0 : 1) : self._numPreloadImages;
-            var itemsToCheck = Math.min(2, itemsOnSide); 
-            
+            var itemsToCheck = Math.min(2, itemsOnSide);
+
             var updateAfter = false;
             var updateBefore = false;
             var tempId;
 
 
-            
+
             for(i = id; i < id + 1 + itemsToCheck; i++) {
                 tempId = getCorrectLoopedId(i);
                 item = self.slides[tempId];
@@ -565,7 +565,7 @@
                     groupOffset = Math.floor( (self._realId - (id - i)) / self.numSlides) * self.numSlides;
                     item = self.slides[tempId];
                     if(item) {
-                        updateItem(item, tempId);   
+                        updateItem(item, tempId);
                     }
                 }
             }
@@ -584,10 +584,10 @@
                 var distance = itemsOnSide;
                 var min = getCorrectLoopedId(id - itemsOnSide);
                 var max = getCorrectLoopedId(id + itemsOnSide);
-                
+
                 var nmin = min > max ? 0 : min;
-                
-                for (i = 0; i < numSlides; i++) { 
+
+                for (i = 0; i < numSlides; i++) {
                     if(min > max) {
                         if(i > min - 1) {
                             continue;
@@ -596,17 +596,17 @@
                     if(i < nmin || i > max) {
                          item = self.slides[i];
                         if(item && item.holder) {
-                            
+
                             //slideCode = self.slidesJQ[i];
-                            //if(typeof slideCode !== "string") { 
+                            //if(typeof slideCode !== "string") {
                                 item.holder.detach();
                                 item.isAdded = false;
                             //}
-                        }     
-                    }                               
-                }   
+                        }
+                    }
+                }
             }
-    
+
 
             function updateItem(item , i, slideCode) {
 
@@ -625,7 +625,7 @@
 
                     item.appendOnLoaded = false;
 
-                    
+
                     updatePos(i, item, slideCode);
                     addContent(i, item);
                     self._addBlockToContainer(item, slideCode, beforeTransition);
@@ -642,7 +642,7 @@
                     if(!beforeTransition) {
                         item.contentAdded = true;
                     }
-                    
+
                 }
             }
             function updatePos(i, item, slideCode) {
@@ -664,7 +664,7 @@
                 }
                 return index;
             }
-            
+
         },
 
         /**
@@ -720,7 +720,7 @@
                                 tempEl = content.find('.scImg');
                             }
                             if(tempEl.length && tempEl.is('a')) {
-                                
+
                                 if(isRoot) {
                                     content = $('<img class="scImg" src="'+slideObject.image+'" />');
                                 } else {
@@ -728,7 +728,7 @@
                                 }
                                 slideObject.content = content;
                             }
-                            
+
                             slideObject.iW = newImg.width;
                             if(slideObject.iW > 0) {
                                 slideObject.iH = newImg.height;
@@ -737,7 +737,7 @@
                                 self._resizeImage( slideObject );
                             }
                         } else {
-                            
+
                             if(!slideObject.isRendered && beforeTransition) {
                                 waitForTransition();
                                 return;
@@ -766,11 +766,11 @@
                     } else {
                         holder.html(content);
                     }
-                    
+
                     slideObject.isRendered = true;
 
-                    holder.find('a').off('click.sc').on('click.sc', function(e) {   
-                        if(self.dragSuccess) {                      
+                    holder.find('a').off('click.sc').on('click.sc', function(e) {
+                        if(self.dragSuccess) {
                             return false;
                         } else {
                             self._blockActions = true;
@@ -791,7 +791,7 @@
                 };
             };
 
-        
+
             if(currSlideObject.isLoaded) {
                 onImageLoaded(currSlideObject)();
             } else {
@@ -807,7 +807,7 @@
                     onImageLoaded(currSlideObject)();
                     return;
                 }
-                                
+
 
                 if(!currSlideObject.isLoading) {
                     loadImg($('<img/>'), currSlideObject.image);
@@ -837,9 +837,9 @@
                     }
                     loopUntilLoaded(currSlideObject.sizeType);
                 }
-                
+
             }
-            
+
             function loadImg(lImg, src) {
                 if(!beforeTransition) {
                     if(!currSlideObject.isLoading) {
@@ -849,11 +849,11 @@
                         }
 
                         setPreloader(holder);
-                        
+
                         currSlideObject.isLoading = true;
                         currSlideObject.imageLoader = lImg;
                         lImg.one('load error',onImageLoaded(currSlideObject)).attr('src', src);
-                        
+
                     }
                 } else {
                     waitForTransition();
@@ -867,7 +867,7 @@
                 } else {
                     return false;
                 }
-                return true;    
+                return true;
             }
             function waitForTransition() {
                 holder.isWaiting = true;
@@ -882,7 +882,7 @@
             var self = this;
             var holder = slideObject.holder;
             var bId = slideObject.id - self._newSlideId;
-            
+
             var visibleNearby = false;
             if(self._isMove && !dontFade && self.st.fadeinLoadedSlide  && ( bId === 0 || ( (visibleNearby || self._isAnimating || self._isDragging) && (bId === -1 || bId === 1) ) ) ) {
                 var content = slideObject.content;
@@ -898,7 +898,7 @@
             }
             slideObject.appendOnLoaded = false;
         },
-    
+
         _onDragStart:function(e, isThumbs) {
             var self = this,
                 point,
@@ -909,14 +909,14 @@
                  return true;
             }
 
-            
+
             if(!isThumbs) {
                 if(self._isAnimating) {
                     wasAnimating = true;
                     self._stopAnimation();
                 }
             }
-            
+
             if(self._isDragging) {
                 if(self.hasTouch) {
                     self._multipleTouches = true;
@@ -929,7 +929,7 @@
             }
 
             self._setGrabbingCursor();
-            
+
             if(self.hasTouch) {
                 //parsing touch event
                 var touches = e.originalEvent.touches;
@@ -938,19 +938,19 @@
                     if(touches.length > 1) {
                         self._multipleTouches = true;
                     }
-                }                   
-                else {  
-                    return;                     
+                }
+                else {
+                    return;
                 }
             } else {
-                point = e;                      
-                e.preventDefault();                 
+                point = e;
+                e.preventDefault();
             }
 
             self._isDragging = true;
             self._doc.on(self._moveEvent, function(e) { self._onDragMove(e, isThumbs); })
                         .on(self._upEvent, function(e) { self._onDragRelease(e, isThumbs); });
-            
+
             self._currMoveAxis = '';
             self._hasMoved = false;
             self._pageX = point.pageX;
@@ -964,7 +964,7 @@
 
             self._startTime = new Date().getTime();
             if(self.hasTouch) {
-                self._sliderOverflow.on(self._cancelEvent, function(e) { self._onDragRelease(e, isThumbs); });  
+                self._sliderOverflow.on(self._cancelEvent, function(e) { self._onDragRelease(e, isThumbs); });
             }
         },
         _renderMovement:function(point, isThumbs) {
@@ -990,7 +990,7 @@
                 } else if(mAxis === 'y' && deltaY !== 0) {
                     self._verDir = deltaY > 0 ? 1 : -1;
                 }
-                
+
                 var deltaPos = isHorizontal ? deltaX : deltaY;
                 if(!isThumbs) {
                     if(!self._loop) {
@@ -1014,10 +1014,10 @@
                 }
 
                 self._currRenderPosition = newPos;
-                
+
                 if (timeStamp - self._startTime > 200) {
                     self._startTime = timeStamp;
-                    self._accelerationPos = pointPos;                       
+                    self._accelerationPos = pointPos;
                 }
 
                 if(!isThumbs) {
@@ -1028,8 +1028,8 @@
                     self._setThumbsPosition(self._currRenderPosition);
                 }
             }
-            
-            
+
+
         },
         _onDragMove:function(e, isThumbs) {
             var self = this,
@@ -1038,13 +1038,13 @@
             if(self.hasTouch) {
                 if(self._lockAxis) {
                     return;
-                }   
+                }
                 var touches = e.originalEvent.touches;
                 if(touches) {
                     if(touches.length > 1) {
                         return;
                     } else {
-                        point = touches[0]; 
+                        point = touches[0];
                     }
                 } else {
                     return;
@@ -1052,7 +1052,7 @@
             } else {
                 point = e;
             }
-            
+
             if(!self._hasMoved) {
                 if(self._useCSS3Transitions) {
                     (!isThumbs ? self._slidesContainer : self._thumbsContainer).css((self._vendorPref + self._TD), '0s');
@@ -1063,12 +1063,12 @@
                         if(self._renderMoveEvent)
                             self._renderMovement(self._renderMoveEvent, isThumbs);
                     }
-                    
+
                 })();
             }
-                
+
             if(!self._checkedAxis) {
-                
+
                 var dir = (!isThumbs ? self._slidesHorizontal : self._thumbsHorizontal),
                     diff = (Math.abs(point.pageX - self._pageX) - Math.abs(point.pageY - self._pageY) ) - (dir ? -7 : 7);
 
@@ -1080,7 +1080,7 @@
                     } else if(self.hasTouch) {
                         self._completeGesture();
                         return;
-                    } 
+                    }
                     self._checkedAxis = true;
                 } else if(diff < -7) {
                     // ver movement
@@ -1090,13 +1090,13 @@
                     } else if(self.hasTouch) {
                         self._completeGesture();
                         return;
-                    } 
+                    }
                     self._checkedAxis = true;
                 }
                 return;
             }
-            
-            e.preventDefault(); 
+
+            e.preventDefault();
             self._renderMoveTime = new Date().getTime();
             self._renderMoveEvent = point;
         },
@@ -1138,16 +1138,16 @@
             self._doc.off(self._moveEvent).off(self._upEvent);
 
             if(self.hasTouch) {
-                self._sliderOverflow.off(self._cancelEvent);    
+                self._sliderOverflow.off(self._cancelEvent);
             }
-            
+
             self._setGrabCursor();
             if (!self._hasMoved && !self._multipleTouches) {
                 if(isThumbs && self._thumbsEnabled) {
                     var item = $(e.target).closest('.scNavItem');
                     if(item.length) {
                         self.goTo(item.index());
-                    }   
+                    }
                     return;
                 }
             }
@@ -1156,16 +1156,16 @@
                 return;
             }
             self.dragSuccess = true;
-            
+
             self._currMoveAxis = '';
 
-            
+
             function getCorrectSpeed(newSpeed) {
                 if(newSpeed < 100) {
                     return 100;
                 } else if(newSpeed > 500) {
                     return 500;
-                } 
+                }
                 return newSpeed;
             }
             function returnToCurrent(isSlow, v0) {
@@ -1174,7 +1174,7 @@
                     newDist = Math.abs(self._sPosition  - newPos);
                     self._currAnimSpeed = newDist / v0;
                     if(isSlow) {
-                        self._currAnimSpeed += 250; 
+                        self._currAnimSpeed += 250;
                     }
                     self._currAnimSpeed = getCorrectSpeed(self._currAnimSpeed);
                     self._animateTo(newPos, false);
@@ -1192,13 +1192,13 @@
                 loop = self._loop,
                 changeHash = false,
                 distOffset = 0;
-            
+
             totalMoveDist = Math.abs(pPos - sPos);
             accDist = pPos - axPos;
 
 
             duration = (new Date().getTime()) - self._startTime;
-            v0 = Math.abs(accDist) / duration;  
+            v0 = Math.abs(accDist) / duration;
 
             if(dir === 0 || axNumItems <= 1) {
                 returnToCurrent(true, v0);
@@ -1221,15 +1221,15 @@
 
             if(!isThumbs) {
                 if(sPos + snapDist < pPos) {
-                    if(dir < 0) {       
+                    if(dir < 0) {
                         returnToCurrent(false, v0);
-                        return;                 
+                        return;
                     }
                     self._moveTo('prev', getCorrectSpeed(Math.abs(self._sPosition  - (-self._realId - self._idOffset + 1) * self._slideSize) / v0), changeHash, true, true);
                 } else if(sPos - snapDist > pPos) {
-                    if(dir > 0) {       
+                    if(dir > 0) {
                         returnToCurrent(false, v0);
-                        return;                 
+                        return;
                     }
                     self._moveTo('next', getCorrectSpeed(Math.abs(self._sPosition  - (-self._realId - self._idOffset - 1) * self._slideSize) / v0), changeHash, true, true);
                 } else {
@@ -1238,7 +1238,7 @@
             } else {
                 var newPos = self._thumbsPosition;
                 var transitionSpeed;
-                
+
                 if(newPos > self._thumbsMinPosition) {
                     newPos = self._thumbsMinPosition;
                 } else if(newPos < self._thumbsMaxPosition) {
@@ -1281,13 +1281,13 @@
             pos = self._sPosition = pos;
 
             if(self._useCSS3Transitions) {
-                self._slidesContainer.css(self._xProp, self._tPref1 + ( self._slidesHorizontal ? (pos + self._tPref2 + 0) : (0 + self._tPref2 + pos) ) + self._tPref3 );        
+                self._slidesContainer.css(self._xProp, self._tPref1 + ( self._slidesHorizontal ? (pos + self._tPref2 + 0) : (0 + self._tPref2 + pos) ) + self._tPref3 );
             } else {
                 self._slidesContainer.css(self._slidesHorizontal ? self._xProp : self._yProp, pos);
             }
         },
-        
-        
+
+
         updateSliderSize: function(force) {
             var self = this,
                 newWidth,
@@ -1304,17 +1304,17 @@
                     if(newWidth != self.width) {
                         self.slider.css("height", newWidth * (ash / asw) );
                         newWidth = self.slider.width();
-                    }   
+                    }
                     newHeight = self.slider.height();
                 } else {
                     newHeight = self.slider.height();
                     if(newHeight != self.height) {
                         self.slider.css("width", newHeight * (asw / ash));
                         newHeight = self.slider.height();
-                    }       
+                    }
                     newWidth = self.slider.width();
                 }
-            
+
             } else {
                 newWidth = self.slider.width();
                 newHeight = self.slider.height();
@@ -1331,7 +1331,7 @@
                 self._wrapHeight = newHeight;
 
                 self.ev.trigger('scBeforeSizeSet');
-                
+
                 self._sliderOverflow.css({
                     width: self._wrapWidth,
                     height: self._wrapHeight
@@ -1339,7 +1339,7 @@
 
 
                 self._slideSize = (self._slidesHorizontal ? self._wrapWidth : self._wrapHeight) + self.st.slidesSpacing;
-                
+
 
                 self._imagePadding = self.st.imageScalePadding;
                 var item,
@@ -1353,7 +1353,7 @@
                     if(item && item.image && item.isLoaded) {
                         item.isRendered = false;
                         self._resizeImage(item);
-                    } 
+                    }
                 }
                 if(self._cloneHolders) {
                     for(i = 0; i < self._cloneHolders.length; i++) {
@@ -1362,7 +1362,7 @@
 
                     }
                 }
-                
+
                 self._updateBlocksContent();
 
                 if(self._isMove) {
@@ -1397,7 +1397,7 @@
         },
         /**
          * Adds slide
-         * @param  {jQuery object or raw HTML} htmltext 
+         * @param  {jQuery object or raw HTML} htmltext
          * @param  {int} index    (optional) Index where item should be added, last item removed of not specified
          */
         appendSlide: function(htmltext, index) {
@@ -1414,7 +1414,7 @@
                 self.currSlideId++;
             }
             self.ev.trigger('scOnAppendSlide', [parsedSlide, index]);
-            
+
             self._refreshSlides(index);
 
             if(index === self.currSlideId) {
@@ -1474,7 +1474,7 @@
             self._currHolder = self.slidesJQ[self.currSlideId];
 
             if(self.currSlideId >= self.numSlides) {
-                self.goTo(self.numSlides - 1);  
+                self.goTo(self.numSlides - 1);
             } else if(self.currSlideId < 0) {
                 self.goTo(0);
             }
@@ -1488,31 +1488,31 @@
                 clearTimeout(self._refreshSlidesTimeout);
             }
             self._refreshSlidesTimeout = setTimeout(function() {
-                self._setPosition( (-self._realId - self._idOffset) * self._slideSize); 
+                self._setPosition( (-self._realId - self._idOffset) * self._slideSize);
                 self._updateBlocksContent();
             }, 14);
             self.ev.trigger('scOnUpdateNav');
         },
-        _setGrabCursor:function() { 
+        _setGrabCursor:function() {
             var self = this;
             if(!self.hasTouch && self._isMove) {
                 if(self._grabCursor) {
                     self._sliderOverflow.css('cursor', self._grabCursor);
                 } else {
                     self._sliderOverflow.removeClass('grabbing-cursor');
-                    self._sliderOverflow.addClass('grab-cursor');   
+                    self._sliderOverflow.addClass('grab-cursor');
                 }
             }
         },
-        _setGrabbingCursor:function() {     
+        _setGrabbingCursor:function() {
             var self = this;
             if(!self.hasTouch && self._isMove) {
                 if(self._grabbingCursor) {
                     self._sliderOverflow.css('cursor', self._grabbingCursor);
                 } else {
                     self._sliderOverflow.removeClass('grab-cursor');
-                    self._sliderOverflow.addClass('grabbing-cursor');   
-                }   
+                    self._sliderOverflow.addClass('grabbing-cursor');
+                }
             }
         },
         next: function(notUserAction) {
@@ -1556,7 +1556,7 @@
                     return;
                 }
             }
-            
+
             if(self._isAnimating) {
                 self._stopAnimation();
                 inOutEasing = false;
@@ -1590,7 +1590,7 @@
 
             self._currHolder = self.slidesJQ[self.currSlideId];
 
-            
+
             var checkDist = 2;
             var next = Boolean(difference > 0);
             var absDiff = Math.abs(difference);
@@ -1618,7 +1618,7 @@
 
             self._updateBlocksContent(true);
             if(!fromSwipe) {
-                
+
                 delayed = true;
             }
 
@@ -1629,7 +1629,7 @@
 
             newPos = (-realId - self._idOffset) * self._slideSize;
 
-            
+
 
             if(delayed) {
                 //self._isWorking = true;
@@ -1642,8 +1642,8 @@
                 self._animateTo(newPos, type, false, inOutEasing);
                 self.ev.trigger('scOnUpdateNav');
             }
-            
-            
+
+
             function isSetToCurrent(testId) {
                 if(testId < 0) {
                     testId = self.numSlides + testId;
@@ -1655,7 +1655,7 @@
                 }
                 return true;
             }
-            
+
         },
         _updateArrowsNav: function() {
             var self = this,
@@ -1684,28 +1684,28 @@
             }
         },
         _animateTo:function(pos, dir,  loadAll, inOutEasing, customComplete) {
-        		
+
             var self = this,
                 moveProp,
                 oldBlock,
                 animBlock,
                 animObj = {};
-                
+
             if(isNaN(self._currAnimSpeed)) {
                 self._currAnimSpeed = 400;
-            } 
-            
+            }
+
             self._sPosition = self._currRenderPosition = pos;
-						
+
             self.ev.trigger('scBeforeAnimStart');
-						
-						
+
+
             if (self.st.beforeSlideChange) self.st.beforeSlideChange.call(self);
 
             //$(self._currContent.get(0)).trigger('slidestart.sonycarousel');
             self._currentSlideContent = self.slidesJQ[self.currSlideId].find('.scContent');
-            
-            console.log('ANIMATION STARTED' , self._currentSlideContent.attr('id'));
+
+            // console.log('ANIMATION STARTED' , self._currentSlideContent.attr('id'));
 
             self._currentSlideContent.trigger('slidestart.sc');
 
@@ -1716,7 +1716,7 @@
                     self._slidesContainer.animate(animObj, self._currAnimSpeed, /*'easeOutQuart'*/ inOutEasing ? self.st.easeInOut : self.st.easeOut);
                 } else {
                     oldBlock = self._oldHolder;
-                    animBlock = self._currHolder;                   
+                    animBlock = self._currHolder;
 
                     animBlock.stop(true, true).css({
                         opacity: 0,
@@ -1726,7 +1726,7 @@
                     self._currAnimSpeed = self.st.transitionSpeed;
                     animBlock.animate({opacity: 1}, self._currAnimSpeed, self.st.easeInOut);
 
-                    
+
                     clearTimeouts();
                     if(oldBlock) {
                         oldBlock.data('scTimeout', setTimeout(function() {
@@ -1738,29 +1738,29 @@
                         }, self._currAnimSpeed + 60) );
                     }
                 }
-                
+
             } else {
                 if(self._isMove) {
-                    
+
                         animObj[(self._vendorPref + self._TD)] = self._currAnimSpeed+'ms';
                         animObj[(self._vendorPref + self._TTF)] = inOutEasing ? $.scCSS3Easing[self.st.easeInOut] : $.scCSS3Easing[self.st.easeOut];
-                        
+
                         self._slidesContainer.css(animObj);
-                        
-                        console.log('Current animation block -------> ' , animObj);
+
+                        // console.log('Current animation block -------> ' , animObj);
 
                     setTimeout(function() {
                         self._setPosition(pos);
                     }, self.hasTouch ? 5 : 0);
-                    
+
 
                 } else {
                     //self._currAnimSpeed = 10
                     self._currAnimSpeed = self.st.transitionSpeed;
                     oldBlock = self._oldHolder;
-                    animBlock = self._currHolder;       
+                    animBlock = self._currHolder;
 
-                    console.log('Current animation block -------> ' , animBlock);
+                    // console.log('Current animation block -------> ' , animBlock);
 
                     if(animBlock.data('scTimeout')) {
                         animBlock.css('opacity', 0);
@@ -1860,14 +1860,14 @@
                     self._fadeZIndex++;
                 }
             }
-            
-            
+
+
         },
         // Thanks to @benpbarnett
         _getTransformProp:function(){
             var self = this,
-                transform = window.getComputedStyle(self._slidesContainer.get(0), null).getPropertyValue(self._vendorPref + 'transform'),           
-                explodedMatrix = transform.replace(/^matrix\(/i, '').split(/, |\)$/g);      
+                transform = window.getComputedStyle(self._slidesContainer.get(0), null).getPropertyValue(self._vendorPref + 'transform'),
+                explodedMatrix = transform.replace(/^matrix\(/i, '').split(/, |\)$/g);
             return parseInt(explodedMatrix[(self._slidesHorizontal ? 4 : 5)], 10);
         },
         _getCSS3Prop: function(pos, hor) {
@@ -1881,20 +1881,20 @@
                 self._fadeZIndex = 10;
             }
             self._isAnimating = false;
-            
+
             self.staticSlideId = self.currSlideId;
             self._updateBlocksContent();
 
             self._slidesMoved = false;
-            
+
             self.ev.trigger('scAfterSlideChange');
 
             //notify last slide of slide change
             self._oldSlideContent.trigger('slideend.sc');
 
-            console.log('ANIMATION COMPLETE' , self._oldSlideContent.attr('id'));
+            // console.log('ANIMATION COMPLETE' , self._oldSlideContent.attr('id'));
            	iQ.update();
-            
+
             if (self.st.afterSlideChange) self.st.afterSlideChange.call(self);
         },
         _doBackAndForthAnim:function(type, userAction) {
@@ -1904,7 +1904,7 @@
 
             if(self.numSlides === 0) {
                 return;
-            } 
+            }
             if(self.st.loopRewind) {
                 if(type === 'left') {
                     self.goTo(self.numSlides - 1, userAction);
@@ -1934,7 +1934,7 @@
                     self._animateTo(newPos + (type === 'left' ? moveDist : -moveDist),'', false, true, firstAnimComplete);
                 }
             }
-            
+
         },
         _resizeImage:function(slideObject, useClone) {
 
@@ -1998,23 +1998,23 @@
                     imgScaleMode = 'fit';
                 }
             }
-            if(imgScaleMode === 'fill' || imgScaleMode === 'fit') {     
+            if(imgScaleMode === 'fill' || imgScaleMode === 'fit') {
                 hRatio = containerWidth / baseImageWidth;
                 vRatio = containerHeight / baseImageHeight;
 
                 if (imgScaleMode  == "fill") {
-                    ratio = hRatio > vRatio ? hRatio : vRatio;                              
+                    ratio = hRatio > vRatio ? hRatio : vRatio;
                 } else if (imgScaleMode  == "fit") {
-                    ratio = hRatio < vRatio ? hRatio : vRatio;                      
+                    ratio = hRatio < vRatio ? hRatio : vRatio;
                 } else {
                     ratio = 1;
                 }
 
                 nWidth = Math.ceil(baseImageWidth * ratio, 10);
                 nHeight = Math.ceil(baseImageHeight * ratio, 10);
-            } else {                                
+            } else {
                 nWidth = baseImageWidth;
-                nHeight = baseImageHeight;      
+                nHeight = baseImageHeight;
             }
             if(imgScaleMode !== 'none') {
                 cssObj.width = nWidth;
@@ -2023,7 +2023,7 @@
                     img.find('.scImg').css({width: '100%', height:'100%'});
                 }
             }
-            if (imgAlignCenter) {     
+            if (imgAlignCenter) {
                 cssObj.marginLeft = Math.floor((containerWidth - nWidth) / 2) +  bMargin;
                 cssObj.marginTop = Math.floor((containerHeight - nHeight) / 2) +  bMargin;
             }
@@ -2033,7 +2033,7 @@
 
     $.scProto = SonyCarousel.prototype;
 
-    $.fn.sonyCarousel = function(options) {      
+    $.fn.sonyCarousel = function(options) {
         var args = arguments;
         return this.each(function(){
             var self = $(this);
@@ -2050,30 +2050,30 @@
         });
     };
 
-    $.fn.sonyCarousel.defaults = {    
+    $.fn.sonyCarousel.defaults = {
         slidesSpacing: 0,
         startSlideId: 0,
         loop: false,
         loopRewind: false,
         numImagesToPreload: 4,
         fadeinLoadedSlide: true,
-        slidesOrientation: 'horizontal', 
-        transitionType: 'move', 
+        slidesOrientation: 'horizontal',
+        transitionType: 'move',
         transitionSpeed: 600,
         controlNavigation: 'bullets',
-        controlsInside: true, 
+        controlsInside: true,
         arrowsNav: true,
         arrowsNavAutoHide: true,
         navigateByClick: true,
         randomizeSlides: false,
-        sliderDrag: true, 
+        sliderDrag: true,
         sliderTouch: true,
         keyboardNavEnabled: false,
         fadeInAfterLoaded: true,
 
         allowCSS3: true,
         allowCSS3OnWebkit: true,
-        
+
         addActiveClass: false,
         autoHeight: false,
 
@@ -2082,25 +2082,25 @@
 
         minSlideOffset: 10,
 
-        imageScaleMode:"fit-if-smaller",                 
-        imageAlignCenter:true,              
+        imageScaleMode:"fit-if-smaller",
+        imageAlignCenter:true,
         imageScalePadding: 4,
 
-        autoScaleSlider: false,               
-        
-        autoScaleSliderWidth: 800,       
-        autoScaleSliderHeight: 400,   
+        autoScaleSlider: false,
 
-        autoScaleHeight: true,      
+        autoScaleSliderWidth: 800,
+        autoScaleSliderHeight: 400,
+
+        autoScaleHeight: true,
 
         arrowsNavHideOnTouch: false,
         globalCaption: false,
 
         // deprecated callbacks
-        beforeSlideChange: null,     
-        afterSlideChange: null,       
-        beforeResize: null,         
-        afterResize: null           
+        beforeSlideChange: null,
+        afterSlideChange: null,
+        beforeResize: null,
+        afterResize: null
     }; /* default options end */
 
     $.scCSS3Easing = {
@@ -2140,7 +2140,7 @@
             //TODO: build opts object out of data attributes
 
             $.each($el.data() , function(key , value){
-                console.log('stripping datasets off $el: ' , key.toUpperCase() , ' === ' , $el.data(key));
+                // console.log('stripping datasets off $el: ' , key.toUpperCase() , ' === ' , $el.data(key));
 
                 opts[key] = value;
             });
@@ -2149,9 +2149,9 @@
 
         });
 
-        
+
     });
 
-        
+
 
 })(jQuery, Modernizr, window,undefined);

@@ -249,7 +249,7 @@ $default-transition-delay    : 0s;
 @mixin icon($iconType, $y, $name, $x, $w:false, $h:false, $hoverOffsetY:0, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
   .icon-#{$iconType}-#{$name} {
     background-position: $x $y;
-    
+
     @if ( $w != false ) {
     	@include size($h, $w);
     }
@@ -487,7 +487,7 @@ $default-transition-delay    : 0s;
 
 
 
-@mixin transition($transition1, $transition2:null, $transition3:null, $transition4:null, $transition5:null, $transition6:null, $transition7:null, $transition8:null) {
+@mixin transition($transition1:null, $transition2:null, $transition3:null, $transition4:null, $transition5:null, $transition6:null, $transition7:null, $transition8:null) {
 	@if ($transition8!=null){
 		-webkit-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
 		   // -moz-transition: $transition1, $transition2, $transition3, $transition4, $transition5, $transition6, $transition7, $transition8;
@@ -523,12 +523,17 @@ $default-transition-delay    : 0s;
 			 // -moz-transition: $transition1, $transition2;
 				 // -o-transition: $transition1, $transition2;
 						transition: $transition1, $transition2;
-	} @else {
+	} @else if ( $transition1 != null ) {
 		-webkit-transition: $transition1;
 			 // -moz-transition: $transition1;
 				 // -o-transition: $transition1;
 						transition: $transition1;
-	}
+	} @else {
+    -webkit-transition: all $transitionNormal $easeNormal;
+       // -moz-transition: all $transitionNormal $easeNormal;
+         // -o-transition: all $transitionNormal $easeNormal;
+            transition: all $transitionNormal $easeNormal;
+  }
 }
 @mixin transition-property($transitionProp1, $transitionProp2:null, $transitionProp3:null, $transitionProp4:null, $transitionProp5:null, $transitionProp6:null, $transitionProp7:null, $transitionProp8:null) {
 	@if ($transitionProp8!=null){
@@ -995,7 +1000,7 @@ $default-transition-delay    : 0s;
 		right:-9999px;
 		left: auto;
 	}
-	
+
 	@if ( $transition != false ){
 		// if $transition is false, don't apply any transition.
 		@if ( $transition == true ){

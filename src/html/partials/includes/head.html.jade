@@ -1,0 +1,18 @@
+---
+cacheable: true
+---
+!{locals.partial('includes/meta.html')}
+!{locals.partial('includes/fonts.html')}
+  
+l = {"locals": locals}
+if 'debug' == locals.getEnvironments()
+  link(rel="stylesheet", href="css/bootstrap.css")
+  link(rel="stylesheet", href="css/responsive.css")
+  
+  for name in locals.modulescss()
+    hrf = "css/modules/" + name.replace(/.scss/g, '.css')
+      link(rel="stylesheet", href= hrf)
+else
+  !{locals.partial('includes/css_deploy.html', l)}  
+
+!{locals.partial('includes/js_head.html')}
