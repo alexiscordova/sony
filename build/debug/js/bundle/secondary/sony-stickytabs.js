@@ -56,7 +56,7 @@
       self.$window.on('resize.stickytabs', $.proxy( self._onResize, self ));
 
       // Decide which tabs to make
-      if ( Modernizr.mq('(max-width: 767px)') ) {
+      if ( Modernizr.mq( self.mq ) ) {
         self.setup();
       } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
         self.setupCarousel();
@@ -74,7 +74,7 @@
       self.windowHeight = self.$window.height();
 
       // Phone
-      if ( Modernizr.mq('(max-width: 767px)') ) {
+      if ( Modernizr.mq( self.mq ) ) {
         if ( self.isTabCarousel ) {
           self.teardownCarousel();
         }
@@ -119,29 +119,27 @@
 
       // Initialize new tab for sticky tabs
       if ( self.isStickyTabs ) {
-        console.log('tab shown, removing style attribute of all tabs');
         self._onTabSelected();
       }
     },
 
     _onTabSelected : function() {
-      var self = this;
+      var self = this,
+          css = { position: 'absolute' };
 
-      console.log('onTabSelected: StickyTabs');
       self.$tabs.removeAttr('style');
-      self.lastSL = self.$tabsWrap.scrollLeft();
-      self.data = null;
 
       // Get offset from left side
-      self.tabOffset = self.$activeTab.offset().left;
+      // jQuery's offset is unreliable because Webkit includes transforms and Gecko doesn't
+      // in offset calculations http://bugs.jquery.com/ticket/8362
+      // self.tabOffset = self.$activeTab.position().left;
+      self.tabOffset = self.$activeTab[0].offsetLeft + self.scroller.x;
+      self.overlap = null;
+      self.lastX = null;
 
       // Set initail css on active tab
-      self.$activeTab.css({
-        position: 'absolute',
-        left: self._getBounded( self.tabOffset )
-      });
-
-      console.log('new sticky tab set', self._getBounded( self.tabOffset ), self.tabOffset );
+      css[ self.prop ] = self._getX( self._getBounded( self.tabOffset ) );
+      self.$activeTab.css(css);
 
       // Add a margin to the next (or previous if it's the last tab) tab because
       // the active one is positioned absolutely, taking up no space
@@ -150,93 +148,140 @@
       } else {
         self.$activeTab.prev().css('marginRight', self.tabWidth);
       }
+
+      // We've manipulated the DOM, refresh iScroll
+      if ( self.scroller ) {
+        self.scroller.refresh();
+      }
+
+      self.animateTab();
+    },
+
+    // We know the offset we want within the container, but the container is translated too
+    // This normalizes that value
+    _getX : function( x ) {
+      return [ this.valStart, x, this.valEnd ].join('');
     },
 
     animateTab : function() {
-      console.log('animateTab: StickyTabs');
+      console.group('animateTab: StickyTabs');
       var self = this,
-          sl = self.$tabsWrap.scrollLeft(),
-          distance = self.lastSL - sl, // last scroll left - current scoll left = distance since last _animateTab call
-          tmpX = self.data ? self.data.overlap + distance : self.tabOffset + distance,
-          newX = self._getBounded( tmpX ); // contrain the tab to 0 and the scrollwidth
+          x = self.scroller.x * -1,
 
-      // If the value has been constrained, save the overlap
-      if ( newX !== tmpX ) {
-        self.data = {
-          overlap: tmpX
-        };
-      } else {
-        self.data = null;
+          // last x - current x = distance since last _animateTab call
+          distance = self.lastX ? self.lastX - x : 0,
+
+          // If there is an overlap, we need to use that intead of the tab offset
+          offset = self.overlap ? self.overlap : self.tabOffset,
+          tmpX = offset + distance,
+
+          // contrain the tab to 0 and the viewport width
+          newX = self._getBounded( tmpX ),
+          value = self._getX( newX + x );
+
+      if ( self.scroller.moved && !self.isClickCanceled ) {
+        // Prevent tab from being clicked. Passing false as a shorthand for function(){ return false; }
+        self.$tabs.on('click.stickytabs', false);
+        self.isClickCanceled = true;
       }
 
-      self.lastSL = sl;
+      // If the value has been constrained, save the overlap
+      // self.overlap = newX !== tmpX ? tmpX : null;
+      self.overlap = tmpX;
+
+      console.log('iscroll:', self.scroller);
+      console.log('x:', x);
+      console.log('lastX:', self.lastX);
+      console.log('distance:', distance);
+      console.log('tabOffset:', self.tabOffset);
+      console.log('overlap:', self.overlap);
+      console.log('tmpX:', offset, '+', distance ,'=', tmpX);
+      console.log('newX:', newX);
+      console.log( self.prop, value );
+
+      self.lastX = x;
       self.tabOffset = newX;
 
-      self.$activeTab.css('left', self.tabOffset);
+      self.$activeTab.css( self.prop, value );
+
+      console.groupEnd();
     },
 
     setup : function() {
       var self = this;
 
-      // Problems with scrollerModule + stickyTabs
-        // Is there a callback every frame?
-        // Clicking and dragging results in changing tabs
-
       console.log('setup: StickyTabs');
       self.isStickyTabs = true;
-      self.$tabsWrap
-        .on('scroll', $.proxy( self.animateTab, self ))
-        .addClass('sticky');
-      // self.$tabsContainer.scrollerModule({
-      //   contentSelector: '.tabs',
-      //   itemElementSelector: '.tab',
-      //   mode: 'free',
-      //   lastPageCenter: false,
-      //   extraSpacing: 0,
+      self.$tabsWrap.addClass('sticky');
 
-      //   //iscroll props get mixed in
-      //   iscrollProps: {
-      //     snap: false,
-      //     hScroll: true,
-      //     vScroll: false,
-      //     hScrollbar: false,
-      //     vScrollbar: false,
-      //     momentum: true,
-      //     bounce: true,
-      //     onAnimationEnd: function() {
-      //       console.log('onAnimationEnd');
-      //     },
+      self.$tabsContainer.scrollerModule({
+        contentSelector: '.tabs',
+        itemElementSelector: '.tab',
+        mode: 'free',
+        centerItems: false,
 
-      //     onScrollStart: function() {
-      //       console.log('onScrollStart');
-      //     },
-      //     onBeforeScrollMove: function() {
-      //       console.log('onBeforeScrollMove');
-      //     },
-      //     onScrollMove: function() {
-      //       console.log('onScrollMove');
-      //     },
-      //     onBeforeScrollEnd: function() {
-      //       console.log('onBeforeScrollEnd');
-      //     },
-      //     onScrollEnd: function() {
-      //       console.log('onScrollEnd');
-      //     },
-      //     onTouchEnd: function() {
-      //       console.log('onTouchEnd');
-      //     }
-      //   }
-      // });
+        //iscroll props get mixed in
+        iscrollProps: {
+          snap: false,
+          hScroll: true,
+          vScroll: false,
+          hScrollbar: false,
+          vScrollbar: false,
+          momentum: true,
+          bounce: true,
+          onScrollStart: function() {
+            self.isClickCanceled = false;
+            self.$tabs.off('.stickytabs');
+            self.animateTab();
+          },
+          onScrollMove: function() {
+            self.animateTab();
+          },
+          onScrollEnd: function() {
+            self.animateTab();
+          },
+          onTouchEnd: function() {
+            // self.animateTab();
+          },
+          onAnimate: function() {
+            self.animateTab();
+          },
+          onAnimationEnd: function() {
+            self.animateTab();
+          }
+        }
+      });
+
+      self.scroller = self.$tabsContainer.data('scrollerModule').scroller;
+
       self._onTabSelected();
     },
 
+    // Removes sticky tabs, but still listens for window resize
     teardown : function() {
       var self = this;
 
       console.log('teardown: StickyTabs');
       self.$tabsWrap.off('scroll').removeClass('sticky');
       self.$tabs.removeAttr('style');
+      self.lastX = 0;
       self.isStickyTabs = false;
+    },
+
+    // Completely removes sticky tabs
+    destroy : function() {
+      var self = this;
+
+      self.teardown();
+
+      // New tab shown event
+      self.$tabs.off('shown');
+
+      // Window resize
+      self.$window.off('.stickytabs');
+
+      // Remove saved data
+      self.$container.removeData('stickyTabs');
     },
 
     setupCarousel : function() {
@@ -314,6 +359,7 @@
   // Overrideable options
   $.fn.stickyTabs.options = {
     tabsWrapSelector: '.tabs',
+    mq: '(max-width: 767px)',
     tabOffset: 0,
     initialTabWidth: 0,
     tabWidth: 0,
@@ -321,13 +367,16 @@
     windowWidth: 0,
     windowHeight: 0,
     data: null,
-    lastSL: null,
+    lastX: null,
     isStickyTabs: false,
     toOffset: 0
   };
 
   // Not overrideable
   $.fn.stickyTabs.settings = {
+    prop: Modernizr.csstransforms ? 'transform' : 'left',
+    valStart : Modernizr.csstransforms ? 'translate(' : '',
+    valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'
   };
 
 }(jQuery, Modernizr, window));

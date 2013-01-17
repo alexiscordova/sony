@@ -1,5 +1,5 @@
 // ------------ Ter ------------
-// Module: 
+// Module:
 // Version: 1.0
 // Modified: 2012-12-11 by Telly Koosis, Tyler Madison
 // Dependencies: jQuery 1.7+, Modernizr, iScroll v4.2.5
@@ -10,7 +10,7 @@
 
 
 	$(window).load(function(){
-		
+
 		return; //this was just a test we dont want it running
 
 		var $blocks = $('.content1 .block');
@@ -19,7 +19,7 @@
 
 		$blocks.each(function(){
 			$(this).css('backgroundColor' , '#'+Math.floor(Math.random()*16777215).toString(16));
-		});		
+		});
 
 		$blocks2.each(function(){
 			$(this).css('backgroundColor' , '#'+Math.floor(Math.random()*16777215).toString(16));
@@ -27,13 +27,13 @@
 		$blocks3.each(function(){
 			//$(this).css('backgroundColor' , '#'+Math.floor(Math.random()*16777215).toString(16));
 		});
-		
+
 		$('.content1').css('width' , $blocks.eq(0).outerWidth(true) * $blocks.length );
 		$('.content2').css('width' , $blocks2.eq(0).outerWidth(true) * $blocks2.length );
 		$('.content3').css('width' , $blocks3.eq(0).outerWidth(true) * $blocks3.length );
 
-		var myScroll = new iScroll('wrapper', 
-			{ 
+		var myScroll = new IScroll('wrapper',
+			{
 				hScroll: true,
 				vScroll: false,
 				hScrollbar: false,
@@ -42,8 +42,8 @@
 				bounce: true
 			});
 
-		var myScroll2 = new iScroll('wrapper2', 
-			{ 
+		var myScroll2 = new IScroll('wrapper2',
+			{
 				snap: 'div',
 				hScroll: true,
 				vScroll: false,
@@ -53,8 +53,8 @@
 				bounce: true
 			});
 
-		var myScroll3 = window._s = new iScroll('wrapper3', 
-			{ 
+		var myScroll3 = window._s = new IScroll('wrapper3',
+			{
 				snap: true,
 				hScroll: true,
 				vScroll: false,
@@ -122,7 +122,7 @@
 
 				console.log("Building new page »", [startIndx , endIndx] ,$elemsInPage.length);
 
-			}	
+			}
 
 			//some vars
 			for (i = 0 ; i < numPages; i ++){
@@ -139,11 +139,11 @@
 		}
 
       var resizeTimer;
-      $(window).on('resize onorientationchange', function(e) {  
+      $(window).on('resize onorientationchange', function(e) {
           if(resizeTimer) {
-              clearTimeout(resizeTimer);          
+              clearTimeout(resizeTimer);
           }
-          resizeTimer = setTimeout(function() { 
+          resizeTimer = setTimeout(function() {
 
           	paginate('#wrapper3');
 
@@ -153,14 +153,14 @@
 
           	myScroll3.scrollToPage(0, 0, 200);
 
-          }, 50);          
-      });	
+          }, 50);
+      });
 
-      $(this).trigger('resize');	
+      $(this).trigger('resize');
 
 	});
 
 
-	
+
 
 })(jQuery , window , undefined , Modernizr);

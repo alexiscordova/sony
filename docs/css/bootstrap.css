@@ -8336,6 +8336,111 @@ a.label:hover, a.badge:hover {
   box-shadow: none;
 }
 
+/* line 6, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs {
+  position: relative;
+  background-color: #e4e7eb;
+}
+/* line 10, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tabs-container {
+  position: relative;
+  overflow: hidden;
+}
+/* line 16, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tabs {
+  z-index: 1;
+  height: 100px;
+}
+/* line 21, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: inline-block;
+  width: 120px;
+  height: 100px;
+  cursor: pointer;
+  -webkit-box-shadow: 1px 0 0 white;
+  -moz-box-shadow: 1px 0 0 white;
+  box-shadow: 1px 0 0 white;
+  -webkit-transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
+  transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
+}
+/* line 34, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab:focus, .sticky-tabs .tab:hover {
+  background-color: #f3f4f6;
+}
+/* line 39, ../../src/css/scss/_components/_sticky-tabs.scss */
+.no-touch .sticky-tabs .tab:active, .sticky-tabs .tab.active {
+  background-color: white;
+  box-shadow: 0 3px 0 white, 0 0 4px 1px rgba(0, 0, 0, 0.15);
+}
+/* line 47, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab.active {
+  z-index: 2;
+}
+/* line 53, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab-nav-btns {
+  display: none;
+}
+/* line 59, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab-nav {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 100%;
+  background: #f2f2f2;
+  cursor: pointer;
+}
+/* line 70, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab-nav-next {
+  right: 0;
+  left: auto;
+}
+/* line 76, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab-nav:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -2px;
+  margin-left: -2px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #049cdb;
+  border-bottom: 5px solid transparent;
+}
+/* line 91, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab-nav-next:before {
+  border-top: 5px solid transparent;
+  border-right: none;
+  border-left: 5px solid #049cdb;
+  border-bottom: 5px solid transparent;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  /* line 104, ../../src/css/scss/_components/_sticky-tabs.scss */
+  .sticky-tabs .tabs {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: visible;
+    -webkit-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  /* line 113, ../../src/css/scss/_components/_sticky-tabs.scss */
+  .sticky-tabs .tabs-container {
+    overflow: hidden;
+  }
+  /* line 117, ../../src/css/scss/_components/_sticky-tabs.scss */
+  .sticky-tabs .tab-nav-btns {
+    display: block;
+  }
+}
 /* line 7, ../../src/css/scss/_base/_utilities.scss */
 .pull-right {
   float: right;
