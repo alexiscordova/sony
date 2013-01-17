@@ -186,8 +186,8 @@
       }
 
       // If the value has been constrained, save the overlap
-      // self.overlap = newX !== tmpX ? tmpX : null;
-      self.overlap = tmpX;
+      self.overlap = newX !== tmpX ? tmpX : null;
+      // self.overlap = tmpX;
 
       console.log('iscroll:', self.scroller);
       console.log('x:', x);

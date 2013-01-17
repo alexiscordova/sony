@@ -107,32 +107,38 @@
 
     _initStickyTabs : function() {
       var self = this,
-          $tabs = self.$specItems.find('.spec-column-header').clone();
+          $headers = self.$specItems.find('.spec-column-header').clone(),
+          $btns = $();
 
       self.isStickyTabs = true;
       self.$specItems.slice(1).addClass('tab-pane fade off-screen');
       self.$specItems.slice(0, 1).addClass('tab-pane fade in active');
 
       // Make the column headers into tabs
-      $tabs
-        .removeClass('spec-column-header hidden-phone')
-        .addClass('tab')
-        .each(function(i) {
-          var $tab = $(this);
+      $headers.each(function(i) {
+        var $header = $(this),
+            $btn = $('<button/>', {
+              html : $header.contents()
+            });
 
-          // Make the first tab active
-          if ( i === 0 ) {
-            $tab.addClass('active');
-          }
+        // Make the first tab active
+        if ( i === 0 ) {
+          $btn.addClass('active');
+        }
 
-          // Set the data attributes
-          $tab.attr({
+        // Set the data attributes
+        $btn
+          .attr({
             'data-target': 'spec-tab' + i,
             'data-toggle': 'tab'
-          });
+          })
+          .removeClass('spec-column-header hidden-phone')
+          .addClass('tab');
 
-        })
-        .appendTo( self.$tabStrip.find('.tabs') );
+        $btns = $btns.add( $btn );
+      });
+
+      $btns.appendTo( self.$tabStrip.find('.tabs') );
 
       self.$tabStrip.stickyTabs({
         mq: self.mobileBreakpoint
