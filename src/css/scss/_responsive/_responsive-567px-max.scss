@@ -16,22 +16,12 @@
 
 // mobile 6col grid
 @media (max-width: 567px) {
-
-  .container.m-grid-at-567 {
-    width: $mobileContainerWidth480;
-  }
-  .container.m-grid-at-567,
-  .m-grid-at-567 {
-    @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m");
-   
-    .grid {
-      width: $mobileGridWidth480;
-    }
-  }
   
+  @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid-at-567");
   @include no-grid(".no-grid-at-567");
 
-  .container.m-full-bleed-at-567{
+  .container.full-bleed-at-567,
+  .grid.full-bleed-at-567{
     width:100%;
   }
   

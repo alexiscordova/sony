@@ -17,24 +17,21 @@
 // mobile 6col grid
 @media (max-width: 479px) {
   
-  .container.m-grid-at-479 {
+
+  .container {
     width: $mobileContainerWidth320;
   }
-  .container.m-grid-at-479,
-  .m-grid-at-479 {
-    @include grid-fluid($mobileGridColumnWidth320, $mobileGridGutterWidth320, $mobileGridColumns, "m");
-   
-    .grid {
-      width: $mobileGridWidth320;
-    }
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
+    width: $mobileGridWidth320;
   }
-  
+
+  @include grid-fluid($mobileGridColumnWidth320, $mobileGridGutterWidth320, $mobileGridColumns, "m", ".m-grid-at-479");
   @include no-grid(".no-grid-at-479");
 
-  .container.m-full-bleed-at-479{
-    width:100%;
-  }
-  .grid.m-full-bleed-at-479{
+  .container.full-bleed-at-479,
+  .grid.full-bleed-at-479{
     width:100%;
   }
 } // max-width: 479px

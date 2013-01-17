@@ -9,6 +9,9 @@
 // under normal conditions, the 768 grid will flex up to 979px and down to 568px.
 @media (min-width: 568px) and (max-width: 979px) {
 
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
   .container {
     width: $fluidContainerWidth768;
   }
@@ -17,6 +20,7 @@
   .slimgrid5, .grid5 {
     width: $fluidGridWidth768;
   }
+  @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
 
 
   // Fixed grid -- Looks like the px-width-grid is just for docs. Don't really care about mobile/etc so we'll just leave these here.
@@ -29,20 +33,17 @@
   @include grid-core($gridColumnWidth768, $gridGutterWidth768);
   // Input grid
   @include grid-input($gridColumnWidth768, $gridGutterWidth768);
-}
+  
+} // (min-width: 768px) and (max-width: 979px)
 
-@media (min-width: 768px) and (max-width: 979px) {
-  @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
-}
-
-// implement the default (desktop) grid if neither override classes are present.
+// implement the default (desktop) grid if no override class is present.
 @media (min-width: 568px) and (max-width: 767px) {
-  .container:not(.no-grid-at-767):not(.m-grid-at-767) .grid,
-  .container:not(.no-grid-at-767):not(.m-grid-at-767) .slimgrid{
-    @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
+    &:not(.no-grid-at-767):not(.m-grid-at-767){
+      @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
+    }
   }
-} // (min-width: 568px) and (max-width: 979px) 
-
-
-
+} // (min-width: 568px) and (max-width: 767px) 
 

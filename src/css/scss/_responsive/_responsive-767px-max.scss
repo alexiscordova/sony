@@ -16,30 +16,22 @@
 
 // mobile 6col grid
 @media (max-width: 767px) {
-
-  .container.m-grid-at-767{
+  
+  // these need to be the same for all grids, so everything lines up regardless of what grid is used.
+  .container {
     width: $mobileContainerWidth480;
   }
-
-  .container.m-grid-at-767,
-  .m-grid-at-767 {
-    @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m");
-   
-    .grid{
-      width: $mobileGridWidth480;
-    }
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
+    width: $mobileGridWidth480;
   }
 
+  @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid-at-767");
   @include no-grid(".no-grid-at-767");
-  
 
-
-  .container.m-full-bleed,
-  .container.m-full-bleed-at-767{
-    width:100%;
-  }
-  .grid.m-full-bleed,
-  .grid.m-full-bleed-at-767{
+  .container.full-bleed-at-767,
+  .grid.full-bleed-at-767{
     width:100%;
   }
 
