@@ -3,31 +3,34 @@
 // Module: MarketingConvergence Module
 // Version: 0.1
 // Modified: 01/16/2013
-// Dependencies: jQuery 1.7+, Modernizr
+// Dependencies: jQuery 1.7+
 // -------------------------------------------------------------------------
 
-(function($, Modernizr, window) {
+(function($) {
 
     'use strict';
 
     // Start module
     var MarketingConvergenceModule = function(element, options){
+
+      var self = this;
+
       self.init(element);
-    }
+    };
 
     MarketingConvergenceModule.prototype = {
 
-      constructor: UXMarketingConvergenceModule,
+      constructor: MarketingConvergenceModule,
 
-      init : function( element ) {
-
-      },
-
-      setup : function(){
+      init: function(element) {
 
       },
 
-      teardown : function(){
+      setup: function(){
+
+      },
+
+      teardown: function(){
 
       }
 
@@ -42,7 +45,7 @@
 
         // If we don't have a stored marketingConvergenceModule, make a new one and save it
         if ( !marketingConvergenceModule ) {
-            marketingConvergenceModule = new TertiaryModule( self, options );
+            marketingConvergenceModule = new MarketingConvergenceModule( self, options );
             self.data( 'marketingConvergenceModule', marketingConvergenceModule );
         }
 
@@ -68,4 +71,4 @@
 
     } );
 
- })(jQuery, Modernizr, window);
+ })(jQuery);
