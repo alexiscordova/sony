@@ -1,0 +1,10 @@
+<% if @data.background == "true" :%>
+<div class="hero-image image-module iq-img <%- @data.classes %>" alt="<%- @data.alt %>" data-src="<%- @data.src %>" data-base="<%- @data.base %>"></div>
+<% else :%>
+<div class="image-module">
+  <img class="iq-img <%- @data.classes %>" alt="<%- @data.alt %>" data-src="<%- @data.src %>" data-base="<%- @data.base %>">
+    <noscript>
+        <img src="<%- @data.noscriptsrc %>">
+    </noscript>
+</div>
+<% end %>

@@ -17,7 +17,7 @@
             $targetPlaceholder = this.getAttribute("data-target");
             $targetPlaceholder = document.getElementById($targetPlaceholder);
 
-            /* Need to replace single quote by a double quote (single quote use because of Jade template)*/
+            /* Need to replace single quote by a double quote (single quote used because of Jade template)*/
             videoProp = $targetPlaceholder.getAttribute("data-media").replace(/'/g,'"');
             videoProp = $.parseJSON(videoProp || '{}');
 

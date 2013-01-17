@@ -10,7 +10,10 @@ head
   !{partial('includes/head.html.jade', l)}
 
 body
-  e = {"locals":locals, "data":data('related_products/default.json')}
-  !{partial('modules/related_products.html.jade', e)}
+
+	h6 5-up Teal Color Layout:
+  	e = {"locals":locals, "data":data('related_products/5up-teal-color.json')}
+  	!{partial('modules/related_products.html.jade', e)}
+ 	hr
 
   !{partial('includes/foot.html.jade', l)}
