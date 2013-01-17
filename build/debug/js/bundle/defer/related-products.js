@@ -13,7 +13,7 @@
 })(window);
 
 (function($, Modernizr, window, undefined) {
-    
+
     'use strict';
 
     if(!$.rpModules) {
@@ -39,12 +39,12 @@
           $.extend(self , $.fn.relatedProducts.defaults , options);
 
       self.isIPAD = ua.match(/(ipad)/);
-      self.isIPHONE = ua.match(/(iphone)/);   
+      self.isIPHONE = ua.match(/(iphone)/);
 
       // feature detection, some ideas taken from Modernizr
       var tempStyle = document.createElement('div').style,
           vendors = ['webkit','Moz','ms','O'],
-          vendor = '', 
+          vendor = '',
           lastTime = 0,
           tempV;
 
@@ -54,10 +54,10 @@
               vendor = tempV;
           }
           tempV = tempV.toLowerCase();
-          
+
           if(!window.requestAnimationFrame) {
               window.requestAnimationFrame = window[tempV+'RequestAnimationFrame'];
-              window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame'] 
+              window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame']
                                  || window[tempV+'CancelRequestAnimationFrame'];
           }
       }
@@ -79,13 +79,13 @@
       }
 
       var bT = vendor + (vendor ? 'T' : 't' );
-      
+
       self.useCSS3Transitions = ( (bT + 'ransform') in tempStyle ) && ( (bT + 'ransition') in tempStyle );
-      
+
       if(self.useCSS3Transitions) {
           self.use3dTransform = (vendor + (vendor ? 'P' : 'p'  ) + 'erspective') in tempStyle;
       }
-        
+
       vendor = vendor.toLowerCase();
 
       self.vendorPrefix = '-' + vendor + '-';
@@ -98,7 +98,7 @@
         $item.data('slide' , $item.parent());
 //        console.log("My Slide Parent »",$item);
       });
-   
+
 
       self.numSlides = self.$slides.length;
       self.$container = self.$el.find('.rpContainer').eq(0);
@@ -107,7 +107,7 @@
       self.currentId = 0;
       self.slidePosition = 0;
       self.animationSpeed = 400; //ms
-      self.slides = []; 
+      self.slides = [];
       self.slideCount = 0;
       self.isFreeDrag = false; //MODE: TODO
       self.currentContainerWidth = 0;
@@ -126,7 +126,7 @@
       self.isMobileMode = false;
       self.isDesktopMode = false;
       self.isTabletMode = false;
-      
+
       self.accelerationPos = 0;
       self.maxWidth = parseInt(self.sliderOverflow.parent().css('maxWidth'), 10);
       self.maxHeight = parseInt(self.sliderOverflow.parent().css('maxHeight'), 10);
@@ -157,7 +157,7 @@
       } else {
           self.hasTouch = false;
           self.lastItemFriction = 0.2;
-          
+
           //do we need this?
           if (browser.msie || browser.opera) {
               self.grabCursor = self.grabbingCursor = "move";
@@ -168,9 +168,9 @@
               self.grabCursor = "-webkit-grab";
               self.grabbingCursor = "-webkit-grabbing";
           }
-          
+
           //t.setGrabCursor(); //TODO: figure out cursor stuff on drag / touch
-          
+
           self.downEvent = 'mousedown.rp';
           self.moveEvent = 'mousemove.rp';
           self.upEvent = 'mouseup.rp';
@@ -200,46 +200,46 @@
           }
 
           self.$container[(self.vendorPrefix + self.TP)] = (self.vendorPrefix + 'transform');
-                  
+
       } else {
           self.xProp = 'left';
           self.yProp = 'top';
       }
 
       //init dragging , slideshow
-      self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });   
+      self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
 
 
       self.tapOrClick = function(){
-        return self.hasTouch ? 'touchend' : 'click'; 
+        return self.hasTouch ? 'touchend' : 'click';
       }
 
       // resize // manual throttle / debounce
       var resizeTimer;
-      $(window).on('resize', function() {  
+      $(window).on('resize', function() {
           if(resizeTimer) {
-              clearTimeout(resizeTimer);          
+              clearTimeout(resizeTimer);
           }
-          resizeTimer = setTimeout(function() { 
+          resizeTimer = setTimeout(function() {
             self.checkForBreakpoints();
             self.updateSliderSize();
             self.updateSlides();
 
             $('.paddle').hide();
 
-          }, self.throttleTime);          
+          }, self.throttleTime);
       });
 
-      //bind arrows 
+      //bind arrows
 
       $('.rpArrow').on(self.tapOrClick() , function(){
-        
+
         if($(this).hasClass('right')){
           console.log('clicked - right');
           self.currentId ++;
           if(self.currentId >= self.$slides.length){
             self.currentId = self.$slides.length - 1;
-          }    
+          }
         }else{
           console.log('clicked - left');
            self.currentId --;
@@ -255,7 +255,7 @@
 
      function createNavigation(){
         var itemHTML = '<div class="rpNavItem rpBullet"><span></span></div>';
-        
+
         self.controlNavEnabled = true;
         self.$container.addClass('rpWithBullets');
         var out = '<div class="rpNav rpBullets">';
@@ -275,11 +275,11 @@
             self.currentId = item.index();
             self.moveTo();
           }
-        }); 
+        });
 
 
-        self.onNavUpdate(); 
-        self.ev.on('rpOnUpdateNav' , $.proxy(self.onNavUpdate , self));     
+        self.onNavUpdate();
+        self.ev.on('rpOnUpdateNav' , $.proxy(self.onNavUpdate , self));
       }
 
       if(self.navigationControl.toLowerCase() === 'bullets'){
@@ -291,7 +291,7 @@
       function createPaddles(){
 
         var itemHTML = '<div class="paddle"></div>';
-        
+
         self.paddlesEnabled = true;
         var out = '<div class="rpNav rpPaddles">';
         for(var i = 0; i < 2; i++) {
@@ -346,13 +346,13 @@
         }); */
 
 
-       // t.onNavUpdate(); 
-       // t.ev.on('rpOnUpdateNav' , $.proxy(t.onNavUpdate , t));     
+       // t.onNavUpdate();
+       // t.ev.on('rpOnUpdateNav' , $.proxy(t.onNavUpdate , t));
       }
 
       //need to call this first before updating slide(s) positions
-/*      t.updateSliderSize();  
-      t.updateSlides();  */ 
+/*      t.updateSliderSize();
+      t.updateSlides();  */
 
       //loading
       //self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
@@ -404,7 +404,7 @@
         } else*/
 
         //if ( Modernizr.mq('(min-width: 980px)') ) {
-        if ( Modernizr.mq('(min-width: 980px)') ) { 
+        if ( Modernizr.mq('(min-width: 980px)') ) {
           gutter = Exports.GUTTER_WIDTH * containerWidth;
           numColumns = 5;
 
@@ -413,7 +413,7 @@
           numColumns = 4;
           gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
         // Between Portrait tablet and phone ( 3 columns )
-        } 
+        }
 
         console.log("Number of columns »",numColumns , gutter);
 
@@ -579,7 +579,7 @@
         console.log("Number of columns »" , numColumns);
 
         return self;
-      },      
+      },
 /*      onShuffleLoading : function() {
         var $div = $('<div>', { 'class' : 'gallery-loader text-center' }),
             $img = $('<img>', { src: this.loadingGif });
@@ -609,7 +609,7 @@
                 }
 
                 self.isTabletMode = self.isMobileMode = false;
-                
+
                 if(self.isDesktopMode === true){
                   return;
                 }
@@ -630,9 +630,9 @@
               self.sortByPriority();
     /*            setTimeout(function(){
                   //self.sorted = true;
-                  
+
                 } , 100);*/
-                
+
 
                 iQ.update();
 
@@ -680,7 +680,7 @@
 
 /*                console.log("Are we in tablet mode? »", self.isTabletMode);
 
-                
+
 
                 self.$el.removeClass('rpDesktop rpMobile')
                         .addClass('rpTablet');
@@ -690,7 +690,7 @@
               break;
 
               case 'mobile':
-                
+
                 if(self.isMobileMode === true){
                   return;
                 }
@@ -743,24 +743,24 @@
         currItem = $(self.controlNavItems[self.currentId]);
         currItem.addClass('rpNavSelected');
         self.prevNavItem = currItem;
-  
+
       },
 
-      setGrabCursor:function() {     
+      setGrabCursor:function() {
           var self = this;
           if(!self.hasTouch) {
               if(self.grabbingCursor) {
                   self.sliderOverflow.css('cursor', self.grabbingCursor);
               } else {
                   self.sliderOverflow.removeClass('grab-cursor');
-                  self.sliderOverflow.addClass('grabbing-cursor');   
-              }   
+                  self.sliderOverflow.addClass('grabbing-cursor');
+              }
           }
       },
 
       updateSliderSize: function(){
         var self = this;
-        
+
         //handle resize for various layouts
 
 
@@ -774,7 +774,7 @@
 
 
         self.$el.css('height' , (0.4977817214) * self.$el.width());
-        
+
         if($(window).width() < 1085 && $(window).width() > 930){
           self.$el.css('height' , (0.4977817214 + 0.06) * self.$el.width());
         }else if($(window).width() < 930) {
@@ -783,7 +783,7 @@
 
         //t.isTabletMode = true;
 
-  
+
         //t.$el.css('height' , (0.80) * t.$el.width());
 
         return;
@@ -846,7 +846,7 @@
         self.startTime = new Date().getTime();
 
         if(self.hasTouch) {
-          self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, isThumbs); });  
+          self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, isThumbs); });
         }
 
         self.moveTo();
@@ -881,9 +881,9 @@
           } else if(mAxis === 'y' && deltaY !== 0) {
               self.verDir = deltaY > 0 ? 1 : -1;
           }
-            
+
           var deltaPos = isHorizontal ? deltaX : deltaY;
-          
+
           if(!self.loop) {
             if(self.currSlideId <= 0) {
               if(pointPos - self.startPagePos > 0) {
@@ -896,17 +896,17 @@
               }
             }
           }
-           
+
           self.currRenderPosition = newPos;
 
           if (timeStamp - self.startTime > 200) {
             self.startTime = timeStamp;
-            self.accelerationPos = pointPos;                       
+            self.accelerationPos = pointPos;
           }
 
           //animate?
           self.setPosition(self.currRenderPosition);
-        }        
+        }
       },
 
       setPosition: function(pos) {
@@ -920,7 +920,7 @@
           var animObj = {};
           animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
           animObj[ self.xProp] = self.tPref1 + (pos + self.tPref2 + 0) + self.tPref3;
-          self.$container.css(animObj);        
+          self.$container.css(animObj);
 
         } else {
           self.$container.css(self.xProp, pos);
@@ -952,7 +952,7 @@
         self.$doc.off(self.moveEvent).off(self.upEvent);
 
         if(self.hasTouch) {
-            self.sliderOverflow.off(self.cancelEvent);    
+            self.sliderOverflow.off(self.cancelEvent);
         }
 
         //t.dragSuccess = true;
@@ -973,7 +973,7 @@
                 return 100;
             } else if(newSpeed > 500) {
                 return 500;
-            } 
+            }
             return newSpeed;
         }
         function returnToCurrent(isSlow, v0) {
@@ -982,10 +982,10 @@
           self.currAnimSpeed = newDist / v0;
 
           if(isSlow) {
-              self.currAnimSpeed += 250; 
+              self.currAnimSpeed += 250;
           }
           self.currAnimSpeed = getCorrectSpeed(self.currAnimSpeed);
-          
+
           self.moveTo();
         }
 
@@ -1001,7 +1001,7 @@
             changeHash = false,
             distOffset = 0,
             dragDirection;
-        
+
         totalMoveDist = Math.abs(pPos - sPos);
 
         dragDirection = self.startDragX > pPos ? 1 : 0;
@@ -1018,21 +1018,21 @@
         console.log('MoveDst:' , totalMoveDist , self.currentContainerWidth * 0.5);
 
         if( totalMoveDist > self.hasTouch ? Math.abs(self.currentContainerWidth * 0.25) : Math.abs(self.currentContainerWidth * 0.5) ){
-          
+
           //alert( totalMoveDist + ',' + t.hasTouch ? t.swipeThreshold : Math.abs(t.currentContainerWidth * 0.5));
-         
+
           if(dragDirection === 1){
             self.currentId ++;
             console.log('snap to next slide');
             if(self.currentId >= self.$slides.length){
               self.currentId = self.$slides.length - 1;
-            } 
+            }
           }else{
             self.currentId --;
             console.log('snap to previous slide');
            if(self.currentId < 0){
             self.currentId = 0;
-           }         
+           }
           }
           self.moveTo();
         }else{
@@ -1042,7 +1042,7 @@
         }
 
         console.log('drag relase - ' , -self.currentId * self.currentContainerWidth , ' || ' , self.currRenderPosition);
-      },  
+      },
 
       dragMove: function(e , isThumbs){
 
@@ -1054,13 +1054,13 @@
         if(self.hasTouch) {
           if(self.lockAxis) {
               return;
-          }   
+          }
           var touches = e.originalEvent.touches;
           if(touches) {
               if(touches.length > 1) {
                 return;
               } else {
-                point = touches[0]; 
+                point = touches[0];
               }
           } else {
             return;
@@ -1080,14 +1080,14 @@
 
                 self.renderMovement(self.renderMoveEvent, isThumbs);
               }
-                  
+
             }
-              
+
           })();
         }
-            
+
         if(!self.checkedAxis) {
-          
+
           var dir = true,
               diff = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
 
@@ -1099,7 +1099,7 @@
             } else if(self.hasTouch) {
               //t.completeGesture();
               return;
-            } 
+            }
             self.checkedAxis = true;
           } else if(diff < -7) {
             // ver movement
@@ -1109,13 +1109,13 @@
             } else if(self.hasTouch) {
               //t.completeGesture();
               return;
-            }      
+            }
             self.checkedAxis = true;
           }
           return;
         }
-        
-        e.preventDefault(); 
+
+        e.preventDefault();
         self.renderMoveTime = new Date().getTime();
         self.renderMoveEvent = point;
 
@@ -1131,7 +1131,7 @@
           $(this).css({
             'left': i * cw + 'px',
             'z-index' : i
-          });  
+          });
 
           //TODO: add spacing between slides going to be tricky to try and animate to them with no extra spacing
           //- (self.currentId > 0 ? self.shuffleGutters(self.currentContainerWidth) : 0)
@@ -1145,7 +1145,7 @@
         animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing[ 'easeInOutSine' ];
         animObj[ self.xProp ] = self.tPref1 + ((-self.currentId * cw) + self.tPref2 + 0) + self.tPref3;
 
-        self.$container.css( animObj );  
+        self.$container.css( animObj );
       },
 
       moveTo: function(type,  speed, inOutEasing, userAction, fromSwipe){
@@ -1156,7 +1156,7 @@
             animObj = {};
 
         if( !self.useCSS3Transitions ) {
-          
+
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
           self.$container.animate(animObj, self.animationSpeed, 'easeInOutSine');
@@ -1166,12 +1166,12 @@
           //css3 transition
           animObj[ (self.vendorPrefix + self.TD) ] = self.animationSpeed + 'ms';
           animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing[ 'easeInOutSine' ];
-          
+
           self.$container.css( animObj );
 
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
-  
-          self.$container.css( animObj );  
+
+          self.$container.css( animObj );
 
           //IQ Update
           self.$container.one($.support.transition.end , function(){
@@ -1198,14 +1198,14 @@
 
 /*          setTimeout(function(){
             $(window).trigger('resize');
-            
+
           } , 1000);*/
-            
-          //t.scroller.destroy();  
-          
+
+          //t.scroller.destroy();
+
           //t.scroller.disable();
 
-         
+
 
           $('.container').removeClass('grid4').addClass('grid5');
 
@@ -1218,14 +1218,14 @@
 
           self.$container.css( 'width' , '' );
           self.$container.append(self.$slides);
-          
+
           //t.$container.off('.rp');
           //restart listener for slideshow
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
-        
+
           $('.paddle').show();
           $('.rpNav').show();
-          
+
           console.log('go back to desktop?');
         }
       }
@@ -1247,11 +1247,11 @@
       return max;
     };
 
-    
+
     $.rpProto = RelatedProducts.prototype;
 
     //plugin definition
-    $.fn.relatedProducts = function(options) {      
+    $.fn.relatedProducts = function(options) {
       var args = arguments;
       return this.each(function(){
         var self = $(this);
@@ -1269,11 +1269,11 @@
     };
 
     //defaults for the related products
-    $.fn.relatedProducts.defaults = { 
+    $.fn.relatedProducts.defaults = {
       throttleTime: 50,
       autoScaleContainer: true,
       minSlideOffset: 10,
-      navigationControl: 'bullets'  
+      navigationControl: 'bullets'
     };
 
     $(function(){
@@ -1287,11 +1287,11 @@
 
 
 (function($, Modernizr, window, undefined) {
-    
+
     'use strict';
 
     $.extend($.rpProto, {
-      
+
       _initMobileBreakpoint: function(){
         var self = this;
 
@@ -1302,13 +1302,13 @@
           // 1. step one  - cancel touch events for the 'slideshow'
           self.$container.off('.rp');
 
-          // 2. hide paddles 
+          // 2. hide paddles
           $('.paddle').hide();
 
           $('.rpNav').hide();
 
           //attemp to place the title plates in the first position before detaching
-          self.$slides.each(function(){ 
+          self.$slides.each(function(){
             var $s = $(this),
                 $plate = $s.find('.plate').eq(0);
 
@@ -1319,7 +1319,7 @@
 
           // 3. gather gallery items and save local reference - may need to set on t
           var $galleryItems = $('.gallery-item').detach().addClass('small-size');
-          
+
           // 4. remove the slides
           self.$slides.detach();
 
@@ -1328,7 +1328,7 @@
 
           //5 . put the item back into the container
           $galleryItems.appendTo(self.$container);
-          
+
           // 7. init the scroller module
           setTimeout(function(){
 
@@ -1367,7 +1367,7 @@
 
 
 
-          }, 100); 
+          }, 100);
 
 
 
@@ -1383,7 +1383,7 @@
           //$('.rpContainer').wrap('<div class="scroller" id="scrollerrp" />');
 
           //creat scroller instance / cache on parent of later toggle // :) !
-            
+
           // self.$container.off('.rp');
 
           // $('.rpNav').hide();
@@ -1391,7 +1391,7 @@
           //unwrap HTML
 
           // var items = $('.gallery-item').detach().addClass('small-size');
-          
+
           // $('.product-img' ).css('height' , '');
 
           // items.css('height' , '').addClass('small-size');
@@ -1424,7 +1424,7 @@
               bounce: true
             }).data('scrollerModule');
 
-            console.log("Scroller instance that was created »" , t.scroller);     
+            console.log("Scroller instance that was created »" , t.scroller);
           } , 1000);*/
 
          //$('.rpOverflow').scrollerModule({});
@@ -1437,10 +1437,10 @@
               self.scroller.destroy();
               self.scroller = null;
               self.scroller = undefined;
-              
+
               self.$container.css('width' , '100%');
               self.$container.html('');
-              self.$container.html(self.markup); 
+              self.$container.html(self.markup);
               self.$slides = self.$el.find('.rpSlide');
               self.$container.on(self.downEvent, function(e) { t.onDragStart(e); });
 
@@ -1459,7 +1459,7 @@
           //TODO: destroy this instance - t.iscroll.destroy();
           //self.iscroll = null;
 
-/*          var myScroll = new iScroll('wrapper', {
+/*          var myScroll = new IScroll('wrapper', {
             snap: true,
             momentum: false,
             hScrollbar: false,
@@ -1472,7 +1472,7 @@
         }
 
         self.ev.on( 'onmobilebreakpoint.rp' , handleBreakpoint );
-            
+
       }
 
 
@@ -1508,7 +1508,7 @@
           //unwrap HTML
 
           var items = $('.gallery-item')/*.detach()*/.addClass('tablet-size');
-          
+
          /*$('.product-img' ).css('height' , '');
           items.css('height' , '').addClass('small-size');
           $('[class*="rpSlide"]').remove();

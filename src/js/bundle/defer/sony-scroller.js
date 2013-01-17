@@ -1,3 +1,5 @@
+/*global jQuery, Modernizr, IScroll */
+
 // ------------  ------------
 // Module: Generic Scroller
 // Version: 1.0
@@ -40,7 +42,7 @@
 		};
 
 		// Create instance of scroller and pass it defaults
-		self.scroller = new iScroll( self.$el[0], self.iscrollProps );
+		self.scroller = new IScroll( self.$el[0], self.iscrollProps );
 
     self.$win.on(self.resizeEvent + '.sm', $.proxy( self._onResize, self ));
 

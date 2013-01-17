@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports*/
+/*global jQuery, Modernizr, Exports, IScroll*/
 
 // ------------ Sony Gallery ------------
 // Module: Gallery
@@ -1128,7 +1128,7 @@
         .setCompareRowHeights( true )
         .setCompareHeight();
 
-      self.outerScroller = new iScroll( self.$compareTool[0], {
+      self.outerScroller = new IScroll( self.$compareTool[0], {
         onBeforeScrollStart : function(e) {
           var target = e.target;
           while ( target.nodeType !== 1 ) {
@@ -1151,7 +1151,7 @@
       });
 
       // Don't let this scroll vertically
-      self.innerScroller = new iScroll( self.$compareTool.find('.compare-items-wrap')[0], {
+      self.innerScroller = new IScroll( self.$compareTool.find('.compare-items-wrap')[0], {
         vScroll: false,
         onScrollMove : function() {
           self.onCompareScroll( 'inner', this );

@@ -49,6 +49,7 @@ $specItemWidth1200: 220px;
 $specLabelWidth1200: 140px;
 $columnHeaderHeight: 85px;
 $tableHeaderColor: $grayLightFieldSmall;
+$specStickyTabHeight: 50px;
 
 
 // Spec Items Wrapping and labels
@@ -201,26 +202,39 @@ $tableHeaderColor: $grayLightFieldSmall;
   border-bottom: 1px solid $grayLighter;
 }
 
+.spec-module {
 
-  @media (max-width: 567px) {
-
-    .spec-products:before {
-      height: 1px;
-    }
-
-    .spec-items-container .spec-item {
-      width: auto;
-    }
-
-    .spec-items-wrap {
-      margin-left: 0;
-    }
-
-    .spec-item {
-      border-right: 0;
-    }
-
+  .sticky-tabs,
+  .tab {
+    height: $specStickyTabHeight;
   }
+
+  .tab {
+    padding-left: 0.625em;
+  }
+
+}
+
+
+@media (max-width: 567px) {
+
+  .spec-products:before {
+    height: 1px;
+  }
+
+  .spec-items-container .spec-item {
+    width: auto;
+  }
+
+  .spec-items-wrap {
+    margin-left: 0;
+  }
+
+  .spec-item {
+    border-right: 0;
+  }
+
+}
 
 
 // Spec Feature Tiles

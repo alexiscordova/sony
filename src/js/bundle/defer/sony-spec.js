@@ -135,13 +135,17 @@
         })
         .appendTo( self.$tabStrip.find('.tabs') );
 
-      self.$tabStrip.stickyTabs();
+      console.log('self.$tabStrip.stickyTabs()');
+      self.$tabStrip.stickyTabs({
+        // mq: self.mobileBreakpoint
+      });
     },
 
     _teardownStickyTabs : function() {
       var self = this;
+      console.log('self.$tabStrip.stickyTabs("destroy")');
       self.$tabStrip
-        .stickyTabs('teardown')
+        .stickyTabs('destroy')
         .find('.tabs')
           .empty();
       self.isStickyTabs = false;
@@ -195,7 +199,7 @@
       // TODO, going up and back breaks the `stickyness` of the tab
 
 
-      if ( Modernizr.mq('(max-width:567px)') ) {
+      if ( Modernizr.mq( self.mobileBreakpoint ) ) {
 
         // If we have a scroller, destroy it
         if ( self.isScroller ) {
@@ -250,6 +254,7 @@
 
   // Overrideable options
   $.fn.spec.options = {
+    mobileBreakpoint : '(max-width: 567px)'
   };
 
   // Not overrideable
