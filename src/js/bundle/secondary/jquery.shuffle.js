@@ -452,8 +452,8 @@
                     x = parseInt( data.x, 10 ),
                     y = parseInt( data.y, 10 );
 
-                if (!x) x = 0;
-                if (!y) y = 0;
+                if (!x) { x = 0; }
+                if (!y) { y = 0; }
 
                 self.transition({
                     from: 'shrink',

@@ -1,0 +1,110 @@
+mixin partial(m, d)
+  m = 'modules/' + m
+  e = {"locals":locals, "data":locals.data(d)}
+  !{locals.partial(m, e)}
+  
+mixin copyblock()
+  if data.h1
+    h1 !{data.h1}
+  if data.h2
+    h2 !{data.h2}
+  if data.h3
+    h3 !{data.h3}
+  if data.body
+    p !{data.body}
+  if data.link
+    a(class= data.link.type, href= data.link.url) !{data.link.text}
+
+.editorial.container.clearfix(class= data.layout.media)
+  
+  if data.layout.media == "full" 
+    if data.layout.inner == "true" 
+      .grid(class= data.style)
+        .span12
+          +partial(data.submodules[0].type, data.submodules[0].data)
+          .grid
+          if data.layout.text == "left" 
+            span = "span" + data.layout.columns[0]
+            .inner(class= span)
+              +copyblock()
+          else if data.layout.text == "right" 
+            span = "span" + data.layout.columns[1]
+            offset =  "offset" + data.layout.columns[0]
+            .inner(class= span)(class= offset)
+              +copyblock()
+    else
+      .grid(class= data.style)
+        .span12
+          +copyblock()
+      .grid
+        .span12
+        +partial(data.submodules[0].type, data.submodules[0].data)
+  
+  else if data.layout.media == "mediaright" 
+    .grid
+      span = "span" + data.layout.columns[0]
+      div(class = span)
+        +copyblock()
+      span = "span" + data.layout.columns[1]
+      div(class = span)
+        +partial(data.submodules[0].type, data.submodules[0].data)
+  
+  else if data.layout.media == "medialeft"   
+    .grid
+      span = "span" + data.layout.columns[0]
+      div(class = span)
+        +partial(data.submodules[0].type, data.submodules[0].data)
+      span = "span" + data.layout.columns[1]
+      div(class = span)
+        +copyblock()
+  
+  else if data.layout.media == "full3up"
+    .grid(class= data.layout.text)(class= data.style)
+      +copyblock()
+    +partial(data.submodules[0].type, data.submodules[0].data)
+  
+    .grid
+      for col, i in data.layout.columns
+        span = "span" + data.layout.columns[i]
+        div(class = span)
+          if data.submodules[i+1]
+            +partial(data.submodules[i+1].type, data.submodules[i+1].data)
+          !{data.columns[i]}
+    
+  else if data.layout.media == "m3up" || data.layout.media == "m2up"
+    .grid(class= data.style)
+      +copyblock()
+  
+    .grid
+      for col, i in data.layout.columns
+        span = "span" + data.layout.columns[i]
+        div(class = span)
+          +partial(data.submodules[i].type, data.submodules[i].data)
+          
+          if data.layout.inner 
+            .grid.inner
+              !{data.columns[i]}
+          else
+            .grid
+              !{data.columns[i]}
+  
+  
+  else if data.layout.media == "textonly" 
+    .grid(class= data.layout.text)
+      if data.layout.text == "left"
+        span = "span" + data.layout.columns[0]
+        div(class = span)
+          +copyblock()
+      
+      else if data.layout.text == "right"
+        span = "span" + data.layout.columns[1]
+        offset = "offset" + data.layout.columns[0]
+        div(class= span)(class= offset)
+          +copyblock()
+      
+      else if data.layout.text == "center" 
+        span = "span" + data.layout.columns[1]
+        offset = "offset" + data.layout.columns[0]
+        div(class= span)(class= offset)
+          +copyblock()
+

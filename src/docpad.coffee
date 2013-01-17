@@ -3,25 +3,26 @@
 docpadConfig = {
   environments: {
     debug:{
-      layoutsPaths: ['data/', '../js/', '../css/']
-      srcPath:'html/'
-      documentsPaths: ['pages']
-      outPath: '../build/debug/'
+      srcPath: 'html/'
+      outPath: '../build/debug'
+      documentsPaths:['pages']
+      plugins:
+        jade:
+          jadeOptions:
+            pretty: true
     },
     mbuilder:{
-      layoutsPaths: ['data/', '../js/', '../css/']
       srcPath:'html/'
       documentsPaths: ['generated']
       outPath: '../build/debug/'
     },
     deploy:{
-      layoutsPaths: ['data/', '../js/', '../css/']
       srcPath:'html/'
       documentsPaths: ['pages']
       outPath: '../build/deploy/'
     },
     docs:{
-      layoutsPaths: []
+      layoutsPaths:['']
       srcPath:'html/'
       documentsPaths: ['docs']
       outPath: '../docs/'
@@ -34,19 +35,21 @@ docpadConfig = {
     }
     plusify:(string) -> output = string.replace(/\[\+\]/g , '<span class="iconContainer-plus"><i class="icon-ui-plus-bold"></i></span>');
     data:(path) ->  output = JSON.parse( require('fs').readFileSync(require('path').normalize(docpad.config.rootPath + '/html/data/' + path), 'utf8') );
-    polyfills: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/')).pluck('filename');
-    require: ->     output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/require/')).pluck('filename');
-    secondary: ->   output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/secondary/')).pluck('filename');
-    defer: ->       output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/')).pluck('filename');
-    modulescss: ->  output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/')).pluck('filename');
-    modulepages: -> output = docpad.getFilesAtPath(require('path').normalize(docpad.config.rootPath + '/html/pages/')).pluck('filename');
-    title:(name) -> output = docpad.database.findOne({id:'pages/'+name}).attributes.title;
-    desc:(name) ->  output = docpad.database.findOne({id:'pages/'+name}).attributes.description;
+    polyfills: ->   output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
+    require: ->     output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/require/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
+    secondary: ->   output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/secondary/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
+    defer: ->       output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
+    modulescss: ->  output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
+    modulepages: -> output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/html/pages/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
+    title:(name) -> t = docpad.database.findOne({id:'pages/'+name}); output = if t then t.attributes.title else '';
+    desc:(name) ->  d = docpad.database.findOne({id:'pages/'+name}); output = if d then d.attributes.description else '';
   }
+  
+
   
   plugins:{
     partials:{
-       partialsPath:''
+       partialsPath:'partials'
     }
     handlebars:{
       helpers:{
