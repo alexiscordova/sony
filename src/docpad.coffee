@@ -35,12 +35,12 @@ docpadConfig = {
     }
     plusify:(string) -> output = string.replace(/\[\+\]/g , '<span class="iconContainer-plus"><i class="icon-ui-plus-bold"></i></span>');
     data:(path) ->  output = JSON.parse( require('fs').readFileSync(require('path').normalize(docpad.config.rootPath + '/html/data/' + path), 'utf8') );
-    polyfills: ->   output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/'));
-    require: ->     output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/require/'));
-    secondary: ->   output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/secondary/'));
-    defer: ->       output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/'));
-    modulescss: ->  output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/'));
-    modulepages: -> output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/html/pages/'));
+    polyfills: ->   output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/')).join('^').replace(/.svn|.git|.DS_store|thumbs.db/g ,'').split('^');
+    require: ->     output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/require/')).join('^').replace(/.svn|.git|.DS_store|thumbs.db/g ,'').split('^');
+    secondary: ->   output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/secondary/')).join('^').replace(/.svn|.git|.DS_store|thumbs.db/g ,'').split('^');
+    defer: ->       output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/')).join('^').replace(/.svn|.git|.DS_store|thumbs.db/g ,'').split('^');
+    modulescss: ->  output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/')).join('^').replace(/.svn|.git|.DS_store|thumbs.db/g ,'').split('^');
+    modulepages: -> output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/html/pages/')).join('^').replace(/.svn|.git|.DS_store|thumbs.db/g ,'').split('^');
     title:(name) -> t = docpad.database.findOne({id:'pages/'+name}); output = if t then t.attributes.title else '';
     desc:(name) ->  d = docpad.database.findOne({id:'pages/'+name}); output = if d then d.attributes.description else '';
   }
