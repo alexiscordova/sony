@@ -7,9 +7,28 @@
 
 (function(window){
     'use strict';
-    var sony = window.sony = window.sony || {};
-    sony.modules = sony.modules || {};
-    sony.ev = sony.ev || $('<div />'); // events object
+
+    var Sony = function(){
+      var self = this;
+      self.modules = {};
+      self.ev = $('<div />'); // events object
+    };
+
+    Sony.prototype = {
+      init: function(){
+        var self = this;
+        for (var module in self.modules){
+          $(module.sel)[module.name]();
+        }
+      }
+    }
+
+    $(function(){
+      console.log("window.sony »" , sony);
+      sony = new Sony();
+      sony.init();
+    });
+
 })(window);
 
 (function($, Modernizr, window, undefined) {
@@ -83,7 +102,7 @@
       self.$el                   = $(element);
       self.$slides               = self.$el.find('.rp-slide');
       self.$shuffleContainers    = self.$slides.find('.shuffle-container');
-      self.$galleryItems         = $('.gallery-item');
+      self.$galleryItems         = self.$el.find('.gallery-item');
       self.$bulletNav            = $();
       self.numSlides             = self.$slides.length;
       self.$container            = self.$el.find('.rp-container').eq(0);
@@ -245,11 +264,11 @@
       init: function(){
         var self = this;
         
-        $('.paddle').hide();
+        self.$paddles.hide();
         
         if(self.navigationControl.toLowerCase() === 'bullets' && self.$slides.length > 1){
           self.createNavigation();
-          //self.setupPaddles();
+          self.setupPaddles();
           
           //init dragging , slideshow
           //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); }); 
@@ -273,10 +292,10 @@
         for(var i = 0; i < self.numSlides; i++) {
           out += itemHTML;
         }
-        out += '</div>';
-        out = $(out);
-        self.controlNav = out;
-        self.$bulletNav = $('.rp-nav');
+        out                  += '</div>';
+        out                  = $(out);
+        self.controlNav      = out;
+        self.$bulletNav      = self.$el.find('.rp-nav');
         self.controlNavItems = out.children();
         self.$el.append(out);
 
@@ -293,8 +312,9 @@
       },
 
       setupPaddles: function(){
-        var self = this,
-        itemHTML = '<div class="paddle"></div>';
+        var self   = this,
+        itemHTML   = '<div class="paddle"></div>',
+        $container = self.$el.closest('.container');
         
         self.paddlesEnabled = true;
         var out = '<div class="rp-nav rp-paddles">';
@@ -304,10 +324,10 @@
         out += '</div>';
         out = $(out);
 
-        $('.rp-grid').append(out);
+        $container.append(out);
 
-        self.$paddles = $('.rp-grid').find('.paddle');
-        self.$leftPaddle = self.$paddles.eq(0).addClass('left');
+        self.$paddles     = $container.find('.paddle');
+        self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
         self.$rightPaddle = self.$paddles.eq(1).addClass('right');
 
         self.$paddles.on(self.tapOrClick() , function(){
@@ -355,7 +375,6 @@
       },
 
       setColumns : function( numColumns ) {
-
         var self               = this,
         allSpans               = 'span1 span2 span3 span4 span6',
         shuffleDash            = 'shuffle-',
@@ -434,6 +453,10 @@
             by: function($el) {
               var priority = $el.hasClass('plate') ? 1 : $el.hasClass('medium') ? 2 : 3;
 
+              if($el.hasClass('blank-normal')){
+                priority = 4;
+              }
+
               // Returning undefined to the sort plugin will cause it to revert to the original array
               return priority ? priority : undefined;
             }
@@ -497,7 +520,6 @@
             }
 
             self.isMobileMode = self.isDesktopMode = false;
-
             self.isTabletMode = true;
 
             self.$el.removeClass('rp-desktop rp-mobile')
@@ -520,7 +542,6 @@
             }
 
             self.isTabletMode = self.isDesktopMode = false;
-
             self.isMobileMode = true;
 
             self.$el.removeClass('rp-tablet rp-desktop')
@@ -588,32 +609,10 @@
           return;
         }
 
-        //self.$el.css('height' , (0.4977817214) * self.$el.width());
-/*        self.$el.css('height' , (0.5313111546) * self.$shuffleContainers.eq(0).width());
-        self.$el.css('height' , (0.53) * self.$shuffleContainers.eq(0).width());
-        
-        self.$el.css('height' , (1) * self.$shuffleContainers.eq(0).width());*/
         self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 40);
 
         console.log("Slider Height »",self.$el.height());
-        
-/*        if($(window).width() < 1085 && $(window).width() > 930){
-          self.$el.css('height' , (0.4977817214 + 0.06) * self.$el.width());
-        }else if($(window).width() < 930) {
-          self.$el.css('height' , (0.4977817214 + 0.1) * self.$el.width());
-        }*/
 
-        return;
-
-/*        if(self.autoScaleContainer === true){
-          console.log('setting new height on container: ' , self.resizeRatio * self.$el.width() < 365);
-          if(self.resizeRatio * self.$el.width() < 365 === true || self.isMobileMode === true){
-              console.log('sorry max height reached');
-               self.$el.css('height' , 365 + 'px');
-              return;
-          }
-          self.$el.css('height' , self.resizeRatio * self.$el.width());
-        }*/
       },
 
       onDragStart : function(e){
@@ -884,15 +883,15 @@
         if(!self.checkedAxis) {
           
           var dir = true,
-              diff = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
+          diff    = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
 
           if(diff > 7) {
-            // hor movement
+            // horizontal movement
             if(dir) {
               e.preventDefault();
               self.currMoveAxis = 'x';
             } else if(self.hasTouch) {
-              //t.completeGesture();
+              //self.completeGesture();
               return;
             } 
             self.checkedAxis = true;
@@ -902,7 +901,7 @@
               e.preventDefault();
               self.currMoveAxis = 'y';
             } else if(self.hasTouch) {
-              //t.completeGesture();
+              //self.completeGesture();
               return;
             }      
             self.checkedAxis = true;
@@ -945,11 +944,11 @@
       },
 
       moveTo: function(type,  speed, inOutEasing, userAction, fromSwipe){
-        var self = this,
-            newPos = -self.currentId * self.currentContainerWidth,
+            var self = this,
+            newPos   = -self.currentId * self.currentContainerWidth,
             diff,
             newId,
-            animObj = {};
+            animObj  = {};
 
             var a = ($(window).width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
             
@@ -966,7 +965,7 @@
         }else{
 
           //css3 transition
-          animObj[ (self.vendorPrefix + self.TD) ] = self.animationSpeed + 'ms';
+          animObj[ (self.vendorPrefix + self.TD) ]  = self.animationSpeed + 'ms';
           animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing[ 'easeInOutSine' ];
       
           self.$container.css( animObj );
@@ -1004,7 +1003,7 @@
           
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
         
-          $('.paddle').show();
+          self.$paddles.show();
           $('.rp-nav').show();
           
           console.log('go back to desktop?');
@@ -1012,6 +1011,7 @@
       }
     };
 
+    //define easing equations
     $.rpCSS3Easing = {
         //add additional ease types here
         easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
@@ -1075,7 +1075,7 @@
           self.$container.off('.rp');
 
           // 2. hide paddles and nav
-          $('.paddle').hide();
+          self.$paddles.hide();
           $('.rp-nav').hide();
 
           //attemp to place the title plates in the first position before detaching
@@ -1087,7 +1087,7 @@
             $s.prepend($plate);
           });
 
-          // 3. gather gallery items and save local reference - may need to set on t
+          // 3. gather gallery items and save local reference - may need to set on self
           var $galleryItems = $('.gallery-item').detach().addClass('small-size');
           
           // 4. remove the slides
