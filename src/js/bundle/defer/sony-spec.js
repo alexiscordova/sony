@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, iQ, Exports*/
+/*global jQuery, Modernizr, Exports*/
 
 // ----------- Sony Specs Module --------
 // Module: Spec Comparison Module
@@ -91,7 +91,6 @@
           onAnimationEnd: null,
         }
       });
-      console.log('after scrollerModule');
 
       // Save the iScroll instance
       self.scroller = self.$specItemsWrap.data('scrollerModule').scroller;
@@ -135,15 +134,13 @@
         })
         .appendTo( self.$tabStrip.find('.tabs') );
 
-      console.log('self.$tabStrip.stickyTabs()');
       self.$tabStrip.stickyTabs({
-        // mq: self.mobileBreakpoint
+        mq: self.mobileBreakpoint
       });
     },
 
     _teardownStickyTabs : function() {
       var self = this;
-      console.log('self.$tabStrip.stickyTabs("destroy")');
       self.$tabStrip
         .stickyTabs('destroy')
         .find('.tabs')

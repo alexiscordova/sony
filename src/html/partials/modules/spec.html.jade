@@ -1,0 +1,64 @@
+
+section.spec-module
+
+  .tab-strip.sticky-tabs.visible-phone
+    .tabs-container.container
+      .tabs
+
+  .container.mobile-container-padded
+    .grid
+      .span12.spec-title-link
+        a(href="#") Vaio Z
+
+    .grid
+      h1.spec-title.pull-left Vaio Z Details
+      p.pull-right
+        | Sony Recommends
+        i.sprite-windows8
+
+    .grid
+      ul.spec-views.inline.p3
+        li.active: a(href="spec_module.html") Specifications
+        li: a(href="details_module.html") Features
+
+  numModels = data.submodules.length
+
+  .spec-products
+    .container.mobile-container-padded
+      .grid
+        .span2.detail-labels-wrap.hidden-phone
+          .detail-labels-wrapping
+            .product-count-wrap.table-center-wrap
+              .table-center
+                span.text-dark.product-count= numModels
+                |  Models
+
+            .detail-label-group
+              each label in data.labels
+                .l3.detail-label.detail= label
+
+        .spec-items-wrap
+          .spec-items-container
+            each module, i in data.submodules
+              d = locals.data(module.data)
+              if d.type == "product"
+                - d.view = "specs"
+                - d.iterator = i
+                e = { "locals" : locals, "data" : d, "labels" : data.labels }
+                !{locals.partial('modules/' + module.type, e )}
+
+  .spec-tiles-wrap.container.mobile-container-padded
+    .grid
+      h2= data.features.title
+    .spec-tiles.grid
+      each tile in data.features.tiles
+        .spec-tile.span4
+          if tile.img
+            img.iq-img(data-src=tile.img.src, alt=tile.img.alt)
+            noscript
+              img(src=tile.img.noscriptsrc, alt=tile.img.alt)
+          .tile-content
+            h3= tile.title
+            p= tile.description
+            if tile.link
+              a.tl(href=tile.link.href)= tile.link.text

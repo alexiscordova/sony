@@ -238,14 +238,14 @@
         // Handle range control a bit differently
         } else if ( filterType === 'range' ) {
           if ( self.price.min !== self.MIN_PRICE ) {
-            filters['min'] = {
+            filters.min = {
               key: 'price',
               label: 'Min price: $' + self.price.min,
               name: 'min'
             };
           }
           if ( self.price.max !== self.MAX_PRICE) {
-            filters['max'] = {
+            filters.max = {
               key: 'price',
               label: 'Max price: $' + self.price.max,
               name: 'max'

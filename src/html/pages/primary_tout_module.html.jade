@@ -6,11 +6,12 @@ doctype 5
 !{partial('includes/ieconditionals.html')}
 
 l = {"locals":locals}
-head
-	!{partial('includes/head.html.jade', l)}
-
-body
-	e = {"locals":locals, "data":data('primary_tout/default.json')}
-	!{partial('modules/primary_tout.html.jade', e)}
-
-	!{partial('includes/foot.html.jade', l)}
+  head
+    !{partial('includes/head.html.jade', l)}
+  
+  body
+    e = {"locals":locals, "data":data('primary_tout/default.json')}
+    !{partial('modules/primary_tout.html.jade', e)}
+  
+    !{partial('includes/foot.html.jade', l)}
+</html>

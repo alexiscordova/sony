@@ -2,7 +2,7 @@
 
 (function ($, undefined) {
 
-  "use strict"; // jshint ;_;
+  'use strict'; // jshint ;_;
 
 
  /* TAB CLASS DEFINITION
