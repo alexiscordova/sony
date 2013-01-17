@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports*/
+/*global jQuery, Modernizr, Exports, IScroll*/
 
 // ------------ Sony Gallery ------------
 // Module: Gallery
@@ -238,14 +238,14 @@
         // Handle range control a bit differently
         } else if ( filterType === 'range' ) {
           if ( self.price.min !== self.MIN_PRICE ) {
-            filters['min'] = {
+            filters.min = {
               key: 'price',
               label: 'Min price: $' + self.price.min,
               name: 'min'
             };
           }
           if ( self.price.max !== self.MAX_PRICE) {
-            filters['max'] = {
+            filters.max = {
               key: 'price',
               label: 'Max price: $' + self.price.max,
               name: 'max'
@@ -424,7 +424,7 @@
 
       self.$grid.infinitescroll({
         local: true,
-        // debug: true,
+        debug: true,
         bufferPx: -100, // Load 100px after the navSelector has entered the viewport
         navSelector: 'div.navigation', // selector for the paged navigation
         nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
@@ -1128,7 +1128,7 @@
         .setCompareRowHeights( true )
         .setCompareHeight();
 
-      self.outerScroller = new iScroll( self.$compareTool[0], {
+      self.outerScroller = new IScroll( self.$compareTool[0], {
         onBeforeScrollStart : function(e) {
           var target = e.target;
           while ( target.nodeType !== 1 ) {
@@ -1151,7 +1151,7 @@
       });
 
       // Don't let this scroll vertically
-      self.innerScroller = new iScroll( self.$compareTool.find('.compare-items-wrap')[0], {
+      self.innerScroller = new IScroll( self.$compareTool.find('.compare-items-wrap')[0], {
         vScroll: false,
         onScrollMove : function() {
           self.onCompareScroll( 'inner', this );
@@ -1489,7 +1489,7 @@
           //   column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+          } else if ( Modernizr.mq('(min-width: 480px)') ) {
             column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
           // Phone ( 2 columns )
@@ -1521,7 +1521,7 @@
             gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+          } else if ( Modernizr.mq('(min-width: 480px)') ) {
             gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
             numColumns = 3;
 

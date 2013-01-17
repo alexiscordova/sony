@@ -2,7 +2,7 @@
 
 (function ($, undefined) {
 
-  "use strict"; // jshint ;_;
+  'use strict'; // jshint ;_;
 
 
  /* TAB CLASS DEFINITION
@@ -10,7 +10,7 @@
 
   var Tab = function (element) {
     this.$el = $(element);
-    this.showHash = this.$el.data('hash') || true;
+    this.showHash = this.$el.data('hash') || false;
   };
 
   Tab.prototype = {
@@ -22,7 +22,8 @@
           $this = self.$el,
           selector = $this.attr('data-target'),
           previous,
-          $prevPane;
+          $prevPane,
+          e;
 
       self.$target = self.$target || $('[data-tab="' + selector + '"]');
       showHash = showHash === false ? false : true;
@@ -35,14 +36,17 @@
       // Trigger show event on both tab and pane
       previous = $this.parent().find('.active:last')[0];
       $prevPane = self.$target.parent().find('> .active');
-      $this.add(self.$target).trigger({
+      e = new $.Event({
         type: 'show',
         relatedTarget: previous,
         prevPane: $prevPane,
         pane: self.$target
       });
+      $this.add(self.$target).trigger(e);
 
-      // if ( e.isDefaultPrevented() ) { return; }
+      if ( e.isDefaultPrevented() ) {
+        return;
+      }
 
       // Show active tab
       self.activate( $this, $this.parent() );
@@ -70,6 +74,7 @@
           transition = callback && $.support.transition && $active.hasClass('fade');
 
       function next() {
+        var dummy;
         $active
           .removeClass('active')
           .find('> .dropdown-menu > .active')
@@ -86,7 +91,7 @@
         }
 
         if ( transition ) {
-          $element[0].offsetWidth; // reflow for transition
+          dummy = $element[0].offsetWidth; // reflow for transition
           $element.addClass('in');
         } else {
           $element.removeClass('fade');

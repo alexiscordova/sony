@@ -1,3 +1,5 @@
+/*global jQuery, Modernizr, IScroll */
+
 // ------------  ------------
 // Module: Generic Scroller
 // Version: 1.0
@@ -12,8 +14,6 @@
 	'use strict';
 
 	var ScrollerModule = function( $element, options ) {
-		console.group( 'ScrollerModule' );
-
 		var self = this;
 
 		$.extend(self, $.fn.scrollerModule.defaults, options, $.fn.scrollerModule.settings);
@@ -21,33 +21,28 @@
 		self.$el = $($element),
 		self.$win = $(window),
 		self.$contentContainer = $(self.contentSelector);
-		self.$ev = $(); //events object
-		self.$elements = $(self.itemElementSelector, self.$contentContainer),
+		self.$elements = $(self.itemElementSelector),
 		self.$sampleElement = self.$elements.eq(0);
-
-		//console.log("self.$elements »",self.$elements);
-		//console.log("self.$sampleElement »",self.$sampleElement);
 
 		self._setContainerWidth();
 
 		// Override the onscrollend for our own use
 		self.onScrollEnd = self.iscrollProps.onScrollEnd;
-		
+
 		// NOT SURE WHY THIS ISN'T BEING CALLED
 		self.iscrollProps.onScrollEnd = function() {
 			self._onScrollEnd( this );
 		};
 
 		self.onAnimationEnd = self.iscrollProps.onAnimationEnd;
-		
+
+		// Pass the iScroll instance to our function (we still want `this` to reference ScrollerModule)
 		self.iscrollProps.onAnimationEnd = function() {
-			console.log( 'this »' , this);
 			self._onAnimationEnd( this );
 		};
 
 		// Create instance of scroller and pass it defaults
-		// self.iscrollProps.onTouchEnd = self.iscrollProps.onScrollEnd = window.iQ.update;
-		self.scroller = new iScroll( self.$el[0], self.iscrollProps );
+		self.scroller = new IScroll( self.$el[0], self.iscrollProps );
 
     self.$win.on(self.resizeEvent + '.sm', $.proxy( self._onResize, self ));
 
@@ -68,12 +63,8 @@
 			});
 		}
 
-
     self._update();
 
-
-    console.log( '« end (ScrollerModule) »');
-    console.groupEnd();
 	};
 
 	ScrollerModule.prototype = {
@@ -84,19 +75,17 @@
 		 */
 
 		_paginate : function() {
-			//console.group("_paginate");
-
 			var self = this,
 					widthOfOneElement = self.$sampleElement.outerWidth(true),
-					lastSlideCentered = self.lastPageCenter,
 					itemCount	= self.$elements.length,
-					windowWidth = self.$el.width() - self.extraSpacing,				
-					availToFit = self.fitPerPage || Math.floor(windowWidth / widthOfOneElement), // TODO: debug why Math.floor() freezes on mobile
+					containerWidth = self.$el.width() - self.extraSpacing,
+					availToFit = self.fitPerPage || Math.floor(containerWidth / widthOfOneElement) || 1,
 					numPages = Math.ceil( itemCount / availToFit ),
 					i	= 0,
 					totalBlockWidth = widthOfOneElement * availToFit;
 
-			windowWidth += self.extraSpacing;
+			// Add back the extra spacing we took away for previous calculations
+			containerWidth += self.extraSpacing;
 
 			//stop processing function /maybe hide paddles or UI?
 			if ( numPages === 1 || availToFit > itemCount ) {
@@ -106,18 +95,17 @@
 				self.isPaginated = true;
 			}
 
-			function buildPage(pageNo, startIndx, endIndx) {
-
-				var $elemsInPage = self.$elements.slice(startIndx, endIndx + 1),
+			function buildPage(pageNum, startIndex, endIndex) {
+				var $elemsInPage = self.$elements.slice(startIndex, endIndex + 1),
 						offsetX,
 						startX;
 
-				if ( pageNo === numPages - 1 && lastSlideCentered === true ) {
+				if ( pageNum === numPages - 1 && self.lastPageCenter ) {
 					totalBlockWidth = self.$sampleElement.outerWidth(true) * $elemsInPage.length;
 				}
 
-				offsetX = Math.floor((windowWidth - totalBlockWidth) * 0.5),
-				startX = Math.floor((pageNo * windowWidth) + offsetX);
+				offsetX = self.centerItems ? Math.floor((containerWidth - totalBlockWidth) * 0.5) : 0;
+				startX = Math.floor((pageNum * containerWidth) + offsetX);
 
 				$elemsInPage.css({
 					'position' : 'absolute',
@@ -131,21 +119,19 @@
 				});
 			}
 
-			if ( self.mode.toLowerCase() === 'paginate' ) {
+			if ( self.mode === 'paginate' ) {
 				for (i = 0 ; i < numPages; i ++) {
-					var startIndx = i * availToFit,
-					endIndx       = startIndx + availToFit - 1;
+					var startIndex = i * availToFit,
+							endIndex = startIndex + availToFit - 1;
 
-					buildPage( i , startIndx , endIndx );
+					buildPage( i , startIndex , endIndex );
 				}
 			}
 
 			// Update the width again to the new width based on however many 'pages' there are now
-			self.$contentContainer.css('width' , numPages * windowWidth );
+			self.$contentContainer.css('width' , numPages * containerWidth );
 
-			self.$ev.trigger('onPaginationComplete.sm');
-			
-			//console.groupEnd();
+			self._fire('paginationcomplete');
 
 			return true;
 		},
@@ -171,7 +157,7 @@
 				self.scroller.scrollToPage(0, 0, 400);
 			}
 
-			self.$ev.trigger('update.sm');
+			self._fire('update');
 		},
 
 		_onResize : function() {
@@ -191,7 +177,7 @@
 		_onScrollEnd : function() {
 			var self = this;
 
-			self.$ev.trigger('scrolled.sm');
+			self._fire('scrolled');
 
 			// If they've defined a callback as well, call it
 			// We saved their function to this reference so we could have our own onScrollEnd
@@ -222,8 +208,7 @@
 			// If they've defined a callback as well, call it
 			// We saved their function to this reference so we could have our own onAnimationEnd
 			if ( self.onAnimationEnd ) {
-				//console.log( 'iscroll.currPageX »' , iscroll.currPageX);
-				self.onAnimationEnd(iscroll);
+				self.onAnimationEnd( iscroll );
 			}
 		},
 
@@ -238,6 +223,10 @@
 
       // Set it
       self.$contentContainer.css('width' , contentWidth );
+    },
+
+    _fire : function( eventName, args ) {
+			this.$el.trigger( eventName + '.sm', args || [this] );
     },
 
 		/**
@@ -257,7 +246,6 @@
 		},
 
 		refresh: function() {
-			console.log("refresh »");
 			this._update();
 		},
 
@@ -323,6 +311,7 @@
 		nextSelector: '', // selector for next paddle
 		prevSelector: '', // selector for previous paddle
 		fitPerPage: null,
+		centerItems: true,
 
 		// iscroll props get mixed in
 		iscrollProps: {
@@ -334,9 +323,9 @@
 			momentum: true,
 			bounce: true,
 			onScrollEnd: null,
-			lockDirection:true,
-			onBeforeScrollStart:null,
-			onAnimationEnd:null,
+			lockDirection: true,
+			onBeforeScrollStart: null,
+			onAnimationEnd: null,
 		}
 
 	};

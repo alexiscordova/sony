@@ -108,6 +108,10 @@
         self.windowHeight = $window.height();
         self.windowWidth = $window.width();
         $window.on('resize.shuffle', function () {
+            if ( !self.enabled ) {
+                return;
+            }
+
             var height = $window.height(),
                 width = $window.width();
 
@@ -289,7 +293,7 @@
         setContainerSize : function() {
             var self = this,
             gridHeight = Math.max.apply( Math, self.colYs );
-            self.$container.css( 'height', 534 + 'px' );
+            self.$container.css( 'height', gridHeight + 'px' );
         },
 
         /**
@@ -448,8 +452,8 @@
                     x = parseInt( data.x, 10 ),
                     y = parseInt( data.y, 10 );
 
-                if (!x) x = 0;
-                if (!y) y = 0;
+                if (!x) { x = 0; }
+                if (!y) { y = 0; }
 
                 self.transition({
                     from: 'shrink',
@@ -570,7 +574,7 @@
         },
 
         /**
-         * Relayout everthing
+         * Relayout everything
          */
         resized: function() {
             // get updated colCount
@@ -668,8 +672,19 @@
             }, 100);
         },
 
-        update: function() {
+        update : function() {
             this.resized();
+        },
+
+        disable : function() {
+            this.enabled = false;
+        },
+
+        enable : function( isUpdateLayout ) {
+            this.enabled = true;
+            if ( isUpdateLayout !== false ) {
+                this.resized();
+            }
         }
 
     };
@@ -704,6 +719,10 @@
                     shuffle.appended.apply( shuffle, args );
                 } else if (opts === 'layout') {
                     shuffle._reLayout.apply( shuffle, args );
+                } else if (opts === 'enable') {
+                    shuffle.enable.apply( shuffle, args );
+                } else if (opts === 'disable') {
+                    shuffle.disable.apply( shuffle, args );
                 } else {
                     shuffle.shuffle(opts);
                 }
@@ -727,6 +746,7 @@
 
     // Not overrideable
     $.fn.shuffle.settings = {
+        enabled: true,
         supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
         prefixed: Modernizr.prefixed,
         threeD: Modernizr.csstransforms3d // supports 3d transforms
