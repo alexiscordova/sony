@@ -1236,7 +1236,7 @@
       state.$items
         .find('.compare-item-remove')
         .parent()
-        .andSelf()
+        .addBack()
         .removeClass('hide');
 
       // Disable reset button
