@@ -30,7 +30,7 @@
 
   .active {
     padding-bottom: .625em;
-    border-bottom: 4px solid $blue;
+    border-bottom: .25em solid $blue;
   }
 
   a {
@@ -45,11 +45,13 @@ ul.spec-views li {
   padding-left: .625em;
 }
 
-$specItemWidth1200: 220px;
-$specLabelWidth1200: 140px;
-$columnHeaderHeight: 85px;
+$specMobileBreakpoint: 567px;
+$specItemWidth1200: 13.75em; // 220
+$specLabelWidth1200: 8.75em; // 140
+$columnHeaderHeight: 5.3125em; // 85
 $tableHeaderColor: $grayLightFieldSmall;
-$specStickyTabHeight: 50px;
+$specStickyTabHeight: 3.125em; // 50
+$navBtnHeight: 2.875em; // 46
 
 
 // Spec Items Wrapping and labels
@@ -58,13 +60,56 @@ $specStickyTabHeight: 50px;
   margin-left: $specLabelWidth1200;
 }
 
+// Spec Nav
+// -------------------------
+.spec-nav-wrap {
+  z-index: 10;
+}
+
+.spec-nav-container {
+  // height: $columnHeaderHeight;
+  // width: 100%;
+}
+
+.spec-nav {
+  position: absolute;
+  z-index: 20;
+  top: ($columnHeaderHeight - $navBtnHeight) / 2;
+  border: none;
+  background: $grayLight2;
+  border-radius: .1875em; // 3 pixels
+  width: 2em; // 30
+  height: $navBtnHeight;
+  // padding-top: .5em; // vertical align chevron
+  padding: 0; // override default button padding
+  @include transition();
+
+  &:hover,
+  &:focus {
+    background: $highlightColor;
+    outline: none;
+  }
+
+  i {
+    vertical-align: middle;
+  }
+}
+
+.spec-nav-prev {
+  left: 0;
+}
+
+.spec-nav-next {
+  right: 0;
+}
+
 
 // Spec Items
 // -------------------------
 .spec-item {
   position: relative;
   margin: 0;
-  border-right: 1px solid $grayLighter;
+  border-right: .0625em solid $grayLighter; // 1 pixel
 
   // Our position relative is overriding off-screen, reset that.
   &.off-screen {
@@ -105,7 +150,7 @@ $specStickyTabHeight: 50px;
   // Definition list image needs a set height because iQ doesn't load the images until
   // after the dimensions for each cell have been calculated
   .dl-img {
-    height: 135px;
+    height: 8.4375em; // 135 pixels
 
     // Don't clip image, shrink it
     img {
@@ -216,7 +261,11 @@ $specStickyTabHeight: 50px;
 }
 
 
-@media (max-width: 567px) {
+@media (max-width: $specMobileBreakpoint) {
+
+  .spec-nav {
+    display: none;
+  }
 
   .spec-products:before {
     height: 1px;

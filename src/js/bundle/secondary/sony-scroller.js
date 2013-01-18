@@ -50,14 +50,15 @@
     self.isPaginated = self.mode === 'paginate';
 
     // Paddle clicks
+		// If the selector is a jQuery object, use that, otherwise look for the selector inside our container
 		if ( self.nextSelector ) {
-			self.$navNext = self.$el.find( self.nextSelector );
+			self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
 			self.$navNext.on('click', function() {
 				self.next();
 			});
 		}
 		if ( self.prevSelector ) {
-			self.$navPrev = self.$el.find( self.prevSelector );
+			self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
 			self.$navPrev.on('click', function() {
 				self.prev();
 			});
@@ -192,16 +193,16 @@
 			if ( self.$navPrev && self.$navNext ) {
 				// Hide show prev button depending on where we are
 				if ( iscroll.currPageX === 0 ) {
-					self.$navPrev.hide();
+					self.$navPrev.addClass('hide');
 				} else {
-					self.$navPrev.show();
+					self.$navPrev.removeClass('hide');
 				}
 
 				// Hide show next button depending on where we are
 				if ( iscroll.currPageX === iscroll.pagesX.length - 1 ) {
-					self.$navNext.hide();
+					self.$navNext.addClass('hide');
 				} else {
-					self.$navNext.show();
+					self.$navNext.removeClass('hide');
 				}
 			}
 

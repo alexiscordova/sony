@@ -287,8 +287,8 @@
     setupCarousel : function() {
       var self = this;
 
-      self.$navPrev.hide();
-      self.$navNext.hide();
+      self.$navPrev.addClass('hide');
+      self.$navNext.addClass('hide');
 
       self.$tabsContainer.scrollerModule({
         contentSelector: '.tabs',
@@ -310,8 +310,7 @@
 
       // Check to make sure we actually have paginated tabs
       if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {
-        // self.$navPrev.show();
-        self.$navNext.show();
+        self.$navNext.removeClass('hide');
         self.$tabsWrap.addClass('tab-carousel');
       }
 
@@ -322,8 +321,8 @@
       var self = this;
 
       console.log('teardown: Carousel tabs');
-      self.$navPrev.hide();
-      self.$navNext.hide();
+      self.$navPrev.addClass('hide');
+      self.$navNext.addClass('hide');
       self.$tabsWrap.removeClass('tab-carousel');
       self.$tabsContainer.scrollerModule('destroy');
 

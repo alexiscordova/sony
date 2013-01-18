@@ -24,7 +24,7 @@
 [class*=" sprite-"],
 [class^="icon-"],
 [class*=" icon-"]{
-  @extend %icon;  
+  @extend %icon;
 }
 
 // I'm breaking these out because we're going to have to have separate spritesheets for the different kinds of sprites/icons or the retina sized spritesheets get too big.
@@ -41,7 +41,7 @@
 [class*=" icon-tab-"]{
   // background-image: url($iconSpritePath);
   background-image: url($iconSpritePathFallback);
-  .no-svg & { background-image: url($iconSpritePathFallback); }  
+  .no-svg & { background-image: url($iconSpritePathFallback); }
 }
 [class^="icon-bestfor-"],
 [class*=" icon-bestfor-"] {
@@ -155,6 +155,8 @@
 
 @include icon-ui2(x-14-blue,                        0px,      14px,   15px); // the number in the class name is how tall (in px) the icon is -- there are gonna be a ton of these, so mini/small/large/etc aren't gonna cut it.
 @include icon-ui2(chevron-18-blue,                  -30px,    8px,    18px); // the number in the class name is how tall (in px) the chrvron is -- there are gonna be a ton of chevrons, so mini/small/large/etc aren't gonna cut it.
+@include icon-ui2(chevron-18-white-left,            -60px,    8px,    18px);
+@include icon-ui2(chevron-18-white-right,           -90px,    8px,    18px);
 
 @include icon-uibig(support,                        0px,      55px,   50px,   true);
 @include icon-uibig(twitter,                        -60px,    36px,   32px,   true);
@@ -180,7 +182,7 @@
 
 // --------------------------------------------
 // FLAGS
-// ------------------------------------------ 
+// ------------------------------------------
 @include icon-flags-reg-and-big(uk,    -550px);
 @include icon-flags-reg-and-big(us,    -572px);
 

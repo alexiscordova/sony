@@ -32,6 +32,8 @@
       self.$specItems = self.$container.find('.spec-item');
       self.$specItemsWrap = self.$container.find('.spec-items-wrap');
       self.$tabStrip = self.$container.find('.tab-strip');
+      self.$navNext = self.$container.find('.spec-nav-next');
+      self.$navPrev = self.$container.find('.spec-nav-prev');
 
       // Line up spec item cells
       self._onResize();
@@ -72,8 +74,8 @@
         contentSelector: '.spec-items-container',
         itemElementSelector: '.spec-item',
         mode: 'paginate', // if mode == 'paginate', the items in the container will be paginated
-        nextSelector: '', // selector for next paddle
-        prevSelector: '', // selector for previous paddle
+        nextSelector: self.$navNext,
+        prevSelector: self.$navPrev,
         centerItems: false,
 
         // iscroll props get mixed in
@@ -88,7 +90,7 @@
           onScrollEnd: null,
           lockDirection: true,
           onBeforeScrollStart: null,
-          onAnimationEnd: null,
+          onAnimationEnd: window.iQ.update,
         }
       });
 
