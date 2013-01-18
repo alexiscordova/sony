@@ -347,10 +347,10 @@
 				positionDelta : newPos - th.currentPosition
 			};
 
-			th.goToPos(newPos, $handle, data);
+			th.goToPos(newPos, $handle, isMin);
 		}
 
-		return this;
+		return th;
 	};
 
 	/*
@@ -404,15 +404,20 @@
 		Returns:
 			RangeControl - .
 	*/
-	RangeControl.prototype.goToPos = function(pos, $handle) {
+	RangeControl.prototype.goToPos = function(pos, $handle, isMin) {
 		var th = this,
 			response = [];
 
 		$handle[0].style[ th.property ] = ( pos / th.railSize * 100 ) + '%';
+		if ( isMin ) {
+			th.lastMinPosition = pos;
+		} else {
+			th.lastPosition = pos;
+		}
 
 		if ( !th.range ) {
-			th.currentPosition = pos;
-			th.currentPositionPct = pos / th.railSize * 100;
+			th.currentPosition = th.lastPosition;
+			th.currentPositionPct = th.lastPosition / th.railSize * 100;
 
 		// Range control
 		// Calculate position values
@@ -426,11 +431,13 @@
 
 			// Else get the position from our last position
 			} else {
-				th.currentPosition = parseInt( th.$handle.css( th.property ), 10 );
-				th.currentMinPosition = parseInt( th.$minHandle.css( th.property ), 10 );
+				// lastPosition is initialized at false
+				th.currentPosition = th.lastPosition !== false ? th.lastPosition : th.parseHandlePosition( th.$handle.css( th.property ), 10 );
+				th.currentMinPosition = th.lastMinPosition !== false ? th.lastMinPosition : th.parseHandlePosition( th.$minHandle.css( th.property ), 10 );
 			}
 			th.currentPositionPct = Math.min( th.currentPosition / th.railSize * 100, 100 ); // don't let it go above 100
 			th.currentMinPositionPct = Math.min( th.currentMinPosition / th.railSize * 100, 100 );
+
 
 			// Make sure we can get to 100% and 0%
 			if ( th.currentPositionPct > 99.49 ) {
@@ -683,6 +690,8 @@
 		currentPositionPct : false,
 		currentMinPosition : false,
 		currentMinPositionPct : false,
+		lastPosition: false,
+		lastMinPosition: false,
 		evts : {
 			start : 'scrubstart',
 			end : 'scrubend',

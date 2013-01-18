@@ -662,8 +662,6 @@
         prevMin = self.price.min,
         prevMax = self.price.max;
 
-        console.log(percents.max);
-
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
 
