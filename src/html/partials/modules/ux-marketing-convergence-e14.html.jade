@@ -4,13 +4,14 @@ section
     h2 #{data.theme} with Sony
     p #{data.header.description}
 
-  div(class=['grid', 'uxmc-wrapper', 'mode-'+data.mode.toLowerCase(), 'theme-'+data.theme.toLowerCase()])
+  div(class=['grid', 'uxmc-container', 'mode-'+data.mode.toLowerCase(), 'theme-'+data.theme.toLowerCase()])
     div.base-product
       div.uxmc-overlay
         h3 #{data.baseProduct.title}
-      img.iq-img(data-src=data.baseProduct.imgSrc)
-      noscript
-        img(src=data.baseProduct.imgSrc)
+      div.uxmc-background
+        div.iq-img(data-src=data.baseProduct.imgSrc)
+        noscript
+          img(src=data.baseProduct.imgSrc)
 
     ul.partner-products
       for product in data.partnerProducts
@@ -19,6 +20,7 @@ section
             div.uxmc-overlay
               p #{product.description}
               span #{product.title}
-            img.iq-img(data-src=product.imgSrc)
-            noscript
-              img(src=product.imgSrc)
+            div.uxmc-background
+              div.iq-img(data-src=product.imgSrc)
+              noscript
+                img(src=product.imgSrc)

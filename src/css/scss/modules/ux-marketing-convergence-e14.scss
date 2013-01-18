@@ -5,7 +5,9 @@
 @import "../_base/variables";
 @import "../_base/mixins";
 
-.uxmc-wrapper {
+.uxmc-container {
+  position: relative;
+  height: 380px;
   background-color: #ccc;
 
   .uxmc-overlay {
@@ -13,40 +15,45 @@
     z-index: 1;
   }
 
-  .base-product {
-    padding: 20px;
-    position: relative;
-    width: 30%;
-    float: left;
+  .uxmc-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
-    img {
+    div {
       position: absolute;
-      left: 0;
       top: 0;
-      width: 100%;
-      z-index: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
     }
+  }
 
+  .base-product {
+    position: relative;
+    float: left;
+    width: 30%;
+    height: 380px;
   }
 
   .partner-products {
-    margin: 0;
     position: relative;
-    width: 69%;
     float: right;
+    margin: 0;
+    width: 69%;
+    height: 380px;
 
     li {
       position: absolute;
-      left: 0;
       top: 0;
-      width: 100%;
-
-      img {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-      }
+      right: 0;
+      bottom: 0;
+      left: 0;
     }
   }
 }
