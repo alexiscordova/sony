@@ -500,7 +500,6 @@
 
         if (widths[LENGTH]) {
             width = Math.max.apply(Math, widths);
-            console.log(width, widths);
 
             // Catch cases where the viewport is wider than the screen
             if (!isNaN(screenWidth)) {
