@@ -5,7 +5,7 @@ cacheable: true
 !{locals.partial('includes/fonts.html')}
   
 l = {"locals": locals}
-if 'debug' == locals.getEnvironments()
+if 'debug' == locals.getEnvironments()  || 'mbuilder' == locals.getEnvironments()
   link(rel="stylesheet", href="css/bootstrap.css")
   link(rel="stylesheet", href="css/responsive.css")
   

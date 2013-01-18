@@ -70,7 +70,7 @@ exports.generatePage = function (req, res) {
       moduleDataFileName = req.body['moduleData'] [i] || null;
     }
 
-    moduleList = moduleList + 'e = {"locals":locals, "data":data("' + moduleDataFileName + '")}\r    !{partial("modules/' + moduleFileName + '", e)}\r';
+    moduleList = moduleList + '\r    e = {"locals":locals, "data":data("' + moduleDataFileName + '")}\r    !{partial("modules/' + moduleFileName + '", e)}\r';
     console.log(moduleList);
   };
 

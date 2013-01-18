@@ -33,7 +33,6 @@ var mb = {}, selectedElem;
 mb.moduleName = "";
 mb.modulePath = "";
 mb.moduleData = {};
-
 mb.subModules = [];
 mb.modulePaths = [];
 
@@ -55,22 +54,23 @@ $(document).ready(function() {
 
 function getModuleName() {
   $.ajax({
-    url : "/mnames"
+    url : '/mnames'
   }).done(function(res) {
 
     mb.modulePaths = JSON.parse(res);
 
     $.each(mb.modulePaths, function(i, e) {
-      $(".module_select").append("<option value=" + e + ">" + e.replace(/.html(.eco|.hb|.jade)/g, '') + "</option>");
+      $('.module_select').append('<option value=' + e + '>' + e.replace(/.html(.eco|.hb|.jade)/g, '') + '</option>');
     });
 
-    $(".module_select").change(function(elem) {
-      $(".module_select .hold").remove();
+    $('.module_select').change(function(elem) {
+      $('.module_select .hold').remove();
       getDataList(elem);
     });
 
-    $(".data_select").change(function(elem) {
+    $('.data_select').change(function(elem) {
       getJsonContent(this, elem);
+      setSuperModule(this, elem);
     });
 
   });
@@ -79,16 +79,16 @@ function getModuleName() {
 function getDataList(elem) {
 
   /* @formatter:off */
-  var moduleContainer = $(elem.target).parents(".form-inline")[0], 
-      dataControl = $(moduleContainer).find(".data_control"), 
-      dataSelect = $(moduleContainer).find(".data_select");
+  var moduleContainer = $(elem.target).parents('.form-inline')[0], 
+      dataControl = $(moduleContainer).find('.data_control'), 
+      dataSelect = $(moduleContainer).find('.data_select');
 /* @formatter:on */
 
   mb.modulePath = elem.target.value.replace(/((module_)|(.html(.eco|.hb|.jade)))/g, '');
   mb.moduleName = mb.modulePath.replace(/.html(.eco|.hb|.jade)/g, '');
 
   $.ajax({
-    url : "/dnames",
+    url : '/dnames',
     data : {
       mname : mb.moduleName
     }
@@ -98,18 +98,19 @@ function getDataList(elem) {
 
     $(dataControl).toggle(dnames.length > 0);
     $(dataControl).toggleClass('disabled', dnames.length == 0);
-    $(dataSelect).html("");
+    $(dataSelect).html('');
 
     $.each(dnames, function(i, e) {
 
-      $(dataSelect).append("<option value=" + mb.moduleName + "/" + e + ">" + e + "</option>")
-      if (e == "default.json") {
-        $(dataSelect).val(mb.moduleName + "/" + e);
+      $(dataSelect).append('<option value=' + mb.moduleName + '/' + e + '>' + e + '</option>')
+      if (e == 'default.json') {
+        $(dataSelect).val(mb.moduleName + '/' + e);
       }
 
     })
 
-     $(dataSelect).trigger("change");
+
+    $(dataSelect).trigger('change');
 
   });
 
@@ -117,19 +118,50 @@ function getDataList(elem) {
 
 function getJsonContent(dataSelect, elem) {
 
+  var result = '', count = 0, me;
   selectedElem = $(dataSelect);
 
-  $.ajax({
-    url : "/getjson",
-    data : {
-      path : elem.target.value
-    }
-  }).done(function(res) {
+  $.each(elem.target.options, function(index, domEle) {
 
-    addModule(res);
+    me = domEle;
 
-  });
+    $.ajax({
+      url : '/getjson',
+      data : {
+        path : elem.target.options[index].value
+      },
+    }).done(function(res) {
 
+      result = JSON.parse(res);
+
+      if (result.config && result.config.name) {
+        elem.target.options[count].text = result.config.name;
+
+      }
+
+      /* test if node is undefined*/
+      if (result.config && result.config.maxSubModule) {
+        $(elem.target.options[count]).data({
+          maxSubModule : result.config.maxSubModule
+        });
+      }
+
+      if (elem.target.options[count].selected && $(elem.target.options[count]).data("maxSubModule") > 0) {
+        console.log($(elem.target.options[count]).data("maxSubModule"));
+
+        subModuleContainer = $(selectedElem).parents('.main-module-container').find('.submodContainer');
+        console.log(subModuleContainer);
+        $(subModuleContainer).show();
+
+      } else if (elem.target.options[count].selected && $(selectedElem).parents('.submodContainer').length === 0) {
+        $(selectedElem).parents('.main-module-container').find('.submodContainer').hide();
+      }
+
+      count = count + 1;
+    });
+  })
+
+  //addModule(result);
 }
 
 /*************************************
@@ -145,24 +177,30 @@ function addSuperModuleNode() {
   })
 };
 
+function setSuperModule(dataSelect, elem) {
+  var selectedElem = $(dataSelect).find("option")[dataSelect.selectedIndex];
+  $(selectedElem).data();
+  var temp;
+}
+
 /*************************************
  *     Dom Manipulation functions    *
  *************************************/
 
 function createModuleContainer(elem) {
-  modulesContainer = $("#main-forms-container");
+  modulesContainer = $('#main-forms-container');
 
   $moduleGroupContainer = moduleGroupContainer.clone(true);
   $moduleGroup = moduleGroup.clone(true);
   $submodContainer = submodContainer.clone(true);
 
-  $($submodContainer).find("button.addSubModule").bind("click", function(e) {
+  $($submodContainer).find('button.addSubModule').bind('click', function(e) {
     e.preventDefault();
     addSubModule(this);
   });
 
-  $($moduleGroupContainer).append($moduleGroup,$submodContainer);
-  
+  $($moduleGroupContainer).append($moduleGroup, $submodContainer);
+
   $(modulesContainer).append($moduleGroupContainer);
 
   getModuleName();
@@ -181,86 +219,71 @@ function addModule(res) {
     addSuperModuleNode();
   }
 
-  if (mb.moduleData.config.maxSubModule > 0 ) {
+  if (mb.moduleData.config.maxSubModule > 0) {
 
-    subModuleContainer = $(selectedElem).parents(".main-module-container").find(".submodContainer");
+    subModuleContainer = $(selectedElem).parents('.main-module-container').find('.submodContainer');
 
     $(subModuleContainer).show();
 
-  } else if($(selectedElem).parents(".submodContainer").length === 0) {
-    $(selectedElem).parents(".main-module-container").find(".submodContainer").hide();
+  } else if ($(selectedElem).parents('.submodContainer').length === 0) {
+    $(selectedElem).parents('.main-module-container').find('.submodContainer').hide();
   }
 }
 
 function addSubModule(elem) {
 
   /* @formatter:off */
-  var subModContainer = $(elem).parent(".btn-addSubModule"),
+  var subModContainer = $(elem).parent('.btn-addSubModule'),
       $moduleGroup = moduleGroup.clone(true);
  /* @formatter:on */
 
+  $($moduleGroup).find('select').each(function() {
+    this.name === 'module' ? this.name = 'subModule' : this.name = 'subModuleData';
+  });
+
   $(subModContainer).before($moduleGroup);
   getModuleName();
+
 };
 
+// when you hit build run the generate script
+$('#build').bind('click', function(e) {
 
+  var myForm = $('#myForm');
 
+  // $("#build").button('loading');
 
+  $.ajax({
+    type : 'POST',
+    url : myForm.attr('action'),
+    data : myForm.serialize(),
 
-
-
-
-
- // when you hit build run the generate script
-  $("#build").bind('click', function(e) {
-
-    var myForm = $("#myForm");
-
-   // $("#build").button('loading');
-
-    $.ajax({
-      type : "POST",
-      url : myForm.attr('action'),
-      data : myForm.serialize(),
-      
-      success : function(res) {
-        if (res !== "false" && res !== false) {
-          $("#build").button('reset');
-          if ($('.alert').length > 0) {
-            $('.alert').remove();
-          }
-          $('body').prepend('<div id="build_success" class="alert alert-success">Success! Check it out here: <a target="_blank" href="http://' + res + '">' + res + '</a><button type="button" class="close" data-dismiss="alert">×</button></div>');
-          $('#build_success').alert();
-        } else {
-          if ($('.alert').length > 0) {
-            $('.alert').remove();
-          }
-          $('body').prepend('<div id="build_success" class="alert alert-success">ERROR: Build Failed!<button type="button" class="close" data-dismiss="alert">×</button></div>');
-          $('#build_success').alert();
+    success : function(res) {
+      if (res !== 'false' && res !== false) {
+        $('#build').button('reset');
+        if ($('.alert').length > 0) {
+          $('.alert').remove();
         }
-
-      },
-      error : function(jqXHR, textStatus, errorThrown) {
-        $('body').prepend('<div id="build_success" class="alert alert-success">ERROR: Check it out here: The AJax call return an error : ' + errorThrown + '<button type="button" class="close" data-dismiss="alert">×</button></div>');
+        $('body').prepend('<div id="build_success" class="alert alert-success">Success! Check it out here: <a target="_blank" href="http://' + res + '">' + res + '</a><button type="button" class="close" data-dismiss="alert">×</button></div>');
+        $('#build_success').alert();
+      } else {
+        if ($('.alert').length > 0) {
+          $('.alert').remove();
+        }
+        $('body').prepend('<div id="build_success" class="alert alert-success">ERROR: Build Failed!<button type="button" class="close" data-dismiss="alert">×</button></div>');
         $('#build_success').alert();
       }
 
-    });
+    },
+    error : function(jqXHR, textStatus, errorThrown) {
+      $('body').prepend('<div id="build_success" class="alert alert-success">ERROR: Check it out here: The AJax call return an error : ' + errorThrown + '<button type="button" class="close" data-dismiss="alert">×</button></div>');
+      $('#build_success').alert();
+    }
 
   });
 
-  //turn build into a bootstrap button
-  $("#build").button();
+});
 
-
-
-
-
-
-
-
-
-
-
-
+//turn build into a bootstrap button
+$('#build').button();
 
