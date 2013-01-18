@@ -416,8 +416,8 @@
 		}
 
 		if ( !th.range ) {
-			th.currentPosition = pos;
-			th.currentPositionPct = pos / th.railSize * 100;
+			th.currentPosition = th.lastPosition;
+			th.currentPositionPct = th.lastPosition / th.railSize * 100;
 
 		// Range control
 		// Calculate position values

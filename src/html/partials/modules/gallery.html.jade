@@ -15,16 +15,17 @@ layout3: "normal"
         h2.primary-tout-title Cyber-shot&reg;
 
 .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
-  .tabs-container.container
+  .tabs-container.container.full-bleed
     .tabs
       each tab, i in data.tabs
         activeClass = i === 0 ? ' active' : ''
-        tabClass = 'tab ghost-center-wrap' + activeClass
-        div(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
-          .ghost-center
-            .holder-for-icon
-              i(class="icon-tab-" + tab.icon)
-            .l3.tab-label= tab.label
+        tabClass = 'tab' + activeClass
+        button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
+          .ghost-center-wrap
+            .ghost-center
+              .holder-for-icon
+                i(class="icon-tab-" + tab.icon)
+              .l3.tab-label= tab.label
     nav.tab-nav-btns
       .tab-nav.tab-nav-prev
       .tab-nav.tab-nav-next

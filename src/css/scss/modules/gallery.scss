@@ -154,19 +154,19 @@
       padding-top: 50.7%;
     }
 
-    @media (min-width:1150px) {
+    @media (min-width: 1150px) {
       .shuffle-6 &:after {
         padding-top: 104.827052%;
       }
     }
 
-    @media (min-width:1339px) {
+    @media (min-width: 1339px) {
       .shuffle-6 &:after {
         padding-top: 104.32%;
       }
     }
 
-    @media (min-width:1400px) {
+    @media (min-width: 1400px) {
       .shuffle-6 &:after {
         padding-top: 103.82%;
       }
@@ -201,7 +201,7 @@
       max-width: 21.25em;
       color: #75e7ef;
 
-      @media (max-width:767px) {
+      @media (max-width: 767px) {
         font-size: $font_14_16;
         top: 0.625em;
         left: 0.625em;
@@ -216,7 +216,7 @@
       margin: 0;
       color: #ffffff;
 
-      @media (max-width:767px) {
+      @media (max-width: 767px) {
         bottom: 0.625em;
         left: 0.625em;
       }
@@ -278,14 +278,14 @@
       top: 2.5em;
       left: 2.5em;
       margin: 0;
-      max-width: 225px;
+      max-width: 14.0625em;
 
       i {
         margin-top: .5em;
         margin-left: 0.625em;
       }
 
-      @media (max-width:767px) {
+      @media (max-width: 767px) {
         font-size: $font_14_16;
         top: 0.625em;
         left: 0.625em;
@@ -303,7 +303,7 @@
       left: 2.5em;
       margin: 0;
 
-      @media (max-width:767px) {
+      @media (max-width: 767px) {
         bottom: 0.625em;
         left: 0.625em;
       }
@@ -371,7 +371,7 @@
 
 }
 
-@media (min-width:768px) and (max-width:979px) {
+@media (min-width: 768px) and (max-width: 979px) {
 
 }
 
@@ -504,12 +504,17 @@
       border-color: $gray;
     }
   }
+
+  .btn + .btn {
+    margin-left: .3125em;
+  }
 }
 
 .filter-options {
   position: relative;
   padding-top: 1.25em;
   padding-bottom: 1.25em;
+
 }
 
 
@@ -518,7 +523,7 @@
 
   // Give active filter labels some spacing
   &:not(:first-child) {
-    margin-left: 2px;
+    margin-left: .125em;
   }
 }
 
@@ -718,7 +723,7 @@
   }
 
   &.overflowing:before {
-    @include box-shadow(2px 0px .1875em -.0625em $transparentBlack);
+    @include box-shadow(.125em 0 .1875em -.0625em $transparentBlack);
     @include transition-timing-function(ease-out);
   }
 }
@@ -791,7 +796,7 @@
 
   // The sticky-count uses a pseudo element for the box-shadow
   &:not(.sticky-count) {
-    @include box-shadow(0 2px 5px 0 $transparentBlack);
+    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
   }
 
   // Needs more specificity to override span margins
@@ -821,7 +826,7 @@
     height: 100%;
     background: $grayLightFieldLarge;
     border-right: .0625em solid rgba(0,0,0,0.05);
-    @include box-shadow(0 2px 5px 0 $transparentBlack);
+    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
   }
 
   .media .pull-left {
@@ -837,7 +842,7 @@
 
 .box-close {
   float: right;
-  @include square(36px);
+  @include square(2.25em);
   padding: 0;
   line-height: 1;
   background: $gray;
