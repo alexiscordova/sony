@@ -28,14 +28,14 @@
 		opts:
 			Possible values to be passed in through the _opts_ parameter
 
-			orientation - (String, Default: "h"): Horizontal or Vertical.
-							Valid values: "h" or "v"
+			orientation - (String, Default: 'h'): Horizontal or Vertical.
+							Valid values: 'h' or 'v'
 			range - (Boolean, Default: false): if true, this will add a second handle for a range controller
 			callback - (function, Default: null): function to call every time the slider is moved/updated.
 						Returns: currentPositionPct (Integer, current position percent)
 			initialValue - (String or Number, Default: 0): Initial handle position.
 							Valid values:
-								for positioning relative to the rail's total length: "0%" through "100%" ,
+								for positioning relative to the rail's total length: '0%' through '100%' ,
 								for positioning relative to the rail's origin: the number (in px),
 								if 'steps' is enabled, the step number
 			initialMin - (String or Number, Default: 0): Initial minimum range handle position
@@ -44,13 +44,13 @@
 			$ambit - ($Object, Default: null): Element to use as the ambit
 						(the colored section along the rail to signify the area 'below' the handle).
 						If null or undefined, a new <span/> will be created, with a class
-						of "ambit".
+						of 'ambit'.
 			$handle - ($Object, Default: null): Element to use as the handle.
 						If null or undefined, a new <span/> will be created, with a class
-						of "handle".
+						of 'handle'.
 			$minHandle - ($Object, Default: null): Element to use as the handle.
 						If null or undefined, a new <span/> will be created, with a class
-						of "handle slidecontrol-min-handle".
+						of 'handle slidecontrol-min-handle'.
 			hideHandle - (Boolean, Default: false): Hides the handle
 			hideAmbit - (Boolean, Default: false): Hides the ambit
 
@@ -59,9 +59,9 @@
 */
 
 ;(function($) {
-	"use strict";
+	'use strict';
 
-	var namespace = "rangecontrol";
+	var namespace = 'rangecontrol';
 
 	var RangeControl = function($rail, opts) {
 		// set up defaults, override with opts.
@@ -75,33 +75,33 @@
 			// Our container
 			th.$rail = $rail;
 
-			th.evts.down = ( !th.isTouch ? "mousedown" : "touchstart" ) + "." + namespace;
-			th.evts.move = ( !th.isTouch ? "mousemove" : "touchmove" ) + "." + namespace;
-			th.evts.up = ( !th.isTouch ? "mouseup" : "touchend" ) + "." + namespace;
+			th.evts.down = ( !th.isTouch ? 'mousedown' : 'touchstart' ) + '.' + namespace;
+			th.evts.move = ( !th.isTouch ? 'mousemove' : 'touchmove' ) + '.' + namespace;
+			th.evts.up = ( !th.isTouch ? 'mouseup' : 'touchend' ) + '.' + namespace;
 
 			// if rail.css position is static, change it to relative.
-			if ( th.$rail.css("position") === "static" ) {
-				th.$rail.css("position", "relative");
+			if ( th.$rail.css('position') === 'static' ) {
+				th.$rail.css('position', 'relative');
 			}
 
-			// make sure orientation is either "v" or "h" in case an invalid value is passed in.
-			th.orientation = th.orientation === "v" ? "v" : "h";
-			th.dimension = th.orientation === "h" ? "width" : "height";
-			th.property = th.orientation === "h" ? "left" : "top";
+			// make sure orientation is either 'v' or 'h' in case an invalid value is passed in.
+			th.orientation = th.orientation === 'v' ? 'v' : 'h';
+			th.dimension = th.orientation === 'h' ? 'width' : 'height';
+			th.property = th.orientation === 'h' ? 'left' : 'top';
 
 			// * *
 			// Set up the handle
 			// * *
 
 			// If $handle is passed in as a jQuery Object, leave it; otherwise, create one.
-			th.$handle = th.$handle instanceof jQuery ? th.$handle : $("<span/>", {"class" : "handle"});
-			th.$handle.attr("unselectable", "on").css(th.handleCss);
+			th.$handle = th.$handle instanceof jQuery ? th.$handle : $('<span/>', {'class' : 'handle'});
+			th.$handle.attr('unselectable', 'on').css(th.handleCss);
 
 			// Create another handle if we're dealing with a range.
 			if ( th.range ) {
-				th.$minHandle = th.$minHandle instanceof jQuery ? th.$minHandle : $("<span/>", {"class" : "handle"});
-				th.$minHandle.data("min", true).addClass(namespace + "-min-handle").attr("unselectable", "on").css(th.handleCss);
-				th.$handle.data("max", true).addClass(namespace + "-max-handle");
+				th.$minHandle = th.$minHandle instanceof jQuery ? th.$minHandle : $('<span/>', {'class' : 'handle'});
+				th.$minHandle.data('min', true).addClass(namespace + '-min-handle').attr('unselectable', 'on').css(th.handleCss);
+				th.$handle.data('max', true).addClass(namespace + '-max-handle');
 			}
 
 			// If the handle doesn't already exist inside of $rail, append it.
@@ -118,28 +118,28 @@
 			// In this case, only the $ambit will be visible. If that's disabled, too, the user's SOL.
 			if ( th.hideHandle ) {
 				th.$handle.css({
-					"opacity": "0",
-					"background": "none",
-					"border": "none"
+					'opacity': '0',
+					'background': 'none',
+					'border': 'none'
 				});
 			}
 			if ( th.hideHandle && th.hideAmbit ) {
-				console.warn("**HEY!** $handle and $ambit can't both be false!");
+				console.warn('**HEY!** $handle and $ambit can\'t both be false!');
 			}
 
 
 			// As long as $ambit isn't false (null, true, a jQuery obj), we need one.
 			// If it's passed in as a jQuery Object, use that. Otherwise create a new one.
 			if ( !th.hideAmbit ) {
-				th.$ambit = th.$ambit instanceof jQuery ? th.$ambit : $("<span/>", {"class" : "ambit"});
+				th.$ambit = th.$ambit instanceof jQuery ? th.$ambit : $('<span/>', {'class' : 'ambit'});
 
 				if ( th.$rail.find(th.$ambit).length === 0) {
 					th.$rail.append(th.$ambit);
 				}
 
 				th.$ambit.css({
-					"display" : "block",
-					"position" : "absolute"
+					'display' : 'block',
+					'position' : 'absolute'
 				}).css( th.property, 0 );
 			} else {
 				th.$ambit = false;
@@ -149,10 +149,10 @@
 
 		events = function() {
 			var $handles = th.range ? th.$handle.add(th.$minHandle) : th.$handle,
-				$body = $("body");
+				$body = $('body');
 
 			// Make sure the handle doesn't get a selected-text highlight
-			$handles.on("selectstart dragstart mousedown", function() {
+			$handles.on('selectstart dragstart mousedown', function() {
 				return false;
 			});
 
@@ -168,14 +168,14 @@
 
 				downEvt.preventDefault();
 
-				var $handle = this.className.indexOf("min") > -1 ? th.$minHandle : th.$handle,
+				var $handle = this.className.indexOf('min') > -1 ? th.$minHandle : th.$handle,
 					theClass = !th.range ? '' :
-						this.className.indexOf("min") > -1 ? 'grabbing-min' : 'grabbing-max',
+						this.className.indexOf('min') > -1 ? 'grabbing-min' : 'grabbing-max',
 					offset = th.$rail.offset();
 				th.inMotion = true;
-				
-				$body.addClass("grabbing " + theClass);
-				$handle.addClass("grabbed");
+
+				$body.addClass('grabbing ' + theClass);
+				$handle.addClass('grabbed');
 				th.fire( th.evts.start );
 
 				// User moves cursor/finger
@@ -186,7 +186,7 @@
 					pageY = th.isTouch ? touch.pageY : moveEvt.pageY,
 					position = 0;
 
-					if ( th.orientation === "h" ) {
+					if ( th.orientation === 'h' ) {
 						position = pageX - offset.left;
 					} else {
 						position = pageY - offset.top;
@@ -196,25 +196,25 @@
 
 				// User lets go
 				.on( th.evts.up, function() {
-					$(document).off("." + namespace);
+					$(document).off('.' + namespace);
 					th.inMotion = false;
-					$body.removeClass("grabbing " + theClass);
-					$handles.removeClass("grabbed");
+					$body.removeClass('grabbing ' + theClass);
+					$handles.removeClass('grabbed');
 					th.fire( th.evts.end );
 				});
 
 			// User clicks, not click-and-hold.
-			}).on("click." + namespace, function(e) {
+			}).on('click.' + namespace, function(e) {
 				e.stopPropagation();
 			});
 
 			// User clicks on the rail. Jump the handle to the clicked spot (or nearest step).
-			th.$rail.on("click", function(e) {
+			th.$rail.on('click', function(e) {
 				if(!th.inMotion) {
 					var offset = th.$rail.offset();
 
 					var slideTo;
-					if (th.orientation === "h") {
+					if (th.orientation === 'h') {
 						slideTo = e.pageX - offset.left;
 					} else {
 						slideTo = e.pageY - offset.top;
@@ -225,7 +225,7 @@
 
 
 			// Update the rail size on window resize
-			$(window).on("resize." + namespace, function() {
+			$(window).on('resize.' + namespace, function() {
 				th.refresh(false);
 			});
 		};
@@ -275,19 +275,19 @@
 
 		// Set up initial position of the handle, based on initialValue.
 		// if initialValue is a number:
-		if ( $.type(input) === "number" && input ) {
+		if ( $.type(input) === 'number' && input ) {
 			// slideToPos: if 'steps' is enabled, slide to that step; otherwise slide to that px position.
 			pixels = input * (th.steps ? th.stepSize : 1);
 
 		// if initialValue is a string:
-		} else if ( $.type(input) === "string" ) {
-			// if initialValue contains "px", convert it to an Integer & slide to that absolute position.
+		} else if ( $.type(input) === 'string' ) {
+			// if initialValue contains 'px', convert it to an Integer & slide to that absolute position.
 			// this will ignore whether 'steps' is enabled.
-			if ( input.indexOf("px") > -1 ) {
+			if ( input.indexOf('px') > -1 ) {
 				pixels = parseInt( input, 10 );
 
 			// if initialValue ends with a % sign, convert it to an Integer & slide to that relative position.
-			} else if ( input.indexOf("%") > -1 ) {
+			} else if ( input.indexOf('%') > -1 ) {
 				pixels = th.railSize * ( parseInt( input, 10 ) / 100);
 			}
 		}
@@ -316,7 +316,7 @@
 
 		var th = this,
 		data = {},
-		isMin = $handle.data("min") === true,
+		isMin = $handle.data('min') === true,
 		curStep, newStep,
 
 		getStep = function(pos) {
@@ -408,7 +408,7 @@
 		var th = this,
 			response = [];
 
-		$handle[0].style[ th.property ] = ( pos / th.railSize * 100 ) + "%";
+		$handle[0].style[ th.property ] = ( pos / th.railSize * 100 ) + '%';
 
 		if ( !th.range ) {
 			th.currentPosition = pos;
@@ -419,7 +419,7 @@
 		} else {
 
 			// If the plugin is being intialized, but it is hidden, our calculated values will be wrong. Use initial ones.
-			// To update isHidden, call .rangeControl("refresh") when the visibility changes
+			// To update isHidden, call .rangeControl('refresh') when the visibility changes
 			if ( th.isHidden ) {
 				th.currentPosition = th.parseHandlePosition( th.initialMax );
 				th.currentMinPosition = th.parseHandlePosition( th.initialMin );
@@ -445,12 +445,12 @@
 			}
 
 			// Change ambit's width/height and left/top
-			th.$ambit[ th.dimension ]( th.getHandleDist() + "%" );
-			th.$ambit.css( th.property, th.currentMinPositionPct + "%" );
+			th.$ambit[ th.dimension ]( th.getHandleDist() + '%' );
+			th.$ambit.css( th.property, th.currentMinPositionPct + '%' );
 		}
 
 		if ( th.$ambit && !th.range ) {
-			th.$ambit[ th.dimension ]( th.currentPositionPct + "%" );
+			th.$ambit[ th.dimension ]( th.currentPositionPct + '%' );
 		}
 
 		// Build response for slid event
@@ -522,7 +522,7 @@
 			size;
 
 		// Get the size of the rail
-		size = th.orientation === "h" ? th.$rail.outerWidth() : th.$rail.outerHeight();
+		size = th.orientation === 'h' ? th.$rail.outerWidth() : th.$rail.outerHeight();
 
 		// Only make continue if the size has actually changed
 		if ( size !== th.railSize ) {
@@ -561,7 +561,7 @@
 		var th = this;
 
 		// If the rail is not visible, there may be some sizing issues
-		th.isHidden = th.$rail.is(":hidden");
+		th.isHidden = th.$rail.is(':hidden');
 
 		// Get the size of the rail
 		th.updateSize( andHandles );
@@ -572,7 +572,7 @@
 	// Resest sizing and handle positions
 	RangeControl.prototype.reset = function( isHardReset ) {
 		var th = this,
-			hasPercent = th.$handle[0].style[ th.property ].indexOf("%") > -1;
+			hasPercent = th.$handle[0].style[ th.property ].indexOf('%') > -1;
 
 
 		// Set the rail size, step size, and visibility
@@ -597,7 +597,7 @@
 	RangeControl.prototype.destroy = function() {
 		var th = this;
 
-		th.$rail.empty().removeData("rangeControl");
+		th.$rail.empty().removeData('rangeControl');
 	};
 
 
@@ -614,14 +614,14 @@
 		opts:
 			Possible values to be passed in through the _opts_ parameter
 
-			orientation - (String, Default: "h"): Horizontal or Vertical.
-							Valid values: "h" or "v"
+			orientation - (String, Default: 'h'): Horizontal or Vertical.
+							Valid values: 'h' or 'v'
 			range - (Boolean, Default: false): if true, this will add a second handle for a range controller
 			callback - (function, Default: null): function to call every time the slider is moved/updated.
 						Returns: currentPositionPct (Integer, current position percent)
 			initialValue - (String or Number, Default: 0): Initial handle position.
 							Valid values:
-								for positioning relative to the rail's total length: "0%" through "100%" ,
+								for positioning relative to the rail's total length: '0%' through '100%' ,
 								for positioning relative to the rail's origin: the number (in px),
 								if 'steps' is enabled, the step number
 			initialMin - (String or Number, Default: 0): Initial minimum range handle position
@@ -630,13 +630,13 @@
 			$ambit - ($Object, Default: null): Element to use as the ambit
 						(the colored section along the rail to signify the area 'below' the handle).
 						If null or undefined, a new <span/> will be created, with a class
-						of "ambit".
+						of 'ambit'.
 			$handle - ($Object, Default: null): Element to use as the handle.
 						If null or undefined, a new <span/> will be created, with a class
-						of "handle".
+						of 'handle'.
 			$minHandle - ($Object, Default: null): Element to use as the handle.
 						If null or undefined, a new <span/> will be created, with a class
-						of "handle slidecontrol-min-handle".
+						of 'handle slidecontrol-min-handle'.
 			hideHandle - (Boolean, Default: false): Hides the handle
 			hideAmbit - (Boolean, Default: false): Hides the ambit
 
@@ -647,14 +647,14 @@
 		var args = Array.prototype.slice.apply( arguments );
 		return this.each(function() {
 			var $this = $(this),
-				rangeControl = $this.data("rangeControl");
+				rangeControl = $this.data('rangeControl');
 
 			if ( !rangeControl ) {
 				rangeControl = new RangeControl($this, opts);
-				$this.data("rangeControl", rangeControl);
+				$this.data('rangeControl', rangeControl);
 			}
 
-			if ( typeof opts === "string" ) {
+			if ( typeof opts === 'string' ) {
 				rangeControl[ opts ].apply( rangeControl, args.slice(1) );
 			}
 		});
@@ -663,19 +663,19 @@
 	$.fn.rangeControl.defaults = {
 		initialValue : 0,
 		steps : 0,
-		orientation : "h",
+		orientation : 'h',
 		hideHandle : false,
 		hideAmbit : false,
 		$handle : null,
 		$ambit : null,
 		callback : null,
 		range : false,
-		initialMin : "0",
-		initialMax : "100%"
+		initialMin : '0',
+		initialMax : '100%'
 	};
 
 	$.fn.rangeControl.settings = {
-		isTouch : !!( "ontouchstart" in window ),
+		isTouch : !!( 'ontouchstart' in window ),
 		inMotion : false,
 		stepSize : 0,
 		railSize : false,
@@ -684,20 +684,20 @@
 		currentMinPosition : false,
 		currentMinPositionPct : false,
 		evts : {
-			start : "scrubstart",
-			end : "scrubend",
-			slid : "slid"
+			start : 'scrubstart',
+			end : 'scrubend',
+			slid : 'slid'
 		},
 
 		handleCss : {
-			"display" : "block",
-			"position" : "absolute",
-			"top" : 0,
-			"left" : 0,
-			"MozUserSelect": "none",
-			"msUserSelect": "none",
-			"webkitUserSelect": "none",
-			"userSelect":"none"
+			'display' : 'block',
+			'position' : 'absolute',
+			'top' : 0,
+			'left' : 0,
+			'MozUserSelect': 'none',
+			'msUserSelect': 'none',
+			'webkitUserSelect': 'none',
+			'userSelect':'none'
 		}
 	};
 }(jQuery));

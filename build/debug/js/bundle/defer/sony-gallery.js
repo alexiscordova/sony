@@ -662,6 +662,8 @@
         prevMin = self.price.min,
         prevMax = self.price.max;
 
+        console.log(percents.max);
+
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
 
@@ -1236,7 +1238,7 @@
       state.$items
         .find('.compare-item-remove')
         .parent()
-        .andSelf()
+        .addBack()
         .removeClass('hide');
 
       // Disable reset button

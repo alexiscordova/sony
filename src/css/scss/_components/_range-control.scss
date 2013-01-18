@@ -27,6 +27,8 @@ $rangeControlSize: 14px;
   }
 
   .handle {
+    position: absolute;
+    top: 0;
     z-index: 5;
     margin-top: 0;
     margin-left: -10px;
@@ -47,10 +49,17 @@ $rangeControlSize: 14px;
       // @include box-shadow(0 0 0 3px $transparentBlack, 0 0 5px $innerGlow);
     }
   }
+
+  .rangecontrol-min-handle {
+    left: 0%;
+  }
+  .rangecontrol-max-handle {
+    left: 1000%;
+  }
 }
 
 .ie .handle {
-  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */ 
+  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */
 }
 
 .grabbing .handle {
