@@ -7,18 +7,45 @@
 
 .uxmc-wrapper {
   background-color: #ccc;
-  padding: 20px;
+
+  .uxmc-overlay {
+    position: relative;
+    z-index: 1;
+  }
+
+  .base-product {
+    padding: 20px;
+    position: relative;
+    width: 30%;
+    float: left;
+
+    img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      z-index: 0;
+    }
+
+  }
 
   .partner-products {
+    margin: 0;
     position: relative;
+    width: 69%;
+    float: right;
 
     li {
       position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
 
       img {
         position: absolute;
         left: 0;
         top: 0;
+        width: 100%;
       }
     }
   }
