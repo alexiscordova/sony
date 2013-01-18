@@ -9,7 +9,7 @@ docpadConfig = {
       plugins:
         jade:
           jadeOptions:
-            pretty: true
+            pretty: false
     },
     mbuilder:{
       srcPath:'html/'
@@ -27,7 +27,7 @@ docpadConfig = {
       documentsPaths: ['docs']
       outPath: '../docs/'
     }
-    
+
   }
   templateData:{
     site:{
@@ -44,9 +44,9 @@ docpadConfig = {
     title:(name) -> t = docpad.database.findOne({id:'pages/'+name}); output = if t then t.attributes.title else '';
     desc:(name) ->  d = docpad.database.findOne({id:'pages/'+name}); output = if d then d.attributes.description else '';
   }
-  
 
-  
+
+
   plugins:{
     partials:{
        partialsPath:'partials'
@@ -57,7 +57,7 @@ docpadConfig = {
         isEnv:(context, options) -> output = if (context in @getEnvironment()) then options.fn(this) else options.inverse(this),
         json:(context, options) -> output = JSON.stringify(context)
       }
-    }    
+    }
   }
 }
 module.exports = docpadConfig
