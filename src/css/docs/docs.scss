@@ -1430,6 +1430,10 @@ form.bs-docs-example {
   color:$grayDark;
   text-align:center;
 
+  &.full-size{
+    width:100%;
+  }
+
   .docs-page-structure-nav{
     padding:6px 0;
     background:$grayLight;
@@ -1444,7 +1448,8 @@ form.bs-docs-example {
   }
 
   .docs-page-structure-main2,
-  .docs-page-structure-main3{
+  .docs-page-structure-main3,
+  .docs-page-structure-main4{
     background:$blue;
     padding:1px 0;
 
@@ -1482,6 +1487,7 @@ form.bs-docs-example {
         }
       }
     }  }
+  
   .docs-page-structure-main3{
     .docs-page-structure-main-container-grid-wrap{
       padding:0;
@@ -1500,6 +1506,22 @@ form.bs-docs-example {
       }
     }
   }
+
+  &.full-size{
+    background:$blue;
+    padding:1px 0;
+
+    .container{
+      padding-top:20px;
+      padding-bottom:20px;
+      margin-bottom:1px;
+      background:rgba(255,255,255,0.3);
+      border:solid 1px rgba(255,255,255,0.4);
+      &:first-child{ margin-top:0; };
+      &:last-child{ margin-bottom:0; };
+    }
+  }
+  
 }
 .docs-page-structure-page-max{
   width:600px;
