@@ -16,67 +16,66 @@
     var self = this;
     $.extend(self, {}, $.fn.formActions.defaults, options, $.fn.formActions.settings);
 
-  }
-
+  };
 
   // Sample module method
   FormActions.prototype = {
     constructor: FormActions,
 
     initInput : function( $input ) {
-    	var self = this;
+      var self = this;
 
-    	var inputObj = {};
-    	inputObj.$input = $input;
-    	inputObj.$inputGroup = $input.closest('.input-group');
-    	inputObj.$inputWrapper = $input.closest('.input-outer-wrapper');
-    	inputObj.$inputIcon = inputObj.$inputGroup.find('.input-icon');
-    	inputObj.$inputBtn = inputObj.$inputGroup.find('.input-btn');
-    	inputObj.$inputClearBtn = inputObj.$inputGroup.find('.input-clear-btn');
-	    inputObj.watermarkText = $input.val();
+      var inputObj = {};
+      inputObj.$input = $input;
+      inputObj.$inputGroup = $input.closest('.input-group');
+      inputObj.$inputWrapper = $input.closest('.input-outer-wrapper');
+      inputObj.$inputIcon = inputObj.$inputGroup.find('.input-icon');
+      inputObj.$inputBtn = inputObj.$inputGroup.find('.input-btn');
+      inputObj.$inputClearBtn = inputObj.$inputGroup.find('.input-clear-btn');
+      inputObj.watermarkText = $input.val();
       inputObj.clearBtnClicked = false;
 
-      $input.on("focus", function(){
+      $input.on('focus', function(){
         // clear watermarkText on focus
-        // console.log("input: focus");
+        // console.log('input: focus');
 
-        if ($input.val() == inputObj.watermarkText){
-          $input.val("");
+        if ($input.val() === inputObj.watermarkText){
+          $input.val('');
           inputObj.$inputIcon.hide();
-        };
-      }).on("blur", function(){
+        }
+      }).on('blur', function(){
         
-        // console.log("input: blur");
+        // console.log('input: blur');
 
-        if ($input.val() == ""){
+        if ($input.val() === ''){
           $input.val(inputObj.watermarkText);
           inputObj.$inputIcon.show();
-        };
+        }
       }).on('mouseup keyup change cut paste', function(){
 
-        // console.log("input: touch mouseup keyup change cut paste");
+        // console.log('input: touch mouseup keyup change cut paste');
 
-        if (!inputObj.$inputWrapper.hasClass("searching")){
-          if (!($input.val() == "" || $input.val() == inputObj.watermarkText)){
-            inputObj.$inputWrapper.addClass("searching");
+        if (!inputObj.$inputWrapper.hasClass('searching')){
+          if (!($input.val() === '' || $input.val() === inputObj.watermarkText)){
+            inputObj.$inputWrapper.addClass('searching');
             self.doSearch( inputObj );
           }
-        } else if ($input.val() == ""){
+        } else if ($input.val() === ''){
           self.resetSearchResults( inputObj );
         } else {
           self.doSearch( inputObj );
         }
       });
 
-      inputObj.$inputIcon.on("click",function(){
+      inputObj.$inputIcon.on('click',function(){
         $input.focus();
       });
 
-      inputObj.$inputClearBtn.on("click",function(){
+      inputObj.$inputClearBtn.on('click',function(){
         inputObj.clearBtnClicked = true;
         self.clearSearchResults( inputObj );
         inputObj.$input.focus();
-      }).on("mouseleave",function(){
+      }).on('mouseleave',function(){
         inputObj.clearBtnClicked = false; // just make sure it's cleared
       });
     },
@@ -84,45 +83,45 @@
     doSearch: function( inputObj ){
       var queryStr = inputObj.$input.val();
 
-      switch( inputObj.$input.attr("id") ){
-      	case "footer-email-input":
-      		console.log("footer-email-input, queryStr: " + queryStr);
-      		break;
+      switch( inputObj.$input.attr('id') ){
+        case 'footer-email-input':
+          console.log('footer-email-input, queryStr: ' + queryStr);
+          break;
 
-      	case "store-locator-search-input":
-      		console.log("store-locator-search-input, queryStr: " + queryStr);
-      		break;
+        case 'store-locator-search-input':
+          console.log('store-locator-search-input, queryStr: ' + queryStr);
+          break;
 
-      	case "nav-search-input":
-      		console.log("nav-search-input, queryStr: " + queryStr);
-      		break;
+        case 'nav-search-input':
+          console.log('nav-search-input, queryStr: ' + queryStr);
+          break;
 
-      	default:
-      	break;
+        default:
+        break;
 
       }
     },
 
     clearInput: function( inputObj ){
-      inputObj.$input.val("");
+      inputObj.$input.val('');
       inputObj.$inputIcon.hide();
     },
 
     clearSearchResults: function( inputObj ){
-    	var self = this;
-    	self.clearInput(inputObj);
-      inputObj.$inputWrapper.removeClass("searching");
+      var self = this;
+      self.clearInput(inputObj);
+      inputObj.$inputWrapper.removeClass('searching');
     },
 
     // this just resets the actual results without clearing the input, for instance when the search term had been deleted & is blank.
     resetSearchResults: function( inputObj ){
-      inputObj.$inputWrapper.removeClass("searching");      
+      inputObj.$inputWrapper.removeClass('searching');      
     },
 
     initTouchToggles: function( $touchToggles ) {
       $touchToggles.each(function(){
-        $(this).on("touchstart click",function(){
-          $(this).toggleClass("active");
+        $(this).on('touchstart click',function(){
+          $(this).toggleClass('active');
         });
       });
     }

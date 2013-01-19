@@ -1,7 +1,7 @@
-/*global jQuery, Modernizr, iQ, Exports */
+/*global Modernizr, Exports */
 
-if ( !Exports ) {
-  var Exports = {
+if ( !window.Exports ) {
+  window.Exports = {
     Modules : {}
   };
 }
