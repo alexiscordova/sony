@@ -219,14 +219,16 @@
       if(self.numSlides > 1){
 
         self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });  
-        return; // dont need this if there is only one slide
+         // dont need this if there is only one slide
       }
       
       console.log("Number of slides »",self.numSlides);
 
 
+  
       self.createNavigation();
-
+      
+      
       self.$win.trigger( 'resize.soc' );
 
       //self.checkForBreakPoint();
@@ -848,6 +850,8 @@
 
         //reset current slide id 
         self.currentId = 0;
+
+        console.log("creating navigation »",1);
 
         //self.controlNavEnabled = true;
         //self.$container.addClass('ssWithBullets');
