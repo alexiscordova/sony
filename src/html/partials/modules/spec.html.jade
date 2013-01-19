@@ -7,14 +7,13 @@ section.spec-module
 
   .container.mobile-container-padded
     .grid
-      .span12.spec-title-link
-        a(href="#") Vaio Z
+      p.sony-recommends.pull-right
+        span.p3 Sony Recommends
+        i.icon-uibig-win8.win8-logo
 
     .grid
-      h1.spec-title.pull-left Vaio Z Details
-      p.pull-right
-        | Sony Recommends
-        i.sprite-windows8
+      a.spec-title-link.tl(href="#") Vaio Z
+      h1.spec-title Vaio Z Details
 
     .grid
       ul.spec-views.inline.p3
@@ -25,6 +24,11 @@ section.spec-module
 
   .spec-products
     .container.mobile-container-padded
+      nav.spec-nav-container.relative
+        button.spec-nav.spec-nav-prev
+          i.icon-ui2-chevron-18-white-left
+        button.spec-nav.spec-nav-next
+          i.icon-ui2-chevron-18-white-right
       .grid
         .span2.detail-labels-wrap.hidden-phone
           .detail-labels-wrapping
@@ -35,7 +39,8 @@ section.spec-module
 
             .detail-label-group
               each label in data.labels
-                .l3.detail-label.detail= label
+                .detail-label.detail
+                  span.l3= label
 
         .spec-items-wrap
           .spec-items-container

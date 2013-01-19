@@ -470,7 +470,7 @@
         }
         // if media queries are not supported we want to get the default breakpoint size only regardless of screen size.
 
-        return Modernizr.mq('only all') ? breakpoint : defaultBreakpoint;
+        return Modernizr.mediaqueries ? breakpoint : defaultBreakpoint;
 
     },
 
