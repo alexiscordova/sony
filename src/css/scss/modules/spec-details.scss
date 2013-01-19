@@ -45,7 +45,7 @@ ul.spec-views li {
   padding-left: .625em;
 }
 
-$specMobileBreakpoint: 567px;
+$specMobileBreakpoint: 35.4375em; // 567
 $specItemWidth1200: 13.75em; // 220
 $specLabelWidth1200: 8.75em; // 140
 $columnHeaderHeight: 5.3125em; // 85
@@ -66,11 +66,6 @@ $navBtnHeight: 2.875em; // 46
   z-index: 10;
 }
 
-.spec-nav-container {
-  // height: $columnHeaderHeight;
-  // width: 100%;
-}
-
 .spec-nav {
   position: absolute;
   z-index: 20;
@@ -80,7 +75,6 @@ $navBtnHeight: 2.875em; // 46
   border-radius: .1875em; // 3 pixels
   width: 2em; // 30
   height: $navBtnHeight;
-  // padding-top: .5em; // vertical align chevron
   padding: 0; // override default button padding
   @include transition();
 
@@ -136,7 +130,7 @@ $navBtnHeight: 2.875em; // 46
 
 .spec-item-cell {
   position: relative;
-  padding: 1.125em 1em 3.75em; // 18px 16px 60px
+  padding: 1.125em 1em 3.75em; // 18 16 60 pixels
 
   .btm-aligned {
     position: absolute;
@@ -160,14 +154,28 @@ $navBtnHeight: 2.875em; // 46
 
   .dl-horizontal dt {
     text-align: left;
-    width: 55px;
+    // width: 3.4375em; // 55
+    width: 4.583333333em; // 55 (base 12)
   }
   .dl-horizontal dd {
-    margin-left: 70px;
+    // margin-left: 4.375em; // 70
+    margin-left: 5.384615385em; // 70 (base 13)
   }
 
   .spec-list li {
     margin: 1.25em 0;
+  }
+
+  .enlarge {
+    margin: 2.5em 0 .625em;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+
+    i {
+      vertical-align: middle;
+    }
   }
 }
 
@@ -186,7 +194,7 @@ $navBtnHeight: 2.875em; // 46
 
   .detail-labels-wrap {
     width: $specLabelWidth1200; // override % width
-    border-right: 1px solid $grayLighter;
+    border-right: .0625em solid $grayLighter;
   }
 
   .product-count-wrap,
@@ -244,7 +252,20 @@ $navBtnHeight: 2.875em; // 46
 
 .spec-item-cell,
 .spec-products .detail-label {
-  border-bottom: 1px solid $grayLighter;
+  border-bottom: .0625em solid $grayLighter;
+}
+
+// Spec Modal
+// -------------------
+.spec-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $white;
+
+  .box-close i {
+    vertical-align: middle;
+  }
 }
 
 .spec-module {
@@ -268,7 +289,7 @@ $navBtnHeight: 2.875em; // 46
   }
 
   .spec-products:before {
-    height: 1px;
+    height: .0625em;
   }
 
   .spec-items-container .spec-item {
@@ -281,6 +302,14 @@ $navBtnHeight: 2.875em; // 46
 
   .spec-item {
     border-right: 0;
+
+
+    .dl-horizontal dt {
+      width: auto;
+    }
+    .dl-horizontal dd {
+      margin-left: 0;
+    }
   }
 
 }

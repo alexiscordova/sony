@@ -132,6 +132,10 @@
 			// Update the width again to the new width based on however many 'pages' there are now
 			self.$contentContainer.css('width' , numPages * containerWidth );
 
+			// Save values for later outsiders if they want it
+			self.totalPages = numPages;
+			self.itemsPerPage = availToFit;
+
 			self._fire('paginationcomplete');
 
 			return true;

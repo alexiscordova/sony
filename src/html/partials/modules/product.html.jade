@@ -239,14 +239,40 @@ else if data.view == "specs"
 
         else if spec.label && spec.callout && spec.list && spec.icon
           div
-            iconClass = 'icon-' + spec.icon
-            i(class=iconClass)= spec.icon
+            iconClass = 'icon-uibig-' + spec.icon
+            i(class=iconClass)
           p= spec.callout
           ul.unstyled.p3.spec-list
             each li in spec.list
               li= li
           p.l3= spec.label
           p.p3= spec.labeledText
+
+        else if spec.enlargement
+          .text-center
+            img.iq-img(data-src=spec.img.src, alt=spec.img.alt)
+            noscript
+              img(src=spec.img.noscriptsrc, alt=spec.img.alt)
+          button.iconTrigger-ui2-magnify.enlarge.js-enlarge
+            i.icon-ui2-magnify
+            span.l3!= '&nbsp;' + spec.iconTitle
+
+          ul.unstyled.p3.spec-list
+            each li in spec.list
+              li= li
+
+          .spec-modal.hide.mobile-container-padded
+            .spec-modal-header.clearfix
+              .pull-left
+                h3= spec.enlargement.title
+              .pull-right.box-close
+                i.icon-ui-x-tiny
+            .spec-modal-body.text-center
+              img.iq-img(data-src=spec.enlargement.src, alt=spec.enlargement.alt)
+              noscript
+                img(src=spec.enlargement.noscriptsrc, alt=spec.enlargement.alt)
+
+
 
         else if spec.list
           ul.unstyled.p3.spec-list

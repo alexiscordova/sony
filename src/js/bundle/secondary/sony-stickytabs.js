@@ -58,7 +58,7 @@
       // Decide which tabs to make
       if ( Modernizr.mq( self.mq ) ) {
         self.setup();
-      } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+      } else if ( self.isCarousel && Modernizr.mq( self.carouselMq ) ) {
         self.setupCarousel();
       }
     },
@@ -86,7 +86,7 @@
         self.animateTab();
 
       // Tablet
-      } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+      } else if ( self.isCarousel && Modernizr.mq( self.carouselMq ) ) {
         if ( self.isStickyTabs ) {
           self.teardown();
         }
@@ -358,7 +358,8 @@
   // Overrideable options
   $.fn.stickyTabs.options = {
     tabsWrapSelector: '.tabs',
-    mq: '(max-width: 767px)',
+    mq: '(max-width: 47.9375em)',
+    carouselMq: '(min-width: 48em) and (max-width: 61.1875em)',
     tabOffset: 0,
     initialTabWidth: 0,
     tabWidth: 0,
