@@ -25,6 +25,11 @@ section.spec-module
 
   .spec-products
     .container.mobile-container-padded
+      nav.spec-nav-container.relative
+        button.spec-nav.spec-nav-prev
+          i.icon-ui2-chevron-18-white-left
+        button.spec-nav.spec-nav-next
+          i.icon-ui2-chevron-18-white-right
       .grid
         .span2.detail-labels-wrap.hidden-phone
           .detail-labels-wrapping
@@ -35,7 +40,8 @@ section.spec-module
 
             .detail-label-group
               each label in data.labels
-                .l3.detail-label.detail= label
+                .detail-label.detail
+                  span.l3= label
 
         .spec-items-wrap
           .spec-items-container

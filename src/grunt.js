@@ -258,11 +258,16 @@ module.exports = function(grunt) {
       grunt.task.run('lint');
     } else {
       // Else, set lint with the target as defined.
+
+      var existingLintRules = grunt.config.get('jshint');
+
       grunt.initConfig({
         lint: {
           files: target
-        }
+        },
+        jshint: existingLintRules
       });
+
       grunt.task.run('lint');
     }
   });
