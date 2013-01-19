@@ -771,7 +771,7 @@
       var self = this,
           currentSortValue = '';
 
-      if ( Modernizr.mq('(max-width: 767px)') ) {
+      if ( Modernizr.mq('(max-width: 47.9375em)') ) {
         // Dealing with the select option menu
         currentSortValue = $container.find('select').children().eq( self.currentSort ).val();
         $container
@@ -803,7 +803,7 @@
 
     sortByPriority : function() {
       var self = this,
-          isTablet = Modernizr.mq('(max-width: 767px)');
+          isTablet = Modernizr.mq('(max-width: 47.9375em)');
 
       if ( isTablet && !self.sorted ) {
         self.$grid.shuffle('sort', {
@@ -1028,7 +1028,7 @@
 
       // Append the count, reset, and sort in the right spots
       // Phone = sticky header
-      if ( Modernizr.mq('(max-width: 767px)') ) {
+      if ( Modernizr.mq('(max-width: 47.9375em)') ) {
         console.log('fixing header');
         self.isFixedHeader = true;
 
@@ -1053,7 +1053,7 @@
       }
       $labelColumn.append( $labelGroup );
 
-      if ( Modernizr.mq('(max-width: 479px)') ) {
+      if ( Modernizr.mq('(max-width: 29.9375em)') ) {
         self.$compareReset.addClass('btn-block').removeClass('pull-left');
         self.$compareTool.find('.sort-options').css({
           'display': 'block',
@@ -1236,7 +1236,7 @@
       state.$items
         .find('.compare-item-remove')
         .parent()
-        .andSelf()
+        .addBack()
         .removeClass('hide');
 
       // Disable reset button
@@ -1285,7 +1285,7 @@
       var self = this;
 
       // Phone = sticky header
-      if ( Modernizr.mq('(max-width: 767px)') ) {
+      if ( Modernizr.mq('(max-width: 47.9375em)') ) {
 
         // Setup sticky header
         if ( !self.isFixedHeader ) {
@@ -1317,7 +1317,7 @@
         }
       }
 
-      if ( Modernizr.mq('(max-width: 479px)') ) {
+      if ( Modernizr.mq('(max-width: 29.9375em)') ) {
         self.$compareReset.addClass('btn-block').removeClass('pull-left');
         self.$compareTool.find('.sort-options').css({
           'display': 'block',
@@ -1477,19 +1477,19 @@
           var column;
 
           // Large desktop ( 6 columns )
-          if ( Modernizr.mq('(min-width: 1200px)') ) {
+          if ( Modernizr.mq('(min-width: 75em)') ) {
             column = Exports.COLUMN_WIDTH_1200 * containerWidth;
 
           // Landscape tablet + desktop ( 5 columns )
-          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
+          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
             column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
 
           // Portrait Tablet ( 4 columns )
-          // } else if ( Modernizr.mq('(min-width: 768px)') ) {
+          // } else if ( Modernizr.mq('(min-width: 48em)') ) {
           //   column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 480px)') ) {
+          } else if ( Modernizr.mq('(min-width: 30em)') ) {
             column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
           // Phone ( 2 columns )
@@ -1506,22 +1506,22 @@
               numColumns = 0;
 
           // Large desktop ( 6 columns )
-          if ( Modernizr.mq('(min-width: 1200px)') ) {
+          if ( Modernizr.mq('(min-width: 75em)') ) {
             gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
             numColumns = 6;
 
           // Landscape tablet + desktop ( 5 columns )
-          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
+          } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
             gutter = Exports.GUTTER_WIDTH * containerWidth;
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
-          } else if ( Modernizr.mq('(min-width: 768px)') ) {
+          } else if ( Modernizr.mq('(min-width: 48em)') ) {
             numColumns = 4;
             gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 480px)') ) {
+          } else if ( Modernizr.mq('(min-width: 30em)') ) {
             gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
             numColumns = 3;
 

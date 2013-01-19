@@ -44,13 +44,16 @@ Exports.GUTTER_WIDTH_1200 = Exports.gutWidth1200 / Exports.fullWidth1200;
 Exports.masonryColumns = function( containerWidth ) {
   var column;
 
-  if ( Modernizr.mq('(min-width: 568px) and (max-width:979px)') ) {
+  // 568 - 979
+  if ( Modernizr.mq('(min-width: 35.5em) and (max-width: 61.1875em)') ) {
     column = Exports.COLUMN_WIDTH_568 * containerWidth;
 
-  } else if ( Modernizr.mq('(min-width: 1200px)') ) {
+  // 1200
+  } else if ( Modernizr.mq('(min-width: 75em)') ) {
     column = Exports.COLUMN_WIDTH_1200 * containerWidth;
 
-  } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
+  // 980
+  } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
     column = Exports.COLUMN_WIDTH_980 * containerWidth;
 
   } else {
@@ -63,13 +66,16 @@ Exports.masonryColumns = function( containerWidth ) {
 Exports.masonryGutters = function( containerWidth ) {
   var gutter;
 
-  if ( Modernizr.mq('(min-width: 568px) and (max-width:979px)') ) {
+  // 568 - 979
+  if ( Modernizr.mq('(min-width: 35.5em) and (max-width: 61.1875em)') ) {
     gutter = Exports.GUTTER_WIDTH_568 * containerWidth;
 
-  } else if ( Modernizr.mq('(min-width: 1200px)') ) {
+  // 1200
+  } else if ( Modernizr.mq('(min-width: 75em)') ) {
     gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
 
-  } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 980px)') ) {
+  // 980
+  } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
     gutter = Exports.GUTTER_WIDTH_980 * containerWidth;
 
   } else {
