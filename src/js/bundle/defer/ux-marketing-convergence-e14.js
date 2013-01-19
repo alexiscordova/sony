@@ -10,16 +10,13 @@
 
     'use strict';
 
-    // Start module
     var MarketingConvergenceModule = function($element, options){
 
       var self = this;
 
       $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options);
 
-      self.$el     = $element;
-      self.$win    = $(window);
-      self.$doc    = $(document);
+      self.$el = $element;
 
       self.init();
     };
@@ -74,9 +71,8 @@
         }
 
         self.$partnerCarousel.children().each(function(){
-          var $this = $(this);
-          $this.fadeOut(self.transitionTime, function(){
-            $this.remove();
+          $(this).fadeOut(self.transitionTime, function(){
+            $(this).remove();
           });
         });
 
@@ -89,7 +85,6 @@
       }
     };
 
-    // Plugin definition
     $.fn.marketingConvergenceModule = function( options ) {
       var args = Array.prototype.slice.call( arguments, 1 );
       return this.each(function() {
@@ -108,7 +103,6 @@
       });
     };
 
-    // Defaults options for your module
     $.fn.marketingConvergenceModule.defaults = {
       'rotationSpeed': 5000,
       'transitionTime': 1000
