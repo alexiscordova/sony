@@ -2,7 +2,7 @@
 // ------ Sony UX Marketing Convergence (MarketingConvergence) Module ------
 // Module: MarketingConvergence Module
 // Version: 0.1
-// Modified: 01/16/2013
+// Modified: 01/18/2013
 // Dependencies: jQuery 1.7+
 // -------------------------------------------------------------------------
 
@@ -15,59 +15,51 @@
 
       var self = this;
 
-      $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options, $.fn.marketingConvergenceModule.settings);
+      $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options);
 
-      self.$el                 = $element;
-      self.$win                = $(window);
-      self.$doc                = $(document);
-
-      self.$cached             = self.$el.clone();
+      self.$el     = $element;
+      self.$win    = $(window);
+      self.$doc    = $(document);
 
       self.init();
-
     };
 
     MarketingConvergenceModule.prototype = {
 
-      constructor: MarketingConvergenceModule,
+      'constructor': MarketingConvergenceModule,
 
       'init': function() {
 
         var self = this;
 
         self.buildPartnerCarousel();
-
-      },
-
-      'reset': function(){
-
-        var self = this,
-            $newCopy = self.$cached.clone();
-
-        self.$el.replaceWith($newCopy).remove();
-        self.$el = $newCopy;
-
-        self.init();
-
       },
 
       'buildPartnerCarousel': function() {
 
-        var self = this,
-            $firstSlide;
+        var self = this;
 
-        self.currentPartnerProduct = 0;
+        self.currentPartnerProduct = -1;
         self.$partnerCarousel = self.$el.find('.partner-products');
         self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
 
         self.$partnerCarouselSlides.detach();
 
         self.gotoNextPartnerProduct();
+        self.setPartnerCarouselInterval();
+      },
+
+      'setPartnerCarouselInterval': function() {
+
+        var self = this;
+
+        if ( self.partnerCarouselInterval ) {
+          clearInterval(self.partnerCarouselInterval);
+        }
 
         self.partnerCarouselInterval = setInterval(function(){
           self.gotoNextPartnerProduct();
         }, self.rotationSpeed);
-
       },
 
       'gotoNextPartnerProduct': function() {
@@ -75,23 +67,26 @@
         var self = this,
             $newSlide;
 
-        if ( !self.$partnerCarouselSlides ) return;
-
         if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
           self.currentPartnerProduct = 0;
         } else {
           self.currentPartnerProduct++;
         }
 
-        self.$partnerCarousel.empty();
+        self.$partnerCarousel.children().each(function(){
+          var $this = $(this);
+          $this.fadeOut(self.transitionTime, function(){
+            $this.remove();
+          });
+        });
 
         $newSlide = self.$partnerCarouselSlides.eq(self.currentPartnerProduct).clone();
-        self.$partnerCarousel.append($newSlide);
+
+        $newSlide.appendTo(self.$partnerCarousel);
+        $newSlide.fadeOut(0).fadeIn(self.transitionTime);
 
         window.iQ.update();
-
       }
-
     };
 
     // Plugin definition
@@ -115,18 +110,12 @@
 
     // Defaults options for your module
     $.fn.marketingConvergenceModule.defaults = {
-      'rotationSpeed': 5000
+      'rotationSpeed': 5000,
+      'transitionTime': 1000
     };
 
-    // Non override-able settings
-    $.fn.marketingConvergenceModule.settings = {
-
-    };
-
-    $( function(){
-
+    $(function(){
      $('.uxmc-container').marketingConvergenceModule();
-
-    } );
+    });
 
  })(jQuery);
