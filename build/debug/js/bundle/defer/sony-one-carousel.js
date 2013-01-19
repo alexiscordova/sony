@@ -21,6 +21,7 @@
     }
 
     var SonyOneCarousel = function( element , options ){
+
       var self      = this,
       ua            = navigator.userAgent.toLowerCase(),
       i,
@@ -96,6 +97,7 @@
       self.ev                    = $( {} ); //event object
       self.resizeRatio           = 0.4120689655;
       self.numSlides             = self.$slides.length;
+
       self.previousId            = -1;
       self.currentId             = 0;
       self.slidePosition         = 0;
@@ -200,6 +202,10 @@
         currItem,
         prevItem;
 
+        if(self.numSlides < 2){
+          return;
+        }
+
         if(self.prevNavItem) {
           self.prevNavItem.removeClass('soc-nav-selected');
         }
@@ -210,11 +216,19 @@
         
       } );
 
-      self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });
+      if(self.numSlides > 1){
+
+        self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });  
+         // dont need this if there is only one slide
+      }
+      
+      console.log("Number of slides »",self.numSlides);
 
 
+  
       self.createNavigation();
-
+      
+      
       self.$win.trigger( 'resize.soc' );
 
       //self.checkForBreakPoint();
@@ -559,10 +573,10 @@
   
           self.$containerInner.css( animObj );  
 
-          //IQ Update
-          self.$containerInner.one($.support.transition.end , function(){
+          //IQ Update - TODO include this from boostrap-transition polyfill
+/*          self.$containerInner.one($.support.transition.end , function(){
             window.iQ.update();
-          });
+          });*/
 
         }
 
@@ -586,7 +600,7 @@
           newH = $('.soc-item').eq(0).height();
           self.$container.css( 'height' ,  newH  + 'px' );
         }
-        //console.log("Updating 'soc-container'.height to »",newH );
+        console.log("Updating 'soc-container'.height to »",newH );
       },
 
       shuffleClasses: function(){
@@ -828,10 +842,16 @@
         out          = '<div class="soc-nav soc-bullets">';
         
         //remove other references 
-        $('.soc-nav.soc-bullets').remove();
+        self.$el.find('.soc-nav.soc-bullets').remove();
+
+        if(self.numSlides < 2){
+          return; // dont need this if there is only one slide
+        }
 
         //reset current slide id 
         self.currentId = 0;
+
+        console.log("creating navigation »",1);
 
         //self.controlNavEnabled = true;
         //self.$container.addClass('ssWithBullets');
