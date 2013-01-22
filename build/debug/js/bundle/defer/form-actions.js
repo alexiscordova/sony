@@ -18,6 +18,7 @@
 
   };
 
+
   // Sample module method
   FormActions.prototype = {
     constructor: FormActions,
@@ -37,7 +38,7 @@
 
       $input.on('focus', function(){
         // clear watermarkText on focus
-        // console.log('input: focus');
+        // console.log("input: focus");
 
         if ($input.val() === inputObj.watermarkText){
           $input.val('');
@@ -45,7 +46,7 @@
         }
       }).on('blur', function(){
         
-        // console.log('input: blur');
+        // console.log("input: blur");
 
         if ($input.val() === ''){
           $input.val(inputObj.watermarkText);
@@ -53,7 +54,7 @@
         }
       }).on('mouseup keyup change cut paste', function(){
 
-        // console.log('input: touch mouseup keyup change cut paste');
+        // console.log("input: touch mouseup keyup change cut paste");
 
         if (!inputObj.$inputWrapper.hasClass('searching')){
           if (!($input.val() === '' || $input.val() === inputObj.watermarkText)){
