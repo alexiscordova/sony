@@ -1482,7 +1482,7 @@
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
+            column = Exports.COLUMN_WIDTH_SLIM * containerWidth; // ~18% of container width
 
           // Portrait Tablet ( 4 columns )
           // } else if ( Modernizr.mq('(min-width: 48em)') ) {
@@ -1512,7 +1512,7 @@
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            gutter = Exports.GUTTER_WIDTH * containerWidth;
+            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
