@@ -1,5 +1,4 @@
-// NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-// IT'S ALL JUST JUNK FOR OUR DOCS!
+// THIS IS JUST DOCS JAVASCRIPT!
 // ++++++++++++++++++++++++++++++++++++++++++
 
 !function ($) {
@@ -31,13 +30,74 @@
       $(this).parents('.add-on')[method]('active')
     })
 
-    // add tipsies to grid for scaffolding
-    if ($('#gridSystem').length) {
-      $('#gridSystem').tooltip({
-          selector: '.show-grid > div'
-        , title: function () { return $(this).width() + 'px' }
-      })
+
+    // keep the viewport within view when resizing, even when above content is breaking to more/fewer rows & pushing down the rest.
+    // disabled until it can be better tested.
+    /*
+    if ($('#docs-scaffolding').length){
+      var resizing = false;
+      var resizingInt = false;
+      var $closestEl = $();
+      var lookingForClosestEl = false;
+
+      $(window).resize(function() {
+
+        // if not resizing for a moment, reset all the resize variables to return to natural scrolling.
+        // otherwise after resizing once, you'd always scroll back to that offset position.
+        !!resizingInt && clearInterval(resizingInt);
+        resizingInt = setInterval(function(){
+          resizing = false;
+          resizingInt = false;
+          $closestEl = $();
+          lookingForClosestEl = false;
+        },2000);
+
+
+        if (!resizing){
+
+          resizing = true;
+
+          // find the element whose top is closest to the scrolltop
+          lookingForClosestEl = true;
+          var scrollTop = $(window).scrollTop();
+          var closestSt = $('body').outerHeight(); // start out w.the tallest possible scrolltop offset - the page height.
+          console.log("scrollTop: " + scrollTop + ", closestSt: " + closestSt);
+
+          $('h2, h3, h4, h5, h6').each(function(){
+            var thSt = $(this).offset().top; // how far this el is from the page top
+            var thStOffset = scrollTop - thSt; // how far this el is from the viewport top
+            
+            if (thStOffset < closestSt && lookingForClosestEl){
+              // console.log("thSt: " + thSt + ", thStOffset: " + thStOffset);
+              if (thStOffset > 20){ // if it's greater than 0, keep going.
+                // console.log("closestSt: " + closestSt);
+                closestSt = thSt;
+              } else {
+                lookingForClosestEl = false;
+                $closestEl = $(this);
+                console.log("thStOffset: " + thStOffset + ", tag: " + $(this).text());     
+              }
+            }
+          })
+        } else {
+
+        }
+
+        // console.log("$closestEl: " + $closestEl.prop("tagName"));
+        $(window).scrollTop($closestEl.offset().top - 30);
+      });
     }
+    */
+
+
+    // add tooltips to show-grid columns to display class names.
+    $('.show-grid').each(function(){
+      $(this).tooltip({
+        selector: '[class*="span"]'
+      , title: function () { return $(this).attr("class") }
+      })
+    })
+    
 
     // tooltip demo
     $('.tooltip-demo').tooltip({

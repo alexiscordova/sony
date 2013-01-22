@@ -58,7 +58,7 @@
       // Decide which tabs to make
       if ( Modernizr.mq( self.mq ) ) {
         self.setup();
-      } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+      } else if ( self.isCarousel && Modernizr.mq( self.carouselMq ) ) {
         self.setupCarousel();
       }
     },
@@ -86,7 +86,7 @@
         self.animateTab();
 
       // Tablet
-      } else if ( self.isCarousel && Modernizr.mq('(min-width: 768px) and (max-width: 979px)') ) {
+      } else if ( self.isCarousel && Modernizr.mq( self.carouselMq ) ) {
         if ( self.isStickyTabs ) {
           self.teardown();
         }
@@ -186,8 +186,8 @@
       }
 
       // If the value has been constrained, save the overlap
-      // self.overlap = newX !== tmpX ? tmpX : null;
-      self.overlap = tmpX;
+      self.overlap = newX !== tmpX ? tmpX : null;
+      // self.overlap = tmpX;
 
       console.log('iscroll:', self.scroller);
       console.log('x:', x);
@@ -287,8 +287,8 @@
     setupCarousel : function() {
       var self = this;
 
-      self.$navPrev.hide();
-      self.$navNext.hide();
+      self.$navPrev.addClass('hide');
+      self.$navNext.addClass('hide');
 
       self.$tabsContainer.scrollerModule({
         contentSelector: '.tabs',
@@ -310,8 +310,7 @@
 
       // Check to make sure we actually have paginated tabs
       if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {
-        // self.$navPrev.show();
-        self.$navNext.show();
+        self.$navNext.removeClass('hide');
         self.$tabsWrap.addClass('tab-carousel');
       }
 
@@ -322,8 +321,8 @@
       var self = this;
 
       console.log('teardown: Carousel tabs');
-      self.$navPrev.hide();
-      self.$navNext.hide();
+      self.$navPrev.addClass('hide');
+      self.$navNext.addClass('hide');
       self.$tabsWrap.removeClass('tab-carousel');
       self.$tabsContainer.scrollerModule('destroy');
 
@@ -359,7 +358,8 @@
   // Overrideable options
   $.fn.stickyTabs.options = {
     tabsWrapSelector: '.tabs',
-    mq: '(max-width: 767px)',
+    mq: '(max-width: 47.9375em)',
+    carouselMq: '(min-width: 48em) and (max-width: 61.1875em)',
     tabOffset: 0,
     initialTabWidth: 0,
     tabWidth: 0,

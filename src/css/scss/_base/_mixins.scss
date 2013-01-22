@@ -11,6 +11,18 @@ $default-transition-duration : $transitionNormal;
 $default-transition-function : false;
 $default-transition-delay    : 0s;
 
+
+// strip units from any number. "50px" returns 50.
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+// convert px to em, with regard to its context. Most context will be 16px.
+@function px-em($target, $context:16){
+  @return (strip-units($target)/strip-units($context)) + 0em;
+}
+
+
 // UTILITY MIXINS
 // --------------------------------------------------
 @mixin experimental($property, $value, $moz: $experimental-support-for-mozilla, $webkit: $experimental-support-for-webkit, $o: $experimental-support-for-opera, $ms: $experimental-support-for-microsoft, $khtml: $experimental-support-for-khtml, $official: true) {
@@ -1067,9 +1079,19 @@ $default-transition-delay    : 0s;
 
 
 
-// Grid System
-// -----------
 
+
+// The Grid
+// --------------------------------------------
+//  .d8888b.          d8b      888 
+// d88P  Y88b         Y8P      888 
+// 888    888                  888 
+// 888        888d888 888  .d88888 
+// 888  88888 888P"   888 d88" 888 
+// 888    888 888     888 888  888 
+// Y88b  d88P 888     888 Y88b 888 
+//  "Y8888P88 888     888  "Y88888
+// --------------------------------------------
 
 // Table columns
 @mixin tableColumns($columnSpan: 1) {
@@ -1091,7 +1113,297 @@ $default-transition-delay    : 0s;
 }
 
 
-// The Grid
+
+// ----------------------------------
+// FLUID GRID
+// ----------------------------------
+@mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns, $whichGrid: "", $mobileGridClass: "") {
+
+	$spanName: "span" !default;
+	@if ($whichGrid == "m"){ $spanName: "m-span"; }
+
+	@if ($whichGrid == "m"){
+	  #{$mobileGridClass}.grid.show-grid [class*="m-span"]{
+	    background:#556 !important;
+	  }
+	}
+
+	$gridName: "grid" !default;
+	@if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
+	@else if ($whichGrid == "slim5"){ $gridName: "grid5, .slimgrid5"; }
+
+	#{$mobileGridClass}.#{$gridName} {
+		@include clearfix();
+
+		[class*=#{$spanName}] {
+			@include input-block-level();
+			float: left;
+			margin-left: $fluidGridGutterWidth;
+			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
+
+			&:first-child{
+				margin-left: 0;
+			}
+			@if ($whichGrid == "m"){
+				&.m-span-new-row{
+					margin-left: 0;
+				}
+			}
+		}
+		// generate .spanX and .offsetX
+		@include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
+		@include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
+	}
+}
+
+@mixin grid-fluid-span-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid) {
+
+	$spanName: "span" !default;
+	@if ($whichGrid == "m"){ $spanName: "m-span"; }
+
+	@while $gridColumns > 0 {
+		.#{$spanName}#{$gridColumns} { @include grid-fluid-span($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+		$gridColumns: $gridColumns - 1;
+	}
+}
+
+@mixin grid-fluid-offset-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid) {
+	
+	$offsetName: "offset" !default;
+	@if ($whichGrid == "m"){ $offsetName: "m-offset"; }
+
+	@while $gridColumns > 0 {
+		.#{$offsetName}#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+		.#{$offsetName}#{$gridColumns}:first-child { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+
+		@if ($whichGrid == "m"){
+			.#{$offsetName}#{$gridColumns}.m-span-new-row { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+		}
+
+		$gridColumns: $gridColumns - 1;
+	}
+}
+// @mixin grid-fluid-offset-x-reset($gridColumns, $whichGrid, $mobileGridClass) {
+
+// 	$offsetName: "offset" !default;
+// 	@if ($whichGrid == "m"){ $offsetName: "m-offset"; }
+
+// 	$gridName: "grid" !default;
+// 	@if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
+// 	@else if ($whichGrid == "slim5"){ $gridName: "grid5, .slimgrid5"; }
+// 	.#{$gridName} {
+// 		@while $gridColumns > 0 {
+			
+// 			// this first one was disabled, I'm not sure why.
+// 			// .offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+			
+// 			// this second one was enabled but I overrode it (below) with a cross between the one above, and the custom $offsetName for mobile.
+// 			// .#{$offsetName}#{$gridColumns}:first-child {
+// 			// 	margin-left:0;
+// 			// }
+// 			.#{$offsetName}#{$gridColumns}:first-child { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+
+// 			@if ($whichGrid == "m"){
+// 				.#{$offsetName}#{$gridColumns}.m-span-new-row { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
+// 			}
+
+// 			$gridColumns: $gridColumns - 1;
+// 		}
+// 	}
+// }
+
+@mixin grid-fluid-span($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
+	width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1));
+	*width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%);
+}
+@mixin grid-fluid-offset($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
+	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth * 2);
+	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + ($fluidGridGutterWidth * 2) - (.5 / $gridWidth * 100px * 1%);
+}
+@mixin grid-fluid-offset-first-child($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
+	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth);
+	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
+}
+
+// full-bleed-padded is necessary when you need the element to be 100% wide (full-bleed) for background or borders,
+// but need to have padding inside so its content still has the appearance of margins. It should be used inside of
+// a .container or .grid and affects all "span" elements inside of it. It's used on the footer, to be able to extend
+// the borders the full width of the window, but still have the regular padding.
+@mixin container-m-full-bleed-padded-children-at( $bp, $containerOrGridOrBoth ){
+  
+  width:100%;
+
+  [class*="span"]{
+    @if ($containerOrGridOrBoth == "container"){
+      
+      @if ($bp == "767" or $bp == "567"){
+        padding-left: (100% - $mobileContainerWidth480)/2;
+        padding-right: (100% - $mobileContainerWidth480)/2;
+      } @else if ($bp == "479"){
+        padding-left: (100% - $mobileContainerWidth320)/2;
+        padding-right: (100% - $mobileContainerWidth320)/2;          
+      }
+
+    } @else if ($containerOrGridOrBoth == "grid"){
+
+      @if ($bp == "767" or $bp == "567"){
+        padding-left: (100% - $mobileGridWidth480)/2;
+        padding-right: (100% - $mobileGridWidth480)/2;
+      } @else if ($bp == "479"){
+        padding-left: (100% - $mobileGridWidth320)/2;
+        padding-right: (100% - $mobileGridWidth320)/2;          
+      }
+
+    } @else if ($containerOrGridOrBoth == "both"){
+      $containerMargin:0%;
+      $gridMargin:0%;
+
+      @if ($bp == "767" or $bp == "567"){
+        $containerMargin: (100% - $mobileContainerWidth480)/2;
+        $gridMargin: (100% - $mobileGridWidth480)/2;
+      } @else if ($bp == "479"){
+        $containerMargin: (100% - $mobileContainerWidth320)/2;
+        $gridMargin: (100% - $mobileGridWidth320)/2;        
+      }
+      padding-left: $containerMargin + $gridMargin;
+      padding-right: $containerMargin + $gridMargin;
+
+    }
+  }
+}
+
+@mixin no-grid ($overrideClass:""){
+
+  // Make all grid-sized elements block level again
+  #{$overrideClass}.grid [class*="span"],
+  #{$overrideClass}.grid [class*="offset"],
+  #{$overrideClass}.grid [class*="span"]:first-child,
+  #{$overrideClass}.grid [class*="offset"]:first-child,
+
+  #{$overrideClass}.grid [class*="m-span"],
+  #{$overrideClass}.grid [class*="m-offset"],
+  #{$overrideClass}.grid [class*="m-span"]:first-child,
+  #{$overrideClass}.grid [class*="m-offset"]:first-child,
+
+  #{$overrideClass}.grid [class*="m-span"].m-span-new-row,
+  #{$overrideClass}.grid [class*="m-offset"].m-span-new-row,
+
+  // #{$overrideClass}.grid-px-width [class*="span"],
+  // #{$overrideClass}.grid-px-width [class*="offset"]
+  // 
+  // [class*="span"],
+  // .grid [class*="span"],
+  // [class*="offset"],
+  // .grid [class*="offset"],
+  // [class*="span"]:first-child,
+  // .grid [class*="span"]:first-child,
+  // [class*="offset"]:first-child,
+  // .grid [class*="offset"]:first-child
+  {
+    float: none;
+    display: block;
+    width: auto; // 100%
+    margin-left: 0;
+  }
+
+
+
+  // ----------------------------------------------------------------------------
+  // This is all from Bootstrap - we may be able to strip some of this out:
+  // ----------------------------------------------------------------------------
+    
+  // Undo negative margin on fixed width grids and thumbnails
+  #{$overrideClass}.grid-px-width,
+  .thumbnails {
+    margin-left: 0;
+  }
+  .thumbnails > li {
+    float: none;
+    margin-left: 0; // Reset the default margin for all li elements when no .span* classes are present
+  }
+
+  // Make inputs and span* classes full width
+  #{$overrideClass} .input-large,
+  #{$overrideClass} .input-xlarge,
+  #{$overrideClass} .input-xxlarge,
+  #{$overrideClass} input[class*="span"],
+  #{$overrideClass} select[class*="span"],
+  #{$overrideClass} textarea[class*="span"],
+  #{$overrideClass} .uneditable-input {
+    @include input-block-level();
+  }
+  // But don't let it screw up prepend/append inputs
+  #{$overrideClass} .input-prepend input,
+  #{$overrideClass} .input-append input,
+  #{$overrideClass} .input-prepend input[class*="span"],
+  #{$overrideClass} .input-append input[class*="span"] {
+    display: inline-block; // redeclare so they don't wrap to new lines
+    width: auto;
+  }
+  #{$overrideClass} .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 0;
+  }
+
+  // Modals
+  #{$overrideClass}.modal,
+  #{$overrideClass} .modal {
+    position: fixed;
+    top:   20px;
+    left:  20px;
+    right: 20px;
+    width: auto;
+    margin: 0;
+    &.fade.in { top: auto; }
+  }
+
+  #{$overrideClass}.takeover,
+  #{$overrideClass} .takeover {
+    top:   0;
+    left:  0;
+    right: 0;
+
+    &.fade.in { top: 0; }
+  }
+
+  // Reset horizontal dl
+  #{$overrideClass} .dl-horizontal {
+    dt {
+      float: none;
+      clear: none;
+      width: auto;
+      text-align: left;
+    }
+    dd {
+      margin-left: 0;
+    }
+  }
+
+  // Update checkboxes for iOS
+  input[type="checkbox"],
+  input[type="radio"] {
+    border: 1px solid #ccc;
+  }
+
+  // ----------------------------------------------------------------------------
+  // end Bootstrap stuff that we might be able to strip out
+  // ----------------------------------------------------------------------------
+
+
+  #{$overrideClass}.grid.show-grid [class*="span"],
+  #{$overrideClass}.grid.show-grid [class*="offset"],
+  #{$overrideClass}.grid.show-grid [class*="m-span"],
+  #{$overrideClass}.grid.show-grid [class*="m-offset"]{
+    background:#655 !important;
+  }
+} // end @mixin no-grid
+
+
+
+
+
+// ----------------------------------
+// FIXED GRID - this should only be used for the docs now.
+// ----------------------------------
 @mixin grid-core($gridColumnWidth, $gridGutterWidth, $numColumns: $gridColumns) {
 
 	[class*="span"] {
@@ -1136,89 +1448,10 @@ $default-transition-delay    : 0s;
 }
 
 
-// @mixin container-and-grid-widths($fluidOrFixed, $containerWidth, $gridWidth){
-// 	@if ($fluidOrFixed == fixed){
-// 		$containerName = container-px-width;
-// 		$gridName = grid-px-width;
-// 	} else if ($fluidOrFixed == px) {
-// 		$containerName = container-px-width;
-// 		$gridName = grid-px-width;
-// 	} else {
-// 		$containerName = container;
-// 		$gridName = grid;
-// 	}
-// 	.#{$containerName} { width: $containerWidth; }
-// 	.#{$containerName}.full-bleed { width:$containerMaxWidth; }
-// 	.#{$containerName}.full-bleed-no-max { width:100%; }
 
-// 	.#{$gridName} { width:$gridWidth; }
-//   .#{$gridName}.full-bleed { width:100%; }
-// }
-
-@mixin grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth, $numColumns: $gridColumns) {
-	.grid {
-		@include clearfix();
-
-		[class*="span"] {
-			@include input-block-level();
-			float: left;
-			margin-left: $fluidGridGutterWidth;
-			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
-		}
-
-		[class*="span"]:first-child {
-			margin-left: 0;
-		}
-
-		// generate .spanX and .offsetX
-		@include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
-		@include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
-	}
-}
-
-@mixin grid-fluid-span-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
-	@while $gridColumns > 0 {
-		.span#{$gridColumns} { @include grid-fluid-span($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-		$gridColumns: $gridColumns - 1;
-	}
-}
-
-@mixin grid-fluid-offset-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
-	@while $gridColumns > 0 {
-		.offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-		.offset#{$gridColumns}:first-child { @include grid-fluid-offset-first-child($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-		$gridColumns: $gridColumns - 1;
-	}
-}
-@mixin grid-fluid-offset-x-reset($gridColumns) {
-	.grid {
-		@while $gridColumns > 0 {
-			// .offset#{$gridColumns} { @include grid-fluid-offset($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth); }
-			.offset#{$gridColumns}:first-child {
-				margin-left:0;
-			}
-			$gridColumns: $gridColumns - 1;
-		}
-	}
-}
-
-@mixin grid-fluid-span($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
-	width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1));
-	*width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%);
-}
-
-@mixin grid-fluid-offset($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
-	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth * 2);
-	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + ($fluidGridGutterWidth * 2) - (.5 / $gridWidth * 100px * 1%);
-}
-
-@mixin grid-fluid-offset-first-child($columns, $fluidGridColumnWidth, $fluidGridGutterWidth) {
-	margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) + ($fluidGridGutterWidth);
-	*margin-left: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1)) - (.5 / $gridWidth * 100px * 1%) + $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
-}
-
-
-
+// ----------------------------------
+// INPUT GRID - I believe the grid-input is just for fixed-width-grids.
+// ----------------------------------
 @mixin grid-input($gridColumnWidth, $gridGutterWidth) {
 	input,
 	textarea,
@@ -1234,7 +1467,6 @@ $default-transition-delay    : 0s;
 	// generate .spanX
 	@include grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth);
 }
-
 @mixin grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
 	@while $gridColumns > 0 {
 		input.span#{$gridColumns},
@@ -1245,10 +1477,10 @@ $default-transition-delay    : 0s;
 		$gridColumns: $gridColumns - 1;
 	}
 }
-
 @mixin grid-input-span($columns, $gridColumnWidth, $gridGutterWidth) {
 	width: (($gridColumnWidth) * $columns) + ($gridGutterWidth * ($columns - 1)) - 14;
 }
+
 
 
 

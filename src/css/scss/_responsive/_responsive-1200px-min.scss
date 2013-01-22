@@ -2,22 +2,20 @@
 // Responsive: Large desktop and up
 // --------------------------------------------------
 //
-// This space intentionally left blank.
-// so these classes will line up through all the responsive files.
 //
-//
-//
-//
-@media (min-width: 1200px) {
+@media (min-width: px-em(1200)) {
 
   // Fluid grid
   .container {
     width: $fluidContainerWidth1200;
   }
-  .grid {
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
     width: $fluidGridWidth1200;
   }
   @include grid-fluid($fluidGridColumnWidth1200, $fluidGridGutterWidth1200);
+  @include grid-fluid($fluidSlimGridColumnWidth1200, $fluidSlimGridGutterWidth1200, $gridColumns, "slim");
 
 
   // Fixed grid
@@ -54,8 +52,8 @@
     margin-left: 0;
   }
 }
-// For the max-width cutoff: (the 1.5% is to make sure it doesn't jump when it hits the maxwidth point)
-@media (min-width: ($containerWidthMax + ($containerMarginWidth1200 * 2))) {
+// For the max-width cutoff:
+@media (min-width: px-em($containerWidthMax)) {
   // .container,
   // .container.full-bleed {
   //   max-width: $containerWidthMax;
@@ -64,10 +62,10 @@
   // .grid.full-bleed{
   //   max-width: $gridWidthMax;
   // }
-  // use the same grid as 1200, so no need to redefine.
+  
+  // use the same grid as 1200, so no need to redefine. The work is done with "max-width: $containerWidthMax" on the container
 
   // Fixed grid
-
   @include grid-core($gridColumnWidthMax, $gridGutterWidthMax);
   // Input grid
   @include grid-input($gridColumnWidthMax, $gridGutterWidthMax);

@@ -4,9 +4,9 @@
 <!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
 
-	{{partial 'includes/docs_head.html'}}
+	{{partial 'includes/docs-head.html'}}
 	<body data-spy="scroll" data-target=".bs-docs-sidebar">
-		{{partial 'includes/docs_nav.html'}}
+		{{partial 'includes/docs-nav.html'}}
 
 			<!-- Subhead
 			================================================== -->
@@ -3101,6 +3101,6 @@ $('[data-spy="affix"]').each(function () {
 
 			  
 
-		{{partial 'includes/docs_foot.html'}}
+		{{partial 'includes/docs-foot.html'}}
 	</body>
 </html>

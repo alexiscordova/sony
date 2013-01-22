@@ -2,9 +2,6 @@
 @import "../_base/mixins";
 
 
-.sony-recommends {
-  background: url('../../img/spec/ico/sonyRecommend.jpg') right center no-repeat;
-}
 
 // Spec Header
 // -------------------------
@@ -14,7 +11,7 @@
 
 // Text over the title
 .spec-title-link {
-  margin:  0;
+
 }
 
 .spec-title {
@@ -30,12 +27,11 @@
 
   .active {
     padding-bottom: .625em;
-    border-bottom: 4px solid $blue;
+    border-bottom: .25em solid $blue;
   }
 
   a {
     color: $grayDark;
-
   }
 }
 
@@ -45,11 +41,13 @@ ul.spec-views li {
   padding-left: .625em;
 }
 
-$specItemWidth1200: 220px;
-$specLabelWidth1200: 140px;
-$columnHeaderHeight: 85px;
+$specMobileBreakpoint: 35.4375em; // 567
+$specItemWidth1200: 13.75em; // 220
+$specLabelWidth1200: 8.75em; // 140
+$columnHeaderHeight: 5.3125em; // 85
 $tableHeaderColor: $grayLightFieldSmall;
-$specStickyTabHeight: 50px;
+$specStickyTabHeight: 3.125em; // 50
+$navBtnHeight: 2.875em; // 46
 
 
 // Spec Items Wrapping and labels
@@ -58,13 +56,50 @@ $specStickyTabHeight: 50px;
   margin-left: $specLabelWidth1200;
 }
 
+// Spec Nav
+// -------------------------
+.spec-nav-wrap {
+  z-index: 10;
+}
+
+.spec-nav {
+  position: absolute;
+  z-index: 20;
+  top: ($columnHeaderHeight - $navBtnHeight) / 2;
+  border: none;
+  background: $grayLight2;
+  border-radius: .1875em; // 3 pixels
+  width: 2em; // 30
+  height: $navBtnHeight;
+  padding: 0; // override default button padding
+  @include transition();
+
+  &:hover,
+  &:focus {
+    background: $highlightColor;
+    outline: none;
+  }
+
+  i {
+    vertical-align: middle;
+  }
+}
+
+.spec-nav-prev {
+  left: 0;
+}
+
+.spec-nav-next {
+  right: 0;
+}
+
 
 // Spec Items
 // -------------------------
 .spec-item {
   position: relative;
   margin: 0;
-  border-right: 1px solid $grayLighter;
+  border-right: .0625em solid $grayLighter; // 1 pixel
 
   // Our position relative is overriding off-screen, reset that.
   &.off-screen {
@@ -91,7 +126,7 @@ $specStickyTabHeight: 50px;
 
 .spec-item-cell {
   position: relative;
-  padding: 1.125em 1em 3.75em; // 18px 16px 60px
+  padding: 1.125em 1em 3.75em; // 18 16 60 pixels
 
   .btm-aligned {
     position: absolute;
@@ -105,7 +140,7 @@ $specStickyTabHeight: 50px;
   // Definition list image needs a set height because iQ doesn't load the images until
   // after the dimensions for each cell have been calculated
   .dl-img {
-    height: 135px;
+    height: 8.4375em; // 135 pixels
 
     // Don't clip image, shrink it
     img {
@@ -115,14 +150,28 @@ $specStickyTabHeight: 50px;
 
   .dl-horizontal dt {
     text-align: left;
-    width: 55px;
+    // width: 3.4375em; // 55
+    width: 4.583333333em; // 55 (base 12)
   }
   .dl-horizontal dd {
-    margin-left: 70px;
+    // margin-left: 4.375em; // 70
+    margin-left: 5.384615385em; // 70 (base 13)
   }
 
   .spec-list li {
     margin: 1.25em 0;
+  }
+
+  .enlarge {
+    margin: 2.5em 0 .625em;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+
+    i {
+      vertical-align: middle;
+    }
   }
 }
 
@@ -141,7 +190,7 @@ $specStickyTabHeight: 50px;
 
   .detail-labels-wrap {
     width: $specLabelWidth1200; // override % width
-    border-right: 1px solid $grayLighter;
+    border-right: .0625em solid $grayLighter;
   }
 
   .product-count-wrap,
@@ -199,10 +248,32 @@ $specStickyTabHeight: 50px;
 
 .spec-item-cell,
 .spec-products .detail-label {
-  border-bottom: 1px solid $grayLighter;
+  border-bottom: .0625em solid $grayLighter;
+}
+
+// Spec Modal
+// -------------------
+.spec-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $white;
+
+  .box-close i {
+    vertical-align: middle;
+  }
 }
 
 .spec-module {
+
+  .sony-recommends {
+    margin-bottom: -4.375em;
+  }
+
+  .win8-logo {
+    margin-left: .875em;
+    vertical-align: middle;
+  }
 
   .sticky-tabs,
   .tab {
@@ -216,10 +287,27 @@ $specStickyTabHeight: 50px;
 }
 
 
-@media (max-width: 567px) {
+@media (max-width: $specMobileBreakpoint) {
+
+  .spec-module {
+
+    .sony-recommends {
+      margin-top: .75em;
+      margin-bottom: 0;
+    }
+
+    .win8-logo {
+      width: 18px;
+    }
+  }
+
+
+  .spec-nav {
+    display: none;
+  }
 
   .spec-products:before {
-    height: 1px;
+    height: .0625em;
   }
 
   .spec-items-container .spec-item {
@@ -232,6 +320,14 @@ $specStickyTabHeight: 50px;
 
   .spec-item {
     border-right: 0;
+
+
+    .dl-horizontal dt {
+      width: auto;
+    }
+    .dl-horizontal dd {
+      margin-left: 0;
+    }
   }
 
 }
@@ -250,4 +346,10 @@ $specStickyTabHeight: 50px;
   .tile-content {
     padding: 1.25em;
   }
+}
+
+// In theory, these should be large enough to fill the space all the time :\
+.spec-tile > img {
+  width: 100%;
+  height: auto;
 }

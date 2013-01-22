@@ -1,6 +1,6 @@
 mixin descriptors()
 	for name in modulepages()
-		if name.indexOf('index.html') == -1 && name.indexOf('_module.html') != -1
+		if name.indexOf('index.html') == -1 && name.indexOf('-demo.html') != -1
 			hrf = '../build/debug/' + name.replace(/(.eco|.hb|.jade)/g, '')
 			ti = title(name) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
 			de = desc(name)
@@ -9,9 +9,9 @@ mixin descriptors()
 doctype 5
 !{partial('includes/ieconditionals.html')}
 
-!{partial('includes/docs_head.html')}
+!{partial('includes/docs-head.html')}
 body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
-	!{partial('includes/docs_nav.html')}
+	!{partial('includes/docs-nav.html')}
 
 	.jumbotron.subhead
 	  .container-px-width
@@ -22,5 +22,5 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
 		ul
 			+descriptors()
 
-	!{partial('includes/docs_foot.html')}
+	!{partial('includes/docs-foot.html')}
 </html>
