@@ -180,14 +180,14 @@ else if data.view == "specs"
 
   tabSlug = 'spec-tab' + data.iterator
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
-    .spec-column-header.table-center-wrap.hidden-phone
+    .spec-column-header.table-center-wrap
       .table-center
         .product-name.p1(itemprop="name")= data.name
         .product-model.p2(itemprop="model")= data.model
 
     each spec, i in data.specs
       .spec-item-cell
-        p.l3.visible-phone= labels[i]
+        p.cell-label.l3= labels[i]
 
         if spec.name && spec.list && spec.img
           p= spec.name
