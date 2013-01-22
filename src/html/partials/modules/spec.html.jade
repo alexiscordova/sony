@@ -1,20 +1,19 @@
 
 section.spec-module
 
-  .tab-strip.sticky-tabs.visible-phone
-    .tabs-container.container
+  .sticky-tabs.tab-strip.spec-tabs
+    .tabs-container.container.m-full-bleed
       .tabs
 
-  .container.mobile-container-padded
+  .container
     .grid
-      .span12.spec-title-link
-        a(href="#") Vaio Z
+      p.sony-recommends.pull-right
+        span.p3 Sony Recommends
+        i.icon-uibig-win8.win8-logo
 
     .grid
-      h1.spec-title.pull-left Vaio Z Details
-      p.pull-right
-        | Sony Recommends
-        i.sprite-windows8
+      a.spec-title-link.tl(href="#") Vaio Z
+      h1.spec-title Vaio Z Details
 
     .grid
       ul.spec-views.inline.p3
@@ -24,14 +23,14 @@ section.spec-module
   numModels = data.submodules.length
 
   .spec-products
-    .container.mobile-container-padded
+    .container
       nav.spec-nav-container.relative
         button.spec-nav.spec-nav-prev
           i.icon-ui2-chevron-18-white-left
         button.spec-nav.spec-nav-next
           i.icon-ui2-chevron-18-white-right
       .grid
-        .span2.detail-labels-wrap.hidden-phone
+        .span2.detail-labels-wrap
           .detail-labels-wrapping
             .product-count-wrap.table-center-wrap
               .table-center
@@ -53,16 +52,19 @@ section.spec-module
                 e = { "locals" : locals, "data" : d, "labels" : data.labels }
                 !{locals.partial('modules/' + module.type, e )}
 
-  .spec-tiles-wrap.container.mobile-container-padded
+  .spec-tiles-wrap.container
     .grid
       h2= data.features.title
-    .spec-tiles.grid
+    .spec-tiles.slimgrid.no-grid-at-567
       each tile in data.features.tiles
         .spec-tile.span4
           if tile.img
-            img.iq-img(data-src=tile.img.src, alt=tile.img.alt)
-            noscript
-              img(src=tile.img.noscriptsrc, alt=tile.img.alt)
+            .iq-wrap
+              .iq-container
+                img.iq-img(data-src=tile.img.src, alt=tile.img.alt)
+                noscript
+                  img(src=tile.img.noscriptsrc, alt=tile.img.alt)
+
           .tile-content
             h3= tile.title
             p= tile.description
