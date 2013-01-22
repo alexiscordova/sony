@@ -32,6 +32,10 @@
       self.$specItems = self.$container.find('.spec-item');
       self.$specItemsWrap = self.$container.find('.spec-items-wrap');
       self.$tabStrip = self.$container.find('.tab-strip');
+      self.$navNext = self.$container.find('.spec-nav-next');
+      self.$navPrev = self.$container.find('.spec-nav-prev');
+      self.$enlargeTriggers = self.$container.find('.js-enlarge');
+      self.$enlargeClosers = self.$container.find('.spec-modal .box-close');
 
       // Line up spec item cells
       self._onResize();
@@ -40,6 +44,9 @@
       self._initFeatures();
 
       self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
+
+      self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
+      self.$enlargeClosers.on('click', $.proxy( self._closeEnlarge, self ));
 
       // We're done
       // Add the complete class to the labels to transition them in
@@ -66,14 +73,15 @@
     },
 
     _initScroller : function() {
-      var self = this;
+      var self = this,
+          data;
 
       self.$specItemsWrap.scrollerModule({
         contentSelector: '.spec-items-container',
         itemElementSelector: '.spec-item',
         mode: 'paginate', // if mode == 'paginate', the items in the container will be paginated
-        nextSelector: '', // selector for next paddle
-        prevSelector: '', // selector for previous paddle
+        nextSelector: self.$navNext,
+        prevSelector: self.$navPrev,
         centerItems: false,
 
         // iscroll props get mixed in
@@ -88,12 +96,14 @@
           onScrollEnd: null,
           lockDirection: true,
           onBeforeScrollStart: null,
-          onAnimationEnd: null,
+          onAnimationEnd: window.iQ.update,
         }
       });
 
       // Save the iScroll instance
-      self.scroller = self.$specItemsWrap.data('scrollerModule').scroller;
+      data = self.$specItemsWrap.data('scrollerModule');
+      self.scroller = data;
+      self.iscroll = data.scroller;
       self.isScroller = true;
 
     },
@@ -101,42 +111,51 @@
     _teardownScroller : function() {
       var self = this;
       self.$specItemsWrap.scrollerModule('destroy');
-      self.scroller = null;
+      self.iscroll = null;
       self.isScroller = false;
     },
 
     _initStickyTabs : function() {
       var self = this,
-          $tabs = self.$specItems.find('.spec-column-header').clone();
+          $headers = self.$specItems.find('.spec-column-header').clone(),
+          $btns = $();
 
       self.isStickyTabs = true;
       self.$specItems.slice(1).addClass('tab-pane fade off-screen');
       self.$specItems.slice(0, 1).addClass('tab-pane fade in active');
 
       // Make the column headers into tabs
-      $tabs
-        .removeClass('spec-column-header hidden-phone')
-        .addClass('tab')
-        .each(function(i) {
-          var $tab = $(this);
+      $headers.each(function(i) {
+        var $header = $(this),
+            $btn = $('<button/>', {
+              html : $header.contents()
+            });
 
-          // Make the first tab active
-          if ( i === 0 ) {
-            $tab.addClass('active');
-          }
+        // Make the first tab active
+        if ( i === 0 ) {
+          $btn.addClass('active');
+        }
 
-          // Set the data attributes
-          $tab.attr({
+        // Set the data attributes
+        $btn
+          .attr({
             'data-target': 'spec-tab' + i,
             'data-toggle': 'tab'
-          });
+          })
+          .removeClass('spec-column-header hidden-phone')
+          .addClass('tab');
 
-        })
-        .appendTo( self.$tabStrip.find('.tabs') );
+        $btns = $btns.add( $btn );
+      });
+
+      $btns.appendTo( self.$tabStrip.find('.tabs') );
 
       self.$tabStrip.stickyTabs({
         mq: self.mobileBreakpoint
       });
+
+      // Undo what _setRowHeights sets
+      self._removeHeights();
     },
 
     _teardownStickyTabs : function() {
@@ -147,6 +166,7 @@
           .empty();
       self.isStickyTabs = false;
       self.$specItems.removeClass('tab-pane fade in off-screen active');
+      self._closeEnlarge();
     },
 
     _setRowHeights : function() {
@@ -175,8 +195,8 @@
       });
 
       // Refresh iScroll
-      if ( self.scroller ) {
-        self.scroller.refresh();
+      if ( self.iscroll ) {
+        self.iscroll.refresh();
       }
 
       return self;
@@ -188,6 +208,13 @@
       self.$specItemsWrap.find('.spec-items-container').height( self.$specItems.first().height() );
 
       return self;
+    },
+
+    _removeHeights : function() {
+      var self = this;
+
+      self.$specItems.find('.spec-item-cell').css('height', '');
+      self.$specItemsWrap.find('.spec-items-container').css('height', '');
     },
 
     _onResize : function() {
@@ -208,6 +235,10 @@
           self._initStickyTabs();
         }
 
+        if ( self.$modal ) {
+          self._closeEnlarge();
+        }
+
       } else {
 
         // If we have sticky tabs, destroy them
@@ -225,6 +256,55 @@
           ._setRowHeights()
           ._setItemContainerHeight();
       }
+    },
+
+    _onEnlarge : function( evt ) {
+      var self = this,
+          $cell = $(evt.target).closest('.spec-item-cell'),
+          $container = $cell.closest('.spec-items-container'),
+          $modal = $cell.find('.spec-modal'),
+          cellTop = $cell.position().top,
+          wrapperOffset = self.isScroller ? self.iscroll.x * -1 : 0,
+          cellHeight = $cell.outerHeight(),
+          columnWidth = $cell.parent().outerWidth(),
+          modalWidth = self.isScroller ? (self.scroller.itemsPerPage * columnWidth) + 'px' : '100%';
+
+      // Make sure we don't open 2 modals at once
+      self._closeEnlarge();
+
+      $modal
+        .detach()
+        .removeClass('hide')
+        .css({
+          'top': cellTop,
+          'left': wrapperOffset,
+          'width': modalWidth,
+          'minHeight': cellHeight
+        })
+        .data('$cell', $cell)
+        .appendTo( $container );
+
+      self.$modal = $modal;
+    },
+
+    _closeEnlarge : function() {
+      var self = this,
+          $cell;
+
+      // No current modal
+      if ( !self.$modal ) {
+        return;
+      }
+
+      $cell = self.$modal.data('$cell');
+
+
+      // Detach and re-attach the modal in the spec-item
+      self.$modal
+        .detach()
+        .addClass('hide')
+        .appendTo($cell);
+      self.$modal = null;
     }
 
   };
@@ -251,7 +331,7 @@
 
   // Overrideable options
   $.fn.spec.options = {
-    mobileBreakpoint : '(max-width: 567px)'
+    mobileBreakpoint : '(max-width: 35.4375em)'
   };
 
   // Not overrideable

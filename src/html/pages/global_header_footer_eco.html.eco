@@ -5,12 +5,12 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]-->
   <head>
     <%-@partial('includes/meta.html')%>
-<% if 'debug' in @getEnvironments():%> 
-    <%-@partial('includes/css_debug.html.eco', {this: this})%>
+<% if 'debug' in @getEnvironments(): %> 
+    <%-@partial('includes/css-debug.html.eco', {this: this})%>
 <% else: %>
-    <%-@partial('includes/css_deploy.html')%>
+    <%-@partial('includes/css-deploy.html')%>
 <% end %>
-    <%-@partial('includes/js_head.html')%>  
+    <%-@partial('includes/js-head.html')%>  
 
  
     <!-- This should be moved once completed testing: -->
@@ -21,7 +21,7 @@
     <div id="page-wrap-outer" class="page-wrap-outer">
       <div id="page-wrap-inner" class="page-wrap-inner">
 
-    <%-@partial('modules/global_header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
+    <%-@partial('modules/global-header.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
       <section class="container" style="background:rgb(70, 70, 70); XXheight:500px;">
         
         <div class="bs-docs-grid">
@@ -66,12 +66,12 @@
         </div>
 
       </section>
-    <%-@partial('modules/global_footer.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
+    <%-@partial('modules/global-footer.html.eco', {mode:'two', content:{a:'3',b:'4'}}) %>
 
-<% if 'debug' in @getEnvironments():%>
-    <%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
+<% if 'debug' in @getEnvironments(): %>
+    <%-@partial('includes/js-footer-debug.html.eco', {this: this})%>
 <% else: %>
-    <%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
+    <%-@partial('includes/js-footer-deploy.html.eco', {this: this})%>
 <% end %>
 
       </div>
