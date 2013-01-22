@@ -16,6 +16,10 @@ $default-transition-delay    : 0s;
   @return ($target/$context)+0em;
 }
 
+@function percent-width-to-percent-margin($percentWidth){
+	@return (100% - $percentWidth)/2;
+}
+
 // UTILITY MIXINS
 // --------------------------------------------------
 @mixin experimental($property, $value, $moz: $experimental-support-for-mozilla, $webkit: $experimental-support-for-webkit, $o: $experimental-support-for-opera, $ms: $experimental-support-for-microsoft, $khtml: $experimental-support-for-khtml, $official: true) {

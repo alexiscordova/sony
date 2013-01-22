@@ -2,7 +2,7 @@
 // MEDIA QUERY DEBUGGING VIEW //
 ////////////////////////////////
 
-$backgroundOpacity: 0.8;
+$backgroundOpacity: 0.9;
 $overallOpacity: 0.8;
 
 body.debug::before {
@@ -20,91 +20,103 @@ body.debug::before {
 }
 
 
-@media (max-width: 479px) {
-  body.debug::before {
-    content: '320px-567px - Under 480 (Phone Portrait)';
-    background-color: hsla(300, 80%, 60%, $backgroundOpacity);
-  }
-}
 @media (width: 320px) {
   body.debug::before {
-    content: '320px-567px - Exactly 320 (iPhone Portrait)';
+    content: '320px-567px [Exactly 320] (iPhone Portrait)';
     background-color: hsla(260, 80%, 60%, $backgroundOpacity);
+  }
+}
+@media (max-width: 479px) {
+  body.debug::before {
+    content: '320px-567px [320-479] (Phone Portrait)';
+    background-color: hsla(300, 80%, 60%, $backgroundOpacity);
   }
 }
 @media (width: 480px) {
   body.debug::before {
-    content: '320px-567px - Exactly 480 (Phone Landscape)';
+    content: '320px-567px [Exactly 480] (Phone Landscape)';
     background-color: hsla(210, 50%, 30%, $backgroundOpacity);
   }
 }
 @media (min-width: 481px) and (max-width: 567px) {
   body.debug::before {
-    content: '320px-567px - Over 480 (Phone Landscape / Small Tablet Portrait)';
+    content: '320px-567px [480-567] (Phone Landscape / Small Tablet Portrait)';
     background-color: hsla(210, 80%, 60%, $backgroundOpacity);
   }
 }
 @media (width: 568px) {
   body.debug::before {
-    content: '568px-979px - Exactly 568 (Large Phone Landscape / Small Tablet Portrait)';
+    content: '568px-979px [Exactly 568] (Large Phone Landscape / Small Tablet Portrait)';
     background-color: hsla(50, 50%, 30%, $backgroundOpacity);
   }
 }
 @media (min-width: 569px) and (max-width: 767px) {
   body.debug::before {
-    content: '568px-979px - below 768 (Large Phone Landscape / Small Tablet Portrait)';
-    background-color: hsla(50, 80%, 60%, $backgroundOpacity);
+    content: '568px-979px [568-767] (Large Phone Landscape / Small Tablet Portrait)';
+    background-color: hsla(50, 100%, 50%, $backgroundOpacity);
     color: $grayDark;
   }
 }
 @media (width: 768px) {
   body.debug::before {
-    content: '568px-979px - Exactly 768 (Tablet Portrait)';
-    background-color: hsla(50, 50%, 30%, $backgroundOpacity);
+    content: '568px-979px [Exactly 768] (Tablet Portrait)';
+    background-color: hsla(50, 70%, 30%, $backgroundOpacity);
   }
 }
 @media (min-width: 769px) and (max-width: 979px) {
   body.debug::before {
-    content: '568px-979px - above 768 (Small Tablet Landscape)';
-    background-color: hsla(50, 50%, 60%, $backgroundOpacity);
+    content: '568px-979px [768-979] (Small Tablet Landscape)';
+    background-color: hsla(50, 70%, 60%, $backgroundOpacity);
     color: $grayDark;
   }
 }
 @media (min-width: 980px) and (max-width: 980px) {
   body.debug::before {
-    content: '980px-1199px - Exactly 980 (Small Tablet Landscape / Small Desktop)';
+    content: '980px-1199px [Exactly 980] (Small Tablet Landscape / Small Desktop)';
     background-color: hsla(110, 50%, 30%, $backgroundOpacity);
-    color: $grayDark;
+    // color: $grayDark;
   }
 }
 @media (min-width: 981px) and (max-width: 1023px) {
   body.debug::before {
-    content: '980px-1199px - below 1024 (Small Desktop / Small Tablet Landscape)';
+    content: '980px-1199px [980-1023] (Small Desktop / Small Tablet Landscape)';
     background-color: hsla(110, 80%, 60%, $backgroundOpacity);
-    color: $grayDark;
+    // color: $grayDark;
   }
 }
 @media (min-width: 1024px) and (max-width: 1024px) {
   body.debug::before {
-    content: '980px-1199px - Exactly 1024px (Tablet Landscape / Desktop)';
+    content: '980px-1199px [Exactly 1024] (Tablet Landscape / Desktop)';
     background-color: hsla(110, 50%, 30%, $backgroundOpacity);
-    color: $grayDark;
+    // color: $grayDark;
   }
 }
 @media (min-width: 1025px) and (max-width: 1199px) {
   body.debug::before {
-    content: '980px-1199px - above 1024 (Desktop / Widescreen Tablet Landscape)';
+    content: '980px-1199px [1024-1199] (Desktop / Widescreen Tablet Landscape)';
     background-color: hsla(110, 50%, 60%, $backgroundOpacity);
-    color: $grayDark;
+    // color: $grayDark;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px) and (max-width: 1200px) {
   body.debug::before {
-    content: '1200px-1400px (Large Desktop / Large Widescreen Tablet Landscape)';
+    content: '1200px-1399px [Exactly 1200] (Desktop / Widescreen Tablet Landscape)';
+    background-color: hsla(10, 50%, 30%, $backgroundOpacity);
+  }
+}
+@media (min-width: 1201px) and (max-width: 1399px) {
+  body.debug::before {
+    content: '1200px-1399px (Large Desktop / Large Widescreen Tablet Landscape)';
     background-color: hsla(10, 50%, 60%, $backgroundOpacity);
   }
 }
-@media (min-width: 1400px) {
+@media (min-width: 1400px) and (max-width: 1400px) {
+  body.debug::before {
+    content: '1400px+ [Exactly 1400] (Extra Large Desktop)';
+    background-color: hsla(260, 50%, 30%, $backgroundOpacity);
+  }
+}
+@media (min-width: 1401px) {
   body.debug::before {
     content: '1400px+ (Extra Large Desktop)';
     background-color: hsla(260, 50%, 60%, $backgroundOpacity);

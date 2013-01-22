@@ -816,7 +816,7 @@ $bp1400:   1400/16 + 0em;
 
   // Max breakpoint
   $containerWidthMax:         1400px !default; // if the browser is wider than this, the content will have a set width & side margins will be auto.
-  $containerMarginWidthMax:   79px !default; // if containerWidthMax changes, these all need to be adjusted to add up to it.
+  $containerMarginWidthMax:   79px !default; // these are calculated based on the 1200 values, at 1400.
   $gridMarginWidthMax:        64px !default;
   $gridColumnWidthMax:        58px !default;
   $gridGutterWidthMax:        38px !default;
@@ -896,6 +896,12 @@ $bp1400:   1400/16 + 0em;
   $fluidGridWidth1200:            percentage($gridWidth1200/$containerWidth1200) !default;
   $fluidGridColumnWidth1200:      percentage($gridColumnWidth1200/$gridWidth1200) !default;
   $fluidGridGutterWidth1200:      percentage($gridGutterWidth1200/$gridWidth1200) !default;
+
+  // we need to figure out what the maxwidth minus the page margins @ the max width are, to keep the grids lined up.
+  // get the percent width of the page margins at 1200.
+  $containerMarginWidth1400-px:   (100% - $fluidContainerWidth1200)/2 / 100% * $containerWidthMax;
+  $fluidContainerWidthMax-px:     $containerWidthMax - ($containerMarginWidth1400-px * 2) + 0px;
+
 
   // 1200px+ slimGrid
   $fluidSlimGridColumnWidth1200:  percentage($slimGridColumnWidth1200/$gridWidth1200) !default;

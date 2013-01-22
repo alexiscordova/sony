@@ -13,30 +13,33 @@
 }
 
 // Fluid grid
-// @include container-and-grid-widths(fluid, $fluidContainerWidth, $fluidGridWidth);
 .container {
   width: $fluidContainerWidth;
-  max-width: $containerWidthMax;
+
+  max-width: $fluidContainerWidthMax-px;
   &.full-bleed{
-  	width:100%;
+    max-width: $containerWidthMax;
   }
   &.full-bleed-no-max{
-  	width:100%;
   	max-width:100%;
   }
-  &.navmenu-w-search-container{
-    // max-width:$navMaxWidth;
-  }
-
 }
 .grid,
 .slimgrid,
 .slimgrid5, .grid5 {
   width: $fluidGridWidth;
-  &.full-bleed{
-  	width:100%;
+}
+
+@media (min-width: 768px) {
+  .container.full-bleed,
+  .container.full-bleed-no-max,
+  .grid.full-bleed,
+  .slimgrid.full-bleed,
+  .slimgrid5.full-bleed, .grid5.full-bleed {
+    width:100%;
   }
 }
+
 
 @include grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth);
 
