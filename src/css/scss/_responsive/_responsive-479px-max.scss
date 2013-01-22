@@ -1,0 +1,39 @@
+// ------------------------------------------------------------------------------------
+// UP TO LANDSCAPE PHONE
+// ------------------------------------------------------------------------------------
+//     d8888  8888888888  .d8888b.                           .d8888b.                                  888                  
+//    d8P888        d88P d88P  Y88b                         d88P  "88b                                 888                  
+//   d8P 888       d88P  888    888                         Y88b. d88P                                 888                  
+//  d8P  888      d88P   Y88b. d888 88888b.  888  888        "Y8888P"           888  888 88888b.   .d88888  .d88b.  888d888 
+// d88   888   88888888   "Y888P888 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b d88" 888 d8P  Y8b 888P"   
+// 8888888888   d88P            888 888  888   X88K         888"  Y888P"        888  888 888  888 888  888 88888888 888     
+//       888   d88P      Y88b  d88P 888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888  888 Y88b 888 Y8b.     888     
+//       888  d88P        "Y8888P"  88888P"  888  888        "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888     
+//                                  888                                                                                     
+//                                  888                                                                                     
+//                                  888                                                                                     
+// ------------------------------------------------------------------------------------
+
+// mobile 6col grid
+@media (max-width: px-em(479px)) {
+  
+
+  .container {
+    width: $mobileContainerWidth320;
+  }
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
+    width: $mobileGridWidth320;
+  }
+
+  @include grid-fluid($mobileGridColumnWidth320, $mobileGridGutterWidth320, $mobileGridColumns, "m", ".m-grid-at-479");
+  @include no-grid(".no-grid-at-479");
+
+  .container.full-bleed-at-479,
+  .grid.full-bleed-at-479{
+    width:100%;
+  }
+} // max-width: 479px
+
+

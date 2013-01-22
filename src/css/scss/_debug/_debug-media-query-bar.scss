@@ -2,7 +2,7 @@
 // MEDIA QUERY DEBUGGING VIEW //
 ////////////////////////////////
 
-$backgroundOpacity: 0.8;
+$backgroundOpacity: 0.9;
 $overallOpacity: 0.8;
 
 body.debug::before {
@@ -19,96 +19,106 @@ body.debug::before {
   @include transition();
 }
 
-// 479
-@media (max-width: 29.9375em) {
+
+@media (width: px-em(320)) { // 320px
   body.debug::before {
-    content: '320px-567px - Under 480 (Phone Portrait) - (max-width: 29.9375em)';
-    background-color: hsla(300, 80%, 60%, $backgroundOpacity);
-  }
-}
-// 320
-@media (width: 20em) {
-  body.debug::before {
-    content: '320px-567px - Exactly 320 (iPhone Portrait) - (width: 20em)';
+    content: '320px-567px - [Exactly 320] (Phone Portrait) - (width: 20em)';
     background-color: hsla(260, 80%, 60%, $backgroundOpacity);
   }
 }
-// 480
-@media (width: 30em) {
+@media (max-width: px-em(479)) { // 479px
   body.debug::before {
-    content: '320px-567px - Exactly 480 (Phone Landscape) - (width: 30em)';
+    content: '320px-567px [320-479] (Large Phone Portrait) - (max-width: 29.9375em)';
+    background-color: hsla(300, 80%, 60%, $backgroundOpacity);
+  }
+}
+@media (width: px-em(480)) { // 480px
+  body.debug::before {
+    content: '320px-567px [Exactly 480] (Phone Landscape) - (width: 30em)';
     background-color: hsla(210, 50%, 30%, $backgroundOpacity);
   }
 }
-@media (min-width: 30.0625em) and (max-width: 35.4375em) {
+@media (min-width: px-em(481)) and (max-width: px-em(567)) { // 481px-567px
   body.debug::before {
-    content: '320px-567px - Over 480 (Phone Landscape / Small Tablet Portrait) - (min-width: 30.0625em) and (max-width: 35.4375em)';
+    content: '320px-567px [480-567] (Phone Landscape / Small Tablet Portrait) - (min-width: 30.0625em) and (max-width: 35.4375em)';
     background-color: hsla(210, 80%, 60%, $backgroundOpacity);
   }
 }
-@media (width: 35.5em) {
+@media (width: px-em(568)) { // 568px
   body.debug::before {
-    content: '568px-979px - Exactly 568 (Large Phone Landscape / Small Tablet Portrait) - (width: 35.5em)';
+    content: '568px-979px [Exactly 568] (Large Phone Landscape / Small Tablet Portrait) - (width: 35.5em)';
     background-color: hsla(50, 50%, 30%, $backgroundOpacity);
   }
 }
-@media (min-width: 35.5625em) and (max-width: 47.9375em) {
+@media (min-width: px-em(569)) and (max-width: px-em(767)) { // 569px-767px
   body.debug::before {
-    content: '568px-979px - below 768 (Large Phone Landscape / Small Tablet Portrait) - (min-width: 35.5625em) and (max-width: 47.9375em)';
-    background-color: hsla(50, 80%, 60%, $backgroundOpacity);
+    content: '568px-979px [568-767] (Large Phone Landscape / Small Tablet Portrait) - (min-width: 35.5625em) and (max-width: 47.9375em)';
+    background-color: hsla(50, 100%, 50%, $backgroundOpacity);
     color: $grayDark;
   }
 }
-@media (width: 48em) {
+@media (width: px-em(768)) { // 768px
   body.debug::before {
-    content: '568px-979px - Exactly 768 (Tablet Portrait) - (width: 48em)';
-    background-color: hsla(50, 50%, 30%, $backgroundOpacity);
+    content: '568px-979px [Exactly 768] (Tablet Portrait) - (width: 48em)';
+    background-color: hsla(50, 70%, 30%, $backgroundOpacity);
   }
 }
-@media (min-width: 48.0625em) and (max-width: 61.1875em) {
+@media (min-width: px-em(769)) and (max-width: px-em(979)) { // 769px-979px
   body.debug::before {
-    content: '568px-979px - above 768 (Small Tablet Landscape) - (min-width: 48.0625em) and (max-width: 61.1875em)';
-    background-color: hsla(50, 50%, 60%, $backgroundOpacity);
+    content: '568px-979px [768-979] (Small Tablet Landscape) - (min-width: 48.0625em) and (max-width: 61.1875em)';
+    background-color: hsla(50, 70%, 60%, $backgroundOpacity);
     color: $grayDark;
   }
 }
-@media (width: 61.25em) {
+@media (width: px-em(980)) { // 980px
   body.debug::before {
-    content: '980px-1199px - Exactly 980 (Small Tablet Landscape / Small Desktop) - (width: 61.25em)';
+    content: '980px-1199px [Exactly 980] (Small Tablet Landscape / Small Desktop) - (width: 61.25em)';
     background-color: hsla(110, 50%, 30%, $backgroundOpacity);
-    color: $grayDark;
+    // color: $grayDark;
   }
 }
-@media (min-width: 61.3125em) and (max-width: 63.9375em) {
+@media (min-width: px-em(981)) and (max-width: px-em(1023)) { // 981px-1023px
   body.debug::before {
-    content: '980px-1199px - below 1024 (Small Desktop / Small Tablet Landscape) - (min-width: 61.3125em) and (max-width: 63.9375em)';
+    content: '980px-1199px [980-1023] (Small Desktop / Small Tablet Landscape) - (min-width: 61.3125em) and (max-width: 63.9375em)';
     background-color: hsla(110, 80%, 60%, $backgroundOpacity);
-    color: $grayDark;
+    // color: $grayDark;
   }
 }
-@media (width: 64em) {
+@media (width: px-em(1024)) { // 1024px
   body.debug::before {
-    content: '980px-1199px - Exactly 1024px (Tablet Landscape / Desktop) - (width: 64em)';
+    content: '980px-1199px [Exactly 1024px] (Tablet Landscape / Desktop) - (width: 64em)';
     background-color: hsla(110, 50%, 30%, $backgroundOpacity);
-    color: $grayDark;
+    // color: $grayDark;
   }
 }
-@media (min-width: 64.0625em) and (max-width: 74.9375em) {
+@media (min-width: px-em(1025)) and (max-width: px-em(1199)) { // 1025-1199
   body.debug::before {
-    content: '980px-1199px - above 1024 (Desktop / Widescreen Tablet Landscape) - (min-width: 64.0625em) and (max-width: 74.9375em)';
+    content: '980px-1199px [1024-1199] (Desktop / Widescreen Tablet Landscape) - (min-width: 64.0625em) and (max-width: 74.9375em)';
     background-color: hsla(110, 50%, 60%, $backgroundOpacity);
-    color: $grayDark;
+    // color: $grayDark;
   }
 }
-@media (min-width: 75em) {
+@media (width: px-em(1200)) { // 1200
   body.debug::before {
-    content: '1200px-1400px (Large Desktop / Large Widescreen Tablet Landscape) - (min-width: 75em)';
+    content: '1200px-1399px [Exactly 1200] (Desktop / Widescreen Tablet Landscape) - (min-width: 75em)';
+    background-color: hsla(10, 50%, 30%, $backgroundOpacity);
+  }
+}
+@media (min-width: px-em(1201)) and (max-width: px-em(1399)) { // 1201-1399
+  body.debug::before {
+    content: '1200px-1399px (Large Desktop / Large Widescreen Tablet Landscape) - (min-width: 75.0625em) and (max-width: 87.4375em)';
     background-color: hsla(10, 50%, 60%, $backgroundOpacity);
   }
 }
-@media (min-width: 87.5em) {
+@media (width: px-em(1400)) { // 1400
   body.debug::before {
-    content: '1400px+ (Extra Large Desktop) - (min-width: 87.5em)';
+    content: '1400px+ [Exactly 1400] (Extra Large Desktop) - (width: 87.5em)';
+    background-color: hsla(260, 50%, 30%, $backgroundOpacity);
+  }
+}
+@media (min-width: px-em(1401)) { // 1401
+  body.debug::before {
+    content: '1400px+ (Extra Large Desktop) - (min-width: 87.5625em)';
     background-color: hsla(260, 50%, 60%, $backgroundOpacity);
   }
 }

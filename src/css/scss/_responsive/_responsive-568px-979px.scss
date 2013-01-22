@@ -2,24 +2,28 @@
 // Responsive: Tablet to desktop
 // --------------------------------------------------
 //
-// This space intentionally left blank.
-// so these classes will line up through all the responsive files.
 //
-//
-//  changed from 768
-@media (min-width: 568px) and (max-width: 979px) {
+//  changed from 768; overrides for 568-767 are in _responsive-567
+//  The 768 grid is going to be used down to 568.
 
-  // Fluid grid
+// under normal conditions, the 768 grid will flex up to 979px and down to 568px.
+@media (min-width: px-em(568px)) and (max-width: px-em(979px)) {
+
+}
+
+@media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
   .container {
     width: $fluidContainerWidth768;
   }
-  .grid {
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
     width: $fluidGridWidth768;
   }
   @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
 
 
-  // Fixed grid
+  // Fixed grid -- Looks like the px-width-grid is just for docs. Don't really care about mobile/etc so we'll just leave these here.
   .container-px-width{  
     width: $containerWidth768;
   }
@@ -29,21 +33,17 @@
   @include grid-core($gridColumnWidth768, $gridGutterWidth768);
   // Input grid
   @include grid-input($gridColumnWidth768, $gridGutterWidth768);
+  
+} // (min-width: 768px)) and (max-width: 979px))
 
-  // No need to reset .thumbnails here since it's the same $gridGutterWidth
-
-}
-
-
-
-
-@media (min-width:568px) {
-  .grid5:not(.mobile-to-767) {
-    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+// implement the default (desktop) grid if no override class is present.
+@media (min-width: px-em(568px)) and (max-width: px-em(767px)) {
+  .grid,
+  .slimgrid,
+  .slimgrid5, .grid5 {
+    &:not(.no-grid-at-767):not(.m-grid-at-767){
+      @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
+    }
   }
-}
-@media (min-width:768px) {
-  .grid5{
-    @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
-  }
-}
+} // (min-width: 568px)) and (max-width: 767px)) 
+
