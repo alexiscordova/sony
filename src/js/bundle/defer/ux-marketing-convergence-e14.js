@@ -44,6 +44,22 @@
 
       self.gotoNextPartnerProduct();
       self.setPartnerCarouselInterval();
+      self.setupReloadButton();
+
+    },
+
+    'setupReloadButton': function() {
+
+      var self = this;
+
+      self.$el.find('.btn-reload').on('click', function(e){
+
+        e.preventDefault();
+
+        self.gotoNextPartnerProduct();
+        self.setPartnerCarouselInterval();
+      });
+
     },
 
     'setPartnerCarouselInterval': function() {

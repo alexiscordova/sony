@@ -6,13 +6,14 @@ section.uxmc
 
   div(class=['grid', 'uxmc-container', 'mode-'+data.mode.toLowerCase(), 'theme-'+data.theme.toLowerCase()])
 
+    a.btn-reload(title='Load another product to go with your ' + data.baseProduct.title, href='#') Reload
+
     div.base-product
       div.uxmc-overlay
         h3 #{data.baseProduct.title}
       div.uxmc-background
         div.iq-img(data-src=data.baseProduct.imgSrc)
-        noscript
-          img(src=data.baseProduct.imgSrc)
+        img.iq-img(data-src=data.baseProduct.imgSrc)
 
     ul.partner-products
       for product in data.partnerProducts
@@ -23,5 +24,4 @@ section.uxmc
               span #{product.title}
             div.uxmc-background
               div.iq-img(data-src=product.imgSrc)
-              noscript
-                img(src=product.imgSrc)
+              img.iq-img(data-src=product.imgSrc)
