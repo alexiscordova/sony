@@ -314,38 +314,38 @@
 
 
 @media (min-width: px-em(980px)) and (max-width: px-em(1039px)) {
-.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{ 
-  padding-top:25px;
-  height: 155px;
-}
-.navtray-section-featured .navtray-secondary-promo{
-    margin-top: 32px;
-}
+  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{ 
+    padding-top:25px;
+    height: 155px;
+  }
+  .navtray-section-featured .navtray-secondary-promo{
+      margin-top: 32px;
+  }
 }
 
 @media (min-width: px-em(1040px)) and (max-width: px-em(1099px)) {
-.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{ 
-  padding-top:25px;
-  height: 165px;
-}
+  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{ 
+    padding-top:25px;
+    height: 165px;
+  }
 }
 
 @media (min-width: px-em(1040px)) {
-.navtray-w-short .navtray-section-main{
-  min-height: 300px;
-}
+  .navtray-w-short .navtray-section-main{
+    min-height: 300px;
+  }
 }
 
 @media (min-width: px-em(1100px)) and (max-width: px-em(1149px)) {
-.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
-  height: 175px;
-}
+  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+    height: 175px;
+  }
 }
 
 @media (min-width: px-em(1150px)) {
-.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
-  height: 185px;
-}
+  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+    height: 185px;
+  }
 }
 
 
@@ -380,35 +380,35 @@
 
 @media (min-width: px-em(1200px)) {
 
-.navtray.navtray-absolute{
-  position: absolute;
-  bottom: 0;
-  width:$navtrayMaxWidth;
-  margin-left:- ($navtrayMaxWidth / 2);
-  left:50%;
-}
-
-.navtray-section-featured{ // section right
-  .navtray-section-featured-short{
-    padding-top:0;
+  .navtray.navtray-absolute{
+    position: absolute;
+    bottom: 0;
+    width:$navtrayMaxWidth;
+    margin-left:- ($navtrayMaxWidth / 2);
+    left:50%;
   }
-}
 
-.navtray-w-fullwidth-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
-  content: "";
-  display: block;
-  width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
-  height: 100%;
-  position:absolute;
-  top:0;
-  left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
-  z-index:1;
-  background: $navTrayBackgroundAlt;
-}
+  .navtray-section-featured{ // section right
+    .navtray-section-featured-short{
+      padding-top:0;
+    }
+  }
 
-.nav-li-universal{
-  margin-right: -11px;
-}
+  .navtray-w-fullwidth-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
+    content: "";
+    display: block;
+    width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
+    height: 100%;
+    position:absolute;
+    top:0;
+    left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
+    z-index:1;
+    background: $navTrayBackgroundAlt;
+  }
+
+  .nav-li-universal{
+    margin-right: -11px;
+  }
 
 } // END min-width: 1200px
 
@@ -453,43 +453,43 @@
 // ------------------------------------------------
 @media (max-width: px-em(1023px)) {
 
-.nav-li-search .nav-li-linkBtn {
-  .linkBtn-label{
+  .nav-li-search .nav-li-linkBtn {
+    .linkBtn-label{
+      display:none;
+    }
+  }
+  .nav-li-count{
+    display:inline-block;
+    padding:0 9px;
+    margin:2px 0 0 12px;
+    line-height:21px;
+    background:$green;
+    color:$navbarLinkColor;
+    font-size:$font_11_12;
+    @include fontMedium;
+    @include border-radius(1px);
+  }
+
+
+
+  .nav-li-universal .nav-li-link {
+    // margin-right: -10px;
+    // > i.fonticon-ui-mini-bold-plus {
+    //   margin-left: 8px;
+    // }
+  }
+
+  .navmenu-w-search{
+    margin-left: 25px;
+  }
+
+  .navmenu-w-account .navmenu-list-prefixed{
+    display:block;
+  }
+  .nav-li-favorites,
+  .nav-li-cart{
     display:none;
   }
-}
-.nav-li-count{
-  display:inline-block;
-  padding:0 9px;
-  margin:2px 0 0 12px;
-  line-height:21px;
-  background:$green;
-  color:$navbarLinkColor;
-  font-size:$font_11_12;
-  @include fontMedium;
-  @include border-radius(1px);
-}
-
-
-
-.nav-li-universal .nav-li-link {
-  // margin-right: -10px;
-  // > i.fonticon-ui-mini-bold-plus {
-  //   margin-left: 8px;
-  // }
-}
-
-.navmenu-w-search{
-  margin-left: 25px;
-}
-
-.navmenu-w-account .navmenu-list-prefixed{
-  display:block;
-}
-.nav-li-favorites,
-.nav-li-cart{
-  display:none;
-}
 
 } // END max-width: 1023px
 
@@ -514,189 +514,189 @@
 // ------------------------------------------------
 @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
 
-.navbar{
-  // override the default logo sprite with the smaller one.
-  @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
+  .navbar{
+    // override the default logo sprite with the smaller one.
+    @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
 
-  .sprite-reg-nav-sony-logo{
-    margin-top:16px;
+    .sprite-reg-nav-sony-logo{
+      margin-top:16px;
+    }
   }
-}
-.nav-wrapper,
-.navbar{
-  height: $navbarHeightShort;
-}
-.navtray-w,
-.navmenu-w {
-  top: $navbarHeightShort;
-}
+  .nav-wrapper,
+  .navbar{
+    height: $navbarHeightShort;
+  }
+  .navtray-w,
+  .navmenu-w {
+    top: $navbarHeightShort;
+  }
 
-.global-nav-indicator-bar{
-  margin-left:3px;
-}
+  .global-nav-indicator-bar{
+    margin-left:3px;
+  }
 
-.nav-primary{
-  margin-left: 2.4%;
-  .nav-li-link,
-  .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) {
+  .nav-primary{
+    margin-left: 2.4%;
+    .nav-li-link,
+    .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) {
 
-    // line-height: 37px;
-    // margin: 13px 0px 10px 7px;
+      // line-height: 37px;
+      // margin: 13px 0px 10px 7px;
 
-    line-height: $navbarLineHeight;
-    margin:10px 1px 10px 1px;
-    font-size: $font_13_16;
-    padding: 0 7px;
-    &.nav-dropdown-toggle{
+      line-height: $navbarLineHeight;
+      margin:10px 1px 10px 1px;
+      font-size: $font_13_16;
+      padding: 0 7px;
+      &.nav-dropdown-toggle{
+        .icon-ui-arrowhead-down-gray{
+          margin-top: 9px;
+          margin-left: 6px;
+        }
+      }
+    }
+  } // .nav.nav-primary
+
+  .navtray {
+    width:auto;
+  }
+
+
+  .nav-li-account{
+    .nav-li-link.nav-dropdown-toggle{
+      font-size:$font_11_16;
+      margin: 14px 0px 10px 7px;
+      line-height:31px;
+
       .icon-ui-arrowhead-down-gray{
-        margin-top: 9px;
-        margin-left: 6px;
+        margin-top: 8px;
       }
     }
   }
-} // .nav.nav-primary
-
-.navtray {
-  width:auto;
-}
 
 
-.nav-li-account{
-  .nav-li-link.nav-dropdown-toggle{
-    font-size:$font_11_16;
-    margin: 14px 0px 10px 7px;
-    line-height:31px;
-
-    .icon-ui-arrowhead-down-gray{
-      margin-top: 8px;
+  .nav-li-linkBtn{
+    height: 31px;
+    margin: 14px 0 9px 3px;
+    padding: 9px 8px 0px;
+    [class^="fonticon-ui-"]::before,
+    [class*=" fonticon-ui-"]::before {
+      font-size: 1em;
+    }
+    [class^="fonticon-ui-"],
+    [class*=" fonticon-ui-"] {
+      margin-top: 0;
     }
   }
-}
 
+  .navtray-section-main{ // section left
+    padding-top: 38px;
+    width: ($navTrayDividerPosition - 4);
 
-.nav-li-linkBtn{
-  height: 31px;
-  margin: 14px 0 9px 3px;
-  padding: 9px 8px 0px;
-  [class^="fonticon-ui-"]::before,
-  [class*=" fonticon-ui-"]::before {
-    font-size: 1em;
-  }
-  [class^="fonticon-ui-"],
-  [class*=" fonticon-ui-"] {
-    margin-top: 0;
-  }
-}
-
-.navtray-section-main{ // section left
-  padding-top: 38px;
-  width: ($navTrayDividerPosition - 4);
-
-  .navtray-w-short &{
-    padding-bottom: 0;    
-  }
-
-  .navtray-list-main{
-    margin-left: 4.1%;
-    margin-right: 3%;
-
-
-    .navtray-li {
-      width: 33.1%;
+    .navtray-w-short &{
+      padding-bottom: 0;    
     }
-    .navtray-li-link {
-      margin: 1% 1.4% 1.1% 0;
 
-      .nav-label{
-        font-size:$font_15_16;
-        line-height:1.2;
+    .navtray-list-main{
+      margin-left: 4.1%;
+      margin-right: 3%;
+
+
+      .navtray-li {
+        width: 33.1%;
+      }
+      .navtray-li-link {
+        margin: 1% 1.4% 1.1% 0;
+
+        .nav-label{
+          font-size:$font_15_16;
+          line-height:1.2;
+        }
+      }
+
+      &:after{ // HR
+        width: 94.45%;
+        height: 1px;
+        margin-left: 0;
+      } 
+
+      .nav-li{
+        width:31.9%;
+        margin:2% 0.2% 2% 0;
+      }
+      .nav-li-link {
+        padding-bottom:13px;
+
+        > img {
+          width:83%;
+          // height:83%;
+          margin:0 auto;
+        }
+        > .nav-label{
+          margin-top:6px;
+        }
       }
     }
+  } // .navtray-section-main
 
-    &:after{ // HR
-      width: 94.45%;
-      height: 1px;
-      margin-left: 0;
-    } 
 
-    .nav-li{
-      width:31.9%;
-      margin:2% 0.2% 2% 0;
-    }
-    .nav-li-link {
-      padding-bottom:13px;
-
-      > img {
-        width:83%;
-        // height:83%;
-        margin:0 auto;
-      }
-      > .nav-label{
-        margin-top:6px;
-      }
-    }
+  .navtray .btn-nav-view-all{
+    margin-left:33.4%;
   }
-} // .navtray-section-main
 
+  .navmenu-w-search{
+    margin-left: 27px;
+  }
 
-.navtray .btn-nav-view-all{
-  margin-left:33.4%;
-}
+  .navtray-section-featured{ // section right
+    padding-top: 35px;
+    padding-left: 3.3%;
+    width: 100 - ($navTrayDividerPosition - 4);
 
-.navmenu-w-search{
-  margin-left: 27px;
-}
-
-.navtray-section-featured{ // section right
-  padding-top: 35px;
-  padding-left: 3.3%;
-  width: 100 - ($navTrayDividerPosition - 4);
-
-  .navtray-secondary-promo{
-    margin-top: 32px;
-
-    &.navtray-secondary-promo-short{
+    .navtray-secondary-promo{
       margin-top: 32px;
+
+      &.navtray-secondary-promo-short{
+        margin-top: 32px;
+      }
+
+      img{
+        padding-bottom:10px;
+      }
+      .p2{
+        padding-right: 35px;
+      }
+      .p3{
+        display:inline-block;
+        padding-right: 50px;
+        padding-top:5px;
+      }
     }
 
-    img{
-      padding-bottom:10px;
+    &.navtray-section-featured-short{
+      padding-top: 10px;
     }
-    .p2{
-      padding-right: 35px;
-    }
-    .p3{
-      display:inline-block;
-      padding-right: 50px;
-      padding-top:5px;
-    }
-  }
-
-  &.navtray-section-featured-short{
-    padding-top: 10px;
-  }
-} //.navtray-section-featured
-
+  } //.navtray-section-featured
 } // min-width: 768px and max-width: 979px
 
-
 @media (min-width: px-em(768px)) and (max-width: px-em(839px)) {
-.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
-  padding-top:15px;
-  height: 150px;
+  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+    padding-top:15px;
+    height: 150px;
+  }
 }
-}
+
 @media (min-width: px-em(840px)) and (max-width: px-em(899px)) {
-.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
-  padding-top:20px;
-  height: 170px;
+  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+    padding-top:20px;
+    height: 170px;
+  }
 }
-}
+
 @media (min-width: px-em(900px)) and (max-width: px-em(979px)) {
-.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
-  padding-top:25px;
-  height: 190px;
-}
+  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+    padding-top:25px;
+    height: 190px;
+  }
 }
 
 
@@ -738,327 +738,327 @@
 @media (max-width: px-em(767px)) {
 
 
-.nav-wrapper,
-.navbar{
-  height:auto;
-}
+  .nav-wrapper,
+  .navbar{
+    height:auto;
+  }
 
-.page-wrap-inner{
-  @include transition(left $transitionSlower $easeOutNav 0s);
-  position:relative;
-}
+  .page-wrap-inner{
+    @include transition(left $transitionSlower $easeOutNav 0s);
+    position:relative;
+  }
 
-.page-wrap-outer{
-}
-.page-wrap-inner.show-mobile-menu{
-  left:$navMobileWidthLarge;
-  position:fixed; // so the "main" content area doesn't scroll; just the nav
-}
+  .page-wrap-outer{
+  }
+  .page-wrap-inner.show-mobile-menu{
+    left:$navMobileWidthLarge;
+    position:fixed; // so the "main" content area doesn't scroll; just the nav
+  }
 
-.mobile-screen-overlay{
-  top: $navbarMobileHeightTall;
-  position:absolute;
-  left: 0;
-  z-index: $zindexModalBackdrop;
-  background-color: $modalBackgroundColor;
-  @include transition(opacity $transitionSuperslow linear);
-}
-
-
-.nav-outer-container{
-  position:absolute;
-  width:$navMobileWidthLarge;
-  left:-$navMobileWidthLarge;
-  top:0;
-}
+  .mobile-screen-overlay{
+    top: $navbarMobileHeightTall;
+    position:absolute;
+    left: 0;
+    z-index: $zindexModalBackdrop;
+    background-color: $modalBackgroundColor;
+    @include transition(opacity $transitionSuperslow linear);
+  }
 
 
-.nav-li{
-  width:100%;
-  float:none;
-}
-.navbar{
-  .nav-primary,
-  .nav-li-account .nav-li-link,
-  .nav-li-search,
-  .nav-li-favorites,
-  .nav-li-search,
-  .sprite-reg-nav-sony-logo{
+  .nav-outer-container{
+    position:absolute;
+    width:$navMobileWidthLarge;
+    left:-$navMobileWidthLarge;
+    top:0;
+  }
+
+
+  .nav-li{
+    width:100%;
+    float:none;
+  }
+  .navbar{
+    .nav-primary,
+    .nav-li-account .nav-li-link,
+    .nav-li-search,
+    .nav-li-favorites,
+    .nav-li-search,
+    .sprite-reg-nav-sony-logo{
+      display:none;
+    }
+  } // .navbar
+
+  .navmenu-w{
+    @include border-radius(0);
+  }
+  .navmenu-w-mobile-top{
+    padding-top:16px;
+    padding-bottom:28px;
+  }
+  .navmenu-w-search{
+    width:100%;
+    background:$grayLighter;
+    padding:9px;
+
+    .navmenu-search-section-input{
+      padding:7px 12px 9px 8px;
+
+      input[type=text]{
+        font-size:$font_15_16;
+        @include fontRegular;
+        line-height:1;
+        width:100%;
+      }
+    }
+
+    @include sprite-mini(nav-search-input,  -60px,  16px,   16px);
+    .sprite-mini-nav-search-input{
+      top: 23px;
+      left: 18px;
+    }
+    .btn-clear-search-input{
+      right: 17px;
+      top: 17px;
+    }
+  }
+
+  .navmenu-w-account{
+    width:100%;
+    padding-bottom:30px;
+
+    .btn-logout{
+      margin-top:15px;
+    }
+    &.logged-in{
+      .btn-login{
+        display: none;
+      }
+      .btn-logout{
+        display: block;
+      }        
+    }
+  }
+
+  .navmenu-w-account .btn-login,
+  .navmenu-w-account .btn-logout,
+  .nav-li-universal .nav-li-link,
+  .navtray .btn-nav-view-all{
+    display: block;
+    width: auto;
+    padding:10px 0 12px;
+
+    margin-left:auto;
+    margin-right:auto;
+    max-width:220px;
+  }
+  .navmenu-w-account .btn-login,
+  .navmenu-w-account .btn-logout{
+    font-size: $font_13_15;
+  }
+
+
+
+  .navtray-w{
+    border-bottom:none;
+  }
+  .navtray-section-featured{
     display:none;
   }
-} // .navbar
-
-.navmenu-w{
-  @include border-radius(0);
-}
-.navmenu-w-mobile-top{
-  padding-top:16px;
-  padding-bottom:28px;
-}
-.navmenu-w-search{
-  width:100%;
-  background:$grayLighter;
-  padding:9px;
-
-  .navmenu-search-section-input{
-    padding:7px 12px 9px 8px;
-
-    input[type=text]{
-      font-size:$font_15_16;
-      @include fontRegular;
-      line-height:1;
-      width:100%;
-    }
-  }
-
-  @include sprite-mini(nav-search-input,  -60px,  16px,   16px);
-  .sprite-mini-nav-search-input{
-    top: 23px;
-    left: 18px;
-  }
-  .btn-clear-search-input{
-    right: 17px;
-    top: 17px;
-  }
-}
-
-.navmenu-w-account{
-  width:100%;
-  padding-bottom:30px;
-
-  .btn-logout{
-    margin-top:15px;
-  }
-  &.logged-in{
-    .btn-login{
-      display: none;
-    }
-    .btn-logout{
-      display: block;
-    }        
-  }
-}
-
-.navmenu-w-account .btn-login,
-.navmenu-w-account .btn-logout,
-.nav-li-universal .nav-li-link,
-.navtray .btn-nav-view-all{
-  display: block;
-  width: auto;
-  padding:10px 0 12px;
-
-  margin-left:auto;
-  margin-right:auto;
-  max-width:220px;
-}
-.navmenu-w-account .btn-login,
-.navmenu-w-account .btn-logout{
-  font-size: $font_13_15;
-}
 
 
-
-.navtray-w{
-  border-bottom:none;
-}
-.navtray-section-featured{
-  display:none;
-}
-
-
-.navtray .btn.btn-nav-view-all{
-  margin-top: 28px;
-  .linkBtn-label{
-    font-size: $font_14_15;    
-  }
-  &:hover,
-  &:active,
-  &:focus{
-    background:$linkColorLight;
+  .navtray .btn.btn-nav-view-all{
+    margin-top: 28px;
     .linkBtn-label{
-      color:$white;
+      font-size: $font_14_15;    
     }
-  }
-}
-.nav-li-universal{
-  background:$grayDarkerFieldLarge;
-  padding-top:7px;
-  padding-bottom: 39px;
-
-  .nav-li-linkBtn{
-    height:auto;
-    background:$grayDarkFieldSmall;
-    border-color:$grayDarkFieldSmall;
-    text-align:center;
-    padding:9px 0 14px;
-    .icon-ui-plus-tiny-boxed,
-    .linkBtn-label{
-      display:inline-block;
-      float:none;
-      font-size:$font_15_16;
-    }
-    .icon-ui-plus-tiny-boxed{
-      margin-top: 5px;
-    }
-  }
-}
-
-.navmenu-list{
-  .navmenu-line{
-    margin-left:14px;
-    a.tl{
-      font-size:$font_14_15;
-      padding:5px 0 5px 4px;
-      i{
-        padding-right:7px;
+    &:hover,
+    &:active,
+    &:focus{
+      background:$linkColorLight;
+      .linkBtn-label{
+        color:$white;
       }
     }
   }
-  .navmenu-li-welcome{
-    color:$grayDarkFieldSmall;
-    text-transform:uppercase;
-    font-size:$font_12_16;
-    @include fontBold;
-    margin: 4px 0 0 17px;
-  }
-}
+  .nav-li-universal{
+    background:$grayDarkerFieldLarge;
+    padding-top:7px;
+    padding-bottom: 39px;
 
-
-
-.navmenu-list.navmenu-list-prefixed,
-.sprite-mini-global-nav-indicator,
-.navmenu-search-section-results{
-  display:none;
-}
-
-.navbar-mobile{
-  display:block;
-  // border-top: solid 1px #2f353d;
-
-  .btn-mobile-nav,
-  .btn-mobile-cart{
-    border:none;
-    margin:0;
-    display:block;
-    background:$navbarBackground;
-    width: $navbarMobileHeightTall;
-    height: $navbarMobileHeightTall;
-    padding: 18px 19px 0;
-  }
-  .btn-mobile-nav{
-    margin-top:0;
-    float:left;
-    border-right:solid 1px $grayDark;
-    i {
-      margin:auto;
-    }
-    // override the default icon with the bigger one.
-    @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
-  }
-  .btn-mobile-cart{
-    float:right; 
-    padding:19px 0 0;
-    width:$navbarMobileHeightTall;
-    height:$navbarMobileHeightTall;
-    border-left:solid 1px $grayDark;
-    font-size:$font_15_16;
-    color:$navbarLinkColor;
-
-    // override the default icon with the bigger one.
-    @include icon-ui(cart, -1050px,   19px,   17px);
-    i {
-      margin-top:1px;
-      margin-right:4px;
-    }
-  }
-  .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
-    position:absolute;
-    width:90px;
-    margin-left:-45px;
-    margin-top:15px;
-  }
-}
-
-
-
-.navmenu-w,
-.navtray-w,
-.nav.nav-primary,
-.nav.nav-utility{
-  @include hideshow-navmenu-reset;
-}
-
-.navtray,
-.navtray-section-main{
-  background:$navTrayBackgroundAlt;
-}
-
-
-
-
-.navtray-section-main{
-  padding-top:0;
-  width:100%;
-
-  h4{
-    font-size:$font_12_16;
-    @include fontBold;
-    padding:18px 0 2.5% 5.2%;
-    text-transform:uppercase;
-    color:$grayDarkFieldSmall;
-  }
-  .navtray-list-main{
-    margin: 0 0 1.2% 5.3%;
-    overflow:visible;
-
-    .navtray-li {
-      width:45%;
-      margin:5% 4.3% 0 0;
-    }
-    .navtray-li-link {
+    .nav-li-linkBtn{
       height:auto;
-      padding-top:0;
-      margin-right:0;
-      padding-bottom:0;
-
-      .nav-img-w{
-        display:block;
-        overflow:hidden;
-        background:$white;
-        padding:7% 0 14%;
-        @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.1));
-        img {
-          width:73%;
-        } 
+      background:$grayDarkFieldSmall;
+      border-color:$grayDarkFieldSmall;
+      text-align:center;
+      padding:9px 0 14px;
+      .icon-ui-plus-tiny-boxed,
+      .linkBtn-label{
+        display:inline-block;
+        float:none;
+        font-size:$font_15_16;
       }
-      .nav-label{
-        font-size:$font_16_16;
+      .icon-ui-plus-tiny-boxed{
+        margin-top: 5px;
       }
+    }
+  }
 
-      &:hover,
-      &:active,
-      &:focus{
+  .navmenu-list{
+    .navmenu-line{
+      margin-left:14px;
+      a.tl{
+        font-size:$font_14_15;
+        padding:5px 0 5px 4px;
+        i{
+          padding-right:7px;
+        }
+      }
+    }
+    .navmenu-li-welcome{
+      color:$grayDarkFieldSmall;
+      text-transform:uppercase;
+      font-size:$font_12_16;
+      @include fontBold;
+      margin: 4px 0 0 17px;
+    }
+  }
+
+
+
+  .navmenu-list.navmenu-list-prefixed,
+  .sprite-mini-global-nav-indicator,
+  .navmenu-search-section-results{
+    display:none;
+  }
+
+  .navbar-mobile{
+    display:block;
+    // border-top: solid 1px #2f353d;
+
+    .btn-mobile-nav,
+    .btn-mobile-cart{
+      border:none;
+      margin:0;
+      display:block;
+      background:$navbarBackground;
+      width: $navbarMobileHeightTall;
+      height: $navbarMobileHeightTall;
+      padding: 18px 19px 0;
+    }
+    .btn-mobile-nav{
+      margin-top:0;
+      float:left;
+      border-right:solid 1px $grayDark;
+      i {
+        margin:auto;
+      }
+      // override the default icon with the bigger one.
+      @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
+    }
+    .btn-mobile-cart{
+      float:right; 
+      padding:19px 0 0;
+      width:$navbarMobileHeightTall;
+      height:$navbarMobileHeightTall;
+      border-left:solid 1px $grayDark;
+      font-size:$font_15_16;
+      color:$navbarLinkColor;
+
+      // override the default icon with the bigger one.
+      @include icon-ui(cart, -1050px,   19px,   17px);
+      i {
+        margin-top:1px;
+        margin-right:4px;
+      }
+    }
+    .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
+      position:absolute;
+      width:90px;
+      margin-left:-45px;
+      margin-top:15px;
+    }
+  }
+
+
+
+  .navmenu-w,
+  .navtray-w,
+  .nav.nav-primary,
+  .nav.nav-utility{
+    @include hideshow-navmenu-reset;
+  }
+
+  .navtray,
+  .navtray-section-main{
+    background:$navTrayBackgroundAlt;
+  }
+
+
+
+
+  .navtray-section-main{
+    padding-top:0;
+    width:100%;
+
+    h4{
+      font-size:$font_12_16;
+      @include fontBold;
+      padding:18px 0 2.5% 5.2%;
+      text-transform:uppercase;
+      color:$grayDarkFieldSmall;
+    }
+    .navtray-list-main{
+      margin: 0 0 1.2% 5.3%;
+      overflow:visible;
+
+      .navtray-li {
+        width:45%;
+        margin:5% 4.3% 0 0;
+      }
+      .navtray-li-link {
+        height:auto;
+        padding-top:0;
+        margin-right:0;
+        padding-bottom:0;
+
         .nav-img-w{
-          @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.025));
+          display:block;
+          overflow:hidden;
+          background:$white;
+          padding:7% 0 14%;
+          @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.1));
+          img {
+            width:73%;
+          } 
+        }
+        .nav-label{
+          font-size:$font_16_16;
+        }
+
+        &:hover,
+        &:active,
+        &:focus{
+          .nav-img-w{
+            @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.025));
+          }
         }
       }
     }
   }
-}
-.navtray-section-main-w-all-btn{
-  padding-bottom:0;
-  .navtray-list-main:after{
-    border:none;
+  .navtray-section-main-w-all-btn{
+    padding-bottom:0;
+    .navtray-list-main:after{
+      border:none;
+    }
+    &:after{ // HR
+      content: '';
+      display:block;
+      clear:both;
+      border-bottom: solid 3px $grayLighter;
+      height:24px;
+      margin:0 20px;
+    }
   }
-  &:after{ // HR
-    content: '';
-    display:block;
-    clear:both;
-    border-bottom: solid 3px $grayLighter;
-    height:24px;
-    margin:0 20px;
-  }
-}
 
 
   
@@ -1115,70 +1115,70 @@
 
 @media (max-width: px-em(479px)) {
 
-.nav-wrapper,
-.navbar{
-  height:auto;
-}
-.navbar-mobile{
-  height: $navbarMobileHeight;
-}
-
-.page-wrap-inner.show-mobile-menu{
-  left:$navMobileWidth;
-}
-.mobile-screen-overlay{
-  top: $navbarMobileHeight;
-}
-
-.nav-outer-container{
-  width:$navMobileWidth;
-  left:-$navMobileWidth;
-}
-
-
-
-
-.navbar-mobile{
-  // override the default logo sprite with the smaller one.
-  @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
-  .sprite-reg-nav-sony-logo{
-    margin-top:10px;
-    width:80px;
-    margin-left:-40px;
+  .nav-wrapper,
+  .navbar{
+    height:auto;
   }
-  .btn-mobile-nav{
-    width: $navbarMobileHeight;
+  .navbar-mobile{
     height: $navbarMobileHeight;
-    padding:14px 12px 0 14px;
-
-    // back to the regular icon size.
-    @include icon-ui(mobile-menu-btn, -1020px,   19px,   16px);
   }
-  .btn-mobile-cart{
-    padding:13px 0 0px 4px;
-    width:54px;
-    height:48px;
+
+  .page-wrap-inner.show-mobile-menu{
+    left:$navMobileWidth;
   }
-}
+  .mobile-screen-overlay{
+    top: $navbarMobileHeight;
+  }
 
-.navmenu-w-account .btn-login,
-.navmenu-w-account .btn-logout,
-.nav-li-universal .nav-li-link,
-.navtray .btn-nav-view-all{
-  max-width:100%;
-  margin-left:20px;
-  margin-right:20px;
-}
+  .nav-outer-container{
+    width:$navMobileWidth;
+    left:-$navMobileWidth;
+  }
 
-.navtray-section-main{
-  .navtray-list-main{
-    .navtray-li-link {
-      .nav-label {
-        font-size:$font_15_16;
+
+
+
+  .navbar-mobile{
+    // override the default logo sprite with the smaller one.
+    @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
+    .sprite-reg-nav-sony-logo{
+      margin-top:10px;
+      width:80px;
+      margin-left:-40px;
+    }
+    .btn-mobile-nav{
+      width: $navbarMobileHeight;
+      height: $navbarMobileHeight;
+      padding:14px 12px 0 14px;
+
+      // back to the regular icon size.
+      @include icon-ui(mobile-menu-btn, -1020px,   19px,   16px);
+    }
+    .btn-mobile-cart{
+      padding:13px 0 0px 4px;
+      width:54px;
+      height:48px;
+    }
+  }
+
+  .navmenu-w-account .btn-login,
+  .navmenu-w-account .btn-logout,
+  .nav-li-universal .nav-li-link,
+  .navtray .btn-nav-view-all{
+    max-width:100%;
+    margin-left:20px;
+    margin-right:20px;
+  }
+
+  .navtray-section-main{
+    .navtray-list-main{
+      .navtray-li-link {
+        .nav-label {
+          font-size:$font_15_16;
+        }
       }
     }
   }
-}
 
 } // max-width: 479px
 
