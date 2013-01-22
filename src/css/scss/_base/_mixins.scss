@@ -11,14 +11,17 @@ $default-transition-duration : $transitionNormal;
 $default-transition-function : false;
 $default-transition-delay    : 0s;
 
-// convert px to em, with regard to its context. Most context will be 16px.
-@function px-em($target, $context:"16"){
-  @return ($target/$context)+0em;
+
+// strip units from any number. "50px" returns 50.
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
 }
 
-@function percent-width-to-percent-margin($percentWidth){
-	@return (100% - $percentWidth)/2;
+// convert px to em, with regard to its context. Most context will be 16px.
+@function px-em($target, $context:16){
+  @return (strip-units($target)/strip-units($context)) + 0em;
 }
+
 
 // UTILITY MIXINS
 // --------------------------------------------------

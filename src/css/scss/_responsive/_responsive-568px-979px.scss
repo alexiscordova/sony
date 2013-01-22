@@ -7,11 +7,11 @@
 //  The 768 grid is going to be used down to 568.
 
 // under normal conditions, the 768 grid will flex up to 979px and down to 568px.
-@media (min-width: 568px) and (max-width: 979px) {
+@media (min-width: px-em(568px)) and (max-width: px-em(979px)) {
 
 }
 
-@media (min-width: 768px) and (max-width: 979px) {
+@media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
   .container {
     width: $fluidContainerWidth768;
   }
@@ -34,10 +34,10 @@
   // Input grid
   @include grid-input($gridColumnWidth768, $gridGutterWidth768);
   
-} // (min-width: 768px) and (max-width: 979px)
+} // (min-width: 768px)) and (max-width: 979px))
 
 // implement the default (desktop) grid if no override class is present.
-@media (min-width: 568px) and (max-width: 767px) {
+@media (min-width: px-em(568px)) and (max-width: px-em(767px)) {
   .grid,
   .slimgrid,
   .slimgrid5, .grid5 {
@@ -45,5 +45,5 @@
       @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
     }
   }
-} // (min-width: 568px) and (max-width: 767px) 
+} // (min-width: 568px)) and (max-width: 767px)) 
 
