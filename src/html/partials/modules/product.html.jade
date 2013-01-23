@@ -24,16 +24,19 @@ if data.view == "basic"
       if data.layout == 'promo'
         .product-img
           .iq-img(data-src=data.img.src)
-          p.text-promo-title
-            strong= data.title
-            | &nbsp;
-            | !{data.emphasis}
-            i.icon-ui2-chevron-18-blue
-          if data.count
-            p.text-count
-              span.number.l2= data.count.number
-              | &nbsp;
-              span.text.l3= data.count.text
+          - style = data.style ? data.style : 'tl'
+          - classes = ['promo-content']
+          - classes.push( style )
+          div(class=classes)
+            .text-promo-title
+              strong= data.title
+              span!= '&nbsp;' + data.emphasis
+              i.icon-ui2-chevron-16-black-right
+            if data.count
+              .text-count
+                span.number.l2= data.count.number
+                | &nbsp;
+                span.text.l3= data.count.text
 
       else if data.layout == 'plate'
         .product-img(class=data.backgroundColorClass)
@@ -89,13 +92,17 @@ if data.view == "basic"
                 theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
                 span(class=theClass, data-color=color.color, itemprop="color")= color.color
 
+          .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
+            favClass = 'icon-ui-favorite'
+            - if ( data.isFavorited ) favClass += ' active'
+            i(class=favClass)
+
         .product-content
           .product-name.p3= data.name
           .product-price
-            p.price
-              span.p5 Starting at &nbsp;
-              span.l2= '$' + data.price + '&nbsp;'
-              span.msrp.p5 MSRP
+            span.price-prefix.p3 Starting at &nbsp;
+            span.price.l2= '$' + data.price + '&nbsp;'
+            span.msrp.p5 MSRP
 
 
 else if data.view == 'detailed'
@@ -184,14 +191,14 @@ else if data.view == "specs"
 
   tabSlug = 'spec-tab' + data.iterator
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
-    .spec-column-header.table-center-wrap.hidden-phone
+    .spec-column-header.table-center-wrap
       .table-center
         .product-name.p1(itemprop="name")= data.name
         .product-model.p2(itemprop="model")= data.model
 
     each spec, i in data.specs
       .spec-item-cell
-        p.l3.visible-phone= labels[i]
+        p.cell-label.l3= labels[i]
 
         if spec.name && spec.list && spec.img
           p= spec.name

@@ -1,7 +1,7 @@
 var sony = sony || {};
 
 
-var iQ = {
+window.iQ = {
   options: {
     speedTestExpireMinutes: 30,
     asyncDistance: 500,

@@ -1,6 +1,10 @@
 //
 // Responsive: Tablet to desktop (default)
 // --------------------------------------------------
+
+
+
+
 .container,
 .container-px-width,
 .grid,
@@ -8,9 +12,10 @@
 .slimgrid,
 .slimgrid5, .grid5{
   margin-right: auto;
-  margin-left: auto;	
+  margin-left: auto;
   @include clearfix();
 }
+
 
 // Fluid grid
 .container {
@@ -29,16 +34,14 @@
 .slimgrid5, .grid5 {
   width: $fluidGridWidth;
 }
-
-@media (min-width: px-em(768px)) {
-  .container.full-bleed,
-  .container.full-bleed-no-max,
-  .grid.full-bleed,
-  .slimgrid.full-bleed,
-  .slimgrid5.full-bleed, .grid5.full-bleed {
-    width:100%;
-  }
+.container.full-bleed,
+.container.full-bleed-no-max,
+.grid.full-bleed,
+.slimgrid.full-bleed,
+.slimgrid5.full-bleed, .grid5.full-bleed {
+  width: auto;
 }
+
 
 
 @include grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth);
@@ -62,12 +65,12 @@
 // Fixed grid
 // --------------------------------------
 .container-px-width{
-  width: $containerWidth;    
-  max-width: $containerWidthMax; 
+  width: $containerWidth;
+  max-width: $containerWidthMax;
 }
 .grid-px-width{
   width: $gridWidth;
-  max-width: $gridWidthMax;     
+  max-width: $gridWidthMax;
 }
 @include grid-core($gridColumnWidth, $gridGutterWidth);
 // Input grid

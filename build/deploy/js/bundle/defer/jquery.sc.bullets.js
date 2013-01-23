@@ -51,8 +51,9 @@
 
 				self.ev.on('scOnUpdateNav', function() {
 					var id = self.currSlideId,
-						currItem,
-						prevItem;
+						currItem;
+						//prevItem;
+
 					if(self._prevNavItem) {
 						self._prevNavItem.removeClass('scNavSelected');
 					}
