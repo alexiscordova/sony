@@ -68,23 +68,41 @@
   display:block;
   position:absolute;
   bottom:0;
-  width: 92%;
+  // width: 92%;
+  margin-left:5px;
 
   border-color: $linkColorLight;
   border-style: solid;
   border-top-width: 0px;
   
-  @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayOpenSpeed * 0.3));
+  @include transition(border-top-width $transitionFaster linear 0);
 
-  &.for-navtray-short{
-    @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayShortOpenSpeed * 0.3));        
-  }
+  // These were for when the indicator-bar were just for when the trays were open (when they were click-to-open). 
+  // They were set up to delay a little longer before opening or closing. 
+  // Now that the indicator-bar is for all hovers, there should be no delay.
+  // @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayOpenSpeed * 0.3));
+  // &.for-navtray-short{
+  //   @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayShortOpenSpeed * 0.3));        
+  // }
 }
-.nav-li-selected .global-nav-indicator-bar{
-  border-top-width: 4px;
+
+.nav-li-store .global-nav-indicator-bar{
+  width:85%;
 }
 .nav-li-electronics .global-nav-indicator-bar{
-  width: 89%;
+  // width: 89%;
+  width:93%;
+}
+.nav-li-entertainment .global-nav-indicator-bar{
+  width:93%;
+}
+.nav-li-support .global-nav-indicator-bar{
+  width:89%;
+}
+
+.nav-li-selected .global-nav-indicator-bar,
+.nav-li:hover .global-nav-indicator-bar{
+  border-top-width: 4px;
 }
 
 
