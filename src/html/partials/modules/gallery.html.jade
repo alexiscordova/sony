@@ -15,7 +15,7 @@ layout3: "normal"
         h2.primary-tout-title Cyber-shot&reg;
 
 .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
-  .tabs-container.container.full-bleed
+  .tabs-container.container.m-full-bleed
     .tabs
       each tab, i in data.tabs
         activeClass = i === 0 ? ' active' : ''
@@ -34,9 +34,10 @@ layout3: "normal"
   if data.tabs[0]
     .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
       i = 0
-      section.gallery.container.mobile-container-padded.fade(data-mode=data.featured.mode)
-        h6= data.featured.title
-        .products.grid.full-bleed
+      section.gallery.container.fade(data-mode=data.featured.mode)
+        .grid
+          h6= data.featured.title
+        .products.slimgrid.m-grid-at-567
           each module in data.submodules
             d = locals.data(module.data)
             if d.featured && d.type == "product"
@@ -50,9 +51,10 @@ layout3: "normal"
           a.btn.btn-wide(href="#")= data.featured.callout
 
       i = 0
-      section.gallery.container.mobile-container-padded.fade(data-mode=data.featured2.mode)
-        h6= data.featured2.title
-        .products.grid.full-bleed
+      section.gallery.container.fade(data-mode=data.featured2.mode)
+        .grid
+          h6= data.featured2.title
+        .products.slimgrid.m-grid-at-567
           each module in data.submodules
             d = locals.data(module.data)
             if d.featured && d.type == "accessory"
@@ -69,7 +71,7 @@ layout3: "normal"
     .tab-pane.fade(data-tab=data.tabs[1].slug)
       section.gallery(id=data.productCards.name + '-gallery', data-mode=data.productCards.mode)
         if data.productCards.filterSet
-          .container.mobile-container-padded.filter-display-bar.slide-toggle-parent
+          .container.filter-display-bar.slide-toggle-parent
             if data.productCards.sortSet
               .sort-options.pull-right
                 span.l4 Sort By:&nbsp;
@@ -96,16 +98,16 @@ layout3: "normal"
                 | Compare
                 i.icon-ui-plus-tiny
 
-          .container.mobile-container-padded.slide-arrow-under.fade
+          .container.slide-arrow-under.fade
             .relative
               .slide-toggle-arrow
-          .container.mobile-container-padded.slide-arrow-over.fade
+          .container.slide-arrow-over.fade
             .relative
               .slide-toggle-arrow
 
           .collapse.slide-toggle-target(id=data.productCards.name + '-filters')
-            .filter-options.container.mobile-container-padded
-              .grid.full-bleed
+            .filter-options.container
+              .grid
                 .span8.regular-filters
                   each filterSet in data.productCards.filterSet
 
@@ -166,10 +168,10 @@ layout3: "normal"
                           //-     p.media-heading.p3.text-dark= filter.label
                           //-     p.p3= filter.description
 
-          .container.mobile-container-padded.active-filters
+          .container.active-filters
 
-        .container.mobile-container-padded
-          .products.grid.full-bleed
+        .container
+          .products.grid.no-grid-at-767
             each module in data.submodules
               d = locals.data(module.data)
               if d.type == "product" && !d.promo
@@ -190,15 +192,15 @@ layout3: "normal"
   if data.tabs[2]
     .tab-pane.fade(data-tab=data.tabs[2].slug)
       section
-        .slide-toggle-parent.container.mobile-container-padded
+        .slide-toggle-parent.container
           button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target="#IDGOESHERE")
             | Accessory Finder
             i.icon-ui-arrowhead-up-white.up.hide
             i.icon-ui-arrowhead-down-white.down
-        .container.mobile-container-padded.slide-arrow-under.fade
+        .container.slide-arrow-under.fade
           .relative
             .slide-toggle-arrow
-        .container.mobile-container-padded.slide-arrow-over.fade
+        .container.slide-arrow-over.fade
           .relative
             .slide-toggle-arrow
 
@@ -210,12 +212,12 @@ layout3: "normal"
           h5 Collapse
           h6 Collapse
 
-        .container.mobile-container-padded.grid5
+        .container.slimgrid5
           each accessory in data.accessories
             .product-strip-wrap
               a.tl.pull-right(href="#")= accessory.callout
               h6.product-strip-heading= accessory.title
-              .product-strip.grid.full-bleed
+              .product-strip.slimgrid
                 count = 0
                 each module in data.submodules
                   d = locals.data(module.data)
@@ -239,12 +241,12 @@ layout3: "normal"
 
 #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
   .modal-inner
-    .modal-header.container.mobile-container-padded(data-reset-label="Reset")
+    .modal-header.container(data-reset-label="Reset")
       h3.pull-left#compare-tool-label Compare
       button.box-close(data-dismiss="modal", aria-hidden="true")
         i.icon-ui-x-tiny
     .modal-body
-      .container.mobile-container-padded.p4
+      .container.p4
         i.swatch-lemon.mini-swatch
         | Highlights indicate highest performance features
 
