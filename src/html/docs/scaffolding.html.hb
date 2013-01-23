@@ -523,7 +523,7 @@
 
           <h4 class="bs-docs-heading">Full-bleed on small screens</h4>
           <p>By default, margins are applied to small screens the same as desktop. The <code>.full-bleed</code> (and <code>.full-bleed-no-max</code>) classes will affect all resolution sizes. To apply full-bleed below 768px, when not used on desktop, use <code>.full-bleed-at-767</code>, <code>.full-bleed-at-567</code>, <code>.full-bleed-at-479</code>, or <code>.m-full-bleed</code> (same as <code>.full-bleed-at-767</code>).</p>
-          <p>Currently, there's no way to override a <code>.full-bleed</code> to add margins back for mobile. If you need this, let me (Christoper) know &amp; we'll see...</p>
+          <p>Currently, there's no way to override a <code>.full-bleed</code> to add margins back for mobile.</p>
 
         </section>
 
