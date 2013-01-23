@@ -1,17 +1,17 @@
 // START Tertiary Content Container
-section.tcc-wrapper.container.full-bleed-no-max(data-tcc-mode="#{data.mode}")
+section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(data-tcc-mode="#{data.mode}")
 
 	for header in data.header
 		// HEADER	
 		header.tcc-header-wrapper.container
-			.tcc-header.grid
+			.tcc-header.grid.m-full-bleed
 				p.tcc-header-title.l1 #{header.title}
 
 				p.tcc-header-link
 					a.tl(href="#{header.link}") #{header.linkText}
 	
 	section.tcc-scroller.tcc-body-wrapper.container
-		.tcc-body.grid
+		.tcc-body.grid.no-grid-at-767
 	
 			for module in data.contentModules
 				.tcc-content-module.span4(class=module.type)(data-tcc-module-type="#{module.type}", data-tcc-module-mode="#{module.mode}")	
@@ -98,76 +98,3 @@ section.tcc-wrapper.container.full-bleed-no-max(data-tcc-mode="#{data.mode}")
 								p default
 
 // END Tertiary Content Container
-
-
-//- SUBMODULES RENDER
-//- for module in data.submodules
-//- 	d = locals.data(module.data)
-//- 	e = {"locals":locals, "data":d}
-//- 	!{locals.partial('modules/'+module.template , e )}
-
-
-
-//- ARTICLE: DEFAULT
-//- .tcc-content-module.article-default.span4(data-tcc-module-type="article", data-tcc-module-mode="default")
-
-//- 	//- image (optional)
-//- 	img.iq-img(alt="article default image", data-src="img/tertiary-t1-t5/article-default.png")
-
-//- 	noscript
-//- 		img(src="img/tertiary-t1-t5/article-default-desktop.png")
-
-//- 	.tcc-copy
-//- 		//- title (required)
-//- 		p.l1
-//- 			| Sony Unveils its first hybrid Ultrabook™
-
-//- 		//- body copy (optional)
-//- 		p.p3
-//- 			| Sony has released its first mobile Tabletop PC for the U.S. market — the VAIO® Duo 11 Ultrabook™. 
-//- 			a.tl(href="#")
-//- 				| Read More
-
-//- ARTICLE: DEFAULT
-//- .tcc-content-module.article-default.span4(data-tcc-module-type="article", data-tcc-module-mode="default")
-
-//- 	//- image (optional)
-//- 	img.iq-img(alt="article default image", data-src="img/tertiary-t1-t5/article-default-two.png")
-
-//- 	noscript
-//- 		img(src="img/tertiary-t1-t5/article-default-two-desktop.png")
-
-//- 	.tcc-copy
-//- 		p.l1
-//- 			| Introducing Sony Reader App for iOS
-
-//- 		p.p3
-//- 			| The Sony Reader™ Store has launched Reader for iOS, a free application that brings its ebook software to both...
-//- 			a.tl(href="#")
-//- 				| Read More
-
-//- SONYS VOICE: TWITTER
-//- .tcc-content-module.sonys-voice.span4(data-tcc-module-type="sonys-voice", data-tcc-module-mode="twitter")
-
-//- 	//- icon (required)
-//- 	img(src="img/icon_twitter.png")
-//- 	.meta
-//- 		p.l3
-//- 			//- user (required)
-//- 			| SonyElectronics  
-
-//- 		p.l4
-//- 			//- timestamp (required)
-//- 			|  3 hours ago 
-				
-//- 	//- quote (required)
-//- 	blockquote.bq2
-//- 		p
-//- 			| Three of our cameras made @engadget’s gift guide. See which ones: 
-//- 			a.tl(href="ow.ly/ftFuu")
-//- 				| ow.ly/ftFuu
-
-//- 	//- social link (required)
-//- 	p
-//- 	  a.btn(href="#")
-//- 	  	| Follow us on Twitter
