@@ -85,6 +85,11 @@ if data.view == "basic"
                 theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
                 span(class=theClass, data-color=color.color, itemprop="color")= color.color
 
+          .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
+            favClass = 'icon-ui-favorite'
+            - if ( data.isFavorited ) favClass += ' active'
+            i(class=favClass)
+
         .product-content
           .product-name.p3= data.name
           .product-price

@@ -82,24 +82,10 @@
     }
 
     self.initSwatches();
-
-    // Slide toggle. Reset range control if it was hidden on initialization
-    self.$container.find('.collapse')
-      .on('shown', $.proxy( self.onFiltersShown, self ))
-      .on('show', $.proxy( self.onFiltersShow, self ))
-      .on('hide', $.proxy( self.onFiltersHide, self ));
-
-    // Set up sorting ---- dropdowm
-    self.$sortBtns.on('click',  $.proxy( self.sort, self ));
-
-    // Set up sorting ---- select menu
-    self.$sortSelect.on('change', $.proxy( self.sort, self ));
+    self.initTooltips();
 
     $(window).on('resize.gallery', $.proxy( self.onResize, self ) );
     self.onResize();
-
-    // Favorite Heart
-    // self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
     // This container is about to be shown because it's a tab
     self.$container.closest('[data-tab]').on('show', $.proxy( self.onShow, self ));
@@ -417,6 +403,20 @@
       self.$sortBtns.first().parent().addClass('active');
       // self.currentSort = self.$sortBtns.closest('.dropdown-menu').find('.active a').data('value');
       self.currentSort = 0;
+
+
+
+      // Slide toggle. Reset range control if it was hidden on initialization
+      self.$container.find('.collapse')
+        .on('shown', $.proxy( self.onFiltersShown, self ))
+        .on('show', $.proxy( self.onFiltersShow, self ))
+        .on('hide', $.proxy( self.onFiltersHide, self ));
+
+      // Set up sorting ---- dropdowm
+      self.$sortBtns.on('click',  $.proxy( self.sort, self ));
+
+      // Set up sorting ---- select menu
+      self.$sortSelect.on('change', $.proxy( self.sort, self ));
     },
 
     initInfscr : function() {
@@ -468,6 +468,15 @@
             $swatchImg.addClass('hidden');
           });
       });
+    },
+
+    initTooltips : function() {
+      var self = this;
+
+      // Favorite Heart
+      self.$favorites.on('click', $.proxy( self.onFavorite, self ));
+
+      self.$container.find('.js-favorite').tooltip();
     },
 
     setFilterStatuses : function() {
@@ -872,8 +881,11 @@
     },
 
     onFavorite : function( evt ) {
-      // <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
-      $(evt.target).toggleClass('state3');
+      $(evt.delegateTarget).toggleClass('active');
+
+      // Stop event from bubbling to <a> tag
+      evt.preventDefault();
+      evt.stopPropagation();
     },
 
     // Event triggered when this tab is about to be shown
