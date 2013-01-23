@@ -6,10 +6,15 @@
        box-sizing: border-box;
 }
 
+$threeColMin: px-em(568px);
 $threeColMax: px-em(767px);
+$fourColMin: px-em(768px);
+$fourColMax: px-em(979px);
 
 // Price text module
 .product-content {
+  margin-top: .75em;
+  line-height: 1.1;
 
   .product-name {
     color: $grayDark;
@@ -23,8 +28,15 @@ $threeColMax: px-em(767px);
     margin: 0;
   }
 
-  .price {
-    margin: -0.4em 0 0;
+  .product-price {
+    position: absolute;
+    left: 0;
+    bottom: 1.875em; // 30
+    color: $gray;
+  }
+
+  .msrp {
+    font-size: $font_10_16;
   }
 }
 
@@ -121,7 +133,7 @@ $threeColMax: px-em(767px);
 
     img {
       display: block;
-      // max-height: 100%;
+      max-height: 100%; // This is causing the images to sometimes be tiny. Not sure what to do about it...
       max-width: 100%;
       margin: auto;
     }
@@ -248,14 +260,35 @@ $threeColMax: px-em(767px);
   }
 }
 
+// Offset the tooltip to the left
+// -----------------------
+$offsetFromMiddle: px-em(45px);
+.gallery-tooltip {
+  margin-left: $offsetFromMiddle;
+
+  // Because we have a bigger hotspot than the favorite icon,
+  // it positions the tooltip based on that and looks off
+  &.top {
+    margin-top: 3px;
+  }
+
+  // Move the arrow the same amount as the whole tooltip
+  &.top .tooltip-arrow {
+    left: 21%;
+    left: -webkit-calc(50% - #{$offsetFromMiddle + .125em});
+    left: calc(50% - #{$offsetFromMiddle + .125em});
+  }
+}
+
+
 
 // Styles, not structure, for gallery tiles
 .gallery-item {
 
   .color-swatches {
     position: absolute;
-    right: 0.625em;
-    bottom: 0.625em;
+    right: .875em;
+    bottom: .6875em;
   }
 
   .favorite-holder {
@@ -274,56 +307,85 @@ $threeColMax: px-em(767px);
   }
 }
 
-
 // Promo Tiles
 // -------------------------
-.gallery-item.promo {
+.gallery-item .promo-content {
   color: $white;
+  text-align: left;
 
   .text-promo-title {
     position: absolute;
-    top: 2.5em;
-    left: 2.5em;
+    top: 50px;
+    left: 42px;
     margin: 0;
-    max-width: 14.0625em;
+    max-width: 225px;
 
+    // Chevron
     i {
-      margin-top: .5em;
-      margin-left: 0.625em;
+      vertical-align: middle;
+      margin-left: 5px;
     }
 
-    @media (max-width: $threeColMax) {
-      font-size: $font_14_16;
-      top: 0.625em;
-      left: 0.625em;
-      max-width: none;
-
-      i {
-        margin-top: .0625em;
-      }
-    }
   }
 
+  // e.g. "Carl Zeiss"
+  strong {
+    color: $white;
+  }
+
+  // e.g. "22 LENSES"
   .text-count {
     position: absolute;
-    bottom: 2.5em;
-    left: 2.5em;
+    bottom: 32px;
+    left: 42px;
     margin: 0;
 
-    @media (max-width: $threeColMax) {
-      bottom: 0.625em;
-      left: 0.625em;
+    span {
+      color: $white;
     }
   }
 
-  strong { color: $white; }
-
-  .number {
-    font-size: $font_18_15;
+  // e.g.  "22"
+  .text-count .number {
+    font-size: $font_13_16;
   }
 
-  .text-count .text { font-size: $font_12_15; }
+  // e.g.  "LENSES"
+  .text-count .text {
+    font-size: $font_12_16;
+  }
 
+  // Default is top left
+  &.tl {
+
+  }
+
+  &.tr {
+
+  }
+}
+
+// Promo Media Queries
+// -------------------------
+@media (max-width: $threeColMax) {
+
+  .gallery-item .promo-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.5625em 1em;
+
+    .text-promo-title,
+    .text-count {
+      position: static;
+    }
+
+    .text-promo-title {
+      max-width: none;
+      font-size: $font_22_16;
+      margin: 0 0 0.825em;
+    }
+  }
 }
 
 // Plates
@@ -389,6 +451,20 @@ $threeColMax: px-em(767px);
 
 }
 
+
+// Gallery item media queries
+// -------------------------
+@media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
+  .product-content {
+
+    .product-price {
+      bottom: 1em;
+    }
+    .price-prefix {
+      font-size: $font_10_16;
+    }
+  }
+}
 
 @media (max-width: $threeColMax) {
 
@@ -464,6 +540,54 @@ $threeColMax: px-em(767px);
     }
   }
 
+  .product-content {
+
+    .product-price {
+      bottom: 1.25em;
+    }
+
+    .price-prefix {
+      display: block;
+    }
+
+  }
+
+}
+
+// 568 - 640
+@media ( min-width: $threeColMin ) and ( max-width: 40em ) {
+
+  // Make gallery items taller
+  .gallery-editorial {
+
+    .gallery-item:after {
+      padding-top: 187%;
+    }
+  }
+}
+
+
+// <= 479
+@media ( max-width: 29.9375em ) {
+
+  .product-content {
+
+    .product-price {
+      bottom: 0;
+    }
+  }
+}
+
+// <= 360
+@media ( max-width: 22.5em ) {
+
+  // Make gallery items taller
+  .gallery-editorial {
+
+    .gallery-item:after {
+      padding-top: 170%;
+    }
+  }
 }
 
 // Product Strip
@@ -578,16 +702,14 @@ $threeColMax: px-em(767px);
   // text-align: right;
 }
 
-@media (max-width: $threeColMax) {
 
+@media (max-width: $threeColMax) {
   // override bootstrap's visible-phone important declaration :(
   .sort-options .native-dropdown {
     display: initial !important;
     vertical-align: baseline;
   }
-}
 
-@media (max-width: $threeColMax) {
   .filter-display-bar {
 
     .product-count-wrap {

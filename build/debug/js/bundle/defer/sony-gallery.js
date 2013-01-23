@@ -476,7 +476,9 @@
       // Favorite Heart
       self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
-      self.$container.find('.js-favorite').tooltip();
+      self.$container.find('.js-favorite').tooltip({
+        template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+      });
     },
 
     setFilterStatuses : function() {
