@@ -22,7 +22,14 @@
 
         <!-- Content and grid (wrappers)
         ================================================== -->
-        <section id="contentWrappers">
+        
+        <div class="container" id="show-hidden-sections-btn-w" style="margin-bottom:-40px; display:none;">
+        	<a href="#" class="btn btn-special" style="width:260px;">Show Hidden Sections</a>
+      	</div>
+        
+
+        <div id="pre-small-screen">
+        <section id="root-level-page-structure">
 
           <div class="container">
             <h2 class="bs-docs-heading">Root-level page structure</h2>
@@ -179,7 +186,7 @@
               <!-- <div class="docs-page-structure-footer"><pre class="prettyprint">&lt;footer /&gt;</pre></div> -->
             </div>
           </div>
-        </section>
+        </section><!-- end root-level-page-structure --> 
 
 
 
@@ -427,6 +434,7 @@
 </div>
 
         </section>
+      	</div> <!-- end pre-small-screen --> 
 
 
 
@@ -434,15 +442,17 @@
 
 
         <section class="container" style="padding-bottom:20px; padding-top:50px; border-top:0;">
-          <h2 class="bs-docs-heading">Small Screen Grids</h2>
+          <h2 class="bs-docs-heading" id="small-screen-grids">Small Screen Grids</h2>
 
-          <p>There are 2 different options for grids below the 768 breakpoint: <strong>Mobile-Grid</strong> and <strong>No-Grid</strong>. The small-screen grid will override the <code>.grid</code>, <code>.slimgrid</code> or <code>.slimgrid5 classes, and should be used in addition to them.</code>.</p>
+          <p>There are 2 different options for grids below the 768 breakpoint: <strong>Mobile-Grid</strong> and <strong>No-Grid</strong>. The small-screen grid will override the <code>.grid</code>, <code>.slimgrid</code> or <code>.slimgrid5</code> classes, and should be used in addition to them.</code>.</p>
 
           <h4 class="bs-docs-heading">Mobile-Grid</h4>
-          <p>The mobile-grid utilizes <strong>6 fluid columns</strong>. To implement, add the appropriate m-grid class <strong>in addition</strong> to your primary <code>.grid</code> class. Class options are <code>.m-grid-at-767</code>, <code>.m-grid-at-567</code>, and <code>.m-grid-at-479</code>;
+          <p>The mobile-grid utilizes <strong>6 fluid columns</strong>. To implement, add the appropriate m-grid class <strong>in addition</strong> to your primary <code>.grid</code> class. Class options are <code>.m-grid-at-767</code>, <code>.m-grid-at-567</code>, <code>.m-grid-at-479</code> or <code>.m-grid</code> (same as <code>.m-grid-at-767</code>);
             and add the appropriate <code>.m-span</code> and (optionally) <code>.m-offset</code> class to each column - again, in addition to the primary <code>.span</code> class. The total mobile spans/offsets need to add up to 6.</p>
           <p class="p4">Resize your browser to below 768px wide to see the mobile grid take effect.<br>Hover over any of the columns to see the actual class names that affect it.</p>
-        
+        	
+          <p class="well" id="hide-pre-small-screen-content-w"><span class="label label-info">Check it out!</span> - You can <a href="#">hide prior content on this page</a> so that when resizing, the content doesn't jump around so much.</p>
+
           <div class="bs-docs-grid">
             <div class="grid m-grid-at-767 show-grid">
               <div class="span4 m-span1">4 m1</div>
@@ -512,7 +522,7 @@
 
 
           <h4 class="bs-docs-heading">Full-bleed on small screens</h4>
-          <p>By default, margins are applied to small screens the same as desktop. The <code>.full-bleed</code> and <code>.full-bleed-no-max</code> classes have no effect below the 768px breakpoint. To apply full-bleed below 768px, use <code>.full-bleed-at-767</code>, <code>.full-bleed-at-567</code> or <code>.full-bleed-at-479</code>.</p>
+          <p>By default, margins are applied to small screens the same as desktop. The <code>.full-bleed</code> and <code>.full-bleed-no-max</code> classes have no effect below the 768px breakpoint. To apply full-bleed below 768px, use <code>.full-bleed-at-767</code>, <code>.full-bleed-at-567</code>, <code>.full-bleed-at-479</code>, or <code>.m-full-bleed</code> (same as <code>.full-bleed-at-767</code>).</p>
 
         </section>
 
@@ -592,9 +602,7 @@
           </table>
 
           <h4 class="bs-docs-heading">Overrides for phone/tablet</h4>
-          <p>On a per-module bases, the <strong>phone/tablet</strong> breakpoints can be overridden, so that <strong>phone</strong> won't apply until a lower breakpoint. This happens automatically if either of the mobile grid classes are use. 
-            For instance, if <code>.m-grid-at-567</code> or <code>.no-grid-at-567</code> is used, the <strong>phone</strong> classes won't apply from 767px down to 568px as they usually would; they apply at the 567px &amp; below breakpoint instead. 
-            If none of the mobile grid classes are used, you can still trigger the phone layout at a lower breakpoint by adding <code>.phone-at-567</code>.</p>
+          <p>On a per-module bases, the <strong>phone/tablet</strong> breakpoints can be overridden, so that <strong>phone</strong> won't apply until a lower breakpoint. You can trigger the phone layout at a lower breakpoint by adding <code>.phone-at-567</code> or <code>.phone-at-479</code>.</p>
 
           <h4 class="bs-docs-heading">When to use</h4>
           <p>Use on a limited basis and avoid creating entirely different versions of the same site. Instead, use them to complement each device's presentation.</p>

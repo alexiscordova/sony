@@ -27,6 +27,7 @@
     width: $mobileGridWidth480;
   }
 
+  @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid");
   @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid-at-767");
   @include no-grid(".no-grid-at-767");
 
@@ -34,7 +35,7 @@
   .grid.full-bleed-at-767,
   .container.m-full-bleed,
   .grid.m-full-bleed{
-    width:100%;
+    width:auto;
   }
 
 
