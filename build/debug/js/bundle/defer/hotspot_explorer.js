@@ -12,81 +12,79 @@
 })(window);
 
 (function($, Modernizr, window, undefined) {
-    
-    'use strict';
 
-    var PX_REGEX = /px/gi;
+  'use strict';
 
-    var HotSpotExplorer = function(element, options){
-    	
-    	var t = this;
+  var PX_REGEX = /px/gi;
 
-        t.$el = $(element);
-        t.maxWidth = parseInt(t.$el.css('maxWidth').replace(PX_REGEX , '') , 10);
+  var HotSpotExplorer = function(element, options){
+      var self = this;
+      self.$el = $(element);
+      self.maxWidth = parseInt(self.$el.css('maxWidth').replace(PX_REGEX , '') , 10);
 
-        t.setup = $.extend({}, $.fn.hotSpotExplorer.defaults, options);
-        t.hotspots = t.$el.find('.hsSpot');
+      self.setup = $.extend({}, $.fn.hotSpotExplorer.defaults, options);
+      self.hotspots = self.$el.find('.hsSpot');
 
-    	t._init();
-    };
+      self._init();
+  };
 
 
-    HotSpotExplorer.prototype._init = function(){
-        var t = this;
+  HotSpotExplorer.prototype._init = function(){
+      var self = this;
 
-        // resize
-        var resizeTimer;
-        $(window).on('resize', function() {  
-            if(resizeTimer) {
-                clearTimeout(resizeTimer);          
-            }
-            resizeTimer = setTimeout(function() { t._updateHotspots(); }, 25);          
-        });
+      // resize
+      var resizeTimer;
+      $(window).on('resize', function() {
+          if(resizeTimer) {
+              clearTimeout(resizeTimer);
+          }
+          resizeTimer = setTimeout(function() { self._updateHotspots(); }, 25);
+      });
 
-        t._updateHotspots()
+      self._updateHotspots();
 
-        console.log('hotspot explorer init');
-    };
+      //console.log('hotspot explorer init');
+  };
 
-    HotSpotExplorer.prototype._updateHotspots = function(){
-        var t = this;
-        console.log('resize');
+  HotSpotExplorer.prototype._updateHotspots = function(){
+      var self = this;
+      //console.log('resize');
 
-        $.each(t.hotspots , function(){
-            var $hs = $(this),
-                $data = $hs.data(),
-                ratio = parseInt(t.$el.css('width').replace(PX_REGEX , '') , 10) / t.maxWidth;
+      $.each(self.hotspots , function(){
+          var $hs = $(this),
+              $data = $hs.data(),
+              ratio = parseInt(self.$el.css('width').replace(PX_REGEX , '') , 10) / self.maxWidth;
 
-            $hs.css({'top': ratio * $data.y + 'px' , 'left': ratio * $data.x + 'px' , 'visibility' : 'visible'});
+          $hs.css({'top': ratio * $data.y + 'px' , 'left': ratio * $data.x + 'px' , 'visibility' : 'visible'});
 
-        });
-    };
+      });
+  };
 
-    //end HotspotExplorer
+  //end HotspotExplorer
 
-    $.fn.hotSpotExplorer = function(options) {      
-        var args = arguments;
-        return this.each(function(){
-            var t = $(this);
-            if (typeof options === "object" ||  !options) {
-                if( !t.data('hotSpotExplorer') ) {
-                    t.data('hotSpotExplorer', new HotSpotExplorer(t, options));
-                }
-            } else {
-                var hotSpotExplorer = t.data('hotSpotExplorer');
-                if (hotSpotExplorer && hotSpotExplorer[options]) {
-                    return hotSpotExplorer[options].apply(hotSpotExplorer, Array.prototype.slice.call(args, 1));
-                }
-            }
-        });
-    };
+  $.fn.hotSpotExplorer = function(options) {
+      var args = arguments;
+      return this.each(function(){
+          var t = $(this);
+          if (typeof options === "object" ||  !options) {
+              if( !t.data('hotSpotExplorer') ) {
+                  t.data('hotSpotExplorer', new HotSpotExplorer(t, options));
+              }
+          } else {
+              var hotSpotExplorer = t.data('hotSpotExplorer');
+              if (hotSpotExplorer && hotSpotExplorer[options]) {
+                  return hotSpotExplorer[options].apply(hotSpotExplorer, Array.prototype.slice.call(args, 1));
+              }
+          }
+      });
+  };
 
-    $(function(){
-        $('.hsExplorer').each(function(){
-            var $el = $(this);
-            $el.hotSpotExplorer({});
-        });
-    });
+  $(function(){
+      $('.hsExplorer').each(function(){
+          var $el = $(this);
+          $el.hotSpotExplorer({});
+      });
+  });
 
 
  })(jQuery, Modernizr, window,undefined);

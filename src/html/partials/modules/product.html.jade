@@ -10,7 +10,9 @@ if data.view == "basic"
   else if data.layout == 'plate'
     klass = 'span2 plate'
   else if data.layout == 'blank-normal'
-    klass = 'span 1 normal blank-normal'
+    klass = 'span1 normal blank-normal'
+  else if data.layout == 'suggested'
+    klass = 'span6 suggested'
   else
     klass = 'span1 normal'
 
@@ -43,7 +45,7 @@ if data.view == "basic"
             p.text-count
               span.number.l2= data.count.number
               | &nbsp;
-              span.text.l3= data.count.text
+              span.text.l3= data.count.text            
       else
         .product-img
           .product-img-wrap.ghost-center-wrap

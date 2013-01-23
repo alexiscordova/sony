@@ -3,39 +3,47 @@ desc: 'Here are some modules with unique data:'
 layout1: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
 layout2: [ "plate", "normal" , "blank-normal" , "normal" , "normal" , "medium"]
 layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
+layout4: ["suggested" , "suggested"]
 ---
-.container.grid5.full-bleed-no-max.jade
-  .rp-grid.grid.grid-small
-    section.related-products(data-mode=data.config.mode , class=data.config.variation)
-      .rp-overflow#rpOverflow
-        .rp-container
-	        	.rp-slide
-	        		.shuffle-container
-		        		i = 0
-		        		for module in data.submodules
-									d = locals.data(module.data)
-									if d.type == 'product' && d.featured
-										- d.layout = document[data.config.layout][i++]
-										- d.view = 'basic'
-										e = { 'locals' : locals , 'data' : d }
-										!{locals.partial('modules/'+module.type , e )}   
-	        	.rp-slide
-	        		.shuffle-container
-		        		i = 0
-		        		for module in data.submodules
-									d = locals.data(module.data)
-									if d.type == 'product' && d.featured
-										- d.layout = document[data.config.layout][i++]
-										- d.view = 'basic'
-										e = { 'locals' : locals , 'data' : d }
-										!{locals.partial('modules/'+module.type , e )}   
-	        	.rp-slide
-	        		.shuffle-container
-		        		i = 0
-		        		for module in data.submodules
-									d = locals.data(module.data)
-									if d.type == 'product' && d.featured
-										- d.layout = document[data.config.layout][i++]
-										- d.view = 'basic'
-										e = { 'locals' : locals , 'data' : d }
-										!{locals.partial('modules/'+module.type , e )}
+if data.config.mode == 'full'	
+	- clss = data.config.variation + ' slimgrid5' 
+	.container.full-bleed-no-max 
+	  section.related-products(data-mode=data.config.mode , class=clss)
+	    .rp-overflow#rpOverflow
+	      .rp-container
+	      	.rp-slide
+	      		.shuffle-container
+	        		i = 0
+	        		for module in data.submodules
+								d = locals.data(module.data)
+								if d.type == 'product' && d.featured
+									- d.layout = document[data.config.layout][i++]
+									- d.view = 'basic'
+									e = { 'locals' : locals , 'data' : d }
+									!{locals.partial('modules/'+module.type , e )}   
+	      	.rp-slide
+	      		.shuffle-container
+	        		i = 0
+	        		for module in data.submodules
+								d = locals.data(module.data)
+								if d.type == 'product' && d.featured
+									- d.layout = document[data.config.layout][i++]
+									- d.view = 'basic'
+									e = { 'locals' : locals , 'data' : d }
+									!{locals.partial('modules/'+module.type , e )}   
+	      	.rp-slide
+	      		.shuffle-container
+	        		i = 0
+	        		for module in data.submodules
+								d = locals.data(module.data)
+								if d.type == 'product' && d.featured
+									- d.layout = document[data.config.layout][i++]
+									- d.view = 'basic'
+									e = { 'locals' : locals , 'data' : d }
+									!{locals.partial('modules/'+module.type , e )}
+else if data.config.mode == 'suggested'
+	- clss = data.config.variation
+	.container
+		section.related-products(data-mode=data.config.mode , class=clss)
+			for module in data.submodules
+				d = locals.data(module.data)

@@ -99,11 +99,15 @@
 
       self.vendorPrefix          = '-' + vendor + '-';
       self.ev                    = $({}); //event object
+
+      self.$paddles              = $({});
       self.$el                   = $(element);
+      self.mode                  = self.$el.data('mode').toLowerCase();
       self.$slides               = self.$el.find('.rp-slide');
       self.$shuffleContainers    = self.$slides.find('.shuffle-container');
       self.$galleryItems         = self.$el.find('.gallery-item');
       self.$bulletNav            = $();
+
       self.numSlides             = self.$slides.length;
       self.$container            = self.$el.find('.rp-container').eq(0);
       self.sliderOverflow        = self.$el.find('.rp-overflow').eq(0);
@@ -145,7 +149,7 @@
         $item.data('slide' , $item.parent());
       });
 
-      console.log('Related Products - ' , self.numSlides , ' - GROUPS'/*, 'Max Width: ' , ( self.maxHeight / self.maxWidth) * 980*/);
+      console.log('Related Products - ' , self.numSlides , ' - GROUPS' , 'Mode >>' , self.mode /*, 'Max Width: ' , ( self.maxHeight / self.maxWidth) * 980*/);
 
       if(Modernizr.touch) {
           self.hasTouch         = true;
@@ -210,6 +214,9 @@
               clearTimeout(resizeTimer);          
           }
           resizeTimer = setTimeout(function() { 
+
+
+
             self.checkForBreakpoints();
             self.updateSliderSize();
             self.updateSlides();
@@ -380,7 +387,8 @@
         shuffleDash            = 'shuffle-',
         gridClasses            = [ shuffleDash + 3, shuffleDash + 4, shuffleDash + 5, 'grid-small' ].join(' '),
         itemSelector           = '.gallery-item',
-        grid5                  = 'grid5',
+        grid5                  = 'slimgrid5',
+        slimgrid               = 'slimgrid',
         span                   = 'span',
         large                  = '.large',
         promo                  = '.promo',
@@ -392,13 +400,16 @@
         if ( numColumns === 5 ) {
           if ( !self.$container.hasClass( shuffleDash + 5 ) ) {
 
+
+            console.log("Setting Colums »",5);
+
             // add .grid5
             self.$container
               .removeClass(gridClasses)
               .addClass(shuffleDash+5)
               .closest('.container')
+              .removeClass(slimgrid)
               .addClass(grid5);
-
 
             self.$shuffleContainers.children(itemSelector)
               .removeClass(allSpans)// Remove current grid span
@@ -422,7 +433,7 @@
               .removeClass(gridClasses)
               .addClass(shuffleDash+4)
               .closest('.container')
-              .removeClass(grid5);
+              .removeClass(grid5).addClass(slimgrid);
 
             self.$shuffleContainers.children(itemSelector)
               .removeClass(allSpans)// Remove current grid span
@@ -475,8 +486,21 @@
         wW       = self.$win.width(),
         view     = wW > 980 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile';
 
+
+        //if the browser doesnt support media queries...IE default to desktop
+        if(!Modernizr.mediaqueries){
+          view = 'desktop';
+        }
+
         switch(view){
           case 'desktop':
+
+          if(self.mode === 'suggested'){
+
+            self.$el.removeClass('grid')
+            .addClass('slimgrid');
+            return;
+          } 
 
            //check if we are coming out of mobile
             if(self.isMobileMode === true){
@@ -510,6 +534,15 @@
 
             var wasMobile = self.isMobileMode;
 
+
+            if(self.mode === 'suggested'){
+
+              self.$el.removeClass('slimgrid')
+              .addClass('grid');
+              return;
+            }
+
+
             //check if we are coming out of mobile
             if(self.isMobileMode === true){
               self.returnToFullView();
@@ -540,6 +573,13 @@
             if(self.isMobileMode === true){
               return;
             }
+
+            if(self.mode === 'suggested'){
+
+              return;
+            }
+
+
 
             self.isTabletMode = self.isDesktopMode = false;
             self.isMobileMode = true;
@@ -601,6 +641,12 @@
       updateSliderSize: function(){
         var self = this;
         
+
+        if(self.mode === 'suggested'){
+
+          return;
+        }
+
         //handle resize for various layouts
         if(self.isTabletMode === true){
           //ratio based on comp around 768/922
@@ -925,6 +971,11 @@
             if(a > 0){
               newPos += Math.ceil(a);
             }
+
+        if(self.mode === 'suggested'){
+
+          return;
+        }          
 
         self.$slides.each(function(i){
           $(this).css({

@@ -10,20 +10,7 @@ head
   !{partial('includes/head.html.jade', l)}
 
 body
-
-	h6 5-up Teal Color Layout:
-  	e = {"locals":locals, "data":data('related_products/5up-teal-color.json')}
-  	!{partial('modules/related_products.html.jade', e)}
- 	hr
-
-	h6 4-up Purple Color Layout:
-  	e = {"locals":locals, "data":data('related_products/4up-purple-color.json')}
-  	!{partial('modules/related_products.html.jade', e)}
- 	hr
-
-  h6 3-up Orange Color Layout:
-    e = {"locals":locals, "data":data('related_products/3up-orange-color.json')}
-    !{partial('modules/related_products.html.jade', e)}
-  hr
+  e = {"locals":locals, "data":data('related_products/2-up-view.json')}
+  !{partial('modules/related_products.html.jade', e)}
 
 !{partial('includes/foot.html.jade', l)}
