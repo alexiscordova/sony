@@ -10,11 +10,11 @@ Exports.fiveColumns = 5;
 Exports.twelveColumns = 12;
 
 // Five columns
-Exports.col5Width = 204;
-Exports.gut5Width = 23;
-Exports.fullWidth = (Exports.fiveColumns * Exports.col5Width) + (Exports.gut5Width * (Exports.fiveColumns - 1));
-Exports.COLUMN_WIDTH = Exports.col5Width / Exports.fullWidth;
-Exports.GUTTER_WIDTH = Exports.gut5Width / Exports.fullWidth;
+Exports.col5Width = 188;
+Exports.gut5Width = 20;
+Exports.fullSlimWidth = (Exports.fiveColumns * Exports.col5Width) + (Exports.gut5Width * (Exports.fiveColumns - 1));
+Exports.COLUMN_WIDTH_SLIM = Exports.col5Width / Exports.fullSlimWidth;
+Exports.GUTTER_WIDTH_SLIM = Exports.gut5Width / Exports.fullSlimWidth;
 
 // Twelve columns @ 768
 Exports.colWidth768 = 34;

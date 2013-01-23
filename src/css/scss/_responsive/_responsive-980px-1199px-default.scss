@@ -12,7 +12,7 @@
 .slimgrid,
 .slimgrid5, .grid5{
   margin-right: auto;
-  margin-left: auto;	
+  margin-left: auto;
   @include clearfix();
 }
 
@@ -25,7 +25,7 @@
     max-width: $containerWidthMax;
   }
   &.full-bleed-no-max{
-  	max-width:100%; // THIS CAN'T BE AUTO!
+  	max-width:100%;
   }
 }
 .grid,
@@ -40,7 +40,7 @@
   .grid.full-bleed,
   .slimgrid.full-bleed,
   .slimgrid5.full-bleed, .grid5.full-bleed {
-    width:100%;
+    width: auto;
   }
 }
 
@@ -66,12 +66,12 @@
 // Fixed grid
 // --------------------------------------
 .container-px-width{
-  width: $containerWidth;    
-  max-width: $containerWidthMax; 
+  width: $containerWidth;
+  max-width: $containerWidthMax;
 }
 .grid-px-width{
   width: $gridWidth;
-  max-width: $gridWidthMax;     
+  max-width: $gridWidthMax;
 }
 @include grid-core($gridColumnWidth, $gridGutterWidth);
 // Input grid
