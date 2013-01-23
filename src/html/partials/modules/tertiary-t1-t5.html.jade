@@ -1,17 +1,17 @@
 // START Tertiary Content Container
-section.tcc-wrapper.container.full-bleed-no-max(data-tcc-mode="#{data.mode}")
+section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(data-tcc-mode="#{data.mode}")
 
 	for header in data.header
 		// HEADER	
 		header.tcc-header-wrapper.container
-			.tcc-header.grid
+			.tcc-header.grid.m-full-bleed
 				p.tcc-header-title.l1 #{header.title}
 
 				p.tcc-header-link
 					a.tl(href="#{header.link}") #{header.linkText}
 	
 	section.tcc-scroller.tcc-body-wrapper.container
-		.tcc-body.grid
+		.tcc-body.grid.no-grid-at-767
 	
 			for module in data.contentModules
 				.tcc-content-module.span4(class=module.type)(data-tcc-module-type="#{module.type}", data-tcc-module-mode="#{module.mode}")	
