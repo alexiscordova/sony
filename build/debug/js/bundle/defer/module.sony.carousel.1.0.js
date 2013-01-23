@@ -15,7 +15,7 @@
 
 (function($, Modernizr, window, undefined) {
 
-    "use strict"; // jshint ;
+    'use strict'; // jshint ;
 
     var Carousel = sony.modules.Carousel = function($el, opts) {
         $.extend(this, $.fn.carousel.defaults, opts, $.fn.carousel.settings);

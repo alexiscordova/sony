@@ -21,26 +21,19 @@
 // -----------------------------------------
 
 .footer-wrapper{
-  padding:60px 0;
+  padding:px-em(60px) 0;
 
   h5{
-    font-size:$font_15_16;
-    margin-bottom: 17px;
-  }
-  h6{
-    font-size:$font_11_16;
-  }
-  .dropdown-label{
-    font-size:$font_14_16;
+    margin-bottom: px-em(17px);
   }
 
   .btn-group.country-selector,
   .btn-hover-group.country-selector{
     width: 46.2%;
-    min-width:185px;
+    min-width:px-em(185px);
     float:left;
     .dropdown-hover-menu-lists-w{
-      padding:24px 0 24px 0px;
+      padding:px-em(24px) 0 px-em(24px) 0;
     }
     .dropdown-hover-menu-list{
       width:19.8%;
@@ -49,7 +42,7 @@
 
   .btn-group.language-selector,
   .btn-hover-group.language-selector{
-    width: 61px;
+    width: px-em(61px);
     float:left;
   }
 }
@@ -57,64 +50,25 @@
 
 
 .footer-form-border{
-  position:relative;
-  border-width:2px;
-  border-color:$grayDarkFieldLarge;
-  border-style:solid;
-  padding:6px;
-  overflow:hidden;
 
   .footer-input{
-    border:none;
-    height:28px;
-    padding:0px 4px 3px 9px;
-    margin:0;
-    font-size:$font_13_16; 
     width:72%;  
-    float:left; 
-    background:$footerBackground;
-    color:$white;
-
-    &:focus{
-      color:$white;
-    }
+    float:left;
   }
   .footer-btn{
-    margin:3px;
-    padding-top:5px;
-    height:28px;
     width:27%;
     float:right;
     margin:0;
-    font-size:$font_11_16;
-    @include fontRegular;
   }
 }
 
-form.footer-store-locator-form{
-  margin:0;
-  i{
-    position:absolute;
-    font-size:$font_18_16;
-    margin:2px 0 0 1px;
-    color:$highlightColor;
-  }
-  .footer-store-locator-input{
-  }
-  .store-locator-submit-btn{
-  }
-}
 
-.footer-store-locator-caption{
-  font-size:$font_11_16;
-  margin:5px 0 0 0;
-}
 .footer-newsletter{
-  margin-top: 38px;
-  margin-bottom:45px;
+  margin-top: px-em(38px);
+  margin-bottom: px-em(45px);
 
   h6{
-    margin-bottom:14px;
+    margin-bottom: px-em(14px);
   }
   form{
     margin-bottom:0;
@@ -131,63 +85,14 @@ form.footer-store-locator-form{
     a{
       display:inline-block;
       position:relative;
-      top:-11px;
+      top: -11px;
       font-size:$font_13_16;
-      margin-right:24px;
-    }
-  }
-}
-.footer-language.span6{
-  margin-left:0;
-  float:left;
-}
-.footer-language-selectors{
-  @include clearfix;
-}
-.footer-social-links{
-  display:inline-block;
-
-  a{
-    display:inline-block;
-    width:36px;
-    height:32px;
-    float:left;
-    margin-left:2px;
-    background-color:$grayDark;
-
-    &:first-child{
-      margin-left:-2px;
-    };
-
-    &.footer-social-twitter:hover,
-    &.footer-social-twitter:active,
-    &.footer-social-twitter:focus{
-      background-color:$twitterColor;
-    }
-    &.footer-social-facebook:hover,
-    &.footer-social-facebook:active,
-    &.footer-social-facebook:focus{
-      background-color:$facebookColor;
-    }
-    &.footer-social-gplus:hover,
-    &.footer-social-gplus:active,
-    &.footer-social-gplus:focus{
-      background-color:$gplusColor;
-    }
-    &.footer-social-youtube:hover,
-    &.footer-social-youtube:active,
-    &.footer-social-youtube:focus{
-      background-color:$youtubeColor;
+      margin-right: px-em(24px);
     }
   }
 }
 
-.footer-signature{
-  position:relative
-}
 .footer-copyright{
-  font-size:$font_10_16;
-  text-transform:uppercase;
   position:absolute;
   left: 90px;
   top: 4px;
@@ -283,7 +188,7 @@ form.footer-store-locator-form{
 
 form.footer-store-locator-form{
   width:50%;
-  max-width:275px;
+  max-width: px-em(275px);
   float:left;
   // margin-bottom:32px;
 }
@@ -317,14 +222,14 @@ form.footer-store-locator-form{
       width:100%;
       float:none;
       overflow:hidden;
-      padding-bottom: 30px;
+      padding-bottom: px-em(30px);
 
       h5{
         display:block;
-        width:105px;
+        width: px-em(105px);
         float:left;
         position:relative;
-        top:5px;
+        top: px-em(5px);
       }
       + .span3{
         margin-left:0;
@@ -342,25 +247,25 @@ form.footer-store-locator-form{
         }
         .footer-btn{
           position:absolute;
-          top:47px;
-          left:0px;
-          width:66px;
+          top: 47px;
+          left: 0;
+          width: 66px;
           float:none;
           margin:0;
         }
       }
       h6{
-        margin-bottom: 12px;
+        margin-bottom: px-em(12px);
       }
     }
 
     .footer-language.span6{
-      padding-top:67px;
-      padding-bottom:13px;
+      padding-top: px-em(67px);
+      padding-bottom: px-em(13px);
     }
     .footer-contact.span6{
-      padding-top:44px;
-      padding-right:4px;
+      padding-top: px-em(44px);
+      padding-right: px-em(4px);
       > p{
         display:block;
         margin-bottom:0;
@@ -368,7 +273,7 @@ form.footer-store-locator-form{
           margin-right:0; 
         }
         a:first-child{
-          margin-right:20px;      
+          margin-right: px-em(20px);      
         }
       }
     }
@@ -396,7 +301,7 @@ form.footer-store-locator-form{
 
 .footer-wrapper .footer-store-locator.span3{
   .footer-store-locator-caption{
-    padding:9px 0 0 16px;
+    padding: px-em(9px) 0 0 px-em(16px);
   }
 }
 }
@@ -512,7 +417,7 @@ form.footer-store-locator-form{
 // ------------------------------------------------
 @media (min-width: px-em(480px)) and (max-width: px-em(567px)) {
 form.footer-store-locator-form{
-  margin-bottom:19px;
+  margin-bottom: px-em(19px);
 }
 }
 
@@ -549,7 +454,7 @@ form.footer-store-locator-form{
 
 .footer-wrapper{
 
-  padding:0 0 60px;
+  padding:0 0 px-em(60px);
 
   .grid.grid-footer{
     @include container-m-full-bleed-padded-children-at("567","both");
@@ -561,11 +466,11 @@ form.footer-store-locator-form{
     border-bottom: solid 1px $grayDarkFieldLarge;
 
     .footer-links-list{
-      padding-bottom: 19px;
+      padding-bottom: px-em(19px);
     }
 
     &.collapsed{
-      height:51px;
+      height: px-em(51px);
     }
     &.transition-height{
       @include transition(height $transitionNormal ease-out);
@@ -575,8 +480,8 @@ form.footer-store-locator-form{
     position:relative;
     margin-bottom:0;
     margin-top:0;
-    padding-bottom: 13px;
-    padding-top:15px;
+    padding-bottom: px-em(13px);
+    padding-top: px-em(15px);
 
     .icon-ui-arrowhead-down-gray{
       position:absolute;
@@ -600,10 +505,10 @@ form.footer-store-locator-form{
     border-top: solid 1px $grayDarkFieldLarge;    
     h5{
       width:100%;
-      padding-top: 15px;
-      padding-bottom: 17px;
+      padding-top: px-em(15px);
+      padding-bottom: px-em(17px);
       margin-top: 0;
-      margin-bottom:2px;
+      margin-bottom: px-em(2px);
     }
   }
 }
@@ -616,8 +521,8 @@ form.footer-store-locator-form{
 
 
 .footer-newsletter {
-  margin-top: 5px;
-  margin-bottom: 26px;
+  margin-top: px-em(5px);
+  margin-bottom: px-em(26px);
 
   .footer-form-border{
     margin-bottom:0;
@@ -642,7 +547,7 @@ form.footer-store-locator-form{
     display:block;
     font-size:$font_16_16;
     line-height:1.85;
-    margin-top:21px;
+    margin-top: px-em(21px);
 
     a,
     a:first-child{
@@ -656,12 +561,12 @@ form.footer-store-locator-form{
 
 .footer-language.span6{
   // overflow:hidden;
-  padding-top: 28px;
-  margin-top:30px;
+  padding-top: px-em(28px);
+  margin-top: px-em(30px);
   border-top: solid 2px $grayDarkFieldLarge; 
 
   .footer-language-selectors{
-    max-width:300px;
+    max-width: px-em(300px);
     margin:0 auto;
   }
   .dropdown-hover-menu-lists-w{
@@ -677,7 +582,7 @@ form.footer-store-locator-form{
 }
 .footer-signature .sprite-reg-nav-sony-logo {
   position: relative;
-  margin:0 0 9px 0;
+  margin:0 0 px-em(9px) 0;
 }
 .footer-signature{
   text-align:center;
@@ -728,14 +633,14 @@ form.footer-store-locator-form{
     h5{
     }
     form.footer-store-locator-form{
-      width:100%;
-      margin-bottom:0;
-      float:none;
+      width: 100%;
+      margin-bottom: 0;
+      float: none;
     }
     .footer-store-locator-caption{
-      float:none;
-      padding-bottom:22px;
-      color:$white;
+      float: none;
+      padding-bottom: px-em(22px);
+      color: $white;
     }
   }
 }
