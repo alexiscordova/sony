@@ -31,6 +31,14 @@
 // Visibility utilities
 // ------------------------------------
 
+// For desktops (default)
+.visible-desktop   { display: inherit !important; }
+.visible-tablet    { display: none !important; }
+.visible-phone     { display: none !important; }
+.hidden-desktop    { display: none !important; }
+.hidden-tablet     { }
+.hidden-phone      { }
+
 @mixin visibility-tablet{
   .visible-desktop   { display: none !important ; }
   .visible-tablet    { display: inherit !important; }
@@ -48,13 +56,6 @@
   .visible-phone     { display: inherit !important; }  
 }
 
-// For desktops
-.visible-desktop   { display: inherit !important; }
-.visible-tablet    { display: none !important; }
-.visible-phone     { display: none !important; }
-.hidden-desktop    { display: none !important; }
-.hidden-tablet     { }
-.hidden-phone      { }
 
 // Tablets (& small desktops) only
 @media (min-width: px-em(768)) and (max-width: px-em(979)) {
@@ -69,39 +70,19 @@
 
   // if any of the override classes are present for lower breakpoints, we should
   // keep this breakpoint at tablet view.
-  .no-grid-at-567
-  .no-grid-at-479,
-  .m-grid-at-567,
-  .m-grid-at-479,
   .phone-at-567,
   .phone-at-479{
     @include visibility-tablet;
   }
-  
-  // overrides to treat small tablet as phone - I don't think this is necessary anymore since it's the default.
-  // .no-grid-at-767,
-  // .m-grid-at-767,
-  // .phone-at-767{
-  //   @include visibility-phone;
-  // }
 }
 // Smaller tablets (& small desktops) only, or phones
 @media (min-width: px-em(480px)) and (max-width: px-em(567px)) {
 
   // if any of the override classes are present for lower breakpoints, we should
   // keep this breakpoint at tablet view.
-  .no-grid-at-479,
-  .m-grid-at-479,
   .phone-at-479{
     @include visibility-tablet;
   }
-  
-  // overrides to treat small tablet as phone - I don't think this is necessary anymore since it's the default.
-  // .no-grid-at-567,
-  // .m-grid-at-567,
-  // .phone-at-567{
-  //   @include visibility-phone;
-  // }
 }
 // below 480 is always treated as phone. - I don't think this is necessary anymore since it's the default.
 @media (max-width: px-em(479px)) {

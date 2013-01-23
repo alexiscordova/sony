@@ -18,8 +18,8 @@
     var PX_REGEX = /px/gi;
 
     var HotSpotExplorer = function(element, options){
-    	
-    	var t = this;
+      
+      var t = this;
 
         t.$el = $(element);
         t.maxWidth = parseInt(t.$el.css('maxWidth').replace(PX_REGEX , '') , 10);
@@ -27,7 +27,7 @@
         t.setup = $.extend({}, $.fn.hotSpotExplorer.defaults, options);
         t.hotspots = t.$el.find('.hsSpot');
 
-    	t._init();
+      t._init();
     };
 
 
@@ -43,7 +43,7 @@
             resizeTimer = setTimeout(function() { t._updateHotspots(); }, 25);          
         });
 
-        t._updateHotspots()
+        t._updateHotspots();
 
         console.log('hotspot explorer init');
     };
@@ -68,7 +68,7 @@
         var args = arguments;
         return this.each(function(){
             var t = $(this);
-            if (typeof options === "object" ||  !options) {
+            if (typeof options === 'object' ||  !options) {
                 if( !t.data('hotSpotExplorer') ) {
                     t.data('hotSpotExplorer', new HotSpotExplorer(t, options));
                 }
