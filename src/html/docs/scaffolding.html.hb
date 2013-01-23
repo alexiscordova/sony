@@ -441,7 +441,7 @@
 
 
 
-        <section class="container" style="padding-bottom:20px; padding-top:50px; border-top:0;">
+        <section class="container" id="small-screens-section" style="padding-bottom:20px; padding-top:50px; border-top:0;">
           <h2 class="bs-docs-heading" id="small-screen-grids">Small Screen Grids</h2>
 
           <p>There are 2 different options for grids below the 768 breakpoint: <strong>Mobile-Grid</strong> and <strong>No-Grid</strong>. The small-screen grid will override the <code>.grid</code>, <code>.slimgrid</code> or <code>.slimgrid5</code> classes, and should be used in addition to them.</code>.</p>
@@ -451,7 +451,7 @@
             and add the appropriate <code>.m-span</code> and (optionally) <code>.m-offset</code> class to each column - again, in addition to the primary <code>.span</code> class. The total mobile spans/offsets need to add up to 6.</p>
           <p class="p4">Resize your browser to below 768px wide to see the mobile grid take effect.<br>Hover over any of the columns to see the actual class names that affect it.</p>
         	
-          <p class="well" id="hide-pre-small-screen-content-w"><span class="label label-info">Check it out!</span> - You can <a href="#">hide prior content on this page</a> so that when resizing, the content doesn't jump around so much.</p>
+          <p class="well" id="hide-pre-small-screen-content-w"><span class="label label-info">Check it out!</span> - You can <a href="#">hide prior content on this page</a>, and limit the paragraph widths, so the content doesn't jump around so much when you're resizing.</p>
 
           <div class="bs-docs-grid">
             <div class="grid m-grid-at-767 show-grid">
