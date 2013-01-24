@@ -8466,19 +8466,24 @@ a.label:hover, a.badge:hover {
 
 /* line 21, ../../../src/css/scss/_components/_slide-toggle.scss */
 .slide-toggle-parent {
-  margin-bottom: 1.25em;
+  margin-bottom: 1.5em;
 }
 
 /* line 25, ../../../src/css/scss/_components/_slide-toggle.scss */
 .slide-toggle-target {
-  margin: 0 0 1.45em;
   background: #f3f4f6;
   -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.12), inset 0 0 1px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.12), inset 0 0 1px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.12), inset 0 0 1px rgba(0, 0, 0, 0.2);
 }
+/* line 28, ../../../src/css/scss/_components/_slide-toggle.scss */
+.slide-toggle-target.in ~ .spacer {
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  margin-bottom: 1.5em;
+}
 
-/* line 33, ../../../src/css/scss/_components/_slide-toggle.scss */
+/* line 37, ../../../src/css/scss/_components/_slide-toggle.scss */
 .csstransforms .slide-toggle-arrow {
   position: absolute;
   top: -8px;
@@ -8494,7 +8499,7 @@ a.label:hover, a.badge:hover {
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.12), inset 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
-/* line 46, ../../../src/css/scss/_components/_slide-toggle.scss */
+/* line 50, ../../../src/css/scss/_components/_slide-toggle.scss */
 .slide-arrow-under,
 .slide-arrow-over {
   position: relative;
@@ -8502,11 +8507,11 @@ a.label:hover, a.badge:hover {
   transition: opacity 0.35s ease;
 }
 
-/* line 51, ../../../src/css/scss/_components/_slide-toggle.scss */
+/* line 55, ../../../src/css/scss/_components/_slide-toggle.scss */
 .slide-arrow-over {
   z-index: 10;
 }
-/* line 55, ../../../src/css/scss/_components/_slide-toggle.scss */
+/* line 59, ../../../src/css/scss/_components/_slide-toggle.scss */
 .csstransforms .slide-arrow-over .slide-toggle-arrow {
   top: 0;
   left: 173px;
@@ -9173,7 +9178,7 @@ body.debug::before {
 /* line 33, ../../../src/css/scss/_debug/_debug-misc.scss */
 .debug .gallery-item,
 .debug .spec-tile {
-  background: red;
+  background: #fffec9;
   counter-increment: item;
 }
 /* line 37, ../../../src/css/scss/_debug/_debug-misc.scss */

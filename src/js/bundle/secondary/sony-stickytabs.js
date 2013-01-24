@@ -296,6 +296,7 @@
         mode: 'paginate',
         nextSelector: '.tab-nav-next',
         prevSelector: '.tab-nav-prev',
+        centerItems: false,
 
         iscrollProps: {
           snap: true,

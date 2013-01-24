@@ -11,7 +11,7 @@ layout3: "normal"
   .ghost-center-wrap.hero-text-wrap
     .hero-text.ghost-center
       hgroup.container
-        p.primary-tout-subtitle.l3.hidden-phone Cameras
+        p.primary-tout-subtitle.l3 Cameras
         h2.primary-tout-title Cyber-shot&reg;
 
 .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
@@ -47,7 +47,7 @@ layout3: "normal"
               e = { "locals" : locals, "data" : d }
               !{locals.partial('modules/' + module.type, e )}
 
-        .see-all
+        .grid.see-all
           a.btn.btn-wide(href="#")= data.featured.callout
 
       i = 0
@@ -64,7 +64,7 @@ layout3: "normal"
               e = { "locals" : locals, "data" : d }
               !{locals.partial('modules/' + module.type, e )}
 
-        .see-all
+        .grid.see-all
           a.btn.btn-wide(href="#")= data.featured2.callout
 
   if data.tabs[1]
@@ -73,30 +73,31 @@ layout3: "normal"
         if data.productCards.filterSet
           .container.filter-display-bar.slide-toggle-parent
             if data.productCards.sortSet
-              .sort-options.pull-right
-                span.l4 Sort By:&nbsp;
-                .dropdown.dropdown-alt.ib.hidden-phone
-                  button.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
-                    span.js-toggle-text= data.productCards.sortSet[0].label
-                    i.icon-ui-arrowheads-up-down-gray
-                  ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
-                    each sort in data.productCards.sortSet
-                      li
-                        a(data-value=sort.name, data-reverse=sort.reverse, tabindex="-1", href="#")= sort.label
-                  select.native-dropdown.select-small.visible-phone
+              .grid.no-grid-at-767
+                .sort-options.pull-right
+                  span.l4 Sort By:&nbsp;
+                  .dropdown.dropdown-alt.ib
+                    button.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+                      span.js-toggle-text= data.productCards.sortSet[0].label
+                      i.icon-ui-arrowheads-up-down-gray
+                    ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+                      each sort in data.productCards.sortSet
+                        li
+                          a(data-value=sort.name, data-reverse=sort.reverse, tabindex="-1", href="#")= sort.label
+                  select.native-dropdown.select-small
                     each sort in data.productCards.sortSet
                       option(value=sort.name, data-reverse=sort.reverse)= sort.label
 
-              p.ib.product-count-wrap
-                span.text-dark.product-count= data.productCards.total
-                | &nbsp;Products
-              button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + data.productCards.name + '-filters')
-                | Filter
-                i.icon-ui-arrowhead-up-white.up.hide
-                i.icon-ui-arrowhead-down-white.down
-              button.btn.btn-alt-special.btn-alt-plus.js-compare-toggle.iconTrigger-ui-plus-tiny(data-target="#compare-tool")
-                | Compare
-                i.icon-ui-plus-tiny
+                p.ib.product-count-wrap
+                  span.text-dark.product-count= data.productCards.total
+                  | &nbsp;Products
+                button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + data.productCards.name + '-filters')
+                  | Filter
+                  i.icon-ui-arrowhead-up-white.up.hide
+                  i.icon-ui-arrowhead-down-white.down
+                button.btn.btn-alt-special.btn-alt-plus.js-compare-toggle.iconTrigger-ui-plus-tiny(data-target="#compare-tool")
+                  | Compare
+                  i.icon-ui-plus-tiny
 
           .container.slide-arrow-under.fade
             .relative
@@ -107,7 +108,7 @@ layout3: "normal"
 
           .collapse.slide-toggle-target(id=data.productCards.name + '-filters')
             .filter-options.container
-              .grid
+              .grid.no-grid-at-767
                 .span8.regular-filters
                   each filterSet in data.productCards.filterSet
 
@@ -170,6 +171,8 @@ layout3: "normal"
 
           .container.active-filters
 
+          .spacer
+
         .container
           .products.grid.no-grid-at-767
             each module in data.submodules
@@ -211,6 +214,9 @@ layout3: "normal"
           h4 Collapse
           h5 Collapse
           h6 Collapse
+
+
+        .spacer
 
         .container.slimgrid5
           each accessory in data.accessories

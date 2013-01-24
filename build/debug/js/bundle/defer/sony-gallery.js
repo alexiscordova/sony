@@ -874,6 +874,9 @@
     onResize : function() {
       var self = this;
 
+      // Make all product name heights even
+      self.setNameHeights( self.$grid );
+
       // Don't change columns for detail galleries
       if ( self.mode === 'detailed' ) {
         return;
@@ -1410,9 +1413,6 @@
           .find('.product-meta')
           .remove()
           .end()
-          .find('.product-name, .product-model')
-          .wrapAll('<div class="product-name-wrap"/>')
-          .end()
           .prepend('<div class="span4 compare-sticky-header">')
           .find('.compare-sticky-header')
           .append('<div class="media">');
@@ -1717,8 +1717,7 @@
       var self = this,
           $detailGroup = self.$compareItems.not('.hide').find('.detail-group').first(),
           offset = 0,
-          stickyMaxHeight = 0,
-          nameMaxHeight = 0;
+          stickyMaxHeight = 0;
 
       // Calling this multiple times is resulting in an ever-growing height...
       if ( isFirst ) {
@@ -1733,14 +1732,7 @@
       }
 
       // Set the height of the product name + model because the text can wrap and make it taller
-      self.$compareTool.find('.product-name-wrap').each(function() {
-        var $this = $(this),
-            height = parseFloat( $this.css('height') );
-
-        if ( height > nameMaxHeight ) {
-          nameMaxHeight = height;
-        }
-      }).css('height', nameMaxHeight);
+      self.setNameHeights( self.$compareTool );
 
       // Set detail rows to even heights
       self.$compareTool.find('.detail-label').each(function(i) {
@@ -1772,6 +1764,26 @@
       }
 
       return self;
+    },
+
+    setNameHeights : function( $container ) {
+      var nameMaxHeight = 0;
+
+      // Set the height of the product name + model because the text can wrap and make it taller
+      $container
+        .find('.product-name-wrap')
+        .css('height', '') // remove heights in case they've been set before
+        .each(function() {
+          var $this = $(this),
+              height = parseFloat( $this.css('height') );
+
+          if ( height > nameMaxHeight ) {
+            nameMaxHeight = height;
+          }
+        })
+        .css('height', nameMaxHeight);
+
+      return this;
     }
 
   };
