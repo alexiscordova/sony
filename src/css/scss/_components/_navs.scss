@@ -23,12 +23,12 @@
 // Space them out when they follow another list item (link)
 .nav-li {
   float: left;
-  line-height:0.65em * $baseLineHeight;
+  // line-height:0.65em * $baseLineHeight;
   position:relative;
 
-  border-color: $blue;
-  border-style: solid;
-  border-top-width: 0px;
+  // border-color: $blue;
+  // border-style: solid;
+  // border-top-width: 0px;
 
   &.active .nav-li-link,
   &.active .nav-li-link:hover,
@@ -38,9 +38,9 @@
     background-color: $navbarLinkBackgroundActive;
   }
 
-  + .nav-header {
-    margin-top: 9px;
-  }
+  // + .nav-header {
+  //   margin-top: 9px;
+  // }
 } // .nav-li
 
 .nav-li-link {
@@ -56,10 +56,17 @@
     text-decoration: none;
   }
 }
-.nav-dropdown-toggle{
+
+
+
+
+
+.nav-dropdown-toggle,
+.nav-dropdown-toggle.nav-li-linkBtn{
   .icon-ui-arrowhead-down-gray{
     display: inline-block;
     position: relative;
+    float:none;
   }
 }
 
@@ -68,24 +75,19 @@
   display:block;
   position:absolute;
   bottom:0;
-  width: 92%;
+  width: 100%;
 
   border-color: $linkColorLight;
   border-style: solid;
   border-top-width: 0px;
   
-  @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayOpenSpeed * 0.3));
-
-  &.for-navtray-short{
-    @include transition(border-top-width ($navtrayOpenSpeed * 0.4) linear ($navtrayShortOpenSpeed * 0.3));        
-  }
+  @include transition(border-top-width $transitionFaster linear 0);
 }
-.nav-li-selected .global-nav-indicator-bar{
+.nav-li-selected .global-nav-indicator-bar,
+.nav-li-link:hover .global-nav-indicator-bar{
   border-top-width: 4px;
 }
-.nav-li-electronics .global-nav-indicator-bar{
-  width: 89%;
-}
+
 
 
 

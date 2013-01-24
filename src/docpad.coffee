@@ -41,6 +41,7 @@ docpadConfig = {
     defer: ->       output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
     modulescss: ->  output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
     modulepages: -> output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/html/pages/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
+    generatedpages: -> output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/html/generated/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
     title:(name) -> t = docpad.database.findOne({id:'pages/'+name}); output = if t then t.attributes.title else '';
     desc:(name) ->  d = docpad.database.findOne({id:'pages/'+name}); output = if d then d.attributes.description else '';
   }
@@ -50,13 +51,6 @@ docpadConfig = {
   plugins:{
     partials:{
        partialsPath:'partials'
-    }
-    handlebars:{
-      helpers:{
-        partial:(content, options) -> output = @partial(content, options),
-        isEnv:(context, options) -> output = if (context in @getEnvironment()) then options.fn(this) else options.inverse(this),
-        json:(context, options) -> output = JSON.stringify(context)
-      }
     }
   }
 }

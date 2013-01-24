@@ -5759,21 +5759,13 @@ button.close {
 /* line 24, ../../../src/css/scss/_components/_navs.scss */
 .nav-li {
   float: left;
-  line-height: 1.0725em;
   position: relative;
-  border-color: #3dadfe;
-  border-style: solid;
-  border-top-width: 0px;
 }
 /* line 35, ../../../src/css/scss/_components/_navs.scss */
 .nav-li.active .nav-li-link, .nav-li.active .nav-li-link:hover, .nav-li.active .nav-li-link:focus {
   color: #234ccd;
   text-decoration: none;
   background-color: black;
-}
-/* line 41, ../../../src/css/scss/_components/_navs.scss */
-.nav-li + .nav-header {
-  margin-top: 9px;
 }
 
 /* line 46, ../../../src/css/scss/_components/_navs.scss */
@@ -5789,45 +5781,38 @@ button.close {
   text-decoration: none;
 }
 
-/* line 60, ../../../src/css/scss/_components/_navs.scss */
-.nav-dropdown-toggle .icon-ui-arrowhead-down-gray {
+/* line 66, ../../../src/css/scss/_components/_navs.scss */
+.nav-dropdown-toggle .icon-ui-arrowhead-down-gray,
+.nav-dropdown-toggle.nav-li-linkBtn .icon-ui-arrowhead-down-gray {
   display: inline-block;
   position: relative;
+  float: none;
 }
 
-/* line 67, ../../../src/css/scss/_components/_navs.scss */
+/* line 74, ../../../src/css/scss/_components/_navs.scss */
 .global-nav-indicator-bar {
   display: block;
   position: absolute;
   bottom: 0;
-  width: 92%;
+  width: 100%;
   border-color: #5787f4;
   border-style: solid;
   border-top-width: 0px;
-  -webkit-transition: border-top-width 0.2s linear 0.15s;
-  transition: border-top-width 0.2s linear 0.15s;
-}
-/* line 79, ../../../src/css/scss/_components/_navs.scss */
-.global-nav-indicator-bar.for-navtray-short {
-  -webkit-transition: border-top-width 0.2s linear 0.12s;
-  transition: border-top-width 0.2s linear 0.12s;
+  -webkit-transition: border-top-width 0.1s linear 0;
+  transition: border-top-width 0.1s linear 0;
 }
 
-/* line 83, ../../../src/css/scss/_components/_navs.scss */
-.nav-li-selected .global-nav-indicator-bar {
+/* line 87, ../../../src/css/scss/_components/_navs.scss */
+.nav-li-selected .global-nav-indicator-bar,
+.nav-li-link:hover .global-nav-indicator-bar {
   border-top-width: 4px;
 }
 
-/* line 86, ../../../src/css/scss/_components/_navs.scss */
-.nav-li-electronics .global-nav-indicator-bar {
-  width: 89%;
-}
-
-/* line 98, ../../../src/css/scss/_components/_navs.scss */
+/* line 100, ../../../src/css/scss/_components/_navs.scss */
 .nav > .disabled > a {
   color: #bcbccc;
 }
-/* line 102, ../../../src/css/scss/_components/_navs.scss */
+/* line 104, ../../../src/css/scss/_components/_navs.scss */
 .nav > .disabled > a:hover {
   text-decoration: none;
   background-color: transparent;
