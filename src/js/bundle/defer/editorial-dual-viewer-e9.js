@@ -17,6 +17,7 @@
     $.extend(self, {}, $.fn.editorialDualViewer.defaults, options);
 
     self.$el = $element;
+    self.$topSlide = self.$el.find('.image-2');
 
     self.init();
   };
@@ -28,6 +29,21 @@
     'init': function() {
 
       var self = this;
+
+      self.$el.find('.edv-scrubber-container').sonyDraggable({
+        'axis': 'x',
+        'containment': self.$el,
+        'drag': $.proxy(self.onDrag, self)
+      });
+    },
+
+    'onDrag': function(e) {
+
+      var self = this,
+          containerWidth = self.$el.width(),
+          newSlideWidth = ( 1 - e.position.left / containerWidth ) * 100 + '%';
+
+      self.$topSlide.css('width', newSlideWidth);
     }
 
   };
@@ -55,7 +71,9 @@
   };
 
   $(function(){
-    //init
+
+    $('.edv').editorialDualViewer();
+
   });
 
 })(jQuery);

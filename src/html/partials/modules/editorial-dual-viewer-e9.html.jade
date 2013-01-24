@@ -1,4 +1,16 @@
-section.container
+section(class='mode-'+data.mode.toLowerCase()).edv.container
 
-  div.grid
-    span foo
+  header
+    h2 #{data.header.title}
+    p #{data.header.description}
+    a(href = data.header.linkURL) Learn more
+
+  section.edv-images
+    - for (var i = 0; i < 2 && i < data.images.length; i++)
+      edvImage = data.images[i]
+      figure(class='image-'+(i+1)).edv-image
+        div.edv-image-wrapper
+          img.iq-img(data-src=edvImage.src)
+        figcaption #{edvImage.title}
+    div.edv-scrubber-container
+      a.edv-scrubber(href="#", title="Alternate between images.") Scrub
