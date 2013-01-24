@@ -9,14 +9,10 @@ if data.view == "basic"
     klass = 'span2 medium'
   else if data.layout == 'plate'
     klass = 'span2 plate'
-  else if data.layout == 'blank-normal'
-    klass = 'span1 normal blank-normal'
-  else if data.layout == 'suggested'
-    klass = 'span6 suggested'
   else
     klass = 'span1 normal'
 
-  a.gallery-item(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
+  a.gallery-item.basic(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label
@@ -40,15 +36,19 @@ if data.view == "basic"
 
       else if data.layout == 'plate'
         .product-img(class=data.backgroundColorClass)
-          .product-content
+          - style = data.style ? data.style : 'tl'
+          - classes = ['promo-content']
+          - classes.push( style )
+          div(class=classes)
             .text-promo-title
               strong= data.title
-              | !{data.emphasis}
-          if data.count
-            p.text-count
-              span.number.l2= data.count.number
-              | &nbsp;
-              span.text.l3= data.count.text           
+              span!= '&nbsp;' + data.emphasis
+              i.icon-ui2-chevron-16-black-right
+            if data.count
+              .text-count
+                span.number.l2= data.count.number
+                | &nbsp;
+                span.text.l3= data.count.text
       else
         .product-img
           .product-img-wrap.ghost-center-wrap
@@ -98,7 +98,8 @@ if data.view == "basic"
             i(class=favClass)
 
         .product-content
-          .product-name.p3= data.name
+          .product-name-wrap
+            .product-name.p3= data.name
           .product-price
             span.price-prefix.p3 Starting at &nbsp;
             span.price.l2= '$' + data.price + '&nbsp;'
@@ -107,7 +108,7 @@ if data.view == "basic"
 
 else if data.view == 'detailed'
   filterSet = JSON.stringify( data.filterSet )
-  a.span4.gallery-item(data-filter-set=filterSet, data-priority=data.priority, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
+  a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label
@@ -127,9 +128,15 @@ else if data.view == 'detailed'
               colorClass = 'mini-swatch swatch-' + color.color + ' pull-left'
               span(class=colorClass, data-color=color.color, itemprop="color")= color.color
 
+          .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
+            favClass = 'icon-ui-favorite'
+            - if ( data.isFavorited ) favClass += ' active'
+            i(class=favClass)
+
       .product-content
-        .product-name.p3(itemprop="name")= data.name
-        .product-model.p5(itemprop="model")= data.model
+        .product-name-wrap
+          .product-name(itemprop="name")= data.name
+          .product-model.p5(itemprop="model")= data.model
         .product-rating.p5(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
           meta(itemprop="ratingValue", content=data.rating.stars)
           i.icon-ui-star
@@ -146,12 +153,10 @@ else if data.view == 'detailed'
             li.p3
               |!{meta.value}&nbsp;
               span.prodcut-meta-name= meta.name
-
         .product-price
-          .price
-            span.p5 Starting at &nbsp;
-            span.l2(itemprop="price")= '$' + data.price + '&nbsp;'
-            span.msrp.p5 MSRP
+          span.price-prefix.p3 Starting at &nbsp;
+          span.price.l2(itemprop="price")= '$' + data.price + '&nbsp;'
+          span.msrp.p5 MSRP
 
         .detail-group.hidden
           if data.details

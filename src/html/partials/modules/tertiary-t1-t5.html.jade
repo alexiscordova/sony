@@ -3,7 +3,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(data-tcc-mode="#{da
 
 	for header in data.header
 		// HEADER	
-		header.tcc-header-wrapper.container
+		.tcc-header-wrapper.container
 			.tcc-header.grid.m-full-bleed
 				p.tcc-header-title.l1 #{header.title}
 
@@ -22,10 +22,12 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(data-tcc-mode="#{da
 								//- ARTICLE:DEFAULT
 
 								//- image (optional)
-								img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+								figure
+									img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
 								
 								noscript
-									img(src="#{module.noscriptImg}")
+									figure
+										img(src="#{module.noscriptImg}")
 
 								.tcc-copy
 
@@ -65,7 +67,8 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(data-tcc-mode="#{da
 								//- SONYS-VOICE:TWITTER
 								
 								//- icon (required)
-								img(src="img/icon_twitter.png")
+								figure
+									img(src="img/icon_twitter.png")
 
 								.meta
 									for meta in module.meta
