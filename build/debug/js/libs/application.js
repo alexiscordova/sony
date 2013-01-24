@@ -31,6 +31,27 @@
     })
 
 
+    // hide the top of the page.
+    $('#hide-pre-small-screen-content-w a').click(function(){
+      $('#hide-pre-small-screen-content-w').hide();
+      $('#pre-small-screen').hide();
+      $('#show-hidden-sections-btn-w').show();
+      $('body').addClass("limit-paragraph-widths");
+      setTimeout(function(){
+        $(window).scrollTop($('#show-hidden-sections-btn-w').offset().top - 50);
+      },5);
+    })
+    // unhide the top of the page.
+    $('#show-hidden-sections-btn-w a').click(function(){
+      $('#show-hidden-sections-btn-w').hide();
+      $('#pre-small-screen').show();
+      $('#hide-pre-small-screen-content-w').show();
+      $('body').removeClass("limit-paragraph-widths");
+      setTimeout(function(){
+        $(window).scrollTop($('#small-screen-grids').offset().top - 50);
+      },5);
+    })
+
     // keep the viewport within view when resizing, even when above content is breaking to more/fewer rows & pushing down the rest.
     // disabled until it can be better tested.
     /*

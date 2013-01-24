@@ -909,6 +909,7 @@ form.bs-docs-example {
   }
   .simple-navbar-fixed-top {
     margin-bottom: $baseLineHeight;
+    height:60px;
   }
   .simple-navbar-fixed-bottom {
     margin-top: $baseLineHeight;
@@ -959,7 +960,7 @@ form.bs-docs-example {
   .simple-nav-collapse .dropdown-menu a {
     padding: 9px 15px;
     font-weight: bold;
-    color: $simpleNavbarLinkColor;
+    // color: $simpleNavbarLinkColor;
     @include border-radius(3px);
   }
   // Buttons
@@ -1149,9 +1150,6 @@ form.bs-docs-example {
   /* Remove any padding from the body */
   body {
     padding-top: 0;
-  }
-  .simple-navbar-fixed-top {
-    height:60px;
   }
   /* Unfloat brand */
   body > .simple-navbar-fixed-top .brand {
@@ -1423,8 +1421,8 @@ form.bs-docs-example {
 
 
 #contentWrappers{
-  border-bottom:none;
-  padding-bottom:20px;
+  // border-bottom:none;
+  // padding-bottom:20px;
 }
 
 
@@ -1577,7 +1575,25 @@ form.bs-docs-example {
   }
 }
 
+.limit-paragraph-widths{
 
+  #small-screens-section > p,
+  #overview > .container > p{
+    max-width: 425px;    
+  }
+  #small-screens-section > p:not(.p4) {
+    font-size:0.8em;
+  }
+  #small-screens-section > p.p4 {
+    font-size:0.7em;
+  }
+  .jumbotron{
+    padding-bottom:10px;
+    p{
+      font-size:24px !important;
+    }
+  }
+}
 
 .docs-scaffolding{
   .pln, .kwd, .pun, .lit { color:#ff485e;} // classes / default

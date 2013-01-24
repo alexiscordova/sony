@@ -42,7 +42,7 @@
       self.tapOrClick          = function(){return self.hasTouch ? 'touchend' : 'click';};
       
       self.sequencerSpeed      = 50;  // default
-      self.debounceSpeed       = 250; // default
+      self.debounceSpeed       = 300; // default
       self.scrollDuration      = 400; // default
       
       self.phoneBreakpoint     = 479;

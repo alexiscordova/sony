@@ -82,24 +82,10 @@
     }
 
     self.initSwatches();
-
-    // Slide toggle. Reset range control if it was hidden on initialization
-    self.$container.find('.collapse')
-      .on('shown', $.proxy( self.onFiltersShown, self ))
-      .on('show', $.proxy( self.onFiltersShow, self ))
-      .on('hide', $.proxy( self.onFiltersHide, self ));
-
-    // Set up sorting ---- dropdowm
-    self.$sortBtns.on('click',  $.proxy( self.sort, self ));
-
-    // Set up sorting ---- select menu
-    self.$sortSelect.on('change', $.proxy( self.sort, self ));
+    self.initTooltips();
 
     $(window).on('resize.gallery', $.proxy( self.onResize, self ) );
     self.onResize();
-
-    // Favorite Heart
-    // self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
     // This container is about to be shown because it's a tab
     self.$container.closest('[data-tab]').on('show', $.proxy( self.onShow, self ));
@@ -417,6 +403,20 @@
       self.$sortBtns.first().parent().addClass('active');
       // self.currentSort = self.$sortBtns.closest('.dropdown-menu').find('.active a').data('value');
       self.currentSort = 0;
+
+
+
+      // Slide toggle. Reset range control if it was hidden on initialization
+      self.$container.find('.collapse')
+        .on('shown', $.proxy( self.onFiltersShown, self ))
+        .on('show', $.proxy( self.onFiltersShow, self ))
+        .on('hide', $.proxy( self.onFiltersHide, self ));
+
+      // Set up sorting ---- dropdowm
+      self.$sortBtns.on('click',  $.proxy( self.sort, self ));
+
+      // Set up sorting ---- select menu
+      self.$sortSelect.on('change', $.proxy( self.sort, self ));
     },
 
     initInfscr : function() {
@@ -467,6 +467,17 @@
             $productImg.removeClass('hidden');
             $swatchImg.addClass('hidden');
           });
+      });
+    },
+
+    initTooltips : function() {
+      var self = this;
+
+      // Favorite Heart
+      self.$favorites.on('click', $.proxy( self.onFavorite, self ));
+
+      self.$container.find('.js-favorite').tooltip({
+        template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
       });
     },
 
@@ -872,8 +883,11 @@
     },
 
     onFavorite : function( evt ) {
-      // <i class="icon-ui-favorite{{#if this.isFavorited}} state3{{/if}} js-favorite"></i>
-      $(evt.target).toggleClass('state3');
+      $(evt.delegateTarget).toggleClass('active');
+
+      // Stop event from bubbling to <a> tag
+      evt.preventDefault();
+      evt.stopPropagation();
     },
 
     // Event triggered when this tab is about to be shown
@@ -970,7 +984,7 @@
           // Get product count
           productCount = $currentItems.length,
 
-          $container = $('<div class="container mobile-container-padded js-compare-wrap">'),
+          $container = $('<div class="container js-compare-wrap">'),
           $content = $('<div class="compare-container clearfix">'),
           $header = self.$compareTool.find('.modal-header'),
           $modalBody = self.$compareTool.find('.modal-body'),
@@ -1032,7 +1046,7 @@
         console.log('fixing header');
         self.isFixedHeader = true;
 
-        var $subheader = $('<div class="modal-subheader container mobile-container-padded">');
+        var $subheader = $('<div class="modal-subheader container">');
         $subheader.append( self.$compareCountWrap, self.$compareReset, $sortOpts );
 
         // Insert subhead in the modal-body
@@ -1290,7 +1304,7 @@
         // Setup sticky header
         if ( !self.isFixedHeader ) {
           self.isFixedHeader = true;
-          var $subheader = $('<div class="modal-subheader container mobile-container-padded">');
+          var $subheader = $('<div class="modal-subheader container">');
           $subheader.append( self.$compareCountWrap.detach(), self.$compareReset.detach(), $sortOpts.detach() );
 
           // Insert subhead in the modal body
@@ -1470,31 +1484,33 @@
 
       if ( self.mode !== 'detailed' ) {
         // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
-        self.$grid.parent().addClass('grid5');
+        self.$grid.parent().addClass('slimgrid5');
 
-        // 5 columns that break down to 2 on smaller screens
+
         self.shuffleColumns = function( containerWidth ) {
           var column;
 
           // Large desktop ( 6 columns )
           if ( Modernizr.mq('(min-width: 75em)') ) {
-            column = Exports.COLUMN_WIDTH_1200 * containerWidth;
+            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM * containerWidth; // ~18% of container width
+            column = Exports.COLUMN_WIDTH_SLIM_5 * containerWidth;
 
           // Portrait Tablet ( 4 columns )
           // } else if ( Modernizr.mq('(min-width: 48em)') ) {
           //   column = Exports.COLUMN_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 30em)') ) {
-            column = Exports.COLUMN_WIDTH_768 * containerWidth;
+          // 568px+
+          } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
+            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
 
           // Phone ( 2 columns )
+          // < 568px
           } else {
-            column = 0.48 * containerWidth; // 48% of container width
+            column = Exports.COLUMN_WIDTH_320 * containerWidth;
           }
 
 
@@ -1507,28 +1523,28 @@
 
           // Large desktop ( 6 columns )
           if ( Modernizr.mq('(min-width: 75em)') ) {
-            gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
+            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 6;
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
           } else if ( Modernizr.mq('(min-width: 48em)') ) {
             numColumns = 4;
-            gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 30em)') ) {
-            gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+          } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
+            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 3;
 
 
           // Phone ( 2 columns )
           } else {
-            gutter = 0.02 * containerWidth; // 2% of container width
+            gutter = Exports.GUTTER_WIDTH_320 * containerWidth; // 2% of container width
             numColumns = 2;
           }
 
@@ -1536,8 +1552,10 @@
 
           return gutter;
         };
+
+
+      // Use the default 12 column slim grid.
       } else {
-        // Use the default 12 column grid.
         self.shuffleColumns = Exports.masonryColumns;
         self.shuffleGutters = Exports.masonryGutters;
       }
@@ -1547,21 +1565,22 @@
 
     setColumns : function( numColumns ) {
       var self = this,
-          allSpans = 'span1 span2 span3 span4 span6',
+          allSpans = 'span1 span2 span3 span4 span6 m-span3',
           shuffleDash = 'shuffle-',
-          gridClasses = [ shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, 'grid-small' ].join(' '),
+          gridClasses = [ shuffleDash+2, shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6 ].join(' '),
           itemSelector = '.gallery-item',
-          grid5 = 'grid5',
+          grid5 = 'slimgrid5',
           span = 'span',
+          mspan = 'm-' + span,
           large = '.large',
           promo = '.promo',
-          largeAndPromo = large + ',' + promo;
+          normal = '.normal';
 
       // Large desktop ( 6 columns )
       if ( numColumns === 6 ) {
         if ( !self.$grid.hasClass(shuffleDash+6) ) {
 
-          // add .grid5
+          // add .slimgrid5
           self.$grid
             .removeClass(gridClasses)
             .addClass(shuffleDash+6)
@@ -1571,21 +1590,21 @@
 
           self.$grid.children(itemSelector)
             .removeClass(allSpans) // Remove current grid span
-            .filter(large) // Select large tiles
-            .addClass(span+6) // Make them 6/12 width
-            .end() // Go back to all items
+              .filter(large) // Select large tiles
+              .addClass(span+6) // Make them 6/12 width
+              .end() // Go back to all items
             .filter(promo) // Select promo tiles
-            .addClass(span+4) // Make them 4/12 width
-            .end() // Go back to all items
-            .not(largeAndPromo) // Select tiles not large nor promo
-            .addClass(span+2); // Make them 2/12 width
+              .addClass(span+4) // Make them 4/12 width
+              .end() // Go back to all items
+            .filter(normal) // Select tiles not large nor promo
+              .addClass(span+2); // Make them 2/12 width
         }
 
       // Landscape tablet + desktop ( 5 columns )
       } else if ( numColumns === 5 ) {
         if ( !self.$grid.hasClass(shuffleDash+5) ) {
 
-          // add .grid5
+          // add .slimgrid5
           self.$grid
             .removeClass(gridClasses)
             .addClass(shuffleDash+5)
@@ -1596,20 +1615,20 @@
           self.$grid.children(itemSelector)
             .removeClass(allSpans) // Remove current grid span
             .filter(large) // Select large tiles
-            .addClass(span+3) // Make them 3/5 width
-            .end() // Go back to all items
+              .addClass(span+3) // Make them 3/5 width
+              .end() // Go back to all items
             .filter(promo) // Select promo tiles
-            .addClass(span+2) // Make them 2/5 width
-            .end() // Go back to all items
-            .not(largeAndPromo) // Select tiles not large nor promo
-            .addClass(span+1); // Make them 1/5 width
+              .addClass(span+2) // Make them 2/5 width
+              .end() // Go back to all items
+            .filter(normal) // Select tiles not large nor promo
+              .addClass(span+1); // Make them 1/5 width
         }
 
       // Portrait Tablet ( 4 columns ) - masonry
       } else if ( numColumns === 4 ) {
         if ( !self.$grid.hasClass(shuffleDash+4) ) {
 
-          // Remove .grid5
+          // Remove .slimgrid5
           self.$grid
             .removeClass(gridClasses)
             .addClass(shuffleDash+4)
@@ -1619,21 +1638,21 @@
 
           self.$grid.children(itemSelector)
             .removeClass(allSpans) // Remove current grid span
-            .filter(largeAndPromo) // Select large and promo tiles
-            .addClass(span+6) // Make them half width
-            .end() // Go back to all items
-            .not(largeAndPromo) // Select tiles not large nor promo
-            .addClass(span+3); // Make them quarter width
+            .filter(large + ',' + promo) // Select large and promo tiles
+              .addClass(span+6) // Make them half width
+              .end() // Go back to all items
+            .filter(normal) // Select tiles not large nor promo
+              .addClass(span+3); // Make them quarter width
         }
 
       // Between Portrait tablet and phone ( 3 columns )
       } else if ( numColumns === 3 ) {
         if ( !self.$grid.hasClass(shuffleDash+3) ) {
 
-          // Remove .grid5, add .grid-small
+          // Remove .slimgrid5, add .grid-small
           self.$grid
             .removeClass(gridClasses)
-            .addClass(shuffleDash+3 + ' grid-small')
+            .addClass(shuffleDash+3)
             .parent()
             .removeClass(grid5);
 
@@ -1646,13 +1665,19 @@
 
       // Phone ( 2 columns )
       } else if ( numColumns === 2 ) {
-        if ( !self.$grid.parent().hasClass(grid5) ) {
+        if ( !self.$grid.parent().hasClass(shuffleDash+2) ) {
 
-          // add .grid5
+          // remove .slimgrid5
           self.$grid
             .removeClass(gridClasses)
+            .addClass(shuffleDash+2)
             .parent()
-            .addClass(grid5);
+            .removeClass(grid5);
+
+          // Remove current grid span
+          self.$grid.children(itemSelector)
+            .removeClass(allSpans)
+            .addClass(mspan+3);
         }
       }
       return self;
