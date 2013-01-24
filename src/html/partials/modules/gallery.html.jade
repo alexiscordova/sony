@@ -169,12 +169,13 @@ layout3: "normal"
                           //-     p.media-heading.p3.text-dark= filter.label
                           //-     p.p3= filter.description
 
-          .container.active-filters
+          .container.active-filters-wrap
+            .grid.active-filters
 
           .spacer
 
         .container
-          .products.grid.no-grid-at-767
+          .products.slimgrid.no-grid-at-767
             each module in data.submodules
               d = locals.data(module.data)
               if d.type == "product" && !d.promo
@@ -208,22 +209,25 @@ layout3: "normal"
             .slide-toggle-arrow
 
         .collapse.slide-toggle-target(id="IDGOESHERE")
-          h1 Collapse
-          h2 Collapse
-          h3 Collapse
-          h4 Collapse
-          h5 Collapse
-          h6 Collapse
+          .container
+            .grid.no-grid-at-767
+              h1 Collapse
+              h2 Collapse
+              h3 Collapse
+              h4 Collapse
+              h5 Collapse
+              h6 Collapse
 
 
         .spacer
 
-        .container.slimgrid5
+        .container
           each accessory in data.accessories
             .product-strip-wrap
-              a.tl.pull-right(href="#")= accessory.callout
-              h6.product-strip-heading= accessory.title
-              .product-strip.slimgrid
+              .grid.no-grid-at-767
+                a.tl.pull-right(href="#")= accessory.callout
+                h6.product-strip-heading= accessory.title
+              .product-strip.slimgrid5.no-grid-at-767
                 count = 0
                 each module in data.submodules
                   d = locals.data(module.data)

@@ -50,7 +50,7 @@ $fourColMax: px-em(979px);
 
 .product-meta {
   margin: 0 0 1em;
-  padding: 0 0 0 .9375em;
+  padding: 0 0 0 1em;
   list-style-type: square;
   color: $gray;
 }
@@ -424,6 +424,10 @@ $offsetFromMiddle: px-em(45px);
 // -------------------------
 @media (min-width: px-em(980px)) and (max-width: px-em(1100px) ) {
 
+  .gallery-detailed .products {
+    margin-top: -2.5em;
+  }
+
   .gallery-item.detailed {
     margin-top: 2.5em;
 
@@ -442,6 +446,10 @@ $offsetFromMiddle: px-em(45px);
 
 // 768-979
 @media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
+
+  .gallery-detailed .products {
+    margin-top: -2.5em;
+  }
 
   .gallery-item.detailed {
     margin-top: 2.5em;
@@ -514,6 +522,10 @@ $offsetFromMiddle: px-em(45px);
       right: auto;
     }
 
+    .products {
+      margin-top: -1.625em;
+    }
+
     .gallery-item {
       margin-top: 1.625em; // 26
       display: table;
@@ -573,11 +585,8 @@ $offsetFromMiddle: px-em(45px);
 @media ( min-width: $threeColMin ) and ( max-width: 40em ) {
 
   // Make gallery items taller
-  .gallery-editorial {
-
-    .gallery-item:after {
-      padding-top: 187%;
-    }
+  .gallery-item.basic:after {
+    padding-top: 187%;
   }
 }
 
@@ -585,22 +594,17 @@ $offsetFromMiddle: px-em(45px);
 // <= 479
 @media ( max-width: 29.9375em ) {
 
-  .product-content {
-
-  }
 }
 
 // <= 360
 @media ( max-width: 22.5em ) {
 
   // Make gallery items taller
-  .gallery-editorial {
-
-    .gallery-item:after {
-      padding-top: 190%;
-    }
+  .gallery-item.basic:after {
+    padding-top: 190%;
   }
 }
+
 
 // Product Strip
 // -------------------------
@@ -622,6 +626,17 @@ $offsetFromMiddle: px-em(45px);
 
   .gallery-item {
     margin-top: 0;
+  }
+}
+
+@media ( max-width: $threeColMax ) {
+
+  .product-strip {
+    padding-bottom: 1.625em;
+  }
+
+  .product-strip .gallery-item:not(:first-child) {
+    margin-top: 1.625em;
   }
 }
 
@@ -673,6 +688,11 @@ $offsetFromMiddle: px-em(45px);
 
 
 // Filter labels ( active filters )
+.active-filters-wrap {
+  position: relative;
+  z-index: 1;
+}
+
 .active-filters .label {
 
   // Give active filter labels some spacing
@@ -718,15 +738,12 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .product-count {
-  // display: inline-block;
-  // min-width: 1.4375em; // keep a constant width so the filter buttons don't move
   font-size: $font_15_15;
-  // text-align: right;
 }
 
 
 @media (max-width: $threeColMax) {
-  // override bootstrap's visible-phone important declaration :(
+
   .sort-options .native-dropdown {
     display: initial;
     vertical-align: baseline;

@@ -40,6 +40,8 @@
     self.hasFilters = self.$filterOpts.length > 0;
     self.windowSize = $(window).width();
 
+    self.$container.addClass('gallery-' + self.mode);
+
     self.setColumnMode();
 
     self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
@@ -1830,25 +1832,26 @@
 
 
 
+$(document).ready(function() {
 
+  if ( $('.gallery').length > 0 ) {
 
-if ( $('.gallery').length > 0 ) {
+    // Initialize galleries
+    $('.gallery').each(function() {
+      var $this = $(this),
+      data = $this.data(),
+      options = { mode : data.mode };
 
-  // Initialize galleries
-  $('.gallery').each(function() {
-    var $this = $(this),
-    data = $this.data(),
-    options = { mode : data.mode };
+      $this.gallery(options);
+    });
 
-    $this.addClass('gallery-' + data.mode).gallery(options);
-  });
+    // Initialize sticky tabs
+    $('.tab-strip').stickyTabs();
 
-  // Initialize sticky tabs
-  $('.tab-strip').stickyTabs();
+    // Hide other tabs
+    $('.tab-pane:not(.active)').addClass('off-screen');
 
-  // Hide other tabs
-  $('.tab-pane:not(.active)').addClass('off-screen');
-
-  // // Should be called after everything is initialized
-  $(window).trigger('hashchange');
-}
+    // // Should be called after everything is initialized
+    $(window).trigger('hashchange');
+  }
+});
