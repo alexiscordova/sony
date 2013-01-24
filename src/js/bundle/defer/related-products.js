@@ -1,3 +1,5 @@
+/*global Exports*/
+
 // ------------ Related Products Module ------------
 // Module: Related Products
 // Version: 1.0
@@ -47,8 +49,7 @@
         
         if(!window.requestAnimationFrame) {
             window.requestAnimationFrame = window[tempV+'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame'] 
-                               || window[tempV+'CancelRequestAnimationFrame'];
+            window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame'] || window[tempV+'CancelRequestAnimationFrame'];
         }
       }
 
@@ -140,13 +141,13 @@
           self.lastItemFriction = 0.2;
           
           if (browser.msie || browser.opera) {
-            self.grabCursor = self.grabbingCursor = "move";
+            self.grabCursor = self.grabbingCursor = 'move';
           } else if(browser.mozilla) {
-            self.grabCursor     = "-moz-grab";
-            self.grabbingCursor = "-moz-grabbing";
-          } else if(isWebkit && (navigator.platform.indexOf("Mac")!=-1)) {
-            self.grabCursor     = "-webkit-grab";
-            self.grabbingCursor = "-webkit-grabbing";
+            self.grabCursor     = '-moz-grab';
+            self.grabbingCursor = '-moz-grabbing';
+          } else if(isWebkit && (navigator.platform.indexOf('Mac')!== -1)) {
+            self.grabCursor     = '-webkit-grab';
+            self.grabbingCursor = '-webkit-grabbing';
           }
 
           self.downEvent   = 'mousedown.rp';
@@ -215,15 +216,15 @@
 
         self.setColumns(numColumns);
 
-        //console.log("New Gutter Width »",gutter);
+        //console.log('New Gutter Width »',gutter);
 
         return gutter;
-      }
+      };
 
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          //console.log("Shuffle columns »", containerWidth + 'px');
+          //console.log('Shuffle columns »', containerWidth + 'px');
 
           if ( Modernizr.mq('(min-width: 981px)') ) {
             column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
@@ -234,7 +235,8 @@
           } 
 
           return column;
-      }
+      };
+
       //start her off
       self.init();
 
@@ -286,10 +288,10 @@
             self.currentId = item.index();
             self.moveTo();
           }
-        }); 
+        });
 
-        self.onNavUpdate(); 
-        self.ev.on('rpOnUpdateNav' , $.proxy(self.onNavUpdate , self)); 
+        self.onNavUpdate();
+        self.ev.on('rpOnUpdateNav' , $.proxy(self.onNavUpdate , self));
       },
 
       setupPaddles: function(){
@@ -417,11 +419,11 @@
               .addClass( span + 3 );// Make them quarter width
           }
 
-          console.log("Setting 4 colums »",numColumns);
+          console.log('Setting 4 colums »',numColumns);
 
           //Between Portrait tablet and phone ( 3 columns )
         }
-        //console.log("Number of columns »" , numColumns);
+        //console.log('Number of columns »' , numColumns);
         return self;
       },
 
@@ -439,10 +441,10 @@
             }
           });
           self.sorted = true;
-          console.log("sorting »", true);
+          console.log('sorting »', true);
         } else if ( !isTablet && self.sorted ) {
           self.$shuffleContainers.shuffle('sort', {});
-          console.log("Unsort... »");
+          console.log('Unsort... »');
           self.sorted = false;
         }
       },
@@ -527,12 +529,12 @@
                     .addClass('rpMobile');
 
             //destroy the shuffle instance
-            if(self.shuffle != null){
+            if(self.shuffle !== null){
               self.shuffle.destroy();
               self.shuffle = null;
               self.sorted = false;
 
-              console.log("Destroying shuffle instance »" , self.shuffle);
+              console.log('Destroying shuffle instance »' , self.shuffle);
             }
 
             //hide the bullet navigation
@@ -565,14 +567,14 @@
 
         return; // need to toggle curosr on anchors inside for this to work properly
 
-        if(!self.hasTouch) {
-          if(self.grabbingCursor) {
-            self.sliderOverflow.css('cursor', self.grabbingCursor);
-          } else {
-            self.sliderOverflow.removeClass('grab-cursor');
-            self.sliderOverflow.addClass('grabbing-cursor');   
-          }   
-        }
+        // if(!self.hasTouch) {
+        //   if(self.grabbingCursor) {
+        //     self.sliderOverflow.css('cursor', self.grabbingCursor);
+        //   } else {
+        //     self.sliderOverflow.removeClass('grab-cursor');
+        //     self.sliderOverflow.addClass('grabbing-cursor');
+        //   }
+        // }
       },
 
       updateSliderSize: function(){
@@ -593,7 +595,7 @@
         self.$el.css('height' , (1) * self.$shuffleContainers.eq(0).width());
         self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 40);
 
-        console.log("Slider Height »",self.$el.height());
+        console.log('Slider Height »',self.$el.height());
         
 /*        if($(window).width() < 1085 && $(window).width() > 930){
           self.$el.css('height' , (0.4977817214 + 0.06) * self.$el.width());
@@ -720,7 +722,8 @@
         iQ.update();
 
         var self = this;
-        var pos = self.sPosition = pos;
+        
+        pos = self.sPosition = pos;
 
         if(self.useCSS3Transitions) {
           var animObj                              = {};
@@ -794,7 +797,6 @@
         }
 
         var snapDist = self.minSlideOffset,
-            point = self.hasTouch ? e.originalEvent.changedTouches[0] : e,
             pPos = point.pageX,
             sPos = self.startPagePos,
             axPos = self.accelerationPos,
@@ -806,6 +808,8 @@
             distOffset = 0,
             dragDirection;
         
+        point = self.hasTouch ? e.originalEvent.changedTouches[0] : e;
+
         totalMoveDist = Math.abs(pPos - sPos);
 
         dragDirection = self.startDragX > pPos ? 1 : 0;
@@ -1032,7 +1036,7 @@
       var args = arguments;
       return this.each(function(){
         var self = $(this);
-        if (typeof options === "object" ||  !options) {
+        if (typeof options === 'object' ||  !options) {
           if( !self.data('relatedProducts') ) {
             self.data('relatedProducts', new RelatedProducts(self, options));
           }
@@ -1067,7 +1071,7 @@
         var self = this;
 
         function handleBreakpoint(){
-          console.log("_initMobileBreakpoint.... »" , true);
+          console.log('_initMobileBreakpoint.... »' , true);
 
           // 1. step one  - cancel touch events for the 'slideshow'
           self.$container.off('.rp');
@@ -1100,7 +1104,7 @@
           // 7. init the scroller module
           setTimeout(function(){
 
-            if(self.scrollerModule != null){
+            if(self.scrollerModule !== null){
 
               self.scrollerModule.destroy();
               self.scrollerModule = null;
@@ -1130,7 +1134,7 @@
 
             //self.scroller.enable();
             iQ.update();
-            console.log("Instantiating scroller module »", self.scrollerModule);
+            console.log('Instantiating scroller module »', self.scrollerModule);
           }, 100); 
           return;
 

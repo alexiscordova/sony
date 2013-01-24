@@ -1,10 +1,18 @@
-mixin descriptors()
+mixin demos()
 	for name in modulepages()
 		if name.indexOf('index.html') == -1 && name.indexOf('-demo.html') != -1
 			hrf = '../build/debug/' + name.replace(/(.eco|.hb|.jade)/g, '')
 			ti = title(name) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
 			de = desc(name)
 			li: a( href = hrf) !{ti} : !{de}
+			
+mixin layouts()
+  for name in modulepages()
+    if name.indexOf('index.html') == -1 && name.indexOf('-layouts.html') != -1
+      hrf = '../build/debug/' + name.replace(/(.eco|.hb|.jade)/g, '')
+      ti = title(name) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
+      de = desc(name)
+      li: a( href = hrf) !{ti} : !{de}
 
 doctype 5
 !{partial('includes/ieconditionals.html')}
@@ -15,12 +23,21 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
 
 	.jumbotron.subhead
 	  .container-px-width
-	    h2.bs-docs-heading Modules
+	    h2.bs-docs-heading Module Demos
 
 	
 	.container-px-width
 		ul
-			+descriptors()
+			+demos()
+
+  .jumbotron.subhead
+    .container-px-width
+      h2.bs-docs-heading Module Layouts
+
+  
+  .container-px-width
+    ul
+      +layouts()
 
 	!{partial('includes/docs-foot.html')}
 </html>

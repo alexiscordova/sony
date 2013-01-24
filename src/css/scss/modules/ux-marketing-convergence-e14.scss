@@ -1,0 +1,92 @@
+//
+// UX Marketing Convergence (UXMC)
+// --------------------------------------------------
+
+@import "../_base/variables";
+@import "../_base/mixins";
+
+.uxmc-container {
+  position: relative;
+  height: 380px;
+  background-color: #ccc;
+  overflow: hidden;
+
+  .uxmc-overlay {
+    position: relative;
+    z-index: 1;
+  }
+
+  .uxmc-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    div.iq-img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    img.iq-img {
+      display: none;
+    }
+  }
+
+  .base-product {
+    position: relative;
+    float: left;
+    width: 30%;
+    height: 380px;
+  }
+
+  .partner-products {
+    position: relative;
+    float: right;
+    margin: 0;
+    width: 69%;
+    height: 380px;
+
+    li {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  .btn-reload {
+    position: absolute;
+    left: 30%;
+    top: 50%;
+    z-index: 2;
+    margin: -50px 0 0 -50px;
+    width: 100px;
+    height: 100px;
+    background-color: red;
+  }
+
+}
+
+.no-backgroundsize {
+
+  .uxmc-background {
+
+    div.iq-img {
+      display: none;
+    }
+
+    img.iq-img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+}

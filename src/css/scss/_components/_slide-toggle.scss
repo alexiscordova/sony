@@ -19,12 +19,16 @@
 }
 
 .slide-toggle-parent {
-  margin-bottom: 1.25em;
+  margin-bottom: 1.5em;
 }
 
 .slide-toggle-target {
-  margin: 0 0 1.45em; // 23.2px
   @include lightGrayInset();
+
+  &.in ~ .spacer {
+    @include transition();
+    margin-bottom: 1.5em;
+  }
 }
 
 // A rotated square

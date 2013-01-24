@@ -1,0 +1,154 @@
+---
+desc: 'Here are some modules with unique data:'
+layout1: [ "large", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
+layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
+layout3: "normal"
+---
+
+.container: .grid: h2 Gallery Single (2)
+section.gallery(id=data.productCards.name + '-gallery', data-mode=data.productCards.mode)
+  if data.productCards.filterSet
+    .container.filter-display-bar.slide-toggle-parent
+      if data.productCards.sortSet
+        .grid.no-grid-at-767
+          .sort-options.pull-right
+            span.l4 Sort By:&nbsp;
+            .dropdown.dropdown-alt.ib
+              button.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+                span.js-toggle-text= data.productCards.sortSet[0].label
+                i.icon-ui-arrowheads-up-down-gray
+              ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+                each sort in data.productCards.sortSet
+                  li
+                    a(data-value=sort.name, data-reverse=sort.reverse, tabindex="-1", href="#")= sort.label
+            select.native-dropdown.select-small
+              each sort in data.productCards.sortSet
+                option(value=sort.name, data-reverse=sort.reverse)= sort.label
+
+          p.ib.product-count-wrap
+            span.text-dark.product-count= data.productCards.total
+            | &nbsp;Products
+          button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + data.productCards.name + '-filters')
+            | Filter
+            i.icon-ui-arrowhead-up-white.up.hide
+            i.icon-ui-arrowhead-down-white.down
+          button.btn.btn-alt-special.btn-alt-plus.js-compare-toggle.iconTrigger-ui-plus-tiny(data-target="#compare-tool")
+            | Compare
+            i.icon-ui-plus-tiny
+
+    .container.slide-arrow-under.fade
+      .relative
+        .slide-toggle-arrow
+    .container.slide-arrow-over.fade
+      .relative
+        .slide-toggle-arrow
+
+    .collapse.slide-toggle-target(id=data.productCards.name + '-filters')
+      .filter-options.container
+        .grid.no-grid-at-767
+          .span8.regular-filters
+            each filterSet in data.productCards.filterSet
+
+              if filterSet.type == 'color'
+                .span6.filter-container
+                  p.l3= filterSet.label
+                  ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
+                    each filter in filterSet.filters
+                      //- Can't have variable attribute names :( - build an html string
+                      tagString = '<li class="swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
+                      | !{tagString}
+
+              else if filterSet.type == 'range'
+                .span6.filter-container
+                  p.l3= filterSet.label
+                  .range-output-container
+                    .range-output-min
+                    .range-output-max
+                  .range-control-wrap
+                    .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
+
+              else if filterSet.type == 'button'
+                .span6.filter-container
+                  p.l3= filterSet.label
+                  ul.unstyled.btn-group(data-filter=filterSet.name, data-filter-type=filterSet.type)
+                    each filter in filterSet.filters
+                      //- Can't have variable attribute names :( - build an html string
+                      tagString = '<li class="btn btn-square" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</li>'
+                      | !{tagString}
+
+
+              else if filterSet.type == 'checkbox'
+                .span6.filter-container
+                  p.l3= filterSet.label
+                  ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
+                    each filter in filterSet.filters
+                      li.control-inline
+                        input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
+                        label(for=filterSet.name + '-' + filter.value)= filter.label
+
+          each filterSet in data.productCards.filterSet
+            if filterSet.type == 'group'
+              .span4.best-for.filter-container
+                p.l3= filterSet.label
+                ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type)
+                  each filter in filterSet.filters
+                    //- Dynamic attribute names...!
+                    li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
+                    btn = '<div class="pull-left"><button class="btn btn-square media-object"><i class="icon-bestfor-' + filter.icon + '"></i></button></div>'
+                    body = '<div class="media-body"><p class="media-heading p3 text-dark">' + filter.label + '</p><p class="p3">' + filter.description + '</p></div>'
+                    mediaObject = li + btn + body + '</li>'
+                    | !{ mediaObject }
+                    //- li.media.clearfix(data-label=filter.label, data-filterName=filter.value)
+                    //-   .pull-left
+                    //-     button.btn.btn-square.media-object
+                    //-       i(class="icon-bestfor-" + filter.icon)
+                    //-   .media-body
+                    //-     p.media-heading.p3.text-dark= filter.label
+                    //-     p.p3= filter.description
+
+    .container.active-filters-wrap
+      .grid.active-filters
+
+    .spacer
+
+  .container
+    .products.slimgrid.no-grid-at-767
+      each module in data.submodules
+        d = locals.data(module.data)
+        if d.type == "product" && !d.promo
+          - d.view = "detailed"
+          e = { "locals" : locals, "data" : d }
+          !{locals.partial('modules/' + module.type, e )}
+
+  .comparables.hidden
+    .compare-name= data.productCards.galleryName
+    each detail in data.productCards.comparable
+      .l3.detail-label.detail(data-slug=detail.slug, data-label=detail.label)
+
+  if data.productCards.nextLink
+    .navigation.invisible
+      a(href=data.productCards.nextLink) Camera Overflow
+    .infscr-holder.text-center
+
+
+#compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
+  .modal-inner
+    .modal-header.container(data-reset-label="Reset")
+      h3.pull-left#compare-tool-label Compare
+      button.box-close(data-dismiss="modal", aria-hidden="true")
+        i.icon-ui-x-tiny
+    .modal-body
+      .container.p4
+        i.swatch-lemon.mini-swatch
+        | Highlights indicate highest performance features
+
+
+div(style="padding-bottom:150px")
+
+script(src="js/libs/jquery.infinitescroll.js")
+script(src="js/libs/bootstrap-transition.js")
+script(src="js/libs/bootstrap-button.js")
+script(src="js/libs/bootstrap-dropdown.js")
+script(src="js/libs/bootstrap-collapse.js")
+script(src="js/libs/bootstrap-tooltip.js")
+script(src="js/libs/bootstrap-modal.js")
