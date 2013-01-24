@@ -17,7 +17,8 @@
     $.extend(self, {}, $.fn.editorialDualViewer.defaults, options);
 
     self.$el = $element;
-    self.$topSlide = self.$el.find('.image-2');
+    self.$dualViewContainer = $('.edv-images');
+    self.$topSlide = self.$dualViewContainer.find('.image-2');
 
     self.init();
   };
@@ -32,7 +33,7 @@
 
       self.$el.find('.edv-scrubber-container').sonyDraggable({
         'axis': 'x',
-        'containment': self.$el,
+        'containment': self.$dualViewContainer,
         'drag': $.proxy(self.onDrag, self)
       });
     },

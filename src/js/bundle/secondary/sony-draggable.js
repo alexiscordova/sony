@@ -38,57 +38,75 @@
       self.startPositionX = self.$el.position().left;
       self.startPositionY = self.$el.position().top;
 
-      self.$containment.on('mousedown', function(e){ self.moveStart(e); });
-      self.$containment.on('mouseup', function(e){ self.moveEnd(e); });
-      self.$containment.on('mouseleave', function(e){ self.moveEnd(e); });
+      self.$containment.on('mousedown touchstart', $.proxy(self.onScrubStart, self));
+      self.$containment.on('mouseup touchend mouseleave touchleave click', $.proxy(self.onScrubEnd, self));
     },
 
-    'moveStart': function(e) {
-
-      e.preventDefault();
+    'onScrubStart': function(e) {
 
       var self = this,
           $this = $(e.target);
 
-      if ( self.$el.has($this).length === 0 ) return;
+      if ( self.$el.has($this).length === 0 || !self.pagePosition(e) ) {
+        return;
+      }
+
+      e.preventDefault();
 
       // EOD NOTE: The problem with this is that it doesn't consider the page margins,
       // so if you resize your cursor will be wrong.
 
-      self.startMouseX = self.startMouseX || e.pageX;
-      self.startMouseY = self.startMouseY || e.pageY;
+      self.startInteractionPoint = self.startInteractionPoint || self.pagePosition(e);
 
-      self.$containment.on('mousemove', function(e) {
-
-        var movedX = e.pageX - self.startMouseX,
-            movedY = e.pageY - self.startMouseY;
-
-        if ( self.axis.search('x') >= 0 ) {
-          self.$el.css('left', self.startPositionX + movedX);
-        }
-
-        if ( self.axis.search('y') >= 0 ) {
-          self.$el.css('top', self.startPositionY + movedY);
-        }
-
-        self.drag({
-          'position': {
-            'left': movedX,
-            'top': movedY
-          }
-        })
-      })
+      self.$containment.on('mousemove touchmove', $.proxy(self.onScrubbing, self));
 
     },
 
-    'moveEnd': function(e) {
+    'onScrubbing': function(e) {
+
+      var self = this,
+          movedX = self.pagePosition(e).x - self.startInteractionPoint.x,
+          movedY = self.pagePosition(e).y - self.startInteractionPoint.y;
+
+      // Need to make this work for percentages, as an option.
 
       e.preventDefault();
 
-      var self = this,
-          $this = $(e.currentTarget);
+      if ( self.axis.search('x') >= 0 ) {
+        self.$el.css('left', self.startPositionX + movedX);
+      }
 
-      self.$containment.off('mousemove');
+      if ( self.axis.search('y') >= 0 ) {
+        self.$el.css('top', self.startPositionY + movedY);
+      }
+
+      self.drag({
+        'position': {
+          'left': movedX,
+          'top': movedY
+        }
+      });
+    },
+
+    'onScrubEnd': function(e) {
+
+      var self = this;
+
+      e.preventDefault();
+
+      self.$containment.off('mousemove touchmove');
+    },
+
+    'pagePosition': function(e) {
+
+      if (!e.pageX && !e.originalEvent.touches[0].pageX) {
+        return;
+      }
+
+      return {
+        'x': e.pageX || e.originalEvent.touches[0].pageX,
+        'y': e.pageY || e.originalEvent.touches[0].pageY
+      };
     }
 
   };
@@ -111,7 +129,7 @@
   };
 
   $.fn.sonyDraggable.defaults = {
-
+    'unit': 'pixel'
   };
 
 })(jQuery);
