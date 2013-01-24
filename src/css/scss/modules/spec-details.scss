@@ -4,6 +4,7 @@
 
 
 .iq-wrap {
+  position: relative;
 
   &:after {
     content: '';
@@ -44,7 +45,7 @@
 
   .active {
     padding-bottom: .625em;
-    border-bottom: .25em solid $blue;
+    border-bottom: .25em solid $btnBackground;
   }
 
   a {
@@ -148,6 +149,7 @@ $navBtnHeight: 2.875em; // 46
 .spec-column-header {
   height: $columnHeaderHeight;
   width: 100%;
+  padding: 0 1em;
 }
 
 .spec-item-cell {
@@ -270,6 +272,29 @@ $navBtnHeight: 2.875em; // 46
     padding: 1.125em 1em 0 0;
   }
 
+  // Sticky headers
+  .compare-sticky-header {
+    top: -2em;
+    width: inherit;
+    padding: 1em;
+    height: $columnHeaderHeight;
+    background: $tableHeaderColor;
+
+    &.open {
+      top: 0;
+    }
+  }
+
+  // Override some styles from the gallery's compare tool
+  .sticky-count {
+    padding: 0;
+
+    &:before {
+      background: $tableHeaderColor;
+      right: 0;
+    }
+  }
+
 }
 
 .spec-item-cell,
@@ -340,6 +365,10 @@ $navBtnHeight: 2.875em; // 46
 
   .spec-products:before {
     height: .0625em;
+  }
+
+  .spec-products .compare-sticky-header {
+    width: 100%;
   }
 
   .spec-items-container .spec-item {

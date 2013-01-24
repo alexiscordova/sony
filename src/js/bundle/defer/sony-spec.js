@@ -29,13 +29,16 @@
     _init : function() {
       var self = this;
 
-      self.$specItems = self.$container.find('.spec-item');
-      self.$specItemsWrap = self.$container.find('.spec-items-wrap');
+      self.$specProducts = self.$container.find('.spec-products');
+      self.$specItems = self.$specProducts.find('.spec-item');
+      self.$specItemsWrap = self.$specProducts.find('.spec-items-wrap');
       self.$tabStrip = self.$container.find('.tab-strip');
       self.$navNext = self.$container.find('.spec-nav-next');
       self.$navPrev = self.$container.find('.spec-nav-prev');
-      self.$enlargeTriggers = self.$container.find('.js-enlarge');
+      self.$enlargeTriggers = self.$specProducts.find('.js-enlarge');
       self.$enlargeClosers = self.$container.find('.spec-modal .box-close');
+      self.$detailLabelsWrap = self.$specProducts.find('.detail-labels-wrap');
+      self.$stickyHeaders = self.$specProducts.find('.compare-sticky-header');
 
       // Line up spec item cells
       self._onResize();
@@ -44,6 +47,7 @@
       self._initFeatures();
 
       self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
+      self.$window.on('scroll', $.proxy( self._onScroll, self ));
 
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
       self.$enlargeClosers.on('click', $.proxy( self._closeEnlarge, self ));
@@ -51,7 +55,7 @@
       // We're done
       // Add the complete class to the labels to transition them in
       setTimeout(function() {
-        self.$container.find('.detail-labels-wrapping').addClass('complete');
+        self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
       }, 250);
     },
 
@@ -96,7 +100,16 @@
           onScrollEnd: null,
           lockDirection: true,
           onBeforeScrollStart: null,
-          onAnimationEnd: window.iQ.update,
+          onScrollMove : function() {
+            self._onScroll( this );
+          },
+          onAnimate : function() {
+            self._onScroll( this );
+          },
+          onAnimationEnd : function() {
+            self._onScroll( this );
+            window.iQ.update();
+          }
         }
       });
 
@@ -179,7 +192,8 @@
 
             // plus 2 because i is a zero based index and nth-child is one based. Also, the first child in our html
             // is the title, which is not a .spec-item-cell, so we need to add another to our selector
-            $cells = self.$specItems.find('.spec-item-cell:nth-child(' + (i + 2) + ')');
+            // Also, there is a sticky header that needs to be excluded: add 1 more
+            $cells = self.$specItems.find('.spec-item-cell:nth-child(' + (i + 3) + ')');
 
         // Loop through the cells
         $cells.each(function() {
@@ -220,9 +234,6 @@
     _onResize : function() {
       var self = this;
 
-      // TODO, going up and back breaks the `stickyness` of the tab
-
-
       if ( Modernizr.mq( self.mobileBreakpoint ) ) {
 
         // If we have a scroller, destroy it
@@ -255,6 +266,37 @@
         self
           ._setRowHeights()
           ._setItemContainerHeight();
+      }
+
+      self.stickyOffset = self._getStickyHeaderOffset();
+    },
+
+    _onScroll : function( iscroll ) {
+      var self = this,
+          isIScroll = iscroll !== undefined && iscroll.y !== undefined,
+          scrollTop = isIScroll ? iscroll.y * -1 : self.$window.scrollTop();
+
+      if ( isIScroll ) {
+        if ( iscroll.x < -3 && !self.$detailLabelsWrap.hasClass('overflowing') ) {
+          self.$detailLabelsWrap.addClass('overflowing');
+        } else if ( iscroll.x >= -3 && self.$detailLabelsWrap.hasClass('overflowing') ) {
+          self.$detailLabelsWrap.removeClass('overflowing');
+        }
+
+        // We haven't scrolled vertically, exit the function
+        return;
+      }
+
+      if ( scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
+        if ( !self.$stickyHeaders.hasClass('open') ) {
+          self.$stickyHeaders.addClass('open');
+        }
+        self._setStickyHeaderPos( scrollTop - self.stickyOffset.top );
+
+      } else {
+        if ( self.$stickyHeaders.hasClass('open') ) {
+          self.$stickyHeaders.removeClass('open');
+        }
       }
     },
 
@@ -305,6 +347,28 @@
         .addClass('hide')
         .appendTo($cell);
       self.$modal = null;
+    },
+
+    _setStickyHeaderPos : function( scrollTop ) {
+      var self = this,
+          translateZ = Modernizr.csstransforms3d ? ' translateZ(0)' : '',
+          prop = Modernizr.csstransforms ? 'transform' : 'top',
+          value = Modernizr.csstransforms ? 'translate(0,' + scrollTop + 'px)' + translateZ : scrollTop + 'px';
+
+      self.$stickyHeaders.css( prop, value );
+
+      return self;
+    },
+
+    _getStickyHeaderOffset : function() {
+      var self = this,
+          top = self.$specProducts.offset().top,
+          bottom = self.$specProducts.height() + top;
+
+      return {
+        top: top,
+        bottom: bottom
+      };
     }
 
   };

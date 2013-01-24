@@ -17,13 +17,13 @@ section.spec-module
 
     .grid
       ul.spec-views.inline.p3
-        li.active: a(href="spec_module.html") Specifications
-        li: a(href="details_module.html") Features
+        li.active: a(href="#specifications") Specifications
+        li: a(href="#features") Features
 
   numModels = data.submodules.length
 
   .spec-products
-    .container
+    section.container#specifications
       nav.spec-nav-container.relative
         button.spec-nav.spec-nav-prev
           i.icon-ui2-chevron-18-white-left
@@ -31,6 +31,11 @@ section.spec-module
           i.icon-ui2-chevron-18-white-right
       .grid
         .span2.detail-labels-wrap
+          .compare-sticky-header.sticky-count
+            .product-count-wrap.table-center-wrap
+              .table-center
+                span.text-dark.product-count= numModels
+                |  Models
           .detail-labels-wrapping
             .product-count-wrap.table-center-wrap
               .table-center
@@ -52,7 +57,7 @@ section.spec-module
                 e = { "locals" : locals, "data" : d, "labels" : data.labels }
                 !{locals.partial('modules/' + module.type, e )}
 
-  .spec-tiles-wrap.container
+  .spec-tiles-wrap.container#features
     .grid
       h2= data.features.title
     .spec-tiles.slimgrid.no-grid-at-567
@@ -60,7 +65,7 @@ section.spec-module
         .spec-tile.span4
           if tile.img
             .iq-wrap
-              .iq-container
+              figure.iq-container
                 img.iq-img(data-src=tile.img.src, alt=tile.img.alt)
                 noscript
                   img(src=tile.img.noscriptsrc, alt=tile.img.alt)

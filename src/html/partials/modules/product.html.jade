@@ -180,6 +180,11 @@ else if data.view == "specs"
 
   tabSlug = 'spec-tab' + data.iterator
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
+    .compare-sticky-header
+      .product-name-wrap
+        .product-name.p1(itemprop="name")= data.name
+        .product-model.p2(itemprop="model")= data.model
+
     .spec-column-header.table-center-wrap
       .table-center
         .product-name.p1(itemprop="name")= data.name
