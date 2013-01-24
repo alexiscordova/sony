@@ -28,9 +28,6 @@
 .navmenu-w {
   top: $navbarHeight;
 }
-.nav-primary{
-  margin-left:3.1%;
-}
 .nav{
   .btn-mobile-cart{
     display:none;
@@ -40,11 +37,13 @@
 
 
 .nav-primary{
+  margin-left:2.5%;
+
   .nav-li{
-    margin: 0 0 0 12px;
+    margin: 0 0 0 px-em(10px);
 
     &.nav-li-electronics{
-      margin-left:19px;
+      margin-left: px-em(12px);
     }
   }
   .nav-li-link{
@@ -113,11 +112,6 @@
     color:$navbarLinkColorHover;
   }
 
-  &.nav-li-linkBtn-mini{
-    padding-right:10px;
-    padding-left:7px;
-  }
-
   .linkBtn-label,
   .nav-li-count,
   [class^="fonticon-ui-"],
@@ -153,11 +147,9 @@
 
 .nav-li-account{
   .nav-li-link.nav-dropdown-toggle{
-    // line-height:$navbarLineHeight;
-    // margin: 11px 0px 12px 7px;
-    margin: 13px 0px 14px 7px;
-    padding: 11px 8px 8px 10px;
     font-size:$font_11_16;
+    padding-right:8px;
+
     .icon-ui-arrowhead-down-gray{
       margin-left: 6px;
       margin-top: 7px;
@@ -165,11 +157,13 @@
   }
 }
 .nav-li-favorites .nav-li-link {
-  margin-left:3px;
-  padding-right:5px;
+  padding-right:4px;
   padding-left:6px;
 }
-
+.nav-li-cart .nav-li-link{
+  padding-right:8px;
+  padding-left:6px;
+}
 .nav-li-search .nav-li-linkBtn {
   background-color: $navbarTertiaryColor;
   border-color: $navbarTertiaryColor;
@@ -398,36 +392,43 @@
 
 @media (min-width: px-em(1200px)) {
 
-  .navtray.navtray-absolute{
-    position: absolute;
-    bottom: 0;
-    width:$navtrayMaxWidth;
-    margin-left:- ($navtrayMaxWidth / 2);
-    left:50%;
-  }
+.nav-primary{
+  margin-left:3.1%;
 
-  .navtray-section-featured{ // section right
-    .navtray-section-featured-short{
-      padding-top:0;
+  .nav-li{
+    margin-left: px-em(12px);
+
+    &.nav-li-electronics {
+      margin-left: px-em(19px);
     }
   }
+}
 
-  .navtray-w-fullwidth-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
-    content: "";
-    display: block;
-    width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
-    height: 100%;
-    position:absolute;
-    top:0;
-    left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
-    z-index:1;
-    background: $navTrayBackgroundAlt;
+.navtray.navtray-absolute{
+  position: absolute;
+  bottom: 0;
+  width:$navtrayMaxWidth;
+  margin-left:- ($navtrayMaxWidth / 2);
+  left:50%;
+}
+
+.navtray-section-featured{ // section right
+  .navtray-section-featured-short{
+    padding-top:0;
   }
+}
 
-  .nav-li-universal{
-    // margin-right: -14px;
-  }
-
+.navtray-w-fullwidth-3-4:after{ // background gray under the right side -- just needs to cover up the right margin
+  content: "";
+  display: block;
+  width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
+  height: 100%;
+  position:absolute;
+  top:0;
+  left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
+  z-index:1;
+  background: $navTrayBackgroundAlt;
+}
 } // END min-width: 1200px
 
 
@@ -471,43 +472,43 @@
 // ------------------------------------------------
 @media (max-width: px-em(1023px)) {
 
-  .nav-li-search .nav-li-linkBtn {
-    .linkBtn-label{
-      display:none;
-    }
-  }
-  .nav-li-count{
-    display:inline-block;
-    padding:0 9px;
-    margin:2px 0 0 12px;
-    line-height:21px;
-    background:$green;
-    color:$navbarLinkColor;
-    font-size:$font_11_12;
-    @include fontMedium;
-    @include border-radius(1px);
-  }
-
-
-
-  .nav-li-universal .nav-li-link {
-    // margin-right: -10px;
-    // > i.fonticon-ui-mini-bold-plus {
-    //   margin-left: 8px;
-    // }
-  }
-
-  .navmenu-w-search{
-    margin-left: 25px;
-  }
-
-  .navmenu-w-account .navmenu-list-prefixed{
-    display:block;
-  }
-  .nav-li-favorites,
-  .nav-li-cart{
+.nav-li-search .nav-li-linkBtn {
+  .linkBtn-label{
     display:none;
   }
+}
+.nav-li-count{
+  display:inline-block;
+  padding:0 9px;
+  margin:2px 0 0 12px;
+  line-height:21px;
+  background:$green;
+  color:$navbarLinkColor;
+  font-size:$font_11_12;
+  @include fontMedium;
+  @include border-radius(1px);
+}
+
+
+
+.nav-li-universal .nav-li-link {
+  // margin-right: -10px;
+  // > i.fonticon-ui-mini-bold-plus {
+  //   margin-left: 8px;
+  // }
+}
+
+.navmenu-w-search{
+  margin-left: 25px;
+}
+
+.navmenu-w-account .navmenu-list-prefixed{
+  display:block;
+}
+.nav-li-favorites,
+.nav-li-cart{
+  display:none;
+}
 
 } // END max-width: 1023px
 
@@ -534,10 +535,10 @@
 
 .navbar{
   // override the default logo sprite with the smaller one.
-  @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
+  @include sprite-reg-nav-sony-logo-sm;
 
   .sprite-reg-nav-sony-logo{
-    margin-top:16px;
+    margin-top:14px;
   }
 }
 .nav-wrapper,
@@ -555,17 +556,14 @@
   .nav-li-link,
   .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) {
 
-    // line-height: 37px;
-    // margin: 13px 0px 10px 7px;
+    line-height: $navbarLineHeightShort;
+    font-size: $font_12_16;
+    padding: 1px 0 3px;
 
-    line-height: $navbarLineHeight;
-    margin:10px 1px 10px 1px;
-    font-size: $font_13_16;
-    padding: 0 7px;
     &.nav-dropdown-toggle{
       .icon-ui-arrowhead-down-gray{
-        margin-top: 9px;
-        margin-left: 6px;
+        margin-top: 8px;
+        margin-left: 1px;
       }
     }
   }
@@ -579,8 +577,6 @@
 .nav-li-account{
   .nav-li-link.nav-dropdown-toggle{
     font-size:$font_11_16;
-    margin: 14px 0px 10px 7px;
-    line-height:31px;
 
     .icon-ui-arrowhead-down-gray{
       margin-top: 8px;
@@ -590,16 +586,17 @@
 
 
 .nav-li-linkBtn{
-  height: 31px;
-  margin: 14px 0 9px 3px;
-  padding: 9px 8px 0px;
+  height: 28px;
+  margin: 12px 0 11px 2px;
+  padding: 6px 7px 2px;
+  
   [class^="fonticon-ui-"]::before,
   [class*=" fonticon-ui-"]::before {
     font-size: 1em;
   }
   [class^="fonticon-ui-"],
   [class*=" fonticon-ui-"] {
-    margin-top: 0;
+    // margin-top: 0;
   }
 }
 
@@ -694,24 +691,24 @@
 } // min-width: 768px and max-width: 979px
 
 @media (min-width: px-em(768px)) and (max-width: px-em(839px)) {
-  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
-    padding-top:15px;
-    height: 150px;
-  }
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+  padding-top:15px;
+  height: 150px;
+}
 }
 
 @media (min-width: px-em(840px)) and (max-width: px-em(899px)) {
-  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
-    padding-top:20px;
-    height: 170px;
-  }
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+  padding-top:20px;
+  height: 170px;
+}
 }
 
 @media (min-width: px-em(900px)) and (max-width: px-em(979px)) {
-  .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
-    padding-top:25px;
-    height: 190px;
-  }
+.navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
+  padding-top:25px;
+  height: 190px;
+}
 }
 
 
@@ -986,7 +983,7 @@
         margin-right:4px;
       }
     }
-    .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 480px.
+    .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 980px.
       position:absolute;
       width:90px;
       margin-left:-45px;
@@ -1155,10 +1152,10 @@
 
   .navbar-mobile{
     // override the default logo sprite with the smaller one.
-    @include sprite-reg(nav-sony-logo, -90px,   79px,   28px);
+    @include sprite-reg-nav-sony-logo-sm;
     .sprite-reg-nav-sony-logo{
       margin-top:10px;
-      width:80px;
+      width:70px;
       margin-left:-40px;
     }
     .btn-mobile-nav{
