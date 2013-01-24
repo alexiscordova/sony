@@ -41,8 +41,8 @@
       self.hasTouch            = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
       self.tapOrClick          = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.sequencerSpeed      = 300;  // default
-      self.debounceSpeed       = 250; // default
+      self.sequencerSpeed      = 50;  // default
+      self.debounceSpeed       = 300; // default
       self.scrollDuration      = 400; // default
       
       self.phoneBreakpoint     = 479;
@@ -93,7 +93,7 @@
             setupSequence = new Sequencer();
 
         setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes
-        setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 300 ); // set scroller & iscroll options
+        setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 100 ); // set scroller & iscroll options
         setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
         setupSequence.add( self, self.createNavigation, self.sequencerSpeed); // create bullet nav
         setupSequence.start();
