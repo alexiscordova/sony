@@ -1,49 +1,100 @@
-var moduleGroupContainer = $('<div class="main-module-container">'), moduleGroup = $(
+var moduleGroupContainer = $('<li><div class="main-module-container">'), moduleGroup = $(
 /* @formatter:off */
-    '<div class="clearfix form-inline row modContainer">' + 
-    ' <div class="control-group span4">' + 
-    '   <label>Module</label>' + 
-    '   <select class="module_select"  name="module">' + 
-    '     <option class="hold">Select a module</option>' +     
-    '   </select>' + 
-    ' </div>' + 
-    ' <div class="data_control control-group span4">' + 
-    '   <label>Data</label>' + 
-    '   <select class="data_select" name="moduleData"></select>' + 
-    ' </div>' + 
-    '</div>'
+    ' <div class="clearfix form-inline row modContainer ui-corner-all ui-state-default">' +
+    '   <div class="control-group span4">' + 
+    '     <label>Module</label>' + 
+    '     <select class="module_select empty"  name="module">' + 
+    '       <option class="hold">Select a module</option>' +     
+    '     </select>' + 
+    '   </div>' + 
+    '   <div class="data_control control-group span4">' + 
+    '     <label>Data</label>' + 
+    '     <select class="data_select" name="moduleData"></select>' + 
+    '   </div>' + 
+    ' </div>'
 /* @formatter:on */
 ), submodContainer = $(
 /* @formatter:off */
     '<div class="clearfix form-inline submodContainer">' +
     '<h4>Submodules</h4>' +
-    '   <div class="span2 btn-addSubModule">' +
-    '       <button class="btn btn-small addSubModule" >' +
-    '           Define a Sub-module '+
-    '       </button>' +
-    '   </div>' +
     '</div>'
 /* @formatter:on */
 );
 
-var mainModuleContainer, subModuleContainer;
+var mainModuleContainer, subModuleContainer, moduleSelected, selectedElem;
 
-var mb = {}, selectedElem;
+var mb = {};
 
 mb.moduleName = "";
 mb.modulePath = "";
 mb.moduleData = {};
 mb.subModules = [];
 mb.modulePaths = [];
+mb.moduleList = [];
+mb.moduleDataList = [];
 
 $(document).ready(function() {
 
-  /** Add module block **/
-  $("#add-module").click(function(e) {
-    createModuleContainer(this);
+  $.ajax({
+    url : '/mnames'
+  }).done(function(res) {
+
+    mb.modulePaths = JSON.parse(res);
+
+    $.each(mb.modulePaths, function(i, e) {
+      // TEMPORARY : remove old template from list
+      if (e.indexOf('.jade') !== -1) {
+
+        var moduleName = e.replace(/.html(.eco|.hb|.jade)/g, '');
+        // create a list of all module
+        mb.moduleList.push({
+          name : moduleName,
+          value : e
+        });
+
+      }
+    });
+    createModuleContainer();
   });
 
-  createModuleContainer();
+  /** Add module block **/
+  $("#add-module").button().click(function(e) {
+
+    createModuleContainer(this);
+
+  });
+
+  $("#dialog-form").dialog({
+    autoOpen : false,
+    height : 250,
+    width : 400,
+    resizable : false,
+    dialogClass : 'pageBuilderPop',
+    modal : true,
+    buttons : {
+      "Generate a page" : function() {
+        var bValid = true;
+        // allFields.removeClass("ui-state-error");
+        bValid = checkLength($('#name'), "fileName", 3, 16);
+
+        if (bValid) {
+          console.log('go');
+          $('#fileName').val($('#name').val());
+          
+          $(this).dialog("close");
+          buildPage();
+        }
+      },
+      Cancel : function() {
+        $(this).dialog("close");
+      }
+
+    },
+    close : function() {
+      // allFields.val("").removeClass("ui-state-error");
+    }
+
+  });
 
 });
 /** Document Ready end here**/
@@ -53,27 +104,24 @@ $(document).ready(function() {
  *************************************/
 
 function getModuleName() {
-  $.ajax({
-    url : '/mnames'
-  }).done(function(res) {
 
-    mb.modulePaths = JSON.parse(res);
-
-    $.each(mb.modulePaths, function(i, e) {
-      $('.module_select').append('<option value=' + e + '>' + e.replace(/.html(.eco|.hb|.jade)/g, '') + '</option>');
-    });
-
-    $('.module_select').change(function(elem) {
-      $('.module_select .hold').remove();
-      getDataList(elem);
-    });
-
-    $('.data_select').change(function(elem) {
-      getJsonContent(this, elem);
-      setSuperModule(this, elem);
-    });
+  $.each(mb.moduleList, function(i, e) {
+    $('.module_select.empty').append('<option value=' + e.value + '>' + e.name + '</option>');
 
   });
+  $('.module_select.empty').removeClass('empty');
+
+  $('.module_select').change(function(elem) {
+    $('.module_select .hold').remove();
+    moduleSelected = this.options[this.selectedIndex].value;
+    getDataList(elem);
+  });
+
+  $('.data_select').change(function(e) {
+    e.preventDefault();
+    getJsonContent(this, e);
+  });
+
 }
 
 function getDataList(elem) {
@@ -89,6 +137,7 @@ function getDataList(elem) {
 
   $.ajax({
     url : '/dnames',
+    cache : false,
     data : {
       mname : mb.moduleName
     }
@@ -118,50 +167,22 @@ function getDataList(elem) {
 
 function getJsonContent(dataSelect, elem) {
 
-  var result = '', count = 0, me;
   selectedElem = $(dataSelect);
 
-  $.each(elem.target.options, function(index, domEle) {
+  $.ajax({
+    url : '/getjson',
+    data : {
+      path : elem.target.value
+    },
+  }).done(function(res) {
 
-    me = domEle;
+    result = JSON.parse(res);
 
-    $.ajax({
-      url : '/getjson',
-      data : {
-        path : elem.target.options[index].value
-      },
-    }).done(function(res) {
+    mb.subModules = result.submodules;
+    generateSubModule(selectedElem);
 
-      result = JSON.parse(res);
-
-      if (result.config && result.config.name) {
-        elem.target.options[count].text = result.config.name;
-
-      }
-
-      /* test if node is undefined*/
-      if (result.config && result.config.maxSubModule) {
-        $(elem.target.options[count]).data({
-          maxSubModule : result.config.maxSubModule
-        });
-      }
-
-      if (elem.target.options[count].selected && $(elem.target.options[count]).data("maxSubModule") > 0) {
-        console.log($(elem.target.options[count]).data("maxSubModule"));
-
-        subModuleContainer = $(selectedElem).parents('.main-module-container').find('.submodContainer');
-        console.log(subModuleContainer);
-        $(subModuleContainer).show();
-
-      } else if (elem.target.options[count].selected && $(selectedElem).parents('.submodContainer').length === 0) {
-        $(selectedElem).parents('.main-module-container').find('.submodContainer').hide();
-      }
-
-      count = count + 1;
-    });
   })
 
-  //addModule(result);
 }
 
 /*************************************
@@ -183,40 +204,44 @@ function setSuperModule(dataSelect, elem) {
   var temp;
 }
 
+function checkLength(o, n, min, max) {
+  if (o.val().length > max || o.val().length < min) {
+    o.addClass("ui-state-error");
+    updateTips("Length of " + n + " must be between " + min + " and " + max + ".");
+    return false;
+  } else {
+    return true;
+  }
+}
+
 /*************************************
  *     Dom Manipulation functions    *
  *************************************/
 
 function createModuleContainer(elem) {
-  modulesContainer = $('#main-forms-container');
+  modulesContainer = $('#main-forms-container ul');
 
   $moduleGroupContainer = moduleGroupContainer.clone(true);
   $moduleGroup = moduleGroup.clone(true);
   $submodContainer = submodContainer.clone(true);
 
-  $($submodContainer).find('button.addSubModule').bind('click', function(e) {
-    e.preventDefault();
-    addSubModule(this);
-  });
-
-  $($moduleGroupContainer).append($moduleGroup, $submodContainer);
+  $($moduleGroupContainer).find('.main-module-container').append($moduleGroup, $submodContainer);
 
   $(modulesContainer).append($moduleGroupContainer);
 
   getModuleName();
 
+  $("#main-forms-container ul").sortable();
+  var temp;
 };
 
 function addModule(res) {
   //parse json
   mb.moduleData = JSON.parse(res);
 
-  //if it contains submodules
-  mb.subModules = mb.moduleData.submodules
-
   /* test if node is undefined*/
   if (!(mb.moduleData.config && mb.moduleData.config.maxSubModule)) {
-    addSuperModuleNode();
+    //addSuperModuleNode();
   }
 
   if (mb.moduleData.config.maxSubModule > 0) {
@@ -228,30 +253,42 @@ function addModule(res) {
   } else if ($(selectedElem).parents('.submodContainer').length === 0) {
     $(selectedElem).parents('.main-module-container').find('.submodContainer').hide();
   }
+
+}
+
+function generateSubModule(selectedElem) {
+
+  subModuleContainer = $(selectedElem).parents('.main-module-container').find('.submodContainer');
+
+  $(subModuleContainer).find('.modContainer').remove();
+  $(subModuleContainer).show();
+
+  addSubModule(subModuleContainer);
+
+}
+
+function saveModule(elem) {
+
 }
 
 function addSubModule(elem) {
 
-  /* @formatter:off */
-  var subModContainer = $(elem).parent('.btn-addSubModule'),
-      $moduleGroup = moduleGroup.clone(true);
- /* @formatter:on */
+  $(elem).find('p').remove();
+  $.each(mb.subModules, function(i) {
+    $(elem).append('<p class="subModElem"><strong>submodule : </strong>' + mb.subModules[i].name + ' \\ <strong>description : </strong>' + mb.subModules[i].desc + '</p>');
+  })
 
-  $($moduleGroup).find('select').each(function() {
-    this.name === 'module' ? this.name = 'subModule' : this.name = 'subModuleData';
-  });
-
-  $(subModContainer).before($moduleGroup);
-  getModuleName();
+  var temp;
 
 };
 
+$("#build").button().click(function() {
+  $("#dialog-form").dialog("open");
+});
 // when you hit build run the generate script
-$('#build').bind('click', function(e) {
-
+//$('#build').bind('click', function(e) {
+function buildPage() {
   var myForm = $('#myForm');
-
-  // $("#build").button('loading');
 
   $.ajax({
     type : 'POST',
@@ -282,8 +319,7 @@ $('#build').bind('click', function(e) {
 
   });
 
-});
+};
 
 //turn build into a bootstrap button
-$('#build').button();
-
+//$('button').button();

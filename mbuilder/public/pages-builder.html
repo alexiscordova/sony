@@ -6,10 +6,11 @@
 		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/docs.css" rel="stylesheet">
 		<link href="css/mbuilder.css" rel="stylesheet">
+		<link href="css/smoothness/jquery-ui-1.10.0.custom.css" rel="stylesheet">
 
 		<script src="http://code.jquery.com/jquery-2.0.0b1.js"></script>
 		<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+		<script src="js/jquery-ui-1.10.0.custom.min.js"></script>
 
 	</head>
 	<body>
@@ -32,9 +33,23 @@
 			</div>
 		</div>
 		<form action="/generatePage" method="post" id="myForm">
-			<div id="main-forms-container" class="container">
-				<!-- Modules will be place here -->
-			</div>
+			<fieldset>
+				<input type="hidden" name="fileName" id="fileName"  >
+				<div id="main-forms-container" class="container">
+					<ul>
+
+					</ul>
+				</div>
+				<div id="dialog-form" title="Generate a new page">
+					<p class="validateTips">
+						All form fields are required.
+					</p>
+
+					<label for="name">FileName</label>
+					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+
+				</div>
+			</fieldset>
 		</form>
 		<p>
 			<br>
