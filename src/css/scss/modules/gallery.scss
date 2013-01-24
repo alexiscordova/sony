@@ -1,4 +1,4 @@
-@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/variables";
 @import "../_base/mixins";
 
 * {
@@ -6,8 +6,15 @@
        box-sizing: border-box;
 }
 
+$threeColMin: px-em(568px);
+$threeColMax: px-em(767px);
+$fourColMin: px-em(768px);
+$fourColMax: px-em(979px);
+
 // Price text module
 .product-content {
+  margin-top: .75em;
+  line-height: 1.1;
 
   .product-name {
     color: $grayDark;
@@ -21,15 +28,22 @@
     margin: 0;
   }
 
-  .price {
-    margin: -0.4em 0 0;
+  .product-price {
+    position: absolute;
+    left: 0;
+    bottom: 1.875em; // 30
+    color: $gray;
+  }
+
+  .msrp {
+    font-size: $font_10_16;
   }
 }
 
 
 .product-meta {
-  margin: (0.5em * $baseLineHeight) 0 (0.5em * $baseLineHeight) 1px;
-  padding: 0 0 0 15px;
+  margin: (0.5em * $baseLineHeight) 0 (0.5em * $baseLineHeight) .0625em;
+  padding: 0 0 0 .9375em;
   list-style-type: square;
 }
 
@@ -39,7 +53,7 @@
 
 // Give multiple gallery sections a border top
 .gallery + .gallery > *:first-child {
-  border-top: 3px solid $grayLighter;
+  border-top: .1875em solid $grayLighter;
   margin-top: 1.875em;
   padding-top: 1.875em;
 }
@@ -50,21 +64,17 @@
 
 // I don't remember why i have this...
 .gallery-detailed .shuffle-item {
-  margin: 23px 0 0;
+  margin: 1.4375em 0 0;
 }
 
-
-// $galleryItemHeight: 337px;
-// $galleryItemImgHeight: 220px;
-// $detailedGalleryItemHeight: 480px;
-.gallery .grid.shuffle .gallery-item {
+.gallery .shuffle .shuffle-item.gallery-item {
   margin-left: 0;
 }
 
 .gallery-item {
   position: relative;
   display: block;
-  margin-top: $grid5GutterWidth;
+  margin-top: $slimGrid5GutterWidth1200;
   overflow: hidden;
   background: $white;
 
@@ -74,8 +84,9 @@
     padding-top: 165.19607843137254%;
   }
 
+  // Make them a bit bigger
   .shuffle-6 &:after {
-    padding-top: 176.5%;
+    padding-top: 169.396078%;
   }
 
   .gallery-item-inner {
@@ -102,7 +113,7 @@
     @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
 
     &:hover {
-      @include box-shadow(inset 0 -4px 0 $gray);
+      @include box-shadow(inset 0 -.25em 0 $gray);
       background-color: $grayLighter;
     }
 
@@ -122,30 +133,27 @@
 
     img {
       display: block;
-      max-height: 100%;
+      max-height: 100%; // This is causing the images to sometimes be tiny. Not sure what to do about it...
       max-width: 100%;
       margin: auto;
     }
 
-    .color-swatches {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-    }
   }
 
-  // large is height * 2
+  // Large tiles
   &.large {
 
     &:after {
       padding-top: 105.92705167173253%;
     }
 
-
+    .product-img:after {
+      padding-top: 88.14589665653495%;
+    }
 
     // 3 column grid
     .shuffle-3 & .product-img:after {
-      padding-top: 107.045%;
+      // padding-top: 107.045%;
     }
 
     // Change padding for 4 column grid
@@ -158,36 +166,18 @@
       padding-top: 50.7%;
     }
 
-    @media (min-width:1150px) {
-      .shuffle-6 &:after {
-        padding-top: 104.827052%;
-      }
-    }
-
-    @media (min-width:1339px) {
-      .shuffle-6 &:after {
-        padding-top: 104.32%;
-      }
-    }
-
-    @media (min-width:1400px) {
-      .shuffle-6 &:after {
-        padding-top: 103.82%;
-      }
-    }
-
-    .product-img:after {
-      padding-top: 88.14589665653495%;
+    // Should = 612px at full width (296 * 2 + 20)
+    .shuffle-6 &:after {
+      padding-top: 105.3%;
     }
 
     .shuffle-6 & .product-img:after {
-      padding-top: 84.3%;
+      padding-top: 87%;
     }
   }
 
-  //Title plate
+  // Title plate
   &.plate {
-    color: $white;
 
     &:after {
       padding-top: 59.190255%;
@@ -197,50 +187,6 @@
       padding-top: 77.790255%;
     }
 
-    .text-promo-title {
-      position: absolute;
-      top: 40px;
-      left: 40px;
-      margin: 0;
-      max-width: 340px;
-      color: #75e7ef;
-
-/*       i {
-        margin-top: 8px;
-        margin-left: 10px;
-      } *///dont need this
-
-      @media (max-width:767px) {
-        font-size: $font_14_16;
-        top: 10px;
-        left: 10px;
-        max-width: none;
-
-/*         i {
-          margin-top: 1px;
-        } */
-      }
-    }
-
-    .text-count {
-      position: absolute;
-      bottom: 40px;
-      left: 40px;
-      margin: 0;
-      color: #ffffff;
-
-      @media (max-width:767px) {
-        bottom: 10px;
-        left: 10px;
-      }
-
-      .text {
-        color: #ffffff;
-      }
-    }
-
-    strong { color: $white; }
-
     .product-content {
       position: absolute;
       top: 0;
@@ -266,63 +212,18 @@
       background-position: center center;
       background-size: cover;
     }
-
-    .number {
-      font-size: $font_18_15;
-    }
-
-    .text-count .text { font-size: $font_12_15; }
   }
 
   // Promo gallery item images are the full height
   &.promo {
-    color: $white;
 
     &:after {
       padding-top: 78.19025522041764%;
     }
 
     .shuffle-4 &:after {
-      padding-top: 77.790255%;
+      // padding-top: 77.790255%;
     }
-
-    .text-promo-title {
-      position: absolute;
-      top: 40px;
-      left: 40px;
-      margin: 0;
-      max-width: 225px;
-
-      i {
-        margin-top: 8px;
-        margin-left: 10px;
-      }
-
-      @media (max-width:767px) {
-        font-size: $font_14_16;
-        top: 10px;
-        left: 10px;
-        max-width: none;
-
-        i {
-          margin-top: 1px;
-        }
-      }
-    }
-
-    .text-count {
-      position: absolute;
-      bottom: 40px;
-      left: 40px;
-      margin: 0;
-
-      @media (max-width:767px) {
-        bottom: 10px;
-        left: 10px;
-      }
-    }
-
-    strong { color: $white; }
 
     .product-content {
       position: absolute;
@@ -349,12 +250,6 @@
       background-position: center center;
       background-size: cover;
     }
-
-    .number {
-      font-size: $font_18_15;
-    }
-
-    .text-count .text { font-size: $font_12_15; }
   }
 
   .label {
@@ -363,15 +258,187 @@
     top: 0;
     right: 0;
   }
+}
 
-  .icon-ui-favorite {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    cursor: pointer;
+// Offset the tooltip to the left
+// -----------------------
+$offsetFromMiddle: px-em(45px);
+.gallery-tooltip {
+  margin-left: $offsetFromMiddle;
+
+  // Because we have a bigger hotspot than the favorite icon,
+  // it positions the tooltip based on that and looks off
+  &.top {
+    margin-top: 3px;
+  }
+
+  // Move the arrow the same amount as the whole tooltip
+  &.top .tooltip-arrow {
+    left: 21%;
+    left: -webkit-calc(50% - #{$offsetFromMiddle + .125em});
+    left: calc(50% - #{$offsetFromMiddle + .125em});
   }
 }
 
+
+
+// Styles, not structure, for gallery tiles
+.gallery-item {
+
+  .color-swatches {
+    position: absolute;
+    right: .875em;
+    bottom: .6875em;
+  }
+
+  .favorite-holder {
+    position: absolute;
+    left: px-em(8px);
+    bottom: px-em(6px);
+    width: px-em(28px);
+    height: px-em(24px);
+    text-align: center;
+    cursor: pointer;
+
+    i {
+      // margin-top: px-em(3px);
+      vertical-align: baseline;
+    }
+  }
+}
+
+// Promo Tiles
+// -------------------------
+.gallery-item .promo-content {
+  color: $white;
+  text-align: left;
+
+  .text-promo-title {
+    position: absolute;
+    top: 50px;
+    left: 42px;
+    margin: 0;
+    max-width: 225px;
+
+    // Chevron
+    i {
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+
+  }
+
+  // e.g. "Carl Zeiss"
+  strong {
+    color: $white;
+  }
+
+  // e.g. "22 LENSES"
+  .text-count {
+    position: absolute;
+    bottom: 32px;
+    left: 42px;
+    margin: 0;
+
+    span {
+      color: $white;
+    }
+  }
+
+  // e.g.  "22"
+  .text-count .number {
+    font-size: $font_13_16;
+  }
+
+  // e.g.  "LENSES"
+  .text-count .text {
+    font-size: $font_12_16;
+  }
+
+  // Default is top left
+  &.tl {
+
+  }
+
+  &.tr {
+
+  }
+}
+
+// Promo Media Queries
+// -------------------------
+@media (max-width: $threeColMax) {
+
+  .gallery-item .promo-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.5625em 1em;
+
+    .text-promo-title,
+    .text-count {
+      position: static;
+    }
+
+    .text-promo-title {
+      max-width: none;
+      font-size: $font_22_16;
+      margin: 0 0 0.825em;
+    }
+  }
+}
+
+// Plates
+// -------------------------
+.gallery-item.plate {
+  color: $white;
+
+
+  .text-promo-title {
+    position: absolute;
+    top: 2.5em;
+    left: 2.5em;
+    margin: 0;
+    max-width: 21.25em;
+    color: #75e7ef;
+
+    @media (max-width: $threeColMax) {
+      font-size: $font_14_16;
+      top: 0.625em;
+      left: 0.625em;
+      max-width: none;
+    }
+  }
+
+  .text-count {
+    position: absolute;
+    bottom: 2.5em;
+    left: 2.5em;
+    margin: 0;
+    color: #ffffff;
+
+    @media (max-width: $threeColMax) {
+      bottom: 0.625em;
+      left: 0.625em;
+    }
+
+    .text {
+      color: #ffffff;
+    }
+  }
+
+  strong { color: $white; }
+
+  .number {
+    font-size: $font_18_15;
+  }
+
+  .text-count .text { font-size: $font_12_15; }
+}
+
+
+// Detailed gallery item sizes
+// -------------------------
 .gallery-detailed {
 
   .gallery-item:after {
@@ -384,12 +451,22 @@
 
 }
 
-@media (min-width:768px) and (max-width:979px) {
 
+// Gallery item media queries
+// -------------------------
+@media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
+  .product-content {
+
+    .product-price {
+      bottom: 1em;
+    }
+    .price-prefix {
+      font-size: $font_10_16;
+    }
+  }
 }
 
-
-@media (max-width: 767px) {
+@media (max-width: $threeColMax) {
 
   // Remove percentage heights
   .gallery-item {
@@ -415,7 +492,7 @@
   .gallery-editorial {
 
     .gallery-item {
-      margin-top: 10px;
+      margin-top: 0.625em;
 
        &:after {
         content: '';
@@ -428,7 +505,8 @@
       position: absolute;
     }
 
-    .product-img:after {
+    // Make all tiles the same size
+    .gallery-item .product-img:after {
       content: '';
       padding-top: 107.84313725490196%;
     }
@@ -462,6 +540,54 @@
     }
   }
 
+  .product-content {
+
+    .product-price {
+      bottom: 1.25em;
+    }
+
+    .price-prefix {
+      display: block;
+    }
+
+  }
+
+}
+
+// 568 - 640
+@media ( min-width: $threeColMin ) and ( max-width: 40em ) {
+
+  // Make gallery items taller
+  .gallery-editorial {
+
+    .gallery-item:after {
+      padding-top: 187%;
+    }
+  }
+}
+
+
+// <= 479
+@media ( max-width: 29.9375em ) {
+
+  .product-content {
+
+    .product-price {
+      bottom: 0;
+    }
+  }
+}
+
+// <= 360
+@media ( max-width: 22.5em ) {
+
+  // Make gallery items taller
+  .gallery-editorial {
+
+    .gallery-item:after {
+      padding-top: 170%;
+    }
+  }
 }
 
 // Product Strip
@@ -471,7 +597,7 @@
   padding-top: 3.75em; // 60px
 
   &:not(:first-child) {
-    border-top: 1px solid $grayLighter;
+    border-top: .0625em solid $grayLighter;
   }
 }
 
@@ -487,13 +613,6 @@
   }
 }
 
-@media (max-width: 767px) {
-  // Only show 4 on mobile
-  .product-strip .gallery-item:nth-child(n + 5) {
-    // display: none;
-  }
-}
-
 
 
 // Filters
@@ -503,7 +622,7 @@
 .filter-display-bar {
 
   .slide-toggle {
-    margin-left: 20px;
+    margin-left: 1.25em;
   }
 
   .btn-alt-plus {
@@ -517,12 +636,17 @@
       border-color: $gray;
     }
   }
+
+  .btn + .btn {
+    margin-left: .3125em;
+  }
 }
 
 .filter-options {
   position: relative;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 1.25em;
+  padding-bottom: 1.25em;
+
 }
 
 
@@ -531,7 +655,7 @@
 
   // Give active filter labels some spacing
   &:not(:first-child) {
-    margin-left: 2px;
+    margin-left: .125em;
   }
 }
 
@@ -556,8 +680,8 @@
 
     // fake border right because we've already set the border
     > .btn:not(:first-child) {
-      // @include box-shadow(-1px 0 0 $grayLightFieldLarge);
-      margin-left: 1px;
+      // @include box-shadow(-.0625em 0 0 $grayLightFieldLarge);
+      margin-left: .0625em;
     }
   }
 
@@ -573,21 +697,19 @@
 
 .product-count {
   // display: inline-block;
-  // min-width: 23px; // keep a constant width so the filter buttons don't move
+  // min-width: 1.4375em; // keep a constant width so the filter buttons don't move
   font-size: $font_15_15;
   // text-align: right;
 }
 
-@media (max-width: 767px) {
 
+@media (max-width: $threeColMax) {
   // override bootstrap's visible-phone important declaration :(
   .sort-options .native-dropdown {
     display: initial !important;
     vertical-align: baseline;
   }
-}
 
-@media (max-width: 767px) {
   .filter-display-bar {
 
     .product-count-wrap {
@@ -618,12 +740,12 @@
 // Range control
 // -------------------------
 .range-control-wrap {
-  margin-top: 10px;
-  padding: 0 10px;
+  margin-top: 0.625em;
+  padding: 0 0.625em;
 }
 
 .range-output {
-  margin-top: 10px;
+  margin-top: 0.625em;
   text-align: center;
 }
 
@@ -640,140 +762,17 @@
 // -------------------------
 
 .gallery-tabs {
-  $tabHeight: 100px;
-
-  // Container for .tabs-container
-  &.tab-strip {
-    position: relative; // original
-    background-color: $grayLighter; // original
-    // overflow: auto; // new
-  }
-
-  // New
-  .tabs-container {
-    position: relative;
-    overflow: hidden;
-  }
-
-  // Container for .tab's
-  .tabs {
-    z-index: 1;
-    height: $tabHeight;
-    overflow-x: auto; // original
-    white-space: nowrap; // original
-  }
 
   .tab {
-    position: relative;
-    z-index: 1;
-    display: inline-block;
-    width: 120px;
-    height: $tabHeight;
     text-align: center;
-    cursor: pointer;
-    @include box-shadow(1px 0 0 $white);
-    @include transition(background-color $transitionFast $easeNormal, box-shadow $transitionFast $easeNormal, top $transitionFast $easeNormal);
-
-    &:focus,
-    &:hover {
-      background-color: $grayLightFieldLarge;
-    }
-
-    .no-touch &:active,
-    &.active {
-      z-index: 2;
-      background-color: $white;
-      box-shadow:
-        0 3px 0 $white,
-        0 0 4px 1px rgba(0,0,0,0.15);
-    }
-
-    @media (max-width:767px) {
-      .no-touch &:active,
-      &.active {
-        top: -2px;
-      }
-    }
   }
 
   .holder-for-icon {
-    height: 30px;
+    height: 1.875em
   }
 
   .tab-label {
-    margin-top: 10px;
-  }
-
-
-  // Tablet tab carousel nav buttons
-  .tab-nav-btns {
-    display: none;
-  }
-
-  // Tab carousel nav
-  // -------------------------
-  .tab-nav {
-    position: absolute;
-    z-index: 5;
-    top: 0;
-    left: 0;
-    // display: none;
-    width: 30px;
-    height: 100%;
-    background: #f2f2f2;
-    cursor: pointer;
-  }
-
-  .tab-nav-next {
-    right: 0;
-    left: auto;
-  }
-
-  // Arrow
-  .tab-nav:before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -2px;
-    margin-left: -2px;
-    width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-right: 5px solid $blue;
-    border-bottom: 5px solid transparent;
-  }
-
-  // Arrow
-  .tab-nav-next:before {
-    border-top: 5px solid transparent;
-    border-right: none;
-    border-left: 5px solid $blue;
-    border-bottom: 5px solid transparent;
-  }
-
-}
-
-
-// Set up tab carousel
-@media (min-width: 768px) and (max-width: 979px) {
-  .gallery-tabs {
-    .tabs {
-      position: relative;
-      overflow-x: hidden;
-      overflow-y: visible;
-      -webkit-transition: all .4s ease-in-out;
-           -o-transition: all .4s ease-in-out;
-              transition: all .4s ease-in-out;
-    }
-
-    .tabs-container {
-      overflow: hidden;
-    }
-
-    .tab-nav-btns {
-      display: block;
-    }
+    margin-top: 0.625em;
   }
 }
 
@@ -799,7 +798,7 @@
 
 .compare-item {
   position: relative;
-  margin-left: 3px;
+  margin-left: .1875em;
   background: $white;
   color: $grayDark;
 
@@ -854,13 +853,13 @@
   }
 
   &.overflowing:before {
-    @include box-shadow(2px 0px 3px -1px $transparentBlack);
+    @include box-shadow(.125em 0 .1875em -.0625em $transparentBlack);
     @include transition-timing-function(ease-out);
   }
 }
 
 .detail-labels-wrapping {
-  @include translate(-10px, 0);
+  @include translate(-0.625em, 0);
   @include opacity(0);
   -webkit-transition: opacity $transitionNormal $easeNormal .1s, -webkit-transform $transitionNormal $easeNormal .1s;
           transition: opacity $transitionNormal $easeNormal .1s, transform $transitionNormal $easeNormal .1s;
@@ -878,8 +877,8 @@
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
-  width: -webkit-calc(100% - 10px);
-  width:         calc(100% - 10px);
+  width: -webkit-calc(100% - 0.625em);
+  width:         calc(100% - 0.625em);
 }
 
 // Gray border top for labels
@@ -896,7 +895,7 @@
     top: 0;
     left: 5%;
     width: 90%;
-    height: 1px;
+    height: .0625em;
     background: $grayLightFieldLarge;
   }
 }
@@ -919,15 +918,12 @@
   padding: 1em 0 0.5em;
   opacity: 0;
   background: $grayLightFieldLarge;
-  // @include translate(0, -100px);
-  // -webkit-transition: opacity $transitionNormal $easeNormal, -webkit-transform $transitionNormal $easeNormal;
-  //         transition: opacity $transitionNormal $easeNormal, transform $transitionNormal $easeNormal;
-  top: -100px;
+  top: -6.25em;
   @include transition(opacity $transitionNormal ease-in, top $transitionNormal ease-in, left 0s $transitionNormal);
 
   // The sticky-count uses a pseudo element for the box-shadow
   &:not(.sticky-count) {
-    @include box-shadow(0 2px 5px 0 $transparentBlack);
+    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
   }
 
   // Needs more specificity to override span margins
@@ -939,7 +935,6 @@
   &.open {
     left: 0; // Show it
     opacity: 1; // Fade in
-    // @include translate(0, 0); // Slide down
     top: 0;
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
@@ -952,12 +947,12 @@
     position: absolute;
     z-index: -1;
     top: 0;
-    right: -3px; // Same as margin-left for compare-items
+    right: -.1875em; // Same as margin-left for compare-items
     width: 2000px;
     height: 100%;
     background: $grayLightFieldLarge;
-    border-right: 1px solid rgba(0,0,0,0.05);
-    @include box-shadow(0 2px 5px 0 $transparentBlack);
+    border-right: .0625em solid rgba(0,0,0,0.05);
+    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
   }
 
   .media .pull-left {
@@ -973,7 +968,7 @@
 
 .box-close {
   float: right;
-  @include square(36px);
+  @include square(2.25em);
   padding: 0;
   line-height: 1;
   background: $gray;
@@ -987,7 +982,7 @@
 }
 
 .box-close-small {
-  @include square(20px);
+  @include square(1.25em);
 
 
   i {
@@ -1002,7 +997,7 @@
   background: $gray;
 }
 
-@media (max-width: 767px) {
+@media (max-width: $threeColMax) {
   .compare-item .detail:before {
     content: attr(data-label);
     display: block;

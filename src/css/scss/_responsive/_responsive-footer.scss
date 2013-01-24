@@ -21,26 +21,19 @@
 // -----------------------------------------
 
 .footer-wrapper{
-  padding:60px 0;
+  padding:px-em(60px) 0;
 
   h5{
-    font-size:$font_15_16;
-    margin-bottom: 17px;
-  }
-  h6{
-    font-size:$font_11_16;
-  }
-  .dropdown-label{
-    font-size:$font_14_16;
+    margin-bottom: px-em(17px);
   }
 
   .btn-group.country-selector,
   .btn-hover-group.country-selector{
     width: 46.2%;
-    min-width:185px;
+    min-width:px-em(185px);
     float:left;
     .dropdown-hover-menu-lists-w{
-      padding:24px 0 24px 0px;
+      padding:px-em(24px) 0 px-em(24px) 0;
     }
     .dropdown-hover-menu-list{
       width:19.8%;
@@ -49,7 +42,7 @@
 
   .btn-group.language-selector,
   .btn-hover-group.language-selector{
-    width: 61px;
+    width: px-em(61px);
     float:left;
   }
 }
@@ -57,64 +50,25 @@
 
 
 .footer-form-border{
-  position:relative;
-  border-width:2px;
-  border-color:$grayDarkFieldLarge;
-  border-style:solid;
-  padding:6px;
-  overflow:hidden;
 
   .footer-input{
-    border:none;
-    height:28px;
-    padding:0px 4px 3px 9px;
-    margin:0;
-    font-size:$font_13_16; 
     width:72%;  
-    float:left; 
-    background:$footerBackground;
-    color:$white;
-
-    &:focus{
-      color:$white;
-    }
+    float:left;
   }
   .footer-btn{
-    margin:3px;
-    padding-top:5px;
-    height:28px;
     width:27%;
     float:right;
     margin:0;
-    font-size:$font_11_16;
-    @include fontRegular;
   }
 }
 
-form.footer-store-locator-form{
-  margin:0;
-  i{
-    position:absolute;
-    font-size:$font_18_16;
-    margin:2px 0 0 1px;
-    color:$highlightColor;
-  }
-  .footer-store-locator-input{
-  }
-  .store-locator-submit-btn{
-  }
-}
 
-.footer-store-locator-caption{
-  font-size:$font_11_16;
-  margin:5px 0 0 0;
-}
 .footer-newsletter{
-  margin-top: 38px;
-  margin-bottom:45px;
+  margin-top: px-em(38px);
+  margin-bottom: px-em(45px);
 
   h6{
-    margin-bottom:14px;
+    margin-bottom: px-em(14px);
   }
   form{
     margin-bottom:0;
@@ -122,8 +76,8 @@ form.footer-store-locator-form{
 }
 
 .footer-contact.span6{
-  float:right;
   padding-top: 5px;
+  float:right;
   text-align:right;
   > p{
     display:inline-block;
@@ -131,59 +85,14 @@ form.footer-store-locator-form{
     a{
       display:inline-block;
       position:relative;
-      top:-11px;
+      top: -11px;
       font-size:$font_13_16;
-      margin-right:20px;
-    }
-  }
-}
-.footer-language.span6{
-  margin-left:0;
-  float:left;
-}
-.footer-language-selectors{
-  @include clearfix;
-}
-.footer-social-links{
-  display:inline-block;
-
-  a{
-    display:inline-block;
-    width:36px;
-    height:32px;
-    float:left;
-    margin-left:2px;
-    background-color:$grayDark;
-
-    &.footer-social-twitter:hover,
-    &.footer-social-twitter:active,
-    &.footer-social-twitter:focus{
-      background-color:$twitterColor;
-    }
-    &.footer-social-facebook:hover,
-    &.footer-social-facebook:active,
-    &.footer-social-facebook:focus{
-      background-color:$facebookColor;
-    }
-    &.footer-social-gplus:hover,
-    &.footer-social-gplus:active,
-    &.footer-social-gplus:focus{
-      background-color:$gplusColor;
-    }
-    &.footer-social-youtube:hover,
-    &.footer-social-youtube:active,
-    &.footer-social-youtube:focus{
-      background-color:$youtubeColor;
+      margin-right: px-em(24px);
     }
   }
 }
 
-.footer-signature{
-  position:relative
-}
 .footer-copyright{
-  font-size:$font_10_16;
-  text-transform:uppercase;
   position:absolute;
   left: 90px;
   top: 4px;
@@ -215,7 +124,7 @@ form.footer-store-locator-form{
 //                                          888 
 // ------------------------------------------------
 
-@media (min-width: 1200px) {
+@media (min-width: px-em(1200px)) {
 
 } // END min-width: 1200px
 
@@ -238,7 +147,7 @@ form.footer-store-locator-form{
 //                                         888  
 // ------------------------------------------------                     
                             
-@media (min-width: 1400px) {
+@media (min-width: px-em(1400px)) {
   
 
 .footer-wrapper{
@@ -275,11 +184,11 @@ form.footer-store-locator-form{
 // 8888888  "Y8888P"  888888888   "Y8888P"         "Y8888P" Y88b       "Y88888 888  888  "Y88888  "Y8888  888
 // ------------------------------------------------
 
-@media (max-width: 1023px) {
+@media (max-width: px-em(1023px)) {
 
 form.footer-store-locator-form{
   width:50%;
-  max-width:275px;
+  max-width: px-em(275px);
   float:left;
   // margin-bottom:32px;
 }
@@ -301,70 +210,72 @@ form.footer-store-locator-form{
 //                                  888                                                            888               
 //                                  888                                                            888               
 //                                  888                                                            888               
-@media (min-width: 568px) and (max-width: 1023px) {
+@media (min-width: px-em(568px)) and (max-width: px-em(1023px)) {
 
-.footer-wrapper.desktop-layout-to-568 .span3,
-.footer-wrapper .span3{
-  width:30.9%;
-}
-
-
-.footer-wrapper .footer-store-locator.span3{
-  width:100%;
-  float:none;
-  overflow:hidden;
-  padding-bottom: 30px;
-
-  h5{
-    display:block;
-    width:105px;
-    float:left;
-    position:relative;
-    top:5px;
-  }
-  + .span3{
-    margin-left:0;
-  }
-}
-
-.footer-newsletter{
-  .footer-form-border{
-    overflow:visible;
-    margin-bottom: 40px;
-
-    .footer-input{
-      width:99%;  
-      float:none; 
+.footer-wrapper{
+  .grid.no-grid-at-567{
+    .span3{
+      width:30.9%;
     }
-    .footer-btn{
-      position:absolute;
-      top:47px;
-      left:0px;
-      width:66px;
+
+    .footer-store-locator.span3{
+      width:100%;
       float:none;
-      margin:0;
-    }
-  }
-  h6{
-    margin-bottom: 12px;
-  }
-}
+      overflow:hidden;
+      padding-bottom: px-em(30px);
 
-.footer-language.span6{
-  padding-top:67px;
-  padding-bottom:13px;
-}
-.footer-contact.span6{
-  padding-top:44px;
-  padding-right:4px;
-  > p{
-    display:block;
-    margin-bottom:0;
-    a{
-      margin-right:0; 
+      h5{
+        display:block;
+        width: px-em(105px);
+        float:left;
+        position:relative;
+        top: px-em(5px);
+      }
+      + .span3{
+        margin-left:0;
+      }
     }
-    a:first-child{
-      margin-right:20px;      
+
+    .span3 .footer-newsletter{
+      .footer-form-border{
+        overflow:visible;
+        margin-bottom: 40px;
+
+        .footer-input{
+          width:99%;  
+          float:none; 
+        }
+        .footer-btn{
+          position:absolute;
+          top: 47px;
+          left: 0;
+          width: 66px;
+          float:none;
+          margin:0;
+        }
+      }
+      h6{
+        margin-bottom: px-em(12px);
+      }
+    }
+
+    .footer-language.span6{
+      padding-top: px-em(67px);
+      padding-bottom: px-em(13px);
+    }
+    .footer-contact.span6{
+      padding-top: px-em(44px);
+      padding-right: px-em(4px);
+      > p{
+        display:block;
+        margin-bottom:0;
+        a{
+          margin-right:0; 
+        }
+        a:first-child{
+          margin-right: px-em(20px);      
+        }
+      }
     }
   }
 }
@@ -386,38 +297,41 @@ form.footer-store-locator-form{
 //                                  888                                                            888               
 //                                  888                                                            888     
 // ------------------------------------------------
-@media (min-width: 480px) and (max-width: 1023px) {
+@media (min-width: px-em(480px)) and (max-width: px-em(1023px)) {
 
 .footer-wrapper .footer-store-locator.span3{
   .footer-store-locator-caption{
-    padding:9px 0 0 16px;
+    padding: px-em(9px) 0 0 px-em(16px);
   }
 }
 }
 
 
 
+
 // ------------------------------------------------
-// PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
+// 888888888   .d8888b.   .d8888b.                          8888888888  .d8888b.  8888888888                  
+// 888        d88P  Y88b d88P  Y88b                               d88P d88P  Y88b       d88P                  
+// 888        888        Y88b. d88P                              d88P  888             d88P                   
+// 8888888b.  888d888b.   "Y88888"  88888b.  888  888           d88P   888d888b.      d88P  88888b.  888  888 
+//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'        88888888  888P "Y88b  88888888 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888   d88P     888    888   d88P    888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.        d88P      Y88b  d88P  d88P     888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888       d88P        "Y8888P"  d88P      88888P"  888  888 
+//                                  888                                                     888               
+//                                  888                                                     888               
+//                                  888                                                     888                 
 // ------------------------------------------------
-// 888888888   .d8888b.  8888888888                         .d8888b.  8888888888  .d8888b.                    
-// 888        d88P  Y88b       d88P                        d88P  Y88b       d88P d88P  Y88b                   
-// 888        888             d88P                         888    888      d88P  888    888                   
-// 8888888b.  888d888b.      d88P  88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
-//      "Y88b 888P "Y88b  88888888 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
-//        888 888    888   d88P    888  888   X88K  888888        888   d88P            888 888  888   X88K   
-// Y88b  d88P Y88b  d88P  d88P     888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
-//  "Y8888P"   "Y8888P"  d88P      88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
-//                                 888                                                      888               
-//                                 888                                                      888               
-//                                 888                                                      888                        
-// ------------------------------------------------
-@media (min-width: 568px) and (max-width: 979px) {
+@media (min-width: px-em(568px)) and (max-width: px-em(768px)) {
 
+.container .grid .footer-contact.span6{
+  width:41%;
+}
+.container .grid .footer-language.span6{
+  width:58%;
+}
 
-
-
-} // min-width: 768px and max-width: 979px
+} // (min-width: 568px) and (max-width: 768px)
 
 
 
@@ -448,14 +362,42 @@ form.footer-store-locator-form{
 //                                  888       
 // ------------------------------------------------    
 
-@media (max-width: 767px) {
-  
+@media (max-width: px-em(767px)) {
+
+
+  // .grid-footer [class*="span"]{    
+  //   width:100%;
+  //   $containerMargin: (100% - $mobileContainerWidth480)/2;
+  //   $gridMargin: (100% - $mobileGridWidth480)/2;
+  //   padding-left: $containerMargin + $gridMargin;
+  //   padding-right: $containerMargin + $gridMargin;
+  // }
 
 } // max-width: 767px
 
 
 
 
+
+
+// ------------------------------------------------
+//     d8888   .d8888b.   .d8888b.                         8888888888  .d8888b.  8888888888                 
+//    d8P888  d88P  Y88b d88P  Y88b                              d88P d88P  Y88b       d88P                 
+//   d8P 888  Y88b. d88P 888    888                             d88P  888             d88P                  
+//  d8P  888   "Y88888"  888    888 88888b.  888  888          d88P   888d888b.      d88P  88888b.  888  888
+// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       88888888  888P "Y88b  88888888 888 "88b `Y8bd8P'
+// 8888888888 888    888 888    888 888  888   X88K  888888  d88P     888    888   d88P    888  888   X88K  
+//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       d88P      Y88b  d88P  d88P     888 d88P .d8""8b.
+//       888   "Y8888P"   "Y8888P"  88888P"  888  888      d88P        "Y8888P"  d88P      88888P"  888  888
+//                                  888                                                    888              
+//                                  888                                                    888              
+//                                  888                                                    888              
+// ------------------------------------------------    
+
+@media (min-width: px-em(480px)) and (max-width: px-em(767px)) {
+
+
+} // (min-width: 480px) and (max-width: 767px)
 
 
 // ------------------------------------------------
@@ -473,9 +415,9 @@ form.footer-store-locator-form{
 //                                  888                                                    888              
 //                                  888                                                    888                       
 // ------------------------------------------------
-@media (min-width: 480px) and (max-width: 567px) {
+@media (min-width: px-em(480px)) and (max-width: px-em(567px)) {
 form.footer-store-locator-form{
-  margin-bottom:19px;
+  margin-bottom: px-em(19px);
 }
 }
 
@@ -508,31 +450,27 @@ form.footer-store-locator-form{
 //                                 888                                                                                     
 //                                 888                                                                                     
 
-@media (max-width: 567px) {
+@media (max-width: px-em(567px)) {
 
 .footer-wrapper{
 
-  padding:0 0 60px;
-  [class*="span"] {
-    margin-left:inherit;
-    float:none;
-    width:100%;
+  padding:0 0 px-em(60px);
+
+  .grid.grid-footer{
+    @include container-m-full-bleed-padded-children-at("567","both");
   }
 
-  .span3{
-    width:100%;
-    overflow:hidden;
-  }
+
   .footer-mobile-section[class*="span"]{
     overflow:hidden;
     border-bottom: solid 1px $grayDarkFieldLarge;
 
     .footer-links-list{
-      padding-bottom: 19px;
+      padding-bottom: px-em(19px);
     }
 
     &.collapsed{
-      height:51px;
+      height: px-em(51px);
     }
     &.transition-height{
       @include transition(height $transitionNormal ease-out);
@@ -542,8 +480,8 @@ form.footer-store-locator-form{
     position:relative;
     margin-bottom:0;
     margin-top:0;
-    padding-bottom: 13px;
-    padding-top:15px;
+    padding-bottom: px-em(13px);
+    padding-top: px-em(15px);
 
     .icon-ui-arrowhead-down-gray{
       position:absolute;
@@ -567,10 +505,10 @@ form.footer-store-locator-form{
     border-top: solid 1px $grayDarkFieldLarge;    
     h5{
       width:100%;
-      padding-top: 15px;
-      padding-bottom: 17px;
+      padding-top: px-em(15px);
+      padding-bottom: px-em(17px);
       margin-top: 0;
-      margin-bottom:2px;
+      margin-bottom: px-em(2px);
     }
   }
 }
@@ -583,8 +521,8 @@ form.footer-store-locator-form{
 
 
 .footer-newsletter {
-  margin-top: 5px;
-  margin-bottom: 26px;
+  margin-top: px-em(5px);
+  margin-bottom: px-em(26px);
 
   .footer-form-border{
     margin-bottom:0;
@@ -609,7 +547,7 @@ form.footer-store-locator-form{
     display:block;
     font-size:$font_16_16;
     line-height:1.85;
-    margin-top:21px;
+    margin-top: px-em(21px);
 
     a,
     a:first-child{
@@ -623,12 +561,12 @@ form.footer-store-locator-form{
 
 .footer-language.span6{
   // overflow:hidden;
-  padding-top: 28px;
-  margin-top:30px;
+  padding-top: px-em(28px);
+  margin-top: px-em(30px);
   border-top: solid 2px $grayDarkFieldLarge; 
 
   .footer-language-selectors{
-    max-width:300px;
+    max-width: px-em(300px);
     margin:0 auto;
   }
   .dropdown-hover-menu-lists-w{
@@ -644,7 +582,7 @@ form.footer-store-locator-form{
 }
 .footer-signature .sprite-reg-nav-sony-logo {
   position: relative;
-  margin:0 0 9px 0;
+  margin:0 0 px-em(9px) 0;
 }
 .footer-signature{
   text-align:center;
@@ -688,19 +626,21 @@ form.footer-store-locator-form{
 //                                  888    
 // ------------------------------------------------
 
-@media (max-width: 479px) {
+@media (max-width: px-em(479px)) {
 
 .footer-wrapper{
   .footer-store-locator.span3{
     h5{
     }
     form.footer-store-locator-form{
-      width:100%;
-      margin-bottom:0;
+      width: 100%;
+      margin-bottom: 0;
+      float: none;
     }
     .footer-store-locator-caption{
-      padding-bottom:22px;
-      color:$white;
+      float: none;
+      padding-bottom: px-em(22px);
+      color: $white;
     }
   }
 }

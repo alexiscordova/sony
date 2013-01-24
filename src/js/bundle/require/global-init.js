@@ -1,10 +1,10 @@
 var sony = sony || {};
 
 
-iQ = {
-    options: {
-      speedTestExpireMinutes: 30,
-	    asyncDistance: 500,
-	    updateOnResize: true
-	}
+window.iQ = {
+  options: {
+    speedTestExpireMinutes: 30,
+    asyncDistance: 500,
+    updateOnResize: true
+  }
 };

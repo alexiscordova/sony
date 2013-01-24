@@ -74,19 +74,24 @@
     };
 
     $.extend($.expr[':'], {
-        "below-the-fold": function(a, i, m) {
+        //'below-the-fold': function(a, i, m) {
+        'below-the-fold': function(a) {
             return $.belowthefold(a, {threshold : 0});
         },
-        "above-the-top": function(a, i, m) {
+        //'above-the-top': function(a, i, m) {
+        'above-the-top': function(a) {
             return $.abovethetop(a, {threshold : 0});
         },
-        "left-of-screen": function(a, i, m) {
+        //'left-of-screen': function(a, i, m) {
+        'left-of-screen': function(a) {
             return $.leftofscreen(a, {threshold : 0});
         },
-        "right-of-screen": function(a, i, m) {
+        //'right-of-screen': function(a, i, m) {
+        'right-of-screen': function(a) {
             return $.rightofscreen(a, {threshold : 0});
         },
-        "in-viewport": function(a, i, m) {
+        //'in-viewport': function(a, i, m) {
+        'in-viewport': function(a) {
             return $.inviewport(a, {threshold : 0});
         }
     });

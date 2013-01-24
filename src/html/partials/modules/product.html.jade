@@ -20,16 +20,19 @@ if data.view == "basic"
       if data.layout == 'promo'
         .product-img
           .iq-img(data-src=data.img.src)
-          p.text-promo-title
-            strong= data.title
-            | &nbsp;
-            | !{data.emphasis}
-            i.icon-ui2-chevron-18-blue
-          if data.count
-            p.text-count
-              span.number.l2= data.count.number
-              | &nbsp;
-              span.text.l3= data.count.text
+          - style = data.style ? data.style : 'tl'
+          - classes = ['promo-content']
+          - classes.push( style )
+          div(class=classes)
+            .text-promo-title
+              strong= data.title
+              span!= '&nbsp;' + data.emphasis
+              i.icon-ui2-chevron-16-black-right
+            if data.count
+              .text-count
+                span.number.l2= data.count.number
+                | &nbsp;
+                span.text.l3= data.count.text
 
       else if data.layout == 'plate'
         .product-img(class=data.backgroundColorClass)
@@ -85,13 +88,17 @@ if data.view == "basic"
                 theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
                 span(class=theClass, data-color=color.color, itemprop="color")= color.color
 
+          .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
+            favClass = 'icon-ui-favorite'
+            - if ( data.isFavorited ) favClass += ' active'
+            i(class=favClass)
+
         .product-content
           .product-name.p3= data.name
           .product-price
-            p.price
-              span.p5 Starting at &nbsp;
-              span.l2= '$' + data.price + '&nbsp;'
-              span.msrp.p5 MSRP
+            span.price-prefix.p3 Starting at &nbsp;
+            span.price.l2= '$' + data.price + '&nbsp;'
+            span.msrp.p5 MSRP
 
 
 else if data.view == 'detailed'
@@ -126,14 +133,14 @@ else if data.view == 'detailed'
           i.icon-ui-star
           i.icon-ui-star
           i.icon-ui-star
-          | (
+          |  (
           span(itemprop="ratingCount")= data.rating.stars
-          | user reviews)
+          |  user reviews)
 
-        ul.product-meta.p3
+        ul.product-meta
           each meta in data.meta
-            li
-              |= meta.value
+            li.p3
+              |!{meta.value}&nbsp;
               span.prodcut-meta-name= meta.name
 
         .product-price
@@ -145,23 +152,24 @@ else if data.view == 'detailed'
         .detail-group.hidden
           if data.details
             each detail in data.details
-              detailClass = 'detail' + detail.isHighlighted ? ' highlighted' : ''
+              highlightedClass = detail.isHighlighted ? ' highlighted' : ''
+              detailClass = 'detail' + highlightedClass
               div(class=detailClass, data-label=detail.label, itemprop=detail.slug)
                 if detail.value.check
-                  |= detail.value.text
+                  | !{detail.value.text}
                 else if detail.value.box
                   p.compare-box= detail.value.box
-                  p= detail.value.lineOne
+                  p!= detail.value.lineOne
                   if detail.value.lineTwo
-                    p= detail.value.lineTwo
+                    p!= detail.value.lineTwo
                   if detail.value.lineThree
-                    p= detail.value.lineThree
+                    p!= detail.value.lineThree
                 else if detail.value.lineOne
-                  p= detail.value.lineOne
+                  p!= detail.value.lineOne
                   if detail.value.lineTwo
-                    p= detail.value.lineTwo
+                    p!= detail.value.lineTwo
                   if detail.value.lineThree
-                    p= detail.value.lineThree
+                    p!= detail.value.lineThree
                 else if detail.value[0].description
                   ul.media-list
                     each value in detail.value
@@ -170,22 +178,23 @@ else if data.view == 'detailed'
                           mediaClass = 'media-object icon-bestfor-' + value.icon
                           i(class=mediaClass)
                         .media-body
-                          p.media-heading.p3.text-dark= value.label
-                          p.p3= value.description
+                          p.media-heading.p3.text-dark!= value.label
+                          p.p3!= value.description
                 else
-                  |= detail.value
+                  | !{detail.value}
 
 else if data.view == "specs"
 
-  .span4.spec-item(itemscope, itemtype="http://schema.org/Product")
+  tabSlug = 'spec-tab' + data.iterator
+  .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
     .spec-column-header.table-center-wrap
       .table-center
-        .product-name.p3(itemprop="name")= data.name
-        .product-model.p5(itemprop="model")= data.model
+        .product-name.p1(itemprop="name")= data.name
+        .product-model.p2(itemprop="model")= data.model
 
     each spec, i in data.specs
       .spec-item-cell
-        h4.visible-phone= labels[i]
+        p.cell-label.l3= labels[i]
 
         if spec.name && spec.list && spec.img
           p= spec.name
@@ -237,14 +246,40 @@ else if data.view == "specs"
 
         else if spec.label && spec.callout && spec.list && spec.icon
           div
-            iconClass = 'icon-' + spec.icon
-            i(class=iconClass)= spec.icon
+            iconClass = 'icon-uibig-' + spec.icon
+            i(class=iconClass)
           p= spec.callout
           ul.unstyled.p3.spec-list
             each li in spec.list
               li= li
           p.l3= spec.label
           p.p3= spec.labeledText
+
+        else if spec.enlargement
+          .text-center
+            img.iq-img(data-src=spec.img.src, alt=spec.img.alt)
+            noscript
+              img(src=spec.img.noscriptsrc, alt=spec.img.alt)
+          button.iconTrigger-ui2-magnify.enlarge.js-enlarge
+            i.icon-ui2-magnify
+            span.l3!= '&nbsp;' + spec.iconTitle
+
+          ul.unstyled.p3.spec-list
+            each li in spec.list
+              li= li
+
+          .spec-modal.hide.mobile-container-padded
+            .spec-modal-header.clearfix
+              .pull-left
+                h3= spec.enlargement.title
+              .pull-right.box-close
+                i.icon-ui-x-skinny
+            .spec-modal-body.text-center
+              img.iq-img(data-src=spec.enlargement.src, alt=spec.enlargement.alt)
+              noscript
+                img(src=spec.enlargement.noscriptsrc, alt=spec.enlargement.alt)
+
+
 
         else if spec.list
           ul.unstyled.p3.spec-list

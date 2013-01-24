@@ -6,9 +6,11 @@
   background:$footerBackground;
 
   h5{
+    font-size:$font_15_16;
     color:$gray;
   }
   h6{
+    font-size:$font_11_16;
     color:$gray;
     text-transform:uppercase;
   }
@@ -20,14 +22,115 @@
     &:focus{
       color:$linkColorLight;
     };
+  }
+  .dropdown-label{
+    font-size:$font_14_16;
   } 
 
-  .grid.grid-footer{
-    // width:100%; // no grid margins in the footer, but still need .grid to make the spans have fluid widths.
-  }
-
   @include sprite-reg(nav-sony-logo, -90px,   79px,   18px);
+
 } // .footer-wrapper
+
+
+
+
+.footer-form-border{
+  position:relative;
+  border-width:2px;
+  border-color:$grayDarkFieldLarge;
+  border-style:solid;
+  padding:px-em(6px);
+  overflow:hidden;
+
+  .footer-input{
+    border:none;
+    height:28px;
+    padding:0 4px 3px 9px;
+    margin:0;
+    font-size:$font_13_16;
+    background:$footerBackground;
+    color:$white;
+
+    &:focus{
+      color:$white;
+    }
+  }
+  .footer-btn{
+    margin:3px;
+    padding-top:5px;
+    height:28px;
+    font-size:$font_11_16;
+    @include fontRegular;
+  }
+}
+
+form.footer-store-locator-form{
+  margin:0;
+  i{
+    position:absolute;
+    font-size:$font_18_16;
+    margin:2px 0 0 1px;
+    color:$highlightColor;
+  }
+}
+
+.footer-store-locator-caption{
+  font-size:$font_11_16;
+  margin:5px 0 0 0;
+}
+
+.grid .footer-language.span6{
+  margin-left:0;
+  float:left;
+}
+.footer-language-selectors{
+  @include clearfix;
+}
+.footer-social-links{
+  display:inline-block;
+
+  a{
+    display:inline-block;
+    width: px-em(36px);
+    height: px-em(32px);
+    float:left;
+    margin-left: px-em(2px);
+    background-color:$grayDark;
+
+    &:first-child{
+      margin-left: - px-em(2px);
+    };
+
+    &.footer-social-twitter:hover,
+    &.footer-social-twitter:active,
+    &.footer-social-twitter:focus{
+      background-color:$twitterColor;
+    }
+    &.footer-social-facebook:hover,
+    &.footer-social-facebook:active,
+    &.footer-social-facebook:focus{
+      background-color:$facebookColor;
+    }
+    &.footer-social-gplus:hover,
+    &.footer-social-gplus:active,
+    &.footer-social-gplus:focus{
+      background-color:$gplusColor;
+    }
+    &.footer-social-youtube:hover,
+    &.footer-social-youtube:active,
+    &.footer-social-youtube:focus{
+      background-color:$youtubeColor;
+    }
+  }
+}
+
+.footer-signature{
+  position:relative
+}
+.footer-copyright{
+  font-size:$font_10_16;
+  text-transform:uppercase;
+}
 
 
 .btn-hover-group{ // drop-downs that trigger on hover instead of click -- except on mobile where they have to react more like on click.
@@ -37,13 +140,13 @@
     color:$white;
     background-color: $grayDark;
     border-color: $grayDark;
-    padding:6px 14px 8px 11px;
+    padding: px-em(6px) px-em(14px) px-em(8px) px-em(11px);
     @include box-shadow(none);
     @include flickerfix;
 
     .icon-ui-arrowhead-down-gray{
       float:right;
-      margin-top:10px;
+      margin-top:px-em(10px);
       @include transition(all $transitionFast linear);
       @include flickerfix;
     }
@@ -54,7 +157,7 @@
     background-color:transparent;
     border:none;
     float:none;
-    padding-bottom:3px;
+    padding-bottom:px-em(3px);
     @include box-shadow(none);
     @include el-hidden;
   }
@@ -76,7 +179,7 @@
         display:block;
         font-size:$font_15_16;
         color:$white;
-        padding:3px 27px 4px 27px;
+        padding:px-em(3px) px-em(27px) px-em(4px) px-em(27px);
         min-width:185px;
 
         &:hover,
@@ -98,7 +201,7 @@
           font-size:$font_13_16;
           color:$grayLight;
           line-height: 1.85;
-          padding:3px 0 4px 10px;
+          padding:px-em(3px) 0 px-em(4px) px-em(10px);
 
           &:hover,
           &:active,
@@ -172,14 +275,14 @@
 
 .footer-signature-w{
   border-top:solid 1px $grayDarkFieldLarge;
-  margin-top: 13px;
-  padding-top:28px;
+  margin-top: px-em(13px);
+  padding-top:px-em(28px);
   @include flickerfix;
 }
 .footer-legal-links{
   a{
     display:inline-block;
-    margin-right:10px;
+    margin-right:px-em(14px);
     font-size:$font_12_16;
     text-transform:uppercase;
   }

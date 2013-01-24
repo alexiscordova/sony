@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       files: ['js/bundle/**/*.js', 'html/data/**/.json']
     },
     jshint: {
-        options: {        
+        options: {
           node: true,
           jquery: true,
           browser: true,
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
           forceWatchMethod: 'old'
         }
       }
-      
+
     },
     compass: {
         debug: {
@@ -201,32 +201,33 @@ module.exports = function(grunt) {
           '../docs/ico/'         : 'img/ico/**',
         }
       }
-      
+
     },
     shell:{
       docpad_debug:{
         command:'docpad generate --env debug',
-            stdout: true, 
+            stdout: true,
             failOnError: true
       },
       docpad_mbuilder:{
         command:'docpad generate --env mbuilder',
-            stdout: true, 
+            stdout: true,
             failOnError: true
       },
       docpad_deploy:{
         command:'docpad generate --env deploy',
-            stdout: true, 
+            stdout: true,
             failOnError: true
       },
       docpad_docs:{
         command:'docpad generate --env docs',
-            stdout: true, 
+            stdout: true,
             failOnError: true
       }
     }
   });
 
+  // Load NPM Modules
   grunt.loadNpmTasks('grunt-clear');
   grunt.loadNpmTasks('grunt-compass');
   grunt.loadNpmTasks('grunt-yui-compressor');
@@ -235,6 +236,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
 
+  // Define task list aliases
   grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');
   grunt.registerTask('mbuilder', 'shell:docpad_mbuilder')
   grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
@@ -248,4 +250,26 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', 'clear lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
   grunt.registerTask('default', 'debug');
   grunt.registerTask('all', 'clean debug deploy docs');
+
+  // Define specialized tasks
+  grunt.registerTask('lint-target', 'A task that lints a specific file, or set of files.', function(target) {
+    if (arguments.length === 0) {
+      // If no target is provided, just run lint with the regular config set above.
+      grunt.task.run('lint');
+    } else {
+      // Else, set lint with the target as defined.
+
+      var existingLintRules = grunt.config.get('jshint');
+
+      grunt.initConfig({
+        lint: {
+          files: target
+        },
+        jshint: existingLintRules
+      });
+
+      grunt.task.run('lint');
+    }
+  });
+
 };

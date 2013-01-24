@@ -1,175 +1,371 @@
 /* line 8, ../../../../src/css/scss/modules/spec-details.scss */
+.iq-wrap:after {
+  content: '';
+  display: block;
+  padding-top: 56.40625%;
+}
+/* line 14, ../../../../src/css/scss/modules/spec-details.scss */
+.iq-wrap .iq-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* line 25, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-title-wrap {
   margin-bottom: 0;
 }
 
-/* line 13, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-title-link {
-  margin: 0;
-}
-
-/* line 17, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 34, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-title {
   margin-top: 0;
 }
 
-/* line 21, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 38, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-views {
   margin-bottom: 0;
 }
-/* line 24, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 41, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-views li {
   margin: 0;
 }
-/* line 28, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 45, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-views .active {
   padding-bottom: .625em;
-  border-bottom: 4px solid #049cdb;
+  border-bottom: 0.25em solid #3dadfe;
 }
-/* line 33, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 50, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-views a {
   color: #2f353d;
 }
 
-/* line 40, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 56, ../../../../src/css/scss/modules/spec-details.scss */
 ul.spec-views li {
   padding-right: .625em;
   padding-left: .625em;
 }
 
-/* line 48, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-items-wrap {
-  overflow: visible !important;
+/* line 70, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-tabs {
+  display: none;
 }
 
-/* line 55, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 77, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-items-wrap {
+  margin-left: 8.75em;
+}
+
+/* line 83, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-nav-wrap {
+  z-index: 10;
+}
+
+/* line 87, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-nav {
+  position: absolute;
+  z-index: 20;
+  top: 1.21875em;
+  border: none;
+  background: #d5d7d8;
+  border-radius: .1875em;
+  width: 2em;
+  height: 2.875em;
+  padding: 0;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+/* line 99, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-nav:hover, .spec-nav:focus {
+  background: #f35429;
+  outline: none;
+}
+/* line 105, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-nav i {
+  vertical-align: middle;
+}
+
+/* line 110, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-nav-prev {
+  left: 0;
+}
+
+/* line 114, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-nav-next {
+  right: 0;
+}
+
+/* line 121, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-item {
   position: relative;
   margin: 0;
-  border-left: 1px solid #e4e7eb;
+  border-right: 0.0625em solid #e4e7eb;
 }
-
-/* line 61, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-items-container .spec-item {
+/* line 127, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item.off-screen {
+  position: absolute;
+}
+/* line 131, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item .product-name {
   margin: 0;
 }
-
-/* line 66, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-column-header {
-  height: 85px;
-  width: 100%;
-  text-align: center;
+/* line 135, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item .product-subname {
+  font-size: 1.125em;
+}
+/* line 139, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item .cell-label {
+  display: none;
 }
 
-/* line 72, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 143, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-items-container .spec-item {
+  margin: 0;
+  width: 13.75em;
+}
+
+/* line 148, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-column-header {
+  height: 5.3125em;
+  width: 100%;
+}
+
+/* line 153, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-item-cell {
   position: relative;
-  padding: 1.25em 1.25em 3.75em;
+  padding: 1.125em 1em 3.75em;
 }
-/* line 76, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 157, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-item-cell .btm-aligned {
   position: absolute;
   bottom: 3.75em;
 }
-/* line 81, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 162, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-item-cell .before-btm-aligned {
   margin-bottom: 6em;
 }
-/* line 87, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 168, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-item-cell .dl-img {
-  height: 135px;
+  height: 8.4375em;
 }
-/* line 91, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 172, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-item-cell .dl-img img {
   max-height: 100%;
 }
+/* line 177, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item-cell .dl-horizontal dt {
+  text-align: left;
+  width: 4.583333333em;
+}
+/* line 182, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item-cell .dl-horizontal dd {
+  margin-left: 5.384615385em;
+}
+/* line 187, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item-cell .spec-list li {
+  margin: 1.25em 0;
+}
+/* line 191, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item-cell .enlarge {
+  margin: 2.5em 0 .625em;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+}
+/* line 198, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-item-cell .enlarge i {
+  vertical-align: middle;
+}
 
-/* line 97, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 204, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-products {
   position: relative;
 }
-/* line 100, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 207, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-products:before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 85px;
+  height: 5.3125em;
   background: #f1f5f9;
 }
-/* line 111, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 217, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-products .detail-labels-wrap {
+  width: 8.75em;
+  border-right: 0.0625em solid #e4e7eb;
+}
+/* line 222, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-products .product-count-wrap,
 .spec-products .detail-label-group {
   width: 100%;
 }
-/* line 115, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 227, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-products .product-count-wrap {
-  height: 85px;
+  background: #f1f5f9;
+}
+/* line 231, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-products .detail-label-group {
+  position: relative;
+}
+/* line 235, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-products .product-count-wrap {
+  height: 5.3125em;
   padding-top: 0;
   margin-bottom: 0;
 }
-/* line 123, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-products .detail-labels-wrap:before,
-.spec-products .product-count-wrap:after {
+/* line 242, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-products .detail-labels-wrap:before {
   content: none;
 }
-/* line 127, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-products .detail-label {
-  padding: 1.25em;
+/* line 246, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-products .detail-label-group:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  display: block;
+  height: 100%;
+  width: 2000px;
+  right: 0;
+  top: 0;
+  background-color: white;
+  -webkit-transition: box-shadow 0.15s ease-in;
+  transition: box-shadow 0.15s ease-in;
 }
-/* line 131, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-products .spec-list li {
-  margin: 1.25em 0;
+/* line 259, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-products .product-count-wrap:after {
+  content: '';
+  z-index: -1;
+  left: auto;
+  right: 0;
+  height: 100%;
+  width: 2000px;
+  background: #f1f5f9;
+}
+/* line 269, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-products .detail-label {
+  padding: 1.125em 1em 0 0;
 }
 
-/* line 137, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 275, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-item-cell,
 .spec-products .detail-label {
-  border-bottom: 1px solid #e4e7eb;
+  border-bottom: 0.0625em solid #e4e7eb;
 }
 
-/* line 141, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-module {
-  margin-bottom: 1.25em;
+/* line 282, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
 }
-/* line 145, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 288, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-modal .box-close i {
+  vertical-align: middle;
+}
+
+/* line 295, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-module .sony-recommends {
-  background: url("../../img/spec/ico/sonyRecommend.jpg") right center no-repeat;
+  margin-bottom: -4.375em;
 }
-/* line 149, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-module .gallery-tabs .tabs {
-  height: auto;
+/* line 299, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-module .win8-logo {
+  margin-left: .875em;
+  vertical-align: middle;
 }
-/* line 153, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-module .product-name {
-  margin: 0;
+/* line 304, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-module .sticky-tabs,
+.spec-module .tab {
+  height: 3.125em;
 }
-/* line 157, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-module .product-subname {
-  font-size: 1.125em;
-}
-/* line 161, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-module .dl-horizontal dt {
-  text-align: left;
-  width: 55px;
-}
-/* line 165, ../../../../src/css/scss/modules/spec-details.scss */
-.spec-module .dl-horizontal dd {
-  margin-left: 70px;
+/* line 309, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-module .tab {
+  padding-left: 0.625em;
 }
 
-/* line 173, ../../../../src/css/scss/modules/spec-details.scss */
+@media (max-width: 35.4375em) {
+  /* line 320, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-module .sony-recommends {
+    margin-top: .75em;
+    margin-bottom: 0;
+  }
+  /* line 325, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-module .win8-logo {
+    width: 18px;
+  }
+
+  /* line 330, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-tabs {
+    display: block;
+  }
+
+  /* line 335, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-nav,
+  .spec-column-header,
+  .spec-products .detail-labels-wrap {
+    display: none;
+  }
+
+  /* line 341, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-products:before {
+    height: .0625em;
+  }
+
+  /* line 345, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-items-container .spec-item {
+    width: auto;
+  }
+
+  /* line 349, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-items-wrap {
+    margin-left: 0;
+  }
+
+  /* line 353, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-item-cell {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  /* line 358, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-item {
+    border-right: 0;
+  }
+  /* line 361, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-item .cell-label {
+    display: block;
+  }
+  /* line 365, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-item .dl-horizontal dt {
+    width: auto;
+  }
+  /* line 368, ../../../../src/css/scss/modules/spec-details.scss */
+  .spec-item .dl-horizontal dd {
+    margin-left: 0;
+  }
+}
+/* line 378, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-tiles .spec-tile {
   margin-left: 0;
 }
 
-/* line 177, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 382, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-tile {
   margin-top: 1.25em;
   background: #f1f5f9;
 }
-/* line 181, ../../../../src/css/scss/modules/spec-details.scss */
+/* line 386, ../../../../src/css/scss/modules/spec-details.scss */
 .spec-tile .tile-content {
   padding: 1.25em;
+}
+
+/* line 392, ../../../../src/css/scss/modules/spec-details.scss */
+.spec-tile .iq-img {
+  width: 100%;
+  height: auto;
+  min-height: 5.3125em;
 }

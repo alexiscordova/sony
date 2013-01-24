@@ -6,13 +6,13 @@
 // base settings are in _responsive-980px-1199px-default.scss
 
 
-// Set 5 5 column grid for IE < 9 because they don't have media queries
+// Set 5 column grid for IE < 9 because they don't have media queries
 .lt-ie9 .grid5 {
-  // @include grid-core($grid5ColWidth, $grid5GutterWidth, $grid5Columns);
-  @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $grid5Columns);
+  // @include grid-core($grid5ColWidth, $grid5GutterWidth, $slimGrid5Columns);
+  @include grid-fluid($fluidGrid5ColWidth, $fluidGrid5GutterWidth, $slimGrid5Columns);
 }
 
-// nested grids don't have margins (or in our case, don't have a set width)
+// nested grids don't have margins
 .grid .grid,
 .grid-px-width .grid{
 	width: 100%;
