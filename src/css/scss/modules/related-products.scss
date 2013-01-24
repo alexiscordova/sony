@@ -94,6 +94,62 @@ section {
 
   &.suggested {
     
+
+
+    .product-price {
+      text-align: center;
+      color: #83838f;
+    }
+
+    .price-prefix {
+      display: block;
+    }
+
+    .gallery-item {
+      max-height: 490px;
+      background: #f3f4f6;
+
+      .product-img:after {
+        padding-top: 44.8979592%;
+      }
+
+      .gallery-item-inner {
+
+        //for two lines of tagline
+        &.two-line {
+          .product-name {
+            margin-top: 13.223455%;
+          }
+
+          .product-tagline {
+            line-height: 1.1234;
+          }
+        }
+
+
+        .product-img {
+          margin-top: 5%;
+        }
+
+        .product-name {
+          margin-top: 17.1428571%;
+          text-align: center;
+          font-size: $font_13_16;
+          font-family: $baseFontFamilyMedium;
+          color: #83838f;
+        }
+
+        .product-tagline {
+          text-align: center;
+          font-size: $font_26_16;
+          font-family: $baseFontFamilyLight;
+          color: #2f353d;
+          max-width:305px;
+          margin: 0 auto;
+        }
+      }
+    }
+
     @media (min-width: px-em(769px)){
       .span6:after {
         content:'';
@@ -102,7 +158,7 @@ section {
       }
     }
 
-
+    //Suggested tablet
     @media (min-width: px-em(481px)) and (max-width: px-em(768px)) {
       padding: 0 4% 0 4%;
 
@@ -116,7 +172,44 @@ section {
           padding-top: 128.343949%; 
         }
       }
+
+      .gallery-item {
+        
+        .product-img {
+          margin-top: 12%;
+        }
+
+        .product-price {
+          margin-top: 5%;
+        }
+
+        .gallery-item-inner {
+          .product-tagline {
+            font-size: $font_21_16;
+          }
+
+          .product-name {
+            padding-top: 4.142857%;
+            font-size: $font_11_16;
+          }
+
+          .product-tagline { 
+            max-width: 245px;
+          }
+       }
+
+      }
+
     }
+
+     @media (max-width: px-em(480px)) {
+        .gallery-item { 
+          margin-left: 0;
+          &:after {
+            padding-top: 9.196078%;
+          }
+        }
+     }
 
   }
 
@@ -358,11 +451,16 @@ section {
 
   .gallery-item {
     background: none;
-    margin-left: 0;
+    
 
     .product-img {
       background: #f3f4f6;
+      background: none;
     }
+  }
+
+  &.full .gallery-item {
+    margin-left: 0;
   }
 
   .rp-bullets {

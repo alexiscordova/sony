@@ -6,9 +6,9 @@ layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
 layout4: ["suggested" , "suggested"]
 ---
 if data.config.mode == 'full'	
-	- clss = data.config.variation + ' slimgrid5' 
+	- clss = data.config.variation + ' slimgrid5 ' + data.config.mode
 	.container.full-bleed-no-max 
-	  section.related-products(data-mode=data.config.mode , class=clss)
+	  section.related-products#related-products(data-mode=data.config.mode , class=clss)
 	    .rp-overflow#rpOverflow
 	      .rp-container
 	      	.rp-slide
@@ -42,8 +42,11 @@ if data.config.mode == 'full'
 									e = { 'locals' : locals , 'data' : d }
 									!{locals.partial('modules/'+module.type , e )}
 else if data.config.mode == 'suggested'
-	- clss = data.config.variation
+	- clss = data.config.variation + ' ' + data.config.mode
 	.container
-		section.related-products(data-mode=data.config.mode , class=clss)
+		section.related-products#related-products(data-mode=data.config.mode , class=clss)
 			for module in data.submodules
 				d = locals.data(module.data)
+				- d.layout = document[data.config.layout][i++]
+				e = { 'locals' : locals , 'data' : d }
+				!{locals.partial('modules/'+module.type , e )}

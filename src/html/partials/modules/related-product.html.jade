@@ -1,1 +1,16 @@
-.related-product
+a(class='gallery-item span6 suggested', href=data.href ? data.href : '#')
+  .gallery-item-inner
+    .product-name.p3 
+      | !{data.name}
+    .product-tagline.p1
+      | !{data.tagline} 
+    .product-img
+      div(class='product-img-wrap ghost-center-wrap')
+        .ghost-center
+          img.iq-img(alt=data.img.alt, data-src=data.img.src)
+          noscript
+            img(src=data.img.noscriptsrc, alt=data.img.alt)
+    .product-price
+      span.price-prefix.p3 Starting at &nbsp;
+      span.price.l2= '$' + data.price + '&nbsp;'
+      span.msrp.p5 MSRP

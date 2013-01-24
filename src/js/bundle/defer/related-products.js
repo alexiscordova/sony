@@ -331,7 +331,8 @@
         out += '</div>';
         out = $(out);
 
-        $container.append(out);
+        //TODO: add paddles
+        //$container.append(out);
 
         self.$paddles     = $container.find('.paddle');
         self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
@@ -496,11 +497,30 @@
           case 'desktop':
 
           if(self.mode === 'suggested'){
-
+            self.$el.find('.gallery-item').addClass('span6');
             self.$el.removeClass('grid')
             .addClass('slimgrid');
+
+
+            //check tagline heights
+            var $taglines = self.$el.find('.product-tagline'),
+                height = 0 ,
+                highestEl = null;
+
+            $taglines.each(function(){
+              var $t = $(this);
+              if($t.height() > height){
+                height = $t.height();
+                highestEl = $t;
+              }
+            });
+
+            highestEl.parent().addClass('two-line');
+
+            //console.log('Closest To highest el', highestEl.parent().find('.product-name'));
+
             return;
-          } 
+          }
 
            //check if we are coming out of mobile
             if(self.isMobileMode === true){
@@ -536,7 +556,7 @@
 
 
             if(self.mode === 'suggested'){
-
+              self.$el.find('.gallery-item').addClass('span6');
               self.$el.removeClass('slimgrid')
               .addClass('grid');
               return;
@@ -574,10 +594,11 @@
               return;
             }
 
-            if(self.mode === 'suggested'){
-
-              return;
-            }
+          if(self.mode === 'suggested'){
+            self.$el.find('.gallery-item').removeClass('span6');
+            self.$el.removeClass('grid slimgrid');
+            return;
+          }
 
 
 

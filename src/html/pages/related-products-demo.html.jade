@@ -1,0 +1,16 @@
+---
+title: Related-Products-G1
+description: This is the Jaded Template for the related products module
+---
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+  e = {"locals":locals, "data":data('related_products/2-up-view.json')}
+  !{partial('modules/related-products-g1-demo.html.jade', e)}
+
+!{partial('includes/foot.html.jade', l)}
