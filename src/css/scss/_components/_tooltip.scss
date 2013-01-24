@@ -9,10 +9,9 @@
   z-index: $zindexTooltip;
   display: block;
   visibility: visible;
-  padding: 5px;
-  font-size: 11px;
+  padding: .3125em;
   @include opacity(0);
-  &.in     { @include opacity(80); }
+  &.in     { @include opacity(100); }
   &.top    { margin-top:  -3px; }
   &.right  { margin-left:  3px; }
   &.bottom { margin-top:   3px; }
@@ -22,12 +21,13 @@
 // Wrapper for the tooltip content
 .tooltip-inner {
   max-width: 200px;
-  padding: 3px 8px;
+  padding: 15px 20px;
   color: $tooltipColor;
+  font-size: $font_11_16;
+  text-transform: uppercase;;
   text-align: center;
   text-decoration: none;
   background-color: $tooltipBackground;
-  @include border-radius(4px);
 }
 
 // Arrows

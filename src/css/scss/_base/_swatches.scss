@@ -5,7 +5,7 @@
 %swatch {
   position: relative;
   display: inline-block;
-  @include square(42px);
+  @include square( px-em(42px) );
 
   // Bottom border
   &:after {
@@ -14,7 +14,7 @@
     bottom: -5px;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: px-em(4px);
   }
 
   &:focus:after,
@@ -42,20 +42,20 @@
 
 // Like btn-group
 .color-swatches > *:not(:first-child) {
-  margin-left: 10px;
+  margin-left: px-em(10px);
 }
 
 // Mini swatches
 .color-swatches > .mini-swatch:not(:first-child) {
-  margin-left: 2px;
+  margin-left: px-em(2px);
 }
 
 .mini-swatch {
-  @include square(12px);
+  @include square(.75em);
   border: 1px solid $transparentBlack;
   line-height: 0.1em;
-  font-size: 0.1em;
-  text-indent: -9999px;
+  // font-size: 0.1em;
+  text-indent: -999em;
   overflow: hidden;
 
   // Disable hover and active states
