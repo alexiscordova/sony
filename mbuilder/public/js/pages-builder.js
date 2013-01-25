@@ -1,16 +1,23 @@
 var moduleGroupContainer = $('<li><div class="main-module-container">'), moduleGroup = $(
 /* @formatter:off */
     ' <div class="clearfix form-inline row modContainer ui-corner-all ui-state-default">' +
-    '   <div class="control-group span4">' + 
+    '   <span class="sprite btnResize"></span>' +
+    '   <div class="control-group span5">' + 
     '     <label>Module</label>' + 
     '     <select class="module_select empty"  name="module">' + 
     '       <option class="hold">Select a module</option>' +     
     '     </select>' + 
     '   </div>' + 
-    '   <div class="data_control control-group span4">' + 
+    '   <div class="data_control control-group span5">' + 
     '     <label>Data</label>' + 
     '     <select class="data_select" name="moduleData"></select>' + 
     '   </div>' + 
+    '   <span class="span2 btnRemove">' +
+    '     <span class="sprite"></span>' +
+    '     <button class="btn btn-small btn-block remove-module">' +
+    '       Remove' +
+    '     </button>' +
+    '   </span>' +
     ' </div>'
 /* @formatter:on */
 ), submodContainer = $(
@@ -35,6 +42,7 @@ mb.moduleDataList = [];
 
 $(document).ready(function() {
 
+
   $.ajax({
     url : '/mnames'
   }).done(function(res) {
@@ -44,8 +52,9 @@ $(document).ready(function() {
     $.each(mb.modulePaths, function(i, e) {
       // TEMPORARY : remove old template from list
       if (e.indexOf('.jade') !== -1) {
-
         var moduleName = e.replace(/.html(.eco|.hb|.jade)/g, '');
+        moduleName = moduleName.replace(/_|-/g, ' ');
+
         // create a list of all module
         mb.moduleList.push({
           name : moduleName,
@@ -58,43 +67,56 @@ $(document).ready(function() {
   });
 
   /** Add module block **/
-  $("#add-module").button().click(function(e) {
-
+  $("#add-module").click(function(e) {
+    e.preventDefault();
     createModuleContainer(this);
-
   });
 
   $("#dialog-form").dialog({
     autoOpen : false,
-    height : 250,
-    width : 400,
-    resizable : false,
+    height : 380,
+    width : 450,
+    draggable : false,
     dialogClass : 'pageBuilderPop',
     modal : true,
     buttons : {
-      "Generate a page" : function() {
+      "Build" : function() {
         var bValid = true;
-        // allFields.removeClass("ui-state-error");
-        bValid = checkLength($('#name'), "fileName", 3, 16);
-
+      //  $('#dialog-form input').removeClass("ui-state-error").val("");
+   
+        // regex that find LineBreak
+        var replaceLB = new RegExp('\\n', 'g');
+        var replaceSpace = new RegExp('\\n', 'g');
+        
         if (bValid) {
-          console.log('go');
-          $('#fileName').val($('#name').val());
-          
-          $(this).dialog("close");
+          $('#fileName').val($('#name').val().replace(' ',''));
+          $('#fileTitle').val($('#title').val());
+          $('#fileDescription').val($('#description').val().replace(replaceLB, ' '));
+
           buildPage();
         }
       },
       Cancel : function() {
         $(this).dialog("close");
+        $('.ui-dialog-buttonset button').show();
+        $('#postResult,#pageSaving').hide();
+        $($('.ui-dialog-buttonset button')[1]).html('Cancel');
       }
 
     },
     close : function() {
-      // allFields.val("").removeClass("ui-state-error");
+      $('#fileName').val("").removeClass("ui-state-error");
+      $('.ui-dialog-buttonset button').show();
+      $('#postResult,#pageSaving').hide();
+      $($('.ui-dialog-buttonset button')[1]).html('Cancel');
     }
 
   });
+
+  //turn build into a bootstrap button
+  //$('button').button();
+
+  updateBuildButton();
 
 });
 /** Document Ready end here**/
@@ -112,7 +134,8 @@ function getModuleName() {
   $('.module_select.empty').removeClass('empty');
 
   $('.module_select').change(function(elem) {
-    $('.module_select .hold').remove();
+    $(elem.target).find('.hold').remove();
+
     moduleSelected = this.options[this.selectedIndex].value;
     getDataList(elem);
   });
@@ -120,6 +143,7 @@ function getModuleName() {
   $('.data_select').change(function(e) {
     e.preventDefault();
     getJsonContent(this, e);
+    updateBuildButton();
   });
 
 }
@@ -151,7 +175,10 @@ function getDataList(elem) {
 
     $.each(dnames, function(i, e) {
 
-      $(dataSelect).append('<option value=' + mb.moduleName + '/' + e + '>' + e + '</option>')
+      var dataName = e.replace(/.json/g, '');
+      dataName = dataName.replace(/_|-/g, ' ');
+
+      $(dataSelect).append('<option value=' + mb.moduleName + '/' + e + '>' + dataName + '</option>')
       if (e == 'default.json') {
         $(dataSelect).val(mb.moduleName + '/' + e);
       }
@@ -178,7 +205,7 @@ function getJsonContent(dataSelect, elem) {
 
     result = JSON.parse(res);
 
-    mb.subModules = result.submodules;
+    typeof result.submodules !== 'undefined' ? mb.subModules = result.submodules : mb.subModules = '';
     generateSubModule(selectedElem);
 
   })
@@ -204,10 +231,10 @@ function setSuperModule(dataSelect, elem) {
   var temp;
 }
 
+
 function checkLength(o, n, min, max) {
   if (o.val().length > max || o.val().length < min) {
     o.addClass("ui-state-error");
-    updateTips("Length of " + n + " must be between " + min + " and " + max + ".");
     return false;
   } else {
     return true;
@@ -218,11 +245,28 @@ function checkLength(o, n, min, max) {
  *     Dom Manipulation functions    *
  *************************************/
 
+function updateBuildButton() {
+
+  var buildButton = $('#build');
+
+  if ($('.hold').length === 0 && $('.ui-sortable li').length !== 0) {
+    $(buildButton).prop('disabled', false);
+  } else {
+    $(buildButton).prop('disabled', true);
+  }
+}
+
 function createModuleContainer(elem) {
+
   modulesContainer = $('#main-forms-container ul');
 
   $moduleGroupContainer = moduleGroupContainer.clone(true);
   $moduleGroup = moduleGroup.clone(true);
+  $moduleGroup.find('.remove-module').bind('click', function(e) {
+    e.preventDefault();
+    removeModuleContainer(e.target);
+  });
+
   $submodContainer = submodContainer.clone(true);
 
   $($moduleGroupContainer).find('.main-module-container').append($moduleGroup, $submodContainer);
@@ -232,35 +276,19 @@ function createModuleContainer(elem) {
   getModuleName();
 
   $("#main-forms-container ul").sortable();
-  var temp;
+  updateBuildButton();
 };
 
-function addModule(res) {
-  //parse json
-  mb.moduleData = JSON.parse(res);
-
-  /* test if node is undefined*/
-  if (!(mb.moduleData.config && mb.moduleData.config.maxSubModule)) {
-    //addSuperModuleNode();
-  }
-
-  if (mb.moduleData.config.maxSubModule > 0) {
-
-    subModuleContainer = $(selectedElem).parents('.main-module-container').find('.submodContainer');
-
-    $(subModuleContainer).show();
-
-  } else if ($(selectedElem).parents('.submodContainer').length === 0) {
-    $(selectedElem).parents('.main-module-container').find('.submodContainer').hide();
-  }
-
+function removeModuleContainer(elem) {
+  $(elem).parents('li').remove();
+  updateBuildButton();
 }
 
 function generateSubModule(selectedElem) {
 
   subModuleContainer = $(selectedElem).parents('.main-module-container').find('.submodContainer');
 
-  $(subModuleContainer).find('.modContainer').remove();
+  // $(subModuleContainer).find('.modContainer').remove();
   $(subModuleContainer).show();
 
   addSubModule(subModuleContainer);
@@ -273,22 +301,53 @@ function saveModule(elem) {
 
 function addSubModule(elem) {
 
-  $(elem).find('p').remove();
-  $.each(mb.subModules, function(i) {
-    $(elem).append('<p class="subModElem"><strong>submodule : </strong>' + mb.subModules[i].name + ' \\ <strong>description : </strong>' + mb.subModules[i].desc + '</p>');
-  })
+  $(elem).find('ol').remove();
+  $(elem).append('<ol class="subModElem">');
 
-  var temp;
+  if ( typeof mb.subModules === 'undefined' || mb.subModules === '') {
+    $(elem).hide();
+  }
+
+  $.each(mb.subModules, function(i) {
+
+    typeof mb.subModules[i].name !== 'undefined' ? mb.subModules[i].name : mb.subModules[i].name = mb.subModules[i].data;
+    typeof mb.subModules[i].desc !== 'undefined' ? mb.subModules[i].desc : mb.subModules[i].desc = mb.subModules[i].type;
+
+    $(elem).find('ol').append(
+    /* @formatter:off */
+     '<li> ' +
+     '  <span class="title">' +
+     '    <strong>title : </strong>' + 
+            mb.subModules[i].name + 
+     '  </span>' +
+     '  <span class="title">' +
+     '    <strong>description : </strong>' + 
+          mb.subModules[i].desc + 
+     '  </span>' +
+     '</li>'
+     /* @formatter:on */
+    );
+  })
 
 };
 
-$("#build").button().click(function() {
+$("#build").click(function(e) {
+  e.preventDefault();
   $("#dialog-form").dialog("open");
 });
-// when you hit build run the generate script
-//$('#build').bind('click', function(e) {
+
 function buildPage() {
+
   var myForm = $('#myForm');
+
+  var btnBuildPop = $('.ui-dialog-buttonset button')[0], btnCancelPop = $('.ui-dialog-buttonset button')[1];
+
+  $(btnBuildPop).hide();
+  $(btnCancelPop).hide();
+
+  $('#dialog-form').hide();
+  $('#dialog-form').after('<div id="pageSaving"><img src="img/ajax-loader.gif">Saving and Building ...</div>');
+  $('#pageSaving').show();
 
   $.ajax({
     type : 'POST',
@@ -296,30 +355,28 @@ function buildPage() {
     data : myForm.serialize(),
 
     success : function(res) {
-      if (res !== 'false' && res !== false) {
-        $('#build').button('reset');
-        if ($('.alert').length > 0) {
-          $('.alert').remove();
-        }
-        $('body').prepend('<div id="build_success" class="alert alert-success">Success! Check it out here: <a target="_blank" href="http://' + res + '">' + res + '</a><button type="button" class="close" data-dismiss="alert">×</button></div>');
-        $('#build_success').alert();
-      } else {
-        if ($('.alert').length > 0) {
-          $('.alert').remove();
-        }
-        $('body').prepend('<div id="build_success" class="alert alert-success">ERROR: Build Failed!<button type="button" class="close" data-dismiss="alert">×</button></div>');
-        $('#build_success').alert();
-      }
+      $(btnCancelPop).html('Close');
+      $(btnCancelPop).show();
+      $('#pageSaving').hide();
 
+      //div('#postResult').show();
+
+      if (res !== 'false' && res !== false) {
+
+        $('#dialog-form').after('<div id="postResult">Your page is now available : <a target="_blank" href="http://' + res + '">Link</a></div>');
+        $('#postResult').show();
+
+      } else {
+
+      }
     },
     error : function(jqXHR, textStatus, errorThrown) {
-      $('body').prepend('<div id="build_success" class="alert alert-success">ERROR: Check it out here: The AJax call return an error : ' + errorThrown + '<button type="button" class="close" data-dismiss="alert">×</button></div>');
-      $('#build_success').alert();
+      $('#dialog-form').after('<div id="build_success" class="alert alert-success">ERROR: Check it out here: The AJax call return an error : ' + errorThrown);
+      $('#postResult').show();
+
     }
 
   });
 
 };
 
-//turn build into a bootstrap button
-//$('button').button();

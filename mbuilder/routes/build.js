@@ -1,7 +1,6 @@
 fs = require('fs');
 
 exports.generate = function(req, res) {
-  console.log("yo")
   var terminal = require('child_process').spawn('bash');
   var config = require('../config.js');
 
@@ -57,13 +56,15 @@ exports.generatePage = function(req, res) {
     moduleLength = req.body['module'].length;
   }
 
-  console.log('nb of element(s) : ' + moduleLength);
-
   for (var i = 0; i < moduleLength; i++) {
 
-    var pageFileName, moduleFileName, moduleDataFileName;
+    var pageFileName, moduleFileName, moduleDataFileName, selectedTemplate;
 
-    pageFileName = req.body['fileName'] || null;
+    pageFileTitle = req.body['fileTitle'] || 'No Titled';
+    pageFileTitle = pageFileTitle.replace(' ','');
+    pageFileDescriptiion = req.body['fileDescription'] || 'No Description';
+    pageFileName = req.body['fileName'].replace("\n", "") || 'unnamed';
+    selectedTemplate = req.body['select-template'] || 'page-builder-template';
 
     if (moduleLength == 1) {
       moduleFileName = req.body['module'] || null;
@@ -73,15 +74,16 @@ exports.generatePage = function(req, res) {
       moduleDataFileName = req.body['moduleData'][i] || null;
     }
 
-    moduleList = moduleList + '\r    e = {"locals":locals, "data":data("' + moduleDataFileName + '")}\r    !{partial("modules/' + moduleFileName + '", e)}\r';
-    console.log(moduleList);
+    moduleList = moduleList + '\r        e = {"locals":locals, "data":data("' + moduleDataFileName + '")}\r        !{partial("modules/' + moduleFileName + '", e)}\r';
   };
 
-  var t = pageFileName + "-pageBuild";
-  var p = '../src/html/generated/' + t + ".html.jade";
-  var d = String(fs.readFileSync('page-builder-template.jade'));
-  // d = d.replace(/{{{{t}}}}/g, t);
-  // d = d.replace(/{{{{d}}}}/g, "This page page was generated from the module builder");
+  var f = pageFileName + "-pagebuild";
+  var t = pageFileTitle;
+  var desc = pageFileDescriptiion;
+  var p = '../src/html/generated/' + f + ".html.jade";
+  var d = String(fs.readFileSync(selectedTemplate + '.jade'));
+  d = d.replace(/{{{{t}}}}/g, t);
+  d = d.replace(/{{{{d}}}}/g, desc);
   d = d.replace(/{{{{b}}}}/g, moduleList);
 
   fs.writeFile(p, d, 'utf8', function(err) {
@@ -102,7 +104,7 @@ exports.generatePage = function(req, res) {
   terminal.on('exit', function(code) {
     console.log('child process exited with code ' + code);
     if (code == 0) {
-      res.send(config.localbase + t + '.html');
+      res.send(config.localbase + f + '.html');
     } else {
       res.send("false");
     }
