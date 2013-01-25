@@ -1,5 +1,5 @@
 
-section.spec-module
+.spec-multi
 
   .sticky-tabs.tab-strip.spec-tabs
     .tabs-container.container.m-full-bleed
@@ -22,8 +22,8 @@ section.spec-module
 
   numModels = data.submodules.length
 
-  .spec-products
-    section.container#specifications
+  section.spec-products#specifications
+    .container
       nav.spec-nav-container.relative
         button.spec-nav.spec-nav-prev
           i.icon-ui2-chevron-18-white-left
@@ -57,7 +57,7 @@ section.spec-module
                 e = { "locals" : locals, "data" : d, "labels" : data.labels }
                 !{locals.partial('modules/' + module.type, e )}
 
-  .spec-tiles-wrap.container#features
+  section.spec-tiles-wrap.container#features
     .grid
       h2= data.features.title
     .spec-tiles.slimgrid.no-grid-at-567

@@ -1820,7 +1820,7 @@
     sorted: false,
     isTouch: !!( 'ontouchstart' in window ),
     isiPhone: (/iphone|ipad|ipod/gi).test(navigator.appVersion),
-    loadingGif: 'img/spinner.gif'
+    loadingGif: 'img/loader.gif'
   };
 
 }(jQuery, Modernizr, window));

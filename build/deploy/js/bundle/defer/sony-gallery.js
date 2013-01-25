@@ -1486,7 +1486,7 @@
 
       if ( self.mode !== 'detailed' ) {
         // Make this a 5 column grid. Added to parent because grid must be a descendant of grid5
-        self.$grid.parent().addClass('slimgrid5');
+        self.$grid.addClass('slimgrid5');
 
 
         self.shuffleColumns = function( containerWidth ) {
@@ -1569,9 +1569,10 @@
       var self = this,
           allSpans = 'span1 span2 span3 span4 span6 m-span3',
           shuffleDash = 'shuffle-',
-          gridClasses = [ shuffleDash+2, shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6 ].join(' '),
+          grid = 'slimgrid',
+          grid5 = grid+5,
+          gridClasses = [ shuffleDash+2, shuffleDash+3, shuffleDash+4, shuffleDash+5, shuffleDash+6, grid, grid5 ].join(' '),
           itemSelector = '.gallery-item',
-          grid5 = 'slimgrid5',
           span = 'span',
           mspan = 'm-' + span,
           large = '.large',
@@ -1585,7 +1586,7 @@
           // add .slimgrid5
           self.$grid
             .removeClass(gridClasses)
-            .addClass(shuffleDash+6)
+            .addClass(shuffleDash+6 + ' ' + grid)
             .parent()
             .removeClass(grid5);
 
@@ -1609,9 +1610,7 @@
           // add .slimgrid5
           self.$grid
             .removeClass(gridClasses)
-            .addClass(shuffleDash+5)
-            .parent()
-            .addClass(grid5);
+            .addClass(shuffleDash+5 + ' ' + grid5);
 
 
           self.$grid.children(itemSelector)
@@ -1628,14 +1627,14 @@
 
       // Portrait Tablet ( 4 columns ) - masonry
       } else if ( numColumns === 4 ) {
+        console.log('four');
         if ( !self.$grid.hasClass(shuffleDash+4) ) {
+          console.log('fourin');
 
           // Remove .slimgrid5
           self.$grid
             .removeClass(gridClasses)
-            .addClass(shuffleDash+4)
-            .parent()
-            .removeClass(grid5);
+            .addClass(shuffleDash+4 + ' ' + grid);
 
 
           self.$grid.children(itemSelector)
@@ -1654,9 +1653,7 @@
           // Remove .slimgrid5, add .grid-small
           self.$grid
             .removeClass(gridClasses)
-            .addClass(shuffleDash+3)
-            .parent()
-            .removeClass(grid5);
+            .addClass(shuffleDash+3 + ' ' + grid);
 
           // Remove current grid span
           self.$grid.children(itemSelector)
@@ -1672,9 +1669,7 @@
           // remove .slimgrid5
           self.$grid
             .removeClass(gridClasses)
-            .addClass(shuffleDash+2)
-            .parent()
-            .removeClass(grid5);
+            .addClass(shuffleDash+2 + ' ' + grid);
 
           // Remove current grid span
           self.$grid.children(itemSelector)
@@ -1825,7 +1820,7 @@
     sorted: false,
     isTouch: !!( 'ontouchstart' in window ),
     isiPhone: (/iphone|ipad|ipod/gi).test(navigator.appVersion),
-    loadingGif: 'img/spinner.gif'
+    loadingGif: 'img/loader.gif'
   };
 
 }(jQuery, Modernizr, window));

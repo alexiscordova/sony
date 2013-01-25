@@ -1,6 +1,8 @@
 @import "../_base/variables";
 @import "../_base/mixins";
 
+// Dependencies:
+// * Gallery's compare tool
 
 
 .iq-wrap {
@@ -23,6 +25,13 @@
 
 // Spec Header
 // -------------------------
+
+.spec-single,
+.spec-multi {
+  margin-top: 4.375em; // 70
+}
+
+
 .spec-title-wrap {
   margin-bottom: 0;
 }
@@ -315,7 +324,7 @@ $navBtnHeight: 2.875em; // 46
   }
 }
 
-.spec-module {
+.spec-multi {
 
   .sony-recommends {
     margin-bottom: -4.375em;
@@ -340,7 +349,7 @@ $navBtnHeight: 2.875em; // 46
 
 @media (max-width: $specMobileBreakpoint) {
 
-  .spec-module {
+  .spec-multi {
 
     .sony-recommends {
       margin-top: .75em;
@@ -400,6 +409,24 @@ $navBtnHeight: 2.875em; // 46
   }
 
 }
+
+
+
+
+
+
+
+
+// Single Spec Module
+// -------------------------
+.spec-section {
+  margin-top: 2.5em;
+}
+
+
+
+
+
 
 
 // Spec Feature Tiles

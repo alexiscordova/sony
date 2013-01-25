@@ -40,6 +40,8 @@
       self.$detailLabelsWrap = self.$specProducts.find('.detail-labels-wrap');
       self.$stickyHeaders = self.$specProducts.find('.compare-sticky-header');
 
+      self.stickyHeaderHeight = self.$stickyHeaders.first().height();
+
       // Line up spec item cells
       self._onResize();
 
@@ -363,7 +365,7 @@
     _getStickyHeaderOffset : function() {
       var self = this,
           top = self.$specProducts.offset().top,
-          bottom = self.$specProducts.height() + top;
+          bottom = self.$specProducts.height() + top - self.stickyHeaderHeight;
 
       return {
         top: top,
@@ -415,9 +417,9 @@
 
 $(document).ready(function() {
 
-  if ( $('.spec-module').length > 0 ) {
+  if ( $('.spec-multi').length > 0 ) {
 
-    $('.spec-module').spec();
+    $('.spec-multi').spec();
 
   }
 });

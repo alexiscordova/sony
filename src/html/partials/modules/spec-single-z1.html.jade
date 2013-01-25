@@ -1,0 +1,41 @@
+
+.spec-single
+
+  .container
+    .grid
+      a.spec-title-link.tl(href=data.titleLink.href)= data.titleLink.label
+      h1.spec-title= data.title
+
+    .grid
+      ul.spec-views.inline.p3
+        each link, i in data.internalLinks
+          - clss = i ? '' : 'active'
+          li(class=clss)
+            a(href=link.href)= link.label
+
+
+  section.spec-product#specifications
+    each module, i in data.submodules
+      - d = locals.data(module.data)
+      - d.view = 'single-spec'
+      - e = { "locals" : locals, "data" : d, "labels" : data.labels }
+      !{locals.partial('modules/' + module.type, e )}
+
+  section.spec-tiles-wrap.container#features
+    .grid
+      h2= data.features.title
+    .spec-tiles.slimgrid.no-grid-at-567
+      each tile in data.features.tiles
+        .spec-tile.span4
+          if tile.img
+            .iq-wrap
+              figure.iq-container
+                img.iq-img(data-src=tile.img.src, alt=tile.img.alt)
+                noscript
+                  img(src=tile.img.noscriptsrc, alt=tile.img.alt)
+
+          .tile-content
+            h3= tile.title
+            p= tile.description
+            if tile.link
+              a.tl(href=tile.link.href)= tile.link.text
