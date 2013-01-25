@@ -74,7 +74,7 @@
 
       e.preventDefault();
 
-      if ( self.unit === 'pixel' ) {
+      if ( self.unit === 'px' ) {
         if ( self.axis.search('x') >= 0 ) {
           newX = self.startPositionX + movedX;
         }
@@ -83,18 +83,20 @@
         }
       }
 
-      if ( self.unit === 'percent' ) {
+      if ( self.unit === '%' ) {
         if ( self.axis.search('x') >= 0 ) {
-          newX = ((self.startPositionX + movedX) / self.containmentWidth * 100) + '%';
+          newX = ((self.startPositionX + movedX) / self.containmentWidth * 100);
         }
         if ( self.axis.search('y') >= 0 ) {
-          newY = ((self.startPositionY + movedY) / self.containmentHeight * 100) + '%';
+          newY = ((self.startPositionY + movedY) / self.containmentHeight * 100);
         }
       }
 
+      newX = self.applyBounds(newX, 'x');
+
       self.$el.css({
-        'left': newX,
-        'top': newY
+        'left': newX + self.unit,
+        'top': newY + self.unit
       });
 
       self.drag({
@@ -114,9 +116,24 @@
       self.$containment.off('mousemove touchmove');
     },
 
+    'applyBounds': function(val, which) {
+
+      var self = this;
+
+      if ( self.bounds ) {
+        if ( val < self.bounds[which].min ) {
+          return self.bounds[which].min;
+        } else if ( val > self.bounds[which].max ) {
+          return self.bounds[which].max;
+        }
+      }
+
+      return val;
+    },
+
     'pagePosition': function(e) {
 
-      if (!e.pageX && !e.originalEvent.touches[0].pageX) {
+      if ( !e.pageX && !e.originalEvent ) {
         return;
       }
 

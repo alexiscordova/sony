@@ -3,7 +3,7 @@
 // Module: EditorialDualViewer Module
 // Version: 0.1
 // Modified: 01/22/2013
-// Dependencies: jQuery 1.7+
+// Dependencies: jQuery 1.7+, ImagesLoaded
 // -----------------------------------------------------------------------
 
 (function($) {
@@ -19,9 +19,17 @@
     self.$el = $element;
     self.$dualViewContainer = self.$el.find('.edv-images');
     self.$scrubber = self.$el.find('.edv-scrubber-container');
-    self.$topSlide = self.$dualViewContainer.find('.image-2');
+    self.$bottomSlide = self.$el.find('.image-1');
+    self.$topSlide = self.$el.find('.image-2');
 
-    self.init();
+    // Kind of sketchy; because iQ hasn't had a chance to switch the <img> src I need a delay
+    // To make sure imagesLoaded() can grab the images correctly.
+    setTimeout(function(){
+      self.$dualViewContainer.imagesLoaded(function( $images, $proper, $broken ){
+        self.init();
+      });
+    }, 100);
+
   };
 
   EditorialDualViewer.prototype = {
@@ -34,18 +42,36 @@
 
       self.$scrubber.sonyDraggable({
         'axis': 'x',
-        'unit': 'percent',
+        'unit': '%',
         'containment': self.$dualViewContainer,
-        'drag': $.proxy(self.onDrag, self)
+        'drag': $.proxy(self.onDrag, self),
+        'bounds': self.getDragBounds()
       });
+    },
+
+    'getDragBounds': function() {
+
+      var self = this,
+          min = 100 - (self.$topSlide.find('img').width() / self.$dualViewContainer.width() * 100),
+          max = self.$bottomSlide.find('img').width() / self.$dualViewContainer.width() * 100;
+
+      // Define boundaries for max and min.
+      if ( min < 15 ) { min = 15 };
+      if ( max > 85 ) { max = 85 };
+
+      return {
+        'x': {
+          'min': min,
+          'max': max
+        }
+      }
     },
 
     'onDrag': function(e) {
 
-      var self = this,
-          newWidth = (100 - e.position.left.split('%')[0] * 1) + '%';
+      var self = this;
 
-      self.$topSlide.css('width', newWidth);
+      self.$topSlide.css('width', (100 - e.position.left) + '%');
     }
 
   };
