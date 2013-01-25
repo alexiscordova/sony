@@ -11,20 +11,31 @@ head
 
 body
 
-	h3= 'Related Products Grouped 5up Mode'
+	.container
+		h4= 'Related Products Grouped 5up Mode'
+
 	e = {"locals":locals, "data":data('related_products/5up-teal-color.json')}
 	!{partial('modules/related-products-g1-demo.html.jade', e)}
 
-	h3= 'Related Products Grouped 4up Mode'
+	.container
+		h4= 'Related Products Grouped 4up Mode'
+	
 	e = {"locals":locals, "data":data('related_products/4up-purple-color.json')}
 	!{partial('modules/related-products-g1-demo.html.jade', e)}
 
-	h3= 'Related Products Grouped 3up Mode'
+	.container
+		h4= 'Related Products Grouped 3up Mode'
+	
 	e = {"locals":locals, "data":data('related_products/3up-orange-color.json')}
 	!{partial('modules/related-products-g1-demo.html.jade', e)}
 
-	h3= 'Related Products 2up Mode'
+	.container	
+		h4= 'Related Products 2up Mode'
+	
 	e = {"locals":locals, "data":data('related_products/2up-view.json')}
 	!{partial('modules/related-products-g1-demo.html.jade', e)}
+
+	.container
+		h4= 'Related Products 5up Strip Mode'
 
 !{partial('includes/foot.html.jade', l)}

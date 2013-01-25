@@ -229,13 +229,13 @@
             numColumns = 0;
 
         if ( Modernizr.mq('(min-width: 981px)') ) { 
-          gutter = Exports.GUTTER_WIDTH * containerWidth;
+          gutter = Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
           numColumns = 5;
 
         // // Portrait Tablet ( 4 columns ) - masonry
         } else if ( Modernizr.mq('(min-width: 481px)') ) {
           numColumns = 4;
-          gutter = Exports.GUTTER_WIDTH_768 * containerWidth;
+          gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
         // Between Portrait tablet and phone ( 3 columns )
         } 
 
@@ -252,11 +252,11 @@
           //console.log("Shuffle columns »", containerWidth + 'px');
 
           if ( Modernizr.mq('(min-width: 981px)') ) {
-            column = Exports.COLUMN_WIDTH * containerWidth; // ~18% of container width
+            column = Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
           } else if ( Modernizr.mq('(min-width: 481px)') ) {
-            column = Exports.COLUMN_WIDTH_768 * containerWidth;
+            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
           } 
 
           return column;
@@ -405,12 +405,15 @@
             console.log("Setting Colums »",5);
 
             // add .grid5
-            self.$container
+ /*           self.$container
               .removeClass(gridClasses)
               .addClass(shuffleDash+5)
               .closest('.container')
               .removeClass(slimgrid)
-              .addClass(grid5);
+              .addClass(grid5);*/
+
+            self.$shuffleContainers.removeClass('slimgrid')
+            .addClass('slimgrid5');
 
             self.$shuffleContainers.children(itemSelector)
               .removeClass(allSpans)// Remove current grid span
@@ -430,11 +433,13 @@
           if ( !self.$shuffleContainers.hasClass( shuffleDash + 4 ) ) {
 
             // Remove .grid5
-            self.$container
+/*            self.$container
               .removeClass(gridClasses)
               .addClass(shuffleDash+4)
               .closest('.container')
-              .removeClass(grid5).addClass(slimgrid);
+              .removeClass(grid5).addClass(slimgrid);*/
+            self.$shuffleContainers.removeClass('slimgrid5')
+            .addClass('slimgrid');
 
             self.$shuffleContainers.children(itemSelector)
               .removeClass(allSpans)// Remove current grid span
@@ -594,13 +599,11 @@
               return;
             }
 
-          if(self.mode === 'suggested'){
-            self.$el.find('.gallery-item').removeClass('span6');
-            self.$el.removeClass('grid slimgrid');
-            return;
-          }
-
-
+            if(self.mode === 'suggested'){
+              self.$el.find('.gallery-item').removeClass('span6');
+              self.$el.removeClass('grid slimgrid');
+              return;
+            }
 
             self.isTabletMode = self.isDesktopMode = false;
             self.isMobileMode = true;
@@ -626,6 +629,9 @@
 
           break;
         }
+
+        self.setNameHeights(self.$shuffleContainers);
+
       },
 
       onNavUpdate: function(){
@@ -769,7 +775,7 @@
                   newPos = self.currRenderPosition + deltaPos * self.lastItemFriction ;
               }
             }
-          }
+          }-
            
           self.currRenderPosition = newPos;
 
@@ -1080,6 +1086,26 @@
           
           console.log('go back to desktop?');
         }
+      },
+
+      setNameHeights : function( $container ) {
+        var nameMaxHeight = 0;
+
+        // Set the height of the product name + model because the text can wrap and make it taller
+        $container
+          .find('.product-name-wrap')
+          .css('height', '') // remove heights in case they've been set before
+          .each(function() {
+            var $this = $(this),
+                height = parseFloat( $this.css('height') );
+
+            if ( height > nameMaxHeight ) {
+              nameMaxHeight = height;
+            }
+          })
+          .css('height', nameMaxHeight);
+
+        return this;
       }
     };
 
