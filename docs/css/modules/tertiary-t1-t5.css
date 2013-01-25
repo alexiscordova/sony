@@ -1,3 +1,18 @@
+/* line 77, ../../../src/css/scss/_base/_mixins.scss */
+.clearfix {
+  *zoom: 1;
+}
+/* line 63, ../../../src/css/scss/_base/_mixins.scss */
+.clearfix:before, .clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+/* line 71, ../../../src/css/scss/_base/_mixins.scss */
+.clearfix:after {
+  clear: both;
+}
+
 /* line 9, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 * {
   -webkit-box-sizing: border-box;
@@ -5,14 +20,13 @@
   box-sizing: border-box;
 }
 
-/* line 15, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 17, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper {
   position: relative;
-  background-color: #f3f4f6;
   overflow: auto;
   text-align: center;
 }
-/* line 21, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 24, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .tcc-body-wrapper {
   display: block;
   overflow: hidden;
@@ -21,56 +35,110 @@
   z-index: 1;
 }
 
-/* line 34, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 37, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .align-left-top {
+  text-align: left;
+  vertical-align: top;
+}
+/* line 42, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .align-left-center {
+  text-align: left;
+  vertical-align: middle;
+}
+/* line 47, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .align-left-bottom {
+  text-align: left;
+  vertical-align: bottom;
+}
+/* line 52, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .align-center-center {
+  text-align: center;
+  vertical-align: middle;
+}
+/* line 57, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .align-right-top {
+  text-align: right;
+  vertical-align: top;
+}
+/* line 62, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .align-right-center {
+  text-align: right;
+  vertical-align: middle;
+}
+/* line 67, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .align-right-bottom {
+  text-align: right;
+  vertical-align: bottom;
+}
+/* line 72, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .light-text-dark-box {
+  color: #83838f;
+  background-color: #f3f4f6;
+}
+/* line 77, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .light-text-trans-box {
+  color: #83838f;
+  background-color: transparent;
+}
+/* line 82, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .dark-text-light-box {
+  color: red;
+  background-color: green;
+}
+/* line 87, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .dark-text-trans-box {
+  color: red;
+  background-color: transparent;
+}
+
+/* line 96, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-header-wrapper .tcc-header {
   border-bottom: 2px solid #e4e7eb;
   position: relative;
 }
 
-/* line 41, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 103, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-body {
   display: inline-block;
 }
-/* line 45, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 107, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-body .tcc-content-module {
   padding-top: 15px;
   float: left;
   overflow: hidden;
 }
-/* line 52, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
-.tcc-body div[data-tcc-module-type="article"][data-tcc-module-mode="default"]:hover {
+/* line 114, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-body div[data-tcc-content-type="article"][data-tcc-content-mode="default"]:hover {
   cursor: pointer;
   background-color: white;
-  border: 2px solid red;
 }
-/* line 59, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
-.tcc-body div[data-tcc-module-type="sonys-voice"][data-tcc-module-mode="twitter"]:hover {
+/* line 120, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-body div[data-tcc-content-type="sonys-voice"][data-tcc-content-mode="twitter"]:hover {
   background-color: transparent;
 }
 
-/* line 66, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 127, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .article .l1 {
   text-transform: none;
   line-height: 1.2em;
   font-size: 1.125em;
 }
 
-/* line 75, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 136, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .sonys-voice .l4,
 .sonys-voice .l3 {
   text-transform: none;
 }
-/* line 80, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 141, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .sonys-voice .bq2 > p {
-  color: #83838f;
   line-height: 1.35em;
 }
-/* line 85, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 146, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .sonys-voice .bq2 > p:first-child {
   text-indent: 0;
 }
 
-/* line 94, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 155, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-nav.tcc-bullets {
   position: absolute;
   z-index: 35;
@@ -86,13 +154,13 @@
   -webkit-transition: opacity, 0.2s;
   transition: opacity, 0.2s;
 }
-/* line 108, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 169, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-nav.tcc-bullets.on {
   -webkit-transition: opacity, 0.2s;
   transition: opacity, 0.2s;
   opacity: 1;
 }
-/* line 114, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 175, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-nav .tcc-bullet {
   width: 10px;
   height: 10px;
@@ -106,7 +174,7 @@
   position: relative;
   overflow: hidden;
 }
-/* line 128, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 189, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-nav .tcc-bullet.tcc-nav-selected {
   background-color: #2e3339;
 }
