@@ -22,14 +22,10 @@
     self.$bottomSlide = self.$el.find('.image-1');
     self.$topSlide = self.$el.find('.image-2');
 
-    // Kind of sketchy; because iQ hasn't had a chance to switch the <img> src I need a delay
-    // To make sure imagesLoaded() can grab the images correctly.
-    setTimeout(function(){
-      self.$dualViewContainer.imagesLoaded(function( $images, $proper, $broken ){
-        self.init();
-      });
-    }, 100);
+    self.initTimeout();
 
+    // This should be replaced with the global debounced throttle event once that is available.
+    $(window).on('resize', $.proxy(self.setPositions, self));
   };
 
   EditorialDualViewer.prototype = {
@@ -49,6 +45,20 @@
       });
     },
 
+    'initTimeout': function() {
+
+      var self = this;
+
+      self.$dualViewContainer.imagesLoaded(function( $images, $proper ){
+
+        if ( $images.length === $proper.length ) {
+          self.init();
+        } else {
+          setTimeout($.proxy(self.initTimeout, self), 500);
+        }
+      });
+    },
+
     'getDragBounds': function() {
 
       var self = this,
@@ -56,15 +66,30 @@
           max = self.$bottomSlide.find('img').width() / self.$dualViewContainer.width() * 100;
 
       // Define boundaries for max and min.
-      if ( min < 15 ) { min = 15 };
-      if ( max > 85 ) { max = 85 };
+      if ( min < 15 ) { min = 15; }
+      if ( max > 85 ) { max = 85; }
+
+      // Handle condition where the images are not wide enough to fill the area.
+      if ( min >= max ) {
+        self.$el.addClass('scrubber-disabled');
+      } else {
+        self.$el.removeClass('scrubber-disabled');
+      }
 
       return {
         'x': {
           'min': min,
           'max': max
         }
-      }
+      };
+    },
+
+    'setPositions': function() {
+
+      var self = this,
+          bounds = self.getDragBounds();
+
+      self.$scrubber.sonyDraggable('setBounds', bounds);
     },
 
     'onDrag': function(e) {

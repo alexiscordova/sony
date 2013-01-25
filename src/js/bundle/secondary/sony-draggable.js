@@ -36,11 +36,12 @@
 
       var self = this;
 
-      self.startPositionX = self.$el.position().left;
-      self.startPositionY = self.$el.position().top;
-
       self.$containment.on('mousedown touchstart', $.proxy(self.onScrubStart, self));
-      self.$containment.on('mouseup touchend mouseleave touchleave click', $.proxy(self.onScrubEnd, self));
+      self.$containment.on('mouseup touchend click', $.proxy(self.onScrubEnd, self));
+      $(window).on('mouseup touchend', $.proxy(self.onScrubEnd, self));
+
+      self.setDimensions();
+      self.setPositions();
     },
 
     'onScrubStart': function(e) {
@@ -48,51 +49,91 @@
       var self = this,
           $this = $(e.target);
 
-      if ( self.$el.has($this).length === 0 || !self.pagePosition(e) ) {
+      if ( self.$el.has($this).length === 0 ) {
         return;
       }
 
       e.preventDefault();
 
-      // EOD NOTE: The problem with this is that it doesn't consider the page margins,
-      // so if you resize your cursor will be wrong.
-
-      self.startInteractionPoint = self.startInteractionPoint || self.pagePosition(e);
-      self.containmentWidth = self.$containment.width();
-      self.containmentHeight = self.$containment.height();
+      self.setDimensions();
+      self.handleStartPosition = self.getPagePosition(e);
 
       self.$containment.on('mousemove touchmove', $.proxy(self.onScrubbing, self));
-
     },
 
     'onScrubbing': function(e) {
 
-      var self = this,
-          movedX = self.pagePosition(e).x - self.startInteractionPoint.x,
-          movedY = self.pagePosition(e).y - self.startInteractionPoint.y,
-          newX, newY;
+      var self = this;
 
       e.preventDefault();
 
+      self.handlePosition.x = self.scrubberLeft + self.getPagePosition(e).x - self.handleStartPosition.x;
+      self.handlePosition.y = self.scrubberTop + self.getPagePosition(e).y - self.handleStartPosition.y;
+
+      self.setPositions();
+    },
+
+    'onScrubEnd': function(e) {
+
+      var self = this;
+
+      e.preventDefault();
+
+      self.$containment.off('mousemove touchmove');
+    },
+
+    'getConstrainedBounds': function(val, which) {
+
+      var self = this;
+
+      if ( self.bounds && self.bounds[which] ) {
+        if ( val < self.bounds[which].min ) {
+          return self.bounds[which].min;
+        } else if ( val > self.bounds[which].max ) {
+          return self.bounds[which].max;
+        }
+      }
+
+      return val;
+    },
+
+    'getPagePosition': function(e) {
+
+      if ( !e.pageX && !e.originalEvent ) {
+        return;
+      }
+
+      return {
+        'x': (e.pageX || e.originalEvent.touches[0].pageX),
+        'y': (e.pageY || e.originalEvent.touches[0].pageY)
+      };
+    },
+
+    'setPositions': function(){
+
+      var self = this,
+          newX, newY;
+
       if ( self.unit === 'px' ) {
         if ( self.axis.search('x') >= 0 ) {
-          newX = self.startPositionX + movedX;
+          newX = self.handlePosition.x;
         }
         if ( self.axis.search('y') >= 0 ) {
-          newY = self.startPositionY + movedY;
+          newY = self.handlePosition.y;
         }
       }
 
       if ( self.unit === '%' ) {
         if ( self.axis.search('x') >= 0 ) {
-          newX = ((self.startPositionX + movedX) / self.containmentWidth * 100);
+          newX = ((self.handlePosition.x) / self.containmentWidth * 100);
         }
         if ( self.axis.search('y') >= 0 ) {
-          newY = ((self.startPositionY + movedY) / self.containmentHeight * 100);
+          newY = ((self.handlePosition.y) / self.containmentHeight * 100);
         }
       }
 
-      newX = self.applyBounds(newX, 'x');
+      newX = self.getConstrainedBounds(newX, 'x');
+      newY = self.getConstrainedBounds(newY, 'y');
 
       self.$el.css({
         'left': newX + self.unit,
@@ -107,40 +148,22 @@
       });
     },
 
-    'onScrubEnd': function(e) {
+    'setDimensions': function() {
 
       var self = this;
 
-      e.preventDefault();
-
-      self.$containment.off('mousemove touchmove');
+      self.containmentWidth = self.$containment.width();
+      self.containmentHeight = self.$containment.height();
+      self.scrubberLeft = self.$el.position().left;
+      self.scrubberTop = self.$el.position().top;
     },
 
-    'applyBounds': function(val, which) {
+    'setBounds': function(newBounds) {
 
       var self = this;
 
-      if ( self.bounds ) {
-        if ( val < self.bounds[which].min ) {
-          return self.bounds[which].min;
-        } else if ( val > self.bounds[which].max ) {
-          return self.bounds[which].max;
-        }
-      }
-
-      return val;
-    },
-
-    'pagePosition': function(e) {
-
-      if ( !e.pageX && !e.originalEvent ) {
-        return;
-      }
-
-      return {
-        'x': e.pageX || e.originalEvent.touches[0].pageX,
-        'y': e.pageY || e.originalEvent.touches[0].pageY
-      };
+      self.bounds = newBounds;
+      self.setPositions();
     }
 
   };
@@ -163,7 +186,11 @@
   };
 
   $.fn.sonyDraggable.defaults = {
-    'unit': 'pixel'
+    'unit': 'pixel',
+    'handlePosition': {
+      'x': 0,
+      'y': 0
+    }
   };
 
 })(jQuery);
