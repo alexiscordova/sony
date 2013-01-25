@@ -7,8 +7,9 @@
 // Dependencies: jQuery 1.7+
 // ----------------------------------------------------------------------
 // Notes:
-// This plugin is based on the API of jQuery UI Draggable (http://api.jqueryui.com/draggable),
-// and serves as a bare-bones version to satisfy the needs of the Dual Viewer (E9).
+// This plugin is based loosely on the API of jQuery UI Draggable
+// (http://api.jqueryui.com/draggable), and serves as a bare(ish)-bones
+// class to satisfy the needs of the Dual Viewer (E9).
 // ----------------------------------------------------------------------
 
 (function($) {
@@ -19,7 +20,7 @@
 
     var self = this;
 
-    $.extend(self, {}, $.fn.editorialDualViewer.defaults, options);
+    $.extend(self, {}, $.fn.sonyDraggable.defaults, options);
 
     self.$el = $element;
     self.$containment = $(self.containment);
@@ -57,6 +58,8 @@
       // so if you resize your cursor will be wrong.
 
       self.startInteractionPoint = self.startInteractionPoint || self.pagePosition(e);
+      self.containmentWidth = self.$containment.width();
+      self.containmentHeight = self.$containment.height();
 
       self.$containment.on('mousemove touchmove', $.proxy(self.onScrubbing, self));
 
@@ -66,24 +69,38 @@
 
       var self = this,
           movedX = self.pagePosition(e).x - self.startInteractionPoint.x,
-          movedY = self.pagePosition(e).y - self.startInteractionPoint.y;
-
-      // Need to make this work for percentages, as an option.
+          movedY = self.pagePosition(e).y - self.startInteractionPoint.y,
+          newX, newY;
 
       e.preventDefault();
 
-      if ( self.axis.search('x') >= 0 ) {
-        self.$el.css('left', self.startPositionX + movedX);
+      if ( self.unit === 'pixel' ) {
+        if ( self.axis.search('x') >= 0 ) {
+          newX = self.startPositionX + movedX;
+        }
+        if ( self.axis.search('y') >= 0 ) {
+          newY = self.startPositionY + movedY;
+        }
       }
 
-      if ( self.axis.search('y') >= 0 ) {
-        self.$el.css('top', self.startPositionY + movedY);
+      if ( self.unit === 'percent' ) {
+        if ( self.axis.search('x') >= 0 ) {
+          newX = ((self.startPositionX + movedX) / self.containmentWidth * 100) + '%';
+        }
+        if ( self.axis.search('y') >= 0 ) {
+          newY = ((self.startPositionY + movedY) / self.containmentHeight * 100) + '%';
+        }
       }
+
+      self.$el.css({
+        'left': newX,
+        'top': newY
+      });
 
       self.drag({
         'position': {
-          'left': movedX,
-          'top': movedY
+          'left': newX,
+          'top': newY
         }
       });
     },
