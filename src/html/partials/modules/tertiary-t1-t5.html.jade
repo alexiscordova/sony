@@ -28,20 +28,27 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, da
             if contentMode == "default"
               //- ARTICLE:DEFAULT
 
-              //- image (optional)
-              img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
-              
-              noscript
-                img(src="#{module.noScriptImg}")
+              if(module.imgSrc)
+                //- image (optional)
+                img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                
+                noscript
+                  img(src="#{module.noScriptImg}")
 
               .tcc-copy
-                //- title (required)
-                p.l1 #{module.title}
+                
+                if(module.title)
+                  //- title (required)
+                  p.l1 #{module.title}
 
                 //- body copy (optional)
-                p.p3 #{module.bodyCopy}
-                  a.tl(href="#{module.articleLink}")
-                    | &nbsp; Read More
+                if(module.bodyCopy)
+                  p.p3 #{module.bodyCopy}
+                
+                    if(module.articleLink)
+                      a.tl(href="#{module.articleLink}")
+                    
+                        | &nbsp; Read More
 
             if contentMode == "featured"
               p featured
@@ -74,21 +81,33 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, da
 
                 .meta
                   for meta in module.meta
-                    //- user (required)
-                    p.l3 #{meta.user} 
+                    
+                    if(meta.user)
+                      //- user (required)
+                      p.l3 #{meta.user} 
 
-                    //- timestamp (required)
-                    p.l4 #{meta.timestamp}
-                        
-                //- quote (required)
-                blockquote.bq2
-                  p #{module.quote}
-                    a.tl(href="#{module.quoteLink}") #{module.quoteLink}
+                    if(meta.timestamp)
+                      //- timestamp (required)
+                      p.l4 #{meta.timestamp}
+                
+                if(module.quote)        
+  
+                  //- quote (required)
+                  blockquote.bq2
+  
+                    p #{module.quote}
 
-                //- social link (required)
-                p
-                  a.btn(href="#{module.socialLink}")
-                    | Follow us on Twitter
+                      if(module.quoteLink)
+                        a.tl(href="#{module.quoteLink}") #{module.quoteLink}
+
+                if(module.socialLink)
+  
+                  //- social link (required)
+                  p
+  
+                    a.btn(href="#{module.socialLink}")
+  
+                      | Follow us on Twitter
 
               if contentMode == "facebook"
                 p facebook
