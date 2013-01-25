@@ -1,0 +1,26 @@
+mixin descriptors()
+	for name in generatedpages()
+		if name.indexOf('index.html') == -1 && name.indexOf('-pagebuild.html') != -1
+			hrf = '../build/debug/' + name.replace(/(.eco|.hb|.jade)/g, '')
+			ti = title(name) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
+			de = desc(name)
+			li: a( href = hrf) !{ti} : !{de}
+
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+!{partial('includes/docs-head.html')}
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+	!{partial('includes/docs-nav.html')}
+
+	.jumbotron.subhead
+	  .container-px-width
+	    h2.bs-docs-heading Pages
+
+	
+	.container-px-width
+		ul
+			+descriptors()
+
+	!{partial('includes/docs-foot.html')}
+</html>
