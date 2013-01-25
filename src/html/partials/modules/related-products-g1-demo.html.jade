@@ -7,7 +7,7 @@ layout4: ["suggested" , "suggested"]
 ---
 if data.config.mode == 'full' 
   - clss = data.config.variation + ' ' + data.config.mode
-  section.related-products#related-products(data-mode=data.config.mode , class=clss)
+  section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
     .rp-overflow#rpOverflow
       .rp-container
         .rp-slide 
@@ -43,7 +43,7 @@ if data.config.mode == 'full'
 else if data.config.mode == 'suggested'
   - clss = data.config.variation + ' ' + data.config.mode
   .container
-    section.related-products#related-products(data-mode=data.config.mode , class=clss)
+    section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
       for module in data.submodules
         d = locals.data(module.data)
         - d.layout = document[data.config.layout][i++]

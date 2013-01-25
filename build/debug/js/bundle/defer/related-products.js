@@ -102,14 +102,18 @@
 
       self.$paddles              = $({});
       self.$el                   = $(element);
-      self.mode                  = self.$el.data('mode').toLowerCase();
       self.$slides               = self.$el.find('.rp-slide');
       self.$shuffleContainers    = self.$slides.find('.shuffle-container');
       self.$galleryItems         = self.$el.find('.gallery-item');
-      self.$bulletNav            = $();
-
-      self.numSlides             = self.$slides.length;
       self.$container            = self.$el.find('.rp-container').eq(0);
+      self.$bulletNav            = $();
+      self.$doc                  = $(document);
+      self.$win                  = $(window);
+
+      self.mode                  = self.$el.data('mode').toLowerCase();
+      self.variation             = self.$el.data('variation').split('-')[2];
+      
+      self.numSlides             = self.$slides.length;
       self.sliderOverflow        = self.$el.find('.rp-overflow').eq(0);
       self.previousId            = -1;
       self.currentId             = 0;
@@ -119,8 +123,7 @@
       self.slideCount            = 0;
       self.isFreeDrag            = false; //MODE: TODO
       self.currentContainerWidth = 0;
-      self.$doc                  = $(document);
-      self.$win                  = $(window);
+
       self.newSlideId            = 0;
       self.sPosition             = 0;
       self.scrollerModule        = null;
@@ -128,6 +131,10 @@
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
       
+
+      console.log('Variation on this module »' , self.variation );
+
+
       //modes
       self.isMobileMode          = false;
       self.isDesktopMode         = false;
@@ -273,6 +280,11 @@
         
         self.$paddles.hide();
         
+        if(self.variation != '2up' && self.variation != '5up'){
+          self.setSortPriorities();
+        }
+
+
         if(self.navigationControl.toLowerCase() === 'bullets' && self.$slides.length > 1){
           self.createNavigation();
           self.setupPaddles();
@@ -461,6 +473,48 @@
         return self;
       },
 
+      setSortPriorities: function(){
+        var self = this,
+            hitNormal = false;
+
+        self.$galleryItems.each(function(){
+          var $item = $(this);
+          if($item.hasClass('plate')){
+            $item.data('priority' , 1);
+          }
+
+          //covers off on sorting blank tiles
+          if(self.variation === '4up'){
+            if($item.hasClass('medium')){
+              $item.data('priority' , 5);
+            }else if($item.hasClass('normal') && !hitNormal){
+              $item.data('priority' , 2);
+              hitNormal = true;
+            }else if($item.hasClass('blank')){
+              $item.data('priority' , 3);
+            }
+            else if($item.hasClass('normal') && hitNormal === true){
+              $item.data('priority' , 4);
+            }        
+          }else if (self.variation === '3up'){
+            if($item.hasClass('medium')){
+              $item.data('priority' , 2);
+            }else if($item.hasClass('normal')){
+              $item.data('priority' , 3);
+              
+            }
+
+            if($item.hasClass('blank')){
+               $item.data('priority' , 100);
+            }            
+
+            console.log('Blank Priority »',$item.hasClass('blank') ? $item.data('priority') : ' I have this priority:: ' + $item.data('priority') );
+          }
+
+        });  
+
+      },
+
       sortByPriority : function() {
         var self = this,
             isTablet = Modernizr.mq('(min-width: 481px) and (max-width: 980px)');
@@ -470,8 +524,9 @@
             by: function($el) {
               var priority = $el.hasClass('plate') ? 1 : $el.hasClass('medium') ? 2 : 3;
 
-              if($el.hasClass('blank-normal')){
-                priority = 4;
+              //TODO: sort by priority with blanks
+              if(self.variation == '4up' || self.variation == '3up'){
+                priority = $el.data('priority');
               }
 
               // Returning undefined to the sort plugin will cause it to revert to the original array
