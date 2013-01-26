@@ -20,7 +20,7 @@ mixin copyblock(copyobject, h4class, h5class)
   if copyobject.link
     a(class= copyobject.link.type, href= copyobject.link.url) !{copyobject.link.text}
 
-.editorial.container.clearfix(class= data.layout.media)
+section.editorial.container.clearfix(class= data.layout.media)
   if data.layout.media == "full" 
     if data.layout.inner == "true" 
       .grid(class= data.style)
@@ -96,16 +96,16 @@ mixin copyblock(copyobject, h4class, h5class)
     .grid(class= data.layout.text)(class= data.style)
       if data.layout.text == "left"
         span = "span" + data.layout.columns[0]
-        div(class = span)
+        .box(class = span)
           +copyblock(data, "alt")
       
       else if data.layout.text == "right"
         span = "span" + data.layout.columns[1]
         offset = "offset" + data.layout.columns[0]
-        div(class= span)(class= offset)
+        .box(class= span)(class= offset)
           +copyblock(data, "alt")
       
       else if data.layout.text == "full" 
-        .span12
+        .box.span12
           +copyblock(data, "alt") 
 
