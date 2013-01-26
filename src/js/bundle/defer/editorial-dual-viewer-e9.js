@@ -49,11 +49,15 @@
     'initTimeout': function() {
 
       var self = this,
-          dimensionsReady = _.every(self.$images, function(obj){
-            return $(obj).width() > 0;
-          });
+          ready = true;
 
-      if ( dimensionsReady ) {
+      self.$images.each(function(){
+        if ( $(this).width() === 0 ) {
+          ready = false;
+        }
+      });
+
+      if ( ready ) {
         self.init();
       } else {
         setTimeout($.proxy(self.initTimeout, self), 500);
