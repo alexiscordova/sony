@@ -3,7 +3,7 @@
 // Module: EditorialDualViewer Module
 // Version: 0.1
 // Modified: 01/22/2013
-// Dependencies: jQuery 1.7+, ImagesLoaded
+// Dependencies: jQuery 1.7+
 // -----------------------------------------------------------------------
 
 (function($) {
@@ -21,6 +21,7 @@
     self.$scrubber = self.$el.find('.edv-scrubber-container');
     self.$bottomSlide = self.$el.find('.image-1');
     self.$topSlide = self.$el.find('.image-2');
+    self.$images = self.$dualViewContainer.find('img');
 
     self.initTimeout();
 
@@ -47,16 +48,16 @@
 
     'initTimeout': function() {
 
-      var self = this;
+      var self = this,
+          dimensionsReady = _.every(self.$images, function(obj){
+            return $(obj).width() > 0;
+          });
 
-      self.$dualViewContainer.imagesLoaded(function( $images, $proper ){
-
-        if ( $images.length === $proper.length ) {
-          self.init();
-        } else {
-          setTimeout($.proxy(self.initTimeout, self), 500);
-        }
-      });
+      if ( dimensionsReady ) {
+        self.init();
+      } else {
+        setTimeout($.proxy(self.initTimeout, self), 500);
+      }
     },
 
     'getDragBounds': function() {

@@ -186,11 +186,13 @@
   };
 
   $.fn.sonyDraggable.defaults = {
-    'unit': 'pixel',
+    'axis': 'xy',
+    'unit': 'px',
     'handlePosition': {
       'x': 0,
       'y': 0
-    }
+    },
+    'drag': function(){}
   };
 
 })(jQuery);
