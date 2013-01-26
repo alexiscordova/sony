@@ -7,11 +7,11 @@
       h1.spec-title= data.title
 
     .grid
-      ul.spec-views.inline.p3
+      ul.spec-views.inline
         each link, i in data.internalLinks
           - clss = i ? '' : 'active'
           li(class=clss)
-            a(href=link.href)= link.label
+            a.p3(href=link.href)= link.label
 
 
   section.spec-product#specifications
@@ -35,7 +35,7 @@
                   img(src=tile.img.noscriptsrc, alt=tile.img.alt)
 
           .tile-content
-            h3= tile.title
+            h3.tile-title= tile.title
             p= tile.description
             if tile.link
               a.tl(href=tile.link.href)= tile.link.text

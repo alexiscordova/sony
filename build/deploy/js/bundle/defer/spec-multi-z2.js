@@ -1,10 +1,10 @@
 /*global jQuery, Modernizr, Exports*/
 
-// ----------- Sony Specs Module --------
-// Module: Spec Comparison Module
+// -------- Sony Full Specs Multi -------
+// Module: Full Specs Multi
 // Version: 1.0
 // Author: Glen Cheney
-// Date: 01/14/13
+// Date: 01/24/13
 // Dependencies: jQuery 1.7+, Modernizr
 // --------------------------------------
 
@@ -39,6 +39,8 @@
       self.$enlargeClosers = self.$container.find('.spec-modal .box-close');
       self.$detailLabelsWrap = self.$specProducts.find('.detail-labels-wrap');
       self.$stickyHeaders = self.$specProducts.find('.compare-sticky-header');
+
+      self.stickyHeaderHeight = self.$stickyHeaders.first().height();
 
       // Line up spec item cells
       self._onResize();
@@ -363,7 +365,7 @@
     _getStickyHeaderOffset : function() {
       var self = this,
           top = self.$specProducts.offset().top,
-          bottom = self.$specProducts.height() + top;
+          bottom = self.$specProducts.height() + top - self.stickyHeaderHeight;
 
       return {
         top: top,
@@ -415,9 +417,9 @@
 
 $(document).ready(function() {
 
-  if ( $('.spec-module').length > 0 ) {
+  if ( $('.spec-multi').length > 0 ) {
 
-    $('.spec-module').spec();
+    $('.spec-multi').spec();
 
   }
 });

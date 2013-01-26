@@ -5,13 +5,32 @@
 // * Gallery's compare tool
 
 
+$specMobileBreakpoint: 35.4375em; // 567
+$specItemWidth1200: 13.75em; // 220
+$specLabelWidth1200: 8.75em; // 140
+$columnHeaderHeight: 5.3125em; // 85
+$tableHeaderColor: $gray80;
+$specStickyTabHeight: 3.125em; // 50
+$navBtnHeight: 2.875em; // 46
+
+
+// 888888b.            888    888
+// 888  "88b           888    888
+// 888  .88P           888    888
+// 8888888K.   .d88b.  888888 88888b.
+// 888  "Y88b d88""88b 888    888 "88b
+// 888    888 888  888 888    888  888
+// 888   d88P Y88..88P Y88b.  888  888
+// 8888888P"   "Y88P"   "Y888 888  888
+
 .iq-wrap {
   position: relative;
+  overflow: hidden;
 
   &:after {
     content: '';
     display: block;
-    padding-top: 56.40625%;
+    padding-top: 60.1851852%;
   }
 
   .iq-container {
@@ -21,6 +40,27 @@
     left: 0;
     right: 0;
   }
+}
+
+.nav-paddle {
+  border: none;
+  background: $gray60;
+  border-radius: .1875em; // 3 pixels
+  width: 2em; // 30
+  height: $navBtnHeight;
+  padding: 0; // override default button padding
+  @include transition();
+
+  &:hover,
+  &:focus {
+    background: $buttonOrange;
+    outline: none;
+  }
+
+  i {
+    vertical-align: middle;
+  }
+
 }
 
 // Spec Header
@@ -36,45 +76,65 @@
   margin-bottom: 0;
 }
 
-// Text over the title
-.spec-title-link {
-
-}
-
 .spec-title {
   margin-top: 0;
 }
 
-.spec-views {
+// Needs to be more specific
+ul.spec-views {
+  margin-left: -.375em;
   margin-bottom: 0;
 
   li {
+    padding-right: .375em; // 6
+    padding-left: .375em; // 6
     margin: 0;
   }
 
   .active {
-    padding-bottom: .625em;
+    padding-bottom: .625em; // 10
     border-bottom: .25em solid $btnBackground;
   }
 
   a {
-    color: $grayDark;
+    color: $gray20;
   }
 }
 
-// Needs to be more specific
-ul.spec-views li {
-  padding-right: .625em;
-  padding-left: .625em;
+
+// Media queries for both single and mutliple spec pages
+@media (max-width: $specMobileBreakpoint) {
+
+  .spec-single,
+  .spec-multi {
+    margin-top: 2.8125em; // 45
+  }
+
+  ul.spec-views {
+    margin-left: -.25em;
+
+    li {
+      padding-right: .25em;
+      padding-left: .25em;
+    }
+
+    .active {
+      padding-bottom: .5em;
+      border-bottom-width: .1875em;
+    }
+  }
+
 }
 
-$specMobileBreakpoint: 35.4375em; // 567
-$specItemWidth1200: 13.75em; // 220
-$specLabelWidth1200: 8.75em; // 140
-$columnHeaderHeight: 5.3125em; // 85
-$tableHeaderColor: $grayLightFieldSmall;
-$specStickyTabHeight: 3.125em; // 50
-$navBtnHeight: 2.875em; // 46
+
+// 888b     d888          888 888    d8b
+// 8888b   d8888          888 888    Y8P
+// 88888b.d88888          888 888
+// 888Y88888P888 888  888 888 888888 888
+// 888 Y888P 888 888  888 888 888    888
+// 888  Y8P  888 888  888 888 888    888
+// 888   "   888 Y88b 888 888 Y88b.  888
+// 888       888  "Y88888 888  "Y888 888
 
 // Hide sticky tabs
 .spec-tabs {
@@ -98,23 +158,6 @@ $navBtnHeight: 2.875em; // 46
   position: absolute;
   z-index: 20;
   top: ($columnHeaderHeight - $navBtnHeight) / 2;
-  border: none;
-  background: $grayLight2;
-  border-radius: .1875em; // 3 pixels
-  width: 2em; // 30
-  height: $navBtnHeight;
-  padding: 0; // override default button padding
-  @include transition();
-
-  &:hover,
-  &:focus {
-    background: $highlightColor;
-    outline: none;
-  }
-
-  i {
-    vertical-align: middle;
-  }
 }
 
 .spec-nav-prev {
@@ -131,7 +174,7 @@ $navBtnHeight: 2.875em; // 46
 .spec-item {
   position: relative;
   margin: 0;
-  border-right: .0625em solid $grayLighter; // 1 pixel
+  border-right: .0625em solid $gray70; // 1 pixel
 
   // Our position relative is overriding off-screen, reset that.
   &.off-screen {
@@ -160,6 +203,11 @@ $navBtnHeight: 2.875em; // 46
   width: 100%;
   padding: 0 1em;
 }
+
+.spec-list li {
+  margin: 1.25em 0;
+}
+
 
 .spec-item-cell {
   position: relative;
@@ -195,10 +243,6 @@ $navBtnHeight: 2.875em; // 46
     margin-left: 5.384615385em; // 70 (base 13)
   }
 
-  .spec-list li {
-    margin: 1.25em 0;
-  }
-
   .enlarge {
     margin: 2.5em 0 .625em;
     background: none;
@@ -227,7 +271,7 @@ $navBtnHeight: 2.875em; // 46
 
   .detail-labels-wrap {
     width: $specLabelWidth1200; // override % width
-    border-right: .0625em solid $grayLighter;
+    border-right: .0625em solid $gray70;
   }
 
   .product-count-wrap,
@@ -308,7 +352,7 @@ $navBtnHeight: 2.875em; // 46
 
 .spec-item-cell,
 .spec-products .detail-label {
-  border-bottom: .0625em solid $grayLighter;
+  border-bottom: .0625em solid $gray70;
 }
 
 // Spec Modal
@@ -346,7 +390,7 @@ $navBtnHeight: 2.875em; // 46
 
 }
 
-
+// Multi spec mobile breakpoint
 @media (max-width: $specMobileBreakpoint) {
 
   .spec-multi {
@@ -414,33 +458,192 @@ $navBtnHeight: 2.875em; // 46
 
 
 
-
+//  .d8888b.  d8b                   888
+// d88P  Y88b Y8P                   888
+// Y88b.                            888
+//  "Y888b.   888 88888b.   .d88b.  888  .d88b.
+//     "Y88b. 888 888 "88b d88P"88b 888 d8P  Y8b
+//       "888 888 888  888 888  888 888 88888888
+// Y88b  d88P 888 888  888 Y88b 888 888 Y8b.
+//  "Y8888P"  888 888  888  "Y88888 888  "Y8888
+//                              888
+//                         Y8b d88P
+//                          "Y88P"
 
 
 // Single Spec Module
 // -------------------------
 .spec-section {
   margin-top: 2.5em;
+  padding-bottom: 3.75em;
+  border-bottom: 1px solid $gray70;
+}
+
+.spec-overview {
+  background: $gray80;
+  margin-top: 0;
+  padding: 3.125em 0; // 50
+  border-bottom: none;
+
+  // The title/label above this has a margin-bottom of ~7px
+  dl {
+    margin-top: 23px;
+  }
+}
+
+.spec-section {
+
+  &.align-right-bottom {
+    padding-bottom: 0;
+  }
+
+  .section-label {
+    margin-top: -.125em;
+  }
+
+  dt:not(:first-child) {
+    margin-top: 30px; //1.875em; the font size is set on this, but I don't want to hard-code an em value to go with it
+  }
+
+  dd {
+    margin-left: 0;
+  }
+
+  .spec-list li:first-child {
+    margin-top: 0;
+  }
+
+  .media + .media {
+    margin-top: 5.5em;
+  }
+
+  .media .pull-left {
+    margin-right: 1.25em;
+  }
+
+  .media-heading {
+    margin-bottom: 0;
+  }
+
+  .media-description {
+    line-height: 1.3;
+  }
+
+  .holder-for-icon {
+    @include square(52px);
+    text-align: center;
+
+    i {
+      vertical-align: middle;
+    }
+  }
+}
+
+@media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
+
+
+  .spec-overview {
+    padding: 2.5em 0; // 40
+  }
+
+  .spec-section {
+    margin-top: 1.875em; // 30
+    padding-bottom: 2.8125em; // 45
+
+    .media .pull-left {
+      margin-right: .5em;
+    }
+
+    dt:not(:first-of-type) {
+      margin-top: 20px;
+    }
+
+  }
+}
+
+@media ( max-width: $specMobileBreakpoint ) {
+
+  // Make part of the grid a mobile grid -_-
+  .grid [class*=span].alpha {
+    margin-left: 0;
+  }
+
+  // Make part of the grid a mobile grid -_-
+  .grid [class*=span].no-m-span {
+    float: none;
+    display: block;
+    margin-left: 0;
+    width: auto;
+  }
+
+  .spec-overview {
+    padding: 2.5em 0;
+  }
+
+  .spec-section {
+    margin-top: 1.875em; // 30
+    padding-bottom: 2.5em; // 40
+
+    // Section label
+    .section-label {
+      margin-bottom: 1.875em;
+    }
+
+    .media .pull-left {
+      margin-right: .75em;
+    }
+
+    .media + .media,
+    .media {
+      margin-top: 1.625em;
+    }
+
+    .has-img {
+      margin-top: 1.875em;
+    }
+
+    dt:not(:first-of-type) {
+      margin-top: 20px;
+    }
+  }
+
 }
 
 
 
 
-
+// 8888888888                888                                    88888888888 d8b 888
+// 888                       888                                        888     Y8P 888
+// 888                       888                                        888         888
+// 8888888  .d88b.   8888b.  888888 888  888 888d888  .d88b.            888     888 888  .d88b.  .d8888b
+// 888     d8P  Y8b     "88b 888    888  888 888P"   d8P  Y8b           888     888 888 d8P  Y8b 88K
+// 888     88888888 .d888888 888    888  888 888     88888888           888     888 888 88888888 "Y8888b.
+// 888     Y8b.     888  888 Y88b.  Y88b 888 888     Y8b.               888     888 888 Y8b.          X88
+// 888      "Y8888  "Y888888  "Y888  "Y88888 888      "Y8888            888     888 888  "Y8888   88888P'
 
 
 // Spec Feature Tiles
 // -------------------------
+.spec-tiles-wrap {
+  margin-top: 6.25em; // 100
+  margin-bottom: 9.375em; // 150
+}
+
 .spec-tiles .spec-tile {
   margin-left: 0;
 }
 
 .spec-tile {
-  margin-top: 1.25em;
+  margin-top: 1.5em;
   background: $tableHeaderColor;
 
   .tile-content {
-    padding: 1.25em;
+    padding: 2.5em 2.5em 3.75em 1.875em;
+  }
+
+  // Remove default header margin top
+  .tile-title {
+    margin-top: 0;
   }
 }
 
@@ -449,4 +652,42 @@ $navBtnHeight: 2.875em; // 46
   width: 100%;
   height: auto;
   min-height: px-em(85px);
+}
+
+
+
+@media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
+
+  .spec-tiles-wrap {
+    margin-top: 4.6875em;
+    margin-bottom: 6.25em;
+  }
+
+  .spec-tile {
+    margin-top: .625em;
+
+    .tile-content {
+      padding: 1.875em 1.875em 2.8125em 1.25em;
+    }
+
+  }
+
+}
+
+@media ( max-width: $specMobileBreakpoint ) {
+
+  .spec-tiles-wrap {
+    margin-top: 3.75em;
+    margin-bottom: 5em;
+  }
+
+  .spec-tile {
+    margin-top: .625em;
+
+    .tile-content {
+      padding: 1.875em 1.875em 2.8125em 1.25em;
+    }
+
+  }
+
 }
