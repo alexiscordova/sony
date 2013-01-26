@@ -1,6 +1,10 @@
 //
 // Responsive: Tablet to desktop (default)
 // --------------------------------------------------
+
+
+
+
 .container,
 .container-px-width,
 .grid,
@@ -12,6 +16,7 @@
   @include clearfix();
 }
 
+
 // Fluid grid
 .container {
   width: $fluidContainerWidth;
@@ -21,7 +26,7 @@
     max-width: $containerWidthMax;
   }
   &.full-bleed-no-max{
-  	max-width: auto;
+  	max-width:100%;
   }
 }
 .grid,
@@ -29,16 +34,14 @@
 .slimgrid5, .grid5 {
   width: $fluidGridWidth;
 }
-
-@media (min-width: px-em(768px)) {
-  .container.full-bleed,
-  .container.full-bleed-no-max,
-  .grid.full-bleed,
-  .slimgrid.full-bleed,
-  .slimgrid5.full-bleed, .grid5.full-bleed {
-    width: auto;
-  }
+.container.full-bleed,
+.container.full-bleed-no-max,
+.grid.full-bleed,
+.slimgrid.full-bleed,
+.slimgrid5.full-bleed, .grid5.full-bleed {
+  width: auto;
 }
+
 
 
 @include grid-fluid($fluidGridColumnWidth, $fluidGridGutterWidth);

@@ -51,7 +51,9 @@ h2.bs-docs-heading.first-heading{
 h6.bs-docs-heading{
   margin-bottom:2em;
 }
-
+h4{
+  clear:both;
+}
 
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
@@ -88,6 +90,7 @@ section {
   padding-top:30px;
   padding-bottom: 60px;  
   border-top:solid 1px #e4e4e6;
+  @include clearfix;
 }
 section:first-child {
   margin-top:0;
@@ -412,6 +415,21 @@ hr.soften {
 
 
 
+// for custom page layout columns
+.bs-docs-sidebar:not(.span3){
+  float:left;
+  width:20%;
+  margin-right:4%;
+}
+.bs-docs-main-content:not(.span9){
+  float:left;
+  width:76%;  
+};
+
+
+
+
+
 /* Download page
 -------------------------------------------------- */
 
@@ -583,8 +601,47 @@ h2 + .grid-px-width {
 /* Base class */
 .bs-docs-example {
   /*border-bottom:solid 1px #e4e4e6;*/
-  margin-bottom: 22px; 
+  margin-bottom: 22px;
+  @include clearfix();
+  overflow: hidden;
+
+  .grid{
+    width:auto;
+  }
 }
+
+
+
+
+.col-50{
+  float:none;
+  width:auto;
+  margin-right:0;
+  @include clearfix();
+}
+.col-33{
+  float:left;
+  width:32%;
+  margin-right:2%; 
+  &:nth-child(3n+0){
+    margin-right:0;
+  }   
+}
+@media (min-width: 1024px) {
+  .col-50{
+    float:left;
+    width:48.5%;
+    margin-right:3%;
+
+    &:nth-child(even):not(.margin-right-1){
+      margin-right:0;
+    }
+    &.margin-right-1{
+      margin-right:1%;
+    }
+  }
+}
+
 .bs-docs-example-headings h1,
 .bs-docs-example-headings h2,
 .bs-docs-example-headings h3,
@@ -617,7 +674,7 @@ h2 + .grid-px-width {
   position: absolute;
   top: -1px;
   left: -1px;
-  padding: 3px 7px;
+  padding: 8px 7px 5px;
   font-size: 12px;
   font-weight: bold;
   background-color: #f5f5f5;
@@ -718,6 +775,8 @@ form.bs-docs-example {
   width: 260px;
   margin: 20px;
 }
+
+
 
 
 
@@ -909,6 +968,7 @@ form.bs-docs-example {
   }
   .simple-navbar-fixed-top {
     margin-bottom: $baseLineHeight;
+    height:60px;
   }
   .simple-navbar-fixed-bottom {
     margin-top: $baseLineHeight;
@@ -959,7 +1019,7 @@ form.bs-docs-example {
   .simple-nav-collapse .dropdown-menu a {
     padding: 9px 15px;
     font-weight: bold;
-    color: $simpleNavbarLinkColor;
+    // color: $simpleNavbarLinkColor;
     @include border-radius(3px);
   }
   // Buttons
@@ -1149,9 +1209,6 @@ form.bs-docs-example {
   /* Remove any padding from the body */
   body {
     padding-top: 0;
-  }
-  .simple-navbar-fixed-top {
-    height:60px;
   }
   /* Unfloat brand */
   body > .simple-navbar-fixed-top .brand {
@@ -1366,66 +1423,91 @@ form.bs-docs-example {
 // Color swatches
 // --------------------------------------------------
 
-.color-swatch-span{
-  margin-bottom:15px;
+.docs-color-swatch{
+  margin-bottom:20px;
 }
-.color-swatch-outlined{
-  border:solid 1px $grayLight;
+#colors{
+  h4{
+    margin-top:25px;
+  }
+  .row{
+    @include clearfix;
+  }
 }
-[class^="color-swatch--"],
-[class*=" color-swatch--"] {
+
+.docs-color-swatch-outlined{
+  border:solid 1px $gray60;
+}
+[class^="docs-color-swatch--"],
+[class*=" docs-color-swatch--"] {
   display:block;
-  width:76px;
-  height:76px;
+  width:auto;
+  height:30px;
   margin-bottom:2px;
 }
-.color-swatch-span p{
+.docs-color-swatch p{
   color:$gray;
   font-size:0.6875em; /* 11px/16px */
   margin:0;
   line-height:1.3;
 }
-.color-swatch--black{       background: $black;  }
-.color-swatch--grayDark{    background: $grayDark;  }
-.color-swatch--gray{        background: $gray;  }
-.color-swatch--grayLight{   background: $grayLight;  }
-.color-swatch--grayLighter{ background: $grayLighter;  }
-.color-swatch--white{       background: $white;  }
+.docs-color-swatch--black {  background: $black;   }
+.docs-color-swatch--gray10{  background: $gray10;  }
+.docs-color-swatch--gray20{  background: $gray20;  }
+.docs-color-swatch--gray30{  background: $gray30;  }
+.docs-color-swatch--gray40{  background: $gray40;  }
+.docs-color-swatch--gray50{  background: $gray50;  }
+.docs-color-swatch--gray60{  background: $gray60;  }
+.docs-color-swatch--gray70{  background: $gray70;  }
+.docs-color-swatch--gray80{  background: $gray80;  }
+.docs-color-swatch--gray90{  background: $gray90;  }
+.docs-color-swatch--white {  background: $white;   }
 
-.color-swatch--grayDarkerFieldLarge{  background: $grayDarkerFieldLarge; }
-.color-swatch--grayDarkFieldLarge{    background: $grayDarkFieldLarge; }
-.color-swatch--grayLightFieldLarge{   background: $grayLightFieldLarge }
-.color-swatch--grayDarkerFieldSmall{  background: $grayDarkerFieldSmall; }
-.color-swatch--grayDarkFieldSmall{    background: $grayDarkFieldSmall; }
-.color-swatch--grayLightFieldSmall{   background: $grayLightFieldSmall }
+.docs-color-swatch--buttonBlue      {  background: $buttonBlue;      }
+.docs-color-swatch--buttonBlueHover {  background: $buttonBlueHover; }
+.docs-color-swatch--buttonBlueActive{  background: $buttonBlueActive;}
+.docs-color-swatch--buttonOrange      {  background: $buttonOrange;      }
+.docs-color-swatch--buttonOrangeHover {  background: $buttonOrangeHover; }
+.docs-color-swatch--buttonOrangeActive{  background: $buttonOrangeActive;}
+.docs-color-swatch--linkBlue          {  background: $linkBlue;          }
+.docs-color-swatch--linkBlueHover     {  background: $linkBlueHover;     }
+.docs-color-swatch--linkBlueActive    {  background: $linkBlueActive;    }
+
+.docs-color-swatch--themeRed                {  background: $themeRed;                }
+.docs-color-swatch--themeRedHover           {  background: $themeRedHover;           }
+.docs-color-swatch--themeRedActive          {  background: $themeRedActive;          }
+.docs-color-swatch--themePurple             {  background: $themePurple;             }
+.docs-color-swatch--themePurpleHover        {  background: $themePurpleHover;        }
+.docs-color-swatch--themePurpleActive       {  background: $themePurpleActive;       }
+.docs-color-swatch--themeBlueLight          {  background: $themeBlueLight;          }
+.docs-color-swatch--themeBlueLightHover     {  background: $themeBlueLightHover;     }
+.docs-color-swatch--themeBlueLightActive    {  background: $themeBlueLightActive;    }
+.docs-color-swatch--themeGreen              {  background: $themeGreen;              }
+.docs-color-swatch--themeGreenHover         {  background: $themeGreenHover;         }
+.docs-color-swatch--themeGreenActive        {  background: $themeGreenActive;        }
+.docs-color-swatch--themeOrange             {  background: $themeOrange;             }
+.docs-color-swatch--themeOrangeHover        {  background: $themeOrangeHover;        }
+.docs-color-swatch--themeOrangeActive       {  background: $themeOrangeActive;       }
+.docs-color-swatch--themeBlueDark           {  background: $themeBlueDark;           }
+.docs-color-swatch--themeBlueDarkHover      {  background: $themeBlueDarkHover;      }
+.docs-color-swatch--themeBlueDarkActive     {  background: $themeBlueDarkActive;     }
+
+.docs-color-swatch--secondaryGold           {  background: $secondaryGold;           }
+.docs-color-swatch--secondarySage           {  background: $secondarySage;           }
+.docs-color-swatch--secondaryOlive          {  background: $secondaryOlive;          }
+.docs-color-swatch--secondaryAqua           {  background: $secondaryAqua;           }
+.docs-color-swatch--secondaryEggplant       {  background: $secondaryEggplant;       }
+.docs-color-swatch--secondaryLavender       {  background: $secondaryLavender;       }
+
+.docs-color-swatch--twitterColor            {  background: $twitterColor;            }
+.docs-color-swatch--facebookColor           {  background: $facebookColor;           }
+.docs-color-swatch--gplusColor              {  background: $gplusColor;              }
+.docs-color-swatch--youtubeColor            {  background: $youtubeColor;            }
 
 
-.color-swatch--highlightColor{        background: $highlightColor; }
-.color-swatch--highlightColorHover{   background: $highlightColorHover; }
-.color-swatch--highlightColorActive{  background: $highlightColorActive; }
-.color-swatch--highlightColorDark{    background: $highlightColorDark; }
-
-
-.color-swatch--linkColor{            background: $linkColor; }
-.color-swatch--linkColorHover{       background: $linkColorHover; }
-.color-swatch--btnBackground{        background: $btnBackground; }
-.color-swatch--btnBackgroundHover{   background: $btnBackgroundHover; }
 
 
 
-
-
-
-
-
-
-
-
-
-#contentWrappers{
-  border-bottom:none;
-  padding-bottom:20px;
-}
 
 
 
@@ -1577,7 +1659,25 @@ form.bs-docs-example {
   }
 }
 
+.limit-paragraph-widths{
 
+  #small-screens-section > p,
+  #overview > .container > p{
+    max-width: 425px;    
+  }
+  #small-screens-section > p:not(.p4) {
+    font-size:0.8em;
+  }
+  #small-screens-section > p.p4 {
+    font-size:0.7em;
+  }
+  .jumbotron{
+    padding-bottom:10px;
+    p{
+      font-size:24px !important;
+    }
+  }
+}
 
 .docs-scaffolding{
   .pln, .kwd, .pun, .lit { color:#ff485e;} // classes / default

@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 // Project configuration.
   grunt.initConfig({
     lint: {
-      files: ['js/bundle/**/*.js', 'html/data/**/.json']
+      files: ['js/bundle/**/*.js', 'html/data/**/*.json']
     },
     jshint: {
         options: {
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
           newcap: true,
           noarg: true,
           onecase: true,
-          quotmark: 'single',
+          quotmark: true,
           regexp: true,
           undef: true,
           unused: true,

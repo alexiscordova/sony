@@ -114,7 +114,7 @@
 
 
 //  ----------------------------------------------  x-pos,    width,  height, hasHover, hasActive, activeIsHover, iconTrigger, margin
-@include icon-ui(favorite,                          0px,      16px,   14px);
+@include icon-ui(favorite,                          0px,      16px,   14px,   true,    true,   false,   true);
 @include icon-ui(cart,                              -30px,    17px,   14px);
 @include icon-ui(search,                            -60px,    15px,   13px,   false);
 @include icon-ui(arrowhead-down-gray,               -90px,    8px,    4px);
@@ -158,6 +158,7 @@
 @include icon-ui2(chevron-18-white-left,            -60px,    8px,    18px);
 @include icon-ui2(chevron-18-white-right,           -90px,    8px,    18px);
 @include icon-ui2(magnify,                          -120px,   17px,   17px,   true,   false,  false,  true);
+@include icon-ui2(chevron-16-black-right,           -150px,   6px,    16px);
 
 @include icon-uibig(support,                        0px,      55px,   50px,   true);
 @include icon-uibig(twitter,                        -60px,    36px,   32px,   true);
@@ -247,7 +248,13 @@
 @include sprite-mini(nav-search-input,         -30px,  23px,   24px);
 @include sprite-mini(nav-search-input-mini,    -60px,  16px,   16px);
 
+
+
 @include sprite-reg(nav-sony-logo,             0px,     89px,   31px);
+@mixin sprite-reg-nav-sony-logo-sm{
+  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
+  @include sprite-reg(nav-sony-logo,           -90px,   70px,   25px);
+}
 
 
 

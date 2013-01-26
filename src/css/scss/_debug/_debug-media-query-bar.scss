@@ -20,28 +20,28 @@ body.debug::before {
 }
 
 
-@media (width: px-em(320)) { // 320px
-  body.debug::before {
-    content: '320px-567px - [Exactly 320] (Phone Portrait) - (width: 20em)';
-    background-color: hsla(260, 80%, 60%, $backgroundOpacity);
-  }
-}
 @media (max-width: px-em(479)) { // 479px
   body.debug::before {
     content: '320px-567px [320-479] (Large Phone Portrait) - (max-width: 29.9375em)';
     background-color: hsla(300, 80%, 60%, $backgroundOpacity);
   }
 }
-@media (width: px-em(480)) { // 480px
+@media (width: px-em(320)) { // 320px
   body.debug::before {
-    content: '320px-567px [Exactly 480] (Phone Landscape) - (width: 30em)';
-    background-color: hsla(210, 50%, 30%, $backgroundOpacity);
+    content: '320px-567px - [Exactly 320] (Phone Portrait) - (width: 20em)';
+    background-color: hsla(260, 80%, 60%, $backgroundOpacity);
   }
 }
 @media (min-width: px-em(481)) and (max-width: px-em(567)) { // 481px-567px
   body.debug::before {
     content: '320px-567px [480-567] (Phone Landscape / Small Tablet Portrait) - (min-width: 30.0625em) and (max-width: 35.4375em)';
     background-color: hsla(210, 80%, 60%, $backgroundOpacity);
+  }
+}
+@media (width: px-em(480)) { // 480px
+  body.debug::before {
+    content: '320px-567px [Exactly 480] (Phone Landscape) - (width: 30em)';
+    background-color: hsla(210, 50%, 30%, $backgroundOpacity);
   }
 }
 @media (width: px-em(568)) { // 568px

@@ -1,4 +1,4 @@
 config = {
-    localbase:"glen.local/~glen/sgfe/build/debug/"
+    localbase:"localhost/~ppaquet/sony-global-front-end/build/debug/"
 };
 module.exports = config;

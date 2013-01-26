@@ -17,111 +17,125 @@
 //  "Y8888P"   "Y88P"  888  "Y88P"  888      88888P'
 // ------------------------------------------------
 #COLORS{} // this is just here for a SublimeText code-folding collapse point.
+
+  // -------------------------
   // Grays
   // -------------------------
-  $black:                 rgb(0,0,0) !default;       
-  $grayDarkerFieldLarge:  rgb(35,35,35) !default;    
-  $grayDark:              rgb(47,53,61) !default;    
-  $grayDark1:             rgb(80,77,86) !default;
-  $gray:                  rgb(131,131,143) !default; 
-  $grayLight0:            rgb(145,145,158) !default; 
-  $grayLight:             rgb(188,188,204) !default; 
-  $grayLight2:            rgb(213,215,216) !default; 
-  $grayLightish:          rgb(210,210,219) !default; 
-  $grayLighter:           rgb(228,231,235) !default; 
-  $white:                 rgb(255,255,255) !default; 
-
-  // Background Tones
-  // -----------------------------------
-  $grayDarkerFieldLarge:  rgb(31,32,36) !default;    
-  $grayDarkFieldLarge:    rgb(64,66,71) !default;    
-  $grayLightFieldLarge:   rgb(243,244,246) !default; 
-
-  $grayDarkerFieldSmall:  rgb(33,37,48) !default;    
-  $grayDarkFieldSmall:    rgb(114,110,122) !default; 
-  $grayLightFieldSmall:   rgb(241,245,249) !default; 
-
-
-
-
-  // I'm just trying out some new naming conventions. They're not implemented anywhere yet. 
-  // They would replace all of the black/gray/white colors above if this is what we want to use. -[cjm]
+  $black:   rgb(0,0,0);      
+  $gray10:  rgb(33,37,48);   
+  $gray20:  rgb(47,53,61);   
+  $gray30:  rgb(80,77,86);   
+  $gray40:  rgb(131,131,143);
+  $gray50:  rgb(188,188,204);
+  $gray60:  rgb(210,210,219);
+  $gray70:  rgb(228,231,235);
+  $gray80:  rgb(241,245,249);
+  $gray90:  rgb(243,244,246);
+  $white:   rgb(255,255,255);
+  // LEGACY - Ideally, we should do a search-and-replace through all code to get rid of all these now.
   // --------------------------------------------------
-  // $black:         rgb(0,0,0) !default;       // 
-  // $gray10:        rgb(35,35,35) !default;    // blackLight
-  // $grayCool10:    rgb(31,32,36) !default;    // grayDarkerFieldLarge
-  // $grayCool15:    rgb(33,37,48) !default;    // grayDarkerFieldSmall
-  // $gray20:        rgb(47,53,61) !default;    // grayDark
-  // $grayCool20:    rgb(64,66,71) !default;    // grayDarkFieldLarge
-  // $gray30:        rgb(80,77,86) !default;    // grayDark1
-  // $grayCool50:    rgb(114,110,122) !default; // grayDarkFieldSmall
-  // $gray50:        rgb(131,131,143) !default; // gray
-  // $grayCool60:    rgb(145,145,158) !default; // grayLight0
-  // $gray60:        rgb(188,188,204) !default; // grayLight
-  // $gray70:        rgb(213,215,216) !default; // grayLight2
-  // $gray80:        rgb(210,210,219) !default; // grayLightish
-  // $gray90:        rgb(228,231,235) !default; // grayLighter
-  // $grayCool90:    rgb(241,245,249) !default; // grayLightFieldSmall
-  // $grayCool95:    rgb(243,244,246) !default; // grayLightFieldLarge
-  // $white:         rgb(255,255,255) !default; // 
+    $grayDark:              $gray20;
+    $grayDark1:             $gray30;
+    $gray:                  $gray40;
+    $grayLight0:            $gray40;
+    $grayLight:             $gray50;
+    $grayLight2:            $gray60;
+    $grayLightish:          $gray60;
+    $grayLighter:           $gray70;
+
+    $grayDarkerFieldLarge:  $gray10;
+    $grayDarkFieldLarge:    $gray20;
+    $grayLightFieldLarge:   $gray90;
+
+    $grayDarkerFieldSmall:  $gray10;
+    $grayDarkFieldSmall:    $gray40;
+    $grayLightFieldSmall:   $gray80;
 
 
 
 
-  // Sony Highlight colors
   // --------------------------------------------------
-  $highlightColor:        rgb(243,84,41) !default;
-  $highlightColorHover:   lighten($highlightColor, 5%) !default;
-  $highlightColorActive:  $highlightColor !default;
-  $highlightColorDark:    rgb(219,76,37);
-
-
-  // Links
+  // Buttons & Links
   // --------------------------------------------------
-  $linkColor:       rgb(69,113,236) !default;
-  $linkColorHover:  rgb(31,68,183) !default;
-  $linkColorLight:  rgb(87,135,244) !default;
+  $buttonBlue:       rgb(88,135,245);
+  $buttonBlueHover:  rgb(69,114,237);
+  $buttonBlueActive: rgb(102,148,255);
+
+  $buttonOrange:       rgb(242,85,41);
+  $buttonOrangeHover:  rgb(217,76,37);
+  $buttonOrangeActive: rgb(255,117,79);
+  // LEGACY ------------------------------------------
+    $highlightColor:        $buttonOrange;
+    $highlightColorHover:   $buttonOrangeHover;
+    $highlightColorActive:  $buttonOrangeActive;
+    $highlightColorDark:    rgb(219,76,37); // TODO
+
+  $linkBlue:        rgb(69,114,237);
+  $linkBlueHover:   rgb(60,76,116);
+  $linkBlueActive:  rgb(87,135,244);
+  // LEGACY ------------------------------------------
+    $linkColor:       $linkBlue;
+    $linkColorHover:  $linkBlueHover;
+    $linkColorLight:  $linkBlueActive;
 
 
 
-  // UX Theme Colors  
+
+  // UX Theme Colors
   // --------------------------------------------------
-  $themeRed:        rgb(201,42,41) !default;
-  $themePurple:     rgb(147,48,142) !default;
-  $themeBlueLight:  rgb(47,172,207) !default;
-  $themeGreen:      rgb(143,196,47) !default;
-  $themeOrange:     rgb(230,118,34) !default;
-  $themeBlueDark:   rgb(16,88,158) !default;
+  $themeRed:             rgb(201,52,52);
+  $themeRedHover:        rgb(176,46,46);
+  $themeRedActive:       rgb(227,59,59);
+  $themePurple:          rgb(145,63,153);
+  $themePurpleHover:     rgb(121,52,128);
+  $themePurpleActive:    rgb(170,73,178);
+  $themeBlueLight:       rgb(49,176,204);
+  $themeBlueLightHover:  rgb(43,154,178);
+  $themeBlueLightActive: rgb(55,198,229);
+  $themeGreen:           rgb(139,199,72);
+  $themeGreenHover:      rgb(122,173,62);
+  $themeGreenActive:     rgb(157,224,81);
+  $themeOrange:          rgb(232,117,51);
+  $themeOrangeHover:     rgb(207,105,45);
+  $themeOrangeActive:    rgb(255,129,56);
+  $themeBlueDark:        rgb(39,99,163);
+  $themeBlueDarkHover:   rgb(33,84,138);
+  $themeBlueDarkActive:  rgb(45,115,189);
 
-
-
-  // Primary Colors
+  // Secondary Colors
   // --------------------------------------------------
-  $orange:      rgb(237,78,35) !default;  
-  $red:         rgb(248,83,84) !default;  
-  $yellow:      rgb(232,196,70) !default; 
+  $secondaryGold:     rgb(240,185,56);
+  $secondarySage:     rgb(146,185,164);
+  $secondaryOlive:    rgb(162,184,73);
+  $secondaryAqua:     rgb(69,175,201);
+  $secondaryEggplant: rgb(151,91,119);
+  $secondaryLavender: rgb(110,93,145);
+
+
+  // 3rd Party Brand Colors
+  // --------------------------------------------------
+  $twitterColor:   rgb(40,170,225) !default;
+  $facebookColor:  rgb(59,91,153) !default;
+  $gplusColor:     rgb(219,74,57) !default;
+  $youtubeColor:   rgb(239,60,57) !default;
+
+
+
+
+
+
+  // MISC Colors
+  // --------------------------------------------------
+  // mostly just used for product color swatches - these are not final!
+  $orange:      rgb(237,78,35) !default;
+  $red:         rgb(248,83,84) !default;
+  $yellow:      rgb(232,196,70) !default;
   $green:       rgb(34,192,131) !default;
   $blue:        rgb(61,173,254) !default;
-
-
-  // mostly just used for product color swatches:
   $pink:        rgb(195,50,95) !default;
   $purple:      rgb(122,67,182) !default;
   $teal:        rgb(58,135,173) !default;
   $lemon:       rgb(255,254,201) !default;
-
-
-
-
-
-  // 3rd Party Brand Colors  
-  // --------------------------------------------------
-  $twitterColor:   rgb(43,180,245) !default;
-  $facebookColor:  rgb(62,75,203) !default;
-  $gplusColor:     rgb(219,64,44) !default;
-  $youtubeColor:   rgb(145,7,7) !default;
-  
-
 
   // Transparent colors - ??? island of misfit colors here?
   // --------------------------------------------------
@@ -151,17 +165,17 @@
 
 
 // ------------------------------------------------
-// 88888888888                                                            888               
-//     888                                                                888               
-//     888                                                                888               
-//     888  888  888 88888b.   .d88b.   .d88b.  888d888  8888b.  88888b.  88888b.  888  888 
-//     888  888  888 888 "88b d88""88b d88P"88b 888P"       "88b 888 "88b 888 "88b 888  888 
-//     888  888  888 888  888 888  888 888  888 888     .d888888 888  888 888  888 888  888 
-//     888  Y88b 888 888 d88P Y88..88P Y88b 888 888     888  888 888 d88P 888  888 Y88b 888 
-//     888   "Y88888 88888P"   "Y88P"   "Y88888 888     "Y888888 88888P"  888  888  "Y88888 
-//               888 888                    888                  888                    888 
-//          Y8b d88P 888               Y8b d88P                  888               Y8b d88P 
-//           "Y88P"  888                "Y88P"                   888                "Y88P"  
+// 88888888888                                                            888
+//     888                                                                888
+//     888                                                                888
+//     888  888  888 88888b.   .d88b.   .d88b.  888d888  8888b.  88888b.  88888b.  888  888
+//     888  888  888 888 "88b d88""88b d88P"88b 888P"       "88b 888 "88b 888 "88b 888  888
+//     888  888  888 888  888 888  888 888  888 888     .d888888 888  888 888  888 888  888
+//     888  Y88b 888 888 d88P Y88..88P Y88b 888 888     888  888 888 d88P 888  888 Y88b 888
+//     888   "Y88888 88888P"   "Y88P"   "Y88888 888     "Y888888 88888P"  888  888  "Y88888
+//               888 888                    888                  888                    888
+//          Y8b d88P 888               Y8b d88P                  888               Y8b d88P
+//           "Y88P"  888                "Y88P"                   888                "Y88P"
 // ------------------------------------------------
 .TYPOGRAPHY{} // this is just here for a SublimeText code-folding collapse point
 
@@ -207,27 +221,27 @@
 
   // use these font-size variables instead of doing the math yourself every time!
                      // context/target
-  $font_60_16: 3.75em;   // 60px/16px
-  $font_54_16: 3.375em;  // 54px/16px
-  $font_44_16: 2.75em;   // 44px/16px
-  $font_40_16: 2.5em;    // 40px/16px
-  $font_32_16: 2.0em;    // 32px/16px
-  $font_30_16: 1.875em;  // 32px/16px
-  $font_28_16: 1.75em;   // 28px/16px
-  $font_26_16: 1.625em;  // 26px/16px
-  $font_25_16: 1.5625em; // 25px/16px
-  $font_22_16: 1.375em;  // 22px/16px
-  $font_20_16: 1.25em;   // 20px/16px
-  $font_18_16: 1.125em;  // 18px/16px
-  $font_17_16: 1.0625em; // 17px/16px
-  $font_16_16: 1.0em;    // 16px/16px
-  $font_15_16: 0.9375em; // 15px/16px
-  $font_14_16: 0.875em;  // 14px/16px
-  $font_13_16: 0.8125em; // 13px/16px
-  $font_12_16: 0.75em;   // 12px/16px
-  $font_11_16: 0.6875em; // 11px/16px
-  $font_10_16: 0.625em;  // 10px/16px
-  $font_9_16:  0.5625em; //  9px/16px
+  $font_60_16:  3.75em;   // 60px/16px
+  $font_54_16:  3.375em;  // 54px/16px
+  $font_44_16:  2.75em;   // 44px/16px
+  $font_40_16:  2.5em;    // 40px/16px
+  $font_32_16:  2.0em;    // 32px/16px
+  $font_30_16:  1.875em;  // 32px/16px
+  $font_28_16:  1.75em;   // 28px/16px
+  $font_26_16:  1.625em;  // 26px/16px
+  $font_25_16:  1.5625em; // 25px/16px
+  $font_22_16:  1.375em;  // 22px/16px
+  $font_20_16:  1.25em;   // 20px/16px
+  $font_18_16:  1.125em;  // 18px/16px
+  $font_17_16:  1.0625em; // 17px/16px
+  $font_16_16:  1.0em;    // 16px/16px
+  $font_15_16:  0.9375em; // 15px/16px
+  $font_14_16:  0.875em;  // 14px/16px
+  $font_13_16:  0.8125em; // 13px/16px
+  $font_12_16:  0.75em;   // 12px/16px
+  $font_11_16:  0.6875em; // 11px/16px
+  $font_10_16:  0.625em;  // 10px/16px
+  $font_9_16:   0.5625em; //  9px/16px
 
   $font_32_15: 2.133333333333333em;  // 32px/15px;
   $font_26_15: 1.733333333333333em;  // 26px/15px;
@@ -246,39 +260,6 @@
 
 
 
-
-
-
-
-// ----------------------------------------------------------------------------
-// 888888b.                             888                        d8b          888             
-// 888  "88b                            888                        Y8P          888             
-// 888  .88P                            888                                     888             
-// 8888888K.  888d888  .d88b.   8888b.  888  888 88888b.   .d88b.  888 88888b.  888888 .d8888b  
-// 888  "Y88b 888P"   d8P  Y8b     "88b 888 .88P 888 "88b d88""88b 888 888 "88b 888    88K      
-// 888    888 888     88888888 .d888888 888888K  888  888 888  888 888 888  888 888    "Y8888b. 
-// 888   d88P 888     Y8b.     888  888 888 "88b 888 d88P Y88..88P 888 888  888 Y88b.       X88 
-// 8888888P"  888      "Y8888  "Y888888 888  888 88888P"   "Y88P"  888 888  888  "Y888  88888P' 
-//                                               888                                            
-//                                               888                                            
-//                                               888                                            
-// ----------------------------------------------------------------------------
-
- $bp320:    320/16 + 0em;
- $bp479:    479/16 + 0em;
- $bp480:    480/16 + 0em;
- $bp567:    567/16 + 0em;
- $bp568:    568/16 + 0em;
- $bp767:    767/16 + 0em;
- $bp768:    768/16 + 0em;
- $bp979:    979/16 + 0em;
- $bp980:    980/16 + 0em;
-$bp1023:   1023/16 + 0em;
-$bp1024:   1024/16 + 0em;
-$bp1199:   1199/16 + 0em;
-$bp1200:   1200/16 + 0em;
-$bp1399:   1399/16 + 0em;
-$bp1400:   1400/16 + 0em;
 
 
 
@@ -593,15 +574,17 @@ $bp1400:   1400/16 + 0em;
   $navMaxWidth:                 1125px !default;
   $navtrayMaxWidth:             1200px !default;
 
-  $navbarCollapseWidth:             979px !default;
-
   $navbarHeight:                    64px !default;
-  $navbarHeightShort:               60px !default;
+  $navbarLineHeight:                60px !default;
+
+  $navbarHeightShort:               52px !default;
+  $navbarLineHeightShort:           48px !default;
+
+  $navbarMinSidePadding:            43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
+
+  $navbarCollapseWidth:             979px !default;
   $navbarMobileHeightTall:          60px !default;
   $navbarMobileHeight:              48px !default;
-
-  $navbarLineHeight:                40px !default;
-  $navbarMinSidePadding:            43px !default; // the minimum space between the edge of the nav, and the edge of the browser window
 
   $navbarBackground:                $black !default;
   $navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
@@ -744,9 +727,9 @@ $bp1400:   1400/16 + 0em;
 //                                           888                                         888               888
 // ------------------------------------------------
 .TOOLTIPS-AND-POPOVERS{}
-  $tooltipColor:            rgb(255,255,255) !default;
-  $tooltipBackground:       rgb(0,0,0) !default;
-  $tooltipArrowWidth:       5px !default;
+  $tooltipColor:            $white !default;
+  $tooltipBackground:       $grayDark !default;
+  $tooltipArrowWidth:       .3125em !default;
   $tooltipArrowColor:       $tooltipBackground !default;
 
   $popoverBackground:       rgb(255,255,255) !default;
@@ -780,7 +763,7 @@ $bp1400:   1400/16 + 0em;
   // All of the fixed width grid values are based on having the containerMarginWidth and gridMarginWidths applied by default.
   // For .full-bleed, the widths are just overridden with 100%. For fixed-width-grids, that's not gonna work so well,
   // but then there shouldn't be fixed-width grids with .full-bleed
-  // 
+  //
   // These numbers coincide with the wireframes/PSD grid measurements as such:
   // $containerMarginWidth = PAGE
   // $gridMarginWidth      = MARGIN
@@ -795,7 +778,7 @@ $bp1400:   1400/16 + 0em;
   $containerMarginWidth:      34px !default;
   $gridMarginWidth:           33px !default;
   $gridColumnWidth:           43px !default;
-  $gridGutterWidth:           30px !default;  
+  $gridGutterWidth:           30px !default;
   $slimGridColumnWidth:       54px !default;
   $slimGridGutterWidth:       18px !default;
 

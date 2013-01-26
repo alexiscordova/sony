@@ -1,4 +1,4 @@
-@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/variables";
 @import "../_base/mixins";
 
 * {
@@ -6,14 +6,30 @@
        box-sizing: border-box;
 }
 
+$threeColMin: px-em(568px);
+$threeColMax: px-em(767px);
+$fourColMin: px-em(768px);
+$fourColMax: px-em(979px);
+
 // Price text module
 .product-content {
+  margin-top: .75em;
+  line-height: 1.3;
 
   .product-name {
     color: $grayDark;
   }
 
+  .detailed & .product-name {
+    font-size: $font_15_16;
+  }
+
   .product-model {
+    color: $gray;
+  }
+
+  .product-rating {
+    margin: .5em 0 1em;
     color: $gray;
   }
 
@@ -21,16 +37,22 @@
     margin: 0;
   }
 
-  .price {
-    margin: -0.4em 0 0;
+  .product-price {
+    margin-top: 1em;
+    color: $gray;
+  }
+
+  .msrp {
+    font-size: $font_10_16;
   }
 }
 
 
 .product-meta {
-  margin: (0.5em * $baseLineHeight) 0 (0.5em * $baseLineHeight) .0625em;
-  padding: 0 0 0 .9375em;
+  margin: 0 0 1em;
+  padding: 0 0 0 1em;
   list-style-type: square;
+  color: $gray;
 }
 
 
@@ -44,16 +66,20 @@
   padding-top: 1.875em;
 }
 
+.gallery-detailed .products {
+  margin-top: -3.125em;
+}
+
 
 // Gallery Items
 // -------------------------
 
-// I don't remember why i have this...
-.gallery-detailed .shuffle-item {
-  margin: 1.4375em 0 0;
+// 50px margin-top on detailed gallery items
+.gallery-item.detailed {
+  margin: 3.125em 0 0;
 }
 
-.gallery .grid.shuffle .gallery-item {
+.gallery .shuffle .shuffle-item.gallery-item {
   margin-left: 0;
 }
 
@@ -70,8 +96,9 @@
     padding-top: 165.19607843137254%;
   }
 
+  // Make them a bit bigger
   .shuffle-6 &:after {
-    padding-top: 176.5%;
+    padding-top: 169.396078%;
   }
 
   .gallery-item-inner {
@@ -80,12 +107,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-  }
-
-  p,
-  div,
-  li {
-    color: $grayDark; // override <a> color
   }
 
   // Container for product images
@@ -118,30 +139,27 @@
 
     img {
       display: block;
-      max-height: 100%;
+      max-height: 100%; // This is causing the images to sometimes be tiny. Not sure what to do about it...
       max-width: 100%;
       margin: auto;
     }
 
-    .color-swatches {
-      position: absolute;
-      right: 0.625em;
-      bottom: 0.625em;
-    }
   }
 
-  // large is height * 2
+  // Large tiles
   &.large {
 
     &:after {
       padding-top: 105.92705167173253%;
     }
 
-
+    .product-img:after {
+      padding-top: 88.14589665653495%;
+    }
 
     // 3 column grid
     .shuffle-3 & .product-img:after {
-      padding-top: 107.045%;
+      // padding-top: 107.045%;
     }
 
     // Change padding for 4 column grid
@@ -154,36 +172,24 @@
       padding-top: 50.7%;
     }
 
-    @media (min-width: 1150px) {
-      .shuffle-6 &:after {
-        padding-top: 104.827052%;
-      }
-    }
-
-    @media (min-width: 1339px) {
-      .shuffle-6 &:after {
-        padding-top: 104.32%;
-      }
-    }
-
-    @media (min-width: 1400px) {
-      .shuffle-6 &:after {
-        padding-top: 103.82%;
-      }
-    }
-
-    .product-img:after {
-      padding-top: 88.14589665653495%;
+    // Should = 612px at full width (296 * 2 + 20)
+    .shuffle-6 &:after {
+      padding-top: 105.3%;
     }
 
     .shuffle-6 & .product-img:after {
-      padding-top: 84.3%;
+      padding-top: 87%;
+    }
+
+    @media (min-width: px-em(980px)) and (max-width: px-em(1023px) ) {
+      &:after {
+        padding-top: 106.8%
+      }
     }
   }
 
-  //Title plate
+  // Title plate
   &.plate {
-    color: $white;
 
     &:after {
       padding-top: 59.190255%;
@@ -193,41 +199,6 @@
       padding-top: 77.790255%;
     }
 
-    .text-promo-title {
-      position: absolute;
-      top: 2.5em;
-      left: 2.5em;
-      margin: 0;
-      max-width: 21.25em;
-      color: #75e7ef;
-
-      @media (max-width: 767px) {
-        font-size: $font_14_16;
-        top: 0.625em;
-        left: 0.625em;
-        max-width: none;
-      }
-    }
-
-    .text-count {
-      position: absolute;
-      bottom: 2.5em;
-      left: 2.5em;
-      margin: 0;
-      color: #ffffff;
-
-      @media (max-width: 767px) {
-        bottom: 0.625em;
-        left: 0.625em;
-      }
-
-      .text {
-        color: #ffffff;
-      }
-    }
-
-    strong { color: $white; }
-
     .product-content {
       position: absolute;
       top: 0;
@@ -253,63 +224,18 @@
       background-position: center center;
       background-size: cover;
     }
-
-    .number {
-      font-size: $font_18_15;
-    }
-
-    .text-count .text { font-size: $font_12_15; }
   }
 
   // Promo gallery item images are the full height
   &.promo {
-    color: $white;
 
     &:after {
       padding-top: 78.19025522041764%;
     }
 
     .shuffle-4 &:after {
-      padding-top: 77.790255%;
+      // padding-top: 77.790255%;
     }
-
-    .text-promo-title {
-      position: absolute;
-      top: 2.5em;
-      left: 2.5em;
-      margin: 0;
-      max-width: 14.0625em;
-
-      i {
-        margin-top: .5em;
-        margin-left: 0.625em;
-      }
-
-      @media (max-width: 767px) {
-        font-size: $font_14_16;
-        top: 0.625em;
-        left: 0.625em;
-        max-width: none;
-
-        i {
-          margin-top: .0625em;
-        }
-      }
-    }
-
-    .text-count {
-      position: absolute;
-      bottom: 2.5em;
-      left: 2.5em;
-      margin: 0;
-
-      @media (max-width: 767px) {
-        bottom: 0.625em;
-        left: 0.625em;
-      }
-    }
-
-    strong { color: $white; }
 
     .product-content {
       position: absolute;
@@ -336,12 +262,6 @@
       background-position: center center;
       background-size: cover;
     }
-
-    .number {
-      font-size: $font_18_15;
-    }
-
-    .text-count .text { font-size: $font_12_15; }
   }
 
   .label {
@@ -350,15 +270,149 @@
     top: 0;
     right: 0;
   }
+}
 
-  .icon-ui-favorite {
-    position: absolute;
-    right: 0.625em;
-    bottom: 0.625em;
-    cursor: pointer;
+// Offset the tooltip to the left
+// -----------------------
+$offsetFromMiddle: px-em(45px);
+.gallery-tooltip {
+  margin-left: $offsetFromMiddle;
+
+  // Because we have a bigger hotspot than the favorite icon,
+  // it positions the tooltip based on that and looks off
+  &.top {
+    margin-top: 3px;
+  }
+
+  // Move the arrow the same amount as the whole tooltip
+  &.top .tooltip-arrow {
+    left: 21%;
+    left: -webkit-calc(50% - #{$offsetFromMiddle + .125em});
+    left: calc(50% - #{$offsetFromMiddle + .125em});
   }
 }
 
+
+
+// Styles, not structure, for gallery tiles
+.gallery-item {
+
+  .color-swatches {
+    position: absolute;
+    right: .875em;
+    bottom: .6875em;
+  }
+
+  .favorite-holder {
+    position: absolute;
+    left: px-em(8px);
+    bottom: px-em(6px);
+    width: px-em(28px);
+    height: px-em(24px);
+    text-align: center;
+    cursor: pointer;
+
+    i {
+      // margin-top: px-em(3px);
+      vertical-align: baseline;
+    }
+  }
+}
+
+// Promo Tiles
+// -------------------------
+.gallery-item .promo-content {
+  color: $white;
+  text-align: left;
+
+  .text-promo-title {
+    position: absolute;
+    top: 50px;
+    left: 42px;
+    margin: 0;
+    max-width: 225px;
+
+    // Chevron
+    i {
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+
+  }
+
+  // e.g. "Carl Zeiss"
+  strong {
+    color: $white;
+  }
+
+  // e.g. "22 LENSES"
+  .text-count {
+    position: absolute;
+    bottom: 32px;
+    left: 42px;
+    margin: 0;
+
+    span {
+      color: $white;
+    }
+  }
+
+  // e.g.  "22"
+  .text-count .number {
+    font-size: $font_13_16;
+  }
+
+  // e.g.  "LENSES"
+  .text-count .text {
+    font-size: $font_12_16;
+  }
+
+  // ::Different styles go here::
+
+  &.light-text-dark-box {}
+  &.light-text-trans-box {}
+  &.dark-text-light-box {}
+  &.dark-text-trans-box {}
+
+  &.align-left-top {}
+  &.align-left-center {}
+  &.align-left-bottom {}
+  &.align-center-center {}
+  &.align-right-top {}
+  &.align-right-center {}
+  &.align-right-bottom {}
+}
+
+// Promo Media Queries
+// -------------------------
+@media (max-width: $threeColMax) {
+
+  .gallery-item .promo-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.5625em 1em;
+
+    .text-promo-title,
+    .text-count {
+      position: static;
+    }
+
+    .text-promo-title {
+      max-width: none;
+      font-size: $font_22_16;
+      margin: 0 0 0.825em;
+    }
+  }
+}
+
+// Plates - should be encompassed by .promo-content above
+// -------------------------
+// .gallery-item.plate {
+
+
+// Detailed gallery item sizes
+// -------------------------
 .gallery-detailed {
 
   .gallery-item:after {
@@ -371,12 +425,56 @@
 
 }
 
-@media (min-width: 768px) and (max-width: 979px) {
 
+// Gallery item media queries
+// -------------------------
+@media (min-width: px-em(980px)) and (max-width: px-em(1100px) ) {
+
+  .gallery-detailed .products {
+    margin-top: -2.5em;
+  }
+
+  .gallery-item.detailed {
+    margin-top: 2.5em;
+
+    &:after {
+      padding-top: 146%;
+    }
+  }
+
+  .product-content {
+
+    .price-prefix {
+      font-size: $font_12_16;
+    }
+  }
 }
 
+// 768-979
+@media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
 
-@media (max-width: 767px) {
+  .gallery-detailed .products {
+    margin-top: -2.5em;
+  }
+
+  .gallery-item.detailed {
+    margin-top: 2.5em;
+
+    // Minimum for @768
+    &:after {
+      padding-top: 175%;
+    }
+  }
+
+  .product-content {
+
+    .price-prefix {
+      font-size: $font_10_16;
+    }
+  }
+}
+
+@media (max-width: $threeColMax) {
 
   // Remove percentage heights
   .gallery-item {
@@ -415,7 +513,8 @@
       position: absolute;
     }
 
-    .product-img:after {
+    // Make all tiles the same size
+    .gallery-item .product-img:after {
       content: '';
       padding-top: 107.84313725490196%;
     }
@@ -429,27 +528,89 @@
       right: auto;
     }
 
+    .products {
+      margin-top: -1.625em;
+    }
+
     .gallery-item {
+      margin-top: 1.625em; // 26
       display: table;
       height: auto;
     }
 
-
+    // Firefox is having a problem with display:table-cell ...
     .product-img {
+      position: relative;
       display: table-cell;
-      width: 33.33%;
+      width: 48%;
       vertical-align: middle;
     }
 
 
     .product-content {
       display: table-cell;
-      width: 66.66%;
-      padding-left: 5%;
+      width: 48%;
+      padding-left: 4%;
+    }
+
+
+    .product-rating {
+      font-size: $font_10_16;
+      margin: .5em 0 .6875em;
+    }
+
+    .product-meta {
+      margin-bottom: .6875em;
+
+      li {
+        font-size: $font_10_16;
+      }
+    }
+
+    .product-content .product-name {
+      font-size: $font_11_16;
+    }
+
+    .product-model {
+      font-size: $font_9_16;
     }
   }
 
+  .product-content {
+
+
+    .price-prefix {
+      display: block;
+    }
+
+  }
+
 }
+
+// 568 - 640
+@media ( min-width: $threeColMin ) and ( max-width: 40em ) {
+
+  // Make gallery items taller
+  .gallery-item.basic:after {
+    padding-top: 187%;
+  }
+}
+
+
+// <= 479
+@media ( max-width: 29.9375em ) {
+
+}
+
+// <= 360
+@media ( max-width: 22.5em ) {
+
+  // Make gallery items taller
+  .gallery-item.basic:after {
+    padding-top: 190%;
+  }
+}
+
 
 // Product Strip
 // -------------------------
@@ -474,10 +635,14 @@
   }
 }
 
-@media (max-width: 767px) {
-  // Only show 4 on mobile
-  .product-strip .gallery-item:nth-child(n + 5) {
-    // display: none;
+@media ( max-width: $threeColMax ) {
+
+  .product-strip {
+    padding-bottom: 1.625em;
+  }
+
+  .product-strip .gallery-item:not(:first-child) {
+    margin-top: 1.625em;
   }
 }
 
@@ -488,6 +653,8 @@
 
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
+  position: relative;
+  z-index: 1;
 
   .slide-toggle {
     margin-left: 1.25em;
@@ -517,8 +684,21 @@
 
 }
 
+.sort-options {
+  margin-top: .25em;
+}
+
+.sort-options .native-dropdown {
+  display: none;
+}
+
 
 // Filter labels ( active filters )
+.active-filters-wrap {
+  position: relative;
+  z-index: 1;
+}
+
 .active-filters .label {
 
   // Give active filter labels some spacing
@@ -564,22 +744,21 @@
 }
 
 .product-count {
-  // display: inline-block;
-  // min-width: 1.4375em; // keep a constant width so the filter buttons don't move
   font-size: $font_15_15;
-  // text-align: right;
 }
 
-@media (max-width: 767px) {
 
-  // override bootstrap's visible-phone important declaration :(
+@media (max-width: $threeColMax) {
+
   .sort-options .native-dropdown {
-    display: initial !important;
+    display: initial;
     vertical-align: baseline;
   }
-}
 
-@media (max-width: 767px) {
+  .sort-options .dropdown {
+    display: none;
+  }
+
   .filter-display-bar {
 
     .product-count-wrap {
@@ -622,7 +801,7 @@
 // Misc
 // -------------------------
 .tab-content {
-  margin-top: 1.25em;
+  margin-top: 1.5em;
   overflow: visible;
 }
 
@@ -650,6 +829,7 @@
 // Accessories
 // -------------------------
 .gallery .see-all {
+  margin-top: 1.25em;
   text-align: right;
 }
 
@@ -788,9 +968,6 @@
   padding: 1em 0 0.5em;
   opacity: 0;
   background: $grayLightFieldLarge;
-  // @include translate(0, -6.25em);
-  // -webkit-transition: opacity $transitionNormal $easeNormal, -webkit-transform $transitionNormal $easeNormal;
-  //         transition: opacity $transitionNormal $easeNormal, transform $transitionNormal $easeNormal;
   top: -6.25em;
   @include transition(opacity $transitionNormal ease-in, top $transitionNormal ease-in, left 0s $transitionNormal);
 
@@ -808,7 +985,6 @@
   &.open {
     left: 0; // Show it
     opacity: 1; // Fade in
-    // @include translate(0, 0); // Slide down
     top: 0;
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
@@ -871,7 +1047,7 @@
   background: $gray;
 }
 
-@media (max-width: 767px) {
+@media (max-width: $threeColMax) {
   .compare-item .detail:before {
     content: attr(data-label);
     display: block;

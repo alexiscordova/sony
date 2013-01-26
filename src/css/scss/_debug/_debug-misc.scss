@@ -31,6 +31,7 @@
 
   .gallery-item,
   .spec-tile {
+    background: $lemon;
     counter-increment: item;
 
     &::before {
@@ -42,13 +43,8 @@
       color: $highlightColor;
     }
 
-    &.via-ajax::after {
-      content: 'ajax content';
-      position: absolute;
-      z-index: 200;
-      top: 0;
-      right: 0;
-      color: $highlightColor;
+    &.via-ajax::before {
+      content: counter(item, decimal) ' (ajax content)';
     }
   }
 }

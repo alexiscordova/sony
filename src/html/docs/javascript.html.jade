@@ -1,0 +1,186 @@
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+!{partial('includes/docs-head.html')}
+body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
+  !{partial('includes/docs-nav.html')}
+
+
+  header.jumbotron.subhead
+    div.container-px-width
+      h2.bs-docs-heading Sony Bootstrap JavaScript Library
+      p.p1
+        | Bring Bootstrap's components to life — with custom javascript &amp; jQuery plugins.
+  div.container-px-width
+    div.grid
+      div.span3.bs-docs-sidebar
+        ul.simple-nav.simple-nav-list.bs-docs-sidenav
+          li
+            a(href='#overview')
+              i.icon-chevron-right
+              | Overview
+          li
+            a(href='#image-qualifications')
+              i.icon-chevron-right
+              | Image Qualifications
+      div.span9
+        section#overview
+          h2.bs-docs-heading JavaScript in Bootstrap
+          h4.bs-docs-heading Individual or compiled
+          p
+            | If you have downloaded the latest version of Bootstrap, both 
+            strong bootstrap.js 
+            | and 
+            strong bootstrap.min.js 
+            | contain all of the plugins listed on this page.
+          h4.bs-docs-heading Data attributes
+          p
+            | You can use all Bootstrap plugins purely through the markup API without writing a single line of JavaScript. This is Bootstrap's first class API and should be your first consideration when using a plugin.
+          p
+            | That said, in some situations it may be desirable to turn this functionality off. Therefore, we also provide the ability to disable the data attribute API by unbinding all events on the body namespaced with `'data-api'`. This looks like this:
+          pre.prettyprint.linenums $('body').off('.data-api')
+          p
+            | Alternatively, to target a specific plugin, just include the plugins name as a namespace along with the data-api namespace like this:
+          pre.prettyprint.linenums $('body').off('.alert.data-api')
+          h4.bs-docs-heading Programmatic API
+          p
+            | We also believe you should be able to use all Bootstrap plugins purely through the JavaScript API. All public APIs are single, chainable methods, and return the collection acted upon.
+          pre.prettyprint.linenums $(".btn.danger").button("toggle").addClass("fat")
+          p
+            | All methods should accept an optional options object, a string which targets a particular method, or nothing (which initiates a plugin with default behavior):
+          pre.prettyprint.linenums
+            | $("#myModal").modal()                       // initialized with defaults
+            | $("#myModal").modal({ keyboard: false })   // initialized with no keyboard
+            | $("#myModal").modal('show')                // initializes and invokes show immediately
+            p
+          p
+            | Each plugin also exposes it's raw constructor on a `Constructor` property:
+            code
+              | $.fn.popover.Constructor
+            | . If you'd like to get a particular plugin instance, retrieve it directly from an element:
+            code
+              | $('[rel=popover]').data('popover')
+            | .
+          h4.bs-docs-heading Events
+          p
+            | Bootstrap provides custom events for most plugin's unique actions. Generally, these come in an infinitive and past participle form - where the infinitive (ex.
+            code
+              | show
+            | ) is triggered at the start of an event, and it's past participle form (ex.
+            code
+              | shown
+            | ) is trigger on the completion of an action.
+          p
+            | All infinitive events provide preventDefault functionality. This provides the abililty to stop the execution of an action before it starts.
+          pre.prettyprint.linenums
+            | $('#myModal').on('show', function (e) {
+            | if (!data) return e.preventDefault() // stops modal from being shown
+            | })
+        section#image-qualifications
+          h2.bs-docs-heading
+            | Image Qualifications 
+            small image-qualification.js
+          h3.bs-docs-heading Example
+          p
+            | Lorem ipsum
+          div.bs-docs-example
+            | Drop some sample Markup here, and the prettyprint code for it below.
+          pre.prettyprint.linenums
+            | &lt;div id="myCarousel" class="carousel slide"&gt;
+            | &lt;!-- Carousel items --&gt;
+            | &lt;div class="carousel-inner"&gt;
+            | &lt;div class="active item"&gt;…&lt;/div&gt;
+            | &lt;div class="item"&gt;…&lt;/div&gt;
+            | &lt;div class="item"&gt;…&lt;/div&gt;
+            | &lt;/div&gt;
+            | &lt;!-- Carousel nav --&gt;
+            | &lt;a class="carousel-control left" href="#myCarousel" data-slide="prev"&gt;&amp;lsaquo;&lt;/a&gt;
+            | &lt;a class="carousel-control right" href="#myCarousel" data-slide="next"&gt;&amp;rsaquo;&lt;/a&gt;
+            | &lt;/div&gt;
+          div.alert.alert-warning
+            strong Heads up!
+            | Lorem ipsum
+          hr.bs-docs-separator
+          h3.bs-docs-heading Usage
+          h4.bs-docs-heading Via data attributes
+          p
+            | ...
+          h4.bs-docs-heading Via JavaScript
+          p
+            | I'm leaving some of this carousel markup below, as an example of formatting - feel free to rip it all out or replace it or whateve.
+          pre.prettyprint.linenums $('.image-qualification').image-qualification()
+          h4.bs-docs-heading Options
+          p
+            | Options can be passed via data attributes or JavaScript. For data attributes, append the option name to 
+            code
+              | data-
+            | , as in 
+            code
+              | data-interval=""
+            | .
+          table.table.table-bordered.table-striped
+            thead
+              tr
+                th(style='width: 100px;') Name
+                th(style='width: 50px;') type
+                th(style='width: 50px;') default
+                th description
+            tbody
+              tr
+                td interval
+                td number
+                td 5000
+                td The amount of time to delay between automatically cycling an item. If false, carousel will not automatically cycle.
+              tr
+                td pause
+                td string
+                td "hover"
+                td Pauses the cycling of the carousel on mouseenter and resumes the cycling of the carousel on mouseleave.
+          h4.bs-docs-heading Methods
+          h5.bs-docs-heading .carousel(options)
+          p
+            | Initializes the carousel with an optional options
+            code
+              | object
+            | and starts cycling through items.
+          pre.prettyprint.linenums
+            | $('.carousel').carousel({
+            | interval: 2000
+            | })
+          h5.bs-docs-heading .carousel('cycle')
+          p
+            | Cycles through the carousel items from left to right.
+          h5.bs-docs-heading .carousel('pause')
+          p
+            | Stops the carousel from cycling through items.
+          h5.bs-docs-heading .carousel(number)
+          p
+            | Cycles the carousel to a particular frame (0 based, similar to an array).
+          h5.bs-docs-heading .carousel('prev')
+          p
+            | Cycles to the previous item.
+          h5.bs-docs-heading .carousel('next')
+          p
+            | Cycles to the next item.
+          h4.bs-docs-heading Events
+          p
+            | Bootstrap's carousel class exposes two events for hooking into carousel functionality.
+          table.table.table-bordered.table-striped
+            thead
+              tr
+                th(style='width: 150px;') Event
+                th Description
+            tbody
+              tr
+                td slide
+                td
+                  | This event fires immediately when the 
+                  code
+                    | slide 
+                  | instance method is invoked.
+              tr
+                td slid
+                td This event is fired when the carousel has completed its slide transition.
+
+  !{partial('includes/docs-foot.html')}
+</html>
