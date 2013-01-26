@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 // Project configuration.
   grunt.initConfig({
     lint: {
-      files: ['js/bundle/**/*.js', 'html/data/**/.json']
+      files: ['js/bundle/**/*.js', 'html/data/**/*.json']
     },
     jshint: {
         options: {
