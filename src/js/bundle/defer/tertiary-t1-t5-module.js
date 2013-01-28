@@ -18,39 +18,37 @@
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
-      self.$el                 = $( element );
-      self.$win                = $( window );
-      self.$doc                = $( window.document );
-      self.ev                  = $( {} ); //event object
+      self.$el                     = $( element );
+      self.$win                    = $( window );
+      self.$doc                    = $( window.document );
+      self.ev                      = $( {} ); //event object
       
-      self.mode                = null;
+      self.mode                    = null;
       
-      self.$tccBodyWrapper     = self.$el;
-      self.$tccBody            = self.$tccBodyWrapper.find('.tcc-body');
-      self.$contentModules     = self.$el.find('.tcc-content-module');
-      self.$scrollerInstance   = null;
-
-      // bullet pagination
-      //self.outerNavClasses     = new Array ( 'tcc-nav', 'pagination-bullets' );
-      //self.innerNavClasses     = new Array ( 'tcc-nav-item', 'pagination-bullet' );
-      self.outerNavClasses     = new Array ( 'pagination-bullets' );
-      self.innerNavClasses     = new Array ( 'pagination-bullet' );      
-      self.bulletPaginationOn  = 'pagination-bullets-on';
-      self.navSelectedClass    = 'bullet-selected';
+      self.$tccBodyWrapper         = self.$el;
+      self.$tccBody                = self.$tccBodyWrapper.find('.tcc-body');
+      self.$contentModules         = self.$el.find('.tcc-content-module');
+      self.$scrollerInstance       = null;
+            
+      // bullet pagination 
+      self.bulletsContainerClass   = 'pagination-bullets';
+      self.bulletClass             = 'pagination-bullet';      
+      self.bulletsContainerOnClass = 'pagination-bullets-on';
+      self.bulletSelectedClass     = 'bullet-selected';
       
-      self.resizeEvent         = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-      self.resizeThrottle      = function(){self.handleResize();};
+      self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+      self.resizeThrottle          = function(){self.handleResize();};
       
-      self.hasTouch            = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
-      self.tapOrClick          = function(){return self.hasTouch ? 'touchend' : 'click';};
+      self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
+      self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.sequencerSpeed      = 50;  // default
-      self.debounceSpeed       = 300; // default
-      self.scrollDuration      = 400; // default
+      self.sequencerSpeed          = 50;  // default
+      self.debounceSpeed           = 300; // default
+      self.scrollDuration          = 400; // default
       
-      self.phoneBreakpoint     = 479;
-      self.tabletBreakpointMin = self.phoneBreakpoint + 1;
-      self.tabletBreakpointMax = 768;
+      self.phoneBreakpoint         = 479;
+      self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
+      self.tabletBreakpointMax     = 768;
 
       // resize listener
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle));
@@ -250,10 +248,12 @@
         // TODO default hidden
 
         var self = this,
-        outerClasses = self.outerNavClasses.join(' '),
-        innerClasses = self.innerNavClasses.join(' '),
-        itemHTML = '<div class="' + innerClasses + '"></div>',
-        out      = '<div class="' + outerClasses + '">',
+        //outerClasses = self.outerNavClasses.join(' '),
+        //innerClasses = self.bulletClass.join(' '),
+        //innerClasses = self.bulletClass,
+        //outerClasses = self.outerNavClasses,
+        out      = '<ol class="' + self.bulletsContainerClass + '">',
+        itemHTML = '<li class="' + self.bulletClass + '"></li>',
         numPages = self.mode === 'tablet' ? 2 : self.$contentModules.length;
           
         if(self.controlNav){
@@ -279,9 +279,10 @@
           self.handleNavClick(e);
         });
 
-        $( '.' + self.outerNavClasses.join('.') ).addClass(self.bulletPaginationOn);
+        $( '.' + self.bulletsContainerClass ).addClass(self.bulletsContainerOnClass);
 
-        self.ev.trigger( 'tccOnNavUpdate' );
+        // self.ev.trigger( 'tccOnNavUpdate' );
+        self.updateNavigation();
 
         console.log( '« end »');
         console.groupEnd();
@@ -292,8 +293,8 @@
         var self = this;
       
         // 'fade out' before removing
-        $( '.' + self.outerNavClasses.join('.') )
-          .removeClass(self.bulletPaginationOn)
+        $( '.' + self.bulletsContainerClass )
+          .removeClass(self.bulletsContainerOnClass)
           .delay(300) // let it fade out...
           .remove(); // remove references
 
@@ -309,11 +310,11 @@
             currItem;
 
         if(self.prevNavItem) {
-          self.prevNavItem.removeClass(self.navSelectedClass);
+          self.prevNavItem.removeClass(self.bulletSelectedClass);
         }
 
         currItem = $(self.controlNavItems[id]);
-        currItem.addClass(self.navSelectedClass);
+        currItem.addClass(self.bulletSelectedClass);
 
         self.prevNavItem = currItem;
 
@@ -324,7 +325,8 @@
       handleNavClick : function( e ){
         console.group( '««« handleNavClick »»»' );
         var self = this,
-            item = $(e.target).closest( '.' + self.innerNavClasses.join('.') );
+            //item = $(e.target).closest( '.' + self.bulletClass.join('.') );
+            item = $(e.target).closest( '.' + self.bulletClass );
 
         if( item.length ) {
           self.updateCurrentId(item.index());
@@ -332,7 +334,8 @@
           // tell sony-iscroll what page to go to
           self.$scrollerInstance.scrollerModule('gotopage',( self.currentId ));
 
-          self.ev.trigger( 'tccOnNavUpdate' );
+          //self.ev.trigger( 'tccOnNavUpdate' );
+          self.updateNavigation();
         }
       
         console.log( '« end »');
