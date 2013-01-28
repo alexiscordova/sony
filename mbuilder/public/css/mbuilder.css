@@ -1,3 +1,6 @@
+body {
+	padding-top: 5em;
+}
 #build {
 	font-size: 0.8666666667em;
 }
@@ -12,6 +15,21 @@
 	float: left;
 	margin: 0 4px;
 }
+.navbar .sprite {
+	background-image: url(smoothness/images/ui-icons_FFFFFF_256x240.png);
+	width: 16px;
+	height: 16px;
+	float: left;
+	margin: 0 4px;
+}
+button:hover .sprite, .modContainer:hover .sprite.btnResize {
+	background-image: url(smoothness/images/ui-icons_222222_256x240.png);
+}
+.navbar button:hover .sprite  {
+	background-image: url(smoothness/images/ui-icons_888888_256x240.png);
+}
+
+
 .modal {
 	width: 800px;
 	margin-left: -400px;
@@ -41,9 +59,15 @@ select {
 option {
 	padding: 2px;
 }
-
-.nav-utility select {
+.btn-block {
+  display: block;
+  padding-left: 28px;
+  width: auto;
+}
+.nav-wrapper .navbar .nav.nav-utility {
 	margin-top: 1.2em;
+}
+.nav-utility select {
 	width: 250px;
 	margin-right: 1em;
 }
@@ -57,7 +81,7 @@ option {
 	display: none;
 }
 div.container {
-	margin-top: 5em;
+
 }
 #main-forms-container ul li {
 	margin-bottom: 1em;
@@ -83,7 +107,10 @@ div.container {
 }
 .navbar button {
 	padding: .5em;
+	padding-left: 2em;
+	position: relative;
 }
+
 .navbar h1 {
 	display: block;
 	float: left;
@@ -92,7 +119,7 @@ div.container {
 }
 
 #main-forms-container {
-	margin-top: 2em;
+
 }
 
 div.modContainer {
@@ -101,21 +128,64 @@ div.modContainer {
 	position: relative;
 }
 
-div.modContainer span.btnRemove {
+div.modContainer .btnGroup {
 	float: right;
+	position: relative;
+}
+
+div.modContainer span.btnRemove {
+	float: left;
 	position: relative;
 	width: 100px;
 }
-div.modContainer span.btnRemove button {
+
+div.modContainer div.control-group {
+	margin-left: 1em;
+	width: 35%;
+}
+span.sprite {
+	position: absolute;
+	left: 0;
+	position: absolute;
+	top: 11px;
+}
+
+.navbar #build span.sprite {
+	background-position: -206px -192px;
+}
+span.btnRemove span.sprite {
+	background-position: -16px -194px;
+}
+
+div.modContainer span.btnBuildAll {
+	float: left;
+	position: relative;
+	width: 120px;
+	display: none;
+}
+
+span.btnBuildAll span.sprite {
+	background-position: -48px -194px;
+}
+.button {
+	position: relative;
+}
+.button button, button {
 	background-color: transparent;
 	border: none;
 	color: #83838F;
 }
 
-span.btnRemove span.sprite {
-	background-position: -16px -192px;
-	position: absolute;
-	top: 9px;
+.button:hover button, button:hover {
+	color: #222222;
+}
+
+
+.navbar button:hover {
+	color: #888888;
+}
+.addModule span.sprite {
+	background-position: 0 -194px;
 }
 div.modContainer span.sprite.btnResize {
 	background-position: -128px -32px;
@@ -222,5 +292,16 @@ div.addModule {
 div.addModule .span2 {
 	float: none;
 	margin: auto;
-	width: 154px;
 }
+
+li.ui-state-highlight {
+	width: 100%;
+	height: 50px;
+	margin-left: -20px;
+	padding-right: 14px;
+	/*border: 2px solid #EEEEEE;*/
+	background-color: #EEECEC;
+	border: 4px dashed #E4E4E4;
+	border-radius: 6px 6px 6px 6px;
+}
+
