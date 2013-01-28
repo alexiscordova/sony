@@ -14,19 +14,32 @@ module.exports = function(grunt) {
           jquery: true,
           browser: true,
           es5: true,
+          esnext: true,
+          bitwise: false,
           boss: true,
           curly: true,
           camelcase: false,
+          devel: true,
+          eqeqeq: true,
           expr: true,
-          indent: 2,
+          globalstrict: true,
+          immed: false,
+          indent: 4,
           latedef: true,
           loopfunc: true,
+          newcap: true,
+          noarg: true,
+          onecase: true,
           quotmark: true,
           regexp: true,
+          undef: true,
+          unused: true,
           strict: false,
           supernew: true,
+          trailing: false,
           smarttabs: true,
-          white: false
+          white: false,
+          validthis: true
         },
         globals: {
           iQ: true,
@@ -190,6 +203,14 @@ module.exports = function(grunt) {
       }
 
     },
+    doccoh: {
+      main: {
+        src: ['js/bundle/**/*.js'],
+        options: {
+          output: '../docs/docco/'
+        }
+      }
+    },
     shell:{
       docpad_debug:{
         command:'docpad generate --env debug',
@@ -222,6 +243,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-doccoh');
 
   // Define task list aliases
   grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');

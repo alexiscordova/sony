@@ -1,15 +1,4 @@
-/*global jQuery, Modernizr, IScroll */
-
-// ------------  ------------
-// Module: Generic Scroller
-// Version: 1.0
-// Modified: 2013-01-04 by Telly Koosis, Tyler Madison, Glen Cheney
-// Dependencies: jQuery 1.7+, Modernizr, iScroll v4.2.5
-// -------------------------------------------------------------------------
-
-// TODO: broadcast if pagination (including page number)
-
-(function($, Modernizr, IScroll, window, undefined) {
+(function($, Modernizr, window, undefined) {
 
 	'use strict';
 
@@ -18,10 +7,10 @@
 
 		$.extend(self, $.fn.scrollerModule.defaults, options, $.fn.scrollerModule.settings);
 
-		self.$el = $($element);
-		self.$win = $(window);
+		self.$el = $($element),
+		self.$win = $(window),
 		self.$contentContainer = $(self.contentSelector);
-		self.$elements = $(self.itemElementSelector);
+		self.$elements = $(self.itemElementSelector),
 		self.$sampleElement = self.$elements.eq(0);
 
 		self._setContainerWidth();
@@ -238,16 +227,16 @@
 		 * Public Methods
 		 */
 
-		goto: function( pageNo, duration ) {
+		gotopage: function( pageNo, duration ) {
 			this.scroller.scrollToPage(pageNo , 0 , duration || 400);
 		},
 
 		next: function() {
-			this.goto('next');
+			this.gotopage('next');
 		},
 
 		prev: function() {
-			this.goto('prev');
+			this.gotopage('prev');
 		},
 
 		refresh: function() {
@@ -330,7 +319,7 @@
 			onScrollEnd: null,
 			lockDirection: true,
 			onBeforeScrollStart: null,
-			onAnimationEnd: null
+			onAnimationEnd: null,
 		}
 
 	};
@@ -341,4 +330,4 @@
 		resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize'
   };
 
-})(jQuery, Modernizr, IScroll, window);
+})(jQuery, Modernizr, window);
