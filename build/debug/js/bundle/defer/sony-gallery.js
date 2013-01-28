@@ -1823,7 +1823,7 @@
     loadingGif: 'img/loader.gif'
   };
 
-}(jQuery, Modernizr, window));
+})(jQuery, Modernizr, window);
 
 
 

@@ -1,226 +1,366 @@
+body {
+  padding-top: 5em;
+}
+
 #build {
-	font-size: 0.8666666667em;
+  font-size: 0.8666666667em;
 }
+
 #buttons {
-	margin-top: 40px;
-	background: none;
+  margin-top: 40px;
+  background: none;
 }
+
 .sprite {
-	background-image: url(smoothness/images/ui-icons_888888_256x240.png);
-	width: 16px;
-	height: 16px;
-	float: left;
-	margin: 0 4px;
+  background-image: url(smoothness/images/ui-icons_888888_256x240.png);
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin: 0 4px;
 }
+
+.navbar .sprite {
+  background-image: url(smoothness/images/ui-icons_FFFFFF_256x240.png);
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin: 0 4px;
+}
+
+.button button[disabled],button[disabled] {
+  cursor: not-allowed;
+}
+
+button:hover .sprite, .modContainer:hover .sprite.btnResize {
+  background-image: url(smoothness/images/ui-icons_222222_256x240.png);
+}
+
+.navbar button:hover .sprite {
+  background-image: url(smoothness/images/ui-icons_888888_256x240.png);
+}
+
 .modal {
-	width: 800px;
-	margin-left: -400px;
-	margin-top: -400px;
+  width: 800px;
+  margin-left: -400px;
+  margin-top: -400px;
 }
+
 .modal-body {
-	max-height: none;
+  max-height: none;
 }
+
 #edit_box textarea {
-	min-width: 750px;
-	margin-left: 0;
+  min-width: 750px;
+  margin-left: 0;
 }
+
 .error .CodeMirror {
-	border: 2px solid #f00;
+  border: 2px solid #f00;
 }
+
 .row {
-	padding: 8px 0;
-	background: #eeeeee;
+  padding: 8px 0;
+  background: #eeeeee;
 }
+
 h4 {
-	font-size: 1.225em;
+  font-size: 1.225em;
 }
+
 select {
-	width: 80%;
-	color: #83838f;
+  width: 80%;
+  color: #83838f;
 }
+
 option {
-	padding: 2px;
+  padding: 2px;
+}
+
+.btn-block {
+  display: block;
+  padding-left: 28px;
+  width: auto;
+}
+
+.nav-wrapper .navbar .nav.nav-utility {
+  margin-top: 1.2em;
 }
 
 .nav-utility select {
-	margin-top: 1.2em;
-	width: 250px;
-	margin-right: 1em;
+  width: 250px;
+  margin-right: 1em;
 }
+
 #submodule_list li:nth-child(odd) .row {
-	background: #f5f5f5;
+  background: #f5f5f5;
 }
+
 #submodule_list {
-	margin: 0;
+  margin: 0;
 }
+
 .submodContainer {
-	display: none;
+  display: none;
 }
-div.container {
-	margin-top: 5em;
+
+div.container {;
 }
+
 #main-forms-container ul li {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
-.main-module-container {
 
+#main-forms-container ul li.highlight {
+  background-color: #FCF0AD;
+  border: 4px dashed #959076;
+  font-size: 2em;
+  font-weight: bold;
+  list-style-type: none;
+  margin: 1em 0;
+  padding: 1em;
+  text-align: center;
+  width: 90%;
 }
-.main-module-container .ui-icon-grip-solid-vertical {
 
+#main-forms-container ul li.highlight p {
+  margin: 0;
+}
+
+.main-module-container .ui-icon-grip-solid-vertical {;
 }
 
 .ui-widget.pageBuilderPop {
-	font-size: 0.8em;
-	padding-top: 3em;
-}
-.ui-widget.pageBuilderPop input {
-	width: 95%;
-	font-size: 1.4em;
-	color: #83838F;
-}
-.navbar h1, .navbar button {
-	color: #FFF;
-}
-.navbar button {
-	padding: .5em;
-}
-.navbar h1 {
-	display: block;
-	float: left;
-	margin: 16px 0 0;
-	font-size: 2em;
+  font-size: 0.8em;
+  padding-top: 3em;
 }
 
-#main-forms-container {
-	margin-top: 2em;
+.ui-widget.pageBuilderPop input,.ui-widget.pageBuilderPop textarea {
+  width: 95%;
+  font-size: 1.4em;
+  color: #83838F;
+}
+
+.navbar h1, .navbar button {
+  color: #FFF;
+}
+
+.navbar button {
+  padding: .5em;
+  padding-left: 2em;
+  position: relative;
+}
+
+.navbar h1 {
+  display: block;
+  float: left;
+  margin: 16px 0 0;
+  font-size: 2em;
+}
+
+#main-forms-container {;
 }
 
 div.modContainer {
-	border-radius: 3px 3px 3px 3px;
-	padding: .7em 1em .5em 2em;
-	position: relative;
+  border-radius: 3px 3px 3px 3px;
+  padding: .7em 1em .5em 2em;
+  position: relative;
+}
+
+div.modContainer .btnGroup {
+  float: right;
+  position: relative;
 }
 
 div.modContainer span.btnRemove {
-	float: right;
-	position: relative;
-	width: 100px;
+  float: left;
+  position: relative;
+  width: 100px;
 }
-div.modContainer span.btnRemove button {
-	background-color: transparent;
-	border: none;
-	color: #83838F;
+
+div.modContainer div.control-group {
+  margin-left: 1em;
+  width: 35%;
+}
+
+span.sprite {
+  position: absolute;
+  left: 0;
+  position: absolute;
+  top: 11px;
+}
+
+.navbar #build span.sprite {
+  background-position: -206px -192px;
 }
 
 span.btnRemove span.sprite {
-	background-position: -16px -192px;
-	position: absolute;
-	top: 9px;
+  background-position: -16px -194px;
 }
+
+div.modContainer span.btnBuildAll {
+  float: left;
+  position: relative;
+  width: 120px;
+  display: none;
+}
+
+span.btnBuildAll span.sprite {
+  background-position: -48px -194px;
+}
+
+.button {
+  position: relative;
+}
+
+.button button, button {
+  background-color: transparent;
+  border: none;
+  color: #83838F;
+}
+
+.button:hover button, button:hover {
+  color: #222222;
+}
+
+.navbar button:hover {
+  color: #888888;
+}
+
+.addModule span.sprite {
+  background-position: 0 -194px;
+}
+
 div.modContainer span.sprite.btnResize {
-	background-position: -128px -32px;
-	position: absolute;
-	top: 18px;
-	left: 0;
+  background-position: -128px -32px;
+  position: absolute;
+  top: 18px;
+  left: 0;
 }
 
 div.ui-dialog {
-	background-color: #fff;
-	border: 1px solid #ccc;
-	padding: 1em;
-	position: relative;
-	border-radius: 2px 2px 2px 2px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 1em;
+  position: relative;
+  border-radius: 2px 2px 2px 2px;
 }
+
 div#dialog-form {
-	padding: 1em 0;
+  padding: 1em 0;
 }
+
 div.ui-dialog .ui-dialog-title {
-	background-color: #EEEEEE;
-	border-bottom: 1px solid #CCCCCC;
-	left: 0;
-	padding: 0 5%;
-	position: absolute;
-	top: 0;
-	width: 90%;
+  background-color: #EEEEEE;
+  border-bottom: 1px solid #CCCCCC;
+  left: 0;
+  padding: 0 5%;
+  position: absolute;
+  top: 0;
+  width: 90%;
 }
 
 div.ui-dialog label {
-	font-weight: bold;
+  font-weight: bold;
 }
-div.ui-dialog .ui-dialog-buttonpane {
-	text-align: center;
-}
-input[type="text"].ui-state-error {
-	background-color: #fcf0ad;
-}
-ul.ui-sortable li {
-	cursor: move;
-}
-.ui-sortable-helper .row {
-	background-color: #CCC;
-}
-.ui-sortable-placeholder {
 
+div.ui-dialog .ui-dialog-buttonpane {
+  text-align: center;
 }
+
+input[type="text"].ui-state-error {
+  background-color: #fcf0ad;
+}
+
+ul.ui-sortable li {
+  cursor: move;
+}
+
+.ui-sortable-helper .row {
+  background-color: #CCC;
+}
+
+.ui-sortable-placeholder {;
+}
+
 button.ui-dialog-titlebar-close {
-	display: none;
+  display: none;
 }
+
 span.ui-dialog-title {
-	font-size: 1.625em;
+  font-size: 1.625em;
 }
+
 ol.subModElem {
-	padding: 0.5em 0.5em 0.5em 2em;
-	border-radius: 5px 5px 5px 5px;
+  padding: 0.5em 0.5em 0.5em 2em;
+  border-radius: 5px 5px 5px 5px;
 }
 
 ol.subModElem li {
-	line-height: 1;
-	list-style-type: decimal;
-	font-size: .9em;
+  line-height: 1;
+  list-style-type: decimal;
+  font-size: .9em;
 }
+
 ol.subModElem li span {
-	display: block;
+  display: block;
 }
+
 ol.subModElem li span strong {
-	display: inline-block;
-	width: 10%;
+  display: inline-block;
+  width: 10%;
 }
+
 .ui-widget-overlay {
-	background: url(smoothness/images/ui-bg_flat_0_aaaaaa_40x100.png) repeat-x scroll 50% 50% #AAAAAA;
-	opacity: 0.3;
+  background: url(smoothness/images/ui-bg_flat_0_aaaaaa_40x100.png) repeat-x scroll 50% 50% #AAAAAA;
+  opacity: 0.3;
 }
+
 .ui-widget-overlay {
-	height: 100%;
-	left: 0;
-	position: fixed;
-	top: 0;
-	width: 100%;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
+
 .ui-front {
-	z-index: 100;
+  z-index: 100;
 }
 
 div#pageSaving, div#postResult {
-	display: none;
-	padding: 2em;
-	text-align: center;
+  display: none;
+  padding: 2em;
+  text-align: center;
 }
+
 div#pageSaving img {
-	margin-right: 0.7em;
-	margin-top: -0.2em;
+  margin-right: 0.7em;
+  margin-top: -0.2em;
 }
 
-div.ui-dialog-buttonset button {
-
+div.ui-dialog-buttonset button {;
 }
-div.ui-dialog-buttonset button:first-child {
 
+div.ui-dialog-buttonset button:first-child {;
 }
+
 div.addModule {
-	background-color: transparent;
+  background-color: transparent;
 }
+
 div.addModule .span2 {
-	float: none;
-	margin: auto;
-	width: 154px;
+  float: none;
+  margin: auto;
 }
+
+li.ui-state-highlight {
+  width: 100%;
+  height: 50px;
+  margin-left: -20px;
+  padding-right: 14px;
+	/*border: 2px solid #EEEEEE;*/
+  background-color: #EEECEC;
+  border: 4px dashed #E4E4E4;
+  border-radius: 6px 6px 6px 6px;
+}
+

@@ -1,16 +1,17 @@
 
-// ------------ Sony Draggable Object (SonyDraggable) Module ------------
-// Module: SonyDraggable Module
-// Version: 0.1
-// Modified: 01/23/2013
-// Author: George Pantazis
-// Dependencies: jQuery 1.7+
-// ----------------------------------------------------------------------
-// Notes:
-// This plugin is based loosely on the API of jQuery UI Draggable
-// (http://api.jqueryui.com/draggable), and serves as a bare(ish)-bones
-// class to satisfy the needs of the Dual Viewer (E9).
-// ----------------------------------------------------------------------
+// Sony Draggable Object (SonyDraggable) Module
+// --------------------------------------------
+//
+// * **Class:** SonyDraggable
+// * **Version:** 0.1
+// * **Modified:** 01/23/2013
+// * **Author:** George Pantazis
+// * **Dependencies:** jQuery 1.7+
+//
+// *Notes:*
+//
+// This plugin is based loosely on the API of [jQuery UI Draggable](http://api.jqueryui.com/draggable),
+// and serves as a bare(ish)-bones class to satisfy the needs of the Dual Viewer (E9).
 
 (function($) {
 

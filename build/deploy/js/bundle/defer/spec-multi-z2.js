@@ -62,7 +62,8 @@
     },
 
     _initFeatures : function() {
-      var self = this;
+      var self = this,
+          dfd;
 
       self.$specTiles = self.$container.find('.spec-tiles');
       self.$specTiles.shuffle({
@@ -74,6 +75,15 @@
         showInitialTransition: false
       });
       self.shuffle = self.$specTiles.data('shuffle');
+
+      dfd = self.$specTiles.imagesLoaded();
+
+      // Relayout shuffle when the images have loaded
+      dfd.always( function() {
+        setTimeout( function() {
+          self.shuffle.layout();
+        }, 100 );
+      });
 
       return self;
     },
@@ -407,7 +417,7 @@
   };
 
 
-}(jQuery, Modernizr, window));
+})(jQuery, Modernizr, window);
 
 
 

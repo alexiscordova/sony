@@ -417,7 +417,7 @@
   };
 
 
-}(jQuery, Modernizr, window));
+})(jQuery, Modernizr, window);
 
 
 

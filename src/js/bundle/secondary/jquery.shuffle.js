@@ -7,7 +7,7 @@
  * @version 1.6.1
  * @date 12/06/12
  */
-!(function($, Modernizr, undefined) {
+(function($, Modernizr, undefined) {
     'use strict';
 
 

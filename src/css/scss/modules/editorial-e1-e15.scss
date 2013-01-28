@@ -1,22 +1,87 @@
+  @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+  @import "../_base/mixins";
+
+.editorial{
+  
+  //dark text
+  .dark-text-light-box,
+  .dark-text-trans-box{ 
+    h2, h3, h4, h5{
+      color: $gray20;
+    }
+    p{
+      color: $gray40;
+    }
+  }
+  //light text
+  .light-text-dark-box,
+  .light-text-trans-box{
+    h2, h3, h4, h5{
+      color: $white;
+    }
+    p{
+      color: $gray70;
+    }
+  }  
+  // trans box
+  .dark-text-trans-box,
+  .light-text-trans-box{
+    
+  }
+  //dark box
+  .light-text-dark-box{
+    
+  }
+  
+  //light box
+  .dark-text-light-box{
+    
+  }
+
+  h4{
+    margin-bottom:6px;
+  }
+  h4.alt{
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  h5{
+    margin-bottom: 6px;
+  }
+  h5.alt{
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;    
+  }
+}
+.editorial.mediaright,
+.editorial.medialeft{
+  
+}
 .editorial.full{
-  position:relative;
+  position: relative;
   .inner{
-    position:absolute;
+    position: absolute;
     top:0;
   }
+}
+.editorial.full3up{
+  
 }
 .editorial.m3up,
 .editorial.m2up{
   >.grid>div{
-    position:relative;
+    position: relative;
     .inner{
-      position:absolute;
+      position: absolute;
       top:0;
     }
   }
 }
-.editorial{
-  .center{
-    text-align:center;
+.editorial.textonly{
+  .full{
+    text-align: center;
+  }
+  .box{
+    padding: 70px 52px 75px 52px;
   }
 }
