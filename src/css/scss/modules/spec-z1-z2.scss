@@ -470,6 +470,25 @@ ul.spec-views {
 //                         Y8b d88P
 //                          "Y88P"
 
+.spec-sticky-nav {
+  position: fixed;
+  z-index: 1; // above features
+  top: 0;
+  left: -999em;
+  width: 100%;
+  background: $white;
+  opacity: 0;
+  @include box-shadow(0 1px 10px $transparentBlack);
+  @include transition(opacity $transitionNormal ease-in, left 0s $transitionNormal);
+
+
+  &.open {
+    left: 0;
+    opacity: 1;
+    @include transition-delay(0s);
+    @include transition-timing-function(ease-out);
+  }
+}
 
 // Single Spec Module
 // -------------------------

@@ -14,6 +14,17 @@
             a.p3(href=link.href)= link.label
 
 
+  .spec-sticky-nav
+    .container
+      .grid
+        h5= data.title
+        ul.spec-views.inline.nav
+          each link, i in data.internalLinks
+            - clss = i ? '' : 'active'
+            li(class=clss)
+              a.p3(href=link.href)= link.label
+
+
   section.spec-product#specifications
     each module, i in data.submodules
       - d = locals.data(module.data)

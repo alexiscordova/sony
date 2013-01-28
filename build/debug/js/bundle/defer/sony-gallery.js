@@ -1407,17 +1407,17 @@
           .removeAttr('style')
           .append('<span class="box-close box-close-small compare-item-remove"><i class="icon-ui-x-tiny"></i></span>')
           .find('.detail-group')
-          .removeClass('hidden')
-          .end()
-          .find('.label')
-          .remove()
-          .end()
-          .find('.product-meta')
-          .remove()
-          .end()
+            .removeClass('hidden')
+            .end()
+          .find('.label, .product-meta, .js-favorite')
+            .remove()
+            .end()
+          .find('.product-name-wrap')
+            .css('height', '')
+            .end()
           .prepend('<div class="span4 compare-sticky-header">')
           .find('.compare-sticky-header')
-          .append('<div class="media">');
+            .append('<div class="media">');
 
         // Remove and reattach the swatches to after the price
         $swatches = $item.find('.product-img .color-swatches').detach();

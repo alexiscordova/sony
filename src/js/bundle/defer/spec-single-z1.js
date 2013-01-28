@@ -5,7 +5,7 @@
 // Version: 1.0
 // Author: Glen Cheney
 // Date: 01/24/13
-// Dependencies: jQuery 1.7+, Modernizr
+// Dependencies: jQuery 1.7+, Modernizr, imagesLoaded 2.1+
 // --------------------------------------
 
 (function($, Modernizr, window, undefined) {
@@ -31,17 +31,26 @@
 
       self.$specProduct = self.$container.find('.spec-product');
       self.$specTiles = self.$container.find('.spec-tiles');
+      self.$stickyNav = self.$container.find('.spec-sticky-nav');
+      self.stickyTriggerOffset = self.$container.find('.spec-views').first().offset().top;
+
+      // Set up twitter bootstrap scroll spy
+      $('body').scrollspy({
+        target: '.spec-sticky-nav'
+      });
 
       // self._onResize();
 
       // Init shuffle on the features section
       self._initFeatures();
 
+      self.$window.on('scroll', $.proxy( self._onScroll, self ));
       // self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
     },
 
     _initFeatures : function() {
-      var self = this;
+      var self = this,
+          dfd;
 
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
@@ -53,48 +62,33 @@
       });
       self.shuffle = self.$specTiles.data('shuffle');
 
+      dfd = self.$specTiles.imagesLoaded();
+
+      // Relayout shuffle when the images have loaded
+      dfd.always( function() {
+        console.log('images loaded');
+        setTimeout( function() {
+          self.shuffle.layout();
+        }, 100 );
+      });
+
       return self;
     },
 
-    _onResize : function() {
-      /*
-      var self = this;
-      if ( Modernizr.mq( self.mobileBreakpoint ) ) {
+    _onScroll : function() {
+      var self = this,
+          st = self.$window.scrollTop();
 
-        // If we have a scroller, destroy it
-        if ( self.isScroller ) {
-          self._teardownScroller();
+      if ( st > self.stickyTriggerOffset ) {
+        if ( !self.$stickyNav.hasClass('open') ) {
+          self.$stickyNav.addClass('open');
         }
-
-        // If we don't have sticky tabs, init them
-        if ( !self.isStickyTabs ) {
-          self._initStickyTabs();
-        }
-
-        if ( self.$modal ) {
-          self._closeEnlarge();
-        }
-
       } else {
-
-        // If we have sticky tabs, destroy them
-        if ( self.isStickyTabs ) {
-          self._teardownStickyTabs();
+        if ( self.$stickyNav.hasClass('open') ) {
+          self.$stickyNav.removeClass('open');
         }
-
-        // If we don't have a scroller, create it
-        if ( !self.isScroller ) {
-          self._initScroller();
-        }
-
-        // Re-compute heights for each cell and total height
-        self
-          ._setRowHeights()
-          ._setItemContainerHeight();
       }
 
-      self.stickyOffset = self._getStickyHeaderOffset();
-      */
     }
 
 
