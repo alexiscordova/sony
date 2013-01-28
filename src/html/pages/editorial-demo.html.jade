@@ -6,10 +6,10 @@ ignore: true
 doctype 5
 !{partial('includes/ieconditionals.html')}
 
-l = {"locals":locals}
+l = {"locals": locals}
   head
     !{partial('includes/head.html.jade', l)}
-  
+
   body
     e = {"locals":locals, "data":data('editorial-e1-e15/default.json')}
     !{partial('modules/editorial-e1-e15.html.jade', e)}

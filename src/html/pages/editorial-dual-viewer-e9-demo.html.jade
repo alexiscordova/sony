@@ -1,0 +1,24 @@
+---
+title: Editorial-Dual-Viewer-E9
+description: A dual viewer is used to show two states of an image, such as inside and outside views or default and exploded views.
+---
+
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+
+  header.container
+    h1 Editorial + Dual Viewer Layout:
+
+  fw = {"locals":locals, "data":data('editorial-dual-viewer-e9/fullwidth.json')}
+  !{partial('modules/editorial-dual-viewer-e9.html.jade', fw)}
+
+  !{partial('modules/editorial-dual-viewer-e9.html.jade', fw)}
+
+  !{partial('includes/foot.html.jade', l)}
