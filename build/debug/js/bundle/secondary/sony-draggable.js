@@ -12,6 +12,16 @@
 //
 // This plugin is based loosely on the API of [jQuery UI Draggable](http://api.jqueryui.com/draggable),
 // and serves as a bare(ish)-bones class to satisfy the needs of the Dual Viewer (E9).
+//
+// *Example Usage:*
+//
+//      $('#foo').sonyDraggable({
+//        'axis': 'x',
+//        'unit': '%',
+//        'containment': $('#foo-wrapper'),
+//        'drag': self.beingDragged,
+//        'bounds': { x: { 'mix': 10, 'max': 90 } }
+//      });
 
 (function($) {
 
@@ -45,6 +55,9 @@
       self.setPositions();
     },
 
+    // On scrubbing start, cache (or re-cache) the relevant dimensions with setDimensions(),
+    // cache the new interaction's start position, then bind for movement onto onScrubbing().
+
     'onScrubStart': function(e) {
 
       var self = this,
@@ -62,6 +75,8 @@
       self.$containment.on('mousemove touchmove', $.proxy(self.onScrubbing, self));
     },
 
+    // Crunch some vectors to compute the handle's position relative to the user's click/touch.
+
     'onScrubbing': function(e) {
 
       var self = this;
@@ -74,6 +89,8 @@
       self.setPositions();
     },
 
+    // User interaction complete; unbind movement events.
+
     'onScrubEnd': function(e) {
 
       var self = this;
@@ -82,6 +99,8 @@
 
       self.$containment.off('mousemove touchmove');
     },
+
+    // Applies the user-defined boundaries to a given position. The *which* parameter defines the x/y axis.
 
     'getConstrainedBounds': function(val, which) {
 
@@ -98,6 +117,8 @@
       return val;
     },
 
+    // Smooths out different event data for desktop and touch users, returns a consistent pageX/Y.
+
     'getPagePosition': function(e) {
 
       if ( !e.pageX && !e.originalEvent ) {
@@ -109,6 +130,9 @@
         'y': (e.pageY || e.originalEvent.touches[0].pageY)
       };
     },
+
+    // Reposition the handle based on mouse movement, or may be called at init for initial placement.
+    // Also broadcasts the new position via the self.drag() callback.
 
     'setPositions': function(){
 
@@ -149,6 +173,8 @@
       });
     },
 
+    // Caches important dimensions and positions.
+
     'setDimensions': function() {
 
       var self = this;
@@ -158,6 +184,10 @@
       self.scrubberLeft = self.$el.position().left;
       self.scrubberTop = self.$el.position().top;
     },
+
+    // Allows other classes to reset the handle's position if needed, by calling:
+    //
+    //      $('#foo').sonyDraggable('setBounds', {...});
 
     'setBounds': function(newBounds) {
 
@@ -186,13 +216,20 @@
     });
   };
 
+  // Defaults
+  // --------
+
   $.fn.sonyDraggable.defaults = {
+    // Define the axes along which the handle may be dragged.
     'axis': 'xy',
+    // 'px' or '%' based positioning for handle / callback coords.
     'unit': 'px',
+    // Initial position of handle.
     'handlePosition': {
       'x': 0,
       'y': 0
     },
+    // Callback for drag motion, may be used to reposition other elements.
     'drag': function(){}
   };
 
