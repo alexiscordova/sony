@@ -12,12 +12,14 @@ var moduleGroupContainer = $('<li><div class="main-module-container">'), moduleG
     '     <label>Data</label>' + 
     '     <select class="data_select" name="moduleData"></select>' + 
     '   </div>' + 
-    '   <span class="span2 btnRemove">' +
-    '     <span class="sprite"></span>' +
-    '     <button class="btn btn-small btn-block remove-module">' +
-    '       Remove' +
-    '     </button>' +
-    '   </span>' +
+    '   <div class="btnGroup">' +
+    '     <span class="span2 btnRemove button">' +
+    '       <button class="btn-small btn-block remove-module">' +
+    '       <span class="sprite"></span>' +
+    '         Remove' +
+    '       </button>' +
+    '     </span>' +
+    '   </div>' +
     ' </div>'
 /* @formatter:on */
 ), submodContainer = $(
@@ -26,7 +28,16 @@ var moduleGroupContainer = $('<li><div class="main-module-container">'), moduleG
     '<h4>Submodules</h4>' +
     '</div>'
 /* @formatter:on */
-);
+), btnBuildAll = $(
+/* @formatter:off */
+    '   <span class="span4 btnBuildAll button">' + 
+    '     <button class="btn-small btn-block build-all">' + 
+    '     <span class="sprite"></span>' + 
+    '       Build All' + 
+    '     </button>' + 
+    '   </span>'
+/* @formatter:on */
+)
 
 var mainModuleContainer, subModuleContainer, moduleSelected, selectedElem;
 
@@ -42,7 +53,6 @@ mb.moduleDataList = [];
 
 $(document).ready(function() {
 
-
   $.ajax({
     url : '/mnames'
   }).done(function(res) {
@@ -50,8 +60,8 @@ $(document).ready(function() {
     mb.modulePaths = JSON.parse(res);
 
     $.each(mb.modulePaths, function(i, e) {
-      // TEMPORARY : remove old template from list
-      if (e.indexOf('.jade') !== -1) {
+      // Remove old template and global element from list
+      if (e.indexOf('.jade') !== -1 && e.indexOf('global') === -1) {
         var moduleName = e.replace(/.html(.eco|.hb|.jade)/g, '');
         moduleName = moduleName.replace(/_|-/g, ' ');
 
@@ -82,14 +92,14 @@ $(document).ready(function() {
     buttons : {
       "Build" : function() {
         var bValid = true;
-      //  $('#dialog-form input').removeClass("ui-state-error").val("");
-   
+        //  $('#dialog-form input').removeClass("ui-state-error").val("");
+
         // regex that find LineBreak
         var replaceLB = new RegExp('\\n', 'g');
         var replaceSpace = new RegExp('\\n', 'g');
-        
+
         if (bValid) {
-          $('#fileName').val($('#name').val().replace(' ',''));
+          $('#fileName').val($('#name').val().replace(' ', ''));
           $('#fileTitle').val($('#title').val());
           $('#fileDescription').val($('#description').val().replace(replaceLB, ' '));
 
@@ -113,9 +123,6 @@ $(document).ready(function() {
 
   });
 
-  //turn build into a bootstrap button
-  //$('button').button();
-
   updateBuildButton();
 
 });
@@ -129,7 +136,6 @@ function getModuleName() {
 
   $.each(mb.moduleList, function(i, e) {
     $('.module_select.empty').append('<option value=' + e.value + '>' + e.name + '</option>');
-
   });
   $('.module_select.empty').removeClass('empty');
 
@@ -146,6 +152,7 @@ function getModuleName() {
     updateBuildButton();
   });
 
+  toggleBuildAll()
 }
 
 function getDataList(elem) {
@@ -194,12 +201,18 @@ function getDataList(elem) {
 
 function getJsonContent(dataSelect, elem) {
 
+  var jsonUrl;
+
   selectedElem = $(dataSelect);
+
+  typeof elem === 'object' ? jsonUrl = elem.target.value : jsonUrl = elem;
+
+  toggleBuildAll();
 
   $.ajax({
     url : '/getjson',
     data : {
-      path : elem.target.value
+      path : jsonUrl
     },
   }).done(function(res) {
 
@@ -231,7 +244,6 @@ function setSuperModule(dataSelect, elem) {
   var temp;
 }
 
-
 function checkLength(o, n, min, max) {
   if (o.val().length > max || o.val().length < min) {
     o.addClass("ui-state-error");
@@ -262,6 +274,19 @@ function createModuleContainer(elem) {
 
   $moduleGroupContainer = moduleGroupContainer.clone(true);
   $moduleGroup = moduleGroup.clone(true);
+
+  // Isert a build all button to the first element
+  if ($('#main-forms-container ul li').length === 0) {
+    $moduleGroup.find('.btnGroup').prepend(btnBuildAll);
+
+    $moduleGroup.find('.build-all').bind('click', function(e) {
+      e.preventDefault();
+      buildAll(elem);
+    })
+
+  }
+
+  // Bind the remove Module action on the remove module button
   $moduleGroup.find('.remove-module').bind('click', function(e) {
     e.preventDefault();
     removeModuleContainer(e.target);
@@ -275,13 +300,22 @@ function createModuleContainer(elem) {
 
   getModuleName();
 
-  $("#main-forms-container ul").sortable();
+  $("#main-forms-container ul").sortable({
+    placeholder : "ui-state-highlight",
+    update : function(event, ui) {
+
+      var newBtnBuildAll = $('.btnBuildAll');
+      $('ul.ui-sortable li:first').find('.btnGroup').prepend(newBtnBuildAll);
+    }
+
+  });
   updateBuildButton();
 };
 
 function removeModuleContainer(elem) {
   $(elem).parents('li').remove();
   updateBuildButton();
+  toggleBuildAll();
 }
 
 function generateSubModule(selectedElem) {
@@ -295,16 +329,12 @@ function generateSubModule(selectedElem) {
 
 }
 
-function saveModule(elem) {
-
-}
-
 function addSubModule(elem) {
 
   $(elem).find('ol').remove();
   $(elem).append('<ol class="subModElem">');
 
-  if ( typeof mb.subModules === 'undefined' || mb.subModules === '') {
+  if ( typeof mb.subModules === 'undefined' || mb.subModules.length === 0) {
     $(elem).hide();
   }
 
@@ -327,9 +357,48 @@ function addSubModule(elem) {
      '</li>'
      /* @formatter:on */
     );
-  })
+  });
 
 };
+
+function toggleBuildAll() {
+  $('#main-forms-container ul.ui-sortable>li').length <= 1 && $('.data_select option').length > 0 ? $('.btnBuildAll').show() : $('.btnBuildAll').hide();
+}
+
+function buildAll(elem) {
+
+  if ($('.build-all').hasClass('active')) {
+
+    $('.build-all').removeClass('active').html('<span class="sprite"></span>Build All');
+    $('#add-module').prop('disabled', false);
+    $('.data_select').trigger('change');
+    $('.modContainer select').prop('disabled', false);
+
+  } else {
+
+    $('#add-module').prop('disabled', true);
+    $('.build-all').addClass('active').html('<span class="sprite"></span>Select Data');
+
+    var moduleValue = $('.module_select option:selected').attr('value'), moduleInput = $('<input type="hidden" name="module" >'), builtAllInputContainer = $('#builtAllInputContainer');
+
+    $(builtAllInputContainer).empty();
+
+    $.each($('.data_select option'), function(i) {
+
+      var $moduleInput = moduleInput.clone(true), $dataInput = moduleInput.clone(true);
+
+      $moduleInput = moduleInput.attr('value', moduleValue);
+      $dataInput = $dataInput.attr('name', 'moduleData').attr('value', this.value);
+
+      $(builtAllInputContainer).append($moduleInput.clone(true), $dataInput);
+
+    });
+
+    $('.submodContainer ol').empty().html('<li><p>All data elements will be build</p></li>');
+    $('.modContainer select').prop('disabled', true);
+  }
+}
+
 
 $("#build").click(function(e) {
   e.preventDefault();
