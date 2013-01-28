@@ -29,11 +29,14 @@
       self.$tccBody            = self.$tccBodyWrapper.find('.tcc-body');
       self.$contentModules     = self.$el.find('.tcc-content-module');
       self.$scrollerInstance   = null;
-      
-      self.outerNavClasses     = new Array ( 'tcc-nav', 'tcc-bullets' );
-      self.innerNavClasses     = new Array ( 'tcc-nav-item', 'tcc-bullet' );
-      
-      self.navSelectedClass    = 'tcc-nav-selected';
+
+      // bullet pagination
+      //self.outerNavClasses     = new Array ( 'tcc-nav', 'pagination-bullets' );
+      //self.innerNavClasses     = new Array ( 'tcc-nav-item', 'pagination-bullet' );
+      self.outerNavClasses     = new Array ( 'pagination-bullets' );
+      self.innerNavClasses     = new Array ( 'pagination-bullet' );      
+      self.bulletPaginationOn  = 'pagination-bullets-on';
+      self.navSelectedClass    = 'bullet-selected';
       
       self.resizeEvent         = 'onorientationchange' in window ? 'orientationchange' : 'resize';
       self.resizeThrottle      = function(){self.handleResize();};
@@ -239,6 +242,8 @@
         console.groupEnd();
       },
 
+      // BULLET PAGINATION NAVIGATION
+
       createNavigation : function(){
         console.group('««« createNavigation »»» ');
 
@@ -274,7 +279,7 @@
           self.handleNavClick(e);
         });
 
-        $( '.' + self.outerNavClasses.join('.') ).addClass('on');
+        $( '.' + self.outerNavClasses.join('.') ).addClass(self.bulletPaginationOn);
 
         self.ev.trigger( 'tccOnNavUpdate' );
 
@@ -288,7 +293,7 @@
       
         // 'fade out' before removing
         $( '.' + self.outerNavClasses.join('.') )
-          .removeClass('on')
+          .removeClass(self.bulletPaginationOn)
           .delay(300) // let it fade out...
           .remove(); // remove references
 
@@ -325,7 +330,7 @@
           self.updateCurrentId(item.index());
 
           // tell sony-iscroll what page to go to
-          self.$scrollerInstance.scrollerModule('goto',( self.currentId ));
+          self.$scrollerInstance.scrollerModule('gotopage',( self.currentId ));
 
           self.ev.trigger( 'tccOnNavUpdate' );
         }
@@ -333,6 +338,8 @@
         console.log( '« end »');
         console.groupEnd();
       },
+
+      // END BULLET PAGINATION
 
       updateCurrentId : function(index){
         console.group( '««« updateCurrentId »»»' );

@@ -89,6 +89,11 @@ $default-transition-delay    : 0s;
 	}
 }
 
+// allows you to add clearfix on an element instead.
+.clearfix {
+  @include clearfix;
+}
+
 // Webkit-style focus
 // ------------------
 @mixin tab-focus() {
@@ -1181,8 +1186,8 @@ $default-transition-delay    : 0s;
 
     		[class*=#{$spanName}] {
     			// @include input-block-level();
-                display: block;
-                width: auto;
+          display: block;
+          width: auto;
     			float: left;
     			margin-left: $fluidGridGutterWidth;
     			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
@@ -1319,7 +1324,7 @@ $default-transition-delay    : 0s;
   }
 }
 
-@mixin no-grid ($overrideClass:""){
+@mixin no-grid( $overrideClass: "" ) {
 
   // Make all grid-sized elements block level again
   #{$overrideClass}.grid [class*="span"],
@@ -1328,7 +1333,9 @@ $default-transition-delay    : 0s;
   #{$overrideClass}.grid [class*="offset"]:first-child,
 
   #{$overrideClass}.slimgrid [class*="span"],
+  #{$overrideClass}.slimgrid [class*="offset"],
   #{$overrideClass}.slimgrid5 [class*="span"],
+  #{$overrideClass}.slimgrid5 [class*="offset"],
 
   #{$overrideClass}.grid [class*="m-span"],
   #{$overrideClass}.grid [class*="m-offset"],
@@ -1340,15 +1347,6 @@ $default-transition-delay    : 0s;
 
   // #{$overrideClass}.grid-px-width [class*="span"],
   // #{$overrideClass}.grid-px-width [class*="offset"]
-  //
-  // [class*="span"],
-  // .grid [class*="span"],
-  // [class*="offset"],
-  // .grid [class*="offset"],
-  // [class*="span"]:first-child,
-  // .grid [class*="span"]:first-child,
-  // [class*="offset"]:first-child,
-  // .grid [class*="offset"]:first-child
   {
     float: none;
     display: block;
