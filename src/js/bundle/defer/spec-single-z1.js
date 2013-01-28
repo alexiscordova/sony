@@ -32,20 +32,15 @@
       self.$specProduct = self.$container.find('.spec-product');
       self.$specTiles = self.$container.find('.spec-tiles');
       self.$stickyNav = self.$container.find('.spec-sticky-nav');
-      self.stickyTriggerOffset = self.$container.find('.spec-views').first().offset().top;
+      self.$carouselWrap = self.$container.find('.spec-carousel-wrap');
+      self.$carousel = self.$carouselWrap.find('.spec-carousel');
 
-      // Set up twitter bootstrap scroll spy
-      $('body').scrollspy({
-        target: '.spec-sticky-nav'
-      });
-
-      // self._onResize();
+      self._initCarousel();
 
       // Init shuffle on the features section
       self._initFeatures();
 
-      self.$window.on('scroll', $.proxy( self._onScroll, self ));
-      // self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
+      self.$window.on('load', $.proxy( self._initStickyNav, self ));
     },
 
     _initFeatures : function() {
@@ -66,13 +61,55 @@
 
       // Relayout shuffle when the images have loaded
       dfd.always( function() {
-        console.log('images loaded');
         setTimeout( function() {
           self.shuffle.layout();
         }, 100 );
       });
 
       return self;
+    },
+
+    _initStickyNav : function() {
+      var self = this;
+
+      self.stickyTriggerOffset = self.$container.find('.spec-views').first().offset().top;
+      self.$window.on('scroll', $.proxy( self._onScroll, self ));
+
+      // Set up twitter bootstrap scroll spy
+      $('body').scrollspy({
+        target: '.spec-sticky-nav'
+      });
+
+    },
+
+    _initCarousel : function() {
+      var self = this,
+          firstImage = self.$carousel.find(':first-child img');
+
+      // Wait for first image to be loaded, then setTimeout to allow it to get a height
+      // then get its height and set it on the container, then initialize the scroller
+      firstImage.imagesLoaded(function() {
+        setTimeout(function() {
+          self.$carousel.height( firstImage.height() );
+
+          self.$carouselWrap.scrollerModule({
+            contentSelector: '.spec-carousel',
+            itemElementSelector: '.slide',
+            mode: 'paginate',
+            centerItems: false,
+            generatePagination: true,
+
+            iscrollProps : {
+              snap: true,
+              hScroll: true,
+              vScroll: false,
+              hScrollbar: false,
+              vScrollbar: false
+            }
+
+          });
+        }, 100);
+      });
     },
 
     _onScroll : function() {
