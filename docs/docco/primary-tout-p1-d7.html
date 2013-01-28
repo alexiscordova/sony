@@ -1,0 +1,62 @@
+<!DOCTYPE html>  <html> <head>   <title>primary-tout-p1-d7.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-spec.html">                 sony-spec.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               primary-tout-p1-d7.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Your code goes here.// ------------ Primary Tout ------------
+Module: Primary Tout
+Version: 0.1
+Modified: 01/16/2013</p>
+
+<h2>Dependencies: jQuery 1.7+</h2>             </td>             <td class="code">               <div class="highlight"><pre>(<span class="keyword">function</span>($, window, <span class="literal">undefined</span>) {
+
+    <span class="string">'use strict'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Start module</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> PrimaryTout = <span class="keyword">function</span>(element, options){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      $.extend(self, {}, $.fn.primaryTout.defaults, options, $.fn.primaryTout.settings);
+      
+      self._init();
+    };
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Sample module method</p>             </td>             <td class="code">               <div class="highlight"><pre>    PrimaryTout.prototype = {
+      constructor: PrimaryTout,
+
+      _resize: <span class="keyword">function</span>(){
+        $(<span class="string">'.primary-tout.home-page'</span>).find(<span class="string">'.fill'</span>).height($(<span class="string">'.primary-tout.home-page'</span>).height() - $(<span class="string">'.primary-tout.home-page'</span>).find(<span class="string">'.hero-unit'</span>).outerHeight() - parseInt($(<span class="string">'.primary-tout.home-page'</span>).find(<span class="string">'.hero-unit'</span>).css(<span class="string">'margin-bottom'</span>), <span class="number">10</span>) );
+      },
+
+      _init: <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>adds a resize listener to vertically re-center the h1</p>             </td>             <td class="code">               <div class="highlight"><pre>        $.guid= <span class="number">0</span>;
+        <span class="keyword">this</span>._resize();
+        $(window).resize($.throttle(<span class="number">250</span>, <span class="keyword">this</span>._resize) );
+      }
+      
+
+    };
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.primaryTout = <span class="keyword">function</span>( options ) {
+      <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+      <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+        <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
+          primaryTout = self.data(<span class="string">'primaryTout'</span>);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>If we don't have a stored moduleName, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !primaryTout ) {
+            primaryTout = <span class="keyword">new</span> PrimaryTout( self, options );
+            self.data( <span class="string">'primaryTout'</span>, primaryTout );
+        }
+    
+        <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+          primaryTout[ options ].apply( primaryTout, args );
+        }
+      });
+    };
+
+
+ })(jQuery, window, <span class="literal">undefined</span>);
+ 
+$(document).ready(<span class="keyword">function</span>() {
+
+  <span class="keyword">if</span> ( $(<span class="string">'.primary-tout'</span>).length &gt; <span class="number">0</span> ) {
+    $(<span class="string">'.primary-tout'</span>).primaryTout();
+  }
+
+});
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
