@@ -1,3 +1,18 @@
+/* line 77, ../../../src/css/scss/_base/_mixins.scss */
+.clearfix {
+  *zoom: 1;
+}
+/* line 64, ../../../src/css/scss/_base/_mixins.scss */
+.clearfix:before, .clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+/* line 71, ../../../src/css/scss/_base/_mixins.scss */
+.clearfix:after {
+  clear: both;
+}
+
 /* line 26, ../../../src/css/scss/modules/spec-z1-z2.scss */
 .iq-wrap {
   position: relative;
@@ -501,33 +516,44 @@ ul.spec-views a {
   vertical-align: middle;
 }
 
+/* line 561, ../../../src/css/scss/modules/spec-z1-z2.scss */
+.spec-carousel-wrap {
+  position: relative;
+  padding-bottom: 1.25em;
+}
+
+/* line 566, ../../../src/css/scss/modules/spec-z1-z2.scss */
+.spec-carousel .slide {
+  float: left;
+}
+
 @media (min-width: 35.5em) and (max-width: 61.1875em) {
-  /* line 564, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 573, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-overview {
     padding: 2.5em 0;
   }
 
-  /* line 568, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 577, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section {
     margin-top: 1.875em;
     padding-bottom: 2.8125em;
   }
-  /* line 572, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 581, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section .media .pull-left {
     margin-right: .5em;
   }
-  /* line 576, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 585, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section dt:not(:first-of-type) {
     margin-top: 20px;
   }
 }
 @media (max-width: 35.4375em) {
-  /* line 586, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 595, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .grid [class*=span].alpha {
     margin-left: 0;
   }
 
-  /* line 591, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 600, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .grid [class*=span].no-m-span {
     float: none;
     display: block;
@@ -535,64 +561,65 @@ ul.spec-views a {
     width: auto;
   }
 
-  /* line 598, ../../../src/css/scss/modules/spec-z1-z2.scss */
-  .spec-overview {
-    padding: 2.5em 0;
-  }
-
-  /* line 602, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 607, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section {
     margin-top: 1.875em;
     padding-bottom: 2.5em;
   }
-  /* line 607, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 612, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section .section-label {
     margin-bottom: 1.875em;
   }
-  /* line 611, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 616, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section .media .pull-left {
     margin-right: .75em;
   }
-  /* line 616, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 621, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section .media + .media,
   .spec-section .media {
     margin-top: 1.625em;
   }
-  /* line 620, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 625, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section .has-img {
     margin-top: 1.875em;
   }
-  /* line 624, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 629, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-section dt:not(:first-of-type) {
     margin-top: 20px;
   }
+
+  /* line 634, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  .spec-overview {
+    margin-top: 0;
+    padding: 2.5em 0;
+  }
 }
-/* line 646, ../../../src/css/scss/modules/spec-z1-z2.scss */
+/* line 656, ../../../src/css/scss/modules/spec-z1-z2.scss */
 .spec-tiles-wrap {
   margin-top: 6.25em;
   margin-bottom: 9.375em;
 }
 
-/* line 651, ../../../src/css/scss/modules/spec-z1-z2.scss */
+/* line 661, ../../../src/css/scss/modules/spec-z1-z2.scss */
 .spec-tiles .spec-tile {
   margin-left: 0;
 }
 
-/* line 655, ../../../src/css/scss/modules/spec-z1-z2.scss */
+/* line 665, ../../../src/css/scss/modules/spec-z1-z2.scss */
 .spec-tile {
   margin-top: 1.5em;
   background: #f1f5f9;
 }
-/* line 659, ../../../src/css/scss/modules/spec-z1-z2.scss */
+/* line 669, ../../../src/css/scss/modules/spec-z1-z2.scss */
 .spec-tile .tile-content {
   padding: 2.5em 2.5em 3.75em 1.875em;
 }
-/* line 664, ../../../src/css/scss/modules/spec-z1-z2.scss */
+/* line 674, ../../../src/css/scss/modules/spec-z1-z2.scss */
 .spec-tile .tile-title {
   margin-top: 0;
 }
 
-/* line 670, ../../../src/css/scss/modules/spec-z1-z2.scss */
+/* line 680, ../../../src/css/scss/modules/spec-z1-z2.scss */
 .spec-tile .iq-img {
   width: 100%;
   height: auto;
@@ -600,33 +627,33 @@ ul.spec-views a {
 }
 
 @media (min-width: 35.5em) and (max-width: 61.1875em) {
-  /* line 680, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 690, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-tiles-wrap {
     margin-top: 4.6875em;
     margin-bottom: 6.25em;
   }
 
-  /* line 685, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 695, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-tile {
     margin-top: .625em;
   }
-  /* line 688, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 698, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-tile .tile-content {
     padding: 1.875em 1.875em 2.8125em 1.25em;
   }
 }
 @media (max-width: 35.4375em) {
-  /* line 698, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 708, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-tiles-wrap {
     margin-top: 3.75em;
     margin-bottom: 5em;
   }
 
-  /* line 703, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 713, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-tile {
     margin-top: .625em;
   }
-  /* line 706, ../../../src/css/scss/modules/spec-z1-z2.scss */
+  /* line 716, ../../../src/css/scss/modules/spec-z1-z2.scss */
   .spec-tile .tile-content {
     padding: 1.875em 1.875em 2.8125em 1.25em;
   }
