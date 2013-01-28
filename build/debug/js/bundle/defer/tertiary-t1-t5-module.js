@@ -242,6 +242,8 @@
         console.groupEnd();
       },
 
+      // BULLET PAGINATION NAVIGATION
+
       createNavigation : function(){
         console.group('««« createNavigation »»» ');
 
@@ -336,6 +338,8 @@
         console.log( '« end »');
         console.groupEnd();
       },
+
+      // END BULLET PAGINATION
 
       updateCurrentId : function(index){
         console.group( '««« updateCurrentId »»»' );

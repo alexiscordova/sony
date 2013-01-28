@@ -1,4 +1,16 @@
-(function($, Modernizr, window, undefined) {
+/*global jQuery, Modernizr, IScroll */
+
+// ------------  ------------
+// Module: Generic Scroller
+// Version: 1.0
+// Modified: 2013-01-04 by Telly Koosis, Tyler Madison, Glen Cheney
+// Dependencies: jQuery 1.7+, Modernizr, iScroll v4.2.5
+// -------------------------------------------------------------------------
+
+// TODO: broadcast if pagination (including page number)
+
+
+(function($, Modernizr, IScroll, window, undefined) {
 
 	'use strict';
 
@@ -330,4 +342,4 @@
 		resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize'
   };
 
-})(jQuery, Modernizr, window);
+})(jQuery, Modernizr, IScroll, window);
