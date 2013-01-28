@@ -190,4 +190,4 @@
     $(this).tab('show');
   });
 
-}(window.jQuery));
+})(jQuery);
