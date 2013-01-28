@@ -1,10 +1,12 @@
 
-// ------ Sony Editorial + Dual Viewer (EditorialDualViewer) Module ------
-// Module: EditorialDualViewer Module
-// Version: 0.1
-// Modified: 01/22/2013
-// Dependencies: jQuery 1.7+
-// -----------------------------------------------------------------------
+// Sony Editorial + Dual Viewer (EditorialDualViewer) ModuleModule
+// ---------------------------------------------------------------
+//
+// * **Class:** EditorialDualViewer
+// * **Version:** 0.1
+// * **Modified:** 01/23/2013
+// * **Author:** George Pantazis
+// * **Dependencies:** jQuery 1.7+, [SonyDraggable](sony-draggable.html)
 
 (function($) {
 
