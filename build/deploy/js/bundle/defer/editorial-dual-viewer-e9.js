@@ -1,131 +1,137 @@
 
-// ------ Sony UX Marketing Convergence (MarketingConvergence) Module ------
-// Module: MarketingConvergence Module
+// ------ Sony Editorial + Dual Viewer (EditorialDualViewer) Module ------
+// Module: EditorialDualViewer Module
 // Version: 0.1
-// Modified: 01/18/2013
+// Modified: 01/22/2013
 // Dependencies: jQuery 1.7+
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------
 
 (function($) {
 
   'use strict';
 
-  var MarketingConvergenceModule = function($element, options){
+  var EditorialDualViewer = function($element, options){
 
     var self = this;
 
-    $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options);
+    $.extend(self, {}, $.fn.editorialDualViewer.defaults, options);
 
     self.$el = $element;
+    self.$dualViewContainer = self.$el.find('.edv-images');
+    self.$scrubber = self.$el.find('.edv-scrubber-container');
+    self.$bottomSlide = self.$el.find('.image-1');
+    self.$topSlide = self.$el.find('.image-2');
+    self.$images = self.$dualViewContainer.find('img');
 
-    self.init();
+    self.initTimeout();
+
+    // This should be replaced with the global debounced throttle event once that is available.
+    $(window).on('resize', $.proxy(self.setPositions, self));
   };
 
-  MarketingConvergenceModule.prototype = {
+  EditorialDualViewer.prototype = {
 
-    'constructor': MarketingConvergenceModule,
+    'constructor': EditorialDualViewer,
 
     'init': function() {
 
       var self = this;
 
-      self.buildPartnerCarousel();
-    },
-
-    'buildPartnerCarousel': function() {
-
-      var self = this;
-
-      self.currentPartnerProduct = -1;
-      self.$partnerCarousel = self.$el.find('.partner-products');
-      self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
-
-      self.$partnerCarouselSlides.detach();
-
-      self.gotoNextPartnerProduct();
-      self.setPartnerCarouselInterval();
-      self.setupReloadButton();
-
-    },
-
-    'setupReloadButton': function() {
-
-      var self = this;
-
-      self.$el.find('.btn-reload').on('click', function(e){
-
-        e.preventDefault();
-
-        self.gotoNextPartnerProduct();
-        self.setPartnerCarouselInterval();
+      self.$scrubber.sonyDraggable({
+        'axis': 'x',
+        'unit': '%',
+        'containment': self.$dualViewContainer,
+        'drag': $.proxy(self.onDrag, self),
+        'bounds': self.getDragBounds()
       });
-
     },
 
-    'setPartnerCarouselInterval': function() {
-
-      var self = this;
-
-      if ( self.partnerCarouselInterval ) {
-        clearInterval(self.partnerCarouselInterval);
-      }
-
-      self.partnerCarouselInterval = setInterval(function(){
-        self.gotoNextPartnerProduct();
-      }, self.rotationSpeed);
-    },
-
-    'gotoNextPartnerProduct': function() {
+    'initTimeout': function() {
 
       var self = this,
-          $newSlide;
+          ready = true;
 
-      if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
-        self.currentPartnerProduct = 0;
-      } else {
-        self.currentPartnerProduct++;
-      }
-
-      self.$partnerCarousel.children().each(function(){
-        $(this).fadeOut(self.transitionTime, function(){
-          $(this).remove();
-        });
+      self.$images.each(function(){
+        if ( $(this).width() === 0 ) {
+          ready = false;
+        }
       });
 
-      $newSlide = self.$partnerCarouselSlides.eq(self.currentPartnerProduct).clone();
+      if ( ready ) {
+        self.init();
+      } else {
+        setTimeout($.proxy(self.initTimeout, self), 500);
+      }
+    },
 
-      $newSlide.appendTo(self.$partnerCarousel);
-      $newSlide.fadeOut(0).fadeIn(self.transitionTime);
+    'getDragBounds': function() {
 
-      window.iQ.update();
+      var self = this,
+          min = 100 - (self.$topSlide.find('img').width() / self.$dualViewContainer.width() * 100),
+          max = self.$bottomSlide.find('img').width() / self.$dualViewContainer.width() * 100;
+
+      // Define boundaries for max and min.
+      if ( min < 15 ) { min = 15; }
+      if ( max > 85 ) { max = 85; }
+
+      // Handle condition where the images are not wide enough to fill the area.
+      if ( min >= max ) {
+        self.$el.addClass('scrubber-disabled');
+      } else {
+        self.$el.removeClass('scrubber-disabled');
+      }
+
+      return {
+        'x': {
+          'min': min,
+          'max': max
+        }
+      };
+    },
+
+    'setPositions': function() {
+
+      var self = this,
+          bounds = self.getDragBounds();
+
+      self.$scrubber.sonyDraggable('setBounds', bounds);
+    },
+
+    'onDrag': function(e) {
+
+      var self = this;
+
+      self.$topSlide.css('width', (100 - e.position.left) + '%');
     }
+
   };
 
-  $.fn.marketingConvergenceModule = function( options ) {
+  $.fn.editorialDualViewer = function( options ) {
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        marketingConvergenceModule = self.data('marketingConvergenceModule');
+        editorialDualViewer = self.data('editorialDualViewer');
 
-      // If we don't have a stored marketingConvergenceModule, make a new one and save it
-      if ( !marketingConvergenceModule ) {
-          marketingConvergenceModule = new MarketingConvergenceModule( self, options );
-          self.data( 'marketingConvergenceModule', marketingConvergenceModule );
+      // If we don't have a stored editorialDualViewer, make a new one and save it
+      if ( !editorialDualViewer ) {
+          editorialDualViewer = new EditorialDualViewer( self, options );
+          self.data( 'editorialDualViewer', editorialDualViewer );
       }
 
       if ( typeof options === 'string' ) {
-        marketingConvergenceModule[ options ].apply( marketingConvergenceModule, args );
+        editorialDualViewer[ options ].apply( editorialDualViewer, args );
       }
     });
   };
 
-  $.fn.marketingConvergenceModule.defaults = {
-    'rotationSpeed': 5000,
-    'transitionTime': 1000
+  $.fn.editorialDualViewer.defaults = {
+
   };
 
   $(function(){
-   $('.uxmc-container').marketingConvergenceModule();
+
+    $('.edv').editorialDualViewer();
+
   });
 
 })(jQuery);

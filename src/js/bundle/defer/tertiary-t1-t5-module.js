@@ -325,7 +325,7 @@
           self.updateCurrentId(item.index());
 
           // tell sony-iscroll what page to go to
-          self.$scrollerInstance.scrollerModule('goto',( self.currentId ));
+          self.$scrollerInstance.scrollerModule('gotopage',( self.currentId ));
 
           self.ev.trigger( 'tccOnNavUpdate' );
         }

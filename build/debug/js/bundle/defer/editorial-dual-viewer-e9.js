@@ -17,8 +17,16 @@
     $.extend(self, {}, $.fn.editorialDualViewer.defaults, options);
 
     self.$el = $element;
+    self.$dualViewContainer = self.$el.find('.edv-images');
+    self.$scrubber = self.$el.find('.edv-scrubber-container');
+    self.$bottomSlide = self.$el.find('.image-1');
+    self.$topSlide = self.$el.find('.image-2');
+    self.$images = self.$dualViewContainer.find('img');
 
-    self.init();
+    self.initTimeout();
+
+    // This should be replaced with the global debounced throttle event once that is available.
+    $(window).on('resize', $.proxy(self.setPositions, self));
   };
 
   EditorialDualViewer.prototype = {
@@ -28,6 +36,72 @@
     'init': function() {
 
       var self = this;
+
+      self.$scrubber.sonyDraggable({
+        'axis': 'x',
+        'unit': '%',
+        'containment': self.$dualViewContainer,
+        'drag': $.proxy(self.onDrag, self),
+        'bounds': self.getDragBounds()
+      });
+    },
+
+    'initTimeout': function() {
+
+      var self = this,
+          ready = true;
+
+      self.$images.each(function(){
+        if ( $(this).width() === 0 ) {
+          ready = false;
+        }
+      });
+
+      if ( ready ) {
+        self.init();
+      } else {
+        setTimeout($.proxy(self.initTimeout, self), 500);
+      }
+    },
+
+    'getDragBounds': function() {
+
+      var self = this,
+          min = 100 - (self.$topSlide.find('img').width() / self.$dualViewContainer.width() * 100),
+          max = self.$bottomSlide.find('img').width() / self.$dualViewContainer.width() * 100;
+
+      // Define boundaries for max and min.
+      if ( min < 15 ) { min = 15; }
+      if ( max > 85 ) { max = 85; }
+
+      // Handle condition where the images are not wide enough to fill the area.
+      if ( min >= max ) {
+        self.$el.addClass('scrubber-disabled');
+      } else {
+        self.$el.removeClass('scrubber-disabled');
+      }
+
+      return {
+        'x': {
+          'min': min,
+          'max': max
+        }
+      };
+    },
+
+    'setPositions': function() {
+
+      var self = this,
+          bounds = self.getDragBounds();
+
+      self.$scrubber.sonyDraggable('setBounds', bounds);
+    },
+
+    'onDrag': function(e) {
+
+      var self = this;
+
+      self.$topSlide.css('width', (100 - e.position.left) + '%');
     }
 
   };
@@ -55,7 +129,9 @@
   };
 
   $(function(){
-    //init
+
+    $('.edv').editorialDualViewer();
+
   });
 
 })(jQuery);
