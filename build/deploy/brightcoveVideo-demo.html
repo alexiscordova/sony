@@ -1,0 +1,106 @@
+<!DOCTYPE html><!--[if lt IE 8 ]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]--><head><meta charset="utf-8">
+    <meta name="description" content="sony global website">
+    <meta name="author" content="odopod">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+<!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!-->
+    <script type="text/javascript">
+      // Android needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
+    </script>
+  <!--<![endif]-->
+
+  <!-- FONTS.COM -->
+  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> --><link rel="stylesheet" href="css/styles.min.css">
+
+  <!-- WE NEED TO SET UP SEPARATE FONT FILES THAT DON'T GET COMPILED INTO styles.min.css -->
+
+  <!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!-->
+    <script type="text/javascript">
+      // Android needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
+    </script>
+  <!--<![endif]-->
+
+  <!-- FONTS.COM -->
+  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+<script>
+  if (typeof jQuery == 'undefined'){
+     document.write(unescape("%3Cscript src='js/libs/jquery-1.8.2.min.js'%3E%3C/script%3E"));
+  }
+</script>
+
+<script src="js/libs/modernizr-2.6.2.min.js"></script></head><body><div class="grid"><div class="span10 offset1"><h2>Robot</h2><div id="myvid01" data-media ="{'videoID' : 'robot','playerID' : '2014315899001','playerKey' : 'AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U','autoStart' : false,'imgMissingVideoID' : 'img/modules/brightcovevideo/poster-missing-video.png'}" class="video-container"><img alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." src="img/modules/brightcovevideo/poster-169.png" class="update-always"/></div><button type="button" data-target="myvid01" class="btn btn-primary action-video">action</button><button type="button" class="btn btn-primary btn-pause">pause</button><button type="button" class="btn btn-primary btn-play">play</button><h2>Space Alone</h2><div id="myvid02" data-media ="{'videoID' : 'space','playerID' : '2014315899001','playerKey' : 'AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U','autoStart' : false,'imgMissingVideoID' : 'img/modules/brightcovevideo/poster-missing-video.png','videoWidth' : '320','videoHeight' : '240'}" class="video-container"><img alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." src="img/modules/brightcovevideo/poster-43.png" class="update-always"/></div><button type="button" data-target="myvid02" class="btn btn-primary action-video">action</button><button type="button" class="btn btn-primary btn-pause">pause</button><button type="button" class="btn btn-primary btn-play">play</button><h2>No videoID</h2><div id="myvid03" data-media ="{'playerID' : '2014315899001','playerKey' : 'AQ~~,AAAAFpRXuxE~,tzDj55VgHd3OGp7N0Gfc4_lnDfKDIx7U','autoStart' : false,'imgMissingVideoID' : 'img/modules/brightcovevideo/poster-missing-video.png','videoWidth' : '320','videoHeight' : '240'}" class="video-container"><img alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." src="img/modules/brightcovevideo/poster-169.png" class="update-always"/></div><button type="button" data-target="myvid03" class="btn btn-primary action-video">action</button><button type="button" class="btn btn-primary btn-pause">pause</button><button type="button" class="btn btn-primary btn-play">play</button></div></div><!-- BrightCove script--><script src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script><script>var modVP;
+var modExp;
+var modCon;
+var previousVideoID = 0;
+var currentVideo;
+
+function myTemplateLoaded(experienceID) {
+    player = brightcove.api.getExperience(experienceID);
+    modVP = player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
+    modExp = player.getModule(brightcove.api.modules.APIModules.EXPERIENCE);
+    modCon = player.getModule(brightcove.api.modules.APIModules.CONTENT);
+    modExp.addEventListener(brightcove.api.events.ExperienceEvent.TEMPLATE_READY, onTemplateReady);
+}
+
+function onTemplateReady(evt) {
+    modVP.addEventListener(brightcove.api.events.MediaEvent.BEGIN, videoStart);
+    modVP.addEventListener(brightcove.api.events.MediaEvent.CHANGE, onMediaEventFired);
+    modVP.addEventListener(brightcove.api.events.MediaEvent.COMPLETE, onMediaEventFired);
+    modVP.addEventListener(brightcove.api.events.MediaEvent.ERROR, onMediaEventFired);
+    modVP.addEventListener(brightcove.api.events.MediaEvent.PLAY, onMediaEventFired);
+    modVP.addEventListener(brightcove.api.events.MediaEvent.PROGRESS, onMediaProgressFired);
+    modVP.addEventListener(brightcove.api.events.MediaEvent.STOP, onMediaEventFired);
+}
+
+function playVideo() {
+    modVP.play();
+}
+
+function pauseVideo() {
+    modVP.pause();
+}
+
+function onMediaEventFired(evt) {
+    //console.log("MEDIA EVENT: " + evt.type + " fired at position: " + evt.position);
+}
+
+function onMediaProgressFired(evt) {
+    // console.log("CURRENT POSITION: " + evt.position);
+}
+
+function videoStart(evt) {
+    // console.log("MEDIA EVENT: " + evt.type + " fired at position: " + evt.position);
+} 
+
+$(document).ready(function() {
+    $(".action-video").activateBrightcove();
+    
+    $(".btn-play").click(function(e) {
+        e.preventDefault();
+        playVideo();
+    });
+    
+    $(".btn-pause").click(function(e) {
+        e.preventDefault();
+        pauseVideo();
+    });
+    
+}); </script>
+<script src="js/require.min.js"></script><script src="js/secondary.min.js"></script><script src="js/bundle/defer/brightcove-builder.js"></script><script src="js/bundle/defer/form-actions.js"></script><script src="js/bundle/defer/hotspot_explorer.js"></script><script src="js/bundle/defer/jquery.sc.bullets.js"></script><script src="js/bundle/defer/jquery.sc.tabbednav.js"></script><script src="js/bundle/defer/jquery.sc.thumbnails.js"></script><script src="js/bundle/defer/jquery.sc.thumbsbullets.js"></script><script src="js/bundle/defer/jquery.sc.thumbsnav.js"></script><script src="js/bundle/defer/jquery.viewport.js"></script><script src="js/bundle/defer/module.sony.carousel.1.0.js"></script><script src="js/bundle/defer/primary-tout-p1-d7.js"></script><script src="js/bundle/defer/related-products.js"></script><script src="js/bundle/defer/sony-gallery.js"></script><script src="js/bundle/defer/sony-sequencer.js"></script><script src="js/bundle/defer/sony-spec.js"></script><script src="js/bundle/defer/sony.one.carousel.js"></script><script src="js/bundle/defer/tertiary-t1-t5-module.js"></script><script src="js/bundle/defer/ux-marketing-convergence-e14.js"></script><!--[if lt IE 9]><script src="js/polyfill.min.js"></script><![endif]--></body>
