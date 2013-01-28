@@ -315,10 +315,11 @@ else if data.view == 'single-spec'
         .container
           .grid.no-grid-at-567
             .span8
-              .spec-carousel
-                each img in spec.imgs
-                  .slide
-                    mixin iQImage( img )
+              .spec-carousel-wrap
+                .spec-carousel
+                  each img in spec.imgs
+                    .slide
+                      mixin iQImage( img )
 
             .span3.offset1
               h5.section-label= spec.label
