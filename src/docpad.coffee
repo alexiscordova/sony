@@ -45,9 +45,6 @@ docpadConfig = {
     title:(name) -> t = docpad.database.findOne({id:'pages/'+name}); output = if t then t.attributes.title else '';
     desc:(name) ->  d = docpad.database.findOne({id:'pages/'+name}); output = if d then d.attributes.description else '';
   }
-
-
-
   plugins:{
     partials:{
        partialsPath:'partials'

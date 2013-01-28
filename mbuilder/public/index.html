@@ -22,16 +22,19 @@
 							<nav id="nav-wrapper" class="container full-bleed-no-max m-full-bleed nav-wrapper no-grid-at-767">
 								<div class="navbar">
 									<div class="grid">
-										<h1 >Page Builder</h1>
+										<h1 >Module / Page Builder</h1>
 										<ul class="nav nav-utility">
 											<li>
 												<select name="select-template" id="select-template">
-													<option value="page-builder-template" selected="selected">Main Template</option>
-													<option value="page-builder-template2">Secondary Template</option>
+													<option value="page-builder-normal-nav" selected="selected">Normal navigation</option>
+													<option value="page-builder-min-nav.jade">Mini navigation</option>
+													<option value="page-builder-no-nav.jade">No navigation</option>
 												</select>
 											</li>
 											<li>
-												<button id="build" class="btn btn-special btn-block" data-loading-text="Building...">
+
+												<button id="build" class="btn-block" data-loading-text="Building...">
+													<span class="sprite"></span>
 													Save and build page
 												</button>
 											</li>
@@ -50,6 +53,7 @@
 							<div id="main-forms-container" class="container">
 								<ul></ul>
 							</div>
+							<div id="builtAllInputContainer"></div>
 							<div id="dialog-form" title="Generate a new page">
 								<div class='validateTips'></div>
 								<p>
@@ -69,8 +73,9 @@
 						</fieldset>
 
 						<div class="row addModule">
-							<div class="span2">
-								<button class="btn btn-small btn-block" id="add-module">
+							<div class="span2 button">
+								<button class="btn-small btn-block" id="add-module">
+									<span class="sprite"></span>
 									Add a module
 								</button>
 							</div>
