@@ -14,12 +14,18 @@
     line-height: 1;
     -webkit-font-smoothing: antialiased;
   }
+  &:before{
+    margin-right:3px;
+  }
+  &[class*="--after"]:after {
+    margin-left:3px;
+  }
 }
 
 
 
 
-.fonticon-ui-favorite:before
+.fonticon-ui-favorite:before,
 .fonticon-ui-favorite--after:after {
   content: "\e000";
 }

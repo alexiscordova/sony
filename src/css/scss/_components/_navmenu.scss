@@ -25,18 +25,22 @@
   .navmenu-line {
     line-height:24px;
     margin:0 10px 0 18px;
+    padding:4px 0;
 
     a.tl {
       display:inline-block;
-      font-size:$font_12_16;
-      padding:4px 0 4px 4px;
+      padding-right: 4px;
+      @include fonticon-text-px-to-em(12px);
 
       i {
         box-sizing:content-box;
         padding-right:10px;
         margin-top:1px;
-        font-size: 16px;
+        color:$gray;
       }
+      &:hover i{
+        color:$linkColorHover;
+      };
     }
   }
 }

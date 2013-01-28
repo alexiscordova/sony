@@ -63,7 +63,6 @@
 
 
   // Buttons in navbar
-  // **still inside of .navbar**
   // -------------------------
   .btn,
   .btn-group {
@@ -75,9 +74,12 @@
     margin-top: 0; // then undo the margin here so we don't accidentally double it
   }
 
-  // Navbar forms
-  // **still inside of .navbar**
-  // -------------------------
+
+  .nav-li-favorites .nav-li-link:hover i,
+  .nav-li-cart .nav-li-link:hover i {
+    color:$buttonOrangeHover;
+  }
+
   &.navbar-form {
     margin-bottom: 0; // remove default bottom margin
     @include clearfix();
@@ -108,9 +110,6 @@
     }
   }
 
-  // Navbar search
-  // **still inside of .navbar**
-  // -------------------------
   &.navbar-search {
     position: relative;
     float: left;
@@ -141,11 +140,6 @@
       }
     }
   } // end .navbar-search
-
-
-  // Static navbar
-  // **still inside of .navbar**
-  // -------------------------
 
   &.navbar-static-top {
     position: static;
