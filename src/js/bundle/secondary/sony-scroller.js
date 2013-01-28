@@ -9,7 +9,8 @@
 
 // TODO: broadcast if pagination (including page number)
 
-(function($, Modernizr, window, undefined) {
+
+(function($, Modernizr, IScroll, window, undefined) {
 
 	'use strict';
 
@@ -238,16 +239,16 @@
 		 * Public Methods
 		 */
 
-		goto: function( pageNo, duration ) {
+		gotopage: function( pageNo, duration ) {
 			this.scroller.scrollToPage(pageNo , 0 , duration || 400);
 		},
 
 		next: function() {
-			this.goto('next');
+			this.gotopage('next');
 		},
 
 		prev: function() {
-			this.goto('prev');
+			this.gotopage('prev');
 		},
 
 		refresh: function() {
@@ -341,4 +342,4 @@
 		resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize'
   };
 
-})(jQuery, Modernizr, window);
+})(jQuery, Modernizr, IScroll, window);

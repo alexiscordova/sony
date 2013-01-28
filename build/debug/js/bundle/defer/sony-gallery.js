@@ -1828,7 +1828,7 @@
     loadingGif: 'img/spinner.gif'
   };
 
-}(jQuery, Modernizr, window));
+})(jQuery, Modernizr, window);
 
 
 

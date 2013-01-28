@@ -9,7 +9,7 @@
 
 // TODO: broadcast if pagination (including page number)
 
-(function($, Modernizr, window, undefined) {
+(function($, Modernizr, IScroll, window, undefined) {
 
 	'use strict';
 
@@ -18,10 +18,10 @@
 
 		$.extend(self, $.fn.scrollerModule.defaults, options, $.fn.scrollerModule.settings);
 
-		self.$el = $($element),
-		self.$win = $(window),
+		self.$el = $($element);
+		self.$win = $(window);
 		self.$contentContainer = $(self.contentSelector);
-		self.$elements = $(self.itemElementSelector),
+		self.$elements = $(self.itemElementSelector);
 		self.$sampleElement = self.$elements.eq(0);
 
 		self._setContainerWidth();
@@ -330,7 +330,7 @@
 			onScrollEnd: null,
 			lockDirection: true,
 			onBeforeScrollStart: null,
-			onAnimationEnd: null,
+			onAnimationEnd: null
 		}
 
 	};
@@ -341,4 +341,4 @@
 		resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize'
   };
 
-})(jQuery, Modernizr, window);
+})(jQuery, Modernizr, IScroll, window);

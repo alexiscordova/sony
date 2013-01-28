@@ -399,7 +399,7 @@
     isInitialized: false
   };
 
-}(jQuery, Modernizr, window));
+})(jQuery, Modernizr, window);
 
 
 $(function() {

@@ -380,5 +380,5 @@
     valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'
   };
 
-}(jQuery, Modernizr, window));
+})(jQuery, Modernizr, window);
 
