@@ -46,7 +46,10 @@ a:focus {
     background-color $transitionSlowish linear, 
     color $transitionSlowish linear, 
     border-color $transitionSlowish linear
-  )
+  );
+  [class*="fonticon"]{
+    @include transition( color $transitionSlowish linear );
+  }
 }
 
 

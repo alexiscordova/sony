@@ -2,99 +2,130 @@
 // FontIcons
 // --------------------------------------------------
 
-[class^="fonticon-ui-"],
-[class*=" fonticon-ui-"] {
+[class*="fonticon-ui-"] {
   display:inline-block;
 
-  &:before {
+  &:before,
+  &[class*="--after"]:after {
     font-family: 'Sony-Icons-UI';
-    font-style: normal;
     speak: none;
+    font-style: normal;
     font-weight: normal;
-    line-height: 0;
+    line-height: 1;
     -webkit-font-smoothing: antialiased;
-    font-size: 1.2em;
+  }
+  &:before{
+    margin-right:3px;
+  }
+  &[class*="--after"]:after {
+    margin-left:3px;
   }
 }
 
 
-// [class^="fonticon-ui-reg-"]:before,
-// [class*=" fonticon-ui-reg-"]:before {
-//   font-size: 1.4em;
-// }
 
-.fonticon-ui-reg-support:before {
+
+.fonticon-ui-favorite:before,
+.fonticon-ui-favorite--after:after {
   content: "\e000";
 }
-.fonticon-ui-reg-star:before {
+.fonticon-ui-cart:before,
+.fonticon-ui-cart--after:after {
   content: "\e001";
 }
-.fonticon-ui-reg-search:before {
+.fonticon-ui-search:before,
+.fonticon-ui-search--after:after {
   content: "\e002";
 }
-.fonticon-ui-reg-registered:before {
+.fonticon-ui-account:before,
+.fonticon-ui-account--after:after {
   content: "\e003";
 }
-.fonticon-ui-reg-orders:before {
+.fonticon-ui-orders:before,
+.fonticon-ui-orders--after:after {
   content: "\e004";
 }
-.fonticon-ui-reg-newsletter:before {
+.fonticon-ui-newsletter:before,
+.fonticon-ui-newsletter--after:after {
   content: "\e005";
 }
-.fonticon-ui-reg-mobile-btn:before {
+.fonticon-ui-registered:before,
+.fonticon-ui-registered--after:after {
   content: "\e006";
 }
-.fonticon-ui-reg-grid:before {
+.fonticon-ui-star:before ,
+.fonticon-ui-star--after:after{
   content: "\e007";
 }
-.fonticon-ui-reg-gps:before {
+.fonticon-ui-star-half:before,
+.fonticon-ui-star-half--after:after {
   content: "\e008";
 }
-.fonticon-ui-reg-favorite:before {
+.fonticon-ui-location:before,
+.fonticon-ui-location--after:after {
   content: "\e009";
 }
-.fonticon-ui-reg-close-x-circle:before {
+.fonticon-ui-support:before,
+.fonticon-ui-support--after:after {
   content: "\e00a";
 }
-.fonticon-ui-reg-cart:before {
+.fonticon-ui-grid-3x3:before ,
+.fonticon-ui-grid-3x3--after:after{
   content: "\e00b";
 }
-.fonticon-ui-reg-account:before {
+.fonticon-ui-x-circle:before,
+.fonticon-ui-x-circle--after:after {
   content: "\e00c";
 }
-.fonticon-ui-mini-mobile-btn:before {
+.fonticon-ui-skinny-plus:before,
+.fonticon-ui-skinny-plus--after:after {
   content: "\e00d";
 }
-.fonticon-ui-mini-elevator:before {
+.fonticon-ui-skinny-x:before,
+.fonticon-ui-skinny-x--after:after {
   content: "\e00e";
 }
-.fonticon-ui-mini-bold-x:before {
+.fonticon-ui-skinny-rounded-x:before,
+.fonticon-ui-skinny-rounded-x--after:after {
   content: "\e00f";
 }
-.fonticon-ui-mini-bold-plus:before {
+.fonticon-ui-skinny-rounded-chevron:before ,
+.fonticon-ui-skinny-rounded-chevron--after:after{
   content: "\e010";
 }
-.fonticon-ui-mini-bold-check:before {
+.fonticon-ui-arrowhead-down:before,
+.fonticon-ui-arrowhead-down--after:after {
   content: "\e011";
 }
-.fonticon-ui-mini-arrowhead-up:before {
+.fonticon-ui-arrowhead-up:before,
+.fonticon-ui-arrowhead-up--after:after {
   content: "\e012";
 }
-.fonticon-ui-mini-arrowhead-down:before {
+.fonticon-ui-arrow-right:before,
+.fonticon-ui-arrow-right--after:after {
   content: "\e013";
 }
-.fonticon-ui-mini-arrow:before {
+.fonticon-ui-sm-bold-plus:before,
+.fonticon-ui-sm-bold-plus--after:after {
   content: "\e014";
 }
-.fonticon-ui-large-x:before {
+.fonticon-ui-sm-bold-check:before,
+.fonticon-ui-sm-bold-check--after:after {
   content: "\e015";
 }
-.fonticon-ui-large-chevron:before {
+.fonticon-ui-sm-bold-x:before,
+.fonticon-ui-sm-bold-x--after:after {
   content: "\e016";
 }
-.fonticon-ui-circleBtn-x:before {
+.fonticon-ui-mobile-icon-sm:before,
+.fonticon-ui-mobile-icon-sm--after:after {
   content: "\e017";
 }
-.fonticon-ui-circleBtn-plus:before {
+.fonticon-ui-mobile-icon-med:before,
+.fonticon-ui-mobile-icon-med--after:after {
   content: "\e018";
+}
+.fonticon-ui-mobile-icon-lg:before,
+.fonticon-ui-mobile-icon-lg--after:after {
+  content: "\e019";
 }

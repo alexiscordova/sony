@@ -261,6 +261,13 @@
   // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
   @include sprite-reg(nav-sony-logo,           -90px,   70px,   25px);
 }
+@mixin sprite-reg-nav-sony-logo-no-tagline{
+  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
+  @include sprite-reg-nav-sony-logo-sm;
+  .sprite-reg-nav-sony-logo{
+    height:16px;
+  }
+}
 
 
 
