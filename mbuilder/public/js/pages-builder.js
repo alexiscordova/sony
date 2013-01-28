@@ -436,8 +436,9 @@ function buildPage() {
         $('#postResult').show();
 
       } else {
-
-      }
+         $('#dialog-form').after('<div id="build_success" class="alert alert-success">ERROR: Your page did not built.');
+            $('#postResult').show();
+            }
     },
     error : function(jqXHR, textStatus, errorThrown) {
       $('#dialog-form').after('<div id="build_success" class="alert alert-success">ERROR: Check it out here: The AJax call return an error : ' + errorThrown);
