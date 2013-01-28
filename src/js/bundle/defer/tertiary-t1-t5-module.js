@@ -31,10 +31,10 @@
       self.$scrollerInstance       = null;
             
       // bullet pagination 
-      self.bulletsContainerClass   = 'pagination-bullets';
-      self.bulletClass             = 'pagination-bullet';      
-      self.bulletsContainerOnClass = 'pagination-bullets-on';
-      self.bulletSelectedClass     = 'bullet-selected';
+      // self.bulletsContainerClass   = 'pagination-bullets';
+      // self.bulletClass             = 'pagination-bullet';      
+      // self.bulletsContainerOnClass = 'pagination-bullets-on';
+      // self.bulletSelectedClass     = 'bullet-selected';
       
       self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
       self.resizeThrottle          = function(){self.handleResize();};
@@ -96,7 +96,7 @@
         setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes
         setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 100 ); // set scroller & iscroll options
         setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
-        setupSequence.add( self, self.createNavigation, self.sequencerSpeed); // create bullet nav
+        //setupSequence.add( self, self.createNavigation, self.sequencerSpeed); // create bullet nav
         setupSequence.start();
 
         console.log( '« end »');
@@ -110,7 +110,7 @@
         teardownSequence = new Sequencer();
         
         teardownSequence.add( self, self.removeStyleAttr, self.sequencerSpeed ); // remove scroller-specific style attributes
-        teardownSequence.add( self, self.destroyNavigation, self.sequencerSpeed ); // hide bullets
+        //teardownSequence.add( self, self.destroyNavigation, self.sequencerSpeed ); // hide bullets
         teardownSequence.add( self, self.destroyScroller, self.sequencerSpeed ); // destroy scroller instance
         teardownSequence.add( self, self.setMode, self.sequencerSpeed ); // destroy scroller instance
       
@@ -167,6 +167,7 @@
           mode: 'paginate',
           fitPerPage:self.mode === 'phone' ? 1 : 2, // 2-up vs 1-up
           lastPageCenter: false, //self.mode == 'phone' ? false : true,
+          generatePagination: true,
 
           iscrollProps: {
             snap: true,
@@ -242,105 +243,105 @@
 
       // BULLET PAGINATION NAVIGATION
 
-      createNavigation : function(){
-        console.group('««« createNavigation »»» ');
+      // createNavigation : function(){
+      //   console.group('««« createNavigation »»» ');
 
-        // TODO default hidden
+      //   // TODO default hidden
 
-        var self = this,
-        //outerClasses = self.outerNavClasses.join(' '),
-        //innerClasses = self.bulletClass.join(' '),
-        //innerClasses = self.bulletClass,
-        //outerClasses = self.outerNavClasses,
-        out      = '<ol class="' + self.bulletsContainerClass + '">',
-        itemHTML = '<li class="' + self.bulletClass + '"></li>',
-        numPages = self.mode === 'tablet' ? 2 : self.$contentModules.length;
+      //   var self = this,
+      //   //outerClasses = self.outerNavClasses.join(' '),
+      //   //innerClasses = self.bulletClass.join(' '),
+      //   //innerClasses = self.bulletClass,
+      //   //outerClasses = self.outerNavClasses,
+      //   out      = '<ol class="' + self.bulletsContainerClass + '">',
+      //   itemHTML = '<li class="' + self.bulletClass + '"></li>',
+      //   numPages = self.mode === 'tablet' ? 2 : self.$contentModules.length;
           
-        if(self.controlNav){
-          console.log( 'destroying existing nav first »', self.controlNav );
-          self.destroyNavigation(); // remove any existing
-        }
+      //   if(self.controlNav){
+      //     console.log( 'destroying existing nav first »', self.controlNav );
+      //     self.destroyNavigation(); // remove any existing
+      //   }
         
-        //reset current slide id
-        self.currentId = 0;
+      //   //reset current slide id
+      //   self.currentId = 0;
 
-        for(var i = 0; i < numPages; i++) {
-          out += itemHTML;
-        }
+      //   for(var i = 0; i < numPages; i++) {
+      //     out += itemHTML;
+      //   }
         
-        out += '</div>';
-        out = $( out );
-        self.controlNav = out;
-        self.controlNavItems = out.children();
-        self.$el.append( out );
+      //   out += '</div>';
+      //   out = $( out );
+      //   self.controlNav = out;
+      //   self.controlNavItems = out.children();
+      //   self.$el.append( out );
 
-        // if nav bullet is selected (instead of a swipe)
-        self.controlNav.on( self.tapOrClick() , function( e ) {
-          self.handleNavClick(e);
-        });
+      //   // if nav bullet is selected (instead of a swipe)
+      //   self.controlNav.on( self.tapOrClick() , function( e ) {
+      //     self.handleNavClick(e);
+      //   });
 
-        $( '.' + self.bulletsContainerClass ).addClass(self.bulletsContainerOnClass);
+      //   $( '.' + self.bulletsContainerClass ).addClass(self.bulletsContainerOnClass);
 
-        // self.ev.trigger( 'tccOnNavUpdate' );
-        self.updateNavigation();
+      //   // self.ev.trigger( 'tccOnNavUpdate' );
+      //   self.updateNavigation();
 
-        console.log( '« end »');
-        console.groupEnd();
-      },
+      //   console.log( '« end »');
+      //   console.groupEnd();
+      // },
 
-      destroyNavigation : function(){
-        console.group( '««« destroyNavigation »»»' );
-        var self = this;
+      // destroyNavigation : function(){
+      //   console.group( '««« destroyNavigation »»»' );
+      //   var self = this;
       
-        // 'fade out' before removing
-        $( '.' + self.bulletsContainerClass )
-          .removeClass(self.bulletsContainerOnClass)
-          .delay(300) // let it fade out...
-          .remove(); // remove references
+      //   // 'fade out' before removing
+      //   $( '.' + self.bulletsContainerClass )
+      //     .removeClass(self.bulletsContainerOnClass)
+      //     .delay(300) // let it fade out...
+      //     .remove(); // remove references
 
 
-        console.groupEnd();
-      },
+      //   console.groupEnd();
+      // },
 
-      updateNavigation : function(){
-        console.group( '««« updateNavigation »»»' );
-        var self = this;
+      // updateNavigation : function(){
+      //   console.group( '««« updateNavigation »»»' );
+      //   var self = this;
       
-        var id = self.currentId,
-            currItem;
+      //   var id = self.currentId,
+      //       currItem;
 
-        if(self.prevNavItem) {
-          self.prevNavItem.removeClass(self.bulletSelectedClass);
-        }
+      //   if(self.prevNavItem) {
+      //     self.prevNavItem.removeClass(self.bulletSelectedClass);
+      //   }
 
-        currItem = $(self.controlNavItems[id]);
-        currItem.addClass(self.bulletSelectedClass);
+      //   currItem = $(self.controlNavItems[id]);
+      //   currItem.addClass(self.bulletSelectedClass);
 
-        self.prevNavItem = currItem;
+      //   self.prevNavItem = currItem;
 
-        console.log( '« end »');
-        console.groupEnd();
-      },
+      //   console.log( '« end »');
+      //   console.groupEnd();
+      // },
 
-      handleNavClick : function( e ){
-        console.group( '««« handleNavClick »»»' );
-        var self = this,
-            //item = $(e.target).closest( '.' + self.bulletClass.join('.') );
-            item = $(e.target).closest( '.' + self.bulletClass );
+      // handleNavClick : function( e ){
+      //   console.group( '««« handleNavClick »»»' );
+      //   var self = this,
+      //       //item = $(e.target).closest( '.' + self.bulletClass.join('.') );
+      //       item = $(e.target).closest( '.' + self.bulletClass );
 
-        if( item.length ) {
-          self.updateCurrentId(item.index());
+      //   if( item.length ) {
+      //     self.updateCurrentId(item.index());
 
-          // tell sony-iscroll what page to go to
-          self.$scrollerInstance.scrollerModule('gotopage',( self.currentId ));
+      //     // tell sony-iscroll what page to go to
+      //     self.$scrollerInstance.scrollerModule('gotopage',( self.currentId ));
 
-          //self.ev.trigger( 'tccOnNavUpdate' );
-          self.updateNavigation();
-        }
+      //     //self.ev.trigger( 'tccOnNavUpdate' );
+      //     self.updateNavigation();
+      //   }
       
-        console.log( '« end »');
-        console.groupEnd();
-      },
+      //   console.log( '« end »');
+      //   console.groupEnd();
+      // },
 
       // END BULLET PAGINATION
 
