@@ -4,20 +4,12 @@
 // Modified: 2012-12-20 by Tyler Madison
 // Dependencies: jQuery 1.7+, Modernizr
 // -------------------------------------------------------------------------
-
-(function( window ){
-    'use strict';
-    var sony = window.sony = window.sony || {};
-    sony.modules = sony.modules || {};
-    sony.ev = sony.ev || $('<div />'); // events object
-})( window );
-
-( function( $, Modernizr, window, undefined ) {
+;( function( $, Modernizr, window, undefined ) {
     
     'use strict';
 
     if( !$.socModules ) {
-      $.socModules = {}; //used for plugins 
+      $.socModules = {}; //used for plugins
     }
 
     var console = window.console;
@@ -32,7 +24,7 @@
       resizeTimer   = null;
     
       self.isIPAD   = ua.match( /(ipad)/ );
-      self.isIPHONE = ua.match( /(iphone)/ ); 
+      self.isIPHONE = ua.match( /(iphone)/ );
 
       $.extend( self , $.fn.sonyOneCarousel.defaults , options , $.fn.sonyOneCarousel.settings );
 
@@ -195,7 +187,7 @@
 
       self.tapOrClick = function(){
         return self.hasTouch ? 'touchend' : 'click'; 
-      }
+      };
 
       self.ev.on( 'socOnUpdateNav', function() {
         var id = self.currentId,
@@ -220,7 +212,7 @@
       self.$win.trigger( 'resize.soc' );
 
       //self.checkForBreakPoint();
-    }
+    };
 
     SonyOneCarousel.prototype = {
       constructor: SonyOneCarousel,
@@ -266,7 +258,7 @@
         self.startTime = new Date().getTime();
 
         if(self.hasTouch) {
-          self.$container.on(self.cancelEvent, function(e) { self.dragRelease(e, isThumbs); });  
+          self.$container.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
         }
 
         self.moveTo();
@@ -281,8 +273,7 @@
             newPos,
             newDist,
             newDuration,
-            blockLink,
-            point = {};
+            blockLink;
 
         self.renderMoveEvent = null;
         self.isDragging = false;
@@ -290,13 +281,13 @@
         self.checkedAxis = false;
         self.renderMoveTime = 0;
 
-        cancelAnimationFrame(self.animFrame);
+        window.cancelAnimationFrame(self.animFrame);
 
         //stop listening on the document for movement
         self.$doc.off( self.moveEvent ).off( self.upEvent );
 
         if( self.hasTouch ) {
-          self.$container.off( self.cancelEvent );    
+          self.$container.off( self.cancelEvent );
         }
 
         //t.dragSuccess = true;
@@ -415,7 +406,7 @@
           }
           (function animloop(){
             if( self.isDragging ) {
-              self.animFrame = requestAnimationFrame(animloop);
+              self.animFrame = window.requestAnimationFrame(animloop);
               if(self.renderMoveEvent){
                 self.renderMovement(self.renderMoveEvent);
               }
@@ -469,7 +460,7 @@
               newY = self.currRenderPosition + deltaY,
               isHorizontal = true,
               newPos = isHorizontal ? newX : newY,
-              mAxis = self.currMoveAxis;self
+              mAxis = self.currMoveAxis;
 
           self.hasMoved = true;
           self.pageX = point.pageX;
@@ -504,26 +495,26 @@
 
           if ( timeStamp - self.startTime > 200 ) {
             self.startTime = timeStamp;
-            self.accelerationPos = pointPos;                       
+            self.accelerationPos = pointPos;
           }
 
           //animate?
           self.setPosition(self.currRenderPosition);
-        }        
+        }
       },
 
-      setPosition: function(pos) {
+      setPosition: function(posi) {
 
         window.iQ.update();
 
         var self = this,
-        pos      = self.sPosition = pos;
+        pos      = self.sPosition = posi;
 
         if(self.useCSS3Transitions) {
           var animObj = {};
           animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
           animObj[ self.xProp] = self.tPref1 + (pos + self.tPref2 + 0) + self.tPref3;
-          self.$containerInner.css(animObj);        
+          self.$containerInner.css(animObj);
 
         } else {
           self.$containerInner.css(self.xProp, pos);
@@ -553,13 +544,13 @@
 
           //css3 transition
           animObj[ (self.vendorPrefix + self.TD) ] = self.animationSpeed + 'ms';
-          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing[ 'easeInOutSine' ];
+          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeInOutSine;
           
           self.$containerInner.css( animObj );
 
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
   
-          self.$containerInner.css( animObj );  
+          self.$containerInner.css( animObj );
 
           //IQ Update
           self.$containerInner.one($.support.transition.end , function(){
@@ -688,14 +679,23 @@
       createDesktopSlides: function(){
         var self = this;
 
-        // 1. grab all of the gallery items  
+        // 1. grab all of the gallery items
         self.$galleryItems = $('.soc-item').detach();
 
         //2. remove the slides from desktop / mobile
         self.$tabletSlides.remove();
-        self.$mobileSlides.remove();      
+        self.$mobileSlides.remove();
 
         var slideCount = 0;
+
+        var processItem = function(j){
+          var $item = $(this);
+
+          if($item.data('slideGroupId') === i){
+            $item.appendTo($gridDiv);
+          }
+
+        };
 
         for (var i = 0; i < self.originalSlideCount; i ++) {
           
@@ -703,17 +703,10 @@
             $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
             $item           = null;
 
-            self.$galleryItems.each(function(j){
-              var $item = $(this);
-
-              if($item.data('slideGroupId') === i){
-                $item.appendTo($gridDiv);
-              }
-
-            });
+            self.$galleryItems.each(processItem);
             
             $gridDiv.appendTo($contentDiv);
-            $contentDiv.appendTo(self.$containerInner);        
+            $contentDiv.appendTo(self.$containerInner);
         }
 
         self.$desktopSlides = self.$container.find('.soc-content');
@@ -724,14 +717,13 @@
 
         self.$win.trigger('resize.soc');
 
-        //console.log("Modile Slides are now cached up »" , self.numSlides);     
-
-      },  
+        //console.log("Modile Slides are now cached up »" , self.numSlides);
+      },
 
       createTableSlides: function(){
         var self = this;
 
-        // 1. grab all of the gallery items  
+        // 1. grab all of the gallery items
         self.$galleryItems = $('.soc-item').detach();
 
         //2. remove the slides from desktop / mobile
@@ -740,44 +732,44 @@
   
         var slideCount = 0,
         galLen = self.$galleryItems.length;
+          
+        var createSlide = function(i,orphaned){
+          var $contentDiv = $('<div class="soc-content" />'),
+          $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
+          $item1          = self.$galleryItems.eq(i-1),
+          $item2          = self.$galleryItems.eq(i);
+
+          if(orphaned === true){
+            $item1 = self.$galleryItems.eq(i);
+            $item2 = $();
+          }
+
+          $gridDiv.appendTo($contentDiv);
+
+          if($item1.length > 0){
+            $item1.appendTo($gridDiv);
+          }
+          
+          if($item2.length > 0){
+            $item2.appendTo($gridDiv);
+          }
+
+          $contentDiv.appendTo(self.$containerInner);
+
+          slideCount++;
+        };
 
         for (var i = 0; i < galLen; i ++) {
 
-          var createSlide = function(orphaned){
-            var $contentDiv = $('<div class="soc-content" />'),
-            $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
-            $item1          = self.$galleryItems.eq(i-1),
-            $item2          = self.$galleryItems.eq(i);
-
-            if(orphaned === true){
-              $item1 = self.$galleryItems.eq(i);
-              $item2 = $();
-            }
-
-            $gridDiv.appendTo($contentDiv);
-
-            if($item1.length > 0){
-              $item1.appendTo($gridDiv);
-            }
-            
-            if($item2.length > 0){
-              $item2.appendTo($gridDiv);
-            }
-
-            $contentDiv.appendTo(self.$containerInner);
-
-            slideCount++;        
-          };
-
           if(i%2){
-            createSlide(false);
-          }  
+            createSlide(i,false);
+          }
 
           if(i === galLen - 1 && galLen > slideCount * 2){
             //console.log("You have an orphaned element that needs a slide by itself");
-            createSlide(true);
+            createSlide(i,true);
           }
-        } 
+        }
 
         self.$tabletSlides = self.$container.find('.soc-content');
 
@@ -944,10 +936,10 @@
         animObj  = {};
 
         animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed + 'ms';
-        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing[ 'easeInOutSine' ];
+        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing.easeInOutSine;
         self.$containerInner.css( animObj );
         animObj[ self.xProp ] = self.tPref1 + ( ( xpos ) + self.tPref2 + 0 ) + self.tPref3;
-        self.$containerInner.css( animObj );        
+        self.$containerInner.css( animObj );
       }
     };
 
@@ -975,8 +967,8 @@
       } );
     };
 
-    //defaults for the related products    
-    $.fn.sonyOneCarousel.defaults = { 
+    //defaults for the related products
+    $.fn.sonyOneCarousel.defaults = {
       throttleTime: 10,
       slideSpacing: 100 //space in between slides
     };
