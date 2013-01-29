@@ -131,7 +131,6 @@
           }
 
           $bulletPagination = $('<ol/>', { 'class' : 'pagination-bullets on' });
-
         }
 
         for (i = 0 ; i < numPages; i++) {
@@ -303,6 +302,10 @@
 
     destroy: function() {
       var self = this;
+
+			if ( self.$pagination ) {
+				self.$pagination.remove();
+			}
 
       self.$contentContainer.css('width', '');
       self.$elements.css({

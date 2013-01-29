@@ -19,7 +19,23 @@ $default-transition-delay    : 0s;
 
 // convert px to em, with regard to its context. Most context will be 16px.
 @function px-em($target, $context:16){
-  @return (strip-units($target)/strip-units($context)) + 0em;
+  @return (strip-units($target) / strip-units($context)) + 0em;
+}
+
+// this will reverse the context, mainly for fonticons, but maybe for something else as well.
+// Using it, will return the em size needed to reset the font back to 1em aka 16px.
+@function px-em-reverse-size($target, $context:16){
+  @return (strip-units($context) / strip-units($target)) + 0em;
+}
+@mixin fonticon-text-px-to-em($target, $context:16) {
+	font-size: px-em($target, $context); // the size of the text
+
+	&[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on the text container:
+	&[class*="fonticon-ui-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
+	[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on a i or span insode of the text container:
+	[class*="fonticon-ui-"][class*="--after"]:after { // the size of the icon if the fonticon class is on a i or span insode of the text container:
+		font-size: px-em-reverse-size($target, $context:16);
+	}
 }
 
 
