@@ -57,7 +57,7 @@ we just poll for a width until one is available.</p>             </td>          
           ready = <span class="literal">true</span>;
 
       self.$images.each(<span class="keyword">function</span>(){
-        <span class="keyword">if</span> ( $(<span class="keyword">this</span>).width() === <span class="number">0</span> ) {
+        <span class="keyword">if</span> ( $(<span class="keyword">this</span>).width() === <span class="number">0</span> || $(<span class="keyword">this</span>).height() === <span class="number">0</span> ) {
           ready = <span class="literal">false</span>;
         }
       });
@@ -99,8 +99,7 @@ and adjust the image container's width by that percentage's inverse to maintain 
 desired positioning.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'onDrag'</span>: <span class="keyword">function</span>(e) {
 
-      <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          widthRatio = <span class="number">2</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$topSlide.css(<span class="string">'width'</span>, (<span class="number">100</span> - e.position.left) + <span class="string">'%'</span>);
       self.$topSlideImageContainer.css(<span class="string">'width'</span>, <span class="number">10000</span> / (<span class="number">100</span> - e.position.left) + <span class="string">'%'</span>);
