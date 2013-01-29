@@ -37,6 +37,8 @@ if data.view == "basic"
     klass = 'span2 medium'
   else if data.layout == 'plate'
     klass = 'span2 plate'
+  else if data.layout == 'blank-normal'
+    klass = 'span1 blank normal'
   else
     klass = 'span1 normal'
 
@@ -70,7 +72,7 @@ if data.view == "basic"
           div(class=classes)
             .text-promo-title
               strong= data.title
-              span!= '&nbsp;' + data.emphasis
+              span!= data.emphasis
               i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count

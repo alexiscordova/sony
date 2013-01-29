@@ -1,19 +1,26 @@
 /*global jQuery, Modernizr, Sequencer*/
 
-// ------------ Sony Tertiary Content Container (Tertiary) Module ------------
-// **Module:** Tertiary Module
-// **Version:** 1.0
-// **Modified:** 01/29/2013
-// **Author:** Telly Koosis
-// **Dependencies:**
-//     jQuery 1.7+, Modernizr, sony-iscroll.js, sony-scroller.js, sony-sequencer.js
-// -------------------------------------------------------------------------
+// Sony Tertiary Content Container
+// -------------------------------------------------
+//
+// * **Module:** Tertiary Module
+// * **Version:** 0.1
+// * **Modified:** 01/29/2013
+// * **Author:** Telly Koosis
+// * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
+//
+// *Example Usage:*
+//      Automatic detection of .tcc-scroller on page
+//      $('.tcc-scroller').tertiaryModule({
+//        'sampleOption': 'foo'
+//      }).data('tertiaryModule');
+//      
+// TODO: Support more than one Tertiary Container on a page, only one supported currently     
 
 (function($, Modernizr, window, undefined) {
     
     'use strict';
 
-    // Start module
     var TertiaryModule = function(element, options){
       var self                 = this;
       
@@ -45,10 +52,10 @@
       self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
       self.tabletBreakpointMax     = 768;
 
-      // resize listener
+      // define resize listener, debounced
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle));     
 
-      // start 
+      // start it
       self.init();
     };
 
@@ -61,51 +68,39 @@
 
         self.setMode();
      
-        // @ mobile breakpoint?
+        // if screen size is in mobile (tablet, phone) mode then create a scroller
         if(self.mode !== 'desktop'){
-          //console.log( 'is mobile mode »' , self.mode);
           self.setup();
         }
-
-        //console.log( '« end (init) »');
-        //console.groupEnd();
       },
 
-      // setup controller for scroller 
+      // controller for scroller setup
       setup : function(){
-        //console.group( '««« setup »»»' );
         var self      = this,
             setupSequence = new Sequencer();
 
+        // define order of events via sequencer
         setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes
         setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 100 ); // set scroller & iscroll options
         setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
         setupSequence.start();
 
-        //console.log( '« end »');
-        //console.groupEnd();
       },
 
       // teardown controller
       teardown : function(){
-        //console.group( '««« teardown »»»' );
-
         var self         = this,
         teardownSequence = new Sequencer();
-        
+
+        // teardown sequence        
         teardownSequence.add( self, self.removeStyleAttr, self.sequencerSpeed ); // remove scroller-specific style attributes
         teardownSequence.add( self, self.destroyScroller, self.sequencerSpeed ); // destroy scroller instance
         teardownSequence.add( self, self.setMode, self.sequencerSpeed ); // destroy scroller instance     
         teardownSequence.start();
-
-        //console.log( '« end »');
-        //console.groupEnd();
       },
 
-      // set up scroller
-      createScroller : function(){
-        //console.group( '««« createScroller »»»' );
-        
+      // instantiate a scroller 
+      createScroller : function(){       
         var self=this;
         
         self.$scrollerInstance = self.$el.scrollerModule( self.scrollerOptions );
@@ -193,7 +188,7 @@
 
         //console.log( 'mode is  »' , self.mode);
 
-        // @ mobile breakpoint?
+        // mobile breakpoint?
         if( self.mode !== 'desktop' ){
           //console.log('in mobile (resize) »', self.mode);
           
