@@ -237,7 +237,7 @@ module.exports = function(grunt) {
   grunt.registerTask('debug-js', 'lint copy:debuglight');
   grunt.registerTask('debug-css', 'compass:debug');
   grunt.registerTask('debug-img', 'copy:debugimg');
-  grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs shell:docpad_docs');
+  grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs doccoh shell:docpad_docs');
   grunt.registerTask('docs-light', 'compass-clean compass:docs compass:docs_extra copy:docslight shell:docpad_docs');
   grunt.registerTask('docs-img', 'copy:docsimg');
   grunt.registerTask('deploy', 'clear lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
