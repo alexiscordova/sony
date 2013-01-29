@@ -1,3 +1,31 @@
+mixin iQImage( img, extraClasses )
+  - classes = 'iq-img'
+  - extraClasses = extraClasses || false
+  - if ( extraClasses ) classes += ' ' + extraClasses
+  img(class=classes, data-src=img.src, alt=img.alt)
+  noscript
+    img(src=img.noscriptsrc, alt=img.alt)
+
+mixin definitionList( list, isHorizontal )
+  - isHorizontal = isHorizontal || false
+  - clss = isHorizontal ? 'dl-horizontal' : null
+  dl(class=clss)
+    each li in list
+      dt.l3= li.term
+      if li.definition
+        dd.p3= li.definition
+      else
+        each definition in li.definitions
+          dd.p3= definition
+
+mixin specList( list, extraClasses )
+  - classes = 'unstyled spec-list'
+  - extraClasses = extraClasses || false
+  - if ( extraClasses ) classes += ' ' + extraClasses
+  ul(class=classes)
+    each li in list
+      li.p3= li
+
 
 if data.view == "basic"
   klass = '';
@@ -57,27 +85,20 @@ if data.view == "basic"
             .ghost-center
               if data.layout == 'carousel'
                 each img in data.imgCarousel
-                  img.iq-img(alt=img.alt, data-src=img.src)
-                  noscript
-                    img(src=img.noscriptsrc, alt=img.alt)
+                  mixin iQImage( img )
 
               else if data.layout == 'large'
-                img.iq-img(alt=data.imgLarge.alt, data-src=data.imgLarge.src)
-                noscript
-                  img(src=data.imgLarge.noscriptsrc, alt=data.imgLarge.alt)
+                mixin iQImage( data.imgLarge )
 
               else if data.layout == 'medium'
-                img.iq-img(alt=data.img.alt, data-src=data.img.src)
-                noscript
-                  img(src=data.img.noscriptsrc, alt=data.img.alt)
+                mixin iQImage( data.img )
 
               else
-                img.iq-img(alt=data.imgSmall.alt, data-src=data.imgSmall.src)
-                noscript
-                  img(src=data.imgSmall.noscriptsrc, alt=data.imgSmall.alt)
+                mixin iQImage( data.imgSmall )
 
               if data.imgSmall.colors
                 each img in data.imgSmall.colors
+                  //- mixin iQImage( img, 'hidden' )
                   img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
                   noscript
                     img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
@@ -198,6 +219,11 @@ else if data.view == "specs"
 
   tabSlug = 'spec-tab' + data.iterator
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
+    .compare-sticky-header
+      .product-name-wrap
+        .product-name.p1(itemprop="name")= data.name
+        .product-model.p2(itemprop="model")= data.model
+
     .spec-column-header.table-center-wrap
       .table-center
         .product-name.p1(itemprop="name")= data.name
@@ -210,12 +236,8 @@ else if data.view == "specs"
         if spec.name && spec.list && spec.img
           p= spec.name
           p.l3= spec.listTitle
-          ul.unstyled.p3.before-btm-aligned.spec-list
-            each option in spec.list
-              li= option
-          img.iq-img.btm-aligned(data-src=spec.img.src, alt=spec.img.alt)
-          noscript
-            img.btm-aligned(src=spec.img.noscriptsrc, alt=spec.img.alt)
+          mixin specList( spec.list, 'before-btm-aligned' )
+          mixin iQImage( spec.img, 'btm-aligned' )
 
         else if spec.callout && spec.text
           p.compare-box= spec.callout
@@ -223,9 +245,7 @@ else if data.view == "specs"
           if spec.list
             if spec.listTitle
               p.l3= spec.listTitle
-            ul.unstyled.p3.spec-list
-              each li in spec.list
-                li= li
+            mixin specList( spec.list )
 
         else if spec.text
           p= spec.text
@@ -233,9 +253,7 @@ else if data.view == "specs"
             p.p3= spec.subtext
 
           if spec.sublist
-            ul.unstyled.p3.spec-list
-              each li in spec.sublist
-                li= li
+            mixin specList( spec.sublist )
 
         else if spec.colors
           .color-swatches.clearfix
@@ -246,35 +264,27 @@ else if data.view == "specs"
         else if spec.definitionList
           if spec.img
             .text-center.dl-img
-              img.iq-img(data-src=spec.img.src, alt=spec.img.alt)
-              noscript
-                img(src=spec.img.noscriptsrc, alt=spec.img.alt)
+              mixin iQImage( spec.img )
 
-          dl.dl-horizontal
-            each li in spec.definitionList
-              dt.l3= li.term
-              dd.p3= li.definition
+          mixin definitionList( spec.definitionList, true )
 
         else if spec.label && spec.callout && spec.list && spec.icon
           div
             iconClass = 'icon-uibig-' + spec.icon
             i(class=iconClass)
           p= spec.callout
-          ul.unstyled.p3.spec-list
-            each li in spec.list
-              li= li
+          mixin specList( spec.list )
           p.l3= spec.label
           p.p3= spec.labeledText
 
         else if spec.enlargement
           .text-center
-            img.iq-img(data-src=spec.img.src, alt=spec.img.alt)
-            noscript
-              img(src=spec.img.noscriptsrc, alt=spec.img.alt)
+            mixin iQImage( spec.img )
           button.iconTrigger-ui2-magnify.enlarge.js-enlarge
             i.icon-ui2-magnify
             span.l3!= '&nbsp;' + spec.iconTitle
 
+          mixin specList( spec.list )
           ul.unstyled.p3.spec-list
             each li in spec.list
               li= li
@@ -286,9 +296,7 @@ else if data.view == "specs"
               .pull-right.box-close
                 i.icon-ui-x-skinny
             .spec-modal-body.text-center
-              img.iq-img(data-src=spec.enlargement.src, alt=spec.enlargement.alt)
-              noscript
-                img(src=spec.enlargement.noscriptsrc, alt=spec.enlargement.alt)
+              mixin iQImage( spec.enlargement )
 
 
 
@@ -299,6 +307,105 @@ else if data.view == "specs"
 
         else
           .l4 Unable to parse the kind of specification you gav me :(
+
+
+else if data.view == 'single-spec'
+
+  each spec in data.fullSpecs
+    if spec.imgs && spec.definitionList
+      section.spec-overview.spec-section
+        .container
+          .grid.no-grid-at-567
+            .span8
+              .spec-carousel-wrap
+                .spec-carousel
+                  each img in spec.imgs
+                    .slide
+                      mixin iQImage( img )
+
+            .span3.offset1
+              h5.section-label= spec.label
+              mixin definitionList( spec.definitionList )
+
+    else if spec.list && spec.list2 && spec.img
+      section.container
+        .grid.m-grid-at-567.spec-section
+          .span3.no-m-span
+            h5.section-label= spec.label
+          .span3.alpha.m-span3
+            mixin specList( spec.list )
+          .span3.m-span3
+            mixin specList( spec.list2 )
+          .span3.no-m-span
+            mixin iQImage( spec.img )
+
+    else if spec.definitionList && spec.definitionList2
+      section.container
+        .grid.no-grid-at-567.spec-section
+          .span3
+            h5.section-label= spec.label
+          .span4
+            mixin definitionList( spec.definitionList )
+          .span4.offset1
+            mixin definitionList( spec.definitionList2 )
+
+    else if spec.definitionList && spec.img && spec.img.alignment && spec.img.alignment == 'align-right-bottom'
+      section.container
+        .grid.no-grid-at-567.spec-section.align-right-bottom
+          .span3
+            h5.section-label= spec.label
+          .span3
+            mixin definitionList( spec.definitionList )
+          .span6.has-img
+            mixin iQImage( spec.img )
+
+    else if spec.definitionList && spec.img
+      section.container
+        .grid.no-grid-at-567.spec-section
+          .span3
+            h5.section-label= spec.label
+          .span4
+            mixin definitionList( spec.definitionList )
+
+          - offset = spec.img.alignment && spec.img.alignment == 'right' ? '2' : '1'
+          - classes = 'has-img span3 offset' + offset
+          div(class=classes)
+            mixin iQImage( spec.img )
+
+    else if spec.definitionList
+      section.container
+        .grid.no-grid-at-567.spec-section
+          .span3
+            h5.section-label= spec.label
+          .span4
+            mixin definitionList( spec.definitionList )
+
+    else if spec.features
+      section.container
+        .grid.no-grid-at-567.spec-section
+          .span3
+            h5.section-label= spec.label
+          each feature, i in spec.features
+            - feature2 = spec.features2[i]
+            .span3
+              .media
+                .pull-left
+                  .media-object.holder-for-icon
+                    icon = 'icon-uibig-' + feature.icon
+                    i(class=icon)
+                .media-body
+                  p.media-heading.l3!= feature.label
+                  p.media-description.p3!= feature.description
+              .media
+                .pull-left
+                  .media-object.holder-for-icon
+                    icon = 'icon-uibig-' + feature2.icon
+                    i(class=icon)
+                .media-body
+                  p.media-heading.l3!= feature2.label
+                  p.media-description.p3!= feature2.description
+
+
 
 else
   em on noes, you don't have a view variable set :(

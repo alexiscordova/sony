@@ -18,36 +18,37 @@
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
-      self.$el                 = $( element );
-      self.$win                = $( window );
-      self.$doc                = $( window.document );
-      self.ev                  = $( {} ); //event object
+      self.$el                     = $( element );
+      self.$win                    = $( window );
+      self.$doc                    = $( window.document );
+      self.ev                      = $( {} ); //event object
       
-      self.mode                = null;
+      self.mode                    = null;
       
-      self.$tccBodyWrapper     = self.$el;
-      self.$tccBody            = self.$tccBodyWrapper.find('.tcc-body');
-      self.$contentModules     = self.$el.find('.tcc-content-module');
-      self.$scrollerInstance   = null;
+      self.$tccBodyWrapper         = self.$el;
+      self.$tccBody                = self.$tccBodyWrapper.find('.tcc-body');
+      self.$contentModules         = self.$el.find('.tcc-content-module');
+      self.$scrollerInstance       = null;
+            
+      // bullet pagination 
+      // self.bulletsContainerClass   = 'pagination-bullets';
+      // self.bulletClass             = 'pagination-bullet';      
+      // self.bulletsContainerOnClass = 'pagination-bullets-on';
+      // self.bulletSelectedClass     = 'bullet-selected';
       
-      self.outerNavClasses     = new Array ( 'tcc-nav', 'tcc-bullets' );
-      self.innerNavClasses     = new Array ( 'tcc-nav-item', 'tcc-bullet' );
+      self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+      self.resizeThrottle          = function(){self.handleResize();};
       
-      self.navSelectedClass    = 'tcc-nav-selected';
+      self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
+      self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.resizeEvent         = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-      self.resizeThrottle      = function(){self.handleResize();};
+      self.sequencerSpeed          = 50;  // default
+      self.debounceSpeed           = 300; // default
+      self.scrollDuration          = 400; // default
       
-      self.hasTouch            = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
-      self.tapOrClick          = function(){return self.hasTouch ? 'touchend' : 'click';};
-      
-      self.sequencerSpeed      = 50;  // default
-      self.debounceSpeed       = 300; // default
-      self.scrollDuration      = 400; // default
-      
-      self.phoneBreakpoint     = 479;
-      self.tabletBreakpointMin = self.phoneBreakpoint + 1;
-      self.tabletBreakpointMax = 768;
+      self.phoneBreakpoint         = 479;
+      self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
+      self.tabletBreakpointMax     = 768;
 
       // resize listener
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle));
@@ -95,7 +96,7 @@
         setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes
         setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 100 ); // set scroller & iscroll options
         setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
-        setupSequence.add( self, self.createNavigation, self.sequencerSpeed); // create bullet nav
+        //setupSequence.add( self, self.createNavigation, self.sequencerSpeed); // create bullet nav
         setupSequence.start();
 
         console.log( '« end »');
@@ -109,7 +110,7 @@
         teardownSequence = new Sequencer();
         
         teardownSequence.add( self, self.removeStyleAttr, self.sequencerSpeed ); // remove scroller-specific style attributes
-        teardownSequence.add( self, self.destroyNavigation, self.sequencerSpeed ); // hide bullets
+        //teardownSequence.add( self, self.destroyNavigation, self.sequencerSpeed ); // hide bullets
         teardownSequence.add( self, self.destroyScroller, self.sequencerSpeed ); // destroy scroller instance
         teardownSequence.add( self, self.setMode, self.sequencerSpeed ); // destroy scroller instance
       
@@ -166,6 +167,7 @@
           mode: 'paginate',
           fitPerPage:self.mode === 'phone' ? 1 : 2, // 2-up vs 1-up
           lastPageCenter: false, //self.mode == 'phone' ? false : true,
+          generatePagination: true,
 
           iscrollProps: {
             snap: true,
@@ -239,100 +241,109 @@
         console.groupEnd();
       },
 
-      createNavigation : function(){
-        console.group('««« createNavigation »»» ');
+      // BULLET PAGINATION NAVIGATION
 
-        // TODO default hidden
+      // createNavigation : function(){
+      //   console.group('««« createNavigation »»» ');
 
-        var self = this,
-        outerClasses = self.outerNavClasses.join(' '),
-        innerClasses = self.innerNavClasses.join(' '),
-        itemHTML = '<div class="' + innerClasses + '"></div>',
-        out      = '<div class="' + outerClasses + '">',
-        numPages = self.mode === 'tablet' ? 2 : self.$contentModules.length;
+      //   // TODO default hidden
+
+      //   var self = this,
+      //   //outerClasses = self.outerNavClasses.join(' '),
+      //   //innerClasses = self.bulletClass.join(' '),
+      //   //innerClasses = self.bulletClass,
+      //   //outerClasses = self.outerNavClasses,
+      //   out      = '<ol class="' + self.bulletsContainerClass + '">',
+      //   itemHTML = '<li class="' + self.bulletClass + '"></li>',
+      //   numPages = self.mode === 'tablet' ? 2 : self.$contentModules.length;
           
-        if(self.controlNav){
-          console.log( 'destroying existing nav first »', self.controlNav );
-          self.destroyNavigation(); // remove any existing
-        }
+      //   if(self.controlNav){
+      //     console.log( 'destroying existing nav first »', self.controlNav );
+      //     self.destroyNavigation(); // remove any existing
+      //   }
         
-        //reset current slide id
-        self.currentId = 0;
+      //   //reset current slide id
+      //   self.currentId = 0;
 
-        for(var i = 0; i < numPages; i++) {
-          out += itemHTML;
-        }
+      //   for(var i = 0; i < numPages; i++) {
+      //     out += itemHTML;
+      //   }
         
-        out += '</div>';
-        out = $( out );
-        self.controlNav = out;
-        self.controlNavItems = out.children();
-        self.$el.append( out );
+      //   out += '</div>';
+      //   out = $( out );
+      //   self.controlNav = out;
+      //   self.controlNavItems = out.children();
+      //   self.$el.append( out );
 
-        // if nav bullet is selected (instead of a swipe)
-        self.controlNav.on( self.tapOrClick() , function( e ) {
-          self.handleNavClick(e);
-        });
+      //   // if nav bullet is selected (instead of a swipe)
+      //   self.controlNav.on( self.tapOrClick() , function( e ) {
+      //     self.handleNavClick(e);
+      //   });
 
-        $( '.' + self.outerNavClasses.join('.') ).addClass('on');
+      //   $( '.' + self.bulletsContainerClass ).addClass(self.bulletsContainerOnClass);
 
-        self.ev.trigger( 'tccOnNavUpdate' );
+      //   // self.ev.trigger( 'tccOnNavUpdate' );
+      //   self.updateNavigation();
 
-        console.log( '« end »');
-        console.groupEnd();
-      },
+      //   console.log( '« end »');
+      //   console.groupEnd();
+      // },
 
-      destroyNavigation : function(){
-        console.group( '««« destroyNavigation »»»' );
-        var self = this;
+      // destroyNavigation : function(){
+      //   console.group( '««« destroyNavigation »»»' );
+      //   var self = this;
       
-        // 'fade out' before removing
-        $( '.' + self.outerNavClasses.join('.') )
-          .removeClass('on')
-          .delay(300) // let it fade out...
-          .remove(); // remove references
+      //   // 'fade out' before removing
+      //   $( '.' + self.bulletsContainerClass )
+      //     .removeClass(self.bulletsContainerOnClass)
+      //     .delay(300) // let it fade out...
+      //     .remove(); // remove references
 
 
-        console.groupEnd();
-      },
+      //   console.groupEnd();
+      // },
 
-      updateNavigation : function(){
-        console.group( '««« updateNavigation »»»' );
-        var self = this;
+      // updateNavigation : function(){
+      //   console.group( '««« updateNavigation »»»' );
+      //   var self = this;
       
-        var id = self.currentId,
-            currItem;
+      //   var id = self.currentId,
+      //       currItem;
 
-        if(self.prevNavItem) {
-          self.prevNavItem.removeClass(self.navSelectedClass);
-        }
+      //   if(self.prevNavItem) {
+      //     self.prevNavItem.removeClass(self.bulletSelectedClass);
+      //   }
 
-        currItem = $(self.controlNavItems[id]);
-        currItem.addClass(self.navSelectedClass);
+      //   currItem = $(self.controlNavItems[id]);
+      //   currItem.addClass(self.bulletSelectedClass);
 
-        self.prevNavItem = currItem;
+      //   self.prevNavItem = currItem;
 
-        console.log( '« end »');
-        console.groupEnd();
-      },
+      //   console.log( '« end »');
+      //   console.groupEnd();
+      // },
 
-      handleNavClick : function( e ){
-        console.group( '««« handleNavClick »»»' );
-        var self = this,
-            item = $(e.target).closest( '.' + self.innerNavClasses.join('.') );
+      // handleNavClick : function( e ){
+      //   console.group( '««« handleNavClick »»»' );
+      //   var self = this,
+      //       //item = $(e.target).closest( '.' + self.bulletClass.join('.') );
+      //       item = $(e.target).closest( '.' + self.bulletClass );
 
-        if( item.length ) {
-          self.updateCurrentId(item.index());
+      //   if( item.length ) {
+      //     self.updateCurrentId(item.index());
 
-          // tell sony-iscroll what page to go to
-          self.$scrollerInstance.scrollerModule('goto',( self.currentId ));
+      //     // tell sony-iscroll what page to go to
+      //     self.$scrollerInstance.scrollerModule('gotopage',( self.currentId ));
 
-          self.ev.trigger( 'tccOnNavUpdate' );
-        }
+      //     //self.ev.trigger( 'tccOnNavUpdate' );
+      //     self.updateNavigation();
+      //   }
       
-        console.log( '« end »');
-        console.groupEnd();
-      },
+      //   console.log( '« end »');
+      //   console.groupEnd();
+      // },
+
+      // END BULLET PAGINATION
 
       updateCurrentId : function(index){
         console.group( '««« updateCurrentId »»»' );

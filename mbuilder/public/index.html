@@ -1,103 +1,96 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		
+		<title>Page Builder</title>
 		<meta charset="utf-8">
 		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/responsive.css" rel="stylesheet">
 		<link href="css/docs.css" rel="stylesheet">
 		<link href="css/mbuilder.css" rel="stylesheet">
-		<link href="css/codemirror.css" rel="stylesheet">
-		
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-		
-		
+
+		<script src="http://code.jquery.com/jquery-2.0.0b1.js"></script>
+		<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+		<script src="js/jquery-ui-1.10.0.custom.min.js"></script>
+
 	</head>
-	
 	<body>
-			
-		<div class="container">
-			<h1>Sony Module Builder</h1>
-			
-			<div class="clearfix form-inline row">
-				<div class="control-group span4">
-  					<label>Module</label>
-  					<select id="module_select">
-  						<option class="hold"></option>
-  					</select>
-				</div>
-				
-				<div id="data_control" class="control-group span4">
-					<label>Data</label>		
-					<select id="data_select">
-					</select>
-				</div>
-						
-			</div>
-			<div id="main_data_edit" class="clearfix row">
-				<textarea id="mainEditor" rows="10" class="span11"></textarea>
-				
-			</div>
-			
-			<div id="submodule_section">
-				<h2>Submodules</h2>
-				<ul id="submodule_list">
-					
-				</ul>
-				<div class="row">
-					<div class="span1"><button class="btn btn-small btn-block add-me">Add</button></div>
-				</div>
-			</div>
-			
-			<div id="buttons" class="row">
-				<div class="span7"><button id="build" class="btn btn-special btn-block" data-loading-text="Building...">Build</button></div>
- 				<div id="save_submit" class="span2"><button class="btn btn-block">Save</button></div>
-				<div id="save_as" class="span2"><button class="btn btn-block" data-toggle="modal" data-target="#save_as_box">Save As</button></div>
-			</div>
-		
-			
-		</div>
+		<form action="/generatePage" method="post" id="myForm">
+			<div id="page-wrap-outer" class="page-wrap-outer">
+				<div id="page-wrap-inner" class="page-wrap-inner">
+					<div class="simple-navbar simple-navbar-inverse simple-navbar-fixed-top">
+						<div class="simple-navbar-inner">
+							<nav id="nav-wrapper" class="container full-bleed-no-max m-full-bleed nav-wrapper no-grid-at-767">
+								<div class="navbar">
+									<div class="grid">
+										<h1 >Module / Page Builder</h1>
+										<ul class="nav nav-utility">
+											<li>
+												<select name="select-template" id="select-template">
+													<option value="page-builder-normal-nav" selected="selected">Normal navigation</option>
+													<option value="page-builder-min-nav">Mini navigation</option>
+													<option value="page-builder-no-nav">No navigation</option>
+												</select>
+											</li>
+											<li>
 
-		<div class="modal" id="save_as_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		    <h3 id="myModalLabel">Save As</h3>
-		  </div>
-		  <div class="modal-body">
-		    <label>FileName</label>
-  			<input type="text">
-		  </div>
-		  <div class="modal-footer">
-		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-		    <button class="btn btn-primary" id="save_as_submit">Save</button>
-		  </div>
-		</div>
+												<button id="build" class="btn-block" data-loading-text="Building...">
+													<span class="sprite"></span>
+													Save and build page
+												</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</nav>
+						</div>
+					</div>
+					<div class="container clearfix ">
 
-		<div class="modal" id="edit_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		    <h3 id="myModalLabel">Edit Data</h3>
-		  </div>
-		  <div class="modal-body">
-		    <label>FileName</label>
-  			<input type="text">
-  			<label>Content</label>
-  			<textarea id="popupEditor" rows="15"></textarea>
-		  </div>
-		  <div class="modal-footer">
-		  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-		    <button class="btn btn-primary" id="edit_submit">Save</button>
-		  </div>
-		</div>
-		
-		
-		<script src="js/client.js"></script>
+						<fieldset>
+							<input type="hidden" name="fileName" id="fileName"  >
+							<input type="hidden" name="fileTitle" id="fileTitle"  >
+							<input type="hidden" name="fileDescription" id="fileDescription"  >
+							<div id="main-forms-container" class="container">
+								<ul></ul>
+							</div>
+							<div id="builtAllInputContainer"></div>
+							<div id="dialog-form" title="Generate a new page">
+								<div class='validateTips'></div>
+								<p>
+									<label for="name">Page FileName</label>
+									<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+								</p>
+								<p>
+									<label for="name">Page Title</label>
+									<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all" />
+								</p>
+								<p>
+									<label for="name">Page Description</label>
+									<textarea  maxlength="256"  name="description"  wrap="soft"  id="description" class="text ui-widget-content ui-corner-all"></textarea>
+								</p>
+							</div>
+
+						</fieldset>
+
+						<div class="row addModule">
+							<div class="span2 button">
+								<button class="btn-small btn-block" id="add-module">
+									<span class="sprite"></span>
+									Add a module
+								</button>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+		<script src="js/pages-builder.js"></script>
 		<script src="js/jslint.js"></script>
 		<script src="js/bootstrap-modal.js"></script>
 		<script src="js/bootstrap-alert.js"></script>
 		<script src="js/bootstrap-button.js"></script>
 		<script src="js/codemirror.js"></script>
-		
 	</body>
-	
 </html>

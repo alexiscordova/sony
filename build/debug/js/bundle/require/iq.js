@@ -599,4 +599,4 @@
   initSpeedTest();
   //console.log(bandwidth, connTestResult, devicePixelRatio)
 
-} (this.iQ = this.iQ || {}, jQuery, Modernizr));
+}) (this.iQ = this.iQ || {}, jQuery, Modernizr);

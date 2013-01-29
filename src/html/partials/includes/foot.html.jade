@@ -2,7 +2,7 @@
 cacheable: true
 ---
 l = {"locals": locals}
-if 'debug' == locals.getEnvironments()
+if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
   for name in locals.require()
     sr = "js/bundle/require/" + name
     script(src = sr)
@@ -19,6 +19,8 @@ if 'debug' == locals.getEnvironments()
     for name in locals.polyfills()
       sr = "js/libs/polyfill/" + name
       script(src = sr)
+  mbuilder
+  
       
 else
   script(src="js/require.min.js")
