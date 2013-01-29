@@ -22,7 +22,7 @@
           each link, i in data.internalLinks
             - clss = i ? '' : 'active'
             li(class=clss)
-              a.p3(href=link.href)= link.label
+              a.p3(href=link.href, tabindex="-1")= link.label
 
 
   section.spec-product#specifications
