@@ -21,6 +21,10 @@ $default-transition-delay    : 0s;
 @function px-em($target, $context:16){
   @return (strip-units($target) / strip-units($context)) + 0em;
 }
+// convert px to unitless line-height, with regard to its context. Most context will be 16px. Takes into account the font-size.
+@funtion px-line-height($targetLH, $targetFont, $context:16){
+  @return (px-em($targetFont, $context) * strip-units($targetLH);
+}
 
 // this will reverse the context, mainly for fonticons, but maybe for something else as well.
 // Using it, will return the em size needed to reset the font back to 1em aka 16px.
@@ -221,6 +225,21 @@ $default-transition-delay    : 0s;
 	}
 	@mixin fontHeadingItalic(){ // SST W01 Italic
 		@include font($headingsFontFamilyItalic);
+	}
+
+
+
+	@mixin em-strong($font: Regular);
+
+		@if ($font == Regular){
+			em { @include fontItalic; }
+			strong { @include fontMedium; }
+			em strong, strong em { @include fontMediumItalic; }
+		} @else if ($font == Light) {
+			em { @include fontLightItalic; }
+			strong { @include fontRegular; }
+			em strong, strong em { @include fontItalic; }
+		}
 	}
 
 @mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
