@@ -71,10 +71,10 @@ if data.view == "basic"
 
               if data.imgSmall.colors
                 each img in data.imgSmall.colors
-                  mixin iQImage( img, 'hidden', 'image' )
-                  //- img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
-                  //- noscript
-                  //-   img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
+                  //- mixin iQImage( img, 'hidden', 'image' )
+                  img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+                  noscript
+                    img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
 
           if data.img && data.img.colors
             .color-swatches.clearfix
@@ -111,9 +111,7 @@ else if data.view == 'detailed'
       .product-img
         .product-img-wrap.ghost-center-wrap.js-product-imgs
           .ghost-center
-            img.iq-img.js-product-img-main(data-src=data.img.src, itemprop="image", alt=data.img.alt)
-            noscript
-              img(src=data.img.noscriptsrc, itemprop="image", alt=data.img.alt)
+            mixin iQImage( data.img, 'js-product-img-main', 'image' )
             each img in data.img.colors
               img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
               noscript

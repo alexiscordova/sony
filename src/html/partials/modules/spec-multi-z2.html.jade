@@ -1,3 +1,4 @@
+include ../includes/jade-helpers.jade
 
 .spec-multi
 
@@ -6,14 +7,13 @@
       .tabs
 
   .container
-    .grid
-      p.sony-recommends.pull-right
+
+    .grid.spec-title-wrap
+      a.spec-title-link.tl(href=data.titleLink)= data.titleLink.label
+      .sony-recommends
         span.p3 Sony Recommends
         i.icon-uibig-win8.win8-logo
-
-    .grid
-      a.spec-title-link.tl(href="#") Vaio Z
-      h1.spec-title Vaio Z Details
+      h1.spec-title= data.title
 
     .grid
       ul.spec-views.inline.p3
@@ -66,9 +66,7 @@
           if tile.img
             .iq-wrap
               figure.iq-container
-                img.iq-img(data-src=tile.img.src, alt=tile.img.alt)
-                noscript
-                  img(src=tile.img.noscriptsrc, alt=tile.img.alt)
+                mixin iQImage( tile.img )
 
           .tile-content
             h3.tile-title= tile.title

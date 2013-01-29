@@ -8,3 +8,14 @@ window.iQ = {
     updateOnResize: true
   }
 };
+
+if ( typeof window.console === undefined ) {
+    var noop = function(){};
+    window.console = {
+        log : noop,
+        group: noop,
+        groupEnd: noop,
+        warn: noop,
+        error: noop
+    };
+}

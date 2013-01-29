@@ -109,9 +109,6 @@
           vScrollbar: false,
           momentum: true,
           bounce: true,
-          onScrollEnd: null,
-          lockDirection: true,
-          onBeforeScrollStart: null,
           onScrollMove : function() {
             self._onScroll( this );
           },
