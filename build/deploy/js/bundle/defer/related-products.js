@@ -49,7 +49,7 @@
       // fixes from Paul Irish and Tino Zijdel
       if (!window.requestAnimationFrame) {
           window.requestAnimationFrame = function(callback, element) {
-              var currTime = new Date().getTime(), 
+              var currTime = new Date().getTime(),
                   timeToCall = Math.max(0, 16 - (currTime - lastTime)),
                   id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
               lastTime = currTime + timeToCall;
