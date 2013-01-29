@@ -1,20 +1,10 @@
-mixin partial(m, d)
-  m = 'modules/' + m
-  e = {"locals":locals, "data":locals.data(d)}
-  !{locals.partial(m, e)}
+include ../includes/jade-helpers.jade
   
 mixin copyblock(copyobject, h4class, h5class)
   - copyobject = copyobject || data
   - h4class = h4class || ""
   - h5class = h5class || ""
-  if copyobject.h2
-    h2 !{copyobject.h2}
-  if copyobject.h3
-    h3 !{copyobject.h3}
-  if copyobject.h4
-    h4(class= h4class) !{copyobject.h4}
-  if copyobject.h5
-    h5(class= h5class) !{copyobject.h5}
+  +hgroup(copyobject, "", "", "", h4class, h5class)
   if copyobject.body
     p.p3 !{copyobject.body}
   if copyobject.link
@@ -33,7 +23,7 @@ section.editorial.container.clearfix(class= data.layout.media)
             .table-center-wrap
               .table-center
                 .box
-                 +copyblock()
+                  +copyblock()
       else if data.layout.text == "right" 
         .inner.grid(class= data.style)
           - span = "span" + data.layout.columns[1]
@@ -42,7 +32,7 @@ section.editorial.container.clearfix(class= data.layout.media)
             .table-center-wrap
               .table-center
                 .box
-                 +copyblock()
+                  +copyblock()
     else
       .grid(class= data.style)
         .span12
@@ -80,7 +70,7 @@ section.editorial.container.clearfix(class= data.layout.media)
         div(class = span)
           if data.submodules[i+1]
             +partial(data.submodules[i+1].type, data.submodules[i+1].data)
-          !{data.columns[i]}
+          +copyblock(data.columns[i])
 
   else if data.layout.media == "m3up" || data.layout.media == "m2up"
     .grid(class= data.style)
