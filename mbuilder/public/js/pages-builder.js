@@ -99,7 +99,7 @@ $(document).ready(function() {
         var replaceSpace = new RegExp('\\n', 'g');
 
         if (bValid) {
-          $('#fileName').val($('#name').val().replace(' ', ''));
+          $('#fileName').val($('#name').val().replace(' ', '-'));
           $('#fileTitle').val($('#title').val());
           $('#fileDescription').val($('#description').val().replace(replaceLB, ' '));
 
