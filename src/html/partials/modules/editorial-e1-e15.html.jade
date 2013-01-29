@@ -23,19 +23,26 @@ mixin copyblock(copyobject, h4class, h5class)
 section.editorial.container.clearfix(class= data.layout.media)
   if data.layout.media == "full" 
     if data.layout.inner == "true" 
-      .grid(class= data.style)
+      .grid.full-bleed
         .span12
           +partial(data.submodules[0].type, data.submodules[0].data)
-          .grid
-          if data.layout.text == "left" 
-            span = "span" + data.layout.columns[0]
-            .inner(class= span)
-              +copyblock()
-          else if data.layout.text == "right" 
-            span = "span" + data.layout.columns[1]
-            offset =  "offset" + data.layout.columns[0]
-            .inner(class= span)(class= offset)
-              +copyblock()
+      if data.layout.text == "left"
+        .inner.grid(class= data.style)
+          - span = "span" + data.layout.columns[0]
+          div(class= span)(class= offset)
+            .table-center-wrap
+              .table-center
+                .box
+                 +copyblock()
+      else if data.layout.text == "right" 
+        .inner.grid(class= data.style)
+          - span = "span" + data.layout.columns[1]
+          - offset =  "offset" + data.layout.columns[0]
+          div(class= span)(class= offset)
+            .table-center-wrap
+              .table-center
+                .box
+                 +copyblock()
     else
       .grid(class= data.style)
         .span12
@@ -45,21 +52,21 @@ section.editorial.container.clearfix(class= data.layout.media)
         +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "mediaright" 
-    .grid
+    .grid.table-center-wrap(class= data.style)
       span = "span" + data.layout.columns[0]
-      div(class = span)
+      .table-center.box(class = span)
         +copyblock()
       span = "span" + data.layout.columns[1]
-      div(class = span)
+      .table-center.media-element(class = span)
         +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "medialeft"   
-    .grid
+    .grid.table-center-wrap(class= data.style)
       span = "span" + data.layout.columns[0]
-      div(class = span)
+      .table-center.media-element(class = span)
         +partial(data.submodules[0].type, data.submodules[0].data)
       span = "span" + data.layout.columns[1]
-      div(class = span)
+      .table-center.box(class = span)
         +copyblock()
 
   else if data.layout.media == "full3up"
