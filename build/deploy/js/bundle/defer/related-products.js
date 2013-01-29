@@ -12,6 +12,7 @@
         $.rpModules = {};
     }
 
+
     var console = window.console;
 
     //start module
