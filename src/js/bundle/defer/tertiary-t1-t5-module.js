@@ -1,10 +1,11 @@
 /*global jQuery, Modernizr, Sequencer*/
 
 // ------------ Sony Tertiary Content Container (Tertiary) Module ------------
-// Module: Tertiary Module
-// Version: 0.1
-// Modified: 01/16/2013, Telly Koosis
-// Dependencies:
+// **Module:** Tertiary Module
+// **Version:** 1.0
+// **Modified:** 01/29/2013
+// **Author:** Telly Koosis
+// **Dependencies:**
 //     jQuery 1.7+, Modernizr, sony-iscroll.js, sony-scroller.js, sony-sequencer.js
 // -------------------------------------------------------------------------
 
@@ -36,9 +37,9 @@
       self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
       self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.sequencerSpeed          = 50;  // default
-      self.debounceSpeed           = 300; // default
-      self.scrollDuration          = 400; // default
+      self.sequencerSpeed          = 50; 
+      self.debounceSpeed           = 300;
+      self.scrollDuration          = 400;
       
       self.phoneBreakpoint         = 479;
       self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
@@ -47,7 +48,7 @@
       // resize listener
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle));     
 
-      // go
+      // start 
       self.init();
     };
 
@@ -55,7 +56,6 @@
       constructor: TertiaryModule,
 
       init : function() {
-        //console.group('init');
 
         var self = this;
 
@@ -193,7 +193,7 @@
 
         //console.log( 'mode is  »' , self.mode);
 
-        // @ mobile breakpoint?
+        // mobile breakpoint?
         if( self.mode !== 'desktop' ){
           //console.log('in mobile (resize) »', self.mode);
           
