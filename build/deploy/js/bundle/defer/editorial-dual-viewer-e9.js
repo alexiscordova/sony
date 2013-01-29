@@ -1,131 +1,143 @@
 
-// ------ Sony UX Marketing Convergence (MarketingConvergence) Module ------
-// Module: MarketingConvergence Module
-// Version: 0.1
-// Modified: 01/18/2013
-// Dependencies: jQuery 1.7+
-// -------------------------------------------------------------------------
+// Sony Editorial + Dual Viewer (EditorialDualViewer) ModuleModule
+// ---------------------------------------------------------------
+//
+// * **Class:** EditorialDualViewer
+// * **Version:** 0.1
+// * **Modified:** 01/23/2013
+// * **Author:** George Pantazis
+// * **Dependencies:** jQuery 1.7+, [SonyDraggable](sony-draggable.html)
 
 (function($) {
 
   'use strict';
 
-  var MarketingConvergenceModule = function($element, options){
+  var EditorialDualViewer = function($element, options){
 
     var self = this;
 
-    $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options);
+    $.extend(self, {}, $.fn.editorialDualViewer.defaults, options);
 
     self.$el = $element;
+    self.$dualViewContainer = self.$el.find('.edv-images');
+    self.$scrubber = self.$el.find('.edv-scrubber-container');
+    self.$bottomSlide = self.$el.find('.image-1');
+    self.$topSlide = self.$el.find('.image-2');
+    self.$topSlideImageContainer = self.$topSlide.find('.edv-image-wrapper');
+    self.$images = self.$dualViewContainer.find('img');
 
-    self.init();
+    self.initTimeout();
+
+    // **TODO:** This should be replaced with the global debounced throttle event once that is available.
+    $(window).on('resize', $.proxy(self.setPositions, self));
   };
 
-  MarketingConvergenceModule.prototype = {
+  EditorialDualViewer.prototype = {
 
-    'constructor': MarketingConvergenceModule,
+    'constructor': EditorialDualViewer,
 
     'init': function() {
 
       var self = this;
 
-      self.buildPartnerCarousel();
-    },
-
-    'buildPartnerCarousel': function() {
-
-      var self = this;
-
-      self.currentPartnerProduct = -1;
-      self.$partnerCarousel = self.$el.find('.partner-products');
-      self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
-
-      self.$partnerCarouselSlides.detach();
-
-      self.gotoNextPartnerProduct();
-      self.setPartnerCarouselInterval();
-      self.setupReloadButton();
-
-    },
-
-    'setupReloadButton': function() {
-
-      var self = this;
-
-      self.$el.find('.btn-reload').on('click', function(e){
-
-        e.preventDefault();
-
-        self.gotoNextPartnerProduct();
-        self.setPartnerCarouselInterval();
+      self.$scrubber.sonyDraggable({
+        'axis': 'x',
+        'unit': '%',
+        'containment': self.$dualViewContainer,
+        'drag': $.proxy(self.onDrag, self),
+        'bounds': self.getDragBounds()
       });
-
     },
 
-    'setPartnerCarouselInterval': function() {
+    // We just need the images to be ready *enough* to provide dimensions.
+    // Since the usual imagesLoaded plugin approach wasn't compatible with iQ,
+    // we just poll for a width until one is available.
 
-      var self = this;
-
-      if ( self.partnerCarouselInterval ) {
-        clearInterval(self.partnerCarouselInterval);
-      }
-
-      self.partnerCarouselInterval = setInterval(function(){
-        self.gotoNextPartnerProduct();
-      }, self.rotationSpeed);
-    },
-
-    'gotoNextPartnerProduct': function() {
+    'initTimeout': function() {
 
       var self = this,
-          $newSlide;
+          ready = true;
 
-      if ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - 1 ) {
-        self.currentPartnerProduct = 0;
-      } else {
-        self.currentPartnerProduct++;
-      }
-
-      self.$partnerCarousel.children().each(function(){
-        $(this).fadeOut(self.transitionTime, function(){
-          $(this).remove();
-        });
+      self.$images.each(function(){
+        if ( $(this).width() === 0 ) {
+          ready = false;
+        }
       });
 
-      $newSlide = self.$partnerCarouselSlides.eq(self.currentPartnerProduct).clone();
+      if ( ready ) {
+        self.init();
+      } else {
+        setTimeout($.proxy(self.initTimeout, self), 500);
+      }
+    },
 
-      $newSlide.appendTo(self.$partnerCarousel);
-      $newSlide.fadeOut(0).fadeIn(self.transitionTime);
+    // Compute the dragging bounds based on the width of the container.
 
-      window.iQ.update();
+    'getDragBounds': function() {
+
+      var self = this,
+          minBounds = self.$dualViewContainer.width() * 0.1,
+          containerWidth = self.$dualViewContainer.width();
+
+      return {
+        'x': {
+          'min': 100 * minBounds / containerWidth,
+          'max': 100 - 100 * minBounds / containerWidth
+        }
+      };
+    },
+
+    // Based on the current bounds, Reset the position of the scrubber via
+    // [SonyDraggable's](sony-draggable.html) *setBounds* method.
+
+    'setPositions': function() {
+
+      var self = this,
+          bounds = self.getDragBounds();
+
+      self.$scrubber.sonyDraggable('setBounds', bounds);
+    },
+
+    // As [SonyDraggable](sony-draggable.html) returns scrubbing changes, update the top slide's width to match,
+    // and adjust the image container's width by that percentage's inverse to maintain the
+    // desired positioning.
+
+    'onDrag': function(e) {
+
+      var self = this,
+          widthRatio = 2;
+
+      self.$topSlide.css('width', (100 - e.position.left) + '%');
+      self.$topSlideImageContainer.css('width', 10000 / (100 - e.position.left) + '%');
     }
+
   };
 
-  $.fn.marketingConvergenceModule = function( options ) {
+  $.fn.editorialDualViewer = function( options ) {
     var args = Array.prototype.slice.call( arguments, 1 );
     return this.each(function() {
       var self = $(this),
-        marketingConvergenceModule = self.data('marketingConvergenceModule');
+        editorialDualViewer = self.data('editorialDualViewer');
 
-      // If we don't have a stored marketingConvergenceModule, make a new one and save it
-      if ( !marketingConvergenceModule ) {
-          marketingConvergenceModule = new MarketingConvergenceModule( self, options );
-          self.data( 'marketingConvergenceModule', marketingConvergenceModule );
+      // If we don't have a stored editorialDualViewer, make a new one and save it
+      if ( !editorialDualViewer ) {
+          editorialDualViewer = new EditorialDualViewer( self, options );
+          self.data( 'editorialDualViewer', editorialDualViewer );
       }
 
       if ( typeof options === 'string' ) {
-        marketingConvergenceModule[ options ].apply( marketingConvergenceModule, args );
+        editorialDualViewer[ options ].apply( editorialDualViewer, args );
       }
     });
   };
 
-  $.fn.marketingConvergenceModule.defaults = {
-    'rotationSpeed': 5000,
-    'transitionTime': 1000
+  $.fn.editorialDualViewer.defaults = {
+
   };
 
+  // Initialization.
   $(function(){
-   $('.uxmc-container').marketingConvergenceModule();
+    $('.edv').editorialDualViewer();
   });
 
 })(jQuery);

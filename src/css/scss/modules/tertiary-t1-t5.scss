@@ -2,40 +2,92 @@
 // Tertiary Content Container (TCC) 
 // --------------------------------------------------
 
-// TEMP
-	@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
-	@import "../_base/mixins";
+@import "../_base/variables";
+@import "../_base/mixins";
 
-	*{
-	  @include borderBox;
-	}
-
-// END TEMP
+@function createSelectorFromData($class1,$class2){
+	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
+}
 
 .tcc-wrapper{
 	position: relative;
-  background-color:$grayLightFieldLarge;
-  overflow:auto; // scroller
-  text-align: center; // scroller
+  overflow:auto;
+  text-align: center;
 
 	.tcc-body-wrapper{
 		display: block;
-		//overflow: auto;
 		overflow: hidden;
 		position: relative;
 		text-align: center;
 		z-index: 1;
-	} // end .tcc main
+	} // end .tcc-body-wrapper
 
+	// START VARIATIONS 
+	.align-left-top{
+		text-align: left;
+		vertical-align: top;
+	}
+
+	.align-left-center{
+		text-align: left;
+		vertical-align: middle;
+	}
+
+	.align-left-bottom{
+		text-align: left;
+		vertical-align: bottom;
+	}
+
+	.align-center-center{
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.align-right-top{
+		text-align: right;
+		vertical-align: top;
+	}
+	
+	.align-right-center{
+		text-align: right;
+		vertical-align: middle;
+	}
+
+	.align-right-bottom{
+		text-align: right;
+		vertical-align: bottom;
+	}
+
+	.light-text-dark-box{
+		color:$gray40;
+		background-color:$gray90;
+	}
+
+	.light-text-trans-box{
+		color:$gray40;
+		background-color:transparent;
+	}
+
+	.dark-text-light-box{
+		color:red;
+		background-color:green;
+	}
+	
+	.dark-text-trans-box{
+		color:red;
+		background-color: transparent;
+	}
+
+	//
+	// END VARIATIONS 
+	// 
 } // end .tcc-wrapper 
 
 .tcc-header-wrapper{
-
 	.tcc-header{
-		border-bottom: 2px solid $grayLighter;
+		border-bottom: 2px solid $gray70;
 		position: relative;
 	} // end .tcc-header
-
 } // end .tcc-header-wrapper
 
 .tcc-body{
@@ -49,16 +101,17 @@
 	} // end .tcc-content-module
 
 	// certain tertiary content modules have hover states
-	div[data-tcc-module-type="article"][data-tcc-module-mode="default"]:hover{
+	div[data-tcc-content-type="article"][data-tcc-content-mode="default"]:hover{
+	//div#{createSelectorFromData("article","default")}:hover{
 		cursor: pointer;
-		background-color: white;
-	} // end 
+		background-color: $white;
+	} // end article:default hover;
 	
-	// certain tertiary content modules do not have hover states
-	div[data-tcc-module-type="sonys-voice"][data-tcc-module-mode="twitter"]:hover{
+	// certain tertiary content modu`les do not have hover states
+	div[data-tcc-content-type="sonys-voice"][data-tcc-content-mode="twitter"]:hover{
+	//div#{createSelectorFromData("sonys-voice","twitter")}:hover{
 		background-color: transparent;
-	}
-
+	} /// end sonys-voice:twitter hover;
 } // end .tcc-body
 
 .article{		
@@ -67,7 +120,6 @@
 		line-height:1.2em;
 		font-size: $font_18_16;
 	} // end l1
-
 } // end .article
 
 .sonys-voice{
@@ -77,54 +129,52 @@
 	} // end .l4 .l3
 
 	.bq2 > p{
-		color:$gray;
 		line-height: 1.35em;
 	} // end .bq2 > p
 
 	.bq2 > p:first-child{
 		text-indent: 0;
-	}
-
+	} // end .bq2 > p:first-child
+	
 } // end .sonys-voice
 
+//pagination / bullets
+// .tcc-nav {
+//   &.tcc-bullets {
+//     position: absolute;
+//     z-index: 35;  
+//     left: 0;
+//     bottom: 0px;
+//     width: 100%;
+//     height: auto;
+//     margin: 0 auto;
+//     text-align: center;
+//     line-height: 18px;
+//     overflow: hidden;
+//     opacity:0;
+// 		@include transition(opacity, $transitionNormal);		
 
-.tcc-nav {
-	
-  &.tcc-bullets {
-    position: absolute;
-    z-index: 35;  
-    left: 0;
-    bottom: 0px;
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-    text-align: center;
-    line-height: 18px;
-    overflow: hidden;
-    opacity:0;
-		@include transition(opacity, $transitionNormal);		
+//     &.on{
+//     	@include transition(opacity, $transitionNormal);
+//     	opacity:1;
+//     } // end .on
+//   } // end .tcc-bullets 
 
-    &.on{
-    	@include transition(opacity, $transitionNormal);
-    	opacity:1;
-    }
-  }
+//   .tcc-bullet {
+//     width: 10px;
+//     height: 10px;
+//     display: inline-block;
+//     *display: inline;
+//     *zoom: 1;
+//     margin: 5px 0 0 6px;
+//     border-radius: 5px;
+//     background: $gray20;
+//     cursor: pointer;
+//     position: relative;
+//     overflow: hidden;
+//   } // end .tcc-bullet
 
-  .tcc-bullet {
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    margin: 5px 0 0 6px;
-    border-radius: 5px;
-    background: #bdbccc;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .tcc-bullet.tcc-nav-selected  {
-    background-color: #2e3339;
-  }
-} // end .tcc-nav
+//   .tcc-bullet.tcc-nav-selected  {
+//     background-color: $gray50;
+//   } // end .tcc-bullet.tcc-nav-selected
+// } // end .tcc-nav

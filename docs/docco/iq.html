@@ -1,14 +1,20 @@
-<!DOCTYPE html>  <html> <head>   <title>iq.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-spec.html">                 sony-spec.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               iq.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*
- * image qualification library
- * author: thisispete for odopod / nurun
- *
- * borrows concepts / code snippets from:
- * https://github.com/adamdbradley/foresight.js
- * https://github.com/sebarmeli/JAIL
- * https://github.com/tubalmartin/riloadr
- *
- * */</span>
+<!DOCTYPE html>  <html> <head>   <title>iq.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               iq.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Image Qualification Library (iQ)</h2>
 
+<ul>
+<li><strong>Class:</strong> iQ</li>
+<li><strong>Version:</strong> 0.1</li>
+<li><strong>Modified:</strong> 01/23/2013</li>
+<li><strong>Author:</strong> thisispete</li>
+</ul>
+
+<p><em>Borrows concepts / code from:</em></p>
+
+<ul>
+<li><a href="https://github.com/adamdbradley/foresight.js">Foresight.js</a></li>
+<li><a href="https://github.com/sebarmeli/JAIL">JAIL</a></li>
+<li><a href="https://github.com/tubalmartin/riloadr">Riloadr</a></li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
 (<span class="keyword">function</span>(iQ, $, Modernizr){
   <span class="string">'use strict'</span>;
 
@@ -16,162 +22,155 @@
   iQ.resizeFlaggedImages = [];
   iQ.options = iQ.options || {};
 
-  <span class="comment">/*
-     * Thanks to underscore.js and lodash.js
-     * Returns a function, that, when invoked, will only be triggered at most once
-     * during a given window of time.
-     */</span>
-    <span class="function"><span class="keyword">function</span> <span class="title">throttle</span><span class="params">(func, wait)</span> {</span>
-        <span class="keyword">var</span> args,
-          result,
-          thisArg,
-          timeoutId,
-          lastCalled = <span class="number">0</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Returns a function, that, when invoked, will only be triggered at most once
+during a given window of time.</p>
 
-        <span class="function"><span class="keyword">function</span> <span class="title">trailingCall</span><span class="params">()</span> {</span>
-            lastCalled = <span class="keyword">new</span> Date;
-            timeoutId = <span class="literal">null</span>;
-            func.apply(thisArg, args);
-        }
+<p><em>Thanks to underscore.js and lodash.js.</em></p>             </td>             <td class="code">               <div class="highlight"><pre>
+  <span class="function"><span class="keyword">function</span> <span class="title">throttle</span><span class="params">(func, wait)</span> {</span>
+    <span class="keyword">var</span> args,
+        result,
+        thisArg,
+        timeoutId,
+        lastCalled = <span class="number">0</span>;
 
-        <span class="keyword">return</span> <span class="keyword">function</span>() {
-            <span class="keyword">var</span> now = <span class="keyword">new</span> Date,
-            remain = wait - (now - lastCalled);
-
-            args = arguments;
-            thisArg = <span class="keyword">this</span>;
-
-            <span class="keyword">if</span> (remain &lt;= <span class="number">0</span>) {
-                lastCalled = now;
-                result = func.apply(thisArg, args);
-            } <span class="keyword">else</span> <span class="keyword">if</span> (!timeoutId) {
-                timeoutId = setTimeout(trailingCall, remain);
-            }
-            <span class="keyword">return</span> result;
-        };
+    <span class="function"><span class="keyword">function</span> <span class="title">trailingCall</span><span class="params">()</span> {</span>
+      lastCalled = <span class="keyword">new</span> Date;
+      timeoutId = <span class="literal">null</span>;
+      func.apply(thisArg, args);
     }
 
-  <span class="comment">/*
-     * Thanks to underscore.js and lodash.js
-     * Returns a function, that, as long as it continues to be invoked, will not
-     * be triggered. The function will be called after it stops being called for
-     * N milliseconds. If `immediate` is passed, trigger the function on the
-     * leading edge, instead of the trailing.
-     */</span>
+    <span class="keyword">return</span> <span class="keyword">function</span>() {
+      <span class="keyword">var</span> now = <span class="keyword">new</span> Date,
+      remain = wait - (now - lastCalled);
 
-    <span class="function"><span class="keyword">function</span> <span class="title">debounce</span><span class="params">(func, wait, immediate)</span> {</span>
-        <span class="keyword">var</span> args,
-          result,
-          thisArg,
-          timeoutId;
+      args = arguments;
+      thisArg = <span class="keyword">this</span>;
 
-        <span class="function"><span class="keyword">function</span> <span class="title">delayed</span><span class="params">()</span> {</span>
-            timeoutId = <span class="literal">null</span>;
-            <span class="keyword">if</span> (!immediate) {
-                func.apply(thisArg, args);
-            }
-        }
+      <span class="keyword">if</span> (remain &lt;= <span class="number">0</span>) {
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } <span class="keyword">else</span> <span class="keyword">if</span> (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remain);
+      }
+      <span class="keyword">return</span> result;
+    };
+  }
 
-        <span class="keyword">return</span> <span class="keyword">function</span>() {
-            <span class="keyword">var</span> isImmediate = immediate &amp;&amp; !timeoutId;
-            args = arguments;
-            thisArg = <span class="keyword">this</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Returns a function that, as long as it continues to be invoked, will not
+be triggered. The function will be called after it stops being called for
+N milliseconds. If <code>immediate</code> is passed, trigger the function on the
+leading edge, instead of the trailing.</p>
 
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(delayed, wait);
+<p><em>Thanks to underscore.js and lodash.js.</em></p>             </td>             <td class="code">               <div class="highlight"><pre>
+  <span class="function"><span class="keyword">function</span> <span class="title">debounce</span><span class="params">(func, wait, immediate)</span> {</span>
+      <span class="keyword">var</span> args,
+        result,
+        thisArg,
+        timeoutId;
 
-            <span class="keyword">if</span> (isImmediate) {
-                result = func.apply(thisArg, args);
-            }
-            <span class="keyword">return</span> result;
-        };
+      <span class="function"><span class="keyword">function</span> <span class="title">delayed</span><span class="params">()</span> {</span>
+          timeoutId = <span class="literal">null</span>;
+          <span class="keyword">if</span> (!immediate) {
+              func.apply(thisArg, args);
+          }
+      }
+
+      <span class="keyword">return</span> <span class="keyword">function</span>() {
+          <span class="keyword">var</span> isImmediate = immediate &amp;&amp; !timeoutId;
+          args = arguments;
+          thisArg = <span class="keyword">this</span>;
+
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(delayed, wait);
+
+          <span class="keyword">if</span> (isImmediate) {
+              result = func.apply(thisArg, args);
+          }
+          <span class="keyword">return</span> result;
+      };
+  }
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Property string references for minification purposes.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> LOCAL_STORAGE_KEY = <span class="string">'iqjs'</span>,
+      HIGH = <span class="string">'high'</span>,
+      LOW = <span class="string">'low'</span>,
+      LENGTH = <span class="string">'length'</span>,
+      SCROLL = <span class="string">'scroll'</span>,
+      RESIZE = <span class="string">'resize'</span>,
+      COMPLETE = <span class="string">'complete'</span>,
+      DELAY = <span class="number">150</span>,
+      EMPTYSTRING = <span class="string">''</span>,
+      ON = <span class="string">'on'</span>,
+      LOAD = <span class="string">'load'</span>,
+      ONCOMPLETE = ON+COMPLETE,
+      ORIENTATION = <span class="string">'orientation'</span>,
+      EVENTLISTENER = <span class="string">'EventListener'</span>,
+      ADDEVENTLISTENER = <span class="string">'add'</span>+EVENTLISTENER,
+      ORIENTATIONCHANGE = ORIENTATION+<span class="string">'change'</span>,
+
+      opts = iQ.options,
+      jquerySelector = opts.jquerySelector || <span class="string">'.iq-img'</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>High-resolution settings</p>             </td>             <td class="code">               <div class="highlight"><pre>      minDevicePixelRatio = opts.minDevicePixelRatio || <span class="number">2</span>,
+      highResPathSuffix = opts.highResPathSuffix || <span class="string">'@2x'</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Deferred loading</p>             </td>             <td class="code">               <div class="highlight"><pre>      asyncDistance = opts.asyncDistance || <span class="number">0</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Image path template settings</p>             </td>             <td class="code">               <div class="highlight"><pre>      base = opts.base || <span class="string">''</span>,
+      pathTemplate = opts.pathTemplate || <span class="string">'{fileName}-{breakpoint}{highRes}.{ext}'</span>,
+      QUESTION_MARK_REGEX = <span class="regexp">/\?/</span>,
+      BREAKPOINT_NAME_REGEX = <span class="regexp">/\{breakpoint\}/gi</span>,
+      HIGH_RES_REGEX = <span class="regexp">/\{highRes\}/gi</span>,
+      FILE_NAME_REGEX = <span class="regexp">/\{fileName\}/gi</span>,
+      FILE_EXT_REGEX = <span class="regexp">/\{ext\}/gi</span>,
+      breakpoint,
+      breakpointName,
+      breakpoints = opts.breakpoints || [
+        {name: <span class="string">'phone'</span>,      maxWidth: <span class="number">480</span>},
+        {name: <span class="string">'tablet'</span>,     minWidth: <span class="number">481</span>, maxWidth: <span class="number">960</span>},
+        {name: <span class="string">'desktop'</span>,    minWidth: <span class="number">961</span>, defaultBreakpoint: <span class="literal">true</span>}],
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Bandwidth testing settings</p>             </td>             <td class="code">               <div class="highlight"><pre>      bandwidth = LOW,
+      connTestResult,
+      speedConnectionStatus,
+      connKbps,
+      minKbps = opts.minKbps || <span class="number">300</span>,
+      speedTestUri = opts.speedTestUri || <span class="string">'http://foresightjs.appspot.com/speed-test/50K'</span>,
+      speedTestKB = opts.speedTestKB || <span class="number">50</span>,
+      speedTestExpireMinutes = opts.speedTestExpireMinutes || <span class="number">30</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Optional override settings</p>             </td>             <td class="code">               <div class="highlight"><pre>      updateOnResize = opts.updateOnResize || <span class="literal">false</span>,
+      resizeFlag = opts.resizeFlag || <span class="string">'update-always'</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Optional callback functions</p>             </td>             <td class="code">               <div class="highlight"><pre>      win = window,
+      doc = win.document,
+      docElm = doc.documentElement,
+      setTimeout = win.setTimeout,
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Event model</p>             </td>             <td class="code">               <div class="highlight"><pre>      w3c = ADDEVENTLISTENER <span class="keyword">in</span> doc,
+      pre = w3c ? EMPTYSTRING : ON,
+      add = w3c ? ADDEVENTLISTENER : <span class="string">'attachEvent'</span>,
+      rem = w3c ? <span class="string">'remove'</span>+EVENTLISTENER : <span class="string">'detachEvent'</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Feature support</p>             </td>             <td class="code">               <div class="highlight"><pre>      orientationSupported = ORIENTATION <span class="keyword">in</span> win &amp;&amp; ON+ORIENTATIONCHANGE <span class="keyword">in</span> win,
+      viewportWidth,
+      screenWidth = win.screen.width,
+      devicePixelRatio = win.devicePixelRatio || <span class="number">1</span>,
+      lastOrientation,
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Reduce by 5.5x the # of times loadImages is called when scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>  scrollListener = throttle(<span class="keyword">function</span>() {
+    loadImages();
+  }, DELAY),
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Reduce to 1 the # of times loadImages is called when resizing</p>             </td>             <td class="code">               <div class="highlight"><pre>  resizeListener = debounce(<span class="keyword">function</span>() {
+    loadImages();
+  }, DELAY),
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Reduce to 1 the # of times loadImages is called when orientation changes.</p>             </td>             <td class="code">               <div class="highlight"><pre>  orientationchangeListener = debounce(<span class="keyword">function</span>(){
+    <span class="keyword">if</span> (win[ORIENTATION] !== lastOrientation) {
+      lastOrientation = win[ORIENTATION];
+      loadImages();
     }
-
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>using property string references for minification purposes</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span>
-  LOCAL_STORAGE_KEY = <span class="string">'iqjs'</span>,
-  HIGH = <span class="string">'high'</span>,
-  LOW = <span class="string">'low'</span>,
-  LENGTH = <span class="string">'length'</span>,
-  SCROLL = <span class="string">'scroll'</span>,
-  RESIZE = <span class="string">'resize'</span>,
-  COMPLETE = <span class="string">'complete'</span>,
-  DELAY = <span class="number">150</span>,
-  EMPTYSTRING = <span class="string">''</span>,
-  ON = <span class="string">'on'</span>,
-  LOAD = <span class="string">'load'</span>,
-  ONCOMPLETE = ON+COMPLETE,
-  ORIENTATION = <span class="string">'orientation'</span>,
-  EVENTLISTENER = <span class="string">'EventListener'</span>,
-  ADDEVENTLISTENER = <span class="string">'add'</span>+EVENTLISTENER,
-  ORIENTATIONCHANGE = ORIENTATION+<span class="string">'change'</span>,
-
-  opts = iQ.options,
-
-  jquerySelector = opts.jquerySelector || <span class="string">'.iq-img'</span>,
-
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>high res settings</p>             </td>             <td class="code">               <div class="highlight"><pre>  minDevicePixelRatio = opts.minDevicePixelRatio || <span class="number">2</span>,
-  highResPathSuffix = opts.highResPathSuffix || <span class="string">'@2x'</span>,
-
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>deferred loading</p>             </td>             <td class="code">               <div class="highlight"><pre>  asyncDistance = opts.asyncDistance || <span class="number">0</span>,
-
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>image path template settings</p>             </td>             <td class="code">               <div class="highlight"><pre>  base = opts.base || <span class="string">''</span>,
-  pathTemplate = opts.pathTemplate || <span class="string">'{fileName}-{breakpoint}{highRes}.{ext}'</span>,
-  QUESTION_MARK_REGEX = <span class="regexp">/\?/</span>,
-  BREAKPOINT_NAME_REGEX = <span class="regexp">/\{breakpoint\}/gi</span>,
-  HIGH_RES_REGEX = <span class="regexp">/\{highRes\}/gi</span>,
-  FILE_NAME_REGEX = <span class="regexp">/\{fileName\}/gi</span>,
-  FILE_EXT_REGEX = <span class="regexp">/\{ext\}/gi</span>,
-  breakpoint,
-  breakpointName,
-  breakpoints = opts.breakpoints ||  [
-    {name: <span class="string">'phone'</span>,      maxWidth: <span class="number">480</span>},
-    {name: <span class="string">'tablet'</span>,     minWidth: <span class="number">481</span>, maxWidth: <span class="number">960</span>},
-    {name: <span class="string">'desktop'</span>,    minWidth: <span class="number">961</span>, defaultBreakpoint: <span class="literal">true</span>}],
-
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>bandwidth testing settings</p>             </td>             <td class="code">               <div class="highlight"><pre>  bandwidth = LOW,
-  connTestResult,
-  speedConnectionStatus,
-  connKbps,
-  minKbps = opts.minKbps || <span class="number">300</span>,
-  speedTestUri = opts.speedTestUri || <span class="string">'http://foresightjs.appspot.com/speed-test/50K'</span>,
-  speedTestKB = opts.speedTestKB || <span class="number">50</span>,
-  speedTestExpireMinutes = opts.speedTestExpireMinutes || <span class="number">30</span>,
-
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>optional override settings</p>             </td>             <td class="code">               <div class="highlight"><pre>  updateOnResize = opts.updateOnResize || <span class="literal">false</span>,
-  resizeFlag = opts.resizeFlag || <span class="string">'update-always'</span>,
-
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>optional callback funcitons</p>             </td>             <td class="code">               <div class="highlight"><pre>
-  win = window,
-  doc = win.document,
-  docElm = doc.documentElement,
-  setTimeout = win.setTimeout,
-
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Event model</p>             </td>             <td class="code">               <div class="highlight"><pre>  w3c = ADDEVENTLISTENER <span class="keyword">in</span> doc,
-  pre = w3c ? EMPTYSTRING : ON,
-  add = w3c ? ADDEVENTLISTENER : <span class="string">'attachEvent'</span>,
-  rem = w3c ? <span class="string">'remove'</span>+EVENTLISTENER : <span class="string">'detachEvent'</span>,
-
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Feature support</p>             </td>             <td class="code">               <div class="highlight"><pre>  orientationSupported = ORIENTATION <span class="keyword">in</span> win &amp;&amp; ON+ORIENTATIONCHANGE <span class="keyword">in</span> win,
-
-  viewportWidth,
-  screenWidth = win.screen.width,
-  devicePixelRatio = win.devicePixelRatio || <span class="number">1</span>,
-  lastOrientation,
-
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Reduce by 5.5x the # of times loadImages is called when scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>  scrollListener = throttle(<span class="keyword">function</span>() {
-        loadImages();
-    }, DELAY),
-
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Reduce to 1 the # of times loadImages is called when resizing</p>             </td>             <td class="code">               <div class="highlight"><pre>  resizeListener = debounce(<span class="keyword">function</span>() {
-        loadImages();
-    }, DELAY),
-
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Reduce to 1 the # of times loadImages is called when orientation changes.</p>             </td>             <td class="code">               <div class="highlight"><pre>  orientationchangeListener = debounce(<span class="keyword">function</span>(){
-        <span class="keyword">if</span> (win[ORIENTATION] !== lastOrientation) {
-            lastOrientation = win[ORIENTATION];
-            loadImages();
-        }
-    }, DELAY),
+  }, DELAY),
 
   initIQ = <span class="keyword">function</span>(){
     viewportWidth = viewportWidth || getViewportWidthInCssPixels();
@@ -181,141 +180,131 @@
   },
 
   updateImages = <span class="keyword">function</span>( imagesWereAdded ) {
-      loadImages( imagesWereAdded !== <span class="literal">false</span> );
+    loadImages( imagesWereAdded !== <span class="literal">false</span> );
   },
 
   loadImages = <span class="keyword">function</span>(update){
-      <span class="keyword">var</span> current, i;
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>If initial collection is not done or
-new images have been added to the DOM, collect them.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!iQ.images[LENGTH] || update === <span class="literal">true</span> || updateOnResize === <span class="literal">true</span>) {
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Add event listeners</p>             </td>             <td class="code">               <div class="highlight"><pre>                addAsyncListeners();
-                iQ.images = [];
+    <span class="keyword">var</span> current, i;
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Create a static list</p>             </td>             <td class="code">               <div class="highlight"><pre>                $(jquerySelector).each(<span class="keyword">function</span>(idx, elm) {
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>If we haven't processed this image yet and it is a responsive image
-Add image to the list</p>             </td>             <td class="code">               <div class="highlight"><pre>                        iQ.images.push(elm);
-                        $(elm).hasClass(resizeFlag) &amp;&amp; iQ.resizeFlaggedImages.push(elm);
-                });
-            }
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>If initial collection is not done or
+new images have been added to the DOM, collect them.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!iQ.images[LENGTH] || update === <span class="literal">true</span> || updateOnResize === <span class="literal">true</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Add event listeners</p>             </td>             <td class="code">               <div class="highlight"><pre>        addAsyncListeners();
+        iQ.images = [];
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Load images</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (iQ.images[LENGTH]) {
-                i = <span class="number">0</span>;
-                <span class="keyword">while</span> (current = iQ.images[i]) {
-                    <span class="keyword">if</span> (current &amp;&amp; isInViewportRange(current, asyncDistance)) {
-                        loadImage(current, i);
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Reduce the images array for shorter loops</p>             </td>             <td class="code">               <div class="highlight"><pre>                iQ.images.splice(i, <span class="number">1</span>);
-                        i--;
-                    }
-                    i++;
-                }
-            }
-            <span class="keyword">if</span>(iQ.resizeFlaggedImages[LENGTH]){
-              i = <span class="number">0</span>;
-              <span class="keyword">while</span>(current = iQ.resizeFlaggedImages[i]){
-                <span class="keyword">if</span>(current &amp;&amp; isInViewportRange(current, asyncDistance)){
-                   loadImage(current, i);
-                }
-                i++;
-              }
-            }
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Create a static list</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(jquerySelector).each(<span class="keyword">function</span>(idx, elm) {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>If we haven't processed this image yet and it is a responsive image,
+add image to the list.</p>             </td>             <td class="code">               <div class="highlight"><pre>          iQ.images.push(elm);
+          $(elm).hasClass(resizeFlag) &amp;&amp; iQ.resizeFlaggedImages.push(elm);
+        });
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>No more images to load? remove event listeners</p>             </td>             <td class="code">               <div class="highlight"><pre>            !iQ.images[LENGTH] &amp;&amp; !iQ.resizeFlaggedImages[length] &amp;&amp; removeAsyncListeners();
-            !iQ.images[LENGTH] &amp;&amp; ONCOMPLETE <span class="keyword">in</span> iQ.options &amp;&amp; iQ.options[ONCOMPLETE]();
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Load images</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (iQ.images[LENGTH]) {
+        i = <span class="number">0</span>;
+        <span class="keyword">while</span> (current = iQ.images[i]) {
+          <span class="keyword">if</span> (current &amp;&amp; isInViewportRange(current, asyncDistance)) {
+            loadImage(current, i);
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Reduce the images array for shorter loops.</p>             </td>             <td class="code">               <div class="highlight"><pre>            iQ.images.splice(i, <span class="number">1</span>);
+            i--;
+          }
+          i++;
+        }
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Clean up</p>             </td>             <td class="code">               <div class="highlight"><pre>            current = <span class="literal">null</span>;
+      <span class="keyword">if</span>(iQ.resizeFlaggedImages[LENGTH]){
+        i = <span class="number">0</span>;
+        <span class="keyword">while</span>(current = iQ.resizeFlaggedImages[i]){
+          <span class="keyword">if</span>(current &amp;&amp; isInViewportRange(current, asyncDistance)){
+            loadImage(current, i);
+          }
+          i++;
+        }
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>No more images to load? Remove event listeners!</p>             </td>             <td class="code">               <div class="highlight"><pre>      !iQ.images[LENGTH] &amp;&amp; !iQ.resizeFlaggedImages[length] &amp;&amp; removeAsyncListeners();
+      !iQ.images[LENGTH] &amp;&amp; ONCOMPLETE <span class="keyword">in</span> iQ.options &amp;&amp; iQ.options[ONCOMPLETE]();
+
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Clean up.</p>             </td>             <td class="code">               <div class="highlight"><pre>      current = <span class="literal">null</span>;
   },
 
-
-   <span class="comment">/*
-     * Loads an image.
-     */</span>
-    loadImage = <span class="function"><span class="keyword">function</span> <span class="params">(img)</span> {</span>
-      viewportWidth = getViewportWidthInCssPixels();
-      breakpoint = getBreakpoint(breakpoints, viewportWidth);
-      breakpointName = breakpoint.name;
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>console.log(breakpointName);</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> newsrc = getImageSrc(img, breakpointName);
-
+  loadImage = <span class="function"><span class="keyword">function</span> <span class="params">(img)</span> {</span>
+    viewportWidth = getViewportWidthInCssPixels();
+    breakpoint = getBreakpoint(breakpoints, viewportWidth);
+    breakpointName = breakpoint.name;
+    <span class="keyword">var</span> newsrc = getImageSrc(img, breakpointName);
 
     <span class="keyword">if</span>($(img).data(<span class="string">'current'</span>) !== newsrc){
       $(img).data(<span class="string">'current'</span>, newsrc);
-            setNewSrc(img, newsrc);
-        }
-   },
-   setNewSrc  = <span class="keyword">function</span>(img, newsrc){
-       <span class="keyword">if</span>($(img).is(<span class="string">'img'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>for img elements</p>             </td>             <td class="code">               <div class="highlight"><pre>        img.src = newsrc;
-      }<span class="keyword">else</span> <span class="keyword">if</span> ($(img).is(<span class="string">'div'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>for div elements backgroudn images</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(img).css(<span class="string">'background-image'</span>, <span class="string">'url('</span>+newsrc+<span class="string">')'</span>);
+      setNewSrc(img, newsrc);
     }
   },
 
-  <span class="comment">/*
-     * React on scroll, resize and orientationchange events
-     */</span>
-  addAsyncListeners = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      addEvent(win, SCROLL, scrollListener);
-      addEvent(win, RESIZE, resizeListener);
-
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Is orientationchange event supported? If so, let's try to avoid false
-positives by checking if win.orientation has actually changed.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (orientationSupported) {
-          lastOrientation = win[ORIENTATION];
-          addEvent(win, ORIENTATIONCHANGE, orientationchangeListener);
-      }
+  setNewSrc  = <span class="keyword">function</span>(img, newsrc) {
+    <span class="keyword">if</span>($(img).is(<span class="string">'img'</span>)){
+      img.src = newsrc;
+    } <span class="keyword">else</span> <span class="keyword">if</span> ($(img).is(<span class="string">'div'</span>)) {
+      $(img).css(<span class="string">'background-image'</span>, <span class="string">'url('</span>+newsrc+<span class="string">')'</span>);
+    }
   },
 
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>React on scroll, resize and orientationchange events.</p>             </td>             <td class="code">               <div class="highlight"><pre>  addAsyncListeners = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    addEvent(win, SCROLL, scrollListener);
+    addEvent(win, RESIZE, resizeListener);
 
-    <span class="comment">/*
-     * Removes event listeners if defer mode is 'belowfold'
-     */</span>
-    removeAsyncListeners = <span class="keyword">function</span>() {
-      removeEvent(win, SCROLL, scrollListener);
-        !updateOnResize &amp;&amp; removeEvent(win, RESIZE, resizeListener);
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Is orientationchange event supported? If so, let's try to avoid false
+positives by checking if win.orientation has actually changed.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="keyword">if</span> (orientationSupported) {
+      lastOrientation = win[ORIENTATION];
+      addEvent(win, ORIENTATIONCHANGE, orientationchangeListener);
+    }
+  },
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Is orientationchange event supported? If so, remove the listener</p>             </td>             <td class="code">               <div class="highlight"><pre>        orientationSupported &amp;&amp; removeEvent(win, ORIENTATIONCHANGE, orientationchangeListener);
-    },
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Removes event listeners if defer mode is 'belowfold'.</p>             </td>             <td class="code">               <div class="highlight"><pre>  removeAsyncListeners = <span class="keyword">function</span>() {
+    removeEvent(win, SCROLL, scrollListener);
+    !updateOnResize &amp;&amp; removeEvent(win, RESIZE, resizeListener);
 
-    initSpeedTest = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>only check the connection speed once, if there is a status then we've
-already got info or it already started</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( speedConnectionStatus ) {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Is orientationchange event supported? If so, remove the listener.</p>             </td>             <td class="code">               <div class="highlight"><pre>    orientationSupported &amp;&amp; removeEvent(win, ORIENTATIONCHANGE, orientationchangeListener);
+  },
+
+  initSpeedTest = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Only check the connection speed once, if there is a status then we've
+already got info or it already started.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( speedConnectionStatus ) {
       <span class="keyword">return</span>;
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>force that this device has a low or high bandwidth, used more so for debugging purposes</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( opts.forceBandwidth ) {
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Force that this device has a low or high bandwidth, used more so for debugging purposes.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( opts.forceBandwidth ) {
       bandwidth = opts.forceBandwidth;
       connTestResult = <span class="string">'force'</span>;
       speedConnectionStatus = COMPLETE;
       <span class="keyword">return</span>;
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>if the device pixel ratio is 1, then no need to do a network connection
-speed test since it can't show hi-res anyways</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( devicePixelRatio === <span class="number">1</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>If the device pixel ratio is 1, then no need to do a network connection
+speed test since it can't show hi-res anyways.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( devicePixelRatio === <span class="number">1</span> ) {
       connTestResult = <span class="string">'skip'</span>;
       speedConnectionStatus = COMPLETE;
       <span class="keyword">return</span>;
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>if we know the connection is 2g or 3g
-don't even bother with the speed test, cuz its slow
-Network connection feature detection referenced from Modernizr
-Modernizr v2.5.3, www.modernizr.com
-Copyright (c) Faruk Ates, Paul Irish, Alex Sexton
-Available under the BSD and MIT licenses: www.modernizr.com/license/
-https://github.com/Modernizr/Modernizr/blob/master/feature-detects/network-connection.js
-Modified by Adam Bradley for Foresight.js</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">var</span> connection = navigator.connection || { type: <span class="string">'unknown'</span> }; <span class="comment">// polyfill</span>
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>If we know the connection is 2G or 3G
+don't even bother with the speed test, cuz its slow.
+Network connection feature detection referenced from <a href="http://www.modernizr.com">Modernizr v2.5.3</a>,
+by Faruk Ates, Paul Irish, Alex Sexton.
+Available under the <a href="http://www.modernizr.com/license/">BSD and MIT licenses</a>.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="keyword">var</span> connection = navigator.connection || { type: <span class="string">'unknown'</span> }; <span class="comment">// polyfill</span>
     <span class="keyword">var</span> isSlowConnection = connection.type === <span class="number">3</span> || connection.type === <span class="number">4</span> || <span class="regexp">/^[23]g$/</span>.test( connection.type );
     <span class="keyword">if</span> ( isSlowConnection ) {
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>we know this connection is slow, don't bother even doing a speed test</p>             </td>             <td class="code">               <div class="highlight"><pre>      connTestResult = <span class="string">'connTypeSlow'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>@e know this connection is slow, don't bother even doing a speed test.</p>             </td>             <td class="code">               <div class="highlight"><pre>      connTestResult = <span class="string">'connTypeSlow'</span>;
       speedConnectionStatus = COMPLETE;
       <span class="keyword">return</span>;
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>check if a speed test has recently been completed and its
-results are saved in the local storage</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">try</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Check if a speed test has recently been completed and its
+results are saved in the local storage.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">try</span> {
       <span class="keyword">var</span> fsData = JSON.parse( localStorage.getItem( LOCAL_STORAGE_KEY ) );
       <span class="keyword">if</span> ( fsData !== <span class="literal">null</span> ) {
         <span class="keyword">if</span> ( ( <span class="keyword">new</span> Date() ).getTime() &lt; fsData.exp ) {
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>already have connection data within our desired timeframe
-use this recent data instead of starting another test</p>             </td>             <td class="code">               <div class="highlight"><pre>          bandwidth = fsData.bw;
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Already have connection data within our desired timeframe
+use this recent data instead of starting another test.</p>             </td>             <td class="code">               <div class="highlight"><pre>          bandwidth = fsData.bw;
           connKbps = fsData.kbps;
           connTestResult = <span class="string">'localStorage'</span>;
           speedConnectionStatus = COMPLETE;
@@ -331,12 +320,11 @@ use this recent data instead of starting another test</p>             </td>     
     speedTestTimeoutMS;
 
     speedTestImg.onload = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>speed test image download completed
-figure out how long it took and an estimated connection speed</p>             </td>             <td class="code">               <div class="highlight"><pre>      endTime = ( <span class="keyword">new</span> Date() ).getTime();
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Speed test image download completed;
+figure out how long it took and an estimated connection speed.</p>             </td>             <td class="code">               <div class="highlight"><pre>      endTime = ( <span class="keyword">new</span> Date() ).getTime();
 
       <span class="keyword">var</span> duration = ( endTime - startTime ) / <span class="number">1000</span>;
-      duration = ( duration &gt; <span class="number">1</span> ? duration : <span class="number">1</span> ); <span class="comment">// just to ensure we don't divide by 0</span>
-
+      duration = ( duration &gt; <span class="number">1</span> ? duration : <span class="number">1</span> ); <span class="comment">// Just to ensure we don't divide by 0.</span>
       connKbps = ( ( speedTestKB * <span class="number">1024</span> * <span class="number">8</span> ) / duration ) / <span class="number">1024</span>;
       bandwidth = ( connKbps &gt;= minKbps ? HIGH : LOW );
 
@@ -344,24 +332,24 @@ figure out how long it took and an estimated connection speed</p>             </
     };
 
     speedTestImg.onerror = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>fallback incase there was an error downloading the speed test image</p>             </td>             <td class="code">               <div class="highlight"><pre>      speedTestComplete( <span class="string">'networkError'</span>, <span class="number">5</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Fallback in case there was an error downloading the speed test image.</p>             </td>             <td class="code">               <div class="highlight"><pre>      speedTestComplete( <span class="string">'networkError'</span>, <span class="number">5</span> );
     };
 
     speedTestImg.onabort = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>fallback incase there was an abort during the speed test image</p>             </td>             <td class="code">               <div class="highlight"><pre>      speedTestComplete( <span class="string">'networkAbort'</span>, <span class="number">5</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Fallback in case there was an abort during the speed test image.</p>             </td>             <td class="code">               <div class="highlight"><pre>      speedTestComplete( <span class="string">'networkAbort'</span>, <span class="number">5</span> );
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>begin the network connection speed test image download</p>             </td>             <td class="code">               <div class="highlight"><pre>    startTime = ( <span class="keyword">new</span> Date() ).getTime();
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Begin the network connection speed test image download.</p>             </td>             <td class="code">               <div class="highlight"><pre>    startTime = ( <span class="keyword">new</span> Date() ).getTime();
     speedConnectionStatus = <span class="string">'loading'</span>;
     <span class="keyword">if</span> ( document.location.protocol === <span class="string">'https:'</span> ) {
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>if this current document is SSL, make sure this speed test request
-uses https so there are no ugly security warnings from the browser</p>             </td>             <td class="code">               <div class="highlight"><pre>      speedTestUri = speedTestUri.replace( <span class="string">'http:'</span>, <span class="string">'https:'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>If this current document is SSL, make sure this speed test request
+uses https so there are no ugly security warnings from the browser.</p>             </td>             <td class="code">               <div class="highlight"><pre>      speedTestUri = speedTestUri.replace( <span class="string">'http:'</span>, <span class="string">'https:'</span> );
     }
     speedTestImg.src = speedTestUri + <span class="string">'?r='</span> + Math.random();
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>calculate the maximum number of milliseconds it 'should' take to download an XX Kbps file
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>Calculate the maximum number of milliseconds it <em>should</em> take to download an XX Kbps file
 set a timeout so that if the speed test download takes too long
-than it isn't a 'high-bandwidth' and ignore what the test image .onload has to say
+then it isn't a 'high-bandwidth' and ignore what the test image .onload has to say
 this is used so we don't wait too long on a speed test response
 Adding 350ms to account for TCP slow start, quickAndDirty === true</p>             </td>             <td class="code">               <div class="highlight"><pre>    speedTestTimeoutMS = ( ( ( speedTestKB * <span class="number">8</span> ) / minKbps ) * <span class="number">1000</span> ) + <span class="number">350</span>;
     setTimeout( <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
@@ -370,11 +358,11 @@ Adding 350ms to account for TCP slow start, quickAndDirty === true</p>          
   },
 
   speedTestComplete = <span class="function"><span class="keyword">function</span> <span class="params">( connTestResult, expireMinutes )</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>if we haven't already gotten a speed connection status then save the info</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> (speedConnectionStatus === COMPLETE) {
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>If we haven't already gotten a speed connection status then save the info.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> (speedConnectionStatus === COMPLETE) {
       <span class="keyword">return</span>;
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>first one with an answer wins</p>             </td>             <td class="code">               <div class="highlight"><pre>    speedConnectionStatus = COMPLETE;
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>First one with an answer wins!</p>             </td>             <td class="code">               <div class="highlight"><pre>    speedConnectionStatus = COMPLETE;
     connTestResult = connTestResult;
 
     <span class="keyword">try</span> {
@@ -388,153 +376,140 @@ Adding 350ms to account for TCP slow start, quickAndDirty === true</p>          
       };
       localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( fsDataToSet ) );
     } <span class="keyword">catch</span>( e ) { }
+  },
 
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>initImageRebuild();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Returns the breakpoint data to apply.
+Uses the viewport width to mimic CSS behavior.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+  getBreakpoint = <span class="keyword">function</span>(breakpoints, vWidth) {
+    <span class="keyword">var</span> _vWidth = vWidth,
+        i = <span class="number">0</span>,
+        breakpoint = {},
+        _breakpoint,
+        minWidth,
+        maxWidth,
+        defaultBreakpoint;
+
+    <span class="keyword">while</span> (_breakpoint = breakpoints[i]) {
+      minWidth = _breakpoint.minWidth;
+      maxWidth = _breakpoint.maxWidth;
+      defaultBreakpoint = _breakpoint.defaultBreakpoint ? _breakpoint : defaultBreakpoint;
+
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>Viewport width found</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (vWidth &gt; <span class="number">0</span>) {
+        <span class="keyword">if</span> (
+          minWidth &amp;&amp; maxWidth  &amp;&amp; vWidth &gt;= minWidth &amp;&amp; vWidth &lt;= maxWidth ||
+          minWidth &amp;&amp; !maxWidth &amp;&amp; vWidth &gt;= minWidth ||
+          maxWidth &amp;&amp; !minWidth &amp;&amp; vWidth &lt;= maxWidth
+        ) {
+          breakpoint = _breakpoint;
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Viewport width not found so let's find the smallest image size
+(mobile first approach).</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> (_vWidth &lt;= <span class="number">0</span> || minWidth &lt; _vWidth || maxWidth &lt; _vWidth) {
+        _vWidth = minWidth || maxWidth || _vWidth;
+        breakpoint = _breakpoint;
+      }
+
+      i++;
+    }
+
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>if media queries are not supported we want to get the default breakpoint size only regardless of screen size.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">return</span> Modernizr.mediaqueries ? breakpoint : defaultBreakpoint;
 
   },
 
-  <span class="comment">/*
-     * Returns the breakpoint data to apply.
-     * Uses the viewport width to mimic CSS behavior.
-     */</span>
-    getBreakpoint = <span class="keyword">function</span>(breakpoints, vWidth) {
-        <span class="keyword">var</span> _vWidth = vWidth,
-          i = <span class="number">0</span>,
-          breakpoint = {},
-          _breakpoint,
-          minWidth,
-          maxWidth,
-          defaultBreakpoint;
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Returns the layout viewport width in CSS pixels.
+To achieve a precise result the following meta must be included at least:</p>
 
-        <span class="keyword">while</span> (_breakpoint = breakpoints[i]) {
-            minWidth = _breakpoint.minWidth;
-            maxWidth = _breakpoint.maxWidth;
-            defaultBreakpoint = _breakpoint.defaultBreakpoint ? _breakpoint : defaultBreakpoint;
+<pre><code> &lt;meta name="viewport" content="width=device-width"&gt;
+</code></pre>
 
+<p>See:</p>
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Viewport width found</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (vWidth &gt; <span class="number">0</span>) {
-                <span class="keyword">if</span> (minWidth &amp;&amp; maxWidth  &amp;&amp; vWidth &gt;= minWidth &amp;&amp; vWidth &lt;= maxWidth ||
-                    minWidth &amp;&amp; !maxWidth &amp;&amp; vWidth &gt;= minWidth ||
-                    maxWidth &amp;&amp; !minWidth &amp;&amp; vWidth &lt;= maxWidth) {
-                    breakpoint = _breakpoint;
-                }
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Viewport width not found so let's find the smallest image size
-(mobile first approach).</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (_vWidth &lt;= <span class="number">0</span> || minWidth &lt; _vWidth || maxWidth &lt; _vWidth) {
-                _vWidth = minWidth || maxWidth || _vWidth;
-                breakpoint = _breakpoint;
-            }
-            i++;
-        }
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>if media queries are not supported we want to get the default breakpoint size only regardless of screen size.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-        <span class="keyword">return</span> Modernizr.mediaqueries ? breakpoint : defaultBreakpoint;
-
-    },
-
-
-    <span class="comment">/*
-     * Returns the layout viewport width in CSS pixels.
-     * To achieve a precise result the following meta must be included at least:
-     * &lt;meta name="viewport" content="width=device-width"&gt;
-     * See:
-     * - http://www.quirksmode.org/mobile/viewports2.html
-     * - http://www.quirksmode.org/mobile/tableViewport.html
-     * - https://github.com/h5bp/mobile-boilerplate/wiki/The-Markup
-     */</span>
-    getViewportWidthInCssPixels = <span class="keyword">function</span>() {
+<ul>
+<li><a href="http://www.quirksmode.org/mobile/viewports2.html">Quirksmode: A Tale of Two Viewports</a></li>
+<li><a href="http://www.quirksmode.org/mobile/tableViewport.html">Quirksmode: Browser compatibility — Viewports</a></li>
+<li><a href="https://github.com/h5bp/mobile-boilerplate/wiki/The-Markup">H5BP: The Markup</a></li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+  getViewportWidthInCssPixels = <span class="keyword">function</span>() {
     <span class="keyword">var</span> widths = [docElm.clientWidth, docElm.offsetWidth, doc.body.clientWidth],
-          l = widths[LENGTH],
-          i = <span class="number">0</span>,
-      width;
+        l = widths[LENGTH],
+        i = <span class="number">0</span>,
+        width;
 
-        <span class="keyword">for</span> (; i &lt; l; i++) {
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>If not a number remove it</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (isNaN(widths[i])) {
-                widths.splice(i, <span class="number">1</span>);
-                i--;
-            }
-        }
+    <span class="keyword">for</span> (; i &lt; l; i++) {
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>If not a number remove it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (isNaN(widths[i])) {
+        widths.splice(i, <span class="number">1</span>);
+        i--;
+      }
+    }
 
-        <span class="keyword">if</span> (widths[LENGTH]) {
-            width = Math.max.apply(Math, widths);
+    <span class="keyword">if</span> (widths[LENGTH]) {
+      width = Math.max.apply(Math, widths);
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Catch cases where the viewport is wider than the screen</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!isNaN(screenWidth)) {
-                width = Math.min(screenWidth, width);
-            }
-        }
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>Catch cases where the viewport is wider than the screen</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!isNaN(screenWidth)) {
+        width = Math.min(screenWidth, width);
+      }
+    }
 
-        <span class="keyword">return</span> width || screenWidth || <span class="number">0</span>;
-    },
+    <span class="keyword">return</span> width || screenWidth || <span class="number">0</span>;
+  },
 
-
-    <span class="comment">/*
-     * Returns the URL of an image
-     * If reload is true, a timestamp is added to avoid caching.
-     */</span>
-    getImageSrc = <span class="keyword">function</span>(img, breakpointName, reload) {
-      <span class="keyword">var</span> src = ($(img).data(<span class="string">'base'</span>) || base) + pathTemplate,
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>Returns the URL of an image
+If reload is true, a timestamp is added to avoid caching.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+  getImageSrc = <span class="keyword">function</span>(img, breakpointName, reload) {
+    <span class="keyword">var</span> src = ($(img).data(<span class="string">'base'</span>) || base) + pathTemplate,
         fileName = ($(img).data(<span class="string">'src'</span>) || EMPTYSTRING).split(<span class="string">'.'</span>);
 
-        src = src.replace(BREAKPOINT_NAME_REGEX, breakpointName);
-        src = src.replace(FILE_NAME_REGEX, fileName[<span class="number">0</span>]);
-        src = src.replace(FILE_EXT_REGEX, fileName[<span class="number">1</span>]);
+    src = src.replace(BREAKPOINT_NAME_REGEX, breakpointName);
+    src = src.replace(FILE_NAME_REGEX, fileName[<span class="number">0</span>]);
+    src = src.replace(FILE_EXT_REGEX, fileName[<span class="number">1</span>]);
+    src = src.replace(HIGH_RES_REGEX, (bandwidth === HIGH &amp;&amp; devicePixelRatio &gt;= minDevicePixelRatio)? highResPathSuffix : EMPTYSTRING);
 
-        src = src.replace(HIGH_RES_REGEX, (bandwidth === HIGH &amp;&amp; devicePixelRatio &gt;= minDevicePixelRatio)? highResPathSuffix : EMPTYSTRING);
+    <span class="keyword">if</span> (reload) {
+      src += (QUESTION_MARK_REGEX.test(src) ? <span class="string">'&amp;'</span> : <span class="string">'?'</span>);
+      src += <span class="string">'riloadrts='</span>+(<span class="keyword">new</span> Date).getTime();
+    }
 
-        <span class="keyword">if</span> (reload) {
-            src += (QUESTION_MARK_REGEX.test(src) ? <span class="string">'&amp;'</span> : <span class="string">'?'</span>) +
-                <span class="string">'riloadrts='</span>+(<span class="keyword">new</span> Date).getTime();
-        }
+    <span class="keyword">return</span> src;
+  },
 
-        <span class="keyword">return</span> src;
-    },
-
-
-    <span class="comment">/*
-     * Tells if an image is visible to the user or not.
-     */</span>
-    isInViewportRange = <span class="keyword">function</span>(img, asyncDistance) {
-        <span class="keyword">var</span> $ct = $(window);
-    <span class="keyword">var</span> is_ct_window  = $ct[<span class="number">0</span>] === window,
-    ct_offset  = (is_ct_window ? { top:<span class="number">0</span>, left:<span class="number">0</span> } : $ct.offset()),
-    ct_top     = ct_offset.top + ( is_ct_window ? $ct.scrollTop() : <span class="number">0</span>),
-    ct_left    = ct_offset.left + ( is_ct_window ? $ct.scrollLeft() : <span class="number">0</span>),
-    ct_right   = ct_left + $ct.width(),
-    ct_bottom  = ct_top + $ct.height(),
-    img_offset =  $(img).offset(),
-    img_width =  $(img).width(),
-    img_height =  $(img).height();
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>Tells if an image is visible to the user or not.</p>             </td>             <td class="code">               <div class="highlight"><pre>  isInViewportRange = <span class="keyword">function</span>(img, asyncDistance) {
+    <span class="keyword">var</span> $ct = $(window);
+    <span class="keyword">var</span> is_ct_window = $ct[<span class="number">0</span>] === window,
+        ct_offset  = (is_ct_window ? { top:<span class="number">0</span>, left:<span class="number">0</span> } : $ct.offset()),
+        ct_top     = ct_offset.top + ( is_ct_window ? $ct.scrollTop() : <span class="number">0</span>),
+        ct_left    = ct_offset.left + ( is_ct_window ? $ct.scrollLeft() : <span class="number">0</span>),
+        ct_right   = ct_left + $ct.width(),
+        ct_bottom  = ct_top + $ct.height(),
+        img_offset =  $(img).offset(),
+        img_width =  $(img).width(),
+        img_height =  $(img).height();
 
     <span class="keyword">var</span> inView = (ct_top - asyncDistance) &lt;= (img_offset.top + img_height) &amp;&amp;
         (ct_bottom + asyncDistance) &gt;= img_offset.top &amp;&amp;
-          (ct_left - asyncDistance)&lt;= (img_offset.left + img_width) &amp;&amp;
-            (ct_right + asyncDistance) &gt;= img_offset.left;
+        (ct_left - asyncDistance)&lt;= (img_offset.left + img_width) &amp;&amp;
+        (ct_right + asyncDistance) &gt;= img_offset.left;
+
     <span class="keyword">return</span> inView;
-    }
+  };
 
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>Simple event attachment/detachment.
+Since we attach listeners to the window scroll, resize and
+orientationchange events, native functions are 6x faster than jQuery's
+event handling system.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="function"><span class="keyword">function</span> <span class="title">addEvent</span><span class="params">(elem, type, fn)</span> {</span>
+    elem[add](pre + type, fn, <span class="literal">false</span>);
+  }
 
-  ;
+  <span class="function"><span class="keyword">function</span> <span class="title">removeEvent</span><span class="params">(elem, type, fn)</span> {</span>
+    elem[rem](pre + type, fn, <span class="literal">false</span>);
+  }
 
-
-
-   <span class="comment">/*
-     * Simple event attachment/detachment
-     * Since we attach listeners to the window scroll, resize and
-     * orientationchange events, native functions are 6x faster than jQuery's
-     * event handling system.
-     */</span>
-  <span class="function"><span class="keyword">function</span> <span class="title">addEvent</span><span class="params">(elem, type, fn)</span> {</span>
-        elem[add](pre + type, fn, <span class="literal">false</span>);
-    }
-
-    <span class="function"><span class="keyword">function</span> <span class="title">removeEvent</span><span class="params">(elem, type, fn)</span> {</span>
-        elem[rem](pre + type, fn, <span class="literal">false</span>);
-    }
-
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>kickoff</p>             </td>             <td class="code">               <div class="highlight"><pre>  iQ.ready = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>Kickoff!</p>             </td>             <td class="code">               <div class="highlight"><pre>  iQ.ready = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
     <span class="keyword">if</span> ( !document.body ) {
       <span class="keyword">return</span> window.setTimeout( iQ.ready, <span class="number">1</span> );
     }
     initIQ();
   };
+
   <span class="keyword">if</span> ( document.readyState === COMPLETE ) {
     setTimeout( iQ.ready, <span class="number">1</span> );
   } <span class="keyword">else</span> {
@@ -542,12 +517,13 @@ Adding 350ms to account for TCP slow start, quickAndDirty === true</p>          
   }
 
   <span class="keyword">if</span> ( opts.forcePixelRatio ) {
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>force a certain device pixel ratio, used more so for debugging purposes</p>             </td>             <td class="code">               <div class="highlight"><pre>    devicePixelRatio = opts.forcePixelRatio;
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>Force a certain device pixel ratio, used more so for debugging purposes.</p>             </td>             <td class="code">               <div class="highlight"><pre>    devicePixelRatio = opts.forcePixelRatio;
   }
 
-    iQ.update = updateImages;
+  iQ.update = updateImages;
 
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>DOM does not need to be ready to begin the network connection speed test</p>             </td>             <td class="code">               <div class="highlight"><pre>  initSpeedTest();
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>console.log(bandwidth, connTestResult, devicePixelRatio)</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>DOM does not need to be ready to begin the network connection speed test.</p>             </td>             <td class="code">               <div class="highlight"><pre>  initSpeedTest();
+
 } (<span class="keyword">this</span>.iQ = <span class="keyword">this</span>.iQ || {}, jQuery, Modernizr));
+
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

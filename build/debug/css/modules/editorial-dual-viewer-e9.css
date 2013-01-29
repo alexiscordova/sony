@@ -1,3 +1,18 @@
+/* line 93, ../../../../src/css/scss/_base/_mixins.scss */
+.clearfix {
+  *zoom: 1;
+}
+/* line 80, ../../../../src/css/scss/_base/_mixins.scss */
+.clearfix:before, .clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+/* line 87, ../../../../src/css/scss/_base/_mixins.scss */
+.clearfix:after {
+  clear: both;
+}
+
 /* line 14, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images {
   position: relative;
@@ -15,42 +30,45 @@
 /* line 26, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-image.image-1 {
   left: 0;
-  text-align: left;
 }
-/* line 31, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
-.edv .edv-images .edv-image.image-1 img,
+/* line 29, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-image.image-1 figcaption {
   left: 0;
+  text-align: left;
 }
-/* line 36, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+/* line 35, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-image.image-2 {
+  right: 0;
+}
+/* line 38, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+.edv .edv-images .edv-image.image-2 figcaption {
   right: 0;
   text-align: right;
 }
-/* line 41, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
-.edv .edv-images .edv-image.image-2 img,
-.edv .edv-images .edv-image.image-2 figcaption {
-  right: 0;
-}
-/* line 46, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+/* line 44, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-image .edv-image-wrapper {
   position: absolute;
+  right: 0;
   width: 100%;
   height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
 }
-/* line 52, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+/* line 54, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-image .edv-image-wrapper img {
-  position: absolute;
-  height: 100%;
-  max-width: none;
+  display: none;
+  max-height: 100%;
+  max-width: 100%;
 }
-/* line 59, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+/* line 61, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-image figcaption {
   position: absolute;
   bottom: 0;
   min-width: 300px;
 }
-/* line 66, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+/* line 68, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-scrubber-container {
   position: absolute;
   width: 10px;
@@ -58,7 +76,7 @@
   background-color: red;
   z-index: 3;
 }
-/* line 73, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+/* line 75, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-scrubber-container .edv-scrubber {
   position: absolute;
   bottom: 50px;
@@ -67,7 +85,16 @@
   height: 50px;
   background-color: blue;
 }
-/* line 86, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+/* line 88, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv.scrubber-disabled .edv-scrubber-container {
   display: none;
+}
+
+/* line 96, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+.no-backgroundsize .edv-image-wrapper {
+  background-image: none !important;
+}
+/* line 99, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+.no-backgroundsize .edv-image-wrapper img {
+  display: inline !important;
 }

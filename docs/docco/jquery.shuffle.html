@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <html> <head>   <title>jquery.shuffle.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-spec.html">                 sony-spec.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery.shuffle.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*!
+<!DOCTYPE html>  <html> <head>   <title>jquery.shuffle.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery.shuffle.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*!
  * jQuery Shuffle Plugin
  * Uses CSS Transforms to filter down a grid of items (degrades to jQuery's animate).
  * Inspired by Isotope http://isotope.metafizzy.co/
@@ -7,7 +7,7 @@
  * @version 1.6.1
  * @date 12/06/12
  */</span>
-!(<span class="keyword">function</span>($, Modernizr, <span class="literal">undefined</span>) {
+(<span class="keyword">function</span>($, Modernizr, <span class="literal">undefined</span>) {
     <span class="string">'use strict'</span>;
 
 
@@ -285,7 +285,7 @@ i.e. this.colWidth = 200</p>             </td>             <td class="code">    
          * @param {function} complete callback function
          * @param {boolean} onlyPosition set this to true to only trigger positioning of the items
          */</span>
-        layout: <span class="keyword">function</span>( items, fn, onlyPosition ) {
+        _layout: <span class="keyword">function</span>( items, fn, onlyPosition ) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
             fn = fn || self.filterEnd;
@@ -333,7 +333,7 @@ how many different places could this brick fit horizontally</p>             </td
 </pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>If we've already sorted the elements, keep them sorted</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.keepSorted &amp;&amp; self.lastSort ) {
                 self.sort( self.lastSort, <span class="literal">true</span> );
             } <span class="keyword">else</span> {
-                self.layout( self.$items.filter(<span class="string">'.filtered'</span>).get(), self.filterEnd );
+                self._layout( self.$items.filter(<span class="string">'.filtered'</span>).get(), self.filterEnd );
             }
         },
 
@@ -433,7 +433,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
             <span class="keyword">var</span> self = <span class="keyword">this</span>,
                 items = self.$items.filter(<span class="string">'.filtered'</span>).sorted(opts);
             self._resetCols();
-            self.layout(items, <span class="keyword">function</span>() {
+            self._layout(items, <span class="keyword">function</span>() {
                 <span class="keyword">if</span> (fromFilter) {
                     self.filterEnd();
                 }
@@ -592,7 +592,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
 </pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.visibleItems = self.$items.filter(<span class="string">'.filtered'</span>).length;
 
             <span class="keyword">if</span> ( animateIn ) {
-                self.layout( $passed, <span class="literal">null</span>, <span class="literal">true</span> );
+                self._layout( $passed, <span class="literal">null</span>, <span class="literal">true</span> );
 
                 <span class="keyword">if</span> ( isSequential ) {
                     self._setSequentialDelay( $passed );
@@ -600,7 +600,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
 
                 self._revealAppended( $passed );
             } <span class="keyword">else</span> {
-                self.layout( $passed );
+                self._layout( $passed );
             }
         },
 
@@ -616,6 +616,10 @@ The buffer value is very useful when the height is a percentage of the width</p>
                     });
                 });
             }, <span class="number">100</span>);
+        },
+
+        layout : <span class="keyword">function</span>() {
+            <span class="keyword">this</span>._reLayout();
         },
 
         update : <span class="keyword">function</span>() {
@@ -651,22 +655,21 @@ The buffer value is very useful when the height is a percentage of the width</p>
                 shuffle.shuffle(opts);
 
 </pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>Key should be an object with propreties reversed and by.</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> opts === <span class="string">'string'</span>) {
-                <span class="keyword">if</span> (opts === <span class="string">'sort'</span>) {
-                    shuffle.sort(sortObj);
-                } <span class="keyword">else</span> <span class="keyword">if</span> (opts === <span class="string">'destroy'</span>) {
-                    shuffle.destroy.apply( shuffle, args );
-                } <span class="keyword">else</span> <span class="keyword">if</span> (opts === <span class="string">'update'</span>) {
-                    shuffle.update.apply( shuffle, args );
-                } <span class="keyword">else</span> <span class="keyword">if</span> (opts === <span class="string">'appended'</span>) {
-                    shuffle.appended.apply( shuffle, args );
-                } <span class="keyword">else</span> <span class="keyword">if</span> (opts === <span class="string">'layout'</span>) {
-                    shuffle._reLayout.apply( shuffle, args );
-                } <span class="keyword">else</span> <span class="keyword">if</span> (opts === <span class="string">'enable'</span>) {
-                    shuffle.enable.apply( shuffle, args );
-                } <span class="keyword">else</span> <span class="keyword">if</span> (opts === <span class="string">'disable'</span>) {
-                    shuffle.disable.apply( shuffle, args );
-                } <span class="keyword">else</span> {
-                    shuffle.shuffle(opts);
+                <span class="keyword">switch</span>( opts ) {
+                    <span class="keyword">case</span> <span class="string">'sort'</span>:
+                        shuffle.sort(sortObj);
+                        <span class="keyword">break</span>;
+                    <span class="keyword">case</span> <span class="string">'destroy'</span>:
+                    <span class="keyword">case</span> <span class="string">'update'</span>:
+                    <span class="keyword">case</span> <span class="string">'appended'</span>:
+                    <span class="keyword">case</span> <span class="string">'enable'</span>:
+                    <span class="keyword">case</span> <span class="string">'disable'</span>:
+                    <span class="keyword">case</span> <span class="string">'layout'</span>:
+                        shuffle[ opts ].apply( shuffle, args );
+                        <span class="keyword">break</span>;
+                    <span class="keyword">default</span>:
+                        shuffle.shuffle( opts );
+                        <span class="keyword">break</span>;
                 }
             }
         });

@@ -241,7 +241,6 @@ function addSuperModuleNode() {
 function setSuperModule(dataSelect, elem) {
   var selectedElem = $(dataSelect).find("option")[dataSelect.selectedIndex];
   $(selectedElem).data();
-  var temp;
 }
 
 function checkLength(o, n, min, max) {
@@ -362,7 +361,7 @@ function addSubModule(elem) {
 };
 
 function toggleBuildAll() {
-  $('#main-forms-container ul.ui-sortable>li').length <= 1 && $('.data_select option').length > 0 ? $('.btnBuildAll').show() : $('.btnBuildAll').hide();
+  $('#main-forms-container ul.ui-sortable>li').length <= 1 && $('.data_select option').length > 1 ? $('.btnBuildAll').show() : $('.btnBuildAll').hide();
 }
 
 function buildAll(elem) {
@@ -370,22 +369,25 @@ function buildAll(elem) {
   if ($('.build-all').hasClass('active')) {
 
     $('.build-all').removeClass('active').html('<span class="sprite"></span>Build All');
-    $('#add-module').prop('disabled', false);
+    $('#add-module').prop('disabled', false).show();
     $('.data_select').trigger('change');
     $('.modContainer select').prop('disabled', false);
+    $('#builtAllInputContainer').empty();
 
   } else {
 
-    $('#add-module').prop('disabled', true);
+   
     $('.build-all').addClass('active').html('<span class="sprite"></span>Select Data');
 
-    var moduleValue = $('.module_select option:selected').attr('value'), moduleInput = $('<input type="hidden" name="module" >'), builtAllInputContainer = $('#builtAllInputContainer');
+    var moduleValue = $('.module_select option:selected').attr('value'), 
+        moduleInput = $('<input type="hidden" name="module" >');
 
-    $(builtAllInputContainer).empty();
-
+    $('#add-module').prop('disabled', true).hide();
+     
     $.each($('.data_select option'), function(i) {
 
-      var $moduleInput = moduleInput.clone(true), $dataInput = moduleInput.clone(true);
+      var $moduleInput = moduleInput.clone(true), 
+          $dataInput = moduleInput.clone(true);
 
       $moduleInput = moduleInput.attr('value', moduleValue);
       $dataInput = $dataInput.attr('name', 'moduleData').attr('value', this.value);
@@ -394,7 +396,7 @@ function buildAll(elem) {
 
     });
 
-    $('.submodContainer ol').empty().html('<li><p>All data elements will be build</p></li>');
+    $('.submodContainer ol').empty().html('<li class="highlight" ><p>All data elements will be built and stacked on the page</p></li>');
     $('.modContainer select').prop('disabled', true);
   }
 }
@@ -409,7 +411,8 @@ function buildPage() {
 
   var myForm = $('#myForm');
 
-  var btnBuildPop = $('.ui-dialog-buttonset button')[0], btnCancelPop = $('.ui-dialog-buttonset button')[1];
+  var btnBuildPop = $('.ui-dialog-buttonset button')[0], 
+      btnCancelPop = $('.ui-dialog-buttonset button')[1];
 
   $(btnBuildPop).hide();
   $(btnCancelPop).hide();

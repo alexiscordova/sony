@@ -312,7 +312,7 @@
          * @param {function} complete callback function
          * @param {boolean} onlyPosition set this to true to only trigger positioning of the items
          */
-        layout: function( items, fn, onlyPosition ) {
+        _layout: function( items, fn, onlyPosition ) {
             var self = this;
 
             fn = fn || self.filterEnd;
@@ -369,7 +369,7 @@
             if ( self.keepSorted && self.lastSort ) {
                 self.sort( self.lastSort, true );
             } else {
-                self.layout( self.$items.filter('.filtered').get(), self.filterEnd );
+                self._layout( self.$items.filter('.filtered').get(), self.filterEnd );
             }
         },
 
@@ -477,7 +477,7 @@
             var self = this,
                 items = self.$items.filter('.filtered').sorted(opts);
             self._resetCols();
-            self.layout(items, function() {
+            self._layout(items, function() {
                 if (fromFilter) {
                     self.filterEnd();
                 }
@@ -646,7 +646,7 @@
             self.visibleItems = self.$items.filter('.filtered').length;
 
             if ( animateIn ) {
-                self.layout( $passed, null, true );
+                self._layout( $passed, null, true );
 
                 if ( isSequential ) {
                     self._setSequentialDelay( $passed );
@@ -654,7 +654,7 @@
 
                 self._revealAppended( $passed );
             } else {
-                self.layout( $passed );
+                self._layout( $passed );
             }
         },
 
@@ -670,6 +670,10 @@
                     });
                 });
             }, 100);
+        },
+
+        layout : function() {
+            this._reLayout();
         },
 
         update : function() {
@@ -709,22 +713,21 @@
 
             // Key should be an object with propreties reversed and by.
             } else if (typeof opts === 'string') {
-                if (opts === 'sort') {
-                    shuffle.sort(sortObj);
-                } else if (opts === 'destroy') {
-                    shuffle.destroy.apply( shuffle, args );
-                } else if (opts === 'update') {
-                    shuffle.update.apply( shuffle, args );
-                } else if (opts === 'appended') {
-                    shuffle.appended.apply( shuffle, args );
-                } else if (opts === 'layout') {
-                    shuffle._reLayout.apply( shuffle, args );
-                } else if (opts === 'enable') {
-                    shuffle.enable.apply( shuffle, args );
-                } else if (opts === 'disable') {
-                    shuffle.disable.apply( shuffle, args );
-                } else {
-                    shuffle.shuffle(opts);
+                switch( opts ) {
+                    case 'sort':
+                        shuffle.sort(sortObj);
+                        break;
+                    case 'destroy':
+                    case 'update':
+                    case 'appended':
+                    case 'enable':
+                    case 'disable':
+                    case 'layout':
+                        shuffle[ opts ].apply( shuffle, args );
+                        break;
+                    default:
+                        shuffle.shuffle( opts );
+                        break;
                 }
             }
         });
