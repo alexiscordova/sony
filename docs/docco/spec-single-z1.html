@@ -1,0 +1,174 @@
+<!DOCTYPE html>  <html> <head>   <title>spec-single-z1.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq-new.html">                 iq-new.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               spec-single-z1.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global jQuery, Modernizr, Exports*/</span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>-------- Sony Full Specs Single -------
+Module: Full Specs Single
+Version: 1.0
+Author: Glen Cheney
+Date: 01/24/13</p>
+
+<h2>Dependencies: jQuery 1.7+, Modernizr, imagesLoaded 2.1+</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="keyword">function</span>($, Modernizr, window, <span class="literal">undefined</span>) {
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> Spec = <span class="keyword">function</span>( $container, options ) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    $.extend(self, $.fn.specSingle.options, options, $.fn.specSingle.settings);
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>jQuery objects</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$container = $container;
+    self.$window = $(window);
+    self._init();
+  };
+
+  Spec.prototype = {
+
+    constructor: Spec,
+
+    _init : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$specProduct = self.$container.find(<span class="string">'.spec-product'</span>);
+      self.$specTiles = self.$container.find(<span class="string">'.spec-tiles'</span>);
+      self.$stickyNav = self.$container.find(<span class="string">'.spec-sticky-nav'</span>);
+      self.$carouselWrap = self.$container.find(<span class="string">'.spec-carousel-wrap'</span>);
+      self.$carousel = self.$carouselWrap.find(<span class="string">'.spec-carousel'</span>);
+
+      self._initCarousel();
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Init shuffle on the features section</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._initFeatures();
+
+      self.$window.on(<span class="string">'load'</span>, $.proxy( self._initStickyNav, self ));
+    },
+
+    _initFeatures : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          dfd;
+
+      self.$specTiles.shuffle({
+        itemSelector: <span class="string">'.spec-tile'</span>,
+        easing: <span class="string">'ease-out'</span>,
+        speed: <span class="number">250</span>,
+        columnWidth: Exports.masonryColumns,
+        gutterWidth: Exports.masonryGutters,
+        showInitialTransition: <span class="literal">false</span>
+      });
+      self.shuffle = self.$specTiles.data(<span class="string">'shuffle'</span>);
+
+      dfd = self.$specTiles.imagesLoaded();
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Relayout shuffle when the images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>      dfd.always( <span class="keyword">function</span>() {
+        setTimeout( <span class="keyword">function</span>() {
+          self.shuffle.layout();
+        }, <span class="number">100</span> );
+      });
+
+      <span class="keyword">return</span> self;
+    },
+
+    _initStickyNav : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.stickyTriggerOffset = self.$container.find(<span class="string">'.spec-views'</span>).first().offset().top;
+      self.$window.on(<span class="string">'scroll'</span>, $.proxy( self._onScroll, self ));
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Set up twitter bootstrap scroll spy</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(<span class="string">'body'</span>).scrollspy({
+        target: <span class="string">'.spec-sticky-nav'</span>
+      });
+
+    },
+
+    _initCarousel : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          firstImage = self.$carousel.find(<span class="string">':first-child img'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Wait for first image to be loaded, then setTimeout to allow it to get a height
+then get its height and set it on the container, then initialize the scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      firstImage.imagesLoaded(<span class="keyword">function</span>() {
+        setTimeout(<span class="keyword">function</span>() {
+          self.$carousel.height( firstImage.height() );
+
+          self.$carouselWrap.scrollerModule({
+            contentSelector: <span class="string">'.spec-carousel'</span>,
+            itemElementSelector: <span class="string">'.slide'</span>,
+            mode: <span class="string">'paginate'</span>,
+            centerItems: <span class="literal">false</span>,
+            generatePagination: <span class="literal">true</span>,
+
+            iscrollProps : {
+              snap: <span class="literal">true</span>,
+              hScroll: <span class="literal">true</span>,
+              vScroll: <span class="literal">false</span>,
+              hScrollbar: <span class="literal">false</span>,
+              vScrollbar: <span class="literal">false</span>
+            }
+
+          });
+        }, <span class="number">100</span>);
+      });
+    },
+
+    _onScroll : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          st = self.$window.scrollTop();
+
+      <span class="keyword">if</span> ( st &gt; self.stickyTriggerOffset ) {
+        <span class="keyword">if</span> ( !self.$stickyNav.hasClass(<span class="string">'open'</span>) ) {
+          self.$stickyNav.addClass(<span class="string">'open'</span>);
+        }
+      } <span class="keyword">else</span> {
+        <span class="keyword">if</span> ( self.$stickyNav.hasClass(<span class="string">'open'</span>) ) {
+          self.$stickyNav.removeClass(<span class="string">'open'</span>);
+        }
+      }
+
+    }
+
+
+
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle = <span class="keyword">function</span>( options ) {
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
+          spec = self.data(<span class="string">'spec'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If we don't have a stored spec, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !spec ) {
+        spec = <span class="keyword">new</span> Spec( self, options );
+        self.data( <span class="string">'spec'</span>, spec );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        spec[ options ].apply( spec, args );
+      }
+    });
+  };
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle.options = {
+    mobileBreakpoint : <span class="string">'(max-width: 35.4375em)'</span>
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle.settings = {
+    isStickyTabs: <span class="literal">false</span>,
+    isScroller: <span class="literal">false</span>
+  };
+
+
+}(jQuery, Modernizr, window));
+
+
+
+
+
+
+
+$(document).ready(<span class="keyword">function</span>() {
+
+  <span class="keyword">if</span> ( $(<span class="string">'.spec-single'</span>).length &gt; <span class="number">0</span> ) {
+
+    $(<span class="string">'.spec-single'</span>).specSingle();
+
+  }
+});
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

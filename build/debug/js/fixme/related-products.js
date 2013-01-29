@@ -1,37 +1,10 @@
 // ------------ Related Products Module ------------
 // Module: Related Products
 // Version: 1.0
-// Modified: 2012-1-10 by Tyler Madison, Glen Cheney
+// Modified: 2012-1-29 by Tyler Madison, Glen Cheney
 // Dependencies: jQuery 1.7+, Modernizr
 // -------------------------------------------------------------------------
-
-(function(window){
-    'use strict';
-
-/*    var Sony = function(){
-      var self = this;
-      self.modules = {};
-      self.ev = $('<div />'); // events object
-    };
-
-    Sony.prototype = {
-      init: function(){
-        var self = this;
-        for (var module in self.modules){
-          $(module.sel)[module.name]();
-        }
-      }
-    }
-
-    $(function(){
-      console.log("window.sony »" , sony);
-      sony = new Sony();
-      sony.init();
-    });*/
-
-})(window);
-
-(function($, Modernizr, window, undefined) {
+;(function($, Modernizr, window, undefined) {
     
     'use strict';
 
@@ -53,7 +26,7 @@
       // feature detection, some ideas taken from Modernizr
       var tempStyle = document.createElement('div').style,
       vendors       = ['webkit','Moz','ms','O'],
-      vendor        = '', 
+      vendor        = '',
       lastTime      = 0,
       tempV         = '';
 
@@ -66,8 +39,7 @@
         
         if(!window.requestAnimationFrame) {
             window.requestAnimationFrame = window[tempV+'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame'] 
-                               || window[tempV+'CancelRequestAnimationFrame'];
+            window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame'] || window[tempV+'CancelRequestAnimationFrame'];
         }
       }
 
@@ -119,7 +91,7 @@
       self.currentId             = 0;
       self.slidePosition         = 0;
       self.animationSpeed        = 400; //ms
-      self.slides                = []; 
+      self.slides                = [];
       self.slideCount            = 0;
       self.isFreeDrag            = false; //MODE: TODO
       self.currentContainerWidth = 0;
