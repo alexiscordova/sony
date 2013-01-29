@@ -1,0 +1,94 @@
+<!DOCTYPE html>  <html> <head>   <title>hotspot_explorer.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               hotspot_explorer.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>------------ Sony Hotspot Module ------------
+Module: HotSpot Explorer
+Version: 1.0
+Modified: 2012-11-26 by Tyler Madison</p>
+
+<h2>Dependencies: jQuery 1.7+, Modernizr</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="keyword">function</span>(window){
+    <span class="string">'use strict'</span>;
+    <span class="keyword">var</span> sony = window.sony = window.sony || {};
+    sony.modules = sony.modules || {};
+})(window);
+
+(<span class="keyword">function</span>($, Modernizr, window, <span class="literal">undefined</span>) {
+    
+    <span class="string">'use strict'</span>;
+
+    <span class="keyword">var</span> PX_REGEX = <span class="regexp">/px/gi</span>;
+
+    <span class="keyword">var</span> HotSpotExplorer = <span class="keyword">function</span>(element, options){
+      
+      <span class="keyword">var</span> t = <span class="keyword">this</span>;
+
+        t.$el = $(element);
+        t.maxWidth = parseInt(t.$el.css(<span class="string">'maxWidth'</span>).replace(PX_REGEX , <span class="string">''</span>) , <span class="number">10</span>);
+
+        t.setup = $.extend({}, $.fn.hotSpotExplorer.defaults, options);
+        t.hotspots = t.$el.find(<span class="string">'.hsSpot'</span>);
+
+      t._init();
+    };
+
+
+    HotSpotExplorer.prototype._init = <span class="keyword">function</span>(){
+        <span class="keyword">var</span> t = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>resize</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> resizeTimer;
+        $(window).on(<span class="string">'resize'</span>, <span class="keyword">function</span>() {  
+            <span class="keyword">if</span>(resizeTimer) {
+                clearTimeout(resizeTimer);          
+            }
+            resizeTimer = setTimeout(<span class="keyword">function</span>() { t._updateHotspots(); }, <span class="number">25</span>);          
+        });
+
+        t._updateHotspots();
+
+        console.log(<span class="string">'hotspot explorer init'</span>);
+    };
+
+    HotSpotExplorer.prototype._updateHotspots = <span class="keyword">function</span>(){
+        <span class="keyword">var</span> t = <span class="keyword">this</span>;
+        console.log(<span class="string">'resize'</span>);
+
+        $.each(t.hotspots , <span class="keyword">function</span>(){
+            <span class="keyword">var</span> $hs = $(<span class="keyword">this</span>),
+                $data = $hs.data(),
+                ratio = parseInt(t.$el.css(<span class="string">'width'</span>).replace(PX_REGEX , <span class="string">''</span>) , <span class="number">10</span>) / t.maxWidth;
+
+            $hs.css({<span class="string">'top'</span>: ratio * $data.y + <span class="string">'px'</span> , <span class="string">'left'</span>: ratio * $data.x + <span class="string">'px'</span> , <span class="string">'visibility'</span> : <span class="string">'visible'</span>});
+
+        });
+    };
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>end HotspotExplorer</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    $.fn.hotSpotExplorer = <span class="keyword">function</span>(options) {      
+        <span class="keyword">var</span> args = arguments;
+        <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
+            <span class="keyword">var</span> t = $(<span class="keyword">this</span>);
+            <span class="keyword">if</span> (<span class="keyword">typeof</span> options === <span class="string">'object'</span> ||  !options) {
+                <span class="keyword">if</span>( !t.data(<span class="string">'hotSpotExplorer'</span>) ) {
+                    t.data(<span class="string">'hotSpotExplorer'</span>, <span class="keyword">new</span> HotSpotExplorer(t, options));
+                }
+            } <span class="keyword">else</span> {
+                <span class="keyword">var</span> hotSpotExplorer = t.data(<span class="string">'hotSpotExplorer'</span>);
+                <span class="keyword">if</span> (hotSpotExplorer &amp;&amp; hotSpotExplorer[options]) {
+                    <span class="keyword">return</span> hotSpotExplorer[options].apply(hotSpotExplorer, Array.prototype.slice.call(args, <span class="number">1</span>));
+                }
+            }
+        });
+    };
+
+    $(<span class="keyword">function</span>(){
+        $(<span class="string">'.hsExplorer'</span>).each(<span class="keyword">function</span>(){
+            <span class="keyword">var</span> $el = $(<span class="keyword">this</span>);
+            $el.hotSpotExplorer({});
+        });
+    });
+
+
+ })(jQuery, Modernizr, window,<span class="literal">undefined</span>);
+
+
+
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

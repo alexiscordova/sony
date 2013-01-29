@@ -25,34 +25,36 @@
 
       &.image-1 {
         left: 0;
-        text-align: left;
 
-        img,
         figcaption {
           left: 0;
+          text-align: left;
         }
       }
 
       &.image-2 {
         right: 0;
-        text-align: right;
 
-        img,
         figcaption {
           right: 0;
+          text-align: right;
         }
       }
 
       .edv-image-wrapper {
         position: absolute;
+        right: 0;
         width: 100%;
         height: 100%;
-
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        text-align: center;
 
         img {
-          position: absolute;
-          height: 100%;
-          max-width: none;
+          display: none;
+          max-height: 100%;
+          max-width: 100%;
         }
       }
 
@@ -85,6 +87,17 @@
 
     .edv-scrubber-container {
       display: none;
+    }
+  }
+}
+
+.no-backgroundsize {
+
+  .edv-image-wrapper {
+    background-image: none !important;
+
+    img {
+      display: inline !important;
     }
   }
 }

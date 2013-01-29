@@ -1,3 +1,7 @@
+@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/mixins";
+
+
 /*  */
 .sony-one-carousel {
   position: relative;
@@ -77,6 +81,31 @@
   left: 0;
   -webkit-backface-visibility: hidden;
   -webkit-transform: translateZ(0); 
+
+  .soc-button {
+    width: 37.202381%;
+    max-height: 69px;
+    min-width: 185px;
+    display: block;
+    position: absolute;
+    bottom: 6.8809%;
+    left: 6.8809%;
+
+    &:after {
+      padding-top: 27.6%;
+    }
+
+    &.dark {
+      color: #fff; 
+      background-color: #272a31;
+    }
+
+    img {
+      width:43.6%;
+      display: inline-block;
+    }
+    
+  }
 }
 
 .soc-grid {
@@ -90,6 +119,35 @@
   background-size: cover;
   background-position: center center;
   cursor: pointer;
+
+  &.darkLightText {
+
+    h2,
+    h3,
+    h4 {
+      color: #cccccc;  
+      margin: 0 0 0 6.8809%;
+      line-height: 35px;
+
+      span {
+        color: #ffffff;
+        display: block;
+      }
+    }
+
+     @media (min-width: 769px) and (max-width: 981px) {
+      h4 {
+        font-size: $font_22_16;
+      }
+     }
+
+    .fingertip.l3 {
+      margin: 16% 0 0 6.8809%;
+      display: inline-block;      
+      color: #cccccc;
+    }
+    
+  }
   
   @media (max-width: 480px) {
     &.span12 {
@@ -98,6 +156,24 @@
       *width: 277px;
       *height:371px;    
     }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%; 
+    min-height: 100px;
+    width:100%;
+    height: 43.0769231%;
+
+  }
+
+
+  &.darkLightText footer {
+   
+    background-color: #2f353d;
+    
   }
 
 }

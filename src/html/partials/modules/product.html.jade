@@ -1,31 +1,4 @@
-mixin iQImage( img, extraClasses )
-  - classes = 'iq-img'
-  - extraClasses = extraClasses || false
-  - if ( extraClasses ) classes += ' ' + extraClasses
-  img(class=classes, data-src=img.src, alt=img.alt)
-  noscript
-    img(src=img.noscriptsrc, alt=img.alt)
-
-mixin definitionList( list, isHorizontal )
-  - isHorizontal = isHorizontal || false
-  - clss = isHorizontal ? 'dl-horizontal' : null
-  dl(class=clss)
-    each li in list
-      dt.l3= li.term
-      if li.definition
-        dd.p3= li.definition
-      else
-        each definition in li.definitions
-          dd.p3= definition
-
-mixin specList( list, extraClasses )
-  - classes = 'unstyled spec-list'
-  - extraClasses = extraClasses || false
-  - if ( extraClasses ) classes += ' ' + extraClasses
-  ul(class=classes)
-    each li in list
-      li.p3= li
-
+include ../includes/jade-helpers.jade
 
 if data.view == "basic"
   klass = '';
@@ -37,6 +10,8 @@ if data.view == "basic"
     klass = 'span2 medium'
   else if data.layout == 'plate'
     klass = 'span2 plate'
+  else if data.layout == 'blank-normal'
+    klass = 'span1 blank normal'
   else
     klass = 'span1 normal'
 
@@ -70,7 +45,7 @@ if data.view == "basic"
           div(class=classes)
             .text-promo-title
               strong= data.title
-              span!= '&nbsp;' + data.emphasis
+              span!= data.emphasis
               i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
@@ -96,10 +71,10 @@ if data.view == "basic"
 
               if data.imgSmall.colors
                 each img in data.imgSmall.colors
-                  //- mixin iQImage( img, 'hidden' )
-                  img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
-                  noscript
-                    img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
+                  mixin iQImage( img, 'hidden', 'image' )
+                  //- img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+                  //- noscript
+                  //-   img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
 
           if data.img && data.img.colors
             .color-swatches.clearfix

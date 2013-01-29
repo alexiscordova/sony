@@ -23,11 +23,12 @@
     self.$scrubber = self.$el.find('.edv-scrubber-container');
     self.$bottomSlide = self.$el.find('.image-1');
     self.$topSlide = self.$el.find('.image-2');
+    self.$topSlideImageContainer = self.$topSlide.find('.edv-image-wrapper');
     self.$images = self.$dualViewContainer.find('img');
 
     self.initTimeout();
 
-    // This should be replaced with the global debounced throttle event once that is available.
+    // **TODO:** This should be replaced with the global debounced throttle event once that is available.
     $(window).on('resize', $.proxy(self.setPositions, self));
   };
 
@@ -48,6 +49,10 @@
       });
     },
 
+    // We just need the images to be ready *enough* to provide dimensions.
+    // Since the usual imagesLoaded plugin approach wasn't compatible with iQ,
+    // we just poll for a width until one is available.
+
     'initTimeout': function() {
 
       var self = this,
@@ -66,30 +71,24 @@
       }
     },
 
+    // Compute the dragging bounds based on the width of the container.
+
     'getDragBounds': function() {
 
       var self = this,
-          min = 100 - (self.$topSlide.find('img').width() / self.$dualViewContainer.width() * 100),
-          max = self.$bottomSlide.find('img').width() / self.$dualViewContainer.width() * 100;
-
-      // Define boundaries for max and min.
-      if ( min < 15 ) { min = 15; }
-      if ( max > 85 ) { max = 85; }
-
-      // Handle condition where the images are not wide enough to fill the area.
-      if ( min >= max ) {
-        self.$el.addClass('scrubber-disabled');
-      } else {
-        self.$el.removeClass('scrubber-disabled');
-      }
+          minBounds = self.$dualViewContainer.width() * 0.1,
+          containerWidth = self.$dualViewContainer.width();
 
       return {
         'x': {
-          'min': min,
-          'max': max
+          'min': 100 * minBounds / containerWidth,
+          'max': 100 - 100 * minBounds / containerWidth
         }
       };
     },
+
+    // Based on the current bounds, Reset the position of the scrubber via
+    // [SonyDraggable's](sony-draggable.html) *setBounds* method.
 
     'setPositions': function() {
 
@@ -99,11 +98,17 @@
       self.$scrubber.sonyDraggable('setBounds', bounds);
     },
 
+    // As [SonyDraggable](sony-draggable.html) returns scrubbing changes, update the top slide's width to match,
+    // and adjust the image container's width by that percentage's inverse to maintain the
+    // desired positioning.
+
     'onDrag': function(e) {
 
-      var self = this;
+      var self = this,
+          widthRatio = 2;
 
       self.$topSlide.css('width', (100 - e.position.left) + '%');
+      self.$topSlideImageContainer.css('width', 10000 / (100 - e.position.left) + '%');
     }
 
   };
@@ -130,10 +135,9 @@
 
   };
 
+  // Initialization.
   $(function(){
-
     $('.edv').editorialDualViewer();
-
   });
 
 })(jQuery);

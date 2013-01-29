@@ -1,0 +1,1090 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-iscroll.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-iscroll.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*!
+ * iScroll v4.2.5 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
+ * Released under MIT license, http://cubiq.org/license
+ * Modified: 01/07/2013 by Glen Cheney (added onAnimate + more cleanup in destroy())
+ */</span>
+(<span class="keyword">function</span>(window, doc){
+	<span class="function"><span class="keyword">function</span> <span class="title">prefixStyle</span> <span class="params">(style)</span> {</span>
+		<span class="keyword">if</span> ( vendor === <span class="string">''</span> ) { <span class="keyword">return</span> style; }
+
+		style = style.charAt(<span class="number">0</span>).toUpperCase() + style.substr(<span class="number">1</span>);
+		<span class="keyword">return</span> vendor + style;
+	}
+
+
+<span class="keyword">var</span> m = Math,
+	dummyStyle = doc.createElement(<span class="string">'div'</span>).style,
+	vendor = (<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">var</span> vendors = <span class="string">'t,webkitT,MozT,msT,OT'</span>.split(<span class="string">','</span>),
+			t,
+			i = <span class="number">0</span>,
+			l = vendors.length;
+
+		<span class="keyword">for</span> ( ; i &lt; l; i++ ) {
+			t = vendors[i] + <span class="string">'ransform'</span>;
+			<span class="keyword">if</span> ( t <span class="keyword">in</span> dummyStyle ) {
+				<span class="keyword">return</span> vendors[i].substr(<span class="number">0</span>, vendors[i].length - <span class="number">1</span>);
+			}
+		}
+
+		<span class="keyword">return</span> <span class="literal">false</span>;
+	})(),
+	cssVendor = vendor ? <span class="string">'-'</span> + vendor.toLowerCase() + <span class="string">'-'</span> : <span class="string">''</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Style properties</p>             </td>             <td class="code">               <div class="highlight"><pre>	transform = prefixStyle(<span class="string">'transform'</span>),
+	transitionProperty = prefixStyle(<span class="string">'transitionProperty'</span>),
+	transitionDuration = prefixStyle(<span class="string">'transitionDuration'</span>),
+	transformOrigin = prefixStyle(<span class="string">'transformOrigin'</span>),
+	transitionTimingFunction = prefixStyle(<span class="string">'transitionTimingFunction'</span>),
+	transitionDelay = prefixStyle(<span class="string">'transitionDelay'</span>),
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Browser capabilities</p>             </td>             <td class="code">               <div class="highlight"><pre>	isAndroid = (<span class="regexp">/android/gi</span>).test(navigator.appVersion),
+	isIDevice = (<span class="regexp">/iphone|ipad|ipod/gi</span>).test(navigator.appVersion),
+	isTouchPad = (<span class="regexp">/hp-tablet/gi</span>).test(navigator.appVersion),
+
+    has3d = prefixStyle(<span class="string">'perspective'</span>) <span class="keyword">in</span> dummyStyle,
+    hasTouch = <span class="string">'ontouchstart'</span> <span class="keyword">in</span> window &amp;&amp; !isTouchPad,
+    hasTransform = vendor !== <span class="literal">false</span>,
+    hasTransitionEnd = prefixStyle(<span class="string">'transition'</span>) <span class="keyword">in</span> dummyStyle,
+
+    w3c = <span class="string">'addEventListener'</span> <span class="keyword">in</span> doc,
+    pre = w3c ? <span class="string">''</span> : <span class="string">'on'</span>,
+    add = w3c ? <span class="string">'addEventListener'</span> : <span class="string">'attachEvent'</span>,
+    rem = w3c ? <span class="string">'removeEventListener'</span> : <span class="string">'detachEvent'</span>,
+
+	RESIZE_EV = <span class="string">'onorientationchange'</span> <span class="keyword">in</span> window ? <span class="string">'orientationchange'</span> : <span class="string">'resize'</span>,
+	START_EV = hasTouch ? <span class="string">'touchstart'</span> : <span class="string">'mousedown'</span>,
+	MOVE_EV = hasTouch ? <span class="string">'touchmove'</span> : <span class="string">'mousemove'</span>,
+	END_EV = hasTouch ? <span class="string">'touchend'</span> : <span class="string">'mouseup'</span>,
+	CANCEL_EV = hasTouch ? <span class="string">'touchcancel'</span> : <span class="string">'mouseup'</span>,
+	TRNEND_EV = (<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">if</span> ( vendor === <span class="literal">false</span> ) {<span class="keyword">return</span> <span class="literal">false</span>;}
+
+		<span class="keyword">var</span> transitionEnd = {
+				<span class="string">''</span>			: <span class="string">'transitionend'</span>,
+				<span class="string">'webkit'</span>	: <span class="string">'webkitTransitionEnd'</span>,
+				<span class="string">'Moz'</span>		: <span class="string">'transitionend'</span>,
+				<span class="string">'O'</span>			: <span class="string">'otransitionend'</span>,
+				<span class="string">'ms'</span>		: <span class="string">'MSTransitionEnd'</span>
+			};
+
+		<span class="keyword">return</span> transitionEnd[vendor];
+	})(),
+
+	nextFrame = (<span class="keyword">function</span>() {
+		<span class="keyword">return</span> window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			window.oRequestAnimationFrame ||
+			window.msRequestAnimationFrame ||
+			<span class="keyword">function</span>(callback) { <span class="keyword">return</span> setTimeout(callback, <span class="number">1</span>); };
+	})(),
+	cancelFrame = (<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">return</span> window.cancelRequestAnimationFrame ||
+			window.webkitCancelAnimationFrame ||
+			window.webkitCancelRequestAnimationFrame ||
+			window.mozCancelRequestAnimationFrame ||
+			window.oCancelRequestAnimationFrame ||
+			window.msCancelRequestAnimationFrame ||
+			clearTimeout;
+	})(),
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Helpers</p>             </td>             <td class="code">               <div class="highlight"><pre>	translateZ = has3d ? <span class="string">' translateZ(0)'</span> : <span class="string">''</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Constructor</p>             </td>             <td class="code">               <div class="highlight"><pre>	IScroll = <span class="function"><span class="keyword">function</span> <span class="params">(el, options)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			i;
+
+		that.wrapper = <span class="keyword">typeof</span> el === <span class="string">'object'</span> ? el : doc.getElementById(el);
+
+		that.wrapper.style.overflow = <span class="string">'hidden'</span>;
+		that.scroller = that.wrapper.children[<span class="number">0</span>];
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Default options</p>             </td>             <td class="code">               <div class="highlight"><pre>		that.options = {
+			hScroll: <span class="literal">true</span>,
+			vScroll: <span class="literal">true</span>,
+			x: <span class="number">0</span>,
+			y: <span class="number">0</span>,
+			bounce: <span class="literal">true</span>,
+			bounceLock: <span class="literal">false</span>,
+			momentum: <span class="literal">true</span>,
+			lockDirection: <span class="literal">true</span>,
+			useTransform: <span class="literal">true</span>,
+			useTransition: <span class="literal">false</span>,
+			topOffset: <span class="number">0</span>,
+			checkDOMChanges: <span class="literal">false</span>,		<span class="comment">// Experimental</span>
+			handleClick: <span class="literal">true</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Scrollbar</p>             </td>             <td class="code">               <div class="highlight"><pre>			hScrollbar: <span class="literal">true</span>,
+			vScrollbar: <span class="literal">true</span>,
+			fixedScrollbar: isAndroid,
+			hideScrollbar: isIDevice,
+			fadeScrollbar: isIDevice &amp;&amp; has3d,
+			scrollbarClass: <span class="string">''</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Zoom</p>             </td>             <td class="code">               <div class="highlight"><pre>			zoom: <span class="literal">false</span>,
+			zoomMin: <span class="number">1</span>,
+			zoomMax: <span class="number">4</span>,
+			doubleTapZoom: <span class="number">2</span>,
+			wheelAction: <span class="string">'scroll'</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Snap</p>             </td>             <td class="code">               <div class="highlight"><pre>			snap: <span class="literal">false</span>,
+			snapThreshold: <span class="number">1</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Events</p>             </td>             <td class="code">               <div class="highlight"><pre>			onRefresh: <span class="literal">null</span>,
+			onBeforeScrollStart: <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span> e.preventDefault(); },
+			onScrollStart: <span class="literal">null</span>,
+			onBeforeScrollMove: <span class="literal">null</span>,
+			onScrollMove: <span class="literal">null</span>,
+			onBeforeScrollEnd: <span class="literal">null</span>,
+			onScrollEnd: <span class="literal">null</span>,
+			onTouchEnd: <span class="literal">null</span>,
+			onDestroy: <span class="literal">null</span>,
+			onZoomStart: <span class="literal">null</span>,
+			onZoom: <span class="literal">null</span>,
+			onZoomEnd: <span class="literal">null</span>
+		};
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>User defined options</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">for</span> (i <span class="keyword">in</span> options){ that.options[i] = options[i]; }
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Set starting position</p>             </td>             <td class="code">               <div class="highlight"><pre>		that.x = that.options.x;
+		that.y = that.options.y;
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Normalize options</p>             </td>             <td class="code">               <div class="highlight"><pre>		that.options.useTransform = hasTransform &amp;&amp; that.options.useTransform;
+		that.options.hScrollbar = that.options.hScroll &amp;&amp; that.options.hScrollbar;
+		that.options.vScrollbar = that.options.vScroll &amp;&amp; that.options.vScrollbar;
+		that.options.zoom = that.options.useTransform &amp;&amp; that.options.zoom;
+		that.options.useTransition = hasTransitionEnd &amp;&amp; that.options.useTransition;
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Helpers FIX ANDROID BUG!
+translate3d and scale doesn't work together!
+Ignoring 3d ONLY WHEN YOU SET that.options.zoom</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> ( that.options.zoom &amp;&amp; isAndroid ){
+			translateZ = <span class="string">''</span>;
+		}
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Set some default styles</p>             </td>             <td class="code">               <div class="highlight"><pre>		that.scroller.style[transitionProperty] = that.options.useTransform ? cssVendor + <span class="string">'transform'</span> : <span class="string">'top left'</span>;
+		that.scroller.style[transitionDuration] = <span class="string">'0'</span>;
+		that.scroller.style[transformOrigin] = <span class="string">'0 0'</span>;
+		<span class="keyword">if</span> (that.options.useTransition) { that.scroller.style[transitionTimingFunction] = <span class="string">'cubic-bezier(0.33,0.66,0.66,1)'</span>; }
+
+		<span class="keyword">if</span> (that.options.useTransform) { that.scroller.style[transform] = <span class="string">'translate('</span> + that.x + <span class="string">'px,'</span> + that.y + <span class="string">'px)'</span> + translateZ; }
+		<span class="keyword">else</span> { that.scroller.style.cssText += <span class="string">';position:absolute;top:'</span> + that.y + <span class="string">'px;left:'</span> + that.x + <span class="string">'px'</span>; }
+
+		<span class="keyword">if</span> (that.options.useTransition) { that.options.fixedScrollbar = <span class="literal">true</span>; }
+
+		that.refresh();
+
+		that._bind(RESIZE_EV, window);
+		that._bind(START_EV);
+		<span class="keyword">if</span> (!hasTouch) {
+			<span class="keyword">if</span> (that.options.wheelAction !== <span class="string">'none'</span>) {
+				that._bind(<span class="string">'DOMMouseScroll'</span>);
+				that._bind(<span class="string">'mousewheel'</span>);
+			}
+		}
+
+	<span class="keyword">if</span> (that.options.checkDOMChanges) {
+		that.checkDOMTime = setInterval(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+				that._checkDOMChanges();
+			}, <span class="number">500</span>);
+		}
+	};
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Prototype</p>             </td>             <td class="code">               <div class="highlight"><pre>IScroll.prototype = {
+	enabled: <span class="literal">true</span>,
+	x: <span class="number">0</span>,
+	y: <span class="number">0</span>,
+	steps: [],
+	scale: <span class="number">1</span>,
+	currPageX: <span class="number">0</span>, currPageY: <span class="number">0</span>,
+	pagesX: [], pagesY: [],
+	aniTime: <span class="literal">null</span>,
+	wheelZoomCount: <span class="number">0</span>,
+
+	handleEvent: <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>;
+		<span class="keyword">switch</span>(e.type) {
+			<span class="keyword">case</span> START_EV:
+				<span class="keyword">if</span> (!hasTouch &amp;&amp; e.button !== <span class="number">0</span>) { <span class="keyword">return</span>; }
+				that._start(e);
+				<span class="keyword">break</span>;
+			<span class="keyword">case</span> MOVE_EV: that._move(e); <span class="keyword">break</span>;
+			<span class="keyword">case</span> END_EV:
+			<span class="keyword">case</span> CANCEL_EV: that._end(e); <span class="keyword">break</span>;
+			<span class="keyword">case</span> RESIZE_EV: that._resize(); <span class="keyword">break</span>;
+			<span class="keyword">case</span> <span class="string">'DOMMouseScroll'</span>: <span class="keyword">case</span> <span class="string">'mousewheel'</span>: that._wheel(e); <span class="keyword">break</span>;
+			<span class="keyword">case</span> TRNEND_EV: that._transitionEnd(e); <span class="keyword">break</span>;
+		}
+	},
+
+	_checkDOMChanges: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">if</span> (<span class="keyword">this</span>.moved || <span class="keyword">this</span>.zoomed || <span class="keyword">this</span>.animating ||
+		(<span class="keyword">this</span>.scrollerW === <span class="keyword">this</span>.scroller.offsetWidth * <span class="keyword">this</span>.scale &amp;&amp; <span class="keyword">this</span>.scrollerH === <span class="keyword">this</span>.scroller.offsetHeight * <span class="keyword">this</span>.scale)) { <span class="keyword">return</span>; }
+
+		<span class="keyword">this</span>.refresh();
+	},
+
+	_scrollbar: <span class="function"><span class="keyword">function</span> <span class="params">(dir)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			bar;
+
+		<span class="keyword">if</span> (!that[dir + <span class="string">'Scrollbar'</span>]) {
+			<span class="keyword">if</span> (that[dir + <span class="string">'ScrollbarWrapper'</span>]) {
+				<span class="keyword">if</span> (hasTransform) { that[dir + <span class="string">'ScrollbarIndicator'</span>].style[transform] = <span class="string">''</span>; }
+				that[dir + <span class="string">'ScrollbarWrapper'</span>].parentNode.removeChild(that[dir + <span class="string">'ScrollbarWrapper'</span>]);
+				that[dir + <span class="string">'ScrollbarWrapper'</span>] = <span class="literal">null</span>;
+				that[dir + <span class="string">'ScrollbarIndicator'</span>] = <span class="literal">null</span>;
+			}
+
+			<span class="keyword">return</span>;
+		}
+
+		<span class="keyword">if</span> (!that[dir + <span class="string">'ScrollbarWrapper'</span>]) {
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Create the scrollbar wrapper</p>             </td>             <td class="code">               <div class="highlight"><pre>			bar = doc.createElement(<span class="string">'div'</span>);
+
+			<span class="keyword">if</span> (that.options.scrollbarClass) { bar.className = that.options.scrollbarClass + dir.toUpperCase(); }
+			<span class="keyword">else</span> { bar.style.cssText = <span class="string">'position:absolute;z-index:100;'</span> + (dir === <span class="string">'h'</span> ? <span class="string">'height:7px;bottom:1px;left:2px;right:'</span> + (that.vScrollbar ? <span class="string">'7'</span> : <span class="string">'2'</span>) + <span class="string">'px'</span> : <span class="string">'width:7px;bottom:'</span> + (that.hScrollbar ? <span class="string">'7'</span> : <span class="string">'2'</span>) + <span class="string">'px;top:2px;right:1px'</span>); }
+
+			bar.style.cssText += <span class="string">';pointer-events:none;'</span> + cssVendor + <span class="string">'transition-property:opacity;'</span> + cssVendor + <span class="string">'transition-duration:'</span> + (that.options.fadeScrollbar ? <span class="string">'350ms'</span> : <span class="string">'0'</span>) + <span class="string">';overflow:hidden;opacity:'</span> + (that.options.hideScrollbar ? <span class="string">'0'</span> : <span class="string">'1'</span>);
+
+			that.wrapper.appendChild(bar);
+			that[dir + <span class="string">'ScrollbarWrapper'</span>] = bar;
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Create the scrollbar indicator</p>             </td>             <td class="code">               <div class="highlight"><pre>			bar = doc.createElement(<span class="string">'div'</span>);
+			<span class="keyword">if</span> (!that.options.scrollbarClass) {
+				bar.style.cssText = <span class="string">'position:absolute;z-index:100;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);'</span> + cssVendor + <span class="string">'background-clip:padding-box;'</span> + cssVendor + <span class="string">'box-sizing:border-box;'</span> + (dir === <span class="string">'h'</span> ? <span class="string">'height:100%'</span> : <span class="string">'width:100%'</span>) + <span class="string">';'</span> + cssVendor + <span class="string">'border-radius:3px;border-radius:3px'</span>;
+			}
+			bar.style.cssText += <span class="string">';pointer-events:none;'</span> + cssVendor + <span class="string">'transition-property:'</span> + cssVendor + <span class="string">'transform;'</span> + cssVendor + <span class="string">'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1);'</span> + cssVendor + <span class="string">'transition-duration:0;'</span> + cssVendor + <span class="string">'transform: translate(0,0)'</span> + translateZ;
+
+			<span class="keyword">if</span> (that.options.useTransition) { bar.style.cssText += <span class="string">';'</span> + cssVendor + <span class="string">'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1)'</span>; }
+
+			that[dir + <span class="string">'ScrollbarWrapper'</span>].appendChild(bar);
+			that[dir + <span class="string">'ScrollbarIndicator'</span>] = bar;
+		}
+
+		<span class="keyword">if</span> (dir === <span class="string">'h'</span>) {
+			that.hScrollbarSize = that.hScrollbarWrapper.clientWidth;
+			that.hScrollbarIndicatorSize = m.max(m.round(that.hScrollbarSize * that.hScrollbarSize / that.scrollerW), <span class="number">8</span>);
+			that.hScrollbarIndicator.style.width = that.hScrollbarIndicatorSize + <span class="string">'px'</span>;
+			that.hScrollbarMaxScroll = that.hScrollbarSize - that.hScrollbarIndicatorSize;
+			that.hScrollbarProp = that.hScrollbarMaxScroll / that.maxScrollX;
+		} <span class="keyword">else</span> {
+			that.vScrollbarSize = that.vScrollbarWrapper.clientHeight;
+			that.vScrollbarIndicatorSize = m.max(m.round(that.vScrollbarSize * that.vScrollbarSize / that.scrollerH), <span class="number">8</span>);
+			that.vScrollbarIndicator.style.height = that.vScrollbarIndicatorSize + <span class="string">'px'</span>;
+			that.vScrollbarMaxScroll = that.vScrollbarSize - that.vScrollbarIndicatorSize;
+			that.vScrollbarProp = that.vScrollbarMaxScroll / that.maxScrollY;
+		}
+
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Reset position</p>             </td>             <td class="code">               <div class="highlight"><pre>		that._scrollbarPos(dir, <span class="literal">true</span>);
+	},
+
+	_resize: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>;
+		that.resizeTimer = setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span> that.refresh(); }, isAndroid ? <span class="number">400</span> : <span class="number">250</span>);
+	},
+
+	_pos: <span class="function"><span class="keyword">function</span> <span class="params">(x, y)</span> {</span>
+		<span class="keyword">if</span> (<span class="keyword">this</span>.zoomed) { <span class="keyword">return</span>; }
+
+		x = <span class="keyword">this</span>.hScroll ? x : <span class="number">0</span>;
+		y = <span class="keyword">this</span>.vScroll ? y : <span class="number">0</span>;
+
+		<span class="keyword">if</span> (<span class="keyword">this</span>.options.useTransform) {
+			<span class="keyword">this</span>.scroller.style[transform] = <span class="string">'translate('</span> + x + <span class="string">'px,'</span> + y + <span class="string">'px) scale('</span> + <span class="keyword">this</span>.scale + <span class="string">')'</span> + translateZ;
+		} <span class="keyword">else</span> {
+			x = m.round(x);
+			y = m.round(y);
+			<span class="keyword">this</span>.scroller.style.left = x + <span class="string">'px'</span>;
+			<span class="keyword">this</span>.scroller.style.top = y + <span class="string">'px'</span>;
+		}
+
+		<span class="keyword">this</span>.x = x;
+		<span class="keyword">this</span>.y = y;
+
+		<span class="keyword">this</span>._scrollbarPos(<span class="string">'h'</span>);
+		<span class="keyword">this</span>._scrollbarPos(<span class="string">'v'</span>);
+	},
+
+	_scrollbarPos: <span class="function"><span class="keyword">function</span> <span class="params">(dir, hidden)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			pos = dir === <span class="string">'h'</span> ? that.x : that.y,
+			size;
+
+		<span class="keyword">if</span> (!that[dir + <span class="string">'Scrollbar'</span>]) { <span class="keyword">return</span>; }
+
+		pos = that[dir + <span class="string">'ScrollbarProp'</span>] * pos;
+
+		<span class="keyword">if</span> (pos &lt; <span class="number">0</span>) {
+			<span class="keyword">if</span> (!that.options.fixedScrollbar) {
+				size = that[dir + <span class="string">'ScrollbarIndicatorSize'</span>] + m.round(pos * <span class="number">3</span>);
+				<span class="keyword">if</span> (size &lt; <span class="number">8</span>) { size = <span class="number">8</span>; }
+				that[dir + <span class="string">'ScrollbarIndicator'</span>].style[dir === <span class="string">'h'</span> ? <span class="string">'width'</span> : <span class="string">'height'</span>] = size + <span class="string">'px'</span>;
+			}
+			pos = <span class="number">0</span>;
+		} <span class="keyword">else</span> <span class="keyword">if</span> (pos &gt; that[dir + <span class="string">'ScrollbarMaxScroll'</span>]) {
+			<span class="keyword">if</span> (!that.options.fixedScrollbar) {
+				size = that[dir + <span class="string">'ScrollbarIndicatorSize'</span>] - m.round((pos - that[dir + <span class="string">'ScrollbarMaxScroll'</span>]) * <span class="number">3</span>);
+				<span class="keyword">if</span> (size &lt; <span class="number">8</span>) { size = <span class="number">8</span>; }
+				that[dir + <span class="string">'ScrollbarIndicator'</span>].style[dir === <span class="string">'h'</span> ? <span class="string">'width'</span> : <span class="string">'height'</span>] = size + <span class="string">'px'</span>;
+				pos = that[dir + <span class="string">'ScrollbarMaxScroll'</span>] + (that[dir + <span class="string">'ScrollbarIndicatorSize'</span>] - size);
+			} <span class="keyword">else</span> {
+				pos = that[dir + <span class="string">'ScrollbarMaxScroll'</span>];
+			}
+		}
+
+		that[dir + <span class="string">'ScrollbarWrapper'</span>].style[transitionDelay] = <span class="string">'0'</span>;
+		that[dir + <span class="string">'ScrollbarWrapper'</span>].style.opacity = hidden &amp;&amp; that.options.hideScrollbar ? <span class="string">'0'</span> : <span class="string">'1'</span>;
+		that[dir + <span class="string">'ScrollbarIndicator'</span>].style[transform] = <span class="string">'translate('</span> + (dir === <span class="string">'h'</span> ? pos + <span class="string">'px,0)'</span> : <span class="string">'0,'</span> + pos + <span class="string">'px)'</span>) + translateZ;
+	},
+
+	_start: <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			point = hasTouch ? e.touches[<span class="number">0</span>] : e,
+			matrix, x, y,
+			c1, c2;
+
+		<span class="keyword">if</span> (!that.enabled) { <span class="keyword">return</span>; }
+
+		<span class="keyword">if</span> (that.options.onBeforeScrollStart) { that.options.onBeforeScrollStart.call(that, e); }
+
+		<span class="keyword">if</span> (that.options.useTransition || that.options.zoom) { that._transitionTime(<span class="number">0</span>); }
+
+		that.moved = <span class="literal">false</span>;
+		that.animating = <span class="literal">false</span>;
+		that.zoomed = <span class="literal">false</span>;
+		that.distX = <span class="number">0</span>;
+		that.distY = <span class="number">0</span>;
+		that.absDistX = <span class="number">0</span>;
+		that.absDistY = <span class="number">0</span>;
+		that.dirX = <span class="number">0</span>;
+		that.dirY = <span class="number">0</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Gesture start</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> (that.options.zoom &amp;&amp; hasTouch &amp;&amp; e.touches.length &gt; <span class="number">1</span>) {
+			c1 = m.abs(e.touches[<span class="number">0</span>].pageX-e.touches[<span class="number">1</span>].pageX);
+			c2 = m.abs(e.touches[<span class="number">0</span>].pageY-e.touches[<span class="number">1</span>].pageY);
+			that.touchesDistStart = m.sqrt(c1 * c1 + c2 * c2);
+
+			that.originX = m.abs(e.touches[<span class="number">0</span>].pageX + e.touches[<span class="number">1</span>].pageX - that.wrapperOffsetLeft * <span class="number">2</span>) / <span class="number">2</span> - that.x;
+			that.originY = m.abs(e.touches[<span class="number">0</span>].pageY + e.touches[<span class="number">1</span>].pageY - that.wrapperOffsetTop * <span class="number">2</span>) / <span class="number">2</span> - that.y;
+
+			<span class="keyword">if</span> (that.options.onZoomStart) { that.options.onZoomStart.call(that, e); }
+		}
+
+		<span class="keyword">if</span> (that.options.momentum) {
+			<span class="keyword">if</span> (that.options.useTransform) {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Very lame general purpose alternative to CSSMatrix</p>             </td>             <td class="code">               <div class="highlight"><pre>				matrix = getComputedStyle(that.scroller, <span class="literal">null</span>)[transform].replace(<span class="regexp">/[^0-9\-.,]/g</span>, <span class="string">''</span>).split(<span class="string">','</span>);
+				x = +(matrix[<span class="number">12</span>] || matrix[<span class="number">4</span>]);
+				y = +(matrix[<span class="number">13</span>] || matrix[<span class="number">5</span>]);
+			} <span class="keyword">else</span> {
+				x = +getComputedStyle(that.scroller, <span class="literal">null</span>).left.replace(<span class="regexp">/[^0-9\-]/g</span>,<span class="string">''</span>);
+				y = +getComputedStyle(that.scroller, <span class="literal">null</span>).top.replace(<span class="regexp">/[^0-9\-]/g</span>,<span class="string">''</span>);
+			}
+
+			<span class="keyword">if</span> (x !== that.x || y !== that.y) {
+				<span class="keyword">if</span> (that.options.useTransition) { that._unbind(TRNEND_EV); }
+				<span class="keyword">else</span> { cancelFrame(that.aniTime); }
+				that.steps = [];
+				that._pos(x, y);
+				<span class="keyword">if</span> (that.options.onScrollEnd) { that.options.onScrollEnd.call(that); }
+			}
+		}
+
+		that.absStartX = that.x;	<span class="comment">// Needed by snap threshold</span>
+		that.absStartY = that.y;
+
+		that.startX = that.x;
+		that.startY = that.y;
+		that.pointX = point.pageX;
+		that.pointY = point.pageY;
+
+		that.startTime = e.timeStamp || Date.now();
+
+		<span class="keyword">if</span> (that.options.onScrollStart) { that.options.onScrollStart.call(that, e); }
+
+		that._bind(MOVE_EV, window);
+		that._bind(END_EV, window);
+		that._bind(CANCEL_EV, window);
+	},
+
+	_move: <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			point = hasTouch ? e.touches[<span class="number">0</span>] : e,
+			deltaX = point.pageX - that.pointX,
+			deltaY = point.pageY - that.pointY,
+			newX = that.x + deltaX,
+			newY = that.y + deltaY,
+			c1, c2, scale,
+			timestamp = e.timeStamp || Date.now();
+
+		<span class="keyword">if</span> (that.options.onBeforeScrollMove) { that.options.onBeforeScrollMove.call(that, e); }
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Zoom</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> (that.options.zoom &amp;&amp; hasTouch &amp;&amp; e.touches.length &gt; <span class="number">1</span>) {
+			c1 = m.abs(e.touches[<span class="number">0</span>].pageX - e.touches[<span class="number">1</span>].pageX);
+			c2 = m.abs(e.touches[<span class="number">0</span>].pageY - e.touches[<span class="number">1</span>].pageY);
+			that.touchesDist = m.sqrt(c1*c1+c2*c2);
+
+			that.zoomed = <span class="literal">true</span>;
+
+			scale = <span class="number">1</span> / that.touchesDistStart * that.touchesDist * <span class="keyword">this</span>.scale;
+
+			<span class="keyword">if</span> (scale &lt; that.options.zoomMin) { scale = <span class="number">0.5</span> * that.options.zoomMin * Math.pow(<span class="number">2.0</span>, scale / that.options.zoomMin); }
+			<span class="keyword">else</span> <span class="keyword">if</span> (scale &gt; that.options.zoomMax) { scale = <span class="number">2.0</span> * that.options.zoomMax * Math.pow(<span class="number">0.5</span>, that.options.zoomMax / scale); }
+
+			that.lastScale = scale / <span class="keyword">this</span>.scale;
+
+			newX = <span class="keyword">this</span>.originX - <span class="keyword">this</span>.originX * that.lastScale + <span class="keyword">this</span>.x,
+			newY = <span class="keyword">this</span>.originY - <span class="keyword">this</span>.originY * that.lastScale + <span class="keyword">this</span>.y;
+
+			<span class="keyword">this</span>.scroller.style[transform] = <span class="string">'translate('</span> + newX + <span class="string">'px,'</span> + newY + <span class="string">'px) scale('</span> + scale + <span class="string">')'</span> + translateZ;
+
+			<span class="keyword">if</span> (that.options.onZoom) { that.options.onZoom.call(that, e); }
+
+			<span class="keyword">return</span>;
+		}
+
+		that.pointX = point.pageX;
+		that.pointY = point.pageY;
+
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Slow down if outside of the boundaries</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> (newX &gt; <span class="number">0</span> || newX &lt; that.maxScrollX) {
+			newX = that.options.bounce ? that.x + (deltaX / <span class="number">2</span>) : newX &gt;= <span class="number">0</span> || that.maxScrollX &gt;= <span class="number">0</span> ? <span class="number">0</span> : that.maxScrollX;
+		}
+		<span class="keyword">if</span> (newY &gt; that.minScrollY || newY &lt; that.maxScrollY) {
+			newY = that.options.bounce ? that.y + (deltaY / <span class="number">2</span>) : newY &gt;= that.minScrollY || that.maxScrollY &gt;= <span class="number">0</span> ? that.minScrollY : that.maxScrollY;
+		}
+
+		that.distX += deltaX;
+		that.distY += deltaY;
+		that.absDistX = m.abs(that.distX);
+		that.absDistY = m.abs(that.distY);
+
+		<span class="keyword">if</span> (that.absDistX &lt; <span class="number">6</span> &amp;&amp; that.absDistY &lt; <span class="number">6</span>) {
+			<span class="keyword">return</span>;
+		}
+
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Lock direction</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> (that.options.lockDirection) {
+			<span class="keyword">if</span> (that.absDistX &gt; that.absDistY + <span class="number">5</span>) {
+				newY = that.y;
+				deltaY = <span class="number">0</span>;
+			} <span class="keyword">else</span> <span class="keyword">if</span> (that.absDistY &gt; that.absDistX + <span class="number">5</span>) {
+				newX = that.x;
+				deltaX = <span class="number">0</span>;
+			}
+		}
+
+		that.moved = <span class="literal">true</span>;
+		that._pos(newX, newY);
+		that.dirX = deltaX &gt; <span class="number">0</span> ? -<span class="number">1</span> : deltaX &lt; <span class="number">0</span> ? <span class="number">1</span> : <span class="number">0</span>;
+		that.dirY = deltaY &gt; <span class="number">0</span> ? -<span class="number">1</span> : deltaY &lt; <span class="number">0</span> ? <span class="number">1</span> : <span class="number">0</span>;
+
+		<span class="keyword">if</span> (timestamp - that.startTime &gt; <span class="number">300</span>) {
+			that.startTime = timestamp;
+			that.startX = that.x;
+			that.startY = that.y;
+		}
+
+		<span class="keyword">if</span> (that.options.onScrollMove) { that.options.onScrollMove.call(that, e); }
+	},
+
+	_end: <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
+		<span class="keyword">if</span> (hasTouch &amp;&amp; e.touches.length !== <span class="number">0</span>) { <span class="keyword">return</span>; }
+
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			point = hasTouch ? e.changedTouches[<span class="number">0</span>] : e,
+			target, ev,
+			momentumX = { dist:<span class="number">0</span>, time:<span class="number">0</span> },
+			momentumY = { dist:<span class="number">0</span>, time:<span class="number">0</span> },
+			duration = (e.timeStamp || Date.now()) - that.startTime,
+			newPosX = that.x,
+			newPosY = that.y,
+			distX, distY,
+			newDuration,
+			snap,
+			scale;
+
+		that._unbind(MOVE_EV, window);
+		that._unbind(END_EV, window);
+		that._unbind(CANCEL_EV, window);
+
+		<span class="keyword">if</span> (that.options.onBeforeScrollEnd) { that.options.onBeforeScrollEnd.call(that, e); }
+
+		<span class="keyword">if</span> (that.zoomed) {
+			scale = that.scale * that.lastScale;
+			scale = Math.max(that.options.zoomMin, scale);
+			scale = Math.min(that.options.zoomMax, scale);
+			that.lastScale = scale / that.scale;
+			that.scale = scale;
+
+			that.x = that.originX - that.originX * that.lastScale + that.x;
+			that.y = that.originY - that.originY * that.lastScale + that.y;
+
+			that.scroller.style[transitionDuration] = <span class="string">'200ms'</span>;
+			that.scroller.style[transform] = <span class="string">'translate('</span> + that.x + <span class="string">'px,'</span> + that.y + <span class="string">'px) scale('</span> + that.scale + <span class="string">')'</span> + translateZ;
+
+			that.zoomed = <span class="literal">false</span>;
+			that.refresh();
+
+			<span class="keyword">if</span> (that.options.onZoomEnd) { that.options.onZoomEnd.call(that, e); }
+			<span class="keyword">return</span>;
+		}
+
+		<span class="keyword">if</span> (!that.moved) {
+			<span class="keyword">if</span> (hasTouch) {
+				<span class="keyword">if</span> (that.doubleTapTimer &amp;&amp; that.options.zoom) {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Double tapped</p>             </td>             <td class="code">               <div class="highlight"><pre>					clearTimeout(that.doubleTapTimer);
+					that.doubleTapTimer = <span class="literal">null</span>;
+					<span class="keyword">if</span> (that.options.onZoomStart) { that.options.onZoomStart.call(that, e); }
+					that.zoom(that.pointX, that.pointY, that.scale === <span class="number">1</span> ? that.options.doubleTapZoom : <span class="number">1</span>);
+					<span class="keyword">if</span> (that.options.onZoomEnd) {
+						setTimeout(<span class="keyword">function</span>() {
+							that.options.onZoomEnd.call(that, e);
+						}, <span class="number">200</span>); <span class="comment">// 200 is default zoom duration</span>
+					}
+				} <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.options.handleClick) {
+					that.doubleTapTimer = setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+						that.doubleTapTimer = <span class="literal">null</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Find the last touched element</p>             </td>             <td class="code">               <div class="highlight"><pre>						target = point.target;
+						<span class="keyword">while</span> (target.nodeType !== <span class="number">1</span>) { target = target.parentNode; }
+
+						<span class="keyword">if</span> (target.tagName !== <span class="string">'SELECT'</span> &amp;&amp; target.tagName !== <span class="string">'INPUT'</span> &amp;&amp; target.tagName !== <span class="string">'TEXTAREA'</span>) {
+							ev = doc.createEvent(<span class="string">'MouseEvents'</span>);
+							ev.initMouseEvent(<span class="string">'click'</span>, <span class="literal">true</span>, <span class="literal">true</span>, e.view, <span class="number">1</span>,
+								point.screenX, point.screenY, point.clientX, point.clientY,
+								e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,
+								<span class="number">0</span>, <span class="literal">null</span>);
+							ev._fake = <span class="literal">true</span>;
+							target.dispatchEvent(ev);
+						}
+					}, that.options.zoom ? <span class="number">250</span> : <span class="number">0</span>);
+				}
+			}
+
+			that._resetPos(<span class="number">400</span>);
+
+			<span class="keyword">if</span> (that.options.onTouchEnd) { that.options.onTouchEnd.call(that, e); }
+			<span class="keyword">return</span>;
+		}
+
+		<span class="keyword">if</span> (duration &lt; <span class="number">300</span> &amp;&amp; that.options.momentum) {
+			momentumX = newPosX ? that._momentum(newPosX - that.startX, duration, -that.x, that.scrollerW - that.wrapperW + that.x, that.options.bounce ? that.wrapperW : <span class="number">0</span>) : momentumX;
+			momentumY = newPosY ? that._momentum(newPosY - that.startY, duration, -that.y, (that.maxScrollY &lt; <span class="number">0</span> ? that.scrollerH - that.wrapperH + that.y - that.minScrollY : <span class="number">0</span>), that.options.bounce ? that.wrapperH : <span class="number">0</span>) : momentumY;
+
+			newPosX = that.x + momentumX.dist;
+			newPosY = that.y + momentumY.dist;
+
+			<span class="keyword">if</span> ((that.x &gt; <span class="number">0</span> &amp;&amp; newPosX &gt; <span class="number">0</span>) || (that.x &lt; that.maxScrollX &amp;&amp; newPosX &lt; that.maxScrollX)) { momentumX = { dist:<span class="number">0</span>, time:<span class="number">0</span> }; }
+			<span class="keyword">if</span> ((that.y &gt; that.minScrollY &amp;&amp; newPosY &gt; that.minScrollY) || (that.y &lt; that.maxScrollY &amp;&amp; newPosY &lt; that.maxScrollY)) { momentumY = { dist:<span class="number">0</span>, time:<span class="number">0</span> }; }
+		}
+
+		<span class="keyword">if</span> (momentumX.dist || momentumY.dist) {
+			newDuration = m.max(m.max(momentumX.time, momentumY.time), <span class="number">10</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Do we need to snap?</p>             </td>             <td class="code">               <div class="highlight"><pre>			<span class="keyword">if</span> (that.options.snap) {
+				distX = newPosX - that.absStartX;
+				distY = newPosY - that.absStartY;
+				<span class="keyword">if</span> (m.abs(distX) &lt; that.options.snapThreshold &amp;&amp; m.abs(distY) &lt; that.options.snapThreshold) { that.scrollTo(that.absStartX, that.absStartY, <span class="number">200</span>); }
+				<span class="keyword">else</span> {
+					snap = that._snap(newPosX, newPosY);
+					newPosX = snap.x;
+					newPosY = snap.y;
+					newDuration = m.max(snap.time, newDuration);
+				}
+			}
+
+			that.scrollTo(m.round(newPosX), m.round(newPosY), newDuration);
+
+			<span class="keyword">if</span> (that.options.onTouchEnd) { that.options.onTouchEnd.call(that, e); }
+			<span class="keyword">return</span>;
+		}
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Do we need to snap?</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> (that.options.snap) {
+			distX = newPosX - that.absStartX;
+			distY = newPosY - that.absStartY;
+			<span class="keyword">if</span> (m.abs(distX) &lt; that.options.snapThreshold &amp;&amp; m.abs(distY) &lt; that.options.snapThreshold) { that.scrollTo(that.absStartX, that.absStartY, <span class="number">200</span>); }
+			<span class="keyword">else</span> {
+				snap = that._snap(that.x, that.y);
+				<span class="keyword">if</span> (snap.x !== that.x || snap.y !== that.y) { that.scrollTo(snap.x, snap.y, snap.time); }
+			}
+
+			<span class="keyword">if</span> (that.options.onTouchEnd) { that.options.onTouchEnd.call(that, e); }
+			<span class="keyword">return</span>;
+		}
+
+		that._resetPos(<span class="number">200</span>);
+		<span class="keyword">if</span> (that.options.onTouchEnd) { that.options.onTouchEnd.call(that, e); }
+	},
+
+	_resetPos: <span class="function"><span class="keyword">function</span> <span class="params">(time)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			resetX = that.x &gt;= <span class="number">0</span> ? <span class="number">0</span> : that.x &lt; that.maxScrollX ? that.maxScrollX : that.x,
+			resetY = that.y &gt;= that.minScrollY || that.maxScrollY &gt; <span class="number">0</span> ? that.minScrollY : that.y &lt; that.maxScrollY ? that.maxScrollY : that.y;
+
+		<span class="keyword">if</span> (resetX === that.x &amp;&amp; resetY === that.y) {
+			<span class="keyword">if</span> (that.moved) {
+				that.moved = <span class="literal">false</span>;
+				<span class="keyword">if</span> (that.options.onScrollEnd) { that.options.onScrollEnd.call(that); }		<span class="comment">// Execute custom code on scroll end</span>
+			}
+
+			<span class="keyword">if</span> (that.hScrollbar &amp;&amp; that.options.hideScrollbar) {
+				<span class="keyword">if</span> (vendor === <span class="string">'webkit'</span>) { that.hScrollbarWrapper.style[transitionDelay] = <span class="string">'300ms'</span>; }
+				that.hScrollbarWrapper.style.opacity = <span class="string">'0'</span>;
+			}
+			<span class="keyword">if</span> (that.vScrollbar &amp;&amp; that.options.hideScrollbar) {
+				<span class="keyword">if</span> (vendor === <span class="string">'webkit'</span>) { that.vScrollbarWrapper.style[transitionDelay] = <span class="string">'300ms'</span>; }
+				that.vScrollbarWrapper.style.opacity = <span class="string">'0'</span>;
+			}
+
+			<span class="keyword">return</span>;
+		}
+
+		that.scrollTo(resetX, resetY, time || <span class="number">0</span>);
+	},
+
+	_wheel: <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			wheelDeltaX, wheelDeltaY,
+			deltaX, deltaY,
+			deltaScale;
+
+		<span class="keyword">if</span> (<span class="string">'wheelDeltaX'</span> <span class="keyword">in</span> e) {
+			wheelDeltaX = e.wheelDeltaX / <span class="number">12</span>;
+			wheelDeltaY = e.wheelDeltaY / <span class="number">12</span>;
+		} <span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">'wheelDelta'</span> <span class="keyword">in</span> e) {
+			wheelDeltaX = wheelDeltaY = e.wheelDelta / <span class="number">12</span>;
+		} <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">'detail'</span> <span class="keyword">in</span> e) {
+			wheelDeltaX = wheelDeltaY = -e.detail * <span class="number">3</span>;
+		} <span class="keyword">else</span> {
+			<span class="keyword">return</span>;
+		}
+
+		<span class="keyword">if</span> (that.options.wheelAction === <span class="string">'zoom'</span>) {
+			deltaScale = that.scale * Math.pow(<span class="number">2</span>, <span class="number">1</span>/<span class="number">3</span> * (wheelDeltaY ? wheelDeltaY / Math.abs(wheelDeltaY) : <span class="number">0</span>));
+			<span class="keyword">if</span> (deltaScale &lt; that.options.zoomMin) { deltaScale = that.options.zoomMin; }
+			<span class="keyword">if</span> (deltaScale &gt; that.options.zoomMax) { deltaScale = that.options.zoomMax; }
+
+			<span class="keyword">if</span> (deltaScale !== that.scale) {
+				<span class="keyword">if</span> (!that.wheelZoomCount &amp;&amp; that.options.onZoomStart) { that.options.onZoomStart.call(that, e); }
+				that.wheelZoomCount++;
+
+				that.zoom(e.pageX, e.pageY, deltaScale, <span class="number">400</span>);
+
+				setTimeout(<span class="keyword">function</span>() {
+					that.wheelZoomCount--;
+					<span class="keyword">if</span> (!that.wheelZoomCount &amp;&amp; that.options.onZoomEnd) { that.options.onZoomEnd.call(that, e); }
+				}, <span class="number">400</span>);
+			}
+
+			<span class="keyword">return</span>;
+		}
+
+		deltaX = that.x + wheelDeltaX;
+		deltaY = that.y + wheelDeltaY;
+
+		<span class="keyword">if</span> (deltaX &gt; <span class="number">0</span>) { deltaX = <span class="number">0</span>; }
+		<span class="keyword">else</span> <span class="keyword">if</span> (deltaX &lt; that.maxScrollX) { deltaX = that.maxScrollX; }
+
+		<span class="keyword">if</span> (deltaY &gt; that.minScrollY) { deltaY = that.minScrollY; }
+		<span class="keyword">else</span> <span class="keyword">if</span> (deltaY &lt; that.maxScrollY) { deltaY = that.maxScrollY; }
+
+		<span class="keyword">if</span> (that.maxScrollY &lt; <span class="number">0</span>) {
+			that.scrollTo(deltaX, deltaY, <span class="number">0</span>);
+		}
+	},
+
+	_transitionEnd: <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>;
+
+		<span class="keyword">if</span> (e.target !== that.scroller) { <span class="keyword">return</span>; }
+
+		that._unbind(TRNEND_EV);
+
+		that._startAni();
+	},
+
+
+	<span class="comment">/**
+	*
+	* Utilities
+	*
+	*/</span>
+	_startAni: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			startX = that.x, startY = that.y,
+			startTime = Date.now(),
+			step, easeOut,
+			animate;
+
+		<span class="keyword">if</span> (that.animating) { <span class="keyword">return</span>; }
+
+		<span class="keyword">if</span> (!that.steps.length) {
+			that._resetPos(<span class="number">400</span>);
+			<span class="keyword">return</span>;
+		}
+
+		step = that.steps.shift();
+
+		<span class="keyword">if</span> (step.x === startX &amp;&amp; step.y === startY) { step.time = <span class="number">0</span>; }
+
+		that.animating = <span class="literal">true</span>;
+		that.moved = <span class="literal">true</span>;
+
+		<span class="keyword">if</span> (that.options.useTransition) {
+			that._transitionTime(step.time);
+			that._pos(step.x, step.y);
+			that.animating = <span class="literal">false</span>;
+			<span class="keyword">if</span> (step.time) { that._bind(TRNEND_EV); }
+			<span class="keyword">else</span> { that._resetPos(<span class="number">0</span>); }
+			<span class="keyword">return</span>;
+		}
+
+		animate = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+			<span class="keyword">var</span> now = Date.now(),
+				newX, newY;
+
+			<span class="keyword">if</span> (now &gt;= startTime + step.time) {
+				that._pos(step.x, step.y);
+				that.animating = <span class="literal">false</span>;
+				<span class="keyword">if</span> (that.options.onAnimationEnd) { that.options.onAnimationEnd.call(that); }			<span class="comment">// Execute custom code on animation end</span>
+				that._startAni();
+				<span class="keyword">return</span>;
+			}
+
+			now = (now - startTime) / step.time - <span class="number">1</span>;
+			easeOut = m.sqrt(<span class="number">1</span> - now * now);
+			newX = (step.x - startX) * easeOut + startX;
+			newY = (step.y - startY) * easeOut + startY;
+			that._pos(newX, newY);
+			<span class="keyword">if</span> (that.options.onAnimate) { that.options.onAnimate.call(that); }
+			<span class="keyword">if</span> (that.animating) { that.aniTime = nextFrame(animate); }
+		};
+
+		animate();
+	},
+
+	_transitionTime: <span class="function"><span class="keyword">function</span> <span class="params">(time)</span> {</span>
+		time += <span class="string">'ms'</span>;
+		<span class="keyword">this</span>.scroller.style[transitionDuration] = time;
+		<span class="keyword">if</span> (<span class="keyword">this</span>.hScrollbar) { <span class="keyword">this</span>.hScrollbarIndicator.style[transitionDuration] = time; }
+		<span class="keyword">if</span> (<span class="keyword">this</span>.vScrollbar) { <span class="keyword">this</span>.vScrollbarIndicator.style[transitionDuration] = time; }
+	},
+
+	_momentum: <span class="function"><span class="keyword">function</span> <span class="params">(dist, time, maxDistUpper, maxDistLower, size)</span> {</span>
+		<span class="keyword">var</span> deceleration = <span class="number">0.0006</span>,
+			speed = m.abs(dist) / time,
+			newDist = (speed * speed) / (<span class="number">2</span> * deceleration),
+			newTime = <span class="number">0</span>, outsideDist = <span class="number">0</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Proportinally reduce speed if we are outside of the boundaries</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> (dist &gt; <span class="number">0</span> &amp;&amp; newDist &gt; maxDistUpper) {
+			outsideDist = size / (<span class="number">6</span> / (newDist / speed * deceleration));
+			maxDistUpper = maxDistUpper + outsideDist;
+			speed = speed * maxDistUpper / newDist;
+			newDist = maxDistUpper;
+		} <span class="keyword">else</span> <span class="keyword">if</span> (dist &lt; <span class="number">0</span> &amp;&amp; newDist &gt; maxDistLower) {
+			outsideDist = size / (<span class="number">6</span> / (newDist / speed * deceleration));
+			maxDistLower = maxDistLower + outsideDist;
+			speed = speed * maxDistLower / newDist;
+			newDist = maxDistLower;
+		}
+
+		newDist = newDist * (dist &lt; <span class="number">0</span> ? -<span class="number">1</span> : <span class="number">1</span>);
+		newTime = speed / deceleration;
+
+		<span class="keyword">return</span> { dist: newDist, time: m.round(newTime) };
+	},
+
+	_offset: <span class="function"><span class="keyword">function</span> <span class="params">(el)</span> {</span>
+		<span class="keyword">var</span> left = -el.offsetLeft,
+			top = -el.offsetTop;
+
+		<span class="keyword">while</span> (el = el.offsetParent) {
+			left -= el.offsetLeft;
+			top -= el.offsetTop;
+		}
+
+		<span class="keyword">if</span> (el !== <span class="keyword">this</span>.wrapper) {
+			left *= <span class="keyword">this</span>.scale;
+			top *= <span class="keyword">this</span>.scale;
+		}
+
+		<span class="keyword">return</span> { left: left, top: top };
+	},
+
+	_snap: <span class="function"><span class="keyword">function</span> <span class="params">(x, y)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			i, l,
+			page, time,
+			sizeX, sizeY;
+
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Check page X</p>             </td>             <td class="code">               <div class="highlight"><pre>		page = that.pagesX.length - <span class="number">1</span>;
+		<span class="keyword">for</span> (i=<span class="number">0</span>, l=that.pagesX.length; i&lt;l; i++) {
+			<span class="keyword">if</span> (x &gt;= that.pagesX[i]) {
+				page = i;
+				<span class="keyword">break</span>;
+			}
+		}
+		<span class="keyword">if</span> (page === that.currPageX &amp;&amp; page &gt; <span class="number">0</span> &amp;&amp; that.dirX &lt; <span class="number">0</span>) { page--; }
+		x = that.pagesX[page];
+		sizeX = m.abs(x - that.pagesX[that.currPageX]);
+		sizeX = sizeX ? m.abs(that.x - x) / sizeX * <span class="number">500</span> : <span class="number">0</span>;
+		that.currPageX = page;
+
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Check page Y</p>             </td>             <td class="code">               <div class="highlight"><pre>		page = that.pagesY.length-<span class="number">1</span>;
+		<span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;page; i++) {
+			<span class="keyword">if</span> (y &gt;= that.pagesY[i]) {
+				page = i;
+				<span class="keyword">break</span>;
+			}
+		}
+		<span class="keyword">if</span> (page === that.currPageY &amp;&amp; page &gt; <span class="number">0</span> &amp;&amp; that.dirY &lt; <span class="number">0</span>) { page--; }
+		y = that.pagesY[page];
+		sizeY = m.abs(y - that.pagesY[that.currPageY]);
+		sizeY = sizeY ? m.abs(that.y - y) / sizeY * <span class="number">500</span> : <span class="number">0</span>;
+		that.currPageY = page;
+
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Snap with constant speed (proportional duration)</p>             </td>             <td class="code">               <div class="highlight"><pre>		time = m.round(m.max(sizeX, sizeY)) || <span class="number">200</span>;
+
+		<span class="keyword">return</span> { x: x, y: y, time: time };
+	},
+
+	_bind: <span class="function"><span class="keyword">function</span> <span class="params">(type, el, bubble)</span> {</span>
+		el = el || <span class="keyword">this</span>.scroller;
+		el[ add ](pre + type, <span class="keyword">this</span>, !!bubble);
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>(el || this.scroller).addEventListener(type, this, !!bubble);</p>             </td>             <td class="code">               <div class="highlight"><pre>	},
+
+	_unbind: <span class="function"><span class="keyword">function</span> <span class="params">(type, el, bubble)</span> {</span>
+		el = el || <span class="keyword">this</span>.scroller;
+		el[ rem ](pre + type, <span class="keyword">this</span>, !!bubble);
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>(el || this.scroller).removeEventListener(type, this, !!bubble);</p>             </td>             <td class="code">               <div class="highlight"><pre>	},
+
+
+	<span class="comment">/**
+	*
+	* Public methods
+	*
+	*/</span>
+	destroy: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>;
+
+		that.scroller.style[transform] = <span class="string">''</span>;
+		that.scroller.style[transitionProperty] = <span class="string">''</span>;
+		that.scroller.style[transitionDuration] = <span class="string">''</span>;
+		that.scroller.style[transformOrigin] = <span class="string">''</span>;
+		that.wrapper.style.overflow = <span class="string">''</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Remove the scrollbars</p>             </td>             <td class="code">               <div class="highlight"><pre>		that.hScrollbar = <span class="literal">false</span>;
+		that.vScrollbar = <span class="literal">false</span>;
+		that._scrollbar(<span class="string">'h'</span>);
+		that._scrollbar(<span class="string">'v'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Remove the event listeners</p>             </td>             <td class="code">               <div class="highlight"><pre>		that._unbind(RESIZE_EV, window);
+		that._unbind(START_EV);
+		that._unbind(MOVE_EV, window);
+		that._unbind(END_EV, window);
+		that._unbind(CANCEL_EV, window);
+
+		<span class="keyword">if</span> (!that.options.hasTouch) {
+			that._unbind(<span class="string">'DOMMouseScroll'</span>);
+			that._unbind(<span class="string">'mousewheel'</span>);
+		}
+
+		<span class="keyword">if</span> (that.resizeTimer) { clearTimeout(that.resizeTimer); }
+
+		<span class="keyword">if</span> (that.options.useTransition) { that._unbind(TRNEND_EV); }
+
+		<span class="keyword">if</span> (that.options.checkDOMChanges) { clearInterval(that.checkDOMTime); }
+
+		<span class="keyword">if</span> (that.options.onDestroy) { that.options.onDestroy.call(that); }
+	},
+
+	refresh: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			offset,
+			i, l,
+			els,
+			pos = <span class="number">0</span>,
+			page = <span class="number">0</span>;
+
+		<span class="keyword">if</span> (that.scale &lt; that.options.zoomMin) { that.scale = that.options.zoomMin; }
+		that.wrapperW = that.wrapper.clientWidth || <span class="number">1</span>;
+		that.wrapperH = that.wrapper.clientHeight || <span class="number">1</span>;
+
+		that.minScrollY = -that.options.topOffset || <span class="number">0</span>;
+		that.scrollerW = m.round(that.scroller.offsetWidth * that.scale);
+		that.scrollerH = m.round((that.scroller.offsetHeight + that.minScrollY) * that.scale);
+		that.maxScrollX = that.wrapperW - that.scrollerW;
+		that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY;
+		that.dirX = <span class="number">0</span>;
+		that.dirY = <span class="number">0</span>;
+
+		<span class="keyword">if</span> (that.options.onRefresh) { that.options.onRefresh.call(that); }
+
+		that.hScroll = that.options.hScroll &amp;&amp; that.maxScrollX &lt; <span class="number">0</span>;
+		that.vScroll = that.options.vScroll &amp;&amp; (!that.options.bounceLock &amp;&amp; !that.hScroll || that.scrollerH &gt; that.wrapperH);
+
+		that.hScrollbar = that.hScroll &amp;&amp; that.options.hScrollbar;
+		that.vScrollbar = that.vScroll &amp;&amp; that.options.vScrollbar &amp;&amp; that.scrollerH &gt; that.wrapperH;
+
+		offset = that._offset(that.wrapper);
+		that.wrapperOffsetLeft = -offset.left;
+		that.wrapperOffsetTop = -offset.top;
+
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Prepare snap</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> (<span class="keyword">typeof</span> that.options.snap === <span class="string">'string'</span>) {
+			that.pagesX = [];
+			that.pagesY = [];
+			els = that.scroller.querySelectorAll(that.options.snap);
+			<span class="keyword">for</span> (i=<span class="number">0</span>, l=els.length; i&lt;l; i++) {
+				pos = that._offset(els[i]);
+				pos.left += that.wrapperOffsetLeft;
+				pos.top += that.wrapperOffsetTop;
+				that.pagesX[i] = pos.left &lt; that.maxScrollX ? that.maxScrollX : pos.left * that.scale;
+				that.pagesY[i] = pos.top &lt; that.maxScrollY ? that.maxScrollY : pos.top * that.scale;
+			}
+		} <span class="keyword">else</span> <span class="keyword">if</span> (that.options.snap) {
+			that.pagesX = [];
+			<span class="keyword">while</span> (pos &gt;= that.maxScrollX) {
+				that.pagesX[page] = pos;
+				pos = pos - that.wrapperW;
+				page++;
+			}
+			<span class="keyword">if</span> (that.maxScrollX%that.wrapperW) { that.pagesX[that.pagesX.length] = that.maxScrollX - that.pagesX[that.pagesX.length-<span class="number">1</span>] + that.pagesX[that.pagesX.length-<span class="number">1</span>]; }
+
+			pos = <span class="number">0</span>;
+			page = <span class="number">0</span>;
+			that.pagesY = [];
+			<span class="keyword">while</span> (pos &gt;= that.maxScrollY) {
+				that.pagesY[page] = pos;
+				pos = pos - that.wrapperH;
+				page++;
+			}
+			<span class="keyword">if</span> (that.maxScrollY%that.wrapperH) { that.pagesY[that.pagesY.length] = that.maxScrollY - that.pagesY[that.pagesY.length-<span class="number">1</span>] + that.pagesY[that.pagesY.length-<span class="number">1</span>]; }
+		}
+
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Prepare the scrollbars</p>             </td>             <td class="code">               <div class="highlight"><pre>		that._scrollbar(<span class="string">'h'</span>);
+		that._scrollbar(<span class="string">'v'</span>);
+
+		<span class="keyword">if</span> (!that.zoomed) {
+			that.scroller.style[transitionDuration] = <span class="string">'0'</span>;
+			that._resetPos(<span class="number">400</span>);
+		}
+	},
+
+	scrollTo: <span class="function"><span class="keyword">function</span> <span class="params">(x, y, time, relative)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			step = x,
+			i, l;
+
+		that.stop();
+
+		<span class="keyword">if</span> (!step.length) { step = [{ x: x, y: y, time: time, relative: relative }]; }
+
+		<span class="keyword">for</span> (i=<span class="number">0</span>, l=step.length; i&lt;l; i++) {
+			<span class="keyword">if</span> (step[i].relative) { step[i].x = that.x - step[i].x; step[i].y = that.y - step[i].y; }
+			that.steps.push({ x: step[i].x, y: step[i].y, time: step[i].time || <span class="number">0</span> });
+		}
+
+		that._startAni();
+	},
+
+	scrollToElement: <span class="function"><span class="keyword">function</span> <span class="params">(el, time)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>, pos;
+		el = el.nodeType ? el : that.scroller.querySelector(el);
+		<span class="keyword">if</span> (!el) { <span class="keyword">return</span>; }
+
+		pos = that._offset(el);
+		pos.left += that.wrapperOffsetLeft;
+		pos.top += that.wrapperOffsetTop;
+
+		pos.left = pos.left &gt; <span class="number">0</span> ? <span class="number">0</span> : pos.left &lt; that.maxScrollX ? that.maxScrollX : pos.left;
+		pos.top = pos.top &gt; that.minScrollY ? that.minScrollY : pos.top &lt; that.maxScrollY ? that.maxScrollY : pos.top;
+		time = time === <span class="literal">undefined</span> ? m.max(m.abs(pos.left)*<span class="number">2</span>, m.abs(pos.top)*<span class="number">2</span>) : time;
+
+		that.scrollTo(pos.left, pos.top, time);
+	},
+
+	scrollToPage: <span class="function"><span class="keyword">function</span> <span class="params">(pageX, pageY, time)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>, x, y;
+
+		time = time === <span class="literal">undefined</span> ? <span class="number">400</span> : time;
+
+		<span class="keyword">if</span> (that.options.onScrollStart) { that.options.onScrollStart.call(that); }
+
+		<span class="keyword">if</span> (that.options.snap) {
+			pageX = pageX === <span class="string">'next'</span> ? that.currPageX+<span class="number">1</span> : pageX === <span class="string">'prev'</span> ? that.currPageX-<span class="number">1</span> : pageX;
+			pageY = pageY === <span class="string">'next'</span> ? that.currPageY+<span class="number">1</span> : pageY === <span class="string">'prev'</span> ? that.currPageY-<span class="number">1</span> : pageY;
+
+			pageX = pageX &lt; <span class="number">0</span> ? <span class="number">0</span> : pageX &gt; that.pagesX.length-<span class="number">1</span> ? that.pagesX.length-<span class="number">1</span> : pageX;
+			pageY = pageY &lt; <span class="number">0</span> ? <span class="number">0</span> : pageY &gt; that.pagesY.length-<span class="number">1</span> ? that.pagesY.length-<span class="number">1</span> : pageY;
+
+			that.currPageX = pageX;
+			that.currPageY = pageY;
+			x = that.pagesX[pageX];
+			y = that.pagesY[pageY];
+		} <span class="keyword">else</span> {
+			x = -that.wrapperW * pageX;
+			y = -that.wrapperH * pageY;
+			<span class="keyword">if</span> (x &lt; that.maxScrollX) { x = that.maxScrollX; }
+			<span class="keyword">if</span> (y &lt; that.maxScrollY) { y = that.maxScrollY; }
+		}
+
+		that.scrollTo(x, y, time);
+	},
+
+	disable: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">this</span>.stop();
+		<span class="keyword">this</span>._resetPos(<span class="number">0</span>);
+		<span class="keyword">this</span>.enabled = <span class="literal">false</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>If disabled after touchstart we make sure that there are no left over events</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">this</span>._unbind(MOVE_EV, window);
+		<span class="keyword">this</span>._unbind(END_EV, window);
+		<span class="keyword">this</span>._unbind(CANCEL_EV, window);
+	},
+
+	enable: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">this</span>.enabled = <span class="literal">true</span>;
+	},
+
+	stop: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">if</span> (<span class="keyword">this</span>.options.useTransition) { <span class="keyword">this</span>._unbind(TRNEND_EV); }
+		<span class="keyword">else</span> { cancelFrame(<span class="keyword">this</span>.aniTime); }
+		<span class="keyword">this</span>.steps = [];
+		<span class="keyword">this</span>.moved = <span class="literal">false</span>;
+		<span class="keyword">this</span>.animating = <span class="literal">false</span>;
+	},
+
+	zoom: <span class="function"><span class="keyword">function</span> <span class="params">(x, y, scale, time)</span> {</span>
+		<span class="keyword">var</span> that = <span class="keyword">this</span>,
+			relScale = scale / that.scale;
+
+		<span class="keyword">if</span> (!that.options.useTransform) { <span class="keyword">return</span>; }
+
+		that.zoomed = <span class="literal">true</span>;
+		time = time === <span class="literal">undefined</span> ? <span class="number">200</span> : time;
+		x = x - that.wrapperOffsetLeft - that.x;
+		y = y - that.wrapperOffsetTop - that.y;
+		that.x = x - x * relScale + that.x;
+		that.y = y - y * relScale + that.y;
+
+		that.scale = scale;
+		that.refresh();
+
+		that.x = that.x &gt; <span class="number">0</span> ? <span class="number">0</span> : that.x &lt; that.maxScrollX ? that.maxScrollX : that.x;
+		that.y = that.y &gt; that.minScrollY ? that.minScrollY : that.y &lt; that.maxScrollY ? that.maxScrollY : that.y;
+
+		that.scroller.style[transitionDuration] = time + <span class="string">'ms'</span>;
+		that.scroller.style[transform] = <span class="string">'translate('</span> + that.x + <span class="string">'px,'</span> + that.y + <span class="string">'px) scale('</span> + scale + <span class="string">')'</span> + translateZ;
+		that.zoomed = <span class="literal">false</span>;
+	},
+
+	isReady: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+		<span class="keyword">return</span> !<span class="keyword">this</span>.moved &amp;&amp; !<span class="keyword">this</span>.zoomed &amp;&amp; !<span class="keyword">this</span>.animating;
+	}
+};
+
+dummyStyle = <span class="literal">null</span>;	<span class="comment">// for the sake of it</span>
+
+<span class="keyword">if</span> (<span class="keyword">typeof</span> exports !== <span class="string">'undefined'</span>) { exports.IScroll = IScroll; }
+<span class="keyword">else</span> { window.IScroll = IScroll; }
+
+})(window, document);
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

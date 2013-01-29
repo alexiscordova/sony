@@ -17,8 +17,10 @@
     'use strict';
 
     if( !$.socModules ) {
-        $.socModules = {}; //used for plugins 
+      $.socModules = {}; //used for plugins 
     }
+
+    var console = window.console;
 
     var SonyOneCarousel = function( element , options ){
       var self      = this,
@@ -345,7 +347,7 @@
         distOffset   = 0,
         dragDirection,
         //This makes sure depending on mode we use the right slide collection!
-        $currSlides = (self.isDesktopMode ? self.$desktopSlides : 
+        $currSlides = (self.isDesktopMode ? self.$desktopSlides :
                       self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
         
         totalMoveDist = Math.abs(pPos - sPos);
@@ -366,7 +368,7 @@
             console.log('snap to next slide');
             if(self.currentId >= $currSlides.length){
               self.currentId = $currSlides.length - 1;
-            } 
+            }
           }else{
             self.currentId --;
             console.log('snap to previous slide');
@@ -597,7 +599,7 @@
         oneUp        = '.soc-1up',
         threeUp      = '.soc-3up';
 
-        console.log("Current Mode »", mode);
+        //console.log("Current Mode »", mode);
 
         switch(mode){
           case 'desktop':
@@ -722,7 +724,7 @@
 
         self.$win.trigger('resize.soc');
 
-        console.log("Modile Slides are now cached up »" , self.numSlides);     
+        //console.log("Modile Slides are now cached up »" , self.numSlides);     
 
       },  
 
@@ -772,7 +774,7 @@
           }  
 
           if(i === galLen - 1 && galLen > slideCount * 2){
-            console.log("You have an orphaned element that needs a slide by itself");
+            //console.log("You have an orphaned element that needs a slide by itself");
             createSlide(true);
           }
         } 
@@ -785,7 +787,7 @@
 
         self.$win.trigger('resize.soc');
 
-        console.log("Modile Slides are now cached up »" , self.numSlides);
+        //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
       
       createMobileSlides: function(){
@@ -818,7 +820,7 @@
 
         self.$win.trigger('resize.soc');
 
-        console.log("Modile Slides are now cached up »" , self.numSlides);
+        //console.log("Modile Slides are now cached up »" , self.numSlides);
 
       },
 
@@ -849,7 +851,7 @@
           if( item.length ) {
             self.currentId = item.index();
             self.moveTo();
-            console.log("Current Slide ID # »",self.currentId);
+            //console.log("Current Slide ID # »",self.currentId);
           }
         } );
 
@@ -889,12 +891,12 @@
             }); 
           });  
 
-          console.log("updating slides in tbalet mode »");
+          //console.log("updating slides in tbalet mode »");
 
         }
 
         if(self.isMobileMode === true){
-          console.log("Starting - Placing items for mobile mode »");
+          //console.log("Starting - Placing items for mobile mode »");
           cw = self.currentContainerWidth = $('.soc-item').eq(0).width();
           self.$mobileSlides.each(function(i){
             //$(this).css( { 'left': (i * 286) + (i === 0 ? 10 : 0) + 'px', 'z-index' : i } );  
@@ -914,7 +916,7 @@
             });
           }); 
 
-          console.log("Finished - Placing items for mobile mode »" , $('.soc-item').eq(0).height());
+          //console.log("Finished - Placing items for mobile mode »" , $('.soc-item').eq(0).height());
         } 
 
 
