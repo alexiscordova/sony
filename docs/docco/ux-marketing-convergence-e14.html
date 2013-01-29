@@ -1,0 +1,131 @@
+<!DOCTYPE html>  <html> <head>   <title>ux-marketing-convergence-e14.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq-new.html">                 iq-new.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               ux-marketing-convergence-e14.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>------ Sony UX Marketing Convergence (MarketingConvergence) Module ------
+Module: MarketingConvergence Module
+Version: 0.1
+Modified: 01/18/2013</p>
+
+<h2>Dependencies: jQuery 1.7+</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="keyword">function</span>($) {
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> MarketingConvergenceModule = <span class="keyword">function</span>($element, options){
+
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options);
+
+    self.$el = $element;
+
+    self.init();
+  };
+
+  MarketingConvergenceModule.prototype = {
+
+    <span class="string">'constructor'</span>: MarketingConvergenceModule,
+
+    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.buildPartnerCarousel();
+    },
+
+    <span class="string">'buildPartnerCarousel'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.currentPartnerProduct = -<span class="number">1</span>;
+      self.$partnerCarousel = self.$el.find(<span class="string">'.partner-products'</span>);
+      self.$partnerCarouselSlides = self.$partnerCarousel.find(<span class="string">'li'</span>);
+
+      self.$partnerCarouselSlides.detach();
+
+      self.gotoNextPartnerProduct();
+      self.setPartnerCarouselInterval();
+      self.setupReloadButton();
+
+    },
+
+    <span class="string">'setupReloadButton'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.find(<span class="string">'.btn-reload'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+
+        e.preventDefault();
+
+        self.gotoNextPartnerProduct();
+        self.setPartnerCarouselInterval();
+      });
+
+    },
+
+    <span class="string">'setPartnerCarouselInterval'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.partnerCarouselInterval ) {
+        clearInterval(self.partnerCarouselInterval);
+      }
+
+      self.partnerCarouselInterval = setInterval(<span class="keyword">function</span>(){
+        self.gotoNextPartnerProduct();
+      }, self.rotationSpeed);
+    },
+
+    <span class="string">'gotoNextPartnerProduct'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $newSlide;
+
+      <span class="keyword">if</span> ( self.currentPartnerProduct === self.$partnerCarouselSlides.length - <span class="number">1</span> ) {
+        self.currentPartnerProduct = <span class="number">0</span>;
+      } <span class="keyword">else</span> {
+        self.currentPartnerProduct++;
+      }
+
+      self.$partnerCarousel.children().each(<span class="keyword">function</span>(){
+        $(<span class="keyword">this</span>).fadeOut(self.transitionTime, <span class="keyword">function</span>(){
+          $(<span class="keyword">this</span>).remove();
+        });
+      });
+
+      $newSlide = self.$partnerCarouselSlides.eq(self.currentPartnerProduct).clone();
+
+      $newSlide.appendTo(self.$partnerCarousel);
+      $newSlide.fadeOut(<span class="number">0</span>).fadeIn(self.transitionTime);
+
+      window.iQ.update();
+    }
+  };
+
+  $.fn.marketingConvergenceModule = <span class="keyword">function</span>( options ) {
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
+        marketingConvergenceModule = self.data(<span class="string">'marketingConvergenceModule'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>If we don't have a stored marketingConvergenceModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !marketingConvergenceModule ) {
+          marketingConvergenceModule = <span class="keyword">new</span> MarketingConvergenceModule( self, options );
+          self.data( <span class="string">'marketingConvergenceModule'</span>, marketingConvergenceModule );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        marketingConvergenceModule[ options ].apply( marketingConvergenceModule, args );
+      }
+    });
+  };
+
+  $.fn.marketingConvergenceModule.defaults = {
+    <span class="string">'rotationSpeed'</span>: <span class="number">5000</span>,
+    <span class="string">'transitionTime'</span>: <span class="number">1000</span>
+  };
+
+  $(<span class="keyword">function</span>(){
+   $(<span class="string">'.uxmc-container'</span>).marketingConvergenceModule();
+  });
+
+})(jQuery);
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

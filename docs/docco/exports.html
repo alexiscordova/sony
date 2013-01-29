@@ -1,0 +1,135 @@
+<!DOCTYPE html>  <html> <head>   <title>exports.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq-new.html">                 iq-new.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               exports.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global Modernizr, Exports */</span>
+
+<span class="keyword">if</span> ( !window.Exports ) {
+  window.Exports = {
+    Modules : {}
+  };
+}
+
+Exports.fiveColumns = <span class="number">5</span>;
+Exports.sixColumns = <span class="number">6</span>;
+Exports.twelveColumns = <span class="number">12</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Slim grid (5 columns)</p>             </td>             <td class="code">               <div class="highlight"><pre>Exports.col5Width = <span class="number">188</span>;
+Exports.gut5Width = <span class="number">20</span>;
+Exports.fullSlimWidth = (Exports.fiveColumns * Exports.col5Width) + (Exports.gut5Width * (Exports.fiveColumns - <span class="number">1</span>));
+Exports.COLUMN_WIDTH_SLIM_5 = Exports.col5Width / Exports.fullSlimWidth;
+Exports.GUTTER_WIDTH_SLIM_5 = Exports.gut5Width / Exports.fullSlimWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Slim grid (12 columns)</p>             </td>             <td class="code">               <div class="highlight"><pre>Exports.slimColWidth = <span class="number">54</span>;
+Exports.slimGutWidth = <span class="number">18</span>;
+Exports.slimWidth = (Exports.twelveColumns * Exports.slimColWidth) + (Exports.slimGutWidth * (Exports.twelveColumns - <span class="number">1</span>));
+Exports.COLUMN_WIDTH_SLIM = Exports.slimColWidth / Exports.slimWidth;
+Exports.GUTTER_WIDTH_SLIM = Exports.slimGutWidth / Exports.slimWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Mobile grid @ 480 (6 columns)</p>             </td>             <td class="code">               <div class="highlight"><pre>Exports.colWidth320 = <span class="number">36</span>;
+Exports.gutWidth320 = <span class="number">12</span>;
+Exports.fullWidth320 = (Exports.sixColumns * Exports.colWidth320) + (Exports.gutWidth320 * (Exports.sixColumns - <span class="number">1</span>));
+Exports.COLUMN_WIDTH_320 = Exports.colWidth320 / Exports.fullWidth320;
+Exports.GUTTER_WIDTH_320 = Exports.gutWidth320 / Exports.fullWidth320;
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <hr />
+
+<p>Not being used / legacy ?</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Twelve columns @ 768</p>             </td>             <td class="code">               <div class="highlight"><pre>Exports.colWidth768 = <span class="number">34</span>;
+Exports.gutWidth768 = <span class="number">22</span>;
+Exports.fullWidth768 = (Exports.twelveColumns * Exports.colWidth768) + (Exports.gutWidth768 * (Exports.twelveColumns - <span class="number">1</span>));
+Exports.COLUMN_WIDTH_768 = Exports.colWidth768 / Exports.fullWidth768;
+Exports.GUTTER_WIDTH_768 = Exports.gutWidth768 / Exports.fullWidth768;
+
+Exports.COLUMN_WIDTH_568 = Exports.COLUMN_WIDTH_768;
+Exports.GUTTER_WIDTH_568 = Exports.GUTTER_WIDTH_768;
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Twelve columns @ 980</p>             </td>             <td class="code">               <div class="highlight"><pre>Exports.colWidth980 = <span class="number">43</span>;
+Exports.gutWidth980 = <span class="number">30</span>;
+Exports.fullWidth980 = (Exports.twelveColumns * Exports.colWidth980) + (Exports.gutWidth980 * (Exports.twelveColumns - <span class="number">1</span>));
+Exports.COLUMN_WIDTH_980 = Exports.colWidth980 / Exports.fullWidth980;
+Exports.GUTTER_WIDTH_980 = Exports.gutWidth980 / Exports.fullWidth980;
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Twelve columns @ 1200</p>             </td>             <td class="code">               <div class="highlight"><pre>Exports.colWidth1200 = <span class="number">52</span>;
+Exports.gutWidth1200 = <span class="number">36</span>;
+Exports.fullWidth1200 = (Exports.twelveColumns * Exports.colWidth1200) + (Exports.gutWidth1200 * (Exports.twelveColumns - <span class="number">1</span>));
+Exports.COLUMN_WIDTH_1200 = Exports.colWidth1200 / Exports.fullWidth1200;
+Exports.GUTTER_WIDTH_1200 = Exports.gutWidth1200 / Exports.fullWidth1200;
+
+
+Exports.gColumns = <span class="keyword">function</span>( containerWidth ) {
+  <span class="keyword">var</span> column;
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>568 - 979</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 35.5em) and (max-width: 61.1875em)'</span>) ) {
+    column = Exports.COLUMN_WIDTH_568 * containerWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>1200</p>             </td>             <td class="code">               <div class="highlight"><pre>  } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 75em)'</span>) ) {
+    column = Exports.COLUMN_WIDTH_1200 * containerWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>980</p>             </td>             <td class="code">               <div class="highlight"><pre>  } <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 61.25em)'</span>) ) {
+    column = Exports.COLUMN_WIDTH_980 * containerWidth;
+
+  } <span class="keyword">else</span> {
+    column = containerWidth;
+  }
+
+  <span class="keyword">return</span> column;
+};
+
+Exports.gGutters = <span class="keyword">function</span>( containerWidth ) {
+  <span class="keyword">var</span> gutter;
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>568 - 979</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 35.5em) and (max-width: 61.1875em)'</span>) ) {
+    gutter = Exports.GUTTER_WIDTH_568 * containerWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>1200</p>             </td>             <td class="code">               <div class="highlight"><pre>  } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 75em)'</span>) ) {
+    gutter = Exports.GUTTER_WIDTH_1200 * containerWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>980</p>             </td>             <td class="code">               <div class="highlight"><pre>  } <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 61.25em)'</span>) ) {
+    gutter = Exports.GUTTER_WIDTH_980 * containerWidth;
+
+  } <span class="keyword">else</span> {
+    gutter = <span class="number">0</span>;
+  }
+
+  <span class="keyword">return</span> gutter;
+};
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <hr />             </td>             <td class="code">               <div class="highlight"><pre>*/
+
+Exports.masonryColumns = function( containerWidth ) {
+  var column = containerWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>568px+</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 35.5em)'</span>) ) {
+    column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+  }
+
+  <span class="keyword">return</span> column;
+};
+
+Exports.masonryGutters = <span class="keyword">function</span>( containerWidth ) {
+  <span class="keyword">var</span> gutter = <span class="number">0</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>568+</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 35.5em)'</span>) ) {
+    gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+  }
+
+  <span class="keyword">return</span> gutter;
+};
+
+<span class="comment">/**
+ * Constrains a value between a min and max value
+ * @param  {Number} value number to be contstrained
+ * @param  {Number} min   minimum
+ * @param  {Number} max   max
+ * @return {Number}
+ */</span>
+Exports.constrain = <span class="keyword">function</span>(value, min, max) {
+    <span class="string">'use strict'</span>;
+
+    value = parseFloat(value);
+
+    <span class="keyword">return</span> value &lt; min ? min :
+        value &gt; max ? max :
+        value;
+};
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
