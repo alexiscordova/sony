@@ -264,13 +264,19 @@
   //3-up medium image after tablet to small desktop
   &.related-products-3up .medium .product-img:after {
     @media (min-width:481px) and (max-width:768px){
-      padding-top: 148.92761%;
+      padding-top: 100.52761%;
+    }
+  }
+
+  &.related-products-3up .medium .gallery-item:after {
+    @media (min-width:481px) and (max-width:768px){
+      padding-top: 127.99607%;
     }
   }
 
   &.related-products-3up .gallery-item.plate:after {
     @media (min-width:481px) and (max-width:768px){
-      padding-top: 157.143%;
+      padding-top: 127.143%;
     }
   }
 
@@ -456,17 +462,55 @@
 
     .gallery-item:after {
       //padding-top: 127.196078%;
-      padding-top: 160.196078%;
+      //padding-top: 160.196078%;
+      padding-top: 127.196078%;
     }
 
     .gallery-item .gallery-item-inner,
     .product-img .product-img-wrap {
-      position: absolute;
+      position: absolute; 
     }
 
     .medium.gallery-item:after {
-      padding-top: 141.196078%;
+      //padding-top: 141.196078%;
+      padding-top: 144.996078%;
     }
+
+
+    //four up style overrides
+    &.related-products-4up {
+
+      .gallery-item:after {
+        padding-top: 160.196078%;
+      }
+
+      .medium.gallery-item:after {
+        padding-top: 141.196078%;
+      } 
+
+      .medium .product-img:after {
+        padding-top: 90.32761%;
+      }
+         
+    }
+
+    //three up style overrides
+    &.related-products-3up {
+
+      .gallery-item:after { 
+        
+      }
+
+      .medium.gallery-item:after {
+       
+      } 
+
+      .medium .product-img:after {
+        
+      }
+
+    }
+
 
     .gallery-item.plate:after {
       padding-top: 76.190255%

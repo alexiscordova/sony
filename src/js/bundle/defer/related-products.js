@@ -8,7 +8,7 @@
 (function(window){
     'use strict';
 
-    var Sony = function(){
+/*    var Sony = function(){
       var self = this;
       self.modules = {};
       self.ev = $('<div />'); // events object
@@ -27,7 +27,7 @@
       console.log("window.sony »" , sony);
       sony = new Sony();
       sony.init();
-    });
+    });*/
 
 })(window);
 
@@ -134,7 +134,6 @@
 
       console.log('Variation on this module »' , self.variation );
 
-
       //modes
       self.isMobileMode          = false;
       self.isDesktopMode         = false;
@@ -213,24 +212,6 @@
         self.yProp = 'top';
       }
 
-
-      // resize // manual throttle / debounce
-      var resizeTimer;
-      $(window).on('resize', function() {  
-          if(resizeTimer) {
-              clearTimeout(resizeTimer);          
-          }
-          resizeTimer = setTimeout(function() { 
-
-
-
-            self.checkForBreakpoints();
-            self.updateSliderSize();
-            self.updateSlides();
-
-          }, self.throttleTime);          
-      });
-
       self.shuffleGutters = function (containerWidth){
         var gutter = 0,
             numColumns = 0;
@@ -292,6 +273,8 @@
           //init dragging , slideshow
           //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); }); 
         }
+
+        self.setupResizeListener();
 
         $(window).trigger('resize');
       },
@@ -501,7 +484,6 @@
               $item.data('priority' , 2);
             }else if($item.hasClass('normal')){
               $item.data('priority' , 3);
-              
             }
 
             if($item.hasClass('blank')){
@@ -561,24 +543,8 @@
             self.$el.removeClass('grid')
             .addClass('slimgrid');
 
-
-            //check tagline heights
-            var $taglines = self.$el.find('.product-tagline'),
-                height = 0 ,
-                highestEl = null;
-
-            $taglines.each(function(){
-              var $t = $(this);
-              if($t.height() > height){
-                height = $t.height();
-                highestEl = $t;
-              }
-            });
-
-            highestEl.parent().addClass('two-line');
-
+            self.sortTagLines2up();
             //console.log('Closest To highest el', highestEl.parent().find('.product-name'));
-
             return;
           }
 
@@ -614,15 +580,16 @@
 
             var wasMobile = self.isMobileMode;
 
+            //alert('tablet');
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
               self.$el.removeClass('slimgrid')
               .addClass('grid');
+              self.sortTagLines2up();
               return;
             }
-
-
+            
             //check if we are coming out of mobile
             if(self.isMobileMode === true){
               self.returnToFullView();
@@ -650,15 +617,21 @@
 
           case 'mobile':
             
+
+            return; //tada - no crash
+
             if(self.isMobileMode === true){
               return;
             }
 
+            console.log('Mobile Mode');
+
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').removeClass('span6');
               self.$el.removeClass('grid slimgrid');
+              self.sortTagLines2up();
               return;
-            }
+            }http://10.112.22.97/~tyler.madison/sgfe/build/debug/related-products-g1-layouts.html#
 
             self.isTabletMode = self.isDesktopMode = false;
             self.isMobileMode = true;
@@ -680,6 +653,7 @@
 
             iQ.update();
 
+            //is this where i break?
             self.ev.trigger('onmobilebreakpoint.rp');
 
           break;
@@ -830,7 +804,7 @@
                   newPos = self.currRenderPosition + deltaPos * self.lastItemFriction ;
               }
             }
-          }-
+          }
            
           self.currRenderPosition = newPos;
 
@@ -1043,19 +1017,19 @@
       },
 
       updateSlides: function(){
+
         var self = this,
             cw = self.currentContainerWidth = self.$container.outerWidth(),
             animObj = {},
             newPos = (-self.currentId * cw);
 
-            var a = ($(window).width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
+            var a = ($(window).width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
             
             if(a > 0){
               newPos += Math.ceil(a);
             }
 
         if(self.mode === 'suggested'){
-
           return;
         }          
 
@@ -1143,6 +1117,42 @@
         }
       },
 
+      sortTagLines2up: function(){
+        var self = this,
+            $taglines = self.$el.find('.product-tagline'),
+            height = 0 ,
+            highestEl = null;
+
+        $taglines.each(function(){
+          var $t = $(this);
+          if($t.height() > height){
+            height = $t.height();
+            highestEl = $t;
+          }
+        });
+
+        highestEl.parent().addClass('two-line');
+
+      },
+
+      setupResizeListener: function(){
+        var self = this,
+            resizeTimer = null;
+
+        $(window).on('resize', function() {  
+            if(resizeTimer) {
+                clearTimeout(resizeTimer);          
+            }
+            resizeTimer = setTimeout(function() { 
+
+              self.checkForBreakpoints();
+              self.updateSliderSize();
+              self.updateSlides();
+
+            }, self.throttleTime);          
+        });
+      },
+
       setNameHeights : function( $container ) {
         var nameMaxHeight = 0;
 
@@ -1224,6 +1234,7 @@
         function handleBreakpoint(){
           console.log("_initMobileBreakpoint.... »" , true);
 
+
           // 1. step one  - cancel touch events for the 'slideshow'
           self.$container.off('.rp');
 
@@ -1241,7 +1252,7 @@
           });
 
           // 3. gather gallery items and save local reference - may need to set on self
-          var $galleryItems = $('.gallery-item').detach().addClass('small-size');
+          var $galleryItems = self.$el.find('.gallery-item').detach().addClass('small-size');
           
           // 4. remove the slides
           self.$slides.detach();
@@ -1261,7 +1272,7 @@
               self.scrollerModule = null;
             }
 
-            self.scrollerModule = $('.rp-overflow').scrollerModule({
+            self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
               contentSelector: '.rp-container',
               itemElementSelector: '.gallery-item',
               mode: 'free',
