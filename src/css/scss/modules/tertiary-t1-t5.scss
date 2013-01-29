@@ -13,6 +13,7 @@
 	position: relative;
   overflow:auto;
   text-align: center;
+  background-color:$gray90;
 
 	.tcc-body-wrapper{
 		display: block;
@@ -20,6 +21,7 @@
 		position: relative;
 		text-align: center;
 		z-index: 1;
+		padding-top: 36px;
 	} // end .tcc-body-wrapper
 
 	// START VARIATIONS 
@@ -69,12 +71,12 @@
 	}
 
 	.dark-text-light-box{
-		color:red;
-		background-color:green;
+		color:$gray90;
+		background-color:$gray40;
 	}
 	
 	.dark-text-trans-box{
-		color:red;
+		color:$gray40;
 		background-color: transparent;
 	}
 
@@ -88,6 +90,7 @@
 		border-bottom: 2px solid $gray70;
 		position: relative;
 	} // end .tcc-header
+
 } // end .tcc-header-wrapper
 
 .tcc-body{
@@ -98,20 +101,20 @@
 		padding-top:15px;
 		float:left;
 		overflow: hidden;
+
 	} // end .tcc-content-module
 
 	// certain tertiary content modules have hover states
-	div[data-tcc-content-type="article"][data-tcc-content-mode="default"]:hover{
-	//div#{createSelectorFromData("article","default")}:hover{
+	div#{createSelectorFromData("article","default")}:hover{
 		cursor: pointer;
 		background-color: $white;
-	} // end article:default hover;
+	} 
 	
-	// certain tertiary content modu`les do not have hover states
-	div[data-tcc-content-type="sonys-voice"][data-tcc-content-mode="twitter"]:hover{
-	//div#{createSelectorFromData("sonys-voice","twitter")}:hover{
+	// certain tertiary content modules do not have hover states
+	div#{createSelectorFromData("sonys-voice","twitter")}:hover{
 		background-color: transparent;
-	} /// end sonys-voice:twitter hover;
+	} 
+
 } // end .tcc-body
 
 .article{		
@@ -137,44 +140,3 @@
 	} // end .bq2 > p:first-child
 	
 } // end .sonys-voice
-
-//pagination / bullets
-// .tcc-nav {
-//   &.tcc-bullets {
-//     position: absolute;
-//     z-index: 35;  
-//     left: 0;
-//     bottom: 0px;
-//     width: 100%;
-//     height: auto;
-//     margin: 0 auto;
-//     text-align: center;
-//     line-height: 18px;
-//     overflow: hidden;
-//     opacity:0;
-// 		@include transition(opacity, $transitionNormal);		
-
-//     &.on{
-//     	@include transition(opacity, $transitionNormal);
-//     	opacity:1;
-//     } // end .on
-//   } // end .tcc-bullets 
-
-//   .tcc-bullet {
-//     width: 10px;
-//     height: 10px;
-//     display: inline-block;
-//     *display: inline;
-//     *zoom: 1;
-//     margin: 5px 0 0 6px;
-//     border-radius: 5px;
-//     background: $gray20;
-//     cursor: pointer;
-//     position: relative;
-//     overflow: hidden;
-//   } // end .tcc-bullet
-
-//   .tcc-bullet.tcc-nav-selected  {
-//     background-color: $gray50;
-//   } // end .tcc-bullet.tcc-nav-selected
-// } // end .tcc-nav
