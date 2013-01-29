@@ -75,15 +75,16 @@
           $body = $('body'),
           $offsetTarget = self.$container.find('.spec-views:not(.nav)');
 
-      self.stickyTriggerOffset = $offsetTarget.offset().top;
+      // jQuery offset().top is returning negative numbers...
+      self.stickyTriggerOffset = $offsetTarget[0].offsetTop;
 
 
       // REMOVE WHEN ITS NOT BROKEN
-      if ( self.stickyTriggerOffset < 0 ) {
+      if ( self.stickyTriggerOffset < 100 ) {
         setTimeout(function() {
-          self.stickyTriggerOffset = $offsetTarget.offset().top;
+          self.stickyTriggerOffset = $offsetTarget[0].offsetTop; //$offsetTarget.offset().top;
         }, 50);
-        console.error('sticky trigger top is:', self.stickyTriggerOffset, self.$container.find('.spec-views').first());
+        console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
         // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
       }
 

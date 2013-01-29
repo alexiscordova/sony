@@ -431,7 +431,7 @@
 
   // Not overrideable
   $.fn.scrollerModule.settings = {
-    throttleTime: 25, // How much the resize event is throttled (milliseconds)
+    throttleTime: 150, // How much the resize event is throttled (milliseconds)
     resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize'
   };
 

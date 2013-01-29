@@ -107,9 +107,12 @@ ul.spec-views {
 // Media queries for both single and mutliple spec pages
 @media (max-width: $specMobileBreakpoint) {
 
-  .spec-single,
-  .spec-multi {
+  .spec-single {
     margin-top: 2.8125em; // 45
+  }
+
+  .spec-multi {
+    margin-top: 0;
   }
 
   ul.spec-views {
@@ -213,7 +216,7 @@ ul.spec-views {
 
 .spec-item-cell {
   position: relative;
-  padding: 1.125em 1em 3.75em; // 18 16 60 pixels
+  padding: 1.25em 1.875em 3.75em .9375em; // 20 30 60 15
 
   .btm-aligned {
     position: absolute;
@@ -221,7 +224,12 @@ ul.spec-views {
   }
 
   .before-btm-aligned {
-    margin-bottom: 6em; // Could come back to bite me in the ass if the image changes
+    padding-bottom: 2.5em;
+    margin-bottom: 0;
+
+    & :last-child {
+      margin-bottom: 0;
+    }
   }
 
   // Definition list image needs a set height because iQ doesn't load the images until
@@ -338,6 +346,11 @@ ul.spec-views {
     &.open {
       top: 0;
     }
+
+    // needs a 2px horizontal offset, otherwise the shadow is seen on hidden columns
+    &:not(.sticky-count) {
+      @include box-shadow(.125em .125em .3125em 0 $transparentBlack);
+    }
   }
 
   // Override some styles from the gallery's compare tool
@@ -414,7 +427,7 @@ ul.spec-views {
 
   .spec-nav,
   .spec-column-header,
-  .spec-products .detail-labels-wrap {
+  .spec-products .container .grid .detail-labels-wrap {
     display: none;
   }
 
@@ -447,10 +460,12 @@ ul.spec-views {
     }
 
     .dl-horizontal dt {
-      width: auto;
+      width: 5em; // 80
+      float: left;
+      clear: left;
     }
     .dl-horizontal dd {
-      margin-left: 0;
+      margin-left: 5em; // 80
     }
   }
 
@@ -571,6 +586,11 @@ ul.spec-views {
   position: relative;
   margin-left: $navBtnWidth + 1.25em;
   margin-right: $navBtnWidth + 1.25em;
+  overflow: hidden;
+
+  .spec-carousel {
+    width: 175em;
+  }
 
   .pagination-bullets {
     position: static;

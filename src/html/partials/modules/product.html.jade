@@ -283,9 +283,6 @@ else if data.view == "specs"
             span.l3!= '&nbsp;' + spec.iconTitle
 
           mixin specList( spec.list )
-          ul.unstyled.p3.spec-list
-            each li in spec.list
-              li= li
 
           .spec-modal.hide.mobile-container-padded
             .spec-modal-header.clearfix
@@ -296,12 +293,19 @@ else if data.view == "specs"
             .spec-modal-body.text-center
               mixin iQImage( spec.enlargement )
 
+        else if spec.list && spec.img
 
+          if spec.img.alignment == 'bottom'
+            mixin specList( spec.list )
+            .text-center.dl-img
+              mixin iQImage( spec.img )
+          else
+            .text-center.dl-img
+              mixin iQImage( spec.img )
+            mixin specList( spec.list )
 
         else if spec.list
-          ul.unstyled.p3.spec-list
-            each li in spec.list
-              li= li
+          mixin specList( spec.list )
 
         else
           .l4 Unable to parse the kind of specification you gav me :(

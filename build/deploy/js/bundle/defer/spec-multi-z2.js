@@ -143,7 +143,8 @@
     _initStickyTabs : function() {
       var self = this,
           $headers = self.$specItems.find('.spec-column-header').clone(),
-          $btns = $();
+          // $btns = $(),
+          $tabs = self.$tabStrip.find('.tabs');
 
       self.isStickyTabs = true;
       self.$specItems.slice(1).addClass('tab-pane fade off-screen');
@@ -170,10 +171,12 @@
           .removeClass('spec-column-header hidden-phone')
           .addClass('tab');
 
-        $btns = $btns.add( $btn );
+        // iOS wasn't appending the buttons in the right order, so we'll have to append them inside the loop
+        $tabs.append( $btn );
+        // $btns = $btns.add( $btn );
       });
 
-      $btns.appendTo( self.$tabStrip.find('.tabs') );
+      // $btns.appendTo( $tabs );
 
       self.$tabStrip.stickyTabs({
         mq: self.mobileBreakpoint
