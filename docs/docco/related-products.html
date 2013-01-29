@@ -90,7 +90,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
       self.currentId             = <span class="number">0</span>;
       self.slidePosition         = <span class="number">0</span>;
       self.animationSpeed        = <span class="number">400</span>; <span class="comment">//ms</span>
-      self.slides                = []; 
+      self.slides                = [];
       self.slideCount            = <span class="number">0</span>;
       self.isFreeDrag            = <span class="literal">false</span>; <span class="comment">//MODE: TODO</span>
       self.currentContainerWidth = <span class="number">0</span>;
@@ -233,7 +233,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           self.setupPaddles();
           
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>init dragging , slideshow
-self.$container.on(self.downEvent, function(e) { self.onDragStart(e); }); </p>             </td>             <td class="code">               <div class="highlight"><pre>        }
+self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });</p>             </td>             <td class="code">               <div class="highlight"><pre>        }
 
         self.setupResizeListener();
 
@@ -242,7 +242,7 @@ self.$container.on(self.downEvent, function(e) { self.onDragStart(e); }); </p>  
 
       tapOrClick: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self= <span class="keyword">this</span>;
-        <span class="keyword">return</span> self.hasTouch ? <span class="string">'touchend'</span> : <span class="string">'click'</span>; 
+        <span class="keyword">return</span> self.hasTouch ? <span class="string">'touchend'</span> : <span class="string">'click'</span>;
       },
 
       createNavigation: <span class="keyword">function</span>(){

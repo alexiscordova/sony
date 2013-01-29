@@ -94,7 +94,7 @@
       self.currentId             = 0;
       self.slidePosition         = 0;
       self.animationSpeed        = 400; //ms
-      self.slides                = []; 
+      self.slides                = [];
       self.slideCount            = 0;
       self.isFreeDrag            = false; //MODE: TODO
       self.currentContainerWidth = 0;
@@ -246,7 +246,7 @@
           self.setupPaddles();
           
           //init dragging , slideshow
-          //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); }); 
+          //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
         }
 
         self.setupResizeListener();
@@ -256,7 +256,7 @@
 
       tapOrClick: function(){
         var self= this;
-        return self.hasTouch ? 'touchend' : 'click'; 
+        return self.hasTouch ? 'touchend' : 'click';
       },
 
       createNavigation: function(){
