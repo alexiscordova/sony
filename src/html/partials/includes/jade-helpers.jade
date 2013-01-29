@@ -1,0 +1,34 @@
+mixin partial(m, d)
+  m = 'modules/' + m
+  e = {"locals":locals, "data":locals.data(d)}
+  !{locals.partial(m, e)}
+
+mixin iQImage( img, extraClasses )
+  - classes = 'iq-img'
+  - extraClasses = extraClasses || false
+  - if ( extraClasses ) classes += ' ' + extraClasses
+  img(class=classes, data-src=img.src, alt=img.alt)
+  noscript
+    img(src=img.noscriptsrc, alt=img.alt)
+    
+mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
+  - hgobject = hgobject || data
+  - h1class = h1class || ""
+  - h2class = h2class || ""
+  - h3class = h3class || ""
+  - h4class = h4class || ""
+  - h5class = h5class || ""
+  - h6class = h6class || ""
+  hgroup
+    if hgobject.h1
+      h1(class= h1class) !{hgobject.h1}
+    if hgobject.h2
+      h2(class= h2class) !{hgobject.h2}
+    if hgobject.h3
+      h3(class= h3class) !{hgobject.h3}
+    if hgobject.h4
+      h4(class= h4class) !{hgobject.h4}
+    if hgobject.h5
+      h5(class= h5class) !{hgobject.h5}
+    if hgobject.h6
+      h6(class= h6class) !{hgobject.h6}
