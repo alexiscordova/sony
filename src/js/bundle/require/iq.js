@@ -130,8 +130,8 @@
       breakpointName,
       breakpoints = opts.breakpoints || [
         {name: 'phone',      maxWidth: 480},
-        {name: 'tablet',     minWidth: 481, maxWidth: 960},
-        {name: 'desktop',    minWidth: 961, defaultBreakpoint: true}],
+        {name: 'tablet',     minWidth: 481, maxWidth: 768},
+        {name: 'desktop',    minWidth: 769, defaultBreakpoint: true}],
 
       // Bandwidth testing settings
       bandwidth = LOW,

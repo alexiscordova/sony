@@ -992,7 +992,6 @@
           $compareItemsContainer = $('<div class="compare-items-container">'),
           $compareItemsWrapper = $('<div class="compare-items-wrap">'),
 
-          // contentWidth = 0,
           // Get product count
           productCount = $currentItems.length,
 
@@ -1009,6 +1008,9 @@
           $labelColumn = $('<div class="detail-labels-wrapping">'),
           $labelGroup = $('<div class="detail-label-group">'),
 
+          $prevPaddle = $('<div class="nav-paddle"><i class="icon-ui2-chevron-18-white-left"></i></div>'),
+          $nextPaddle = $('<div class="nav-paddle"><i class="icon-ui2-chevron-18-white-right"></i></div>'),
+
           // Clone sort button
           $sortOpts = self.$container.find('.sort-options').clone();
 
@@ -1017,9 +1019,10 @@
 
       // Create reset button
       self.$compareReset = $('<button/>', {
-          'class' : 'btn btn-small disabled js-compare-reset',
+          'class' : 'btn btn-small btn-alt-special btn-reset disabled js-compare-reset iconTrigger-ui2-reset',
           'text' : $header.data('resetLabel')
       });
+      self.$compareReset.append('<i class="icon-ui2-reset">');
       self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
 
       self.isFixedHeader = false;
@@ -1080,14 +1083,14 @@
       $labelColumn.append( $labelGroup );
 
       if ( Modernizr.mq('(max-width: 29.9375em)') ) {
-        self.$compareReset.addClass('btn-block').removeClass('pull-left');
+        self.$compareReset.addClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': 'block',
           'float': 'none',
           'marginTop' : '0.5em'
         });
       } else {
-        self.$compareReset.removeClass('btn-block').addClass('pull-left');
+        self.$compareReset.removeClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': '',
           'float': '',
@@ -1190,6 +1193,9 @@
         }
       });
 
+      // Bind events to the paddles
+
+
       // Position sticky headers
       self.setStickyHeaderPos();
 
@@ -1266,7 +1272,7 @@
         .removeClass('hide');
 
       // Disable reset button
-      self.$compareReset.addClass('disabled');
+      self.$compareReset.addClass('disabled').removeClass('active');
 
       // Reset sort
       self.updateSortDisplay( self.$compareTool );
@@ -1288,7 +1294,7 @@
       $(evt.target).closest('.compare-item').addClass('hide');
 
       // Make sure we can press reset
-      self.$compareReset.removeClass('disabled');
+      self.$compareReset.removeClass('disabled').addClass('active');
 
       // Get remaining
       remaining = self.$compareItems.not('.hide').length;
@@ -1344,14 +1350,14 @@
       }
 
       if ( Modernizr.mq('(max-width: 29.9375em)') ) {
-        self.$compareReset.addClass('btn-block').removeClass('pull-left');
+        self.$compareReset.addClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': 'block',
           'float': 'none',
           'marginTop' : '0.5em'
         });
       } else {
-        self.$compareReset.removeClass('btn-block').addClass('pull-left');
+        self.$compareReset.removeClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': '',
           'float': '',

@@ -107,7 +107,7 @@
 
 // For Affix plugin
 .affix {
-  position: fixed;
+  // position: fixed;
 }
 
 // Clearing floats
@@ -125,13 +125,15 @@
   @include input-block-level();
 }
 
+.text-medium { @include fontMedium(); }
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 
-.text-dark {
-  color: $gray20;
-}
-
+.text-dark { color: $gray10; }
+.text-default { color: $defaultTextColor; }
+.text-med-dark { color: $gray40; }
+.text-med-light { color: $gray50; }
+.text-light { color: $white; }
 
 // Centering
 // -------------------------

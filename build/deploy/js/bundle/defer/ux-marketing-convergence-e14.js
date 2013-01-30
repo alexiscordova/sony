@@ -1,10 +1,12 @@
 
-// ------ Sony UX Marketing Convergence (MarketingConvergence) Module ------
-// Module: MarketingConvergence Module
-// Version: 0.1
-// Modified: 01/18/2013
-// Dependencies: jQuery 1.7+
-// -------------------------------------------------------------------------
+// Sony UX Marketing Convergence (MarketingConvergence) Module
+// -----------------------------------------------------------
+//
+// * **Class:** MarketingConvergenceModule
+// * **Version:** 0.1
+// * **Modified:** 01/29/2013
+// * **Author:** George Pantazis
+// * **Dependencies:** jQuery 1.7+
 
 (function($) {
 
@@ -32,6 +34,8 @@
       self.buildPartnerCarousel();
     },
 
+    // Detaches slides from DOM, stores them in the plugin's memory.
+
     'buildPartnerCarousel': function() {
 
       var self = this;
@@ -48,6 +52,8 @@
 
     },
 
+    // Setup behavior of reload button.
+
     'setupReloadButton': function() {
 
       var self = this;
@@ -62,6 +68,8 @@
 
     },
 
+    // Timer to trigger carousel rotation. Subsequent calls reset the timer's interval.
+
     'setPartnerCarouselInterval': function() {
 
       var self = this;
@@ -74,6 +82,9 @@
         self.gotoNextPartnerProduct();
       }, self.rotationSpeed);
     },
+
+    // Fade out and destroy current slide, fade in the next.
+    // Force an update to iQ for the newly-created assets.
 
     'gotoNextPartnerProduct': function() {
 
@@ -119,10 +130,18 @@
     });
   };
 
+  // Defaults
+  // --------
+
   $.fn.marketingConvergenceModule.defaults = {
+    // Timeout between slide rotation.
     'rotationSpeed': 5000,
+    // Duration of slide transition.
     'transitionTime': 1000
   };
+
+  // Initialization.
+  // ---------------
 
   $(function(){
    $('.uxmc-container').marketingConvergenceModule();

@@ -115,9 +115,13 @@ body.modal-open {
   &.fade.in { top: 0; }
 
   .modal-header {
-    padding-top: 3.25em;
-    padding-bottom: 2.125em;
+    position: relative;
+    padding: 4.375em 0 1.875em; // 70 0 30
     border: none;
+
+    h3 {
+      margin-top: -4px;
+    }
   }
 
   // Give modal header children a margin-left except for the h3
@@ -129,6 +133,6 @@ body.modal-open {
     overflow-y: visible;
     max-height: none;
     padding: 1.25em 0 0;
-    @include lightGrayInset();
+    @include lightGrayInset( $gray90 );
   }
 }

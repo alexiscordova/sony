@@ -5,33 +5,47 @@
 %swatch {
   position: relative;
   display: inline-block;
-  @include square( px-em(42px) );
+  @include size( px-em(40px), px-em(42px) );
+  @include box-shadow(0 1px 0 $gray60);
 
-  // Bottom border
-  &:after {
+  &.active {
+    @include box-shadow(none);
+  }
+
+  $circleSize: px-em(20px);
+  &.active:before {
     content: '';
     position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: px-em(4px);
+    left: 50%;
+    top: 50%;
+    margin-left: -($circleSize / 2);
+    margin-top: -($circleSize / 2);
+    @include square($circleSize);
+    border-radius: 50%;
+    background: $gray25;
   }
 
-  &:focus:after,
-  &:hover:after {
-    background: $gray;
-  }
-
+  $checkmarkWidth: 11px;
+  $checkmarkHeight: 8px;
   &.active:after {
-    background: $highlightColor;
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -($checkmarkWidth / 2);
+    margin-top: -($checkmarkHeight / 2);
+    @include size($checkmarkHeight, $checkmarkWidth);
+    background: url($iconSpritePathFallback) no-repeat -600px 0;
   }
 
   &[disabled] {
-    @include opacity(25);
+    @include opacity(15);
+    border: 1px solid $gray60;
+    @include box-shadow(none);
   }
   &[disabled]:focus,
   &[disabled]:hover {
-    @include box-shadow(none);
+    cursor: auto;
   }
 }
 
@@ -42,7 +56,7 @@
 
 // Like btn-group
 .color-swatches > *:not(:first-child) {
-  margin-left: px-em(10px);
+  margin-left: px-em(6px);
 }
 
 // Mini swatches
@@ -57,9 +71,10 @@
   // font-size: 0.1em;
   text-indent: -999em;
   overflow: hidden;
+  @include box-shadow(none);
 
   // Disable hover and active states
-  &:after { content: none; }
+  &:before, &:after { content: none; }
 }
 
 .filter-container [class*="swatch-"] {
@@ -80,7 +95,6 @@
 .swatch-orange    { background-color: $orange; }
 .swatch-silver    { background-color: $gray; }
 .swatch-lemon     { background-color: $lemon; }
-
 
 
 
