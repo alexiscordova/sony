@@ -49,6 +49,11 @@ var m = Math,
     hasTransform = vendor !== false,
     hasTransitionEnd = prefixStyle('transition') in dummyStyle,
 
+    w3c = 'addEventListener' in doc,
+    pre = w3c ? '' : 'on',
+    add = w3c ? 'addEventListener' : 'attachEvent',
+    rem = w3c ? 'removeEventListener' : 'detachEvent',
+
 	RESIZE_EV = 'onorientationchange' in window ? 'orientationchange' : 'resize',
 	START_EV = hasTouch ? 'touchstart' : 'mousedown',
 	MOVE_EV = hasTouch ? 'touchmove' : 'mousemove',
@@ -267,7 +272,7 @@ IScroll.prototype = {
 				bar.style.cssText = 'position:absolute;z-index:100;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);' + cssVendor + 'background-clip:padding-box;' + cssVendor + 'box-sizing:border-box;' + (dir === 'h' ? 'height:100%' : 'width:100%') + ';' + cssVendor + 'border-radius:3px;border-radius:3px';
 			}
 			bar.style.cssText += ';pointer-events:none;' + cssVendor + 'transition-property:' + cssVendor + 'transform;' + cssVendor + 'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1);' + cssVendor + 'transition-duration:0;' + cssVendor + 'transform: translate(0,0)' + translateZ;
-			
+
 			if (that.options.useTransition) { bar.style.cssText += ';' + cssVendor + 'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1)'; }
 
 			that[dir + 'ScrollbarWrapper'].appendChild(bar);
@@ -874,11 +879,15 @@ IScroll.prototype = {
 	},
 
 	_bind: function (type, el, bubble) {
-		(el || this.scroller).addEventListener(type, this, !!bubble);
+		el = el || this.scroller;
+		el[ add ](pre + type, this, !!bubble);
+		// (el || this.scroller).addEventListener(type, this, !!bubble);
 	},
 
 	_unbind: function (type, el, bubble) {
-		(el || this.scroller).removeEventListener(type, this, !!bubble);
+		el = el || this.scroller;
+		el[ rem ](pre + type, this, !!bubble);
+		// (el || this.scroller).removeEventListener(type, this, !!bubble);
 	},
 
 

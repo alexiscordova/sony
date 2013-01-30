@@ -1,0 +1,355 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-stickytabs.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-one-carousel.html">                 sony-one-carousel.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-stickytabs.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global Exports*/</span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <ul>
+<li>Module: Sticky Tabs</li>
+<li>Version: 1.0</li>
+<li>Modified: 01/28/2013</li>
+<li>Dependencies: jQuery 1.7+, Modernizr</li>
+<li>Author: Glen Cheney</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="keyword">function</span>($, Modernizr, window, <span class="literal">undefined</span>) {
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> StickyTabs = <span class="keyword">function</span>( $container, options ) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    $.extend(self, $.fn.stickyTabs.options, options, $.fn.stickyTabs.settings);
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>jQuery objects</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$container = $container;
+    self._init();
+  };
+
+  StickyTabs.prototype = {
+
+    constructor: StickyTabs,
+
+    _init : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$tabsWrap = $(self.tabsWrapSelector);
+      self.$tabsContainer = self.$tabsWrap.parent();
+      self.$tabs = self.$tabsWrap.children(<span class="string">'.tab'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>No tabs on the page</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.$tabs.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Set variables</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$activeTab = self.$tabs.filter(<span class="string">'.active'</span>);
+      self.$window = $(window);
+      self.windowWidth = self.$window.width();
+      self.windowHeight = self.$window.height();
+      self.tabWidth = self.$tabs.outerWidth();
+      self.tabletMode = self.$container.data(<span class="string">'tabletMode'</span>);
+      self.isCarousel = self.tabletMode === <span class="string">'carousel'</span>;
+
+      <span class="keyword">if</span> ( self.isCarousel ) {
+        self.$navNext = self.$container.find(<span class="string">'.tab-nav-next'</span>);
+        self.$navPrev = self.$container.find(<span class="string">'.tab-nav-prev'</span>);
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>New tab shown event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$tabs.on(<span class="string">'shown'</span>, $.proxy( self._onTabShown, self ));
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Window resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.on(<span class="string">'resize.stickytabs'</span>, $.proxy( self._onResize, self ));
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Decide which tabs to make</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mq( self.mq ) ) {
+        self.setup();
+      } <span class="keyword">else</span> <span class="keyword">if</span> ( self.isCarousel &amp;&amp; Modernizr.mq( self.carouselMq ) ) {
+        self.setupCarousel();
+      }
+    },
+
+    _getBounded : <span class="keyword">function</span>( value ) {
+      <span class="keyword">return</span> Exports.constrain( value, <span class="number">0</span>, <span class="keyword">this</span>.windowWidth - <span class="keyword">this</span>.tabWidth );
+    },
+
+    _onResize : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.windowWidth = self.$window.width();
+      self.windowHeight = self.$window.height();
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Phone</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mq( self.mq ) ) {
+        <span class="keyword">if</span> ( self.isTabCarousel ) {
+          self.teardownCarousel();
+        }
+
+        <span class="keyword">if</span> ( !self.isStickyTabs ) {
+          self.setup();
+        }
+
+        self.animateTab();
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Tablet</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( self.isCarousel &amp;&amp; Modernizr.mq( self.carouselMq ) ) {
+        <span class="keyword">if</span> ( self.isStickyTabs ) {
+          self.teardown();
+        }
+
+        <span class="keyword">if</span> ( !self.isTabCarousel ) {
+          self.setupCarousel();
+        }
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+        <span class="keyword">if</span> ( self.isStickyTabs ) {
+          self.teardown();
+        }
+        <span class="keyword">if</span> ( self.isTabCarousel ) {
+          self.teardownCarousel();
+        }
+      }
+    },
+
+    _onTabShown : <span class="keyword">function</span>( evt ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $tab = $(evt.target);
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Update iQ images</p>             </td>             <td class="code">               <div class="highlight"><pre>      window.iQ.update();
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Save tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$activeTab = $tab;
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Initialize new tab for sticky tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isStickyTabs ) {
+        self._onTabSelected();
+      }
+    },
+
+    _onTabSelected : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          css = { position: <span class="string">'absolute'</span> };
+
+      self.$tabs.removeAttr(<span class="string">'style'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Get offset from left side
+jQuery's offset is unreliable because Webkit includes transforms and Gecko doesn't
+in offset calculations http://bugs.jquery.com/ticket/8362
+self.tabOffset = self.$activeTab.position().left;</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.tabOffset = self.$activeTab[<span class="number">0</span>].offsetLeft + self.scroller.x;
+      self.overlap = <span class="literal">null</span>;
+      self.lastX = <span class="literal">null</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Set initail css on active tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      css[ self.prop ] = self._getX( self._getBounded( self.tabOffset ) );
+      self.$activeTab.css(css);
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Add a margin to the next (or previous if it's the last tab) tab because
+the active one is positioned absolutely, taking up no space</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.$activeTab.is(<span class="string">':last-child'</span>) ) {
+        self.$activeTab.next().css(<span class="string">'marginLeft'</span>, self.tabWidth);
+      } <span class="keyword">else</span> {
+        self.$activeTab.prev().css(<span class="string">'marginRight'</span>, self.tabWidth);
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>We've manipulated the DOM, refresh iScroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.scroller ) {
+        self.scroller.refresh();
+      }
+
+      self.animateTab();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>We know the offset we want within the container, but the container is translated too
+This normalizes that value</p>             </td>             <td class="code">               <div class="highlight"><pre>    _getX : <span class="keyword">function</span>( x ) {
+      <span class="keyword">return</span> [ <span class="keyword">this</span>.valStart, x, <span class="keyword">this</span>.valEnd ].join(<span class="string">''</span>);
+    },
+
+    animateTab : <span class="keyword">function</span>() {
+      console.group(<span class="string">'animateTab: StickyTabs'</span>);
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          x = self.scroller.x * -<span class="number">1</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>last x - current x = distance since last _animateTab call</p>             </td>             <td class="code">               <div class="highlight"><pre>          distance = self.lastX ? self.lastX - x : <span class="number">0</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>If there is an overlap, we need to use that intead of the tab offset</p>             </td>             <td class="code">               <div class="highlight"><pre>          offset = self.overlap ? self.overlap : self.tabOffset,
+          tmpX = offset + distance,
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>contrain the tab to 0 and the viewport width</p>             </td>             <td class="code">               <div class="highlight"><pre>          newX = self._getBounded( tmpX ),
+          value = self._getX( newX + x );
+
+      <span class="keyword">if</span> ( self.scroller.moved &amp;&amp; !self.isClickCanceled ) {
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Prevent tab from being clicked. Passing false as a shorthand for function(){ return false; }</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$tabs.on(<span class="string">'click.stickytabs'</span>, <span class="literal">false</span>);
+        self.isClickCanceled = <span class="literal">true</span>;
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>If the value has been constrained, save the overlap</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.overlap = newX !== tmpX ? tmpX : <span class="literal">null</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>self.overlap = tmpX;</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      console.log(<span class="string">'iscroll:'</span>, self.scroller);
+      console.log(<span class="string">'x:'</span>, x);
+      console.log(<span class="string">'lastX:'</span>, self.lastX);
+      console.log(<span class="string">'distance:'</span>, distance);
+      console.log(<span class="string">'tabOffset:'</span>, self.tabOffset);
+      console.log(<span class="string">'overlap:'</span>, self.overlap);
+      console.log(<span class="string">'tmpX:'</span>, offset, <span class="string">'+'</span>, distance ,<span class="string">'='</span>, tmpX);
+      console.log(<span class="string">'newX:'</span>, newX);
+      console.log( self.prop, value );
+
+      self.lastX = x;
+      self.tabOffset = newX;
+
+      self.$activeTab.css( self.prop, value );
+
+      console.groupEnd();
+    },
+
+    setup : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      console.log(<span class="string">'setup: StickyTabs'</span>);
+      self.isStickyTabs = <span class="literal">true</span>;
+      self.$tabsWrap.addClass(<span class="string">'sticky'</span>);
+
+      self.$tabsContainer.scrollerModule({
+        contentSelector: <span class="string">'.tabs'</span>,
+        itemElementSelector: <span class="string">'.tab'</span>,
+        mode: <span class="string">'free'</span>,
+        centerItems: <span class="literal">false</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>iscroll props get mixed in</p>             </td>             <td class="code">               <div class="highlight"><pre>        iscrollProps: {
+          snap: <span class="literal">false</span>,
+          hScroll: <span class="literal">true</span>,
+          vScroll: <span class="literal">false</span>,
+          hScrollbar: <span class="literal">false</span>,
+          vScrollbar: <span class="literal">false</span>,
+          momentum: <span class="literal">true</span>,
+          bounce: <span class="literal">true</span>,
+          onScrollStart: <span class="keyword">function</span>() {
+            self.isClickCanceled = <span class="literal">false</span>;
+            self.$tabs.off(<span class="string">'.stickytabs'</span>);
+            self.animateTab();
+          },
+          onScrollMove: <span class="keyword">function</span>() {
+            self.animateTab();
+          },
+          onScrollEnd: <span class="keyword">function</span>() {
+            self.animateTab();
+          },
+          onTouchEnd: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>self.animateTab();</p>             </td>             <td class="code">               <div class="highlight"><pre>          },
+          onAnimate: <span class="keyword">function</span>() {
+            self.animateTab();
+          },
+          onAnimationEnd: <span class="keyword">function</span>() {
+            self.animateTab();
+          }
+        }
+      });
+
+      self.scroller = self.$tabsContainer.data(<span class="string">'scrollerModule'</span>).scroller;
+
+      self._onTabSelected();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Removes sticky tabs, but still listens for window resize</p>             </td>             <td class="code">               <div class="highlight"><pre>    teardown : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      console.log(<span class="string">'teardown: StickyTabs'</span>);
+      self.$tabsContainer.scrollerModule(<span class="string">'destroy'</span>);
+      self.$tabsWrap.removeClass(<span class="string">'sticky'</span>);
+      self.$tabs.removeAttr(<span class="string">'style'</span>);
+      self.overlap = <span class="literal">null</span>;
+      self.lastX = <span class="literal">null</span>;
+      self.isStickyTabs = <span class="literal">false</span>;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Completely removes sticky tabs.
+You'll need to call <code>.stickyTabs()</code> again to get them back.</p>             </td>             <td class="code">               <div class="highlight"><pre>    destroy : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>If we haven't called <code>teardown</code> already</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isStickyTabs ) {
+        self.teardown();
+      }
+
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>New tab <code>shown</code> event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$tabs.off(<span class="string">'shown'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Window resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.off(<span class="string">'.stickytabs'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>Remove saved data</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.removeData(<span class="string">'stickyTabs'</span>);
+    },
+
+    setupCarousel : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$navPrev.addClass(<span class="string">'hide'</span>);
+      self.$navNext.addClass(<span class="string">'hide'</span>);
+
+      self.$tabsContainer.scrollerModule({
+        contentSelector: <span class="string">'.tabs'</span>,
+        itemElementSelector: <span class="string">'.tab'</span>,
+        mode: <span class="string">'paginate'</span>,
+        nextSelector: <span class="string">'.tab-nav-next'</span>,
+        prevSelector: <span class="string">'.tab-nav-prev'</span>,
+        centerItems: <span class="literal">false</span>,
+
+        iscrollProps: {
+          snap: <span class="literal">true</span>,
+          hScroll: <span class="literal">true</span>,
+          vScroll: <span class="literal">false</span>,
+          hScrollbar: <span class="literal">false</span>,
+          vScrollbar: <span class="literal">false</span>,
+          momentum: <span class="literal">true</span>,
+          bounce: <span class="literal">true</span>,
+        }
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Check to make sure we actually have paginated tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.$tabsContainer.data(<span class="string">'scrollerModule'</span>).isPaginated ) {
+        self.$navNext.removeClass(<span class="string">'hide'</span>);
+        self.$tabsWrap.addClass(<span class="string">'tab-carousel'</span>);
+      }
+
+      self.isTabCarousel = <span class="literal">true</span>;
+    },
+
+    teardownCarousel : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      console.log(<span class="string">'teardown: Carousel tabs'</span>);
+      self.$navPrev.addClass(<span class="string">'hide'</span>);
+      self.$navNext.addClass(<span class="string">'hide'</span>);
+      self.$tabsWrap.removeClass(<span class="string">'tab-carousel'</span>);
+      self.$tabsContainer.scrollerModule(<span class="string">'destroy'</span>);
+
+      self.isTabCarousel = <span class="literal">false</span>;
+    },
+
+    update : <span class="keyword">function</span>() {
+
+    }
+
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyTabs = <span class="keyword">function</span>( options ) {
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
+          stickyTabs = self.data(<span class="string">'stickyTabs'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>If we don't have a stored stickyTabs, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !stickyTabs ) {
+        stickyTabs = <span class="keyword">new</span> StickyTabs( self, options );
+        self.data( <span class="string">'stickyTabs'</span>, stickyTabs );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        stickyTabs[ options ].apply( stickyTabs, args );
+      }
+    });
+  };
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyTabs.options = {
+    tabsWrapSelector: <span class="string">'.tabs'</span>,
+    mq: <span class="string">'(max-width: 47.9375em)'</span>,
+    carouselMq: <span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>,
+    tabOffset: <span class="number">0</span>,
+    initialTabWidth: <span class="number">0</span>,
+    tabWidth: <span class="number">0</span>,
+    tabsWidth: <span class="number">0</span>,
+    windowWidth: <span class="number">0</span>,
+    windowHeight: <span class="number">0</span>,
+    data: <span class="literal">null</span>,
+    lastX: <span class="literal">null</span>,
+    isStickyTabs: <span class="literal">false</span>,
+    toOffset: <span class="number">0</span>
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyTabs.settings = {
+    prop: Modernizr.csstransforms ? <span class="string">'transform'</span> : <span class="string">'left'</span>,
+    valStart : Modernizr.csstransforms ? <span class="string">'translate('</span> : <span class="string">''</span>,
+    valEnd : Modernizr.csstransforms ? <span class="string">'px,0)'</span> : <span class="string">'px'</span>
+  };
+
+})(jQuery, Modernizr, window);
+
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

@@ -1,0 +1,51 @@
+---
+desc: 'Here are some modules with unique data:'
+layout1: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
+layout2: [ "plate", "medium" , "normal" , "normal" , "normal" , "blank-normal"]
+layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
+layout4: ["suggested" , "suggested"]
+---
+if data.config.mode == 'full'
+  - clss = data.config.variation + ' ' + data.config.mode
+  section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
+    .rp-overflow#rpOverflow
+      .rp-container
+        .rp-slide
+          .shuffle-container.slimgrid5
+            i = 0
+            for module in data.submodules
+              d = locals.data(module.data)
+              if d.type == 'product' && d.featured
+                - d.layout = document[data.config.layout][i++]
+                - d.view = 'basic'
+                e = { 'locals' : locals , 'data' : d }
+                !{locals.partial('modules/'+module.type , e )}
+        .rp-slide
+          .shuffle-container.slimgrid5
+            i = 0
+            for module in data.submodules
+              d = locals.data(module.data)
+              if d.type == 'product' && d.featured
+                - d.layout = document[data.config.layout][i++]
+                - d.view = 'basic'
+                e = { 'locals' : locals , 'data' : d }
+                !{locals.partial('modules/'+module.type , e )}
+        .rp-slide
+          .shuffle-container.slimgrid5
+            i = 0
+            for module in data.submodules
+              d = locals.data(module.data)
+              if d.type == 'product' && d.featured
+                - d.layout = document[data.config.layout][i++]
+                - d.view = 'basic'
+                e = { 'locals' : locals , 'data' : d }
+                !{locals.partial('modules/'+module.type , e )}
+else if data.config.mode == 'suggested'
+  - clss = data.config.variation + ' ' + data.config.mode
+  .container
+    section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
+      for module in data.submodules
+        d = locals.data(module.data)
+        - d.layout = document[data.config.layout][i++]
+        e = { 'locals' : locals , 'data' : d }
+        !{locals.partial('modules/'+module.type , e )}

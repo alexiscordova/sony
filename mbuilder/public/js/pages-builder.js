@@ -99,7 +99,7 @@ $(document).ready(function() {
         var replaceSpace = new RegExp('\\n', 'g');
 
         if (bValid) {
-          $('#fileName').val($('#name').val().replace(' ', ''));
+          $('#fileName').val($('#name').val().replace(' ', '-'));
           $('#fileTitle').val($('#title').val());
           $('#fileDescription').val($('#description').val().replace(replaceLB, ' '));
 
@@ -241,7 +241,6 @@ function addSuperModuleNode() {
 function setSuperModule(dataSelect, elem) {
   var selectedElem = $(dataSelect).find("option")[dataSelect.selectedIndex];
   $(selectedElem).data();
-  var temp;
 }
 
 function checkLength(o, n, min, max) {
@@ -373,21 +372,22 @@ function buildAll(elem) {
     $('#add-module').prop('disabled', false).show();
     $('.data_select').trigger('change');
     $('.modContainer select').prop('disabled', false);
+    $('#builtAllInputContainer').empty();
 
   } else {
 
    
     $('.build-all').addClass('active').html('<span class="sprite"></span>Select Data');
 
-    var moduleValue = $('.module_select option:selected').attr('value'), moduleInput = $('<input type="hidden" name="module" >'), builtAllInputContainer = $('#builtAllInputContainer');
-
-    $(builtAllInputContainer).empty();
+    var moduleValue = $('.module_select option:selected').attr('value'), 
+        moduleInput = $('<input type="hidden" name="module" >');
 
     $('#add-module').prop('disabled', true).hide();
      
     $.each($('.data_select option'), function(i) {
 
-      var $moduleInput = moduleInput.clone(true), $dataInput = moduleInput.clone(true);
+      var $moduleInput = moduleInput.clone(true), 
+          $dataInput = moduleInput.clone(true);
 
       $moduleInput = moduleInput.attr('value', moduleValue);
       $dataInput = $dataInput.attr('name', 'moduleData').attr('value', this.value);
@@ -411,7 +411,8 @@ function buildPage() {
 
   var myForm = $('#myForm');
 
-  var btnBuildPop = $('.ui-dialog-buttonset button')[0], btnCancelPop = $('.ui-dialog-buttonset button')[1];
+  var btnBuildPop = $('.ui-dialog-buttonset button')[0], 
+      btnCancelPop = $('.ui-dialog-buttonset button')[1];
 
   $(btnBuildPop).hide();
   $(btnCancelPop).hide();

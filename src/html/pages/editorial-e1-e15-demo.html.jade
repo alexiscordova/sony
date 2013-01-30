@@ -1,8 +1,8 @@
 ---
 title: Editorial Module
 description: This is the Editorial Module, it contains text and media elements which can be nested modules.
-ignore: true
 ---
+include ../partials/includes/jade-helpers.jade
 doctype 5
 !{partial('includes/ieconditionals.html')}
 
@@ -11,8 +11,7 @@ l = {"locals": locals}
     !{partial('includes/head.html.jade', l)}
 
   body
-    e = {"locals":locals, "data":data('editorial-e1-e15/default.json')}
-    !{partial('modules/editorial-e1-e15.html.jade', e)}
+    +partial('editorial-e1-e15.html.jade', 'editorial-e1-e15/default.json')
   
     !{partial('includes/foot.html.jade', l)}
     

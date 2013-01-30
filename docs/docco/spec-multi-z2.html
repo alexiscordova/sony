@@ -1,0 +1,410 @@
+<!DOCTYPE html>  <html> <head>   <title>spec-multi-z2.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.bullets.html">                 jquery.sc.bullets.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-one-carousel.html">                 sony-one-carousel.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               spec-multi-z2.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global jQuery, Modernizr, Exports*/</span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>-------- Sony Full Specs Multi -------
+Module: Full Specs Multi
+Version: 1.0
+Author: Glen Cheney
+Date: 01/24/13</p>
+
+<h2>Dependencies: jQuery 1.7+, Modernizr</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="keyword">function</span>($, Modernizr, window, <span class="literal">undefined</span>) {
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> Spec = <span class="keyword">function</span>( $container, options ) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    $.extend(self, $.fn.spec.options, options, $.fn.spec.settings);
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>jQuery objects</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$container = $container;
+    self.$window = $(window);
+    self._init();
+  };
+
+  Spec.prototype = {
+
+    constructor: Spec,
+
+    _init : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$specProducts = self.$container.find(<span class="string">'.spec-products'</span>);
+      self.$specItems = self.$specProducts.find(<span class="string">'.spec-item'</span>);
+      self.$specItemsWrap = self.$specProducts.find(<span class="string">'.spec-items-wrap'</span>);
+      self.$tabStrip = self.$container.find(<span class="string">'.tab-strip'</span>);
+      self.$navNext = self.$container.find(<span class="string">'.spec-nav-next'</span>);
+      self.$navPrev = self.$container.find(<span class="string">'.spec-nav-prev'</span>);
+      self.$enlargeTriggers = self.$specProducts.find(<span class="string">'.js-enlarge'</span>);
+      self.$enlargeClosers = self.$container.find(<span class="string">'.spec-modal .box-close'</span>);
+      self.$detailLabelsWrap = self.$specProducts.find(<span class="string">'.detail-labels-wrap'</span>);
+      self.$stickyHeaders = self.$specProducts.find(<span class="string">'.compare-sticky-header'</span>);
+
+      self.stickyHeaderHeight = self.$stickyHeaders.first().height();
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Line up spec item cells</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._onResize();
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Init shuffle on the features section</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._initFeatures();
+
+      self.$window.on(<span class="string">'resize'</span>, $.throttle(<span class="number">250</span>, $.proxy( self._onResize, self )));
+      self.$window.on(<span class="string">'scroll'</span>, $.proxy( self._onScroll, self ));
+
+      self.$enlargeTriggers.on(<span class="string">'click'</span>, $.proxy( self._onEnlarge, self ));
+      self.$enlargeClosers.on(<span class="string">'click'</span>, $.proxy( self._closeEnlarge, self ));
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>We're done
+Add the complete class to the labels to transition them in</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+        self.$detailLabelsWrap.find(<span class="string">'.detail-labels-wrapping'</span>).addClass(<span class="string">'complete'</span>);
+      }, <span class="number">250</span>);
+    },
+
+    _initFeatures : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          dfd;
+
+      self.$specTiles = self.$container.find(<span class="string">'.spec-tiles'</span>);
+      self.$specTiles.shuffle({
+        itemSelector: <span class="string">'.spec-tile'</span>,
+        easing: <span class="string">'ease-out'</span>,
+        speed: <span class="number">250</span>,
+        columnWidth: Exports.masonryColumns,
+        gutterWidth: Exports.masonryGutters,
+        showInitialTransition: <span class="literal">false</span>
+      });
+      self.shuffle = self.$specTiles.data(<span class="string">'shuffle'</span>);
+
+      dfd = self.$specTiles.imagesLoaded();
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Relayout shuffle when the images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>      dfd.always( <span class="keyword">function</span>() {
+        setTimeout( <span class="keyword">function</span>() {
+          self.shuffle.layout();
+        }, <span class="number">100</span> );
+      });
+
+      <span class="keyword">return</span> self;
+    },
+
+    _initScroller : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          data;
+
+      self.$specItemsWrap.scrollerModule({
+        contentSelector: <span class="string">'.spec-items-container'</span>,
+        itemElementSelector: <span class="string">'.spec-item'</span>,
+        mode: <span class="string">'paginate'</span>, <span class="comment">// if mode == 'paginate', the items in the container will be paginated</span>
+        nextSelector: self.$navNext,
+        prevSelector: self.$navPrev,
+        centerItems: <span class="literal">false</span>,
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>iscroll props get mixed in</p>             </td>             <td class="code">               <div class="highlight"><pre>        iscrollProps: {
+          snap: <span class="literal">true</span>,
+          hScroll: <span class="literal">true</span>,
+          vScroll: <span class="literal">false</span>,
+          hScrollbar: <span class="literal">false</span>,
+          vScrollbar: <span class="literal">false</span>,
+          momentum: <span class="literal">true</span>,
+          bounce: <span class="literal">true</span>,
+          onScrollMove : <span class="keyword">function</span>() {
+            self._onScroll( <span class="keyword">this</span> );
+          },
+          onAnimate : <span class="keyword">function</span>() {
+            self._onScroll( <span class="keyword">this</span> );
+          },
+          onAnimationEnd : <span class="keyword">function</span>() {
+            self._onScroll( <span class="keyword">this</span> );
+            window.iQ.update();
+          }
+        }
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Save the iScroll instance</p>             </td>             <td class="code">               <div class="highlight"><pre>      data = self.$specItemsWrap.data(<span class="string">'scrollerModule'</span>);
+      self.scroller = data;
+      self.iscroll = data.scroller;
+      self.isScroller = <span class="literal">true</span>;
+
+    },
+
+    _teardownScroller : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$specItemsWrap.scrollerModule(<span class="string">'destroy'</span>);
+      self.iscroll = <span class="literal">null</span>;
+      self.isScroller = <span class="literal">false</span>;
+    },
+
+    _initStickyTabs : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $headers = self.$specItems.find(<span class="string">'.spec-column-header'</span>).clone(),
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>$btns = $(),</p>             </td>             <td class="code">               <div class="highlight"><pre>          $tabs = self.$tabStrip.find(<span class="string">'.tabs'</span>);
+
+      self.isStickyTabs = <span class="literal">true</span>;
+      self.$specItems.slice(<span class="number">1</span>).addClass(<span class="string">'tab-pane fade off-screen'</span>);
+      self.$specItems.slice(<span class="number">0</span>, <span class="number">1</span>).addClass(<span class="string">'tab-pane fade in active'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Make the column headers into tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>      $headers.each(<span class="keyword">function</span>(i) {
+        <span class="keyword">var</span> $header = $(<span class="keyword">this</span>),
+            $btn = $(<span class="string">'&lt;button/&gt;'</span>, {
+              html : $header.contents()
+            });
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Make the first tab active</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( i === <span class="number">0</span> ) {
+          $btn.addClass(<span class="string">'active'</span>);
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Set the data attributes</p>             </td>             <td class="code">               <div class="highlight"><pre>        $btn
+          .attr({
+            <span class="string">'data-target'</span>: <span class="string">'spec-tab'</span> + i,
+            <span class="string">'data-toggle'</span>: <span class="string">'tab'</span>
+          })
+          .removeClass(<span class="string">'spec-column-header hidden-phone'</span>)
+          .addClass(<span class="string">'tab'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>iOS wasn't appending the buttons in the right order, so we'll have to append them inside the loop</p>             </td>             <td class="code">               <div class="highlight"><pre>        $tabs.append( $btn );
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>$btns = $btns.add( $btn );</p>             </td>             <td class="code">               <div class="highlight"><pre>      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>$btns.appendTo( $tabs );</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      self.$tabStrip.stickyTabs({
+        mq: self.mobileBreakpoint
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Undo what _setRowHeights sets</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._removeHeights();
+    },
+
+    _teardownStickyTabs : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.$tabStrip
+        .stickyTabs(<span class="string">'destroy'</span>)
+        .find(<span class="string">'.tabs'</span>)
+          .empty();
+      self.isStickyTabs = <span class="literal">false</span>;
+      self.$specItems.removeClass(<span class="string">'tab-pane fade in off-screen active'</span>);
+      self._closeEnlarge();
+    },
+
+    _setRowHeights : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Put a bottom margin on the sibling of the absoluting positioned element
+to make up for its lack of document space</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.find(<span class="string">'.btm-aligned'</span>).each(<span class="keyword">function</span>() {
+        <span class="keyword">var</span> $img = $(<span class="keyword">this</span>);
+        $img.prev().css(<span class="string">'marginBottom'</span>, $img.css(<span class="string">'height'</span>));
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Set detail rows to even heights</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.find(<span class="string">'.detail-label'</span>).each(<span class="keyword">function</span>(i) {
+        <span class="keyword">var</span> $detailLabel = $(<span class="keyword">this</span>),
+            maxHeight = parseFloat( $detailLabel.css(<span class="string">'height'</span>) ),
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>plus 2 because i is a zero based index and nth-child is one based. Also, the first child in our html
+is the title, which is not a .spec-item-cell, so we need to add another to our selector
+Also, there is a sticky header that needs to be excluded: add 1 more</p>             </td>             <td class="code">               <div class="highlight"><pre>            $cells = self.$specItems.find(<span class="string">'.spec-item-cell:nth-child('</span> + (i + <span class="number">3</span>) + <span class="string">')'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Loop through the cells (<code>.spec-item-cell</code>'s in the same 'row')</p>             </td>             <td class="code">               <div class="highlight"><pre>        $cells.each(<span class="keyword">function</span>() {
+          <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+              height = parseFloat( $<span class="keyword">this</span>.css(<span class="string">'height'</span>) );
+
+          <span class="keyword">if</span> ( height &gt; maxHeight ) {
+            maxHeight = height;
+          }
+        });
+
+        $cells.add($detailLabel).css(<span class="string">'height'</span>, maxHeight);
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Refresh iScroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.iscroll ) {
+        self.iscroll.refresh();
+      }
+
+      <span class="keyword">return</span> self;
+    },
+
+    _setItemContainerHeight : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$specItemsWrap.find(<span class="string">'.spec-items-container'</span>).height( self.$specItems.first().height() );
+
+      <span class="keyword">return</span> self;
+    },
+
+    _removeHeights : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$specItems.find(<span class="string">'.spec-item-cell'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
+      self.$specItemsWrap.find(<span class="string">'.spec-items-container'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
+    },
+
+    _onResize : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( Modernizr.mq( self.mobileBreakpoint ) ) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>If we have a scroller, destroy it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isScroller ) {
+          self._teardownScroller();
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>If we don't have sticky tabs, init them</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !self.isStickyTabs ) {
+          self._initStickyTabs();
+        }
+
+        <span class="keyword">if</span> ( self.$modal ) {
+          self._closeEnlarge();
+        }
+
+      } <span class="keyword">else</span> {
+
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>If we have sticky tabs, destroy them</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isStickyTabs ) {
+          self._teardownStickyTabs();
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If we don't have a scroller, create it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !self.isScroller ) {
+          self._initScroller();
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Re-compute heights for each cell and total height</p>             </td>             <td class="code">               <div class="highlight"><pre>        self
+          ._setRowHeights()
+          ._setItemContainerHeight();
+      }
+
+      self.stickyOffset = self._getStickyHeaderOffset();
+    },
+
+    _onScroll : <span class="keyword">function</span>( iscroll ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          isIScroll = iscroll !== <span class="literal">undefined</span> &amp;&amp; iscroll.y !== <span class="literal">undefined</span>,
+          scrollTop = isIScroll ? iscroll.y * -<span class="number">1</span> : self.$window.scrollTop();
+
+      <span class="keyword">if</span> ( isIScroll ) {
+        <span class="keyword">if</span> ( iscroll.x &lt; -<span class="number">3</span> &amp;&amp; !self.$detailLabelsWrap.hasClass(<span class="string">'overflowing'</span>) ) {
+          self.$detailLabelsWrap.addClass(<span class="string">'overflowing'</span>);
+        } <span class="keyword">else</span> <span class="keyword">if</span> ( iscroll.x &gt;= -<span class="number">3</span> &amp;&amp; self.$detailLabelsWrap.hasClass(<span class="string">'overflowing'</span>) ) {
+          self.$detailLabelsWrap.removeClass(<span class="string">'overflowing'</span>);
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>We haven't scrolled vertically, exit the function</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">if</span> ( scrollTop &gt;= self.stickyOffset.top &amp;&amp; scrollTop &lt;= self.stickyOffset.bottom ) {
+        <span class="keyword">if</span> ( !self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
+          self.$stickyHeaders.addClass(<span class="string">'open'</span>);
+        }
+        self._setStickyHeaderPos( scrollTop - self.stickyOffset.top );
+
+      } <span class="keyword">else</span> {
+        <span class="keyword">if</span> ( self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
+          self.$stickyHeaders.removeClass(<span class="string">'open'</span>);
+        }
+      }
+    },
+
+    _onEnlarge : <span class="keyword">function</span>( evt ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $cell = $(evt.target).closest(<span class="string">'.spec-item-cell'</span>),
+          $container = $cell.closest(<span class="string">'.spec-items-container'</span>),
+          $modal = $cell.find(<span class="string">'.spec-modal'</span>),
+          cellTop = $cell.position().top,
+          wrapperOffset = self.isScroller ? self.iscroll.x * -<span class="number">1</span> : <span class="number">0</span>,
+          cellHeight = $cell.outerHeight(),
+          columnWidth = $cell.parent().outerWidth(),
+          modalWidth = self.isScroller ? (self.scroller.itemsPerPage * columnWidth) + <span class="string">'px'</span> : <span class="string">'100%'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Make sure we don't open 2 modals at once</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._closeEnlarge();
+
+      $modal
+        .detach()
+        .removeClass(<span class="string">'hide'</span>)
+        .css({
+          <span class="string">'top'</span>: cellTop,
+          <span class="string">'left'</span>: wrapperOffset,
+          <span class="string">'width'</span>: modalWidth,
+          <span class="string">'minHeight'</span>: cellHeight
+        })
+        .data(<span class="string">'$cell'</span>, $cell)
+        .appendTo( $container );
+
+      self.$modal = $modal;
+    },
+
+    _closeEnlarge : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $cell;
+
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>No current modal</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.$modal ) {
+        <span class="keyword">return</span>;
+      }
+
+      $cell = self.$modal.data(<span class="string">'$cell'</span>);
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Detach and re-attach the modal in the spec-item</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$modal
+        .detach()
+        .addClass(<span class="string">'hide'</span>)
+        .appendTo($cell);
+      self.$modal = <span class="literal">null</span>;
+    },
+
+    _setStickyHeaderPos : <span class="keyword">function</span>( scrollTop ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          translateZ = Modernizr.csstransforms3d ? <span class="string">' translateZ(0)'</span> : <span class="string">''</span>,
+          prop = Modernizr.csstransforms ? <span class="string">'transform'</span> : <span class="string">'top'</span>,
+          value = Modernizr.csstransforms ? <span class="string">'translate(0,'</span> + scrollTop + <span class="string">'px)'</span> + translateZ : scrollTop + <span class="string">'px'</span>;
+
+      self.$stickyHeaders.css( prop, value );
+
+      <span class="keyword">return</span> self;
+    },
+
+    _getStickyHeaderOffset : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          top = self.$specProducts.offset().top,
+          bottom = self.$specProducts.height() + top - self.stickyHeaderHeight;
+
+      <span class="keyword">return</span> {
+        top: top,
+        bottom: bottom
+      };
+    }
+
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec = <span class="keyword">function</span>( options ) {
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
+          spec = self.data(<span class="string">'spec'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>If we don't have a stored spec, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !spec ) {
+        spec = <span class="keyword">new</span> Spec( self, options );
+        self.data( <span class="string">'spec'</span>, spec );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        spec[ options ].apply( spec, args );
+      }
+    });
+  };
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.options = {
+    mobileBreakpoint : <span class="string">'(max-width: 35.4375em)'</span>
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.settings = {
+    isStickyTabs: <span class="literal">false</span>,
+    isScroller: <span class="literal">false</span>
+  };
+
+
+})(jQuery, Modernizr, window);
+
+
+
+
+
+
+
+$(document).ready(<span class="keyword">function</span>() {
+
+  <span class="keyword">if</span> ( $(<span class="string">'.spec-multi'</span>).length &gt; <span class="number">0</span> ) {
+
+    $(<span class="string">'.spec-multi'</span>).spec();
+
+  }
+});
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

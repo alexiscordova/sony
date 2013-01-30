@@ -1,31 +1,4 @@
-mixin iQImage( img, extraClasses )
-  - classes = 'iq-img'
-  - extraClasses = extraClasses || false
-  - if ( extraClasses ) classes += ' ' + extraClasses
-  img(class=classes, data-src=img.src, alt=img.alt)
-  noscript
-    img(src=img.noscriptsrc, alt=img.alt)
-
-mixin definitionList( list, isHorizontal )
-  - isHorizontal = isHorizontal || false
-  - clss = isHorizontal ? 'dl-horizontal' : null
-  dl(class=clss)
-    each li in list
-      dt.l3= li.term
-      if li.definition
-        dd.p3= li.definition
-      else
-        each definition in li.definitions
-          dd.p3= definition
-
-mixin specList( list, extraClasses )
-  - classes = 'unstyled spec-list'
-  - extraClasses = extraClasses || false
-  - if ( extraClasses ) classes += ' ' + extraClasses
-  ul(class=classes)
-    each li in list
-      li.p3= li
-
+include ../includes/jade-helpers.jade
 
 if data.view == "basic"
   klass = '';
@@ -37,6 +10,8 @@ if data.view == "basic"
     klass = 'span2 medium'
   else if data.layout == 'plate'
     klass = 'span2 plate'
+  else if data.layout == 'blank-normal'
+    klass = 'span1 blank normal'
   else
     klass = 'span1 normal'
 
@@ -70,7 +45,7 @@ if data.view == "basic"
           div(class=classes)
             .text-promo-title
               strong= data.title
-              span!= '&nbsp;' + data.emphasis
+              span!= data.emphasis
               i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
@@ -96,7 +71,7 @@ if data.view == "basic"
 
               if data.imgSmall.colors
                 each img in data.imgSmall.colors
-                  //- mixin iQImage( img, 'hidden' )
+                  //- mixin iQImage( img, 'hidden', 'image' )
                   img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
                   noscript
                     img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
@@ -136,9 +111,7 @@ else if data.view == 'detailed'
       .product-img
         .product-img-wrap.ghost-center-wrap.js-product-imgs
           .ghost-center
-            img.iq-img.js-product-img-main(data-src=data.img.src, itemprop="image", alt=data.img.alt)
-            noscript
-              img(src=data.img.noscriptsrc, itemprop="image", alt=data.img.alt)
+            mixin iQImage( data.img, 'js-product-img-main', 'image' )
             each img in data.img.colors
               img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
               noscript
@@ -229,82 +202,93 @@ else if data.view == "specs"
 
     each spec, i in data.specs
       .spec-item-cell
-        p.cell-label.l3= labels[i]
+        .spec-cell-inner
+          p.cell-label.l3= labels[i]
 
-        if spec.name && spec.list && spec.img
-          p= spec.name
-          p.l3= spec.listTitle
-          mixin specList( spec.list, 'before-btm-aligned' )
-          mixin iQImage( spec.img, 'btm-aligned' )
+          if spec.name && spec.list && spec.img
+            p= spec.name
+            p.l3= spec.listTitle
+            mixin specList( spec.list, 'before-btm-aligned' )
+            mixin iQImage( spec.img, 'btm-aligned' )
 
-        else if spec.callout && spec.text
-          p.compare-box= spec.callout
-          p= spec.text
-          if spec.list
-            if spec.listTitle
-              p.l3= spec.listTitle
+          else if spec.callout && spec.text
+            p.compare-box= spec.callout
+            p= spec.text
+            if spec.list
+              if spec.listTitle
+                p.l3= spec.listTitle
+              mixin specList( spec.list )
+
+          else if spec.text
+            p= spec.text
+            if spec.subtext
+              p.p3= spec.subtext
+
+            if spec.sublist
+              mixin specList( spec.sublist )
+
+          else if spec.colors
+            .color-swatches.clearfix
+              each color in spec.colors
+                colorClass = 'mini-swatch swatch-' + color + ' pull-left'
+                span(class=colorClass, itemprop="color")= color
+
+          else if spec.definitionList
+            if spec.img
+              - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
+              .text-center.dl-img(class=imgClass)
+                .img
+                  mixin iQImage( spec.img )
+
+            mixin definitionList( spec.definitionList, true )
+
+          else if spec.label && spec.callout && spec.list && spec.icon
+            .holder-for-icon
+              iconClass = 'icon-uibig-' + spec.icon
+              i(class=iconClass)
+            p= spec.callout
+            mixin specList( spec.list )
+            p.l3= spec.label
+            p.p3= spec.labeledText
+
+          else if spec.enlargement
+            .text-center
+              mixin iQImage( spec.img )
+            button.iconTrigger-ui2-magnify.enlarge.js-enlarge
+              i.icon-ui2-magnify
+              span.l3!= '&nbsp;' + spec.iconTitle
+
             mixin specList( spec.list )
 
-        else if spec.text
-          p= spec.text
-          if spec.subtext
-            p.p3= spec.subtext
+            .spec-modal.hide.mobile-container-padded
+              .spec-modal-header.clearfix
+                .pull-left
+                  h3= spec.enlargement.title
+                .pull-right.box-close
+                  i.icon-ui-x-skinny
+              .spec-modal-body.text-center
+                mixin iQImage( spec.enlargement )
 
-          if spec.sublist
-            mixin specList( spec.sublist )
+          else if spec.list && spec.img
 
-        else if spec.colors
-          .color-swatches.clearfix
-            each color in spec.colors
-              colorClass = 'mini-swatch swatch-' + color + ' pull-left'
-              span(class=colorClass, itemprop="color")= color
+            if spec.img.alignment == 'bottom'
+              mixin specList( spec.list )
+              - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
+              .text-center.img-bottom
+                .img-holder(class=imgClass)
+                  mixin iQImage( spec.img )
+            else
+              - imgClass = spec.img.orientation && spec.img.orientation == 'portrait' ? 'vertical' : ''
+              .text-center
+                .img-holder(class=imgClass)
+                  mixin iQImage( spec.img )
+              mixin specList( spec.list )
 
-        else if spec.definitionList
-          if spec.img
-            .text-center.dl-img
-              mixin iQImage( spec.img )
+          else if spec.list
+            mixin specList( spec.list )
 
-          mixin definitionList( spec.definitionList, true )
-
-        else if spec.label && spec.callout && spec.list && spec.icon
-          div
-            iconClass = 'icon-uibig-' + spec.icon
-            i(class=iconClass)
-          p= spec.callout
-          mixin specList( spec.list )
-          p.l3= spec.label
-          p.p3= spec.labeledText
-
-        else if spec.enlargement
-          .text-center
-            mixin iQImage( spec.img )
-          button.iconTrigger-ui2-magnify.enlarge.js-enlarge
-            i.icon-ui2-magnify
-            span.l3!= '&nbsp;' + spec.iconTitle
-
-          mixin specList( spec.list )
-          ul.unstyled.p3.spec-list
-            each li in spec.list
-              li= li
-
-          .spec-modal.hide.mobile-container-padded
-            .spec-modal-header.clearfix
-              .pull-left
-                h3= spec.enlargement.title
-              .pull-right.box-close
-                i.icon-ui-x-skinny
-            .spec-modal-body.text-center
-              mixin iQImage( spec.enlargement )
-
-
-
-        else if spec.list
-          ul.unstyled.p3.spec-list
-            each li in spec.list
-              li= li
-
-        else
-          .l4 Unable to parse the kind of specification you gav me :(
+          else
+            .l4 Unable to parse the kind of specification you gav me :(
 
 
 else if data.view == 'single-spec'
@@ -314,7 +298,12 @@ else if data.view == 'single-spec'
       section.spec-overview.spec-section
         .container
           .grid.no-grid-at-567
-            .span8
+            .span8.relative.paddle-trigger
+              nav
+                button.nav-paddle.overview-nav.overview-nav-prev
+                  i.icon-ui2-chevron-18-white-left
+                button.nav-paddle.overview-nav.overview-nav-next
+                  i.icon-ui2-chevron-18-white-right
               .spec-carousel-wrap
                 .spec-carousel
                   each img in spec.imgs

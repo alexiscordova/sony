@@ -19,54 +19,9 @@
 
     $.extend(self, $.fn.scrollerModule.defaults, options, $.fn.scrollerModule.settings);
 
-    self.$el = $($element),
-    self.$win = $(window),
-    self.$contentContainer = $(self.contentSelector);
-    self.$elements = $(self.itemElementSelector),
-    self.$sampleElement = self.$elements.eq(0);
-
-    self._setContainerWidth();
-
-    // Override the onscrollend for our own use
-    self.onScrollEnd = self.iscrollProps.onScrollEnd;
-
-    // NOT SURE WHY THIS ISN'T BEING CALLED
-    self.iscrollProps.onScrollEnd = function() {
-      self._onScrollEnd( this );
-    };
-
-    self.onAnimationEnd = self.iscrollProps.onAnimationEnd;
-
-    // Pass the iScroll instance to our function (we still want `this` to reference ScrollerModule)
-    self.iscrollProps.onAnimationEnd = function() {
-      self._onAnimationEnd( this );
-    };
-
-    // Create instance of scroller and pass it defaults
-    self.scroller = new IScroll( self.$el[0], self.iscrollProps );
-
-    self.$win.on(self.resizeEvent + '.sm', $.proxy( self._onResize, self ));
-
-    // Initially set the isPaginated boolean. This may be changed later inside paginate()
-    self.isPaginated = self.mode === 'paginate';
-
-    // Paddle clicks
-    // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
-    if ( self.nextSelector ) {
-      self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
-      self.$navNext.on('click', function() {
-        self.next();
-      });
-    }
-    if ( self.prevSelector ) {
-      self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
-      self.$navPrev.on('click', function() {
-        self.prev();
-      });
-    }
-
-    self._update();
-
+    self.$el = $($element);
+    self.$win = $(window);
+    self._init();
   };
 
   ScrollerModule.prototype = {
@@ -76,6 +31,86 @@
      * Private Methods
      */
 
+    _init : function() {
+      var self = this,
+          resizeFunc = $.throttle( self.throttleTime, $.proxy( self._onResize, self ) );
+
+      self.$contentContainer = $(self.contentSelector);
+      self.$elements = $(self.itemElementSelector),
+      self.$sampleElement = self.$elements.eq(0);
+
+      // Initially set the isPaginated boolean. This may be changed later inside paginate()
+      self.isPaginated = self.mode === 'paginate';
+      self.isCarousel = self.mode === 'carousel';
+
+      // save iscroll properties
+      self._setIscrollProps();
+
+      // Set equal widths on the items in the carousel so they always take up as much space
+      // as the container, then generate pagination for it.
+      if ( self.isCarousel ) {
+        self._setItemWidths();
+        self._generatePagination( self.$elements.length );
+      }
+
+      // Set the width of the inner container
+      self._setContainerWidth();
+
+      // Create instance of scroller and pass it defaults
+      self.scroller = new IScroll( self.$el[0], self.iscrollProps );
+      self.currentPage = self.scroller.currPageX;
+
+      self.$win.on(self.resizeEvent + '.sm', resizeFunc);
+
+      // Paddle clicks
+      // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
+      if ( self.nextSelector ) {
+        self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
+        self.$navNext.on('click', function() {
+          self.next();
+        });
+      }
+      if ( self.prevSelector ) {
+        self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
+        self.$navPrev.on('click', function() {
+          self.prev();
+        });
+      }
+
+      self._update();
+    },
+
+    _setIscrollProps : function() {
+      var self = this;
+
+      // Override the onscrollend for our own use
+      self.onScrollEnd = self.iscrollProps.onScrollEnd;
+      self.onAnimationEnd = self.iscrollProps.onAnimationEnd;
+
+      if ( self.mode === 'carousel' ) {
+        self.iscrollProps = {
+          snap: true,
+          hScrollbar: false,
+          momentum: false
+        };
+        // self.iscrollProps.snap = true;
+        // self.iscrollProps.hScrollbar = false;
+        // self.momentum = false;
+      }
+
+      // NOT SURE WHY THIS ISN'T BEING CALLED
+      self.iscrollProps.onScrollEnd = function() {
+        self._onScrollEnd( this );
+      };
+
+      // Pass the iScroll instance to our function (we still want `this` to reference ScrollerModule)
+      self.iscrollProps.onAnimationEnd = function() {
+        self._onAnimationEnd( this );
+      };
+
+      return self;
+    },
+
     _paginate : function() {
       var self = this,
           widthOfOneElement = self.$sampleElement.outerWidth(true),
@@ -84,18 +119,14 @@
           availToFit = self.fitPerPage || Math.floor(containerWidth / widthOfOneElement) || 1,
           numPages = Math.ceil( itemCount / availToFit ),
           i = 0,
-          totalBlockWidth = widthOfOneElement * availToFit,
-          $bulletPagination;
+          totalBlockWidth = widthOfOneElement * availToFit;
 
       // Add back the extra spacing we took away for previous calculations
       containerWidth += self.extraSpacing;
 
       //stop processing function /maybe hide paddles or UI?
       if ( numPages === 1 || availToFit > itemCount ) {
-        self.isPaginated = false;
         return false;
-      } else {
-        self.isPaginated = true;
       }
 
       function buildPage(pageNum, startIndex, endIndex) {
@@ -122,42 +153,17 @@
         });
       }
 
-      if ( self.mode === 'paginate' ) {
+      // Generate nav bullets ( if wanted )
+      if ( self.generatePagination ) {
+        self._generatePagination( numPages );
+      }
 
-        // Generate nav bullets ( if wanted )
-        if ( self.generatePagination ) {
-          if ( self.$pagination ) {
-            self.$pagination.remove();
-          }
+      // Space element sout accordingly
+      for (i = 0 ; i < numPages; i++) {
+        var startIndex = i * availToFit,
+            endIndex = startIndex + availToFit - 1;
 
-          $bulletPagination = $('<ol/>', { 'class' : 'pagination-bullets on' });
-
-        }
-
-        for (i = 0 ; i < numPages; i++) {
-          var startIndex = i * availToFit,
-              endIndex = startIndex + availToFit - 1;
-
-          // Space element sout accordingly
-          buildPage( i , startIndex , endIndex );
-
-          // Create each nav bullet
-          if ( self.generatePagination ) {
-            var clss = i === 0 ? self.paginationClass + ' bullet-selected' : self.paginationClass,
-                $li = $('<li>', {
-                  'class' : clss,
-                  'data-index': i,
-                  'click' : $.proxy( self.gotopage, self )
-                });
-            $bulletPagination.append( $li );
-          }
-        }
-
-        // Append the nav bullets
-        if ( self.generatePagination ) {
-          self.$el.append( $bulletPagination );
-          self.$pagination = $bulletPagination;
-        }
+        buildPage( i , startIndex , endIndex );
       }
 
       // Update the width again to the new width based on however many 'pages' there are now
@@ -172,42 +178,63 @@
       return true;
     },
 
-    _update : function() {
+    _generatePagination : function( pages ) {
       var self = this,
-          paginated = true;
+          i = 0,
+          $bulletPagination,
+          clss, $li;
+
+      if ( self.$pagination ) {
+        self.$pagination.remove();
+      }
+
+      $bulletPagination = $('<ol/>', { 'class' : 'pagination-bullets on' });
+
+      // Create each nav bullet
+      for (i = 0 ; i < pages; i++) {
+        clss = i === 0 ? self.paginationClass + ' bullet-selected' : self.paginationClass;
+        $li = $('<li>', {
+          'class' : clss,
+          'data-index': i,
+          'click' : $.proxy( self.gotopage, self )
+        });
+        $bulletPagination.append( $li );
+      }
+
+      // Append the nav bullets
+      self.$el.append( $bulletPagination );
+      self.$pagination = $bulletPagination;
+    },
+
+    _update : function() {
+      var self = this;
 
       // Paginate() will return false if there aren't enough items to be paginated
       // If there aren't enough items, we don't want to create an iScroll instance
       if ( self.mode === 'paginate' ) {
-        paginated = self._paginate();
+        self.isPaginated = self._paginate();
       }
 
-      // else if mode is free, recalculate the container width
-
-      // Is this needed? iScroll calls refresh() on itself on window resize already.
-      if ( paginated ) {
-        self.scroller.refresh(); //update scroller
+      if ( self.isCarousel ) {
+        self._setItemWidths();
+        self._setContainerWidth();
       }
 
-      if ( self.mode === 'paginate' && paginated ) {
-        self.scroller.scrollToPage(0, 0, 400);
+      if ( self.isPaginated || self.isCarousel ) {
+        self.scroller.refresh();
+        self.scroller.scrollToPage(self.currentPage, 0, 400);
       }
 
       self._fire('update');
     },
 
+    // Throttled resize event
     _onResize : function() {
       var self = this;
 
-      // Clear the timer if it exists
-      if ( self.resizeTimer ) { clearTimeout( self.resizeTimer ); }
-
-      // Set a new timer
-      self.resizeTimer = setTimeout(function() {
-        if ( !self.destroyed ) {
-          self._update();
-        }
-      }, self.throttleTime);
+      if ( !self.destroyed ) {
+        self._update();
+      }
     },
 
     _onScrollEnd : function() {
@@ -271,10 +298,21 @@
 
       // Set it
       self.$contentContainer.css('width' , contentWidth );
+
+      return self;
+    },
+
+    _setItemWidths : function() {
+      var self = this,
+          containerWidth = self.$el.width();
+
+      self.$elements.css('width', containerWidth);
     },
 
     _fire : function( eventName, args ) {
       this.$el.trigger( eventName + '.sm', args || [this] );
+
+      return this;
     },
 
     /**
@@ -304,6 +342,10 @@
     destroy: function() {
       var self = this;
 
+			if ( self.$pagination ) {
+				self.$pagination.remove();
+			}
+
       self.$contentContainer.css('width', '');
       self.$elements.css({
         'position' : '',
@@ -311,9 +353,12 @@
         'left' : ''
       });
 
-      // Destroy our resize timer. NOT SURE WHY THIS ISN'T WORKING
-      clearTimeout( self.resizeTimer );
-      self.destroyed = true; // work around for above
+      if ( self.isCarousel ) {
+        self.$elements.css('width', '');
+      }
+
+      // Flag to know it's destroyed
+      self.destroyed = true;
 
       // Destroy the scroller
       self.scroller.destroy();
@@ -321,6 +366,7 @@
 
       // Remove resize event
       self.$win.off('.sm');
+
       self.$el.removeData('scrollerModule');
     },
 
@@ -354,7 +400,6 @@
 
   // Defaults
   $.fn.scrollerModule.defaults = {
-    throttleTime: 25, // How much the resize event is throttled (milliseconds)
     contentSelector: '.content',
     itemElementSelector: '.block',
     mode: 'free', // if mode == 'paginate', the items in the container will be paginated
@@ -386,7 +431,7 @@
 
   // Not overrideable
   $.fn.scrollerModule.settings = {
-    resizeTimer: null,
+    throttleTime: 150, // How much the resize event is throttled (milliseconds)
     resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize'
   };
 

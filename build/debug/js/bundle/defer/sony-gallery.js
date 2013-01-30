@@ -898,6 +898,7 @@
     // Event triggered when this tab is about to be shown
     onShow : function( evt ) {
       var that;
+      console.log('tab is about to be shown', evt);
 
       if ( evt.prevPane ) {
         that = evt.prevPane.find('.gallery').data('gallery');
