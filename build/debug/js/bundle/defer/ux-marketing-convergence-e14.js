@@ -1,10 +1,12 @@
 
-// ------ Sony UX Marketing Convergence (MarketingConvergence) Module ------
-// Module: MarketingConvergence Module
-// Version: 0.1
-// Modified: 01/18/2013
-// Dependencies: jQuery 1.7+
-// -------------------------------------------------------------------------
+// Sony UX Marketing Convergence (MarketingConvergence) Module
+// -----------------------------------------------------------
+//
+// * **Class:** MarketingConvergenceModule
+// * **Version:** 0.1
+// * **Modified:** 01/29/2013
+// * **Author:** George Pantazis
+// * **Dependencies:** jQuery 1.7+
 
 (function($) {
 
