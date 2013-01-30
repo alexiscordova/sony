@@ -6,10 +6,10 @@
    *
    * 1.0.3
    * - Fixed bug with vertical thumbs caused by latest update
-   *
+   * 
    * 1.0.2:
    * - Dynamic adding/removing tabs.
-   */
+   */ 
   $.extend($.scProto, {
     _initThumbs: function() {
       var self = this;
@@ -43,11 +43,11 @@
         });
 
         self.ev.on('scOnUpdateNav', function() {
-
+          
           var id = self.currSlideId,
             currItem;
             //prevItem;
-
+            
           if(self._prevBulletNavItem) {
             self._prevBulletNavItem.removeClass('scNavSelected');
           }
@@ -56,7 +56,7 @@
           currItem.addClass('scNavSelected');
           console.log(currItem);
           self._prevBulletNavItem = currItem;
-        });
+        });       
 
         /**************************************************************************************************/
 
@@ -74,8 +74,8 @@
           appendSpan: false,
           transitionSpeed:600,
           autoCenter: true,
-          fitInViewport: true,
-          firstMargin: true
+          fitInViewport: true, 
+          firstMargin: true 
         };
 
         self.st.thumbs = $.extend({}, self._thumbsDefaults, self.st.thumbs);
@@ -106,15 +106,15 @@
           var id = self.currSlideId,
             currItem;
             //prevItem;
-
+            
           if(self._prevNavItem) {
             self._prevNavItem.removeClass('scNavSelected');
           }
           currItem = $(self._controlNavItems[id]);
 
           currItem.addClass('scNavSelected');
-
-          if(self._thumbsNavigation) {
+          
+          if(self._thumbsNavigation) {          
             self._setCurrentThumb(id);
           }
           self._prevNavItem = currItem;
@@ -137,19 +137,19 @@
             self._controlNavItems = self._thumbsContainer.children();
             self.updateThumbsSize();
           }
-        });
+        }); 
+        
 
-
-      }
+      } 
     },
     _createThumbs: function() {
-      var self = this,
+      var self = this, 
         tText = 'scThumbs',
         out = '',
         style,
         item,
         spacing = self.st.thumbs.spacing;
-
+      
       self._controlNavEnabled = true;
 
       if(spacing > 0) {
@@ -170,7 +170,7 @@
 
       var pl = (self._thumbsHorizontal ? 'Hor' : 'Ver');
       self.slider.addClass('scWithThumbs' + ' scWithThumbs'+ pl );
-
+      
       out += '<div class="scNav scThumbs scThumbs'+pl +'"><div class="'+tText+'Container">';
       self._addThumbHTML = self.st.thumbs.appendSpan ? '<span class="thumbIco"></span>' : '';
       for(var i = 0; i < self.numSlides; i++) {
@@ -180,7 +180,7 @@
 
       out += '</div></div>';
       out = $(out);
-
+      
       self._thumbsContainer = $(out).find('.' + tText + 'Container');
 
       if(self._thumbsArrows) {
@@ -199,7 +199,7 @@
           out.append(self._thumbsArrowRight);
         }
 
-
+        
         self._thumbsArrowLeft.click(function() {
           //var viewportSize = Math.floor(self._thumbsViewportSize / self._thumbSize),
           var thumbId = Math.floor(self._thumbsPosition / self._thumbSize),
@@ -219,8 +219,8 @@
           out.one('mousemove.scarrowshover',function() {
             if(self._thumbsNavigation) {
               self._thumbsArrowLeft.css('opacity', 1);
-              self._thumbsArrowRight.css('opacity', 1);
-            }
+              self._thumbsArrowRight.css('opacity', 1);   
+            }   
           });
 
           out.hover(
@@ -236,25 +236,25 @@
                 self._thumbsArrowRight.css('opacity', 0);
               }
             }
-          );
-        }
+          );  
+        } 
       }
 
       self._controlNav = out;
       self._controlNavItems = self._thumbsContainer.children();
-
+      
       self.slider.append(out);
-
+      
       self._thumbsEnabled = true;
       self._thumbsSpacing = spacing;
 
-
+      
       if(self.st.thumbs.navigation) {
         if(self._useCSS3Transitions) {
           self._thumbsContainer.css(self._vendorPref + 'transition-property', self._vendorPref + 'transform');
         }
       }
-
+      
       self._controlNav.click(function(e) {
         if(!self._thumbsDrag ) {
           var item = $(e.target).closest('.scNavItem');
@@ -269,7 +269,7 @@
         self.updateThumbsSize();
       });
 
-
+      
     },
     updateThumbsSize: function() {
       var self = this,
@@ -296,13 +296,13 @@
         }
         self._thumbsNavigation = false;
         self._thumbsDrag = false;
-        self._controlNav.off(self._downEvent);
+        self._controlNav.off(self._downEvent);  
 
       } else if(self.st.thumbs.navigation && !self._thumbsNavigation) {
         self._thumbsNavigation = true;
         if( (!self.hasTouch && self.st.thumbs.drag) ||  (self.hasTouch && self.st.thumbs.touch)) {
           self._thumbsDrag = true;
-          self._controlNav.on(self._downEvent, function(e) { self._onDragStart(e, true); });
+          self._controlNav.on(self._downEvent, function(e) { self._onDragStart(e, true); });  
         }
       }
 
@@ -323,7 +323,7 @@
         self._controlNav.remove();
         self.slider.removeClass('scWithThumbsHor scWithThumbsVer');
         self._createThumbs();
-        self._controlNav.off(self._downEvent);
+        self._controlNav.off(self._downEvent);  
         if(!dontUpdateSize) {
           self.updateSliderSize(true);
         }
@@ -333,7 +333,7 @@
       var self = this;
       self._thumbsPosition = pos;
       if(self._useCSS3Transitions) {
-        self._thumbsContainer.css(self._xProp, self._tPref1 + ( self._thumbsHorizontal ? (pos + self._tPref2 + 0) : (0 + self._tPref2 + pos) ) + self._tPref3 );
+        self._thumbsContainer.css(self._xProp, self._tPref1 + ( self._thumbsHorizontal ? (pos + self._tPref2 + 0) : (0 + self._tPref2 + pos) ) + self._tPref3 );    
       } else {
         self._thumbsContainer.css(self._thumbsHorizontal ? self._xProp : self._yProp, pos);
       }
@@ -362,7 +362,7 @@
       if(!self._useCSS3Transitions) {
         animObj[self._thumbsHorizontal ? self._xProp : self._yProp] = pos + 'px';
         self._thumbsContainer.animate(animObj, speed, outEasing ? 'easeOutCubic' : self.st.easeInOut);
-      } else {
+      } else { 
         animObj[(self._vendorPref + 'transition-duration')] = speed+'ms';
         animObj[(self._vendorPref + 'transition-timing-function')] = outEasing ? $.scCSS3Easing[self.st.easeOut] : $.scCSS3Easing[self.st.easeInOut];
         self._thumbsContainer.css(animObj);
@@ -372,8 +372,8 @@
         self._thumbsPosition = bounceAnimPosition;
       }
       self._updateThumbsArrows();
-
-
+      
+      
       self._thumbsAnimTimeout = setTimeout(function() {
         self._isThumbsAnimating = false;
         if(bounceAnimSpeed) {
@@ -386,7 +386,7 @@
       var self = this;
       if(self._thumbsArrows) {
         var arrDisClass = 'scThumbsArrowDisabled';
-
+        
         if(self._thumbsPosition === self._thumbsMinPosition) {
           self._thumbsArrowLeft.addClass(arrDisClass);
         } else {
@@ -400,13 +400,13 @@
       }
     },
     _setCurrentThumb: function(id, justSet) {
-
+      
       var self = this,
         incr = 0,
         newPos,
         nextThumbEndPos = (id * self._thumbSize + self._thumbSize * 2 - self._thumbsSpacing + self._thumbsMinPosition),
         thumbId = Math.floor(self._thumbsPosition / self._thumbSize);
-
+      
       if(!self._thumbsNavigation) {
         return;
       }
@@ -445,5 +445,5 @@
       self._updateThumbsArrows();
     }
   });
-  // $.scModules.thumbnails = $.scProto._initThumbs;
+  $.scModules.thumbnails = $.scProto._initThumbs;
 })(jQuery);

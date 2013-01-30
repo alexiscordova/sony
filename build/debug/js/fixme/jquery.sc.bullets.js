@@ -3,8 +3,8 @@
 	 *
 	 * RoyalSlider bullets module
 	 * @version 1.0:
-	 *
-	 */
+	 * 
+	 */ 
 	$.extend($.scProto, {
 		_initBullets: function() {
 			var self = this;
@@ -46,8 +46,8 @@
 						itemToRemove.remove();
 						self._controlNavItems = self._controlNav.children();
 					}
-
-				});
+					
+				});	
 
 				self.ev.on('scOnUpdateNav', function() {
 					var id = self.currSlideId,
@@ -65,5 +65,5 @@
 			}
 		}
 	});
-	// $.scModules.bullets = $.scProto._initBullets;
+	$.scModules.bullets = $.scProto._initBullets;
 })(jQuery);

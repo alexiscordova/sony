@@ -209,6 +209,8 @@
 
       self.$win.trigger( 'resize.soc' );
 
+      window.slideId = self.getCurrentSlideByItemId;
+
       //self.checkForBreakPoint();
     };
 
@@ -637,7 +639,8 @@
       checkForBreakPoint: function(){
         var self = this,
         wW = self.$win.width(),
-        view = wW > 769 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile';
+        view = wW > 769 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile',
+        lastView = self.currentMode;
 
         switch(view){
           case 'desktop':
@@ -648,7 +651,7 @@
             self.currentMode = view;
 
             self.resizeRatio = 0.4120689655;
-            self.createDesktopSlides();
+            self.createDesktopSlides(lastView);
             self.shuffleClasses();
 
           break;
@@ -661,7 +664,7 @@
             self.currentMode = view;
 
             self.resizeRatio = 0.64615384615385;
-            self.createTableSlides();
+            self.createTableSlides(lastView);
             self.shuffleClasses();
 
           break;
@@ -674,7 +677,7 @@
             self.currentMode = view;
 
             self.resizeRatio = 1.33574007220217;
-            self.createMobileSlides();
+            self.createMobileSlides(lastView);
             self.shuffleClasses();
           
           break;
@@ -683,8 +686,25 @@
         //do other stuff here
       },
 
-      createDesktopSlides: function(){
+      createDesktopSlides: function(lastView){
         var self = this;
+
+        var $lastItem = null;
+
+        switch(lastView){
+          case 'desktop':
+            $lastItem = self.$desktopSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'tablet':
+            $lastItem = self.$tabletSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'mobile':
+            $lastItem = self.$mobileSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+        }
 
         // 1. grab all of the gallery items
         self.$galleryItems = $('.soc-item').detach();
@@ -721,14 +741,31 @@
         self.numSlides = self.$desktopSlides.length;
 
         self.createNavigation();
-
+        self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
 
         //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
 
-      createTableSlides: function(){
+      createTableSlides: function(lastView){
         var self = this;
+
+        var $lastItem = null;
+
+        switch(lastView){
+          case 'desktop':
+            $lastItem = self.$desktopSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'tablet':
+            $lastItem = self.$tabletSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'mobile':
+            $lastItem = self.$mobileSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+        }
 
         // 1. grab all of the gallery items
         self.$galleryItems = $('.soc-item').detach();
@@ -784,13 +821,32 @@
 
         self.createNavigation();
 
+        self.currentId = self.getCurrentSlideByItemId($lastItem);
+
         self.$win.trigger('resize.soc');
 
         //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
       
-      createMobileSlides: function(){
+      createMobileSlides: function(lastView){
         var self = this;
+
+        var $lastItem = null;
+
+        switch(lastView){
+          case 'desktop':
+            $lastItem = self.$desktopSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'tablet':
+            $lastItem = self.$tabletSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'mobile':
+            $lastItem = self.$mobileSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+        }
 
         // 1. grab the gallery items
         self.$galleryItems = $('.soc-item').detach();
@@ -816,7 +872,7 @@
         self.numSlides = self.$mobileSlides.length;
 
         self.createNavigation();
-
+        self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
 
         //console.log("Modile Slides are now cached up »" , self.numSlides);
@@ -855,6 +911,34 @@
         } );
 
         self.ev.trigger( 'socOnUpdateNav' );
+
+      },
+
+      getCurrentSlideByItemId: function($socItem){
+        var self = this,
+            $slide = null;
+
+        $slide = $socItem.closest('.soc-content');
+
+        console.log('Slide Index »',$slide.index());
+
+        if(self.isDesktopMode){
+          //
+
+
+
+
+        }else if(self.isTabletMode){
+          //
+
+
+        }else if(self.isMobileMode){
+          //
+
+
+        }
+
+        return $slide.index();
 
       },
 
