@@ -138,7 +138,13 @@ layout3: "normal"
                             //- Can't have variable attribute names :( - build an html string
                             tagString = '<li class="btn btn-square" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</li>'
                             | !{tagString}
-
+                        if filterSet.help
+                          .help-container
+                            span.p3= filterSet.help.label
+                            span.js-popover-trigger(data-original-title=filterSet.help.title)
+                              i.icon-ui-x-tiny
+                            .js-popover-content.hidden
+                              p= filterSet.help.content
 
                     else if filterSet.type == 'checkbox'
                       .span6.filter-container
@@ -148,6 +154,12 @@ layout3: "normal"
                             li.control-inline
                               input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
                               label(for=filterSet.name + '-' + filter.value)= filter.label
+                              if filter.help
+                                .help-container.pull-right
+                                  span.js-popover-trigger(data-original-title=filter.help.title)
+                                    i.icon-ui-x-tiny
+                                  .js-popover-content.hidden
+                                    p= filter.help.content
 
                 each filterSet in data.productCards.filterSet
                   if filterSet.type == 'group'
