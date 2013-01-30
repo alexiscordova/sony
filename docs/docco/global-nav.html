@@ -285,7 +285,7 @@ need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER
       <span class="keyword">if</span> (isDesktop){
 </pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>just making lint happy, cuz maybe I'll use isDesktop eventually.</p>             </td>             <td class="code">               <div class="highlight"><pre>      }
 
-      $(<span class="string">'#country-selector'</span>).on(<span class="string">'hover'</span>,<span class="keyword">function</span>(){
+      $(<span class="string">'#country-selector'</span>).on(<span class="string">'mouseenter mouseleave'</span>,<span class="keyword">function</span>(){
         <span class="keyword">var</span> pageContainerWidth = $(<span class="keyword">this</span>).closest(<span class="string">'.grid-footer'</span>).width();
         $(<span class="keyword">this</span>).find(<span class="string">'.dropdown-hover-menu-lists-w'</span>).width(pageContainerWidth);
       });

@@ -6,10 +6,10 @@
    *
    * 1.0.3
    * - Fixed bug with vertical thumbs caused by latest update
-   * 
+   *
    * 1.0.2:
    * - Dynamic adding/removing tabs.
-   */</span> 
+   */</span>
   $.extend($.scProto, {
     _initThumbs: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -43,10 +43,10 @@
         });
 
         self.ev.on(<span class="string">'scOnUpdateNav'</span>, <span class="keyword">function</span>() {
-          
+
           <span class="keyword">var</span> id = self.currSlideId,
             currItem;
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>prevItem;</p>             </td>             <td class="code">               <div class="highlight"><pre>            
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>prevItem;</p>             </td>             <td class="code">               <div class="highlight"><pre>
           <span class="keyword">if</span>(self._prevBulletNavItem) {
             self._prevBulletNavItem.removeClass(<span class="string">'scNavSelected'</span>);
           }
@@ -55,7 +55,7 @@
           currItem.addClass(<span class="string">'scNavSelected'</span>);
           console.log(currItem);
           self._prevBulletNavItem = currItem;
-        });       
+        });
 
         <span class="comment">/**************************************************************************************************/</span>
 
@@ -73,8 +73,8 @@
           appendSpan: <span class="literal">false</span>,
           transitionSpeed:<span class="number">600</span>,
           autoCenter: <span class="literal">true</span>,
-          fitInViewport: <span class="literal">true</span>, 
-          firstMargin: <span class="literal">true</span> 
+          fitInViewport: <span class="literal">true</span>,
+          firstMargin: <span class="literal">true</span>
         };
 
         self.st.thumbs = $.extend({}, self._thumbsDefaults, self.st.thumbs);
@@ -104,15 +104,15 @@
         self.ev.on(<span class="string">'scOnUpdateNav'</span>, <span class="keyword">function</span>() {
           <span class="keyword">var</span> id = self.currSlideId,
             currItem;
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>prevItem;</p>             </td>             <td class="code">               <div class="highlight"><pre>            
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>prevItem;</p>             </td>             <td class="code">               <div class="highlight"><pre>
           <span class="keyword">if</span>(self._prevNavItem) {
             self._prevNavItem.removeClass(<span class="string">'scNavSelected'</span>);
           }
           currItem = $(self._controlNavItems[id]);
 
           currItem.addClass(<span class="string">'scNavSelected'</span>);
-          
-          <span class="keyword">if</span>(self._thumbsNavigation) {          
+
+          <span class="keyword">if</span>(self._thumbsNavigation) {
             self._setCurrentThumb(id);
           }
           self._prevNavItem = currItem;
@@ -135,19 +135,19 @@
             self._controlNavItems = self._thumbsContainer.children();
             self.updateThumbsSize();
           }
-        }); 
-        
+        });
 
-      } 
+
+      }
     },
     _createThumbs: <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>, 
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
         tText = <span class="string">'scThumbs'</span>,
         out = <span class="string">''</span>,
         style,
         item,
         spacing = self.st.thumbs.spacing;
-      
+
       self._controlNavEnabled = <span class="literal">true</span>;
 
       <span class="keyword">if</span>(spacing &gt; <span class="number">0</span>) {
@@ -168,7 +168,7 @@
 
       <span class="keyword">var</span> pl = (self._thumbsHorizontal ? <span class="string">'Hor'</span> : <span class="string">'Ver'</span>);
       self.slider.addClass(<span class="string">'scWithThumbs'</span> + <span class="string">' scWithThumbs'</span>+ pl );
-      
+
       out += <span class="string">'&lt;div class="scNav scThumbs scThumbs'</span>+pl +<span class="string">'"&gt;&lt;div class="'</span>+tText+<span class="string">'Container"&gt;'</span>;
       self._addThumbHTML = self.st.thumbs.appendSpan ? <span class="string">'&lt;span class="thumbIco"&gt;&lt;/span&gt;'</span> : <span class="string">''</span>;
       <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; self.numSlides; i++) {
@@ -178,7 +178,7 @@
 
       out += <span class="string">'&lt;/div&gt;&lt;/div&gt;'</span>;
       out = $(out);
-      
+
       self._thumbsContainer = $(out).find(<span class="string">'.'</span> + tText + <span class="string">'Container'</span>);
 
       <span class="keyword">if</span>(self._thumbsArrows) {
@@ -197,7 +197,7 @@
           out.append(self._thumbsArrowRight);
         }
 
-        
+
         self._thumbsArrowLeft.click(<span class="keyword">function</span>() {
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>var viewportSize = Math.floor(self.<em>thumbsViewportSize / self.</em>thumbSize),</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> thumbId = Math.floor(self._thumbsPosition / self._thumbSize),
             newPos = (thumbId + self._visibleThumbsPerView) * self._thumbSize;
@@ -215,8 +215,8 @@
           out.one(<span class="string">'mousemove.scarrowshover'</span>,<span class="keyword">function</span>() {
             <span class="keyword">if</span>(self._thumbsNavigation) {
               self._thumbsArrowLeft.css(<span class="string">'opacity'</span>, <span class="number">1</span>);
-              self._thumbsArrowRight.css(<span class="string">'opacity'</span>, <span class="number">1</span>);   
-            }   
+              self._thumbsArrowRight.css(<span class="string">'opacity'</span>, <span class="number">1</span>);
+            }
           });
 
           out.hover(
@@ -232,25 +232,25 @@
                 self._thumbsArrowRight.css(<span class="string">'opacity'</span>, <span class="number">0</span>);
               }
             }
-          );  
-        } 
+          );
+        }
       }
 
       self._controlNav = out;
       self._controlNavItems = self._thumbsContainer.children();
-      
+
       self.slider.append(out);
-      
+
       self._thumbsEnabled = <span class="literal">true</span>;
       self._thumbsSpacing = spacing;
 
-      
+
       <span class="keyword">if</span>(self.st.thumbs.navigation) {
         <span class="keyword">if</span>(self._useCSS3Transitions) {
           self._thumbsContainer.css(self._vendorPref + <span class="string">'transition-property'</span>, self._vendorPref + <span class="string">'transform'</span>);
         }
       }
-      
+
       self._controlNav.click(<span class="keyword">function</span>(e) {
         <span class="keyword">if</span>(!self._thumbsDrag ) {
           <span class="keyword">var</span> item = $(e.target).closest(<span class="string">'.scNavItem'</span>);
@@ -265,7 +265,7 @@
         self.updateThumbsSize();
       });
 
-      
+
     },
     updateThumbsSize: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -292,13 +292,13 @@
         }
         self._thumbsNavigation = <span class="literal">false</span>;
         self._thumbsDrag = <span class="literal">false</span>;
-        self._controlNav.off(self._downEvent);  
+        self._controlNav.off(self._downEvent);
 
       } <span class="keyword">else</span> <span class="keyword">if</span>(self.st.thumbs.navigation &amp;&amp; !self._thumbsNavigation) {
         self._thumbsNavigation = <span class="literal">true</span>;
         <span class="keyword">if</span>( (!self.hasTouch &amp;&amp; self.st.thumbs.drag) ||  (self.hasTouch &amp;&amp; self.st.thumbs.touch)) {
           self._thumbsDrag = <span class="literal">true</span>;
-          self._controlNav.on(self._downEvent, <span class="keyword">function</span>(e) { self._onDragStart(e, <span class="literal">true</span>); });  
+          self._controlNav.on(self._downEvent, <span class="keyword">function</span>(e) { self._onDragStart(e, <span class="literal">true</span>); });
         }
       }
 
@@ -319,7 +319,7 @@
         self._controlNav.remove();
         self.slider.removeClass(<span class="string">'scWithThumbsHor scWithThumbsVer'</span>);
         self._createThumbs();
-        self._controlNav.off(self._downEvent);  
+        self._controlNav.off(self._downEvent);
         <span class="keyword">if</span>(!dontUpdateSize) {
           self.updateSliderSize(<span class="literal">true</span>);
         }
@@ -329,7 +329,7 @@
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self._thumbsPosition = pos;
       <span class="keyword">if</span>(self._useCSS3Transitions) {
-        self._thumbsContainer.css(self._xProp, self._tPref1 + ( self._thumbsHorizontal ? (pos + self._tPref2 + <span class="number">0</span>) : (<span class="number">0</span> + self._tPref2 + pos) ) + self._tPref3 );    
+        self._thumbsContainer.css(self._xProp, self._tPref1 + ( self._thumbsHorizontal ? (pos + self._tPref2 + <span class="number">0</span>) : (<span class="number">0</span> + self._tPref2 + pos) ) + self._tPref3 );
       } <span class="keyword">else</span> {
         self._thumbsContainer.css(self._thumbsHorizontal ? self._xProp : self._yProp, pos);
       }
@@ -358,7 +358,7 @@
       <span class="keyword">if</span>(!self._useCSS3Transitions) {
         animObj[self._thumbsHorizontal ? self._xProp : self._yProp] = pos + <span class="string">'px'</span>;
         self._thumbsContainer.animate(animObj, speed, outEasing ? <span class="string">'easeOutCubic'</span> : self.st.easeInOut);
-      } <span class="keyword">else</span> { 
+      } <span class="keyword">else</span> {
         animObj[(self._vendorPref + <span class="string">'transition-duration'</span>)] = speed+<span class="string">'ms'</span>;
         animObj[(self._vendorPref + <span class="string">'transition-timing-function'</span>)] = outEasing ? $.scCSS3Easing[self.st.easeOut] : $.scCSS3Easing[self.st.easeInOut];
         self._thumbsContainer.css(animObj);
@@ -368,8 +368,8 @@
         self._thumbsPosition = bounceAnimPosition;
       }
       self._updateThumbsArrows();
-      
-      
+
+
       self._thumbsAnimTimeout = setTimeout(<span class="keyword">function</span>() {
         self._isThumbsAnimating = <span class="literal">false</span>;
         <span class="keyword">if</span>(bounceAnimSpeed) {
@@ -382,7 +382,7 @@
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       <span class="keyword">if</span>(self._thumbsArrows) {
         <span class="keyword">var</span> arrDisClass = <span class="string">'scThumbsArrowDisabled'</span>;
-        
+
         <span class="keyword">if</span>(self._thumbsPosition === self._thumbsMinPosition) {
           self._thumbsArrowLeft.addClass(arrDisClass);
         } <span class="keyword">else</span> {
@@ -396,13 +396,13 @@
       }
     },
     _setCurrentThumb: <span class="keyword">function</span>(id, justSet) {
-      
+
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
         incr = <span class="number">0</span>,
         newPos,
         nextThumbEndPos = (id * self._thumbSize + self._thumbSize * <span class="number">2</span> - self._thumbsSpacing + self._thumbsMinPosition),
         thumbId = Math.floor(self._thumbsPosition / self._thumbSize);
-      
+
       <span class="keyword">if</span>(!self._thumbsNavigation) {
         <span class="keyword">return</span>;
       }
@@ -441,7 +441,6 @@
       self._updateThumbsArrows();
     }
   });
-  $.scModules.thumbnails = $.scProto._initThumbs;
-})(jQuery);
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>$.scModules.thumbnails = $.scProto._initThumbs;</p>             </td>             <td class="code">               <div class="highlight"><pre>})(jQuery);
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

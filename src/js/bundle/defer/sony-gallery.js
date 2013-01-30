@@ -19,7 +19,7 @@
     // jQuery objects
     self.$container = $container;
     self.id = self.$container[0].id;
-    self.$filterContainer = self.$container.find('.product-filter');
+    // self.$filterContainer = self.$container.find('.product-filter');
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
     self.$sortSelect = self.$container.find('.sort-options select');
@@ -403,10 +403,16 @@
 
       // Show first dropdown as active
       self.$sortBtns.first().parent().addClass('active');
-      // self.currentSort = self.$sortBtns.closest('.dropdown-menu').find('.active a').data('value');
       self.currentSort = 0;
 
-
+      // Init popovers
+      self.$filterOpts.find('.js-popover-trigger').popover({
+        placement: 'top',
+        trigger: 'hover',
+        content: function() {
+          return $(this).parent().find('.js-popover-content').html();
+        }
+      });
 
       // Slide toggle. Reset range control if it was hidden on initialization
       self.$container.find('.collapse')
@@ -898,6 +904,7 @@
     // Event triggered when this tab is about to be shown
     onShow : function( evt ) {
       var that;
+      console.log('tab is about to be shown', evt);
 
       if ( evt.prevPane ) {
         that = evt.prevPane.find('.gallery').data('gallery');

@@ -3,14 +3,14 @@
 	 *
 	 * Sony Carousel Tabbed navigation
 	 * @version 1.0:
-	 * 
-	 */</span> 
+	 *
+	 */</span>
 	$.extend($.scProto, {
 		_initTabs: <span class="keyword">function</span>() {
 			<span class="keyword">var</span> self = <span class="keyword">this</span>;
 			<span class="keyword">if</span>(self.st.controlNavigation === <span class="string">'tabbednav'</span>) {
-				
-				
+
+
 				<span class="keyword">var</span> itemHTML = <span class="string">'&lt;div class="scNavItem scTab"&gt;&lt;span class=""&gt;Tab Name&lt;/span&gt;&lt;/div&gt;'</span>;
 				self.ev.one(<span class="string">'scAfterPropsSetup'</span>, <span class="keyword">function</span>() {
 
@@ -34,11 +34,11 @@
 					});
 				});
 
-	
+
 				self.ev.on(<span class="string">'scOnUpdateNav'</span>, <span class="keyword">function</span>() {
 					<span class="keyword">var</span> id = self.currSlideId,
 						currItem;
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>prevItem;</p>             </td>             <td class="code">               <div class="highlight"><pre>						
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>prevItem;</p>             </td>             <td class="code">               <div class="highlight"><pre>
 					<span class="keyword">if</span>(self._prevNavItem) {
 						self._prevNavItem.removeClass(<span class="string">'scNavSelected'</span>);
 					}
@@ -50,7 +50,6 @@
 			}
 		}
 	});
-	$.scModules.tabbednav = $.scProto._initTabs;
-})(jQuery);
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>$.scModules.tabbednav = $.scProto._initTabs;</p>             </td>             <td class="code">               <div class="highlight"><pre>})(jQuery);
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

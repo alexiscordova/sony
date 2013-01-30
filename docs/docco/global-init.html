@@ -9,4 +9,18 @@ window.iQ = {
   }
 };
 
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Make console logs do nothing for unsupported browsers</p>             </td>             <td class="code">               <div class="highlight"><pre>(<span class="keyword">function</span>(window, <span class="literal">undefined</span>) {
+
+    <span class="keyword">if</span> ( <span class="keyword">typeof</span> window.console === <span class="literal">undefined</span> ) {
+        <span class="keyword">var</span> noop = <span class="keyword">function</span>(){};
+        window.console = {
+            log : noop,
+            group: noop,
+            groupEnd: noop,
+            warn: noop,
+            error: noop
+        };
+    }
+}(window));
+
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
