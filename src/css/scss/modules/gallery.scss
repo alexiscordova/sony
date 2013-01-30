@@ -53,6 +53,10 @@ $fourColMax: px-em(979px);
     color: $gray40;
   }
 
+  .product-price .price {
+    font-size: $font_15_16;
+  }
+
   .msrp {
     font-size: $font_10_16;
   }
@@ -623,6 +627,7 @@ $offsetFromMiddle: px-em(45px);
 
 
     .price-prefix {
+      margin-bottom: 0;
       display: block;
     }
 
@@ -743,13 +748,18 @@ $offsetFromMiddle: px-em(45px);
 
 .filter-options {
   position: relative;
-  padding-top: 1.25em;
-  padding-bottom: 1.25em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+
+  .media + .media {
+    margin-top: 1.25em;
+  }
 
   .help-container {
     text-align: right;
+    cursor: pointer;
 
-    & :first-child {
+    .help-label {
       padding-right: .625em;
     }
 
@@ -768,6 +778,12 @@ $offsetFromMiddle: px-em(45px);
   display: none;
 }
 
+.filter-label {
+  color: $gray40;
+  font-size: $font_11_16;
+  margin-bottom: 20px;
+  @include fontMedium();
+}
 
 // Filter labels ( active filters )
 .active-filters-wrap {
@@ -802,19 +818,23 @@ $offsetFromMiddle: px-em(45px);
   .btn-group {
     white-space: normal;
 
-    // fake border right because we've already set the border
     > .btn:not(:first-child) {
-      // @include box-shadow(-.0625em 0 0 $gray90);
-      margin-left: .0625em;
+      margin-left: .375em;
     }
   }
 
   // Box shadow hovers get cut off with overflow hidden
   .media {
     overflow: visible;
+    color: $gray40;
   }
 
-  .media[disabled] {
+  .media-heading {
+    color: $gray20;
+  }
+
+  .media[disabled],
+  .media[disabled] .media-heading {
     color: $gray50;
   }
 }
@@ -902,11 +922,17 @@ $offsetFromMiddle: px-em(45px);
   }
 
   .holder-for-icon {
-    height: 1.875em
+    height: 1.875em;
+    margin-bottom: 1em;
+
+    i {
+      vertical-align: bottom;
+    }
   }
 
   .tab-label {
-    margin-top: 0.625em;
+    white-space: nowrap;
+    margin-bottom: 0;
   }
 }
 
@@ -949,6 +975,11 @@ $offsetFromMiddle: px-em(45px);
 
   .product-model {
     color: $gray40;
+    font-size: $font_11_16;
+  }
+
+  .product-name {
+    font-size: $font_13_16;
   }
 
   .compare-sticky-header .product-name-wrap {

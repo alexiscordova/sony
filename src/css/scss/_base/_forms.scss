@@ -704,38 +704,60 @@ legend + .control-group {
     padding: 0;
   }
 
+  // Checkmark box
   & + label:before {
     content: '';
     margin-right: 22px;
     display: inline-block;
     vertical-align: text-top;
-    @include square(20px);
+    @include square(22px);
+    border: 1px solid transparent;
+    border-color: rgba($gray60, 0);
     background: $white;
   }
 
+  // Check mark
+  $checkmarkWidth: 11px;
+  $checkmarkHeight: 8px;
+  & + label:after {
+    content: none;
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    @include size($checkmarkHeight, $checkmarkWidth);
+    background: url($iconSpritePathFallback) no-repeat -600px -60px;
+  }
+
+  // Check box on hover
   &:focus + label:before,
   &:hover + label:before {
-    @include box-shadow(inset 0 0 0 4px $gray);
-    background: $white;
+    @include box-shadow(none);
+    color: $gray20;
+    background: $gray90;
   }
 
+  // Check mark on hover
+  &:focus + label:after,
+  &:hover + label:after {
+    content: '';
+  }
+
+  // Check box on active
   &:checked + label:before {
-    background: $highlightColor;
+    background: $gray25;
   }
 
-  // Check mark (should probably be replaced with icon)
+  // Check mark on active
   &:checked + label:after {
     content: '';
-    position: absolute;
-    left: 5px;
-    top: 6px;
-    @extend %icon;
-    @extend .icon-ui-check;
+    background-position: -600px 0;
   }
 
   // Disabled checkbox text
   &.disabled + label,
-  &[disabled] + label {
+  &[disabled] + label,
+  &.disabled:hover + label,
+  &[disabled]:hover + label {
     cursor: auto;
     color: $grayLight;
 
@@ -743,9 +765,20 @@ legend + .control-group {
 
   // Disabled checkbox
   &.disabled + label:before,
-  &[disabled] + label:before {
+  &[disabled] + label:before,
+  &.disabled:hover + label:before,
+  &[disabled]:hover + label:before {
+    @include opacity(15);
+    border-color: $gray60;
     @include box-shadow(none);
-    background: $tableBorder;
+  }
+
+  // Disabled check mark
+  &.disabled + label:after,
+  &[disabled] + label:after,
+  &.disabled:hover + label:after,
+  &[disabled]:hover + label:after {
+    content: none;
   }
 }
 

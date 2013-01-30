@@ -1017,9 +1017,10 @@
 
       // Create reset button
       self.$compareReset = $('<button/>', {
-          'class' : 'btn btn-small disabled js-compare-reset',
+          'class' : 'btn btn-alt-special btn-reset disabled js-compare-reset iconTrigger-ui2-reset',
           'text' : $header.data('resetLabel')
       });
+      self.$compareReset.append('<i class="icon-ui2-reset">');
       self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
 
       self.isFixedHeader = false;
@@ -1266,7 +1267,7 @@
         .removeClass('hide');
 
       // Disable reset button
-      self.$compareReset.addClass('disabled');
+      self.$compareReset.addClass('disabled').removeClass('active');
 
       // Reset sort
       self.updateSortDisplay( self.$compareTool );
@@ -1288,7 +1289,7 @@
       $(evt.target).closest('.compare-item').addClass('hide');
 
       // Make sure we can press reset
-      self.$compareReset.removeClass('disabled');
+      self.$compareReset.removeClass('disabled').addClass('active');
 
       // Get remaining
       remaining = self.$compareItems.not('.hide').length;

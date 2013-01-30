@@ -91,36 +91,51 @@
 // An almost square button. Used in gallery filters
 // ---------------------
 .btn-square {
-  width: 70px;
+  position: relative;
+  @include size( px-em(58px), px-em(66px) );
   padding: $btnSquarePadding;
   font-family: $sansFontFamily;
-  font-size: $font_20_16;
-  color: $grayDark;
+  font-size: $font_18_16;
+  color: $gray20;
   border-radius: 0;
-  border: none;
+  border-color: transparent;
+  border-color: rgba($gray60, 0);
   background: $white;
+  @include box-shadow(0 1px 0 $gray60);
   @include transition(box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
 
   &:hover,
   &:focus {
-    @include box-shadow(inset 0 -4px 0 $gray);
-    color: $highlightColor;
-    background: $white;
+    @include box-shadow(none);
+    color: $gray20;
+    background: $gray90;
   }
 
   &.active,
   &:active {
     color: $white;
-    background: $highlightColor;
+    background: $gray25;
+
+    $checkmarkWidth: 11px;
+    $checkmarkHeight: 8px;
+    &:after {
+      content: '';
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      @include size($checkmarkHeight, $checkmarkWidth);
+      background: url($iconSpritePathFallback) no-repeat -600px 0;
+    }
   }
 
   &.disabled,
   &[disabled],
   &.disabled:hover,
   &[disabled]:hover {
-    @include box-shadow(none);
     color: inherit;
-    background: $btnBackgroundDisabled;
+    border-color: $gray60;
+    background-color: inherit;
+    @include box-shadow(none);
   }
 }
 
@@ -254,6 +269,35 @@
   padding-left: 25px;
 }
 
+.btn-reset {
+  position: relative;
+  min-width: 110px;
+  max-width: 110px;
+
+  &,
+  &.active {
+    border-color: $btnSpecialBackground;
+    background-color: $btnSpecialBackground;
+  }
+
+  &:hover {
+    border-color: $btnSpecialBackground;
+    background-color: $btnSpecialBackground;
+  }
+
+  &.disabled,
+  &.disabled:hover {
+    color: $gray50;
+    border-color: $gray60;
+    background-color: $gray60;
+  }
+
+  i {
+    position: absolute;
+    top: 11px;
+    right: 24px;
+  }
+}
 
 
 

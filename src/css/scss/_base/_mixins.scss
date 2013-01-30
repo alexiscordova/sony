@@ -93,11 +93,6 @@ $default-transition-delay    : 0s;
 	}
 }
 
-// allows you to add clearfix on an element instead.
-.clearfix {
-  @include clearfix;
-}
-
 // Webkit-style focus
 // ------------------
 @mixin tab-focus() {
@@ -281,11 +276,10 @@ $default-transition-delay    : 0s;
     background-position: $x $icon_bestfor_Y;
     @include size($h, $w);
 
-    .btn:not([disabled]):hover &,
-    .btn:not([disabled]):focus & { background-position: $x ($icon_bestfor_Y - 30px); }
+    // .btn:not([disabled]):hover &,
+    // .btn:not([disabled]):focus & { background-position: $x ($icon_bestfor_Y - 30px); }
 
-    // Could there be more scenarios? possibly
-    .btn.active:hover,
+    // .btn.active:hover,
     .btn.active & { background-position: $x ($icon_bestfor_Y - 60px); }
   }
 }
@@ -1566,8 +1560,8 @@ $default-transition-delay    : 0s;
 
 
 
-@mixin lightGrayInset() {
-	background: $grayLightFieldLarge;
+@mixin lightGrayInset( $backgroundColor: $gray70 ) {
+	background: $backgroundColor;
   	@include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
 }
 
