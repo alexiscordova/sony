@@ -2,7 +2,7 @@
 .spec-single
 
   .container
-    .grid
+    .grid.spec-title-wrap
       a.spec-title-link.tl(href=data.titleLink.href)= data.titleLink.label
       h1.spec-title= data.title
 
@@ -22,7 +22,7 @@
           each link, i in data.internalLinks
             - clss = i ? '' : 'active'
             li(class=clss)
-              a.p3(href=link.href)= link.label
+              a.p3(href=link.href, tabindex="-1")= link.label
 
 
   section.spec-product#specifications

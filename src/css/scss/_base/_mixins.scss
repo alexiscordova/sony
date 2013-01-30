@@ -18,23 +18,27 @@ $default-transition-delay    : 0s;
 }
 
 // convert px to em, with regard to its context. Most context will be 16px.
-@function px-em($target, $context:16){
-  @return (strip-units($target) / strip-units($context)) + 0em;
+@function px-em($pxFont, $context:16){
+  @return (strip-units($pxFont) / strip-units($context)) + 0em;
+}
+
+@function px-line-height($pxLH, $pxFont){
+  @return strip-units($pxLH) / strip-units($pxFont);
 }
 
 // this will reverse the context, mainly for fonticons, but maybe for something else as well.
 // Using it, will return the em size needed to reset the font back to 1em aka 16px.
-@function px-em-reverse-size($target, $context:16){
-  @return (strip-units($context) / strip-units($target)) + 0em;
+@function px-em-reverse-size($px, $context:16){
+  @return (strip-units($context) / strip-units($px)) + 0em;
 }
-@mixin fonticon-text-px-to-em($target, $context:16) {
-	font-size: px-em($target, $context); // the size of the text
+@mixin fonticon-text-px-to-em($px, $context:16) {
+	font-size: px-em($px, $context); // the size of the text
 
 	&[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on the text container:
 	&[class*="fonticon-ui-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
 	[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on a i or span insode of the text container:
 	[class*="fonticon-ui-"][class*="--after"]:after { // the size of the icon if the fonticon class is on a i or span insode of the text container:
-		font-size: px-em-reverse-size($target, $context:16);
+		font-size: px-em-reverse-size($px, $context:16);
 	}
 }
 
@@ -164,10 +168,12 @@ $default-transition-delay    : 0s;
 // Text overflow
 // -------------------------
 // Requires inline-block or block for proper styling
-@mixin text-overflow() {
+@mixin text-overflow($nowrap: true) {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+    @if ( $nowrap ) {
+        white-space: nowrap;
+    }
 }
 
 // CSS image replacement
@@ -221,6 +227,21 @@ $default-transition-delay    : 0s;
 	}
 	@mixin fontHeadingItalic(){ // SST W01 Italic
 		@include font($headingsFontFamilyItalic);
+	}
+
+
+
+	@mixin em-strong($font: Regular){
+
+		@if ($font == Regular){
+			em { @include fontItalic; }
+			strong { @include fontMedium; }
+			em strong, strong em { @include fontMediumItalic; }
+		} @else if ($font == Light) {
+			em { @include fontLightItalic; }
+			strong { @include fontRegular; }
+			em strong, strong em { @include fontItalic; }
+		}
 	}
 
 @mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
@@ -389,6 +410,17 @@ $default-transition-delay    : 0s;
 }
 @mixin sprite-tall($name, $x, $w, $h, $margin:false) {
   @include sprite(tall, $sprite_Tall_Y, $name, $x, $w, $h, $margin);
+}
+@mixin sprite-reg-nav-sony-logo-sm{
+  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
+  @include sprite-reg(nav-sony-logo,           -90px,   70px,   25px);
+}
+@mixin sprite-reg-nav-sony-logo-no-tagline{
+  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
+  @include sprite-reg-nav-sony-logo-sm;
+  .sprite-reg-nav-sony-logo{
+    height:16px;
+  }
 }
 
 // FORMS

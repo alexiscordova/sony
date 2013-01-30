@@ -40,6 +40,7 @@
       // Init shuffle on the features section
       self._initFeatures();
 
+      self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
       self.$window.on('load', $.proxy( self._initStickyNav, self ));
     },
 
@@ -70,21 +71,45 @@
     },
 
     _initStickyNav : function() {
-      var self = this;
+      var self = this,
+          $body = $('body'),
+          $offsetTarget = self.$container.find('.spec-views:not(.nav)');
 
-      self.stickyTriggerOffset = self.$container.find('.spec-views').first().offset().top;
+      // jQuery offset().top is returning negative numbers...
+      self.stickyTriggerOffset = $offsetTarget[0].offsetTop;
+
+
+      // REMOVE WHEN ITS NOT BROKEN
+      if ( self.stickyTriggerOffset < 100 ) {
+        setTimeout(function() {
+          self.stickyTriggerOffset = $offsetTarget[0].offsetTop; //$offsetTarget.offset().top;
+        }, 50);
+        console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
+        // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
+      }
+
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
 
       // Set up twitter bootstrap scroll spy
-      $('body').scrollspy({
+      $body.scrollspy({
         target: '.spec-sticky-nav'
       });
 
+      setTimeout(function() {
+        $body.scrollspy('refresh');
+      }, 100);
     },
 
     _initCarousel : function() {
       var self = this,
           firstImage = self.$carousel.find(':first-child img');
+
+      self.$carousel.find('img').css({
+        maxWidth: self.$carouselWrap.width()
+      });
+
+      // Give the image a src, otherwise imagesLoaded is pointless...
+      window.iQ.update();
 
       // Wait for first image to be loaded, then setTimeout to allow it to get a height
       // then get its height and set it on the container, then initialize the scroller
@@ -95,21 +120,15 @@
           self.$carouselWrap.scrollerModule({
             contentSelector: '.spec-carousel',
             itemElementSelector: '.slide',
-            mode: 'paginate',
-            centerItems: false,
+            mode: 'carousel',
             generatePagination: true,
-
-            iscrollProps : {
-              snap: true,
-              hScroll: true,
-              vScroll: false,
-              hScrollbar: false,
-              vScrollbar: false
-            }
+            nextSelector: self.$container.find('.overview-nav-next'),
+            prevSelector: self.$container.find('.overview-nav-prev')
 
           });
         }, 100);
       });
+
     },
 
     _onScroll : function() {
@@ -125,7 +144,17 @@
           self.$stickyNav.removeClass('open');
         }
       }
+    },
 
+    _onResize : function() {
+      var self = this,
+          $imgs = self.$carousel.find('img'),
+          imgHeight = $imgs.height();
+
+      self.$carousel.height( imgHeight );
+      $imgs.css({
+        maxWidth: self.$carouselWrap.width()
+      });
     }
 
 

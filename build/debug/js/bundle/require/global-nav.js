@@ -327,7 +327,7 @@
         // just making lint happy, cuz maybe I'll use isDesktop eventually.
       }
 
-      $('#country-selector').on('hover',function(){
+      $('#country-selector').on('mouseenter mouseleave',function(){
         var pageContainerWidth = $(this).closest('.grid-footer').width();
         $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
       });

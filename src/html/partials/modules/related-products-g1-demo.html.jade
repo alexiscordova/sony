@@ -5,21 +5,11 @@ layout2: [ "plate", "medium" , "normal" , "normal" , "normal" , "blank-normal"]
 layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
 layout4: ["suggested" , "suggested"]
 ---
-if data.config.mode == 'full' 
+if data.config.mode == 'full'
   - clss = data.config.variation + ' ' + data.config.mode
   section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
     .rp-overflow#rpOverflow
       .rp-container
-        .rp-slide 
-          .shuffle-container.slimgrid5
-            i = 0
-            for module in data.submodules
-              d = locals.data(module.data)
-              if d.type == 'product' && d.featured
-                - d.layout = document[data.config.layout][i++]
-                - d.view = 'basic'
-                e = { 'locals' : locals , 'data' : d }
-                !{locals.partial('modules/'+module.type , e )}   
         .rp-slide
           .shuffle-container.slimgrid5
             i = 0
@@ -29,7 +19,17 @@ if data.config.mode == 'full'
                 - d.layout = document[data.config.layout][i++]
                 - d.view = 'basic'
                 e = { 'locals' : locals , 'data' : d }
-                !{locals.partial('modules/'+module.type , e )}   
+                !{locals.partial('modules/'+module.type , e )}
+        .rp-slide
+          .shuffle-container.slimgrid5
+            i = 0
+            for module in data.submodules
+              d = locals.data(module.data)
+              if d.type == 'product' && d.featured
+                - d.layout = document[data.config.layout][i++]
+                - d.view = 'basic'
+                e = { 'locals' : locals , 'data' : d }
+                !{locals.partial('modules/'+module.type , e )}
         .rp-slide
           .shuffle-container.slimgrid5
             i = 0
