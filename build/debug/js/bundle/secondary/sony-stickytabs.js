@@ -1,12 +1,10 @@
-/*global jQuery, Modernizr, Exports*/
+/*global Exports*/
 
-// ------------ Sony Sticky Tabs --------
-// Module: Sticky Tabs
-// Version: 1.0
-// Modified: 01/01/2013
-// Dependencies: jQuery 1.7+, Modernizr
-// Author: Glen Cheney
-// --------------------------------------
+// * Module: Sticky Tabs
+// * Version: 1.0
+// * Modified: 01/28/2013
+// * Dependencies: jQuery 1.7+, Modernizr
+// * Author: Glen Cheney
 
 (function($, Modernizr, window, undefined) {
   'use strict';
@@ -262,19 +260,25 @@
       var self = this;
 
       console.log('teardown: StickyTabs');
-      self.$tabsWrap.off('scroll').removeClass('sticky');
+      self.$tabsContainer.scrollerModule('destroy');
+      self.$tabsWrap.removeClass('sticky');
       self.$tabs.removeAttr('style');
-      self.lastX = 0;
+      self.overlap = null;
+      self.lastX = null;
       self.isStickyTabs = false;
     },
 
-    // Completely removes sticky tabs
+    // Completely removes sticky tabs.
+    // You'll need to call `.stickyTabs()` again to get them back.
     destroy : function() {
       var self = this;
 
-      self.teardown();
+      // If we haven't called `teardown` already
+      if ( self.isStickyTabs ) {
+        self.teardown();
+      }
 
-      // New tab shown event
+      // New tab `shown` event
       self.$tabs.off('shown');
 
       // Window resize

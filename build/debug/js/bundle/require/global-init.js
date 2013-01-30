@@ -9,13 +9,17 @@ window.iQ = {
   }
 };
 
-if ( typeof window.console === undefined ) {
-    var noop = function(){};
-    window.console = {
-        log : noop,
-        group: noop,
-        groupEnd: noop,
-        warn: noop,
-        error: noop
-    };
-}
+// Make console logs do nothing for unsupported browsers
+(function(window, undefined) {
+
+    if ( typeof window.console === undefined ) {
+        var noop = function(){};
+        window.console = {
+            log : noop,
+            group: noop,
+            groupEnd: noop,
+            warn: noop,
+            error: noop
+        };
+    }
+}(window));

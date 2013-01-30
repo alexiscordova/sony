@@ -9,16 +9,18 @@ include ../includes/jade-helpers.jade
   .container
 
     .grid.spec-title-wrap
-      a.spec-title-link.tl(href=data.titleLink)= data.titleLink.label
+      a.spec-title-link.tl(href=data.titleLink.href)= data.titleLink.label
       .sony-recommends
         span.p3 Sony Recommends
         i.icon-uibig-win8.win8-logo
       h1.spec-title= data.title
 
     .grid
-      ul.spec-views.inline.p3
-        li.active: a(href="#specifications") Specifications
-        li: a(href="#features") Features
+      ul.spec-views.inline
+        each link, i in data.internalLinks
+          - clss = i ? '' : 'active'
+          li(class=clss)
+            a.p3(href=link.href)= link.label
 
   numModels = data.submodules.length
 
@@ -34,13 +36,13 @@ include ../includes/jade-helpers.jade
           .compare-sticky-header.sticky-count
             .product-count-wrap.table-center-wrap
               .table-center
-                span.text-dark.product-count= numModels
-                |  Models
+                span.l3.p3.product-count= numModels
+                span.p3  Models
           .detail-labels-wrapping
             .product-count-wrap.table-center-wrap
               .table-center
-                span.text-dark.product-count= numModels
-                |  Models
+                span.l3.p3.product-count= numModels
+                span.p3  Models
 
             .detail-label-group
               each label in data.labels

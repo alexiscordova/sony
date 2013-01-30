@@ -6,8 +6,19 @@
 
 
 $specMobileBreakpoint: 35.4375em; // 567
+
+// 4 visible (default)
 $specItemWidth1200: 13.75em; // 220
 $specLabelWidth1200: 8.75em; // 140
+
+// 4 visible columns
+$specItemWidth980: 11.4375em; // 183
+$specLabelWidth980: 7.125em; // 114
+
+// 3 visible columns
+$specItemWidth768: 11.625em; // 186
+$specLabelWidth768: 5.625em; // 90
+
 $columnHeaderHeight: 5.3125em; // 85
 $tableHeaderColor: $gray80;
 $specStickyTabHeight: 3.125em; // 50
@@ -73,9 +84,13 @@ $navBtnHeight: 3.25em; // 52
   margin-top: 4.375em; // 70
 }
 
+.spec-title-wrap {
+  position: relative;
+  margin-bottom: 2.5em;
+}
 
 .spec-title {
-  margin-top: 0;
+  margin: 0;
 }
 
 // Needs to be more specific
@@ -103,11 +118,8 @@ ul.spec-views {
 // Media queries for both single and mutliple spec pages
 @media (max-width: $specMobileBreakpoint) {
 
+  .spec-multi,
   .spec-single {
-    margin-top: 2.8125em; // 45
-  }
-
-  .spec-multi {
     margin-top: 0;
   }
 
@@ -142,10 +154,6 @@ ul.spec-views {
   display: none;
 }
 
-.spec-title-wrap {
-  margin-bottom: 2.5em;
-}
-
 // Spec Items Wrapping and labels
 // -------------------------
 .spec-items-wrap {
@@ -165,11 +173,11 @@ ul.spec-views {
 }
 
 .spec-nav-prev {
-  left: 0;
+  left: -.625em;
 }
 
 .spec-nav-next {
-  right: 0;
+  right: -.625em;
 }
 
 
@@ -206,6 +214,7 @@ ul.spec-views {
   height: $columnHeaderHeight;
   width: 100%;
   padding: 0 1em;
+
 }
 
 .spec-list li {
@@ -215,9 +224,17 @@ ul.spec-views {
 
 .spec-item-cell {
   position: relative;
-  padding: 1.25em 1.875em 3.75em .9375em; // 20 30 60 15
+
+  .spec-cell-inner {
+    padding: 1.25em 1.875em 3.75em .9375em; // 20 30 60 15
+  }
+
+  .spec-cell-inner:first-child {
+    padding-top: 1.875em;
+  }
 
   .btm-aligned {
+    min-height: 40px;
     position: absolute;
     bottom: 3.75em;
   }
@@ -234,22 +251,51 @@ ul.spec-views {
   // Definition list image needs a set height because iQ doesn't load the images until
   // after the dimensions for each cell have been calculated
   .dl-img {
-    height: 8.4375em; // 135 pixels
+    position: relative;
+    min-height: 8.4375em; // 135 pixels
+    margin-bottom: 2.5em;
 
+    .img {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+    }
+    // Don't clip image, shrink it
+    img {
+      max-height: 100%;
+    }
+
+  }
+
+  .img-holder {
+    min-height: 8.5em;
+
+    &.vertical {
+      min-height: 15.625em; // 250 pixels
+    }
     // Don't clip image, shrink it
     img {
       max-height: 100%;
     }
   }
 
+  .img-bottom {
+    margin-top: 2.5em;
+  }
+
+  $dtWidth: 50px;
+  $ddMargin: $dtWidth + 10px;
   .dl-horizontal dt {
     text-align: left;
     // width: 3.4375em; // 55
-    width: 4.583333333em; // 55 (base 12)
+    // width: 4.583333333em; // 55 (base 12)
+    width: $dtWidth;
   }
   .dl-horizontal dd {
     // margin-left: 4.375em; // 70
-    margin-left: 5.384615385em; // 70 (base 13)
+    // margin-left: 5.384615385em; // 70 (base 13)
+    margin-left: $ddMargin;
   }
 
   .enlarge {
@@ -262,6 +308,10 @@ ul.spec-views {
     i {
       vertical-align: middle;
     }
+  }
+
+  .holder-for-icon {
+    margin-bottom: 1.25em;
   }
 }
 
@@ -331,8 +381,22 @@ ul.spec-views {
   }
 
   .detail-label {
+    @include text-overflow();
     padding: 1.125em 1em 0 0;
   }
+
+  .product-name {
+    font-size: $font_18_16;
+    color: $gray20;
+  }
+
+  .product-model {
+    @include fontBold();
+    color: $gray20;
+    font-size: $font_18_16;
+  }
+
+
 
   // Sticky headers
   .compare-sticky-header {
@@ -377,6 +441,10 @@ ul.spec-views {
   left: 0;
   background: $white;
 
+  .box-close {
+    line-height: 2.15em;
+  }
+
   .box-close i {
     vertical-align: middle;
   }
@@ -403,7 +471,30 @@ ul.spec-views {
   .tab {
     padding-left: 0.625em;
   }
+}
 
+@media ( min-width: px-em(980px) ) and ( max-width: px-em(1199px) ) {
+  .spec-items-container .spec-item {
+    width: $specItemWidth980;
+  }
+  .grid .detail-labels-wrap {
+    width: $specLabelWidth980;
+  }
+  .spec-items-wrap {
+    margin-left: $specLabelWidth980;
+  }
+}
+
+@media ( min-width: px-em(768px) ) and ( max-width: px-em(979px) ) {
+  .spec-items-container .spec-item {
+    width: $specItemWidth768;
+  }
+  .grid .detail-labels-wrap {
+    width: $specLabelWidth768;
+  }
+  .spec-items-wrap {
+    margin-left: $specLabelWidth768;
+  }
 }
 
 // Multi spec mobile breakpoint
@@ -413,7 +504,7 @@ ul.spec-views {
 
     .sony-recommends {
       bottom: auto;
-      top: -40px;
+      top: .625em;
     }
 
     .win8-logo {
@@ -423,6 +514,10 @@ ul.spec-views {
 
   .spec-tabs {
     display: block;
+  }
+
+  .spec-title-wrap {
+    padding-top: 2.8125em;
   }
 
 
@@ -448,7 +543,7 @@ ul.spec-views {
     margin-left: 0;
   }
 
-  .spec-item-cell {
+  .spec-cell-inner {
     padding-right: 0;
     padding-left: 0;
   }
