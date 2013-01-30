@@ -109,9 +109,6 @@
           vScrollbar: false,
           momentum: true,
           bounce: true,
-          onScrollEnd: null,
-          lockDirection: true,
-          onBeforeScrollStart: null,
           onScrollMove : function() {
             self._onScroll( this );
           },
@@ -200,6 +197,13 @@
     _setRowHeights : function() {
       var self = this;
 
+      // Put a bottom margin on the sibling of the absoluting positioned element
+      // to make up for its lack of document space
+      self.$container.find('.btm-aligned').each(function() {
+        var $img = $(this);
+        $img.prev().css('marginBottom', $img.css('height'));
+      });
+
       // Set detail rows to even heights
       self.$container.find('.detail-label').each(function(i) {
         var $detailLabel = $(this),
@@ -210,7 +214,7 @@
             // Also, there is a sticky header that needs to be excluded: add 1 more
             $cells = self.$specItems.find('.spec-item-cell:nth-child(' + (i + 3) + ')');
 
-        // Loop through the cells
+        // Loop through the cells (`.spec-item-cell`'s in the same 'row')
         $cells.each(function() {
           var $this = $(this),
               height = parseFloat( $this.css('height') );

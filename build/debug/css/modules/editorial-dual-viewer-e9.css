@@ -59,8 +59,8 @@
 /* line 54, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-image .edv-image-wrapper img {
   display: none;
-  max-height: 100%;
-  max-width: 100%;
+  position: relative;
+  width: 100%;
 }
 /* line 61, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
 .edv .edv-images .edv-image figcaption {
@@ -90,11 +90,24 @@
   display: none;
 }
 
-/* line 96, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
-.no-backgroundsize .edv-image-wrapper {
+/* line 97, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+.no-backgroundsize .edv .edv-images .edv-image-wrapper {
+  top: -200%;
+  display: table-cell;
+  height: 500%;
   background-image: none !important;
+  vertical-align: middle;
 }
-/* line 99, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
-.no-backgroundsize .edv-image-wrapper img {
-  display: inline !important;
+/* line 104, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+.no-backgroundsize .edv .edv-images .edv-image-wrapper span {
+  display: inline-block;
+  height: 100%;
+}
+/* line 109, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+.no-backgroundsize .edv .edv-images .edv-image-wrapper * {
+  vertical-align: middle;
+}
+/* line 113, ../../../../src/css/scss/modules/editorial-dual-viewer-e9.scss */
+.no-backgroundsize .edv .edv-images .edv-image-wrapper img {
+  display: inline;
 }

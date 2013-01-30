@@ -1,9 +1,30 @@
-// ------------ Sony Sequencer ------------
-// Module: Sony Sequencer
-// Version: 1.0
-// Modified: 2012-12-14 by Tyler Madison, Telly Koosis
-// Dependencies: N/A at this point
-// -------------------------------------------------------------------------
+// Sony Sequencer 
+// ------------
+//
+// * **Description:** A utility to allow control of method execution
+// * **Version:** 0.1
+// * **Modified:** 01/01/2013
+// * **Author:** Telly Koosis, Tyler Madison
+// * **Dependencies:** None
+//
+// *Example Usage:*
+//
+//     var self = this, // scope
+//         self.speed  = 200, // speed in ms
+//         theSequence = new Sequencer(); // instance
+//  
+//     // first action
+//     theSequence.add( self, self.methodName1, self.speed ); 
+//
+//     // second action
+//     theSequence.add( self, self.methodName2, self.speed + 100 ); 
+//
+//     // last action
+//     theSequence.add( self, self.methodLast, self.speed ); 
+//
+//     // start the sequence
+//     theSequence.start();
+
 
 (function(window, undefined){
 

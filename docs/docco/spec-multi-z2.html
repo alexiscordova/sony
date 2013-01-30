@@ -102,9 +102,6 @@ Add the complete class to the labels to transition them in</p>             </td>
           vScrollbar: <span class="literal">false</span>,
           momentum: <span class="literal">true</span>,
           bounce: <span class="literal">true</span>,
-          onScrollEnd: <span class="literal">null</span>,
-          lockDirection: <span class="literal">true</span>,
-          onBeforeScrollStart: <span class="literal">null</span>,
           onScrollMove : <span class="keyword">function</span>() {
             self._onScroll( <span class="keyword">this</span> );
           },
@@ -184,15 +181,21 @@ Add the complete class to the labels to transition them in</p>             </td>
     _setRowHeights : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Set detail rows to even heights</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.find(<span class="string">'.detail-label'</span>).each(<span class="keyword">function</span>(i) {
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Put a bottom margin on the sibling of the absoluting positioned element
+to make up for its lack of document space</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.find(<span class="string">'.btm-aligned'</span>).each(<span class="keyword">function</span>() {
+        <span class="keyword">var</span> $img = $(<span class="keyword">this</span>);
+        $img.prev().css(<span class="string">'marginBottom'</span>, $img.css(<span class="string">'height'</span>));
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Set detail rows to even heights</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.find(<span class="string">'.detail-label'</span>).each(<span class="keyword">function</span>(i) {
         <span class="keyword">var</span> $detailLabel = $(<span class="keyword">this</span>),
             maxHeight = parseFloat( $detailLabel.css(<span class="string">'height'</span>) ),
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>plus 2 because i is a zero based index and nth-child is one based. Also, the first child in our html
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>plus 2 because i is a zero based index and nth-child is one based. Also, the first child in our html
 is the title, which is not a .spec-item-cell, so we need to add another to our selector
 Also, there is a sticky header that needs to be excluded: add 1 more</p>             </td>             <td class="code">               <div class="highlight"><pre>            $cells = self.$specItems.find(<span class="string">'.spec-item-cell:nth-child('</span> + (i + <span class="number">3</span>) + <span class="string">')'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Loop through the cells</p>             </td>             <td class="code">               <div class="highlight"><pre>        $cells.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Loop through the cells (<code>.spec-item-cell</code>'s in the same 'row')</p>             </td>             <td class="code">               <div class="highlight"><pre>        $cells.each(<span class="keyword">function</span>() {
           <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
               height = parseFloat( $<span class="keyword">this</span>.css(<span class="string">'height'</span>) );
 
@@ -204,7 +207,7 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
         $cells.add($detailLabel).css(<span class="string">'height'</span>, maxHeight);
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Refresh iScroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.iscroll ) {
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Refresh iScroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.iscroll ) {
         self.iscroll.refresh();
       }
 
@@ -231,11 +234,11 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
 
       <span class="keyword">if</span> ( Modernizr.mq( self.mobileBreakpoint ) ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>If we have a scroller, destroy it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isScroller ) {
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>If we have a scroller, destroy it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isScroller ) {
           self._teardownScroller();
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>If we don't have sticky tabs, init them</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !self.isStickyTabs ) {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>If we don't have sticky tabs, init them</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !self.isStickyTabs ) {
           self._initStickyTabs();
         }
 
@@ -245,15 +248,15 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
 
       } <span class="keyword">else</span> {
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>If we have sticky tabs, destroy them</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isStickyTabs ) {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>If we have sticky tabs, destroy them</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.isStickyTabs ) {
           self._teardownStickyTabs();
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>If we don't have a scroller, create it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !self.isScroller ) {
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If we don't have a scroller, create it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !self.isScroller ) {
           self._initScroller();
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Re-compute heights for each cell and total height</p>             </td>             <td class="code">               <div class="highlight"><pre>        self
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Re-compute heights for each cell and total height</p>             </td>             <td class="code">               <div class="highlight"><pre>        self
           ._setRowHeights()
           ._setItemContainerHeight();
       }
@@ -273,7 +276,7 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
           self.$detailLabelsWrap.removeClass(<span class="string">'overflowing'</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>We haven't scrolled vertically, exit the function</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>We haven't scrolled vertically, exit the function</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span>;
       }
 
       <span class="keyword">if</span> ( scrollTop &gt;= self.stickyOffset.top &amp;&amp; scrollTop &lt;= self.stickyOffset.bottom ) {
@@ -300,7 +303,7 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
           columnWidth = $cell.parent().outerWidth(),
           modalWidth = self.isScroller ? (self.scroller.itemsPerPage * columnWidth) + <span class="string">'px'</span> : <span class="string">'100%'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Make sure we don't open 2 modals at once</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._closeEnlarge();
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Make sure we don't open 2 modals at once</p>             </td>             <td class="code">               <div class="highlight"><pre>      self._closeEnlarge();
 
       $modal
         .detach()
@@ -321,14 +324,14 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $cell;
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>No current modal</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.$modal ) {
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>No current modal</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.$modal ) {
         <span class="keyword">return</span>;
       }
 
       $cell = self.$modal.data(<span class="string">'$cell'</span>);
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Detach and re-attach the modal in the spec-item</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$modal
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Detach and re-attach the modal in the spec-item</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$modal
         .detach()
         .addClass(<span class="string">'hide'</span>)
         .appendTo($cell);
@@ -359,13 +362,13 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           spec = self.data(<span class="string">'spec'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>If we don't have a stored spec, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !spec ) {
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>If we don't have a stored spec, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !spec ) {
         spec = <span class="keyword">new</span> Spec( self, options );
         self.data( <span class="string">'spec'</span>, spec );
       }
@@ -377,11 +380,11 @@ Also, there is a sticky header that needs to be excluded: add 1 more</p>        
   };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.options = {
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.options = {
     mobileBreakpoint : <span class="string">'(max-width: 35.4375em)'</span>
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.settings = {
     isStickyTabs: <span class="literal">false</span>,
     isScroller: <span class="literal">false</span>
   };

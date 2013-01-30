@@ -806,6 +806,7 @@ to build an array of strings</p>             </td>             <td class="code">
 
 </pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>Event triggered when this tab is about to be shown</p>             </td>             <td class="code">               <div class="highlight"><pre>    onShow : <span class="keyword">function</span>( evt ) {
       <span class="keyword">var</span> that;
+      console.log(<span class="string">'tab is about to be shown'</span>, evt);
 
       <span class="keyword">if</span> ( evt.prevPane ) {
         that = evt.prevPane.find(<span class="string">'.gallery'</span>).data(<span class="string">'gallery'</span>);
