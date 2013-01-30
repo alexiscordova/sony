@@ -521,16 +521,21 @@
         }
       },
       
-      moveTo: function(){
+      moveTo: function(force){
         var self = this,
         newPos   = -self.currentId * self.currentContainerWidth,
         diff,
         newId,
         animObj  = {};
 
+        if(self.currentId !== 0){
+          self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
+          newPos -= window.Exports.GUTTER_WIDTH_SLIM * self.$gridW.width();
+        }
 
+            
         if(self.isMobileMode === true){
-          var delta = ($('.soc-content').eq(0).width() - $('.soc-item').eq(0).width()) / 2;
+          var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
           newPos += delta - (self.currentId * 10);
         }
 
@@ -538,12 +543,12 @@
           
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
-          self.$containerInner.animate(animObj, self.animationSpeed, 'easeInOutSine');
+          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeInOutSine');
 
         }else{
 
           //css3 transition
-          animObj[ (self.vendorPrefix + self.TD) ] = self.animationSpeed + 'ms';
+          animObj[ (self.vendorPrefix + self.TD) ] = (force === true ? 10 : self.animationSpeed) + 'ms';
           animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeInOutSine;
           
           self.$containerInner.css( animObj );
@@ -588,6 +593,7 @@
         allSpans     = 'span4 span6 span8 span12',
         itemSelector = '.soc-item',
         oneUp        = '.soc-1up',
+        twoUp        = '.soc-2up',
         threeUp      = '.soc-3up';
 
         //console.log("Current Mode »", mode);
@@ -600,8 +606,10 @@
             .removeClass(allSpans)
             .filter(oneUp).addClass('span4')
             .end()
+            .filter(twoUp).addClass('span6')
+            .end()
             .filter(threeUp).addClass('span8');
-
+            
           break;
 
           case 'tablet':
@@ -610,6 +618,8 @@
             .find(itemSelector)
             .removeClass(allSpans)
             .filter(oneUp).addClass('span6')
+            .end()
+            .filter(twoUp).addClass('span6')
             .end()
             .filter(threeUp).addClass('span6');
 
@@ -630,7 +640,7 @@
       checkForBreakPoint: function(){
         var self = this,
         wW = self.$win.width(),
-        view = wW > 979 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile';
+        view = wW > 769 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile';
 
         switch(view){
           case 'desktop':
@@ -670,7 +680,7 @@
             self.createMobileSlides();
             self.shuffleClasses();
           
-          break;       
+          break;
         }
 
         //do other stuff here
@@ -700,7 +710,7 @@
         for (var i = 0; i < self.originalSlideCount; i ++) {
           
             var $contentDiv = $('<div class="soc-content" />'),
-            $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
+            $gridDiv        = $('<div class="soc-grid slimgrid" />'),
             $item           = null;
 
             self.$galleryItems.each(processItem);
@@ -735,7 +745,7 @@
           
         var createSlide = function(i,orphaned){
           var $contentDiv = $('<div class="soc-content" />'),
-          $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
+          $gridDiv        = $('<div class="soc-grid slimgrid" />'),
           $item1          = self.$galleryItems.eq(i-1),
           $item2          = self.$galleryItems.eq(i);
 
@@ -789,12 +799,12 @@
         self.$galleryItems = $('.soc-item').detach();
         
         //2. remove the slides from desktop / tablet
-        self.$desktopSlides.remove(); 
-        self.$tabletSlides.remove(); 
+        self.$desktopSlides.remove();
+        self.$tabletSlides.remove();
 
         for (var i = 0; i < self.$galleryItems.length; i ++) {
           var $contentDiv = $('<div class="soc-content" />'),
-          $gridDiv        = $('<div class="soc-grid grid grid-small" />'),
+          $gridDiv        = $('<div class="soc-grid slimgrid" />'),
           $item           = self.$galleryItems.eq(i);
 
           //$gridDiv.appendTo($contentDiv);
@@ -821,10 +831,10 @@
         itemHTML = '<div class="soc-nav-item soc-bullet"></div>',
         out          = '<div class="soc-nav soc-bullets">';
         
-        //remove other references 
+        //remove other references
         $('.soc-nav.soc-bullets').remove();
 
-        //reset current slide id 
+        //reset current slide id
         self.currentId = 0;
 
         //self.controlNavEnabled = true;
@@ -860,28 +870,42 @@
         if(self.isDesktopMode === true){
           //console.log(" »",);
           self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
-          cw = self.$gridW.width();
+          
+          var gutterWidth = 0;
           self.$desktopSlides.each(function(i){
-            $(this).css( { 'left': i * cw + 'px', 'z-index' : i } );  
-          });       
+            cw = self.$gridW.width();
+            gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
+            if(i > 0){
+              cw += gutterWidth;
+             console.log('New Gutter for slide »',window.Exports.GUTTER_WIDTH_SLIM * cw , cw , window.Exports.GUTTER_WIDTH_SLIM);
+            }
+
+            $(this).css( { 'left': i * cw + 'px', 'z-index' : i } );
+          });
         }
 
         if(self.isTabletMode === true){
           self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
           cw = self.$gridW.width();
           self.$tabletSlides.each(function(i){
-            $(this).css( { 
+
+          if(i > 0){
+            cw += window.Exports.GUTTER_WIDTH_SLIM * cw;
+
+          }
+
+          $(this).css({
             'left': i * cw + 'px',
             'height' : $('.soc-item').eq(0).height()  + 'px',
             'z-index' : i
-          } ); 
+          });
 
             $(this).find('.soc-item').css({
               'position': '',
               'top' : '',
               'left' : ''
-            }); 
-          });  
+            });
+          });
 
           //console.log("updating slides in tbalet mode »");
 
@@ -891,12 +915,12 @@
           //console.log("Starting - Placing items for mobile mode »");
           cw = self.currentContainerWidth = $('.soc-item').eq(0).width();
           self.$mobileSlides.each(function(i){
-            //$(this).css( { 'left': (i * 286) + (i === 0 ? 10 : 0) + 'px', 'z-index' : i } );  
-            $(this).css( { 
+            //$(this).css( { 'left': (i * 286) + (i === 0 ? 10 : 0) + 'px', 'z-index' : i } );
+            $(this).css( {
               'left': i * (cw + mobileGutter) + 'px',
               'height' : 370  + 'px', //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
-              'z-index' : i 
-            } );  
+              'z-index' : i
+            } );
 
             var delta = ($('.soc-content').eq(0).width() - $('.soc-item').eq(0).width()) / 2;
 
@@ -906,14 +930,14 @@
               //  'left' : ($('.soc-content').eq(0).width() - $('.soc-item').eq(0).width()) - delta + 'px',
               'left' : '0'
             });
-          }); 
+          });
 
           //console.log("Finished - Placing items for mobile mode »" , $('.soc-item').eq(0).height());
-        } 
+        }
 
 
         //make sure it updates position based on current slide index
-        self.moveTo();  
+        self.moveTo(true);
 
        //set containers over all position based on current slide
         /*        animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed * 0.25 + 'ms';
