@@ -23,8 +23,10 @@
 		z-index: 1;
 		padding-top: 36px;
 	} // end .tcc-body-wrapper
-
+	
+	//
 	// START VARIATIONS 
+	// 
 	.align-left-top{
 		text-align: left;
 		vertical-align: top;
@@ -83,60 +85,71 @@
 	//
 	// END VARIATIONS 
 	// 
-} // end .tcc-wrapper 
-
-.tcc-header-wrapper{
+	
 	.tcc-header{
 		border-bottom: 2px solid $gray70;
 		position: relative;
 	} // end .tcc-header
 
-} // end .tcc-header-wrapper
+	.tcc-body{
+		display:inline-block;	
+	} // end .tcc-body
 
-.tcc-body{
-	display:inline-block;
+	// certain tertiary content modules have hover states
+	div#{createSelectorFromData("article","default")}:hover,
+	div#{createSelectorFromData("article","featured")}:hover,
+	div#{createSelectorFromData("article","news")}:hover,
+	div#{createSelectorFromData("article","event")}:hover{
+		
+		img{
+			@include transition(opacity, $transitionFast);
+			opacity:0.7;
+		}
+	} // end article hovers
 
-	// Content Modules
 	.tcc-content-module{
-		padding-top:15px;
 		float:left;
 		overflow: hidden;
 
+		&:hover{
+			cursor: pointer;
+		} // end .tcc-content-module:hover;
+
+		img{
+			position:relative;
+			@include transition(opacity, $transitionFast);
+			opacity:1.0;
+			vertical-align: top;
+		} // end img
 	} // end .tcc-content-module
 
-	// certain tertiary content modules have hover states
-	div#{createSelectorFromData("article","default")}:hover{
-		cursor: pointer;
-		background-color: $white;
-	} 
-	
-	// certain tertiary content modules do not have hover states
-	div#{createSelectorFromData("sonys-voice","twitter")}:hover{
-		background-color: transparent;
-	} 
+	.article{		
+		
+		.l1{
+			text-transform: none;
+			line-height:1.2em;
+			font-size: $font_18_16;
+		} // end l1
+	} // end .article
 
-} // end .tcc-body
+	.sonys-voice{
 
-.article{		
-	.l1{
-		text-transform: none;
-		line-height:1.2em;
-		font-size: $font_18_16;
-	} // end l1
-} // end .article
+		.l4,
+		.l3{
+			text-transform: none;
+		} // end .l4 .l3
 
-.sonys-voice{
-	.l4,
-	.l3{
-		text-transform: none;
-	} // end .l4 .l3
+		.bq2 > p{
+			line-height: 1.35em;
+		} // end .bq2 > p
 
-	.bq2 > p{
-		line-height: 1.35em;
-	} // end .bq2 > p
+		.bq2 > p:first-child{
+			text-indent: 0;
+		} // end .bq2 > p:first-child
+	} // end .sonys-voice
+} // end .tcc-wrapper 
 
-	.bq2 > p:first-child{
-		text-indent: 0;
-	} // end .bq2 > p:first-child
-	
-} // end .sonys-voice
+
+
+
+
