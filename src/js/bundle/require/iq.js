@@ -98,7 +98,7 @@
       SCROLL = 'scroll',
       RESIZE = 'resize',
       COMPLETE = 'complete',
-      DELAY = 150,
+      DELAY = 200,
       EMPTYSTRING = '',
       ON = 'on',
       LOAD = 'load',
@@ -168,19 +168,19 @@
 
   // Reduce by 5.5x the # of times loadImages is called when scrolling
   scrollListener = throttle(function() {
-    loadImages();
+    loadImages(false);
   }, DELAY),
 
   // Reduce to 1 the # of times loadImages is called when resizing
   resizeListener = debounce(function() {
-    loadImages();
+    loadImages(true);
   }, DELAY),
 
   // Reduce to 1 the # of times loadImages is called when orientation changes.
   orientationchangeListener = debounce(function(){
     if (win[ORIENTATION] !== lastOrientation) {
       lastOrientation = win[ORIENTATION];
-      loadImages();
+      loadImages(true);
     }
   }, DELAY),
 
@@ -192,15 +192,15 @@
   },
 
   updateImages = function( imagesWereAdded ) {
-    loadImages( imagesWereAdded !== false );
+    loadImages(false, imagesWereAdded !== false );
   },
 
-  loadImages = function(update){
+  loadImages = function(resizing, update){
     var current, i;
 
       // If initial collection is not done or
       // new images have been added to the DOM, collect them.
-      if (!iQ.images[LENGTH] || update === true || updateOnResize === true) {
+      if (!iQ.images[LENGTH] || update === true || (updateOnResize === true && resizing)) {
         // Add event listeners
         addAsyncListeners();
         iQ.images = [];

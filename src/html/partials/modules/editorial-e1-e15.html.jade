@@ -22,16 +22,16 @@ section.editorial.container.clearfix(class= data.layout.media)
           div(class= span)(class= offset)
             .table-center-wrap
               .table-center
-                .box
+                .box(class = data.layout.alignment)
                   +copyblock()
-      else if data.layout.text == "right" 
+      else if data.layout.text == "right" || data.layout.text == "center"
         .inner.grid(class= data.style)
           - span = "span" + data.layout.columns[1]
           - offset =  "offset" + data.layout.columns[0]
           div(class= span)(class= offset)
             .table-center-wrap
               .table-center
-                .box
+                .box(class = data.layout.alignment)
                   +copyblock()
     else
       .grid(class= data.style)
@@ -60,17 +60,21 @@ section.editorial.container.clearfix(class= data.layout.media)
         +copyblock()
 
   else if data.layout.media == "full3up"
-    .grid(class= data.layout.text)(class= data.style)
-      +copyblock()
-    +partial(data.submodules[0].type, data.submodules[0].data)
+    .grid(class= data.style)
+      .span12
+        .box(class= data.layout.alignment)
+          +copyblock()
+        +partial(data.submodules[0].type, data.submodules[0].data)
   
     .grid
       for col, i in data.layout.columns
-        span = "span" + data.layout.columns[i]
+        - colalign = data.columns[i].align || "left"
+        - span = "span" + data.layout.columns[i]
         div(class = span)
           if data.submodules[i+1]
             +partial(data.submodules[i+1].type, data.submodules[i+1].data)
-          +copyblock(data.columns[i])
+          .box(class = colalign)
+            +copyblock(data.columns[i])
 
   else if data.layout.media == "m3up" || data.layout.media == "m2up"
     .grid(class= data.style)
@@ -93,16 +97,16 @@ section.editorial.container.clearfix(class= data.layout.media)
     .grid(class= data.layout.text)(class= data.style)
       if data.layout.text == "left"
         span = "span" + data.layout.columns[0]
-        .box(class = span)
+        .box(class = span)(class= data.layout.alignment)
           +copyblock(data, "alt")
       
       else if data.layout.text == "right"
         span = "span" + data.layout.columns[1]
         offset = "offset" + data.layout.columns[0]
-        .box(class= span)(class= offset)
+        .box(class= span)(class= offset)(class= data.layout.alignment)
           +copyblock(data, "alt")
       
       else if data.layout.text == "full" 
-        .box.span12
+        .box.span12(class= data.layout.alignment)
           +copyblock(data, "alt") 
 
