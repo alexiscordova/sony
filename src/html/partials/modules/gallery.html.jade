@@ -16,7 +16,7 @@ layout3: "normal"
 
 .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
   .tabs-container.container.m-full-bleed
-    .tabs
+    .tabs.grid.m-full-bleed
       each tab, i in data.tabs
         activeClass = i === 0 ? ' active' : ''
         tabClass = 'tab' + activeClass
@@ -262,11 +262,3 @@ layout3: "normal"
 
 
 div(style="padding-bottom:150px")
-
-script(src="js/libs/jquery.infinitescroll.js")
-script(src="js/libs/bootstrap-transition.js")
-script(src="js/libs/bootstrap-button.js")
-script(src="js/libs/bootstrap-dropdown.js")
-script(src="js/libs/bootstrap-collapse.js")
-script(src="js/libs/bootstrap-tooltip.js")
-script(src="js/libs/bootstrap-modal.js")
