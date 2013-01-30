@@ -4,6 +4,8 @@
 // Modified: 2012-12-20 by Tyler Madison
 // Dependencies: jQuery 1.7+, Modernizr
 // -------------------------------------------------------------------------
+//TODO: when breaking apart slides store the first object in the current slide
+//and figure out which starting slide to animate to after remanipulating the DOM
 ;( function( $, Modernizr, window, undefined ) {
     
     'use strict';
@@ -23,9 +25,6 @@
       isAndroid     = ua.indexOf( 'android' ) > -1,
       resizeTimer   = null;
     
-      self.isIPAD   = ua.match( /(ipad)/ );
-      self.isIPHONE = ua.match( /(iphone)/ );
-
       $.extend( self , $.fn.sonyOneCarousel.defaults , options , $.fn.sonyOneCarousel.settings );
 
       // feature detection, some ideas taken from Modernizr
@@ -95,7 +94,6 @@
       self.slidePosition         = 0;
       self.animationSpeed        = 700; //ms
       self.slideCount            = 0;
-      self.isFreeDrag            = false; //MODE: TODO
       self.currentContainerWidth = 0;
       self.newSlideId            = 0;
       self.sPosition             = 0;
@@ -527,10 +525,10 @@
         diff,
         newId,
         animObj  = {};
-
+        
         if(self.currentId !== 0){
-          self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
-          newPos -= window.Exports.GUTTER_WIDTH_SLIM * self.$gridW.width();
+          self.$gridW = self.$el.find('.soc-grid' ).eq(0);
+          newPos -= (window.Exports.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
         }
 
             
@@ -574,13 +572,12 @@
         var self = this,
         cw       = self.currentContainerWidth = self.$gridW.width(),
         newH     = self.resizeRatio * cw + 'px',
-        $currSlides = (self.isDesktopMode ? self.$desktopSlides : 
-                      self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
+        $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
 
         if(self.isDesktopMode || self.isTabletMode){
           self.$container.css( 'height' , newH );
           $currSlides.css( 'height' ,  newH );
-        }else{  
+        }else{ 
           newH = $('.soc-item').eq(0).height();
           self.$container.css( 'height' ,  newH  + 'px' );
         }
@@ -865,19 +862,19 @@
         var self = this,
         cw       = 0,
         animObj  = {},
-        mobileGutter = 10;
+        mobileGutter = 10,
+        gutterWidth = 0;
 
         if(self.isDesktopMode === true){
           //console.log(" »",);
           self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
           
-          var gutterWidth = 0;
           self.$desktopSlides.each(function(i){
             cw = self.$gridW.width();
             gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
             if(i > 0){
               cw += gutterWidth;
-             console.log('New Gutter for slide »',window.Exports.GUTTER_WIDTH_SLIM * cw , cw , window.Exports.GUTTER_WIDTH_SLIM);
+            // console.log('New Gutter for slide »',gutterWidth);
             }
 
             $(this).css( { 'left': i * cw + 'px', 'z-index' : i } );
@@ -886,19 +883,21 @@
 
         if(self.isTabletMode === true){
           self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
-          cw = self.$gridW.width();
+          
           self.$tabletSlides.each(function(i){
+            cw = self.$gridW.width();
+            gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
+            
+            if(i > 0){
+              cw += gutterWidth;
+              console.log('New Gutter for slide »',self.$gridW.width() , gutterWidth);
+            }
 
-          if(i > 0){
-            cw += window.Exports.GUTTER_WIDTH_SLIM * cw;
-
-          }
-
-          $(this).css({
-            'left': i * cw + 'px',
-            'height' : $('.soc-item').eq(0).height()  + 'px',
-            'z-index' : i
-          });
+            $(this).css({
+              'left': i * cw + 'px',
+              'height' : $('.soc-item').eq(0).height()  + 'px',
+              'z-index' : i
+            });
 
             $(this).find('.soc-item').css({
               'position': '',
