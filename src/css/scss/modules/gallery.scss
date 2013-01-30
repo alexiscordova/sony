@@ -958,8 +958,12 @@ $offsetFromMiddle: px-em(45px);
 
 // Compare Tool
 // -------------------------
+.compare-key {
+  margin-top: 1.125em;
+  margin-bottom: 1.125em;
+}
+
 .compare-container {
-  margin-top: 1.25em;
   padding-bottom: 5em;
 }
 
@@ -1143,8 +1147,10 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .box-close {
-  float: right;
-  @include square(2.25em);
+  position: absolute;
+  top: 1.25em;
+  right: 0;
+  @include size( px-em(40px), px-em(43px) );
   padding: 0;
   line-height: 1;
   background: $gray40;
@@ -1158,8 +1164,8 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .box-close-small {
-  @include square(1.25em);
-
+  @include square( px-em(23px) );
+  top: 0;
 
   i {
     vertical-align: middle;
@@ -1168,9 +1174,11 @@ $offsetFromMiddle: px-em(45px);
 
 .compare-box {
   display: inline-block;
-  padding: 0.5em 0.8em;
+  padding: 11px 12px;
   color: $white;
-  background: $gray40;
+  font-size: $font_18_16;
+  line-height: 1;
+  background: $gray20;
 }
 
 @media (max-width: $threeColMax) {

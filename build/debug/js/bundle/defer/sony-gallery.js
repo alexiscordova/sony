@@ -992,7 +992,6 @@
           $compareItemsContainer = $('<div class="compare-items-container">'),
           $compareItemsWrapper = $('<div class="compare-items-wrap">'),
 
-          // contentWidth = 0,
           // Get product count
           productCount = $currentItems.length,
 
@@ -1009,6 +1008,9 @@
           $labelColumn = $('<div class="detail-labels-wrapping">'),
           $labelGroup = $('<div class="detail-label-group">'),
 
+          $prevPaddle = $('<div class="nav-paddle"><i class="icon-ui2-chevron-18-white-left"></i></div>'),
+          $nextPaddle = $('<div class="nav-paddle"><i class="icon-ui2-chevron-18-white-right"></i></div>'),
+
           // Clone sort button
           $sortOpts = self.$container.find('.sort-options').clone();
 
@@ -1017,7 +1019,7 @@
 
       // Create reset button
       self.$compareReset = $('<button/>', {
-          'class' : 'btn btn-alt-special btn-reset disabled js-compare-reset iconTrigger-ui2-reset',
+          'class' : 'btn btn-small btn-alt-special btn-reset disabled js-compare-reset iconTrigger-ui2-reset',
           'text' : $header.data('resetLabel')
       });
       self.$compareReset.append('<i class="icon-ui2-reset">');
@@ -1081,14 +1083,14 @@
       $labelColumn.append( $labelGroup );
 
       if ( Modernizr.mq('(max-width: 29.9375em)') ) {
-        self.$compareReset.addClass('btn-block').removeClass('pull-left');
+        self.$compareReset.addClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': 'block',
           'float': 'none',
           'marginTop' : '0.5em'
         });
       } else {
-        self.$compareReset.removeClass('btn-block').addClass('pull-left');
+        self.$compareReset.removeClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': '',
           'float': '',
@@ -1190,6 +1192,9 @@
           self.onCompareScroll( 'inner', this );
         }
       });
+
+      // Bind events to the paddles
+
 
       // Position sticky headers
       self.setStickyHeaderPos();
@@ -1345,14 +1350,14 @@
       }
 
       if ( Modernizr.mq('(max-width: 29.9375em)') ) {
-        self.$compareReset.addClass('btn-block').removeClass('pull-left');
+        self.$compareReset.addClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': 'block',
           'float': 'none',
           'marginTop' : '0.5em'
         });
       } else {
-        self.$compareReset.removeClass('btn-block').addClass('pull-left');
+        self.$compareReset.removeClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': '',
           'float': '',

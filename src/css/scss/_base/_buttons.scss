@@ -185,37 +185,6 @@
   }
 }
 
-
-// Alt Special; dark, left aligned, room for icon
-// -------------------------
-.btn-alt-special {
-  position: relative;
-  padding-left: $btnAltSpecialPadding;
-  padding-right: $btnAltSpecialPadding;
-  text-align: left;
-  font-size: $font_13_16;
-  background: $btnAltBackground;
-  border-color: $btnAltBackground;
-  min-width: 131px;
-
-  &:hover,
-  &:focus {
-    background: $gray;
-    border-color: $gray;
-  }
-
-  &:active {
-    background: $gray;
-    border-color: $gray;
-  }
-
-  &.btn-alt-plus i {
-    position: absolute;
-    right: $btnAltSpecialPadding;
-    margin-top: 8px;
-  }
-}
-
 // Promo
 // -------------------------
 .btn-promo {
@@ -269,35 +238,6 @@
   padding-left: 25px;
 }
 
-.btn-reset {
-  position: relative;
-  min-width: 110px;
-  max-width: 110px;
-
-  &,
-  &.active {
-    border-color: $btnSpecialBackground;
-    background-color: $btnSpecialBackground;
-  }
-
-  &:hover {
-    border-color: $btnSpecialBackground;
-    background-color: $btnSpecialBackground;
-  }
-
-  &.disabled,
-  &.disabled:hover {
-    color: $gray50;
-    border-color: $gray60;
-    background-color: $gray60;
-  }
-
-  i {
-    position: absolute;
-    top: 11px;
-    right: 24px;
-  }
-}
 
 
 
@@ -367,7 +307,68 @@ input[type="button"] {
 }
 
 
+// This is after the button sizes because they have set paddings...
 
+// Alt Special; dark, left aligned, room for icon
+// -------------------------
+.btn-alt-special {
+  position: relative;
+  padding-left: $btnAltSpecialPadding;
+  padding-right: $btnAltSpecialPadding;
+  text-align: left;
+  font-size: $font_13_16;
+  background: $btnAltBackground;
+  border-color: $btnAltBackground;
+  min-width: 131px;
+
+  &:hover,
+  &:focus {
+    background: $gray;
+    border-color: $gray;
+  }
+
+  &:active {
+    background: $gray;
+    border-color: $gray;
+  }
+
+  &.btn-alt-plus i {
+    position: absolute;
+    right: $btnAltSpecialPadding;
+    margin-top: 8px;
+  }
+}
+
+.btn-reset {
+  position: relative;
+  min-width: 110px;
+  max-width: 110px;
+
+  &,
+  &.active {
+    border-color: $btnSpecialBackground;
+    background-color: $btnSpecialBackground;
+  }
+
+  &:hover {
+    border-color: $btnSpecialBackground;
+    background-color: $btnSpecialBackground;
+  }
+
+  &.disabled,
+  &.disabled:hover {
+    @include opacity(100);
+    color: $gray50;
+    border-color: $gray60;
+    background-color: $gray60;
+  }
+
+  i {
+    position: absolute;
+    top: 8px;
+    right: 24px;
+  }
+}
 
 
 // Cross-browser Jank
