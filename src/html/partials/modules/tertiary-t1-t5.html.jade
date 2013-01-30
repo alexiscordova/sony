@@ -16,14 +16,12 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, da
     
       for module in data.contentModules
         for variation in module.variations
-          - textStyle = variation.style
-          - alignment = variation.alignment
+          - textStyle   = variation.style
+          - alignment   = variation.alignment
           - contentType = variation.contentType
           - contentMode = variation.contentMode
 
-        //- contentModuleClasses = contentType + "-" + contentMode
-        //- (class=contentModuleClasses)
-        .tcc-content-module.span4(class=contentType)(class=textStyle)(class=alignment)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)
+        .tcc-content-module.span4(class=contentType)(class=textStyle)(class=alignment)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
 
           if contentType == "article"
                     

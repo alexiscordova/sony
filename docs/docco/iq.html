@@ -97,7 +97,7 @@ leading edge, instead of the trailing.</p>
       SCROLL = <span class="string">'scroll'</span>,
       RESIZE = <span class="string">'resize'</span>,
       COMPLETE = <span class="string">'complete'</span>,
-      DELAY = <span class="number">150</span>,
+      DELAY = <span class="number">200</span>,
       EMPTYSTRING = <span class="string">''</span>,
       ON = <span class="string">'on'</span>,
       LOAD = <span class="string">'load'</span>,
@@ -158,17 +158,17 @@ leading edge, instead of the trailing.</p>
       lastOrientation,
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Reduce by 5.5x the # of times loadImages is called when scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>  scrollListener = throttle(<span class="keyword">function</span>() {
-    loadImages();
+    loadImages(<span class="literal">false</span>);
   }, DELAY),
 
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Reduce to 1 the # of times loadImages is called when resizing</p>             </td>             <td class="code">               <div class="highlight"><pre>  resizeListener = debounce(<span class="keyword">function</span>() {
-    loadImages();
+    loadImages(<span class="literal">true</span>);
   }, DELAY),
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Reduce to 1 the # of times loadImages is called when orientation changes.</p>             </td>             <td class="code">               <div class="highlight"><pre>  orientationchangeListener = debounce(<span class="keyword">function</span>(){
     <span class="keyword">if</span> (win[ORIENTATION] !== lastOrientation) {
       lastOrientation = win[ORIENTATION];
-      loadImages();
+      loadImages(<span class="literal">true</span>);
     }
   }, DELAY),
 
@@ -180,14 +180,14 @@ leading edge, instead of the trailing.</p>
   },
 
   updateImages = <span class="keyword">function</span>( imagesWereAdded ) {
-    loadImages( imagesWereAdded !== <span class="literal">false</span> );
+    loadImages(<span class="literal">false</span>, imagesWereAdded !== <span class="literal">false</span> );
   },
 
-  loadImages = <span class="keyword">function</span>(update){
+  loadImages = <span class="keyword">function</span>(resizing, update){
     <span class="keyword">var</span> current, i;
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>If initial collection is not done or
-new images have been added to the DOM, collect them.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!iQ.images[LENGTH] || update === <span class="literal">true</span> || updateOnResize === <span class="literal">true</span>) {
+new images have been added to the DOM, collect them.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!iQ.images[LENGTH] || update === <span class="literal">true</span> || (updateOnResize === <span class="literal">true</span> &amp;&amp; resizing)) {
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Add event listeners</p>             </td>             <td class="code">               <div class="highlight"><pre>        addAsyncListeners();
         iQ.images = [];
 

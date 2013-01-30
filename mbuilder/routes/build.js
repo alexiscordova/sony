@@ -61,9 +61,8 @@ exports.generatePage = function(req, res) {
     var pageFileName, moduleFileName, moduleDataFileName, selectedTemplate;
 
     pageFileTitle = req.body['fileTitle'] || 'No Titled';
-    pageFileTitle = pageFileTitle.replace(' ','');
-    pageFileDescriptiion = req.body['fileDescription'] || 'No Description';
-    pageFileName = req.body['fileName'].replace("\n", "") || 'unnamed';
+    pageFileDescriptiion = req.body['fileDescription'].replace("\n", " ") || 'No Description';
+    pageFileName = req.body['fileName'].replace(" ", "-") || 'unnamed';
     selectedTemplate = req.body['select-template'] || 'page-builder-template';
 
     if (moduleLength == 1) {

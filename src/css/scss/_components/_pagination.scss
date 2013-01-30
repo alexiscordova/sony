@@ -8,19 +8,20 @@
 //pagination / bullets
 //.pagination-bullets-container {
 
+$bulletSize: 10px;
+$bulletMargin: 5px;
 .pagination-bullets {
     position: absolute;
     z-index: 35;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: auto;
     margin: 0 auto;
     text-align: center;
-    line-height: 18px;
-    overflow: hidden;
+    line-height: 1;
+    // overflow: hidden;
     opacity: 0;
-    @include transition(opacity, $transitionNormal);
+    @include transition(opacity $transitionNormal);
 
     &.pagination-bullets-on,
     &.on {
@@ -28,25 +29,28 @@
     } // end .on
 
   .pagination-bullet {
-    width: 10px;
-    height: 10px;
+    // position: relative;
+    @include square( px-em($bulletSize) );
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    margin: 5px 0 0 6px;
-    border-radius: 5px;
-    background: $gray20;
+    margin-left: px-em($bulletMargin);
+    border-radius: 50%;
+    background: $gray50;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    // overflow: hidden;
+
+    &:first-child {
+        margin-left: 0;
+    }
   } // end .pagination-bullet
 
+
   .pagination-bullet:hover {
-    cursor: pointer;
   }
 
   .bullet-selected {
-    background-color: $gray50;
+    background-color: $gray20;
   } // end .bullet-selected
 
 } // end pagination-bullets

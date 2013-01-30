@@ -59,7 +59,7 @@
           ready = true;
 
       self.$images.each(function(){
-        if ( $(this).width() === 0 ) {
+        if ( $(this).width() === 0 || $(this).height() === 0 ) {
           ready = false;
         }
       });
@@ -104,8 +104,7 @@
 
     'onDrag': function(e) {
 
-      var self = this,
-          widthRatio = 2;
+      var self = this;
 
       self.$topSlide.css('width', (100 - e.position.left) + '%');
       self.$topSlideImageContainer.css('width', 10000 / (100 - e.position.left) + '%');
