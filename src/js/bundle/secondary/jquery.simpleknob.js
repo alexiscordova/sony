@@ -4,7 +4,7 @@
 //
 // * **Class:** SimpleKnob
 // * **Version:** 0.1
-// * **Modified by:** George Pantazis
+// * **Adapted by:** George Pantazis
 // * **Modified:** 01/30/2013
 // * **Dependencies:** Tested with jQuery 1.9
 //
@@ -16,6 +16,15 @@
 // This version minifes to about 5KB, a 40% savings over the original version,
 // mostly from removing touch interactions / bindings and other options.
 // Refer to the options block below for available configurations.
+//
+// *Example usage:*
+//
+//     $("#foo").simpleKnob({
+//       'fgColor': '#000',
+//       'displayInput': false,
+//       'width': 100,
+//       'height': 100
+//     });
 
 (function ($) {
 
@@ -70,6 +79,7 @@
 
         // Available Options
         // -----------------
+        // *More information on these options [here](https://github.com/aterrien/jQuery-Knob).*
 
         min: this.$.data('min') || 0,
         max: this.$.data('max') || 100,
