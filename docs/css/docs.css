@@ -1,14 +1,14 @@
-/* line 93, ../../src/css/scss/_base/_mixins.scss */
+/* line 97, ../../src/css/scss/_base/_mixins.scss */
 .clearfix {
   *zoom: 1;
 }
-/* line 80, ../../src/css/scss/_base/_mixins.scss */
+/* line 84, ../../src/css/scss/_base/_mixins.scss */
 .clearfix:before, .clearfix:after {
   display: table;
   content: "";
   line-height: 0;
 }
-/* line 87, ../../src/css/scss/_base/_mixins.scss */
+/* line 91, ../../src/css/scss/_base/_mixins.scss */
 .clearfix:after {
   clear: both;
 }
@@ -110,13 +110,13 @@ section {
   border-top: solid 1px #e4e4e6;
   *zoom: 1;
 }
-/* line 80, ../../src/css/scss/_base/_mixins.scss */
+/* line 84, ../../src/css/scss/_base/_mixins.scss */
 section:before, section:after {
   display: table;
   content: "";
   line-height: 0;
 }
-/* line 87, ../../src/css/scss/_base/_mixins.scss */
+/* line 91, ../../src/css/scss/_base/_mixins.scss */
 section:after {
   clear: both;
 }
@@ -341,7 +341,7 @@ hr.soften {
 /* line 275, ../../src/css/docs/docs.scss */
 .title-docs {
   color: #ff485e;
-  font-size: 11px;
+  font-size: 0.75em;
   font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
@@ -735,13 +735,13 @@ h2 + .grid-px-width {
   *zoom: 1;
   overflow: hidden;
 }
-/* line 80, ../../src/css/scss/_base/_mixins.scss */
+/* line 84, ../../src/css/scss/_base/_mixins.scss */
 .bs-docs-example:before, .bs-docs-example:after {
   display: table;
   content: "";
   line-height: 0;
 }
-/* line 87, ../../src/css/scss/_base/_mixins.scss */
+/* line 91, ../../src/css/scss/_base/_mixins.scss */
 .bs-docs-example:after {
   clear: both;
 }
@@ -757,13 +757,13 @@ h2 + .grid-px-width {
   margin-right: 0;
   *zoom: 1;
 }
-/* line 80, ../../src/css/scss/_base/_mixins.scss */
+/* line 84, ../../src/css/scss/_base/_mixins.scss */
 .col-50:before, .col-50:after {
   display: table;
   content: "";
   line-height: 0;
 }
-/* line 87, ../../src/css/scss/_base/_mixins.scss */
+/* line 91, ../../src/css/scss/_base/_mixins.scss */
 .col-50:after {
   clear: both;
 }
@@ -855,11 +855,6 @@ h2 + .grid-px-width {
 
 /* Tweak examples
 ------------------------- */
-/* line 696, ../../src/css/docs/docs.scss */
-.bs-docs-example > p:last-child {
-  margin-bottom: 0;
-}
-
 /* line 707, ../../src/css/docs/docs.scss */
 .bs-docs-example .table,
 .bs-docs-example .progress,
@@ -1644,13 +1639,13 @@ form.bs-docs-example {
 #colors .row {
   *zoom: 1;
 }
-/* line 80, ../../src/css/scss/_base/_mixins.scss */
+/* line 84, ../../src/css/scss/_base/_mixins.scss */
 #colors .row:before, #colors .row:after {
   display: table;
   content: "";
   line-height: 0;
 }
-/* line 87, ../../src/css/scss/_base/_mixins.scss */
+/* line 91, ../../src/css/scss/_base/_mixins.scss */
 #colors .row:after {
   clear: both;
 }
@@ -2090,34 +2085,45 @@ form.bs-docs-example {
 }
 
 /* line 1685, ../../src/css/docs/docs.scss */
-.docs-scaffolding .pln, .docs-scaffolding .kwd, .docs-scaffolding .pun, .docs-scaffolding .lit {
-  color: #ff485e;
-}
-/* line 1686, ../../src/css/docs/docs.scss */
-.docs-scaffolding .tag .pln {
-  color: #44f;
-}
-/* line 1687, ../../src/css/docs/docs.scss */
-.docs-scaffolding .com {
-  color: #069c00;
-}
-/* line 1688, ../../src/css/docs/docs.scss */
-.docs-scaffolding .invisibles-column .pun {
-  color: rgba(0, 0, 0, 0.35);
-}
-/* line 1690, ../../src/css/docs/docs.scss */
-.docs-scaffolding .prettyprint {
+.prettyprint.prettyprint-jade {
   margin: 15px 0 25px;
-  line-height: 1.4em;
+  line-height: 1.2em;
   padding: 5px 25px;
 }
-/* line 1695, ../../src/css/docs/docs.scss */
-.docs-scaffolding .prettyprint.tall {
+/* line 1690, ../../src/css/docs/docs.scss */
+.prettyprint.prettyprint-jade.tall {
   margin-top: 4px;
   margin-bottom: 4px;
 }
+/* line 1694, ../../src/css/docs/docs.scss */
+.prettyprint.prettyprint-jade.fused {
+  margin: -22px 0 25px;
+  line-height: 1.4em;
+  padding: 14px 25px 9px;
+}
+/* line 1700, ../../src/css/docs/docs.scss */
+.prettyprint.prettyprint-jade .pln, .prettyprint.prettyprint-jade .kwd, .prettyprint.prettyprint-jade .pun, .prettyprint.prettyprint-jade .lit {
+  color: #ff485e;
+}
+/* line 1701, ../../src/css/docs/docs.scss */
+.prettyprint.prettyprint-jade .tag .pln {
+  color: #44f;
+}
+/* line 1702, ../../src/css/docs/docs.scss */
+.prettyprint.prettyprint-jade .com {
+  color: #069c00;
+}
+/* line 1703, ../../src/css/docs/docs.scss */
+.prettyprint.prettyprint-jade .invisibles-column .pun {
+  color: rgba(0, 0, 0, 0.35);
+}
+/* line 1704, ../../src/css/docs/docs.scss */
+.prettyprint.prettyprint-jade .plain span {
+  color: #83838f;
+  font-size: 0.85em;
+}
 
-/* line 1714, ../../src/css/docs/docs.scss */
+/* line 1723, ../../src/css/docs/docs.scss */
 .docs-page-structure-page .prettyprint.linenums,
 .docs-page-structure-page .prettyprint,
 .docs-page-structure-page pre.prettyprint,
@@ -2135,7 +2141,7 @@ form.bs-docs-example {
   display: inline-block;
   text-align: left;
 }
-/* line 1724, ../../src/css/docs/docs.scss */
+/* line 1733, ../../src/css/docs/docs.scss */
 .docs-page-structure-page .prettyprint.linenums ol.linenums,
 .docs-page-structure-page .prettyprint ol.linenums,
 .docs-page-structure-page pre.prettyprint ol.linenums,
@@ -2144,7 +2150,7 @@ form.bs-docs-example {
 .docs-container-demo pre.prettyprint ol.linenums {
   margin: 0;
 }
-/* line 1726, ../../src/css/docs/docs.scss */
+/* line 1735, ../../src/css/docs/docs.scss */
 .docs-page-structure-page .prettyprint.linenums ol.linenums li,
 .docs-page-structure-page .prettyprint ol.linenums li,
 .docs-page-structure-page pre.prettyprint ol.linenums li,
@@ -2155,7 +2161,7 @@ form.bs-docs-example {
   padding: 0;
 }
 
-/* line 1746, ../../src/css/docs/docs.scss */
+/* line 1755, ../../src/css/docs/docs.scss */
 .NotUpdatedYet {
   background: #dcfbfa;
 }
