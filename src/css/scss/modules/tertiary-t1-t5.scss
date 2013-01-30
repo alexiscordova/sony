@@ -104,10 +104,12 @@
 		img{
 			@include transition(opacity, $transitionFast);
 			opacity:0.7;
-		}
+		} // end img
+
 	} // end article hovers
 
 	.tcc-content-module{
+		position: relative;
 		float:left;
 		overflow: hidden;
 
@@ -124,12 +126,47 @@
 	} // end .tcc-content-module
 
 	.article{		
-		
-		.l1{
-			text-transform: none;
-			line-height:1.2em;
-			font-size: $font_18_16;
-		} // end l1
+		.p3{
+			color:$gray40;
+		} // end p3
+
+    .t6{
+      strong{
+      	color:$titleBlack;
+      } // end strong
+    } // end t6
+
+    .news-date{
+    	position:absolute;
+    	top:0;
+    	right:0;
+    	background-color:$gray20;
+    	color:$white;
+    	padding:px-em(10px);
+    } // end newsDate
+
+
+    .attendance-count{
+    	background-color: $secondaryOlive;
+    	opacity:0.95;
+    	color:$white;
+    	padding:.4em .6em .6em 1em;
+    	position:absolute;
+    	top:4%;
+    	right:35%;
+
+    	.number{
+    		margin-bottom:px-em(6px);
+    		font-size:$font_37_16;
+    	}
+
+    	.l6{
+    		color:$white;
+    		font-size:$font_12_16;
+    	}
+
+    }
+
 	} // end .article
 
 	.sonys-voice{
