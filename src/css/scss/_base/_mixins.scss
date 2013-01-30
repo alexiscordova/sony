@@ -25,6 +25,10 @@ $default-transition-delay    : 0s;
 @function px-line-height($pxLH, $pxFont){
   @return strip-units($pxLH) / strip-units($pxFont);
 }
+@mixin px-em--font-size--line-height($pxFont, $pxLH, $context:16) {
+	font-size: px-em($pxFont, $context);
+	line-height: px-line-height($pxLH, $pxFont);
+}
 
 // this will reverse the context, mainly for fonticons, but maybe for something else as well.
 // Using it, will return the em size needed to reset the font back to 1em aka 16px.
