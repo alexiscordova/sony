@@ -20,8 +20,9 @@
     <script type="text/javascript">
       // Android needs otf/ttf fonts.
       var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      var fontIconType = fontType === "otf" ? "ttf" : fontType; // fontIcons are ttf instead of otf.
       document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
-      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontIconType+".css'%3E"));
     </script>
   <!--<![endif]-->
 
@@ -46,9 +47,7 @@
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
 
-  </head><body data-spy="scroll" data-target=".bs-docs-sidebar"><!-- simple-navbar
-    ================================================== -->
-    <div class="simple-navbar simple-navbar-inverse simple-navbar-fixed-top">
+  </head><body data-spy="scroll" data-target=".bs-docs-sidebar"><div class="simple-navbar simple-navbar-inverse simple-navbar-fixed-top">
       <div class="simple-navbar-inner">
         <div class="container">
           <button type="button" class="btn-simple-navbar" data-toggle="collapse" data-target=".simple-nav-collapse">
@@ -79,6 +78,9 @@
               <li class="modules">
                 <a href="./modules.html">Modules</a>
               </li>
+              <li class="pages">
+                <a href="./pages.html">Pages</a>
+              </li>
               <li class="customize">
                 <a href="./customize.html">Customize</a>
               </li>
@@ -86,7 +88,7 @@
           </div>
         </div>
       </div>
-    </div><div class="jumbotron subhead"><div class="container-px-width"><h2 class="bs-docs-heading">Modules</h2></div></div><div class="container-px-width"><ul><li><a href="../build/debug/editorial-demo.html">Editorial Module : This is the Editorial Module, it contains text and media elements which can be nested modules.</a></li><li><a href="../build/debug/example-container-demo.html">Example Container Module : This is a sample module showing how to construct a module that contains other modules.</a></li><li><a href="../build/debug/example-demo.html">Example Module : This is a sample module showing how to include data and partial includes to generate a page in jade.</a></li><li><a href="../build/debug/gallery-demo.html">Gallery Module : Tabbed galleries for masonic layouts with filters and a compare tool.</a></li><li><a href="../build/debug/primary-tout-demo.html">Primary Tout Module : This is the Primary Tout Module, it contains text and media elements which can be nested modules.</a></li><li><a href="../build/debug/spec-demo.html">Spec Module : A comparison view of specifications</a></li><li><a href="../build/debug/ux-marketing-convergence-e14-demo.html">UX-Marketing-Convergence-E14 : Module used to present benefits related to combinations of devices and/or services.</a></li></ul></div><footer class="footer">
+    </div><div class="jumbotron subhead"><div class="container-px-width"><h2 class="bs-docs-heading">Module Demos</h2></div></div><div class="container-px-width"><ul><li><a href="../build/debug/brightcoveVideo-demo.html">Brightcove video Module : This module help you create instance of brightcove video.</a></li><li><a href="../build/debug/editorial-dual-viewer-e9-demo.html">Editorial-Dual-Viewer-E9 : A dual viewer is used to show two states of an image, such as inside and outside views or default and exploded views.</a></li><li><a href="../build/debug/editorial-e1-e15-demo.html">Editorial Module : This is the Editorial Module, it contains text and media elements which can be nested modules.</a></li><li><a href="../build/debug/example-container-demo.html">Example Container Module : This is a sample module showing how to construct a module that contains other modules.</a></li><li><a href="../build/debug/example-demo.html">Example Module : This is a sample module showing how to include data and partial includes to generate a page in jade.</a></li><li><a href="../build/debug/gallery-demo.html">Gallery Module : Tabbed galleries for masonic layouts with filters and a compare tool.</a></li><li><a href="../build/debug/primary-tout-p1-demo.html">Primary Tout Module : This is the Primary Tout Module, it contains text and media elements which can be nested modules.</a></li><li><a href="../build/debug/related-products-g1-demo.html">Related-Products-G1 : This is the Jaded Template for the related products module</a></li><li><a href="../build/debug/spec-multi-z2-demo.html">Spec (Multiple) Module : A comparison view of specifications</a></li><li><a href="../build/debug/spec-single-z1-demo.html">Spec (Single) Module : Full specifications for a single product</a></li><li><a href="../build/debug/tertiary-t1-t5-demo.html">Tertiary Module : This is the Tertiary Content Container (Module). It's available for the Homepage, PDP pages, and Category Pages. Each content container has different modes and compatible modules.</a></li><li><a href="../build/debug/ux-marketing-convergence-e14-demo.html">UX-Marketing-Convergence-E14 : Module used to present benefits related to combinations of devices and/or services.</a></li></ul></div></body><div class="jumbotron subhead"><div class="container-px-width"><h2 class="bs-docs-heading">Module Layouts</h2></div></div><div class="container-px-width"><ul><li><a href="../build/debug/editorial-e1-e15-layouts.html">Editorial Module Layouts : This shows several layout possibilities for the editorial module.</a></li><li><a href="../build/debug/related-products-g1-layouts.html">Related-Products-G1 : This is the Jaded Template for the related products module</a></li></ul><footer class="footer">
       <div class="container-px-width">
         <p class="pull-right"><a href="#">Back to top</a></p>
         <p>&#169; Odopod - Proprietary and Confidential.</p>
@@ -118,4 +120,4 @@
     <script src="js/libs/bootstrap-affix.js"></script>
     <script src="js/libs/application.js"></script>
     <script src="js/docs/debug_toggle.js"></script>
-    <script src="js/docs/debug_warnings.js"></script></body></html>
+    <script src="js/docs/debug_warnings.js"></script></div></html>

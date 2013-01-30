@@ -296,6 +296,7 @@
         mode: 'paginate',
         nextSelector: '.tab-nav-next',
         prevSelector: '.tab-nav-prev',
+        centerItems: false,
 
         iscrollProps: {
           snap: true,
@@ -379,5 +380,5 @@
     valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'
   };
 
-}(jQuery, Modernizr, window));
+})(jQuery, Modernizr, window);
 

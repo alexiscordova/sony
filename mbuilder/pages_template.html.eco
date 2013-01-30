@@ -1,7 +1,3 @@
----
-title: {{{{t}}}}
-description: {{{{d}}}}
----
 <!DOCTYPE html>
 <!--[if lt IE 8]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
@@ -12,12 +8,7 @@ description: {{{{d}}}}
 	<head>
 		<%-@partial('includes/meta.html')%>
 
-		<% if 'debug' in @getEnvironments():%>
-		<%" !! if you want to manually include your css for debugging instead of relying on the auto include comment this out and replace with bootstrap.css, responsive.css and your css "%>
 		<%-@partial('includes/css_debug.html.eco', {this: this})%>
-		<% else: %>
-		<%-@partial('includes/css_deploy.html')%>
-		<% end %>
 
 		<%-@partial('includes/js_head.html')%>
 		<link rel="stylesheet" href="css/modules/experiment.css">
@@ -25,12 +16,7 @@ description: {{{{d}}}}
 
 	{{{{b}}}}
 
-	<% if 'debug' in @getEnvironments():%>
-	<%" !! if you want to manually override the javascript includes remove this and include all your own js "%>
 	<%-@partial('includes/js_footer_debug.html.eco', {this: this})%>
-	<% else: %>
-	<%-@partial('includes/js_footer_deploy.html.eco', {this: this})%>
-	<% end %>
 
 	</body>
 </html>

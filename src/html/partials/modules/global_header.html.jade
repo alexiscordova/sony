@@ -6,10 +6,10 @@ meta_data: {a:'foo', b:'bar'}
 nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-767
   .container.navbar-mobile.visible-phone
     a#btn-mobile-nav.btn.btn-mobile-nav(href='#')
-        i.icon-ui-mobile-menu-btn
+        i.fonticon-ui-mobile-icon-sm
       a.brand.hidden-text.sprite-reg-nav-sony-logo(href='#') SONY make.believe
       a.btn.btn-mobile-cart(href='#')
-        i.icon-ui-cart-large
+        i.fonticon-ui-cart
         | 2
 
 
@@ -84,20 +84,20 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
         ul.navmenu-list.navmenu-list-main
           li.navmenu-line.navmenu-li-store
             a.tl(href='#')
-              i.icon-ui-navmenu-cart
+              i.fonticon-ui-cart
               | Store
           li.navmenu-line.navmenu-li-location
             a.tl(href='#')
-              i.icon-ui-navmenu-gps
+              i.fonticon-ui-location
               | Find a Store
             span.navmenu-li-ext-text  - London
           li.navmenu-line.navmenu-li-support
             a.tl(href='#')
-              i.icon-ui-navmenu-support
+              i.fonticon-ui-support
               | Support
           li.navmenu-line.navmenu-li-favorites
             a.tl(href='#')
-              i.icon-ui-navmenu-favorite
+              i.fonticon-ui-favorite
               | Favorites
               span.nav-li-count 2
 
@@ -153,7 +153,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                     img(src='img/global/global-nav/tray-car.png', alt='Car & Marine')
                   span.nav-label Car & Marine
             a.btn.btn-icon-ui-left.btn-nav-view-all(href='#')
-              i.icon-ui-grid
+              i.fonticon-ui-grid-3x3
               span.linkBtn-label View All Electronics
 
           .navtray-section.navtray-section-featured
@@ -214,75 +214,77 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
           a.brand.hidden-text.sprite-reg-nav-sony-logo(href='#') SONY make.believe
           ul.nav.nav-primary
             li.nav-li.nav-li-store
-              a.nav-li-link(href='#') Store
+              a.nav-li-link(href='#') 
+                span.lbl Store
+                span.global-nav-indicator-bar
             li.nav-li.nav-li-electronics
               a.nav-li-link.nav-dropdown-toggle(data-target='navtray-w-electronics', href='#')
-                | Electronics
+                span.lbl Electronics
                 i.icon-ui-arrowhead-down-gray
-              span.global-nav-indicator-bar
+                span.global-nav-indicator-bar
             li.nav-li.nav-li-entertainment
               a.nav-li-link.nav-dropdown-toggle(data-target='navtray-w-entertainment', href='#')
-                | Entertainment
+                span.lbl Entertainment
                 i.icon-ui-arrowhead-down-gray
-              span.global-nav-indicator-bar.for-navtray-short
+                span.global-nav-indicator-bar.for-navtray-short
             li.nav-li.nav-li-support
-              a.nav-li-link(href='#') Support
+              a.nav-li-link(href='#')
+                span.lbl Support
+                span.global-nav-indicator-bar
 
           ul.nav.nav-utility
             li.nav-li.nav-li-account
-              a.nav-li-link.nav-dropdown-toggle(data-target='navmenu-w-account', href='#')
-                | Account
+              a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#')
+                span.lbl Account
                 i.icon-ui-arrowhead-down-gray
               .navmenu-w.navmenu-w-account.logged-in
                 i.sprite-mini-global-nav-indicator
                 a.btn.btn-login(href='#') Log in
                 ul.navmenu-list.navmenu-list-prefixed
-                  li.navmenu-line.navmenu-li-cart.iconTrigger-ui-navmenu-cart
+                  li.navmenu-line.navmenu-li-cart
                     a.tl(href='#')
-                      i.icon-ui-navmenu-cart
+                      i.fonticon-ui-cart
                       | Cart
                       span.nav-li-count 2
-                  li.navmenu-line.navmenu-li-favorites.iconTrigger-ui-navmenu-favorite
+                  li.navmenu-line.navmenu-li-favorites
                     a.tl(href='#')
-                      i.icon-ui-navmenu-favorite
+                      i.fonticon-ui-favorite
                       | Favorites
                 ul.navmenu-list.navmenu-list-main
                   li.navmenu-line.navmenu-li-welcome.visible-phone Hi Robert
-                  li.navmenu-line.navmenu-li-account.iconTrigger-ui-navmenu-account
+                  li.navmenu-line.navmenu-li-account
                     a.tl(href='#')
-                      i.icon-ui-navmenu-account
+                      i.fonticon-ui-account
                       | Account Info
-                  li.navmenu-line.navmenu-li-orders.iconTrigger-ui-navmenu-orders
+                  li.navmenu-line.navmenu-li-orders
                     a.tl(href='#')
-                      i.icon-ui-navmenu-orders
+                      i.fonticon-ui-orders
                       | Orders
-                  li.navmenu-line.navmenu-li-newsletter.iconTrigger-ui-navmenu-newsletter
+                  li.navmenu-line.navmenu-li-newsletter
                     a.tl(href='#')
-                      i.icon-ui-navmenu-newsletter
+                      i.fonticon-ui-newsletter
                       | Newsletter Subscriptions
-                  li.navmenu-line.navmenu-li-registered-products.iconTrigger-ui-navmenu-reg-prod
+                  li.navmenu-line.navmenu-li-registered-products
                     a.tl(href='#')
-                      i.icon-ui-navmenu-reg-prod
+                      i.fonticon-ui-registered
                       | Registered Products
                 a.btn.btn-logout(href='#') Sign Out
 
 
             li.nav-li.nav-li-favorites
-              a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini.iconTrigger-ui-favorite(href='#')
-                i.icon-ui-favorite
-                span.nav-li-count 2
+              a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href='#')
+                i.fonticon-ui-favorite
                 span.visuallyhidden Favorites
             li.nav-li.nav-li-cart
-              a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini.iconTrigger-ui-cart(href='#')
-                i.icon-ui-cart
+              a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href='#')
+                i.fonticon-ui-cart
                 span.nav-li-count 2
             li.nav-li.nav-li-search
-              a.nav-li-link.nav-li-linkBtn.iconTrigger-ui-search.nav-dropdown-toggle.nav-dropdown-toggle-btn(data-target='navmenu-w-search', href='#')
-                i.fonticon-ui-reg-search
+              a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle.fonticon-ui-search.x.nav-dropdown-toggle-btn(data-target='navmenu-w-search', href='#')
                 span.linkBtn-label Search
             li.nav-li.nav-li-universal.iconTrigger-ui-universal
               a.nav-li-link.nav-li-linkBtn.iconTrigger-ui-plus-tiny-boxed(href='#')
-                i.icon-ui-plus-tiny-boxed
                 span.linkBtn-label Sony Sites
+                i.icon-ui-plus-tiny-boxed
 
 

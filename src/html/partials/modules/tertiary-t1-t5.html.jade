@@ -1,173 +1,121 @@
-// START Tertiary Content Container
-section.tcc-wrapper.container.full-bleed-no-max(data-tcc-mode="#{data.mode}")
+- tccSectionID = "tcc-" + data.moduleMode
 
-	for header in data.header
-		// HEADER	
-		header.tcc-header-wrapper.container
-			.tcc-header.grid
-				p.tcc-header-title.l1 #{header.title}
+//- START Tertiary Content Container
+section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, data-tcc-mode="#{data.moduleMode}")
 
-				p.tcc-header-link
-					a.tl(href="#{header.link}") #{header.linkText}
-	
-	section.tcc-scroller.tcc-body-wrapper.container
-		.tcc-body.grid
-	
-			for module in data.contentModules
-				.tcc-content-module.span4(class=module.type)(data-tcc-module-type="#{module.type}", data-tcc-module-mode="#{module.mode}")	
+  for header in data.header
+    .tcc-header-wrapper.container
+      .tcc-header.grid.m-full-bleed
+        p.tcc-header-title.l1 #{header.title}
 
-					if module.type == "article"
-					
-							if module.mode == "default"
-								//- ARTICLE:DEFAULT
+        p.tcc-header-link
+          a.tl(href="#{header.link}") #{header.linkText}
+  
+  section.tcc-scroller.tcc-body-wrapper.container
+    .tcc-body.grid.no-grid-at-767
+    
+      for module in data.contentModules
+        for variation in module.variations
+          - textStyle   = variation.style
+          - alignment   = variation.alignment
+          - contentType = variation.contentType
+          - contentMode = variation.contentMode
 
-								//- image (optional)
-								img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
-								
-								noscript
-									img(src="#{module.noscriptImg}")
+        .tcc-content-module.span4(class=contentType)(class=textStyle)(class=alignment)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
 
-								.tcc-copy
+          if contentType == "article"
+                    
+            if contentMode == "default"
+              //- ARTICLE:DEFAULT
 
-									//- title (required)
-									p.l1 #{module.title}
+              if(module.imgSrc)
+                //- image (optional)
+                img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                
+                noscript
+                  img(src="#{module.noScriptImg}")
 
-									//- body copy (optional)
-									p.p3 #{module.bodyCopy}
-										a.tl(href="#{module.articleLink}")
-											| Read More
+              .tcc-copy
+                
+                if(module.title)
+                  //- title (required)
+                  p.l1 #{module.title}
 
-							if module.mode == "featured"
-								p featured
+                //- body copy (optional)
+                if(module.bodyCopy)
+                  p.p3 #{module.bodyCopy}
+                
+                    if(module.articleLink)
+                      a.tl(href="#{module.articleLink}")
+                    
+                        | &nbsp; Read More
 
-							if module.mode == "news"
-								p news
+            if contentMode == "featured"
+              p featured
 
-							if module.mode == "event"
-								p event
+            if contentMode == "news"
+              p news
 
-					if module.type == "users-voice"
-		
-						li users-voice
+            if contentMode == "event"
+              p event
 
-							if module.mode == "expert-quote"
-								p expert-quote
+          if contentType == "users-voice" 
 
-							if module.mode == "user-quote"
-								p user-quote
+            if contentMode == "expert-quote"
+              p expert-quote
 
-							if module.mode == "question"
-								p question
+            if contentMode == "user-quote"
+              p user-quote
 
+            if contentMode == "question"
+              p question
 
-					if module.type == "sonys-voice"
-							if module.mode == "twitter"
-								//- SONYS-VOICE:TWITTER
-								
-								//- icon (required)
-								img(src="img/icon_twitter.png")
+          if contentType == "sonys-voice"
+              if contentMode == "twitter"
+                //- SONYS-VOICE:TWITTER
+                
+                //- icon (required)
+                img(src="img/icon_twitter.png")
 
-								.meta
-									for meta in module.meta
-										//- user (required)
-										p.l3 #{meta.user} 
+                .meta
+                  for meta in module.meta
+                    
+                    if(meta.user)
+                      //- user (required)
+                      p.l3 #{meta.user} 
 
-										//- timestamp (required)
-										p.l4 #{meta.timestamp}
-												
-								//- quote (required)
-								blockquote.bq2
-									p #{module.quote}
-										a.tl(href="#{module.quoteLink}") #{module.quoteLink}
+                    if(meta.timestamp)
+                      //- timestamp (required)
+                      p.l4 #{meta.timestamp}
+                
+                if(module.quote)        
+  
+                  //- quote (required)
+                  blockquote.bq2
+  
+                    p #{module.quote}
 
-								//- social link (required)
-								p
-								  a.btn(href="#{module.socialLink}")
-								  	| Follow us on Twitter
+                      if(module.quoteLink)
+                        a.tl(href="#{module.quoteLink}") #{module.quoteLink}
 
-							if module.mode == "facebook"
-								p facebook
+                  if(module.socialLink)
+    
+                    //- social link (required)
+                    p
+                      a.btn(href="#{module.socialLink}")
+    
+                        | Follow us on Twitter
 
-							if module.mode == "instagram"
-								p instagram
+              if contentMode == "facebook"
+                p facebook
 
-					if module.type == "flickr"
-						li flickr
+              if contentMode == "instagram"
+                p instagram
 
-							if module.mode == "default"
-								p default
+          if contentType == "flickr"
+            li flickr
 
-// END Tertiary Content Container
+              if contentMode == "default"
+                p default
 
-
-//- SUBMODULES RENDER
-//- for module in data.submodules
-//- 	d = locals.data(module.data)
-//- 	e = {"locals":locals, "data":d}
-//- 	!{locals.partial('modules/'+module.template , e )}
-
-
-
-//- ARTICLE: DEFAULT
-//- .tcc-content-module.article-default.span4(data-tcc-module-type="article", data-tcc-module-mode="default")
-
-//- 	//- image (optional)
-//- 	img.iq-img(alt="article default image", data-src="img/tertiary-t1-t5/article-default.png")
-
-//- 	noscript
-//- 		img(src="img/tertiary-t1-t5/article-default-desktop.png")
-
-//- 	.tcc-copy
-//- 		//- title (required)
-//- 		p.l1
-//- 			| Sony Unveils its first hybrid Ultrabook™
-
-//- 		//- body copy (optional)
-//- 		p.p3
-//- 			| Sony has released its first mobile Tabletop PC for the U.S. market — the VAIO® Duo 11 Ultrabook™. 
-//- 			a.tl(href="#")
-//- 				| Read More
-
-//- ARTICLE: DEFAULT
-//- .tcc-content-module.article-default.span4(data-tcc-module-type="article", data-tcc-module-mode="default")
-
-//- 	//- image (optional)
-//- 	img.iq-img(alt="article default image", data-src="img/tertiary-t1-t5/article-default-two.png")
-
-//- 	noscript
-//- 		img(src="img/tertiary-t1-t5/article-default-two-desktop.png")
-
-//- 	.tcc-copy
-//- 		p.l1
-//- 			| Introducing Sony Reader App for iOS
-
-//- 		p.p3
-//- 			| The Sony Reader™ Store has launched Reader for iOS, a free application that brings its ebook software to both...
-//- 			a.tl(href="#")
-//- 				| Read More
-
-//- SONYS VOICE: TWITTER
-//- .tcc-content-module.sonys-voice.span4(data-tcc-module-type="sonys-voice", data-tcc-module-mode="twitter")
-
-//- 	//- icon (required)
-//- 	img(src="img/icon_twitter.png")
-//- 	.meta
-//- 		p.l3
-//- 			//- user (required)
-//- 			| SonyElectronics  
-
-//- 		p.l4
-//- 			//- timestamp (required)
-//- 			|  3 hours ago 
-				
-//- 	//- quote (required)
-//- 	blockquote.bq2
-//- 		p
-//- 			| Three of our cameras made @engadget’s gift guide. See which ones: 
-//- 			a.tl(href="ow.ly/ftFuu")
-//- 				| ow.ly/ftFuu
-
-//- 	//- social link (required)
-//- 	p
-//- 	  a.btn(href="#")
-//- 	  	| Follow us on Twitter
+//- END Tertiary Content Container

@@ -19,7 +19,23 @@ $default-transition-delay    : 0s;
 
 // convert px to em, with regard to its context. Most context will be 16px.
 @function px-em($target, $context:16){
-  @return (strip-units($target)/strip-units($context)) + 0em;
+  @return (strip-units($target) / strip-units($context)) + 0em;
+}
+
+// this will reverse the context, mainly for fonticons, but maybe for something else as well.
+// Using it, will return the em size needed to reset the font back to 1em aka 16px.
+@function px-em-reverse-size($target, $context:16){
+  @return (strip-units($context) / strip-units($target)) + 0em;
+}
+@mixin fonticon-text-px-to-em($target, $context:16) {
+	font-size: px-em($target, $context); // the size of the text
+
+	&[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on the text container:
+	&[class*="fonticon-ui-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
+	[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on a i or span insode of the text container:
+	[class*="fonticon-ui-"][class*="--after"]:after { // the size of the icon if the fonticon class is on a i or span insode of the text container:
+		font-size: px-em-reverse-size($target, $context:16);
+	}
 }
 
 
@@ -71,6 +87,11 @@ $default-transition-delay    : 0s;
 	&:after {
 		clear: both;
 	}
+}
+
+// allows you to add clearfix on an element instead.
+.clearfix {
+  @include clearfix;
 }
 
 // Webkit-style focus
@@ -1130,32 +1151,61 @@ $default-transition-delay    : 0s;
 
 	$gridName: "grid" !default;
 	@if ($whichGrid == "slim"){ $gridName: "slimgrid"; }
-	@else if ($whichGrid == "slim5"){ $gridName: "grid5, .slimgrid5"; }
+	@else if ($whichGrid == "slim5"){ $gridName: "slimgrid5"; }
 
-	#{$mobileGridClass}.#{$gridName} {
-		@include clearfix();
+    @if ($whichGrid == "m"){
+        #{$mobileGridClass}.grid,
+        #{$mobileGridClass}.slimgrid,
+        #{$mobileGridClass}.slimgrid5 {
+            @include clearfix();
 
-		[class*=#{$spanName}] {
-			// @include input-block-level();
-            display: block;
-            width: auto;
-			float: left;
-			margin-left: $fluidGridGutterWidth;
-			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
+            [class*=#{$spanName}] {
+                // @include input-block-level();
+                display: block;
+                width: auto;
+                float: left;
+                margin-left: $fluidGridGutterWidth;
+                *margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
 
-			&:first-child{
-				margin-left: 0;
-			}
-			@if ($whichGrid == "m"){
-				&.m-span-new-row{
-					margin-left: 0;
-				}
-			}
-		}
-		// generate .spanX and .offsetX
-		@include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
-		@include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
-	}
+                &:first-child{
+                    margin-left: 0;
+                }
+                @if ($whichGrid == "m"){
+                    &.m-span-new-row{
+                        margin-left: 0;
+                    }
+                }
+            }
+            // generate .spanX and .offsetX
+            @include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
+            @include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
+        }
+    } @else {
+    	.#{$gridName} {
+    		@include clearfix();
+
+    		[class*=#{$spanName}] {
+    			// @include input-block-level();
+          display: block;
+          width: auto;
+    			float: left;
+    			margin-left: $fluidGridGutterWidth;
+    			*margin-left: $fluidGridGutterWidth - (.5 / $gridWidth * 100px * 1%);
+
+    			&:first-child{
+    				margin-left: 0;
+    			}
+    			@if ($whichGrid == "m"){
+    				&.m-span-new-row{
+    					margin-left: 0;
+    				}
+    			}
+    		}
+    		// generate .spanX and .offsetX
+    		@include grid-fluid-span-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
+    		@include grid-fluid-offset-x($numColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid);
+    	}
+    }
 }
 
 @mixin grid-fluid-span-x($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth, $whichGrid) {
@@ -1274,7 +1324,7 @@ $default-transition-delay    : 0s;
   }
 }
 
-@mixin no-grid ($overrideClass:""){
+@mixin no-grid( $overrideClass: "" ) {
 
   // Make all grid-sized elements block level again
   #{$overrideClass}.grid [class*="span"],
@@ -1283,6 +1333,9 @@ $default-transition-delay    : 0s;
   #{$overrideClass}.grid [class*="offset"]:first-child,
 
   #{$overrideClass}.slimgrid [class*="span"],
+  #{$overrideClass}.slimgrid [class*="offset"],
+  #{$overrideClass}.slimgrid5 [class*="span"],
+  #{$overrideClass}.slimgrid5 [class*="offset"],
 
   #{$overrideClass}.grid [class*="m-span"],
   #{$overrideClass}.grid [class*="m-offset"],
@@ -1294,15 +1347,6 @@ $default-transition-delay    : 0s;
 
   // #{$overrideClass}.grid-px-width [class*="span"],
   // #{$overrideClass}.grid-px-width [class*="offset"]
-  //
-  // [class*="span"],
-  // .grid [class*="span"],
-  // [class*="offset"],
-  // .grid [class*="offset"],
-  // [class*="span"]:first-child,
-  // .grid [class*="span"]:first-child,
-  // [class*="offset"]:first-child,
-  // .grid [class*="offset"]:first-child
   {
     float: none;
     display: block;

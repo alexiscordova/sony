@@ -1,0 +1,19 @@
+---
+title: Tertiary Module
+description: This is the Tertiary Content Container (Module). It's available for the Homepage, PDP pages, and Category Pages. Each content container has different modes and compatible modules.
+---
+
+doctype 5
+
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+  e = {"locals":locals, "data":data('tertiary-t1-t5/homepage-it.json')}
+  !{partial('modules/tertiary-t1-t5.html.jade', e)}
+
+  !{partial('includes/foot.html.jade', l)}

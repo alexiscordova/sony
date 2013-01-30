@@ -1,0 +1,34 @@
+---
+title: Editorial Module Layouts
+description: This shows several layout possibilities for the editorial module.
+---
+include ../partials/includes/jade-helpers.jade
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals": locals}
+  head
+    !{partial('includes/head.html.jade', l)}
+  
+  body 
+    
+    light text:
+    +partial('editorial-e1-e15.html.jade', 'editorial-e1-e15/full-inner-right-75-L-L-photo1.json')
+    hr
+    
+    dark text:
+    +partial('editorial-e1-e15.html.jade', 'editorial-e1-e15/full-inner-right-75-D-L-photo1.json')
+    hr
+    
+    light text dark box:
+    +partial('editorial-e1-e15.html.jade', 'editorial-e1-e15/full-inner-right-75-LD-L-photo1.json')
+    hr
+    
+    dark text light box:
+    +partial('editorial-e1-e15.html.jade',  'editorial-e1-e15/full-inner-right-75-DL-L-photo1.json')
+    hr
+    
+  
+    !{partial('includes/foot.html.jade', l)}
+
+</html>
