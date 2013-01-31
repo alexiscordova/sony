@@ -171,45 +171,28 @@
         self.yProp = 'top';
       }
 
-      self.$win.on( 'resize.soc', function() {  
+      self.$win.on( 'resize.soc', function() {
         if( resizeTimer ) {
-          clearTimeout( resizeTimer );          
+          clearTimeout( resizeTimer );
         }
-        resizeTimer = setTimeout( function() { 
+        resizeTimer = setTimeout( function() {
           self.checkForBreakPoint();
           self.update();
           self.updateSlides();
           //do other stuff on window resize
-        }, self.throttleTime );          
+        }, self.throttleTime );
       });
 
       self.tapOrClick = function(){
-        return self.hasTouch ? 'touchend' : 'click'; 
+        return self.hasTouch ? 'touchend' : 'click';
       };
 
-      self.ev.on( 'socOnUpdateNav', function() {
-        var id = self.currentId,
-        currItem,
-        prevItem;
-
-        if(self.prevNavItem) {
-          self.prevNavItem.removeClass('soc-nav-selected');
-        }
-        currItem = $(self.controlNavItems[id]);
-
-        currItem.addClass('soc-nav-selected');
-        self.prevNavItem = currItem;
-        
-      } );
-
-      self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });
-
-
+      if(self.numSlides > 1){
+        self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });
+      }
+  
       self.createNavigation();
-
       self.$win.trigger( 'resize.soc' );
-
-      //self.checkForBreakPoint();
     };
 
     SonyOneCarousel.prototype = {
@@ -570,14 +553,16 @@
 
       update: function(){
         var self = this,
-        cw       = self.currentContainerWidth = self.$gridW.width(),
-        newH     = self.resizeRatio * cw + 'px',
+        cw       = self.currentContainerWidth = self.$el.find( '.soc-grid' ).eq(0).width(),
+        newH     = self.resizeRatio * cw +  'px',
         $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
+
+        console.log('Resize Ratio »', self.resizeRatio);
 
         if(self.isDesktopMode || self.isTabletMode){
           self.$container.css( 'height' , newH );
           $currSlides.css( 'height' ,  newH );
-        }else{ 
+        }else{
           newH = $('.soc-item').eq(0).height();
           self.$container.css( 'height' ,  newH  + 'px' );
         }
@@ -637,7 +622,8 @@
       checkForBreakPoint: function(){
         var self = this,
         wW = self.$win.width(),
-        view = wW > 769 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile';
+        view = wW > 769 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile',
+        lastView = self.currentMode;
 
         switch(view){
           case 'desktop':
@@ -646,9 +632,9 @@
             self.isMobileMode = self.isTabletMode = false;
             self.isDesktopMode = true;
             self.currentMode = view;
-
-            self.resizeRatio = 0.4120689655;
-            self.createDesktopSlides();
+                                                                                                                                                                                                                                
+            self.resizeRatio = 0.423345746645;
+            self.createDesktopSlides(lastView);
             self.shuffleClasses();
 
           break;
@@ -661,7 +647,7 @@
             self.currentMode = view;
 
             self.resizeRatio = 0.64615384615385;
-            self.createTableSlides();
+            self.createTableSlides(lastView);
             self.shuffleClasses();
 
           break;
@@ -674,7 +660,7 @@
             self.currentMode = view;
 
             self.resizeRatio = 1.33574007220217;
-            self.createMobileSlides();
+            self.createMobileSlides(lastView);
             self.shuffleClasses();
           
           break;
@@ -683,8 +669,24 @@
         //do other stuff here
       },
 
-      createDesktopSlides: function(){
-        var self = this;
+      createDesktopSlides: function(lastView){
+        var self = this,
+            $lastItem = null;
+
+        switch(lastView){
+          case 'desktop':
+            $lastItem = self.$desktopSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'tablet':
+            $lastItem = self.$tabletSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'mobile':
+            $lastItem = self.$mobileSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+        }
 
         // 1. grab all of the gallery items
         self.$galleryItems = $('.soc-item').detach();
@@ -721,14 +723,30 @@
         self.numSlides = self.$desktopSlides.length;
 
         self.createNavigation();
-
+        self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
 
         //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
 
-      createTableSlides: function(){
-        var self = this;
+      createTableSlides: function(lastView){
+        var self = this,
+            $lastItem = null;
+
+        switch(lastView){
+          case 'desktop':
+            $lastItem = self.$desktopSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'tablet':
+            $lastItem = self.$tabletSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'mobile':
+            $lastItem = self.$mobileSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+        }
 
         // 1. grab all of the gallery items
         self.$galleryItems = $('.soc-item').detach();
@@ -784,13 +802,31 @@
 
         self.createNavigation();
 
+        self.currentId = self.getCurrentSlideByItemId($lastItem);
+
         self.$win.trigger('resize.soc');
 
         //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
       
-      createMobileSlides: function(){
-        var self = this;
+      createMobileSlides: function(lastView){
+        var self = this,
+            $lastItem = null;
+
+        switch(lastView){
+          case 'desktop':
+            $lastItem = self.$desktopSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'tablet':
+            $lastItem = self.$tabletSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+          case 'mobile':
+            $lastItem = self.$mobileSlides.eq(self.currentId).find('.soc-item').first();
+          break;
+
+        }
 
         // 1. grab the gallery items
         self.$galleryItems = $('.soc-item').detach();
@@ -816,7 +852,7 @@
         self.numSlides = self.$mobileSlides.length;
 
         self.createNavigation();
-
+        self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
 
         //console.log("Modile Slides are now cached up »" , self.numSlides);
@@ -833,6 +869,10 @@
 
         //reset current slide id
         self.currentId = 0;
+
+        if(self.numSlides < 2){
+          return;
+        }
 
         //self.controlNavEnabled = true;
         //self.$container.addClass('ssWithBullets');
@@ -854,8 +894,32 @@
           }
         } );
 
+        self.ev.on( 'socOnUpdateNav', function() {
+          var id = self.currentId,
+          currItem,
+          prevItem;
+
+          if(self.prevNavItem) {
+            self.prevNavItem.removeClass('soc-nav-selected');
+          }
+          currItem = $(self.controlNavItems[id]);
+
+          currItem.addClass('soc-nav-selected');
+          self.prevNavItem = currItem;
+          
+        } );
+
         self.ev.trigger( 'socOnUpdateNav' );
 
+      },
+
+      getCurrentSlideByItemId: function($socItem){
+        var self = this,
+            $slide = null;
+
+        $slide = $socItem.closest('.soc-content');
+        console.log('Slide Index »' , $slide.index());
+        return $slide.index();
       },
 
       updateSlides: function(){
@@ -890,7 +954,7 @@
             
             if(i > 0){
               cw += gutterWidth;
-              console.log('New Gutter for slide »',self.$gridW.width() , gutterWidth);
+              //console.log('New Gutter for slide »',self.$gridW.width() , gutterWidth);
             }
 
             $(this).css({
@@ -906,15 +970,11 @@
             });
           });
 
-          //console.log("updating slides in tbalet mode »");
-
         }
 
         if(self.isMobileMode === true){
-          //console.log("Starting - Placing items for mobile mode »");
           cw = self.currentContainerWidth = $('.soc-item').eq(0).width();
           self.$mobileSlides.each(function(i){
-            //$(this).css( { 'left': (i * 286) + (i === 0 ? 10 : 0) + 'px', 'z-index' : i } );
             $(this).css( {
               'left': i * (cw + mobileGutter) + 'px',
               'height' : 370  + 'px', //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
@@ -926,23 +986,14 @@
             $(this).find('.soc-item').css({
               'position': 'absolute',
               'top' : '0',
-              //  'left' : ($('.soc-content').eq(0).width() - $('.soc-item').eq(0).width()) - delta + 'px',
               'left' : '0'
             });
           });
-
-          //console.log("Finished - Placing items for mobile mode »" , $('.soc-item').eq(0).height());
         }
-
 
         //make sure it updates position based on current slide index
         self.moveTo(true);
 
-       //set containers over all position based on current slide
-        /*        animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed * 0.25 + 'ms';
-        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing[ 'easeInOutSine' ];
-        animObj[ self.xProp ] = self.tPref1 + ( ( -self.currentId * cw ) + self.tPref2 + 0 ) + self.tPref3;
-        self.$containerInner.css( animObj );*/
       },
 
       gotoSlide: function(slideIndx){
@@ -992,8 +1043,7 @@
 
     //defaults for the related products
     $.fn.sonyOneCarousel.defaults = {
-      throttleTime: 10,
-      slideSpacing: 100 //space in between slides
+      throttleTime: 1
     };
 
     $.fn.sonyOneCarousel.settings = {
