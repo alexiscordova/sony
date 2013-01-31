@@ -37,6 +37,7 @@ small {
 .t1, .t2, .t3, .t4, .t5, .t6, .t7,
 h1, h2, h3, h4, h5, h6{
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
+  color: $defaultTextColor;
 }
 
 .t1, .t2, .t5, .t6, .t7,
@@ -90,6 +91,7 @@ h1, h3, h4{
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
   letter-spacing: px-em(1px); 
   text-transform: uppercase;
+  color: $defaultTextColor;
 }
 .l2, .l3, .l4 {
   @include fontRegular; 
@@ -98,6 +100,7 @@ h1, h3, h4{
 .l1{
   @include fontBold;
 }
+
 .l1{
   @include px-em--font-size--line-height(22,30);
   margin-bottom: 18px;
@@ -124,8 +127,11 @@ h1, h3, h4{
 p, .p1, .p2, .p3, .p4, .p5, 
 .lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt {
   @include fontRegular;
-  @include em-strong(Regular);  
+  @include em-strong(Regular);
 }
+p, .p1, .p2, .p3, .p4, .p5{ color: $defaultParagraphColor; }
+.lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt { color: $defaultTextColor; }
+
 .p1, .lt1 {
   @include px-em--font-size--line-height(18,26);
 }
@@ -153,14 +159,14 @@ p, .p1, .p2, .p3, .p4, .p5,
 .lt3, .lt4, .lt5 { margin-bottom: 4px; }
 
 .lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt{
-  &:not(.colorful):not(.text-light){
+  &.text-dark{
     a {
-      color:$defaultTextColor;
+      color:$text-dark;
       &:hover,
       &:active,
       &:focus,
       &.active{
-        color:$gray10;
+        color:$defaultTextColor;
       }
     }
   }
@@ -187,6 +193,7 @@ p, .p1, .p2, .p3, .p4, .p5,
 blockquote p{
   @include fontLightItalic;  
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
+  color: $defaultTextColor;
 
   &:first-child:before {
     content: "\201c";
@@ -245,6 +252,7 @@ blockquote p{
 .bt1, .bt2, .bt3, .bt4 {
   @include fontRegular;
   strong { @include fontMedium; }
+  color: $defaultTextColor;
 }
 .bt1{
   @include px-em--font-size--line-height(15,22);
