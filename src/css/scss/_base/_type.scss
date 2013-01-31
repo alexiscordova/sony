@@ -34,22 +34,32 @@ small {
 // TITLES (headers)
 // --------------------------------------
 
-.t1, .t2, .t3, .t4, .t5, .t6, .t7,
-h1, h2, h3, h4, h5, h6{
+.t1, .t2, .t3, .t4, .t5, .t6, .t7, h1, h2, h3, h4, h5, h6{
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
   color: $defaultTextColor;
 }
 
-.t1, .t2, .t5, .t6, .t7,
-h1, h2, h5, h6 {
+.t1, .t2, .t5, h1, h2, h5 {
   @include fontRegular; 
   @include em-strong(Regular); 
 }
-.t3, .t4,
-h3, h4{
+.t3, .t4, h3, h4{
   @include fontLight;
   @include em-strong(Light);
 }
+.t6, .t7, h6{
+  @include fontMedium; 
+  @include em-strong(Medium);   
+}
+
+.t1-light, .t2-light, .t5-light {
+  @include fontLight;
+}
+.t6-light, .t7-light{
+  @include fontRegular; 
+  @include em-strong(Regular); 
+}
+
 .t1, .t3, .t4,
 h1, h3, h4{
   letter-spacing: -0.01em;
