@@ -1652,10 +1652,10 @@
 
           self.$grid.children(itemSelector)
             .removeClass(allSpans) // Remove current grid span
-            .filter(large + ',' + promo) // Select large and promo tiles
+            .filter(promo) // Select promo tiles
               .addClass(span+6) // Make them half width
               .end() // Go back to all items
-            .filter(normal) // Select tiles not large nor promo
+            .filter(large + ',' + normal) // Select tiles not promo
               .addClass(span+3); // Make them quarter width
         }
 

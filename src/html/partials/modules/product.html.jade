@@ -1,5 +1,27 @@
 include ../includes/jade-helpers.jade
 
+mixin colorSwatches( colors )
+  if colors.length > 1
+    .color-swatches.clearfix
+      each color in colors
+        theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
+        span(class=theClass, data-color=color.color, itemprop="color")= color.color
+
+mixin iQColorImages( colors )
+  if colors.length > 1
+    each img in colors
+      //- mixin iQImage( img, 'hidden', 'image' )
+      img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+      noscript
+        img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
+
+mixin heart
+  .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
+    favClass = 'icon-ui-favorite'
+    - if ( data.isFavorited ) favClass += ' active'
+    i(class=favClass)
+
+
 if data.view == "basic"
   klass = '';
   if data.layout == 'large' || data.layout == 'carousel'
@@ -69,29 +91,16 @@ if data.view == "basic"
               else
                 mixin iQImage( data.imgSmall )
 
-              if data.imgSmall.colors
-                each img in data.imgSmall.colors
-                  //- mixin iQImage( img, 'hidden', 'image' )
-                  img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
-                  noscript
-                    img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
+              if data.img && data.img.colors
+                mixin iQColorImages( data.img.colors )
 
           if data.img && data.img.colors
-            .color-swatches.clearfix
-              each color in data.img.colors
-                theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
-                span(class=theClass, data-color=color.color, itemprop="color")= color.color
+            mixin colorSwatches( data.img.colors )
 
-          else if data.imgSmall && data.imgSmall.colors
-            .color-swatches.clearfix
-              each color in data.img.colors
-                theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
-                span(class=theClass, data-color=color.color, itemprop="color")= color.color
+          //- else if data.imgSmall && data.imgSmall.colors
+          //-   mixin colorSwatches( data.img.colors )
 
-          .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
-            favClass = 'icon-ui-favorite'
-            - if ( data.isFavorited ) favClass += ' active'
-            i(class=favClass)
+          mixin heart()
 
         .product-content
           .product-name-wrap
@@ -112,20 +121,12 @@ else if data.view == 'detailed'
         .product-img-wrap.ghost-center-wrap.js-product-imgs
           .ghost-center
             mixin iQImage( data.img, 'js-product-img-main', 'image' )
-            each img in data.img.colors
-              img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
-              noscript
-                img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
-        if data.img.colors
-          .color-swatches.clearfix
-            each color in data.img.colors
-              colorClass = 'mini-swatch swatch-' + color.color + ' pull-left'
-              span(class=colorClass, data-color=color.color, itemprop="color")= color.color
+            mixin iQColorImages( data.img.colors )
 
-          .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
-            favClass = 'icon-ui-favorite'
-            - if ( data.isFavorited ) favClass += ' active'
-            i(class=favClass)
+        if data.img.colors
+          mixin colorSwatches( data.img.colors )
+
+        mixin heart()
 
       .product-content
         .product-name-wrap
