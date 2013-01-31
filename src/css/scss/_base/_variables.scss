@@ -112,6 +112,8 @@
   $secondaryAqua:     rgb(69,175,201);
   $secondaryEggplant: rgb(151,91,119);
   $secondaryLavender: rgb(110,93,145);
+  $secondarySlate:    rgb(88,135,171);
+  $secondarySlateDark:rgb(68,80,110);
 
 
   // 3rd Party Brand Colors
@@ -128,7 +130,7 @@
 
   // MISC Colors
   // --------------------------------------------------
-  // mostly just used for product color swatches - these are not final!
+  // mostly just used for product color swatches - these are NOT final!
   $orange:      rgb(237,78,35) !default;
   $red:         rgb(248,83,84) !default;
   $yellow:      rgb(232,196,70) !default;
@@ -154,11 +156,16 @@
 
   // Scaffolding
   // --------------------------------------------------
-  $bodyBackground:     $white !default;
-  $textColor:          $gray !default;
-  $textColorLight:     $grayLight !default;
-  $textColorLightest:  $grayLight !default;
-  $textColorDark:      $grayDark !default;
+  $bodyBackground:     $white;
+
+  // Standard Text Colors
+  $text-dark:             $gray20;
+  $text-med-dark:         $gray40;
+  $text-med-light:        $gray50;
+  $text-light:            $white;
+
+  $defaultTextColor:      $text-dark;
+  $defaultParagraphColor: $text-med-dark;
 
 
 
@@ -219,7 +226,7 @@
 
   $headingsFontFamily:        $sansFontFamily !default;
   $headingsFontFamilyItalic:  $sansFontFamilyItalic !default;
-  $headingsColor:             $grayDark !default; // empty to use BS default, $textColor
+  $headingsColor:             $grayDark !default; // empty to use BS default, $defaultTextColor
 
 
   // use these font-size variables instead of doing the math yourself every time!
@@ -228,6 +235,7 @@
   $font_54_16:  3.375em;  // 54px/16px
   $font_44_16:  2.75em;   // 44px/16px
   $font_40_16:  2.5em;    // 40px/16px
+  $font_37_16:  2.3125em; // 37px/16px
   $font_32_16:  2.0em;    // 32px/16px
   $font_30_16:  1.875em;  // 32px/16px
   $font_28_16:  1.75em;   // 28px/16px

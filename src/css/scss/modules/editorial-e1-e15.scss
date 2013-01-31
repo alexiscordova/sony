@@ -2,47 +2,8 @@
   @import "../_base/mixins";
 
 .editorial{
+  @include dttb;
   
-  //dark text
-  .dark-text-light-box,
-  .dark-text-trans-box{ 
-    h2, h3, h4, h5{
-      color:$gray20;
-    }
-    p{
-      color:$gray40;
-    }
-  }
-  //light text
-  .light-text-dark-box,
-  .light-text-trans-box{
-    h2, h3, h4, h5{
-      color:$white;
-    }
-    p{
-      color:$gray50;
-    }
-  }  
-  // trans box
-  .dark-text-trans-box,
-  .light-text-trans-box{
-    .box{
-    }
-  }
-  //dark box
-  .light-text-dark-box{
-   .box{
-      background:$titleBlack;
-    }
-  }
-  
-  //light box
-  .dark-text-light-box{
-   .box{
-      background:$titleWhite;
-    }
-  }
-
   h4{
     margin-bottom:6px;
   }
