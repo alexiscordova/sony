@@ -232,23 +232,27 @@ $default-transition-delay    : 0s;
 
 	@mixin em-strong($font: Regular){
 
-		@if ($font == Regular){
-			em { @include fontItalic; }
-			strong { @include fontMedium; }
-			em strong, strong em { @include fontMediumItalic; }
-		} @else if ($font == Light) {
+		@if ($font == Light){
 			em { @include fontLightItalic; }
 			strong { @include fontRegular; }
 			em strong, strong em { @include fontItalic; }
+		} @else if ($font == Regular) {
+			em { @include fontItalic; }
+			strong { @include fontMedium; }
+			em strong, strong em { @include fontMediumItalic; }
+		} @else if ($font == Medium) {
+			em { @include fontMediumItalic; }
+			strong { @include fontBold; }
+			em strong, strong em { @include fontBoldItalic; }			
 		}
 	}
 
-@mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-	font-family: $monoFontFamily;
-	font-size:$size;
-	font-weight:$weight;
-	line-height:$lineHeight;
-}
+	@mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
+		font-family: $monoFontFamily;
+		font-size:$size;
+		font-weight:$weight;
+		line-height:$lineHeight;
+	}
 
 
 // SPRITES
