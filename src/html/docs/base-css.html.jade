@@ -278,7 +278,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             | For primary headline text
           p
             | Titles are defined by classes independently of the HTML tag they may be applied to. As such, any tag can look like a header. By default, the logical numbered Title tag styles are applied to the corresponding numbered H-tag, so if you need an <code>H2</code> and it looks like a <code>.t2</code>, you can ommit the class name.
-          
+          p
+            | Any of these can be made bold (which may not be the 'bold' font) by including a <code>&lt;strong&gt;</code> tag inside. This will cause a 'light' font to be 'regular', a 'regular' font to be 'medium' and a 'medium' font to be 'bold'. This will be annotated in the PSD's by <code>-b</code>, for instance, <code>.t3-b</code>.
           div
             h3.bs-docs-heading Title 1
             p.bs-docs-heading
@@ -384,43 +385,9 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             | x
           p
             | Labels are defined solely by classes, and can define the style of any H-tag, P, etc.
+          p
+            | Any of these can be made bold (which may not be the 'bold' font) by including a <code>&lt;strong&gt;</code> tag inside. This will cause a 'light' font to be 'regular', a 'regular' font to be 'medium' and a 'medium' font to be 'bold'. This will be annotated in the PSD's by <code>-b</code>, for instance, <code>.l3-b</code>.
           
-          div
-            h3.bs-docs-heading Label 1
-            p.bs-docs-heading
-              | x
-            div.bs-docs-example
-              p.l1
-                | Vivamus sagittis lacus vel augue laoreet rutrum
-            pre.prettyprint.prettyprint-jade.fused
-              | h2.l1 
-              span.plain (or) 
-              | p.l1 
-              span.plain (etc.)
-          div
-            h3.bs-docs-heading Label 2
-            p.bs-docs-heading
-              | x
-            div.bs-docs-example
-              p.l2
-                | Vivamus sagittis lacus vel augue laoreet rutrum
-            pre.prettyprint.prettyprint-jade.fused
-              | h1.l2 
-              span.plain (or) 
-              | p.l2 
-              span.plain (etc.)
-          div
-            h3.bs-docs-heading Label 3
-            p.bs-docs-heading
-              | x
-            div.bs-docs-example
-              p.l3
-                | Vivamus sagittis lacus vel augue laoreet rutrum
-            pre.prettyprint.prettyprint-jade.fused
-              | h2.l3 
-              span.plain (or) 
-              | p.l3 
-              span.plain (etc.)
           div
             h3.bs-docs-heading Label 4
             p.bs-docs-heading
@@ -477,6 +444,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           h2.bs-docs-heading#body-copy Body copy
           p
             | For standard body content, such as for supporting features and subheads.
+          p
+            | The default font color is a dark gray. For alternate colors, use one of the following classes: <code>.text-med-dark</code>, <code>.text-med-light</code>, or <code>.text-light</code>.
           div
             h3.bs-docs-heading Body Copy 1 (large)
             p.bs-docs-heading
@@ -537,6 +506,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           h2.bs-docs-heading#link-text LinkText
           p
             | These mimic <code>p</code> tags, but are designed to be contained in their own paragraph, usually after a regular body-type paragraph. They differ from their paragraph counterparts in that their bottom margin is much smaller.
+          p
+            | By default these are dark gray, but can be made the standard blue link color by adding <code>.colorful</code>, or for using them on dark backgrounds, add <code>.text-light</code>.
           div
             h3.bs-docs-heading LinkText 1 (large)
             p.bs-docs-heading
@@ -628,6 +599,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             | Blockquotes must contain a 
             code p
             |  tag.
+          p
+            | By default, blockquotes inherit the default font color. For a blue ($secondarySlate) colored blockquote, add <code>.colorful</code> to the <code>blockquote</code>. For dark blue ($secondarySlateDark) add <code>.colorful-dark</code>.
           h5.bs-docs-heading Personal Quote 1 - Large
           div.bs-docs-example
             blockquote.bq1
@@ -883,6 +856,15 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
               div.docs-color-swatch--secondaryLavender
               p $secondaryLavender
               p (110,93,145)
+          div.col-50
+            div.col-33.docs-color-swatch
+              div.docs-color-swatch--secondarySlate
+              p $secondarySlate
+              p (88,135,171)
+            div.col-33.docs-color-swatch
+              div.docs-color-swatch--secondarySlateDark
+              p $secondarySlateDark
+              p (68,80,110)
 
         h4 3rd Party Brand Colors:
         div.row
