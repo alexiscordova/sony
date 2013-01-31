@@ -13,11 +13,11 @@ mixin copyblock(copyobject, h4class, h5class)
 section.editorial.container.clearfix(class= data.layout.media)
   if data.layout.media == "full" 
     if data.layout.inner == "true" 
-      .grid.full-bleed
+      .grid.full-bleed.no-grid-at-767
         .span12
           +partial(data.submodules[0].type, data.submodules[0].data)
       if data.layout.text == "left"
-        .inner.grid(class= data.style)
+        .inner.grid.no-grid-at-767(class= data.style)
           - span = "span" + data.layout.columns[0]
           div(class= span)(class= offset)
             .table-center-wrap
@@ -25,7 +25,7 @@ section.editorial.container.clearfix(class= data.layout.media)
                 .box(class = data.layout.alignment)
                   +copyblock()
       else if data.layout.text == "right" || data.layout.text == "center"
-        .inner.grid(class= data.style)
+        .inner.grid.no-grid-at-767(class= data.style)
           - span = "span" + data.layout.columns[1]
           - offset =  "offset" + data.layout.columns[0]
           div(class= span)(class= offset)
@@ -34,15 +34,15 @@ section.editorial.container.clearfix(class= data.layout.media)
                 .box(class = data.layout.alignment)
                   +copyblock()
     else
-      .grid(class= data.style)
+      .grid.no-grid-at-767(class= data.style)
         .span12
           +copyblock()
-      .grid
+      .grid.no-grid-at-767
         .span12
         +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "mediaright" 
-    .grid.table-center-wrap(class= data.style)
+    .grid.no-grid-at-767.table-center-wrap(class= data.style)
       span = "span" + data.layout.columns[0]
       .table-center.box(class = span)
         +copyblock()
@@ -51,7 +51,7 @@ section.editorial.container.clearfix(class= data.layout.media)
         +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "medialeft"   
-    .grid.table-center-wrap(class= data.style)
+    .grid.no-grid-at-767.table-center-wrap(class= data.style)
       span = "span" + data.layout.columns[0]
       .table-center.media-element(class = span)
         +partial(data.submodules[0].type, data.submodules[0].data)
@@ -60,13 +60,13 @@ section.editorial.container.clearfix(class= data.layout.media)
         +copyblock()
 
   else if data.layout.media == "full3up"
-    .grid(class= data.style)
+    .grid.no-grid-at-767(class= data.style)
       .span12
         .box(class= data.layout.alignment)
           +copyblock()
         +partial(data.submodules[0].type, data.submodules[0].data)
   
-    .grid
+    .grid.no-grid-at-767
       for col, i in data.layout.columns
         - colalign = data.columns[i].align || "left"
         - span = "span" + data.layout.columns[i]
@@ -77,24 +77,24 @@ section.editorial.container.clearfix(class= data.layout.media)
             +copyblock(data.columns[i])
 
   else if data.layout.media == "m3up" || data.layout.media == "m2up"
-    .grid(class= data.style)
+    .grid.no-grid-at-767(class= data.style)
       +copyblock()
   
-    .grid
+    .grid.no-grid-at-767
       for col, i in data.layout.columns
         span = "span" + data.layout.columns[i]
         div(class = span)
           +partial(data.submodules[i].type, data.submodules[i].data)
 
           if data.layout.inner 
-            .grid.inner
+            .grid.no-grid-at-767.inner
               +copyblock(data.columns[i], "alt")
           else
-            .grid
+            .grid.no-grid-at-767
               +copyblock(data.columns[i], "alt")
 
   else if data.layout.media == "textonly" 
-    .grid(class= data.layout.text)(class= data.style)
+    .grid.no-grid-at-767(class= data.layout.text)(class= data.style)
       if data.layout.text == "left"
         span = "span" + data.layout.columns[0]
         .box(class = span)(class= data.layout.alignment)
@@ -109,4 +109,5 @@ section.editorial.container.clearfix(class= data.layout.media)
       else if data.layout.text == "full" 
         .box.span12(class= data.layout.alignment)
           +copyblock(data, "alt") 
+
 

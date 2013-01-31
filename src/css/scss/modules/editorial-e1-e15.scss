@@ -1,4 +1,4 @@
-  @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+  @import "../_base/variables";
   @import "../_base/mixins";
 
 .editorial{
@@ -103,7 +103,6 @@
       padding:50px 140px 60px 140px;
     }
   }
-
 }
 .editorial.full3up{
   
@@ -121,5 +120,30 @@
 .editorial.textonly{
   .box{
     padding:40px 52px 60px 52px;
+  }
+}
+@media (max-width: px-em(767)) {
+  .editorial.full{
+    position:relative;
+    .inner{
+      height:auto;
+      position:relative;
+      >div,
+      .table-center-wrap{
+        height:auto;
+      }
+      .box{
+        margin-top:0;
+      }
+    }
+      //light text
+    .light-text-trans-box{
+      h2, h3, h4, h5{
+        color:$gray20;
+      }
+      p{
+        color:$gray40;
+      }
+    }  
   }
 }
