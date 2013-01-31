@@ -17,116 +17,165 @@
 // mobile 6col grid
 @media (max-width: px-em(767px)) {
 
-  // these need to be the same for all grids, so everything lines up regardless of what grid is used.
-  .container {
-    width: $mobileContainerWidth480;
-  }
-  .grid,
-  .slimgrid,
-  .slimgrid5, .grid5 {
-    width: $mobileGridWidth480;
-  }
+// these need to be the same for all grids, so everything lines up regardless of what grid is used.
+.container {
+  width: $mobileContainerWidth480;
+}
+.grid,
+.slimgrid,
+.slimgrid5, .grid5 {
+  width: $mobileGridWidth480;
+}
 
-  @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid");
-  @include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid-at-767");
-  @include no-grid(".no-grid-at-767");
+@include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid");
+@include grid-fluid($mobileGridColumnWidth480, $mobileGridGutterWidth480, $mobileGridColumns, "m", ".m-grid-at-767");
+@include no-grid(".no-grid-at-767");
 
-  .container.full-bleed-at-767,
-  .grid.full-bleed-at-767,
-  .container.m-full-bleed,
-  .grid.m-full-bleed{
-    width:auto;
-  }
-
-
-
-  // ----------------------------------------------------------------------------
-  // I think some of this was bootstrap, some is custom, but it was commented out.
-  // If you need it, please uncomment it, and decide if it should be here (767 & below)
-  // or if it should be in _responsive-567px-max.scss
-  // ----------------------------------------------------------------------------
-
-  // // Smooth out the collapsing/expanding nav
-  // .nav-collapse {
-  //   -webkit-transform: translate3d(0, 0, 0); // activate the GPU
-  // }
-
-  // // Block level the page header small tag for readability
-  // .page-header h1 small {
-  //   display: block;
-  //   line-height: $baseLineHeight;
-  // }
+.container.full-bleed-at-767,
+.grid.full-bleed-at-767,
+.container.m-full-bleed,
+.grid.m-full-bleed{
+  width:auto;
+}
 
 
-  // // Remove the horizontal form styles
-  // .form-horizontal {
-  //   .control-label {
-  //     float: none;
-  //     width: auto;
-  //     padding-top: 0;
-  //     text-align: left;
-  //   }
-  //   // Move over all input controls and content
-  //   .controls {
-  //     margin-left: 0;
-  //   }
-  //   // Move the options list down to align with labels
-  //   .control-list {
-  //     padding-top: 0; // has to be padding because margin collaspes
-  //   }
-  //   // Move over buttons in .form-actions to align with .controls
-  //   .form-actions {
-  //     padding-left: 10px;
-  //     padding-right: 10px;
-  //   }
-  // }
+.t1, h1{
+  @include px-em--font-size--line-height(44,50);
+}
+.t2, h2{
+  @include px-em--font-size--line-height(30,34);
+  margin-bottom: 14px;
+}
+.t3, h3{
+  @include px-em--font-size--line-height(24,28);
+  margin-bottom: 12px;
+}
+.t4, h4{
+}
+.t5, h5{
+  @include px-em--font-size--line-height(15,18);
+  margin-bottom: 8px;
+}
+.t6, h6{
+}
+.t7{
+}
 
-  // // Modals
-  // .modal {
-  //   top:   10px;
-  //   left:  10px;
-  //   right: 10px;
-  // }
 
-  // .takeover {
-  //   top:   0;
-  //   left:  0;
-  //   right: 0;
-  // }
+.l5 {
+  @include px-em--font-size--line-height(15,18);
+  margin-bottom: 8px;    
+}
 
-  // .modal-header .close {
-  //   padding: 10px;
-  //   margin: -10px;
-  // }
 
-  // .takeover .modal-header {
-  //   position: fixed;
-  //   z-index: 10;
-  //   padding: 8px 2px;
-  //   height: 50px;
-  //   background: $grayDark;
+.p1, .lt1 {
+  @include px-em--font-size--line-height(13,20);
+}
+.p2, .lt2, p {
+  @include px-em--font-size--line-height(12,18);
+}
+.p3, .lt3, .lt3-alt {
+  @include px-em--font-size--line-height(10,16);
+}
+.p4, .lt4 {
+  @include px-em--font-size--line-height(11,15);
+}
+.lt3-alt {
+}
+.p1 { margin-bottom: 8px; }
+.lt1 { margin-bottom: 4px; }
+.p2, .lt2 { margin-bottom: 8px; }
+.p3 { margin-bottom: 4px; }
+.lt3, .lt3-alt { margin-bottom: 2px; }
 
-  //   h3 {
-  //     color: $white;
-  //     font-size: 1em;
-  //   }
-  // }
 
-  // .takeover .modal-subheader {
-  //   padding-top: 50px;
-  // }
+// ----------------------------------------------------------------------------
+// I think some of this was bootstrap, some is custom, but it was commented out.
+// If you need it, please uncomment it, and decide if it should be here (767 & below)
+// or if it should be in _responsive-567px-max.scss
+// ----------------------------------------------------------------------------
 
-  // .takeover .product-count-wrap {
-  //   display: block;
-  // }
+// // Smooth out the collapsing/expanding nav
+// .nav-collapse {
+//   -webkit-transform: translate3d(0, 0, 0); // activate the GPU
+// }
 
-  // .takeover .modal-header .box-close {
-  // }
+// // Block level the page header small tag for readability
+// .page-header h1 small {
+//   display: block;
+//   line-height: $baseLineHeight;
+// }
 
-  // // Carousel
-  // .carousel-caption {
-  //   position: static;
-  // }
+
+// // Remove the horizontal form styles
+// .form-horizontal {
+//   .control-label {
+//     float: none;
+//     width: auto;
+//     padding-top: 0;
+//     text-align: left;
+//   }
+//   // Move over all input controls and content
+//   .controls {
+//     margin-left: 0;
+//   }
+//   // Move the options list down to align with labels
+//   .control-list {
+//     padding-top: 0; // has to be padding because margin collaspes
+//   }
+//   // Move over buttons in .form-actions to align with .controls
+//   .form-actions {
+//     padding-left: 10px;
+//     padding-right: 10px;
+//   }
+// }
+
+// // Modals
+// .modal {
+//   top:   10px;
+//   left:  10px;
+//   right: 10px;
+// }
+
+// .takeover {
+//   top:   0;
+//   left:  0;
+//   right: 0;
+// }
+
+// .modal-header .close {
+//   padding: 10px;
+//   margin: -10px;
+// }
+
+// .takeover .modal-header {
+//   position: fixed;
+//   z-index: 10;
+//   padding: 8px 2px;
+//   height: 50px;
+//   background: $grayDark;
+
+//   h3 {
+//     color: $white;
+//     font-size: 1em;
+//   }
+// }
+
+// .takeover .modal-subheader {
+//   padding-top: 50px;
+// }
+
+// .takeover .product-count-wrap {
+//   display: block;
+// }
+
+// .takeover .modal-header .box-close {
+// }
+
+// // Carousel
+// .carousel-caption {
+//   position: static;
+// }
 
 
 

@@ -3,11 +3,14 @@
 // --------------------------------------------------
 
 $rangeControlSize: 14px;
+$ambitActiveColor: $gray25;
+$ambitBackgroundColor: $tableBorder; // 221, 221, 221 / #ddd
+$handleHighlightColor: $buttonOrange;
 .range-control {
   position: relative;
   width: inherit;
   height: $rangeControlSize;
-  background: $tableBorder; // 221, 221, 221 / #ddd
+  background: $ambitBackgroundColor;
   border-radius: $rangeControlSize;
 
   &.vertical {
@@ -18,7 +21,7 @@ $rangeControlSize: 14px;
   .ambit {
     z-index: 3;
     height: $rangeControlSize;
-    background: $highlightColor;
+    background: $ambitActiveColor;
   }
 
   &.vertical .ambit {
@@ -95,7 +98,7 @@ $rangeControlSize: 14px;
 
 .grabbing-min .range-output-min,
 .grabbing-max .range-output-max {
-  color: $highlightColor;
+  color: $handleHighlightColor;
 }
 
 

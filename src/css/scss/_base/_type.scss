@@ -8,7 +8,7 @@
 // -------------------------
 
 body {
-  color:$gray20;
+  color:$defaultTextColor;
 }
 small {
   font-size: 0.85em; // Since this will be inside of another font-sized element, it just needs to be smaller relative to its parent.
@@ -34,54 +34,51 @@ small {
 // TITLES (headers)
 // --------------------------------------
 
-.t1, .t2, .t3, .t4, .t5, .t6, .t7{
+.t1, .t2, .t3, .t4, .t5, .t6, .t7,
+h1, h2, h3, h4, h5, h6{
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
 }
 
-.t1, .t2, .t5, .t6, .t7 {
+.t1, .t2, .t5, .t6, .t7,
+h1, h2, h5, h6 {
   @include fontRegular; 
   @include em-strong(Regular); 
 }
-.t3, .t4{
+.t3, .t4,
+h3, h4{
   @include fontLight;
   @include em-strong(Light);
 }
-.t1, .t3, .t4{
+.t1, .t3, .t4,
+h1, h3, h4{
   letter-spacing: -0.01em;
 }
-.t1{
-  font-size: px-em(54px);
-  line-height: px-line-height(62px, 54px);
+.t1, h1{
+  @include px-em--font-size--line-height(54,62);
   margin-bottom: 30px;
 }
-.t2{
-  font-size: px-em(44px);
-  line-height: px-line-height(50px, 44px);
+.t2, h2{
+  @include px-em--font-size--line-height(44,50);
   margin-bottom: 24px;
 }
-.t3{
-  font-size: px-em(30px);
-  line-height: px-line-height(38px, 30px);
+.t3, h3{
+  @include px-em--font-size--line-height(30,38);
   margin-bottom: 18px;
 }
-.t4{
-  font-size: px-em(26px);
-  line-height: px-line-height(34px, 26px);
+.t4, h4{
+  @include px-em--font-size--line-height(26,34);
   margin-bottom: 16px;
 }
-.t5{
-  font-size: px-em(22px);
-  line-height: px-line-height(26px, 22px);
+.t5, h5{
+  @include px-em--font-size--line-height(22,26);
   margin-bottom: 14px;
 }
-.t6{
-  font-size: px-em(18px);
-  line-height: px-line-height(26px, 18px);
+.t6, h6{
+  @include px-em--font-size--line-height(18,26);
   margin-bottom: 8px;
 }
 .t7{
-  font-size: px-em(15px);
-  line-height: px-line-height(22px, 15px);
+  @include px-em--font-size--line-height(15,22);
   margin-bottom: 6px;
 }
 
@@ -103,38 +100,31 @@ small {
 }
 
 .l1{
-  font-size: px-em(54px);
-  line-height: px-line-height(62px, 54px);
+  @include px-em--font-size--line-height(54,62);
   margin-bottom: 30px;
 }
 .l2{
-  font-size: px-em(44px);
-  line-height: px-line-height(50px, 44px);
+  @include px-em--font-size--line-height(44,50);
   margin-bottom: 24px;
 }
 .l3{
-  font-size: px-em(30px);
-  line-height: px-line-height(38px, 30px);
+  @include px-em--font-size--line-height(30,38);
   margin-bottom: 18px;
 }
 .l4{
-  font-size: px-em(22px);
-  line-height: px-line-height(30px, 22px);
+  @include px-em--font-size--line-height(22,30);
   margin-bottom: 18px;
 }
 .l5{
-  font-size: px-em(12px);
-  line-height: px-line-height(18px, 12px);
+  @include px-em--font-size--line-height(12,18);
   margin-bottom: 8px;
 }
 .l6{
-  font-size: px-em(11px);
-  line-height: px-line-height(18px, 11px);
+  @include px-em--font-size--line-height(11,18);
   margin-bottom: 8px;
 }
-.l7{
-  font-size: px-em(10px);
-  line-height: px-line-height(16px, 10px);
+.l7{  
+  @include px-em--font-size--line-height(10,16);
   margin-bottom: 8px;
 }
 
@@ -150,24 +140,19 @@ p, .p1, .p2, .p3, .p4, .p5,
   @include em-strong(Regular);  
 }
 .p1, .lt1 {
-  font-size: px-em(18px);
-  line-height: px-line-height(26px, 18px);
+  @include px-em--font-size--line-height(18,26);
 }
-.p2, .lt2 {
-  font-size: px-em(15px);
-  line-height: px-line-height(22px, 15px);
+.p2, .lt2, p {
+  @include px-em--font-size--line-height(15,22);
 }
 .p3, .lt3, .lt3-alt {
-  font-size: px-em(13px);
-  line-height: px-line-height(20px, 13px);
+  @include px-em--font-size--line-height(13,20);
 }
 .p4, .lt4 {
-  font-size: px-em(12px);
-  line-height: px-line-height(18px, 12px);
+  @include px-em--font-size--line-height(12,18);
 }
 .p5, .lt5 {
-  font-size: px-em(11px);
-  line-height: px-line-height(15px, 11px);
+  @include px-em--font-size--line-height(11,15);
 }
 .lt3-alt {
   letter-spacing: px-em(1px);
@@ -179,6 +164,31 @@ p, .p1, .p2, .p3, .p4, .p5,
 .p4, .p5, .lt1 { margin-bottom: 8px; }
 .lt2 {  margin-bottom: 6px; }
 .lt3, .lt4, .lt5 { margin-bottom: 4px; }
+
+.lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt{
+  &:not(.colorful):not(.text-light){
+    a {
+      color:$defaultTextColor;
+      &:hover,
+      &:active,
+      &:focus,
+      &.active{
+        color:$gray10;
+      }
+    }
+  }
+  &.text-light {
+    a {
+      color:$text-light;
+      &:hover,
+      &:active,
+      &:focus,
+      &.active{
+        color:$text-med-dark;
+      }
+    }
+  }
+}
 
 
 
@@ -200,9 +210,10 @@ blockquote p{
     line-height:0; /* make sure it doesn't affect the real content. */
   }
 }
+blockquote.colorful p { color: $secondarySlate; }
+blockquote.colorful-dark p { color: $secondarySlateDark; }
 .bq1 p{
-  font-size: px-em(44px);
-  line-height: px-line-height(50px, 44px);
+  @include px-em--font-size--line-height(44,50);
   margin-bottom: 24px;
   &:first-child {
     text-indent:-16px;
@@ -210,32 +221,28 @@ blockquote p{
 }
 .bq2 p,
 blockquote p{
-  font-size: px-em(30px);
-  line-height: px-line-height(38px, 30px);
+  @include px-em--font-size--line-height(30,38);
   margin-bottom: 18px;
   &:first-child {
     text-indent:-12px;
   }
 }
 .bq3 p{
-  font-size: px-em(26px);
-  line-height: px-line-height(34px, 26px);
+  @include px-em--font-size--line-height(26,34);
   margin-bottom: 16px;
   &:first-child {
     text-indent:-10px;
   }
 }
 .bq4 p{
-  font-size: px-em(18px);
-  line-height: px-line-height(26px, 18px);
+  @include px-em--font-size--line-height(18,26);
   margin-bottom: 16px;
   &:first-child {
     text-indent:-7px;
   }
 }
 .bq5 p{
-  font-size: px-em(13px);
-  line-height: px-line-height(20px, 13px);
+  @include px-em--font-size--line-height(13,20);
   margin-bottom: 12px;
   &:first-child {
     text-indent:-5px;
@@ -253,23 +260,19 @@ blockquote p{
   strong { @include fontMedium; }
 }
 .bt1{
-  font-size: px-em(15px);
-  line-height: px-line-height(22px, 15px);
+  @include px-em--font-size--line-height(15,22);
   margin-bottom: 12px;
 }
 .bt2{
-  font-size: px-em(13px);
-  line-height: px-line-height(20px, 13px);
+  @include px-em--font-size--line-height(13,20);
   margin-bottom: 12px;
 }
 .bt3{
-  font-size: px-em(12px);
-  line-height: px-line-height(18px, 12px);
+  @include px-em--font-size--line-height(12,18);
   margin-bottom: 8px;
 }
 .bt4{
-  font-size: px-em(11px);
-  line-height: px-line-height(15px, 11px);
+  @include px-em--font-size--line-height(11,15);
   margin-bottom: 6px;
 }
 
