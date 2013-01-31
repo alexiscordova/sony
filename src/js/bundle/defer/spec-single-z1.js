@@ -34,6 +34,7 @@
       self.$stickyNav = self.$container.find('.spec-sticky-nav');
       self.$carouselWrap = self.$container.find('.spec-carousel-wrap');
       self.$carousel = self.$carouselWrap.find('.spec-carousel');
+      self.$jumpLinks = self.$container.find('.spec-views a');
 
       // Columns to be even heights
       self.$carouselCols = self.$carouselWrap.closest('.grid').children();
@@ -43,6 +44,7 @@
 
       // Init shuffle on the features section
       self._initFeatures();
+
       self._onResize( true );
 
       self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
@@ -143,6 +145,8 @@
         target: '.spec-sticky-nav'
       });
 
+      self._initJumpLinks();
+
       setTimeout(function() {
         $body.scrollspy('refresh');
       }, 100);
@@ -178,6 +182,19 @@
         }, 100);
       });
 
+    },
+
+    _initJumpLinks : function() {
+      var self = this,
+          scrollspyOffset = 10,
+          navHeight = parseFloat( self.$stickyNav.css('height') ),
+          offset = scrollspyOffset + navHeight;
+
+      self.$jumpLinks.simplescroll({
+        showHash: true,
+        speed: 400,
+        offset: offset
+      });
     },
 
     _onScroll : function() {
