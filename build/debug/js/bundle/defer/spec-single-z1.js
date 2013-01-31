@@ -52,8 +52,34 @@
         itemSelector: '.spec-tile',
         easing: 'ease-out',
         speed: 250,
-        columnWidth: Exports.masonryColumns,
-        gutterWidth: Exports.masonryGutters,
+        columnWidth: function( containerWidth ) {
+          var column = containerWidth;
+
+          // 568px+
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
+            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+          }
+
+          return column;
+        },
+        gutterWidth: function( containerWidth ) {
+          var gutter = 0,
+              is3Col = !Modernizr.mediaqueries || Modernizr.mq('(min-width: 47.9375em)'),
+              is2Col = is3Col ? false : Modernizr.mq('(min-width: 30em)'),
+              numCols = is3Col ? 3 : is2Col ? 2 : 1;
+
+          if ( is3Col || is2Col ) {
+            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+          }
+
+          if ( self.currentFeatureCols !== numCols && numCols !== 1) {
+            self._swapFeatureClasses( numCols );
+          }
+
+          self.currentFeatureCols = numCols;
+
+          return gutter;
+        },
         showInitialTransition: false
       });
       self.shuffle = self.$specTiles.data('shuffle');
@@ -68,6 +94,25 @@
       });
 
       return self;
+    },
+
+    _swapFeatureClasses : function( numCols ) {
+      var self = this;
+
+      self.$specTiles.children().each(function() {
+        var $tile = $(this),
+            newClass = 'span6',
+            oldClass = 'span4';
+
+        if ( numCols === 3 ) {
+          newClass = 'span4';
+          oldClass = 'span6';
+        }
+
+        $tile
+          .removeClass( oldClass )
+          .addClass( newClass );
+      });
     },
 
     _initStickyNav : function() {
@@ -189,7 +234,8 @@
   // Not overrideable
   $.fn.specSingle.settings = {
     isStickyTabs: false,
-    isScroller: false
+    isScroller: false,
+    currentFeatureCols: null
   };
 
 
