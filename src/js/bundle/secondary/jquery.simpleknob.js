@@ -96,9 +96,7 @@
         // -------------
 
         // Font size for label. Auto-calculates based on width if omitted.
-        fontSize: this.$.data('fontsize'),
-        // Static labels. Useful for if you just want the dial to say "foo" in the center.
-        fixedLabel: this.$.data('fixedlabel') || ''
+        fontSize: this.$.data('fontsize')
 
       }, this.o);
 
@@ -113,7 +111,7 @@
       this.$c = $('<canvas width="' + this.o.width + 'px" height="' + this.o.height + 'px"></canvas>');
       this.c = this.$c[0].getContext("2d");
 
-      this.$.wrap($('<div class="simpleknob-container" style="position: relative; ' + (this.o.inline ? 'display:inline;' : '') +
+      this.$.wrap($('<div style="position: relative; ' + (this.o.inline ? 'display:inline;' : '') +
         'width:' + this.o.width + 'px;height:' + this.o.height + 'px;"></div>'))
         .before(this.$c);
 
@@ -198,6 +196,7 @@
   };
 
   k.Dial = function () {
+
     k.o.call(this);
 
     this.startAngle = null;
@@ -275,26 +274,6 @@
         'width': '0px',
         'visibility': 'hidden'
       });
-
-      if ( this.o.fixedLabel ) {
-        var $label = $('<span>' + this.o.fixedLabel + '</span>');
-        this.$c.before($label);
-        $label.css({
-          'width': this.o.width + 'px',
-          'height': this.o.width + 'px',
-          'line-height': this.o.width + 'px',
-          'position': 'absolute',
-          'vertical-align': 'middle',
-          'border': 0,
-          'background': 'none',
-          'font-size': this.o.fontSize || ((this.o.width / s) >> 0) + 'px',
-          'text-align': 'center',
-          'color': this.o.fgColor,
-          'padding': '0px',
-          '-webkit-appearance': 'none'
-        });
-      }
-
     };
 
     this.change = function (v) {
@@ -337,6 +316,13 @@
     return this.each(
 
     function () {
+
+      var testElem = document.createElement('canvas');
+
+      if (!(testElem.getContext && testElem.getContext('2d'))) {
+        return;
+      }
+
       var d = new k.Dial();
       d.o = o;
       d.$ = $(this);

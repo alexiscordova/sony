@@ -11,8 +11,8 @@ section.container.uxmc
     div.base-product
       div.uxmc-overlay
         h3 #{data.baseProduct.title}
-      div.uxmc-background
-        div.iq-img(data-src=data.baseProduct.imgSrc)
+      div.uxmc-image-wrapper.iq-img(data-src=data.baseProduct.imgSrc)
+        span
         img.iq-img(data-src=data.baseProduct.imgSrc)
 
     ul.partner-products
@@ -22,12 +22,13 @@ section.container.uxmc
             div.uxmc-overlay
               p #{product.description}
               span #{product.title}
-            div.uxmc-background
-              div.iq-img(data-src=product.imgSrc)
+            div.uxmc-image-wrapper.iq-img(data-src=product.imgSrc)
+              span
               img.iq-img(data-src=product.imgSrc)
 
     div.progress-indicators
       div
         - for (var i = 1; i <= data.partnerProducts.length; i++)
-          div.uxmc-dial(data-fixedlabel=i)
-            input(type='text', value='0')
+          div.uxmc-dial-wrapper
+            span.uxmc-dial-label #{i}
+            input.uxmc-dial(type='text', value='0')

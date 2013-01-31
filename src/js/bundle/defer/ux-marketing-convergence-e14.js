@@ -87,11 +87,11 @@
         'fgColor': '#fff'
       }).css('display', 'block');
 
-      self.$el.find('.simpleknob-container').on('mousedown', function(e){
+      self.$el.find('.uxmc-dial-label').on('mousedown', function(e){
 
         e.preventDefault();
 
-        var position = self.$dials.index($(this).find(self.$dials));
+        var position = self.$dials.index($(this).parent().find(self.$dials));
 
         if ( position === self.currentPartnerProduct ) {
           self.resetDials();
@@ -103,11 +103,11 @@
 
       }).on('mouseover', function(e){
 
-        $(this).find(self.$dials).not(self.$activeDial).val(100).trigger('change');
+        $(this).parent().find(self.$dials).not(self.$activeDial).val(100).trigger('change');
 
       }).on('mouseout', function(e){
 
-        $(this).find(self.$dials).not(self.$activeDial).val(0).trigger('change');
+        $(this).parent().find(self.$dials).not(self.$activeDial).val(0).trigger('change');
 
       });
     },
