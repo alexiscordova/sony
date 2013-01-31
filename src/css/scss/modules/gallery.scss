@@ -1099,10 +1099,9 @@ $offsetFromMiddle: px-em(45px);
   left: -9999px;
   // width: inherit; // position fixed not inheriting correct width?...
   padding: 1em 0 0.5em;
-  opacity: 0;
   background: $gray90;
   top: -6.25em;
-  @include transition(opacity $transitionNormal ease-in, top $transitionNormal ease-in, left 0s $transitionNormal);
+  @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
 
   // The sticky-count uses a pseudo element for the box-shadow
   &:not(.sticky-count) {
@@ -1117,7 +1116,6 @@ $offsetFromMiddle: px-em(45px);
   // Make sticky header visible
   &.open {
     left: 0; // Show it
-    opacity: 1; // Fade in
     top: 0;
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);

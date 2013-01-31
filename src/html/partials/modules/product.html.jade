@@ -55,9 +55,9 @@ if data.view == "basic"
               i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
-                span.number.l5: strong= data.count.number
+                span.number.l2= data.count.number
                 | &nbsp;
-                span.text.l5: strong= data.count.text
+                span.text.l3= data.count.text
 
       else if data.layout == 'plate'
         .product-img(class=data.backgroundColorClass)
@@ -71,9 +71,9 @@ if data.view == "basic"
               i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
-                span.number.l5: strong= data.count.number
+                span.number.l2= data.count.number
                 | &nbsp;
-                span.text.l5: strong= data.count.text
+                span.text.l3= data.count.text
       else
         .product-img
           .product-img-wrap.ghost-center-wrap
@@ -107,7 +107,7 @@ if data.view == "basic"
             .product-name.p3= data.name
           .product-price
             span.price-prefix.p3 Starting at &nbsp;
-            span.price.l5: strong= '$' + data.price + '&nbsp;'
+            span.price.l2= '$' + data.price + '&nbsp;'
             span.msrp.p5 MSRP
 
 
@@ -150,7 +150,7 @@ else if data.view == 'detailed'
               span.prodcut-meta-name= meta.name
         .product-price
           span.price-prefix.p3 Starting at &nbsp;
-          span.price.l5: strong(itemprop="price")= '$' + data.price + '&nbsp;'
+          span.price.l2(itemprop="price")= '$' + data.price + '&nbsp;'
           span.msrp.p5 MSRP
 
         .detail-group.hidden
@@ -204,11 +204,11 @@ else if data.view == "specs"
     each spec, i in data.specs
       .spec-item-cell
         .spec-cell-inner
-          p.cell-label.l5: strong= labels[i]
+          p.cell-label.l3= labels[i]
 
           if spec.name && spec.list && spec.img
             p= spec.name
-            p.l5: strong= spec.listTitle
+            p.l3= spec.listTitle
             mixin specList( spec.list, 'before-btm-aligned' )
             mixin iQImage( spec.img, 'btm-aligned' )
 
@@ -217,7 +217,7 @@ else if data.view == "specs"
             p= spec.text
             if spec.list
               if spec.listTitle
-                p.l5: strong= spec.listTitle
+                p.l3= spec.listTitle
               mixin specList( spec.list )
 
           else if spec.text
@@ -249,7 +249,7 @@ else if data.view == "specs"
               i(class=iconClass)
             p= spec.callout
             mixin specList( spec.list )
-            p.l5: strong= spec.label
+            p.l3= spec.label
             p.p3= spec.labeledText
 
           else if spec.enlargement
@@ -257,7 +257,7 @@ else if data.view == "specs"
               mixin iQImage( spec.img )
             button.iconTrigger-ui2-magnify.enlarge.js-enlarge
               i.icon-ui2-magnify
-              span.l5: strong!= '&nbsp;' + spec.iconTitle
+              span.l3!= '&nbsp;' + spec.iconTitle
 
             mixin specList( spec.list )
 
@@ -299,27 +299,28 @@ else if data.view == 'single-spec'
       section.spec-overview.spec-section
         .container
           .grid.no-grid-at-567
-            .span8.relative.paddle-trigger
-              nav
-                button.nav-paddle.overview-nav.overview-nav-prev
-                  i.icon-ui2-chevron-18-white-left
-                button.nav-paddle.overview-nav.overview-nav-next
-                  i.icon-ui2-chevron-18-white-right
-              .spec-carousel-wrap
-                .spec-carousel
-                  each img in spec.imgs
-                    .slide
-                      mixin iQImage( img )
+            .span8.relative.paddle-trigger.ghost-center-wrap
+              .ghost-center
+                nav
+                  button.nav-paddle.overview-nav.overview-nav-prev
+                    i.icon-ui2-chevron-18-white-left
+                  button.nav-paddle.overview-nav.overview-nav-next
+                    i.icon-ui2-chevron-18-white-right
+                .spec-carousel-wrap
+                  .spec-carousel
+                    each img in spec.imgs
+                      .slide
+                        mixin iQImage( img )
 
             .span3.offset1
-              h5.section-label= spec.label
+              h6.t6.section-label= spec.label
               mixin definitionList( spec.definitionList )
 
     else if spec.list && spec.list2 && spec.img
       section.container
         .grid.m-grid-at-567.spec-section
           .span3.no-m-span
-            h5.section-label= spec.label
+            h6.t6.section-label= spec.label
           .span3.alpha.m-span3
             mixin specList( spec.list )
           .span3.m-span3
@@ -331,7 +332,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h5.section-label= spec.label
+            h6.t6.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
           .span4.offset1
@@ -341,17 +342,18 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section.align-right-bottom
           .span3
-            h5.section-label= spec.label
+            h6.t6.section-label= spec.label
           .span3
             mixin definitionList( spec.definitionList )
-          .span6.has-img
-            mixin iQImage( spec.img )
+          .span6.has-img.ghost-center-wrap
+            .ghost-center.v-bottom
+              mixin iQImage( spec.img )
 
     else if spec.definitionList && spec.img
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h5.section-label= spec.label
+            h6.t6.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
 
@@ -364,7 +366,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h5.section-label= spec.label
+            h6.t6.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
 
@@ -372,7 +374,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h5.section-label= spec.label
+            h6.t6.section-label= spec.label
           each feature, i in spec.features
             - feature2 = spec.features2[i]
             .span3
@@ -382,7 +384,7 @@ else if data.view == 'single-spec'
                     icon = 'icon-uibig-' + feature.icon
                     i(class=icon)
                 .media-body
-                  p.media-heading.l5: strong!= feature.label
+                  p.media-heading.l3!= feature.label
                   p.media-description.p3!= feature.description
               .media
                 .pull-left
@@ -390,7 +392,7 @@ else if data.view == 'single-spec'
                     icon = 'icon-uibig-' + feature2.icon
                     i(class=icon)
                 .media-body
-                  p.media-heading.l5: strong!= feature2.label
+                  p.media-heading.l3!= feature2.label
                   p.media-description.p3!= feature2.description
 
 

@@ -35,10 +35,15 @@
       self.$carouselWrap = self.$container.find('.spec-carousel-wrap');
       self.$carousel = self.$carouselWrap.find('.spec-carousel');
 
+      // Columns to be even heights
+      self.$carouselCols = self.$carouselWrap.closest('.grid').children();
+      self.$alignedBottom = self.$container.find('.align-right-bottom .has-img').closest('.grid').children();
+
       self._initCarousel();
 
       // Init shuffle on the features section
       self._initFeatures();
+      self._onResize( true );
 
       self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
       self.$window.on('load', $.proxy( self._initStickyNav, self ));
@@ -97,19 +102,17 @@
     },
 
     _swapFeatureClasses : function( numCols ) {
-      var self = this;
+      var self = this,
+          newClass = 'span6',
+          oldClass = 'span4';
+
+      if ( numCols === 3 ) {
+        newClass = 'span4';
+        oldClass = 'span6';
+      }
 
       self.$specTiles.children().each(function() {
-        var $tile = $(this),
-            newClass = 'span6',
-            oldClass = 'span4';
-
-        if ( numCols === 3 ) {
-          newClass = 'span4';
-          oldClass = 'span6';
-        }
-
-        $tile
+        $(this)
           .removeClass( oldClass )
           .addClass( newClass );
       });
@@ -147,10 +150,11 @@
 
     _initCarousel : function() {
       var self = this,
-          firstImage = self.$carousel.find(':first-child img');
+          firstImage = self.$carousel.find(':first-child img'),
+          spanWidth = self.$carouselWrap.width();
 
       self.$carousel.find('img').css({
-        maxWidth: self.$carouselWrap.width()
+        maxWidth: spanWidth
       });
 
       // Give the image a src, otherwise imagesLoaded is pointless...
@@ -191,19 +195,56 @@
       }
     },
 
-    _onResize : function() {
+    _onResize : function( isFirst ) {
       var self = this,
           $imgs = self.$carousel.find('img'),
           imgHeight = $imgs.height();
 
-      self.$carousel.height( imgHeight );
-      $imgs.css({
-        maxWidth: self.$carouselWrap.width()
-      });
+      if ( !isFirst ) {
+        self.$carousel.height( imgHeight );
+        $imgs.css({
+          maxWidth: self.$carouselWrap.width()
+        });
+      }
+
+
+      // If tablet or desktop, center the carousel
+      if ( !Modernizr.mq( self.mobileBreakpoint ) ) {
+
+        // Set even heights on columns spans that have an image aligned to the bottom
+        self.$alignedBottom.evenHeights();
+
+        // Get the height of the tallest column in this row. We need this to vertically center the carousel
+        self.$carouselCols.evenHeights();
+      } else {
+
+        // Remove set heights on the columns.
+        self.$alignedBottom
+          .add( self.$carouselCols )
+          .css('height', '');
+      }
     }
 
 
 
+  };
+
+  // TODO: make its own file and give it options for padding an margin
+  $.fn.evenHeights = function() {
+    var tallest = 0;
+    return this
+      .css('height', '')
+      .each(function() {
+        var $this = $(this),
+            // Here we're using `.css()` instead of `height()` or `outerHeight()`
+            // because Chrome is 100x slower calculating those values
+            height = parseFloat( $this.css('height') );
+
+        if ( height > tallest ) {
+          tallest = height;
+        }
+      })
+      .css('height', tallest);
   };
 
   // Plugin definition

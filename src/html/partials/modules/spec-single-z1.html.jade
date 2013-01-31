@@ -1,10 +1,11 @@
+include ../includes/jade-helpers.jade
 
 .spec-single
 
   .container
     .grid.spec-title-wrap
       a.spec-title-link.tl(href=data.titleLink.href)= data.titleLink.label
-      h1.spec-title= data.title
+      h1.t2.spec-title= data.title
 
     .grid
       ul.spec-views.inline
@@ -17,7 +18,7 @@
   .spec-sticky-nav
     .container
       .grid
-        h5= data.title
+        h2.t6.sticky-nav-title= data.title
         ul.spec-views.inline.nav
           each link, i in data.internalLinks
             - clss = i ? '' : 'active'
@@ -34,19 +35,17 @@
 
   section.spec-tiles-wrap.container#features
     .grid
-      h2= data.features.title
+      h3.l1= data.features.title
     .spec-tiles.slimgrid.no-grid-at-479
       each tile in data.features.tiles
         .spec-tile.span4
           if tile.img
             .iq-wrap
               figure.iq-container
-                img.iq-img(data-src=tile.img.src, alt=tile.img.alt)
-                noscript
-                  img(src=tile.img.noscriptsrc, alt=tile.img.alt)
+                mixin iQImage( tile.img )
 
           .tile-content
-            h3.tile-title= tile.title
+            h3.t6.tile-title= tile.title
             p= tile.description
             if tile.link
               a.tl(href=tile.link.href)= tile.link.text
