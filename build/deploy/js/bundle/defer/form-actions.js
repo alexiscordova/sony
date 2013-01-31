@@ -86,15 +86,15 @@
 
       switch( inputObj.$input.attr('id') ){
         case 'footer-email-input':
-          console.log('footer-email-input, queryStr: ' + queryStr);
+          // console.log('footer-email-input, queryStr: ' + queryStr);
           break;
 
         case 'store-locator-search-input':
-          console.log('store-locator-search-input, queryStr: ' + queryStr);
+          //console.log('store-locator-search-input, queryStr: ' + queryStr);
           break;
 
         case 'nav-search-input':
-          console.log('nav-search-input, queryStr: ' + queryStr);
+          //console.log('nav-search-input, queryStr: ' + queryStr);
           break;
 
         default:
