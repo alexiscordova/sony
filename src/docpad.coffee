@@ -15,6 +15,10 @@ docpadConfig = {
       srcPath:'html/'
       documentsPaths: ['generated']
       outPath: '../build/debug/'
+      plugins:
+        jade:
+          jadeOptions:
+            pretty: false
     },
     deploy:{
       srcPath:'html/'
