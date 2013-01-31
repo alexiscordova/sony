@@ -37,6 +37,7 @@ small {
 .t1, .t2, .t3, .t4, .t5, .t6, .t7,
 h1, h2, h3, h4, h5, h6{
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
+  color: $defaultTextColor;
 }
 
 .t1, .t2, .t5, .t6, .t7,
@@ -86,44 +87,38 @@ h1, h3, h4{
 // ------------------------------------
 // Labels Text Styles
 // ------------------------------------
-.l1, .l2, .l3, .l4, .l5, .l6, .l7 {
+.l1, .l2, .l3, .l4 {
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
   letter-spacing: px-em(1px); 
   text-transform: uppercase;
+  color: $defaultTextColor;
 }
-.l1, .l2, .l3, .l5, .l6, .l7 {
+
+.l1{ @include fontBold; }
+.l1-light { @include fontMedium; }
+
+.l2, .l3, .l4 {
+  @include fontMedium; 
+  @include em-strong(Medium);
+}
+.l2-light, .l3-light, .l4-light {
   @include fontRegular; 
-  @include em-strong(Regular);
-}
-.l4{
-  @include fontBold;
+  @include em-strong(Regular);  
 }
 
 .l1{
-  @include px-em--font-size--line-height(54,62);
-  margin-bottom: 30px;
-}
-.l2{
-  @include px-em--font-size--line-height(44,50);
-  margin-bottom: 24px;
-}
-.l3{
-  @include px-em--font-size--line-height(30,38);
-  margin-bottom: 18px;
-}
-.l4{
   @include px-em--font-size--line-height(22,30);
   margin-bottom: 18px;
 }
-.l5{
+.l2{
   @include px-em--font-size--line-height(12,18);
   margin-bottom: 8px;
 }
-.l6{
+.l3{
   @include px-em--font-size--line-height(11,18);
   margin-bottom: 8px;
 }
-.l7{  
+.l4{  
   @include px-em--font-size--line-height(10,16);
   margin-bottom: 8px;
 }
@@ -137,8 +132,11 @@ h1, h3, h4{
 p, .p1, .p2, .p3, .p4, .p5, 
 .lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt {
   @include fontRegular;
-  @include em-strong(Regular);  
+  @include em-strong(Regular);
 }
+p, .p1, .p2, .p3, .p4, .p5{ color: $defaultParagraphColor; }
+.lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt { color: $defaultTextColor; }
+
 .p1, .lt1 {
   @include px-em--font-size--line-height(18,26);
 }
@@ -166,14 +164,26 @@ p, .p1, .p2, .p3, .p4, .p5,
 .lt3, .lt4, .lt5 { margin-bottom: 4px; }
 
 .lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt{
-  a{
-    color:$defaultTextColor;
-
-    &:hover,
-    &:active,
-    &:focus,
-    &.active{
-      color:$gray10;
+  &.text-dark{
+    a {
+      color:$text-dark;
+      &:hover,
+      &:active,
+      &:focus,
+      &.active{
+        color:$defaultTextColor;
+      }
+    }
+  }
+  &.text-light {
+    a {
+      color:$text-light;
+      &:hover,
+      &:active,
+      &:focus,
+      &.active{
+        color:$text-med-dark;
+      }
     }
   }
 }
@@ -188,6 +198,7 @@ p, .p1, .p2, .p3, .p4, .p5,
 blockquote p{
   @include fontLightItalic;  
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
+  color: $defaultTextColor;
 
   &:first-child:before {
     content: "\201c";
@@ -198,41 +209,33 @@ blockquote p{
     line-height:0; /* make sure it doesn't affect the real content. */
   }
 }
+blockquote.colorful p { color: $secondarySlate; }
+blockquote.colorful-dark p { color: $secondarySlateDark; }
 .bq1 p{
   @include px-em--font-size--line-height(44,50);
   margin-bottom: 24px;
-  &:first-child {
-    text-indent:-16px;
-  }
+  &:first-child { text-indent:-16px; }
 }
 .bq2 p,
 blockquote p{
   @include px-em--font-size--line-height(30,38);
   margin-bottom: 18px;
-  &:first-child {
-    text-indent:-12px;
-  }
+  &:first-child { text-indent:-12px; }
 }
 .bq3 p{
   @include px-em--font-size--line-height(26,34);
   margin-bottom: 16px;
-  &:first-child {
-    text-indent:-10px;
-  }
+  &:first-child { text-indent:-10px; }
 }
 .bq4 p{
   @include px-em--font-size--line-height(18,26);
   margin-bottom: 16px;
-  &:first-child {
-    text-indent:-7px;
-  }
+  &:first-child { text-indent:-7px; }
 }
 .bq5 p{
   @include px-em--font-size--line-height(13,20);
   margin-bottom: 12px;
-  &:first-child {
-    text-indent:-5px;
-  }
+  &:first-child { text-indent:-5px; }
 }
 
 
@@ -244,6 +247,7 @@ blockquote p{
 .bt1, .bt2, .bt3, .bt4 {
   @include fontRegular;
   strong { @include fontMedium; }
+  color: $defaultTextColor;
 }
 .bt1{
   @include px-em--font-size--line-height(15,22);

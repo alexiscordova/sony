@@ -232,23 +232,27 @@ $default-transition-delay    : 0s;
 
 	@mixin em-strong($font: Regular){
 
-		@if ($font == Regular){
-			em { @include fontItalic; }
-			strong { @include fontMedium; }
-			em strong, strong em { @include fontMediumItalic; }
-		} @else if ($font == Light) {
+		@if ($font == Light){
 			em { @include fontLightItalic; }
 			strong { @include fontRegular; }
 			em strong, strong em { @include fontItalic; }
+		} @else if ($font == Regular) {
+			em { @include fontItalic; }
+			strong { @include fontMedium; }
+			em strong, strong em { @include fontMediumItalic; }
+		} @else if ($font == Medium) {
+			em { @include fontMediumItalic; }
+			strong { @include fontBold; }
+			em strong, strong em { @include fontBoldItalic; }			
 		}
 	}
 
-@mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-	font-family: $monoFontFamily;
-	font-size:$size;
-	font-weight:$weight;
-	line-height:$lineHeight;
-}
+	@mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
+		font-family: $monoFontFamily;
+		font-size:$size;
+		font-weight:$weight;
+		line-height:$lineHeight;
+	}
 
 
 // SPRITES
@@ -435,12 +439,12 @@ $default-transition-delay    : 0s;
 
 
 // Mixin for form field states
-@mixin formFieldState($textColor: #555, $borderColor: #ccc, $backgroundColor: #f5f5f5) {
+@mixin formFieldState($defaultTextColor: #555, $borderColor: #ccc, $backgroundColor: #f5f5f5) {
 	// Set the text color
 	> label,
 	.help-block,
 	.help-inline {
-	color: $textColor;
+	color: $defaultTextColor;
 	}
 	// Style inputs accordingly
 	.checkbox,
@@ -448,7 +452,7 @@ $default-transition-delay    : 0s;
 	input,
 	select,
 	textarea {
-	color: $textColor;
+	color: $defaultTextColor;
 	}
 	input,
 	select,
@@ -463,9 +467,9 @@ $default-transition-delay    : 0s;
 	// Give a small background color for input-prepend/-append
 	.input-prepend .add-on,
 	.input-append .add-on {
-	color: $textColor;
+	color: $defaultTextColor;
 	background-color: $backgroundColor;
-	border-color: $textColor;
+	border-color: $defaultTextColor;
 	}
 }
 
@@ -940,8 +944,8 @@ $default-transition-delay    : 0s;
 }
 
 // Gradient Bar Colors for buttons and alerts
-@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
-	color: $textColor;
+@mixin gradientBar($primaryColor, $secondaryColor, $defaultTextColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+	color: $defaultTextColor;
 	text-shadow: $textShadow;
 	@include gradient-vertical($primaryColor, $secondaryColor);
 	border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
