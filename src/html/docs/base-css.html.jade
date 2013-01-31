@@ -444,6 +444,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           h2.bs-docs-heading#body-copy Body copy
           p
             | For standard body content, such as for supporting features and subheads.
+          p
+            | The default font color is a dark gray. For alternate colors, use one of the following classes: <code>.text-med-dark</code>, <code>.text-med-light</code>, or <code>.text-light</code>.
           div
             h3.bs-docs-heading Body Copy 1 (large)
             p.bs-docs-heading
@@ -504,6 +506,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           h2.bs-docs-heading#link-text LinkText
           p
             | These mimic <code>p</code> tags, but are designed to be contained in their own paragraph, usually after a regular body-type paragraph. They differ from their paragraph counterparts in that their bottom margin is much smaller.
+          p
+            | By default these are dark gray, but can be made the standard blue link color by adding <code>.colorful</code>, or for using them on dark backgrounds, add <code>.text-light</code>.
           div
             h3.bs-docs-heading LinkText 1 (large)
             p.bs-docs-heading
@@ -595,6 +599,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             | Blockquotes must contain a 
             code p
             |  tag.
+          p
+            | By default, blockquotes inherit the default font color. For a blue ($secondarySlate) colored blockquote, add <code>.colorful</code> to the <code>blockquote</code>. For dark blue ($secondarySlateDark) add <code>.colorful-dark</code>.
           h5.bs-docs-heading Personal Quote 1 - Large
           div.bs-docs-example
             blockquote.bq1
@@ -850,6 +856,15 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
               div.docs-color-swatch--secondaryLavender
               p $secondaryLavender
               p (110,93,145)
+          div.col-50
+            div.col-33.docs-color-swatch
+              div.docs-color-swatch--secondarySlate
+              p $secondarySlate
+              p (88,135,171)
+            div.col-33.docs-color-swatch
+              div.docs-color-swatch--secondarySlateDark
+              p $secondarySlateDark
+              p (68,80,110)
 
         h4 3rd Party Brand Colors:
         div.row

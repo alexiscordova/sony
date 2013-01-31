@@ -166,14 +166,26 @@ p, .p1, .p2, .p3, .p4, .p5,
 .lt3, .lt4, .lt5 { margin-bottom: 4px; }
 
 .lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt{
-  a{
-    color:$defaultTextColor;
-
-    &:hover,
-    &:active,
-    &:focus,
-    &.active{
-      color:$gray10;
+  &:not(.colorful):not(.text-light){
+    a {
+      color:$defaultTextColor;
+      &:hover,
+      &:active,
+      &:focus,
+      &.active{
+        color:$gray10;
+      }
+    }
+  }
+  &.text-light {
+    a {
+      color:$text-light;
+      &:hover,
+      &:active,
+      &:focus,
+      &.active{
+        color:$text-med-dark;
+      }
     }
   }
 }
@@ -198,6 +210,8 @@ blockquote p{
     line-height:0; /* make sure it doesn't affect the real content. */
   }
 }
+blockquote.colorful p { color: $secondarySlate; }
+blockquote.colorful-dark p { color: $secondarySlateDark; }
 .bq1 p{
   @include px-em--font-size--line-height(44,50);
   margin-bottom: 24px;
