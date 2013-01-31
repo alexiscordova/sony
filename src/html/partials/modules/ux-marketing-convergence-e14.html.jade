@@ -25,3 +25,9 @@ section.container.uxmc
             div.uxmc-background
               div.iq-img(data-src=product.imgSrc)
               img.iq-img(data-src=product.imgSrc)
+
+    div.progress-indicators
+      div
+        - for (var i = 1; i <= data.partnerProducts.length; i++)
+          div.uxmc-dial(data-fixedlabel=i)
+            input(type='text', value='0')

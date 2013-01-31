@@ -6,7 +6,7 @@
 // * **Version:** 0.1
 // * **Modified:** 01/29/2013
 // * **Author:** George Pantazis
-// * **Dependencies:** jQuery 1.7+
+// * **Dependencies:** jQuery 1.7+, [jQuery SimpleKnob](jquery.simpleknob.html)
 
 (function($) {
 
@@ -50,6 +50,20 @@
       self.setPartnerCarouselInterval();
       self.setupReloadButton();
 
+      // This is just FPO to demonstrate simpleKnob functionality.
+
+      self.$el.find('.uxmc-dial').simpleKnob({
+        'displayInput': false,
+        'width': 50,
+        'height': 50,
+        'fontSize': '1em',
+        'bgColor': 'rgba(255,255,255,0.5)',
+        'fgColor': '#fff'
+      }).css('display', 'block');
+
+      setInterval(function(){
+        self.$el.find('.uxmc-dial').val( self.$el.find('.uxmc-dial').val() * 1 + 1 ).trigger('change');
+      },50);
     },
 
     // Setup behavior of reload button.
