@@ -45,6 +45,7 @@ docpadConfig = {
     defer: ->       output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/bundle/defer/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
     modulescss: ->  output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/css/scss/modules/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
     modulepages: -> output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/html/pages/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
+    doccopages: -> output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/../docs/docco/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
     generatedpages: -> output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/html/generated/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
     title:(name,env) -> t = docpad.database.findOne({id:env+'/'+name}); output = if t then t.attributes.title else '';
     desc:(name,env) ->  d = docpad.database.findOne({id:env+'/'+name}); output = if d then d.attributes.description else '';
