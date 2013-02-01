@@ -1,17 +1,19 @@
 mixin demos()
 	for name in modulepages()
 		if name.indexOf('index.html') == -1 && name.indexOf('-demo.html') != -1
+			env = 'pages'
 			hrf = '../build/debug/' + name.replace(/(.eco|.hb|.jade)/g, '')
-			ti = title(name) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
-			de = desc(name)
+			ti = title(name,env) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
+			de = desc(name,env)
 			li: a( href = hrf) !{ti} : !{de}
 			
 mixin layouts()
   for name in modulepages()
     if name.indexOf('index.html') == -1 && name.indexOf('-layouts.html') != -1
+      env = 'pages'
       hrf = '../build/debug/' + name.replace(/(.eco|.hb|.jade)/g, '')
-      ti = title(name) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
-      de = desc(name)
+      ti = title(name,env) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
+      de = desc(name,env)
       li: a( href = hrf) !{ti} : !{de}
 
 doctype 5
