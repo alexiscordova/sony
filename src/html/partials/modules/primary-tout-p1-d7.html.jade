@@ -1,45 +1,74 @@
-
-mixin kickerhead(d)
+mixin eyebrowheader(d)
   d = d || data
-  if d.kicker 
-    p.kicker.l2 !{d.kicker}
-  if d.headline
-    h1 !{d.headline}
+  if d.eyebrow
+    p.l3!= locals.plusify(d.eyebrow)
+  if d.variation.headertext == "larger"
+    h1!= d.headline
+  else
+    h2!= d.headline
     
 mixin subheadbody(d)
   d = d || data
-  if d.subhead 
-    h5 !{locals.plusify(d.subhead)}
   if d.body 
-    p.p3 !{d.body}
+    p.p3!= d.body
     
 mixin links(d)
   d = d || data
   if d.links
     for link in d.links
-      a(class = link.type, href= link.url) !{link.text}
+      a(class = link.type, href= link.url)!= link.text
+      
+mixin boxlayout(layout)
+  layout = layout || data.layout
+  if layout.text == "left"
+    .container.inner.grid.no-grid-at-767(class= data.style)
+      - span = "span" + layout.columns[0]
+      div(class= span)
+        .table-center-wrap
+          .table-center
+            .box(class = layout.alignment)
+              block
+  else if layout.text == "right" || layout.text == "center"
+    .container.inner.grid.no-grid-at-767(class= data.style)
+      - span = "span" + layout.columns[1]
+      - offset =  "offset" + layout.columns[0]
+      div(class= span)(class= offset)
+        .table-center-wrap
+          .table-center
+            .box(class = layout.alignment)
+              block
 
 section.primary-tout.container.full-bleed-no-max(class= data.mode)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
-  .container.inner(class= data.style)
-    if data.mode == "primary-tout" || data.mode == "product-intro-plate"
-      .grid.no-grid-at-767
-        .box.span5(class = data.style)
-          +kickerhead
-          +subheadbody
-          +links
+  if data.mode == "homepage"
+    if data.variation.secondbox
+      +boxlayout
+        +eyebrowheader
+      .secondary.container.full-bleed-no-max(class= data.variation.substyle)
+        .box
+          .container.grid.no-grid-at-767
+            .span6
+              +subheadbody
+            .span3.offset3  
+              +links
+    else
+      +boxlayout
+        +eyebrowheader
+        +subheadbody
+        +links
+  else if data.mode == "primary-tout"
+    +boxlayout
+      +eyebrowheader
+      +subheadbody
+      +links
+  else if data.mode == "product-intro-plate"
+    +boxlayout
+      +eyebrowheader
+      +subheadbody
+      +links
 
-    else if data.mode == "home-page"
-      .grid.no-grid-at-767
-        .span5.offset1
-          .fill.ghost-center-wrap
-            .ghost-center
-              +kickerhead
+
+
+
   
-      .box.grid.no-grid-at-767
-        .span6
-          +subheadbody
-          
-        .span3.offset3
-          +links

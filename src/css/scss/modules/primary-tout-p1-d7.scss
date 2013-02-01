@@ -19,15 +19,32 @@ $desktopMin: px-em(980);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
+    height:640px;
   } 
+  .box.left{
+    text-align:left;
+  }
+  .box.center{
+    text-align:center;
+  }
+  .box.right{
+    text-align:right;
+  }
+    
   .inner{
+    height:100%;
     position:absolute;
     top:0;
     right:0;
     left:0;
+    >div,
+    .table-center-wrap{
+      height:100%;
+    }
     .box{
+      margin-top:-1%;
       padding:56px;
-      .kicker{
+      .eyebrow{
         margin-bottom:0;
       }
       h1{
@@ -35,70 +52,35 @@ $desktopMin: px-em(980);
       }
     }
   }
-  
+
   .iconContainer-plus{
     background:$themePurple;
     margin:-8px 10px;
   }
-}
-.primary-tout.home-page{
-  .inner{
-    .box{
-      position:relative;
-      padding:38px 45px;
-      margin-bottom:30px;
-      h5{
-        line-height: 30px;
-        margin-bottom: 14px;
+  
+  
+  &.homepage{
+    .secondary{
+      position:absolute;
+      bottom:0;
+      right:0;
+      left:0;
+      width:100%;
+      .box{
+        padding:32px 0 22px 0;
       }
-      p{
-        margin:0;
-      }
-      .btn{
-        margin-top:18px;
-        position:absolute;
-        right:45px;
-        bottom:38px;
-      }          
     }
+    
+    
+    
   }
+  
 }
-@media (min-width: $desktopMin) {
-  .primary-tout{
-    .hero-image{
-      height:640px;
-    }
-  }
-}
+
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .primary-tout{
     .hero-image{
       height:500px;
-    }
-    .inner{
-      top:auto;
-      bottom:0;
-      padding:0 18px 18px 18px;
-      .box{
-        padding:36px;
-      }
-    }
-  }
-  .primary-tout.home-page{
-    .hero-image{
-      height:520px;
-    }
-    .inner{
-      padding: 0 18px 18px 18px;
-      .box{
-        position:relative;
-        margin-bottom:0;
-        padding:25px;
-        .btn{
-          right:25px;
-          bottom:25px;
-        }          
-      }
     }
   }
 }
@@ -106,38 +88,6 @@ $desktopMin: px-em(980);
   .primary-tout{
     .hero-image{
       height:400px;
-    }
-    .inner{
-      top:auto;
-      bottom:0;
-      padding:0 18px 18px 18px;
-      .box{
-        padding:36px;
-      }
-    }
-  }
-  .primary-tout.home-page{
-    .hero-image{
-      height:589px;
-    }
-    .inner{
-      padding: 0 18px 18px 18px;
-      h1{
-        max-width:70%;
-      }
-      .offset1{
-        padding-left:25px;
-      }
-      .box{
-        position:relative;
-        margin-bottom:0;
-        padding:25px;
-        .btn{
-          position:relative;
-          right:auto;
-          bottom:auto;
-        }
-      }
     }
   }
 }
