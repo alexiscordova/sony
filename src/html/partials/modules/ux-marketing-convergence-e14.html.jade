@@ -1,9 +1,9 @@
-section.container.uxmc
+section.container.uxmc(class=['theme-'+data.theme.toLowerCase()])
 
   div.grid
     h2 #{data.header}
 
-  div(class=['grid', 'uxmc-container', 'mode-'+data.mode.toLowerCase(), 'theme-'+data.theme.toLowerCase()])
+  div.grid.uxmc-container(class=['mode-'+data.mode.toLowerCase()])
 
     a.btn-reload(title='Load another product to go with your ' + data.baseProduct.title, href='#') +
 
