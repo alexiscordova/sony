@@ -56,7 +56,7 @@
       // Decide which tabs to make
       if ( Modernizr.mq( self.mq ) ) {
         self.setup();
-      } else if ( self.isCarousel && Modernizr.mq( self.carouselMq ) ) {
+      } else if ( self.isCarousel ) {// && Modernizr.mq( self.carouselMq ) ) {
         self.setupCarousel();
       }
     },
@@ -70,6 +70,7 @@
 
       self.windowWidth = self.$window.width();
       self.windowHeight = self.$window.height();
+      self.tabWidth = self.$tabs.outerWidth();
 
       // Phone
       if ( Modernizr.mq( self.mq ) ) {
@@ -84,7 +85,7 @@
         self.animateTab();
 
       // Tablet
-      } else if ( self.isCarousel && Modernizr.mq( self.carouselMq ) ) {
+      } else if ( self.isCarousel ) {// && Modernizr.mq( self.carouselMq ) ) {
         if ( self.isStickyTabs ) {
           self.teardown();
         }
@@ -298,8 +299,8 @@
         contentSelector: '.tabs',
         itemElementSelector: '.tab',
         mode: 'paginate',
-        nextSelector: '.tab-nav-next',
-        prevSelector: '.tab-nav-prev',
+        nextSelector: self.$navNext,
+        prevSelector: self.$navPrev,
         centerItems: false,
 
         iscrollProps: {
@@ -316,7 +317,7 @@
       // Check to make sure we actually have paginated tabs
       if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {
         self.$navNext.removeClass('hide');
-        self.$tabsWrap.addClass('tab-carousel');
+        self.$container.addClass('tab-carousel');
       }
 
       self.isTabCarousel = true;
@@ -328,7 +329,7 @@
       console.log('teardown: Carousel tabs');
       self.$navPrev.addClass('hide');
       self.$navNext.addClass('hide');
-      self.$tabsWrap.removeClass('tab-carousel');
+      self.$container.removeClass('tab-carousel');
       self.$tabsContainer.scrollerModule('destroy');
 
       self.isTabCarousel = false;
@@ -363,22 +364,20 @@
   // Overrideable options
   $.fn.stickyTabs.options = {
     tabsWrapSelector: '.tabs',
-    mq: '(max-width: 47.9375em)',
-    carouselMq: '(min-width: 48em) and (max-width: 61.1875em)',
-    tabOffset: 0,
-    initialTabWidth: 0,
-    tabWidth: 0,
-    tabsWidth: 0,
-    windowWidth: 0,
-    windowHeight: 0,
-    data: null,
-    lastX: null,
-    isStickyTabs: false,
-    toOffset: 0
+    mq: '(max-width: 47.9375em)'
+    // carouselMq: '(min-width: 48em) and (max-width: 61.1875em)'
   };
 
   // Not overrideable
   $.fn.stickyTabs.settings = {
+    tabOffset: 0,
+    tabWidth: 0,
+    windowWidth: 0,
+    windowHeight: 0,
+    overlap: null,
+    lastX: null,
+    isStickyTabs: false,
+    toOffset: 0,
     prop: Modernizr.csstransforms ? 'transform' : 'left',
     valStart : Modernizr.csstransforms ? 'translate(' : '',
     valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'

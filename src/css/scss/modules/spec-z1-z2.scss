@@ -23,9 +23,6 @@ $columnHeaderHeight: 5.3125em; // 85
 $tableHeaderColor: $gray80;
 $specStickyTabHeight: 3.125em; // 50
 
-$navBtnWidth: 2.125em; // 34
-$navBtnHeight: 3.25em; // 52
-
 
 
 // 888888b.            888    888
@@ -54,27 +51,6 @@ $navBtnHeight: 3.25em; // 52
     left: 0;
     right: 0;
   }
-}
-
-.nav-paddle {
-  border: none;
-  background: $gray60;
-  border-radius: .1875em; // 3 pixels
-  width: $navBtnWidth;
-  height: $navBtnHeight;
-  padding: 0; // override default button padding
-  @include transition();
-
-  &:hover,
-  &:focus {
-    background: $buttonOrange;
-    outline: none;
-  }
-
-  i {
-    vertical-align: middle;
-  }
-
 }
 
 // Spec Header
@@ -181,7 +157,7 @@ ul.spec-views {
 .spec-nav {
   position: absolute;
   z-index: 20;
-  top: ($columnHeaderHeight - $navBtnHeight) / 2;
+  top: ($columnHeaderHeight - $navPaddleHeight) / 2;
 }
 
 .spec-nav-prev {
@@ -393,7 +369,7 @@ ul.spec-views {
   }
 
   .detail-label {
-    @include text-overflow();
+    @include text-overflow( false );
     padding: 1.125em 1em 0 0;
   }
 
@@ -651,10 +627,6 @@ ul.spec-views {
 
 .spec-section {
 
-  .ghost-center.v-bottom {
-    vertical-align: bottom;
-  }
-
   &.align-right-bottom {
     padding-bottom: 0;
   }
@@ -705,8 +677,8 @@ ul.spec-views {
 // Carousel
 .spec-carousel-wrap {
   position: relative;
-  margin-left: $navBtnWidth + 1.25em;
-  margin-right: $navBtnWidth + 1.25em;
+  margin-left: $navPaddleWidth + 1.25em;
+  margin-right: $navPaddleWidth + 1.25em;
   overflow: hidden;
   max-width: 100%;
 
@@ -729,7 +701,7 @@ ul.spec-views {
   position: absolute;
   z-index: 20;
   top: 50%;
-  margin-top: -($navBtnHeight / 2) - 2.875em; // also subtract the height of the bullets
+  margin-top: -($navPaddleHeight / 2) - 2.875em; // also subtract the height of the bullets
   @include opacity(0);
 }
 

@@ -2,10 +2,11 @@
 // Sticky Tabs
 // --------------------------------------------------
 
-$tabHeight: 6.25em;
+$tabWidth: px-em(122px);
+$tabHeight: px-em(98px);
 .sticky-tabs {
   position: relative;
-  background-color: $grayLighter;
+  background-color: $gray70;
 
   .tabs-container {
     position: relative;
@@ -24,7 +25,7 @@ $tabHeight: 6.25em;
     left: 0;
     z-index: 1;
     display: inline-block;
-    width: 7.5em;
+    width: $tabWidth;
     padding: 0;
     height: $tabHeight;
     cursor: pointer;
@@ -59,51 +60,32 @@ $tabHeight: 6.25em;
     }
   }
 
-  // Tablet tab carousel nav buttons
+
+  // Tab carousel nav
+  // -------------------------
   .tab-nav-btns {
     display: none;
   }
 
-  // Tab carousel nav
-  // -------------------------
   .tab-nav {
     position: absolute;
     z-index: 5;
-    top: 0;
-    left: 0;
-    width: 1.875em;
-    height: 100%;
-    background: #f2f2f2;
-    cursor: pointer;
+    // top: -$tabHeight + ($navPaddleHeight / 2);
+    top: ($tabHeight - $navPaddleHeight) / 2;
+  }
+
+  .tab-nav-prev {
+    // left: 0;
+    // left: -$navPaddleWidth / 2;
   }
 
   .tab-nav-next {
     right: 0;
-    left: auto;
+    // right: -$navPaddleWidth / 2;
   }
 
-  // Arrow
-  $arrowSize: .3125em; // 5px
-  .tab-nav:before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -.125em; // 2px
-    margin-left: -.125em;
-    width: 0;
-    height: 0;
-    border-top: $arrowSize solid transparent;
-    border-right: $arrowSize solid $blue;
-    border-bottom: $arrowSize solid transparent;
-  }
-
-  // Arrow
-  .tab-nav-next:before {
-    border-top: $arrowSize solid transparent;
-    border-right: none;
-    border-left: $arrowSize solid $blue;
-    border-bottom: $arrowSize solid transparent;
+  &.tab-carousel .tab-nav-btns {
+    display: block;
   }
 
 }
@@ -111,23 +93,23 @@ $tabHeight: 6.25em;
 
 // Set up tab carousel
 // 768 - 979
-@media (min-width: 48em) and (max-width: 61.1875em) {
-  .sticky-tabs {
-    .tabs {
-      position: relative;
-      overflow-x: hidden;
-      overflow-y: visible;
-      -webkit-transition: all .4s ease-in-out;
-           -o-transition: all .4s ease-in-out;
-              transition: all .4s ease-in-out;
-    }
+// @media (min-width: 48em) and (max-width: 61.1875em) {
+//   .sticky-tabs {
+//     .tabs {
+//       position: relative;
+//       overflow-x: hidden;
+//       overflow-y: visible;
+//       -webkit-transition: all .4s ease-in-out;
+//            -o-transition: all .4s ease-in-out;
+//               transition: all .4s ease-in-out;
+//     }
 
-    .tabs-container {
-      overflow: hidden;
-    }
+//     .tabs-container {
+//       overflow: hidden;
+//     }
 
-    .tab-nav-btns {
-      display: block;
-    }
-  }
-}
+//     .tab-nav-btns {
+//       display: block;
+//     }
+//   }
+// }

@@ -754,23 +754,6 @@ $offsetFromMiddle: px-em(45px);
   padding-top: 1em;
   padding-bottom: 1em;
 
-  .media + .media {
-    margin-top: 1.25em;
-  }
-
-  .help-container {
-    text-align: right;
-    cursor: pointer;
-
-    .help-label {
-      padding-right: .625em;
-    }
-
-    i {
-      vertical-align: middle;
-    }
-  }
-
 }
 
 .sort-options {
@@ -779,13 +762,6 @@ $offsetFromMiddle: px-em(45px);
 
 .sort-options .native-dropdown {
   display: none;
-}
-
-.filter-label {
-  color: $gray40;
-  font-size: $font_11_16;
-  margin-bottom: 20px;
-  @include fontMedium();
 }
 
 // Filter labels ( active filters )
@@ -803,18 +779,13 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .filter-container {
-  margin-bottom: 2.75em;
+  margin-top: 1.375em;
+  margin-bottom: 1.375em;
 
-  .regular-filters &:nth-child(odd) {
-    clear: both;
-    margin-left: 0;
-  }
 
-  &:last-child,
-  &:nth-last-child(2),
-  .best-for,
-  .media-heading {
-    margin-bottom: 0;
+  .filter-label {
+    color: $gray40;
+    margin-bottom: 20px;
   }
 
   // Override default btn-group functionality to have them drop to the new line
@@ -828,8 +799,8 @@ $offsetFromMiddle: px-em(45px);
 
   // Box shadow hovers get cut off with overflow hidden
   .media {
-    overflow: visible;
-    color: $gray40;
+    // overflow: visible;
+    // color: $gray40;
   }
 
   .media-heading {
@@ -840,10 +811,32 @@ $offsetFromMiddle: px-em(45px);
   .media[disabled] .media-heading {
     color: $gray50;
   }
+
+  .media + .media {
+    margin-top: 1.25em;
+  }
+
+  .help-container {
+    text-align: right;
+    cursor: pointer;
+
+    .help-label {
+      padding-right: .625em;
+      @include transition(color $transitionNormal $easeNormal);
+    }
+
+    &:hover .help-label {
+      color: $gray10;
+    }
+
+    i {
+      vertical-align: middle;
+    }
+  }
 }
 
-.product-count {
-  // font-size: $font_15_15;
+.filter-container + .filter-container {
+  margin-top: 2.75em;
 }
 
 
@@ -920,24 +913,91 @@ $offsetFromMiddle: px-em(45px);
 
 .gallery-tabs {
 
+  .tabs {
+  }
+
   .tab {
     text-align: center;
   }
 
+  // Has to be pixels because of ghost-centering
   .holder-for-icon {
-    height: 1.875em;
-    margin-bottom: 1em;
-
-    i {
-      vertical-align: bottom;
-    }
+    height: 30px;
+    margin-bottom: 16px;
   }
 
   .tab-label {
     white-space: nowrap;
     margin-bottom: 0;
+    line-height: 1;
   }
 }
+
+// 980-1199
+@media (min-width: px-em(980px)) and (max-width: px-em(1199px) ) {
+  .gallery-tabs {
+
+    $tabWidth: px-em(114px);
+    $tabHeight: px-em(84px);
+    $iconMarginBottom: 12px;
+    $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
+    .tabs {
+      height: $tabHeight;
+    }
+
+    .tab {
+      @include wh( $tabWidth, $tabHeight );
+    }
+
+    .holder-for-icon {
+      margin-bottom: $iconMarginBottom;
+    }
+
+    .tab-nav {
+      top: $tabNavTop;
+    }
+  }
+}
+
+// 768-979
+// @media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
+@media ( max-width: $fourColMax ) {
+
+  .gallery-tabs {
+
+    $tabWidth: px-em(88px);
+    $tabHeight: px-em(71px);
+    $iconMarginBottom: 9px;
+    $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
+    .tabs {
+      height: $tabHeight;
+    }
+
+    .tab {
+      @include wh( $tabWidth, $tabHeight );
+    }
+
+    .holder-for-icon {
+      margin-bottom: $iconMarginBottom;
+    }
+
+    .tab-nav {
+      top: $tabNavTop;
+    }
+  }
+}
+
+// 0-767
+// @media (max-width: $threeColMax) {
+
+//   .gallery-tabs {
+
+//     .tabs {
+//       @include wh( px-em(88px), px-em(71px) );
+//     }
+//   }
+// }
+
 
 
 // Accessories

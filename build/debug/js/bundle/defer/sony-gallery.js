@@ -19,7 +19,6 @@
     // jQuery objects
     self.$container = $container;
     self.id = self.$container[0].id;
-    // self.$filterContainer = self.$container.find('.product-filter');
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
     self.$sortSelect = self.$container.find('.sort-options select');
@@ -57,6 +56,8 @@
       showInitialTransition: false,
       buffer: 5
     });
+
+    self.shuffle = self.$grid.data('shuffle');
 
     // Displays active filters on `filter`
     self.$grid.on('filter.shuffle', function(evt, shuffle) {
@@ -446,11 +447,18 @@
       },
       // call shuffle as a callback
       function( newElements ) {
-        self.$grid.shuffle( 'appended', $( newElements ).addClass('via-ajax') );
+        var $newElements = $( newElements ).addClass('via-ajax');
+
+        // Get shuffle to append and show the items for us
+        self.$grid.shuffle( 'appended', $newElements );
+
         // Show new product count
         self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+
+        self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
+
         // Update iQ images
-        window.iQ.update(true);
+        window.iQ.update( true );
       });
 
       // Pause infinite scrolls that are in hidden tabs
@@ -459,10 +467,11 @@
       }
     },
 
-    initSwatches : function() {
+    initSwatches : function( $collection ) {
       var self = this;
 
-      self.$grid.find('.mini-swatch[data-color]').each(function() {
+      $collection = $collection || self.$grid.find('.mini-swatch[data-color]');
+      $collection.each(function() {
           var $swatch = $(this),
               color = $swatch.data('color'),
               $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),

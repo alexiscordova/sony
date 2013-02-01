@@ -687,7 +687,7 @@
         enable : function( isUpdateLayout ) {
             this.enabled = true;
             if ( isUpdateLayout !== false ) {
-                this.resized();
+                this.update();
             }
         }
 
