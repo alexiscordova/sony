@@ -1,52 +1,45 @@
-section.primary-tout.container.full-bleed(class= data.mode)
+
+mixin kickerhead(d)
+  d = d || data
+  if d.kicker 
+    p.kicker.l2 !{d.kicker}
+  if d.headline
+    h1 !{d.headline}
+    
+mixin subheadbody(d)
+  d = d || data
+  if d.subhead 
+    h5 !{locals.plusify(d.subhead)}
+  if d.body 
+    p.p3 !{d.body}
+    
+mixin links(d)
+  d = d || data
+  if d.links
+    for link in d.links
+      a(class = link.type, href= link.url) !{link.text}
+
+section.primary-tout.container.full-bleed-no-max(class= data.mode)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
-  .container
-    if data.mode == "primary-tout"
-      .inner.grid
-        .span5.hero-unit(class = data.style)
-          if data.kicker 
-            p.kicker.l2 !{data.kicker}
-          if data.headline 
-            h1 !{data.headline}
-          if data.body 
-            p !{data.body}
-          if data.links
-            for link in data.links
-              a(class = link.type, href= link.url) !{link.text}
-              
-    else if data.mode == "product-intro-plate"
-      .inner.grid
-        .span5.hero-unit(class = data.style)
-          if data.kicker 
-            p.kicker.l2 !{data.kicker}
-          if data.headline 
-            h1 !{data.headline}
-          if data.body 
-            p !{data.body}
-          if data.links
-            for link in data.links
-              a(class = link.type, href= link.url) !{link.text}
+  .container.inner(class= data.style)
+    if data.mode == "primary-tout" || data.mode == "product-intro-plate"
+      .grid.no-grid-at-767
+        .box.span5(class = data.style)
+          +kickerhead
+          +subheadbody
+          +links
 
-    else if data.mode == "home-page" 
-      .container.full-bleed.inner(class= data.style)
-        .grid
-          .span5.offset1
-            .fill.ghost-center-wrap
-              .ghost-center
-                if data.kicker 
-                  p.kicker.l2 !{data.kicker}
-                if data.headline
-                  h1 !{data.headline}
+    else if data.mode == "home-page"
+      .grid.no-grid-at-767
+        .span5.offset1
+          .fill.ghost-center-wrap
+            .ghost-center
+              +kickerhead
   
-        .grid.hero-unit
-          .span6
-            if data.subhead 
-              h5 !{locals.plusify(data.subhead)}
-            if data.body 
-              p.p3 !{data.body}
-  
-          .span3.offset3
-            if data.links
-              for link in data.links
-                a(class = link.type, href = link.url) !{link.text}
+      .box.grid.no-grid-at-767
+        .span6
+          +subheadbody
+          
+        .span3.offset3
+          +links

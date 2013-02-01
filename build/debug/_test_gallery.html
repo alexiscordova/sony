@@ -14,15 +14,18 @@
     <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
-<!--[if lt IE 9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
+  <!--[if lt IE 9]>
+    <link rel="stylesheet" href="css/fonts/fonts-eot.css">
+    <link rel="stylesheet" href="css/fonts/icons-eot.css">
+  <![endif]-->
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
       // Android needs otf/ttf fonts.
       var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
       var fontIconType = fontType === "otf" ? "ttf" : fontType; // fontIcons are ttf instead of otf.
-      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
-      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontIconType+".css'%3E"));
-    </script><link rel="stylesheet" href="fonts/_fonts-woff.css"><link rel="stylesheet" href="fonts/_icons-ui-woff.css">
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-icons-"+fontIconType+".css'%3E"));
+    </script><link rel="stylesheet" href="fonts/b64-fonts-woff.css"><link rel="stylesheet" href="fonts/b64-icons-woff.css">
   <!--<![endif]-->
 
   <!-- FONTS.COM -->

@@ -39,8 +39,8 @@
       self.$elements = $(self.itemElementSelector),
       self.$sampleElement = self.$elements.eq(0);
 
-      console.log( 'self.contentSelector »' , self.contentSelector);
-      console.log( 'self.$contentContainer »' , self.$contentContainer);
+      // console.log( 'self.contentSelector »' , self.contentSelector);
+      // console.log( 'self.$contentContainer »' , self.$contentContainer);
 
       // Initially set the isPaginated boolean. This may be changed later inside paginate()
       self.isPaginated = self.mode === 'paginate';
