@@ -51,7 +51,7 @@
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Decide which tabs to make</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mq( self.mq ) ) {
         self.setup();
-      } <span class="keyword">else</span> <span class="keyword">if</span> ( self.isCarousel &amp;&amp; Modernizr.mq( self.carouselMq ) ) {
+      } <span class="keyword">else</span> <span class="keyword">if</span> ( self.isCarousel ) {<span class="comment">// &amp;&amp; Modernizr.mq( self.carouselMq ) ) {</span>
         self.setupCarousel();
       }
     },
@@ -65,6 +65,7 @@
 
       self.windowWidth = self.$window.width();
       self.windowHeight = self.$window.height();
+      self.tabWidth = self.$tabs.outerWidth();
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Phone</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mq( self.mq ) ) {
         <span class="keyword">if</span> ( self.isTabCarousel ) {
@@ -77,7 +78,7 @@
 
         self.animateTab();
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Tablet</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( self.isCarousel &amp;&amp; Modernizr.mq( self.carouselMq ) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Tablet</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( self.isCarousel ) {<span class="comment">// &amp;&amp; Modernizr.mq( self.carouselMq ) ) {</span>
         <span class="keyword">if</span> ( self.isStickyTabs ) {
           self.teardown();
         }
@@ -268,8 +269,8 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
         contentSelector: <span class="string">'.tabs'</span>,
         itemElementSelector: <span class="string">'.tab'</span>,
         mode: <span class="string">'paginate'</span>,
-        nextSelector: <span class="string">'.tab-nav-next'</span>,
-        prevSelector: <span class="string">'.tab-nav-prev'</span>,
+        nextSelector: self.$navNext,
+        prevSelector: self.$navPrev,
         centerItems: <span class="literal">false</span>,
 
         iscrollProps: {
@@ -285,7 +286,7 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
 
 </pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Check to make sure we actually have paginated tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.$tabsContainer.data(<span class="string">'scrollerModule'</span>).isPaginated ) {
         self.$navNext.removeClass(<span class="string">'hide'</span>);
-        self.$tabsWrap.addClass(<span class="string">'tab-carousel'</span>);
+        self.$container.addClass(<span class="string">'tab-carousel'</span>);
       }
 
       self.isTabCarousel = <span class="literal">true</span>;
@@ -297,7 +298,7 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
       console.log(<span class="string">'teardown: Carousel tabs'</span>);
       self.$navPrev.addClass(<span class="string">'hide'</span>);
       self.$navNext.addClass(<span class="string">'hide'</span>);
-      self.$tabsWrap.removeClass(<span class="string">'tab-carousel'</span>);
+      self.$container.removeClass(<span class="string">'tab-carousel'</span>);
       self.$tabsContainer.scrollerModule(<span class="string">'destroy'</span>);
 
       self.isTabCarousel = <span class="literal">false</span>;
@@ -329,21 +330,18 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
 
 </pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyTabs.options = {
     tabsWrapSelector: <span class="string">'.tabs'</span>,
-    mq: <span class="string">'(max-width: 47.9375em)'</span>,
-    carouselMq: <span class="string">'(min-width: 48em) and (max-width: 61.1875em)'</span>,
+    mq: <span class="string">'(max-width: 47.9375em)'</span>
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>carouselMq: '(min-width: 48em) and (max-width: 61.1875em)'</p>             </td>             <td class="code">               <div class="highlight"><pre>  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyTabs.settings = {
     tabOffset: <span class="number">0</span>,
-    initialTabWidth: <span class="number">0</span>,
     tabWidth: <span class="number">0</span>,
-    tabsWidth: <span class="number">0</span>,
     windowWidth: <span class="number">0</span>,
     windowHeight: <span class="number">0</span>,
-    data: <span class="literal">null</span>,
+    overlap: <span class="literal">null</span>,
     lastX: <span class="literal">null</span>,
     isStickyTabs: <span class="literal">false</span>,
-    toOffset: <span class="number">0</span>
-  };
-
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.stickyTabs.settings = {
+    toOffset: <span class="number">0</span>,
     prop: Modernizr.csstransforms ? <span class="string">'transform'</span> : <span class="string">'left'</span>,
     valStart : Modernizr.csstransforms ? <span class="string">'translate('</span> : <span class="string">''</span>,
     valEnd : Modernizr.csstransforms ? <span class="string">'px,0)'</span> : <span class="string">'px'</span>

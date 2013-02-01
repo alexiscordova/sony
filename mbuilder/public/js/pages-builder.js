@@ -397,6 +397,7 @@ function buildAll(elem) {
     });
 
     $('.submodContainer ol').empty().html('<li class="highlight" ><p>All data elements will be built and stacked on the page</p></li>');
+    $('.submodContainer').show();
     $('.modContainer select').prop('disabled', true);
   }
 }

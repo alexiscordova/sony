@@ -13,7 +13,7 @@
 // Licensing and other notes on the original source, located
 // [here](https://raw.github.com/aterrien/jQuery-Knob/master/js/jquery.knob.js).
 //
-// This version minifes to about 5KB, a 40% savings over the original version,
+// This version minconcats to about 5KB, a 40% savings over the original version,
 // mostly from removing touch interactions / bindings and other options.
 // Refer to the options block below for available configurations.
 //
@@ -21,7 +21,6 @@
 //
 //     $("#foo").simpleKnob({
 //       'fgColor': '#000',
-//       'displayInput': false,
 //       'width': 100,
 //       'height': 100
 //     });
@@ -77,8 +76,8 @@
 
       this.o = $.extend({
 
-        // Available Options
-        // -----------------
+        // Default Options
+        // ---------------
         // *More information on these options [here](https://github.com/aterrien/jQuery-Knob).*
 
         min: this.$.data('min') || 0,
@@ -89,10 +88,15 @@
         lineCap: this.$.data('linecap') || 'butt',
         width: this.$.data('width') || 200,
         height: this.$.data('height') || 200,
-        displayInput: this.$.data('displayinput') === null || this.$.data('displayinput'),
         fgColor: this.$.data('fgcolor') || '#87CEEB',
         inputColor: this.$.data('inputcolor') || this.$.data('fgcolor') || '#87CEEB',
         inline: false,
+
+        // Added Options
+        // -------------
+
+        // Font size for label. Auto-calculates based on width if omitted.
+        fontSize: this.$.data('fontsize')
 
       }, this.o);
 
@@ -100,17 +104,14 @@
       this.v = this.$.val();
       (this.v === '') && (this.v = this.o.min);
 
-      this.$.bind(
-        'change', function () {
+      this.$.bind('change', function () {
         s.val(s.$.val());
       });
-
-      (!this.o.displayInput) && this.$.hide();
 
       this.$c = $('<canvas width="' + this.o.width + 'px" height="' + this.o.height + 'px"></canvas>');
       this.c = this.$c[0].getContext("2d");
 
-      this.$.wrap($('<div style="' + (this.o.inline ? 'display:inline;' : '') +
+      this.$.wrap($('<div style="position: relative; ' + (this.o.inline ? 'display:inline;' : '') +
         'width:' + this.o.width + 'px;height:' + this.o.height + 'px;"></div>'))
         .before(this.$c);
 
@@ -195,6 +196,7 @@
   };
 
   k.Dial = function () {
+
     k.o.call(this);
 
     this.startAngle = null;
@@ -266,24 +268,9 @@
       this.startAngle = 1.5 * Math.PI + this.angleOffset;
       this.endAngle = 1.5 * Math.PI + this.angleOffset + this.angleArc;
 
-      var s = max(
-      String(Math.abs(this.o.max)).length, String(Math.abs(this.o.min)).length, 2) + 2;
+      var s = max(String(Math.abs(this.o.max)).length, String(Math.abs(this.o.min)).length, 2) + 2;
 
-      this.o.displayInput && this.i.css({
-        'width': ((this.o.width / 2 + 4) >> 0) + 'px',
-        'height': ((this.o.width / 3) >> 0) + 'px',
-        'position': 'absolute',
-        'vertical-align': 'middle',
-        'margin-top': ((this.o.width / 3) >> 0) + 'px',
-        'margin-left': '-' + ((this.o.width * 3 / 4 + 2) >> 0) + 'px',
-        'border': 0,
-        'background': 'none',
-        'font': 'bold ' + ((this.o.width / s) >> 0) + 'px Arial',
-        'text-align': 'center',
-        'color': this.o.inputColor || this.o.fgColor,
-        'padding': '0px',
-        '-webkit-appearance': 'none'
-      }) || this.i.css({
+      this.i.css({
         'width': '0px',
         'visibility': 'hidden'
       });
@@ -329,6 +316,13 @@
     return this.each(
 
     function () {
+
+      var testElem = document.createElement('canvas');
+
+      if (!(testElem.getContext && testElem.getContext('2d'))) {
+        return;
+      }
+
       var d = new k.Dial();
       d.o = o;
       d.$ = $(this);
