@@ -21,15 +21,39 @@
   background-color: #ccc;
   overflow: hidden;
 
+  .theme-watch & { background-color: $themeRed; }
+  .theme-listen & { background-color: $themePurple; }
+  .theme-play & { background-color: $themeBlueLight; }
+  .theme-discover & { background-color: $themeGreen; }
+  .theme-create & { background-color: $themeOrange; }
+  .theme-connect & { background-color: $themeBlueDark; }
+
   .uxmc-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     z-index: 1;
-    padding: 0 0 1.45em 1.65em;
+    font-size: px-em(22px);
+    font-weight: normal;
+    line-height: px-em(19px, 22px);
+    padding: 0 0 30px 36px;
 
     h3 {
       display: none;
+    }
+
+    p {
+      margin: 0;
+      opacity: 0.65;
+    }
+
+    a,
+    p {
+      display: block;
+      width: 357px;
+      color: #fff;
+      font-size: 1em;
+      overflow: hidden;
     }
   }
 
@@ -41,7 +65,6 @@
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
     text-align: center;
 
     img {
@@ -54,7 +77,7 @@
   .base-product {
     position: relative;
     float: left;
-    width: 49.5%;
+    width: 50%;
     height: px-em(340px);;
 
     div.iq-img {
@@ -66,7 +89,7 @@
     position: relative;
     float: right;
     margin: 0;
-    width: 49.5%;
+    width: 50%;
     height: px-em(340px);;
 
     li {
@@ -75,6 +98,12 @@
       right: 0;
       bottom: 0;
       left: 0;
+
+      div.iq-img {
+        left: 10%;
+        width: 80%;
+        background-size: contain;
+      }
     }
   }
 
@@ -89,13 +118,20 @@
     line-height: 0.8em;
     background-color: #fff;
     color: #ccc;
-    font-size: 5em;
+    font-size: 4.5em;
     text-align: center;
+
+    .theme-watch & { color: $themeRed; }
+    .theme-listen & { color: $themePurple; }
+    .theme-play & { color: $themeBlueLight; }
+    .theme-discover & { color: $themeGreen; }
+    .theme-create & { color: $themeOrange; }
+    .theme-connect & { color: $themeBlueDark; }
   }
 
   .progress-indicators {
     position: absolute;
-    right: 0;
+    right: 2.5%;
     bottom: 0;
     z-index: 3;
     display: table;
@@ -110,7 +146,7 @@
       position: relative;
       width: 28px;
       height: 28px;
-      margin: 8px 22px;
+      margin: 8px 0;
 
       .uxmc-dial-label {
         position: absolute;
