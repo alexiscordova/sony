@@ -39,6 +39,9 @@
       self.$elements = $(self.itemElementSelector),
       self.$sampleElement = self.$elements.eq(0);
 
+      // console.log( 'self.contentSelector »' , self.contentSelector);
+      // console.log( 'self.$contentContainer »' , self.$contentContainer);
+
       // Initially set the isPaginated boolean. This may be changed later inside paginate()
       self.isPaginated = self.mode === 'paginate';
       self.isCarousel = self.mode === 'carousel';
@@ -57,6 +60,8 @@
       self._setContainerWidth();
 
       // Create instance of scroller and pass it defaults
+      //console.log( 'self.$el. »' , self.$el);
+
       self.scroller = new IScroll( self.$el[0], self.iscrollProps );
       self.currentPage = self.scroller.currPageX;
 

@@ -1,0 +1,25 @@
+---
+title: Tertiary Module Layouts
+description: This shows several layout possibilities for the tertiary module.
+---
+
+doctype 5
+
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+
+	h2 
+		| (Default) (Event) (News) Article
+		
+	e = {"locals":locals, "data":data('tertiary-t1-t5/article-t2-a-c-d.json')}
+	!{partial('modules/tertiary-t1-t5.html.jade', e)}
+ 
+	!{partial('includes/foot.html.jade', l)}
+
+</html>

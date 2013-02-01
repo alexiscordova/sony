@@ -26,16 +26,20 @@
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
-      self.$el                     = $( element );
+      self.$container              = $( element );
+      self.$el                     = self.$container.find(".tcc-scroller");
       self.$win                    = $( window );
       self.$doc                    = $( window.document );
       self.ev                      = $( {} ); //event object
       
       self.mode                    = null;
-      
+
+      self.$tccID                  = "#" + self.$container.attr("id");
+      self.contentModulesClass     = '.tcc-content-module';
+      self.contentSelectorClass    = '.tcc-body';
       self.$tccBodyWrapper         = self.$el;
-      self.$tccBody                = self.$tccBodyWrapper.find('.tcc-body');
-      self.$contentModules         = self.$el.find('.tcc-content-module');
+      self.$tccBody                = self.$tccBodyWrapper.find(self.contentSelectorClass);
+      self.$contentModules         = self.$el.find(self.contentModulesClass);
       self.$scrollerInstance       = null;
                 
       self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
@@ -101,12 +105,8 @@
 
       // instantiate a scroller 
       createScroller : function(){       
-        var self=this;
-        
+        var self=this;       
         self.$scrollerInstance = self.$el.scrollerModule( self.scrollerOptions );
-
-        //console.log( '« end »');
-        //console.groupEnd();
       },
 
       // destroy scroller if not in mobile
@@ -146,10 +146,14 @@
        // now that we know mode, add it as option.
         self.scrollerOptions.fitPerPage = self.mode === 'phone' ? 1 : 2; 
 
-        //console.log( 'self.scrollerOptions »', self.scrollerOptions);
-        //console.log( 'self.scrollerOptions.fitPerPage »' , self.scrollerOptions.fitPerPage);
-        //console.log( '« end »');
-        //console.groupEnd();
+        // adds unique ID to the item selector in case there's more than one scroller on the page
+        // it will keep it encapsulated
+        // 
+        
+        self.scrollerOptions.contentSelector = self.$tccID + " " + self.contentSelectorClass;
+        self.scrollerOptions.itemElementSelector = self.$tccID + " " + self.contentModulesClass; 
+
+        //console.log( 'self.scrollerOptions.itemElementSelector »' , self.scrollerOptions.itemElementSelector);
       },
 
       // every resize event (debounced) determine size of each content module 
@@ -262,10 +266,10 @@
     $.fn.tertiaryModule.defaults = {
       
       options : {
-        contentSelector: '.tcc-body',
-        itemElementSelector: '.tcc-content-module',
+        contentSelector: null, // added in setScrollerOptions
+        itemElementSelector: null, // id is added setScrollerOptions
         mode: 'paginate',
-        fitPerPage: null, // null for now, determined once self.mode is set
+        fitPerPage: null, // null for now, determined once self.mode is set in setScrollerOptions
         lastPageCenter: false,
         generatePagination: true,
         iscrollProps: {
@@ -290,8 +294,12 @@
     };
 
     $( function(){
-      // if there isn't a .tcc-scroller on the page, nothing will happen...
-      $('.tcc-scroller').tertiaryModule({}).data('tertiaryModule');
+
+      // TODO: optimize for more than one tertiary container
+      $('.tcc-wrapper').each(function() {
+        $(this).tertiaryModule({}).data('tertiaryModule');
+      });
+
     } );
 
  })(jQuery, Modernizr, window, undefined);

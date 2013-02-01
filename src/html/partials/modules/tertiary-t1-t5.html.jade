@@ -1,15 +1,17 @@
-- tccSectionID = "tcc-" + data.moduleMode
+---
+title: Tertiary Module Template
+---
 
 //- START Tertiary Content Container
-section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, data-tcc-mode="#{data.moduleMode}")
+section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tcc-mode="#{data.moduleMode}")
 
   for header in data.header
     .tcc-header-wrapper.container
       .tcc-header.grid.m-full-bleed
-        p.tcc-header-title.l4 #{header.title}
+        p.tcc-header-title.l1 #{header.title}
 
-        p.tcc-header-link
-          a.tl(href="#{header.link}") #{header.linkText}
+        p.tcc-header-link.lt2
+          a(href="#{header.link}") #{header.linkText}
   
   section.tcc-scroller.tcc-body-wrapper.container
     .tcc-body.grid.no-grid-at-767
@@ -34,15 +36,14 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, da
                   img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
 
                   if (contentMode == "news") && (module.date)
-                    p.news-date.p4
-                      strong
-                        | #{module.date}
+                    p.news-date.l3
+                      | #{module.date}
 
                   if (contentMode == "event") && (module.attendanceCount)
                     p.attendance-count
-                      span.number
+                      span.t3
                         | #{module.attendanceCount} 
-                      span.l6
+                      span.l2
                         | <br/> attending
 
                   noscript

@@ -22,6 +22,11 @@ $mobileHeight:349px;
 
 .tcc-wrapper{
   padding:80px 0;
+
+  .tcc-header-wrapper{
+    max-width: 1021px;
+  }
+
   .tcc-header{
     padding-bottom: 20px;
     
@@ -34,7 +39,12 @@ $mobileHeight:349px;
       float:right;
       margin:14px 0 0 0;
     } // end .tcc-header-link
+  
   } // end .tcc-header
+
+  .tcc-body-wrapper{
+    max-width: 1021px;
+  } // end .tcc-body-wrapper
 
   .tcc-content-module{
     height:365px; 
@@ -70,7 +80,9 @@ $mobileHeight:349px;
     } // end .btn
   } // end .sonys-voice
 
-  .article{   
+  .article{
+    //max-width:px-em(316px);
+
     .t6{
       strong{
         line-height:px-em(24px);
@@ -81,26 +93,23 @@ $mobileHeight:349px;
     img{
       padding-bottom:px-em(20px);
     } // end img
-
   } // end .article
 } // end .tcc-wrapper
    
 
 // LARGE DESKTOP - 1200px
 // ------------------------------------------------
-@media (min-width: px-em(1200px)) {
-  .tcc-body-wrapper{
-    .tcc-content-module{
-      height:370px;
-    }
+// @media (min-width: px-em(1200px)) {
+  
+//   .tcc-body-wrapper{
+//     max-width: 1021px;
+//   } // end .tcc-body-wrapper
 
-    .sonys-voice{
-      .btn{
-        width:196px;
-      } // end .btn
-    } // end .sonys-voice
-  } // end .tcc
-} // end mQ 1200
+//  .tcc-header-wrapper{
+//       max-width: 1021px;
+//   } // end .tcc-header-wrapper
+
+// } // end mQ 1200
 
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
@@ -228,10 +237,39 @@ $mobileHeight:349px;
       width:50%;
     } // end .btn
   } // end .sonys-voice
+
+
+   .article{
+
+      .imgContainer{
+        
+        img{
+          width:100%;
+        } // end img
+      
+      } // end .imgContainer
+
+   } // end .article
+
+
+  
 } // end > 480
 
 // phone portrait
 @media (max-width: px-em(320px)){
+
+ .article{
+
+    .imgContainer{
+      
+      img{
+        width:100%;
+      } // end img
+    
+    } // end .imgContainer
+
+ } // end .article
+
  .sonys-voice{
     .bq2 > p{
       padding:0 20px 20px;
