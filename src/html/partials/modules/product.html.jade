@@ -1,5 +1,14 @@
 include ../includes/jade-helpers.jade
 
+//- A simple unstyled ul
+mixin specList( list, extraClasses )
+  - classes = 'unstyled spec-list'
+  - extraClasses = extraClasses || false
+  - if ( extraClasses ) classes += ' ' + extraClasses
+  ul(class=classes)
+    each li in list
+      li.p3= li
+
 mixin colorSwatches( colors )
   if colors.length > 1
     .color-swatches.clearfix
@@ -37,7 +46,10 @@ if data.view == "basic"
   else
     klass = 'span1 normal'
 
-  a.gallery-item.basic(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
+  //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
+  klass = 'gallery-item basic m-span3 ' + klass
+
+  a(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label

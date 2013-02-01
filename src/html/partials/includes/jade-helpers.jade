@@ -81,12 +81,3 @@ mixin definitionList( list, isHorizontal )
       else
         each definition in li.definitions
           dd.p3= definition
-
-//- A simple unstyled ul
-mixin specList( list, extraClasses )
-  - classes = 'unstyled spec-list'
-  - extraClasses = extraClasses || false
-  - if ( extraClasses ) classes += ' ' + extraClasses
-  ul(class=classes)
-    each li in list
-      li.p3= li
