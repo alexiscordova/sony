@@ -1041,13 +1041,14 @@
       } );
     };
 
-    //defaults for the related products
+    //defaults for the sony one carousel
     $.fn.sonyOneCarousel.defaults = {
-      throttleTime: 1
+      
     };
 
     $.fn.sonyOneCarousel.settings = {
       //must haves
+      throttleTime: 10
     };
 
     $( function(){

@@ -5,23 +5,50 @@ section(class='sony-one-carousel', data-mode=data.mode)
 				.soc-content
 					.soc-grid(class='slimgrid')
 						for item in slide
-							- clsss = item.typeLayout + ' ' + item.typeAlign + ' ' + item.content
+							- textStyle   = item.typeLayout
+							- alignment   = item.typeAlignment
+							- contentType = item.contentType
 							l = item.objectSize
 							if l == 'span8'
-								- c = 'soc-3up span8 iq-img ' + clsss 
+								- c = 'soc-3up span8 iq-img'
+								- s = 'content-8'
 							else if l == 'span4'
-								- c = 'soc-1up span4 iq-img ' + clsss
+								- c = 'soc-1up span4 iq-img'
+								- s = 'content-4'
 							else if l == 'span6'
-								- c = 'soc-2up span6 iq-img ' + clsss
+								- c = 'soc-2up span6 iq-img'
+								- s = 'content-6'
 							.soc-item(class=c, data-src=item.backgroundImgSrc)
-								.soc-item-content
-									if item.content == 'cHE'
-										a(class='eyebrow l5', href=item.eyebrow.link)
-											| !{item.eyebrow.title}
-										h3
-											| !{item.headline.title}
-											a(href=item.headline.link)
-												| !{item.headline.emphasis}									
+								.soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)
+									
+									//- HEADLINE ONLY
+									if contentType == 'headline-only'
+										h3.headline!= item.headline.title
+											if item.headline.link
+												a(href=item.headline.link)
+													| !{item.headline.linkText}
+													i(class="icon-ui2-chevron-18-white-right")
+
+									//- HEADLINE EYEBROW
+									if contentType == 'headline-eyebrow'
+										a.eyebrow(href=item.eyebrow.link) 
+											| #{item.eyebrow.title}
+										h3.headline!= item.headline.title
+											if item.headline.link
+												a(href=item.headline.link)
+													| !{item.headline.linkText}
+													i(class="icon-ui2-chevron-18-white-right")
+
+
+
+
+
+
+
+
+
+
+
 
 
 								//- if item.hasFooter
