@@ -8123,6 +8123,27 @@ form.footer-store-locator-form i {
   background-color: #2f353d;
 }
 
+/* line 60, ../../../src/css/scss/_components/_pagination.scss */
+.nav-paddle {
+  border: none;
+  background: #d2d2db;
+  border-radius: .1875em;
+  width: 2.125em;
+  height: 3.25em;
+  padding: 0;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+/* line 70, ../../../src/css/scss/_components/_pagination.scss */
+.nav-paddle:hover, .nav-paddle:focus {
+  background: #f25529;
+  outline: none;
+}
+/* line 75, ../../../src/css/scss/_components/_pagination.scss */
+.nav-paddle i {
+  vertical-align: middle;
+}
+
 /* line 6, ../../../src/css/scss/_components/_pager.scss */
 .pager {
   margin: 1.65 0;
@@ -9040,26 +9061,29 @@ a.label:hover, a.badge:hover {
   position: relative;
   width: inherit;
   height: 14px;
-  background: #dddddd;
+  background: #bcbccc;
   border-radius: 14px;
+  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
 }
-/* line 16, ../../../src/css/scss/_components/_range-control.scss */
+/* line 17, ../../../src/css/scss/_components/_range-control.scss */
 .range-control.vertical {
   width: 14px;
   height: 200px;
 }
-/* line 21, ../../../src/css/scss/_components/_range-control.scss */
+/* line 22, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .ambit {
   z-index: 3;
   height: 14px;
   background: #3c3c42;
 }
-/* line 27, ../../../src/css/scss/_components/_range-control.scss */
+/* line 28, ../../../src/css/scss/_components/_range-control.scss */
 .range-control.vertical .ambit {
   width: 14px;
   height: auto;
 }
-/* line 32, ../../../src/css/scss/_components/_range-control.scss */
+/* line 33, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .handle {
   position: absolute;
   top: 0;
@@ -9079,51 +9103,51 @@ a.label:hover, a.badge:hover {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur") 8 4, pointer;
   /* you should probably localize the cur file */
 }
-/* line 47, ../../../src/css/scss/_components/_range-control.scss */
+/* line 48, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .handle.grabbed, .range-control .handle:hover {
   border-width: 12px;
   margin-top: -6px;
   margin-left: -14px;
 }
-/* line 56, ../../../src/css/scss/_components/_range-control.scss */
+/* line 55, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .rangecontrol-min-handle {
   left: 0%;
 }
-/* line 59, ../../../src/css/scss/_components/_range-control.scss */
+/* line 58, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .rangecontrol-max-handle {
   left: 100%;
 }
 
-/* line 64, ../../../src/css/scss/_components/_range-control.scss */
+/* line 63, ../../../src/css/scss/_components/_range-control.scss */
 .ie .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/openhand.cur"), pointer;
   /* you should probably localize the cur file */
 }
 
-/* line 68, ../../../src/css/scss/_components/_range-control.scss */
+/* line 67, ../../../src/css/scss/_components/_range-control.scss */
 .grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur") 8 4, move;
   /* you should probably localize the cur file */
 }
 
-/* line 72, ../../../src/css/scss/_components/_range-control.scss */
+/* line 71, ../../../src/css/scss/_components/_range-control.scss */
 .ie.grabbing .handle {
   cursor: url("http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur"), move;
   /* you should probably localize the cur file */
 }
 
-/* line 79, ../../../src/css/scss/_components/_range-control.scss */
+/* line 78, ../../../src/css/scss/_components/_range-control.scss */
 .range-output-container {
   position: relative;
   height: 25px;
 }
-/* line 83, ../../../src/css/scss/_components/_range-control.scss */
+/* line 82, ../../../src/css/scss/_components/_range-control.scss */
 .range-output-container sup {
   top: -0.3em;
   margin-right: 1px;
 }
 
-/* line 90, ../../../src/css/scss/_components/_range-control.scss */
+/* line 89, ../../../src/css/scss/_components/_range-control.scss */
 .range-output-min,
 .range-output-max {
   position: absolute;
@@ -9135,7 +9159,7 @@ a.label:hover, a.badge:hover {
   transition: color 0.15s ease-out;
 }
 
-/* line 100, ../../../src/css/scss/_components/_range-control.scss */
+/* line 99, ../../../src/css/scss/_components/_range-control.scss */
 .grabbing-min .range-output-min,
 .grabbing-max .range-output-max {
   color: #f25529;
@@ -9218,31 +9242,31 @@ a.label:hover, a.badge:hover {
   box-shadow: none;
 }
 
-/* line 6, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 7, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs {
   position: relative;
   background-color: #e4e7eb;
 }
-/* line 10, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 11, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tabs-container {
   position: relative;
   overflow: hidden;
 }
-/* line 16, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 17, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tabs {
   z-index: 1;
-  height: 6.25em;
+  height: 6.125em;
 }
-/* line 21, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 22, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab {
   position: relative;
   top: 0;
   left: 0;
   z-index: 1;
   display: inline-block;
-  width: 7.5em;
+  width: 7.625em;
   padding: 0;
-  height: 6.25em;
+  height: 6.125em;
   cursor: pointer;
   overflow: hidden;
   text-align: left;
@@ -9254,80 +9278,38 @@ a.label:hover, a.badge:hover {
   -webkit-transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
   transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, top 0.15s ease-out;
 }
-/* line 44, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 45, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab:focus, .sticky-tabs .tab:hover {
   background-color: #f3f4f6;
 }
-/* line 49, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 50, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .no-touch .sticky-tabs .tab:active, .sticky-tabs .tab.active {
   background-color: white;
   box-shadow: 0 0.1875em 0 white, 0 0 0.25em 0.0625em rgba(0, 0, 0, 0.15);
 }
-/* line 57, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 58, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab.active {
   z-index: 2;
 }
-/* line 63, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 66, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab-nav-btns {
   display: none;
 }
-/* line 69, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 70, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab-nav {
   position: absolute;
   z-index: 5;
-  top: 0;
-  left: 0;
-  width: 1.875em;
-  height: 100%;
-  background: #f2f2f2;
-  cursor: pointer;
+  top: 1.4375em;
 }
-/* line 80, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 82, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab-nav-next {
   right: 0;
-  left: auto;
 }
 /* line 87, ../../../src/css/scss/_components/_sticky-tabs.scss */
-.sticky-tabs .tab-nav:before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -0.125em;
-  margin-left: -0.125em;
-  width: 0;
-  height: 0;
-  border-top: 0.3125em solid transparent;
-  border-right: 0.3125em solid #3dadfe;
-  border-bottom: 0.3125em solid transparent;
-}
-/* line 102, ../../../src/css/scss/_components/_sticky-tabs.scss */
-.sticky-tabs .tab-nav-next:before {
-  border-top: 0.3125em solid transparent;
-  border-right: none;
-  border-left: 0.3125em solid #3dadfe;
-  border-bottom: 0.3125em solid transparent;
+.sticky-tabs.tab-carousel .tab-nav-btns {
+  display: block;
 }
 
-@media (min-width: 48em) and (max-width: 61.1875em) {
-  /* line 116, ../../../src/css/scss/_components/_sticky-tabs.scss */
-  .sticky-tabs .tabs {
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: visible;
-    -webkit-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
-  }
-  /* line 125, ../../../src/css/scss/_components/_sticky-tabs.scss */
-  .sticky-tabs .tabs-container {
-    overflow: hidden;
-  }
-  /* line 129, ../../../src/css/scss/_components/_sticky-tabs.scss */
-  .sticky-tabs .tab-nav-btns {
-    display: block;
-  }
-}
 /* line 7, ../../../src/css/scss/_base/_utilities.scss */
 .pull-right {
   float: right;
@@ -9536,33 +9518,38 @@ a.label:hover, a.badge:hover {
   font-size: 16px;
 }
 
-/* line 159, ../../../src/css/scss/_base/_utilities.scss */
+/* line 163, ../../../src/css/scss/_base/_utilities.scss */
+.ghost-center.v-bottom {
+  vertical-align: bottom;
+}
+
+/* line 167, ../../../src/css/scss/_base/_utilities.scss */
 .table-center-wrap {
   display: table;
 }
 
-/* line 163, ../../../src/css/scss/_base/_utilities.scss */
+/* line 171, ../../../src/css/scss/_base/_utilities.scss */
 .table-center {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 173, ../../../src/css/scss/_base/_utilities.scss */
+/* line 181, ../../../src/css/scss/_base/_utilities.scss */
 .hero {
   position: relative;
   overflow: hidden;
   max-height: 400px;
 }
-/* line 178, ../../../src/css/scss/_base/_utilities.scss */
+/* line 186, ../../../src/css/scss/_base/_utilities.scss */
 .hero img {
   display: block;
   width: 100%;
 }
-/* line 194, ../../../src/css/scss/_base/_utilities.scss */
+/* line 202, ../../../src/css/scss/_base/_utilities.scss */
 .hero > .container-px-width {
   position: relative;
 }
-/* line 198, ../../../src/css/scss/_base/_utilities.scss */
+/* line 206, ../../../src/css/scss/_base/_utilities.scss */
 .hero .hero-text-wrap {
   position: absolute;
   z-index: 5;
@@ -9571,32 +9558,32 @@ a.label:hover, a.badge:hover {
   width: 100%;
   height: 100%;
 }
-/* line 207, ../../../src/css/scss/_base/_utilities.scss */
+/* line 215, ../../../src/css/scss/_base/_utilities.scss */
 .hero .hero-text {
   width: 100%;
 }
-/* line 211, ../../../src/css/scss/_base/_utilities.scss */
+/* line 219, ../../../src/css/scss/_base/_utilities.scss */
 .hero .primary-tout-subtitle {
   margin-bottom: 0;
   color: #e4e7eb;
 }
-/* line 216, ../../../src/css/scss/_base/_utilities.scss */
+/* line 224, ../../../src/css/scss/_base/_utilities.scss */
 .hero .primary-tout-title {
   margin-top: 0;
   color: white;
 }
-/* line 220, ../../../src/css/scss/_base/_utilities.scss */
+/* line 228, ../../../src/css/scss/_base/_utilities.scss */
 .hero .primary-tout-title small {
   color: inherit;
   font-size: 18px;
 }
 
-/* line 232, ../../../src/css/scss/_base/_utilities.scss */
+/* line 240, ../../../src/css/scss/_base/_utilities.scss */
 [data-stars] .icon-ui-star:not(:first-child) {
   margin-left: 2px;
 }
 
-/* line 241, ../../../src/css/scss/_base/_utilities.scss */
+/* line 249, ../../../src/css/scss/_base/_utilities.scss */
 [data-stars="1"] .icon-ui-star:nth-child(-n + 1),
 [data-stars="2"] .icon-ui-star:nth-child(-n + 2),
 [data-stars="3"] .icon-ui-star:nth-child(-n + 3),
@@ -9605,7 +9592,7 @@ a.label:hover, a.badge:hover {
   background-position: -360px -60px;
 }
 
-/* line 248, ../../../src/css/scss/_base/_utilities.scss */
+/* line 256, ../../../src/css/scss/_base/_utilities.scss */
 .el-hidden {
   display: block;
   position: absolute;
@@ -9618,7 +9605,7 @@ a.label:hover, a.badge:hover {
   transition: opacity 0.15s ease-in 0s, left 0s linear 0.15s, visibility 0s linear 0.15s;
 }
 
-/* line 249, ../../../src/css/scss/_base/_utilities.scss */
+/* line 257, ../../../src/css/scss/_base/_utilities.scss */
 .el-shown {
   opacity: 1;
   visibility: visible;
