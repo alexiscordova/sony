@@ -51,6 +51,7 @@ $fourColMax: px-em(979px);
   .product-price {
     margin-top: 1em;
     color: $gray40;
+    @include text-overflow();
   }
 
   .product-price .price {
@@ -110,6 +111,9 @@ $fourColMax: px-em(979px);
 //                                                   888
 //                                              Y8b d88P
 //                                               "Y88P"
+
+$oneByOnePadding: 165.19607843137254%;
+$oneByOneImgPadding: 107.84313725490196%;
 .gallery-item {
   position: relative;
   display: block;
@@ -120,7 +124,7 @@ $fourColMax: px-em(979px);
   &:after {
     content: '';
     display: block;
-    padding-top: 165.19607843137254%;
+    padding-top: $oneByOnePadding;
   }
 
   // Make them a bit bigger
@@ -142,18 +146,17 @@ $fourColMax: px-em(979px);
     width: 100%;
     overflow: hidden;
     text-align: center;
-    background: $gray90;
-    @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
+    background: $gray80;
+    @include transition(background-color $transitionFast $easeNormal);
 
     &:hover {
-      @include box-shadow(inset 0 -.25em 0 $gray40);
-      background-color: $gray70;
+      background-color: $gray95;
     }
 
     &:after {
       content: '';
       display: block;
-      padding-top: 107.84313725490196%;
+      padding-top: $oneByOneImgPadding;
     }
 
     .product-img-wrap {
@@ -191,12 +194,12 @@ $fourColMax: px-em(979px);
 
     // Change padding for 4 column grid
     .shuffle-4 &:after {
-      padding-top: 77.8%;
+      padding-top: $oneByOnePadding;
     }
 
     // 4 column grid
     .shuffle-4 & .product-img:after {
-      padding-top: 50.7%;
+      padding-top: $oneByOneImgPadding;
     }
 
     // Should = 612px at full width (296 * 2 + 20)
@@ -551,7 +554,7 @@ $offsetFromMiddle: px-em(45px);
 
        &:after {
         content: '';
-        padding-top: 165.19607843137254%;
+        padding-top: $oneByOnePadding;
       }
     }
 
@@ -563,7 +566,7 @@ $offsetFromMiddle: px-em(45px);
     // Make all tiles the same size
     .gallery-item .product-img:after {
       content: '';
-      padding-top: 107.84313725490196%;
+      padding-top: $oneByOneImgPadding;
     }
   }
 
@@ -751,23 +754,6 @@ $offsetFromMiddle: px-em(45px);
   padding-top: 1em;
   padding-bottom: 1em;
 
-  .media + .media {
-    margin-top: 1.25em;
-  }
-
-  .help-container {
-    text-align: right;
-    cursor: pointer;
-
-    .help-label {
-      padding-right: .625em;
-    }
-
-    i {
-      vertical-align: middle;
-    }
-  }
-
 }
 
 .sort-options {
@@ -776,13 +762,6 @@ $offsetFromMiddle: px-em(45px);
 
 .sort-options .native-dropdown {
   display: none;
-}
-
-.filter-label {
-  color: $gray40;
-  font-size: $font_11_16;
-  margin-bottom: 20px;
-  @include fontMedium();
 }
 
 // Filter labels ( active filters )
@@ -800,18 +779,13 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .filter-container {
-  margin-bottom: 2.75em;
+  margin-top: 1.375em;
+  margin-bottom: 1.375em;
 
-  .regular-filters &:nth-child(odd) {
-    clear: both;
-    margin-left: 0;
-  }
 
-  &:last-child,
-  &:nth-last-child(2),
-  .best-for,
-  .media-heading {
-    margin-bottom: 0;
+  .filter-label {
+    color: $gray40;
+    margin-bottom: 20px;
   }
 
   // Override default btn-group functionality to have them drop to the new line
@@ -825,8 +799,8 @@ $offsetFromMiddle: px-em(45px);
 
   // Box shadow hovers get cut off with overflow hidden
   .media {
-    overflow: visible;
-    color: $gray40;
+    // overflow: visible;
+    // color: $gray40;
   }
 
   .media-heading {
@@ -837,10 +811,32 @@ $offsetFromMiddle: px-em(45px);
   .media[disabled] .media-heading {
     color: $gray50;
   }
+
+  .media + .media {
+    margin-top: 1.25em;
+  }
+
+  .help-container {
+    text-align: right;
+    cursor: pointer;
+
+    .help-label {
+      padding-right: .625em;
+      @include transition(color $transitionNormal $easeNormal);
+    }
+
+    &:hover .help-label {
+      color: $gray10;
+    }
+
+    i {
+      vertical-align: middle;
+    }
+  }
 }
 
-.product-count {
-  // font-size: $font_15_15;
+.filter-container + .filter-container {
+  margin-top: 2.75em;
 }
 
 
@@ -917,24 +913,91 @@ $offsetFromMiddle: px-em(45px);
 
 .gallery-tabs {
 
+  .tabs {
+  }
+
   .tab {
     text-align: center;
   }
 
+  // Has to be pixels because of ghost-centering
   .holder-for-icon {
-    height: 1.875em;
-    margin-bottom: 1em;
-
-    i {
-      vertical-align: bottom;
-    }
+    height: 30px;
+    margin-bottom: 16px;
   }
 
   .tab-label {
     white-space: nowrap;
     margin-bottom: 0;
+    line-height: 1;
   }
 }
+
+// 980-1199
+@media (min-width: px-em(980px)) and (max-width: px-em(1199px) ) {
+  .gallery-tabs {
+
+    $tabWidth: px-em(114px);
+    $tabHeight: px-em(84px);
+    $iconMarginBottom: 12px;
+    $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
+    .tabs {
+      height: $tabHeight;
+    }
+
+    .tab {
+      @include wh( $tabWidth, $tabHeight );
+    }
+
+    .holder-for-icon {
+      margin-bottom: $iconMarginBottom;
+    }
+
+    .tab-nav {
+      top: $tabNavTop;
+    }
+  }
+}
+
+// 768-979
+// @media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
+@media ( max-width: $fourColMax ) {
+
+  .gallery-tabs {
+
+    $tabWidth: px-em(88px);
+    $tabHeight: px-em(71px);
+    $iconMarginBottom: 9px;
+    $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
+    .tabs {
+      height: $tabHeight;
+    }
+
+    .tab {
+      @include wh( $tabWidth, $tabHeight );
+    }
+
+    .holder-for-icon {
+      margin-bottom: $iconMarginBottom;
+    }
+
+    .tab-nav {
+      top: $tabNavTop;
+    }
+  }
+}
+
+// 0-767
+// @media (max-width: $threeColMax) {
+
+//   .gallery-tabs {
+
+//     .tabs {
+//       @include wh( px-em(88px), px-em(71px) );
+//     }
+//   }
+// }
+
 
 
 // Accessories
@@ -1096,10 +1159,9 @@ $offsetFromMiddle: px-em(45px);
   left: -9999px;
   // width: inherit; // position fixed not inheriting correct width?...
   padding: 1em 0 0.5em;
-  opacity: 0;
   background: $gray90;
   top: -6.25em;
-  @include transition(opacity $transitionNormal ease-in, top $transitionNormal ease-in, left 0s $transitionNormal);
+  @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
 
   // The sticky-count uses a pseudo element for the box-shadow
   &:not(.sticky-count) {
@@ -1114,7 +1176,6 @@ $offsetFromMiddle: px-em(45px);
   // Make sticky header visible
   &.open {
     left: 0; // Show it
-    opacity: 1; // Fade in
     top: 0;
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
