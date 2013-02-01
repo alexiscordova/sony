@@ -11,7 +11,7 @@
 
             $(<span class="string">'.video-container'</span>).each(<span class="keyword">function</span>() {
                 $(<span class="keyword">this</span>).find(<span class="string">'.vbc-container, .video-missing-poster'</span>).remove();
-                $(<span class="keyword">this</span>).find(<span class="string">'.video-poster'</span>).removeClass(<span class="string">'visuallyhidden'</span>);
+                $(<span class="keyword">this</span>).find(<span class="string">'img'</span>).removeClass(<span class="string">'visuallyhidden'</span>);
             });
 
             $targetPlaceholder = <span class="keyword">this</span>.getAttribute(<span class="string">'data-target'</span>);
@@ -30,7 +30,7 @@
 
             autoStart = (videoProp.autoStart) || <span class="literal">true</span>;
             imgMissingVideoID = (videoProp.imgMissingVideoID) ? videoProp.imgMissingVideoID : <span class="string">'img/modules/brightcovevideo/poster-missing-video.png'</span>;
-            imgMissingVideoID = <span class="string">'&lt;img src="'</span> + imgMissingVideoID + <span class="string">'" class="video-poster video-missing-poster" alt="video unavailable" &gt;'</span>;
+            imgMissingVideoID = <span class="string">'&lt;img src="'</span> + imgMissingVideoID + <span class="string">'" class="iq-img video-poster video-missing-poster" alt="video unavailable" &gt;'</span>;
 
             videoIdMissing = (!videoProp.videoID) ? <span class="literal">true</span> : <span class="literal">false</span>;
 
