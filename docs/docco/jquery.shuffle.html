@@ -225,7 +225,7 @@ whether to hide it or not.</p>             </td>             <td class="code">  
             }
 
             $collection.each(<span class="keyword">function</span>(i) {
-                <span class="keyword">this</span>.style[self.transitionName + <span class="string">'Delay'</span>] = ((i + <span class="number">1</span>) * <span class="number">150</span>) + <span class="string">'ms'</span>;
+                <span class="keyword">this</span>.style[self.transitionName + <span class="string">'Delay'</span>] = ((i + <span class="number">1</span>) * self.sequentialFadeDelay) + <span class="string">'ms'</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Set the delay back to zero after one transition</p>             </td>             <td class="code">               <div class="highlight"><pre>                $(<span class="keyword">this</span>).one($.support.transition.end, <span class="keyword">function</span>() {
                     <span class="keyword">this</span>.style[self.transitionName + <span class="string">'Delay'</span>] = <span class="string">'0ms'</span>;
@@ -615,7 +615,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
                         opacity: <span class="number">1</span>
                     });
                 });
-            }, <span class="number">100</span>);
+            }, self.revealAppendedDelay);
         },
 
         layout : <span class="keyword">function</span>() {
@@ -633,7 +633,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
         enable : <span class="keyword">function</span>( isUpdateLayout ) {
             <span class="keyword">this</span>.enabled = <span class="literal">true</span>;
             <span class="keyword">if</span> ( isUpdateLayout !== <span class="literal">false</span> ) {
-                <span class="keyword">this</span>.resized();
+                <span class="keyword">this</span>.update();
             }
         }
 
@@ -689,6 +689,8 @@ The buffer value is very useful when the height is a percentage of the width</p>
     };
 
 </pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
+        sequentialFadeDelay: <span class="number">250</span>,
+        revealAppendedDelay: <span class="number">300</span>,
         enabled: <span class="literal">true</span>,
         supported: Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions, <span class="comment">// supports transitions and transforms</span>
         prefixed: Modernizr.prefixed,
