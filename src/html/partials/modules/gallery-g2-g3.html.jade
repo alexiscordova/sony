@@ -4,6 +4,81 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
 layout3: "normal"
 ---
 
+mixin filterColor( filterSet )
+  ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
+    each filter in filterSet.filters
+      //- Can't have variable attribute names :( - build an html string
+      tagString = '<li class="swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
+      | !{tagString}
+
+mixin filterRange( filterSet )
+  .range-output-container
+    .range-output-min
+    .range-output-max
+  .range-control-wrap
+    .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
+
+mixin filterButton( filterSet )
+  ul.unstyled.btn-group(data-filter=filterSet.name, data-filter-type=filterSet.type)
+    each filter in filterSet.filters
+      //- Can't have variable attribute names :( - build an html string
+      tagString = '<button class="btn btn-square" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
+      | !{tagString}
+  if filterSet.help
+    .help-container.js-popover-trigger.iconTrigger-ui2-help(data-original-title=filterSet.help.title)
+      span.p3.help-label= filterSet.help.label
+      span
+        i.icon-ui2-help
+      .js-popover-content.hidden
+        p= filterSet.help.content
+
+mixin filterCheckbox( filterSet )
+  ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
+    each filter in filterSet.filters
+      li.control-inline
+        input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
+        label(for=filterSet.name + '-' + filter.value)= filter.label
+        if filter.help
+          .help-container.pull-right.js-popover-trigger.iconTrigger-ui2-help(data-original-title=filter.help.title)
+            span
+              i.icon-ui2-help
+            .js-popover-content.hidden
+              p= filter.help.content
+
+mixin filterGroup( filterSet )
+  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type)
+    each filter in filterSet.filters
+      li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
+      btn = '<div class="pull-left"><button class="btn btn-square media-object"><i class="icon-bestfor-' + filter.icon + '"></i></button></div>'
+      body = '<div class="media-body"><p class="media-heading p3">' + filter.label + '</p><p class="p4">' + filter.description + '</p></div>'
+      mediaObject = li + btn + body + '</li>'
+      | !{ mediaObject }
+      //- li.media.clearfix(data-label=filter.label, data-filterName=filter.value)
+      //-   .pull-left
+      //-     button.btn.btn-square.media-object
+      //-       i(class="icon-bestfor-" + filter.icon)
+      //-   .media-body
+      //-     p.media-heading.p3.text-dark= filter.label
+      //-     p.p3= filter.description
+
+mixin filterSet( filterSet )
+  .filter-container
+    p.l3.filter-label= filterSet.label
+    if filterSet.type == 'color'
+      mixin filterColor( filterSet )
+
+    else if filterSet.type == 'range'
+      mixin filterRange( filterSet )
+
+    else if filterSet.type == 'button'
+      mixin filterButton( filterSet )
+
+    else if filterSet.type == 'checkbox'
+      mixin filterCheckbox( filterSet )
+
+    else if filterSet.type == 'group'
+      mixin filterGroup( filterSet )
+
 .hero
   .hero-img-wrap
     img(src="img/cyber-shot-hero.jpg", alt="")
@@ -15,19 +90,23 @@ layout3: "normal"
 
 .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
   .tabs-container.container.m-full-bleed
-    .tabs.grid.m-full-bleed
-      each tab, i in data.tabs
-        activeClass = i === 0 ? ' active' : ''
-        tabClass = 'tab' + activeClass
-        button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
-          .ghost-center-wrap
-            .ghost-center
-              .holder-for-icon
-                i(class="icon-tab-" + tab.icon)
-              .l5.tab-label: strong= tab.label
+    .grid.m-full-bleed
+      .tabs
+        each tab, i in data.tabs
+          activeClass = i === 0 ? ' active' : ''
+          tabClass = 'tab' + activeClass
+          button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
+            .ghost-center-wrap
+              .ghost-center
+                .holder-for-icon.ghost-center-wrap
+                  tabClass = 'ghost-center v-bottom icon-tab-' + tab.icon
+                  i(class=tabClass)
+                .l2.tab-label= tab.label
     nav.tab-nav-btns
-      .tab-nav.tab-nav-prev
-      .tab-nav.tab-nav-next
+      button.nav-paddle.tab-nav.tab-nav-prev
+        i.icon-ui2-chevron-18-white-left
+      button.nav-paddle.tab-nav.tab-nav-next
+        i.icon-ui2-chevron-18-white-right
 
 .tab-content
   if data.tabs[0]
@@ -74,7 +153,7 @@ layout3: "normal"
             if data.productCards.sortSet
               .grid.no-grid-at-767
                 .sort-options.pull-right
-                  span.l5.filter-label Sort By:&nbsp;
+                  span.l3.filter-label Sort By:&nbsp;
                   .dropdown.dropdown-alt.ib
                     button.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
                       span.js-toggle-text= data.productCards.sortSet[0].label
@@ -108,77 +187,18 @@ layout3: "normal"
           .collapse.slide-toggle-target(id=data.productCards.name + '-filters')
             .filter-options.container
               .grid.no-grid-at-767
-                .span8.regular-filters
-                  each filterSet in data.productCards.filterSet
-
-                    if filterSet.type == 'color'
-                      .span6.filter-container
-                        p.l5.filter-label= filterSet.label
-                        ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
-                          each filter in filterSet.filters
-                            //- Can't have variable attribute names :( - build an html string
-                            tagString = '<li class="swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
-                            | !{tagString}
-
-                    else if filterSet.type == 'range'
-                      .span6.filter-container
-                        p.l5.filter-label= filterSet.label
-                        .range-output-container
-                          .range-output-min
-                          .range-output-max
-                        .range-control-wrap
-                          .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
-
-                    else if filterSet.type == 'button'
-                      .span6.filter-container
-                        p.l5.filter-label= filterSet.label
-                        ul.unstyled.btn-group(data-filter=filterSet.name, data-filter-type=filterSet.type)
-                          each filter in filterSet.filters
-                            //- Can't have variable attribute names :( - build an html string
-                            tagString = '<li class="btn btn-square" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</li>'
-                            | !{tagString}
-                        if filterSet.help
-                          .help-container.js-popover-trigger.iconTrigger-ui2-help(data-original-title=filterSet.help.title)
-                            span.p3.help-label= filterSet.help.label
-                            span
-                              i.icon-ui2-help
-                            .js-popover-content.hidden
-                              p= filterSet.help.content
-
-                    else if filterSet.type == 'checkbox'
-                      .span6.filter-container
-                        p.l5.filter-label= filterSet.label
-                        ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
-                          each filter in filterSet.filters
-                            li.control-inline
-                              input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
-                              label(for=filterSet.name + '-' + filter.value)= filter.label
-                              if filter.help
-                                .help-container.pull-right.js-popover-trigger.iconTrigger-ui2-help(data-original-title=filter.help.title)
-                                  span
-                                    i.icon-ui2-help
-                                  .js-popover-content.hidden
-                                    p= filter.help.content
-
-                each filterSet in data.productCards.filterSet
-                  if filterSet.type == 'group'
-                    .span4.best-for.filter-container
-                      p.l5.filter-label= filterSet.label
-                      ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type)
-                        each filter in filterSet.filters
-                          //- Dynamic attribute names...!
-                          li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
-                          btn = '<div class="pull-left"><button class="btn btn-square media-object"><i class="icon-bestfor-' + filter.icon + '"></i></button></div>'
-                          body = '<div class="media-body"><p class="media-heading p3">' + filter.label + '</p><p class="p3">' + filter.description + '</p></div>'
-                          mediaObject = li + btn + body + '</li>'
-                          | !{ mediaObject }
-                          //- li.media.clearfix(data-label=filter.label, data-filterName=filter.value)
-                          //-   .pull-left
-                          //-     button.btn.btn-square.media-object
-                          //-       i(class="icon-bestfor-" + filter.icon)
-                          //-   .media-body
-                          //-     p.media-heading.p3.text-dark= filter.label
-                          //-     p.p3= filter.description
+                  .span4
+                    each filterSet in data.productCards.filterSet
+                      if filterSet.filterGroup == 1
+                        mixin filterSet( filterSet )
+                  .span4
+                    each filterSet in data.productCards.filterSet
+                      if filterSet.filterGroup == 2
+                        mixin filterSet( filterSet )
+                  .span4
+                    each filterSet in data.productCards.filterSet
+                      if filterSet.filterGroup == 3
+                        mixin filterSet( filterSet )
 
           .container.active-filters-wrap
             .grid.active-filters

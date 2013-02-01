@@ -36,11 +36,14 @@
           resizeFunc = $.throttle( self.throttleTime, $.proxy( self._onResize, self ) );
 
       self.$contentContainer = $(self.contentSelector);
-      self.$elements = $(self.itemElementSelector),
+      self.$elements = self.$el.find(self.itemElementSelector);
       self.$sampleElement = self.$elements.eq(0);
 
       // Initially set the isPaginated boolean. This may be changed later inside paginate()
       self.isPaginated = self.mode === 'paginate';
+
+      // These don't change
+      self.isPaginateMode = self.mode === 'paginate';
       self.isCarousel = self.mode === 'carousel';
 
       // save iscroll properties
@@ -124,6 +127,9 @@
       // Add back the extra spacing we took away for previous calculations
       containerWidth += self.extraSpacing;
 
+      // Update the width again to the new width based on however many 'pages' there are now
+      self._setContainerWidth( numPages, containerWidth );
+
       //stop processing function /maybe hide paddles or UI?
       if ( numPages === 1 || availToFit > itemCount ) {
         return false;
@@ -166,8 +172,6 @@
         buildPage( i , startIndex , endIndex );
       }
 
-      // Update the width again to the new width based on however many 'pages' there are now
-      self.$contentContainer.css('width' , numPages * containerWidth );
 
       // Save values for later outsiders if they want it
       self.totalPages = numPages;
@@ -215,11 +219,14 @@
         self.isPaginated = self._paginate();
       }
 
+      // We need to update the container's width
       if ( self.isCarousel ) {
         self._setItemWidths();
+        // Set the width of the element containing all the items
         self._setContainerWidth();
       }
 
+      // When `isPaginated` or `isCarousel`, we're using iscroll, which needs to be updated.
       if ( self.isPaginated || self.isCarousel ) {
         self.scroller.refresh();
         self.scroller.scrollToPage(self.currentPage, 0, 400);
@@ -287,14 +294,19 @@
       }
     },
 
-    _setContainerWidth : function() {
+    _setContainerWidth : function( numPages, containerWidth ) {
       var self = this,
           contentWidth = 0;
 
-      // Count it
-      self.$el.find(self.itemElementSelector).each(function() {
-        contentWidth += Math.round($(this).outerWidth(true));
-      });
+      // If we're not given a number of pages, calculate it based on the width of each item
+      if ( !numPages ) {
+        // Count it
+        self.$el.find(self.itemElementSelector).each(function() {
+          contentWidth += Math.round($(this).outerWidth(true));
+        });
+      } else {
+        contentWidth = numPages * containerWidth;
+      }
 
       // Set it
       self.$contentContainer.css('width' , contentWidth );

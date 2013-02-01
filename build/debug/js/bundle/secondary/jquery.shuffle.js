@@ -244,7 +244,7 @@
             }
 
             $collection.each(function(i) {
-                this.style[self.transitionName + 'Delay'] = ((i + 1) * 150) + 'ms';
+                this.style[self.transitionName + 'Delay'] = ((i + 1) * self.sequentialFadeDelay) + 'ms';
 
                 // Set the delay back to zero after one transition
                 $(this).one($.support.transition.end, function() {
@@ -669,7 +669,7 @@
                         opacity: 1
                     });
                 });
-            }, 100);
+            }, self.revealAppendedDelay);
         },
 
         layout : function() {
@@ -687,7 +687,7 @@
         enable : function( isUpdateLayout ) {
             this.enabled = true;
             if ( isUpdateLayout !== false ) {
-                this.resized();
+                this.update();
             }
         }
 
@@ -749,6 +749,8 @@
 
     // Not overrideable
     $.fn.shuffle.settings = {
+        sequentialFadeDelay: 250,
+        revealAppendedDelay: 300,
         enabled: true,
         supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
         prefixed: Modernizr.prefixed,
