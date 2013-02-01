@@ -12,11 +12,12 @@ mixin subheadbody(d)
   if d.body 
     p.p3!= d.body
     
-mixin links(d)
+mixin links(d, extraclass)
   d = d || data
+  extraclass = extraclass || ""
   if d.links
     for link in d.links
-      a(class = link.type, href= link.url)!= link.text
+      a(class= extraclass)(class= link.type, href= link.url)!= link.text
       
 mixin boxlayout(layout)
   layout = layout || data.layout
@@ -50,8 +51,8 @@ section.primary-tout.container.full-bleed-no-max(class= data.mode)
           .container.grid.no-grid-at-767
             .span6
               +subheadbody
-            .span3.offset3  
-              +links
+            .span3.offset3.clearfix
+              +links(data, "pull-right")
     else
       +boxlayout
         +eyebrowheader
