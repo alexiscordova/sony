@@ -14,8 +14,12 @@ body
   #page-wrap-outer.page-wrap-outer
     #page-wrap-inner.page-wrap-inner
 
+      !{partial('modules/global-header.html.jade', l)}
+
       e = {"locals":locals, "data":data('spec-multi-z2/default.json')}
       !{partial('modules/spec-multi-z2.html.jade', e)}
+
+      !{partial('modules/global-footer.html.jade', l)}
 
 
   script(src="js/libs/bootstrap-transition.js")

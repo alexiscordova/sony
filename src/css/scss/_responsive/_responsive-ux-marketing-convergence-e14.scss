@@ -173,8 +173,19 @@
 //                                  888
 // ------------------------------------------------
 
-@media (max-width: 767px) {
+@media (max-width: px-em(767px)) {
 
+body{
+
+  .uxmc-container {
+    height: px-em(260px);
+
+    .base-product,
+    .partner-products {
+      height: px-em(260px);
+    }
+  }
+}
 
 } // END max-width: 767px
 
@@ -263,7 +274,6 @@
       }
 
       .btn-reload {
-        left: 50%;
         top: 200px;
       }
 

@@ -2,21 +2,22 @@
 .grid
 	.span10.offset1
 		for video in data.video
-			div(data-module-name="video-module")
-				h2 #{video.title}
-				div(id = video.target_div.id, class = video.target_div.class, data-media != video.target_div.data_media)
-					figure
-						img.iq-img(class = video.poster.class, alt=video.poster.alt, data-src= video.poster.src)
-						noscript
-	          				img(src= video.poster.noscriptsrc)
-						figcaption #{video.poster.alt}
-			
-				button(type = "button", data-target= video.target_div.id, class='btn btn-primary #{video.buttons.action_button.class}') #{video.buttons.action_button.label}
-	
-				button(type = "button", class='btn btn-primary #{video.buttons.pause.class}') #{video.buttons.pause.label}
+			section
+				div(data-module-name="video-module")
+					h2 #{video.title}
+					div(id = video.target_div.id, class = video.target_div.class, data-media != video.target_div.data_media)
+						figure
+							img.iq-img(class = video.poster.class, alt=video.poster.alt, data-src= video.poster.src)
+							noscript
+		          				img(src= video.poster.noscriptsrc)
+							figcaption #{video.poster.alt}
 				
-				button(type = "button", class='btn btn-primary #{video.buttons.play.class}') #{video.buttons.play.label}
-				
+					button(type = "button", data-target= video.target_div.id, class='btn btn-primary #{video.buttons.action_button.class}') #{video.buttons.action_button.label}
+		
+					button(type = "button", class='btn btn-primary #{video.buttons.pause.class}') #{video.buttons.pause.label}
+					
+					button(type = "button", class='btn btn-primary #{video.buttons.play.class}') #{video.buttons.play.label}
+					
 // BrightCove script
 script(src='http://admin.brightcove.com/js/BrightcoveExperiences.js')
 
