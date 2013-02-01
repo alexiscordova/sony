@@ -80,8 +80,9 @@
 
       self.$dials.simpleKnob({
         'displayInput': false,
-        'width': 50,
-        'height': 50,
+        'width': 28,
+        'height': 28,
+        'thickness': 0.15,
         'fontSize': '1em',
         'bgColor': 'rgba(255,255,255,0.5)',
         'fgColor': '#fff'

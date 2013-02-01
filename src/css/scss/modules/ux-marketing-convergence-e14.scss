@@ -7,13 +7,19 @@
 
 .uxmc-container {
   position: relative;
-  height: 380px;
+  height: px-em(340px);
   background-color: #ccc;
   overflow: hidden;
 
   .uxmc-overlay {
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    left: 0;
     z-index: 1;
+
+    h3 {
+      display: none;
+    }
   }
 
   .uxmc-image-wrapper {
@@ -38,7 +44,7 @@
     position: relative;
     float: left;
     width: 49.5%;
-    height: 380px;
+    height: px-em(340px);;
 
     div.iq-img {
       background-size: cover;
@@ -50,7 +56,7 @@
     float: right;
     margin: 0;
     width: 49.5%;
-    height: 380px;
+    height: px-em(340px);;
 
     li {
       position: absolute;
@@ -66,10 +72,14 @@
     left: 50%;
     top: 50%;
     z-index: 2;
-    margin: -3em 0 0 -3em;
-    width: 6em;
-    height: 6em;
-    background-color: red;
+    margin: -0.5em 0 0 -0.5em;
+    width: 1em;
+    height: 1em;
+    line-height: 0.8em;
+    background-color: #fff;
+    color: #ccc;
+    font-size: 5em;
+    text-align: center;
   }
 
   .progress-indicators {
@@ -86,18 +96,21 @@
     }
 
     .uxmc-dial-wrapper {
-      width: 50px;
-      height: 50px;
+      position: relative;
+      width: 28px;
+      height: 28px;
+      margin: 8px 22px;
 
       .uxmc-dial-label {
         position: absolute;
         width: 100%;
-        height: 50px;
-        line-height: 50px;
+        height: 28px;
+        line-height: 28px;
         vertical-align: middle;
         z-index: 4;
         color: #fff;
         cursor: pointer;
+        font-size: 0.75em;
         text-align: center;
       }
 

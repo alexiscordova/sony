@@ -1,12 +1,11 @@
 section.container.uxmc
 
   div.grid
-    h2 #{data.theme} with Sony
-    p #{data.header.description}
+    h2 #{data.header}
 
   div(class=['grid', 'uxmc-container', 'mode-'+data.mode.toLowerCase(), 'theme-'+data.theme.toLowerCase()])
 
-    a.btn-reload(title='Load another product to go with your ' + data.baseProduct.title, href='#') Reload
+    a.btn-reload(title='Load another product to go with your ' + data.baseProduct.title, href='#') +
 
     div.base-product
       div.uxmc-overlay
@@ -18,13 +17,12 @@ section.container.uxmc
     ul.partner-products
       for product in data.partnerProducts
         li
-          a(href=product.link)
-            div.uxmc-overlay
-              p #{product.description}
-              span #{product.title}
-            div.uxmc-image-wrapper.iq-img(data-src=product.imgSrc)
-              span
-              img.iq-img(data-src=product.imgSrc)
+          div.uxmc-overlay
+            p #{product.topLine}
+            a(href=product.link, title=product.altText) #{product.linkText}
+          div.uxmc-image-wrapper.iq-img(data-src=product.imgSrc)
+            span
+            img.iq-img(data-src=product.imgSrc)
 
     div.progress-indicators
       div
