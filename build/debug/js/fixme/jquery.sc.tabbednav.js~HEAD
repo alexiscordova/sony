@@ -3,14 +3,14 @@
 	 *
 	 * Sony Carousel Tabbed navigation
 	 * @version 1.0:
-	 *
-	 */
+	 * 
+	 */ 
 	$.extend($.scProto, {
 		_initTabs: function() {
 			var self = this;
 			if(self.st.controlNavigation === 'tabbednav') {
-
-
+				
+				
 				var itemHTML = '<div class="scNavItem scTab"><span class="">Tab Name</span></div>';
 				self.ev.one('scAfterPropsSetup', function() {
 
@@ -34,12 +34,12 @@
 					});
 				});
 
-
+	
 				self.ev.on('scOnUpdateNav', function() {
 					var id = self.currSlideId,
 						currItem;
 						//prevItem;
-
+						
 					if(self._prevNavItem) {
 						self._prevNavItem.removeClass('scNavSelected');
 					}
@@ -51,5 +51,5 @@
 			}
 		}
 	});
-	// $.scModules.tabbednav = $.scProto._initTabs;
+	$.scModules.tabbednav = $.scProto._initTabs;
 })(jQuery);
