@@ -47,6 +47,14 @@
       opacity: 0.65;
     }
 
+    a:after {
+      position: relative;
+      top: -3px;
+      display: inline-block;
+      height: 0.8em;
+      font-size: 0.8em;
+    }
+
     a,
     p {
       display: block;
@@ -69,8 +77,6 @@
 
     img {
       display: none;
-      position: relative;
-      width: 100%;
     }
   }
 
@@ -83,13 +89,17 @@
     div.iq-img {
       background-size: cover;
     }
+
+    img.iq-img {
+      width: 100%;
+    }
   }
 
   .partner-products {
     position: relative;
     float: right;
     margin: 0;
-    width: 50%;
+    width: 49.5%;
     height: px-em(340px);;
 
     li {
@@ -104,6 +114,11 @@
         width: 80%;
         background-size: contain;
       }
+
+      img.iq-img {
+        height: 100%;
+        width: auto;
+      }
     }
   }
 
@@ -115,11 +130,16 @@
     margin: -0.5em 0 0 -0.5em;
     width: 1em;
     height: 1em;
-    line-height: 0.8em;
     background-color: #fff;
     color: #ccc;
     font-size: 4.5em;
     text-align: center;
+
+    &:before {
+      position: relative;
+      top: -0.51em;
+      left: 0.04em;
+    }
 
     .theme-watch & { color: $themeRed; }
     .theme-listen & { color: $themePurple; }
@@ -170,10 +190,9 @@
 }
 
 .no-backgroundsize {
+
   .uxmc-image-wrapper {
-    top: -200%;
     display: table-cell;
-    height: 500%;
     background-image: none !important;
     vertical-align: middle;
 
@@ -188,6 +207,23 @@
 
     img {
       display: inline;
+    }
+  }
+}
+
+.no-canvas {
+
+  .uxmc-container {
+
+    .progress-indicators {
+
+      .uxmc-dial-label {
+
+        &.active {
+          background: #fff;
+          color: #000;
+        }
+      }
     }
   }
 }
