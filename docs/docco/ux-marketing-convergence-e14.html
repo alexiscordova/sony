@@ -33,13 +33,11 @@
     self.$html = $(document.documentElement);
     self.$el = $element;
     self.$reloadButton = self.$el.find(<span class="string">'.btn-reload'</span>);
-    self.$dials = self.$el.find(<span class="string">'.uxmc-dial'</span>);
-    self.$dialLabels = self.$el.find(<span class="string">'.uxmc-dial-label'</span>);
     self.$dialWrappers = self.$el.find(<span class="string">'.uxmc-dial-wrapper'</span>);
+    self.$dials = self.$dialWrappers.find(<span class="string">'.uxmc-dial'</span>);
+    self.$dialLabels = self.$dialWrappers.find(<span class="string">'.uxmc-dial-label'</span>);
     self.$partnerCarousel = self.$el.find(<span class="string">'.partner-products'</span>);
     self.$partnerCarouselSlides = self.$partnerCarousel.find(<span class="string">'li'</span>);
-
-    self.supportsCanvas = self.$html.hasClass(<span class="string">'canvas'</span>);
 
     self.init();
   };
@@ -82,16 +80,15 @@
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$dials.simpleKnob({
-        <span class="string">'displayInput'</span>: <span class="literal">false</span>,
         <span class="string">'width'</span>: <span class="number">28</span>,
         <span class="string">'height'</span>: <span class="number">28</span>,
         <span class="string">'thickness'</span>: <span class="number">0.15</span>,
         <span class="string">'fontSize'</span>: <span class="string">'1em'</span>,
-        <span class="string">'bgColor'</span>: <span class="string">'rgba(255,255,255,0.5)'</span>,
+        <span class="string">'bgColor'</span>: <span class="string">'rgba(255, 255, 255, 0.5)'</span>,
         <span class="string">'fgColor'</span>: <span class="string">'#fff'</span>
       }).css(<span class="string">'display'</span>, <span class="string">'block'</span>);
 
-      self.$el.find(<span class="string">'.uxmc-dial-label'</span>).on(<span class="string">'mousedown'</span>, <span class="keyword">function</span>(e){
+      self.$dialLabels.on(<span class="string">'mousedown'</span>, <span class="keyword">function</span>(e){
 
         e.preventDefault();
 
@@ -142,7 +139,7 @@
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Fade out and destroy current slide, fade in the specified slide.
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Slide out and destroy current slide, slide in the specified slide.
 Force an update to iQ for the newly-created assets.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'gotoPartnerProduct'</span>: <span class="keyword">function</span>(which) {
 
@@ -154,8 +151,10 @@ Force an update to iQ for the newly-created assets.</p>             </td>       
 
       self.currentPartnerProduct = which;
 
-      $newSlide = self.$partnerCarouselSlides.eq(which).clone();
-      $newSlide.appendTo(self.$partnerCarousel);
+      $newSlide = self.$partnerCarouselSlides
+        .eq(which)
+        .clone()
+        .appendTo(self.$partnerCarousel);
 
       self.$reloadButton.css(<span class="string">'color'</span>, $newSlide.css(<span class="string">'backgroundColor'</span>));
 
@@ -165,30 +164,34 @@ Force an update to iQ for the newly-created assets.</p>             </td>       
 
         self.$partnerCarousel.children().animate({
           <span class="string">'top'</span>: <span class="string">'-100%'</span>
-        }, self.transitionTime, <span class="keyword">function</span>(){
-          $currentSlide.remove();
-          $newSlide.css(<span class="string">'top'</span>, <span class="string">'0'</span>);
-          self.isAnimating = <span class="literal">false</span>;
+        }, {
+          <span class="string">'duration'</span>: self.transitionTime,
+          <span class="string">'complete'</span>: <span class="keyword">function</span>() {
+            $currentSlide.remove();
+            $newSlide.css(<span class="string">'top'</span>, <span class="string">''</span>);
+            self.isAnimating = <span class="literal">false</span>;
+          }
         });
       }
 
       window.iQ.update();
       self.resetDials();
-
-      <span class="keyword">if</span> ( !self.supportsCanvas ) {
-        self.$dialLabels.removeClass(<span class="string">'active'</span>);
-        self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels).addClass(<span class="string">'active'</span>);
-      }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.
+Label active dial for IE fallbacks.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'resetDials'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$activeDial = self.$dials.eq(self.currentPartnerProduct);
+      self.$activeDialLabel = self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels);
+
       self.$dials.not(self.$activeDial).val(<span class="number">0</span>).trigger(<span class="string">'change'</span>);
       self.slideStartTime = <span class="keyword">new</span> Date();
+
+      self.$dialLabels.removeClass(<span class="string">'active'</span>);
+      self.$activeDialLabel.addClass(<span class="string">'active'</span>);
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Animations that should occur as the window is ready to paint.</p>             </td>             <td class="code">               <div class="highlight"><pre>
