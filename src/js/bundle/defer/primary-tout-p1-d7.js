@@ -22,7 +22,7 @@
       constructor: PrimaryTout,
 
       _resize: function(){
-        $('.primary-tout.home-page').find('.fill').height($('.primary-tout.home-page').height() - $('.primary-tout.home-page').find('.box').outerHeight() - parseInt($('.primary-tout.home-page').find('.box').css('margin-bottom'), 10) );
+        $('.primary-tout.homepage .inner .table-center-wrap').height($('.primary-tout.homepage').height() - $('.primary-tout.homepage .secondary').outerHeight());
       },
 
       _init: function(){
