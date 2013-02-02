@@ -1,6 +1,6 @@
 ---
-title: Gallery Module (G2-G3)
-description: Tabbed galleries for masonic layouts with filters and a compare tool.
+title: G2-G3. Gallery Module / Page / Compare Gallery Tool
+description: 
 ---
 include ../partials/includes/jade-helpers.jade
 doctype 5
@@ -14,11 +14,18 @@ body
   #page-wrap-outer.page-wrap-outer
     #page-wrap-inner.page-wrap-inner
 
+      //- Header
       !{partial('modules/global-header.html.jade', l)}
 
+      //- Primary Tout
+      //- e = {"locals":locals, "data":data('primary-tout-p1-d7/default.json')}
+      //- !{partial('modules/primary-tout-p1-d7.html.jade', e)}
+
+      //- Gallery
       e = {"locals":locals, "data":data('gallery-g2-g3/default.json')}
       !{partial('modules/gallery-g2-g3.html.jade', e)}
 
+      //- Footer
       !{partial('modules/global-footer.html.jade', l)}
 
   script(src="js/libs/jquery.infinitescroll.js")

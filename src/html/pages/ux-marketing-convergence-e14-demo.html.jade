@@ -1,6 +1,6 @@
 ---
-title: UX-Marketing-Convergence-E14
-description: Module used to present benefits related to combinations of devices and/or services.
+title: E14. UX Marketing Convergence
+description:
 ---
 
 doctype 5
@@ -14,9 +14,23 @@ head
 body
 
   h1 UX Marketing Convergence Layout:
-  e = {"locals":locals, "data":data('ux-marketing-convergence-e14/default.json')}
-  !{partial('modules/ux-marketing-convergence-e14.html.jade', e)}
 
-  !{partial('modules/ux-marketing-convergence-e14.html.jade', e)}
+  w = {"locals":locals, "data":data('ux-marketing-convergence-e14/watch-2prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', w)}
+
+  l = {"locals":locals, "data":data('ux-marketing-convergence-e14/listen-3prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', l)}
+
+  p = {"locals":locals, "data":data('ux-marketing-convergence-e14/play-3prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', p)}
+
+  d = {"locals":locals, "data":data('ux-marketing-convergence-e14/discover-2prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', d)}
+
+  cr = {"locals":locals, "data":data('ux-marketing-convergence-e14/create-2prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', cr)}
+
+  co = {"locals":locals, "data":data('ux-marketing-convergence-e14/connect-2prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', co)}
 
   !{partial('includes/foot.html.jade', l)}

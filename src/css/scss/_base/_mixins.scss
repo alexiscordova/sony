@@ -1699,13 +1699,11 @@ $default-transition-delay    : 0s;
 }
 
 @mixin themeItems($up, $hover, $active){
-  //color these things
-  
   i{
-    
+    color:$up;
   }
-  
   .btn{
+    border-color:$up;
     background:$up;
   }
   .btn:hover{
@@ -1729,11 +1727,11 @@ $default-transition-delay    : 0s;
   .themeGreen{
     @include themeItems($themeGreen, $themeGreenHover, $themeGreenActive);
   }
-  .themePurlple{
+  .themePurple{
     @include themeItems($themePurple, $themePurpleHover, $themePurpleActive);
   }
   .themeOrange{
-    @include themeItems(themeOrange, $themeOrangeHover, $themeOrangeActive);
+    @include themeItems($themeOrange, $themeOrangeHover, $themeOrangeActive);
   }
 }
 

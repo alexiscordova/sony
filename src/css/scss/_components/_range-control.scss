@@ -4,7 +4,7 @@
 
 $rangeControlSize: 14px;
 $ambitActiveColor: $gray25;
-$ambitBackgroundColor: $tableBorder; // 221, 221, 221 / #ddd
+$ambitBackgroundColor: $gray50;
 $handleHighlightColor: $buttonOrange;
 .range-control {
   position: relative;
@@ -12,6 +12,7 @@ $handleHighlightColor: $buttonOrange;
   height: $rangeControlSize;
   background: $ambitBackgroundColor;
   border-radius: $rangeControlSize;
+  @include box-shadow(inset 0 0 1px rgba(0,0,0,0.3));
 
   &.vertical {
     width: $rangeControlSize;
@@ -48,8 +49,6 @@ $handleHighlightColor: $buttonOrange;
       border-width: 12px;
       margin-top: -6px;
       margin-left: -14px;
-      // @include scale(1.3);
-      // @include box-shadow(0 0 0 3px $transparentBlack, 0 0 5px $innerGlow);
     }
   }
 

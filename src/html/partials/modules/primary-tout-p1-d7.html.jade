@@ -1,11 +1,11 @@
 mixin eyebrowheader(d)
   d = d || data
   if d.eyebrow
-    p.l3!= locals.plusify(d.eyebrow)
+    h2.t6.eyebrow!= locals.plusify(d.eyebrow)
   if d.variation.headertext == "larger"
     h1!= d.headline
   else
-    h2!= d.headline
+    h1.t2!= d.headline
     
 mixin subheadbody(d)
   d = d || data
@@ -27,7 +27,7 @@ mixin boxlayout(layout)
       div(class= span)
         .table-center-wrap
           .table-center
-            .box(class = layout.alignment)
+            .box(class = layout.alignment)(class = layout.mobilealign)
               block
   else if layout.text == "right" || layout.text == "center"
     .container.inner.grid.no-grid-at-767(class= data.style)
@@ -36,7 +36,7 @@ mixin boxlayout(layout)
       div(class= span)(class= offset)
         .table-center-wrap
           .table-center
-            .box(class = layout.alignment)
+            .box(class = layout.alignment)(class = layout.mobilealign)
               block
 
 section.primary-tout.container.full-bleed-no-max(class= data.mode)
