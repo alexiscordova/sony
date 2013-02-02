@@ -680,9 +680,10 @@ $offsetFromMiddle: px-em(45px);
 
 .product-strip-wrap {
   padding-top: 3.75em; // 60px
+  padding-bottom: 3.75em; // 60px
 
   &:not(:first-child) {
-    border-top: .0625em solid $gray70;
+    border-top: .125em solid $gray70;
   }
 }
 
@@ -704,8 +705,14 @@ $offsetFromMiddle: px-em(45px);
     padding-bottom: 1.625em;
   }
 
-  .product-strip .gallery-item:not(:first-child) {
+  // Give items 3-n a margin top
+  .product-strip .gallery-item:nth-child(n+3) {
     margin-top: 1.625em;
+  }
+
+  // Give odd items zero margin left because they're not inside their own grid
+  .product-strip .gallery-item:nth-child(odd) {
+    margin-left: 0;
   }
 }
 
@@ -778,13 +785,16 @@ $offsetFromMiddle: px-em(45px);
   }
 }
 
+.filter-label {
+  color: $gray40;
+}
+
 .filter-container {
   margin-top: 1.375em;
   margin-bottom: 1.375em;
 
 
   .filter-label {
-    color: $gray40;
     margin-bottom: 20px;
   }
 
@@ -819,6 +829,7 @@ $offsetFromMiddle: px-em(45px);
   .help-container {
     text-align: right;
     cursor: pointer;
+    clear: right;
 
     .help-label {
       padding-right: .625em;
@@ -837,6 +848,10 @@ $offsetFromMiddle: px-em(45px);
 
 .filter-container + .filter-container {
   margin-top: 2.75em;
+}
+
+.sort-options .filter-label {
+  padding-right: 8px; // has a font-size set on it
 }
 
 
@@ -918,12 +933,23 @@ $offsetFromMiddle: px-em(45px);
 
   .tab {
     text-align: center;
+
+    // Change the icon color on hover/active
+    &.active i,
+    &:hover i {
+      color: $buttonOrange;
+    }
   }
 
   // Has to be pixels because of ghost-centering
   .holder-for-icon {
     height: 30px;
     margin-bottom: 16px;
+
+    i {
+      color: $gray40;
+      @include transition();
+    }
   }
 
   .tab-label {
