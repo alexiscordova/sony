@@ -55,7 +55,7 @@
 
   // Brand: website name
   // -------------------------
-  .sprite-reg-nav-sony-logo { // desktop version (inside navbar)
+  .fonticon-60-sony { // desktop version (inside navbar)
     float: left;
     display: block;
     margin: 16px 0 0;
@@ -74,6 +74,18 @@
     margin-top: 0; // then undo the margin here so we don't accidentally double it
   }
 
+  .fonticon-10-arrowhead-down,
+  .fonticon-10-arrowhead-up{
+    color:$gray40;
+  }
+  .nav-li-link{
+    &:hover, &:active, &:focus, &.active{
+      .fonticon-10-arrowhead-down,
+      .fonticon-10-arrowhead-up{
+        color:$white; 
+      }
+    }
+  }
 
   .nav-li-favorites .nav-li-link:hover i,
   .nav-li-cart .nav-li-link:hover i {
@@ -83,9 +95,10 @@
     .fonticon-10-arrowhead-up{
       margin-left: 4px;
       position:relative;
-      top:-2px;
+      top:-1px;
     }
   }
+
 
   &.navbar-form {
     margin-bottom: 0; // remove default bottom margin
@@ -159,7 +172,7 @@
 .navbar-mobile.container{
   width:100%;
   
-  .sprite-reg-nav-sony-logo{
+  .fonticon-60-sony{
     display:block; // this is the normal (larger) size logo. Switch to small under 480px.
     position:absolute;
     left:50%;

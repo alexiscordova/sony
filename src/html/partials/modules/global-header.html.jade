@@ -6,8 +6,10 @@ meta_data: {a:'foo', b:'bar'}
 nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-767
   .container.navbar-mobile.visible-phone
     a#btn-mobile-nav.btn.btn-mobile-nav(href='#')
-        i.fonticon-10-mobile-icon-sm
-      a.brand.hidden-text.sprite-reg-nav-sony-logo(href='#') SONY make.believe
+        i.fonticon-10-mobile-icon
+      a.brand.fonticon-60-sony(href='#')
+        span.hidden-text
+          | SONY make.believe
       a.btn.btn-mobile-cart(href='#')
         i.fonticon-10-cart
         | 2
@@ -154,7 +156,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                   span.nav-label Car & Marine
             a.btn.btn-icon-ui-left.btn-nav-view-all(href='#')
               i.fonticon-10-grid-3x3
-              span.linkBtn-label View All Electronics
+              | View All Electronics
 
           .navtray-section.navtray-section-featured
             h6.l2 Community
@@ -211,31 +213,33 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
       .container.navbar.full-bleed-at-767
         .grid.full-bleed-at-767
-          a.brand.hidden-text.sprite-reg-nav-sony-logo(href='#') SONY make.believe
+          a.brand.fonticon-60-sony(href='#')
+            span.hidden-text
+              | SONY make.believe
           ul.nav.nav-primary
             li.nav-li.nav-li-store
               a.nav-li-link(href='#') 
-                span.lbl Store
+                | Store
                 span.global-nav-indicator-bar
             li.nav-li.nav-li-electronics
               a.nav-li-link.nav-dropdown-toggle(data-target='navtray-w-electronics', href='#')
-                span.lbl Electronics
+                | Electronics
                 i.fonticon-10-arrowhead-down
                 span.global-nav-indicator-bar
             li.nav-li.nav-li-entertainment
               a.nav-li-link.nav-dropdown-toggle(data-target='navtray-w-entertainment', href='#')
-                span.lbl Entertainment
+                | Entertainment
                 i.fonticon-10-arrowhead-down
                 span.global-nav-indicator-bar.for-navtray-short
             li.nav-li.nav-li-support
               a.nav-li-link(href='#')
-                span.lbl Support
+                | Support
                 span.global-nav-indicator-bar
 
           ul.nav.nav-utility
             li.nav-li.nav-li-account
               a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#')
-                span.lbl Account
+                | Account
                 i.fonticon-10-arrowhead-down
               .navmenu-w.navmenu-w-account.logged-in
                 i.sprite-mini-global-nav-indicator
@@ -251,7 +255,8 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                       i.fonticon-10-favorite
                       | Favorites
                 ul.navmenu-list.navmenu-list-main
-                  li.navmenu-line.navmenu-li-welcome.visible-phone Hi Robert
+                  li.navmenu-line.navmenu-li-welcome.visible-phone 
+                    | Hi Robert
                   li.navmenu-line.navmenu-li-account
                     a.tl(href='#')
                       i.fonticon-10-account
@@ -268,24 +273,29 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                     a.tl(href='#')
                       i.fonticon-10-registered
                       | Registered Products
-                a.btn.btn-logout(href='#') Sign Out
+                a.btn.btn-logout(href='#')
+                  | Sign Out
 
 
             li.nav-li.nav-li-favorites
               a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href='#')
                 i.fonticon-10-favorite
-                span.visuallyhidden Favorites
+                span.visuallyhidden 
+                  | Favorites
             li.nav-li.nav-li-cart
               a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href='#')
                 i.fonticon-10-cart
+                span.visuallyhidden
+                  | Shopping Cart
                 span.nav-li-count 2
             li.nav-li.nav-li-search
               a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle.nav-dropdown-toggle-btn(data-target='navmenu-w-search', href='#')
-                span.linkBtn-label Search
+                span.lbl
+                  | Search
                 i.fonticon-10-search
             li.nav-li.nav-li-universal
               a.nav-li-link.nav-li-linkBtn(href='#')
-                span.linkBtn-label Sony Sites
+                | Sony Sites
                 i.fonticon-10-arrowhead-up
 
 
