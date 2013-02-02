@@ -4,11 +4,13 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
 layout3: "normal"
 ---
 
+include ../includes/jade-helpers.jade
+
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
       //- Can't have variable attribute names :( - build an html string
-      tagString = '<li class="swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
+      tagString = '<li class="fonticon-10-sm-bold-check--after swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
       | !{tagString}
 
 mixin filterRange( filterSet )
@@ -21,45 +23,56 @@ mixin filterRange( filterSet )
 mixin filterButton( filterSet )
   ul.unstyled.btn-group(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
-      //- Can't have variable attribute names :( - build an html string
-      tagString = '<button class="btn btn-square" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
+      tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
       | !{tagString}
   if filterSet.help
-    .help-container.js-popover-trigger.iconTrigger-ui2-help(data-original-title=filterSet.help.title)
-      span.p3.help-label= filterSet.help.label
-      span
-        i.icon-ui2-help
-      .js-popover-content.hidden
-        p= filterSet.help.content
+    mixin helpPopover( filterSet.help )
 
 mixin filterCheckbox( filterSet )
   ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
       li.control-inline
         input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
-        label(for=filterSet.name + '-' + filter.value)= filter.label
+        label(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
         if filter.help
-          .help-container.pull-right.js-popover-trigger.iconTrigger-ui2-help(data-original-title=filter.help.title)
+          .help-container.pull-right.js-popover-trigger(data-original-title=filter.help.title)
             span
-              i.icon-ui2-help
-            .js-popover-content.hidden
-              p= filter.help.content
+              i.fonticon-10-circle-q
+            //- mixin popoverContent( filterSet.help )
 
 mixin filterGroup( filterSet )
   ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
       li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
-      btn = '<div class="pull-left"><button class="btn btn-square media-object"><i class="icon-bestfor-' + filter.icon + '"></i></button></div>'
+      btn = '<div class="pull-left"><button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after media-object"><i class="fonticon-20-' + filter.icon + '"></i></button></div>'
       body = '<div class="media-body"><p class="media-heading p3">' + filter.label + '</p><p class="p4">' + filter.description + '</p></div>'
       mediaObject = li + btn + body + '</li>'
       | !{ mediaObject }
-      //- li.media.clearfix(data-label=filter.label, data-filterName=filter.value)
-      //-   .pull-left
-      //-     button.btn.btn-square.media-object
-      //-       i(class="icon-bestfor-" + filter.icon)
-      //-   .media-body
-      //-     p.media-heading.p3.text-dark= filter.label
-      //-     p.p3= filter.description
+
+mixin helpPopover( help )
+  .help-container.js-popover-trigger(data-original-title=help.title)
+    if help.label
+      span.p3.help-label= help.label
+    span
+      i.fonticon-10-circle-q
+    mixin popoverContent( help )
+
+mixin popoverContent( help )
+  - layout = help.layout
+  if layout == '2up'
+    .js-popover-content.hidden
+      .twoup
+        .popover-col
+          mixin iQImage( help.col1.img )
+          p.p4= help.col1.text
+        .popover-col
+          mixin iQImage( help.col2.img )
+          p.p4= help.col2.text
+  else if layout == 'text-only'
+    .js-popover-content.hidden
+      .p4= help.text
+
+
 
 mixin filterSet( filterSet )
   .filter-container

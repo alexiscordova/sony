@@ -281,7 +281,7 @@
       // Create labels showing current filters
       $.each(filters, function(key, obj) {
         var $label = $('<span>', {
-          'class' : 'label label-close',
+          'class' : 'label label-close fonticon-10-circle-x--after',
           'data-filter' : key,
           'data-filter-name' : obj.key || obj.name,
           text : obj.label,
@@ -443,9 +443,13 @@
       // Init popovers
       self.$filterOpts.find('.js-popover-trigger').popover({
         placement: 'top',
-        trigger: 'hover',
+        trigger: 'click',
         content: function() {
-          return $(this).parent().find('.js-popover-content').html();
+          // setTimeout(function() {
+          //   var popoverWidth = self.$filterOpts.find('.span4').first().width();
+          //   $('.popover').width( popoverWidth );
+          // }, 250);
+          return $(this).find('.js-popover-content').html();
         }
       });
 
@@ -467,7 +471,7 @@
 
       self.$grid.infinitescroll({
         local: true,
-        // debug: true,
+        debug: true,
         bufferPx: -100, // Load 100px after the navSelector has entered the viewport
         navSelector: 'div.navigation', // selector for the paged navigation
         nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)

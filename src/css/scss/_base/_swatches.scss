@@ -7,15 +7,19 @@
   display: inline-block;
   @include size( px-em(40px), px-em(42px) );
   @include box-shadow(0 1px 0 $gray60);
+  border: 1px solid transparent;
+  border: 1px solid rgba($gray20, 0);
 
-  &.active {
-    @include box-shadow(none);
+  &:before,
+  &:after {
+    position: absolute;
+    @include opacity(0);
+    @include transition(opacity $transitionNormal $easeNormal);
   }
 
   $circleSize: px-em(20px);
-  &.active:before {
+  &:before {
     content: '';
-    position: absolute;
     left: 50%;
     top: 50%;
     margin-left: -($circleSize / 2);
@@ -25,22 +29,24 @@
     background: $gray25;
   }
 
-  $checkmarkWidth: 11px;
-  $checkmarkHeight: 8px;
+  &:after {
+    left: .75em;
+    top: .625em;
+    color: $white;
+  }
+
+  &.active {
+    @include box-shadow(none);
+  }
+
+  &.active:before,
   &.active:after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -($checkmarkWidth / 2);
-    margin-top: -($checkmarkHeight / 2);
-    @include size($checkmarkHeight, $checkmarkWidth);
-    background: url($iconSpritePathFallback) no-repeat -600px 0;
+    @include opacity(100);
   }
 
   &[disabled] {
     @include opacity(15);
-    border: 1px solid $gray60;
+    border-color: $gray20;
     @include box-shadow(none);
   }
   &[disabled]:focus,

@@ -17,7 +17,7 @@
   background-color: $btnDropdownBackground;
   border-color: $btnDropdownBackground;
 
-  .icon-ui-arrowheads-up-down-gray {
+  i {
     position: absolute;
     top: 0;
     right: 0;
@@ -59,7 +59,10 @@
   &:hover {
     background-color: $btnDropdownAltBackgroundHover;
   }
+
+  .open &,
   &:active {
+    color: $white;
     background-color: $btnDropdownAltBackgroundActive;
   }
 }
@@ -132,8 +135,9 @@
   margin-top: -1px;
   box-shadow: none;
   background-color: $dropdownAltBackground;
-  border: 1px solid #ccc; // Fallback for IE7-8
-  border: 1px solid $transparentBlack;
+  border: 1px solid $white;
+  min-width: 210px;
+  @include box-shadow(0 0 35px $transparentBlack);
 
   // Dividers (basically an hr) within the dropdown
   .divider {
@@ -143,6 +147,8 @@
   a {
     font-size: $font_15_16;
     color: $gray;
+    @include transition-duration( $transitionNormal );
+    padding: 10px 20px;
   }
 }
 

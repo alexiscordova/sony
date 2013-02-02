@@ -277,6 +277,9 @@
                 // if there's no items, use size of container
                 containerWidth;
 
+            // Don't let them set a column width of zero.
+            self.colWidth = self.colWidth || containerWidth;
+
             self.colWidth += gutter;
 
             // Was flooring 4.999999999999999 to 4 :(

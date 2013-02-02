@@ -2,8 +2,8 @@
 // FontIcons
 // --------------------------------------------------
 
-[class*="fonticon-"] {
-  display:inline-block;
+%fonticon {
+  display: inline-block;
 
   &:before,
   &[class*="--after"]:after {
@@ -14,12 +14,18 @@
     line-height: 1;
     -webkit-font-smoothing: antialiased;
   }
+
+  // I think this should be on a case by case basis, it throws off centering
   &:before{
-    margin-right:3px;
+    // margin-right: 3px;
   }
   &[class*="--after"]:after {
-    margin-left:3px;
+    // margin-left: 3px;
   }
+}
+
+[class*="fonticon-"] {
+  @extend %fonticon;
 }
 
 [class*="fonticon-13-"] {
@@ -30,6 +36,9 @@
 }
 [class*="fonticon-20-"] {
   font-size: 2.0em;
+  // The styles below are currently in .btn-square i { } but could be moved here
+  // line-height: 0;
+  // margin: -.125em; // -3px ( 3 / 24 )
 }
 [class*="fonticon-30-"] {
   font-size: 3.0em;

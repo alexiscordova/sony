@@ -785,13 +785,16 @@ $offsetFromMiddle: px-em(45px);
   }
 }
 
+.filter-label {
+  color: $gray40;
+}
+
 .filter-container {
   margin-top: 1.375em;
   margin-bottom: 1.375em;
 
 
   .filter-label {
-    color: $gray40;
     margin-bottom: 20px;
   }
 
@@ -826,6 +829,7 @@ $offsetFromMiddle: px-em(45px);
   .help-container {
     text-align: right;
     cursor: pointer;
+    clear: right;
 
     .help-label {
       padding-right: .625em;
@@ -844,6 +848,10 @@ $offsetFromMiddle: px-em(45px);
 
 .filter-container + .filter-container {
   margin-top: 2.75em;
+}
+
+.sort-options .filter-label {
+  padding-right: 8px; // has a font-size set on it
 }
 
 

@@ -123,19 +123,19 @@
                         "label": "Skating",
                         "description": "Waterproof, shockproof, dustproof, and rugged.",
                         "value": "skating",
-                        "icon": "snowboard"
+                        "icon": "skateboard"
                     },
                     {
                         "label": "Running",
                         "description": "Water resistant, shockproof, and ultra small.",
                         "value": "running",
-                        "icon": "running"
+                        "icon": "runner"
                     },
                     {
                         "label": "Studio",
                         "description": "Music recording, professional quality, best sound.",
                         "value": "studio",
-                        "icon": "mic"
+                        "icon": "mic-studio"
                     }
                 ]
             },
@@ -164,8 +164,24 @@
                 ],
                 "help": {
                     "label" : "What&rsquo;s the difference?",
-                    "title" : "This is the title",
-                    "content" : "Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem "
+                    "title" : "Higher megapixel count gets you:",
+                    "layout" : "2up",
+                    "col1" : {
+                        "img" : {
+                            "src" : "img/cameras/megapixel-print.jpg",
+                            "noscriptsrc" : "img/cameras/megapixel-print-desktop.jpg",
+                            "alt" : ""
+                        },
+                        "text" : "Bigger &amp; better quality prints"
+                    },
+                    "col2" : {
+                        "img" : {
+                            "src" : "img/cameras/megapixel-crop.png",
+                            "noscriptsrc" : "img/cameras/megapixel-crop-desktop.png",
+                            "alt" : ""
+                        },
+                        "text" : "Higher resolution crops"
+                    }
                 }
             },
             {
@@ -179,7 +195,8 @@
                         "value": "lcd",
                         "help": {
                             "title" : "LCD Displays",
-                            "content" : "Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp"
+                            "layout" : "text-only",
+                            "text" : "Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp"
                         }
                     },
                     {
@@ -187,7 +204,8 @@
                         "value": "touchscreen",
                         "help": {
                             "title" : "LCD Displays",
-                            "content" : "Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase"
+                            "layout" : "text-only",
+                            "text" : "Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase"
                         }
                     },
                     {
@@ -195,7 +213,8 @@
                         "value": "panorama",
                         "help": {
                             "title" : "LCD Displays",
-                            "content" : "Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming"
+                            "layout" : "text-only",
+                            "text" : "Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming"
                         }
                     },
                     {
@@ -203,7 +222,8 @@
                         "value": "lightweight",
                         "help": {
                             "title" : "LCD Displays",
-                            "content" : "Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime"
+                            "layout" : "text-only",
+                            "text" : "Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime"
                         }
                     }
                 ]
@@ -212,26 +232,32 @@
         "sortSet": [
             {
                 "name": "default",
-                "label": "Relevance"
+                "label": "Featured"
             },
             {
-                "name": "release-date",
-                "label": "New",
+                "name": "price",
+                "label": "Price - high to low",
                 "reverse": true
+            },
+            {
+                "name": "price",
+                "label": "Price - low to high"
             },
             {
                 "name": "popularity",
                 "label": "Popularity"
             },
             {
-                "name": "price",
-                "label": "Price (High - Low)",
+                "name": "rating",
+                "label": "Rating",
                 "reverse": true
             },
             {
-                "name": "price",
-                "label": "Price (Low - High)"
+                "name": "release-date",
+                "label": "New Products",
+                "reverse": true
             }
+
         ],
         "comparable": [
             {
