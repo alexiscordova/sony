@@ -24,7 +24,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
           - contentMode = variation.contentMode
 
         //- (class=textStyle)(class=alignment)
-        .tcc-content-module.span4(class=contentType)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
+        .tcc-content-module.span4(class=contentType)(class=contentMode)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
 
           if contentType == "article"
                     
@@ -32,22 +32,23 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
               if(module.imgSrc)
                 //- image (optional)
-                div.imgContainer
-                  img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                div.img-container
+                  div.img-wrap
+                    img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                    noscript
+                      img(src="#{module.noScriptImg}")
 
                   if (contentMode == "news") && (module.date)
                     p.news-date.l3
                       | #{module.date}
 
                   if (contentMode == "event") && (module.attendanceCount)
-                    p.attendance-count
-                      span.t3
-                        | #{module.attendanceCount} 
-                      span.l2
-                        | <br/> attending
-
-                  noscript
-                    img(src="#{module.noScriptImg}")
+                    div.attendance-count.ghost-center-wrap
+                      div.ghost-center
+                        p.t3
+                          | #{module.attendanceCount} 
+                        p.l2
+                          | attending
 
               .tcc-copy
                 
@@ -58,22 +59,16 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
                 //- body copy (optional)
                 if(module.bodyCopy)
-                  p.p3 #{module.bodyCopy}
+                  p.lt3 #{module.bodyCopy}
                 
                     if(module.articleLink)
-                      a.lt3(href="#{module.articleLink}")
+                      a(href="#{module.articleLink}")
                         | &nbsp; Read More
                         //- | <br/> Read More
 
             else
               //- Assumes Featured Article
               p featured
-
-            //- if contentMode == "news"
-            //-   p news
-
-            //- if contentMode == "event"
-            //-   p event
 
           if contentType == "users-voice" 
 

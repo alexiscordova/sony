@@ -16,8 +16,7 @@
   background-color:$gray90;
   
   // for the module since it can be placed anywhere on the page. 
-  margin-top:0;
-  margin-bottom:0;
+  margin:0;
 
 	.tcc-body-wrapper{
 		display: block;
@@ -25,9 +24,8 @@
 		position: relative;
 		text-align: center;
 		z-index: 1;
-		padding-top: 36px;
+		padding:0;
 	} // end .tcc-body-wrapper
-	
 	
 	.tcc-header{
 		border-bottom: 2px solid $gray70;
@@ -35,25 +33,12 @@
 	} // end .tcc-header
 
 	.tcc-body{
+
 		display:inline-block;	
 	} // end .tcc-body
 
-	// certain tertiary content modules have hover states
-	div#{createSelectorFromData("article","default")}:hover,
-	div#{createSelectorFromData("article","featured")}:hover,
-	div#{createSelectorFromData("article","news")}:hover,
-	div#{createSelectorFromData("article","event")}:hover{
-		
-		img{
-			@include transition(opacity, $transitionFast);
-			opacity:0.85;
-		} // end img
-
-	} // end article hovers
-
 	.tcc-content-module{
 		position: relative;
-		float:left;
 		overflow: hidden;
 
 		&:hover{
@@ -61,85 +46,88 @@
 		} // end .tcc-content-module:hover;
 
 		img{
-			position:relative;
 			@include transition(opacity, $transitionFast);
 			opacity:1.0;
-			vertical-align: top;
-		
 		} // end img
 
 	} // end .tcc-content-module
 
+	// certain tertiary content modules have hover states
+	div#{createSelectorFromData("article","default")}:hover,
+	div#{createSelectorFromData("article","featured")}:hover,
+	div#{createSelectorFromData("article","news")}:hover,
+	div#{createSelectorFromData("article","event")}:hover{
+		img{
+			@include transition(opacity, $transitionFast);
+			opacity:0.85;
+		} // end img
+	} // end article hovers
+
 	.article{		
-
-		.p3{
-			color:$gray40;
-		} // end p3
-
-    .t6{
-      strong{
-      	color:$titleBlack;
-      } // end strong
-    } // end t6
-
-    .imgContainer{
-    	position: relative;
-    }
+    .img-container{
+			//border: 1px solid green;
+			position: relative;
+			margin-bottom:px-em(20px);
+    } // end .img-container
 
     .news-date{
     	position:absolute;
     	top:0;
     	right:0;
+    	z-index: 2;
     	background-color:$gray20;
     	color:$white;
     	margin:0;
     	padding:px-em(10px);
-    } // end newsDate
+    	font-size:11px; // because we're using ghost center need to set size in pixels
+    } // end .news-date
 
-
+    // overlay box
     .attendance-count{
-    	background-color: $secondaryOlive;
-    	opacity:0.95;
-    	color:$white;
-    	padding:.4em .6em .6em 1em;
-    	position:absolute;
-    	// top:4%;
-    	// right:35%;
-    	margin:auto;
-    	top:0;
-    	bottom:0;
-    	left:0;
-    	right:0;
-    	width:24%;
-    	height:60%;
+			background-color: $secondaryOlive;
+			opacity:0.95;
+			color:$white;
+			position: absolute;
+			z-index: 5;
+			top: 0;
+			left: 0;
+			bottom:0;
+			right:0;
+			margin:10% auto;
+			padding:3%;
+			height:80%;
+			width:35%;
 
-	    // background-color: #a2b849;
-			// opacity: 0.95;
-			// color: white;
-			// padding: .4em .6em .6em 1em;
-			// position: absolute;
-			// margin: auto;
-			// top: -13%;
-			// bottom: 0;
-			// left: 0;
-			// right: 0;
-			// width: 30%;
-			// height: 60%;
-			// display: table-cell;
-			// vertical-align: middle;
-
+			// number
     	.t3{
     		color:$white;
-    		margin-bottom:px-em(6px);
-    		font-size:$font_37_16;
-    	}
+				margin:0;
+				padding:0;
+    		font-size:37px; // because we're using ghost center need to set size in pixels
+    	} // end .t3
 
+    	// "attending"
     	.l2{
     		color:$white;
-    		font-size:$font_12_16;
-    	}
+    		font-size:12px; // because we're using ghost center need to set size in pixels
+				margin:0;
+				padding:0;
+    	} // end .l2
 
     } // end . attendance-count
+
+    // body copy
+		.lt3{
+
+			color:$gray40;
+		} // end lt3
+
+		// title
+		.t6{
+			strong{
+				color:$titleBlack;
+			} // end strong
+		} // end t6
 
 	} // end .article
 

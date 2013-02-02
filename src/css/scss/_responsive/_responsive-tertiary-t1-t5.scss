@@ -3,7 +3,7 @@
 // --------------------------------------------------
 
 $mobileHeight:349px;
-
+$maxWidth:1020px;
 // -----------------------------------------
 // DEFAULT: 980px - 1199px;
 // -----------------------------------------
@@ -21,10 +21,10 @@ $mobileHeight:349px;
 // -----------------------------------------
 
 .tcc-wrapper{
-  padding:80px 0;
+  padding:0;
 
   .tcc-header-wrapper{
-    max-width: 1021px;
+    max-width: $maxWidth;
   }
 
   .tcc-header{
@@ -38,12 +38,13 @@ $mobileHeight:349px;
     .tcc-header-link{
       float:right;
       margin:14px 0 0 0;
+      @include px-em--font-size--line-height(15,22);
     } // end .tcc-header-link
   
   } // end .tcc-header
 
   .tcc-body-wrapper{
-    max-width: 1021px;
+    max-width: $maxWidth;
   } // end .tcc-body-wrapper
 
   .tcc-content-module{
@@ -78,22 +79,26 @@ $mobileHeight:349px;
     .btn{
       width:100%;
     } // end .btn
+
   } // end .sonys-voice
 
   .article{
-    //max-width:px-em(316px);
-
     .t6{
       strong{
+        @include px-em--font-size--line-height(18,26);
         line-height:px-em(24px);
         margin-bottom:px-em(18px);
       } // end strong
+
     } // end t6
 
     img{
-      padding-bottom:px-em(20px);
+      width:100%;
+      // padding-bottom:px-em(20px);
     } // end img
+
   } // end .article
+
 } // end .tcc-wrapper
    
 
@@ -115,31 +120,46 @@ $mobileHeight:349px;
 // ------------------------------------------------
 @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
   .tcc-body-wrapper{
+
+    // .tcc-header-link{
+    //   border:1px solid purple;
+    //   //@include px-em--font-size--line-height(15,22);
+    // } // end .tcc-header-link
+
     .tcc-content-module{
       height:330px;
     } // end .tcc-content-module
+
   } // end .tcc-body-wrapper
 
   .sonys-voice{
     .bq2 > p{
-      font-size: 1em;
+      //font-size: 1em;
     } // end .bq2 > p
 
     .btn{
-      width:160px;
+      //width:160px;
     } // end .btn
+
   } // end .sonys-voice
+
 } // end 768 979
 
 @media (min-width: px-em(480px)) and (max-width: px-em(767px)) {
   .tcc-wrapper{
-    padding:80px 21px;
+    //padding:80px 21px;
   } // end .tcc-wrapper
   
   .tcc-header-wrapper{   
+    
     .tcc-header{
-      padding-bottom: 9px;
+      //padding-bottom: 9px;
     } // end tcc-header
+
+    //.tcc-header-link{
+     // border:1px solid green;
+     // @include px-em--font-size--line-height(15,22);
+    //} // end .tcc-header-link
   } // end .tcc-header-wrapper
 
   .tcc-body-wrapper{
@@ -150,7 +170,6 @@ $mobileHeight:349px;
     } // end .tcc-body
 
     .tcc-content-module{
-      //padding:6.969696969697% 25px 0px 25px;
       height:$mobileHeight;
     } // end .tcc-content-module
   
@@ -160,51 +179,49 @@ $mobileHeight:349px;
       margin-left:0;
     } // end .grid
   } // end .tcc-body-wrapper
-
+ 
   .sonys-voice{
     .l3{
-      margin:0;
-      display:block;
+      //margin:0;
+      //display:block;
     } // end l3
 
     .l4{
-      display:block;
+      //display:block;
     } // end .l4
     
     .bq2 > p{
-      font-size: 1em;
-      padding-bottom:11.636363636364%; 
+      // font-size: 1em;
+      // padding-bottom:11.636363636364%; 
     } // end .bq2 > p
-  } //end .sonys-voice
 
-  .article{   
-    .p3{
-      // line-height: 1.4em;
-      // font-size:$font_13_16;
-    } // end .p3
-  } // end .article
+  } //end .sonys-voice
 } // end mQ
 
 // LANDSCAPE PHONE AND BELOW -- 480px
 @media (max-width: px-em(479px)) {
   .tcc-wrapper{
-    padding:20px 21px;
+    //padding:20px 21px;
   } // end .tcc-wrapper
   
   .tcc-header-wrapper{   
     .tcc-header-title{
-      display: block;
-      text-align: left;
-      float:none;
+      // display: block;
+      // text-align: left;
+      // float:none;
     } // end .tcc-header-title
 
     .tcc-header-link{
-      display: block;
-      text-align: left;
-      margin:0;
-      float:none;
-      line-height: 1.35em;
+      // display: block;
+      // text-align: left;
+      // margin:0;
+      // float:none;
+      // line-height: 1.35em;
+      // border:1px solid red;
+    //  @include px-em--font-size--line-height(15,22);
+
     } // end .tcc-header-link
+
   } // end .tcc-header-wrapper
 
   .tcc-body-wrapper{
@@ -223,36 +240,35 @@ $mobileHeight:349px;
       float:left;
       width:342px; // DESKTOP >480
     } // end .grid
-
   } // end .tcc-body-wrapper
 
   .sonys-voice{
     .bq2 > p{
-      color:$gray40;
-      font-size: 1.475em;
-      padding:0 30px;
+      // color:$gray40;
+      // font-size: 1.475em;
+      // padding:0 30px;
     } // end .bq2 > p
 
     .btn{
-      width:50%;
+      //width:50%;
     } // end .btn
   } // end .sonys-voice
 
-
    .article{
 
-      .imgContainer{
-        
+      p.lt3{
+        display:none;
+      }
+
+      .img-container{
         img{
-          width:100%;
+         width:100%;
         } // end img
       
-      } // end .imgContainer
+      } // end .img-container
 
-   } // end .article
+   } // end .article  
 
-
-  
 } // end > 480
 
 // phone portrait
@@ -260,19 +276,20 @@ $mobileHeight:349px;
 
  .article{
 
-    .imgContainer{
+    .img-container{
       
       img{
-        width:100%;
+       width:100%;
+
       } // end img
     
-    } // end .imgContainer
+    } // end .img-container
 
  } // end .article
 
  .sonys-voice{
     .bq2 > p{
-      padding:0 20px 20px;
+      //padding:0 20px 20px;
     } // end .bq2 > p
   } // end .sonys-voice
 }  // end 320 mQ
