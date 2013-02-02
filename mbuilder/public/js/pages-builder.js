@@ -75,14 +75,15 @@ $(document).ready(function() {
     });
     createModuleContainer();
   });
+   
 
   /** Add module block **/
-  $("#add-module").click(function(e) {
+  $('#add-module').click(function(e) {
     e.preventDefault();
     createModuleContainer(this);
   });
 
-  $("#dialog-form").dialog({
+  $('#dialog-form').dialog({
     autoOpen : false,
     height : 380,
     width : 450,
@@ -132,6 +133,23 @@ $(document).ready(function() {
  *      Call to web services         *
  *************************************/
 
+
+
+function dataChange(elem,e) {   
+    getJsonContent(elem,e);
+    updateBuildButton();
+} 
+
+function moduleChange(elem) {
+  //$('.module_select').change(function(elem) {
+    var self = elem;
+    $(self).find('.hold').remove();
+    
+    moduleSelected = self.options[self.selectedIndex].value;
+    getDataList(elem);
+}
+
+  
 function getModuleName() {
 
   $.each(mb.moduleList, function(i, e) {
@@ -139,31 +157,18 @@ function getModuleName() {
   });
   $('.module_select.empty').removeClass('empty');
 
-  $('.module_select').change(function(elem) {
-    $(elem.target).find('.hold').remove();
-
-    moduleSelected = this.options[this.selectedIndex].value;
-    getDataList(elem);
-  });
-
-  $('.data_select').change(function(e) {
-    e.preventDefault();
-    getJsonContent(this, e);
-    updateBuildButton();
-  });
-
   toggleBuildAll()
 }
 
 function getDataList(elem) {
 
   /* @formatter:off */
-  var moduleContainer = $(elem.target).parents('.form-inline')[0], 
+  var moduleContainer = $(elem).parents('.form-inline')[0], 
       dataControl = $(moduleContainer).find('.data_control'), 
       dataSelect = $(moduleContainer).find('.data_select');
 /* @formatter:on */
 
-  mb.modulePath = elem.target.value.replace(/((module_)|(.html(.eco|.hb|.jade)))/g, '');
+  mb.modulePath = elem.value.replace(/((module_)|(.html(.eco|.hb|.jade)))/g, '');
   mb.moduleName = mb.modulePath.replace(/.html(.eco|.hb|.jade)/g, '');
 
   $.ajax({
@@ -205,6 +210,9 @@ function getJsonContent(dataSelect, elem) {
 
   selectedElem = $(dataSelect);
 
+  $(selectedElem).parents('.modContainer').find('.error').remove();
+  $(selectedElem).parents('.main-module-container').find('.submodContainer').empty();
+ 
   typeof elem === 'object' ? jsonUrl = elem.target.value : jsonUrl = elem;
 
   toggleBuildAll();
@@ -213,6 +221,11 @@ function getJsonContent(dataSelect, elem) {
     url : '/getjson',
     data : {
       path : jsonUrl
+    },
+     statusCode: {
+        500: function() {
+        $(selectedElem).parents('.modContainer').append('<span class="error">No data file found</span>');
+      }
     },
   }).done(function(res) {
 
@@ -273,8 +286,19 @@ function createModuleContainer(elem) {
 
   $moduleGroupContainer = moduleGroupContainer.clone(true);
   $moduleGroup = moduleGroup.clone(true);
-
-  // Isert a build all button to the first element
+  
+  // bind function on the module select
+  $moduleGroup.find('.module_select').bind('change', function(e) {
+      e.preventDefault();
+      moduleChange(this);
+    })
+ 
+   $moduleGroup.find('.data_select').bind('change', function(e) {
+      e.preventDefault();
+      dataChange(this,e);
+    })
+    
+  // Insert a build all button to the first element
   if ($('#main-forms-container ul li').length === 0) {
     $moduleGroup.find('.btnGroup').prepend(btnBuildAll);
 

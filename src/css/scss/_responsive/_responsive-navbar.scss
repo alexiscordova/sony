@@ -69,8 +69,8 @@
 
 
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
-  padding-right: 4px;
-  margin-right: 0px;
+  padding-right: 0;
+  margin-right: 0;
   font-size:$font_15_16;
   color:$navbarLinkColor;
 
@@ -95,7 +95,7 @@
 .nav-li-linkBtn{
   height: 36px;
   margin: 14px 0 14px 2px;
-  padding: 10px 12px 0px 11px;
+  padding: 8px 9px 0px 10px;
 
   line-height: 1;
   @include border-radius(1px);
@@ -107,8 +107,8 @@
   &:active,
   &:focus,
   &.active{
-    background-color: $grayDark;
-    border-color: $grayDark;
+    background-color: $navbarLinkBtnBgHover;
+    border-color: $navbarLinkBtnBgHover;
     color:$navbarLinkColorHover;
   }
 
@@ -148,20 +148,22 @@
   .nav-li-link.nav-dropdown-toggle{
     font-size:$font_11_16;
     padding-right:8px;
+    padding-top:12px;
 
-    .icon-ui-arrowhead-down-gray{
-      margin-left: 6px;
-      margin-top: 7px;
+    .fonticon-10-arrowhead-down{
+      margin-left:3px;
+      position:relative;
+      top:-2px;
     }
   }
 }
 .nav-li-favorites .nav-li-link {
-  padding-right:4px;
-  padding-left:6px;
+  padding-right: 4px;
+  padding-left: 8px;
 }
 .nav-li-cart .nav-li-link{
-  padding-right:8px;
-  padding-left:6px;
+  padding-right: 9px;
+  padding-left: 8px;
 }
 .nav-li-search .nav-li-linkBtn {
   background-color: $navbarTertiaryColor;
@@ -185,9 +187,15 @@
   }
 }
 .nav-li-universal .nav-li-linkBtn {
-  [class^="icon-ui-"],
-  [class*=" icon-ui-"]{
-    margin-top: 0;
+  background:$navbarLinkBtnBgHover;
+  border-color:$navbarLinkBtnBgHover;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &.active{
+    background:$navbarTertiaryColor;
+    border-color:$navbarTertiaryColor;
   }
 }
 
@@ -311,7 +319,7 @@
 
 .navmenu-w-account{
   width: 215px;
-  padding: 16px 0 9px;
+  padding: 11px 0 9px;
 
   @include hideshow-navmenu-hide(right);
 
@@ -902,13 +910,11 @@
       border-color:$grayDarkFieldSmall;
       text-align:center;
       padding:9px 0 14px;
-      .icon-ui-plus-tiny-boxed,
+      .fonticon-10-arrowhead-up,
       .linkBtn-label{
-        display:inline-block;
-        float:none;
         font-size:$font_15_16;
       }
-      .icon-ui-plus-tiny-boxed{
+      .fonticon-10-arrowhead-up{
         margin-top: 5px;
       }
     }

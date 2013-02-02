@@ -11,7 +11,7 @@
 
             $('.video-container').each(function() {
                 $(this).find('.vbc-container, .video-missing-poster').remove();
-                $(this).find('.video-poster').removeClass('visuallyhidden');
+                $(this).find('img').removeClass('visuallyhidden');
             });
 
             $targetPlaceholder = this.getAttribute('data-target');
@@ -30,7 +30,7 @@
 
             autoStart = (videoProp.autoStart) || true;
             imgMissingVideoID = (videoProp.imgMissingVideoID) ? videoProp.imgMissingVideoID : 'img/modules/brightcovevideo/poster-missing-video.png';
-            imgMissingVideoID = '<img src="' + imgMissingVideoID + '" class="video-poster video-missing-poster" alt="video unavailable" >';
+            imgMissingVideoID = '<img src="' + imgMissingVideoID + '" class="iq-img video-poster video-missing-poster" alt="video unavailable" >';
 
             videoIdMissing = (!videoProp.videoID) ? true : false;
 
