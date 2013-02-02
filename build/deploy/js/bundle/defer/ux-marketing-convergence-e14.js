@@ -31,10 +31,15 @@
 
     $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options);
 
+    self.$html = $(document.documentElement);
     self.$el = $element;
     self.$dials = self.$el.find('.uxmc-dial');
+    self.$dialLabels = self.$el.find('.uxmc-dial-label');
+    self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
     self.$partnerCarousel = self.$el.find('.partner-products');
     self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
+
+    self.supportsCanvas = self.$html.hasClass('canvas');
 
     self.init();
   };
@@ -163,6 +168,11 @@
 
       window.iQ.update();
       self.resetDials();
+
+      if ( !self.supportsCanvas ) {
+        self.$dialLabels.removeClass('active');
+        self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels).addClass('active');
+      }
     },
 
     // Update the current progress indicator dial, reset others to zero, and timestamp the event.

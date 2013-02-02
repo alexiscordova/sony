@@ -30,10 +30,15 @@
 
     $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options);
 
+    self.$html = $(document.documentElement);
     self.$el = $element;
     self.$dials = self.$el.find(<span class="string">'.uxmc-dial'</span>);
+    self.$dialLabels = self.$el.find(<span class="string">'.uxmc-dial-label'</span>);
+    self.$dialWrappers = self.$el.find(<span class="string">'.uxmc-dial-wrapper'</span>);
     self.$partnerCarousel = self.$el.find(<span class="string">'.partner-products'</span>);
     self.$partnerCarouselSlides = self.$partnerCarousel.find(<span class="string">'li'</span>);
+
+    self.supportsCanvas = self.$html.hasClass(<span class="string">'canvas'</span>);
 
     self.init();
   };
@@ -157,6 +162,11 @@ Force an update to iQ for the newly-created assets.</p>             </td>       
 
       window.iQ.update();
       self.resetDials();
+
+      <span class="keyword">if</span> ( !self.supportsCanvas ) {
+        self.$dialLabels.removeClass(<span class="string">'active'</span>);
+        self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels).addClass(<span class="string">'active'</span>);
+      }
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.</p>             </td>             <td class="code">               <div class="highlight"><pre>
