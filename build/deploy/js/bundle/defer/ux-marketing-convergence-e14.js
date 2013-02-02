@@ -33,6 +33,7 @@
 
     self.$html = $(document.documentElement);
     self.$el = $element;
+    self.$reloadButton = self.$el.find('.btn-reload');
     self.$dials = self.$el.find('.uxmc-dial');
     self.$dialLabels = self.$el.find('.uxmc-dial-label');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
@@ -68,7 +69,7 @@
 
       var self = this;
 
-      self.$el.find('.btn-reload').on('click', function(e){
+      self.$reloadButton.on('click', function(e){
 
         e.preventDefault();
 
@@ -152,19 +153,30 @@
     'gotoPartnerProduct': function(which) {
 
       var self = this,
+          $currentSlide = self.$partnerCarousel.children(),
           $newSlide;
+
+      if ( self.isAnimating ) { return; }
 
       self.currentPartnerProduct = which;
 
-      self.$partnerCarousel.children().each(function(){
-        $(this).fadeOut(self.transitionTime, function(){
-          $(this).remove();
-        });
-      });
-
       $newSlide = self.$partnerCarouselSlides.eq(which).clone();
       $newSlide.appendTo(self.$partnerCarousel);
-      $newSlide.fadeOut(0).fadeIn(self.transitionTime);
+
+      self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
+
+      if ( self.$partnerCarousel.children().length > 1 ) {
+
+        self.isAnimating = true;
+
+        self.$partnerCarousel.children().animate({
+          'top': '-100%'
+        }, self.transitionTime, function(){
+          $currentSlide.remove();
+          $newSlide.css('top', '0');
+          self.isAnimating = false;
+        });
+      }
 
       window.iQ.update();
       self.resetDials();
