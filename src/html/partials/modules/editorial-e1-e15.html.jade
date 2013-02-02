@@ -1,4 +1,24 @@
 include ../includes/jade-helpers.jade
+
+mixin boxlayout(layout)
+  layout = layout || data.layout
+  if layout.text == "left"
+    .inner.grid.no-grid-at-767(class= data.style)
+      - span = "span" + layout.columns[0]
+      div(class= span)
+        .table-center-wrap
+          .table-center
+            .box(class = layout.alignment)
+              block
+  else if layout.text == "right" || layout.text == "center"
+    .inner.grid.no-grid-at-767(class= data.style)
+      - span = "span" + layout.columns[1]
+      - offset =  "offset" + layout.columns[0]
+      div(class= span)(class= offset)
+        .table-center-wrap
+          .table-center
+            .box(class = layout.alignment)
+              block
   
 mixin copyblock(copyobject, h4class, h5class)
   - copyobject = copyobject || data
@@ -16,23 +36,10 @@ section.editorial.container.clearfix(class= data.layout.media)
       .grid.full-bleed.no-grid-at-767
         .span12
           +partial(data.submodules[0].type, data.submodules[0].data)
-      if data.layout.text == "left"
-        .inner.grid.no-grid-at-767(class= data.style)
-          - span = "span" + data.layout.columns[0]
-          div(class= span)
-            .table-center-wrap
-              .table-center
-                .box(class = data.layout.alignment)
-                  +copyblock()
-      else if data.layout.text == "right" || data.layout.text == "center"
-        .inner.grid.no-grid-at-767(class= data.style)
-          - span = "span" + data.layout.columns[1]
-          - offset =  "offset" + data.layout.columns[0]
-          div(class= span)(class= offset)
-            .table-center-wrap
-              .table-center
-                .box(class = data.layout.alignment)
-                  +copyblock()
+      +boxlayout
+        +copyblock()
+      +boxlayout
+        +copyblock()
     else
       .grid.no-grid-at-767(class= data.style)
         .span12
