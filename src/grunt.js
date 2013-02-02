@@ -244,7 +244,7 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', 'clear lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
   grunt.registerTask('default', 'debug');
   grunt.registerTask('all', 'clean debug deploy docs');
-
+  
   // Define specialized tasks
   grunt.registerTask('lint-target', 'A task that lints a specific file, or set of files.', function(target) {
     if (arguments.length === 0) {
