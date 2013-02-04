@@ -61,10 +61,7 @@
     self.shuffle = self.$grid.data('shuffle');
 
     // Displays active filters on `filter`
-    self.$grid.on('filter.shuffle', function(evt, shuffle) {
-      self.$productCount.text( shuffle.visibleItems );
-      self.displayActiveFilters();
-    });
+    self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ));
 
     // Things moved around and could possibly be in the viewport
     // Filtered should already be throttled because whatever calls .filter() should be throttled.
@@ -348,6 +345,7 @@
 
         // Handle media groups
         self.$container.find( selector + ' .btn' ).attr('disabled', 'disabled');
+
       } else if ( filterType === 'checkbox' ) {
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
         self.$container.find( selector ).prop('disabled', true);
@@ -367,10 +365,47 @@
 
         // Handle media groups
         self.$container.find( selector + ' .btn' ).removeAttr('disabled');
+
       } else if ( filterType === 'checkbox' ) {
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
         self.$container.find( selector ).prop('disabled', false);
       }
+    },
+
+    removeActiveFilters : function() {
+      var self = this,
+          filterType = '',
+          filterName = '',
+          filterValue = '';
+
+      for ( filterType in self.filters ) {
+        for ( filterName in self.filters[ filterType ] ) {
+
+          if ( filterType === 'range' ) {
+            for ( filterValue in self.filters[ filterType ][ filterName ] ) {
+
+              // Remove from internal data
+              self.undoFilter( filterValue, filterName, filterType );
+
+              // Remove active/checked state
+              self.removeFilter( filterValue, filterName, filterType );
+            }
+          } else {
+            for ( var i = 0; i < self.filters[ filterType ][ filterName ].length; i++ ) {
+              filterValue = self.filters[ filterType ][ filterName ][ i ];
+
+              // Remove from internal data
+              self.undoFilter( filterValue, filterName, filterType );
+
+              // Remove active/checked state
+              self.removeFilter( filterValue, filterName, filterType );
+            }
+          }
+        }
+      }
+
+      self.filter();
+      self.$container.find('.collapse').collapse('hide');
     },
 
     onRemoveFilter : function( evt ) {
@@ -442,7 +477,7 @@
 
       // Init popovers
       self.$filterOpts.find('.js-popover-trigger').popover({
-        placement: 'top',
+        placement: 'in top',
         trigger: 'click',
         content: function() {
           // setTimeout(function() {
@@ -595,6 +630,8 @@
           self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
         }
       }
+
+      self.$productCount.text( $visible.length );
 
     },
     valueInArray : function( value, arr ) {
@@ -1850,8 +1887,17 @@
 
     if ( $prevPane ) {
       // Loop through each gallery in the tab (there could be more than 1)
-      // Disable shuffle and pause infinite scrolling for galleries being hidden
-      $prevPane.find('.gallery').gallery('disable');
+      // Disable the gallery (which disableds shuffle and pauses infinite scrolling) for galleries being hidden
+      $prevPane.find('.gallery').each(function() {
+        var gallery = $(this).data('gallery');
+
+        // If there are active filters, remove them.
+        if ( gallery.hasActiveFilters ) {
+          gallery.removeActiveFilters();
+        }
+
+        gallery.disable();
+      });
     }
 
   };
