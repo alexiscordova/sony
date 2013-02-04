@@ -2,8 +2,8 @@
 // FontIcons
 // --------------------------------------------------
 
-[class*="fonticon-"] {
-  display:inline-block;
+%fonticon {
+  display: inline-block;
 
   &:before,
   &[class*="--after"]:after {
@@ -14,31 +14,36 @@
     line-height: 1;
     -webkit-font-smoothing: antialiased;
   }
-  &:before{
-    margin-right:3px;
-  }
-  &[class*="--after"]:after {
-    margin-left:3px;
-  }
+}
+
+[class*="fonticon-"] {
+  @extend %fonticon;
 }
 
 [class*="fonticon-13-"] {
-  font-size:1.3em;
+  font-size: 1.3em;
 }
 [class*="fonticon-15-"] {
-  font-size:1.5em;
+  font-size: 1.5em;
 }
 [class*="fonticon-20-"] {
-  font-size:2.0em;
+  font-size: 2.0em;
+  // The styles below are currently in .btn-square i { } but could be moved here
+  line-height: 0;
+  margin: -.125em; // -3px ( 3 / 24 )
 }
 [class*="fonticon-30-"] {
-  font-size:3.0em;
+  font-size: 3.0em;
+  line-height: 0;
+  margin: -.1875em; // 9/48
 }
 [class*="fonticon-36-"] {
-  font-size:3.6em;
+  font-size: 3.6em;
+  line-height:0;
 }
 [class*="fonticon-60-"] {
   font-size:6.0em;
+  line-height:0;
 }
 
 
@@ -123,11 +128,11 @@
 }
 .fonticon-10-arrowhead-up:before,
 .fonticon-10-arrowhead-up--after:after {
-  content: "\e013";
+  content: "\e014";
 }
 .fonticon-10-arrowhead-down:before,
 .fonticon-10-arrowhead-down--after:after {
-  content: "\e014";
+  content: "\e013";
 }
 .fonticon-10-arrowheads-elevator:before,
 .fonticon-10-arrowheads-elevator--after:after {

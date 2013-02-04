@@ -38,11 +38,10 @@ $default-transition-delay    : 0s;
 @mixin fonticon-text-px-to-em($px, $context:16) {
 	font-size: px-em($px, $context); // the size of the text
 
-	&[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on the text container:
-	&[class*="fonticon-ui-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
-	[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on a i or span insode of the text container:
-	[class*="fonticon-ui-"][class*="--after"]:after { // the size of the icon if the fonticon class is on a i or span insode of the text container:
-		font-size: px-em-reverse-size($px, $context:16);
+	&[class*="fonticon-10-"]:before, // the size of the icon if the fonticon class is on the text container:
+	&[class*="fonticon-10-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
+	[class*="fonticon-10-"]:before { // the size of the icon if the fonticon class is on a i or span insode of the text container:
+		font-size: px-em-reverse-size($px, $context);
 	}
 }
 
@@ -847,6 +846,13 @@ $default-transition-delay    : 0s;
 	   // -moz-transform: translate3d($x, $y, $z);
 		 // -o-transform: translate3d($x, $y, $z);
 					transform: translate3d($x, $y, $z);
+}
+@mixin transform-origin($x, $y:50%, $z:0) {
+	transform-origin:        $x $y $z;
+	-ms-transform-origin:    $x $y $z;
+	-webkit-transform-origin:$x $y $z;
+	-moz-transform-origin:   $x $y $z;
+	-o-transform-origin:     $x $y $z;
 }
 
 // Backface visibility
@@ -1696,6 +1702,43 @@ $default-transition-delay    : 0s;
   width:auto;
   color:white;
   font-size:0.8em;
+}
+
+@mixin themeItems($up, $hover, $active){
+  i{
+    color:$up;
+  }
+  .btn{
+    border-color:$up;
+    background:$up;
+  }
+  .btn:hover{
+    background:$hover;
+  }
+  .btn:active{
+    background:$active;
+  }
+}
+
+@mixin themecolors {
+  .themeRed{
+    @include themeItems($themeRed, $themeRedHover, $themeRedActive);
+  }
+  .themeBlueLight{
+    @include themeItems($themeBlueLight, $themeBlueLightHover, $themeBlueLightActive);
+  }
+  .themeBlueDark{
+    @include themeItems($themeBlueDark, $themeBlueDarkHover, $themeBlueDarkActive);
+  } 
+  .themeGreen{
+    @include themeItems($themeGreen, $themeGreenHover, $themeGreenActive);
+  }
+  .themePurple{
+    @include themeItems($themePurple, $themePurpleHover, $themePurpleActive);
+  }
+  .themeOrange{
+    @include themeItems($themeOrange, $themeOrangeHover, $themeOrangeActive);
+  }
 }
 
 @mixin dttb {

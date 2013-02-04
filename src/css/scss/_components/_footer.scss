@@ -7,30 +7,40 @@
 
   h5{
     font-size:$font_15_16;
-    color:$gray;
+    color:$footerGrayText;
   }
   h6{
     font-size:$font_11_16;
-    color:$gray;
+    color:$footerGrayText;
     text-transform:uppercase;
   }
   a{
-    color:$white;
+    color:$footerLinks;
 
     &:hover,
     &:active,
     &:focus{
-      color:$linkColorLight;
+      color:$footerGrayText;
     };
   }
   .dropdown-label{
     font-size:$font_14_16;
-  } 
-
-  @include sprite-reg-nav-sony-logo-no-tagline;
-
+  }
 } // .footer-wrapper
 
+.footer-sony-logo{
+  display:inline-block;
+  width:98px;
+  height:16px;
+  overflow:hidden;
+  color:$white;
+  line-height:0;
+  font-size:4.8em;
+
+  &:before{
+    position:relative;
+  }
+}
 
 
 
@@ -67,16 +77,18 @@
 form.footer-store-locator-form{
   margin:0;
   i{
-    position:absolute;
-    font-size:$font_18_16;
-    margin:2px 0 0 1px;
-    color:$highlightColor;
+    position: absolute;
+    left: 6px;
+    top: 11px;
+    font-size: px-em(18,16);
+    color: $buttonOrange;
   }
 }
 
 .footer-store-locator-caption{
   font-size:$font_11_16;
   margin:5px 0 0 0;
+  color:$footerGrayText;
 }
 
 .grid .footer-language.span6{
@@ -95,31 +107,53 @@ form.footer-store-locator-form{
     height: px-em(32px);
     float:left;
     margin-left: px-em(2px);
+    text-align:center;
     background-color:$gray25;
+    color:$white;
 
-    &:first-child{
-      margin-left: - px-em(2px);
-    };
+    &:hover, &:active, &:focus, &.active{
+      color:$white;
+    }
 
-    &.footer-social-twitter:hover,
-    &.footer-social-twitter:active,
-    &.footer-social-twitter:focus{
-      background-color:$twitterColor;
+    i{
+      position:relative;
     }
-    &.footer-social-facebook:hover,
-    &.footer-social-facebook:active,
-    &.footer-social-facebook:focus{
-      background-color:$facebookColor;
+
+    &.footer-social-twitter {
+      i {
+        top:1px;
+        left:2px;
+      }
+      &:hover, &:active, &:focus, &.active{
+        background-color:$twitterColor;        
+      }
     }
-    &.footer-social-gplus:hover,
-    &.footer-social-gplus:active,
-    &.footer-social-gplus:focus{
-      background-color:$gplusColor;
+    &.footer-social-facebook {
+      i {
+        top:2px;
+        left:2px;
+      }
+      &:hover, &:active, &:focus, &.active{
+        background-color:$facebookColor;        
+      }
     }
-    &.footer-social-youtube:hover,
-    &.footer-social-youtube:active,
-    &.footer-social-youtube:focus{
-      background-color:$youtubeColor;
+    &.footer-social-gplus {
+      overflow:hidden;
+      i{
+        left:-2px;
+        top:1px;
+      }
+      &:hover, &:active, &:focus, &.active{
+        background-color:$gplusColor;        
+      }
+    }
+    &.footer-social-youtube {
+      i{
+        top:3px;
+      }
+      &:hover, &:active, &:focus, &.active{
+        background-color:$youtubeColor;        
+      }
     }
   }
 }
@@ -130,6 +164,7 @@ form.footer-store-locator-form{
 .footer-copyright{
   font-size:$font_10_16;
   text-transform:uppercase;
+  color:$footerGrayText;
 }
 
 
@@ -140,14 +175,15 @@ form.footer-store-locator-form{
     color:$white;
     background-color: $gray25;
     border-color: $gray25;
-    padding: px-em(6px) px-em(14px) px-em(8px) px-em(11px);
+    padding: 6px 11px 8px 14px;
     @include box-shadow(none);
     @include flickerfix;
 
-    .icon-ui-arrowhead-down-gray{
+    .fonticon-10-arrowhead-down{
       float:right;
-      margin-top:px-em(10px);
+      margin:6px -4px 0;
       @include transition(all $transitionFast linear);
+      @include transform-origin(40%, 53%);
       @include flickerfix;
     }
   }
@@ -213,7 +249,7 @@ form.footer-store-locator-form{
     }
   }
   &.DISABLE-MENU{
-    .icon-ui-arrowhead-down-gray{
+    .fonticon-10-arrowhead-down{
       display:none;
     }    
   }
@@ -229,7 +265,7 @@ form.footer-store-locator-form{
     border-color: $grayDark1;
   }
   &:not(.DISABLE-MENU){
-    .icon-ui-arrowhead-down-gray{
+    .fonticon-10-arrowhead-down{
       @include rotate(-180deg);
     }
     .dropdown-hover-menu{

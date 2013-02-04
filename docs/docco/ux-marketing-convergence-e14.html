@@ -30,8 +30,12 @@
 
     $.extend(self, {}, $.fn.marketingConvergenceModule.defaults, options);
 
+    self.$html = $(document.documentElement);
     self.$el = $element;
-    self.$dials = self.$el.find(<span class="string">'.uxmc-dial'</span>);
+    self.$reloadButton = self.$el.find(<span class="string">'.btn-reload'</span>);
+    self.$dialWrappers = self.$el.find(<span class="string">'.uxmc-dial-wrapper'</span>);
+    self.$dials = self.$dialWrappers.find(<span class="string">'.uxmc-dial'</span>);
+    self.$dialLabels = self.$dialWrappers.find(<span class="string">'.uxmc-dial-label'</span>);
     self.$partnerCarousel = self.$el.find(<span class="string">'.partner-products'</span>);
     self.$partnerCarouselSlides = self.$partnerCarousel.find(<span class="string">'li'</span>);
 
@@ -61,7 +65,7 @@
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      self.$el.find(<span class="string">'.btn-reload'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+      self.$reloadButton.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
 
         e.preventDefault();
 
@@ -76,16 +80,15 @@
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$dials.simpleKnob({
-        <span class="string">'displayInput'</span>: <span class="literal">false</span>,
         <span class="string">'width'</span>: <span class="number">28</span>,
         <span class="string">'height'</span>: <span class="number">28</span>,
         <span class="string">'thickness'</span>: <span class="number">0.15</span>,
         <span class="string">'fontSize'</span>: <span class="string">'1em'</span>,
-        <span class="string">'bgColor'</span>: <span class="string">'rgba(255,255,255,0.5)'</span>,
+        <span class="string">'bgColor'</span>: <span class="string">'rgba(255, 255, 255, 0.5)'</span>,
         <span class="string">'fgColor'</span>: <span class="string">'#fff'</span>
       }).css(<span class="string">'display'</span>, <span class="string">'block'</span>);
 
-      self.$el.find(<span class="string">'.uxmc-dial-label'</span>).on(<span class="string">'mousedown'</span>, <span class="keyword">function</span>(e){
+      self.$dialLabels.on(<span class="string">'mousedown'</span>, <span class="keyword">function</span>(e){
 
         e.preventDefault();
 
@@ -136,37 +139,59 @@
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Fade out and destroy current slide, fade in the specified slide.
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Slide out and destroy current slide, slide in the specified slide.
 Force an update to iQ for the newly-created assets.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'gotoPartnerProduct'</span>: <span class="keyword">function</span>(which) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $currentSlide = self.$partnerCarousel.children(),
           $newSlide;
+
+      <span class="keyword">if</span> ( self.isAnimating ) { <span class="keyword">return</span>; }
 
       self.currentPartnerProduct = which;
 
-      self.$partnerCarousel.children().each(<span class="keyword">function</span>(){
-        $(<span class="keyword">this</span>).fadeOut(self.transitionTime, <span class="keyword">function</span>(){
-          $(<span class="keyword">this</span>).remove();
-        });
-      });
+      $newSlide = self.$partnerCarouselSlides
+        .eq(which)
+        .clone()
+        .appendTo(self.$partnerCarousel);
 
-      $newSlide = self.$partnerCarouselSlides.eq(which).clone();
-      $newSlide.appendTo(self.$partnerCarousel);
-      $newSlide.fadeOut(<span class="number">0</span>).fadeIn(self.transitionTime);
+      self.$reloadButton.css(<span class="string">'color'</span>, $newSlide.css(<span class="string">'backgroundColor'</span>));
+
+      <span class="keyword">if</span> ( self.$partnerCarousel.children().length &gt; <span class="number">1</span> ) {
+
+        self.isAnimating = <span class="literal">true</span>;
+
+        self.$partnerCarousel.children().animate({
+          <span class="string">'top'</span>: <span class="string">'-100%'</span>
+        }, {
+          <span class="string">'duration'</span>: self.transitionTime,
+          <span class="string">'complete'</span>: <span class="keyword">function</span>() {
+            $currentSlide.remove();
+            $newSlide.css(<span class="string">'top'</span>, <span class="string">''</span>);
+            self.isAnimating = <span class="literal">false</span>;
+          }
+        });
+      }
 
       window.iQ.update();
       self.resetDials();
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Update the current progress indicator dial, reset others to zero, and timestamp the event.
+Label active dial for IE fallbacks.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'resetDials'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$activeDial = self.$dials.eq(self.currentPartnerProduct);
+      self.$activeDialLabel = self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels);
+
       self.$dials.not(self.$activeDial).val(<span class="number">0</span>).trigger(<span class="string">'change'</span>);
       self.slideStartTime = <span class="keyword">new</span> Date();
+
+      self.$dialLabels.removeClass(<span class="string">'active'</span>);
+      self.$activeDialLabel.addClass(<span class="string">'active'</span>);
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Animations that should occur as the window is ready to paint.</p>             </td>             <td class="code">               <div class="highlight"><pre>
