@@ -1,52 +1,75 @@
-section.primary-tout.container.full-bleed(class= data.mode)
+mixin eyebrowheader(d)
+  d = d || data
+  if d.eyebrow
+    h2.t6.eyebrow!= locals.plusify(d.eyebrow)
+  if d.variation.headertext == "larger"
+    h1!= d.headline
+  else
+    h1.t2!= d.headline
+    
+mixin subheadbody(d)
+  d = d || data
+  if d.body 
+    p.p3!= d.body
+    
+mixin links(d, extraclass)
+  d = d || data
+  extraclass = extraclass || ""
+  if d.links
+    for link in d.links
+      a(class= extraclass)(class= link.type, href= link.url)!= link.text
+      
+mixin boxlayout(layout)
+  layout = layout || data.layout
+  if layout.text == "left"
+    .container.inner.grid.no-grid-at-767(class= data.style)
+      - span = "span" + layout.columns[0]
+      div(class= span)
+        .table-center-wrap
+          .table-center
+            .box(class = layout.alignment)(class = layout.mobilealign)
+              block
+  else if layout.text == "right" || layout.text == "center"
+    .container.inner.grid.no-grid-at-767(class= data.style)
+      - span = "span" + layout.columns[1]
+      - offset =  "offset" + layout.columns[0]
+      div(class= span)(class= offset)
+        .table-center-wrap
+          .table-center
+            .box(class = layout.alignment)(class = layout.mobilealign)
+              block
+
+section.primary-tout.container.full-bleed-no-max(class= data.mode)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
-  .container
-    if data.mode == "primary-tout"
-      .inner.grid
-        .span5.hero-unit(class = data.style)
-          if data.kicker 
-            p.kicker.l2 !{data.kicker}
-          if data.headline 
-            h1 !{data.headline}
-          if data.body 
-            p !{data.body}
-          if data.links
-            for link in data.links
-              a(class = link.type, href= link.url) !{link.text}
-              
-    else if data.mode == "product-intro-plate"
-      .inner.grid
-        .span5.hero-unit(class = data.style)
-          if data.kicker 
-            p.kicker.l2 !{data.kicker}
-          if data.headline 
-            h1 !{data.headline}
-          if data.body 
-            p !{data.body}
-          if data.links
-            for link in data.links
-              a(class = link.type, href= link.url) !{link.text}
+  if data.mode == "homepage"
+    if data.variation.secondbox
+      +boxlayout
+        +eyebrowheader
+      .secondary.container.full-bleed-no-max(class= data.variation.substyle)
+        .box
+          .container.grid.no-grid-at-767
+            .span6
+              +subheadbody
+            .span3.offset3.clearfix
+              +links(data, "pull-right")
+    else
+      +boxlayout
+        +eyebrowheader
+        +subheadbody
+        +links
+  else if data.mode == "primary-tout"
+    +boxlayout
+      +eyebrowheader
+      +subheadbody
+      +links
+  else if data.mode == "product-intro-plate"
+    +boxlayout
+      +eyebrowheader
+      +subheadbody
+      +links
 
-    else if data.mode == "home-page" 
-      .container.full-bleed.inner(class= data.style)
-        .grid
-          .span5.offset1
-            .fill.ghost-center-wrap
-              .ghost-center
-                if data.kicker 
-                  p.kicker.l2 !{data.kicker}
-                if data.headline
-                  h1 !{data.headline}
+
+
+
   
-        .grid.hero-unit
-          .span6
-            if data.subhead 
-              h5 !{locals.plusify(data.subhead)}
-            if data.body 
-              p.p3 !{data.body}
-  
-          .span3.offset3
-            if data.links
-              for link in data.links
-                a(class = link.type, href = link.url) !{link.text}

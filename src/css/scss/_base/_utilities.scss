@@ -32,14 +32,14 @@
 }
 
 .no-transition{
-  @include transition(none); 
+  @include transition(none);
 }
 
-.opacity0{
-  opacity:0;
+.opacity0 {
+  opacity: 0;
 }
-.opacity1{
-  opacity:1;
+.opacity1 {
+  opacity: 1;
 }
 
 // From H5BP
@@ -107,7 +107,7 @@
 
 // For Affix plugin
 .affix {
-  position: fixed;
+  // position: fixed;
 }
 
 // Clearing floats
@@ -124,14 +124,16 @@
 .input-block-level {
   @include input-block-level();
 }
-
+.text-right { text-align: right; }
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 
-.text-dark {
-  color: $grayDark;
-}
-
+// custom text colors
+.text-default { color: $defaultTextColor; }
+.text-dark { color: $text-dark; }
+.text-med-dark { color: $text-med-dark; }
+.text-med-light { color: $text-med-light; }
+.text-light { color: $text-light; }
 
 // Centering
 // -------------------------
@@ -150,8 +152,16 @@
   max-width: 100%;
   max-height: 100%;
 
+  // Yeya!
   vertical-align: middle;
+
+  // Because the parent has a font-size of 0.
   font-size: 16px;
+}
+
+// Vertically align a ghost center element to the bottom
+.ghost-center.v-bottom {
+  vertical-align: bottom;
 }
 
 .table-center-wrap {
@@ -208,7 +218,7 @@ $overlayColor: rgba($linkColor, .8);
 
   .primary-tout-subtitle {
     margin-bottom: 0;
-    color: $grayLighter;
+    color: $gray70;
   }
 
   .primary-tout-title {

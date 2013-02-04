@@ -2,15 +2,28 @@ mixin partial(m, d)
   m = 'modules/' + m
   e = {"locals":locals, "data":locals.data(d)}
   !{locals.partial(m, e)}
+//- single line mixin for partials
+//- +partial('example.html.jade', 'example/default.json')
 
-mixin iQImage( img, extraClasses )
+
+//- img - an object with at least: `src`, `alt`, `noscriptsrc`
+//- [extraClasses] - a string containing any extra classes to put on the img element
+//- [itemprop] - optional itemprop attibute (should be 'image' if used).
+mixin iQImage( img, extraClasses, itemprop )
   - classes = 'iq-img'
   - extraClasses = extraClasses || false
+  - itemprop = itemprop || false
   - if ( extraClasses ) classes += ' ' + extraClasses
-  img(class=classes, data-src=img.src, alt=img.alt)
+  img(class=classes, data-src=img.src, alt=img.alt, itemprop=itemprop)
   noscript
-    img(src=img.noscriptsrc, alt=img.alt)
-    
+    img(class=extraClasses, src=img.noscriptsrc, alt=img.alt, itemprop=itemprop)
+
+//- hgobject is an object with potential h# items and their text values
+//- for instance {"h2": "this is a h2", "h3": "this is a h3" }
+//- h#class is optional classes to add to the h if it finds one
+//- it will only add h#'s that exist or add classes that are defined
+//- if you pass it nothing it assumes data as the hgobject so if h#'s are defined in the top level of your json it picks them up
+//- ie: +hgroup()   or     +hgroup(someobject, "", "t3", "l1", "l2", "myclass")
 mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
   - hgobject = hgobject || data
   - h1class = h1class || ""
@@ -32,3 +45,5 @@ mixin hgroup (hgobject, h1class, h2class, h3class, h4class, h5class, h6class)
       h5(class= h5class) !{hgobject.h5}
     if hgobject.h6
       h6(class= h6class) !{hgobject.h6}
+
+

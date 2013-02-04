@@ -2,130 +2,355 @@
 // FontIcons
 // --------------------------------------------------
 
-[class*="fonticon-ui-"] {
-  display:inline-block;
+%fonticon {
+  display: inline-block;
 
   &:before,
   &[class*="--after"]:after {
-    font-family: 'Sony-Icons-UI';
+    font-family: 'Sony-Icons';
     speak: none;
     font-style: normal;
     font-weight: normal;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
   }
-  &:before{
-    margin-right:3px;
-  }
-  &[class*="--after"]:after {
-    margin-left:3px;
-  }
+}
+
+[class*="fonticon-"] {
+  @extend %fonticon;
+}
+
+[class*="fonticon-13-"] {
+  font-size: 1.3em;
+}
+[class*="fonticon-15-"] {
+  font-size: 1.5em;
+}
+[class*="fonticon-20-"] {
+  font-size: 2.0em;
+  // The styles below are currently in .btn-square i { } but could be moved here
+  line-height: 0;
+  margin: -.125em; // -3px ( 3 / 24 )
+}
+[class*="fonticon-30-"] {
+  font-size: 3.0em;
+  line-height: 0;
+  margin: -.1875em; // 9/48
+}
+[class*="fonticon-36-"] {
+  font-size: 3.6em;
+  line-height:0;
+}
+[class*="fonticon-60-"] {
+  font-size:6.0em;
+  line-height:0;
 }
 
 
 
 
-.fonticon-ui-favorite:before,
-.fonticon-ui-favorite--after:after {
+
+.fonticon-10-favorite:before,
+.fonticon-10-favorite--after:after {
   content: "\e000";
 }
-.fonticon-ui-cart:before,
-.fonticon-ui-cart--after:after {
+.fonticon-10-cart:before,
+.fonticon-10-cart--after:after {
   content: "\e001";
 }
-.fonticon-ui-search:before,
-.fonticon-ui-search--after:after {
+.fonticon-10-search:before,
+.fonticon-10-search--after:after {
   content: "\e002";
 }
-.fonticon-ui-account:before,
-.fonticon-ui-account--after:after {
+.fonticon-10-account:before,
+.fonticon-10-account--after:after {
   content: "\e003";
 }
-.fonticon-ui-orders:before,
-.fonticon-ui-orders--after:after {
+.fonticon-10-orders:before,
+.fonticon-10-orders--after:after {
   content: "\e004";
 }
-.fonticon-ui-newsletter:before,
-.fonticon-ui-newsletter--after:after {
+.fonticon-10-newsletter:before,
+.fonticon-10-newsletter--after:after {
   content: "\e005";
 }
-.fonticon-ui-registered:before,
-.fonticon-ui-registered--after:after {
+.fonticon-10-registered:before,
+.fonticon-10-registered--after:after {
   content: "\e006";
 }
-.fonticon-ui-star:before ,
-.fonticon-ui-star--after:after{
+.fonticon-10-star:before,
+.fonticon-10-star--after:after {
   content: "\e007";
 }
-.fonticon-ui-star-half:before,
-.fonticon-ui-star-half--after:after {
+.fonticon-10-star-half:before,
+.fonticon-10-star-half--after:after {
   content: "\e008";
 }
-.fonticon-ui-location:before,
-.fonticon-ui-location--after:after {
+.fonticon-10-location:before,
+.fonticon-10-location--after:after {
   content: "\e009";
 }
-.fonticon-ui-support:before,
-.fonticon-ui-support--after:after {
+.fonticon-10-support:before,
+.fonticon-10-support--after:after {
   content: "\e00a";
 }
-.fonticon-ui-grid-3x3:before ,
-.fonticon-ui-grid-3x3--after:after{
+.fonticon-10-grid-3x3:before,
+.fonticon-10-grid-3x3--after:after {
   content: "\e00b";
 }
-.fonticon-ui-x-circle:before,
-.fonticon-ui-x-circle--after:after {
+.fonticon-10-circle-x:before,
+.fonticon-10-circle-x--after:after {
   content: "\e00c";
 }
-.fonticon-ui-skinny-plus:before,
-.fonticon-ui-skinny-plus--after:after {
+.fonticon-10-circle-q:before,
+.fonticon-10-circle-q--after:after {
   content: "\e00d";
 }
-.fonticon-ui-skinny-x:before,
-.fonticon-ui-skinny-x--after:after {
+.fonticon-10-square-neg-plus:before,
+.fonticon-10-square-neg-plus--after:after {
   content: "\e00e";
 }
-.fonticon-ui-skinny-rounded-x:before,
-.fonticon-ui-skinny-rounded-x--after:after {
+.fonticon-10-plus-skinny:before,
+.fonticon-10-plus-skinny--after:after {
   content: "\e00f";
 }
-.fonticon-ui-skinny-rounded-chevron:before ,
-.fonticon-ui-skinny-rounded-chevron--after:after{
+.fonticon-10-x-skinny:before,
+.fonticon-10-x-skinny--after:after {
   content: "\e010";
 }
-.fonticon-ui-arrowhead-down:before,
-.fonticon-ui-arrowhead-down--after:after {
+.fonticon-10-x-skinny-rounded:before,
+.fonticon-10-x-skinny-rounded--after:after {
   content: "\e011";
 }
-.fonticon-ui-arrowhead-up:before,
-.fonticon-ui-arrowhead-up--after:after {
+.fonticon-10-chevron:before,
+.fonticon-10-chevron--after:after {
   content: "\e012";
 }
-.fonticon-ui-arrow-right:before,
-.fonticon-ui-arrow-right--after:after {
-  content: "\e013";
-}
-.fonticon-ui-sm-bold-plus:before,
-.fonticon-ui-sm-bold-plus--after:after {
+.fonticon-10-arrowhead-up:before,
+.fonticon-10-arrowhead-up--after:after {
   content: "\e014";
 }
-.fonticon-ui-sm-bold-check:before,
-.fonticon-ui-sm-bold-check--after:after {
+.fonticon-10-arrowhead-down:before,
+.fonticon-10-arrowhead-down--after:after {
+  content: "\e013";
+}
+.fonticon-10-arrowheads-elevator:before,
+.fonticon-10-arrowheads-elevator--after:after {
   content: "\e015";
 }
-.fonticon-ui-sm-bold-x:before,
-.fonticon-ui-sm-bold-x--after:after {
+.fonticon-10-arrow-right:before,
+.fonticon-10-arrow-right--after:after {
   content: "\e016";
 }
-.fonticon-ui-mobile-icon-sm:before,
-.fonticon-ui-mobile-icon-sm--after:after {
+.fonticon-10-sm-bold-plus:before,
+.fonticon-10-sm-bold-plus--after:after {
   content: "\e017";
 }
-.fonticon-ui-mobile-icon-med:before,
-.fonticon-ui-mobile-icon-med--after:after {
+.fonticon-10-sm-bold-check:before,
+.fonticon-10-sm-bold-check--after:after {
   content: "\e018";
 }
-.fonticon-ui-mobile-icon-lg:before,
-.fonticon-ui-mobile-icon-lg--after:after {
+.fonticon-10-sm-bold-x:before,
+.fonticon-10-sm-bold-x--after:after {
   content: "\e019";
+}
+.fonticon-10-mobile-icon:before,
+.fonticon-10-mobile-icon--after:after {
+  content: "\e01a";
+}
+.fonticon-10-dot:before,
+.fonticon-10-dot--after:after {
+  content: "\e01b";
+}
+.fonticon-10-circlearrow:before,
+.fonticon-10-circlearrow--after:after {
+  content: "\e01c";
+}
+.fonticon-10-x:before,
+.fonticon-10-x--after:after {
+  content: "\e01d";
+}
+.fonticon-10-crop-outer:before,
+.fonticon-10-crop-outer--after:after {
+  content: "\e01e";
+}
+.fonticon-10-crop-inner:before,
+.fonticon-10-crop-inner--after:after {
+  content: "\e01f";
+}
+.fonticon-10-video-play:before,
+.fonticon-10-video-play--after:after {
+  content: "\e020";
+}
+.fonticon-10-video-pause:before,
+.fonticon-10-video-pause--after:after {
+  content: "\e021";
+}
+.fonticon-10-speaker:before,
+.fonticon-10-speaker--after:after {
+  content: "\e022";
+}
+.fonticon-13-twitter:before,
+.fonticon-13-twitter--after:after {
+  content: "\e023";
+}
+.fonticon-13-facebook:before,
+.fonticon-13-facebook--after:after {
+  content: "\e024";
+}
+.fonticon-20-gplus:before,
+.fonticon-20-gplus--after:after {
+  content: "\e025";
+}
+.fonticon-15-youtube:before,
+.fonticon-15-youtube--after:after {
+  content: "\e026";
+}
+.fonticon-20-skateboard:before,
+.fonticon-20-skateboard--after:after {
+  content: "\e029";
+}
+.fonticon-20-runner:before,
+.fonticon-20-runner--after:after {
+  content: "\e02a";
+}
+.fonticon-20-mic-studio:before,
+.fonticon-20-mic-studio--after:after {
+  content: "\e02b";
+}
+.fonticon-20-zoom:before,
+.fonticon-20-zoom--after:after {
+  content: "\e02c";
+}
+.fonticon-20-circle-play:before,
+.fonticon-20-circle-play--after:after {
+  content: "\e02d";
+}
+.fonticon-20-popup:before,
+.fonticon-20-popup--after:after {
+  content: "\e02e";
+}
+.fonticon-20-mobile-menu:before,
+.fonticon-20-mobile-menu--after:after {
+  content: "\e02f";
+}
+.fonticon-30-laptop:before,
+.fonticon-30-laptop--after:after {
+  content: "\e030";
+}
+.fonticon-30-tablet:before,
+.fonticon-30-tablet--after:after {
+  content: "\e031";
+}
+.fonticon-30-memory-stick:before,
+.fonticon-30-memory-stick--after:after {
+  content: "\e032";
+}
+.fonticon-30-tv:before,
+.fonticon-30-tv--after:after {
+  content: "\e033";
+}
+.fonticon-30-projector:before,
+.fonticon-30-projector--after:after {
+  content: "\e034";
+}
+.fonticon-30-water-drop:before,
+.fonticon-30-water-drop--after:after {
+  content: "\e035";
+}
+.fonticon-30-mic:before,
+.fonticon-30-mic--after:after {
+  content: "\e036";
+}
+.fonticon-30-dongle:before,
+.fonticon-30-dongle--after:after {
+  content: "\e037";
+}
+.fonticon-30-cd:before,
+.fonticon-30-cd--after:after {
+  content: "\e038";
+}
+.fonticon-30-handycam:before,
+.fonticon-30-handycam--after:after {
+  content: "\e039";
+}
+.fonticon-30-video-camera:before,
+.fonticon-30-video-camera--after:after {
+  content: "\e03a";
+}
+.fonticon-30-grid:before,
+.fonticon-30-grid--after:after {
+  content: "\e03b";
+}
+.fonticon-30-grid-alt:before,
+.fonticon-30-grid-alt--after:after {
+  content: "\e03c";
+}
+.fonticon-30-headphones:before,
+.fonticon-30-headphones--after:after {
+  content: "\e03d";
+}
+.fonticon-30-earbuds:before,
+.fonticon-30-earbuds--after:after {
+  content: "\e03e";
+}
+.fonticon-30-earclips:before,
+.fonticon-30-earclips--after:after {
+  content: "\e03f";
+}
+.fonticon-30-neckphones:before,
+.fonticon-30-neckphones--after:after {
+  content: "\e040";
+}
+.fonticon-30-camera:before,
+.fonticon-30-camera--after:after {
+  content: "\e041";
+}
+.fonticon-36-panorama:before,
+.fonticon-36-panorama--after:after {
+  content: "\e042";
+}
+.fonticon-36-face:before,
+.fonticon-36-face--after:after {
+  content: "\e043";
+}
+.fonticon-30-intelligent-auto:before,
+.fonticon-30-intelligent-auto--after:after {
+  content: "\e044";
+}
+.fonticon-30-superior-auto:before,
+.fonticon-30-superior-auto--after:after {
+  content: "\e045";
+}
+.fonticon-30-film-strip:before,
+.fonticon-30-film-strip--after:after {
+  content: "\e046";
+}
+.fonticon-36-stability:before,
+.fonticon-36-stability--after:after {
+  content: "\e047";
+}
+.fonticon-36-battery:before,
+.fonticon-36-battery--after:after {
+  content: "\e048";
+}
+.fonticon-60-wifi:before,
+.fonticon-60-wifi--after:after {
+  content: "\e049";
+}
+.fonticon-60-bluetooth:before,
+.fonticon-60-bluetooth--after:after {
+  content: "\e04a";
+}
+.fonticon-30-support:before,
+.fonticon-30-support--after:after {
+  content: "\e04b";
+}
+.fonticon-60-win8:before,
+.fonticon-60-win8--after:after {
+  content: "\e04c";
+}
+.fonticon-60-sony:before,
+.fonticon-60-sony--after:after {
+  content: "\e04d";
 }

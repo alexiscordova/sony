@@ -1,7 +1,8 @@
 ---
-title: Spec (Multiple) Module
-description: A comparison view of specifications
+title: Z2. Multiple Product Spec Page
+description: 
 ---
+include ../partials/includes/jade-helpers.jade
 doctype 5
 !{partial('includes/ieconditionals.html')}
 
@@ -13,11 +14,16 @@ body
   #page-wrap-outer.page-wrap-outer
     #page-wrap-inner.page-wrap-inner
 
+      !{partial('modules/global-header.html.jade', l)}
+
       e = {"locals":locals, "data":data('spec-multi-z2/default.json')}
       !{partial('modules/spec-multi-z2.html.jade', e)}
+
+      !{partial('modules/global-footer.html.jade', l)}
 
 
   script(src="js/libs/bootstrap-transition.js")
   script(src="js/libs/jquery.imagesloaded.js")
+  script(src="js/libs/jquery.simplescroll.js")
 
   !{partial('includes/foot.html.jade', l)}

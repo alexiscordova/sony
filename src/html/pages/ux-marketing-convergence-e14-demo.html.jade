@@ -1,6 +1,6 @@
 ---
-title: UX-Marketing-Convergence-E14
-description: Module used to present benefits related to combinations of devices and/or services.
+title: E14. UX Marketing Convergence
+description:
 ---
 
 doctype 5
@@ -14,9 +14,14 @@ head
 body
 
   h1 UX Marketing Convergence Layout:
-  e = {"locals":locals, "data":data('ux-marketing-convergence-e14/default.json')}
-  !{partial('modules/ux-marketing-convergence-e14.html.jade', e)}
 
-  !{partial('modules/ux-marketing-convergence-e14.html.jade', e)}
+  a = {"locals":locals, "data":data('ux-marketing-convergence-e14/2prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', a)}
+
+  b = {"locals":locals, "data":data('ux-marketing-convergence-e14/3prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', b)}
+
+  c = {"locals":locals, "data":data('ux-marketing-convergence-e14/4prod.json')}
+  !{partial('modules/ux-marketing-convergence-e14.html.jade', c)}
 
   !{partial('includes/foot.html.jade', l)}

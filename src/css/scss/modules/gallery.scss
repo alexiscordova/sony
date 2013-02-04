@@ -11,13 +11,24 @@ $threeColMax: px-em(767px);
 $fourColMin: px-em(768px);
 $fourColMax: px-em(979px);
 
+
+// 8888888b.                       888                   888         88888888888                888
+// 888   Y88b                      888                   888             888                    888
+// 888    888                      888                   888             888                    888
+// 888   d88P 888d888 .d88b.   .d88888 888  888  .d8888b 888888          888   .d88b.  888  888 888888
+// 8888888P"  888P"  d88""88b d88" 888 888  888 d88P"    888             888  d8P  Y8b `Y8bd8P' 888
+// 888        888    888  888 888  888 888  888 888      888             888  88888888   X88K   888
+// 888        888    Y88..88P Y88b 888 Y88b 888 Y88b.    Y88b.           888  Y8b.     .d8""8b. Y88b.
+// 888        888     "Y88P"   "Y88888  "Y88888  "Y8888P  "Y888          888   "Y8888  888  888  "Y888
+
+
 // Price text module
 .product-content {
   margin-top: .75em;
   line-height: 1.3;
 
   .product-name {
-    color: $grayDark;
+    color: $gray20;
   }
 
   .detailed & .product-name {
@@ -25,12 +36,12 @@ $fourColMax: px-em(979px);
   }
 
   .product-model {
-    color: $gray;
+    color: $gray40;
   }
 
   .product-rating {
     margin: .5em 0 1em;
-    color: $gray;
+    color: $gray40;
   }
 
   .price-title {
@@ -39,7 +50,12 @@ $fourColMax: px-em(979px);
 
   .product-price {
     margin-top: 1em;
-    color: $gray;
+    color: $gray40;
+    @include text-overflow();
+  }
+
+  .product-price .price {
+    font-size: $font_15_16;
   }
 
   .msrp {
@@ -52,7 +68,7 @@ $fourColMax: px-em(979px);
   margin: 0 0 1em;
   padding: 0 0 0 1em;
   list-style-type: square;
-  color: $gray;
+  color: $gray40;
 }
 
 
@@ -61,7 +77,7 @@ $fourColMax: px-em(979px);
 
 // Give multiple gallery sections a border top
 .gallery + .gallery > *:first-child {
-  border-top: .1875em solid $grayLighter;
+  border-top: .1875em solid $gray70;
   margin-top: 1.875em;
   padding-top: 1.875em;
 }
@@ -83,6 +99,21 @@ $fourColMax: px-em(979px);
   margin-left: 0;
 }
 
+
+//  .d8888b.           888 888                                8888888 888
+// d88P  Y88b          888 888                                  888   888
+// 888    888          888 888                                  888   888
+// 888         8888b.  888 888  .d88b.  888d888 888  888        888   888888 .d88b.  88888b.d88b.
+// 888  88888     "88b 888 888 d8P  Y8b 888P"   888  888        888   888   d8P  Y8b 888 "888 "88b
+// 888    888 .d888888 888 888 88888888 888     888  888        888   888   88888888 888  888  888
+// Y88b  d88P 888  888 888 888 Y8b.     888     Y88b 888        888   Y88b. Y8b.     888  888  888
+//  "Y8888P88 "Y888888 888 888  "Y8888  888      "Y88888      8888888  "Y888 "Y8888  888  888  888
+//                                                   888
+//                                              Y8b d88P
+//                                               "Y88P"
+
+$oneByOnePadding: 165.19607843137254%;
+$oneByOneImgPadding: 107.84313725490196%;
 .gallery-item {
   position: relative;
   display: block;
@@ -93,7 +124,7 @@ $fourColMax: px-em(979px);
   &:after {
     content: '';
     display: block;
-    padding-top: 165.19607843137254%;
+    padding-top: $oneByOnePadding;
   }
 
   // Make them a bit bigger
@@ -115,18 +146,17 @@ $fourColMax: px-em(979px);
     width: 100%;
     overflow: hidden;
     text-align: center;
-    background: $grayLightFieldLarge;
-    @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
+    background: $gray80;
+    @include transition(background-color $transitionFast $easeNormal);
 
     &:hover {
-      @include box-shadow(inset 0 -.25em 0 $gray);
-      background-color: $grayLighter;
+      background-color: $gray95;
     }
 
     &:after {
       content: '';
       display: block;
-      padding-top: 107.84313725490196%;
+      padding-top: $oneByOneImgPadding;
     }
 
     .product-img-wrap {
@@ -164,12 +194,12 @@ $fourColMax: px-em(979px);
 
     // Change padding for 4 column grid
     .shuffle-4 &:after {
-      padding-top: 77.8%;
+      padding-top: $oneByOnePadding;
     }
 
     // 4 column grid
     .shuffle-4 & .product-img:after {
-      padding-top: 50.7%;
+      padding-top: $oneByOneImgPadding;
     }
 
     // Should = 612px at full width (296 * 2 + 20)
@@ -319,6 +349,16 @@ $offsetFromMiddle: px-em(45px);
   }
 }
 
+
+// 8888888b.                                              88888888888 d8b 888
+// 888   Y88b                                                 888     Y8P 888
+// 888    888                                                 888         888
+// 888   d88P 888d888 .d88b.  88888b.d88b.   .d88b.           888     888 888  .d88b.  .d8888b
+// 8888888P"  888P"  d88""88b 888 "888 "88b d88""88b          888     888 888 d8P  Y8b 88K
+// 888        888    888  888 888  888  888 888  888          888     888 888 88888888 "Y8888b.
+// 888        888    Y88..88P 888  888  888 Y88..88P          888     888 888 Y8b.          X88
+// 888        888     "Y88P"  888  888  888  "Y88P"           888     888 888  "Y8888   88888P'
+
 // Promo Tiles
 // -------------------------
 .gallery-item .promo-content {
@@ -425,6 +465,16 @@ $offsetFromMiddle: px-em(45px);
 
 }
 
+// 888b     d888  .d88888b.
+// 8888b   d8888 d88P" "Y88b
+// 88888b.d88888 888     888
+// 888Y88888P888 888     888 .d8888b
+// 888 Y888P 888 888     888 88K
+// 888  Y8P  888 888 Y8b 888 "Y8888b.
+// 888   "   888 Y88b.Y8b88P      X88
+// 888       888  "Y888888"   88888P'
+//                      Y8b
+
 
 // Gallery item media queries
 // -------------------------
@@ -504,7 +554,7 @@ $offsetFromMiddle: px-em(45px);
 
        &:after {
         content: '';
-        padding-top: 165.19607843137254%;
+        padding-top: $oneByOnePadding;
       }
     }
 
@@ -516,7 +566,7 @@ $offsetFromMiddle: px-em(45px);
     // Make all tiles the same size
     .gallery-item .product-img:after {
       content: '';
-      padding-top: 107.84313725490196%;
+      padding-top: $oneByOneImgPadding;
     }
   }
 
@@ -580,6 +630,7 @@ $offsetFromMiddle: px-em(45px);
 
 
     .price-prefix {
+      margin-bottom: 0;
       display: block;
     }
 
@@ -612,14 +663,27 @@ $offsetFromMiddle: px-em(45px);
 }
 
 
+// 8888888b.                       888                   888          .d8888b.  888            d8b
+// 888   Y88b                      888                   888         d88P  Y88b 888            Y8P
+// 888    888                      888                   888         Y88b.      888
+// 888   d88P 888d888 .d88b.   .d88888 888  888  .d8888b 888888       "Y888b.   888888 888d888 888 88888b.
+// 8888888P"  888P"  d88""88b d88" 888 888  888 d88P"    888             "Y88b. 888    888P"   888 888 "88b
+// 888        888    888  888 888  888 888  888 888      888               "888 888    888     888 888  888
+// 888        888    Y88..88P Y88b 888 Y88b 888 Y88b.    Y88b.       Y88b  d88P Y88b.  888     888 888 d88P
+// 888        888     "Y88P"   "Y88888  "Y88888  "Y8888P  "Y888       "Y8888P"   "Y888 888     888 88888P"
+//                                                                                                 888
+//                                                                                                 888
+//                                                                                                 888
+
 // Product Strip
 // -------------------------
 
 .product-strip-wrap {
   padding-top: 3.75em; // 60px
+  padding-bottom: 3.75em; // 60px
 
   &:not(:first-child) {
-    border-top: .0625em solid $grayLighter;
+    border-top: .125em solid $gray70;
   }
 }
 
@@ -641,11 +705,26 @@ $offsetFromMiddle: px-em(45px);
     padding-bottom: 1.625em;
   }
 
-  .product-strip .gallery-item:not(:first-child) {
+  // Give items 3-n a margin top
+  .product-strip .gallery-item:nth-child(n+3) {
     margin-top: 1.625em;
+  }
+
+  // Give odd items zero margin left because they're not inside their own grid
+  .product-strip .gallery-item:nth-child(odd) {
+    margin-left: 0;
   }
 }
 
+
+// 8888888888 d8b 888 888
+// 888        Y8P 888 888
+// 888            888 888
+// 8888888    888 888 888888 .d88b.  888d888 .d8888b
+// 888        888 888 888   d8P  Y8b 888P"   88K
+// 888        888 888 888   88888888 888     "Y8888b.
+// 888        888 888 Y88b. Y8b.     888          X88
+// 888        888 888  "Y888 "Y8888  888      88888P'
 
 
 // Filters
@@ -661,14 +740,14 @@ $offsetFromMiddle: px-em(45px);
   }
 
   .btn-alt-plus {
-    color: $grayDark;
-    background-color: $grayLighter;
-    border-color: $grayLighter;
+    color: $gray20;
+    background-color: $gray70;
+    border-color: $gray70;
 
     &:hover {
       color: $white;
-      background-color: $gray;
-      border-color: $gray;
+      background-color: $gray40;
+      border-color: $gray40;
     }
   }
 
@@ -679,8 +758,8 @@ $offsetFromMiddle: px-em(45px);
 
 .filter-options {
   position: relative;
-  padding-top: 1.25em;
-  padding-bottom: 1.25em;
+  padding-top: 1em;
+  padding-bottom: 1em;
 
 }
 
@@ -691,7 +770,6 @@ $offsetFromMiddle: px-em(45px);
 .sort-options .native-dropdown {
   display: none;
 }
-
 
 // Filter labels ( active filters )
 .active-filters-wrap {
@@ -707,44 +785,73 @@ $offsetFromMiddle: px-em(45px);
   }
 }
 
+.filter-label {
+  color: $gray40;
+}
+
 .filter-container {
-  margin-bottom: 2.75em;
+  margin-top: 1.375em;
+  margin-bottom: 1.375em;
 
-  .regular-filters &:nth-child(odd) {
-    clear: both;
-    margin-left: 0;
-  }
 
-  &:last-child,
-  &:nth-last-child(2),
-  .best-for,
-  .media-heading {
-    margin-bottom: 0;
+  .filter-label {
+    margin-bottom: 20px;
   }
 
   // Override default btn-group functionality to have them drop to the new line
   .btn-group {
     white-space: normal;
 
-    // fake border right because we've already set the border
     > .btn:not(:first-child) {
-      // @include box-shadow(-.0625em 0 0 $grayLightFieldLarge);
-      margin-left: .0625em;
+      margin-left: .375em;
     }
   }
 
   // Box shadow hovers get cut off with overflow hidden
   .media {
-    overflow: visible;
+    // overflow: visible;
+    // color: $gray40;
   }
 
-  .media[disabled] {
-    color: $grayLight;
+  .media-heading {
+    color: $gray20;
+  }
+
+  .media[disabled],
+  .media[disabled] .media-heading {
+    color: $gray50;
+  }
+
+  .media + .media {
+    margin-top: 1.25em;
+  }
+
+  .help-container {
+    text-align: right;
+    cursor: pointer;
+    clear: right;
+
+    .help-label {
+      padding-right: .625em;
+      @include transition(color $transitionNormal $easeNormal);
+    }
+
+    &:hover .help-label {
+      color: $gray10;
+    }
+
+    i {
+      vertical-align: middle;
+    }
   }
 }
 
-.product-count {
-  font-size: $font_15_15;
+.filter-container + .filter-container {
+  margin-top: 2.75em;
+}
+
+.sort-options .filter-label {
+  padding-right: 8px; // has a font-size set on it
 }
 
 
@@ -806,24 +913,117 @@ $offsetFromMiddle: px-em(45px);
 }
 
 
+// 88888888888       888
+//     888           888
+//     888           888
+//     888   8888b.  88888b.  .d8888b
+//     888      "88b 888 "88b 88K
+//     888  .d888888 888  888 "Y8888b.
+//     888  888  888 888 d88P      X88
+//     888  "Y888888 88888P"   88888P'
+
 
 // Tabs
 // -------------------------
 
 .gallery-tabs {
 
-  .tab {
-    text-align: center;
+  .tabs {
   }
 
+  .tab {
+    text-align: center;
+
+    // Change the icon color on hover/active
+    &.active i,
+    &:hover i {
+      color: $buttonOrange;
+    }
+  }
+
+  // Has to be pixels because of ghost-centering
   .holder-for-icon {
-    height: 1.875em
+    height: 30px;
+    margin-bottom: 16px;
+
+    i {
+      color: $gray40;
+      @include transition();
+    }
   }
 
   .tab-label {
-    margin-top: 0.625em;
+    white-space: nowrap;
+    margin-bottom: 0;
+    line-height: 1;
   }
 }
+
+// 980-1199
+@media (min-width: px-em(980px)) and (max-width: px-em(1199px) ) {
+  .gallery-tabs {
+
+    $tabWidth: px-em(114px);
+    $tabHeight: px-em(84px);
+    $iconMarginBottom: 12px;
+    $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
+    .tabs {
+      height: $tabHeight;
+    }
+
+    .tab {
+      @include wh( $tabWidth, $tabHeight );
+    }
+
+    .holder-for-icon {
+      margin-bottom: $iconMarginBottom;
+    }
+
+    .tab-nav {
+      top: $tabNavTop;
+    }
+  }
+}
+
+// 768-979
+// @media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
+@media ( max-width: $fourColMax ) {
+
+  .gallery-tabs {
+
+    $tabWidth: px-em(88px);
+    $tabHeight: px-em(71px);
+    $iconMarginBottom: 9px;
+    $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
+    .tabs {
+      height: $tabHeight;
+    }
+
+    .tab {
+      @include wh( $tabWidth, $tabHeight );
+    }
+
+    .holder-for-icon {
+      margin-bottom: $iconMarginBottom;
+    }
+
+    .tab-nav {
+      top: $tabNavTop;
+    }
+  }
+}
+
+// 0-767
+// @media (max-width: $threeColMax) {
+
+//   .gallery-tabs {
+
+//     .tabs {
+//       @include wh( px-em(88px), px-em(71px) );
+//     }
+//   }
+// }
+
 
 
 // Accessories
@@ -833,12 +1033,26 @@ $offsetFromMiddle: px-em(45px);
   text-align: right;
 }
 
-
+//  .d8888b.                                                                88888888888                888
+// d88P  Y88b                                                                   888                    888
+// 888    888                                                                   888                    888
+// 888         .d88b.  88888b.d88b.  88888b.   8888b.  888d888 .d88b.           888   .d88b.   .d88b.  888
+// 888        d88""88b 888 "888 "88b 888 "88b     "88b 888P"  d8P  Y8b          888  d88""88b d88""88b 888
+// 888    888 888  888 888  888  888 888  888 .d888888 888    88888888          888  888  888 888  888 888
+// Y88b  d88P Y88..88P 888  888  888 888 d88P 888  888 888    Y8b.              888  Y88..88P Y88..88P 888
+//  "Y8888P"   "Y88P"  888  888  888 88888P"  "Y888888 888     "Y8888           888   "Y88P"   "Y88P"  888
+//                                   888
+//                                   888
+//                                   888
 
 // Compare Tool
 // -------------------------
+.compare-key {
+  margin-top: 1.125em;
+  margin-bottom: 1.125em;
+}
+
 .compare-container {
-  margin-top: 1.25em;
   padding-bottom: 5em;
 }
 
@@ -850,10 +1064,15 @@ $offsetFromMiddle: px-em(45px);
   position: relative;
   margin-left: .1875em;
   background: $white;
-  color: $grayDark;
+  color: $gray20;
 
   .product-model {
-    color: $gray;
+    color: $gray40;
+    font-size: $font_11_16;
+  }
+
+  .product-name {
+    font-size: $font_13_16;
   }
 
   .compare-sticky-header .product-name-wrap {
@@ -880,7 +1099,7 @@ $offsetFromMiddle: px-em(45px);
   }
 
   .media p:not(.media-heading) {
-    color: $gray;
+    color: $gray40;
   }
 }
 
@@ -897,7 +1116,7 @@ $offsetFromMiddle: px-em(45px);
     width: 2000px;
     right: 0;
     top: 0;
-    background-color: $grayLightFieldLarge;
+    background-color: $gray90;
 
     @include transition(box-shadow $transitionFast ease-in);
   }
@@ -946,7 +1165,7 @@ $offsetFromMiddle: px-em(45px);
     left: 5%;
     width: 90%;
     height: .0625em;
-    background: $grayLightFieldLarge;
+    background: $gray90;
   }
 }
 
@@ -966,10 +1185,9 @@ $offsetFromMiddle: px-em(45px);
   left: -9999px;
   // width: inherit; // position fixed not inheriting correct width?...
   padding: 1em 0 0.5em;
-  opacity: 0;
-  background: $grayLightFieldLarge;
+  background: $gray90;
   top: -6.25em;
-  @include transition(opacity $transitionNormal ease-in, top $transitionNormal ease-in, left 0s $transitionNormal);
+  @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
 
   // The sticky-count uses a pseudo element for the box-shadow
   &:not(.sticky-count) {
@@ -984,7 +1202,6 @@ $offsetFromMiddle: px-em(45px);
   // Make sticky header visible
   &.open {
     left: 0; // Show it
-    opacity: 1; // Fade in
     top: 0;
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
@@ -1000,7 +1217,7 @@ $offsetFromMiddle: px-em(45px);
     right: -.1875em; // Same as margin-left for compare-items
     width: 2000px;
     height: 100%;
-    background: $grayLightFieldLarge;
+    background: $gray90;
     border-right: .0625em solid rgba(0,0,0,0.05);
     @include box-shadow(0 .125em .3125em 0 $transparentBlack);
   }
@@ -1017,11 +1234,13 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .box-close {
-  float: right;
-  @include square(2.25em);
+  position: absolute;
+  top: 1.25em;
+  right: 0;
+  @include size( px-em(40px), px-em(43px) );
   padding: 0;
   line-height: 1;
-  background: $gray;
+  background: $gray40;
   border: none;
   text-align: center;
   cursor: pointer;
@@ -1032,8 +1251,8 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .box-close-small {
-  @include square(1.25em);
-
+  @include square( px-em(23px) );
+  top: 0;
 
   i {
     vertical-align: middle;
@@ -1042,9 +1261,11 @@ $offsetFromMiddle: px-em(45px);
 
 .compare-box {
   display: inline-block;
-  padding: 0.5em 0.8em;
+  padding: 11px 12px;
   color: $white;
-  background: $gray;
+  font-size: $font_18_16;
+  line-height: 1;
+  background: $gray20;
 }
 
 @media (max-width: $threeColMax) {
@@ -1055,7 +1276,7 @@ $offsetFromMiddle: px-em(45px);
 
     // .l4
     // ------------
-    color: $gray;
+    color: $gray40;
     @include fontMedium;
     text-transform: uppercase;
     font-size: $font_11_16;

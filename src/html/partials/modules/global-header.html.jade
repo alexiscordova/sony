@@ -1,0 +1,302 @@
+---
+name: 'global header'
+meta_data: {a:'foo', b:'bar'}
+---
+
+nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-767
+  .container.navbar-mobile.visible-phone
+    a#btn-mobile-nav.btn.btn-mobile-nav(href='#')
+        i.fonticon-10-mobile-icon
+      a.brand.fonticon-60-sony(href='#')
+        span.hidden-text
+          | SONY make.believe
+      a.btn.btn-mobile-cart(href='#')
+        i.fonticon-10-cart
+        | 2
+
+
+  
+  #nav-outer-container.nav-outer-container 
+    //- this is just to contain all the mobile nav pieces in one container 
+    .nav-mobile-scroller
+      //- the search menu wrapper is first for mobile, and positioned absolute for desktop
+      .container.navmenu-w-search-container.full-bleed-at-767
+
+        #navmenu-w-search.navmenu-w.navmenu-w-search.Xsearching.input-outer-wrapper
+
+          i.sprite-mini-global-nav-indicator
+          form.navmenu-search-section-input.input-group(method='post', action='')
+            i.fonticon-10-search.input-icon
+            input#nav-search-input(type='text', name='navSearch', value='      Search')
+            a.btn-clear-search-input.input-clear-btn(href='#')
+              i.fonticon-10-x-skinny
+          
+          .navmenu-search-section-results
+            .navmenu-search-popular-searches
+              p.l3 Popular Searches
+                ul.navmenu-list.navmenu-list-extended
+                  li.search-result-line
+                    a.tl(href='#') Laptops 
+                  li.search-result-line
+                    a.tl(href='#') VAIO
+                  li.search-result-line
+                    a.tl(href='#') Headphones
+                  li.search-result-line
+                    a.tl(href='#') PSP
+                  li.search-result-line
+                    a.tl(href='#') Playstation
+                  li.search-result-line
+                    a.tl(href='#') NEX          
+
+            .navmenu-search-results
+              ul.navmenu-list.navmenu-list-results
+                li.search-result-line
+                  a(href='#')
+                    img(src='img/global/global-nav/search-results-images/nex-6.png', alt='α NEX-6', width='83', height='64')
+                    span.search-result-p
+                      span.search-result-headline α NEX-6
+                      span.search-result-descript The Future of Photography.
+                    i.fonticon-10-chevron
+                li.search-result-line
+                  a(href='#')
+                    img(src='img/global/global-nav/search-results-images/nex-5.png', alt='α NEX-5', width='83', height='64')
+                    span.search-result-p
+                      span.search-result-headline α NEX-5
+                      span.search-result-descript Pocket DSLR
+                    i.fonticon-10-chevron
+                li.search-result-line.search-result-canned
+                  a(href='#')
+                    i.fonticon-30-support
+                    span.search-result-p
+                      span.search-result-headline α NEX Support
+                    i.fonticon-10-chevron
+              ul.navmenu-list-extended
+                li.search-result-line
+                    a.tl(href='#') α NEX-3
+                  li.search-result-line
+                    a.tl(href='#') α NEX Accessories
+                  li.search-result-line
+                    a.tl(href='#') α NEX Lenses
+                  li.search-result-line
+                    a.tl(href='#') α NEX
+
+              a.btn.btn-show-all-results(href='#') Show All Results
+
+      .navmenu-w.navmenu-w-mobile-top.visible-phone.logged-in
+        ul.navmenu-list.navmenu-list-main
+          li.navmenu-line.navmenu-li-store
+            a.tl(href='#')
+              i.fonticon-10-cart
+              | Store
+          li.navmenu-line.navmenu-li-location
+            a.tl(href='#')
+              i.fonticon-10-location
+              | Find a Store
+            span.navmenu-li-ext-text  - London
+          li.navmenu-line.navmenu-li-support
+            a.tl(href='#')
+              i.fonticon-10-support
+              | Support
+          li.navmenu-line.navmenu-li-favorites
+            a.tl(href='#')
+              i.fonticon-10-favorite
+              | Favorites
+              span.nav-li-count 2
+
+    
+      //- The navtrays are before the navbar for correct ordering of the mobile nav menu
+      .navtray-w.navtray-w-fullwidth-3-4.navtray-w-electronics.navtray-w-tall
+        .navtray
+
+          .navtray-section.navtray-section-main.navtray-section-main-w-all-btn
+            h4.visible-phone Electronics
+            ul.navtray-list-main
+              li.navtray-li.navtray-li-cameras
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-cameras.png', alt='Cameras')
+                  span.nav-label Cameras
+              li.navtray-li.navtray-li-mobile
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-mobile.png', alt='Mobile & Tablets')
+                  span.nav-label Mobile & Tablets
+              li.navtray-li.navtray-li-playstation
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-playstation.png', alt='PlayStation')
+                  span.nav-label PlayStation
+              li.navtray-li.navtray-li-computers
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-computers.png', alt='Computers')
+                  span.nav-label Computers
+              li.navtray-li.navtray-li-video-cameras
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-video-cameras.png', alt='Video Cameras')
+                  span.nav-label Video Cameras
+              li.navtray-li.navtray-li-televisions
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-televisions.png', alt='Televisions')
+                  span.nav-label
+                    | Televisions &
+                    br
+                    | Home Cinema
+              li.navtray-li.navtray-li-audio
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-audio.png', alt='Audio')
+                  span.nav-label Audio
+              li.navtray-li.navtray-li-car
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-car.png', alt='Car & Marine')
+                  span.nav-label Car & Marine
+            a.btn.btn-icon-ui-left.btn-nav-view-all(href='#')
+              i.fonticon-10-grid-3x3
+              | View All Electronics
+
+          .navtray-section.navtray-section-featured
+            h6.l2 Community
+            ul.navtray-list-secondary
+              li.navtray-li.navtray-li-photography
+                a.navtray-li-link.tl(href='#') Photography
+              li.navtray-li.navtray-li-reading
+                a.navtray-li-link.tl(href='#') Reading
+              li.navtray-li.navtray-li-film
+                a.navtray-li-link.tl(href='#') Film & 3D
+              li.navtray-li.navtray-li-computing
+                a.navtray-li-link.tl(href='#') Computing
+              li.navtray-li.navtray-li-music
+                a.navtray-li-link.tl(href='#') Music
+            p.navtray-secondary-promo
+              img(src='img/global/global-nav/promo-header-electronics.png', alt='')
+              span.p2 Play. Watch. Listen. Create.
+              span.p3
+                | Enjoy your photos and videos across any devices.
+                a(href='#') 
+                  |  Explore now
+
+      .navtray-w.navtray-w-fullwidth-3-4.navtray-w-entertainment.navtray-w-short
+        .navtray
+          .navtray-section.navtray-section-main
+            h4.visible-phone Entertainment
+            ul.navtray-list-main
+              li.navtray-li.navtray-li-cameras
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-games.png', alt='Games')
+                  span.nav-label Games
+              li.navtray-li.navtray-li-mobile
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-moviestv.png', alt='Movies & TV Shows')
+                  span.nav-label Movies & TV Shows
+              li.navtray-li.navtray-li-playstation
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-music.png', alt='Music')
+                  span.nav-label Music
+              li.navtray-li.navtray-li-computers
+                a.navtray-li-link.tl(href='#')
+                  span.nav-img-w
+                    img(src='img/global/global-nav/tray-ebooks.png', alt='eBooks')
+                  span.nav-label eBooks
+          .navtray-section.navtray-section-featured.navtray-section-featured-short
+            p.navtray-secondary-promo.navtray-secondary-promo-short
+              img(src='img/global/global-nav/promo-header-entertainment.png', alt='')
+              span.p2 Pottermore
+              span.p3
+                | An online Harry Potter experience by J.K. Rowling.
+                a(href='#') Explore Now
+
+      .container.navbar.full-bleed-at-767
+        .grid.full-bleed-at-767
+          a.brand.fonticon-60-sony(href='#')
+            span.hidden-text
+              | SONY make.believe
+          ul.nav.nav-primary
+            li.nav-li.nav-li-store
+              a.nav-li-link(href='#') 
+                | Store
+                span.global-nav-indicator-bar
+            li.nav-li.nav-li-electronics
+              a.nav-li-link.nav-dropdown-toggle(data-target='navtray-w-electronics', href='#')
+                | Electronics
+                i.fonticon-10-arrowhead-down
+                span.global-nav-indicator-bar
+            li.nav-li.nav-li-entertainment
+              a.nav-li-link.nav-dropdown-toggle(data-target='navtray-w-entertainment', href='#')
+                | Entertainment
+                i.fonticon-10-arrowhead-down
+                span.global-nav-indicator-bar.for-navtray-short
+            li.nav-li.nav-li-support
+              a.nav-li-link(href='#')
+                | Support
+                span.global-nav-indicator-bar
+
+          ul.nav.nav-utility
+            li.nav-li.nav-li-account
+              a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#')
+                | Account
+                i.fonticon-10-arrowhead-down
+              .navmenu-w.navmenu-w-account.logged-in
+                i.sprite-mini-global-nav-indicator
+                a.btn.btn-login(href='#') Log in
+                ul.navmenu-list.navmenu-list-prefixed
+                  li.navmenu-line.navmenu-li-cart
+                    a.tl(href='#')
+                      i.fonticon-10-cart
+                      | Cart
+                      span.nav-li-count 2
+                  li.navmenu-line.navmenu-li-favorites
+                    a.tl(href='#')
+                      i.fonticon-10-favorite
+                      | Favorites
+                ul.navmenu-list.navmenu-list-main
+                  li.navmenu-line.navmenu-li-welcome.visible-phone 
+                    | Hi Robert
+                  li.navmenu-line.navmenu-li-account
+                    a.tl(href='#')
+                      i.fonticon-10-account
+                      | Account Info
+                  li.navmenu-line.navmenu-li-orders
+                    a.tl(href='#')
+                      i.fonticon-10-orders
+                      | Orders
+                  li.navmenu-line.navmenu-li-newsletter
+                    a.tl(href='#')
+                      i.fonticon-10-newsletter
+                      | Newsletter Subscriptions
+                  li.navmenu-line.navmenu-li-registered-products
+                    a.tl(href='#')
+                      i.fonticon-10-registered
+                      | Registered Products
+                a.btn.btn-logout(href='#')
+                  | Sign Out
+
+
+            li.nav-li.nav-li-favorites
+              a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href='#')
+                i.fonticon-10-favorite
+                span.visuallyhidden 
+                  | Favorites
+            li.nav-li.nav-li-cart
+              a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href='#')
+                i.fonticon-10-cart
+                span.visuallyhidden
+                  | Shopping Cart
+                span.nav-li-count 2
+            li.nav-li.nav-li-search
+              a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle.nav-dropdown-toggle-btn(data-target='navmenu-w-search', href='#')
+                span.lbl
+                  | Search
+                i.fonticon-10-search
+            li.nav-li.nav-li-universal
+              a.nav-li-link.nav-li-linkBtn(href='#')
+                | Sony Sites
+                i.fonticon-10-arrowhead-up
+
+

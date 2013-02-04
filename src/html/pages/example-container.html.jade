@@ -1,0 +1,17 @@
+---
+title: Example Container Module
+description: This is a sample module showing how to construct a module that contains other modules. 
+---
+include ../partials/includes/jade-helpers.jade
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+  head
+    !{partial('includes/head.html.jade', l)}
+  
+  body
+    +partial('example-container.html.jade', 'example-container/default.json')
+  
+    !{partial('includes/foot.html.jade', l)}
+</html>

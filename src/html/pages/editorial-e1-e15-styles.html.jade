@@ -1,7 +1,8 @@
 ---
-title: Editorial Module Layouts
-description: This shows several layout possibilities for the editorial module.
+title: E1-E15. Editorial Module Layouts
+description:
 ---
+include ../partials/includes/jade-helpers.jade
 doctype 5
 !{partial('includes/ieconditionals.html')}
 
@@ -11,24 +12,20 @@ l = {"locals": locals}
   
   body 
     
-    light text:
-    e = {"locals":locals, "data":data('editorial-e1-e15/full-inner-right-75-L-L-photo1.json')}
-    !{partial('modules/editorial-e1-e15.html.jade', e)}
+    h6 light text:
+    +partial('editorial-e1-e15.html.jade', 'editorial-e1-e15/full-inner-right-75-L-L-photo1.json')
     hr
     
-    dark text:
-    e = {"locals":locals, "data":data('editorial-e1-e15/full-inner-right-75-D-L-photo1.json')}
-    !{partial('modules/editorial-e1-e15.html.jade', e)}
+    h6 dark text:
+    +partial('editorial-e1-e15.html.jade', 'editorial-e1-e15/full-inner-right-75-D-L-photo1.json')
     hr
     
-    light text dark box:
-    e = {"locals":locals, "data":data('editorial-e1-e15/full-inner-right-75-LD-L-photo1.json')}
-    !{partial('modules/editorial-e1-e15.html.jade', e)}
+    h6 light text dark box:
+    +partial('editorial-e1-e15.html.jade', 'editorial-e1-e15/full-inner-right-75-LD-L-photo1.json')
     hr
     
-    dark text light box:
-    e = {"locals":locals, "data":data('editorial-e1-e15/full-inner-right-75-DL-L-photo1.json')}
-    !{partial('modules/editorial-e1-e15.html.jade', e)}
+    h6 dark text light box:
+    +partial('editorial-e1-e15.html.jade',  'editorial-e1-e15/full-inner-right-75-DL-L-photo1.json')
     hr
     
   

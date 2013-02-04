@@ -391,7 +391,7 @@ select:focus:required:invalid {
 
 .help-block,
 .help-inline {
-  color: lighten($textColor, 15%); // lighten the text some for contrast
+  color: lighten($defaultTextColor, 15%); // lighten the text some for contrast
 }
 
 .help-block {
@@ -694,7 +694,7 @@ legend + .control-group {
   padding-left: 5px;
 }
 
-.csstransforms .styled-checkbox {
+.generatedcontent .styled-checkbox {
   position: absolute; // take it out of document flow
   opacity: 0; // hide it
 
@@ -704,48 +704,79 @@ legend + .control-group {
     padding: 0;
   }
 
+  // Checkmark box
   & + label:before {
     content: '';
-    margin-right: 22px;
+    margin-right: px-em(22px);
     display: inline-block;
     vertical-align: text-top;
-    @include square(20px);
+    @include square( px-em( 22px ) );
+    border: 1px solid transparent;
+    border-color: rgba($gray20, 0);
     background: $white;
+    @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal, border-color $transitionFast $easeNormal);
   }
 
+  // Check mark
+  & + label:after {
+    position: absolute;
+    left: .25em;
+    top: .25em;
+    @include opacity(0);
+    @include transition(opacity $transitionFast $easeNormal, color $transitionFast $easeNormal);
+  }
+
+  // Check box on hover
   &:focus + label:before,
   &:hover + label:before {
-    @include box-shadow(inset 0 0 0 4px $gray);
-    background: $white;
+    @include box-shadow(none);
+    color: $defaultTextColor;
+    background: $gray90;
   }
 
+  // Check mark on hover
+  &:focus + label:after,
+  &:hover + label:after {
+    @include opacity(100);
+  }
+
+  // Check box on active
   &:checked + label:before {
-    background: $highlightColor;
+    background: $gray25;
   }
 
-  // Check mark (should probably be replaced with icon)
+  // Check mark on active
   &:checked + label:after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 6px;
-    @extend %icon;
-    @extend .icon-ui-check;
+    @include opacity(100);
+    color: $white;
   }
 
   // Disabled checkbox text
   &.disabled + label,
-  &[disabled] + label {
+  &[disabled] + label,
+  &.disabled:hover + label,
+  &[disabled]:hover + label {
     cursor: auto;
-    color: $grayLight;
+    color: $gray50;
 
   }
 
   // Disabled checkbox
   &.disabled + label:before,
-  &[disabled] + label:before {
+  &[disabled] + label:before,
+  &.disabled:hover + label:before,
+  &[disabled]:hover + label:before {
+    @include opacity(15);
+    border-color: $gray20;
     @include box-shadow(none);
-    background: $tableBorder;
+  }
+
+  // Disabled check mark
+  &.disabled + label:after,
+  &[disabled] + label:after,
+  &.disabled:hover + label:after,
+  &[disabled]:hover + label:after {
+    content: none;
   }
 }
 

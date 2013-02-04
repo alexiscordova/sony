@@ -1,12 +1,10 @@
-/*global jQuery, Modernizr, Exports*/
+/*global Exports*/
 
-// ------------ Sony Sticky Tabs --------
-// Module: Sticky Tabs
-// Version: 1.0
-// Modified: 01/01/2013
-// Dependencies: jQuery 1.7+, Modernizr
-// Author: Glen Cheney
-// --------------------------------------
+// * Module: Sticky Tabs
+// * Version: 1.0
+// * Modified: 01/28/2013
+// * Dependencies: jQuery 1.7+, Modernizr
+// * Author: Glen Cheney
 
 (function($, Modernizr, window, undefined) {
   'use strict';
@@ -58,7 +56,7 @@
       // Decide which tabs to make
       if ( Modernizr.mq( self.mq ) ) {
         self.setup();
-      } else if ( self.isCarousel && Modernizr.mq( self.carouselMq ) ) {
+      } else if ( self.isCarousel ) {// && Modernizr.mq( self.carouselMq ) ) {
         self.setupCarousel();
       }
     },
@@ -72,6 +70,7 @@
 
       self.windowWidth = self.$window.width();
       self.windowHeight = self.$window.height();
+      self.tabWidth = self.$tabs.outerWidth();
 
       // Phone
       if ( Modernizr.mq( self.mq ) ) {
@@ -86,7 +85,7 @@
         self.animateTab();
 
       // Tablet
-      } else if ( self.isCarousel && Modernizr.mq( self.carouselMq ) ) {
+      } else if ( self.isCarousel ) {// && Modernizr.mq( self.carouselMq ) ) {
         if ( self.isStickyTabs ) {
           self.teardown();
         }
@@ -262,19 +261,25 @@
       var self = this;
 
       console.log('teardown: StickyTabs');
-      self.$tabsWrap.off('scroll').removeClass('sticky');
+      self.$tabsContainer.scrollerModule('destroy');
+      self.$tabsWrap.removeClass('sticky');
       self.$tabs.removeAttr('style');
-      self.lastX = 0;
+      self.overlap = null;
+      self.lastX = null;
       self.isStickyTabs = false;
     },
 
-    // Completely removes sticky tabs
+    // Completely removes sticky tabs.
+    // You'll need to call `.stickyTabs()` again to get them back.
     destroy : function() {
       var self = this;
 
-      self.teardown();
+      // If we haven't called `teardown` already
+      if ( self.isStickyTabs ) {
+        self.teardown();
+      }
 
-      // New tab shown event
+      // New tab `shown` event
       self.$tabs.off('shown');
 
       // Window resize
@@ -294,8 +299,8 @@
         contentSelector: '.tabs',
         itemElementSelector: '.tab',
         mode: 'paginate',
-        nextSelector: '.tab-nav-next',
-        prevSelector: '.tab-nav-prev',
+        nextSelector: self.$navNext,
+        prevSelector: self.$navPrev,
         centerItems: false,
 
         iscrollProps: {
@@ -312,7 +317,7 @@
       // Check to make sure we actually have paginated tabs
       if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {
         self.$navNext.removeClass('hide');
-        self.$tabsWrap.addClass('tab-carousel');
+        self.$container.addClass('tab-carousel');
       }
 
       self.isTabCarousel = true;
@@ -324,7 +329,7 @@
       console.log('teardown: Carousel tabs');
       self.$navPrev.addClass('hide');
       self.$navNext.addClass('hide');
-      self.$tabsWrap.removeClass('tab-carousel');
+      self.$container.removeClass('tab-carousel');
       self.$tabsContainer.scrollerModule('destroy');
 
       self.isTabCarousel = false;
@@ -359,22 +364,20 @@
   // Overrideable options
   $.fn.stickyTabs.options = {
     tabsWrapSelector: '.tabs',
-    mq: '(max-width: 47.9375em)',
-    carouselMq: '(min-width: 48em) and (max-width: 61.1875em)',
-    tabOffset: 0,
-    initialTabWidth: 0,
-    tabWidth: 0,
-    tabsWidth: 0,
-    windowWidth: 0,
-    windowHeight: 0,
-    data: null,
-    lastX: null,
-    isStickyTabs: false,
-    toOffset: 0
+    mq: '(max-width: 47.9375em)'
+    // carouselMq: '(min-width: 48em) and (max-width: 61.1875em)'
   };
 
   // Not overrideable
   $.fn.stickyTabs.settings = {
+    tabOffset: 0,
+    tabWidth: 0,
+    windowWidth: 0,
+    windowHeight: 0,
+    overlap: null,
+    lastX: null,
+    isStickyTabs: false,
+    toOffset: 0,
     prop: Modernizr.csstransforms ? 'transform' : 'left',
     valStart : Modernizr.csstransforms ? 'translate(' : '',
     valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'

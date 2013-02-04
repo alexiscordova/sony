@@ -15,19 +15,22 @@
   <link href="css/docs.css" rel="stylesheet">
 
 
-  <!--[if lt IE9]>  <link rel="stylesheet" href="css/fonts/eot.css"> <![endif]-->
-  <!--[if (gte IE 9)|!(IE)]><!--> 
+  <!--[if lt IE 9]>
+    <link rel="stylesheet" href="css/fonts/fonts-eot.css">
+    <link rel="stylesheet" href="css/fonts/icons-eot.css">
+  <![endif]-->
+  <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
       // Android needs otf/ttf fonts.
       var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
       var fontIconType = fontType === "otf" ? "ttf" : fontType; // fontIcons are ttf instead of otf.
-      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_fonts-"+fontType+".css'%3E"));
-      document.write(unescape("%3Clink rel='stylesheet' href='fonts/_icons-ui-"+fontIconType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-fonts-"+fontType+".css'%3E"));
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-icons-"+fontIconType+".css'%3E"));
     </script>
   <!--<![endif]-->
 
-  <!-- FONTS.COM --> 
-  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> --> 
+  <!-- FONTS.COM -->
+  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->
 
 
   <link href="css/google-prettify.css" rel="stylesheet">
@@ -66,12 +69,8 @@
               </li>
               
               <li class="base-css">
-                <a href="./base-css.html">Base CSS</a>
-              </li>
-              <li class="components">
-                <a href="./components.html">Global Components</a>
-              </li>
-              
+                <a href="./base-css.html">Global Styling</a>
+              </li>           
               <li class="javascript">
                 <a href="./javascript.html">Javascript</a>
               </li>
@@ -80,9 +79,6 @@
               </li>
               <li class="pages">
                 <a href="./pages.html">Pages</a>
-              </li>
-              <li class="customize">
-                <a href="./customize.html">Customize</a>
               </li>
             </ul>
           </div>
@@ -355,6 +351,9 @@
     </footer>
 
 
+    <!--[if lte IE 7 ]>
+        <script src="js/docs/lte-ie7-fonticons.js"></script>
+    <![endif]-->
 
     <!-- Le javascript
     ================================================== -->

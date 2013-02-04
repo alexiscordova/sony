@@ -109,9 +109,6 @@
           vScrollbar: false,
           momentum: true,
           bounce: true,
-          onScrollEnd: null,
-          lockDirection: true,
-          onBeforeScrollStart: null,
           onScrollMove : function() {
             self._onScroll( this );
           },
@@ -143,7 +140,8 @@
     _initStickyTabs : function() {
       var self = this,
           $headers = self.$specItems.find('.spec-column-header').clone(),
-          $btns = $();
+          // $btns = $(),
+          $tabs = self.$tabStrip.find('.tabs');
 
       self.isStickyTabs = true;
       self.$specItems.slice(1).addClass('tab-pane fade off-screen');
@@ -170,10 +168,12 @@
           .removeClass('spec-column-header hidden-phone')
           .addClass('tab');
 
-        $btns = $btns.add( $btn );
+        // iOS wasn't appending the buttons in the right order, so we'll have to append them inside the loop
+        $tabs.append( $btn );
+        // $btns = $btns.add( $btn );
       });
 
-      $btns.appendTo( self.$tabStrip.find('.tabs') );
+      // $btns.appendTo( $tabs );
 
       self.$tabStrip.stickyTabs({
         mq: self.mobileBreakpoint
@@ -197,6 +197,13 @@
     _setRowHeights : function() {
       var self = this;
 
+      // Put a bottom margin on the sibling of the absoluting positioned element
+      // to make up for its lack of document space
+      self.$container.find('.btm-aligned').each(function() {
+        var $img = $(this);
+        $img.prev().css('marginBottom', $img.css('height'));
+      });
+
       // Set detail rows to even heights
       self.$container.find('.detail-label').each(function(i) {
         var $detailLabel = $(this),
@@ -207,7 +214,7 @@
             // Also, there is a sticky header that needs to be excluded: add 1 more
             $cells = self.$specItems.find('.spec-item-cell:nth-child(' + (i + 3) + ')');
 
-        // Loop through the cells
+        // Loop through the cells (`.spec-item-cell`'s in the same 'row')
         $cells.each(function() {
           var $this = $(this),
               height = parseFloat( $this.css('height') );

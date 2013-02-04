@@ -18,23 +18,30 @@ $default-transition-delay    : 0s;
 }
 
 // convert px to em, with regard to its context. Most context will be 16px.
-@function px-em($target, $context:16){
-  @return (strip-units($target) / strip-units($context)) + 0em;
+@function px-em($pxFont, $context:16){
+  @return (strip-units($pxFont) / strip-units($context)) + 0em;
+}
+
+@function px-line-height($pxLH, $pxFont){
+  @return strip-units($pxLH) / strip-units($pxFont);
+}
+@mixin px-em--font-size--line-height($pxFont, $pxLH, $context:16) {
+	font-size: px-em($pxFont, $context);
+	line-height: px-line-height($pxLH, $pxFont);
 }
 
 // this will reverse the context, mainly for fonticons, but maybe for something else as well.
 // Using it, will return the em size needed to reset the font back to 1em aka 16px.
-@function px-em-reverse-size($target, $context:16){
-  @return (strip-units($context) / strip-units($target)) + 0em;
+@function px-em-reverse-size($px, $context:16){
+  @return (strip-units($context) / strip-units($px)) + 0em;
 }
-@mixin fonticon-text-px-to-em($target, $context:16) {
-	font-size: px-em($target, $context); // the size of the text
+@mixin fonticon-text-px-to-em($px, $context:16) {
+	font-size: px-em($px, $context); // the size of the text
 
-	&[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on the text container:
-	&[class*="fonticon-ui-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
-	[class*="fonticon-ui-"]:before, // the size of the icon if the fonticon class is on a i or span insode of the text container:
-	[class*="fonticon-ui-"][class*="--after"]:after { // the size of the icon if the fonticon class is on a i or span insode of the text container:
-		font-size: px-em-reverse-size($target, $context:16);
+	&[class*="fonticon-10-"]:before, // the size of the icon if the fonticon class is on the text container:
+	&[class*="fonticon-10-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
+	[class*="fonticon-10-"]:before { // the size of the icon if the fonticon class is on a i or span insode of the text container:
+		font-size: px-em-reverse-size($px, $context);
 	}
 }
 
@@ -87,11 +94,6 @@ $default-transition-delay    : 0s;
 	&:after {
 		clear: both;
 	}
-}
-
-// allows you to add clearfix on an element instead.
-.clearfix {
-  @include clearfix;
 }
 
 // Webkit-style focus
@@ -164,10 +166,12 @@ $default-transition-delay    : 0s;
 // Text overflow
 // -------------------------
 // Requires inline-block or block for proper styling
-@mixin text-overflow() {
+@mixin text-overflow($nowrap: true) {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+    @if ( $nowrap ) {
+        white-space: nowrap;
+    }
 }
 
 // CSS image replacement
@@ -223,12 +227,31 @@ $default-transition-delay    : 0s;
 		@include font($headingsFontFamilyItalic);
 	}
 
-@mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
-	font-family: $monoFontFamily;
-	font-size:$size;
-	font-weight:$weight;
-	line-height:$lineHeight;
-}
+
+
+	@mixin em-strong($font: Regular){
+
+		@if ($font == Light){
+			em { @include fontLightItalic; }
+			strong { @include fontRegular; }
+			em strong, strong em { @include fontItalic; }
+		} @else if ($font == Regular) {
+			em { @include fontItalic; }
+			strong { @include fontMedium; }
+			em strong, strong em { @include fontMediumItalic; }
+		} @else if ($font == Medium) {
+			em { @include fontMediumItalic; }
+			strong { @include fontBold; }
+			em strong, strong em { @include fontBoldItalic; }			
+		}
+	}
+
+	@mixin font-monospace($size: $baseFontSize, $weight: normal, $lineHeight: $baseLineHeight) {
+		font-family: $monoFontFamily;
+		font-size:$size;
+		font-weight:$weight;
+		line-height:$lineHeight;
+	}
 
 
 // SPRITES
@@ -260,11 +283,10 @@ $default-transition-delay    : 0s;
     background-position: $x $icon_bestfor_Y;
     @include size($h, $w);
 
-    .btn:not([disabled]):hover &,
-    .btn:not([disabled]):focus & { background-position: $x ($icon_bestfor_Y - 30px); }
+    // .btn:not([disabled]):hover &,
+    // .btn:not([disabled]):focus & { background-position: $x ($icon_bestfor_Y - 30px); }
 
-    // Could there be more scenarios? possibly
-    .btn.active:hover,
+    // .btn.active:hover,
     .btn.active & { background-position: $x ($icon_bestfor_Y - 60px); }
   }
 }
@@ -390,6 +412,17 @@ $default-transition-delay    : 0s;
 @mixin sprite-tall($name, $x, $w, $h, $margin:false) {
   @include sprite(tall, $sprite_Tall_Y, $name, $x, $w, $h, $margin);
 }
+@mixin sprite-reg-nav-sony-logo-sm{
+  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
+  @include sprite-reg(nav-sony-logo,           -90px,   70px,   25px);
+}
+@mixin sprite-reg-nav-sony-logo-no-tagline{
+  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
+  @include sprite-reg-nav-sony-logo-sm;
+  .sprite-reg-nav-sony-logo{
+    height:16px;
+  }
+}
 
 // FORMS
 // --------------------------------------------------
@@ -405,12 +438,12 @@ $default-transition-delay    : 0s;
 
 
 // Mixin for form field states
-@mixin formFieldState($textColor: #555, $borderColor: #ccc, $backgroundColor: #f5f5f5) {
+@mixin formFieldState($defaultTextColor: #555, $borderColor: #ccc, $backgroundColor: #f5f5f5) {
 	// Set the text color
 	> label,
 	.help-block,
 	.help-inline {
-	color: $textColor;
+	color: $defaultTextColor;
 	}
 	// Style inputs accordingly
 	.checkbox,
@@ -418,7 +451,7 @@ $default-transition-delay    : 0s;
 	input,
 	select,
 	textarea {
-	color: $textColor;
+	color: $defaultTextColor;
 	}
 	input,
 	select,
@@ -433,9 +466,9 @@ $default-transition-delay    : 0s;
 	// Give a small background color for input-prepend/-append
 	.input-prepend .add-on,
 	.input-append .add-on {
-	color: $textColor;
+	color: $defaultTextColor;
 	background-color: $backgroundColor;
-	border-color: $textColor;
+	border-color: $defaultTextColor;
 	}
 }
 
@@ -814,6 +847,13 @@ $default-transition-delay    : 0s;
 		 // -o-transform: translate3d($x, $y, $z);
 					transform: translate3d($x, $y, $z);
 }
+@mixin transform-origin($x, $y:50%, $z:0) {
+	transform-origin:        $x $y $z;
+	-ms-transform-origin:    $x $y $z;
+	-webkit-transform-origin:$x $y $z;
+	-moz-transform-origin:   $x $y $z;
+	-o-transform-origin:     $x $y $z;
+}
 
 // Backface visibility
 // Prevent browsers from flickering when using CSS 3D transforms.
@@ -910,8 +950,8 @@ $default-transition-delay    : 0s;
 }
 
 // Gradient Bar Colors for buttons and alerts
-@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
-	color: $textColor;
+@mixin gradientBar($primaryColor, $secondaryColor, $defaultTextColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+	color: $defaultTextColor;
 	text-shadow: $textShadow;
 	@include gradient-vertical($primaryColor, $secondaryColor);
 	border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
@@ -1534,8 +1574,8 @@ $default-transition-delay    : 0s;
 
 
 
-@mixin lightGrayInset() {
-	background: $grayLightFieldLarge;
+@mixin lightGrayInset( $backgroundColor: $gray70 ) {
+	background: $backgroundColor;
   	@include box-shadow(inset 0 0 8px $transparentBlack, inset 0 0 1px rgba(0, 0, 0, 0.2));
 }
 
@@ -1663,3 +1703,85 @@ $default-transition-delay    : 0s;
   color:white;
   font-size:0.8em;
 }
+
+@mixin themeItems($up, $hover, $active){
+  i{
+    color:$up;
+  }
+  .btn{
+    border-color:$up;
+    background:$up;
+  }
+  .btn:hover{
+    background:$hover;
+  }
+  .btn:active{
+    background:$active;
+  }
+}
+
+@mixin themecolors {
+  .themeRed{
+    @include themeItems($themeRed, $themeRedHover, $themeRedActive);
+  }
+  .themeBlueLight{
+    @include themeItems($themeBlueLight, $themeBlueLightHover, $themeBlueLightActive);
+  }
+  .themeBlueDark{
+    @include themeItems($themeBlueDark, $themeBlueDarkHover, $themeBlueDarkActive);
+  } 
+  .themeGreen{
+    @include themeItems($themeGreen, $themeGreenHover, $themeGreenActive);
+  }
+  .themePurple{
+    @include themeItems($themePurple, $themePurpleHover, $themePurpleActive);
+  }
+  .themeOrange{
+    @include themeItems($themeOrange, $themeOrangeHover, $themeOrangeActive);
+  }
+}
+
+@mixin dttb {
+  //dark text
+  .dark-text-light-box,
+  .dark-text-trans-box{ 
+    h1, h2, h3, h4, h5, h6{
+      color:$gray20;
+    }
+    p{
+      color:$gray40;
+    }
+  }
+  //light text
+  .light-text-dark-box,
+  .light-text-trans-box{
+    h1, h2, h3, h4, h5, h6{
+      color:$white;
+    }
+    p{
+      color:$gray50;
+    }
+  }  
+  // trans box
+  .dark-text-trans-box,
+  .light-text-trans-box{
+    .box{
+    }
+  }
+  //dark box
+  .light-text-dark-box{
+   .box{
+      background:$titleBlack;
+    }
+  }
+  
+  //light box
+  .dark-text-light-box{
+   .box{
+      background:$titleWhite;
+    }
+  }
+}
+
+
+
