@@ -137,7 +137,8 @@ mixin filterSet( filterSet )
               - d.view = "basic"
               - d.iterator = i
               e = { "locals" : locals, "data" : d }
-              !{locals.partial('modules/' + module.type, e )}
+              path = 'modules/' + module.type
+              !{locals.partial( path, e )}
 
         .grid.see-all
           a.btn.btn-wide(href="#")= data.featured.callout
@@ -154,7 +155,8 @@ mixin filterSet( filterSet )
               - d.view = "basic"
               - d.iterator = i
               e = { "locals" : locals, "data" : d }
-              !{locals.partial('modules/' + module.type, e )}
+              path = 'modules/' + module.type
+              !{locals.partial( path, e )}
 
         .grid.see-all
           a.btn.btn-wide(href="#")= data.featured2.callout
@@ -226,7 +228,8 @@ mixin filterSet( filterSet )
               if d.type == "product" && !d.promo
                 - d.view = "detailed"
                 e = { "locals" : locals, "data" : d }
-                !{locals.partial('modules/' + module.type, e )}
+                path = 'modules/' + module.type
+                !{locals.partial( path, e )}
 
         .comparables.hidden
           .compare-name= data.productCards.galleryName
@@ -280,7 +283,8 @@ mixin filterSet( filterSet )
                     - d.layout = document.layout3
                     - d.view = "basic"
                     e = { "locals" : locals, "data" : d }
-                    !{locals.partial('modules/' + module.type, e )}
+                    path = 'modules/' + module.type
+                    !{locals.partial( path, e )}
                     - count += 1
 
   - for (i = 3; i < 10; i++) {

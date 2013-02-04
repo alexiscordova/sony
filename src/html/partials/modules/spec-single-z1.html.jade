@@ -4,7 +4,7 @@ include ../includes/jade-helpers.jade
 
   .container
     .grid.spec-title-wrap
-      a.spec-title-link.tl(href=data.titleLink.href)= data.titleLink.label
+      a.l2(href=data.titleLink.href)= data.titleLink.label
       h1.t2.spec-title= data.title
 
     .grid
@@ -30,12 +30,13 @@ include ../includes/jade-helpers.jade
     each module, i in data.submodules
       - d = locals.data(module.data)
       - d.view = 'single-spec'
-      - e = { "locals" : locals, "data" : d, "labels" : data.labels }
-      !{locals.partial('modules/' + module.type, e )}
+      e = { "locals" : locals, "data" : d, "labels" : data.labels }
+      path = 'modules/' + module.type
+      !{locals.partial( path, e )}
 
   section.spec-tiles-wrap.container#features
     .grid
-      h3.l1= data.features.title
+      h3.l1.features-title= data.features.title
     .spec-tiles.slimgrid.no-grid-at-479
       each tile in data.features.tiles
         .spec-tile.span4
@@ -46,6 +47,7 @@ include ../includes/jade-helpers.jade
 
           .tile-content
             h3.t6.tile-title= tile.title
-            p= tile.description
+            p.p3= tile.description
             if tile.link
-              a.tl(href=tile.link.href)= tile.link.text
+              p.p3
+                a(href=tile.link.href)= tile.link.text
