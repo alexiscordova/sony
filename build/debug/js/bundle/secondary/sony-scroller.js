@@ -187,6 +187,7 @@
       var self = this,
           i = 0,
           $bulletPagination,
+          $bulletPaginationWrapper,
           clss, $li;
 
       if ( self.$pagination ) {
@@ -205,10 +206,14 @@
         });
         $bulletPagination.append( $li );
       }
+      
+      // Add wrapper for bullet pagination
+      $bulletPaginationWrapper = $('<div/>', { 'class' : 'pagination-wrapper' });
+      $bulletPaginationWrapper.append($bulletPagination);
 
       // Append the nav bullets
-      self.$el.append( $bulletPagination );
-      self.$pagination = $bulletPagination;
+      self.$el.append( $bulletPaginationWrapper );
+      self.$pagination = $bulletPaginationWrapper;
     },
 
     _update : function() {
@@ -278,6 +283,7 @@
       // Update nav bullets
       if ( self.$pagination ) {
         self.$pagination
+          .children()
           .children()
             .eq( self.currentPage )
               .addClass('bullet-selected')

@@ -169,6 +169,7 @@ self.momentum = false;</p>             </td>             <td class="code">      
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           i = <span class="number">0</span>,
           $bulletPagination,
+          $bulletPaginationWrapper,
           clss, $li;
 
       <span class="keyword">if</span> ( self.$pagination ) {
@@ -186,15 +187,18 @@ self.momentum = false;</p>             </td>             <td class="code">      
         });
         $bulletPagination.append( $li );
       }
+      
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Add wrapper for bullet pagination</p>             </td>             <td class="code">               <div class="highlight"><pre>      $bulletPaginationWrapper = $(<span class="string">'&lt;div/&gt;'</span>, { <span class="string">'class'</span> : <span class="string">'pagination-wrapper'</span> });
+      $bulletPaginationWrapper.append($bulletPagination);
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Append the nav bullets</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.append( $bulletPagination );
-      self.$pagination = $bulletPagination;
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Append the nav bullets</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.append( $bulletPaginationWrapper );
+      self.$pagination = $bulletPaginationWrapper;
     },
 
     _update : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Paginate() will return false if there aren't enough items to be paginated
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Paginate() will return false if there aren't enough items to be paginated
 If there aren't enough items, we don't want to create an iScroll instance</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.mode === <span class="string">'paginate'</span> ) {
         self.isPaginated = self._paginate();
       }
@@ -212,7 +216,7 @@ If there aren't enough items, we don't want to create an iScroll instance</p>   
       self._fire(<span class="string">'update'</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Throttled resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>    _onResize : <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Throttled resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>    _onResize : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( !self.destroyed ) {
@@ -225,7 +229,7 @@ If there aren't enough items, we don't want to create an iScroll instance</p>   
 
       self._fire(<span class="string">'scrolled'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>If they've defined a callback as well, call it
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If they've defined a callback as well, call it
 We saved their function to this reference so we could have our own onScrollEnd</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.onScrollEnd ) {
         self.onScrollEnd();
       }
@@ -237,21 +241,22 @@ We saved their function to this reference so we could have our own onScrollEnd</
       self.currentPage = iscroll.currPageX;
 
       <span class="keyword">if</span> ( self.$navPrev &amp;&amp; self.$navNext ) {
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Hide show prev button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( iscroll.currPageX === <span class="number">0</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Hide show prev button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( iscroll.currPageX === <span class="number">0</span> ) {
           self.$navPrev.addClass(<span class="string">'hide'</span>);
         } <span class="keyword">else</span> {
           self.$navPrev.removeClass(<span class="string">'hide'</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Hide show next button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( iscroll.currPageX === iscroll.pagesX.length - <span class="number">1</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Hide show next button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( iscroll.currPageX === iscroll.pagesX.length - <span class="number">1</span> ) {
           self.$navNext.addClass(<span class="string">'hide'</span>);
         } <span class="keyword">else</span> {
           self.$navNext.removeClass(<span class="string">'hide'</span>);
         }
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Update nav bullets</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.$pagination ) {
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Update nav bullets</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.$pagination ) {
         self.$pagination
+          .children()
           .children()
             .eq( self.currentPage )
               .addClass(<span class="string">'bullet-selected'</span>)
@@ -259,7 +264,7 @@ We saved their function to this reference so we could have our own onScrollEnd</
               .removeClass(<span class="string">'bullet-selected'</span>);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>If they've defined a callback as well, call it
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>If they've defined a callback as well, call it
 We saved their function to this reference so we could have our own onAnimationEnd</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.onAnimationEnd ) {
         self.onAnimationEnd( iscroll );
       }
@@ -269,11 +274,11 @@ We saved their function to this reference so we could have our own onAnimationEn
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           contentWidth = <span class="number">0</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Count it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(self.itemElementSelector).each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Count it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.find(self.itemElementSelector).each(<span class="keyword">function</span>() {
         contentWidth += Math.round($(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>));
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Set it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$contentContainer.css(<span class="string">'width'</span> , contentWidth );
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Set it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$contentContainer.css(<span class="string">'width'</span> , contentWidth );
 
       <span class="keyword">return</span> self;
     },
@@ -296,7 +301,7 @@ We saved their function to this reference so we could have our own onAnimationEn
      */</span>
 
     gotopage: <span class="keyword">function</span>( pageNumber, duration ) {
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>pageNumber could be an event object from a navigation bullet click.
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>pageNumber could be an event object from a navigation bullet click.
 if it is, get the index from it's data attribute</p>             </td>             <td class="code">               <div class="highlight"><pre>      pageNumber = pageNumber.type ? $(pageNumber.target).data(<span class="string">'index'</span>) : pageNumber;
       duration = duration || <span class="number">400</span>;
       <span class="keyword">this</span>.scroller.scrollToPage(pageNumber, <span class="number">0</span>, duration);
@@ -332,11 +337,11 @@ if it is, get the index from it's data attribute</p>             </td>          
         self.$elements.css(<span class="string">'width'</span>, <span class="string">''</span>);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>Flag to know it's destroyed</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.destroyed = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Flag to know it's destroyed</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.destroyed = <span class="literal">true</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Destroy the scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.scroller.destroy();
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>self.scroller = null;</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>Remove resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$win.off(<span class="string">'.sm'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>Destroy the scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.scroller.destroy();
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>self.scroller = null;</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Remove resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$win.off(<span class="string">'.sm'</span>);
 
       self.$el.removeData(<span class="string">'scrollerModule'</span>);
     },
@@ -350,13 +355,13 @@ if it is, get the index from it's data attribute</p>             </td>          
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           scrollerModule = self.data(<span class="string">'scrollerModule'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>If we don't have a stored scrollerModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !scrollerModule ) {
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>If we don't have a stored scrollerModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !scrollerModule ) {
         scrollerModule = <span class="keyword">new</span> ScrollerModule( self, options );
         self.data( <span class="string">'scrollerModule'</span>, scrollerModule );
       }
@@ -367,7 +372,7 @@ if it is, get the index from it's data attribute</p>             </td>          
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>Defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule.defaults = {
     contentSelector: <span class="string">'.content'</span>,
     itemElementSelector: <span class="string">'.block'</span>,
     mode: <span class="string">'free'</span>, <span class="comment">// if mode == 'paginate', the items in the container will be paginated</span>
@@ -380,7 +385,7 @@ if it is, get the index from it's data attribute</p>             </td>          
     paginationClass: <span class="string">'pagination-bullet'</span>,
     generatePagination: <span class="literal">false</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>iscroll props get mixed in</p>             </td>             <td class="code">               <div class="highlight"><pre>    iscrollProps: {
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>iscroll props get mixed in</p>             </td>             <td class="code">               <div class="highlight"><pre>    iscrollProps: {
       snap: <span class="literal">false</span>,
       hScroll: <span class="literal">true</span>,
       vScroll: <span class="literal">false</span>,
@@ -396,7 +401,7 @@ if it is, get the index from it's data attribute</p>             </td>          
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule.settings = {
     throttleTime: <span class="number">150</span>, <span class="comment">// How much the resize event is throttled (milliseconds)</span>
     resizeEvent: <span class="string">'onorientationchange'</span> <span class="keyword">in</span> window ? <span class="string">'orientationchange'</span> : <span class="string">'resize'</span>
   };
