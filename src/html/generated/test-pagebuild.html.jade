@@ -1,0 +1,19 @@
+---
+title:  test
+description: test 
+---
+
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+head
+	!{partial('includes/head.html.jade', l)}
+	
+body
+    #page-wrap-outer.page-wrap-outer
+      #page-wrap-inner.page-wrap-inner        
+
+    	        e = {"locals":locals, "data":data("tertiary-t1-t5/sonys-voice.json")}        !{partial("modules/tertiary-t1-t5.html.jade", e)}
+
+    !{partial('includes/foot.html.jade', l)}

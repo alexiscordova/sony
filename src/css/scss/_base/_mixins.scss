@@ -1704,6 +1704,43 @@ $default-transition-delay    : 0s;
   font-size:0.8em;
 }
 
+@mixin themeItems($up, $hover, $active){
+  i{
+    color:$up;
+  }
+  .btn{
+    border-color:$up;
+    background:$up;
+  }
+  .btn:hover{
+    background:$hover;
+  }
+  .btn:active{
+    background:$active;
+  }
+}
+
+@mixin themecolors {
+  .themeRed{
+    @include themeItems($themeRed, $themeRedHover, $themeRedActive);
+  }
+  .themeBlueLight{
+    @include themeItems($themeBlueLight, $themeBlueLightHover, $themeBlueLightActive);
+  }
+  .themeBlueDark{
+    @include themeItems($themeBlueDark, $themeBlueDarkHover, $themeBlueDarkActive);
+  } 
+  .themeGreen{
+    @include themeItems($themeGreen, $themeGreenHover, $themeGreenActive);
+  }
+  .themePurple{
+    @include themeItems($themePurple, $themePurpleHover, $themePurpleActive);
+  }
+  .themeOrange{
+    @include themeItems($themeOrange, $themeOrangeHover, $themeOrangeActive);
+  }
+}
+
 @mixin dttb {
   //dark text
   .dark-text-light-box,

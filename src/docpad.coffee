@@ -37,7 +37,7 @@ docpadConfig = {
     site:{
       title:'Sony Global'
     }
-    plusify:(string) -> output = string.replace(/\[\+\]/g , '<span class="iconContainer-plus"><i class="icon-ui-plus-bold"></i></span>');
+    plusify:(string) -> output = string.replace(/\[\+\]/g , '<i class="fonticon-10-sm-bold-plus"></i>');
     data:(path) ->  output = JSON.parse( require('fs').readFileSync(require('path').normalize(docpad.config.rootPath + '/html/data/' + path), 'utf8') );
     polyfills: ->   output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
     polyfillsie7: ->   output = require('fs').readdirSync(require('path').normalize(docpad.config.rootPath + '/js/libs/polyfill-lte-ie7/')).join(' ').replace(/.svn|.git|.DS_Store|thumbs.db/g ,'').replace(/\s{2,}/g ,' ').trim().split(' ');
