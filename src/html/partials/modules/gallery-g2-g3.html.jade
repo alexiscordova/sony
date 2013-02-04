@@ -41,7 +41,7 @@ mixin filterCheckbox( filterSet )
             //- mixin popoverContent( filterSet.help )
 
 mixin filterGroup( filterSet )
-  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type)
+  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
     each filter in filterSet.filters
       li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
       btn = '<div class="pull-left"><button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after media-object"><i class="fonticon-20-' + filter.icon + '"></i></button></div>'

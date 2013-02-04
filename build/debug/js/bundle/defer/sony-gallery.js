@@ -22,6 +22,7 @@
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
+    self.$filterColumns = self.$filterOpts.find('.grid').children();
     self.$sortSelect = self.$container.find('.sort-options select');
     self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
     self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
@@ -971,6 +972,30 @@
 
       // Don't change columns for detail galleries
       if ( self.mode === 'detailed' ) {
+
+        // 768-979
+        if ( Modernizr.mq('(min-width: 48em) and (max-width: 61.1875em)') ) {
+          if ( self.$filterColumns.eq(0).hasClass('span4') ) {
+            self.$filterColumns
+              .removeClass('span4')
+              .slice(0, 2)
+                .addClass('span6')
+                .end()
+              .last()
+                .addClass('span12')
+                .find('.media-list')
+                  .addClass('inline');
+          }
+        } else {
+          if ( self.$filterColumns.eq(0).hasClass('span6') ) {
+            self.$filterColumns
+              .removeClass('span6 span12')
+              .addClass('span4')
+              .find('.media-list')
+                .removeClass('inline');
+          }
+        }
+
         return;
       }
 
