@@ -14,7 +14,7 @@ if data.config.mode == 'full'
           .shuffle-container.slimgrid5
             i = 0
             for module in data.submodules
-              <!-- d = locals.data(module.data) -->
+              d = locals.data(module.data)
               if d.type == 'product' && d.featured
                 - d.layout = document[data.config.layout][i++]
                 - d.view = 'basic'
