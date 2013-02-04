@@ -17,6 +17,20 @@
 
 .nav-wrapper{ // encompasses the entire nav, including the navbar and navtrays, to 100% width of the page.
   background:$navbarBackground;
+
+  // Brand: website name
+  // -------------------------
+  .fonticon-60-sony { // desktop version (inside navbar)
+    float: left;
+    display: block;
+    margin:-15px 0;
+    color:$white;
+
+    &:hover, &:active, &:focus, &.active{
+      color:$white;
+      line-height:0;
+    }
+  }
 }
 
 .navbar {
@@ -51,16 +65,6 @@
     margin: 19px 0px 0 6px;
     line-height: 1.5;
   }
-
-
-  // Brand: website name
-  // -------------------------
-  .fonticon-60-sony { // desktop version (inside navbar)
-    float: left;
-    display: block;
-    margin: 16px 0 0;
-  }
-
 
   // Buttons in navbar
   // -------------------------
@@ -171,10 +175,4 @@
 
 .navbar-mobile.container{
   width:100%;
-  
-  .fonticon-60-sony{
-    display:block; // this is the normal (larger) size logo. Switch to small under 480px.
-    position:absolute;
-    left:50%;
-  }
 }

@@ -238,6 +238,18 @@ need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER
 
         setTimeout(<span class="keyword">function</span>(){ <span class="comment">// make sure heights are already set before initializing iScroll.</span>
           self.mobileNavIScroll = <span class="keyword">new</span> window.IScroll(<span class="string">'nav-outer-container'</span>,{ vScroll: <span class="literal">true</span>, hScroll: <span class="literal">false</span>, hScrollbar: <span class="literal">false</span>, snap: <span class="literal">false</span>, momentum: <span class="literal">true</span>, bounce: <span class="literal">false</span> });
+          self.mobileNavIScroll.options.onBeforeScrollStart = <span class="keyword">function</span>(e) {                
+            <span class="keyword">var</span> target = e.target;
+
+            <span class="keyword">while</span> (target.nodeType != <span class="number">1</span>) {
+              target = target.parentNode;
+            }
+
+            <span class="keyword">if</span> (target.tagName != <span class="string">'SELECT'</span> &amp;&amp; target.tagName != <span class="string">'INPUT'</span> &amp;&amp; target.tagName != <span class="string">'TEXTAREA'</span>){
+              e.preventDefault();
+            }
+          };
+
         },<span class="number">1</span>);
       }
 
@@ -289,39 +301,56 @@ need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER
         <span class="keyword">var</span> pageContainerWidth = $(<span class="keyword">this</span>).closest(<span class="string">'.grid-footer'</span>).width();
         $(<span class="keyword">this</span>).find(<span class="string">'.dropdown-hover-menu-lists-w'</span>).width(pageContainerWidth);
       });
+      
+      <span class="keyword">if</span> ($(window).width() &lt; <span class="number">568</span> ){
 
-      <span class="keyword">var</span> footerNavCollapseHeight = <span class="number">49</span>; <span class="comment">// plus 1 for the border</span>
-      $(<span class="string">'#footer-wrapper .footer-mobile-section h5'</span>).on(self.tapOrClick,<span class="keyword">function</span>(){
-        <span class="keyword">if</span> ($(window).width() &lt;= <span class="number">767</span> ){
+        self.footerNavCollapseHeight = <span class="number">49</span>; <span class="comment">// plus 1 for the border</span>
+      
+        $(<span class="string">'#footer-wrapper .footer-mobile-section h5'</span>).each(<span class="keyword">function</span>(){
 
           <span class="keyword">var</span> $thFootSection = $(<span class="keyword">this</span>).parent();
 
+          $(window).load(<span class="keyword">function</span>() {
+            self.collapseFooterSec($thFootSection);
+          });
 
-          <span class="keyword">if</span> ($thFootSection.hasClass(<span class="string">'collapsed'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>collapsed height - expand it.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-            $thFootSection
-              .height($thFootSection.data(<span class="string">'expHeight'</span>))
-              .removeClass(<span class="string">'collapsed'</span>);
+          $(<span class="keyword">this</span>).on(self.tapOrClick,<span class="keyword">function</span>(){
 
-          } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>natural height - collapse it.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> expHeight = $thFootSection.height();
+            <span class="keyword">if</span> ($thFootSection.hasClass(<span class="string">'collapsed'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>collapsed height - expand it.</p>             </td>             <td class="code">               <div class="highlight"><pre>              self.expandFooterSec($thFootSection);
+            } <span class="keyword">else</span> {
+              self.collapseFooterSec($thFootSection);
+            }
+          });
+        });
+      }
+    },
 
-            $thFootSection
-              .data(<span class="string">'expHeight'</span>,expHeight)
-              .height(expHeight);
+    collapseFooterSec : <span class="function"><span class="keyword">function</span> <span class="params">( $thFootSection )</span> {</span>
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>natural height - collapse it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> expHeight = $thFootSection.height();
 
-            setTimeout(<span class="keyword">function</span>(){
-              $thFootSection.addClass(<span class="string">'transition-height'</span>);
-              setTimeout(<span class="keyword">function</span>(){
-                $thFootSection
-                  .height(footerNavCollapseHeight)
-                  .addClass(<span class="string">'collapsed'</span>);
-              },<span class="number">1</span>);
-            },<span class="number">1</span>);
-          }
-        }
-      });
+      $thFootSection
+        .data(<span class="string">'expHeight'</span>,expHeight)
+        .height(expHeight);
+
+      setTimeout(<span class="keyword">function</span>(){
+        $thFootSection.addClass(<span class="string">'transition-height'</span>);
+        setTimeout(<span class="keyword">function</span>(){
+          $thFootSection
+            .height(self.footerNavCollapseHeight)
+            .addClass(<span class="string">'collapsed'</span>);
+        },<span class="number">1</span>);
+      },<span class="number">1</span>);
+    },
+
+    expandFooterSec : <span class="function"><span class="keyword">function</span> <span class="params">( $thFootSection )</span> {</span>
+      $thFootSection
+        .height($thFootSection.data(<span class="string">'expHeight'</span>))
+        .removeClass(<span class="string">'collapsed'</span>);
     }
+
+
   };
 
 </pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.globalNav = <span class="keyword">function</span>( opts ) {

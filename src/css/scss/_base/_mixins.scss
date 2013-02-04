@@ -847,6 +847,13 @@ $default-transition-delay    : 0s;
 		 // -o-transform: translate3d($x, $y, $z);
 					transform: translate3d($x, $y, $z);
 }
+@mixin transform-origin($x, $y:50%, $z:0) {
+	transform-origin:        $x $y $z;
+	-ms-transform-origin:    $x $y $z;
+	-webkit-transform-origin:$x $y $z;
+	-moz-transform-origin:   $x $y $z;
+	-o-transform-origin:     $x $y $z;
+}
 
 // Backface visibility
 // Prevent browsers from flickering when using CSS 3D transforms.

@@ -37,13 +37,13 @@
 
 
 .nav-primary{
-  margin-left:2.5%;
+  margin-left:2%;
 
   .nav-li{
     margin: 0 0 0 px-em(10);
 
     &.nav-li-electronics{
-      margin-left: px-em(12);
+      margin-left: px-em(13);
     }
   }
   .nav-li-link{
@@ -75,18 +75,16 @@
   .fonticon-10-arrowhead-down{
       position:relative;
       top:-1px;
-      margin-left: 5px;
+      margin-left: px-em(4);
+      margin-right:-2px;
   }
 }
 
 
 .nav-primary .nav-li-link,
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
-  &:hover,
-  &:active,
-  &:focus{
-    // background-color: $grayDark;
-    // border-color: $grayDark;
+
+  &:hover, &:active, &:focus, &.active {
     color:$navbarLinkColorHover;
   }
 }
@@ -140,7 +138,7 @@
 .nav-li-account{
   .nav-li-link.nav-dropdown-toggle{
     font-size: px-em(11px);
-    padding-right:5px;
+    padding-right:2px;
     padding-top:10px;
 
     .fonticon-10-arrowhead-down{
@@ -212,9 +210,11 @@
     padding-right:20px;
     color:$linkColor;
     font-size:$font_15_16;
+    padding-top:12px;
 
     i{
-      margin-top:2px;
+      position:relative;
+      top:-2px;
       margin-right:10px;
     }
     &:hover,
@@ -309,7 +309,15 @@
     right: 30px;
     top: 22px;
   }
+
+  .fonticon-10-search{
+    top: 25px;
+    left: 46px;
+  }
 }
+
+
+
 
 .navmenu-w-account{
   width: 215px;
@@ -494,18 +502,18 @@
   // }
 }
 .nav-li-search .nav-li-linkBtn{
-  padding-right: 9px;
+  padding-right: 8px;
   padding-left: 6px;
-  padding-top: 9px;
+  padding-top: 10px;
   .lbl{
     display:none;
   }
 }
 .nav-li-account .nav-li-link.nav-dropdown-toggle{
-  padding-right: 0px;
-  padding-top: 6px;  
+  padding-right: 5px;
+  padding-top: 12px;
   .fonticon-10-arrowhead-down{
-    margin-left:0;
+    margin-left:3px;
     font-size:px-em(13,11);
   }
 }
@@ -546,12 +554,12 @@
 @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
 
 .navbar{
-  // override the default logo sprite with the smaller one.
-  @include sprite-reg-nav-sony-logo-sm;
-
-  .sprite-reg-nav-sony-logo{
-    margin-top:14px;
+  
+  .fonticon-60-sony {
+    margin: -10px 0 -10px -3px;
+    font-size: 4.6em;
   }
+
 }
 .nav-wrapper,
 .navbar{
@@ -586,15 +594,24 @@
 
 .nav-li-account{
   .nav-li-link.nav-dropdown-toggle{
-    font-size:$font_11_16;
+    font-size: px-em(11);
+    padding-right: 4px;
+    padding-left: 9px;
+    padding-top: 8px;
   }
+}
+
+.nav-li-search .nav-li-linkBtn{
+  padding-right: 5px;
+  padding-left: 3px;
+  padding-top: 9px;
 }
 
 
 .nav-li-linkBtn{
   height: 28px;
   margin: 12px 0 11px 2px;
-  padding: 6px 6px;
+  padding: 6px 6px 0 9px;
   
   [class^="fonticon-10-"]::before,
   [class*=" fonticon-10-"]::before {
@@ -816,7 +833,7 @@
   .nav-li-search,
   .nav-li-favorites,
   .nav-li-search,
-  .sprite-reg-nav-sony-logo{
+  .fonticon-60-sony{
     display:none;
   }
 } // .navbar
@@ -844,14 +861,15 @@
     }
   }
 
-  @include sprite-mini(nav-search-input,  -60px,  16px,   16px);
-  .sprite-mini-nav-search-input{
-    top: 23px;
-    left: 18px;
-  }
   .btn-clear-search-input{
     right: 17px;
     top: 17px;
+  }
+
+  .fonticon-10-search{
+    top: 22px;
+    left: 18px;
+    font-size: 1.2em;
   }
 }
 
@@ -932,10 +950,11 @@
   .navmenu-line{
     margin-left:14px;
     a.tl{
-      font-size:$font_14_15;
+      font-size: px-em(14,15);
       padding:5px 0 5px 4px;
       i{
         padding-right:7px;
+        font-size:1.2em;
       }
     }
   }
@@ -993,11 +1012,14 @@
       font-size: px-em(20,15);
     }
   }
-  .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 980px.
+
+  .fonticon-60-sony{
+    display:block; // this is the normal (larger) size logo. Switch to small under 480px.
     position:absolute;
-    width:90px;
-    margin-left:-45px;
-    margin-top:15px;
+    left:50%;
+    width:100px;
+    margin-left:-50px;
+    text-align:center;
   }
 }
 
@@ -1135,73 +1157,75 @@
 
 @media (max-width: px-em(479px)) {
 
-  .nav-wrapper,
-  .navbar{
-    height:auto;
+.nav-wrapper,
+.navbar{
+  height:auto;
+}
+.navbar-mobile{
+  height: $navbarMobileHeight;
+}
+
+.page-wrap-inner.show-mobile-menu{
+  left:$navMobileWidth;
+}
+.mobile-screen-overlay{
+  top: $navbarMobileHeight;
+}
+
+.nav-outer-container{
+  width:$navMobileWidth;
+  left:-$navMobileWidth;
+}
+
+
+
+
+.navbar-mobile{
+  .sprite-reg-nav-sony-logo{
+    margin-top:10px;
+    width:70px;
+    margin-left:-40px;
   }
-  .navbar-mobile{
+  .btn-mobile-nav,
+  .btn-mobile-cart{
+    width: 58px;
     height: $navbarMobileHeight;
   }
-
-  .page-wrap-inner.show-mobile-menu{
-    left:$navMobileWidth;
+  .btn-mobile-nav{  
+    padding: 11px 0 0 0;    
   }
-  .mobile-screen-overlay{
-    top: $navbarMobileHeight;
+  .btn-mobile-cart{
+    padding: 14px 0 0 0;
+    font-size: px-em(12);
+    i {
+      font-size: px-em(16,12);
+      margin-right:2px;
+    }
   }
 
-  .nav-outer-container{
-    width:$navMobileWidth;
-    left:-$navMobileWidth;
+  .fonticon-60-sony{
+    font-size:5em;
   }
+}
 
+.navmenu-w-account .btn-login,
+.navmenu-w-account .btn-logout,
+.nav-li-universal .nav-li-link,
+.navtray .btn-nav-view-all{
+  max-width:100%;
+  margin-left:20px;
+  margin-right:20px;
+}
 
-
-
-  .navbar-mobile{
-    // override the default logo sprite with the smaller one.
-    @include sprite-reg-nav-sony-logo-sm;
-    .sprite-reg-nav-sony-logo{
-      margin-top:10px;
-      width:70px;
-      margin-left:-40px;
-    }
-    .btn-mobile-nav,
-    .btn-mobile-cart{
-      width: 58px;
-      height: $navbarMobileHeight;
-    }
-    .btn-mobile-nav{  
-      padding: 11px 0 0 0;    
-    }
-    .btn-mobile-cart{
-      padding: 14px 0 0 0;
-      font-size: px-em(12);
-      i {
-        font-size: px-em(16,12);
-        margin-right:2px;
+.navtray-section-main{
+  .navtray-list-main{
+    .navtray-li-link {
+      .nav-label {
+        font-size:$font_15_16;
       }
     }
   }
-
-  .navmenu-w-account .btn-login,
-  .navmenu-w-account .btn-logout,
-  .nav-li-universal .nav-li-link,
-  .navtray .btn-nav-view-all{
-    max-width:100%;
-    margin-left:20px;
-    margin-right:20px;
-  }
-
-  .navtray-section-main{
-    .navtray-list-main{
-      .navtray-li-link {
-        .nav-label {
-          font-size:$font_15_16;
-        }
-      }
-    }
-  }
+}
 
 } // max-width: 479px
 

@@ -278,6 +278,18 @@
 
         setTimeout(function(){ // make sure heights are already set before initializing iScroll.
           self.mobileNavIScroll = new window.IScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
+          self.mobileNavIScroll.options.onBeforeScrollStart = function(e) {                
+            var target = e.target;
+
+            while (target.nodeType != 1) {
+              target = target.parentNode;
+            }
+
+            if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA'){
+              e.preventDefault();
+            }
+          };
+
         },1);
       }
 
@@ -331,41 +343,58 @@
         var pageContainerWidth = $(this).closest('.grid-footer').width();
         $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
       });
+      
+      if ($(window).width() < 568 ){
 
-      var footerNavCollapseHeight = 49; // plus 1 for the border
-      $('#footer-wrapper .footer-mobile-section h5').on(self.tapOrClick,function(){
-        if ($(window).width() <= 767 ){
+        self.footerNavCollapseHeight = 49; // plus 1 for the border
+      
+        $('#footer-wrapper .footer-mobile-section h5').each(function(){
 
           var $thFootSection = $(this).parent();
 
+          $(window).load(function() {
+            self.collapseFooterSec($thFootSection);
+          });
 
-          if ($thFootSection.hasClass('collapsed')){
-            // collapsed height - expand it.
+          $(this).on(self.tapOrClick,function(){
 
-            $thFootSection
-              .height($thFootSection.data('expHeight'))
-              .removeClass('collapsed');
+            if ($thFootSection.hasClass('collapsed')){
+              // collapsed height - expand it.
+              self.expandFooterSec($thFootSection);
+            } else {
+              self.collapseFooterSec($thFootSection);
+            }
+          });
+        });
+      }
+    },
 
-          } else {
-            // natural height - collapse it.
-            var expHeight = $thFootSection.height();
+    collapseFooterSec : function ( $thFootSection ) {
+      var self = this;
+      // natural height - collapse it.
+      var expHeight = $thFootSection.height();
 
-            $thFootSection
-              .data('expHeight',expHeight)
-              .height(expHeight);
+      $thFootSection
+        .data('expHeight',expHeight)
+        .height(expHeight);
 
-            setTimeout(function(){
-              $thFootSection.addClass('transition-height');
-              setTimeout(function(){
-                $thFootSection
-                  .height(footerNavCollapseHeight)
-                  .addClass('collapsed');
-              },1);
-            },1);
-          }
-        }
-      });
+      setTimeout(function(){
+        $thFootSection.addClass('transition-height');
+        setTimeout(function(){
+          $thFootSection
+            .height(self.footerNavCollapseHeight)
+            .addClass('collapsed');
+        },1);
+      },1);
+    },
+
+    expandFooterSec : function ( $thFootSection ) {
+      $thFootSection
+        .height($thFootSection.data('expHeight'))
+        .removeClass('collapsed');
     }
+
+
   };
 
   // Plugin definition
