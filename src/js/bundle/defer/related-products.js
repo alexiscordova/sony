@@ -538,7 +538,7 @@
 
             self.sortByPriority();
 
-            iQ.update();
+            window.iQ.update();
 
             self.ev.trigger('ondesktopbreakpoint.rp');
 
@@ -579,7 +579,7 @@
 
             self.sortByPriority();
 
-            iQ.update();
+            window.iQ.update();
 
           break;
 
@@ -619,7 +619,7 @@
             //hide the bullet navigation
             self.$bulletNav.hide();
 
-            iQ.update();
+            window.iQ.update();
 
             //is this where i break?
             self.ev.trigger('onmobilebreakpoint.rp');
@@ -791,7 +791,7 @@
 
       setPosition: function(posi) {
 
-        iQ.update();
+        window.iQ.update();
 
         var self = this,
             pos = self.sPosition = posi;
@@ -1109,17 +1109,17 @@
         var self = this,
             resizeTimer = null;
 
-        $(window).on('resize', function() {  
+        $(window).on('resize', function() {
             if(resizeTimer) {
-                clearTimeout(resizeTimer);          
+                clearTimeout(resizeTimer);
             }
-            resizeTimer = setTimeout(function() { 
+            resizeTimer = setTimeout(function() {
 
               self.checkForBreakpoints();
               self.updateSliderSize();
               self.updateSlides();
 
-            }, self.throttleTime);          
+            }, self.throttleTime);
         });
       },
 
@@ -1269,9 +1269,9 @@
             }).data('scrollerModule');
 
             //self.scroller.enable();
-            iQ.update();
+            window.iQ.update();
             console.log("Instantiating scroller module »", self.scrollerModule);
-          }, 100); 
+          }, 100);
           return;
 
         }

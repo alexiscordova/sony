@@ -511,7 +511,7 @@ $container.append(out);</p>             </td>             <td class="code">     
 
             self.sortByPriority();
 
-            iQ.update();
+            window.iQ.update();
 
             self.ev.trigger(<span class="string">'ondesktopbreakpoint.rp'</span>);
 
@@ -550,7 +550,7 @@ $container.append(out);</p>             </td>             <td class="code">     
 
             self.sortByPriority();
 
-            iQ.update();
+            window.iQ.update();
 
           <span class="keyword">break</span>;
 
@@ -587,7 +587,7 @@ $container.append(out);</p>             </td>             <td class="code">     
 
 </pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>hide the bullet navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$bulletNav.hide();
 
-            iQ.update();
+            window.iQ.update();
 
 </pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>is this where i break?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.ev.trigger(<span class="string">'onmobilebreakpoint.rp'</span>);
 
@@ -753,7 +753,7 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
 
       setPosition: <span class="keyword">function</span>(posi) {
 
-        iQ.update();
+        window.iQ.update();
 
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             pos = self.sPosition = posi;
@@ -1060,17 +1060,17 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             resizeTimer = <span class="literal">null</span>;
 
-        $(window).on(<span class="string">'resize'</span>, <span class="keyword">function</span>() {  
+        $(window).on(<span class="string">'resize'</span>, <span class="keyword">function</span>() {
             <span class="keyword">if</span>(resizeTimer) {
-                clearTimeout(resizeTimer);          
+                clearTimeout(resizeTimer);
             }
-            resizeTimer = setTimeout(<span class="keyword">function</span>() { 
+            resizeTimer = setTimeout(<span class="keyword">function</span>() {
 
               self.checkForBreakpoints();
               self.updateSliderSize();
               self.updateSlides();
 
-            }, self.throttleTime);          
+            }, self.throttleTime);
         });
       },
 
@@ -1214,9 +1214,9 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
 
             }).data(<span class="string">'scrollerModule'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>self.scroller.enable();</p>             </td>             <td class="code">               <div class="highlight"><pre>            iQ.update();
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>self.scroller.enable();</p>             </td>             <td class="code">               <div class="highlight"><pre>            window.iQ.update();
             console.log(<span class="string">"Instantiating scroller module »"</span>, self.scrollerModule);
-          }, <span class="number">100</span>); 
+          }, <span class="number">100</span>);
           <span class="keyword">return</span>;
 
         }
