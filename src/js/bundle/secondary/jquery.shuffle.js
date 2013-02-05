@@ -474,7 +474,7 @@
         _onResize : function() {
             var self = this;
 
-            if ( !self.enabled ) {
+            if ( !self.enabled || self.destroyed ) {
                 return;
             }
 
@@ -718,6 +718,7 @@
             self.$container.removeAttr('style').removeData('shuffle');
             $(window).off('.shuffle');
             self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
+            self.destroyed = true;
         }
 
     };

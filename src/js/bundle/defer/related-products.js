@@ -241,7 +241,7 @@
             column = containerWidth;
           }
 
-          console.log('Shuffling Columns returning  »',column);
+          console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -625,6 +625,18 @@
               self.shuffle.destroy();
               self.shuffle = null;
               self.sorted = false;
+
+              self.$shuffleContainers.each(function(){
+                var shfflInst = $(this).data('shuffle');
+
+                console.log('I am a shuffle instance!!! Look at me! »',shfflInst);
+
+                if(shfflInst !== undefined){
+                  shfflInst.destroy();
+                  shfflInst = null;
+                }
+
+              });
 
               console.log("Destroying shuffle instance »" , self.shuffle);
             }
