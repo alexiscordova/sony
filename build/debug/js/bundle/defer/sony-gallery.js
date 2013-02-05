@@ -406,7 +406,11 @@
       }
 
       self.filter();
-      self.$container.find('.collapse').collapse('hide');
+
+      // Slide up the collapsable if it's visible
+      if ( self.$container.find('.collapse').hasClass('in') ) {
+        self.$container.find('.collapse').collapse('hide');
+      }
     },
 
     onRemoveFilter : function( evt ) {
@@ -764,7 +768,8 @@
         maxPrice = getPrice(percents.max),
         maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
         prevMin = self.price.min,
-        prevMax = self.price.max;
+        prevMax = self.price.max,
+        delay;
 
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
@@ -781,21 +786,10 @@
           self.filters.range[ filterName ].max = self.price.max;
 
           // Throttle filtering (especially on touch)
-          if ( $.throttle ) {
-            var delay, method;
-            if ( self.isTouch ) {
-              delay = 2500;
-              method = 'debounce';
-            } else {
-              delay = 250;
-              method = 'throttle';
-            }
-            $[ method ]( delay, function() {
-              self.filter();
-            })();
-          } else {
+          delay = self.isTouch ? 2500 : 250;
+          $.debounce( delay, function() {
             self.filter();
-          }
+          })();
         }
       },
 
@@ -1167,7 +1161,7 @@
 
 
       // On window resize
-      self.$window.on('resize.comparetool', $.throttle(250, function() {
+      self.$window.on('resize.comparetool', $.debounce(250, function() {
         self.onCompareResize( $header, $sortOpts, $labelColumn );
       }));
 
@@ -1895,6 +1889,7 @@
     enabled: true,
     MIN_PRICE: undefined,
     MAX_PRICE: undefined,
+    price: {},
     isInitialized: false,
     sorted: false,
     isTouch: !!( 'ontouchstart' in window ),

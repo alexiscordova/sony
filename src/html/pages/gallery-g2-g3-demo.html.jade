@@ -1,6 +1,6 @@
 ---
 title: G2-G3. Gallery Module / Page / Compare Gallery Tool
-description: 
+description:
 ---
 include ../partials/includes/jade-helpers.jade
 doctype 5
@@ -20,9 +20,19 @@ body
       //- Primary Tout
       //- e = {"locals":locals, "data":data('primary-tout-p1-d7/default.json')}
       //- !{partial('modules/primary-tout-p1-d7.html.jade', e)}
+      .hero
+        .hero-img-wrap
+          img(src="img/cyber-shot-hero.jpg", alt="")
+        .ghost-center-wrap.hero-text-wrap
+          .hero-text.ghost-center
+            hgroup.container
+              .grid
+                p.primary-tout-subtitle.l5 Cameras
+                h2.primary-tout-title Cyber-shot&reg;
 
       //- Gallery
       e = {"locals":locals, "data":data('gallery-g2-g3/default.json')}
+      //- e = {"locals":locals, "data":data('gallery-g2-g3/gallery-g2-g3-tv.json')}
       !{partial('modules/gallery-g2-g3.html.jade', e)}
 
       //- Footer

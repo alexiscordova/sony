@@ -104,6 +104,8 @@ if data.view == "basic"
                 span.number.l2= data.count.number
                 | &nbsp;
                 span.text.l3= data.count.text
+            else if data.brandLogo
+              img(src=data.brandLogo.src)
 
       else if data.layout == 'plate'
         .product-img(class=data.backgroundColorClass)

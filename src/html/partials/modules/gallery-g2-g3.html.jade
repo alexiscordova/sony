@@ -92,14 +92,6 @@ mixin filterSet( filterSet )
     else if filterSet.type == 'group'
       mixin filterGroup( filterSet )
 
-.hero
-  .hero-img-wrap
-    img(src="img/cyber-shot-hero.jpg", alt="")
-  .ghost-center-wrap.hero-text-wrap
-    .hero-text.ghost-center
-      hgroup.container
-        p.primary-tout-subtitle.l5 Cameras
-        h2.primary-tout-title Cyber-shot&reg;
 
 .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
   .tabs-container.container.m-full-bleed
@@ -122,7 +114,7 @@ mixin filterSet( filterSet )
       button.nav-paddle.tab-nav.tab-nav-next
         i.icon-ui2-chevron-18-white-right
 
-.tab-content
+.tab-content.gallery-content
   if data.tabs[0]
     .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
       i = 0
