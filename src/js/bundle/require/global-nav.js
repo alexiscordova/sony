@@ -74,26 +74,32 @@
           // init
           self.resetPrimaryNavBtn($(this));
 
-          $(this).on('click', function() {
-            // console.log('## ## ######CLICK######');
+          // $(this).on(self.tapOrClick + ' focus blur', function() {
+          // $(this).on(self.tapOrClick, function() {
+          // $(this).on('touchstart mouseenter', function() {
+          
+          // TOUCH DEVICES
+          /*$(this).on('touchstart', function() {
             var $thPrimaryNavBtn = $(this);
-            // var $thNavTarget = $('.' + $thPrimaryNavBtn.data('target'));
-
-            // console.log('## CLICK $thNavTarget.height: ' + $thNavTarget.outerHeight());
-
+            
+            // if this button isn't already activated, 
             if (!$thPrimaryNavBtn.parent().hasClass('nav-li-selected')){
-              // if this button isn't already activated, deactivate any others, and activate this one.
-              // console.log('## ## inactive button clicked');
+              // deactivate any others, and activate this one.
 
-              // if there's another button already activated, deactivate it first, and delay opening the new one.
-              if (self.$currentOpenNavBtn !== false ){
-                // console.log('## ## old nav was open - close it now.' );
+              // if there is NOT another button already activated, 
+              if (!(self.$currentOpenNavBtn !== false )){
+                // update the Nav button & open the new tray/menu immediately
+                self.setActivePrimaryNavBtn($thPrimaryNavBtn);
+
+              // if there WAS already an active button, 
+              } else {
+                // deactivate it first
                 self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
-
                 var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
-
+                
+                // if the open target was a navtray, 
                 if ($oldNavTarget.hasClass('navtray-w')){
-                  // if the open target was a navtray, delay opening the new one until the old tray has a chance to close.
+                  // delay opening the new one until the old tray has a chance to close.
                   setTimeout(function(){
                     self.setActivePrimaryNavBtn($thPrimaryNavBtn);
                   },350);
@@ -103,10 +109,6 @@
                     self.setActivePrimaryNavBtn($thPrimaryNavBtn);
                   },150);
                 }
-
-              } else {
-                // update the Nav button & open the new tray immediately
-                self.setActivePrimaryNavBtn($thPrimaryNavBtn);
               }
 
 
@@ -116,7 +118,7 @@
               self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
               self.$currentOpenNavBtn = false;
             }
-          });
+          });*/
         });
       } else {
         // Init Mobile Nav
@@ -205,8 +207,8 @@
               $navTray.removeClass('navtray-w-visible');
             }
 
-        },1);
-      },1);
+        },10);
+      },10);
 
       function onNavTrayComplete(){
         // console.log('## ## onNavTrayComplete');
@@ -241,7 +243,12 @@
           // Tray-style
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
-          self.slideNavTray($thNavTarget, true);
+          if ($('body').hasClass('lt-ie10')){
+            // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
+            self.slideNavTray($thNavTarget, true);
+          } else {
+            self.slideNavTray($thNavTarget, true);
+          }
         } else {
           // Menu-style - show the menu.
           $thNavTarget.addClass('navmenu-w-visible');
