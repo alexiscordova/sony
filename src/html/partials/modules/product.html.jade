@@ -111,7 +111,7 @@ if data.view == "basic"
           - classes = ['promo-content']
           - classes.push( style )
           div(class=classes)
-            .text-promo-title
+            .text-promo-title(class='t4')
               strong= data.title
               span!= data.emphasis
               i.icon-ui2-chevron-16-black-right
@@ -150,10 +150,12 @@ if data.view == "basic"
 
         .product-content
           .product-name-wrap
-            .product-name.p3= data.name
+            .product-name.p3
+              strong= data.name
           .product-price
-            span.price-prefix.p3 Starting at &nbsp;
-            span.price.l2= '$' + data.price + '&nbsp;'
+            span.price-prefix.p5 Starting at &nbsp;
+            span.price.p2
+              strong= '$' + data.price + '&nbsp;'
             span.msrp.p5 MSRP
 
 
@@ -176,7 +178,7 @@ else if data.view == 'detailed'
 
       .product-content
         .product-name-wrap
-          .product-name(itemprop="name")= data.name
+          .product-name.p2(itemprop="name")= data.name
           .product-model.p5(itemprop="model")= data.model
         .product-rating.p5(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
           meta(itemprop="ratingValue", content=data.rating.stars)
@@ -239,8 +241,8 @@ else if data.view == "specs"
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
     .compare-sticky-header
       .product-name-wrap
-        .product-name.p1(itemprop="name")= data.name
-        .product-model.p2(itemprop="model")= data.model
+        .product-name.p3(itemprop="name")= data.name
+        .product-model.p3(itemprop="model")= data.model
 
     .spec-column-header.table-center-wrap
       .table-center

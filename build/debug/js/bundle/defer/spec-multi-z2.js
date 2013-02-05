@@ -33,14 +33,22 @@
       self.$specItems = self.$specProducts.find('.spec-item');
       self.$specItemsWrap = self.$specProducts.find('.spec-items-wrap');
       self.$tabStrip = self.$container.find('.tab-strip');
-      self.$navNext = self.$container.find('.spec-nav-next');
-      self.$navPrev = self.$container.find('.spec-nav-prev');
+
+      // Nav
+      self.$navWrap = self.$container.find('.spec-nav-wrap');
+      self.$navContainer = self.$navWrap.find('.spec-nav-container');
+      self.$navNext = self.$navWrap.find('.spec-nav-next');
+      self.$navPrev = self.$navWrap.find('.spec-nav-prev');
+      self.$stickyHeaders = self.$specProducts.find('.compare-sticky-header');
+      self.$stickyNav = self.$container.find('.spec-sticky-nav');
+      self.$jumpLinks = self.$container.find('.spec-views a');
+
       self.$enlargeTriggers = self.$specProducts.find('.js-enlarge');
       self.$enlargeClosers = self.$container.find('.spec-modal .box-close');
       self.$detailLabelsWrap = self.$specProducts.find('.detail-labels-wrap');
-      self.$stickyHeaders = self.$specProducts.find('.compare-sticky-header');
 
       self.stickyHeaderHeight = self.$stickyHeaders.first().height();
+      self.stickyNavHeight = self.$stickyNav.outerHeight();
 
       // Line up spec item cells
       self._onResize();
@@ -50,6 +58,7 @@
 
       self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
+      self.$window.on('load', $.proxy( self._initStickyNav, self ));
 
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
       self.$enlargeClosers.on('click', $.proxy( self._closeEnlarge, self ));
@@ -59,6 +68,7 @@
       setTimeout(function() {
         self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
       }, 250);
+
     },
 
     _initFeatures : function() {
@@ -95,7 +105,7 @@
       self.$specItemsWrap.scrollerModule({
         contentSelector: '.spec-items-container',
         itemElementSelector: '.spec-item',
-        mode: 'paginate', // if mode == 'paginate', the items in the container will be paginated
+        mode: 'free',
         nextSelector: self.$navNext,
         prevSelector: self.$navPrev,
         centerItems: false,
@@ -108,7 +118,7 @@
           hScrollbar: false,
           vScrollbar: false,
           momentum: true,
-          bounce: true,
+          bounce: false,
           onScrollMove : function() {
             self._onScroll( this );
           },
@@ -194,6 +204,51 @@
       self._closeEnlarge();
     },
 
+    _initStickyNav : function() {
+      var self = this,
+          $body = $('body'),
+          $offsetTarget = self.$container.find('.spec-views:not(.nav)');
+
+      // jQuery offset().top is returning negative numbers...
+      self.stickyTriggerOffset = $offsetTarget[0].offsetTop;
+
+
+      // REMOVE WHEN ITS NOT BROKEN
+      if ( self.stickyTriggerOffset < 100 ) {
+        setTimeout(function() {
+          self.stickyTriggerOffset = $offsetTarget[0].offsetTop; //$offsetTarget.offset().top;
+        }, 50);
+        console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
+        // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
+      }
+
+      // self.$window.on('scroll', $.proxy( self._onScroll, self ));
+
+      // Set up twitter bootstrap scroll spy
+      $body.scrollspy({
+        target: '.spec-sticky-nav'
+      });
+
+      self._initJumpLinks();
+
+      setTimeout(function() {
+        $body.scrollspy('refresh');
+      }, 100);
+    },
+
+    _initJumpLinks : function() {
+      var self = this,
+          scrollspyOffset = 10,
+          navHeight = parseFloat( self.$stickyNav.css('height') ),
+          offset = scrollspyOffset + navHeight;
+
+      self.$jumpLinks.simplescroll({
+        showHash: true,
+        speed: 400,
+        offset: offset
+      });
+    },
+
     _setRowHeights : function() {
       var self = this;
 
@@ -243,6 +298,10 @@
       return self;
     },
 
+    _setStickyHeaderContent : function() {
+      console.log('get product name if mobile, otherwise use html already there');
+    },
+
     _removeHeights : function() {
       var self = this;
 
@@ -254,6 +313,10 @@
       var self = this;
 
       if ( Modernizr.mq( self.mobileBreakpoint ) ) {
+        if ( !self.isMobile ) {
+          self.isMobile = true;
+          self._setStickyHeaderContent();
+        }
 
         // If we have a scroller, destroy it
         if ( self.isScroller ) {
@@ -271,6 +334,11 @@
 
       } else {
 
+        if ( self.isMobile ) {
+          self.isMobile = false;
+          self._setStickyHeaderContent();
+        }
+
         // If we have sticky tabs, destroy them
         if ( self.isStickyTabs ) {
           self._teardownStickyTabs();
@@ -287,6 +355,7 @@
           ._setItemContainerHeight();
       }
 
+      self.stickyNavHeight = self.$stickyNav.outerHeight();
       self.stickyOffset = self._getStickyHeaderOffset();
     },
 
@@ -295,6 +364,7 @@
           isIScroll = iscroll !== undefined && iscroll.y !== undefined,
           scrollTop = isIScroll ? iscroll.y * -1 : self.$window.scrollTop();
 
+      // Add/remove a class to show the items have been scrolled horizontally
       if ( isIScroll ) {
         if ( iscroll.x < -3 && !self.$detailLabelsWrap.hasClass('overflowing') ) {
           self.$detailLabelsWrap.addClass('overflowing');
@@ -306,15 +376,36 @@
         return;
       }
 
-      if ( scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
+      // Open/close sticky headers
+      if ( !self.isMobile && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
         if ( !self.$stickyHeaders.hasClass('open') ) {
           self.$stickyHeaders.addClass('open');
+          self.$container.addClass('sticky-header-open');
+          self.$navContainer.addClass('container');
+          self.$navWrap.css('top', self.stickyNavHeight);
         }
-        self._setStickyHeaderPos( scrollTop - self.stickyOffset.top );
+        self._setStickyHeaderPos( scrollTop - self.stickyOffset.top + self.stickyNavHeight );
 
       } else {
         if ( self.$stickyHeaders.hasClass('open') ) {
+          self.$container.removeClass('sticky-header-open');
           self.$stickyHeaders.removeClass('open');
+          self.$navContainer.removeClass('container');
+          self.$navWrap.css('top', 'auto');
+        }
+      }
+
+
+      // Open the stick nav if it's past the trigger
+      if ( scrollTop > self.stickyTriggerOffset ) {
+        if ( !self.$stickyNav.hasClass('open') ) {
+          self.$stickyNav.addClass('open');
+        }
+
+      // Close the sticky nav if it's past the trigger
+      } else {
+        if ( self.$stickyNav.hasClass('open') ) {
+          self.$stickyNav.removeClass('open');
         }
       }
     },
@@ -382,7 +473,10 @@
     _getStickyHeaderOffset : function() {
       var self = this,
           top = self.$specProducts.offset().top,
-          bottom = self.$specProducts.height() + top - self.stickyHeaderHeight;
+          bottom = self.$specProducts.height() + top;
+
+      // Factor in the height of the sticky nav and sticky headers
+      bottom = bottom - self.stickyHeaderHeight - self.stickyNavHeight;
 
       return {
         top: top,
@@ -420,7 +514,8 @@
   // Not overrideable
   $.fn.spec.settings = {
     isStickyTabs: false,
-    isScroller: false
+    isScroller: false,
+    isMobile: false
   };
 
 

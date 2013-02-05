@@ -84,6 +84,19 @@
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
+      self.prefixed              = Modernizr.prefixed;
+      self.transitionName        = self.prefixed('transition');
+
+      // Get transitionend event name
+      var transEndEventNames = {
+          'WebkitTransition' : 'webkitTransitionEnd',
+          'MozTransition'    : 'transitionend',
+          'OTransition'      : 'oTransitionEnd',
+          'msTransition'     : 'MSTransitionEnd',
+          'transition'       : 'transitionend'
+      };
+
+      self.transitionEndName     = transEndEventNames[ self.transitionName ];
 
       self.mode                  = self.$el.data('mode').toLowerCase();
       self.variation             = self.$el.data('variation').split('-')[2];
@@ -228,7 +241,7 @@
             column = containerWidth;
           }
 
-          console.log('Shuffling Columns returning  »',column);
+          console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -613,6 +626,18 @@
               self.shuffle = null;
               self.sorted = false;
 
+              self.$shuffleContainers.each(function(){
+                var shfflInst = $(this).data('shuffle');
+
+                console.log('I am a shuffle instance!!! Look at me! »',shfflInst);
+
+                if(shfflInst !== undefined){
+                  shfflInst.destroy();
+                  shfflInst = null;
+                }
+
+              });
+
               console.log("Destroying shuffle instance »" , self.shuffle);
             }
 
@@ -682,7 +707,7 @@
           return;
         }
 
-        self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 40);
+        self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
 
         console.log("Slider Height »",self.$el.height());
 
@@ -1050,9 +1075,9 @@
           self.$container.css( animObj );
 
           //IQ Update
-/*          self.$container.one($.support.transition.end , function(){
+          self.$container.one(self.transitionEndName , function(){
             window.iQ.update();
-          });*/
+          });
         }
 
         //update the overall position
@@ -1202,7 +1227,7 @@
         var self = this;
 
         function handleBreakpoint(){
-          console.log("_initMobileBreakpoint.... »" , true);
+          window.console.log("_initMobileBreakpoint.... »" , true);
 
           // 1. step one  - cancel touch events for the 'slideshow'
           self.$container.off('.rp');
@@ -1212,7 +1237,7 @@
           $('.rp-nav').hide();
 
           //attemp to place the title plates in the first position before detaching
-          self.$slides.each(function(){ 
+          self.$slides.each(function(){
             var $s = $(this),
             $plate = $s.find('.plate').eq(0);
 
@@ -1224,7 +1249,7 @@
           var $galleryItems = self.$el.find('.gallery-item').detach().addClass('small-size');
             
 
-          // 4. remove the slides 
+          // 4. remove the slides
           self.$slides.detach();
 
           //clear out the position style on the gallery items
@@ -1235,7 +1260,7 @@
           //5 . put the item back into the container / make sure to not include blanks
           $galleryItems.not('.blank').appendTo(self.$container);
 
-          console.log('Gallery Items .blank-normal » ', $galleryItems.not('.blank'));
+          //console.log('Gallery Items .blank-normal » ', $galleryItems.not('.blank'));
           
           // 7. init the scroller module
           setTimeout(function(){
@@ -1263,14 +1288,14 @@
                 bounce: true,
                 onScrollEnd: null,
                 lockDirection:true,
-                onBeforeScrollStart:null,
+                onBeforeScrollStart:null
               }
 
             }).data('scrollerModule');
 
             //self.scroller.enable();
             window.iQ.update();
-            console.log("Instantiating scroller module »", self.scrollerModule);
+            window.console.log("Instantiating scroller module »", self.scrollerModule);
           }, 100);
           return;
 
@@ -1279,5 +1304,16 @@
       }
     });
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
+
  })(jQuery, Modernizr, window,undefined);
 //all done
+
+
+
+
+
+
+
+
+
+
