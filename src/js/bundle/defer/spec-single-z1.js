@@ -39,6 +39,7 @@
       // Columns to be even heights
       self.$carouselCols = self.$carouselWrap.closest('.grid').children();
       self.$alignedBottom = self.$container.find('.align-right-bottom .has-img').closest('.grid').children();
+
       self.$alignedBottomImgs = self.$alignedBottom.find('.iq-img');
 
       self._initCarousel();

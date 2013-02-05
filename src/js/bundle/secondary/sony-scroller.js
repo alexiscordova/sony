@@ -45,6 +45,7 @@
       // These don't change
       self.isPaginateMode = self.mode === 'paginate';
       self.isCarousel = self.mode === 'carousel';
+      self.isFreeMode = self.mode === 'free';
 
       // save iscroll properties
       self._setIscrollProps();
@@ -59,11 +60,12 @@
       // Set the width of the inner container
       self._setContainerWidth();
 
+      // Register our resize handler before iscroll's
+      self.$win.on(self.resizeEvent + '.sm', resizeFunc);
+
       // Create instance of scroller and pass it defaults
       self.scroller = new IScroll( self.$el[0], self.iscrollProps );
       self.currentPage = self.scroller.currPageX;
-
-      self.$win.on(self.resizeEvent + '.sm', resizeFunc);
 
       // Paddle clicks
       // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
@@ -80,7 +82,7 @@
         });
       }
 
-      self._update();
+      self._update( true );
     },
 
     _setIscrollProps : function() {
@@ -210,7 +212,7 @@
       self.$pagination = $bulletPagination;
     },
 
-    _update : function() {
+    _update : function( isInit ) {
       var self = this;
 
       // Paginate() will return false if there aren't enough items to be paginated
@@ -219,17 +221,26 @@
         self.isPaginated = self._paginate();
       }
 
-      // We need to update the container's width
+      // Set the width of the element containing all the items
       if ( self.isCarousel ) {
         self._setItemWidths();
-        // Set the width of the element containing all the items
+      }
+
+      // We need to update the container's width
+      if ( self.isCarousel || self.isFreeMode ) {
         self._setContainerWidth();
       }
 
       // When `isPaginated` or `isCarousel`, we're using iscroll, which needs to be updated.
-      if ( self.isPaginated || self.isCarousel ) {
+      if ( self.isPaginated || self.isCarousel || self.isFreeMode ) {
         self.scroller.refresh();
-        self.scroller.scrollToPage(self.currentPage, 0, 400);
+
+        // As long as this isn't the initial setup, scroll to the current page.
+        // We don't want to call this on init because it calls the `onScrollStart` function/option
+        // Which might not have a reference to the scroller yet
+        if ( !isInit ) {
+          self.scroller.scrollToPage(self.currentPage, 0, 400);
+        }
       }
 
       self._fire('update');
@@ -257,20 +268,24 @@
     },
 
     _onAnimationEnd : function( iscroll ) {
-      var self = this;
+      var self = this,
+          isFirstPage = false,
+          isLastPage = false;
 
       self.currentPage = iscroll.currPageX;
 
       if ( self.$navPrev && self.$navNext ) {
         // Hide show prev button depending on where we are
-        if ( iscroll.currPageX === 0 ) {
+        if ( self.currentPage === 0 ) {
+          isFirstPage = true;
           self.$navPrev.addClass('hide');
         } else {
           self.$navPrev.removeClass('hide');
         }
 
         // Hide show next button depending on where we are
-        if ( iscroll.currPageX === iscroll.pagesX.length - 1 ) {
+        if ( self.currentPage === iscroll.pagesX.length - 1 ) {
+          isLastPage = true;
           self.$navNext.addClass('hide');
         } else {
           self.$navNext.removeClass('hide');
@@ -290,7 +305,7 @@
       // If they've defined a callback as well, call it
       // We saved their function to this reference so we could have our own onAnimationEnd
       if ( self.onAnimationEnd ) {
-        self.onAnimationEnd( iscroll );
+        self.onAnimationEnd( iscroll, isFirstPage, isLastPage );
       }
     },
 
