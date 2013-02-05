@@ -3,18 +3,28 @@
 .sony-one-carousel {
   position: relative;
   overflow: visible;
+  margin: 30px 0 30px 0;
+  /*
+         _____ ____  ______     __________________  ___
+        / ___// __ \/ ____/    /  _/_  __/ ____/  |/  /
+        \__ \/ / / / /  ______ / /  / / / __/ / /|_/ / 
+       ___/ / /_/ / /__/_____// /  / / / /___/ /  / /  
+      /____/\____/\____/    /___/ /_/ /_____/_/  /_/   
+                                                       
+  */
+  /*   .soc-grid [class*="span"] {
+      margin-left: 2.06835%
+    } */
 }
-
 /* line 14, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-container {
+.sony-one-carousel .soc-container {
   width: 100%;
   overflow: hidden;
   position: relative;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
 /* line 21, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-container-inner {
+.sony-one-carousel .soc-container-inner {
   width: 100%;
   display: block;
   position: absolute;
@@ -22,9 +32,8 @@
   left: 0;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
 /* line 33, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-nav.soc-bullets {
+.sony-one-carousel .soc-nav.soc-bullets {
   position: absolute;
   z-index: 35;
   left: 0;
@@ -38,12 +47,12 @@
 }
 @media (max-width: 479px) {
   /* line 33, ../../../src/css/scss/modules/sony_one_carousel.scss */
-  .soc-nav.soc-bullets {
+  .sony-one-carousel .soc-nav.soc-bullets {
     bottom: -20px;
   }
 }
 /* line 50, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-nav .soc-bullet {
+.sony-one-carousel .soc-nav .soc-bullet {
   width: 10px;
   height: 10px;
   display: inline-block;
@@ -58,7 +67,7 @@
 }
 @media (max-width: 479px) {
   /* line 50, ../../../src/css/scss/modules/sony_one_carousel.scss */
-  .soc-nav .soc-bullet {
+  .sony-one-carousel .soc-nav .soc-bullet {
     width: 7px;
     height: 7px;
     margin: 0 0 0 3px;
@@ -66,12 +75,11 @@
   }
 }
 /* line 71, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-nav .soc-bullet.soc-nav-selected {
+.sony-one-carousel .soc-nav .soc-bullet.soc-nav-selected {
   background-color: #2e3339;
 }
-
 /* line 76, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-content {
+.sony-one-carousel .soc-content {
   width: 100%;
   display: block;
   position: absolute;
@@ -81,7 +89,7 @@
   -webkit-transform: translateZ(0);
 }
 /* line 85, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-content .soc-button {
+.sony-one-carousel .soc-content .soc-button {
   width: 37.202381%;
   max-height: 69px;
   min-width: 185px;
@@ -91,72 +99,423 @@
   left: 6.8809%;
 }
 /* line 94, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-content .soc-button:after {
+.sony-one-carousel .soc-content .soc-button:after {
   padding-top: 27.6%;
 }
 /* line 98, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-content .soc-button.dark {
+.sony-one-carousel .soc-content .soc-button.dark {
   color: #fff;
   background-color: #272a31;
 }
 /* line 103, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-content .soc-button img {
+.sony-one-carousel .soc-content .soc-button img {
   width: 43.6%;
   display: inline-block;
 }
-
-/* line 111, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-grid {
-  max-width: 1400px;
-}
-
-/* line 115, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-item {
+/* line 119, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item {
   position: relative;
   display: block;
   height: 100%;
   background-size: cover;
   background-position: center center;
+  background-repeat: no-repeat;
   cursor: pointer;
 }
-/* line 125, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-item.darkLightText h2,
-.soc-item.darkLightText h3,
-.soc-item.darkLightText h4 {
-  color: #cccccc;
-  margin: 0 0 0 6.8809%;
-  line-height: 35px;
+/* line 131, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item.content-8 .counter {
+  position: absolute;
+  left: 6.2%;
+  bottom: 9%;
 }
-/* line 132, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-item.darkLightText h2 span,
-.soc-item.darkLightText h3 span,
-.soc-item.darkLightText h4 span {
-  color: #ffffff;
+/* line 135, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item.content-8 .counter h3 {
+  color: #bcbccc;
+  text-transform: uppercase;
+}
+/* line 144, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content {
+  position: absolute;
+  /*
+       ______            __             __     ______                     
+      / ____/___  ____  / /____  ____  / /_   /_  __/_  ______  ___  _____
+     / /   / __ \/ __ \/ __/ _ \/ __ \/ __/    / / / / / / __ \/ _ \/ ___/
+    / /___/ /_/ / / / / /_/  __/ / / / /_     / / / /_/ / /_/ /  __(__  ) 
+    \____/\____/_/ /_/\__/\___/_/ /_/\__/    /_/  \__, / .___/\___/____/  
+                                                 /____/_/                 
+  */
+  /*
+      ______                    _____ __        ___            
+     /_  __/_  ______  ___     / ___// /___  __/ (_)___  ____ _
+      / / / / / / __ \/ _ \    \__ \/ __/ / / / / / __ \/ __ `/
+     / / / /_/ / /_/ /  __/   ___/ / /_/ /_/ / / / / / / /_/ / 
+    /_/  \__, / .___/\___/   /____/\__/\__, /_/_/_/ /_/\__, /  
+        /____/_/                      /____/          /____/   
+  */
+  /*
+      ______                    ___    ___                                  __ 
+     /_  __/_  ______  ___     /   |  / (_)___ _____  ____ ___  ___  ____  / /_
+      / / / / / / __ \/ _ \   / /| | / / / __ `/ __ \/ __ `__ \/ _ \/ __ \/ __/
+     / / / /_/ / /_/ /  __/  / ___ |/ / / /_/ / / / / / / / / /  __/ / / / /_  
+    /_/  \__, / .___/\___/  /_/  |_/_/_/\__, /_/ /_/_/ /_/ /_/\___/_/ /_/\__/  
+        /____/_/                       /____/                                  
+  */
+  /*
+        ____                           
+       / __ \_________  ____ ___  ____ 
+      / /_/ / ___/ __ \/ __ `__ \/ __ \
+     / ____/ /  / /_/ / / / / / / /_/ /
+    /_/   /_/   \____/_/ /_/ /_/\____/ 
+                                       
+  */
+}
+/* line 153, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content .headline .emphasis {
   display: block;
 }
-@media (min-width: 769px) and (max-width: 981px) {
-  /* line 139, ../../../src/css/scss/modules/sony_one_carousel.scss */
-  .soc-item.darkLightText h4 {
+/* line 171, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content .counter h3 {
+  color: #bcbccc;
+  text-transform: uppercase;
+}
+/* line 177, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content .icon-ui2-chevron-18-white-right {
+  vertical-align: baseline;
+  margin-left: 10px;
+}
+/* line 195, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.content-8 .headline h1,
+.sony-one-carousel .soc-item .soc-item-content.content-8 .headline h2,
+.sony-one-carousel .soc-item .soc-item-content.content-8 .headline h3,
+.sony-one-carousel .soc-item .soc-item-content.content-8 .headline h4,
+.sony-one-carousel .soc-item .soc-item-content.content-8 .headline h5,
+.sony-one-carousel .soc-item .soc-item-content.content-8 .headline h6 {
+  font-size: 2em;
+}
+/* line 205, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.content-8 .eyebrow {
+  font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.6875em;
+  text-transform: uppercase;
+}
+@media (max-width: 48em) {
+  /* line 213, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item .soc-item-content.content-8 h1,
+  .sony-one-carousel .soc-item .soc-item-content.content-8 h2,
+  .sony-one-carousel .soc-item .soc-item-content.content-8 h3,
+  .sony-one-carousel .soc-item .soc-item-content.content-8 h4,
+  .sony-one-carousel .soc-item .soc-item-content.content-8 h5,
+  .sony-one-carousel .soc-item .soc-item-content.content-8 h6 {
     font-size: 1.375em;
   }
 }
-/* line 144, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-item.darkLightText .fingertip.l3 {
-  margin: 16% 0 0 6.8809%;
-  display: inline-block;
-  color: #cccccc;
+/* line 238, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-only.content-6 .headline {
+  margin-top: 0px;
+}
+/* line 244, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-only.content-4 .headline {
+  margin-top: 0px;
+}
+/* line 254, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-counter.content-8 .headline {
+  margin-top: 0;
+}
+/* line 257, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-counter.content-8 .counter {
+  position: absolute;
+  left: 0;
+  bottom: 2%;
+}
+/* line 265, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-counter.content-4 .headline {
+  margin-top: 0px;
+}
+/* line 274, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-counter.content-6 .headline {
+  margin-top: 0px;
+}
+/* line 287, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy.content-8 .headline {
+  margin-top: 0px;
+}
+/* line 296, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy.content-4 .headline {
+  margin-top: 0px;
+}
+/* line 305, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy.content-6 .headline {
+  margin-top: 0px;
+}
+/* line 317, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy-counter.content-8 .headline {
+  margin-top: 0px;
+}
+/* line 321, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy-counter.content-8 .copy {
+  margin-top: 0px;
+}
+/* line 329, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy-counter.content-4 .headline {
+  margin-top: 0px;
+}
+/* line 333, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy-counter.content-4 .copy {
+  margin-top: 0px;
+}
+/* line 337, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy-counter.content-4 .counter {
+  margin-top: 0px;
+}
+/* line 343, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy-counter.content-6 .headline {
+  margin-top: 0px;
+}
+/* line 347, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy-counter.content-6 .copy {
+  margin-top: 0px;
+}
+/* line 351, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-copy-counter.content-6 .counter {
+  margin-top: 0px;
+}
+/* line 361, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow.content-8 .headline {
+  margin: 0 0 0 0;
+}
+/* line 364, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow.content-8 .eyebrow {
+  margin-top: 9%;
+  display: block;
+}
+/* line 371, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow.content-4 .headline {
+  margin-top: 0px;
+}
+/* line 374, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow.content-4 .eyebrow {
+  margin-top: 0%;
+}
+/* line 380, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow.content-6 .headline {
+  margin-top: 0px;
+}
+/* line 392, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-8 .headline {
+  margin-top: 0px;
+}
+/* line 396, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-8 .eyebrow {
+  margin-top: 0px;
+}
+/* line 400, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-8 .copy {
+  margin-top: 0px;
+}
+/* line 406, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-4 .headline {
+  margin-top: 0px;
+}
+/* line 410, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-4 .eyebrow {
+  margin-top: 0px;
+}
+/* line 414, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-4 .copy {
+  margin-top: 0px;
+}
+/* line 420, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-6 .headline {
+  margin-top: 0px;
+}
+/* line 424, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-6 .eyebrow {
+  margin-top: 0px;
+}
+/* line 428, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.headline-eyebrow-copy.content-6 .copy {
+  margin-top: 0px;
+}
+/* line 444, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.light-text-dark-panel .headline {
+  color: #2f353d;
+}
+/* line 446, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.light-text-dark-panel .headline.a {
+  color: white;
+}
+/* line 459, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.light-text-dark-panel .eyebrow {
+  color: #bcbccc;
+}
+/* line 486, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.light-text-trans-panel .headline {
+  color: #bcbccc;
+}
+/* line 491, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.light-text-trans-panel a {
+  color: white;
+}
+/* line 503, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.light-text-trans-panel .eyebrow {
+  color: #bcbccc;
+}
+/* line 528, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.black-white-text .headline h1,
+.sony-one-carousel .soc-item .soc-item-content.black-white-text .headline h2,
+.sony-one-carousel .soc-item .soc-item-content.black-white-text .headline h3,
+.sony-one-carousel .soc-item .soc-item-content.black-white-text .headline h4,
+.sony-one-carousel .soc-item .soc-item-content.black-white-text .headline h5 {
+  color: #000000;
+}
+/* line 536, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.black-white-text .headline a {
+  color: white;
+  display: block;
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  /* line 536, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item .soc-item-content.black-white-text .headline a {
+    display: inline;
+  }
+}
+/* line 567, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-left-top {
+  max-width: 400px;
+  width: 400px;
+  left: 6.2%;
+  top: 11%;
+}
+/* line 573, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-left-top.content-4 {
+  max-width: 15em;
+  width: 73.8461538%;
+}
+/* line 581, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-left-center {
+  max-width: 25em;
+  width: 52.2193211%;
+  min-width: 18.4375em;
+  top: 26.4%;
+  left: 6.2%;
+}
+@media (min-width: 61.3125em) {
+  /* line 589, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center.content-8 {
+    min-width: 22.5625em;
+  }
+}
+/* line 597, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-left-center.headline-counter {
+  top: 39.4%;
+}
+@media (max-width: 30em) {
+  /* line 597, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center.headline-counter {
+    top: 31.4%;
+  }
+}
+@media (max-width: 30em) {
+  /* line 606, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center.headline-eyebrow {
+    top: 22.4%;
+  }
+}
+@media (min-width: 30.0625em) and (max-width: 48em) {
+  /* line 581, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center {
+    max-width: 86.324841%;
+    width: 86.324841%;
+    min-width: 11.324841%;
+  }
+}
+@media (max-width: 30em) {
+  /* line 581, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center {
+    max-width: 86.324841%;
+    width: 86.324841%;
+    min-width: 11.324841%;
+    top: 31.4%;
+  }
+  /* line 624, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center h1,
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center h2,
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center h3,
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center h4,
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center h5,
+  .sony-one-carousel .soc-item .soc-item-content.align-left-center h6 {
+    max-width: 75%;
+  }
+}
+/* line 639, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-left-center.headline-only.content-8 {
+  top: 33.3%;
+}
+/* line 646, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-left-center.headline-copy.content-8 .headline {
+  margin-top: 3%;
+}
+/* line 654, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-left-bottom {
+  max-width: 400px;
+  width: 400px;
+  left: 6.2%;
+  top: auto;
+  bottom: 8%;
+}
+/* line 663, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-right-top {
+  max-width: 270px;
+  width: 270px;
+  right: 6.4%;
+  top: 11%;
+}
+/* line 671, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-right-center {
+  max-width: 270px;
+  width: 270px;
+  right: 6.4%;
+  top: 26.4%;
+}
+/* line 679, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .soc-item-content.align-right-bottom {
+  max-width: 270px;
+  width: 270px;
+  right: 6.4%;
+  top: 0%;
+}
+/* line 701, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item.darkLightText h2,
+.sony-one-carousel .soc-item.darkLightText h3,
+.sony-one-carousel .soc-item.darkLightText h4 {
+  color: #2f353d;
+  margin: 0 0 0 6.8809%;
+  line-height: 38px;
+}
+/* line 708, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item.darkLightText h2 a,
+.sony-one-carousel .soc-item.darkLightText h3 a,
+.sony-one-carousel .soc-item.darkLightText h4 a {
+  color: white;
+  display: block;
+}
+@media (min-width: 769px) and (max-width: 981px) {
+  /* line 715, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item.darkLightText h4 {
+    font-size: 1.375em;
+  }
 }
 @media (max-width: 480px) {
-  /* line 153, ../../../src/css/scss/modules/sony_one_carousel.scss */
-  .soc-item.span12 {
+  /* line 725, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-item.span12 {
     width: 276px;
     height: 370px;
     *width: 277px;
     *height: 371px;
   }
 }
-/* line 161, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-item .footer {
+/* line 733, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item .footer {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -165,59 +524,52 @@
   width: 100%;
   height: 43.0769231%;
 }
-/* line 173, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-item.darkLightText footer {
+/* line 745, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item.darkLightText footer {
   background-color: #2f353d;
 }
-
-/* line 181, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-item-inner {
+/* line 753, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item-inner {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
 }
-
-/* line 189, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-item img {
+/* line 761, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-item img {
   display: block;
   max-height: 100%;
   max-width: 100%;
   margin: auto;
 }
-
-/* line 196, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-grid {
-  padding: 0 120px 0 120px;
+/* line 768, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.sony-one-carousel .soc-grid {
   height: 100%;
-}
-@media (min-width: 481px) and (max-width: 768px) {
-  /* line 196, ../../../src/css/scss/modules/sony_one_carousel.scss */
-  .soc-grid {
-    padding: 0 30px 0 30px;
-  }
+  max-width: 1162px;
+  /*   @media (min-width: 768px) and (max-width: 980px) {
+        padding: 0 120px 0 120px;
+    }  
+
+    @media (min-width: 481px) and (max-width: 768px) {
+        padding: 0 30px 0 30px;
+    } */
 }
 @media (max-width: 480px) {
-  /* line 196, ../../../src/css/scss/modules/sony_one_carousel.scss */
-  .soc-grid {
+  /* line 768, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-grid {
     padding: 0 40px 0 40px;
     padding: 0 10px 0 10px;
   }
-  /* line 208, ../../../src/css/scss/modules/sony_one_carousel.scss */
-  .soc-grid .span12 {
+  /* line 784, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-grid .span12 {
     width: 276px;
     height: 370px;
     *width: 277px;
     *height: 371px;
   }
-  /* line 217, ../../../src/css/scss/modules/sony_one_carousel.scss */
-  .soc-grid .soc-grid [class*="span"] {
+  /* line 793, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .sony-one-carousel .soc-grid .soc-grid [class*="span"] {
     margin-left: 0;
   }
-}
-
-/* line 224, ../../../src/css/scss/modules/sony_one_carousel.scss */
-.soc-grid [class*="span"] {
-  margin-left: 2.06835%;
 }
