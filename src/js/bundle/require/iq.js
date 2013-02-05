@@ -149,6 +149,7 @@
       // Optional override settings
       updateOnResize = opts.updateOnResize || false,
       resizeFlag = opts.resizeFlag || 'update-always',
+      noFadeFlag = opts.noFadeFlag || 'no-fade',
       fade = opts.fade || 'true',
 
       // Optional callback functions
@@ -200,7 +201,7 @@
   },
 
   onImageLoad = function(elm){
-    if(fade){
+    if(fade && $(elm).data('fadeonce') !== true && !$(elm).hasClass(noFadeFlag)){
       $(elm).data('fadeonce', true);
       $(elm).css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
     }
@@ -223,7 +224,7 @@
           iQ.images.push(elm);
           $(elm).hasClass(resizeFlag) && iQ.resizeFlaggedImages.push(elm);
           if(elm.tagName == "IMG"){
-            if(fade && $(elm).data('fadeonce') !== true){
+            if(fade && $(elm).data('fadeonce') !== true && !$(elm).hasClass(noFadeFlag)){
               $(elm).css({'opacity': 0, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=0)"', 'filter':'alpha(opacity=0)', 'zoom':1, '-webkit-transition': 'opacity 0.4s ease-out', '-moz-transition': 'opacity 0.4s ease-out', '-o-transition': 'opacity 0.4s ease-out', 'transition': 'opacity 0.4s ease-out' });
             }
             $(elm).imagesLoaded(onImageLoad);
