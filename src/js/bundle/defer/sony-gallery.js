@@ -22,6 +22,7 @@
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
+    self.$filterColumns = self.$filterOpts.find('.grid').children();
     self.$sortSelect = self.$container.find('.sort-options select');
     self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
     self.$dropdownToggleText = self.$container.find('.sort-options .js-toggle-text');
@@ -61,10 +62,7 @@
     self.shuffle = self.$grid.data('shuffle');
 
     // Displays active filters on `filter`
-    self.$grid.on('filter.shuffle', function(evt, shuffle) {
-      self.$productCount.text( shuffle.visibleItems );
-      self.displayActiveFilters();
-    });
+    self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ));
 
     // Things moved around and could possibly be in the viewport
     // Filtered should already be throttled because whatever calls .filter() should be throttled.
@@ -348,6 +346,7 @@
 
         // Handle media groups
         self.$container.find( selector + ' .btn' ).attr('disabled', 'disabled');
+
       } else if ( filterType === 'checkbox' ) {
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
         self.$container.find( selector ).prop('disabled', true);
@@ -367,10 +366,47 @@
 
         // Handle media groups
         self.$container.find( selector + ' .btn' ).removeAttr('disabled');
+
       } else if ( filterType === 'checkbox' ) {
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
         self.$container.find( selector ).prop('disabled', false);
       }
+    },
+
+    removeActiveFilters : function() {
+      var self = this,
+          filterType = '',
+          filterName = '',
+          filterValue = '';
+
+      for ( filterType in self.filters ) {
+        for ( filterName in self.filters[ filterType ] ) {
+
+          if ( filterType === 'range' ) {
+            for ( filterValue in self.filters[ filterType ][ filterName ] ) {
+
+              // Remove from internal data
+              self.undoFilter( filterValue, filterName, filterType );
+
+              // Remove active/checked state
+              self.removeFilter( filterValue, filterName, filterType );
+            }
+          } else {
+            for ( var i = 0; i < self.filters[ filterType ][ filterName ].length; i++ ) {
+              filterValue = self.filters[ filterType ][ filterName ][ i ];
+
+              // Remove from internal data
+              self.undoFilter( filterValue, filterName, filterType );
+
+              // Remove active/checked state
+              self.removeFilter( filterValue, filterName, filterType );
+            }
+          }
+        }
+      }
+
+      self.filter();
+      self.$container.find('.collapse').collapse('hide');
     },
 
     onRemoveFilter : function( evt ) {
@@ -442,7 +478,7 @@
 
       // Init popovers
       self.$filterOpts.find('.js-popover-trigger').popover({
-        placement: 'top',
+        placement: 'in top',
         trigger: 'click',
         content: function() {
           // setTimeout(function() {
@@ -471,7 +507,7 @@
 
       self.$grid.infinitescroll({
         local: true,
-        debug: true,
+        // debug: true,
         bufferPx: -100, // Load 100px after the navSelector has entered the viewport
         navSelector: 'div.navigation', // selector for the paged navigation
         nextSelector: 'div.navigation a', // selector for the NEXT link (to page 2)
@@ -595,6 +631,8 @@
           self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
         }
       }
+
+      self.$productCount.text( $visible.length );
 
     },
     valueInArray : function( value, arr ) {
@@ -934,6 +972,30 @@
 
       // Don't change columns for detail galleries
       if ( self.mode === 'detailed' ) {
+
+        // 768-979
+        if ( Modernizr.mq('(min-width: 48em) and (max-width: 61.1875em)') ) {
+          if ( self.$filterColumns.eq(0).hasClass('span4') ) {
+            self.$filterColumns
+              .removeClass('span4')
+              .slice(0, 2)
+                .addClass('span6')
+                .end()
+              .last()
+                .addClass('span12')
+                .find('.media-list')
+                  .addClass('inline');
+          }
+        } else {
+          if ( self.$filterColumns.eq(0).hasClass('span6') ) {
+            self.$filterColumns
+              .removeClass('span6 span12')
+              .addClass('span4')
+              .find('.media-list')
+                .removeClass('inline');
+          }
+        }
+
         return;
       }
 
@@ -1850,8 +1912,17 @@
 
     if ( $prevPane ) {
       // Loop through each gallery in the tab (there could be more than 1)
-      // Disable shuffle and pause infinite scrolling for galleries being hidden
-      $prevPane.find('.gallery').gallery('disable');
+      // Disable the gallery (which disableds shuffle and pauses infinite scrolling) for galleries being hidden
+      $prevPane.find('.gallery').each(function() {
+        var gallery = $(this).data('gallery');
+
+        // If there are active filters, remove them.
+        if ( gallery.hasActiveFilters ) {
+          gallery.removeActiveFilters();
+        }
+
+        gallery.disable();
+      });
     }
 
   };

@@ -36,7 +36,7 @@
 
     'constructor': EditorialDualViewer,
 
-    'init': function() {
+    '_init': function() {
 
       var self = this;
 
