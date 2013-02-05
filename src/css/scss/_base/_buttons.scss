@@ -91,36 +91,64 @@
 // An almost square button. Used in gallery filters
 // ---------------------
 .btn-square {
-  width: 70px;
+  position: relative;
+  @include size( px-em(58px), px-em(66px) );
   padding: $btnSquarePadding;
-  font-family: $sansFontFamily;
-  font-size: $font_20_16;
-  color: $grayDark;
   border-radius: 0;
-  border: none;
+  border-color: transparent;
+  border-color: rgba($gray60, 0);
   background: $white;
+  @include box-shadow(0 1px 0 $gray60);
   @include transition(box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
+
+  // .t6
+  // --------------
+  text-rendering: optimizeLegibility; // disable this if we have performance issues.
+  color: $defaultTextColor;
+  @include fontMedium;
+  @include px-em--font-size--line-height(18,26);
+  // --------------
+
+  &:after {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    @include opacity(0);
+    @include transition(opacity $transitionFast $easeNormal);
+  }
 
   &:hover,
   &:focus {
-    @include box-shadow(inset 0 -4px 0 $gray);
-    color: $highlightColor;
-    background: $white;
+    @include box-shadow(none);
+    color: $gray20;
+    background: $gray90;
   }
 
   &.active,
   &:active {
     color: $white;
-    background: $highlightColor;
+    background: $gray25;
+  }
+
+  &.active:after {
+    @include opacity(100);
   }
 
   &.disabled,
   &[disabled],
   &.disabled:hover,
   &[disabled]:hover {
-    @include box-shadow(none);
     color: inherit;
-    background: $btnBackgroundDisabled;
+    border-color: $gray60;
+    background-color: inherit;
+    @include box-shadow(none);
+  }
+
+  // SHOULD BE GLOBAL OR MOVED TO FONTICONS
+  // .fonticon-20 need to be resized...
+  i {
+    line-height: 0;
+    margin: -.125em; // -3px ( 3 / 24 )
   }
 }
 
@@ -167,37 +195,6 @@
     width: 138px;
     padding: $btnAltSmallPadding;
     font-size: 0.73333333333em; /* 11px/15px */ //inside of <p> or <td>
-  }
-}
-
-
-// Alt Special; dark, left aligned, room for icon
-// -------------------------
-.btn-alt-special {
-  position: relative;
-  padding-left: $btnAltSpecialPadding;
-  padding-right: $btnAltSpecialPadding;
-  text-align: left;
-  font-size: $font_13_16;
-  background: $btnAltBackground;
-  border-color: $btnAltBackground;
-  min-width: 131px;
-
-  &:hover,
-  &:focus {
-    background: $gray;
-    border-color: $gray;
-  }
-
-  &:active {
-    background: $gray;
-    border-color: $gray;
-  }
-
-  &.btn-alt-plus i {
-    position: absolute;
-    right: $btnAltSpecialPadding;
-    margin-top: 8px;
   }
 }
 
@@ -323,7 +320,70 @@ input[type="button"] {
 }
 
 
+// This is after the button sizes because they have set paddings...
 
+// Alt Special; dark, left aligned, room for icon
+// -------------------------
+.btn-alt-special {
+  position: relative;
+  padding-left: $btnAltSpecialPadding;
+  padding-right: $btnAltSpecialPadding;
+  text-align: left;
+  font-size: $font_13_16;
+  background: $btnAltBackground;
+  border-color: $btnAltBackground;
+  min-width: 131px;
+
+  &:hover,
+  &:focus {
+    background: $gray;
+    border-color: $gray;
+  }
+
+  &:active {
+    background: $gray;
+    border-color: $gray;
+  }
+
+  &.btn-alt-plus i {
+    position: absolute;
+    right: $btnAltSpecialPadding;
+
+    // SHOULD BE GLOBAL
+    font-size: px-em( 16px, 13px );
+  }
+}
+
+.btn-reset {
+  position: relative;
+  min-width: 110px;
+  max-width: 110px;
+
+  &,
+  &.active {
+    border-color: $btnSpecialBackground;
+    background-color: $btnSpecialBackground;
+  }
+
+  &:hover {
+    border-color: $btnSpecialBackground;
+    background-color: $btnSpecialBackground;
+  }
+
+  &.disabled,
+  &.disabled:hover {
+    @include opacity(100);
+    color: $gray50;
+    border-color: $gray60;
+    background-color: $gray60;
+  }
+
+  i {
+    position: absolute;
+    top: 8px;
+    right: 24px;
+  }
+}
 
 
 // Cross-browser Jank

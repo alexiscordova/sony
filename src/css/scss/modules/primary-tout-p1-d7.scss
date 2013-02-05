@@ -1,184 +1,126 @@
 @import "../_base/variables";
 @import "../_base/mixins";
 
-$phoneMax: 767px;
-$tabletMin: 768px;
-$tabletMax: 979px;
-$desktopMin: 980px;
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$desktopMin: px-em(980);
 
 .primary-tout{
-  max-width:100%;
+  @include dttb;
+  @include themecolors;
+  
+  h1{
+    @include hyphens;
+  }
+  
   position:relative;
+  
   .hero-image{
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
+    height:640px;
   } 
-  .container{
-    max-width: 1400px;
+  .box.left{
+    text-align:left;
+  }
+  .box.center{
+    text-align:center;
+  }
+  .box.right{
+    text-align:right;
+  }
+    
+  .inner{
+    height:100%;
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    >div,
+    .table-center-wrap{
+      height:100%;
+    }
+    .box{
+      margin-top:-1%;
+      padding:56px;
+      .eyebrow{
+        margin-bottom:0px;
+      }
+      h1{
+        margin-top:0;
+        margin-bottom:20px;
+        margin-left:-2px;
+      }
+      .p3{
+        margin-bottom:45px;
+      }
+      i{
+        margin-right: px-em(-4);
+        font-size: 1.35em;
+        vertical-align: px-em(1);
+      }
+    }
+  }
+
+
+  
+  &.homepage{
     .inner{
+      .table-center-wrap{
+        width:100%;
+      }
+    }
+    .secondary{
       position:absolute;
-      top:0;
+      bottom:0;
       right:0;
       left:0;
-      .hero-unit{
-        padding:56px;
-        .kicker{
-          margin-bottom:0;
-        }
-        h1{
-          margin-top:0;
-          @include hyphens;
-        }
-      }
-    }
-  }
-  .light-text{
-    h1,h2,h3,h4,h5,h6{
-      color:$white;
-    }
-    p{
-      color:$grayLight;
-    }
-    .p3{
-      line-height:18px;
-    }
-  }
-  .dark-background{
-    .hero-unit{
-       background:$titleBlack;
-    }
-  }
-  .light-background{
-     .hero-unit{
-       background:$titleWhite;
-    }
-  }
-  .iconContainer-plus{
-    background:$themePurple;
-    margin:-8px 10px;
-  }
-}
-.primary-tout.home-page{
-  .container{
-    .inner{
-      h1{
-        @include hyphens;
-      }
-      .hero-unit{
-        position:relative;
-        padding:38px 45px;
-        margin-bottom:30px;
-        h5{
-          line-height: 30px;
-          margin-bottom: 14px;
-        }
-        p{
-          margin:0;
-        }
-        .btn{
-          margin-top:18px;
-          position:absolute;
-          right:45px;
-          bottom:38px;
-        }          
+      width:100%;
+      .box{
+        padding:32px 0 22px 0;
       }
     }
   }
 }
-@media (min-width: $desktopMin) {
-  .primary-tout{
-    .hero-image{
-      height:640px;
-    }
-  }
-}
+
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .primary-tout{
     .hero-image{
-      height:500px;
-    }
-    .container{
-      position:relative;
-      .inner{
-        top:auto;
-        bottom:0;
-        padding:0 18px 18px 18px;
-        .hero-unit{
-          padding:36px;
-          h1{
-            font-size:2.2em;
-          }
-        }
-      }
-    }
-  }
-  .primary-tout.home-page{
-    .hero-image{
       height:520px;
-    }
-    .container{
-      .inner{
-        padding: 0 18px 18px 18px;
-        h1{
-          font-size:2.5em;
-        }
-        .hero-unit{
-          position:relative;
-          margin-bottom:0;
-          padding:25px;
-          .btn{
-            right:25px;
-            bottom:25px;
-          }          
-        }
-      }
     }
   }
 }
 @media (max-width: $phoneMax) {
   .primary-tout{
     .hero-image{
-      height:400px;
+      height:306px;
     }
-    .container{
-      position:relative;
-      .inner{
-        top:auto;
-        bottom:0;
-        padding:0 18px 18px 18px;
-        .hero-unit{
-          padding:36px;
-          h1{
-            font-size:1.5em;
-          }
+    .inner{
+      .box{
+        &.top{
+          top:0;
         }
-      }
-    }
-  }
-  .primary-tout.home-page{
-    .hero-image{
-      height:589px;
-    }
-    .container{
-      .inner{
-        padding: 0 18px 18px 18px;
+        &.bottom{
+          bottom:0;
+        }
+        margin-top:0;
+        padding:22px 0 25px 0;
+        position:absolute;
+        
+        left:0;
+        right:0;
+        .eyebrow{
+          margin-bottom:0px;
+        }
         h1{
-          font-size:2em;
-          max-width:70%;
+          margin-top:0;
+          margin-bottom:20px;
+          margin-left:-2px;
         }
-        .offset1{
-          padding-left:25px;
-        }
-        .hero-unit{
-          position:relative;
-          margin-bottom:0;
-          padding:25px;
-          .btn{
-            position:relative;
-            right:auto;
-            bottom:auto;
-          }
+        .p3{
+          display:none;
         }
       }
     }

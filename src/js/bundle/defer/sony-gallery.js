@@ -18,8 +18,8 @@
 
     // jQuery objects
     self.$container = $container;
+    self.$window = $(window);
     self.id = self.$container[0].id;
-    self.$filterContainer = self.$container.find('.product-filter');
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
     self.$sortSelect = self.$container.find('.sort-options select');
@@ -38,7 +38,7 @@
     // Other vars
     self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
     self.hasFilters = self.$filterOpts.length > 0;
-    self.windowSize = $(window).width();
+    self.windowSize = self.$window.width();
 
     self.$container.addClass('gallery-' + self.mode);
 
@@ -57,6 +57,8 @@
       showInitialTransition: false,
       buffer: 5
     });
+
+    self.shuffle = self.$grid.data('shuffle');
 
     // Displays active filters on `filter`
     self.$grid.on('filter.shuffle', function(evt, shuffle) {
@@ -86,14 +88,8 @@
     self.initSwatches();
     self.initTooltips();
 
-    $(window).on('resize.gallery', $.proxy( self.onResize, self ) );
+    self.$window.on('resize.gallery', $.proxy( self.onResize, self ) );
     self.onResize();
-
-    // This container is about to be shown because it's a tab
-    self.$container.closest('[data-tab]').on('show', $.proxy( self.onShow, self ));
-
-    // This container has just been shown because it's a tab
-    self.$container.closest('[data-tab]').on('shown', $.proxy( self.onShown, self ));
 
     // Launch compare tool on click
     if ( self.hasCompareModal ) {
@@ -114,6 +110,45 @@
   Gallery.prototype = {
 
     constructor: Gallery,
+
+    enable : function() {
+      var self = this;
+
+      // Already enabled
+      if ( self.enabled ) {
+        return;
+      }
+
+      // Enable shuffle, which triggers a layout update
+      self.shuffle.enable();
+
+      // Resume infinite scroll if it's there yo
+      if ( self.hasInfiniteScroll ) {
+        self.$grid.infinitescroll('updateNavLocation');
+        self.$grid.infinitescroll('resume');
+      }
+
+      self.enabled = true;
+    },
+
+    disable : function() {
+      var self = this;
+
+      // Already disabled
+      if ( !self.enabled ) {
+        return;
+      }
+
+      // Disable shuffle
+      self.shuffle.disable();
+
+      // Pause infinite scroll
+      if ( self && self.hasInfiniteScroll ) {
+        self.$grid.infinitescroll('pause');
+      }
+
+      self.enabled = false;
+    },
 
     filter : function() {
       var self = this;
@@ -246,7 +281,7 @@
       // Create labels showing current filters
       $.each(filters, function(key, obj) {
         var $label = $('<span>', {
-          'class' : 'label label-close',
+          'class' : 'label label-close fonticon-10-circle-x--after',
           'data-filter' : key,
           'data-filter-name' : obj.key || obj.name,
           text : obj.label,
@@ -403,10 +438,20 @@
 
       // Show first dropdown as active
       self.$sortBtns.first().parent().addClass('active');
-      // self.currentSort = self.$sortBtns.closest('.dropdown-menu').find('.active a').data('value');
       self.currentSort = 0;
 
-
+      // Init popovers
+      self.$filterOpts.find('.js-popover-trigger').popover({
+        placement: 'top',
+        trigger: 'click',
+        content: function() {
+          // setTimeout(function() {
+          //   var popoverWidth = self.$filterOpts.find('.span4').first().width();
+          //   $('.popover').width( popoverWidth );
+          // }, 250);
+          return $(this).find('.js-popover-content').html();
+        }
+      });
 
       // Slide toggle. Reset range control if it was hidden on initialization
       self.$container.find('.collapse')
@@ -440,11 +485,18 @@
       },
       // call shuffle as a callback
       function( newElements ) {
-        self.$grid.shuffle( 'appended', $( newElements ).addClass('via-ajax') );
+        var $newElements = $( newElements ).addClass('via-ajax');
+
+        // Get shuffle to append and show the items for us
+        self.$grid.shuffle( 'appended', $newElements );
+
         // Show new product count
         self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+
+        self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
+
         // Update iQ images
-        window.iQ.update(true);
+        window.iQ.update( true );
       });
 
       // Pause infinite scrolls that are in hidden tabs
@@ -453,10 +505,11 @@
       }
     },
 
-    initSwatches : function() {
+    initSwatches : function( $collection ) {
       var self = this;
 
-      self.$grid.find('.mini-swatch[data-color]').each(function() {
+      $collection = $collection || self.$grid.find('.mini-swatch[data-color]');
+      $collection.each(function() {
           var $swatch = $(this),
               color = $swatch.data('color'),
               $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
@@ -895,47 +948,6 @@
       evt.stopPropagation();
     },
 
-    // Event triggered when this tab is about to be shown
-    onShow : function( evt ) {
-      var that;
-
-      if ( evt.prevPane ) {
-        that = evt.prevPane.find('.gallery').data('gallery');
-      }
-
-      if ( that && that.hasInfiniteScroll ) {
-        that.$grid.infinitescroll('pause');
-      }
-    },
-
-    // Event triggered when tab pane is finished being shown
-    onShown : function( evt ) {
-      var self = this,
-          windowWidth = $(window).width(),
-          windowHasResized = self.windowSize !== windowWidth;
-
-      // Only continue if this is a tab shown event.
-      if ( !evt.prevPane ) {
-        return;
-      }
-
-      // Respond to tab shown event.Update the columns if we're in need of an update
-      if ( self.$grid.data('shuffle').needsUpdate || windowHasResized ) {
-        self.$grid.shuffle('update');
-      }
-
-      // Save new window size
-      if ( windowHasResized ) {
-        self.windowSize = windowWidth;
-      }
-
-      // Resume infinite scroll if it's there yo
-      if ( self.hasInfiniteScroll ) {
-        self.$grid.infinitescroll('updateNavLocation');
-        self.$grid.infinitescroll('resume');
-      }
-    },
-
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       var $toggle = this.$container.find('.slide-toggle');
@@ -985,7 +997,6 @@
           $compareItemsContainer = $('<div class="compare-items-container">'),
           $compareItemsWrapper = $('<div class="compare-items-wrap">'),
 
-          // contentWidth = 0,
           // Get product count
           productCount = $currentItems.length,
 
@@ -1002,6 +1013,9 @@
           $labelColumn = $('<div class="detail-labels-wrapping">'),
           $labelGroup = $('<div class="detail-label-group">'),
 
+          $prevPaddle = $('<div class="nav-paddle"><i class="icon-ui2-chevron-18-white-left"></i></div>'),
+          $nextPaddle = $('<div class="nav-paddle"><i class="icon-ui2-chevron-18-white-right"></i></div>'),
+
           // Clone sort button
           $sortOpts = self.$container.find('.sort-options').clone();
 
@@ -1010,9 +1024,10 @@
 
       // Create reset button
       self.$compareReset = $('<button/>', {
-          'class' : 'btn btn-small disabled js-compare-reset',
+          'class' : 'btn btn-small btn-alt-special btn-reset disabled js-compare-reset iconTrigger-ui2-reset',
           'text' : $header.data('resetLabel')
       });
+      self.$compareReset.append('<i class="icon-ui2-reset">');
       self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
 
       self.isFixedHeader = false;
@@ -1073,14 +1088,14 @@
       $labelColumn.append( $labelGroup );
 
       if ( Modernizr.mq('(max-width: 29.9375em)') ) {
-        self.$compareReset.addClass('btn-block').removeClass('pull-left');
+        self.$compareReset.addClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': 'block',
           'float': 'none',
           'marginTop' : '0.5em'
         });
       } else {
-        self.$compareReset.removeClass('btn-block').addClass('pull-left');
+        self.$compareReset.removeClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': '',
           'float': '',
@@ -1090,7 +1105,7 @@
 
 
       // On window resize
-      $(window).on('resize.comparetool', $.throttle(250, function() {
+      self.$window.on('resize.comparetool', $.throttle(250, function() {
         self.onCompareResize( $header, $sortOpts, $labelColumn );
       }));
 
@@ -1183,6 +1198,9 @@
         }
       });
 
+      // Bind events to the paddles
+
+
       // Position sticky headers
       self.setStickyHeaderPos();
 
@@ -1238,7 +1256,7 @@
 
 
       // Remove resize event
-      $(window).off('.comparetool');
+      self.$window.off('.comparetool');
 
       return self;
     },
@@ -1259,7 +1277,7 @@
         .removeClass('hide');
 
       // Disable reset button
-      self.$compareReset.addClass('disabled');
+      self.$compareReset.addClass('disabled').removeClass('active');
 
       // Reset sort
       self.updateSortDisplay( self.$compareTool );
@@ -1281,7 +1299,7 @@
       $(evt.target).closest('.compare-item').addClass('hide');
 
       // Make sure we can press reset
-      self.$compareReset.removeClass('disabled');
+      self.$compareReset.removeClass('disabled').addClass('active');
 
       // Get remaining
       remaining = self.$compareItems.not('.hide').length;
@@ -1337,14 +1355,14 @@
       }
 
       if ( Modernizr.mq('(max-width: 29.9375em)') ) {
-        self.$compareReset.addClass('btn-block').removeClass('pull-left');
+        self.$compareReset.addClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': 'block',
           'float': 'none',
           'marginTop' : '0.5em'
         });
       } else {
-        self.$compareReset.removeClass('btn-block').addClass('pull-left');
+        self.$compareReset.removeClass('btn-block');
         self.$compareTool.find('.sort-options').css({
           'display': '',
           'float': '',
@@ -1627,9 +1645,7 @@
 
       // Portrait Tablet ( 4 columns ) - masonry
       } else if ( numColumns === 4 ) {
-        console.log('four');
         if ( !self.$grid.hasClass(shuffleDash+4) ) {
-          console.log('fourin');
 
           // Remove .slimgrid5
           self.$grid
@@ -1639,10 +1655,10 @@
 
           self.$grid.children(itemSelector)
             .removeClass(allSpans) // Remove current grid span
-            .filter(large + ',' + promo) // Select large and promo tiles
+            .filter(promo) // Select promo tiles
               .addClass(span+6) // Make them half width
               .end() // Go back to all items
-            .filter(normal) // Select tiles not large nor promo
+            .filter(large + ',' + normal) // Select tiles not promo
               .addClass(span+3); // Make them quarter width
         }
 
@@ -1682,7 +1698,7 @@
 
     setCompareHeight : function() {
       var self = this,
-          windowHeight = self.isIphone ? window.innerHeight : $(window).height(); // document.documentElement.clientHeight also wrong
+          windowHeight = self.isIphone ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
 
       console.log('window height', windowHeight);
 
@@ -1814,6 +1830,7 @@
 
   // Not overrideable
   $.fn.gallery.settings = {
+    enabled: true,
     MIN_PRICE: undefined,
     MAX_PRICE: undefined,
     isInitialized: false,
@@ -1821,6 +1838,35 @@
     isTouch: !!( 'ontouchstart' in window ),
     isiPhone: (/iphone|ipad|ipod/gi).test(navigator.appVersion),
     loadingGif: 'img/loader.gif'
+  };
+
+
+  // Event triggered when this tab is about to be shown
+  window.Exports.onGalleryTabShow = function( evt ) {
+    var $prevPane = evt.prevPane ? evt.prevPane :
+          evt.originalEvent.prevPane ? evt.originalEvent.prevPane :
+          false;
+
+
+    if ( $prevPane ) {
+      // Loop through each gallery in the tab (there could be more than 1)
+      // Disable shuffle and pause infinite scrolling for galleries being hidden
+      $prevPane.find('.gallery').gallery('disable');
+    }
+
+  };
+
+  // Event triggered when tab pane is finished being shown
+  window.Exports.onGalleryTabShown = function( evt ) {
+
+    // Only continue if this is a tab shown event.
+    if ( !evt.pane ) {
+      return;
+    }
+
+    // Enable all galleries in this tab
+    evt.pane.find('.gallery').gallery('enable');
+
   };
 
 })(jQuery, Modernizr, window);
@@ -1833,12 +1879,15 @@ $(document).ready(function() {
 
     // Initialize galleries
     $('.gallery').each(function() {
-      var $this = $(this),
-      data = $this.data(),
-      options = { mode : data.mode };
+      var $this = $(this);
 
-      $this.gallery(options);
+      $this.gallery( $this.data() );
     });
+
+    // Register for tab show(n) events here because not all tabs are galleries
+    $('[data-tab]')
+      .on('show', window.Exports.onGalleryTabShow )
+      .on('shown', window.Exports.onGalleryTabShown );
 
     // Initialize sticky tabs
     $('.tab-strip').stickyTabs();
@@ -1846,7 +1895,14 @@ $(document).ready(function() {
     // Hide other tabs
     $('.tab-pane:not(.active)').addClass('off-screen');
 
-    // // Should be called after everything is initialized
+    // Should be called after everything is initialized
     $(window).trigger('hashchange');
+
+    // Disable hidden galleries.
+    // Using a timeout here because the tab shown event is triggered at the end of the transition,
+    // which depends on how long the page takes to load (and if the browser has transitions)
+    setTimeout(function() {
+      $('.tab-pane:not(.active) .gallery').gallery('disable');
+    }, 500);
   }
 });

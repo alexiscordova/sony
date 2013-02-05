@@ -6,12 +6,23 @@
 
 
 $specMobileBreakpoint: 35.4375em; // 567
+
+// 4 visible (default)
 $specItemWidth1200: 13.75em; // 220
 $specLabelWidth1200: 8.75em; // 140
+
+// 4 visible columns
+$specItemWidth980: 11.4375em; // 183
+$specLabelWidth980: 7.125em; // 114
+
+// 3 visible columns
+$specItemWidth768: 11.625em; // 186
+$specLabelWidth768: 5.625em; // 90
+
 $columnHeaderHeight: 5.3125em; // 85
 $tableHeaderColor: $gray80;
 $specStickyTabHeight: 3.125em; // 50
-$navBtnHeight: 2.875em; // 46
+
 
 
 // 888888b.            888    888
@@ -42,42 +53,26 @@ $navBtnHeight: 2.875em; // 46
   }
 }
 
-.nav-paddle {
-  border: none;
-  background: $gray60;
-  border-radius: .1875em; // 3 pixels
-  width: 2em; // 30
-  height: $navBtnHeight;
-  padding: 0; // override default button padding
-  @include transition();
-
-  &:hover,
-  &:focus {
-    background: $buttonOrange;
-    outline: none;
-  }
-
-  i {
-    vertical-align: middle;
-  }
-
-}
-
 // Spec Header
 // -------------------------
 
 .spec-single,
 .spec-multi {
   margin-top: 4.375em; // 70
+
+  dt {
+    margin-bottom: 0;
+  }
 }
 
-
 .spec-title-wrap {
-  margin-bottom: 0;
+  position: relative;
+  margin-bottom: 2.5em;
 }
 
 .spec-title {
-  margin-top: 0;
+  margin: 0;
+  font-size: 2.25em; // 36
 }
 
 // Needs to be more specific
@@ -88,7 +83,11 @@ ul.spec-views {
   li {
     padding-right: .375em; // 6
     padding-left: .375em; // 6
-    margin: 0;
+    margin: 0 0 0 px-em(23px);
+  }
+
+  li:first-child {
+    margin-left: 0;
   }
 
   .active {
@@ -97,6 +96,8 @@ ul.spec-views {
   }
 
   a {
+    display: block;
+    margin-bottom: 0;
     color: $gray20;
   }
 }
@@ -105,9 +106,9 @@ ul.spec-views {
 // Media queries for both single and mutliple spec pages
 @media (max-width: $specMobileBreakpoint) {
 
-  .spec-single,
-  .spec-multi {
-    margin-top: 2.8125em; // 45
+  .spec-multi,
+  .spec-single {
+    margin-top: 0;
   }
 
   ul.spec-views {
@@ -141,7 +142,6 @@ ul.spec-views {
   display: none;
 }
 
-
 // Spec Items Wrapping and labels
 // -------------------------
 .spec-items-wrap {
@@ -157,15 +157,15 @@ ul.spec-views {
 .spec-nav {
   position: absolute;
   z-index: 20;
-  top: ($columnHeaderHeight - $navBtnHeight) / 2;
+  top: ($columnHeaderHeight - $navPaddleHeight) / 2;
 }
 
 .spec-nav-prev {
-  left: 0;
+  left: -.625em;
 }
 
 .spec-nav-next {
-  right: 0;
+  right: -.625em;
 }
 
 
@@ -202,6 +202,7 @@ ul.spec-views {
   height: $columnHeaderHeight;
   width: 100%;
   padding: 0 1em;
+
 }
 
 .spec-list li {
@@ -211,36 +212,78 @@ ul.spec-views {
 
 .spec-item-cell {
   position: relative;
-  padding: 1.125em 1em 3.75em; // 18 16 60 pixels
+
+  .spec-cell-inner {
+    padding: 1.25em 1.875em 3.75em .9375em; // 20 30 60 15
+  }
+
+  .spec-cell-inner:first-child {
+    padding-top: 1.875em;
+  }
 
   .btm-aligned {
+    min-height: 40px;
     position: absolute;
     bottom: 3.75em;
   }
 
   .before-btm-aligned {
-    margin-bottom: 6em; // Could come back to bite me in the ass if the image changes
+    padding-bottom: 2.5em;
+    margin-bottom: 0;
+
+    & :last-child {
+      margin-bottom: 0;
+    }
   }
 
   // Definition list image needs a set height because iQ doesn't load the images until
   // after the dimensions for each cell have been calculated
   .dl-img {
-    height: 8.4375em; // 135 pixels
+    position: relative;
+    min-height: 8.4375em; // 135 pixels
+    margin-bottom: 2.5em;
 
+    .img {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+    }
+    // Don't clip image, shrink it
+    img {
+      max-height: 100%;
+    }
+
+  }
+
+  .img-holder {
+    min-height: 8.5em;
+
+    &.vertical {
+      min-height: 15.625em; // 250 pixels
+    }
     // Don't clip image, shrink it
     img {
       max-height: 100%;
     }
   }
 
+  .img-bottom {
+    margin-top: 2.5em;
+  }
+
+  $dtWidth: 50px;
+  $ddMargin: $dtWidth + 10px;
   .dl-horizontal dt {
     text-align: left;
     // width: 3.4375em; // 55
-    width: 4.583333333em; // 55 (base 12)
+    // width: 4.583333333em; // 55 (base 12)
+    width: $dtWidth;
   }
   .dl-horizontal dd {
     // margin-left: 4.375em; // 70
-    margin-left: 5.384615385em; // 70 (base 13)
+    // margin-left: 5.384615385em; // 70 (base 13)
+    margin-left: $ddMargin;
   }
 
   .enlarge {
@@ -253,6 +296,10 @@ ul.spec-views {
     i {
       vertical-align: middle;
     }
+  }
+
+  .holder-for-icon {
+    margin-bottom: 1.25em;
   }
 }
 
@@ -322,8 +369,22 @@ ul.spec-views {
   }
 
   .detail-label {
+    @include text-overflow( false );
     padding: 1.125em 1em 0 0;
   }
+
+  .product-name {
+    font-size: $font_18_16;
+    color: $gray20;
+  }
+
+  .product-model {
+    @include fontBold();
+    color: $gray20;
+    font-size: $font_18_16;
+  }
+
+
 
   // Sticky headers
   .compare-sticky-header {
@@ -335,6 +396,11 @@ ul.spec-views {
 
     &.open {
       top: 0;
+    }
+
+    // needs a 2px horizontal offset, otherwise the shadow is seen on hidden columns
+    &:not(.sticky-count) {
+      @include box-shadow(.125em .125em .3125em 0 $transparentBlack);
     }
   }
 
@@ -363,6 +429,10 @@ ul.spec-views {
   left: 0;
   background: $white;
 
+  .box-close {
+    line-height: 2.15em;
+  }
+
   .box-close i {
     vertical-align: middle;
   }
@@ -371,7 +441,9 @@ ul.spec-views {
 .spec-multi {
 
   .sony-recommends {
-    margin-bottom: -4.375em;
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 
   .win8-logo {
@@ -387,7 +459,30 @@ ul.spec-views {
   .tab {
     padding-left: 0.625em;
   }
+}
 
+@media ( min-width: px-em(980px) ) and ( max-width: px-em(1199px) ) {
+  .spec-items-container .spec-item {
+    width: $specItemWidth980;
+  }
+  .grid .detail-labels-wrap {
+    width: $specLabelWidth980;
+  }
+  .spec-items-wrap {
+    margin-left: $specLabelWidth980;
+  }
+}
+
+@media ( min-width: px-em(768px) ) and ( max-width: px-em(979px) ) {
+  .spec-items-container .spec-item {
+    width: $specItemWidth768;
+  }
+  .grid .detail-labels-wrap {
+    width: $specLabelWidth768;
+  }
+  .spec-items-wrap {
+    margin-left: $specLabelWidth768;
+  }
 }
 
 // Multi spec mobile breakpoint
@@ -396,8 +491,8 @@ ul.spec-views {
   .spec-multi {
 
     .sony-recommends {
-      margin-top: .75em;
-      margin-bottom: 0;
+      bottom: auto;
+      top: .625em;
     }
 
     .win8-logo {
@@ -409,10 +504,14 @@ ul.spec-views {
     display: block;
   }
 
+  .spec-title-wrap {
+    padding-top: 2.8125em;
+  }
+
 
   .spec-nav,
   .spec-column-header,
-  .spec-products .detail-labels-wrap {
+  .spec-products .container .grid .detail-labels-wrap {
     display: none;
   }
 
@@ -432,7 +531,7 @@ ul.spec-views {
     margin-left: 0;
   }
 
-  .spec-item-cell {
+  .spec-cell-inner {
     padding-right: 0;
     padding-left: 0;
   }
@@ -445,10 +544,12 @@ ul.spec-views {
     }
 
     .dl-horizontal dt {
-      width: auto;
+      width: 5em; // 80
+      float: left;
+      clear: left;
     }
     .dl-horizontal dd {
-      margin-left: 0;
+      margin-left: 5em; // 80
     }
   }
 
@@ -472,22 +573,36 @@ ul.spec-views {
 
 .spec-sticky-nav {
   position: fixed;
-  z-index: 1; // above features
+  z-index: 10; // above features
   top: 0;
   left: -999em;
   width: 100%;
   background: $white;
-  opacity: 0;
   @include box-shadow(0 1px 10px $transparentBlack);
-  @include transition(opacity $transitionNormal ease-in, left 0s $transitionNormal);
+  @include translate(0, -5em);
+  -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
+          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
+  // @include transition(opacity $transitionNormal ease-in, left 0s $transitionNormal);
 
 
   &.open {
     left: 0;
-    opacity: 1;
+    @include translate(0, 0);
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
   }
+
+  .sticky-nav-title {
+    margin-top: 17px;
+    margin-bottom: 2px;
+    line-height: .9;
+  }
+}
+
+.spec-product,
+.spec-tiles-wrap {
+  position: relative;
+  z-index: 1; // below sticky nav
 }
 
 // Single Spec Module
@@ -521,11 +636,12 @@ ul.spec-views {
   }
 
   dt:not(:first-child) {
-    margin-top: 30px; //1.875em; the font size is set on this, but I don't want to hard-code an em value to go with it
+    margin-top: 26px; //1.875em; the font size is set on this, but I don't want to hard-code an em value to go with it
   }
 
   dd {
     margin-left: 0;
+    margin-bottom: 0;
   }
 
   .spec-list li:first-child {
@@ -558,21 +674,51 @@ ul.spec-views {
   }
 }
 
+// Carousel
 .spec-carousel-wrap {
   position: relative;
-  padding-bottom: 1.25em;
+  margin-left: $navPaddleWidth + 1.25em;
+  margin-right: $navPaddleWidth + 1.25em;
+  overflow: hidden;
+  max-width: 100%;
+
+  .spec-carousel {
+    width: 175em;
+  }
+
+  .pagination-bullets {
+    position: static;
+    margin-top: 1.875em;
+  }
+
+  .slide {
+    text-align: center;
+    float: left;
+  }
 }
 
-.spec-carousel .slide {
-  float: left;
+.overview-nav {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  margin-top: -($navPaddleHeight / 2) - 2.875em; // also subtract the height of the bullets
+  @include opacity(0);
+}
+
+.overview-nav-prev {
+  left: 0;
+}
+
+.overview-nav-next {
+  right: 0;
+}
+
+.paddle-trigger:hover .overview-nav {
+  @include opacity(100);
 }
 
 @media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
 
-
-  .spec-overview {
-    padding: 2.5em 0; // 40
-  }
 
   .spec-section {
     margin-top: 1.875em; // 30
@@ -586,6 +732,11 @@ ul.spec-views {
       margin-top: 20px;
     }
 
+  }
+
+  .spec-overview {
+    padding: 2.5em 0; // 40
+    margin-top: 0;
   }
 }
 
@@ -634,6 +785,21 @@ ul.spec-views {
   .spec-overview {
     margin-top: 0;
     padding: 2.5em 0;
+
+    .overview-nav {
+      display: none;
+    }
+  }
+
+
+
+
+  .spec-carousel-wrap {
+    margin: 0 0 1.875em;
+
+    .pagination-bullets {
+      margin-top: 1.5625em;
+    }
   }
 
 }

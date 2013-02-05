@@ -27,12 +27,17 @@
 
   'use strict';
 
+  var _startEvents = 'mousedown.sonyDraggable touchstart.sonyDraggable',
+      _endEvents = 'mouseup.sonyDraggable touchend.sonyDraggable',
+      _moveEvents = 'mousemove.sonyDraggable touchmove.sonyDraggable';
+
   var SonyDraggable = function($element, options){
 
     var self = this;
 
     $.extend(self, {}, $.fn.sonyDraggable.defaults, options);
 
+    self.$win = $(window);
     self.$el = $element;
     self.$containment = $(self.containment);
 
@@ -47,9 +52,9 @@
 
       var self = this;
 
-      self.$containment.on('mousedown touchstart', $.proxy(self.onScrubStart, self));
-      self.$containment.on('mouseup touchend click', $.proxy(self.onScrubEnd, self));
-      $(window).on('mouseup touchend', $.proxy(self.onScrubEnd, self));
+      self.$containment.on(_startEvents, $.proxy(self.onScrubStart, self));
+      self.$containment.on(_endEvents + ' click.sonyDraggable', $.proxy(self.onScrubEnd, self));
+      self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
 
       self.setDimensions();
       self.setPositions();
@@ -72,7 +77,7 @@
       self.setDimensions();
       self.handleStartPosition = self.getPagePosition(e);
 
-      self.$containment.on('mousemove touchmove', $.proxy(self.onScrubbing, self));
+      self.$containment.on(_moveEvents, $.proxy(self.onScrubbing, self));
     },
 
     // Crunch some vectors to compute the handle's position relative to the user's click/touch.
@@ -97,7 +102,7 @@
 
       e.preventDefault();
 
-      self.$containment.off('mousemove touchmove');
+      self.$containment.off(_moveEvents);
     },
 
     // Applies the user-defined boundaries to a given position. The *which* parameter defines the x/y axis.

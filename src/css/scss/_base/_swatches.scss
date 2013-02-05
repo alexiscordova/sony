@@ -5,33 +5,53 @@
 %swatch {
   position: relative;
   display: inline-block;
-  @include square( px-em(42px) );
+  @include size( px-em(40px), px-em(42px) );
+  @include box-shadow(0 1px 0 $gray60);
+  border: 1px solid transparent;
+  border: 1px solid rgba($gray20, 0);
 
-  // Bottom border
+  &:before,
   &:after {
-    content: '';
     position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: px-em(4px);
+    @include opacity(0);
+    @include transition(opacity $transitionNormal $easeNormal);
   }
 
-  &:focus:after,
-  &:hover:after {
-    background: $gray;
+  $circleSize: px-em(20px);
+  &:before {
+    content: '';
+    left: 50%;
+    top: 50%;
+    margin-left: -($circleSize / 2);
+    margin-top: -($circleSize / 2);
+    @include square($circleSize);
+    border-radius: 50%;
+    background: $gray25;
   }
 
+  &:after {
+    left: .75em;
+    top: .625em;
+    color: $white;
+  }
+
+  &.active {
+    @include box-shadow(none);
+  }
+
+  &.active:before,
   &.active:after {
-    background: $highlightColor;
+    @include opacity(100);
   }
 
   &[disabled] {
-    @include opacity(25);
+    @include opacity(15);
+    border-color: $gray20;
+    @include box-shadow(none);
   }
   &[disabled]:focus,
   &[disabled]:hover {
-    @include box-shadow(none);
+    cursor: auto;
   }
 }
 
@@ -42,7 +62,7 @@
 
 // Like btn-group
 .color-swatches > *:not(:first-child) {
-  margin-left: px-em(10px);
+  margin-left: px-em(6px);
 }
 
 // Mini swatches
@@ -51,15 +71,16 @@
 }
 
 .mini-swatch {
-  @include square(.75em);
+  @include square(.875em); // 14. Gallery tiles are 12, specs are 16...
   border: 1px solid $transparentBlack;
   line-height: 0.1em;
   // font-size: 0.1em;
   text-indent: -999em;
   overflow: hidden;
+  @include box-shadow(none);
 
   // Disable hover and active states
-  &:after { content: none; }
+  &:before, &:after { content: none; }
 }
 
 .filter-container [class*="swatch-"] {
@@ -80,7 +101,6 @@
 .swatch-orange    { background-color: $orange; }
 .swatch-silver    { background-color: $gray; }
 .swatch-lemon     { background-color: $lemon; }
-
 
 
 

@@ -173,8 +173,28 @@
 //                                  888
 // ------------------------------------------------
 
-@media (max-width: 767px) {
+@media (max-width: px-em(767px)) {
 
+body{
+
+  .uxmc-container {
+    height: px-em(260px);
+
+    .base-product,
+    .partner-products {
+      height: px-em(260px);
+    }
+
+    .uxmc-overlay {
+      padding: 0 0 23px 28px;
+      font-size: px-em(18px);
+    }
+  }
+
+  .progress-indicators {
+    @include scale(0.8);
+  }
+}
 
 } // END max-width: 767px
 
@@ -222,6 +242,39 @@
 
 @media (max-width: 567px) {
 
+  body {
+    .uxmc-container {
+      height: auto;
+
+      .base-product {
+        float: none;
+        width: 100%;
+        height: 182px;
+      }
+
+      .partner-products {
+        float: none;
+        width: 100%;
+        height: 220px;
+      }
+
+      .uxmc-overlay {
+        padding: 0 0 19px 24px;
+        font-size: px-em(15px);
+      }
+
+      .btn-reload {
+        font-size: 2.5em;
+        top: 45%;
+      }
+
+      .progress-indicators {
+        @include scale(0.7);
+        height: 220px;
+      }
+    }
+  }
+
 } // END max-width: 567px
 
 
@@ -245,30 +298,6 @@
 // ------------------------------------------------
 
 @media (max-width: 479px) {
-
-  body {
-    .uxmc-container {
-      height: auto;
-
-      .base-product {
-        float: none;
-        width: 100%;
-        height: 200px;
-      }
-
-      .partner-products {
-        float: none;
-        width: 100%;
-        height: 200px;
-      }
-
-      .btn-reload {
-        left: 50%;
-        top: 200px;
-      }
-
-    }
-  }
 
 } // END max-width: 479px
 

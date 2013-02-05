@@ -159,6 +159,8 @@
 @include icon-ui2(chevron-18-white-right,           -90px,    8px,    18px);
 @include icon-ui2(magnify,                          -120px,   17px,   17px,   true,   false,  false,  true);
 @include icon-ui2(chevron-16-black-right,           -150px,   6px,    16px);
+@include icon-ui2(help,                             -180px,   15px,   15px,   true,   false,  false,  true);
+@include icon-ui2(reset,                            -210px,   14px,   16px,   false,  true,   false,  true);
 
 @include icon-uibig(support,                        0px,      55px,   50px,   true);
 @include icon-uibig(twitter,                        -60px,    36px,   32px,   true);
@@ -257,17 +259,6 @@
 
 
 @include sprite-reg(nav-sony-logo,             0px,     89px,   31px);
-@mixin sprite-reg-nav-sony-logo-sm{
-  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
-  @include sprite-reg(nav-sony-logo,           -90px,   70px,   25px);
-}
-@mixin sprite-reg-nav-sony-logo-no-tagline{
-  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
-  @include sprite-reg-nav-sony-logo-sm;
-  .sprite-reg-nav-sony-logo{
-    height:16px;
-  }
-}
 
 
 

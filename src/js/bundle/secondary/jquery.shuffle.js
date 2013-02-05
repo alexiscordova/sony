@@ -143,6 +143,10 @@
         shuffle : function( category ) {
             var self = this;
 
+            if ( !self.enabled ) {
+                return;
+            }
+
             if (!category) {
                 category = 'all';
             }
@@ -244,7 +248,7 @@
             }
 
             $collection.each(function(i) {
-                this.style[self.transitionName + 'Delay'] = ((i + 1) * 150) + 'ms';
+                this.style[self.transitionName + 'Delay'] = ((i + 1) * self.sequentialFadeDelay) + 'ms';
 
                 // Set the delay back to zero after one transition
                 $(this).one($.support.transition.end, function() {
@@ -272,6 +276,9 @@
                 self.$items.outerWidth(true) ||
                 // if there's no items, use size of container
                 containerWidth;
+
+            // Don't let them set a column width of zero.
+            self.colWidth = self.colWidth || containerWidth;
 
             self.colWidth += gutter;
 
@@ -576,10 +583,17 @@
         /**
          * Relayout everything
          */
-        resized: function() {
-            // get updated colCount
-            this._setColumns();
-            this._reLayout();
+        resized: function( isOnlyLayout ) {
+            if ( this.enabled ) {
+
+                if ( !isOnlyLayout ) {
+                    // Get updated colCount
+                    this._setColumns();
+                }
+
+                // Layout items
+                this._reLayout();
+            }
         },
 
         shrinkEnd: function() {
@@ -592,14 +606,6 @@
 
         sortEnd: function() {
             this.fire('sorted');
-        },
-
-        destroy: function() {
-            var self = this;
-
-            self.$container.removeAttr('style').removeData('shuffle');
-            $(window).off('.shuffle');
-            self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
         },
 
         _skipTransition : function(element, property, value) {
@@ -669,15 +675,16 @@
                         opacity: 1
                     });
                 });
-            }, 100);
+            }, self.revealAppendedDelay);
         },
 
+        // Use this instead of `update()` if you don't need the columns and gutters updated
         layout : function() {
-            this._reLayout();
+            this.update( true );
         },
 
-        update : function() {
-            this.resized();
+        update : function( isOnlyLayout ) {
+            this.resized( isOnlyLayout );
         },
 
         disable : function() {
@@ -687,8 +694,16 @@
         enable : function( isUpdateLayout ) {
             this.enabled = true;
             if ( isUpdateLayout !== false ) {
-                this.resized();
+                this.update();
             }
+        },
+
+        destroy: function() {
+            var self = this;
+
+            self.$container.removeAttr('style').removeData('shuffle');
+            $(window).off('.shuffle');
+            self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
         }
 
     };
@@ -702,14 +717,14 @@
                 shuffle = $this.data('shuffle');
 
             // If we don't have a stored shuffle, make a new one and save it
-            if (!shuffle) {
+            if ( !shuffle ) {
                 shuffle = new Shuffle($this, opts);
                 $this.data('shuffle', shuffle);
             }
 
             // If passed a string, lets decide what to do with it. Or they've provided a function to filter by
-            if ($.isFunction(opts)) {
-                shuffle.shuffle(opts);
+            if ( $.isFunction(opts) ) {
+                shuffle.shuffle( opts );
 
             // Key should be an object with propreties reversed and by.
             } else if (typeof opts === 'string') {
@@ -749,6 +764,8 @@
 
     // Not overrideable
     $.fn.shuffle.settings = {
+        sequentialFadeDelay: 250,
+        revealAppendedDelay: 300,
         enabled: true,
         supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
         prefixed: Modernizr.prefixed,

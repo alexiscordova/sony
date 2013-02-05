@@ -6,7 +6,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, da
   for header in data.header
     .tcc-header-wrapper.container
       .tcc-header.grid.m-full-bleed
-        p.tcc-header-title.l1 #{header.title}
+        p.tcc-header-title.l4 #{header.title}
 
         p.tcc-header-link
           a.tl(href="#{header.link}") #{header.linkText}
@@ -16,50 +16,63 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, da
     
       for module in data.contentModules
         for variation in module.variations
-          - textStyle = variation.style
-          - alignment = variation.alignment
+          - textStyle   = variation.style
+          - alignment   = variation.alignment
           - contentType = variation.contentType
           - contentMode = variation.contentMode
 
-        //- contentModuleClasses = contentType + "-" + contentMode
-        //- (class=contentModuleClasses)
-        .tcc-content-module.span4(class=contentType)(class=textStyle)(class=alignment)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)
+        //- (class=textStyle)(class=alignment)
+        .tcc-content-module.span4(class=contentType)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
 
           if contentType == "article"
                     
-            if contentMode == "default"
-              //- ARTICLE:DEFAULT
+            if contentMode != "featured"
 
               if(module.imgSrc)
                 //- image (optional)
-                img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
-                
-                noscript
-                  img(src="#{module.noScriptImg}")
+                div
+                  img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+
+                  if (contentMode == "news") && (module.date)
+                    p.news-date.p4
+                      strong
+                        | #{module.date}
+
+                  if (contentMode == "event") && (module.attendanceCount)
+                    p.attendance-count
+                      span.number
+                        | #{module.attendanceCount} 
+                      span.l6
+                        | <br/> attending
+
+                  noscript
+                    img(src="#{module.noScriptImg}")
 
               .tcc-copy
                 
                 if(module.title)
                   //- title (required)
-                  p.l1 #{module.title}
+                  p.t6 
+                    strong #{module.title}
 
                 //- body copy (optional)
                 if(module.bodyCopy)
                   p.p3 #{module.bodyCopy}
                 
                     if(module.articleLink)
-                      a.tl(href="#{module.articleLink}")
-                    
+                      a.lt3(href="#{module.articleLink}")
                         | &nbsp; Read More
+                        //- | <br/> Read More
 
-            if contentMode == "featured"
+            else
+              //- Assumes Featured Article
               p featured
 
-            if contentMode == "news"
-              p news
+            //- if contentMode == "news"
+            //-   p news
 
-            if contentMode == "event"
-              p event
+            //- if contentMode == "event"
+            //-   p event
 
           if contentType == "users-voice" 
 

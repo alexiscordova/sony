@@ -53,8 +53,8 @@
 
         img {
           display: none;
-          max-height: 100%;
-          max-width: 100%;
+          position: relative;
+          width: 100%;
         }
       }
 
@@ -92,12 +92,28 @@
 }
 
 .no-backgroundsize {
+  .edv {
+    .edv-images {
+      .edv-image-wrapper {
+        top: -200%;
+        display: table-cell;
+        height: 500%;
+        background-image: none !important;
+        vertical-align: middle;
 
-  .edv-image-wrapper {
-    background-image: none !important;
+        span {
+          display: inline-block;
+          height: 100%;
+        }
 
-    img {
-      display: inline !important;
+        * {
+          vertical-align: middle;
+        }
+
+        img {
+          display: inline;
+        }
+      }
     }
   }
 }

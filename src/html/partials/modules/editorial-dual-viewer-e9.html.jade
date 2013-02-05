@@ -1,3 +1,4 @@
+
 section(class='mode-'+data.mode.toLowerCase()).edv.container
 
   header
@@ -10,6 +11,7 @@ section(class='mode-'+data.mode.toLowerCase()).edv.container
       edvImage = data.images[i]
       figure(class='image-'+(i+1)).edv-image
         div.edv-image-wrapper.iq-img(data-src=edvImage.src)
+          span
           img.iq-img(data-src=edvImage.src)
         figcaption #{edvImage.title}
     div.edv-scrubber-container
