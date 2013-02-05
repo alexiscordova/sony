@@ -224,6 +224,24 @@ ul.spec-views {
   }
 }
 
+// Content inside the sticky nav is different on mobile
+.mobile-content-wrap {
+  height: 3.125em;
+
+  .table-center-wrap {
+    height: 100%;
+  }
+
+  .product-name,
+  .product-model {
+    display: inline;
+  }
+
+  .product-model {
+    padding-left: 3px;
+  }
+}
+
 
 // Spec Items
 // -------------------------
@@ -239,10 +257,6 @@ ul.spec-views {
 
   &:last-child {
     border-right: none;
-  }
-
-  .product-name {
-    margin: 0;
   }
 
   .product-subname {
@@ -344,13 +358,9 @@ ul.spec-views {
   $ddMargin: $dtWidth + 10px;
   .dl-horizontal dt {
     text-align: left;
-    // width: 3.4375em; // 55
-    // width: 4.583333333em; // 55 (base 12)
     width: $dtWidth;
   }
   .dl-horizontal dd {
-    // margin-left: 4.375em; // 70
-    // margin-left: 5.384615385em; // 70 (base 13)
     margin-left: $ddMargin;
   }
 
@@ -449,16 +459,6 @@ ul.spec-views {
     padding: 1.125em 1em 0 0;
   }
 
-  .product-name {
-    color: $gray20;
-  }
-
-  .product-model {
-    margin-bottom: 0;
-    color: $gray20;
-    @include fontBold();
-  }
-
 
 
   // Sticky headers
@@ -543,6 +543,17 @@ ul.spec-views {
 
   .tab {
     padding-left: 0.625em;
+  }
+
+  .product-name {
+    margin-bottom: 0;
+    color: $gray20;
+  }
+
+  .product-model {
+    margin-bottom: 0;
+    color: $gray20;
+    @include fontBold();
   }
 }
 

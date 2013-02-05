@@ -34,6 +34,7 @@
       self.$specItemsWrap = self.$specProducts.find('.spec-items-wrap');
       self.$tabStrip = self.$container.find('.tab-strip');
       self.$specTiles = self.$container.find('.spec-tiles');
+      self.$modal = $('#ports-modal');
 
       // Nav
       self.$navWrap = self.$container.find('.spec-nav-wrap');
@@ -62,7 +63,6 @@
       self.$window.on('load', $.proxy( self._initStickyNav, self ));
 
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
-      self.$enlargeClosers.on('click', $.proxy( self._closeEnlarge, self ));
 
       // We're done
       // Add the complete class to the labels to transition them in
@@ -176,7 +176,7 @@
     _initStickyTabs : function() {
       var self = this,
           $headers = self.$specItems.find('.spec-column-header').clone(),
-          // $btns = $(),
+          $btns = $(),
           $tabs = self.$tabStrip.find('.tabs');
 
       self.isStickyTabs = true;
@@ -205,11 +205,11 @@
           .addClass('tab');
 
         // iOS wasn't appending the buttons in the right order, so we'll have to append them inside the loop
-        $tabs.append( $btn );
-        // $btns = $btns.add( $btn );
+        // $tabs.append( $btn );
+        $btns = $btns.add( $btn );
       });
 
-      // $btns.appendTo( $tabs );
+      $btns.appendTo( $tabs );
 
       self.$tabStrip.stickyTabs({
         mq: self.mobileBreakpoint
@@ -231,7 +231,6 @@
           .empty();
       self.isStickyTabs = false;
       self.$specItems.removeClass('tab-pane fade in off-screen active');
-      self._closeEnlarge();
     },
 
     _swapFeatureClasses : function( numCols ) {
@@ -335,17 +334,7 @@
 
     // Get the text from the currently active sticky tab
     _getMobileStickyContent : function() {
-      var self = this,
-          str = [],
-          $nodes = self.$tabStrip.find('.tab.active').find('.product-name,.product-model');
-
-      str = $nodes.map(function() {
-          return $(this).text();
-        })
-        .get()
-        .join(' ');
-
-      return str;
+      return this.$tabStrip.find('.tab.active').html();
     },
 
     _setStickyHeaderContent : function() {
@@ -366,7 +355,7 @@
         }
 
         mobileContent = self._getMobileStickyContent();
-        $mobileStickyNavContent.html( mobileContent );
+        $mobileStickyNavContent.find('.js-mobile-content').html( mobileContent );
 
 
       } else {
@@ -401,10 +390,6 @@
         // If we don't have sticky tabs, init them
         if ( !self.isStickyTabs ) {
           self._initStickyTabs();
-        }
-
-        if ( self.$modal ) {
-          self._closeEnlarge();
         }
 
         if ( !self.isMobile ) {
@@ -492,51 +477,20 @@
 
     _onEnlarge : function( evt ) {
       var self = this,
-          $cell = $(evt.target).closest('.spec-item-cell'),
-          $container = $cell.closest('.spec-items-container'),
-          $modal = $cell.find('.spec-modal'),
-          cellTop = $cell.position().top,
-          wrapperOffset = self.isScroller ? self.iscroll.x * -1 : 0,
-          cellHeight = $cell.outerHeight(),
-          columnWidth = $cell.parent().outerWidth(),
-          modalWidth = self.isScroller ? (self.scroller.itemsPerPage * columnWidth) + 'px' : '100%';
+          $specModal = $(evt.target).closest('.spec-item-cell').find('.spec-modal'),
+          title = $specModal.find('.js-spec-modal-title').text(),
+          $specModalBody = $specModal.find('.js-spec-modal-body').clone();
 
-      // Make sure we don't open 2 modals at once
-      self._closeEnlarge();
-
-      $modal
-        .detach()
-        .removeClass('hide')
-        .css({
-          'top': cellTop,
-          'left': wrapperOffset,
-          'width': modalWidth,
-          'minHeight': cellHeight
-        })
-        .data('$cell', $cell)
-        .appendTo( $container );
-
-      self.$modal = $modal;
-    },
-
-    _closeEnlarge : function() {
-      var self = this,
-          $cell;
-
-      // No current modal
-      if ( !self.$modal ) {
-        return;
-      }
-
-      $cell = self.$modal.data('$cell');
-
-
-      // Detach and re-attach the modal in the spec-item
       self.$modal
-        .detach()
-        .addClass('hide')
-        .appendTo($cell);
-      self.$modal = null;
+        .find('#ports-modal-label')
+          .html( title )
+          .end()
+        .find('.modal-body')
+          .html( $specModalBody )
+          .end()
+        .modal({
+          backdrop: false
+        });
     },
 
     _setStickyHeaderPos : function( scrollTop ) {

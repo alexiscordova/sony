@@ -309,14 +309,11 @@ else if data.view == "specs"
 
             mixin specList( spec.list )
 
-            .spec-modal.hide.mobile-container-padded
-              .spec-modal-header.clearfix
-                .pull-left
-                  h3= spec.enlargement.title
-                .pull-right.box-close
-                  i.icon-ui-x-skinny
-              .spec-modal-body.text-center
-                mixin iQImage( spec.enlargement )
+            .spec-modal.hide
+              .js-spec-modal-title= spec.enlargement.title
+              .js-spec-modal-body
+                .spec-modal-body.text-center
+                  mixin iQImage( spec.enlargement )
 
           else if spec.list && spec.img
 
