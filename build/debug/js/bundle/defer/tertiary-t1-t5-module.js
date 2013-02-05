@@ -5,7 +5,7 @@
 //
 // * **Module:** Tertiary Module
 // * **Version:** 0.1
-// * **Modified:** 01/29/2013
+// * **Modified:** 02/05/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
 //
@@ -34,9 +34,9 @@
       
       self.mode                    = null;
 
-      self.$tccID                  = "#" + self.$container.attr("id");
-      self.contentModulesClass     = '.tcc-content-module';
+      //self.$tccID                  = "#" + self.$container.attr("id");
       self.contentSelectorClass    = '.tcc-body';
+      self.contentModulesClass     = '.tcc-content-module';
       self.$tccBodyWrapper         = self.$el;
       self.$tccBody                = self.$tccBodyWrapper.find(self.contentSelectorClass);
       self.$contentModules         = self.$el.find(self.contentModulesClass);
@@ -48,13 +48,15 @@
       self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
       self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.sequencerSpeed          = 25; 
+      self.sequencerSpeed          = 50; 
       self.debounceSpeed           = 300;
       self.scrollDuration          = 400;
       
       self.phoneBreakpoint         = 479;
       self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
       self.tabletBreakpointMax     = 768;
+
+      self.marginPercent          = Number('.0334'); // 22/650 (at 2-up)
 
       // define resize listener, debounced
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle));     
@@ -84,7 +86,7 @@
             setupSequence = new Sequencer();
 
         // define order of events via sequencer
-        setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes
+        setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes        
         setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 100 ); // set scroller & iscroll options
         setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
         setupSequence.start();
@@ -104,9 +106,14 @@
       },
 
       // instantiate a scroller 
-      createScroller : function(){       
+      createScroller : function(){
+       // console.group( 'createScroller' );
+
         var self=this;       
         self.$scrollerInstance = self.$el.scrollerModule( self.scrollerOptions );
+
+        // console.log( 'end »');
+        // console.groupEnd();   
       },
 
       // destroy scroller if not in mobile
@@ -136,7 +143,7 @@
       // set scroller options to be passed to sony-scroller
       // based on current mode 
       setScrollerOptions : function(){
-        //console.group('««« setOptions »»»');
+        // console.group('««« setOptions »»»');
         
         var self = this;
        
@@ -146,14 +153,8 @@
        // now that we know mode, add it as option.
         self.scrollerOptions.fitPerPage = self.mode === 'phone' ? 1 : 2; 
 
-        // adds unique ID to the item selector in case there's more than one scroller on the page
-        // it will keep it encapsulated
-        // 
-        
-        self.scrollerOptions.contentSelector = self.$tccID + " " + self.contentSelectorClass;
-        self.scrollerOptions.itemElementSelector = self.$tccID + " " + self.contentModulesClass; 
-
-        //console.log( 'self.scrollerOptions.itemElementSelector »' , self.scrollerOptions.itemElementSelector);
+        // console.log( '« end »');
+        // console.groupEnd();
       },
 
       // every resize event (debounced) determine size of each content module 
@@ -161,69 +162,91 @@
         //console.group('««« setContentModuleSizes »»»');
       
         var self      = this,
-        containerSize = Math.round(self.$el.outerWidth()); // assumes 'phone'
+        containerSize = Math.round(self.$el.outerWidth()), // no margins 
+        eachContentWidth = containerSize;  // default to 1 up, 100%
 
-        // tablet is 2-up not 1-up, so split
+        // tablet is 2-up not 1-up, so split evenly
         if(self.mode === 'tablet'){
-          containerSize = Math.round(containerSize / 2);
+          var marginPerContent =  self.getContentModuleMargin(containerSize);
+
+          // set margins of content modules
+          self.setContentMouduleMargin(marginPerContent);
+
+          // calculate each content module width without margin so it fits
+          eachContentWidth = Math.round((containerSize / 2) - marginPerContent);
         }
-        
-        //console.log( 'contentModules size »' , containerSize );
 
         self.$contentModules.each(function() {
-          var hasPaddingLeft = $(this).css('padding-left') === '0px' ? false : true,
-              hasPaddingRight = $(this).css('padding-right') === '0px' ? false : true;
-
-          $(this).innerWidth(containerSize);
-
+          $(this).innerWidth(eachContentWidth);
         });
-     
-        //console.log( '« end »');
-        //console.groupEnd();
+      },
+
+      // Determines margin needed per content module 
+      // *self.marginPercent* was determined target / context (at exact tablet breakpoint)
+      // TODO: if necessary, make this flexible for more than 3 content modules
+      getContentModuleMargin : function( totalSize ){
+        var self = this,
+            relativeMargin, 
+            eachMargin;
+      
+        // calculate the relative margin given the current available width
+        relativeMargin = Math.round(totalSize * self.marginPercent);
+        console.log( 'relativeMargin »' , relativeMargin);
+
+
+        // calculate margin for each content module
+        eachMargin = relativeMargin/2;
+        
+        console.log( 'eachMargin »' , eachMargin);
+        return eachMargin;
+      },
+
+      // Assumes there are exactly three content modules (2 pages) in 2-up formation
+      setContentMouduleMargin : function( marginForEach ){     
+        var self = this;
+        
+        // set first and second content module's margins correctly
+        $(self.$contentModules[0]).css( "marginRight", marginForEach );
+        $(self.$contentModules[1]).css( "marginLeft", marginForEach );
+
       },
 
       // on resize event (debounced) determine what to do
       handleResize : function(){
         //console.group( '««« handleResize »»»' );
-        
         var self = this;
 
-        self.setMode();
+        // update mode at current break point
+        self.setMode(); 
 
-        //console.log( 'mode is  »' , self.mode);
-
-        // mobile breakpoint?
+        // if the mode is 'phone' or 'tablet' (aka mobile) then proceed
         if( self.mode !== 'desktop' ){
-          //console.log('in mobile (resize) »', self.mode);
           
           var resizeSequencer = new Sequencer();
 
+          // if there's a scroller set up, add teardown method to the sequence (reset)
           if( self.$scrollerInstance !== null ) {
             resizeSequencer.add( self, self.teardown, self.sequencerSpeed ); // teardown
           }
 
+          // create a new scroller
           resizeSequencer.add( self, self.setup, self.sequencerSpeed + 100 ); // setup
+
+          // start sequence
           resizeSequencer.start();
           
         }else{
           //console.log( 'in desktop (resize) »' );
 
-          if( self.$scrollerInstance !== null ){
-            //console.log( 'there was a scrollerInstance »' , self.$scrollerInstance );
-          
-            self.teardown(); // teardown
-
-            //console.log( 'it should now be destroyed »' , self.$scrollerInstance );
+          // if mode is now 'desktop' then simply destroy scroller
+          if( self.$scrollerInstance !== null ){        
+            self.teardown();
           }
 
         }
-
-        //console.log( '« end »');
-        //console.groupEnd();
       },
 
-      // based on current breakpoint value, set mode accordingly
-      // based on self.phoneBreakpoint || self.tabletBreakpointMin || self.tabletBreakpointMax
+      // based on current breakpoint, set mode
       setMode : function(){
         //console.group( '««« setMode »»»' );
         var self = this;
@@ -264,25 +287,20 @@
 
     // Defaults options for the module
     $.fn.tertiaryModule.defaults = {
-      
       options : {
-        contentSelector: null, // added in setScrollerOptions
-        itemElementSelector: null, // id is added setScrollerOptions
+        contentSelector: ".tcc-body", 
+        itemElementSelector: ".tcc-content-module", 
         mode: 'paginate',
         fitPerPage: null, // null for now, determined once self.mode is set in setScrollerOptions
-        lastPageCenter: false,
         generatePagination: true,
+        appendBulletsTo:".tcc-wrapper",
+        centerItems: true,
+
         iscrollProps: {
           snap: true,
           momentum: false,
-          bounce: true,
-          hScroll: true,
-          vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          onScrollEnd: null,
-          lockDirection:true,
-          onBeforeScrollStart:null,
         }
       }
     };
