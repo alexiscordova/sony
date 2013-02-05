@@ -60,82 +60,79 @@
     };
 
     var Shuffle = function( $container, options ) {
-        var self = this,
-            $window = $(window);
+        var self = this;
 
         $.extend(self, $.fn.shuffle.options, options, $.fn.shuffle.settings);
 
         self.$container = $container.addClass('shuffle');
-        self.$items = self._getItems().addClass('shuffle-item');
-        self.transitionName = self.prefixed('transition'),
-        self.transform = self.getPrefixed('transform');
+        self.$window = $(window);
 
         self.fire('loading');
-
-        // Get offset from container
-        self.offset = {
-            left: parseInt( ( self.$container.css('padding-left') || 0 ), 10 ),
-            top: parseInt( ( self.$container.css('padding-top') || 0 ), 10 )
-        };
-        self.isFluid = self.columnWidth && typeof self.columnWidth === 'function';
-
-        // Get transitionend event name
-        var transEndEventNames = {
-            'WebkitTransition' : 'webkitTransitionEnd',
-            'MozTransition'    : 'transitionend',
-            'OTransition'      : 'oTransitionEnd',
-            'msTransition'     : 'MSTransitionEnd',
-            'transition'       : 'transitionend'
-        };
-        self.transitionEndName = transEndEventNames[ self.transitionName ];
-
-        // CSS for each item
-        self.itemCss = {
-            position: 'absolute',
-            top: 0,
-            left: 0
-        };
-
-        if ( self.$container.css('position') === 'static' ) {
-            self.$container.css('position', 'relative');
-        }
-
-        // Set up css for transitions
-        self.$container[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
-        self._initItems( !self.showInitialTransition );
-
-        // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-        self.windowHeight = $window.height();
-        self.windowWidth = $window.width();
-        $window.on('resize.shuffle', function () {
-            if ( !self.enabled ) {
-                return;
-            }
-
-            var height = $window.height(),
-                width = $window.width();
-
-            if (width !== self.windowWidth || height !== self.windowHeight) {
-                self.resized();
-                self.windowHeight = height;
-                self.windowWidth = width;
-            }
-        });
-
-        self._setColumns();
-        self._resetCols();
-        self.shuffle( self.group );
-
-
-        if ( !self.showInitialTransition ) {
-            self._initItems();
-        }
+        self._init();
         self.fire('done');
     };
 
     Shuffle.prototype = {
 
         constructor: Shuffle,
+
+        _init : function() {
+            var self = this,
+                transEndEventNames,
+                resizeFunc = $.proxy( self._onResize, self ),
+                throttledResize = self.throttle ? self.throttle( self.throttleTime, resizeFunc ) : resizeFunc;
+
+
+            self.$items = self._getItems().addClass('shuffle-item');
+            self.transitionName = self.prefixed('transition'),
+            self.transform = self.getPrefixed('transform');
+
+            // Get offset from container
+            self.offset = {
+                left: parseInt( ( self.$container.css('padding-left') || 0 ), 10 ),
+                top: parseInt( ( self.$container.css('padding-top') || 0 ), 10 )
+            };
+            self.isFluid = self.columnWidth && typeof self.columnWidth === 'function';
+
+            // Get transitionend event name
+            transEndEventNames = {
+                'WebkitTransition' : 'webkitTransitionEnd',
+                'MozTransition'    : 'transitionend',
+                'OTransition'      : 'oTransitionEnd',
+                'msTransition'     : 'MSTransitionEnd',
+                'transition'       : 'transitionend'
+            };
+            self.transitionEndName = transEndEventNames[ self.transitionName ];
+
+            // CSS for each item
+            self.itemCss = {
+                position: 'absolute',
+                top: 0,
+                left: 0
+            };
+
+            if ( self.$container.css('position') === 'static' ) {
+                self.$container.css('position', 'relative');
+            }
+
+            // Set up css for transitions
+            self.$container[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
+            self._initItems( !self.showInitialTransition );
+
+            // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
+            self.windowHeight = self.$window.height();
+            self.windowWidth = self.$window.width();
+            self.$window.on('resize.shuffle', throttledResize);
+
+            self._setColumns();
+            self._resetCols();
+            self.shuffle( self.group );
+
+
+            if ( !self.showInitialTransition ) {
+                self._initItems();
+            }
+        },
 
         /**
          * The magic. This is what makes the plugin 'shuffle'
@@ -474,6 +471,23 @@
             });
         },
 
+        _onResize : function() {
+            var self = this;
+
+            if ( !self.enabled ) {
+                return;
+            }
+
+            var height = self.$window.height(),
+                width = self.$window.width();
+
+            if (width !== self.windowWidth || height !== self.windowHeight) {
+                self.resized();
+                self.windowHeight = height;
+                self.windowWidth = width;
+            }
+        },
+
         /**
          * Gets the .filtered elements, sorts them, and passes them to layout
          *
@@ -759,6 +773,8 @@
         showInitialTransition : true, // If set to false, the shuffle-items will only have a transition applied to them after the first layout
         delimeter : null, // if your group is not json, and is comma delimeted, you could set delimeter to ','
         buffer: 0,
+        throttle: $.debounce || null,
+        throttleTime: 300,
         keepSorted : true
     };
 

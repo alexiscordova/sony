@@ -35,7 +35,7 @@
 
     <span class="string">'constructor'</span>: EditorialDualViewer,
 
-    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+    <span class="string">'_init'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -63,7 +63,7 @@ we just poll for a width until one is available.</p>             </td>          
       });
 
       <span class="keyword">if</span> ( ready ) {
-        self.init();
+        self._init();
       } <span class="keyword">else</span> {
         setTimeout($.proxy(self.initTimeout, self), <span class="number">500</span>);
       }
