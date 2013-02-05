@@ -23,6 +23,8 @@ $columnHeaderHeight: 5.3125em; // 85
 $tableHeaderColor: $gray80;
 $specStickyTabHeight: 3.125em; // 50
 
+$stickyHeaderHeight: 4.375em; // 70
+$specBorderColor: $gray70;
 
 
 // 888888b.            888    888
@@ -102,6 +104,38 @@ ul.spec-views {
   }
 }
 
+// Sticky nav
+.spec-sticky-nav {
+  position: fixed;
+  z-index: 20; // above features
+  top: 0;
+  left: -999em;
+  width: 100%;
+  background: $white;
+  @include box-shadow(0 .0625em .625em $transparentBlack);
+  @include translate(0, -5em);
+  -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
+          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
+
+  &.open {
+    left: 0;
+    @include translate(0, 0);
+    @include transition-delay(0s);
+    @include transition-timing-function(ease-out);
+  }
+
+  // Disable box shadow if the sticky headers are visible
+  .sticky-header-open & {
+    @include box-shadow(none);
+  }
+
+  .sticky-nav-title {
+    margin-top: 17px;
+    margin-bottom: 2px;
+    line-height: .9;
+  }
+}
+
 
 // Media queries for both single and mutliple spec pages
 @media (max-width: $specMobileBreakpoint) {
@@ -145,18 +179,20 @@ ul.spec-views {
 // Spec Items Wrapping and labels
 // -------------------------
 .spec-items-wrap {
+  position: relative;
+  z-index: 15;
   margin-left: $specLabelWidth1200;
 }
 
 // Spec Nav
 // -------------------------
-.spec-nav-wrap {
-  z-index: 10;
+.spec-nav-container {
+  position: relative;
 }
 
 .spec-nav {
   position: absolute;
-  z-index: 20;
+  z-index: 16;
   top: ($columnHeaderHeight - $navPaddleHeight) / 2;
 }
 
@@ -168,17 +204,41 @@ ul.spec-views {
   right: -.625em;
 }
 
+// Affix the nav paddles when the sticky headers are open
+.sticky-header-open {
+
+  .spec-nav-wrap {
+    position: fixed;
+    z-index: 15;
+    top: 72px; // Should be overriden by js
+    left: 0;
+    width: 100%;
+  }
+
+  .spec-nav-container {
+    // Turns into .container
+
+    .spec-nav {
+      top: ( $stickyHeaderHeight - $navPaddleHeight ) / 2;
+    }
+  }
+}
+
 
 // Spec Items
 // -------------------------
 .spec-item {
   position: relative;
   margin: 0;
-  border-right: .0625em solid $gray70; // 1 pixel
+  border-right: .0625em solid $specBorderColor; // 1 pixel
 
   // Our position relative is overriding off-screen, reset that.
   &.off-screen {
     position: absolute;
+  }
+
+  &:last-child {
+    border-right: none;
   }
 
   .product-name {
@@ -203,6 +263,14 @@ ul.spec-views {
   width: 100%;
   padding: 0 1em;
 
+  // Header name and model
+  .product-name {
+    font-size: $font_18_16;
+  }
+
+  .product-model {
+    font-size: $font_18_16;
+  }
 }
 
 .spec-list li {
@@ -306,9 +374,11 @@ ul.spec-views {
 .spec-products {
   position: relative;
 
+  // Light gray bar behind all the headers
   &:before {
     content: '';
     position: absolute;
+    z-index: -1; // allow the border-right of the grid to show above this el
     top: 0;
     left: 0;
     width: 100%;
@@ -316,9 +386,13 @@ ul.spec-views {
     background: $tableHeaderColor;
   }
 
+  .spec-items-grid {
+    border-right: .0625em solid $specBorderColor;
+  }
+
   .detail-labels-wrap {
     width: $specLabelWidth1200; // override % width
-    border-right: .0625em solid $gray70;
+    border-right: .0625em solid $specBorderColor;
   }
 
   .product-count-wrap,
@@ -345,6 +419,7 @@ ul.spec-views {
     content: none;
   }
 
+  // White background behind the labels
   .detail-label-group:before {
     content: '';
     position: absolute;
@@ -358,6 +433,7 @@ ul.spec-views {
     @include transition(box-shadow $transitionFast ease-in);
   }
 
+  // Why didn't I name this...
   .product-count-wrap:after {
     content: '';
     z-index: -1; // put behind model count
@@ -374,14 +450,12 @@ ul.spec-views {
   }
 
   .product-name {
-    font-size: $font_18_16;
     color: $gray20;
   }
 
   .product-model {
-    @include fontBold();
     color: $gray20;
-    font-size: $font_18_16;
+    @include fontBold();
   }
 
 
@@ -391,8 +465,10 @@ ul.spec-views {
     top: -2em;
     width: inherit;
     padding: 1em;
-    height: $columnHeaderHeight;
+    height: $stickyHeaderHeight;
     background: $tableHeaderColor;
+    border-right: .0625em solid $specBorderColor; // 1 pixel
+    @include box-shadow(none);
 
     &.open {
       top: 0;
@@ -400,7 +476,11 @@ ul.spec-views {
 
     // needs a 2px horizontal offset, otherwise the shadow is seen on hidden columns
     &:not(.sticky-count) {
-      @include box-shadow(.125em .125em .3125em 0 $transparentBlack);
+      // @include box-shadow(0 .0625em .625em $transparentBlack);
+    }
+
+    &.sticky-count .product-count-wrap {
+      height: $stickyHeaderHeight;
     }
   }
 
@@ -408,9 +488,13 @@ ul.spec-views {
   .sticky-count {
     padding: 0;
 
+    // Gray bar spanning the width of the browser behind sticky column headers
     &:before {
       background: $tableHeaderColor;
-      right: 0;
+      width: 6000px;
+      left: -3000px;
+      right: auto;
+      @include box-shadow(0 .0625em .625em $transparentBlack);
     }
   }
 
@@ -418,7 +502,7 @@ ul.spec-views {
 
 .spec-item-cell,
 .spec-products .detail-label {
-  border-bottom: .0625em solid $gray70;
+  border-bottom: .0625em solid $specBorderColor;
 }
 
 // Spec Modal
@@ -571,34 +655,6 @@ ul.spec-views {
 //                         Y8b d88P
 //                          "Y88P"
 
-.spec-sticky-nav {
-  position: fixed;
-  z-index: 10; // above features
-  top: 0;
-  left: -999em;
-  width: 100%;
-  background: $white;
-  @include box-shadow(0 1px 10px $transparentBlack);
-  @include translate(0, -5em);
-  -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
-          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
-  // @include transition(opacity $transitionNormal ease-in, left 0s $transitionNormal);
-
-
-  &.open {
-    left: 0;
-    @include translate(0, 0);
-    @include transition-delay(0s);
-    @include transition-timing-function(ease-out);
-  }
-
-  .sticky-nav-title {
-    margin-top: 17px;
-    margin-bottom: 2px;
-    line-height: .9;
-  }
-}
-
 .spec-product,
 .spec-tiles-wrap {
   position: relative;
@@ -676,6 +732,7 @@ ul.spec-views {
     text-align: center;
 
     i {
+      margin-top: 0;
       vertical-align: middle;
     }
   }
