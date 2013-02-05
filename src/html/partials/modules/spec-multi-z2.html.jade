@@ -57,11 +57,12 @@ include ../includes/jade-helpers.jade
                 - d.view = "specs"
                 - d.iterator = i
                 e = { "locals" : locals, "data" : d, "labels" : data.labels }
-                !{locals.partial('modules/' + module.type, e )}
+                path = 'modules/' + module.type
+                !{locals.partial( path, e )}
 
   section.spec-tiles-wrap.container#features
     .grid
-      h3.t6= data.features.title
+      h3.l1.features-title= data.features.title
     .spec-tiles.slimgrid.no-grid-at-479
       each tile in data.features.tiles
         .spec-tile.span4
@@ -71,7 +72,8 @@ include ../includes/jade-helpers.jade
                 mixin iQImage( tile.img )
 
           .tile-content
-            h3.tile-title= tile.title
-            p= tile.description
+            h3.t6.tile-title= tile.title
+            p.p3= tile.description
             if tile.link
-              a.tl(href=tile.link.href)= tile.link.text
+              p.p3
+                a(href=tile.link.href)= tile.link.text
