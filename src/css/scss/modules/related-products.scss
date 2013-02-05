@@ -17,6 +17,15 @@
 
   .shuffle-container {
     max-width: 1020px;
+
+    @media (min-width:px-em(1201px)){
+      &.slimgrid5 {
+        width:100%;
+      }
+
+      max-width:1190px; 
+    }
+
   }
 
   .gallery-item .product-img:after{
@@ -225,13 +234,28 @@
 
   .product-content {
     font-family: $sansFontFamilyMedium;
-    font-size: $font_13_16;
+    
 
     color: $grayDark;
 
     .p5:not(.msrp) {
       display:block;
       color: #83838f;
+    }
+
+    .product-name.p3 {
+      font-family: $sansFontFamilyMedium;
+      font-size: $font_13_16;
+      color: $gray20;
+    }
+
+    .product-price {
+      margin-top: 1.5em;
+      color: $gray40;
+
+      .price.l2 {
+        color: $gray40;
+      }
     }
   }
 
@@ -538,7 +562,7 @@
     /* Experimental for full bleed stuff */  
     //padding: 0 45px 0 45px;
     //padding: 0 7.5% 0 7.5%; //bingo for 1200px layout
-    max-width: 1200px;
+    max-width: 1190px;
 
     @media (min-width:1201px){
       //padding:0 90px 0 90px;
