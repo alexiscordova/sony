@@ -25,12 +25,14 @@ include ../includes/jade-helpers.jade
   .spec-sticky-nav
     .container
       .grid
-        h2.t6.sticky-nav-title= data.title
-        ul.spec-views.inline.nav
-          each link, i in data.internalLinks
-            - clss = i ? '' : 'active'
-            li(class=clss)
-              a.p3(href=link.href, tabindex="-1")= link.label
+        .js-sticky-nav-content
+          h2.t6.sticky-nav-title= data.title
+          ul.spec-views.inline.nav
+            each link, i in data.internalLinks
+              - clss = i ? '' : 'active'
+              li(class=clss)
+                a.p3(href=link.href, tabindex="-1")= link.label
+        .js-sticky-mobile-content.hidden
 
   numModels = data.submodules.length
 
