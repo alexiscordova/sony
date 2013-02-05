@@ -9,17 +9,26 @@ window.iQ = {
   }
 };
 
-// Make console logs do nothing for unsupported browsers
-(function(window, undefined) {
+// Taken from H5BP
+// Avoid `console` errors in browsers that lack a console.
+(function() {
+    var method,
+        noop = function () {},
+        methods = [
+            'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+            'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+            'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+            'timeStamp', 'trace', 'warn'
+        ],
+        length = methods.length,
+        console = (window.console = window.console || {});
 
-    if ( typeof window.console === undefined ) {
-        var noop = function(){};
-        window.console = {
-            log : noop,
-            group: noop,
-            groupEnd: noop,
-            warn: noop,
-            error: noop
-        };
+    while (length--) {
+        method = methods[length];
+
+        // Only stub undefined methods.
+        if (!console[method]) {
+            console[method] = noop;
+        }
     }
-}(window));
+}());

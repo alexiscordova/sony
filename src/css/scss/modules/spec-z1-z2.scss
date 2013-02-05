@@ -23,8 +23,6 @@ $columnHeaderHeight: 5.3125em; // 85
 $tableHeaderColor: $gray80;
 $specStickyTabHeight: 3.125em; // 50
 
-$navBtnWidth: 2.125em; // 34
-$navBtnHeight: 3.25em; // 52
 
 
 // 888888b.            888    888
@@ -55,42 +53,26 @@ $navBtnHeight: 3.25em; // 52
   }
 }
 
-.nav-paddle {
-  border: none;
-  background: $gray60;
-  border-radius: .1875em; // 3 pixels
-  width: $navBtnWidth;
-  height: $navBtnHeight;
-  padding: 0; // override default button padding
-  @include transition();
-
-  &:hover,
-  &:focus {
-    background: $buttonOrange;
-    outline: none;
-  }
-
-  i {
-    vertical-align: middle;
-  }
-
-}
-
 // Spec Header
 // -------------------------
 
 .spec-single,
 .spec-multi {
   margin-top: 4.375em; // 70
+
+  dt {
+    margin-bottom: 0;
+  }
 }
 
 .spec-title-wrap {
   position: relative;
-  margin-bottom: 2.5em;
+  margin-bottom: 1.25em;
 }
 
 .spec-title {
   margin: 0;
+  font-size: 2.25em; // 36
 }
 
 // Needs to be more specific
@@ -101,7 +83,11 @@ ul.spec-views {
   li {
     padding-right: .375em; // 6
     padding-left: .375em; // 6
-    margin: 0;
+    margin: 0 0 0 px-em(23px);
+  }
+
+  li:first-child {
+    margin-left: 0;
   }
 
   .active {
@@ -110,6 +96,8 @@ ul.spec-views {
   }
 
   a {
+    display: block;
+    margin-bottom: 0;
     color: $gray20;
   }
 }
@@ -169,7 +157,7 @@ ul.spec-views {
 .spec-nav {
   position: absolute;
   z-index: 20;
-  top: ($columnHeaderHeight - $navBtnHeight) / 2;
+  top: ($columnHeaderHeight - $navPaddleHeight) / 2;
 }
 
 .spec-nav-prev {
@@ -381,7 +369,7 @@ ul.spec-views {
   }
 
   .detail-label {
-    @include text-overflow();
+    @include text-overflow( false );
     padding: 1.125em 1em 0 0;
   }
 
@@ -590,16 +578,24 @@ ul.spec-views {
   left: -999em;
   width: 100%;
   background: $white;
-  opacity: 0;
   @include box-shadow(0 1px 10px $transparentBlack);
-  @include transition(opacity $transitionNormal ease-in, left 0s $transitionNormal);
+  @include translate(0, -5em);
+  -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
+          transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
+  // @include transition(opacity $transitionNormal ease-in, left 0s $transitionNormal);
 
 
   &.open {
     left: 0;
-    opacity: 1;
+    @include translate(0, 0);
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
+  }
+
+  .sticky-nav-title {
+    margin-top: 17px;
+    margin-bottom: 2px;
+    line-height: .9;
   }
 }
 
@@ -625,7 +621,8 @@ ul.spec-views {
 
   // The title/label above this has a margin-bottom of ~7px
   dl {
-    margin-top: 23px;
+    margin-top: 1.4375em; // 23
+    margin-bottom: 4.375em; // 70
   }
 }
 
@@ -637,14 +634,21 @@ ul.spec-views {
 
   .section-label {
     margin-top: -.125em;
+    font-size: $font_18_16;
+    line-height: 1;
+  }
+
+  dl:last-child {
+    margin-bottom: 0;
   }
 
   dt:not(:first-child) {
-    margin-top: 30px; //1.875em; the font size is set on this, but I don't want to hard-code an em value to go with it
+    margin-top: 23px; //1.875em; the font size is set on this, but I don't want to hard-code an em value to go with it
   }
 
   dd {
     margin-left: 0;
+    margin-bottom: 0;
   }
 
   .spec-list li:first-child {
@@ -652,7 +656,7 @@ ul.spec-views {
   }
 
   .media + .media {
-    margin-top: 5.5em;
+    margin-top: 4.75em;
   }
 
   .media .pull-left {
@@ -680,9 +684,10 @@ ul.spec-views {
 // Carousel
 .spec-carousel-wrap {
   position: relative;
-  margin-left: $navBtnWidth + 1.25em;
-  margin-right: $navBtnWidth + 1.25em;
+  margin-left: $navPaddleWidth + 1.25em;
+  margin-right: $navPaddleWidth + 1.25em;
   overflow: hidden;
+  max-width: 100%;
 
   .spec-carousel {
     width: 175em;
@@ -703,7 +708,7 @@ ul.spec-views {
   position: absolute;
   z-index: 20;
   top: 50%;
-  margin-top: -($navBtnHeight / 2) - 2.875em; // also subtract the height of the bullets
+  margin-top: -($navPaddleHeight / 2) - 2.875em; // also subtract the height of the bullets
   @include opacity(0);
 }
 
@@ -722,10 +727,6 @@ ul.spec-views {
 @media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
 
 
-  .spec-overview {
-    padding: 2.5em 0; // 40
-  }
-
   .spec-section {
     margin-top: 1.875em; // 30
     padding-bottom: 2.8125em; // 45
@@ -738,6 +739,11 @@ ul.spec-views {
       margin-top: 20px;
     }
 
+  }
+
+  .spec-overview {
+    padding: 2.5em 0; // 40
+    margin-top: 0;
   }
 }
 
@@ -781,6 +787,10 @@ ul.spec-views {
     dt:not(:first-of-type) {
       margin-top: 20px;
     }
+
+    dl:last-child {
+      margin-bottom: 1.65em;
+    }
   }
 
   .spec-overview {
@@ -823,6 +833,12 @@ ul.spec-views {
 .spec-tiles-wrap {
   margin-top: 6.25em; // 100
   margin-bottom: 9.375em; // 150
+
+  .features-title {
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid $gray70;
+  }
 }
 
 .spec-tiles .spec-tile {
@@ -834,7 +850,7 @@ ul.spec-views {
   background: $tableHeaderColor;
 
   .tile-content {
-    padding: 2.5em 2.5em 3.75em 1.875em;
+    padding: 2em 2.5em 3.75em 1.875em;
   }
 
   // Remove default header margin top

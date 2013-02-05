@@ -37,21 +37,19 @@
 
 
 .nav-primary{
-  margin-left:2.5%;
+  margin-left:2%;
 
   .nav-li{
-    margin: 0 0 0 px-em(10px);
+    margin: 0 0 0 px-em(10);
 
     &.nav-li-electronics{
-      margin-left: px-em(12px);
+      margin-left: px-em(13);
     }
   }
   .nav-li-link{
     line-height:$navbarLineHeight;
-    padding: 0 0 4px;
-    &:hover,
-    &:active,
-    &:focus{
+    padding: 0 5px 4px;
+    &:hover, &:active, &:focus, &.active{
       color: $navbarLinkColor;
     }
 
@@ -69,33 +67,40 @@
 
 
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
-  padding-right: 4px;
-  margin-right: 0px;
-  font-size:$font_15_16;
+  padding-right: 0;
+  margin-right: 0;
+  font-size: px-em(15);
   color:$navbarLinkColor;
 
-  .icon-ui-arrowhead-down-gray{
-    margin-left: 4px;
-    margin-top: 11px;
+  .fonticon-10-arrowhead-down{
+      position:relative;
+      top:-1px;
+      margin-left: px-em(4);
+      margin-right:-2px;
   }
 }
 
 
 .nav-primary .nav-li-link,
 .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn){
-  &:hover,
-  &:active,
-  &:focus{
-    // background-color: $grayDark;
-    // border-color: $grayDark;
+
+  &:hover, &:active, &:focus, &.active {
     color:$navbarLinkColorHover;
   }
 }
 
 .nav-li-linkBtn{
+  @include fontMedium;
+  font-size: px-em(11);
+
+  .fonticon-10-arrowhead-up,
+  .fonticon-10-search{
+    font-size: px-em(16,11);
+  }
+
   height: 36px;
   margin: 14px 0 14px 2px;
-  padding: 10px 12px 0px 11px;
+  padding: 10px 9px 0px 14px;
 
   line-height: 1;
   @include border-radius(1px);
@@ -107,31 +112,17 @@
   &:active,
   &:focus,
   &.active{
-    background-color: $grayDark;
-    border-color: $grayDark;
+    background-color: $navbarLinkBtnBgHover;
+    border-color: $navbarLinkBtnBgHover;
     color:$navbarLinkColorHover;
   }
-
-  .linkBtn-label,
-  .nav-li-count,
-  [class*="fonticon-10-"],
-  [class^="icon-ui-"],
-  [class*=" icon-ui-"]{
-    display:inline-block;
-  }
-  .linkBtn-label{
-    font-size:$font_11_16;
-    @include fontMedium;
-    margin-left:5px;
-    padding-top: 2px;
-  }
+  
   .nav-li-count{
     display:inline-block;
-    // font-size: $font_13_16;
-    // px-to-em(13px);
     @include fonticon-text-px-to-em(13px);
     @include fontBold;
     margin-top:0px;
+    margin-left:2px;
   }
   [class^="fonticon-10-"],
   [class*=" fonticon-10-"]{
@@ -144,32 +135,41 @@
 }
 
 
+
 .nav-li-account{
   .nav-li-link.nav-dropdown-toggle{
-    font-size:$font_11_16;
-    padding-right:8px;
+    font-size: px-em(11px);
+    padding-right:6px;
+    padding-top:10px;
 
-    .icon-ui-arrowhead-down-gray{
-      margin-left: 6px;
-      margin-top: 7px;
+    .fonticon-10-arrowhead-down{
+      margin-left:3px;
+      position:relative;
+      top:-2px;
+      font-size: px-em(16px,11px);
     }
   }
 }
 .nav-li-favorites .nav-li-link {
-  padding-right:4px;
-  padding-left:6px;
+  padding:8px 4px 0 8px;
+  font-size:1em;
 }
 .nav-li-cart .nav-li-link{
-  padding-right:8px;
-  padding-left:6px;
+  padding:8px 9px 0 8px;
+  font-size:1em;
+  .nav-li-count{
+    font-size: px-em(13);
+  }
 }
 .nav-li-search .nav-li-linkBtn {
   background-color: $navbarTertiaryColor;
   border-color: $navbarTertiaryColor;
   @include border-radius(1px);
+  padding-right: 9px;
+  padding-left:15px;
 
-  .linkBtn-label{
-    padding-right:4px;
+  .fonticon-10-search{
+    padding-left:6px;
   }
 
   &:hover,
@@ -178,16 +178,19 @@
   &.active{
     background-color: $linkColor;
     border-color: $linkColor;
-    i,
-    .linkBtn-label{
-      color:$navbarLinkColor;
-    }
+    color:$navbarLinkColor;
   }
 }
 .nav-li-universal .nav-li-linkBtn {
-  [class^="icon-ui-"],
-  [class*=" icon-ui-"]{
-    margin-top: 0;
+  background:$navbarLinkBtnBgHover;
+  border-color:$navbarLinkBtnBgHover;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &.active{
+    background:$navbarTertiaryColor;
+    border-color:$navbarTertiaryColor;
   }
 }
 
@@ -206,13 +209,13 @@
     margin:0 0 0 39.4%;
     padding-left:20px;
     padding-right:20px;
+    color:$linkColor;
+    font-size:$font_15_16;
+    padding-top:12px;
 
-    .linkBtn-label{
-      color:$linkColor;
-      font-size:$font_15_16;
-    }
     i{
-      margin-top:2px;
+      position:relative;
+      top:-2px;
       margin-right:10px;
     }
     &:hover,
@@ -297,23 +300,45 @@
 }
 
 
+
+.navmenu-w{ 
+  z-index: 190;
+  position: absolute;
+  overflow: visible;
+  background: $navMenuBackground;
+  @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
+  @include border-bottom-radius(2px);
+
+  .fonticon-10-arrowhead-up.nav-indicator{
+  }
+}
+
+
 .navmenu-w-search{
   @include hideshow-navmenu-hide(right);
 
-  .sprite-mini-global-nav-indicator{
-    right:31px;
+  .fonticon-10-arrowhead-up.nav-indicator{
+    right:17px;
   }
   .btn-clear-search-input{
     right: 30px;
     top: 22px;
   }
+  .fonticon-10-search{
+    top: 25px;
+    left: 46px;
+  }
 }
 
 .navmenu-w-account{
   width: 215px;
-  padding: 16px 0 9px;
+  padding: 11px 0 9px;
 
   @include hideshow-navmenu-hide(right);
+
+  .fonticon-10-arrowhead-up.nav-indicator{
+    left: 25px;
+  }
 
   .navmenu-list-prefixed{
     border-bottom:solid 1px $grayLightish;
@@ -471,10 +496,8 @@
 // ------------------------------------------------
 @media (max-width: px-em(1023px)) {
 
-.nav-li-search .nav-li-linkBtn {
-  .linkBtn-label{
-    display:none;
-  }
+.nav-li-linkBtn {
+  padding-right:7px;
 }
 .nav-li-count{
   display:inline-block;
@@ -487,14 +510,27 @@
   @include fontMedium;
   @include border-radius(1px);
 }
-
-
-
 .nav-li-universal .nav-li-link {
   // margin-right: -10px;
   // > i.fonticon-10-mini-bold-plus {
   //   margin-left: 8px;
   // }
+}
+.nav-li-search .nav-li-linkBtn{
+  padding-right: 10px;
+  padding-left: 5px;
+  padding-top: 10px;
+  .lbl{
+    display:none;
+  }
+}
+.nav-li-account .nav-li-link.nav-dropdown-toggle{
+  padding-right: 5px;
+  padding-top: 12px;
+  .fonticon-10-arrowhead-down{
+    margin-left:3px;
+    font-size:px-em(13,11);
+  }
 }
 
 .navmenu-w-search{
@@ -533,12 +569,12 @@
 @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
 
 .navbar{
-  // override the default logo sprite with the smaller one.
-  @include sprite-reg-nav-sony-logo-sm;
-
-  .sprite-reg-nav-sony-logo{
-    margin-top:14px;
+  
+  .fonticon-60-sony {
+    margin: -10px 0 -10px -3px;
+    font-size: 4.6em;
   }
+
 }
 .nav-wrapper,
 .navbar{
@@ -554,16 +590,13 @@
   margin-left: 2.4%;
   .nav-li-link,
   .nav-li-link.nav-dropdown-toggle:not(.nav-dropdown-toggle-btn) {
-
     line-height: $navbarLineHeightShort;
     font-size: $font_12_16;
     padding: 1px 0 3px;
 
-    &.nav-dropdown-toggle{
-      .icon-ui-arrowhead-down-gray{
-        margin-top: 8px;
-        margin-left: 1px;
-      }
+    .fonticon-10-arrowhead-down{
+      top:-2px;
+      margin-left: 2px;
     }
   }
 } // .nav.nav-primary
@@ -573,21 +606,27 @@
 }
 
 
+
 .nav-li-account{
   .nav-li-link.nav-dropdown-toggle{
-    font-size:$font_11_16;
-
-    .icon-ui-arrowhead-down-gray{
-      margin-top: 8px;
-    }
+    font-size: px-em(11);
+    padding-right: 4px;
+    padding-left: 9px;
+    padding-top: 8px;
   }
+}
+
+.nav-li-search .nav-li-linkBtn{
+  padding-right: 7px;
+  padding-left: 2px;
+  padding-top: 9px;
 }
 
 
 .nav-li-linkBtn{
   height: 28px;
   margin: 12px 0 11px 2px;
-  padding: 6px 7px 2px;
+  padding: 6px 6px 0 9px;
   
   [class^="fonticon-10-"]::before,
   [class*=" fonticon-10-"]::before {
@@ -596,6 +635,17 @@
   [class^="fonticon-10-"],
   [class*=" fonticon-10-"] {
     // margin-top: 0;
+  }
+  .fonticon-10-search{
+    font-size: px-em(13,11);
+    position:relative;
+    top:-1px;
+    padding-left:3px;
+  }
+}
+
+.nav-li-universal{
+  .nav-li-linkBtn{
   }
 }
 
@@ -658,6 +708,27 @@
   margin-left: 27px;
 }
 
+
+
+
+.navmenu-w{ 
+  .fonticon-10-arrowhead-up.nav-indicator{
+    top:-10px;
+  }
+}
+.navmenu-w-search{
+  .fonticon-10-arrowhead-up.nav-indicator{
+    right:15px;
+  }
+}
+.navmenu-w-account{
+  .fonticon-10-arrowhead-up.nav-indicator{
+    left: 25px;
+  }
+}
+
+
+
 .navtray-section-featured{ // section right
   padding-top: 35px;
   padding-left: 3.3%;
@@ -688,6 +759,10 @@
   }
 } //.navtray-section-featured
 } // min-width: 768px and max-width: 979px
+
+
+
+
 
 @media (min-width: px-em(768px)) and (max-width: px-em(839px)) {
 .navtray-section-main .navtray-list-main .navtray-li .navtray-li-link{  
@@ -749,329 +824,321 @@
 @media (max-width: px-em(767px)) {
 
 
-  .nav-wrapper,
-  .navbar{
-    height:auto;
-  }
+.nav-wrapper,
+.navbar{
+  height:auto;
+}
 
-  .page-wrap-inner{
-    @include transition(left $transitionSlower $easeOutNav 0s);
-    position:relative;
-  }
+.page-wrap-inner{
+  @include transition(left $transitionSlower $easeOutNav 0s);
+  position:relative;
+}
 
-  .page-wrap-outer{
-  }
-  .page-wrap-inner.show-mobile-menu{
-    left:$navMobileWidthLarge;
-    position:fixed; // so the "main" content area doesn't scroll; just the nav
-  }
+.page-wrap-outer{
+}
+.page-wrap-inner.show-mobile-menu{
+  left:$navMobileWidthLarge;
+  position:fixed; // so the "main" content area doesn't scroll; just the nav
+}
 
-  .mobile-screen-overlay{
-    top: $navbarMobileHeightTall;
-    position:absolute;
-    left: 0;
-    z-index: $zindexModalBackdrop;
-    background-color: $modalBackgroundColor;
-    @include transition(opacity $transitionSuperslow linear);
-  }
-
-
-  .nav-outer-container{
-    position:absolute;
-    width:$navMobileWidthLarge;
-    left:-$navMobileWidthLarge;
-    top:0;
-  }
+.mobile-screen-overlay{
+  top: $navbarMobileHeightTall;
+  position:absolute;
+  left: 0;
+  z-index: $zindexModalBackdrop;
+  background-color: $modalBackgroundColor;
+  @include transition(opacity $transitionSuperslow linear);
+}
 
 
-  .nav-li{
-    width:100%;
-    float:none;
-  }
-  .navbar{
-    .nav-primary,
-    .nav-li-account .nav-li-link,
-    .nav-li-search,
-    .nav-li-favorites,
-    .nav-li-search,
-    .sprite-reg-nav-sony-logo{
-      display:none;
-    }
-  } // .navbar
-
-  .navmenu-w{
-    @include border-radius(0);
-  }
-  .navmenu-w-mobile-top{
-    padding-top:16px;
-    padding-bottom:28px;
-  }
-  .navmenu-w-search{
-    width:100%;
-    background:$grayLighter;
-    padding:9px;
-
-    .navmenu-search-section-input{
-      padding:7px 12px 9px 8px;
-
-      input[type=text]{
-        font-size:$font_15_16;
-        @include fontRegular;
-        line-height:1;
-        width:100%;
-      }
-    }
-
-    @include sprite-mini(nav-search-input,  -60px,  16px,   16px);
-    .sprite-mini-nav-search-input{
-      top: 23px;
-      left: 18px;
-    }
-    .btn-clear-search-input{
-      right: 17px;
-      top: 17px;
-    }
-  }
-
-  .navmenu-w-account{
-    width:100%;
-    padding-bottom:30px;
-
-    .btn-logout{
-      margin-top:15px;
-    }
-    &.logged-in{
-      .btn-login{
-        display: none;
-      }
-      .btn-logout{
-        display: block;
-      }        
-    }
-  }
-
-  .navmenu-w-account .btn-login,
-  .navmenu-w-account .btn-logout,
-  .nav-li-universal .nav-li-link,
-  .navtray .btn-nav-view-all{
-    display: block;
-    width: auto;
-    padding:10px 0 12px;
-
-    margin-left:auto;
-    margin-right:auto;
-    max-width:220px;
-  }
-  .navmenu-w-account .btn-login,
-  .navmenu-w-account .btn-logout{
-    font-size: $font_13_15;
-  }
+.nav-outer-container{
+  position:absolute;
+  width:$navMobileWidthLarge;
+  left:-$navMobileWidthLarge;
+  top:0;
+}
 
 
-
-  .navtray-w{
-    border-bottom:none;
-  }
-  .navtray-section-featured{
+.nav-li{
+  width:100%;
+  float:none;
+}
+.navbar{
+  .nav-primary,
+  .nav-li-account .nav-li-link,
+  .nav-li-search,
+  .nav-li-favorites,
+  .nav-li-search,
+  .fonticon-60-sony{
     display:none;
   }
+} // .navbar
 
+.navmenu-w{
+  @include border-radius(0);
+}
+.navmenu-w-mobile-top{
+  padding-top:16px;
+  padding-bottom:28px;
+}
+.navmenu-w-search{
+  width:100%;
+  background:$grayLighter;
+  padding:9px;
 
-  .navtray .btn.btn-nav-view-all{
-    margin-top: 28px;
-    .linkBtn-label{
-      font-size: $font_14_15;    
-    }
-    &:hover,
-    &:active,
-    &:focus{
-      background:$linkColorLight;
-      .linkBtn-label{
-        color:$white;
-      }
-    }
-  }
-  .nav-li-universal{
-    background:$grayDarkerFieldLarge;
-    padding-top:7px;
-    padding-bottom: 39px;
+  .navmenu-search-section-input{
+    padding:7px 12px 9px 8px;
 
-    .nav-li-linkBtn{
-      height:auto;
-      background:$grayDarkFieldSmall;
-      border-color:$grayDarkFieldSmall;
-      text-align:center;
-      padding:9px 0 14px;
-      .icon-ui-plus-tiny-boxed,
-      .linkBtn-label{
-        display:inline-block;
-        float:none;
-        font-size:$font_15_16;
-      }
-      .icon-ui-plus-tiny-boxed{
-        margin-top: 5px;
-      }
-    }
-  }
-
-  .navmenu-list{
-    .navmenu-line{
-      margin-left:14px;
-      a.tl{
-        font-size:$font_14_15;
-        padding:5px 0 5px 4px;
-        i{
-          padding-right:7px;
-        }
-      }
-    }
-    .navmenu-li-welcome{
-      color:$grayDarkFieldSmall;
-      text-transform:uppercase;
-      font-size:$font_12_16;
-      @include fontBold;
-      margin: 4px 0 0 17px;
-    }
-  }
-
-
-
-  .navmenu-list.navmenu-list-prefixed,
-  .sprite-mini-global-nav-indicator,
-  .navmenu-search-section-results{
-    display:none;
-  }
-
-  .navbar-mobile{
-    display:block;
-    // border-top: solid 1px #2f353d;
-
-    .btn-mobile-nav,
-    .btn-mobile-cart{
-      border:none;
-      margin:0;
-      display:block;
-      background:$navbarBackground;
-      width: $navbarMobileHeightTall;
-      height: $navbarMobileHeightTall;
-      padding: 18px 19px 0;
-    }
-    .btn-mobile-nav{
-      margin-top:0;
-      float:left;
-      border-right:solid 1px $grayDark;
-      i {
-        margin:auto;
-      }
-      // override the default icon with the bigger one.
-      @include icon-ui(mobile-menu-btn, -1020px,   22px,   19px);
-    }
-    .btn-mobile-cart{
-      float:right; 
-      padding:19px 0 0;
-      width:$navbarMobileHeightTall;
-      height:$navbarMobileHeightTall;
-      border-left:solid 1px $grayDark;
+    input[type=text]{
       font-size:$font_15_16;
-      color:$navbarLinkColor;
+      @include fontRegular;
+      line-height:1;
+      width:100%;
+    }
+  }
 
-      // override the default icon with the bigger one.
-      @include icon-ui(cart, -1050px,   19px,   17px);
-      i {
-        margin-top:1px;
-        margin-right:4px;
+  .btn-clear-search-input{
+    right: 17px;
+    top: 17px;
+  }
+
+  .fonticon-10-search{
+    top: 22px;
+    left: 18px;
+    font-size: 1.2em;
+  }
+}
+
+.navmenu-w-account{
+  width:100%;
+  padding-bottom:30px;
+
+  .btn-logout{
+    margin-top:15px;
+  }
+  &.logged-in{
+    .btn-login{
+      display: none;
+    }
+    .btn-logout{
+      display: block;
+    }        
+  }
+}
+
+.navmenu-w-account .btn-login,
+.navmenu-w-account .btn-logout,
+.nav-li-universal .nav-li-link,
+.navtray .btn-nav-view-all{
+  display: block;
+  width: auto;
+  padding:10px 0 12px;
+
+  margin-left:auto;
+  margin-right:auto;
+  max-width:220px;
+}
+.navmenu-w-account .btn-login,
+.navmenu-w-account .btn-logout{
+  font-size: $font_13_15;
+}
+
+
+
+.navtray-w{
+  border-bottom:none;
+}
+.navtray-section-featured{
+  display:none;
+}
+
+
+.navtray .btn.btn-nav-view-all{
+  margin-top: 28px;
+  font-size: $font_14_15;    
+
+  &:hover,
+  &:active,
+  &:focus{
+    background:$linkColorLight;
+    color:$white;
+  }
+}
+.nav-li-universal{
+  background:$grayDarkerFieldLarge;
+  padding-top:7px;
+  padding-bottom: 39px;
+
+  .nav-li-linkBtn{
+    height:auto;
+    background:$grayDarkFieldSmall;
+    border-color:$grayDarkFieldSmall;
+    text-align:center;
+    padding:9px 0 14px;
+    font-size:$font_15_16;
+    .fonticon-10-arrowhead-up{
+      margin-top: 5px;
+    }
+  }
+}
+
+.navmenu-list{
+  .navmenu-line{
+    margin-left:14px;
+    a.tl{
+      font-size: px-em(14,15);
+      padding:5px 0 5px 4px;
+      i{
+        padding-right:7px;
+        font-size:1.2em;
       }
     }
-    .sprite-reg-nav-sony-logo{ // this is the normal (larger) size logo. Switch to small under 980px.
-      position:absolute;
-      width:90px;
-      margin-left:-45px;
-      margin-top:15px;
+  }
+  .navmenu-li-welcome{
+    color:$grayDarkFieldSmall;
+    text-transform:uppercase;
+    font-size:$font_12_16;
+    @include fontBold;
+    margin: 4px 0 0 17px;
+  }
+}
+
+
+
+.navmenu-list.navmenu-list-prefixed,
+.sprite-mini-global-nav-indicator,
+.navmenu-search-section-results{
+  display:none;
+}
+
+.navbar-mobile{
+  display:block;
+  // border-top: solid 1px #2f353d;
+
+  .btn-mobile-nav,
+  .btn-mobile-cart{
+    border:none;
+    margin:0;
+    display:block;
+    background:$navbarBackground;
+    width: $navbarMobileHeightTall;
+    height: $navbarMobileHeightTall;
+    padding: 18px 19px 0;
+  }
+  .btn-mobile-nav{
+    font-size: 1em;
+    margin-top:0;
+    float:left;
+    border-right:solid 1px $grayDark;
+    i {
+      font-size: px-em(20);
+      margin:auto;
+    }
+  }
+  .btn-mobile-cart{
+    float:right; 
+    padding:19px 0 0;
+    width:$navbarMobileHeightTall;
+    height:$navbarMobileHeightTall;
+    border-left:solid 1px $grayDark;
+    font-size: px-em(15);
+    color:$navbarLinkColor;
+    i {
+      margin-right:3px;
+      font-size: px-em(20,15);
     }
   }
 
-
-
-  .navmenu-w,
-  .navtray-w,
-  .nav.nav-primary,
-  .nav.nav-utility{
-    @include hideshow-navmenu-reset;
+  .fonticon-60-sony{
+    display:block; // this is the normal (larger) size logo. Switch to small under 480px.
+    position:absolute;
+    left:50%;
+    width:100px;
+    margin-left:-50px;
+    text-align:center;
   }
+}
 
-  .navtray,
-  .navtray-section-main{
-    background:$navTrayBackgroundAlt;
+
+
+.navmenu-w,
+.navtray-w,
+.nav.nav-primary,
+.nav.nav-utility{
+  @include hideshow-navmenu-reset;
+}
+
+.navtray,
+.navtray-section-main{
+  background:$navTrayBackgroundAlt;
+}
+
+
+
+
+.navtray-section-main{
+  padding-top:0;
+  width:100%;
+
+  h4{
+    font-size:$font_12_16;
+    @include fontBold;
+    padding:18px 0 2.5% 5.2%;
+    text-transform:uppercase;
+    color:$grayDarkFieldSmall;
   }
+  .navtray-list-main{
+    margin: 0 0 1.2% 5.3%;
+    overflow:visible;
 
-
-
-
-  .navtray-section-main{
-    padding-top:0;
-    width:100%;
-
-    h4{
-      font-size:$font_12_16;
-      @include fontBold;
-      padding:18px 0 2.5% 5.2%;
-      text-transform:uppercase;
-      color:$grayDarkFieldSmall;
+    .navtray-li {
+      width:45%;
+      margin:5% 4.3% 0 0;
     }
-    .navtray-list-main{
-      margin: 0 0 1.2% 5.3%;
-      overflow:visible;
+    .navtray-li-link {
+      height:auto;
+      padding-top:0;
+      margin-right:0;
+      padding-bottom:0;
 
-      .navtray-li {
-        width:45%;
-        margin:5% 4.3% 0 0;
+      .nav-img-w{
+        display:block;
+        overflow:hidden;
+        background:$white;
+        padding:7% 0 14%;
+        @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.1));
+        img {
+          width:73%;
+        } 
       }
-      .navtray-li-link {
-        height:auto;
-        padding-top:0;
-        margin-right:0;
-        padding-bottom:0;
+      .nav-label{
+        font-size:$font_16_16;
+      }
 
+      &:hover,
+      &:active,
+      &:focus{
         .nav-img-w{
-          display:block;
-          overflow:hidden;
-          background:$white;
-          padding:7% 0 14%;
-          @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.1));
-          img {
-            width:73%;
-          } 
-        }
-        .nav-label{
-          font-size:$font_16_16;
-        }
-
-        &:hover,
-        &:active,
-        &:focus{
-          .nav-img-w{
-            @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.025));
-          }
+          @include box-shadow(0px 1px 1px 1px rgba(0,0,0,0.025));
         }
       }
     }
   }
-  .navtray-section-main-w-all-btn{
-    padding-bottom:0;
-    .navtray-list-main:after{
-      border:none;
-    }
-    &:after{ // HR
-      content: '';
-      display:block;
-      clear:both;
-      border-bottom: solid 3px $grayLighter;
-      height:24px;
-      margin:0 20px;
-    }
+}
+.navtray-section-main-w-all-btn{
+  padding-bottom:0;
+  .navtray-list-main:after{
+    border:none;
   }
-
-
+  &:after{ // HR
+    content: '';
+    display:block;
+    clear:both;
+    border-bottom: solid 3px $grayLighter;
+    height:24px;
+    margin:0 20px;
+  }
+}
   
 } // max-width: 767px
 
@@ -1126,70 +1193,70 @@
 
 @media (max-width: px-em(479px)) {
 
-  .nav-wrapper,
-  .navbar{
-    height:auto;
-  }
-  .navbar-mobile{
+.nav-wrapper,
+.navbar{
+  height:auto;
+}
+.navbar-mobile{
+  height: $navbarMobileHeight;
+}
+
+.page-wrap-inner.show-mobile-menu{
+  left:$navMobileWidth;
+}
+.mobile-screen-overlay{
+  top: $navbarMobileHeight;
+}
+
+.nav-outer-container{
+  width:$navMobileWidth;
+  left:-$navMobileWidth;
+}
+
+
+
+
+.navbar-mobile{
+  .btn-mobile-nav,
+  .btn-mobile-cart{
+    width: 58px;
     height: $navbarMobileHeight;
   }
-
-  .page-wrap-inner.show-mobile-menu{
-    left:$navMobileWidth;
+  .btn-mobile-nav{  
+    padding: 11px 0 0 0;    
   }
-  .mobile-screen-overlay{
-    top: $navbarMobileHeight;
-  }
-
-  .nav-outer-container{
-    width:$navMobileWidth;
-    left:-$navMobileWidth;
-  }
-
-
-
-
-  .navbar-mobile{
-    // override the default logo sprite with the smaller one.
-    @include sprite-reg-nav-sony-logo-sm;
-    .sprite-reg-nav-sony-logo{
-      margin-top:10px;
-      width:70px;
-      margin-left:-40px;
-    }
-    .btn-mobile-nav{
-      width: $navbarMobileHeight;
-      height: $navbarMobileHeight;
-      padding:14px 12px 0 14px;
-
-      // back to the regular icon size.
-      @include icon-ui(mobile-menu-btn, -1020px,   19px,   16px);
-    }
-    .btn-mobile-cart{
-      padding:13px 0 0px 4px;
-      width:54px;
-      height:48px;
+  .btn-mobile-cart{
+    padding: 14px 0 0 0;
+    font-size: px-em(12);
+    i {
+      font-size: px-em(16,12);
+      margin-right:2px;
     }
   }
 
-  .navmenu-w-account .btn-login,
-  .navmenu-w-account .btn-logout,
-  .nav-li-universal .nav-li-link,
-  .navtray .btn-nav-view-all{
-    max-width:100%;
-    margin-left:20px;
-    margin-right:20px;
+  .fonticon-60-sony{
+    font-size:5em;
   }
+}
 
-  .navtray-section-main{
-    .navtray-list-main{
-      .navtray-li-link {
-        .nav-label {
-          font-size:$font_15_16;
-        }
+.navmenu-w-account .btn-login,
+.navmenu-w-account .btn-logout,
+.nav-li-universal .nav-li-link,
+.navtray .btn-nav-view-all{
+  max-width:100%;
+  margin-left:20px;
+  margin-right:20px;
+}
+
+.navtray-section-main{
+  .navtray-list-main{
+    .navtray-li-link {
+      .nav-label {
+        font-size:$font_15_16;
       }
     }
   }
+}
 
 } // max-width: 479px
 

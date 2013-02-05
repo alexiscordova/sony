@@ -34,11 +34,19 @@
       self.$stickyNav = self.$container.find('.spec-sticky-nav');
       self.$carouselWrap = self.$container.find('.spec-carousel-wrap');
       self.$carousel = self.$carouselWrap.find('.spec-carousel');
+      self.$jumpLinks = self.$container.find('.spec-views a');
+
+      // Columns to be even heights
+      self.$carouselCols = self.$carouselWrap.closest('.grid').children();
+      self.$alignedBottom = self.$container.find('.align-right-bottom .has-img').closest('.grid').children();
+      self.$alignedBottomImgs = self.$alignedBottom.find('.iq-img');
 
       self._initCarousel();
 
       // Init shuffle on the features section
       self._initFeatures();
+
+      self._onResize( true );
 
       self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
       self.$window.on('load', $.proxy( self._initStickyNav, self ));
@@ -52,8 +60,34 @@
         itemSelector: '.spec-tile',
         easing: 'ease-out',
         speed: 250,
-        columnWidth: Exports.masonryColumns,
-        gutterWidth: Exports.masonryGutters,
+        columnWidth: function( containerWidth ) {
+          var column = containerWidth;
+
+          // 568px+
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
+            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+          }
+
+          return column;
+        },
+        gutterWidth: function( containerWidth ) {
+          var gutter = 0,
+              is3Col = !Modernizr.mediaqueries || Modernizr.mq('(min-width: 47.9375em)'),
+              is2Col = is3Col ? false : Modernizr.mq('(min-width: 30em)'),
+              numCols = is3Col ? 3 : is2Col ? 2 : 1;
+
+          if ( is3Col || is2Col ) {
+            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+          }
+
+          if ( self.currentFeatureCols !== numCols && numCols !== 1) {
+            self._swapFeatureClasses( numCols );
+          }
+
+          self.currentFeatureCols = numCols;
+
+          return gutter;
+        },
         showInitialTransition: false
       });
       self.shuffle = self.$specTiles.data('shuffle');
@@ -68,6 +102,23 @@
       });
 
       return self;
+    },
+
+    _swapFeatureClasses : function( numCols ) {
+      var self = this,
+          newClass = 'span6',
+          oldClass = 'span4';
+
+      if ( numCols === 3 ) {
+        newClass = 'span4';
+        oldClass = 'span6';
+      }
+
+      self.$specTiles.children().each(function() {
+        $(this)
+          .removeClass( oldClass )
+          .addClass( newClass );
+      });
     },
 
     _initStickyNav : function() {
@@ -95,6 +146,8 @@
         target: '.spec-sticky-nav'
       });
 
+      self._initJumpLinks();
+
       setTimeout(function() {
         $body.scrollspy('refresh');
       }, 100);
@@ -102,10 +155,11 @@
 
     _initCarousel : function() {
       var self = this,
-          firstImage = self.$carousel.find(':first-child img');
+          firstImage = self.$carousel.find(':first-child img'),
+          spanWidth = self.$carouselWrap.width();
 
       self.$carousel.find('img').css({
-        maxWidth: self.$carouselWrap.width()
+        maxWidth: spanWidth
       });
 
       // Give the image a src, otherwise imagesLoaded is pointless...
@@ -131,32 +185,81 @@
 
     },
 
+    _initJumpLinks : function() {
+      var self = this,
+          scrollspyOffset = 10,
+          navHeight = parseFloat( self.$stickyNav.css('height') ),
+          offset = scrollspyOffset + navHeight;
+
+      self.$jumpLinks.simplescroll({
+        showHash: true,
+        speed: 400,
+        offset: offset
+      });
+    },
+
     _onScroll : function() {
       var self = this,
           st = self.$window.scrollTop();
 
+      // Open the stick nav if it's past the trigger
       if ( st > self.stickyTriggerOffset ) {
         if ( !self.$stickyNav.hasClass('open') ) {
           self.$stickyNav.addClass('open');
         }
+
+      // Close the sticky nav if it's past the trigger
       } else {
         if ( self.$stickyNav.hasClass('open') ) {
           self.$stickyNav.removeClass('open');
         }
       }
+
+      // See if bottom-aligned-imgs have been loaded
+      self.$alignedBottomImgs.each(function() {
+        var $img = $(this);
+        // Skip if the source hasn't been set yet
+        if ( this.src === '' || $img.data('loaded') ) {
+          return;
+        }
+
+        $img.data('loaded', true);
+
+        $img.imagesLoaded(function() {
+          self.$alignedBottom.evenHeights();
+        });
+      });
     },
 
-    _onResize : function() {
+    _onResize : function( isFirst ) {
       var self = this,
           $imgs = self.$carousel.find('img'),
           imgHeight = $imgs.height();
 
-      self.$carousel.height( imgHeight );
-      $imgs.css({
-        maxWidth: self.$carouselWrap.width()
-      });
-    }
+      if ( !isFirst ) {
+        self.$carousel.height( imgHeight );
+        $imgs.css({
+          maxWidth: self.$carouselWrap.width()
+        });
+      }
 
+
+      // If tablet or desktop, center the carousel
+      if ( !Modernizr.mq( self.mobileBreakpoint ) ) {
+
+        // Set even heights on columns spans that have an image aligned to the bottom
+        self.$alignedBottom.evenHeights();
+
+        // Get the height of the tallest column in this row. We need this to vertically center the carousel
+        self.$carouselCols.evenHeights();
+      } else {
+
+        // Remove set heights on the columns.
+        self.$alignedBottom
+          .add( self.$carouselCols )
+          .css('height', '');
+      }
+    }
 
 
   };
@@ -189,7 +292,8 @@
   // Not overrideable
   $.fn.specSingle.settings = {
     isStickyTabs: false,
-    isScroller: false
+    isScroller: false,
+    currentFeatureCols: null
   };
 
 

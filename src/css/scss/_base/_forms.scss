@@ -694,7 +694,7 @@ legend + .control-group {
   padding-left: 5px;
 }
 
-.csstransforms .styled-checkbox {
+.generatedcontent .styled-checkbox {
   position: absolute; // take it out of document flow
   opacity: 0; // hide it
 
@@ -707,25 +707,23 @@ legend + .control-group {
   // Checkmark box
   & + label:before {
     content: '';
-    margin-right: 22px;
+    margin-right: px-em(22px);
     display: inline-block;
     vertical-align: text-top;
-    @include square(22px);
+    @include square( px-em( 22px ) );
     border: 1px solid transparent;
-    border-color: rgba($gray60, 0);
+    border-color: rgba($gray20, 0);
     background: $white;
+    @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal, border-color $transitionFast $easeNormal);
   }
 
   // Check mark
-  $checkmarkWidth: 11px;
-  $checkmarkHeight: 8px;
   & + label:after {
-    content: none;
     position: absolute;
-    left: 7px;
-    top: 8px;
-    @include size($checkmarkHeight, $checkmarkWidth);
-    background: url($iconSpritePathFallback) no-repeat -600px -60px;
+    left: .25em;
+    top: .25em;
+    @include opacity(0);
+    @include transition(opacity $transitionFast $easeNormal, color $transitionFast $easeNormal);
   }
 
   // Check box on hover
@@ -739,7 +737,7 @@ legend + .control-group {
   // Check mark on hover
   &:focus + label:after,
   &:hover + label:after {
-    content: '';
+    @include opacity(100);
   }
 
   // Check box on active
@@ -749,8 +747,8 @@ legend + .control-group {
 
   // Check mark on active
   &:checked + label:after {
-    content: '';
-    background-position: -600px 0;
+    @include opacity(100);
+    color: $white;
   }
 
   // Disabled checkbox text
@@ -759,7 +757,7 @@ legend + .control-group {
   &.disabled:hover + label,
   &[disabled]:hover + label {
     cursor: auto;
-    color: $grayLight;
+    color: $gray50;
 
   }
 
@@ -769,7 +767,7 @@ legend + .control-group {
   &.disabled:hover + label:before,
   &[disabled]:hover + label:before {
     @include opacity(15);
-    border-color: $gray60;
+    border-color: $gray20;
     @include box-shadow(none);
   }
 

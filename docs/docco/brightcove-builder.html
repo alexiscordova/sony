@@ -1,78 +1,134 @@
-<!DOCTYPE html>  <html> <head>   <title>brightcove-builder.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.sc.tabbednav.html">                 jquery.sc.tabbednav.js               </a>                                           <a class="source" href="jquery.sc.thumbnails.html">                 jquery.sc.thumbnails.js               </a>                                           <a class="source" href="jquery.sc.thumbsbullets.html">                 jquery.sc.thumbsbullets.js               </a>                                           <a class="source" href="jquery.sc.thumbsnav.html">                 jquery.sc.thumbsnav.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-one-carousel.html">                 sony-one-carousel.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               brightcove-builder.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global jQuery, brightcove*/</span>
-;(<span class="keyword">function</span>($) {
-    $.fn.activateBrightcove = <span class="keyword">function</span>() {
-        <span class="string">'use strict'</span>;
-        
-        <span class="keyword">this</span>.addClass(<span class="string">'video-inactive'</span>);
+<!DOCTYPE html>  <html> <head>   <title>brightcove-builder.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-one-carousel.html">                 sony-one-carousel.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               brightcove-builder.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global jQuery, brightcove*/</span>
 
-        <span class="keyword">return</span> <span class="keyword">this</span>.click(<span class="keyword">function</span>(e) {
-            e.preventDefault();
-            <span class="keyword">var</span> $targetPlaceholder, videoProp, activePlayer, videoIdMissing, imgMissingVideoID, autoStart, cssVideoPadding, containerClass;
 
-            $(<span class="string">'.video-container'</span>).each(<span class="keyword">function</span>() {
-                $(<span class="keyword">this</span>).find(<span class="string">'.vbc-container, .video-missing-poster'</span>).remove();
-                $(<span class="keyword">this</span>).find(<span class="string">'.video-poster'</span>).removeClass(<span class="string">'visuallyhidden'</span>);
-            });
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Brightcove video</h2>
 
-            $targetPlaceholder = <span class="keyword">this</span>.getAttribute(<span class="string">'data-target'</span>);
-            $targetPlaceholder = document.getElementById($targetPlaceholder);
+<ul>
+<li><strong>Class:</strong> ActivateBrightcove</li>
+<li><strong>Version:</strong> 1.0</li>
+<li><strong>Modified:</strong> 01/10/2013</li>
+<li><strong>Author:</strong> Pierre Paquet</li>
+<li><strong>Dependencies:</strong>  jQuery 1.7+, Brightcove</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+;(<span class="keyword">function</span>( $ ) {
+  
+  <span class="string">'use strict'</span>;
 
-            <span class="comment">/* Need to replace single quote by a double quote (single quote used because of Jade template)*/</span>
-            videoProp = $targetPlaceholder.getAttribute(<span class="string">'data-media'</span>).replace(<span class="regexp">/'/g</span>,<span class="string">'"'</span>);
-            videoProp = $.parseJSON(videoProp || <span class="string">'{}'</span>);
+  <span class="keyword">var</span> ActivateBrightcove = <span class="keyword">function</span>( $element, options ) {
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-            <span class="keyword">if</span> (!videoProp.videoWidth || !videoProp.videoHeight) {
-                $.extend(videoProp, {
-                    <span class="string">'videoWidth'</span> : <span class="string">'480'</span>,
-                    <span class="string">'videoHeight'</span> : <span class="string">'270'</span>
-                });
-            }
+    self.$el =                $element;
+    self.$elGroup =           $(<span class="string">'.action-video'</span>);
+    self.$videoModule =       $element.parents(<span class="string">'section[data-module-name="video-module"]'</span>);
+    self.$targetPlaceholder = $( document.getElementById( self.$el.attr(<span class="string">'data-target'</span>) ) );
 
-            autoStart = (videoProp.autoStart) || <span class="literal">true</span>;
-            imgMissingVideoID = (videoProp.imgMissingVideoID) ? videoProp.imgMissingVideoID : <span class="string">'img/modules/brightcovevideo/poster-missing-video.png'</span>;
-            imgMissingVideoID = <span class="string">'&lt;img src="'</span> + imgMissingVideoID + <span class="string">'" class="video-poster video-missing-poster" alt="video unavailable" &gt;'</span>;
+    self.videoProp = $.parseJSON( self.$targetPlaceholder.attr(<span class="string">'data-media'</span>).replace( <span class="regexp">/'/g</span>, <span class="string">'"'</span> ) || {} );
 
-            videoIdMissing = (!videoProp.videoID) ? <span class="literal">true</span> : <span class="literal">false</span>;
+    <span class="keyword">if</span> ( !self.videoProp.videoWidth || !self.videoProp.videoHeight ) {
+      $.extend( self.videoProp, {
+        <span class="string">'videoWidth'</span> : <span class="string">'480'</span>,
+        <span class="string">'videoHeight'</span> : <span class="string">'270'</span>
+      } );
+    }
 
-            containerClass = videoProp.containerClass || <span class="string">''</span>;
+    self.moduleID = {<span class="string">'name'</span>:<span class="string">'videoBrigthCove'</span>,<span class="string">'ID'</span>: self.videoProp.videoID};
+    self.autoStart = (self.videoProp.autoStart) || <span class="literal">true</span>;
+    self.containerClass = self.videoProp.containerClass || <span class="string">''</span>;
 
-            <span class="keyword">if</span> (videoIdMissing !== <span class="literal">true</span>) {
-                cssVideoPadding = (parseInt(videoProp.videoHeight, <span class="number">10</span>) / parseInt(videoProp.videoWidth, <span class="number">10</span>)) * <span class="number">100</span> + <span class="string">'%'</span>;
+    self.imgMissingVideoID =    (self.videoProp.imgMissingVideoID) ? self.videoProp.imgMissingVideoID : <span class="string">'img/modules/brightcovevideo/poster-missing-video.png'</span>;
+    self.imgMissingVideoID =    <span class="string">'&lt;img src="'</span> + self.imgMissingVideoID + <span class="string">'" class="iq-img video-poster video-missing-poster" alt="video unavailable" &gt;'</span>;
 
-                activePlayer =
-                <span class="comment">/* @formatter:off */</span>
-                                <span class="string">'&lt;div class="vbc-container '</span> + containerClass + <span class="string">'" style="padding-bottom:'</span> + cssVideoPadding + <span class="string">';"&gt;'</span> + 
+    self.videoIdMissing =       (!self.videoProp.videoID) ? <span class="literal">true</span> : <span class="literal">false</span>;
+    self.videoResponsiveStyle = (parseInt( self.videoProp.videoHeight, <span class="number">10</span> ) / parseInt( self.videoProp.videoWidth, <span class="number">10</span> )) * <span class="number">100</span> + <span class="string">'%'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>create video html markup</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.videoMarkup =
+                                <span class="string">'&lt;div class="vbc-container '</span> + self.containerClass + <span class="string">'" style="padding-bottom:'</span> + self.cssVideoPadding + <span class="string">';"&gt;'</span> + 
                                 <span class="string">'   &lt;div class="videoWrapper"&gt;'</span> +
-                                <span class="string">'       &lt;object id="myExperience'</span> + videoProp.videoID + <span class="string">'" class="BrightcoveExperience"&gt;'</span> +
+                                <span class="string">'       &lt;object id="myExperience'</span> + self.videoProp.videoID + <span class="string">'" class="BrightcoveExperience"&gt;'</span> +
                                 <span class="string">'           &lt;param name="includeAPI" value="true" /&gt;'</span> +
                                 <span class="string">'           &lt;param name="htmlFallback" value="false" /&gt;'</span> +
                                 <span class="string">'           &lt;param name="bgcolor" value="#000000" /&gt;'</span> +
                                 <span class="string">'           &lt;param name="dynamicStreaming" value="true" /&gt;'</span> +
-                                <span class="string">'           &lt;param name="width" value="'</span> + videoProp.videoWidth + <span class="string">'" /&gt;'</span> +
-                                <span class="string">'           &lt;param name="height" value="'</span> + videoProp.videoHeight + <span class="string">'" /&gt;'</span> +
-                                <span class="string">'           &lt;param name="playerID" value="'</span> + videoProp.playerID + <span class="string">'" /&gt;'</span> +
-                                <span class="string">'           &lt;param name="playerKey" value="'</span> + videoProp.playerKey + <span class="string">'" /&gt;'</span> +
+                                <span class="string">'           &lt;param name="width" value="'</span> + self.videoProp.videoWidth + <span class="string">'" /&gt;'</span> +
+                                <span class="string">'           &lt;param name="height" value="'</span> + self.videoProp.videoHeight + <span class="string">'" /&gt;'</span> +
+                                <span class="string">'           &lt;param name="playerID" value="'</span> + self.videoProp.playerID + <span class="string">'" /&gt;'</span> +
+                                <span class="string">'           &lt;param name="playerKey" value="'</span> + self.videoProp.playerKey + <span class="string">'" /&gt;'</span> +
                                 <span class="string">'           &lt;param name="templateLoadHandler" value="myTemplateLoaded" /&gt;'</span> +
                                 <span class="string">'           &lt;param name="isVid" value="true" /&gt;'</span> +
                                 <span class="string">'           &lt;param name="isUI" value="true" /&gt;'</span> +
                                 <span class="string">'           &lt;param name="dynamicStreaming" value="true" /&gt;'</span> +
-                                <span class="string">'           &lt;param name="autoStart" value="'</span> + autoStart + <span class="string">'" /&gt;'</span> +
+                                <span class="string">'           &lt;param name="autoStart" value="'</span> + self.autoStart + <span class="string">'" /&gt;'</span> +
                                 <span class="string">'           &lt;param name="includeAPI" value="true" /&gt;'</span> +
-                                <span class="string">'           &lt;param name="@videoPlayer" value="ref:'</span> + videoProp.videoID + <span class="string">'" /&gt;'</span> +
+                                <span class="string">'           &lt;param name="@videoPlayer" value="ref:'</span> + self.videoProp.videoID + <span class="string">'" /&gt;'</span> +
                                 <span class="string">'       &lt;/object&gt;'</span> +
                                 <span class="string">'   &lt;/div&gt;'</span> +
                                 <span class="string">'&lt;/div&gt;'</span>;
-                                <span class="comment">/* @formatter:on */</span>
 
-                $($targetPlaceholder).find(<span class="string">'img'</span>).before(activePlayer).addClass(<span class="string">'visuallyhidden'</span>);
-                brightcove.createExperiences();
-            } <span class="keyword">else</span> {
-                $($targetPlaceholder).find(<span class="string">'img'</span>).before(imgMissingVideoID).addClass(<span class="string">'visuallyhidden'</span>);
-            }
+    self.$elGroup.addClass(<span class="string">'video-inactive'</span>);
+    
+    self.init();
+  };
 
-            $(<span class="keyword">this</span>).toggleClass(<span class="string">'video-active video-inactive'</span>);
-        });
-    };
+  ActivateBrightcove.prototype = {
+
+    <span class="string">'constructor'</span> : ActivateBrightcove,
+
+    <span class="string">'init'</span> : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.actionBtn();
+    },
+    <span class="string">'actionBtn'</span> : <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.on( <span class="string">'click'</span>, <span class="keyword">function</span>(e) {
+
+        e.preventDefault( );
+
+        self.removeAll( );
+
+        <span class="keyword">if</span> ( !self.videoIdMissing ) {
+          $( self.$targetPlaceholder ).find(<span class="string">'img'</span>).before( self.videoMarkup ).addClass(<span class="string">'visuallyhidden'</span>);
+          brightcove.createExperiences( );
+        } <span class="keyword">else</span> {
+          $( self.$targetPlaceholder ).find(<span class="string">'img'</span>).before( self.imgMissingVideoID ).addClass(<span class="string">'visuallyhidden'</span>);
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>change cssClass video-inactive to video-active</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.toggleClass(<span class="string">'video-active video-inactive'</span>);
+      } );
+    },
+    <span class="string">'removeAll'</span> : <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>remove all video instance and show poster image</p>             </td>             <td class="code">               <div class="highlight"><pre>      $( <span class="string">'.vbc-container, .video-missing-poster'</span> ).remove();
+      $( <span class="string">'.video-container figure img'</span> ).removeClass(<span class="string">'visuallyhidden'</span>);
+    }
+
+  };
+
+    
+  jQuery.fn.activateBrightcove = <span class="keyword">function</span>( options ) {
+
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+
+    <span class="keyword">return</span> <span class="keyword">this</span>.each( <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $( <span class="keyword">this</span> ), activateBrightcove = self.data( <span class="string">'activateBrightcove'</span> );
+
+      <span class="keyword">if</span> ( !activateBrightcove ) {
+        activateBrightcove = <span class="keyword">new</span> ActivateBrightcove( self, options );
+        self.data( <span class="string">'activateBrightcove'</span>, activateBrightcove );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        activateBrightcove[options].apply( activateBrightcove, args );
+      }
+    } );
+
+  };
+
+
+  $( <span class="keyword">function</span>() {
+    $(<span class="string">'.action-video'</span>).activateBrightcove();
+  } );
+
 })(jQuery);
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

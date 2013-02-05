@@ -33,6 +33,7 @@
   $gray70:  rgb(228,231,235);
   $gray80:  rgb(241,245,249);
   $gray90:  rgb(243,244,246);
+  $gray95:  rgb(248,248,250);
   $white:   rgb(255,255,255);
   // LEGACY - Ideally, we should do a search-and-replace through all code to get rid of all these now.
   // --------------------------------------------------
@@ -125,9 +126,6 @@
 
 
 
-
-
-
   // MISC Colors
   // --------------------------------------------------
   // mostly just used for product color swatches - these are NOT final!
@@ -166,6 +164,10 @@
 
   $defaultTextColor:      $text-dark;
   $defaultParagraphColor: $text-med-dark;
+
+  $footerLinks:           $gray70;
+  $footerLinksHover:      $gray70;
+  $footerGrayText:        $gray40;
 
 
 
@@ -324,7 +326,7 @@
 
   $btnDropdownAltBackground:        $white !default;
   $btnDropdownAltBackgroundHover:   darken($white,2%) !default;
-  $btnDropdownAltBackgroundActive:  darken($white,1%) !default;
+  $btnDropdownAltBackgroundActive:  $gray40 !default;
 
   $btnPadding:               8px 0 11px;
   $btnLargePadding:          7px 0 10px;
@@ -422,11 +424,11 @@
   $dropdownAltDividerTop:            rgb(229,229,229) !default;
   $dropdownAltDividerBottom:         $white !default;
 
-  $dropdownAltLinkColor:             $gray !default;
-  $dropdownAltLinkColorHover:        $white !default;
-  $dropdownAltLinkColorActive:       $highlightColor !default;
+  $dropdownAltLinkColor:             $gray40 !default;
+  $dropdownAltLinkColorHover:        $gray20 !default;
+  $dropdownAltLinkColorActive:       $buttonOrange !default;
 
-  $dropdownAltLinkBackgroundActive:  $highlightColor !default;
+  $dropdownAltLinkBackgroundActive:  $gray95 !default;
   $dropdownAltLinkBackgroundHover:   $dropdownAltLinkBackgroundActive !default;
 
 
@@ -600,16 +602,17 @@
 
   $navbarBackground:                $black !default;
   $navbarBackgroundHighlight:       lighten($navbarBackground,5%) !default;
-  $navbarTertiaryColor:             $grayDark1 !default;
+  $navbarTertiaryColor:             $gray30 !default;
 
   $navbarTextSize:                  0.9375em; // 15px/16px
   $navbarSmTextSize:                0.8125em; // 13px/16px
-  $navbarText:                      $white !default;
-  $navbarLinkColor:                 $white !default;
-  $navbarLinkColorHover:            $grayLighter !default;
-  $navbarLinkColorActive:           lighten($linkColorHover,5%) !default;
-  $navbarLinkBackgroundHover:       transparent !default;
-  $navbarLinkBackgroundActive:      darken($navbarBackground, 5.25%) !default;
+  $navbarText:                      $gray70;
+  $navbarLinkColor:                 $gray70;
+  $navbarLinkColorHover:            $white;
+  $navbarLinkColorActive:           $white;
+  $navbarLinkBackgroundHover:       transparent;
+  $navbarLinkBackgroundActive:      transparent;
+  $navbarLinkBtnBgHover:            $gray20;
 
   // Inverted navbar
   $navbarInverseBackground:                rgb(17,17,17) !default;
@@ -719,6 +722,9 @@
   $paginationBorder:                    rgb(221,221,221) !default;
   $paginationActiveBackground:          rgb(245,245,245) !default;
 
+  $navPaddleWidth:          2.125em; // 34
+  $navPaddleHeight:         3.25em; // 52
+
 
 
 
@@ -740,14 +746,14 @@
 // ------------------------------------------------
 .TOOLTIPS-AND-POPOVERS{}
   $tooltipColor:            $white !default;
-  $tooltipBackground:       $grayDark !default;
+  $tooltipBackground:       $gray20 !default;
   $tooltipArrowWidth:       .3125em !default;
   $tooltipArrowColor:       $tooltipBackground !default;
 
-  $popoverBackground:       rgb(255,255,255) !default;
+  $popoverBackground:       $white !default;
   $popoverArrowWidth:       10px !default;
-  $popoverArrowColor:       rgb(255,255,255) !default;
-  $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
+  $popoverArrowColor:       $white !default;
+  $popoverTitleBackground:  $white !default;
 
   // Special enhancement for popovers
   $popoverArrowOuterWidth:  $popoverArrowWidth + 1 !default;

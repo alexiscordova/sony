@@ -1,5 +1,70 @@
 include ../includes/jade-helpers.jade
 
+
+//- the list is an array of list items like this:
+//- "definitionList" : [
+//-   {
+//-       "term" : "Dimension",
+//-       "definitions" : [
+//-           "12.95 x 7.30 x 2.32cm",
+//-           "(4.375&Prime; x 3.875&Prime; x 2.125&Prime;)"
+//-       ]
+//-   },
+//-   {
+//-       "term" : "Height",
+//-       "definition" : "8.5oz (240g)"
+//-   }
+//- ]
+//- and outputs a definition list like this:
+//- <dl>
+//-   <dt>term</dt>
+//-   <dd>definition</dd>
+//- </dl>
+mixin definitionList( list, isHorizontal )
+  - isHorizontal = isHorizontal || false
+  - clss = isHorizontal ? 'dl-horizontal' : null
+  dl(class=clss)
+    each li in list
+      dt.l3: strong= li.term
+      if li.definition
+        dd.p3= li.definition
+      else
+        each definition in li.definitions
+          dd.p3= definition
+
+
+//- A simple unstyled ul
+mixin specList( list, extraClasses )
+  - classes = 'unstyled spec-list'
+  - extraClasses = extraClasses || false
+  - if ( extraClasses ) classes += ' ' + extraClasses
+  ul(class=classes)
+    each li in list
+      li.p3= li
+
+mixin colorSwatches( colors )
+  classes = ['color-swatches', 'clearfix']
+  - if ( colors.length > 1 ) classes.push('invisible')
+  div(class=classes)
+    each color in colors
+      theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
+      span(class=theClass, data-color=color.color, itemprop="color")= color.color
+
+mixin iQColorImages( colors )
+  if colors.length > 1
+    each img in colors
+      //- mixin iQImage( img, 'hidden', 'image' )
+      img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+      noscript
+        img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
+
+mixin heart
+  .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
+    favClass = 'icon-ui-favorite'
+    - if ( data.isFavorited ) favClass += ' active'
+    i(class=favClass)
+
+
 if data.view == "basic"
   klass = '';
   if data.layout == 'large' || data.layout == 'carousel'
@@ -15,7 +80,10 @@ if data.view == "basic"
   else
     klass = 'span1 normal'
 
-  a.gallery-item.basic(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
+  //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
+  klass = 'gallery-item basic m-span3 ' + klass
+
+  a(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label
@@ -33,9 +101,9 @@ if data.view == "basic"
               i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
-                span.number.l5: strong= data.count.number
+                span.number.l2= data.count.number
                 | &nbsp;
-                span.text.l5: strong= data.count.text
+                span.text.l3= data.count.text
 
       else if data.layout == 'plate'
         .product-img(class=data.backgroundColorClass)
@@ -49,9 +117,9 @@ if data.view == "basic"
               i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
-                span.number.l5: strong= data.count.number
+                span.number.l2= data.count.number
                 | &nbsp;
-                span.text.l5: strong= data.count.text
+                span.text.l3= data.count.text
       else
         .product-img
           .product-img-wrap.ghost-center-wrap
@@ -69,36 +137,23 @@ if data.view == "basic"
               else
                 mixin iQImage( data.imgSmall )
 
-              if data.imgSmall.colors
-                each img in data.imgSmall.colors
-                  //- mixin iQImage( img, 'hidden', 'image' )
-                  img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
-                  noscript
-                    img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
+              if data.img && data.img.colors
+                mixin iQColorImages( data.img.colors )
 
           if data.img && data.img.colors
-            .color-swatches.clearfix
-              each color in data.img.colors
-                theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
-                span(class=theClass, data-color=color.color, itemprop="color")= color.color
+            mixin colorSwatches( data.img.colors )
 
-          else if data.imgSmall && data.imgSmall.colors
-            .color-swatches.clearfix
-              each color in data.img.colors
-                theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
-                span(class=theClass, data-color=color.color, itemprop="color")= color.color
+          //- else if data.imgSmall && data.imgSmall.colors
+          //-   mixin colorSwatches( data.img.colors )
 
-          .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
-            favClass = 'icon-ui-favorite'
-            - if ( data.isFavorited ) favClass += ' active'
-            i(class=favClass)
+          mixin heart()
 
         .product-content
           .product-name-wrap
             .product-name.p3= data.name
           .product-price
             span.price-prefix.p3 Starting at &nbsp;
-            span.price.l5: strong= '$' + data.price + '&nbsp;'
+            span.price.l2= '$' + data.price + '&nbsp;'
             span.msrp.p5 MSRP
 
 
@@ -112,20 +167,12 @@ else if data.view == 'detailed'
         .product-img-wrap.ghost-center-wrap.js-product-imgs
           .ghost-center
             mixin iQImage( data.img, 'js-product-img-main', 'image' )
-            each img in data.img.colors
-              img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
-              noscript
-                img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
-        if data.img.colors
-          .color-swatches.clearfix
-            each color in data.img.colors
-              colorClass = 'mini-swatch swatch-' + color.color + ' pull-left'
-              span(class=colorClass, data-color=color.color, itemprop="color")= color.color
+            mixin iQColorImages( data.img.colors )
 
-          .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
-            favClass = 'icon-ui-favorite'
-            - if ( data.isFavorited ) favClass += ' active'
-            i(class=favClass)
+        if data.img.colors
+          mixin colorSwatches( data.img.colors )
+
+        mixin heart()
 
       .product-content
         .product-name-wrap
@@ -149,7 +196,7 @@ else if data.view == 'detailed'
               span.prodcut-meta-name= meta.name
         .product-price
           span.price-prefix.p3 Starting at &nbsp;
-          span.price.l5: strong(itemprop="price")= '$' + data.price + '&nbsp;'
+          span.price.l2(itemprop="price")= '$' + data.price + '&nbsp;'
           span.msrp.p5 MSRP
 
         .detail-group.hidden
@@ -203,11 +250,11 @@ else if data.view == "specs"
     each spec, i in data.specs
       .spec-item-cell
         .spec-cell-inner
-          p.cell-label.l5: strong= labels[i]
+          p.cell-label.l3= labels[i]
 
           if spec.name && spec.list && spec.img
             p= spec.name
-            p.l5: strong= spec.listTitle
+            p.l3= spec.listTitle
             mixin specList( spec.list, 'before-btm-aligned' )
             mixin iQImage( spec.img, 'btm-aligned' )
 
@@ -216,7 +263,7 @@ else if data.view == "specs"
             p= spec.text
             if spec.list
               if spec.listTitle
-                p.l5: strong= spec.listTitle
+                p.l3= spec.listTitle
               mixin specList( spec.list )
 
           else if spec.text
@@ -248,7 +295,7 @@ else if data.view == "specs"
               i(class=iconClass)
             p= spec.callout
             mixin specList( spec.list )
-            p.l5: strong= spec.label
+            p.l3= spec.label
             p.p3= spec.labeledText
 
           else if spec.enlargement
@@ -256,7 +303,7 @@ else if data.view == "specs"
               mixin iQImage( spec.img )
             button.iconTrigger-ui2-magnify.enlarge.js-enlarge
               i.icon-ui2-magnify
-              span.l5: strong!= '&nbsp;' + spec.iconTitle
+              span.l3!= '&nbsp;' + spec.iconTitle
 
             mixin specList( spec.list )
 
@@ -298,27 +345,28 @@ else if data.view == 'single-spec'
       section.spec-overview.spec-section
         .container
           .grid.no-grid-at-567
-            .span8.relative.paddle-trigger
-              nav
-                button.nav-paddle.overview-nav.overview-nav-prev
-                  i.icon-ui2-chevron-18-white-left
-                button.nav-paddle.overview-nav.overview-nav-next
-                  i.icon-ui2-chevron-18-white-right
-              .spec-carousel-wrap
-                .spec-carousel
-                  each img in spec.imgs
-                    .slide
-                      mixin iQImage( img )
+            .span8.relative.paddle-trigger.ghost-center-wrap
+              .ghost-center
+                nav
+                  button.nav-paddle.overview-nav.overview-nav-prev
+                    i.icon-ui2-chevron-18-white-left
+                  button.nav-paddle.overview-nav.overview-nav-next
+                    i.icon-ui2-chevron-18-white-right
+                .spec-carousel-wrap
+                  .spec-carousel
+                    each img in spec.imgs
+                      .slide
+                        mixin iQImage( img )
 
             .span3.offset1
-              h5.section-label= spec.label
+              h5.t5.section-label= spec.label
               mixin definitionList( spec.definitionList )
 
     else if spec.list && spec.list2 && spec.img
       section.container
         .grid.m-grid-at-567.spec-section
           .span3.no-m-span
-            h5.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span3.alpha.m-span3
             mixin specList( spec.list )
           .span3.m-span3
@@ -330,7 +378,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h5.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
           .span4.offset1
@@ -340,17 +388,18 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section.align-right-bottom
           .span3
-            h5.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span3
             mixin definitionList( spec.definitionList )
-          .span6.has-img
-            mixin iQImage( spec.img )
+          .span6.has-img.ghost-center-wrap
+            .ghost-center.v-bottom
+              mixin iQImage( spec.img )
 
     else if spec.definitionList && spec.img
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h5.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
 
@@ -363,7 +412,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h5.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
 
@@ -371,25 +420,23 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h5.section-label= spec.label
+            h5.t5.section-label= spec.label
           each feature, i in spec.features
             - feature2 = spec.features2[i]
             .span3
               .media
                 .pull-left
                   .media-object.holder-for-icon
-                    icon = 'icon-uibig-' + feature.icon
-                    i(class=icon)
+                    i(class=feature.icon)
                 .media-body
-                  p.media-heading.l5: strong!= feature.label
+                  p.media-heading.l3!= feature.label
                   p.media-description.p3!= feature.description
               .media
                 .pull-left
                   .media-object.holder-for-icon
-                    icon = 'icon-uibig-' + feature2.icon
-                    i(class=icon)
+                    i(class=feature2.icon)
                 .media-body
-                  p.media-heading.l5: strong!= feature2.label
+                  p.media-heading.l3!= feature2.label
                   p.media-description.p3!= feature2.description
 
 
