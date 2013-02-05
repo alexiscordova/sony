@@ -1,11 +1,12 @@
 mixin eyebrowheader(d)
   d = d || data
-  if d.eyebrow
-    h2.t6.eyebrow!= locals.plusify(d.eyebrow)
-  if d.variation.headertext == "larger"
-    h1!= d.headline
-  else
-    h1.t2!= d.headline
+  hgroup
+	  if d.eyebrow
+	    h2.t6.eyebrow!= locals.plusify(d.eyebrow)
+	  if d.variation.headertext == "larger"
+	    h1!= d.headline
+	  else
+	    h1.t2!= d.headline
     
 mixin subheadbody(d)
   d = d || data
@@ -39,7 +40,7 @@ mixin boxlayout(layout)
             .box(class = layout.alignment)(class = layout.mobilealign)
               block
 
-section.primary-tout.container.full-bleed-no-max(class= data.mode)
+article.primary-tout.container.full-bleed-no-max(class= data.mode, data-module-name != data.config.module_name, data-module-id= data.config.module_id)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
   if data.mode == "homepage"
