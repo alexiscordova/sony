@@ -84,6 +84,19 @@
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
+      self.prefixed              = Modernizr.prefixed;
+      self.transitionName        = self.prefixed('transition');
+
+      // Get transitionend event name
+      var transEndEventNames = {
+          'WebkitTransition' : 'webkitTransitionEnd',
+          'MozTransition'    : 'transitionend',
+          'OTransition'      : 'oTransitionEnd',
+          'msTransition'     : 'MSTransitionEnd',
+          'transition'       : 'transitionend'
+      };
+
+      self.transitionEndName     = transEndEventNames[ self.transitionName ];
 
       self.mode                  = self.$el.data('mode').toLowerCase();
       self.variation             = self.$el.data('variation').split('-')[2];
@@ -1050,9 +1063,9 @@
           self.$container.css( animObj );
 
           //IQ Update
-/*          self.$container.one($.support.transition.end , function(){
+          self.$container.one(self.transitionEndName , function(){
             window.iQ.update();
-          });*/
+          });
         }
 
         //update the overall position
