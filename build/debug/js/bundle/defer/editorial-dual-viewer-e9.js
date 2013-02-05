@@ -36,7 +36,7 @@
 
     'constructor': EditorialDualViewer,
 
-    'init': function() {
+    '_init': function() {
 
       var self = this;
 
@@ -65,7 +65,7 @@
       });
 
       if ( ready ) {
-        self.init();
+        self._init();
       } else {
         setTimeout($.proxy(self.initTimeout, self), 500);
       }

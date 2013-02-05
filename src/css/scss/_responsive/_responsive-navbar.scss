@@ -122,6 +122,7 @@
     @include fonticon-text-px-to-em(13px);
     @include fontBold;
     margin-top:0px;
+    margin-left:2px;
   }
   [class^="fonticon-10-"],
   [class*=" fonticon-10-"]{
@@ -138,7 +139,7 @@
 .nav-li-account{
   .nav-li-link.nav-dropdown-toggle{
     font-size: px-em(11px);
-    padding-right:2px;
+    padding-right:6px;
     padding-top:10px;
 
     .fonticon-10-arrowhead-down{
@@ -299,31 +300,45 @@
 }
 
 
+
+.navmenu-w{ 
+  z-index: 190;
+  position: absolute;
+  overflow: visible;
+  background: $navMenuBackground;
+  @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
+  @include border-bottom-radius(2px);
+
+  .fonticon-10-arrowhead-up.nav-indicator{
+  }
+}
+
+
 .navmenu-w-search{
   @include hideshow-navmenu-hide(right);
 
-  .sprite-mini-global-nav-indicator{
-    right:31px;
+  .fonticon-10-arrowhead-up.nav-indicator{
+    right:17px;
   }
   .btn-clear-search-input{
     right: 30px;
     top: 22px;
   }
-
   .fonticon-10-search{
     top: 25px;
     left: 46px;
   }
 }
 
-
-
-
 .navmenu-w-account{
   width: 215px;
   padding: 11px 0 9px;
 
   @include hideshow-navmenu-hide(right);
+
+  .fonticon-10-arrowhead-up.nav-indicator{
+    left: 25px;
+  }
 
   .navmenu-list-prefixed{
     border-bottom:solid 1px $grayLightish;
@@ -502,8 +517,8 @@
   // }
 }
 .nav-li-search .nav-li-linkBtn{
-  padding-right: 8px;
-  padding-left: 6px;
+  padding-right: 10px;
+  padding-left: 5px;
   padding-top: 10px;
   .lbl{
     display:none;
@@ -602,8 +617,8 @@
 }
 
 .nav-li-search .nav-li-linkBtn{
-  padding-right: 5px;
-  padding-left: 3px;
+  padding-right: 7px;
+  padding-left: 2px;
   padding-top: 9px;
 }
 
@@ -692,6 +707,27 @@
 .navmenu-w-search{
   margin-left: 27px;
 }
+
+
+
+
+.navmenu-w{ 
+  .fonticon-10-arrowhead-up.nav-indicator{
+    top:-10px;
+  }
+}
+.navmenu-w-search{
+  .fonticon-10-arrowhead-up.nav-indicator{
+    right:15px;
+  }
+}
+.navmenu-w-account{
+  .fonticon-10-arrowhead-up.nav-indicator{
+    left: 25px;
+  }
+}
+
+
 
 .navtray-section-featured{ // section right
   padding-top: 35px;
@@ -1181,11 +1217,6 @@
 
 
 .navbar-mobile{
-  .sprite-reg-nav-sony-logo{
-    margin-top:10px;
-    width:70px;
-    margin-left:-40px;
-  }
   .btn-mobile-nav,
   .btn-mobile-cart{
     width: 58px;
