@@ -775,6 +775,7 @@ $offsetFromMiddle: px-em(45px);
 .active-filters-wrap {
   position: relative;
   z-index: 1;
+  margin-top: 1.25em;
 }
 
 .active-filters .label {
@@ -790,6 +791,7 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .filter-container {
+  position: relative;
   margin-top: 1.375em;
   margin-bottom: 1.375em;
 
@@ -841,6 +843,7 @@ $offsetFromMiddle: px-em(45px);
     }
 
     i {
+      line-height: 0;
       vertical-align: middle;
     }
   }
@@ -852,6 +855,51 @@ $offsetFromMiddle: px-em(45px);
 
 .sort-options .filter-label {
   padding-right: 8px; // has a font-size set on it
+}
+
+
+@media ( min-width: 48em ) and ( max-width: 61.1875em ) {
+
+  // This block is the group of media objects. It's a span12, but
+  // not in it's own container, so we have to reset the margin-left
+  .filter-options .grid > :last-child {
+    margin-left: 0;
+
+    & .filter-container {
+      margin-top: 0;
+    }
+  }
+
+  .filter-options .media-list {
+
+    .media {
+      float: left;
+    }
+
+    &[data-length="1"] .media {
+      width: 100%;
+    }
+
+    &[data-length="2"] .media {
+      width: 50%;
+    }
+
+    &[data-length="3"] .media {
+      width: 33.3333333%;
+    }
+
+    &[data-length="4"] .media {
+      width: 25%;
+    }
+
+    &[data-length="5"] .media {
+      width: 20%;
+    }
+  }
+
+  .filter-container .media + .media {
+    margin-top: 0;
+  }
 }
 
 

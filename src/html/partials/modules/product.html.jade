@@ -43,11 +43,12 @@ mixin specList( list, extraClasses )
       li.p3= li
 
 mixin colorSwatches( colors )
-  if colors.length > 1
-    .color-swatches.clearfix
-      each color in colors
-        theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
-        span(class=theClass, data-color=color.color, itemprop="color")= color.color
+  classes = ['color-swatches', 'clearfix']
+  - if ( colors.length > 1 ) classes.push('invisible')
+  div(class=classes)
+    each color in colors
+      theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
+      span(class=theClass, data-color=color.color, itemprop="color")= color.color
 
 mixin iQColorImages( colors )
   if colors.length > 1
@@ -358,14 +359,14 @@ else if data.view == 'single-spec'
                         mixin iQImage( img )
 
             .span3.offset1
-              h6.t6.section-label= spec.label
+              h5.t5.section-label= spec.label
               mixin definitionList( spec.definitionList )
 
     else if spec.list && spec.list2 && spec.img
       section.container
         .grid.m-grid-at-567.spec-section
           .span3.no-m-span
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span3.alpha.m-span3
             mixin specList( spec.list )
           .span3.m-span3
@@ -377,7 +378,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
           .span4.offset1
@@ -387,7 +388,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section.align-right-bottom
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span3
             mixin definitionList( spec.definitionList )
           .span6.has-img.ghost-center-wrap
@@ -398,7 +399,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
 
@@ -411,7 +412,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
 
@@ -419,23 +420,21 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           each feature, i in spec.features
             - feature2 = spec.features2[i]
             .span3
               .media
                 .pull-left
                   .media-object.holder-for-icon
-                    icon = 'icon-uibig-' + feature.icon
-                    i(class=icon)
+                    i(class=feature.icon)
                 .media-body
                   p.media-heading.l3!= feature.label
                   p.media-description.p3!= feature.description
               .media
                 .pull-left
                   .media-object.holder-for-icon
-                    icon = 'icon-uibig-' + feature2.icon
-                    i(class=icon)
+                    i(class=feature2.icon)
                 .media-body
                   p.media-heading.l3!= feature2.label
                   p.media-description.p3!= feature2.description

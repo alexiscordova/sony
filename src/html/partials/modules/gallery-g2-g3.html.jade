@@ -41,7 +41,7 @@ mixin filterCheckbox( filterSet )
             //- mixin popoverContent( filterSet.help )
 
 mixin filterGroup( filterSet )
-  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type)
+  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
     each filter in filterSet.filters
       li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
       btn = '<div class="pull-left"><button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after media-object"><i class="fonticon-20-' + filter.icon + '"></i></button></div>'
@@ -137,7 +137,8 @@ mixin filterSet( filterSet )
               - d.view = "basic"
               - d.iterator = i
               e = { "locals" : locals, "data" : d }
-              !{locals.partial('modules/' + module.type, e )}
+              path = 'modules/' + module.type
+              !{locals.partial( path, e )}
 
         .grid.see-all
           a.btn.btn-wide(href="#")= data.featured.callout
@@ -154,7 +155,8 @@ mixin filterSet( filterSet )
               - d.view = "basic"
               - d.iterator = i
               e = { "locals" : locals, "data" : d }
-              !{locals.partial('modules/' + module.type, e )}
+              path = 'modules/' + module.type
+              !{locals.partial( path, e )}
 
         .grid.see-all
           a.btn.btn-wide(href="#")= data.featured2.callout
@@ -226,7 +228,8 @@ mixin filterSet( filterSet )
               if d.type == "product" && !d.promo
                 - d.view = "detailed"
                 e = { "locals" : locals, "data" : d }
-                !{locals.partial('modules/' + module.type, e )}
+                path = 'modules/' + module.type
+                !{locals.partial( path, e )}
 
         .comparables.hidden
           .compare-name= data.productCards.galleryName
@@ -280,7 +283,8 @@ mixin filterSet( filterSet )
                     - d.layout = document.layout3
                     - d.view = "basic"
                     e = { "locals" : locals, "data" : d }
-                    !{locals.partial('modules/' + module.type, e )}
+                    path = 'modules/' + module.type
+                    !{locals.partial( path, e )}
                     - count += 1
 
   - for (i = 3; i < 10; i++) {
