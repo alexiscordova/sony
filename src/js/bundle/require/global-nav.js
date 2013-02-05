@@ -71,54 +71,119 @@
         // Init Desktop Nav
         self.$activePrimaryNavBtns.each(function(){
 
+          var $thPrimaryNavBtn = $(this),
+            $thPrimaryNavBtnTarget = $('.' + $thPrimaryNavBtn.data('target')),
+            $thPrimaryNavBtnAndTarget = $thPrimaryNavBtn.add($thPrimaryNavBtnTarget);
+
+
           // init
-          self.resetPrimaryNavBtn($(this));
+          self.resetPrimaryNavBtn($thPrimaryNavBtn);
 
           // $(this).on(self.tapOrClick + ' focus blur', function() {
           // $(this).on(self.tapOrClick, function() {
           // $(this).on('touchstart mouseenter', function() {
           
           // TOUCH DEVICES
-          /*$(this).on('touchstart', function() {
-            var $thPrimaryNavBtn = $(this);
-            
-            // if this button isn't already activated, 
-            if (!$thPrimaryNavBtn.parent().hasClass('nav-li-selected')){
-              // deactivate any others, and activate this one.
+          if ($('body').hasClass("touch")){
 
-              // if there is NOT another button already activated, 
-              if (!(self.$currentOpenNavBtn !== false )){
-                // update the Nav button & open the new tray/menu immediately
-                self.setActivePrimaryNavBtn($thPrimaryNavBtn);
-
-              // if there WAS already an active button, 
-              } else {
-                // deactivate it first
+            $thPrimaryNavBtn.on('touchstart', function() {
+              // var $thPrimaryNavBtn = $(this);
+              
+              // if this button is already activated, 
+              if ($thPrimaryNavBtn.parent().hasClass('nav-li-selected')){
+                // just hide/reset it.
                 self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
-                var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
-                
-                // if the open target was a navtray, 
-                if ($oldNavTarget.hasClass('navtray-w')){
-                  // delay opening the new one until the old tray has a chance to close.
-                  setTimeout(function(){
-                    self.setActivePrimaryNavBtn($thPrimaryNavBtn);
-                  },350);
+                self.$currentOpenNavBtn = false;
+
+              // if this button isn't already activated,
+              } else {
+
+                // See if any other buttons are activated. If there's NOT
+                var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
+                if (!otherIsActive){
+                  // update the Nav button & open the new tray/menu immediately
+                  self.setActivePrimaryNavBtn($thPrimaryNavBtn);
+
+                // if there WAS already an active button, 
                 } else {
-                  // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
-                  setTimeout(function(){
-                    self.setActivePrimaryNavBtn($thPrimaryNavBtn);
-                  },150);
+                  // deactivate it first
+                  self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
+                  var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
+                  
+                  // if the open target was a navtray, 
+                  if ($oldNavTarget.hasClass('navtray-w')){
+                    // delay opening the new one until the old tray has a chance to close.
+                    setTimeout(function(){
+                      self.setActivePrimaryNavBtn($thPrimaryNavBtn);
+                    },350);
+                  } else {
+                    // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
+                    setTimeout(function(){
+                      self.setActivePrimaryNavBtn($thPrimaryNavBtn);
+                    },150);
+                  }
                 }
               }
+            }); // end touchstart
 
+          // NOT touch device - set up HOVER triggers
+          } else {
 
-            } else {
-              // if this tray was already visible, hide/reset it.
-              // console.log('## ## this is already open - close it now.' );
-              self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
-              self.$currentOpenNavBtn = false;
-            }
-          });*/
+            $thPrimaryNavBtnTarget.on('mouseenter', function() {
+              $(this).data('hovering',true);
+            });
+            $thPrimaryNavBtnTarget.on('mouseleave', function() {
+              $(this).data('hovering',false);
+            });
+
+            $thPrimaryNavBtn.on('mouseenter', function() {
+              // var $thPrimaryNavBtn = $(this);
+              
+              // if this button is already activated, 
+              if ($thPrimaryNavBtn.parent().hasClass('nav-li-selected')){
+                // DO NOTHING!! - just leave it open.
+
+              // if this button isn't already activated,
+              } else {
+
+                // See if any other buttons are activated. If there's NOT
+                var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
+                if (!otherIsActive){
+                  // update the Nav button & open the new tray/menu immediately
+                  self.setActivePrimaryNavBtn($thPrimaryNavBtn);
+
+                // if there WAS already an active button, 
+                } else {
+                  // deactivate it first
+                  self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
+                  var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
+                  
+                  // if the open target was a navtray, 
+                  if ($oldNavTarget.hasClass('navtray-w')){
+                    // delay opening the new one until the old tray has a chance to close.
+                    setTimeout(function(){
+                      self.setActivePrimaryNavBtn($thPrimaryNavBtn);
+                    },350);
+                  } else {
+                    // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
+                    setTimeout(function(){
+                      self.setActivePrimaryNavBtn($thPrimaryNavBtn);
+                    },150);
+                  }
+                }
+              }
+            }); // end mouseenter
+
+            $thPrimaryNavBtn.on('mouseleave', function() {
+
+              // check to see if you're currently hovering over this button's target, and if so, don't do anything.
+              if (!$('.' + $thPrimaryNavBtn.data('target')).data('hovering')){
+                // and if not, deactivate this button (reset the menu)
+                self.resetPrimaryNavBtn(self.$currentOpenNavBtn);
+              }
+            });
+          }
+
         });
       } else {
         // Init Mobile Nav
@@ -132,6 +197,14 @@
           }
         });
       }
+    },
+
+
+    primaryNavBtnHoverMouseover: function(e){
+      console.log("mouseover: " + $(e.target).attr('class'));
+    },
+    primaryNavBtnMouseleave: function(e){
+      console.log("mouseout");
     },
 
     setActivePrimaryNavBtn: function( $btn ){
