@@ -84,6 +84,19 @@
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
+      self.prefixed              = Modernizr.prefixed;
+      self.transitionName        = self.prefixed('transition');
+
+      // Get transitionend event name
+      var transEndEventNames = {
+          'WebkitTransition' : 'webkitTransitionEnd',
+          'MozTransition'    : 'transitionend',
+          'OTransition'      : 'oTransitionEnd',
+          'msTransition'     : 'MSTransitionEnd',
+          'transition'       : 'transitionend'
+      };
+
+      self.transitionEndName     = transEndEventNames[ self.transitionName ];
 
       self.mode                  = self.$el.data('mode').toLowerCase();
       self.variation             = self.$el.data('variation').split('-')[2];
@@ -228,7 +241,7 @@
             column = containerWidth;
           }
 
-          console.log('Shuffling Columns returning  »',column);
+          console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -612,6 +625,18 @@
               self.shuffle.destroy();
               self.shuffle = null;
               self.sorted = false;
+
+              self.$shuffleContainers.each(function(){
+                var shfflInst = $(this).data('shuffle');
+
+                console.log('I am a shuffle instance!!! Look at me! »',shfflInst);
+
+                if(shfflInst !== undefined){
+                  shfflInst.destroy();
+                  shfflInst = null;
+                }
+
+              });
 
               console.log("Destroying shuffle instance »" , self.shuffle);
             }
@@ -1050,9 +1075,9 @@
           self.$container.css( animObj );
 
           //IQ Update
-/*          self.$container.one($.support.transition.end , function(){
+          self.$container.one(self.transitionEndName , function(){
             window.iQ.update();
-          });*/
+          });
         }
 
         //update the overall position

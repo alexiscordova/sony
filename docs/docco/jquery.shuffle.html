@@ -429,7 +429,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
         _onResize : <span class="keyword">function</span>() {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-            <span class="keyword">if</span> ( !self.enabled ) {
+            <span class="keyword">if</span> ( !self.enabled || self.destroyed ) {
                 <span class="keyword">return</span>;
             }
 
@@ -661,6 +661,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
             self.$container.removeAttr(<span class="string">'style'</span>).removeData(<span class="string">'shuffle'</span>);
             $(window).off(<span class="string">'.shuffle'</span>);
             self.$items.removeAttr(<span class="string">'style'</span>).removeClass(<span class="string">'concealed filtered shuffle-item'</span>);
+            self.destroyed = <span class="literal">true</span>;
         }
 
     };
