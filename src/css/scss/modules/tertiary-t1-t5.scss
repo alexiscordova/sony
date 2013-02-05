@@ -25,17 +25,14 @@
 	} // end .tcc-body-wrapper
 	
 	.tcc-header{
-
 		border-bottom: 2px solid $gray70;
 	} // end .tcc-header
 
 	.tcc-body{
-
 		display:inline-block;	
 	} // end .tcc-body
 
 	.tcc-content-module{
-
 		position: relative;
 		overflow: hidden;
 		
@@ -47,6 +44,7 @@
 			@include transition(opacity, $transitionFast);
 			opacity:1.0;
 		} // end img
+
 	} // end .tcc-content-module
 
 	// certain tertiary content modules have hover states
@@ -64,24 +62,23 @@
 
 	.article{	
     
+    // DEFAULTS
     .img-container{
-			//border: 1px solid green;
 			position: relative;
 			margin-bottom:px-em(20px);
     } // end .img-container
 
     // body copy
-		.p1{
+		.p3{
 			color:$gray40;
 		} // end p1
 
 		// title
 		.t6{
-			strong{
-				color:$titleBlack;			
-			}
+			color:$titleBlack;			
 		} // end t6
 
+		// SPECIFIC TO CONTENT TYPE
 		&.event{
 	   // overlay box
 	    .attendance-count{
@@ -100,21 +97,19 @@
 				width:35%;
 	    } // end . attendance-count
 
-			// number
-    	.t3{
-    		color:$white;
-				margin:0;
-				padding:0;
-    		font-size:37px; // because we're using ghost center need to set size in pixels
-    	} // end .t3
-
-    	// "attending"
-    	.l2{
+	    // overlay container copy
+    	.l4{
+    		// "attending"
     		color:$white;
     		font-size:12px; // because we're using ghost center need to set size in pixels
 				margin:0;
 				padding:0;
-    	} // end .l2
+
+				span{
+					// number 
+   				font-size:34px; // because we're using ghost center need to set size in pixels
+				}
+    	} // end .l4
 		} // end .article.events
 
 		&.news{
@@ -145,11 +140,18 @@
 	    	background-color:$gray20;
 	    	opacity:0.95;
 	    	text-align: left;
-	    	color:$white;
 	    	margin:0; // overwrite default p
-	    	padding:30px px-em(30px);
-	    	max-height: 145px;
+	    	//max-height:105px;
+
+	    	.t4{
+	    		color:$white;
+	    	}
+
    	  }
+
+
+
+
 		} // end .article.featured 
 
 	} // end .article 

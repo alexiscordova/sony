@@ -10,7 +10,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
       .tcc-header.grid.m-full-bleed
         p.tcc-header-title.l1 #{header.title}
 
-        p.tcc-header-link.lt2
+        p.tcc-header-link.lt3
           a(href="#{header.link}") #{header.linkText}
   
   section.tcc-scroller.tcc-body-wrapper.container
@@ -26,110 +26,106 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
         //- (class=textStyle)(class=alignment)
         .tcc-content-module.span4(class=contentType)(class=contentMode)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
 
-          if contentType == "article"
-            if(module.imgSrc)
-              //- image (optional)
-              div.img-container
-                div.img-wrap
+          case contentType
+            when "article"
+              if(module.imgSrc)
+                //- image (optional)
+                div.img-container
+                  div.img-wrap
+                    img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                    noscript
+                      img(src="#{module.noScriptImg}")
 
-                  //- MIGHT NEED A STYLE ON THIS IMG FOR FEATURED
-                  //- if contentMode == "featured"
-                  img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                  if(contentMode == "featured") && (module.title)
+                     .feature-copy
+                      
+                        p.t4 #{module.title}
+                        
+                        p.lt3
+                          a(href="#{module.articleLink}") Read More
+                          
+                  if(contentMode == "news") && (module.date)
+                    p.news-date.l3
+                      | #{module.date}
 
-                  noscript
-                    img(src="#{module.noScriptImg}")
+                  if(contentMode == "event") && (module.attendanceCount)
+                    div.attendance-count.ghost-center-wrap
+                      div.ghost-center
+                        p.l4
+                          span
+                            | #{module.attendanceCount} 
+                          | attending
 
-                if (contentMode == "news") && (module.date)
-                  p.news-date.l3
-                    | #{module.date}
+              if (contentMode != "featured")
+                .tcc-copy               
+                  if (module.title)
+                    //- title (required)
+                    p.t6 
+                      | #{module.title}
 
-                if (contentMode == "event") && (module.attendanceCount)
-                  div.attendance-count.ghost-center-wrap
-                    div.ghost-center
-                      p.t3
-                        | #{module.attendanceCount} 
-                      p.l2
-                        | attending
+                  //- body copy (optional)
+                  if (module.bodyCopy)
+                    p.p3 #{module.bodyCopy}               
 
-            .tcc-copy               
-              if contentMode == "featured"
-                if(module.title)
-                  //- title (required)
-                  p.t5.feature-copy #{module.title}
-                    if(module.articleLink)
+                  if (module.articleLink)
+                    p.lt3
                       a(href="#{module.articleLink}")
-                        | <br/> Read More
-              else
-                if(module.title)
-                  //- title (required)
-                  p.t6 
-                    strong #{module.title}
+                        | Read More
+              
+            when "users-voice"
+              if (contentMode == "expert-quote")
+                p expert-quote
 
-                //- body copy (optional)
-                if(module.bodyCopy)
-                  p.p1 #{module.bodyCopy}               
-                    if(module.articleLink)
-                      a(href="#{module.articleLink}")
-                        | &nbsp; Read More
-          
+              if (contentMode == "user-quote")
+                p user-quote
 
-          if contentType == "users-voice" 
+              if (contentMode == "question")
+                p question
+            
+            when "sonys-voice"
+              if (contentMode == "twitter")
+                  //- SONYS-VOICE:TWITTER
+                  
+                  //- icon (required)
+                  img(src="img/icon_twitter.png")
 
-            if contentMode == "expert-quote"
-              p expert-quote
+                  .meta
+                    for meta in module.meta
+                      
+                      if(meta.user)
+                        //- user (required)
+                        p.l3 #{meta.user} 
 
-            if contentMode == "user-quote"
-              p user-quote
-
-            if contentMode == "question"
-              p question
-
-          if contentType == "sonys-voice"
-              if contentMode == "twitter"
-                //- SONYS-VOICE:TWITTER
-                
-                //- icon (required)
-                img(src="img/icon_twitter.png")
-
-                .meta
-                  for meta in module.meta
-                    
-                    if(meta.user)
-                      //- user (required)
-                      p.l3 #{meta.user} 
-
-                    if(meta.timestamp)
-                      //- timestamp (required)
-                      p.l4 #{meta.timestamp}
-                
-                if(module.quote)        
-  
-                  //- quote (required)
-                  blockquote.bq2
-  
-                    p #{module.quote}
-
-                      if(module.quoteLink)
-                        a.tl(href="#{module.quoteLink}") #{module.quoteLink}
-
-                  if(module.socialLink)
+                      if (meta.timestamp)
+                        //- timestamp (required)
+                        p.l4 #{meta.timestamp}
+                  
+                  if (module.quote)        
     
-                    //- social link (required)
-                    p
-                      a.btn(href="#{module.socialLink}")
+                    //- quote (required)
+                    blockquote.bq2
     
-                        | Follow us on Twitter
+                      p #{module.quote}
 
-              if contentMode == "facebook"
-                p facebook
+                        if (module.quoteLink)
+                          a.tl(href="#{module.quoteLink}") #{module.quoteLink}
 
-              if contentMode == "instagram"
-                p instagram
+                    if(module.socialLink)
+      
+                      //- social link (required)
+                      p
+                        a.btn(href="#{module.socialLink}")
+      
+                          | Follow us on Twitter
 
-          if contentType == "flickr"
-            li flickr
+                if (contentMode == "facebook")
+                  p facebook
 
-              if contentMode == "default"
+                if (contentMode == "instagram")
+                  p instagram
+
+            when "flickr"
+              if (contentMode == "default")
                 p default
-
+              
 //- END Tertiary Content Container
