@@ -539,9 +539,9 @@
           self.$containerInner.css( animObj );
 
           //IQ Update
-          self.$containerInner.one($.support.transition.end , function(){
+/*          self.$containerInner.one($.support.transition.end , function(){
             window.iQ.update();
-          });
+          });*/
 
         }
 
