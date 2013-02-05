@@ -12,6 +12,9 @@
 // * [Foresight.js](https://github.com/adamdbradley/foresight.js)
 // * [JAIL](https://github.com/sebarmeli/JAIL)
 // * [Riloadr](https://github.com/tubalmartin/riloadr)
+//
+// requires imagesloaded plugin to add on image load listeners: 
+// https://github.com/desandro/imagesloaded
 
 (function(iQ, $, Modernizr){
   'use strict';
@@ -146,6 +149,7 @@
       // Optional override settings
       updateOnResize = opts.updateOnResize || false,
       resizeFlag = opts.resizeFlag || 'update-always',
+      fade = opts.fade || 'true',
 
       // Optional callback functions
       win = window,
@@ -195,6 +199,13 @@
     loadImages(false, imagesWereAdded !== false );
   },
 
+  onImageLoad = function(elm){
+    if(fade){
+      $(elm).data('fadeonce', true);
+      $(elm).css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
+    }
+  },
+  
   loadImages = function(resizing, update){
     var current, i;
 
@@ -211,6 +222,12 @@
           // add image to the list.
           iQ.images.push(elm);
           $(elm).hasClass(resizeFlag) && iQ.resizeFlaggedImages.push(elm);
+          if(elm.tagName == "IMG"){
+            if(fade && $(elm).data('fadeonce') !== true){
+              $(elm).css({'opacity': 0, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=0)"', 'filter':'alpha(opacity=0)', 'zoom':1, '-webkit-transition': 'opacity 0.4s ease-out', '-moz-transition': 'opacity 0.4s ease-out', '-o-transition': 'opacity 0.4s ease-out', 'transition': 'opacity 0.4s ease-out' });
+            }
+            $(elm).imagesLoaded(onImageLoad);
+          }
         });
       }
 
@@ -220,6 +237,7 @@
         while (current = iQ.images[i]) {
           if (current && isInViewportRange(current, asyncDistance)) {
             loadImage(current, i);
+
             // Reduce the images array for shorter loops.
             iQ.images.splice(i, 1);
             i--;
