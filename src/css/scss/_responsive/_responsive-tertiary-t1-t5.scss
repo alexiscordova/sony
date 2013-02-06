@@ -160,28 +160,27 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
   .sonys-voice{
     $sonys-voice-padding-bottom:11px;
     padding:0px px-em(20px) $sonys-voice-padding-bottom px-em(20px);
-
-    .fonticon-13-twitter{
-      font-size: px-em(26px);
-      padding: px-em(10px);
-      @include border-radius(30px);
-    } // end .fonticon-13-twitter
-
-    .fonticon-13-facebook{
-      font-size: px-em(26px);
-      padding: px-em(10px);
-      @include border-radius(30px);
-    } // end .fonticon-13-facebook
     
-    [class*="fonticon-"]{
+    .fonticon-10-facebook,
+    .fonticon-10-twitter,
+    .fonticon-instagram {
+      font-size: px-em(26px);
+      padding: px-em(10px);
+      @include border-radius(30px);
       margin-bottom:8px;
-    } // end fonticon divs
+    } // end .fonticons
 
-    .social-btn{
-        position: absolute;
-        bottom: $sonys-voice-padding-bottom;
-        left: 50%;
-        margin-left: -85px;
+    .fonticon-instagram{
+      width: 59px;
+      height: 59px;
+      padding: 20px 4px;
+    }
+
+   .social-btn{
+      position: absolute;
+      bottom: $sonys-voice-padding-bottom;
+      left: 50%;
+      margin-left: -85px;
     } // end socialBtn
 
     &.twitter{
@@ -202,6 +201,19 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
       } // end .postCopy
 
     } // end .facebook
+
+    &.instagram{
+      .fonticon-instagram{
+        width:59px;
+        height:59px;
+      }
+
+      .imageMat{
+        margin-top:40px;
+      } // end .imageMat
+      
+    } // end &.instagram
+
 
   } // end sonys-voice
 
@@ -241,7 +253,18 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
 
     } // end .tcc-body-wrapper
 
+     .sonys-voice{     
+        &.instagram{
+          .imageMat{
+            margin-top:12px;
+          } // end .imageMat
+          
+        } // end &.instagram
+
+      } // end .sonys-voice  
+      
   } // end .tcc-wrapper
+
 
 } // end mQ
 
@@ -387,6 +410,18 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
         } // end .bq5
         
       } // end &.facebook     
+
+      &.instagram{
+        .fonticon-instagram{
+          width:40px;
+          height:40px;
+        }
+
+        .imageMat{
+          margin-top:0px;
+        } // end .imageMat
+        
+      } // end &.instagram
 
     } // end .sonys-voice  
     
