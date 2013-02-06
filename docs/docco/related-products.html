@@ -1085,6 +1085,29 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
 
       },
 
+      disableShuffle: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        self.$shuffleContainers.each(<span class="keyword">function</span>(){
+          <span class="keyword">var</span> sffleInst = $(<span class="keyword">this</span>).data(<span class="string">'shuffle'</span>);
+
+          <span class="keyword">if</span>(sffleInst !== <span class="literal">undefined</span> || sffleInst !== <span class="literal">null</span>){
+            sffleInst.disable();
+          }
+        });
+      },
+
+      enableShuffle: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        self.$shuffleContainers.each(<span class="keyword">function</span>(){
+          <span class="keyword">var</span> sffleInst = $(<span class="keyword">this</span>).data(<span class="string">'shuffle'</span>);
+          <span class="keyword">if</span>(sffleInst !== <span class="literal">undefined</span> || sffleInst !== <span class="literal">null</span>){
+            sffleInst.enable();
+          }
+        });
+      },
+
       setupResizeListener: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             resizeTimer = <span class="literal">null</span>;
@@ -1287,58 +1310,49 @@ $(<span class="keyword">function</span>(){
       $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span> + currentPanelId + <span class="string">']'</span>),
       $productPanels = $(<span class="string">'.related-products[data-rp-panel-id]'</span>);
 
-
       console.log(<span class="string">'Product panels »'</span>,$productPanels, $productPanels.length);
 
 </pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>TODO: fpo only</p>             </td>             <td class="code">               <div class="highlight"><pre>  $(<span class="string">'.related-products[data-rp-panel-id=2] .plate .product-img'</span>).css(<span class="string">'backgroundColor'</span> , <span class="string">'#913f99'</span>);
 
+  $productPanels.not($currentPanel).css(<span class="string">'opacity'</span> , <span class="number">0</span>);
 
-  $productPanels.css(<span class="string">'opacity'</span> , <span class="number">0</span>);
-  $currentPanel.css(<span class="string">'opacity'</span> , <span class="number">1</span>);
-
-<span class="comment">/*  //shut em all off
-  $productPanels.removeClass('panel-active')
-                .addClass('panel-inactive').css({'visibility' : 'hidden' });
-
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>turn on current</p>             </td>             <td class="code">               <div class="highlight"><pre>  $currentPanel.removeClass('panel-inactive').addClass('panel-active').css({'visibility' : 'visible' });*/
-
-  if($tabs.length &gt; 0){
-    var handleTabClick = function(e){
-      var $tab = $(this),
-      visibleObj = function(visibleBool , zIndx){
-        var cssO = {'visibility' : visibleBool === true ? 'visible' : 'hidden'};
-        if(zIndx !== undefined){
+  <span class="keyword">if</span>($tabs.length &gt; <span class="number">0</span>){
+    <span class="keyword">var</span> handleTabClick = <span class="keyword">function</span>(e){
+      <span class="keyword">var</span> $tab = $(<span class="keyword">this</span>),
+      visibleObj = <span class="keyword">function</span>(visibleBool , zIndx){
+        <span class="keyword">var</span> cssO = {<span class="string">'visibility'</span> : visibleBool === <span class="literal">true</span> ? <span class="string">'visible'</span> : <span class="string">'hidden'</span>};
+        <span class="keyword">if</span>(zIndx !== <span class="literal">undefined</span>){
           cssO.zIndex = zIndx;
         }
-        return cssO;
+        <span class="keyword">return</span> cssO;
       };
 
       e.preventDefault();
-      $tabs.removeClass('active');
-      $tab.addClass('active');
+      $tabs.removeClass(<span class="string">'active'</span>);
+      $tab.addClass(<span class="string">'active'</span>);
 
-      newPanelId = $tab.data('rpPanelId');
+      newPanelId = $tab.data(<span class="string">'rpPanelId'</span>);
 
-      if(newPanelId === currentPanelId) {
-        return;
+      <span class="keyword">if</span>(newPanelId === currentPanelId) {
+        <span class="keyword">return</span>;
       }
       $oldPanel = $currentPanel;
       currentPanelId = newPanelId;
-      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ currentPanelId +<span class="string">']'</span>);
 
-      $oldPanel.css(visibleObj(true, 1));
-      $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function(){
-        $oldPanel.css(visibleObj(false, 0));
-      }});
+      $oldPanel.css(visibleObj(<span class="literal">true</span>, <span class="number">1</span>));
+      $oldPanel.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">0</span> },{ duration: <span class="number">500</span> , delay: <span class="number">0</span> , complete: <span class="keyword">function</span>(){
+        $oldPanel.css(visibleObj(<span class="literal">false</span>, <span class="number">0</span>));
+        $oldPanel.data(<span class="string">'relatedProducts'</span>).disableShuffle();
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>console.log(' OLD PANEL RELATED PRODUCTS: ' , );</p>             </td>             <td class="code">               <div class="highlight"><pre>      }});
       
+      $currentPanel.css(visibleObj(<span class="literal">true</span>, <span class="number">1</span>));
+      $currentPanel.data(<span class="string">'relatedProducts'</span>).enableShuffle();
+      $currentPanel.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">1</span> },{ duration: <span class="number">500</span>, complete: <span class="keyword">function</span>(){}});
 
-      $currentPanel.css(visibleObj(true, 1));
-      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500, complete: function(){}});
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>css transitions - i gave it a shot</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*    $productPanels.off();
 
-
-/*    $productPanels.off();
-
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>de-activate previous panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(!!Modernizr.csstransitions){
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>de-activate previous panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(!!Modernizr.csstransitions){
         $oldPanel.removeClass(<span class="string">'panel-active'</span>);
         $oldPanel.on(transitionEndName , <span class="keyword">function</span>(e){
           $oldPanel.css(visibleObj(<span class="literal">false</span> , <span class="number">0</span>));
@@ -1347,11 +1361,11 @@ $(<span class="keyword">function</span>(){
         $oldPanel.addClass(<span class="string">'panel-inactive'</span>);
       }<span class="keyword">else</span>{}
 
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>activeate current panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ newPanelId +<span class="string">']'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>activeate current panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ newPanelId +<span class="string">']'</span>);
       $currentPanel.removeClass(<span class="string">'panel-inactive'</span>);
       <span class="keyword">if</span>(!!Modernizr.csstransitions){
         $currentPanel.on(transitionEndName , <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>console.log('New panel complete intro should have class panel-active and be visible:visible');</p>             </td>             <td class="code">               <div class="highlight"><pre>        });
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>console.log('New panel complete intro should have class panel-active and be visible:visible');</p>             </td>             <td class="code">               <div class="highlight"><pre>        });
         $currentPanel.css(visibleObj(true ,1));
         $currentPanel.addClass('panel-active');
       }else{}*/
