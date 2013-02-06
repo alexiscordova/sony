@@ -108,8 +108,10 @@
 				span{
 					// number 
    				font-size:34px; // because we're using ghost center need to set size in pixels
-				}
+				} // end spam
+
     	} // end .l4
+
 		} // end .article.events
 
 		&.news{
@@ -152,6 +154,77 @@
 		} // end .article.featured 
 
 	} // end .article 
+
+	.users-voice{
+
+		text-align: left;
+
+		&.expert-quote,
+		&.user-quote{
+			.credits{
+				//@include debug(1px, red);
+
+				.author{
+					//@include debug(1px, blue);
+					height:30px;
+
+					.p4{
+						margin:0;
+					} // end .p4
+
+				} // end author
+
+			} // end .credits
+		}
+
+		&.expert-quote{
+			background-color:$gray05;
+			opacity:0.95;
+
+			.bq3{
+				
+				p{
+					color:$white;	
+				} // end p
+			
+			} // end bq3
+
+			.title{
+			  color:$gray50;
+			} // end .title
+
+			.name{
+				color:$linkBlue;	
+			} // end .name
+
+		} // end .expert-voice
+
+		&.user-quote{
+			.title{
+			  color:$gray40;
+			} // end .title
+			
+			.bq3{
+			  color:$secondarySlateDark;
+			} // end .bq3
+			
+		} // end .user-quote
+		
+		&.question{
+
+      .bq3,
+      .lt3,
+      .answerBtn{
+        text-align: center;
+      }
+
+			.credits{
+				background-color: $white;
+			}
+
+		} // end .question
+
+	} // end .users-voice
 
 } // end .tcc-wrapper 
 

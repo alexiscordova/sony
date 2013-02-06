@@ -74,13 +74,70 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
               
             when "users-voice"
               if (contentMode == "expert-quote")
-                p expert-quote
+                .title.l3
+                  | #{module.title}
+
+                blockquote.bq3
+                  p
+                    | #{module.quote}
+
+                //- TODO: merge this with user-quote (title and  credits are only difference)
+                .credits
+                  .avatar
+                    img.iq-img(alt="#{module.avatarImgAltText}", data-src="#{module.avatarImgSrc}")
+                      noscript
+                        img(src="#{module.avatarNoScriptImg}")
+                  
+                  .author
+                    p.name.l3
+                      a(href="#{module.authorLink}")
+                        | #{module.author}
 
               if (contentMode == "user-quote")
-                p user-quote
+                .title.l3
+                  | #{module.title}
+
+                blockquote.bq3
+                  p
+                    | #{module.quote}
+
+                .credits
+                  .avatar
+                    img.iq-img(alt="#{module.avatarImgAltText}", data-src="#{module.avatarImgSrc}")
+                      noscript
+                        img(src="#{module.avatarNoScriptImg}")
+                  
+                  .author
+                    p.handle.p4
+                      a(href="#{module.authorLink}")
+                        | #{module.authorHandle}
+
+                    p.name.p4
+                      | #{module.author}
 
               if (contentMode == "question")
-                p question
+                .credits
+                  .avatar
+                    img.iq-img(alt="#{module.avatarImgAltText}", data-src="#{module.avatarImgSrc}")
+                      noscript
+                        img(src="#{module.avatarNoScriptImg}")
+                  
+                  p.author.p4
+                    a(href="#{module.authorLink}")
+                      | #{module.authorHandle} 
+                    | #{module.title}
+                
+                blockquote.bq3
+                  p
+                    | #{module.question}
+                    
+                p.lt3
+                  a(href=#{module.repliesLink})
+                    | See Replies
+
+                div.answerBtn
+                  a.btn(href="#{module.answerLink}")
+                    | Answer this Question
             
             when "sonys-voice"
               if (contentMode == "twitter")
@@ -123,7 +180,6 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
                 if (contentMode == "instagram")
                   p instagram
-
             when "flickr"
               if (contentMode == "default")
                 p default
