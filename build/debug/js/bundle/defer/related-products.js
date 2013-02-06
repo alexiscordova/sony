@@ -80,6 +80,9 @@
       self.$shuffleContainers    = self.$slides.find('.shuffle-container');
       self.$galleryItems         = self.$el.find('.gallery-item');
       self.$container            = self.$el.find('.rp-container').eq(0);
+      self.$tabbedContainer      = self.$el.parent();
+      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('container-tabbed');
+
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
@@ -396,7 +399,7 @@
           if ( !self.$container.hasClass( shuffleDash + 5 ) ) {
 
 
-            console.log("Setting Colums »",5);
+           // console.log("Setting Colums »",5);
 
             self.$shuffleContainers.removeClass('slimgrid')
             .addClass('slimgrid5');
@@ -433,7 +436,7 @@
               .addClass( span + 3 );// Make them quarter width
           }
 
-          console.log("Setting 4 colums »",numColumns);
+          //console.log("Setting 4 colums »",numColumns);
 
           //Between Portrait tablet and phone ( 3 columns )
         }
@@ -712,6 +715,10 @@
         }
 
         self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
+
+        if(!!self.isTabbedContainer){
+          self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
+        }
 
         console.log("Slider Height »",self.$el.height());
 
@@ -1134,6 +1141,29 @@
 
       },
 
+      disableShuffle: function(){
+        var self = this;
+
+        self.$shuffleContainers.each(function(){
+          var sffleInst = $(this).data('shuffle');
+
+          if(sffleInst !== undefined || sffleInst !== null){
+            sffleInst.disable();
+          }
+        });
+      },
+
+      enableShuffle: function(){
+        var self = this;
+
+        self.$shuffleContainers.each(function(){
+          var sffleInst = $(this).data('shuffle');
+          if(sffleInst !== undefined || sffleInst !== null){
+            sffleInst.enable();
+          }
+        });
+      },
+
       setupResizeListener: function(){
         var self = this,
             resizeTimer = null;
@@ -1318,40 +1348,107 @@
   
 })(window, Modernizr , jQuery , document);
 
+/*
+  Tab system for managing multiple
+  instances of related products
+*/
 $(function(){
   /*
     figure out tabbed stuff here and let that
     module instantiate the related products that its bound to
   */
 
+  // Get transitionend event name
+  var transEndEventNames = {
+      'WebkitTransition' : 'webkitTransitionEnd',
+      'MozTransition'    : 'transitionend',
+      'OTransition'      : 'oTransitionEnd',
+      'msTransition'     : 'MSTransitionEnd',
+      'transition'       : 'transitionend'
+  },
+  transitionEndName;
+
+  transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ];
+
   var $tabs = $('.rp-tabs').find('.rp-tab'),
       currentPanelId = 1,
-      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+      $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
+      $productPanels = $('.related-products[data-rp-panel-id]');
+
+      console.log('Product panels »',$productPanels, $productPanels.length);
 
   //TODO: fpo only
   $('.related-products[data-rp-panel-id=2] .plate .product-img').css('backgroundColor' , '#913f99');
 
-  $currentPanel.css('visibility' , 'visible');
+  $productPanels.not($currentPanel).css('opacity' , 0);
+
+  $tabs.eq(0).addClass('active');
 
   if($tabs.length > 0){
     var handleTabClick = function(e){
-      var $tab = $(this);
+      var $tab = $(this),
+      visibleObj = function(visibleBool , zIndx){
+        var cssO = {'visibility' : visibleBool === true ? 'visible' : 'hidden'};
+        if(zIndx !== undefined){
+          cssO.zIndex = zIndx;
+        }
+        return cssO;
+      };
+
       e.preventDefault();
       $tabs.removeClass('active');
       $tab.addClass('active');
-      currentPanelId = $tab.data('rpPanelId');
-      $currentPanel.css('visibility' , 'hidden');
+
+      newPanelId = $tab.data('rpPanelId');
+
+      if(newPanelId === currentPanelId) {
+        return;
+      }
+      $oldPanel = $currentPanel;
+      currentPanelId = newPanelId;
       $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
-      $currentPanel.css('visibility' , 'visible');
+
+      $oldPanel.css(visibleObj(true, 1));
+      $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function(){
+        $oldPanel.css(visibleObj(false, 0));
+        $oldPanel.data('relatedProducts').disableShuffle();
+        //console.log(' OLD PANEL RELATED PRODUCTS: ' , );
+      }});
+      
+      $currentPanel.css(visibleObj(true, 1));
+      $currentPanel.data('relatedProducts').enableShuffle();
+      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500, complete: function(){}});
+
+      //css transitions - i gave it a shot
+/*    $productPanels.off();
+
+      //de-activate previous panel
+      if(!!Modernizr.csstransitions){
+        $oldPanel.removeClass('panel-active');
+        $oldPanel.on(transitionEndName , function(e){
+          $oldPanel.css(visibleObj(false , 0));
+          console.log(e);
+        });
+        $oldPanel.addClass('panel-inactive');
+      }else{}
+
+      //activeate current panel
+      $currentPanel = $('.related-products[data-rp-panel-id='+ newPanelId +']');
+      $currentPanel.removeClass('panel-inactive');
+      if(!!Modernizr.csstransitions){
+        $currentPanel.on(transitionEndName , function(){
+          //console.log('New panel complete intro should have class panel-active and be visible:visible');
+        });
+        $currentPanel.css(visibleObj(true ,1));
+        $currentPanel.addClass('panel-active');
+      }else{}*/
+          
       console.log('Currently Selected Tab:' , $tab.data('rpPanelId'));
     };
+
     $tabs.on('click' , handleTabClick);
   }
+
 });
-
-
-
-
-
 
 

@@ -69,20 +69,20 @@
     top:0;
     left:0;
     width: 100%;
+    margin: 26px 0 70px 0;
     padding: 0 ;
     direction: ltr;
     overflow: hidden;
+    //@include transition(opacity 0.5s ease-out);
 
-    visibility: hidden;
-
-    @include opacity(0);
-    @include transition(opacity 0.5s ease-out);
-    
-    &.active {
-      @include opacity(100);
+    //for tabbed stuff
+    &.panel-inactive {
+      //@include opacity(0);
     }
 
-    margin: 26px 0 70px 0;
+    &.panel-active {
+     // @include opacity(100);
+    }
 
     h1.section-title {
       min-width: 240px;
