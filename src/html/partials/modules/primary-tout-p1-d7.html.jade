@@ -8,10 +8,16 @@ mixin eyebrow(d)
 
 mixin header(d)
   d = d || data
-  if d.variation && d.variation.headertext == "larger"
-    h1!= d.headline
-  else
-    h1.t2!= d.headline
+  if d.variation 
+    if d.variation.quote
+      blockquote.bq1
+        p!= d.quote
+      p.p3!= d.byline
+    else
+      if d.variation.headertext == "larger"
+        h1!= d.headline
+      else
+        h1.t2!= d.headline
 
 mixin bodytext(d)
   d = d || data
