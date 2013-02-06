@@ -146,16 +146,65 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
         padding:40px px-em(30px) 0px px-em(30px);
       } // .bq3
 
-      .answerBtn{
+      .answer-btn{
         position: absolute;
         bottom: 0;
         left: 50%;
         margin-left: -85px;
-      } // end .answerBtn
+      } // end .answer-btn
 
     } // end .question
 
   } // users voice
+
+  .sonys-voice{
+    $sonys-voice-padding-bottom:11px;
+    padding:0px px-em(20px) $sonys-voice-padding-bottom px-em(20px);
+
+    .fonticon-13-twitter{
+      font-size: px-em(26px);
+      padding: px-em(10px);
+      @include border-radius(30px);
+    } // end .fonticon-13-twitter
+
+    .fonticon-13-facebook{
+      font-size: px-em(26px);
+      padding: px-em(10px);
+      @include border-radius(30px);
+    } // end .fonticon-13-facebook
+    
+    [class*="fonticon-"]{
+      margin-bottom:8px;
+    } // end fonticon divs
+
+    .social-btn{
+        position: absolute;
+        bottom: $sonys-voice-padding-bottom;
+        left: 50%;
+        margin-left: -85px;
+    } // end socialBtn
+
+    &.twitter{
+      .bq4{
+        padding:40px 0 20px 0;
+      } // end .bq4
+
+    } // end .twitter
+
+    &.facebook{
+
+      .post-tile{
+        padding:40px 0 0 0;
+      } // end .postTile
+
+      .post-copy{
+        padding:22px 0 11px 0;
+      } // end .postCopy
+
+    } // end .facebook
+
+  } // end sonys-voice
+
 
   .pagination-bullets{
     display:block;
@@ -192,16 +241,9 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
 
     } // end .tcc-body-wrapper
 
-    .article{
-      // &.news{} // end .news
-      // &.event{} // end .event
-      // &.featured{} // end .featured
-
-    } // end .article
-
   } // end .tcc-wrapper
 
- } // end mQ
+} // end mQ
 
 
 // ONE UP LANDSCAPE PHONE AND BELOW -- 480px
@@ -318,6 +360,36 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
 
     } // users voice
 
+    .sonys-voice{
+      
+      [class*="fonticon-"]{
+        margin-bottom:8px;
+        display:inline-block;
+        font-size:px-em(19px); // ~1.25em;
+        padding:px-em(9px); // ~0.425em;
+      } // end fonticon divs
+
+      .meta{
+        display:inline-block;
+        padding:0 0 0 px-em(10px);
+      } // end .meta
+
+      &.twitter{
+        .bq4{
+          padding:20px 0;
+        } // end .bq4
+    
+      } // end .twitter
+
+      &.facebook{
+        .bq5{
+          padding:20px 0;
+        } // end .bq5
+        
+      } // end &.facebook     
+
+    } // end .sonys-voice  
+    
   } // end .tcc-wrapper
 
 } // end > 480

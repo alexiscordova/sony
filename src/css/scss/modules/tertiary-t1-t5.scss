@@ -51,8 +51,8 @@
 	div#{createSelectorFromData("article","default")}:hover,
 	div#{createSelectorFromData("article","featured")}:hover,
 	div#{createSelectorFromData("article","news")}:hover,
-	div#{createSelectorFromData("article","event")}:hover{
-		
+	div#{createSelectorFromData("article","event")}:hover,
+	div#{createSelectorFromData("sonys-voice","instagram")}:hover{
 		img{
 			@include transition(opacity, $transitionFast);
 			opacity:0.85;
@@ -214,7 +214,7 @@
 
       .bq3,
       .lt3,
-      .answerBtn{
+      .answer-btn{
         text-align: center;
       }
 
@@ -225,6 +225,54 @@
 		} // end .question
 
 	} // end .users-voice
+
+	.sonys-voice{
+		.fonticon-13-twitter{
+			background-color: $white;
+			color:$twitterColor;
+		} // end .fonticon-13-twitter
+
+		.fonticon-13-facebook{
+			background-color: $white;
+			color:$facebookColor;
+
+			&.should-be-instagram-icon{
+				color:red;
+			}
+
+		} // end .fonticon-13-facebook
+
+
+		.meta{
+		  .user{
+		  	color:$gray20;
+		  } // end .user
+
+		  .timestamp{
+		  	color:$gray40;
+		  } // end .timestamp
+
+		} // end .meta
+
+		&.twitter{
+			.bq4{
+				color:$secondarySlateDark;
+			} // end .bq4
+
+		} // end .twitter
+
+		&.instagram{
+		  .imageMat{
+		  	width:px-em(315px);
+		  	height: px-em(315px);
+		  	padding:10px px-em(10px);
+		  	border:1px solid red;
+		  	background-color:rgb(226,227,233);
+		  } // end imageMat
+		  
+		} // end &.instagram
+		
+	} // end sonys-voice
 
 } // end .tcc-wrapper 
 
