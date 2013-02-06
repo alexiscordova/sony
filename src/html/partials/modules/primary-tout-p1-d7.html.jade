@@ -1,13 +1,19 @@
-mixin eyebrowheader(d)
+mixin eyebrow(d)
   d = d || data
   if d.eyebrow
-    h2.t6.eyebrow!= locals.plusify(d.eyebrow)
-  if d.variation.headertext == "larger"
+    if d.eyebrow.link
+      a.eyebrow(href= d.eyebrow.link)!= locals.plusify(d.eyebrow.text)
+    else
+      h2.t6.eyebrow!= locals.plusify(d.eyebrow.text)
+
+mixin header(d)
+  d = d || data
+  if d.variation && d.variation.headertext == "larger"
     h1!= d.headline
   else
     h1.t2!= d.headline
-    
-mixin subheadbody(d)
+
+mixin bodytext(d)
   d = d || data
   if d.body 
     p.p3!= d.body
@@ -18,7 +24,15 @@ mixin links(d, extraclass)
   if d.links
     for link in d.links
       a(class= extraclass)(class= link.type, href= link.url)!= link.text
-      
+
+mixin boxclass(layout)
+  layout = layout || data.layout
+  classes = layout.alignment
+  if layout.mobilealign
+    classes = classes + " " + layout.mobilealign
+  .box(class = classes)
+    block
+
 mixin boxlayout(layout)
   layout = layout || data.layout
   if layout.text == "left"
@@ -27,7 +41,7 @@ mixin boxlayout(layout)
       div(class= span)
         .table-center-wrap
           .table-center
-            .box(class = layout.alignment)(class = layout.mobilealign)
+            +boxclass
               block
   else if layout.text == "right" || layout.text == "center"
     .container.inner.grid.no-grid-at-767(class= data.style)
@@ -36,39 +50,51 @@ mixin boxlayout(layout)
       div(class= span)(class= offset)
         .table-center-wrap
           .table-center
-            .box(class = layout.alignment)(class = layout.mobilealign)
+            +boxclass
               block
 
-section.primary-tout.container.full-bleed-no-max(class= data.mode)
+classes = data.mode
+if data.theme
+  classes = classes + " " + data.theme
+section.primary-tout.container.full-bleed-no-max(class= classes)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
   if data.mode == "homepage"
     if data.variation.secondbox
       +boxlayout
-        +eyebrowheader
+        +eyebrow
+        +header
       .secondary.container.full-bleed-no-max(class= data.variation.substyle)
         .box
           .container.grid.no-grid-at-767
             .span6
-              +subheadbody
+              +bodytext
             .span3.offset3.clearfix
               +links(data, "pull-right")
     else
       +boxlayout
-        +eyebrowheader
-        +subheadbody
+        +eyebrow
+        +header
+        +bodytext
         +links
   else if data.mode == "primary-tout"
     +boxlayout
-      +eyebrowheader
-      +subheadbody
+      +eyebrow
+      +header
+      +bodytext
       +links
   else if data.mode == "product-intro-plate"
     +boxlayout
-      +eyebrowheader
-      +subheadbody
+      +eyebrow
+      +header
+      +bodytext
       +links
-
+  else if data.mode == "title-plate"
+    +boxlayout
+      +eyebrow
+      h1.t3!= data.headline
+      +bodytext
+      +links(data, "btn-mini")
 
 
 

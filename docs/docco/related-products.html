@@ -671,7 +671,7 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
           <span class="keyword">return</span>;
         }
 
-        self.$el.css(<span class="string">'height'</span> , ((<span class="number">0.524976</span>) * self.$shuffleContainers.eq(<span class="number">0</span>).width()) + <span class="number">40</span>);
+        self.$el.css(<span class="string">'height'</span> , ((<span class="number">0.524976</span>) * self.$shuffleContainers.eq(<span class="number">0</span>).width()) + <span class="number">80</span>);
 
         console.log(<span class="string">"Slider Height »"</span>,self.$el.height());
 
@@ -1171,7 +1171,7 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         <span class="function"><span class="keyword">function</span> <span class="title">handleBreakpoint</span><span class="params">()</span>{</span>
-          console.log(<span class="string">"_initMobileBreakpoint.... »"</span> , <span class="literal">true</span>);
+          window.console.log(<span class="string">"_initMobileBreakpoint.... »"</span> , <span class="literal">true</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <ol>
 <li>step one  - cancel touch events for the 'slideshow'</li>
@@ -1182,7 +1182,7 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>          self.$paddles.hide();
           $(<span class="string">'.rp-nav'</span>).hide();
 
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>attemp to place the title plates in the first position before detaching</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slides.each(<span class="keyword">function</span>(){ 
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>attemp to place the title plates in the first position before detaching</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slides.each(<span class="keyword">function</span>(){
             <span class="keyword">var</span> $s = $(<span class="keyword">this</span>),
             $plate = $s.find(<span class="string">'.plate'</span>).eq(<span class="number">0</span>);
 
@@ -1195,7 +1195,7 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
             
 
 </pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <ol>
-<li>remove the slides </li>
+<li>remove the slides</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slides.detach();
 
 </pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>clear out the position style on the gallery items</p>             </td>             <td class="code">               <div class="highlight"><pre>          $galleryItems.removeAttr(<span class="string">'style'</span>);
@@ -1204,9 +1204,8 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
 
 </pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>5 . put the item back into the container / make sure to not include blanks</p>             </td>             <td class="code">               <div class="highlight"><pre>          $galleryItems.not(<span class="string">'.blank'</span>).appendTo(self.$container);
 
-          console.log(<span class="string">'Gallery Items .blank-normal » '</span>, $galleryItems.not(<span class="string">'.blank'</span>));
-          
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>console.log('Gallery Items .blank-normal » ', $galleryItems.not('.blank'));</p>             </td>             <td class="code">               <div class="highlight"><pre>          
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <ol>
 <li>init the scroller module</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>(){
 
@@ -1233,13 +1232,13 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
                 bounce: <span class="literal">true</span>,
                 onScrollEnd: <span class="literal">null</span>,
                 lockDirection:<span class="literal">true</span>,
-                onBeforeScrollStart:<span class="literal">null</span>,
+                onBeforeScrollStart:<span class="literal">null</span>
               }
 
             }).data(<span class="string">'scrollerModule'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>self.scroller.enable();</p>             </td>             <td class="code">               <div class="highlight"><pre>            window.iQ.update();
-            console.log(<span class="string">"Instantiating scroller module »"</span>, self.scrollerModule);
+</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>self.scroller.enable();</p>             </td>             <td class="code">               <div class="highlight"><pre>            window.iQ.update();
+            window.console.log(<span class="string">"Instantiating scroller module »"</span>, self.scrollerModule);
           }, <span class="number">100</span>);
           <span class="keyword">return</span>;
 
@@ -1248,5 +1247,17 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
       }
     });
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
+
  })(jQuery, Modernizr, window,<span class="literal">undefined</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>all done</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>all done</p>             </td>             <td class="code">               <div class="highlight"><pre>
+
+
+
+
+
+
+
+
+
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

@@ -5,9 +5,14 @@ layout2: [ "plate", "medium" , "normal" , "normal" , "normal" , "blank-normal"]
 layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
 layout4: ["suggested" , "suggested"]
 ---
+
 if data.config.mode == 'full'
   - clss = data.config.variation + ' ' + data.config.mode
   section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
+    .container
+      .grid
+        .span4
+          h1(class='l1 section-title')= 'Related Products' 
     .rp-overflow#rpOverflow
       .rp-container
         .rp-slide
