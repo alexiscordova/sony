@@ -6,19 +6,20 @@
 // Base classes
 .label,
 .badge {
-  font-size: $baseFontSize * .6875;
-  font-family: $sansFontFamilyMedium;
-  text-transform: uppercase;
-  line-height: 14px; // ensure proper line-height if floated
+  @extend .l3;
+  // font-size: $baseFontSize * .6875;
+  // font-family: $sansFontFamilyMedium;
+  // text-transform: uppercase;
+  // line-height: 14px; // ensure proper line-height if floated
   color: $white;
   vertical-align: baseline;
   white-space: nowrap;
   background-color: $highlightColor;
+  margin: 0;
 }
 
-// Set unique padding and border-radii
 .label {
-  padding: 5px 12px;
+  padding: 4px 8px;
 }
 
 .badge {

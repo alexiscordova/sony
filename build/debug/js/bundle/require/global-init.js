@@ -9,6 +9,8 @@ window.iQ = {
   }
 };
 
+window.enquire.listen(100);
+
 // Taken from H5BP
 // Avoid `console` errors in browsers that lack a console.
 (function() {

@@ -51,8 +51,8 @@
 	div#{createSelectorFromData("article","default")}:hover,
 	div#{createSelectorFromData("article","featured")}:hover,
 	div#{createSelectorFromData("article","news")}:hover,
-	div#{createSelectorFromData("article","event")}:hover{
-		
+	div#{createSelectorFromData("article","event")}:hover,
+	div#{createSelectorFromData("sonys-voice","instagram")}:hover{
 		img{
 			@include transition(opacity, $transitionFast);
 			opacity:0.85;
@@ -108,8 +108,10 @@
 				span{
 					// number 
    				font-size:34px; // because we're using ghost center need to set size in pixels
-				}
+				} // end spam
+
     	} // end .l4
+
 		} // end .article.events
 
 		&.news{
@@ -152,6 +154,125 @@
 		} // end .article.featured 
 
 	} // end .article 
+
+	.users-voice{
+
+		text-align: left;
+
+		&.expert-quote,
+		&.user-quote{
+			.credits{
+				//@include debug(1px, red);
+
+				.author{
+					//@include debug(1px, blue);
+					height:30px;
+
+					.p4{
+						margin:0;
+					} // end .p4
+
+				} // end author
+
+			} // end .credits
+		}
+
+		&.expert-quote{
+			background-color:$gray05;
+			opacity:0.95;
+
+			.bq3{
+				
+				p{
+					color:$white;	
+				} // end p
+			
+			} // end bq3
+
+			.title{
+			  color:$gray50;
+			} // end .title
+
+			.name{
+				color:$linkBlue;	
+			} // end .name
+
+		} // end .expert-voice
+
+		&.user-quote{
+			.title{
+			  color:$gray40;
+			} // end .title
+			
+			.bq3{
+			  color:$secondarySlateDark;
+			} // end .bq3
+			
+		} // end .user-quote
+		
+		&.question{
+
+      .bq3,
+      .lt3,
+      .answer-btn{
+        text-align: center;
+      }
+
+			.credits{
+				background-color: $white;
+			}
+
+		} // end .question
+
+	} // end .users-voice
+
+	.sonys-voice{
+		.fonticon-13-twitter{
+			background-color: $white;
+			color:$twitterColor;
+		} // end .fonticon-13-twitter
+
+		.fonticon-13-facebook{
+			background-color: $white;
+			color:$facebookColor;
+
+			&.should-be-instagram-icon{
+				color:red;
+			}
+
+		} // end .fonticon-13-facebook
+
+
+		.meta{
+		  .user{
+		  	color:$gray20;
+		  } // end .user
+
+		  .timestamp{
+		  	color:$gray40;
+		  } // end .timestamp
+
+		} // end .meta
+
+		&.twitter{
+			.bq4{
+				color:$secondarySlateDark;
+			} // end .bq4
+
+		} // end .twitter
+
+		&.instagram{
+		  .imageMat{
+		  	width:px-em(315px);
+		  	height: px-em(315px);
+		  	padding:10px px-em(10px);
+		  	border:1px solid red;
+		  	background-color:rgb(226,227,233);
+		  } // end imageMat
+		  
+		} // end &.instagram
+		
+	} // end sonys-voice
 
 } // end .tcc-wrapper 
 

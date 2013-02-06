@@ -5,52 +5,92 @@ layout2: [ "plate", "medium" , "normal" , "normal" , "normal" , "blank-normal"]
 layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
 layout4: ["suggested" , "suggested"]
 ---
-
-if data.config.mode == 'full'
-  - clss = data.config.variation + ' ' + data.config.mode
-  section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
-    .container
-      .grid
-        .span4
-          h1(class='l1 section-title')= 'Related Products' 
-    .rp-overflow#rpOverflow
-      .rp-container
-        .rp-slide
-          .shuffle-container.slimgrid5
-            i = 0
-            for module in data.submodules
-              d = locals.data(module.data)
-              if d.type == 'product' && d.featured
-                - d.layout = document[data.config.layout][i++]
-                - d.view = 'basic'
-                e = { 'locals' : locals , 'data' : d }
-                !{locals.partial('modules/'+module.type , e )}
-        .rp-slide
-          .shuffle-container.slimgrid5
-            i = 0
-            for module in data.submodules
-              d = locals.data(module.data)
-              if d.type == 'product' && d.featured
-                - d.layout = document[data.config.layout][i++]
-                - d.view = 'basic'
-                e = { 'locals' : locals , 'data' : d }
-                !{locals.partial('modules/'+module.type , e )}
-        .rp-slide
-          .shuffle-container.slimgrid5
-            i = 0
-            for module in data.submodules
-              d = locals.data(module.data)
-              if d.type == 'product' && d.featured
-                - d.layout = document[data.config.layout][i++]
-                - d.view = 'basic'
-                e = { 'locals' : locals , 'data' : d }
-                !{locals.partial('modules/'+module.type , e )}
-else if data.config.mode == 'suggested'
-  - clss = data.config.variation + ' ' + data.config.mode
+if data.config.tabbedLayout
   .container
-    section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
-      for module in data.submodules
-        d = locals.data(module.data)
-        - d.layout = document[data.config.layout][i++]
-        e = { 'locals' : locals , 'data' : d }
-        !{locals.partial('modules/'+module.type , e )}
+    .grid
+      .span12
+        .rp-tabs
+          for tab in data.config.tabbedLayout
+            a.rp-tab(href='#' , class='lt4 no-hover-transition' , data-rp-panel-id=tab.panelId)
+              strong= tab.title
+              
+.container(class='full-bleed-no-max container-tabbed')
+  if data.config.mode == 'full'
+    - clss = data.config.variation + ' ' + data.config.mode
+    section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss , id='related-products' , data-rp-panel-id='1')
+      .rp-overflow
+        .rp-container
+          .rp-slide
+            .shuffle-container.slimgrid5
+              i = 0
+              for module in data.submodules
+                d = locals.data(module.data)
+                if d.type == 'product' && d.featured
+                  - d.layout = document[data.config.layout][i++]
+                  - d.view = 'basic'
+                  e = { 'locals' : locals , 'data' : d }
+                  !{locals.partial('modules/'+module.type , e )}
+
+  else if data.config.mode == 'suggested'
+    - clss = data.config.variation + ' ' + data.config.mode
+    .container
+      section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss , data-rp-panel-id='1')
+        for module in data.submodules
+          d = locals.data(module.data)
+          - d.layout = document[data.config.layout][i++]
+          e = { 'locals' : locals , 'data' : d }
+          !{locals.partial('modules/'+module.type , e )}
+
+  if data.config.mode == 'full'
+    - clss = data.config.variation + ' ' + data.config.mode
+    section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss , id='related-products' , data-rp-panel-id='2')
+      .rp-overflow
+        .rp-container
+          .rp-slide
+            .shuffle-container.slimgrid5
+              i = 0
+              for module in data.submodules
+                d = locals.data(module.data)
+                if d.type == 'product' && d.featured
+                  - d.layout = document[data.config.layout][i++]
+                  - d.view = 'basic'
+                  e = { 'locals' : locals , 'data' : d }
+                  !{locals.partial('modules/'+module.type , e )}
+
+  else if data.config.mode == 'suggested'
+    - clss = data.config.variation + ' ' + data.config.mode
+    .container
+      section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss , data-rp-panel-id='2')
+        for module in data.submodules
+          d = locals.data(module.data)
+          - d.layout = document[data.config.layout][i++]
+          e = { 'locals' : locals , 'data' : d }
+          !{locals.partial('modules/'+module.type , e )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

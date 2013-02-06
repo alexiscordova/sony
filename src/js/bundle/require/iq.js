@@ -13,7 +13,7 @@
 // * [JAIL](https://github.com/sebarmeli/JAIL)
 // * [Riloadr](https://github.com/tubalmartin/riloadr)
 //
-// requires imagesloaded plugin to add on image load listeners: 
+// requires imagesloaded plugin to add on image load listeners:
 // https://github.com/desandro/imagesloaded
 
 (function(iQ, $, Modernizr){
@@ -197,7 +197,7 @@
   },
 
   updateImages = function( imagesWereAdded ) {
-    loadImages(false, imagesWereAdded !== false );
+    loadImages(false, imagesWereAdded === true );
   },
 
   onImageLoad = function(elm){
@@ -206,7 +206,7 @@
       $(elm).css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
     }
   },
-  
+
   loadImages = function(resizing, update){
     var current, i;
 

@@ -22,7 +22,20 @@
       constructor: PrimaryTout,
 
       _resize: function(){
-        $('.primary-tout.homepage .inner .table-center-wrap').height($('.primary-tout.homepage').height() - $('.primary-tout.homepage .secondary').outerHeight());
+        var w = $(window).width(); 
+        // if wondow size > 1200 set height of container to math min 740 , 640 + ( (w -1200) / 10) 
+        if(w > 1200){
+          $('.primary-tout.homepage .hero-image').css('height', Math.min(740, 640 + ((w - 1200) / 10)));
+        }else if (w > 768){
+          $('.primary-tout.homepage .hero-image').css('height', 640);
+        }
+        
+        // this each and find inner for layouts page
+        $.each ($('.primary-tout.homepage .inner .table-center-wrap'), function(i,e){
+          var self = $(e);
+          var outer = self.closest('.primary-tout.homepage');
+          self.height(outer.height() - outer.find('.secondary').outerHeight()); 
+        });
       },
 
       _init: function(){
