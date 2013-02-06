@@ -539,11 +539,6 @@
         // Update iQ images
         window.iQ.update( true );
       });
-
-      // Pause infinite scrolls that are in hidden tabs
-      if ( !self.$container.hasClass('active') ) {
-        self.$grid.infinitescroll('pause');
-      }
     },
 
     initSwatches : function( $collection ) {
@@ -966,6 +961,8 @@
         return;
       }
 
+      console.log('iOS is triggering resizes when it shouldnt be: onResize');
+
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
@@ -1076,7 +1073,6 @@
           // Clone sort button
           $sortOpts = self.$container.find('.sort-options').clone();
 
-
       // Disable the main gallery (from executing resize events, etc.)
       self.disable();
 
@@ -1126,42 +1122,27 @@
       // Set the right heading. e.g. Compare Cyber-shot®
       $label.text( self.compareTitle );
 
-      // Append the count, reset, and sort in the right spots
-      // Phone = sticky header
-      if ( Modernizr.mq('(max-width: 47.9375em)') ) {
-        self.isFixedHeader = true;
-
-        var $subheader = $('<div class="modal-subheader clearfix">');
-        $subheader.append( self.$compareReset, $sortOpts );
-
-        // Insert subhead in the modal-body
-        $header.append( $subheader );
-
-      // Larger than phone
-      } else {
-        // Append sort dropdown
-        $header.append( self.$compareReset, $sortOpts );
-
-        // Append count and labels
-        $labelColumn.append( self.$compareCountWrap );
-      }
-
-      self.$compareReset.addClass('pull-right');
-      $labelColumn.append( $labelGroup );
-
-
-      // On window resize
-      self.$window.on('resize.comparetool', $.debounce(250, function() {
-        self.onCompareResize( $header, $sortOpts );
-      }));
 
       // Save state for reset
       self.compareState = {
           count: productCount,
           sort: self.currentSort,
           $items : self.$compareItems,
-          label: originalLabel
+          label: originalLabel,
+          snap: true
       };
+
+      // Append count and labels
+      $labelColumn.append( self.$compareCountWrap );
+
+      // On window resize
+      self.$window.on('resize.comparetool', $.debounce(250, function() {
+        self.onCompareResize( $header, $sortOpts );
+      }));
+      self.onCompareResize( $header, $sortOpts, true );
+
+      self.$compareReset.addClass('pull-right');
+      $labelColumn.append( $labelGroup );
 
       // Set current sort. After saving state so we get the correct DOM order for compareItems
       self.updateSortDisplay( $sortOpts );
@@ -1215,8 +1196,10 @@
 
       self
         .setCompareRowHeights( true )
-        .setCompareHeight();
+        .setCompareDimensions();
 
+
+      // Initialize outer scroller (vertical scrolling of the fixed position modal)
       self.outerScroller = new IScroll( self.$compareTool[0], {
         bounce: false,
         onBeforeScrollStart : function(e) {
@@ -1254,11 +1237,12 @@
         }
       });
 
-      // Don't let this scroll vertically
+
+      // Initialize inner scroller (for the comparable product items)
       self.innerScroller = new IScroll( self.$compareTool.find('.compare-items-wrap')[0], {
         vScroll: false,
         // snap: '.compare-item',
-        snap: true, // this is required for iscroll.scrollToPage
+        snap: self.compareState.snap, // this is required for iscroll.scrollToPage
         onScrollStart : function() {
 
           // Add `grabbing` class
@@ -1282,11 +1266,9 @@
         onAnimationEnd : function() {
           window.iQ.update();
           self.onCompareScroll( 'inner', this );
+          self.afterCompareScrolled( this );
         }
       });
-
-      // Bind events to the paddles
-      self.addCompareNavEvents();
 
       // Set the height, jQuery object, and text of the takeover sticky nav
       self.setTakeoverStickyHeader( self.compareTitle );
@@ -1296,6 +1278,17 @@
 
       // Fade in the labels to hide the fact that it took so long to compute heights.
       self.$compareTool.find('.detail-labels-wrapping').addClass('complete');
+
+      // These can be deferred
+      setTimeout(function() {
+
+        // Hide the previous nav paddle because we're on the first page
+        self.afterCompareScrolled( self.innerScroller );
+
+        // Bind events to the paddles
+        self.addCompareNavEvents();
+
+      }, 100);
 
       return self;
     },
@@ -1415,41 +1408,78 @@
       return self;
     },
 
-    onCompareResize : function( $header, $sortOpts ) {
+    onCompareResize : function( $header, $sortOpts, isFirst ) {
       var self = this,
-          $subheader;
+          $subheader,
+          $resetBtn,
+          $sorter,
+          snap;
 
       // Phone = sticky header
       if ( Modernizr.mq('(max-width: 47.9375em)') ) {
 
         // Setup sticky header
-        if ( !self.isFixedHeader ) {
+        if ( isFirst || !self.isFixedHeader ) {
           self.isFixedHeader = true;
+
           $subheader = $('<div class="modal-subheader clearfix">');
           self.$compareCountWrap.addClass('hidden');
-          $subheader.append( self.$compareReset.detach(), $sortOpts.detach() );
+
+          // If this isn't the first call, the elements are already on the page and need to be detached
+          $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
+          $sorter = isFirst ? $sortOpts : $sortOpts.detach();
+          $subheader.append( $resetBtn, $sorter );
 
           // Insert subhead in the modal header
           $header.append( $subheader );
+
+          snap = false;
+
+          // Let the scroller flow freely on mobile
+          if ( self.innerScroller ) {
+            self.innerScroller.options.snap = snap;
+          }
         }
 
       // Larger than phone
       } else {
 
-        if ( self.isFixedHeader ) {
+        if ( isFirst || self.isFixedHeader ) {
           self.isFixedHeader = false;
+
           self.$compareCountWrap.removeClass('hidden');
+
           // Append sort dropdown
-          $header.append( self.$compareReset.detach(), $sortOpts.detach() );
+          // If this isn't the first call, the elements are already on the page and need to be detached
+          $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
+          $sorter = isFirst ? $sortOpts : $sortOpts.detach();
+          $header.append( $resetBtn, $sorter );
 
           self.$compareTool.find('.modal-subheader').remove();
+
+          snap = true;
+
+          // Snap to pages on 'desktop'
+          if ( self.innerScroller ) {
+            self.innerScroller.options.snap = snap;
+          }
         }
+      }
+
+      // This is where you get off, first guy
+      if ( isFirst ) {
+        self.compareState.snap = snap;
+        return self;
       }
 
       self
         .setCompareRowHeights()
-        .setCompareHeight()
+        .setCompareDimensions()
         .setStickyHeaderPos();
+
+      self.innerScroller.refresh();
+
+      return self;
     },
 
     onCompareScroll : function( offsetTop, iscroll ) {
@@ -1581,6 +1611,26 @@
       $next.on('click', function() {
         iscroll.scrollToPage('next');
       });
+    },
+
+    afterCompareScrolled : function( iscroll ) {
+      var self = this,
+          $prev = self.$compareTool.find('.nav-prev'),
+          $next = self.$compareTool.find('.nav-next');
+
+      // Hide show prev button depending on where we are
+      if ( iscroll.currPageX === 0 ) {
+        $prev.addClass('hide');
+      } else {
+        $prev.removeClass('hide');
+      }
+
+      // Hide show next button depending on where we are
+      if ( iscroll.currPageX === iscroll.pagesX.length - 1 ) {
+        $next.addClass('hide');
+      } else {
+        $next.removeClass('hide');
+      }
     },
 
     removeCompareNavEvents : function() {
@@ -1816,13 +1866,17 @@
       return self;
     },
 
+    setCompareDimensions : function() {
+      return this
+        .setCompareHeight()
+        .setCompareWidth();
+    },
+
     setCompareHeight : function() {
       var self = this,
           windowHeight = self.isIphone ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
 
       console.log('window height', windowHeight);
-
-      self.setCompareWidth();
 
       self.$compareTool.find('.compare-container').height( self.$compareItems.first().height() );
       self.$compareTool.height( windowHeight );
@@ -1839,11 +1893,15 @@
         contentWidth += $(this).outerWidth(true);
       });
 
-      // Add the count column
-      contentWidth += self.$compareTool.find('.detail-labels-wrap').outerWidth(true);
+      // Add the labels column (only if they should be visible)
+      if ( Modernizr.mq('(min-width: 48em)') ) {
+        contentWidth += self.$compareTool.find('.detail-labels-wrap').outerWidth(true);
+      }
 
       // Set it
       self.$compareTool.find('.compare-items-container').width( contentWidth );
+
+      return self;
     },
 
     setCompareRowHeights : function() {
@@ -1917,7 +1975,7 @@
     isInitialized: false,
     sorted: false,
     isTouch: !!( 'ontouchstart' in window ),
-    isiPhone: (/iphone|ipad|ipod/gi).test(navigator.appVersion),
+    isiPhone: (/iphone|ipod/gi).test(navigator.appVersion),
     loadingGif: 'img/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',

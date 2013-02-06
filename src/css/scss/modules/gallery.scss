@@ -364,7 +364,13 @@ $offsetFromMiddle: px-em(45px);
 
     i {
       // margin-top: px-em(3px);
+      color: $gray60;
       vertical-align: baseline;
+    }
+
+    &:hover i,
+    &.active i {
+      color: rgb(243,84,41);
     }
   }
 }
@@ -935,11 +941,36 @@ $offsetFromMiddle: px-em(45px);
     display: none;
   }
 
+  .filter-container {
+    margin-bottom: 2.8125em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    // Button horizontal spacing
+    .btn-group > .btn:not(:first-child) {
+      margin-left: .25em;
+    }
+
+    // Checkbox vertical spacing
+    .control-inline:not(:first-child) {
+      margin-top: .625em;
+    }
+
+    // Group vertical spacing
+    .media + .media {
+      margin-top: 1em;
+    }
+  }
+
   .filter-display-bar {
 
     .product-count-wrap {
       display: block;
       float: left;
+      margin-bottom: 0;
+      margin-top: 10px;
     }
 
     .slide-toggle {
@@ -955,6 +986,7 @@ $offsetFromMiddle: px-em(45px);
 
     .slide-toggle,
     .js-compare-toggle {
+      margin-top: 20px;
       width: 48%;
     }
   }

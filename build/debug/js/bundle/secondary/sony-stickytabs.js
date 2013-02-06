@@ -37,7 +37,7 @@
       self.$activeTab = self.$tabs.filter('.active');
       self.$window = $(window);
       self.windowWidth = self.$window.width();
-      self.windowHeight = self.$window.height();
+      // self.windowHeight = self.$window.height();
       self.tabWidth = self.$tabs.outerWidth();
       self.tabletMode = self.$container.data('tabletMode');
       self.isCarousel = self.tabletMode === 'carousel';
@@ -51,7 +51,7 @@
       self.$tabs.on('shown', $.proxy( self._onTabShown, self ));
 
       // Window resize
-      self.$window.on('resize.stickytabs', $.proxy( self._onResize, self ));
+      self.$window.on('resize.stickytabs', $.debounce( 275, $.proxy( self._onResize, self ) ) );
 
       // Decide which tabs to make
       if ( Modernizr.mq( self.mq ) ) {
@@ -69,7 +69,7 @@
       var self = this;
 
       self.windowWidth = self.$window.width();
-      self.windowHeight = self.$window.height();
+      // self.windowHeight = self.$window.height();
       self.tabWidth = self.$tabs.outerWidth();
 
       // Phone
@@ -163,7 +163,7 @@
     },
 
     animateTab : function() {
-      console.group('animateTab: StickyTabs');
+      // console.group('animateTab: StickyTabs');
       var self = this,
           x = self.scroller.x * -1,
 
@@ -188,28 +188,27 @@
       self.overlap = newX !== tmpX ? tmpX : null;
       // self.overlap = tmpX;
 
-      console.log('iscroll:', self.scroller);
-      console.log('x:', x);
-      console.log('lastX:', self.lastX);
-      console.log('distance:', distance);
-      console.log('tabOffset:', self.tabOffset);
-      console.log('overlap:', self.overlap);
-      console.log('tmpX:', offset, '+', distance ,'=', tmpX);
-      console.log('newX:', newX);
-      console.log( self.prop, value );
+      // console.log('iscroll:', self.scroller);
+      // console.log('x:', x);
+      // console.log('lastX:', self.lastX);
+      // console.log('distance:', distance);
+      // console.log('tabOffset:', self.tabOffset);
+      // console.log('overlap:', self.overlap);
+      // console.log('tmpX:', offset, '+', distance ,'=', tmpX);
+      // console.log('newX:', newX);
+      // console.log( self.prop, value );
 
       self.lastX = x;
       self.tabOffset = newX;
 
       self.$activeTab.css( self.prop, value );
 
-      console.groupEnd();
+      // console.groupEnd();
     },
 
     setup : function() {
       var self = this;
 
-      console.log('setup: StickyTabs');
       self.isStickyTabs = true;
       self.$tabsWrap.addClass('sticky');
 
@@ -260,10 +259,12 @@
     teardown : function() {
       var self = this;
 
-      console.log('teardown: StickyTabs');
       self.$tabsContainer.scrollerModule('destroy');
+      self.scroller = null;
       self.$tabsWrap.removeClass('sticky');
+      self.$tabs.off('.stickytabs');
       self.$tabs.removeAttr('style');
+      self.isClickCanceled = false;
       self.overlap = null;
       self.lastX = null;
       self.isStickyTabs = false;
@@ -326,7 +327,6 @@
     teardownCarousel : function() {
       var self = this;
 
-      console.log('teardown: Carousel tabs');
       self.$navPrev.addClass('hide');
       self.$navNext.addClass('hide');
       self.$container.removeClass('tab-carousel');
@@ -373,7 +373,7 @@
     tabOffset: 0,
     tabWidth: 0,
     windowWidth: 0,
-    windowHeight: 0,
+    // windowHeight: 0,
     overlap: null,
     lastX: null,
     isStickyTabs: false,
