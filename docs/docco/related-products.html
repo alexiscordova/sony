@@ -76,6 +76,9 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
       self.$shuffleContainers    = self.$slides.find(<span class="string">'.shuffle-container'</span>);
       self.$galleryItems         = self.$el.find(<span class="string">'.gallery-item'</span>);
       self.$container            = self.$el.find(<span class="string">'.rp-container'</span>).eq(<span class="number">0</span>);
+      self.$tabbedContainer      = self.$el.parent().hasClass(<span class="string">'container-tabbed'</span>);
+      self.isTabbedContainer     = self.$isTabbedContainer.length &gt; <span class="number">0</span>;
+      
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
@@ -672,6 +675,10 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
         }
 
         self.$el.css(<span class="string">'height'</span> , ((<span class="number">0.524976</span>) * self.$shuffleContainers.eq(<span class="number">0</span>).width()) + <span class="number">80</span>);
+
+        <span class="keyword">if</span>(!!self.isTabbedContainer){
+          self.tabbedContainer.css(<span class="string">'height'</span> , ((<span class="number">0.524976</span>) * self.$shuffleContainers.eq(<span class="number">0</span>).width()) + <span class="number">80</span>);
+        }
 
         console.log(<span class="string">"Slider Height »"</span>,self.$el.height());
 
