@@ -80,9 +80,9 @@
       self.$shuffleContainers    = self.$slides.find('.shuffle-container');
       self.$galleryItems         = self.$el.find('.gallery-item');
       self.$container            = self.$el.find('.rp-container').eq(0);
-      self.$tabbedContainer      = self.$el.parent().hasClass('container-tabbed');
-      self.isTabbedContainer     = self.$isTabbedContainer.length > 0;
-      
+      self.$tabbedContainer      = self.$el.parent();
+      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('container-tabbed');
+
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
@@ -717,7 +717,7 @@
         self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
 
         if(!!self.isTabbedContainer){
-          self.tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
+          self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
         }
 
         console.log("Slider Height »",self.$el.height());
