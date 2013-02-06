@@ -31,8 +31,6 @@
         this._resize();
         $(window).resize($.throttle(250, this._resize) );
       }
-      
-
     };
 
     // Plugin definition
