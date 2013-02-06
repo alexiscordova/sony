@@ -82,11 +82,14 @@
       display: block;
     }        
   }
-} // .navmenu-w-account
-.nav-li-selected .navmenu-w-account {
-  @include hideshow-navmenu-show(right,-125px);
-}
+  &.navmenu-w-visible {
+    @include hideshow-navmenu-show(right,-125px,false);
 
+    .reveal-transition-container{
+      overflow:hidden;
+    }
+  }
+} // .navmenu-w-account
 
 .navmenu-w-search-container{
   position:relative;
@@ -94,10 +97,12 @@
 .navmenu-w-search{
   width:467px;
 
-  @include hideshow-navmenu-hide(right);
-
   &.navmenu-w-visible{
-    @include hideshow-navmenu-show(right);
+    @include hideshow-navmenu-show(right,0,false);
+
+    .reveal-transition-container{
+      overflow:hidden;
+    }
   }
 
   .fonticon-10-arrowhead-up{
@@ -280,9 +285,6 @@
       }
     }
   }
-} // .navmenu-w-search
-.nav-li-selected .navmenu-w-search {
-  @include hideshow-navmenu-show(right);
 }
 
 

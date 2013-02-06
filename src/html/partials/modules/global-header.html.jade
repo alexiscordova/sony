@@ -22,67 +22,68 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
       //- the search menu wrapper is first for mobile, and positioned absolute for desktop
       .container.navmenu-w-search-container.full-bleed-at-767
 
-        #navmenu-w-search.navmenu-w.navmenu-w-search.Xsearching.input-outer-wrapper
+        div#navmenu-w-search.navmenu-w.navmenu-w-search.Xsearching.input-outer-wrapper
 
           i.fonticon-10-arrowhead-up.nav-indicator
-          form.navmenu-search-section-input.input-group(method='post', action='')
-            i.fonticon-10-search.input-icon
-            input#nav-search-input(type='text', name='navSearch', value='      Search')
-            a.btn-clear-search-input.input-clear-btn(href='#')
-              i.fonticon-10-x-skinny
-          
-          .navmenu-search-section-results
-            .navmenu-search-popular-searches
-              p.l3 Popular Searches
-                ul.navmenu-list.navmenu-list-extended
-                  li.search-result-line
-                    a.tl(href='#') Laptops 
-                  li.search-result-line
-                    a.tl(href='#') VAIO
-                  li.search-result-line
-                    a.tl(href='#') Headphones
-                  li.search-result-line
-                    a.tl(href='#') PSP
-                  li.search-result-line
-                    a.tl(href='#') Playstation
-                  li.search-result-line
-                    a.tl(href='#') NEX          
+          div.reveal-transition-container
+            form.navmenu-search-section-input.input-group(method='post', action='')
+              i.fonticon-10-search.input-icon
+              input#nav-search-input(type='text', name='navSearch', value='      Search')
+              a.btn-clear-search-input.input-clear-btn(href='#')
+                i.fonticon-10-x-skinny
+            
+            div.navmenu-search-section-results
+              div.navmenu-search-popular-searches
+                p.l3 Popular Searches
+                  ul.navmenu-list.navmenu-list-extended
+                    li.search-result-line
+                      a.tl(href='#') Laptops 
+                    li.search-result-line
+                      a.tl(href='#') VAIO
+                    li.search-result-line
+                      a.tl(href='#') Headphones
+                    li.search-result-line
+                      a.tl(href='#') PSP
+                    li.search-result-line
+                      a.tl(href='#') Playstation
+                    li.search-result-line
+                      a.tl(href='#') NEX          
 
-            .navmenu-search-results
-              ul.navmenu-list.navmenu-list-results
-                li.search-result-line
-                  a(href='#')
-                    img(src='img/global/global-nav/search-results-images/nex-6.png', alt='α NEX-6', width='83', height='64')
-                    span.search-result-p
-                      span.search-result-headline α NEX-6
-                      span.search-result-descript The Future of Photography.
-                    i.fonticon-10-chevron
-                li.search-result-line
-                  a(href='#')
-                    img(src='img/global/global-nav/search-results-images/nex-5.png', alt='α NEX-5', width='83', height='64')
-                    span.search-result-p
-                      span.search-result-headline α NEX-5
-                      span.search-result-descript Pocket DSLR
-                    i.fonticon-10-chevron
-                li.search-result-line.search-result-canned
-                  a(href='#')
-                    i.fonticon-30-support
-                    span.search-result-p
-                      span.search-result-headline α NEX Support
-                    i.fonticon-10-chevron
-              ul.navmenu-list-extended
-                li.search-result-line
-                    a.tl(href='#') α NEX-3
+              div.navmenu-search-results
+                ul.navmenu-list.navmenu-list-results
                   li.search-result-line
-                    a.tl(href='#') α NEX Accessories
+                    a(href='#')
+                      img(src='img/global/global-nav/search-results-images/nex-6.png', alt='α NEX-6', width='83', height='64')
+                      span.search-result-p
+                        span.search-result-headline α NEX-6
+                        span.search-result-descript The Future of Photography.
+                      i.fonticon-10-chevron
                   li.search-result-line
-                    a.tl(href='#') α NEX Lenses
+                    a(href='#')
+                      img(src='img/global/global-nav/search-results-images/nex-5.png', alt='α NEX-5', width='83', height='64')
+                      span.search-result-p
+                        span.search-result-headline α NEX-5
+                        span.search-result-descript Pocket DSLR
+                      i.fonticon-10-chevron
+                  li.search-result-line.search-result-canned
+                    a(href='#')
+                      i.fonticon-30-support
+                      span.search-result-p
+                        span.search-result-headline α NEX Support
+                      i.fonticon-10-chevron
+                ul.navmenu-list-extended
                   li.search-result-line
-                    a.tl(href='#') α NEX
+                      a.tl(href='#') α NEX-3
+                    li.search-result-line
+                      a.tl(href='#') α NEX Accessories
+                    li.search-result-line
+                      a.tl(href='#') α NEX Lenses
+                    li.search-result-line
+                      a.tl(href='#') α NEX
 
-              a.btn.btn-show-all-results(href='#') Show All Results
+                a.btn.btn-show-all-results(href='#') Show All Results
 
-      .navmenu-w.navmenu-w-mobile-top.visible-phone.logged-in
+      div.navmenu-w.navmenu-w-mobile-top.visible-phone.logged-in
         ul.navmenu-list.navmenu-list-main
           li.navmenu-line.navmenu-li-store
             a.tl(href='#')
@@ -105,10 +106,10 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
     
       //- The navtrays are before the navbar for correct ordering of the mobile nav menu
-      .navtray-w.navtray-w-fullwidth-3-4.navtray-w-electronics.navtray-w-tall
-        .navtray
+      div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-electronics.navtray-w-tall
+        div.navtray
 
-          .navtray-section.navtray-section-main.navtray-section-main-w-all-btn
+          div.navtray-section.navtray-section-main.navtray-section-main-w-all-btn
             h4.visible-phone Electronics
             ul.navtray-list-main
               li.navtray-li.navtray-li-cameras
@@ -158,7 +159,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
               i.fonticon-10-grid-3x3
               | View All Electronics
 
-          .navtray-section.navtray-section-featured
+          div.navtray-section.navtray-section-featured
             h6.l2 Community
             ul.navtray-list-secondary
               li.navtray-li.navtray-li-photography
@@ -179,9 +180,9 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 a(href='#') 
                   |  Explore now
 
-      .navtray-w.navtray-w-fullwidth-3-4.navtray-w-entertainment.navtray-w-short
-        .navtray
-          .navtray-section.navtray-section-main
+      div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-entertainment.navtray-w-short
+        div.navtray
+          div.navtray-section.navtray-section-main
             h4.visible-phone Entertainment
             ul.navtray-list-main
               li.navtray-li.navtray-li-cameras
@@ -204,7 +205,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                   span.nav-img-w
                     img(src='img/global/global-nav/tray-ebooks.png', alt='eBooks')
                   span.nav-label eBooks
-          .navtray-section.navtray-section-featured.navtray-section-featured-short
+          div.navtray-section.navtray-section-featured.navtray-section-featured-short
             p.navtray-secondary-promo.navtray-secondary-promo-short
               img(src='img/global/global-nav/promo-header-entertainment.png', alt='')
               span.p2 Pottermore
@@ -213,8 +214,8 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 a(href='#') 
                   | Explore Now
 
-      .container.navbar.full-bleed-at-767
-        .grid.full-bleed-at-767
+      div.container.navbar.full-bleed-at-767
+        div.grid.full-bleed-at-767
           a.brand.fonticon-60-sony(href='#')
             span.hidden-text
               | SONY make.believe
@@ -243,40 +244,41 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
               a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#')
                 | Account
                 i.fonticon-10-arrowhead-down
-              .navmenu-w.navmenu-w-account.logged-in
+              div.navmenu-w.navmenu-w-account.logged-in
                 i.fonticon-10-arrowhead-up.nav-indicator
-                a.btn.btn-login(href='#') Log in
-                ul.navmenu-list.navmenu-list-prefixed
-                  li.navmenu-line.navmenu-li-cart
-                    a.tl(href='#')
-                      i.fonticon-10-cart
-                      | Cart
-                      span.nav-li-count 2
-                  li.navmenu-line.navmenu-li-favorites
-                    a.tl(href='#')
-                      i.fonticon-10-favorite
-                      | Favorites
-                ul.navmenu-list.navmenu-list-main
-                  li.navmenu-line.navmenu-li-welcome.visible-phone 
-                    | Hi Robert
-                  li.navmenu-line.navmenu-li-account
-                    a.tl(href='#')
-                      i.fonticon-10-account
-                      | Account Info
-                  li.navmenu-line.navmenu-li-orders
-                    a.tl(href='#')
-                      i.fonticon-10-orders
-                      | Orders
-                  li.navmenu-line.navmenu-li-newsletter
-                    a.tl(href='#')
-                      i.fonticon-10-newsletter
-                      | Newsletter Subscriptions
-                  li.navmenu-line.navmenu-li-registered-products
-                    a.tl(href='#')
-                      i.fonticon-10-registered
-                      | Registered Products
-                a.btn.btn-logout(href='#')
-                  | Sign Out
+                div.reveal-transition-container
+                  a.btn.btn-login(href='#') Log in
+                  ul.navmenu-list.navmenu-list-prefixed
+                    li.navmenu-line.navmenu-li-cart
+                      a.tl(href='#')
+                        i.fonticon-10-cart
+                        | Cart
+                        span.nav-li-count 2
+                    li.navmenu-line.navmenu-li-favorites
+                      a.tl(href='#')
+                        i.fonticon-10-favorite
+                        | Favorites
+                  ul.navmenu-list.navmenu-list-main
+                    li.navmenu-line.navmenu-li-welcome.visible-phone 
+                      | Hi Robert
+                    li.navmenu-line.navmenu-li-account
+                      a.tl(href='#')
+                        i.fonticon-10-account
+                        | Account Info
+                    li.navmenu-line.navmenu-li-orders
+                      a.tl(href='#')
+                        i.fonticon-10-orders
+                        | Orders
+                    li.navmenu-line.navmenu-li-newsletter
+                      a.tl(href='#')
+                        i.fonticon-10-newsletter
+                        | Newsletter Subscriptions
+                    li.navmenu-line.navmenu-li-registered-products
+                      a.tl(href='#')
+                        i.fonticon-10-registered
+                        | Registered Products
+                  a.btn.btn-logout(href='#')
+                    | Sign Out
 
 
             li.nav-li.nav-li-favorites

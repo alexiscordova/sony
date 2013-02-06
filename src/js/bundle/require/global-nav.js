@@ -70,7 +70,7 @@
       // switch to desktop nav
       window.enquire.register("(min-width: " + (self.mobileNavThreshold+1) + "px)", {
         match : function() {
-          console.log("initDesktopNav");
+          // console.log("initDesktopNav");
           self.initDesktopNav();
           self.resetMobileNav();
         }
@@ -78,7 +78,7 @@
       // switch to desktop footer
       window.enquire.register("(min-width: " + (self.mobileFooterThreshold+1) + "px)", {
         match : function() {
-          console.log("initDesktopFooter");
+          // console.log("initDesktopFooter");
           self.resetMobileFooter();
         }
       });
@@ -86,7 +86,7 @@
       // switch to mobile nav
       window.enquire.register("(max-width: " + self.mobileNavThreshold + "px)", {
         match : function() {
-          console.log("initMobileNav");
+          // console.log("initMobileNav");
           self.initMobileNav();
           self.resetDesktopNav();
         }
@@ -94,7 +94,7 @@
       // switch to mobile footer
       window.enquire.register("(max-width: " + self.mobileFooterThreshold + "px)", {
         match : function() {
-          console.log("initMobileFooter");
+          // console.log("initMobileFooter");
           self.initMobileFooter();
         }
       });
@@ -110,7 +110,7 @@
           $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
-        console.log("$thNavBtnTarget: " + $thNavBtnTarget);
+        // console.log("$thNavBtnTarget: " + $thNavBtnTarget);
 
         // init
         self.resetActiveNavBtn($thNavBtn);
@@ -210,17 +210,17 @@
           
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
-            console.log("mouseleave $thNavBtn");
+            // console.log("mouseleave $thNavBtn");
             $(this).data('hovering',false);
             // Check to see if it was onto the navtray/navmenu. 
             // Wait a few ticks to give it a chance for the hover to fire first.
             setTimeout(function(){
-              console.log("mouseleave $thNavBtn2");
+              // console.log("mouseleave $thNavBtn2");
               // console.log("mouseleave BTN, target-hovering: " + $thNavBtnTarget.data('hovering'));
               // if you're not hovering over the target,
               if (!$thNavBtnTarget.data('hovering')){
                 // shut it down.
-                console.log("mouseleave $thNavBtn3");
+                // console.log("mouseleave $thNavBtn3");
                 self.startMouseleaveTimer( $thNavBtn );
               } else {
                 self.resetMouseleaveTimer();
@@ -235,16 +235,16 @@
 
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
-            console.log("mouseleave $thNavBtnTarget");
+            // console.log("mouseleave $thNavBtnTarget");
             $(this).data('hovering',false);
             // Check to see if it was onto this target's button. 
             // Wait a few ticks to give it a chance for the hover to fire first.
             setTimeout(function(){
-              console.log("mouseleave $thNavBtnTarget2");
+              // console.log("mouseleave $thNavBtnTarget2");
               // if you're not hovering over the target's button
               if (!$thNavBtn.data('hovering')){
                 // shut it down.
-                console.log("mouseleave $thNavBtnTarget3");
+                // console.log("mouseleave $thNavBtnTarget3");
                 self.startMouseleaveTimer( $thNavBtn );
               } else {
                 self.resetMouseleaveTimer();
@@ -276,8 +276,10 @@
             $('.navmenu-w-visible')
               .removeClass('navmenu-w-visible')
               .one(self.transitionEnd,function(){
-                $(this).css({'left':'','right':''});
-              });
+              $(this)
+                .css({'left':'','right':''})
+                .find('.reveal-transition-container').css('height','');
+            });
           }
         }
 
@@ -292,20 +294,20 @@
     
     startMouseleaveTimer : function( $thNavBtn ) {
       var self = this;
-      console.log("startMouseleaveTimer");
+      // console.log("startMouseleaveTimer");
       if ($('mouseleaveTimerActive').length){
         self.resetMouseleaveTimer();
       }
       $thNavBtn.addClass('mouseleaveTimerActive');
       self.mouseleaveTimer = setTimeout(function(){
-        console.log("mouseleaveTimer #DING!#");
+        // console.log("mouseleaveTimer #DING!#");
         self.resetActiveNavBtn($thNavBtn);
         self.resetMouseleaveTimer();
       }, self.mouseLeaveDelay);
     },
     resetMouseleaveTimer : function () {
       var self = this;
-      console.log("resetMouseleaveTimer");
+      // console.log("resetMouseleaveTimer");
       clearTimeout(self.mouseleaveTimer);
       $('.mouseleaveTimerActive').removeClass('mouseleaveTimerActive');
     },
@@ -332,14 +334,16 @@
           $('.navmenu-w-visible')
             .removeClass('navmenu-w-visible')
             .one(self.transitionEnd,function(){
-              $(this).css({'left':'','right':''});
+              $(this)
+                .css({'left':'','right':''})
+                .find('.reveal-transition-container').css('height','');
             });
         }
       }
     },
 
     slideNavTray : function( $navTray, opening ){
-      console.log('## ## slideNavTray $navTray.outerHeight(): ' + $navTray.outerHeight());
+      // console.log('## ## slideNavTray $navTray.outerHeight(): ' + $navTray.outerHeight());
       var self = this,
         startHeight,
         endHeight,
@@ -418,7 +422,7 @@
 
     activateNavBtn : function ($newNavBtn) {
       var self = this;
-      console.log('## ## activateNavBtn: ' + $newNavBtn.attr('class'));
+      // console.log('## ## activateNavBtn: ' + $newNavBtn.attr('class'));
 
       $newNavBtn.addClass('active').parent().addClass('nav-li-selected');
 
@@ -441,7 +445,28 @@
           }
         } else {
           // it's a nav-menu - show the menu.
-          $thNavTarget.addClass('navmenu-w-visible');
+          var $revealContainer = $thNavTarget.find('.reveal-transition-container');
+          var expHeight = $revealContainer.height();
+          console.log("expHeight: " + expHeight);
+          
+          $revealContainer.css('height','0px');
+          // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
+          setTimeout(function(){
+            $revealContainer.addClass('transition-height');
+            // wait a tick to make sure the transition-height is set before changing the height & animating.
+            setTimeout(function(){
+              $thNavTarget.addClass('navmenu-w-visible');
+              $revealContainer.height(expHeight);
+              $revealContainer.one(self.transitionEnd,function(){
+                $revealContainer.removeClass('transition-height');
+                setTimeout(function(){
+                  $revealContainer.css('height','');
+                },1);
+              });
+            },1);
+          },1);
+
+
 
           // just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
           if ($thNavTarget.hasClass('navmenu-w-search')){
@@ -586,11 +611,11 @@
     }, // end resetMobileFooter
 
     collapseMobileFooterSec : function ( $thFootSection, isPageInit ) {
-      console.log("collapseMobileFooterSec");
+      // console.log("collapseMobileFooterSec");
       var self = this;
 
       isPageInit = typeof isPageInit !== 'undefined' ? isPageInit : false;
-      console.log("isPageInit: " + isPageInit);
+      // console.log("isPageInit: " + isPageInit);
 
       // natural height - collapse it.
       var expHeight = $thFootSection.height();
@@ -621,7 +646,7 @@
       }
     },
     expandMobileFooterSec : function ( $thFootSection ) {
-      console.log("expandMobileFooterSec");
+      // console.log("expandMobileFooterSec");
       var self = this;
 
       $thFootSection

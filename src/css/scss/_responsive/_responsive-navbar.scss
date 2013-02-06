@@ -318,6 +318,9 @@
 .navmenu-w-search{
   @include hideshow-navmenu-hide(right);
 
+  .reveal-transition-container{
+    overflow:hidden;
+  }
   .fonticon-10-arrowhead-up.nav-indicator{
     right:17px;
   }
@@ -332,19 +335,22 @@
 }
 
 .navmenu-w-account{
-  width: 215px;
-  padding: 11px 0 9px;
-
   @include hideshow-navmenu-hide(right);
 
   .fonticon-10-arrowhead-up.nav-indicator{
     left: 25px;
   }
 
-  .navmenu-list-prefixed{
-    border-bottom:solid 1px $grayLightish;
-    padding-bottom:6px;
-    display:none;
+  .reveal-transition-container{
+    width: 215px;
+    padding: 11px 0 9px;
+    overflow:hidden;
+
+    .navmenu-list-prefixed{
+      border-bottom:solid 1px $grayLightish;
+      padding-bottom:6px;
+      display:none;
+    }
   }
 }
 // END 980px-1199px Default
@@ -918,19 +924,21 @@
 }
 
 .navmenu-w-account{
-  width:100%;
-  padding-bottom:30px;
+  .reveal-transition-container{
+    width:100%;
+    padding-bottom:30px;
 
-  .btn-logout{
-    margin-top:15px;
-  }
-  &.logged-in{
-    .btn-login{
-      display: none;
-    }
     .btn-logout{
-      display: block;
-    }        
+      margin-top:15px;
+    }
+    &.logged-in{
+      .btn-login{
+        display: none;
+      }
+      .btn-logout{
+        display: block;
+      }        
+    }
   }
 }
 
