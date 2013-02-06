@@ -78,6 +78,71 @@ $bulletMargin: px-em(5px);
 
 }
 
+/*
+      ____  ___    ____  ____  __    ______   _   _____ _    __
+     / __ \/   |  / __ \/ __ \/ /   / ____/  / | / /   | |  / /
+    / /_/ / /| | / / / / / / / /   / __/    /  |/ / /| | | / / 
+   / ____/ ___ |/ /_/ / /_/ / /___/ /___   / /|  / ___ | |/ /  
+  /_/   /_/  |_/_____/_____/_____/_____/  /_/ |_/_/  |_|___/   
+                                                                */
+.PADDLENAV{}
+  .rp-nav {
+    .paddle {
+      width: 50px;
+      height: 86px;
+      display: block;
+      color: $white;
+      background: $gray10;
+      border-radius: 2px;
+      @include opacity(40);
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 50%;
+      margin: -100px 0;
+      cursor: pointer;
+      font-size:1.4em;
+      @include transition(all $transitionSlow ease-in);
+      
+      &:hover {
+        @include opacity(80);
+      }
+
+      i {
+        width: 15px;
+        height: 15px;
+        margin-top: 33px;
+        @include center-block();
+
+        @media (max-width:(px-em(979px))){
+          margin-top: 28px;
+        }
+      }
+      
+      &.left {
+        left: 10px;
+        right: auto;
+      }
+
+      &.right {
+        left: auto;
+        right: 10px;
+      }
+
+      @media (min-width: px-em(481px)) and (max-width:(px-em(979px))){
+        margin: -100px 0;
+        width: 40px;
+        height: 70px;
+        font-size: 1.0em;
+      }
+
+      @media (max-width:(px-em(480px))){
+        display: none;
+      }
+
+
+    }
+  }
+
 
 //} // end pagination-bullets-container
 
