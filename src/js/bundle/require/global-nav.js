@@ -65,7 +65,7 @@
       self.isInitialized = true;
       
       // Setting up enquire listeners.
-      // These fire the first time they're hit (page-load)
+      // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
 
       // switch to desktop nav
       window.enquire.register("(min-width: " + (self.mobileNavThreshold+1) + "px)", {
