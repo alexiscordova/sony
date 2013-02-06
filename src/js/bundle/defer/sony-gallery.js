@@ -1134,14 +1134,11 @@
         console.log('fixing header');
         self.isFixedHeader = true;
 
-        var $subheader = $('<div class="modal-subheader container">');
+        var $subheader = $('<div class="modal-subheader clearfix">');
         $subheader.append( self.$compareReset, $sortOpts );
 
         // Insert subhead in the modal-body
-        $header.prepend( $subheader );
-
-        // Put the reset button the left
-        self.$compareReset.addClass('pull-left');
+        $header.append( $subheader );
 
       // Larger than phone
       } else {
@@ -1150,26 +1147,10 @@
 
         // Append count and labels
         $labelColumn.append( self.$compareCountWrap );
-
-        self.$compareReset.addClass('pull-right');
       }
+
+      self.$compareReset.addClass('pull-right');
       $labelColumn.append( $labelGroup );
-
-      if ( Modernizr.mq('(max-width: 29.9375em)') ) {
-        self.$compareReset.addClass('btn-block');
-        self.$compareTool.find('.sort-options').css({
-          'display': 'block',
-          'float': 'none',
-          'marginTop' : '0.5em'
-        });
-      } else {
-        self.$compareReset.removeClass('btn-block');
-        self.$compareTool.find('.sort-options').css({
-          'display': '',
-          'float': '',
-          'marginTop' : ''
-        });
-      }
 
 
       // On window resize
@@ -1415,15 +1396,12 @@
         // Setup sticky header
         if ( !self.isFixedHeader ) {
           self.isFixedHeader = true;
-          $subheader = $('<div class="modal-subheader container">');
+          $subheader = $('<div class="modal-subheader clearfix">');
           self.$compareCountWrap.addClass('hidden');
           $subheader.append( self.$compareReset.detach(), $sortOpts.detach() );
 
           // Insert subhead in the modal header
           $header.append( $subheader );
-
-          // Put the reset button the left
-          // self.$compareReset.removeClass('pull-right').addClass('pull-left');
         }
 
       // Larger than phone
@@ -1436,31 +1414,8 @@
           $header.append( self.$compareReset.detach(), $sortOpts.detach() );
 
           self.$compareTool.find('.modal-subheader').remove();
-
-          // self.$compareReset.removeClass('pull-left').addClass('pull-right');
         }
       }
-
-      if ( Modernizr.mq('(max-width: 29.9375em)') ) {
-        // self.$compareReset.addClass('btn-block');
-        self.$compareTool.find('.sort-options').css({
-          'display': 'block',
-          'float': 'none',
-          'marginTop' : '0.5em'
-        });
-      } else {
-        // self.$compareReset.removeClass('btn-block');
-        self.$compareTool.find('.sort-options').css({
-          'display': '',
-          'float': '',
-          'marginTop' : ''
-        });
-      }
-
-      // self.$compareTool
-      //   .find('.detail')
-      //   .add(self.$compareTool.find('.product-name-wrap'))
-      //   .css('height', '');
 
       self
         .setCompareRowHeights()

@@ -168,14 +168,15 @@ $modalHeight: 550px;
   }
 
   // Give modal header children a margin-left except for the h3
-  .modal-header > *:not(#compare-tool-label) {
+  .modal-header > button,
+  .modal-header > .sort-options {
     margin: 0 0 0 8px;
   }
 
   .modal-body {
     overflow-y: visible;
     max-height: none;
-    padding: 1.25em 0 0;
+    padding: 1.125em 0 0;
     @include lightGrayInset( $gray90 );
   }
 }

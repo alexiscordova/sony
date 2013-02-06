@@ -789,6 +789,7 @@ $offsetFromMiddle: px-em(45px);
 
 .sort-options .native-dropdown {
   display: none;
+  margin-bottom: 0;
 }
 
 // Filter labels ( active filters )
@@ -1116,13 +1117,24 @@ $offsetFromMiddle: px-em(45px);
 // Compare Tool
 // -------------------------
 
-.modal-subhead {
+.modal-subheader {
   clear: both;
-  margin: 0;
+
+  .takeover .modal-header & {
+    margin: 0;
+  }
+
+  .btn-reset {
+    float: right;
+  }
+
+  .sort-options {
+    float: left;
+  }
 }
 
 .compare-key {
-  margin-top: 1.125em;
+  // margin-top: 1.125em;
   margin-bottom: 1.125em;
 }
 
