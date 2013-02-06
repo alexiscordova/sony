@@ -93,7 +93,7 @@ mixin filterSet( filterSet )
       mixin filterGroup( filterSet )
 
 
-.sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
+.sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel", data-module-name != data.config.module_name, data-module-id = data.config.module_id)
   .tabs-container.container.m-full-bleed
     .grid.m-full-bleed
       .tabs
