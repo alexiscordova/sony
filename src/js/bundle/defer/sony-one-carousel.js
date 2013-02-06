@@ -98,7 +98,19 @@
       self.newSlideId            = 0;
       self.sPosition             = 0;
       self.accelerationPos       = 0;
+      self.prefixed              = Modernizr.prefixed;
+      self.transitionName        = self.prefixed('transition');
 
+      // Get transitionend event name
+      var transEndEventNames = {
+          'WebkitTransition' : 'webkitTransitionEnd',
+          'MozTransition'    : 'transitionend',
+          'OTransition'      : 'oTransitionEnd',
+          'msTransition'     : 'MSTransitionEnd',
+          'transition'       : 'transitionend'
+      };
+
+      self.transitionEndName     = transEndEventNames[ self.transitionName ];
       //view mode variables set by breakpoint resize listener
       self.isDesktopMode = true; //we start off in this mode by default
       self.isTabletMode  = false;
@@ -539,7 +551,7 @@
           self.$containerInner.css( animObj );
 
           //IQ Update
-          self.$containerInner.one($.support.transition.end , function(){
+          self.$containerInner.one(self.transitionEndName, function(){
             window.iQ.update();
           });
 
