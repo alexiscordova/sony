@@ -23,9 +23,6 @@
       color:$footerGrayText;
     };
   }
-  .dropdown-label{
-    font-size:$font_14_16;
-  }
 } // .footer-wrapper
 
 .footer-sony-logo{
@@ -121,7 +118,7 @@ form.footer-store-locator-form{
 
     &.footer-social-twitter {
       i {
-        top:2px;
+        top:0px;
         left:1px;
       }
       &:hover, &:active, &:focus, &.active{
@@ -130,8 +127,8 @@ form.footer-store-locator-form{
     }
     &.footer-social-facebook {
       i {
-        top:2px;
-        left:1px;
+        top:0px;
+        left:0px;
       }
       &:hover, &:active, &:focus, &.active{
         background-color:$facebookColor;        
@@ -140,8 +137,9 @@ form.footer-store-locator-form{
     &.footer-social-gplus {
       overflow:hidden;
       i{
-        left:-2px;
-        top:4px;
+        font-size:1.05em;
+        left: 3px;
+        top: 0px;
       }
       &:hover, &:active, &:focus, &.active{
         background-color:$gplusColor;        
@@ -179,10 +177,17 @@ form.footer-store-locator-form{
     @include box-shadow(none);
     @include flickerfix;
 
+
+    .dropdown-label{
+      font-size: px-em(14);
+    }
+
     .fonticon-10-arrowhead-down{
-      float:right;
-      margin:6px -4px 0;
-      @include transition(all $transitionFast linear);
+      margin: 0;
+      position:relative;
+      top:-2px;
+      left:4px;
+      @include transition(all $transitionFast linear 0s);
       @include transform-origin(47%, 53%);
       @include flickerfix;
     }

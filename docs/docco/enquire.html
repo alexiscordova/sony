@@ -1,0 +1,390 @@
+<!DOCTYPE html>  <html> <head>   <title>enquire.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-one-carousel.html">                 sony-one-carousel.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="enquire.html">                 enquire.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="jquery.imagesloaded.html">                 jquery.imagesloaded.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               enquire.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>enquire.js v1.5.6 - Awesome Media Queries in JavaScript
+Copyright (c) 2013 Nick Williams - http://wicky.nillia.ms/enquire.js
+License: MIT (http://www.opensource.org/licenses/mit-license.php)</p>             </td>             <td class="code">               <div class="highlight"><pre>
+
+window.enquire = (<span class="keyword">function</span>(matchMedia) {
+
+    <span class="string">"use strict"</span>;
+
+    <span class="comment">/**
+     * Helper function for iterating over a collection
+     *
+     * @param collection
+     * @param fn
+     */</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">each</span><span class="params">(collection, fn)</span> {</span>
+        <span class="keyword">var</span> i      = <span class="number">0</span>,
+            length = collection.length,
+            cont;
+
+        <span class="keyword">for</span>(i; i &lt; length; i++) {
+            cont = fn(collection[i], i);
+            <span class="keyword">if</span>(cont === <span class="literal">false</span>) {
+                <span class="keyword">break</span>; <span class="comment">//allow early exit</span>
+            }
+        }
+    }
+
+    <span class="comment">/**
+     * Helper function for determining whether target object is an array
+     *
+     * @param target the object under test
+     * @return {Boolean} true if array, false otherwise
+     */</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">isArray</span><span class="params">(target)</span> {</span>
+        <span class="keyword">return</span> Object.prototype.toString.apply(target) === <span class="string">"[object Array]"</span>;
+    }
+
+    <span class="comment">/**
+     * Helper function for determining whether target object is a function
+     *
+     * @param target the object under test
+     * @return {Boolean} true if function, false otherwise
+     */</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">isFunction</span><span class="params">(target)</span> {</span>
+        <span class="keyword">return</span> <span class="keyword">typeof</span> target === <span class="string">"function"</span>;
+    }
+
+    <span class="comment">/**
+     * Delegate to handle a media query being matched and unmatched.
+     *
+     * @param {object} options
+     * @param {function} options.match callback for when the media query is matched
+     * @param {function} [options.unmatch] callback for when the media query is unmatched
+     * @param {function} [options.setup] one-time callback triggered the first time a query is matched
+     * @param {boolean} [options.deferSetup=false] should the setup callback be run immediately, rather than first time query is matched?
+     * @constructor
+     */</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">QueryHandler</span><span class="params">(options)</span> {</span>
+        <span class="keyword">this</span>.initialised = <span class="literal">false</span>;
+        <span class="keyword">this</span>.options = options;
+
+        <span class="keyword">if</span>(!options.deferSetup) {
+			<span class="keyword">this</span>.setup();
+		}
+    }
+    QueryHandler.prototype = {
+
+        <span class="comment">/**
+         * coordinates setup of the handler
+         *
+         * @function
+         */</span>
+        setup : <span class="keyword">function</span>(e) {
+            <span class="keyword">if</span>(<span class="keyword">this</span>.options.setup){
+                <span class="keyword">this</span>.options.setup(e);
+            }
+            <span class="keyword">this</span>.initialised = <span class="literal">true</span>;
+        },
+
+        <span class="comment">/**
+         * coordinates setup and triggering of the handler
+         *
+         * @function
+         * @param [e] the browser event which triggered a match
+         */</span>
+        on : <span class="keyword">function</span>(e) {
+            <span class="keyword">if</span>(!<span class="keyword">this</span>.initialised){
+                <span class="keyword">this</span>.setup(e);
+            }
+            <span class="keyword">this</span>.options.match(e);
+        },
+
+        <span class="comment">/**
+         * coordinates the unmatch event for the handler
+         *
+         * @function
+         * @param [e] the browser event which triggered a match
+         */</span>
+        off : <span class="keyword">function</span>(e) {
+            <span class="keyword">if</span>(<span class="keyword">this</span>.options.unmatch){
+                <span class="keyword">this</span>.options.unmatch(e);
+            }
+        },
+
+        <span class="comment">/**
+         * called when a handler is to be destroyed.
+         * delegates to the destroy or unmatch callbacks, depending on availability.
+         *
+         * @function
+         */</span>
+        destroy : <span class="keyword">function</span>() {
+            <span class="keyword">if</span>(<span class="keyword">this</span>.options.destroy) {
+                <span class="keyword">this</span>.options.destroy();
+            }
+            <span class="keyword">else</span> {
+                <span class="keyword">this</span>.off();
+            }
+        },
+
+        <span class="comment">/**
+         * determines equality by reference.
+         * if object is supplied compare options, if function, compare match callback
+         *
+         * @function
+         * @param {object || function} [target] the target for comparison
+         */</span>
+        equals : <span class="keyword">function</span>(target) {
+            <span class="keyword">return</span> <span class="keyword">this</span>.options === target || <span class="keyword">this</span>.options.match === target;
+        }
+
+    };
+<span class="comment">/**
+ * Represents a single media query, manages it's state and registered handlers for this query
+ *
+ * @constructor
+ * @param {string} query the media query string
+ * @param {boolean} [isUnconditional=false] whether the media query should run regardless of whether the conditions are met. Primarily for helping older browsers deal with mobile-first design
+ */</span>
+<span class="function"><span class="keyword">function</span> <span class="title">MediaQuery</span><span class="params">(query, isUnconditional)</span> {</span>
+    <span class="keyword">this</span>.query = query;
+    <span class="keyword">this</span>.isUnconditional = isUnconditional;
+    
+    <span class="keyword">this</span>.handlers = [];
+    <span class="keyword">this</span>.matched = <span class="literal">false</span>;
+}
+MediaQuery.prototype = {
+
+    <span class="comment">/**
+     * tests whether this media query is currently matching
+     *
+     * @function
+     * @returns {boolean} true if match, false otherwise
+     */</span>
+    matchMedia : <span class="keyword">function</span>() {
+        <span class="keyword">return</span> matchMedia(<span class="keyword">this</span>.query).matches;
+    },
+
+    <span class="comment">/**
+     * add a handler for this query, triggering if already active
+     *
+     * @function
+     * @param {object} handler
+     * @param {function} handler.match callback for when query is activated
+     * @param {function} [handler.unmatch] callback for when query is deactivated
+     * @param {function} [handler.setup] callback for immediate execution when a query handler is registered
+     * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched?
+     * @param {boolean} [turnOn=false] should the handler be turned on if the query is matching?
+     */</span>
+    addHandler : <span class="keyword">function</span>(handler, turnOn) {
+        <span class="keyword">var</span> qh = <span class="keyword">new</span> QueryHandler(handler);
+        <span class="keyword">this</span>.handlers.push(qh);
+
+        turnOn &amp;&amp; <span class="keyword">this</span>.matched &amp;&amp; qh.on();
+    },
+
+    <span class="comment">/**
+     * removes the given handler from the collection, and calls it's destroy methods
+     *
+     * @function
+     * @param {object || function} handler the handler to remove
+     */</span>
+    removeHandler : <span class="keyword">function</span>(handler) {
+        <span class="keyword">var</span> handlers = <span class="keyword">this</span>.handlers;
+        each(handlers, <span class="keyword">function</span>(h, i) {
+            <span class="keyword">if</span>(h.equals(handler)) {
+                h.destroy();
+                <span class="keyword">return</span> !handlers.splice(i,<span class="number">1</span>); <span class="comment">//remove from array and exit each early</span>
+            }
+        });
+    },
+
+    <span class="comment">/*
+     * assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
+     *
+     * @function
+     */</span>
+    assess : <span class="keyword">function</span>(e) {
+        <span class="keyword">if</span>(<span class="keyword">this</span>.matchMedia() || <span class="keyword">this</span>.isUnconditional) {
+            <span class="keyword">this</span>.match(e);
+        }
+        <span class="keyword">else</span> {
+            <span class="keyword">this</span>.unmatch(e);
+        }
+    },
+
+    <span class="comment">/**
+     * activates a query.
+     * callbacks are fired only if the query is currently unmatched
+     *
+     * @function
+     * @param {Event} [e] browser event if triggered as the result of a browser event
+     */</span>
+    match : <span class="keyword">function</span>(e) {
+        <span class="keyword">if</span>(<span class="keyword">this</span>.matched) {
+			<span class="keyword">return</span>; <span class="comment">//already on</span>
+		}
+
+        each(<span class="keyword">this</span>.handlers, <span class="keyword">function</span>(handler) {
+            handler.on(e);
+        });
+        <span class="keyword">this</span>.matched = <span class="literal">true</span>;
+    },
+
+    <span class="comment">/**
+     * deactivates a query.
+     * callbacks are fired only if the query is currently matched
+     *
+     * @function
+     * @param {Event} [e] browser event if triggered as the result of a browser event
+     */</span>
+    unmatch : <span class="keyword">function</span>(e) {
+        <span class="keyword">if</span>(!<span class="keyword">this</span>.matched) {
+			<span class="keyword">return</span>; <span class="comment">//already off</span>
+        }
+
+        each(<span class="keyword">this</span>.handlers, <span class="keyword">function</span>(handler){
+			handler.off(e);
+        });
+        <span class="keyword">this</span>.matched = <span class="literal">false</span>;
+    }
+};
+    <span class="comment">/**
+     * Allows for reigstration of query handlers.
+     * Manages the  query handler's state and is responsible for wiring up browser events
+     *
+     * @constructor
+     */</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">MediaQueryDispatch</span> <span class="params">()</span> {</span>
+        <span class="keyword">if</span>(!matchMedia) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'matchMedia is required'</span>);
+        }
+
+        <span class="keyword">var</span> capabilityTest = <span class="keyword">new</span> MediaQuery(<span class="string">'only all'</span>);
+        <span class="keyword">this</span>.queries = {};
+        <span class="keyword">this</span>.listening = <span class="literal">false</span>;
+        <span class="keyword">this</span>.browserIsIncapable = !capabilityTest.matchMedia();
+    }
+
+    MediaQueryDispatch.prototype = {
+
+        <span class="comment">/**
+         * Registers a handler for the given media query
+         *
+         * @function
+         * @param {string} q the media query
+         * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
+         * @param {function} options.match fired when query matched
+         * @param {function} [options.unmatch] fired when a query is no longer matched
+         * @param {function} [options.setup] fired when handler first triggered
+         * @param {boolean} [options.deferSetup=false] whether setup should be run immediately or deferred until query is first matched
+         * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
+         */</span>
+        register : <span class="keyword">function</span>(q, options, shouldDegrade) {
+            <span class="keyword">var</span> queries         = <span class="keyword">this</span>.queries,
+                isUnconditional = shouldDegrade &amp;&amp; <span class="keyword">this</span>.browserIsIncapable,
+                listening       = <span class="keyword">this</span>.listening;
+
+            <span class="keyword">if</span>(!queries.hasOwnProperty(q)) {
+                queries[q] = <span class="keyword">new</span> MediaQuery(q, isUnconditional);
+
+                <span class="keyword">this</span>.listening &amp;&amp; queries[q].assess();
+            }
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>normalise to object</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(isFunction(options)) {
+                options = {
+                    match : options
+                };
+            }
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>normalise to array</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(!isArray(options)) {
+                options = [options];
+            }
+            each(options, <span class="keyword">function</span>(handler) {
+                queries[q].addHandler(handler, listening);
+            });
+
+            <span class="keyword">return</span> <span class="keyword">this</span>;
+        },
+
+        <span class="comment">/**
+         * unregisters a query and all it's handlers, or a specific handler for a query
+         *
+         * @function
+         * @param {string} q the media query to target
+         * @param {object || function} [handler] specific handler to unregister
+         */</span>
+        unregister : <span class="keyword">function</span>(q, handler) {
+            <span class="keyword">var</span> queries = <span class="keyword">this</span>.queries;
+
+            <span class="keyword">if</span>(!queries.hasOwnProperty(q)) {
+                <span class="keyword">return</span> <span class="keyword">this</span>;
+            }
+            
+            <span class="keyword">if</span>(!handler) {
+                each(<span class="keyword">this</span>.queries[q].handlers, <span class="keyword">function</span>(handler) {
+                    handler.destroy();
+                });
+                <span class="keyword">delete</span> queries[q];
+            }
+            <span class="keyword">else</span> {
+                queries[q].removeHandler(handler);
+            }
+
+            <span class="keyword">return</span> <span class="keyword">this</span>;
+        },
+
+        <span class="comment">/**
+         * Tests all media queries and calls relevant methods depending whether
+         * transitioning from unmatched-&gt;matched or matched-&gt;unmatched
+         *
+         * @function
+         * @param {Event} [e] if fired as a result of a browser event,
+         * an event can be supplied to propagate to the various media query handlers
+         */</span>
+        fire : <span class="keyword">function</span>(e) {
+            <span class="keyword">var</span> queries = <span class="keyword">this</span>.queries,
+                mediaQuery;
+
+            <span class="keyword">for</span>(mediaQuery <span class="keyword">in</span> queries) {
+                <span class="keyword">if</span>(queries.hasOwnProperty(mediaQuery)) {
+                    queries[mediaQuery].assess(e);
+				}
+            }
+            <span class="keyword">return</span> <span class="keyword">this</span>;
+        },
+
+        <span class="comment">/**
+         * sets up listeners for resize and orientation events
+         *
+         * @function
+         * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
+         */</span>
+        listen : <span class="keyword">function</span>(timeout) {
+            <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+            timeout = timeout || <span class="number">500</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>creates closure for separate timed events</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="function"><span class="keyword">function</span> <span class="title">wireFire</span><span class="params">(event)</span> {</span>
+                <span class="keyword">var</span> timer;
+
+                window.addEventListener(event, <span class="keyword">function</span>(e) {
+                    timer &amp;&amp; clearTimeout(timer);
+
+                    timer = setTimeout(<span class="keyword">function</span>() {
+                        self.fire(e);
+                    }, timeout);
+                }, <span class="literal">false</span>);
+            }
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>prevent multiple event handlers</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(<span class="keyword">this</span>.listening) {
+                <span class="keyword">return</span> <span class="keyword">this</span>;
+            }
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>any browser that doesn't implement this
+will not have media query support</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(window.addEventListener) {
+                wireFire(<span class="string">'resize'</span>);
+                wireFire(<span class="string">'orientationChange'</span>);
+            }
+
+            self.fire();
+            <span class="keyword">this</span>.listening = <span class="literal">true</span>;
+            
+            <span class="keyword">return</span> <span class="keyword">this</span>;
+        }
+    };
+
+
+    <span class="keyword">return</span> <span class="keyword">new</span> MediaQueryDispatch();
+
+}(window.matchMedia));
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

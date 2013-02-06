@@ -773,7 +773,7 @@ $default-transition-delay    : 0s;
 }
 
 // transitions for specific components
-@mixin hideshow-navmenu-show($leftOrRight:left, $x: 0){
+@mixin hideshow-navmenu-show($leftOrRight:left, $x: 0, $animateOpacity:true){
   @if ($leftOrRight == left){
   	left:$x;
   	right:auto;
@@ -781,10 +781,14 @@ $default-transition-delay    : 0s;
   	right:$x;
   	left:auto;
   }
-  opacity:1;
-  @include transition(opacity $transitionFast linear 0s, $leftOrRight 0s linear 0s);
+	opacity:1;
+  @if ($animateOpacity) {
+ 		@include transition(opacity $transitionFast linear 0s, $leftOrRight 0s linear 0s);
+ 	} @else {
+ 		@include transition(opacity 0s linear 0s, $leftOrRight 0s linear 0s);
+ 	}
 }
-@mixin hideshow-navmenu-hide($leftOrRight:left){
+@mixin hideshow-navmenu-hide($leftOrRight:left, $animateOpacity:true){
   @if ($leftOrRight == left){
   	left:-9999px;
   	right:auto;
@@ -792,8 +796,12 @@ $default-transition-delay    : 0s;
   	right:9999px;
   	left:auto;
   }
-  opacity:0;
-  @include transition(opacity $transitionFaster linear 0s, $leftOrRight 0s linear $transitionFaster);
+	opacity:0;
+  @if ($animateOpacity) {
+	  @include transition(opacity $transitionFaster linear 0s, $leftOrRight 0s linear $transitionFaster);
+ 	} @else {
+	  @include transition(opacity 0s linear $navMenuRevealSpeed, $leftOrRight 0s linear $transitionFaster); 		
+ 	}
 }
 
 
