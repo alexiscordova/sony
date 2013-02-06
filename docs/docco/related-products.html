@@ -1263,34 +1263,75 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
   
 })(window, Modernizr , jQuery , document);
 
+<span class="comment">/*
+  Tab system for managing multiple
+  instances of related products
+*/</span>
 $(<span class="keyword">function</span>(){
   <span class="comment">/*
     figure out tabbed stuff here and let that
     module instantiate the related products that its bound to
   */</span>
 
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> transEndEventNames = {
+      <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
+      <span class="string">'MozTransition'</span>    : <span class="string">'transitionend'</span>,
+      <span class="string">'OTransition'</span>      : <span class="string">'oTransitionEnd'</span>,
+      <span class="string">'msTransition'</span>     : <span class="string">'MSTransitionEnd'</span>,
+      <span class="string">'transition'</span>       : <span class="string">'transitionend'</span>
+  },
+  transitionEndName;
+
+  transitionEndName = transEndEventNames[ window.Modernizr.prefixed(<span class="string">'transition'</span>) ];
+
   <span class="keyword">var</span> $tabs = $(<span class="string">'.rp-tabs'</span>).find(<span class="string">'.rp-tab'</span>),
       currentPanelId = <span class="number">1</span>,
-      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ currentPanelId +<span class="string">']'</span>);
+      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ currentPanelId +<span class="string">']'</span>),
+      $productPanels = $(<span class="string">'.related-products[data-rp-panel-id]'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>TODO: fpo only</p>             </td>             <td class="code">               <div class="highlight"><pre>  $(<span class="string">'.related-products[data-rp-panel-id=2] .plate .product-img'</span>).css(<span class="string">'backgroundColor'</span> , <span class="string">'#913f99'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>TODO: fpo only</p>             </td>             <td class="code">               <div class="highlight"><pre>  $(<span class="string">'.related-products[data-rp-panel-id=2] .plate .product-img'</span>).css(<span class="string">'backgroundColor'</span> , <span class="string">'#913f99'</span>);
 
-  $currentPanel.css(<span class="string">'visibility'</span> , <span class="string">'visible'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>shut em all off</p>             </td>             <td class="code">               <div class="highlight"><pre>  $productPanels.removeClass(<span class="string">'panel-active'</span>)
+                .addClass(<span class="string">'panel-inactive'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>turn on current</p>             </td>             <td class="code">               <div class="highlight"><pre>  $currentPanel.removeClass(<span class="string">'panel-inactive'</span>).addClass(<span class="string">'panel-active'</span>);
 
   <span class="keyword">if</span>($tabs.length &gt; <span class="number">0</span>){
     <span class="keyword">var</span> handleTabClick = <span class="keyword">function</span>(e){
-      <span class="keyword">var</span> $tab = $(<span class="keyword">this</span>);
+      <span class="keyword">var</span> $tab = $(<span class="keyword">this</span>),
+      visibleObj = <span class="keyword">function</span>(visibleBool){
+        <span class="keyword">return</span> {<span class="string">'visibility'</span> : visibleBool ? <span class="string">'visible'</span> : <span class="string">'hidden'</span> };
+      };
+
       e.preventDefault();
       $tabs.removeClass(<span class="string">'active'</span>);
       $tab.addClass(<span class="string">'active'</span>);
       currentPanelId = $tab.data(<span class="string">'rpPanelId'</span>);
-      $currentPanel.css(<span class="string">'visibility'</span> , <span class="string">'hidden'</span>);
-      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ currentPanelId +<span class="string">']'</span>);
-      $currentPanel.css(<span class="string">'visibility'</span> , <span class="string">'visible'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>de-activate previous panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(!!Modernizr.csstransitions){
+        $currentPanel.one(transitionEndName , <span class="keyword">function</span>(){
+          $currentPanel.css(visibleObj(<span class="literal">false</span>));
+        });
+        $currentPanel.removeClass(<span class="string">'panel-active'</span>).addClass(<span class="string">'panel-inactive'</span>);
+      }<span class="keyword">else</span>{}
+
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>activeate current panel</p>             </td>             <td class="code">               <div class="highlight"><pre>      $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span>+ currentPanelId +<span class="string">']'</span>);
+      <span class="keyword">if</span>(!!Modernizr.csstransitions){
+        $currentPanel.one(transitionEndName , <span class="keyword">function</span>(){
+          $currentPanel.css(visibleObj(<span class="literal">true</span>));
+        });
+        $currentPanel.removeClass(<span class="string">'panel-inactive'</span>).addClass(<span class="string">'panel-active'</span>);
+      }<span class="keyword">else</span>{}
+      
+      
       console.log(<span class="string">'Currently Selected Tab:'</span> , $tab.data(<span class="string">'rpPanelId'</span>));
     };
+
     $tabs.on(<span class="string">'click'</span> , handleTabClick);
+
   }
+
+  
 });
 
 

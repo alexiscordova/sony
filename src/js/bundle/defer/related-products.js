@@ -1398,6 +1398,8 @@ $(function(){
     $tabs.on('click' , handleTabClick);
 
   }
+
+  
 });
 
 
