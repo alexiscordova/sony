@@ -1,13 +1,16 @@
 /*global jQuery, Modernizr, IScroll */
 
-// ------------  ------------
-// Module: Generic Scroller
-// Version: 1.0
-// Modified: 2013-01-04 by Telly Koosis, Tyler Madison, Glen Cheney
-// Dependencies: jQuery 1.7+, Modernizr, iScroll v4.2.5
-// -------------------------------------------------------------------------
-
-// TODO: broadcast if pagination (including page number)
+// Generic Scroller
+// -------------------------------------------------
+//
+// * **Version:** 0.1
+// * **Modified:** 02/05/2013
+// * **Authors:** Telly Koosis, Tyler Madison, Glen Cheney
+// * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html)
+//
+// *Example Usage:*
+//      TODO: add example here
+//            
 
 
 (function($, Modernizr, IScroll, window, undefined) {
@@ -19,7 +22,7 @@
 
     $.extend(self, $.fn.scrollerModule.defaults, options, $.fn.scrollerModule.settings);
 
-    self.$el = $($element);
+    self.$el = $element; // already jquery obj on init (optimized!)
     self.$win = $(window);
     self._init();
   };
@@ -35,7 +38,7 @@
       var self = this,
           resizeFunc = $.throttle( self.throttleTime, $.proxy( self._onResize, self ) );
 
-      self.$contentContainer = $(self.contentSelector);
+      self.$contentContainer = self.$el.find(self.contentSelector);
       self.$elements = self.$el.find(self.itemElementSelector);
       self.$sampleElement = self.$elements.eq(0);
 
@@ -187,6 +190,7 @@
     _generatePagination : function( pages ) {
       var self = this,
           i = 0,
+          $elementToAppend = self.appendBulletsTo ? $(self.appendBulletsTo) : self.$el,
           $bulletPagination,
           clss, $li;
 
@@ -208,7 +212,9 @@
       }
 
       // Append the nav bullets
-      self.$el.append( $bulletPagination );
+      $elementToAppend.append( $bulletPagination );
+
+      // Store reference
       self.$pagination = $bulletPagination;
     },
 
@@ -369,9 +375,9 @@
     destroy: function() {
       var self = this;
 
-			if ( self.$pagination ) {
-				self.$pagination.remove();
-			}
+      if ( self.$pagination ) {
+        self.$pagination.remove();
+      }
 
       self.$contentContainer.css('width', '');
       self.$elements.css({
@@ -427,17 +433,18 @@
 
   // Defaults
   $.fn.scrollerModule.defaults = {
-    contentSelector: '.content',
-    itemElementSelector: '.block',
+    contentSelector: '.content', // parent of items in scroller
+    itemElementSelector: '.block', // items in scroller
     mode: 'free', // if mode == 'paginate', the items in the container will be paginated
-    lastPageCenter: false,
-    extraSpacing: 0,
+    lastPageCenter: false, // option to center last page elements
+    extraSpacing: 0, // per page
     nextSelector: '', // selector for next paddle
     prevSelector: '', // selector for previous paddle
-    fitPerPage: null,
-    centerItems: true,
-    paginationClass: 'pagination-bullet',
-    generatePagination: false,
+    fitPerPage: null, // if content needs to be fixed per page
+    centerItems: true, // centers items per page
+    paginationClass: 'pagination-bullet', 
+    generatePagination: false, // if bullet pagination is needed in mode = paginate, 
+    appendBulletsTo:null, // option on where to place pagination bullets, if null defaults to self.$el
 
     // iscroll props get mixed in
     iscrollProps: {

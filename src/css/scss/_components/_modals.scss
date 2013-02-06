@@ -36,44 +36,57 @@ body.modal-open {
 }
 
 // Base modal
+$modalHeight: 550px;
 .modal {
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: 0;
   z-index: $zindexModal;
-  overflow: auto;
-  width: 560px;
-  margin: -250px 0 0 -280px;
-  background-color: $white;
-  border: 1px solid #999;
-  border: 1px solid rgba(0,0,0,.3);
-  *border: 1px solid #999; /* IE6-7 */
-  @include border-radius(6px);
-  @include box-shadow(0 3px 7px rgba(0,0,0,0.3));
-  @include background-clip(padding-box);
+  width: 100%;
+  height: $modalHeight;
+  margin-top: -($modalHeight / 2);
+
   &.fade {
     @include transition(opacity .3s linear, top .3s ease-out);
     top: -25%;
   }
+
   &.fade.in { top: 50%; }
+
+  // Don't want the blue border around the whole container
+  &:focus {
+    outline: none;
+  }
 }
+
 .modal-header {
-  padding: 9px 15px;
-  border-bottom: 1px solid #eee;
+  padding: 2.5em 2.5em 1.25em;
+  // border-bottom: 1px solid #eee;
+
   // Close icon
   .close { margin-top: 2px; }
+
   // Heading
   h3 {
     margin: 0;
-    line-height: 30px;
+    // line-height: 30px;
   }
+}
+
+// This is now the main modal that you see
+.modal-inner {
+  position: relative;
+  overflow: auto;
+  background-color: $white;
+  @include box-shadow(0 0 1.875em rgba(39, 43, 55, 0.15));
 }
 
 // Body (where all modal content resides)
 .modal-body {
   overflow-y: auto;
-  max-height: 400px;
-  padding: 15px;
+  // max-height: 400px;
+  // padding: 15px;
+  padding: 2.5em;
 }
 // Remove bottom margin if need be
 .modal-form {
@@ -102,6 +115,28 @@ body.modal-open {
   }
 }
 
+.box-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  @include size( px-em(40px), px-em(43px) );
+  padding: 0;
+  line-height: 1;
+  background: $gray40;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    background: $gray20;
+  }
+
+  i {
+    color: $white;
+    vertical-align: baseline;
+  }
+}
+
 .takeover {
   top: 0;
   left: 0;
@@ -114,25 +149,34 @@ body.modal-open {
 
   &.fade.in { top: 0; }
 
+  .modal-inner {
+    overflow: visible;
+  }
+
   .modal-header {
     position: relative;
     padding: 4.375em 0 1.875em; // 70 0 30
     border: none;
 
+    .box-close {
+      top: 1.25em;
+    }
+
     h3 {
-      margin-top: -4px;
+      margin-top: -8px;
     }
   }
 
   // Give modal header children a margin-left except for the h3
-  .modal-header > *:not(#compare-tool-label) {
+  .modal-header > button,
+  .modal-header > .sort-options {
     margin: 0 0 0 8px;
   }
 
   .modal-body {
     overflow-y: visible;
     max-height: none;
-    padding: 1.25em 0 0;
+    padding: 1.125em 0 0;
     @include lightGrayInset( $gray90 );
   }
 }

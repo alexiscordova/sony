@@ -25,12 +25,15 @@ include ../includes/jade-helpers.jade
   .spec-sticky-nav
     .container
       .grid
-        h2.t6.sticky-nav-title= data.title
-        ul.spec-views.inline.nav
-          each link, i in data.internalLinks
-            - clss = i ? '' : 'active'
-            li(class=clss)
-              a.p3(href=link.href, tabindex="-1")= link.label
+        .js-sticky-nav-content
+          h2.t6.sticky-nav-title= data.title
+          ul.spec-views.inline.nav
+            each link, i in data.internalLinks
+              - clss = i ? '' : 'active'
+              li(class=clss)
+                a.p3(href=link.href, tabindex="-1")= link.label
+        .js-sticky-mobile-content.hidden.mobile-content-wrap
+          .table-center-wrap.js-mobile-content
 
   numModels = data.submodules.length
 
@@ -88,3 +91,13 @@ include ../includes/jade-helpers.jade
             if tile.link
               p.p3
                 a(href=tile.link.href)= tile.link.text
+
+
+#ports-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="ports-modal-label", aria-hidden="true")
+  .container
+    .modal-inner.grid
+      .modal-header(data-reset-label="Reset")
+        h6.t6-light#ports-modal-label
+        button.box-close(data-dismiss="modal", aria-hidden="true")
+          i.fonticon-10-x-skinny
+      .modal-body

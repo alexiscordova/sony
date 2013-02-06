@@ -33,6 +33,8 @@
       self.$specItems = self.$specProducts.find('.spec-item');
       self.$specItemsWrap = self.$specProducts.find('.spec-items-wrap');
       self.$tabStrip = self.$container.find('.tab-strip');
+      self.$specTiles = self.$container.find('.spec-tiles');
+      self.$modal = $('#ports-modal');
 
       // Nav
       self.$navWrap = self.$container.find('.spec-nav-wrap');
@@ -56,12 +58,11 @@
       // Init shuffle on the features section
       self._initFeatures();
 
-      self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
+      self.$window.on('resize', $.debounce(250, $.proxy( self._onResize, self )));
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
       self.$window.on('load', $.proxy( self._initStickyNav, self ));
 
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
-      self.$enlargeClosers.on('click', $.proxy( self._closeEnlarge, self ));
 
       // We're done
       // Add the complete class to the labels to transition them in
@@ -75,13 +76,38 @@
       var self = this,
           dfd;
 
-      self.$specTiles = self.$container.find('.spec-tiles');
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
         easing: 'ease-out',
         speed: 250,
-        columnWidth: Exports.masonryColumns,
-        gutterWidth: Exports.masonryGutters,
+        columnWidth: function( containerWidth ) {
+          var column = containerWidth;
+
+          // 568px+
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
+            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+          }
+
+          return column;
+        },
+        gutterWidth: function( containerWidth ) {
+          var gutter = 0,
+              is3Col = !Modernizr.mediaqueries || Modernizr.mq('(min-width: 47.9375em)'),
+              is2Col = is3Col ? false : Modernizr.mq('(min-width: 30em)'),
+              numCols = is3Col ? 3 : is2Col ? 2 : 1;
+
+          if ( is3Col || is2Col ) {
+            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+          }
+
+          if ( self.currentFeatureCols !== numCols && numCols !== 1) {
+            self._swapFeatureClasses( numCols );
+          }
+
+          self.currentFeatureCols = numCols;
+
+          return gutter;
+        },
         showInitialTransition: false
       });
       self.shuffle = self.$specTiles.data('shuffle');
@@ -150,7 +176,7 @@
     _initStickyTabs : function() {
       var self = this,
           $headers = self.$specItems.find('.spec-column-header').clone(),
-          // $btns = $(),
+          $btns = $(),
           $tabs = self.$tabStrip.find('.tabs');
 
       self.isStickyTabs = true;
@@ -179,15 +205,18 @@
           .addClass('tab');
 
         // iOS wasn't appending the buttons in the right order, so we'll have to append them inside the loop
-        $tabs.append( $btn );
-        // $btns = $btns.add( $btn );
+        // $tabs.append( $btn );
+        $btns = $btns.add( $btn );
       });
 
-      // $btns.appendTo( $tabs );
+      $btns.appendTo( $tabs );
 
       self.$tabStrip.stickyTabs({
         mq: self.mobileBreakpoint
       });
+
+
+      self.$tabStrip.find('.tab').on('shown', $.proxy( self._setStickyHeaderContent, self ));
 
       // Undo what _setRowHeights sets
       self._removeHeights();
@@ -198,10 +227,27 @@
       self.$tabStrip
         .stickyTabs('destroy')
         .find('.tabs')
+          .off('shown')
           .empty();
       self.isStickyTabs = false;
       self.$specItems.removeClass('tab-pane fade in off-screen active');
-      self._closeEnlarge();
+    },
+
+    _swapFeatureClasses : function( numCols ) {
+      var self = this,
+          newClass = 'span6',
+          oldClass = 'span4';
+
+      if ( numCols === 3 ) {
+        newClass = 'span4';
+        oldClass = 'span6';
+      }
+
+      self.$specTiles.children().each(function() {
+        $(this)
+          .removeClass( oldClass )
+          .addClass( newClass );
+      });
     },
 
     _initStickyNav : function() {
@@ -221,8 +267,6 @@
         console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
         // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
       }
-
-      // self.$window.on('scroll', $.proxy( self._onScroll, self ));
 
       // Set up twitter bootstrap scroll spy
       $body.scrollspy({
@@ -262,7 +306,6 @@
       // Set detail rows to even heights
       self.$container.find('.detail-label').each(function(i) {
         var $detailLabel = $(this),
-            maxHeight = parseFloat( $detailLabel.css('height') ),
 
             // plus 2 because i is a zero based index and nth-child is one based. Also, the first child in our html
             // is the title, which is not a .spec-item-cell, so we need to add another to our selector
@@ -270,16 +313,7 @@
             $cells = self.$specItems.find('.spec-item-cell:nth-child(' + (i + 3) + ')');
 
         // Loop through the cells (`.spec-item-cell`'s in the same 'row')
-        $cells.each(function() {
-          var $this = $(this),
-              height = parseFloat( $this.css('height') );
-
-          if ( height > maxHeight ) {
-            maxHeight = height;
-          }
-        });
-
-        $cells.add($detailLabel).css('height', maxHeight);
+        $cells.add($detailLabel).evenHeights();
       });
 
       // Refresh iScroll
@@ -298,8 +332,42 @@
       return self;
     },
 
+    // Get the text from the currently active sticky tab
+    _getMobileStickyContent : function() {
+      return this.$tabStrip.find('.tab.active').html();
+    },
+
     _setStickyHeaderContent : function() {
-      console.log('get product name if mobile, otherwise use html already there');
+      var self = this,
+          $stickyNavContent = self.$stickyNav.find('.js-sticky-nav-content'),
+          $mobileStickyNavContent = self.$stickyNav.find('.js-sticky-mobile-content'),
+          mobileContent = '';
+
+      if ( self.isMobile ) {
+        // Hide original content if it's not hidden already
+        if ( !$stickyNavContent.hasClass('hidden') ) {
+          $stickyNavContent.addClass('hidden');
+        }
+
+        // Show mobile content if it's hidden
+        if ( $mobileStickyNavContent.hasClass('hidden') ) {
+          $mobileStickyNavContent.removeClass('hidden');
+        }
+
+        mobileContent = self._getMobileStickyContent();
+        $mobileStickyNavContent.find('.js-mobile-content').html( mobileContent );
+
+
+      } else {
+        // Show original content if it's hidden
+        if ( $stickyNavContent.hasClass('hidden') ) {
+          $stickyNavContent.removeClass('hidden');
+        }
+        // Hide mobile content if it's not hidden already
+        if ( !$mobileStickyNavContent.hasClass('hidden') ) {
+          $mobileStickyNavContent.addClass('hidden');
+        }
+      }
     },
 
     _removeHeights : function() {
@@ -313,10 +381,6 @@
       var self = this;
 
       if ( Modernizr.mq( self.mobileBreakpoint ) ) {
-        if ( !self.isMobile ) {
-          self.isMobile = true;
-          self._setStickyHeaderContent();
-        }
 
         // If we have a scroller, destroy it
         if ( self.isScroller ) {
@@ -328,16 +392,12 @@
           self._initStickyTabs();
         }
 
-        if ( self.$modal ) {
-          self._closeEnlarge();
+        if ( !self.isMobile ) {
+          self.isMobile = true;
+          self._setStickyHeaderContent();
         }
 
       } else {
-
-        if ( self.isMobile ) {
-          self.isMobile = false;
-          self._setStickyHeaderContent();
-        }
 
         // If we have sticky tabs, destroy them
         if ( self.isStickyTabs ) {
@@ -347,6 +407,11 @@
         // If we don't have a scroller, create it
         if ( !self.isScroller ) {
           self._initScroller();
+        }
+
+        if ( self.isMobile ) {
+          self.isMobile = false;
+          self._setStickyHeaderContent();
         }
 
         // Re-compute heights for each cell and total height
@@ -412,51 +477,20 @@
 
     _onEnlarge : function( evt ) {
       var self = this,
-          $cell = $(evt.target).closest('.spec-item-cell'),
-          $container = $cell.closest('.spec-items-container'),
-          $modal = $cell.find('.spec-modal'),
-          cellTop = $cell.position().top,
-          wrapperOffset = self.isScroller ? self.iscroll.x * -1 : 0,
-          cellHeight = $cell.outerHeight(),
-          columnWidth = $cell.parent().outerWidth(),
-          modalWidth = self.isScroller ? (self.scroller.itemsPerPage * columnWidth) + 'px' : '100%';
+          $specModal = $(evt.target).closest('.spec-item-cell').find('.spec-modal'),
+          title = $specModal.find('.js-spec-modal-title').text(),
+          $specModalBody = $specModal.find('.js-spec-modal-body').clone();
 
-      // Make sure we don't open 2 modals at once
-      self._closeEnlarge();
-
-      $modal
-        .detach()
-        .removeClass('hide')
-        .css({
-          'top': cellTop,
-          'left': wrapperOffset,
-          'width': modalWidth,
-          'minHeight': cellHeight
-        })
-        .data('$cell', $cell)
-        .appendTo( $container );
-
-      self.$modal = $modal;
-    },
-
-    _closeEnlarge : function() {
-      var self = this,
-          $cell;
-
-      // No current modal
-      if ( !self.$modal ) {
-        return;
-      }
-
-      $cell = self.$modal.data('$cell');
-
-
-      // Detach and re-attach the modal in the spec-item
       self.$modal
-        .detach()
-        .addClass('hide')
-        .appendTo($cell);
-      self.$modal = null;
+        .find('#ports-modal-label')
+          .html( title )
+          .end()
+        .find('.modal-body')
+          .html( $specModalBody )
+          .end()
+        .modal({
+          backdrop: false
+        });
     },
 
     _setStickyHeaderPos : function( scrollTop ) {

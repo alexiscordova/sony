@@ -1,15 +1,17 @@
-- tccSectionID = "tcc-" + data.moduleMode
+---
+title: Tertiary Module Template
+---
 
 //- START Tertiary Content Container
-section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, data-tcc-mode="#{data.moduleMode}")
+section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tcc-mode="#{data.moduleMode}")
 
   for header in data.header
     .tcc-header-wrapper.container
       .tcc-header.grid.m-full-bleed
-        p.tcc-header-title.l4 #{header.title}
+        p.tcc-header-title.l1 #{header.title}
 
-        p.tcc-header-link
-          a.tl(href="#{header.link}") #{header.linkText}
+        p.tcc-header-link.lt3
+          a(href="#{header.link}") #{header.linkText}
   
   section.tcc-scroller.tcc-body-wrapper.container
     .tcc-body.grid.no-grid-at-767
@@ -21,116 +23,182 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=tccSectionID, da
           - contentType = variation.contentType
           - contentMode = variation.contentMode
 
-        //- (class=textStyle)(class=alignment)
-        .tcc-content-module.span4(class=contentType)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
+        .tcc-content-module.span4(class=contentType)(class=contentMode)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
 
-          if contentType == "article"
-                    
-            if contentMode != "featured"
-
+          case contentType
+            when "article"
               if(module.imgSrc)
+
                 //- image (optional)
-                div
-                  img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                div.img-container
+                  div.img-wrap
+                    img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                    noscript
+                      img(src="#{module.noScriptImg}")
 
-                  if (contentMode == "news") && (module.date)
-                    p.news-date.p4
-                      strong
-                        | #{module.date}
+                  if(contentMode == "featured") && (module.title)
+                     .feature-copy
+                      
+                        p.t4 #{module.title}
+                        
+                        p.lt3
+                          a(href="#{module.articleLink}") Read More
+                          
+                  if(contentMode == "news") && (module.date)
+                    p.news-date.l3
+                      | #{module.date}
 
-                  if (contentMode == "event") && (module.attendanceCount)
-                    p.attendance-count
-                      span.number
-                        | #{module.attendanceCount} 
-                      span.l6
-                        | <br/> attending
+                  if(contentMode == "event") && (module.attendanceCount)
+                    div.attendance-count.ghost-center-wrap
+                      div.ghost-center
+                        p.l4
+                          span
+                            | #{module.attendanceCount} 
+                          | attending
 
-                  noscript
-                    img(src="#{module.noScriptImg}")
+              if (contentMode != "featured")
+                .tcc-copy               
+                  if (module.title)
+                    //- title (required)
+                    p.t6 
+                      | #{module.title}
 
-              .tcc-copy
+                  //- body copy (optional)
+                  if (module.bodyCopy)
+                    p.p3 #{module.bodyCopy}               
+
+                  if (module.articleLink)
+                    p.lt3
+                      a(href="#{module.articleLink}")
+                        | Read More
+              
+            when "users-voice"
+              if (contentMode == "expert-quote")
+                .title.l3
+                  | #{module.title}
+
+                blockquote.bq3
+                  p
+                    | #{module.quote}
+
+                //- TODO: merge this with user-quote (title and  credits are only difference)
+                .credits
+                  .avatar
+                    img.iq-img(alt="#{module.avatarImgAltText}", data-src="#{module.avatarImgSrc}")
+                      noscript
+                        img(src="#{module.avatarNoScriptImg}")
+                  
+                  .author
+                    p.name.l3
+                      a(href="#{module.authorLink}")
+                        | #{module.author}
+
+              if (contentMode == "user-quote")
+                .title.l3
+                  | #{module.title}
+
+                blockquote.bq3
+                  p
+                    | #{module.quote}
+
+                .credits
+                  .avatar
+                    img.iq-img(alt="#{module.avatarImgAltText}", data-src="#{module.avatarImgSrc}")
+                      noscript
+                        img(src="#{module.avatarNoScriptImg}")
+                  
+                  .author
+                    p.handle.p4
+                      a(href="#{module.authorLink}")
+                        | #{module.authorHandle}
+
+                    p.name.p4
+                      | #{module.author}
+
+              if (contentMode == "question")
+                .credits
+                  .avatar
+                    img.iq-img(alt="#{module.avatarImgAltText}", data-src="#{module.avatarImgSrc}")
+                      noscript
+                        img(src="#{module.avatarNoScriptImg}")
+                  
+                  p.author.p4
+                    a(href="#{module.authorLink}")
+                      | #{module.authorHandle} 
+                    | #{module.title}
                 
-                if(module.title)
-                  //- title (required)
-                  p.t6 
-                    strong #{module.title}
+                blockquote.bq3
+                  p
+                    | #{module.question}
 
-                //- body copy (optional)
-                if(module.bodyCopy)
-                  p.p3 #{module.bodyCopy}
+                p.lt3
+                  a(href=#{module.repliesLink})
+                    | See Replies
+
+                div.answer-btn
+                  a.btn(href="#{module.answerLink}")
+                    | Answer this Question
+            
+            when "sonys-voice"
+              if (contentMode == "twitter")
+                .fonticon-13-twitter
+
+              if (contentMode == "facebook")
+                .fonticon-13-facebook
+
+              if (contentMode == "instagram")
+                .fonticon-13-facebook.should-be-instagram-icon
                 
-                    if(module.articleLink)
-                      a.lt3(href="#{module.articleLink}")
-                        | &nbsp; Read More
-                        //- | <br/> Read More
-
-            else
-              //- Assumes Featured Article
-              p featured
-
-            //- if contentMode == "news"
-            //-   p news
-
-            //- if contentMode == "event"
-            //-   p event
-
-          if contentType == "users-voice" 
-
-            if contentMode == "expert-quote"
-              p expert-quote
-
-            if contentMode == "user-quote"
-              p user-quote
-
-            if contentMode == "question"
-              p question
-
-          if contentType == "sonys-voice"
-              if contentMode == "twitter"
-                //- SONYS-VOICE:TWITTER
-                
-                //- icon (required)
-                img(src="img/icon_twitter.png")
-
-                .meta
-                  for meta in module.meta
-                    
-                    if(meta.user)
+              .meta
+                for meta in module.meta                   
+                  p.p4    
+                    if (meta.user)
                       //- user (required)
-                      p.l3 #{meta.user} 
+                      span.user #{meta.user} 
 
-                    if(meta.timestamp)
+                    if (meta.timestamp)
                       //- timestamp (required)
-                      p.l4 #{meta.timestamp}
-                
-                if(module.quote)        
-  
-                  //- quote (required)
-                  blockquote.bq2
-  
-                    p #{module.quote}
+                      span.timestamp #{meta.timestamp}
 
-                      if(module.quoteLink)
-                        a.tl(href="#{module.quoteLink}") #{module.quoteLink}
+              if (contentMode == "twitter")
+                //- quote
+                blockquote.bq4
+                  p
+                    | #{module.quote}
 
-                  if(module.socialLink)
-    
-                    //- social link (required)
+                div.social-btn
+                  a.btn(href="#{module.socialBtnLink}")
+                    | Follow Us on Twitter
+
+              if (contentMode == "facebook")
+                //- tile
+                .post-tile
+                  img.iq-img(alt="#{module.postImgAltText}", data-src="#{module.postImg}")
+                    noscript
+                      img(src="#{module.postImgNoScriptImg}")
+
+                blockquote.post-copy.bq5
                     p
-                      a.btn(href="#{module.socialLink}")
-    
-                        | Follow us on Twitter
+                      | #{module.postCopy}
+                      a
+                        | #{module.postLink}
 
-              if contentMode == "facebook"
-                p facebook
+                div.social-btn
+                  a.btn(href="#{module.socialBtnLink}")
+                    | Like Us on Facebook
 
-              if contentMode == "instagram"
-                p instagram
+              if (contentMode == "instagram")
+                div.imageMat
+                  | 23
+                div.social-btn
+                  a.btn(href="#{module.socialBtnLink}")
+                    | Follow Us on Instagram
 
-          if contentType == "flickr"
-            li flickr
+                  
 
-              if contentMode == "default"
+
+            when "flickr"
+              if (contentMode == "default")
                 p default
-
+              
 //- END Tertiary Content Container

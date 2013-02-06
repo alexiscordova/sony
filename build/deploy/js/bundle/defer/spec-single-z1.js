@@ -49,7 +49,7 @@
 
       self._onResize( true );
 
-      self.$window.on('resize', $.throttle(250, $.proxy( self._onResize, self )));
+      self.$window.on('resize', $.debounce(250, $.proxy( self._onResize, self )));
       self.$window.on('load', $.proxy( self._initStickyNav, self ));
     },
 
