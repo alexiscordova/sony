@@ -1325,34 +1325,78 @@
   
 })(window, Modernizr , jQuery , document);
 
+/*
+  Tab system for managing multiple
+  instances of related products
+*/
 $(function(){
   /*
     figure out tabbed stuff here and let that
     module instantiate the related products that its bound to
   */
 
+  // Get transitionend event name
+  var transEndEventNames = {
+      'WebkitTransition' : 'webkitTransitionEnd',
+      'MozTransition'    : 'transitionend',
+      'OTransition'      : 'oTransitionEnd',
+      'msTransition'     : 'MSTransitionEnd',
+      'transition'       : 'transitionend'
+  },
+  transitionEndName;
+
+  transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ];
+
   var $tabs = $('.rp-tabs').find('.rp-tab'),
       currentPanelId = 1,
-      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']'),
+      $productPanels = $('.related-products[data-rp-panel-id]');
 
   //TODO: fpo only
   $('.related-products[data-rp-panel-id=2] .plate .product-img').css('backgroundColor' , '#913f99');
 
-  $currentPanel.css('visibility' , 'visible');
+  //shut em all off
+  $productPanels.removeClass('panel-active')
+                .addClass('panel-inactive');
+
+  //turn on current
+  $currentPanel.removeClass('panel-inactive').addClass('panel-active');
 
   if($tabs.length > 0){
     var handleTabClick = function(e){
-      var $tab = $(this);
+      var $tab = $(this),
+      visibleObj = function(visibleBool){
+        return {'visibility' : visibleBool ? 'visible' : 'hidden' };
+      };
+
       e.preventDefault();
       $tabs.removeClass('active');
       $tab.addClass('active');
       currentPanelId = $tab.data('rpPanelId');
-      $currentPanel.css('visibility' , 'hidden');
+
+      //de-activate previous panel
+      if(!!Modernizr.csstransitions){
+        $currentPanel.one(transitionEndName , function(){
+          $currentPanel.css(visibleObj(false));
+        });
+        $currentPanel.removeClass('panel-active').addClass('panel-inactive');
+      }else{}
+
+      //activeate current panel
       $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
-      $currentPanel.css('visibility' , 'visible');
+      if(!!Modernizr.csstransitions){
+        $currentPanel.one(transitionEndName , function(){
+          $currentPanel.css(visibleObj(true));
+        });
+        $currentPanel.removeClass('panel-inactive').addClass('panel-active');
+      }else{}
+      
+      
       console.log('Currently Selected Tab:' , $tab.data('rpPanelId'));
     };
+
     $tabs.on('click' , handleTabClick);
+
   }
 });
 
