@@ -1,4 +1,31 @@
 include ../includes/jade-helpers.jade
+
+mixin gridstyle(style)
+  style = style || ""
+  .grid.no-grid-at-767(class= style)(class = data.style)
+    block
+
+mixin col(layout, extras)
+  layout = layout || data.layout
+  if layout.text == "left"
+    - span = "span" + layout.columns[0]
+    div(class= span)(class= extras)
+      block
+  else
+    - span = "span" + layout.columns[1]
+    - offset = "offset" + layout.columns[0]
+    div(class= span)(class= offset)(class= extras)
+      block
+
+
+mixin innerboxlayout(layout)
+  layout = layout || data.layout
+  +gridstyle("inner")
+    +col
+      .table-center-wrap
+        .table-center
+          .box(class = layout.alignment)
+            block
   
 mixin copyblock(copyobject, h4class, h5class)
   - copyobject = copyobject || data
@@ -16,33 +43,19 @@ section.editorial.container.clearfix(class= data.layout.media)
       .grid.full-bleed.no-grid-at-767
         .span12
           +partial(data.submodules[0].type, data.submodules[0].data)
-      if data.layout.text == "left"
-        .inner.grid.no-grid-at-767(class= data.style)
-          - span = "span" + data.layout.columns[0]
-          div(class= span)
-            .table-center-wrap
-              .table-center
-                .box(class = data.layout.alignment)
-                  +copyblock()
-      else if data.layout.text == "right" || data.layout.text == "center"
-        .inner.grid.no-grid-at-767(class= data.style)
-          - span = "span" + data.layout.columns[1]
-          - offset =  "offset" + data.layout.columns[0]
-          div(class= span)(class= offset)
-            .table-center-wrap
-              .table-center
-                .box(class = data.layout.alignment)
-                  +copyblock()
+      +innerboxlayout
+        +copyblock()
+
     else
-      .grid.no-grid-at-767(class= data.style)
+      +gridstyle
         .span12
           +copyblock()
       .grid.no-grid-at-767
         .span12
-        +partial(data.submodules[0].type, data.submodules[0].data)
+          +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "mediaright" 
-    .grid.no-grid-at-767.table-center-wrap(class= data.style)
+    +gridstyle("table-center-wrap")
       span = "span" + data.layout.columns[0]
       .table-center.box(class = span)
         +copyblock()
@@ -51,7 +64,7 @@ section.editorial.container.clearfix(class= data.layout.media)
         +partial(data.submodules[0].type, data.submodules[0].data)
 
   else if data.layout.media == "medialeft"   
-    .grid.no-grid-at-767.table-center-wrap(class= data.style)
+    +gridstyle("table-center-wrap")
       span = "span" + data.layout.columns[0]
       .table-center.media-element(class = span)
         +partial(data.submodules[0].type, data.submodules[0].data)
@@ -60,7 +73,7 @@ section.editorial.container.clearfix(class= data.layout.media)
         +copyblock()
 
   else if data.layout.media == "full3up"
-    .grid.no-grid-at-767(class= data.style)
+    +gridstyle
       .span12
         .box(class= data.layout.alignment)
           +copyblock()
@@ -77,7 +90,7 @@ section.editorial.container.clearfix(class= data.layout.media)
             +copyblock(data.columns[i])
 
   else if data.layout.media == "m3up" || data.layout.media == "m2up"
-    .grid.no-grid-at-767(class= data.style)
+    +gridstyle
       +copyblock()
   
     .grid.no-grid-at-767
@@ -94,20 +107,14 @@ section.editorial.container.clearfix(class= data.layout.media)
               +copyblock(data.columns[i], "alt")
 
   else if data.layout.media == "textonly" 
-    .grid.no-grid-at-767(class= data.layout.text)(class= data.style)
-      if data.layout.text == "left"
-        span = "span" + data.layout.columns[0]
-        .box(class = span)(class= data.layout.alignment)
-          +copyblock(data, "alt")
-      
-      else if data.layout.text == "right"
-        span = "span" + data.layout.columns[1]
-        offset = "offset" + data.layout.columns[0]
-        .box(class= span)(class= offset)(class= data.layout.alignment)
-          +copyblock(data, "alt")
-      
-      else if data.layout.text == "full" 
+    +gridstyle(data.layout.text)
+      if data.layout.text == "full" 
         .box.span12(class= data.layout.alignment)
           +copyblock(data, "alt") 
+      else
+        extras = "box " + data.layout.alignment
+        +col(data.layout, extras)
+          +copyblock(data, "alt")
+
 
 

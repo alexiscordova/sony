@@ -40,9 +40,8 @@ $default-transition-delay    : 0s;
 
 	&[class*="fonticon-10-"]:before, // the size of the icon if the fonticon class is on the text container:
 	&[class*="fonticon-10-"][class*="--after"]:after, // the size of the icon if the fonticon class is on the text container:
-	[class*="fonticon-10-"]:before, // the size of the icon if the fonticon class is on a i or span insode of the text container:
-	[class*="fonticon-10-"][class*="--after"]:after { // the size of the icon if the fonticon class is on a i or span insode of the text container:
-		font-size: px-em-reverse-size($px, $context:16);
+	[class*="fonticon-10-"]:before { // the size of the icon if the fonticon class is on a i or span insode of the text container:
+		font-size: px-em-reverse-size($px, $context);
 	}
 }
 
@@ -412,17 +411,6 @@ $default-transition-delay    : 0s;
 }
 @mixin sprite-tall($name, $x, $w, $h, $margin:false) {
   @include sprite(tall, $sprite_Tall_Y, $name, $x, $w, $h, $margin);
-}
-@mixin sprite-reg-nav-sony-logo-sm{
-  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
-  @include sprite-reg(nav-sony-logo,           -90px,   70px,   25px);
-}
-@mixin sprite-reg-nav-sony-logo-no-tagline{
-  // mobile: below 479px; We want it to override the existing logo with the smaller one, thus no new class.
-  @include sprite-reg-nav-sony-logo-sm;
-  .sprite-reg-nav-sony-logo{
-    height:16px;
-  }
 }
 
 // FORMS
@@ -847,6 +835,13 @@ $default-transition-delay    : 0s;
 	   // -moz-transform: translate3d($x, $y, $z);
 		 // -o-transform: translate3d($x, $y, $z);
 					transform: translate3d($x, $y, $z);
+}
+@mixin transform-origin($x, $y:50%, $z:0) {
+	transform-origin:        $x $y $z;
+	-ms-transform-origin:    $x $y $z;
+	-webkit-transform-origin:$x $y $z;
+	-moz-transform-origin:   $x $y $z;
+	-o-transform-origin:     $x $y $z;
 }
 
 // Backface visibility
@@ -1714,26 +1709,72 @@ $default-transition-delay    : 0s;
   }
 }
 
-@mixin themecolors {
-  .themeRed{
+@mixin theme-btn-colors {
+  &.themeRed{
     @include themeItems($themeRed, $themeRedHover, $themeRedActive);
   }
-  .themeBlueLight{
+  &.themeBlueLight{
     @include themeItems($themeBlueLight, $themeBlueLightHover, $themeBlueLightActive);
   }
-  .themeBlueDark{
+  &.themeBlueDark{
     @include themeItems($themeBlueDark, $themeBlueDarkHover, $themeBlueDarkActive);
   } 
-  .themeGreen{
+  &.themeGreen{
     @include themeItems($themeGreen, $themeGreenHover, $themeGreenActive);
   }
-  .themePurple{
+  &.themePurple{
     @include themeItems($themePurple, $themePurpleHover, $themePurpleActive);
   }
-  .themeOrange{
+  &.themeOrange{
     @include themeItems($themeOrange, $themeOrangeHover, $themeOrangeActive);
   }
 }
+
+@mixin theme-bg-colors {
+  &.themeRed{
+    background: $themeRed;
+  }
+  &.themeBlueLight{
+    background: $themeBlueLight;
+  }
+  &.themeBlueDark{
+    background: $themeBlueDark;
+  } 
+  &.themeGreen{
+    background: $themeGreen;
+  }
+  &.themePurple{
+    background: $themePurple;
+  }
+  &.themeOrange{
+    background: $themeOrange;
+  }
+  &.secondaryGold{
+    background: $secondaryGold;
+  }
+  &.secondarySage{
+    background: $secondarySage;
+  }
+  &.secondaryOlive{
+    background: $secondaryOlive;
+  }
+  &.secondaryAqua{
+    background: $secondaryAqua;
+  }
+  &.secondaryEggplant{
+    background: $secondaryEggplant;
+  }
+  &.secondaryLavender{
+    background: $secondaryLavender;
+  }
+  &.secondarySlate{
+    background: $secondarySlate;
+  }
+  &.secondarySlateDark{
+    background: $secondarySlateDark;
+  }  
+}
+
 
 @mixin dttb {
   //dark text
@@ -1755,7 +1796,13 @@ $default-transition-delay    : 0s;
     p{
       color:$gray50;
     }
-  }  
+  }
+  .light-text-trans-box{
+     p{
+      color:$white;
+    }
+  }
+  
   // trans box
   .dark-text-trans-box,
   .light-text-trans-box{

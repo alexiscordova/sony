@@ -4,11 +4,13 @@ layout2: [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "
 layout3: "normal"
 ---
 
+include ../includes/jade-helpers.jade
+
 mixin filterColor( filterSet )
   ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
       //- Can't have variable attribute names :( - build an html string
-      tagString = '<li class="swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
+      tagString = '<li class="fonticon-10-sm-bold-check--after swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
       | !{tagString}
 
 mixin filterRange( filterSet )
@@ -21,45 +23,56 @@ mixin filterRange( filterSet )
 mixin filterButton( filterSet )
   ul.unstyled.btn-group(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
-      //- Can't have variable attribute names :( - build an html string
-      tagString = '<button class="btn btn-square" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
+      tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
       | !{tagString}
   if filterSet.help
-    .help-container.js-popover-trigger.iconTrigger-ui2-help(data-original-title=filterSet.help.title)
-      span.p3.help-label= filterSet.help.label
-      span
-        i.icon-ui2-help
-      .js-popover-content.hidden
-        p= filterSet.help.content
+    mixin helpPopover( filterSet.help )
 
 mixin filterCheckbox( filterSet )
   ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
     each filter in filterSet.filters
       li.control-inline
         input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
-        label(for=filterSet.name + '-' + filter.value)= filter.label
+        label(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
         if filter.help
-          .help-container.pull-right.js-popover-trigger.iconTrigger-ui2-help(data-original-title=filter.help.title)
+          .help-container.pull-right.js-popover-trigger(data-original-title=filter.help.title)
             span
-              i.icon-ui2-help
-            .js-popover-content.hidden
-              p= filter.help.content
+              i.fonticon-10-circle-q
+            //- mixin popoverContent( filterSet.help )
 
 mixin filterGroup( filterSet )
-  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type)
+  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
     each filter in filterSet.filters
       li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
-      btn = '<div class="pull-left"><button class="btn btn-square media-object"><i class="icon-bestfor-' + filter.icon + '"></i></button></div>'
+      btn = '<div class="pull-left"><button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after media-object"><i class="fonticon-20-' + filter.icon + '"></i></button></div>'
       body = '<div class="media-body"><p class="media-heading p3">' + filter.label + '</p><p class="p4">' + filter.description + '</p></div>'
       mediaObject = li + btn + body + '</li>'
       | !{ mediaObject }
-      //- li.media.clearfix(data-label=filter.label, data-filterName=filter.value)
-      //-   .pull-left
-      //-     button.btn.btn-square.media-object
-      //-       i(class="icon-bestfor-" + filter.icon)
-      //-   .media-body
-      //-     p.media-heading.p3.text-dark= filter.label
-      //-     p.p3= filter.description
+
+mixin helpPopover( help )
+  .help-container.js-popover-trigger(data-original-title=help.title)
+    if help.label
+      span.p3.help-label= help.label
+    span
+      i.fonticon-10-circle-q
+    mixin popoverContent( help )
+
+mixin popoverContent( help )
+  - layout = help.layout
+  if layout == '2up'
+    .js-popover-content.hidden
+      .twoup
+        .popover-col
+          mixin iQImage( help.col1.img )
+          p.p4= help.col1.text
+        .popover-col
+          mixin iQImage( help.col2.img )
+          p.p4= help.col2.text
+  else if layout == 'text-only'
+    .js-popover-content.hidden
+      .p4= help.text
+
+
 
 mixin filterSet( filterSet )
   .filter-container
@@ -99,8 +112,9 @@ mixin filterSet( filterSet )
             .ghost-center-wrap
               .ghost-center
                 .holder-for-icon.ghost-center-wrap
-                  tabClass = 'ghost-center v-bottom icon-tab-' + tab.icon
-                  i(class=tabClass)
+                  .ghost-center.v-bottom
+                    iconClass = 'fonticon-30-' + tab.icon
+                    i(class=iconClass)
                 .l2.tab-label= tab.label
     nav.tab-nav-btns
       button.nav-paddle.tab-nav.tab-nav-prev
@@ -112,7 +126,7 @@ mixin filterSet( filterSet )
   if data.tabs[0]
     .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
       i = 0
-      section.gallery.container.fade(data-mode=data.featured.mode)
+      section.gallery.container.fade((id=data.featured.name + '-gallery', data-mode=data.featured.mode)
         .grid
           h2.t6= data.featured.title
         .products.slimgrid.m-grid-at-567
@@ -123,13 +137,14 @@ mixin filterSet( filterSet )
               - d.view = "basic"
               - d.iterator = i
               e = { "locals" : locals, "data" : d }
-              !{locals.partial('modules/' + module.type, e )}
+              path = 'modules/' + module.type
+              !{locals.partial( path, e )}
 
         .grid.see-all
           a.btn.btn-wide(href="#")= data.featured.callout
 
       i = 0
-      section.gallery.container.fade(data-mode=data.featured2.mode)
+      section.gallery.container.fade((id=data.featured2.name + '-gallery', data-mode=data.featured2.mode)
         .grid
           h2.t6= data.featured2.title
         .products.slimgrid.m-grid-at-567
@@ -140,7 +155,8 @@ mixin filterSet( filterSet )
               - d.view = "basic"
               - d.iterator = i
               e = { "locals" : locals, "data" : d }
-              !{locals.partial('modules/' + module.type, e )}
+              path = 'modules/' + module.type
+              !{locals.partial( path, e )}
 
         .grid.see-all
           a.btn.btn-wide(href="#")= data.featured2.callout
@@ -157,7 +173,7 @@ mixin filterSet( filterSet )
                   .dropdown.dropdown-alt.ib
                     button.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
                       span.js-toggle-text= data.productCards.sortSet[0].label
-                      i.icon-ui-arrowheads-up-down-gray
+                      i.fonticon-10-arrowheads-elevator
                     ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
                       each sort in data.productCards.sortSet
                         li
@@ -171,11 +187,11 @@ mixin filterSet( filterSet )
                   | &nbsp;Products
                 button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + data.productCards.name + '-filters')
                   | Filter
-                  i.icon-ui-arrowhead-up-white.up.hide
-                  i.icon-ui-arrowhead-down-white.down
+                  i.fonticon-10-arrowhead-up.up.hide
+                  i.fonticon-10-arrowhead-down.down
                 button.btn.btn-alt-special.btn-alt-plus.js-compare-toggle.iconTrigger-ui-plus-tiny(data-target="#compare-tool")
                   | Compare
-                  i.icon-ui-plus-tiny
+                  i.fonticon-10-sm-bold-plus
 
           .container.slide-arrow-under.fade
             .relative
@@ -212,7 +228,8 @@ mixin filterSet( filterSet )
               if d.type == "product" && !d.promo
                 - d.view = "detailed"
                 e = { "locals" : locals, "data" : d }
-                !{locals.partial('modules/' + module.type, e )}
+                path = 'modules/' + module.type
+                !{locals.partial( path, e )}
 
         .comparables.hidden
           .compare-name= data.productCards.galleryName
@@ -227,38 +244,38 @@ mixin filterSet( filterSet )
   if data.tabs[2]
     .tab-pane.fade(data-tab=data.tabs[2].slug)
       section
-        .slide-toggle-parent.container
-          button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target="#IDGOESHERE")
-            | Accessory Finder
-            i.icon-ui-arrowhead-up-white.up.hide
-            i.icon-ui-arrowhead-down-white.down
-        .container.slide-arrow-under.fade
-          .relative
-            .slide-toggle-arrow
-        .container.slide-arrow-over.fade
-          .relative
-            .slide-toggle-arrow
+        //- .slide-toggle-parent.container
+        //-   button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target="#IDGOESHERE")
+        //-     | Accessory Finder
+        //-     i.icon-ui-arrowhead-up-white.up.hide
+        //-     i.icon-ui-arrowhead-down-white.down
+        //- .container.slide-arrow-under.fade
+        //-   .relative
+        //-     .slide-toggle-arrow
+        //- .container.slide-arrow-over.fade
+        //-   .relative
+        //-     .slide-toggle-arrow
 
-        .collapse.slide-toggle-target(id="IDGOESHERE")
-          .container
-            .grid.no-grid-at-767
-              h1 Collapse
-              h2 Collapse
-              h3 Collapse
-              h4 Collapse
-              h5 Collapse
-              h6 Collapse
+        //- .collapse.slide-toggle-target(id="IDGOESHERE")
+        //-   .container
+        //-     .grid.no-grid-at-767
+        //-       h1 Collapse
+        //-       h2 Collapse
+        //-       h3 Collapse
+        //-       h4 Collapse
+        //-       h5 Collapse
+        //-       h6 Collapse
 
 
-        .spacer
+        //- .spacer
 
         .container
           each accessory in data.accessories
-            .product-strip-wrap
-              .grid.no-grid-at-767
+            .slimgrid5.m-grid-at-767.product-strip-wrap
+              .clearfix
                 a.tl.pull-right(href="#")= accessory.callout
                 h2.t6.product-strip-heading= accessory.title
-              .product-strip.slimgrid5.no-grid-at-767
+              .product-strip.clearfix
                 count = 0
                 each module in data.submodules
                   d = locals.data(module.data)
@@ -266,7 +283,8 @@ mixin filterSet( filterSet )
                     - d.layout = document.layout3
                     - d.view = "basic"
                     e = { "locals" : locals, "data" : d }
-                    !{locals.partial('modules/' + module.type, e )}
+                    path = 'modules/' + module.type
+                    !{locals.partial( path, e )}
                     - count += 1
 
   - for (i = 3; i < 10; i++) {
@@ -285,7 +303,7 @@ mixin filterSet( filterSet )
     .modal-header.container(data-reset-label="Reset")
       h3.pull-left#compare-tool-label Compare
       button.box-close(data-dismiss="modal", aria-hidden="true")
-        i.icon-ui-x-tiny
+        i.fonticon-10-x-skinny
     .modal-body
       .container.compare-key
         div

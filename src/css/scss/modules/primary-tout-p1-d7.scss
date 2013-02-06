@@ -8,7 +8,6 @@ $desktopMin: px-em(980);
 
 .primary-tout{
   @include dttb;
-  @include themecolors;
   
   h1{
     @include hyphens;
@@ -19,9 +18,8 @@ $desktopMin: px-em(980);
   .hero-image{
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: cover;
-    height:640px;
-  } 
+  }
+  
   .box.left{
     text-align:left;
   }
@@ -55,6 +53,7 @@ $desktopMin: px-em(980);
       }
       .p3{
         margin-bottom:45px;
+        line-height:20px;
       }
       i{
         margin-right: px-em(-4);
@@ -67,6 +66,11 @@ $desktopMin: px-em(980);
 
   
   &.homepage{
+    @include theme-btn-colors;
+    .hero-image{
+      background-size: cover;
+      height:640px;
+    } 
     .inner{
       .table-center-wrap{
         width:100%;
@@ -83,46 +87,120 @@ $desktopMin: px-em(980);
       }
     }
   }
+  
+  &.title-plate{
+    @include theme-bg-colors;
+    .hero-image{
+      background-size:auto;
+      height:300px;
+    }
+    .dark-text-trans-box{ 
+      .eyebrow{
+        color: $gray40;
+      }
+    }
+    .light-text-trans-box{ 
+      .eyebrow{
+        color: $gray50;
+      }
+    }
+    
+    .inner .box{
+      padding:49px 52px 58px 0;
+      .eyebrow{
+        font-size:px-em(12);
+        letter-spacing:1px;
+      }
+      h1{
+        @include fontLight;
+        @include px-em--font-size--line-height(44,50);
+        margin-bottom:10px;
+        margin-left:-1px;
+        letter-spacing:-0.7px;
+      }
+      .p3{
+        margin-bottom:30px;
+      }
+    }
+
+  }
+  
 }
 
 @media (min-width: $tabletMin) and (max-width:$tabletMax) {
   .primary-tout{
-    .hero-image{
-      height:520px;
+    
+    &.homepage{
+      .hero-image{
+        height:520px;
+      }
+    }
+    
+    &.title-plate{
+      .hero-image{
+        height:300px;
+      } 
     }
   }
 }
 @media (max-width: $phoneMax) {
   .primary-tout{
-    .hero-image{
-      height:306px;
+    
+    &.homepage{
+      .hero-image{
+        height:306px;
+      }
+      .inner{
+        .box{
+          &.top{
+            top:0;
+          }
+          &.bottom{
+            bottom:0;
+          }
+          margin-top:0;
+          padding:22px 0 25px 0;
+          position:absolute;
+          
+          left:0;
+          right:0;
+          .eyebrow{
+            margin-bottom:0px;
+          }
+          h1{
+            margin-top:0;
+            margin-bottom:20px;
+            margin-left:-2px;
+          }
+          .p3{
+            display:none;
+          }
+        }
+      }
     }
-    .inner{
-      .box{
-        &.top{
-          top:0;
-        }
-        &.bottom{
-          bottom:0;
-        }
-        margin-top:0;
-        padding:22px 0 25px 0;
+    
+    &.title-plate{
+      .hero-image{
+        background-size:cover;
+        height:158px;
+      }
+      .inner .box{
         position:absolute;
-        
         left:0;
         right:0;
-        .eyebrow{
-          margin-bottom:0px;
-        }
+        top:0;
+        padding:30px 0 20px 0;
         h1{
-          margin-top:0;
-          margin-bottom:20px;
-          margin-left:-2px;
+          @include fontLight;
+          @include px-em--font-size--line-height(26,34);
+          margin-top:-3px;
+          margin-bottom:24px;
         }
         .p3{
           display:none;
         }
       }
     }
+    
   }
 }

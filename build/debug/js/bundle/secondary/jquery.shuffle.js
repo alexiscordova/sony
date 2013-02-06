@@ -60,76 +60,15 @@
     };
 
     var Shuffle = function( $container, options ) {
-        var self = this,
-            $window = $(window);
+        var self = this;
 
         $.extend(self, $.fn.shuffle.options, options, $.fn.shuffle.settings);
 
         self.$container = $container.addClass('shuffle');
-        self.$items = self._getItems().addClass('shuffle-item');
-        self.transitionName = self.prefixed('transition'),
-        self.transform = self.getPrefixed('transform');
+        self.$window = $(window);
 
         self.fire('loading');
-
-        // Get offset from container
-        self.offset = {
-            left: parseInt( ( self.$container.css('padding-left') || 0 ), 10 ),
-            top: parseInt( ( self.$container.css('padding-top') || 0 ), 10 )
-        };
-        self.isFluid = self.columnWidth && typeof self.columnWidth === 'function';
-
-        // Get transitionend event name
-        var transEndEventNames = {
-            'WebkitTransition' : 'webkitTransitionEnd',
-            'MozTransition'    : 'transitionend',
-            'OTransition'      : 'oTransitionEnd',
-            'msTransition'     : 'MSTransitionEnd',
-            'transition'       : 'transitionend'
-        };
-        self.transitionEndName = transEndEventNames[ self.transitionName ];
-
-        // CSS for each item
-        self.itemCss = {
-            position: 'absolute',
-            top: 0,
-            left: 0
-        };
-
-        if ( self.$container.css('position') === 'static' ) {
-            self.$container.css('position', 'relative');
-        }
-
-        // Set up css for transitions
-        self.$container[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
-        self._initItems( !self.showInitialTransition );
-
-        // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-        self.windowHeight = $window.height();
-        self.windowWidth = $window.width();
-        $window.on('resize.shuffle', function () {
-            if ( !self.enabled ) {
-                return;
-            }
-
-            var height = $window.height(),
-                width = $window.width();
-
-            if (width !== self.windowWidth || height !== self.windowHeight) {
-                self.resized();
-                self.windowHeight = height;
-                self.windowWidth = width;
-            }
-        });
-
-        self._setColumns();
-        self._resetCols();
-        self.shuffle( self.group );
-
-
-        if ( !self.showInitialTransition ) {
-            self._initItems();
-        }
+        self._init();
         self.fire('done');
     };
 
@@ -137,11 +76,73 @@
 
         constructor: Shuffle,
 
+        _init : function() {
+            var self = this,
+                transEndEventNames,
+                resizeFunc = $.proxy( self._onResize, self ),
+                throttledResize = self.throttle ? self.throttle( self.throttleTime, resizeFunc ) : resizeFunc;
+
+
+            self.$items = self._getItems().addClass('shuffle-item');
+            self.transitionName = self.prefixed('transition'),
+            self.transform = self.getPrefixed('transform');
+
+            // Get offset from container
+            self.offset = {
+                left: parseInt( ( self.$container.css('padding-left') || 0 ), 10 ),
+                top: parseInt( ( self.$container.css('padding-top') || 0 ), 10 )
+            };
+            self.isFluid = self.columnWidth && typeof self.columnWidth === 'function';
+
+            // Get transitionend event name
+            transEndEventNames = {
+                'WebkitTransition' : 'webkitTransitionEnd',
+                'MozTransition'    : 'transitionend',
+                'OTransition'      : 'oTransitionEnd',
+                'msTransition'     : 'MSTransitionEnd',
+                'transition'       : 'transitionend'
+            };
+            self.transitionEndName = transEndEventNames[ self.transitionName ];
+
+            // CSS for each item
+            self.itemCss = {
+                position: 'absolute',
+                top: 0,
+                left: 0
+            };
+
+            if ( self.$container.css('position') === 'static' ) {
+                self.$container.css('position', 'relative');
+            }
+
+            // Set up css for transitions
+            self.$container[0].style[ self.transitionName ] = 'height ' + self.speed + 'ms ' + self.easing;
+            self._initItems( !self.showInitialTransition );
+
+            // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
+            self.windowHeight = self.$window.height();
+            self.windowWidth = self.$window.width();
+            self.$window.on('resize.shuffle', throttledResize);
+
+            self._setColumns();
+            self._resetCols();
+            self.shuffle( self.group );
+
+
+            if ( !self.showInitialTransition ) {
+                self._initItems();
+            }
+        },
+
         /**
          * The magic. This is what makes the plugin 'shuffle'
          */
         shuffle : function( category ) {
             var self = this;
+
+            if ( !self.enabled ) {
+                return;
+            }
 
             if (!category) {
                 category = 'all';
@@ -272,6 +273,9 @@
                 self.$items.outerWidth(true) ||
                 // if there's no items, use size of container
                 containerWidth;
+
+            // Don't let them set a column width of zero.
+            self.colWidth = self.colWidth || containerWidth;
 
             self.colWidth += gutter;
 
@@ -467,6 +471,23 @@
             });
         },
 
+        _onResize : function() {
+            var self = this;
+
+            if ( !self.enabled || self.destroyed ) {
+                return;
+            }
+
+            var height = self.$window.height(),
+                width = self.$window.width();
+
+            if (width !== self.windowWidth || height !== self.windowHeight) {
+                self.resized();
+                self.windowHeight = height;
+                self.windowWidth = width;
+            }
+        },
+
         /**
          * Gets the .filtered elements, sorts them, and passes them to layout
          *
@@ -576,10 +597,17 @@
         /**
          * Relayout everything
          */
-        resized: function() {
-            // get updated colCount
-            this._setColumns();
-            this._reLayout();
+        resized: function( isOnlyLayout ) {
+            if ( this.enabled ) {
+
+                if ( !isOnlyLayout ) {
+                    // Get updated colCount
+                    this._setColumns();
+                }
+
+                // Layout items
+                this._reLayout();
+            }
         },
 
         shrinkEnd: function() {
@@ -592,14 +620,6 @@
 
         sortEnd: function() {
             this.fire('sorted');
-        },
-
-        destroy: function() {
-            var self = this;
-
-            self.$container.removeAttr('style').removeData('shuffle');
-            $(window).off('.shuffle');
-            self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
         },
 
         _skipTransition : function(element, property, value) {
@@ -672,12 +692,13 @@
             }, self.revealAppendedDelay);
         },
 
+        // Use this instead of `update()` if you don't need the columns and gutters updated
         layout : function() {
-            this._reLayout();
+            this.update( true );
         },
 
-        update : function() {
-            this.resized();
+        update : function( isOnlyLayout ) {
+            this.resized( isOnlyLayout );
         },
 
         disable : function() {
@@ -689,6 +710,15 @@
             if ( isUpdateLayout !== false ) {
                 this.update();
             }
+        },
+
+        destroy: function() {
+            var self = this;
+
+            self.$container.removeAttr('style').removeData('shuffle');
+            $(window).off('.shuffle');
+            self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
+            self.destroyed = true;
         }
 
     };
@@ -702,14 +732,14 @@
                 shuffle = $this.data('shuffle');
 
             // If we don't have a stored shuffle, make a new one and save it
-            if (!shuffle) {
+            if ( !shuffle ) {
                 shuffle = new Shuffle($this, opts);
                 $this.data('shuffle', shuffle);
             }
 
             // If passed a string, lets decide what to do with it. Or they've provided a function to filter by
-            if ($.isFunction(opts)) {
-                shuffle.shuffle(opts);
+            if ( $.isFunction(opts) ) {
+                shuffle.shuffle( opts );
 
             // Key should be an object with propreties reversed and by.
             } else if (typeof opts === 'string') {
@@ -744,6 +774,8 @@
         showInitialTransition : true, // If set to false, the shuffle-items will only have a transition applied to them after the first layout
         delimeter : null, // if your group is not json, and is comma delimeted, you could set delimeter to ','
         buffer: 0,
+        throttle: $.debounce || null,
+        throttleTime: 300,
         keepSorted : true
     };
 

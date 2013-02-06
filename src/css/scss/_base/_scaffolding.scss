@@ -7,10 +7,9 @@
 // -------------------------
 
 body {
-  margin: 0;  
+  margin: 0;
   font-family: $baseFontFamily;
   line-height: $baseLineHeight;
-  color: $defaultTextColor;
   background-color: $bodyBackground;
 }
 
@@ -43,8 +42,8 @@ a:focus {
 .no-touch a:not(.no-hover-transition),
 .no-touch .btn:not(.no-hover-transition){
   @include transition(
-    background-color $transitionSlowish linear, 
-    color $transitionSlowish linear, 
+    background-color $transitionSlowish linear,
+    color $transitionSlowish linear,
     border-color $transitionSlowish linear
   );
   [class*="fonticon"]{
@@ -74,7 +73,7 @@ a:focus {
 
 // Perfect circle
 .img-circle {
-  @include border-radius(500px); // crank the border-radius so it works with most reasonably sized images
+  @include border-radius(50%);
 }
 
 

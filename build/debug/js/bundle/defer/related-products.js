@@ -84,6 +84,19 @@
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
+      self.prefixed              = Modernizr.prefixed;
+      self.transitionName        = self.prefixed('transition');
+
+      // Get transitionend event name
+      var transEndEventNames = {
+          'WebkitTransition' : 'webkitTransitionEnd',
+          'MozTransition'    : 'transitionend',
+          'OTransition'      : 'oTransitionEnd',
+          'msTransition'     : 'MSTransitionEnd',
+          'transition'       : 'transitionend'
+      };
+
+      self.transitionEndName     = transEndEventNames[ self.transitionName ];
 
       self.mode                  = self.$el.data('mode').toLowerCase();
       self.variation             = self.$el.data('variation').split('-')[2];
@@ -204,7 +217,11 @@
 
         self.setColumns(numColumns);
 
-        //console.log("New Gutter Width »",gutter);
+        if(gutter < 0){
+          gutter = 0;
+        }
+
+        console.log('Shuffling Gutters returning  »',gutter);
 
         return gutter;
       };
@@ -220,7 +237,11 @@
           // Between Portrait tablet and phone ( 3 columns )
           } else if ( Modernizr.mq('(min-width: 481px)') ) {
             column = window.Exports.COLUMN_WIDTH_SLIM * containerWidth;
+          }else{
+            column = containerWidth;
           }
+
+          console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -240,12 +261,11 @@
           self.setSortPriorities();
         }
 
-
         if(self.navigationControl.toLowerCase() === 'bullets' && self.$slides.length > 1){
           self.createNavigation();
           self.setupPaddles();
           
-          //init dragging , slideshow
+          //init dragging , slideshow: TODO 
           //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
         }
 
@@ -374,14 +394,6 @@
 
             console.log("Setting Colums »",5);
 
-            // add .grid5
- /*           self.$container
-              .removeClass(gridClasses)
-              .addClass(shuffleDash+5)
-              .closest('.container')
-              .removeClass(slimgrid)
-              .addClass(grid5);*/
-
             self.$shuffleContainers.removeClass('slimgrid')
             .addClass('slimgrid5');
 
@@ -402,12 +414,6 @@
           
           if ( !self.$shuffleContainers.hasClass( shuffleDash + 4 ) ) {
 
-            // Remove .grid5
-/*            self.$container
-              .removeClass(gridClasses)
-              .addClass(shuffleDash+4)
-              .closest('.container')
-              .removeClass(grid5).addClass(slimgrid);*/
             self.$shuffleContainers.removeClass('slimgrid5')
             .addClass('slimgrid');
 
@@ -545,7 +551,7 @@
 
             self.sortByPriority();
 
-            iQ.update();
+            window.iQ.update();
 
             self.ev.trigger('ondesktopbreakpoint.rp');
 
@@ -586,12 +592,15 @@
 
             self.sortByPriority();
 
-            iQ.update();
+            window.iQ.update();
 
           break;
 
           case 'mobile':
-          
+            
+          //console.log('Now should be going to mobile and killing shuffle... »' , 'Tyler David Madison');
+           
+
             if(self.isMobileMode === true){
               return;
             }
@@ -617,13 +626,25 @@
               self.shuffle = null;
               self.sorted = false;
 
+              self.$shuffleContainers.each(function(){
+                var shfflInst = $(this).data('shuffle');
+
+                console.log('I am a shuffle instance!!! Look at me! »',shfflInst);
+
+                if(shfflInst !== undefined){
+                  shfflInst.destroy();
+                  shfflInst = null;
+                }
+
+              });
+
               console.log("Destroying shuffle instance »" , self.shuffle);
             }
 
             //hide the bullet navigation
             self.$bulletNav.hide();
 
-            iQ.update();
+            window.iQ.update();
 
             //is this where i break?
             self.ev.trigger('onmobilebreakpoint.rp');
@@ -677,7 +698,12 @@
         if(self.isTabletMode === true){
           //ratio based on comp around 768/922
           //self.$el.css('height' , 1.05 * self.$el.width());
-          self.$el.css('height' , 1.05 * self.$shuffleContainers.eq(0).width());
+          if($(window).width() > 768){
+            self.$el.css('height' , 1.05 * self.$shuffleContainers.eq(0).width());
+          }else{
+             self.$el.css('height' , 1.18 * self.$shuffleContainers.eq(0).width());
+          }
+         
           return;
         }
 
@@ -790,7 +816,7 @@
 
       setPosition: function(posi) {
 
-        iQ.update();
+        window.iQ.update();
 
         var self = this,
             pos = self.sPosition = posi;
@@ -1049,9 +1075,9 @@
           self.$container.css( animObj );
 
           //IQ Update
-/*          self.$container.one($.support.transition.end , function(){
+          self.$container.one(self.transitionEndName , function(){
             window.iQ.update();
-          });*/
+          });
         }
 
         //update the overall position
@@ -1068,7 +1094,7 @@
           $('.container').removeClass('grid4').addClass('grid5');
 
           self.$galleryItems.each(function(){
-            var item = $(this).removeClass('small-size'),
+            var item = $(this).removeClass('small-size mobile-item'),
                 slide = item.data('slide');
 
                 item.appendTo(slide);
@@ -1108,17 +1134,17 @@
         var self = this,
             resizeTimer = null;
 
-        $(window).on('resize', function() {  
+        $(window).on('resize', function() {
             if(resizeTimer) {
-                clearTimeout(resizeTimer);          
+                clearTimeout(resizeTimer);
             }
-            resizeTimer = setTimeout(function() { 
+            resizeTimer = setTimeout(function() {
 
               self.checkForBreakpoints();
               self.updateSliderSize();
               self.updateSlides();
 
-            }, self.throttleTime);          
+            }, self.throttleTime);
         });
       },
 
@@ -1203,7 +1229,6 @@
         function handleBreakpoint(){
           console.log("_initMobileBreakpoint.... »" , true);
 
-
           // 1. step one  - cancel touch events for the 'slideshow'
           self.$container.off('.rp');
 
@@ -1222,15 +1247,20 @@
 
           // 3. gather gallery items and save local reference - may need to set on self
           var $galleryItems = self.$el.find('.gallery-item').detach().addClass('small-size');
-          
-          // 4. remove the slides
+            
+
+          // 4. remove the slides 
           self.$slides.detach();
 
           //clear out the position style on the gallery items
           $galleryItems.removeAttr('style');
 
-          //5 . put the item back into the container
-          $galleryItems.appendTo(self.$container);
+          $galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
+
+          //5 . put the item back into the container / make sure to not include blanks
+          $galleryItems.not('.blank').appendTo(self.$container);
+
+          console.log('Gallery Items .blank-normal » ', $galleryItems.not('.blank'));
           
           // 7. init the scroller module
           setTimeout(function(){
@@ -1264,9 +1294,9 @@
             }).data('scrollerModule');
 
             //self.scroller.enable();
-            iQ.update();
+            window.iQ.update();
             console.log("Instantiating scroller module »", self.scrollerModule);
-          }, 100); 
+          }, 100);
           return;
 
         }

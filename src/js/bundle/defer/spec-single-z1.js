@@ -40,6 +40,8 @@
       self.$carouselCols = self.$carouselWrap.closest('.grid').children();
       self.$alignedBottom = self.$container.find('.align-right-bottom .has-img').closest('.grid').children();
 
+      self.$alignedBottomImgs = self.$alignedBottom.find('.iq-img');
+
       self._initCarousel();
 
       // Init shuffle on the features section
@@ -201,15 +203,33 @@
       var self = this,
           st = self.$window.scrollTop();
 
+      // Open the stick nav if it's past the trigger
       if ( st > self.stickyTriggerOffset ) {
         if ( !self.$stickyNav.hasClass('open') ) {
           self.$stickyNav.addClass('open');
         }
+
+      // Close the sticky nav if it's past the trigger
       } else {
         if ( self.$stickyNav.hasClass('open') ) {
           self.$stickyNav.removeClass('open');
         }
       }
+
+      // See if bottom-aligned-imgs have been loaded
+      self.$alignedBottomImgs.each(function() {
+        var $img = $(this);
+        // Skip if the source hasn't been set yet
+        if ( this.src === '' || $img.data('loaded') ) {
+          return;
+        }
+
+        $img.data('loaded', true);
+
+        $img.imagesLoaded(function() {
+          self.$alignedBottom.evenHeights();
+        });
+      });
     },
 
     _onResize : function( isFirst ) {
@@ -243,25 +263,6 @@
     }
 
 
-
-  };
-
-  // TODO: make its own file and give it options for padding an margin
-  $.fn.evenHeights = function() {
-    var tallest = 0;
-    return this
-      .css('height', '')
-      .each(function() {
-        var $this = $(this),
-            // Here we're using `.css()` instead of `height()` or `outerHeight()`
-            // because Chrome is 100x slower calculating those values
-            height = parseFloat( $this.css('height') );
-
-        if ( height > tallest ) {
-          tallest = height;
-        }
-      })
-      .css('height', tallest);
   };
 
   // Plugin definition

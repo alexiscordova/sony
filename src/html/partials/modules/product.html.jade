@@ -1,11 +1,54 @@
 include ../includes/jade-helpers.jade
 
+
+//- the list is an array of list items like this:
+//- "definitionList" : [
+//-   {
+//-       "term" : "Dimension",
+//-       "definitions" : [
+//-           "12.95 x 7.30 x 2.32cm",
+//-           "(4.375&Prime; x 3.875&Prime; x 2.125&Prime;)"
+//-       ]
+//-   },
+//-   {
+//-       "term" : "Height",
+//-       "definition" : "8.5oz (240g)"
+//-   }
+//- ]
+//- and outputs a definition list like this:
+//- <dl>
+//-   <dt>term</dt>
+//-   <dd>definition</dd>
+//- </dl>
+mixin definitionList( list, isHorizontal )
+  - isHorizontal = isHorizontal || false
+  - clss = isHorizontal ? 'dl-horizontal' : null
+  dl(class=clss)
+    each li in list
+      dt.l3: strong= li.term
+      if li.definition
+        dd.p3= li.definition
+      else
+        each definition in li.definitions
+          dd.p3= definition
+
+
+//- A simple unstyled ul
+mixin specList( list, extraClasses )
+  - classes = 'unstyled spec-list'
+  - extraClasses = extraClasses || false
+  - if ( extraClasses ) classes += ' ' + extraClasses
+  ul(class=classes)
+    each li in list
+      li.p3= li
+
 mixin colorSwatches( colors )
-  if colors.length > 1
-    .color-swatches.clearfix
-      each color in colors
-        theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
-        span(class=theClass, data-color=color.color, itemprop="color")= color.color
+  classes = ['color-swatches', 'clearfix']
+  - if ( colors.length > 1 ) classes.push('invisible')
+  div(class=classes)
+    each color in colors
+      theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
+      span(class=theClass, data-color=color.color, itemprop="color")= color.color
 
 mixin iQColorImages( colors )
   if colors.length > 1
@@ -37,7 +80,10 @@ if data.view == "basic"
   else
     klass = 'span1 normal'
 
-  a.gallery-item.basic(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
+  //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
+  klass = 'gallery-item basic m-span3 ' + klass
+
+  a(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label
@@ -65,7 +111,7 @@ if data.view == "basic"
           - classes = ['promo-content']
           - classes.push( style )
           div(class=classes)
-            .text-promo-title
+            .text-promo-title(class='t4')
               strong= data.title
               span!= data.emphasis
               i.icon-ui2-chevron-16-black-right
@@ -104,10 +150,12 @@ if data.view == "basic"
 
         .product-content
           .product-name-wrap
-            .product-name.p3= data.name
+            .product-name.p3
+              strong= data.name
           .product-price
-            span.price-prefix.p3 Starting at &nbsp;
-            span.price.l2= '$' + data.price + '&nbsp;'
+            span.price-prefix.p5 Starting at &nbsp;
+            span.price.p2
+              strong= '$' + data.price + '&nbsp;'
             span.msrp.p5 MSRP
 
 
@@ -130,7 +178,7 @@ else if data.view == 'detailed'
 
       .product-content
         .product-name-wrap
-          .product-name(itemprop="name")= data.name
+          .product-name.p2(itemprop="name")= data.name
           .product-model.p5(itemprop="model")= data.model
         .product-rating.p5(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
           meta(itemprop="ratingValue", content=data.rating.stars)
@@ -193,8 +241,8 @@ else if data.view == "specs"
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
     .compare-sticky-header
       .product-name-wrap
-        .product-name.p1(itemprop="name")= data.name
-        .product-model.p2(itemprop="model")= data.model
+        .product-name.p3(itemprop="name")= data.name
+        .product-model.p3(itemprop="model")= data.model
 
     .spec-column-header.table-center-wrap
       .table-center
@@ -313,14 +361,14 @@ else if data.view == 'single-spec'
                         mixin iQImage( img )
 
             .span3.offset1
-              h6.t6.section-label= spec.label
+              h5.t5.section-label= spec.label
               mixin definitionList( spec.definitionList )
 
     else if spec.list && spec.list2 && spec.img
       section.container
         .grid.m-grid-at-567.spec-section
           .span3.no-m-span
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span3.alpha.m-span3
             mixin specList( spec.list )
           .span3.m-span3
@@ -332,7 +380,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
           .span4.offset1
@@ -342,7 +390,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section.align-right-bottom
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span3
             mixin definitionList( spec.definitionList )
           .span6.has-img.ghost-center-wrap
@@ -353,7 +401,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
 
@@ -366,7 +414,7 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           .span4
             mixin definitionList( spec.definitionList )
 
@@ -374,23 +422,21 @@ else if data.view == 'single-spec'
       section.container
         .grid.no-grid-at-567.spec-section
           .span3
-            h6.t6.section-label= spec.label
+            h5.t5.section-label= spec.label
           each feature, i in spec.features
             - feature2 = spec.features2[i]
             .span3
               .media
                 .pull-left
                   .media-object.holder-for-icon
-                    icon = 'icon-uibig-' + feature.icon
-                    i(class=icon)
+                    i(class=feature.icon)
                 .media-body
                   p.media-heading.l3!= feature.label
                   p.media-description.p3!= feature.description
               .media
                 .pull-left
                   .media-object.holder-for-icon
-                    icon = 'icon-uibig-' + feature2.icon
-                    i(class=icon)
+                    i(class=feature2.icon)
                 .media-body
                   p.media-heading.l3!= feature2.label
                   p.media-description.p3!= feature2.description

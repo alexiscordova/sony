@@ -1,4 +1,4 @@
-section.container.uxmc(class=['theme-'+data.theme.toLowerCase()])
+section.container.uxmc
 
   div.grid
     h2 #{data.header}
@@ -16,7 +16,7 @@ section.container.uxmc(class=['theme-'+data.theme.toLowerCase()])
 
     ul.partner-products
       for product in data.partnerProducts
-        li
+        li(class=['theme-'+product.theme.toLowerCase()])
           div.uxmc-overlay
             p #{product.topLine}
             a.fonticon-10-chevron--after(href=product.link, title=product.altText) #{product.linkText}

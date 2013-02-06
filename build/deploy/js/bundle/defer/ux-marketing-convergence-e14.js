@@ -33,13 +33,12 @@
 
     self.$html = $(document.documentElement);
     self.$el = $element;
-    self.$dials = self.$el.find('.uxmc-dial');
-    self.$dialLabels = self.$el.find('.uxmc-dial-label');
+    self.$reloadButton = self.$el.find('.btn-reload');
     self.$dialWrappers = self.$el.find('.uxmc-dial-wrapper');
+    self.$dials = self.$dialWrappers.find('.uxmc-dial');
+    self.$dialLabels = self.$dialWrappers.find('.uxmc-dial-label');
     self.$partnerCarousel = self.$el.find('.partner-products');
     self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
-
-    self.supportsCanvas = self.$html.hasClass('canvas');
 
     self.init();
   };
@@ -68,7 +67,7 @@
 
       var self = this;
 
-      self.$el.find('.btn-reload').on('click', function(e){
+      self.$reloadButton.on('click', function(e){
 
         e.preventDefault();
 
@@ -84,16 +83,15 @@
       var self = this;
 
       self.$dials.simpleKnob({
-        'displayInput': false,
         'width': 28,
         'height': 28,
         'thickness': 0.15,
         'fontSize': '1em',
-        'bgColor': 'rgba(255,255,255,0.5)',
+        'bgColor': 'rgba(255, 255, 255, 0.5)',
         'fgColor': '#fff'
       }).css('display', 'block');
 
-      self.$el.find('.uxmc-dial-label').on('mousedown', function(e){
+      self.$dialLabels.on('mousedown', function(e){
 
         e.preventDefault();
 
@@ -146,44 +144,61 @@
       }
     },
 
-    // Fade out and destroy current slide, fade in the specified slide.
+    // Slide out and destroy current slide, slide in the specified slide.
     // Force an update to iQ for the newly-created assets.
 
     'gotoPartnerProduct': function(which) {
 
       var self = this,
+          $currentSlide = self.$partnerCarousel.children(),
           $newSlide;
+
+      if ( self.isAnimating ) { return; }
 
       self.currentPartnerProduct = which;
 
-      self.$partnerCarousel.children().each(function(){
-        $(this).fadeOut(self.transitionTime, function(){
-          $(this).remove();
-        });
-      });
+      $newSlide = self.$partnerCarouselSlides
+        .eq(which)
+        .clone()
+        .appendTo(self.$partnerCarousel);
 
-      $newSlide = self.$partnerCarouselSlides.eq(which).clone();
-      $newSlide.appendTo(self.$partnerCarousel);
-      $newSlide.fadeOut(0).fadeIn(self.transitionTime);
+      self.$reloadButton.css('color', $newSlide.css('backgroundColor'));
+
+      if ( self.$partnerCarousel.children().length > 1 ) {
+
+        self.isAnimating = true;
+
+        self.$partnerCarousel.children().animate({
+          'top': '-100%'
+        }, {
+          'duration': self.transitionTime,
+          'complete': function() {
+            $currentSlide.remove();
+            $newSlide.css('top', '');
+            self.isAnimating = false;
+          }
+        });
+      }
 
       window.iQ.update();
       self.resetDials();
-
-      if ( !self.supportsCanvas ) {
-        self.$dialLabels.removeClass('active');
-        self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels).addClass('active');
-      }
     },
 
     // Update the current progress indicator dial, reset others to zero, and timestamp the event.
+    // Label active dial for IE fallbacks.
 
     'resetDials': function() {
 
       var self = this;
 
       self.$activeDial = self.$dials.eq(self.currentPartnerProduct);
+      self.$activeDialLabel = self.$activeDial.closest(self.$dialWrappers).find(self.$dialLabels);
+
       self.$dials.not(self.$activeDial).val(0).trigger('change');
       self.slideStartTime = new Date();
+
+      self.$dialLabels.removeClass('active');
+      self.$activeDialLabel.addClass('active');
     },
 
     // Animations that should occur as the window is ready to paint.

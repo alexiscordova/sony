@@ -74,24 +74,25 @@ a {
 
 .label-close {
   cursor: pointer;
-  color: $grayDark;
+  color: $gray20;
   background: none;
+  padding: 0;
+  margin-right: 1.25em;
 
   &:hover {
-    color: $highlightColor;
+    // color: $gray20;
   }
 
   &:after {
-    content: '';
-    margin-top: 1px;
+    @include transition();
     margin-left: 6px;
-    @extend %icon;
-    @extend .icon-ui-close;
+    font-size: 16px;
+    color: $gray50;
   }
 
   // Change sprite position on hover
   &:hover:after {
-    background-position: -660px ($icon_ui_Y - 30px);
+    color: $gray20;
   }
 }
 
