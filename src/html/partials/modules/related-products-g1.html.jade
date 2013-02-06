@@ -16,7 +16,7 @@ if data.config.tabbedLayout
             strong= 'You May Also Like'
 .container(class='full-bleed-no-max container-tabbed')
   if data.config.mode == 'full'
-    - clss = data.config.variation + ' active ' + data.config.mode
+    - clss = data.config.variation + ' ' + data.config.mode
     section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss , id='related-products' , data-rp-panel-id='1')
       .rp-overflow
         .rp-container
@@ -42,7 +42,7 @@ if data.config.tabbedLayout
           !{locals.partial('modules/'+module.type , e )}
 
   if data.config.mode == 'full'
-    - clss = data.config.variation + ' active ' + data.config.mode
+    - clss = data.config.variation + ' ' + data.config.mode
     section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss , id='related-products' , data-rp-panel-id='2')
       .rp-overflow
         .rp-container

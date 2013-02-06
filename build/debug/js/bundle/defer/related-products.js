@@ -399,7 +399,7 @@
           if ( !self.$container.hasClass( shuffleDash + 5 ) ) {
 
 
-            console.log("Setting Colums »",5);
+           // console.log("Setting Colums »",5);
 
             self.$shuffleContainers.removeClass('slimgrid')
             .addClass('slimgrid5');
@@ -436,7 +436,7 @@
               .addClass( span + 3 );// Make them quarter width
           }
 
-          console.log("Setting 4 colums »",numColumns);
+          //console.log("Setting 4 colums »",numColumns);
 
           //Between Portrait tablet and phone ( 3 columns )
         }
@@ -1349,62 +1349,89 @@ $(function(){
 
   var $tabs = $('.rp-tabs').find('.rp-tab'),
       currentPanelId = 1,
-      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']'),
+      $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
       $productPanels = $('.related-products[data-rp-panel-id]');
+
+
+      console.log('Product panels »',$productPanels, $productPanels.length);
 
   //TODO: fpo only
   $('.related-products[data-rp-panel-id=2] .plate .product-img').css('backgroundColor' , '#913f99');
 
-  //shut em all off
+
+  $productPanels.css('opacity' , 0);
+  $currentPanel.css('opacity' , 1);
+
+/*  //shut em all off
   $productPanels.removeClass('panel-active')
-                .addClass('panel-inactive');
+                .addClass('panel-inactive').css({'visibility' : 'hidden' });
 
   //turn on current
-  $currentPanel.removeClass('panel-inactive').addClass('panel-active');
+  $currentPanel.removeClass('panel-inactive').addClass('panel-active').css({'visibility' : 'visible' });*/
 
   if($tabs.length > 0){
     var handleTabClick = function(e){
       var $tab = $(this),
-      visibleObj = function(visibleBool){
-        return {'visibility' : visibleBool ? 'visible' : 'hidden' };
+      visibleObj = function(visibleBool , zIndx){
+        var cssO = {'visibility' : visibleBool === true ? 'visible' : 'hidden'};
+        if(zIndx !== undefined){
+          cssO.zIndex = zIndx;
+        }
+        return cssO;
       };
 
       e.preventDefault();
       $tabs.removeClass('active');
       $tab.addClass('active');
-      currentPanelId = $tab.data('rpPanelId');
+
+      newPanelId = $tab.data('rpPanelId');
+
+      if(newPanelId === currentPanelId) {
+        return;
+      }
+      $oldPanel = $currentPanel;
+      currentPanelId = newPanelId;
+      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+
+      $oldPanel.css(visibleObj(true, 1));
+      $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function(){
+        $oldPanel.css(visibleObj(false, 0));
+      }});
+      
+
+      $currentPanel.css(visibleObj(true, 1));
+      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500, complete: function(){}});
+
+
+/*    $productPanels.off();
 
       //de-activate previous panel
       if(!!Modernizr.csstransitions){
-        $currentPanel.one(transitionEndName , function(){
-          $currentPanel.css(visibleObj(false));
+        $oldPanel.removeClass('panel-active');
+        $oldPanel.on(transitionEndName , function(e){
+          $oldPanel.css(visibleObj(false , 0));
+          console.log(e);
         });
-        $currentPanel.removeClass('panel-active').addClass('panel-inactive');
+        $oldPanel.addClass('panel-inactive');
       }else{}
 
       //activeate current panel
-      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+      $currentPanel = $('.related-products[data-rp-panel-id='+ newPanelId +']');
+      $currentPanel.removeClass('panel-inactive');
       if(!!Modernizr.csstransitions){
-        $currentPanel.one(transitionEndName , function(){
-          $currentPanel.css(visibleObj(true));
+        $currentPanel.on(transitionEndName , function(){
+          //console.log('New panel complete intro should have class panel-active and be visible:visible');
         });
-        $currentPanel.removeClass('panel-inactive').addClass('panel-active');
-      }else{}
-      
-      
+        $currentPanel.css(visibleObj(true ,1));
+        $currentPanel.addClass('panel-active');
+      }else{}*/
+          
       console.log('Currently Selected Tab:' , $tab.data('rpPanelId'));
     };
 
     $tabs.on('click' , handleTabClick);
-
   }
 
-  
 });
-
-
-
-
-
 
 
