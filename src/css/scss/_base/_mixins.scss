@@ -242,7 +242,7 @@ $default-transition-delay    : 0s;
 		} @else if ($font == Medium) {
 			em { @include fontMediumItalic; }
 			strong { @include fontBold; }
-			em strong, strong em { @include fontBoldItalic; }			
+			em strong, strong em { @include fontBoldItalic; }
 		}
 	}
 
@@ -579,10 +579,11 @@ $default-transition-delay    : 0s;
 				 // -o-transition: $transition1;
 						transition: $transition1;
 	} @else {
-    -webkit-transition: all $transitionNormal $easeNormal;
-       // -moz-transition: all $transitionNormal $easeNormal;
-         // -o-transition: all $transitionNormal $easeNormal;
-            transition: all $transitionNormal $easeNormal;
+        // `all` is the default transition property, so it doesn't need to be specified
+    -webkit-transition: $transitionNormal $easeNormal;
+       // -moz-transition: $transitionNormal $easeNormal;
+         // -o-transition: $transitionNormal $easeNormal;
+            transition: $transitionNormal $easeNormal;
   }
 }
 @mixin transition-property($transitionProp1, $transitionProp2:null, $transitionProp3:null, $transitionProp4:null, $transitionProp5:null, $transitionProp6:null, $transitionProp7:null, $transitionProp8:null) {
@@ -1718,7 +1719,7 @@ $default-transition-delay    : 0s;
   }
   &.themeBlueDark{
     @include themeItems($themeBlueDark, $themeBlueDarkHover, $themeBlueDarkActive);
-  } 
+  }
   &.themeGreen{
     @include themeItems($themeGreen, $themeGreenHover, $themeGreenActive);
   }
@@ -1739,7 +1740,7 @@ $default-transition-delay    : 0s;
   }
   &.themeBlueDark{
     background: $themeBlueDark;
-  } 
+  }
   &.themeGreen{
     background: $themeGreen;
   }
@@ -1772,14 +1773,14 @@ $default-transition-delay    : 0s;
   }
   &.secondarySlateDark{
     background: $secondarySlateDark;
-  }  
+  }
 }
 
 
 @mixin dttb {
   //dark text
   .dark-text-light-box,
-  .dark-text-trans-box{ 
+  .dark-text-trans-box{
     h1, h2, h3, h4, h5, h6{
       color:$gray20;
     }
@@ -1802,7 +1803,7 @@ $default-transition-delay    : 0s;
       color:$white;
     }
   }
-  
+
   // trans box
   .dark-text-trans-box,
   .light-text-trans-box{
@@ -1815,7 +1816,7 @@ $default-transition-delay    : 0s;
       background:$titleBlack;
     }
   }
-  
+
   //light box
   .dark-text-light-box{
    .box{
