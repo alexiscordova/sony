@@ -10,10 +10,10 @@ if data.config.tabbedLayout
     .grid
       .span12
         .rp-tabs
-          a.rp-tab(href='#' , class='active lt4 no-hover-transition' , data-rp-panel-id='1')
-            strong= 'Accessories'
-          a.rp-tab(href='#' , class='lt4 no-hover-transition' , data-rp-panel-id='2')
-            strong= 'You May Also Like'
+          for tab in data.config.tabbedLayout
+            a.rp-tab(href='#' , class='active lt4 no-hover-transition' , data-rp-panel-id=tab.panelId)
+              strong= tab.title
+              
 .container(class='full-bleed-no-max container-tabbed')
   if data.config.mode == 'full'
     - clss = data.config.variation + ' ' + data.config.mode
