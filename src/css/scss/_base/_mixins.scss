@@ -1709,26 +1709,72 @@ $default-transition-delay    : 0s;
   }
 }
 
-@mixin themecolors {
-  .themeRed{
+@mixin theme-btn-colors {
+  &.themeRed{
     @include themeItems($themeRed, $themeRedHover, $themeRedActive);
   }
-  .themeBlueLight{
+  &.themeBlueLight{
     @include themeItems($themeBlueLight, $themeBlueLightHover, $themeBlueLightActive);
   }
-  .themeBlueDark{
+  &.themeBlueDark{
     @include themeItems($themeBlueDark, $themeBlueDarkHover, $themeBlueDarkActive);
   } 
-  .themeGreen{
+  &.themeGreen{
     @include themeItems($themeGreen, $themeGreenHover, $themeGreenActive);
   }
-  .themePurple{
+  &.themePurple{
     @include themeItems($themePurple, $themePurpleHover, $themePurpleActive);
   }
-  .themeOrange{
+  &.themeOrange{
     @include themeItems($themeOrange, $themeOrangeHover, $themeOrangeActive);
   }
 }
+
+@mixin theme-bg-colors {
+  &.themeRed{
+    background: $themeRed;
+  }
+  &.themeBlueLight{
+    background: $themeBlueLight;
+  }
+  &.themeBlueDark{
+    background: $themeBlueDark;
+  } 
+  &.themeGreen{
+    background: $themeGreen;
+  }
+  &.themePurple{
+    background: $themePurple;
+  }
+  &.themeOrange{
+    background: $themeOrange;
+  }
+  &.secondaryGold{
+    background: $secondaryGold;
+  }
+  &.secondarySage{
+    background: $secondarySage;
+  }
+  &.secondaryOlive{
+    background: $secondaryOlive;
+  }
+  &.secondaryAqua{
+    background: $secondaryAqua;
+  }
+  &.secondaryEggplant{
+    background: $secondaryEggplant;
+  }
+  &.secondaryLavender{
+    background: $secondaryLavender;
+  }
+  &.secondarySlate{
+    background: $secondarySlate;
+  }
+  &.secondarySlateDark{
+    background: $secondarySlateDark;
+  }  
+}
+
 
 @mixin dttb {
   //dark text
@@ -1750,7 +1796,13 @@ $default-transition-delay    : 0s;
     p{
       color:$gray50;
     }
-  }  
+  }
+  .light-text-trans-box{
+     p{
+      color:$white;
+    }
+  }
+  
   // trans box
   .dark-text-trans-box,
   .light-text-trans-box{
