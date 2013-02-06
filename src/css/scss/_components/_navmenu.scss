@@ -2,11 +2,11 @@
 
 
 .navmenu-w{ 
-  z-index: 190;
+  z-index: 240;
   position: absolute;
   overflow: visible;
   background: $navMenuBackground;
-  @include box-shadow(0px 3px 3px 0px rgba(0, 0, 0, .3));
+  @include box-shadow(0px 0px 30px 5px rgba(39, 43, 55, .15));
   @include border-bottom-radius(2px);
 
   // -webkit-transform: translate3d(0, 0, 0); // fix janky animation
@@ -14,12 +14,12 @@
   .fonticon-10-arrowhead-up.nav-indicator{
     &:before { // position the fonticon inside of the <i>
       position:relative;
-      top:-25px;
+      top:-23px;
     }
     overflow:hidden;
     position: absolute;
-    height: 13px;
-    top: -12px;
+    height: 15px;
+    top: -14px;
     font-size: 3.2em;
     color: $white;
   }
@@ -82,11 +82,14 @@
       display: block;
     }        
   }
-} // .navmenu-w-account
-.nav-li-selected .navmenu-w-account {
-  @include hideshow-navmenu-show(right,-125px);
-}
+  &.navmenu-w-visible {
+    @include hideshow-navmenu-show(right,-125px,false);
 
+    .reveal-transition-container{
+      overflow:hidden;
+    }
+  }
+} // .navmenu-w-account
 
 .navmenu-w-search-container{
   position:relative;
@@ -94,10 +97,12 @@
 .navmenu-w-search{
   width:467px;
 
-  @include hideshow-navmenu-hide(right);
-
   &.navmenu-w-visible{
-    @include hideshow-navmenu-show(right);
+    @include hideshow-navmenu-show(right,0,false);
+
+    .reveal-transition-container{
+      overflow:hidden;
+    }
   }
 
   .fonticon-10-arrowhead-up{
@@ -200,8 +205,8 @@
         &:hover,
         &:active,
         &:focus{
-          background-color:rgb(230,230,230);
-          background-color:rgba(255,255,255,0.8);
+          // background-color:rgb(230,230,230);
+          background-color:rgba(255,255,255,0.5);
         }
         > i.fonticon-10-chevron{
           float:right;
@@ -254,8 +259,8 @@
         &:hover,
         &:active,
         &:focus{
-          background-color:rgb(230,230,230);
-          background-color:rgba(255,255,255,0.8);
+          // background-color:rgb(230,230,230);
+          background-color:rgba(255,255,255,0.5);
         }
       }
     } // .search-result-line    
@@ -280,9 +285,6 @@
       }
     }
   }
-} // .navmenu-w-search
-.nav-li-selected .navmenu-w-search {
-  @include hideshow-navmenu-show(right);
 }
 
 

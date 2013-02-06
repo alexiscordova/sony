@@ -29,22 +29,19 @@
   border: 1px solid $btnBorder;
   *border: 0; // Remove the border to prevent IE7's black border on input:focus
 
-  // Hover state
-  &:hover {
+  &:hover, &:active, &:focus, &.active{
     color: $btnText;
-    text-decoration: none;
+    text-decoration: none;    
+  }
+  &:hover {
     background-color: $btnBackgroundHover;
   }
-
-  // Focus state for keyboard and accessibility
   &:focus {
+    background: $btnBackgroundActive;
     @include tab-focus();
   }
-
-  // Active state
   &.active,
   &:active {
-    color: $btnText;
     background: $btnBackgroundActive;
   }
 
