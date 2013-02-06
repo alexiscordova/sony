@@ -2,6 +2,53 @@
 @import "../_base/mixins";
 
 
+
+/*
+    _________    ____ _____
+   /_  __/   |  / __ ) ___/
+    / / / /| | / __  \__ \ 
+   / / / ___ |/ /_/ /__/ / 
+  /_/ /_/  |_/_____/____/  
+*/
+.TABS{}
+  .rp-tabs {
+    margin: 60px 0 0 0;
+    padding: 0 0 0 0;
+    max-height: 52px;
+    
+    .rp-tab {
+      background-color: $gray90;
+      color: $gray40;
+      display: inline-block;
+      padding: 16px 18px 18px 18px;
+      @include transition(box-shadow 0.15s ease-in);
+
+      &:first-child {
+         padding-left: 20px;
+         padding-right: 18px;
+      }
+      &.active {
+        color: $gray20;
+        box-shadow: inset 0 -4px 0 $linkBlue;
+      }
+
+      &:hover {
+        color: $gray20;
+        box-shadow: inset 0 -4px 0 $linkBlue;
+      };
+    }
+
+    @media (min-width: px-em(481px)) and (max-width:(px-em(979px))){
+
+    }
+
+    @media (max-width:(px-em(480px))){
+     
+    }   
+
+  }
+  //end tabs
+
 /*
          __        ____       __      __           __   ____                 __           __          ____       _____       _ __  _           
        _/_/_/|_   / __ \___  / /___ _/ /____  ____/ /  / __ \_________  ____/ /_  _______/ /______   / __ \___  / __(_)___  (_) /_(_)___  ____ 
@@ -13,19 +60,17 @@
 
 .related-products {
 
+  margin: 26px 0 70px 0;
 
   h1.section-title {
     min-width: 240px;
   }
-
-  margin: 70px 0 70px 0;
 
   .shuffle-container {
     max-width: 1020px;
 
     &.slimgrid5 {
       width: 91.89189%;
-      
     }
 
     @media (min-width:px-em(1201px)){
@@ -224,7 +269,6 @@
     visibility: hidden;    
   }
 
-
   .gallery-item .product-img.teal-color {
     background-color: $secondaryAqua;
   }
@@ -310,12 +354,20 @@
   }
 
   .gallery-item.plate .text-promo-title {
-    font-size: $font_26_16;
-    max-width: 265px;
-    top:30px;
+    font-size: inherit;
+    max-width: 310px; 
+    top:13%;
+    left: 10%;
 
-    strong {
-      font-family: $sansFontFamily;
+    .title {
+      color:$white;
+      margin-bottom: 0;
+    }
+
+    .emphasis {
+      color: $white;
+      opacity: 0.6;
+      padding: 0 4% 0 0;
     }
 
     @media (max-width:480px) {
@@ -324,6 +376,11 @@
       left: 10px;
       max-width: none;
     }
+  }
+
+  .gallery-item.plate .text-count {
+    bottom:9%;
+    left: 10%;
   }
 
   .gallery-item.plate:after {
@@ -540,11 +597,8 @@
   .rp-overflow {
     width: 100%;
     height: 100%;
-    position: absolute;
-    top:43px;
-    right:0;
-    bottom:0;
-    left:0;
+    position: relative;
+    //margin-top:26px;
 
     -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
     -moz-user-select: -moz-none;
@@ -611,24 +665,57 @@
 
   .paddle {
     width: 50px;
-    height: 88px;
-    display:block;
-    background: #909398;
+    height: 86px;
+    display: block;
+    color: $white;
+    background: $gray10;
+    border-radius: 2px;
+    @include opacity(40);
+    background-repeat: no-repeat;
     position: absolute;
-    top: 25%;
-    margin: 0;
+    top: 50%;
+    margin: -100px 0;
     cursor: pointer;
-    opacity: 0.8;
+    font-size:1.4em;
+    @include transition(opacity 0.10s ease-in);
+    
+    &:hover {
+      @include opacity(80);
+    }
 
+    i {
+      width: 15px;
+      height: 15px;
+      margin-top: 33px;
+      @include center-block();
+
+      @media (max-width:(px-em(979px))){
+        margin-top: 28px;
+      }
+    }
+    
     &.left {
-      left: 6.5%;
+      left: 10px;
       right: auto;
     }
 
     &.right {
       left: auto;
-      right: 6.5%;
+      right: 10px;
     }
+
+    @media (min-width: px-em(481px)) and (max-width:(px-em(979px))){
+      margin: -100px 0;
+      width: 40px;
+      height: 70px;
+      font-size: 1.0em;
+    }
+
+    @media (max-width:(px-em(480px))){
+      display: none;
+    }
+
+
   }
 }
 

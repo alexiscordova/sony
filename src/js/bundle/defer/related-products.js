@@ -111,13 +111,17 @@
       self.slideCount            = 0;
       self.isFreeDrag            = false; //MODE: TODO
       self.currentContainerWidth = 0;
-
+      self.tabs                  = self.$el.prev().find('.rp-tabs').eq(0).find('.rp-tab'); //sniff up and search for closest tabs
+      self.currentTab            = -1;
       self.newSlideId            = 0;
       self.sPosition             = 0;
       self.scrollerModule        = null;
       self.shuffle               = null; //start with null value, gets checked in checkforBreakpoints method
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
+
+      
+      //console.log('CLoseset container » ', self.$el.closest('.container'));
       
 
       console.log('Variation on this module »' , self.variation );
@@ -221,7 +225,7 @@
           gutter = 0;
         }
 
-        console.log('Shuffling Gutters returning  »',gutter);
+       // console.log('Shuffling Gutters returning  »',gutter);
 
         return gutter;
       };
@@ -241,7 +245,7 @@
             column = containerWidth;
           }
 
-          console.log('Shuffling Columns returning  TM »',column);
+          //console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -264,8 +268,9 @@
         if(self.navigationControl.toLowerCase() === 'bullets' && self.$slides.length > 1){
           self.createNavigation();
           self.setupPaddles();
+          self.setupTabs();
           
-          //init dragging , slideshow: TODO 
+          //init dragging , slideshow: TODO:
           //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
         }
 
@@ -275,7 +280,7 @@
       },
 
       tapOrClick: function(){
-        var self= this;
+        var self = this;
         return self.hasTouch ? 'touchend' : 'click';
       },
 
@@ -308,9 +313,35 @@
         self.ev.on('rpOnUpdateNav' , $.proxy(self.onNavUpdate , self));
       },
 
+      setupTabs: function(){
+        var self = this;
+
+        if(self.tabs.length > 0){
+
+          var handleTabClick = function(e){
+            var tab = $(this);
+
+            e.preventDefault();
+            console.log('Tab Clicked »', tab);
+            self.tabs.removeClass('active');
+            tab.addClass('active');
+
+            self.currentTab = tab.index();
+
+             console.log('Currently Selected Tab:' , self.currentTab);
+
+          };
+
+          self.tabs.on('click' , handleTabClick);
+        }else {
+          console.log('NO tabs');
+        }
+
+      },
+
       setupPaddles: function(){
         var self   = this,
-        itemHTML   = '<div class="paddle"></div>',
+        itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',//<div><i class=fonticon-sdflsdf></i></div>
         $container = self.$el.closest('.container');
         
         self.paddlesEnabled = true;
@@ -322,9 +353,9 @@
         out = $(out);
 
         //TODO: add paddles
-        //$container.append(out);
+        self.$el.append(out);
 
-        self.$paddles     = $container.find('.paddle');
+        self.$paddles     = self.$el.find('.paddle');
         self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
         self.$rightPaddle = self.$paddles.eq(1).addClass('right');
 
@@ -922,13 +953,13 @@
             console.log('snap to next slide');
             if(self.currentId >= self.$slides.length){
               self.currentId = self.$slides.length - 1;
-            } 
+            }
           }else{
             self.currentId --;
             console.log('snap to previous slide');
            if(self.currentId < 0){
             self.currentId = 0;
-           }         
+           }
           }
           self.moveTo();
         }else{
@@ -938,7 +969,7 @@
         }
 
         console.log('drag relase - ' , -self.currentId * self.currentContainerWidth , ' || ' , self.currRenderPosition);
-      },  
+      },
 
       dragMove: function(e , isThumbs){
         var self = this,
@@ -1188,7 +1219,7 @@
     $.rpProto = RelatedProducts.prototype;
 
     //plugin definition
-    $.fn.relatedProducts = function(options) {      
+    $.fn.relatedProducts = function(options) {
       var args = arguments;
       return this.each(function(){
         var self = $(this);
@@ -1206,11 +1237,11 @@
     };
 
     //defaults for the related products
-    $.fn.relatedProducts.defaults = { 
-      throttleTime: 15,
+    $.fn.relatedProducts.defaults = {
+      throttleTime: 50,
       autoScaleContainer: true,
       minSlideOffset: 10,
-      navigationControl: 'bullets'  
+      navigationControl: 'bullets'
     };
 
     $(function(){

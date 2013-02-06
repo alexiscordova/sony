@@ -6,14 +6,20 @@ layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
 layout4: ["suggested" , "suggested"]
 ---
 
+if data.config.tabbedLayout
+  .container
+    .grid
+      .span12
+        .rp-tabs
+          a.rp-tab(href='#' , class='active lt4')
+            strong= 'Accessories'
+          a.rp-tab(href='#' , class='lt4')
+            strong= 'You May Also Like'
+
 if data.config.mode == 'full'
   - clss = data.config.variation + ' ' + data.config.mode
-  section.related-products#related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
-    .container
-      .grid
-        .span4
-          h1(class='l1 section-title')= 'Related Products' 
-    .rp-overflow#rpOverflow
+  section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss , id='related-products')
+    .rp-overflow
       .rp-container
         .rp-slide
           .shuffle-container.slimgrid5
