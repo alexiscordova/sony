@@ -4,43 +4,26 @@
 
 
 // Quick floats
-.pull-right {
-  float: right;
-}
-.pull-left {
-  float: left;
-}
+.pull-right { float: right; }
+.pull-left { float: left; }
 
 // Toggling content
-.hide {
-  display: none;
-}
-.show {
-  display: block;
-}
+.hide { display: none; }
+.show { display: block; }
 .off-screen {
   position: absolute;
   left: -9999px;
 }
+.relative { position: relative; }
+.ib { display: inline-block; }
 
-.relative {
-  position: relative;
-}
+.opacity0 { opacity: 0; }
+.opacity1 { opacity: 1; }
 
-.ib {
-  display: inline-block;
-}
 
-.no-transition{
-  @include transition(none);
-}
-
-.opacity0 {
-  opacity: 0;
-}
-.opacity1 {
-  opacity: 1;
-}
+.no-transition{ @include transition(none); }
+.transition-height{ @include transition(height $navMenuRevealSpeed ease-out 0s); }
+.transition-width{ @include transition(width $navMenuRevealSpeed ease-out 0s); }
 
 // From H5BP
 // -----------------------------

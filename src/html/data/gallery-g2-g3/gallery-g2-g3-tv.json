@@ -6,38 +6,18 @@
             "icon": "grid-alt"
         },
         {
-            "label": "Cameras",
-            "slug": "cameras",
-            "icon": "camera"
+            "label": "TVs",
+            "slug": "tvs",
+            "icon": "tv"
         },
         {
             "label": "Accessories",
             "slug": "accessories",
             "icon": "dongle"
-        },
-        {
-            "label": "Tab 4",
-            "slug": "tab4",
-            "icon": "tablet"
-        },
-        {
-            "label": "Tab 5",
-            "slug": "tab5",
-            "icon": "memory-stick"
-        },
-        {
-            "label": "Tab 6",
-            "slug": "tab6",
-            "icon": "water-drop"
-        },
-        {
-            "label": "Tab 7",
-            "slug": "tab7",
-            "icon": "headphones"
         }
     ],
     "featured": {
-        "title": "Featured Cameras",
+        "title": "Featured Televisions",
         "mode": "editorial",
         "layout": "layout1",
         "callout": "See &amp; Compare All Cameras"
@@ -55,6 +35,7 @@
         "galleryName": "Cyber-shot&reg;",
         "filterSet": [
             {
+                "filterGroup" : 1,
                 "name": "colors",
                 "label": "Colors",
                 "type": "color",
@@ -86,6 +67,7 @@
                 ]
             },
             {
+                "filterGroup" : 2,
                 "name": "price",
                 "label": "Price Range",
                 "type": "range",
@@ -93,6 +75,7 @@
                 "max": 1000
             },
             {
+                "filterGroup" : 3,
                 "label": "Best For",
                 "name": "group",
                 "type": "group",
@@ -101,23 +84,24 @@
                         "label": "Skating",
                         "description": "Waterproof, shockproof, dustproof, and rugged.",
                         "value": "skating",
-                        "icon": "snowboard"
+                        "icon": "skateboard"
                     },
                     {
                         "label": "Running",
                         "description": "Water resistant, shockproof, and ultra small.",
                         "value": "running",
-                        "icon": "running"
+                        "icon": "runner"
                     },
                     {
                         "label": "Studio",
                         "description": "Music recording, professional quality, best sound.",
                         "value": "studio",
-                        "icon": "mic"
+                        "icon": "mic-studio"
                     }
                 ]
             },
             {
+                "filterGroup" : 1,
                 "label": "Megapixels",
                 "name": "megapixels",
                 "type": "button",
@@ -141,11 +125,28 @@
                 ],
                 "help": {
                     "label" : "What&rsquo;s the difference?",
-                    "title" : "This is the title",
-                    "content" : "Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem "
+                    "title" : "Higher megapixel count gets you:",
+                    "layout" : "2up",
+                    "col1" : {
+                        "img" : {
+                            "src" : "img/cameras/megapixel-print.jpg",
+                            "noscriptsrc" : "img/cameras/megapixel-print-desktop.jpg",
+                            "alt" : ""
+                        },
+                        "text" : "Bigger &amp; better quality prints"
+                    },
+                    "col2" : {
+                        "img" : {
+                            "src" : "img/cameras/megapixel-crop.png",
+                            "noscriptsrc" : "img/cameras/megapixel-crop-desktop.png",
+                            "alt" : ""
+                        },
+                        "text" : "Higher resolution crops"
+                    }
                 }
             },
             {
+                "filterGroup" : 2,
                 "label": "Features",
                 "name": "features",
                 "type": "checkbox",
@@ -155,7 +156,8 @@
                         "value": "lcd",
                         "help": {
                             "title" : "LCD Displays",
-                            "content" : "Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp"
+                            "layout" : "text-only",
+                            "text" : "Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp Derp"
                         }
                     },
                     {
@@ -163,7 +165,8 @@
                         "value": "touchscreen",
                         "help": {
                             "title" : "LCD Displays",
-                            "content" : "Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase"
+                            "layout" : "text-only",
+                            "text" : "Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase Phase"
                         }
                     },
                     {
@@ -171,7 +174,8 @@
                         "value": "panorama",
                         "help": {
                             "title" : "LCD Displays",
-                            "content" : "Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming"
+                            "layout" : "text-only",
+                            "text" : "Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming Programming"
                         }
                     },
                     {
@@ -179,7 +183,8 @@
                         "value": "lightweight",
                         "help": {
                             "title" : "LCD Displays",
-                            "content" : "Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime"
+                            "layout" : "text-only",
+                            "text" : "Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime Sublime"
                         }
                     }
                 ]
@@ -188,26 +193,32 @@
         "sortSet": [
             {
                 "name": "default",
-                "label": "Relevance"
+                "label": "Featured"
             },
             {
-                "name": "release-date",
-                "label": "New",
+                "name": "price",
+                "label": "Price - high to low",
                 "reverse": true
+            },
+            {
+                "name": "price",
+                "label": "Price - low to high"
             },
             {
                 "name": "popularity",
                 "label": "Popularity"
             },
             {
-                "name": "price",
-                "label": "Price (High - Low)",
+                "name": "rating",
+                "label": "Rating",
                 "reverse": true
             },
             {
-                "name": "price",
-                "label": "Price (Low - High)"
+                "name": "release-date",
+                "label": "New Products",
+                "reverse": true
             }
+
         ],
         "comparable": [
             {
@@ -292,43 +303,39 @@
     "submodules": [
         {
             "type": "product.html.jade",
-            "data": "product/rx100.json"
+            "data": "product/bx330.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/lens-tout.json"
+            "data": "product/gorilla-glass-promo.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/w650.json"
+            "data": "product/ex340.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/tx20.json"
+            "data": "product/ex440.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/hx30.json"
+            "data": "product/ex640.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/hx10.json"
+            "data": "product/ex645.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/w610.json"
+            "data": "product/hx750.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/hx200v.json"
+            "data": "product/xbr-hx950.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/wx150.json"
-        },
-        {
-            "type": "product.html.jade",
-            "data": "product/rx1.json"
+            "data": "product/bx450.json"
         },
         {
             "type": "product.html.jade",
@@ -344,7 +351,7 @@
         },
         {
             "type": "product.html.jade",
-            "data": "product/summer-promo.json"
+            "data": "product/xreality-promo.json"
         },
         {
             "type": "product.html.jade",
@@ -366,5 +373,9 @@
             "type": "product.html.jade",
             "data": "product/marine-pack.json"
         }
-    ]
+    ],
+	"config": {
+		"module_name": "gallery",
+		"module_id": "gallery"
+	}
 }

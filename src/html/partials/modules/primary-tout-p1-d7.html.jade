@@ -8,11 +8,10 @@ mixin eyebrow(d)
 
 mixin header(d)
   d = d || data
-  hgroup
-	  if d.variation && d.variation.headertext == "larger"
-	    h1!= d.headline
-	  else
-	    h1.t2!= d.headline
+  if d.variation && d.variation.headertext == "larger"
+    h1!= d.headline
+  else
+    h1.t2!= d.headline
 
 mixin bodytext(d)
   d = d || data
@@ -54,7 +53,10 @@ mixin boxlayout(layout)
             +boxclass
               block
 
-article.primary-tout.container.full-bleed-no-max(class= data.mode)(class= data.theme, data-module-name != data.config.module_name, data-module-id= data.config.module_id)
+classes = data.mode
+if data.theme
+  classes = classes + " " + data.theme
+section.primary-tout.container.full-bleed-no-max(class= classes)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
   if data.mode == "homepage"
