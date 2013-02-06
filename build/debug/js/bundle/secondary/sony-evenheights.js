@@ -8,16 +8,23 @@
       .css('height', '')
       .each(function() {
         var $this = $(this),
-            // Here we're using `.css()` instead of `height()` or `outerHeight()`
-            // because Chrome is 100x slower calculating those values
-            height = parseFloat( $this.css('height') );
+            height;
 
-        if ( options.padding ) {
-          height += parseFloat( $this.css('paddingTop') ) + parseFloat( $this.css('paddingBottom') );
-        }
+        if ( options.useOuterWidth ) {
+          height = $this.outerHeight( options.margin );
 
-        if ( options.margin ) {
-          height += parseFloat( $this.css('marginTop') ) + parseFloat( $this.css('marginBottom') );
+        } else {
+          // Here we're using `.css()` instead of `height()` or `outerHeight()`
+          // Chrome used to be 100x slower calculating these values
+          height = parseFloat( $this.css('height') );
+
+          if ( options.padding ) {
+            height += parseFloat( $this.css('paddingTop') ) + parseFloat( $this.css('paddingBottom') );
+          }
+
+          if ( options.margin ) {
+            height += parseFloat( $this.css('marginTop') ) + parseFloat( $this.css('marginBottom') );
+          }
         }
 
         if ( height > tallest ) {
@@ -28,6 +35,7 @@
   };
 
   $.fn.evenHeights.options = {
+    useOuterWidth: true,
     padding: true,
     margin: false
   };

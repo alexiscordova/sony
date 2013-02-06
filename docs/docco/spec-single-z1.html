@@ -45,7 +45,7 @@ Date: 01/24/13</p>
 
       self._onResize( <span class="literal">true</span> );
 
-      self.$window.on(<span class="string">'resize'</span>, $.throttle(<span class="number">250</span>, $.proxy( self._onResize, self )));
+      self.$window.on(<span class="string">'resize'</span>, $.debounce(<span class="number">250</span>, $.proxy( self._onResize, self )));
       self.$window.on(<span class="string">'load'</span>, $.proxy( self._initStickyNav, self ));
     },
 

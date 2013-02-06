@@ -92,14 +92,6 @@ mixin filterSet( filterSet )
     else if filterSet.type == 'group'
       mixin filterGroup( filterSet )
 
-.hero
-  .hero-img-wrap
-    img(src="img/cyber-shot-hero.jpg", alt="")
-  .ghost-center-wrap.hero-text-wrap
-    .hero-text.ghost-center
-      hgroup.container
-        p.primary-tout-subtitle.l5 Cameras
-        h2.primary-tout-title Cyber-shot&reg;
 
 .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
   .tabs-container.container.m-full-bleed
@@ -115,16 +107,22 @@ mixin filterSet( filterSet )
                   .ghost-center.v-bottom
                     iconClass = 'fonticon-30-' + tab.icon
                     i(class=iconClass)
-                .l2.tab-label= tab.label
+                h3.l2.tab-label= tab.label
     nav.tab-nav-btns
       button.nav-paddle.tab-nav.tab-nav-prev
         i.icon-ui2-chevron-18-white-left
       button.nav-paddle.tab-nav.tab-nav-next
         i.icon-ui2-chevron-18-white-right
 
-.tab-content
+
+
+
+
+.tab-content.gallery-content
   if data.tabs[0]
     .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
+
+
       i = 0
       section.gallery.container.fade((id=data.featured.name + '-gallery', data-mode=data.featured.mode)
         .grid
@@ -142,6 +140,8 @@ mixin filterSet( filterSet )
 
         .grid.see-all
           a.btn.btn-wide(href="#")= data.featured.callout
+
+
 
       i = 0
       section.gallery.container.fade((id=data.featured2.name + '-gallery', data-mode=data.featured2.mode)
@@ -161,6 +161,16 @@ mixin filterSet( filterSet )
         .grid.see-all
           a.btn.btn-wide(href="#")= data.featured2.callout
 
+
+
+
+
+
+
+
+
+
+
   if data.tabs[1]
     .tab-pane.fade(data-tab=data.tabs[1].slug)
       section.gallery(id=data.productCards.name + '-gallery', data-mode=data.productCards.mode)
@@ -168,10 +178,12 @@ mixin filterSet( filterSet )
           .container.filter-display-bar.slide-toggle-parent
             if data.productCards.sortSet
               .grid.no-grid-at-767
+
+
                 .sort-options.pull-right
                   span.l3.filter-label Sort By:&nbsp;
                   .dropdown.dropdown-alt.ib
-                    button.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+                    button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
                       span.js-toggle-text= data.productCards.sortSet[0].label
                       i.fonticon-10-arrowheads-elevator
                     ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
@@ -182,14 +194,15 @@ mixin filterSet( filterSet )
                     each sort in data.productCards.sortSet
                       option(value=sort.name, data-reverse=sort.reverse)= sort.label
 
-                p.ib.product-count-wrap
-                  span.text-dark.product-count= data.productCards.total
+
+                p.p3.ib.product-count-wrap
+                  strong.text-dark.product-count= data.productCards.total
                   | &nbsp;Products
-                button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + data.productCards.name + '-filters')
+                button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + data.productCards.name + '-filters')
                   | Filter
                   i.fonticon-10-arrowhead-up.up.hide
                   i.fonticon-10-arrowhead-down.down
-                button.btn.btn-alt-special.btn-alt-plus.js-compare-toggle.iconTrigger-ui-plus-tiny(data-target="#compare-tool")
+                button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle.iconTrigger-ui-plus-tiny(data-target="#compare-tool")
                   | Compare
                   i.fonticon-10-sm-bold-plus
 
@@ -199,6 +212,8 @@ mixin filterSet( filterSet )
           .container.slide-arrow-over.fade
             .relative
               .slide-toggle-arrow
+
+
 
           .collapse.slide-toggle-target(id=data.productCards.name + '-filters')
             .filter-options.container
@@ -215,6 +230,8 @@ mixin filterSet( filterSet )
                     each filterSet in data.productCards.filterSet
                       if filterSet.filterGroup == 3
                         mixin filterSet( filterSet )
+
+
 
           .container.active-filters-wrap
             .grid.active-filters
@@ -234,7 +251,7 @@ mixin filterSet( filterSet )
         .comparables.hidden
           .compare-name= data.productCards.galleryName
           each detail in data.productCards.comparable
-            .l5.detail-label.detail(data-slug=detail.slug, data-label=detail.label)
+            .l3.detail-label.detail(data-slug=detail.slug, data-label=detail.label)
 
         if data.productCards.nextLink
           .navigation.invisible
@@ -301,7 +318,7 @@ mixin filterSet( filterSet )
 #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
   .modal-inner
     .modal-header.container(data-reset-label="Reset")
-      h3.pull-left#compare-tool-label Compare
+      h3.t3.pull-left#compare-tool-label Compare
       button.box-close(data-dismiss="modal", aria-hidden="true")
         i.fonticon-10-x-skinny
     .modal-body
@@ -309,6 +326,9 @@ mixin filterSet( filterSet )
         div
           i.swatch-lemon.mini-swatch
           span.p4!= '&nbsp;' + 'Highlights indicate highest performance features'
+    .takeover-sticky-header
+      .container
+        .grid.relative
+          h6.t6.sticky-nav-title
+          button.box-close(data-dismiss="modal", aria-hidden="true")
 
-
-div(style="padding-bottom:150px")

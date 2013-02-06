@@ -69,11 +69,31 @@ $fourColMax: px-em(979px);
   padding: 0 0 0 1em;
   list-style-type: square;
   color: $gray40;
+
+  li {
+    margin-bottom: 4px;
+  }
 }
 
 
+//  .d8888b.           888 888
+// d88P  Y88b          888 888
+// 888    888          888 888
+// 888         8888b.  888 888  .d88b.  888d888 888  888
+// 888  88888     "88b 888 888 d8P  Y8b 888P"   888  888
+// 888    888 .d888888 888 888 88888888 888     888  888
+// Y88b  d88P 888  888 888 888 Y8b.     888     Y88b 888
+//  "Y8888P88 "Y888888 888 888  "Y8888  888      "Y88888
+//                                                   888
+//                                              Y8b d88P
+//                                               "Y88P"
+
 // Gallery
 // -------------------------
+
+.gallery-content {
+  padding-bottom: 4.375em;
+}
 
 // Give multiple gallery sections a border top
 .gallery + .gallery > *:first-child {
@@ -456,7 +476,7 @@ $offsetFromMiddle: px-em(45px);
 .gallery-detailed {
 
   .gallery-item:after {
-    padding-top: 135.2112676056338%;
+    padding-top: 140%;
   }
 
   .product-img:after {
@@ -488,7 +508,7 @@ $offsetFromMiddle: px-em(45px);
     margin-top: 2.5em;
 
     &:after {
-      padding-top: 146%;
+      padding-top: 150%;
     }
   }
 
@@ -736,7 +756,7 @@ $offsetFromMiddle: px-em(45px);
   z-index: 1;
 
   .slide-toggle {
-    margin-left: 1.25em;
+    margin-left: 2.5em;
   }
 
   .btn-alt-plus {
@@ -752,7 +772,7 @@ $offsetFromMiddle: px-em(45px);
   }
 
   .btn + .btn {
-    margin-left: .3125em;
+    margin-left: .375em;
   }
 }
 
@@ -769,6 +789,7 @@ $offsetFromMiddle: px-em(45px);
 
 .sort-options .native-dropdown {
   display: none;
+  margin-bottom: 0;
 }
 
 // Filter labels ( active filters )
@@ -1095,8 +1116,25 @@ $offsetFromMiddle: px-em(45px);
 
 // Compare Tool
 // -------------------------
+
+.modal-subheader {
+  clear: both;
+
+  .takeover .modal-header & {
+    margin: 0;
+  }
+
+  .btn-reset {
+    float: right;
+  }
+
+  .sort-options {
+    float: left;
+  }
+}
+
 .compare-key {
-  margin-top: 1.125em;
+  // margin-top: 1.125em;
   margin-bottom: 1.125em;
 }
 
@@ -1105,9 +1143,33 @@ $offsetFromMiddle: px-em(45px);
 }
 
 .compare-items-wrap {
+  position: relative;
+  height: 100%; // Get parent's height
   overflow: visible !important; // override iscroll
 }
 
+.compare-nav {
+  position: absolute;
+  z-index: 15;
+  top: 330px;
+  width: 100%;
+
+  .nav-prev,
+  .nav-next {
+    position: absolute;
+    top: 0;
+  }
+
+  .nav-prev {
+    left: 60px;
+  }
+
+  .nav-next {
+    right: 60px;
+  }
+}
+
+// Compare Items
 .compare-item {
   position: relative;
   margin-left: .1875em;
@@ -1116,11 +1178,11 @@ $offsetFromMiddle: px-em(45px);
 
   .product-model {
     color: $gray40;
-    font-size: $font_11_16;
+    // font-size: $font_11_16;
   }
 
   .product-name {
-    font-size: $font_13_16;
+    // font-size: $font_13_16;
   }
 
   .compare-sticky-header .product-name-wrap {
@@ -1137,6 +1199,7 @@ $offsetFromMiddle: px-em(45px);
   }
 
   .detail {
+    color: $gray20;
     min-height: 2.5em;
     padding-right: 1.25em;
     padding-left: 1.25em;
@@ -1151,6 +1214,7 @@ $offsetFromMiddle: px-em(45px);
   }
 }
 
+// Labels
 .detail-labels-wrap {
   position: relative;
   z-index: 5;
@@ -1202,7 +1266,9 @@ $offsetFromMiddle: px-em(45px);
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
-  padding-top: 0.625em;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  margin-bottom: 0;
 
   // Simulate border top because the "border" is not 100% of the width,
   // therefore, we can't actually use the border property
@@ -1225,14 +1291,16 @@ $offsetFromMiddle: px-em(45px);
   background: $grayLightish;
 }
 
+
 // Sticky header
+// ---------------------
 .compare-sticky-header {
   position: absolute; // will be changed to fixed with js after the `left` is measured
   z-index: 10;
   top: 0;
   left: -9999px;
   // width: inherit; // position fixed not inheriting correct width?...
-  padding: 1em 0 0.5em;
+  padding: 1em 0 1.25em;
   background: $gray90;
   top: -6.25em;
   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
@@ -1271,31 +1339,40 @@ $offsetFromMiddle: px-em(45px);
   }
 
   .media .pull-left {
-    max-width: 33.3333%;
+    max-width: 90px;
+    margin-right: 4px;
+  }
+
+  .product-name {
+    color: $gray20;
+  }
+
+  .product-name,
+  .product-model {
+    margin-bottom: 0;
   }
 }
+
+.takeover-sticky-header {
+  position: absolute;
+  top: -6.25em;
+  background: $white;
+  @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
+
+  &.open {
+    left: 0;
+    top: 0;
+    @include transition-delay(0s);
+    @include transition-timing-function(ease-out);
+  }
+}
+
+
 
 .compare-item-remove {
   position: absolute;
   top: 0;
   right: 0;
-}
-
-.box-close {
-  position: absolute;
-  top: 1.25em;
-  right: 0;
-  @include size( px-em(40px), px-em(43px) );
-  padding: 0;
-  line-height: 1;
-  background: $gray40;
-  border: none;
-  text-align: center;
-  cursor: pointer;
-
-  i {
-    vertical-align: baseline;
-  }
 }
 
 .box-close-small {
@@ -1317,6 +1394,12 @@ $offsetFromMiddle: px-em(45px);
 }
 
 @media (max-width: $threeColMax) {
+
+  .compare-nav {
+    display: none;
+  }
+
+
   .compare-item .detail:before {
     content: attr(data-label);
     display: block;
