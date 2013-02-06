@@ -1141,6 +1141,29 @@
 
       },
 
+      disableShuffle: function(){
+        var self = this;
+
+        self.$shuffleContainers.each(function(){
+          var sffleInst = $(this).data('shuffle');
+
+          if(sffleInst !== undefined || sffleInst !== null){
+            sffleInst.disable();
+          }
+        });
+      },
+
+      enableShuffle: function(){
+        var self = this;
+
+        self.$shuffleContainers.each(function(){
+          var sffleInst = $(this).data('shuffle');
+          if(sffleInst !== undefined || sffleInst !== null){
+            sffleInst.enable();
+          }
+        });
+      },
+
       setupResizeListener: function(){
         var self = this,
             resizeTimer = null;
@@ -1352,22 +1375,12 @@ $(function(){
       $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
       $productPanels = $('.related-products[data-rp-panel-id]');
 
-
       console.log('Product panels »',$productPanels, $productPanels.length);
 
   //TODO: fpo only
   $('.related-products[data-rp-panel-id=2] .plate .product-img').css('backgroundColor' , '#913f99');
 
-
-  $productPanels.css('opacity' , 0);
-  $currentPanel.css('opacity' , 1);
-
-/*  //shut em all off
-  $productPanels.removeClass('panel-active')
-                .addClass('panel-inactive').css({'visibility' : 'hidden' });
-
-  //turn on current
-  $currentPanel.removeClass('panel-inactive').addClass('panel-active').css({'visibility' : 'visible' });*/
+  $productPanels.not($currentPanel).css('opacity' , 0);
 
   if($tabs.length > 0){
     var handleTabClick = function(e){
@@ -1396,13 +1409,15 @@ $(function(){
       $oldPanel.css(visibleObj(true, 1));
       $oldPanel.stop(true,true).animate({ opacity: 0 },{ duration: 500 , delay: 0 , complete: function(){
         $oldPanel.css(visibleObj(false, 0));
+        $oldPanel.data('relatedProducts').disableShuffle();
+        //console.log(' OLD PANEL RELATED PRODUCTS: ' , );
       }});
       
-
       $currentPanel.css(visibleObj(true, 1));
+      $currentPanel.data('relatedProducts').enableShuffle();
       $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500, complete: function(){}});
 
-
+      //css transitions - i gave it a shot
 /*    $productPanels.off();
 
       //de-activate previous panel
