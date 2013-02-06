@@ -53,7 +53,10 @@ mixin boxlayout(layout)
             +boxclass
               block
 
-section.primary-tout.container.full-bleed-no-max(class= data.mode)(class= data.theme)
+classes = data.mode
+if data.theme
+  classes = classes + " " + data.theme
+section.primary-tout.container.full-bleed-no-max(class= classes)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
   if data.mode == "homepage"
