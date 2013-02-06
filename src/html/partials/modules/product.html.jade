@@ -44,7 +44,7 @@ mixin specList( list, extraClasses )
 
 mixin colorSwatches( colors )
   classes = ['color-swatches', 'clearfix']
-  - if ( colors.length > 1 ) classes.push('invisible')
+  - if ( colors.length <= 1 ) classes.push('invisible')
   div(class=classes)
     each color in colors
       theClass = 'mini-swatch swatch-' + color.color + ' pull-left'
@@ -180,9 +180,10 @@ else if data.view == 'detailed'
 
       .product-content
         .product-name-wrap
-          .product-name.p2(itemprop="name")= data.name
-          .product-model.p5(itemprop="model")= data.model
-        .product-rating.p5(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+          .product-name.p2
+            strong(itemprop="name")= data.name
+          .product-model.l3(itemprop="model")= data.model
+        .product-rating.lt4(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
           meta(itemprop="ratingValue", content=data.rating.stars)
           i.icon-ui-star
           i.icon-ui-star
@@ -195,13 +196,14 @@ else if data.view == 'detailed'
 
         ul.product-meta
           each meta in data.meta
-            li.p3
+            li.p4
               |!{meta.value}&nbsp;
               span.prodcut-meta-name= meta.name
         .product-price
           span.price-prefix.p3 Starting at &nbsp;
-          span.price.l2(itemprop="price")= '$' + data.price + '&nbsp;'
-          span.msrp.p5 MSRP
+          span.price.p2
+            strong(itemprop="price")= '$' + data.price + '&nbsp;'
+          span.msrp.p3 MSRP
 
         .detail-group.hidden
           if data.details
@@ -213,17 +215,17 @@ else if data.view == 'detailed'
                   | !{detail.value.text}
                 else if detail.value.box
                   p.compare-box= detail.value.box
-                  p!= detail.value.lineOne
+                  p.p3!= detail.value.lineOne
                   if detail.value.lineTwo
-                    p!= detail.value.lineTwo
+                    p.p3!= detail.value.lineTwo
                   if detail.value.lineThree
-                    p!= detail.value.lineThree
+                    p.p3!= detail.value.lineThree
                 else if detail.value.lineOne
-                  p!= detail.value.lineOne
+                  p.p3!= detail.value.lineOne
                   if detail.value.lineTwo
-                    p!= detail.value.lineTwo
+                    p.p3!= detail.value.lineTwo
                   if detail.value.lineThree
-                    p!= detail.value.lineThree
+                    p.p3!= detail.value.lineThree
                 else if detail.value[0].description
                   ul.media-list
                     each value in detail.value
