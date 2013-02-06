@@ -1382,6 +1382,8 @@ $(function(){
 
   $productPanels.not($currentPanel).css('opacity' , 0);
 
+  $tabs.eq(0).addClass('active');
+
   if($tabs.length > 0){
     var handleTabClick = function(e){
       var $tab = $(this),
