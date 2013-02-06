@@ -1,7 +1,7 @@
 // ------------ Related Products Module ------------
 // Module: Related Products
-// Version: 1.0 why isnt thsi running
-// Modified: 2012-1-29 by Tyler Madison, Glen Cheney
+// Version: 1.0
+// Modified: 2013-2-04 by Tyler Madison, Glen Cheney
 // Dependencies: jQuery 1.7+, Modernizr
 // -------------------------------------------------------------------------
 ;(function($, Modernizr, window, undefined) {
@@ -11,7 +11,6 @@
     if(!$.rpModules) {
         $.rpModules = {};
     }
-
 
     var console = window.console;
 
@@ -106,18 +105,22 @@
       self.previousId            = -1;
       self.currentId             = 0;
       self.slidePosition         = 0;
-      self.animationSpeed        = 400; //ms
+      self.animationSpeed        = 1000; //ms
       self.slides                = [];
       self.slideCount            = 0;
       self.isFreeDrag            = false; //MODE: TODO
       self.currentContainerWidth = 0;
-
+      //self.tabs                  = self.$el.prev().find('.rp-tabs').eq(0).find('.rp-tab'); //sniff up and search for closest tabs
+      self.currentTab            = -1;
       self.newSlideId            = 0;
       self.sPosition             = 0;
       self.scrollerModule        = null;
       self.shuffle               = null; //start with null value, gets checked in checkforBreakpoints method
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
+
+      
+      //console.log('CLoseset container » ', self.$el.closest('.container'));
       
 
       console.log('Variation on this module »' , self.variation );
@@ -221,7 +224,7 @@
           gutter = 0;
         }
 
-        console.log('Shuffling Gutters returning  »',gutter);
+       // console.log('Shuffling Gutters returning  »',gutter);
 
         return gutter;
       };
@@ -241,7 +244,7 @@
             column = containerWidth;
           }
 
-          console.log('Shuffling Columns returning  TM »',column);
+          //console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -264,8 +267,9 @@
         if(self.navigationControl.toLowerCase() === 'bullets' && self.$slides.length > 1){
           self.createNavigation();
           self.setupPaddles();
+          self.setupTabs();
           
-          //init dragging , slideshow: TODO 
+          //init dragging , slideshow: TODO:
           //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
         }
 
@@ -275,7 +279,7 @@
       },
 
       tapOrClick: function(){
-        var self= this;
+        var self = this;
         return self.hasTouch ? 'touchend' : 'click';
       },
 
@@ -310,7 +314,7 @@
 
       setupPaddles: function(){
         var self   = this,
-        itemHTML   = '<div class="paddle"></div>',
+        itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',//<div><i class=fonticon-sdflsdf></i></div>
         $container = self.$el.closest('.container');
         
         self.paddlesEnabled = true;
@@ -322,9 +326,9 @@
         out = $(out);
 
         //TODO: add paddles
-        //$container.append(out);
+        self.$el.append(out);
 
-        self.$paddles     = $container.find('.paddle');
+        self.$paddles     = self.$el.find('.paddle');
         self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
         self.$rightPaddle = self.$paddles.eq(1).addClass('right');
 
@@ -922,13 +926,13 @@
             console.log('snap to next slide');
             if(self.currentId >= self.$slides.length){
               self.currentId = self.$slides.length - 1;
-            } 
+            }
           }else{
             self.currentId --;
             console.log('snap to previous slide');
            if(self.currentId < 0){
             self.currentId = 0;
-           }         
+           }
           }
           self.moveTo();
         }else{
@@ -938,7 +942,7 @@
         }
 
         console.log('drag relase - ' , -self.currentId * self.currentContainerWidth , ' || ' , self.currRenderPosition);
-      },  
+      },
 
       dragMove: function(e , isThumbs){
         var self = this,
@@ -1039,7 +1043,7 @@
         });
 
         animObj[ (self.vendorPrefix + self.TD) ] = self.animationSpeed * 0.25 + 'ms';
-        animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeInOutSine;
+        animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack;
         animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
 
         self.$container.css( animObj );
@@ -1068,7 +1072,7 @@
 
           //css3 transition
           animObj[ (self.vendorPrefix + self.TD) ]  = self.animationSpeed + 'ms';
-          animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeInOutSine;
+          animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack;
       
           self.$container.css( animObj );
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
@@ -1173,7 +1177,8 @@
     $.rpCSS3Easing = {
         //add additional ease types here
         easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)'
+        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+        easeOutBack: 'cubic-bezier(0.055, 0.990, 0.150, 1.195)'
     };
 
     //Usage: var tallest = $('div').maxHeight(); // Returns the height of the tallest div.
@@ -1188,7 +1193,7 @@
     $.rpProto = RelatedProducts.prototype;
 
     //plugin definition
-    $.fn.relatedProducts = function(options) {      
+    $.fn.relatedProducts = function(options) {
       var args = arguments;
       return this.each(function(){
         var self = $(this);
@@ -1206,11 +1211,11 @@
     };
 
     //defaults for the related products
-    $.fn.relatedProducts.defaults = { 
-      throttleTime: 15,
+    $.fn.relatedProducts.defaults = {
+      throttleTime: 50,
       autoScaleContainer: true,
       minSlideOffset: 10,
-      navigationControl: 'bullets'  
+      navigationControl: 'bullets'
     };
 
     $(function(){
@@ -1308,8 +1313,41 @@
  })(jQuery, Modernizr, window,undefined);
 //all done
 
+;(function(window, Modernizr , jQuery , document){
+  'use strict';
+  
+})(window, Modernizr , jQuery , document);
 
+$(function(){
+  /*
+    figure out tabbed stuff here and let that
+    module instantiate the related products that its bound to
+  */
 
+  var $tabs = $('.rp-tabs').find('.rp-tab'),
+      currentPanelId = 1,
+      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+
+  //TODO: fpo only
+  $('.related-products[data-rp-panel-id=2] .plate .product-img').css('backgroundColor' , '#913f99');
+
+  $currentPanel.css('visibility' , 'visible');
+
+  if($tabs.length > 0){
+    var handleTabClick = function(e){
+      var $tab = $(this);
+      e.preventDefault();
+      $tabs.removeClass('active');
+      $tab.addClass('active');
+      currentPanelId = $tab.data('rpPanelId');
+      $currentPanel.css('visibility' , 'hidden');
+      $currentPanel = $('.related-products[data-rp-panel-id='+ currentPanelId +']');
+      $currentPanel.css('visibility' , 'visible');
+      console.log('Currently Selected Tab:' , $tab.data('rpPanelId'));
+    };
+    $tabs.on('click' , handleTabClick);
+  }
+});
 
 
 

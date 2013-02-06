@@ -109,14 +109,11 @@ if data.view == "basic"
 
       else if data.layout == 'plate'
         .product-img(class=data.backgroundColorClass)
-          - style = data.style ? data.style : 'tl'
-          - classes = ['promo-content']
-          - classes.push( style )
-          div(class=classes)
-            .text-promo-title(class='t4')
-              strong= data.title
-              span!= data.emphasis
-              i.icon-ui2-chevron-16-black-right
+          div(class='promo-content')
+            .text-promo-title
+              h4.t4(class='title')= data.title
+              h5.t4(class='emphasis')= data.emphasis
+                i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
                 span.number.l2= data.count.number

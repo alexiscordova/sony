@@ -8,15 +8,22 @@
       .css(<span class="string">'height'</span>, <span class="string">''</span>)
       .each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            height;
+
+        <span class="keyword">if</span> ( options.useOuterWidth ) {
+          height = $<span class="keyword">this</span>.outerHeight( options.margin );
+
+        } <span class="keyword">else</span> {
 </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Here we're using <code>.css()</code> instead of <code>height()</code> or <code>outerHeight()</code>
-because Chrome is 100x slower calculating those values</p>             </td>             <td class="code">               <div class="highlight"><pre>            height = parseFloat( $<span class="keyword">this</span>.css(<span class="string">'height'</span>) );
+Chrome used to be 100x slower calculating these values</p>             </td>             <td class="code">               <div class="highlight"><pre>          height = parseFloat( $<span class="keyword">this</span>.css(<span class="string">'height'</span>) );
 
-        <span class="keyword">if</span> ( options.padding ) {
-          height += parseFloat( $<span class="keyword">this</span>.css(<span class="string">'paddingTop'</span>) ) + parseFloat( $<span class="keyword">this</span>.css(<span class="string">'paddingBottom'</span>) );
-        }
+          <span class="keyword">if</span> ( options.padding ) {
+            height += parseFloat( $<span class="keyword">this</span>.css(<span class="string">'paddingTop'</span>) ) + parseFloat( $<span class="keyword">this</span>.css(<span class="string">'paddingBottom'</span>) );
+          }
 
-        <span class="keyword">if</span> ( options.margin ) {
-          height += parseFloat( $<span class="keyword">this</span>.css(<span class="string">'marginTop'</span>) ) + parseFloat( $<span class="keyword">this</span>.css(<span class="string">'marginBottom'</span>) );
+          <span class="keyword">if</span> ( options.margin ) {
+            height += parseFloat( $<span class="keyword">this</span>.css(<span class="string">'marginTop'</span>) ) + parseFloat( $<span class="keyword">this</span>.css(<span class="string">'marginBottom'</span>) );
+          }
         }
 
         <span class="keyword">if</span> ( height &gt; tallest ) {
@@ -27,6 +34,7 @@ because Chrome is 100x slower calculating those values</p>             </td>    
   };
 
   $.fn.evenHeights.options = {
+    useOuterWidth: <span class="literal">true</span>,
     padding: <span class="literal">true</span>,
     margin: <span class="literal">false</span>
   };

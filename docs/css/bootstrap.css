@@ -2460,7 +2460,8 @@ h2, h3, h4 {
 }
 
 /* line 101, ../../src/css/scss/_base/_type.scss */
-.l1, .l2, .l3, .l4, .l1-light, .l2-light, .l3-light, .l4-light {
+.l1, .l2, .l3, .label,
+.badge, .l4, .l1-light, .l2-light, .l3-light, .l4-light {
   text-rendering: optimizeLegibility;
   text-transform: uppercase;
   color: #2f353d;
@@ -2481,25 +2482,30 @@ h2, h3, h4 {
 }
 
 /* line 112, ../../src/css/scss/_base/_type.scss */
-.l2, .l3, .l4 {
+.l2, .l3, .label,
+.badge, .l4 {
   font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
 }
 /* line 243, ../../src/css/scss/_base/_mixins.scss */
-.l2 em, .l3 em, .l4 em {
+.l2 em, .l3 em, .label em,
+.badge em, .l4 em {
   font-family: "SST W01 Medium Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
 }
 /* line 244, ../../src/css/scss/_base/_mixins.scss */
-.l2 strong, .l3 strong, .l4 strong {
+.l2 strong, .l3 strong, .label strong,
+.badge strong, .l4 strong {
   font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
 }
 /* line 245, ../../src/css/scss/_base/_mixins.scss */
-.l2 em strong, .l2 strong em, .l3 em strong, .l3 strong em, .l4 em strong, .l4 strong em {
+.l2 em strong, .l2 strong em, .l3 em strong, .label em strong,
+.badge em strong, .l3 strong em, .label strong em,
+.badge strong em, .l4 em strong, .l4 strong em {
   font-family: "SST W01 Bold Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
@@ -2537,7 +2543,8 @@ h2, h3, h4 {
 }
 
 /* line 124, ../../src/css/scss/_base/_type.scss */
-.l2, .l3, .l4, .l2-light, .l3-light, .l4-light {
+.l2, .l3, .label,
+.badge, .l4, .l2-light, .l3-light, .l4-light {
   letter-spacing: 0.01em;
   margin-bottom: 8px;
 }
@@ -2555,7 +2562,8 @@ h2, h3, h4 {
 }
 
 /* line 134, ../../src/css/scss/_base/_type.scss */
-.l3, .l3-light {
+.l3, .label,
+.badge, .l3-light {
   font-size: 0.6875em;
   line-height: 1.63636;
 }
@@ -7655,7 +7663,8 @@ button.close {
   padding: 3px 0 0 0;
 }
 /* line 163, ../../src/css/scss/_components/_navmenu.scss */
-.navmenu-w-search .navmenu-search-popular-searches p.l3 {
+.navmenu-w-search .navmenu-search-popular-searches p.l3, .navmenu-w-search .navmenu-search-popular-searches p.label,
+.navmenu-w-search .navmenu-search-popular-searches p.badge {
   font-size: 0.6875em;
   margin-bottom: 4px;
   margin-left: 30px;
@@ -8229,7 +8238,8 @@ form.footer-store-locator-form i {
 /* line 60, ../../src/css/scss/_components/_pagination.scss */
 .nav-paddle {
   border: none;
-  background: #d2d2db;
+  background-color: #d2d2db;
+  background-color: rgba(33, 37, 48, 0.4);
   border-radius: .1875em;
   width: 2.125em;
   height: 3.25em;
@@ -8237,14 +8247,88 @@ form.footer-store-locator-form i {
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 }
-/* line 70, ../../src/css/scss/_components/_pagination.scss */
+/* line 71, ../../src/css/scss/_components/_pagination.scss */
 .nav-paddle:hover, .nav-paddle:focus {
-  background: #f25529;
+  background-color: #2f353d;
+  background-color: rgba(33, 37, 48, 0.8);
   outline: none;
+  cursor: pointer;
 }
-/* line 75, ../../src/css/scss/_components/_pagination.scss */
+/* line 78, ../../src/css/scss/_components/_pagination.scss */
 .nav-paddle i {
   vertical-align: middle;
+}
+
+/*
+      ____  ___    ____  ____  __    ______   _   _____ _    __
+     / __ \/   |  / __ \/ __ \/ /   / ____/  / | / /   | |  / /
+    / /_/ / /| | / / / / / / / /   / __/    /  |/ / /| | | / / 
+   / ____/ ___ |/ /_/ / /_/ / /___/ /___   / /|  / ___ | |/ /  
+  /_/   /_/  |_/_____/_____/_____/_____/  /_/ |_/_/  |_|___/   
+                                                                */
+/* line 93, ../../src/css/scss/_components/_pagination.scss */
+.rp-nav .paddle {
+  width: 50px;
+  height: 86px;
+  display: block;
+  color: white;
+  background: #212530;
+  border-radius: 2px;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  margin: -100px 0;
+  cursor: pointer;
+  font-size: 1.4em;
+  -webkit-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+}
+/* line 109, ../../src/css/scss/_components/_pagination.scss */
+.rp-nav .paddle:hover {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+/* line 113, ../../src/css/scss/_components/_pagination.scss */
+.rp-nav .paddle i {
+  width: 15px;
+  height: 15px;
+  margin-top: 33px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 61.1875em) {
+  /* line 113, ../../src/css/scss/_components/_pagination.scss */
+  .rp-nav .paddle i {
+    margin-top: 28px;
+  }
+}
+/* line 124, ../../src/css/scss/_components/_pagination.scss */
+.rp-nav .paddle.left {
+  left: 10px;
+  right: auto;
+}
+/* line 129, ../../src/css/scss/_components/_pagination.scss */
+.rp-nav .paddle.right {
+  left: auto;
+  right: 10px;
+}
+@media (min-width: 30.0625em) and (max-width: 61.1875em) {
+  /* line 93, ../../src/css/scss/_components/_pagination.scss */
+  .rp-nav .paddle {
+    margin: -100px 0;
+    width: 40px;
+    height: 70px;
+    font-size: 1.0em;
+  }
+}
+@media (max-width: 30em) {
+  /* line 93, ../../src/css/scss/_components/_pagination.scss */
+  .rp-nav .paddle {
+    display: none;
+  }
 }
 
 /* line 6, ../../src/css/scss/_components/_pager.scss */
@@ -8489,28 +8573,33 @@ body.modal-open {
   top: 0;
 }
 /* line 152, ../../src/css/scss/_components/_modals.scss */
+.takeover .modal-inner {
+  overflow: visible;
+}
+/* line 156, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header {
   position: relative;
   padding: 4.375em 0 1.875em;
   border: none;
 }
-/* line 157, ../../src/css/scss/_components/_modals.scss */
+/* line 161, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header .box-close {
   top: 1.25em;
 }
-/* line 161, ../../src/css/scss/_components/_modals.scss */
+/* line 165, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header h3 {
-  margin-top: -4px;
+  margin-top: -8px;
 }
-/* line 167, ../../src/css/scss/_components/_modals.scss */
-.takeover .modal-header > *:not(#compare-tool-label) {
+/* line 172, ../../src/css/scss/_components/_modals.scss */
+.takeover .modal-header > button,
+.takeover .modal-header > .sort-options {
   margin: 0 0 0 8px;
 }
-/* line 171, ../../src/css/scss/_components/_modals.scss */
+/* line 176, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-body {
   overflow-y: visible;
   max-height: none;
-  padding: 1.25em 0 0;
+  padding: 1.125em 0 0;
   background: #f3f4f6;
   -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.12), inset 0 0 1px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.12), inset 0 0 1px rgba(0, 0, 0, 0.2);
@@ -8793,22 +8882,19 @@ body.modal-open {
 /* line 8, ../../src/css/scss/_base/_labels-badges.scss */
 .label,
 .badge {
-  font-size: 0.6875em;
-  font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  line-height: 14px;
   color: white;
   vertical-align: baseline;
   white-space: nowrap;
   background-color: #f25529;
+  margin: 0;
 }
 
-/* line 20, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 21, ../../src/css/scss/_base/_labels-badges.scss */
 .label {
-  padding: 5px 12px;
+  padding: 4px 8px;
 }
 
-/* line 24, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 25, ../../src/css/scss/_base/_labels-badges.scss */
 .badge {
   padding: 1px 9px 2px;
   -webkit-border-radius: 9px;
@@ -8816,89 +8902,89 @@ body.modal-open {
   border-radius: 9px;
 }
 
-/* line 32, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 33, ../../src/css/scss/_base/_labels-badges.scss */
 a.label:hover, a.badge:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
 
-/* line 42, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 43, ../../src/css/scss/_base/_labels-badges.scss */
 .label-important, .badge-important {
   background-color: #b94a48;
 }
 
-/* line 43, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 44, ../../src/css/scss/_base/_labels-badges.scss */
 .label-important[href], .badge-important[href] {
   background-color: #953b39;
 }
 
-/* line 45, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 46, ../../src/css/scss/_base/_labels-badges.scss */
 .label-warning, .badge-warning {
   background-color: #ed4e23;
 }
 
-/* line 46, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 47, ../../src/css/scss/_base/_labels-badges.scss */
 .label-warning[href], .badge-warning[href] {
   background-color: #cc3911;
 }
 
-/* line 48, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 49, ../../src/css/scss/_base/_labels-badges.scss */
 .label-success, .badge-success {
   background-color: #22c083;
 }
 
-/* line 49, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 50, ../../src/css/scss/_base/_labels-badges.scss */
 .label-success[href], .badge-success[href] {
   background-color: #1a9565;
 }
 
-/* line 51, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 52, ../../src/css/scss/_base/_labels-badges.scss */
 .label-info, .badge-info {
   background-color: #22c083;
 }
 
-/* line 52, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 53, ../../src/css/scss/_base/_labels-badges.scss */
 .label-info[href], .badge-info[href] {
   background-color: #1a9565;
 }
 
-/* line 54, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 55, ../../src/css/scss/_base/_labels-badges.scss */
 .label-inverse, .badge-inverse {
   background-color: #2f353d;
 }
 
-/* line 55, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 56, ../../src/css/scss/_base/_labels-badges.scss */
 .label-inverse[href], .badge-inverse[href] {
   background-color: #191c20;
 }
 
-/* line 57, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 58, ../../src/css/scss/_base/_labels-badges.scss */
 .label-subtle, .badge-subtle {
   background-color: #f3f4f6;
   color: #2f353d;
 }
 
-/* line 58, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 59, ../../src/css/scss/_base/_labels-badges.scss */
 .label-subtle[href], .badge-subtle[href] {
   background-color: #d6d9e0;
   color: #2f353d;
 }
 
-/* line 63, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 64, ../../src/css/scss/_base/_labels-badges.scss */
 .btn .label,
 .btn .badge {
   position: relative;
   top: -1px;
 }
 
-/* line 70, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 71, ../../src/css/scss/_base/_labels-badges.scss */
 .btn-mini .label,
 .btn-mini .badge {
   top: 0;
 }
 
-/* line 75, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 76, ../../src/css/scss/_base/_labels-badges.scss */
 .label-close {
   cursor: pointer;
   color: #2f353d;
@@ -8906,7 +8992,7 @@ a.label:hover, a.badge:hover {
   padding: 0;
   margin-right: 1.25em;
 }
-/* line 86, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 87, ../../src/css/scss/_base/_labels-badges.scss */
 .label-close:after {
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
@@ -8914,7 +9000,7 @@ a.label:hover, a.badge:hover {
   font-size: 16px;
   color: #bcbccc;
 }
-/* line 94, ../../src/css/scss/_base/_labels-badges.scss */
+/* line 95, ../../src/css/scss/_base/_labels-badges.scss */
 .label-close:hover:after {
   color: #2f353d;
 }
