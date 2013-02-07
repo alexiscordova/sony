@@ -57,6 +57,7 @@
       self.tabletBreakpointMax     = 768;
 
       self.marginPercent          = Number('.0334'); // 22/650 (at 2-up)
+      self.paddingPerContent      = 20;
 
       // define resize listener, debounced
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle));     
@@ -165,20 +166,28 @@
         containerSize = Math.round(self.$el.outerWidth()), // no margins 
         eachContentWidth = containerSize;  // default to 1 up, 100%
 
-        // tablet is 2-up not 1-up, so split evenly
-        if(self.mode === 'tablet'){
-          var marginPerContent =  self.getContentModuleMargin(containerSize);
+        if((self.mode === 'tablet') || (self.mode === 'phone')){
+        
+          // set padding to get full bleed effect on pagination
+          self.setContentModulePadding(self.paddingPerContent);
+          
+          // tablet is 2-up not 1-up, so split evenly
+          if(self.mode === 'tablet'){
+            var marginPerContent =  self.getContentModuleMargin(containerSize);
 
-          // set margins of content modules
-          self.setContentMouduleMargin(marginPerContent);
+            // set margins of content modules
+            self.setContentModuleMargins(marginPerContent);
 
-          // calculate each content module width without margin so it fits
-          eachContentWidth = Math.round((containerSize / 2) - marginPerContent);
+            // calculate each content module width without margin so it fits
+            eachContentWidth = Math.round((containerSize / 2) - marginPerContent);
+          }
+          
         }
 
         self.$contentModules.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
+
       },
 
       // Determines margin needed per content module 
@@ -202,13 +211,33 @@
       },
 
       // Assumes there are exactly three content modules (2 pages) in 2-up formation
-      setContentMouduleMargin : function( marginForEach ){     
+      setContentModuleMargins : function( marginForEach ){     
         var self = this;
         
-        // set first and second content module's margins correctly
-        $(self.$contentModules[0]).css( "marginRight", marginForEach );
-        $(self.$contentModules[1]).css( "marginLeft", marginForEach );
+        // set content module's margins correctly
+        //$(self.$contentModules[0]).css( "marginRight", marginForEach );
+        $(self.$contentModules[0]).css( "marginLeft", marginForEach );
+        //$(self.$contentModules[1]).css( "marginLeft", marginForEach );
+        $(self.$contentModules[1]).css( "marginRight", marginForEach );
+        $(self.$contentModules[2]).css( "marginRight", marginForEach );
+        $(self.$contentModules[2]).css( "marginLeft", marginForEach );
 
+      },
+
+      setContentModulePadding : function( paddingValue ){
+        console.group( '««« setContentMoudlePadding »»»' );
+        var self = this;
+
+        // set content module's padding correctly
+        $(self.$contentModules[0]).css( "paddingRight", paddingValue );
+        $(self.$contentModules[0]).css( "paddingLeft", paddingValue );
+        $(self.$contentModules[1]).css( "paddingLeft", paddingValue );
+        $(self.$contentModules[1]).css( "paddingRight", paddingValue );
+        $(self.$contentModules[2]).css( "paddingRight", paddingValue );
+        $(self.$contentModules[2]).css( "paddingLeft", paddingValue );
+        
+        console.log( '« end »');
+        console.groupEnd();
       },
 
       // on resize event (debounced) determine what to do
@@ -295,6 +324,7 @@
         generatePagination: true,
         appendBulletsTo:".tcc-wrapper",
         centerItems: true,
+        // extraSpacing:24,
 
         iscrollProps: {
           snap: true,

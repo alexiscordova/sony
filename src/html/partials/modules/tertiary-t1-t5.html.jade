@@ -13,7 +13,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
         p.tcc-header-link.lt3
           a(href="#{header.link}") #{header.linkText}
   
-  section.tcc-scroller.tcc-body-wrapper.container
+  section.tcc-scroller.tcc-body-wrapper.container.full-bleed-at-767
     .tcc-body.grid.no-grid-at-767
     
       for module in data.contentModules
@@ -212,6 +212,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
             when "flickr"
               if (contentMode == "default")
-                p default
+                .fonticon-flickr
+                  img(src="img/tertiary-t1-t5/icon-flickr.png")
               
 //- END Tertiary Content Container
