@@ -1,3 +1,7 @@
+.container(class='grid')
+	h2.l1= 'The Latest'
+
+
 .sony-one-carousel(data-mode = data.config.mode, data-module-name != data.config.module_name, data-module-id = data.config.module_id)
 	.soc-container
 		.soc-container-inner
@@ -95,34 +99,3 @@
 												- counterText = item.counter.total + ' ' + item.counter.text
 												h3.l2= counterText
 
-
-
-
-
-								//- if item.hasFooter
-								//- 	footer(class='footer')
-								//- 		if item.eyebrow
-								//- 			a(class='eyebrow l3', href=item.eyebrow.link)
-								//- 				| !{item.eyebrow.title}
-								//- 		if item.headline 
-								//- 			h3
-								//- 				| !{item.headline.title}
-								//- 				a(href=item.headline.link)
-								//- 					| !{item.headline.emphasis}
-								//- else
-								//- 	if item.eyebrow
-								//- 		a(class='eyebrow l3', href=item.eyebrow.link)
-								//- 			| !{item.eyebrow.title}
-								//- 	if item.headline 
-								//- 		h3
-								//- 			| !{item.headline.title}
-								//- 			a(href=item.headline.link)
-								//- 				| !{item.headline.emphasis}
-								//- 	if item.promo
-								//- 		- clss = 'soc-button ' + item.promo.variation
-								//- 		a(class=clss, href=item.promo.link)
-								//- 			if item.promo.imgSrc
-								//- 				img(class='iq-img', alt=item.promo.imgAlt, data-src=item.promo.imgSrc)
-								//- 				noscript
-								//- 					img(alt=item.promo.imgAlt, src=item.promo.imgSrc)
-								//- 			| !{item.promo.title}            
