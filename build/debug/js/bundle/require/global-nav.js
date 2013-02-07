@@ -65,7 +65,18 @@
       self.isInitialized = true;
       
       // Setting up enquire listeners.
-      // These fire the first time they're hit (page-load)
+      // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
+
+      // this should be moved to somewhere global.
+      // var bpLtValues = "bp-lt-1400 bp-lt-1200 bp-lt-1024 bp-lt-980 bp-lt-768 bp-lt-568 bp-lt-480",
+      //   bpGteValues = "bp-gte-1400 bp-gte-1200 bp-gte-1024 bp-gte-980 bp-gte-768 bp-gte-568 bp-gte-480",
+      //   bpLtValues = bpValues + " " + bpGteValues;
+      // // 
+      // window.enquire.register("(min-width: 48em)", { // 768
+      //   match : function() {
+      //     $('html').removeClass(bpLtValues).addClass(bpGteValues.split(" bp-gte-568")[0] + bpGteValues.split(" bp-lt-568")[0]);
+      //   }
+      // });
 
       // switch to desktop nav
       window.enquire.register("(min-width: " + (self.mobileNavThreshold+1) + "px)", {
@@ -73,6 +84,7 @@
           // console.log("initDesktopNav");
           self.initDesktopNav();
           self.resetMobileNav();
+          $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
         }
       });
       // switch to desktop footer
@@ -89,6 +101,7 @@
           // console.log("initMobileNav");
           self.initMobileNav();
           self.resetDesktopNav();
+          $('html').removeClass('bp-nav-desktop').addClass('bp-nav-mobile');
         }
       });
       // switch to mobile footer
@@ -489,10 +502,34 @@
           self.hideMobileNav();
         }
       });
+      var $thInput = $('#nav-search-input');
+      $thInput.on('focus', function(){
+        if ($('html').hasClass('bp-nav-mobile')){
+          self.initMobileNavIScroll();
+        }
+        $('.page-wrap-inner').addClass("show-mobile-search-results");
+      }).on('blur',function(){
+
+        // disable blur on mobile search input
+        if (!$('html').hasClass('bp-nav-mobile')){
+          $('.page-wrap-inner').removeClass("show-mobile-search-results");   
+        }
+      }).closest('.input-group').find('.input-clear-btn').on(self.tapOrClick,function(){
+        if ($('html').hasClass('bp-nav-mobile')){
+          self.initMobileNavIScroll();
+          $('.page-wrap-inner').removeClass("show-mobile-search-results");
+          setTimeout(function(){
+            $thInput.trigger('blur');
+          },2);
+        }
+      });
+
     }, // end initMobileNav
     resetMobileNav : function(){
       var self = this;
+      self.hideMobileNav();
       $('#btn-mobile-nav').off(self.tapOrClick);
+      $('.mobile-screen-overlay').remove();
     },
 
     showMobileNav : function(){
@@ -515,19 +552,7 @@
         $inner.height($inner.height());
 
         setTimeout(function(){ // make sure heights are already set before initializing iScroll.
-          self.mobileNavIScroll = new window.IScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
-          self.mobileNavIScroll.options.onBeforeScrollStart = function(e) {                
-            var target = e.target;
-
-            while (target.nodeType != 1) {
-              target = target.parentNode;
-            }
-
-            if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA'){
-              e.preventDefault();
-            }
-          };
-
+          self.initMobileNavIScroll();
         },1);
       }
 
@@ -540,12 +565,40 @@
 
       $('#page-wrap-inner').one(self.transitionEnd, function(){
         // wait until the $('#page-wrap-inner') is done animating closed before destroying the iScroll.
-        self.mobileNavIScroll.destroy();
-        self.mobileNavIScroll = false;
-        self.$pageWrapOuter.css('height','');
+        self.destroyMobileNavIScroll();
       });
       $('#page-wrap-inner').removeClass('show-mobile-menu');
       self.mobileNavVisible = false;
+    },
+    initMobileNavIScroll:  function() {
+      console.log("initMobileNavIScroll");
+      var self = this;
+      // if there's alreaddy a mobileNavIScroll, refresh it.
+      if (!!self.mobileNavIScroll){
+        $('.nav-mobile-scroller').css('height','100%');
+        // self.mobileNavIScroll.refresh();
+      // if not, init it.
+      } else {
+        self.mobileNavIScroll = new window.IScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
+        self.mobileNavIScroll.options.onBeforeScrollStart = function(e) {                
+          var target = e.target;
+
+          while (target.nodeType != 1) {
+            target = target.parentNode;
+          }
+
+          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA'){
+            e.preventDefault();
+          }
+        };
+      }
+    },
+    destroyMobileNavIScroll : function() {
+      console.log("destroyMobileNavIScroll");
+      var self = this;
+      !!self.mobileNavIScroll && self.mobileNavIScroll.destroy();
+      self.mobileNavIScroll = false;
+      self.$pageWrapOuter.css('height','');
     },
 
     showMobileBackdrop : function(){
@@ -561,11 +614,11 @@
     hideMobileBackdrop : function(){
       var self = this;
 
-      self.$mobileScreenOverlay.one(self.transitionEnd, function(){
+      !!self.$mobileScreenOverlay && self.$mobileScreenOverlay.one(self.transitionEnd, function(){
         self.$mobileScreenOverlay.remove();
       });
 
-      self.$mobileScreenOverlay.removeClass('opacity1').addClass('opacity0');
+      !!self.$mobileScreenOverlay && self.$mobileScreenOverlay.removeClass('opacity1').addClass('opacity0');
     },
 
     // MOBILE FOOTER

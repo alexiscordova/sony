@@ -1,8 +1,7 @@
 @import "../_base/variables";
 @import "../_base/mixins";
 
-[data-target="tvs-fake"],
-[data-target="accessories-fake"] {
+[data-target$="-fake"] {
   pointer-events: none;
 }
 
@@ -29,10 +28,6 @@ $fourColMax: px-em(979px);
 
   .product-name {
     color: $gray20;
-  }
-
-  .detailed & .product-name {
-    // font-size: $font_15_16;
   }
 
   .product-model {
@@ -1411,7 +1406,8 @@ $offsetFromMiddle: px-em(45px);
   }
 
   .box-close {
-    display: none;
+    top: 15px;
+    // display: none;
   }
 }
 

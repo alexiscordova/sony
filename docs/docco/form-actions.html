@@ -38,11 +38,12 @@ Dependencies: jQuery 1.7+, Modernizr</p>
 console.log("input: focus");</p>             </td>             <td class="code">               <div class="highlight"><pre>
         <span class="keyword">if</span> ($input.val() === inputObj.watermarkText){
           $input.val(<span class="string">''</span>);
-          inputObj.$inputIcon.hide();
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>don't hide search icon on mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> (!$(<span class="string">'html'</span>).hasClass(<span class="string">'bp-nav-mobile'</span>)){
+            inputObj.$inputIcon.hide();
+          }
         }
       }).on(<span class="string">'blur'</span>, <span class="keyword">function</span>(){
-        
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>console.log("input: blur");</p>             </td>             <td class="code">               <div class="highlight"><pre>
         <span class="keyword">if</span> ($input.val() === <span class="string">''</span>){
           $input.val(inputObj.watermarkText);
           inputObj.$inputIcon.show();
@@ -69,13 +70,17 @@ console.log("input: focus");</p>             </td>             <td class="code">
       inputObj.$inputClearBtn.on(<span class="string">'click'</span>,<span class="keyword">function</span>(){
         inputObj.clearBtnClicked = <span class="literal">true</span>;
         self.clearSearchResults( inputObj );
-        inputObj.$input.focus();
+
+        <span class="keyword">if</span> (!$(<span class="string">'html'</span>).hasClass(<span class="string">'bp-nav-mobile'</span>)){
+          inputObj.$input.focus();
+        }
       }).on(<span class="string">'mouseleave'</span>,<span class="keyword">function</span>(){
         inputObj.clearBtnClicked = <span class="literal">false</span>; <span class="comment">// just make sure it's cleared</span>
       });
     },
 
     doSearch: <span class="keyword">function</span>( inputObj ){
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
       <span class="keyword">var</span> queryStr = inputObj.$input.val();
 
       <span class="keyword">switch</span>( inputObj.$input.attr(<span class="string">'id'</span>) ){
@@ -83,10 +88,15 @@ console.log("input: focus");</p>             </td>             <td class="code">
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>console.log('footer-email-input, queryStr: ' + queryStr);</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">break</span>;
 
         <span class="keyword">case</span> <span class="string">'store-locator-search-input'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>console.log('store-locator-search-input, queryStr: ' + queryStr);</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">break</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>console.log('store-locator-search-input, queryStr: ' + queryStr);</p>             </td>             <td class="code">               <div class="highlight"><pre>          
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>need to call this after the search results have been returned &amp; are displayed (because that'll change the height of the iscroll).
+need a global way to talk between modules
+if (!$('html').hasClass('bp-nav-mobile')){
+  self.initMobileNavIScroll();
+}</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">break</span>;
 
         <span class="keyword">case</span> <span class="string">'nav-search-input'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>console.log('nav-search-input, queryStr: ' + queryStr);</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">break</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>console.log('nav-search-input, queryStr: ' + queryStr);</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">break</span>;
 
         <span class="keyword">default</span>:
         <span class="keyword">break</span>;
@@ -96,8 +106,9 @@ console.log("input: focus");</p>             </td>             <td class="code">
 
     clearInput: <span class="keyword">function</span>( inputObj ){
       inputObj.$input.val(<span class="string">''</span>);
-      inputObj.$inputIcon.hide();
-    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>if (!$('html').hasClass('bp-nav-mobile')){</p>             </td>             <td class="code">               <div class="highlight"><pre>        inputObj.$inputIcon.hide();
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>}</p>             </td>             <td class="code">               <div class="highlight"><pre>    },
 
     clearSearchResults: <span class="keyword">function</span>( inputObj ){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -105,7 +116,7 @@ console.log("input: focus");</p>             </td>             <td class="code">
       inputObj.$inputWrapper.removeClass(<span class="string">'searching'</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>this just resets the actual results without clearing the input, for instance when the search term had been deleted &amp; is blank.</p>             </td>             <td class="code">               <div class="highlight"><pre>    resetSearchResults: <span class="keyword">function</span>( inputObj ){
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>this just resets the actual results without clearing the input, for instance when the search term had been deleted &amp; is blank.</p>             </td>             <td class="code">               <div class="highlight"><pre>    resetSearchResults: <span class="keyword">function</span>( inputObj ){
       inputObj.$inputWrapper.removeClass(<span class="string">'searching'</span>);      
     },
 
@@ -126,13 +137,13 @@ console.log("input: focus");</p>             </td>             <td class="code">
 
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.formActions = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.formActions = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
         formActions = self.data(<span class="string">'formActions'</span>);
   
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>If we don't have a stored formActions, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !formActions ) {
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>If we don't have a stored formActions, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !formActions ) {
           formActions = <span class="keyword">new</span> FormActions( self, options );
           self.data( <span class="string">'formActions'</span>, formActions );
       }
@@ -144,11 +155,11 @@ console.log("input: focus");</p>             </td>             <td class="code">
   };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Defaults options for your module</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.formActions.defaults = { 
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Defaults options for your module</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.formActions.defaults = { 
     sampleOption: <span class="number">0</span>
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Non override-able settings</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.formActions.settings = { 
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Non override-able settings</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.formActions.settings = { 
     isTouch: !!( <span class="string">'ontouchstart'</span> <span class="keyword">in</span> window ),
     isInitialized: <span class="literal">false</span>
   };
