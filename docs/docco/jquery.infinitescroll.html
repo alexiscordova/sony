@@ -1,0 +1,701 @@
+<!DOCTYPE html>  <html> <head>   <title>jquery.infinitescroll.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="sony-one-carousel.html">                 sony-one-carousel.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="enquire.html">                 enquire.js               </a>                                           <a class="source" href="jquery.imagesloaded.html">                 jquery.imagesloaded.js               </a>                                           <a class="source" href="jquery.infinitescroll.html">                 jquery.infinitescroll.js               </a>                                           <a class="source" href="jquery.throttle-debounce.html">                 jquery.throttle-debounce.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="global-init.html">                 global-init.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="global-tracking.html">                 global-tracking.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="sony-iscroll.html">                 sony-iscroll.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jquery.infinitescroll.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*jshint undef: true */</span>
+<span class="comment">/*global jQuery: true */</span>
+
+<span class="comment">/*
+   --------------------------------
+   Infinite Scroll
+   --------------------------------
+   + https://github.com/paulirish/infinite-scroll
+   + version 2.0b2.120519
+   + Copyright 2011/12 Paul Irish &amp; Luke Shumard
+   + Licensed under the MIT license
+
+   + Documentation: http://infinite-scroll.com/
+*/</span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Modified by Glen Cheney - added updateNavLocation() and replaced smartscroll with $.throttle</p>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="function"><span class="keyword">function</span> <span class="params">(window, $, undefined)</span> {</span>
+	<span class="string">"use strict"</span>;
+
+    $.infinitescroll = <span class="function"><span class="keyword">function</span> <span class="title">infscr</span><span class="params">(options, callback, element)</span> {</span>
+        <span class="keyword">this</span>.element = $(element);
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Flag the object in the event of a failed creation</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (!<span class="keyword">this</span>._create(options, callback)) {
+            <span class="keyword">this</span>.failed = <span class="literal">true</span>;
+        }
+    };
+
+    $.infinitescroll.defaults = {
+        loading: {
+            finished: <span class="literal">undefined</span>,
+            finishedMsg: <span class="string">"&lt;em&gt;Congratulations, you've reached the end of the internet.&lt;/em&gt;"</span>,
+			img: <span class="string">"data:image/gif;base64,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"</span>,
+            msg: <span class="literal">null</span>,
+            msgText: <span class="string">"&lt;em&gt;Loading the next set of posts...&lt;/em&gt;"</span>,
+            selector: <span class="literal">null</span>,
+            speed: <span class="string">'fast'</span>,
+            start: <span class="literal">undefined</span>
+        },
+        state: {
+            isDuringAjax: <span class="literal">false</span>,
+            isInvalidPage: <span class="literal">false</span>,
+            isDestroyed: <span class="literal">false</span>,
+            isDone: <span class="literal">false</span>, <span class="comment">// For when it goes all the way through the archive.</span>
+            isPaused: <span class="literal">false</span>,
+            currPage: <span class="number">1</span>
+        },
+        debug: <span class="literal">false</span>,
+		behavior: <span class="literal">undefined</span>,
+        binder: $(window), <span class="comment">// used to cache the selector</span>
+        nextSelector: <span class="string">"div.navigation a:first"</span>,
+        navSelector: <span class="string">"div.navigation"</span>,
+        contentSelector: <span class="literal">null</span>, <span class="comment">// rename to pageFragment</span>
+        extraScrollPx: <span class="number">150</span>,
+        itemSelector: <span class="string">"div.post"</span>,
+        animate: <span class="literal">false</span>,
+        pathParse: <span class="literal">undefined</span>,
+        dataType: <span class="string">'html'</span>,
+        appendCallback: <span class="literal">true</span>,
+        bufferPx: <span class="number">40</span>,
+        errorCallback: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span> },
+        infid: <span class="number">0</span>, <span class="comment">//Instance ID</span>
+        pixelsFromNavToBottom: <span class="literal">undefined</span>,
+        path: <span class="literal">undefined</span>, <span class="comment">// Either parts of a URL as an array (e.g. ["/page/", "/"] or a function that takes in the page number and returns a URL</span>
+		prefill: <span class="literal">false</span> <span class="comment">// When the document is smaller than the window, load data until the document is larger or links are exhausted</span>
+	};
+
+    $.infinitescroll.prototype = {
+
+        <span class="comment">/*
+            ----------------------------
+            Private methods
+            ----------------------------
+            */</span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Bind or unbind from scroll</p>             </td>             <td class="code">               <div class="highlight"><pre>        _binding: <span class="function"><span class="keyword">function</span> <span class="title">infscr_binding</span><span class="params">(binding)</span> {</span>
+
+            <span class="keyword">var</span> instance = <span class="keyword">this</span>,
+            opts = instance.options;
+
+            opts.v = <span class="string">'2.0b2.111027'</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'_binding_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">this</span>[<span class="string">'_binding_'</span>+opts.behavior].call(<span class="keyword">this</span>);
+                <span class="keyword">return</span>;
+            }
+
+            <span class="keyword">if</span> (binding !== <span class="string">'bind'</span> &amp;&amp; binding !== <span class="string">'unbind'</span>) {
+                <span class="keyword">this</span>._debug(<span class="string">'Binding value  '</span> + binding + <span class="string">' not valid'</span>);
+                <span class="keyword">return</span> <span class="literal">false</span>;
+            }
+
+            <span class="keyword">if</span> (binding === <span class="string">'unbind'</span>) {
+                (<span class="keyword">this</span>.options.binder).unbind(<span class="string">'scroll.infscr.'</span> + instance.options.infid);
+            } <span class="keyword">else</span> {
+                (<span class="keyword">this</span>.options.binder)[binding](<span class="string">'scroll.infscr.'</span> + instance.options.infid, $.throttle(<span class="number">100</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+                    instance.scroll();
+                }));
+            }
+
+            <span class="keyword">this</span>._debug(<span class="string">'Binding'</span>, binding);
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Fundamental aspects of the plugin are initialized</p>             </td>             <td class="code">               <div class="highlight"><pre>        _create: <span class="function"><span class="keyword">function</span> <span class="title">infscr_create</span><span class="params">(options, callback)</span> {</span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Add custom options to defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> opts = $.extend(<span class="literal">true</span>, {}, $.infinitescroll.defaults, options);
+			<span class="keyword">this</span>.options = opts;
+			<span class="keyword">var</span> $window = $(window);
+			<span class="keyword">var</span> instance = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Validate selectors</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!instance._validate(options)) {
+				<span class="keyword">return</span> <span class="literal">false</span>;
+			}
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Validate page fragment path</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> path = $(opts.nextSelector).attr(<span class="string">'href'</span>);
+            <span class="keyword">if</span> (!path) {
+                <span class="keyword">this</span>._debug(<span class="string">'Navigation selector not found'</span>);
+                <span class="keyword">return</span> <span class="literal">false</span>;
+            }
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Set the path to be a relative URL from root.</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.path = opts.path || <span class="keyword">this</span>._determinepath(path);
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>contentSelector is 'page fragment' option for .load() / .ajax() calls</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.contentSelector = opts.contentSelector || <span class="keyword">this</span>.element;
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>loading.selector - if we want to place the load message in a specific selector, defaulted to the contentSelector</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.loading.selector = opts.loading.selector || opts.contentSelector;
+
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Define loading.msg</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.loading.msg = opts.loading.msg || $(<span class="string">'&lt;div id="infscr-loading"&gt;&lt;img alt="Loading..." src="'</span> + opts.loading.img + <span class="string">'" /&gt;&lt;div&gt;'</span> + opts.loading.msgText + <span class="string">'&lt;/div&gt;&lt;/div&gt;'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Preload loading.img</p>             </td>             <td class="code">               <div class="highlight"><pre>            (<span class="keyword">new</span> Image()).src = opts.loading.img;
+
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>distance from nav links to bottom
+computed as: height of the document + top offset of container - top offset of nav link</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(opts.pixelsFromNavToBottom === <span class="literal">undefined</span>) {
+                opts.pixelsFromNavToBottom = $(document).height() - $(opts.navSelector).offset().top;
+			}
+
+			<span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>determine loading.start actions</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.loading.start = opts.loading.start || <span class="keyword">function</span>() {
+                $(opts.navSelector).hide();
+                opts.loading.msg
+                .appendTo(opts.loading.selector)
+                .show(opts.loading.speed, $.proxy(<span class="keyword">function</span>() {
+					<span class="keyword">this</span>.beginAjax(opts);
+				}, self));
+            };
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>determine loading.finished actions</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.loading.finished = opts.loading.finished || <span class="keyword">function</span>() {
+                opts.loading.msg.fadeOut(opts.loading.speed);
+            };
+
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>callback loading</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.callback = <span class="keyword">function</span>(instance,data) {
+                <span class="keyword">if</span> (!!opts.behavior &amp;&amp; instance[<span class="string">'_callback_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                    instance[<span class="string">'_callback_'</span>+opts.behavior].call($(opts.contentSelector)[<span class="number">0</span>], data);
+                }
+
+                <span class="keyword">if</span> (callback) {
+                    callback.call($(opts.contentSelector)[<span class="number">0</span>], data, opts);
+                }
+
+				<span class="keyword">if</span> (opts.prefill) {
+					$window.bind(<span class="string">"resize.infinite-scroll"</span>, instance._prefill);
+				}
+            };
+
+			<span class="keyword">if</span> (options.debug) {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Tell IE9 to use its built-in console</p>             </td>             <td class="code">               <div class="highlight"><pre>				<span class="keyword">if</span> (Function.prototype.bind &amp;&amp; (<span class="keyword">typeof</span> console === <span class="string">'object'</span> || <span class="keyword">typeof</span> console === <span class="string">'function'</span>) &amp;&amp; <span class="keyword">typeof</span> console.log === <span class="string">"object"</span>) {
+					[<span class="string">"log"</span>,<span class="string">"info"</span>,<span class="string">"warn"</span>,<span class="string">"error"</span>,<span class="string">"assert"</span>,<span class="string">"dir"</span>,<span class="string">"clear"</span>,<span class="string">"profile"</span>,<span class="string">"profileEnd"</span>]
+						.forEach(<span class="function"><span class="keyword">function</span> <span class="params">(method)</span> {</span>
+							console[method] = <span class="keyword">this</span>.call(console[method], console);
+						}, Function.prototype.bind);
+				}
+			}
+
+            <span class="keyword">this</span>._setup();
+
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Setups the prefill method for use</p>             </td>             <td class="code">               <div class="highlight"><pre>			<span class="keyword">if</span> (opts.prefill) {
+				<span class="keyword">this</span>._prefill();
+			}
+
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Return true to indicate successful creation</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">return</span> <span class="literal">true</span>;
+        },
+
+		_prefill: <span class="function"><span class="keyword">function</span> <span class="title">infscr_prefill</span><span class="params">()</span> {</span>
+			<span class="keyword">var</span> instance = <span class="keyword">this</span>;
+			<span class="keyword">var</span> $document = $(document);
+			<span class="keyword">var</span> $window = $(window);
+
+			<span class="function"><span class="keyword">function</span> <span class="title">needsPrefill</span><span class="params">()</span> {</span>
+				<span class="keyword">return</span> ($document.height() &lt;= $window.height());
+			}
+
+			<span class="keyword">this</span>._prefill = <span class="keyword">function</span>() {
+				<span class="keyword">if</span> (needsPrefill()) {
+					instance.scroll();
+				}
+
+				$window.bind(<span class="string">"resize.infinite-scroll"</span>, <span class="keyword">function</span>() {
+					<span class="keyword">if</span> (needsPrefill()) {
+						$window.unbind(<span class="string">"resize.infinite-scroll"</span>);
+						instance.scroll();
+					}
+				});
+			};
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Call self after setting up the new function</p>             </td>             <td class="code">               <div class="highlight"><pre>			<span class="keyword">this</span>._prefill();
+		},
+
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Console log wrapper</p>             </td>             <td class="code">               <div class="highlight"><pre>        _debug: <span class="function"><span class="keyword">function</span> <span class="title">infscr_debug</span><span class="params">()</span> {</span>
+			<span class="keyword">if</span> (<span class="literal">true</span> !== <span class="keyword">this</span>.options.debug) {
+				<span class="keyword">return</span>;
+			}
+
+			<span class="keyword">if</span> (<span class="keyword">typeof</span> console !== <span class="string">'undefined'</span> &amp;&amp; <span class="keyword">typeof</span> console.log === <span class="string">'function'</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Modern browsers
+Single argument, which is a string</p>             </td>             <td class="code">               <div class="highlight"><pre>				<span class="keyword">if</span> ((Array.prototype.slice.call(arguments)).length === <span class="number">1</span> &amp;&amp; <span class="keyword">typeof</span> Array.prototype.slice.call(arguments)[<span class="number">0</span>] === <span class="string">'string'</span>) {
+					console.log( (Array.prototype.slice.call(arguments)).toString() );
+				} <span class="keyword">else</span> {
+					console.log( Array.prototype.slice.call(arguments) );
+				}
+			} <span class="keyword">else</span> <span class="keyword">if</span> (!Function.prototype.bind &amp;&amp; <span class="keyword">typeof</span> console !== <span class="string">'undefined'</span> &amp;&amp; <span class="keyword">typeof</span> console.log === <span class="string">'object'</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>IE8</p>             </td>             <td class="code">               <div class="highlight"><pre>				Function.prototype.call.call(console.log, console, Array.prototype.slice.call(arguments));
+			}
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>find the number to increment in the path.</p>             </td>             <td class="code">               <div class="highlight"><pre>        _determinepath: <span class="function"><span class="keyword">function</span> <span class="title">infscr_determinepath</span><span class="params">(path)</span> {</span>
+
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options;
+
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'_determinepath_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">return</span> <span class="keyword">this</span>[<span class="string">'_determinepath_'</span>+opts.behavior].call(<span class="keyword">this</span>,path);
+            }
+
+            <span class="keyword">if</span> (!!opts.pathParse) {
+
+                <span class="keyword">this</span>._debug(<span class="string">'pathParse manual'</span>);
+                <span class="keyword">return</span> opts.pathParse(path, <span class="keyword">this</span>.options.state.currPage+<span class="number">1</span>);
+
+            } <span class="keyword">else</span> <span class="keyword">if</span> (path.match(<span class="regexp">/^(.*?)\b2\b(.*?$)/</span>)) {
+                path = path.match(<span class="regexp">/^(.*?)\b2\b(.*?$)/</span>).slice(<span class="number">1</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>if there is any 2 in the url at all.</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (path.match(<span class="regexp">/^(.*?)2(.*?$)/</span>)) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>page= is used in django:
+http://www.infinite-scroll.com/changelog/comment-page-1/#comment-127</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> (path.match(<span class="regexp">/^(.*?page=)2(\/.*|$)/</span>)) {
+                    path = path.match(<span class="regexp">/^(.*?page=)2(\/.*|$)/</span>).slice(<span class="number">1</span>);
+                    <span class="keyword">return</span> path;
+                }
+
+                path = path.match(<span class="regexp">/^(.*?)2(.*?$)/</span>).slice(<span class="number">1</span>);
+
+            } <span class="keyword">else</span> {
+
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>page= is used in drupal too but second page is page=1 not page=2:
+thx Jerod Fritz, vladikoff</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> (path.match(<span class="regexp">/^(.*?page=)1(\/.*|$)/</span>)) {
+                    path = path.match(<span class="regexp">/^(.*?page=)1(\/.*|$)/</span>).slice(<span class="number">1</span>);
+                    <span class="keyword">return</span> path;
+                } <span class="keyword">else</span> {
+                    <span class="keyword">this</span>._debug(<span class="string">'Sorry, we couldn\'t parse your Next (Previous Posts) URL. Verify your the css selector points to the correct A tag. If you still get this error: yell, scream, and kindly ask for help at infinite-scroll.com.'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Get rid of isInvalidPage to allow permalink to state</p>             </td>             <td class="code">               <div class="highlight"><pre>                    opts.state.isInvalidPage = <span class="literal">true</span>;  <span class="comment">//prevent it from running on this page.</span>
+                }
+            }
+            <span class="keyword">this</span>._debug(<span class="string">'determinePath'</span>, path);
+            <span class="keyword">return</span> path;
+
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Custom error</p>             </td>             <td class="code">               <div class="highlight"><pre>        _error: <span class="function"><span class="keyword">function</span> <span class="title">infscr_error</span><span class="params">(xhr)</span> {</span>
+
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options;
+
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'_error_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">this</span>[<span class="string">'_error_'</span>+opts.behavior].call(<span class="keyword">this</span>,xhr);
+                <span class="keyword">return</span>;
+            }
+
+            <span class="keyword">if</span> (xhr !== <span class="string">'destroy'</span> &amp;&amp; xhr !== <span class="string">'end'</span>) {
+                xhr = <span class="string">'unknown'</span>;
+            }
+
+            <span class="keyword">this</span>._debug(<span class="string">'Error'</span>, xhr);
+
+            <span class="keyword">if</span> (xhr === <span class="string">'end'</span>) {
+                <span class="keyword">this</span>._showdonemsg();
+            }
+
+            opts.state.isDone = <span class="literal">true</span>;
+            opts.state.currPage = <span class="number">1</span>; <span class="comment">// if you need to go back to this instance</span>
+            opts.state.isPaused = <span class="literal">false</span>;
+            <span class="keyword">this</span>._binding(<span class="string">'unbind'</span>);
+
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Load Callback</p>             </td>             <td class="code">               <div class="highlight"><pre>        _loadcallback: <span class="function"><span class="keyword">function</span> <span class="title">infscr_loadcallback</span><span class="params">(box, data)</span> {</span>
+
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options,
+            callback = <span class="keyword">this</span>.options.callback, <span class="comment">// GLOBAL OBJECT FOR CALLBACK</span>
+            result = (opts.state.isDone) ? <span class="string">'done'</span> : (!opts.appendCallback) ? <span class="string">'no-append'</span> : <span class="string">'append'</span>,
+            frag;
+
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'_loadcallback_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">this</span>[<span class="string">'_loadcallback_'</span>+opts.behavior].call(<span class="keyword">this</span>,box,data);
+                <span class="keyword">return</span>;
+            }
+
+			<span class="keyword">switch</span> (result) {
+				<span class="keyword">case</span> <span class="string">'done'</span>:
+					<span class="keyword">this</span>._showdonemsg();
+					<span class="keyword">return</span> <span class="literal">false</span>;
+
+				<span class="keyword">case</span> <span class="string">'no-append'</span>:
+					<span class="keyword">if</span> (opts.dataType === <span class="string">'html'</span>) {
+						data = <span class="string">'&lt;div&gt;'</span> + data + <span class="string">'&lt;/div&gt;'</span>;
+						data = $(data).find(opts.itemSelector);
+					}
+					<span class="keyword">break</span>;
+
+				<span class="keyword">case</span> <span class="string">'append'</span>:
+					<span class="keyword">var</span> children = box.children();
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>if it didn't return anything</p>             </td>             <td class="code">               <div class="highlight"><pre>					<span class="keyword">if</span> (children.length === <span class="number">0</span>) {
+						<span class="keyword">return</span> <span class="keyword">this</span>._error(<span class="string">'end'</span>);
+					}
+
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>use a documentFragment because it works when content is going into a table or UL</p>             </td>             <td class="code">               <div class="highlight"><pre>					frag = document.createDocumentFragment();
+					<span class="keyword">while</span> (box[<span class="number">0</span>].firstChild) {
+						frag.appendChild(box[<span class="number">0</span>].firstChild);
+					}
+
+					<span class="keyword">this</span>._debug(<span class="string">'contentSelector'</span>, $(opts.contentSelector)[<span class="number">0</span>]);
+					$(opts.contentSelector)[<span class="number">0</span>].appendChild(frag);
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>previously, we would pass in the new DOM element as context for the callback
+however we're now using a documentfragment, which doesn't have parents or children,
+so the context is the contentContainer guy, and we pass in an array
+of the elements collected as the first argument.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+					data = children.get();
+					<span class="keyword">break</span>;
+			}
+
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>loadingEnd function</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.loading.finished.call($(opts.contentSelector)[<span class="number">0</span>],opts);
+
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>smooth scroll to ease in the new content</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (opts.animate) {
+                <span class="keyword">var</span> scrollTo = $(window).scrollTop() + $(<span class="string">'#infscr-loading'</span>).height() + opts.extraScrollPx + <span class="string">'px'</span>;
+                $(<span class="string">'html,body'</span>).animate({ scrollTop: scrollTo }, <span class="number">800</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span> opts.state.isDuringAjax = <span class="literal">false</span>; });
+            }
+
+            <span class="keyword">if</span> (!opts.animate) {
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>once the call is done, we can allow it again.</p>             </td>             <td class="code">               <div class="highlight"><pre>				opts.state.isDuringAjax = <span class="literal">false</span>;
+			}
+
+            callback(<span class="keyword">this</span>,data);
+
+			<span class="keyword">if</span> (opts.prefill) {
+				<span class="keyword">this</span>._prefill();
+			}
+		},
+
+        _nearbottom: <span class="function"><span class="keyword">function</span> <span class="title">infscr_nearbottom</span><span class="params">()</span> {</span>
+
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options,
+            pixelsFromWindowBottomToBottom = <span class="number">0</span> + $(document).height() - (opts.binder.scrollTop()) - $(window).height();
+
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'_nearbottom_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">return</span> <span class="keyword">this</span>[<span class="string">'_nearbottom_'</span>+opts.behavior].call(<span class="keyword">this</span>);
+            }
+
+            <span class="keyword">this</span>._debug(<span class="string">'math:'</span>, pixelsFromWindowBottomToBottom, pixelsFromWindowBottomToBottom - opts.bufferPx, opts.pixelsFromNavToBottom);
+            <span class="keyword">this</span>._debug(<span class="string">'nearbottom?'</span>, (pixelsFromWindowBottomToBottom - opts.bufferPx &lt; opts.pixelsFromNavToBottom));
+
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>if distance remaining in the scroll (including buffer) is less than the orignal nav to bottom....</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">return</span> (pixelsFromWindowBottomToBottom - opts.bufferPx &lt; opts.pixelsFromNavToBottom);
+
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Pause / temporarily disable plugin from firing</p>             </td>             <td class="code">               <div class="highlight"><pre>        _pausing: <span class="function"><span class="keyword">function</span> <span class="title">infscr_pausing</span><span class="params">(pause)</span> {</span>
+
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options;
+
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'_pausing_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">this</span>[<span class="string">'_pausing_'</span>+opts.behavior].call(<span class="keyword">this</span>,pause);
+                <span class="keyword">return</span>;
+            }
+
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>If pause is not 'pause' or 'resume', toggle it's value</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (pause !== <span class="string">'pause'</span> &amp;&amp; pause !== <span class="string">'resume'</span> &amp;&amp; pause !== <span class="literal">null</span>) {
+                <span class="keyword">this</span>._debug(<span class="string">'Invalid argument. Toggling pause value instead'</span>);
+            }
+
+            pause = (pause &amp;&amp; (pause === <span class="string">'pause'</span> || pause === <span class="string">'resume'</span>)) ? pause : <span class="string">'toggle'</span>;
+
+            <span class="keyword">switch</span> (pause) {
+                <span class="keyword">case</span> <span class="string">'pause'</span>:
+                    opts.state.isPaused = <span class="literal">true</span>;
+                <span class="keyword">break</span>;
+
+                <span class="keyword">case</span> <span class="string">'resume'</span>:
+                    opts.state.isPaused = <span class="literal">false</span>;
+                <span class="keyword">break</span>;
+
+                <span class="keyword">case</span> <span class="string">'toggle'</span>:
+                    opts.state.isPaused = !opts.state.isPaused;
+                <span class="keyword">break</span>;
+            }
+
+            <span class="keyword">this</span>._debug(<span class="string">'Paused'</span>, opts.state.isPaused);
+            <span class="keyword">return</span> <span class="literal">false</span>;
+
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Behavior is determined
+If the behavior option is undefined, it will set to default and bind to scroll</p>             </td>             <td class="code">               <div class="highlight"><pre>        _setup: <span class="function"><span class="keyword">function</span> <span class="title">infscr_setup</span><span class="params">()</span> {</span>
+
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options;
+
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'_setup_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">this</span>[<span class="string">'_setup_'</span>+opts.behavior].call(<span class="keyword">this</span>);
+                <span class="keyword">return</span>;
+            }
+
+            <span class="keyword">this</span>._binding(<span class="string">'bind'</span>);
+
+            <span class="keyword">return</span> <span class="literal">false</span>;
+
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Show done message</p>             </td>             <td class="code">               <div class="highlight"><pre>        _showdonemsg: <span class="function"><span class="keyword">function</span> <span class="title">infscr_showdonemsg</span><span class="params">()</span> {</span>
+
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options;
+
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'_showdonemsg_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">this</span>[<span class="string">'_showdonemsg_'</span>+opts.behavior].call(<span class="keyword">this</span>);
+                <span class="keyword">return</span>;
+            }
+
+            opts.loading.msg
+            .find(<span class="string">'img'</span>)
+            .hide()
+            .parent()
+            .find(<span class="string">'div'</span>).html(opts.loading.finishedMsg).animate({ opacity: <span class="number">1</span> }, <span class="number">2000</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+                $(<span class="keyword">this</span>).parent().fadeOut(opts.loading.speed);
+            });
+
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>user provided callback when done</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.errorCallback.call($(opts.contentSelector)[<span class="number">0</span>],<span class="string">'done'</span>);
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>grab each selector option and see if any fail</p>             </td>             <td class="code">               <div class="highlight"><pre>        _validate: <span class="function"><span class="keyword">function</span> <span class="title">infscr_validate</span><span class="params">(opts)</span> {</span>
+            <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> opts) {
+                <span class="keyword">if</span> (key.indexOf &amp;&amp; key.indexOf(<span class="string">'Selector'</span>) &gt; -<span class="number">1</span> &amp;&amp; $(opts[key]).length === <span class="number">0</span>) {
+                    <span class="keyword">this</span>._debug(<span class="string">'Your '</span> + key + <span class="string">' found no elements.'</span>);
+                    <span class="keyword">return</span> <span class="literal">false</span>;
+                }
+            }
+
+            <span class="keyword">return</span> <span class="literal">true</span>;
+        },
+
+        <span class="comment">/*
+            ----------------------------
+            Public methods
+            ----------------------------
+            */</span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>Bind to scroll</p>             </td>             <td class="code">               <div class="highlight"><pre>        bind: <span class="function"><span class="keyword">function</span> <span class="title">infscr_bind</span><span class="params">()</span> {</span>
+            <span class="keyword">this</span>._binding(<span class="string">'bind'</span>);
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>Destroy current instance of plugin</p>             </td>             <td class="code">               <div class="highlight"><pre>        destroy: <span class="function"><span class="keyword">function</span> <span class="title">infscr_destroy</span><span class="params">()</span> {</span>
+
+            <span class="keyword">this</span>.options.state.isDestroyed = <span class="literal">true</span>;
+            <span class="keyword">return</span> <span class="keyword">this</span>._error(<span class="string">'destroy'</span>);
+
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>Set pause value to false</p>             </td>             <td class="code">               <div class="highlight"><pre>        pause: <span class="function"><span class="keyword">function</span> <span class="title">infscr_pause</span><span class="params">()</span> {</span>
+            <span class="keyword">this</span>._pausing(<span class="string">'pause'</span>);
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>Set pause value to false</p>             </td>             <td class="code">               <div class="highlight"><pre>        resume: <span class="function"><span class="keyword">function</span> <span class="title">infscr_resume</span><span class="params">()</span> {</span>
+            <span class="keyword">this</span>._pausing(<span class="string">'resume'</span>);
+        },
+
+        updateNavLocation: <span class="function"><span class="keyword">function</span> <span class="title">infscr_updateNav</span><span class="params">()</span> {</span>
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options;
+            opts.pixelsFromNavToBottom = $(document).height() - $(opts.navSelector).offset().top;
+        },
+
+		beginAjax: <span class="function"><span class="keyword">function</span> <span class="title">infscr_ajax</span><span class="params">(opts)</span> {</span>
+			<span class="keyword">var</span> instance = <span class="keyword">this</span>,
+				path = opts.path,
+				box, desturl, method, condition;
+
+</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>increment the URL bit. e.g. /page/3/</p>             </td>             <td class="code">               <div class="highlight"><pre>			opts.state.currPage++;
+
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>if we're dealing with a table we can't use DIVs</p>             </td>             <td class="code">               <div class="highlight"><pre>			box = $(opts.contentSelector).is(<span class="string">'table'</span>) ? $(<span class="string">'&lt;tbody/&gt;'</span>) : $(<span class="string">'&lt;div/&gt;'</span>);
+
+			desturl = (<span class="keyword">typeof</span> path === <span class="string">'function'</span>) ? path(opts.state.currPage) : path.join(opts.state.currPage);
+			instance._debug(<span class="string">'heading into ajax'</span>, desturl);
+
+			method = (opts.dataType === <span class="string">'html'</span> || opts.dataType === <span class="string">'json'</span> ) ? opts.dataType : <span class="string">'html+callback'</span>;
+			<span class="keyword">if</span> (opts.appendCallback &amp;&amp; opts.dataType === <span class="string">'html'</span>) {
+				method += <span class="string">'+callback'</span>;
+			}
+
+			<span class="keyword">switch</span> (method) {
+				<span class="keyword">case</span> <span class="string">'html+callback'</span>:
+
+					instance._debug(<span class="string">'Using HTML via .load() method'</span>);
+					box.load(desturl + <span class="string">' '</span> + opts.itemSelector, <span class="literal">undefined</span>, <span class="function"><span class="keyword">function</span> <span class="title">infscr_ajax_callback</span><span class="params">(responseText)</span> {</span>
+						instance._loadcallback(box, responseText);
+					});
+
+					<span class="keyword">break</span>;
+
+				<span class="keyword">case</span> <span class="string">'html'</span>:
+					instance._debug(<span class="string">'Using '</span> + (method.toUpperCase()) + <span class="string">' via $.ajax() method'</span>);
+					$.ajax({
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>params</p>             </td>             <td class="code">               <div class="highlight"><pre>						url: desturl,
+						dataType: opts.dataType,
+						complete: <span class="function"><span class="keyword">function</span> <span class="title">infscr_ajax_callback</span><span class="params">(jqXHR, textStatus)</span> {</span>
+							condition = (<span class="keyword">typeof</span> (jqXHR.isResolved) !== <span class="string">'undefined'</span>) ? (jqXHR.isResolved()) : (textStatus === <span class="string">"success"</span> || textStatus === <span class="string">"notmodified"</span>);
+							<span class="keyword">if</span> (condition) {
+								instance._loadcallback(box, jqXHR.responseText);
+							} <span class="keyword">else</span> {
+								instance._error(<span class="string">'end'</span>);
+							}
+						}
+					});
+
+					<span class="keyword">break</span>;
+				<span class="keyword">case</span> <span class="string">'json'</span>:
+					instance._debug(<span class="string">'Using '</span> + (method.toUpperCase()) + <span class="string">' via $.ajax() method'</span>);
+					$.ajax({
+						dataType: <span class="string">'json'</span>,
+						type: <span class="string">'GET'</span>,
+						url: desturl,
+						success: <span class="function"><span class="keyword">function</span> <span class="params">(data, textStatus, jqXHR)</span> {</span>
+							condition = (<span class="keyword">typeof</span> (jqXHR.isResolved) !== <span class="string">'undefined'</span>) ? (jqXHR.isResolved()) : (textStatus === <span class="string">"success"</span> || textStatus === <span class="string">"notmodified"</span>);
+							<span class="keyword">if</span> (opts.appendCallback) {
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>if appendCallback is true, you must defined template in options.
+note that data passed into _loadcallback is already an html (after processed in opts.template(data)).</p>             </td>             <td class="code">               <div class="highlight"><pre>								<span class="keyword">if</span> (opts.template !== <span class="literal">undefined</span>) {
+									<span class="keyword">var</span> theData = opts.template(data);
+									box.append(theData);
+									<span class="keyword">if</span> (condition) {
+										instance._loadcallback(box, theData);
+									} <span class="keyword">else</span> {
+										instance._error(<span class="string">'end'</span>);
+									}
+								} <span class="keyword">else</span> {
+									instance._debug(<span class="string">"template must be defined."</span>);
+									instance._error(<span class="string">'end'</span>);
+								}
+							} <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>if appendCallback is false, we will pass in the JSON object. you should handle it yourself in your callback.</p>             </td>             <td class="code">               <div class="highlight"><pre>								<span class="keyword">if</span> (condition) {
+									instance._loadcallback(box, data);
+								} <span class="keyword">else</span> {
+									instance._error(<span class="string">'end'</span>);
+								}
+							}
+						},
+						error: <span class="keyword">function</span>() {
+							instance._debug(<span class="string">"JSON ajax request failed."</span>);
+							instance._error(<span class="string">'end'</span>);
+						}
+					});
+
+					<span class="keyword">break</span>;
+			}
+		},
+
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>Retrieve next set of content items</p>             </td>             <td class="code">               <div class="highlight"><pre>        retrieve: <span class="function"><span class="keyword">function</span> <span class="title">infscr_retrieve</span><span class="params">(pageNum)</span> {</span>
+			pageNum = pageNum || <span class="literal">null</span>;
+
+			<span class="keyword">var</span> instance = <span class="keyword">this</span>,
+            opts = instance.options;
+
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'retrieve_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">this</span>[<span class="string">'retrieve_'</span>+opts.behavior].call(<span class="keyword">this</span>,pageNum);
+                <span class="keyword">return</span>;
+            }
+
+</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>for manual triggers, if destroyed, get out of here</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (opts.state.isDestroyed) {
+                <span class="keyword">this</span>._debug(<span class="string">'Instance is destroyed'</span>);
+                <span class="keyword">return</span> <span class="literal">false</span>;
+            }
+
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>we dont want to fire the ajax multiple times</p>             </td>             <td class="code">               <div class="highlight"><pre>            opts.state.isDuringAjax = <span class="literal">true</span>;
+
+            opts.loading.start.call($(opts.contentSelector)[<span class="number">0</span>],opts);
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>Check to see next page is needed</p>             </td>             <td class="code">               <div class="highlight"><pre>        scroll: <span class="function"><span class="keyword">function</span> <span class="title">infscr_scroll</span><span class="params">()</span> {</span>
+
+            <span class="keyword">var</span> opts = <span class="keyword">this</span>.options,
+            state = opts.state;
+
+</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>if behavior is defined and this function is extended, call that instead of default</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!!opts.behavior &amp;&amp; <span class="keyword">this</span>[<span class="string">'scroll_'</span>+opts.behavior] !== <span class="literal">undefined</span>) {
+                <span class="keyword">this</span>[<span class="string">'scroll_'</span>+opts.behavior].call(<span class="keyword">this</span>);
+                <span class="keyword">return</span>;
+            }
+
+            <span class="keyword">if</span> (state.isDuringAjax || state.isInvalidPage || state.isDone || state.isDestroyed || state.isPaused) {
+				<span class="keyword">return</span>;
+			}
+
+            <span class="keyword">if</span> (!<span class="keyword">this</span>._nearbottom()) {
+				<span class="keyword">return</span>;
+			}
+
+            <span class="keyword">this</span>.retrieve();
+
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>Toggle pause value</p>             </td>             <td class="code">               <div class="highlight"><pre>        toggle: <span class="function"><span class="keyword">function</span> <span class="title">infscr_toggle</span><span class="params">()</span> {</span>
+            <span class="keyword">this</span>._pausing();
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>Unbind from scroll</p>             </td>             <td class="code">               <div class="highlight"><pre>        unbind: <span class="function"><span class="keyword">function</span> <span class="title">infscr_unbind</span><span class="params">()</span> {</span>
+            <span class="keyword">this</span>._binding(<span class="string">'unbind'</span>);
+        },
+
+</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>update options</p>             </td>             <td class="code">               <div class="highlight"><pre>        update: <span class="function"><span class="keyword">function</span> <span class="title">infscr_options</span><span class="params">(key)</span> {</span>
+            <span class="keyword">if</span> ($.isPlainObject(key)) {
+                <span class="keyword">this</span>.options = $.extend(<span class="literal">true</span>,<span class="keyword">this</span>.options,key);
+            }
+        }
+    };
+
+
+    <span class="comment">/*
+        ----------------------------
+        Infinite Scroll function
+        ----------------------------
+
+        Borrowed logic from the following...
+
+        jQuery UI
+        - https://github.com/jquery/jquery-ui/blob/master/ui/jquery.ui.widget.js
+
+        jCarousel
+        - https://github.com/jsor/jcarousel/blob/master/lib/jquery.jcarousel.js
+
+        Masonry
+        - https://github.com/desandro/masonry/blob/master/jquery.masonry.js
+
+*/</span>
+
+    $.fn.infinitescroll = <span class="function"><span class="keyword">function</span> <span class="title">infscr_init</span><span class="params">(options, callback)</span> {</span>
+
+
+        <span class="keyword">var</span> thisCall = <span class="keyword">typeof</span> options;
+
+        <span class="keyword">switch</span> (thisCall) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>method</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">case</span> <span class="string">'string'</span>:
+                <span class="keyword">var</span> args = Array.prototype.slice.call(arguments, <span class="number">1</span>);
+
+				<span class="keyword">this</span>.each(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+					<span class="keyword">var</span> instance = $.data(<span class="keyword">this</span>, <span class="string">'infinitescroll'</span>);
+
+					<span class="keyword">if</span> (!instance) {
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>not setup yet
+return $.error('Method ' + options + ' cannot be called until Infinite Scroll is setup');</p>             </td>             <td class="code">               <div class="highlight"><pre>						<span class="keyword">return</span> <span class="literal">false</span>;
+					}
+
+					<span class="keyword">if</span> (!$.isFunction(instance[options]) || options.charAt(<span class="number">0</span>) === <span class="string">"_"</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>return $.error('No such method ' + options + ' for Infinite Scroll');</p>             </td>             <td class="code">               <div class="highlight"><pre>						<span class="keyword">return</span> <span class="literal">false</span>;
+					}
+
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>no errors!</p>             </td>             <td class="code">               <div class="highlight"><pre>					instance[options].apply(instance, args);
+				});
+
+            <span class="keyword">break</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>creation</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">case</span> <span class="string">'object'</span>:
+
+                <span class="keyword">this</span>.each(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+
+                <span class="keyword">var</span> instance = $.data(<span class="keyword">this</span>, <span class="string">'infinitescroll'</span>);
+
+                <span class="keyword">if</span> (instance) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>update options of current instance</p>             </td>             <td class="code">               <div class="highlight"><pre>                    instance.update(options);
+
+                } <span class="keyword">else</span> {
+
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>initialize new instance</p>             </td>             <td class="code">               <div class="highlight"><pre>                    instance = <span class="keyword">new</span> $.infinitescroll(options, callback, <span class="keyword">this</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>don't attach if instantiation failed</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">if</span> (!instance.failed) {
+                        $.data(<span class="keyword">this</span>, <span class="string">'infinitescroll'</span>, instance);
+                    }
+
+                }
+
+            });
+
+            <span class="keyword">break</span>;
+
+        }
+
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    };
+
+
+})(window, jQuery);
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
