@@ -739,6 +739,9 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
 
           self.$el.css(<span class="string">'height'</span> , <span class="number">400</span>);
 
+          <span class="keyword">if</span>(!!self.isTabbedContainer){
+            self.$tabbedContainer.css(<span class="string">'height'</span> , <span class="number">400</span>);
+          }
           <span class="keyword">return</span>;
         }
 
@@ -1437,7 +1440,7 @@ $(<span class="keyword">function</span>(){
       
       $currentPanel.css(visibleObj(<span class="literal">true</span>, <span class="number">1</span>));
       $currentPanel.data(<span class="string">'relatedProducts'</span>).enableShuffle();
-      $currentPanel.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">1</span> },{ duration: <span class="number">500</span>, complete: <span class="keyword">function</span>(){}});
+      $currentPanel.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">1</span> },{ duration: <span class="number">500</span>});
 
           
       console.log(<span class="string">'Currently Selected Tab:'</span> , $tab.data(<span class="string">'rpPanelId'</span>));
