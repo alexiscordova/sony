@@ -1,4 +1,4 @@
-section(class='sony-one-carousel', data-mode=data.mode)
+.sony-one-carousel(data-mode = data.config.mode, data-module-name != data.config.module_name, data-module-id = data.config.module_id)
 	.soc-container
 		.soc-container-inner
 			for slide in data.slides
@@ -19,80 +19,81 @@ section(class='sony-one-carousel', data-mode=data.mode)
 								- c = 'soc-2up span6 iq-img'
 								- s = 'content-6'
 							.soc-item(class=c, data-src=item.backgroundImgSrc)(class=s)
-								.soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)
+								article
+									.soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)
+										if s == 'content-8'
+											//- HEADLINE ONLY
+											if contentType == 'headline-only'
+												h3.headline!= item.headline.title
+													if item.headline.link
+														a(href=item.headline.link)
+															| !{item.headline.linkText}
+															i(class="icon-ui2-chevron-18-white-right")
+											
+											//- HEADLINE ONLY
+											if contentType == 'headline-counter'
+												h3.headline!= item.headline.title
+													if item.headline.link
+														a(href=item.headline.link)
+															| !{item.headline.linkText}
+															i(class="icon-ui2-chevron-18-white-right")
+	
+											//- HEADLINE ONLY
+											if contentType == 'headline-copy'
+												h3.headline!= item.headline.title
+													if item.headline.link
+														a(href=item.headline.link)
+															| !{item.headline.linkText}
+															i(class="icon-ui2-chevron-18-white-right")
+												p.p2= item.bodycopy																
+											
+											//- HEADLINE, EYEBROW, COPY
+											if contentType == 'headline-eyebrow-copy'
+												a.eyebrow(href=item.eyebrow.link) 
+													| #{item.eyebrow.title}
+												h3.headline!= item.headline.title
+													if item.headline.link
+														a(href=item.headline.link)
+															| !{item.headline.linkText}
+															i(class="icon-ui2-chevron-18-white-right")
+												p.p2= item.bodycopy
+											
+											//- HEADLINE, COPY , COUNTER
+											if contentType == 'headline-copy-counter'
+												h3.headline!= item.headline.title
+													if item.headline.link
+														a(href=item.headline.link)
+															| !{item.headline.linkText}
+															i(class="icon-ui2-chevron-18-white-right")
+												p.p2= item.bodycopy
+	
+											//- HEADLINE, EYEBROW
+											if contentType == 'headline-eyebrow'
+												a.eyebrow(href=item.eyebrow.link) 
+													| #{item.eyebrow.title}
+												h3.headline!= item.headline.title
+													if item.headline.link
+														a(href=item.headline.link)
+															| !{item.headline.linkText}
+															i(class="icon-ui2-chevron-18-white-right")
+	
+	
+										if s == 'content-4'
+											//- HEADLINE ONLY
+											if contentType == 'headline-only'
+												h3.headline!= item.headline.title
+													if item.headline.link
+														a(href=item.headline.link)
+															| !{item.headline.linkText}
+															i(class="icon-ui2-chevron-18-white-right")
+
+
 									if s == 'content-8'
-										//- HEADLINE ONLY
-										if contentType == 'headline-only'
-											h3.headline!= item.headline.title
-												if item.headline.link
-													a(href=item.headline.link)
-														| !{item.headline.linkText}
-														i(class="icon-ui2-chevron-18-white-right")
-										
-										//- HEADLINE ONLY
-										if contentType == 'headline-counter'
-											h3.headline!= item.headline.title
-												if item.headline.link
-													a(href=item.headline.link)
-														| !{item.headline.linkText}
-														i(class="icon-ui2-chevron-18-white-right")
-
-										//- HEADLINE ONLY
-										if contentType == 'headline-copy'
-											h3.headline!= item.headline.title
-												if item.headline.link
-													a(href=item.headline.link)
-														| !{item.headline.linkText}
-														i(class="icon-ui2-chevron-18-white-right")
-											p.p2= item.bodycopy																
-										
-										//- HEADLINE, EYEBROW, COPY
-										if contentType == 'headline-eyebrow-copy'
-											a.eyebrow(href=item.eyebrow.link) 
-												| #{item.eyebrow.title}
-											h3.headline!= item.headline.title
-												if item.headline.link
-													a(href=item.headline.link)
-														| !{item.headline.linkText}
-														i(class="icon-ui2-chevron-18-white-right")
-											p.p2= item.bodycopy
-										
-										//- HEADLINE, COPY , COUNTER
-										if contentType == 'headline-copy-counter'
-											h3.headline!= item.headline.title
-												if item.headline.link
-													a(href=item.headline.link)
-														| !{item.headline.linkText}
-														i(class="icon-ui2-chevron-18-white-right")
-											p.p2= item.bodycopy
-
-										//- HEADLINE, EYEBROW
-										if contentType == 'headline-eyebrow'
-											a.eyebrow(href=item.eyebrow.link) 
-												| #{item.eyebrow.title}
-											h3.headline!= item.headline.title
-												if item.headline.link
-													a(href=item.headline.link)
-														| !{item.headline.linkText}
-														i(class="icon-ui2-chevron-18-white-right")
-
-
-									if s == 'content-4'
-										//- HEADLINE ONLY
-										if contentType == 'headline-only'
-											h3.headline!= item.headline.title
-												if item.headline.link
-													a(href=item.headline.link)
-														| !{item.headline.linkText}
-														i(class="icon-ui2-chevron-18-white-right")
-
-
-								if s == 'content-8'
-									//- COUNTER
-									if contentType == 'headline-counter' || contentType == 'headline-copy-counter' 						
-										.counter
-											- counterText = item.counter.total + ' ' + item.counter.text
-											h3.l2= counterText
+										//- COUNTER
+										if contentType == 'headline-counter' || contentType == 'headline-copy-counter' 						
+											.counter
+												- counterText = item.counter.total + ' ' + item.counter.text
+												h3.l2= counterText
 
 
 
