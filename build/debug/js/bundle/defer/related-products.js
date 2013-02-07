@@ -793,7 +793,7 @@
         self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
 
         if(!!self.isTabbedContainer){
-          self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
+          self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
         }
 
         console.log("Slider Height »",self.$el.height());
