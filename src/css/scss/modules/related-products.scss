@@ -3,6 +3,11 @@
 
 
 
+@function px-p($pxVal, $context){
+  @return (strip-units($pxVal) / strip-units($context)) * 10 + 0%;
+}
+
+
 .container-tabbed {
   position: relative;
 }
@@ -24,7 +29,7 @@
       background-color: $gray90;
       color: $gray40;
       display: inline-block;
-      padding: 16px 18px 18px 18px;
+      padding: 16px 18px;
       @include transition(box-shadow 0.15s ease-in);
 
       &:first-child {
@@ -353,6 +358,9 @@
           visibility: hidden;
           cursor: none;
         }
+
+        min-height: 250px;
+
         overflow: inherit;
         &:not(.plate) .product-img {
           background: $gray80;
@@ -470,15 +478,58 @@
         }
       }
 
+
       .medium .product-img:after {
         padding-top: 108.82761%;
+        padding-top: 107.62761%;
+
+
+        @media (min-width:981px) and (max-width:1199px){
+          padding-top: 112.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1107px){
+          padding-top: 115.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1095px){
+          padding-top: 116.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1095px){
+          padding-top: 121.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1087px){
+          padding-top: 117.02761%;
+        }        
+
+        @media (min-width:981px) and (max-width:1087px){
+          padding-top: 119.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1012px){
+          padding-top: 121.72761%;
+        }
+
+        @media (min-width:981px) and (max-width:986px){
+          padding-top: 124.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:996px){
+          padding-top: 122.92761%;
+        }
 
         @media (min-width:481px) and (max-width:768px){
           padding-top: 122.32761%;
         }
 
         @media (min-width:769px) and (max-width:980px){
-          padding-top: 121.32761%;
+          padding-top: 124.22761%;
+        }
+
+        @media (min-width:568px) and (max-width:767px){
+          padding-top: 127.92761%;
         }
 
         @media (max-width: 481px){
@@ -490,10 +541,12 @@
 
       @media (min-width: 481px) and (max-width: 980px){
 
+        .gallery-item {
+          min-height: 230px;
+        }
+
         .gallery-item:after {
-          //padding-top: 127.196078%;
-          //padding-top: 160.196078%;
-          padding-top: 127.196078%;
+          padding-top: 133.196078%;
         }
 
         .gallery-item .gallery-item-inner,
@@ -524,6 +577,19 @@
         .gallery-item.plate:after {
           padding-top: 76.190255%
         }
+      }
+
+      @media (min-width: 568px) and (max-width: 767px){
+
+        .gallery-item.medium:after {
+          padding-top: 170.196078%;
+        }     
+      }
+
+
+
+      @media (min-width: 481px) and (max-width: 705px){
+          //min-height: 200px;
       }
 
       .promo:after {
