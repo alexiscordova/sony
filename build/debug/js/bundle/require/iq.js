@@ -15,7 +15,7 @@
 //
 // requires imagesloaded plugin to add on image load listeners:
 // https://github.com/desandro/imagesloaded
-
+console.log('a')
 (function(iQ, $, Modernizr){
   'use strict';
 
@@ -201,6 +201,7 @@
   },
 
   onImageLoad = function(elm){
+    console.log('!', $(elm).attr('src'));
     if(fade && $(elm).data('fadeonce') !== true && !$(elm).hasClass(noFadeFlag)){
       $(elm).data('fadeonce', true);
       $(elm).css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
