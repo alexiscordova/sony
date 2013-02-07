@@ -50,7 +50,11 @@
       self._onResize( true );
 
       self.$window.on('resize', $.debounce(250, $.proxy( self._onResize, self )));
-      self.$window.on('load', $.proxy( self._initStickyNav, self ));
+
+      // Push to the end of the stack cause it's not needed immediately.
+      setTimeout(function() {
+        self._initStickyNav();
+      }, 100);
     },
 
     _initFeatures : function() {
@@ -234,14 +238,21 @@
 
     _onResize : function( isFirst ) {
       var self = this,
-          $imgs = self.$carousel.find('img'),
-          imgHeight = $imgs.height();
+          $imgs = self.$carousel.find('img');
+
+      // isFirst can be the event object too
+      isFirst = isFirst === true;
 
       if ( !isFirst ) {
-        self.$carousel.height( imgHeight );
+
+        // Set max width equal to the container width
+        // Don't remember why I do this instead of max-width:100%
         $imgs.css({
           maxWidth: self.$carouselWrap.width()
         });
+
+        // Set carousel height based on the new image height
+        self.$carousel.height( $imgs.height() );
       }
 
 
