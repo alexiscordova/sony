@@ -1,21 +1,71 @@
 ---
 cacheable: true
 ---
+
+script(src="js/libs/LAB.min.js")
+
 l = {"locals": locals}
+
 if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
-  for name in locals.require()
-    sr = "js/bundle/require/" + name
-    script(src = sr)
-    
-  for name in locals.secondary()
-    sr = "js/bundle/secondary/" + name
-    script(src = sr)
-      
-  for name in locals.defer()
-    sr = "js/bundle/defer/" + name
-    script(src = sr)
-  
-  //if lt IE 9 
+
+  script
+    var pluginScripts = !{JSON.stringify(locals.plugins())},
+        requiredScripts = !{JSON.stringify(locals.require())},
+        secondaryScripts = !{JSON.stringify(locals.secondary())},
+        deferedScripts = !{JSON.stringify(locals.defer())};
+
+  script
+
+    $LAB
+
+      // Libraries
+      .script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js').wait()
+      .script('http://code.jquery.com/jquery-migrate-1.1.0.js').wait()
+      .script('js/libs/modernizr-2.6.2.min.js').wait()
+      .script('js/libs/bootstrap.js').wait()
+
+      // Plugins
+      .script(function(){
+        var arr = [];
+        for ( i in pluginScripts ) {
+          arr.push('js/bundle/plugins/' + pluginScripts[i]);
+        }
+        return arr;
+      }).wait()
+
+      // Global Scripts
+      .script(function(){
+        var arr = [];
+        for ( i in requiredScripts ) {
+          arr.push('js/bundle/require/' + requiredScripts[i]);
+        }
+        return arr;
+      }).wait()
+
+      // SONY Plugins
+      .script(function(){
+        var arr = [];
+        for ( i in secondaryScripts ) {
+          arr.push('js/bundle/secondary/' + secondaryScripts[i]);
+        }
+        return arr;
+      }).wait()
+
+      // Module Scripts
+      .script(function(){
+        var arr = [];
+        for ( i in deferedScripts ) {
+          arr.push('js/bundle/defer/' + deferedScripts[i]);
+        }
+        return arr;
+      })
+
+      // Global Initialization.
+      .wait(function() {
+        // Global init.
+      });
+
+  //if lt IE 9
     for name in locals.polyfills()
       sr = "js/libs/polyfill/" + name
       script(src = sr)
@@ -24,15 +74,27 @@ if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
     for name in locals.polyfillsie7()
       sr = "js/libs/polyfill-lte-ie7/" + name
       script(src = sr)
-  
-      
+
 else
-  script(src="js/require.min.js")
-  script(src="js/secondary.min.js")
-      
-  for name in locals.defer()
-    sr = "js/bundle/defer/" + name
-    script(src = sr)
-      
+
+  script
+
+    $LAB
+
+      // Libraries
+      .script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js').wait()
+      .script('http://code.jquery.com/jquery-migrate-1.1.0.js').wait()
+      .script('js/libs/modernizr-2.6.2.min.js').wait()
+      .script('js/libs/bootstrap.js').wait()
+      .script('js/plugins.min.js').wait()
+      .script('js/require.min.js').wait()
+      .script('js/secondary.min.js').wait()
+      .script('js/defer.min.js').wait()
+
+      // Global Initialization.
+      .wait(function() {
+        // Global init.
+      });
+
   //if lt IE 9
     script(src="js/polyfill.min.js")

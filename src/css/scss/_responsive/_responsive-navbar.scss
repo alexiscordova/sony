@@ -838,7 +838,7 @@
 }
 
 .page-wrap-inner{
-  @include transition(left $transitionSlower $easeOutNav 0s);
+  @include transition(left $transitionSlower $easeOutNav 0s, width $transitionSlower $easeOutNav 0s);
   position:relative;
 }
 
@@ -855,15 +855,20 @@
   left: 0;
   z-index: $zindexModalBackdrop;
   background-color: $modalBackgroundColor;
-  @include transition(opacity $transitionSuperslow linear 0s);
+  @include transition(opacity $transitionSuperslow linear 0s, left $transitionFast ease-out 0s);
 }
 
-
+.navbar-mobile{
+  z-index:10;
+}
 .nav-outer-container{
   position:absolute;
   width:$navMobileWidthLarge;
   left:-$navMobileWidthLarge;
   top:0;
+  z-index:20;
+
+  @include transition(width $transitionFast ease-out 0s);
 }
 
 
@@ -896,32 +901,15 @@
   padding-bottom:28px;
 }
 .navmenu-w-search{
-  width:100%;
-  background:$grayLighter;
-  padding:9px;
+  width:auto;
+}
 
+.show-mobile-menu.show-mobile-search-results .navmenu-w-search{
   .navmenu-search-section-input{
-    padding:7px 12px 9px 8px;
-
-    input[type=text]{
-      font-size:$font_15_16;
-      @include fontRegular;
-      line-height:1;
-      width:100%;
-    }
-  }
-
-  .btn-clear-search-input{
-    right: 17px;
-    top: 17px;
-  }
-
-  .fonticon-10-search{
-    top: 22px;
-    left: 18px;
-    font-size: 1.2em;
+    padding-left:36px;
   }
 }
+
 
 .navmenu-w-account{
   .reveal-transition-container{
@@ -1002,11 +990,11 @@
   .navmenu-line{
     margin-left:14px;
     a.tl{
-      font-size: px-em(14,15);
+      font-size: px-em(14,16);
       padding:5px 0 5px 4px;
       i{
         padding-right:7px;
-        font-size:1.2em;
+        font-size: px-em(16,14);
       }
     }
   }
@@ -1022,9 +1010,13 @@
 
 
 .navmenu-list.navmenu-list-prefixed,
-.sprite-mini-global-nav-indicator,
+.sprite-mini-global-nav-indicator{
+  display:none;
+}
 .navmenu-search-section-results{
   display:none;
+  opacity:0;
+  @include transition(opacity $transitionSlower linear 0s);
 }
 
 .navbar-mobile{
@@ -1155,6 +1147,163 @@
     margin:0 20px;
   }
 }
+
+
+// for the mobile search results, the menu goes full-width.
+.navbar-mobile,
+#main-wrapper,
+#footer-wrapper{
+  @include transition(left $transitionFast ease-out 0s);
+}
+.navbar-mobile,
+#main-wrapper,
+#footer-wrapper{
+  position:relative;
+}
+.nav-mobile-scroller{
+  background:$white;
+  min-height:100%;
+}
+.page-wrap-inner.show-mobile-menu.show-mobile-search-results{
+  .nav-outer-container{
+    width:100%;
+  }
+  .mobile-screen-overlay,
+  .navbar-mobile,
+  #main-wrapper,
+  #footer-wrapper{
+    left: 101 - $navMobileWidthLarge;
+  }
+
+  .navmenu-search-section-results{
+    display:block;
+    opacity:1;
+  }
+
+  .navmenu-w-mobile-top,
+  .navtray-w,
+  .navbar{
+    display:none !important; // override for .visible-phone - this isn't ideal.
+  }
+}
+
+
+.bp-nav-mobile .show-mobile-search-results{
+  .navmenu-w-search{
+    .btn-clear-search-input{
+      display:block;
+    }
+    .navmenu-search-section-input{
+      margin-right:63px;
+    }
+  }
+}
+
+.bp-nav-mobile{
+  .navmenu-w-search{
+    width:100%;
+    background:$grayLighter;
+    padding:9px;
+    padding:0;
+
+
+    .navmenu-search-section-input{
+      padding:8px 12px 10px 8px;
+      margin:9px;
+
+      input[type=text]{
+        font-size:$font_16_16;
+        @include fontRegular;
+        line-height:1;
+        width:100%;
+      }
+    }
+    .btn-clear-search-input{
+      right: 10px;
+      top: 9px;
+      width: 44px;
+      height: 44px;
+      padding-top:14px;
+      padding-left:14px;
+      background:$gray40;
+      color:$white;
+    }
+    .fonticon-10-search{
+      top: 20px;
+      left: 18px;
+      font-size: 1.3em;
+    }
+
+
+
+    .navmenu-search-section-results{
+      margin-top:0;
+      padding-top:18px;
+      background:$white;
+
+      .navmenu-search-popular-searches{
+      }
+    }
+    .navmenu-search-popular-searches{
+      padding:3px 0 0 0;
+      p.l3{
+        margin-bottom:4px;
+        margin-left:20px;
+      }
+    }
+
+    .show-mobile-search-results & {
+      padding-left:36px;
+    }
+    .search-result-p .search-result-headline{
+      font-size:0.9em;
+      line-height:1.3em;
+    }
+    .navmenu-list-results{
+      .search-result-line {
+        &:after{ // HR after each search result
+          @include pseudoEl-block(100%, 0px);
+          margin:0 15px;
+          border-bottom:solid 1px $grayLightish;
+        }
+        > a {
+          padding:9px 5px 0px 16px;
+          height:59px;
+          > img {
+            margin-right:6px;
+            width:68px;
+          }
+          .fonticon-30-support {
+            margin-right:26px;
+            font-size:2em;
+          }
+        }
+      }
+    }
+    .navmenu-list-extended{
+      margin-top:18px;
+      margin-left:5px;
+
+      .search-result-line{
+        > a.tl {
+          font-size:px-em(13);
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+      }
+    }
+    &.searching{
+      .navmenu-search-section-results{
+        .navmenu-search-results{
+          .btn-show-all-results{
+            width: 280px;
+            margin: 5px 20px 50px;
+          }
+        }
+      }
+    }
+  }
+}
   
 } // max-width: 767px
 
@@ -1222,6 +1371,7 @@
 }
 .mobile-screen-overlay{
   top: $navbarMobileHeight;
+  left: 0;
 }
 
 .nav-outer-container{
@@ -1230,12 +1380,24 @@
 }
 
 
+// for the mobile search results, the menu goes full-width.
+.page-wrap-inner.show-mobile-menu.show-mobile-search-results{
+  .mobile-screen-overlay,
+  .navbar-mobile,
+  #main-wrapper,
+  #footer-wrapper{
+    left: 101 - $navMobileWidth;
+  }
+}
+
+
+
 
 
 .navbar-mobile{
   .btn-mobile-nav,
   .btn-mobile-cart{
-    width: 58px;
+    width: $navbarMobileHeight;
     height: $navbarMobileHeight;
   }
   .btn-mobile-nav{  

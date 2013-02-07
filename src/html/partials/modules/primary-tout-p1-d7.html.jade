@@ -4,7 +4,7 @@ mixin eyebrow(d)
     if d.eyebrow.link
       a.eyebrow(href= d.eyebrow.link)!= locals.plusify(d.eyebrow.text)
     else
-      h2.t6.eyebrow!= locals.plusify(d.eyebrow.text)
+      h2.t7.eyebrow!= locals.plusify(d.eyebrow.text)
 
 mixin header(d)
   d = d || data
@@ -70,7 +70,8 @@ section.primary-tout.container.full-bleed-no-max(class= classes)
       +boxlayout
         +eyebrow
         +header
-        +links(data, "visible-phone")
+        .visible-phone
+          +links
       .secondary.container.full-bleed-no-max.hidden-phone(class= data.variation.substyle)
         .box
           .container.grid.no-grid-at-767
