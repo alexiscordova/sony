@@ -27,6 +27,7 @@
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
       self.$container              = $( element );
+      self.containerId             = '#' + self.$container.attr("id");
       self.$el                     = self.$container.find(".tcc-scroller");
       self.$win                    = $( window );
       self.$doc                    = $( window.document );
@@ -34,7 +35,6 @@
       
       self.mode                    = null;
 
-      //self.$tccID                  = "#" + self.$container.attr("id");
       self.contentSelectorClass    = '.tcc-body';
       self.contentModulesClass     = '.tcc-content-module';
       self.$tccBodyWrapper         = self.$el;
@@ -91,7 +91,6 @@
         setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 100 ); // set scroller & iscroll options
         setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
         setupSequence.start();
-
       },
 
       // teardown controller
@@ -108,13 +107,8 @@
 
       // instantiate a scroller 
       createScroller : function(){
-       // console.group( 'createScroller' );
-
-        var self=this;       
+        var self=this;
         self.$scrollerInstance = self.$el.scrollerModule( self.scrollerOptions );
-
-        // console.log( 'end »');
-        // console.groupEnd();   
       },
 
       // destroy scroller if not in mobile
@@ -144,18 +138,20 @@
       // set scroller options to be passed to sony-scroller
       // based on current mode 
       setScrollerOptions : function(){
-        // console.group('««« setOptions »»»');
-        
         var self = this;
        
         // all general settings are set as default options      
         self.scrollerOptions = self.options;
        
-       // now that we know mode, add it as option.
+        // now that we know mode, add it as option.
         self.scrollerOptions.fitPerPage = self.mode === 'phone' ? 1 : 2; 
 
-        // console.log( '« end »');
-        // console.groupEnd();
+        // TODO: determine why passing this into scroller was casusing issues
+        // when more than one scroller instance was on the page 
+        // bullets would get appended to last instance and oddly 
+        // not respecting encapsulation
+        // self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';
+
       },
 
       // every resize event (debounced) determine size of each content module 
@@ -200,13 +196,13 @@
       
         // calculate the relative margin given the current available width
         relativeMargin = Math.round(totalSize * self.marginPercent);
-        console.log( 'relativeMargin »' , relativeMargin);
+        //console.log( 'relativeMargin »' , relativeMargin);
 
 
         // calculate margin for each content module
         eachMargin = relativeMargin/2;
         
-        console.log( 'eachMargin »' , eachMargin);
+        //console.log( 'eachMargin »' , eachMargin);
         return eachMargin;
       },
 
@@ -225,7 +221,7 @@
       },
 
       setContentModulePadding : function( paddingValue ){
-        console.group( '««« setContentMoudlePadding »»»' );
+        //console.group( '««« setContentMoudlePadding »»»' );
         var self = this;
 
         // set content module's padding correctly
@@ -236,8 +232,8 @@
         $(self.$contentModules[2]).css( "paddingRight", paddingValue );
         $(self.$contentModules[2]).css( "paddingLeft", paddingValue );
         
-        console.log( '« end »');
-        console.groupEnd();
+        //console.log( '« end »');
+        //console.groupEnd();
       },
 
       // on resize event (debounced) determine what to do
@@ -320,9 +316,9 @@
         contentSelector: ".tcc-body", 
         itemElementSelector: ".tcc-content-module", 
         mode: 'paginate',
-        fitPerPage: null, // null for now, determined once self.mode is set in setScrollerOptions
+        //fitPerPage: null, // null for now, determined once self.mode is set in setScrollerOptions
         generatePagination: true,
-        appendBulletsTo:".tcc-wrapper",
+        //appendBulletsTo:null, // adding this later in setScrollerOption
         centerItems: true,
 
         iscrollProps: {

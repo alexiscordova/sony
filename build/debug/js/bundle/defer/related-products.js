@@ -1375,7 +1375,7 @@ $(function(){
       $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
       $productPanels = $('.related-products[data-rp-panel-id]');
 
-      console.log('Product panels »',$productPanels, $productPanels.length);
+      // console.log('Product panels »',$productPanels, $productPanels.length);
 
   //TODO: fpo only
   $('.related-products[data-rp-panel-id=2] .plate .product-img').css('backgroundColor' , '#913f99');
