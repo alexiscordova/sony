@@ -59,10 +59,10 @@ mixin iQColorImages( colors )
         img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
 
 mixin heart
-  .favorite-holder.js-favorite.iconTrigger-ui-favorite(title="Added to Favorites")
-    favClass = 'icon-ui-favorite'
-    - if ( data.isFavorited ) favClass += ' active'
-    i(class=favClass)
+  - heartClass = 'favorite-holder js-favorite'
+  - if ( data.isFavorited ) heartClass += ' active'
+  div(class=heartClass, title="Added to Favorites")
+    i.fonticon-10-favorite
 
 
 if data.view == "basic"

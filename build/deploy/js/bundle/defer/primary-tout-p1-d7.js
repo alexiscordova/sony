@@ -27,7 +27,7 @@
         if(w > 1200){
           $('.primary-tout.homepage .hero-image').css('height', Math.min(740, 640 + ((w - 1200) / 10)));
         }else if (w > 768){
-          $('.primary-tout.homepage .hero-image').css('height', 640);
+          $('.primary-tout.homepage .hero-image').css('height', "");
         }
         
         // this each and find inner for layouts page

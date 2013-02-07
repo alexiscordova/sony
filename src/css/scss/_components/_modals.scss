@@ -119,6 +119,7 @@ $modalHeight: 550px;
   position: absolute;
   top: 0;
   right: 0;
+  display: block;
   @include size( px-em(40px), px-em(43px) );
   padding: 0;
   line-height: 1;
@@ -133,7 +134,17 @@ $modalHeight: 550px;
 
   i {
     color: $white;
-    vertical-align: baseline;
+    // vertical-align: baseline;
+  }
+}
+
+.box-close-small {
+  @include square( px-em(23px) );
+  top: 0;
+
+  // We know the icon is 16x16, center it with line-height
+  i {
+    line-height: 18px;
   }
 }
 
@@ -151,6 +162,7 @@ $modalHeight: 550px;
 
   .modal-inner {
     overflow: visible;
+    @include box-shadow(none);
   }
 
   .modal-header {
