@@ -364,7 +364,13 @@ $offsetFromMiddle: px-em(45px);
 
     i {
       // margin-top: px-em(3px);
+      color: $gray60;
       vertical-align: baseline;
+    }
+
+    &:hover i,
+    &.active i {
+      color: rgb(243,84,41);
     }
   }
 }
@@ -935,11 +941,36 @@ $offsetFromMiddle: px-em(45px);
     display: none;
   }
 
+  .filter-container {
+    margin-bottom: 2.8125em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    // Button horizontal spacing
+    .btn-group > .btn:not(:first-child) {
+      margin-left: .25em;
+    }
+
+    // Checkbox vertical spacing
+    .control-inline:not(:first-child) {
+      margin-top: .625em;
+    }
+
+    // Group vertical spacing
+    .media + .media {
+      margin-top: 1em;
+    }
+  }
+
   .filter-display-bar {
 
     .product-count-wrap {
       display: block;
       float: left;
+      margin-bottom: 0;
+      margin-top: 10px;
     }
 
     .slide-toggle {
@@ -955,6 +986,7 @@ $offsetFromMiddle: px-em(45px);
 
     .slide-toggle,
     .js-compare-toggle {
+      margin-top: 20px;
       width: 48%;
     }
   }
@@ -1138,8 +1170,14 @@ $offsetFromMiddle: px-em(45px);
   margin-bottom: 1.125em;
 }
 
+// Holds labels and compare-items
 .compare-container {
   padding-bottom: 5em;
+
+  // Show the navigation
+  &:hover .compare-nav {
+    @include opacity(100);
+  }
 }
 
 .compare-items-wrap {
@@ -1148,11 +1186,17 @@ $offsetFromMiddle: px-em(45px);
   overflow: visible !important; // override iscroll
 }
 
+.compare-items-container {
+  height: 100%;
+}
+
 .compare-nav {
   position: absolute;
   z-index: 15;
   top: 330px;
   width: 100%;
+  @include opacity(0);
+  @include transition();
 
   .nav-prev,
   .nav-next {
@@ -1355,7 +1399,10 @@ $offsetFromMiddle: px-em(45px);
 
 .takeover-sticky-header {
   position: absolute;
+  z-index: 20;
   top: -6.25em;
+  left: -999em;
+  width: 100%;
   background: $white;
   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
 
@@ -1365,6 +1412,15 @@ $offsetFromMiddle: px-em(45px);
     @include transition-delay(0s);
     @include transition-timing-function(ease-out);
   }
+
+  .sticky-nav-title {
+    padding: 18px 0;
+    margin-bottom: 0;
+  }
+
+  .box-close {
+    display: none;
+  }
 }
 
 
@@ -1373,15 +1429,6 @@ $offsetFromMiddle: px-em(45px);
   position: absolute;
   top: 0;
   right: 0;
-}
-
-.box-close-small {
-  @include square( px-em(23px) );
-  top: 0;
-
-  i {
-    vertical-align: middle;
-  }
 }
 
 .compare-box {
@@ -1397,6 +1444,10 @@ $offsetFromMiddle: px-em(45px);
 
   .compare-nav {
     display: none;
+  }
+
+  .takeover-sticky-header .box-close {
+    display: block;
   }
 
 
