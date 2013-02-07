@@ -1,0 +1,22 @@
+------
+title: Tertiary Module Layout: Flickr (T5. A,)
+description: This shows the flickr layout options for the Tertiary Module
+---
+
+doctype 5
+
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+		
+	e = {"locals":locals, "data":data('tertiary-t1-t5/flickr-t5-a.json')}
+	!{partial('modules/tertiary-t1-t5.html.jade', e)}
+ 
+	!{partial('includes/foot.html.jade', l)}
+
+</html>
