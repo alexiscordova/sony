@@ -29,7 +29,7 @@ if data.config.tabbedLayout
                 for module in mdata.submodules
                   d = locals.data(module.data)
                   if d.type == 'product' && d.featured
-                    - d.layout = document[mdata.config.layout][i++]
+                    - d.layout = document[data.config.layout][i++]
                     - d.view = 'basic'
                     e = { 'locals' : locals , 'data' : d }
                     !{locals.partial('modules/'+module.type , e )}
@@ -60,7 +60,7 @@ if data.config.tabbedLayout
                 for module in mdata.submodules
                   d = locals.data(module.data)
                   if d.type == 'product' && d.featured
-                    - d.layout = document[mdata.config.layout][i++]
+                    - d.layout = document[data.config.layout][i++]
                     - d.view = 'basic'
                     e = { 'locals' : locals , 'data' : d }
                     !{locals.partial('modules/'+module.type , e )}
