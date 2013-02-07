@@ -15,7 +15,7 @@
 //
 // requires imagesloaded plugin to add on image load listeners:
 // https://github.com/desandro/imagesloaded
-console.log('a')
+
 (function(iQ, $, Modernizr){
   'use strict';
 
