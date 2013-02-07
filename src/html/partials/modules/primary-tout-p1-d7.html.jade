@@ -4,19 +4,25 @@ mixin eyebrow(d)
     if d.eyebrow.link
       a.eyebrow(href= d.eyebrow.link)!= locals.plusify(d.eyebrow.text)
     else
-      h2.t6.eyebrow!= locals.plusify(d.eyebrow.text)
+      h2.t7.eyebrow!= locals.plusify(d.eyebrow.text)
 
 mixin header(d)
   d = d || data
-  if d.variation && d.variation.headertext == "larger"
-    h1!= d.headline
-  else
-    h1.t2!= d.headline
+  if d.variation 
+    if d.variation.quote
+      blockquote.bq1
+        p!= d.quote
+      p.p3!= d.byline
+    else
+      if d.variation.headertext == "larger"
+        h1!= d.headline
+      else
+        h1.t2!= d.headline
 
 mixin bodytext(d)
   d = d || data
   if d.body 
-    p.p3!= d.body
+    p.p3.hidden-phone!= d.body
     
 mixin links(d, extraclass)
   d = d || data
@@ -27,16 +33,16 @@ mixin links(d, extraclass)
 
 mixin boxclass(layout)
   layout = layout || data.layout
-  classes = layout.alignment
-  if layout.mobilealign
-    classes = classes + " " + layout.mobilealign
-  .box(class = classes)
+  .box(class = layout.alignment)
     block
 
 mixin boxlayout(layout)
   layout = layout || data.layout
+  classes = data.style
+  if layout.mobilealign
+    classes = classes + " " + layout.mobilealign
   if layout.text == "left"
-    .container.inner.grid.no-grid-at-767(class= data.style)
+    .container.inner.grid.no-grid-at-767(class= classes)
       - span = "span" + layout.columns[0]
       div(class= span)
         .table-center-wrap
@@ -44,7 +50,7 @@ mixin boxlayout(layout)
             +boxclass
               block
   else if layout.text == "right" || layout.text == "center"
-    .container.inner.grid.no-grid-at-767(class= data.style)
+    .container.inner.grid.no-grid-at-767(class= classes)
       - span = "span" + layout.columns[1]
       - offset =  "offset" + layout.columns[0]
       div(class= span)(class= offset)
@@ -64,7 +70,8 @@ section.primary-tout.container.full-bleed-no-max(class= classes)
       +boxlayout
         +eyebrow
         +header
-      .secondary.container.full-bleed-no-max(class= data.variation.substyle)
+        +links(data, "visible-phone")
+      .secondary.container.full-bleed-no-max.hidden-phone(class= data.variation.substyle)
         .box
           .container.grid.no-grid-at-767
             .span6

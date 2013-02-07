@@ -6,7 +6,7 @@ section(class='mode-'+data.mode.toLowerCase()).edv.container
     p #{data.header.description}
     a(href = data.header.linkURL) Learn more
 
-  section.edv-images
+  div.edv-images
     - for (var i = 0; i < 2 && i < data.images.length; i++)
       edvImage = data.images[i]
       figure(class='image-'+(i+1)).edv-image

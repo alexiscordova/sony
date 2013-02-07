@@ -149,6 +149,10 @@
 	    		color:$white;
 	    	} // end .t4
 
+	    	&:after{
+	    		padding-top:45.8860759%; // 145h/315w
+	    	}
+
    	  } // end .feature-copy
 
 		} // end .article.featured 
@@ -227,21 +231,12 @@
 	} // end .users-voice
 
 	.sonys-voice{
-		.fonticon-13-twitter{
+		.fonticon-10-twitter,
+		.fonticon-10-facebook,
+		.fonticon-instagram {
 			background-color: $white;
 			color:$twitterColor;
-		} // end .fonticon-13-twitter
-
-		.fonticon-13-facebook{
-			background-color: $white;
-			color:$facebookColor;
-
-			&.should-be-instagram-icon{
-				color:red;
-			}
-
-		} // end .fonticon-13-facebook
-
+		} // end fonticons
 
 		.meta{
 		  .user{
@@ -263,11 +258,55 @@
 
 		&.instagram{
 		  .imageMat{
-		  	width:px-em(315px);
-		  	height: px-em(315px);
-		  	padding:10px px-em(10px);
-		  	border:1px solid red;
-		  	background-color:rgb(226,227,233);
+		  	// opacity:0.3; // TODO: add opacity to color variable, rgba() mixin needed;
+		  	//width: px-em(306px); ;
+		  	//height:217px;
+		  	background-color:$gray50;
+		  	position: relative;
+		  	@include clearfix();
+
+		  	div{
+		  		position: absolute;
+
+		  		img{
+		  			width: 100%;
+		  		}
+		  		// padding:10px px-em(10px);
+		  	}
+
+		  	$oneThirdWidth: 30.3797468%;  // 96/316
+		  	$twoThirdWidth: 61.7088608%; // 195/316
+		  	$outerPaddingH: 3.164557%; // 10/316
+		  	$innerPaddingH: 1.5822785%; // 5/316
+
+		  	.top-left{
+		  		//@include debug(1px, red);
+		  		top:10px;
+		  		left:$outerPaddingH;
+		  		width: $oneThirdWidth;//px-em(96px); 
+		  		//height: px-em(96px); 		  		
+		  	}
+
+		  	.top-right{
+		  		//@include debug(1px, green);
+		  		top:10px;
+		  		right:$outerPaddingH;
+					width: $twoThirdWidth;//px-em(195px); 
+		  		//height: px-em(197px); 
+		  	}
+
+		  	.bottom-left{
+		  		//@include debug(1px, purple);
+		  		bottom:7px;
+		  		left:$outerPaddingH;
+		  		width: $oneThirdWidth; //px-em(96px); 
+		  		//height: px-em(96px); 
+		   	}
+
+				&:after{
+					padding-top:68.6708861%; // (217/316) *100
+				} // end :after preserve ratio
+
 		  } // end imageMat
 		  
 		} // end &.instagram
