@@ -42,12 +42,13 @@
 
         if ($input.val() === inputObj.watermarkText){
           $input.val('');
-          inputObj.$inputIcon.hide();
+
+          // don't hide search icon on mobile
+          if (!$('html').hasClass('bp-nav-mobile')){
+            inputObj.$inputIcon.hide();
+          }
         }
       }).on('blur', function(){
-        
-        // console.log("input: blur");
-
         if ($input.val() === ''){
           $input.val(inputObj.watermarkText);
           inputObj.$inputIcon.show();
@@ -75,13 +76,17 @@
       inputObj.$inputClearBtn.on('click',function(){
         inputObj.clearBtnClicked = true;
         self.clearSearchResults( inputObj );
-        inputObj.$input.focus();
+
+        if (!$('html').hasClass('bp-nav-mobile')){
+          inputObj.$input.focus();
+        }
       }).on('mouseleave',function(){
         inputObj.clearBtnClicked = false; // just make sure it's cleared
       });
     },
 
     doSearch: function( inputObj ){
+      var self = this;
       var queryStr = inputObj.$input.val();
 
       switch( inputObj.$input.attr('id') ){
@@ -91,6 +96,12 @@
 
         case 'store-locator-search-input':
           //console.log('store-locator-search-input, queryStr: ' + queryStr);
+          
+          // need to call this after the search results have been returned & are displayed (because that'll change the height of the iscroll).
+          // need a global way to talk between modules
+          // if (!$('html').hasClass('bp-nav-mobile')){
+          //   self.initMobileNavIScroll();
+          // }
           break;
 
         case 'nav-search-input':
@@ -105,7 +116,10 @@
 
     clearInput: function( inputObj ){
       inputObj.$input.val('');
-      inputObj.$inputIcon.hide();
+
+      // if (!$('html').hasClass('bp-nav-mobile')){
+        inputObj.$inputIcon.hide();
+      // }
     },
 
     clearSearchResults: function( inputObj ){
