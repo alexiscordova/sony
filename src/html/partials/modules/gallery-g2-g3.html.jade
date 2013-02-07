@@ -93,7 +93,7 @@ mixin filterSet( filterSet )
       mixin filterGroup( filterSet )
 
 
-.sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel")
+.sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel", data-module-name != data.config.module_name, data-module-id = data.config.module_id)
   .tabs-container.container.m-full-bleed
     .grid.m-full-bleed
       .tabs
@@ -118,7 +118,7 @@ mixin filterSet( filterSet )
 
 
 
-.tab-content.gallery-content
+.tab-content.gallery-content(data-module-name != data.config.module_name, data-module-id = data.config.module_id)
   if data.tabs[0]
     .tab-pane.fade.in.active(data-tab=data.tabs[0].slug)
 
@@ -307,12 +307,15 @@ mixin filterSet( filterSet )
   - for (i = 3; i < 10; i++) {
   if data.tabs[i]
     .tab-pane.fade(data-tab=data.tabs[i].slug)
-      | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      | consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      | cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      | proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      .container
+        .grid
+          h2.t6= data.tabs[i].label
+          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          | consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          | cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          | proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   - }
 
 #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
@@ -327,8 +330,8 @@ mixin filterSet( filterSet )
           i.swatch-lemon.mini-swatch
           span.p4!= '&nbsp;' + 'Highlights indicate highest performance features'
     .takeover-sticky-header
-      .container
-        .grid.relative
-          h6.t6.sticky-nav-title
-          button.box-close(data-dismiss="modal", aria-hidden="true")
+      .container.relative
+        h6.t6-light.sticky-nav-title
+        button.box-close(data-dismiss="modal", aria-hidden="true")
+          i.fonticon-10-x-skinny
 

@@ -13,7 +13,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
         p.tcc-header-link.lt3
           a(href="#{header.link}") #{header.linkText}
   
-  section.tcc-scroller.tcc-body-wrapper.container
+  section.tcc-scroller.tcc-body-wrapper.container.full-bleed-at-767
     .tcc-body.grid.no-grid-at-767
     
       for module in data.contentModules
@@ -30,8 +30,8 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
               if(module.imgSrc)
 
                 //- image (optional)
-                div.img-container
-                  div.img-wrap
+                .img-container
+                  .img-wrap
                     img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
                     noscript
                       img(src="#{module.noScriptImg}")
@@ -49,8 +49,8 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                       | #{module.date}
 
                   if(contentMode == "event") && (module.attendanceCount)
-                    div.attendance-count.ghost-center-wrap
-                      div.ghost-center
+                    .attendance-count.ghost-center-wrap
+                      .ghost-center
                         p.l4
                           span
                             | #{module.attendanceCount} 
@@ -135,19 +135,20 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   a(href=#{module.repliesLink})
                     | See Replies
 
-                div.answer-btn
+                .answer-btn
                   a.btn(href="#{module.answerLink}")
                     | Answer this Question
             
             when "sonys-voice"
               if (contentMode == "twitter")
-                .fonticon-13-twitter
+                .fonticon-10-twitter
 
               if (contentMode == "facebook")
-                .fonticon-13-facebook
+                .fonticon-10-facebook
 
               if (contentMode == "instagram")
-                .fonticon-13-facebook.should-be-instagram-icon
+                .fonticon-instagram
+                  img(src="img/tertiary-t1-t5/icon-instagram.png")
                 
               .meta
                 for meta in module.meta                   
@@ -166,7 +167,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   p
                     | #{module.quote}
 
-                div.social-btn
+                .social-btn
                   a.btn(href="#{module.socialBtnLink}")
                     | Follow Us on Twitter
 
@@ -183,22 +184,35 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                       a
                         | #{module.postLink}
 
-                div.social-btn
+                .social-btn
                   a.btn(href="#{module.socialBtnLink}")
                     | Like Us on Facebook
 
               if (contentMode == "instagram")
-                div.imageMat
-                  | 23
-                div.social-btn
+                .imageMat
+                  .top-left
+                    img.iq-img(alt="#{module.instagramTLImgAltText}", data-src="#{module.instagramTLImg}")
+                    noscript
+                      img(src="#{module.instagramTLNoScriptImg}")
+
+                  .top-right
+                    img.iq-img(alt="#{module.instagramRImgAltText}", data-src="#{module.instagramRImg}")
+                    noscript
+                      img(src="#{module.instagramRNoScriptImg}")
+
+                  .bottom-left  
+                    img.iq-img(alt="#{module.instagramBLImgAltText}", data-src="#{module.instagramBLImg}")
+                    noscript
+                      img(src="#{module.instagramBLNoScriptImg}")
+                  
+                .social-btn
                   a.btn(href="#{module.socialBtnLink}")
                     | Follow Us on Instagram
-
-                  
 
 
             when "flickr"
               if (contentMode == "default")
-                p default
+                .fonticon-flickr
+                  img(src="img/tertiary-t1-t5/icon-flickr.png")
               
 //- END Tertiary Content Container

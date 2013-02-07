@@ -7,12 +7,12 @@
         },
         {
             "label": "TVs",
-            "slug": "tvs",
+            "slug": "tvs-fake",
             "icon": "tv"
         },
         {
             "label": "Accessories",
-            "slug": "accessories",
+            "slug": "accessories-fake",
             "icon": "dongle"
         }
     ],
@@ -20,13 +20,13 @@
         "title": "Featured Televisions",
         "mode": "editorial",
         "layout": "layout1",
-        "callout": "See &amp; Compare All Cameras"
+        "callout": "See &amp; Compare All Televisions"
     },
     "featured2": {
         "title": "Featured Accessories",
         "mode": "editorial",
         "layout": "layout2",
-        "callout": "See &amp; Compare All Camera Accessories"
+        "callout": "See &amp; Compare All Television Accessories"
     },
     "productCards": {
         "_comments": "name should be unique, as it is used for IDs. galleryName is used in the compare screen.",
@@ -278,7 +278,8 @@
                 "label": "GPS Tagging"
             }
         ],
-        "nextLink": "gallery-single2.html"
+        "_comm" : "name `_nextLink` below `nextLink` and infinitescroll will work",
+        "_nextLink": "gallery-single2.html"
     },
     "accessories": [
         {
@@ -303,11 +304,23 @@
     "submodules": [
         {
             "type": "product.html.jade",
-            "data": "product/bx330.json"
+            "data": "product/xbr-hx950.json"
         },
         {
             "type": "product.html.jade",
             "data": "product/gorilla-glass-promo.json"
+        },
+        {
+            "type": "product.html.jade",
+            "data": "product/ex640.json"
+        },
+        {
+            "type": "product.html.jade",
+            "data": "product/bx330.json"
+        },
+        {
+            "type": "product.html.jade",
+            "data": "product/bx330.json"
         },
         {
             "type": "product.html.jade",
@@ -319,10 +332,6 @@
         },
         {
             "type": "product.html.jade",
-            "data": "product/ex640.json"
-        },
-        {
-            "type": "product.html.jade",
             "data": "product/ex645.json"
         },
         {
@@ -331,23 +340,15 @@
         },
         {
             "type": "product.html.jade",
-            "data": "product/xbr-hx950.json"
+            "data": "product/skype-mic.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/bx450.json"
+            "data": "product/bluetooth-transmitter.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/battery-charger.json"
-        },
-        {
-            "type": "product.html.jade",
-            "data": "product/carrying-case.json"
-        },
-        {
-            "type": "product.html.jade",
-            "data": "product/marine-pack.json"
+            "data": "product/active-glasses.json"
         },
         {
             "type": "product.html.jade",
@@ -355,23 +356,27 @@
         },
         {
             "type": "product.html.jade",
-            "data": "product/usb-charger.json"
+            "data": "product/linksys-e1200.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/vct-r100.json"
+            "data": "product/cleaning-kit.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/battery-charger.json"
+            "data": "product/optical-audio-cable.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/vct-r100.json"
+            "data": "product/proforma-tv-base.json"
         },
         {
             "type": "product.html.jade",
-            "data": "product/marine-pack.json"
+            "data": "product/game-video-selector.json"
         }
-    ]
+    ],
+	"config": {
+		"module_name": "gallery",
+		"module_id": "gallery"
+	}
 }
