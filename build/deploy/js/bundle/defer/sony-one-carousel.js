@@ -204,6 +204,8 @@
       }
   
       self.createNavigation();
+      self.setupPaddles();
+
       self.$win.trigger( 'resize.soc' );
     };
 
@@ -922,6 +924,81 @@
         } );
 
         self.ev.trigger( 'socOnUpdateNav' );
+
+      },
+
+      setupPaddles: function(){
+        var self   = this,
+        itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
+        $container = self.$el.closest('.container');
+        
+        self.paddlesEnabled = true;
+        var out = '<div class="soc-nav soc-paddles">';
+        for(var i = 0; i < 2; i++) {
+          out += itemHTML;
+        }
+        out += '</div>';
+        out = $(out);
+
+        //TODO: add paddles
+        self.$el.append(out);
+
+        self.$paddles     = self.$el.find('.paddle');
+        self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
+        self.$rightPaddle = self.$paddles.eq(1).addClass('right');
+
+        self.$paddles.on(self.tapOrClick() , function(){
+          var p = $(this);
+
+          if(p.hasClass('left')){
+            //console.log('Left paddle click');
+
+            self.currentId --;
+            if(self.currentId < 0){
+              self.currentId = 0;
+            }
+
+            self.moveTo();
+
+          }else{
+            //console.log('Right paddle click');
+
+            self.currentId ++;
+
+            if(self.currentId >= self.$slides.length){
+              self.currentId = self.$slides.length - 1;
+            }
+
+            self.moveTo();
+          }
+
+        });
+
+        self.onPaddleNavUpdate();
+
+        self.ev.on('socOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
+      },
+
+
+      onPaddleNavUpdate: function(){
+        var self = this;
+
+        console.log('PaddleNavUpdate »', self.currentId);
+
+        //check for the left paddle compatibility
+        if(self.currentId === 0){
+          self.$leftPaddle.stop(true,true).fadeOut(100);
+        }else{
+          self.$leftPaddle.stop(true,true).fadeIn(200);
+        }
+
+        //check for right paddle compatiblity
+        if(self.currentId === self.numSlides - 1){
+          self.$rightPaddle.stop(true,true).fadeOut(100);
+        }else{
+          self.$rightPaddle.stop(true,true).fadeIn(200);
+        }
+
 
       },
 
