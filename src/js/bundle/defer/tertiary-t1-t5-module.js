@@ -324,7 +324,6 @@
         generatePagination: true,
         appendBulletsTo:".tcc-wrapper",
         centerItems: true,
-        // extraSpacing:24,
 
         iscrollProps: {
           snap: true,
