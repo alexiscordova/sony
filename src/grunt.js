@@ -120,6 +120,10 @@ module.exports = function(grunt) {
         src: 'js/bundle/secondary/*.js',
         dest: '../build/deploy/js/secondary.min.js'
       },
+      defer:{
+        src: 'js/bundle/defer/*.js',
+        dest: '../build/deploy/js/defer.min.js'
+      },
       polyfill:{
         src: 'js/libs/polyfill/*.js',
         dest: '../build/deploy/js/polyfill.min.js'

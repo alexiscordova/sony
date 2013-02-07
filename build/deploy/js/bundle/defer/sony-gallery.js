@@ -66,7 +66,7 @@
     self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ));
 
     // Things moved around and could possibly be in the viewport
-    // Filtered should already be throttled because whatever calls .filter() should be throttled.
+    // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
     self.$grid.on('layout.shuffle', function() {
       window.iQ.update();
     });
@@ -87,7 +87,7 @@
     self.initSwatches();
     self.initTooltips();
 
-    self.$window.on('resize.gallery', $.proxy( self.onResize, self ) );
+    self.$window.on('resize.gallery', $.debounce( 275, $.proxy( self.onResize, self ) ) );
     self.onResize();
 
     // Launch compare tool on click

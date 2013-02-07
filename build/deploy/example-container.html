@@ -42,4 +42,20 @@
   <!--<![endif]-->
 
   <!-- FONTS.COM -->
-  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->  </head><body><div class="container-module"><h1>Container Module</h1><h4>Here are some modules with unique data:</h4><h2>type a</h2><ul><li><div><h1>example module: one</h1><h2>small</h2><ul><li>1 foo</li><li>2 bar</li></ul></div></li><li><div><h1>example module: four</h1><h2>big</h2><ul><li>7 foo</li><li>8 bar</li></ul></div></li></ul><h2>type b</h2><ul><li><div><h1>example module: two</h1><h2>small</h2><ul><li>3 foo</li><li>4 bar</li></ul></div></li><li><div><h1>example module: three</h1><h2>small</h2><ul><li>5 foo</li><li>6 bar</li></ul></div></li></ul><h6>some extra text here</h6></div><script src="js/libs/LAB.min.js"></script><script src="js/plugins.min.js"></script><script src="js/require.min.js"></script><script src="js/bundle/defer/brightcove-builder.js"></script><script src="js/bundle/defer/editorial-dual-viewer-e9.js"></script><script src="js/bundle/defer/form-actions.js"></script><script src="js/bundle/defer/hotspot_explorer.js"></script><script src="js/bundle/defer/jquery.viewport.js"></script><script src="js/bundle/defer/primary-tout-p1-d7.js"></script><script src="js/bundle/defer/related-products.js"></script><script src="js/bundle/defer/sony-gallery.js"></script><script src="js/bundle/defer/sony-one-carousel.js"></script><script src="js/bundle/defer/sony-sequencer.js"></script><script src="js/bundle/defer/spec-multi-z2.js"></script><script src="js/bundle/defer/spec-single-z1.js"></script><script src="js/bundle/defer/tertiary-t1-t5-module.js"></script><script src="js/bundle/defer/ux-marketing-convergence-e14.js"></script><!--[if lt IE 9]><script src="js/polyfill.min.js"></script><![endif]--></body></html>
+  <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> -->  </head><body><div class="container-module"><h1>Container Module</h1><h4>Here are some modules with unique data:</h4><h2>type a</h2><ul><li><div><h1>example module: one</h1><h2>small</h2><ul><li>1 foo</li><li>2 bar</li></ul></div></li><li><div><h1>example module: four</h1><h2>big</h2><ul><li>7 foo</li><li>8 bar</li></ul></div></li></ul><h2>type b</h2><ul><li><div><h1>example module: two</h1><h2>small</h2><ul><li>3 foo</li><li>4 bar</li></ul></div></li><li><div><h1>example module: three</h1><h2>small</h2><ul><li>5 foo</li><li>6 bar</li></ul></div></li></ul><h6>some extra text here</h6></div><script src="js/libs/LAB.min.js"></script><script>$LAB
+
+  // Libraries
+  .script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js').wait()
+  .script('http://code.jquery.com/jquery-migrate-1.1.0.js').wait()
+  .script('js/libs/modernizr-2.6.2.min.js').wait()
+  .script('js/libs/bootstrap.js').wait()
+  .script('js/plugins.min.js').wait()
+  .script('js/require.min.js').wait()
+  .script('js/secondary.min.js').wait()
+  .script('js/defer.min.js').wait()
+  
+  // Global Initialization.
+  .wait(function() {
+    // Global init.
+  });
+  </script><!--[if lt IE 9]><script src="js/polyfill.min.js"></script><![endif]--></body></html>
