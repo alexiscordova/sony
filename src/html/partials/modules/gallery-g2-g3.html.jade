@@ -290,7 +290,8 @@ mixin filterSet( filterSet )
           each accessory in data.accessories
             .slimgrid5.m-grid-at-767.product-strip-wrap
               .clearfix
-                a.tl.pull-right(href="#")= accessory.callout
+                if accessory.callout
+                  a.tl.pull-right(href="#")= accessory.callout
                 h2.t6.product-strip-heading= accessory.title
               .product-strip.clearfix
                 count = 0
