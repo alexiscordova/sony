@@ -786,6 +786,9 @@
 
           self.$el.css('height' , 400);
 
+          if(!!self.isTabbedContainer){
+            self.$tabbedContainer.css('height' , 400);
+          }
           return;
         }
 
@@ -1507,7 +1510,7 @@ $(function(){
       
       $currentPanel.css(visibleObj(true, 1));
       $currentPanel.data('relatedProducts').enableShuffle();
-      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500, complete: function(){}});
+      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500});
 
           
       console.log('Currently Selected Tab:' , $tab.data('rpPanelId'));
