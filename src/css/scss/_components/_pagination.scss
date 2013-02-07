@@ -38,7 +38,7 @@ $bulletMargin: px-em(5px);
     border-radius: 50%;
     background: $gray50;
     cursor: pointer;
-    // overflow: hidden;
+    @include transition();
 
     &:first-child {
         margin-left: 0;
@@ -46,9 +46,7 @@ $bulletMargin: px-em(5px);
   } // end .pagination-bullet
 
 
-  .pagination-bullet:hover {
-  }
-
+  .pagination-bullet:hover,
   .bullet-selected {
     background-color: $gray20;
   } // end .bullet-selected

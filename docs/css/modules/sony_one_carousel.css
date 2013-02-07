@@ -183,7 +183,7 @@
   vertical-align: baseline;
   margin-left: 10px;
 }
-/* line 200, ../../../src/css/scss/modules/sony_one_carousel.scss */
+/* line 195, ../../../src/css/scss/modules/sony_one_carousel.scss */
 .sony-one-carousel .soc-item .soc-item-content.content-8 .headline h1,
 .sony-one-carousel .soc-item .soc-item-content.content-8 .headline h2,
 .sony-one-carousel .soc-item .soc-item-content.content-8 .headline h3,
@@ -199,7 +199,7 @@
   text-transform: uppercase;
 }
 @media (max-width: 48em) {
-  /* line 218, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  /* line 213, ../../../src/css/scss/modules/sony_one_carousel.scss */
   .sony-one-carousel .soc-item .soc-item-content.content-8 h1,
   .sony-one-carousel .soc-item .soc-item-content.content-8 h2,
   .sony-one-carousel .soc-item .soc-item-content.content-8 h3,
@@ -360,7 +360,7 @@
 .sony-one-carousel .soc-item .soc-item-content.light-text-trans-panel .eyebrow {
   color: #bcbccc;
 }
-/* line 532, ../../../src/css/scss/modules/sony_one_carousel.scss */
+/* line 528, ../../../src/css/scss/modules/sony_one_carousel.scss */
 .sony-one-carousel .soc-item .soc-item-content.black-white-text .headline h1,
 .sony-one-carousel .soc-item .soc-item-content.black-white-text .headline h2,
 .sony-one-carousel .soc-item .soc-item-content.black-white-text .headline h3,
@@ -437,7 +437,7 @@
     min-width: 11.324841%;
     top: 31.4%;
   }
-  /* line 629, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  /* line 624, ../../../src/css/scss/modules/sony_one_carousel.scss */
   .sony-one-carousel .soc-item .soc-item-content.align-left-center h1,
   .sony-one-carousel .soc-item .soc-item-content.align-left-center h2,
   .sony-one-carousel .soc-item .soc-item-content.align-left-center h3,
@@ -484,7 +484,7 @@
   right: 6.4%;
   top: 0%;
 }
-/* line 703, ../../../src/css/scss/modules/sony_one_carousel.scss */
+/* line 701, ../../../src/css/scss/modules/sony_one_carousel.scss */
 .sony-one-carousel .soc-item.darkLightText h2,
 .sony-one-carousel .soc-item.darkLightText h3,
 .sony-one-carousel .soc-item.darkLightText h4 {
@@ -578,5 +578,83 @@
   /* line 800, ../../../src/css/scss/modules/sony_one_carousel.scss */
   .sony-one-carousel .soc-grid .soc-grid [class*="span"] {
     margin-left: 0;
+  }
+}
+
+/*
+      ____  ___    ____  ____  __    ______   _   _____ _    __
+     / __ \/   |  / __ \/ __ \/ /   / ____/  / | / /   | |  / /
+    / /_/ / /| | / / / / / / / /   / __/    /  |/ / /| | | / / 
+   / ____/ ___ |/ /_/ / /_/ / /___/ /___   / /|  / ___ | |/ /  
+  /_/   /_/  |_/_____/_____/_____/_____/  /_/ |_/_/  |_|___/   
+                                                                */
+/* line 827, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-nav .paddle {
+  width: 50px;
+  height: 86px;
+  display: block;
+  color: white;
+  background: #212530;
+  border-radius: 2px;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  margin: -100px 0;
+  cursor: pointer;
+  font-size: 1.4em;
+  -webkit-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+}
+/* line 843, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-nav .paddle:hover {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+/* line 847, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-nav .paddle i {
+  width: 15px;
+  height: 15px;
+  margin-top: 33px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 61.1875em) {
+  /* line 847, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .soc-nav .paddle i {
+    margin-top: 28px;
+  }
+}
+/* line 858, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-nav .paddle.left {
+  left: 10px;
+  right: auto;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+/* line 869, ../../../src/css/scss/modules/sony_one_carousel.scss */
+.soc-nav .paddle.right {
+  left: auto;
+  right: 10px;
+}
+@media (min-width: 30.0625em) and (max-width: 61.1875em) {
+  /* line 827, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .soc-nav .paddle {
+    margin: -100px 0;
+    width: 40px;
+    height: 70px;
+    font-size: 1.0em;
+  }
+}
+@media (max-width: 30em) {
+  /* line 827, ../../../src/css/scss/modules/sony_one_carousel.scss */
+  .soc-nav .paddle {
+    display: none;
   }
 }

@@ -15,6 +15,7 @@
 //
 // requires imagesloaded plugin to add on image load listeners:
 // https://github.com/desandro/imagesloaded
+
 (function(iQ, $, Modernizr){
   'use strict';
 
@@ -100,7 +101,6 @@
       SCROLL = 'scroll',
       RESIZE = 'resize',
       COMPLETE = 'complete',
-      DELAY = 200,
       EMPTYSTRING = '',
       ON = 'on',
       LOAD = 'load',
@@ -119,6 +119,8 @@
 
       // Deferred loading
       asyncDistance = opts.asyncDistance || 0,
+
+      throttleSpeed = opts.throttleSpeed || 250,
 
       // Image path template settings
       base = opts.base || '',
@@ -173,12 +175,12 @@
   // Reduce by 5.5x the # of times loadImages is called when scrolling
   scrollListener = throttle(function() {
     loadImages(false);
-  }, DELAY),
+  }, throttleSpeed),
 
   // Reduce to 1 the # of times loadImages is called when resizing
   resizeListener = debounce(function() {
     loadImages(true);
-  }, DELAY),
+  }, throttleSpeed),
 
   // Reduce to 1 the # of times loadImages is called when orientation changes.
   orientationchangeListener = debounce(function(){
@@ -186,13 +188,13 @@
       lastOrientation = win[ORIENTATION];
       loadImages(true);
     }
-  }, DELAY),
+  }, throttleSpeed),
 
   initIQ = function(){
     viewportWidth = viewportWidth || getViewportWidthInCssPixels();
     breakpoint = getBreakpoint(breakpoints, viewportWidth);
     breakpointName = breakpoint.name;
-    loadImages();
+    loadImages(false);
   },
 
   updateImages = function( imagesWereAdded ) {
@@ -200,11 +202,14 @@
   },
 
   onImageLoad = function(elm){
-    console.log('!', $(elm).attr('src'));
+    // console.log('++ loaded', $(elm).attr('src'));
     if(fade && $(elm).data('fadeonce') !== true && !$(elm).hasClass(noFadeFlag)){
       $(elm).data('fadeonce', true);
       $(elm).css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
+      setTimeout(function(){$(elm).attr('style', "");}, 900);
+      $(elm).trigger('imageLoaded');
     }
+    $(elm).trigger('imageReLoaded');
   },
 
   loadImages = function(resizing, update){
@@ -222,17 +227,17 @@
           // If we haven't processed this image yet and it is a responsive image,
           // add image to the list.
           iQ.images.push(elm);
-          $(elm).hasClass(resizeFlag) && iQ.resizeFlaggedImages.push(elm);
+          // $(elm).hasClass(resizeFlag) && iQ.resizeFlaggedImages.push(elm); 
+          //if its an img not a background image set it up to fade in on load
           if(elm.tagName == "IMG"){
             if(fade && $(elm).data('fadeonce') !== true && !$(elm).hasClass(noFadeFlag)){
               $(elm).css({'opacity': 0, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=0)"', 'filter':'alpha(opacity=0)', 'zoom':1, '-webkit-transition': 'opacity 0.4s ease-out', '-moz-transition': 'opacity 0.4s ease-out', '-o-transition': 'opacity 0.4s ease-out', 'transition': 'opacity 0.4s ease-out' });
             }
-            $(elm).imagesLoaded(onImageLoad);
           }
         });
       }
-
-      // Load images
+      
+      // Load images scroll or resize
       if (iQ.images[LENGTH]) {
         i = 0;
         while (current = iQ.images[i]) {
@@ -246,7 +251,8 @@
           i++;
         }
       }
-
+      
+      // check images that are flagged to update on resize
       if(iQ.resizeFlaggedImages[LENGTH]){
         i = 0;
         while(current = iQ.resizeFlaggedImages[i]){
@@ -270,18 +276,17 @@
     breakpoint = getBreakpoint(breakpoints, viewportWidth);
     breakpointName = breakpoint.name;
     var newsrc = getImageSrc(img, breakpointName);
-
+    // skip if new src = current
     if($(img).data('current') !== newsrc){
       $(img).data('current', newsrc);
-      setNewSrc(img, newsrc);
-    }
-  },
-
-  setNewSrc  = function(img, newsrc) {
-    if($(img).is('img')){
-      img.src = newsrc;
-    } else if ($(img).is('div')) {
-      $(img).css('background-image', 'url('+newsrc+')');
+      
+      //if its an image set src else set bg image
+      if($(img).is('img')){
+        $(img).imagesLoaded(onImageLoad);
+        $(img).attr('src', newsrc);
+      } else if ($(img).is('div')) {
+        $(img).css('background-image', 'url('+newsrc+')');
+      }
     }
   },
 
@@ -527,10 +532,10 @@
     src = src.replace(FILE_EXT_REGEX, fileName[1]);
     src = src.replace(HIGH_RES_REGEX, (bandwidth === HIGH && devicePixelRatio >= minDevicePixelRatio)? highResPathSuffix : EMPTYSTRING);
 
-    if (reload) {
-      src += (QUESTION_MARK_REGEX.test(src) ? '&' : '?');
-      src += 'riloadrts='+(new Date).getTime();
-    }
+    // if (reload) {
+      // src += (QUESTION_MARK_REGEX.test(src) ? '&' : '?');
+      // src += 'riloadrts='+(new Date).getTime();
+    // }
 
     return src;
   },
@@ -552,7 +557,7 @@
         (ct_bottom + asyncDistance) >= img_offset.top &&
         (ct_left - asyncDistance)<= (img_offset.left + img_width) &&
         (ct_right + asyncDistance) >= img_offset.left;
-
+        
     return inView;
   };
 
