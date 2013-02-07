@@ -270,7 +270,7 @@
         if(self.navigationControl.toLowerCase() === 'bullets' && self.$slides.length > 1){
           self.createNavigation();
           self.setupPaddles();
-          self.setupTabs();
+          //self.setupTabs();
           
           //init dragging , slideshow: TODO:
           //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
@@ -706,11 +706,13 @@
           //ratio based on comp around 768/922
           //self.$el.css('height' , 1.05 * self.$el.width());
           if($(window).width() > 768){
-            self.$el.css('height' , 1.05 * self.$shuffleContainers.eq(0).width());
+            self.$el.css('height' , 1.18 * self.$shuffleContainers.eq(0).width());
           }else{
              self.$el.css('height' , 1.18 * self.$shuffleContainers.eq(0).width());
           }
-         
+          if(!!self.isTabbedContainer){
+            self.$tabbedContainer.css('height' , ((1.18) * self.$shuffleContainers.eq(0).width()) + 80);
+          }
           return;
         }
 
@@ -1208,7 +1210,7 @@
         //add additional ease types here
         easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
         easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
-        easeOutBack: 'cubic-bezier(0.055, 0.990, 0.150, 1.195)'
+        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)'
     };
 
     //Usage: var tallest = $('div').maxHeight(); // Returns the height of the tallest div.
@@ -1378,7 +1380,7 @@ $(function(){
       console.log('Product panels »',$productPanels, $productPanels.length);
 
   //TODO: fpo only
-  $('.related-products[data-rp-panel-id=2] .plate .product-img').css('backgroundColor' , '#913f99');
+  //$('.related-products[data-rp-panel-id=2] .plate .product-img').css('backgroundColor' , '#913f99');
 
   $productPanels.not($currentPanel).css('opacity' , 0);
 
