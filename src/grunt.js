@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 // Project configuration.
   grunt.initConfig({
     lint: {
-      files: ['js/bundle/**/*.js', 'html/data/**/*.json']
+      files: ['js/bundle/defer/**/*.js', 'js/bundle/require/**/*.js', 'js/bundle/secondary/**/*.js', 'html/data/**/*.json']
     },
     jshint: {
         options: {
@@ -108,6 +108,10 @@ module.exports = function(grunt) {
         }
     },
     min:{
+      plugins:{
+        src: 'js/bundle/plugins/*.js',
+        dest: '../build/deploy/js/plugins.min.js'
+      },
       require:{
         src: 'js/bundle/require/*.js',
         dest: '../build/deploy/js/require.min.js'
@@ -245,7 +249,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'debug');
   grunt.registerTask('generated', 'shell:docpad_mbuilder');
   grunt.registerTask('all', 'clean debug generated deploy docs');
-  
+
   // Define specialized tasks
   grunt.registerTask('lint-target', 'A task that lints a specific file, or set of files.', function(target) {
     if (arguments.length === 0) {
