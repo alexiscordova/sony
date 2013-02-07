@@ -32,9 +32,9 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                 //- image (optional)
                 .img-container
                   .img-wrap
-                    img.iq-img(alt="#{module.imgAltTxt}", data-src="#{module.imgSrc}")
+                    img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
                     noscript
-                      img(src="#{module.noScriptImg}")
+                      img(src= module.noScriptImg)
 
                   if(contentMode == "featured") && (module.title)
                      .feature-copy
