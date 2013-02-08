@@ -28,7 +28,6 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
           case contentType
             when "article"
               if(module.imgSrc)
-
                 //- image (optional)
                 .img-container
                   .img-wrap
@@ -174,7 +173,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
               if (contentMode == "facebook")
                 //- tile
                 .post-tile
-                  img.iq-img(alt=module.postImgAltText, data-src= module.postImg)
+                  img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
                     noscript
                       img(src= module.postImgNoScriptImg)
 
@@ -189,14 +188,14 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     | Like Us on Facebook
 
               if (contentMode == "instagram")
-                .imageMat
+                .image-mat
                   .top-left
                     img.iq-img(alt= module.instagramTLImgAltText, data-src= module.instagramTLImg)
                     noscript
                       img(src= module.instagramTLNoScriptImg)
 
                   .top-right
-                    img.iq-img(alt="#{module.instagramRImgAltText, data-src= module.instagramRImg)
+                    img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
                     noscript
                       img(src= module.instagramRNoScriptImg)
 
@@ -209,10 +208,38 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   a.btn(href="#{module.socialBtnLink}")
                     | Follow Us on Instagram
 
-
             when "flickr"
               if (contentMode == "default")
                 .fonticon-flickr
                   img(src="img/tertiary-t1-t5/icon-flickr.png")
+
+                .meta.p4
+                  for meta in module.meta        
+                    | #{meta.user} #{meta.title}
+
+                .image-mat.grid
+                  - maxEachRow = 3
+                  .top-row.m-grid-at-479
+                    - i = 0
+                    each image, i in module.images
+                     if (i < maxEachRow) 
+                      div.span4
+                        img.iq-img(alt= image.altText, data-src= image.src)
+                        noscript
+                          img(src= image.noScriptSrc)
+                  
+                  - i = 0
+                  .bottom-row
+                    each image, i in module.images
+                     if (i < maxEachRow) 
+                      div.span4
+                        img.iq-img(alt= image.altText, data-src= image.src)
+                        noscript
+                          img(src= image.noScriptSrc)                
+
+                .social-btn
+                  a.btn(href="#{module.socialBtnLink}")
+                    | View Set on Flickr
+
               
 //- END Tertiary Content Container

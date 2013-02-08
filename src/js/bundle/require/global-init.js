@@ -5,6 +5,7 @@ window.iQ = {
   options: {
     speedTestExpireMinutes: 30,
     asyncDistance: 500,
+    throttleSpeed: 300,
     updateOnResize: true
   }
 };

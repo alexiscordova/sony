@@ -9,10 +9,10 @@ include ../includes/jade-helpers.jade
   .container
 
     .grid.spec-title-wrap
-      a.spec-title-link.tl(href=data.titleLink.href)= data.titleLink.label
+      a.l2.spec-title-link(href=data.titleLink.href)= data.titleLink.label
       .sony-recommends
         span.p3 Sony Recommends
-        i.icon-uibig-win8.win8-logo
+        i.fonticon-60-win8.win8-logo
       h1.t2.spec-title= data.title
 
     .grid
@@ -20,7 +20,7 @@ include ../includes/jade-helpers.jade
         each link, i in data.internalLinks
           - clss = i ? '' : 'active'
           li(class=clss)
-            a.p3(href=link.href)= link.label
+            a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
 
   .spec-sticky-nav
     .container
@@ -31,7 +31,7 @@ include ../includes/jade-helpers.jade
             each link, i in data.internalLinks
               - clss = i ? '' : 'active'
               li(class=clss)
-                a.p3(href=link.href, tabindex="-1")= link.label
+                a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
         .js-sticky-mobile-content.hidden.mobile-content-wrap
           .table-center-wrap.js-mobile-content
 
@@ -48,20 +48,21 @@ include ../includes/jade-helpers.jade
       .grid.no-grid-at-567.spec-items-grid
         .span2.detail-labels-wrap
           .compare-sticky-header.sticky-count
-            .product-count-wrap.table-center-wrap
-              .table-center
-                span.l3.p3.product-count= numModels
-                span.p3  Models
+            .product-count-wrap.with-some-padding
+              span.p3.product-count
+                strong.text-dark= numModels
+              span.p3  Models
           .detail-labels-wrapping
-            .product-count-wrap.table-center-wrap
-              .table-center
-                span.l3.p3.product-count= numModels
-                span.p3  Models
+            .product-count-wrap.with-some-padding
+              span.p3.product-count
+                strong.text-dark= numModels
+              span.p3  Models
 
             .detail-label-group
               each label in data.labels
                 .detail-label.detail
-                  span.l3= label
+                  p.l3
+                    strong= label
 
         .spec-items-wrap
           .spec-items-container
