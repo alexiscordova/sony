@@ -28,7 +28,6 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
           case contentType
             when "article"
               if(module.imgSrc)
-
                 //- image (optional)
                 .img-container
                   .img-wrap
@@ -174,7 +173,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
               if (contentMode == "facebook")
                 //- tile
                 .post-tile
-                  img.iq-img(alt=module.postImgAltText, data-src= module.postImg)
+                  img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
                     noscript
                       img(src= module.postImgNoScriptImg)
 
@@ -196,7 +195,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                       img(src= module.instagramTLNoScriptImg)
 
                   .top-right
-                    img.iq-img(alt="#{module.instagramRImgAltText, data-src= module.instagramRImg)
+                    img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
                     noscript
                       img(src= module.instagramRNoScriptImg)
 
@@ -208,7 +207,6 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                 .social-btn
                   a.btn(href="#{module.socialBtnLink}")
                     | Follow Us on Instagram
-
 
             when "flickr"
               if (contentMode == "default")

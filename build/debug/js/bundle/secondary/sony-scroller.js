@@ -4,7 +4,7 @@
 // -------------------------------------------------
 //
 // * **Version:** 0.1
-// * **Modified:** 02/05/2013
+// * **Modified:** 02/07/2013
 // * **Authors:** Telly Koosis, Tyler Madison, Glen Cheney
 // * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html)
 //
@@ -169,7 +169,7 @@
         self._generatePagination( numPages );
       }
 
-      // Space element sout accordingly
+      // Space elements out accordingly
       for (i = 0 ; i < numPages; i++) {
         var startIndex = i * availToFit,
             endIndex = startIndex + availToFit - 1;
@@ -212,6 +212,8 @@
       }
 
       // Append the nav bullets
+      // console.log( '$elementToAppend »' ,  $elementToAppend);
+
       $elementToAppend.append( $bulletPagination );
 
       // Store reference
@@ -355,6 +357,8 @@
     gotopage: function( pageNumber, duration ) {
       // pageNumber could be an event object from a navigation bullet click.
       // if it is, get the index from it's data attribute
+      
+      //console.log( 'this »' , this);
       pageNumber = pageNumber.type ? $(pageNumber.target).data('index') : pageNumber;
       duration = duration || 400;
       this.scroller.scrollToPage(pageNumber, 0, duration);
