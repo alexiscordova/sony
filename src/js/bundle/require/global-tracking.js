@@ -1,6 +1,19 @@
+/*global jQuery, brightcove*/
+
+
+// Global tracking
+// ---------------------------------------------------------------
+//
+// * **Class:** GlobalTracking
+// * **Version:** 1.0
+// * **Modified:** 02/05/2013
+// * **Author:** Pierre Paquet
+// * **Dependencies:**  jQuery 1.7+
+
 ;(function( $ ) {
   
   'use strict';
+
 
   var GlobalTracking = function( $element, options ) {
 
@@ -25,25 +38,26 @@
       
       var self = this;
       
+      // We track all click inside module
+      // **TODO:** This temporary, should be modify to reflect tracking strategy. 
       self.$el.on( 'click.tracking', function( e ) {
-        
-        var $elem     = $(e.target).parents( '*[data-module-id]'),
-            elemData  = $elem.data('trackingLog') || [],
-            trackingData = elemData;
+        console.log('click');
+        var $elem         = $(e.target).parents( '*[data-module-id]'),
+            elemData      = $elem.data('trackingLog') || [],
+            trackingData  = elemData;
             
-        $elem.type = e.type;
-        $elem.elemID =    self.$el.data('moduleId'); 
-        $elem.elemName =    self.$el.data('moduleName');  
+        $elem.type            = e.type;
+        $elem.elemID          = self.$el.data('moduleId'); 
+        $elem.elemName        =    self.$el.data('moduleName');  
         $elem.$actionInitElem = e.target;
         
-        var time = Date.now();
-        
-        var trackingTable = [$elem.type, $elem.$actionInitElem, $elem.elemID, $elem.elemName, time];
+        // Create an array of elements we are tracking
+        var trackingTable = [$elem.type, $elem.$actionInitElem, $elem.elemID, $elem.elemName];
         
         elemData.push(trackingTable);
         
         $elem.data('trackingLog',trackingData);
-        var temp;
+
       });
     }
 
@@ -65,12 +79,8 @@
       if ( typeof options === 'string' ) {
         globalTracking[options].apply( globalTracking, args );
       }
-    } );
+    });
 
   };
-
-  $( function( ) {
-    $( '*[data-module-id]' ).globalTracking( );
-  } );
 
 })( jQuery );
