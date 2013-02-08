@@ -11,36 +11,40 @@ head
 
 body
 
-	//- .container
-	//- 	h4= 'G1 - Related Products Grouped 5up Mode'
+	.container
+		h4= 'G1 - Related Products Grouped 5up Mode'
 
-	//- e = {"locals":locals, "data":data('related-products-g1/5up-teal-color.json')}
-	//- !{partial('modules/related-products-g1.html.jade', e)}
+	e = {"locals":locals, "data":data('related-products-g1/5up-teal-color.json')}
+	- e.data.config.standalone = true
+	!{partial('modules/related-products-g1.html.jade', e)}
 
-	//- hr
+	hr
 
-	//- .container
-	//- 	h4= 'G1 - Related Products Grouped 4up Mode'
+	.container
+		h4= 'G1 - Related Products Grouped 4up Mode'
 
-	//- e = {"locals":locals, "data":data('related-products-g1/4up-purple-color.json')}
-	//- !{partial('modules/related-products-g1.html.jade', e)}
+	e = {"locals":locals, "data":data('related-products-g1/4up-purple-color.json')}
+	- e.data.config.standalone = true
+	!{partial('modules/related-products-g1.html.jade', e)}
 
-	//- hr
+	hr
 
-	//- .container
-	//- 	h4= 'G1 - Related Products Grouped 3up Mode'
+	.container
+		h4= 'G1 - Related Products Grouped 3up Mode'
 
-	//- e = {"locals":locals, "data":data('related-products-g1/3up-orange-color.json')}
-	//- !{partial('modules/related-products-g1.html.jade', e)}
+	e = {"locals":locals, "data":data('related-products-g1/3up-orange-color.json')}
+	- e.data.config.standalone = true
+	!{partial('modules/related-products-g1.html.jade', e)}
 
-	//- hr
+	hr
 
-	//- .container
-	//- 	h4= 'G1 - Related Products 2up Mode'
+	.container
+		h4= 'G1 - Related Products 2up Mode'
 
-	//- e = {"locals":locals, "data":data('related-products-g1/2up-view.json')}
-	//- !{partial('modules/related-products-g1.html.jade', e)}
+	e = {"locals":locals, "data":data('related-products-g1/2up-view.json')}
+	- e.data.config.standalone = true
+	!{partial('modules/related-products-g1.html.jade', e)}
 
-	//- hr
+	hr
 
 !{partial('includes/foot.html.jade', l)}
