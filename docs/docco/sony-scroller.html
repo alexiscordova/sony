@@ -4,7 +4,7 @@
 
 <ul>
 <li><strong>Version:</strong> 0.1</li>
-<li><strong>Modified:</strong> 02/05/2013</li>
+<li><strong>Modified:</strong> 02/07/2013</li>
 <li><strong>Authors:</strong> Telly Koosis, Tyler Madison, Glen Cheney</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, <a href="sony-iscroll.html">sony-iscroll.js</a></li>
 </ul>
@@ -152,7 +152,7 @@ self.momentum = false;</p>             </td>             <td class="code">      
         self._generatePagination( numPages );
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Space element sout accordingly</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> (i = <span class="number">0</span> ; i &lt; numPages; i++) {
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Space elements out accordingly</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> (i = <span class="number">0</span> ; i &lt; numPages; i++) {
         <span class="keyword">var</span> startIndex = i * availToFit,
             endIndex = startIndex + availToFit - <span class="number">1</span>;
 
@@ -191,7 +191,9 @@ self.momentum = false;</p>             </td>             <td class="code">      
         $bulletPagination.append( $li );
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Append the nav bullets</p>             </td>             <td class="code">               <div class="highlight"><pre>      $elementToAppend.append( $bulletPagination );
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Append the nav bullets
+console.log( '$elementToAppend »' ,  $elementToAppend);</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      $elementToAppend.append( $bulletPagination );
 
 </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Store reference</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$pagination = $bulletPagination;
     },
@@ -318,7 +320,8 @@ We saved their function to this reference so we could have our own onAnimationEn
 
     gotopage: <span class="keyword">function</span>( pageNumber, duration ) {
 </pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>pageNumber could be an event object from a navigation bullet click.
-if it is, get the index from it's data attribute</p>             </td>             <td class="code">               <div class="highlight"><pre>      pageNumber = pageNumber.type ? $(pageNumber.target).data(<span class="string">'index'</span>) : pageNumber;
+if it is, get the index from it's data attribute</p>             </td>             <td class="code">               <div class="highlight"><pre>      
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>console.log( 'this »' , this);</p>             </td>             <td class="code">               <div class="highlight"><pre>      pageNumber = pageNumber.type ? $(pageNumber.target).data(<span class="string">'index'</span>) : pageNumber;
       duration = duration || <span class="number">400</span>;
       <span class="keyword">this</span>.scroller.scrollToPage(pageNumber, <span class="number">0</span>, duration);
     },
@@ -353,11 +356,11 @@ if it is, get the index from it's data attribute</p>             </td>          
         self.$elements.css(<span class="string">'width'</span>, <span class="string">''</span>);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Flag to know it's destroyed</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.destroyed = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>Flag to know it's destroyed</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.destroyed = <span class="literal">true</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>Destroy the scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.scroller.destroy();
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>self.scroller = null;</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Remove resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$win.off(<span class="string">'.sm'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>Destroy the scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.scroller.destroy();
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>self.scroller = null;</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Remove resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$win.off(<span class="string">'.sm'</span>);
 
       self.$el.removeData(<span class="string">'scrollerModule'</span>);
     },
@@ -371,13 +374,13 @@ if it is, get the index from it's data attribute</p>             </td>          
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           scrollerModule = self.data(<span class="string">'scrollerModule'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>If we don't have a stored scrollerModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !scrollerModule ) {
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>If we don't have a stored scrollerModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !scrollerModule ) {
         scrollerModule = <span class="keyword">new</span> ScrollerModule( self, options );
         self.data( <span class="string">'scrollerModule'</span>, scrollerModule );
       }
@@ -388,7 +391,7 @@ if it is, get the index from it's data attribute</p>             </td>          
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>Defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule.defaults = {
     contentSelector: <span class="string">'.content'</span>, <span class="comment">// parent of items in scroller</span>
     itemElementSelector: <span class="string">'.block'</span>, <span class="comment">// items in scroller</span>
     mode: <span class="string">'free'</span>, <span class="comment">// if mode == 'paginate', the items in the container will be paginated</span>
@@ -402,7 +405,7 @@ if it is, get the index from it's data attribute</p>             </td>          
     generatePagination: <span class="literal">false</span>, <span class="comment">// if bullet pagination is needed in mode = paginate,</span>
     appendBulletsTo:<span class="literal">null</span>, <span class="comment">// option on where to place pagination bullets, if null defaults to self.$el</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>iscroll props get mixed in</p>             </td>             <td class="code">               <div class="highlight"><pre>    iscrollProps: {
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>iscroll props get mixed in</p>             </td>             <td class="code">               <div class="highlight"><pre>    iscrollProps: {
       snap: <span class="literal">false</span>,
       hScroll: <span class="literal">true</span>,
       vScroll: <span class="literal">false</span>,
@@ -418,7 +421,7 @@ if it is, get the index from it's data attribute</p>             </td>          
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.scrollerModule.settings = {
     throttleTime: <span class="number">150</span>, <span class="comment">// How much the resize event is throttled (milliseconds)</span>
     resizeEvent: <span class="string">'onorientationchange'</span> <span class="keyword">in</span> window ? <span class="string">'orientationchange'</span> : <span class="string">'resize'</span>
   };
