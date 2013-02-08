@@ -42,9 +42,9 @@ mixin specList( list, extraClasses )
     each li in list
       li.p3= li
 
-mixin colorSwatches( colors )
+mixin colorSwatches( colors, isShowOnlyChild )
   classes = ['color-swatches', 'clearfix']
-  - if ( colors.length <= 1 ) classes.push('invisible')
+  - if ( colors.length <= 1 && !isShowOnlyChild ) classes.push('invisible')
   div(class=classes)
     each color in colors
       - colour = typeof color === 'string' ? color : color.color
@@ -292,7 +292,7 @@ else if data.view == "specs"
           .spec-cell-inner
             p.cell-label.l3
               strong= labels[i]
-            mixin colorSwatches( spec.colors )
+            mixin colorSwatches( spec.colors, true )
 
         else if spec.definitionList && spec.img
           .spec-cell-inner.only-label

@@ -75,6 +75,7 @@
 
         self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
         self._initStickyNav();
+        self._onScroll();
 
       }, 250);
 
@@ -204,10 +205,6 @@
         if ( i === 0 ) {
           $btn.addClass('active');
         }
-
-        // Set type styles
-        // $btn.find('.product-name').attr('class', 'product-name t6-light');
-        // $btn.find('.product-model').attr('class', 'product-model t6').wrapInner('<strong>');
 
         // Set the data attributes
         $btn

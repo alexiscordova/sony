@@ -279,6 +279,7 @@ ul.spec-views {
 
   .cell-label {
     display: none;
+    margin-bottom: 40px;
   }
 }
 .spec-items-container .spec-item {
@@ -312,8 +313,9 @@ ul.spec-views {
   .spec-cell-inner {
     padding: 1.25em 1.875em 3.75em .9375em; // 20 30 60 15
 
+    // Dont remember why this is here
     &:first-child {
-      padding-top: 1.875em;
+      // padding-top: 1.875em;
     }
 
     &.img-bottom {
@@ -322,6 +324,11 @@ ul.spec-views {
 
     &.only-label {
       padding: 0;
+    }
+
+    .dl-horizontal,
+    .dl-horizontal :last-child {
+      margin-bottom: 0;
     }
   }
 
@@ -344,7 +351,7 @@ ul.spec-views {
   // after the dimensions for each cell have been calculated
   .dl-img {
     position: relative;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 
     // Don't clip image, shrink it
     img {
@@ -444,17 +451,6 @@ ul.spec-views {
     padding-top: 0;
     padding-bottom: 0;
     margin-bottom: 0;
-  }
-
-  // The designer wants the baselines to match up. That's now how css works.
-  // This is an arbitrary value which will probably be wrong in the future.
-  .with-some-padding {
-    padding-top: 18px;
-  }
-
-  // Disable bar
-  .detail-labels-wrap:before {
-    content: none;
   }
 
   // White background behind the labels
@@ -559,9 +555,14 @@ ul.spec-views {
     bottom: 0;
   }
 
+  // wow this is a bitch to position
   .win8-logo {
-    margin-left: .875em;
-    vertical-align: middle;
+    position: relative;
+    top: -34px;
+    width: 94px;
+    height: 18px;
+    margin-left: 14px;
+    color: #00ADEF;
   }
 
   .sticky-tabs,
@@ -571,6 +572,15 @@ ul.spec-views {
 
   .tab {
     padding-left: 0.625em;
+  }
+
+  // The designer wants the baselines to match up. That's now how css works.
+  // This is an arbitrary value which will probably be wrong in the future.
+  .with-some-padding {
+    padding-top: 18px;
+  }
+  .compare-sticky-header .with-some-padding {
+    padding-top: 12px;
   }
 
   .product-name {
@@ -617,10 +627,12 @@ ul.spec-views {
     .sony-recommends {
       bottom: auto;
       top: .625em;
+      overflow: hidden;
     }
 
     .win8-logo {
-      width: 18px;
+      // width: 18px;
+      width: 20px;
     }
   }
 
@@ -662,7 +674,6 @@ ul.spec-views {
 
       &.only-label {
         padding-top: 1.25em;
-        padding-bottom: 1.875em;
       }
     }
   }
@@ -685,6 +696,7 @@ ul.spec-views {
       clear: left;
     }
     .dl-horizontal dd {
+      margin-top: 0;
       margin-left: 5em; // 80
     }
   }
@@ -953,7 +965,7 @@ ul.spec-views {
   margin-bottom: 9.375em; // 150
 
   .features-title {
-    margin-bottom: 28px;
+    margin-bottom: 0;
     padding-bottom: 12px;
     border-bottom: 3px solid $gray70;
   }
@@ -968,7 +980,7 @@ ul.spec-views {
   background: $tableHeaderColor;
 
   .tile-content {
-    padding: 2em 2.5em 2.75em 1.875em;
+    padding: 1.875em 2.5em 2.75em 1.875em;
   }
 
   // Remove default header margin top
