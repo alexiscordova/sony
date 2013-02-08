@@ -9,6 +9,11 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
+//TODO: put these in better spot, shouldn't go into production
+.tcc-layouts{
+	padding:40px 20px;
+}
+
 .tcc-wrapper{
 	position: relative;
   overflow:auto;
@@ -52,7 +57,8 @@
 	div#{createSelectorFromData("article","featured")}:hover,
 	div#{createSelectorFromData("article","news")}:hover,
 	div#{createSelectorFromData("article","event")}:hover,
-	div#{createSelectorFromData("sonys-voice","instagram")}:hover{
+	div#{createSelectorFromData("sonys-voice","instagram")}:hover,
+	div#{createSelectorFromData("flickr","default")}:hover{		
 		img{
 			@include transition(opacity, $transitionFast);
 			opacity:0.85;
@@ -257,7 +263,7 @@
 		} // end .twitter
 
 		&.instagram{
-		  .imageMat{
+		  .image-mat{
 		  	// opacity:0.3; // TODO: add opacity to color variable, rgba() mixin needed;
 		  	//width: px-em(306px); ;
 		  	//height:217px;
@@ -307,11 +313,52 @@
 					padding-top:68.6708861%; // (217/316) *100
 				} // end :after preserve ratio
 
-		  } // end imageMat
+		  } // end image-mat
 		  
 		} // end &.instagram
 		
 	} // end sonys-voice
+
+
+	.flickr{
+
+		// user and title
+		.meta{
+			margin-top:8px;
+
+			.p4{
+				color:$gray20;
+			} // end .p4
+			
+		} // end meta
+
+
+	  .image-mat{
+		  background-color:$gray50;
+		  // max-width: px-em(315px);
+		  margin: 20px 0 24px 0;
+
+		  .top-row{
+		  	@include clearfix();
+		  	padding-bottom:5px;
+		  } // end .top-row
+
+		  .bottom-row{
+		  	 @include clearfix();
+		  } // .bottom-row
+
+		  .span4{
+		  	padding-left:5px;
+
+		  	&:first-child{
+		  		padding-left:0;
+		  	} // end first-child
+
+		  } // span4
+
+	  } //end .image-mat
+
+	} // end .flickr
 
 } // end .tcc-wrapper 
 

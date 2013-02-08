@@ -19,7 +19,7 @@ $specLabelWidth980: 7.125em; // 114
 $specItemWidth768: 11.625em; // 186
 $specLabelWidth768: 5.625em; // 90
 
-$columnHeaderHeight: 5.3125em; // 85
+$columnHeaderHeight: 4.875em; // 78
 $tableHeaderColor: $gray80;
 $specStickyTabHeight: 3.125em; // 50
 
@@ -75,6 +75,10 @@ $specBorderColor: $gray70;
 .spec-title {
   margin: 0;
   font-size: 2.25em; // 36
+}
+
+.spec-title-link {
+  color: $linkBlue;
 }
 
 // Needs to be more specific
@@ -270,11 +274,12 @@ ul.spec-views {
   }
 
   .product-subname {
-    font-size: $font_18_16;
+    // font-size: $font_18_16;
   }
 
   .cell-label {
     display: none;
+    margin-bottom: 40px;
   }
 }
 .spec-items-container .spec-item {
@@ -289,11 +294,11 @@ ul.spec-views {
 
   // Header name and model
   .product-name {
-    font-size: $font_18_16;
+    // font-size: $font_18_16;
   }
 
   .product-model {
-    font-size: $font_18_16;
+    // font-size: $font_18_16;
   }
 }
 
@@ -307,10 +312,24 @@ ul.spec-views {
 
   .spec-cell-inner {
     padding: 1.25em 1.875em 3.75em .9375em; // 20 30 60 15
-  }
 
-  .spec-cell-inner:first-child {
-    padding-top: 1.875em;
+    // Dont remember why this is here
+    &:first-child {
+      // padding-top: 1.875em;
+    }
+
+    &.img-bottom {
+      padding-bottom: 0;
+    }
+
+    &.only-label {
+      padding: 0;
+    }
+
+    .dl-horizontal,
+    .dl-horizontal :last-child {
+      margin-bottom: 0;
+    }
   }
 
   .btm-aligned {
@@ -332,36 +351,29 @@ ul.spec-views {
   // after the dimensions for each cell have been calculated
   .dl-img {
     position: relative;
-    min-height: 8.4375em; // 135 pixels
-    margin-bottom: 2.5em;
+    margin-bottom: 30px;
 
-    .img {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-
-    }
     // Don't clip image, shrink it
     img {
       max-height: 100%;
     }
 
+    & + .spec-cell-inner {
+      padding-top: 0;
+    }
   }
 
   .img-holder {
-    min-height: 8.5em;
+    margin-top: 1.25em;
 
-    &.vertical {
-      min-height: 15.625em; // 250 pixels
-    }
-    // Don't clip image, shrink it
-    img {
-      max-height: 100%;
+    & + .spec-cell-inner {
+      padding-top: 0;
     }
   }
 
-  .img-bottom {
+  .text-center.img-bottom {
     margin-top: 2.5em;
+    padding-bottom: 3.75em;
   }
 
   $dtWidth: 50px;
@@ -371,6 +383,7 @@ ul.spec-views {
     width: $dtWidth;
   }
   .dl-horizontal dd {
+    margin-top: -2px; // try to get their baselines to match up
     margin-left: $ddMargin;
   }
 
@@ -382,7 +395,12 @@ ul.spec-views {
     line-height: 1;
 
     i {
+      color: $gray50;
       vertical-align: middle;
+    }
+
+    &:hover i {
+      color: $buttonOrange;
     }
   }
 
@@ -431,12 +449,8 @@ ul.spec-views {
   .product-count-wrap {
     height: $columnHeaderHeight;
     padding-top: 0;
+    padding-bottom: 0;
     margin-bottom: 0;
-  }
-
-  // Disable bar
-  .detail-labels-wrap:before {
-    content: none;
   }
 
   // White background behind the labels
@@ -541,9 +555,14 @@ ul.spec-views {
     bottom: 0;
   }
 
+  // wow this is a bitch to position
   .win8-logo {
-    margin-left: .875em;
-    vertical-align: middle;
+    position: relative;
+    top: -34px;
+    width: 94px;
+    height: 18px;
+    margin-left: 14px;
+    color: #00ADEF;
   }
 
   .sticky-tabs,
@@ -553,6 +572,15 @@ ul.spec-views {
 
   .tab {
     padding-left: 0.625em;
+  }
+
+  // The designer wants the baselines to match up. That's now how css works.
+  // This is an arbitrary value which will probably be wrong in the future.
+  .with-some-padding {
+    padding-top: 18px;
+  }
+  .compare-sticky-header .with-some-padding {
+    padding-top: 12px;
   }
 
   .product-name {
@@ -599,10 +627,12 @@ ul.spec-views {
     .sony-recommends {
       bottom: auto;
       top: .625em;
+      overflow: hidden;
     }
 
     .win8-logo {
-      width: 18px;
+      // width: 18px;
+      width: 20px;
     }
   }
 
@@ -637,9 +667,15 @@ ul.spec-views {
     margin-left: 0;
   }
 
-  .spec-cell-inner {
-    padding-right: 0;
-    padding-left: 0;
+  .spec-item-cell {
+    .spec-cell-inner {
+      padding-right: 0;
+      padding-left: 0;
+
+      &.only-label {
+        padding-top: 1.25em;
+      }
+    }
   }
 
   // Remove border right on the whole grid
@@ -660,6 +696,7 @@ ul.spec-views {
       clear: left;
     }
     .dl-horizontal dd {
+      margin-top: 0;
       margin-left: 5em; // 80
     }
   }
@@ -928,7 +965,7 @@ ul.spec-views {
   margin-bottom: 9.375em; // 150
 
   .features-title {
-    margin-bottom: 28px;
+    margin-bottom: 0;
     padding-bottom: 12px;
     border-bottom: 3px solid $gray70;
   }
@@ -943,7 +980,7 @@ ul.spec-views {
   background: $tableHeaderColor;
 
   .tile-content {
-    padding: 2em 2.5em 2.75em 1.875em;
+    padding: 1.875em 2.5em 2.75em 1.875em;
   }
 
   // Remove default header margin top
