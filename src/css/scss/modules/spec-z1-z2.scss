@@ -431,6 +431,12 @@ ul.spec-views {
   .detail-labels-wrap {
     width: $specLabelWidth1200; // override % width
     border-right: .0625em solid $specBorderColor;
+
+    // The gallery uses this background to cover the labels, but when the spec products are loading,
+    // This gray background shows through and is ugly.
+    &:before {
+      background: none;
+    }
   }
 
   .product-count-wrap,
@@ -558,11 +564,18 @@ ul.spec-views {
   // wow this is a bitch to position
   .win8-logo {
     position: relative;
-    top: -34px;
+    top: 4px;
     width: 94px;
     height: 18px;
     margin-left: 14px;
     color: #00ADEF;
+
+    // Position the fonticon
+    &:before,
+    &:after {
+      position: relative;
+      top: 0.4em;
+    }
   }
 
   .sticky-tabs,
@@ -750,6 +763,7 @@ ul.spec-views {
   }
 }
 
+// A row of info
 .spec-section {
 
   &.align-right-bottom {
@@ -794,6 +808,7 @@ ul.spec-views {
     line-height: 1.3;
   }
 
+  // Font icon holders
   .holder-for-icon {
     @include square(52px);
     text-align: center;
@@ -801,6 +816,36 @@ ul.spec-views {
     i {
       margin-top: 0;
       vertical-align: middle;
+    }
+
+    .fonticon-36-panorama:before {
+      position: relative;
+      top: -.1em;
+    }
+
+    .fonticon-36-face:before {
+      position: relative;
+      top: -.2em;
+    }
+
+    .fonticon-36-stability:before {
+      position: relative;
+      top: -.1em;
+    }
+
+    // .fonticon-30-intelligent-auto:before {
+    //   position: relative;
+    //   top: -.1em;
+    // }
+
+    // .fonticon-30-superior-auto:before {
+    //   position: relative;
+    //   top: -.1em;
+    // }
+
+    .fonticon-30-film-strip:before {
+      position: relative;
+      top: -.1em;
     }
   }
 }
@@ -849,6 +894,8 @@ ul.spec-views {
   @include opacity(100);
 }
 
+
+
 @media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
 
 
@@ -862,6 +909,15 @@ ul.spec-views {
 
     dt:not(:first-of-type) {
       margin-top: 20px;
+    }
+
+    .holder-for-icon {
+      @include square( px-em(34px) );
+
+      // Shrink icons. Should be around 34x34 pixels
+      i {
+        font-size: 2.1em;
+      }
     }
 
   }
@@ -908,6 +964,15 @@ ul.spec-views {
     .media + .media,
     .media {
       margin-top: 1.625em;
+    }
+
+    .holder-for-icon {
+      @include square( px-em(36px) );
+
+      // Shrink icons. Should be around 36x36 pixels
+      i {
+        font-size: 2.25em;
+      }
     }
 
     .has-img {

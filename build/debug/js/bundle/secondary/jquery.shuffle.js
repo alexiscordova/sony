@@ -134,36 +134,6 @@
             }
         },
 
-        /**
-         * The magic. This is what makes the plugin 'shuffle'
-         */
-        shuffle : function( category ) {
-            var self = this;
-
-            if ( !self.enabled ) {
-                return;
-            }
-
-            if (!category) {
-                category = 'all';
-            }
-
-            self.filter( category );
-            // Save the last filter in case elements are appended.
-            self.lastFilter = category;
-
-            // How many filtered elements?
-            self.visibleItems = self.$items.filter('.filtered').length;
-
-            self._resetCols();
-
-            // Shrink each concealed item
-            self.shrink();
-
-            // Update transforms on .filtered elements so they will animate to their new positions
-            self._reLayout();
-        },
-
         filter : function( category, $collection ) {
             var self = this,
                 isPartialSet = $collection !== undefined,
@@ -489,25 +459,6 @@
         },
 
         /**
-         * Gets the .filtered elements, sorts them, and passes them to layout
-         *
-         * @param {object} opts the options object for the sorted plugin
-         * @param {bool} [fromFilter] was called from Shuffle.filter method.
-         */
-        sort: function(opts, fromFilter) {
-            var self = this,
-                items = self.$items.filter('.filtered').sorted(opts);
-            self._resetCols();
-            self._layout(items, function() {
-                if (fromFilter) {
-                    self.filterEnd();
-                }
-                self.sortEnd();
-            });
-            self.lastSort = opts;
-        },
-
-        /**
          * Uses Modernizr's prefixed() to get the correct vendor property name and sets it using jQuery .css()
          *
          * @param {jq} $el the jquery object to set the css on
@@ -594,22 +545,6 @@
             }
         },
 
-        /**
-         * Relayout everything
-         */
-        resized: function( isOnlyLayout ) {
-            if ( this.enabled ) {
-
-                if ( !isOnlyLayout ) {
-                    // Get updated colCount
-                    this._setColumns();
-                }
-
-                // Layout items
-                this._reLayout();
-            }
-        },
-
         shrinkEnd: function() {
             this.fire('shrunk');
         },
@@ -641,14 +576,6 @@
 
             // Put the duration back
             element.style[ durationName ] = duration;
-        },
-
-        appended : function( $newItems, animateIn, isSequential ) {
-            // True if undefined
-            animateIn = animateIn === false ? false : true;
-            isSequential = isSequential === false ? false : true;
-
-            this._addItems( $newItems, animateIn, isSequential );
         },
 
         _addItems : function( $newItems, animateIn, isSequential ) {
@@ -692,13 +619,104 @@
             }, self.revealAppendedDelay);
         },
 
-        // Use this instead of `update()` if you don't need the columns and gutters updated
+        /**
+         * Public Methods
+         */
+
+        /**
+         * The magic. This is what makes the plugin 'shuffle'
+         */
+        /**
+         * The magic. This is what makes the plugin 'shuffle'
+         * @param  {String|Function} category category to filter by. Can be a function
+         */
+        shuffle : function( category ) {
+            var self = this;
+
+            if ( !self.enabled ) {
+                return;
+            }
+
+            if (!category) {
+                category = 'all';
+            }
+
+            self.filter( category );
+            // Save the last filter in case elements are appended.
+            self.lastFilter = category;
+
+            // How many filtered elements?
+            self.visibleItems = self.$items.filter('.filtered').length;
+
+            self._resetCols();
+
+            // Shrink each concealed item
+            self.shrink();
+
+            // Update transforms on .filtered elements so they will animate to their new positions
+            self._reLayout();
+        },
+
+        /**
+         * Gets the .filtered elements, sorts them, and passes them to layout
+         *
+         * @param {object} opts the options object for the sorted plugin
+         * @param {Boolean} [fromFilter] was called from Shuffle.filter method.
+         */
+        sort: function(opts, fromFilter) {
+            var self = this,
+                items = self.$items.filter('.filtered').sorted(opts);
+            self._resetCols();
+            self._layout(items, function() {
+                if (fromFilter) {
+                    self.filterEnd();
+                }
+                self.sortEnd();
+            });
+            self.lastSort = opts;
+        },
+
+        /**
+         * Relayout everything
+         */
+        resized: function( isOnlyLayout ) {
+            if ( this.enabled ) {
+
+                if ( !isOnlyLayout ) {
+                    // Get updated colCount
+                    this._setColumns();
+                }
+
+                // Layout items
+                this._reLayout();
+            }
+        },
+
+        /**
+         * Use this instead of `update()` if you don't need the columns and gutters updated
+         * Maybe an image inside `shuffle` loaded (and now has a height), which means calculations
+         * could be off.
+         */
         layout : function() {
             this.update( true );
         },
 
         update : function( isOnlyLayout ) {
             this.resized( isOnlyLayout );
+        },
+
+        /**
+         * New items have been appended to shuffle. Fade them in sequentially
+         * @param  {jQuery}  $newItems    jQuery collection of new items
+         * @param  {Boolean}  [animateIn]    If false, the new items won't animate in
+         * @param  {Boolean} [isSequential] If false, new items won't sequentially fade in
+         */
+        appended : function( $newItems, animateIn, isSequential ) {
+            // True if undefined
+            animateIn = animateIn === false ? false : true;
+            isSequential = isSequential === false ? false : true;
+
+            this._addItems( $newItems, animateIn, isSequential );
         },
 
         disable : function() {
@@ -716,7 +734,7 @@
             var self = this;
 
             self.$container.removeAttr('style').removeData('shuffle');
-            $(window).off('.shuffle');
+            self.$window.off('.shuffle');
             self.$items.removeAttr('style').removeClass('concealed filtered shuffle-item');
             self.destroyed = true;
         }

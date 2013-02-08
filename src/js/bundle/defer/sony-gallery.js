@@ -1962,8 +1962,8 @@
   // Overrideable options
   $.fn.gallery.options = {
     mode: 'editorial',
-    shuffleSpeed: 250,
-    shuffleEasing: 'ease-out'
+    shuffleSpeed: Exports.shuffleSpeed,
+    shuffleEasing: Exports.shuffleEasing
   };
 
   // Not overrideable
