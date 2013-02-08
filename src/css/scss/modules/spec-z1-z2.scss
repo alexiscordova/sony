@@ -761,6 +761,22 @@ ul.spec-views {
     margin-top: 1.4375em; // 23
     margin-bottom: 4.375em; // 70
   }
+
+  .nav-paddle-prev,
+  .nav-paddle-next {
+    position: absolute;
+    z-index: 20;
+    top: 50%;
+    margin-top: -($navPaddleHeight / 2) - 2.875em; // also subtract the height of the bullets
+  }
+
+  .nav-paddle-prev {
+    left: 0;
+  }
+
+  .nav-paddle-next {
+    right: 0;
+  }
 }
 
 // A row of info
@@ -830,7 +846,7 @@ ul.spec-views {
 
     .fonticon-36-stability:before {
       position: relative;
-      top: -.1em;
+      top: -0.13em;
     }
 
     // .fonticon-30-intelligent-auto:before {
@@ -874,25 +890,6 @@ ul.spec-views {
   }
 }
 
-.overview-nav {
-  position: absolute;
-  z-index: 20;
-  top: 50%;
-  margin-top: -($navPaddleHeight / 2) - 2.875em; // also subtract the height of the bullets
-  @include opacity(0);
-}
-
-.overview-nav-prev {
-  left: 0;
-}
-
-.overview-nav-next {
-  right: 0;
-}
-
-.paddle-trigger:hover .overview-nav {
-  @include opacity(100);
-}
 
 
 
@@ -992,7 +989,7 @@ ul.spec-views {
     margin-top: 0;
     padding: 2.5em 0;
 
-    .overview-nav {
+    .nav-paddles {
       display: none;
     }
   }

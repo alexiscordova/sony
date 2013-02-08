@@ -166,12 +166,9 @@
         self.$carousel.height( $firstImage.height() );
 
         self.$carouselWrap.scrollerModule({
-          contentSelector: '.spec-carousel',
-          itemElementSelector: '.slide',
           mode: 'carousel',
-          generatePagination: true,
-          nextSelector: self.$container.find('.overview-nav-next'),
-          prevSelector: self.$container.find('.overview-nav-prev')
+          contentSelector: '.spec-carousel',
+          itemElementSelector: '.slide'
         });
       });
     },
