@@ -59,6 +59,8 @@
       columnWidth: self.shuffleColumns,
       gutterWidth: self.shuffleGutters,
       showInitialTransition: false,
+      hideLayoutWithFade: true,
+      sequentialFadeDelay: 60,
       buffer: 5
     });
 
@@ -529,8 +531,14 @@
       function( newElements ) {
         var $newElements = $( newElements ).addClass('via-ajax');
 
+        // Bump up the delay so it's more noticeable.
+        self.shuffle.sequentialFadeDelay = 250;
+
         // Get shuffle to append and show the items for us
         self.$grid.shuffle( 'appended', $newElements );
+
+        // Now put it back
+        self.shuffle.sequentialFadeDelay = 60;
 
         // Show new product count
         self.$productCount.text( self.$grid.data('shuffle').visibleItems );
