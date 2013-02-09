@@ -211,15 +211,15 @@
         var self = this;
         
         // set content module's margins correctly
-        //$(self.$contentModules[0]).css( "marginRight", marginForEach );
         $(self.$contentModules[0]).css( "marginLeft", marginForEach );
-        //$(self.$contentModules[1]).css( "marginLeft", marginForEach );
         $(self.$contentModules[1]).css( "marginRight", marginForEach );
         $(self.$contentModules[2]).css( "marginRight", marginForEach );
         $(self.$contentModules[2]).css( "marginLeft", marginForEach );
 
       },
 
+      // Adding "grid paddding" back in on the content modules 
+      // as padding to support full bleed pagination
       setContentModulePadding : function( paddingValue ){
         //console.group( '««« setContentMoudlePadding »»»' );
         var self = this;
