@@ -458,12 +458,16 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        padding: 10% 5% 7% 12%;
+        padding: 8% 12%;
+
+        &.headline-eyebrow {
+          padding-top: 6%;
+        }
       }
 
-      //tLD
-      &.light-text-dark-panel {
+      &.dark-text-light-panel {
         background-color: $gray90;
+        background-color: rgba($gray90, 0.95);
 
         .headline {
           color: $gray40;
@@ -473,22 +477,15 @@
           }
         }
 
-        .counter {
-
-        }
-
-        .body-copy {
-
-        }
-
         .eyebrow {
-          color: $gray50;
+          color: $gray40;
         }
 
       }
-      //tDL
-      &.dark-text-light-panel {
-        background-color: $gray20;
+
+      &.light-text-dark-panel {
+        background-color: $gray10;
+        background-color: rgba($gray10, 0.95);
 
         .headline {
           color: $gray50;
@@ -497,14 +494,6 @@
           a {
             color: $white;
           }
-        }
-
-        .counter {
-
-        }
-
-        .body-copy {
-
         }
 
         .eyebrow {
@@ -555,13 +544,7 @@
       //tBW
       &.black-white-text {
         .headline {
-          h1,
-          h2,
-          h3,
-          h4,
-          h5 {
-            color:#000000;
-          }
+          color: $black;
 
           a {
             color: $white;
@@ -574,15 +557,13 @@
         }
 
         .counter {
-
         }
 
         .body-copy {
-
         }
 
         .eyebrow {
-          color: $gray50;
+          color: $black;
         }
       }
       /*

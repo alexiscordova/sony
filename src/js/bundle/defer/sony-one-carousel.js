@@ -703,7 +703,7 @@
         }
 
         // 1. grab all of the gallery items
-        self.$galleryItems = $('.soc-item').detach();
+        self.$galleryItems = self.$el.find('.soc-item').detach();
 
         //2. remove the slides from desktop / mobile
         self.$tabletSlides.remove();
@@ -763,7 +763,7 @@
         }
 
         // 1. grab all of the gallery items
-        self.$galleryItems = $('.soc-item').detach();
+        self.$galleryItems = self.$el.find('.soc-item').detach();
 
         //2. remove the slides from desktop / mobile
         self.$desktopSlides.remove();
@@ -843,7 +843,7 @@
         }
 
         // 1. grab the gallery items
-        self.$galleryItems = $('.soc-item').detach();
+        self.$galleryItems = self.$el.find('.soc-item').detach();
 
         //2. remove the slides from desktop / tablet
         self.$desktopSlides.remove();
@@ -879,7 +879,7 @@
         out          = '<div class="soc-nav soc-bullets">';
 
         //remove other references
-        $('.soc-nav.soc-bullets').remove();
+        self.$el.find('.soc-nav.soc-bullets').remove();
 
         //reset current slide id
         self.currentId = 0;
@@ -1048,7 +1048,7 @@
 
             $(this).css({
               'left': i * cw + 'px',
-              'height' : $('.soc-item').eq(0).height()  + 'px',
+              'height' : self.$el.find('.soc-item').eq(0).height()  + 'px',
               'z-index' : i
             });
 
@@ -1062,7 +1062,7 @@
         }
 
         if(self.isMobileMode === true){
-          cw = self.currentContainerWidth = $('.soc-item').eq(0).width();
+          cw = self.currentContainerWidth = self.$el.find('.soc-item').eq(0).width();
           self.$mobileSlides.each(function(i){
             $(this).css( {
               'left': i * (cw + mobileGutter) + 'px',
@@ -1070,7 +1070,7 @@
               'z-index' : i
             } );
 
-            var delta = ($('.soc-content').eq(0).width() - $('.soc-item').eq(0).width()) / 2;
+            var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
 
             $(this).find('.soc-item').css({
               'position': 'absolute',
