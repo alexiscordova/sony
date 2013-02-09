@@ -197,7 +197,7 @@
                 $(this).css(self.itemCss);
 
                 // Set CSS transition for transforms and opacity
-                if ( self.supported && !withoutTransition ) {
+                if ( self.supported && !withoutTransition && self.useTransition ) {
                     self._setTransition(this);
                 }
             });
@@ -515,7 +515,7 @@
             opts.callback = opts.callback || $.noop;
 
             // Use CSS Transforms if we have them
-            if (self.supported) {
+            if ( self.supported ) {
 
                 // Make scale one if it's not preset
                 if ( opts.scale === undefined ) {
@@ -528,8 +528,10 @@
                     transform = 'translate(' + opts.x + 'px, ' + opts.y + 'px) scale(' + opts.scale + ', ' + opts.scale + ')';
                 }
 
-                // Update css to trigger CSS Animation
-                opts.$this.css('opacity' , opts.opacity);
+                if( self.useTransition ){
+                    // Update css to trigger CSS Animation
+                    opts.$this.css('opacity' , opts.opacity);
+                }
 
                 if ( opts.x !== undefined ) {
                     self.setPrefixedCss(opts.$this, 'transform', transform);
@@ -538,10 +540,10 @@
                 opts.$this.one(self.transitionEndName, complete);
             } else {
                 // Use jQuery to animate left/top
-                opts.$this.stop().animate({
+                opts.$this.stop(true,true).animate({
                     left: opts.x,
                     top: opts.y,
-                    opacity: opts.opacity
+                    opacity: self.useTransition ? opts.opacity : null
                 }, self.speed, 'swing', complete);
             }
         },
@@ -795,7 +797,8 @@
         buffer: 0,
         throttle: $.debounce || null,
         throttleTime: 300,
-        keepSorted : true
+        keepSorted : true,
+        useTransition: true
     };
 
     // Not overrideable

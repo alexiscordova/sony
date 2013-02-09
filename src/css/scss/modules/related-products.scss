@@ -12,6 +12,21 @@
   position: relative;
 }
 
+.rp-title {
+  margin: 70px 0 30px 0;
+
+  //beyond tablet
+  @media (min-width:px-em(769px)){
+    margin: 70px 0 30px 0;
+  } 
+
+  //tablet
+  @media (min-width:px-em(481px)) and (min-width:px-em(769px)){
+    margin: 70px 0 30px 0;
+  }
+
+}
+
 /*
     _________    ____ _____
    /_  __/   |  / __ ) ___/
@@ -70,11 +85,11 @@
 .RELATEDPRODUCTS {}
   .related-products {
     
-    position: absolute;
-    top:0;
-    left:0;
+    position: relative;
+    //top:0;
+    //left:0;
     width: 100%;
-    margin: 26px 0 70px 0;
+    margin: 0 0 50px 0;
     padding: 0 ;
     direction: ltr;
     overflow: hidden;
@@ -98,6 +113,15 @@
 
       &.slimgrid5 {
         width: 91.89189%;
+        width: 100%;
+      }
+
+      @media (min-width:px-em(980px)) and (max-width:px-em(1199px)){
+        &.slimgrid5 {
+          width: 91.89189%;
+        } 
+
+        max-width:1190px;   
       }
 
       @media (min-width:px-em(1201px)){
@@ -345,6 +369,14 @@
         
       }
 
+      @media (min-width: px-em(481px)) and (max-width:980px){
+        &.related-products-4up {
+          .gallery-item:after {
+            padding-top: 99%;
+          }
+        }
+      }
+
 
 
       //orange plate panel text color
@@ -534,6 +566,14 @@
           padding-top: 133.196078%;
         }
 
+        .related-products-4up {
+          .gallery-item:after {
+            padding-top: 160.196078%;
+          }   
+        }
+
+
+
         .gallery-item .gallery-item-inner,
         .product-img .product-img-wrap {
           position: absolute; 
@@ -542,6 +582,7 @@
         .medium.gallery-item:after {
           //padding-top: 141.196078%;
           padding-top: 144.996078%;
+          padding-top: 151.996078%;
         }
         //four up style overrides
         &.related-products-4up {
@@ -783,7 +824,7 @@
       background-repeat: no-repeat;
       position: absolute;
       top: 50%;
-      margin: -100px 0;
+      margin: -100px 0px 0px 14px;
       cursor: pointer;
       font-size:1.4em;
       @include transition(all $transitionSlow ease-in);
@@ -793,8 +834,7 @@
       }
 
       i {
-        width: 15px;
-        height: 15px;
+        height: auto;
         margin-top: 33px;
         @include center-block();
 
