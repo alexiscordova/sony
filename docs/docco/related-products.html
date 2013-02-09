@@ -1375,7 +1375,9 @@ $(<span class="keyword">function</span>(){
     module instantiate the related products that its bound to
   */</span>
 
-
+  <span class="keyword">if</span>($(<span class="string">'.container-tabbed'</span>).length === <span class="number">0</span>){
+    <span class="keyword">return</span>;
+  }
 
 </pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> transEndEventNames = {
       <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
@@ -1385,7 +1387,6 @@ $(<span class="keyword">function</span>(){
       <span class="string">'transition'</span>       : <span class="string">'transitionend'</span>
   },
   transitionEndName;
-
   transitionEndName = transEndEventNames[ window.Modernizr.prefixed(<span class="string">'transition'</span>) ];
 
   <span class="keyword">var</span> $tabs = $(<span class="string">'.rp-tabs'</span>).find(<span class="string">'.rp-tab'</span>),
@@ -1393,9 +1394,6 @@ $(<span class="keyword">function</span>(){
       $currentPanel = $(<span class="string">'.related-products[data-rp-panel-id='</span> + currentPanelId + <span class="string">']'</span>),
       $productPanels = $(<span class="string">'.related-products[data-rp-panel-id]'</span>);
 
-    <span class="keyword">if</span>($(<span class="string">'.container-tabbed'</span>).length === <span class="number">0</span>){
-      <span class="keyword">return</span>;
-    }
 
   $productPanels.not($currentPanel).css({
     <span class="string">'opacity'</span> : <span class="number">0</span>,

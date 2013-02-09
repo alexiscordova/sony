@@ -448,7 +448,7 @@
     centerItems: true, // centers items per page
     paginationClass: 'pagination-bullet',
     generatePagination: false, // if bullet pagination is needed in mode = paginate,
-    appendBulletsTo:null, // option on where to place pagination bullets, if null defaults to self.$el
+    appendBulletsTo: null, // option on where to place pagination bullets, if null defaults to self.$el
 
     // iscroll props get mixed in
     iscrollProps: {

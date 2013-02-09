@@ -1444,7 +1444,9 @@ $(function(){
     module instantiate the related products that its bound to
   */
 
-
+  if($('.container-tabbed').length === 0){
+    return;
+  }
 
   // Get transitionend event name
   var transEndEventNames = {
@@ -1455,7 +1457,6 @@ $(function(){
       'transition'       : 'transitionend'
   },
   transitionEndName;
-
   transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ];
 
   var $tabs = $('.rp-tabs').find('.rp-tab'),
@@ -1463,9 +1464,6 @@ $(function(){
       $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
       $productPanels = $('.related-products[data-rp-panel-id]');
 
-    if($('.container-tabbed').length === 0){
-      return;
-    }
 
   $productPanels.not($currentPanel).css({
     'opacity' : 0,
