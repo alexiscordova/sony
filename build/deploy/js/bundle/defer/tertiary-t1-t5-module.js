@@ -40,6 +40,8 @@
       self.$tccBodyWrapper         = self.$el;
       self.$tccBody                = self.$tccBodyWrapper.find(self.contentSelectorClass);
       self.$contentModules         = self.$el.find(self.contentModulesClass);
+      self.$hideShowEl             = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
+      self.$loader                 = self.$container.find(".loader");
       self.$scrollerInstance       = null;
                 
       self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
@@ -48,9 +50,9 @@
       self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
       self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.sequencerSpeed          = 100; 
+      self.sequencerSpeed          = 100;
+      self.hideShowSpeed           = 250;
       self.debounceSpeed           = 300;
-      self.scrollDuration          = 400;
       
       self.phoneBreakpoint         = 479;
       self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
@@ -58,6 +60,21 @@
 
       self.marginPercent          = Number('.0334'); // 22/650 (at 2-up)
       self.paddingPerContent      = 20;
+
+      $(window).on('resize', function(){
+        
+        console.log( 'mode »' , self.mode);
+        
+        if(self.mode !== "desktop"){
+          self.$el.css({
+            'opacity' : 0,
+            'visibility' : 'hidden'
+          });
+
+          self.$loader.show();
+        }
+
+      });
 
       // define resize listener, debounced
       self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle));     
@@ -83,6 +100,7 @@
 
       // controller for scroller setup
       setup : function(){
+        console.log( 'setup »');
         var self      = this,
             setupSequence = new Sequencer();
 
@@ -91,18 +109,42 @@
         setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 100 ); // set scroller & iscroll options
         setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
         setupSequence.start();
+
       },
 
       // teardown controller
       teardown : function(){
+        console.log( 'teardown »');
         var self         = this,
         teardownSequence = new Sequencer();
 
-        // teardown sequence        
-        teardownSequence.add( self, self.removeStyleAttr, self.sequencerSpeed ); // remove scroller-specific style attributes
+        // teardown sequence
+        if(self.mode == 'desktop'){
+          teardownSequence.add( self, self.removeStyleAttr, self.sequencerSpeed ); // remove scroller-specific style attributes
+        }
+
         teardownSequence.add( self, self.destroyScroller, self.sequencerSpeed ); // destroy scroller instance
         teardownSequence.add( self, self.setMode, self.sequencerSpeed ); // destroy scroller instance     
         teardownSequence.start();
+      },
+      
+      // Hide scroller content for transition   
+      hideAll : function(){
+        console.log( '««« hideAll »»»' );
+        var self = this;
+
+        self.$hideShowEl.stop(true,true).animate({ opacity: 0 },{ duration: self.hideShowSpeed , complete: function(){self.$hideShowEl.css({"visibility":"hidden"});}});
+      },
+
+      // Show scroller content after transition
+      showAll : function(){
+        console.log( '««« showAll »»»' );
+        var self = this;
+
+
+        self.$loader.hide();
+        self.$hideShowEl.stop(true,true).animate({ opacity: 1 },{ duration: self.hideShowSpeed , complete: function(){self.$hideShowEl.css({"visibility":"visible"});}});
+
       },
 
       // instantiate a scroller 
@@ -125,14 +167,9 @@
 
       // clean up residual style elements after teardown
       removeStyleAttr : function(){
-        //console.group('««« removeStyleAttr »»»');
         var self  = this,
-        $elements = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
-    
+        $elements = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);        
         $elements.removeAttr('style'); 
-      
-        //console.log( '« end »');
-        //console.groupEnd();
       },
 
       // set scroller options to be passed to sony-scroller
@@ -151,7 +188,6 @@
         // bullets would get appended to last instance and oddly 
         // not respecting encapsulation
         // self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';
-
       },
 
       // every resize event (debounced) determine size of each content module 
@@ -183,7 +219,6 @@
         self.$contentModules.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
-
       },
 
       // Determines margin needed per content module 
@@ -215,59 +250,69 @@
         $(self.$contentModules[1]).css( "marginRight", marginForEach );
         $(self.$contentModules[2]).css( "marginRight", marginForEach );
         $(self.$contentModules[2]).css( "marginLeft", marginForEach );
-
       },
 
       // Adding "grid paddding" back in on the content modules 
       // as padding to support full bleed pagination
       setContentModulePadding : function( paddingValue ){
-        //console.group( '««« setContentMoudlePadding »»»' );
         var self = this;
 
-        // set content module's padding correctly
-        $(self.$contentModules[0]).css( "paddingRight", paddingValue );
-        $(self.$contentModules[0]).css( "paddingLeft", paddingValue );
-        $(self.$contentModules[1]).css( "paddingLeft", paddingValue );
-        $(self.$contentModules[1]).css( "paddingRight", paddingValue );
-        $(self.$contentModules[2]).css( "paddingRight", paddingValue );
-        $(self.$contentModules[2]).css( "paddingLeft", paddingValue );
-        
-        //console.log( '« end »');
-        //console.groupEnd();
+       // if(self.mode !== "phone"){
+          // set content module's padding correctly
+          $(self.$contentModules[0]).css( "paddingRight", paddingValue );
+          $(self.$contentModules[0]).css( "paddingLeft", paddingValue );
+          $(self.$contentModules[1]).css( "paddingLeft", paddingValue );
+          $(self.$contentModules[1]).css( "paddingRight", paddingValue );
+          $(self.$contentModules[2]).css( "paddingRight", paddingValue );
+          $(self.$contentModules[2]).css( "paddingLeft", paddingValue );         
+       // }
       },
 
       // on resize event (debounced) determine what to do
       handleResize : function(){
         //console.group( '««« handleResize »»»' );
         var self = this;
-
+        
         // update mode at current break point
         self.setMode(); 
 
         // if the mode is 'phone' or 'tablet' (aka mobile) then proceed
         if( self.mode !== 'desktop' ){
           
-          var resizeSequencer = new Sequencer();
+          var resizeMobileSequencer = new Sequencer();
 
           // if there's a scroller set up, add teardown method to the sequence (reset)
           if( self.$scrollerInstance !== null ) {
-            resizeSequencer.add( self, self.teardown, self.sequencerSpeed ); // teardown
+            resizeMobileSequencer.add( self, self.teardown, self.sequencerSpeed ); // teardown
           }
 
           // create a new scroller
-          resizeSequencer.add( self, self.setup, self.sequencerSpeed + 100 ); // setup
+          resizeMobileSequencer.add( self, self.setup, self.sequencerSpeed + 100 );
+          
+          // show contents again after transition
+          resizeMobileSequencer.add( self, self.showAll, self.sequencerSpeed + 200 ); 
 
           // start sequence
-          resizeSequencer.start();
+          resizeMobileSequencer.start();
           
-        }else{
-          //console.log( 'in desktop (resize) »' );
-
-          // if mode is now 'desktop' then simply destroy scroller
+        }else{        
+  
+          // if mode is now 'desktop' then simply destroy scroller if there is one
           if( self.$scrollerInstance !== null ){        
+            self.showAll();
             self.teardown();
-          }
 
+            // var resizeDesktopSequencer = new Sequencer();            
+
+            // // hide scroller content prior to jarring visual transition
+            // resizeDesktopSequencer.add( self, self.hideAll, 100); 
+            // resizeDesktopSequencer.add( self, self.teardown, 100); 
+  
+            // // show contents again since resize automatically hides it
+            // resizeDesktopSequencer.add( self, self.showAll, 100); 
+  
+            // resizeDesktopSequencer.start();
+          }
         }
       },
 
@@ -316,9 +361,7 @@
         contentSelector: ".tcc-body", 
         itemElementSelector: ".tcc-content-module", 
         mode: 'paginate',
-        //fitPerPage: null, // null for now, determined once self.mode is set in setScrollerOptions
         generatePagination: true,
-        //appendBulletsTo:null, // adding this later in setScrollerOption
         centerItems: true,
 
         iscrollProps: {
