@@ -1251,6 +1251,7 @@ $offsetFromMiddle: px-em(45px);
   z-index: 5;
   height: 100%;
 
+  //
   &:before {
     content: '';
     position: absolute;
@@ -1264,6 +1265,7 @@ $offsetFromMiddle: px-em(45px);
     @include transition(box-shadow $transitionFast ease-in);
   }
 
+  // Show a little shadow representing content behind the label column
   &.overflowing:before {
     @include box-shadow(.125em 0 .1875em -.0625em $transparentBlack);
     @include transition-timing-function(ease-out);

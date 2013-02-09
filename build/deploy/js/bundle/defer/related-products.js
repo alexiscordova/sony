@@ -786,6 +786,9 @@
 
           self.$el.css('height' , 400);
 
+          if(!!self.isTabbedContainer){
+            self.$tabbedContainer.css('height' , 400);
+          }
           return;
         }
 
@@ -1441,7 +1444,9 @@ $(function(){
     module instantiate the related products that its bound to
   */
 
-
+  if($('.container-tabbed').length === 0){
+    return;
+  }
 
   // Get transitionend event name
   var transEndEventNames = {
@@ -1452,7 +1457,6 @@ $(function(){
       'transition'       : 'transitionend'
   },
   transitionEndName;
-
   transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ];
 
   var $tabs = $('.rp-tabs').find('.rp-tab'),
@@ -1460,9 +1464,6 @@ $(function(){
       $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
       $productPanels = $('.related-products[data-rp-panel-id]');
 
-    if($('.container-tabbed').length === 0){
-      return;
-    }
 
   $productPanels.not($currentPanel).css({
     'opacity' : 0,
@@ -1507,7 +1508,7 @@ $(function(){
       
       $currentPanel.css(visibleObj(true, 1));
       $currentPanel.data('relatedProducts').enableShuffle();
-      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500, complete: function(){}});
+      $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500});
 
           
       console.log('Currently Selected Tab:' , $tab.data('rpPanelId'));

@@ -197,7 +197,7 @@ module.exports = function(grunt) {
     },
     doccoh: {
       main: {
-        src: ['js/bundle/**/*.js'],
+        src: ['js/bundle/defer/**/*.js', 'js/bundle/require/**/*.js', 'js/bundle/secondary/**/*.js'],
         options: {
           output: '../docs/docco/'
         }

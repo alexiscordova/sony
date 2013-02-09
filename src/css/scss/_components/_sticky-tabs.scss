@@ -41,6 +41,12 @@ $tabHeight: px-em(98px);
     @include box-shadow(.0625em 0 0 $white);
     @include transition(background-color $transitionFast $easeNormal, box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal);
 
+    // Avoid selecting text
+    -webkit-user-select: none;
+       -moz-user-select: -moz-none;
+        -ms-user-select: none;
+            user-select: none;
+
     &:focus,
     &:hover {
       background-color: $grayLightFieldLarge;
