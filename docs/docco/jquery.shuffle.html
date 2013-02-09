@@ -207,7 +207,7 @@ whether to hide it or not.</p>             </td>             <td class="code">  
             self.$items.each(<span class="keyword">function</span>() {
                 $(<span class="keyword">this</span>).css(self.itemCss);
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Set CSS transition for transforms and opacity</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> ( self.supported &amp;&amp; !withoutTransition ) {
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Set CSS transition for transforms and opacity</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> ( self.supported &amp;&amp; !withoutTransition &amp;&amp; self.useTransition ) {
                     self._setTransition(<span class="keyword">this</span>);
                 }
             });
@@ -516,7 +516,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
 
             opts.callback = opts.callback || $.noop;
 
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Use CSS Transforms if we have them</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (self.supported) {
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Use CSS Transforms if we have them</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.supported ) {
 
 </pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Make scale one if it's not preset</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> ( opts.scale === <span class="literal">undefined</span> ) {
                     opts.scale = <span class="number">1</span>;
@@ -528,7 +528,9 @@ The buffer value is very useful when the height is a percentage of the width</p>
                     transform = <span class="string">'translate('</span> + opts.x + <span class="string">'px, '</span> + opts.y + <span class="string">'px) scale('</span> + opts.scale + <span class="string">', '</span> + opts.scale + <span class="string">')'</span>;
                 }
 
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>Update css to trigger CSS Animation</p>             </td>             <td class="code">               <div class="highlight"><pre>                opts.$<span class="keyword">this</span>.css(<span class="string">'opacity'</span> , opts.opacity);
+                <span class="keyword">if</span>( self.useTransition ){
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>Update css to trigger CSS Animation</p>             </td>             <td class="code">               <div class="highlight"><pre>                    opts.$<span class="keyword">this</span>.css(<span class="string">'opacity'</span> , opts.opacity);
+                }
 
                 <span class="keyword">if</span> ( opts.x !== <span class="literal">undefined</span> ) {
                     self.setPrefixedCss(opts.$<span class="keyword">this</span>, <span class="string">'transform'</span>, transform);
@@ -536,10 +538,10 @@ The buffer value is very useful when the height is a percentage of the width</p>
 
                 opts.$<span class="keyword">this</span>.one(self.transitionEndName, complete);
             } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>Use jQuery to animate left/top</p>             </td>             <td class="code">               <div class="highlight"><pre>                opts.$<span class="keyword">this</span>.stop().animate({
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>Use jQuery to animate left/top</p>             </td>             <td class="code">               <div class="highlight"><pre>                opts.$<span class="keyword">this</span>.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({
                     left: opts.x,
                     top: opts.y,
-                    opacity: opts.opacity
+                    opacity: self.useTransition ? opts.opacity : <span class="literal">null</span>
                 }, self.speed, <span class="string">'swing'</span>, complete);
             }
         },
@@ -714,7 +716,8 @@ The buffer value is very useful when the height is a percentage of the width</p>
         buffer: <span class="number">0</span>,
         throttle: $.debounce || <span class="literal">null</span>,
         throttleTime: <span class="number">300</span>,
-        keepSorted : <span class="literal">true</span>
+        keepSorted : <span class="literal">true</span>,
+        useTransition: <span class="literal">true</span>
     };
 
 </pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
