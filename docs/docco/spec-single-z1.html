@@ -53,13 +53,12 @@ Date: 01/24/13</p>
     },
 
     _initFeatures : <span class="keyword">function</span>() {
-      <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          dfd;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$specTiles.shuffle({
         itemSelector: <span class="string">'.spec-tile'</span>,
-        easing: <span class="string">'ease-out'</span>,
-        speed: <span class="number">250</span>,
+        easing: Exports.shuffleEasing,
+        speed: Exports.shuffleSpeed,
         columnWidth: <span class="keyword">function</span>( containerWidth ) {
           <span class="keyword">var</span> column = containerWidth;
 
@@ -91,13 +90,7 @@ Date: 01/24/13</p>
       });
       self.shuffle = self.$specTiles.data(<span class="string">'shuffle'</span>);
 
-      dfd = self.$specTiles.imagesLoaded();
-
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Relayout shuffle when the images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>      dfd.always( <span class="keyword">function</span>() {
-        setTimeout( <span class="keyword">function</span>() {
-          self.shuffle.layout();
-        }, <span class="number">100</span> );
-      });
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Relayout shuffle when the images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$specTiles.find(<span class="string">'.iq-img'</span>).on(<span class="string">'imageLoaded'</span>, $.debounce( <span class="number">200</span>, $.proxy( self.shuffle.layout, self.shuffle ) ));
 
       <span class="keyword">return</span> self;
     },
@@ -149,32 +142,23 @@ Date: 01/24/13</p>
 
     _initCarousel : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          firstImage = self.$carousel.find(<span class="string">':first-child img'</span>),
+          $firstImage = self.$carousel.find(<span class="string">':first-child img'</span>),
           spanWidth = self.$carouselWrap.width();
 
       self.$carousel.find(<span class="string">'img'</span>).css({
         maxWidth: spanWidth
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Give the image a src, otherwise imagesLoaded is pointless...</p>             </td>             <td class="code">               <div class="highlight"><pre>      window.iQ.update();
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Wait for first image to be loaded,
+then get its height and set it on the container, then initialize the scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      $firstImage.on(<span class="string">'imageLoaded'</span>, <span class="keyword">function</span>() {
+        self.$carousel.height( $firstImage.height() );
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Wait for first image to be loaded, then setTimeout to allow it to get a height
-then get its height and set it on the container, then initialize the scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      firstImage.imagesLoaded(<span class="keyword">function</span>() {
-        setTimeout(<span class="keyword">function</span>() {
-          self.$carousel.height( firstImage.height() );
-
-          self.$carouselWrap.scrollerModule({
-            contentSelector: <span class="string">'.spec-carousel'</span>,
-            itemElementSelector: <span class="string">'.slide'</span>,
-            mode: <span class="string">'carousel'</span>,
-            generatePagination: <span class="literal">true</span>,
-            nextSelector: self.$container.find(<span class="string">'.overview-nav-next'</span>),
-            prevSelector: self.$container.find(<span class="string">'.overview-nav-prev'</span>)
-
-          });
-        }, <span class="number">100</span>);
+        self.$carouselWrap.scrollerModule({
+          mode: <span class="string">'carousel'</span>,
+          contentSelector: <span class="string">'.spec-carousel'</span>,
+          itemElementSelector: <span class="string">'.slide'</span>
+        });
       });
-
     },
 
     _initJumpLinks : <span class="keyword">function</span>() {
@@ -194,20 +178,20 @@ then get its height and set it on the container, then initialize the scroller</p
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           st = self.$window.scrollTop();
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Open the stick nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( st &gt; self.stickyTriggerOffset ) {
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Open the stick nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( st &gt; self.stickyTriggerOffset ) {
         <span class="keyword">if</span> ( !self.$stickyNav.hasClass(<span class="string">'open'</span>) ) {
           self.$stickyNav.addClass(<span class="string">'open'</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Close the sticky nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Close the sticky nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
         <span class="keyword">if</span> ( self.$stickyNav.hasClass(<span class="string">'open'</span>) ) {
           self.$stickyNav.removeClass(<span class="string">'open'</span>);
         }
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>See if bottom-aligned-imgs have been loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$alignedBottomImgs.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>See if bottom-aligned-imgs have been loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$alignedBottomImgs.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> $img = $(<span class="keyword">this</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Skip if the source hasn't been set yet</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( <span class="keyword">this</span>.src === <span class="string">''</span> || $img.data(<span class="string">'loaded'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Skip if the source hasn't been set yet</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( <span class="keyword">this</span>.src === <span class="string">''</span> || $img.data(<span class="string">'loaded'</span>) ) {
           <span class="keyword">return</span>;
         }
 
@@ -223,27 +207,27 @@ then get its height and set it on the container, then initialize the scroller</p
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $imgs = self.$carousel.find(<span class="string">'img'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>isFirst can be the event object too</p>             </td>             <td class="code">               <div class="highlight"><pre>      isFirst = isFirst === <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>isFirst can be the event object too</p>             </td>             <td class="code">               <div class="highlight"><pre>      isFirst = isFirst === <span class="literal">true</span>;
 
       <span class="keyword">if</span> ( !isFirst ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Set max width equal to the container width
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Set max width equal to the container width
 Don't remember why I do this instead of max-width:100%</p>             </td>             <td class="code">               <div class="highlight"><pre>        $imgs.css({
           maxWidth: self.$carouselWrap.width()
         });
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Set carousel height based on the new image height</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$carousel.height( $imgs.height() );
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Set carousel height based on the new image height</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$carousel.height( $imgs.height() );
       }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>If tablet or desktop, center the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.mq( self.mobileBreakpoint ) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>If tablet or desktop, center the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !Modernizr.mq( self.mobileBreakpoint ) ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Set even heights on columns spans that have an image aligned to the bottom</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$alignedBottom.evenHeights();
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Set even heights on columns spans that have an image aligned to the bottom</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$alignedBottom.evenHeights();
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Get the height of the tallest column in this row. We need this to vertically center the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$carouselCols.evenHeights();
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Get the height of the tallest column in this row. We need this to vertically center the carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$carouselCols.evenHeights();
       } <span class="keyword">else</span> {
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Remove set heights on the columns.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$alignedBottom
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Remove set heights on the columns.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$alignedBottom
           .add( self.$carouselCols )
           .css(<span class="string">'height'</span>, <span class="string">''</span>);
       }
@@ -252,13 +236,13 @@ Don't remember why I do this instead of max-width:100%</p>             </td>    
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           spec = self.data(<span class="string">'spec'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>If we don't have a stored spec, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !spec ) {
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If we don't have a stored spec, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !spec ) {
         spec = <span class="keyword">new</span> Spec( self, options );
         self.data( <span class="string">'spec'</span>, spec );
       }
@@ -270,11 +254,11 @@ Don't remember why I do this instead of max-width:100%</p>             </td>    
   };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle.options = {
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle.options = {
     mobileBreakpoint : <span class="string">'(max-width: 35.4375em)'</span>
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.specSingle.settings = {
     isStickyTabs: <span class="literal">false</span>,
     isScroller: <span class="literal">false</span>,
     currentFeatureCols: <span class="literal">null</span>

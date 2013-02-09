@@ -36,13 +36,13 @@
         lastCalled = 0;
 
     function trailingCall() {
-      lastCalled = new Date;
+      lastCalled = new Date();
       timeoutId = null;
       func.apply(thisArg, args);
     }
 
     return function() {
-      var now = new Date,
+      var now = new Date(),
       remain = wait - (now - lastCalled);
 
       args = arguments;
@@ -201,15 +201,17 @@
     loadImages(false, imagesWereAdded === true );
   },
 
-  onImageLoad = function(elm){
+  onImageLoad = function($elm /*, $images, $proper, $broken*/ ) {
     // console.log('++ loaded', $(elm).attr('src'));
-    if(fade && $(elm).data('fadeonce') !== true && !$(elm).hasClass(noFadeFlag)){
-      $(elm).data('fadeonce', true);
-      $(elm).css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
-      setTimeout(function(){$(elm).attr('style', "");}, 900);
-      $(elm).trigger('imageLoaded');
+    if (fade && $elm.data('fadeonce') !== true && !$elm.hasClass(noFadeFlag)) {
+      $elm.data('fadeonce', true);
+      $elm.css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
+      setTimeout(function() {
+        $elm.attr('style', '');
+      }, 900);
+      $elm.trigger('imageLoaded');
     }
-    $(elm).trigger('imageReLoaded');
+    $elm.trigger('imageReLoaded');
   },
 
   loadImages = function(resizing, update){
@@ -227,16 +229,16 @@
           // If we haven't processed this image yet and it is a responsive image,
           // add image to the list.
           iQ.images.push(elm);
-          // $(elm).hasClass(resizeFlag) && iQ.resizeFlaggedImages.push(elm); 
+          // $(elm).hasClass(resizeFlag) && iQ.resizeFlaggedImages.push(elm);
           //if its an img not a background image set it up to fade in on load
-          if(elm.tagName == "IMG"){
+          if (elm.tagName == 'IMG') {
             if(fade && $(elm).data('fadeonce') !== true && !$(elm).hasClass(noFadeFlag)){
               $(elm).css({'opacity': 0, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=0)"', 'filter':'alpha(opacity=0)', 'zoom':1, '-webkit-transition': 'opacity 0.4s ease-out', '-moz-transition': 'opacity 0.4s ease-out', '-o-transition': 'opacity 0.4s ease-out', 'transition': 'opacity 0.4s ease-out' });
             }
           }
         });
       }
-      
+
       // Load images scroll or resize
       if (iQ.images[LENGTH]) {
         i = 0;
@@ -251,7 +253,7 @@
           i++;
         }
       }
-      
+
       // check images that are flagged to update on resize
       if(iQ.resizeFlaggedImages[LENGTH]){
         i = 0;
@@ -275,17 +277,19 @@
     viewportWidth = getViewportWidthInCssPixels();
     breakpoint = getBreakpoint(breakpoints, viewportWidth);
     breakpointName = breakpoint.name;
-    var newsrc = getImageSrc(img, breakpointName);
+    var newsrc = getImageSrc(img, breakpointName),
+        $img = $(img);
     // skip if new src = current
-    if($(img).data('current') !== newsrc){
-      $(img).data('current', newsrc);
-      
-      //if its an image set src else set bg image
-      if($(img).is('img')){
-        $(img).imagesLoaded(onImageLoad);
-        $(img).attr('src', newsrc);
-      } else if ($(img).is('div')) {
-        $(img).css('background-image', 'url('+newsrc+')');
+    if ($img.data('current') !== newsrc) {
+      $img.data('current', newsrc);
+
+      // if its an image set src else set bg image
+      if ($img.is('img')) {
+        $img
+          .attr('src', newsrc)
+          .imagesLoaded(onImageLoad);
+      } else if ($img.is('div')) {
+        $img.css('background-image', 'url('+newsrc+')');
       }
     }
   },
@@ -557,7 +561,7 @@
         (ct_bottom + asyncDistance) >= img_offset.top &&
         (ct_left - asyncDistance)<= (img_offset.left + img_width) &&
         (ct_right + asyncDistance) >= img_offset.left;
-        
+
     return inView;
   };
 

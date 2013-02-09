@@ -31,6 +31,7 @@
     self.$filterArrow = self.$container.find('.slide-arrow-under, .slide-arrow-over');
     self.$favorites = self.$grid.find('.js-favorite');
     self.$gridProductNames = self.$grid.find('.product-name-wrap');
+    self.$carousels = self.$grid.find('.js-item-carousel');
 
     // Compare modal
     self.$compareBtn = self.$container.find('.js-compare-toggle');
@@ -40,6 +41,7 @@
     // Other vars
     self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
     self.hasFilters = self.$filterOpts.length > 0;
+    self.hasCarousels = self.$carousels.length > 0;
     self.windowSize = self.$window.width();
 
     self.$container.addClass('gallery-' + self.mode);
@@ -62,14 +64,14 @@
 
     self.shuffle = self.$grid.data('shuffle');
 
+    self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
+
     // Displays active filters on `filter`
     self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ));
 
     // Things moved around and could possibly be in the viewport
     // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
-    self.$grid.on('layout.shuffle', function() {
-      window.iQ.update();
-    });
+    self.$grid.on('layout.shuffle', window.iQ.update );
 
     // Sort elements by data-priority attribute
     self.sortByPriority();
@@ -87,8 +89,7 @@
     self.initSwatches();
     self.initTooltips();
 
-    self.$window.on('resize.gallery', $.debounce( 275, $.proxy( self.onResize, self ) ) );
-    self.onResize();
+    self.onResize( true );
 
     // Launch compare tool on click
     if ( self.hasCompareModal ) {
@@ -572,6 +573,47 @@
       });
     },
 
+    initCarousels : function( isFirstCall ) {
+      var self = this;
+
+
+      function initializeScroller( $carousel ) {
+        // setTimeout onResize
+        $carousel.scrollerModule({
+          mode: 'carousel',
+          contentSelector: '.js-carousel-container',
+          itemElementSelector: '.slide'
+        });
+
+        self.hasEnabledCarousels = true;
+      }
+
+      // Go through each possible carousel
+      self.$carousels.each(function() {
+        var $carousel = $(this),
+            $firstImage;
+
+        // If this call is from the initial setup, we have to wait for the first image to load
+        // to get its height.
+        if ( isFirstCall ) {
+          $firstImage = $carousel.find(':first-child img');
+          $firstImage.on('imageLoaded', function() {
+            initializeScroller( $carousel );
+          });
+
+        // Otherwise, just initialize the carousel right away
+        } else {
+          initializeScroller( $carousel );
+        }
+
+      });
+    },
+
+    destroyCarousels : function() {
+      this.$carousels.scrollerModule('destroy');
+      this.hasEnabledCarousels = false;
+    },
+
     setFilterStatuses : function() {
       var self = this,
           $visible = self.$grid.data('shuffle').$items.filter('.filtered'),
@@ -954,19 +996,23 @@
       return self;
     },
 
-    onResize : function() {
+    onResize : function( isInit ) {
       var self = this;
 
       if ( !self.enabled ) {
         return;
       }
 
-      console.log('iOS is triggering resizes when it shouldnt be: onResize');
+      // Make sure isInit is not an event object
+      isInit = isInit === true;
+
+      console.log('onResize:', self.id, ' - (iOS is triggering resizes when it shouldnt be)');
 
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
       // Don't change columns for detail galleries
+      // Change the filters column layout
       if ( self.mode === 'detailed' ) {
 
         // 768-979
@@ -992,7 +1038,24 @@
           }
         }
 
+        // Go home detailed gallery, you're drunk
         return;
+      }
+
+      // Destroy or setup carousels based on viewport
+      if ( self.hasCarousels ) {
+        // 980+
+        if ( Modernizr.mq('(min-width: 61.25em)') ) {
+          if ( !self.hasEnabledCarousels ) {
+            self.initCarousels( isInit );
+          }
+
+        // less than 980
+        } else {
+          if ( self.hasEnabledCarousels ) {
+            self.destroyCarousels();
+          }
+        }
       }
 
       self.sortByPriority();
@@ -1962,8 +2025,8 @@
   // Overrideable options
   $.fn.gallery.options = {
     mode: 'editorial',
-    shuffleSpeed: 250,
-    shuffleEasing: 'ease-out'
+    shuffleSpeed: Exports.shuffleSpeed,
+    shuffleEasing: Exports.shuffleEasing
   };
 
   // Not overrideable
@@ -1973,6 +2036,7 @@
     MAX_PRICE: undefined,
     price: {},
     isInitialized: false,
+    hasEnabledCarousels: false,
     sorted: false,
     isTouch: !!( 'ontouchstart' in window ),
     isiPhone: (/iphone|ipod/gi).test(navigator.appVersion),

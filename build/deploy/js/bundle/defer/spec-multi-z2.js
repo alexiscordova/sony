@@ -64,18 +64,17 @@
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
 
       // We're done
-      // Add the complete class to the labels to transition them in
       setTimeout(function() {
 
         // Redraw table when images have loaded
         var debouncedSetRowHeights = $.debounce( 200, $.proxy( self._setRowHeights, self) );
-        self.$specProducts.find('.iq-img').each(function() {
-          $(this).imagesLoaded( debouncedSetRowHeights );
-        });
+        self.$specProducts.find('.iq-img').on( 'imageLoaded', debouncedSetRowHeights );
 
-        self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
         self._initStickyNav();
         self._onScroll();
+
+        // Add the complete class to the labels to transition them in
+        self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
 
       }, 250);
 
@@ -84,13 +83,12 @@
     },
 
     _initFeatures : function() {
-      var self = this,
-          dfd;
+      var self = this;
 
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
-        easing: 'ease-out',
-        speed: 250,
+        easing: Exports.shuffleEasing,
+        speed: Exports.shuffleSpeed,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
@@ -123,14 +121,8 @@
       });
       self.shuffle = self.$specTiles.data('shuffle');
 
-      dfd = self.$specTiles.imagesLoaded();
-
       // Relayout shuffle when the images have loaded
-      dfd.always( function() {
-        setTimeout( function() {
-          self.shuffle.layout();
-        }, 100 );
-      });
+      self.$specTiles.find('.iq-img').on('imageLoaded', $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) ));
 
       return self;
     },
