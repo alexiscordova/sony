@@ -22,7 +22,7 @@ if data.config.tabbedLayout
           .rp-overflow
             .rp-container
               j = 0
-              for slide in data.submodules
+              for slide in data.slideContent
                 mdata = locals.data(slide.data)
                 .rp-slide(data-variation=mdata.config.variation , class=mdata.config.variation)
                   .shuffle-container.slimgrid5
@@ -46,7 +46,7 @@ else if data.config.standalone != true
       .rp-overflow
         .rp-container
           j = 0
-          for slide in data.submodules
+          for slide in data.slideContent
             mdata = locals.data(slide.data)
             .rp-slide(data-variation=mdata.config.variation , class=mdata.config.variation)
               .shuffle-container.slimgrid5

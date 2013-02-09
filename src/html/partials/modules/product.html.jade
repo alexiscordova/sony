@@ -126,14 +126,17 @@ if data.view == "basic"
           .product-img-wrap.ghost-center-wrap
             .ghost-center
               if data.layout == 'carousel'
-                each img in data.imgCarousel
-                  mixin iQImage( img )
+                .js-item-carousel
+                  .js-carousel-container
+                    each img in data.imgCarousel
+                      .slide
+                        mixin iQImage( img )
 
               else if data.layout == 'large'
                 mixin iQImage( data.imgLarge )
 
               else if data.layout == 'medium'
-                mixin iQImage( data.img )
+                mixin iQImage( data.imgLarge )
 
               else
                 mixin iQImage( data.imgSmall )
@@ -381,13 +384,8 @@ else if data.view == 'single-spec'
       section.spec-overview.spec-section
         .container
           .grid.no-grid-at-567
-            .span8.relative.paddle-trigger.ghost-center-wrap
+            .span8.relative.ghost-center-wrap
               .ghost-center
-                nav
-                  button.nav-paddle.overview-nav.overview-nav-prev
-                    i.icon-ui2-chevron-18-white-left
-                  button.nav-paddle.overview-nav.overview-nav-next
-                    i.icon-ui2-chevron-18-white-right
                 .spec-carousel-wrap
                   .spec-carousel
                     each img in spec.imgs
