@@ -60,15 +60,26 @@
 
       self.$window.on('resize', $.debounce(250, $.proxy( self._onResize, self )));
       self.$window.on('scroll', $.proxy( self._onScroll, self ));
-      self.$window.on('load', $.proxy( self._initStickyNav, self ));
 
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
 
       // We're done
       // Add the complete class to the labels to transition them in
       setTimeout(function() {
+
+        // Redraw table when images have loaded
+        var debouncedSetRowHeights = $.debounce( 200, $.proxy( self._setRowHeights, self) );
+        self.$specProducts.find('.iq-img').each(function() {
+          $(this).imagesLoaded( debouncedSetRowHeights );
+        });
+
         self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
+        self._initStickyNav();
+        self._onScroll();
+
       }, 250);
+
+
 
     },
 
@@ -314,6 +325,9 @@
 
         // Loop through the cells (`.spec-item-cell`'s in the same 'row')
         $cells.add($detailLabel).evenHeights();
+
+        // Make bottom aligned images the same height
+        // $cells.find('.dl-img').evenHeights();
       });
 
       // Refresh iScroll

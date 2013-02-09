@@ -63,9 +63,13 @@
     }
   }
   .footer-btn{
-    margin:3px;
-    padding-top:5px;
-    height:30px;
+    // margin:3px;
+    // padding-top:5px;
+    // height:30px;
+
+    padding-top: 4px;
+    height: 28px;
+
     font-size:$font_11_16;
     @include fontRegular;
   }
@@ -75,8 +79,8 @@ form.footer-store-locator-form{
   margin:0;
   i{
     position: absolute;
-    left: 6px;
-    top: 11px;
+    left: 9px;
+    top: 13px;
     font-size: px-em(18,16);
     color: $buttonOrange;
   }
@@ -168,28 +172,25 @@ form.footer-store-locator-form{
 
 .btn-hover-group{ // drop-downs that trigger on hover instead of click -- except on mobile where they have to react more like on click.
   .btn.dropdown-hover-toggle{
+    font-size:1em;
     width: 100%;
     text-align: left;
     color:$white;
     background-color: $gray25;
     border-color: $gray25;
-    padding: 6px 11px 8px 14px;
+    padding: 8px 8px 10px 14px;
     @include box-shadow(none);
     @include flickerfix;
 
+    font-size: px-em(12);
 
-    .dropdown-label{
-      font-size: px-em(14);
-    }
-
-    .fonticon-10-arrowhead-down{
+    &::after{
       margin: 0;
       position:relative;
-      top:-2px;
-      left:4px;
-      @include transition(all $transitionFast linear 0s);
-      @include transform-origin(47%, 53%);
-      @include flickerfix;
+      top:1px;
+      left:3px;
+      font-size: px-em(16,12);
+      color:$gray50;
     }
   }
 
@@ -218,18 +219,26 @@ form.footer-store-locator-form{
     li{
       a{
         display:block;
-        font-size:$font_15_16;
+        font-size: px-em(12);
         color:$white;
-        padding:px-em(3px) px-em(27px) px-em(4px) px-em(27px);
+        padding:px-em(4px) px-em(29px) px-em(5px) px-em(29px);
         min-width:185px;
+        line-height:2.55;
+
+        .dropdown-label-left{
+          display: inline-block;
+          width: px-em(45);
+        }
 
         &:hover,
         &:active,
         &:focus{
-          color:$highlightColor;
           background-color: $grayDark1;
           border-color: $grayDark1;          
         }
+      }
+      &.selected a{
+        color:$highlightColor;        
       }
     }
   } // dropdown-hover-menu-list
@@ -270,20 +279,20 @@ form.footer-store-locator-form{
     border-color: $grayDark1;
   }
   &:not(.DISABLE-MENU){
-    .fonticon-10-arrowhead-down{
-      @include rotate(-180deg);
-    }
+    // .fonticon-10-arrowhead-down{
+    //   @include rotate(-180deg);
+    // }
     .dropdown-hover-menu{
-      @include el-shown;
+      @include el-shown(right);
     }
-    &.language-selector{
-      .dropdown-hover-menu{
-        @include el-shown(right); // so it's right-justified.
-      }
-    }
-    &.country-selector{
+    // &.language-selector{
+    //   .dropdown-hover-menu{
+    //     @include el-shown(right); // so it's right-justified.
+    //   }
+    // }
+    // &.country-selector{
 
-    }
+    // }
   }
 }
 
