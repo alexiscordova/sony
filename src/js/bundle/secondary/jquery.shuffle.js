@@ -66,6 +66,7 @@
 
         self.$container = $container.addClass('shuffle');
         self.$window = $(window);
+        self.unique = 'shuffle_' + $.now();
 
         self.fire('loading');
         self._init();

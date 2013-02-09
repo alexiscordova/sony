@@ -24,6 +24,7 @@
 
     self.$el = $element; // already jquery obj on init (optimized!)
     self.$win = $(window);
+    self.unique = '.sm_' + $.now();
     self._init();
   };
 
@@ -36,7 +37,7 @@
 
     _init : function() {
       var self = this,
-          resizeFunc = $.throttle( self.throttleTime, $.proxy( self._onResize, self ) );
+          resizeFunc = $.debounce( self.throttleTime, $.proxy( self._onResize, self ) );
 
       self.$contentContainer = self.$el.find(self.contentSelector);
       self.$elements = self.$el.find(self.itemElementSelector);
@@ -76,7 +77,7 @@
       self._setContainerWidth();
 
       // Register our resize handler before iscroll's
-      self.$win.on(self.resizeEvent + '.sm', resizeFunc);
+      self.$win.on(self.resizeEvent + self.unique, resizeFunc);
 
       // Create instance of scroller and pass it defaults
       self.scroller = new IScroll( self.$el[0], self.iscrollProps );
@@ -98,7 +99,7 @@
       }
 
       self._update( true );
-      self._onAnimationEnd( self.scroller );
+      self._showHideNavs( 0, self.scroller.pagesX.length - 1 );
     },
 
     _setIscrollProps : function() {
@@ -225,8 +226,6 @@
       }
 
       // Append the nav bullets
-      // console.log( '$elementToAppend »' ,  $elementToAppend);
-
       $elementToAppend.append( $bulletPagination );
 
       // Store reference
@@ -304,30 +303,33 @@
       }
     },
 
-    _onAnimationEnd : function( iscroll ) {
-      var self = this,
-          isFirstPage = false,
-          isLastPage = false;
-
-      self.currentPage = iscroll.currPageX;
+    _showHideNavs : function( currentPage, numPages ) {
+      var self = this;
 
       if ( self.$navPrev && self.$navNext ) {
         // Hide show prev button depending on where we are
-        if ( self.currentPage === 0 ) {
-          isFirstPage = true;
+        if ( currentPage === 0 ) {
           self.$navPrev.addClass('hide');
         } else {
           self.$navPrev.removeClass('hide');
         }
 
         // Hide show next button depending on where we are
-        if ( self.currentPage === iscroll.pagesX.length - 1 ) {
-          isLastPage = true;
+        if ( currentPage === numPages ) {
           self.$navNext.addClass('hide');
         } else {
           self.$navNext.removeClass('hide');
         }
       }
+    },
+
+    _onAnimationEnd : function( iscroll ) {
+      var self = this;
+
+      self.currentPage = iscroll.currPageX;
+
+      // Show or hide paddles based on our current page
+      self._showHideNavs( self.currentPage, iscroll.pagesX.length - 1 );
 
       // Update nav bullets
       if ( self.$pagination ) {
@@ -342,7 +344,7 @@
       // If they've defined a callback as well, call it
       // We saved their function to this reference so we could have our own onAnimationEnd
       if ( self.onAnimationEnd ) {
-        self.onAnimationEnd( iscroll, isFirstPage, isLastPage );
+        self.onAnimationEnd( iscroll );
       }
     },
 
@@ -386,8 +388,6 @@
     gotopage: function( pageNumber, duration ) {
       // pageNumber could be an event object from a navigation bullet click.
       // if it is, get the index from it's data attribute
-
-      //console.log( 'this »' , this);
       pageNumber = pageNumber.type ? $(pageNumber.target).data('index') : pageNumber;
       duration = duration || 400;
       this.scroller.scrollToPage(pageNumber, 0, duration);
@@ -441,7 +441,7 @@
       // self.scroller = null;
 
       // Remove resize event
-      self.$win.off('.sm');
+      self.$win.off( self.unique );
 
       self.$el.removeData('scrollerModule');
     },
@@ -510,7 +510,7 @@
 
   // Not overrideable
   $.fn.scrollerModule.settings = {
-    throttleTime: 150, // How much the resize event is throttled (milliseconds)
+    throttleTime: 350, // How much the resize event is throttled (milliseconds)
     paginationClass: 'pagination-bullet',
     paddleTrigger:  'paddle-trigger',
     resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',

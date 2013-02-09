@@ -126,8 +126,11 @@ if data.view == "basic"
           .product-img-wrap.ghost-center-wrap
             .ghost-center
               if data.layout == 'carousel'
-                each img in data.imgCarousel
-                  mixin iQImage( img )
+                .js-item-carousel
+                  .js-carousel-container
+                    each img in data.imgCarousel
+                      .slide
+                        mixin iQImage( img )
 
               else if data.layout == 'large'
                 mixin iQImage( data.imgLarge )
