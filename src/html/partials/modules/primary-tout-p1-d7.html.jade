@@ -19,10 +19,11 @@ mixin header(d)
       else
         h1.t2!= d.headline
 
-mixin bodytext(d)
+mixin bodytext(d, extraclass)
   d = d || data
+  extraclass = extraclass || ""
   if d.body 
-    p.p3.hidden-phone!= d.body
+    p.p3(class= extraclass)!= d.body
     
 mixin links(d, extraclass)
   d = d || data
@@ -88,14 +89,14 @@ section.primary-tout.container.full-bleed-no-max(class= classes)
         .box
           .container.grid.no-grid-at-767
             .span6
-              +bodytext
+              +bodytext(data, "hidden-phone")
             .span3.offset3.clearfix
               +links(data, "pull-right")
     else
       +boxlayout
         +eyebrow
         +header
-        +bodytext
+        +bodytext(data, "hidden-phone")
         +links
   else if data.mode == "primary-tout"
     +boxlayout
@@ -108,12 +109,15 @@ section.primary-tout.container.full-bleed-no-max(class= classes)
       +eyebrow
       h1.t3!= data.headline
       +bodytext
-      +links
+      +links(data, "hidden-phone")
+    .mobile-buttons-wrap.container.grid.no-grid-at-767
+      .mobile-buttons.clearfix
+        +links(data, "visible-phone btn")
   else if data.mode == "title-plate"
     +boxlayout
       +eyebrow
       h1.t3!= data.headline
-      +bodytext
+      +bodytext(data, "hidden-phone")
       +links(data, "btn-mini")
 
 
