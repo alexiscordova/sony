@@ -7,7 +7,7 @@
 //TODO: when breaking apart slides store the first object in the current slide
 //and figure out which starting slide to animate to after remanipulating the DOM
 ;( function( $, Modernizr, window, undefined ) {
-    
+
     'use strict';
 
     if( !$.socModules ) {
@@ -24,7 +24,7 @@
       isWebkit      = browser.webkit,
       isAndroid     = ua.indexOf( 'android' ) > -1,
       resizeTimer   = null;
-    
+
       $.extend( self , $.fn.sonyOneCarousel.defaults , options , $.fn.sonyOneCarousel.settings );
 
       // feature detection, some ideas taken from Modernizr
@@ -40,7 +40,7 @@
             vendor = tempV;
         }
         tempV = tempV.toLowerCase();
-        
+
         if( !window.requestAnimationFrame ) {
           window.requestAnimationFrame = window[ tempV+'RequestAnimationFrame' ];
           window.cancelAnimationFrame = window[ tempV+'CancelAnimationFrame' ] || window[ tempV+'CancelRequestAnimationFrame' ];
@@ -54,9 +54,9 @@
           var currTime = new Date().getTime(),
           timeToCall   = Math.max(0, 16 - ( currTime - lastTime )),
           id           = window.setTimeout( function() { callback(currTime + timeToCall); }, timeToCall );
-          
+
           lastTime = currTime + timeToCall;
-          
+
           return id;
         };
       }
@@ -66,13 +66,13 @@
       }
 
       var bT = vendor + ( vendor ? 'T' : 't' );
-      
+
       self.useCSS3Transitions = ( ( bT + 'ransform' ) in tempStyle ) && ( ( bT + 'ransition' ) in tempStyle );
-      
+
       if( self.useCSS3Transitions ) {
           self.use3dTransform = ( vendor + ( vendor ? 'P' : 'p'  ) + 'erspective' ) in tempStyle;
       }
-        
+
       vendor = vendor.toLowerCase();
 
       self.vendorPrefix = '-' + vendor + '-';
@@ -128,13 +128,13 @@
       //store a referece to the orginal slide
       self.$slides.each(function(i){
         var $this = $(this),
-        $item     = null; 
+        $item     = null;
 
         $this.find('.soc-item').each(function(j){
           $item = $(this);
           $item.data('slideGroupId' , i);
         });
-      
+
       });
 
       //figure out what events to use
@@ -144,7 +144,7 @@
         self.moveEvent = 'touchmove.soc';
         self.upEvent = 'touchend.soc';
         self.cancelEvent = 'touchcancel.soc';
-        self.lastItemFriction = 0.5;        
+        self.lastItemFriction = 0.5;
       }else{
         self.hasTouch = false;
         self.lastItemFriction = 0.2;
@@ -177,7 +177,7 @@
         }
 
         self.$container[ ( self.vendorPrefix + self.TP ) ] = ( self.vendorPrefix + 'transform' );
-                  
+
       } else {
         self.xProp = 'left';
         self.yProp = 'top';
@@ -202,7 +202,7 @@
       if(self.numSlides > 1){
         self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });
       }
-  
+
       self.createNavigation();
       self.setupPaddles();
 
@@ -303,20 +303,20 @@
                 return 100;
             } else if(newSpeed > 500) {
                 return 500;
-            } 
+            }
             return newSpeed;
         }
         function returnToCurrent(isSlow, v0) {
           var newPos         = -self.currentId * self.currentContainerWidth,
           newDist            = Math.abs( self.sPosition  - newPos );
-          
+
           self.currAnimSpeed = newDist / v0;
 
           if(isSlow) {
-            self.currAnimSpeed += 250; 
+            self.currAnimSpeed += 250;
           }
           self.currAnimSpeed = getCorrectSpeed( self.currAnimSpeed );
-          
+
           self.moveTo();
         }
 
@@ -335,7 +335,7 @@
         //This makes sure depending on mode we use the right slide collection!
         $currSlides = (self.isDesktopMode ? self.$desktopSlides :
                       self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
-        
+
         totalMoveDist = Math.abs(pPos - sPos);
 
         dragDirection = self.startDragX > pPos ? 1 : 0;
@@ -348,7 +348,7 @@
         console.log('MoveDst:' , totalMoveDist , self.currentContainerWidth * 0.5);
 
         if( totalMoveDist > self.hasTouch ? Math.abs(self.currentContainerWidth * 0.25) : Math.abs(self.currentContainerWidth * 0.5) ){
-         
+
           if(dragDirection === 1){
             self.currentId ++;
             console.log('snap to next slide');
@@ -360,7 +360,7 @@
             console.log('snap to previous slide');
            if(self.currentId < 0){
             self.currentId = 0;
-           }         
+           }
           }
           self.moveTo();
         }else{
@@ -380,13 +380,13 @@
         if( self.hasTouch ) {
           if( self.lockAxis ) {
               return;
-          }   
+          }
           var touches = e.originalEvent.touches;
           if( touches ) {
               if( touches.length > 1 ) {
                 return;
               } else {
-                point = touches[0]; 
+                point = touches[0];
               }
           } else {
             return;
@@ -408,9 +408,9 @@
             }
           })();
         }
-            
+
         if( !self.checkedAxis ) {
-          
+
           var dir = true,
           diff    = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
 
@@ -422,7 +422,7 @@
             } else if(self.hasTouch) {
               //t.completeGesture();
               return;
-            } 
+            }
             self.checkedAxis = true;
           } else if(diff < -7) {
             // ver movement
@@ -432,13 +432,13 @@
             } else if(self.hasTouch) {
               //t.completeGesture();
               return;
-            }      
+            }
             self.checkedAxis = true;
           }
           return;
         }
-        
-        e.preventDefault(); 
+
+        e.preventDefault();
         self.renderMoveTime = new Date().getTime();
         self.renderMoveEvent = point;
 
@@ -470,9 +470,9 @@
           } else if(mAxis === 'y' && deltaY !== 0) {
               self.verDir = deltaY > 0 ? 1 : -1;
           }
-            
+
           var deltaPos = isHorizontal ? deltaX : deltaY;
-          
+
           if(!self.loop) {
             if(self.currSlideId <= 0) {
               if(pointPos - self.startPagePos > 0) {
@@ -485,7 +485,7 @@
               }
             }
           }
-           
+
           self.currRenderPosition = newPos;
 
           if ( timeStamp - self.startTime > 200 ) {
@@ -515,27 +515,27 @@
           self.$containerInner.css(self.xProp, pos);
         }
       },
-      
+
       moveTo: function(force){
         var self = this,
         newPos   = -self.currentId * self.currentContainerWidth,
         diff,
         newId,
         animObj  = {};
-        
+
         if(self.currentId !== 0){
           self.$gridW = self.$el.find('.soc-grid' ).eq(0);
           newPos -= (window.Exports.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
         }
 
-            
+
         if(self.isMobileMode === true){
           var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
           newPos += delta - (self.currentId * 10);
         }
 
         if( !self.useCSS3Transitions ) {
-          
+
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
           self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeInOutSine');
@@ -545,11 +545,11 @@
           //css3 transition
           animObj[ (self.vendorPrefix + self.TD) ] = (force === true ? 10 : self.animationSpeed) + 'ms';
           animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeInOutSine;
-          
+
           self.$containerInner.css( animObj );
 
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
-  
+
           self.$containerInner.css( animObj );
 
           //IQ Update
@@ -605,7 +605,7 @@
             .filter(twoUp).addClass('span6')
             .end()
             .filter(threeUp).addClass('span8');
-            
+
           break;
 
           case 'tablet':
@@ -646,7 +646,7 @@
             self.isMobileMode = self.isTabletMode = false;
             self.isDesktopMode = true;
             self.currentMode = view;
-                                                                                                                                                                                                                                
+
             self.resizeRatio = 0.423345746645;
             self.createDesktopSlides(lastView);
             self.shuffleClasses();
@@ -676,7 +676,7 @@
             self.resizeRatio = 1.33574007220217;
             self.createMobileSlides(lastView);
             self.shuffleClasses();
-          
+
           break;
         }
 
@@ -721,13 +721,13 @@
         };
 
         for (var i = 0; i < self.originalSlideCount; i ++) {
-          
+
             var $contentDiv = $('<div class="soc-content" />'),
             $gridDiv        = $('<div class="soc-grid slimgrid" />'),
             $item           = null;
 
             self.$galleryItems.each(processItem);
-            
+
             $gridDiv.appendTo($contentDiv);
             $contentDiv.appendTo(self.$containerInner);
         }
@@ -768,10 +768,10 @@
         //2. remove the slides from desktop / mobile
         self.$desktopSlides.remove();
         self.$mobileSlides.remove();
-  
+
         var slideCount = 0,
         galLen = self.$galleryItems.length;
-          
+
         var createSlide = function(i,orphaned){
           var $contentDiv = $('<div class="soc-content" />'),
           $gridDiv        = $('<div class="soc-grid slimgrid" />'),
@@ -788,7 +788,7 @@
           if($item1.length > 0){
             $item1.appendTo($gridDiv);
           }
-          
+
           if($item2.length > 0){
             $item2.appendTo($gridDiv);
           }
@@ -822,7 +822,7 @@
 
         //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
-      
+
       createMobileSlides: function(lastView){
         var self = this,
             $lastItem = null;
@@ -844,7 +844,7 @@
 
         // 1. grab the gallery items
         self.$galleryItems = $('.soc-item').detach();
-        
+
         //2. remove the slides from desktop / tablet
         self.$desktopSlides.remove();
         self.$tabletSlides.remove();
@@ -860,7 +860,7 @@
           $contentDiv.appendTo(self.$containerInner);
         }
 
-        
+
         self.$mobileSlides = self.$container.find('.soc-content');
 
         self.numSlides = self.$mobileSlides.length;
@@ -877,7 +877,7 @@
         var self = this,
         itemHTML = '<div class="soc-nav-item soc-bullet"></div>',
         out          = '<div class="soc-nav soc-bullets">';
-        
+
         //remove other references
         $('.soc-nav.soc-bullets').remove();
 
@@ -920,7 +920,7 @@
 
           currItem.addClass('soc-nav-selected');
           self.prevNavItem = currItem;
-          
+
         } );
 
         self.ev.trigger( 'socOnUpdateNav' );
@@ -931,7 +931,7 @@
         var self   = this,
         itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
         $container = self.$el.closest('.container');
-        
+
         self.paddlesEnabled = true;
         var out = '<div class="soc-nav soc-paddles">';
         for(var i = 0; i < 2; i++) {
@@ -1021,7 +1021,7 @@
         if(self.isDesktopMode === true){
           //console.log(" »",);
           self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
-          
+
           self.$desktopSlides.each(function(i){
             cw = self.$gridW.width();
             gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
@@ -1036,11 +1036,11 @@
 
         if(self.isTabletMode === true){
           self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
-          
+
           self.$tabletSlides.each(function(i){
             cw = self.$gridW.width();
             gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
-            
+
             if(i > 0){
               cw += gutterWidth;
               //console.log('New Gutter for slide »',self.$gridW.width() , gutterWidth);
@@ -1066,7 +1066,7 @@
           self.$mobileSlides.each(function(i){
             $(this).css( {
               'left': i * (cw + mobileGutter) + 'px',
-              'height' : 370  + 'px', //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
+              'height' : 317  + 'px', //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
               'z-index' : i
             } );
 
@@ -1117,13 +1117,13 @@
       return this.each( function() {
         var self   = $(this),
         moduleName = self.data( 'sonyOneCarousel' );
-    
+
         // If we don't have a stored sonyOneCarousel, make a new one and save it
         if ( !moduleName ) {
             moduleName = new SonyOneCarousel( self, options );
             self.data( 'sonyOneCarousel', moduleName );
         }
-    
+
         if ( typeof options === 'string' ) {
           moduleName[ options ].apply( moduleName, args );
         }
@@ -1132,7 +1132,7 @@
 
     //defaults for the sony one carousel
     $.fn.sonyOneCarousel.defaults = {
-      
+
     };
 
     $.fn.sonyOneCarousel.settings = {
