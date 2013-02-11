@@ -35,22 +35,25 @@
       
       self.mode                    = null;
 
-      self.contentSelectorClass    = '.tcc-body';
       self.contentModulesClass     = '.tcc-content-module';
+      self.contentSelectorClass    = '.tcc-body';
+      self.$tccHeaderWrapper       = self.$container.find('.tcc-header-wrapper');
+      self.$tccHeader              = self.$tccHeaderWrapper.find(".tcc-header");
       self.$tccBodyWrapper         = self.$el;
       self.$tccBody                = self.$tccBodyWrapper.find(self.contentSelectorClass);
       self.$contentModules         = self.$el.find(self.contentModulesClass);
       self.$hideShowEl             = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
       self.$loader                 = self.$container.find(".loader");
       self.$scrollerInstance       = null;
-                
+
+               
       self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
       self.resizeThrottle          = function(){self.handleResize();};
       
       self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
       self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.sequencerSpeed          = 100;
+      self.sequencerSpeed          = 150;
       self.hideShowSpeed           = 250;
       self.debounceSpeed           = 300;
       
@@ -61,16 +64,17 @@
       self.marginPercent          = Number('.0334'); // 22/650 (at 2-up)
       self.paddingPerContent      = 20;
 
+      // a non-debounced resize event so content is hidden immediately
       $(window).on('resize', function(){
-        
-        console.log( 'mode »' , self.mode);
-        
         if(self.mode !== "desktop"){
+          
+          // hide all content 
           self.$el.css({
             'opacity' : 0,
             'visibility' : 'hidden'
           });
 
+          // once content is hidden, show loader icon 
           self.$loader.show();
         }
 
@@ -90,6 +94,7 @@
 
         var self = this;
 
+        // TODO: if needed, add sequencer here. 
         self.setMode();
      
         // if screen size is in mobile (tablet, phone) mode then create a scroller
@@ -100,21 +105,24 @@
 
       // controller for scroller setup
       setup : function(){
-        console.log( 'setup »');
         var self      = this,
             setupSequence = new Sequencer();
 
-        // define order of events via sequencer
+        // define order of events via sequencer        
         setupSequence.add( self, self.setContentModuleSizes, self.sequencerSpeed ); // set content module sizes        
-        setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 100 ); // set scroller & iscroll options
+        setupSequence.add( self, self.setScrollerOptions, self.sequencerSpeed + 200 ); // set scroller & iscroll options
         setupSequence.add( self, self.createScroller, self.sequencerSpeed ); // create scroller instance
-        setupSequence.start();
 
+        if(self.mode === 'tablet'){
+          // adjusts margins after content modules are absolute positioned
+          setupSequence.add( self, self.adjustMargins, self.sequencerSpeed ); 
+        }
+
+        setupSequence.start();
       },
 
       // teardown controller
       teardown : function(){
-        console.log( 'teardown »');
         var self         = this,
         teardownSequence = new Sequencer();
 
@@ -130,7 +138,6 @@
       
       // Hide scroller content for transition   
       hideAll : function(){
-        console.log( '««« hideAll »»»' );
         var self = this;
 
         self.$hideShowEl.stop(true,true).animate({ opacity: 0 },{ duration: self.hideShowSpeed , complete: function(){self.$hideShowEl.css({"visibility":"hidden"});}});
@@ -138,13 +145,13 @@
 
       // Show scroller content after transition
       showAll : function(){
-        console.log( '««« showAll »»»' );
         var self = this;
-
 
         self.$loader.hide();
         self.$hideShowEl.stop(true,true).animate({ opacity: 1 },{ duration: self.hideShowSpeed , complete: function(){self.$hideShowEl.css({"visibility":"visible"});}});
-
+       
+        // reload images
+        window.iQ.update(); 
       },
 
       // instantiate a scroller 
@@ -155,14 +162,10 @@
 
       // destroy scroller if not in mobile
       destroyScroller : function(){
-        //console.group('««« destroyScroller »»»');
         var self  = this;
       
         self.$scrollerInstance.scrollerModule('destroy');
         self.$scrollerInstance = null;
-      
-        //console.log( '« end »');
-        //console.groupEnd();
       },
 
       // clean up residual style elements after teardown
@@ -190,82 +193,64 @@
         // self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';
       },
 
-      // every resize event (debounced) determine size of each content module 
-      setContentModuleSizes : function(){
-        //console.group('««« setContentModuleSizes »»»');
+      // determine left and right margin total 
+      getHorizontalMargins : function( selector ){
+        var self = this,
+            $el  = selector;
       
+        // outer width with margins subtracted by width without margins = margins
+        return Math.round(Number($el.outerWidth(true) - $el.outerWidth()));
+      },
+
+      // every resize event (debounced) determine size of each content module 
+      setContentModuleSizes : function(){     
         var self      = this,
         containerSize = Math.round(self.$el.outerWidth()), // no margins 
-        eachContentWidth = containerSize;  // default to 1 up, 100%
+        headerLRMargin = self.getHorizontalMargins(self.$tccHeaderWrapper),
+        eachContentWidth = null;
 
+        // should only ever be "mobile"
         if((self.mode === 'tablet') || (self.mode === 'phone')){
-        
-          // set padding to get full bleed effect on pagination
-          self.setContentModulePadding(self.paddingPerContent);
           
+          // accounts for margins in container widths to support full-bleed
+          eachContentWidth = containerSize - headerLRMargin;
+         
           // tablet is 2-up not 1-up, so split evenly
           if(self.mode === 'tablet'){
-            var marginPerContent =  self.getContentModuleMargin(containerSize);
-
-            // set margins of content modules
-            self.setContentModuleMargins(marginPerContent);
-
-            // calculate each content module width without margin so it fits
-            eachContentWidth = Math.round((containerSize / 2) - marginPerContent);
+             // accounts for margins in between the two content modules (set after scroller instance)
+             eachContentWidth = Math.round((eachContentWidth / 2) - (headerLRMargin/2));
           }
-          
         }
 
+        // set each width
         self.$contentModules.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
+
       },
 
-      // Determines margin needed per content module 
-      // *self.marginPercent* was determined target / context (at exact tablet breakpoint)
-      // TODO: if necessary, make this flexible for more than 3 content modules
-      getContentModuleMargin : function( totalSize ){
-        var self = this,
-            relativeMargin, 
-            eachMargin;
-      
-        // calculate the relative margin given the current available width
-        relativeMargin = Math.round(totalSize * self.marginPercent);
-        //console.log( 'relativeMargin »' , relativeMargin);
+      adjustMargins : function(  ){
+        var self       = this,
+        headerLRMargin = self.getHorizontalMargins(self.$tccHeaderWrapper),
+        $content, newLeft, contentPosition, contentLeft;
 
+        self.$contentModules.each(function(i) {
+          $content = $(self.$contentModules[i]); // content module
+          contentPosition = $content.position(); // current position object
+          contentLeft = Number(contentPosition.left); // content module left position
+          
+          if((i === 0) || (i === 2)){
+            // first / last content module move left
+            newLeft = Math.round(Number(contentLeft - (headerLRMargin/2)));
+          }else{
+            // second content module move right
+            newLeft = Math.round(Number(contentLeft + (headerLRMargin/2)));
+          }
 
-        // calculate margin for each content module
-        eachMargin = relativeMargin/2;
-        
-        //console.log( 'eachMargin »' , eachMargin);
-        return eachMargin;
-      },
-
-      // Assumes there are exactly three content modules (2 pages) in 2-up formation
-      setContentModuleMargins : function( marginForEach ){     
-        var self = this;
-        
-        // set content module's margins correctly
-        $(self.$contentModules[0]).css( "marginLeft", marginForEach );
-        $(self.$contentModules[1]).css( "marginRight", marginForEach );
-        $(self.$contentModules[2]).css( "marginRight", marginForEach );
-        $(self.$contentModules[2]).css( "marginLeft", marginForEach );
-      },
-
-      // Adding "grid paddding" back in on the content modules 
-      // as padding to support full bleed pagination
-      setContentModulePadding : function( paddingValue ){
-        var self = this;
-
-       // if(self.mode !== "phone"){
-          // set content module's padding correctly
-          $(self.$contentModules[0]).css( "paddingRight", paddingValue );
-          $(self.$contentModules[0]).css( "paddingLeft", paddingValue );
-          $(self.$contentModules[1]).css( "paddingLeft", paddingValue );
-          $(self.$contentModules[1]).css( "paddingRight", paddingValue );
-          $(self.$contentModules[2]).css( "paddingRight", paddingValue );
-          $(self.$contentModules[2]).css( "paddingLeft", paddingValue );         
-       // }
+          // set new left position
+          $content.offset({left:newLeft});
+ 
+        });
       },
 
       // on resize event (debounced) determine what to do
@@ -301,24 +286,12 @@
           if( self.$scrollerInstance !== null ){        
             self.showAll();
             self.teardown();
-
-            // var resizeDesktopSequencer = new Sequencer();            
-
-            // // hide scroller content prior to jarring visual transition
-            // resizeDesktopSequencer.add( self, self.hideAll, 100); 
-            // resizeDesktopSequencer.add( self, self.teardown, 100); 
-  
-            // // show contents again since resize automatically hides it
-            // resizeDesktopSequencer.add( self, self.showAll, 100); 
-  
-            // resizeDesktopSequencer.start();
           }
         }
       },
 
-      // based on current breakpoint, set mode
+      // set mode based on current breakpoint
       setMode : function(){
-        //console.group( '««« setMode »»»' );
         var self = this;
 
         if( Modernizr.mq('(max-width:'+ self.phoneBreakpoint+'px)') ){
@@ -328,12 +301,7 @@
         }else{
           self.mode = 'desktop';
         }
-
-        //console.log( 'mode is »' , self.mode);
-        //console.log( '« end »');
-        //console.groupEnd();
       }
-
     };
 
     // Plugin definition
