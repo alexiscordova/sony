@@ -12,6 +12,14 @@
   margin: 0;
 }
 /* line 24, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .loader {
+  height: 300px;
+  width: 100%;
+  padding-top: 10%;
+  z-index: 999;
+  display: none;
+}
+/* line 32, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .tcc-body-wrapper {
   display: block;
   overflow: hidden;
@@ -19,30 +27,30 @@
   text-align: center;
   z-index: 1;
 }
-/* line 32, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 40, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .tcc-header {
   border-bottom: 2px solid #e4e7eb;
 }
-/* line 36, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 44, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .tcc-body {
   display: inline-block;
 }
-/* line 40, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 48, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .tcc-content-module {
   position: relative;
   overflow: hidden;
 }
-/* line 44, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 52, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .tcc-content-module:hover {
   cursor: pointer;
 }
-/* line 48, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 56, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .tcc-content-module img {
   -webkit-transition: opacity, 0.15s;
   transition: opacity, 0.15s;
   opacity: 1.0;
 }
-/* line 62, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 70, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper div[data-tcc-content-type="article"][data-tcc-content-mode="default"]:hover img,
 .tcc-wrapper div[data-tcc-content-type="article"][data-tcc-content-mode="featured"]:hover img,
 .tcc-wrapper div[data-tcc-content-type="article"][data-tcc-content-mode="news"]:hover img,
@@ -53,27 +61,35 @@
   transition: opacity, 0.15s;
   opacity: 0.85;
 }
-/* line 73, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 77, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+.tcc-wrapper .article {
+  position: relative;
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+/* line 86, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article .img-container {
   position: relative;
 }
-/* line 78, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 91, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article .p3 {
   color: #83838f;
 }
-/* line 83, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 96, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article .t6 {
   color: rgba(33, 37, 48, 0.95);
 }
-/* line 91, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 104, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.default .img-container {
   margin-bottom: 1.25em;
 }
-/* line 99, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 112, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.event .img-container {
   margin-bottom: 1.25em;
 }
-/* line 105, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 118, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.event .attendance-count {
   background-color: #a2b849;
   opacity: 0.95;
@@ -89,22 +105,22 @@
   height: 80%;
   width: 35%;
 }
-/* line 122, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 135, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.event .l4 {
   color: white;
   font-size: 12px;
   margin: 0;
   padding: 0;
 }
-/* line 129, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 142, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.event .l4 span {
   font-size: 34px;
 }
-/* line 140, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 153, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.news .img-container {
   margin-bottom: 1.25em;
 }
-/* line 144, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 157, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.news .news-date {
   position: absolute;
   top: 0;
@@ -116,88 +132,88 @@
   padding: 0.625em;
   font-size: 11px;
 }
-/* line 160, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
-.tcc-wrapper .article.featured .grid {
-  max-width: 315px;
-  position: relative;
-}
-/* line 171, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 173, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.featured .feature-copy {
   background-color: #2f353d;
   text-align: left;
   opacity: 0.95;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.875em;
 }
-/* line 176, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 184, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .article.featured .feature-copy .t4 {
   color: white;
 }
-/* line 186, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 194, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice {
   text-align: left;
 }
-/* line 195, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 203, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.expert-quote .credits .author, .tcc-wrapper .users-voice.user-quote .credits .author {
   height: 30px;
 }
-/* line 199, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 207, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.expert-quote .credits .author .p4, .tcc-wrapper .users-voice.user-quote .credits .author .p4 {
   margin: 0;
 }
-/* line 208, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 216, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.expert-quote {
   background-color: #1f2024;
   opacity: 0.95;
 }
-/* line 214, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 222, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.expert-quote .bq3 p {
   color: white;
 }
-/* line 220, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 228, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.expert-quote .title {
   color: #bcbccc;
 }
-/* line 224, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 232, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.expert-quote .name {
   color: #4572ed;
 }
-/* line 231, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 239, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.user-quote .title {
   color: #83838f;
 }
-/* line 235, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 243, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.user-quote .bq3 {
   color: #44506e;
 }
-/* line 245, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 253, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.question .bq3,
 .tcc-wrapper .users-voice.question .lt3,
 .tcc-wrapper .users-voice.question .answer-btn {
   text-align: center;
 }
-/* line 249, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 257, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .users-voice.question .credits {
   background-color: white;
 }
-/* line 260, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 268, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice .fonticon-10-twitter,
 .tcc-wrapper .sonys-voice .fonticon-10-facebook,
 .tcc-wrapper .sonys-voice .fonticon-instagram {
   background-color: white;
   color: #28aae1;
 }
-/* line 266, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 274, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice .meta .user {
   color: #2f353d;
 }
-/* line 270, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 278, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice .meta .timestamp {
   color: #83838f;
 }
-/* line 277, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 285, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice.twitter .bq4 {
   color: #44506e;
 }
-/* line 284, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 292, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice.instagram .image-mat {
   background-color: #bcbccc;
   position: relative;
@@ -213,50 +229,50 @@
 .tcc-wrapper .sonys-voice.instagram .image-mat:after {
   clear: both;
 }
-/* line 292, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 300, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice.instagram .image-mat div {
   position: absolute;
 }
-/* line 295, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 303, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice.instagram .image-mat div img {
   width: 100%;
 }
-/* line 306, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 314, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice.instagram .image-mat .top-left {
   top: 10px;
   left: 3.16456%;
   width: 30.37975%;
 }
-/* line 314, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 322, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice.instagram .image-mat .top-right {
   top: 10px;
   right: 3.16456%;
   width: 61.70886%;
 }
-/* line 322, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 330, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice.instagram .image-mat .bottom-left {
   bottom: 7px;
   left: 3.16456%;
   width: 30.37975%;
 }
-/* line 330, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 338, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .sonys-voice.instagram .image-mat:after {
   padding-top: 68.6708861%;
 }
-/* line 344, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 352, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .flickr .meta {
   margin-top: 8px;
 }
-/* line 347, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 355, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .flickr .meta .p4 {
   color: #2f353d;
 }
-/* line 354, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 362, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .flickr .image-mat {
   background-color: #bcbccc;
   margin: 20px 0 24px 0;
 }
-/* line 359, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 367, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .flickr .image-mat .top-row {
   *zoom: 1;
   padding-bottom: 5px;
@@ -271,7 +287,7 @@
 .tcc-wrapper .flickr .image-mat .top-row:after {
   clear: both;
 }
-/* line 364, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 372, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .flickr .image-mat .bottom-row {
   *zoom: 1;
 }
@@ -285,11 +301,11 @@
 .tcc-wrapper .flickr .image-mat .bottom-row:after {
   clear: both;
 }
-/* line 368, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 376, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .flickr .image-mat .span4 {
   padding-left: 5px;
 }
-/* line 371, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
+/* line 379, ../../../src/css/scss/modules/tertiary-t1-t5.scss */
 .tcc-wrapper .flickr .image-mat .span4:first-child {
   padding-left: 0;
 }

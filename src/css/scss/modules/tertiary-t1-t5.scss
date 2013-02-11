@@ -21,6 +21,14 @@
   background-color:$gray90;
   margin:0; // for the module since it can be placed anywhere on the page. 
 
+  .loader{
+  	height: 300px;
+		width: 100%;
+		padding-top: 10%;
+		z-index:999;
+		display:none;
+  }
+
 	.tcc-body-wrapper{
 		display: block;
 		overflow: hidden;
@@ -67,8 +75,13 @@
 	} // end article hovers
 
 	.article{	
-    // border:2px solid red;
-    
+
+		position: relative;
+		display: block;
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+
     // DEFAULTS
     .img-container{
 			position: relative;
@@ -156,22 +169,17 @@
 		} // end .article.news
 
 		&.featured{
-			
-			.grid{
-			  //border:2px solid blue;
-				max-width: 315px;
-				position: relative;
-
-			  .img-container{
-			    //border:2px solid aqua;
-			  } // end .img-container
-			 
-			} // end .grid
-			
+					
 			.feature-copy{
 	    	background-color:$gray20;
         text-align: left;
         opacity:0.95;
+
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width:100%;
+        padding:  px-em(30px); //8% 12%;
 
 	    	.t4{
 	    		color:$white;

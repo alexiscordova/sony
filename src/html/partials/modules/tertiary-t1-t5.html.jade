@@ -13,6 +13,9 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
         p.tcc-header-link.lt3
           a(href="#{header.link}") #{header.linkText}
   
+  .loader
+    img(src="img/global/loader.gif")
+
   section.tcc-scroller.tcc-body-wrapper.container.full-bleed-at-767
     .tcc-body.grid.no-grid-at-767
     
@@ -23,35 +26,29 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
           - contentType = variation.contentType
           - contentMode = variation.contentMode
 
-        .tcc-content-module.span4(class=contentType)(class=contentMode)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
+          if(contentMode == "featured") && (module.imgSrc)
+            - backgroundImg = module.imgSrc
+          else
+            - backgroundImg = ""
+
+        .tcc-content-module.span4.iq-img(class=contentType)(class=contentMode)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode, data-src= backgroundImg)  
 
           case contentType
             when "article"
-              if(module.imgSrc)
-
-                if(contentMode == "featured") && (module.title) && (module.imgSrc)
-                  .grid
-                    .img-container.span12
-                      //- .img-wrap
-                      img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
-                      noscript
-                        img(src= module.noScriptImg)                    
-
-                    if(contentMode == "featured") && (module.title)
-                      .feature-copy.span12
-
-                        p.t4 #{module.title}
-
-                        p.lt3
-                          a(href="#{module.articleLink}") Read More
-
-                else
-                  .img-container
-                    .img-wrap
-                      img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
-                      noscript
-                        img(src= module.noScriptImg)
-                              
+              if(contentMode == "featured") && (module.title) && (module.imgSrc)
+                article
+                 .feature-copy
+                    p.t4 #{module.title}
+                    p.lt3
+                      a(href="#{module.articleLink}") Read More
+                
+              else
+                .img-container
+                  .img-wrap
+                    img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
+                    noscript
+                      img(src= module.noScriptImg)
+                            
                     if(contentMode == "news") && (module.date)
                       p.news-date.l3
                         | #{module.date}

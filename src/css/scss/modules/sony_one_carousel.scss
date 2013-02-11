@@ -502,13 +502,13 @@
       }
       //tL
       &.light-text-trans-panel {
+
         .headline {
           color: $gray50;
-
         }
 
         a {
-          color:$white;
+          color: $white;
         }
 
         .counter {
@@ -525,8 +525,13 @@
       }
       //tD
       &.dark-text-trans-panel {
-        .headline {
 
+        .headline {
+          color: $gray40;
+
+          a {
+            color: $black;
+          }
         }
 
         .counter {
@@ -538,7 +543,7 @@
         }
 
         .eyebrow {
-
+          color: $gray40;
         }
       }
       //tBW
@@ -582,6 +587,22 @@
           top: 11%;
           max-width: 400px;
           width: 400px;
+        }
+
+        &.content-6 {
+          top: 5.8%;
+          left: 8.6%;
+          width: px-em(300px);
+
+          //tablets
+          @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+            width: px-em(220px);
+          }
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            width: px-em(225px);
+          }
         }
 
         &.content-4 {
@@ -873,7 +894,7 @@
 
       i {
         width: 15px;
-        height: 15px;
+        height: 22px;
         margin-top: 33px;
         @include center-block();
 
