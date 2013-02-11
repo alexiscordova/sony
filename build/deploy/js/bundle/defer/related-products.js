@@ -1,9 +1,19 @@
-// ------------ Related Products Module ------------
-// Module: Related Products
-// Version: 1.0
-// Modified: 2013-2-04 by Tyler Madison, Glen Cheney
-// Dependencies: jQuery 1.7+, Modernizr
-// -------------------------------------------------------------------------
+// Related Products (RelatedProducts) Module
+// --------------------------------------------
+//
+// * **Class:** RelatedProducts
+// * **Version:** 0.1
+// * **Modified:** 02/08/2013
+// * **Author:** Tyler Madison , Glen Cheney
+// * **Dependencies:** jQuery 1.7+ , Modernizr
+//
+// *Notes:*
+//
+// *Example Usage:*
+//
+//      $('.related-prodcuts').relatedProducts();
+//
+//
 ;(function($, Modernizr, window, undefined) {
     
     'use strict';
@@ -271,13 +281,12 @@
 
         self.setSortPriorities();
 
-        if(self.navigationControl.toLowerCase() === 'bullets' && self.$slides.length > 1){
+        if(self.$slides.length > 1){
           self.createNavigation();
           self.setupPaddles();
-          //self.setupTabs();
-          
+         
           //init dragging , slideshow: TODO:
-          //self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
+          self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
         }
 
         self.setupResizeListener();
@@ -401,6 +410,7 @@
           columnWidth: self.shuffleColumns,
           gutterWidth: self.shuffleGutters,
           showInitialTransition: false,
+          useTransition: false,
           // buffer: 100
           buffer: 25
         }).data('shuffle');
@@ -622,7 +632,7 @@
 
             self.sortByPriority();
 
-            window.iQ.update();
+            //window.iQ.update();
 
             self.ev.trigger('ondesktopbreakpoint.rp');
 
@@ -1252,20 +1262,106 @@
 
       setupResizeListener: function(){
         var self = this,
-            resizeTimer = null;
+        resizeTimeout = null;
 
-        $(window).on('resize', function() {
-            if(resizeTimer) {
-                clearTimeout(resizeTimer);
-            }
-            resizeTimer = setTimeout(function() {
+        if(self.mode !== 'suggested'){
+          $(window).on('resize', function(){
+            if(!self.isMobileMode && self.$win.width() > 480) {
+             self.$el.css({
+              'opacity' : 0,
+              'visibility' : 'hidden'
+              });
+              //hide tiles as well
+              
+             self.$galleryItems.css({
+               'visibility' : 'hidden',
+                'opacity' : 0
+              });  
+                         
+           }else{
+             self.$el.css({
+              'opacity' : 1,
+              'visibility' : 'visible'
+              });
+               self.$galleryItems.not('.blank').css({
+               'visibility' : 'visible',
+                'opacity' : 1
+              });
+           }
 
-              self.checkForBreakpoints();
-              self.updateSliderSize();
-              self.updateSlides();
 
-            }, self.throttleTime);
+          });
+        }
+
+        $(window).on('resize', $.debounce(100 , function() {
+          self.checkForBreakpoints();
+          self.updateSliderSize();
+          self.updateSlides();
+
+          if(self.mode === 'suggested'){
+            return;
+          } 
+
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(function(){
+
+            self.animateTiles();
+
+            self.$shuffleContainers.each(function(){
+              var shfflInst = $(this).data('shuffle');
+
+              if(shfflInst === undefined){return;}
+
+              console.log('UPdateing Shuffle instance »', shfflInst);
+              shfflInst.update();
+
+              setTimeout(function(){
+                self.$el.css({
+                  'opacity' : 1 ,
+                  'visibility' : 'visible'
+                });
+
+              } , 50);
+            });
+          } , 250);
+        }));
+      },
+
+      animateTiles: function(){
+        var self = this;
+
+
+        var count = 0;
+
+
+        self.$galleryItems.not('.blank').each(function(){
+
+          var $item = $(this),
+          animationDelay = 0;
+          
+          $item.css({
+            'visibility' : 'visible'
+          });
+
+          animationDelay = $item.hasClass('plate') ? 0 : $item.hasClass('medium') ? 25 : 2000;
+
+          if($item.hasClass('plate') === true){
+            animationDelay = 0;
+          }else if($item.hasClass('medium') === true){
+             animationDelay = 150;
+          }else{
+             animationDelay = 250 + Math.floor(Math.random() * 500);
+          }
+
+          //$item.css('opacity' , 0);
+          //console.log('Animating Tile »', $item.css('opacity') , animationDelay , count++);
+
+          $item.stop(true,true).delay(animationDelay).animate({ opacity: 1 },{ duration: 250 , complete: function(){}});
+
         });
+
+
+
       },
 
       setNameHeights : function( $container ) {
@@ -1444,7 +1540,9 @@ $(function(){
     module instantiate the related products that its bound to
   */
 
-
+  if($('.container-tabbed').length === 0){
+    return;
+  }
 
   // Get transitionend event name
   var transEndEventNames = {
@@ -1455,7 +1553,6 @@ $(function(){
       'transition'       : 'transitionend'
   },
   transitionEndName;
-
   transitionEndName = transEndEventNames[ window.Modernizr.prefixed('transition') ];
 
   var $tabs = $('.rp-tabs').find('.rp-tab'),
@@ -1463,9 +1560,6 @@ $(function(){
       $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
       $productPanels = $('.related-products[data-rp-panel-id]');
 
-    if($('.container-tabbed').length === 0){
-      return;
-    }
 
   $productPanels.not($currentPanel).css({
     'opacity' : 0,

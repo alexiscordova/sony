@@ -58,13 +58,12 @@
     },
 
     _initFeatures : function() {
-      var self = this,
-          dfd;
+      var self = this;
 
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
-        easing: 'ease-out',
-        speed: 250,
+        easing: Exports.shuffleEasing,
+        speed: Exports.shuffleSpeed,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
@@ -97,14 +96,8 @@
       });
       self.shuffle = self.$specTiles.data('shuffle');
 
-      dfd = self.$specTiles.imagesLoaded();
-
       // Relayout shuffle when the images have loaded
-      dfd.always( function() {
-        setTimeout( function() {
-          self.shuffle.layout();
-        }, 100 );
-      });
+      self.$specTiles.find('.iq-img').on('imageLoaded', $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) ));
 
       return self;
     },
@@ -160,34 +153,24 @@
 
     _initCarousel : function() {
       var self = this,
-          firstImage = self.$carousel.find(':first-child img'),
+          $firstImage = self.$carousel.find(':first-child img'),
           spanWidth = self.$carouselWrap.width();
 
       self.$carousel.find('img').css({
         maxWidth: spanWidth
       });
 
-      // Give the image a src, otherwise imagesLoaded is pointless...
-      window.iQ.update();
-
-      // Wait for first image to be loaded, then setTimeout to allow it to get a height
+      // Wait for first image to be loaded,
       // then get its height and set it on the container, then initialize the scroller
-      firstImage.imagesLoaded(function() {
-        setTimeout(function() {
-          self.$carousel.height( firstImage.height() );
+      $firstImage.on('imageLoaded', function() {
+        self.$carousel.height( $firstImage.height() );
 
-          self.$carouselWrap.scrollerModule({
-            contentSelector: '.spec-carousel',
-            itemElementSelector: '.slide',
-            mode: 'carousel',
-            generatePagination: true,
-            nextSelector: self.$container.find('.overview-nav-next'),
-            prevSelector: self.$container.find('.overview-nav-prev')
-
-          });
-        }, 100);
+        self.$carouselWrap.scrollerModule({
+          mode: 'carousel',
+          contentSelector: '.spec-carousel',
+          itemElementSelector: '.slide'
+        });
       });
-
     },
 
     _initJumpLinks : function() {

@@ -20,7 +20,8 @@
 //     theSequence.add( self, self.methodName2, self.speed + 100 ); 
 //
 //     // last action
-//     theSequence.add( self, self.methodLast, self.speed ); 
+//     // functionParameters = {"foo":"bar"}
+//     theSequence.add( self, self.methodLast, self.speed, functionParameters ); 
 //
 //     // start the sequence
 //     theSequence.start();

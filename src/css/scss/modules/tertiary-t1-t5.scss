@@ -14,12 +14,22 @@
 	padding:40px 20px;
 }
 
+
+
 .tcc-wrapper{
 	position: relative;
   overflow:auto;
   text-align: center;
   background-color:$gray90;
   margin:0; // for the module since it can be placed anywhere on the page. 
+
+  .loader{
+  	height: 300px;
+		width: 100%;
+		padding-top: 10%;
+		z-index:999;
+		display:none;
+  }
 
 	.tcc-body-wrapper{
 		display: block;
@@ -67,11 +77,11 @@
 	} // end article hovers
 
 	.article{	
+    // border:2px solid red;
     
     // DEFAULTS
     .img-container{
 			position: relative;
-			margin-bottom:px-em(20px);
     } // end .img-container
 
     // body copy
@@ -85,7 +95,22 @@
 		} // end t6
 
 		// SPECIFIC TO CONTENT TYPE
+		// 
+		&.default{
+		
+			.img-container{
+				margin-bottom:px-em(20px); 
+			} // end img-container
+		
+		} //.default
+
 		&.event{
+	
+			.img-container{
+			 	margin-bottom:px-em(20px); 
+			} // end img-container
+			
+
 	   // overlay box
 	    .attendance-count{
 				background-color: $secondaryOlive;
@@ -121,6 +146,11 @@
 		} // end .article.events
 
 		&.news{
+	
+			.img-container{
+				margin-bottom:px-em(20px); 
+			} // end img-container
+
 		  .news-date{
 	    	position:absolute;
 	    	top:0;
@@ -136,31 +166,22 @@
 		} // end .article.news
 
 		&.featured{
-
-			.img-container{
-				margin:0;
-			} // end .img-container
-
+			
+			.grid{
+				position: relative;			 
+			} // end .grid
+			
 			.feature-copy{
-	    	position: absolute;
-	    	bottom:0;
-	    	left:0;
-	    	width:100%;
 	    	background-color:$gray20;
-	    	opacity:0.95;
-	    	text-align: left;
-	    	margin:0; // overwrite default p
+        text-align: left;
+        opacity:0.95;
 
 	    	.t4{
 	    		color:$white;
 	    	} // end .t4
 
-	    	&:after{
-	    		padding-top:45.8860759%; // 145h/315w
-	    	}
-
    	  } // end .feature-copy
-
+			
 		} // end .article.featured 
 
 	} // end .article 

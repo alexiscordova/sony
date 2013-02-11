@@ -13,6 +13,9 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
         p.tcc-header-link.lt3
           a(href="#{header.link}") #{header.linkText}
   
+  .loader
+    img(src="img/global/loader.gif")
+
   section.tcc-scroller.tcc-body-wrapper.container.full-bleed-at-767
     .tcc-body.grid.no-grid-at-767
     
@@ -28,32 +31,41 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
           case contentType
             when "article"
               if(module.imgSrc)
-                //- image (optional)
-                .img-container
-                  .img-wrap
-                    img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
-                    noscript
-                      img(src= module.noScriptImg)
 
-                  if(contentMode == "featured") && (module.title)
-                     .feature-copy
-                      
+                if(contentMode == "featured") && (module.title) && (module.imgSrc)
+                  .grid
+                    .img-container.span12
+                      //- .img-wrap
+                      img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
+                      noscript
+                        img(src= module.noScriptImg)                    
+
+                    if(contentMode == "featured") && (module.title)
+                      .feature-copy.span12
+
                         p.t4 #{module.title}
-                        
+
                         p.lt3
                           a(href="#{module.articleLink}") Read More
-                          
-                  if(contentMode == "news") && (module.date)
-                    p.news-date.l3
-                      | #{module.date}
 
-                  if(contentMode == "event") && (module.attendanceCount)
-                    .attendance-count.ghost-center-wrap
-                      .ghost-center
-                        p.l4
-                          span
-                            | #{module.attendanceCount} 
-                          | attending
+                else
+                  .img-container
+                    .img-wrap
+                      img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
+                      noscript
+                        img(src= module.noScriptImg)
+                              
+                    if(contentMode == "news") && (module.date)
+                      p.news-date.l3
+                        | #{module.date}
+
+                    if(contentMode == "event") && (module.attendanceCount)
+                      .attendance-count.ghost-center-wrap
+                        .ghost-center
+                          p.l4
+                            span
+                              | #{module.attendanceCount} 
+                            | attending
 
               if (contentMode != "featured")
                 .tcc-copy               
