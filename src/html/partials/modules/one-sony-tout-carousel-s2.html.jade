@@ -1,6 +1,6 @@
 .container(style='margin-top: 75px;')
   .grid
-    h2.l1= 'The Latest'
+    h2.l1 #{data.config.title}
 
 .sony-one-carousel(data-mode = data.config.mode, data-module-name != data.config.module_name, data-module-id = data.config.module_id)
   .soc-container
@@ -46,7 +46,7 @@
                           if item.headline.link
                             a.fonticon-10-chevron--after(href=item.headline.link)
                               | !{item.headline.linkText}
-                        p.p2= item.bodycopy
+                        p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW, COPY
                       if contentType == 'headline-eyebrow-copy'
@@ -56,7 +56,7 @@
                           if item.headline.link
                             a.fonticon-10-chevron--after(href=item.headline.link)
                               | !{item.headline.linkText}
-                        p.p2= item.bodycopy
+                        p.p3= item.bodycopy
 
                       //- HEADLINE, COPY , COUNTER
                       if contentType == 'headline-copy-counter'
@@ -64,7 +64,7 @@
                           if item.headline.link
                             a.fonticon-10-chevron--after(href=item.headline.link)
                               | !{item.headline.linkText}
-                        p.p2= item.bodycopy
+                        p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW
                       if contentType == 'headline-eyebrow'
@@ -112,7 +112,7 @@
                   if s == 'content-8'
                     //- COUNTER
                     if contentType == 'headline-counter' || contentType == 'headline-copy-counter'
-                      .counter
+                      .counter(class=contentType)(class=textStyle)(class=alignment)(class=s)
                         - counterText = item.counter.total + ' ' + item.counter.text
                         h3.l2= counterText
 
