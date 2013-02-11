@@ -1,10 +1,15 @@
 /*global Modernizr, Exports */
 
 if ( !window.Exports ) {
-  window.Exports = {
-    Modules : {}
-  };
+  window.Exports = {};
 }
+
+Exports.shuffleEasing = 'ease-out';
+Exports.shuffleSpeed = 250;
+
+
+// Get grid percentages
+// ------------------------
 
 Exports.fiveColumns = 5;
 Exports.sixColumns = 6;

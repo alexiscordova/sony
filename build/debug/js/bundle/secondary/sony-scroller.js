@@ -24,6 +24,7 @@
 
     self.$el = $element; // already jquery obj on init (optimized!)
     self.$win = $(window);
+    self.unique = '.sm_' + $.now();
     self._init();
   };
 
@@ -36,7 +37,7 @@
 
     _init : function() {
       var self = this,
-          resizeFunc = $.throttle( self.throttleTime, $.proxy( self._onResize, self ) );
+          resizeFunc = $.debounce( self.throttleTime, $.proxy( self._onResize, self ) );
 
       self.$contentContainer = self.$el.find(self.contentSelector);
       self.$elements = self.$el.find(self.itemElementSelector);
@@ -47,7 +48,7 @@
 
       // These don't change
       self.isPaginateMode = self.mode === 'paginate';
-      self.isCarousel = self.mode === 'carousel';
+      self.isCarouselMode = self.mode === 'carousel';
       self.isFreeMode = self.mode === 'free';
 
       // save iscroll properties
@@ -55,16 +56,28 @@
 
       // Set equal widths on the items in the carousel so they always take up as much space
       // as the container, then generate pagination for it.
-      if ( self.isCarousel ) {
+      if ( self.isCarouselMode ) {
         self._setItemWidths();
         self._generatePagination( self.$elements.length );
+      }
+
+      // They haven't set whether they want to generate the nav or not.
+      // Let's see if they've given us selectors for the nav paddles.
+      // If they haven't and we're in carousel mode, generate the paddles for them.
+      // Otherwise, we'll assume they don't want it.
+      if ( self.generateNav === undefined ) {
+        self.generateNav = !self.nextSelector && !self.prevSelector && self.isCarouselMode;
+      }
+
+      if ( self.generateNav ) {
+        self._generateNavPaddles();
       }
 
       // Set the width of the inner container
       self._setContainerWidth();
 
       // Register our resize handler before iscroll's
-      self.$win.on(self.resizeEvent + '.sm', resizeFunc);
+      self.$win.on(self.resizeEvent + self.unique, resizeFunc);
 
       // Create instance of scroller and pass it defaults
       self.scroller = new IScroll( self.$el[0], self.iscrollProps );
@@ -86,6 +99,7 @@
       }
 
       self._update( true );
+      self._showHideNavs( 0, self.scroller.pagesX.length - 1 );
     },
 
     _setIscrollProps : function() {
@@ -212,12 +226,26 @@
       }
 
       // Append the nav bullets
-      // console.log( '$elementToAppend »' ,  $elementToAppend);
-
       $elementToAppend.append( $bulletPagination );
 
       // Store reference
       self.$pagination = $bulletPagination;
+    },
+
+    _generateNavPaddles : function() {
+      var self = this,
+          $nav = $( self.navTemplate ),
+          $prev = $nav.find('.nav-paddle-prev'),
+          $next = $nav.find('.nav-paddle-next'),
+          $parent = self.appendNavOutside ? self.$el.parent() : self.$el;
+
+      $parent
+        .append( $nav )
+        .addClass(  self.paddleTrigger );
+
+      self.$nav = $nav;
+      self.prevSelector = $prev;
+      self.nextSelector = $next;
     },
 
     _update : function( isInit ) {
@@ -230,17 +258,17 @@
       }
 
       // Set the width of the element containing all the items
-      if ( self.isCarousel ) {
+      if ( self.isCarouselMode ) {
         self._setItemWidths();
       }
 
       // We need to update the container's width
-      if ( self.isCarousel || self.isFreeMode ) {
+      if ( self.isCarouselMode || self.isFreeMode ) {
         self._setContainerWidth();
       }
 
-      // When `isPaginated` or `isCarousel`, we're using iscroll, which needs to be updated.
-      if ( self.isPaginated || self.isCarousel || self.isFreeMode ) {
+      // When `isPaginated` or `isCarouselMode`, we're using iscroll, which needs to be updated.
+      if ( self.isPaginated || self.isCarouselMode || self.isFreeMode ) {
         self.scroller.refresh();
 
         // As long as this isn't the initial setup, scroll to the current page.
@@ -275,30 +303,33 @@
       }
     },
 
-    _onAnimationEnd : function( iscroll ) {
-      var self = this,
-          isFirstPage = false,
-          isLastPage = false;
-
-      self.currentPage = iscroll.currPageX;
+    _showHideNavs : function( currentPage, numPages ) {
+      var self = this;
 
       if ( self.$navPrev && self.$navNext ) {
         // Hide show prev button depending on where we are
-        if ( self.currentPage === 0 ) {
-          isFirstPage = true;
+        if ( currentPage === 0 ) {
           self.$navPrev.addClass('hide');
         } else {
           self.$navPrev.removeClass('hide');
         }
 
         // Hide show next button depending on where we are
-        if ( self.currentPage === iscroll.pagesX.length - 1 ) {
-          isLastPage = true;
+        if ( currentPage === numPages ) {
           self.$navNext.addClass('hide');
         } else {
           self.$navNext.removeClass('hide');
         }
       }
+    },
+
+    _onAnimationEnd : function( iscroll ) {
+      var self = this;
+
+      self.currentPage = iscroll.currPageX;
+
+      // Show or hide paddles based on our current page
+      self._showHideNavs( self.currentPage, iscroll.pagesX.length - 1 );
 
       // Update nav bullets
       if ( self.$pagination ) {
@@ -313,7 +344,7 @@
       // If they've defined a callback as well, call it
       // We saved their function to this reference so we could have our own onAnimationEnd
       if ( self.onAnimationEnd ) {
-        self.onAnimationEnd( iscroll, isFirstPage, isLastPage );
+        self.onAnimationEnd( iscroll );
       }
     },
 
@@ -357,8 +388,6 @@
     gotopage: function( pageNumber, duration ) {
       // pageNumber could be an event object from a navigation bullet click.
       // if it is, get the index from it's data attribute
-      
-      //console.log( 'this »' , this);
       pageNumber = pageNumber.type ? $(pageNumber.target).data('index') : pageNumber;
       duration = duration || 400;
       this.scroller.scrollToPage(pageNumber, 0, duration);
@@ -383,6 +412,16 @@
         self.$pagination.remove();
       }
 
+      if ( self.generateNav ) {
+        self.$nav.remove();
+
+        // We added a paddle trigger class to one of the parents, lets find the parent and remove it.
+        if ( self.addPaddleTrigger ) {
+          // $().closest search the current element and then up the tree until it finds the selector
+          self.$el.closest( self.paddleTrigger ).removeClass( self.paddleTrigger);
+        }
+      }
+
       self.$contentContainer.css('width', '');
       self.$elements.css({
         'position' : '',
@@ -390,7 +429,7 @@
         'left' : ''
       });
 
-      if ( self.isCarousel ) {
+      if ( self.isCarouselMode ) {
         self.$elements.css('width', '');
       }
 
@@ -402,7 +441,7 @@
       // self.scroller = null;
 
       // Remove resize event
-      self.$win.off('.sm');
+      self.$win.off( self.unique );
 
       self.$el.removeData('scrollerModule');
     },
@@ -437,18 +476,20 @@
 
   // Defaults
   $.fn.scrollerModule.defaults = {
+    mode: 'free', // if mode == 'paginate', the items in the container will be paginated
     contentSelector: '.content', // parent of items in scroller
     itemElementSelector: '.block', // items in scroller
-    mode: 'free', // if mode == 'paginate', the items in the container will be paginated
     lastPageCenter: false, // option to center last page elements
     extraSpacing: 0, // per page
     nextSelector: '', // selector for next paddle
     prevSelector: '', // selector for previous paddle
     fitPerPage: null, // if content needs to be fixed per page
     centerItems: true, // centers items per page
-    paginationClass: 'pagination-bullet',
     generatePagination: false, // if bullet pagination is needed in mode = paginate,
+    generateNav: undefined, // if left undefined, nav will be generated for carousel modes with no next/prev selectors
     appendBulletsTo: null, // option on where to place pagination bullets, if null defaults to self.$el
+    appendNavOutside: true, // Outside the scroller ($el). You probably want this because the scroller has overflow:hidden
+    addPaddleTrigger: true, // Add the paddle-trigger class to fade in paddles when the parent is hovered
 
     // iscroll props get mixed in
     iscrollProps: {
@@ -469,8 +510,11 @@
 
   // Not overrideable
   $.fn.scrollerModule.settings = {
-    throttleTime: 150, // How much the resize event is throttled (milliseconds)
-    resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize'
+    throttleTime: 350, // How much the resize event is throttled (milliseconds)
+    paginationClass: 'pagination-bullet',
+    paddleTrigger:  'paddle-trigger',
+    resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
+    navTemplate: '<nav class="nav-paddles"><button class="nav-paddle nav-paddle-prev"><i class="icon-ui2-chevron-18-white-left"></i></button><button class="nav-paddle nav-paddle-next"><i class="icon-ui2-chevron-18-white-right"></i></button></nav>'
   };
 
 })(jQuery, Modernizr, IScroll, window);

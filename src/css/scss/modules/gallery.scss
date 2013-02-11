@@ -194,6 +194,32 @@ $oneByOneImgPadding: 107.84313725490196%;
       padding-top: 88.14589665653495%;
     }
 
+    // Carousels
+    .slide {
+      float: left;
+    }
+
+    // 30px at 1020px wide grid for large tile
+    .pagination-bullets {
+      bottom: 5.6390977%;
+    }
+
+    .nav-paddle-prev,
+    .nav-paddle-next {
+      position: absolute;
+      z-index: 20;
+      top: 50%;
+      margin-top: -($navPaddleHeight / 2);
+    }
+
+    .nav-paddle-prev {
+      left: 3.75%;
+    }
+
+    .nav-paddle-next {
+      right: 3.75%;
+    }
+
     // 3 column grid
     .shuffle-3 & .product-img:after {
       // padding-top: 107.045%;
@@ -380,8 +406,8 @@ $offsetFromMiddle: px-em(45px);
 
   .text-promo-title {
     position: absolute;
-    top: 50px;
-    left: 42px;
+    top: 16.1290323%; // 50/310
+    left: 10.6060606%; // 42/396
     margin: 0;
     max-width: 225px;
 
@@ -401,8 +427,8 @@ $offsetFromMiddle: px-em(45px);
   // e.g. "22 LENSES"
   .text-count {
     position: absolute;
-    bottom: 32px;
-    left: 42px;
+    bottom: 10.3225806%; // 32/310
+    left: 10.6060606%; // 42/396
     margin: 0;
 
     span {
@@ -504,12 +530,13 @@ $offsetFromMiddle: px-em(45px);
       padding-top: 150%;
     }
   }
+}
 
-  .product-content {
+@media ( max-width: $fourColMax ) {
 
-    .price-prefix {
-      // font-size: $font_12_16;
-    }
+  // Hide all but the first slide in the large tile carousel
+  .gallery-item.large .slide:not(:first-child) {
+    display: none;
   }
 }
 
