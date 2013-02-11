@@ -22,7 +22,7 @@ docpadConfig = {
     },
     deploy:{
       srcPath:'html/'
-      documentsPaths: ['pages']
+      documentsPaths: ['pages','generated']
       outPath: '../build/deploy/'
     },
     docs:{
