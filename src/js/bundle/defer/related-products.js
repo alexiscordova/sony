@@ -1266,16 +1266,29 @@
 
         if(self.mode !== 'suggested'){
           $(window).on('resize', function(){
-            self.$el.css({
+            if(!self.isMobileMode && self.$win.width() > 480) {
+             self.$el.css({
               'opacity' : 0,
               'visibility' : 'hidden'
-            });
-            //hide tiles as well
+              });
+              //hide tiles as well
+              
+             self.$galleryItems.css({
+               'visibility' : 'hidden',
+                'opacity' : 0
+              });  
+                         
+           }else{
+             self.$el.css({
+              'opacity' : 1,
+              'visibility' : 'visible'
+              });
+               self.$galleryItems.not('.blank').css({
+               'visibility' : 'visible',
+                'opacity' : 1
+              });
+           }
 
-           self.$galleryItems.css({
-             'visibility' : 'hidden',
-              'opacity' : 0
-            });
 
           });
         }
@@ -1296,6 +1309,9 @@
 
             self.$shuffleContainers.each(function(){
               var shfflInst = $(this).data('shuffle');
+
+              if(shfflInst === undefined){return;}
+
               console.log('UPdateing Shuffle instance »', shfflInst);
               shfflInst.update();
 
@@ -1318,7 +1334,7 @@
         var count = 0;
 
 
-        self.$galleryItems.each(function(){
+        self.$galleryItems.not('.blank').each(function(){
 
           var $item = $(this),
           animationDelay = 0;
