@@ -1205,15 +1205,28 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
 
         <span class="keyword">if</span>(self.mode !== <span class="string">'suggested'</span>){
           $(window).on(<span class="string">'resize'</span>, <span class="keyword">function</span>(){
-            self.$el.css({
+            <span class="keyword">if</span>(!self.isMobileMode &amp;&amp; self.$win.width() &gt; <span class="number">480</span>) {
+             self.$el.css({
               <span class="string">'opacity'</span> : <span class="number">0</span>,
               <span class="string">'visibility'</span> : <span class="string">'hidden'</span>
-            });
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>hide tiles as well</p>             </td>             <td class="code">               <div class="highlight"><pre>
-           self.$galleryItems.css({
-             <span class="string">'visibility'</span> : <span class="string">'hidden'</span>,
-              <span class="string">'opacity'</span> : <span class="number">0</span>
-            });
+              });
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>hide tiles as well</p>             </td>             <td class="code">               <div class="highlight"><pre>              
+             self.$galleryItems.css({
+               <span class="string">'visibility'</span> : <span class="string">'hidden'</span>,
+                <span class="string">'opacity'</span> : <span class="number">0</span>
+              });  
+                         
+           }<span class="keyword">else</span>{
+             self.$el.css({
+              <span class="string">'opacity'</span> : <span class="number">1</span>,
+              <span class="string">'visibility'</span> : <span class="string">'visible'</span>
+              });
+               self.$galleryItems.not(<span class="string">'.blank'</span>).css({
+               <span class="string">'visibility'</span> : <span class="string">'visible'</span>,
+                <span class="string">'opacity'</span> : <span class="number">1</span>
+              });
+           }
+
 
           });
         }
@@ -1234,6 +1247,9 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
 
             self.$shuffleContainers.each(<span class="keyword">function</span>(){
               <span class="keyword">var</span> shfflInst = $(<span class="keyword">this</span>).data(<span class="string">'shuffle'</span>);
+
+              <span class="keyword">if</span>(shfflInst === <span class="literal">undefined</span>){<span class="keyword">return</span>;}
+
               console.log(<span class="string">'UPdateing Shuffle instance »'</span>, shfflInst);
               shfflInst.update();
 
@@ -1256,7 +1272,7 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
         <span class="keyword">var</span> count = <span class="number">0</span>;
 
 
-        self.$galleryItems.each(<span class="keyword">function</span>(){
+        self.$galleryItems.not(<span class="string">'.blank'</span>).each(<span class="keyword">function</span>(){
 
           <span class="keyword">var</span> $item = $(<span class="keyword">this</span>),
           animationDelay = <span class="number">0</span>;
