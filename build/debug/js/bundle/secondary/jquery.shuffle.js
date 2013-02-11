@@ -162,8 +162,8 @@
             self._initItems( !self.showInitialTransition );
 
             // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-            self.windowHeight = self.$window.height();
-            self.windowWidth = self.$window.width();
+            // self.windowHeight = self.$window.height();
+            // self.windowWidth = self.$window.width();
             self.$window.on('resize.shuffle', resizeFunc);
 
             self._setColumns();
@@ -263,9 +263,22 @@
                 this.style[self.transitionName + 'Delay'] = '0ms,' + ((i + 1) * self.sequentialFadeDelay) + 'ms';
 
                 // Set the delay back to zero after one transition
-                $(this).one($.support.transition.end, function() {
+                $(this).one(self.transitionEndName, function() {
                     this.style[self.transitionName + 'Delay'] = '0ms';
                 });
+            });
+        },
+
+        _resetDelay : function( $collection ) {
+            var self = this;
+
+            if ( !self.supported ) {
+                return;
+            }
+
+            $.each( $collection, function() {
+                $(this).off( self.transitionEndName );
+                this.style[ self.transitionName + 'Delay' ] = '0ms';
             });
         },
 
@@ -346,6 +359,8 @@
             } else {
                 self.needsUpdate = false;
             }
+
+            self.containerWidth = containerWidth;
         },
 
         /**
@@ -531,11 +546,18 @@
         },
 
         _onResize : function() {
-            var self = this;
+            var self = this,
+                containerWidth = self.$container.width();
 
-            if ( !self.enabled || self.destroyed ) {
+            // If shuffle is disabled, destroyed, or containerWidth hasn't changed, don't do anything
+            if ( !self.enabled || self.destroyed || containerWidth === self.containerWidth ) {
                 return;
             }
+
+            // var height = self.$window.height(),
+            //     width = self.$window.width();
+            // self.windowHeight = height;
+            // self.windowWidth = width;
 
             // This should execute the first time _onResize is called
             if ( self.hideLayoutWithFade ) {
@@ -548,37 +570,29 @@
         },
 
         _afterResize : function() {
-            console.log('after');
-            var self = this,
-                height = self.$window.height(),
-                width = self.$window.width();
+            var self = this;
 
-            // If the width or height has actually changed, update the layout
-            // Also, if hideLayoutWithFade, we've already faded element out, so we need to run this
-            if ( width !== self.windowWidth || height !== self.windowHeight || self.hideLayoutWithFade ) {
-                self.windowHeight = height;
-                self.windowWidth = width;
-
-                // If we're hiding the layout with a fade,
-                if ( self.hideLayoutWithFade ) {
-                    // recaculate column and gutter values
-                    self._setColumns();
-                    // Layout the items with only a position
-                    self._reLayout( false, true );
-                    // Change the transition-delay value accordingly
-                    self._setSequentialDelay( self.itemsOrderedByDelay );
-                    if ( self.supported ) {
-                        self.$items.css('opacity', 1);
-                    } else {
-                        self.$items.fadeIn( self.speed );
-                    }
+            // If we're hiding the layout with a fade,
+            if ( self.hideLayoutWithFade ) {
+                // recaculate column and gutter values
+                self._setColumns();
+                // Layout the items with only a position
+                self._reLayout( false, true );
+                // Change the transition-delay value accordingly
+                self._setSequentialDelay( self.itemsOrderedByDelay );
+                self.fire('done');
+                if ( self.supported ) {
+                    self.$items.css('opacity', 1);
                 } else {
-                    self.resized();
+                    self.$items.fadeIn( self.speed );
                 }
+            } else {
+                self.resized();
             }
         },
 
         _beforeResize : function() {
+            console.log('before resize');
             var self = this;
 
             if ( self.supported ) {
@@ -587,6 +601,8 @@
                 self.$items.fadeOut( self.speed );
             }
 
+            self.fire('loading');
+            self._resetDelay( self.$items );
             self._orderItemsByDelay( self.$items );
         },
 
