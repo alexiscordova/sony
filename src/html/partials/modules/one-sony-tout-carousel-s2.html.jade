@@ -83,6 +83,39 @@
                             a.fonticon-10-chevron--after(href=item.headline.link)
                               | !{item.headline.linkText}
 
+                      //- HEADLINE ONLY
+                      if contentType == 'headline-counter'
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a.fonticon-10-chevron--after(href=item.headline.link)
+                              | !{item.headline.linkText}
+
+                      //- HEADLINE ONLY
+                      if contentType == 'headline-copy'
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a.fonticon-10-chevron--after(href=item.headline.link)
+                              | !{item.headline.linkText}
+                        p.p3= item.bodycopy
+
+                      //- HEADLINE, EYEBROW, COPY
+                      if contentType == 'headline-eyebrow-copy'
+                        a.eyebrow(href=item.eyebrow.link)
+                          | #{item.eyebrow.title}
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a.fonticon-10-chevron--after(href=item.headline.link)
+                              | !{item.headline.linkText}
+                        p.p3= item.bodycopy
+
+                      //- HEADLINE, COPY , COUNTER
+                      if contentType == 'headline-copy-counter'
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a.fonticon-10-chevron--after(href=item.headline.link)
+                              | !{item.headline.linkText}
+                        p.p3= item.bodycopy
+
                       //- HEADLINE, EYEBROW
                       if contentType == 'headline-eyebrow'
                         a.eyebrow(href=item.eyebrow.link)
@@ -109,7 +142,7 @@
                             a.fonticon-10-chevron--after(href=item.headline.link)
                               | !{item.headline.linkText}
 
-                  if s == 'content-8'
+                  if s == 'content-8' || s == 'content-6'
                     //- COUNTER
                     if contentType == 'headline-counter' || contentType == 'headline-copy-counter'
                       .counter(class=contentType)(class=textStyle)(class=alignment)(class=s)

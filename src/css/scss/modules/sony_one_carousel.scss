@@ -2,29 +2,47 @@
 @import "../_base/mixins";
 
 @mixin onesonyTypeBlockWidths($baseWidth: 400px) {
-  max-width: px-em($baseWidth);
-  width: percentage($baseWidth / 766px);
-  min-width: px-em(295px/400px * $baseWidth);
 
-  @media(min-width:px-em(981px)){
-    min-width: px-em(361px/400px * $baseWidth);
-  }
+  &.content-8 {
 
-  //tablets
-  @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-    max-width: percentage(400px / 463px);
-    width: percentage(400px / 463px);
-    min-width: percentage(400px / 3532px);
-  }
+    max-width: px-em($baseWidth);
+    width: percentage($baseWidth / 766px);
+    min-width: px-em(295px/400px * $baseWidth);
 
-  //phones
-  @media( max-width: px-em(480px) ){
-    h1, h2, h3, h4, h5, h6 {
-      max-width: percentage(400px / 533px);
+    @media(min-width:px-em(981px)){
+      min-width: px-em(361px/400px * $baseWidth);
     }
-    max-width: percentage(400px / 463px);
-    width: percentage(400px / 463px);
-    min-width: percentage(400px / 3532px);
+
+    //tablets
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+      max-width: percentage(400px / 463px);
+      width: percentage(400px / 463px);
+      min-width: percentage(400px / 3532px);
+    }
+
+    //phones
+    @media( max-width: px-em(480px) ){
+      h1, h2, h3, h4, h5, h6 {
+        max-width: percentage(400px / 533px);
+      }
+      max-width: percentage(400px / 463px);
+      width: percentage(400px / 463px);
+      min-width: percentage(400px / 3532px);
+    }
+  }
+
+  &.content-6 {
+    width: px-em($baseWidth);
+
+    //tablets
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+      width: px-em(220px);
+    }
+
+    //phones
+    @media( max-width: px-em(480px) ){
+      width: px-em(225px);
+    }
   }
 }
 
@@ -153,30 +171,61 @@
 
 
 
-    &.content-8 {
+    &.content-8,
+    &.content-6 {
       .counter {
+        position: absolute;
+        bottom: 9%;
+        text-transform: uppercase;
 
         &[class*="align-left-"] {
-          left: 6.2%;
+
+          &.content-8 {
+            left: 6.2%;
+          }
+
+          &.content-6 {
+            left: 8.6%;
+          }
         }
 
         &[class*="align-right-"] {
-          right: 6.2%;
 
-          &.align-right-bottom {
-            @include onesonyTypeBlockWidths(300px);
+          &.content-8 {
+            right: 6.2%;
 
-            &[class*="copy"] {
-              @include onesonyTypeBlockWidths(350px);
+            &.align-right-bottom {
+              @include onesonyTypeBlockWidths(300px);
+
+              &[class*="copy"] {
+                @include onesonyTypeBlockWidths(350px);
+              }
+            }
+          }
+
+          &.content-6 {
+            right: 8.6%;
+
+            &.align-right-bottom {
+              @include onesonyTypeBlockWidths(250px);
+
+              &[class*="copy"] {
+                @include onesonyTypeBlockWidths(250px);
+              }
             }
           }
         }
 
-        position: absolute;
-        bottom: 9%;
-        h3 {
+        &.dark-text-trans-panel h3 {
+          color: $gray40;
+        }
+
+        &.light-text-trans-panel h3 {
           color: $gray50;
-          text-transform: uppercase;
+        }
+
+        &.black-white-text h3 {
+          color: $black;
         }
       }
     }
@@ -553,12 +602,8 @@
           color: $white;
         }
 
-        .counter {
-
-        }
-
-        .body-copy {
-
+        p {
+          color: $gray50;
         }
 
         .eyebrow {
@@ -576,12 +621,8 @@
           }
         }
 
-        .counter {
-
-        }
-
-        .body-copy {
-
+        p {
+          color: $gray40;
         }
 
         .eyebrow {
@@ -603,10 +644,8 @@
           }
         }
 
-        .counter {
-        }
-
-        .body-copy {
+        p {
+          color: $black;
         }
 
         .eyebrow {
@@ -629,6 +668,10 @@
         &.content-8 {
           @include onesonyTypeBlockWidths(400px);
         }
+
+        &.content-6 {
+          @include onesonyTypeBlockWidths(300px);
+        }
       }
 
       &[class*="align-left-"] {
@@ -641,17 +684,43 @@
             top: 31.4%;
           }
         }
+
+        &.content-6 {
+          left: 8.6%;
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
       }
 
       &[class*="align-right-"] {
 
         &.content-8 {
+          left: auto;
           right: 6.2%;
 
           @include onesonyTypeBlockWidths(300px);
 
           &[class*="copy"] {
             @include onesonyTypeBlockWidths(350px);
+          }
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+
+        &.content-6 {
+          left: auto;
+          right: 8.6%;
+
+          @include onesonyTypeBlockWidths(250px);
+
+          &[class*="copy"] {
+            @include onesonyTypeBlockWidths(250px);
           }
 
           //phones
@@ -671,17 +740,6 @@
         &.content-6 {
           top: 5.8%;
           left: 8.6%;
-          width: px-em(300px);
-
-          //tablets
-          @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-            width: px-em(220px);
-          }
-
-          //phones
-          @media( max-width: px-em(480px) ){
-            width: px-em(225px);
-          }
         }
 
         &.content-4 {
@@ -693,7 +751,8 @@
       }
 
       //aLC
-      &.align-left-center.content-8 {
+      &.align-left-center.content-8,
+      &.align-left-center.content-6 {
         top: 26.4%;
 
         &.headline-counter {
@@ -731,7 +790,8 @@
       &.align-left-bottom {
         top: auto;
 
-        &.content-8 {
+        &.content-8,
+        &.content-6 {
 
           &.headline-counter {
             bottom: 12%;
@@ -743,32 +803,24 @@
 
           bottom: 8%;
         }
-
-        &.content-6 {
-          bottom: 5.8%;
-          left: 8.6%;
-          width: px-em(300px);
-
-          //tablets
-          @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-            width: px-em(220px);
-          }
-
-          //phones
-          @media( max-width: px-em(480px) ){
-            width: px-em(225px);
-          }
-        }
       }
 
       //aRT
-      &.align-right-top.content-8 {
-        top: 11%;
+      &.align-right-top {
+
+        &.content-8,
+        &.content-6 {
+          top: 11%;
+        }
       }
 
       //aRC
-      &.align-right-center.content-8 {
-        top: 26.4%;
+      &.align-right-center {
+
+        &.content-8,
+        &.content-6 {
+          top: 26.4%;
+        }
       }
 
       &.align-right-bottom {
@@ -788,17 +840,13 @@
 
         &.content-6 {
           bottom: 5.8%;
-          right: 8.6%;
-          width: px-em(200px);
 
-          //tablets
-          @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-            width: px-em(220px);
+          &.headline-counter {
+            bottom: 12%;
           }
 
-          //phones
-          @media( max-width: px-em(480px) ){
-            width: px-em(225px);
+          &.headline-copy-counter {
+            bottom: 15%;
           }
         }
       }
