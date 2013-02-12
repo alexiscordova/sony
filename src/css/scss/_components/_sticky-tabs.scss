@@ -78,15 +78,19 @@ $tabHeight: px-em(98px);
     z-index: 5;
     // top: -$tabHeight + ($navPaddleHeight / 2);
     top: ($tabHeight - $navPaddleHeight) / 2;
+
+    @media (max-width: px-em(979px) ) {
+      top: ($tabHeight - $navPaddleHeight980) / 2;
+    }
   }
 
   .tab-nav-prev {
-    // left: 0;
+    left: 1px;
     // left: -$navPaddleWidth / 2;
   }
 
   .tab-nav-next {
-    right: 0;
+    right: 1px;
     // right: -$navPaddleWidth / 2;
   }
 

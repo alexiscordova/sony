@@ -92,14 +92,18 @@ if data.view == "basic"
       if data.layout == 'promo'
         .product-img
           .iq-img(data-src=data.img.src)
-          - style = data.style ? data.style : 'tl'
+          - style = data.style ? data.style : ''
           - classes = ['promo-content']
           - classes.push( style )
           div(class=classes)
-            .text-promo-title
-              strong= data.title
-              span!= '&nbsp;' + data.emphasis
-              i.icon-ui2-chevron-16-black-right
+            .promo-title
+              span.t4.title= data.title
+              if data.layout == 'twoLines'
+                div.t4.emphasis= data.emphasis
+                i.fonticon-10-chevron
+              else
+                span.t4.emphasis= '&nbsp;' + data.emphasis
+                i.text-dark.fonticon-10-chevron
             if data.count
               .text-count
                 span.number.l2= data.count.number
@@ -113,14 +117,16 @@ if data.view == "basic"
         .product-img(class=data.backgroundColorClass)
           div(class='promo-content')
             .text-promo-title
-              h4.t4(class='title')= data.title
-              h5.t4(class='emphasis')= data.emphasis
+              h4.t4.title= data.title
+              h5.t4.emphasis= data.emphasis
                 i.icon-ui2-chevron-16-black-right
             if data.count
               .text-count
                 span.number.l2= data.count.number
                 | &nbsp;
                 span.text.l3= data.count.text
+        //- if data.button
+        //-   a(class='btn btn-special' , href=data.button.link)= data.button.title
       else
         .product-img
           .product-img-wrap.ghost-center-wrap

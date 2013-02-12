@@ -110,9 +110,9 @@ mixin filterSet( filterSet )
                 h3.l2.tab-label= tab.label
     nav.tab-nav-btns
       button.nav-paddle.tab-nav.tab-nav-prev
-        i.icon-ui2-chevron-18-white-left
+        i.fonticon-10-chevron-left.fonticon-10-chevron
       button.nav-paddle.tab-nav.tab-nav-next
-        i.icon-ui2-chevron-18-white-right
+        i.fonticon-10-chevron
 
 
 
@@ -126,7 +126,7 @@ mixin filterSet( filterSet )
       i = 0
       section.gallery.container.fade((id=data.featured.name + '-gallery', data-mode=data.featured.mode)
         .grid
-          h2.t6= data.featured.title
+          h2.t6.featured-gallery-title= data.featured.title
         .products.slimgrid.m-grid-at-567
           each module in data.submodules
             d = locals.data(module.data)
@@ -146,7 +146,7 @@ mixin filterSet( filterSet )
       i = 0
       section.gallery.container.fade((id=data.featured2.name + '-gallery', data-mode=data.featured2.mode)
         .grid
-          h2.t6= data.featured2.title
+          h2.t6.featured-gallery-title= data.featured2.title
         .products.slimgrid.m-grid-at-567
           each module in data.submodules
             d = locals.data(module.data)

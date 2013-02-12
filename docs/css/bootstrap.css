@@ -5576,8 +5576,8 @@ input[type="submit"].btn.btn-mini {
 
 /* line 73, ../../src/css/scss/_base/_swatches.scss */
 .mini-swatch {
-  width: 0.875em;
-  height: 0.875em;
+  width: 0.75em;
+  height: 0.75em;
   border: 1px solid rgba(0, 0, 0, 0.12);
   line-height: 0.1em;
   text-indent: -999em;
@@ -8243,21 +8243,35 @@ form.footer-store-locator-form i {
 /* line 75, ../../src/css/scss/_components/_pagination.scss */
 .nav-paddle i {
   vertical-align: middle;
+  color: white;
+  margin-left: .0625em;
+  margin-top: 0.125em;
+}
+/* line 82, ../../src/css/scss/_components/_pagination.scss */
+.nav-paddle i.fonticon-10-chevron-left {
+  margin-left: -0.625em;
 }
 
-/* line 81, ../../src/css/scss/_components/_pagination.scss */
+/* line 88, ../../src/css/scss/_components/_pagination.scss */
 .paddle-trigger .nav-paddle {
   opacity: 0;
   filter: alpha(opacity=0);
 }
 
-/* line 85, ../../src/css/scss/_components/_pagination.scss */
+/* line 92, ../../src/css/scss/_components/_pagination.scss */
 .paddle-trigger:hover .nav-paddle {
   opacity: 1;
   filter: alpha(opacity=100);
 }
 
-/* line 97, ../../src/css/scss/_components/_pagination.scss */
+@media (max-width: 61.1875em) {
+  /* line 99, ../../src/css/scss/_components/_pagination.scss */
+  .nav-paddle {
+    width: 1.75em;
+    height: 2.6875em;
+  }
+}
+/* line 113, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle,
 .nav-paddle-grande {
   position: absolute;
@@ -8275,13 +8289,13 @@ form.footer-store-locator-form i {
   transition: 0.3s ease-in;
   cursor: pointer;
 }
-/* line 112, ../../src/css/scss/_components/_pagination.scss */
+/* line 128, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle:hover,
 .nav-paddle-grande:hover {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
 }
-/* line 117, ../../src/css/scss/_components/_pagination.scss */
+/* line 133, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle i,
 .nav-paddle-grande i {
   width: 15px;
@@ -8291,26 +8305,26 @@ form.footer-store-locator-form i {
   margin-left: auto;
   margin-right: auto;
 }
-/* line 124, ../../src/css/scss/_components/_pagination.scss */
+/* line 140, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle.left,
 .nav-paddle-grande.left {
   left: 10px;
 }
-/* line 128, ../../src/css/scss/_components/_pagination.scss */
+/* line 144, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle.right,
 .nav-paddle-grande.right {
   right: 10px;
 }
 
 @media (max-width: 61.1875em) {
-  /* line 139, ../../src/css/scss/_components/_pagination.scss */
+  /* line 155, ../../src/css/scss/_components/_pagination.scss */
   .rp-nav .paddle i,
   .nav-paddle-grande i {
     margin-top: 28px;
   }
 }
 @media (min-width: 30em) and (max-width: 61.1875em) {
-  /* line 148, ../../src/css/scss/_components/_pagination.scss */
+  /* line 164, ../../src/css/scss/_components/_pagination.scss */
   .rp-nav .paddle,
   .nav-paddle-grande {
     margin: -100px 0;
@@ -8320,7 +8334,7 @@ form.footer-store-locator-form i {
   }
 }
 @media (max-width: 29.9375em) {
-  /* line 159, ../../src/css/scss/_components/_pagination.scss */
+  /* line 175, ../../src/css/scss/_components/_pagination.scss */
   .rp-nav .paddle,
   .nav-paddle-grande {
     display: none;
@@ -9527,11 +9541,21 @@ a.label:hover, a.badge:hover {
   z-index: 5;
   top: 1.4375em;
 }
-/* line 88, ../../src/css/scss/_components/_sticky-tabs.scss */
-.sticky-tabs .tab-nav-next {
-  right: 0;
+@media (max-width: 61.1875em) {
+  /* line 76, ../../src/css/scss/_components/_sticky-tabs.scss */
+  .sticky-tabs .tab-nav {
+    top: 1.71875em;
+  }
 }
-/* line 93, ../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 87, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab-nav-prev {
+  left: 1px;
+}
+/* line 92, ../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs .tab-nav-next {
+  right: 1px;
+}
+/* line 97, ../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs.tab-carousel .tab-nav-btns {
   display: block;
 }

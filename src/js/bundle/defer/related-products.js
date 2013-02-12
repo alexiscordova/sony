@@ -11,7 +11,7 @@
 //
 // *Example Usage:*
 //
-//      $('.related-prodcuts').relatedProducts();
+//      $('.related-products').relatedProducts();
 //
 //
 ;(function($, Modernizr, window, undefined) {
@@ -91,7 +91,7 @@
       self.$galleryItems         = self.$el.find('.gallery-item');
       self.$container            = self.$el.find('.rp-container').eq(0);
       self.$tabbedContainer      = self.$el.parent();
-      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('container-tabbed');
+      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
 
       self.$bulletNav            = $();
       self.$doc                  = $(document);
@@ -134,7 +134,7 @@
 
       if(self.variation !== undefined){
         self.varitation = self.variation.split('-')[2];
-      }   
+      }
 
       //console.log('CLoseset container » ', self.$el.closest('.container'));
       
@@ -301,25 +301,29 @@
 
       createNavigation: function(){
         var self = this,
-        itemHTML = '<div class="rp-nav-item rp-bullet"><span></span></div>';
+        itemHTML = '';
         
         self.controlNavEnabled = true;
         self.$container.addClass('rp-with-bullets');
-        var out = '<div class="rp-nav rp-bullets">';
+        var out = '<ol class="rp-nav pagination-bullets on">';
         for(var i = 0; i < self.numSlides; i++) {
+          itemHTML = '<li class="pagination-bullet" data-index="' +  i + '"></li>';
           out += itemHTML;
         }
-        out                  += '</div>';
+        out                  += '</ol>';
         out                  = $(out);
         self.controlNav      = out;
         self.$bulletNav      = self.$el.find('.rp-nav');
         self.controlNavItems = out.children();
         self.$el.append(out);
 
-        self.controlNav.on( self.tapOrClick() , function(e) {
-          var item = $(e.target).closest('.rp-nav-item');
+        self.$el.find('.pagination-bullet').on( self.tapOrClick() , function(e) {
+          var item = $(this);
+
+          console.log('Bullet Nav Item  »', item.length , item.data('index'));
+
           if(item.length) {
-            self.currentId = item.index();
+            self.currentId = item.data('index');
             self.moveTo();
           }
         });
@@ -626,7 +630,15 @@
             self.$el.removeClass('rp-tablet rp-mobile')
                                     .addClass('rp-desktop');
 
+            if(self.scrollerModule !== null){
+
+              self.scrollerModule.destroy();
+              self.scrollerModule = null;
+
+            }
+
             if(self.shuffle === null){
+              self.$container.css('width' , '100%');
               self.createShuffle();
             }
 
@@ -667,7 +679,15 @@
             self.$el.removeClass('rp-desktop rp-mobile')
                     .addClass('rp-tablet');
 
+            if(self.scrollerModule !== null){
+
+              self.scrollerModule.destroy();
+              self.scrollerModule = null;
+
+            }
+
             if(self.shuffle === null){
+              self.$container.css('width' , '100%');
               self.createShuffle();
             }
 
@@ -679,8 +699,7 @@
 
           case 'mobile':
             
-          //console.log('Now should be going to mobile and killing shuffle... »' , 'Tyler David Madison');
-           
+   
 
             if(self.isMobileMode === true){
               return;
@@ -742,11 +761,11 @@
         currItem = null;
 
         if(self.prevNavItem) {
-          self.prevNavItem.removeClass('rp-nav-selected');
+          self.prevNavItem.removeClass('bullet-selected');
         }
 
         currItem = $(self.controlNavItems[self.currentId]);
-        currItem.addClass('rp-nav-selected');
+        currItem.addClass('bullet-selected');
         self.prevNavItem = currItem;
 
         console.log("Nav Update »",currItem);
@@ -786,6 +805,7 @@
           else{
              self.$el.css('height' , 1.4 * self.$shuffleContainers.eq(0).width());
           }
+
           if(!!self.isTabbedContainer){
             self.$tabbedContainer.css('height' , ((1.18) * self.$shuffleContainers.eq(0).width()) + 80);
           }
@@ -819,9 +839,9 @@
 
         self.dragSuccess = false;
 
-        console.log('drag start' , e.type);
+        console.log('drag start' , e.type , e.which);
 
-        self.setGrabCursor();//toggle grabber
+        //self.setGrabCursor();//toggle grabber
 
         if(self.hasTouch){
           var touches = e.originalEvent.touches;
@@ -836,6 +856,10 @@
         }else{
           point = e;
           e.preventDefault();
+
+          if(e.which !== 1){
+            return;
+          }
         }
 
         self.isDragging         = true;
@@ -960,7 +984,7 @@
 
         self.currMoveAxis = '';
 
-        self.setGrabCursor(); // remove grabbing hand
+       // self.setGrabCursor(); // remove grabbing hand
         var orient = true;
 
         if(!self.hasMoved) {
@@ -1118,6 +1142,8 @@
             animObj = {},
             newPos = (-self.currentId * cw);
 
+
+
             var a = ($(window).width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
             
             if(a > 0){
@@ -1138,11 +1164,22 @@
           //TODO: add spacing between slides going to be tricky to try and animate to them with no extra spacing
         });
 
-        animObj[ (self.vendorPrefix + self.TD) ] = self.animationSpeed * 0.25 + 'ms';
+        animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
         animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack;
         animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
+        
+        if( !self.useCSS3Transitions ) {
+          //jquery fallback
+          self.$container.animate(animObj, 0, 'easeInOutSine');
+        }else {
 
-        self.$container.css( animObj );
+          if( self.isMobileMode ){ 
+            return; // competing with son-scroller
+          }
+
+          self.$container.css( animObj );
+        }
+
       },
 
       moveTo: function(type,  speed, inOutEasing, userAction, fromSwipe){
@@ -1191,7 +1228,7 @@
         if(self.isDesktopMode === false){
           self.isDesktopMode = true;
 
-          $('.container').removeClass('grid4').addClass('grid5');
+          //$('.container').removeClass('grid4').addClass('grid5');
 
           self.$galleryItems.each(function(){
             var item = $(this).removeClass('small-size mobile-item'),
@@ -1206,7 +1243,7 @@
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
         
           self.$paddles.show();
-          $('.rp-nav').show();
+          self.$el.find('.rp-nav').show();
           
           console.log('go back to desktop?');
         }
@@ -1267,16 +1304,18 @@
         if(self.mode !== 'suggested'){
           $(window).on('resize', function(){
             if(!self.isMobileMode && self.$win.width() > 480) {
-             self.$el.css({
+/*             self.$el.css({
               'opacity' : 0,
               'visibility' : 'hidden'
-              });
+              });*/
               //hide tiles as well
               
              self.$galleryItems.css({
                'visibility' : 'hidden',
                 'opacity' : 0
-              });  
+              });
+
+             self.$el.addClass('redrawing');
                          
            }else{
              self.$el.css({
@@ -1287,6 +1326,8 @@
                'visibility' : 'visible',
                 'opacity' : 1
               });
+
+              self.$el.removeClass('redrawing');
            }
 
 
@@ -1315,13 +1356,13 @@
               console.log('UPdateing Shuffle instance »', shfflInst);
               shfflInst.update();
 
-              setTimeout(function(){
+/*              setTimeout(function(){
                 self.$el.css({
                   'opacity' : 1 ,
                   'visibility' : 'visible'
                 });
 
-              } , 50);
+              } , 50);*/
             });
           } , 250);
         }));
@@ -1330,9 +1371,7 @@
       animateTiles: function(){
         var self = this;
 
-
-        var count = 0;
-
+        self.$el.removeClass('redrawing');
 
         self.$galleryItems.not('.blank').each(function(){
 
@@ -1352,9 +1391,6 @@
           }else{
              animationDelay = 250 + Math.floor(Math.random() * 500);
           }
-
-          //$item.css('opacity' , 0);
-          //console.log('Animating Tile »', $item.css('opacity') , animationDelay , count++);
 
           $item.stop(true,true).delay(animationDelay).animate({ opacity: 1 },{ duration: 250 , complete: function(){}});
 
@@ -1486,6 +1522,7 @@
 
               self.scrollerModule.destroy();
               self.scrollerModule = null;
+
             }
 
             self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
@@ -1540,7 +1577,7 @@ $(function(){
     module instantiate the related products that its bound to
   */
 
-  if($('.container-tabbed').length === 0){
+  if($('.rp-container-tabbed').length === 0){
     return;
   }
 
@@ -1569,6 +1606,10 @@ $(function(){
   $currentPanel.css({
     'z-index' : 1
   });
+
+
+
+  console.log('Panels »', $productPanels);
 
   $tabs.eq(0).addClass('active');
 
