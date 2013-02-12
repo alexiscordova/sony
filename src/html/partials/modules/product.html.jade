@@ -127,6 +127,8 @@ if data.view == "basic"
                 span.text.l3= data.count.text
         //- if data.button
         //-   a(class='btn btn-special' , href=data.button.link)= data.button.title
+    
+
       else
         .product-img
           .product-img-wrap.ghost-center-wrap
@@ -481,8 +483,10 @@ else if data.view == 'single-spec'
                     strong!= feature2.label
                   p.media-description.p3!= feature2.description
 
-
+else if data.view == 'blank'
+  a(class='gallery-item basic blank m-span3 normal shuffle-item filtered span1', data-priority=data.priority, href='#')
 
 else
-  em on noes, you don't have a view variable set :(
+  em oh noes, you don't have a view variable set :(
+
 
