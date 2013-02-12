@@ -471,10 +471,16 @@
       self.filterLabels = {};
       self.filterValues = {};
 
+      // The filter type is sometimes changed because they have
+      // the same look and functionality as another filter type
+      // Here is where we keep the origial type
+      self.realFilterTypes = {};
+
       self.$filterOpts.find('[data-filter]').each(function() {
         var $this = $(this),
             data = $this.data(),
             type = data.filterType,
+            realType = type,
             name = data.filter,
             init = [];
 
@@ -502,6 +508,7 @@
         // Save the active filters in this filter to an empty array or object
         self.filters[ type ][ name ] = init;
         self.filterTypes[ name ] = type;
+        self.realFilterTypes[ name ] = realType;
       });
 
       // Show first dropdown as active
@@ -601,7 +608,7 @@
       self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
       self.$container.find('.js-favorite').tooltip({
-        placement: 'top',
+        placement: 'offsettop',
         title: function() {
           var $jsFavorite = $(this);
           return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
@@ -653,8 +660,8 @@
 
     setFilterStatuses : function() {
       var self = this,
-          $visible = self.$grid.data('shuffle').$items.filter('.filtered'),
-          filterName, filterValue, method;
+          $visible = self.shuffle.$items.filter('.filtered'),
+          filterName, filterValue, method, realType;
 
 
       // Reset stored data by setting all filterValue values to null
@@ -670,33 +677,32 @@
 
       // Build up the dictionary of the filters that should be shown/hidden
       $visible.each(function() {
-          var $item = $(this),
-              filterSet = $item.data('filterSet'),
-              filterValue,
-              filterName;
+        var $item = $(this),
+            filterSet = $item.data('filterSet'),
+            filterValue,
+            filterName;
 
-          for ( filterName in self.filterValues ) {
-            if ( !self.filterValues.hasOwnProperty(filterName) ) {
-              continue;
-            }
-
-
-            for ( filterValue in self.filterValues[ filterName ] ) {
-              // If we've already set this to false, we don't need to check again on another element
-              if ( self.filterValues[ filterName ][ filterValue ] === true ) {
-                  continue;
-              }
-
-              var isArray = $.isArray( filterSet[ filterName ] ),
-                  shouldEnable;
-
-              shouldEnable = isArray ?
-                  self.valueInArray( filterValue, filterSet[ filterName ] ) :
-                  filterValue === filterSet[ filterName ];
-
-              self.filterValues[ filterName ][ filterValue ] = shouldEnable;
-            }
+        for ( filterName in self.filterValues ) {
+          if ( !self.filterValues.hasOwnProperty(filterName) ) {
+            continue;
           }
+
+          for ( filterValue in self.filterValues[ filterName ] ) {
+            // If we've already set this to false, we don't need to check again on another element
+            if ( self.filterValues[ filterName ][ filterValue ] === true ) {
+                continue;
+            }
+
+            var isArray = $.isArray( filterSet[ filterName ] ),
+                shouldEnable;
+
+            shouldEnable = isArray ?
+                self.valueInArray( filterValue, filterSet[ filterName ] ) :
+                filterValue === filterSet[ filterName ];
+
+            self.filterValues[ filterName ][ filterValue ] = shouldEnable;
+          }
+        }
       });
 
       // Loop through all filters again to disable/enable them
@@ -704,9 +710,16 @@
         if ( !self.filterValues.hasOwnProperty(filterName) ) {
           continue;
         }
+        realType = self.realFilterTypes[ filterName ];
 
         for ( filterValue in self.filterValues[ filterName ] ) {
           method = self.filterValues[ filterName ][ filterValue ] ? 'enable' : 'disable';
+
+          // Hacky as shit. This makes the `button` type always enabled
+          if ( realType === 'button' ) {
+            method = 'enable';
+          }
+
           self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
         }
       }
@@ -819,7 +832,7 @@
       self.filterValues[ filterName ] = values;
     },
 
-    range : function( $rangeControl, filterName , min, max ) {
+    range : function( $rangeControl, filterName, min, max ) {
       this.MAX_PRICE = max;
       this.MIN_PRICE = min;
       this.price = {
@@ -1132,16 +1145,22 @@
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.removeClass('in');
-      $toggle.find('.up').addClass('hide');
-      $toggle.find('.down').removeClass('hide');
+      if ( !Modernizr.csstransforms ) {
+        $toggle.find('.down').addClass('hide');
+        $toggle.find('.up').removeClass('hide');
+      }
     },
 
     onFiltersShow : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
       var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.addClass('in');
-      $toggle.find('.up').removeClass('hide');
-      $toggle.find('.down').addClass('hide');
+
+      // If we don't have transforms, show and hide different arrows.
+      if ( !Modernizr.csstransforms ) {
+        $toggle.find('.down').removeClass('hide');
+        $toggle.find('.up').addClass('hide');
+      }
 
     },
 

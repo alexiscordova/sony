@@ -704,15 +704,17 @@ legend + .control-group {
     padding: 0;
   }
 
+  // label has a .p2 (15px)
+  $labelFontSize: 15px;
   // Checkmark box
   & + label:before {
     content: '';
-    margin-right: px-em(22px);
+    margin-right: px-em( 10px, $labelFontSize );
     display: inline-block;
     vertical-align: text-top;
-    @include square( px-em( 22px ) );
+    @include square( px-em( 22px, $labelFontSize ) );
     border: 1px solid transparent;
-    border-color: rgba($gray20, 0);
+    border: 1px solid rgba($gray20, 0);
     background: $white;
     @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal, border-color $transitionFast $easeNormal);
   }
@@ -766,8 +768,10 @@ legend + .control-group {
   &[disabled] + label:before,
   &.disabled:hover + label:before,
   &[disabled]:hover + label:before {
-    @include opacity(15);
+    background-color: transparent;
+    background-color: rgba($white, 0);
     border-color: $gray20;
+    border-color: rgba($gray20, .15);
     @include box-shadow(none);
   }
 

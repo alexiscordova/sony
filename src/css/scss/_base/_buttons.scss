@@ -106,8 +106,8 @@
 
   &:after {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 0;
+    top: 0;
     @include opacity(0);
     @include transition(opacity $transitionFast $easeNormal);
   }
@@ -345,6 +345,7 @@ input[type="button"] {
     right: $btnAltSpecialPadding;
 
     // SHOULD BE GLOBAL
+    margin-top: 3px;
     font-size: px-em( 16px, 13px );
   }
 }

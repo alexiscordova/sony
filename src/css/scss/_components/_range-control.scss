@@ -41,14 +41,28 @@ $handleHighlightColor: $buttonOrange;
     border-radius: 50%;
     background: $white;
     @include box-shadow(0 0 0 6px $transparentBlack, 0 0 9px $innerGlow);
-    @include transition(border $transitionFast linear, margin $transitionFast linear);
-    cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur') 8 4, pointer; /* you should probably localize the cur file */
+    -webkit-transition: -webkit-transform $transitionFast linear, border $transitionFast linear;
+            transition: transform $transitionFast linear, border $transitionFast linear;
+    // @include transition(border $transitionFast linear, margin $transitionFast linear);
+
+    // Cursors
+    cursor: all-scroll;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
 
     &.grabbed,
     &:hover {
       border-width: 12px;
-      margin-top: -6px;
-      margin-left: -14px;
+
+      .no-csstransforms & {
+        margin-top: -6px;
+        margin-left: -14px;
+      }
+
+      .csstransforms & {
+        @include translate(-6px, -6px);
+      }
     }
   }
 
@@ -60,17 +74,21 @@ $handleHighlightColor: $buttonOrange;
   }
 }
 
-.ie .handle {
-  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */
+// .ie .handle {
+//   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */
+// }
+
+.grabbing .range-control .handle,
+.range-control .handle:active {
+  cursor: all-scroll;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
 }
 
-.grabbing .handle {
-  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur') 8 4, move; /* you should probably localize the cur file */
-}
-
-.ie.grabbing .handle {
-  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), move; /* you should probably localize the cur file */
-}
+// .ie.grabbing .handle {
+//   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), move; /* you should probably localize the cur file */
+// }
 
 
 // Range output
