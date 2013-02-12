@@ -1,6 +1,50 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
 
+@mixin onesonyTypeBlockWidths($baseWidth: 400px) {
+
+  &.content-8 {
+
+    max-width: px-em($baseWidth);
+    width: percentage($baseWidth / 766px);
+    min-width: px-em(295px/400px * $baseWidth);
+
+    @media(min-width:px-em(981px)){
+      min-width: px-em(361px/400px * $baseWidth);
+    }
+
+    //tablets
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+      max-width: percentage(400px / 463px);
+      width: percentage(400px / 463px);
+      min-width: percentage(400px / 3532px);
+    }
+
+    //phones
+    @media( max-width: px-em(480px) ){
+      h1, h2, h3, h4, h5, h6 {
+        max-width: percentage(400px / 533px);
+      }
+      max-width: percentage(400px / 463px);
+      width: percentage(400px / 463px);
+      min-width: percentage(400px / 3532px);
+    }
+  }
+
+  &.content-6 {
+    width: px-em($baseWidth);
+
+    //tablets
+    @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
+      width: px-em(220px);
+    }
+
+    //phones
+    @media( max-width: px-em(480px) ){
+      width: px-em(225px);
+    }
+  }
+}
 
 /*  */
 .sony-one-carousel {
@@ -125,16 +169,86 @@
     background-repeat: no-repeat;
     cursor: pointer;
 
+    &:before {
+      @include transition-property(opacity);
+      @include transition-duration(500ms);
+      position: absolute;
+      left: 0;
+      top: 0;
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: rgba($white, 0.1);
+      opacity: 0;
+    }
 
+    &:hover {
 
-    &.content-8 {
+      &:before {
+        opacity: 1;
+      }
+
+      .headline a::after {
+        margin-left: px-em(5px);
+      }
+    }
+
+    &.content-8,
+    &.content-6 {
       .counter {
         position: absolute;
-        left: 6.2%;
         bottom: 9%;
-        h3 {
-          color: $gray50  ;
-          text-transform: uppercase;
+        text-transform: uppercase;
+
+        &[class*="align-left-"] {
+
+          &.content-8 {
+            left: 6.2%;
+          }
+
+          &.content-6 {
+            left: 8.6%;
+          }
+        }
+
+        &[class*="align-right-"] {
+
+          &.content-8 {
+            right: 6.2%;
+
+            &.align-right-bottom {
+              @include onesonyTypeBlockWidths(300px);
+
+              &[class*="copy"] {
+                @include onesonyTypeBlockWidths(350px);
+              }
+            }
+          }
+
+          &.content-6 {
+            right: 8.6%;
+
+            &.align-right-bottom {
+              @include onesonyTypeBlockWidths(250px);
+
+              &[class*="copy"] {
+                @include onesonyTypeBlockWidths(250px);
+              }
+            }
+          }
+        }
+
+        &.dark-text-trans-panel h3 {
+          color: $gray40;
+        }
+
+        &.light-text-trans-panel h3 {
+          color: $gray50;
+        }
+
+        &.black-white-text h3 {
+          color: $black;
         }
       }
     }
@@ -207,6 +321,8 @@
             line-height: inherit;
 
             &:after {
+              @include transition-property(margin);
+              @include transition-duration(500ms);
               position: relative;
               top: -0.2em;
               left: 0.2em;
@@ -511,12 +627,8 @@
           color: $white;
         }
 
-        .counter {
-
-        }
-
-        .body-copy {
-
+        p {
+          color: $gray50;
         }
 
         .eyebrow {
@@ -534,12 +646,8 @@
           }
         }
 
-        .counter {
-
-        }
-
-        .body-copy {
-
+        p {
+          color: $gray40;
         }
 
         .eyebrow {
@@ -561,10 +669,8 @@
           }
         }
 
-        .counter {
-        }
-
-        .body-copy {
+        p {
+          color: $black;
         }
 
         .eyebrow {
@@ -579,30 +685,86 @@
         /_/  \__, / .___/\___/  /_/  |_/_/_/\__, /_/ /_/_/ /_/ /_/\___/_/ /_/\__/
             /____/_/                       /____/
       */
+
+      //shared
+      &[class*="align-left-"],
+      &[class*="align-right-"] {
+
+        &.content-8 {
+          @include onesonyTypeBlockWidths(400px);
+        }
+
+        &.content-6 {
+          @include onesonyTypeBlockWidths(300px);
+        }
+      }
+
+      &[class*="align-left-"] {
+
+        &.content-8 {
+          left: 6.2%;
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+
+        &.content-6 {
+          left: 8.6%;
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+      }
+
+      &[class*="align-right-"] {
+
+        &.content-8 {
+          left: auto;
+          right: 6.2%;
+
+          @include onesonyTypeBlockWidths(300px);
+
+          &[class*="copy"] {
+            @include onesonyTypeBlockWidths(350px);
+          }
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+
+        &.content-6 {
+          left: auto;
+          right: 8.6%;
+
+          @include onesonyTypeBlockWidths(250px);
+
+          &[class*="copy"] {
+            @include onesonyTypeBlockWidths(250px);
+          }
+
+          //phones
+          @media( max-width: px-em(480px) ){
+            top: 31.4%;
+          }
+        }
+      }
+
       //aLT
       &.align-left-top {
 
         &.content-8 {
-          left: 6.2%;
           top: 11%;
-          max-width: 400px;
-          width: 400px;
         }
 
         &.content-6 {
           top: 5.8%;
           left: 8.6%;
-          width: px-em(300px);
-
-          //tablets
-          @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-            width: px-em(220px);
-          }
-
-          //phones
-          @media( max-width: px-em(480px) ){
-            width: px-em(225px);
-          }
         }
 
         &.content-4 {
@@ -614,16 +776,9 @@
       }
 
       //aLC
-      &.align-left-center.content-8 {
-        max-width: px-em(400px);
-        width: 52.2193211%;
-        min-width: px-em(295px);
+      &.align-left-center.content-8,
+      &.align-left-center.content-6 {
         top: 26.4%;
-        left: 6.2%;
-
-        @media(min-width:px-em(981px)){
-          min-width: px-em(361px);
-        }
 
         &.headline-counter {
           top: 39.4%;
@@ -639,31 +794,6 @@
           @media( max-width: px-em(480px) ){
             top: 22.4%;
           }
-        }
-
-
-        //tablets
-        @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-          max-width: 86.324841%;
-          width: 86.324841%;
-          min-width: 11.324841%;
-
-        }
-
-        //phones
-        @media( max-width: px-em(480px) ){
-          h1,
-          h2,
-          h3,
-          h4,
-          h5,
-          h6 {
-            max-width: 75%;
-          }
-          max-width: 86.324841%;
-          width: 86.324841%;
-          min-width: 11.324841%;
-          top: 31.4%;
         }
 
         &.headline-only {
@@ -685,52 +815,67 @@
       &.align-left-bottom {
         top: auto;
 
-        &.content-8 {
-          bottom: 8%;
-          left: 6.2%;
-          width: px-em(400px);
-        }
-
+        &.content-8,
         &.content-6 {
-          bottom: 5.8%;
-          left: 8.6%;
-          width: px-em(300px);
 
-          //tablets
-          @media( min-width:px-em(481px) ) and ( max-width:px-em(768px) ){
-            width: px-em(220px);
+          &.headline-counter {
+            bottom: 12%;
           }
 
-          //phones
-          @media( max-width: px-em(480px) ){
-            width: px-em(225px);
+          &.headline-copy-counter {
+            bottom: 15%;
           }
+
+          bottom: 8%;
         }
       }
 
       //aRT
-      &.align-right-top.content-8 {
-        max-width: 270px;
-        width: 270px;
-        right: 6.4%;
-        top: 11%;
+      &.align-right-top {
+
+        &.content-8,
+        &.content-6 {
+          top: 11%;
+        }
       }
 
       //aRC
-      &.align-right-center.content-8 {
-        max-width: 270px;
-        width: 270px;
-        right: 6.4%;
-        top: 26.4%;
+      &.align-right-center {
+
+        &.content-8,
+        &.content-6 {
+          top: 26.4%;
+        }
       }
 
-      //aRB
-      &.align-right-bottom.content-8 {
-        max-width: 270px;
-        width: 270px;
-        right: 6.4%;
-        top: 0%;
+      &.align-right-bottom {
+        top: auto;
+
+        &.content-8 {
+          bottom: 8%;
+
+          &.headline-counter {
+            bottom: 12%;
+          }
+
+          &.headline-copy-counter {
+            bottom: 15%;
+          }
+        }
+
+        &.content-6 {
+          bottom: 5.8%;
+
+          &.headline-counter {
+            bottom: 12%;
+          }
+
+          &.headline-copy-counter {
+            bottom: 15%;
+          }
+        }
       }
+
       /*
             ____
            / __ \_________  ____ ___  ____
