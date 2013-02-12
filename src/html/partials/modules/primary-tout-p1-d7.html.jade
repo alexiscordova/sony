@@ -55,22 +55,24 @@ mixin boxlayout(layout)
   if layout.mobilealign
     classes = classes + " " + layout.mobilealign
   if layout.text == "left"
-    .container.inner.grid.no-grid-at-767(class= classes)
-      - span = "span" + layout.columns[0]
-      div(class= span)
-        .table-center-wrap
-          .table-center
-            +boxclass
-              block
+    .container.inner(class= classes)
+      .grid.no-grid-at-767
+        - span = "span" + layout.columns[0]
+        div(class= span)
+          .table-center-wrap
+            .table-center
+              +boxclass
+                block
   else if layout.text == "right" || layout.text == "center"
-    .container.inner.grid.no-grid-at-767(class= classes)
-      - span = "span" + layout.columns[1]
-      - offset =  "offset" + layout.columns[0]
-      div(class= span)(class= offset)
-        .table-center-wrap
-          .table-center
-            +boxclass
-              block
+    .container.inner(class= classes)
+      .grid.no-grid-at-767
+        - span = "span" + layout.columns[1]
+        - offset =  "offset" + layout.columns[0]
+        div(class= span)(class= offset)
+          .table-center-wrap
+            .table-center
+              +boxclass
+                block
 
 classes = data.mode
 if data.theme

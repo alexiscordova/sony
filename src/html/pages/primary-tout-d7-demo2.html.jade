@@ -1,0 +1,60 @@
+---
+ignore: true;
+title: D7. Primary Tout Module - Title Plate
+description: Example Title Plate
+---
+include ../partials/includes/jade-helpers.jade
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+  head
+    !{partial('includes/head.html.jade', l)}
+  
+  body
+    .container(style="background:#002200")
+      .grid(style="background:#004400")
+        .span6(style="background:#008800")
+          pre
+            |.container
+            |  .grid
+            |    .span6
+    .container.full-bleed(style="background:#002200")
+      .grid(style="background:#004400")
+        .span6(style="background:#008800")
+          pre
+            |.container.full-bleed
+            |  .grid
+            |    .span6
+    .container.full-bleed-no-max(style="background:#002200")
+      .grid(style="background:#004400")
+        .span6(style="background:#008800")
+          pre
+            |.container.full-bleed-no-max
+            |  .grid
+            |    .span6
+    .container.full-bleed-no-max(style="background:#002200")
+      .container.grid(style="background:#004400")
+        .span6(style="background:#008800")
+          pre
+            |.container.full-bleed-no-max
+            |  .container.grid
+            |    .span6
+    .container.full-bleed-no-max(style="background:#002200")
+      .container
+        .grid(style="background:#004400")
+          .span6(style="background:#008800")
+            pre
+              |.container.full-bleed-no-max
+              |  .container
+              |   .grid
+              |    .span6
+    .container.grid(style="background:#004400")
+        .span6(style="background:#008800")
+          pre
+            |.container.grid
+            |  .span6
+            
+    !{partial('includes/foot.html.jade', l)}
+    
+</html>
