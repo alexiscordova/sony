@@ -10,7 +10,7 @@ $tcc-wrapper-padding-desktop:76px 0 64px 0;
 $tcc-wrapper-padding-phone:35px 0 50px 0;
 
 $tcc-header-padding-bottom-desktop:20px;
-$tcc-header-padding-bottom-phone:10px;
+$tcc-header-padding-bottom-phone:20px;
 
 $tcc-body-wrapper-padding-desktop:36px 0 0 0;
 $tcc-body-wrapper-padding-phone:20px 0 0 0;
@@ -36,7 +36,7 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
 //  "Y888P888 .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888     888   "Y888P888  "Y888P888 888 "88b `Y8bd8P' 
 //        888 888    888 888    888 888  888   X88K  888888 888     888         888        888 888  888   X88K   
 // Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888     888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b. 
-//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888 8888888 "Y8888P"   "Y8888P"  88888P"  888  888 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888 8888888 "Y8888P"   "anser"  88888P"  888  888 
 //                                  888                                                        888               
 //                                  888                                                        888               
 //                                  888                              
@@ -44,11 +44,6 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
 
 .tcc-wrapper{
   padding:$tcc-wrapper-padding-desktop;
-
-  .tcc-header-wrapper{
-
-    //max-width: $max-width;
-  } // end .tcc-header-wrapper
 
   .tcc-header{
     padding-bottom: $tcc-header-padding-bottom-desktop;
@@ -66,10 +61,10 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
       right:0;
       margin:0; // overwrite .lt2 default
     } // end .tcc-header-link
+
   } // end .tcc-header
 
   .tcc-body-wrapper{
-   // max-width:$max-width;
     padding:$tcc-body-wrapper-padding-desktop;
 
     .tcc-body{
@@ -78,14 +73,6 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
 
     .tcc-content-module{
       height:$tcc-content-module-height;
-
-      &.article{
-        &.featured{
-          height:auto;
-        } // end .featured
-      
-      } // end .article
-      
     } // tcc-content-module
 
   } // end .tcc-body-wrapper
@@ -96,10 +83,11 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
   } // end .tcc-copy
 
  .social-btn{
-    position: absolute;
-    bottom: $sonys-voice-padding-bottom;
-    left: 50%;
-    margin-left: -85px;
+    // position: absolute;
+    // bottom: $sonys-voice-padding-bottom;
+    // left: 50%;
+    // margin-left: -85px;
+    margin:0 auto;
   } // end socialBtn
 
   .article{ 
@@ -115,12 +103,11 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
     } // end &.default, &.event, &.news
     
      &.featured{       
-        
-        // .grid{
-            
-        // max-width: 315px;
-      
-        // }
+        height: 100%;
+
+        .lt3{
+          margin-top:14px;
+        }
 
         .feature-copy{
           position: absolute;
@@ -140,13 +127,6 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
             overflow:hidden;
             //border:1px solid red;
           }
-
-          .lt3{
-              // position: absolute;
-              // bottom: px-em(10px);
-             // border:1px solid white; 
-          } // .lt3
-
 
         } // end .featured-copy
 
@@ -176,21 +156,22 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
       padding:0;
 
       .credits{
-        width: 100%;
         @include clearfix();
+        position: relative;
+        width: 100%;
         white-space: nowrap;
         
         .avatar{
-          //display:inline-block;
           float:left;
-          //@include debug(1px, green);
         } // end .avatar
 
         .author{
-          //@include debug(1px, purple);
-          // display:inline-block;
-          float:left;
-          margin:28px px-em(20px) 20px px-em(20px);//28px 20px 23px 20px;
+          // float:left;
+          position: absolute;
+          top:50%;
+          left:91px;
+          margin:-11px 0 0 0;
+          //margin:28px px-em(20px) 20px px-em(20px);//28px 20px 23px 20px;
         } // end .author
 
       } // end .credits
@@ -202,10 +183,11 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
 
       .answer-btn{
         position: absolute;
-        bottom: 0;
+        bottom: 10px;
         left: 50%;
         margin-left: -85px;
       } // end .answer-btn
+ 
     } // end .question
 
   } // users voice
@@ -216,21 +198,16 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
     .fonticon-10-facebook,
     .fonticon-10-twitter,
     .fonticon-instagram {
-      font-size: px-em(26px);
+      font-size: px-em(23px);
       padding: px-em(10px);
       @include border-radius(30px);
       margin-bottom:8px;
-    } // end .fonticons
 
-    .fonticon-instagram{
-      width: 59px;
-      height: 59px;
-      padding: 20px 4px;
-    }
+    } // end .fonticons
 
     &.twitter{
       .bq4{
-        padding:40px 0 20px 0;
+        //padding:40px 0 20px 0;
       } // end .bq4
 
     } // end .twitter
@@ -238,19 +215,20 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
     &.facebook{
 
       .post-tile{
-        padding:40px 0 0 0;
+        //padding:40px 0 0 0;
       } // end .postTile
 
       .post-copy{
-        padding:22px 0 11px 0;
+        //padding:22px 0 11px 0;
       } // end .postCopy
 
     } // end .facebook
 
     &.instagram{
       .fonticon-instagram{
-        width:59px;
-        height:59px;
+        width:44px;
+        height:44px;
+        padding: 13px 4px;
       }
 
       .image-mat{
@@ -258,6 +236,7 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
       } // end .image-mat
       
     } // end &.instagram
+
   } // end sonys-voice
 
   .flickr{
@@ -406,7 +385,7 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
       &.featured{
 
         &.tcc-content-module{
-         height:auto;
+         height:100%;
         } // end .tcc-content-module
 
         .img-container{
@@ -418,8 +397,8 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
         } // end .img-container
 
         .feature-copy{
-          padding:px-em(17px) px-em(25px);
-          height:20%;
+          //padding:px-em(17px) px-em(25px);
+          //height:20%;
         } // end .feature-copy
 
       } // end .article.featured

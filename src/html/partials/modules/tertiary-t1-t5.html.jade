@@ -2,6 +2,12 @@
 title: Tertiary Module Template
 ---
 
+mixin socialButton(link, label)
+  .social-btn
+    a.btn(href= link)
+      | #{label}
+
+
 //- START Tertiary Content Container
 section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tcc-mode="#{data.moduleMode}")
 
@@ -26,35 +32,30 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
           - contentType = variation.contentType
           - contentMode = variation.contentMode
 
-        .tcc-content-module.span4(class=contentType)(class=contentMode)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode)  
+          if(contentMode == "featured") && (module.imgSrc)
+            - backgroundImg = module.imgSrc
+            - contentBGImg = "iq-img"
+          else
+            - backgroundImg = ""
+            - contentBGImg = ""
 
+        .tcc-content-module.span4.table-center-wrap(class=contentType)(class=contentMode)(class=contentBGImg)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode, data-src= backgroundImg)  
           case contentType
             when "article"
-              if(module.imgSrc)
-
-                if(contentMode == "featured") && (module.title) && (module.imgSrc)
-                  .grid
-                    .img-container.span12
-                      //- .img-wrap
-                      img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
-                      noscript
-                        img(src= module.noScriptImg)                    
-
-                    if(contentMode == "featured") && (module.title)
-                      .feature-copy.span12
-
-                        p.t4 #{module.title}
-
-                        p.lt3
-                          a(href="#{module.articleLink}") Read More
-
-                else
-                  .img-container
-                    .img-wrap
-                      img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
-                      noscript
-                        img(src= module.noScriptImg)
-                              
+              if(contentMode == "featured") && (module.title) && (module.imgSrc)
+                article
+                 .feature-copy
+                    p.t4 #{module.title}
+                    p.lt3
+                      a(href="#{module.articleLink}") Read More
+                
+              else
+                .img-container
+                  .img-wrap
+                    img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
+                    noscript
+                      img(src= module.noScriptImg)
+                            
                     if(contentMode == "news") && (module.date)
                       p.news-date.l3
                         | #{module.date}
@@ -137,7 +138,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     a(href="#{module.authorLink}")
                       | #{module.authorHandle} 
                     | #{module.title}
-                
+              
                 blockquote.bq3
                   p
                     | #{module.question}
@@ -172,53 +173,74 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                       //- timestamp (required)
                       span.timestamp #{meta.timestamp}
 
-              if (contentMode == "twitter")
-                //- quote
-                blockquote.bq4
-                  p
-                    | #{module.quote}
+              .center-content.table-center
+                if (contentMode == "twitter")
+                  - label = "Follow Us on Twitter"
 
-                .social-btn
-                  a.btn(href="#{module.socialBtnLink}")
-                    | Follow Us on Twitter
-
-              if (contentMode == "facebook")
-                //- tile
-                .post-tile
-                  img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
-                    noscript
-                      img(src= module.postImgNoScriptImg)
-
-                blockquote.post-copy.bq5
+                  //- quote
+                  blockquote.bq4
                     p
-                      | #{module.postCopy}
-                      a
-                        | #{module.postLink}
+                      | #{module.quote}
 
-                .social-btn
-                  a.btn(href="#{module.socialBtnLink}")
-                    | Like Us on Facebook
-
-              if (contentMode == "instagram")
-                .image-mat
-                  .top-left
-                    img.iq-img(alt= module.instagramTLImgAltText, data-src= module.instagramTLImg)
-                    noscript
-                      img(src= module.instagramTLNoScriptImg)
-
-                  .top-right
-                    img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
-                    noscript
-                      img(src= module.instagramRNoScriptImg)
-
-                  .bottom-left  
-                    img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
-                    noscript
-                      img(src= module.instagramBLNoScriptImg)
+                if (contentMode == "facebook")
+                  - label = "Like Us on Facebook"
                   
-                .social-btn
-                  a.btn(href="#{module.socialBtnLink}")
-                    | Follow Us on Instagram
+                  //- tile
+                  .post-tile
+                    img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
+                      noscript
+                        img(src= module.postImgNoScriptImg)
+
+                  blockquote.post-copy.bq5
+                      p
+                        | #{module.postCopy}
+                        a
+                          | #{module.postLink}
+
+                if (contentMode == "instagram")
+                  - label = "Follow Us on Instagram"
+                  table
+                    tbody
+                      tr
+                        td.top-left
+                          img.iq-img(alt= module.instagramTLImgAltText, data-src= module.instagramTLImg)
+                          noscript
+                            img(src= module.instagramTLNoScriptImg)
+                        td.top-right(rowspan=2)
+                          img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
+                          noscript
+                            img(src= module.instagramRNoScriptImg)
+                      tr
+                        td.bottom-left
+                          img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
+                          noscript
+                            img(src= module.instagramBLNoScriptImg)
+
+
+
+                  //- .image-mat
+                  //-   .top-left.iq-img(data-src= module.instagramTLImg)
+                  //-   .top-right.iq-img(data-src= module.instagramRImg)
+                  //-   .bottom-right.iq-img(data-src= module.instagramBLImg)
+
+                  //- .image-mat
+                  //-   .top-left
+                  //-     img.iq-img(alt= module.instagramTLImgAltText, data-src= module.instagramTLImg)
+                  //-     noscript
+                  //-       img(src= module.instagramTLNoScriptImg)
+
+                  //-   .top-right
+                  //-     img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
+                  //-     noscript
+                  //-       img(src= module.instagramRNoScriptImg)
+
+                  //-   .bottom-left  
+                  //-     img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
+                  //-     noscript
+                  //-       img(src= module.instagramBLNoScriptImg)
+
+              - link = module.socialBtnLink
+              mixin socialButton( link, label )
 
             when "flickr"
               if (contentMode == "default")
@@ -249,9 +271,11 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                         noscript
                           img(src= image.noScriptSrc)                
 
-                .social-btn
-                  a.btn(href="#{module.socialBtnLink}")
-                    | View Set on Flickr
+                - link = module.socialBtnLink
+                - label = " View Set on Flickr"
+                mixin socialButton( link, label )
 
-              
+
 //- END Tertiary Content Container
+
+
