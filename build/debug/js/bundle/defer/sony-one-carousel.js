@@ -231,6 +231,9 @@
         }else{
           point = e;
           e.preventDefault();
+          if(e.which !== 1){
+            return;
+          }
         }
 
         self.isDragging = true;
