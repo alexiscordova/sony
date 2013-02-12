@@ -14,7 +14,7 @@ if data.config.tabbedLayout
             a.rp-tab(href='#' , class='lt4 no-hover-transition' , data-rp-panel-id=tab.panelId)
               strong= tab.title
 
-  .container(class='full-bleed-no-max container-tabbed')
+  .container(class='full-bleed-no-max rp-container-tabbed')
     for tab in data.config.tabbedLayout
       if data.config.mode == 'full'
         - clss = data.config.mode
