@@ -5,27 +5,17 @@
  * Use it for whatever you want!
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 02/07/13
+ * @date 12/06/12
  */
 (function($, Modernizr, undefined) {
     'use strict';
 
 
     // You can return `undefined` from the `by` function to revert to DOM order
-    // This plugin does NOT return a jQuery object. It returns a plain array because
-    // jQuery sorts everything in DOM order.
     $.fn.sorted = function(options) {
         var opts = $.extend({}, $.fn.sorted.defaults, options),
             arr = this.get(),
             revert = false;
-
-        if ( !arr.length ) {
-            return [];
-        }
-
-        if ( opts.randomize ) {
-            return $.fn.sorted.randomize( arr );
-        }
 
         // Sort the elements by the opts.by function.
         // If we don't have opts.by, default to DOM order
@@ -66,31 +56,8 @@
 
     $.fn.sorted.defaults = {
         reverse: false,
-        by: null,
-        randomize: false
+        by: null
     };
-
-
-    // http://stackoverflow.com/a/962890/373422
-    $.fn.sorted.randomize = function( array ) {
-        var top = array.length,
-            tmp, current;
-
-        if ( !top ) {
-            return array;
-        }
-
-        while ( --top ) {
-            current = Math.floor( Math.random() * (top + 1) );
-            tmp = array[ current ];
-            array[ current ] = array[ top ];
-            array[ top ] = tmp;
-        }
-
-        return array;
-    };
-
-
 
     var Shuffle = function( $container, options ) {
         var self = this;
@@ -114,16 +81,8 @@
             var self = this,
                 transEndEventNames,
                 resizeFunc = $.proxy( self._onResize, self ),
-                afterResizeFunc = $.proxy( self._afterResize, self ),
-                beforeResizeFunc;
+                throttledResize = self.throttle ? self.throttle( self.throttleTime, resizeFunc ) : resizeFunc;
 
-            if ( self.hideLayoutWithFade ) {
-                beforeResizeFunc = $.proxy( self._beforeResize, self );
-                self._debouncedBeforeResize = self.throttle ? self.throttle( self.throttleTime, true, beforeResizeFunc ) : beforeResizeFunc;
-            }
-
-            // Get debounced versions of our resize methods
-            self._debouncedResize = self.throttle ? self.throttle( self.throttleTime, afterResizeFunc ) : afterResizeFunc;
 
             self.$items = self._getItems().addClass('shuffle-item');
             self.transitionName = self.prefixed('transition'),
@@ -162,9 +121,9 @@
             self._initItems( !self.showInitialTransition );
 
             // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-            // self.windowHeight = self.$window.height();
-            // self.windowWidth = self.$window.width();
-            self.$window.on('resize.shuffle', resizeFunc);
+            self.windowHeight = self.$window.height();
+            self.windowWidth = self.$window.width();
+            self.$window.on('resize.shuffle', throttledResize);
 
             self._setColumns();
             self._resetCols();
@@ -249,7 +208,6 @@
             element.style[self.transitionName] = self.transform + ' ' + self.speed + 'ms ' + self.easing + ', opacity ' + self.speed + 'ms ' + self.easing;
         },
 
-
         _setSequentialDelay : function( $collection ) {
             var self = this;
 
@@ -257,71 +215,14 @@
                 return;
             }
 
-            // $collection can be an array of dom elements or jquery object
-            $.each( $collection, function(i) {
-                // This works because the transition-property: transform, opacity;
-                this.style[self.transitionName + 'Delay'] = '0ms,' + ((i + 1) * self.sequentialFadeDelay) + 'ms';
+            $collection.each(function(i) {
+                this.style[self.transitionName + 'Delay'] = ((i + 1) * self.sequentialFadeDelay) + 'ms';
 
                 // Set the delay back to zero after one transition
-                $(this).one(self.transitionEndName, function() {
+                $(this).one($.support.transition.end, function() {
                     this.style[self.transitionName + 'Delay'] = '0ms';
                 });
             });
-        },
-
-        _resetDelay : function( $collection ) {
-            var self = this;
-
-            if ( !self.supported ) {
-                return;
-            }
-
-            $.each( $collection, function() {
-                $(this).off( self.transitionEndName );
-                this.style[ self.transitionName + 'Delay' ] = '0ms';
-            });
-        },
-
-        _orderItemsByDelay : function( $items ) {
-            var self = this,
-                $ordered = $(),
-                $randomized = $(),
-                ordered, randomized, merged,
-
-            by = function( $el ) {
-                return $el.data('delayOrder');
-            };
-
-            if ( !self.$ordered ) {
-
-                $items.each(function() {
-                    var delayOrder = $(this).data('delayOrder');
-
-                    if ( delayOrder ) {
-                        $ordered = $ordered.add( this );
-                    } else {
-                        $randomized = $randomized.add( this );
-                    }
-                });
-
-                ordered = $ordered.sorted({ by: by });
-
-            } else {
-                $ordered = self.$ordered;
-                ordered = self.ordered;
-                $randomized = $items.not( $ordered );
-            }
-
-            // Sort randomly
-            randomized = $randomized.sorted({ randomize: true });
-
-            // Merge with the ordered array
-            merged = ordered.concat( randomized );
-
-            // Save values
-            self.$ordered = $ordered;
-            self.ordered = ordered;
-            self.itemsOrderedByDelay = merged;
         },
 
         _getItems : function() {
@@ -359,8 +260,6 @@
             } else {
                 self.needsUpdate = false;
             }
-
-            self.containerWidth = containerWidth;
         },
 
         /**
@@ -386,9 +285,9 @@
          * @param {array} items - array of items that will be shown/layed out in order in their array.
          *     Because jQuery collection are always ordered in DOM order, we can't pass a jq collection
          * @param {function} complete callback function
-         * @param {boolean} isOnlyPosition set this to true to only trigger positioning of the items
+         * @param {boolean} onlyPosition set this to true to only trigger positioning of the items
          */
-        _layout: function( items, fn, isOnlyPosition, isHide ) {
+        _layout: function( items, fn, onlyPosition ) {
             var self = this;
 
             fn = fn || self.filterEnd;
@@ -419,7 +318,7 @@
                         groupY[i] = Math.max.apply( Math, groupColY );
                     }
 
-                    self._placeItem( $this, groupY, fn, isOnlyPosition, isHide );
+                    self._placeItem( $this, groupY, fn, onlyPosition );
                 }
             });
 
@@ -436,21 +335,21 @@
             }
         },
 
-        _reLayout : function( callback, isOnlyPosition ) {
+        _reLayout : function( callback ) {
             var self = this;
             callback = callback || self.filterEnd;
             self._resetCols();
 
             // If we've already sorted the elements, keep them sorted
             if ( self.keepSorted && self.lastSort ) {
-                self.sort( self.lastSort, true, isOnlyPosition );
+                self.sort( self.lastSort, true );
             } else {
-                self._layout( self.$items.filter('.filtered').get(), self.filterEnd, isOnlyPosition );
+                self._layout( self.$items.filter('.filtered').get(), self.filterEnd );
             }
         },
 
         // worker method that places brick in the columnSet with the the minY
-        _placeItem : function( $item, setY, callback, isOnlyPosition, isHide ) {
+        _placeItem : function( $item, setY, callback, onlyPosition ) {
             // get the minimum Y value from the columns
             var self = this,
                 minimumY = Math.min.apply( Math, setY ),
@@ -482,29 +381,27 @@
                 self.colYs[ shortCol + i ] = setHeight;
             }
 
-            var transitionObj = {
-                from: 'layout',
-                $this: $item,
-                x: x,
-                y: y,
-                scale: 1
-            };
-
-            if ( !isOnlyPosition ) {
-                transitionObj.opacity = 1;
-                transitionObj.callback = callback;
-            }
-
-            if ( isHide ) {
-                transitionObj.opacity = 0;
-            }
-
-            if ( isOnlyPosition ) {
+            if ( onlyPosition ) {
                 self._skipTransition($item[0], function() {
-                    self.transition( transitionObj );
+                    self.transition({
+                        from: 'layout',
+                        $this: $item,
+                        x: x,
+                        y: y,
+                        // scale : 1,
+                        opacity: 0
+                    });
                 });
             } else {
-                self.transition( transitionObj );
+                self.transition({
+                    from: 'layout',
+                    $this: $item,
+                    x: x,
+                    y: y,
+                    scale : 1,
+                    opacity: 1,
+                    callback: callback
+                });
             }
 
         },
@@ -546,64 +443,20 @@
         },
 
         _onResize : function() {
-            var self = this,
-                containerWidth = self.$container.width();
+            var self = this;
 
-            // If shuffle is disabled, destroyed, or containerWidth hasn't changed, don't do anything
-            if ( !self.enabled || self.destroyed || containerWidth === self.containerWidth ) {
+            if ( !self.enabled || self.destroyed ) {
                 return;
             }
 
-            // var height = self.$window.height(),
-            //     width = self.$window.width();
-            // self.windowHeight = height;
-            // self.windowWidth = width;
+            var height = self.$window.height(),
+                width = self.$window.width();
 
-            // This should execute the first time _onResize is called
-            if ( self.hideLayoutWithFade ) {
-                self._debouncedBeforeResize();
-            }
-
-            // This should execute the last time _onResize is called
-            self._debouncedResize();
-
-        },
-
-        _afterResize : function() {
-            var self = this;
-
-            // If we're hiding the layout with a fade,
-            if ( self.hideLayoutWithFade ) {
-                // recaculate column and gutter values
-                self._setColumns();
-                // Layout the items with only a position
-                self._reLayout( false, true );
-                // Change the transition-delay value accordingly
-                self._setSequentialDelay( self.itemsOrderedByDelay );
-                self.fire('done');
-                if ( self.supported ) {
-                    self.$items.css('opacity', 1);
-                } else {
-                    self.$items.fadeIn( self.speed );
-                }
-            } else {
+            if (width !== self.windowWidth || height !== self.windowHeight) {
                 self.resized();
+                self.windowHeight = height;
+                self.windowWidth = width;
             }
-        },
-
-        _beforeResize : function() {
-            console.log('before resize');
-            var self = this;
-
-            if ( self.supported ) {
-                self.$items.css('opacity', 0);
-            } else {
-                self.$items.fadeOut( self.speed );
-            }
-
-            self.fire('loading');
-            self._resetDelay( self.$items );
-            self._orderItemsByDelay( self.$items );
         },
 
         /**
@@ -675,7 +528,7 @@
                     transform = 'translate(' + opts.x + 'px, ' + opts.y + 'px) scale(' + opts.scale + ', ' + opts.scale + ')';
                 }
 
-                if ( opts.opacity !== undefined && self.useTransition ) {
+                if( self.useTransition ){
                     // Update css to trigger CSS Animation
                     opts.$this.css('opacity' , opts.opacity);
                 }
@@ -684,26 +537,14 @@
                     self.setPrefixedCss(opts.$this, 'transform', transform);
                 }
 
-                if ( self.useTransition ) {
-                    opts.$this.one(self.transitionEndName, complete);
-                } else {
-                    complete();
-                }
+                opts.$this.one(self.transitionEndName, complete);
             } else {
-
-                var cssObj = {
+                // Use jQuery to animate left/top
+                opts.$this.stop(true,true).animate({
                     left: opts.x,
                     top: opts.y,
-                    opacity: opts.opacity
-                };
-
-                if ( self.useTransition ) {
-                    // Use jQuery to animate left/top
-                    opts.$this.stop(true, true).animate( cssObj, self.speed, 'swing', complete);
-                } else {
-                    opts.$this.css( cssObj );
-                    complete();
-                }
+                    opacity: self.useTransition ? opts.opacity : null
+                }, self.speed, 'swing', complete);
             }
         },
 
@@ -734,8 +575,7 @@
                 element.style[ property ] = value;
             }
 
-            // Force reflow
-            reflow = element.offsetWidth;
+            reflow = element.offsetWidth; // Force reflow
 
             // Put the duration back
             element.style[ durationName ] = duration;
@@ -756,7 +596,7 @@
             self.visibleItems = self.$items.filter('.filtered').length;
 
             if ( animateIn ) {
-                self._layout( $passed, null, true, true );
+                self._layout( $passed, null, true );
 
                 if ( isSequential ) {
                     self._setSequentialDelay( $passed );
@@ -786,6 +626,9 @@
          * Public Methods
          */
 
+        /**
+         * The magic. This is what makes the plugin 'shuffle'
+         */
         /**
          * The magic. This is what makes the plugin 'shuffle'
          * @param  {String|Function} category category to filter by. Can be a function
@@ -823,21 +666,16 @@
          * @param {object} opts the options object for the sorted plugin
          * @param {Boolean} [fromFilter] was called from Shuffle.filter method.
          */
-        sort: function( opts, fromFilter, isOnlyPosition ) {
+        sort: function(opts, fromFilter) {
             var self = this,
                 items = self.$items.filter('.filtered').sorted(opts);
-
-            if ( !fromFilter ) {
-                self._resetCols();
-            }
-
+            self._resetCols();
             self._layout(items, function() {
                 if (fromFilter) {
                     self.filterEnd();
                 }
                 self.sortEnd();
-            }, isOnlyPosition);
-
+            });
             self.lastSort = opts;
         },
 
@@ -949,24 +787,23 @@
     // Overrideable options
     $.fn.shuffle.options = {
         group : 'all', // Filter group
-        speed : 400, // Transition/animation speed (milliseconds)
+        speed : 600, // Transition/animation speed (milliseconds)
         easing : 'ease-out', // css easing function to use
         itemSelector: '', // e.g. '.gallery-item'
         gutterWidth : 0, // a static number or function that tells the plugin how wide the gutters between columns are (in pixels)
         columnWidth : 0,// a static number or function that returns a number which tells the plugin how wide the columns are (in pixels)
         showInitialTransition : true, // If set to false, the shuffle-items will only have a transition applied to them after the first layout
         delimeter : null, // if your group is not json, and is comma delimeted, you could set delimeter to ','
-        buffer: 0, // useful for percentage based heights when they might not always be exactly the same (in pixels)
+        buffer: 0,
         throttle: $.debounce || null,
         throttleTime: 300,
-        keepSorted : true, // Keep sorted when shuffling/layout
-        hideLayoutWithFade: false,
-        sequentialFadeDelay: 150,
-        useTransition: true // You don't want transitions on shuffle items? Fine, but you're weird
+        keepSorted : true,
+        useTransition: true
     };
 
     // Not overrideable
     $.fn.shuffle.settings = {
+        sequentialFadeDelay: 250,
         revealAppendedDelay: 300,
         enabled: true,
         supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
