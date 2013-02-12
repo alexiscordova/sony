@@ -256,11 +256,13 @@
 
 
     .soc-item-content {
-      //background: rgba(223, 61 , 130 , 0.6);
       position: absolute;
 
-      @media (min-width: px-em(769px)){
-        //background-color: #df3d82;
+      @media( max-width: px-em(480px) ){
+        p {
+          //phones
+          display: none;
+        }
       }
 
       .headline {
@@ -813,10 +815,11 @@
 
       //aLB
       &.align-left-bottom {
-        top: auto;
 
         &.content-8,
         &.content-6 {
+          top: auto;
+          bottom: 6.3%;
 
           &.headline-counter {
             bottom: 12%;
@@ -825,8 +828,6 @@
           &.headline-copy-counter {
             bottom: 15%;
           }
-
-          bottom: 6.3%;
         }
       }
 
@@ -852,6 +853,7 @@
         top: auto;
 
         &.content-8 {
+          top: auto;
           bottom: 8%;
 
           &.headline-counter {
