@@ -259,7 +259,11 @@
             column = containerWidth;
           }
 
-          //console.log('Shuffling Columns returning  TM »',column);
+          if(column === 0){
+            column = 0.001;
+          }
+
+          console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -746,6 +750,12 @@
 
             window.iQ.update();
 
+            if(self.scrollerModule !== null){
+
+              self.scrollerModule.destroy();
+              self.scrollerModule = null;
+
+            }
             //is this where i break?
             self.ev.trigger('onmobilebreakpoint.rp');
 
