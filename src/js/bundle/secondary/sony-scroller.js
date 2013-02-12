@@ -503,7 +503,7 @@
       onScrollEnd: null,
       lockDirection: true,
       onBeforeScrollStart: null,
-      onAnimationEnd: null,
+      onAnimationEnd: null
     }
 
   };

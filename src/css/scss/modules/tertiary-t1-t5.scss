@@ -14,8 +14,6 @@
 	padding:40px 20px;
 }
 
-
-
 .tcc-wrapper{
 	position: relative;
   overflow:auto;
@@ -77,8 +75,13 @@
 	} // end article hovers
 
 	.article{	
-    // border:2px solid red;
-    
+
+		position: relative;
+		display: block;
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+
     // DEFAULTS
     .img-container{
 			position: relative;
@@ -166,15 +169,17 @@
 		} // end .article.news
 
 		&.featured{
-			
-			.grid{
-				position: relative;			 
-			} // end .grid
-			
+					
 			.feature-copy{
 	    	background-color:$gray20;
         text-align: left;
         opacity:0.95;
+
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width:100%;
+        padding:  px-em(30px); //8% 12%;
 
 	    	.t4{
 	    		color:$white;

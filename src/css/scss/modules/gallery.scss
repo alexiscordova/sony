@@ -23,7 +23,7 @@ $fourColMax: px-em(979px);
 
 // Price text module
 .product-content {
-  margin-top: .75em;
+  margin-top: .4375em; // 7
   line-height: 1.3;
 
   .product-name {
@@ -93,6 +93,10 @@ $fourColMax: px-em(979px);
   margin-top: -3.125em;
 }
 
+.feature-gallery-title {
+  margin: 0;
+}
+
 
 // Gallery Items
 // -------------------------
@@ -119,7 +123,8 @@ $fourColMax: px-em(979px);
 //                                              Y8b d88P
 //                                               "Y88P"
 
-$oneByOnePadding: 165.19607843137254%;
+$oneByOnePadding: 165.196%;
+// $oneByOnePadding: 176%;
 $oneByOneImgPadding: 107.84313725490196%;
 .gallery-item {
   position: relative;
@@ -157,7 +162,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     @include transition(background-color $transitionFast $easeNormal);
 
     &:hover {
-      background-color: $gray95;
+      background-color: $gray75;
     }
 
     &:after {
@@ -294,6 +299,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     &:after {
       padding-top: 78.19025522041764%;
+      // padding-top: 83.6%;
     }
 
     .shuffle-4 &:after {
@@ -337,14 +343,14 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 // Offset the tooltip to the left
 // -----------------------
-$offsetFromMiddle: px-em(45px);
+$offsetFromMiddle: px-em(40px);
 .gallery-tooltip {
   margin-left: $offsetFromMiddle;
 
   // Because we have a bigger hotspot than the favorite icon,
   // it positions the tooltip based on that and looks off
   &.top {
-    margin-top: 3px;
+    margin-top: 4px;
   }
 
   // Move the arrow the same amount as the whole tooltip
@@ -369,7 +375,7 @@ $offsetFromMiddle: px-em(45px);
   .favorite-holder {
     position: absolute;
     left: px-em(8px);
-    bottom: px-em(6px);
+    bottom: px-em(8px);
     width: px-em(28px);
     height: px-em(24px);
     text-align: center;
@@ -379,6 +385,7 @@ $offsetFromMiddle: px-em(45px);
       // margin-top: px-em(3px);
       color: $gray60;
       vertical-align: baseline;
+      font-size: .8125em;
     }
 
     &:hover i,
@@ -401,26 +408,23 @@ $offsetFromMiddle: px-em(45px);
 // Promo Tiles
 // -------------------------
 .gallery-item .promo-content {
-  color: $white;
   text-align: left;
 
-  .text-promo-title {
+  .promo-title {
     position: absolute;
     top: 16.1290323%; // 50/310
     left: 10.6060606%; // 42/396
     margin: 0;
     max-width: 225px;
 
-    // Chevron
     i {
-      vertical-align: middle;
-      margin-left: 5px;
+      position: relative;
+      top: px-em(-3px);
+      left: px-em(2px);
     }
-
   }
 
-  // e.g. "Carl Zeiss"
-  strong {
+  .promo-title .title {
     color: $white;
   }
 
@@ -430,20 +434,21 @@ $offsetFromMiddle: px-em(45px);
     bottom: 10.3225806%; // 32/310
     left: 10.6060606%; // 42/396
     margin: 0;
-
-    span {
-      color: $white;
-    }
   }
 
   // e.g.  "22"
   .text-count .number {
-    font-size: $font_13_16;
+    // font-size: $font_13_16;
   }
 
   // e.g.  "LENSES"
   .text-count .text {
-    font-size: $font_12_16;
+    // font-size: $font_12_16;
+  }
+
+  // Override default label colors
+  .text-count span {
+    color: $white;
   }
 
   // ::Different styles go here::
@@ -472,12 +477,12 @@ $offsetFromMiddle: px-em(45px);
     left: 0;
     padding: 1.5625em 1em;
 
-    .text-promo-title,
+    .promo-title,
     .text-count {
       position: static;
     }
 
-    .text-promo-title {
+    .promo-title {
       max-width: none;
       font-size: $font_22_16;
       margin: 0 0 0.825em;
@@ -666,14 +671,17 @@ $offsetFromMiddle: px-em(45px);
     }
   }
 
+  // Product name, etc
   .product-content {
-
 
     .price-prefix {
       margin-bottom: 0;
       display: block;
     }
+  }
 
+  .favorite-holder i {
+    font-size: .6875em;
   }
 
 }
@@ -1058,8 +1066,8 @@ $offsetFromMiddle: px-em(45px);
 
   // Has to be pixels because of ghost-centering
   .holder-for-icon {
-    height: 30px;
-    margin-bottom: 16px;
+    height: 28px;
+    margin-bottom: 12px;
 
     i {
       color: $gray40;
@@ -1075,50 +1083,55 @@ $offsetFromMiddle: px-em(45px);
 }
 
 // 980-1199
-@media (min-width: px-em(980px)) and (max-width: px-em(1199px) ) {
+// @media (min-width: px-em(980px)) and (max-width: px-em(1199px) ) {
+//   .gallery-tabs {
+
+//     $tabWidth: px-em(114px);
+//     $tabHeight: px-em(84px);
+//     $iconMarginBottom: 12px;
+//     $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
+//     .tabs {
+//       height: $tabHeight;
+//     }
+
+//     .tab {
+//       @include wh( $tabWidth, $tabHeight );
+//     }
+
+//     .holder-for-icon {
+//       margin-bottom: $iconMarginBottom;
+//     }
+
+//     .tab-nav {
+//       top: $tabNavTop;
+//     }
+//   }
+// }
+
+// @media ( max-width: $fourColMax ) {
+// 768-979
+@media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
+
   .gallery-tabs {
 
     $tabWidth: px-em(114px);
     $tabHeight: px-em(84px);
-    $iconMarginBottom: 12px;
-    $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
+    $iconMarginBottom: 10px;
+    $tabNavTop: ($tabHeight - $navPaddleHeight980) / 2;
     .tabs {
       height: $tabHeight;
     }
 
     .tab {
       @include wh( $tabWidth, $tabHeight );
+
+      i {
+        font-size: 2.6em;
+      }
     }
 
     .holder-for-icon {
-      margin-bottom: $iconMarginBottom;
-    }
-
-    .tab-nav {
-      top: $tabNavTop;
-    }
-  }
-}
-
-// 768-979
-// @media ( min-width: $fourColMin ) and ( max-width: $fourColMax ) {
-@media ( max-width: $fourColMax ) {
-
-  .gallery-tabs {
-
-    $tabWidth: px-em(88px);
-    $tabHeight: px-em(71px);
-    $iconMarginBottom: 9px;
-    $tabNavTop: ($tabHeight - $navPaddleHeight) / 2;
-    .tabs {
-      height: $tabHeight;
-    }
-
-    .tab {
-      @include wh( $tabWidth, $tabHeight );
-    }
-
-    .holder-for-icon {
+      height: 26px;
       margin-bottom: $iconMarginBottom;
     }
 
@@ -1129,15 +1142,36 @@ $offsetFromMiddle: px-em(45px);
 }
 
 // 0-767
-// @media (max-width: $threeColMax) {
+@media (max-width: $threeColMax) {
 
-//   .gallery-tabs {
+  .gallery-tabs {
 
-//     .tabs {
-//       @include wh( px-em(88px), px-em(71px) );
-//     }
-//   }
-// }
+    $tabWidth: px-em(88px);
+    $tabHeight: px-em(71px);
+    $iconMarginBottom: 6px;
+    $tabNavTop: ($tabHeight - $navPaddleHeight980) / 2;
+    .tabs {
+      height: $tabHeight;
+    }
+
+    .tab {
+      @include wh( $tabWidth, $tabHeight );
+
+      i {
+        font-size: 2.2em;
+      }
+    }
+
+    .holder-for-icon {
+      height: 20px;
+      margin-bottom: $iconMarginBottom;
+    }
+
+    .tab-nav {
+      top: $tabNavTop;
+    }
+  }
+}
 
 
 

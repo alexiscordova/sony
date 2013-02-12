@@ -59,6 +59,8 @@
       columnWidth: self.shuffleColumns,
       gutterWidth: self.shuffleGutters,
       showInitialTransition: false,
+      hideLayoutWithFade: true,
+      sequentialFadeDelay: 60,
       buffer: 5
     });
 
@@ -129,6 +131,9 @@
       }
 
       self.enabled = true;
+
+      // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
+      self.onResize();
     },
 
     disable : function() {
@@ -529,8 +534,14 @@
       function( newElements ) {
         var $newElements = $( newElements ).addClass('via-ajax');
 
+        // Bump up the delay so it's more noticeable.
+        self.shuffle.sequentialFadeDelay = 250;
+
         // Get shuffle to append and show the items for us
         self.$grid.shuffle( 'appended', $newElements );
+
+        // Now put it back
+        self.shuffle.sequentialFadeDelay = 60;
 
         // Show new product count
         self.$productCount.text( self.$grid.data('shuffle').visibleItems );
@@ -853,8 +864,8 @@
 
     // If there is a range control in this element and it's in need of an update
     maybeResetRange : function() {
-      var th = this,
-          $rangeControl = th.$container.find('.range-control');
+      var self = this,
+          $rangeControl = self.$container.find('.range-control');
       if ( $rangeControl.length > 0 && $rangeControl.data('rangeControl').isHidden ) {
         $rangeControl.rangeControl('reset');
         return true;
@@ -951,6 +962,7 @@
           }
         });
         self.sorted = true;
+
       } else if ( !isTablet && self.sorted ) {
         self.$grid.shuffle('sort', {});
         self.sorted = false;
@@ -1087,26 +1099,39 @@
     },
 
     onFiltersShown : function( evt ) {
+      var self = this,
+          didReset = self.maybeResetRange(evt);
+
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
-      var didReset = this.maybeResetRange(evt);
+
       if ( !didReset ) {
-        this.filter();
+        self.filter();
       }
+
+      // Scroll the window so we can see what's happening with the filtered items
+      $.simplescroll({
+        offset: 24, // margin-top of the gallery is 1.5em (24px)
+        target: self.$container
+      });
     },
 
     onShuffleLoading : function() {
       var $div = $('<div>', { 'class' : 'gallery-loader text-center' }),
           $img = $('<img>', { src: this.loadingGif });
       $div.append($img);
-      $div.insertBefore(this.$grid);
+      $div.insertBefore( this.$grid );
     },
 
     onShuffleDone : function() {
       var self = this;
-      setTimeout(function() {
-        self.$container.find('.gallery-loader').remove();
-        self.$container.addClass('in');
-      }, 250);
+      self.$container.find('.gallery-loader').remove();
+
+      // Fade in the gallery if it isn't already
+      if ( !self.$container.hasClass('in') ) {
+        setTimeout(function() {
+            self.$container.addClass('in');
+        }, 250);
+      }
     },
 
     onCompareLaunch : function() {
@@ -1274,16 +1299,13 @@
           if ( target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' ) {
             e.preventDefault();
           }
-        },
-        onScrollStart : function() {
 
           // Add `grabbing` class
           if ( !self.$compareItemsContainer.hasClass('grabbing') ) {
             self.$compareItemsContainer.addClass('grabbing');
           }
         },
-        onScrollEnd : function() {
-
+        onBeforeScrollEnd : function() {
           // Remove `grabbing` class
           if ( self.$compareItemsContainer.hasClass('grabbing') ) {
             self.$compareItemsContainer.removeClass('grabbing');
@@ -1306,15 +1328,13 @@
         vScroll: false,
         // snap: '.compare-item',
         snap: self.compareState.snap, // this is required for iscroll.scrollToPage
-        onScrollStart : function() {
-
+        onBeforeScrollStart : function() {
           // Add `grabbing` class
           if ( !self.$compareItemsContainer.hasClass('grabbing') ) {
             self.$compareItemsContainer.addClass('grabbing');
           }
         },
-        onScrollEnd : function() {
-
+        onBeforeScrollEnd : function() {
           // Remove `grabbing` class
           if ( self.$compareItemsContainer.hasClass('grabbing') ) {
             self.$compareItemsContainer.removeClass('grabbing');

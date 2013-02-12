@@ -45,7 +45,7 @@ Date: 01/24/13</p>
 
       self._onResize( <span class="literal">true</span> );
 
-      self.$window.on(<span class="string">'resize'</span>, $.debounce(<span class="number">250</span>, $.proxy( self._onResize, self )));
+      self.$window.on(<span class="string">'resize'</span>, $.debounce(<span class="number">350</span>, $.proxy( self._onResize, self )));
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Push to the end of the stack cause it's not needed immediately.</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
         self._initStickyNav();
@@ -55,10 +55,14 @@ Date: 01/24/13</p>
     _initFeatures : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      self.$specTiles.children().eq(<span class="number">0</span>).attr(<span class="string">'data-delay-order'</span>, <span class="number">1</span>);
+      self.$specTiles.children().eq(<span class="number">3</span>).attr(<span class="string">'data-delay-order'</span>, <span class="number">2</span>);
+
       self.$specTiles.shuffle({
         itemSelector: <span class="string">'.spec-tile'</span>,
         easing: Exports.shuffleEasing,
         speed: Exports.shuffleSpeed,
+        hideLayoutWithFade: <span class="literal">true</span>,
         columnWidth: <span class="keyword">function</span>( containerWidth ) {
           <span class="keyword">var</span> column = containerWidth;
 
