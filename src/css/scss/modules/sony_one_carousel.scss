@@ -169,7 +169,30 @@
     background-repeat: no-repeat;
     cursor: pointer;
 
+    &:before {
+      @include transition-property(opacity);
+      @include transition-duration(500ms);
+      position: absolute;
+      left: 0;
+      top: 0;
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: rgba($white, 0.05);
+      opacity: 0;
+    }
 
+    &:hover {
+
+      &:before {
+        opacity: 1;
+      }
+
+      .headline a::after {
+        margin-left: px-em(5px);
+      }
+    }
 
     &.content-8,
     &.content-6 {
@@ -298,6 +321,8 @@
             line-height: inherit;
 
             &:after {
+              @include transition-property(margin);
+              @include transition-duration(500ms);
               position: relative;
               top: -0.2em;
               left: 0.2em;
