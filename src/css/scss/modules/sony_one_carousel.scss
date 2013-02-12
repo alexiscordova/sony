@@ -1,5 +1,6 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
+@import "compass/css3/transform";
 
 @mixin onesonyTypeBlockWidths($baseWidth: 400px) {
 
@@ -170,8 +171,6 @@
     cursor: pointer;
 
     &:before {
-      @include transition-property(opacity);
-      @include transition-duration(500ms);
       position: absolute;
       left: 0;
       top: 0;
@@ -189,7 +188,7 @@
         opacity: 1;
       }
 
-      .headline a::after {
+      .headline i {
         margin-left: px-em(5px);
       }
     }
@@ -320,15 +319,12 @@
           }
 
           a {
-            line-height: inherit;
-
-            &:after {
-              @include transition-property(margin);
-              @include transition-duration(500ms);
+            i {
+              @include transition(margin $transitionFast ease-in);
               position: relative;
-              top: -0.2em;
-              left: 0.2em;
-              font-size: 0.7em;
+              top: -0.25em;
+              left: 0.1em;
+              font-size: 0.6em;
             }
           }
         }
