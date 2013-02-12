@@ -58,7 +58,7 @@ $fourColMax: px-em(979px);
   color: $gray40;
 
   li {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 }
 
@@ -93,8 +93,8 @@ $fourColMax: px-em(979px);
   margin-top: -3.125em;
 }
 
-.feature-gallery-title {
-  margin: 0;
+.featured-gallery-title {
+  margin-bottom: 0;
 }
 
 
@@ -359,6 +359,13 @@ $offsetFromMiddle: px-em(40px);
     left: -webkit-calc(50% - #{$offsetFromMiddle + .125em});
     left: calc(50% - #{$offsetFromMiddle + .125em});
   }
+
+  i {
+    position: relative;
+    top: -1px;
+    font-size: 16px;
+    padding-left: 2px;
+  }
 }
 
 
@@ -484,8 +491,12 @@ $offsetFromMiddle: px-em(40px);
 
     .promo-title {
       max-width: none;
-      font-size: $font_22_16;
       margin: 0 0 0.825em;
+    }
+
+    .promo-title .title,
+    .promo-title .emphasis {
+      font-size: $font_22_16;
     }
   }
 }
@@ -684,6 +695,11 @@ $offsetFromMiddle: px-em(40px);
     font-size: .6875em;
   }
 
+  .gallery-item .label {
+    right: auto;
+    left: 0;
+  }
+
 }
 
 // 568 - 640
@@ -818,6 +834,11 @@ $offsetFromMiddle: px-em(40px);
 .sort-options .native-dropdown {
   display: none;
   margin-bottom: 0;
+
+  -webkit-appearance: button;
+  padding: 0 0 0 12px;
+  border-radius: 0;
+  cursor: pointer;
 }
 
 // Filter labels ( active filters )
@@ -843,6 +864,7 @@ $offsetFromMiddle: px-em(40px);
   position: relative;
   margin-top: 1.375em;
   margin-bottom: 1.375em;
+  max-width: 17.625em; // 282 per Val
 
 
   .filter-label {
@@ -955,7 +977,7 @@ $offsetFromMiddle: px-em(40px);
 @media (max-width: $threeColMax) {
 
   .sort-options .native-dropdown {
-    display: initial;
+    display: inline-block;
     vertical-align: baseline;
   }
 
@@ -1012,6 +1034,7 @@ $offsetFromMiddle: px-em(40px);
       width: 48%;
     }
   }
+
 }
 
 

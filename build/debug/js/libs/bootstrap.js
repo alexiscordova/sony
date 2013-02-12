@@ -1086,6 +1086,7 @@
           .appendTo(inside ? this.$element : document.body)
 
         pos = this.getPosition(inside)
+        console.log(pos);
 
         actualWidth = $tip[0].offsetWidth
         actualHeight = $tip[0].offsetHeight

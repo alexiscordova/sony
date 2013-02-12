@@ -30,7 +30,7 @@
 
   &:hover, &:active, &:focus, &.active{
     color: $btnText;
-    text-decoration: none;    
+    text-decoration: none;
   }
   &:hover {
     background-color: $btnBackgroundHover;
@@ -94,14 +94,13 @@
   border-color: transparent;
   border-color: rgba($gray60, 0);
   background: $white;
+  color: $defaultTextColor;
   @include box-shadow(0 1px 0 $gray60);
   @include transition(box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
 
-  // .t6
+  // .t6 and .t6-light
   // --------------
-  text-rendering: optimizeLegibility; // disable this if we have performance issues.
-  color: $defaultTextColor;
-  @include fontMedium;
+  @include fontRegular;
   @include px-em--font-size--line-height(18,26);
   // --------------
 

@@ -48,35 +48,9 @@
 
     self.setColumnMode();
 
-    self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
-    self.$grid.on('done.shuffle', $.proxy( self.onShuffleDone, self ));
-
-    // instantiate shuffle
-    self.$grid.shuffle({
-      itemSelector: '.gallery-item',
-      speed: self.shuffleSpeed,
-      easing: self.shuffleEasing,
-      columnWidth: self.shuffleColumns,
-      gutterWidth: self.shuffleGutters,
-      showInitialTransition: false,
-      hideLayoutWithFade: true,
-      sequentialFadeDelay: 60,
-      buffer: 5
-    });
-
-    self.shuffle = self.$grid.data('shuffle');
+    self.initShuffle();
 
     self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
-
-    // Displays active filters on `filter`
-    self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ));
-
-    // Things moved around and could possibly be in the viewport
-    // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
-    self.$grid.on('layout.shuffle', window.iQ.update );
-
-    // Sort elements by data-priority attribute
-    self.sortByPriority();
 
     // Infinite scroll?
     if ( self.hasInfiniteScroll ) {
@@ -134,6 +108,10 @@
 
       // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
       self.onResize();
+
+      if ( self.hasCarousels ) {
+        self.$carousels.scrollerModule('refresh');
+      }
     },
 
     disable : function() {
@@ -438,6 +416,49 @@
       self.filter();
     },
 
+    initShuffle : function() {
+      var self = this;
+
+      self.$grid.on('loading.shuffle', $.proxy( self.onShuffleLoading, self ));
+      self.$grid.on('done.shuffle', $.proxy( self.onShuffleDone, self ));
+
+      // instantiate shuffle
+      self.$grid.shuffle({
+        itemSelector: '.gallery-item',
+        speed: self.shuffleSpeed,
+        easing: self.shuffleEasing,
+        columnWidth: self.shuffleColumns,
+        gutterWidth: self.shuffleGutters,
+        showInitialTransition: false,
+        hideLayoutWithFade: true,
+        sequentialFadeDelay: 60,
+        buffer: 5
+      });
+
+      self.shuffle = self.$grid.data('shuffle');
+
+      var debouncedShuffleLayout = $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) );
+      self.$grid.find('.iq-img').on('imageLoaded', debouncedShuffleLayout );
+
+
+      // Displays active filters on `filter`
+      self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ));
+
+      // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
+      self.$grid.on('layout.shuffle', function() {
+        // Things moved around and could possibly be in the viewport
+        window.iQ.update();
+
+        // The position of the nav has changed, update it in infinitescroll
+        if ( self.hasInfiniteScroll ) {
+          self.$grid.infinitescroll('updateNavLocation');
+        }
+      });
+
+      // Sort elements by data-priority attribute
+      self.sortByPriority();
+    },
+
     initFilters : function() {
       var self = this;
 
@@ -580,6 +601,11 @@
       self.$favorites.on('click', $.proxy( self.onFavorite, self ));
 
       self.$container.find('.js-favorite').tooltip({
+        placement: 'top',
+        title: function() {
+          var $jsFavorite = $(this);
+          return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
+        },
         template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
       });
     },
@@ -1050,6 +1076,13 @@
           }
         }
 
+        // Tell infinite scroll to update where it thinks it's target it
+        if ( self.hasInfiniteScroll ) {
+          setTimeout(function() {
+            self.$grid.infinitescroll('updateNavLocation');
+          }, 25);
+        }
+
         // Go home detailed gallery, you're drunk
         return;
       }
@@ -1073,8 +1106,22 @@
       self.sortByPriority();
     },
 
+    getFavoriteContent : function( $jsFavorite, isActive ) {
+      return isActive ?
+            $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
+            $jsFavorite.data('defaultTitle');
+    },
+
     onFavorite : function( evt ) {
-      $(evt.delegateTarget).toggleClass('active');
+      var self = this,
+          $jsFavorite = $(evt.delegateTarget),
+          isAdding = !$jsFavorite.hasClass('active'),
+          content = self.getFavoriteContent( $jsFavorite, isAdding );
+      $jsFavorite.toggleClass('active');
+
+      $('.gallery-tooltip .tooltip-inner')
+        .html( content )
+        .tooltip('show');
 
       // Stop event from bubbling to <a> tag
       evt.preventDefault();
@@ -2060,7 +2107,7 @@
     sorted: false,
     isTouch: !!( 'ontouchstart' in window ),
     isiPhone: (/iphone|ipod/gi).test(navigator.appVersion),
-    loadingGif: 'img/loader.gif',
+    loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
     valEnd : Modernizr.csstransforms ? 'px)' : 'px',
