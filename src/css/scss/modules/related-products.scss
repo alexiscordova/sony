@@ -8,8 +8,13 @@
 }
 
 
-.container-tabbed {
+.rp-container-tabbed {
   position: relative;
+
+  .related-products {
+    position: absolute;
+
+  } 
 }
 
 .rp-title {
@@ -368,6 +373,12 @@
           cursor: none;
         }
 
+        &.normal {
+          .label.label-success {
+            display:none;
+          }
+        }
+
         min-height: 250px;
 
         overflow: inherit;
@@ -413,6 +424,7 @@
       }
 
       .gallery-item.plate .text-promo-title {
+        position: absolute;
         font-size: inherit;
         max-width: 310px; 
         top:13%;
@@ -839,7 +851,7 @@
       @include opacity(40);
       background-repeat: no-repeat;
       position: absolute;
-      top: 50%;
+      top: 45%;
       margin: -100px 0px 0px 14px;
       cursor: pointer;
       font-size:1.4em;
@@ -879,6 +891,7 @@
         margin: -100px 0;
         width: 40px;
         height: 70px;
+        top: 48%;
         font-size: 1.0em;
       }
 

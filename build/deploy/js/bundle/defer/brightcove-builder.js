@@ -10,7 +10,7 @@
 // * **Author:** Pierre Paquet
 // * **Dependencies:**  jQuery 1.7+, Brightcove
 
-;(function( $ ) {
+(function( $ ) {
   
   'use strict';
 

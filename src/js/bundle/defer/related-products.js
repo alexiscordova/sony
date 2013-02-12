@@ -91,7 +91,7 @@
       self.$galleryItems         = self.$el.find('.gallery-item');
       self.$container            = self.$el.find('.rp-container').eq(0);
       self.$tabbedContainer      = self.$el.parent();
-      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('container-tabbed');
+      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
 
       self.$bulletNav            = $();
       self.$doc                  = $(document);
@@ -259,7 +259,11 @@
             column = containerWidth;
           }
 
-          //console.log('Shuffling Columns returning  TM »',column);
+          if(column === 0){
+            column = 0.001;
+          }
+
+          console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -746,6 +750,12 @@
 
             window.iQ.update();
 
+            if(self.scrollerModule !== null){
+
+              self.scrollerModule.destroy();
+              self.scrollerModule = null;
+
+            }
             //is this where i break?
             self.ev.trigger('onmobilebreakpoint.rp');
 
@@ -839,7 +849,7 @@
 
         self.dragSuccess = false;
 
-        console.log('drag start' , e.type);
+        console.log('drag start' , e.type , e.which);
 
         //self.setGrabCursor();//toggle grabber
 
@@ -856,6 +866,10 @@
         }else{
           point = e;
           e.preventDefault();
+
+          if(e.which !== 1){
+            return;
+          }
         }
 
         self.isDragging         = true;
@@ -1352,13 +1366,13 @@
               console.log('UPdateing Shuffle instance »', shfflInst);
               shfflInst.update();
 
-              setTimeout(function(){
+/*              setTimeout(function(){
                 self.$el.css({
                   'opacity' : 1 ,
                   'visibility' : 'visible'
                 });
 
-              } , 50);
+              } , 50);*/
             });
           } , 250);
         }));
@@ -1573,7 +1587,7 @@ $(function(){
     module instantiate the related products that its bound to
   */
 
-  if($('.container-tabbed').length === 0){
+  if($('.rp-container-tabbed').length === 0){
     return;
   }
 
@@ -1602,6 +1616,10 @@ $(function(){
   $currentPanel.css({
     'z-index' : 1
   });
+
+
+
+  console.log('Panels »', $productPanels);
 
   $tabs.eq(0).addClass('active');
 

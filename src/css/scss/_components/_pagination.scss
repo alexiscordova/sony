@@ -74,6 +74,13 @@ $bulletMargin: px-em(5px);
 
   i {
     vertical-align: middle;
+    color: $white;
+    margin-left: .0625em;
+    margin-top: 0.125em;
+  }
+
+  i.fonticon-10-chevron-left {
+    margin-left: -0.625em;
   }
 }
 
@@ -84,6 +91,15 @@ $bulletMargin: px-em(5px);
 
 .paddle-trigger:hover .nav-paddle {
   @include opacity(100);
+}
+
+
+@media (max-width: px-em(979px) ) {
+
+  .nav-paddle {
+    width: $navPaddleWidth980;
+    height: $navPaddleHeight980;
+  }
 }
 
 

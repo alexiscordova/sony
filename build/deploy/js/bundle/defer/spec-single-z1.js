@@ -49,7 +49,7 @@
 
       self._onResize( true );
 
-      self.$window.on('resize', $.debounce(250, $.proxy( self._onResize, self )));
+      self.$window.on('resize', $.debounce(350, $.proxy( self._onResize, self )));
 
       // Push to the end of the stack cause it's not needed immediately.
       setTimeout(function() {
@@ -60,10 +60,14 @@
     _initFeatures : function() {
       var self = this;
 
+      self.$specTiles.children().eq(0).attr('data-delay-order', 1);
+      self.$specTiles.children().eq(3).attr('data-delay-order', 2);
+
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
         easing: Exports.shuffleEasing,
         speed: Exports.shuffleSpeed,
+        hideLayoutWithFade: true,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 

@@ -11,7 +11,7 @@
   display: inline-block;
   @include ie7-inline-block();
   @include border-radius(1px);
-  padding: $btnPadding;
+  padding: 10px 24px 10px;
   margin-bottom: 0; // For input.btn
 
   font-family: $sansFontFamilyMedium;
@@ -64,10 +64,9 @@
 // --------------------------------------------------
 
 .btn-special {
-  width: 180px;
-  padding: $btnSpecialPadding;
+  padding: 15px 24px 14px;
   font-family: $sansFontFamilyMedium;
-  font-size: 1.0em; /* 15px/15px */ //inside of <p> or <td>
+  font-size: px-em(15);
   border: 1px solid $btnSpecialBackground;
   background: $btnSpecialBackground;
 
@@ -89,7 +88,7 @@
 .btn-square {
   position: relative;
   @include size( 58px, 65px );
-  padding: $btnSquarePadding;
+  padding: 16px 0 16px;
   border-radius: 0;
   border-color: transparent;
   border-color: rgba($gray60, 0);
@@ -170,7 +169,7 @@
 // Alt
 // -------------------------
 .btn-alt {
-  padding: $btnAltPadding;
+  padding: 11px 24px 10px;
   font-family: $sansFontFamilyMedium;
   border: 1px solid $btnAltBackground;
   background: $btnAltBackground;
@@ -185,12 +184,6 @@
   &.disabled:hover,
   &[disabled]:hover {
     background: $btnAltBackground;
-  }
-
-  &.btn-small {
-    width: 138px;
-    padding: $btnAltSmallPadding;
-    font-size: 0.73333333333em; /* 11px/15px */ //inside of <p> or <td>
   }
 }
 
@@ -255,39 +248,42 @@
 
 // Large
 .btn-large {
-  padding: $btnLargePadding;
-  font-size: 1.2em;
+  padding: 10px 24px 9px;
+  font-size: px-em(15);
   line-height: $baseLineHeight * 1.1;
   &.btn-special{
-    padding: $btnSpecialLargePadding;
+    padding: 16px 24px 13px;
   }
 }
 .btn-large [class^="icon-"] {
   margin-top: 2px;
 }
 
+
 // Small
 .btn-small {
-  padding: $btnSmallPadding;
-  font-size: 0.8em;
+  padding: 10px 24px 9px;
+  font-size: px-em(12);
   line-height: $baseLineHeight * 0.75;
   &.btn-special{
-    padding: $btnSpecialSmallPadding;
+    padding: 14px 24px 13px;
   }
 }
 .btn-small [class^="icon-"] {
   margin-top: 0px;
 }
 
+
 // Mini
 .btn-mini {
-  padding: $btnMiniPadding;
-  font-size: 0.75em;
+  padding: 10px 24px 9px;
+  font-size: px-em(11);
   line-height: $baseLineHeight * 0.6;
   &.btn-special{
-    padding: $btnSpecialMiniPadding;
+    padding: 13px 24px 11px;
   }
 }
+
 
 
 // Block button

@@ -9,14 +9,25 @@ doctype 5
 l = {"locals":locals}
 head
 	!{partial('includes/head.html.jade', l)}
-	
+
 body
     #page-wrap-outer.page-wrap-outer
-      #page-wrap-inner.page-wrap-inner        
-        
+      #page-wrap-inner.page-wrap-inner
+
         !{partial('modules/global-header.html.jade', l)}
-        #main(role='main') 
-    		        e = {"locals":locals, "data":data("primary-tout-p1-d7/homepage.json")}        !{partial("modules/primary-tout-p1-d7.html.jade", e)}        e = {"locals":locals, "data":data("one-sony-tout-carousel-s2/default.json")}        !{partial("modules/one-sony-tout-carousel-s2.html.jade", e)}        e = {"locals":locals, "data":data("related-products-g1/homepage.json")}        !{partial("modules/related-products-g1.html.jade", e)}        e = {"locals":locals, "data":data("tertiary-t1-t5/homepage-en.json")}        !{partial("modules/tertiary-t1-t5.html.jade", e)}
+        #main(role='main')
+
+        e = {"locals":locals, "data":data("primary-tout-p1-d7/homepage.json")}
+        !{partial("modules/primary-tout-p1-d7.html.jade", e)}
+
+        e = {"locals":locals, "data":data("one-sony-tout-carousel-s2/demo.json")}
+        !{partial("modules/one-sony-tout-carousel-s2.html.jade", e)}
+
+        e = {"locals":locals, "data":data("related-products-g1/homepage.json")}
+        !{partial("modules/related-products-g1.html.jade", e)}
+
+        e = {"locals":locals, "data":data("tertiary-t1-t5/homepage-en.json")}
+        !{partial("modules/tertiary-t1-t5.html.jade", e)}
     	!{partial('modules/global-footer.html.jade', l)}
-  
+
     !{partial('includes/foot.html.jade', l)}
