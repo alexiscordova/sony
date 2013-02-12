@@ -8,6 +8,7 @@ $desktopMin: px-em(980);
 
 .primary-tout{
   @include dttb;
+  @include theme-bg-colors;
   @include theme-btn-colors;
   
   h1{
@@ -17,6 +18,8 @@ $desktopMin: px-em(980);
   position:relative;
   
   .hero-image{
+    height:600px;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
   }
@@ -37,7 +40,8 @@ $desktopMin: px-em(980);
     top:0;
     right:0;
     left:0;
-    >div,
+    .grid,
+    .grid > div,
     .table-center-wrap{
       height:100%;
     }
@@ -70,7 +74,6 @@ $desktopMin: px-em(980);
   
   &.homepage{
     .hero-image{
-      background-size: cover;
       height:640px;
     } 
     .inner{
@@ -95,7 +98,6 @@ $desktopMin: px-em(980);
   
   &.product-intro-plate{
     .hero-image{
-      background-size: cover;
       height:610px;
     }
     .dark-text-light-box,
@@ -199,7 +201,7 @@ $desktopMin: px-em(980);
     
     &.title-plate{
       .hero-image{
-        height:300px;
+        height:240px;
       } 
     }
   }
