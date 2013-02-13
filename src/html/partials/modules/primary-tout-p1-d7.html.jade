@@ -97,7 +97,7 @@ if data.theme
           .container.grid.no-grid-at-767
             .span6
               +bodytext(data, "hidden-phone")
-            .span3.offset3.clearfix
+            .span4.offset2.clearfix
               +links(data, "pull-right")
     else
       +boxlayout
@@ -105,7 +105,7 @@ if data.theme
         +header
         +bodytext(data, "hidden-phone")
         +links
-  else if data.mode == "primary-tout"
+  else if data.mode == "default"
     +boxlayout
       +eyebrow
       +header
