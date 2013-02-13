@@ -332,25 +332,35 @@
     _onAnimationEnd : function( iscroll ) {
       var self = this;
 
-      self.currentPage = iscroll.currPageX;
+      console.log( 'self.$el »' , self.$el);
+      // console.log( 'self.scroller »' , self.scroller);  
+      // console.log( 'self.$el[0] »' , self.$el[0]);
 
-      // Show or hide paddles based on our current page
-      self._showHideNavs( self.currentPage, iscroll.pagesX.length - 1 );
+      if ( iscroll.pagesX && iscroll.pagesX.length ){
+        // console.log( 'iscroll »' , iscroll);
+        // console.log( 'iscroll.pagesX.length »' , iscroll.pagesX);
 
-      // Update nav bullets
-      if ( self.$pagination ) {
-        self.$pagination
-          .children()
-            .eq( self.currentPage )
-              .addClass('bullet-selected')
-            .siblings()
-              .removeClass('bullet-selected');
-      }
+        self.currentPage = iscroll.currPageX;
 
-      // If they've defined a callback as well, call it
-      // We saved their function to this reference so we could have our own onAnimationEnd
-      if ( self.onAnimationEnd ) {
-        self.onAnimationEnd( iscroll );
+        // Show or hide paddles based on our current page
+        self._showHideNavs( self.currentPage, iscroll.pagesX.length - 1 );
+
+        // Update nav bullets
+        if ( self.$pagination ) {
+          self.$pagination
+            .children()
+              .eq( self.currentPage )
+                .addClass('bullet-selected')
+              .siblings()
+                .removeClass('bullet-selected');
+        }
+
+        // If they've defined a callback as well, call it
+        // We saved their function to this reference so we could have our own onAnimationEnd
+        if ( self.onAnimationEnd ) {
+          self.onAnimationEnd( iscroll );
+        }
+        
       }
     },
 
