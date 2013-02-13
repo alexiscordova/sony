@@ -9,11 +9,6 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-//TODO: put these in better spot, shouldn't go into production
-.tcc-layouts{
-	padding:40px 20px;
-}
-
 .tcc-wrapper{
 	position: relative;
   overflow:auto;
@@ -58,22 +53,22 @@
 			opacity:1.0;
 		} // end img
 
+		// certain tertiary content modules have hover states
+		div#{createSelectorFromData("article","default")}:hover,
+		div#{createSelectorFromData("article","featured")}:hover,
+		div#{createSelectorFromData("article","news")}:hover,
+		div#{createSelectorFromData("article","event")}:hover,
+		div#{createSelectorFromData("sonys-voice","instagram")}:hover,
+		div#{createSelectorFromData("flickr","default")}:hover{		
+			img{
+				@include transition(opacity, $transitionFast);
+				opacity:0.85;
+			} // end img
+		} // end hovers
+
 	} // end .tcc-content-module
 
-	// certain tertiary content modules have hover states
-	div#{createSelectorFromData("article","default")}:hover,
-	div#{createSelectorFromData("article","featured")}:hover,
-	div#{createSelectorFromData("article","news")}:hover,
-	div#{createSelectorFromData("article","event")}:hover,
-	div#{createSelectorFromData("sonys-voice","instagram")}:hover,
-	div#{createSelectorFromData("flickr","default")}:hover{		
-		img{
-			@include transition(opacity, $transitionFast);
-			opacity:0.85;
-		} // end img
-
-	} // end article hovers
-
+	// TYPE: ARTICLE
 	.article{	
 
 		position: relative;
@@ -97,8 +92,8 @@
 			color:$titleBlack;			
 		} // end t6
 
-		// SPECIFIC TO CONTENT TYPE
-		// 
+
+
 		&.default{
 		
 			.img-container{
@@ -174,11 +169,7 @@
 	    	background-color:$gray10;
         text-align: left;
         opacity:0.95;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width:100%;
-        padding: px-em(30px); //8% 12%;
+       
 
 	    	.t4{
 	    		color:$white;
@@ -190,40 +181,18 @@
 
 	} // end .article 
 
+	// TYPE: USERS VOICE
 	.users-voice{
-
 		text-align: left;
-
-		&.expert-quote,
-		&.user-quote{
-			.credits{
-				//@include debug(1px, red);
-
-				.author{
-					//@include debug(1px, blue);
-					height:30px;
-
-					.p4{
-						margin:0;
-					} // end .p4
-
-					.handle,
-					.name{
-					  display: inline;
-					} // end .handle & .name
-
-					.name{
-					  padding-left: px-em(20px); ;
-					} // end .name
-
-				} // end author
-
-			} // end .credits
-		}
 
 		&.expert-quote{
 			background-color:$gray05;
 			opacity:0.95;
+			
+			.author{
+				display: inline;
+				margin:0;
+			} // end .author
 
 			.bq3{
 				
@@ -241,8 +210,8 @@
 				color:$linkBlue;	
 			} // end .name
 
-		} // end .expert-voice
-
+		} // end .expert-quote
+		
 		&.user-quote{
 			.title{
 			  color:$gray40;
@@ -251,11 +220,18 @@
 			.bq3{
 			  color:$secondarySlateDark;
 			} // end .bq3
-			
-		} // end .user-quote
+
+			.credits{
+				.handle,
+				.author{
+				  display: inline;
+				} // end .handle & .name
+
+			} // end .credits
+
+		} // end expert-quote & user-quote
 		
 		&.question{
-
       .bq3,
       .lt3,
       .answer-btn{
@@ -264,21 +240,14 @@
 
 			.credits{
 				background-color: $white;
-			}
+			} // end .credits
 
 		} // end .question
 
 	} // end .users-voice
 
+	// TYPE: SONYS VOICE
 	.sonys-voice{
-		//@include debug(1px, red);
-
-		.center-content{
-			height:252px;
-			width:100%;
-			//@include debug(1px, green);
-		}
-
 		.fonticon-10-twitter,
 		.fonticon-10-facebook,
 		.fonticon-instagram {
@@ -287,11 +256,11 @@
 
 		.fonticon-10-twitter{
 			color:$twitterColor;
-		}
+		} // end .fonticon-10-twitter
 
 		.fonticon-10-facebook{
 			color:$facebookColor;
-		}
+		} // end .fonticon-10-facebook
 
 		.meta{
 		  .user{
@@ -304,7 +273,7 @@
 
 		  .p4{
 		  	margin:0;
-		  }
+		  } // end p4
 
 		} // end .meta
 
@@ -315,15 +284,19 @@
 
 		} // end .twitter
 
-		
+		&.instagram{
+			table{
+			   background-color:rgba($gray50,0.3);
+			} // end table
+
+		} // end &.instagram
+	
 	} // end sonys-voice
 
-
+	// TYPE: FLICKR
 	.flickr{
-
 		// user and title
 		.meta{
-			margin-top:8px;
 
 			.p4{
 				color:$gray20;
@@ -331,9 +304,9 @@
 			
 		} // end meta
 
-	  .image-mat{
-		  background-color:$gray50;
-	  } //end .image-mat
+	  table{
+		  background-color:rgba($gray50,0.3);
+	  } //end table
 
 	} // end .flickr
 

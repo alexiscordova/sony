@@ -35,13 +35,16 @@
 
     // Compare modal
     self.$compareBtn = self.$container.find('.js-compare-toggle');
-    self.hasCompareModal = self.$compareBtn.length > 0;
     self.$compareTool = $('#compare-tool');
 
-    // Other vars
+    // What do we have here?
+    self.hasCompareModal = self.$compareBtn.length > 0;
     self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
     self.hasFilters = self.$filterOpts.length > 0;
+    self.hasSorting = self.$sortBtns.length > 0;
     self.hasCarousels = self.$carousels.length > 0;
+
+    // Other vars
     self.windowSize = self.$window.width();
 
     self.$container.addClass('gallery-' + self.mode);
@@ -60,6 +63,10 @@
     // Initialize filter dictionaries to keep track of everything
     if ( self.hasFilters ) {
       self.initFilters();
+    }
+
+    if ( self.hasSorting ) {
+      self.initSorting();
     }
 
     self.initSwatches();
@@ -511,10 +518,6 @@
         self.realFilterTypes[ name ] = realType;
       });
 
-      // Show first dropdown as active
-      self.$sortBtns.first().parent().addClass('active');
-      self.currentSort = 0;
-
       // Init popovers
       self.$filterOpts.find('.js-popover-trigger').popover({
         placement: 'in top',
@@ -534,11 +537,24 @@
         .on('show', $.proxy( self.onFiltersShow, self ))
         .on('hide', $.proxy( self.onFiltersHide, self ));
 
+    },
+
+    initSorting : function() {
+      var self = this;
+
+      // Show first dropdown as active
+      self.$sortBtns.first().parent().addClass('active');
+      self.currentSort = 0;
+
       // Set up sorting ---- dropdowm
       self.$sortBtns.on('click',  $.proxy( self.sort, self ));
 
       // Set up sorting ---- select menu
       self.$sortSelect.on('change', $.proxy( self.sort, self ));
+
+      if ( !self.hasFilters ) {
+        self.$productCount.text( self.shuffle.$items.length );
+      }
     },
 
     initInfscr : function() {
@@ -2192,7 +2208,7 @@
 $(document).ready(function() {
 
   if ( $('.gallery').length > 0 ) {
-    console.profile();
+    // console.profile();
 
     // Initialize galleries
     $('.gallery').each(function() {
@@ -2220,7 +2236,7 @@ $(document).ready(function() {
     // which depends on how long the page takes to load (and if the browser has transitions)
     setTimeout(function() {
       $('.tab-pane:not(.active) .gallery').gallery('disable');
-      console.profileEnd();
+      // console.profileEnd();
     }, 500);
   }
 });

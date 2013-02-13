@@ -52,7 +52,7 @@ mixin colorSwatches( colors, isShowOnlyChild )
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
 mixin iQColorImages( colors )
-  if colors.length > 1
+  if colors && colors.length > 1
     each img in colors
       //- mixin iQImage( img, 'hidden', 'image' )
       img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
@@ -129,7 +129,7 @@ if data.view == "basic"
                 span.text.l3= data.count.text
         //- if data.button
         //-   a(class='btn btn-special' , href=data.button.link)= data.button.title
-    
+
 
       else
         .product-img
