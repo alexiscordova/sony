@@ -1345,7 +1345,7 @@ Remove scroll event</p>             </td>             <td class="code">         
         .find(<span class="string">'.compare-item-remove'</span>)
         .parent()
         .addBack()
-        .removeClass(<span class="string">'hide'</span>);
+        .removeClass(<span class="string">'hide faded no-width'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-169">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-169">&#182;</a>               </div>               <p>Disable reset button</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareReset.addClass(<span class="string">'disabled'</span>).removeClass(<span class="string">'active'</span>);
 
@@ -1360,22 +1360,36 @@ Remove scroll event</p>             </td>             <td class="code">         
 
     onCompareItemRemove : <span class="keyword">function</span>( evt ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          remaining;
+          remaining,
+          $compareItem = $(evt.target).closest(<span class="string">'.compare-item'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-173">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-173">&#182;</a>               </div>               <p>Hidet the column</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(evt.target).closest(<span class="string">'.compare-item'</span>).addClass(<span class="string">'hide'</span>);
+      <span class="function"><span class="keyword">function</span> <span class="title">afterHidden</span><span class="params">()</span> {</span>
+</pre></div>             </td>           </tr>                               <tr id="section-173">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-173">&#182;</a>               </div>               <p>Hide the column</p>             </td>             <td class="code">               <div class="highlight"><pre>        $compareItem.addClass(<span class="string">'hide'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-174">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-174">&#182;</a>               </div>               <p>Make sure we can press reset</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareReset.removeClass(<span class="string">'disabled'</span>).addClass(<span class="string">'active'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-174">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-174">&#182;</a>               </div>               <p>Make sure we can press reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$compareReset.removeClass(<span class="string">'disabled'</span>).addClass(<span class="string">'active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-175">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-175">&#182;</a>               </div>               <p>Get remaining</p>             </td>             <td class="code">               <div class="highlight"><pre>      remaining = self.$compareItems.not(<span class="string">'.hide'</span>).length;
+</pre></div>             </td>           </tr>                               <tr id="section-175">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-175">&#182;</a>               </div>               <p>Get remaining</p>             </td>             <td class="code">               <div class="highlight"><pre>        remaining = self.$compareItems.not(<span class="string">'.hide'</span>).length;
 
-</pre></div>             </td>           </tr>                               <tr id="section-176">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-176">&#182;</a>               </div>               <p>Set remaining text</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareCount.text( remaining );
+</pre></div>             </td>           </tr>                               <tr id="section-176">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-176">&#182;</a>               </div>               <p>Set remaining text</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$compareCount.text( remaining );
 
-</pre></div>             </td>           </tr>                               <tr id="section-177">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-177">&#182;</a>               </div>               <p>Hide close button if there are only 2 left</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( remaining &lt; <span class="number">3</span> ) {
-        self.$compareTool.find(<span class="string">'.compare-item-remove'</span>).addClass(<span class="string">'hide'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-177">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-177">&#182;</a>               </div>               <p>Hide close button if there are only 2 left</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( remaining &lt; <span class="number">3</span> ) {
+          self.$compareTool.find(<span class="string">'.compare-item-remove'</span>).addClass(<span class="string">'hide'</span>);
+        }
+
+        self.setCompareWidth();
+        self.innerScroller.refresh();
       }
 
-      self.setCompareWidth();
-      self.innerScroller.refresh();
+      <span class="keyword">if</span> ( Modernizr.csstransitions ) {
+        $compareItem
+          .addClass(<span class="string">'faded'</span>)
+          .one( $.support.transition.end, <span class="keyword">function</span>() {
+            $compareItem.addClass(<span class="string">'no-width'</span>)
+              .one( $.support.transition.end, afterHidden );
+          });
+      } <span class="keyword">else</span> {
+        afterHidden();
+      }
 
       <span class="keyword">return</span> self;
     },
@@ -1935,6 +1949,7 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
 $(document).ready(<span class="keyword">function</span>() {
 
   <span class="keyword">if</span> ( $(<span class="string">'.gallery'</span>).length &gt; <span class="number">0</span> ) {
+    console.profile();
 
 </pre></div>             </td>           </tr>                               <tr id="section-244">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-244">&#182;</a>               </div>               <p>Initialize galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.gallery'</span>).each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>);
@@ -1956,6 +1971,7 @@ $(document).ready(<span class="keyword">function</span>() {
 Using a timeout here because the tab shown event is triggered at the end of the transition,
 which depends on how long the page takes to load (and if the browser has transitions)</p>             </td>             <td class="code">               <div class="highlight"><pre>    setTimeout(<span class="keyword">function</span>() {
       $(<span class="string">'.tab-pane:not(.active) .gallery'</span>).gallery(<span class="string">'disable'</span>);
+      console.profileEnd();
     }, <span class="number">500</span>);
   }
 });

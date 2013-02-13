@@ -264,7 +264,7 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
       self.$tabsContainer.scrollerModule({
         contentSelector: <span class="string">'.tabs'</span>,
         itemElementSelector: <span class="string">'.tab'</span>,
-        mode: <span class="string">'paginate'</span>,
+        mode: <span class="string">'free'</span>,
         nextSelector: self.$navNext,
         prevSelector: self.$navPrev,
         centerItems: <span class="literal">false</span>,
@@ -280,7 +280,8 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
         }
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Check to make sure we actually have paginated tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.$tabsContainer.data(<span class="string">'scrollerModule'</span>).isPaginated ) {
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Check to make sure we actually have paginated tabs
+if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.$tabsContainer.data(<span class="string">'scrollerModule'</span>).scroller.pagesX.length &gt; <span class="number">1</span> ) {
         self.$navNext.removeClass(<span class="string">'hide'</span>);
         self.$container.addClass(<span class="string">'tab-carousel'</span>);
       }
