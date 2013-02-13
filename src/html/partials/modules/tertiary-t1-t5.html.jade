@@ -93,7 +93,6 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   p
                     | #{module.quote}
 
-                //- TODO: merge this with user-quote (title and  credits are only difference)
                 .credits
                   .avatar
                     img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
@@ -217,28 +216,6 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                             img(src= module.instagramBLNoScriptImg)
 
 
-
-                  //- .image-mat
-                  //-   .top-left.iq-img(data-src= module.instagramTLImg)
-                  //-   .top-right.iq-img(data-src= module.instagramRImg)
-                  //-   .bottom-right.iq-img(data-src= module.instagramBLImg)
-
-                  //- .image-mat
-                  //-   .top-left
-                  //-     img.iq-img(alt= module.instagramTLImgAltText, data-src= module.instagramTLImg)
-                  //-     noscript
-                  //-       img(src= module.instagramTLNoScriptImg)
-
-                  //-   .top-right
-                  //-     img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
-                  //-     noscript
-                  //-       img(src= module.instagramRNoScriptImg)
-
-                  //-   .bottom-left  
-                  //-     img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
-                  //-     noscript
-                  //-       img(src= module.instagramBLNoScriptImg)
-
               - link = module.socialBtnLink
               mixin socialButton( link, label )
 
@@ -251,25 +228,44 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   for meta in module.meta        
                     | #{meta.user} #{meta.title}
 
-                .image-mat.grid
-                  - maxEachRow = 3
-                  .top-row.m-grid-at-479
-                    - i = 0
-                    each image, i in module.images
-                     if (i < maxEachRow) 
-                      div.span4
-                        img.iq-img(alt= image.altText, data-src= image.src)
-                        noscript
-                          img(src= image.noScriptSrc)
-                  
-                  - i = 0
+                .image-mat
+                  - images = module.images
+                  .top-row
+                    .left.iq-img(data-src= images[0].src)
+                    .center.iq-img(data-src= images[1].src)
+                    .right.iq-img(data-src= images[2].src)
+
                   .bottom-row
-                    each image, i in module.images
-                     if (i < maxEachRow) 
-                      div.span4
-                        img.iq-img(alt= image.altText, data-src= image.src)
-                        noscript
-                          img(src= image.noScriptSrc)                
+                    .left.iq-img(data-src= images[3].src)
+                    .center.iq-img(data-src= images[4].src)
+                    .right.iq-img(data-src= images[5].src)
+                  //- .top-row
+                  //-   .left
+                  //-     img.iq-img(alt= images[0].altText, data-src= images[0].src)
+                  //-     noscript
+                  //-       img(src= images[0].noScriptSrc)
+                  //-   .center
+                  //-     img.iq-img(alt= images[1].altText, data-src= images[1].src)
+                  //-     noscript
+                  //-       img(src= images[1].noScriptSrc)
+                  //-   .right
+                  //-     img.iq-img(alt= images[2].altText, data-src= images[2].src)
+                  //-     noscript
+                  //-       img(src= images[2].noScriptSrc)
+
+                  //- .bottom-row
+                  //-   .left
+                  //-     img.iq-img(alt= images[3].altText, data-src= images[3].src)
+                  //-     noscript
+                  //-       img(src= images[3].noScriptSrc)
+                  //-   .center
+                  //-     img.iq-img(alt= images[4].altText, data-src= images[4].src)
+                  //-     noscript
+                  //-       img(src= images[4].noScriptSrc)
+                  //-   .right
+                  //-     img.iq-img(alt= images[5].altText, data-src= images[5].src)
+                  //-     noscript
+                  //-       img(src= images[5].noScriptSrc)
 
                 - link = module.socialBtnLink
                 - label = " View Set on Flickr"

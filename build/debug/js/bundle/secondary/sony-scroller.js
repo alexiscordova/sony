@@ -87,13 +87,19 @@
       // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
       if ( self.nextSelector ) {
         self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
-        self.$navNext.on('click', function() {
+        self.$navNext.on('click', function( evt ) {
+          // Stop the mouse click from bubbling up.
+          evt.preventDefault();
+          evt.stopPropagation();
           self.next();
         });
       }
       if ( self.prevSelector ) {
         self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
-        self.$navPrev.on('click', function() {
+        self.$navPrev.on('click', function( evt ) {
+          // Stop the mouse click from bubbling up.
+          evt.preventDefault();
+          evt.stopPropagation();
           self.prev();
         });
       }

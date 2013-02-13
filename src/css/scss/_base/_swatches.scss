@@ -2,11 +2,19 @@
 // Swatches
 // --------------------------------------------------
 
+%dark-colors {
+  @include gradient-vertical( rgba(41,26,83,0), rgba(41,26,83,0.16) );
+}
+
+%light-colors {
+  @include gradient-vertical( rgba(41,26,83,0), rgba(41,26,83,0.06) );
+}
+
 %swatch {
   position: relative;
   display: inline-block;
   @include size( px-em(40px), px-em(42px) );
-  @include box-shadow(0 1px 0 $gray60);
+  @include box-shadow(0 1px 0 $gray40);
   border: 1px solid transparent;
   border: 1px solid rgba($gray20, 0);
 
@@ -17,6 +25,7 @@
     @include transition(opacity $transitionNormal $easeNormal);
   }
 
+  // Dark circle
   $circleSize: px-em(20px);
   &:before {
     content: '';
@@ -29,6 +38,7 @@
     background: $gray25;
   }
 
+  // Check mark
   &:after {
     left: .75em;
     top: .625em;
@@ -39,14 +49,19 @@
     @include box-shadow(none);
   }
 
+  // Fade in circle and checkmark
   &.active:before,
   &.active:after {
     @include opacity(100);
   }
 
+  // Disabled state
   &[disabled] {
-    @include opacity(15);
     border-color: $gray20;
+    border-color: rgba($gray20, .15);
+
+    // overwrite backgrond-image, color, etc
+    background: transparent;
     @include box-shadow(none);
   }
   &[disabled]:focus,
@@ -61,11 +76,14 @@
 }
 
 // Like btn-group
-.color-swatches > *:not(:first-child) {
-  margin-left: px-em(6px);
+.color-swatches > *:not(:last-child) {
+  margin-right: px-em(6px);
 }
 
 // Mini swatches
+.color-swatches > .mini-swatch {
+  margin-right: 0;
+}
 .color-swatches > .mini-swatch:not(:first-child) {
   margin-left: px-em(2px);
 }
@@ -87,9 +105,8 @@
   cursor: pointer;
 }
 
-
 // These colors all need to be updated since colors have been standardized.
-.swatch-black     { background-color: $grayDarkerFieldLarge; }
+.swatch-black     { background-color: $gray05; }
 .swatch-yellow    { background-color: $yellow; }
 .swatch-purple    { background-color: $purple; }
 .swatch-teal      { background-color: $teal; }
@@ -102,6 +119,25 @@
 .swatch-silver    { background-color: $gray; }
 .swatch-lemon     { background-color: $lemon; }
 
+
+.swatch-black,
+.swatch-yellow,
+.swatch-purple,
+.swatch-teal,
+.swatch-red,
+.swatch-blue,
+.swatch-pink,
+.swatch-green,
+.swatch-orange,
+.swatch-silver {
+  @extend %dark-colors;
+}
+
+.swatch-white,
+.swatch-lemon {
+  @extend %light-colors;
+  @include box-shadow(0 1px 0 $gray60);
+}
 
 
 @media ( max-width: 29.9375em ) {
