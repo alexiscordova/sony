@@ -1363,7 +1363,7 @@
 
         var $plate = self.$el.find('.plate'),
             hasPlate = $plate.length > 0,
-            plateHeight = $plate.outerHeight(true) + 'px',
+            plateHeight = $plate.outerHeight(true),
             spaceAvail = wW - self.$el.find('.rp-slide').eq(0).width();
 
         if ( Modernizr.mq('(min-width: 981px)') && hasPlate) {
@@ -1374,7 +1374,7 @@
 
           });
 
-          console.log( 'updating paddle right to »', spaceAvail );
+          console.log( ' 980:::: updating paddle to »', plateHeight );
 
           self.$leftPaddle.css({
             top :  plateHeight,
@@ -1388,7 +1388,7 @@
 
           });
 
-          console.log( 'updating paddle right to »', spaceAvail );
+          console.log( '481:::: updating paddle to »', plateHeight + 130 );
 
           self.$leftPaddle.css({
             top :  plateHeight + 130,

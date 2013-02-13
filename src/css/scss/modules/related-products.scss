@@ -427,6 +427,34 @@
         }
       }
 
+      .gallery-item.plate .promo-content {
+        width: 100%;
+        height: 100%;
+
+        @media (max-width: px-em(980px)) {
+          .promo-title {
+            position: static;
+          }
+          
+          .text-count {
+            position: absolute;
+          }
+
+        }
+        @media (max-width: px-em(481px)) {
+          
+          padding: 0;
+
+          .promo-title {
+            position: static;
+          }
+          
+          .text-count {
+            position: absolute;
+          }
+
+        }
+      }
 
 
       //orange plate panel text color
@@ -447,9 +475,11 @@
       .gallery-item.plate .text-promo-title {
         position: absolute;
         font-size: inherit;
-        max-width: 310px; 
-        top:13%;
-        left: 10%;
+/*         max-width: 310px; 
+        top: 13%;
+        left: 10%; */
+        height: 100%;
+        padding: 12.5%;
 
         .title {
           color:$white;
@@ -468,8 +498,8 @@
       }
 
       .gallery-item.plate .text-count {
-        bottom:9%;
-        left: 10%;
+        bottom: 9%;
+        left: 12.5%;
       }
 
       .gallery-item.plate:after {
