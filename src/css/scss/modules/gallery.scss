@@ -570,20 +570,14 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Remove percentage heights
   .gallery-item {
 
-    &:after {
-      content: none;
-    }
-
-    .gallery-item-inner {
-      position: relative;
-    }
-
+    &:after,
     .product-img:after {
       content: none;
     }
 
+    .gallery-item-inner,
     .product-img .product-img-wrap {
-      position: relative;
+      position: static;
     }
   }
 
@@ -614,6 +608,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .gallery-detailed {
 
+    // Put the label on the left
     .label {
       left: 0;
       right: auto;
@@ -625,28 +620,36 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     .gallery-item {
       margin-top: 1.625em; // 26
-      display: table;
       height: auto;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .gallery-item-inner {
+      display: table;
+      width: 100%;
+      max-width: 100%;
     }
 
     // Firefox is having a problem with display:table-cell ...
+    .product-img,
+    .product-content {
+      display: table-cell;
+      width: 50%;
+    }
+
     .product-img {
       position: relative;
-      display: table-cell;
-      width: 48%;
       vertical-align: middle;
     }
 
-
     .product-content {
-      display: table-cell;
-      width: 48%;
       padding-left: 4%;
     }
 
 
     .product-rating {
-      font-size: $font_10_16;
+      // font-size: $font_10_16;
       margin: .5em 0 .6875em;
     }
 
@@ -654,16 +657,16 @@ $oneByOneImgPadding: 107.84313725490196%;
       margin-bottom: .6875em;
 
       li {
-        font-size: $font_10_16;
+        // font-size: $font_10_16;
       }
     }
 
     .product-content .product-name {
-      font-size: $font_11_16;
+      // font-size: $font_11_16;
     }
 
     .product-model {
-      font-size: $font_9_16;
+      // font-size: $font_9_16;
     }
   }
 
@@ -862,9 +865,14 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Override default btn-group functionality to have them drop to the new line
   .btn-group {
     white-space: normal;
+    margin-bottom: 0;
 
-    > .btn:not(:first-child) {
-      margin-left: .375em;
+    .btn {
+      margin-bottom: .375em;
+    }
+
+    > .btn:not(:last-child) {
+      margin-right: .375em;
     }
   }
 
@@ -1000,22 +1008,22 @@ $oneByOneImgPadding: 107.84313725490196%;
       margin-top: 10px;
     }
 
-    .slide-toggle {
-      clear: both;
-      margin-left: 0;
+    .btn.slide-toggle,
+    .btn.js-compare-toggle {
       float: left;
-    }
-
-    .js-compare-toggle {
-      float: right;
-      margin-left: 2%;
-    }
-
-    .slide-toggle,
-    .js-compare-toggle {
-      margin-top: 20px;
+      margin: 20px 0 0 0;
+      min-width: auto;
       width: 48%;
     }
+
+    .btn.slide-toggle {
+      clear: both;
+    }
+
+    .btn.js-compare-toggle {
+      margin-left: 4%;
+    }
+
   }
 
 }
