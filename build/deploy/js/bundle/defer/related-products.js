@@ -878,13 +878,16 @@
         }
 
 
-        self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
+        //self.$el.css( 'height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) );
+        self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
 
         if(!!self.isTabbedContainer){
           self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
         }
 
-        console.log("Slider Height »",self.$el.height());
+        
+
+        console.log( "Slider Height »",self.$el.height() );
 
       },
 
@@ -1306,20 +1309,16 @@
 
       sortTagLines2up: function(){
         var self = this,
-            $taglines = self.$el.find('.product-tagline'),
-            height = 0 ,
-            highestEl = null;
-
+            $taglines = self.$el.find('.product-tagline');
+        
         $taglines.each(function(){
-          var $t = $(this);
-          if($t.height() > height){
-            height = $t.height();
-            highestEl = $t;
+          var $line = $(this);
+
+          if( $line.height() / parseInt($line.css('line-height') , 10 ) > 1 ){
+            $line.parent().addClass('two-line');
           }
+
         });
-
-        highestEl.parent().addClass('two-line');
-
       },
 
       disableShuffle: function(){
@@ -1411,6 +1410,11 @@
               console.log('UPdateing Shuffle instance »', shfflInst);
               shfflInst.update();
 
+              setTimeout(function(){
+                self.updateSliderSize();
+
+              } , 50);
+
 /*              setTimeout(function(){
                 self.$el.css({
                   'opacity' : 1 ,
@@ -1419,7 +1423,7 @@
 
               } , 50);*/
             });
-          } , 250);
+          } , 10);
         }));
       },
 
