@@ -28,6 +28,7 @@ $fourColMax: px-em(979px);
 
   .product-name {
     color: $gray20;
+    margin-bottom: 0;
   }
 
   .product-model {
@@ -608,12 +609,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .gallery-detailed {
 
-    // Put the label on the left
-    .label {
-      left: 0;
-      right: auto;
-    }
-
     .products {
       margin-top: -1.625em;
     }
@@ -623,6 +618,12 @@ $oneByOneImgPadding: 107.84313725490196%;
       height: auto;
       width: 100%;
       max-width: 100%;
+
+      // The labels parent is still 100%, but the product image
+      // and details are a 2up.
+      .label {
+        right: 50%;
+      }
     }
 
     .gallery-item-inner {
@@ -681,11 +682,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .favorite-holder i {
     font-size: .6875em;
-  }
-
-  .gallery-item .label {
-    right: auto;
-    left: 0;
   }
 
 }
