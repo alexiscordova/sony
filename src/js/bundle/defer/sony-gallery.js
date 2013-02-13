@@ -551,6 +551,10 @@
 
       // Set up sorting ---- select menu
       self.$sortSelect.on('change', $.proxy( self.sort, self ));
+
+      if ( !self.hasFilters ) {
+        self.$productCount.text( self.shuffle.$items.length );
+      }
     },
 
     initInfscr : function() {
