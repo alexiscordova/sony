@@ -53,22 +53,22 @@
 			opacity:1.0;
 		} // end img
 
+		// certain tertiary content modules have hover states
+		div#{createSelectorFromData("article","default")}:hover,
+		div#{createSelectorFromData("article","featured")}:hover,
+		div#{createSelectorFromData("article","news")}:hover,
+		div#{createSelectorFromData("article","event")}:hover,
+		div#{createSelectorFromData("sonys-voice","instagram")}:hover,
+		div#{createSelectorFromData("flickr","default")}:hover{		
+			img{
+				@include transition(opacity, $transitionFast);
+				opacity:0.85;
+			} // end img
+		} // end hovers
+
 	} // end .tcc-content-module
 
-	// certain tertiary content modules have hover states
-	div#{createSelectorFromData("article","default")}:hover,
-	div#{createSelectorFromData("article","featured")}:hover,
-	div#{createSelectorFromData("article","news")}:hover,
-	div#{createSelectorFromData("article","event")}:hover,
-	div#{createSelectorFromData("sonys-voice","instagram")}:hover,
-	div#{createSelectorFromData("flickr","default")}:hover{		
-		img{
-			@include transition(opacity, $transitionFast);
-			opacity:0.85;
-		} // end img
-
-	} // end article hovers
-
+	// TYPE: ARTICLE
 	.article{	
 
 		position: relative;
@@ -92,8 +92,8 @@
 			color:$titleBlack;			
 		} // end t6
 
-		// SPECIFIC TO CONTENT TYPE
-		// 
+
+
 		&.default{
 		
 			.img-container{
@@ -181,6 +181,7 @@
 
 	} // end .article 
 
+	// TYPE: USERS VOICE
 	.users-voice{
 		text-align: left;
 
@@ -245,6 +246,7 @@
 
 	} // end .users-voice
 
+	// TYPE: SONYS VOICE
 	.sonys-voice{
 		.fonticon-10-twitter,
 		.fonticon-10-facebook,
@@ -291,7 +293,7 @@
 	
 	} // end sonys-voice
 
-
+	// TYPE: FLICKR
 	.flickr{
 		// user and title
 		.meta{
