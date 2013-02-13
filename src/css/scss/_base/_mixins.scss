@@ -805,8 +805,30 @@ $default-transition-delay    : 0s;
  	}
 }
 
+@mixin fadeoutOnHover($child:""){
 
+  @if ($child == "") {
 
+    @include transition(opacity $transitionFast);
+    opacity: 1;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  } @else {
+
+    #{$child} {
+      @include transition(opacity $transitionFast);
+      opacity: 1;
+    }
+
+    &:hover {
+      #{$child} {
+        opacity: 0.85;
+      }
+    }
+  }
+}
 
 
 

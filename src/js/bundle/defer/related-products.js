@@ -48,28 +48,9 @@
             vendor = tempV;
         }
         tempV = tempV.toLowerCase();
-        
-        if(!window.requestAnimationFrame) {
-            window.requestAnimationFrame = window[tempV+'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[tempV+'CancelAnimationFrame'] || window[tempV+'CancelRequestAnimationFrame'];
-        }
       }
 
       // requestAnimationFrame polyfill by Erik Möller
-      // fixes from Paul Irish and Tino Zijdel
-      if (!window.requestAnimationFrame) {
-          window.requestAnimationFrame = function(callback, element) {
-              var currTime = new Date().getTime(),
-                  timeToCall = Math.max(0, 16 - (currTime - lastTime)),
-                  id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
-              lastTime = currTime + timeToCall;
-              return id;
-          };
-      }
-
-      if (!window.cancelAnimationFrame){
-        window.cancelAnimationFrame = function(id) { clearTimeout(id); };
-      }
 
       var bT = vendor + (vendor ? 'T' : 't' ),
       transEndEventNames = {
@@ -278,9 +259,13 @@
           self.setSortPriorities();
         }
 
-        if(self.$slides.length > 1){
+        if(self.$slides.length > 0){
           self.createNavigation();
-          self.setupPaddles();
+
+          if(!self.hasTouch){
+            self.setupPaddles();
+          }
+          
          
           //init dragging , slideshow: TODO:
           if(self.mode != 'strip'){
@@ -288,7 +273,6 @@
           }
           
         }
-
 
         if(self.mode != 'strip'){
           self.setSortPriorities();
@@ -346,6 +330,7 @@
           console.log('Settup up scroller instance »',self.variation);
 
           self.$galleryItems.find('.product-name').evenHeights();
+         /* self.$galleryItems.find('.product-img').evenHeights();*/
 
           //self.scroller.enable();
           window.iQ.update();
@@ -887,7 +872,8 @@
         self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
 
         if(!!self.isTabbedContainer){
-          self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
+          //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
+          self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
         }
 
         
@@ -1454,7 +1440,7 @@
           clearTimeout(resizeTimeout);
           resizeTimeout = setTimeout(function(){
 
-            self.animateTiles();
+            
 
             self.$shuffleContainers.each(function(){
               var shfflInst = $(this).data('shuffle');
@@ -1462,14 +1448,19 @@
               if(shfflInst === undefined){return;}
 
               //console.log('UPdateing Shuffle instance »', shfflInst);
-              shfflInst.update();
+              //shfflInst.update();
 
               setTimeout(function(){
                 self.updateSliderSize();
 
                 self.updateTiles();
 
-              } , 50);
+
+                shfflInst.update();
+
+                self.animateTiles();
+
+              } , 1000);
 
 /*              setTimeout(function(){
                 self.$el.css({
@@ -1493,61 +1484,102 @@
         console.log('Calling update to tiles.... »',1);
 
         if(self.isMobileMode){
+          $mediumTile = self.$slides.find('.gallery-item.medium .product-img').first();
+          $mediumTile.css('height' , '');
+
           return;
         }
 
         self.$slides.each(function(){
           var $slide = $(this);
+
+
+          //REMOVE
+          //$slide.css( 'background' , 'red' );
+
           console.log( 'RpSlide »', $slide.index() );
           $mediumTile = $slide.find('.gallery-item.medium .product-img').first();
           $normalTile = $slide.find('.gallery-item.normal').first();
 
+          var tileHeight = $slide.find('.gallery-item.plate').first().height(),
+              testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true);
+          
+/*          if(tileHeight < testHeight ){
+            tileHeight = testHeight;
+          }*/
+
+          $slide.find( '.gallery-item.normal').css({
+            'max-height' : tileHeight,
+            'height'     : tileHeight
+          });
+
           switch( $slide.data('variation').split('-')[2].toLowerCase() ){
             case '5up':
-              if(isFullView){
 
+
+
+
+
+              if(isFullView){
                 newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
                 $mediumTile.css({
                   'height' : newHeight + 'px'
                 });
-                
-                //console.log('Setting new height on tile »', newHeight , $mediumTile.length);
-
               }else{
                 newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
                 $mediumTile.css({
                   'height' : newHeight + 'px'
                 });
-
-                //console.log('Setting new height on tile »', newHeight , $mediumTile.length);
               }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             break;
 
             case '4up':
-              
-              newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+              if(isFullView){
+                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+                $mediumTile.css({
+                  'height' : newHeight + 'px'
+                });
+              }else{
+                newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
+                $mediumTile.css('height' , newHeight);
 
-              $mediumTile.css({
-                'height' : newHeight + 'px'
-              });
 
+                //$mediumTile.closest('.gallery-item').css( 'max-height' , $mediumTile.height() + $mediumTile.closest('.gallery-item').find('.product-content').height() );
+
+              }
             break;
 
             case '3up':
           if(isFullView){
               newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
-
               $mediumTile.css({
                 'height' : newHeight + 'px'
               });
             }else{
               $mediumTile.css('height' , '');
             }
-   
             break;
           }
         });
 
+        setTimeout( function () {
+          self.updateSliderSize();
+          console.log( 'Updated size again' );
+        } , 1000);
 
       },
 
@@ -1578,8 +1610,6 @@
           $item.stop(true,true).delay(animationDelay).animate({ opacity: 1 },{ duration: 250 , complete: function(){}});
 
         });
-
-
 
       },
 
@@ -1696,6 +1726,8 @@
           //5 . put the item back into the container / make sure to not include blanks
           $galleryItems.not('.blank').appendTo(self.$container);
 
+          self.$el.find('.gallery-item.medium').css('height' , '');
+
           //set equal text heights
 
           //console.log('Gallery Items .blank-normal » ', $galleryItems.not('.blank'));
@@ -1735,6 +1767,7 @@
             //text-promo-title
 
             $galleryItems.find('.product-name').evenHeights();
+            /*$galleryItems.find('.product-img').evenHeights();*/
 
 
             //self.scroller.enable();

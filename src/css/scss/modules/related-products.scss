@@ -18,16 +18,16 @@
 }
 
 .rp-title {
-  margin: 40px 0 10px 0;
+  margin: 33px 0 10px 0;
 
   //beyond tablet
   @media (min-width:px-em(769px)){
-    margin: 40px 0 15px 0;
+    margin: 33px 0 10px 0;
   } 
 
   //tablet
   @media (min-width:px-em(481px)) and (min-width:px-em(769px)){
-    margin: 40px 0 15px 0;
+    margin: 33px 0 10px 0;
   }
 
 }
@@ -183,7 +183,7 @@
       } 
         
       max-width: 1190px;
-      margin: 70px auto 70px auto;
+      margin: 0 auto 70px auto;
       .product-price {
         text-align: center;
         color: #83838f;
@@ -399,18 +399,17 @@
           }
 
           @media (min-width: px-em(481px)) and (max-width:768px){
-            min-height: 200px;
+            //min-height: 200px;
           }
-
         }
-
 
         overflow: inherit;
         &:not(.plate) .product-img {
           background: $gray80;
+          /* background: rgb(19, 126, 233); */
           @include transition(background-color 0.25s ease-in);
           &:hover {
-            background-color: $gray95;
+            background-color: $gray75;
           }
         }
 
@@ -434,6 +433,10 @@
       .gallery-item.plate .promo-content {
         width: 100%;
         height: 100%;
+        padding: 0;
+        top: auto;
+        left: auto;
+        padding: 0;
 
         @media (max-width: px-em(980px)) {
           .promo-title {
@@ -445,9 +448,8 @@
           }
 
         }
+
         @media (max-width: px-em(481px)) {
-          
-          padding: 0;
 
           .promo-title {
             position: static;
@@ -461,32 +463,14 @@
       }
 
 
-      //orange plate panel text color
-      .gallery-item.plate .orange-color .text-promo-title {
-        color: #fceece;
-      }
-
-      //purple plate panel text color
-      .gallery-item.plate .purple-color .text-promo-title {
-        color: #baacde;
-      }
-
-      //teal plate panel text color
-      .gallery-item.plate .teal-color .text-promo-title {
-        color: #75e7ef;
-      }
-
       .gallery-item.plate .text-promo-title {
         position: absolute;
         font-size: inherit;
-/*         max-width: 310px; 
-        top: 13%;
-        left: 10%; */
         height: 100%;
-        padding: 12.5%;
+        padding: 9.5%;
 
         .title {
-          color:$white;
+          color: $white;
           margin-bottom: 0;
         }
 
@@ -503,7 +487,7 @@
 
       .gallery-item.plate .text-count {
         bottom: 9%;
-        left: 12.5%;
+        left: 9.5%;
       }
 
       .gallery-item.plate:after {
@@ -529,6 +513,13 @@
         &:after {
           content: none;
         }
+      }
+
+      @media (max-width: 640px){
+        .emphasis {
+          visibility: hidden;
+          display: none;
+        }        
       }
 
       .small-size {
@@ -572,10 +563,6 @@
 
       .gallery-item.plate strong {
         display: block;
-      }
-
-      .normal .product-img:after {
-        //padding-top: 84.980392%;
       }
 
       .medium:after {
@@ -858,41 +845,69 @@
           //padding:0 90px 0 90px;
         }   
 
+/*
+             _____                __  ___          __        _____ ___     __         
+            |__  /__  ______     /  |/  /___  ____/ /__     / ___// (_)___/ /__  _____
+             /_ </ / / / __ \   / /|_/ / __ \/ __  / _ \    \__ \/ / / __  / _ \/ ___/
+           ___/ / /_/ / /_/ /  / /  / / /_/ / /_/ /  __/   ___/ / / / /_/ /  __(__  ) 
+          /____/\__,_/ .___/  /_/  /_/\____/\__,_/\___/   /____/_/_/\__,_/\___/____/  
+                    /_/                                                               
 
-        //769 -----------> 980
-        //3-up medium image after tablet to small desktop
-        &.related-products-3up .medium .product-img:after {
-          @media (min-width:769px) and (max-width:980px){
-            padding-top: 109.92761%;
+*/
+        &.related-products-3up {
+
+
+          //769 -----------> 980
+          //medium image after tablet to small desktop
+          .gallery-item.medium .product-img:after {
+            @media (min-width:769px) and (max-width:980px){
+              padding-top: 109.92761%;
+            }
           }
+
+          .gallery-item.plate:after {
+            @media (min-width:769px) and (max-width:980px){
+              padding-top: 131.09025%;
+            }
+          }
+
+          //medium tile
+          .gallery-item.medium { 
+            //481 -----------> 768
+            @media (min-width:481px) and (max-width:768px){
+              .product-img {
+                &:after {
+                  padding-top: 100.52761%;
+                }
+              }
+            }
+          }
+
+          .gallery-item.medium .gallery-item:after {
+            @media (min-width:481px) and (max-width:768px){
+              padding-top: 127.99607%;
+            }
+          }
+
+          .gallery-item.plate:after {
+            @media (min-width:481px) and (max-width:768px){
+              padding-top: 127.143%;
+            }
+          }
+
         }
 
-        &.related-products-3up .gallery-item.plate:after {
-          @media (min-width:769px) and (max-width:980px){
-
-            padding-top: 131.09025%;
+        &.related-products-4up {
+          .gallery-item.medium { 
+            //481 -----------> 768
+            @media (min-width:481px) and (max-width:768px){
+              .product-img {
+                //max-height: 72%;
+              }
+            }
           }
         }
-
-        //481 -----------> 768
-        //3-up medium image after tablet to small desktop
-        &.related-products-3up .medium .product-img:after {
-          @media (min-width:481px) and (max-width:768px){
-            padding-top: 100.52761%;
-          }
-        }
-
-        &.related-products-3up .medium .gallery-item:after {
-          @media (min-width:481px) and (max-width:768px){
-            padding-top: 127.99607%;
-          }
-        }
-
-        &.related-products-3up .gallery-item.plate:after {
-          @media (min-width:481px) and (max-width:768px){
-            padding-top: 127.143%;
-          }
-        }        
+      
       }
       //slides
   }

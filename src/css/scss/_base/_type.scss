@@ -65,21 +65,26 @@ small {
   @include em-strong(Regular); 
 }
 
-.t2, .t3, .t4,
-h2, h3, h4{
+.t1, .t1-light, .t3, .t3-light,
+h1, h3 {
+  letter-spacing: -0.01em;
+} 
+.t2, .t2-light, .t4, .t4-light,
+h2, h4 {
   letter-spacing: -0.04em;
 }
+
+
 .t1, .t1-light, h1{
   @include px-em--font-size--line-height(54,62);
   margin-bottom: 30px;
-  letter-spacing: -0.01em;
 }
 .t2, .t2-light, h2{
   @include px-em--font-size--line-height(44,50);
   margin-bottom: 24px;
 }
 .t3, .t3-light, h3{
-  @include px-em--font-size--line-height(30,38);
+  @include px-em--font-size--line-height(32,38);
   margin-bottom: 18px;
 }
 .t4, .t4-light, h4{
@@ -184,7 +189,7 @@ p, .p1, .p2, .p3, .p4, .p5 { color: $defaultParagraphColor; }
 .p5, .lt5 { // also affects .p5.lt
   @include px-em--font-size--line-height(11,15);
 }
-.lt-alt {
+.lt-alt, .lt3-alt {
   letter-spacing: px-em(1px);
   text-transform: uppercase;
 }

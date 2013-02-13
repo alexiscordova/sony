@@ -16,6 +16,29 @@
   background-color:$gray90;
   margin:0; // for the module since it can be placed anywhere on the page. 
 
+  .nav-paddles{
+  	position: absolute;
+		left: 0;
+		top: 50%;
+		padding:20px;
+		z-index: 99;
+		width:100%;
+
+		.nav-paddle{
+			position: absolute;
+			top:0;
+		}  // end .nav-paddle
+
+		.nav-paddle-prev{
+			left: 7px;
+		} // end .nav-paddle-prev
+
+		.nav-paddle-next{
+			right:7px;
+		} // end .nav-paddle-next
+
+  } // end .nav-paddles
+
   .loader{
   	height: 300px;
 		width: 100%;
@@ -33,7 +56,7 @@
 	} // end .tcc-body-wrapper
 	
 	.tcc-header{
-		border-bottom: 2px solid $gray70;
+		border-bottom: 3px solid $gray70;
 	} // end .tcc-header
 
 	.tcc-body{
@@ -41,6 +64,7 @@
 	} // end .tcc-body
 
 	.tcc-content-module{
+		//@include debug(1px, red);
 		position: relative;
 		overflow: hidden;
 		
@@ -53,22 +77,22 @@
 			opacity:1.0;
 		} // end img
 
+		// certain tertiary content modules have hover states
+		div#{createSelectorFromData("article","default")}:hover,
+		div#{createSelectorFromData("article","featured")}:hover,
+		div#{createSelectorFromData("article","news")}:hover,
+		div#{createSelectorFromData("article","event")}:hover,
+		div#{createSelectorFromData("sonys-voice","instagram")}:hover,
+		div#{createSelectorFromData("flickr","default")}:hover{		
+			img{
+				@include transition(opacity, $transitionFast);
+				opacity:0.85;
+			} // end img
+		} // end hovers
+
 	} // end .tcc-content-module
 
-	// certain tertiary content modules have hover states
-	div#{createSelectorFromData("article","default")}:hover,
-	div#{createSelectorFromData("article","featured")}:hover,
-	div#{createSelectorFromData("article","news")}:hover,
-	div#{createSelectorFromData("article","event")}:hover,
-	div#{createSelectorFromData("sonys-voice","instagram")}:hover,
-	div#{createSelectorFromData("flickr","default")}:hover{		
-		img{
-			@include transition(opacity, $transitionFast);
-			opacity:0.85;
-		} // end img
-
-	} // end article hovers
-
+	// TYPE: ARTICLE
 	.article{	
 
 		position: relative;
@@ -92,8 +116,8 @@
 			color:$titleBlack;			
 		} // end t6
 
-		// SPECIFIC TO CONTENT TYPE
-		// 
+
+
 		&.default{
 		
 			.img-container{
@@ -181,6 +205,7 @@
 
 	} // end .article 
 
+	// TYPE: USERS VOICE
 	.users-voice{
 		text-align: left;
 
@@ -245,6 +270,7 @@
 
 	} // end .users-voice
 
+	// TYPE: SONYS VOICE
 	.sonys-voice{
 		.fonticon-10-twitter,
 		.fonticon-10-facebook,
@@ -291,8 +317,12 @@
 	
 	} // end sonys-voice
 
-
+	// TYPE: FLICKR
 	.flickr{
+		.center-content{
+			//outline:1px solid blue;
+		}
+
 		// user and title
 		.meta{
 
@@ -303,6 +333,7 @@
 		} // end meta
 
 	  table{
+	  	//outline:1px solid green;
 		  background-color:rgba($gray50,0.3);
 	  } //end table
 

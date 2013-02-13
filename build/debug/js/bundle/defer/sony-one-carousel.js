@@ -522,18 +522,19 @@
       moveTo: function(force){
         var self = this,
         newPos   = -self.currentId * self.currentContainerWidth,
-        diff,
-        newId,
+        $contentWrappers = self.$el.find('.soc-content'),
         animObj  = {};
+
+        $contentWrappers.css('z-index', '');
+        $contentWrappers.eq(self.currentId).css('z-index', 100);
 
         if(self.currentId !== 0){
           self.$gridW = self.$el.find('.soc-grid' ).eq(0);
           newPos -= (window.Exports.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
         }
 
-
         if(self.isMobileMode === true){
-          var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
+          var delta = ($contentWrappers.eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
           newPos += delta - (self.currentId * 10);
         }
 
@@ -541,13 +542,13 @@
 
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
-          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeInOutSine');
+          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeOutBack');
 
-        }else{
+        } else {
 
           //css3 transition
           animObj[ (self.vendorPrefix + self.TD) ] = (force === true ? 10 : self.animationSpeed) + 'ms';
-          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeInOutSine;
+          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeOutBack;
 
           self.$containerInner.css( animObj );
 
@@ -559,7 +560,6 @@
           self.$containerInner.one(self.transitionEndName, function(){
             window.iQ.update();
           });
-
         }
 
         //update the overall position
@@ -891,8 +891,6 @@
           return;
         }
 
-        //self.controlNavEnabled = true;
-        //self.$container.addClass('ssWithBullets');
         for(var i = 0; i < self.numSlides; i++) {
           out += itemHTML;
         }
@@ -907,7 +905,6 @@
           if( item.length ) {
             self.currentId = item.index();
             self.moveTo();
-            //console.log("Current Slide ID # »",self.currentId);
           }
         } );
 
@@ -1022,7 +1019,7 @@
         gutterWidth = 0;
 
         if(self.isDesktopMode === true){
-          //console.log(" »",);
+
           self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
 
           self.$desktopSlides.each(function(i){
@@ -1030,10 +1027,9 @@
             gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
             if(i > 0){
               cw += gutterWidth;
-            // console.log('New Gutter for slide »',gutterWidth);
             }
 
-            $(this).css( { 'left': Math.floor(i * cw) + 'px', 'z-index' : i } );
+            $(this).css( { 'left': Math.floor(i * cw) + 'px' } );
           });
         }
 
@@ -1046,13 +1042,11 @@
 
             if(i > 0){
               cw += gutterWidth;
-              //console.log('New Gutter for slide »',self.$gridW.width() , gutterWidth);
             }
 
             $(this).css({
               'left': Math.floor(i * cw) + 'px',
-              'height' : Math.floor(self.$el.find('.soc-item').eq(0).height())  + 'px',
-              'z-index' : i
+              'height' : Math.floor(self.$el.find('.soc-item').eq(0).height())  + 'px'
             });
 
             $(this).find('.soc-item').css({
@@ -1069,8 +1063,7 @@
           self.$mobileSlides.each(function(i){
             $(this).css( {
               'left': Math.floor(i * (cw + mobileGutter)) + 'px',
-              'height' : 317  + 'px', //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
-              'z-index' : i
+              'height' : 317  + 'px' //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
             } );
 
             var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
@@ -1088,21 +1081,12 @@
 
       },
 
-      gotoSlide: function(slideIndx){
-        var self = this;
-
-        self.currentId = slideIndx;
-        self.moveTo();
-
-        return slideIndx;
-      },
-
       m: function(xpos){
         var self = this,
         animObj  = {};
 
         animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed + 'ms';
-        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing.easeInOutSine;
+        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing.easeOutBack;
         self.$containerInner.css( animObj );
         animObj[ self.xProp ] = self.tPref1 + ( ( xpos ) + self.tPref2 + 0 ) + self.tPref3;
         self.$containerInner.css( animObj );
@@ -1112,7 +1096,8 @@
     $.socCSS3Easing = {
         //add additional ease types here
         easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)'
+        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)'
     };
 
     $.fn.sonyOneCarousel = function( options ) {
