@@ -2,7 +2,9 @@ mixin eyebrow(d)
   d = d || data
   if d.eyebrow
     if d.eyebrow.link
-      a.eyebrow(href= d.eyebrow.link)!= locals.plusify(d.eyebrow.text)
+      a.eyebrow(href= d.eyebrow.link) 
+        i.fonticon-10-chevron
+        | !{locals.plusify(d.eyebrow.text)}
     else
       h2.t7.eyebrow!= locals.plusify(d.eyebrow.text)
 
@@ -77,7 +79,7 @@ mixin boxlayout(layout)
 classes = data.mode
 if data.theme
   classes = classes + " " + data.theme
-section.primary-tout.container.full-bleed-no-max(class= classes)
+.primary-tout.container.full-bleed-no-max(class= classes)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
   if data.mode == "homepage"
@@ -118,7 +120,7 @@ section.primary-tout.container.full-bleed-no-max(class= classes)
   else if data.mode == "title-plate"
     +boxlayout
       +eyebrow
-      h1.t3!= data.headline
+      h1.t2!= data.headline
       +bodytext(data, "hidden-phone")
       +links(data, "btn-mini")
 

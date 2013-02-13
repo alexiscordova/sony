@@ -71,8 +71,15 @@
         window.cancelAnimationFrame = function(id) { clearTimeout(id); };
       }
 
-      var bT = vendor + (vendor ? 'T' : 't' );
-      
+      var bT = vendor + (vendor ? 'T' : 't' ),
+      transEndEventNames = {
+          'WebkitTransition' : 'webkitTransitionEnd',
+          'MozTransition'    : 'transitionend',
+          'OTransition'      : 'oTransitionEnd',
+          'msTransition'     : 'MSTransitionEnd',
+          'transition'       : 'transitionend'
+      };
+
       self.useCSS3Transitions = ( (bT + 'ransform') in tempStyle ) && ( (bT + 'ransition') in tempStyle );
       
       if(self.useCSS3Transitions) {
@@ -91,28 +98,16 @@
       self.$galleryItems         = self.$el.find('.gallery-item');
       self.$container            = self.$el.find('.rp-container').eq(0);
       self.$tabbedContainer      = self.$el.parent();
-      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
-
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
+
       self.prefixed              = Modernizr.prefixed;
       self.transitionName        = self.prefixed('transition');
-
-      // Get transitionend event name
-      var transEndEventNames = {
-          'WebkitTransition' : 'webkitTransitionEnd',
-          'MozTransition'    : 'transitionend',
-          'OTransition'      : 'oTransitionEnd',
-          'msTransition'     : 'MSTransitionEnd',
-          'transition'       : 'transitionend'
-      };
-
+      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
       self.transitionEndName     = transEndEventNames[ self.transitionName ];
-
       self.mode                  = self.$el.data('mode').toLowerCase();
       self.variation             = self.$el.data('variation');
-
       self.numSlides             = self.$slides.length;
       self.sliderOverflow        = self.$el.find('.rp-overflow').eq(0);
       self.previousId            = -1;
@@ -123,7 +118,6 @@
       self.slideCount            = 0;
       self.isFreeDrag            = false; //MODE: TODO
       self.currentContainerWidth = 0;
-      //self.tabs                  = self.$el.prev().find('.rp-tabs').eq(0).find('.rp-tab'); //sniff up and search for closest tabs
       self.currentTab            = -1;
       self.newSlideId            = 0;
       self.sPosition             = 0;
@@ -135,8 +129,6 @@
       if(self.variation !== undefined){
         self.varitation = self.variation.split('-')[2];
       }
-
-      //console.log('CLoseset container » ', self.$el.closest('.container'));
       
       console.log('Variation on this module »' , self.variation );
 
@@ -263,7 +255,7 @@
             column = 0.001;
           }
 
-          console.log('Shuffling Columns returning  TM »',column);
+          //console.log('Shuffling Columns returning  TM »',column);
 
           return column;
       };
@@ -279,24 +271,87 @@
         
         self.$paddles.hide();
         
-        if(self.variation != '2up' && self.variation != '5up'){
+        // Don't do this for modes other than 3 and 4 up
+        if(self.variation === '3up' || self.variation === '4up'){
           self.setSortPriorities();
         }
-
-        self.setSortPriorities();
 
         if(self.$slides.length > 1){
           self.createNavigation();
           self.setupPaddles();
          
           //init dragging , slideshow: TODO:
-          self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
+          if(self.mode != 'strip'){
+            self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
+          }
+          
         }
 
-        self.setupResizeListener();
 
-        $(window).trigger('resize');
+        if(self.mode != 'strip'){
+          self.setSortPriorities();
+          self.setupResizeListener();
+
+          $(window).trigger('resize');
+        }else {
+
+          self.setupStripMode();
+
+        }
+
+
       },
+
+
+      setupStripMode: function(){
+        var self = this;
+
+        console.log('setting up strip mode »' , self.mode, self.variation);
+
+        //clear out the position style on the gallery items
+        self.$galleryItems.removeAttr('style');
+
+        self.$galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
+
+        self.$galleryItems.addClass('small-size');
+        
+        // 7. init the scroller module
+        setTimeout(function(){
+
+          if(self.scrollerModule !== null){
+
+            self.scrollerModule.destroy();
+            self.scrollerModule = null;
+
+          }
+
+          self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
+            contentSelector: '.rp-container',
+            itemElementSelector: '.gallery-item',
+            mode: 'paginate',
+            generatePagination: true,
+            centerItems: true,
+
+            iscrollProps: {
+              snap: true,
+              momentum: false,
+              hScrollbar: false,
+              vScrollbar: false,
+          }
+
+          }).data('scrollerModule');
+
+          console.log('Settup up scroller instance »',self.variation);
+
+          self.$galleryItems.find('.product-name').evenHeights();
+
+          //self.scroller.enable();
+          window.iQ.update();
+          window.console.log("Instantiating scroller module »", self.scrollerModule);
+        }, 50);
+
+      },
+
 
       tapOrClick: function(){
         var self = this;
@@ -493,11 +548,6 @@
       setSortPriorities: function(){
         var self = this;
             
-
-        console.log('Gallery Set Sort Priorities' );
-            
-
-
         self.$slides.each(function(){
 
           var $slide     = $(this),
@@ -507,8 +557,6 @@
 
           $items.each(function(){
             var $item = $(this);
-
-            console.log('gallery item' , slideVariation);
 
             //covers off on sorting blank tiles
             if(slideVariation === '4up'){
@@ -545,7 +593,6 @@
                  $item.data('priority' , 100);
               }
 
-              console.log('Blank Priority »',$item.hasClass('blank') ? $item.data('priority') : ' I have this priority:: ' + $item.data('priority') );
             }
 
           });
@@ -589,8 +636,6 @@
           console.log("Unsort... »");
           self.sorted = false;
         }
-
-
 
       },
       
@@ -778,7 +823,7 @@
         currItem.addClass('bullet-selected');
         self.prevNavItem = currItem;
 
-        console.log("Nav Update »",currItem);
+        //console.log("Nav Update »",currItem);
   
       },
 
@@ -1523,6 +1568,8 @@
           //5 . put the item back into the container / make sure to not include blanks
           $galleryItems.not('.blank').appendTo(self.$container);
 
+          //set equal text heights
+
           //console.log('Gallery Items .blank-normal » ', $galleryItems.not('.blank'));
           
           // 7. init the scroller module
@@ -1556,6 +1603,11 @@
               }
 
             }).data('scrollerModule');
+
+            //text-promo-title
+
+            $galleryItems.find('.product-name').evenHeights();
+
 
             //self.scroller.enable();
             window.iQ.update();

@@ -1,5 +1,6 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
+@import "compass/css3/transform";
 
 @mixin onesonyTypeBlockWidths($baseWidth: 400px) {
 
@@ -170,8 +171,6 @@
     cursor: pointer;
 
     &:before {
-      @include transition-property(opacity);
-      @include transition-duration(500ms);
       position: absolute;
       left: 0;
       top: 0;
@@ -189,7 +188,7 @@
         opacity: 1;
       }
 
-      .headline a::after {
+      .headline i {
         margin-left: px-em(5px);
       }
     }
@@ -198,7 +197,7 @@
     &.content-6 {
       .counter {
         position: absolute;
-        bottom: 9%;
+        bottom: 8.4%;
         text-transform: uppercase;
 
         &[class*="align-left-"] {
@@ -208,7 +207,7 @@
           }
 
           &.content-6 {
-            left: 8.6%;
+            left: 7.3%;
           }
         }
 
@@ -248,7 +247,7 @@
         }
 
         &.black-white-text h3 {
-          color: $black;
+          color: $gray10;
         }
       }
     }
@@ -256,11 +255,13 @@
 
 
     .soc-item-content {
-      //background: rgba(223, 61 , 130 , 0.6);
       position: absolute;
 
-      @media (min-width: px-em(769px)){
-        //background-color: #df3d82;
+      @media( max-width: px-em(480px) ){
+        p {
+          //phones
+          display: none;
+        }
       }
 
       .headline {
@@ -318,15 +319,12 @@
           }
 
           a {
-            line-height: inherit;
-
-            &:after {
-              @include transition-property(margin);
-              @include transition-duration(500ms);
+            i {
+              @include transition(margin $transitionFast ease-in);
               position: relative;
-              top: -0.2em;
-              left: 0.2em;
-              font-size: 0.7em;
+              top: -0.25em;
+              left: 0.1em;
+              font-size: 0.6em;
             }
           }
         }
@@ -657,7 +655,7 @@
       //tBW
       &.black-white-text {
         .headline {
-          color: $black;
+          color: $gray10;
 
           a {
             color: $white;
@@ -670,11 +668,11 @@
         }
 
         p {
-          color: $black;
+          color: $gray10;
         }
 
         .eyebrow {
-          color: $black;
+          color: $gray10;
         }
       }
       /*
@@ -711,7 +709,7 @@
         }
 
         &.content-6 {
-          left: 8.6%;
+          left: 7.1%;
 
           //phones
           @media( max-width: px-em(480px) ){
@@ -768,9 +766,9 @@
         }
 
         &.content-4 {
-          left: 13%;
-          top: 10.2%;
-          max-width: px-em(240px);
+          left: 11%;
+          top: 8%;
+          max-width: px-em(180px);
           width: 73.8461538%;
         }
       }
@@ -813,10 +811,11 @@
 
       //aLB
       &.align-left-bottom {
-        top: auto;
 
         &.content-8,
         &.content-6 {
+          top: auto;
+          bottom: 6.3%;
 
           &.headline-counter {
             bottom: 12%;
@@ -825,8 +824,6 @@
           &.headline-copy-counter {
             bottom: 15%;
           }
-
-          bottom: 8%;
         }
       }
 
@@ -852,6 +849,7 @@
         top: auto;
 
         &.content-8 {
+          top: auto;
           bottom: 8%;
 
           &.headline-counter {
@@ -1028,7 +1026,7 @@
       background-repeat: no-repeat;
       position: absolute;
       top: 50%;
-      margin: -100px 0;
+      margin: -43px 0;
       cursor: pointer;
       font-size:1.4em;
       @include transition(all $transitionSlow ease-in);
@@ -1065,7 +1063,6 @@
       }
 
       @media (min-width: px-em(481px)) and (max-width:(px-em(979px))){
-        margin: -100px 0;
         width: 40px;
         height: 70px;
         font-size: 1.0em;

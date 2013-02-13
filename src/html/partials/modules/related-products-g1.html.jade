@@ -4,6 +4,7 @@ layout1: [ "plate", "normal" , "medium"  , "normal" , "normal" , "normal"]
 layout2: [ "plate", "medium" , "normal" , "normal" , "normal" , "blank-normal"]
 layout3: [ "plate", "medium" , "normal"  , "blank-normal", "normal"]
 layout4: ["suggested" , "suggested"]
+layout5: ["normal" , "normal"  , "normal" , "normal" , "normal" , "normal" , "normal" , "normal" , "normal" , "normal"]
 ---
 if data.config.tabbedLayout
   .container
@@ -92,9 +93,23 @@ else if data.config.standalone == true
         e = { 'locals' : locals , 'data' : d }
         !{locals.partial('modules/'+module.type , e )}
 
-
-
-
+  else if data.config.mode == 'strip'
+    - clss = data.config.mode
+    .container
+      .grid
+        h2(class='l1 rp-title')= data.config.headerTitle
+    .container
+      section.related-products(class=clss , data-mode=data.config.mode , data-variation=data.config.variation )
+        .rp-overflow
+          .rp-container
+            i = 0
+            for module in data.submodules
+              d = locals.data(module.data)
+              if d.type == 'product' && d.featured
+                - d.layout = document[data.config.layout][i++]
+                - d.view = 'basic'
+                e = { 'locals' : locals , 'data' : d }
+                !{locals.partial('modules/'+module.type , e )}
 
 
 

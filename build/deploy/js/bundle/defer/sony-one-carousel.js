@@ -571,7 +571,7 @@
       update: function(){
         var self = this,
         cw       = self.currentContainerWidth = self.$el.find( '.soc-grid' ).eq(0).width(),
-        newH     = self.resizeRatio * cw +  'px',
+        newH     = Math.floor(self.resizeRatio * cw) +  'px',
         $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
 
         console.log('Resize Ratio »', self.resizeRatio);
@@ -580,7 +580,7 @@
           self.$container.css( 'height' , newH );
           $currSlides.css( 'height' ,  newH );
         }else{
-          newH = $('.soc-item').eq(0).height();
+          newH = Math.floor($('.soc-item').eq(0).height());
           self.$container.css( 'height' ,  newH  + 'px' );
         }
         //console.log("Updating 'soc-container'.height to »",newH );
@@ -1033,7 +1033,7 @@
             // console.log('New Gutter for slide »',gutterWidth);
             }
 
-            $(this).css( { 'left': i * cw + 'px', 'z-index' : i } );
+            $(this).css( { 'left': Math.floor(i * cw) + 'px', 'z-index' : i } );
           });
         }
 
@@ -1050,8 +1050,8 @@
             }
 
             $(this).css({
-              'left': i * cw + 'px',
-              'height' : self.$el.find('.soc-item').eq(0).height()  + 'px',
+              'left': Math.floor(i * cw) + 'px',
+              'height' : Math.floor(self.$el.find('.soc-item').eq(0).height())  + 'px',
               'z-index' : i
             });
 
@@ -1068,7 +1068,7 @@
           cw = self.currentContainerWidth = self.$el.find('.soc-item').eq(0).width();
           self.$mobileSlides.each(function(i){
             $(this).css( {
-              'left': i * (cw + mobileGutter) + 'px',
+              'left': Math.floor(i * (cw + mobileGutter)) + 'px',
               'height' : 317  + 'px', //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
               'z-index' : i
             } );
