@@ -125,6 +125,7 @@
       self.shuffle               = null; //start with null value, gets checked in checkforBreakpoints method
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
+      self.paddlesEnabled        = false;
 
       if(self.variation !== undefined){
         self.varitation = self.variation.split('-')[2];
@@ -1351,6 +1352,43 @@
         });
       },
 
+
+      updatePaddles: function () {
+        var self = this,
+            wW = self.$win.width();
+
+        if(!self.paddlesEnabled){
+          return;
+        }
+
+        var $plate = self.$el.find('.plate'),
+            hasPlate = $plate.length > 0;
+
+
+        if ( Modernizr.mq('(min-width: 981px)') && hasPlate) {
+          var plateHeight = $plate.outerHeight(true) + 'px',
+          spaceAvail = wW - self.$el.find('.rp-slide').eq(0).width();
+          
+          self.$rightPaddle.css({
+            top :  plateHeight,
+            right: spaceAvail / 2 + 'px'
+
+          });
+
+
+          console.log( 'updating paddle right to »', spaceAvail );
+
+          self.$leftPaddle.css({
+            top :  plateHeight,
+            left: spaceAvail / 2 + 'px'
+          });
+        }
+
+
+
+
+      },
+
       setupResizeListener: function(){
         var self = this,
         resizeTimeout = null;
@@ -1392,6 +1430,7 @@
           self.checkForBreakpoints();
           self.updateSliderSize();
           self.updateSlides();
+          self.updatePaddles();
 
           if(self.mode === 'suggested'){
             return;

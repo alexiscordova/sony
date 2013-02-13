@@ -120,6 +120,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
       self.shuffle               = <span class="literal">null</span>; <span class="comment">//start with null value, gets checked in checkforBreakpoints method</span>
       self.shuffleSpeed          = <span class="number">250</span>;
       self.shuffleEasing         = <span class="string">'ease-out'</span>;
+      self.paddlesEnabled        = <span class="literal">false</span>;
 
       <span class="keyword">if</span>(self.variation !== <span class="literal">undefined</span>){
         self.varitation = self.variation.split(<span class="string">'-'</span>)[<span class="number">2</span>];
@@ -1286,6 +1287,43 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
         });
       },
 
+
+      updatePaddles: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+        <span class="keyword">var</span> self = <span class="keyword">this</span>,
+            wW = self.$win.width();
+
+        <span class="keyword">if</span>(!self.paddlesEnabled){
+          <span class="keyword">return</span>;
+        }
+
+        <span class="keyword">var</span> $plate = self.$el.find(<span class="string">'.plate'</span>),
+            hasPlate = $plate.length &gt; <span class="number">0</span>;
+
+
+        <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 981px)'</span>) &amp;&amp; hasPlate) {
+          <span class="keyword">var</span> plateHeight = $plate.outerHeight(<span class="literal">true</span>) + <span class="string">'px'</span>,
+          spaceAvail = wW - self.$el.find(<span class="string">'.rp-slide'</span>).eq(<span class="number">0</span>).width();
+          
+          self.$rightPaddle.css({
+            top :  plateHeight,
+            right: spaceAvail / <span class="number">2</span> + <span class="string">'px'</span>
+
+          });
+
+
+          console.log( <span class="string">'updating paddle right to »'</span>, spaceAvail );
+
+          self.$leftPaddle.css({
+            top :  plateHeight,
+            left: spaceAvail / <span class="number">2</span> + <span class="string">'px'</span>
+          });
+        }
+
+
+
+
+      },
+
       setupResizeListener: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         resizeTimeout = <span class="literal">null</span>;
@@ -1326,6 +1364,7 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
           self.checkForBreakpoints();
           self.updateSliderSize();
           self.updateSlides();
+          self.updatePaddles();
 
           <span class="keyword">if</span>(self.mode === <span class="string">'suggested'</span>){
             <span class="keyword">return</span>;

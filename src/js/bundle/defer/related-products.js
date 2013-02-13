@@ -1362,29 +1362,40 @@
         }
 
         var $plate = self.$el.find('.plate'),
-            hasPlate = $plate.length > 0;
-
+            hasPlate = $plate.length > 0,
+            plateHeight = $plate.outerHeight(true) + 'px',
+            spaceAvail = wW - self.$el.find('.rp-slide').eq(0).width();
 
         if ( Modernizr.mq('(min-width: 981px)') && hasPlate) {
-          var plateHeight = $plate.outerHeight(true) + 'px',
-          spaceAvail = wW - self.$el.find('.rp-slide').eq(0).width();
           
           self.$rightPaddle.css({
             top :  plateHeight,
-            right: spaceAvail / 2 + 'px'
+            right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + 'px'
 
           });
-
 
           console.log( 'updating paddle right to »', spaceAvail );
 
           self.$leftPaddle.css({
             top :  plateHeight,
-            left: spaceAvail / 2 + 'px'
+            left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + 'px'
           });
+        }else if(Modernizr.mq('(min-width: 481px)') && hasPlate){
+
+          self.$rightPaddle.css({
+            top :  plateHeight + 130,
+            right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + 20 + 'px'
+
+          });
+
+          console.log( 'updating paddle right to »', spaceAvail );
+
+          self.$leftPaddle.css({
+            top :  plateHeight + 130,
+            left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 35 + 'px'
+          });
+
         }
-
-
 
 
       },
