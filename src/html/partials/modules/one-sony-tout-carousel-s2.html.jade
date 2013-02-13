@@ -163,3 +163,13 @@
                         - counterText = item.counter.total + ' ' + item.counter.text
                         h3.l2= counterText
 
+                  if s == 'content-8'
+                    //- MINI PROMO
+                    if item.miniPromo
+                      a.mini-promo(class=contentType)(class=textStyle)(class=alignment)(class=s)(href=item.miniPromo.link)
+                        div.mini-promo-image-container
+                          .play-button
+                            i.fonticon-10-video-play
+                          img(src=item.miniPromo.imgSrc)
+                        div.mini-promo-caption.p4
+                          | !{item.miniPromo.caption}
