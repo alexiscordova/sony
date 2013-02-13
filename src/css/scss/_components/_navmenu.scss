@@ -37,13 +37,14 @@
     a.tl {
       display:inline-block;
       padding-right: 4px;
-      @include fonticon-text-px-to-em(12px);
+      font-size: px-em(12);
 
       i {
         box-sizing:content-box;
         padding-right:8px;
         margin-top:1px;
         color:$gray50;
+        font-size: px-em(16,12);
       }
       &:hover i{
         color:$linkColorHover;
@@ -53,7 +54,8 @@
 }
 .navmenu-li-ext-text{
   font-style:italic;
-  color:$gray20;
+  color:$gray40;
+  font-size: px-em(13,16);
 }
 
 .navmenu-w-account{

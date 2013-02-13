@@ -28,6 +28,7 @@ $fourColMax: px-em(979px);
 
   .product-name {
     color: $gray20;
+    margin-bottom: 0;
   }
 
   .product-model {
@@ -79,7 +80,9 @@ $fourColMax: px-em(979px);
 // -------------------------
 
 .gallery-content {
+  margin-top: 1.5em;
   padding-bottom: 4.375em;
+  overflow: visible;
 }
 
 // Give multiple gallery sections a border top
@@ -570,20 +573,14 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Remove percentage heights
   .gallery-item {
 
-    &:after {
-      content: none;
-    }
-
-    .gallery-item-inner {
-      position: relative;
-    }
-
+    &:after,
     .product-img:after {
       content: none;
     }
 
+    .gallery-item-inner,
     .product-img .product-img-wrap {
-      position: relative;
+      position: static;
     }
   }
 
@@ -614,39 +611,48 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .gallery-detailed {
 
-    .label {
-      left: 0;
-      right: auto;
-    }
-
     .products {
       margin-top: -1.625em;
     }
 
     .gallery-item {
       margin-top: 1.625em; // 26
-      display: table;
       height: auto;
+      width: 100%;
+      max-width: 100%;
+
+      // The labels parent is still 100%, but the product image
+      // and details are a 2up.
+      .label {
+        right: 50%;
+      }
+    }
+
+    .gallery-item-inner {
+      display: table;
+      width: 100%;
+      max-width: 100%;
     }
 
     // Firefox is having a problem with display:table-cell ...
+    .product-img,
+    .product-content {
+      display: table-cell;
+      width: 50%;
+    }
+
     .product-img {
       position: relative;
-      display: table-cell;
-      width: 48%;
       vertical-align: middle;
     }
 
-
     .product-content {
-      display: table-cell;
-      width: 48%;
       padding-left: 4%;
     }
 
 
     .product-rating {
-      font-size: $font_10_16;
+      // font-size: $font_10_16;
       margin: .5em 0 .6875em;
     }
 
@@ -654,16 +660,16 @@ $oneByOneImgPadding: 107.84313725490196%;
       margin-bottom: .6875em;
 
       li {
-        font-size: $font_10_16;
+        // font-size: $font_10_16;
       }
     }
 
     .product-content .product-name {
-      font-size: $font_11_16;
+      // font-size: $font_11_16;
     }
 
     .product-model {
-      font-size: $font_9_16;
+      // font-size: $font_9_16;
     }
   }
 
@@ -678,11 +684,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .favorite-holder i {
     font-size: .6875em;
-  }
-
-  .gallery-item .label {
-    right: auto;
-    left: 0;
   }
 
 }
@@ -784,7 +785,8 @@ $oneByOneImgPadding: 107.84313725490196%;
   position: relative;
   z-index: 1;
 
-  .slide-toggle {
+  .slide-toggle,
+  .accessory-finder {
     margin-left: 2.5em;
   }
 
@@ -862,9 +864,14 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Override default btn-group functionality to have them drop to the new line
   .btn-group {
     white-space: normal;
+    margin-bottom: 0;
 
-    > .btn:not(:first-child) {
-      margin-left: .375em;
+    .btn {
+      margin-bottom: .375em;
+    }
+
+    > .btn:not(:last-child) {
+      margin-right: .375em;
     }
   }
 
@@ -1000,22 +1007,22 @@ $oneByOneImgPadding: 107.84313725490196%;
       margin-top: 10px;
     }
 
-    .slide-toggle {
-      clear: both;
-      margin-left: 0;
+    .btn.slide-toggle,
+    .btn.js-compare-toggle {
       float: left;
-    }
-
-    .js-compare-toggle {
-      float: right;
-      margin-left: 2%;
-    }
-
-    .slide-toggle,
-    .js-compare-toggle {
-      margin-top: 20px;
+      margin: 20px 0 0 0;
+      min-width: auto;
       width: 48%;
     }
+
+    .btn.slide-toggle {
+      clear: both;
+    }
+
+    .btn.js-compare-toggle {
+      margin-left: 4%;
+    }
+
   }
 
 }
@@ -1032,13 +1039,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 .range-output {
   margin-top: 0.625em;
   text-align: center;
-}
-
-// Misc
-// -------------------------
-.tab-content {
-  margin-top: 1.5em;
-  overflow: visible;
 }
 
 
@@ -1273,14 +1273,18 @@ $oneByOneImgPadding: 107.84313725490196%;
   margin-left: .1875em;
   background: $white;
   color: $gray20;
+  @include transition();
+
+  &.faded {
+    opacity: 0;
+  }
+
+  &.no-width {
+    width: 0;
+  }
 
   .product-model {
     color: $gray40;
-    // font-size: $font_11_16;
-  }
-
-  .product-name {
-    // font-size: $font_13_16;
   }
 
   .compare-sticky-header .product-name-wrap {

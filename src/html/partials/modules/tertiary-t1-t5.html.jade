@@ -81,7 +81,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
                   if (module.articleLink)
                     p.lt3
-                      a(href="#{module.articleLink}")
+                      a(href= module.articleLink)
                         | Read More
               
             when "users-voice"
@@ -98,11 +98,10 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
                       noscript
                         img(src= module.avatarNoScriptImg)
-                  
-                  .author
-                    p.name.l3
-                      a(href="#{module.authorLink}")
-                        | #{module.author}
+                
+                  p.author.l3
+                    a(href="#{module.authorLink}")
+                      | #{module.author}
 
               if (contentMode == "user-quote")
                 .title.l3
@@ -117,14 +116,13 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
                       noscript
                         img(src= module.avatarNoScriptImg)
-                  
-                  .author
-                    p.handle.p4
-                      a(href="#{module.authorLink}")
-                        | #{module.authorHandle}
 
-                    p.name.p4
-                      | #{module.author}
+                  p.handle.p4
+                    a(href="#{module.authorLink}")
+                      | #{module.authorHandle}
+
+                  p.author.p4
+                    | #{module.author}
 
               if (contentMode == "question")
                 .credits
@@ -134,7 +132,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                         img(src= module.avatarNoScriptImg)
                   
                   p.author.p4
-                    a(href="#{module.authorLink}")
+                    a(href= module.authorLink)
                       | #{module.authorHandle} 
                     | #{module.title}
               
@@ -143,11 +141,11 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     | #{module.question}
 
                 p.lt3
-                  a(href=#{module.repliesLink})
+                  a(href= module.repliesLink)
                     | See Replies
 
                 .answer-btn
-                  a.btn(href="#{module.answerLink}")
+                  a.btn(href= module.answerLink)
                     | Answer this Question
             
             when "sonys-voice"
@@ -209,7 +207,16 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                           img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
                           noscript
                             img(src= module.instagramRNoScriptImg)
-                      tr
+                        td.top-center-phone
+                          img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
+                          noscript
+                            img(src= module.instagramRNoScriptImg)
+                        td.top-right-phone
+                          img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
+                          noscript
+                            img(src= module.instagramBLNoScriptImg)
+
+                      tr.bottom-row
                         td.bottom-left
                           img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
                           noscript
@@ -227,45 +234,38 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                 .meta.p4
                   for meta in module.meta        
                     | #{meta.user} #{meta.title}
+                
+                - images = module.images
+                .center-content.table-center
+                  table
+                    tbody
+                      tr.top-row
+                        td.top-left
+                          img.iq-img(alt= images[0].altText, data-src= images[0].src)
+                          noscript
+                            img(src= images[0].noScriptSrc)
+                        td.top-center
+                          img.iq-img(alt= images[1].altText, data-src= images[1].src)
+                          noscript
+                            img(src= images[1].noScriptSrc)
+                        td.top-right
+                          img.iq-img(alt= images[2].altText, data-src= images[2].src)
+                          noscript
+                            img(src= images[2].noScriptSrc)
 
-                .image-mat
-                  - images = module.images
-                  .top-row
-                    .left.iq-img(data-src= images[0].src)
-                    .center.iq-img(data-src= images[1].src)
-                    .right.iq-img(data-src= images[2].src)
-
-                  .bottom-row
-                    .left.iq-img(data-src= images[3].src)
-                    .center.iq-img(data-src= images[4].src)
-                    .right.iq-img(data-src= images[5].src)
-                  //- .top-row
-                  //-   .left
-                  //-     img.iq-img(alt= images[0].altText, data-src= images[0].src)
-                  //-     noscript
-                  //-       img(src= images[0].noScriptSrc)
-                  //-   .center
-                  //-     img.iq-img(alt= images[1].altText, data-src= images[1].src)
-                  //-     noscript
-                  //-       img(src= images[1].noScriptSrc)
-                  //-   .right
-                  //-     img.iq-img(alt= images[2].altText, data-src= images[2].src)
-                  //-     noscript
-                  //-       img(src= images[2].noScriptSrc)
-
-                  //- .bottom-row
-                  //-   .left
-                  //-     img.iq-img(alt= images[3].altText, data-src= images[3].src)
-                  //-     noscript
-                  //-       img(src= images[3].noScriptSrc)
-                  //-   .center
-                  //-     img.iq-img(alt= images[4].altText, data-src= images[4].src)
-                  //-     noscript
-                  //-       img(src= images[4].noScriptSrc)
-                  //-   .right
-                  //-     img.iq-img(alt= images[5].altText, data-src= images[5].src)
-                  //-     noscript
-                  //-       img(src= images[5].noScriptSrc)
+                      tr.bottom-row
+                        td.bottom-left
+                          img.iq-img(alt= images[3].altText, data-src= images[3].src)
+                          noscript
+                            img(src= images[3].noScriptSrc)
+                        td.bottom-center
+                          img.iq-img(alt= images[4].altText, data-src= images[4].src)
+                          noscript
+                            img(src= images[4].noScriptSrc)
+                        td.bottom-right
+                          img.iq-img(alt= images[5].altText, data-src= images[5].src)
+                          noscript
+                            img(src= images[5].noScriptSrc)
 
                 - link = module.socialBtnLink
                 - label = " View Set on Flickr"

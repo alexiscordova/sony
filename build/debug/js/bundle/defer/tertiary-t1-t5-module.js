@@ -226,7 +226,6 @@
         self.$contentModules.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
-
       },
 
       adjustMargins : function(  ){
