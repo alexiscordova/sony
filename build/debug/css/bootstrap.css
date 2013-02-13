@@ -5588,11 +5588,16 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 84, ../../../src/css/scss/_base/_swatches.scss */
+.color-swatches > .mini-swatch {
+  margin-right: 0;
+}
+
+/* line 87, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch:not(:first-child) {
   margin-left: 0.125em;
 }
 
-/* line 88, ../../../src/css/scss/_base/_swatches.scss */
+/* line 91, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch {
   width: 0.75em;
   height: 0.75em;
@@ -5604,77 +5609,77 @@ input[type="submit"].btn.btn-mini {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 98, ../../../src/css/scss/_base/_swatches.scss */
+/* line 101, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch:before, .mini-swatch:after {
   content: none;
 }
 
-/* line 101, ../../../src/css/scss/_base/_swatches.scss */
+/* line 104, ../../../src/css/scss/_base/_swatches.scss */
 .filter-container [class*="swatch-"] {
   cursor: pointer;
 }
 
-/* line 106, ../../../src/css/scss/_base/_swatches.scss */
+/* line 109, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-black {
   background-color: #1f2024;
 }
 
-/* line 107, ../../../src/css/scss/_base/_swatches.scss */
+/* line 110, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-yellow {
   background-color: #e8c446;
 }
 
-/* line 108, ../../../src/css/scss/_base/_swatches.scss */
+/* line 111, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-purple {
   background-color: #7a43b6;
 }
 
-/* line 109, ../../../src/css/scss/_base/_swatches.scss */
+/* line 112, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-teal {
   background-color: #3a87ad;
 }
 
-/* line 110, ../../../src/css/scss/_base/_swatches.scss */
+/* line 113, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white {
   background-color: white;
 }
 
-/* line 111, ../../../src/css/scss/_base/_swatches.scss */
+/* line 114, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-red {
   background-color: #f85354;
 }
 
-/* line 112, ../../../src/css/scss/_base/_swatches.scss */
+/* line 115, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-blue {
   background-color: #3dadfe;
 }
 
-/* line 113, ../../../src/css/scss/_base/_swatches.scss */
+/* line 116, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-pink {
   background-color: #c3325f;
 }
 
-/* line 114, ../../../src/css/scss/_base/_swatches.scss */
+/* line 117, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-green {
   background-color: #22c083;
 }
 
-/* line 115, ../../../src/css/scss/_base/_swatches.scss */
+/* line 118, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-orange {
   background-color: #ed4e23;
 }
 
-/* line 116, ../../../src/css/scss/_base/_swatches.scss */
+/* line 119, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-silver {
   background-color: #83838f;
 }
 
-/* line 117, ../../../src/css/scss/_base/_swatches.scss */
+/* line 120, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-lemon {
   background-color: #fffec9;
 }
 
-/* line 134, ../../../src/css/scss/_base/_swatches.scss */
+/* line 137, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white,
 .swatch-lemon {
   -webkit-box-shadow: 0 1px 0 #d2d2db;
@@ -5683,14 +5688,14 @@ input[type="submit"].btn.btn-mini {
 }
 
 @media (max-width: 29.9375em) {
-  /* line 141, ../../../src/css/scss/_base/_swatches.scss */
+  /* line 144, ../../../src/css/scss/_base/_swatches.scss */
   [class^="swatch-"],
   [class*=" swatch-"] {
     width: 2.5625em;
     height: 2.5em;
   }
 
-  /* line 145, ../../../src/css/scss/_base/_swatches.scss */
+  /* line 148, ../../../src/css/scss/_base/_swatches.scss */
   .mini-swatch {
     width: 0.875em;
     height: 0.875em;
@@ -9355,59 +9360,64 @@ a.label:hover, a.badge:hover {
   z-index: 3;
   height: 14px;
   background: #3c3c42;
+  border-radius: 14px;
 }
-/* line 28, ../../../src/css/scss/_components/_range-control.scss */
+/* line 29, ../../../src/css/scss/_components/_range-control.scss */
 .range-control.vertical .ambit {
   width: 14px;
   height: auto;
 }
-/* line 33, ../../../src/css/scss/_components/_range-control.scss */
+/* line 34, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .handle {
   position: absolute;
   top: 0;
   z-index: 5;
   margin-top: 0;
-  margin-left: -10px;
   width: 14px;
   height: 14px;
-  border: 2px solid white;
   border-radius: 50%;
   background: white;
   -webkit-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
   -moz-box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
   box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12), 0 0 9px white;
-  -webkit-transition: -webkit-transform 0.15s linear, border 0.15s linear;
-  transition: transform 0.15s linear, border 0.15s linear;
+  -webkit-transition: -webkit-transform 0.1s linear, box-shadow 0.1s linear;
+  transition: transform 0.1s linear, box-shadow 0.1s linear;
   cursor: all-scroll;
   cursor: -webkit-grab;
   cursor: -moz-grab;
   cursor: grab;
 }
-/* line 55, ../../../src/css/scss/_components/_range-control.scss */
-.range-control .handle.grabbed, .range-control .handle:hover {
-  border-width: 12px;
+/* line 53, ../../../src/css/scss/_components/_range-control.scss */
+.no-csstransforms .range-control .handle {
+  border: 2px solid white;
 }
-/* line 58, ../../../src/css/scss/_components/_range-control.scss */
+/* line 60, ../../../src/css/scss/_components/_range-control.scss */
 .no-csstransforms .range-control .handle.grabbed, .no-csstransforms .range-control .handle:hover {
+  border-width: 12px;
   margin-top: -6px;
   margin-left: -14px;
 }
-/* line 63, ../../../src/css/scss/_components/_range-control.scss */
+/* line 66, ../../../src/css/scss/_components/_range-control.scss */
 .csstransforms .range-control .handle.grabbed, .csstransforms .range-control .handle:hover {
-  -webkit-transform: translate(-6px, -6px);
-  -ms-transform: translate(-6px, -6px);
-  transform: translate(-6px, -6px);
+  -webkit-transform: scale(1.7);
+  -ms-transform: scale(1.7);
+  transform: scale(1.7);
+  -webkit-box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
 }
-/* line 69, ../../../src/css/scss/_components/_range-control.scss */
+/* line 73, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .rangecontrol-min-handle {
   left: 0%;
+  margin-left: -2px;
 }
-/* line 72, ../../../src/css/scss/_components/_range-control.scss */
+/* line 77, ../../../src/css/scss/_components/_range-control.scss */
 .range-control .rangecontrol-max-handle {
   left: 100%;
+  margin-left: -12px;
 }
 
-/* line 82, ../../../src/css/scss/_components/_range-control.scss */
+/* line 88, ../../../src/css/scss/_components/_range-control.scss */
 .grabbing .range-control .handle,
 .range-control .handle:active {
   cursor: all-scroll;
@@ -9416,18 +9426,18 @@ a.label:hover, a.badge:hover {
   cursor: grabbing;
 }
 
-/* line 96, ../../../src/css/scss/_components/_range-control.scss */
+/* line 102, ../../../src/css/scss/_components/_range-control.scss */
 .range-output-container {
   position: relative;
   height: 25px;
 }
-/* line 100, ../../../src/css/scss/_components/_range-control.scss */
+/* line 106, ../../../src/css/scss/_components/_range-control.scss */
 .range-output-container sup {
   top: -0.3em;
   margin-right: 1px;
 }
 
-/* line 107, ../../../src/css/scss/_components/_range-control.scss */
+/* line 113, ../../../src/css/scss/_components/_range-control.scss */
 .range-output-min,
 .range-output-max {
   position: absolute;
@@ -9439,7 +9449,7 @@ a.label:hover, a.badge:hover {
   transition: color 0.15s ease-out;
 }
 
-/* line 117, ../../../src/css/scss/_components/_range-control.scss */
+/* line 123, ../../../src/css/scss/_components/_range-control.scss */
 .grabbing-min .range-output-min,
 .grabbing-max .range-output-max {
   color: #f25529;

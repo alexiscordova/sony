@@ -299,7 +299,7 @@
       self.$tabsContainer.scrollerModule({
         contentSelector: '.tabs',
         itemElementSelector: '.tab',
-        mode: 'paginate',
+        mode: 'free',
         nextSelector: self.$navNext,
         prevSelector: self.$navPrev,
         centerItems: false,
@@ -316,7 +316,8 @@
       });
 
       // Check to make sure we actually have paginated tabs
-      if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {
+      // if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {
+      if ( self.$tabsContainer.data('scrollerModule').scroller.pagesX.length > 1 ) {
         self.$navNext.removeClass('hide');
         self.$container.addClass('tab-carousel');
       }

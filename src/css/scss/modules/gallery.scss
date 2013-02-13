@@ -1281,14 +1281,18 @@ $oneByOneImgPadding: 107.84313725490196%;
   margin-left: .1875em;
   background: $white;
   color: $gray20;
+  @include transition();
+
+  &.faded {
+    opacity: 0;
+  }
+
+  &.no-width {
+    width: 0;
+  }
 
   .product-model {
     color: $gray40;
-    // font-size: $font_11_16;
-  }
-
-  .product-name {
-    // font-size: $font_13_16;
   }
 
   .compare-sticky-header .product-name-wrap {
