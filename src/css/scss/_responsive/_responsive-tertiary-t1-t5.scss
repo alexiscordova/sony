@@ -24,8 +24,10 @@ $users-voice-padding-left-right-phone:px-em(25px);
 $users-voice-padding-desktop:30px px-em(40px) $users-voice-padding-bottom-desktop $users-voice-padding-left-right-desktop;
 $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $users-voice-padding-left-right-phone;
 
+$sonys-voice-padding-bottom:11px;
 
- $sonys-voice-padding-bottom:11px;
+$tenPercentInstaFlickr: percentage(10px/316px);
+$fivePercentInstaFlickr: percentage(5px/316px);
 // -----------------------------------------
 // 3-UP - // DEFAULT: 980px - 1199px;
 // -----------------------------------------
@@ -83,10 +85,6 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
   } // end .tcc-copy
 
  .social-btn{
-    // position: absolute;
-    // bottom: $sonys-voice-padding-bottom;
-    // left: 50%;
-    // margin-left: -85px;
     margin:0 auto;
   } // end socialBtn
 
@@ -231,18 +229,93 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
         padding: 13px 4px;
       }
 
-      .image-mat{
-        margin-top:40px;
-      } // end .image-mat
+      // .image-mat{
+      //   margin-top:40px;
+      // } // end .image-mat
+
+
+      table{
+
+        background-color:rgba($gray50,0.3);
+
+        tr{
+          // @include debug(1px, red);
+
+          td{
+            // @include debug(1px, blue);
+
+            &.top-left{
+              padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
+              vertical-align: top;
+            } // end top-left
+
+            &.top-right{
+              vertical-align: top;
+              padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr;
+            } // end top-right
+
+            &.bottom-left{
+              vertical-align: bottom;
+              padding:$fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;  
+            } // end .bottom-left
+
+          } // end td
+
+        } // end tr
+
+      } // end table
       
     } // end &.instagram
 
   } // end sonys-voice
 
   .flickr{
+
       .image-mat{
-        padding:10px px-em(10px);
-      } // end .image-mat
+        // @include debug(1px, red);
+        width:87%;
+        margin:20px auto 24px auto;
+        padding:$tenPercentInstaFlickr;
+
+        @mixin backgroundSettings(){
+          position: relative;
+          display: block;
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+
+        .left,
+        .center{
+          float:left;
+          //padding:0 $fivePercentInstaFlickr $fivePercentInstaFlickr 0;
+          margin:0 $fivePercentInstaFlickr $fivePercentInstaFlickr 0;
+        }
+
+        .right{
+          float:left;
+          //padding:0 0 $fivePercentInstaFlickr 0;
+          margin:0 0 $fivePercentInstaFlickr 0;
+        } 
+
+        .top-row{
+          @include clearfix();
+        } // end .top-row
+
+        .bottom-row{
+           @include clearfix();
+        } // .bottom-row
+
+        .top-row,
+        .bottom-row{
+          div{
+            width:95px;
+            height:94px;
+            @include backgroundSettings();
+          }
+        }
+
+      } //end .image-mat
 
   } // end .flickr
    
@@ -293,31 +366,31 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
     } // end &.featured
 
     .sonys-voice{     
-      &.instagram{
-        .image-mat{
-          margin-top:12px;
-        } // end .image-mat
+      // &.instagram{
+      //   .image-mat{
+      //     margin-top:12px;
+      //   } // end .image-mat
         
-      } // end &.instagram
+      // } // end &.instagram
     } // end .sonys-voice  
 
-    .flickr{
+    // .flickr{
 
-      .image-mat{
-        padding:10px 0.325em;
-      } // end .image-mat
+    //   .image-mat{
+    //     padding:10px 0.325em;
+    //   } // end .image-mat
 
-      .top-row,
-      .bottom-row{
-        float:left;
+    //   .top-row,
+    //   .bottom-row{
+    //     float:left;
         
-        .span4{
-          float:left;
-          width:30.96927%;
-        } // end span
+    //     .span4{
+    //       float:left;
+    //       width:30.96927%;
+    //     } // end span
 
-      } // end .top-row, .bottom-row      
-    } // end .flickr
+    //   } // end .top-row, .bottom-row      
+    // } // end .flickr
     
     
   } // end .tcc-wrapper
@@ -475,47 +548,47 @@ $users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $u
           height:40px;
         }
 
-        .image-mat{
-          margin-top:0px;
-        } // end .image-mat
+        // .image-mat{
+        //   margin-top:0px;
+        // } // end .image-mat
         
       } // end &.instagram
 
     } // end .sonys-voice  
     
-  .flickr{
-      .image-mat{
-        padding:10px 0.325em;
-      } // end .image-mat
+    .flickr{
+        .image-mat{
+          padding:10px 0.325em;
+        } // end .image-mat
 
-      .meta{
-        display:inline-block;
-        padding-left: px-em(10px); 
-      } // end .meta
-      
-      .top-row{
-        float:left;
-        width: 100%;
-
-
-        .span4{
+        .meta{
+          display:inline-block;
+          padding-left: px-em(10px); 
+        } // end .meta
+        
+        .top-row{
           float:left;
-          //width:30.96927%;
-          //width: px-em(82px); 
-          width:32.9%;
+          width: 100%;
 
-          img{
-            padding:0;
-            width:100%;
+
+          .span4{
+            float:left;
+
+            img{
+              padding:0;
+              width:100%;
+            }
+
+          } // end span4
+
+        } // end .top-row
+
+        .bottom-row{
+          display:none;
+          div{
+            display:none;
           }
-
-        } // end span4
-
-      } // end .top-row
-
-      .bottom-row{
-        display:none;
-      } // .bottom-row
+        } // .bottom-row
 
     } // end .flickr
 

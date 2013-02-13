@@ -9,10 +9,6 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-@mixin instagramLayout{
-
-}
-
 //TODO: put these in better spot, shouldn't go into production
 .tcc-layouts{
 	padding:40px 20px;
@@ -319,84 +315,6 @@
 
 		} // end .twitter
 
-		&.instagram{
-			table{
-
-				background-color:rgba($gray50,0.3);
-
-				tr{
-					// @include debug(1px, red);
-
-					td{
-						// @include debug(1px, blue);
-
-						&.top-left{
-							padding:10px 5px 5px 10px;
-							vertical-align: top;
-						} // end top-left
-
-						&.top-right{
-							vertical-align: top;
-							padding:10px 10px 10px 5px;
-						} // end top-right
-
-						&.bottom-left{
-							vertical-align: bottom;
-							padding:5px 5px 10px 10px;	
-						} // end .bottom-left
-
-					} // end td
-
-				} // end tr
-
-			} // end table
-
-		  .image-mat{
-		  	$oneThirdWidth: 30.3797468%;  // 96/316
-		  	$twoThirdWidth: 61.7088608%; // 195/316
-		  	$outerPaddingH: 3.164557%; // 10/316
-		  	$innerPaddingH: 1.5822785%; // 5/316
-
-		  	background-color:rgba($gray50,0.3);
-		  	position: relative;
-		  	@include clearfix();
-
-				.top-left,
-				.top-right,
-				.bottom-left{
-					position: absolute;
-
-		  		// img{
-		  		// 	width: 100%;
-		  		// }					
-		  		
-				}
-
-		  	.top-left{
-		  		top:10px;
-		  		left:$outerPaddingH;
-		  		width: $oneThirdWidth; //px-em(96px);
-		  	}
-
-		  	.top-right{
-		  		top:10px;
-		  		right:$outerPaddingH;
-					width: $twoThirdWidth; // px-em(195px);
-		  	}
-
-		  	.bottom-left{
-		  		bottom:7px;
-		  		left:$outerPaddingH;
-		  		width: $oneThirdWidth; //px-em(96px);
-		   	}
-
-				// &:after{
-				// 	padding-top:68.6708861%; // (217/316) *100
-				// } // end :after preserve ratio
-
-		  } // end image-mat
-		  
-		} // end &.instagram
 		
 	} // end sonys-voice
 
@@ -413,30 +331,8 @@
 			
 		} // end meta
 
-
 	  .image-mat{
 		  background-color:$gray50;
-		  // max-width: px-em(315px);
-		  margin: 20px 0 24px 0;
-
-		  .top-row{
-		  	@include clearfix();
-		  	padding-bottom:5px;
-		  } // end .top-row
-
-		  .bottom-row{
-		  	 @include clearfix();
-		  } // .bottom-row
-
-		  .span4{
-		  	padding-left:5px;
-
-		  	&:first-child{
-		  		padding-left:0;
-		  	} // end first-child
-
-		  } // span4
-
 	  } //end .image-mat
 
 	} // end .flickr
