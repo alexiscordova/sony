@@ -1513,7 +1513,7 @@
         .find('.compare-item-remove')
         .parent()
         .addBack()
-        .removeClass('hide');
+        .removeClass('hide faded no-width');
 
       // Disable reset button
       self.$compareReset.addClass('disabled').removeClass('active');
@@ -1532,27 +1532,41 @@
 
     onCompareItemRemove : function( evt ) {
       var self = this,
-          remaining;
+          remaining,
+          $compareItem = $(evt.target).closest('.compare-item');
 
-      // Hidet the column
-      $(evt.target).closest('.compare-item').addClass('hide');
+      function afterHidden() {
+        // Hide the column
+        $compareItem.addClass('hide');
 
-      // Make sure we can press reset
-      self.$compareReset.removeClass('disabled').addClass('active');
+        // Make sure we can press reset
+        self.$compareReset.removeClass('disabled').addClass('active');
 
-      // Get remaining
-      remaining = self.$compareItems.not('.hide').length;
+        // Get remaining
+        remaining = self.$compareItems.not('.hide').length;
 
-      // Set remaining text
-      self.$compareCount.text( remaining );
+        // Set remaining text
+        self.$compareCount.text( remaining );
 
-      // Hide close button if there are only 2 left
-      if ( remaining < 3 ) {
-        self.$compareTool.find('.compare-item-remove').addClass('hide');
+        // Hide close button if there are only 2 left
+        if ( remaining < 3 ) {
+          self.$compareTool.find('.compare-item-remove').addClass('hide');
+        }
+
+        self.setCompareWidth();
+        self.innerScroller.refresh();
       }
 
-      self.setCompareWidth();
-      self.innerScroller.refresh();
+      if ( Modernizr.csstransitions ) {
+        $compareItem
+          .addClass('faded')
+          .one( $.support.transition.end, function() {
+            $compareItem.addClass('no-width')
+              .one( $.support.transition.end, afterHidden );
+          });
+      } else {
+        afterHidden();
+      }
 
       return self;
     },
@@ -2178,6 +2192,7 @@
 $(document).ready(function() {
 
   if ( $('.gallery').length > 0 ) {
+    console.profile();
 
     // Initialize galleries
     $('.gallery').each(function() {
@@ -2205,6 +2220,7 @@ $(document).ready(function() {
     // which depends on how long the page takes to load (and if the browser has transitions)
     setTimeout(function() {
       $('.tab-pane:not(.active) .gallery').gallery('disable');
+      console.profileEnd();
     }, 500);
   }
 });
