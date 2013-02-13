@@ -3,8 +3,12 @@
 // --------------------------------------------------
 
 $max-width:1020px;
-$tcc-content-module-height:375px;
-$tcc-body-height-mobile:285px;
+
+$tcc-body-height-3up:375px;
+$tcc-content-module-height-3up:375px;
+
+$tcc-body-height-1up:198px;
+$tcc-content-module-height-1up:198px;
 
 $tcc-wrapper-padding-desktop:76px 0 64px 0;
 $tcc-wrapper-padding-phone:35px 0 50px 0;
@@ -16,7 +20,7 @@ $tcc-body-wrapper-padding-desktop:36px 0 0 0;
 $tcc-body-wrapper-padding-phone:20px 0 0 0;
 
 $users-voice-padding-bottom-desktop:15px;
-$users-voice-padding-bottom-phone:18px;
+$users-voice-padding-bottom-phone:23px;
 
 $users-voice-padding-left-right-desktop:px-em(40px);
 $users-voice-padding-left-right-phone:px-em(25px);
@@ -28,6 +32,7 @@ $sonys-voice-padding-bottom:11px;
 
 $tenPercentInstaFlickr: percentage(10px/316px);
 $fivePercentInstaFlickr: percentage(5px/316px);
+
 // -----------------------------------------
 // 3-UP - // DEFAULT: 980px - 1199px;
 // -----------------------------------------
@@ -70,11 +75,13 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     padding:$tcc-body-wrapper-padding-desktop;
 
     .tcc-body{
-      height:$tcc-content-module-height; // need to set the same height for all cases because absolute position in mobile
+      //@include debug(1px, red);
+      height:$tcc-body-height-3up; // need to set the same height for all cases because absolute position in mobile
     } // end .tcc-body
 
     .tcc-content-module{
-      height:$tcc-content-module-height;
+      //@include debug(1px, green);
+      height:$tcc-content-module-height-3up;
     } // tcc-content-module
 
   } // end .tcc-body-wrapper
@@ -110,11 +117,13 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         .feature-copy{
           position: absolute;
           bottom:0;
+          left: 0;
           margin:0;
           min-height:30%;
-          max-height:40%;
+          //max-height:40%;
           padding:5%;
-          //padding:30px  px-em(30px); ;
+          width:100%;
+          padding: px-em(30px); //8% 12%;
 
           p{
             margin:0; // overwrite default p
@@ -133,6 +142,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
   } // end .article
 
   .users-voice{
+
     &.user-quote,
     &.expert-quote{
       padding:$users-voice-padding-desktop;
@@ -145,6 +155,19 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         .avatar{
           margin-bottom:15px;
         } // .avatar
+        
+        .author{
+          &.p4{
+            margin:0;
+            padding-left: 10px;
+          } // end .p4
+
+        } // end author
+
+        .author,
+        .handle{
+          display: inline;
+        } // end .handle & .author
 
       } // end .credits
 
@@ -164,12 +187,10 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         } // end .avatar
 
         .author{
-          // float:left;
           position: absolute;
           top:50%;
           left:91px;
           margin:-11px 0 0 0;
-          //margin:28px px-em(20px) 20px px-em(20px);//28px 20px 23px 20px;
         } // end .author
 
       } // end .credits
@@ -193,6 +214,11 @@ $fivePercentInstaFlickr: percentage(5px/316px);
   .sonys-voice{
     padding:0px px-em(20px) $sonys-voice-padding-bottom px-em(20px);
     
+    .center-content{
+      height:252px;
+      width:100%;
+    }
+
     .fonticon-10-facebook,
     .fonticon-10-twitter,
     .fonticon-instagram {
@@ -203,61 +229,45 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
     } // end .fonticons
 
-    &.twitter{
-      .bq4{
-        //padding:40px 0 20px 0;
-      } // end .bq4
-
-    } // end .twitter
-
-    &.facebook{
-
-      .post-tile{
-        //padding:40px 0 0 0;
-      } // end .postTile
-
-      .post-copy{
-        //padding:22px 0 11px 0;
-      } // end .postCopy
-
-    } // end .facebook
-
     &.instagram{
+
       .fonticon-instagram{
         width:44px;
         height:44px;
-        padding: 13px 4px;
+        padding:13px 4px;
       }
 
-      // .image-mat{
-      //   margin-top:40px;
-      // } // end .image-mat
-
-
       table{
-
-        background-color:rgba($gray50,0.3);
-
         tr{
-          // @include debug(1px, red);
+
+          &.bottom-row{
+            display:table-row;
+          }
 
           td{
-            // @include debug(1px, blue);
 
             &.top-left{
+              display:table-cell;
               padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
               vertical-align: top;
             } // end top-left
 
             &.top-right{
+              display:table-cell;
               vertical-align: top;
               padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr;
             } // end top-right
 
             &.bottom-left{
+              display:table-cell;
               vertical-align: bottom;
               padding:$fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;  
             } // end .bottom-left
+
+            &.top-center-phone,
+            &.top-right-phone{
+              display:none;
+            } // end .top-right-phone  & .bottom-left-phone
 
           } // end td
 
@@ -270,52 +280,64 @@ $fivePercentInstaFlickr: percentage(5px/316px);
   } // end sonys-voice
 
   .flickr{
+    .center-content{
+      height:258px;
+      width:100%;
+    } // end .center-content
 
-      .image-mat{
-        // @include debug(1px, red);
-        width:87%;
-        margin:20px auto 24px auto;
-        padding:$tenPercentInstaFlickr;
+    table{
+      //margin:0 auto;
+      tr{
+        &.top-row,
+        &.bottom-row{
+          display:table-row;
+        } // end  &.top-row, &.bottom-row
 
-        @mixin backgroundSettings(){
-          position: relative;
-          display: block;
-          background-size: cover;
-          background-position: center center;
-          background-repeat: no-repeat;
-        }
+      } // end tr
 
-        .left,
-        .center{
-          float:left;
-          //padding:0 $fivePercentInstaFlickr $fivePercentInstaFlickr 0;
-          margin:0 $fivePercentInstaFlickr $fivePercentInstaFlickr 0;
-        }
+      td{       
+        &.top-left,
+        &.top-center,
+        &.top-right,
+        &.bottom-left,
+        &.bottom-center,
+        &.bottom-right{
+          display:table-cell;
+        } // end tds
 
-        .right{
-          float:left;
-          //padding:0 0 $fivePercentInstaFlickr 0;
-          margin:0 0 $fivePercentInstaFlickr 0;
-        } 
+        &.top-left{
+          vertical-align: top;
+          padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
+        } // end &.top-left
 
-        .top-row{
-          @include clearfix();
-        } // end .top-row
+        &.top-center{
+          vertical-align: top;
+          padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr 0;
+        } // end &.top-center
 
-        .bottom-row{
-           @include clearfix();
-        } // .bottom-row
+        &.top-right{
+          vertical-align: top;
+          padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr 0;
+        } // end &.top-right
 
-        .top-row,
-        .bottom-row{
-          div{
-            width:95px;
-            height:94px;
-            @include backgroundSettings();
-          }
-        }
+        &.bottom-left{
+          vertical-align: bottom;
+          padding:0 $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;
+        } // end &.bottom-left
 
-      } //end .image-mat
+        &.bottom-center{
+          vertical-align: bottom;
+          padding:0 $fivePercentInstaFlickr $tenPercentInstaFlickr 0;
+        } // end &.bottom-center
+
+        &.bottom-right{
+          vertical-align: bottom;
+          padding:0 $tenPercentInstaFlickr $tenPercentInstaFlickr 0;
+        } // end &.bottom-right
+
+      } // end td    
+
+    } // end table
 
   } // end .flickr
    
@@ -328,18 +350,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 } // end .tcc-wrapper
    
-
-// 3-UP -- LARGE DESKTOP - 1200px
-// ------------------------------------------------
-// @media (min-width: px-em(1200px)) {
-// } // end mQ 1200
-
-
-// 3-UP -- PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
-// ------------------------------------------------
-// @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
-// } // end 768 979
-
 
 // 2-UP
 @media (min-width: px-em(480px)) and (max-width: px-em(767px)) {
@@ -366,35 +376,105 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     } // end &.featured
 
     .sonys-voice{     
-      // &.instagram{
-      //   .image-mat{
-      //     margin-top:12px;
-      //   } // end .image-mat
-        
-      // } // end &.instagram
+      &.instagram{
+        table{
+          tr{
+
+            &.bottom-row{
+              display:table-row;
+            }
+
+            td{
+
+              &.top-left{
+                display:table-cell;
+                padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
+                vertical-align: top;
+              } // end top-left
+
+              &.top-right{
+                display:table-cell;
+                vertical-align: top;
+                padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr;
+              } // end top-right
+
+              &.bottom-left{
+                display:table-cell;
+                vertical-align: bottom;
+                padding:$fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;  
+              } // end .bottom-left
+
+              &.top-center-phone,
+              &.top-right-phone{
+                display:none;
+              } // end .top-right-phone  & .bottom-left-phone
+
+            } // end td
+
+          } // end tr
+
+        } // end table
+
+      } // end &.instagram
+
     } // end .sonys-voice  
 
-    // .flickr{
+    .flickr{
+      .center-content{
+        height:258px;
+        width:100%;
+      } // end .center-content
+  
+      table{
+        tr{
+          &.top-row,
+          &.bottom-row{
+            display:table-row;
+          } // end  &.top-row, &.bottom-row
 
-    //   .image-mat{
-    //     padding:10px 0.325em;
-    //   } // end .image-mat
+        } // end tr
 
-    //   .top-row,
-    //   .bottom-row{
-    //     float:left;
-        
-    //     .span4{
-    //       float:left;
-    //       width:30.96927%;
-    //     } // end span
+        td{
+          &.top-left,
+          &.top-center,
+          &.top-right,
+          &.bottom-left,
+          &.bottom-center,
+          &.bottom-right{
+            display:table-cell;
+          } // end tds
 
-    //   } // end .top-row, .bottom-row      
-    // } // end .flickr
+          &.top-left{
+            padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
+          } // end &.top-left
+
+          &.top-center{
+            padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr 0;
+          } // end &.top-center
+
+          &.top-right{
+            padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr 0;
+          } // end &.top-right
+
+          &.bottom-left{
+            padding:0 $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;
+          } // end &.bottom-left
+
+          &.bottom-center{
+              padding:0 $fivePercentInstaFlickr $tenPercentInstaFlickr 0;
+          } // end &.bottom-center
+
+          &.bottom-right{
+              padding:0 $tenPercentInstaFlickr $tenPercentInstaFlickr 0;
+          } // end &.bottom-right
+
+        } // end td    
+
+      } // end table
     
+    } // end .flickr
     
   } // end .tcc-wrapper
-
 
 } // end mQ
 
@@ -430,15 +510,20 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         float:left;
         width:342px; // DESKTOP >480
       } // end .grid
+  
+      .tcc-body{
+        //@include debug(1px, red);
+        height:$tcc-body-height-1up; // need to set the same height for all cases because absolute position in mobile
+      } // end .tcc-body
+
+      .tcc-content-module{
+        //@include debug(1px, green);
+        height:$tcc-content-module-height-1up;
+      } // tcc-content-module
 
     } // end .tcc-body-wrapper
 
     .article{
-
-      .tcc-body{
-        height:$tcc-body-height-mobile;
-      } // end .tcc-body
-
       .no-grid-at-767 [class*="span"]{
         height:auto;
       } // end .grid
@@ -456,22 +541,8 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       } // end .img-container
 
       &.featured{
-
-        &.tcc-content-module{
-         height:100%;
-        } // end .tcc-content-module
-
-        .img-container{
-          
-          img{
-            height: 100%;
-          } // end img
-
-        } // end .img-container
-
         .feature-copy{
-          //padding:px-em(17px) px-em(25px);
-          //height:20%;
+          padding: px-em(17px)  px-em(25px); 
         } // end .feature-copy
 
       } // end .article.featured
@@ -479,9 +550,20 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     } // end .article  
 
     .users-voice{
-      &.user-quote,
+
       &.expert-quote{
-         padding:$users-voice-padding-phone;
+        .credits{
+          .avatar{
+            margin-bottom:0;
+          } // .avatar
+
+        } // end .credits
+
+      } // end &.expert-quote
+      
+      &.user-quote{
+
+        padding:30px px-em(25px) 26px px-em(25px);
 
         .credits{
           position:absolute;
@@ -492,35 +574,61 @@ $fivePercentInstaFlickr: percentage(5px/316px);
             margin-bottom:10px;
           } // end avatar
 
+          .handle,
+          .author{
+            float:left;
+            margin:0;
+          }
+
+          .author{
+           padding-left: px-em(5px);
+          } // .author
+
         } // end .credits
         
       } // end .user-quote & .expert-quote
       
       &.question{
         .credits{
-          max-height:48px;
-
           .author{
-            margin:17px px-em(33px) 15px px-em(33px);//28px 20px 23px 20px;
+            margin:-8px 0 0 0;
           } // end .author
-
         } // end .credits
 
         .bq3{
-          padding:25px px-em(10px) 10px px-em(10px);
+          padding:25px px-em(10px) 0 px-em(10px);
+          margin-bottom:7px;
         } // end .bq3
+
+        .answer-btn{
+          margin-left: -75px;
+          bottom:0;
+        } // end .answer-btn
 
       } // end .question
 
     } // users voice
 
+
     .sonys-voice{
       
+     .social-btn{
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left:-73px;
+      } // end socialBtn
+
+      .center-content{
+        height:95px;
+      } // end .center-content
+
       [class*="fonticon-"]{
         margin-bottom:8px;
         display:inline-block;
-        font-size:px-em(19px); // ~1.25em;
-        padding:px-em(9px); // ~0.425em;
+        font-size:px-em(16px); 
+        padding:px-em(9px); 
+
       } // end fonticon divs
 
       .meta{
@@ -530,76 +638,124 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
       &.twitter{
         .bq4{
-          padding:20px 0;
+          padding:0;//20px 0;
         } // end .bq4
     
       } // end .twitter
 
       &.facebook{
         .bq5{
-          padding:20px 0;
+          padding:5px 0;
+
+          p{
+            margin-bottom:0;
+          } // end p
+          
         } // end .bq5
         
       } // end &.facebook     
 
-      &.instagram{
+      &.instagram{      
         .fonticon-instagram{
           width:40px;
           height:40px;
-        }
+        } // .fonticon-instagram
+          
+        table{
+         tr{
 
-        // .image-mat{
-        //   margin-top:0px;
-        // } // end .image-mat
-        
+           &.bottom-row{
+             display:none;
+           }
+
+           td{
+
+             &.top-left{
+               display:table-cell;
+               padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
+               vertical-align: top;
+             } // end top-left
+
+             &.top-right,
+             &.bottom-left{
+               display:none;
+             } // end top-right & .bottom-left
+
+             &.top-center-phone,
+             &.top-right-phone{
+               display:table-cell;
+             } // end .top-right-phone  & .bottom-left-phone
+
+            &.top-center-phone{
+              padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr 0;
+            } // end .top-center-phone
+
+            &.top-right-phone{
+              padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr 0;
+            } // end .top-right-phone
+
+           } // end td
+
+         } // end tr
+
+        } // end table
+
       } // end &.instagram
 
     } // end .sonys-voice  
     
     .flickr{
-        .image-mat{
-          padding:10px 0.325em;
-        } // end .image-mat
+     
+     .social-btn{
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left:-73px;
+      } // end socialBtn
 
-        .meta{
-          display:inline-block;
-          padding-left: px-em(10px); 
-        } // end .meta
-        
-        .top-row{
-          float:left;
-          width: 100%;
+      .center-content{
+        height:95px;
+      } // end .center-content
 
+      .meta{
+        margin-top:8px;
+        display:inline-block;
+        padding-left: px-em(10px); 
+      } // end .meta
 
-          .span4{
-            float:left;
-
-            img{
-              padding:0;
-              width:100%;
-            }
-
-          } // end span4
-
-        } // end .top-row
-
-        .bottom-row{
-          display:none;
-          div{
+      table{
+        tr{
+          &.bottom-row{
             display:none;
-          }
-        } // .bottom-row
+          } // end  &.top-row, &.bottom-row
+
+        } // end tr
+
+        td{
+          &.bottom-left,
+          &.bottom-center,
+          &.bottom-right{
+            display:none;
+          } // end tds
+
+          &.top-left{
+            padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;
+          } // end &.top-left
+
+          &.top-center{
+            padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr 0;
+          } // end &.top-center
+
+          &.top-right{
+            padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr 0;
+          } // end &.top-right
+
+        } // end td    
+
+      } // end table
 
     } // end .flickr
 
   } // end .tcc-wrapper
 
 } // end > 480
-
-
-
-
-// // 1-up phone portrait
-// @media (max-width: px-em(320px)){
-// }  // end 320 mQ
-
