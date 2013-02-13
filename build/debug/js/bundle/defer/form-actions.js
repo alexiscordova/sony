@@ -90,9 +90,6 @@
       var queryStr = inputObj.$input.val();
 
       switch( inputObj.$input.attr('id') ){
-        case 'footer-email-input':
-          // console.log('footer-email-input, queryStr: ' + queryStr);
-          break;
 
         case 'store-locator-search-input':
           //console.log('store-locator-search-input, queryStr: ' + queryStr);
@@ -189,7 +186,6 @@ $(function() {
     $formActions = $formActionsInit.data('formActions');
 
    $formActions.initInput($('#store-locator-search-input'));
-   $formActions.initInput($('#footer-email-input'));
    $formActions.initInput($('#nav-search-input'));
 
    $formActions.initTouchToggles($('.touch-toggle, .dropdown-toggle, .dropdown-hover-toggle'));
