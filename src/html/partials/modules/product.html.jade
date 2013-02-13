@@ -62,7 +62,9 @@ mixin iQColorImages( colors )
 mixin heart
   - heartClass = 'favorite-holder js-favorite'
   - if ( data.isFavorited ) heartClass += ' active'
-  div(class=heartClass, title="Added to Favorites")
+  favoritedTitle = 'Added'
+  toFavoriteTitle = 'Add to Favorites?'
+  div(class=heartClass, data-active-title="Added", data-default-title=toFavoriteTitle)
     i.fonticon-10-favorite
 
 

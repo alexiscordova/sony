@@ -53,7 +53,7 @@
       self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
       self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.sequencerSpeed          = 150;
+      self.sequencerSpeed          = 250;
       self.hideShowSpeed           = 250;
       self.debounceSpeed           = 300;
       

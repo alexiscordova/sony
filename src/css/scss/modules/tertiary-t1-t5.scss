@@ -171,15 +171,14 @@
 		&.featured{
 					
 			.feature-copy{
-	    	background-color:$gray20;
+	    	background-color:$gray10;
         text-align: left;
         opacity:0.95;
-
         position: absolute;
         bottom: 0;
         left: 0;
         width:100%;
-        padding:  px-em(30px); //8% 12%;
+        padding: px-em(30px); //8% 12%;
 
 	    	.t4{
 	    		color:$white;
@@ -207,6 +206,15 @@
 					.p4{
 						margin:0;
 					} // end .p4
+
+					.handle,
+					.name{
+					  display: inline;
+					} // end .handle & .name
+
+					.name{
+					  padding-left: px-em(20px); ;
+					} // end .name
 
 				} // end author
 
@@ -263,12 +271,27 @@
 	} // end .users-voice
 
 	.sonys-voice{
+		//@include debug(1px, red);
+
+		.center-content{
+			height:252px;
+			width:100%;
+			//@include debug(1px, green);
+		}
+
 		.fonticon-10-twitter,
 		.fonticon-10-facebook,
 		.fonticon-instagram {
-			background-color: $white;
-			color:$twitterColor;
+			background-color: $white;	
 		} // end fonticons
+
+		.fonticon-10-twitter{
+			color:$twitterColor;
+		}
+
+		.fonticon-10-facebook{
+			color:$facebookColor;
+		}
 
 		.meta{
 		  .user{
@@ -279,6 +302,10 @@
 		  	color:$gray40;
 		  } // end .timestamp
 
+		  .p4{
+		  	margin:0;
+		  }
+
 		} // end .meta
 
 		&.twitter{
@@ -288,60 +315,6 @@
 
 		} // end .twitter
 
-		&.instagram{
-		  .image-mat{
-		  	// opacity:0.3; // TODO: add opacity to color variable, rgba() mixin needed;
-		  	//width: px-em(306px); ;
-		  	//height:217px;
-		  	background-color:$gray50;
-		  	position: relative;
-		  	@include clearfix();
-
-		  	div{
-		  		position: absolute;
-
-		  		img{
-		  			width: 100%;
-		  		}
-		  		// padding:10px px-em(10px);
-		  	}
-
-		  	$oneThirdWidth: 30.3797468%;  // 96/316
-		  	$twoThirdWidth: 61.7088608%; // 195/316
-		  	$outerPaddingH: 3.164557%; // 10/316
-		  	$innerPaddingH: 1.5822785%; // 5/316
-
-		  	.top-left{
-		  		//@include debug(1px, red);
-		  		top:10px;
-		  		left:$outerPaddingH;
-		  		width: $oneThirdWidth;//px-em(96px); 
-		  		//height: px-em(96px); 		  		
-		  	}
-
-		  	.top-right{
-		  		//@include debug(1px, green);
-		  		top:10px;
-		  		right:$outerPaddingH;
-					width: $twoThirdWidth;//px-em(195px); 
-		  		//height: px-em(197px); 
-		  	}
-
-		  	.bottom-left{
-		  		//@include debug(1px, purple);
-		  		bottom:7px;
-		  		left:$outerPaddingH;
-		  		width: $oneThirdWidth; //px-em(96px); 
-		  		//height: px-em(96px); 
-		   	}
-
-				&:after{
-					padding-top:68.6708861%; // (217/316) *100
-				} // end :after preserve ratio
-
-		  } // end image-mat
-		  
-		} // end &.instagram
 		
 	} // end sonys-voice
 
@@ -358,30 +331,8 @@
 			
 		} // end meta
 
-
 	  .image-mat{
 		  background-color:$gray50;
-		  // max-width: px-em(315px);
-		  margin: 20px 0 24px 0;
-
-		  .top-row{
-		  	@include clearfix();
-		  	padding-bottom:5px;
-		  } // end .top-row
-
-		  .bottom-row{
-		  	 @include clearfix();
-		  } // .bottom-row
-
-		  .span4{
-		  	padding-left:5px;
-
-		  	&:first-child{
-		  		padding-left:0;
-		  	} // end first-child
-
-		  } // span4
-
 	  } //end .image-mat
 
 	} // end .flickr

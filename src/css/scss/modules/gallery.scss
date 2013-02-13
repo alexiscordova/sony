@@ -58,7 +58,7 @@ $fourColMax: px-em(979px);
   color: $gray40;
 
   li {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 }
 
@@ -93,8 +93,8 @@ $fourColMax: px-em(979px);
   margin-top: -3.125em;
 }
 
-.feature-gallery-title {
-  margin: 0;
+.featured-gallery-title {
+  margin-bottom: 0;
 }
 
 
@@ -343,21 +343,13 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 // Offset the tooltip to the left
 // -----------------------
-$offsetFromMiddle: px-em(40px);
 .gallery-tooltip {
-  margin-left: $offsetFromMiddle;
 
-  // Because we have a bigger hotspot than the favorite icon,
-  // it positions the tooltip based on that and looks off
-  &.top {
-    margin-top: 4px;
-  }
-
-  // Move the arrow the same amount as the whole tooltip
-  &.top .tooltip-arrow {
-    left: 21%;
-    left: -webkit-calc(50% - #{$offsetFromMiddle + .125em});
-    left: calc(50% - #{$offsetFromMiddle + .125em});
+  i {
+    position: relative;
+    top: -1px;
+    font-size: 16px;
+    padding-left: 2px;
   }
 }
 
@@ -484,8 +476,12 @@ $offsetFromMiddle: px-em(40px);
 
     .promo-title {
       max-width: none;
-      font-size: $font_22_16;
       margin: 0 0 0.825em;
+    }
+
+    .promo-title .title,
+    .promo-title .emphasis {
+      font-size: $font_22_16;
     }
   }
 }
@@ -684,6 +680,11 @@ $offsetFromMiddle: px-em(40px);
     font-size: .6875em;
   }
 
+  .gallery-item .label {
+    right: auto;
+    left: 0;
+  }
+
 }
 
 // 568 - 640
@@ -818,6 +819,11 @@ $offsetFromMiddle: px-em(40px);
 .sort-options .native-dropdown {
   display: none;
   margin-bottom: 0;
+
+  -webkit-appearance: button;
+  padding: 0 0 0 12px;
+  border-radius: 0;
+  cursor: pointer;
 }
 
 // Filter labels ( active filters )
@@ -843,7 +849,11 @@ $offsetFromMiddle: px-em(40px);
   position: relative;
   margin-top: 1.375em;
   margin-bottom: 1.375em;
+  max-width: 17.625em; // 282 per Val
 
+  .span12 & {
+    max-width: none;
+  }
 
   .filter-label {
     margin-bottom: 20px;
@@ -858,10 +868,9 @@ $offsetFromMiddle: px-em(40px);
     }
   }
 
-  // Box shadow hovers get cut off with overflow hidden
-  .media {
-    // overflow: visible;
-    // color: $gray40;
+  // Checkbox vertical spacing
+  .control-inline:not(:first-child) {
+    margin-top: .375em;
   }
 
   .media-heading {
@@ -955,7 +964,7 @@ $offsetFromMiddle: px-em(40px);
 @media (max-width: $threeColMax) {
 
   .sort-options .native-dropdown {
-    display: initial;
+    display: inline-block;
     vertical-align: baseline;
   }
 
@@ -965,6 +974,7 @@ $offsetFromMiddle: px-em(40px);
 
   .filter-container {
     margin-bottom: 2.8125em;
+    max-width: none;
 
     &:last-child {
       margin-bottom: 0;
@@ -973,11 +983,6 @@ $offsetFromMiddle: px-em(40px);
     // Button horizontal spacing
     .btn-group > .btn:not(:first-child) {
       margin-left: .25em;
-    }
-
-    // Checkbox vertical spacing
-    .control-inline:not(:first-child) {
-      margin-top: .625em;
     }
 
     // Group vertical spacing
@@ -1012,6 +1017,7 @@ $offsetFromMiddle: px-em(40px);
       width: 48%;
     }
   }
+
 }
 
 
