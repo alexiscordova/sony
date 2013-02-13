@@ -245,14 +245,17 @@ isWebkit      = browser.webkit,</p>             </td>             <td class="cod
 
         <span class="keyword">if</span>(self.$slides.length &gt; <span class="number">0</span>){
           self.createNavigation();
-          self.setupPaddles();
+
+          <span class="keyword">if</span>(!self.hasTouch){
+            self.setupPaddles();
+          }
+          
          
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>init dragging , slideshow: TODO:</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.mode != <span class="string">'strip'</span>){
             self.$container.on(self.downEvent, <span class="keyword">function</span>(e) { self.onDragStart(e); });
           }
           
         }
-
 
         <span class="keyword">if</span>(self.mode != <span class="string">'strip'</span>){
           self.setSortPriorities();
@@ -1537,8 +1540,6 @@ $slide.css( 'background' , 'red' );</p>             </td>             <td class=
           $item.stop(<span class="literal">true</span>,<span class="literal">true</span>).delay(animationDelay).animate({ opacity: <span class="number">1</span> },{ duration: <span class="number">250</span> , complete: <span class="keyword">function</span>(){}});
 
         });
-
-
 
       },
 
