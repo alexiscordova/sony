@@ -183,7 +183,7 @@
       } 
         
       max-width: 1190px;
-      margin: 70px auto 70px auto;
+      margin: 0 auto 70px auto;
       .product-price {
         text-align: center;
         color: #83838f;
@@ -409,7 +409,7 @@
           /* background: rgb(19, 126, 233); */
           @include transition(background-color 0.25s ease-in);
           &:hover {
-            background-color: $gray95;
+            background-color: $gray75;
           }
         }
 
@@ -513,6 +513,13 @@
         &:after {
           content: none;
         }
+      }
+
+      @media (max-width: 640px){
+        .emphasis {
+          visibility: hidden;
+          display: none;
+        }        
       }
 
       .small-size {

@@ -261,7 +261,11 @@
 
         if(self.$slides.length > 0){
           self.createNavigation();
-          self.setupPaddles();
+
+          if(!self.hasTouch){
+            self.setupPaddles();
+          }
+          
          
           //init dragging , slideshow: TODO:
           if(self.mode != 'strip'){
@@ -269,7 +273,6 @@
           }
           
         }
-
 
         if(self.mode != 'strip'){
           self.setSortPriorities();
@@ -1607,8 +1610,6 @@
           $item.stop(true,true).delay(animationDelay).animate({ opacity: 1 },{ duration: 250 , complete: function(){}});
 
         });
-
-
 
       },
 
