@@ -221,6 +221,9 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         }<span class="keyword">else</span>{
           point = e;
           e.preventDefault();
+          <span class="keyword">if</span>(e.which !== <span class="number">1</span>){
+            <span class="keyword">return</span>;
+          }
         }
 
         self.isDragging = <span class="literal">true</span>;
@@ -542,7 +545,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
       update: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         cw       = self.currentContainerWidth = self.$el.find( <span class="string">'.soc-grid'</span> ).eq(<span class="number">0</span>).width(),
-        newH     = self.resizeRatio * cw +  <span class="string">'px'</span>,
+        newH     = Math.floor(self.resizeRatio * cw) +  <span class="string">'px'</span>,
         $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
 
         console.log(<span class="string">'Resize Ratio »'</span>, self.resizeRatio);
@@ -551,7 +554,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           self.$container.css( <span class="string">'height'</span> , newH );
           $currSlides.css( <span class="string">'height'</span> ,  newH );
         }<span class="keyword">else</span>{
-          newH = $(<span class="string">'.soc-item'</span>).eq(<span class="number">0</span>).height();
+          newH = Math.floor($(<span class="string">'.soc-item'</span>).eq(<span class="number">0</span>).height());
           self.$container.css( <span class="string">'height'</span> ,  newH  + <span class="string">'px'</span> );
         }
 </pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>console.log("Updating 'soc-container'.height to »",newH );</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
@@ -986,7 +989,7 @@ self.$container.addClass('ssWithBullets');</p>             </td>             <td
               cw += gutterWidth;
 </pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>console.log('New Gutter for slide »',gutterWidth);</p>             </td>             <td class="code">               <div class="highlight"><pre>            }
 
-            $(<span class="keyword">this</span>).css( { <span class="string">'left'</span>: i * cw + <span class="string">'px'</span>, <span class="string">'z-index'</span> : i } );
+            $(<span class="keyword">this</span>).css( { <span class="string">'left'</span>: Math.floor(i * cw) + <span class="string">'px'</span>, <span class="string">'z-index'</span> : i } );
           });
         }
 
@@ -1002,8 +1005,8 @@ self.$container.addClass('ssWithBullets');</p>             </td>             <td
 </pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>console.log('New Gutter for slide »',self.$gridW.width() , gutterWidth);</p>             </td>             <td class="code">               <div class="highlight"><pre>            }
 
             $(<span class="keyword">this</span>).css({
-              <span class="string">'left'</span>: i * cw + <span class="string">'px'</span>,
-              <span class="string">'height'</span> : self.$el.find(<span class="string">'.soc-item'</span>).eq(<span class="number">0</span>).height()  + <span class="string">'px'</span>,
+              <span class="string">'left'</span>: Math.floor(i * cw) + <span class="string">'px'</span>,
+              <span class="string">'height'</span> : Math.floor(self.$el.find(<span class="string">'.soc-item'</span>).eq(<span class="number">0</span>).height())  + <span class="string">'px'</span>,
               <span class="string">'z-index'</span> : i
             });
 
@@ -1020,7 +1023,7 @@ self.$container.addClass('ssWithBullets');</p>             </td>             <td
           cw = self.currentContainerWidth = self.$el.find(<span class="string">'.soc-item'</span>).eq(<span class="number">0</span>).width();
           self.$mobileSlides.each(<span class="keyword">function</span>(i){
             $(<span class="keyword">this</span>).css( {
-              <span class="string">'left'</span>: i * (cw + mobileGutter) + <span class="string">'px'</span>,
+              <span class="string">'left'</span>: Math.floor(i * (cw + mobileGutter)) + <span class="string">'px'</span>,
               <span class="string">'height'</span> : <span class="number">317</span>  + <span class="string">'px'</span>, <span class="comment">//TODO: this is not calculating correctly --&gt;  $('.soc-item').eq(0).height();</span>
               <span class="string">'z-index'</span> : i
             } );

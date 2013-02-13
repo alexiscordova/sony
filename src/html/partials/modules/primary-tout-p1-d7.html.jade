@@ -2,7 +2,10 @@ mixin eyebrow(d)
   d = d || data
   if d.eyebrow
     if d.eyebrow.link
-      a.eyebrow(href= d.eyebrow.link)!= locals.plusify(d.eyebrow.text)
+      a.eyebrow(href= d.eyebrow.link) 
+        i.fonticon-10-chevron
+        | !{locals.plusify(d.eyebrow.text)}
+
     else
       h2.t7.eyebrow!= locals.plusify(d.eyebrow.text)
 
@@ -55,27 +58,31 @@ mixin boxlayout(layout)
   if layout.mobilealign
     classes = classes + " " + layout.mobilealign
   if layout.text == "left"
-    .container.inner.grid.no-grid-at-767(class= classes)
-      - span = "span" + layout.columns[0]
-      div(class= span)
-        .table-center-wrap
-          .table-center
-            +boxclass
-              block
+    .container.inner(class= classes)
+      .grid.no-grid-at-767
+        - span = "span" + layout.columns[0]
+        div(class= span)
+          .table-center-wrap
+            .table-center
+              +boxclass
+                block
+
   else if layout.text == "right" || layout.text == "center"
-    .container.inner.grid.no-grid-at-767(class= classes)
-      - span = "span" + layout.columns[1]
-      - offset =  "offset" + layout.columns[0]
-      div(class= span)(class= offset)
-        .table-center-wrap
-          .table-center
-            +boxclass
-              block
+    .container.inner(class= classes)
+      .grid.no-grid-at-767
+        - span = "span" + layout.columns[1]
+        - offset =  "offset" + layout.columns[0]
+        div(class= span)(class= offset)
+          .table-center-wrap
+            .table-center
+              +boxclass
+                block
+
 
 classes = data.mode
 if data.theme
   classes = classes + " " + data.theme
-section.primary-tout.container.full-bleed-no-max(class= classes)
+.primary-tout.container.full-bleed-no-max(class= classes)
   e = {"locals":locals, "data":data.image}
   !{locals.partial('modules/image.html.jade' , e)}
   if data.mode == "homepage"
@@ -116,7 +123,7 @@ section.primary-tout.container.full-bleed-no-max(class= classes)
   else if data.mode == "title-plate"
     +boxlayout
       +eyebrow
-      h1.t3!= data.headline
+      h1.t2!= data.headline
       +bodytext(data, "hidden-phone")
       +links(data, "btn-mini")
 

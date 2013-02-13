@@ -1,6 +1,6 @@
 .container(style='margin-top: 75px;')
   .grid
-    h2.l1= 'The Latest'
+    h2.l1 #{data.config.title}
 
 .sony-one-carousel(data-mode = data.config.mode, data-module-name != data.config.module_name, data-module-id = data.config.module_id)
   .soc-container
@@ -30,23 +30,26 @@
                       if contentType == 'headline-only'
                         h3.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
 
                       //- HEADLINE ONLY
                       if contentType == 'headline-counter'
                         h3.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
 
                       //- HEADLINE ONLY
                       if contentType == 'headline-copy'
                         h3.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
-                        p.p2= item.bodycopy
+                              i.fonticon-10-chevron--after
+                        p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW, COPY
                       if contentType == 'headline-eyebrow-copy'
@@ -54,17 +57,19 @@
                           | #{item.eyebrow.title}
                         h3.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
-                        p.p2= item.bodycopy
+                              i.fonticon-10-chevron--after
+                        p.p3= item.bodycopy
 
                       //- HEADLINE, COPY , COUNTER
                       if contentType == 'headline-copy-counter'
                         h3.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
-                        p.p2= item.bodycopy
+                              i.fonticon-10-chevron--after
+                        p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW
                       if contentType == 'headline-eyebrow'
@@ -72,16 +77,55 @@
                           | #{item.eyebrow.title}
                         h3.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
 
                     if s == 'content-6'
                       //- HEADLINE ONLY
                       if contentType == 'headline-only'
                         h4.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
+
+                      //- HEADLINE ONLY
+                      if contentType == 'headline-counter'
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a(href=item.headline.link)
+                              | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
+
+                      //- HEADLINE ONLY
+                      if contentType == 'headline-copy'
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a(href=item.headline.link)
+                              | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
+                        p.p3= item.bodycopy
+
+                      //- HEADLINE, EYEBROW, COPY
+                      if contentType == 'headline-eyebrow-copy'
+                        a.eyebrow(href=item.eyebrow.link)
+                          | #{item.eyebrow.title}
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a(href=item.headline.link)
+                              | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
+                        p.p3= item.bodycopy
+
+                      //- HEADLINE, COPY , COUNTER
+                      if contentType == 'headline-copy-counter'
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a(href=item.headline.link)
+                              | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
+                        p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW
                       if contentType == 'headline-eyebrow'
@@ -89,16 +133,18 @@
                           | #{item.eyebrow.title}
                         h4.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
 
                     if s == 'content-4'
                       //- HEADLINE ONLY
                       if contentType == 'headline-only'
                         h4.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
 
                       //- HEADLINE, EYEBROW
                       if contentType == 'headline-eyebrow'
@@ -106,13 +152,14 @@
                           | #{item.eyebrow.title}
                         h4.headline!= item.headline.title
                           if item.headline.link
-                            a.fonticon-10-chevron--after(href=item.headline.link)
+                            a(href=item.headline.link)
                               | !{item.headline.linkText}
+                              i.fonticon-10-chevron--after
 
-                  if s == 'content-8'
+                  if s == 'content-8' || s == 'content-6'
                     //- COUNTER
                     if contentType == 'headline-counter' || contentType == 'headline-copy-counter'
-                      .counter
+                      .counter(class=contentType)(class=textStyle)(class=alignment)(class=s)
                         - counterText = item.counter.total + ' ' + item.counter.text
                         h3.l2= counterText
 

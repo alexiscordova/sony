@@ -5,26 +5,16 @@
  * Use it for whatever you want!
  * @author Glen Cheney (http://glencheney.com)
  * @version 1.6.1
- * @date 02/07/13
+ * @date 12/06/12
  */</span>
 (<span class="keyword">function</span>($, Modernizr, <span class="literal">undefined</span>) {
     <span class="string">'use strict'</span>;
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>You can return <code>undefined</code> from the <code>by</code> function to revert to DOM order
-This plugin does NOT return a jQuery object. It returns a plain array because
-jQuery sorts everything in DOM order.</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sorted = <span class="keyword">function</span>(options) {
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>You can return <code>undefined</code> from the <code>by</code> function to revert to DOM order</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sorted = <span class="keyword">function</span>(options) {
         <span class="keyword">var</span> opts = $.extend({}, $.fn.sorted.defaults, options),
             arr = <span class="keyword">this</span>.get(),
             revert = <span class="literal">false</span>;
-
-        <span class="keyword">if</span> ( !arr.length ) {
-            <span class="keyword">return</span> [];
-        }
-
-        <span class="keyword">if</span> ( opts.randomize ) {
-            <span class="keyword">return</span> $.fn.sorted.randomize( arr );
-        }
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Sort the elements by the opts.by function.
 If we don't have opts.by, default to DOM order</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (opts.by !== $.noop &amp;&amp; opts.by !== <span class="literal">null</span> &amp;&amp; opts.by !== <span class="literal">undefined</span>) {
@@ -61,30 +51,8 @@ If we don't have opts.by, default to DOM order</p>             </td>            
 
     $.fn.sorted.defaults = {
         reverse: <span class="literal">false</span>,
-        by: <span class="literal">null</span>,
-        randomize: <span class="literal">false</span>
+        by: <span class="literal">null</span>
     };
-
-
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>http://stackoverflow.com/a/962890/373422</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sorted.randomize = <span class="keyword">function</span>( array ) {
-        <span class="keyword">var</span> top = array.length,
-            tmp, current;
-
-        <span class="keyword">if</span> ( !top ) {
-            <span class="keyword">return</span> array;
-        }
-
-        <span class="keyword">while</span> ( --top ) {
-            current = Math.floor( Math.random() * (top + <span class="number">1</span>) );
-            tmp = array[ current ];
-            array[ current ] = array[ top ];
-            array[ top ] = tmp;
-        }
-
-        <span class="keyword">return</span> array;
-    };
-
-
 
     <span class="keyword">var</span> Shuffle = <span class="keyword">function</span>( $container, options ) {
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -108,27 +76,20 @@ If we don't have opts.by, default to DOM order</p>             </td>            
             <span class="keyword">var</span> self = <span class="keyword">this</span>,
                 transEndEventNames,
                 resizeFunc = $.proxy( self._onResize, self ),
-                afterResizeFunc = $.proxy( self._afterResize, self ),
-                beforeResizeFunc;
+                throttledResize = self.throttle ? self.throttle( self.throttleTime, resizeFunc ) : resizeFunc;
 
-            <span class="keyword">if</span> ( self.hideLayoutWithFade ) {
-                beforeResizeFunc = $.proxy( self._beforeResize, self );
-                self._debouncedBeforeResize = self.throttle ? self.throttle( self.throttleTime, <span class="literal">true</span>, beforeResizeFunc ) : beforeResizeFunc;
-            }
-
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Get debounced versions of our resize methods</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._debouncedResize = self.throttle ? self.throttle( self.throttleTime, afterResizeFunc ) : afterResizeFunc;
 
             self.$items = self._getItems().addClass(<span class="string">'shuffle-item'</span>);
             self.transitionName = self.prefixed(<span class="string">'transition'</span>),
             self.transform = self.getPrefixed(<span class="string">'transform'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Get offset from container</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.offset = {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Get offset from container</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.offset = {
                 left: parseInt( ( self.$container.css(<span class="string">'padding-left'</span>) || <span class="number">0</span> ), <span class="number">10</span> ),
                 top: parseInt( ( self.$container.css(<span class="string">'padding-top'</span>) || <span class="number">0</span> ), <span class="number">10</span> )
             };
             self.isFluid = self.columnWidth &amp;&amp; <span class="keyword">typeof</span> self.columnWidth === <span class="string">'function'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>            transEndEventNames = {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>            transEndEventNames = {
                 <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
                 <span class="string">'MozTransition'</span>    : <span class="string">'transitionend'</span>,
                 <span class="string">'OTransition'</span>      : <span class="string">'oTransitionEnd'</span>,
@@ -137,7 +98,7 @@ If we don't have opts.by, default to DOM order</p>             </td>            
             };
             self.transitionEndName = transEndEventNames[ self.transitionName ];
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>CSS for each item</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.itemCss = {
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>CSS for each item</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.itemCss = {
                 position: <span class="string">'absolute'</span>,
                 top: <span class="number">0</span>,
                 left: <span class="number">0</span>
@@ -147,12 +108,12 @@ If we don't have opts.by, default to DOM order</p>             </td>            
                 self.$container.css(<span class="string">'position'</span>, <span class="string">'relative'</span>);
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Set up css for transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$container[<span class="number">0</span>].style[ self.transitionName ] = <span class="string">'height '</span> + self.speed + <span class="string">'ms '</span> + self.easing;
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Set up css for transitions</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$container[<span class="number">0</span>].style[ self.transitionName ] = <span class="string">'height '</span> + self.speed + <span class="string">'ms '</span> + self.easing;
             self._initItems( !self.showInitialTransition );
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-self.windowHeight = self.$window.height();
-self.windowWidth = self.$window.width();</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$window.on(<span class="string">'resize.shuffle'</span>, resizeFunc);
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.windowHeight = self.$window.height();
+            self.windowWidth = self.$window.width();
+            self.$window.on(<span class="string">'resize.shuffle'</span>, throttledResize);
 
             self._setColumns();
             self._resetCols();
@@ -174,9 +135,9 @@ self.windowWidth = self.$window.width();</p>             </td>             <td c
 
             self.fire(<span class="string">'filter'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Default is to show all items</p>             </td>             <td class="code">               <div class="highlight"><pre>            $items.removeClass(<span class="string">'concealed filtered'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Default is to show all items</p>             </td>             <td class="code">               <div class="highlight"><pre>            $items.removeClass(<span class="string">'concealed filtered'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Loop through each item and use provided function to determine
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Loop through each item and use provided function to determine
 whether to hide it or not.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ($.isFunction(category)) {
                 $items.each(<span class="keyword">function</span>() {
                     <span class="keyword">var</span> $item = $(<span class="keyword">this</span>),
@@ -189,7 +150,7 @@ whether to hide it or not.</p>             </td>             <td class="code">  
                 });
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Otherwise we've been passed a category to filter by</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Otherwise we've been passed a category to filter by</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">else</span> {
                 self.group = category;
                 <span class="keyword">if</span> (category !== <span class="string">'all'</span>) {
                     $items.each(<span class="keyword">function</span>() {
@@ -207,7 +168,7 @@ whether to hide it or not.</p>             </td>             <td class="code">  
                     });
                 }
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>category === 'all', add filtered class to everything</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>category === 'all', add filtered class to everything</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">else</span> {
                     $filtered = $items.addClass(<span class="string">'filtered'</span>);
                 }
             }
@@ -221,7 +182,7 @@ whether to hide it or not.</p>             </td>             <td class="code">  
             self.$items.each(<span class="keyword">function</span>() {
                 $(<span class="keyword">this</span>).css(self.itemCss);
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Set CSS transition for transforms and opacity</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> ( self.supported &amp;&amp; !withoutTransition &amp;&amp; self.useTransition ) {
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Set CSS transition for transforms and opacity</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> ( self.supported &amp;&amp; !withoutTransition &amp;&amp; self.useTransition ) {
                     self._setTransition(<span class="keyword">this</span>);
                 }
             });
@@ -232,7 +193,6 @@ whether to hide it or not.</p>             </td>             <td class="code">  
             element.style[self.transitionName] = self.transform + <span class="string">' '</span> + self.speed + <span class="string">'ms '</span> + self.easing + <span class="string">', opacity '</span> + self.speed + <span class="string">'ms '</span> + self.easing;
         },
 
-
         _setSequentialDelay : <span class="keyword">function</span>( $collection ) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -240,96 +200,42 @@ whether to hide it or not.</p>             </td>             <td class="code">  
                 <span class="keyword">return</span>;
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>$collection can be an array of dom elements or jquery object</p>             </td>             <td class="code">               <div class="highlight"><pre>            $.each( $collection, <span class="keyword">function</span>(i) {
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>This works because the transition-property: transform, opacity;</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">this</span>.style[self.transitionName + <span class="string">'Delay'</span>] = <span class="string">'0ms,'</span> + ((i + <span class="number">1</span>) * self.sequentialFadeDelay) + <span class="string">'ms'</span>;
+            $collection.each(<span class="keyword">function</span>(i) {
+                <span class="keyword">this</span>.style[self.transitionName + <span class="string">'Delay'</span>] = ((i + <span class="number">1</span>) * self.sequentialFadeDelay) + <span class="string">'ms'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Set the delay back to zero after one transition</p>             </td>             <td class="code">               <div class="highlight"><pre>                $(<span class="keyword">this</span>).one(self.transitionEndName, <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Set the delay back to zero after one transition</p>             </td>             <td class="code">               <div class="highlight"><pre>                $(<span class="keyword">this</span>).one($.support.transition.end, <span class="keyword">function</span>() {
                     <span class="keyword">this</span>.style[self.transitionName + <span class="string">'Delay'</span>] = <span class="string">'0ms'</span>;
                 });
             });
-        },
-
-        _resetDelay : <span class="keyword">function</span>( $collection ) {
-            <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-            <span class="keyword">if</span> ( !self.supported ) {
-                <span class="keyword">return</span>;
-            }
-
-            $.each( $collection, <span class="keyword">function</span>() {
-                $(<span class="keyword">this</span>).off( self.transitionEndName );
-                <span class="keyword">this</span>.style[ self.transitionName + <span class="string">'Delay'</span> ] = <span class="string">'0ms'</span>;
-            });
-        },
-
-        _orderItemsByDelay : <span class="keyword">function</span>( $items ) {
-            <span class="keyword">var</span> self = <span class="keyword">this</span>,
-                $ordered = $(),
-                $randomized = $(),
-                ordered, randomized, merged,
-
-            by = <span class="keyword">function</span>( $el ) {
-                <span class="keyword">return</span> $el.data(<span class="string">'delayOrder'</span>);
-            };
-
-            <span class="keyword">if</span> ( !self.$ordered ) {
-
-                $items.each(<span class="keyword">function</span>() {
-                    <span class="keyword">var</span> delayOrder = $(<span class="keyword">this</span>).data(<span class="string">'delayOrder'</span>);
-
-                    <span class="keyword">if</span> ( delayOrder ) {
-                        $ordered = $ordered.add( <span class="keyword">this</span> );
-                    } <span class="keyword">else</span> {
-                        $randomized = $randomized.add( <span class="keyword">this</span> );
-                    }
-                });
-
-                ordered = $ordered.sorted({ by: by });
-
-            } <span class="keyword">else</span> {
-                $ordered = self.$ordered;
-                ordered = self.ordered;
-                $randomized = $items.not( $ordered );
-            }
-
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Sort randomly</p>             </td>             <td class="code">               <div class="highlight"><pre>            randomized = $randomized.sorted({ randomize: <span class="literal">true</span> });
-
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Merge with the ordered array</p>             </td>             <td class="code">               <div class="highlight"><pre>            merged = ordered.concat( randomized );
-
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Save values</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$ordered = $ordered;
-            self.ordered = ordered;
-            self.itemsOrderedByDelay = merged;
         },
 
         _getItems : <span class="keyword">function</span>() {
             <span class="keyword">return</span> <span class="keyword">this</span>.$container.children( <span class="keyword">this</span>.itemSelector );
         },
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>calculates number of columns
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>calculates number of columns
 i.e. this.colWidth = 200</p>             </td>             <td class="code">               <div class="highlight"><pre>        _setColumns : <span class="keyword">function</span>() {
             <span class="keyword">var</span> self = <span class="keyword">this</span>,
                 containerWidth = self.$container.width(),
                 gutter = <span class="keyword">typeof</span> self.gutterWidth === <span class="string">'function'</span> ? self.gutterWidth( containerWidth ) : self.gutterWidth;
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>use fluid columnWidth function if there</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.colWidth = self.isFluid ? self.columnWidth( containerWidth ) :
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>if not, how about the explicitly set option?</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.columnWidth ||
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>or use the size of the first item</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.$items.outerWidth(<span class="literal">true</span>) ||
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>if there's no items, use size of container</p>             </td>             <td class="code">               <div class="highlight"><pre>                containerWidth;
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>use fluid columnWidth function if there</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.colWidth = self.isFluid ? self.columnWidth( containerWidth ) :
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>if not, how about the explicitly set option?</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.columnWidth ||
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>or use the size of the first item</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.$items.outerWidth(<span class="literal">true</span>) ||
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>if there's no items, use size of container</p>             </td>             <td class="code">               <div class="highlight"><pre>                containerWidth;
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Don't let them set a column width of zero.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.colWidth = self.colWidth || containerWidth;
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Don't let them set a column width of zero.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.colWidth = self.colWidth || containerWidth;
 
             self.colWidth += gutter;
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Was flooring 4.999999999999999 to 4 :(</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.cols = Math.floor( ( containerWidth + gutter + <span class="number">0.000000000001</span> ) / self.colWidth );
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Was flooring 4.999999999999999 to 4 :(</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.cols = Math.floor( ( containerWidth + gutter + <span class="number">0.000000000001</span> ) / self.colWidth );
             self.cols = Math.max( self.cols, <span class="number">1</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>This can happen when .shuffle is called on something hidden (e.g. display:none for tabs)</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !self.colWidth || isNaN( self.cols ) || !containerWidth ) {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>This can happen when .shuffle is called on something hidden (e.g. display:none for tabs)</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !self.colWidth || isNaN( self.cols ) || !containerWidth ) {
                 self.needsUpdate = <span class="literal">true</span>;
             } <span class="keyword">else</span> {
                 self.needsUpdate = <span class="literal">false</span>;
             }
-
-            self.containerWidth = containerWidth;
         },
 
         <span class="comment">/**
@@ -355,9 +261,9 @@ i.e. this.colWidth = 200</p>             </td>             <td class="code">    
          * @param {array} items - array of items that will be shown/layed out in order in their array.
          *     Because jQuery collection are always ordered in DOM order, we can't pass a jq collection
          * @param {function} complete callback function
-         * @param {boolean} isOnlyPosition set this to true to only trigger positioning of the items
+         * @param {boolean} onlyPosition set this to true to only trigger positioning of the items
          */</span>
-        _layout: <span class="keyword">function</span>( items, fn, isOnlyPosition, isHide ) {
+        _layout: <span class="keyword">function</span>( items, fn, onlyPosition ) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
             fn = fn || self.filterEnd;
@@ -365,56 +271,56 @@ i.e. this.colWidth = 200</p>             </td>             <td class="code">    
             self.layoutTransitionEnded = <span class="literal">false</span>;
             $.each(items, <span class="keyword">function</span>(index) {
                 <span class="keyword">var</span> $<span class="keyword">this</span> = $(items[index]),
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>how many columns does this brick span</p>             </td>             <td class="code">               <div class="highlight"><pre>                colSpan = Math.ceil( $<span class="keyword">this</span>.outerWidth(<span class="literal">true</span>) / self.colWidth );
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>how many columns does this brick span</p>             </td>             <td class="code">               <div class="highlight"><pre>                colSpan = Math.ceil( $<span class="keyword">this</span>.outerWidth(<span class="literal">true</span>) / self.colWidth );
                 colSpan = Math.min( colSpan, self.cols );
 
                 <span class="keyword">if</span> ( colSpan === <span class="number">1</span> ) {
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>if brick spans only one column, just like singleMode</p>             </td>             <td class="code">               <div class="highlight"><pre>                    self._placeItem( $<span class="keyword">this</span>, self.colYs, fn );
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>if brick spans only one column, just like singleMode</p>             </td>             <td class="code">               <div class="highlight"><pre>                    self._placeItem( $<span class="keyword">this</span>, self.colYs, fn );
                 } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>brick spans more than one column
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>brick spans more than one column
 how many different places could this brick fit horizontally</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">var</span> groupCount = self.cols + <span class="number">1</span> - colSpan,
                         groupY = [],
                         groupColY,
                         i;
 
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>for each group potential horizontal position</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; groupCount; i++ ) {
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>make an array of colY values for that one group</p>             </td>             <td class="code">               <div class="highlight"><pre>                        groupColY = self.colYs.slice( i, i + colSpan );
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>and get the max value of the array</p>             </td>             <td class="code">               <div class="highlight"><pre>                        groupY[i] = Math.max.apply( Math, groupColY );
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>for each group potential horizontal position</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; groupCount; i++ ) {
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>make an array of colY values for that one group</p>             </td>             <td class="code">               <div class="highlight"><pre>                        groupColY = self.colYs.slice( i, i + colSpan );
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>and get the max value of the array</p>             </td>             <td class="code">               <div class="highlight"><pre>                        groupY[i] = Math.max.apply( Math, groupColY );
                     }
 
-                    self._placeItem( $<span class="keyword">this</span>, groupY, fn, isOnlyPosition, isHide );
+                    self._placeItem( $<span class="keyword">this</span>, groupY, fn, onlyPosition );
                 }
             });
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Adjust the height of the container</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.setContainerSize();
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Adjust the height of the container</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.setContainerSize();
         },
 
         _resetCols : <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>reset columns</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> i = <span class="keyword">this</span>.cols;
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>reset columns</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> i = <span class="keyword">this</span>.cols;
             <span class="keyword">this</span>.colYs = [];
             <span class="keyword">while</span> (i--) {
                 <span class="keyword">this</span>.colYs.push( <span class="number">0</span> );
             }
         },
 
-        _reLayout : <span class="keyword">function</span>( callback, isOnlyPosition ) {
+        _reLayout : <span class="keyword">function</span>( callback ) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>;
             callback = callback || self.filterEnd;
             self._resetCols();
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>If we've already sorted the elements, keep them sorted</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.keepSorted &amp;&amp; self.lastSort ) {
-                self.sort( self.lastSort, <span class="literal">true</span>, isOnlyPosition );
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>If we've already sorted the elements, keep them sorted</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.keepSorted &amp;&amp; self.lastSort ) {
+                self.sort( self.lastSort, <span class="literal">true</span> );
             } <span class="keyword">else</span> {
-                self._layout( self.$items.filter(<span class="string">'.filtered'</span>).get(), self.filterEnd, isOnlyPosition );
+                self._layout( self.$items.filter(<span class="string">'.filtered'</span>).get(), self.filterEnd );
             }
         },
 
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>worker method that places brick in the columnSet with the the minY</p>             </td>             <td class="code">               <div class="highlight"><pre>        _placeItem : <span class="keyword">function</span>( $item, setY, callback, isOnlyPosition, isHide ) {
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>get the minimum Y value from the columns</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> self = <span class="keyword">this</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>worker method that places brick in the columnSet with the the minY</p>             </td>             <td class="code">               <div class="highlight"><pre>        _placeItem : <span class="keyword">function</span>( $item, setY, callback, onlyPosition ) {
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>get the minimum Y value from the columns</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> self = <span class="keyword">this</span>,
                 minimumY = Math.min.apply( Math, setY ),
                 shortCol = <span class="number">0</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Find index of short column, the first from the left where this item will go
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>Find index of short column, the first from the left where this item will go
 if ( setY[i] === minimumY ) requires items' height to be exact every time.
 The buffer value is very useful when the height is a percentage of the width</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = setY.length; i &lt; len; i++) {
                 <span class="keyword">if</span> ( setY[i] &gt;= minimumY - self.buffer &amp;&amp; setY[i] &lt;= minimumY + self.buffer ) {
@@ -423,42 +329,39 @@ The buffer value is very useful when the height is a percentage of the width</p>
                 }
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>Position the item</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> x = self.colWidth * shortCol,
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Position the item</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> x = self.colWidth * shortCol,
             y = minimumY;
             x = Math.round( x + self.offset.left );
             y = Math.round( y + self.offset.top );
 
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Save data for shrink</p>             </td>             <td class="code">               <div class="highlight"><pre>            $item.data( {x: x, y: y} );
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>Save data for shrink</p>             </td>             <td class="code">               <div class="highlight"><pre>            $item.data( {x: x, y: y} );
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Apply setHeight to necessary columns</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> setHeight = minimumY + $item.outerHeight(<span class="literal">true</span>),
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>Apply setHeight to necessary columns</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> setHeight = minimumY + $item.outerHeight(<span class="literal">true</span>),
             setSpan = self.cols + <span class="number">1</span> - len;
             <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; setSpan; i++ ) {
                 self.colYs[ shortCol + i ] = setHeight;
             }
 
-            <span class="keyword">var</span> transitionObj = {
-                from: <span class="string">'layout'</span>,
-                $<span class="keyword">this</span>: $item,
-                x: x,
-                y: y,
-                scale: <span class="number">1</span>
-            };
-
-            <span class="keyword">if</span> ( !isOnlyPosition ) {
-                transitionObj.opacity = <span class="number">1</span>;
-                transitionObj.callback = callback;
-            }
-
-            <span class="keyword">if</span> ( isHide ) {
-                transitionObj.opacity = <span class="number">0</span>;
-            }
-
-            <span class="keyword">if</span> ( isOnlyPosition ) {
+            <span class="keyword">if</span> ( onlyPosition ) {
                 self._skipTransition($item[<span class="number">0</span>], <span class="keyword">function</span>() {
-                    self.transition( transitionObj );
+                    self.transition({
+                        from: <span class="string">'layout'</span>,
+                        $<span class="keyword">this</span>: $item,
+                        x: x,
+                        y: y,
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>scale : 1,</p>             </td>             <td class="code">               <div class="highlight"><pre>                        opacity: <span class="number">0</span>
+                    });
                 });
             } <span class="keyword">else</span> {
-                self.transition( transitionObj );
+                self.transition({
+                    from: <span class="string">'layout'</span>,
+                    $<span class="keyword">this</span>: $item,
+                    x: x,
+                    y: y,
+                    scale : <span class="number">1</span>,
+                    opacity: <span class="number">1</span>,
+                    callback: callback
+                });
             }
 
         },
@@ -470,7 +373,7 @@ The buffer value is very useful when the height is a percentage of the width</p>
             <span class="keyword">var</span> self = <span class="keyword">this</span>,
                 $concealed = self.$items.filter(<span class="string">'.concealed'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Abort if no items</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ($concealed.length === <span class="number">0</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Abort if no items</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ($concealed.length === <span class="number">0</span>) {
                 <span class="keyword">return</span>;
             }
 
@@ -499,56 +402,20 @@ The buffer value is very useful when the height is a percentage of the width</p>
         },
 
         _onResize : <span class="keyword">function</span>() {
-            <span class="keyword">var</span> self = <span class="keyword">this</span>,
-                containerWidth = self.$container.width();
+            <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>If shuffle is disabled, destroyed, or containerWidth hasn't changed, don't do anything</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !self.enabled || self.destroyed || containerWidth === self.containerWidth ) {
+            <span class="keyword">if</span> ( !self.enabled || self.destroyed ) {
                 <span class="keyword">return</span>;
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>var height = self.$window.height(),
-    width = self.$window.width();
-self.windowHeight = height;
-self.windowWidth = width;</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>This should execute the first time _onResize is called</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.hideLayoutWithFade ) {
-                self._debouncedBeforeResize();
-            }
+            <span class="keyword">var</span> height = self.$window.height(),
+                width = self.$window.width();
 
-</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>This should execute the last time _onResize is called</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._debouncedResize();
-
-        },
-
-        _afterResize : <span class="keyword">function</span>() {
-            <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>If we're hiding the layout with a fade,</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.hideLayoutWithFade ) {
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>recaculate column and gutter values</p>             </td>             <td class="code">               <div class="highlight"><pre>                self._setColumns();
-</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>Layout the items with only a position</p>             </td>             <td class="code">               <div class="highlight"><pre>                self._reLayout( <span class="literal">false</span>, <span class="literal">true</span> );
-</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>Change the transition-delay value accordingly</p>             </td>             <td class="code">               <div class="highlight"><pre>                self._setSequentialDelay( self.itemsOrderedByDelay );
-                self.fire(<span class="string">'done'</span>);
-                <span class="keyword">if</span> ( self.supported ) {
-                    self.$items.css(<span class="string">'opacity'</span>, <span class="number">1</span>);
-                } <span class="keyword">else</span> {
-                    self.$items.fadeIn( self.speed );
-                }
-            } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (width !== self.windowWidth || height !== self.windowHeight) {
                 self.resized();
+                self.windowHeight = height;
+                self.windowWidth = width;
             }
-        },
-
-        _beforeResize : <span class="keyword">function</span>() {
-            console.log(<span class="string">'before resize'</span>);
-            <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-            <span class="keyword">if</span> ( self.supported ) {
-                self.$items.css(<span class="string">'opacity'</span>, <span class="number">0</span>);
-            } <span class="keyword">else</span> {
-                self.$items.fadeOut( self.speed );
-            }
-
-            self.fire(<span class="string">'loading'</span>);
-            self._resetDelay( self.$items );
-            self._orderItemsByDelay( self.$items );
         },
 
         <span class="comment">/**
@@ -592,7 +459,7 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
         transition: <span class="keyword">function</span>(opts) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>,
             transform,
-</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>Only fire callback once per collection's transition</p>             </td>             <td class="code">               <div class="highlight"><pre>            complete = <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Only fire callback once per collection's transition</p>             </td>             <td class="code">               <div class="highlight"><pre>            complete = <span class="keyword">function</span>() {
                 <span class="keyword">if</span> (!self.layoutTransitionEnded &amp;&amp; opts.from === <span class="string">'layout'</span>) {
                     self.fire(<span class="string">'layout'</span>);
                     opts.callback.call(self);
@@ -605,9 +472,9 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
 
             opts.callback = opts.callback || $.noop;
 
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>Use CSS Transforms if we have them</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.supported ) {
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Use CSS Transforms if we have them</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.supported ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>Make scale one if it's not preset</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> ( opts.scale === <span class="literal">undefined</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>Make scale one if it's not preset</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> ( opts.scale === <span class="literal">undefined</span> ) {
                     opts.scale = <span class="number">1</span>;
                 }
 
@@ -617,33 +484,21 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
                     transform = <span class="string">'translate('</span> + opts.x + <span class="string">'px, '</span> + opts.y + <span class="string">'px) scale('</span> + opts.scale + <span class="string">', '</span> + opts.scale + <span class="string">')'</span>;
                 }
 
-                <span class="keyword">if</span> ( opts.opacity !== <span class="literal">undefined</span> &amp;&amp; self.useTransition ) {
-</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>Update css to trigger CSS Animation</p>             </td>             <td class="code">               <div class="highlight"><pre>                    opts.$<span class="keyword">this</span>.css(<span class="string">'opacity'</span> , opts.opacity);
+                <span class="keyword">if</span>( self.useTransition ){
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Update css to trigger CSS Animation</p>             </td>             <td class="code">               <div class="highlight"><pre>                    opts.$<span class="keyword">this</span>.css(<span class="string">'opacity'</span> , opts.opacity);
                 }
 
                 <span class="keyword">if</span> ( opts.x !== <span class="literal">undefined</span> ) {
                     self.setPrefixedCss(opts.$<span class="keyword">this</span>, <span class="string">'transform'</span>, transform);
                 }
 
-                <span class="keyword">if</span> ( self.useTransition ) {
-                    opts.$<span class="keyword">this</span>.one(self.transitionEndName, complete);
-                } <span class="keyword">else</span> {
-                    complete();
-                }
+                opts.$<span class="keyword">this</span>.one(self.transitionEndName, complete);
             } <span class="keyword">else</span> {
-
-                <span class="keyword">var</span> cssObj = {
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Use jQuery to animate left/top</p>             </td>             <td class="code">               <div class="highlight"><pre>                opts.$<span class="keyword">this</span>.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({
                     left: opts.x,
                     top: opts.y,
-                    opacity: opts.opacity
-                };
-
-                <span class="keyword">if</span> ( self.useTransition ) {
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>Use jQuery to animate left/top</p>             </td>             <td class="code">               <div class="highlight"><pre>                    opts.$<span class="keyword">this</span>.stop(<span class="literal">true</span>, <span class="literal">true</span>).animate( cssObj, self.speed, <span class="string">'swing'</span>, complete);
-                } <span class="keyword">else</span> {
-                    opts.$<span class="keyword">this</span>.css( cssObj );
-                    complete();
-                }
+                    opacity: self.useTransition ? opts.opacity : <span class="literal">null</span>
+                }, self.speed, <span class="string">'swing'</span>, complete);
             }
         },
 
@@ -665,7 +520,7 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
                 durationName = self.getPrefixed(<span class="string">'transitionDuration'</span>),
                 duration = element.style[ durationName ];
 
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>Set the duration to zero so it happens immediately</p>             </td>             <td class="code">               <div class="highlight"><pre>            element.style[ durationName ] = <span class="string">'0ms'</span>; <span class="comment">// ms needed for firefox!</span>
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Set the duration to zero so it happens immediately</p>             </td>             <td class="code">               <div class="highlight"><pre>            element.style[ durationName ] = <span class="string">'0ms'</span>; <span class="comment">// ms needed for firefox!</span>
 
             <span class="keyword">if</span> ( $.isFunction( property ) ) {
                 property();
@@ -673,9 +528,9 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
                 element.style[ property ] = value;
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>Force reflow</p>             </td>             <td class="code">               <div class="highlight"><pre>            reflow = element.offsetWidth;
+            reflow = element.offsetWidth; <span class="comment">// Force reflow</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>Put the duration back</p>             </td>             <td class="code">               <div class="highlight"><pre>            element.style[ durationName ] = duration;
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Put the duration back</p>             </td>             <td class="code">               <div class="highlight"><pre>            element.style[ durationName ] = duration;
         },
 
         _addItems : <span class="keyword">function</span>( $newItems, animateIn, isSequential ) {
@@ -689,10 +544,10 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
 
             $passed = self.filter( <span class="literal">undefined</span>, $newItems );
 
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.visibleItems = self.$items.filter(<span class="string">'.filtered'</span>).length;
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.visibleItems = self.$items.filter(<span class="string">'.filtered'</span>).length;
 
             <span class="keyword">if</span> ( animateIn ) {
-                self._layout( $passed, <span class="literal">null</span>, <span class="literal">true</span>, <span class="literal">true</span> );
+                self._layout( $passed, <span class="literal">null</span>, <span class="literal">true</span> );
 
                 <span class="keyword">if</span> ( isSequential ) {
                     self._setSequentialDelay( $passed );
@@ -724,6 +579,9 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
 
         <span class="comment">/**
          * The magic. This is what makes the plugin 'shuffle'
+         */</span>
+        <span class="comment">/**
+         * The magic. This is what makes the plugin 'shuffle'
          * @param  {String|Function} category category to filter by. Can be a function
          */</span>
         shuffle : <span class="keyword">function</span>( category ) {
@@ -738,15 +596,15 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
             }
 
             self.filter( category );
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>Save the last filter in case elements are appended.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.lastFilter = category;
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>Save the last filter in case elements are appended.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.lastFilter = category;
 
-</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.visibleItems = self.$items.filter(<span class="string">'.filtered'</span>).length;
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>How many filtered elements?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.visibleItems = self.$items.filter(<span class="string">'.filtered'</span>).length;
 
             self._resetCols();
 
-</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>Shrink each concealed item</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.shrink();
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>Shrink each concealed item</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.shrink();
 
-</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>Update transforms on .filtered elements so they will animate to their new positions</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._reLayout();
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>Update transforms on .filtered elements so they will animate to their new positions</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._reLayout();
         },
 
         <span class="comment">/**
@@ -755,21 +613,16 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
          * @param {object} opts the options object for the sorted plugin
          * @param {Boolean} [fromFilter] was called from Shuffle.filter method.
          */</span>
-        sort: <span class="keyword">function</span>( opts, fromFilter, isOnlyPosition ) {
+        sort: <span class="keyword">function</span>(opts, fromFilter) {
             <span class="keyword">var</span> self = <span class="keyword">this</span>,
                 items = self.$items.filter(<span class="string">'.filtered'</span>).sorted(opts);
-
-            <span class="keyword">if</span> ( !fromFilter ) {
-                self._resetCols();
-            }
-
+            self._resetCols();
             self._layout(items, <span class="keyword">function</span>() {
                 <span class="keyword">if</span> (fromFilter) {
                     self.filterEnd();
                 }
                 self.sortEnd();
-            }, isOnlyPosition);
-
+            });
             self.lastSort = opts;
         },
 
@@ -780,10 +633,10 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
             <span class="keyword">if</span> ( <span class="keyword">this</span>.enabled ) {
 
                 <span class="keyword">if</span> ( !isOnlyLayout ) {
-</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>Get updated colCount</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">this</span>._setColumns();
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>Get updated colCount</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">this</span>._setColumns();
                 }
 
-</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>Layout items</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">this</span>._reLayout();
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>Layout items</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">this</span>._reLayout();
             }
         },
 
@@ -807,7 +660,7 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
          * @param  {Boolean} [isSequential] If false, new items won't sequentially fade in
          */</span>
         appended : <span class="keyword">function</span>( $newItems, animateIn, isSequential ) {
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>True if undefined</p>             </td>             <td class="code">               <div class="highlight"><pre>            animateIn = animateIn === <span class="literal">false</span> ? <span class="literal">false</span> : <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>True if undefined</p>             </td>             <td class="code">               <div class="highlight"><pre>            animateIn = animateIn === <span class="literal">false</span> ? <span class="literal">false</span> : <span class="literal">true</span>;
             isSequential = isSequential === <span class="literal">false</span> ? <span class="literal">false</span> : <span class="literal">true</span>;
 
             <span class="keyword">this</span>._addItems( $newItems, animateIn, isSequential );
@@ -836,21 +689,21 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
     };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle = <span class="keyword">function</span>(opts, sortObj) {
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle = <span class="keyword">function</span>(opts, sortObj) {
         <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
         <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
             <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
                 shuffle = $<span class="keyword">this</span>.data(<span class="string">'shuffle'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>If we don't have a stored shuffle, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !shuffle ) {
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>If we don't have a stored shuffle, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !shuffle ) {
                 shuffle = <span class="keyword">new</span> Shuffle($<span class="keyword">this</span>, opts);
                 $<span class="keyword">this</span>.data(<span class="string">'shuffle'</span>, shuffle);
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>If passed a string, lets decide what to do with it. Or they've provided a function to filter by</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( $.isFunction(opts) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>If passed a string, lets decide what to do with it. Or they've provided a function to filter by</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( $.isFunction(opts) ) {
                 shuffle.shuffle( opts );
 
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>Key should be an object with propreties reversed and by.</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> opts === <span class="string">'string'</span>) {
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>Key should be an object with propreties reversed and by.</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> opts === <span class="string">'string'</span>) {
                 <span class="keyword">switch</span>( opts ) {
                     <span class="keyword">case</span> <span class="string">'sort'</span>:
                         shuffle.sort(sortObj);
@@ -871,25 +724,24 @@ self.windowWidth = width;</p>             </td>             <td class="code">   
         });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.options = {
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.options = {
         group : <span class="string">'all'</span>, <span class="comment">// Filter group</span>
-        speed : <span class="number">400</span>, <span class="comment">// Transition/animation speed (milliseconds)</span>
+        speed : <span class="number">600</span>, <span class="comment">// Transition/animation speed (milliseconds)</span>
         easing : <span class="string">'ease-out'</span>, <span class="comment">// css easing function to use</span>
         itemSelector: <span class="string">''</span>, <span class="comment">// e.g. '.gallery-item'</span>
         gutterWidth : <span class="number">0</span>, <span class="comment">// a static number or function that tells the plugin how wide the gutters between columns are (in pixels)</span>
         columnWidth : <span class="number">0</span>,<span class="comment">// a static number or function that returns a number which tells the plugin how wide the columns are (in pixels)</span>
         showInitialTransition : <span class="literal">true</span>, <span class="comment">// If set to false, the shuffle-items will only have a transition applied to them after the first layout</span>
         delimeter : <span class="literal">null</span>, <span class="comment">// if your group is not json, and is comma delimeted, you could set delimeter to ','</span>
-        buffer: <span class="number">0</span>, <span class="comment">// useful for percentage based heights when they might not always be exactly the same (in pixels)</span>
+        buffer: <span class="number">0</span>,
         throttle: $.debounce || <span class="literal">null</span>,
         throttleTime: <span class="number">300</span>,
-        keepSorted : <span class="literal">true</span>, <span class="comment">// Keep sorted when shuffling/layout</span>
-        hideLayoutWithFade: <span class="literal">false</span>,
-        sequentialFadeDelay: <span class="number">150</span>,
-        useTransition: <span class="literal">true</span> <span class="comment">// You don't want transitions on shuffle items? Fine, but you're weird</span>
+        keepSorted : <span class="literal">true</span>,
+        useTransition: <span class="literal">true</span>
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.shuffle.settings = {
+        sequentialFadeDelay: <span class="number">250</span>,
         revealAppendedDelay: <span class="number">300</span>,
         enabled: <span class="literal">true</span>,
         supported: Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions, <span class="comment">// supports transitions and transforms</span>
