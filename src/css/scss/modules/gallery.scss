@@ -28,6 +28,7 @@ $fourColMax: px-em(979px);
 
   .product-name {
     color: $gray20;
+    margin-bottom: 0;
   }
 
   .product-model {
@@ -79,7 +80,9 @@ $fourColMax: px-em(979px);
 // -------------------------
 
 .gallery-content {
+  margin-top: 1.5em;
   padding-bottom: 4.375em;
+  overflow: visible;
 }
 
 // Give multiple gallery sections a border top
@@ -608,12 +611,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .gallery-detailed {
 
-    // Put the label on the left
-    .label {
-      left: 0;
-      right: auto;
-    }
-
     .products {
       margin-top: -1.625em;
     }
@@ -623,6 +620,12 @@ $oneByOneImgPadding: 107.84313725490196%;
       height: auto;
       width: 100%;
       max-width: 100%;
+
+      // The labels parent is still 100%, but the product image
+      // and details are a 2up.
+      .label {
+        right: 50%;
+      }
     }
 
     .gallery-item-inner {
@@ -681,11 +684,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .favorite-holder i {
     font-size: .6875em;
-  }
-
-  .gallery-item .label {
-    right: auto;
-    left: 0;
   }
 
 }
@@ -787,7 +785,8 @@ $oneByOneImgPadding: 107.84313725490196%;
   position: relative;
   z-index: 1;
 
-  .slide-toggle {
+  .slide-toggle,
+  .accessory-finder {
     margin-left: 2.5em;
   }
 
@@ -1040,13 +1039,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 .range-output {
   margin-top: 0.625em;
   text-align: center;
-}
-
-// Misc
-// -------------------------
-.tab-content {
-  margin-top: 1.5em;
-  overflow: visible;
 }
 
 
