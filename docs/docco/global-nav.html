@@ -108,6 +108,10 @@ window.enquire.register("(min-width: 48em)", { // 768
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>console.log("$thNavBtnTarget: " + $thNavBtnTarget);</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        $thNavBtn.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+          e.preventDefault();
+        });
+
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>init</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetActiveNavBtn($thNavBtn);
 
 </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>$(this).on(self.tapOrClick + ' focus blur', function() {
@@ -644,7 +648,7 @@ $('#country-selector').on('mouseenter mouseleave',function(){
 
 
 $(<span class="keyword">function</span>() {
-  $(window).load(<span class="keyword">function</span>() {
+  $(document).ready(<span class="keyword">function</span>() {
     $(<span class="string">'.nav-wrapper'</span>).globalNav();
   });
 });
