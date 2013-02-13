@@ -94,6 +94,7 @@
       self.$paddles              = $({});
       self.$el                   = $(element);
       self.$slides               = self.$el.find('.rp-slide');
+      self.$currentSlide         = null;
       self.$shuffleContainers    = self.$slides.find('.shuffle-container');
       self.$galleryItems         = self.$el.find('.gallery-item');
       self.$container            = self.$el.find('.rp-container').eq(0);
@@ -125,9 +126,10 @@
       self.shuffle               = null; //start with null value, gets checked in checkforBreakpoints method
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
+      self.paddlesEnabled        = false;
 
       if(self.variation !== undefined){
-        self.varitation = self.variation.split('-')[2];
+        self.variation = self.variation.split('-')[2];
       }
       
       console.log('Variation on this module »' , self.variation );
@@ -853,7 +855,10 @@
         if(self.isTabletMode === true){
           //ratio based on comp around 768/922
           //self.$el.css('height' , 1.05 * self.$el.width());
-          if($(window).width() > 768){
+          self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
+          return;
+
+/*          if($(window).width() > 768){
             self.$el.css('height' , 1.18 * self.$shuffleContainers.eq(0).width());
           }
 
@@ -864,7 +869,7 @@
           if(!!self.isTabbedContainer){
             self.$tabbedContainer.css('height' , ((1.18) * self.$shuffleContainers.eq(0).width()) + 80);
           }
-          return;
+          return;*/
         }
 
         if(self.isMobileMode === true){
@@ -878,13 +883,16 @@
         }
 
 
-        self.$el.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 80);
+        //self.$el.css( 'height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) );
+        self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
 
         if(!!self.isTabbedContainer){
           self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
         }
 
-        console.log("Slider Height »",self.$el.height());
+        
+
+        console.log( "Slider Height »",self.$el.height() );
 
       },
 
@@ -1306,20 +1314,16 @@
 
       sortTagLines2up: function(){
         var self = this,
-            $taglines = self.$el.find('.product-tagline'),
-            height = 0 ,
-            highestEl = null;
-
+            $taglines = self.$el.find('.product-tagline');
+        
         $taglines.each(function(){
-          var $t = $(this);
-          if($t.height() > height){
-            height = $t.height();
-            highestEl = $t;
+          var $line = $(this);
+
+          if( $line.height() / parseInt($line.css('line-height') , 10 ) > 1 ){
+            $line.parent().addClass('two-line');
           }
+
         });
-
-        highestEl.parent().addClass('two-line');
-
       },
 
       disableShuffle: function(){
@@ -1350,6 +1354,53 @@
            
           }
         });
+      },
+
+      updatePaddles: function () {
+        var self = this,
+            wW = self.$win.width();
+
+        if(!self.paddlesEnabled){
+          return;
+        }
+
+        var $plate = self.$el.find('.plate'),
+            hasPlate = $plate.length > 0,
+            plateHeight = $plate.outerHeight(true),
+            spaceAvail = wW - self.$el.find('.rp-slide').eq(0).width();
+
+        if ( Modernizr.mq('(min-width: 981px)') && hasPlate) {
+          
+          self.$rightPaddle.css({
+            top :  plateHeight,
+            right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + 'px'
+
+          });
+
+          console.log( ' 980:::: updating paddle to »', plateHeight );
+
+          self.$leftPaddle.css({
+            top :  plateHeight,
+            left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + 'px'
+          });
+        }else if(Modernizr.mq('(min-width: 481px)') && hasPlate){
+
+          self.$rightPaddle.css({
+            top :  plateHeight + 130,
+            right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + 20 + 'px'
+
+          });
+
+          console.log( '481:::: updating paddle to »', plateHeight + 130 );
+
+          self.$leftPaddle.css({
+            top :  plateHeight + 130,
+            left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 35 + 'px'
+          });
+
+        }
+
+
       },
 
       setupResizeListener: function(){
@@ -1393,6 +1444,8 @@
           self.checkForBreakpoints();
           self.updateSliderSize();
           self.updateSlides();
+          self.updatePaddles();
+          
 
           if(self.mode === 'suggested'){
             return;
@@ -1408,8 +1461,15 @@
 
               if(shfflInst === undefined){return;}
 
-              console.log('UPdateing Shuffle instance »', shfflInst);
+              //console.log('UPdateing Shuffle instance »', shfflInst);
               shfflInst.update();
+
+              setTimeout(function(){
+                self.updateSliderSize();
+
+                self.updateTiles();
+
+              } , 50);
 
 /*              setTimeout(function(){
                 self.$el.css({
@@ -1419,8 +1479,76 @@
 
               } , 50);*/
             });
-          } , 250);
+          } , 10);
         }));
+      },
+
+      updateTiles: function(){
+        var self = this,
+        isFullView = Modernizr.mq('(min-width: 981px)') ? true : false,
+        $mediumTile = null,
+        $normalTile = null,
+        newHeight = 0;
+
+        console.log('Calling update to tiles.... »',1);
+
+        if(self.isMobileMode){
+          return;
+        }
+
+        self.$slides.each(function(){
+          var $slide = $(this);
+          console.log( 'RpSlide »', $slide.index() );
+          $mediumTile = $slide.find('.gallery-item.medium .product-img').first();
+          $normalTile = $slide.find('.gallery-item.normal').first();
+
+          switch( $slide.data('variation').split('-')[2].toLowerCase() ){
+            case '5up':
+              if(isFullView){
+
+                newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
+                $mediumTile.css({
+                  'height' : newHeight + 'px'
+                });
+                
+                //console.log('Setting new height on tile »', newHeight , $mediumTile.length);
+
+              }else{
+                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+                $mediumTile.css({
+                  'height' : newHeight + 'px'
+                });
+
+                //console.log('Setting new height on tile »', newHeight , $mediumTile.length);
+              }
+            break;
+
+            case '4up':
+              
+              newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+
+              $mediumTile.css({
+                'height' : newHeight + 'px'
+              });
+
+            break;
+
+            case '3up':
+          if(isFullView){
+              newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+
+              $mediumTile.css({
+                'height' : newHeight + 'px'
+              });
+            }else{
+              $mediumTile.css('height' , '');
+            }
+   
+            break;
+          }
+        });
+
+
       },
 
       animateTiles: function(){

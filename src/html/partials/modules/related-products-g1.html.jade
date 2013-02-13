@@ -85,13 +85,15 @@ else if data.config.standalone == true
     .container
       .grid
         h2(class='l1 rp-title')= data.config.headerTitle
-    section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
-      i = 0
-      for module in data.submodules
-        d = locals.data(module.data)
-        - d.layout = document[data.config.layout][i++]
-        e = { 'locals' : locals , 'data' : d }
-        !{locals.partial('modules/'+module.type , e )}
+    .container
+      .grid
+        section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
+          i = 0
+          for module in data.submodules
+            d = locals.data(module.data)
+            - d.layout = document[data.config.layout][i++]
+            e = { 'locals' : locals , 'data' : d }
+            !{locals.partial('modules/'+module.type , e )}
 
   else if data.config.mode == 'strip'
     - clss = data.config.mode
