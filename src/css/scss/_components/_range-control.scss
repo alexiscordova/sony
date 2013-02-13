@@ -23,6 +23,7 @@ $handleHighlightColor: $buttonOrange;
     z-index: 3;
     height: $rangeControlSize;
     background: $ambitActiveColor;
+    border-radius: $rangeControlSize;
   }
 
   &.vertical .ambit {
@@ -35,42 +36,65 @@ $handleHighlightColor: $buttonOrange;
     top: 0;
     z-index: 5;
     margin-top: 0;
-    margin-left: -10px;
     @include square($rangeControlSize);
-    border: 2px solid $white;
     border-radius: 50%;
     background: $white;
     @include box-shadow(0 0 0 6px $transparentBlack, 0 0 9px $innerGlow);
-    @include transition(border $transitionFast linear, margin $transitionFast linear);
-    cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur') 8 4, pointer; /* you should probably localize the cur file */
+    -webkit-transition: -webkit-transform $transitionFaster linear, box-shadow $transitionFaster linear;
+            transition: transform $transitionFaster linear, box-shadow $transitionFaster linear;
+
+    // Cursors
+    cursor: all-scroll;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+
+    // Give it a border if no transforms
+    .no-csstransforms & {
+      border: 2px solid $white;
+    }
 
     &.grabbed,
     &:hover {
-      border-width: 12px;
-      margin-top: -6px;
-      margin-left: -14px;
+
+      .no-csstransforms & {
+        border-width: 12px;
+        margin-top: -6px;
+        margin-left: -14px;
+      }
+
+      .csstransforms & {
+        @include scale(1.7);
+        @include box-shadow(0 0 0 3px $transparentBlack);
+      }
     }
   }
 
   .rangecontrol-min-handle {
     left: 0%;
+    margin-left: -2px;
   }
   .rangecontrol-max-handle {
     left: 100%;
+    margin-left: -$rangeControlSize + 2px;
   }
 }
 
-.ie .handle {
-  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */
+// .ie .handle {
+//   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer; /* you should probably localize the cur file */
+// }
+
+.grabbing .range-control .handle,
+.range-control .handle:active {
+  cursor: all-scroll;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
 }
 
-.grabbing .handle {
-  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur') 8 4, move; /* you should probably localize the cur file */
-}
-
-.ie.grabbing .handle {
-  cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), move; /* you should probably localize the cur file */
-}
+// .ie.grabbing .handle {
+//   cursor: url('http://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), move; /* you should probably localize the cur file */
+// }
 
 
 // Range output

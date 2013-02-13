@@ -7,19 +7,33 @@ $activeColor: $btnAltBackground;
 
 .slide-toggle {
   background: $activeColor;
-  border-color: $activeColor;
 
+  // Open state
   & i {
     position: absolute;
     right: $btnAltSpecialPadding;
 
     // SHOULD BE GLOBAL
     font-size: px-em( 16px, 13px );
+
+    margin-top: 7px;
+    @include transition($transitionSlowish !important);
   }
 
+  // Open state
+  .csstransforms & i {
+    @include rotate(180deg);
+  }
+
+  // Default state
   &.collapsed {
     background: $inactiveColor;
-    border-color: $inactiveColor;
+  }
+
+  // Default state
+  .csstransforms &.collapsed i {
+    margin-top: 2px;
+    @include rotate(0deg);
   }
 }
 

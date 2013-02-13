@@ -659,11 +659,6 @@
 
           a {
             color: $white;
-            display: block;
-
-            @media (min-width: 481px) and (max-width: 768px){
-              display: inline;
-            }
           }
         }
 
@@ -768,7 +763,7 @@
         &.content-4 {
           left: 11%;
           top: 8%;
-          max-width: px-em(180px);
+          max-width: 15.55em;
           width: 73.8461538%;
         }
       }
@@ -1021,8 +1016,8 @@
       display: block;
       color: $white;
       background: $gray10;
+      background: rgba($gray10, 0.4);
       border-radius: 2px;
-      @include opacity(40);
       background-repeat: no-repeat;
       position: absolute;
       top: 50%;
@@ -1032,7 +1027,8 @@
       @include transition(all $transitionSlow ease-in);
 
       &:hover {
-        @include opacity(80);
+        background: $gray10;
+        background: rgba($gray10, 0.8);
       }
 
       i {
