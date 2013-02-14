@@ -63,7 +63,7 @@
       var self = this;
 
       self.isInitialized = true;
-      
+
       // Setting up enquire listeners.
       // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
 
@@ -71,46 +71,49 @@
       // var bpLtValues = "bp-lt-1400 bp-lt-1200 bp-lt-1024 bp-lt-980 bp-lt-768 bp-lt-568 bp-lt-480",
       //   bpGteValues = "bp-gte-1400 bp-gte-1200 bp-gte-1024 bp-gte-980 bp-gte-768 bp-gte-568 bp-gte-480",
       //   bpLtValues = bpValues + " " + bpGteValues;
-      // // 
+      // //
       // window.enquire.register("(min-width: 48em)", { // 768
       //   match : function() {
       //     $('html').removeClass(bpLtValues).addClass(bpGteValues.split(" bp-gte-568")[0] + bpGteValues.split(" bp-lt-568")[0]);
       //   }
       // });
 
-      // switch to desktop nav
-      window.enquire.register("(min-width: " + (self.mobileNavThreshold+1) + "px)", {
-        match : function() {
-          // console.log("initDesktopNav");
-          self.initDesktopNav();
-          self.resetMobileNav();
-          $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
-        }
-      });
-      // switch to desktop footer
-      window.enquire.register("(min-width: " + (self.mobileFooterThreshold+1) + "px)", {
-        match : function() {
-          // console.log("initDesktopFooter");
-          self.resetMobileFooter();
-        }
-      });
+      if ( window.enquire ){
 
-      // switch to mobile nav
-      window.enquire.register("(max-width: " + self.mobileNavThreshold + "px)", {
-        match : function() {
-          // console.log("initMobileNav");
-          self.initMobileNav();
-          self.resetDesktopNav();
-          $('html').removeClass('bp-nav-desktop').addClass('bp-nav-mobile');
-        }
-      });
-      // switch to mobile footer
-      window.enquire.register("(max-width: " + self.mobileFooterThreshold + "px)", {
-        match : function() {
-          // console.log("initMobileFooter");
-          self.initMobileFooter();
-        }
-      });
+        // switch to desktop nav
+        window.enquire.register("(min-width: " + (self.mobileNavThreshold+1) + "px)", {
+          match : function() {
+            // console.log("initDesktopNav");
+            self.initDesktopNav();
+            self.resetMobileNav();
+            $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
+          }
+        });
+        // switch to desktop footer
+        window.enquire.register("(min-width: " + (self.mobileFooterThreshold+1) + "px)", {
+          match : function() {
+            // console.log("initDesktopFooter");
+            self.resetMobileFooter();
+          }
+        });
+
+        // switch to mobile nav
+        window.enquire.register("(max-width: " + self.mobileNavThreshold + "px)", {
+          match : function() {
+            // console.log("initMobileNav");
+            self.initMobileNav();
+            self.resetDesktopNav();
+            $('html').removeClass('bp-nav-desktop').addClass('bp-nav-mobile');
+          }
+        });
+        // switch to mobile footer
+        window.enquire.register("(max-width: " + self.mobileFooterThreshold + "px)", {
+          match : function() {
+            // console.log("initMobileFooter");
+            self.initMobileFooter();
+          }
+        });
+      }
     },
 
     initDesktopNav : function() {
@@ -124,7 +127,7 @@
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
         // console.log("$thNavBtnTarget: " + $thNavBtnTarget);
-        
+
         $thNavBtn.on('click', function(e){
           e.preventDefault();
         });
@@ -135,14 +138,14 @@
         // $(this).on(self.tapOrClick + ' focus blur', function() {
         // $(this).on(self.tapOrClick, function() {
         // $(this).on('touchstart mouseenter', function() {
-        
+
         // TOUCH DEVICES
         if ($('body').hasClass("touch")){
 
           $thNavBtn.on('touchstart', function() {
             // var $thNavBtn = $(this);
-            
-            // if this button is already activated, 
+
+            // if this button is already activated,
             if ($thNavBtn.parent().hasClass('nav-li-selected')){
               // just hide/reset it.
               self.resetActiveNavBtn(self.$currentOpenNavBtn);
@@ -157,13 +160,13 @@
                 // update the Nav button & open the new tray/menu immediately
                 self.setActiveNavBtn($thNavBtn);
 
-              // if there WAS already an active button, 
+              // if there WAS already an active button,
               } else {
                 // deactivate it first
                 self.resetActiveNavBtn(self.$currentOpenNavBtn);
                 var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
-                
-                // if the open target was a navtray, 
+
+                // if the open target was a navtray,
                 if ($oldNavTarget.hasClass('navtray-w')){
                   // delay opening the new one until the old tray has a chance to close.
                   setTimeout(function(){
@@ -190,27 +193,27 @@
 
           $thNavBtn.on(thTrigger, function() {
             // var $thNavBtn = $(this);
-            
+
             $(this).data('hovering',true);
             self.resetMouseleaveTimer();
-            
-            // if this button is NOT activated, 
+
+            // if this button is NOT activated,
             if (!$thNavBtn.parent().hasClass('nav-li-selected')){
 
-              // See if any other buttons are activated. 
+              // See if any other buttons are activated.
               var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
               // If there's NOT
               if (!otherIsActive){
                 // update the Nav button & open this tray/menu immediately
                 self.setActiveNavBtn($thNavBtn);
 
-              // if there WAS already an active button, 
+              // if there WAS already an active button,
               } else {
                 // deactivate it first
                 self.resetActiveNavBtn(self.$currentOpenNavBtn);
                 var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
-                
-                // if the open target was a navtray, 
+
+                // if the open target was a navtray,
                 if ($oldNavTarget.hasClass('navtray-w')){
                   // delay opening the new one until the old tray has a chance to close.
                   setTimeout(function(){
@@ -225,12 +228,12 @@
               }
             }
           }); // end mouseenter
-          
+
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
             // console.log("mouseleave $thNavBtn");
             $(this).data('hovering',false);
-            // Check to see if it was onto the navtray/navmenu. 
+            // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
             setTimeout(function(){
               // console.log("mouseleave $thNavBtn2");
@@ -251,19 +254,19 @@
             $(this).data('hovering',true);
             self.resetMouseleaveTimer();
           });
-          
+
           // Activate click for tab navigation
           $thNavBtnTarget.find('a').on('focus', function() {
             var navTrayId = $(this).parents('.navtray-w,.navmenu-w').attr('id');
             $(this).parents('.navtray-w').data('hovering',true);
             $('a[data-target='+navTrayId+']').trigger('mouseenter');
           });
-          
+
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
             // console.log("mouseleave $thNavBtnTarget");
             $(this).data('hovering',false);
-            // Check to see if it was onto this target's button. 
+            // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
             setTimeout(function(){
               // console.log("mouseleave $thNavBtnTarget2");
@@ -317,7 +320,7 @@
       });
 
     },
-    
+
     startMouseleaveTimer : function( $thNavBtn ) {
       var self = this;
       // console.log("startMouseleaveTimer");
@@ -356,7 +359,7 @@
 
         if ($thNavTarget.hasClass('navtray-w')){
           self.slideNavTray($thNavTarget, false);
-        } else {          
+        } else {
           $('.navmenu-w-visible')
             .removeClass('navmenu-w-visible')
             .one(self.transitionEnd,function(){
@@ -473,8 +476,8 @@
           // it's a nav-menu - show the menu.
           var $revealContainer = $thNavTarget.find('.reveal-transition-container');
           var expHeight = $revealContainer.height();
-          // console.log("expHeight: " + expHeight);
-          
+          console.log("expHeight: " + expHeight);
+
           $revealContainer.css('height','0px');
           // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
           setTimeout(function(){
@@ -523,7 +526,7 @@
 
         // disable blur on mobile search input
         if (!$('html').hasClass('bp-nav-mobile')){
-          $('.page-wrap-inner').removeClass("show-mobile-search-results");   
+          $('.page-wrap-inner').removeClass("show-mobile-search-results");
         }
       }).closest('.input-group').find('.input-clear-btn').on(self.tapOrClick,function(){
         if ($('html').hasClass('bp-nav-mobile')){
@@ -560,7 +563,7 @@
         var $outer = $('#nav-outer-container'),
           $inner = $outer.find('.nav-mobile-scroller'),
           innerHeight = $inner.height();
-          
+
         $outer.height(pageHeight);
         $inner.height(innerHeight);
 
@@ -593,7 +596,7 @@
       // if not, init it.
       } else {
         self.mobileNavIScroll = new window.IScroll('nav-outer-container',{ vScroll: true, hScroll: false, hScrollbar: false, snap: false, momentum: true, bounce: false });
-        self.mobileNavIScroll.options.onBeforeScrollStart = function(e) {                
+        self.mobileNavIScroll.options.onBeforeScrollStart = function(e) {
           var target = e.target;
 
           while (target.nodeType != 1) {
@@ -645,7 +648,7 @@
       // });
 
       self.footerNavCollapseHeight = 49; // plus 1 for the border
-    
+
       $('#footer-wrapper .footer-mobile-section h5').each(function(){
 
         var $thFootSection = $(this).parent();
@@ -768,7 +771,7 @@ $(function() {
     $('.nav-wrapper').globalNav();
   });
 
- 
+
 });
 
 
