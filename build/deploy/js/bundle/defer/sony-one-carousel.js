@@ -542,13 +542,13 @@
 
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
-          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeInOutSine');
+          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeOutBack');
 
         } else {
 
           //css3 transition
           animObj[ (self.vendorPrefix + self.TD) ] = (force === true ? 10 : self.animationSpeed) + 'ms';
-          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeInOutSine;
+          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeOutBack;
 
           self.$containerInner.css( animObj );
 
@@ -1061,17 +1061,9 @@
         if(self.isMobileMode === true){
           cw = self.currentContainerWidth = self.$el.find('.soc-item').eq(0).width();
           self.$mobileSlides.each(function(i){
-            $(this).css( {
+            $(this).css({
               'left': Math.floor(i * (cw + mobileGutter)) + 'px',
               'height' : 317  + 'px' //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
-            } );
-
-            var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
-
-            $(this).find('.soc-item').css({
-              'position': 'absolute',
-              'top' : '0',
-              'left' : '0'
             });
           });
         }
@@ -1086,7 +1078,7 @@
         animObj  = {};
 
         animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed + 'ms';
-        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing.easeInOutSine;
+        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing.easeOutBack;
         self.$containerInner.css( animObj );
         animObj[ self.xProp ] = self.tPref1 + ( ( xpos ) + self.tPref2 + 0 ) + self.tPref3;
         self.$containerInner.css( animObj );
@@ -1096,7 +1088,8 @@
     $.socCSS3Easing = {
         //add additional ease types here
         easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)'
+        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)'
     };
 
     $.fn.sonyOneCarousel = function( options ) {
@@ -1124,7 +1117,7 @@
 
     $.fn.sonyOneCarousel.settings = {
       //must haves
-      throttleTime: 10
+      throttleTime: 250
     };
 
     $( function(){

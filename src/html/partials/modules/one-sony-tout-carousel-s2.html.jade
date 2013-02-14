@@ -13,6 +13,7 @@
               - alignment   = item.typeAlignment
               - contentType = item.contentType
               l = item.objectSize
+
               if l == 'span8'
                 - c = 'soc-3up span8 iq-img'
                 - s = 'content-8'
@@ -22,144 +23,181 @@
               else if l == 'span6'
                 - c = 'soc-2up span6 iq-img'
                 - s = 'content-6'
+
+              if item.miniPromo
+                - mpc = 'has-mini-promo'
+              else
+                - mpc = ''
+
+              if alignment == 'align-left-center' || alignment == 'align-right-center'
+                - gcwc = 'table-center-wrap'
+                - gcc = 'table-center'
+              else
+                - gcwc = ''
+                - gcc = ''
+
               .soc-item(class=c, data-src=item.backgroundImgSrc)(class=s)
                 article
-                  .soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)
+                  .soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)(class=gcwc)
                     if s == 'content-8'
                       //- HEADLINE ONLY
                       if contentType == 'headline-only'
-                        h3.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                        div(class=gcc)
+                          h3.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
 
                       //- HEADLINE ONLY
                       if contentType == 'headline-counter'
-                        h3.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                        div(class=gcc)
+                          h3.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
 
                       //- HEADLINE ONLY
                       if contentType == 'headline-copy'
-                        h3.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
-                        p.p3= item.bodycopy
+                        div(class=gcc)
+                          h3.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
+                          p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW, COPY
                       if contentType == 'headline-eyebrow-copy'
-                        a.eyebrow(href=item.eyebrow.link)
-                          | #{item.eyebrow.title}
-                        h3.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
-                        p.p3= item.bodycopy
+                        div(class=gcc)
+                          a.eyebrow(href=item.eyebrow.link)
+                            | #{item.eyebrow.title}
+                          h3.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
+                          p.p3= item.bodycopy
 
                       //- HEADLINE, COPY , COUNTER
                       if contentType == 'headline-copy-counter'
-                        h3.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
-                        p.p3= item.bodycopy
+                        div(class=gcc)
+                          h3.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
+                          p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW
                       if contentType == 'headline-eyebrow'
-                        a.eyebrow(href=item.eyebrow.link)
-                          | #{item.eyebrow.title}
-                        h3.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                        div(class=gcc)
+                          a.eyebrow(href=item.eyebrow.link)
+                            | #{item.eyebrow.title}
+                          h3.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
 
                     if s == 'content-6'
                       //- HEADLINE ONLY
                       if contentType == 'headline-only'
-                        h4.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                        div(class=gcc)
+                          h4.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
 
                       //- HEADLINE ONLY
                       if contentType == 'headline-counter'
-                        h4.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                        div(class=gcc)
+                          h4.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
 
                       //- HEADLINE ONLY
                       if contentType == 'headline-copy'
-                        h4.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
-                        p.p3= item.bodycopy
+                        div(class=gcc)
+                          h4.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
+                          p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW, COPY
                       if contentType == 'headline-eyebrow-copy'
-                        a.eyebrow(href=item.eyebrow.link)
-                          | #{item.eyebrow.title}
-                        h4.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
-                        p.p3= item.bodycopy
+                        div(class=gcc)
+                          a.eyebrow(href=item.eyebrow.link)
+                            | #{item.eyebrow.title}
+                          h4.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
+                          p.p3= item.bodycopy
 
                       //- HEADLINE, COPY , COUNTER
                       if contentType == 'headline-copy-counter'
-                        h4.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
-                        p.p3= item.bodycopy
+                        div(class=gcc)
+                          h4.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
+                          p.p3= item.bodycopy
 
                       //- HEADLINE, EYEBROW
                       if contentType == 'headline-eyebrow'
-                        a.eyebrow(href=item.eyebrow.link)
-                          | #{item.eyebrow.title}
-                        h4.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                        div(class=gcc)
+                          a.eyebrow(href=item.eyebrow.link)
+                            | #{item.eyebrow.title}
+                          h4.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
 
                     if s == 'content-4'
                       //- HEADLINE ONLY
                       if contentType == 'headline-only'
-                        h4.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                        div(class=gcc)
+                          h4.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
 
                       //- HEADLINE, EYEBROW
                       if contentType == 'headline-eyebrow'
-                        a.eyebrow(href=item.eyebrow.link)
-                          | #{item.eyebrow.title}
-                        h4.headline!= item.headline.title
-                          if item.headline.link
-                            a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                        div(class=gcc)
+                          a.eyebrow(href=item.eyebrow.link)
+                            | #{item.eyebrow.title}
+                          h4.headline!= item.headline.title
+                            if item.headline.link
+                              a(href=item.headline.link)
+                                | !{' ' + item.headline.linkText}
+                                i.fonticon-10-chevron--after
 
                   if s == 'content-8' || s == 'content-6'
                     //- COUNTER
                     if contentType == 'headline-counter' || contentType == 'headline-copy-counter'
-                      .counter(class=contentType)(class=textStyle)(class=alignment)(class=s)
+                      .counter(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)
                         - counterText = item.counter.total + ' ' + item.counter.text
                         h3.l2= counterText
 
+                  if s == 'content-8'
+                    //- MINI PROMO
+                    if item.miniPromo
+                      a.mini-promo(class=contentType)(class=textStyle)(class=alignment)(class=s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
+                        div.mini-promo-image-container
+                          .play-button
+                            i.fonticon-10-video-play
+                          img(src=item.miniPromo.imgSrc)
+                        div.mini-promo-caption.p4
+                          | !{item.miniPromo.caption}
