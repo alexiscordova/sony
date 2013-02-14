@@ -939,9 +939,14 @@
       },
 
       setupPaddles: function(){
+
         var self   = this,
         itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
         $container = self.$el.closest('.container');
+
+        if ( self.hasTouch ) {
+          return;
+        }
 
         self.paddlesEnabled = true;
         var out = '<div class="soc-nav soc-paddles">';
