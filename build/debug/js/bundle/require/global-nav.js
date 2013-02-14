@@ -552,15 +552,17 @@
       // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
       // page some height, so the Safari nav will hide.
       // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
-      var pageHeight = parseInt( $(window).height(),10 ) + 60 + 'px';
+      var pageHeight = parseInt( $(window).height(),10 ) + 'px';
+      // var pageHeight = parseInt( $(window).height(),10 ) + 60 + 'px';
       self.$pageWrapOuter.height(pageHeight);
 
       if (!self.mobileNavIScroll){
         var $outer = $('#nav-outer-container'),
-          $inner = $outer.find('.nav-mobile-scroller');
-
+          $inner = $outer.find('.nav-mobile-scroller'),
+          innerHeight = $inner.height();
+          
         $outer.height(pageHeight);
-        $inner.height($inner.height());
+        $inner.height(innerHeight);
 
         setTimeout(function(){ // make sure heights are already set before initializing iScroll.
           self.initMobileNavIScroll();

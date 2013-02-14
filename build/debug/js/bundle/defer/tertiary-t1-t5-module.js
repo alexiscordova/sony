@@ -5,17 +5,14 @@
 //
 // * **Module:** Tertiary Module
 // * **Version:** 0.1
-// * **Modified:** 02/05/2013
+// * **Modified:** 02/14/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
 //
 // *Example Usage:*
 //      Automatic detection of .tcc-scroller on page
-//      $('.tcc-scroller').tertiaryModule({
-//        'sampleOption': 'foo'
-//      }).data('tertiaryModule');
-//      
-// TODO: Support more than one Tertiary Container on a page, only one supported currently     
+//      $('.tcc-wrapper').tertiaryModule({}).data('tertiaryModule');
+// 
 
 (function($, Modernizr, window, undefined) {
     
@@ -42,7 +39,7 @@
       self.$tccBodyWrapper         = self.$el;
       self.$tccBody                = self.$tccBodyWrapper.find(self.contentSelectorClass);
       self.$contentModules         = self.$el.find(self.contentModulesClass);
-      self.$hideShowEl             = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
+      self.$hideShowEls            = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
       self.$loader                 = self.$container.find(".loader");
 
       self.$scrollerInstance       = null;
@@ -68,14 +65,14 @@
       $(window).on('resize', function(){
         if(self.mode !== "desktop"){
           
-          // hide all content 
-          self.$el.css({
+          // hide content modules 
+          self.$hideShowEls.css({
             'opacity' : 0,
             'visibility' : 'hidden'
           });
 
           // once content is hidden, show loader icon 
-          self.$loader.show();
+         self.showLoader();
         }
 
       });
@@ -140,18 +137,58 @@
       hideAll : function(){
         var self = this;
 
-        self.$hideShowEl.stop(true,true).animate({ opacity: 0 },{ duration: self.hideShowSpeed , complete: function(){self.$hideShowEl.css({"visibility":"hidden"});}});
+        var hideSequence = new Sequencer();
+        hideSequence.add( self, self.hideElements, self.sequencerSpeed ); // hide elements
+        hideSequence.add( self, self.showLoader, self.sequencerSpeed ); // show loader
+        hideSequence.start();
       },
 
       // Show scroller content after transition
       showAll : function(){
         var self = this;
 
+        var showSequence = new Sequencer();
+        showSequence.add( self, self.hideLoader, self.sequencerSpeed ); //hide loader
+        showSequence.add( self, self.showElements, self.sequencerSpeed); // show elements after resize is done                
+        showSequence.add( self, self.updateIQ, self.sequencerSpeed + 200 ); // update iq
+        showSequence.start();
+      },
+
+      // show loading animation layer
+      showLoader : function(  ){
+        var self = this;
+        self.$loader.show();
+      },
+
+      // hide loading animation layer
+      hideLoader : function(  ){
+        var self = this;
         self.$loader.hide();
-        self.$hideShowEl.stop(true,true).animate({ opacity: 1 },{ duration: self.hideShowSpeed , complete: function(){self.$hideShowEl.css({"visibility":"visible"});}});
-       
-        // reload images
-        window.iQ.update(); 
+      },
+
+      // reload images for iQ
+      updateIQ : function(){
+        console.log( 'update iq »');
+        var self = this;
+        window.iQ.update();               
+      },
+
+      // hide $elements: opacity & visibility 
+      hideElements : function(){
+        var self  = this,
+        $els = self.$hideShowEls;
+
+        // TODO: expand this out      
+        $els.stop(true,true).animate({ opacity: 0 },{ duration: self.hideShowSpeed , complete: function(){$els.css({"visibility":"hidden"});}});
+      },
+
+      // show $els: opacity & visibility 
+      showElements : function(){
+        var self = this,
+            $els = self.$hideShowEls;
+        
+        // TODO: expand this out
+        $els.stop(true,true).animate({ opacity: 1 },{ duration: self.hideShowSpeed , complete: function(){$els.css({"visibility":"visible"});}});        
       },
 
       // instantiate a scroller 
@@ -225,7 +262,7 @@
             // assumes self.mode = 'phone'
                         
             // check if we need to set width of specific children elements also
-            $elements = self.addSpecificElements( $elements );
+            $elements = self.addDynamicWidthElements( $elements );
           }
 
         }
@@ -234,13 +271,12 @@
         $elements.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
-
       },
 
       // checks $elements for specific content type:mode
       // if there's a match, it adds that element's child ".center-content" to $elements
       // $elements obj is returned to get width set
-      addSpecificElements : function( $elements ){
+      addDynamicWidthElements : function( $elements ){
         var self = this;
       
         // loop through the content modules
@@ -284,7 +320,6 @@
 
       // on resize event (debounced) determine what to do
       handleResize : function(){
-        //console.group( '««« handleResize »»»' );
         var self = this;
         
         // update mode at current break point
@@ -313,8 +348,8 @@
   
           // if mode is now 'desktop' then simply destroy scroller if there is one
           if( self.$scrollerInstance !== null ){        
-            self.showAll();
             self.teardown();
+            self.showAll();
           }
         }
       },
@@ -378,12 +413,9 @@
     };
 
     $( function(){
-
-      // TODO: optimize for more than one tertiary container
       $('.tcc-wrapper').each(function() {
         $(this).tertiaryModule({}).data('tertiaryModule');
       });
-
     } );
 
  })(jQuery, Modernizr, window, undefined);
