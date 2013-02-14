@@ -11,6 +11,7 @@
   display: none;
   // width: 236px; // should be overriden
   padding: 1px;
+  text-align: left; // override help-container
   background-color: $popoverBackground;
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
@@ -26,6 +27,7 @@
   &.right   { margin-left: 10px; }
   &.bottom  { margin-top: 10px; }
   &.left    { margin-right: 10px; }
+  &.offsettop { margin-bottom: 15px; }
 
 }
 
@@ -89,6 +91,14 @@
     //   bottom: -1px;
     //   left: -$popoverArrowOuterWidth;
     // }
+  }
+  &.offset .arrow {
+    bottom: -$popoverArrowWidth;
+    left: auto;
+    right: 20px; // should be overriden
+    margin-left: -$popoverArrowWidth;
+    border-width: $popoverArrowWidth $popoverArrowWidth 0;
+    border-top-color: $popoverArrowColor;
   }
   &.right .arrow {
     top: 50%;

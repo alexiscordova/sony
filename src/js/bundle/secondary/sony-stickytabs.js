@@ -312,6 +312,22 @@
           vScrollbar: false,
           momentum: true,
           bounce: true,
+          onAnimationEnd : function( iscroll ) {
+            if ( !iscroll.pagesX.length ) {
+              return;
+            }
+
+            var totalPages = iscroll.pagesX.length,
+                currentPage = iscroll.currPageX + 1; // zero based
+
+            self.$tabsContainer.removeClass('has-content-right has-content-left');
+            if ( totalPages > currentPage ) {
+              self.$tabsContainer.addClass('has-content-right');
+            }
+            if ( currentPage > 1 ) {
+              self.$tabsContainer.addClass('has-content-left');
+            }
+          }
         }
       });
 
@@ -320,6 +336,7 @@
       if ( self.$tabsContainer.data('scrollerModule').scroller.pagesX.length > 1 ) {
         self.$navNext.removeClass('hide');
         self.$container.addClass('tab-carousel');
+        self.$tabsContainer.addClass('has-content-right');
       }
 
       self.isTabCarousel = true;

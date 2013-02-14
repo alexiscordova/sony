@@ -8779,6 +8779,7 @@ body.modal-open {
   z-index: 1010;
   display: none;
   padding: 1px;
+  text-align: left;
   background-color: white;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
@@ -8787,40 +8788,44 @@ body.modal-open {
   -moz-box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
 }
-/* line 25, ../../../src/css/scss/_components/_popovers.scss */
+/* line 26, ../../../src/css/scss/_components/_popovers.scss */
 .popover.top {
   margin-bottom: 10px;
 }
-/* line 26, ../../../src/css/scss/_components/_popovers.scss */
+/* line 27, ../../../src/css/scss/_components/_popovers.scss */
 .popover.right {
   margin-left: 10px;
 }
-/* line 27, ../../../src/css/scss/_components/_popovers.scss */
+/* line 28, ../../../src/css/scss/_components/_popovers.scss */
 .popover.bottom {
   margin-top: 10px;
 }
-/* line 28, ../../../src/css/scss/_components/_popovers.scss */
+/* line 29, ../../../src/css/scss/_components/_popovers.scss */
 .popover.left {
   margin-right: 10px;
 }
+/* line 30, ../../../src/css/scss/_components/_popovers.scss */
+.popover.offsettop {
+  margin-bottom: 15px;
+}
 
-/* line 32, ../../../src/css/scss/_components/_popovers.scss */
+/* line 34, ../../../src/css/scss/_components/_popovers.scss */
 .popover-title {
   margin: 0;
   padding: 30px 32px 20px;
   font-size: 1.125em;
 }
 
-/* line 44, ../../../src/css/scss/_components/_popovers.scss */
+/* line 46, ../../../src/css/scss/_components/_popovers.scss */
 .popover-content {
   padding: 0 2em 2.75em;
 }
-/* line 46, ../../../src/css/scss/_components/_popovers.scss */
+/* line 48, ../../../src/css/scss/_components/_popovers.scss */
 .popover-content p, .popover-content ul, .popover-content ol {
   margin-bottom: 0;
 }
 
-/* line 51, ../../../src/css/scss/_components/_popovers.scss */
+/* line 53, ../../../src/css/scss/_components/_popovers.scss */
 .popover .twoup {
   *zoom: 1;
 }
@@ -8834,17 +8839,17 @@ body.modal-open {
 .popover .twoup:after {
   clear: both;
 }
-/* line 54, ../../../src/css/scss/_components/_popovers.scss */
+/* line 56, ../../../src/css/scss/_components/_popovers.scss */
 .popover .twoup .popover-col {
   float: left;
   width: 48%;
 }
-/* line 59, ../../../src/css/scss/_components/_popovers.scss */
+/* line 61, ../../../src/css/scss/_components/_popovers.scss */
 .popover .twoup .popover-col:nth-child(even) {
   margin-left: 4%;
 }
 
-/* line 65, ../../../src/css/scss/_components/_popovers.scss */
+/* line 67, ../../../src/css/scss/_components/_popovers.scss */
 .popover .arrow {
   position: absolute;
   display: inline-block;
@@ -8854,7 +8859,7 @@ body.modal-open {
   border-style: solid;
 }
 
-/* line 80, ../../../src/css/scss/_components/_popovers.scss */
+/* line 82, ../../../src/css/scss/_components/_popovers.scss */
 .popover.top .arrow {
   bottom: -10px;
   left: 50%;
@@ -8862,7 +8867,16 @@ body.modal-open {
   border-width: 10px 10px 0;
   border-top-color: white;
 }
-/* line 93, ../../../src/css/scss/_components/_popovers.scss */
+/* line 95, ../../../src/css/scss/_components/_popovers.scss */
+.popover.offset .arrow {
+  bottom: -10px;
+  left: auto;
+  right: 20px;
+  margin-left: -10px;
+  border-width: 10px 10px 0;
+  border-top-color: white;
+}
+/* line 103, ../../../src/css/scss/_components/_popovers.scss */
 .popover.right .arrow {
   top: 50%;
   left: -10px;
@@ -8870,14 +8884,14 @@ body.modal-open {
   border-width: 10px 10px 10px 0;
   border-right-color: white;
 }
-/* line 99, ../../../src/css/scss/_components/_popovers.scss */
+/* line 109, ../../../src/css/scss/_components/_popovers.scss */
 .popover.right .arrow:after {
   border-width: 11px 11px 11px 0;
   border-right-color: rgba(0, 0, 0, 0.25);
   bottom: -11px;
   left: -1px;
 }
-/* line 106, ../../../src/css/scss/_components/_popovers.scss */
+/* line 116, ../../../src/css/scss/_components/_popovers.scss */
 .popover.bottom .arrow {
   top: -10px;
   left: 50%;
@@ -8885,14 +8899,14 @@ body.modal-open {
   border-width: 0 10px 10px;
   border-bottom-color: white;
 }
-/* line 112, ../../../src/css/scss/_components/_popovers.scss */
+/* line 122, ../../../src/css/scss/_components/_popovers.scss */
 .popover.bottom .arrow:after {
   border-width: 0 11px 11px;
   border-bottom-color: rgba(0, 0, 0, 0.25);
   top: -1px;
   left: -11px;
 }
-/* line 119, ../../../src/css/scss/_components/_popovers.scss */
+/* line 129, ../../../src/css/scss/_components/_popovers.scss */
 .popover.left .arrow {
   top: 50%;
   right: -10px;
@@ -8900,7 +8914,7 @@ body.modal-open {
   border-width: 10px 0 10px 10px;
   border-left-color: white;
 }
-/* line 125, ../../../src/css/scss/_components/_popovers.scss */
+/* line 135, ../../../src/css/scss/_components/_popovers.scss */
 .popover.left .arrow:after {
   border-width: 11px 0 11px 11px;
   border-left-color: rgba(0, 0, 0, 0.25);
@@ -9645,6 +9659,29 @@ a.label:hover, a.badge:hover {
 /* line 97, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs.tab-carousel .tab-nav-btns {
   display: block;
+}
+/* line 104, ../../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs.tab-carousel .grid {
+  border-right: 1px solid transparent;
+  border-right-color: rgba(255, 255, 255, 0);
+  border-left: 1px solid transparent;
+  border-left-color: rgba(255, 255, 255, 0);
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 112, ../../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs.tab-carousel .has-content-left {
+  border-left-color: white;
+  -webkit-box-shadow: inset 2px 0 5px -1px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: inset 2px 0 5px -1px rgba(0, 0, 0, 0.12);
+  box-shadow: inset 2px 0 5px -1px rgba(0, 0, 0, 0.12);
+}
+/* line 117, ../../../src/css/scss/_components/_sticky-tabs.scss */
+.sticky-tabs.tab-carousel .has-content-right {
+  border-right-color: white;
+  -webkit-box-shadow: inset -2px 0 5px -1px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: inset -2px 0 5px -1px rgba(0, 0, 0, 0.12);
+  box-shadow: inset -2px 0 5px -1px rgba(0, 0, 0, 0.12);
 }
 
 /* line 7, ../../../src/css/scss/_base/_utilities.scss */

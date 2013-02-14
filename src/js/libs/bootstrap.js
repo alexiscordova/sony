@@ -1097,6 +1097,10 @@
 
         pos = this.getPosition(inside)
 
+        if (this.options.getWidth && typeof this.options.getWidth === 'function') {
+          $tip.width( this.options.getWidth.call(this) );
+        }
+
         actualWidth = $tip[0].offsetWidth
         actualHeight = $tip[0].offsetHeight
 

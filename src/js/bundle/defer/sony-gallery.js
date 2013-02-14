@@ -519,16 +519,19 @@
       });
 
       // Init popovers
-      self.$filterOpts.find('.js-popover-trigger').popover({
-        placement: 'in top',
-        trigger: 'click',
-        content: function() {
-          // setTimeout(function() {
-          //   var popoverWidth = self.$filterOpts.find('.span4').first().width();
-          //   $('.popover').width( popoverWidth );
-          // }, 250);
-          return $(this).find('.js-popover-content').html();
-        }
+      self.$filterOpts.find('.js-popover-trigger').each(function() {
+        var $trigger = $(this);
+
+        $trigger.popover({
+          placement: 'in offsettop',
+          trigger: 'click',
+          getWidth: function() {
+            return self.$filterOpts.find('.span4').first().width();
+          },
+          content: function() {
+            return $(this).find('.js-popover-content').html();
+          }
+        });
       });
 
       // Slide toggle. Reset range control if it was hidden on initialization
