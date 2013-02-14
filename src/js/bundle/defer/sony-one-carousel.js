@@ -20,8 +20,6 @@
       var self      = this,
       ua            = navigator.userAgent.toLowerCase(),
       i,
-      browser       = $.browser,
-      isWebkit      = browser.webkit,
       isAndroid     = ua.indexOf( 'android' ) > -1,
       resizeTimer   = null;
 
@@ -165,9 +163,6 @@
         self.yProp = self.xProp = self.vendorPrefix + 'transform';
 
         if( self.use3dTransform ) {
-          if( isWebkit ) {
-              self.$el.addClass( 'soc-webkit3d' );
-          }
           self.tPref1 = 'translate3d(';
           self.tPref2 = 'px, ';
           self.tPref3 = 'px, 0px)';
