@@ -178,9 +178,21 @@
           'left' : '0'
         });
 
+        window.console.log(self.autoGutters , self.gutterWidth);
+
         $.each($elemsInPage , function(i) {
           var $el = $(this);
-          $el.css('left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px');
+
+          if(self.autoGutters){
+            $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px' );
+          }else{
+            if( i === 0 ){
+              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + 'px' );
+            }else{
+              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + (i * self.gutterWidth) + 'px' );
+            }
+          }
+          
         });
       }
 
@@ -401,6 +413,11 @@
      * Public Methods
      */
 
+    setGutterWidth: function(gutterWidth){
+      var self = this;
+      self.gutterWidth = gutterWidth;
+    },
+
     gotopage: function( pageNumber, duration ) {
       // pageNumber could be an event object from a navigation bullet click.
       // if it is, get the index from it's data attribute
@@ -506,6 +523,8 @@
     appendBulletsTo: null, // option on where to place pagination bullets, if null defaults to self.$el
     appendNavOutside: true, // Outside the scroller ($el). You probably want this because the scroller has overflow:hidden
     addPaddleTrigger: true, // Add the paddle-trigger class to fade in paddles when the parent is hovered
+    autoGutters: true,
+    gutterWidth: 0,
 
     // iscroll props get mixed in
     iscrollProps: {
@@ -519,7 +538,8 @@
       onScrollEnd: null,
       lockDirection: true,
       onBeforeScrollStart: null,
-      onAnimationEnd: null
+      onAnimationEnd: null,
+      gutterWidth:0
     }
 
   };

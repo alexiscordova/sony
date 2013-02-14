@@ -262,10 +262,28 @@
         //clear out the position style on the gallery items
         self.$galleryItems.removeAttr('style');
 
-        self.$galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
+        //self.$galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
 
-        self.$galleryItems.addClass('small-size');
-        
+        var containerWidth = self.$el.width();
+        var gutterWidth = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
+        var colWidth = ( window.Exports.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+
+        console.log( 'Here is the deal »', colWidth , gutterWidth , containerWidth );
+
+        self.$galleryItems.not(self.$galleryItems.first()).css({
+          'width' : colWidth,
+          'margin' : 0,
+          'margin-left' : 0,
+          'margin-top': 0
+        });
+
+        self.$galleryItems.first().css({
+          'width' : colWidth,
+          'margin' : 0
+        });
+
+        //self.$galleryItems.addClass('small-size');
+          
         // 7. init the scroller module
         setTimeout(function(){
 
@@ -279,8 +297,9 @@
             itemElementSelector: '.gallery-item',
             mode: 'paginate',
             generatePagination: true,
-            centerItems: true,
-
+            centerItems: false,
+            autoGutters: false,
+            gutterWidth: gutterWidth,
             iscrollProps: {
               snap: true,
               momentum: false,
@@ -297,7 +316,35 @@
           //self.scroller.enable();
           window.iQ.update();
           console.log("Instantiating scroller module »", self.scrollerModule);
+
+          //$(window).trigger('resize.rp');
+
         }, 50);
+
+
+        $(window).on('resize.rp', $.debounce(50 , function() {
+        
+        var containerWidth = self.$el.width();
+        var gutterWidth = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
+        var colWidth = ( window.Exports.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+
+          self.scrollerModule.setGutterWidth(gutterWidth);
+
+          console.log('Column Width »', colWidth);
+
+          self.$galleryItems.not(self.$galleryItems.first()).css({
+            'width' : colWidth,
+            'margin' : 0,
+            'margin-left' : 0,
+            'margin-top': 0
+          });
+
+          self.$galleryItems.first().css({
+            'width' : colWidth,
+            'margin' : 0
+          });
+
+        }));
 
       },
 
