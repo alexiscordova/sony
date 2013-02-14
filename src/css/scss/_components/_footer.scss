@@ -178,7 +178,7 @@ form.footer-store-locator-form{
     color:$white;
     background-color: $gray25;
     border-color: $gray25;
-    padding: 8px 8px 10px 14px;
+    padding: 8px 8px 10px 12px;
     @include box-shadow(none);
     @include flickerfix;
 
@@ -204,6 +204,9 @@ form.footer-store-locator-form{
     @include el-hidden;
   }
   &.language-selector{
+    .dropdown-hover-toggle{
+      padding-left:20px;
+    }
     .dropdown-hover-menu{
       @include el-hidden(right); // so it's right-justified.
     }
@@ -266,6 +269,15 @@ form.footer-store-locator-form{
     .fonticon-10-arrowhead-down{
       display:none;
     }    
+  }
+}
+
+
+.footer-wrapper-minimal{
+  .btn-hover-group{ // drop-downs that trigger on hover instead of click -- except on mobile where they have to react more like on click.
+    .btn.dropdown-hover-toggle{
+      padding: 10px 12px 11px 20px;
+    }
   }
 }
 
