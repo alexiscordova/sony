@@ -20,8 +20,6 @@ and figure out which starting slide to animate to after remanipulating the DOM</
       <span class="keyword">var</span> self      = <span class="keyword">this</span>,
       ua            = navigator.userAgent.toLowerCase(),
       i,
-      browser       = $.browser,
-      isWebkit      = browser.webkit,
       isAndroid     = ua.indexOf( <span class="string">'android'</span> ) &gt; -<span class="number">1</span>,
       resizeTimer   = <span class="literal">null</span>;
 
@@ -156,9 +154,6 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         self.yProp = self.xProp = self.vendorPrefix + <span class="string">'transform'</span>;
 
         <span class="keyword">if</span>( self.use3dTransform ) {
-          <span class="keyword">if</span>( isWebkit ) {
-              self.$el.addClass( <span class="string">'soc-webkit3d'</span> );
-          }
           self.tPref1 = <span class="string">'translate3d('</span>;
           self.tPref2 = <span class="string">'px, '</span>;
           self.tPref3 = <span class="string">'px, 0px)'</span>;
@@ -917,9 +912,14 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
       },
 
       setupPaddles: <span class="keyword">function</span>(){
+
         <span class="keyword">var</span> self   = <span class="keyword">this</span>,
         itemHTML   = <span class="string">'&lt;div class="paddle"&gt;&lt;i class=fonticon-10-chevron&gt;&lt;/i&gt;&lt;/div&gt;'</span>,
         $container = self.$el.closest(<span class="string">'.container'</span>);
+
+        <span class="keyword">if</span> ( self.hasTouch ) {
+          <span class="keyword">return</span>;
+        }
 
         self.paddlesEnabled = <span class="literal">true</span>;
         <span class="keyword">var</span> out = <span class="string">'&lt;div class="soc-nav soc-paddles"&gt;'</span>;

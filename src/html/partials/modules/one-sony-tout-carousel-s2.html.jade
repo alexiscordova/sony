@@ -11,8 +11,20 @@
             for item in slide
               - textStyle   = item.typeLayout
               - alignment   = item.typeAlignment
-              - contentType = item.contentType
               l = item.objectSize
+
+              if item.headline
+                - contentType = 'headline-only'
+                if item.counter
+                  - contentType = 'headline-counter'
+                if item.eyebrow
+                  - contentType = 'headline-eyebrow'
+                if item.bodycopy
+                  - contentType = 'headline-copy'
+                if item.eyebrow && item.bodycopy
+                  - contentType = 'headline-eyebrow-copy'
+                if item.bodycopy && item.counter
+                  - contentType = 'headline-copy-counter'
 
               if l == 'span8'
                 - c = 'soc-3up span8 iq-img'
@@ -39,160 +51,35 @@
               .soc-item(class=c, data-src=item.backgroundImgSrc)(class=s)
                 article
                   .soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)(class=gcwc)
-                    if s == 'content-8'
-                      //- HEADLINE ONLY
-                      if contentType == 'headline-only'
-                        div(class=gcc)
-                          h3.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
+                    div(class=gcc)
 
-                      //- HEADLINE ONLY
-                      if contentType == 'headline-counter'
-                        div(class=gcc)
-                          h3.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
+                      if item.eyebrow
+                        a.eyebrow(href=item.eyebrow.link)
+                          | #{item.eyebrow.title}
 
-                      //- HEADLINE ONLY
-                      if contentType == 'headline-copy'
-                        div(class=gcc)
-                          h3.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-                          p.p3= item.bodycopy
+                      if s == 'content-8'
+                        h3.headline!= item.headline.title
+                          if item.headline.link
+                            a(href=item.headline.link)
+                              | !{' ' + item.headline.linkText}
+                              i.fonticon-10-chevron--after
+                      else
+                        h4.headline!= item.headline.title
+                          if item.headline.link
+                            a(href=item.headline.link)
+                              | !{' ' + item.headline.linkText}
+                              i.fonticon-10-chevron--after
 
-                      //- HEADLINE, EYEBROW, COPY
-                      if contentType == 'headline-eyebrow-copy'
-                        div(class=gcc)
-                          a.eyebrow(href=item.eyebrow.link)
-                            | #{item.eyebrow.title}
-                          h3.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-                          p.p3= item.bodycopy
-
-                      //- HEADLINE, COPY , COUNTER
-                      if contentType == 'headline-copy-counter'
-                        div(class=gcc)
-                          h3.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-                          p.p3= item.bodycopy
-
-                      //- HEADLINE, EYEBROW
-                      if contentType == 'headline-eyebrow'
-                        div(class=gcc)
-                          a.eyebrow(href=item.eyebrow.link)
-                            | #{item.eyebrow.title}
-                          h3.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-
-                    if s == 'content-6'
-                      //- HEADLINE ONLY
-                      if contentType == 'headline-only'
-                        div(class=gcc)
-                          h4.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-
-                      //- HEADLINE ONLY
-                      if contentType == 'headline-counter'
-                        div(class=gcc)
-                          h4.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-
-                      //- HEADLINE ONLY
-                      if contentType == 'headline-copy'
-                        div(class=gcc)
-                          h4.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-                          p.p3= item.bodycopy
-
-                      //- HEADLINE, EYEBROW, COPY
-                      if contentType == 'headline-eyebrow-copy'
-                        div(class=gcc)
-                          a.eyebrow(href=item.eyebrow.link)
-                            | #{item.eyebrow.title}
-                          h4.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-                          p.p3= item.bodycopy
-
-                      //- HEADLINE, COPY , COUNTER
-                      if contentType == 'headline-copy-counter'
-                        div(class=gcc)
-                          h4.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-                          p.p3= item.bodycopy
-
-                      //- HEADLINE, EYEBROW
-                      if contentType == 'headline-eyebrow'
-                        div(class=gcc)
-                          a.eyebrow(href=item.eyebrow.link)
-                            | #{item.eyebrow.title}
-                          h4.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-
-                    if s == 'content-4'
-                      //- HEADLINE ONLY
-                      if contentType == 'headline-only'
-                        div(class=gcc)
-                          h4.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
-
-                      //- HEADLINE, EYEBROW
-                      if contentType == 'headline-eyebrow'
-                        div(class=gcc)
-                          a.eyebrow(href=item.eyebrow.link)
-                            | #{item.eyebrow.title}
-                          h4.headline!= item.headline.title
-                            if item.headline.link
-                              a(href=item.headline.link)
-                                | !{' ' + item.headline.linkText}
-                                i.fonticon-10-chevron--after
+                      if item.bodycopy
+                        p.p3= item.bodycopy
 
                   if s == 'content-8' || s == 'content-6'
-                    //- COUNTER
                     if contentType == 'headline-counter' || contentType == 'headline-copy-counter'
                       .counter(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)
                         - counterText = item.counter.total + ' ' + item.counter.text
                         h3.l2= counterText
 
                   if s == 'content-8'
-                    //- MINI PROMO
                     if item.miniPromo
                       a.mini-promo(class=contentType)(class=textStyle)(class=alignment)(class=s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
                         div.mini-promo-image-container
