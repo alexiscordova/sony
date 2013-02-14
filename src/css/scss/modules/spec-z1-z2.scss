@@ -146,6 +146,21 @@ ul.spec-views {
     margin-top: 17px;
     margin-bottom: 2px;
     line-height: .9;
+
+    // Add a border-right to the far right of the grid (over the sticky nav)
+    &:after {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background: $specBorderColor;
+      right: 0;
+      top: 100%;
+    }
+  }
+
+  .lt-ie9 & {
+    border-bottom: 1px solid $specBorderColor;
   }
 }
 
@@ -363,12 +378,8 @@ ul.spec-views {
     }
   }
 
-  .img-holder {
-    padding-top: 1.25em;
-
-    & + .spec-cell-inner {
-      padding-top: 0;
-    }
+  .img-holder + .spec-cell-inner {
+    padding-top: 0;
   }
 
   .text-center.img-bottom {
@@ -388,7 +399,7 @@ ul.spec-views {
   }
 
   .enlarge {
-    margin: 2.5em 0 .625em;
+    margin: 1.25em 0 .625em;
     background: none;
     border: none;
     padding: 0;
@@ -639,7 +650,6 @@ ul.spec-views {
   .product-model {
     margin-bottom: 0;
     color: $gray20;
-    @include fontBold();
   }
 }
 

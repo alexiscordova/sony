@@ -25,7 +25,7 @@ include ../includes/jade-helpers.jade
   .spec-sticky-nav
     .container
       .grid
-        .js-sticky-nav-content
+        .js-sticky-nav-content.clearfix.relative
           h2.t6.sticky-nav-title= data.title
           ul.spec-views.inline.nav
             each link, i in data.internalLinks
@@ -42,7 +42,7 @@ include ../includes/jade-helpers.jade
       .spec-nav-wrap
         nav.spec-nav-container
           button.nav-paddle.spec-nav.spec-nav-prev
-            i.fonticon-10-chevron-left
+            i.fonticon-10-chevron-reverse
           button.nav-paddle.spec-nav.spec-nav-next
             i.fonticon-10-chevron
       .grid.no-grid-at-567.spec-items-grid

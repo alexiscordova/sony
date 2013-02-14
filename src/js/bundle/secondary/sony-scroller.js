@@ -192,7 +192,7 @@
               $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + (i * self.gutterWidth) + 'px' );
             }
           }
-          
+
         });
       }
 
@@ -345,7 +345,7 @@
       var self = this;
 
       // console.log( 'self.$el »' , self.$el);
-      // console.log( 'self.scroller »' , self.scroller);  
+      // console.log( 'self.scroller »' , self.scroller);
       // console.log( 'self.$el[0] »' , self.$el[0]);
 
       if ( iscroll.pagesX && iscroll.pagesX.length ){
@@ -372,7 +372,7 @@
         if ( self.onAnimationEnd ) {
           self.onAnimationEnd( iscroll );
         }
-        
+
       }
     },
 
@@ -550,7 +550,7 @@
     paginationClass: 'pagination-bullet',
     paddleTrigger:  'paddle-trigger',
     resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
-    navTemplate: '<nav class="nav-paddles"><button class="nav-paddle nav-paddle-prev"><i class="icon-ui2-chevron-18-white-left"></i></button><button class="nav-paddle nav-paddle-next"><i class="icon-ui2-chevron-18-white-right"></i></button></nav>'
+    navTemplate: '<nav class="nav-paddles"><button class="nav-paddle nav-paddle-prev"><i class="fonticon-10-chevron-reverse"></i></button><button class="nav-paddle nav-paddle-next"><i class="fonticon-10-chevron"></i></button></nav>'
   };
 
 })(jQuery, Modernizr, IScroll, window);

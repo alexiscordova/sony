@@ -592,7 +592,6 @@
         },
 
         _beforeResize : function() {
-            console.log('before resize');
             var self = this;
 
             if ( self.supported ) {
