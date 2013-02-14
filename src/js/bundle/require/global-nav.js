@@ -124,7 +124,7 @@
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
         // console.log("$thNavBtnTarget: " + $thNavBtnTarget);
-
+        
         $thNavBtn.on('click', function(e){
           e.preventDefault();
         });
@@ -190,6 +190,7 @@
 
           $thNavBtn.on(thTrigger, function() {
             // var $thNavBtn = $(this);
+            
             $(this).data('hovering',true);
             self.resetMouseleaveTimer();
             
@@ -245,11 +246,19 @@
             },25);
           });
 
-          $thNavBtnTarget.on('mouseenter', function() {
+          $thNavBtnTarget.on('mouseenter focus', function() {
+            // console.log($thNavBtnTarget);
             $(this).data('hovering',true);
             self.resetMouseleaveTimer();
           });
-
+          
+          // Activate click for tab navigation
+          $thNavBtnTarget.find('a').on('focus', function() {
+            var navTrayId = $(this).parents('.navtray-w,.navmenu-w').attr('id');
+            $(this).parents('.navtray-w').data('hovering',true);
+            $('a[data-target='+navTrayId+']').trigger('mouseenter');
+          });
+          
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
             // console.log("mouseleave $thNavBtnTarget");
@@ -483,8 +492,6 @@
             },1);
           },1);
 
-
-
           // just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
           if ($thNavTarget.hasClass('navmenu-w-search')){
             // Line it up with the right edge of the search button.
@@ -545,15 +552,17 @@
       // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
       // page some height, so the Safari nav will hide.
       // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
-      var pageHeight = parseInt( $(window).height(),10 ) + 60 + 'px';
+      var pageHeight = parseInt( $(window).height(),10 ) + 'px';
+      // var pageHeight = parseInt( $(window).height(),10 ) + 60 + 'px';
       self.$pageWrapOuter.height(pageHeight);
 
       if (!self.mobileNavIScroll){
         var $outer = $('#nav-outer-container'),
-          $inner = $outer.find('.nav-mobile-scroller');
-
+          $inner = $outer.find('.nav-mobile-scroller'),
+          innerHeight = $inner.height();
+          
         $outer.height(pageHeight);
-        $inner.height($inner.height());
+        $inner.height(innerHeight);
 
         setTimeout(function(){ // make sure heights are already set before initializing iScroll.
           self.initMobileNavIScroll();
@@ -757,10 +766,9 @@
 $(function() {
   $(document).ready(function() {
     $('.nav-wrapper').globalNav();
-    $('*').on('focus', function(){
-      console.log($(this).html());
-    });
   });
+
+ 
 });
 
 

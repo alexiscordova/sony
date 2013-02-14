@@ -1,0 +1,25 @@
+---
+title: T2. Tertiary Module: Article - Featured
+description: 
+---
+
+doctype 5
+
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+
+	h2
+		| T2. Article: Featured
+		
+	e = {"locals":locals, "data":data('tertiary-t1-t5/article-t2-b.json')}
+	!{partial('modules/tertiary-t1-t5.html.jade', e)}
+ 
+	!{partial('includes/foot.html.jade', l)}
+
+</html>
