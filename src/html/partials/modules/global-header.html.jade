@@ -28,11 +28,12 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
           i.fonticon-10-arrowhead-up.nav-indicator
           div.reveal-transition-container
-            form.navmenu-search-section-input.input-group(method='post', action='')
-              i.fonticon-10-search.input-icon
-              input#nav-search-input(type='text', name='navSearch', role='search', value='      Search', tabindex='1401')
-              a.btn-clear-search-input.input-clear-btn(href='#')
-                i.fonticon-10-x-skinny
+            div.navmenu-search-section-form
+              form.navmenu-search-section-input.input-group(method='post', action='')
+                i.fonticon-10-search.input-icon
+                input#nav-search-input(type='text', name='navSearch', role='search', value='      Search', tabindex='1401')
+                a.btn-clear-search-input.input-clear-btn(href='#')
+                  i.fonticon-10-x-skinny
             
             div.navmenu-search-section-results
               div.navmenu-search-popular-searches
@@ -104,7 +105,6 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             a.tl.navmenu-style-tl(href='#')
               i.fonticon-10-favorite
               | Favorites
-              span.nav-li-count 2
 
     
       //- The navtrays are before the navbar for correct ordering of the mobile nav menu
@@ -222,8 +222,13 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             span.hidden-text
               | SONY make.believe
           ul.nav.nav-primary(role='navigation')
+            li.nav-li.nav-li-sites-mobile
+              a.nav-li-link(href='#') 
+                i.fonticon-10-square-neg-plus
+                | Sony Sites
             li.nav-li.nav-li-store
               a.nav-li-link(href='#', tabindex='20') 
+                i.fonticon-10-cart
                 | Store
                 span.global-nav-indicator-bar
             li.nav-li.nav-li-electronics
