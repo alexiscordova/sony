@@ -68,17 +68,17 @@ mixin heart
     i.fonticon-10-favorite
 
 
-if data.view == "basic"
+mixin basicGalleryItem( layout, priority, href )
   klass = '';
-  if data.layout == 'large' || data.layout == 'carousel'
+  if layout == 'large' || layout == 'carousel'
     klass = 'span3 large'
-  else if data.layout == 'promo'
+  else if layout == 'promo'
     klass = 'span2 promo'
-  else if data.layout == 'medium'
+  else if layout == 'medium'
     klass = 'span2 medium'
-  else if data.layout == 'plate'
+  else if layout == 'plate'
     klass = 'span2 plate'
-  else if data.layout == 'blank-normal'
+  else if layout == 'blank-normal'
     klass = 'span1 blank normal'
   else
     klass = 'span1 normal'
@@ -86,7 +86,16 @@ if data.view == "basic"
   //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
   klass = 'gallery-item basic m-span3 ' + klass
 
-  a(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
+  if layout == 'plate'
+    div(class=klass, data-priority=priority)
+      block
+  else
+    a(class=klass, data-priority=priority, href=href ? href : '#')
+      block
+
+
+if data.view == "basic"
+  +basicGalleryItem( data.layout, data.priority, data.href )
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label
@@ -127,8 +136,9 @@ if data.view == "basic"
                 span.number.l2= data.count.number
                 | &nbsp;
                 span.text.l3= data.count.text
-        //- if data.button
-        //-   a(class='btn btn-special' , href=data.button.link)= data.button.title
+            else if data.button
+              a(class='btn plate-btn lt4' , href=data.button.link)
+                strong= data.button.title
 
 
       else

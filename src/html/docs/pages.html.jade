@@ -5,7 +5,7 @@ mixin descriptors()
 			hrf = '../build/debug/' + name.replace(/(.eco|.hb|.jade)/g, '')
 			ti = title(name,env) || name.replace(/(.html.eco|.html.hb|.html.jade)/g, '').replace(/(_|-)/g, ' ')
 			de = desc(name,env)
-			li: a( href = hrf) !{ti} : !{de}
+			li: a( href = hrf) !{ti}
 
 doctype 5
 !{partial('includes/ieconditionals.html')}

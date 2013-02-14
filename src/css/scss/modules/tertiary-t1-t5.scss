@@ -13,7 +13,7 @@
 	position: relative;
   overflow:auto;
   text-align: center;
-  background-color:$gray90;
+  background-color:$gray80;
   margin:0; // for the module since it can be placed anywhere on the page. 
 
   .nav-paddles{
@@ -72,23 +72,10 @@
 			cursor: pointer;
 		} // end .tcc-content-module:hover;
 
-		img{
-			@include transition(opacity, $transitionFast);
-			opacity:1.0;
-		} // end img
-
-		// certain tertiary content modules have hover states
-		div#{createSelectorFromData("article","default")}:hover,
-		div#{createSelectorFromData("article","featured")}:hover,
-		div#{createSelectorFromData("article","news")}:hover,
-		div#{createSelectorFromData("article","event")}:hover,
-		div#{createSelectorFromData("sonys-voice","instagram")}:hover,
-		div#{createSelectorFromData("flickr","default")}:hover{		
-			img{
-				@include transition(opacity, $transitionFast);
-				opacity:0.85;
-			} // end img
-		} // end hovers
+		// img{
+		// 	@include transition(opacity, $transitionFast);
+		// 	opacity:1.0;
+		// } // end img
 
 	} // end .tcc-content-module
 
@@ -116,7 +103,36 @@
 			color:$titleBlack;			
 		} // end t6
 
+		// @include fadeoutonhover()
+		
+		div#{createSelectorFromData("article","featured")}{
+				@include transition(opacity, $transitionFast);
+				opacity:1.0;
+		}
 
+		div#{createSelectorFromData("article","default")},
+		div#{createSelectorFromData("article","news")},
+		div#{createSelectorFromData("article","event")}{
+			img{
+				@include transition(opacity, $transitionFast);
+				opacity:1.0;
+			}
+		}
+
+		div#{createSelectorFromData("article","featured")}:hover{
+				@include transition(opacity, $transitionFast);
+				opacity:0.85;	
+		}
+
+		// certain tertiary content modules have hover states
+		div#{createSelectorFromData("article","default")}:hover,
+		div#{createSelectorFromData("article","news")}:hover,
+		div#{createSelectorFromData("article","event")}:hover{
+			img{
+				@include transition(opacity, $transitionFast);
+				opacity:0.85;
+			} // end img
+		} // end hovers
 
 		&.default{
 		
@@ -194,7 +210,6 @@
         text-align: left;
         opacity:0.95;
        
-
 	    	.t4{
 	    		color:$white;
 	    	} // end .t4
@@ -272,6 +287,27 @@
 
 	// TYPE: SONYS VOICE
 	.sonys-voice{
+		
+		//@include fadeoutOnHover(#{createSelectorFromData("sonys-voice","instagram") img);
+
+		#{createSelectorFromData("sonys-voice","instagram")}{
+			img{
+				@include transition(opacity, $transitionFast);
+				opacity:1.0;
+			} // end img
+
+			@include fadeoutOnHover(img);
+			
+		} // end div
+
+		// div#{createSelectorFromData("sonys-voice","instagram")}:hover{
+		// 	img{
+		// 		@include transition(opacity, $transitionFast);
+		// 		opacity:0.85;
+		// 	} // end img
+		// } // end hovers
+
+
 		.fonticon-10-twitter,
 		.fonticon-10-facebook,
 		.fonticon-instagram {
@@ -319,9 +355,64 @@
 
 	// TYPE: FLICKR
 	.flickr{
-		.center-content{
-			//outline:1px solid blue;
-		}
+		div#{createSelectorFromData("flickr","default")}{		
+			img{
+				@include transition(opacity, $transitionFast);
+				opacity:1.0;
+			} // end img
+
+		} // end hovers
+
+		div#{createSelectorFromData("flickr","default")}:hover{		
+			img{
+				@include transition(opacity, $transitionFast);
+				opacity:0.85;
+			} // end img
+
+		} // end hovers
+
+
+
+		.fonticon-flickr{
+			position: relative;
+			//outline:1px solid red;
+			width: px-em(44px); 
+			height: 44px;
+
+			.white-bg{
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				width:100%;
+				height:100%;
+				z-index: -1;
+				overflow:hidden;
+				color:$white;
+				font-size:2.8em;
+				//outline:1px solid purple;
+			} // end .white-bg
+
+
+			.left,
+			.right{
+			  width:50%;
+			  height:100%;
+			  padding:37% 11%;
+				margin:0 -5px;
+				font-size:0.84em;
+			} // end .left, .right
+			
+			.left{
+				color:$flickrBlueColor;
+			} // end .left
+
+			.right{
+				color:$flickrPinkColor;
+			} // end .right
+
+		} // end .fonticon-flickr
 
 		// user and title
 		.meta{

@@ -519,16 +519,25 @@
       });
 
       // Init popovers
-      self.$filterOpts.find('.js-popover-trigger').popover({
-        placement: 'in top',
-        trigger: 'click',
-        content: function() {
-          // setTimeout(function() {
-          //   var popoverWidth = self.$filterOpts.find('.span4').first().width();
-          //   $('.popover').width( popoverWidth );
-          // }, 250);
-          return $(this).find('.js-popover-content').html();
-        }
+      self.$filterOpts.find('.js-popover-trigger').each(function() {
+        var $trigger = $(this);
+
+        $trigger.popover({
+          placement: 'in offsetright',
+          trigger: 'click',
+          getArrowOffset : function() {
+            var containerWidth = self.$filterOpts.find('.span4').first().width(),
+                columnWidth = self.$filterOpts.find('.filter-container').first().width();
+
+            return containerWidth - columnWidth;
+          },
+          getWidth: function() {
+            return self.$filterOpts.find('.span4').first().width();
+          },
+          content: function() {
+            return $(this).find('.js-popover-content').html();
+          }
+        });
       });
 
       // Slide toggle. Reset range control if it was hidden on initialization
@@ -899,9 +908,22 @@
 
       // Show what's happening with the range control
       displayValues = function( min, max, percents ) {
-        // $output.html('$' + min + ' - $' + max);
-        $minOutput.css('left', percents.min + '%').html('<sup>$</sup>' + min);
-        $maxOutput.css('left', percents.max + '%').html('<sup>$</sup>' + max);
+        var minWidth,
+            maxWidth;
+
+        // Set the new html, then get it's width, then set it's margin-left to negative half that
+        minWidth = $minOutput.html('<sup>$</sup>' + min).width();
+        $minOutput.css({
+          left: percents.min + '%',
+          marginLeft: -minWidth / 2
+        });
+
+        // Do it all over for the max handle
+        maxWidth = $maxOutput.html('<sup>$</sup>' + max).width();
+        $maxOutput.css({
+          left: percents.max + '%',
+          marginLeft: -maxWidth / 2
+        });
       };
 
       // Store jQuery object for later access

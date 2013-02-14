@@ -96,7 +96,7 @@ else if data.config.standalone == true
             !{locals.partial('modules/'+module.type , e )}
 
   else if data.config.mode == 'strip'
-    - clss = data.config.mode
+    - clss = data.config.mode + ' ' + 'slimgrid5'
     .container
       .grid
         h2(class='l1 rp-title')= data.config.headerTitle
