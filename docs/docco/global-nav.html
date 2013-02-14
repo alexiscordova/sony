@@ -98,6 +98,10 @@ window.enquire.register("(min-width: 48em)", { // 768
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>console.log("initMobileFooter");</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.initMobileFooter();
           }
         });
+      } <span class="keyword">else</span> {
+        self.initDesktopNav();
+        self.resetMobileNav();
+        $(<span class="string">'html'</span>).removeClass(<span class="string">'bp-nav-mobile'</span>).addClass(<span class="string">'bp-nav-desktop'</span>);
       }
     },
 

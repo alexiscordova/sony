@@ -113,6 +113,10 @@
             self.initMobileFooter();
           }
         });
+      } else {
+        self.initDesktopNav();
+        self.resetMobileNav();
+        $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
       }
     },
 
