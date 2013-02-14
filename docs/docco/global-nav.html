@@ -150,9 +150,9 @@ $(this).on('touchstart mouseenter', function() {</p>             </td>          
 
 </pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>NOT touch device - set up HOVER triggers</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>for the search button only, we want it to trigger on click. All others on mouseenter.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> thTrigger = <span class="string">'mouseenter'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>for the search button only, we want it to trigger on click. All others on mouseenter.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> thTrigger = <span class="string">'mouseenter focus'</span>;
           <span class="keyword">if</span> ($thNavBtn.parent().hasClass(<span class="string">'nav-li-search'</span>)){
-            thTrigger = <span class="string">'click'</span>;
+            thTrigger = <span class="string">'click keypress'</span>;
           }
 
           $thNavBtn.on(thTrigger, <span class="keyword">function</span>() {
@@ -650,6 +650,9 @@ $('#country-selector').on('mouseenter mouseleave',function(){
 $(<span class="keyword">function</span>() {
   $(document).ready(<span class="keyword">function</span>() {
     $(<span class="string">'.nav-wrapper'</span>).globalNav();
+    $(<span class="string">'*'</span>).on(<span class="string">'focus'</span>, <span class="keyword">function</span>(){
+      console.log($(<span class="keyword">this</span>).html());
+    });
   });
 });
 
