@@ -809,7 +809,7 @@ $default-transition-delay    : 0s;
 
   @if ($child == "") {
 
-    @include transition(opacity, $transitionFast);
+    @include transition(opacity $transitionFast);
     opacity: 1;
 
     &:hover {
@@ -818,7 +818,7 @@ $default-transition-delay    : 0s;
   } @else {
 
     #{$child} {
-      @include transition(opacity, $transitionFast);
+      @include transition(opacity $transitionFast);
       opacity: 1;
     }
 
