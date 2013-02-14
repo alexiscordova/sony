@@ -899,9 +899,22 @@
 
       // Show what's happening with the range control
       displayValues = function( min, max, percents ) {
-        // $output.html('$' + min + ' - $' + max);
-        $minOutput.css('left', percents.min + '%').html('<sup>$</sup>' + min);
-        $maxOutput.css('left', percents.max + '%').html('<sup>$</sup>' + max);
+        var minWidth,
+            maxWidth;
+
+        // Set the new html, then get it's width, then set it's margin-left to negative half that
+        minWidth = $minOutput.html('<sup>$</sup>' + min).width();
+        $minOutput.css({
+          left: percents.min + '%',
+          marginLeft: -minWidth / 2
+        });
+
+        // Do it all over for the max handle
+        maxWidth = $maxOutput.html('<sup>$</sup>' + max).width();
+        $maxOutput.css({
+          left: percents.max + '%',
+          marginLeft: -maxWidth / 2
+        });
       };
 
       // Store jQuery object for later access

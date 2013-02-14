@@ -24,7 +24,7 @@
 
 
   // Fixed grid -- Looks like the px-width-grid is just for docs. Don't really care about mobile/etc so we'll just leave these here.
-  .container-px-width{  
+  .container-px-width{
     width: $containerWidth768;
   }
   .grid-px-width{
@@ -33,7 +33,7 @@
   @include grid-core($gridColumnWidth768, $gridGutterWidth768);
   // Input grid
   @include grid-input($gridColumnWidth768, $gridGutterWidth768);
-  
+
 } // (min-width: 768px)) and (max-width: 979px))
 
 // implement the default (desktop) grid if no override class is present.
@@ -45,7 +45,7 @@
       @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
     }
   }
-} // (min-width: 568px)) and (max-width: 767px)) 
+} // (min-width: 568px)) and (max-width: 767px))
 
 
 @media (max-width: px-em(979px)) {
@@ -89,7 +89,7 @@
 
 
 // ------------------------------------
-// Paragraphs & LinkText 
+// Paragraphs & LinkText
 // ------------------------------------
 
   .p1, .lt1 {
@@ -113,29 +113,51 @@
   .p1.lt, .lt1 { margin-bottom: 6px; }
   .p3 { margin-bottom: 8px; }
   .lt3, .lt3-alt { margin-bottom: 3px; }
-  
-  
+
+
 
   // Button Sizes
   // --------------------------------------------------
+  // .btn{
+  //    padding: 9px 22px 9px;
+  //    font-size: px-em(12);
+  // }
+  // .btn-large{
+  //   padding: 8px 22px 8px;
+  //   font-size: px-em(14);
+  // }
+  // .btn-small{
+  //   padding: 9px 22px 7px;
+  //   font-size: px-em(11);
+  // }
+  // .btn-mini{
+  //   padding: 8px 22px 7px;
+  //   font-size: px-em(10);
+  // }
   .btn{
-     padding: 9px 22px 9px;
-     font-size: px-em(12);
-  }
-  .btn-large{
-    padding: 8px 22px 8px;
-    font-size: px-em(14);
-  }
-  .btn-small{
-    padding: 9px 22px 7px;
+    padding: 12px 20px 13px;
     font-size: px-em(11);
   }
-  .btn-mini{
-    padding: 8px 22px 7px;
+  .btn-large{
+    padding: 12px 20px 13px;
+    font-size: px-em(13);
+  }
+  .btn-small{
+    padding: 10px 20px 11px;
     font-size: px-em(10);
   }
+  .btn-mini{
+    padding: 6px 20px 6px;
+    font-size: px-em(9);
+  }
 
-  
+  // Above classes are now overriding some styles
+  .btn-square {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+
 } // max-width: 979px
 
 

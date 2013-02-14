@@ -14,8 +14,9 @@ mixin filterColor( filterSet )
 
 mixin filterRange( filterSet )
   .range-output-container
-    .range-output-min
-    .range-output-max
+    .relative
+      .range-output-min
+      .range-output-max
   .range-control-wrap
     .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
 
@@ -34,10 +35,7 @@ mixin filterCheckbox( filterSet )
         input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
         label.p2(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
         if filter.help
-          .help-container.pull-right.js-popover-trigger(data-original-title=filter.help.title)
-            span
-              i.fonticon-10-circle-q
-            //- mixin popoverContent( filterSet.help )
+          mixin helpPopover( filter.help, true )
 
 mixin filterGroup( filterSet )
   ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
@@ -48,12 +46,14 @@ mixin filterGroup( filterSet )
       mediaObject = li + btn + body + '</li>'
       | !{ mediaObject }
 
-mixin helpPopover( help )
-  .help-container.js-popover-trigger(data-original-title=help.title)
+mixin helpPopover( help, pullRight )
+  pullRight = pullRight || false
+  classes = 'help-container js-popover-trigger'
+  - if ( pullRight ) classes += ' pull-right'
+  div(class=classes, data-original-title=help.title)
     if help.label
       span.p3.help-label= help.label
-    span
-      i.fonticon-10-circle-q
+    i.fonticon-10-circle-q
     mixin popoverContent( help )
 
 mixin popoverContent( help )
@@ -159,37 +159,37 @@ mixin detailedGallery( submodules, gallery, type )
               i.fonticon-10-sm-bold-plus
 
 
-      if gallery.filterSet
-        .container.slide-arrow-under.fade
-          .relative
-            .slide-toggle-arrow
-        .container.slide-arrow-over.fade
-          .relative
-            .slide-toggle-arrow
+    if gallery.filterSet
+      .container.slide-arrow-under.fade
+        .relative
+          .slide-toggle-arrow
+      .container.slide-arrow-over.fade
+        .relative
+          .slide-toggle-arrow
 
 
-        .collapse.slide-toggle-target(id=gallery.name + '-filters')
-          .filter-options.container
-            .grid.no-grid-at-767
-                .span4
-                  each filterSet in gallery.filterSet
-                    if filterSet.filterGroup == 1
-                      mixin filterSet( filterSet )
-                .span4
-                  each filterSet in gallery.filterSet
-                    if filterSet.filterGroup == 2
-                      mixin filterSet( filterSet )
-                .span4
-                  each filterSet in gallery.filterSet
-                    if filterSet.filterGroup == 3
-                      mixin filterSet( filterSet )
+      .collapse.slide-toggle-target(id=gallery.name + '-filters')
+        .filter-options.container
+          .grid.no-grid-at-767
+              .span4
+                each filterSet in gallery.filterSet
+                  if filterSet.filterGroup == 1
+                    mixin filterSet( filterSet )
+              .span4
+                each filterSet in gallery.filterSet
+                  if filterSet.filterGroup == 2
+                    mixin filterSet( filterSet )
+              .span4
+                each filterSet in gallery.filterSet
+                  if filterSet.filterGroup == 3
+                    mixin filterSet( filterSet )
 
 
 
-        .container.active-filters-wrap
-          .grid.active-filters
+      .container.active-filters-wrap
+        .grid.active-filters
 
-        .spacer
+      .spacer
 
     .container
       .products.slimgrid.no-grid-at-767
