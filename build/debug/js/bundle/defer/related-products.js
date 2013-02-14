@@ -14,7 +14,7 @@
 //      $('.related-products').relatedProducts();
 //
 //
-;(function($, Modernizr, window, undefined) {
+;(function($, Modernizr, window, undefined , console) {
     
     'use strict';
 
@@ -22,16 +22,10 @@
         $.rpModules = {};
     }
 
-    var console = window.console;
-
     //start module
     var RelatedProducts = function(element, options){
       var self      = this,
-      ua            = navigator.userAgent.toLowerCase(),
-      i,
-     // browser       = $.browser,
-      //isWebkit      = browser.webkit,
-      isAndroid     = ua.indexOf('android') > -1;
+      ua            = navigator.userAgent.toLowerCase();
       
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
@@ -42,15 +36,13 @@
       lastTime      = 0,
       tempV         = '';
 
-      for (i = 0; i < vendors.length; i++ ) {
+      for (var i = 0; i < vendors.length; i++ ) {
         tempV = vendors[i];
         if (!vendor && (tempV + 'Transform') in tempStyle ) {
             vendor = tempV;
         }
         tempV = tempV.toLowerCase();
       }
-
-      // requestAnimationFrame polyfill by Erik Möller
 
       var bT = vendor + (vendor ? 'T' : 't' ),
       transEndEventNames = {
@@ -61,17 +53,12 @@
           'transition'       : 'transitionend'
       };
 
-      self.useCSS3Transitions = ( (bT + 'ransform') in tempStyle ) && ( (bT + 'ransition') in tempStyle );
+      self.useCSS3Transitions = Modernizr.csstransitions;
       
       if(self.useCSS3Transitions) {
-          self.use3dTransform = (vendor + (vendor ? 'P' : 'p'  ) + 'erspective') in tempStyle;
+          self.use3dTransform = Modernizr.csstransforms3d;
       }
         
-      vendor = vendor.toLowerCase();
-
-      self.vendorPrefix          = '-' + vendor + '-';
-      self.ev                    = $({}); //event object
-
       self.$paddles              = $({});
       self.$el                   = $(element);
       self.$slides               = self.$el.find('.rp-slide');
@@ -84,6 +71,8 @@
       self.$doc                  = $(document);
       self.$win                  = $(window);
 
+      self.vendorPrefix          = '-' + vendor.toLowerCase() + '-';
+      self.ev                    = $({}); //event object
       self.prefixed              = Modernizr.prefixed;
       self.transitionName        = self.prefixed('transition');
       self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
@@ -95,16 +84,13 @@
       self.previousId            = -1;
       self.currentId             = 0;
       self.slidePosition         = 0;
-      self.animationSpeed        = 1000; //ms
+      self.animationSpeed        = 1000;
       self.slides                = [];
-      self.slideCount            = 0;
-      self.isFreeDrag            = false; //MODE: TODO
+      self.slideCount            = self.$slides.length;
       self.currentContainerWidth = 0;
-      self.currentTab            = -1;
-      self.newSlideId            = 0;
       self.sPosition             = 0;
       self.scrollerModule        = null;
-      self.shuffle               = null; //start with null value, gets checked in checkforBreakpoints method
+      self.shuffle               = null;
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
       self.paddlesEnabled        = false;
@@ -112,19 +98,12 @@
       if(self.variation !== undefined){
         self.variation = self.variation.split('-')[2];
       }
-      
-      console.log('Variation on this module »' , self.variation );
 
       //modes
       self.isMobileMode          = false;
       self.isDesktopMode         = false;
       self.isTabletMode          = false;
-      
       self.accelerationPos       = 0;
-      self.maxWidth              = parseInt(self.sliderOverflow.parent().css('maxWidth'), 10);
-      self.maxHeight             = parseInt(self.sliderOverflow.parent().css('maxHeight'), 10);
-      self.resizeRatio           = self.maxHeight / self.maxWidth; //target resize ratio
-      self.markup                = self.$container.html();
 
       //init plugins
       $.each($.rpModules, function (helper, opts) {
@@ -135,8 +114,6 @@
         var $item = $(this);
         $item.data('slide' , $item.parent());
       });
-
-      console.log('Related Products - ' , self.numSlides , ' - GROUPS' , 'Mode >>' , self.mode /*, 'Max Width: ' , ( self.maxHeight / self.maxWidth) * 980*/);
 
       if(Modernizr.touch) {
           self.hasTouch         = true;
@@ -174,9 +151,6 @@
         self.yProp  = self.xProp = self.vendorPrefix +'transform';
         
         if(self.use3dTransform) {
-/*          if(isWebkit) {
-            self.$el.addClass('rp-webkit3d');
-          }*/
           self.tPref1 = 'translate3d(';
           self.tPref2 = 'px, ';
           self.tPref3 = 'px, 0px)';
@@ -222,8 +196,6 @@
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          //console.log("Shuffle columns »", containerWidth + 'px');
-
           if ( Modernizr.mq('(min-width: 981px)') ) {
             column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
@@ -237,9 +209,7 @@
           if(column === 0){
             column = 0.001;
           }
-
           //console.log('Shuffling Columns returning  TM »',column);
-
           return column;
       };
       //start her off
@@ -259,15 +229,13 @@
           self.setSortPriorities();
         }
 
-        if(self.$slides.length > 0){
+        if(self.$slides.length > 1){
           self.createNavigation();
 
           if(!self.hasTouch){
             self.setupPaddles();
           }
           
-         
-          //init dragging , slideshow: TODO:
           if(self.mode != 'strip'){
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           }
@@ -284,10 +252,7 @@
           self.setupStripMode();
 
         }
-
-
       },
-
 
       setupStripMode: function(){
         var self = this;
@@ -305,10 +270,8 @@
         setTimeout(function(){
 
           if(self.scrollerModule !== null){
-
             self.scrollerModule.destroy();
             self.scrollerModule = null;
-
           }
 
           self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
@@ -322,19 +285,18 @@
               snap: true,
               momentum: false,
               hScrollbar: false,
-              vScrollbar: false,
-          }
+              vScrollbar: false
+            }
 
           }).data('scrollerModule');
 
           console.log('Settup up scroller instance »',self.variation);
 
           self.$galleryItems.find('.product-name').evenHeights();
-         /* self.$galleryItems.find('.product-img').evenHeights();*/
 
           //self.scroller.enable();
           window.iQ.update();
-          window.console.log("Instantiating scroller module »", self.scrollerModule);
+          console.log("Instantiating scroller module »", self.scrollerModule);
         }, 50);
 
       },
@@ -809,8 +771,6 @@
         currItem = $(self.controlNavItems[self.currentId]);
         currItem.addClass('bullet-selected');
         self.prevNavItem = currItem;
-
-        //console.log("Nav Update »",currItem);
   
       },
 
@@ -830,9 +790,7 @@
       updateSliderSize: function(){
         var self = this;
         
-
         if(self.mode === 'suggested'){
-
           return;
         }
 
@@ -841,20 +799,12 @@
           //ratio based on comp around 768/922
           //self.$el.css('height' , 1.05 * self.$el.width());
           self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
-          return;
-
-/*          if($(window).width() > 768){
-            self.$el.css('height' , 1.18 * self.$shuffleContainers.eq(0).width());
-          }
-
-          else{
-             self.$el.css('height' , 1.4 * self.$shuffleContainers.eq(0).width());
-          }
-
+          
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , ((1.18) * self.$shuffleContainers.eq(0).width()) + 80);
+            //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
+            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
           }
-          return;*/
+          return;
         }
 
         if(self.isMobileMode === true){
@@ -867,7 +817,6 @@
           return;
         }
 
-
         //self.$el.css( 'height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) );
         self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
 
@@ -875,8 +824,6 @@
           //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
           self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
         }
-
-        
 
         console.log( "Slider Height »",self.$el.height() );
 
@@ -1191,8 +1138,6 @@
             animObj = {},
             newPos = (-self.currentId * cw);
 
-
-
             var a = ($(window).width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
             
             if(a > 0){
@@ -1206,11 +1151,9 @@
         self.$slides.each(function(i){
           $(this).css({
             'left': i * cw + 'px',
-            /*'height' : '700px',*/
             'z-index' : i
           });
 
-          //TODO: add spacing between slides going to be tricky to try and animate to them with no extra spacing
         });
 
         animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
@@ -1277,12 +1220,9 @@
         if(self.isDesktopMode === false){
           self.isDesktopMode = true;
 
-          //$('.container').removeClass('grid4').addClass('grid5');
-
           self.$galleryItems.each(function(){
             var item = $(this).removeClass('small-size mobile-item'),
                 slide = item.data('slide');
-
                 item.appendTo(slide);
           });
 
@@ -1383,9 +1323,7 @@
             top :  plateHeight + 130,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 35 + 'px'
           });
-
         }
-
 
       },
 
@@ -1396,11 +1334,6 @@
         if(self.mode !== 'suggested'){
           $(window).on('resize', function(){
             if(!self.isMobileMode && self.$win.width() > 480) {
-/*             self.$el.css({
-              'opacity' : 0,
-              'visibility' : 'hidden'
-              });*/
-              //hide tiles as well
               
              self.$galleryItems.css({
                'visibility' : 'hidden',
@@ -1422,7 +1355,6 @@
               self.$el.removeClass('redrawing');
            }
 
-
           });
         }
 
@@ -1432,43 +1364,26 @@
           self.updateSlides();
           self.updatePaddles();
           
-
           if(self.mode === 'suggested'){
             return;
-          } 
+          }
 
           clearTimeout(resizeTimeout);
           resizeTimeout = setTimeout(function(){
-
-            
 
             self.$shuffleContainers.each(function(){
               var shfflInst = $(this).data('shuffle');
 
               if(shfflInst === undefined){return;}
 
-              //console.log('UPdateing Shuffle instance »', shfflInst);
-              //shfflInst.update();
-
               setTimeout(function(){
                 self.updateSliderSize();
-
                 self.updateTiles();
-
-
                 shfflInst.update();
-
                 self.animateTiles();
 
-              } , 1000);
+              } , 250);
 
-/*              setTimeout(function(){
-                self.$el.css({
-                  'opacity' : 1 ,
-                  'visibility' : 'visible'
-                });
-
-              } , 50);*/
             });
           } , 10);
         }));
@@ -1479,8 +1394,8 @@
         isFullView = Modernizr.mq('(min-width: 981px)') ? true : false,
         $mediumTile = null,
         $normalTile = null,
-        newHeight = 0;
-
+        newHeight = 0,
+        slideVariation = 
         console.log('Calling update to tiles.... »',1);
 
         if(self.isMobileMode){
@@ -1493,7 +1408,7 @@
         self.$slides.each(function(){
           var $slide = $(this);
 
-
+          slideVariation = $slide.data('variation').split('-')[2].toLowerCase();
           //REMOVE
           //$slide.css( 'background' , 'red' );
 
@@ -1508,16 +1423,16 @@
             tileHeight = testHeight;
           }*/
 
-          $slide.find( '.gallery-item.normal').css({
-            'max-height' : tileHeight,
-            'height'     : tileHeight
-          });
+          if(slideVariation !== '3up'){
+            $slide.find( '.gallery-item.normal').css({
+              'max-height' : tileHeight,
+              'height'     : tileHeight
+            });
+          }
 
-          switch( $slide.data('variation').split('-')[2].toLowerCase() ){
+
+          switch( slideVariation ){
             case '5up':
-
-
-
 
 
               if(isFullView){
@@ -1531,18 +1446,6 @@
                   'height' : newHeight + 'px'
                 });
               }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             break;
@@ -1683,9 +1586,9 @@
       $('.related-products').relatedProducts({});
     });
 
- })(jQuery, Modernizr, window,undefined);
+ })(jQuery, Modernizr, window,undefined , window.console);
 
-(function($, Modernizr, window, undefined) {
+(function($, Modernizr, window, undefined , console) {
     'use strict';
     $.extend($.rpProto, {
       
@@ -1782,13 +1685,8 @@
     });
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
 
- })(jQuery, Modernizr, window,undefined);
+ })(jQuery, Modernizr, window,undefined , window.console);
 //all done
-
-;(function(window, Modernizr , jQuery , document){
-  'use strict';
-  
-})(window, Modernizr , jQuery , document);
 
 /*
   Tab system for managing multiple
