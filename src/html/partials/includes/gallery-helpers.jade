@@ -58,8 +58,10 @@ mixin helpPopover( help, pullRight )
 
 mixin popoverContent( help )
   - layout = help.layout
-  if layout == '2up'
-    .js-popover-content.hidden
+  .js-popover-content.hidden
+    .box-close.box-close-small
+      i.fonticon-10-x
+    if layout == '2up'
       .twoup
         .popover-col
           mixin iQImage( help.col1.img )
@@ -67,8 +69,8 @@ mixin popoverContent( help )
         .popover-col
           mixin iQImage( help.col2.img )
           p.p4= help.col2.text
-  else if layout == 'text-only'
-    .js-popover-content.hidden
+
+    else if layout == 'text-only'
       .p4= help.text
 
 
@@ -135,9 +137,11 @@ mixin detailedGallery( submodules, gallery, type )
                 each sort in gallery.sortSet
                   li
                     a(data-value=sort.name, data-reverse=sort.reverse, tabindex="-1", href="#")= sort.label
-            select.native-dropdown.select-small
-              each sort in gallery.sortSet
-                option(value=sort.name, data-reverse=sort.reverse)= sort.label
+            .native-dropdown
+              i.fonticon-10-arrowheads-elevator.absolutely
+              select.select-small
+                each sort in gallery.sortSet
+                  option(value=sort.name, data-reverse=sort.reverse)= sort.label
 
 
           p.p3.ib.product-count-wrap

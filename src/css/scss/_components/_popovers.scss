@@ -21,13 +21,14 @@
   // @include border-radius(6px);
   // @include box-shadow(0 5px 10px rgba(0,0,0,.2));
   @include box-shadow(0 0 35px $transparentBlack);
+  @include translate3d(0,0,0); // Fix webkit shifting bug
 
   // Offset the popover to account for the popover arrow
   &.top     { margin-bottom: 10px; }
   &.right   { margin-left: 10px; }
   &.bottom  { margin-top: 10px; }
   &.left    { margin-right: 10px; }
-  &.offsetright { margin-bottom: 15px; }
+  &.offsetright { margin-top: -7px; }
 
 }
 

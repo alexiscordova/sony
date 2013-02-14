@@ -818,13 +818,37 @@ $oneByOneImgPadding: 107.84313725490196%;
 }
 
 .sort-options .native-dropdown {
+  position: relative;
   display: none;
-  margin-bottom: 0;
-
-  -webkit-appearance: button;
-  padding: 0 0 0 12px;
-  border-radius: 0;
   cursor: pointer;
+
+  &.moz {
+    border-right: 1px solid $gray70;
+    overflow: hidden;
+
+    select {
+      width: 120%;
+      overflow: hidden;
+      padding-top: 4px;
+    }
+  }
+
+  select {
+    margin-bottom: 0;
+
+    -webkit-appearance: button;
+    padding: 0 0 0 12px;
+    border-radius: 0;
+    line-height: 1;
+  }
+
+  // arrows
+  .absolutely {
+    position: absolute;
+    top: 55%;
+    margin-top: -8px;
+    right: 12px;
+  }
 }
 
 // Filter labels ( active filters )
@@ -858,6 +882,11 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .filter-label {
     margin-bottom: 20px;
+  }
+
+  // Fix webkit flicker bug
+  .btn-square {
+    @include translate3d(0,0,0);
   }
 
   // Override default btn-group functionality to have them drop to the new line
@@ -898,7 +927,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     cursor: pointer;
     clear: right;
 
-    &.pull-right i {
+    &.pull-right .fonticon-10-circle-q {
       margin-top: -3px;
     }
 
@@ -923,6 +952,8 @@ $oneByOneImgPadding: 107.84313725490196%;
 }
 
 .sort-options .filter-label {
+  display: inline-block;
+  vertical-align: baseline;
   padding-right: 8px; // has a font-size set on it
 }
 
