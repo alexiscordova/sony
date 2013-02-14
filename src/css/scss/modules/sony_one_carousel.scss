@@ -259,7 +259,7 @@
             height: 28px;
             line-height: 28px;
             margin: -14px 0 0 -14px;
-            background-color: rgba($gray10, 0.5);
+            background-color: rgba($gray10, 0.75);
             border-radius: 14px;
             font-size: 0.8em;
             text-align: center;
@@ -816,36 +816,40 @@
       }
 
       //aLC
-      &.align-left-center.content-8,
-      &.align-left-center.content-6 {
-        top: 26.4%;
+      &.align-left-center,
+      &.align-right-center {
 
-        &.headline-counter {
-          top: 39.4%;
+        &.content-6,
+        &.content-8 {
+          top: auto;
+          height: 95%;
 
-          //phones
-          @media( max-width: px-em(480px) ){
-            top: 31.4%;
+          &.headline-counter {
+
+            //phones
+            @media( max-width: px-em(480px) ){
+
+            }
           }
-        }
 
-        &.headline-eyebrow {
-           //phones
-          @media( max-width: px-em(480px) ){
-            top: 22.4%;
+          &.headline-eyebrow {
+
+            @media( max-width: px-em(480px) ){
+
+            }
           }
-        }
 
-        &.headline-only {
-          &.content-8 {
-            top: 33.3%;
+          &.headline-only {
+            &.content-8 {
+
+            }
           }
-        }
 
-        &.headline-copy {
-          &.content-8 {
-            .headline {
-              margin-top:3%;
+          &.headline-copy {
+            &.content-8 {
+              .headline {
+
+              }
             }
           }
         }
@@ -879,15 +883,6 @@
         &.content-8,
         &.content-6 {
           top: 11%;
-        }
-      }
-
-      //aRC
-      &.align-right-center {
-
-        &.content-8,
-        &.content-6 {
-          top: 26.4%;
         }
       }
 
