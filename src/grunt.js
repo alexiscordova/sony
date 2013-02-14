@@ -66,29 +66,52 @@ module.exports = function(grunt) {
 
     },
     compass: {
-        debug: {
-            src: 'css/scss/',
-            dest: '../build/debug/css',
-            outputstyle: 'expanded',
-            linecomments: true,
-            forcecompile: true,
-            debugsass: false,
-            images: '../build/debug/img',
-            relativeassets: true
+        debugmain:{
+          src: 'css/scss/',
+          dest: '../build/debug/css',
+          specify: 'css/scss/styles.scss',
+          outputstyle: 'expanded',
+          linecomments: true,
+          forcecompile: true,
+          debugsass: false,
+          images: '../build/debug/img',
+          relativeassets: true
         },
-        deploy: {
-            src: 'css/scss/',
-            dest: 'css/temp',
-            outputstyle: 'compressed',
-            linecomments: false,
-            forcecompile: true,
-            debugsass: false,
-            images: '../build/deploy/img',
-            relativeassets: true
+        debugmodules:{
+          src: 'css/scss/modules/',
+          dest: '../build/debug/css/modules',
+          outputstyle: 'expanded',
+          linecomments: true,
+          forcecompile: true,
+          debugsass: false,
+          images: '../build/debug/img',
+          relativeassets: true
+        },
+        deploymain:{
+          src: 'css/scss/',
+          dest: '../build/deploy/css',
+          specify: 'css/scss/styles.scss',
+          outputstyle: 'compressed',
+          linecomments: false,
+          forcecompile: true,
+          debugsass: false,
+          images: '../build/deploy/img',
+          relativeassets: true
+        },
+       deploymodules:{
+          src: 'css/scss/modules/',
+          dest: '../build/deploy/css/modules',
+          outputstyle: 'compressed',
+          linecomments: false,
+          forcecompile: true,
+          debugsass: false,
+          images: '../build/deploy/img',
+          relativeassets: true
         },
         docs: {
             src: 'css/scss/',
             dest: '../docs/css',
+            specify: 'css/scss/styles.scss',
             outputstyle: 'expanded',
             linecomments: true,
             forcecompile: true,
@@ -131,9 +154,9 @@ module.exports = function(grunt) {
     },
     cssmin:{
       deploy:{
-         src: ['css/temp/**/*.css'],
-            dest: '../build/deploy/css/styles.min.css',
-            seperator:';'
+           src: ['css/temp/fonts/*.css', 'css/temp/bootstrap.css', 'css/temp/responsive.css'],
+           dest: '../build/deploy/css/styles.min.css',
+           seperator:';'
       }
     },
     clean:{
@@ -167,7 +190,7 @@ module.exports = function(grunt) {
           '../build/deploy/js/libs/'   : 'js/libs/*',
           '../build/deploy/img/'     : 'img/build/**',
           '../build/deploy/ico/'     : 'img/ico/**',
-          '../build/deploy/fonts/'   : 'fonts/**'
+          '../build/deploy/fonts/'   : 'fonts/**',
         }
       },
       docs:{
@@ -238,18 +261,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-doccoh');
 
   // Define task list aliases
-  grunt.registerTask('debug', 'clear lint compass-clean compass:debug copy:debug  shell:docpad_debug');
+  grunt.registerTask('debug', 'clear lint compass-clean compass:debugmain compass:debugmodules copy:debug  shell:docpad_debug');
   grunt.registerTask('mbuilder', 'shell:docpad_mbuilder')
-  grunt.registerTask('debug-light', 'lint compass:debug copy:debuglight shell:docpad_debug');
+  grunt.registerTask('debug-light', 'lint compass:debugmain compass:debugmodules copy:debuglight shell:docpad_debug');
   grunt.registerTask('debug-html', 'lint shell:docpad_debug');
   grunt.registerTask('debug-js', 'lint copy:debuglight');
-  grunt.registerTask('debug-css', 'compass:debug');
+  grunt.registerTask('debug-css', 'compass:debugmain compass:debugmodules');
   grunt.registerTask('debug-img', 'copy:debugimg');
   grunt.registerTask('docs', 'clear compass-clean compass:docs compass:docs_extra copy:docs docs-js shell:docpad_docs');
   grunt.registerTask('docs-light', 'compass-clean compass:docs compass:docs_extra copy:docslight shell:docpad_docs');
   grunt.registerTask('docs-js', 'doccoh');
   grunt.registerTask('docs-img', 'copy:docsimg');
-  grunt.registerTask('deploy', 'clear lint compass-clean compass:deploy min cssmin:deploy copy:deploy  shell:docpad_deploy');
+  grunt.registerTask('deploy', 'clear lint compass-clean compass:deploymain compass:deploymodules min copy:deploy  shell:docpad_deploy');
   grunt.registerTask('default', 'debug');
   grunt.registerTask('generated', 'shell:docpad_mbuilder');
   grunt.registerTask('all', 'clean debug generated deploy docs');
