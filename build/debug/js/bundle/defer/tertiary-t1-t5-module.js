@@ -168,7 +168,6 @@
 
       // reload images for iQ
       updateIQ : function(){
-        console.log( 'update iq »');
         var self = this;
         window.iQ.update();               
       },
