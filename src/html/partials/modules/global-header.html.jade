@@ -26,11 +26,12 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
           i.fonticon-10-arrowhead-up.nav-indicator
           div.reveal-transition-container
-            form.navmenu-search-section-input.input-group(method='post', action='')
-              i.fonticon-10-search.input-icon
-              input#nav-search-input(type='text', name='navSearch', role='search', value='      Search', tabindex='1401')
-              a.btn-clear-search-input.input-clear-btn(href='#')
-                i.fonticon-10-x-skinny
+            div.navmenu-search-section-form
+              form.navmenu-search-section-input.input-group(method='post', action='')
+                i.fonticon-10-search.input-icon
+                input#nav-search-input(type='text', name='navSearch', role='search', value='      Search', tabindex='1401')
+                a.btn-clear-search-input.input-clear-btn(href='#')
+                  i.fonticon-10-x-skinny
             
             div.navmenu-search-section-results
               div.navmenu-search-popular-searches
@@ -90,7 +91,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
               i.fonticon-10-cart
               | Store
           li.navmenu-line.navmenu-li-location
-            a.tl(href='#')
+            a.tl.navmenu-style-tl(href='#')
               i.fonticon-10-location
               | Find a Store
             span.navmenu-li-ext-text  - London
@@ -99,10 +100,9 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
               i.fonticon-10-support
               | Support
           li.navmenu-line.navmenu-li-favorites
-            a.tl(href='#')
+            a.tl.navmenu-style-tl(href='#')
               i.fonticon-10-favorite
               | Favorites
-              span.nav-li-count 2
 
     
       //- The navtrays are before the navbar for correct ordering of the mobile nav menu
@@ -155,7 +155,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                   span.nav-img-w
                     img(src='img/global/global-nav/tray-car.png', alt='Car & Marine')
                   span.nav-label Car & Marine
-            a.btn.btn-icon-ui-left.btn-nav-view-all(href='#', tabindex='190')
+            a.navmenu-style-tl.nav-view-all-tl(href='#', tabindex='190')
               i.fonticon-10-grid-3x3
               | View All Electronics
 
@@ -220,8 +220,13 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             span.hidden-text
               | SONY make.believe
           ul.nav.nav-primary(role='navigation')
+            li.nav-li.nav-li-sites-mobile
+              a.nav-li-link(href='#') 
+                i.fonticon-10-square-neg-plus
+                | Sony Sites
             li.nav-li.nav-li-store
               a.nav-li-link(href='#', tabindex='20') 
+                i.fonticon-10-cart
                 | Store
                 span.global-nav-indicator-bar
             li.nav-li.nav-li-electronics
@@ -236,6 +241,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 span.global-nav-indicator-bar.for-navtray-short
             li.nav-li.nav-li-support
               a.nav-li-link(href='#', tabindex='1000')
+                i.fonticon-10-support
                 | Support
                 span.global-nav-indicator-bar
 
@@ -250,31 +256,31 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                   a.btn.btn-login(href='#') Log in
                   ul.navmenu-list.navmenu-list-prefixed
                     li.navmenu-line.navmenu-li-cart
-                      a.tl(href='#')
+                      a.tl.navmenu-style-tl(href='#')
                         i.fonticon-10-cart
                         | Cart
                         span.nav-li-count 2
                     li.navmenu-line.navmenu-li-favorites
-                      a.tl(href='#')
+                      a.tl.navmenu-style-tl(href='#')
                         i.fonticon-10-favorite
                         | Favorites
                   ul.navmenu-list.navmenu-list-main
                     li.navmenu-line.navmenu-li-welcome.visible-phone 
                       | Hi Robert
                     li.navmenu-line.navmenu-li-account
-                      a.tl(href='#', tabindex='1110') 
+                      a.tl.navmenu-style-tl(href='#', tabindex='1110') 
                         i.fonticon-10-account
                         | Account Info
                     li.navmenu-line.navmenu-li-orders
-                      a.tl(href='#', tabindex='1120')
+                      a.tl.navmenu-style-tl(href='#', tabindex='1120')
                         i.fonticon-10-orders
                         | Orders
                     li.navmenu-line.navmenu-li-newsletter
-                      a.tl(href='#', tabindex='1130')
+                      a.tl.navmenu-style-tl(href='#', tabindex='1130')
                         i.fonticon-10-newsletter
                         | Newsletter Subscriptions
                     li.navmenu-line.navmenu-li-registered-products
-                      a.tl(href='#', tabindex='1140')
+                      a.tl.navmenu-style-tl(href='#', tabindex='1140')
                         i.fonticon-10-registered
                         | Registered Products
                   a.btn.btn-logout(href='#', tabindex='1150')

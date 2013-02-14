@@ -1,0 +1,25 @@
+---
+title: T2. Tertiary Layout: Article - Default, News, Event
+description:
+---
+
+doctype 5
+
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+
+	h2
+		| T2. Article: Default, News, Event
+
+	e = {"locals":locals, "data":data('tertiary-t1-t5/article-t2-a-c-d.json')}
+	!{partial('modules/tertiary-t1-t5.html.jade', e)}
+ 
+	!{partial('includes/foot.html.jade', l)}
+
+</html>

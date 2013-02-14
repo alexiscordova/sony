@@ -15,7 +15,7 @@
   margin-bottom: 0; // For input.btn
 
   font-family: $sansFontFamily;
-  font-size: 0.8666666667em; /* 13px/15px */ //inside of <p> or <td>
+  font-size: px-em(13px, 15px); // 13px/15px inside of <p> or <td>
   // letter-spacing: -0.065em;
 
   line-height: inherit;
@@ -108,6 +108,7 @@
     top: 0;
     @include opacity(0);
     @include transition(opacity $transitionFast $easeNormal);
+    font-size: 16px;
   }
 
   &:hover,
@@ -317,7 +318,7 @@ input[type="button"] {
   padding-left: $btnAltSpecialPadding;
   padding-right: $btnAltSpecialPadding;
   text-align: left;
-  font-size: $font_13_16;
+  // font-size: $font_13_16;
   background: $btnAltBackground;
   min-width: 131px;
 

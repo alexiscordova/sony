@@ -332,7 +332,7 @@
     _onAnimationEnd : function( iscroll ) {
       var self = this;
 
-      console.log( 'self.$el »' , self.$el);
+      // console.log( 'self.$el »' , self.$el);
       // console.log( 'self.scroller »' , self.scroller);  
       // console.log( 'self.$el[0] »' , self.$el[0]);
 
