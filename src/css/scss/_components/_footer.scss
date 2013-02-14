@@ -52,9 +52,9 @@
   .footer-input{
     border:none;
     height:28px;
-    padding:0 4px 3px 9px;
+    padding:0 4px 0 9px;
     margin:0;
-    font-size:$font_13_16;
+    font-size:$font_12_16;
     background:$footerBackground;
     color:$white;
 
@@ -67,8 +67,8 @@
     // padding-top:5px;
     // height:30px;
 
-    padding-top: 4px;
     height: 28px;
+    padding: 4px 0;
 
     font-size:$font_11_16;
     @include fontRegular;
@@ -88,8 +88,8 @@ form.footer-store-locator-form{
 
 .footer-store-locator-caption{
   font-size:$font_11_16;
-  margin:5px 0 0 0;
-  color:$footerGrayText;
+  margin:7px 0 0 0;
+  color:$white;
 }
 
 .grid .footer-language.span6{
@@ -178,7 +178,7 @@ form.footer-store-locator-form{
     color:$white;
     background-color: $gray25;
     border-color: $gray25;
-    padding: 8px 8px 10px 14px;
+    padding: 8px 8px 10px 12px;
     @include box-shadow(none);
     @include flickerfix;
 
@@ -204,6 +204,9 @@ form.footer-store-locator-form{
     @include el-hidden;
   }
   &.language-selector{
+    .dropdown-hover-toggle{
+      padding-left:20px;
+    }
     .dropdown-hover-menu{
       @include el-hidden(right); // so it's right-justified.
     }
@@ -269,6 +272,15 @@ form.footer-store-locator-form{
   }
 }
 
+
+.footer-wrapper-minimal{
+  .btn-hover-group{ // drop-downs that trigger on hover instead of click -- except on mobile where they have to react more like on click.
+    .btn.dropdown-hover-toggle{
+      padding: 10px 12px 11px 20px;
+    }
+  }
+}
+
 .no-touch .btn-hover-group:hover,
 .no-touch .btn-hover-group.open:hover,
 .touch .btn-hover-group.open{ // overrides the .open settings for the non-touch .dropdown-toggle, but not on mobile (touch).
@@ -300,6 +312,10 @@ form.footer-store-locator-form{
 
 .footer-links-list{
   margin:0;
+
+  li {
+    line-height:1.5;
+  }
 }
 .footer-link-li{
   // line-height: 1;
@@ -310,30 +326,25 @@ form.footer-store-locator-form{
   }
 }
 
-.footer-newsletter{
-  .footer-form-border{
-    .footer-input{
-      color:$grayLight;
-    }
+.footer-wrapper .footer-store-locator{
+  h5{
+    margin-bottom:18px;
   }
-}
-
-.footer-store-locator{
   .store-locator-input-w{
   }
 }
 
 .footer-signature-w{
-  border-top:solid 1px $grayDarkFieldLarge;
+  border-top: solid 1px $grayDarkFieldLarge;
   margin-top: px-em(13px);
-  padding-top:px-em(28px);
+  padding-top: px-em(28px);
   @include flickerfix;
 }
 .footer-legal-links{
+  font-size: px-em(10);
   a{
-    display:inline-block;
-    margin-right:px-em(14px);
-    font-size:$font_12_16;
-    text-transform:uppercase;
+    display: inline-block;
+    margin-right: px-em(16px);
+    text-transform: uppercase;
   }
 }

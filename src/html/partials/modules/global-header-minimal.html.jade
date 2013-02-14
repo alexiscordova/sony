@@ -1,0 +1,109 @@
+---
+name: 'global header'
+meta_data: {a:'foo', b:'bar'}
+---
+
+//- Accessibility : link to the main content block
+a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1') Skip to Content
+nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-767.nav-wrapper-minimal(role='navigation')
+  .container.navbar-mobile.visible-phone
+    a#btn-mobile-nav.btn.btn-mobile-nav(href='#')
+        i.fonticon-10-mobile-icon
+      a.brand.fonticon-60-sony(href='#')
+        span.hidden-text
+          | SONY make.believe
+
+  #nav-outer-container.nav-outer-container
+    //- the search menu wrapper is first for mobile, and positioned absolute for desktop
+    .container.navmenu-w-search-container.full-bleed-at-767
+
+      div#navmenu-w-search.navmenu-w.navmenu-w-search.input-outer-wrapper
+        
+        i.fonticon-10-arrowhead-up.nav-indicator
+        div.reveal-transition-container
+          div.navmenu-search-section-form
+            form.navmenu-search-section-input.input-group(method='post', action='')
+              i.fonticon-10-search.input-icon
+              input#nav-search-input(type='text', name='navSearch', role='search', value='      Search', tabindex='1401')
+              a.btn-clear-search-input.input-clear-btn(href='#')
+                i.fonticon-10-x-skinny
+          
+          div.navmenu-search-section-results
+            div.navmenu-search-popular-searches
+              p.l3 Popular Searches
+                ul.navmenu-list.navmenu-list-extended
+                  li.search-result-line
+                    a.tl(href='#', tabindex='1410') Laptops 
+                  li.search-result-line
+                    a.tl(href='#', tabindex='1411') VAIO
+                  li.search-result-line
+                    a.tl(href='#', tabindex='1412') Headphones
+                  li.search-result-line
+                    a.tl(href='#', tabindex='1413') PSP
+                  li.search-result-line
+                    a.tl(href='#', tabindex='1414') Playstation
+                  li.search-result-line
+                    a.tl(href='#', tabindex='1415') NEX          
+
+            div.navmenu-search-results
+              ul.navmenu-list.navmenu-list-results
+                li.search-result-line
+                  a(href='#', tabindex='1450')
+                    img(src='img/global/global-nav/search-results-images/nex-6.png', alt='α NEX-6', width='83', height='64')
+                    span.search-result-p
+                      span.search-result-headline α NEX-6
+                      span.search-result-descript The Future of Photography.
+                    i.fonticon-10-chevron
+                li.search-result-line
+                  a(href='#', tabindex='1451')
+                    img(src='img/global/global-nav/search-results-images/nex-5.png', alt='α NEX-5', width='83', height='64')
+                    span.search-result-p
+                      span.search-result-headline α NEX-5
+                      span.search-result-descript Pocket DSLR
+                    i.fonticon-10-chevron
+                li.search-result-line.search-result-canned
+                  a(href='#', tabindex='1452')
+                    i.fonticon-30-support
+                    span.search-result-p
+                      span.search-result-headline α NEX Support
+                    i.fonticon-10-chevron
+              ul.navmenu-list-extended
+                li.search-result-line
+                    a.tl(href='#', tabindex='1453') α NEX-3
+                  li.search-result-line
+                    a.tl(href='#') α NEX Accessories
+                  li.search-result-line
+                    a.tl(href='#') α NEX Lenses
+                  li.search-result-line
+                    a.tl(href='#') α NEX
+
+              a.btn.btn-show-all-results(href='#', tabindex='1490') Show All Results
+
+
+      div.navmenu-w.navmenu-w-mobile-top.visible-phone.logged-in
+        ul.navmenu-list.navmenu-list-main
+          li.navmenu-line.navmenu-li-favorites
+            a.tl.navmenu-style-tl(href='#')
+              i.fonticon-10-favorite
+              | Favorites
+
+    div.container.navbar.full-bleed-at-767
+      div.grid.full-bleed-at-767
+        a.brand.fonticon-60-sony(href='#',, tabindex='10')
+          span.hidden-text
+            | SONY make.believe
+
+        ul.nav.nav-utility(role='role="navigation"')
+
+          li.nav-li.nav-li-favorites
+            a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href='#', tabindex='1200')
+              i.fonticon-10-favorite
+              span.visuallyhidden 
+                | Favorites
+          li.nav-li.nav-li-search
+            a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle.nav-dropdown-toggle-btn(data-target='navmenu-w-search', href='#nav-search-input', tabindex='1400')
+              span.lbl
+                | Search
+              i.fonticon-10-search
+
+

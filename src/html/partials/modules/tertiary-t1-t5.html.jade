@@ -81,7 +81,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
                   if (module.articleLink)
                     p.lt3
-                      a(href="#{module.articleLink}")
+                      a(href= module.articleLink)
                         | Read More
               
             when "users-voice"
@@ -93,17 +93,15 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   p
                     | #{module.quote}
 
-                //- TODO: merge this with user-quote (title and  credits are only difference)
                 .credits
                   .avatar
                     img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
                       noscript
                         img(src= module.avatarNoScriptImg)
-                  
-                  .author
-                    p.name.l3
-                      a(href="#{module.authorLink}")
-                        | #{module.author}
+                
+                  p.author.l3
+                    a(href="#{module.authorLink}")
+                      | #{module.author}
 
               if (contentMode == "user-quote")
                 .title.l3
@@ -118,14 +116,13 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
                       noscript
                         img(src= module.avatarNoScriptImg)
-                  
-                  .author
-                    p.handle.p4
-                      a(href="#{module.authorLink}")
-                        | #{module.authorHandle}
 
-                    p.name.p4
-                      | #{module.author}
+                  p.handle.p4
+                    a(href="#{module.authorLink}")
+                      | #{module.authorHandle}
+
+                  p.author.p4
+                    | #{module.author}
 
               if (contentMode == "question")
                 .credits
@@ -135,7 +132,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                         img(src= module.avatarNoScriptImg)
                   
                   p.author.p4
-                    a(href="#{module.authorLink}")
+                    a(href= module.authorLink)
                       | #{module.authorHandle} 
                     | #{module.title}
               
@@ -144,11 +141,11 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     | #{module.question}
 
                 p.lt3
-                  a(href=#{module.repliesLink})
+                  a(href= module.repliesLink)
                     | See Replies
 
                 .answer-btn
-                  a.btn(href="#{module.answerLink}")
+                  a.btn(href= module.answerLink)
                     | Answer this Question
             
             when "sonys-voice"
@@ -210,34 +207,21 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                           img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
                           noscript
                             img(src= module.instagramRNoScriptImg)
-                      tr
+                        td.top-center-phone
+                          img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
+                          noscript
+                            img(src= module.instagramRNoScriptImg)
+                        td.top-right-phone
+                          img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
+                          noscript
+                            img(src= module.instagramBLNoScriptImg)
+
+                      tr.bottom-row
                         td.bottom-left
                           img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
                           noscript
                             img(src= module.instagramBLNoScriptImg)
 
-
-
-                  //- .image-mat
-                  //-   .top-left.iq-img(data-src= module.instagramTLImg)
-                  //-   .top-right.iq-img(data-src= module.instagramRImg)
-                  //-   .bottom-right.iq-img(data-src= module.instagramBLImg)
-
-                  //- .image-mat
-                  //-   .top-left
-                  //-     img.iq-img(alt= module.instagramTLImgAltText, data-src= module.instagramTLImg)
-                  //-     noscript
-                  //-       img(src= module.instagramTLNoScriptImg)
-
-                  //-   .top-right
-                  //-     img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
-                  //-     noscript
-                  //-       img(src= module.instagramRNoScriptImg)
-
-                  //-   .bottom-left  
-                  //-     img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
-                  //-     noscript
-                  //-       img(src= module.instagramBLNoScriptImg)
 
               - link = module.socialBtnLink
               mixin socialButton( link, label )
@@ -245,31 +229,48 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
             when "flickr"
               if (contentMode == "default")
                 .fonticon-flickr
-                  img(src="img/tertiary-t1-t5/icon-flickr.png")
+                  .white-bg.fonticon-10-dot
+                  .fonticon-10-dot.left
+                  .fonticon-10-dot.right
+
+                //- .temp
+                //-   img(src="img/tertiary-t1-t5/icon-flickr.png")
 
                 .meta.p4
                   for meta in module.meta        
                     | #{meta.user} #{meta.title}
+                
+                - images = module.images
+                .center-content.table-center
+                  table
+                    tbody
+                      tr.top-row
+                        td.top-left
+                          img.iq-img(alt= images[0].altText, data-src= images[0].src)
+                          noscript
+                            img(src= images[0].noScriptSrc)
+                        td.top-center
+                          img.iq-img(alt= images[1].altText, data-src= images[1].src)
+                          noscript
+                            img(src= images[1].noScriptSrc)
+                        td.top-right
+                          img.iq-img(alt= images[2].altText, data-src= images[2].src)
+                          noscript
+                            img(src= images[2].noScriptSrc)
 
-                .image-mat.grid
-                  - maxEachRow = 3
-                  .top-row.m-grid-at-479
-                    - i = 0
-                    each image, i in module.images
-                     if (i < maxEachRow) 
-                      div.span4
-                        img.iq-img(alt= image.altText, data-src= image.src)
-                        noscript
-                          img(src= image.noScriptSrc)
-                  
-                  - i = 0
-                  .bottom-row
-                    each image, i in module.images
-                     if (i < maxEachRow) 
-                      div.span4
-                        img.iq-img(alt= image.altText, data-src= image.src)
-                        noscript
-                          img(src= image.noScriptSrc)                
+                      tr.bottom-row
+                        td.bottom-left
+                          img.iq-img(alt= images[3].altText, data-src= images[3].src)
+                          noscript
+                            img(src= images[3].noScriptSrc)
+                        td.bottom-center
+                          img.iq-img(alt= images[4].altText, data-src= images[4].src)
+                          noscript
+                            img(src= images[4].noScriptSrc)
+                        td.bottom-right
+                          img.iq-img(alt= images[5].altText, data-src= images[5].src)
+                          noscript
+                            img(src= images[5].noScriptSrc)
 
                 - link = module.socialBtnLink
                 - label = " View Set on Flickr"

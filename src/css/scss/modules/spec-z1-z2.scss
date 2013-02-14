@@ -36,24 +36,24 @@ $specBorderColor: $gray70;
 // 888   d88P Y88..88P Y88b.  888  888
 // 8888888P"   "Y88P"   "Y888 888  888
 
-.iq-wrap {
-  position: relative;
-  overflow: hidden;
+// .iq-wrap {
+//   position: relative;
+//   overflow: hidden;
 
-  &:after {
-    content: '';
-    display: block;
-    padding-top: 60.1851852%;
-  }
+//   &:after {
+//     content: '';
+//     display: block;
+//     padding-top: 60.1851852%;
+//   }
 
-  .iq-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-}
+//   .iq-container {
+//     position: absolute;
+//     top: 0;
+//     bottom: 0;
+//     left: 0;
+//     right: 0;
+//   }
+// }
 
 // Spec Header
 // -------------------------
@@ -364,7 +364,7 @@ ul.spec-views {
   }
 
   .img-holder {
-    margin-top: 1.25em;
+    padding-top: 1.25em;
 
     & + .spec-cell-inner {
       padding-top: 0;
@@ -410,6 +410,15 @@ ul.spec-views {
 
   .mini-swatch {
     @include square(1em);
+    border-radius: 1px;
+  }
+
+  [class*="fonticon-60-"] {
+    font-size: 3.6em;
+  }
+
+  [class*="fonticon-60-"] + [class*="fonticon-60-"] {
+    margin-left: 10px;
   }
 }
 
@@ -430,6 +439,12 @@ ul.spec-views {
 
   .spec-items-grid {
     border-right: .0625em solid $specBorderColor;
+    @include transition(box-shadow $transitionFast ease-in);
+
+    &.overflowing {
+      @include box-shadow(inset -.125em 0 .1875em -.125em $transparentBlack);
+      @include transition-timing-function(ease-out);
+    }
   }
 
   .detail-labels-wrap {
@@ -489,8 +504,13 @@ ul.spec-views {
   }
 
   .detail-label {
-    @include text-overflow( false );
     padding: 1.125em 1em 0 0;
+
+    strong {
+      display: inline-block;
+      max-width: 100%;
+      @include text-overflow( false );
+    }
   }
 
 
@@ -516,6 +536,7 @@ ul.spec-views {
 
     &.sticky-count .product-count-wrap {
       height: $stickyHeaderHeight;
+      @include box-shadow(0.0625em 0 0.0625em $specBorderColor);
     }
   }
 
@@ -531,6 +552,16 @@ ul.spec-views {
       right: auto;
       @include box-shadow(0 .0625em .625em $transparentBlack);
     }
+
+    // &:after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   right: 0;
+    //   width: 1px;
+    //   height: 100%;
+    //   background: red;
+    // }
   }
 
 }
@@ -578,7 +609,7 @@ ul.spec-views {
     &:before,
     &:after {
       position: relative;
-      top: 0.4em;
+      top: -0.4em;
     }
   }
 

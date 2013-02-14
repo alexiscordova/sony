@@ -87,13 +87,19 @@
       // If the selector is a jQuery object, use that, otherwise look for the selector inside our container
       if ( self.nextSelector ) {
         self.$navNext = self.nextSelector.jquery ? self.nextSelector : self.$el.find( self.nextSelector );
-        self.$navNext.on('click', function() {
+        self.$navNext.on('click', function( evt ) {
+          // Stop the mouse click from bubbling up.
+          evt.preventDefault();
+          evt.stopPropagation();
           self.next();
         });
       }
       if ( self.prevSelector ) {
         self.$navPrev = self.prevSelector.jquery ? self.prevSelector : self.$el.find( self.prevSelector );
-        self.$navPrev.on('click', function() {
+        self.$navPrev.on('click', function( evt ) {
+          // Stop the mouse click from bubbling up.
+          evt.preventDefault();
+          evt.stopPropagation();
           self.prev();
         });
       }
@@ -172,9 +178,21 @@
           'left' : '0'
         });
 
+        window.console.log(self.autoGutters , self.gutterWidth);
+
         $.each($elemsInPage , function(i) {
           var $el = $(this);
-          $el.css('left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px');
+
+          if(self.autoGutters){
+            $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px' );
+          }else{
+            if( i === 0 ){
+              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + 'px' );
+            }else{
+              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + (i * self.gutterWidth) + 'px' );
+            }
+          }
+          
         });
       }
 
@@ -326,25 +344,35 @@
     _onAnimationEnd : function( iscroll ) {
       var self = this;
 
-      self.currentPage = iscroll.currPageX;
+      // console.log( 'self.$el »' , self.$el);
+      // console.log( 'self.scroller »' , self.scroller);  
+      // console.log( 'self.$el[0] »' , self.$el[0]);
 
-      // Show or hide paddles based on our current page
-      self._showHideNavs( self.currentPage, iscroll.pagesX.length - 1 );
+      if ( iscroll.pagesX && iscroll.pagesX.length ){
+        // console.log( 'iscroll »' , iscroll);
+        // console.log( 'iscroll.pagesX.length »' , iscroll.pagesX);
 
-      // Update nav bullets
-      if ( self.$pagination ) {
-        self.$pagination
-          .children()
-            .eq( self.currentPage )
-              .addClass('bullet-selected')
-            .siblings()
-              .removeClass('bullet-selected');
-      }
+        self.currentPage = iscroll.currPageX;
 
-      // If they've defined a callback as well, call it
-      // We saved their function to this reference so we could have our own onAnimationEnd
-      if ( self.onAnimationEnd ) {
-        self.onAnimationEnd( iscroll );
+        // Show or hide paddles based on our current page
+        self._showHideNavs( self.currentPage, iscroll.pagesX.length - 1 );
+
+        // Update nav bullets
+        if ( self.$pagination ) {
+          self.$pagination
+            .children()
+              .eq( self.currentPage )
+                .addClass('bullet-selected')
+              .siblings()
+                .removeClass('bullet-selected');
+        }
+
+        // If they've defined a callback as well, call it
+        // We saved their function to this reference so we could have our own onAnimationEnd
+        if ( self.onAnimationEnd ) {
+          self.onAnimationEnd( iscroll );
+        }
+        
       }
     },
 
@@ -384,6 +412,11 @@
     /**
      * Public Methods
      */
+
+    setGutterWidth: function(gutterWidth){
+      var self = this;
+      self.gutterWidth = gutterWidth;
+    },
 
     gotopage: function( pageNumber, duration ) {
       // pageNumber could be an event object from a navigation bullet click.
@@ -490,6 +523,8 @@
     appendBulletsTo: null, // option on where to place pagination bullets, if null defaults to self.$el
     appendNavOutside: true, // Outside the scroller ($el). You probably want this because the scroller has overflow:hidden
     addPaddleTrigger: true, // Add the paddle-trigger class to fade in paddles when the parent is hovered
+    autoGutters: true,
+    gutterWidth: 0,
 
     // iscroll props get mixed in
     iscrollProps: {
@@ -503,7 +538,8 @@
       onScrollEnd: null,
       lockDirection: true,
       onBeforeScrollStart: null,
-      onAnimationEnd: null
+      onAnimationEnd: null,
+      gutterWidth:0
     }
 
   };

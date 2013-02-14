@@ -9,7 +9,7 @@ include ../includes/jade-helpers.jade
   .container
 
     .grid.spec-title-wrap
-      a.l2.spec-title-link(href=data.titleLink.href)= data.titleLink.label
+      a.lt3-alt.spec-title-link(href=data.titleLink.href)= data.titleLink.label
       .sony-recommends
         span.p3 Sony Recommends
         i.fonticon-60-win8.win8-logo
@@ -42,9 +42,9 @@ include ../includes/jade-helpers.jade
       .spec-nav-wrap
         nav.spec-nav-container
           button.nav-paddle.spec-nav.spec-nav-prev
-            i.icon-ui2-chevron-18-white-left
+            i.fonticon-10-chevron-left
           button.nav-paddle.spec-nav.spec-nav-next
-            i.icon-ui2-chevron-18-white-right
+            i.fonticon-10-chevron
       .grid.no-grid-at-567.spec-items-grid
         .span2.detail-labels-wrap
           .compare-sticky-header.sticky-count
@@ -82,9 +82,8 @@ include ../includes/jade-helpers.jade
       each tile in data.features.tiles
         .spec-tile.span4
           if tile.img
-            .iq-wrap
-              figure.iq-container
-                mixin iQImage( tile.img )
+            figure
+              mixin iQImage( tile.img )
 
           .tile-content
             h3.t6.tile-title= tile.title

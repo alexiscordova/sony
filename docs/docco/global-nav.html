@@ -107,7 +107,11 @@ window.enquire.register("(min-width: 48em)", { // 768
           $thNavBtnTarget = $(<span class="string">'.'</span> + $thNavBtn.data(<span class="string">'target'</span>)),
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>console.log("$thNavBtnTarget: " + $thNavBtnTarget);</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>console.log("$thNavBtnTarget: " + $thNavBtnTarget);</p>             </td>             <td class="code">               <div class="highlight"><pre>        
+        $thNavBtn.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+          e.preventDefault();
+        });
+
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>init</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetActiveNavBtn($thNavBtn);
 
 </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>$(this).on(self.tapOrClick + ' focus blur', function() {
@@ -146,13 +150,14 @@ $(this).on('touchstart mouseenter', function() {</p>             </td>          
 
 </pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>NOT touch device - set up HOVER triggers</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>for the search button only, we want it to trigger on click. All others on mouseenter.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> thTrigger = <span class="string">'mouseenter'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>for the search button only, we want it to trigger on click. All others on mouseenter.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> thTrigger = <span class="string">'mouseenter focus'</span>;
           <span class="keyword">if</span> ($thNavBtn.parent().hasClass(<span class="string">'nav-li-search'</span>)){
-            thTrigger = <span class="string">'click'</span>;
+            thTrigger = <span class="string">'click keypress'</span>;
           }
 
           $thNavBtn.on(thTrigger, <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>var $thNavBtn = $(this);</p>             </td>             <td class="code">               <div class="highlight"><pre>            $(<span class="keyword">this</span>).data(<span class="string">'hovering'</span>,<span class="literal">true</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>var $thNavBtn = $(this);</p>             </td>             <td class="code">               <div class="highlight"><pre>            
+            $(<span class="keyword">this</span>).data(<span class="string">'hovering'</span>,<span class="literal">true</span>);
             self.resetMouseleaveTimer();
             
 </pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>if this button is NOT activated, </p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (!$thNavBtn.parent().hasClass(<span class="string">'nav-li-selected'</span>)){
@@ -193,18 +198,24 @@ console.log("mouseleave $thNavBtn3");</p>             </td>             <td clas
             },<span class="number">25</span>);
           });
 
-          $thNavBtnTarget.on(<span class="string">'mouseenter'</span>, <span class="keyword">function</span>() {
-            $(<span class="keyword">this</span>).data(<span class="string">'hovering'</span>,<span class="literal">true</span>);
+          $thNavBtnTarget.on(<span class="string">'mouseenter focus'</span>, <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>console.log($thNavBtnTarget);</p>             </td>             <td class="code">               <div class="highlight"><pre>            $(<span class="keyword">this</span>).data(<span class="string">'hovering'</span>,<span class="literal">true</span>);
             self.resetMouseleaveTimer();
           });
-
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>If you mouseOut of the target</p>             </td>             <td class="code">               <div class="highlight"><pre>          $thNavBtnTarget.on(<span class="string">'mouseleave'</span>, <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>console.log("mouseleave $thNavBtnTarget");</p>             </td>             <td class="code">               <div class="highlight"><pre>            $(<span class="keyword">this</span>).data(<span class="string">'hovering'</span>,<span class="literal">false</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>Check to see if it was onto this target's button. 
+          
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>Activate click for tab navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>          $thNavBtnTarget.find(<span class="string">'a'</span>).on(<span class="string">'focus'</span>, <span class="keyword">function</span>() {
+            <span class="keyword">var</span> navTrayId = $(<span class="keyword">this</span>).parents(<span class="string">'.navtray-w,.navmenu-w'</span>).attr(<span class="string">'id'</span>);
+            $(<span class="keyword">this</span>).parents(<span class="string">'.navtray-w'</span>).data(<span class="string">'hovering'</span>,<span class="literal">true</span>);
+            $(<span class="string">'a[data-target='</span>+navTrayId+<span class="string">']'</span>).trigger(<span class="string">'mouseenter'</span>);
+          });
+          
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>If you mouseOut of the target</p>             </td>             <td class="code">               <div class="highlight"><pre>          $thNavBtnTarget.on(<span class="string">'mouseleave'</span>, <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>console.log("mouseleave $thNavBtnTarget");</p>             </td>             <td class="code">               <div class="highlight"><pre>            $(<span class="keyword">this</span>).data(<span class="string">'hovering'</span>,<span class="literal">false</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>Check to see if it was onto this target's button. 
 Wait a few ticks to give it a chance for the hover to fire first.</p>             </td>             <td class="code">               <div class="highlight"><pre>            setTimeout(<span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>console.log("mouseleave $thNavBtnTarget2");
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>console.log("mouseleave $thNavBtnTarget2");
 if you're not hovering over the target's button</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> (!$thNavBtn.data(<span class="string">'hovering'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>shut it down.
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>shut it down.
 console.log("mouseleave $thNavBtnTarget3");</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.startMouseleaveTimer( $thNavBtn );
               } <span class="keyword">else</span> {
                 self.resetMouseleaveTimer();
@@ -223,9 +234,9 @@ console.log("mouseleave $thNavBtnTarget3");</p>             </td>             <t
         <span class="keyword">var</span> $thNavBtn = $(<span class="keyword">this</span>),
           $thNavBtnTarget = $(<span class="string">'.'</span> + $thNavBtn.data(<span class="string">'target'</span>));
 
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>reset the button</p>             </td>             <td class="code">               <div class="highlight"><pre>        $thNavBtn.removeClass(<span class="string">'active'</span>).parent().removeClass(<span class="string">'nav-li-selected'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>reset the button</p>             </td>             <td class="code">               <div class="highlight"><pre>        $thNavBtn.removeClass(<span class="string">'active'</span>).parent().removeClass(<span class="string">'nav-li-selected'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>if there's a navTray/navMenu, reset it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ($thNavBtn.data(<span class="string">'target'</span>).length){
+</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>if there's a navTray/navMenu, reset it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ($thNavBtn.data(<span class="string">'target'</span>).length){
           <span class="keyword">var</span> $thNavTarget = $(<span class="string">'.'</span> + $thNavBtn.data(<span class="string">'target'</span>));
 
           <span class="keyword">if</span> ($thNavTarget.hasClass(<span class="string">'navtray-w'</span>)){
@@ -241,7 +252,7 @@ console.log("mouseleave $thNavBtnTarget3");</p>             </td>             <t
           }
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>reset touch -- even if these aren't visible on mobile, it's still better to reset them, since they'll get re-inited if switch back</p>             </td>             <td class="code">               <div class="highlight"><pre>        $thNavBtn.off(<span class="string">'touchstart mouseenter mouseleave click'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>reset touch -- even if these aren't visible on mobile, it's still better to reset them, since they'll get re-inited if switch back</p>             </td>             <td class="code">               <div class="highlight"><pre>        $thNavBtn.off(<span class="string">'touchstart mouseenter mouseleave click'</span>);
         $thNavBtnTarget.off(<span class="string">'touchstart mouseenter mouseleave click'</span>);
 
 
@@ -251,18 +262,18 @@ console.log("mouseleave $thNavBtnTarget3");</p>             </td>             <t
     
     startMouseleaveTimer : <span class="keyword">function</span>( $thNavBtn ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>console.log("startMouseleaveTimer");</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ($(<span class="string">'mouseleaveTimerActive'</span>).length){
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>console.log("startMouseleaveTimer");</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ($(<span class="string">'mouseleaveTimerActive'</span>).length){
         self.resetMouseleaveTimer();
       }
       $thNavBtn.addClass(<span class="string">'mouseleaveTimerActive'</span>);
       self.mouseleaveTimer = setTimeout(<span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>console.log("mouseleaveTimer #DING!#");</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetActiveNavBtn($thNavBtn);
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>console.log("mouseleaveTimer #DING!#");</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.resetActiveNavBtn($thNavBtn);
         self.resetMouseleaveTimer();
       }, self.mouseLeaveDelay);
     },
     resetMouseleaveTimer : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>console.log("resetMouseleaveTimer");</p>             </td>             <td class="code">               <div class="highlight"><pre>      clearTimeout(self.mouseleaveTimer);
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>console.log("resetMouseleaveTimer");</p>             </td>             <td class="code">               <div class="highlight"><pre>      clearTimeout(self.mouseleaveTimer);
       $(<span class="string">'.mouseleaveTimerActive'</span>).removeClass(<span class="string">'mouseleaveTimerActive'</span>);
     },
 
@@ -273,10 +284,10 @@ console.log("mouseleave $thNavBtnTarget3");</p>             </td>             <t
     },
     resetActiveNavBtn : <span class="function"><span class="keyword">function</span> <span class="params">( $oldNavBtn )</span> {</span>
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>console.log('## ## resetActiveNavBtn: ' + $oldNavBtn.attr('class'));</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>reset this button</p>             </td>             <td class="code">               <div class="highlight"><pre>      !!$oldNavBtn &amp;&amp; $oldNavBtn.removeClass(<span class="string">'active'</span>).parent().removeClass(<span class="string">'nav-li-selected'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>console.log('## ## resetActiveNavBtn: ' + $oldNavBtn.attr('class'));</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>reset this button</p>             </td>             <td class="code">               <div class="highlight"><pre>      !!$oldNavBtn &amp;&amp; $oldNavBtn.removeClass(<span class="string">'active'</span>).parent().removeClass(<span class="string">'nav-li-selected'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>if there's a navTray/navMenu, reset it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!!$oldNavBtn.data(<span class="string">'target'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>if there's a navTray/navMenu, reset it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!!$oldNavBtn.data(<span class="string">'target'</span>)){
         <span class="keyword">var</span> $thNavTarget = $(<span class="string">'.'</span> + $oldNavBtn.data(<span class="string">'target'</span>));
 
         <span class="keyword">if</span> ($thNavTarget.hasClass(<span class="string">'navtray-w'</span>)){
@@ -294,23 +305,23 @@ console.log("mouseleave $thNavBtnTarget3");</p>             </td>             <t
     },
 
     slideNavTray : <span class="keyword">function</span>( $navTray, opening ){
-</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>console.log('## ## slideNavTray $navTray.outerHeight(): ' + $navTray.outerHeight());</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>console.log('## ## slideNavTray $navTray.outerHeight(): ' + $navTray.outerHeight());</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>,
         startHeight,
         endHeight,
         expandedHeight = $navTray.outerHeight();
 
       $navTray.data(<span class="string">'expandedHeight'</span>,expandedHeight);
 
-</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>console.log('#### $navTray.data(): ', $navTray.data('expandedHeight'));</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>console.log('#### $navTray.data(): ', $navTray.data('expandedHeight'));</p>             </td>             <td class="code">               <div class="highlight"><pre>
       <span class="keyword">if</span> (opening){
         startHeight = <span class="string">'1px'</span>;
         endHeight = expandedHeight;
       } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>if you're not opening, it's just initializing on page load</p>             </td>             <td class="code">               <div class="highlight"><pre>        startHeight = expandedHeight;
+</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>if you're not opening, it's just initializing on page load</p>             </td>             <td class="code">               <div class="highlight"><pre>        startHeight = expandedHeight;
         endHeight = <span class="string">'1px'</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>console.log('## ## $navTray: ' + $navTray.attr('class'))
+</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>console.log('## ## $navTray: ' + $navTray.attr('class'))
 console.log('## ## opening: ' + opening + ', startHeight: ' + startHeight + ', expandedHeight: ' + expandedHeight);</p>             </td>             <td class="code">               <div class="highlight"><pre>
       $navTray
         .data(<span class="string">'expandedHeight'</span>,startHeight)
@@ -320,13 +331,13 @@ console.log('## ## opening: ' + opening + ', startHeight: ' + startHeight + ', e
           .css(<span class="string">'height'</span>,expandedHeight);
 
       setTimeout(<span class="keyword">function</span>(){ <span class="comment">// wait just a moment to make sure the height is applied</span>
-</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>console.log('## ## setTimeout1 ' + $navTray.attr('class'));</p>             </td>             <td class="code">               <div class="highlight"><pre>        $navTray
+</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>console.log('## ## setTimeout1 ' + $navTray.attr('class'));</p>             </td>             <td class="code">               <div class="highlight"><pre>        $navTray
           .removeClass(<span class="string">'no-transition'</span>);
 
         setTimeout(<span class="keyword">function</span>(){ <span class="comment">// wait just a moment to make sure the height is applied</span>
-</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>console.log('## ## setTimeout2: opening: ' + opening + ', endHeight: ' + endHeight + ', self.transitionEnd: ' + self.transitionEnd);</p>             </td>             <td class="code">               <div class="highlight"><pre>          $navTray
+</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>console.log('## ## setTimeout2: opening: ' + opening + ', endHeight: ' + endHeight + ', self.transitionEnd: ' + self.transitionEnd);</p>             </td>             <td class="code">               <div class="highlight"><pre>          $navTray
             .css(<span class="string">'height'</span>,endHeight)
-</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>.one(self.transitionEnd, function(){console.log('## ## ## ## WTFFFFFFFFFFFF ## ## ## ');});</p>             </td>             <td class="code">               <div class="highlight"><pre>            .one(self.transitionEnd, onNavTrayComplete);
+</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>.one(self.transitionEnd, function(){console.log('## ## ## ## WTFFFFFFFFFFFF ## ## ## ');});</p>             </td>             <td class="code">               <div class="highlight"><pre>            .one(self.transitionEnd, onNavTrayComplete);
 
             <span class="keyword">if</span> (opening){
               $navTray.addClass(<span class="string">'navtray-w-visible'</span>);
@@ -338,7 +349,7 @@ console.log('## ## opening: ' + opening + ', startHeight: ' + startHeight + ', e
       },<span class="number">10</span>);
 
       <span class="function"><span class="keyword">function</span> <span class="title">onNavTrayComplete</span><span class="params">()</span>{</span>
-</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>console.log('## ## onNavTrayComplete');
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>console.log('## ## onNavTrayComplete');
 prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setNavTrayContentNaturalFlow($navTray);
       }
     },
@@ -347,7 +358,7 @@ prepare the tray for browser resize - even though it's offscreen, we still need 
 
       $navTray
         .removeClass(<span class="string">'navtray-w-visible'</span>)
-</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>.removeClass('no-transition')</p>             </td>             <td class="code">               <div class="highlight"><pre>        .css(<span class="string">'height'</span>,<span class="string">''</span>)
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>.removeClass('no-transition')</p>             </td>             <td class="code">               <div class="highlight"><pre>        .css(<span class="string">'height'</span>,<span class="string">''</span>)
         .find(<span class="string">'.navtray'</span>)
           .removeClass(<span class="string">'navtray-absolute'</span>)
           .css(<span class="string">'height'</span>,<span class="string">''</span>);
@@ -364,30 +375,30 @@ prepare the tray for browser resize - even though it's offscreen, we still need 
 
     activateNavBtn : <span class="function"><span class="keyword">function</span> <span class="params">($newNavBtn)</span> {</span>
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>console.log('## ## activateNavBtn: ' + $newNavBtn.attr('class'));</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>console.log('## ## activateNavBtn: ' + $newNavBtn.attr('class'));</p>             </td>             <td class="code">               <div class="highlight"><pre>
       $newNavBtn.addClass(<span class="string">'active'</span>).parent().addClass(<span class="string">'nav-li-selected'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>if there's a navTray/navMenu, reset it to get its height</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ($newNavBtn.data(<span class="string">'target'</span>).length){
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>if there's a navTray/navMenu, reset it to get its height</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ($newNavBtn.data(<span class="string">'target'</span>).length){
         <span class="keyword">var</span> $thNavTarget = $(<span class="string">'.'</span> + $newNavBtn.data(<span class="string">'target'</span>));
 
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>console.log('## ## thNavTarget.outerHeight(): ' + $thNavTarget.outerHeight());</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>figure out if this is a tray or menu.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ($thNavTarget.hasClass(<span class="string">'navtray-w'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>it's a nav-tray
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>console.log('## ## thNavTarget.outerHeight(): ' + $thNavTarget.outerHeight());</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>figure out if this is a tray or menu.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ($thNavTarget.hasClass(<span class="string">'navtray-w'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>it's a nav-tray
 first get the tray's natural height, which it should have offscreen.
 expand the tray. When it's done, set it to position:relative and natural heights.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ($(<span class="string">'body'</span>).hasClass(<span class="string">'lt-ie10'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.slideNavTray($thNavTarget, <span class="literal">true</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.slideNavTray($thNavTarget, <span class="literal">true</span>);
           } <span class="keyword">else</span> {
             self.slideNavTray($thNavTarget, <span class="literal">true</span>);
           }
         } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>it's a nav-menu - show the menu.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> $revealContainer = $thNavTarget.find(<span class="string">'.reveal-transition-container'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>it's a nav-menu - show the menu.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> $revealContainer = $thNavTarget.find(<span class="string">'.reveal-transition-container'</span>);
           <span class="keyword">var</span> expHeight = $revealContainer.height();
           console.log(<span class="string">"expHeight: "</span> + expHeight);
           
           $revealContainer.css(<span class="string">'height'</span>,<span class="string">'0px'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>(){
             $revealContainer.addClass(<span class="string">'transition-height'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>wait a tick to make sure the transition-height is set before changing the height &amp; animating.</p>             </td>             <td class="code">               <div class="highlight"><pre>            setTimeout(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>wait a tick to make sure the transition-height is set before changing the height &amp; animating.</p>             </td>             <td class="code">               <div class="highlight"><pre>            setTimeout(<span class="keyword">function</span>(){
               $thNavTarget.addClass(<span class="string">'navmenu-w-visible'</span>);
               $revealContainer.height(expHeight);
               $revealContainer.one(self.transitionEnd,<span class="keyword">function</span>(){
@@ -399,10 +410,8 @@ expand the tray. When it's done, set it to position:relative and natural heights
             },<span class="number">1</span>);
           },<span class="number">1</span>);
 
-
-
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ($thNavTarget.hasClass(<span class="string">'navmenu-w-search'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>Line it up with the right edge of the search button.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> btnRightEdge = $newNavBtn.parent().position().left + parseInt( $newNavBtn.css(<span class="string">'marginLeft'</span>),<span class="number">10</span> ) + $newNavBtn.innerWidth();
+</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ($thNavTarget.hasClass(<span class="string">'navmenu-w-search'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>Line it up with the right edge of the search button.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> btnRightEdge = $newNavBtn.parent().position().left + parseInt( $newNavBtn.css(<span class="string">'marginLeft'</span>),<span class="number">10</span> ) + $newNavBtn.innerWidth();
             <span class="keyword">var</span> leftPos = btnRightEdge - $thNavTarget.innerWidth();
             $thNavTarget.css({<span class="string">'right'</span>:<span class="string">'auto'</span>,<span class="string">'left'</span>:leftPos+<span class="string">'px'</span>});
           }
@@ -410,7 +419,7 @@ expand the tray. When it's done, set it to position:relative and natural heights
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>MOBILE NAV</p>             </td>             <td class="code">               <div class="highlight"><pre>    initMobileNav : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>MOBILE NAV</p>             </td>             <td class="code">               <div class="highlight"><pre>    initMobileNav : <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       $(<span class="string">'#btn-mobile-nav'</span>).on(self.tapOrClick,<span class="keyword">function</span>(){
         <span class="keyword">if</span> (!self.mobileNavVisible){
@@ -427,7 +436,7 @@ expand the tray. When it's done, set it to position:relative and natural heights
         $(<span class="string">'.page-wrap-inner'</span>).addClass(<span class="string">"show-mobile-search-results"</span>);
       }).on(<span class="string">'blur'</span>,<span class="keyword">function</span>(){
 
-</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>disable blur on mobile search input</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (!$(<span class="string">'html'</span>).hasClass(<span class="string">'bp-nav-mobile'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>disable blur on mobile search input</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (!$(<span class="string">'html'</span>).hasClass(<span class="string">'bp-nav-mobile'</span>)){
           $(<span class="string">'.page-wrap-inner'</span>).removeClass(<span class="string">"show-mobile-search-results"</span>);   
         }
       }).closest(<span class="string">'.input-group'</span>).find(<span class="string">'.input-clear-btn'</span>).on(self.tapOrClick,<span class="keyword">function</span>(){
@@ -453,18 +462,19 @@ expand the tray. When it's done, set it to position:relative and natural heights
 
       self.showMobileBackdrop();
 
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>Since the page-wrap-inner is going to be fixed, the browser will see the page as having no height.
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>Since the page-wrap-inner is going to be fixed, the browser will see the page as having no height.
 on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
 page some height, so the Safari nav will hide.
-need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> pageHeight = parseInt( $(window).height(),<span class="number">10</span> ) + <span class="number">60</span> + <span class="string">'px'</span>;
-      self.$pageWrapOuter.height(pageHeight);
+need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> pageHeight = parseInt( $(window).height(),<span class="number">10</span> ) + <span class="string">'px'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>var pageHeight = parseInt( $(window).height(),10 ) + 60 + 'px';</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$pageWrapOuter.height(pageHeight);
 
       <span class="keyword">if</span> (!self.mobileNavIScroll){
         <span class="keyword">var</span> $outer = $(<span class="string">'#nav-outer-container'</span>),
-          $inner = $outer.find(<span class="string">'.nav-mobile-scroller'</span>);
-
+          $inner = $outer.find(<span class="string">'.nav-mobile-scroller'</span>),
+          innerHeight = $inner.height();
+          
         $outer.height(pageHeight);
-        $inner.height($inner.height());
+        $inner.height(innerHeight);
 
         setTimeout(<span class="keyword">function</span>(){ <span class="comment">// make sure heights are already set before initializing iScroll.</span>
           self.initMobileNavIScroll();
@@ -479,7 +489,7 @@ need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER
       self.hideMobileBackdrop();
 
       $(<span class="string">'#page-wrap-inner'</span>).one(self.transitionEnd, <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>wait until the $('#page-wrap-inner') is done animating closed before destroying the iScroll.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.destroyMobileNavIScroll();
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>wait until the $('#page-wrap-inner') is done animating closed before destroying the iScroll.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.destroyMobileNavIScroll();
       });
       $(<span class="string">'#page-wrap-inner'</span>).removeClass(<span class="string">'show-mobile-menu'</span>);
       self.mobileNavVisible = <span class="literal">false</span>;
@@ -487,9 +497,9 @@ need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER
     initMobileNavIScroll:  <span class="keyword">function</span>() {
       console.log(<span class="string">"initMobileNavIScroll"</span>);
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>if there's alreaddy a mobileNavIScroll, refresh it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!!self.mobileNavIScroll){
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>if there's alreaddy a mobileNavIScroll, refresh it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!!self.mobileNavIScroll){
         $(<span class="string">'.nav-mobile-scroller'</span>).css(<span class="string">'height'</span>,<span class="string">'100%'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>self.mobileNavIScroll.refresh();
+</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>self.mobileNavIScroll.refresh();
 if not, init it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
         self.mobileNavIScroll = <span class="keyword">new</span> window.IScroll(<span class="string">'nav-outer-container'</span>,{ vScroll: <span class="literal">true</span>, hScroll: <span class="literal">false</span>, hScrollbar: <span class="literal">false</span>, snap: <span class="literal">false</span>, momentum: <span class="literal">true</span>, bounce: <span class="literal">false</span> });
         self.mobileNavIScroll.options.onBeforeScrollStart = <span class="keyword">function</span>(e) {                
@@ -533,10 +543,10 @@ if not, init it.</p>             </td>             <td class="code">            
       !!self.$mobileScreenOverlay &amp;&amp; self.$mobileScreenOverlay.removeClass(<span class="string">'opacity1'</span>).addClass(<span class="string">'opacity0'</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>MOBILE FOOTER</p>             </td>             <td class="code">               <div class="highlight"><pre>    initMobileFooter : <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>MOBILE FOOTER</p>             </td>             <td class="code">               <div class="highlight"><pre>    initMobileFooter : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>init the country-selector popup menu -- disabled.
+</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>init the country-selector popup menu -- disabled.
 $('#country-selector').on('mouseenter mouseleave',function(){
   var pageContainerWidth = $(this).closest('.grid-footer').width();
   $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
@@ -547,13 +557,13 @@ $('#country-selector').on('mouseenter mouseleave',function(){
 
         <span class="keyword">var</span> $thFootSection = $(<span class="keyword">this</span>).parent();
 
-</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>on init, the footers should collapse.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.collapseMobileFooterSec($thFootSection, <span class="literal">true</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>on init, the footers should collapse.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.collapseMobileFooterSec($thFootSection, <span class="literal">true</span>);
 
 
         $(<span class="keyword">this</span>).on(self.tapOrClick,<span class="keyword">function</span>(){
 
           <span class="keyword">if</span> ($thFootSection.hasClass(<span class="string">'collapsed'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>collapsed height - expand it.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.expandMobileFooterSec($thFootSection);
+</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>collapsed height - expand it.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.expandMobileFooterSec($thFootSection);
           } <span class="keyword">else</span> {
             self.collapseMobileFooterSec($thFootSection);
           }
@@ -572,25 +582,25 @@ $('#country-selector').on('mouseenter mouseleave',function(){
     }, <span class="comment">// end resetMobileFooter</span>
 
     collapseMobileFooterSec : <span class="function"><span class="keyword">function</span> <span class="params">( $thFootSection, isPageInit )</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>console.log("collapseMobileFooterSec");</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>console.log("collapseMobileFooterSec");</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       isPageInit = <span class="keyword">typeof</span> isPageInit !== <span class="string">'undefined'</span> ? isPageInit : <span class="literal">false</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>console.log("isPageInit: " + isPageInit);</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>natural height - collapse it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> expHeight = $thFootSection.height();
+</pre></div>             </td>           </tr>                               <tr id="section-97">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-97">&#182;</a>               </div>               <p>console.log("isPageInit: " + isPageInit);</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>natural height - collapse it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> expHeight = $thFootSection.height();
       $thFootSection.data(<span class="string">'expHeight'</span>,expHeight);
 
       <span class="keyword">if</span> (isPageInit){
         $thFootSection
           .height(self.footerNavCollapseHeight)
           .addClass(<span class="string">'collapsed'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>after it's collapsed, add the transition-height class for animating later.</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-99">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-99">&#182;</a>               </div>               <p>after it's collapsed, add the transition-height class for animating later.</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>(){
           $thFootSection.addClass(<span class="string">'transition-height'</span>);
         },<span class="number">1</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-97">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-97">&#182;</a>               </div>               <p>NOT on page init, collapse it normally.</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>set initial height to its current / expanded height so there's something to animate from</p>             </td>             <td class="code">               <div class="highlight"><pre>        $thFootSection.height(expHeight);
-</pre></div>             </td>           </tr>                               <tr id="section-99">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-99">&#182;</a>               </div>               <p>wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-100">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-100">&#182;</a>               </div>               <p>NOT on page init, collapse it normally.</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-101">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-101">&#182;</a>               </div>               <p>set initial height to its current / expanded height so there's something to animate from</p>             </td>             <td class="code">               <div class="highlight"><pre>        $thFootSection.height(expHeight);
+</pre></div>             </td>           </tr>                               <tr id="section-102">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-102">&#182;</a>               </div>               <p>wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate</p>             </td>             <td class="code">               <div class="highlight"><pre>        setTimeout(<span class="keyword">function</span>(){
           $thFootSection.addClass(<span class="string">'transition-height'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-100">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-100">&#182;</a>               </div>               <p>wait a tick to make sure the transition-height is set before changing the height &amp; animating.</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-103">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-103">&#182;</a>               </div>               <p>wait a tick to make sure the transition-height is set before changing the height &amp; animating.</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>(){
             $thFootSection
               .height(self.footerNavCollapseHeight)
               .addClass(<span class="string">'collapsed'</span>);
@@ -599,27 +609,27 @@ $('#country-selector').on('mouseenter mouseleave',function(){
       }
     },
     expandMobileFooterSec : <span class="function"><span class="keyword">function</span> <span class="params">( $thFootSection )</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-101">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-101">&#182;</a>               </div>               <p>console.log("expandMobileFooterSec");</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-104">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-104">&#182;</a>               </div>               <p>console.log("expandMobileFooterSec");</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       $thFootSection
         .height($thFootSection.data(<span class="string">'expHeight'</span>))
         .removeClass(<span class="string">'collapsed'</span>)
         .one(self.transitionEnd, <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-102">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-102">&#182;</a>               </div>               <p>when the transition is complete, put the section back into natural height, in case the window was resized.</p>             </td>             <td class="code">               <div class="highlight"><pre>          $thFootSection.removeClass(<span class="string">'transition-height'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-103">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-103">&#182;</a>               </div>               <p>...after waiting a tick to make sure everything else is already set.</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-105">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-105">&#182;</a>               </div>               <p>when the transition is complete, put the section back into natural height, in case the window was resized.</p>             </td>             <td class="code">               <div class="highlight"><pre>          $thFootSection.removeClass(<span class="string">'transition-height'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-106">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-106">&#182;</a>               </div>               <p>...after waiting a tick to make sure everything else is already set.</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>(){
             $thFootSection.css(<span class="string">'height'</span>,<span class="string">''</span>);
           },<span class="number">1</span>);
         });
     } <span class="comment">// end expandMobileFooterSec</span>
   }; <span class="comment">// end GlobalNav.prototype</span>
 
-</pre></div>             </td>           </tr>                               <tr id="section-104">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-104">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.globalNav = <span class="keyword">function</span>( opts ) {
+</pre></div>             </td>           </tr>                               <tr id="section-107">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-107">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.globalNav = <span class="keyword">function</span>( opts ) {
     <span class="keyword">var</span> args = Array.prototype.slice.apply( arguments );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
         globalNav = self.data(<span class="string">'globalNav'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-105">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-105">&#182;</a>               </div>               <p>If we don't have a stored globalNav, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !globalNav ) {
+</pre></div>             </td>           </tr>                               <tr id="section-108">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-108">&#182;</a>               </div>               <p>If we don't have a stored globalNav, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !globalNav ) {
         globalNav = <span class="keyword">new</span> GlobalNav( self );
         self.data( <span class="string">'globalNav'</span>, globalNav );
       }
@@ -631,11 +641,11 @@ $('#country-selector').on('mouseenter mouseleave',function(){
   }; <span class="comment">// end $.fn.globalNav</span>
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-106">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-106">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.globalNav.options = {
+</pre></div>             </td>           </tr>                               <tr id="section-109">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-109">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.globalNav.options = {
     sampleOption: <span class="number">0</span>
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-107">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-107">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.globalNav.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-110">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-110">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.globalNav.settings = {
     isTouch: !!( <span class="string">'ontouchstart'</span> <span class="keyword">in</span> window ),
     isInitialized: <span class="literal">false</span>
   };
@@ -644,9 +654,11 @@ $('#country-selector').on('mouseenter mouseleave',function(){
 
 
 $(<span class="keyword">function</span>() {
-  $(window).load(<span class="keyword">function</span>() {
+  $(document).ready(<span class="keyword">function</span>() {
     $(<span class="string">'.nav-wrapper'</span>).globalNav();
   });
+
+ 
 });
 
 

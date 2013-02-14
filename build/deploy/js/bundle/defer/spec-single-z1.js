@@ -68,6 +68,7 @@
         easing: Exports.shuffleEasing,
         speed: Exports.shuffleSpeed,
         hideLayoutWithFade: true,
+        sequentialFadeDelay: 100,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 

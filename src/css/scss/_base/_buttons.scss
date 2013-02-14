@@ -15,7 +15,11 @@
   margin-bottom: 0; // For input.btn
 
   font-family: $sansFontFamily;
-  font-size: 0.8666666667em; /* 13px/15px */ //inside of <p> or <td>
+  font-size: px-em(13px); // most buttons are not inside a <p> or <td> -- so context is 16px.
+  p &,
+  td & {
+    font-size: px-em(13px, 15px); // context changes if it's inside a <p> or <td>
+  }
   // letter-spacing: -0.065em;
 
   line-height: inherit;
@@ -25,11 +29,12 @@
   color: $btnText;
   cursor: pointer;
   background: $btnBackground;
+  border: none;
   *border: 0; // Remove the border to prevent IE7's black border on input:focus
 
   &:hover, &:active, &:focus, &.active{
     color: $btnText;
-    text-decoration: none;    
+    text-decoration: none;
   }
   &:hover {
     background-color: $btnBackgroundHover;
@@ -53,8 +58,8 @@
   &[disabled]:hover {
     background: $btnBackground;
   }
-
 }
+
 
 
 
@@ -66,6 +71,10 @@
   padding: 15px 24px 14px;
   font-family: $sansFontFamilyMedium;
   font-size: px-em(15);
+  p &,
+  td & {
+    font-size: px-em(15px, 15px); // context changes if it's inside a <p> or <td>
+  }
   background: $btnSpecialBackground;
 
   &:hover {
@@ -91,23 +100,23 @@
   border-color: transparent;
   border-color: rgba($gray60, 0);
   background: $white;
+  color: $defaultTextColor;
   @include box-shadow(0 1px 0 $gray60);
   @include transition(box-shadow $transitionFast $easeNormal, color $transitionFast $easeNormal, background-color $transitionFast $easeNormal);
 
-  // .t6
+  // .t6 and .t6-light
   // --------------
-  text-rendering: optimizeLegibility; // disable this if we have performance issues.
-  color: $defaultTextColor;
-  @include fontMedium;
+  @include fontRegular;
   @include px-em--font-size--line-height(18,26);
   // --------------
 
   &:after {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 0;
+    top: 0;
     @include opacity(0);
     @include transition(opacity $transitionFast $easeNormal);
+    font-size: 16px;
   }
 
   &:hover,
@@ -194,7 +203,11 @@
   color: $gray;
 
   text-align: left;
-  font-size: 1.666666667em; /* 25px/15px */
+  font-size: px-em(25px); /* 25px/15px */
+  p &,
+  td & {
+    font-size: px-em(25px, 15px); // context changes if it's inside a <p> or <td>
+  }
   line-height: $baseLineHeight * 0.8;
   font-family: $sansFontFamilyLight;
   strong{
@@ -226,6 +239,7 @@
 
 .btn-icon-ui-left i {
   margin-right: 8px;
+  vertical-align:0.2em;
 }
 
 // Text that shouldn't wrap
@@ -245,6 +259,10 @@
 .btn-large {
   padding: 11px 28px 13px;
   font-size: px-em(15);
+  p &,
+  td & {
+    font-size: px-em(15px, 15px); // context changes if it's inside a <p> or <td>
+  }
   line-height: $baseLineHeight * 1.1;
   &.btn-special{
     padding: 15px 28px 17px;
@@ -259,6 +277,10 @@
 .btn-small {
   padding: 10px 18px 12px;
   font-size: px-em(12);
+  p &,
+  td & {
+    font-size: px-em(12px, 15px); // context changes if it's inside a <p> or <td>
+  }  
   line-height: $baseLineHeight * 0.75;
   &.btn-special{
     padding: 14px 18px 16px;
@@ -273,6 +295,10 @@
 .btn-mini {
   padding: 9px 14px 11px;
   font-size: px-em(11);
+  p &,
+  td & {
+    font-size: px-em(11px, 15px); // context changes if it's inside a <p> or <td>
+  }
   line-height: $baseLineHeight * 0.6;
   &.btn-special{
     padding: 13px 14px 15px;
@@ -316,7 +342,7 @@ input[type="button"] {
   padding-left: $btnAltSpecialPadding;
   padding-right: $btnAltSpecialPadding;
   text-align: left;
-  font-size: $font_13_16;
+  // font-size: $font_13_16;
   background: $btnAltBackground;
   min-width: 131px;
 
@@ -330,10 +356,11 @@ input[type="button"] {
   }
 
   &.btn-alt-plus i {
-    position: absolute;
-    right: $btnAltSpecialPadding;
+    float: right;
 
     // SHOULD BE GLOBAL
+    margin-top: 3px;
+    margin-left: 10px;
     font-size: px-em( 16px, 13px );
   }
 }

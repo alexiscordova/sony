@@ -885,7 +885,14 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
               div.docs-color-swatch--youtubeColor
               p $youtubeColor
               p (239,60,57)
-
+            div.col-33.docs-color-swatch
+              div.docs-color-swatch--flickrblue
+              p $flickrBlueColor
+              p (0,99,220)
+            div.col-33.docs-color-swatch
+              div.docs-color-swatch--flickrpink
+              p $flickrPinkColor
+              p (255,0,132)
 
 
       section
@@ -915,56 +922,41 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           | &nbsp;buttons will be most appropriate.
         h5.bs-docs-heading Standard Button
         div.bs-docs-example
-          p
-            a.btn Get Sony Support
+          a.btn Get Sony Support
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;a class="btn"&gt;...&lt;/a&gt; 
-          | &lt;/p&gt; 
         h5.bs-docs-heading
           | 'Special' Button 
           small – Generally used for store links
         div.bs-docs-example
-          p
-            a.btn.btn-special Where to Buy
+          a.btn.btn-special Where to Buy
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;a class="btn btn-special"&gt;...&lt;/a&gt; 
-          | &lt;/p&gt; 
         h5.bs-docs-heading 'Alt' Button
         div.bs-docs-example
-          p
-            a.btn.btn-alt Alt Button
+          a.btn.btn-alt Alt Button
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;a class="btn btn-alt"&gt;...&lt;/a&gt; 
-          | &lt;/p&gt; 
         h5.bs-docs-heading 'Alt' Button small w/icon left of text
         div.bs-docs-example
-          p
-            a.btn.btn-small.btn-alt.btn-icon-ui-left
-              i.icon-ui-grid
-              | All Electronics
+          a.btn.btn-small.btn-alt.btn-icon-ui-left
+            i.fonticon-10-grid-3x3
+            | All Electronics
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
-          |   &lt;a class="btn btn-small btn-alt btn-icon-ui-left"&gt;&lt;i class="icon-ui-grid"&gt;&lt;/i&gt;...&lt;/a&gt; 
-          | &lt;/p&gt; 
+          |   &lt;a class="btn btn-small btn-alt btn-icon-ui-left"&gt;&lt;i class="fonticon-10-grid-3x3"&gt;&lt;/i&gt;...&lt;/a&gt; 
         h5.bs-docs-heading
           | 'Promo' Button 
           small – Used for promotions
         div.bs-docs-example
-          p
-            a.btn.btn-promo.text-promo-title
-              strong
-                | Exmor
-                br
-              | Technology
-              span.btn-promo-arrow-box
-                i.icon-ui-arrow-right-white
+          a.btn.btn-promo.text-promo-title
+            strong
+              | Exmor
+              br
+            | Technology
+            span.btn-promo-arrow-box
+              i.icon-ui-arrow-right-white
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;a class="btn btn-promo"&gt;...&lt;i class="icon-ui-arrow-right-white-boxed"&gt;&lt;/i&gt;&lt;/a&gt; 
-          | &lt;/p&gt; 
         h3.bs-docs-heading Button sizes
         p
           | Fancy larger or smaller buttons? Add 
@@ -978,29 +970,16 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             | .btn-mini
           | &nbsp;for additional sizes.
         div.bs-docs-example
-          p
             a.btn.btn-large Large button
-          p
             a.btn Default button
-          p
             a.btn.btn-small Small button
-          p
             a.btn.btn-mini Mini button
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;a class="btn btn-large"&gt;Large button&lt;/a&gt; 
-          | &lt;/p&gt; 
-          | &lt;p&gt; 
           |   &lt;a class="btn"&gt;Default button&lt;/a&gt; 
-          | &lt;/p&gt; 
-          | &lt;p&gt; 
           |   &lt;a class="btn btn-small"&gt;Small button&lt;/a&gt; 
-          | &lt;/p&gt; 
-          | &lt;p&gt; 
           |   &lt;a class="btn btn-mini"&gt;Mini button&lt;/a&gt; 
-          | &lt;/p&gt; 
         h3.bs-docs-heading Block level buttons
-        p
           | Create block level buttons—those that span the full width of a parent— by adding
           code
             | .btn-block
@@ -1010,10 +989,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
             a.btn.btn-block Block level button
             a.btn.btn-block.btn-special Block level special button
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;a class="btn btn-block"&gt;Block level button&lt;/a&gt; 
           |   &lt;a class="btn btn-block btn-special"&gt;Block level special button&lt;/a&gt; 
-          | &lt;/p&gt; 
         h3.bs-docs-heading Disabled state
         p
           | Make buttons look unclickable by fading them back 50%.
@@ -1031,10 +1008,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           | &nbsp;
           a.btn.btn-special.disabled(href='#') Special link
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;a href="#" class="btn disabled"&gt;Link&lt;/a&gt; 
           |   &lt;a href="#" class="btn btn-special disabled"&gt;Special link&lt;/a&gt; 
-          | &lt;/p&gt; 
         p
           span.label.label-info Heads up!
           | &nbsp;We use 
@@ -1060,10 +1035,8 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           button.btn.btn-special.disabled(type='button',disabled='disabled')
             | Special button
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;button type="button" class="btn" disabled&gt;Button&lt;/button&gt; 
-          |   &lt;button type="button" class="btn btn-special disabled" disabled="disabled"&gt;Special button&lt;/button&gt; 
-          | &lt;/p&gt; 
+          |   &lt;button type="button" class="btn btn-special disabled" disabled="disabled"&gt;Special button&lt;/button&gt;
         h3.bs-docs-heading One class, multiple tags
         p
           | Use the 
@@ -1088,12 +1061,10 @@ body( data-spy = "scroll", data-target = ".bs-docs-sidebar" )
           | &nbsp;
           input.btn(type='submit',value='Submit')
         pre.prettyprint.prettyprint-jade.fused
-          | &lt;p&gt; 
           |   &lt;a class="btn" href=""&gt; Link&lt;/a&gt; 
           |   &lt;button class="btn" type="submit"&gt; Button&lt;/button&gt; 
           |   &lt;input class="btn" type="button" value="Input"&gt; 
-          |   &lt;input class="btn" type="submit" value="Submit"&gt; 
-          | &lt;/p&gt; 
+          |   &lt;input class="btn" type="submit" value="Submit"&gt;
         p
           | As a best practice, try to match the element for your context to ensure matching cross-browser rendering. Usually you'll make an 
           code

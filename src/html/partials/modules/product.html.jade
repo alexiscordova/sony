@@ -52,7 +52,7 @@ mixin colorSwatches( colors, isShowOnlyChild )
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
 mixin iQColorImages( colors )
-  if colors.length > 1
+  if colors && colors.length > 1
     each img in colors
       //- mixin iQImage( img, 'hidden', 'image' )
       img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
@@ -62,21 +62,23 @@ mixin iQColorImages( colors )
 mixin heart
   - heartClass = 'favorite-holder js-favorite'
   - if ( data.isFavorited ) heartClass += ' active'
-  div(class=heartClass, title="Added to Favorites")
+  favoritedTitle = 'Added'
+  toFavoriteTitle = 'Add to Favorites?'
+  div(class=heartClass, data-active-title="Added", data-default-title=toFavoriteTitle)
     i.fonticon-10-favorite
 
 
-if data.view == "basic"
+mixin basicGalleryItem( layout, priority, href )
   klass = '';
-  if data.layout == 'large' || data.layout == 'carousel'
+  if layout == 'large' || layout == 'carousel'
     klass = 'span3 large'
-  else if data.layout == 'promo'
+  else if layout == 'promo'
     klass = 'span2 promo'
-  else if data.layout == 'medium'
+  else if layout == 'medium'
     klass = 'span2 medium'
-  else if data.layout == 'plate'
+  else if layout == 'plate'
     klass = 'span2 plate'
-  else if data.layout == 'blank-normal'
+  else if layout == 'blank-normal'
     klass = 'span1 blank normal'
   else
     klass = 'span1 normal'
@@ -84,7 +86,16 @@ if data.view == "basic"
   //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
   klass = 'gallery-item basic m-span3 ' + klass
 
-  a(class=klass, data-priority=data.priority, href=data.href ? data.href : '#')
+  if layout == 'plate'
+    div(class=klass, data-priority=priority)
+      block
+  else
+    a(class=klass, data-priority=priority, href=href ? href : '#')
+      block
+
+
+if data.view == "basic"
+  +basicGalleryItem( data.layout, data.priority, data.href )
     .gallery-item-inner
       if data.label
         span.label.label-success= data.label
@@ -125,9 +136,10 @@ if data.view == "basic"
                 span.number.l2= data.count.number
                 | &nbsp;
                 span.text.l3= data.count.text
-        //- if data.button
-        //-   a(class='btn btn-special' , href=data.button.link)= data.button.title
-    
+            else if data.button
+              a(class='btn plate-btn lt4' , href=data.button.link)
+                strong= data.button.title
+
 
       else
         .product-img
@@ -193,16 +205,16 @@ else if data.view == 'detailed'
           .product-name.p2
             strong(itemprop="name")= data.name
           .product-model.l3(itemprop="model")= data.model
-        .product-rating.lt4(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+        .product-rating(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
           meta(itemprop="ratingValue", content=data.rating.stars)
-          i.icon-ui-star
-          i.icon-ui-star
-          i.icon-ui-star
-          i.icon-ui-star
-          i.icon-ui-star
-          |  (
-          span(itemprop="ratingCount")= data.rating.stars
-          |  user reviews)
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          span.lt4  (
+            span(itemprop="ratingCount")= data.rating.stars
+            |  user reviews)
 
         ul.product-meta
           each meta in data.meta
@@ -224,7 +236,7 @@ else if data.view == 'detailed'
                 if detail.value.check
                   | !{detail.value.text}
                 else if detail.value.box
-                  p.compare-box= detail.value.box
+                  p.t6-light.compare-box= detail.value.box
                   p.p3!= detail.value.lineOne
                   if detail.value.lineTwo
                     p.p3!= detail.value.lineTwo
@@ -281,7 +293,7 @@ else if data.view == "specs"
           .spec-cell-inner
             p.cell-label.l3
               strong= labels[i]
-            p.compare-box= spec.callout
+            p.t6-light.compare-box= spec.callout
             p= spec.text
             if spec.list
               if spec.listTitle
@@ -331,7 +343,10 @@ else if data.view == "specs"
             .holder-for-icon
               iconClass = 'icon-uibig-' + spec.icon
               i(class=iconClass)
-            p= spec.callout
+            div
+              span.t6-light= spec.callout.number
+              | &nbsp;
+              span.p3= spec.callout.text
             mixin specList( spec.list )
             p.l3= spec.label
             p.p3= spec.labeledText
@@ -379,6 +394,11 @@ else if data.view == "specs"
           .spec-cell-inner
             p.cell-label.l3
               strong= labels[i]
+
+            if spec.icon1
+              i(class=spec.icon1)
+            if spec.icon2
+              i(class=spec.icon2)
             mixin specList( spec.list )
 
         else

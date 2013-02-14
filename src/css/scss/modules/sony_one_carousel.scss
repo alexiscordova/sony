@@ -161,6 +161,7 @@
 
   */
   .soc-item {
+    @include fadeoutOnHover();
     position: relative;
     display: block;
     height: 100%;
@@ -169,37 +170,19 @@
     background-repeat: no-repeat;
     cursor: pointer;
 
-    &:before {
-      @include transition-property(opacity);
-      @include transition-duration(500ms);
-      position: absolute;
-      left: 0;
-      top: 0;
-      content: '';
-      display: block;
-      width: 100%;
-      height: 100%;
-      background: rgba($white, 0.1);
-      opacity: 0;
-    }
-
     &:hover {
 
-      &:before {
-        opacity: 1;
-      }
-
-      .headline a::after {
+      .headline i {
         margin-left: px-em(5px);
       }
     }
 
     &.content-8,
     &.content-6 {
-      .counter {
+      .counter,
+      .mini-promo {
         position: absolute;
         bottom: 8.4%;
-        text-transform: uppercase;
 
         &[class*="align-left-"] {
 
@@ -251,9 +234,68 @@
           color: $gray10;
         }
       }
+
+      .mini-promo {
+
+        &:hover {
+          .mini-promo-image-container .play-button {
+            background-color: $linkBlueActive;
+          }
+        }
+
+        .mini-promo-image-container {
+          position: relative;
+          width: 84px;
+          height: 50px;
+          float: left;
+
+          .play-button {
+            @include transition(background-color $transitionFast ease-in);
+
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            margin: -14px 0 0 -14px;
+            background-color: rgba($gray10, 0.75);
+            border-radius: 14px;
+            font-size: 0.8em;
+            text-align: center;
+
+            i {
+              color: #fff;
+              position: relative;
+              left: 0.1em;
+              top: -0.1em;
+            }
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .mini-promo-caption {
+          line-height: 50px;
+          height: 50px;
+          padding: 0 22px 0 12px;
+          float: left;
+          background-color: $gray10;
+          color: $white;
+        }
+
+        &.mini-promo-layout-light {
+
+          .mini-promo-caption {
+            background-color: $gray90;
+            color: $gray10;
+          }
+        }
+      }
     }
-
-
 
     .soc-item-content {
       position: absolute;
@@ -288,6 +330,10 @@
           color: $gray50;
           text-transform: uppercase;
         }
+
+        &.has-mini-promo {
+          display: none;
+        }
       }
 
       .icon-ui2-chevron-18-white-right {
@@ -320,15 +366,12 @@
           }
 
           a {
-            line-height: inherit;
-
-            &:after {
-              @include transition-property(margin);
-              @include transition-duration(500ms);
+            i {
+              @include transition(margin $transitionFast ease-in);
               position: relative;
-              top: -0.2em;
-              left: 0.2em;
-              font-size: 0.7em;
+              top: -0.25em;
+              left: 0.1em;
+              font-size: 0.6em;
             }
           }
         }
@@ -388,7 +431,7 @@
           .counter {
             position: absolute;
             left: 0;
-            bottom:2%;
+            bottom: 2%;
           }
         }
 
@@ -663,11 +706,6 @@
 
           a {
             color: $white;
-            display: block;
-
-            @media (min-width: 481px) and (max-width: 768px){
-              display: inline;
-            }
           }
         }
 
@@ -765,49 +803,53 @@
         }
 
         &.content-6 {
-          top: 5.8%;
+          top: 8%;
           left: 8.6%;
         }
 
         &.content-4 {
-          left: 13%;
-          top: 10.2%;
-          max-width: px-em(240px);
+          left: 11%;
+          top: 8%;
+          max-width: 15.55em;
           width: 73.8461538%;
         }
       }
 
       //aLC
-      &.align-left-center.content-8,
-      &.align-left-center.content-6 {
-        top: 26.4%;
+      &.align-left-center,
+      &.align-right-center {
 
-        &.headline-counter {
-          top: 39.4%;
+        &.content-6,
+        &.content-8 {
+          top: auto;
+          height: 95%;
 
-          //phones
-          @media( max-width: px-em(480px) ){
-            top: 31.4%;
+          &.headline-counter {
+
+            //phones
+            @media( max-width: px-em(480px) ){
+
+            }
           }
-        }
 
-        &.headline-eyebrow {
-           //phones
-          @media( max-width: px-em(480px) ){
-            top: 22.4%;
+          &.headline-eyebrow {
+
+            @media( max-width: px-em(480px) ){
+
+            }
           }
-        }
 
-        &.headline-only {
-          &.content-8 {
-            top: 33.3%;
+          &.headline-only {
+            &.content-8 {
+
+            }
           }
-        }
 
-        &.headline-copy {
-          &.content-8 {
-            .headline {
-              margin-top:3%;
+          &.headline-copy {
+            &.content-8 {
+              .headline {
+
+              }
             }
           }
         }
@@ -828,6 +870,10 @@
           &.headline-copy-counter {
             bottom: 15%;
           }
+
+          &.has-mini-promo {
+            bottom: 23%;
+          }
         }
       }
 
@@ -837,15 +883,6 @@
         &.content-8,
         &.content-6 {
           top: 11%;
-        }
-      }
-
-      //aRC
-      &.align-right-center {
-
-        &.content-8,
-        &.content-6 {
-          top: 26.4%;
         }
       }
 
@@ -862,6 +899,10 @@
 
           &.headline-copy-counter {
             bottom: 15%;
+          }
+
+          &.has-mini-promo {
+            bottom: 23%;
           }
         }
 
@@ -1025,18 +1066,19 @@
       display: block;
       color: $white;
       background: $gray10;
+      background: rgba($gray10, 0.4);
       border-radius: 2px;
-      @include opacity(40);
       background-repeat: no-repeat;
       position: absolute;
       top: 50%;
-      margin: -100px 0;
+      margin: -43px 0;
       cursor: pointer;
       font-size:1.4em;
       @include transition(all $transitionSlow ease-in);
 
       &:hover {
-        @include opacity(80);
+        background: $gray10;
+        background: rgba($gray10, 0.8);
       }
 
       i {
@@ -1067,7 +1109,6 @@
       }
 
       @media (min-width: px-em(481px)) and (max-width:(px-em(979px))){
-        margin: -100px 0;
         width: 40px;
         height: 70px;
         font-size: 1.0em;

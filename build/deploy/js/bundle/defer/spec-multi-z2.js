@@ -32,6 +32,7 @@
       self.$specProducts = self.$container.find('.spec-products');
       self.$specItems = self.$specProducts.find('.spec-item');
       self.$specItemsWrap = self.$specProducts.find('.spec-items-wrap');
+      self.$specItemsGrid = self.$specProducts.find('.spec-items-grid');
       self.$tabStrip = self.$container.find('.tab-strip');
       self.$specTiles = self.$container.find('.spec-tiles');
       self.$modal = $('#ports-modal');
@@ -89,6 +90,8 @@
         itemSelector: '.spec-tile',
         easing: Exports.shuffleEasing,
         speed: Exports.shuffleSpeed,
+        hideLayoutWithFade: true,
+        sequentialFadeDelay: 100,
         columnWidth: function( containerWidth ) {
           var column = containerWidth;
 
@@ -165,6 +168,7 @@
       data = self.$specItemsWrap.data('scrollerModule');
       self.scroller = data;
       self.iscroll = data.scroller;
+      self._onScroll( self.iscroll );
       self.isScroller = true;
 
     },
@@ -296,8 +300,10 @@
       });
     },
 
-    _setRowHeights : function() {
+    _setRowHeights : function( isFromResize ) {
       var self = this;
+
+      isFromResize = isFromResize === true;
 
       // Put a bottom margin on the sibling of the absoluting positioned element
       // to make up for its lack of document space
@@ -321,6 +327,13 @@
         // Make bottom aligned images the same height
         // $cells.find('.dl-img').evenHeights();
       });
+
+      // If this is not triggered from a window resize, we still need to update the offsets
+      // because the heights have changed.
+      if ( !isFromResize ) {
+        self.stickyNavHeight = self.$stickyNav.outerHeight();
+        self.stickyOffset = self._getStickyHeaderOffset();
+      }
 
       // Refresh iScroll
       if ( self.iscroll ) {
@@ -422,25 +435,41 @@
 
         // Re-compute heights for each cell and total height
         self
-          ._setRowHeights()
+          ._setRowHeights( true )
           ._setItemContainerHeight();
       }
 
-      self.stickyNavHeight = self.$stickyNav.outerHeight();
-      self.stickyOffset = self._getStickyHeaderOffset();
+      // Set timeout here because we were getting the wrong height for the
+      // spec products after a big resize
+      setTimeout(function() {
+        self.stickyNavHeight = self.$stickyNav.outerHeight();
+        self.stickyOffset = self._getStickyHeaderOffset();
+      }, 100);
     },
 
     _onScroll : function( iscroll ) {
       var self = this,
           isIScroll = iscroll !== undefined && iscroll.y !== undefined,
-          scrollTop = isIScroll ? iscroll.y * -1 : self.$window.scrollTop();
+          scrollTop = isIScroll ? iscroll.y * -1 : self.$window.scrollTop(),
+          x, maxScrollX;
 
       // Add/remove a class to show the items have been scrolled horizontally
       if ( isIScroll ) {
-        if ( iscroll.x < -3 && !self.$detailLabelsWrap.hasClass('overflowing') ) {
+        x = iscroll.x;
+        maxScrollX = iscroll.maxScrollX + 3;
+
+        // Overflow left
+        if ( x < -3 && !self.$detailLabelsWrap.hasClass('overflowing') ) {
           self.$detailLabelsWrap.addClass('overflowing');
-        } else if ( iscroll.x >= -3 && self.$detailLabelsWrap.hasClass('overflowing') ) {
+        } else if ( x >= -3 && self.$detailLabelsWrap.hasClass('overflowing') ) {
           self.$detailLabelsWrap.removeClass('overflowing');
+        }
+
+        // Overflow right
+        if ( x > maxScrollX && !self.$specItemsGrid.hasClass('overflowing') ) {
+          self.$specItemsGrid.addClass('overflowing');
+        } else if ( x <= maxScrollX && self.$specItemsGrid.hasClass('overflowing') ) {
+          self.$specItemsGrid.removeClass('overflowing');
         }
 
         // We haven't scrolled vertically, exit the function

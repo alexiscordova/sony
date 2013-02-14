@@ -151,6 +151,7 @@
         self.downEvent = 'mousedown.soc';
         self.moveEvent = 'mousemove.soc';
         self.upEvent = 'mouseup.soc';
+        self.clickEvent = 'click.soc';
         self.cancelEvent = 'mouseup.soc';
       }
 
@@ -203,6 +204,7 @@
         self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });
       }
 
+      self.setupLinkClicks();
       self.createNavigation();
       self.setupPaddles();
 
@@ -212,23 +214,61 @@
     SonyOneCarousel.prototype = {
       constructor: SonyOneCarousel,
 
+      setupLinkClicks: function(){
+
+        var self = this;
+
+        self.$container.find('.headline a').each(function(){
+          var $this = $(this),
+              $parentContainer = $this.closest('.soc-item');
+
+          $parentContainer.attr('data-click-link', $this.attr('href'));
+        });
+
+        self.$container.find('.soc-item').on(self.clickEvent, function(e){
+
+          var $this = $(this),
+              defaultLink = $this.find('.headline a').attr('href'),
+              closestLink = $(e.target).closest('a').attr('href'),
+              destination;
+
+          if ( self.startInteractionTime ) {
+            if ((new Date().getTime()) - self.startInteractionTime < 250) {
+
+              if ( closestLink && closestLink !== defaultLink ) {
+                destination = closestLink;
+              } else {
+                destination = defaultLink;
+              }
+
+              window.location = destination;
+            }
+          }
+        });
+
+        self.$container.find('a').on(self.clickEvent, function(e){
+          e.preventDefault();
+        });
+      },
+
       onDragStart : function(e){
+
         var self = this,
         point;
 
         self.dragSuccess = false;
 
-        if(self.hasTouch){
+        if ( self.hasTouch ) {
           var touches = e.originalEvent.touches;
-          if(touches && touches.length > 0){
+          if ( touches && touches.length > 0 ) {
             point = touches[0];
             if(touches.length > 1){
               self.multipleTouches = true; //not sure why we would care
             }
-          }else{
+          } else {
             return;
           }
-        }else{
+        } else {
           point = e;
           e.preventDefault();
           if(e.which !== 1){
@@ -253,7 +293,7 @@
 
         self.currRenderPosition = self.sPosition;
 
-        self.startTime = new Date().getTime();
+        self.startTime = self.startInteractionTime = new Date().getTime();
 
         if(self.hasTouch) {
           self.$container.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
@@ -348,32 +388,24 @@
         duration = (new Date().getTime()) - self.startTime;
         v0 = Math.abs(accDist) / duration;
 
-        console.log('MoveDst:' , totalMoveDist , self.currentContainerWidth * 0.5);
-
         if( totalMoveDist > self.hasTouch ? Math.abs(self.currentContainerWidth * 0.25) : Math.abs(self.currentContainerWidth * 0.5) ){
 
           if(dragDirection === 1){
             self.currentId ++;
-            console.log('snap to next slide');
             if(self.currentId >= $currSlides.length){
               self.currentId = $currSlides.length - 1;
             }
-          }else{
+          } else {
             self.currentId --;
-            console.log('snap to previous slide');
            if(self.currentId < 0){
             self.currentId = 0;
            }
           }
           self.moveTo();
         }else{
-          console.log('return to current slide');
           //return to current
           returnToCurrent(true, v0);
         }
-
-        console.log('drag relase - ' , -self.currentId * self.currentContainerWidth , ' || ' , self.currRenderPosition);
-
       },
 
       dragMove: function( e ){
@@ -445,7 +477,6 @@
         self.renderMoveTime = new Date().getTime();
         self.renderMoveEvent = point;
 
-        //console.log( new Date() ,t ,  ' t.ondragmove');
       },
       renderMovement: function(point , isThumbs){
         var self = this;
@@ -463,8 +494,6 @@
           self.hasMoved = true;
           self.pageX = point.pageX;
           self.pageY = point.pageY;
-
-          //console.log( 'renderMovement' , newX );
 
           var pointPos = self.pageX;
 
@@ -522,18 +551,19 @@
       moveTo: function(force){
         var self = this,
         newPos   = -self.currentId * self.currentContainerWidth,
-        diff,
-        newId,
+        $contentWrappers = self.$el.find('.soc-content'),
         animObj  = {};
+
+        $contentWrappers.css('z-index', '');
+        $contentWrappers.eq(self.currentId).css('z-index', 100);
 
         if(self.currentId !== 0){
           self.$gridW = self.$el.find('.soc-grid' ).eq(0);
           newPos -= (window.Exports.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
         }
 
-
         if(self.isMobileMode === true){
-          var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
+          var delta = ($contentWrappers.eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
           newPos += delta - (self.currentId * 10);
         }
 
@@ -541,13 +571,13 @@
 
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
-          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeInOutSine');
+          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed));
 
-        }else{
+        } else {
 
           //css3 transition
           animObj[ (self.vendorPrefix + self.TD) ] = (force === true ? 10 : self.animationSpeed) + 'ms';
-          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeInOutSine;
+          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeOutBack;
 
           self.$containerInner.css( animObj );
 
@@ -559,7 +589,6 @@
           self.$containerInner.one(self.transitionEndName, function(){
             window.iQ.update();
           });
-
         }
 
         //update the overall position
@@ -571,19 +600,16 @@
       update: function(){
         var self = this,
         cw       = self.currentContainerWidth = self.$el.find( '.soc-grid' ).eq(0).width(),
-        newH     = self.resizeRatio * cw +  'px',
+        newH     = Math.floor(self.resizeRatio * cw) +  'px',
         $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
-
-        console.log('Resize Ratio »', self.resizeRatio);
 
         if(self.isDesktopMode || self.isTabletMode){
           self.$container.css( 'height' , newH );
           $currSlides.css( 'height' ,  newH );
         }else{
-          newH = $('.soc-item').eq(0).height();
+          newH = Math.floor($('.soc-item').eq(0).height());
           self.$container.css( 'height' ,  newH  + 'px' );
         }
-        //console.log("Updating 'soc-container'.height to »",newH );
       },
 
       shuffleClasses: function(){
@@ -594,8 +620,6 @@
         oneUp        = '.soc-1up',
         twoUp        = '.soc-2up',
         threeUp      = '.soc-3up';
-
-        //console.log("Current Mode »", mode);
 
         switch(mode){
           case 'desktop':
@@ -742,8 +766,6 @@
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
-
-        //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
 
       createTableSlides: function(lastView){
@@ -808,7 +830,6 @@
           }
 
           if(i === galLen - 1 && galLen > slideCount * 2){
-            //console.log("You have an orphaned element that needs a slide by itself");
             createSlide(i,true);
           }
         }
@@ -822,8 +843,6 @@
         self.currentId = self.getCurrentSlideByItemId($lastItem);
 
         self.$win.trigger('resize.soc');
-
-        //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
 
       createMobileSlides: function(lastView){
@@ -871,9 +890,6 @@
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
-
-        //console.log("Modile Slides are now cached up »" , self.numSlides);
-
       },
 
       createNavigation: function (){
@@ -891,8 +907,6 @@
           return;
         }
 
-        //self.controlNavEnabled = true;
-        //self.$container.addClass('ssWithBullets');
         for(var i = 0; i < self.numSlides; i++) {
           out += itemHTML;
         }
@@ -907,7 +921,6 @@
           if( item.length ) {
             self.currentId = item.index();
             self.moveTo();
-            //console.log("Current Slide ID # »",self.currentId);
           }
         } );
 
@@ -954,7 +967,6 @@
           var p = $(this);
 
           if(p.hasClass('left')){
-            //console.log('Left paddle click');
 
             self.currentId --;
             if(self.currentId < 0){
@@ -964,7 +976,6 @@
             self.moveTo();
 
           }else{
-            //console.log('Right paddle click');
 
             self.currentId ++;
 
@@ -985,8 +996,6 @@
 
       onPaddleNavUpdate: function(){
         var self = this;
-
-        console.log('PaddleNavUpdate »', self.currentId);
 
         //check for the left paddle compatibility
         if(self.currentId === 0){
@@ -1010,7 +1019,6 @@
             $slide = null;
 
         $slide = $socItem.closest('.soc-content');
-        console.log('Slide Index »' , $slide.index());
         return $slide.index();
       },
 
@@ -1022,7 +1030,7 @@
         gutterWidth = 0;
 
         if(self.isDesktopMode === true){
-          //console.log(" »",);
+
           self.$gridW = self.$el.find( '.soc-grid' ).eq(0);
 
           self.$desktopSlides.each(function(i){
@@ -1030,10 +1038,9 @@
             gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
             if(i > 0){
               cw += gutterWidth;
-            // console.log('New Gutter for slide »',gutterWidth);
             }
 
-            $(this).css( { 'left': i * cw + 'px', 'z-index' : i } );
+            $(this).css( { 'left': Math.floor(i * cw) + 'px' } );
           });
         }
 
@@ -1046,13 +1053,11 @@
 
             if(i > 0){
               cw += gutterWidth;
-              //console.log('New Gutter for slide »',self.$gridW.width() , gutterWidth);
             }
 
             $(this).css({
-              'left': i * cw + 'px',
-              'height' : self.$el.find('.soc-item').eq(0).height()  + 'px',
-              'z-index' : i
+              'left': Math.floor(i * cw) + 'px',
+              'height' : Math.floor(self.$el.find('.soc-item').eq(0).height())  + 'px'
             });
 
             $(this).find('.soc-item').css({
@@ -1067,18 +1072,9 @@
         if(self.isMobileMode === true){
           cw = self.currentContainerWidth = self.$el.find('.soc-item').eq(0).width();
           self.$mobileSlides.each(function(i){
-            $(this).css( {
-              'left': i * (cw + mobileGutter) + 'px',
-              'height' : 317  + 'px', //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
-              'z-index' : i
-            } );
-
-            var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
-
-            $(this).find('.soc-item').css({
-              'position': 'absolute',
-              'top' : '0',
-              'left' : '0'
+            $(this).css({
+              'left': Math.floor(i * (cw + mobileGutter)) + 'px',
+              'height' : 317  + 'px' //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
             });
           });
         }
@@ -1088,21 +1084,12 @@
 
       },
 
-      gotoSlide: function(slideIndx){
-        var self = this;
-
-        self.currentId = slideIndx;
-        self.moveTo();
-
-        return slideIndx;
-      },
-
       m: function(xpos){
         var self = this,
         animObj  = {};
 
         animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed + 'ms';
-        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing.easeInOutSine;
+        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing.easeOutBack;
         self.$containerInner.css( animObj );
         animObj[ self.xProp ] = self.tPref1 + ( ( xpos ) + self.tPref2 + 0 ) + self.tPref3;
         self.$containerInner.css( animObj );
@@ -1112,7 +1099,8 @@
     $.socCSS3Easing = {
         //add additional ease types here
         easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)'
+        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)'
     };
 
     $.fn.sonyOneCarousel = function( options ) {
@@ -1140,7 +1128,7 @@
 
     $.fn.sonyOneCarousel.settings = {
       //must haves
-      throttleTime: 10
+      throttleTime: 250
     };
 
     $( function(){

@@ -8,8 +8,17 @@ doctype 5
 l = {"locals":locals}
 head
   !{partial('includes/head.html.jade', l)}
-
+  title= 'G1. Related Products Layouts'
 body
+
+	.container
+		h4= 'G1 - Related Products Grouped 3up Mode'
+
+	e = {"locals":locals, "data":data('related-products-g1/3up-orange-color-btn.json')}
+	- e.data.config.standalone = true
+	!{partial('modules/related-products-g1.html.jade', e)}
+
+	hr
 
 	.container
 		h4= 'G1 - Related Products Tabbed Mode'
@@ -53,6 +62,15 @@ body
 	- e.data.config.standalone = true
 	!{partial('modules/related-products-g1.html.jade', e)}
 
+	hr
+
+	.container
+		h4= 'G1 - Related Products Strip Mode'
+
+	e = {"locals":locals, "data":data('related-products-g1/strip-mode.json')}
+	- e.data.config.standalone = true
+	!{partial('modules/related-products-g1.html.jade', e)}
+	
 	hr
 
 !{partial('includes/foot.html.jade', l)}

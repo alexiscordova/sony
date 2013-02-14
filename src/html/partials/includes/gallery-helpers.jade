@@ -1,0 +1,312 @@
+
+- layout1 = [ "carousel", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
+- layout2 = [ "normal", "normal", "large", "promo", "normal", "normal", "normal", "normal", "normal" ]
+- layout3 = "normal"
+- layout4 = [ "large", "promo", "normal", "normal", "normal", "normal", "normal", "normal", "normal" ]
+- layouts = { "layout1": layout1, "layout2" : layout2, "layout3" : layout3, "layout4": layout4 }
+
+mixin filterColor( filterSet )
+  ul.unstyled.color-swatches(data-filter=filterSet.name, data-filter-type=filterSet.type)
+    each filter in filterSet.filters
+      //- Can't have variable attribute names :( - build an html string
+      tagString = '<li class="fonticon-10-sm-bold-check--after swatch-' + filter.value + '" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '"></li>'
+      | !{tagString}
+
+mixin filterRange( filterSet )
+  .range-output-container
+    .relative
+      .range-output-min
+      .range-output-max
+  .range-control-wrap
+    .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
+
+mixin filterButton( filterSet )
+  ul.unstyled.btn-group(data-filter=filterSet.name, data-filter-type=filterSet.type)
+    each filter in filterSet.filters
+      tagString = '<button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after" data-label="' + filter.label + '" data-' + filterSet.name + '="' + filter.value + '">' + filter.label + '</button>'
+      | !{tagString}
+  if filterSet.help
+    mixin helpPopover( filterSet.help )
+
+mixin filterCheckbox( filterSet )
+  ul.unstyled(data-filter=filterSet.name, data-filter-type=filterSet.type)
+    each filter in filterSet.filters
+      li.control-inline
+        input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
+        label.p2(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
+        if filter.help
+          mixin helpPopover( filter.help, true )
+
+mixin filterGroup( filterSet )
+  ul.media-list(data-filter=filterSet.name, data-filter-type=filterSet.type, data-length=filterSet.filters.length)
+    each filter in filterSet.filters
+      li = '<li class="media clearfix" data-label=' + filter.label + ' data-' + filterSet.name + '="' + filter.value + '">'
+      btn = '<div class="pull-left"><button class="btn btn-square no-hover-transition fonticon-10-sm-bold-check--after media-object"><i class="fonticon-20-' + filter.icon + '"></i></button></div>'
+      body = '<div class="media-body"><p class="media-heading p3">' + filter.label + '</p><p class="p4">' + filter.description + '</p></div>'
+      mediaObject = li + btn + body + '</li>'
+      | !{ mediaObject }
+
+mixin helpPopover( help, pullRight )
+  pullRight = pullRight || false
+  classes = 'help-container js-popover-trigger'
+  - if ( pullRight ) classes += ' pull-right'
+  div(class=classes, data-original-title=help.title)
+    if help.label
+      span.p3.help-label= help.label
+    i.fonticon-10-circle-q
+    mixin popoverContent( help )
+
+mixin popoverContent( help )
+  - layout = help.layout
+  .js-popover-content.hidden
+    .box-close.box-close-small
+      i.fonticon-10-x
+    if layout == '2up'
+      .twoup
+        .popover-col
+          mixin iQImage( help.col1.img )
+          p.p4= help.col1.text
+        .popover-col
+          mixin iQImage( help.col2.img )
+          p.p4= help.col2.text
+
+    else if layout == 'text-only'
+      .p4= help.text
+
+
+
+mixin filterSet( filterSet )
+  .filter-container
+    p.l3.filter-label= filterSet.label
+    if filterSet.type == 'color'
+      mixin filterColor( filterSet )
+
+    else if filterSet.type == 'range'
+      mixin filterRange( filterSet )
+
+    else if filterSet.type == 'button'
+      mixin filterButton( filterSet )
+
+    else if filterSet.type == 'checkbox'
+      mixin filterCheckbox( filterSet )
+
+    else if filterSet.type == 'group'
+      mixin filterGroup( filterSet )
+
+
+mixin featuredGallery( submodules, gallery, type )
+  submodules = submodules || data.submodules
+  gallery = gallery || data.featured
+  type = type || 'product'
+  i = 0
+  section.gallery.container.fade((id=gallery.name + '-gallery', data-mode=gallery.mode)
+    .grid
+      h2.t6.featured-gallery-title= gallery.title
+    .products.slimgrid.m-grid-at-567
+      each module in submodules
+        d = locals.data(module.data)
+        if d.featured && d.type == type
+          - d.layout = layouts[gallery.layout][i++]
+          - d.view = "basic"
+          - d.iterator = i
+          e = { "locals" : locals, "data" : d }
+          path = 'modules/' + module.type
+          !{locals.partial( path, e )}
+
+    .grid.see-all
+      a.btn.btn-wide(href="#")= gallery.callout
+
+
+mixin detailedGallery( submodules, gallery, type )
+  submodules = submodules || data.submodules
+  gallery = gallery || data.productCards
+  type = type || 'product'
+  section.gallery(id=gallery.name + '-gallery', data-mode=gallery.mode)
+    .container.filter-display-bar.slide-toggle-parent
+      if gallery.sortSet
+        .grid.no-grid-at-767
+
+
+          .sort-options.pull-right
+            span.l3.filter-label Sort By:&nbsp;
+            .dropdown.dropdown-alt.ib
+              button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
+                span.js-toggle-text= gallery.sortSet[0].label
+                i.fonticon-10-arrowheads-elevator
+              ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
+                each sort in gallery.sortSet
+                  li
+                    a(data-value=sort.name, data-reverse=sort.reverse, tabindex="-1", href="#")= sort.label
+            .native-dropdown
+              i.fonticon-10-arrowheads-elevator.absolutely
+              select.select-small
+                each sort in gallery.sortSet
+                  option(value=sort.name, data-reverse=sort.reverse)= sort.label
+
+
+          p.p3.ib.product-count-wrap
+            strong.text-dark.product-count= gallery.total
+            | &nbsp;Products
+
+          if gallery.filterSet
+            button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
+              | Filter
+              i.fonticon-10-arrowhead-up.up
+              i.fonticon-10-arrowhead-down.down.hide
+            button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool")
+              | Compare
+              i.fonticon-10-sm-bold-plus
+
+          else if gallery.accessoryFinder
+            button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder
+              | !{ gallery.accessoryFinder.title }
+              i.fonticon-10-sm-bold-plus
+
+
+    if gallery.filterSet
+      .container.slide-arrow-under.fade
+        .relative
+          .slide-toggle-arrow
+      .container.slide-arrow-over.fade
+        .relative
+          .slide-toggle-arrow
+
+
+      .collapse.slide-toggle-target(id=gallery.name + '-filters')
+        .filter-options.container
+          .grid.no-grid-at-767
+              .span4
+                each filterSet in gallery.filterSet
+                  if filterSet.filterGroup == 1
+                    mixin filterSet( filterSet )
+              .span4
+                each filterSet in gallery.filterSet
+                  if filterSet.filterGroup == 2
+                    mixin filterSet( filterSet )
+              .span4
+                each filterSet in gallery.filterSet
+                  if filterSet.filterGroup == 3
+                    mixin filterSet( filterSet )
+
+
+
+      .container.active-filters-wrap
+        .grid.active-filters
+
+      .spacer
+
+    .container
+      .products.slimgrid.no-grid-at-767
+        each module in submodules
+          d = locals.data(module.data)
+          if d.type == type && !d.promo
+            - d.view = "detailed"
+            e = { "locals" : locals, "data" : d }
+            path = 'modules/' + module.type
+            !{locals.partial( path, e )}
+
+    if gallery.comparable
+      .comparables.hidden
+        .compare-name= gallery.galleryName
+        each detail in gallery.comparable
+          .l3.detail-label.detail(data-slug=detail.slug, data-label=detail.label)
+
+    if gallery.nextLink
+      .navigation.invisible
+        a(href=gallery.nextLink) Camera Overflow
+      .infscr-holder.text-center
+
+
+mixin galleryStickyTabs( tabs, moduleName, moduleId )
+  .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel", data-module-name=moduleName, data-module-id=moduleId)
+    .tabs-container.container.m-full-bleed
+      .grid.m-full-bleed
+        .tabs
+          each tab, i in tabs
+            activeClass = i === 0 ? ' active' : ''
+            tabClass = 'tab' + activeClass
+            button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
+              .ghost-center-wrap
+                .ghost-center
+                  .holder-for-icon.ghost-center-wrap
+                    .ghost-center.v-bottom
+                      iconClass = 'fonticon-30-' + tab.icon
+                      i(class=iconClass)
+                  h3.l2.tab-label= tab.label
+      nav.tab-nav-btns
+        button.nav-paddle.tab-nav.tab-nav-prev
+          i.fonticon-10-chevron-left.fonticon-10-chevron
+        button.nav-paddle.tab-nav.tab-nav-next
+          i.fonticon-10-chevron
+
+
+mixin productStrips( submodules, strips, type )
+  submodules = submodules || data.submodules
+  section
+    //- .slide-toggle-parent.container
+    //-   button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target="#IDGOESHERE")
+    //-     | Accessory Finder
+    //-     i.icon-ui-arrowhead-up-white.up.hide
+    //-     i.icon-ui-arrowhead-down-white.down
+    //- .container.slide-arrow-under.fade
+    //-   .relative
+    //-     .slide-toggle-arrow
+    //- .container.slide-arrow-over.fade
+    //-   .relative
+    //-     .slide-toggle-arrow
+
+    //- .collapse.slide-toggle-target(id="IDGOESHERE")
+    //-   .container
+    //-     .grid.no-grid-at-767
+    //-       h1 Collapse
+    //-       h2 Collapse
+    //-       h3 Collapse
+    //-       h4 Collapse
+    //-       h5 Collapse
+    //-       h6 Collapse
+
+
+    //- .spacer
+
+    .container
+      each strip in strips
+        .slimgrid5.m-grid-at-767.product-strip-wrap
+          .clearfix
+            if strip.callout
+              a.tl.pull-right(href="#")= strip.callout
+            h2.t6.product-strip-heading= strip.title
+          .product-strip.clearfix
+            count = 0
+            each module in submodules
+              d = locals.data(module.data)
+              if d.type == "accessory" && d.subtype == strip.subtype && count < 5
+                - d.layout = layout3
+                - d.view = "basic"
+                e = { "locals" : locals, "data" : d }
+                path = 'modules/' + module.type
+                !{locals.partial( path, e )}
+                - count += 1
+
+
+mixin compareToolModal()
+  label = 'Compare'
+  legend = 'Highlights indicate highest performance features'
+  resetLabel = 'Reset'
+
+  #compare-tool.modal.takeover.hide.fade(tabindex="-1", role="dialog", aria-labelledby="compare-tool-label", aria-hidden="true")
+    .modal-inner
+      .modal-header.container(data-reset-label=resetLabel)
+        h3.t3.pull-left#compare-tool-label= label
+        button.box-close(data-dismiss="modal", aria-hidden="true")
+          i.fonticon-10-x-skinny
+      .modal-body
+        .container.compare-key
+          div
+            i.swatch-lemon.mini-swatch
+            span.p4!= '&nbsp;' + legend
+      .takeover-sticky-header
+        .container.relative
+          h6.t6-light.sticky-nav-title
+          button.box-close(data-dismiss="modal", aria-hidden="true")
+            i.fonticon-10-x-skinny
+

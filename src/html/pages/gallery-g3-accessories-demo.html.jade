@@ -1,0 +1,19 @@
+---
+title: G3. Gallery (Accessories) / Page
+description:
+---
+include ../partials/includes/jade-helpers.jade
+doctype 5
+!{partial('includes/ieconditionals.html')}
+
+l = {"locals":locals}
+head
+  !{partial('includes/head.html.jade', l)}
+
+body
+
+  //- Gallery
+  e = {"locals":locals, "data":data('gallery-g3-accessories/gallery-g3-cybershot-accessories.json')}
+  !{partial('modules/gallery-g3-accessories.html.jade', e)}
+
+  !{partial('includes/foot.html.jade', l)}

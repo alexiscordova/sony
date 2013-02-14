@@ -23,6 +23,10 @@
 .footer-wrapper{
   padding:px-em(60px) 0;
 
+  &.footer-wrapper-minimal{
+    padding:px-em(28px) 0;    
+  }
+
   h5{
     margin-bottom: px-em(17px);
   }
@@ -39,14 +43,19 @@
       width:19.8%;
     }
   }
+  &.footer-wrapper-minimal{
+    .btn-group.country-selector,
+    .btn-hover-group.country-selector{
+      min-width:px-em(235px);
+    }
+  }
 
   .btn-group.language-selector,
   .btn-hover-group.language-selector{
-    width: px-em(61px);
+    width: px-em(67px);
     float:left;
   }
 }
-
 
 
 .footer-form-border{
@@ -62,38 +71,25 @@
   }
 }
 
-
-.footer-newsletter{
-  margin-top: px-em(38px);
-  margin-bottom: px-em(45px);
-
-  h6{
-    margin-bottom: px-em(14px);
-  }
-  form{
-    margin-bottom:0;
-  }
-}
-
 .footer-contact.span6{
-  padding-top: 5px;
+  padding-top: 2px;
   float:right;
   text-align:right;
   > p{
     display:inline-block;
+    font-size:$font_13_16;
 
     a{
       display:inline-block;
       position:relative;
       top: -11px;
-      font-size:$font_13_16;
       margin-right: px-em(24px);
     }
   }
 }
 
 .footer-sony-logo{
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 
   &:before{
     top:-23px;
@@ -102,8 +98,8 @@
 }
 .footer-copyright{
   position:absolute;
-  left: 90px;
-  top: 4px;
+  left: 85px;
+  top: 2px;
 }
 
 
@@ -158,7 +154,7 @@
 @media (min-width: px-em(1400px)) {
   
 
-.footer-wrapper{
+.footer-wrapper:not(.footer-wrapper-minimal){
   .footer-language-selectors{
     width: 46.2%;
   }
@@ -179,6 +175,157 @@
 
 
 
+
+
+
+
+//  .d8888b.   .d8888b.   .d8888b.                         d888    d888   .d8888b.   .d8888b.                    
+// d88P  Y88b d88P  Y88b d88P  Y88b                       d8888   d8888  d88P  Y88b d88P  Y88b                   
+// 888    888 Y88b. d88P 888    888                         888     888  888    888 888    888                   
+// Y88b. d888  "Y88888"  888    888 88888b.  888  888       888     888  Y88b. d888 Y88b. d888 88888b.  888  888 
+//  "Y888P888 .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888     888   "Y888P888  "Y888P888 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888 888     888         888        888 888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888     888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888 8888888 "Y8888P"   "Y8888P"  88888P"  888  888 
+//                                  888                                                        888               
+//                                  888                                                        888               
+//                                  888                                                        888               
+
+@media (min-width: px-em(980px)) and (max-width: px-em(1199px)) {
+
+.footer-store-locator-form{
+  position:relative;
+  overflow:visible;
+  float:none;
+
+  .footer-input{
+    width:90%;  
+    float:none;
+  }
+  .footer-btn{
+    position:absolute;
+    left:-2px;
+    width:px-em(95);
+    top:46px;
+  }
+}
+.footer-store-locator-caption{
+  margin-top:px-em(57);
+  display:block;
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// 888888888   .d8888b.   .d8888b.                         d888    d888   .d8888b.   .d8888b.                    
+// 888        d88P  Y88b d88P  Y88b                       d8888   d8888  d88P  Y88b d88P  Y88b                   
+// 888        888        Y88b. d88P                         888     888  888    888 888    888                   
+// 8888888b.  888d888b.   "Y88888"  88888b.  888  888       888     888  Y88b. d888 Y88b. d888 88888b.  888  888 
+//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'       888     888   "Y888P888  "Y888P888 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888 888     888         888        888 888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888     888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888     8888888 8888888 "Y8888P"   "Y8888P"  88888P"  888  888 
+//                                  888                                                        888               
+//                                  888                                                        888               
+//                                  888                                                        888              
+@media (min-width: px-em(568px)) and (max-width: px-em(1199px)) {
+
+} // end (min-width: px-em(568px)) and (max-width: px-em(1199px))
+
+
+
+
+
+
+
+// 888888888   .d8888b.   .d8888b.                           .d8888b.  8888888888  .d8888b.                    
+// 888        d88P  Y88b d88P  Y88b                         d88P  Y88b       d88P d88P  Y88b                   
+// 888        888        Y88b. d88P                         888    888      d88P  888    888                   
+// 8888888b.  888d888b.   "Y88888"  88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
+//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
+//        888 888    888 888    888 888  888   X88K  888888        888   d88P            888 888  888   X88K   
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
+//                                  888                                                      888               
+//                                  888                                                      888               
+//                                  888                                                      888                           
+@media (min-width: px-em(568px)) and (max-width: px-em(979px)) {
+
+.footer-wrapper{
+  .grid.no-grid-at-567{
+    .footer-contact.span6{
+      padding-right: px-em(4px);
+      > p{
+        display:block;
+        margin-bottom:px-em(3px);
+        a{
+          margin-right:0; 
+        }
+        a:first-child{
+          margin-right: px-em(25px);      
+        }
+      }
+    }
+    .footer-language.span6{
+      padding-top: px-em(23px);
+      // padding-bottom: px-em(13px);
+    }
+  }
+}
+
+
+
+.footer-wrapper{
+  .grid.no-grid-at-567{
+    .span3{
+      width:30.9%;
+    }
+
+    .footer-store-locator.span3{
+      width:100%;
+      float:none;
+      overflow:hidden;
+      padding-bottom: px-em(37px);
+      margin-bottom:0;
+
+      h5{
+        display:block;
+        width: px-em(105px);
+        float:left;
+        position:relative;
+        top: px-em(11px);
+      }
+      + .span3{
+        margin-left:0;
+      }
+    }
+    .footer-language.span6{
+      padding-bottom: px-em(13px);
+    }
+  }
+}
+
+
+
+}
+
+
+
+
+
+
+
+
 // ------------------------------------------------
 // PORTRAIT TABLET TO LANDSCAPE AND SMALL DESKTOP
 // ------------------------------------------------
@@ -194,15 +341,6 @@
 
 @media (max-width: px-em(1023px)) {
 
-form.footer-store-locator-form{
-  width:50%;
-  max-width: px-em(275px);
-  float:left;
-  // margin-bottom:32px;
-}
-.footer-store-locator-caption{
-  float:left;
-}
 }
 
 
@@ -220,98 +358,39 @@ form.footer-store-locator-form{
 //                                  888                                                            888               
 @media (min-width: px-em(568px)) and (max-width: px-em(1023px)) {
 
-.footer-wrapper{
-  .grid.no-grid-at-567{
-    .span3{
-      width:30.9%;
-    }
 
-    .footer-store-locator.span3{
-      width:100%;
-      float:none;
-      overflow:hidden;
-      padding-bottom: px-em(30px);
-
-      h5{
-        display:block;
-        width: px-em(105px);
-        float:left;
-        position:relative;
-        top: px-em(5px);
-      }
-      + .span3{
-        margin-left:0;
-      }
-    }
-
-    .span3 .footer-newsletter{
-      .footer-form-border{
-        overflow:visible;
-        margin-bottom: 40px;
-
-        .footer-input{
-          width:95%;  
-          float:none; 
-        }
-        .footer-btn{
-          position:absolute;
-          top: 47px;
-          left: 0;
-          width: 66px;
-          float:none;
-          margin:0;
-        }
-      }
-      h6{
-        margin-bottom: px-em(12px);
-      }
-    }
-
-    .footer-language.span6{
-      padding-top: px-em(67px);
-      padding-bottom: px-em(13px);
-    }
-    .footer-contact.span6{
-      padding-top: px-em(44px);
-      padding-right: px-em(4px);
-      > p{
-        display:block;
-        margin-bottom:0;
-        a{
-          margin-right:0; 
-        }
-        a:first-child{
-          margin-right: px-em(20px);      
-        }
-      }
-    }
-  }
-}
 
 } // END max-width: 1023px
 
 
 
 // ------------------------------------------------
-//     d8888   .d8888b.   .d8888b.                         d888    .d8888b.   .d8888b.   .d8888b.                    
-//    d8P888  d88P  Y88b d88P  Y88b                       d8888   d88P  Y88b d88P  Y88b d88P  Y88b                   
-//   d8P 888  Y88b. d88P 888    888                         888   888    888        888      .d88P                   
-//  d8P  888   "Y88888"  888    888 88888b.  888  888       888   888    888      .d88P     8888"  88888b.  888  888 
-// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'       888   888    888  .od888P"       "Y8b. 888 "88b `Y8bd8P' 
-// 8888888888 888    888 888    888 888  888   X88K  888888 888   888    888 d88P"      888    888 888  888   X88K   
-//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       888   Y88b  d88P 888"       Y88b  d88P 888 d88P .d8""8b. 
-//       888   "Y8888P"   "Y8888P"  88888P"  888  888     8888888  "Y8888P"  888888888   "Y8888P"  88888P"  888  888 
-//                                  888                                                            888               
-//                                  888                                                            888               
-//                                  888                                                            888     
+//     d8888   .d8888b.   .d8888b.                           .d8888b.  8888888888  .d8888b.                    
+//    d8P888  d88P  Y88b d88P  Y88b                         d88P  Y88b       d88P d88P  Y88b                   
+//   d8P 888  Y88b. d88P 888    888                         888    888      d88P  888    888                   
+//  d8P  888   "Y88888"  888    888 88888b.  888  888       Y88b. d888     d88P   Y88b. d888 88888b.  888  888 
+// d88   888  .d8P""Y8b. 888    888 888 "88b `Y8bd8P'        "Y888P888  88888888   "Y888P888 888 "88b `Y8bd8P' 
+// 8888888888 888    888 888    888 888  888   X88K  888888        888   d88P            888 888  888   X88K   
+//       888  Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       Y88b  d88P  d88P      Y88b  d88P 888 d88P .d8""8b. 
+//       888   "Y8888P"   "Y8888P"  88888P"  888  888        "Y8888P"  d88P        "Y8888P"  88888P"  888  888 
+//                                  888                                                      888               
+//                                  888                                                      888               
+//                                  888                                                      888               
 // ------------------------------------------------
-@media (min-width: px-em(480px)) and (max-width: px-em(1023px)) {
+@media (min-width: px-em(480px)) and (max-width: px-em(979px)) {
 
-.footer-wrapper .footer-store-locator.span3{
-  .footer-store-locator-caption{
-    padding: px-em(9px) 0 0 px-em(16px);
-  }
+
+form.footer-store-locator-form{
+  width:50%;
+  max-width: px-em(275px);
+  float:left;
+  // margin-bottom:32px;
 }
+.footer-store-locator-caption{
+  float:left;
+  padding: px-em(9px) 0 0 px-em(16px);
+}
+
 }
 
 
@@ -337,6 +416,13 @@ form.footer-store-locator-form{
 }
 .container .grid .footer-language.span6{
   width:58%;
+}
+
+.footer-wrapper.footer-wrapper-minimal{
+  .btn-group.country-selector,
+  .btn-hover-group.country-selector{
+    min-width:px-em(200px);
+  }
 }
 
 } // (min-width: 568px) and (max-width: 768px)
@@ -437,7 +523,25 @@ form.footer-store-locator-form{
 
 
 
+// ------------------------------------------------
+// 888888888   .d8888b.   .d8888b.                           .d8888b.                             
+// 888        d88P  Y88b d88P  Y88b                         d88P  "88b                            
+// 888        888        Y88b. d88P                         Y88b. d88P                            
+// 8888888b.  888d888b.   "Y88888"  88888b.  888  888        "Y8888P"           888  888 88888b.  
+//      "Y88b 888P "Y88b .d8P""Y8b. 888 "88b `Y8bd8P'       .d88P88K.d88P       888  888 888 "88b 
+//        888 888    888 888    888 888  888   X88K         888"  Y888P"        888  888 888  888 
+// Y88b  d88P Y88b  d88P Y88b  d88P 888 d88P .d8""8b.       Y88b .d8888b        Y88b 888 888 d88P 
+//  "Y8888P"   "Y8888P"   "Y8888P"  88888P"  888  888        "Y8888P" Y88b       "Y88888 88888P"  
+//                                  888                                                  888      
+//                                  888                                                  888      
+//                                  888                                                  888                            
+// ------------------------------------------------                                                           
 
+@media (min-width: px-em(568px)) {
+.footer-mobile-section{
+  margin-bottom: px-em(74px);
+}
+}
 
 
 
@@ -521,26 +625,6 @@ form.footer-store-locator-form{
 }
 
 
-
-
-.footer-newsletter {
-  margin-top: px-em(5px);
-  margin-bottom: px-em(26px);
-
-  .footer-form-border{
-    margin-bottom:0;
-
-    .footer-input{
-      width:72%;
-    }
-    .footer-btn{
-      position:inherit;
-      top:auto;
-      left:auto;
-      float:right;
-    }
-  }
-}
 .footer-contact.span6{
   width:auto;
   float:none;

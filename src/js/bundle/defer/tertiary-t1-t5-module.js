@@ -34,7 +34,7 @@
       self.ev                      = $( {} ); //event object
       
       self.mode                    = null;
-
+      
       self.contentModulesClass     = '.tcc-content-module';
       self.contentSelectorClass    = '.tcc-body';
       self.$tccHeaderWrapper       = self.$container.find('.tcc-header-wrapper');
@@ -44,8 +44,8 @@
       self.$contentModules         = self.$el.find(self.contentModulesClass);
       self.$hideShowEl             = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
       self.$loader                 = self.$container.find(".loader");
-      self.$scrollerInstance       = null;
 
+      self.$scrollerInstance       = null;
                
       self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
       self.resizeThrottle          = function(){self.handleResize();};
@@ -53,7 +53,7 @@
       self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
       self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
       
-      self.sequencerSpeed          = 150;
+      self.sequencerSpeed          = 250;
       self.hideShowSpeed           = 250;
       self.debounceSpeed           = 300;
       
@@ -204,29 +204,58 @@
 
       // every resize event (debounced) determine size of each content module 
       setContentModuleSizes : function(){     
-        var self      = this,
-        containerSize = Math.round(self.$el.outerWidth()), // no margins 
-        headerLRMargin = self.getHorizontalMargins(self.$tccHeaderWrapper),
-        eachContentWidth = null;
+        var self         = this,
+        containerSize    = Math.round(self.$el.outerWidth()), // no margins 
+        headerLRMargin   = self.getHorizontalMargins(self.$tccHeaderWrapper),
+        eachContentWidth = null,
+        $elements        = self.$contentModules;
 
         // should only ever be "mobile"
-        if((self.mode === 'tablet') || (self.mode === 'phone')){
-          
+        if((self.mode === 'tablet') || (self.mode === 'phone')){          
           // accounts for margins in container widths to support full-bleed
           eachContentWidth = containerSize - headerLRMargin;
-         
+        
           // tablet is 2-up not 1-up, so split evenly
           if(self.mode === 'tablet'){
+             
              // accounts for margins in between the two content modules (set after scroller instance)
              eachContentWidth = Math.round((eachContentWidth / 2) - (headerLRMargin/2));
+
+          }else{
+            // assumes self.mode = 'phone'
+                        
+            // check if we need to set width of specific children elements also
+            $elements = self.addSpecificElements( $elements );
           }
+
         }
 
         // set each width
-        self.$contentModules.each(function() {
+        $elements.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
 
+      },
+
+      // checks $elements for specific content type:mode
+      // if there's a match, it adds that element's child ".center-content" to $elements
+      // $elements obj is returned to get width set
+      addSpecificElements : function( $elements ){
+        var self = this;
+      
+        // loop through the content modules
+        $elements.each(function() {
+          var $el = $(this),
+              modeType = $el.data("tcc-content-type") + ':' + $el.data("tcc-content-mode");
+
+          // only these two "mode:type" content modules should get added   
+          if((modeType === 'flickr:default') || (modeType === 'sonys-voice:instagram')){
+            // add ".center-content" child to the objects that will get width set
+            $elements = $elements.add($el.find(".center-content"));
+          }
+        });
+
+        return $elements;
       },
 
       adjustMargins : function(  ){
@@ -330,6 +359,7 @@
         itemElementSelector: ".tcc-content-module", 
         mode: 'paginate',
         generatePagination: true,
+        generateNav:true,
         centerItems: true,
 
         iscrollProps: {

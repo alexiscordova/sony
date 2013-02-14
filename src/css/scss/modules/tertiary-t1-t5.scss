@@ -9,21 +9,35 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-@mixin instagramLayout{
-
-}
-
-//TODO: put these in better spot, shouldn't go into production
-.tcc-layouts{
-	padding:40px 20px;
-}
-
 .tcc-wrapper{
 	position: relative;
   overflow:auto;
   text-align: center;
-  background-color:$gray90;
+  background-color:$gray80;
   margin:0; // for the module since it can be placed anywhere on the page. 
+
+  .nav-paddles{
+  	position: absolute;
+		left: 0;
+		top: 50%;
+		padding:20px;
+		z-index: 99;
+		width:100%;
+
+		.nav-paddle{
+			position: absolute;
+			top:0;
+		}  // end .nav-paddle
+
+		.nav-paddle-prev{
+			left: 7px;
+		} // end .nav-paddle-prev
+
+		.nav-paddle-next{
+			right:7px;
+		} // end .nav-paddle-next
+
+  } // end .nav-paddles
 
   .loader{
   	height: 300px;
@@ -42,7 +56,7 @@
 	} // end .tcc-body-wrapper
 	
 	.tcc-header{
-		border-bottom: 2px solid $gray70;
+		border-bottom: 3px solid $gray70;
 	} // end .tcc-header
 
 	.tcc-body{
@@ -50,6 +64,7 @@
 	} // end .tcc-body
 
 	.tcc-content-module{
+		//@include debug(1px, red);
 		position: relative;
 		overflow: hidden;
 		
@@ -57,27 +72,28 @@
 			cursor: pointer;
 		} // end .tcc-content-module:hover;
 
-		img{
-			@include transition(opacity, $transitionFast);
-			opacity:1.0;
-		} // end img
+		// img{
+		// 	@include transition(opacity, $transitionFast);
+		// 	opacity:1.0;
+		// } // end img
 
 	} // end .tcc-content-module
 
-	// certain tertiary content modules have hover states
-	div#{createSelectorFromData("article","default")}:hover,
-	div#{createSelectorFromData("article","featured")}:hover,
-	div#{createSelectorFromData("article","news")}:hover,
-	div#{createSelectorFromData("article","event")}:hover,
-	div#{createSelectorFromData("sonys-voice","instagram")}:hover,
-	div#{createSelectorFromData("flickr","default")}:hover{		
-		img{
-			@include transition(opacity, $transitionFast);
-			opacity:0.85;
-		} // end img
+	// HOVERS
+	#{createSelectorFromData("article","default")},
+	#{createSelectorFromData("article","news")},
+	#{createSelectorFromData("article","event")},
+	#{createSelectorFromData("sonys-voice","facebook")},
+	#{createSelectorFromData("sonys-voice","instagram")},
+	#{createSelectorFromData("flickr","default")}{
+		@include fadeoutOnHover(img);
+	} // end div
 
-	} // end article hovers
+	#{createSelectorFromData("article","featured")}{
+		@include fadeoutOnHover();
+	} // end div
 
+	// TYPE: ARTICLE
 	.article{	
 
 		position: relative;
@@ -101,8 +117,7 @@
 			color:$titleBlack;			
 		} // end t6
 
-		// SPECIFIC TO CONTENT TYPE
-		// 
+				
 		&.default{
 		
 			.img-container{
@@ -178,12 +193,7 @@
 	    	background-color:$gray10;
         text-align: left;
         opacity:0.95;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width:100%;
-        padding: px-em(30px); //8% 12%;
-
+       
 	    	.t4{
 	    		color:$white;
 	    	} // end .t4
@@ -194,40 +204,18 @@
 
 	} // end .article 
 
+	// TYPE: USERS VOICE
 	.users-voice{
-
 		text-align: left;
-
-		&.expert-quote,
-		&.user-quote{
-			.credits{
-				//@include debug(1px, red);
-
-				.author{
-					//@include debug(1px, blue);
-					height:30px;
-
-					.p4{
-						margin:0;
-					} // end .p4
-
-					.handle,
-					.name{
-					  display: inline;
-					} // end .handle & .name
-
-					.name{
-					  padding-left: px-em(20px); ;
-					} // end .name
-
-				} // end author
-
-			} // end .credits
-		}
 
 		&.expert-quote{
 			background-color:$gray05;
 			opacity:0.95;
+			
+			.author{
+				display: inline;
+				margin:0;
+			} // end .author
 
 			.bq3{
 				
@@ -245,8 +233,8 @@
 				color:$linkBlue;	
 			} // end .name
 
-		} // end .expert-voice
-
+		} // end .expert-quote
+		
 		&.user-quote{
 			.title{
 			  color:$gray40;
@@ -255,11 +243,18 @@
 			.bq3{
 			  color:$secondarySlateDark;
 			} // end .bq3
-			
-		} // end .user-quote
+
+			.credits{
+				.handle,
+				.author{
+				  display: inline;
+				} // end .handle & .name
+
+			} // end .credits
+
+		} // end expert-quote & user-quote
 		
 		&.question{
-
       .bq3,
       .lt3,
       .answer-btn{
@@ -268,20 +263,34 @@
 
 			.credits{
 				background-color: $white;
-			}
+			} // end .credits
 
 		} // end .question
 
 	} // end .users-voice
 
+	// TYPE: SONYS VOICE
 	.sonys-voice{
-		//@include debug(1px, red);
+		
+		//@include fadeoutOnHover(#{createSelectorFromData("sonys-voice","instagram") img);
 
-		.center-content{
-			height:252px;
-			width:100%;
-			//@include debug(1px, green);
-		}
+		// #{createSelectorFromData("sonys-voice","instagram")}{
+		// 	img{
+		// 		@include transition(opacity, $transitionFast);
+		// 		opacity:1.0;
+		// 	} // end img
+
+		// 	@include fadeoutOnHover(img);
+			
+		// } // end div
+
+		// // div#{createSelectorFromData("sonys-voice","instagram")}:hover{
+		// // 	img{
+		// // 		@include transition(opacity, $transitionFast);
+		// // 		opacity:0.85;
+		// // 	} // end img
+		// // } // end hovers
+
 
 		.fonticon-10-twitter,
 		.fonticon-10-facebook,
@@ -291,11 +300,11 @@
 
 		.fonticon-10-twitter{
 			color:$twitterColor;
-		}
+		} // end .fonticon-10-twitter
 
 		.fonticon-10-facebook{
 			color:$facebookColor;
-		}
+		} // end .fonticon-10-facebook
 
 		.meta{
 		  .user{
@@ -308,7 +317,7 @@
 
 		  .p4{
 		  	margin:0;
-		  }
+		  } // end p4
 
 		} // end .meta
 
@@ -321,91 +330,58 @@
 
 		&.instagram{
 			table{
-
-				background-color:rgba($gray50,0.3);
-
-				tr{
-					// @include debug(1px, red);
-
-					td{
-						// @include debug(1px, blue);
-
-						&.top-left{
-							padding:10px 5px 5px 10px;
-							vertical-align: top;
-						} // end top-left
-
-						&.top-right{
-							vertical-align: top;
-							padding:10px 10px 10px 5px;
-						} // end top-right
-
-						&.bottom-left{
-							vertical-align: bottom;
-							padding:5px 5px 10px 10px;	
-						} // end .bottom-left
-
-					} // end td
-
-				} // end tr
-
+			   background-color:rgba($gray50,0.3);
 			} // end table
 
-		  .image-mat{
-		  	$oneThirdWidth: 30.3797468%;  // 96/316
-		  	$twoThirdWidth: 61.7088608%; // 195/316
-		  	$outerPaddingH: 3.164557%; // 10/316
-		  	$innerPaddingH: 1.5822785%; // 5/316
-
-		  	background-color:rgba($gray50,0.3);
-		  	position: relative;
-		  	@include clearfix();
-
-				.top-left,
-				.top-right,
-				.bottom-left{
-					position: absolute;
-
-		  		// img{
-		  		// 	width: 100%;
-		  		// }					
-		  		
-				}
-
-		  	.top-left{
-		  		top:10px;
-		  		left:$outerPaddingH;
-		  		width: $oneThirdWidth; //px-em(96px);
-		  	}
-
-		  	.top-right{
-		  		top:10px;
-		  		right:$outerPaddingH;
-					width: $twoThirdWidth; // px-em(195px);
-		  	}
-
-		  	.bottom-left{
-		  		bottom:7px;
-		  		left:$outerPaddingH;
-		  		width: $oneThirdWidth; //px-em(96px);
-		   	}
-
-				// &:after{
-				// 	padding-top:68.6708861%; // (217/316) *100
-				// } // end :after preserve ratio
-
-		  } // end image-mat
-		  
 		} // end &.instagram
-		
+	
 	} // end sonys-voice
 
-
+	// TYPE: FLICKR
 	.flickr{
+		.fonticon-flickr{
+			position: relative;
+			//outline:1px solid red;
+			width: px-em(44px); 
+			height: 44px;
+
+			.white-bg{
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				width:100%;
+				height:100%;
+				z-index: -1;
+				overflow:hidden;
+				color:$white;
+				font-size:2.8em;
+				//outline:1px solid purple;
+			} // end .white-bg
+
+
+			.left,
+			.right{
+			  width:50%;
+			  height:100%;
+			  padding:37% 11%;
+				margin:0 -5px;
+				font-size:0.84em;
+			} // end .left, .right
+			
+			.left{
+				color:$flickrBlueColor;
+			} // end .left
+
+			.right{
+				color:$flickrPinkColor;
+			} // end .right
+
+		} // end .fonticon-flickr
 
 		// user and title
 		.meta{
-			margin-top:8px;
 
 			.p4{
 				color:$gray20;
@@ -413,31 +389,10 @@
 			
 		} // end meta
 
-
-	  .image-mat{
-		  background-color:$gray50;
-		  // max-width: px-em(315px);
-		  margin: 20px 0 24px 0;
-
-		  .top-row{
-		  	@include clearfix();
-		  	padding-bottom:5px;
-		  } // end .top-row
-
-		  .bottom-row{
-		  	 @include clearfix();
-		  } // .bottom-row
-
-		  .span4{
-		  	padding-left:5px;
-
-		  	&:first-child{
-		  		padding-left:0;
-		  	} // end first-child
-
-		  } // span4
-
-	  } //end .image-mat
+	  table{
+	  	//outline:1px solid green;
+		  background-color:rgba($gray50,0.3);
+	  } //end table
 
 	} // end .flickr
 

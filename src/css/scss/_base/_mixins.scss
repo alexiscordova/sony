@@ -801,12 +801,38 @@ $default-transition-delay    : 0s;
   @if ($animateOpacity) {
 	  @include transition(opacity $transitionFaster linear 0s, $leftOrRight 0s linear $transitionFaster);
  	} @else {
-	  @include transition(opacity 0s linear $navMenuRevealSpeed, $leftOrRight 0s linear $transitionFaster); 		
+	  @include transition(opacity 0s linear $navMenuRevealSpeed, $leftOrRight 0s linear $transitionFaster);
  	}
 }
 
+@mixin fadeoutOnHover($child:""){
 
+  // -webkit-transform forces those browsers to smoothly animate the internal contents of the faded items.
 
+  @if ($child == "") {
+
+    @include transition(opacity $transitionFast);
+    -webkit-transform: scale3d(1,1,1);
+    opacity: 1;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  } @else {
+
+    #{$child} {
+      @include transition(opacity $transitionFast);
+      -webkit-transform: scale3d(1,1,1);
+      opacity: 1;
+    }
+
+    &:hover {
+      #{$child} {
+        opacity: 0.85;
+      }
+    }
+  }
+}
 
 
 
@@ -819,12 +845,21 @@ $default-transition-delay    : 0s;
 					transform: rotate($degrees);
 }
 @mixin scale($ratio) {
-	-webkit-transform: scale($ratio);
-	   // -moz-transform: scale($ratio);
-			-ms-transform: scale($ratio);
-		 // -o-transform: scale($ratio);
-					transform: scale($ratio);
+    -webkit-transform: scale($ratio);
+       // -moz-transform: scale($ratio);
+            -ms-transform: scale($ratio);
+         // -o-transform: scale($ratio);
+                    transform: scale($ratio);
 }
+
+@mixin scale3d($ratio) {
+	-webkit-transform: scale3d($ratio, $ratio, 1);
+	   // -moz-transform: scale3d($ratio, $ratio, 1);
+			-ms-transform: scale3d($ratio, $ratio, 1);
+		 // -o-transform: scale3d($ratio, $ratio, 1);
+					transform: scale3d($ratio, $ratio, 1);
+}
+
 @mixin translate($x, $y) {
 	-webkit-transform: translate($x, $y);
 		 // -moz-transform: translate($x, $y);
