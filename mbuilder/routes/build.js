@@ -62,7 +62,7 @@ exports.generatePage = function(req, res) {
 
     pageFileTitle = req.body['fileTitle'] || 'No Titled';
     pageFileDescriptiion = req.body['fileDescription'].replace( "\n", " " ) || 'No Description';
-    pageFileName = req.body['fileName'].replace( " ", "-" ) || 'unnamed';
+    pageFileName = req.body['fileName'].replace(/ +/g, '-') || 'unnamed';
     selectedTemplate = req.body['select-template'] || 'page-builder-normal-nav';
 
     if ( moduleLength == 1 ) {
