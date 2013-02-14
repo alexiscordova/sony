@@ -6,7 +6,7 @@ meta_data: {a:'foo', b:'bar'}
 
 
 
-footer#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.phone-at-567
+section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.phone-at-567
   .container.full-bleed-at-567
     .grid.grid-footer.no-grid-at-567
 
@@ -15,13 +15,13 @@ footer#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.ph
           | Find a Store
           i.fonticon-10-arrowhead-down.visible-phone
         .store-locator-input-w
-          form.footer-store-locator-form.footer-form-border.input-group(method='post', action='')
+          form.footer-store-locator-form.footer-form-border.input-group(method='post', action='', role='form')
             i.fonticon-10-location.input-icon
             input#store-locator-search-input.footer-store-locator-input.footer-input.dark(type='text', name='store-locator-search-input', value='     London')
             button.btn.store-locator-submit-btn.footer-btn.input-btn(type='submit') Search
         p.footer-store-locator-caption Change location
 
-      .footer-stores.span3.footer-mobile-section.mobile-container-padded
+      .footer-stores.span3.footer-mobile-section.mobile-container-padded(role='navigation')
         h5
           | Shop Online
           i.fonticon-10-arrowhead-down.visible-phone
@@ -37,7 +37,7 @@ footer#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.ph
           li.footer-link-li
             a(href='#') Outlet Store
 
-      .footer-communities.span3.footer-mobile-section.mobile-container-padded
+      .footer-communities.span3.footer-mobile-section.mobile-container-padded.test(role='navigation')
         h5
           | Our Communities
           i.fonticon-10-arrowhead-down.visible-phone
@@ -53,7 +53,7 @@ footer#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.ph
           li.footer-link-li
             a(href='#') Music
 
-      .footer-news.span3.footer-mobile-section.mobile-container-padded
+      .footer-news.span3.footer-mobile-section.mobile-container-padded(role='navigation')
         h5
           | In the News
           i.fonticon-10-arrowhead-down.visible-phone
@@ -62,11 +62,15 @@ footer#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.ph
             a(href='#') Press Center
           li.footer-link-li
             a(href='#') RSS Feeds
-          li.footer-link-li
-            a(href='#') Newsletter Sign Up
+        .footer-newsletter.input-outer-wrapper
+          h6 Newsletter Sign Up
+          form.footer-newsletter-form.footer-form-border.input-group(method='post', action='', role='form')
+            input#footer-email-input.footer-email-input.footer-input.dark(type='text', name='newsletterInput', value='Email')
+            button.btn.location-submit-btn.footer-btn.input-btn(type='submit') Submit
+
 
       .footer-ex
-        .footer-contact.span6.mobile-container-padded
+        .footer-contact.span6.mobile-container-padded(role='navigation')
           //footer-contact and footer-language are flipped in order for mobile. floats make them display in the correct order on desktop. 
           p
             a(href='#') For Professionals
@@ -299,16 +303,17 @@ footer#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.ph
                         span.dropdown-label-left FR
                         span.dropdown-label French
 
-  .container.full-bleed-no-max.m-full-bleed.footer-signature-w.mobile-container-padded
-    .container
-      .grid.grid-footer
-        .footer-signature
-          span.fonticon-60-sony.footer-sony-logo
-            span.visuallyhidden Sony
-          p.footer-legal-links
-            a(href='#') Privacy Statement & Cookies
-            a(href='#') Terms & Conditions of Sales
-            a(href='#') Terms & Conditions of Website Use
-            a(href='#') Recalls
-          span.footer-copyright ©2013 Copyright Sony Europe Limited.
+  footer
+      .container.full-bleed-no-max.m-full-bleed.footer-signature-w.mobile-container-padded
+        .container
+          .grid.grid-footer
+            .footer-signature
+              span.fonticon-60-sony.footer-sony-logo
+                span.visuallyhidden Sony
+              p.footer-legal-links
+                a(href='#') Privacy Statement & Cookies
+                a(href='#') Terms & Conditions of Sales
+                a(href='#') Terms & Conditions of Website Use
+                a(href='#') Recalls
+              span.footer-copyright ©2013 Copyright Sony Europe Limited.
 

@@ -329,6 +329,7 @@
         itemElementSelector: ".tcc-content-module", 
         mode: 'paginate',
         generatePagination: true,
+        generateNav:true,
         centerItems: true,
 
         iscrollProps: {

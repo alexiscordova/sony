@@ -16,6 +16,29 @@
   background-color:$gray90;
   margin:0; // for the module since it can be placed anywhere on the page. 
 
+  .nav-paddles{
+  	position: absolute;
+		left: 0;
+		top: 50%;
+		padding:20px;
+		z-index: 99;
+		width:100%;
+
+		.nav-paddle{
+			position: absolute;
+			top:0;
+		}  // end .nav-paddle
+
+		.nav-paddle-prev{
+			left: 7px;
+		} // end .nav-paddle-prev
+
+		.nav-paddle-next{
+			right:7px;
+		} // end .nav-paddle-next
+
+  } // end .nav-paddles
+
   .loader{
   	height: 300px;
 		width: 100%;
@@ -33,7 +56,7 @@
 	} // end .tcc-body-wrapper
 	
 	.tcc-header{
-		border-bottom: 2px solid $gray70;
+		border-bottom: 3px solid $gray70;
 	} // end .tcc-header
 
 	.tcc-body{
@@ -41,6 +64,7 @@
 	} // end .tcc-body
 
 	.tcc-content-module{
+		//@include debug(1px, red);
 		position: relative;
 		overflow: hidden;
 		
@@ -295,6 +319,10 @@
 
 	// TYPE: FLICKR
 	.flickr{
+		.center-content{
+			//outline:1px solid blue;
+		}
+
 		// user and title
 		.meta{
 
@@ -305,6 +333,7 @@
 		} // end meta
 
 	  table{
+	  	//outline:1px solid green;
 		  background-color:rgba($gray50,0.3);
 	  } //end table
 
