@@ -473,7 +473,7 @@
           // it's a nav-menu - show the menu.
           var $revealContainer = $thNavTarget.find('.reveal-transition-container');
           var expHeight = $revealContainer.height();
-          console.log("expHeight: " + expHeight);
+          // console.log("expHeight: " + expHeight);
           
           $revealContainer.css('height','0px');
           // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
@@ -584,7 +584,7 @@
       self.mobileNavVisible = false;
     },
     initMobileNavIScroll:  function() {
-      console.log("initMobileNavIScroll");
+      // console.log("initMobileNavIScroll");
       var self = this;
       // if there's alreaddy a mobileNavIScroll, refresh it.
       if (!!self.mobileNavIScroll){
@@ -607,7 +607,7 @@
       }
     },
     destroyMobileNavIScroll : function() {
-      console.log("destroyMobileNavIScroll");
+     // console.log("destroyMobileNavIScroll");
       var self = this;
       !!self.mobileNavIScroll && self.mobileNavIScroll.destroy();
       self.mobileNavIScroll = false;
