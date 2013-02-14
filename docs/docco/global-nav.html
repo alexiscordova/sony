@@ -107,7 +107,7 @@ window.enquire.register("(min-width: 48em)", { // 768
           $thNavBtnTarget = $(<span class="string">'.'</span> + $thNavBtn.data(<span class="string">'target'</span>)),
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>console.log("$thNavBtnTarget: " + $thNavBtnTarget);</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>console.log("$thNavBtnTarget: " + $thNavBtnTarget);</p>             </td>             <td class="code">               <div class="highlight"><pre>        
         $thNavBtn.on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
           e.preventDefault();
         });
@@ -197,7 +197,8 @@ console.log("mouseleave $thNavBtn3");</p>             </td>             <td clas
             },<span class="number">25</span>);
           });
 
-          $thNavBtnTarget.on(<span class="string">'mouseenter'</span>, <span class="keyword">function</span>() {
+          $thNavBtnTarget.on(<span class="string">'mouseenter focus'</span>, <span class="keyword">function</span>() {
+            console.log($thNavBtnTarget);
             $(<span class="keyword">this</span>).data(<span class="string">'hovering'</span>,<span class="literal">true</span>);
             self.resetMouseleaveTimer();
           });
@@ -402,8 +403,6 @@ expand the tray. When it's done, set it to position:relative and natural heights
               });
             },<span class="number">1</span>);
           },<span class="number">1</span>);
-
-
 
 </pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ($thNavTarget.hasClass(<span class="string">'navmenu-w-search'</span>)){
 </pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>Line it up with the right edge of the search button.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> btnRightEdge = $newNavBtn.parent().position().left + parseInt( $newNavBtn.css(<span class="string">'marginLeft'</span>),<span class="number">10</span> ) + $newNavBtn.innerWidth();
@@ -650,10 +649,12 @@ $('#country-selector').on('mouseenter mouseleave',function(){
 $(<span class="keyword">function</span>() {
   $(document).ready(<span class="keyword">function</span>() {
     $(<span class="string">'.nav-wrapper'</span>).globalNav();
-    $(<span class="string">'*'</span>).on(<span class="string">'focus'</span>, <span class="keyword">function</span>(){
-      console.log($(<span class="keyword">this</span>).html());
-    });
   });
+
+  $(<span class="string">'*'</span>).focus(<span class="keyword">function</span>(){
+    console.log($(<span class="keyword">this</span>));
+  });
+
 });
 
 
