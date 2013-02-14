@@ -1061,17 +1061,9 @@
         if(self.isMobileMode === true){
           cw = self.currentContainerWidth = self.$el.find('.soc-item').eq(0).width();
           self.$mobileSlides.each(function(i){
-            $(this).css( {
+            $(this).css({
               'left': Math.floor(i * (cw + mobileGutter)) + 'px',
               'height' : 317  + 'px' //TODO: this is not calculating correctly -->  $('.soc-item').eq(0).height();
-            } );
-
-            var delta = (self.$el.find('.soc-content').eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
-
-            $(this).find('.soc-item').css({
-              'position': 'absolute',
-              'top' : '0',
-              'left' : '0'
             });
           });
         }
@@ -1125,7 +1117,7 @@
 
     $.fn.sonyOneCarousel.settings = {
       //must haves
-      throttleTime: 10
+      throttleTime: 250
     };
 
     $( function(){
