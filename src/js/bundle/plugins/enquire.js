@@ -5,6 +5,12 @@
 
 window.enquire = (function(matchMedia) {
 
+    // Don't try to load this if your browser doesn't support media queries.
+    // - George
+    if ( $(document.documentElement).hasClass('no-mediaqueries') ) {
+        return;
+    }
+
     "use strict";
 
     /**
@@ -140,7 +146,7 @@ window.enquire = (function(matchMedia) {
 function MediaQuery(query, isUnconditional) {
     this.query = query;
     this.isUnconditional = isUnconditional;
-    
+
     this.handlers = [];
     this.matched = false;
 }
@@ -312,7 +318,7 @@ MediaQuery.prototype = {
             if(!queries.hasOwnProperty(q)) {
                 return this;
             }
-            
+
             if(!handler) {
                 each(this.queries[q].handlers, function(handler) {
                     handler.destroy();
@@ -384,7 +390,7 @@ MediaQuery.prototype = {
 
             self.fire();
             this.listening = true;
-            
+
             return this;
         }
     };
