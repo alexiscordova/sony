@@ -178,7 +178,6 @@
           'left' : '0'
         });
 
-        window.console.log(self.autoGutters , self.gutterWidth);
 
         $.each($elemsInPage , function(i) {
           var $el = $(this);
