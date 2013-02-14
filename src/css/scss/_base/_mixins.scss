@@ -807,9 +807,12 @@ $default-transition-delay    : 0s;
 
 @mixin fadeoutOnHover($child:""){
 
+  // -webkit-transform forces those browsers to smoothly animate the internal contents of the faded items.
+
   @if ($child == "") {
 
-    @include transition(opacity, $transitionFast);
+    @include transition(opacity $transitionFast);
+    -webkit-transform: scale3d(1,1,1);
     opacity: 1;
 
     &:hover {
@@ -818,7 +821,8 @@ $default-transition-delay    : 0s;
   } @else {
 
     #{$child} {
-      @include transition(opacity, $transitionFast);
+      @include transition(opacity $transitionFast);
+      -webkit-transform: scale3d(1,1,1);
       opacity: 1;
     }
 

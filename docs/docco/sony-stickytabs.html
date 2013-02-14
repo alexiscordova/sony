@@ -277,6 +277,22 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
           vScrollbar: <span class="literal">false</span>,
           momentum: <span class="literal">true</span>,
           bounce: <span class="literal">true</span>,
+          onAnimationEnd : <span class="keyword">function</span>( iscroll ) {
+            <span class="keyword">if</span> ( !iscroll.pagesX.length ) {
+              <span class="keyword">return</span>;
+            }
+
+            <span class="keyword">var</span> totalPages = iscroll.pagesX.length,
+                currentPage = iscroll.currPageX + <span class="number">1</span>; <span class="comment">// zero based</span>
+
+            self.$tabsContainer.removeClass(<span class="string">'has-content-right has-content-left'</span>);
+            <span class="keyword">if</span> ( totalPages &gt; currentPage ) {
+              self.$tabsContainer.addClass(<span class="string">'has-content-right'</span>);
+            }
+            <span class="keyword">if</span> ( currentPage &gt; <span class="number">1</span> ) {
+              self.$tabsContainer.addClass(<span class="string">'has-content-left'</span>);
+            }
+          }
         }
       });
 
@@ -284,6 +300,7 @@ You'll need to call <code>.stickyTabs()</code> again to get them back.</p>      
 if ( self.$tabsContainer.data('scrollerModule').isPaginated ) {</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.$tabsContainer.data(<span class="string">'scrollerModule'</span>).scroller.pagesX.length &gt; <span class="number">1</span> ) {
         self.$navNext.removeClass(<span class="string">'hide'</span>);
         self.$container.addClass(<span class="string">'tab-carousel'</span>);
+        self.$tabsContainer.addClass(<span class="string">'has-content-right'</span>);
       }
 
       self.isTabCarousel = <span class="literal">true</span>;

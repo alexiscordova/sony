@@ -125,6 +125,10 @@
 
         // console.log("$thNavBtnTarget: " + $thNavBtnTarget);
 
+        $thNavBtn.on('click', function(e){
+          e.preventDefault();
+        });
+
         // init
         self.resetActiveNavBtn($thNavBtn);
 
@@ -179,9 +183,9 @@
         } else {
 
           // for the search button only, we want it to trigger on click. All others on mouseenter.
-          var thTrigger = 'mouseenter';
+          var thTrigger = 'mouseenter focus';
           if ($thNavBtn.parent().hasClass('nav-li-search')){
-            thTrigger = 'click';
+            thTrigger = 'click keypress';
           }
 
           $thNavBtn.on(thTrigger, function() {
@@ -751,8 +755,11 @@
 
 
 $(function() {
-  $(window).load(function() {
+  $(document).ready(function() {
     $('.nav-wrapper').globalNav();
+    $('*').on('focus', function(){
+      console.log($(this).html());
+    });
   });
 });
 

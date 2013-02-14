@@ -179,10 +179,10 @@
 
     &.content-8,
     &.content-6 {
-      .counter {
+      .counter,
+      .mini-promo {
         position: absolute;
         bottom: 8.4%;
-        text-transform: uppercase;
 
         &[class*="align-left-"] {
 
@@ -234,9 +234,68 @@
           color: $gray10;
         }
       }
+
+      .mini-promo {
+
+        &:hover {
+          .mini-promo-image-container .play-button {
+            background-color: $linkBlueActive;
+          }
+        }
+
+        .mini-promo-image-container {
+          position: relative;
+          width: 84px;
+          height: 50px;
+          float: left;
+
+          .play-button {
+            @include transition(background-color $transitionFast ease-in);
+
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            margin: -14px 0 0 -14px;
+            background-color: rgba($gray10, 0.75);
+            border-radius: 14px;
+            font-size: 0.8em;
+            text-align: center;
+
+            i {
+              color: #fff;
+              position: relative;
+              left: 0.1em;
+              top: -0.1em;
+            }
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .mini-promo-caption {
+          line-height: 50px;
+          height: 50px;
+          padding: 0 22px 0 12px;
+          float: left;
+          background-color: $gray10;
+          color: $white;
+        }
+
+        &.mini-promo-layout-light {
+
+          .mini-promo-caption {
+            background-color: $gray90;
+            color: $gray10;
+          }
+        }
+      }
     }
-
-
 
     .soc-item-content {
       position: absolute;
@@ -270,6 +329,10 @@
         h3 {
           color: $gray50;
           text-transform: uppercase;
+        }
+
+        &.has-mini-promo {
+          display: none;
         }
       }
 
@@ -368,7 +431,7 @@
           .counter {
             position: absolute;
             left: 0;
-            bottom:2%;
+            bottom: 2%;
           }
         }
 
@@ -740,7 +803,7 @@
         }
 
         &.content-6 {
-          top: 5.8%;
+          top: 8%;
           left: 8.6%;
         }
 
@@ -753,36 +816,40 @@
       }
 
       //aLC
-      &.align-left-center.content-8,
-      &.align-left-center.content-6 {
-        top: 26.4%;
+      &.align-left-center,
+      &.align-right-center {
 
-        &.headline-counter {
-          top: 39.4%;
+        &.content-6,
+        &.content-8 {
+          top: auto;
+          height: 95%;
 
-          //phones
-          @media( max-width: px-em(480px) ){
-            top: 31.4%;
+          &.headline-counter {
+
+            //phones
+            @media( max-width: px-em(480px) ){
+
+            }
           }
-        }
 
-        &.headline-eyebrow {
-           //phones
-          @media( max-width: px-em(480px) ){
-            top: 22.4%;
+          &.headline-eyebrow {
+
+            @media( max-width: px-em(480px) ){
+
+            }
           }
-        }
 
-        &.headline-only {
-          &.content-8 {
-            top: 33.3%;
+          &.headline-only {
+            &.content-8 {
+
+            }
           }
-        }
 
-        &.headline-copy {
-          &.content-8 {
-            .headline {
-              margin-top:3%;
+          &.headline-copy {
+            &.content-8 {
+              .headline {
+
+              }
             }
           }
         }
@@ -803,6 +870,10 @@
           &.headline-copy-counter {
             bottom: 15%;
           }
+
+          &.has-mini-promo {
+            bottom: 23%;
+          }
         }
       }
 
@@ -812,15 +883,6 @@
         &.content-8,
         &.content-6 {
           top: 11%;
-        }
-      }
-
-      //aRC
-      &.align-right-center {
-
-        &.content-8,
-        &.content-6 {
-          top: 26.4%;
         }
       }
 
@@ -837,6 +899,10 @@
 
           &.headline-copy-counter {
             bottom: 15%;
+          }
+
+          &.has-mini-promo {
+            bottom: 23%;
           }
         }
 

@@ -1,6 +1,6 @@
 ---
 title: S2. One Sony Tout Carousel
-description:
+description: All One Sony Carousel layouts on one page.
 ---
 doctype 5
 !{partial('includes/ieconditionals.html')}
@@ -18,6 +18,12 @@ body
   !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
 
   e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/eight-column-right-aligned-examples.json')}
+  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+
+  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/eight-column-left-aligned-with-mini-touts-examples.json')}
+  !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
+
+  e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/eight-column-right-aligned-with-mini-touts-examples.json')}
   !{partial('modules/one-sony-tout-carousel-s2.html.jade', e)}
 
   e = {"locals":locals, "data":data('one-sony-tout-carousel-s2/six-column-left-aligned-examples.json')}

@@ -461,18 +461,22 @@ Here is where we keep the origial type</p>             </td>             <td cla
         self.realFilterTypes[ name ] = realType;
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>Init popovers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$filterOpts.find(<span class="string">'.js-popover-trigger'</span>).popover({
-        placement: <span class="string">'in top'</span>,
-        trigger: <span class="string">'click'</span>,
-        content: <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>setTimeout(function() {
-  var popoverWidth = self.$filterOpts.find('.span4').first().width();
-  $('.popover').width( popoverWidth );
-}, 250);</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">return</span> $(<span class="keyword">this</span>).find(<span class="string">'.js-popover-content'</span>).html();
-        }
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>Init popovers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$filterOpts.find(<span class="string">'.js-popover-trigger'</span>).each(<span class="keyword">function</span>() {
+        <span class="keyword">var</span> $trigger = $(<span class="keyword">this</span>);
+
+        $trigger.popover({
+          placement: <span class="string">'in offsettop'</span>,
+          trigger: <span class="string">'click'</span>,
+          getWidth: <span class="keyword">function</span>() {
+            <span class="keyword">return</span> self.$filterOpts.find(<span class="string">'.span4'</span>).first().width();
+          },
+          content: <span class="keyword">function</span>() {
+            <span class="keyword">return</span> $(<span class="keyword">this</span>).find(<span class="string">'.js-popover-content'</span>).html();
+          }
+        });
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>Slide toggle. Reset range control if it was hidden on initialization</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.find(<span class="string">'.collapse'</span>)
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>Slide toggle. Reset range control if it was hidden on initialization</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.find(<span class="string">'.collapse'</span>)
         .on(<span class="string">'shown'</span>, $.proxy( self.onFiltersShown, self ))
         .on(<span class="string">'show'</span>, $.proxy( self.onFiltersShow, self ))
         .on(<span class="string">'hide'</span>, $.proxy( self.onFiltersHide, self ));
@@ -482,12 +486,12 @@ Here is where we keep the origial type</p>             </td>             <td cla
     initSorting : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>Show first dropdown as active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sortBtns.first().parent().addClass(<span class="string">'active'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>Show first dropdown as active</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sortBtns.first().parent().addClass(<span class="string">'active'</span>);
       self.currentSort = <span class="number">0</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>Set up sorting ---- dropdowm</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sortBtns.on(<span class="string">'click'</span>,  $.proxy( self.sort, self ));
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>Set up sorting ---- dropdowm</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sortBtns.on(<span class="string">'click'</span>,  $.proxy( self.sort, self ));
 
-</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>Set up sorting ---- select menu</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sortSelect.on(<span class="string">'change'</span>, $.proxy( self.sort, self ));
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>Set up sorting ---- select menu</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sortSelect.on(<span class="string">'change'</span>, $.proxy( self.sort, self ));
 
       <span class="keyword">if</span> ( !self.hasFilters ) {
         self.$productCount.text( self.shuffle.$items.length );
@@ -499,7 +503,7 @@ Here is where we keep the origial type</p>             </td>             <td cla
 
       self.$grid.infinitescroll({
         local: <span class="literal">true</span>,
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>debug: true,</p>             </td>             <td class="code">               <div class="highlight"><pre>        bufferPx: -<span class="number">100</span>, <span class="comment">// Load 100px after the navSelector has entered the viewport</span>
+</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>debug: true,</p>             </td>             <td class="code">               <div class="highlight"><pre>        bufferPx: -<span class="number">100</span>, <span class="comment">// Load 100px after the navSelector has entered the viewport</span>
         navSelector: <span class="string">'div.navigation'</span>, <span class="comment">// selector for the paged navigation</span>
         nextSelector: <span class="string">'div.navigation a'</span>, <span class="comment">// selector for the NEXT link (to page 2)</span>
         itemSelector: <span class="string">'.gallery-item'</span>, <span class="comment">// selector for all items you'll retrieve</span>
@@ -510,20 +514,20 @@ Here is where we keep the origial type</p>             </td>             <td cla
           img: self.loadingGif
         }
       },
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>call shuffle as a callback</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">function</span>( newElements ) {
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>call shuffle as a callback</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">function</span>( newElements ) {
         <span class="keyword">var</span> $newElements = $( newElements ).addClass(<span class="string">'via-ajax'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>Bump up the delay so it's more noticeable.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.shuffle.sequentialFadeDelay = <span class="number">250</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>Bump up the delay so it's more noticeable.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.shuffle.sequentialFadeDelay = <span class="number">250</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>Get shuffle to append and show the items for us</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$grid.shuffle( <span class="string">'appended'</span>, $newElements );
+</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>Get shuffle to append and show the items for us</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$grid.shuffle( <span class="string">'appended'</span>, $newElements );
 
-</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>Now put it back</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.shuffle.sequentialFadeDelay = <span class="number">60</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>Now put it back</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.shuffle.sequentialFadeDelay = <span class="number">60</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>Show new product count</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$productCount.text( self.$grid.data(<span class="string">'shuffle'</span>).visibleItems );
+</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>Show new product count</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$productCount.text( self.$grid.data(<span class="string">'shuffle'</span>).visibleItems );
 
         self.initSwatches( $newElements.find(<span class="string">'.mini-swatch[data-color]'</span>) );
 
-</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>Update iQ images</p>             </td>             <td class="code">               <div class="highlight"><pre>        window.iQ.update( <span class="literal">true</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>Update iQ images</p>             </td>             <td class="code">               <div class="highlight"><pre>        window.iQ.update( <span class="literal">true</span> );
       });
     },
 
@@ -550,7 +554,7 @@ Here is where we keep the origial type</p>             </td>             <td cla
     initTooltips : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>Favorite Heart</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$favorites.on(<span class="string">'click'</span>, $.proxy( self.onFavorite, self ));
+</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>Favorite Heart</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$favorites.on(<span class="string">'click'</span>, $.proxy( self.onFavorite, self ));
 
       self.$container.find(<span class="string">'.js-favorite'</span>).tooltip({
         placement: <span class="string">'offsettop'</span>,
@@ -567,7 +571,7 @@ Here is where we keep the origial type</p>             </td>             <td cla
 
 
       <span class="function"><span class="keyword">function</span> <span class="title">initializeScroller</span><span class="params">( $carousel )</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>setTimeout onResize</p>             </td>             <td class="code">               <div class="highlight"><pre>        $carousel.scrollerModule({
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>setTimeout onResize</p>             </td>             <td class="code">               <div class="highlight"><pre>        $carousel.scrollerModule({
           mode: <span class="string">'carousel'</span>,
           contentSelector: <span class="string">'.js-carousel-container'</span>,
           itemElementSelector: <span class="string">'.slide'</span>
@@ -576,18 +580,18 @@ Here is where we keep the origial type</p>             </td>             <td cla
         self.hasEnabledCarousels = <span class="literal">true</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>Go through each possible carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousels.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>Go through each possible carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousels.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> $carousel = $(<span class="keyword">this</span>),
             $firstImage;
 
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>If this call is from the initial setup, we have to wait for the first image to load
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>If this call is from the initial setup, we have to wait for the first image to load
 to get its height.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( isFirstCall ) {
           $firstImage = $carousel.find(<span class="string">':first-child img'</span>);
           $firstImage.on(<span class="string">'imageLoaded'</span>, <span class="keyword">function</span>() {
             initializeScroller( $carousel );
           });
 
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>Otherwise, just initialize the carousel right away</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>Otherwise, just initialize the carousel right away</p>             </td>             <td class="code">               <div class="highlight"><pre>        } <span class="keyword">else</span> {
           initializeScroller( $carousel );
         }
 
@@ -605,7 +609,7 @@ to get its height.</p>             </td>             <td class="code">          
           filterName, filterValue, method, realType;
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>Reset stored data by setting all filterValue values to null</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> ( filterName <span class="keyword">in</span> self.filterValues ) {
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>Reset stored data by setting all filterValue values to null</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> ( filterName <span class="keyword">in</span> self.filterValues ) {
         <span class="keyword">if</span> ( !self.filterValues.hasOwnProperty(filterName) ) {
           <span class="keyword">continue</span>;
         }
@@ -615,7 +619,7 @@ to get its height.</p>             </td>             <td class="code">          
         }
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>Build up the dictionary of the filters that should be shown/hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>      $visible.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>Build up the dictionary of the filters that should be shown/hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>      $visible.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> $item = $(<span class="keyword">this</span>),
             filterSet = $item.data(<span class="string">'filterSet'</span>),
             filterValue,
@@ -627,7 +631,7 @@ to get its height.</p>             </td>             <td class="code">          
           }
 
           <span class="keyword">for</span> ( filterValue <span class="keyword">in</span> self.filterValues[ filterName ] ) {
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>If we've already set this to false, we don't need to check again on another element</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.filterValues[ filterName ][ filterValue ] === <span class="literal">true</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>If we've already set this to false, we don't need to check again on another element</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( self.filterValues[ filterName ][ filterValue ] === <span class="literal">true</span> ) {
                 <span class="keyword">continue</span>;
             }
 
@@ -643,7 +647,7 @@ to get its height.</p>             </td>             <td class="code">          
         }
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>Loop through all filters again to disable/enable them</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> ( filterName <span class="keyword">in</span> self.filterValues ) {
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>Loop through all filters again to disable/enable them</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> ( filterName <span class="keyword">in</span> self.filterValues ) {
         <span class="keyword">if</span> ( !self.filterValues.hasOwnProperty(filterName) ) {
           <span class="keyword">continue</span>;
         }
@@ -652,7 +656,7 @@ to get its height.</p>             </td>             <td class="code">          
         <span class="keyword">for</span> ( filterValue <span class="keyword">in</span> self.filterValues[ filterName ] ) {
           method = self.filterValues[ filterName ][ filterValue ] ? <span class="string">'enable'</span> : <span class="string">'disable'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Hacky as shit. This makes the <code>button</code> type always enabled</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( realType === <span class="string">'button'</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>Hacky as shit. This makes the <code>button</code> type always enabled</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( realType === <span class="string">'button'</span> ) {
             method = <span class="string">'enable'</span>;
           }
 
@@ -672,11 +676,11 @@ to get its height.</p>             </td>             <td class="code">          
           dictionary = {},
           j;
 
-</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>Convert groups into object which we can test the keys</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; arrToTest.length; j++) {
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Convert groups into object which we can test the keys</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; arrToTest.length; j++) {
         dictionary[ arrToTest[j] ] = <span class="literal">true</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>Loop through selected features, if that feature is not in this elements groups, return false</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> (; i &lt; requiredArr.length; i++) {
+</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>Loop through selected features, if that feature is not in this elements groups, return false</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span> (; i &lt; requiredArr.length; i++) {
         <span class="keyword">if</span> ( dictionary[ requiredArr[i] ] === <span class="literal">undefined</span> ) {
           <span class="keyword">return</span> <span class="literal">false</span>;
         }
@@ -696,7 +700,7 @@ to get its height.</p>             </td>             <td class="code">          
             $checked,
             checked = [];
 
-</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>Abort if this button is disabled</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( $<span class="keyword">this</span>.is(<span class="string">'[disabled]'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>Abort if this button is disabled</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( $<span class="keyword">this</span>.is(<span class="string">'[disabled]'</span>) ) {
           <span class="keyword">return</span>;
         }
 
@@ -709,7 +713,7 @@ to get its height.</p>             </td>             <td class="code">          
 
         $checked = $parent.find(<span class="string">'&gt; .active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>Get all data-* filters</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( $checked.length !== <span class="number">0</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>Get all data-* filters</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( $checked.length !== <span class="number">0</span> ) {
           $checked.each(<span class="keyword">function</span>() {
             <span class="keyword">var</span> filter = $(<span class="keyword">this</span>).data( filterName );
             checked.push( filter );
@@ -720,7 +724,7 @@ to get its height.</p>             </td>             <td class="code">          
         self.filter();
       })
 
-</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>Save each label to the labels object</p>             </td>             <td class="code">               <div class="highlight"><pre>      .each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>Save each label to the labels object</p>             </td>             <td class="code">               <div class="highlight"><pre>      .each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> data = $(<span class="keyword">this</span>).data();
         labels[ data[ filterName ] ] = data.label;
         values[ data[ filterName ] ] = data[ filterName ];
@@ -740,7 +744,7 @@ to get its height.</p>             </td>             <td class="code">          
         <span class="keyword">var</span> $checked = $parent.find(<span class="string">'input:checked'</span>),
         checked = [];
 
-</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>At least one checkbox is checked, clear the array and loop through the checked checkboxes
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>At least one checkbox is checked, clear the array and loop through the checked checkboxes
 to build an array of strings</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( $checked.length !== <span class="number">0</span> ) {
           $checked.each(<span class="keyword">function</span>() {
             checked.push(<span class="keyword">this</span>.value);
@@ -751,7 +755,7 @@ to build an array of strings</p>             </td>             <td class="code">
         self.filter();
       })
 
-</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>Save each label to the labels object</p>             </td>             <td class="code">               <div class="highlight"><pre>      .each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>Save each label to the labels object</p>             </td>             <td class="code">               <div class="highlight"><pre>      .each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> data = $(<span class="keyword">this</span>).data();
         labels[ <span class="keyword">this</span>.value ] = data.label;
         values[ <span class="keyword">this</span>.value ] = <span class="keyword">this</span>.value;
@@ -779,7 +783,7 @@ to build an array of strings</p>             </td>             <td class="code">
         <span class="keyword">return</span> Math.round( diff * (percent / <span class="number">100</span>) ) + self.MIN_PRICE;
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Range control update callback</p>             </td>             <td class="code">               <div class="highlight"><pre>      update = <span class="keyword">function</span>(evt, positions, percents) {
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>Range control update callback</p>             </td>             <td class="code">               <div class="highlight"><pre>      update = <span class="keyword">function</span>(evt, positions, percents) {
         <span class="keyword">var</span> minPrice = getPrice(percents.min),
         maxPrice = getPrice(percents.max),
         maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + <span class="string">'+'</span> : maxPrice,
@@ -787,26 +791,38 @@ to build an array of strings</p>             </td>             <td class="code">
         prevMax = self.price.max,
         delay;
 
-</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Display values</p>             </td>             <td class="code">               <div class="highlight"><pre>        displayValues(minPrice, maxPriceStr, percents);
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Display values</p>             </td>             <td class="code">               <div class="highlight"><pre>        displayValues(minPrice, maxPriceStr, percents);
 
-</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>Save values</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.price.min = minPrice;
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Save values</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.price.min = minPrice;
         self.price.max = maxPrice;
 
-</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>Filter results only if values have changed</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( (prevMin !== self.price.min || prevMax !== self.price.max) &amp;&amp; self.isInitialized ) {
+</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>Filter results only if values have changed</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( (prevMin !== self.price.min || prevMax !== self.price.max) &amp;&amp; self.isInitialized ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>Save current filters</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.filters.range[ filterName ].min = self.price.min;
+</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>Save current filters</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.filters.range[ filterName ].min = self.price.min;
           self.filters.range[ filterName ].max = self.price.max;
 
-</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>Throttle filtering (especially on touch)</p>             </td>             <td class="code">               <div class="highlight"><pre>          delay = self.isTouch ? <span class="number">2500</span> : <span class="number">250</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>Throttle filtering (especially on touch)</p>             </td>             <td class="code">               <div class="highlight"><pre>          delay = self.isTouch ? <span class="number">2500</span> : <span class="number">250</span>;
           $.debounce( delay, <span class="keyword">function</span>() {
             self.filter();
           })();
         }
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>Show what's happening with the range control</p>             </td>             <td class="code">               <div class="highlight"><pre>      displayValues = <span class="keyword">function</span>( min, max, percents ) {
-</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>$output.html('$' + min + ' - $' + max);</p>             </td>             <td class="code">               <div class="highlight"><pre>        $minOutput.css(<span class="string">'left'</span>, percents.min + <span class="string">'%'</span>).html(<span class="string">'&lt;sup&gt;$&lt;/sup&gt;'</span> + min);
-        $maxOutput.css(<span class="string">'left'</span>, percents.max + <span class="string">'%'</span>).html(<span class="string">'&lt;sup&gt;$&lt;/sup&gt;'</span> + max);
+</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>Show what's happening with the range control</p>             </td>             <td class="code">               <div class="highlight"><pre>      displayValues = <span class="keyword">function</span>( min, max, percents ) {
+        <span class="keyword">var</span> minWidth,
+            maxWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>Set the new html, then get it's width, then set it's margin-left to negative half that</p>             </td>             <td class="code">               <div class="highlight"><pre>        minWidth = $minOutput.html(<span class="string">'&lt;sup&gt;$&lt;/sup&gt;'</span> + min).width();
+        $minOutput.css({
+          left: percents.min + <span class="string">'%'</span>,
+          marginLeft: -minWidth / <span class="number">2</span>
+        });
+
+</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>Do it all over for the max handle</p>             </td>             <td class="code">               <div class="highlight"><pre>        maxWidth = $maxOutput.html(<span class="string">'&lt;sup&gt;$&lt;/sup&gt;'</span> + max).width();
+        $maxOutput.css({
+          left: percents.max + <span class="string">'%'</span>,
+          marginLeft: -maxWidth / <span class="number">2</span>
+        });
       };
 
 </pre></div>             </td>           </tr>                               <tr id="section-97">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-97">&#182;</a>               </div>               <p>Store jQuery object for later access</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$rangeControl = $rangeControl;
