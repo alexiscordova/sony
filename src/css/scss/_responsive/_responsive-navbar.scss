@@ -819,6 +819,27 @@
 @media (max-width: px-em(767px)) {
 
 
+.navbar{
+  .nav-li-account .nav-li-link,
+  .nav-li-search,
+  .nav-li-favorites,
+  .nav-li-search,
+  .fonticon-60-sony,
+  .nav-li-electronics,
+  .nav-li-entertainment,
+  .global-nav-indicator-bar,
+  .nav-li-universal,
+  .navtray-section-featured,
+  .fonticon-10-arrowhead-up.nav-indicator,
+  .navmenu-list.navmenu-list-prefixed,
+  .sprite-mini-global-nav-indicator {
+    display:none;
+  }
+}
+.navtray-section-featured {
+  display:none;
+}
+
 .nav-wrapper,
 .navbar{
   height:auto;
@@ -1173,8 +1194,26 @@
 #footer-wrapper{
   position:relative;
 }
-.nav-mobile-scroller{
+
+
+
+
+
+// .navtray,
+// .navtray-section-main,
+// .nav-primary {
+//   background:$navTrayBackgroundAlt;
+// }
+
+
+
+
+.nav.nav-utility{
   background:$white;
+}
+.nav-mobile-scroller,
+.navtray-section-main{
+  background:$navTrayBackgroundAlt;
   min-height:100%;
 }
 .page-wrap-inner.show-mobile-menu.show-mobile-search-results{
@@ -1202,6 +1241,15 @@
 
 
 .bp-nav-mobile .show-mobile-search-results{
+
+  .navmenu-search-section-form{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:$grayLighter;
+  }
+
   .navmenu-w-search{
     .btn-clear-search-input{
       display:block;
@@ -1251,7 +1299,7 @@
 
     .navmenu-search-section-results{
       margin-top:0;
-      padding-top:18px;
+      padding-top:72px;
       background:$white;
 
       .navmenu-search-popular-searches{
@@ -1294,7 +1342,7 @@
       }
     }
     .navmenu-list-extended{
-      margin-top:18px;
+      margin-top:10px;
       margin-left:5px;
 
       .search-result-line{

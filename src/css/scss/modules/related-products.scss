@@ -419,6 +419,21 @@
             min-height: 264px;
           }
         }
+
+
+
+        &.plate {
+
+          .plate-btn {
+            position: absolute;
+            left: 9.5%;
+            bottom: 10%;
+            background-color: $white;
+            color: $gray10;
+
+          } 
+
+        }
         
       }
 
@@ -467,7 +482,7 @@
         position: absolute;
         font-size: inherit;
         height: 100%;
-        padding: 9.5%;
+        padding:  7.5% 7.5% 9.5% 9.5%; 
 
         .title {
           color: $white;
@@ -478,6 +493,11 @@
           color: $white;
           @include opacity(60);
           padding: 0 4% 0 0;
+
+          @media (max-width: 640px){
+            visibility: hidden;
+            display: none;
+          }          
         }
 
         @media (max-width:480px) {
@@ -515,13 +535,6 @@
         }
       }
 
-      @media (max-width: 640px){
-        .emphasis {
-          visibility: hidden;
-          display: none;
-        }        
-      }
-
       .small-size {
         width: 133px;
         height: 219.710784272px;
@@ -529,9 +542,15 @@
         float:left;
         margin-left: 15px;
 
+        .label.label-success {
+          display:none;
+        }
+
         &.plate {
 
           width: 180px;
+
+
 
           .text-promo-title {
             width: 150px;

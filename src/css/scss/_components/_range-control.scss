@@ -3,6 +3,7 @@
 // --------------------------------------------------
 
 $rangeControlSize: 14px;
+$handleShadowSize: 6px;
 $ambitActiveColor: $gray25;
 $ambitBackgroundColor: $gray50;
 $handleHighlightColor: $buttonOrange;
@@ -39,7 +40,7 @@ $handleHighlightColor: $buttonOrange;
     @include square($rangeControlSize);
     border-radius: 50%;
     background: $white;
-    @include box-shadow(0 0 0 6px $transparentBlack, 0 0 9px $innerGlow);
+    @include box-shadow(0 0 0 $handleShadowSize $transparentBlack, 0 0 9px $innerGlow);
     -webkit-transition: -webkit-transform $transitionFaster linear, box-shadow $transitionFaster linear;
             transition: transform $transitionFaster linear, box-shadow $transitionFaster linear;
 
@@ -113,10 +114,16 @@ $handleHighlightColor: $buttonOrange;
 .range-output-max {
   position: absolute;
   top: 0;
-  width: 80px;
-  margin-left: -40px;
   text-align: center;
   @include transition(color $transitionFast $easeNormal);
+}
+
+.range-output-min {
+  @include translate(4px, 0);
+}
+
+.range-output-max {
+  @include translate(-6px, 0);
 }
 
 .grabbing-min .range-output-min,

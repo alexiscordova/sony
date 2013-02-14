@@ -1021,17 +1021,9 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         <span class="keyword">if</span>(self.isMobileMode === <span class="literal">true</span>){
           cw = self.currentContainerWidth = self.$el.find(<span class="string">'.soc-item'</span>).eq(<span class="number">0</span>).width();
           self.$mobileSlides.each(<span class="keyword">function</span>(i){
-            $(<span class="keyword">this</span>).css( {
+            $(<span class="keyword">this</span>).css({
               <span class="string">'left'</span>: Math.floor(i * (cw + mobileGutter)) + <span class="string">'px'</span>,
               <span class="string">'height'</span> : <span class="number">317</span>  + <span class="string">'px'</span> <span class="comment">//TODO: this is not calculating correctly --&gt;  $('.soc-item').eq(0).height();</span>
-            } );
-
-            <span class="keyword">var</span> delta = (self.$el.find(<span class="string">'.soc-content'</span>).eq(<span class="number">0</span>).width() - self.$el.find(<span class="string">'.soc-item'</span>).eq(<span class="number">0</span>).width()) / <span class="number">2</span>;
-
-            $(<span class="keyword">this</span>).find(<span class="string">'.soc-item'</span>).css({
-              <span class="string">'position'</span>: <span class="string">'absolute'</span>,
-              <span class="string">'top'</span> : <span class="string">'0'</span>,
-              <span class="string">'left'</span> : <span class="string">'0'</span>
             });
           });
         }
@@ -1080,7 +1072,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
     };
 
     $.fn.sonyOneCarousel.settings = {
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>must haves</p>             </td>             <td class="code">               <div class="highlight"><pre>      throttleTime: <span class="number">10</span>
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>must haves</p>             </td>             <td class="code">               <div class="highlight"><pre>      throttleTime: <span class="number">250</span>
     };
 
     $( <span class="keyword">function</span>(){

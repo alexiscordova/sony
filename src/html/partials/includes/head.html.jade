@@ -5,14 +5,8 @@ cacheable: true
 !{locals.partial('includes/fonts.html')}
   
 l = {"locals": locals}
-if 'debug' == locals.getEnvironments()  || 'mbuilder' == locals.getEnvironments()
-  link(rel="stylesheet", href="css/bootstrap.css")
-  link(rel="stylesheet", href="css/responsive.css")
+  link(rel="stylesheet", href="css/styles.css")
   
   for name in locals.modulescss()
     hrf = "css/modules/" + name.replace(/.scss/g, '.css')
       link(rel="stylesheet", href= hrf)
-else
-  !{locals.partial('includes/css-deploy.html', l)}  
-
-!{locals.partial('includes/js-head.html')}
