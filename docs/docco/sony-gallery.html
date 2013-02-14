@@ -465,8 +465,14 @@ Here is where we keep the origial type</p>             </td>             <td cla
         <span class="keyword">var</span> $trigger = $(<span class="keyword">this</span>);
 
         $trigger.popover({
-          placement: <span class="string">'in offsettop'</span>,
+          placement: <span class="string">'in offsetright'</span>,
           trigger: <span class="string">'click'</span>,
+          getArrowOffset : <span class="keyword">function</span>() {
+            <span class="keyword">var</span> containerWidth = self.$filterOpts.find(<span class="string">'.span4'</span>).first().width(),
+                columnWidth = self.$filterOpts.find(<span class="string">'.filter-container'</span>).first().width();
+
+            <span class="keyword">return</span> containerWidth - columnWidth;
+          },
           getWidth: <span class="keyword">function</span>() {
             <span class="keyword">return</span> self.$filterOpts.find(<span class="string">'.span4'</span>).first().width();
           },

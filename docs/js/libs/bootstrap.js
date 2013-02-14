@@ -1075,6 +1075,7 @@
         , actualHeight
         , placement
         , tp
+        , arrowOffset
 
       if (this.hasContent() && this.enabled) {
         $tip = this.tip()
@@ -1100,6 +1101,9 @@
         if (this.options.getWidth && typeof this.options.getWidth === 'function') {
           $tip.width( this.options.getWidth.call(this) );
         }
+        if (this.options.getArrowOffset && typeof this.options.getArrowOffset === 'function') {
+          arrowOffset = this.options.getArrowOffset.call(this);
+        }
 
         actualWidth = $tip[0].offsetWidth
         actualHeight = $tip[0].offsetHeight
@@ -1113,6 +1117,10 @@
             break
           case 'offsettop':
             tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 + this.options.offsetFromLeft}
+            break
+          case 'offsetright':
+            tp = {top: pos.top - actualHeight, left: pos.left}
+            arrowOffset && $tip.find('.arrow').css('right', arrowOffset)
             break
           case 'left':
             tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
