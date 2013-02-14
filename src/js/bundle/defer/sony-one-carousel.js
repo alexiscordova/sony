@@ -571,7 +571,7 @@
 
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
-          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeOutBack');
+          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed));
 
         } else {
 
