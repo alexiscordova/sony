@@ -79,6 +79,20 @@
 
 	} // end .tcc-content-module
 
+	// HOVERS
+	#{createSelectorFromData("article","default")},
+	#{createSelectorFromData("article","news")},
+	#{createSelectorFromData("article","event")},
+	#{createSelectorFromData("sonys-voice","facebook")},
+	#{createSelectorFromData("sonys-voice","instagram")},
+	#{createSelectorFromData("flickr","default")}{
+		@include fadeoutOnHover(img);
+	} // end div
+
+	#{createSelectorFromData("article","featured")}{
+		@include fadeoutOnHover();
+	} // end div
+
 	// TYPE: ARTICLE
 	.article{	
 
@@ -103,37 +117,7 @@
 			color:$titleBlack;			
 		} // end t6
 
-		// @include fadeoutonhover()
-		
-		div#{createSelectorFromData("article","featured")}{
-				@include transition(opacity, $transitionFast);
-				opacity:1.0;
-		}
-
-		div#{createSelectorFromData("article","default")},
-		div#{createSelectorFromData("article","news")},
-		div#{createSelectorFromData("article","event")}{
-			img{
-				@include transition(opacity, $transitionFast);
-				opacity:1.0;
-			}
-		}
-
-		div#{createSelectorFromData("article","featured")}:hover{
-				@include transition(opacity, $transitionFast);
-				opacity:0.85;	
-		}
-
-		// certain tertiary content modules have hover states
-		div#{createSelectorFromData("article","default")}:hover,
-		div#{createSelectorFromData("article","news")}:hover,
-		div#{createSelectorFromData("article","event")}:hover{
-			img{
-				@include transition(opacity, $transitionFast);
-				opacity:0.85;
-			} // end img
-		} // end hovers
-
+				
 		&.default{
 		
 			.img-container{
@@ -290,22 +274,22 @@
 		
 		//@include fadeoutOnHover(#{createSelectorFromData("sonys-voice","instagram") img);
 
-		#{createSelectorFromData("sonys-voice","instagram")}{
-			img{
-				@include transition(opacity, $transitionFast);
-				opacity:1.0;
-			} // end img
-
-			@include fadeoutOnHover(img);
-			
-		} // end div
-
-		// div#{createSelectorFromData("sonys-voice","instagram")}:hover{
+		// #{createSelectorFromData("sonys-voice","instagram")}{
 		// 	img{
 		// 		@include transition(opacity, $transitionFast);
-		// 		opacity:0.85;
+		// 		opacity:1.0;
 		// 	} // end img
-		// } // end hovers
+
+		// 	@include fadeoutOnHover(img);
+			
+		// } // end div
+
+		// // div#{createSelectorFromData("sonys-voice","instagram")}:hover{
+		// // 	img{
+		// // 		@include transition(opacity, $transitionFast);
+		// // 		opacity:0.85;
+		// // 	} // end img
+		// // } // end hovers
 
 
 		.fonticon-10-twitter,
@@ -355,24 +339,6 @@
 
 	// TYPE: FLICKR
 	.flickr{
-		div#{createSelectorFromData("flickr","default")}{		
-			img{
-				@include transition(opacity, $transitionFast);
-				opacity:1.0;
-			} // end img
-
-		} // end hovers
-
-		div#{createSelectorFromData("flickr","default")}:hover{		
-			img{
-				@include transition(opacity, $transitionFast);
-				opacity:0.85;
-			} // end img
-
-		} // end hovers
-
-
-
 		.fonticon-flickr{
 			position: relative;
 			//outline:1px solid red;
