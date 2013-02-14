@@ -27,7 +27,7 @@
   &.right   { margin-left: 10px; }
   &.bottom  { margin-top: 10px; }
   &.left    { margin-right: 10px; }
-  &.offsettop { margin-bottom: 15px; }
+  &.offsetright { margin-bottom: 15px; }
 
 }
 
@@ -92,7 +92,7 @@
     //   left: -$popoverArrowOuterWidth;
     // }
   }
-  &.offset .arrow {
+  &.offsetright .arrow {
     bottom: -$popoverArrowWidth;
     left: auto;
     right: 20px; // should be overriden
@@ -106,12 +106,12 @@
     margin-top: -$popoverArrowWidth;
     border-width: $popoverArrowWidth $popoverArrowWidth $popoverArrowWidth 0;
     border-right-color: $popoverArrowColor;
-    &:after {
-      border-width: $popoverArrowOuterWidth $popoverArrowOuterWidth $popoverArrowOuterWidth 0;
-      border-right-color: $popoverArrowOuterColor;
-      bottom: -$popoverArrowOuterWidth;
-      left: -1px;
-    }
+    // &:after {
+    //   border-width: $popoverArrowOuterWidth $popoverArrowOuterWidth $popoverArrowOuterWidth 0;
+    //   border-right-color: $popoverArrowOuterColor;
+    //   bottom: -$popoverArrowOuterWidth;
+    //   left: -1px;
+    // }
   }
   &.bottom .arrow {
     top: -$popoverArrowWidth;
@@ -119,12 +119,12 @@
     margin-left: -$popoverArrowWidth;
     border-width: 0 $popoverArrowWidth $popoverArrowWidth;
     border-bottom-color: $popoverArrowColor;
-    &:after {
-      border-width: 0 $popoverArrowOuterWidth $popoverArrowOuterWidth;
-      border-bottom-color: $popoverArrowOuterColor;
-      top: -1px;
-      left: -$popoverArrowOuterWidth;
-    }
+    // &:after {
+    //   border-width: 0 $popoverArrowOuterWidth $popoverArrowOuterWidth;
+    //   border-bottom-color: $popoverArrowOuterColor;
+    //   top: -1px;
+    //   left: -$popoverArrowOuterWidth;
+    // }
   }
   &.left .arrow {
     top: 50%;
@@ -132,11 +132,11 @@
     margin-top: -$popoverArrowWidth;
     border-width: $popoverArrowWidth 0 $popoverArrowWidth $popoverArrowWidth;
     border-left-color: $popoverArrowColor;
-    &:after {
-      border-width: $popoverArrowOuterWidth 0 $popoverArrowOuterWidth $popoverArrowOuterWidth;
-      border-left-color: $popoverArrowOuterColor;
-      bottom: -$popoverArrowOuterWidth;
-      right: -1px;
-    }
+    // &:after {
+    //   border-width: $popoverArrowOuterWidth 0 $popoverArrowOuterWidth $popoverArrowOuterWidth;
+    //   border-left-color: $popoverArrowOuterColor;
+    //   bottom: -$popoverArrowOuterWidth;
+    //   right: -1px;
+    // }
   }
 }

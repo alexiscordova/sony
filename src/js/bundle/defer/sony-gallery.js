@@ -523,8 +523,14 @@
         var $trigger = $(this);
 
         $trigger.popover({
-          placement: 'in offsettop',
+          placement: 'in offsetright',
           trigger: 'click',
+          getArrowOffset : function() {
+            var containerWidth = self.$filterOpts.find('.span4').first().width(),
+                columnWidth = self.$filterOpts.find('.filter-container').first().width();
+
+            return containerWidth - columnWidth;
+          },
           getWidth: function() {
             return self.$filterOpts.find('.span4').first().width();
           },
