@@ -174,61 +174,61 @@
 
 // Hero Images and content
 // -------------------------
-$maxHeroHeight: 400px;
-$overlayColor: rgba($linkColor, .8);
-.hero {
-  position: relative;
-  overflow: hidden;
-  max-height: $maxHeroHeight;
+// $maxHeroHeight: 400px;
+// $overlayColor: rgba($linkColor, .8);
+// .hero {
+//   position: relative;
+//   overflow: hidden;
+//   max-height: $maxHeroHeight;
 
-  img {
-    display: block;
-    width: 100%;
-  }
+//   img {
+//     display: block;
+//     width: 100%;
+//   }
 
-  // Only overlay color on IE9+ (double colon ignored in IE8)
-  // .hero-img-wrap::after {
-  //   content: '';
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 100%;
-  //   background-color: $overlayColor;
-  // }
+//   // Only overlay color on IE9+ (double colon ignored in IE8)
+//   // .hero-img-wrap::after {
+//   //   content: '';
+//   //   position: absolute;
+//   //   top: 0;
+//   //   left: 0;
+//   //   width: 100%;
+//   //   height: 100%;
+//   //   background-color: $overlayColor;
+//   // }
 
-  & > .container-px-width {
-    position: relative;
-  }
+//   & > .container-px-width {
+//     position: relative;
+//   }
 
-  .hero-text-wrap {
-    position: absolute;
-    z-index: 5;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+//   .hero-text-wrap {
+//     position: absolute;
+//     z-index: 5;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//   }
 
-  .hero-text {
-    width: 100%;
-  }
+//   .hero-text {
+//     width: 100%;
+//   }
 
-  .primary-tout-subtitle {
-    margin-bottom: 0;
-    color: $gray70;
-  }
+//   .primary-tout-subtitle {
+//     margin-bottom: 0;
+//     color: $gray70;
+//   }
 
-  .primary-tout-title {
-    margin-top: 0;
-    color: $white;
+//   .primary-tout-title {
+//     margin-top: 0;
+//     color: $white;
 
-    small {
-      color: inherit;
-      font-size: 18px; // Fuckin' 75% of ems and shit. Give me some pixels.
-    }
-  }
-}
+//     small {
+//       color: inherit;
+//       font-size: 18px; // Fuckin' 75% of ems and shit. Give me some pixels.
+//     }
+//   }
+// }
 
 
 
@@ -240,12 +240,12 @@ $overlayColor: rgba($linkColor, .8);
 }
 
 // We have to add half-stars to this. I gues that means it's actually a 10-star rating system.
-[data-stars="1"] .icon-ui-star:nth-child(-n + 1),
-[data-stars="2"] .icon-ui-star:nth-child(-n + 2),
-[data-stars="3"] .icon-ui-star:nth-child(-n + 3),
-[data-stars="4"] .icon-ui-star:nth-child(-n + 4),
-[data-stars="5"] .icon-ui-star:nth-child(-n + 5) {
-  background-position: -360px -60px;
+[data-stars="1"] .fonticon-10-star:nth-child(-n + 1),
+[data-stars="2"] .fonticon-10-star:nth-child(-n + 2),
+[data-stars="3"] .fonticon-10-star:nth-child(-n + 3),
+[data-stars="4"] .fonticon-10-star:nth-child(-n + 4),
+[data-stars="5"] .fonticon-10-star:nth-child(-n + 5) {
+  color: $buttonOrange;
 }
 
 
