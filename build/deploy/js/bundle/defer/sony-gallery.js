@@ -564,6 +564,11 @@
       if ( !self.hasFilters ) {
         self.$productCount.text( self.shuffle.$items.length );
       }
+
+      // Firefox's <select> menu is hard to style...
+      if ( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ) {
+        self.$sortSelect.parent().addClass('moz');
+      }
     },
 
     initInfscr : function() {

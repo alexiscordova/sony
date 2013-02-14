@@ -20,8 +20,6 @@ and figure out which starting slide to animate to after remanipulating the DOM</
       <span class="keyword">var</span> self      = <span class="keyword">this</span>,
       ua            = navigator.userAgent.toLowerCase(),
       i,
-      browser       = $.browser,
-      isWebkit      = browser.webkit,
       isAndroid     = ua.indexOf( <span class="string">'android'</span> ) &gt; -<span class="number">1</span>,
       resizeTimer   = <span class="literal">null</span>;
 
@@ -143,6 +141,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         self.downEvent = <span class="string">'mousedown.soc'</span>;
         self.moveEvent = <span class="string">'mousemove.soc'</span>;
         self.upEvent = <span class="string">'mouseup.soc'</span>;
+        self.clickEvent = <span class="string">'click.soc'</span>;
         self.cancelEvent = <span class="string">'mouseup.soc'</span>;
       }
 
@@ -155,9 +154,6 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         self.yProp = self.xProp = self.vendorPrefix + <span class="string">'transform'</span>;
 
         <span class="keyword">if</span>( self.use3dTransform ) {
-          <span class="keyword">if</span>( isWebkit ) {
-              self.$el.addClass( <span class="string">'soc-webkit3d'</span> );
-          }
           self.tPref1 = <span class="string">'translate3d('</span>;
           self.tPref2 = <span class="string">'px, '</span>;
           self.tPref3 = <span class="string">'px, 0px)'</span>;
@@ -193,6 +189,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         self.$containerInner.on(self.downEvent, <span class="keyword">function</span>(e) { self.onDragStart(e); });
       }
 
+      self.setupLinkClicks();
       self.createNavigation();
       self.setupPaddles();
 
@@ -202,23 +199,61 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
     SonyOneCarousel.prototype = {
       constructor: SonyOneCarousel,
 
+      setupLinkClicks: <span class="keyword">function</span>(){
+
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        self.$container.find(<span class="string">'.headline a'</span>).each(<span class="keyword">function</span>(){
+          <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+              $parentContainer = $<span class="keyword">this</span>.closest(<span class="string">'.soc-item'</span>);
+
+          $parentContainer.attr(<span class="string">'data-click-link'</span>, $<span class="keyword">this</span>.attr(<span class="string">'href'</span>));
+        });
+
+        self.$container.find(<span class="string">'.soc-item'</span>).on(self.clickEvent, <span class="keyword">function</span>(e){
+
+          <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+              defaultLink = $<span class="keyword">this</span>.find(<span class="string">'.headline a'</span>).attr(<span class="string">'href'</span>),
+              closestLink = $(e.target).closest(<span class="string">'a'</span>).attr(<span class="string">'href'</span>),
+              destination;
+
+          <span class="keyword">if</span> ( self.startInteractionTime ) {
+            <span class="keyword">if</span> ((<span class="keyword">new</span> Date().getTime()) - self.startInteractionTime &lt; <span class="number">250</span>) {
+
+              <span class="keyword">if</span> ( closestLink &amp;&amp; closestLink !== defaultLink ) {
+                destination = closestLink;
+              } <span class="keyword">else</span> {
+                destination = defaultLink;
+              }
+
+              window.location = destination;
+            }
+          }
+        });
+
+        self.$container.find(<span class="string">'a'</span>).on(self.clickEvent, <span class="keyword">function</span>(e){
+          e.preventDefault();
+        });
+      },
+
       onDragStart : <span class="keyword">function</span>(e){
+
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         point;
 
         self.dragSuccess = <span class="literal">false</span>;
 
-        <span class="keyword">if</span>(self.hasTouch){
+        <span class="keyword">if</span> ( self.hasTouch ) {
           <span class="keyword">var</span> touches = e.originalEvent.touches;
-          <span class="keyword">if</span>(touches &amp;&amp; touches.length &gt; <span class="number">0</span>){
+          <span class="keyword">if</span> ( touches &amp;&amp; touches.length &gt; <span class="number">0</span> ) {
             point = touches[<span class="number">0</span>];
             <span class="keyword">if</span>(touches.length &gt; <span class="number">1</span>){
               self.multipleTouches = <span class="literal">true</span>; <span class="comment">//not sure why we would care</span>
             }
-          }<span class="keyword">else</span>{
+          } <span class="keyword">else</span> {
             <span class="keyword">return</span>;
           }
-        }<span class="keyword">else</span>{
+        } <span class="keyword">else</span> {
           point = e;
           e.preventDefault();
           <span class="keyword">if</span>(e.which !== <span class="number">1</span>){
@@ -243,7 +278,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
         self.currRenderPosition = self.sPosition;
 
-        self.startTime = <span class="keyword">new</span> Date().getTime();
+        self.startTime = self.startInteractionTime = <span class="keyword">new</span> Date().getTime();
 
         <span class="keyword">if</span>(self.hasTouch) {
           self.$container.on(self.cancelEvent, <span class="keyword">function</span>(e) { self.dragRelease(e, <span class="literal">false</span>); });
@@ -334,31 +369,23 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         duration = (<span class="keyword">new</span> Date().getTime()) - self.startTime;
         v0 = Math.abs(accDist) / duration;
 
-        console.log(<span class="string">'MoveDst:'</span> , totalMoveDist , self.currentContainerWidth * <span class="number">0.5</span>);
-
         <span class="keyword">if</span>( totalMoveDist &gt; self.hasTouch ? Math.abs(self.currentContainerWidth * <span class="number">0.25</span>) : Math.abs(self.currentContainerWidth * <span class="number">0.5</span>) ){
 
           <span class="keyword">if</span>(dragDirection === <span class="number">1</span>){
             self.currentId ++;
-            console.log(<span class="string">'snap to next slide'</span>);
             <span class="keyword">if</span>(self.currentId &gt;= $currSlides.length){
               self.currentId = $currSlides.length - <span class="number">1</span>;
             }
-          }<span class="keyword">else</span>{
+          } <span class="keyword">else</span> {
             self.currentId --;
-            console.log(<span class="string">'snap to previous slide'</span>);
            <span class="keyword">if</span>(self.currentId &lt; <span class="number">0</span>){
             self.currentId = <span class="number">0</span>;
            }
           }
           self.moveTo();
         }<span class="keyword">else</span>{
-          console.log(<span class="string">'return to current slide'</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>return to current</p>             </td>             <td class="code">               <div class="highlight"><pre>          returnToCurrent(<span class="literal">true</span>, v0);
         }
-
-        console.log(<span class="string">'drag relase - '</span> , -self.currentId * self.currentContainerWidth , <span class="string">' || '</span> , self.currRenderPosition);
-
       },
 
       dragMove: <span class="keyword">function</span>( e ){
@@ -426,7 +453,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         self.renderMoveTime = <span class="keyword">new</span> Date().getTime();
         self.renderMoveEvent = point;
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>console.log( new Date() ,t ,  ' t.ondragmove');</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
+      },
       renderMovement: <span class="keyword">function</span>(point , isThumbs){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         <span class="keyword">if</span>(self.checkedAxis) {
@@ -444,7 +471,6 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           self.pageX = point.pageX;
           self.pageY = point.pageY;
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>console.log( 'renderMovement' , newX );</p>             </td>             <td class="code">               <div class="highlight"><pre>
           <span class="keyword">var</span> pointPos = self.pageX;
 
           <span class="keyword">if</span>(mAxis === <span class="string">'x'</span> &amp;&amp; deltaX !== <span class="number">0</span>) {
@@ -475,7 +501,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
             self.accelerationPos = pointPos;
           }
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>animate?</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.setPosition(self.currRenderPosition);
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>animate?</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.setPosition(self.currRenderPosition);
         }
       },
 
@@ -518,12 +544,12 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
         <span class="keyword">if</span>( !self.useCSS3Transitions ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>jQuery fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj[ self.xProp ] = newPos + <span class="string">'px'</span>;
-          self.$containerInner.animate(animObj, (force === <span class="literal">true</span> ? <span class="number">10</span> : self.animationSpeed), <span class="string">'easeOutBack'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>jQuery fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj[ self.xProp ] = newPos + <span class="string">'px'</span>;
+          self.$containerInner.animate(animObj, (force === <span class="literal">true</span> ? <span class="number">10</span> : self.animationSpeed));
 
         } <span class="keyword">else</span> {
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>css3 transition</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj[ (self.vendorPrefix + self.TD) ] = (force === <span class="literal">true</span> ? <span class="number">10</span> : self.animationSpeed) + <span class="string">'ms'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>css3 transition</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj[ (self.vendorPrefix + self.TD) ] = (force === <span class="literal">true</span> ? <span class="number">10</span> : self.animationSpeed) + <span class="string">'ms'</span>;
           animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeOutBack;
 
           self.$containerInner.css( animObj );
@@ -532,12 +558,12 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
           self.$containerInner.css( animObj );
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>IQ Update</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$containerInner.one(self.transitionEndName, <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>IQ Update</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$containerInner.one(self.transitionEndName, <span class="keyword">function</span>(){
             window.iQ.update();
           });
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>update the overall position</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.sPosition = self.currRenderPosition = newPos;
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>update the overall position</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.sPosition = self.currRenderPosition = newPos;
 
         self.ev.trigger(<span class="string">'socOnUpdateNav'</span>);
       },
@@ -548,8 +574,6 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         newH     = Math.floor(self.resizeRatio * cw) +  <span class="string">'px'</span>,
         $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
 
-        console.log(<span class="string">'Resize Ratio »'</span>, self.resizeRatio);
-
         <span class="keyword">if</span>(self.isDesktopMode || self.isTabletMode){
           self.$container.css( <span class="string">'height'</span> , newH );
           $currSlides.css( <span class="string">'height'</span> ,  newH );
@@ -557,7 +581,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           newH = Math.floor($(<span class="string">'.soc-item'</span>).eq(<span class="number">0</span>).height());
           self.$container.css( <span class="string">'height'</span> ,  newH  + <span class="string">'px'</span> );
         }
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>console.log("Updating 'soc-container'.height to »",newH );</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
+      },
 
       shuffleClasses: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self     = <span class="keyword">this</span>,
@@ -568,7 +592,6 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         twoUp        = <span class="string">'.soc-2up'</span>,
         threeUp      = <span class="string">'.soc-3up'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>console.log("Current Mode »", mode);</p>             </td>             <td class="code">               <div class="highlight"><pre>
         <span class="keyword">switch</span>(mode){
           <span class="keyword">case</span> <span class="string">'desktop'</span>:
 
@@ -584,7 +607,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           <span class="keyword">break</span>;
 
           <span class="keyword">case</span> <span class="string">'tablet'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>get all the spans off and add</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$tabletSlides
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>get all the spans off and add</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$tabletSlides
             .find(itemSelector)
             .removeClass(allSpans)
             .filter(oneUp).addClass(<span class="string">'span6'</span>)
@@ -596,7 +619,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           <span class="keyword">break</span>;
 
           <span class="keyword">case</span> <span class="string">'mobile'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>something entirely different here</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$mobileSlides
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>something entirely different here</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$mobileSlides
             .find(itemSelector)
             .removeClass(allSpans)
             .addClass(<span class="string">'span12'</span>);
@@ -614,7 +637,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
         <span class="keyword">switch</span>(view){
           <span class="keyword">case</span> <span class="string">'desktop'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>handle desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(self.isDesktopMode){ <span class="keyword">return</span>; }
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>handle desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(self.isDesktopMode){ <span class="keyword">return</span>; }
             self.isMobileMode = self.isTabletMode = <span class="literal">false</span>;
             self.isDesktopMode = <span class="literal">true</span>;
             self.currentMode = view;
@@ -626,7 +649,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           <span class="keyword">break</span>;
 
           <span class="keyword">case</span> <span class="string">'tablet'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>handle tablet</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(self.isTabletMode){ <span class="keyword">return</span>; }
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>handle tablet</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(self.isTabletMode){ <span class="keyword">return</span>; }
             self.isMobileMode = self.isDesktopMode = <span class="literal">false</span>;
             self.isTabletMode = <span class="literal">true</span>;
             self.currentMode = view;
@@ -638,7 +661,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           <span class="keyword">break</span>;
 
           <span class="keyword">case</span> <span class="string">'mobile'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>handle mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(self.isMobileMode){ <span class="keyword">return</span>; }
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>handle mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(self.isMobileMode){ <span class="keyword">return</span>; }
             self.isTabletMode = self.isDesktopMode = <span class="literal">false</span>;
             self.isMobileMode = <span class="literal">true</span>;
             self.currentMode = view;
@@ -650,7 +673,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           <span class="keyword">break</span>;
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>do other stuff here</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>do other stuff here</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
 
       createDesktopSlides: <span class="keyword">function</span>(lastView){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -671,11 +694,11 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <ol>
 <li>grab all of the gallery items</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$galleryItems = self.$el.find(<span class="string">'.soc-item'</span>).detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <ol>
 <li>remove the slides from desktop / mobile</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$tabletSlides.remove();
         self.$mobileSlides.remove();
@@ -710,8 +733,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger(<span class="string">'resize.soc'</span>);
-
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>console.log("Modile Slides are now cached up »" , self.numSlides);</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
+      },
 
       createTableSlides: <span class="keyword">function</span>(lastView){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -732,11 +754,11 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <ol>
 <li>grab all of the gallery items</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$galleryItems = self.$el.find(<span class="string">'.soc-item'</span>).detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <ol>
 <li>remove the slides from desktop / mobile</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$desktopSlides.remove();
         self.$mobileSlides.remove();
@@ -777,7 +799,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           }
 
           <span class="keyword">if</span>(i === galLen - <span class="number">1</span> &amp;&amp; galLen &gt; slideCount * <span class="number">2</span>){
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>console.log("You have an orphaned element that needs a slide by itself");</p>             </td>             <td class="code">               <div class="highlight"><pre>            createSlide(i,<span class="literal">true</span>);
+            createSlide(i,<span class="literal">true</span>);
           }
         }
 
@@ -790,8 +812,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         self.currentId = self.getCurrentSlideByItemId($lastItem);
 
         self.$win.trigger(<span class="string">'resize.soc'</span>);
-
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>console.log("Modile Slides are now cached up »" , self.numSlides);</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
+      },
 
       createMobileSlides: <span class="keyword">function</span>(lastView){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -812,11 +833,11 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <ol>
 <li>grab the gallery items</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$galleryItems = self.$el.find(<span class="string">'.soc-item'</span>).detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <ol>
 <li>remove the slides from desktop / tablet</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$desktopSlides.remove();
         self.$tabletSlides.remove();
@@ -826,7 +847,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           $gridDiv        = $(<span class="string">'&lt;div class="soc-grid slimgrid" /&gt;'</span>),
           $item           = self.$galleryItems.eq(i);
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>$gridDiv.appendTo($contentDiv);</p>             </td>             <td class="code">               <div class="highlight"><pre>          $item.appendTo($contentDiv);
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>$gridDiv.appendTo($contentDiv);</p>             </td>             <td class="code">               <div class="highlight"><pre>          $item.appendTo($contentDiv);
 
           $contentDiv.appendTo(self.$containerInner);
         }
@@ -839,8 +860,6 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger(<span class="string">'resize.soc'</span>);
-
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>console.log("Modile Slides are now cached up »" , self.numSlides);</p>             </td>             <td class="code">               <div class="highlight"><pre>
       },
 
       createNavigation: <span class="function"><span class="keyword">function</span> <span class="params">()</span>{</span>
@@ -848,9 +867,9 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         itemHTML = <span class="string">'&lt;div class="soc-nav-item soc-bullet"&gt;&lt;/div&gt;'</span>,
         out          = <span class="string">'&lt;div class="soc-nav soc-bullets"&gt;'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>remove other references</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.find(<span class="string">'.soc-nav.soc-bullets'</span>).remove();
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>remove other references</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.find(<span class="string">'.soc-nav.soc-bullets'</span>).remove();
 
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>reset current slide id</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.currentId = <span class="number">0</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>reset current slide id</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.currentId = <span class="number">0</span>;
 
         <span class="keyword">if</span>(self.numSlides &lt; <span class="number">2</span>){
           <span class="keyword">return</span>;
@@ -893,9 +912,14 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
       },
 
       setupPaddles: <span class="keyword">function</span>(){
+
         <span class="keyword">var</span> self   = <span class="keyword">this</span>,
         itemHTML   = <span class="string">'&lt;div class="paddle"&gt;&lt;i class=fonticon-10-chevron&gt;&lt;/i&gt;&lt;/div&gt;'</span>,
         $container = self.$el.closest(<span class="string">'.container'</span>);
+
+        <span class="keyword">if</span> ( self.hasTouch ) {
+          <span class="keyword">return</span>;
+        }
 
         self.paddlesEnabled = <span class="literal">true</span>;
         <span class="keyword">var</span> out = <span class="string">'&lt;div class="soc-nav soc-paddles"&gt;'</span>;
@@ -905,7 +929,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         out += <span class="string">'&lt;/div&gt;'</span>;
         out = $(out);
 
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>TODO: add paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.append(out);
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>TODO: add paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$el.append(out);
 
         self.$paddles     = self.$el.find(<span class="string">'.paddle'</span>);
         self.$leftPaddle  = self.$paddles.eq(<span class="number">0</span>).addClass(<span class="string">'left'</span>);
@@ -915,7 +939,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           <span class="keyword">var</span> p = $(<span class="keyword">this</span>);
 
           <span class="keyword">if</span>(p.hasClass(<span class="string">'left'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>console.log('Left paddle click');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+
             self.currentId --;
             <span class="keyword">if</span>(self.currentId &lt; <span class="number">0</span>){
               self.currentId = <span class="number">0</span>;
@@ -924,7 +948,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
             self.moveTo();
 
           }<span class="keyword">else</span>{
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>console.log('Right paddle click');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+
             self.currentId ++;
 
             <span class="keyword">if</span>(self.currentId &gt;= self.$slides.length){
@@ -945,15 +969,13 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
       onPaddleNavUpdate: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-        console.log(<span class="string">'PaddleNavUpdate »'</span>, self.currentId);
-
-</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>check for the left paddle compatibility</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === <span class="number">0</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>check for the left paddle compatibility</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === <span class="number">0</span>){
           self.$leftPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeOut(<span class="number">100</span>);
         }<span class="keyword">else</span>{
           self.$leftPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">200</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>check for right paddle compatiblity</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === self.numSlides - <span class="number">1</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>check for right paddle compatiblity</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === self.numSlides - <span class="number">1</span>){
           self.$rightPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeOut(<span class="number">100</span>);
         }<span class="keyword">else</span>{
           self.$rightPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">200</span>);
@@ -967,7 +989,6 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
             $slide = <span class="literal">null</span>;
 
         $slide = $socItem.closest(<span class="string">'.soc-content'</span>);
-        console.log(<span class="string">'Slide Index »'</span> , $slide.index());
         <span class="keyword">return</span> $slide.index();
       },
 
@@ -1028,7 +1049,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
           });
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>make sure it updates position based on current slide index</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.moveTo(<span class="literal">true</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>make sure it updates position based on current slide index</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.moveTo(<span class="literal">true</span>);
 
       },
 
@@ -1045,7 +1066,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
     };
 
     $.socCSS3Easing = {
-</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>add additional ease types here</p>             </td>             <td class="code">               <div class="highlight"><pre>        easeOutSine: <span class="string">'cubic-bezier(0.390, 0.575, 0.565, 1.000)'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>add additional ease types here</p>             </td>             <td class="code">               <div class="highlight"><pre>        easeOutSine: <span class="string">'cubic-bezier(0.390, 0.575, 0.565, 1.000)'</span>,
         easeInOutSine: <span class="string">'cubic-bezier(0.445, 0.050, 0.550, 0.950)'</span>,
         easeOutBack: <span class="string">'cubic-bezier(0.595, -0.160, 0.255, 1.140)'</span>
     };
@@ -1056,7 +1077,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
         <span class="keyword">var</span> self   = $(<span class="keyword">this</span>),
         moduleName = self.data( <span class="string">'sonyOneCarousel'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>If we don't have a stored sonyOneCarousel, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !moduleName ) {
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>If we don't have a stored sonyOneCarousel, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !moduleName ) {
             moduleName = <span class="keyword">new</span> SonyOneCarousel( self, options );
             self.data( <span class="string">'sonyOneCarousel'</span>, moduleName );
         }
@@ -1067,12 +1088,12 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
       } );
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>defaults for the sony one carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyOneCarousel.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>defaults for the sony one carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.sonyOneCarousel.defaults = {
 
     };
 
     $.fn.sonyOneCarousel.settings = {
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>must haves</p>             </td>             <td class="code">               <div class="highlight"><pre>      throttleTime: <span class="number">250</span>
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>must haves</p>             </td>             <td class="code">               <div class="highlight"><pre>      throttleTime: <span class="number">250</span>
     };
 
     $( <span class="keyword">function</span>(){

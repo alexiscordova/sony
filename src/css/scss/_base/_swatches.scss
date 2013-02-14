@@ -80,6 +80,44 @@
   margin-right: px-em(6px);
 }
 
+.filter-container [class*="swatch-"] {
+  cursor: pointer;
+}
+
+.swatch-black,
+.swatch-purple,
+.swatch-teal,
+.swatch-red,
+.swatch-blue,
+.swatch-pink,
+.swatch-green,
+.swatch-orange,
+.swatch-silver {
+  @extend %dark-colors;
+}
+
+.swatch-white,
+.swatch-yellow,
+.swatch-lemon {
+  @extend %light-colors;
+  @include box-shadow(0 1px 0 $gray60);
+}
+
+// These colors all need to be updated since colors have been standardized.
+.swatch-black     { background-color: $gray05; }
+.swatch-yellow    { background-color: $secondaryGold; }
+.swatch-purple    { background-color: $themePurple; }
+.swatch-teal      { background-color: $themeBlueLight; }
+.swatch-white     { background-color: $white; }
+.swatch-red       { background-color: $themeRed; }
+.swatch-blue      { background-color: $themeBlueDark; }
+.swatch-pink      { background-color: $pink; }
+.swatch-green     { background-color: $themeGreen; }
+.swatch-orange    { background-color: $themeOrange; }
+.swatch-silver    { background-color: $gray60; }
+.swatch-lemon     { background-color: $lemon; }
+
+
 // Mini swatches
 .color-swatches > .mini-swatch {
   margin-right: 0;
@@ -98,47 +136,9 @@
   @include box-shadow(none);
 
   // Disable hover and active states
-  &:before, &:after { content: none; }
+  &:before,
+  &:after { content: none; }
 }
-
-.filter-container [class*="swatch-"] {
-  cursor: pointer;
-}
-
-// These colors all need to be updated since colors have been standardized.
-.swatch-black     { background-color: $gray05; }
-.swatch-yellow    { background-color: $yellow; }
-.swatch-purple    { background-color: $purple; }
-.swatch-teal      { background-color: $teal; }
-.swatch-white     { background-color: $white; }
-.swatch-red       { background-color: $red; }
-.swatch-blue      { background-color: $blue; }
-.swatch-pink      { background-color: $pink; }
-.swatch-green     { background-color: $green; }
-.swatch-orange    { background-color: $orange; }
-.swatch-silver    { background-color: $gray; }
-.swatch-lemon     { background-color: $lemon; }
-
-
-.swatch-black,
-.swatch-yellow,
-.swatch-purple,
-.swatch-teal,
-.swatch-red,
-.swatch-blue,
-.swatch-pink,
-.swatch-green,
-.swatch-orange,
-.swatch-silver {
-  @extend %dark-colors;
-}
-
-.swatch-white,
-.swatch-lemon {
-  @extend %light-colors;
-  @include box-shadow(0 1px 0 $gray60);
-}
-
 
 @media ( max-width: 29.9375em ) {
   %swatch {

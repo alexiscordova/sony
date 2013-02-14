@@ -4,7 +4,7 @@ include ../includes/jade-helpers.jade
 
   .container
     .grid.spec-title-wrap
-      .l2: a(href=data.titleLink.href)= data.titleLink.label
+      a.lt3-alt(href=data.titleLink.href)= data.titleLink.label
       h1.t2.spec-title= data.title
 
     .grid
@@ -41,9 +41,8 @@ include ../includes/jade-helpers.jade
       each tile in data.features.tiles
         .spec-tile.span4
           if tile.img
-            .iq-wrap
-              figure.iq-container
-                mixin iQImage( tile.img )
+            figure
+              mixin iQImage( tile.img )
 
           .tile-content
             h3.t6.tile-title= tile.title

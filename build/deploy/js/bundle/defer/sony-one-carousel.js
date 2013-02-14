@@ -20,8 +20,6 @@
       var self      = this,
       ua            = navigator.userAgent.toLowerCase(),
       i,
-      browser       = $.browser,
-      isWebkit      = browser.webkit,
       isAndroid     = ua.indexOf( 'android' ) > -1,
       resizeTimer   = null;
 
@@ -151,6 +149,7 @@
         self.downEvent = 'mousedown.soc';
         self.moveEvent = 'mousemove.soc';
         self.upEvent = 'mouseup.soc';
+        self.clickEvent = 'click.soc';
         self.cancelEvent = 'mouseup.soc';
       }
 
@@ -164,9 +163,6 @@
         self.yProp = self.xProp = self.vendorPrefix + 'transform';
 
         if( self.use3dTransform ) {
-          if( isWebkit ) {
-              self.$el.addClass( 'soc-webkit3d' );
-          }
           self.tPref1 = 'translate3d(';
           self.tPref2 = 'px, ';
           self.tPref3 = 'px, 0px)';
@@ -203,6 +199,7 @@
         self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });
       }
 
+      self.setupLinkClicks();
       self.createNavigation();
       self.setupPaddles();
 
@@ -212,23 +209,61 @@
     SonyOneCarousel.prototype = {
       constructor: SonyOneCarousel,
 
+      setupLinkClicks: function(){
+
+        var self = this;
+
+        self.$container.find('.headline a').each(function(){
+          var $this = $(this),
+              $parentContainer = $this.closest('.soc-item');
+
+          $parentContainer.attr('data-click-link', $this.attr('href'));
+        });
+
+        self.$container.find('.soc-item').on(self.clickEvent, function(e){
+
+          var $this = $(this),
+              defaultLink = $this.find('.headline a').attr('href'),
+              closestLink = $(e.target).closest('a').attr('href'),
+              destination;
+
+          if ( self.startInteractionTime ) {
+            if ((new Date().getTime()) - self.startInteractionTime < 250) {
+
+              if ( closestLink && closestLink !== defaultLink ) {
+                destination = closestLink;
+              } else {
+                destination = defaultLink;
+              }
+
+              window.location = destination;
+            }
+          }
+        });
+
+        self.$container.find('a').on(self.clickEvent, function(e){
+          e.preventDefault();
+        });
+      },
+
       onDragStart : function(e){
+
         var self = this,
         point;
 
         self.dragSuccess = false;
 
-        if(self.hasTouch){
+        if ( self.hasTouch ) {
           var touches = e.originalEvent.touches;
-          if(touches && touches.length > 0){
+          if ( touches && touches.length > 0 ) {
             point = touches[0];
             if(touches.length > 1){
               self.multipleTouches = true; //not sure why we would care
             }
-          }else{
+          } else {
             return;
           }
-        }else{
+        } else {
           point = e;
           e.preventDefault();
           if(e.which !== 1){
@@ -253,7 +288,7 @@
 
         self.currRenderPosition = self.sPosition;
 
-        self.startTime = new Date().getTime();
+        self.startTime = self.startInteractionTime = new Date().getTime();
 
         if(self.hasTouch) {
           self.$container.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
@@ -348,32 +383,24 @@
         duration = (new Date().getTime()) - self.startTime;
         v0 = Math.abs(accDist) / duration;
 
-        console.log('MoveDst:' , totalMoveDist , self.currentContainerWidth * 0.5);
-
         if( totalMoveDist > self.hasTouch ? Math.abs(self.currentContainerWidth * 0.25) : Math.abs(self.currentContainerWidth * 0.5) ){
 
           if(dragDirection === 1){
             self.currentId ++;
-            console.log('snap to next slide');
             if(self.currentId >= $currSlides.length){
               self.currentId = $currSlides.length - 1;
             }
-          }else{
+          } else {
             self.currentId --;
-            console.log('snap to previous slide');
            if(self.currentId < 0){
             self.currentId = 0;
            }
           }
           self.moveTo();
         }else{
-          console.log('return to current slide');
           //return to current
           returnToCurrent(true, v0);
         }
-
-        console.log('drag relase - ' , -self.currentId * self.currentContainerWidth , ' || ' , self.currRenderPosition);
-
       },
 
       dragMove: function( e ){
@@ -445,7 +472,6 @@
         self.renderMoveTime = new Date().getTime();
         self.renderMoveEvent = point;
 
-        //console.log( new Date() ,t ,  ' t.ondragmove');
       },
       renderMovement: function(point , isThumbs){
         var self = this;
@@ -463,8 +489,6 @@
           self.hasMoved = true;
           self.pageX = point.pageX;
           self.pageY = point.pageY;
-
-          //console.log( 'renderMovement' , newX );
 
           var pointPos = self.pageX;
 
@@ -542,7 +566,7 @@
 
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
-          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed), 'easeOutBack');
+          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed));
 
         } else {
 
@@ -574,8 +598,6 @@
         newH     = Math.floor(self.resizeRatio * cw) +  'px',
         $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
 
-        console.log('Resize Ratio »', self.resizeRatio);
-
         if(self.isDesktopMode || self.isTabletMode){
           self.$container.css( 'height' , newH );
           $currSlides.css( 'height' ,  newH );
@@ -583,7 +605,6 @@
           newH = Math.floor($('.soc-item').eq(0).height());
           self.$container.css( 'height' ,  newH  + 'px' );
         }
-        //console.log("Updating 'soc-container'.height to »",newH );
       },
 
       shuffleClasses: function(){
@@ -594,8 +615,6 @@
         oneUp        = '.soc-1up',
         twoUp        = '.soc-2up',
         threeUp      = '.soc-3up';
-
-        //console.log("Current Mode »", mode);
 
         switch(mode){
           case 'desktop':
@@ -742,8 +761,6 @@
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
-
-        //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
 
       createTableSlides: function(lastView){
@@ -808,7 +825,6 @@
           }
 
           if(i === galLen - 1 && galLen > slideCount * 2){
-            //console.log("You have an orphaned element that needs a slide by itself");
             createSlide(i,true);
           }
         }
@@ -822,8 +838,6 @@
         self.currentId = self.getCurrentSlideByItemId($lastItem);
 
         self.$win.trigger('resize.soc');
-
-        //console.log("Modile Slides are now cached up »" , self.numSlides);
       },
 
       createMobileSlides: function(lastView){
@@ -871,9 +885,6 @@
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
-
-        //console.log("Modile Slides are now cached up »" , self.numSlides);
-
       },
 
       createNavigation: function (){
@@ -928,9 +939,14 @@
       },
 
       setupPaddles: function(){
+
         var self   = this,
         itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
         $container = self.$el.closest('.container');
+
+        if ( self.hasTouch ) {
+          return;
+        }
 
         self.paddlesEnabled = true;
         var out = '<div class="soc-nav soc-paddles">';
@@ -951,7 +967,6 @@
           var p = $(this);
 
           if(p.hasClass('left')){
-            //console.log('Left paddle click');
 
             self.currentId --;
             if(self.currentId < 0){
@@ -961,7 +976,6 @@
             self.moveTo();
 
           }else{
-            //console.log('Right paddle click');
 
             self.currentId ++;
 
@@ -982,8 +996,6 @@
 
       onPaddleNavUpdate: function(){
         var self = this;
-
-        console.log('PaddleNavUpdate »', self.currentId);
 
         //check for the left paddle compatibility
         if(self.currentId === 0){
@@ -1007,7 +1019,6 @@
             $slide = null;
 
         $slide = $socItem.closest('.soc-content');
-        console.log('Slide Index »' , $slide.index());
         return $slide.index();
       },
 

@@ -178,9 +178,21 @@
           'left' : '0'
         });
 
+        window.console.log(self.autoGutters , self.gutterWidth);
+
         $.each($elemsInPage , function(i) {
           var $el = $(this);
-          $el.css('left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px');
+
+          if(self.autoGutters){
+            $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(true))) + 'px' );
+          }else{
+            if( i === 0 ){
+              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + 'px' );
+            }else{
+              $el.css( 'left' , Math.floor(startX + (i * $el.outerWidth(false))) + (i * self.gutterWidth) + 'px' );
+            }
+          }
+
         });
       }
 
@@ -332,7 +344,14 @@
     _onAnimationEnd : function( iscroll ) {
       var self = this;
 
+      // console.log( 'self.$el »' , self.$el);
+      // console.log( 'self.scroller »' , self.scroller);
+      // console.log( 'self.$el[0] »' , self.$el[0]);
+
       if ( iscroll.pagesX && iscroll.pagesX.length ){
+        // console.log( 'iscroll »' , iscroll);
+        // console.log( 'iscroll.pagesX.length »' , iscroll.pagesX);
+
         self.currentPage = iscroll.currPageX;
 
         // Show or hide paddles based on our current page
@@ -349,11 +368,11 @@
         }
 
         // If they've defined a callback as well, call it
-        // We saved their function to this reference logso we could have our own onAnimationEnd
+        // We saved their function to this reference so we could have our own onAnimationEnd
         if ( self.onAnimationEnd ) {
           self.onAnimationEnd( iscroll );
         }
-        
+
       }
     },
 
@@ -393,6 +412,11 @@
     /**
      * Public Methods
      */
+
+    setGutterWidth: function(gutterWidth){
+      var self = this;
+      self.gutterWidth = gutterWidth;
+    },
 
     gotopage: function( pageNumber, duration ) {
       // pageNumber could be an event object from a navigation bullet click.
@@ -499,6 +523,8 @@
     appendBulletsTo: null, // option on where to place pagination bullets, if null defaults to self.$el
     appendNavOutside: true, // Outside the scroller ($el). You probably want this because the scroller has overflow:hidden
     addPaddleTrigger: true, // Add the paddle-trigger class to fade in paddles when the parent is hovered
+    autoGutters: true,
+    gutterWidth: 0,
 
     // iscroll props get mixed in
     iscrollProps: {
@@ -512,7 +538,8 @@
       onScrollEnd: null,
       lockDirection: true,
       onBeforeScrollStart: null,
-      onAnimationEnd: null
+      onAnimationEnd: null,
+      gutterWidth:0
     }
 
   };
@@ -523,7 +550,7 @@
     paginationClass: 'pagination-bullet',
     paddleTrigger:  'paddle-trigger',
     resizeEvent: 'onorientationchange' in window ? 'orientationchange' : 'resize',
-    navTemplate: '<nav class="nav-paddles"><button class="nav-paddle nav-paddle-prev"><i class="icon-ui2-chevron-18-white-left"></i></button><button class="nav-paddle nav-paddle-next"><i class="icon-ui2-chevron-18-white-right"></i></button></nav>'
+    navTemplate: '<nav class="nav-paddles"><button class="nav-paddle nav-paddle-prev"><i class="fonticon-10-chevron-reverse"></i></button><button class="nav-paddle nav-paddle-next"><i class="fonticon-10-chevron"></i></button></nav>'
   };
 
 })(jQuery, Modernizr, IScroll, window);

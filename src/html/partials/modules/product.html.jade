@@ -42,6 +42,7 @@ mixin specList( list, extraClasses )
     each li in list
       li.p3= li
 
+
 mixin colorSwatches( colors, isShowOnlyChild )
   classes = ['color-swatches', 'clearfix']
   - if ( colors.length <= 1 && !isShowOnlyChild ) classes.push('invisible')
@@ -51,6 +52,7 @@ mixin colorSwatches( colors, isShowOnlyChild )
       theClass = 'mini-swatch swatch-' + colour + ' pull-left'
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
+
 mixin iQColorImages( colors )
   if colors && colors.length > 1
     each img in colors
@@ -58,6 +60,7 @@ mixin iQColorImages( colors )
       img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
       noscript
         img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
+
 
 mixin heart
   - heartClass = 'favorite-holder js-favorite'
@@ -94,7 +97,7 @@ mixin basicGalleryItem( layout, priority, href )
       block
 
 
-if data.view == "basic"
+if data.view == 'basic'
   +basicGalleryItem( data.layout, data.priority, data.href )
     .gallery-item-inner
       if data.label
@@ -205,16 +208,16 @@ else if data.view == 'detailed'
           .product-name.p2
             strong(itemprop="name")= data.name
           .product-model.l3(itemprop="model")= data.model
-        .product-rating.lt4(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
+        .product-rating(data-stars=data.rating.stars, itemprop="reviews", itemscope, itemtype="http://schema.org/AggregateRating")
           meta(itemprop="ratingValue", content=data.rating.stars)
-          i.icon-ui-star
-          i.icon-ui-star
-          i.icon-ui-star
-          i.icon-ui-star
-          i.icon-ui-star
-          |  (
-          span(itemprop="ratingCount")= data.rating.stars
-          |  user reviews)
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          i.fonticon-10-star
+          span.lt4  (
+            span(itemprop="ratingCount")= data.rating.stars
+            |  user reviews)
 
         ul.product-meta
           each meta in data.meta
@@ -236,7 +239,7 @@ else if data.view == 'detailed'
                 if detail.value.check
                   | !{detail.value.text}
                 else if detail.value.box
-                  p.compare-box= detail.value.box
+                  p.t6-light.compare-box= detail.value.box
                   p.p3!= detail.value.lineOne
                   if detail.value.lineTwo
                     p.p3!= detail.value.lineTwo
@@ -261,7 +264,8 @@ else if data.view == 'detailed'
                 else
                   | !{detail.value}
 
-else if data.view == "specs"
+
+else if data.view == 'specs'
 
   tabSlug = 'spec-tab' + data.iterator
   .span3.spec-item(data-tab=tabSlug, itemscope, itemtype="http://schema.org/Product")
@@ -285,7 +289,8 @@ else if data.view == "specs"
             p.cell-label.l3
               strong= labels[i]
             h6.t7-light= spec.name
-            p.l3= spec.listTitle
+            p.l3
+              strong= spec.listTitle
             mixin specList( spec.list, 'before-btm-aligned' )
             mixin iQImage( spec.img, 'btm-aligned' )
 
@@ -293,18 +298,19 @@ else if data.view == "specs"
           .spec-cell-inner
             p.cell-label.l3
               strong= labels[i]
-            p.compare-box= spec.callout
-            p= spec.text
+            p.t6-light.compare-box= spec.callout
+            p.t7= spec.text
             if spec.list
               if spec.listTitle
-                p.l3= spec.listTitle
+                p.l3
+                  strong= spec.listTitle
               mixin specList( spec.list )
 
         else if spec.text
           .spec-cell-inner
             p.cell-label.l3
               strong= labels[i]
-            p= spec.text
+            p.t7= spec.text
             if spec.subtext
               p.p3= spec.subtext
 
@@ -343,9 +349,13 @@ else if data.view == "specs"
             .holder-for-icon
               iconClass = 'icon-uibig-' + spec.icon
               i(class=iconClass)
-            p= spec.callout
+            div
+              span.t6-light= spec.callout.number
+              | &nbsp;
+              span.p3= spec.callout.text
             mixin specList( spec.list )
-            p.l3= spec.label
+            p.l3
+              strong= spec.label
             p.p3= spec.labeledText
 
         else if spec.enlargement
@@ -359,7 +369,8 @@ else if data.view == "specs"
           .spec-cell-inner
             button.enlarge.js-enlarge
               i.fonticon-20-zoom
-              span.l3!= '&nbsp;' + spec.iconTitle
+              span.l3
+                strong!= '&nbsp;' + spec.iconTitle
 
             mixin specList( spec.list )
 
@@ -391,6 +402,11 @@ else if data.view == "specs"
           .spec-cell-inner
             p.cell-label.l3
               strong= labels[i]
+
+            if spec.icon1
+              i(class=spec.icon1)
+            if spec.icon2
+              i(class=spec.icon2)
             mixin specList( spec.list )
 
         else
@@ -411,7 +427,6 @@ else if data.view == 'single-spec'
                     each img in spec.imgs
                       .slide
                         mixin iQImage( img )
-
             .span3.offset1
               h6.t6-light.section-label= spec.label
               mixin definitionList( spec.definitionList )
@@ -495,8 +510,10 @@ else if data.view == 'single-spec'
                     strong!= feature2.label
                   p.media-description.p3!= feature2.description
 
+
 else if data.view == 'blank'
   a(class='gallery-item basic blank m-span3 normal shuffle-item filtered span1', data-priority=data.priority, href='#')
+
 
 else
   em oh noes, you don't have a view variable set :(

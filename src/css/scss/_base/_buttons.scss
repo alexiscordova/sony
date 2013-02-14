@@ -15,7 +15,11 @@
   margin-bottom: 0; // For input.btn
 
   font-family: $sansFontFamily;
-  font-size: px-em(13px, 15px); // 13px/15px inside of <p> or <td>
+  font-size: px-em(13px); // most buttons are not inside a <p> or <td> -- so context is 16px.
+  p & ,
+  td & {
+    font-size: px-em(13px, 15px); // context changes if it's inside a <p> or <td>
+  }
   // letter-spacing: -0.065em;
 
   line-height: inherit;
@@ -54,8 +58,8 @@
   &[disabled]:hover {
     background: $btnBackground;
   }
-
 }
+
 
 
 
@@ -67,6 +71,10 @@
   padding: 15px 24px 14px;
   font-family: $sansFontFamilyMedium;
   font-size: px-em(15);
+  p & ,
+  td & {
+    font-size: px-em(15px, 15px); // context changes if it's inside a <p> or <td>
+  }
   background: $btnSpecialBackground;
 
   &:hover {
@@ -195,7 +203,11 @@
   color: $gray;
 
   text-align: left;
-  font-size: 1.666666667em; /* 25px/15px */
+  font-size: px-em(25px); /* 25px/15px */
+  p & ,
+  td & {
+    font-size: px-em(25px, 15px); // context changes if it's inside a <p> or <td>
+  }
   line-height: $baseLineHeight * 0.8;
   font-family: $sansFontFamilyLight;
   strong{
@@ -247,6 +259,10 @@
 .btn-large {
   padding: 11px 28px 13px;
   font-size: px-em(15);
+  p & ,
+  td & {
+    font-size: px-em(15px, 15px); // context changes if it's inside a <p> or <td>
+  }
   line-height: $baseLineHeight * 1.1;
   &.btn-special{
     padding: 15px 28px 17px;
@@ -261,6 +277,10 @@
 .btn-small {
   padding: 10px 18px 12px;
   font-size: px-em(12);
+  p & ,
+  td & {
+    font-size: px-em(12px, 15px); // context changes if it's inside a <p> or <td>
+  }  
   line-height: $baseLineHeight * 0.75;
   &.btn-special{
     padding: 14px 18px 16px;
@@ -275,6 +295,10 @@
 .btn-mini {
   padding: 9px 14px 11px;
   font-size: px-em(11);
+  p & ,
+  td & {
+    font-size: px-em(11px, 15px); // context changes if it's inside a <p> or <td>
+  }
   line-height: $baseLineHeight * 0.6;
   &.btn-special{
     padding: 13px 14px 15px;
