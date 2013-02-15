@@ -136,7 +136,13 @@ module.exports = function(grunt) {
         dest: '../build/deploy/js/plugins.min.js'
       },
       require:{
-        src: 'js/bundle/require/*.js',
+        src: [
+          'js/bundle/require/sony-global.js',
+          'js/bundle/require/sony-analytics.js',
+          'js/bundle/require/sony-utilities.js',
+          'js/bundle/require/exports.js',
+          'js/bundle/require/iq.js',
+        ],
         dest: '../build/deploy/js/require.min.js'
       },
       secondary:{
