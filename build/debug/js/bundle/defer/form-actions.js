@@ -3,12 +3,12 @@
 // Version: 0.1
 // Modified: 01/05/2013 by Christopher J Mischler
 // Dependencies: jQuery 1.7+, Modernizr
-// 
+//
 // -------------------------------------------------------------------------
- 
+
 
 (function($, Modernizr, window, undefined) {
-  
+
   'use strict';
 
   // Start module
@@ -38,7 +38,6 @@
 
       $input.on('focus', function(){
         // clear watermarkText on focus
-        // console.log("input: focus");
 
         if ($input.val() === inputObj.watermarkText){
           $input.val('');
@@ -54,8 +53,6 @@
           inputObj.$inputIcon.show();
         }
       }).on('mouseup keyup change cut paste', function(){
-
-        // console.log("input: touch mouseup keyup change cut paste");
 
         if (!inputObj.$inputWrapper.hasClass('searching')){
           if (!($input.val() === '' || $input.val() === inputObj.watermarkText)){
@@ -92,8 +89,6 @@
       switch( inputObj.$input.attr('id') ){
 
         case 'store-locator-search-input':
-          //console.log('store-locator-search-input, queryStr: ' + queryStr);
-          
           // need to call this after the search results have been returned & are displayed (because that'll change the height of the iscroll).
           // need a global way to talk between modules
           // if (!$('html').hasClass('bp-nav-mobile')){
@@ -102,7 +97,6 @@
           break;
 
         case 'nav-search-input':
-          //console.log('nav-search-input, queryStr: ' + queryStr);
           break;
 
         default:
@@ -127,7 +121,7 @@
 
     // this just resets the actual results without clearing the input, for instance when the search term had been deleted & is blank.
     resetSearchResults: function( inputObj ){
-      inputObj.$inputWrapper.removeClass('searching');      
+      inputObj.$inputWrapper.removeClass('searching');
     },
 
     initTouchToggles: function( $touchToggles ) {
@@ -153,13 +147,13 @@
     return this.each(function() {
       var self = $(this),
         formActions = self.data('formActions');
-  
+
       // If we don't have a stored formActions, make a new one and save it
       if ( !formActions ) {
           formActions = new FormActions( self, options );
           self.data( 'formActions', formActions );
       }
-  
+
       if ( typeof options === 'string' ) {
         formActions[ options ].apply( formActions, args );
       }
@@ -168,12 +162,12 @@
 
 
   // Defaults options for your module
-  $.fn.formActions.defaults = { 
+  $.fn.formActions.defaults = {
     sampleOption: 0
   };
 
   // Non override-able settings
-  $.fn.formActions.settings = { 
+  $.fn.formActions.settings = {
     isTouch: !!( 'ontouchstart' in window ),
     isInitialized: false
   };

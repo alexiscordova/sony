@@ -19,9 +19,8 @@
 
     var Carousel = sony.modules.Carousel = function($el, opts) {
         $.extend(this, $.fn.carousel.defaults, opts, $.fn.carousel.settings);
-        
 
-        console.log(opts);
+
 
         // Private methods: init, paginate, gestures, nav
         var init = function() {
@@ -39,7 +38,6 @@
             t.slides = t.childFilter === null ? t.$el.children() : t.$el.children(t.childFilter);
 
 
-            console.log(t.slides);
 
             // Get the right prefixed names e.g. WebkitTransitionDuration
             t.tapOrClick = t.hasTouch ? 'touchstart' : 'click';
@@ -49,7 +47,7 @@
             t.transitionDuration = Modernizr.prefixed('transitionDuration');
             t.transitionEasing = Modernizr.prefixed('transitionTimingFunction');
             t.transitionEnd = transEndEventNames[t.transitionName];
-            
+
             // Set the slide width to the width of the first slide, if it's undefined
             setDimensions.call(t);
 
@@ -63,17 +61,17 @@
                 t.transition = 'container';
             }
 
-            // Set up CSS for different effects. 
+            // Set up CSS for different effects.
             // FYI this has the chance to be called twice
             t.effects[t.transition].init.call(t);
 
             nav.call(t);
-            
+
             // Add the index buttons
             if (t.showIndexBtns === true) {
                 paginate.call(t);
             }
-            
+
             // Set up gesture events
             gestures.call(t);
 
@@ -89,7 +87,7 @@
 
             // Now that we've resized the container, make the images variable width/height
             t.slides.find('img, video, embed, object').css({ maxWidth: '100%', height: 'auto'});
-            
+
 
             if (t.timeout && t.pauseOnHover) {
                 var $hoverEl = t.$el;
@@ -160,7 +158,7 @@
                     var dist = btnIndex - t.currIndex,
                     delayedStart;
                     i = t.currIndex;
-                    
+
                     if (dist > 0) {
                         // going up
                         delayedStart = setInterval(function() {
@@ -188,7 +186,7 @@
             },
             $ol = $('<ol/>', {'class' : t.indexButtonClass, 'style' : 'padding: 0;'});
             t.indexBtns = [];
-            
+
             // Loop through all the index buttons and add events to them
             for (; i < numBtns; i++) {
                 var title,
@@ -212,17 +210,15 @@
             //TM
             if(t.type === 'default-full'){
                 t.indexThumbs = [];
-               
-                console.log('Sony Slider ~~~~~~~~~~~~~~~~ is ' , t.type);
+
 
                 t.$el.parent().find('.carousel-tray .carousel-index-thumb').each(function(i){
-                    var $thumb = $(this);    
+                    var $thumb = $(this);
 
                     t.indexThumbs.push($thumb);
 
                     $thumb.data('index', i).on(t.tapOrClick, navigate);
 
-                    console.log(i,$thumb.data('index'));
                 });
 
 
@@ -387,7 +383,7 @@
                 // See if it's on the page already in case they've made their own
                 t.slideCountTxt = $parent.find('.' + t.slideCountTxtClass);
                 var found = t.slideCountTxt.length > 0;
-                
+
                 // Generate span with slide count text in it if we didn't find it
                 if (!found) {
                     t.slideCountTxt = $(span, {
@@ -401,7 +397,7 @@
                     $parent.append(t.slideCountTxt);
                 }
             }
-            
+
             if (t.canClickElement === true) {
                 t.slides.each(function(i) {
                     $(this).on(t.tapOrClick, function(e) {
@@ -411,7 +407,7 @@
                 });
             }
         };
-        
+
         init.call(this);
     };
 
@@ -471,7 +467,7 @@
 
         // Trigger our slide start event for those interested
         t.trigger('slideStart', [index, prevIndex, direction, t]);
-        
+
 
         // if buttons are visible, and loop=false and loopAround=false, disable first or last button when you get to an end
         if (t.showPrevNextBtns && t.btnNext && t.btnPrev && !t.loopAround && !t.loop) {
@@ -487,7 +483,7 @@
                 t.btnNext.addClass(t.disabledClass);
             }
         }
-            
+
         // Update text
         if (t.showSlideCountTxt) {
             t._setSlideCount(index + 1);
@@ -495,10 +491,10 @@
 
         // Transition
         t._transition(tx, index, prevIndex, direction);
-        
+
         // Add active class to current slide
         t.slides.removeClass(t.activeClass).eq(index).addClass(t.activeClass);
-        
+
         // Add active class to current index button
         t._highlightIndexButton();
 
@@ -700,7 +696,7 @@
             t.$el.width(t.slideWidth * t.slides.length);
             if (t.isCSS && t.hasTransforms) {
                 t.$el.css(t.transitionName, t.prefix(t.transformName) + ' ' + t.duration + 'ms ' + t.cssEasing);
-                
+
             } else {
                 t.$el.css('marginLeft', t.start * t.slideWidth);
             }
@@ -710,7 +706,7 @@
             var t = this,
             whichProperty = t.hasTransforms ? t.transformName : 'marginLeft',
             value;
-            
+
             if (t.isCSS) {
                 if (t.hasTransforms3d) {
                     value = 'translate3d(' + tx + 'px, 0, 0)';
@@ -796,7 +792,7 @@
 
                 // don't show transition when we're moving things around
                 t._skipTransition(next, whichProperty, nextStartValue);
-                
+
                 // Trigger transitions
                 if (prev) {
                     prev.style[whichProperty] = prevEndValue;
@@ -886,7 +882,7 @@
                 future = 'translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0)',
                 past = 'translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0)',
                 nextStartPosition, prevEndPosition;
-            
+
             if (direction === 'advance') {
                 nextStartPosition = future;
                 prevEndPosition = past;
@@ -976,7 +972,7 @@
 
                 // don't show transition when we're moving things around
                 t._skipTransition(next, whichProperty, nextStartValue);
-                
+
                 // Trigger transitions
                 if (prev) {
                     prev.style[whichProperty] = prevEndValue;
@@ -1030,7 +1026,7 @@
         showPrevNextBtns: true, // if false, carousel won't generate or attach events to nav buttons
         putControlsInside: false, // if true, carousel-controls div will be inside the container ($el). Otherwise it'll be a sibling
         canClickElement: false, //if this is true, you can click the element to slide it into focus
-        
+
         // Slide counter
         showSlideCountTxt: false, // shows a counter for your slides like "2 of 6"
         slideCountTxtClass: 'carousel-slide-count-txt', // Class name for slide counter
