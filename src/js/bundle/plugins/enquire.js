@@ -2,8 +2,51 @@
 // Copyright (c) 2013 Nick Williams - http://wicky.nillia.ms/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
+// Polyfill matchMedia from:
+// https://github.com/paulirish/matchMedia.js/blob/master/matchMedia.js
+// We should move this into its own file, but I'm placing it here until we can
+// iron out load order issues.
+
+window.matchMedia = window.matchMedia || (function( doc, undefined ) {
+
+  "use strict";
+
+  var bool,
+      docElem = doc.documentElement,
+      refNode = docElem.firstElementChild || docElem.firstChild,
+      // fakeBody required for <FF4 when executed in <head>
+      fakeBody = doc.createElement( "body" ),
+      div = doc.createElement( "div" );
+
+  div.id = "mq-test-1";
+  div.style.cssText = "position:absolute;top:-100em";
+  fakeBody.style.background = "none";
+  fakeBody.appendChild(div);
+
+  return function(q){
+
+    div.innerHTML = "&shy;<style media=\"" + q + "\"> #mq-test-1 { width: 42px; }</style>";
+
+    docElem.insertBefore( fakeBody, refNode );
+    bool = div.offsetWidth === 42;
+    docElem.removeChild( fakeBody );
+
+    return {
+      matches: bool,
+      media: q
+    };
+
+  };
+
+}( document ));
 
 window.enquire = (function(matchMedia) {
+
+    // Don't try to load this if your browser doesn't support media queries.
+    // - George
+    if ( $(document.documentElement).hasClass('no-mediaqueries') ) {
+        return;
+    }
 
     "use strict";
 
@@ -140,7 +183,7 @@ window.enquire = (function(matchMedia) {
 function MediaQuery(query, isUnconditional) {
     this.query = query;
     this.isUnconditional = isUnconditional;
-    
+
     this.handlers = [];
     this.matched = false;
 }
@@ -312,7 +355,7 @@ MediaQuery.prototype = {
             if(!queries.hasOwnProperty(q)) {
                 return this;
             }
-            
+
             if(!handler) {
                 each(this.queries[q].handlers, function(handler) {
                     handler.destroy();
@@ -384,7 +427,7 @@ MediaQuery.prototype = {
 
             self.fire();
             this.listening = true;
-            
+
             return this;
         }
     };

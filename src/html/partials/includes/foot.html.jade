@@ -65,16 +65,6 @@ if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
         // Global init.
       });
 
-  //if lt IE 9
-    for name in locals.polyfills()
-      sr = "js/libs/polyfill/" + name
-      script(src = sr)
-
-  //if lt IE 8
-    for name in locals.polyfillsie7()
-      sr = "js/libs/polyfill-lte-ie7/" + name
-      script(src = sr)
-
 else
 
   script
@@ -95,6 +85,3 @@ else
       .wait(function() {
         // Global init.
       });
-
-  //if lt IE 9
-    script(src="js/polyfill.min.js")
