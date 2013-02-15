@@ -134,7 +134,7 @@
       // self.tabOffset = self.$activeTab.position().left;
       self.tabOffset = self.$activeTab[0].offsetLeft + self.scroller.x;
       self.overlap = null;
-      self.lastX = null;
+      self.lastScrollerX = null;
 
       // Set initail css on active tab
       css[ self.prop ] = self._getX( self._getBounded( self.tabOffset ) );
@@ -165,18 +165,23 @@
     animateTab : function() {
       // console.group('animateTab: StickyTabs');
       var self = this,
-          x = self.scroller.x * -1,
+          currentScrollerX = self.scroller.x * -1,
 
-          // last x - current x = distance since last _animateTab call
-          distance = self.lastX ? self.lastX - x : 0,
+          // Get the distance we've moved between function calls
+          distance = self.lastScrollerX ? self.lastScrollerX - currentScrollerX : currentScrollerX,
 
-          // If there is an overlap, we need to use that intead of the tab offset
+          // If there is a previous overlap, we need to use that intead of the tab offset
           offset = self.overlap ? self.overlap : self.tabOffset,
-          tmpX = offset + distance,
+          nonStickyOffset = offset + distance,
 
-          // contrain the tab to 0 and the viewport width
-          newX = self._getBounded( tmpX ),
-          value = self._getX( newX + x );
+          // contrain the tab between 0 and the viewport width
+          boundedX = self._getBounded( nonStickyOffset ),
+
+          // Bounded X is between 0 and viewport width, but what actually looks like 0 has to add iscroll's offset
+          boundedXWithContainerOffset = boundedX + currentScrollerX,
+
+          // get the css value
+          value = self._getX( boundedXWithContainerOffset );
 
       if ( self.scroller.moved && !self.isClickCanceled ) {
         // Prevent tab from being clicked. Passing false as a shorthand for function(){ return false; }
@@ -185,21 +190,22 @@
       }
 
       // If the value has been constrained, save the overlap
-      self.overlap = newX !== tmpX ? tmpX : null;
-      // self.overlap = tmpX;
+      self.overlap = boundedX !== nonStickyOffset ? nonStickyOffset : null;
+      // self.overlap = nonStickyOffset;
 
       // console.log('iscroll:', self.scroller);
-      // console.log('x:', x);
-      // console.log('lastX:', self.lastX);
+      // console.log('currentScrollerX:', currentScrollerX);
+      // console.log('lastScrollerX:', self.lastScrollerX);
       // console.log('distance:', distance);
       // console.log('tabOffset:', self.tabOffset);
       // console.log('overlap:', self.overlap);
-      // console.log('tmpX:', offset, '+', distance ,'=', tmpX);
-      // console.log('newX:', newX);
+      // console.log('nonStickyOffset:', offset, '+', distance ,'=', nonStickyOffset);
+      // console.log('boundedX:', boundedX);
+      // console.log('boundedXWithContainerOffset:', boundedXWithContainerOffset);
       // console.log( self.prop, value );
 
-      self.lastX = x;
-      self.tabOffset = newX;
+      self.lastScrollerX = currentScrollerX;
+      self.tabOffset = boundedX;
 
       self.$activeTab.css( self.prop, value );
 
@@ -266,7 +272,7 @@
       self.$tabs.removeAttr('style');
       self.isClickCanceled = false;
       self.overlap = null;
-      self.lastX = null;
+      self.lastScrollerX = null;
       self.isStickyTabs = false;
     },
 
@@ -393,7 +399,7 @@
     windowWidth: 0,
     // windowHeight: 0,
     overlap: null,
-    lastX: null,
+    lastScrollerX: null,
     isStickyTabs: false,
     toOffset: 0,
     prop: Modernizr.csstransforms ? 'transform' : 'left',
