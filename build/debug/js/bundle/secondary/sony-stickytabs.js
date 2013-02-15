@@ -61,7 +61,7 @@
       }
     },
 
-    _getBounded : function( value ) {
+    _getConstrained : function( value ) {
       return Exports.constrain( value, 0, this.windowWidth - this.tabWidth );
     },
 
@@ -126,29 +126,27 @@
     _onTabSelected : function() {
       var self = this,
           css = { position: 'absolute' },
-          offset,
-          containerOffset = self.scroller.x; // will be negative if on the left, + on the right
+          tabOffsetFromContainer,
+          constrainedXWithContainerOffset;
 
+      // Remove the margins and position absolute from all tabs
       self.$tabs.removeAttr('style');
 
-      // Get offset from left side
-      // jQuery's offset is unreliable because Webkit includes transforms and Gecko doesn't
+      // jQuery's `offset()` is unreliable because WebKit includes transforms and Gecko doesn't
       // in offset calculations http://bugs.jquery.com/ticket/8362
-      // self.tabOffset = self.$activeTab.position().left;
       // Get the offset with transform, then subtract the transform
-      offset = self.$activeTab[0].offsetLeft + containerOffset;
+      tabOffsetFromContainer = self.$activeTab[0].offsetLeft + self.scroller.x;
 
-      // Constrain offset between 0 and window width
-      offset = self._getBounded( offset );
+      constrainedXWithContainerOffset = self._getTabOffsetObj( tabOffsetFromContainer );
 
-      // Add back the container offset
-      offset = offset - containerOffset;
+      // Save the tab's initial offset from its container
+      self.initialOffset = tabOffsetFromContainer;
 
-      // Reset the overlap
-      self.overlap = null;
+      // Save iscroll's current offset
+      self.initialContainerOffset = self.scroller.x;
 
       // Set initail css on active tab
-      css[ self.prop ] = self._getX( offset );
+      css[ self.prop ] = constrainedXWithContainerOffset.str;
       self.$activeTab.css(css);
 
       // Add a margin to the next (or previous if it's the last tab) tab because
@@ -163,10 +161,6 @@
       if ( self.scroller ) {
         self.scroller.refresh();
       }
-
-      self.tabOffset = offset;
-
-      self.animateTab();
     },
 
     // We know the offset we want within the container, but the container is translated too
@@ -175,54 +169,50 @@
       return [ this.valStart, x, this.valEnd ].join('');
     },
 
-    animateTab : function() {
-      console.group('animateTab: StickyTabs');
+    _getTabOffsetObj : function( tabOffsetFromContainer ) {
       var self = this,
-          currentScrollerX = self.scroller.x * -1,
+          constrainedX,
+          constrainedXWithContainerOffset,
+          currentScrollerX = self.scroller.x; // will be negative if on the left, + on the right
 
-          // Get the distance we've moved between function calls
-          distance = self.lastScrollerX ? self.lastScrollerX - currentScrollerX : 0,
+      // Constrain offset between 0 and window width
+      constrainedX = self._getConstrained( tabOffsetFromContainer );
 
-          // If there is a previous overlap, we need to use that intead of the tab offset
-          offset = self.overlap ? self.overlap : self.tabOffset,
-          nonStickyOffset = offset + distance,
+      // Add back the container offset
+      constrainedXWithContainerOffset = constrainedX - currentScrollerX;
 
-          // contrain the tab between 0 and the viewport width
-          boundedX = self._getBounded( nonStickyOffset ),
+      // Reset the overlap (difference between our original offset and the new constrained value)
+      self.overlap = tabOffsetFromContainer - constrainedX;
 
-          // Bounded X is between 0 and viewport width, but what actually looks like 0 has to add iscroll's offset
-          boundedXWithContainerOffset = boundedX + currentScrollerX,
+      // Return the plain number and the css value ( like 0 and translate(0px, 0))
+      return {
+        val: constrainedXWithContainerOffset,
+        str: self._getX( constrainedXWithContainerOffset )
+      };
+    },
 
-          // get the css value
-          value = self._getX( boundedXWithContainerOffset );
+    animateTab : function() {
+      var self = this,
+          currentScrollerX = self.scroller.x,
 
+          // Distance from when the tab was selected to now
+          distanceFromInitial = self.initialContainerOffset - currentScrollerX,
+
+          // Get the offset of the tab from its initial position
+          tabOffsetFromContainer = self.initialOffset - distanceFromInitial,
+
+          // Get the css value
+          value = self._getTabOffsetObj( tabOffsetFromContainer ).str;
+
+      // Prevent tab from being clicked if the scroller has moved.
       if ( self.scroller.moved && !self.isClickCanceled ) {
-        // Prevent tab from being clicked. Passing false as a shorthand for function(){ return false; }
+        // Passing false is shorthand for function(){ return false; },
+        // which is shorthand for event.preventDefault(); event.stopPropagation();
         self.$tabs.on('click.stickytabs', false);
         self.isClickCanceled = true;
       }
 
-      // If the value has been constrained, save the overlap
-      self.overlap = boundedX !== nonStickyOffset ? nonStickyOffset : null;
-      // self.overlap = nonStickyOffset;
-
-      console.log('iscroll:', self.scroller);
-      console.log('currentScrollerX:', currentScrollerX);
-      console.log('lastScrollerX:', self.lastScrollerX);
-      console.log('distance:', distance);
-      console.log('tabOffset:', self.tabOffset);
-      console.log('overlap:', self.overlap);
-      console.log('nonStickyOffset:', offset, '+', distance ,'=', nonStickyOffset);
-      console.log('boundedX:', boundedX);
-      console.log('boundedXWithContainerOffset:', boundedXWithContainerOffset);
-      console.log( self.prop, value );
-
-      self.lastScrollerX = currentScrollerX;
-      self.tabOffset = boundedX;
-
       self.$activeTab.css( self.prop, value );
-
-      console.groupEnd();
     },
 
     setup : function() {
@@ -256,9 +246,6 @@
           },
           onScrollEnd: function() {
             self.animateTab();
-          },
-          onTouchEnd: function() {
-            // self.animateTab();
           },
           onAnimate: function() {
             self.animateTab();
