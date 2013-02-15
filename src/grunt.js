@@ -25,6 +25,7 @@ module.exports = function(grunt) {
           white: false
         },
         globals: {
+          SONY: true,
           iQ: true,
           $: true,
           jQuery: true,
