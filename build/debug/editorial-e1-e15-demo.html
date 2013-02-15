@@ -27,7 +27,6 @@
 
   <!-- FONTS.COM -->
   <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> --><link rel="stylesheet" href="css/styles.css"/><!--[if lt IE 9]><script src="js/libs/polyfill/animation-frame.js"></script><script src="js/libs/polyfill/html5shiv.js"></script><script src="js/libs/polyfill/lte-ie8.js"></script><script src="js/libs/polyfill/nwmatcher-1.3.0.js"></script><script src="js/libs/polyfill/selectivizr-1.0.3b.js"></script><![endif]--><!--[if lt IE 8]><script src="js/libs/polyfill-lte-ie7/lte-ie7-fonticons.js"></script><![endif]--><link rel="stylesheet" href="css/modules/carousel.css"/><link rel="stylesheet" href="css/modules/editorial-dual-viewer-e9.css"/><link rel="stylesheet" href="css/modules/editorial-e1-e15.css"/><link rel="stylesheet" href="css/modules/gallery.css"/><link rel="stylesheet" href="css/modules/hotspot_explorer.css"/><link rel="stylesheet" href="css/modules/mymodule.css"/><link rel="stylesheet" href="css/modules/primary-tout-p1-d7.css"/><link rel="stylesheet" href="css/modules/related-products.css"/><link rel="stylesheet" href="css/modules/sony_one_carousel.css"/><link rel="stylesheet" href="css/modules/sonycarousel.css"/><link rel="stylesheet" href="css/modules/spec-z1-z2.css"/><link rel="stylesheet" href="css/modules/tertiary-t1-t5.css"/><link rel="stylesheet" href="css/modules/ux-marketing-convergence-e14.css"/><link rel="stylesheet" href="css/modules/video.css"/></head><body><section class="editorial container clearfix mediaright"><div class="grid no-grid-at-767 table-center-wrap dark-text-trans-box"><div class="table-center box span5"><hgroup><h2 class="">h2 title</h2></hgroup><p class="p3">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p><a href="http://www.google.com" class="button">click here</a></div><div class="table-center media-element span7"><div class="image-module"><img alt="Lorem ipsum dolor sit amet, consectetur adipisicing elits." data-src="category_series_expl_cyber.png" data-base="http://devopod.appspot.com/images/" class="iq-img update-always"/></div></div></div></section><script src="js/libs/LAB.min.js"></script><script>var pluginScripts = ["enquire.js","jquery.imagesloaded.js","jquery.infinitescroll.js","jquery.throttle-debounce.js","sony-iscroll.js"],
-    requiredScripts = ["exports.js","global-init.js","global-tracking.js","iq.js"],
     secondaryScripts = ["debug_toggle.js","jodo.rangecontrol.1.4.js","jquery.shuffle.js","jquery.simpleknob.js","jquery.simplescroll.js","sony-draggable.js","sony-evenheights.js","sony-scroller.js","sony-stickytabs.js","sony-tab.js"],
     deferedScripts = ["brightcove-builder.js","editorial-dual-viewer-e9.js","form-actions.js","global-nav.js","hotspot_explorer.js","jquery.viewport.js","primary-tout-p1-d7.js","related-products.js","sony-gallery.js","sony-one-carousel.js","sony-sequencer.js","spec-multi-z2.js","spec-single-z1.js","tertiary-t1-t5-module.js","ux-marketing-convergence-e14.js"];
     </script><script>$LAB
@@ -48,13 +47,11 @@
   }).wait()
   
   // Global Scripts
-  .script(function(){
-    var arr = [];
-    for ( i in requiredScripts ) {
-      arr.push('js/bundle/require/' + requiredScripts[i]);
-    }
-    return arr;
-  }).wait()
+  .script('js/bundle/require/sony-global.js').wait()
+  .script('js/bundle/require/sony-analytics.js').wait()
+  .script('js/bundle/require/sony-utilities.js').wait()
+  .script('js/bundle/require/exports.js').wait()
+  .script('js/bundle/require/iq.js').wait()
   
   // SONY Plugins
   .script(function(){
@@ -74,8 +71,8 @@
     return arr;
   })
   
-  // Global Initialization.
   .wait(function() {
-    // Global init.
+    window.isDebugMode = true;
+    Sony.Global.init();
   });
   </script></body></html>
