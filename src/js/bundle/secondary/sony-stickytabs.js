@@ -122,9 +122,12 @@
       }
     },
 
+    // This is working fine
     _onTabSelected : function() {
       var self = this,
-          css = { position: 'absolute' };
+          css = { position: 'absolute' },
+          offset,
+          containerOffset = self.scroller.x; // will be negative if on the left, + on the right
 
       self.$tabs.removeAttr('style');
 
@@ -132,12 +135,20 @@
       // jQuery's offset is unreliable because Webkit includes transforms and Gecko doesn't
       // in offset calculations http://bugs.jquery.com/ticket/8362
       // self.tabOffset = self.$activeTab.position().left;
-      self.tabOffset = self.$activeTab[0].offsetLeft + self.scroller.x;
+      // Get the offset with transform, then subtract the transform
+      offset = self.$activeTab[0].offsetLeft + containerOffset;
+
+      // Constrain offset between 0 and window width
+      offset = self._getBounded( offset );
+
+      // Add back the container offset
+      offset = offset - containerOffset;
+
+      // Reset the overlap
       self.overlap = null;
-      self.lastScrollerX = null;
 
       // Set initail css on active tab
-      css[ self.prop ] = self._getX( self._getBounded( self.tabOffset ) );
+      css[ self.prop ] = self._getX( offset );
       self.$activeTab.css(css);
 
       // Add a margin to the next (or previous if it's the last tab) tab because
@@ -153,6 +164,8 @@
         self.scroller.refresh();
       }
 
+      self.tabOffset = offset;
+
       self.animateTab();
     },
 
@@ -163,12 +176,12 @@
     },
 
     animateTab : function() {
-      // console.group('animateTab: StickyTabs');
+      console.group('animateTab: StickyTabs');
       var self = this,
           currentScrollerX = self.scroller.x * -1,
 
           // Get the distance we've moved between function calls
-          distance = self.lastScrollerX ? self.lastScrollerX - currentScrollerX : currentScrollerX,
+          distance = self.lastScrollerX ? self.lastScrollerX - currentScrollerX : 0,
 
           // If there is a previous overlap, we need to use that intead of the tab offset
           offset = self.overlap ? self.overlap : self.tabOffset,
@@ -193,23 +206,23 @@
       self.overlap = boundedX !== nonStickyOffset ? nonStickyOffset : null;
       // self.overlap = nonStickyOffset;
 
-      // console.log('iscroll:', self.scroller);
-      // console.log('currentScrollerX:', currentScrollerX);
-      // console.log('lastScrollerX:', self.lastScrollerX);
-      // console.log('distance:', distance);
-      // console.log('tabOffset:', self.tabOffset);
-      // console.log('overlap:', self.overlap);
-      // console.log('nonStickyOffset:', offset, '+', distance ,'=', nonStickyOffset);
-      // console.log('boundedX:', boundedX);
-      // console.log('boundedXWithContainerOffset:', boundedXWithContainerOffset);
-      // console.log( self.prop, value );
+      console.log('iscroll:', self.scroller);
+      console.log('currentScrollerX:', currentScrollerX);
+      console.log('lastScrollerX:', self.lastScrollerX);
+      console.log('distance:', distance);
+      console.log('tabOffset:', self.tabOffset);
+      console.log('overlap:', self.overlap);
+      console.log('nonStickyOffset:', offset, '+', distance ,'=', nonStickyOffset);
+      console.log('boundedX:', boundedX);
+      console.log('boundedXWithContainerOffset:', boundedXWithContainerOffset);
+      console.log( self.prop, value );
 
       self.lastScrollerX = currentScrollerX;
       self.tabOffset = boundedX;
 
       self.$activeTab.css( self.prop, value );
 
-      // console.groupEnd();
+      console.groupEnd();
     },
 
     setup : function() {
