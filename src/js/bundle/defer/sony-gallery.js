@@ -1377,8 +1377,6 @@
           backdrop: false
         }); // Show the modal
 
-
-
     },
 
     onCompareShown : function() {
@@ -1530,6 +1528,7 @@
       self.$compareReset = null;
       self.$compareItems = null;
       self.$compareItemsContainer = null;
+      self.$compareNav = null;
       self.$detailLabelsWrap = null;
       self.$takeoverStickyHeader = null;
 
@@ -1695,6 +1694,7 @@
       var self = this,
           scrollTop = iscroll.y * -1;
 
+      // Determine if this is the inner scroller
       if ( offsetTop === 'inner' ) {
         if ( iscroll.x < -3 && !self.$detailLabelsWrap.hasClass('overflowing') ) {
           self.$detailLabelsWrap.addClass('overflowing');
@@ -1706,6 +1706,7 @@
 
       if ( scrollTop >= offsetTop ) {
         if ( !self.$stickyHeaders.hasClass('open') ) {
+          self.$compareNav.addClass('sticky-nav-open');
           self.$takeoverStickyHeader.addClass('open');
           self.$stickyHeaders.addClass('open');
         }
@@ -1713,6 +1714,7 @@
 
       } else {
         if ( self.$stickyHeaders.hasClass('open') ) {
+          self.$compareNav.removeClass('sticky-nav-open');
           self.$takeoverStickyHeader.removeClass('open');
           self.$stickyHeaders.removeClass('open');
         }
@@ -1805,6 +1807,8 @@
 
       $navContainer.append( $prevPaddle, $nextPaddle );
       $parent.append( $navContainer );
+
+      this.$compareNav = $navContainer;
     },
 
     addCompareNavEvents : function() {
@@ -2241,14 +2245,11 @@ $(document).ready(function() {
     // console.profile();
 
     // Initialize galleries
-    console.log('initializing galleries');
     $('.gallery').each(function() {
       var $this = $(this);
 
       $this.gallery( $this.data() );
     });
-
-    console.log('galleries initialized');
 
     // Register for tab show(n) events here because not all tabs are galleries
     $('[data-tab]')
