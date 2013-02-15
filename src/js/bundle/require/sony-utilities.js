@@ -1,7 +1,12 @@
 
-var Sony = Sony || {};
+// Sony Utilities Class
+// --------------------
+//
+// * **Class:** SONY.Utilities
 
-Sony.Utilities = (function(window, document) {
+var SONY = SONY || {};
+
+SONY.Utilities = (function(window, document) {
 
   'use strict';
 
