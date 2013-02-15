@@ -1,27 +1,32 @@
 
-var Sony = Sony || {};
+// Sony Global Class
+// -----------------
+//
+// * **Class:** SONY.Global
 
-Sony.Global = (function(window, document) {
+var SONY = SONY || {};
 
-    Sony.$window = $(window);
-    Sony.$html = $(document.documentElement);
-    Sony.$body = $(document.body);
+SONY.Global = (function(window, document) {
 
-    var self = {
+  SONY.$window = $(window);
+  SONY.$html = $(document.documentElement);
+  SONY.$body = $(document.body);
 
-        'init': function(config) {
+  var self = {
 
-            Sony.Utilities.init();
+    'init': function(config) {
 
-            if ( window.enquire ){
-                window.enquire.listen(100);
-            }
+      SONY.Utilities.init();
 
-            log('SONY : Global : Initialized');
-        }
-    };
+      if ( window.enquire ){
+        window.enquire.listen(100);
+      }
 
-    return self;
+      log('SONY : Global : Initialized');
+    }
+  };
+
+  return self;
 
 })(this, this.document);
 
