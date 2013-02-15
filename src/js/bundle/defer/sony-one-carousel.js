@@ -547,7 +547,7 @@
 
         if(self.currentId !== 0){
           self.$gridW = self.$el.find('.soc-grid' ).eq(0);
-          newPos -= (window.Exports.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
+          newPos -= (SONY.Settings.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
         }
 
         if(self.isMobileMode === true){
@@ -1028,7 +1028,7 @@
 
           self.$desktopSlides.each(function(i){
             cw = self.$gridW.width();
-            gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
+            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM * cw;
             if(i > 0){
               cw += gutterWidth;
             }
@@ -1042,7 +1042,7 @@
 
           self.$tabletSlides.each(function(i){
             cw = self.$gridW.width();
-            gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
+            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM * cw;
 
             if(i > 0){
               cw += gutterWidth;
