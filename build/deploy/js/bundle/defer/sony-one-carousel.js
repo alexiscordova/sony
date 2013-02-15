@@ -213,13 +213,6 @@
 
         var self = this;
 
-        self.$container.find('.headline a').each(function(){
-          var $this = $(this),
-              $parentContainer = $this.closest('.soc-item');
-
-          $parentContainer.attr('data-click-link', $this.attr('href'));
-        });
-
         self.$container.find('.soc-item').on(self.clickEvent, function(e){
 
           var $this = $(this),

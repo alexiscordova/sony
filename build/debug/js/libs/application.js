@@ -82,21 +82,17 @@
           lookingForClosestEl = true;
           var scrollTop = $(window).scrollTop();
           var closestSt = $('body').outerHeight(); // start out w.the tallest possible scrolltop offset - the page height.
-          console.log("scrollTop: " + scrollTop + ", closestSt: " + closestSt);
 
           $('h2, h3, h4, h5, h6').each(function(){
             var thSt = $(this).offset().top; // how far this el is from the page top
             var thStOffset = scrollTop - thSt; // how far this el is from the viewport top
-            
+
             if (thStOffset < closestSt && lookingForClosestEl){
-              // console.log("thSt: " + thSt + ", thStOffset: " + thStOffset);
               if (thStOffset > 20){ // if it's greater than 0, keep going.
-                // console.log("closestSt: " + closestSt);
                 closestSt = thSt;
               } else {
                 lookingForClosestEl = false;
                 $closestEl = $(this);
-                console.log("thStOffset: " + thStOffset + ", tag: " + $(this).text());     
               }
             }
           })
@@ -104,7 +100,6 @@
 
         }
 
-        // console.log("$closestEl: " + $closestEl.prop("tagName"));
         $(window).scrollTop($closestEl.offset().top - 30);
       });
     }
@@ -118,7 +113,7 @@
       , title: function () { return $(this).attr("class") }
       })
     })
-    
+
 
     // tooltip demo
     $('.tooltip-demo').tooltip({

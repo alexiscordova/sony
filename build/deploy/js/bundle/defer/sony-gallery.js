@@ -1100,7 +1100,6 @@
       // Make sure isInit is not an event object
       isInit = isInit === true;
 
-      console.log('onResize:', self.id, ' - (iOS is triggering resizes when it shouldnt be)');
 
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
@@ -2082,7 +2081,6 @@
       var self = this,
           windowHeight = self.isIphone ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
 
-      console.log('window height', windowHeight);
 
       self.$compareTool.find('.compare-container').height( self.$compareItems.first().height() );
       self.$compareTool.height( windowHeight );
