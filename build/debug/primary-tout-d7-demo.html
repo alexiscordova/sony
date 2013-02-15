@@ -27,7 +27,6 @@
 
   <!-- FONTS.COM -->
   <!-- <script type="text/javascript" src="http://fast.fonts.com/jsapi/448c9b40-894e-4f1b-99c2-1d531d005244.js"></script> --><link rel="stylesheet" href="css/styles.css"/><!--[if lt IE 9]><script src="js/libs/polyfill/animation-frame.js"></script><script src="js/libs/polyfill/html5shiv.js"></script><script src="js/libs/polyfill/lte-ie8.js"></script><script src="js/libs/polyfill/nwmatcher-1.3.0.js"></script><script src="js/libs/polyfill/selectivizr-1.0.3b.js"></script><![endif]--><!--[if lt IE 8]><script src="js/libs/polyfill-lte-ie7/lte-ie7-fonticons.js"></script><![endif]--><link rel="stylesheet" href="css/modules/carousel.css"/><link rel="stylesheet" href="css/modules/editorial-dual-viewer-e9.css"/><link rel="stylesheet" href="css/modules/editorial-e1-e15.css"/><link rel="stylesheet" href="css/modules/gallery.css"/><link rel="stylesheet" href="css/modules/hotspot_explorer.css"/><link rel="stylesheet" href="css/modules/mymodule.css"/><link rel="stylesheet" href="css/modules/primary-tout-p1-d7.css"/><link rel="stylesheet" href="css/modules/related-products.css"/><link rel="stylesheet" href="css/modules/sony_one_carousel.css"/><link rel="stylesheet" href="css/modules/sonycarousel.css"/><link rel="stylesheet" href="css/modules/spec-z1-z2.css"/><link rel="stylesheet" href="css/modules/tertiary-t1-t5.css"/><link rel="stylesheet" href="css/modules/ux-marketing-convergence-e14.css"/><link rel="stylesheet" href="css/modules/video.css"/></head><body><div class="primary-tout container full-bleed-no-max title-plate secondaryLavender"><div alt="Lorem ipsum dolor sit amet, consectetur adipisicing elit." data-src="img/primary-tout-p1-d7/header-gallery-cybershot.jpg" class="hero-image image-module iq-img undefined"></div><div class="container inner light-text-trans-box"><div class="grid no-grid-at-767"><div class="span6"><div class="table-center-wrap"><div class="table-center"><div class="box left"><a href="#" class="eyebrow"> <i class="fonticon-10-chevron"></i>CAMERAS</a><h1 class="t2">Cyber-shot®</h1><p class="p3 hidden-phone">Lightweight, rugged or fun. This line of cameras has it all. Learn more about Cyber-shot.</p><a href="#" class="btn-mini btn">Learn More about Cyber-shot</a></div></div></div></div></div></div></div><script src="js/libs/LAB.min.js"></script><script>var pluginScripts = ["enquire.js","jquery.imagesloaded.js","jquery.infinitescroll.js","jquery.throttle-debounce.js","sony-iscroll.js"],
-    requiredScripts = ["exports.js","global-init.js","global-tracking.js","iq.js"],
     secondaryScripts = ["debug_toggle.js","jodo.rangecontrol.1.4.js","jquery.shuffle.js","jquery.simpleknob.js","jquery.simplescroll.js","sony-draggable.js","sony-evenheights.js","sony-scroller.js","sony-stickytabs.js","sony-tab.js"],
     deferedScripts = ["brightcove-builder.js","editorial-dual-viewer-e9.js","form-actions.js","global-nav.js","hotspot_explorer.js","jquery.viewport.js","primary-tout-p1-d7.js","related-products.js","sony-gallery.js","sony-one-carousel.js","sony-sequencer.js","spec-multi-z2.js","spec-single-z1.js","tertiary-t1-t5-module.js","ux-marketing-convergence-e14.js"];
     </script><script>$LAB
@@ -48,13 +47,12 @@
   }).wait()
   
   // Global Scripts
-  .script(function(){
-    var arr = [];
-    for ( i in requiredScripts ) {
-      arr.push('js/bundle/require/' + requiredScripts[i]);
-    }
-    return arr;
-  }).wait()
+  .script('js/bundle/require/sony-global.js').wait()
+  .script('js/bundle/require/sony-global-settings.js').wait()
+  .script('js/bundle/require/sony-global-analytics.js').wait()
+  .script('js/bundle/require/sony-global-utilities.js').wait()
+  .script('js/bundle/require/exports.js').wait()
+  .script('js/bundle/require/iq.js').wait()
   
   // SONY Plugins
   .script(function(){
@@ -74,8 +72,8 @@
     return arr;
   })
   
-  // Global Initialization.
   .wait(function() {
-    // Global init.
+    window.isDebugMode = true;
+    SONY.Global.init();
   });
   </script></body></html>

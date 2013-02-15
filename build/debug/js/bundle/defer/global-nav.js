@@ -250,10 +250,17 @@
           });
 
           // Activate click for tab navigation
-          $thNavBtnTarget.find('a').on('focus', function() {
-            var navTrayId = $(this).parents('.navtray-w,.navmenu-w').attr('id');
+         $thNavBtnTarget.find('a').on('focus', function() {
+            
+            var navTray = $(this).parents('.navtray-w,.navmenu-w'), 
+                navTrayId = $(navTray).attr('id');
+            
             $(this).parents('.navtray-w').data('hovering',true);
             $('a[data-target='+navTrayId+']').trigger('mouseenter');
+            
+            if (!($(navTray).hasClass('navtray-w-visible') || $(navTray).hasClass('navmenu-w-visible'))) {
+              $('a[data-target='+navTrayId+']').focus();
+            } 
           });
 
           // If you mouseOut of the target
@@ -374,8 +381,13 @@
         // if you're not opening, it's just initializing on page load
         startHeight = expandedHeight;
         endHeight = '1px';
+        
+        // if it ie, we remove the animation
+        // **TODO** add jquery animation for ie9+
+        if ($('html').hasClass('lt-ie10')){
+         endHeight = expandedHeight;
+        }
       }
-
 
       $navTray
         .data('expandedHeight',startHeight)
@@ -443,7 +455,7 @@
           // it's a nav-tray
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
-          if ($('body').hasClass('lt-ie10')){
+          if ($('html').hasClass('lt-ie10')){
             // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
             self.slideNavTray($thNavTarget, true);
           } else {

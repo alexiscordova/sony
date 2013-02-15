@@ -5,12 +5,6 @@
 // Dependencies: jQuery 1.7+, Modernizr
 // -------------------------------------------------------------------------
 
-(function(window){
-    'use strict';
-    var sony = window.sony = window.sony || {};
-    sony.modules = sony.modules || {};
-})(window);
-
 (function($, Modernizr, window, undefined) {
 
     'use strict';

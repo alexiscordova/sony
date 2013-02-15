@@ -30,7 +30,6 @@
 Sony Singapore Store Opening Day Party</p><p class="p3">Fingerstache nesciunt bushwick excepteur, fashion axe kale chips keytar sapiente whatever selfies. Pinterest pug keffiyeh, consequa...                </p><p class="lt3"><a href="#">Read More</a></p></div></div><div data-tcc-content-type="article" data-tcc-content-mode="news" data-src="" class="tcc-content-module span4 table-center-wrap article news "> <div class="img-container"><div class="img-wrap"><img alt="Alt Text" data-src="img/tertiary-t1-t5/article-news.jpg" class="iq-img"/><noscript><img src="img/tertiary-t1-t5/article-news-desktop.jpg"/></noscript><p class="news-date l3">09.14.2012</p></div></div><div class="tcc-copy">              <p class="t6"> 
 Sony Annouces Release of Waterproof Headphones</p><p class="p3">Fingerstache nesciunt bushwick excepteur, fashion axe kale chips keytar sapiente whatever selfies. Pinterest pug keffiyeh, consequa...                </p><p class="lt3"><a href="#">Read More</a></p></div></div><div data-tcc-content-type="article" data-tcc-content-mode="featured" data-src="img/tertiary-t1-t5/article-featured.jpg" class="tcc-content-module span4 table-center-wrap article featured iq-img"> <article><div class="feature-copy"><p class="t4">Explore the range of digital frames</p><p class="lt3"><a href="#">Read More</a></p></div></article></div></div></section></section>
 <script src="js/libs/LAB.min.js"></script><script>var pluginScripts = ["enquire.js","jquery.imagesloaded.js","jquery.infinitescroll.js","jquery.throttle-debounce.js","sony-iscroll.js"],
-    requiredScripts = ["exports.js","global-init.js","global-tracking.js","iq.js"],
     secondaryScripts = ["debug_toggle.js","jodo.rangecontrol.1.4.js","jquery.shuffle.js","jquery.simpleknob.js","jquery.simplescroll.js","sony-draggable.js","sony-evenheights.js","sony-scroller.js","sony-stickytabs.js","sony-tab.js"],
     deferedScripts = ["brightcove-builder.js","editorial-dual-viewer-e9.js","form-actions.js","global-nav.js","hotspot_explorer.js","jquery.viewport.js","primary-tout-p1-d7.js","related-products.js","sony-gallery.js","sony-one-carousel.js","sony-sequencer.js","spec-multi-z2.js","spec-single-z1.js","tertiary-t1-t5-module.js","ux-marketing-convergence-e14.js"];
     </script><script>$LAB
@@ -51,13 +50,12 @@ Sony Annouces Release of Waterproof Headphones</p><p class="p3">Fingerstache nes
   }).wait()
   
   // Global Scripts
-  .script(function(){
-    var arr = [];
-    for ( i in requiredScripts ) {
-      arr.push('js/bundle/require/' + requiredScripts[i]);
-    }
-    return arr;
-  }).wait()
+  .script('js/bundle/require/sony-global.js').wait()
+  .script('js/bundle/require/sony-global-settings.js').wait()
+  .script('js/bundle/require/sony-global-analytics.js').wait()
+  .script('js/bundle/require/sony-global-utilities.js').wait()
+  .script('js/bundle/require/exports.js').wait()
+  .script('js/bundle/require/iq.js').wait()
   
   // SONY Plugins
   .script(function(){
@@ -77,8 +75,8 @@ Sony Annouces Release of Waterproof Headphones</p><p class="p3">Fingerstache nes
     return arr;
   })
   
-  // Global Initialization.
   .wait(function() {
-    // Global init.
+    window.isDebugMode = true;
+    SONY.Global.init();
   });
   </script></body></html>

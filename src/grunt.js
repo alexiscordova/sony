@@ -25,6 +25,7 @@ module.exports = function(grunt) {
           white: false
         },
         globals: {
+          SONY: true,
           iQ: true,
           $: true,
           jQuery: true,
@@ -136,7 +137,14 @@ module.exports = function(grunt) {
         dest: '../build/deploy/js/plugins.min.js'
       },
       require:{
-        src: 'js/bundle/require/*.js',
+        src: [
+          'js/bundle/require/sony-global.js',
+          'js/bundle/require/sony-global-settings.js',
+          'js/bundle/require/sony-global-analytics.js',
+          'js/bundle/require/sony-global-utilities.js',
+          'js/bundle/require/exports.js',
+          'js/bundle/require/iq.js',
+        ],
         dest: '../build/deploy/js/require.min.js'
       },
       secondary:{
