@@ -61,7 +61,7 @@
       }
     },
 
-    _getBounded : function( value ) {
+    _getConstrained : function( value ) {
       return Exports.constrain( value, 0, this.windowWidth - this.tabWidth );
     },
 
@@ -127,7 +127,9 @@
       var self = this,
           css = { position: 'absolute' },
           offset,
-          containerOffset = self.scroller.x; // will be negative if on the left, + on the right
+          constrainedX,
+          constrainedXWithContainerOffset,
+          currentScrollerX = self.scroller.x; // will be negative if on the left, + on the right
 
       self.$tabs.removeAttr('style');
 
@@ -136,19 +138,19 @@
       // in offset calculations http://bugs.jquery.com/ticket/8362
       // self.tabOffset = self.$activeTab.position().left;
       // Get the offset with transform, then subtract the transform
-      offset = self.$activeTab[0].offsetLeft + containerOffset;
+      offset = self.$activeTab[0].offsetLeft + currentScrollerX;
 
       // Constrain offset between 0 and window width
-      offset = self._getBounded( offset );
+      constrainedX = self._getConstrained( offset );
 
       // Add back the container offset
-      offset = offset - containerOffset;
+      constrainedXWithContainerOffset = constrainedX - currentScrollerX;
 
-      // Reset the overlap
-      self.overlap = null;
+      // Reset the overlap (difference between our original offset and the new constrained value)
+      self.overlap = offset - constrainedX;
 
       // Set initail css on active tab
-      css[ self.prop ] = self._getX( offset );
+      css[ self.prop ] = self._getX( constrainedXWithContainerOffset );
       self.$activeTab.css(css);
 
       // Add a margin to the next (or previous if it's the last tab) tab because
@@ -178,23 +180,23 @@
     animateTab : function() {
       console.group('animateTab: StickyTabs');
       var self = this,
-          currentScrollerX = self.scroller.x * -1,
+          currentScrollerX = self.scroller.x,
 
           // Get the distance we've moved between function calls
-          distance = self.lastScrollerX ? self.lastScrollerX - currentScrollerX : 0,
+          distance = self.lastScrollerX ? currentScrollerX - self.lastScrollerX : 0,
 
           // If there is a previous overlap, we need to use that intead of the tab offset
           offset = self.overlap ? self.overlap : self.tabOffset,
-          nonStickyOffset = offset + distance,
+          nonStickyTabOffset = offset + distance,
 
           // contrain the tab between 0 and the viewport width
-          boundedX = self._getBounded( nonStickyOffset ),
+          constrainedX = self._getConstrained( nonStickyTabOffset ),
 
           // Bounded X is between 0 and viewport width, but what actually looks like 0 has to add iscroll's offset
-          boundedXWithContainerOffset = boundedX + currentScrollerX,
+          constrainedXWithContainerOffset = constrainedX + (-currentScrollerX),
 
           // get the css value
-          value = self._getX( boundedXWithContainerOffset );
+          value = self._getX( constrainedXWithContainerOffset );
 
       if ( self.scroller.moved && !self.isClickCanceled ) {
         // Prevent tab from being clicked. Passing false as a shorthand for function(){ return false; }
@@ -203,8 +205,7 @@
       }
 
       // If the value has been constrained, save the overlap
-      self.overlap = boundedX !== nonStickyOffset ? nonStickyOffset : null;
-      // self.overlap = nonStickyOffset;
+      self.overlap = constrainedX !== nonStickyTabOffset ? nonStickyTabOffset : 0;
 
       console.log('iscroll:', self.scroller);
       console.log('currentScrollerX:', currentScrollerX);
@@ -212,13 +213,14 @@
       console.log('distance:', distance);
       console.log('tabOffset:', self.tabOffset);
       console.log('overlap:', self.overlap);
-      console.log('nonStickyOffset:', offset, '+', distance ,'=', nonStickyOffset);
-      console.log('boundedX:', boundedX);
-      console.log('boundedXWithContainerOffset:', boundedXWithContainerOffset);
+      console.log('offset:', offset);
+      console.log('nonStickyTabOffset:', offset, '+', distance ,'=', nonStickyTabOffset);
+      console.log('constrainedX:', constrainedX);
+      console.log('constrainedXWithContainerOffset:', constrainedXWithContainerOffset);
       console.log( self.prop, value );
 
       self.lastScrollerX = currentScrollerX;
-      self.tabOffset = boundedX;
+      self.tabOffset = constrainedX;
 
       self.$activeTab.css( self.prop, value );
 
