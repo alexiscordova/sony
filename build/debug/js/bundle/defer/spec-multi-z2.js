@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports*/
+/*global jQuery, Modernizr, Exports, SONY*/
 
 // -------- Sony Full Specs Multi -------
 // Module: Full Specs Multi
@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = $(window);
+    self.$window = SONY.$window || $(window);
     self._init();
   };
 

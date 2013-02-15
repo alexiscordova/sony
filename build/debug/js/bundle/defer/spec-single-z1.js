@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports*/
+/*global jQuery, Modernizr, Exports, SONY*/
 
 // -------- Sony Full Specs Single -------
 // Module: Full Specs Single
@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = $(window);
+    self.$window = SONY.$window || $(window);
     self._init();
   };
 
@@ -126,7 +126,7 @@
 
     _initStickyNav : function() {
       var self = this,
-          $body = $('body'),
+          $body = SONY.$body,
           $offsetTarget = self.$container.find('.spec-views:not(.nav)');
 
       // jQuery offset().top is returning negative numbers...

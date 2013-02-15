@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports, IScroll*/
+/*global jQuery, Modernizr, iQ, Exports, IScroll, SONY*/
 
 // ------------ Sony Gallery ------------
 // Module: Gallery
@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = $(window);
+    self.$window = SONY.$window || $(window);
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
@@ -454,7 +454,7 @@
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on('layout.shuffle', function() {
         // Things moved around and could possibly be in the viewport
-        window.iQ.update();
+        iQ.update();
 
         // The position of the nav has changed, update it in infinitescroll
         if ( self.hasInfiniteScroll ) {
@@ -607,7 +607,7 @@
         self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
 
         // Update iQ images
-        window.iQ.update( true );
+        iQ.update( true );
       });
     },
 
@@ -1352,21 +1352,11 @@
       $container.append( $content );
       $modalBody.append( $container );
 
+      // Could probably be deferred
       self.addCompareNav( $compareItemsWrapper );
 
-      // Trigger modal
-      self.$compareTool
-        .data('galleryId', self.id) // Set some data on the modal so we know which gallery it belongs to
-        .modal({
-          backdrop: false
-        }); // Show the modal
-
-
-      // WORK TO DO AFTER ITEMS HAVE BEEN PUT INTO THE DOM
-      // -----------------------
-
       // Cloned images need to be updated
-      window.iQ.update( true );
+      iQ.update( true );
 
       // Save a reference to the count
       self.$compareCount = self.$compareTool.find('.product-count');
@@ -1379,6 +1369,15 @@
       // Save ref to the .product-name-wraps
       self.$compareProductNameWraps = self.$compareTool.find('.product-name-wrap');
       self.$compareItemsContainer = self.$compareTool.find('.compare-items-container');
+
+      // Trigger modal
+      self.$compareTool
+        .data('galleryId', self.id) // Set some data on the modal so we know which gallery it belongs to
+        .modal({
+          backdrop: false
+        }); // Show the modal
+
+
 
     },
 
@@ -1399,6 +1398,8 @@
       // Initialize outer scroller (vertical scrolling of the fixed position modal)
       self.outerScroller = new IScroll( self.$compareTool[0], {
         bounce: false,
+        hScrollbar: false,
+        vScrollbar: false,
         onBeforeScrollStart : function(e) {
           var target = e.target;
           while ( target.nodeType !== 1 ) {
@@ -1427,6 +1428,7 @@
           self.onCompareScroll( offsetTop, this );
         },
         onAnimationEnd : function() {
+          iQ.update();
           self.onCompareScroll( offsetTop, this );
         }
       });
@@ -1456,7 +1458,7 @@
           self.onCompareScroll( 'inner', this );
         },
         onAnimationEnd : function() {
-          window.iQ.update();
+          iQ.update();
           self.onCompareScroll( 'inner', this );
           self.afterCompareScrolled( this );
         }
@@ -1473,6 +1475,7 @@
 
       // These can be deferred
       setTimeout(function() {
+        iQ.update();
 
         // Hide the previous nav paddle because we're on the first page
         self.afterCompareScrolled( self.innerScroller );
@@ -2115,7 +2118,7 @@
           $detailGroup = self.$compareItems.not('.hide').find('.detail-group').first(),
           offset = 0;
 
-      self.$compareTool.find('.compare-sticky-header').evenHeights();
+      self.$stickyHeaders.evenHeights();
 
       // Set the height of the product name + model because the text can wrap and make it taller
       self.$compareProductNameWraps.evenHeights();
@@ -2192,7 +2195,7 @@
 
 
   // Event triggered when this tab is about to be shown
-  window.Exports.onGalleryTabShow = function( evt ) {
+  SONY.onGalleryTabShow = function( evt ) {
     var $prevPane = evt.prevPane ? evt.prevPane :
           evt.originalEvent.prevPane ? evt.originalEvent.prevPane :
           false;
@@ -2216,7 +2219,7 @@
   };
 
   // Event triggered when tab pane is finished being shown
-  window.Exports.onGalleryTabShown = function( evt ) {
+  SONY.onGalleryTabShown = function( evt ) {
 
     // Only continue if this is a tab shown event.
     if ( !evt.pane ) {
@@ -2238,16 +2241,19 @@ $(document).ready(function() {
     // console.profile();
 
     // Initialize galleries
+    console.log('initializing galleries');
     $('.gallery').each(function() {
       var $this = $(this);
 
       $this.gallery( $this.data() );
     });
 
+    console.log('galleries initialized');
+
     // Register for tab show(n) events here because not all tabs are galleries
     $('[data-tab]')
-      .on('show', window.Exports.onGalleryTabShow )
-      .on('shown', window.Exports.onGalleryTabShown );
+      .on('show', SONY.onGalleryTabShow )
+      .on('shown', SONY.onGalleryTabShown );
 
     // Initialize sticky tabs
     $('.tab-strip').stickyTabs();
