@@ -163,7 +163,6 @@
     },
 
     animateTab : function() {
-      // console.group('animateTab: StickyTabs');
       var self = this,
           x = self.scroller.x * -1,
 
@@ -188,22 +187,11 @@
       self.overlap = newX !== tmpX ? tmpX : null;
       // self.overlap = tmpX;
 
-      // console.log('iscroll:', self.scroller);
-      // console.log('x:', x);
-      // console.log('lastX:', self.lastX);
-      // console.log('distance:', distance);
-      // console.log('tabOffset:', self.tabOffset);
-      // console.log('overlap:', self.overlap);
-      // console.log('tmpX:', offset, '+', distance ,'=', tmpX);
-      // console.log('newX:', newX);
-      // console.log( self.prop, value );
-
       self.lastX = x;
       self.tabOffset = newX;
 
       self.$activeTab.css( self.prop, value );
 
-      // console.groupEnd();
     },
 
     setup : function() {

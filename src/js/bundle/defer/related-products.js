@@ -15,7 +15,7 @@
 //
 //
 ;(function($, Modernizr, window, undefined , console) {
-    
+
     'use strict';
 
     if(!$.rpModules) {
@@ -26,7 +26,7 @@
     var RelatedProducts = function(element, options){
       var self      = this,
       ua            = navigator.userAgent.toLowerCase();
-      
+
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       // feature detection, some ideas taken from Modernizr
@@ -54,11 +54,11 @@
       };
 
       self.useCSS3Transitions = Modernizr.csstransitions;
-      
+
       if(self.useCSS3Transitions) {
           self.use3dTransform = Modernizr.csstransforms3d;
       }
-        
+
       self.$paddles              = $({});
       self.$el                   = $(element);
       self.$slides               = self.$el.find('.rp-slide');
@@ -125,7 +125,7 @@
       } else {
           self.hasTouch = false;
           self.lastItemFriction = 0.2;
-          
+
 /*          if (browser.msie || browser.opera) {
             self.grabCursor = self.grabbingCursor = "move";
           } else if(browser.mozilla) {
@@ -149,7 +149,7 @@
         self.TD     = 'transition-duration';
         self.TTF    = 'transition-timing-function';
         self.yProp  = self.xProp = self.vendorPrefix +'transform';
-        
+
         if(self.use3dTransform) {
           self.tPref1 = 'translate3d(';
           self.tPref2 = 'px, ';
@@ -161,7 +161,7 @@
         }
 
         self.$container[(self.vendorPrefix + self.TP)] = (self.vendorPrefix + 'transform');
-                  
+
       } else {
         self.xProp = 'left';
         self.yProp = 'top';
@@ -188,8 +188,6 @@
           gutter = 0;
         }
 
-       // console.log('Shuffling Gutters returning  »',gutter);
-
         return gutter;
       };
 
@@ -209,7 +207,7 @@
           if(column === 0){
             column = 0.001;
           }
-          //console.log('Shuffling Columns returning  TM »',column);
+
           return column;
       };
       //start her off
@@ -221,9 +219,9 @@
 
       init: function(){
         var self = this;
-        
+
         self.$paddles.hide();
-        
+
         // Don't do this for modes other than 3 and 4 up
         if(self.variation === '3up' || self.variation === '4up'){
           self.setSortPriorities();
@@ -235,11 +233,11 @@
           if(!self.hasTouch){
             self.setupPaddles();
           }
-          
+
           if(self.mode != 'strip'){
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           }
-          
+
         }
 
         if(self.mode != 'strip'){
@@ -257,8 +255,6 @@
       setupStripMode: function(){
         var self = this;
 
-        //console.log('setting up strip mode »' , self.mode, self.variation);
-
         //clear out the position style on the gallery items
         self.$galleryItems.removeAttr('style');
 
@@ -267,8 +263,6 @@
         var containerWidth = self.$el.width();
         var gutterWidth = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
         var colWidth = ( window.Exports.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
-
-        //console.log( 'Here is the deal »', colWidth , gutterWidth , containerWidth );
 
         self.$galleryItems.not(self.$galleryItems.first()).css({
           'width' : colWidth,
@@ -283,7 +277,7 @@
         });
 
         //self.$galleryItems.addClass('small-size');
-          
+
         // 7. init the scroller module
         setTimeout(function(){
 
@@ -309,13 +303,10 @@
 
           }).data('scrollerModule');
 
-          //console.log('Settup up scroller instance »',self.variation);
-
           self.$galleryItems.find('.product-name').evenHeights();
 
           //self.scroller.enable();
           window.iQ.update();
-          //console.log("Instantiating scroller module »", self.scrollerModule);
 
           //$(window).trigger('resize.rp');
 
@@ -323,14 +314,13 @@
 
 
         $(window).on('resize.rp', $.debounce(50 , function() {
-        
+
         var containerWidth = self.$el.width();
         var gutterWidth = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
         var colWidth = ( window.Exports.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
 
           self.scrollerModule.setGutterWidth(gutterWidth);
 
-          //console.log('Column Width »', colWidth);
 
           self.$galleryItems.not(self.$galleryItems.first()).css({
             'width' : colWidth,
@@ -357,7 +347,7 @@
       createNavigation: function(){
         var self = this,
         itemHTML = '';
-        
+
         self.controlNavEnabled = true;
         self.$container.addClass('rp-with-bullets');
         var out = '<ol class="rp-nav pagination-bullets on">';
@@ -375,7 +365,6 @@
         self.$el.find('.pagination-bullet').on( self.tapOrClick() , function(e) {
           var item = $(this);
 
-          //console.log('Bullet Nav Item  »', item.length , item.data('index'));
 
           if(item.length) {
             self.currentId = item.data('index');
@@ -391,7 +380,7 @@
         var self   = this,
         itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
         $container = self.$el.closest('.container');
-        
+
         self.paddlesEnabled = true;
         var out = '<div class="rp-nav rp-paddles">';
         for(var i = 0; i < 2; i++) {
@@ -411,7 +400,6 @@
           var p = $(this);
 
           if(p.hasClass('left')){
-            //console.log('Left paddle click');
 
             self.currentId --;
             if(self.currentId < 0){
@@ -421,7 +409,6 @@
             self.moveTo();
 
           }else{
-            //console.log('Right paddle click');
 
             self.currentId ++;
 
@@ -473,7 +460,7 @@
           // buffer: 100
           buffer: 25
         }).data('shuffle');
-       
+
       },
 
       setColumns : function( numColumns ) {
@@ -496,7 +483,6 @@
           if ( !self.$container.hasClass( shuffleDash + 5 ) ) {
 
 
-           // console.log("Setting Colums »",5);
 
             self.$shuffleContainers.removeClass('slimgrid')
             .addClass('slimgrid5');
@@ -515,7 +501,7 @@
 
         // Portrait Tablet ( 4 columns ) - masonry
         } else if ( numColumns === 4 ) {
-          
+
           if ( !self.$shuffleContainers.hasClass( shuffleDash + 4 ) ) {
 
             self.$shuffleContainers.removeClass('slimgrid5')
@@ -533,17 +519,15 @@
               .addClass( span + 3 );// Make them quarter width
           }
 
-          //console.log("Setting 4 colums »",numColumns);
 
           //Between Portrait tablet and phone ( 3 columns )
         }
-        //console.log("Number of columns »" , numColumns);
         return self;
       },
 
       setSortPriorities: function(){
         var self = this;
-            
+
         self.$slides.each(function(){
 
           var $slide     = $(this),
@@ -559,7 +543,7 @@
               if($item.hasClass('medium')){
 
                 $item.data('priority' , 5);
-                
+
               }else if($item.hasClass('normal') && !hitNormal){
 
                 $item.data('priority' , 2);
@@ -568,7 +552,7 @@
               }else if($item.hasClass('blank')){
 
                 $item.data('priority' , 3);
-                
+
               }
               else if($item.hasClass('normal') && hitNormal === true){
 
@@ -578,7 +562,7 @@
               if($item.hasClass('medium')){
 
                 $item.data('priority' , 2);
-               
+
               }else if($item.hasClass('normal')){
 
                 $item.data('priority' , 3);
@@ -616,7 +600,6 @@
                 if(slideVariation == '4up' || slideVariation == '3up'){
                   priority = $el.data('priority');
 
-                  //console.log('Gallery Item »', $el , priority);
                 }
 
                 // Returning undefined to the sort plugin will cause it to revert to the original array
@@ -626,15 +609,13 @@
           });
 
           self.sorted = true;
-          //console.log("sorting »", true);
         } else if ( !isTablet && self.sorted ) {
           self.$shuffleContainers.shuffle('sort', {});
-          //console.log("Unsort... »");
           self.sorted = false;
         }
 
       },
-      
+
       checkForBreakpoints: function(){
         var self = this,
         wW       = self.$win.width(),
@@ -655,7 +636,6 @@
             .addClass('slimgrid');
 
             self.sortTagLines2up();
-            //console.log('Closest To highest el', highestEl.parent().find('.product-name'));
             return;
           }
 
@@ -666,7 +646,7 @@
             }
 
             self.isTabletMode = self.isMobileMode = false;
-            
+
             if(self.isDesktopMode === true){
               return;
             }
@@ -708,7 +688,7 @@
               self.sortTagLines2up();
               return;
             }
-            
+
             //check if we are coming out of mobile
             if(self.isMobileMode === true){
               self.returnToFullView();
@@ -743,14 +723,13 @@
           break;
 
           case 'mobile':
-            
-   
+
+
 
             if(self.isMobileMode === true){
               return;
             }
 
-            //console.log('Mobile Mode');
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').removeClass('span6');
@@ -774,7 +753,6 @@
               self.$shuffleContainers.each(function(){
                 var shfflInst = $(this).data('shuffle');
 
-                //console.log('I am a shuffle instance!!! Look at me! »',shfflInst);
 
                 if(shfflInst !== undefined){
                   shfflInst.destroy();
@@ -783,7 +761,6 @@
 
               });
 
-              //console.log("Destroying shuffle instance »" , self.shuffle);
             }
 
             //hide the bullet navigation
@@ -818,7 +795,7 @@
         currItem = $(self.controlNavItems[self.currentId]);
         currItem.addClass('bullet-selected');
         self.prevNavItem = currItem;
-  
+
       },
 
       setGrabCursor:function() {
@@ -836,7 +813,7 @@
 
       updateSliderSize: function(){
         var self = this;
-        
+
         if(self.mode === 'suggested'){
           return;
         }
@@ -846,7 +823,7 @@
           //ratio based on comp around 768/922
           //self.$el.css('height' , 1.05 * self.$el.width());
           self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
-          
+
           if(!!self.isTabbedContainer){
             //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
             self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
@@ -872,7 +849,6 @@
           self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
         }
 
-        //console.log( "Slider Height »",self.$el.height() );
 
       },
 
@@ -882,7 +858,6 @@
 
         self.dragSuccess = false;
 
-        //console.log('drag start' , e.type , e.which);
 
         //self.setGrabCursor();//toggle grabber
 
@@ -944,7 +919,6 @@
           self.pageX    = point.pageX;
           self.pageY    = point.pageY;
 
-          //console.log( 'renderMovement' , newX );
 
           var pointPos = isHorizontal ? self.pageX : self.pageY;
 
@@ -953,9 +927,9 @@
           } else if(mAxis === 'y' && deltaY !== 0) {
               self.verDir = deltaY > 0 ? 1 : -1;
           }
-            
+
           var deltaPos = isHorizontal ? deltaX : deltaY;
-          
+
           if(!self.loop) {
             if(self.currSlideId <= 0) {
               if(pointPos - self.startPagePos > 0) {
@@ -968,7 +942,7 @@
               }
             }
           }
-           
+
           self.currRenderPosition = newPos;
 
           if (timeStamp - self.startTime > 200) {
@@ -1054,7 +1028,7 @@
               self.currAnimSpeed += 250;
           }
           self.currAnimSpeed = getCorrectSpeed(self.currAnimSpeed);
-          
+
           self.moveTo();
         }
 
@@ -1070,7 +1044,7 @@
             changeHash = false,
             distOffset = 0,
             dragDirection;
-        
+
         totalMoveDist = Math.abs(pPos - sPos);
 
         dragDirection = self.startDragX > pPos ? 1 : 0;
@@ -1080,31 +1054,26 @@
         duration = (new Date().getTime()) - self.startTime;
         v0 = Math.abs(accDist) / duration;
 
-        //console.log('MoveDst:' , totalMoveDist , self.currentContainerWidth * 0.5);
 
         if( totalMoveDist > self.hasTouch ? Math.abs(self.currentContainerWidth * 0.25) : Math.abs(self.currentContainerWidth * 0.5) ){
-          
+
           if(dragDirection === 1){
             self.currentId ++;
-            //console.log('snap to next slide');
             if(self.currentId >= self.$slides.length){
               self.currentId = self.$slides.length - 1;
             }
           }else{
             self.currentId --;
-            //console.log('snap to previous slide');
            if(self.currentId < 0){
             self.currentId = 0;
            }
           }
           self.moveTo();
         }else{
-          //console.log('return to current slide');
           //return to current
           returnToCurrent(true, v0);
         }
 
-        console.log('drag relase - ' , -self.currentId * self.currentContainerWidth , ' || ' , self.currRenderPosition);
       },
 
       dragMove: function(e , isThumbs){
@@ -1143,9 +1112,9 @@
             }
           })();
         }
-            
+
         if(!self.checkedAxis) {
-          
+
           var dir = true,
           diff    = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
 
@@ -1172,7 +1141,7 @@
           }
           return;
         }
-        
+
         e.preventDefault();
         self.renderMoveTime = new Date().getTime();
         self.renderMoveEvent = point;
@@ -1186,7 +1155,7 @@
             newPos = (-self.currentId * cw);
 
             var a = ($(window).width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
-            
+
             if(a > 0){
               newPos += Math.ceil(a);
             }
@@ -1206,13 +1175,13 @@
         animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
         animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack;
         animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
-        
+
         if( !self.useCSS3Transitions ) {
           //jquery fallback
           self.$container.animate(animObj, 0, 'easeInOutSine');
         }else {
 
-          if( self.isMobileMode ){ 
+          if( self.isMobileMode ){
             return; // competing with son-scroller
           }
 
@@ -1229,13 +1198,13 @@
             animObj  = {};
 
             var a = ($(window).width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
-            
+
             if(a > 0){
               newPos += Math.ceil(a);
             }
 
         if( !self.useCSS3Transitions ) {
-          
+
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
           self.$container.animate(animObj, self.animationSpeed, 'easeInOutSine');
@@ -1245,7 +1214,7 @@
           //css3 transition
           animObj[ (self.vendorPrefix + self.TD) ]  = self.animationSpeed + 'ms';
           animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack;
-      
+
           self.$container.css( animObj );
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
@@ -1275,20 +1244,19 @@
 
           self.$container.css( 'width' , '' );
           self.$container.append(self.$slides);
-          
+
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
-        
+
           self.$paddles.show();
           self.$el.find('.rp-nav').show();
-          
-          //console.log('go back to desktop?');
+
         }
       },
 
       sortTagLines2up: function(){
         var self = this,
             $taglines = self.$el.find('.product-tagline');
-        
+
         $taglines.each(function(){
           var $line = $(this);
 
@@ -1306,7 +1274,6 @@
           var sffleInst = $(this).data('shuffle');
 
           if(sffleInst !== undefined || sffleInst !== null){
-            //console.log('ShuffleInst Disable »' , sffleInst);
             if(sffleInst){
                sffleInst.disable();
             }
@@ -1320,11 +1287,10 @@
         self.$shuffleContainers.each(function(){
           var sffleInst = $(this).data('shuffle');
           if(sffleInst !== undefined || sffleInst !== null){
-            //console.log('ShuffleInst Enable »' , sffleInst);
             if(sffleInst){
                sffleInst.enable();
             }
-           
+
           }
         });
       },
@@ -1343,14 +1309,13 @@
             spaceAvail = wW - self.$el.find('.rp-slide').eq(0).width();
 
         if ( Modernizr.mq('(min-width: 981px)') && hasPlate) {
-          
+
           self.$rightPaddle.css({
             top :  plateHeight,
             right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + 'px'
 
           });
 
-          //console.log( ' 980:::: updating paddle to »', plateHeight );
 
           self.$leftPaddle.css({
             top :  plateHeight,
@@ -1364,7 +1329,6 @@
 
           });
 
-          //console.log( '481:::: updating paddle to »', plateHeight + 130 );
 
           self.$leftPaddle.css({
             top :  plateHeight + 130,
@@ -1381,14 +1345,14 @@
         if(self.mode !== 'suggested'){
           $(window).on('resize', function(){
             if(!self.isMobileMode && self.$win.width() > 480) {
-              
+
              self.$galleryItems.css({
                'visibility' : 'hidden',
                 'opacity' : 0
               });
 
              self.$el.addClass('redrawing');
-                         
+
            }else{
              self.$el.css({
               'opacity' : 1,
@@ -1410,7 +1374,7 @@
           self.updateSliderSize();
           self.updateSlides();
           self.updatePaddles();
-          
+
           if(self.mode === 'suggested'){
             return;
           }
@@ -1443,7 +1407,6 @@
         $normalTile = null,
         newHeight = 0,
         slideVariation = '';
-        //console.log('Calling update to tiles.... »',1);
 
         if(self.isMobileMode){
           $mediumTile = self.$slides.find('.gallery-item.medium .product-img').first();
@@ -1459,13 +1422,12 @@
           //REMOVE
           //$slide.css( 'background' , 'red' );
 
-          //console.log( 'RpSlide »', $slide.index() );
           $mediumTile = $slide.find('.gallery-item.medium .product-img').first();
           $normalTile = $slide.find('.gallery-item.normal').first();
 
           var tileHeight = $slide.find('.gallery-item.plate').first().height(),
               testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true);
-          
+
 /*          if(tileHeight < testHeight ){
             tileHeight = testHeight;
           }*/
@@ -1528,7 +1490,6 @@
 
         setTimeout( function () {
           self.updateSliderSize();
-          //console.log( 'Updated size again' );
         } , 1000);
 
       },
@@ -1542,7 +1503,7 @@
 
           var $item = $(this),
           animationDelay = 0;
-          
+
           $item.css({
             'visibility' : 'visible'
           });
@@ -1638,12 +1599,11 @@
 (function($, Modernizr, window, undefined , console) {
     'use strict';
     $.extend($.rpProto, {
-      
+
       _initMobileBreakpoint: function(){
         var self = this;
 
         function handleBreakpoint(){
-          //window.console.log("_initMobileBreakpoint.... »" , true);
 
           // 1. step one  - cancel touch events for the 'slideshow'
           self.$container.off('.rp');
@@ -1663,7 +1623,7 @@
 
           // 3. gather gallery items and save local reference - may need to set on self
           var $galleryItems = self.$el.find('.gallery-item').detach().addClass('small-size');
-            
+
 
           // 4. remove the slides
           self.$slides.detach();
@@ -1680,8 +1640,7 @@
 
           //set equal text heights
 
-          //console.log('Gallery Items .blank-normal » ', $galleryItems.not('.blank'));
-          
+
           // 7. init the scroller module
           setTimeout(function(){
 
@@ -1722,7 +1681,6 @@
 
             //self.scroller.enable();
             window.iQ.update();
-            //window.console.log("Instantiating scroller module »", self.scrollerModule);
           }, 100);
           return;
 
@@ -1777,7 +1735,6 @@ $(function(){
 
 
 
- // console.log('Panels »', $productPanels);
 
   $tabs.eq(0).addClass('active');
 
@@ -1810,13 +1767,12 @@ $(function(){
         $oldPanel.css(visibleObj(false, 0));
         $oldPanel.data('relatedProducts').disableShuffle();
       }});
-      
+
       $currentPanel.css(visibleObj(true, 1));
       $currentPanel.data('relatedProducts').enableShuffle();
       $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500});
 
-          
-      //console.log('Currently Selected Tab:' , $tab.data('rpPanelId'));
+
     };
 
     $tabs.on('click' , handleTabClick);

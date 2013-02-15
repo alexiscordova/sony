@@ -23,7 +23,6 @@
 
     var SonyCarousel = function (element, options) {
 
-        // console.log('---->' , options);
 
         var ua = navigator.userAgent.toLowerCase(),
             i,
@@ -77,7 +76,6 @@
 
 
         //this is where we now have access to the mode and the variation
-        // console.log(self.st.mode + ' - ' + self.st.variation);
 
         switch(self.st.mode){
             case 'full':
@@ -141,12 +139,10 @@
         var returnVal;
         var ts = self.st.slides ? $(self.st.slides) : self.slider.children().detach() ;
 
-        // console.log(ts);
 
         ts.each(function() {
             self._parseNode(this, true);
 
-            // console.log('Parsing Slide: ' , this);
         });
 
         if(self.st.randomizeSlides) {
@@ -210,7 +206,6 @@
         self._currentSlideContent = self._oldSlideContent = self.slidesJQ[self.currSlideId].find('.scContent');
 
 
-        // console.log('Current Slide Content: ' , self._currentSlideContent instanceof $ , 'Old Slide Content: ' , self._oldSlideContent instanceof $);
 
         if('ontouchstart' in window || 'createTouch' in document) {
             self.hasTouch = true;
@@ -1705,7 +1700,6 @@
             //$(self._currContent.get(0)).trigger('slidestart.sonycarousel');
             self._currentSlideContent = self.slidesJQ[self.currSlideId].find('.scContent');
 
-            // console.log('ANIMATION STARTED' , self._currentSlideContent.attr('id'));
 
             self._currentSlideContent.trigger('slidestart.sc');
 
@@ -1747,7 +1741,6 @@
 
                         self._slidesContainer.css(animObj);
 
-                        // console.log('Current animation block -------> ' , animObj);
 
                     setTimeout(function() {
                         self._setPosition(pos);
@@ -1760,7 +1753,6 @@
                     oldBlock = self._oldHolder;
                     animBlock = self._currHolder;
 
-                    // console.log('Current animation block -------> ' , animBlock);
 
                     if(animBlock.data('scTimeout')) {
                         animBlock.css('opacity', 0);
@@ -1892,7 +1884,6 @@
             //notify last slide of slide change
             self._oldSlideContent.trigger('slideend.sc');
 
-            // console.log('ANIMATION COMPLETE' , self._oldSlideContent.attr('id'));
            	iQ.update();
 
             if (self.st.afterSlideChange) self.st.afterSlideChange.call(self);
@@ -2140,7 +2131,6 @@
             //TODO: build opts object out of data attributes
 
             $.each($el.data() , function(key , value){
-                // console.log('stripping datasets off $el: ' , key.toUpperCase() , ' === ' , $el.data(key));
 
                 opts[key] = value;
             });

@@ -10,7 +10,7 @@
 // * **Dependencies:**  jQuery 1.7+
 
 (function($, undefined) {
-  
+
   'use strict';
 
   var GlobalTracking = function($element, options) {
@@ -39,7 +39,7 @@
       // We track all click inside module
       // **TODO:** This temporary, should be modify to reflect tracking strategy.
       self.$el.on( 'click.tracking', function(e) {
-        console.log( 'click' );
+
         var $elem = $( e.target ).parents( '*[data-module-id]' ), elemData = $elem.data( 'trackingLog' ) || [], trackingData = elemData;
 
         $elem.type = e.type;

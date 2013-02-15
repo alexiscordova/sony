@@ -39,7 +39,6 @@ $(document).ready(function() {
 					var u = function(e) {
 						clearTimeout( i );
 						i = setTimeout(function() {
-							win.console.log( win.innerWidth );
 							o.innerHTML='Window Width: ' + win.innerWidth + 'px';
 						}, 100);
 					};
