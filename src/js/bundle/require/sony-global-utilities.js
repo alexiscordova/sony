@@ -12,8 +12,50 @@ SONY.Utilities = (function(window, document) {
 
   var self = {
 
-    init: function () {
+    'init': function () {
       self.normalizeLogs();
+    },
+
+    // Return calculated column if width is above 568px/35.5em
+
+    'masonryColumns': function(containerWidth) {
+      var column = containerWidth;
+
+      if ( !Modernizr || !SONY.Settings ) {
+        return;
+      }
+
+      if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 35.5em)') ) {
+        column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+      }
+
+      return column;
+    },
+
+    // Return calculated gutter if width is above 568px/35.5em
+
+    'masonryGutters': function(containerWidth) {
+      var gutter = 0;
+
+      if ( !Modernizr || !SONY.Settings ) {
+        return;
+      }
+
+      if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 35.5em)') ) {
+        gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+      }
+
+      return gutter;
+    },
+
+    //Constrains a value between a min and max value
+
+    'constrain': function(value, min, max) {
+      value = parseFloat(value);
+
+      return value < min ? min :
+        value > max ? max :
+        value;
     },
 
     // Normalizes the console.log method.
