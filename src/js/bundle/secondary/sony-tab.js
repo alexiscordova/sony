@@ -117,31 +117,30 @@
     },
 
     hash: function(hash, $target) {
-        var $fake;
+      var $fake;
 
-        hash = hash.replace(/^#/, '');
+      hash = hash.replace(/^#/, '');
 
-        if ( $target && $target.length ) {
-          $target.attr( 'id', '' );
-        }
+      if ( $target && $target.length ) {
+        $target.attr( 'id', '' );
+      }
 
-        $fake = $( '<div/>' ).css({
-            position: 'absolute',
-            visibility: 'hidden',
-            top: $(window).scrollTop() + 'px'
-          })
-          .attr( 'id', hash )
-          .appendTo( document.body );
+      $fake = $( '<div/>' ).css({
+          position: 'absolute',
+          visibility: 'hidden',
+          top: $(window).scrollTop() + 'px'
+        })
+        .attr( 'id', hash )
+        .appendTo( document.body );
 
-        window.location.hash = hash;
+      window.location.hash = hash;
 
-        $fake.remove();
+      $fake.remove();
 
-        if ( $target && $target.length ) {
-          $target.attr( 'id', hash );
-        }
-
-    },
+      if ( $target && $target.length ) {
+        $target.attr( 'id', hash );
+      }
+    }
   };
 
 
