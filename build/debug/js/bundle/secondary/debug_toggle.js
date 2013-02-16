@@ -18,7 +18,7 @@ $(document).ready(function() {
 					s.style.zIndex = '9999';
 					s.style.bottom='0';
 					s.style.right='0';
-					s.style.backgroundColor='rgba(126,255,0,0.8)';
+					s.style.backgroundColor='rgb(126,255,0)';
 					s.style.height='20px';
 					s.style.width='126px';
 					s.style.display='block';
