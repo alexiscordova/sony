@@ -171,7 +171,7 @@
         var gutter = 0,
             numColumns = 0;
 
-        if ( Modernizr.mq('(min-width: 981px)') ) {
+        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') ) {
           gutter = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
           numColumns = 5;
 
@@ -194,7 +194,7 @@
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          if ( Modernizr.mq('(min-width: 981px)') ) {
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') ) {
             column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
@@ -217,13 +217,17 @@
 
     RelatedProducts.prototype = {
 
+      toString: function(){
+        return '[ object RelatedProducts ]';
+      },
+
       init: function(){
         var self = this;
 
         self.$paddles.hide();
 
         // Don't do this for modes other than 3 and 4 up
-        if(self.variation === '3up' || self.variation === '4up'){
+        if(self.variation === '3up' || self.variation === '4up' || self.variation === '5up'){
           self.setSortPriorities();
         }
 
@@ -459,7 +463,10 @@
           useTransition: false,
           // buffer: 100
           buffer: 25
-        }).data('shuffle');
+        }).first().data('shuffle');
+
+
+        
 
       },
 
@@ -630,14 +637,14 @@
         switch(view){
           case 'desktop':
 
-          if(self.mode === 'suggested'){
-            self.$el.find('.gallery-item').addClass('span6');
-            self.$el.removeClass('grid')
-            .addClass('slimgrid');
+            if(self.mode === 'suggested'){
+              self.$el.find('.gallery-item').addClass('span6');
+              self.$el.removeClass('grid')
+              .addClass('slimgrid');
 
-            self.sortTagLines2up();
-            return;
-          }
+              self.sortTagLines2up();
+              return;
+            }
 
            //check if we are coming out of mobile
             if(self.isMobileMode === true){
@@ -669,7 +676,9 @@
 
             self.sortByPriority();
 
-            //window.iQ.update();
+            window.iQ.update();
+
+            
 
             self.ev.trigger('ondesktopbreakpoint.rp');
 
@@ -1178,6 +1187,7 @@
 
         if( !self.useCSS3Transitions ) {
           //jquery fallback
+          animObj[ self.xProp ] = newPos;
           self.$container.animate(animObj, 0, 'easeInOutSine');
         }else {
 

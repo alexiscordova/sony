@@ -372,6 +372,7 @@
 
           if(item.length) {
             self.currentId = item.data('index');
+            console.log('clicked on ' , self.currentId);
             self.moveTo();
           }
         });
@@ -867,7 +868,6 @@
 
         self.dragSuccess = false;
 
-
         //self.setGrabCursor();//toggle grabber
 
         if(self.hasTouch){
@@ -1188,7 +1188,7 @@
         if( !self.useCSS3Transitions ) {
           //jquery fallback
           animObj[ self.xProp ] = newPos;
-          self.$container.animate(animObj, 0, 'easeInOutSine');
+          self.$container.animate(animObj, 0);
         }else {
 
           if( self.isMobileMode ){
@@ -1216,8 +1216,9 @@
         if( !self.useCSS3Transitions ) {
 
           //jQuery fallback
-          animObj[ self.xProp ] = newPos + 'px';
-          self.$container.animate(animObj, self.animationSpeed, 'easeInOutSine');
+          animObj[ self.xProp ] = newPos;
+          
+          self.$container.animate(animObj, self.animationSpeed);
 
         }else{
 

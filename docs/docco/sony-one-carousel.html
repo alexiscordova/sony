@@ -527,7 +527,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
         <span class="keyword">if</span>(self.currentId !== <span class="number">0</span>){
           self.$gridW = self.$el.find(<span class="string">'.soc-grid'</span> ).eq(<span class="number">0</span>);
-          newPos -= (window.Exports.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
+          newPos -= (SONY.Settings.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
         }
 
         <span class="keyword">if</span>(self.isMobileMode === <span class="literal">true</span>){
@@ -998,7 +998,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
           self.$desktopSlides.each(<span class="keyword">function</span>(i){
             cw = self.$gridW.width();
-            gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
+            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM * cw;
             <span class="keyword">if</span>(i &gt; <span class="number">0</span>){
               cw += gutterWidth;
             }
@@ -1012,7 +1012,7 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 
           self.$tabletSlides.each(<span class="keyword">function</span>(i){
             cw = self.$gridW.width();
-            gutterWidth = window.Exports.GUTTER_WIDTH_SLIM * cw;
+            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM * cw;
 
             <span class="keyword">if</span>(i &gt; <span class="number">0</span>){
               cw += gutterWidth;
