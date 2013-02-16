@@ -1289,6 +1289,7 @@
       self.isFixedHeader = false;
 
       self.$detailLabelsWrap = $labelColumnWrap;
+      self.$compareItemsWrap = $compareItemsWrapper;
 
       // Convert cloned gallery items to compare items
       self.$compareItems = self.getCompareItems( $currentItems );
@@ -1363,10 +1364,8 @@
       // Set item count
       self.$compareCount.text( productCount );
 
-      // Save reference to sticky headers
+      // Save refs
       self.$stickyHeaders = self.$compareTool.find('.compare-sticky-header');
-
-      // Save ref to the .product-name-wraps
       self.$compareProductNameWraps = self.$compareTool.find('.product-name-wrap');
       self.$compareItemsContainer = self.$compareTool.find('.compare-items-container');
 
@@ -1380,16 +1379,12 @@
     },
 
     onCompareShown : function() {
-      var self = this,
-          offsetTop = 0,
-          extra = 0;
+      var self = this;
 
-      offsetTop = self.$compareItems.first().offset().top;
-      extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
-      offsetTop += extra;
+      self.stickyTriggerPoint = self.getCompareStickyTriggerPoint();
 
       self
-        .setCompareRowHeights( true )
+        .setCompareRowHeights()
         .setCompareDimensions();
 
 
@@ -1420,14 +1415,14 @@
           }
         },
         onScrollMove : function() {
-          self.onCompareScroll( offsetTop, this );
+          self.onCompareScroll( self.stickyTriggerPoint, this );
         },
         onAnimate : function() {
-          self.onCompareScroll( offsetTop, this );
+          self.onCompareScroll( self.stickyTriggerPoint, this );
         },
         onAnimationEnd : function() {
           iQ.update();
-          self.onCompareScroll( offsetTop, this );
+          self.onCompareScroll( self.stickyTriggerPoint, this );
         }
       });
 
@@ -1461,6 +1456,10 @@
           self.afterCompareScrolled( this );
         }
       });
+
+
+      // Set a margin-left on the compare items wrap
+      self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
 
       // Set the height, jQuery object, and text of the takeover sticky nav
       self.setTakeoverStickyHeader( self.compareTitle );
@@ -1528,6 +1527,7 @@
       self.$compareReset = null;
       self.$compareItems = null;
       self.$compareItemsContainer = null;
+      self.$compareItemsWrap = null;
       self.$compareNav = null;
       self.$detailLabelsWrap = null;
       self.$takeoverStickyHeader = null;
@@ -1641,6 +1641,8 @@
           // Insert subhead in the modal header
           $header.append( $subheader );
 
+          self.$compareItemsWrap.css('marginLeft', '');
+
           snap = false;
 
           // Let the scroller flow freely on mobile
@@ -1651,6 +1653,9 @@
 
       // Larger than phone
       } else {
+
+        // Set a margin-left on the compare items wrap
+        self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
 
         if ( isFirst || self.isFixedHeader ) {
           self.isFixedHeader = false;
@@ -1664,6 +1669,7 @@
           $header.append( $resetBtn, $sorter );
 
           self.$compareTool.find('.modal-subheader').remove();
+
 
           snap = true;
 
@@ -1680,10 +1686,13 @@
         return self;
       }
 
+      self.stickyTriggerPoint = self.getCompareStickyTriggerPoint();
+
       self
         .setCompareRowHeights()
         .setCompareDimensions()
         .setStickyHeaderPos();
+
 
       self.innerScroller.refresh();
 
@@ -1719,6 +1728,24 @@
           self.$stickyHeaders.removeClass('open');
         }
       }
+    },
+
+    getCompareStickyTriggerPoint : function() {
+      var self = this,
+          offsetTop = 0,
+          extra = 0;
+
+      offsetTop = self.$compareItems.not('.hide').offset().top;
+
+      // see http://bugs.jquery.com/ticket/8362
+      if ( offsetTop < 0 ) {
+        var matrix = SONY.Utilities.parseMatrix( self.$compareTool.find('.modal-inner').css('transform') );
+        offsetTop = -matrix.translateY + offsetTop;
+      }
+
+      extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
+
+      return offsetTop + extra;
     },
 
     getCompareItems : function( $items ) {
