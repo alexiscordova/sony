@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, iQ, Exports, IScroll, SONY*/
+/*global jQuery, Modernizr, iQ, IScroll, SONY*/
 
 // ------------ Sony Gallery ------------
 // Module: Gallery
@@ -1922,25 +1922,25 @@
 
           // Large desktop ( 6 columns )
           if ( Modernizr.mq('(min-width: 75em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM_5 * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth;
 
           // Portrait Tablet ( 4 columns )
           // } else if ( Modernizr.mq('(min-width: 48em)') ) {
-          //   column = Exports.COLUMN_WIDTH_768 * containerWidth;
+          //   column = SONY.Settings.COLUMN_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
           // 568px+
           } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
           // Phone ( 2 columns )
           // < 568px
           } else {
-            column = Exports.COLUMN_WIDTH_320 * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_320 * containerWidth;
           }
 
 
@@ -1953,28 +1953,28 @@
 
           // Large desktop ( 6 columns )
           if ( Modernizr.mq('(min-width: 75em)') ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 6;
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
           } else if ( Modernizr.mq('(min-width: 48em)') ) {
             numColumns = 4;
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
           } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 3;
 
 
           // Phone ( 2 columns )
           } else {
-            gutter = Exports.GUTTER_WIDTH_320 * containerWidth; // 2% of container width
+            gutter = SONY.Settings.GUTTER_WIDTH_320 * containerWidth; // 2% of container width
             numColumns = 2;
           }
 
@@ -1986,8 +1986,8 @@
 
       // Use the default 12 column slim grid.
       } else {
-        self.shuffleColumns = Exports.masonryColumns;
-        self.shuffleGutters = Exports.masonryGutters;
+        self.shuffleColumns = SONY.Utilities.masonryColumns;
+        self.shuffleGutters = SONY.Utilities.masonryGutters;
       }
 
       return self;
@@ -2202,8 +2202,8 @@
   // Overrideable options
   $.fn.gallery.options = {
     mode: 'editorial',
-    shuffleSpeed: Exports.shuffleSpeed,
-    shuffleEasing: Exports.shuffleEasing
+    shuffleSpeed: SONY.Settings.shuffleSpeed,
+    shuffleEasing: SONY.Settings.shuffleEasing
   };
 
   // Not overrideable

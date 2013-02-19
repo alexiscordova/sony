@@ -1,4 +1,4 @@
-/*global Exports, SONY*/
+/*global SONY*/
 
 // * Module: Sticky Tabs
 // * Version: 1.0
@@ -61,7 +61,7 @@
     },
 
     _getConstrained : function( value ) {
-      return Exports.constrain( value, 0, this.windowWidth - this.tabWidth );
+      return SONY.Utilities.constrain( value, 0, this.windowWidth - this.tabWidth );
     },
 
     _onResize : function() {

@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports, SONY*/
+/*global jQuery, Modernizr, SONY*/
 
 // -------- Sony Full Specs Single -------
 // Module: Full Specs Single
@@ -65,8 +65,8 @@
 
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
-        easing: Exports.shuffleEasing,
-        speed: Exports.shuffleSpeed,
+        easing: SONY.Settings.shuffleEasing,
+        speed: SONY.Settings.shuffleSpeed,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 100,
         columnWidth: function( containerWidth ) {
@@ -74,7 +74,7 @@
 
           // 568px+
           if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
           }
 
           return column;
@@ -86,7 +86,7 @@
               numCols = is3Col ? 3 : is2Col ? 2 : 1;
 
           if ( is3Col || is2Col ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
 
           if ( self.currentFeatureCols !== numCols && numCols !== 1) {
