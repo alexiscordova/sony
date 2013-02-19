@@ -41,7 +41,7 @@
         if (!vendor && (tempV + 'Transform') in tempStyle ) {
             vendor = tempV;
         }
-        tempV = tempV.toLowerCase();
+        tempV = tempV.toLowerCase(); 
       }
 
       var bT = vendor + (vendor ? 'T' : 't' ),
