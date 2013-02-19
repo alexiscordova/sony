@@ -12,10 +12,6 @@ SONY.Utilities = (function(window, document) {
 
   var self = {
 
-    'init': function () {
-      self.normalizeLogs();
-    },
-
     // Return calculated column if width is above 568px/35.5em
 
     'masonryColumns': function(containerWidth) {
@@ -97,8 +93,31 @@ SONY.Utilities = (function(window, document) {
           window.log.history = [];
         });
       }
+    },
+
+    // This is a modified version of jQuery Tiny PubSub by Ben Alman
+    // https://github.com/cowboy/jquery-tiny-pubsub
+
+    'createGlobalEvents': function() {
+
+      var o = $({});
+
+      SONY.on = function() {
+        o.on.apply(o, arguments);
+      };
+
+      SONY.off = function() {
+        o.off.apply(o, arguments);
+      };
+
+      SONY.trigger = function() {
+        o.trigger.apply(o, arguments);
+      };
     }
   };
+
+  self.createGlobalEvents();
+  self.normalizeLogs();
 
   return self;
 
