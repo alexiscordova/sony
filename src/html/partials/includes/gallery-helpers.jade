@@ -135,13 +135,16 @@ mixin detailedGallery( submodules, gallery, type )
                 i.fonticon-10-arrowheads-elevator
               ul.dropdown-menu.dropdown-menu-alt.pull-right(role="menu")
                 each sort in gallery.sortSet
+                  //- Jade will interpret attr=true as attr=attr. We need to make it a string
+                  - reverse = sort.reverse === true ? 'true' : 'false'
                   li
-                    a(data-value=sort.name, data-reverse=sort.reverse, tabindex="-1", href="#")= sort.label
+                    a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
             .native-dropdown
               i.fonticon-10-arrowheads-elevator.absolutely
               select.select-small
                 each sort in gallery.sortSet
-                  option(value=sort.name, data-reverse=sort.reverse)= sort.label
+                  - reverse = sort.reverse === true ? 'true' : 'false'
+                  option(value=sort.name, data-reverse=reverse)= sort.label
 
 
           p.p3.ib.product-count-wrap
