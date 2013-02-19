@@ -1,7 +1,7 @@
 /*!
  * iScroll v4.2.5 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
- * Modified: 01/07/2013 by Glen Cheney (added onAnimate + more cleanup in destroy())
+ * Modified: 01/07/2013 by Glen Cheney (added onAnimate + more cleanup in destroy() + IE events)
  */
 (function(window, doc){
 	function prefixStyle (style) {
@@ -12,7 +12,7 @@
 	}
 
 
-var m = Math,
+	var m = Math,
 	dummyStyle = doc.createElement('div').style,
 	vendor = (function () {
 		var vendors = 't,webkitT,MozT,msT,OT'.split(','),

@@ -12,7 +12,7 @@ SONY.Settings = (function(window, document) {
 
   'use strict';
 
-  var self= {};
+  var self = {};
 
   self.shuffleEasing = 'ease-out';
   self.shuffleSpeed = 250;

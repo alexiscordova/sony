@@ -1342,6 +1342,12 @@ $oneByOneImgPadding: 107.84313725490196%;
   @include opacity(0);
   @include transition();
 
+  // Hide nav buttons when the sticky nav is active
+  &.sticky-nav-open .nav-prev,
+  &.sticky-nav-open .nav-next {
+    @include opacity(0);
+  }
+
   .nav-prev,
   .nav-next {
     position: absolute;

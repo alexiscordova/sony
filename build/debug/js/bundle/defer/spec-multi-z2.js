@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports*/
+/*global jQuery, Modernizr, SONY*/
 
 // -------- Sony Full Specs Multi -------
 // Module: Full Specs Multi
@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = $(window);
+    self.$window = SONY.$window || $(window);
     self._init();
   };
 
@@ -45,6 +45,7 @@
       self.$stickyHeaders = self.$specProducts.find('.compare-sticky-header');
       self.$stickyNav = self.$container.find('.spec-sticky-nav');
       self.$jumpLinks = self.$container.find('.spec-views a');
+      self.$stickyRightBar = self.$stickyHeaders.find('.right-bar');
 
       self.$enlargeTriggers = self.$specProducts.find('.js-enlarge');
       self.$enlargeClosers = self.$container.find('.spec-modal .box-close');
@@ -88,8 +89,8 @@
 
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
-        easing: Exports.shuffleEasing,
-        speed: Exports.shuffleSpeed,
+        easing: SONY.Settings.shuffleEasing,
+        speed: SONY.Settings.shuffleSpeed,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 100,
         columnWidth: function( containerWidth ) {
@@ -97,7 +98,7 @@
 
           // 568px+
           if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 30em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
           }
 
           return column;
@@ -109,7 +110,7 @@
               numCols = is3Col ? 3 : is2Col ? 2 : 1;
 
           if ( is3Col || is2Col ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
 
           if ( self.currentFeatureCols !== numCols && numCols !== 1) {
@@ -259,21 +260,22 @@
 
     _initStickyNav : function() {
       var self = this,
-          $body = $('body'),
-          $offsetTarget = self.$container.find('.spec-views:not(.nav)');
+          $body = SONY.$body;
+          // $offsetTarget = self.$container.find('.spec-views:not(.nav)');
 
       // jQuery offset().top is returning negative numbers...
-      self.stickyTriggerOffset = $offsetTarget[0].offsetTop;
+      // self.stickyTriggerOffset = $offsetTarget[0].offsetTop;
+      self.stickyTriggerOffset = self.stickyOffset.top;
 
 
       // REMOVE WHEN ITS NOT BROKEN
-      if ( self.stickyTriggerOffset < 100 ) {
-        setTimeout(function() {
-          self.stickyTriggerOffset = $offsetTarget[0].offsetTop; //$offsetTarget.offset().top;
-        }, 50);
-        console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
-        // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
-      }
+      // if ( self.stickyTriggerOffset < 100 ) {
+      //   setTimeout(function() {
+      //     self.stickyTriggerOffset = $offsetTarget[0].offsetTop; //$offsetTarget.offset().top;
+      //   }, 50);
+      //   console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
+      //   // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
+      // }
 
       // Set up twitter bootstrap scroll spy
       $body.scrollspy({
@@ -433,6 +435,8 @@
           self._setStickyHeaderContent();
         }
 
+        self.$stickyRightBar.css('left', self.$specItemsGrid.width());
+
         // Re-compute heights for each cell and total height
         self
           ._setRowHeights( true )
@@ -497,7 +501,7 @@
 
 
       // Open the stick nav if it's past the trigger
-      if ( scrollTop > self.stickyTriggerOffset ) {
+      if ( scrollTop >= self.stickyTriggerOffset ) {
         if ( !self.$stickyNav.hasClass('open') ) {
           self.$stickyNav.addClass('open');
         }
