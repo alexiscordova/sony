@@ -171,7 +171,7 @@
         var gutter = 0,
             numColumns = 0;
 
-        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') ) {
+        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10') ) {
           gutter = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
           numColumns = 5;
 
@@ -194,7 +194,7 @@
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') ) {
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10')) {
             column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
@@ -631,7 +631,7 @@
 
 
         //if the browser doesnt support media queries...IE default to desktop
-        if(!Modernizr.mediaqueries){
+        if(!Modernizr.mediaqueries || $('body').hasClass('lt-ie10')){
           view = 'desktop';
         }
 
