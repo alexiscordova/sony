@@ -13,6 +13,10 @@ $tabHeight: px-em(98px);
     overflow: hidden;
   }
 
+  &.tab-carousel .tabs-container {
+    overflow: visible;
+  }
+
   // Container for .tab's
   .tabs {
     z-index: 1;
@@ -85,13 +89,11 @@ $tabHeight: px-em(98px);
   }
 
   .tab-nav-prev {
-    left: 1px;
-    // left: -$navPaddleWidth / 2;
+    left: -1.5%;
   }
 
   .tab-nav-next {
-    right: 1px;
-    // right: -$navPaddleWidth / 2;
+    right: -1.5%;
   }
 
   &.tab-carousel .tab-nav-btns {
@@ -122,27 +124,3 @@ $tabHeight: px-em(98px);
   }
 
 }
-
-
-// Set up tab carousel
-// 768 - 979
-// @media (min-width: 48em) and (max-width: 61.1875em) {
-//   .sticky-tabs {
-//     .tabs {
-//       position: relative;
-//       overflow-x: hidden;
-//       overflow-y: visible;
-//       -webkit-transition: all .4s ease-in-out;
-//            -o-transition: all .4s ease-in-out;
-//               transition: all .4s ease-in-out;
-//     }
-
-//     .tabs-container {
-//       overflow: hidden;
-//     }
-
-//     .tab-nav-btns {
-//       display: block;
-//     }
-//   }
-// }

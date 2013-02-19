@@ -216,9 +216,6 @@
     setup : function() {
       var self = this;
 
-      self.isStickyTabs = true;
-      self.$tabsWrap.addClass('sticky');
-
       self.$tabsContainer.scrollerModule({
         contentSelector: '.tabs',
         itemElementSelector: '.tab',
@@ -256,6 +253,9 @@
 
       self.scroller = self.$tabsContainer.data('scrollerModule').scroller;
 
+      self.isStickyTabs = true;
+      self.$container.addClass('sticky');
+
       self._onTabSelected();
     },
 
@@ -265,7 +265,7 @@
 
       self.$tabsContainer.scrollerModule('destroy');
       self.scroller = null;
-      self.$tabsWrap.removeClass('sticky');
+      self.$container.removeClass('sticky');
       self.$tabs.off('.stickytabs');
       self.$tabs.removeAttr('style');
       self.isClickCanceled = false;
