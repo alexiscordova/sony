@@ -12,10 +12,6 @@ SONY.Utilities = (<span class="keyword">function</span>(window, document) {
 
   <span class="keyword">var</span> self = {
 
-    <span class="string">'init'</span>: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      self.normalizeLogs();
-    },
-
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Return calculated column if width is above 568px/35.5em</p>             </td>             <td class="code">               <div class="highlight"><pre>
     masonryColumns: <span class="keyword">function</span>(containerWidth) {
       <span class="keyword">var</span> column = containerWidth;
@@ -122,8 +118,30 @@ http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>         
           window.log.history = [];
         });
       }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>This is a modified version of jQuery Tiny PubSub by Ben Alman
+https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'createGlobalEvents'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> o = $({});
+
+      SONY.on = <span class="keyword">function</span>() {
+        o.on.apply(o, arguments);
+      };
+
+      SONY.off = <span class="keyword">function</span>() {
+        o.off.apply(o, arguments);
+      };
+
+      SONY.trigger = <span class="keyword">function</span>() {
+        o.trigger.apply(o, arguments);
+      };
     }
   };
+
+  self.createGlobalEvents();
+  self.normalizeLogs();
 
   <span class="keyword">return</span> self;
 

@@ -140,6 +140,7 @@
           self.moveEvent   = 'mousemove.rp';
           self.upEvent     = 'mouseup.rp';
           self.cancelEvent = 'mouseup.rp';
+          self.clickEvent  = 'click.rp';
       }
 
       if(self.useCSS3Transitions) {
@@ -171,7 +172,7 @@
         var gutter = 0,
             numColumns = 0;
 
-        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') ) {
+        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10') ) {
           gutter = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
           numColumns = 5;
 
@@ -194,7 +195,7 @@
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') ) {
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10')) {
             column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
@@ -216,6 +217,35 @@
     };
 
     RelatedProducts.prototype = {
+      setupLinkClicks: function(){
+
+        var self = this;
+
+        self.$galleryItems.on(self.clickEvent, function(e){
+
+          var $this = $(this),
+              defaultLink = $this.find('.headline a').attr('href'),
+              closestLink = $(e.target).closest('a').attr('href'),
+              destination;
+
+          if ( self.startInteractionTime ) {
+            if ((new Date().getTime()) - self.startInteractionTime < 250) {
+
+              if ( closestLink && closestLink !== defaultLink ) {
+                destination = closestLink;
+              } else {
+                destination = defaultLink;
+              }
+
+              window.location = destination;
+            }
+          }
+        });
+
+        self.$container.find('a').on(self.clickEvent, function(e){
+          e.preventDefault();
+        });
+      },
 
       toString: function(){
         return '[ object RelatedProducts ]';
@@ -631,7 +661,7 @@
 
 
         //if the browser doesnt support media queries...IE default to desktop
-        if(!Modernizr.mediaqueries){
+        if(!Modernizr.mediaqueries || $('body').hasClass('lt-ie10')){
           view = 'desktop';
         }
 
@@ -900,7 +930,8 @@
         self.horDir             = 0;
         self.verDir             = 0;
         self.currRenderPosition = self.sPosition;
-        self.startTime          = new Date().getTime();
+        //self.startTime          = new Date().getTime();
+        self.startTime = self.startInteractionTime = new Date().getTime();
 
         if(self.hasTouch) {
           self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });

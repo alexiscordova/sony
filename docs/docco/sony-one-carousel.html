@@ -1089,9 +1089,9 @@ fixes from Paul Irish and Tino Zijdel</p>             </td>             <td clas
 </pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>must haves</p>             </td>             <td class="code">               <div class="highlight"><pre>      throttleTime: <span class="number">250</span>
     };
 
-    $( <span class="keyword">function</span>(){
+    SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
       <span class="keyword">var</span> c = window.c = $(<span class="string">'.sony-one-carousel'</span>).sonyOneCarousel({}).data(<span class="string">'sonyOneCarousel'</span>);
-    } );
+    });
 
  })( jQuery, Modernizr, window, <span class="literal">undefined</span> );
 

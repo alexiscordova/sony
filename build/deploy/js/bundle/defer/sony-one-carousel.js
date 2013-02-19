@@ -1124,9 +1124,9 @@
       throttleTime: 250
     };
 
-    $( function(){
+    SONY.on('global:ready', function(){
       var c = window.c = $('.sony-one-carousel').sonyOneCarousel({}).data('sonyOneCarousel');
-    } );
+    });
 
  })( jQuery, Modernizr, window, undefined );
 
