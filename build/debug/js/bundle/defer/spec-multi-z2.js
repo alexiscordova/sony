@@ -600,7 +600,7 @@
 
 
 
-$(document).ready(function() {
+SONY.on('global:ready', function() {
 
   if ( $('.spec-multi').length > 0 ) {
 

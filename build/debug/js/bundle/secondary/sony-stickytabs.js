@@ -248,6 +248,22 @@
           onAnimationEnd: function() {
             self.animateTab();
           }
+        },
+
+        getContentWidth: function( $elements ) {
+          var contentWidth = 0;
+
+          $elements.each(function() {
+            var pos = this.style.position,
+                isOutOfFlow = pos === 'absolute',
+                width = isOutOfFlow ? 0 : $(this).outerWidth( true );
+
+            if ( !isOutOfFlow ) {
+              contentWidth += width;
+            }
+          });
+
+          return contentWidth;
         }
       });
 
@@ -353,10 +369,6 @@
       self.$tabsContainer.scrollerModule('destroy');
 
       self.isTabCarousel = false;
-    },
-
-    update : function() {
-
     }
 
   };

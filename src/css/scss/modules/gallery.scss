@@ -826,7 +826,8 @@ $oneByOneImgPadding: 107.84313725490196%;
   display: none;
   cursor: pointer;
 
-  &.moz {
+  // -webkit-appearance won't work for Firefox and IE
+  &.moz-ie {
     border-right: 1px solid $gray70;
     overflow: hidden;
 
@@ -1061,12 +1062,11 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 @media (max-width: $threeColMax) {
 
-  .sort-options .native-dropdown {
+  .touch .sort-options .native-dropdown {
     display: inline-block;
-    vertical-align: baseline;
   }
 
-  .sort-options .dropdown {
+  .touch .sort-options .dropdown {
     display: none;
   }
 

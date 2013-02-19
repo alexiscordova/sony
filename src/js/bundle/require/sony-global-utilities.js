@@ -47,15 +47,9 @@ SONY.Utilities = (function(window, document) {
 
     // Parses a 2D CSS transform matrix and returns key/val pairings
     parseMatrix: function( str ) {
-      var pxValue = parseInt( str, 10 ),
-          modified;
+      var modified;
 
-      // parseInt can handle 270px
-      if ( !isNaN( pxValue ) ) {
-        return pxValue;
-      }
-
-      // Otherwise we have a matrix like: "matrix(1, 0, 0, 1, -120, 0)"
+      // We have a matrix like: "matrix(1, 0, 0, 1, -120, 0)"
 
       // firstly replace one or more (+) word characters (\w) followed by `(` at the start (^) with a `[`
       // then replace the `)` at the end with `]`

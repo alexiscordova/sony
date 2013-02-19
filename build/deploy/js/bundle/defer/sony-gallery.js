@@ -2265,11 +2265,10 @@
 })(jQuery, Modernizr, window);
 
 
-
-$(document).ready(function() {
+SONY.on('global:ready', function() {
 
   if ( $('.gallery').length > 0 ) {
-    // console.profile();
+    console.profile();
 
     // Initialize galleries
     $('.gallery').each(function() {
@@ -2297,7 +2296,7 @@ $(document).ready(function() {
     // which depends on how long the page takes to load (and if the browser has transitions)
     setTimeout(function() {
       $('.tab-pane:not(.active) .gallery').gallery('disable');
-      // console.profileEnd();
+      console.profileEnd();
     }, 500);
   }
 });

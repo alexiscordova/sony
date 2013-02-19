@@ -305,7 +305,7 @@
 
 
 
-$(document).ready(function() {
+SONY.on('global:ready', function() {
 
   if ( $('.spec-single').length > 0 ) {
 

@@ -565,9 +565,10 @@
         self.$productCount.text( self.shuffle.$items.length );
       }
 
-      // Firefox's <select> menu is hard to style...
-      if ( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ) {
-        self.$sortSelect.parent().addClass('moz');
+      // Firefox's and IE's <select> menu is hard to style...
+      var ua = navigator.userAgent.toLowerCase();
+      if ( ua.indexOf('firefox') > -1 || ua.indexOf('msie') > -1 ) {
+        self.$sortSelect.parent().addClass('moz-ie');
       }
     },
 
@@ -2265,8 +2266,7 @@
 })(jQuery, Modernizr, window);
 
 
-
-$(document).ready(function() {
+SONY.on('global:ready', function() {
 
   if ( $('.gallery').length > 0 ) {
     // console.profile();
