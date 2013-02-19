@@ -373,19 +373,23 @@
 
       $navTray.data('expandedHeight',expandedHeight);
 
-
       if (opening){
         startHeight = '1px';
         endHeight = expandedHeight;
+        // if ie 7,8 and 9, we remove the animation
+        // **TODO** add jquery animation for ie9+
+        if ($('html').hasClass('lt-ie10')){
+          startHeight = expandedHeight;
+        }
       } else {
         // if you're not opening, it's just initializing on page load
         startHeight = expandedHeight;
         endHeight = '1px';
         
-        // if it ie, we remove the animation
+        // if ie 7,8 and 9, we remove the animation
         // **TODO** add jquery animation for ie9+
         if ($('html').hasClass('lt-ie10')){
-         endHeight = expandedHeight;
+          endHeight = expandedHeight;
         }
       }
 

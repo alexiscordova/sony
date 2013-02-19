@@ -36,28 +36,9 @@ $specBorderColor: $gray70;
 // 888   d88P Y88..88P Y88b.  888  888
 // 8888888P"   "Y88P"   "Y888 888  888
 
-// .iq-wrap {
-//   position: relative;
-//   overflow: hidden;
-
-//   &:after {
-//     content: '';
-//     display: block;
-//     padding-top: 60.1851852%;
-//   }
-
-//   .iq-container {
-//     position: absolute;
-//     top: 0;
-//     bottom: 0;
-//     left: 0;
-//     right: 0;
-//   }
-// }
 
 // Spec Header
 // -------------------------
-
 .spec-single,
 .spec-multi {
   margin-top: 4.375em; // 70
@@ -126,7 +107,7 @@ ul.spec-views {
   width: 100%;
   background: $white;
   @include box-shadow(0 .0625em .625em $transparentBlack);
-  @include translate(0, -5em);
+  @include translate(0, -2em);
   -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
           transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
 
@@ -534,45 +515,42 @@ ul.spec-views {
     height: $stickyHeaderHeight;
     background: $tableHeaderColor;
     border-right: .0625em solid $specBorderColor; // 1 pixel
-    @include box-shadow(none);
+    @include box-shadow(0 .0625em .625em $transparentBlack);
 
     &.open {
       top: 0;
-    }
-
-    // needs a 2px horizontal offset, otherwise the shadow is seen on hidden columns
-    &:not(.sticky-count) {
-      // @include box-shadow(0 .0625em .625em $transparentBlack);
-    }
-
-    &.sticky-count .product-count-wrap {
-      height: $stickyHeaderHeight;
-      @include box-shadow(0.0625em 0 0.0625em $specBorderColor);
     }
   }
 
   // Override some styles from the gallery's compare tool
   .sticky-count {
     padding: 0;
+    @include box-shadow(none);
 
-    // Gray bar spanning the width of the browser behind sticky column headers
+    // Gray bar on the left side of the container
     &:before {
       background: $tableHeaderColor;
-      width: 6000px;
-      left: -3000px;
-      right: auto;
+      width: 3000px;
+      right: 0;
       @include box-shadow(0 .0625em .625em $transparentBlack);
     }
 
-    // &:after {
-    //   content: '';
-    //   position: absolute;
-    //   top: 0;
-    //   right: 0;
-    //   width: 1px;
-    //   height: 100%;
-    //   background: red;
-    // }
+
+    // Gray bar on the right side of the container
+    .right-bar {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 800%;
+      height: $stickyHeaderHeight;
+      width: 187em;
+      background: $tableHeaderColor;
+      @include box-shadow(-.3125em .4375em .625em -.3125em $transparentBlack);
+    }
+
+    .product-count-wrap {
+      height: $stickyHeaderHeight;
+    }
   }
 
 }
