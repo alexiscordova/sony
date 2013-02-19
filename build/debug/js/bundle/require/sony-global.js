@@ -8,6 +8,8 @@ var SONY = SONY || {};
 
 SONY.Global = (function(window, document) {
 
+  'use strict';
+
   SONY.$window = $(window);
   SONY.$html = $(document.documentElement);
   SONY.$body = $(document.body);
@@ -16,14 +18,15 @@ SONY.Global = (function(window, document) {
 
     'init': function(config) {
 
-      SONY.Utilities.init();
-
       if ( window.enquire ){
         window.enquire.listen(100);
       }
 
+      SONY.trigger('global:ready');
+
       log('SONY : Global : Initialized');
     }
+
   };
 
   return self;

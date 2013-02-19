@@ -218,10 +218,22 @@
           var $this = $(this),
               defaultLink = $this.find('.headline a').attr('href'),
               closestLink = $(e.target).closest('a').attr('href'),
-              destination;
+              destination, point, distanceMoved;
 
-          if ( self.startInteractionTime ) {
-            if ((new Date().getTime()) - self.startInteractionTime < 250) {
+          if ( self.hasTouch ) {
+            point = e.originalEvent.touches[0];
+          } else {
+            point = e;
+          }
+
+          // To prevent drags from being misinterpreted as clicks, we only redirect the user
+          // if their interaction time and movements are below certain thresholds.
+
+          if ( self.startInteractionTime && self.startInteractionPointX ) {
+
+            distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
+
+            if ((new Date().getTime()) - self.startInteractionTime < 250 && distanceMoved < 25 ) {
 
               if ( closestLink && closestLink !== defaultLink ) {
                 destination = closestLink;
@@ -282,6 +294,7 @@
         self.currRenderPosition = self.sPosition;
 
         self.startTime = self.startInteractionTime = new Date().getTime();
+        self.startInteractionPointX = point.pageX;
 
         if(self.hasTouch) {
           self.$container.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
@@ -1124,9 +1137,9 @@
       throttleTime: 250
     };
 
-    $( function(){
+    SONY.on('global:ready', function(){
       var c = window.c = $('.sony-one-carousel').sonyOneCarousel({}).data('sonyOneCarousel');
-    } );
+    });
 
  })( jQuery, Modernizr, window, undefined );
 
