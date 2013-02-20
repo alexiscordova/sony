@@ -38,25 +38,6 @@
             vendor = tempV;
         }
         tempV = tempV.toLowerCase();
-
-        if( !window.requestAnimationFrame ) {
-          window.requestAnimationFrame = window[ tempV+'RequestAnimationFrame' ];
-          window.cancelAnimationFrame = window[ tempV+'CancelAnimationFrame' ] || window[ tempV+'CancelRequestAnimationFrame' ];
-        }
-      }
-
-      // requestAnimationFrame polyfill by Erik Möller
-      // fixes from Paul Irish and Tino Zijdel
-      if ( !window.requestAnimationFrame ) {
-        window.requestAnimationFrame = function( callback, element ) {
-          var currTime = new Date().getTime(),
-          timeToCall   = Math.max(0, 16 - ( currTime - lastTime )),
-          id           = window.setTimeout( function() { callback(currTime + timeToCall); }, timeToCall );
-
-          lastTime = currTime + timeToCall;
-
-          return id;
-        };
       }
 
       if (!window.cancelAnimationFrame){
@@ -218,10 +199,22 @@
           var $this = $(this),
               defaultLink = $this.find('.headline a').attr('href'),
               closestLink = $(e.target).closest('a').attr('href'),
-              destination;
+              destination, point, distanceMoved;
 
-          if ( self.startInteractionTime ) {
-            if ((new Date().getTime()) - self.startInteractionTime < 250) {
+          if ( self.hasTouch ) {
+            point = e.originalEvent.touches[0];
+          } else {
+            point = e;
+          }
+
+          // To prevent drags from being misinterpreted as clicks, we only redirect the user
+          // if their interaction time and movements are below certain thresholds.
+
+          if ( self.startInteractionTime && self.startInteractionPointX ) {
+
+            distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
+
+            if ((new Date().getTime()) - self.startInteractionTime < 250 && distanceMoved < 25 ) {
 
               if ( closestLink && closestLink !== defaultLink ) {
                 destination = closestLink;
@@ -282,6 +275,7 @@
         self.currRenderPosition = self.sPosition;
 
         self.startTime = self.startInteractionTime = new Date().getTime();
+        self.startInteractionPointX = point.pageX;
 
         if(self.hasTouch) {
           self.$container.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
@@ -304,7 +298,6 @@
         self.renderMoveEvent = null;
         self.isDragging = false;
         self.lockAxis = false;
-        self.checkedAxis = false;
         self.renderMoveTime = 0;
 
         window.cancelAnimationFrame(self.animFrame);
@@ -432,90 +425,58 @@
           })();
         }
 
-        if( !self.checkedAxis ) {
-
-          var dir = true,
-          diff    = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
-
-          if(diff > 7) {
-            // hor movement
-            if(dir) {
-              e.preventDefault();
-              self.currMoveAxis = 'x';
-            } else if(self.hasTouch) {
-              //t.completeGesture();
-              return;
-            }
-            self.checkedAxis = true;
-          } else if(diff < -7) {
-            // ver movement
-            if(!dir) {
-              e.preventDefault();
-              self.currMoveAxis = 'y';
-            } else if(self.hasTouch) {
-              //t.completeGesture();
-              return;
-            }
-            self.checkedAxis = true;
-          }
-          return;
-        }
-
         e.preventDefault();
         self.renderMoveTime = new Date().getTime();
         self.renderMoveEvent = point;
 
       },
       renderMovement: function(point , isThumbs){
-        var self = this;
-        if(self.checkedAxis) {
+        var self = this,
+            timeStamp = self.renderMoveTime,
+            deltaX = point.pageX - self.pageX,
+            deltaY = point.pageY - self.pageY,
+            newX = self.currRenderPosition + deltaX,
+            newY = self.currRenderPosition + deltaY,
+            isHorizontal = true,
+            newPos = isHorizontal ? newX : newY,
+            mAxis = self.currMoveAxis;
 
-          var timeStamp = self.renderMoveTime,
-              deltaX = point.pageX - self.pageX,
-              deltaY = point.pageY - self.pageY,
-              newX = self.currRenderPosition + deltaX,
-              newY = self.currRenderPosition + deltaY,
-              isHorizontal = true,
-              newPos = isHorizontal ? newX : newY,
-              mAxis = self.currMoveAxis;
+        self.hasMoved = true;
+        self.pageX = point.pageX;
+        self.pageY = point.pageY;
 
-          self.hasMoved = true;
-          self.pageX = point.pageX;
-          self.pageY = point.pageY;
+        var pointPos = self.pageX;
 
-          var pointPos = self.pageX;
-
-          if(mAxis === 'x' && deltaX !== 0) {
-              self.horDir = deltaX > 0 ? 1 : -1;
-          } else if(mAxis === 'y' && deltaY !== 0) {
-              self.verDir = deltaY > 0 ? 1 : -1;
-          }
-
-          var deltaPos = isHorizontal ? deltaX : deltaY;
-
-          if(!self.loop) {
-            if(self.currSlideId <= 0) {
-              if(pointPos - self.startPagePos > 0) {
-                newPos = self.currRenderPosition + deltaPos * self.lastItemFriction;
-              }
-            }
-            if(self.currSlideId >= self.numSlides - 1) {
-              if(pointPos - self.startPagePos < 0) {
-                newPos = self.currRenderPosition + deltaPos * self.lastItemFriction ;
-              }
-            }
-          }
-
-          self.currRenderPosition = newPos;
-
-          if ( timeStamp - self.startTime > 200 ) {
-            self.startTime = timeStamp;
-            self.accelerationPos = pointPos;
-          }
-
-          //animate?
-          self.setPosition(self.currRenderPosition);
+        if(mAxis === 'x' && deltaX !== 0) {
+            self.horDir = deltaX > 0 ? 1 : -1;
+        } else if(mAxis === 'y' && deltaY !== 0) {
+            self.verDir = deltaY > 0 ? 1 : -1;
         }
+
+        var deltaPos = isHorizontal ? deltaX : deltaY;
+
+        if(!self.loop) {
+          if(self.currSlideId <= 0) {
+            if(pointPos - self.startPagePos > 0) {
+              newPos = self.currRenderPosition + deltaPos * self.lastItemFriction;
+            }
+          }
+          if(self.currSlideId >= self.numSlides - 1) {
+            if(pointPos - self.startPagePos < 0) {
+              newPos = self.currRenderPosition + deltaPos * self.lastItemFriction ;
+            }
+          }
+        }
+
+        self.currRenderPosition = newPos;
+
+        if ( timeStamp - self.startTime > 200 ) {
+          self.startTime = timeStamp;
+          self.accelerationPos = pointPos;
+        }
+
+        //animate?
+        self.setPosition(self.currRenderPosition);
       },
 
       setPosition: function(posi) {
@@ -1090,10 +1051,9 @@
     };
 
     $.socCSS3Easing = {
-        //add additional ease types here
-        easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
-        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)'
+      easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
+      easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+      easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)'
     };
 
     $.fn.sonyOneCarousel = function( options ) {

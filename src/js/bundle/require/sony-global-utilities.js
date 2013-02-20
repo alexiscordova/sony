@@ -150,6 +150,7 @@ SONY.Utilities = (function(window, document) {
         o.trigger.apply(o, arguments);
       };
     }
+
   };
 
   self.createGlobalEvents();
