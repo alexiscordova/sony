@@ -941,7 +941,8 @@
       self.$rangeControl.rangeControl({
         initialMin: '0%',
         initialMax: '100%',
-        range: true
+        range: true,
+        rangeThreshold: 40
       });
     },
 
