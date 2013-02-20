@@ -151,6 +151,8 @@ SONY.Utilities = (function(window, document) {
       };
     },
 
+    // Create global events.
+
     'createGlobalEvents': function() {
 
       var cachedFunctions = {};
