@@ -17,20 +17,21 @@
     var console = window.console;
 
     var SonyOneCarousel = function( element , options ){
-      var self      = this,
-      ua            = navigator.userAgent.toLowerCase(),
-      i,
-      isAndroid     = ua.indexOf( 'android' ) > -1,
-      resizeTimer   = null;
+
+      var self        = this,
+          ua          = navigator.userAgent.toLowerCase(),
+          isAndroid   = ua.indexOf( 'android' ) > -1,
+          resizeTimer = null,
+          i;
 
       $.extend( self , $.fn.sonyOneCarousel.defaults , options , $.fn.sonyOneCarousel.settings );
 
       // feature detection, some ideas taken from Modernizr
       var tempStyle = document.createElement('div').style,
-      vendors       = [ 'webkit','Moz','ms','O' ],
-      vendor        = '',
-      lastTime      = 0,
-      tempV;
+          vendors   = [ 'webkit','Moz','ms','O' ],
+          vendor    = '',
+          lastTime  = 0,
+          tempV;
 
       for (i = 0; i < vendors.length; i++ ) {
         tempV = vendors[i];
@@ -40,21 +41,14 @@
         tempV = tempV.toLowerCase();
       }
 
-      if (!window.cancelAnimationFrame){
-        window.cancelAnimationFrame = function(id) { clearTimeout(id); };
-      }
-
       var bT = vendor + ( vendor ? 'T' : 't' );
 
-      self.useCSS3Transitions = ( ( bT + 'ransform' ) in tempStyle ) && ( ( bT + 'ransition' ) in tempStyle );
+      self.useCSS3Transitions = Modernizr.csstransforms && Modernizr.csstransitions;
 
+      // 3D Transform test in Modernizr returns a false negative in Chrome, so we need this for now.
       if( self.useCSS3Transitions ) {
           self.use3dTransform = ( vendor + ( vendor ? 'P' : 'p'  ) + 'erspective' ) in tempStyle;
       }
-
-      vendor = vendor.toLowerCase();
-
-      self.vendorPrefix = '-' + vendor + '-';
 
       //jquery cached objects
       self.$el                   = $( element );
@@ -68,13 +62,9 @@
       self.ev                    = $( {} ); //event object
       self.resizeRatio           = 0.4120689655;
       self.numSlides             = self.$slides.length;
-      self.previousId            = -1;
       self.currentId             = 0;
-      self.slidePosition         = 0;
       self.animationSpeed        = 700; //ms
-      self.slideCount            = 0;
       self.currentContainerWidth = 0;
-      self.newSlideId            = 0;
       self.sPosition             = 0;
       self.accelerationPos       = 0;
       self.prefixed              = Modernizr.prefixed;
@@ -106,25 +96,20 @@
 
       //store a referece to the orginal slide
       self.$slides.each(function(i){
-        var $this = $(this),
-        $item     = null;
-
-        $this.find('.soc-item').each(function(j){
-          $item = $(this);
-          $item.data('slideGroupId' , i);
+        $(this).find('.soc-item').each(function(j){
+          $(this).data('slideGroupId', i);
         });
-
       });
 
       //figure out what events to use
-      if('ontouchstart' in window || 'createTouch' in document) {
+      if( Modernizr.touch ) {
         self.hasTouch = true;
         self.downEvent = 'touchstart.soc';
         self.moveEvent = 'touchmove.soc';
         self.upEvent = 'touchend.soc';
         self.cancelEvent = 'touchcancel.soc';
         self.lastItemFriction = 0.5;
-      }else{
+      } else {
         self.hasTouch = false;
         self.lastItemFriction = 0.2;
         self.downEvent = 'mousedown.soc';
@@ -136,12 +121,7 @@
 
       if( self.useCSS3Transitions ) {
 
-        // some constants for CSS3
-        self.TP = 'transition-property';
-        self.TD = 'transition-duration';
-        self.TTF = 'transition-timing-function';
-
-        self.yProp = self.xProp = self.vendorPrefix + 'transform';
+        self.yProp = self.xProp = Modernizr.prefixed('transform');
 
         if( self.use3dTransform ) {
           self.tPref1 = 'translate3d(';
@@ -153,7 +133,7 @@
           self.tPref3 = 'px)';
         }
 
-        self.$container[ ( self.vendorPrefix + self.TP ) ] = ( self.vendorPrefix + 'transform' );
+        self.$container[ Modernizr.prefixed('transitionProperty') ] = Modernizr.prefixed('transform');
 
       } else {
         self.xProp = 'left';
@@ -168,7 +148,6 @@
           self.checkForBreakPoint();
           self.update();
           self.updateSlides();
-          //do other stuff on window resize
         }, self.throttleTime );
       });
 
@@ -176,7 +155,7 @@
         return self.hasTouch ? 'touchend' : 'click';
       };
 
-      if(self.numSlides > 1){
+      if( self.numSlides > 1 ){
         self.$containerInner.on(self.downEvent, function(e) { self.onDragStart(e); });
       }
 
@@ -235,17 +214,12 @@
       onDragStart : function(e){
 
         var self = this,
-        point;
-
-        self.dragSuccess = false;
+            point;
 
         if ( self.hasTouch ) {
           var touches = e.originalEvent.touches;
           if ( touches && touches.length > 0 ) {
             point = touches[0];
-            if(touches.length > 1){
-              self.multipleTouches = true; //not sure why we would care
-            }
           } else {
             return;
           }
@@ -261,7 +235,6 @@
 
         self.$doc.on( self.moveEvent , $.proxy( self.dragMove , self ) ).on( self.upEvent , $.proxy( self.dragRelease , self ) );
 
-        self.currMoveAxis = '';
         self.hasMoved = false;
         self.pageX = point.pageX;
         self.pageY = point.pageY;
@@ -309,53 +282,40 @@
           self.$container.off( self.cancelEvent );
         }
 
-        //t.dragSuccess = true;
-        self.currMoveAxis = '';
-
-        //t.setGrabCursor(); // remove grabbing hand
         var orient = true;
 
         if(!self.hasMoved) {
             return;
         }
 
-        self.dragSuccess = true;
-        self.currMoveAxis = '';
-
-        function getCorrectSpeed(newSpeed) {
-            if(newSpeed < 100) {
-                return 100;
-            } else if(newSpeed > 500) {
-                return 500;
-            }
-            return newSpeed;
-        }
         function returnToCurrent(isSlow, v0) {
-          var newPos         = -self.currentId * self.currentContainerWidth,
-          newDist            = Math.abs( self.sPosition  - newPos );
+
+          var newPos = -self.currentId * self.currentContainerWidth,
+              newDist = Math.abs( self.sPosition  - newPos );
 
           self.currAnimSpeed = newDist / v0;
 
           if(isSlow) {
             self.currAnimSpeed += 250;
           }
-          self.currAnimSpeed = getCorrectSpeed( self.currAnimSpeed );
+          self.currAnimSpeed = SONY.Utilities.constrain( self.currAnimSpeed, 100, 500 );
 
           self.moveTo();
         }
 
-        var snapDist = self.minSlideOffset,
-        point        = self.hasTouch ? e.originalEvent.changedTouches[0] : e,
-        pPos         = point.pageX,
-        sPos         = self.startPagePos,
-        axPos        = self.accelerationPos,
-        axCurrItem   = self.currSlideId,
-        axNumItems   = self.numSlides,
-        dir          = self.horDir,
-        loop         = self.loop,
-        changeHash   = false,
-        distOffset   = 0,
-        dragDirection,
+        var snapDist   = self.minSlideOffset,
+            point      = self.hasTouch ? e.originalEvent.changedTouches[0] : e,
+            pPos       = point.pageX,
+            sPos       = self.startPagePos,
+            axPos      = self.accelerationPos,
+            axCurrItem = self.currSlideId,
+            axNumItems = self.numSlides,
+            dir        = self.horDir,
+            loop       = self.loop,
+            changeHash = false,
+            distOffset = 0,
+            dragDirection,
+
         //This makes sure depending on mode we use the right slide collection!
         $currSlides = (self.isDesktopMode ? self.$desktopSlides :
                       self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
@@ -413,7 +373,7 @@
 
         if( !self.hasMoved ) {
           if( self.useCSS3Transitions ) {
-              self.$container.css((self.vendorPrefix + self.TD), '0s');
+              self.$container.css(Modernizr.prefixed('transitionDuration'), '0s');
           }
           (function animloop(){
             if( self.isDragging ) {
@@ -438,8 +398,7 @@
             newX = self.currRenderPosition + deltaX,
             newY = self.currRenderPosition + deltaY,
             isHorizontal = true,
-            newPos = isHorizontal ? newX : newY,
-            mAxis = self.currMoveAxis;
+            newPos = isHorizontal ? newX : newY;
 
         self.hasMoved = true;
         self.pageX = point.pageX;
@@ -447,11 +406,7 @@
 
         var pointPos = self.pageX;
 
-        if(mAxis === 'x' && deltaX !== 0) {
-            self.horDir = deltaX > 0 ? 1 : -1;
-        } else if(mAxis === 'y' && deltaY !== 0) {
-            self.verDir = deltaY > 0 ? 1 : -1;
-        }
+        self.horDir = deltaX > 0 ? 1 : -1;
 
         var deltaPos = isHorizontal ? deltaX : deltaY;
 
@@ -475,7 +430,6 @@
           self.accelerationPos = pointPos;
         }
 
-        //animate?
         self.setPosition(self.currRenderPosition);
       },
 
@@ -484,12 +438,12 @@
         window.iQ.update();
 
         var self = this,
-        pos      = self.sPosition = posi;
+            pos  = self.sPosition = posi;
 
         if(self.useCSS3Transitions) {
           var animObj = {};
-          animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
-          animObj[ self.xProp] = self.tPref1 + (pos + self.tPref2 + 0) + self.tPref3;
+          animObj[ Modernizr.prefixed('transitionDuration') ] = 0 + 'ms';
+          animObj[ self.xProp ] = self.tPref1 + (pos + self.tPref2 + 0) + self.tPref3;
           self.$containerInner.css(animObj);
 
         } else {
@@ -499,19 +453,19 @@
 
       moveTo: function(force){
         var self = this,
-        newPos   = -self.currentId * self.currentContainerWidth,
-        $contentWrappers = self.$el.find('.soc-content'),
-        animObj  = {};
+            newPos = -self.currentId * self.currentContainerWidth,
+            $contentWrappers = self.$el.find('.soc-content'),
+            animObj = {};
 
         $contentWrappers.css('z-index', '');
         $contentWrappers.eq(self.currentId).css('z-index', 100);
 
-        if(self.currentId !== 0){
+        if( self.currentId !== 0 ){
           self.$gridW = self.$el.find('.soc-grid' ).eq(0);
           newPos -= (SONY.Settings.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
         }
 
-        if(self.isMobileMode === true){
+        if( self.isMobileMode === true ){
           var delta = ($contentWrappers.eq(0).width() - self.$el.find('.soc-item').eq(0).width()) / 2;
           newPos += delta - (self.currentId * 10);
         }
@@ -525,8 +479,8 @@
         } else {
 
           //css3 transition
-          animObj[ (self.vendorPrefix + self.TD) ] = (force === true ? 10 : self.animationSpeed) + 'ms';
-          animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeOutBack;
+          animObj[ Modernizr.prefixed('transitionDuration') ] = (force === true ? 10 : self.animationSpeed) + 'ms';
+          animObj[ Modernizr.prefixed('transitionTimingFunction') ] = $.socCSS3Easing.easeOutBack;
 
           self.$containerInner.css( animObj );
 
@@ -548,9 +502,9 @@
 
       update: function(){
         var self = this,
-        cw       = self.currentContainerWidth = self.$el.find( '.soc-grid' ).eq(0).width(),
-        newH     = Math.floor(self.resizeRatio * cw) +  'px',
-        $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
+            cw = self.currentContainerWidth = self.$el.find( '.soc-grid' ).eq(0).width(),
+            newH = Math.floor(self.resizeRatio * cw) +  'px',
+            $currSlides = (self.isDesktopMode ? self.$desktopSlides : self.isTabletMode ? self.$tabletSlides : self.$mobileSlides);
 
         if(self.isDesktopMode || self.isTabletMode){
           self.$container.css( 'height' , newH );
@@ -562,62 +516,57 @@
       },
 
       shuffleClasses: function(){
-        var self     = this,
-        mode         = self.currentMode.toLowerCase(),
-        allSpans     = 'span4 span6 span8 span12',
-        itemSelector = '.soc-item',
-        oneUp        = '.soc-1up',
-        twoUp        = '.soc-2up',
-        threeUp      = '.soc-3up';
+        var self = this,
+            mode = self.currentMode.toLowerCase(),
+            allSpans = 'span4 span6 span8 span12',
+            itemSelector = '.soc-item',
+            oneUp = '.soc-1up',
+            twoUp = '.soc-2up',
+            threeUp = '.soc-3up';
 
         switch(mode){
           case 'desktop':
 
             self.$desktopSlides
-            .find(itemSelector)
-            .removeClass(allSpans)
-            .filter(oneUp).addClass('span4')
-            .end()
-            .filter(twoUp).addClass('span6')
-            .end()
-            .filter(threeUp).addClass('span8');
-
+                .find(itemSelector)
+                .removeClass(allSpans)
+                .filter(oneUp).addClass('span4')
+                .end()
+                .filter(twoUp).addClass('span6')
+                .end()
+                .filter(threeUp).addClass('span8');
           break;
 
           case 'tablet':
             //get all the spans off and add
             self.$tabletSlides
-            .find(itemSelector)
-            .removeClass(allSpans)
-            .filter(oneUp).addClass('span6')
-            .end()
-            .filter(twoUp).addClass('span6')
-            .end()
-            .filter(threeUp).addClass('span6');
-
+                .find(itemSelector)
+                .removeClass(allSpans)
+                .filter(oneUp).addClass('span6')
+                .end()
+                .filter(twoUp).addClass('span6')
+                .end()
+                .filter(threeUp).addClass('span6');
           break;
 
           case 'mobile':
             //something entirely different here
             self.$mobileSlides
-            .find(itemSelector)
-            .removeClass(allSpans)
-            .addClass('span12');
+                .find(itemSelector)
+                .removeClass(allSpans)
+                .addClass('span12');
           break;
-
         }
-
       },
 
       checkForBreakPoint: function(){
         var self = this,
-        wW = self.$win.width(),
-        view = wW > 769 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile',
-        lastView = self.currentMode;
+            wW = self.$win.width(),
+            view = wW > 769 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile',
+            lastView = self.currentMode;
 
         switch(view){
           case 'desktop':
-            //handle desktop
             if(self.isDesktopMode){ return; }
             self.isMobileMode = self.isTabletMode = false;
             self.isDesktopMode = true;
@@ -630,7 +579,6 @@
           break;
 
           case 'tablet':
-            //handle tablet
             if(self.isTabletMode){ return; }
             self.isMobileMode = self.isDesktopMode = false;
             self.isTabletMode = true;
@@ -643,7 +591,6 @@
           break;
 
           case 'mobile':
-            //handle mobile
             if(self.isMobileMode){ return; }
             self.isTabletMode = self.isDesktopMode = false;
             self.isMobileMode = true;
@@ -655,8 +602,6 @@
 
           break;
         }
-
-        //do other stuff here
       },
 
       createDesktopSlides: function(lastView){
@@ -675,7 +620,6 @@
           case 'mobile':
             $lastItem = self.$mobileSlides.eq(self.currentId).find('.soc-item').first();
           break;
-
         }
 
         // 1. grab all of the gallery items
@@ -690,28 +634,25 @@
         var processItem = function(j){
           var $item = $(this);
 
-          if($item.data('slideGroupId') === i){
+          if( $item.data('slideGroupId') === i ){
             $item.appendTo($gridDiv);
           }
-
         };
 
         for (var i = 0; i < self.originalSlideCount; i ++) {
 
-            var $contentDiv = $('<div class="soc-content" />'),
-            $gridDiv        = $('<div class="soc-grid slimgrid" />'),
-            $item           = null;
+          var $contentDiv = $('<div class="soc-content" />'),
+              $gridDiv = $('<div class="soc-grid slimgrid" />'),
+              $item = null;
 
-            self.$galleryItems.each(processItem);
+          self.$galleryItems.each(processItem);
 
-            $gridDiv.appendTo($contentDiv);
-            $contentDiv.appendTo(self.$containerInner);
+          $gridDiv.appendTo($contentDiv);
+          $contentDiv.appendTo(self.$containerInner);
         }
 
         self.$desktopSlides = self.$container.find('.soc-content');
-
         self.numSlides = self.$desktopSlides.length;
-
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
@@ -733,7 +674,6 @@
           case 'mobile':
             $lastItem = self.$mobileSlides.eq(self.currentId).find('.soc-item').first();
           break;
-
         }
 
         // 1. grab all of the gallery items
@@ -747,50 +687,46 @@
         galLen = self.$galleryItems.length;
 
         var createSlide = function(i,orphaned){
-          var $contentDiv = $('<div class="soc-content" />'),
-          $gridDiv        = $('<div class="soc-grid slimgrid" />'),
-          $item1          = self.$galleryItems.eq(i-1),
-          $item2          = self.$galleryItems.eq(i);
 
-          if(orphaned === true){
+          var $contentDiv = $('<div class="soc-content" />'),
+              $gridDiv = $('<div class="soc-grid slimgrid" />'),
+              $item1 = self.$galleryItems.eq(i-1),
+              $item2 = self.$galleryItems.eq(i);
+
+          if( orphaned === true ){
             $item1 = self.$galleryItems.eq(i);
             $item2 = $();
           }
 
           $gridDiv.appendTo($contentDiv);
 
-          if($item1.length > 0){
+          if( $item1.length > 0 ) {
             $item1.appendTo($gridDiv);
           }
 
-          if($item2.length > 0){
+          if( $item2.length > 0 ) {
             $item2.appendTo($gridDiv);
           }
 
           $contentDiv.appendTo(self.$containerInner);
-
           slideCount++;
         };
 
         for (var i = 0; i < galLen; i ++) {
 
-          if(i%2){
+          if ( i % 2 ) {
             createSlide(i,false);
           }
 
-          if(i === galLen - 1 && galLen > slideCount * 2){
-            createSlide(i,true);
+          if (i === galLen - 1 && galLen > slideCount * 2) {
+            createSlide(i, true);
           }
         }
 
         self.$tabletSlides = self.$container.find('.soc-content');
-
         self.numSlides = self.$tabletSlides.length;
-
         self.createNavigation();
-
         self.currentId = self.getCurrentSlideByItemId($lastItem);
-
         self.$win.trigger('resize.soc');
       },
 
@@ -821,21 +757,18 @@
         self.$tabletSlides.remove();
 
         for (var i = 0; i < self.$galleryItems.length; i ++) {
+
           var $contentDiv = $('<div class="soc-content" />'),
-          $gridDiv        = $('<div class="soc-grid slimgrid" />'),
-          $item           = self.$galleryItems.eq(i);
+              $gridDiv    = $('<div class="soc-grid slimgrid" />'),
+              $item       = self.$galleryItems.eq(i);
 
-          //$gridDiv.appendTo($contentDiv);
           $item.appendTo($contentDiv);
-
           $contentDiv.appendTo(self.$containerInner);
         }
 
 
         self.$mobileSlides = self.$container.find('.soc-content');
-
         self.numSlides = self.$mobileSlides.length;
-
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
         self.$win.trigger('resize.soc');
@@ -843,8 +776,8 @@
 
       createNavigation: function (){
         var self = this,
-        itemHTML = '<div class="soc-nav-item soc-bullet"></div>',
-        out          = '<div class="soc-nav soc-bullets">';
+            itemHTML = '<div class="soc-nav-item soc-bullet"></div>',
+            out = '<div class="soc-nav soc-bullets">';
 
         //remove other references
         self.$el.find('.soc-nav.soc-bullets').remove();
@@ -859,6 +792,7 @@
         for(var i = 0; i < self.numSlides; i++) {
           out += itemHTML;
         }
+
         out += '</div>';
         out = $( out );
         self.controlNav = out;
@@ -875,42 +809,40 @@
 
         self.ev.on( 'socOnUpdateNav', function() {
           var id = self.currentId,
-          currItem,
-          prevItem;
+              currItem, prevItem;
 
           if(self.prevNavItem) {
             self.prevNavItem.removeClass('soc-nav-selected');
           }
-          currItem = $(self.controlNavItems[id]);
 
+          currItem = $(self.controlNavItems[id]);
           currItem.addClass('soc-nav-selected');
           self.prevNavItem = currItem;
-
-        } );
+        });
 
         self.ev.trigger( 'socOnUpdateNav' );
-
       },
 
       setupPaddles: function(){
 
-        var self   = this,
-        itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
-        $container = self.$el.closest('.container');
+        var self = this,
+            itemHTML = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
+            $container = self.$el.closest('.container'),
+            out = '<div class="soc-nav soc-paddles">';
 
         if ( self.hasTouch ) {
           return;
         }
 
         self.paddlesEnabled = true;
-        var out = '<div class="soc-nav soc-paddles">';
-        for(var i = 0; i < 2; i++) {
+
+        for ( var i = 0; i < 2; i++ ) {
           out += itemHTML;
         }
+
         out += '</div>';
         out = $(out);
 
-        //TODO: add paddles
         self.$el.append(out);
 
         self.$paddles     = self.$el.find('.paddle');
@@ -918,20 +850,19 @@
         self.$rightPaddle = self.$paddles.eq(1).addClass('right');
 
         self.$paddles.on(self.tapOrClick() , function(){
-          var p = $(this);
 
-          if(p.hasClass('left')){
+          if ( $(this).hasClass('left') ){
 
-            self.currentId --;
+            self.currentId--;
             if(self.currentId < 0){
               self.currentId = 0;
             }
 
             self.moveTo();
 
-          }else{
+          } else {
 
-            self.currentId ++;
+            self.currentId++;
 
             if(self.currentId >= self.$slides.length){
               self.currentId = self.$slides.length - 1;
@@ -939,14 +870,12 @@
 
             self.moveTo();
           }
-
         });
 
         self.onPaddleNavUpdate();
 
         self.ev.on('socOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
       },
-
 
       onPaddleNavUpdate: function(){
         var self = this;
@@ -964,8 +893,6 @@
         }else{
           self.$rightPaddle.stop(true,true).fadeIn(200);
         }
-
-
       },
 
       getCurrentSlideByItemId: function($socItem){
@@ -977,11 +904,12 @@
       },
 
       updateSlides: function(){
+
         var self = this,
-        cw       = 0,
-        animObj  = {},
-        mobileGutter = 10,
-        gutterWidth = 0;
+            cw = 0,
+            animObj = {},
+            mobileGutter = 10,
+            gutterWidth = 0;
 
         if(self.isDesktopMode === true){
 
@@ -994,7 +922,9 @@
               cw += gutterWidth;
             }
 
-            $(this).css( { 'left': Math.floor(i * cw) + 'px' } );
+            $(this).css({
+              'left': Math.floor(i * cw) + 'px'
+            });
           });
         }
 
@@ -1005,7 +935,7 @@
             cw = self.$gridW.width();
             gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM * cw;
 
-            if(i > 0){
+            if( i > 0 ){
               cw += gutterWidth;
             }
 
@@ -1020,7 +950,6 @@
               'left' : ''
             });
           });
-
         }
 
         if(self.isMobileMode === true){
@@ -1035,16 +964,16 @@
 
         //make sure it updates position based on current slide index
         self.moveTo(true);
-
       },
 
       m: function(xpos){
         var self = this,
-        animObj  = {};
+            animObj = {};
 
-        animObj[ ( self.vendorPrefix + self.TD ) ] = self.animationSpeed + 'ms';
-        animObj[ ( self.vendorPrefix + self.TTF ) ] = $.socCSS3Easing.easeOutBack;
+        animObj[ Modernizr.prefixed('transitionDuration') ] = self.animationSpeed + 'ms';
+        animObj[ Modernizr.prefixed('transitionTimingFunction') ] = $.socCSS3Easing.easeOutBack;
         self.$containerInner.css( animObj );
+
         animObj[ self.xProp ] = self.tPref1 + ( ( xpos ) + self.tPref2 + 0 ) + self.tPref3;
         self.$containerInner.css( animObj );
       }
@@ -1074,13 +1003,10 @@
       } );
     };
 
-    //defaults for the sony one carousel
     $.fn.sonyOneCarousel.defaults = {
-
     };
 
     $.fn.sonyOneCarousel.settings = {
-      //must haves
       throttleTime: 250
     };
 
@@ -1089,5 +1015,3 @@
     });
 
  })( jQuery, Modernizr, window, undefined );
-
-

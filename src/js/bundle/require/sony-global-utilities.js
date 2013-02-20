@@ -14,7 +14,7 @@ SONY.Utilities = (function(window, document) {
 
     // Return calculated column if width is above 568px/35.5em
 
-    masonryColumns: function(containerWidth) {
+    'masonryColumns': function(containerWidth) {
       var column = containerWidth;
 
       if ( !Modernizr || !SONY.Settings ) {
@@ -30,7 +30,7 @@ SONY.Utilities = (function(window, document) {
 
     // Return calculated gutter if width is above 568px/35.5em
 
-    masonryGutters: function(containerWidth) {
+    'masonryGutters': function(containerWidth) {
       var gutter = 0;
 
       if ( !Modernizr || !SONY.Settings ) {
@@ -44,9 +44,9 @@ SONY.Utilities = (function(window, document) {
       return gutter;
     },
 
-
     // Parses a 2D CSS transform matrix and returns key/val pairings
-    parseMatrix: function( str ) {
+
+    'parseMatrix': function( str ) {
       var pxValue = parseInt( str, 10 ),
           modified;
 
@@ -82,7 +82,7 @@ SONY.Utilities = (function(window, document) {
 
     // Constrains a value between a min and max value
 
-    constrain: function(value, min, max) {
+    'constrain': function(value, min, max) {
       value = parseFloat(value);
 
       return value < min ? min :
