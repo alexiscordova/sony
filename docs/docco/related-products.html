@@ -211,28 +211,19 @@
 
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-        self.$galleryItems.on(self.clickEvent, <span class="keyword">function</span>(e){
+        self.$galleryItems.on( self.clickEvent , <span class="keyword">function</span>(e){
 
           <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
-              defaultLink = $<span class="keyword">this</span>.find(<span class="string">'.headline a'</span>).attr(<span class="string">'href'</span>),
-              closestLink = $(e.target).closest(<span class="string">'a'</span>).attr(<span class="string">'href'</span>),
-              destination;
+              destination = $<span class="keyword">this</span>.attr(<span class="string">'href'</span>);
 
           <span class="keyword">if</span> ( self.startInteractionTime ) {
             <span class="keyword">if</span> ((<span class="keyword">new</span> Date().getTime()) - self.startInteractionTime &lt; <span class="number">250</span>) {
-
-              <span class="keyword">if</span> ( closestLink &amp;&amp; closestLink !== defaultLink ) {
-                destination = closestLink;
-              } <span class="keyword">else</span> {
-                destination = defaultLink;
-              }
-
               window.location = destination;
             }
           }
         });
 
-        self.$container.find(<span class="string">'a'</span>).on(self.clickEvent, <span class="keyword">function</span>(e){
+        self.$galleryItems.on( self.clickEvent, <span class="keyword">function</span>(e){
           e.preventDefault();
         });
       },
@@ -245,6 +236,8 @@
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         self.$paddles.hide();
+
+        self.setupLinkClicks();
 
 </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Don't do this for modes other than 3 and 4 up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.variation === <span class="string">'3up'</span> || self.variation === <span class="string">'4up'</span> || self.variation === <span class="string">'5up'</span>){
           self.setSortPriorities();
@@ -742,6 +735,7 @@
             }
 
 
+
             <span class="keyword">if</span>(self.mode === <span class="string">'suggested'</span>){
               self.$el.find(<span class="string">'.gallery-item'</span>).removeClass(<span class="string">'span6'</span>);
               self.$el.removeClass(<span class="string">'grid slimgrid'</span>);
@@ -783,7 +777,8 @@
               self.scrollerModule = <span class="literal">null</span>;
 
             }
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>is this where i break?</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.ev.trigger(<span class="string">'onmobilebreakpoint.rp'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>is this where i break?</p>             </td>             <td class="code">               <div class="highlight"><pre>
+            self.ev.trigger(<span class="string">'onmobilebreakpoint.rp'</span>);
 
           <span class="keyword">break</span>;
         }
@@ -1588,12 +1583,12 @@ $slide.css( 'background' , 'red' );</p>             </td>             <td class=
 
 </pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <ol>
 <li>step one  - cancel touch events for the 'slideshow'</li>
-</ol>             </td>             <td class="code">               <div class="highlight"><pre>          self.$container.off(<span class="string">'.rp'</span>);
+</ol>             </td>             <td class="code">               <div class="highlight"><pre>          self.$container.off(self.downEvent);
 
 </pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <ol>
 <li>hide paddles and nav</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>          self.$paddles.hide();
-          $(<span class="string">'.rp-nav'</span>).hide();
+          self.$el.find(<span class="string">'.rp-nav'</span>).hide();
 
 </pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>attemp to place the title plates in the first position before detaching</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$slides.each(<span class="keyword">function</span>(){
             <span class="keyword">var</span> $s = $(<span class="keyword">this</span>),
@@ -1601,11 +1596,10 @@ $slide.css( 'background' , 'red' );</p>             </td>             <td class=
 
 </pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>put the title plate at the beginning</p>             </td>             <td class="code">               <div class="highlight"><pre>            $s.prepend($plate);
           });
-
+        
 </pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <ol>
 <li>gather gallery items and save local reference - may need to set on self</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">var</span> $galleryItems = self.$el.find(<span class="string">'.gallery-item'</span>).detach().addClass(<span class="string">'small-size'</span>);
-
 
 </pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <ol>
 <li>remove the slides</li>
@@ -1619,9 +1613,7 @@ $slide.css( 'background' , 'red' );</p>             </td>             <td class=
 
           self.$el.find(<span class="string">'.gallery-item.medium'</span>).css(<span class="string">'height'</span> , <span class="string">''</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>set equal text heights</p>             </td>             <td class="code">               <div class="highlight"><pre>
-
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <ol>
 <li>init the scroller module</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>(){
 
@@ -1654,12 +1646,12 @@ $slide.css( 'background' , 'red' );</p>             </td>             <td class=
 
             }).data(<span class="string">'scrollerModule'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>text-promo-title</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>text-promo-title</p>             </td>             <td class="code">               <div class="highlight"><pre>
             $galleryItems.find(<span class="string">'.product-name'</span>).evenHeights();
             <span class="comment">/*$galleryItems.find('.product-img').evenHeights();*/</span>
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>self.scroller.enable();</p>             </td>             <td class="code">               <div class="highlight"><pre>            window.iQ.update();
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>self.scroller.enable();</p>             </td>             <td class="code">               <div class="highlight"><pre>            window.iQ.update();
           }, <span class="number">100</span>);
           <span class="keyword">return</span>;
 
@@ -1670,7 +1662,7 @@ $slide.css( 'background' , 'red' );</p>             </td>             <td class=
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
 
  })(jQuery, Modernizr, window,<span class="literal">undefined</span> , window.console);
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>all done</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>all done</p>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="comment">/*
   Tab system for managing multiple
   instances of related products
@@ -1685,7 +1677,7 @@ $(<span class="keyword">function</span>(){
     <span class="keyword">return</span>;
   }
 
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> transEndEventNames = {
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> transEndEventNames = {
       <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
       <span class="string">'MozTransition'</span>    : <span class="string">'transitionend'</span>,
       <span class="string">'OTransition'</span>      : <span class="string">'oTransitionEnd'</span>,

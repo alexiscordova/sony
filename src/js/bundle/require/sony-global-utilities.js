@@ -134,7 +134,7 @@ SONY.Utilities = (function(window, document) {
     // This is a modified version of jQuery Tiny PubSub by Ben Alman
     // https://github.com/cowboy/jquery-tiny-pubsub
 
-    'createGlobalEvents': function() {
+    'createPubSub': function() {
 
       var o = $({});
 
@@ -149,10 +149,31 @@ SONY.Utilities = (function(window, document) {
       SONY.trigger = function() {
         o.trigger.apply(o, arguments);
       };
-    }
+    },
 
+    // Create global events.
+
+    'createGlobalEvents': function() {
+
+      var cachedFunctions = {};
+
+      cachedFunctions.throttledResize = $.throttle(500, function(){
+        SONY.trigger('global:resizeThrottled');
+      });
+
+      cachedFunctions.debouncedResize = $.debounce(500, function(){
+        SONY.trigger('global:resizeDebounced');
+      });
+
+      SONY.$window.on('resize', function(){
+        cachedFunctions.throttledResize();
+        cachedFunctions.debouncedResize();
+      });
+
+    }
   };
 
+  self.createPubSub();
   self.createGlobalEvents();
   self.normalizeLogs();
 
