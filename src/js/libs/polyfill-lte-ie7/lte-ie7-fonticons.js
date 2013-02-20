@@ -90,8 +90,6 @@ window.onload = function() {
 			'fonticon-40-face' : '&#xe051;',
 			'fonticon-40-stability' : '&#xe052;',
 			'fonticon-40-battery' : '&#xe053;',
-			'fonticon-50-wifi' : '&#xe054;',
-			'fonticon-50-bluetooth' : '&#xe055;',
 			'fonticon-60-win8' : '&#xe056;',
 			'fonticon-60-sony' : '&#xe057;'
 		},
