@@ -21,7 +21,6 @@
       var self        = this,
           ua          = navigator.userAgent.toLowerCase(),
           isAndroid   = ua.indexOf( 'android' ) > -1,
-          resizeTimer = null,
           i;
 
       $.extend( self , $.fn.sonyOneCarousel.defaults , options , $.fn.sonyOneCarousel.settings );
@@ -140,15 +139,10 @@
         self.yProp = 'top';
       }
 
-      self.$win.on( 'resize.soc', function() {
-        if( resizeTimer ) {
-          clearTimeout( resizeTimer );
-        }
-        resizeTimer = setTimeout( function() {
-          self.checkForBreakPoint();
-          self.update();
-          self.updateSlides();
-        }, self.throttleTime );
+      SONY.on('global:resizeDebounced.soc', function(){
+        self.checkForBreakPoint();
+        self.update();
+        self.updateSlides();
       });
 
       self.tapOrClick = function(){
@@ -163,7 +157,7 @@
       self.createNavigation();
       self.setupPaddles();
 
-      self.$win.trigger( 'resize.soc' );
+      SONY.trigger('global:resizeDebounced.soc');
     };
 
     SonyOneCarousel.prototype = {
@@ -655,7 +649,7 @@
         self.numSlides = self.$desktopSlides.length;
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
-        self.$win.trigger('resize.soc');
+        SONY.trigger('global:resizeDebounced.soc');
       },
 
       createTableSlides: function(lastView){
@@ -727,7 +721,7 @@
         self.numSlides = self.$tabletSlides.length;
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
-        self.$win.trigger('resize.soc');
+        SONY.trigger('global:resizeDebounced.soc');
       },
 
       createMobileSlides: function(lastView){
@@ -771,7 +765,7 @@
         self.numSlides = self.$mobileSlides.length;
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
-        self.$win.trigger('resize.soc');
+        SONY.trigger('global:resizeDebounced.soc');
       },
 
       createNavigation: function (){
