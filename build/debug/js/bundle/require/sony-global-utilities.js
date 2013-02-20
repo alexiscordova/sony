@@ -14,7 +14,7 @@ SONY.Utilities = (function(window, document) {
 
     // Return calculated column if width is above 568px/35.5em
 
-    masonryColumns: function(containerWidth) {
+    'masonryColumns': function(containerWidth) {
       var column = containerWidth;
 
       if ( !Modernizr || !SONY.Settings ) {
@@ -30,7 +30,7 @@ SONY.Utilities = (function(window, document) {
 
     // Return calculated gutter if width is above 568px/35.5em
 
-    masonryGutters: function(containerWidth) {
+    'masonryGutters': function(containerWidth) {
       var gutter = 0;
 
       if ( !Modernizr || !SONY.Settings ) {
@@ -44,9 +44,9 @@ SONY.Utilities = (function(window, document) {
       return gutter;
     },
 
-
     // Parses a 2D CSS transform matrix and returns key/val pairings
-    parseMatrix: function( str ) {
+
+    'parseMatrix': function( str ) {
       var modified;
 
       // We have a matrix like: "matrix(1, 0, 0, 1, -120, 0)"
@@ -76,7 +76,7 @@ SONY.Utilities = (function(window, document) {
 
     // Constrains a value between a min and max value
 
-    constrain: function(value, min, max) {
+    'constrain': function(value, min, max) {
       value = parseFloat(value);
 
       return value < min ? min :
@@ -128,7 +128,7 @@ SONY.Utilities = (function(window, document) {
     // This is a modified version of jQuery Tiny PubSub by Ben Alman
     // https://github.com/cowboy/jquery-tiny-pubsub
 
-    'createGlobalEvents': function() {
+    'createPubSub': function() {
 
       var o = $({});
 
@@ -143,9 +143,31 @@ SONY.Utilities = (function(window, document) {
       SONY.trigger = function() {
         o.trigger.apply(o, arguments);
       };
+    },
+
+    // Create global events.
+
+    'createGlobalEvents': function() {
+
+      var cachedFunctions = {};
+
+      cachedFunctions.throttledResize = $.throttle(500, function(){
+        SONY.trigger('global:resizeThrottled');
+      });
+
+      cachedFunctions.debouncedResize = $.debounce(500, function(){
+        SONY.trigger('global:resizeDebounced');
+      });
+
+      SONY.$window.on('resize', function(){
+        cachedFunctions.throttledResize();
+        cachedFunctions.debouncedResize();
+      });
+
     }
   };
 
+  self.createPubSub();
   self.createGlobalEvents();
   self.normalizeLogs();
 

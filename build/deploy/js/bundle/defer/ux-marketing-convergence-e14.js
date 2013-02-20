@@ -12,19 +12,6 @@
 
   'use strict';
 
-  //**TODO**: Move this polyfill to the global namespace.
-
-  var requestAnimFrame = (function(){
-    return window.requestAnimationFrame       ||
-           window.webkitRequestAnimationFrame ||
-           window.mozRequestAnimationFrame    ||
-           window.oRequestAnimationFrame      ||
-           window.msRequestAnimationFrame     ||
-           function( callback ){
-             window.setTimeout(callback, 1000 / 60);
-           };
-  })();
-
   var MarketingConvergenceModule = function($element, options){
 
     var self = this;
@@ -208,7 +195,7 @@
       var self = this,
           position = (new Date() - self.slideStartTime) / self.rotationSpeed * 100;
 
-      requestAnimFrame( $.proxy(self.animationLoop, self) );
+      window.requestAnimationFrame( $.proxy(self.animationLoop, self) );
 
       if ( self.$activeDial ) {
         self.$activeDial.val( position ).trigger('change');
