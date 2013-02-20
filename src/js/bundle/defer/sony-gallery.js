@@ -1197,24 +1197,24 @@
 
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
-      var $toggle = this.$container.find('.slide-toggle');
+      // var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.removeClass('in');
-      if ( !Modernizr.csstransforms ) {
-        $toggle.find('.down').addClass('hide');
-        $toggle.find('.up').removeClass('hide');
-      }
+      // if ( !Modernizr.csstransforms ) {
+      //   $toggle.find('.down').addClass('hide');
+      //   $toggle.find('.up').removeClass('hide');
+      // }
     },
 
     onFiltersShow : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
-      var $toggle = this.$container.find('.slide-toggle');
+      // var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.addClass('in');
 
       // If we don't have transforms, show and hide different arrows.
-      if ( !Modernizr.csstransforms ) {
-        $toggle.find('.down').removeClass('hide');
-        $toggle.find('.up').addClass('hide');
-      }
+      // if ( !Modernizr.csstransforms ) {
+      //   $toggle.find('.down').removeClass('hide');
+      //   $toggle.find('.up').addClass('hide');
+      // }
 
     },
 
@@ -1441,6 +1441,7 @@
       // Initialize inner scroller (for the comparable product items)
       self.innerScroller = new IScroll( self.$compareTool.find('.compare-items-wrap')[0], {
         vScroll: false,
+        hScrollbar: self.isTouch,
         // snap: '.compare-item',
         snap: self.compareState.snap, // this is required for iscroll.scrollToPage
         onBeforeScrollStart : function() {

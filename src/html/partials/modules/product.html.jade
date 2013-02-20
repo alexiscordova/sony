@@ -104,8 +104,7 @@ if data.view == 'basic'
         span.label.label-success= data.label
 
       if data.layout == 'promo'
-        .product-img
-          .iq-img(data-src=data.img.src)
+        .product-img.iq-img(data-src=data.img.src)
           - style = data.style ? data.style : ''
           - classes = ['promo-content']
           - classes.push( style )
