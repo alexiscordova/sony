@@ -29,6 +29,7 @@
       self.$win                    = $( window );
       self.$doc                    = $( window.document );
       self.ev                      = $( {} ); //event object
+      self.isTouch                 = Modernizr.touch;
       
       self.mode                    = null;
       
@@ -222,6 +223,9 @@
         // now that we know mode, add it as option.
         self.scrollerOptions.fitPerPage = self.mode === 'phone' ? 1 : 2; 
 
+        // if it is a touch device, do not use paddle navigation only use swipe 
+        self.scrollerOptions.generateNav = !(self.isTouch);
+
         // TODO: determine why passing this into scroller was casusing issues
         // when more than one scroller instance was on the page 
         // bullets would get appended to last instance and oddly 
@@ -393,28 +397,30 @@
         itemElementSelector: ".tcc-content-module", 
         mode: 'paginate',
         generatePagination: true,
-        generateNav:true,
         centerItems: true,
 
         iscrollProps: {
           snap: true,
+          lockDirection:false,
           momentum: false,
+          vScroll:true,
           hScrollbar: false,
           vScrollbar: false
         }
       }
     };
 
-    // Non override-able settings
-    $.fn.tertiaryModule.settings = {
-      isTouch: !!( 'ontouchstart' in window ),
-      isInitialized: false
-    };
-
     $( function(){
-      $('.tcc-wrapper').each(function() {
-        $(this).tertiaryModule({}).data('tertiaryModule');
-      });
-    } );
+      
+      var isIE = $("html").hasClass("lt-ie10");
+
+      // do not enable scroller features if in IE     
+      if(!isIE){
+        $('.tcc-wrapper').each(function() {
+          $(this).tertiaryModule({}).data('tertiaryModule');
+        });
+      }
+
+    });
 
  })(jQuery, Modernizr, window, undefined);
