@@ -118,12 +118,12 @@ form.footer-store-locator-form{
 
     i{
       position:relative;
+      top:3px;
     }
 
     &.footer-social-twitter {
       i {
-        top:0px;
-        left:1px;
+        // left:1px;
       }
       &:hover, &:active, &:focus, &.active{
         background-color:$twitterColor;        
@@ -131,19 +131,15 @@ form.footer-store-locator-form{
     }
     &.footer-social-facebook {
       i {
-        top:0px;
-        left:0px;
+        // left:1px;
       }
       &:hover, &:active, &:focus, &.active{
         background-color:$facebookColor;        
       }
     }
     &.footer-social-gplus {
-      overflow:hidden;
       i{
-        font-size:1.05em;
-        left: 3px;
-        top: 0px;
+        // left:-1px;
       }
       &:hover, &:active, &:focus, &.active{
         background-color:$gplusColor;        
@@ -151,7 +147,7 @@ form.footer-store-locator-form{
     }
     &.footer-social-youtube {
       i{
-        top:3px;
+        // top:2px;
       }
       &:hover, &:active, &:focus, &.active{
         background-color:$youtubeColor;        
@@ -205,7 +201,7 @@ form.footer-store-locator-form{
   }
   &.language-selector{
     .dropdown-hover-toggle{
-      padding-left:20px;
+      padding-left:16px;
     }
     .dropdown-hover-menu{
       @include el-hidden(right); // so it's right-justified.
@@ -240,9 +236,9 @@ form.footer-store-locator-form{
           border-color: $grayDark1;          
         }
       }
-      &.selected a{
-        color:$highlightColor;        
-      }
+      // &.selected a{
+      //   color:$highlightColor;        
+      // }
     }
   } // dropdown-hover-menu-list
 
