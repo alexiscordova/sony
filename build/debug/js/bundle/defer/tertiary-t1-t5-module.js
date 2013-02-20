@@ -400,7 +400,7 @@
           snap: true,
           momentum: false,
           hScrollbar: false,
-          vScrollbar: false,
+          vScrollbar: false
         }
       }
     };

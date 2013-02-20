@@ -83,7 +83,6 @@
         // switch to desktop nav
         window.enquire.register("(min-width: " + (self.mobileNavThreshold+1) + "px)", {
           match : function() {
-            // console.log("initDesktopNav");
             self.initDesktopNav();
             self.resetMobileNav();
             $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
@@ -92,7 +91,6 @@
         // switch to desktop footer
         window.enquire.register("(min-width: " + (self.mobileFooterThreshold+1) + "px)", {
           match : function() {
-            // console.log("initDesktopFooter");
             self.resetMobileFooter();
           }
         });
@@ -100,7 +98,6 @@
         // switch to mobile nav
         window.enquire.register("(max-width: " + self.mobileNavThreshold + "px)", {
           match : function() {
-            // console.log("initMobileNav");
             self.initMobileNav();
             self.resetDesktopNav();
             $('html').removeClass('bp-nav-desktop').addClass('bp-nav-mobile');
@@ -109,7 +106,6 @@
         // switch to mobile footer
         window.enquire.register("(max-width: " + self.mobileFooterThreshold + "px)", {
           match : function() {
-            // console.log("initMobileFooter");
             self.initMobileFooter();
           }
         });
@@ -130,7 +126,6 @@
           $thNavBtnTarget = $('.' + $thNavBtn.data('target')),
           $thNavBtnAndTarget = $thNavBtn.add($thNavBtnTarget);
 
-        // console.log("$thNavBtnTarget: " + $thNavBtnTarget);
 
         $thNavBtn.on('click', function(e){
           e.preventDefault();
@@ -235,17 +230,13 @@
 
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
-            // console.log("mouseleave $thNavBtn");
             $(this).data('hovering',false);
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
             setTimeout(function(){
-              // console.log("mouseleave $thNavBtn2");
-              // console.log("mouseleave BTN, target-hovering: " + $thNavBtnTarget.data('hovering'));
               // if you're not hovering over the target,
               if (!$thNavBtnTarget.data('hovering')){
                 // shut it down.
-                // console.log("mouseleave $thNavBtn3");
                 self.startMouseleaveTimer( $thNavBtn );
               } else {
                 self.resetMouseleaveTimer();
@@ -254,30 +245,33 @@
           });
 
           $thNavBtnTarget.on('mouseenter focus', function() {
-            // console.log($thNavBtnTarget);
             $(this).data('hovering',true);
             self.resetMouseleaveTimer();
           });
 
           // Activate click for tab navigation
-          $thNavBtnTarget.find('a').on('focus', function() {
-            var navTrayId = $(this).parents('.navtray-w,.navmenu-w').attr('id');
+         $thNavBtnTarget.find('a').on('focus', function() {
+            
+            var navTray = $(this).parents('.navtray-w,.navmenu-w'), 
+                navTrayId = $(navTray).attr('id');
+            
             $(this).parents('.navtray-w').data('hovering',true);
             $('a[data-target='+navTrayId+']').trigger('mouseenter');
+            
+            if (!($(navTray).hasClass('navtray-w-visible') || $(navTray).hasClass('navmenu-w-visible'))) {
+              $('a[data-target='+navTrayId+']').focus();
+            } 
           });
 
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
-            // console.log("mouseleave $thNavBtnTarget");
             $(this).data('hovering',false);
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
             setTimeout(function(){
-              // console.log("mouseleave $thNavBtnTarget2");
               // if you're not hovering over the target's button
               if (!$thNavBtn.data('hovering')){
                 // shut it down.
-                // console.log("mouseleave $thNavBtnTarget3");
                 self.startMouseleaveTimer( $thNavBtn );
               } else {
                 self.resetMouseleaveTimer();
@@ -327,20 +321,17 @@
 
     startMouseleaveTimer : function( $thNavBtn ) {
       var self = this;
-      // console.log("startMouseleaveTimer");
       if ($('mouseleaveTimerActive').length){
         self.resetMouseleaveTimer();
       }
       $thNavBtn.addClass('mouseleaveTimerActive');
       self.mouseleaveTimer = setTimeout(function(){
-        // console.log("mouseleaveTimer #DING!#");
         self.resetActiveNavBtn($thNavBtn);
         self.resetMouseleaveTimer();
       }, self.mouseLeaveDelay);
     },
     resetMouseleaveTimer : function () {
       var self = this;
-      // console.log("resetMouseleaveTimer");
       clearTimeout(self.mouseleaveTimer);
       $('.mouseleaveTimerActive').removeClass('mouseleaveTimerActive');
     },
@@ -352,7 +343,6 @@
     },
     resetActiveNavBtn : function ( $oldNavBtn ) {
       var self = this;
-      // console.log('## ## resetActiveNavBtn: ' + $oldNavBtn.attr('class'));
 
       // reset this button
       !!$oldNavBtn && $oldNavBtn.removeClass('active').parent().removeClass('nav-li-selected');
@@ -376,7 +366,6 @@
     },
 
     slideNavTray : function( $navTray, opening ){
-      // console.log('## ## slideNavTray $navTray.outerHeight(): ' + $navTray.outerHeight());
       var self = this,
         startHeight,
         endHeight,
@@ -384,19 +373,25 @@
 
       $navTray.data('expandedHeight',expandedHeight);
 
-      // console.log('#### $navTray.data(): ', $navTray.data('expandedHeight'));
-
       if (opening){
         startHeight = '1px';
         endHeight = expandedHeight;
+        // if ie 7,8 and 9, we remove the animation
+        // **TODO** add jquery animation for ie9+
+        if ($('html').hasClass('lt-ie10')){
+          startHeight = expandedHeight;
+        }
       } else {
         // if you're not opening, it's just initializing on page load
         startHeight = expandedHeight;
         endHeight = '1px';
+        
+        // if ie 7,8 and 9, we remove the animation
+        // **TODO** add jquery animation for ie9+
+        if ($('html').hasClass('lt-ie10')){
+          endHeight = expandedHeight;
+        }
       }
-
-      // console.log('## ## $navTray: ' + $navTray.attr('class'))
-      // console.log('## ## opening: ' + opening + ', startHeight: ' + startHeight + ', expandedHeight: ' + expandedHeight);
 
       $navTray
         .data('expandedHeight',startHeight)
@@ -406,15 +401,12 @@
           .css('height',expandedHeight);
 
       setTimeout(function(){ // wait just a moment to make sure the height is applied
-        // console.log('## ## setTimeout1 ' + $navTray.attr('class'));
         $navTray
           .removeClass('no-transition');
 
         setTimeout(function(){ // wait just a moment to make sure the height is applied
-          // console.log('## ## setTimeout2: opening: ' + opening + ', endHeight: ' + endHeight + ', self.transitionEnd: ' + self.transitionEnd);
           $navTray
             .css('height',endHeight)
-            // .one(self.transitionEnd, function(){console.log('## ## ## ## WTFFFFFFFFFFFF ## ## ## ');});
             .one(self.transitionEnd, onNavTrayComplete);
 
             if (opening){
@@ -427,7 +419,6 @@
       },10);
 
       function onNavTrayComplete(){
-        // console.log('## ## onNavTrayComplete');
         // prepare the tray for browser resize - even though it's offscreen, we still need to get its natural height next time we need to expand it.
         self.setNavTrayContentNaturalFlow($navTray);
       }
@@ -455,7 +446,6 @@
 
     activateNavBtn : function ($newNavBtn) {
       var self = this;
-      // console.log('## ## activateNavBtn: ' + $newNavBtn.attr('class'));
 
       $newNavBtn.addClass('active').parent().addClass('nav-li-selected');
 
@@ -463,14 +453,13 @@
       if ($newNavBtn.data('target').length){
         var $thNavTarget = $('.' + $newNavBtn.data('target'));
 
-        // console.log('## ## thNavTarget.outerHeight(): ' + $thNavTarget.outerHeight());
 
         // figure out if this is a tray or menu.
         if ($thNavTarget.hasClass('navtray-w')){
           // it's a nav-tray
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
-          if ($('body').hasClass('lt-ie10')){
+          if ($('html').hasClass('lt-ie10')){
             // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
             self.slideNavTray($thNavTarget, true);
           } else {
@@ -480,7 +469,6 @@
           // it's a nav-menu - show the menu.
           var $revealContainer = $thNavTarget.find('.reveal-transition-container');
           var expHeight = $revealContainer.height();
-          console.log("expHeight: " + expHeight);
 
           $revealContainer.css('height','0px');
           // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
@@ -591,7 +579,6 @@
       self.mobileNavVisible = false;
     },
     initMobileNavIScroll:  function() {
-      // console.log("initMobileNavIScroll");
       var self = this;
       // if there's alreaddy a mobileNavIScroll, refresh it.
       if (!!self.mobileNavIScroll){
@@ -614,7 +601,6 @@
       }
     },
     destroyMobileNavIScroll : function() {
-      // console.log("destroyMobileNavIScroll");
       var self = this;
       !!self.mobileNavIScroll && self.mobileNavIScroll.destroy();
       self.mobileNavIScroll = false;
@@ -684,11 +670,9 @@
     }, // end resetMobileFooter
 
     collapseMobileFooterSec : function ( $thFootSection, isPageInit ) {
-      // console.log("collapseMobileFooterSec");
       var self = this;
 
       isPageInit = typeof isPageInit !== 'undefined' ? isPageInit : false;
-      // console.log("isPageInit: " + isPageInit);
 
       // natural height - collapse it.
       var expHeight = $thFootSection.height();
@@ -719,7 +703,6 @@
       }
     },
     expandMobileFooterSec : function ( $thFootSection ) {
-      // console.log("expandMobileFooterSec");
       var self = this;
 
       $thFootSection

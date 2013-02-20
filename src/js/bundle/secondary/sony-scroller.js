@@ -343,13 +343,8 @@
     _onAnimationEnd : function( iscroll ) {
       var self = this;
 
-      // console.log( 'self.$el »' , self.$el);
-      // console.log( 'self.scroller »' , self.scroller);
-      // console.log( 'self.$el[0] »' , self.$el[0]);
 
       if ( iscroll.pagesX && iscroll.pagesX.length ){
-        // console.log( 'iscroll »' , iscroll);
-        // console.log( 'iscroll.pagesX.length »' , iscroll.pagesX);
 
         self.currentPage = iscroll.currPageX;
 

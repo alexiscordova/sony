@@ -1,4 +1,4 @@
-/*global jQuery, Modernizr, Exports, IScroll*/
+/*global jQuery, Modernizr, iQ, IScroll, SONY*/
 
 // ------------ Sony Gallery ------------
 // Module: Gallery
@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = $(window);
+    self.$window = SONY.$window || $(window);
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
@@ -454,7 +454,7 @@
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on('layout.shuffle', function() {
         // Things moved around and could possibly be in the viewport
-        window.iQ.update();
+        iQ.update();
 
         // The position of the nav has changed, update it in infinitescroll
         if ( self.hasInfiniteScroll ) {
@@ -607,7 +607,7 @@
         self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
 
         // Update iQ images
-        window.iQ.update( true );
+        iQ.update( true );
       });
     },
 
@@ -1100,7 +1100,7 @@
       // Make sure isInit is not an event object
       isInit = isInit === true;
 
-      console.log('onResize:', self.id, ' - (iOS is triggering resizes when it shouldnt be)');
+      // console.log('onResize:', self.id, ' - (iOS is triggering resizes when it shouldnt be)');
 
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
@@ -1289,6 +1289,7 @@
       self.isFixedHeader = false;
 
       self.$detailLabelsWrap = $labelColumnWrap;
+      self.$compareItemsWrap = $compareItemsWrapper;
 
       // Convert cloned gallery items to compare items
       self.$compareItems = self.getCompareItems( $currentItems );
@@ -1352,7 +1353,21 @@
       $container.append( $content );
       $modalBody.append( $container );
 
+      // Could probably be deferred
       self.addCompareNav( $compareItemsWrapper );
+
+      // Cloned images need to be updated
+      iQ.update( true );
+
+      // Save a reference to the count
+      self.$compareCount = self.$compareTool.find('.product-count');
+      // Set item count
+      self.$compareCount.text( productCount );
+
+      // Save refs
+      self.$stickyHeaders = self.$compareTool.find('.compare-sticky-header');
+      self.$compareProductNameWraps = self.$compareTool.find('.product-name-wrap');
+      self.$compareItemsContainer = self.$compareTool.find('.compare-items-container');
 
       // Trigger modal
       self.$compareTool
@@ -1361,44 +1376,23 @@
           backdrop: false
         }); // Show the modal
 
-
-      // WORK TO DO AFTER ITEMS HAVE BEEN PUT INTO THE DOM
-      // -----------------------
-
-      // Cloned images need to be updated
-      window.iQ.update( true );
-
-      // Save a reference to the count
-      self.$compareCount = self.$compareTool.find('.product-count');
-      // Set item count
-      self.$compareCount.text( productCount );
-
-      // Save reference to sticky headers
-      self.$stickyHeaders = self.$compareTool.find('.compare-sticky-header');
-
-      // Save ref to the .product-name-wraps
-      self.$compareProductNameWraps = self.$compareTool.find('.product-name-wrap');
-      self.$compareItemsContainer = self.$compareTool.find('.compare-items-container');
-
     },
 
     onCompareShown : function() {
-      var self = this,
-          offsetTop = 0,
-          extra = 0;
+      var self = this;
 
-      offsetTop = self.$compareItems.first().offset().top;
-      extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
-      offsetTop += extra;
+      self.stickyTriggerPoint = self.getCompareStickyTriggerPoint();
 
       self
-        .setCompareRowHeights( true )
+        .setCompareRowHeights()
         .setCompareDimensions();
 
 
       // Initialize outer scroller (vertical scrolling of the fixed position modal)
       self.outerScroller = new IScroll( self.$compareTool[0], {
         bounce: false,
+        hScrollbar: false,
+        vScrollbar: false,
         onBeforeScrollStart : function(e) {
           var target = e.target;
           while ( target.nodeType !== 1 ) {
@@ -1421,13 +1415,14 @@
           }
         },
         onScrollMove : function() {
-          self.onCompareScroll( offsetTop, this );
+          self.onCompareScroll( self.stickyTriggerPoint, this );
         },
         onAnimate : function() {
-          self.onCompareScroll( offsetTop, this );
+          self.onCompareScroll( self.stickyTriggerPoint, this );
         },
         onAnimationEnd : function() {
-          self.onCompareScroll( offsetTop, this );
+          iQ.update();
+          self.onCompareScroll( self.stickyTriggerPoint, this );
         }
       });
 
@@ -1456,11 +1451,15 @@
           self.onCompareScroll( 'inner', this );
         },
         onAnimationEnd : function() {
-          window.iQ.update();
+          iQ.update();
           self.onCompareScroll( 'inner', this );
           self.afterCompareScrolled( this );
         }
       });
+
+
+      // Set a margin-left on the compare items wrap
+      self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
 
       // Set the height, jQuery object, and text of the takeover sticky nav
       self.setTakeoverStickyHeader( self.compareTitle );
@@ -1473,6 +1472,7 @@
 
       // These can be deferred
       setTimeout(function() {
+        iQ.update();
 
         // Hide the previous nav paddle because we're on the first page
         self.afterCompareScrolled( self.innerScroller );
@@ -1527,6 +1527,8 @@
       self.$compareReset = null;
       self.$compareItems = null;
       self.$compareItemsContainer = null;
+      self.$compareItemsWrap = null;
+      self.$compareNav = null;
       self.$detailLabelsWrap = null;
       self.$takeoverStickyHeader = null;
 
@@ -1639,6 +1641,8 @@
           // Insert subhead in the modal header
           $header.append( $subheader );
 
+          self.$compareItemsWrap.css('marginLeft', '');
+
           snap = false;
 
           // Let the scroller flow freely on mobile
@@ -1649,6 +1653,9 @@
 
       // Larger than phone
       } else {
+
+        // Set a margin-left on the compare items wrap
+        self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
 
         if ( isFirst || self.isFixedHeader ) {
           self.isFixedHeader = false;
@@ -1662,6 +1669,7 @@
           $header.append( $resetBtn, $sorter );
 
           self.$compareTool.find('.modal-subheader').remove();
+
 
           snap = true;
 
@@ -1678,10 +1686,13 @@
         return self;
       }
 
+      self.stickyTriggerPoint = self.getCompareStickyTriggerPoint();
+
       self
         .setCompareRowHeights()
         .setCompareDimensions()
         .setStickyHeaderPos();
+
 
       self.innerScroller.refresh();
 
@@ -1692,6 +1703,7 @@
       var self = this,
           scrollTop = iscroll.y * -1;
 
+      // Determine if this is the inner scroller
       if ( offsetTop === 'inner' ) {
         if ( iscroll.x < -3 && !self.$detailLabelsWrap.hasClass('overflowing') ) {
           self.$detailLabelsWrap.addClass('overflowing');
@@ -1703,6 +1715,7 @@
 
       if ( scrollTop >= offsetTop ) {
         if ( !self.$stickyHeaders.hasClass('open') ) {
+          self.$compareNav.addClass('sticky-nav-open');
           self.$takeoverStickyHeader.addClass('open');
           self.$stickyHeaders.addClass('open');
         }
@@ -1710,10 +1723,29 @@
 
       } else {
         if ( self.$stickyHeaders.hasClass('open') ) {
+          self.$compareNav.removeClass('sticky-nav-open');
           self.$takeoverStickyHeader.removeClass('open');
           self.$stickyHeaders.removeClass('open');
         }
       }
+    },
+
+    getCompareStickyTriggerPoint : function() {
+      var self = this,
+          offsetTop = 0,
+          extra = 0;
+
+      offsetTop = self.$compareItems.not('.hide').offset().top;
+
+      // see http://bugs.jquery.com/ticket/8362
+      if ( offsetTop < 0 ) {
+        var matrix = SONY.Utilities.parseMatrix( self.$compareTool.find('.modal-inner').css('transform') );
+        offsetTop = -matrix.translateY + offsetTop;
+      }
+
+      extra = parseInt( self.$compareTool.find('.compare-item .product-img').last().css('height'), 10 );
+
+      return offsetTop + extra;
     },
 
     getCompareItems : function( $items ) {
@@ -1802,6 +1834,8 @@
 
       $navContainer.append( $prevPaddle, $nextPaddle );
       $parent.append( $navContainer );
+
+      this.$compareNav = $navContainer;
     },
 
     addCompareNavEvents : function() {
@@ -1888,25 +1922,25 @@
 
           // Large desktop ( 6 columns )
           if ( Modernizr.mq('(min-width: 75em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM_5 * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth;
 
           // Portrait Tablet ( 4 columns )
           // } else if ( Modernizr.mq('(min-width: 48em)') ) {
-          //   column = Exports.COLUMN_WIDTH_768 * containerWidth;
+          //   column = SONY.Settings.COLUMN_WIDTH_768 * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
           // 568px+
           } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
-            column = Exports.COLUMN_WIDTH_SLIM * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
           // Phone ( 2 columns )
           // < 568px
           } else {
-            column = Exports.COLUMN_WIDTH_320 * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_320 * containerWidth;
           }
 
 
@@ -1919,28 +1953,28 @@
 
           // Large desktop ( 6 columns )
           if ( Modernizr.mq('(min-width: 75em)') ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 6;
 
           // Landscape tablet + desktop ( 5 columns )
           } else if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 61.25em)') ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
           } else if ( Modernizr.mq('(min-width: 48em)') ) {
             numColumns = 4;
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
 
           // Between Portrait tablet and phone ( 3 columns )
           } else if ( Modernizr.mq('(min-width: 35.5em)') ) {
-            gutter = Exports.GUTTER_WIDTH_SLIM * containerWidth;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = 3;
 
 
           // Phone ( 2 columns )
           } else {
-            gutter = Exports.GUTTER_WIDTH_320 * containerWidth; // 2% of container width
+            gutter = SONY.Settings.GUTTER_WIDTH_320 * containerWidth; // 2% of container width
             numColumns = 2;
           }
 
@@ -1952,8 +1986,8 @@
 
       // Use the default 12 column slim grid.
       } else {
-        self.shuffleColumns = Exports.masonryColumns;
-        self.shuffleGutters = Exports.masonryGutters;
+        self.shuffleColumns = SONY.Utilities.masonryColumns;
+        self.shuffleGutters = SONY.Utilities.masonryGutters;
       }
 
       return self;
@@ -2082,7 +2116,7 @@
       var self = this,
           windowHeight = self.isIphone ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
 
-      console.log('window height', windowHeight);
+      // console.log('window height', windowHeight);
 
       self.$compareTool.find('.compare-container').height( self.$compareItems.first().height() );
       self.$compareTool.height( windowHeight );
@@ -2115,7 +2149,7 @@
           $detailGroup = self.$compareItems.not('.hide').find('.detail-group').first(),
           offset = 0;
 
-      self.$compareTool.find('.compare-sticky-header').evenHeights();
+      self.$stickyHeaders.evenHeights();
 
       // Set the height of the product name + model because the text can wrap and make it taller
       self.$compareProductNameWraps.evenHeights();
@@ -2168,8 +2202,8 @@
   // Overrideable options
   $.fn.gallery.options = {
     mode: 'editorial',
-    shuffleSpeed: Exports.shuffleSpeed,
-    shuffleEasing: Exports.shuffleEasing
+    shuffleSpeed: SONY.Settings.shuffleSpeed,
+    shuffleEasing: SONY.Settings.shuffleEasing
   };
 
   // Not overrideable
@@ -2192,7 +2226,7 @@
 
 
   // Event triggered when this tab is about to be shown
-  window.Exports.onGalleryTabShow = function( evt ) {
+  SONY.onGalleryTabShow = function( evt ) {
     var $prevPane = evt.prevPane ? evt.prevPane :
           evt.originalEvent.prevPane ? evt.originalEvent.prevPane :
           false;
@@ -2216,7 +2250,7 @@
   };
 
   // Event triggered when tab pane is finished being shown
-  window.Exports.onGalleryTabShown = function( evt ) {
+  SONY.onGalleryTabShown = function( evt ) {
 
     // Only continue if this is a tab shown event.
     if ( !evt.pane ) {
@@ -2246,8 +2280,8 @@ $(document).ready(function() {
 
     // Register for tab show(n) events here because not all tabs are galleries
     $('[data-tab]')
-      .on('show', window.Exports.onGalleryTabShow )
-      .on('shown', window.Exports.onGalleryTabShown );
+      .on('show', SONY.onGalleryTabShow )
+      .on('shown', SONY.onGalleryTabShown );
 
     // Initialize sticky tabs
     $('.tab-strip').stickyTabs();

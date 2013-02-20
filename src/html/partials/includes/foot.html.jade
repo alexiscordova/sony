@@ -10,7 +10,6 @@ if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
 
   script
     var pluginScripts = !{JSON.stringify(locals.plugins())},
-        requiredScripts = !{JSON.stringify(locals.require())},
         secondaryScripts = !{JSON.stringify(locals.secondary())},
         deferedScripts = !{JSON.stringify(locals.defer())};
 
@@ -34,13 +33,12 @@ if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
       }).wait()
 
       // Global Scripts
-      .script(function(){
-        var arr = [];
-        for ( i in requiredScripts ) {
-          arr.push('js/bundle/require/' + requiredScripts[i]);
-        }
-        return arr;
-      }).wait()
+      .script('js/bundle/require/sony-global.js').wait()
+      .script('js/bundle/require/sony-global-settings.js').wait()
+      .script('js/bundle/require/sony-global-analytics.js').wait()
+      .script('js/bundle/require/sony-global-utilities.js').wait()
+      .script('js/bundle/require/exports.js').wait()
+      .script('js/bundle/require/iq.js').wait()
 
       // SONY Plugins
       .script(function(){
@@ -60,9 +58,9 @@ if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
         return arr;
       })
 
-      // Global Initialization.
       .wait(function() {
-        // Global init.
+        window.isDebugMode = true;
+        SONY.Global.init();
       });
 
 else
@@ -81,7 +79,6 @@ else
       .script('js/secondary.min.js').wait()
       .script('js/defer.min.js').wait()
 
-      // Global Initialization.
       .wait(function() {
-        // Global init.
+        SONY.Global.init();
       });
