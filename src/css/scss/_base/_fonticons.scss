@@ -5,7 +5,7 @@
 %fonticon {
   display: inline-block;
   line-height: 0;
-  overflow: hidden;
+  // overflow: hidden; -- if you need overflow:hidden, you have to apply it to your own icon/s.
 
   &:before,
   &[class*="--after"]:after {
@@ -51,17 +51,15 @@
   font-size:6.0em;
 }
 
-
-// these are old and should be deleted once everybody's done migrating to the updated font-icons.
-[class*="fonticon-13-"] {
-  font-size: 1.3em;
-}
-[class*="fonticon-36-"] {
-  font-size: 3.6em;
+.fonticon-10-chevron-sm,
+.fonticon-10-chevron-sm--after{
+  margin:0 -.125em;
 }
 
 
 
+
+// below are from icomoon.
 
 .fonticon-10-favorite:before,
 .fonticon-10-favorite--after:after {
@@ -147,244 +145,272 @@
 .fonticon-10-chevron-reverse--after:after {
   content: "\e014";
 }
+.fonticon-10-chevron-sm:before,
+.fonticon-10-chevron-sm--after:after {
+  content: "\e015";
+}
+.fonticon-10-alpha-light:before,
+.fonticon-10-alpha-light--after:after {
+  content: "\e016";
+}
+.fonticon-10-alpha:before,
+.fonticon-10-alpha--after:after {
+  content: "\e017";
+}
+.fonticon-10-alpha-medium:before,
+.fonticon-10-alpha-medium--after:after {
+  content: "\e018";
+}
+.fonticon-10-alpha-bold:before,
+.fonticon-10-alpha-bold--after:after {
+  content: "\e019";
+}
 .fonticon-10-arrowhead-down:before,
 .fonticon-10-arrowhead-down--after:after {
-  content: "\e015";
+  content: "\e01a";
 }
 .fonticon-10-arrowhead-up:before,
 .fonticon-10-arrowhead-up--after:after {
-  content: "\e016";
+  content: "\e01b";
 }
 .fonticon-10-arrowheads-elevator:before,
 .fonticon-10-arrowheads-elevator--after:after {
-  content: "\e017";
+  content: "\e01c";
 }
 .fonticon-10-arrow-right:before,
 .fonticon-10-arrow-right--after:after {
-  content: "\e018";
+  content: "\e01d";
 }
 .fonticon-10-sm-bold-plus:before,
 .fonticon-10-sm-bold-plus--after:after {
-  content: "\e01a";
+  content: "\e01e";
 }
 .fonticon-10-sm-bold-check:before,
 .fonticon-10-sm-bold-check--after:after {
-  content: "\e01b";
+  content: "\e01f";
 }
 .fonticon-10-sm-bold-x:before,
 .fonticon-10-sm-bold-x--after:after {
-  content: "\e01c";
+  content: "\e020";
 }
 .fonticon-10-dot:before,
 .fonticon-10-dot--after:after {
-  content: "\e01d";
+  content: "\e021";
 }
 .fonticon-10-circlearrow:before,
 .fonticon-10-circlearrow--after:after {
-  content: "\e01e";
+  content: "\e022";
 }
 .fonticon-10-x:before,
 .fonticon-10-x--after:after {
-  content: "\e01f";
+  content: "\e023";
 }
-.fonticon-10-crop-outer:before,
-.fonticon-10-crop-outer--after:after {
-  content: "\e020";
+.fonticon-10-video-enlarge:before,
+.fonticon-10-video-enlarge--after:after {
+  content: "\e024";
 }
-.fonticon-10-crop-inner:before,
-.fonticon-10-crop-inner--after:after {
-  content: "\e021";
+.fonticon-10-video-minimize:before,
+.fonticon-10-video-minimize--after:after {
+  content: "\e025";
 }
 .fonticon-10-video-play:before,
 .fonticon-10-video-play--after:after {
-  content: "\e022";
+  content: "\e026";
 }
 .fonticon-10-video-pause:before,
 .fonticon-10-video-pause--after:after {
-  content: "\e023";
+  content: "\e027";
 }
 .fonticon-10-speaker:before,
 .fonticon-10-speaker--after:after {
-  content: "\e024";
+  content: "\e028";
 }
 .fonticon-15-mobile-menu:before,
 .fonticon-15-mobile-menu--after:after {
-  content: "\e025";
+  content: "\e029";
 }
 .fonticon-15-circle-play:before,
 .fonticon-15-circle-play--after:after {
-  content: "\e026";
+  content: "\e02a";
 }
 .fonticon-15-popup:before,
 .fonticon-15-popup--after:after {
-  content: "\e027";
+  content: "\e02b";
 }
 .fonticon-15-twitter:before,
 .fonticon-15-twitter--after:after {
-  content: "\e028";
+  content: "\e02c";
 }
 .fonticon-15-facebook-sm:before,
 .fonticon-15-facebook-sm--after:after {
-  content: "\e029";
+  content: "\e02d";
 }
 .fonticon-15-gplus:before,
 .fonticon-15-gplus--after:after {
-  content: "\e02a";
+  content: "\e02e";
 }
 .fonticon-15-youtube:before,
 .fonticon-15-youtube--after:after {
-  content: "\e02b";
+  content: "\e02f";
 }
 .fonticon-15-facebook:before,
 .fonticon-15-facebook--after:after {
-  content: "\e02c";
+  content: "\e030";
 }
 .fonticon-15-instagram:before,
 .fonticon-15-instagram--after:after {
-  content: "\e02d";
+  content: "\e031";
 }
 .fonticon-15-zoom:before,
 .fonticon-15-zoom--after:after {
-  content: "\e02e";
+  content: "\e032";
 }
 .fonticon-20-skateboard:before,
 .fonticon-20-skateboard--after:after {
-  content: "\e030";
+  content: "\e033";
 }
 .fonticon-20-runner:before,
 .fonticon-20-runner--after:after {
-  content: "\e031";
+  content: "\e034";
 }
 .fonticon-20-mic-studio:before,
 .fonticon-20-mic-studio--after:after {
-  content: "\e032";
+  content: "\e035";
 }
 .fonticon-30-laptop:before,
 .fonticon-30-laptop--after:after {
-  content: "\e033";
+  content: "\e036";
 }
 .fonticon-30-tablet:before,
 .fonticon-30-tablet--after:after {
-  content: "\e034";
+  content: "\e037";
 }
 .fonticon-30-memory-stick:before,
 .fonticon-30-memory-stick--after:after {
-  content: "\e035";
+  content: "\e038";
 }
 .fonticon-30-tv:before,
 .fonticon-30-tv--after:after {
-  content: "\e036";
+  content: "\e039";
 }
 .fonticon-30-projector:before,
 .fonticon-30-projector--after:after {
-  content: "\e037";
+  content: "\e03a";
 }
 .fonticon-30-water-drop:before,
 .fonticon-30-water-drop--after:after {
-  content: "\e038";
+  content: "\e03b";
 }
 .fonticon-30-mic:before,
 .fonticon-30-mic--after:after {
-  content: "\e039";
+  content: "\e03c";
 }
 .fonticon-30-dongle:before,
 .fonticon-30-dongle--after:after {
-  content: "\e03a";
+  content: "\e03d";
 }
 .fonticon-30-cd:before,
 .fonticon-30-cd--after:after {
-  content: "\e03b";
+  content: "\e03e";
 }
 .fonticon-30-handycam:before,
 .fonticon-30-handycam--after:after {
-  content: "\e03c";
+  content: "\e03f";
 }
 .fonticon-30-video-camera:before,
 .fonticon-30-video-camera--after:after {
-  content: "\e03d";
+  content: "\e040";
 }
 .fonticon-30-grid:before,
 .fonticon-30-grid--after:after {
-  content: "\e03e";
+  content: "\e041";
 }
 .fonticon-30-grid-alt:before,
 .fonticon-30-grid-alt--after:after {
-  content: "\e03f";
+  content: "\e042";
 }
 .fonticon-30-headphones:before,
 .fonticon-30-headphones--after:after {
-  content: "\e040";
+  content: "\e043";
 }
 .fonticon-30-earbuds:before,
 .fonticon-30-earbuds--after:after {
-  content: "\e041";
+  content: "\e044";
 }
 .fonticon-30-earclips:before,
 .fonticon-30-earclips--after:after {
-  content: "\e042";
+  content: "\e045";
 }
 .fonticon-30-neckphones:before,
 .fonticon-30-neckphones--after:after {
-  content: "\e043";
+  content: "\e046";
 }
 .fonticon-30-camera:before,
 .fonticon-30-camera--after:after {
-  content: "\e044";
+  content: "\e047";
 }
 .fonticon-30-support:before,
 .fonticon-30-support--after:after {
-  content: "\e045";
+  content: "\e048";
 }
 .fonticon-30-intelligent-auto:before,
 .fonticon-30-intelligent-auto--after:after {
-  content: "\e046";
+  content: "\e049";
 }
 .fonticon-30-superior-auto:before,
 .fonticon-30-superior-auto--after:after {
-  content: "\e047";
+  content: "\e04a";
 }
 .fonticon-30-film-strip:before,
 .fonticon-30-film-strip--after:after {
-  content: "\e048";
+  content: "\e04b";
 }
 .fonticon-30-battery:before,
 .fonticon-30-battery--after:after {
-  content: "\e049";
-}
-.fonticon-30-WiFi:before,
-.fonticon-30-WiFi--after:after {
-  content: "\e04a";
-}
-.fonticon-30-Bluetooth:before,
-.fonticon-30-Bluetooth--after:after {
-  content: "\e04b";
-}
-.fonticon-40-panorama:before,
-.fonticon-40-panorama--after:after {
   content: "\e04c";
 }
-.fonticon-40-face:before,
-.fonticon-40-face--after:after {
+.fonticon-30-wifi:before,
+.fonticon-30-wifi--after:after {
   content: "\e04d";
 }
-.fonticon-40-stability:before,
-.fonticon-40-stability--after:after {
+.fonticon-30-bluetooth:before,
+.fonticon-30-bluetooth--after:after {
   content: "\e04e";
-}
-.fonticon-40-battery:before,
-.fonticon-40-battery--after:after {
-  content: "\e04f";
-}
-.fonticon-60-sony:before,
-.fonticon-60-sony--after:after {
-  content: "\e051";
-}
-.fonticon-60-win8:before,
-.fonticon-60-win8--after:after {
-  content: "\e050";
 }
 .fonticon-30-plus:before,
 .fonticon-30-plus--after:after {
-  content: "\e019";
+  content: "\e04f";
+}
+.fonticon-40-panorama:before,
+.fonticon-40-panorama--after:after {
+  content: "\e050";
+}
+.fonticon-40-face:before,
+.fonticon-40-face--after:after {
+  content: "\e051";
+}
+.fonticon-40-stability:before,
+.fonticon-40-stability--after:after {
+  content: "\e052";
+}
+.fonticon-40-battery:before,
+.fonticon-40-battery--after:after {
+  content: "\e053";
+}
+.fonticon-50-wifi:before,
+.fonticon-50-wifi--after:after {
+  content: "\e054";
+}
+.fonticon-50-bluetooth:before,
+.fonticon-50-bluetooth--after:after {
+  content: "\e055";
+}
+.fonticon-60-win8:before,
+.fonticon-60-win8--after:after {
+  content: "\e056";
+}
+.fonticon-60-sony:before,
+.fonticon-60-sony--after:after {
+  content: "\e057";
 }
 
