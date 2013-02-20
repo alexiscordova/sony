@@ -1694,7 +1694,7 @@ $default-transition-delay    : 0s;
 
 // A ghost element used to vertically center something
 // http://css-tricks.com/centering-in-the-unknown/
-@mixin ghost() {
+@mixin ghost( $child: 'ghost-center' ) {
 	font-size: 0;
 
 	&:before {
@@ -1703,8 +1703,21 @@ $default-transition-delay    : 0s;
 		vertical-align: middle;
 		width: 0;
 		height: 100%;
-		// margin-right: -4px; // Nudgeable
 	}
+
+    .#{$child} {
+      display: inline-block;
+
+      // For Firefox...
+      max-width: 100%;
+      max-height: 100%;
+
+      // Yeya!
+      vertical-align: middle;
+
+      // Because the parent has a font-size of 0.
+      font-size: 16px;
+    }
 }
 
 // Debug (outline and background color)

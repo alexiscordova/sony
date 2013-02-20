@@ -1,4 +1,4 @@
-/*global SONY*/
+/*global SONY, iQ*/
 
 // * Module: Sticky Tabs
 // * Version: 1.0
@@ -109,7 +109,7 @@
           $tab = $(evt.target);
 
       // Update iQ images
-      window.iQ.update();
+      iQ.update();
 
       // Save tab
       self.$activeTab = $tab;

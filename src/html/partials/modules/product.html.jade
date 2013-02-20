@@ -190,9 +190,9 @@ else if data.view == 'detailed'
   filterSet = JSON.stringify( data.filterSet )
   a.span4.gallery-item.detailed(data-filter-set=filterSet, data-priority=data.priority, itemscope, itemtype="http://schema.org/Product", itemprop="url", href=data.href ? data.href : '#')
     .gallery-item-inner
-      if data.label
-        span.label.label-success= data.label
       .product-img
+        if data.label
+          span.label.label-success= data.label
         .product-img-wrap.ghost-center-wrap.js-product-imgs
           .ghost-center
             mixin iQImage( data.img, 'js-product-img-main', 'image' )

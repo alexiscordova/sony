@@ -341,6 +341,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     z-index: 10;
     top: 0;
     right: 0;
+    margin: 0;
   }
 }
 
@@ -615,65 +616,82 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .gallery-detailed {
 
+    .slide-toggle-parent {
+      margin-bottom: .9375em;
+    }
+
     .products {
       margin-top: -1.625em;
     }
 
+
+    // Detailed Gallery Item Layout
+    // --------------------------------
+
     .gallery-item {
       margin-top: 1.625em; // 26
-      height: auto;
-      width: 100%;
-      max-width: 100%;
-
-      // The labels parent is still 100%, but the product image
-      // and details are a 2up.
-      .label {
-        right: 50%;
-      }
+      width: 100% !important; // override `auto` set by grid system
     }
 
     .gallery-item-inner {
       display: table;
+      height: 100%;
       width: 100%;
-      max-width: 100%;
     }
 
-    // Firefox is having a problem with display:table-cell ...
     .product-img,
     .product-content {
       display: table-cell;
+      vertical-align: top;
       width: 50%;
     }
 
-    .product-img {
-      position: relative;
-      vertical-align: middle;
+    .product-img .product-img-wrap {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    // non webkit browsers need this
+    .product-img img {
+      width: 100%;
     }
 
     .product-content {
       padding-left: 4%;
+      margin-top: 0;
     }
 
 
-    .product-rating {
-      // font-size: $font_10_16;
-      margin: .5em 0 .6875em;
-    }
 
-    .product-meta {
-      margin-bottom: .6875em;
 
-      li {
-        // font-size: $font_10_16;
-      }
-    }
-
-    .product-content .product-name {
-      // font-size: $font_11_16;
+    // Detailed gallery item styling
+    // ------------------------------
+    .product-name {
+      margin-bottom: 3px;
+      line-height: 14px;
     }
 
     .product-model {
-      // font-size: $font_9_16;
+      margin-bottom: 0;
+    }
+
+    .product-rating {
+      margin: 0 0 .3125em;
+    }
+
+    .fonticon-10-star {
+      font-size: .6em;
+      letter-spacing: -0.15em;
+    }
+
+    .product-meta {
+      margin-bottom: .3125em;
+    }
+
+    .product-price {
+      margin-top: 0;
     }
   }
 

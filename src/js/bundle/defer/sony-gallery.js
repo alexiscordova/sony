@@ -1103,12 +1103,18 @@
 
       // console.log('onResize:', self.id, ' - (iOS is triggering resizes when it shouldnt be)');
 
-      // Make all product name heights even
-      self.$gridProductNames.evenHeights();
-
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.mode === 'detailed' ) {
+
+        // Remove heights in case they've aready been set
+        if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+          self.$gridProductNames.css('height', '');
+
+        // Make all product name heights even
+        } else {
+          self.$gridProductNames.evenHeights();
+        }
 
         // 768-979
         if ( Modernizr.mq('(min-width: 48em) and (max-width: 61.1875em)') ) {
@@ -1143,6 +1149,10 @@
         // Go home detailed gallery, you're drunk
         return;
       }
+
+
+      // Make all product name heights even
+      self.$gridProductNames.evenHeights();
 
       // Destroy or setup carousels based on viewport
       if ( self.hasCarousels ) {
@@ -2216,7 +2226,7 @@
     isInitialized: false,
     hasEnabledCarousels: false,
     sorted: false,
-    isTouch: !!( 'ontouchstart' in window ),
+    isTouch: Modernizr.touch,
     isiPhone: (/iphone|ipod/gi).test(navigator.appVersion),
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
