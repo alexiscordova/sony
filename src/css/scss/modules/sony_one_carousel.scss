@@ -158,7 +158,6 @@
 
   */
   .soc-item {
-    @include fadeoutOnHover();
     position: relative;
     display: block;
     height: 100%;
@@ -167,10 +166,14 @@
     background-repeat: no-repeat;
     cursor: pointer;
 
-    &:hover {
+    .no-touch & {
+      @include fadeoutOnHover();
 
-      .headline i {
-        margin-left: px-em(5px);
+      &:hover {
+
+        .headline i {
+          left: px-em(2px) !important;
+        }
       }
     }
 
@@ -234,9 +237,11 @@
 
       .mini-promo {
 
-        &:hover {
-          .mini-promo-image-container .play-button {
-            background-color: $linkBlueActive;
+        .no-touch & {
+          &:hover {
+            .mini-promo-image-container .play-button {
+              background-color: $linkBlueActive;
+            }
           }
         }
 
@@ -363,12 +368,15 @@
           }
 
           a {
+
+            span {
+              display: inline-block;
+            }
+
             i {
-              @include transition(margin $transitionFast ease-in);
+              @include transition(left $transitionFast ease-in);
               position: relative;
-              top: -0.25em;
-              left: 0.1em;
-              font-size: 0.6em;
+              left: 0;
             }
           }
         }

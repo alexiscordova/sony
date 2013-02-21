@@ -8,11 +8,16 @@
 <p>This class should only expose key/value pairs for global settings.</p>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="keyword">var</span> SONY = SONY || {};
 
-SONY.Settings = (<span class="keyword">function</span>(window, document) {
+SONY.Settings = (<span class="keyword">function</span>(window, document, Modernizr) {
 
   <span class="string">'use strict'</span>;
 
   <span class="keyword">var</span> self = {};
+
+  self.isIPhone = (<span class="regexp">/iphone|ipod/gi</span>).test(navigator.userAgent);
+  self.isIOS = (<span class="regexp">/iphone|ipod|ipad/gi</span>).test(navigator.userAgent);
+
+  self.hasTouchEvents = Modernizr.touch;
 
   self.shuffleEasing = <span class="string">'ease-out'</span>;
   self.shuffleSpeed = <span class="number">250</span>;
@@ -41,6 +46,6 @@ SONY.Settings = (<span class="keyword">function</span>(window, document) {
 
   <span class="keyword">return</span> self;
 
-})(<span class="keyword">this</span>, <span class="keyword">this</span>.document);
+})(<span class="keyword">this</span>, <span class="keyword">this</span>.document, Modernizr);
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

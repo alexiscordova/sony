@@ -376,10 +376,16 @@
 
       // If we're not given a number of pages, calculate it based on the width of each item
       if ( !numPages ) {
-        // Count it
-        self.$el.find(self.itemElementSelector).each(function() {
-          contentWidth += Math.round($(this).outerWidth(true));
-        });
+        // They've given us a function that will retun the container width
+        if ( typeof self.getContentWidth === 'function' ) {
+          contentWidth = self.getContentWidth( self.$elements );
+
+        // Calculate it ourselves
+        } else {
+          self.$elements.each(function() {
+            contentWidth += Math.round($(this).outerWidth(true));
+          });
+        }
       } else {
         contentWidth = numPages * containerWidth;
       }

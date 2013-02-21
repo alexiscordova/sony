@@ -351,13 +351,16 @@ this will ignore whether 'steps' is enabled.</p>             </td>             <
 		}
 
 </pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Don't let range values go past the other</p>             </td>             <td class="code">               <div class="highlight"><pre>		<span class="keyword">if</span> ( th.range ) {
+			<span class="keyword">var</span> newPosWithThreshold = newPos;
 			<span class="keyword">if</span> ( isMin ) {
-				<span class="keyword">if</span> ( th.currentPosition !== <span class="literal">false</span> &amp;&amp; newPos &gt; th.currentPosition ) {
-					newPos = th.currentPosition;
+				newPosWithThreshold += th.rangeThreshold;
+				<span class="keyword">if</span> ( th.currentPosition !== <span class="literal">false</span> &amp;&amp; newPosWithThreshold &gt; th.currentPosition ) {
+					newPos = th.currentPosition - th.rangeThreshold;
 				}
 			} <span class="keyword">else</span> {
-				<span class="keyword">if</span> ( th.currentMinPosition !== <span class="literal">false</span> &amp;&amp; newPos &lt; th.currentMinPosition) {
-					newPos = th.currentMinPosition;
+				newPosWithThreshold -= th.rangeThreshold;
+				<span class="keyword">if</span> ( th.currentMinPosition !== <span class="literal">false</span> &amp;&amp; newPosWithThreshold &lt; th.currentMinPosition) {
+					newPos = th.currentMinPosition + th.rangeThreshold;
 				}
 			}
 		}
@@ -634,7 +637,8 @@ We can use this to determine if we've already initialized the handle</p>        
 		callback : <span class="literal">null</span>,
 		range : <span class="literal">false</span>,
 		initialMin : <span class="string">'0'</span>,
-		initialMax : <span class="string">'100%'</span>
+		initialMax : <span class="string">'100%'</span>,
+		rangeThreshold: <span class="number">0</span>
 	};
 
 	$.fn.rangeControl.settings = {
