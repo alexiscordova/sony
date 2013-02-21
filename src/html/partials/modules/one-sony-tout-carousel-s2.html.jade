@@ -12,6 +12,8 @@
               - textStyle   = item.typeLayout
               - alignment   = item.typeAlignment
               l = item.objectSize
+              hTb = item.headline.linkText.replace(/[\s-]+$/,'').split(/[\s-]/).pop()
+              hTa = item.headline.linkText.split(hTb).shift()
 
               if item.headline
                 - contentType = 'headline-only'
@@ -61,14 +63,16 @@
                         h3.headline!= item.headline.title
                           if item.headline.link
                             a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                              | !{' ' + hTa}
+                              span !{' ' + hTb}
+                                i.fonticon-10-chevron--after
                       else
                         h4.headline!= item.headline.title
                           if item.headline.link
                             a(href=item.headline.link)
-                              | !{' ' + item.headline.linkText}
-                              i.fonticon-10-chevron--after
+                              | !{' ' + hTa}
+                              span !{' ' + hTb}
+                                i.fonticon-10-chevron--after
 
                       if item.bodycopy
                         p.p3= item.bodycopy
