@@ -16,7 +16,7 @@ $tcc-wrapper-padding-phone:35px 0 50px 0;
 $tcc-header-padding-bottom-desktop:20px;
 $tcc-header-padding-bottom-phone:20px;
 
-$tcc-body-wrapper-padding-desktop:36px 0 0 0;
+//$tcc-body-wrapper-padding-desktop:36px 0 0 0;
 $tcc-body-wrapper-padding-phone:20px 0 0 0;
 
 $users-voice-padding-bottom-desktop:15px;
@@ -58,8 +58,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
     .tcc-header-title{
       float:left;
-      margin:0; // overwrite .l1 default
-    
+      margin:0; // overwrite .l1 default   
     } // end .tcc-header-title
 
     .tcc-header-link{
@@ -72,22 +71,17 @@ $fivePercentInstaFlickr: percentage(5px/316px);
   } // end .tcc-header
 
   .tcc-body-wrapper{
-    padding:$tcc-body-wrapper-padding-desktop;
-
     .tcc-body{
-      //@include debug(1px, red);
       height:$tcc-body-height-3up; // need to set the same height for all cases because absolute position in mobile
     } // end .tcc-body
 
     .tcc-content-module{
-      //@include debug(1px, green);
       height:$tcc-content-module-height-3up;
     } // tcc-content-module
 
   } // end .tcc-body-wrapper
 
   .tcc-copy{
-
     padding:0 px-em(20px) px-em(20px) px-em(20px); 
   } // end .tcc-copy
 
@@ -95,49 +89,26 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     margin:0 auto;
   } // end socialBtn
 
-  .article{ 
-    &.default, 
-    &.event, 
-    &.news{
-   
-      img{
+ .article{ 
+
+   &.featured{       
+      height: 100%;
+
+      .lt3{
+        margin-top:14px;
+      }
+
+      .feature-copy{
+        position: absolute;
+        bottom:0;
+        left: 0;
+        margin:0;
+        min-height:30%;
         width:100%;
-        min-height: 100px;
-      } // end img
+        padding: px-em(30px);
+      } // end .featured-copy
 
-    } // end &.default, &.event, &.news
-    
-     &.featured{       
-        height: 100%;
-
-        .lt3{
-          margin-top:14px;
-        }
-
-        .feature-copy{
-          position: absolute;
-          bottom:0;
-          left: 0;
-          margin:0;
-          min-height:30%;
-          //max-height:40%;
-          padding:5%;
-          width:100%;
-          padding: px-em(30px); //8% 12%;
-
-          p{
-            margin:0; // overwrite default p
-          } // end p         
-
-          .t4{
-            height:60px;
-            overflow:hidden;
-            //border:1px solid red;
-          }
-
-        } // end .featured-copy
-
-      } // end featured
+    } // end featured 
 
   } // end .article
 
@@ -545,7 +516,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
       &.featured{
         .feature-copy{
-          padding: px-em(17px)  px-em(25px); 
+          padding:px-em(17px) px-em(25px); 
         } // end .feature-copy
 
       } // end .article.featured

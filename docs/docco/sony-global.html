@@ -8,6 +8,8 @@
 
 SONY.Global = (<span class="keyword">function</span>(window, document) {
 
+  <span class="string">'use strict'</span>;
+
   SONY.$window = $(window);
   SONY.$html = $(document.documentElement);
   SONY.$body = $(document.body);
@@ -16,14 +18,15 @@ SONY.Global = (<span class="keyword">function</span>(window, document) {
 
     <span class="string">'init'</span>: <span class="keyword">function</span>(config) {
 
-      SONY.Utilities.init();
-
       <span class="keyword">if</span> ( window.enquire ){
         window.enquire.listen(<span class="number">100</span>);
       }
 
+      SONY.trigger(<span class="string">'global:ready'</span>);
+
       log(<span class="string">'SONY : Global : Initialized'</span>);
     }
+
   };
 
   <span class="keyword">return</span> self;
