@@ -161,7 +161,7 @@ module.exports = function(grunt) {
         dest: '../build/deploy/js/polyfill.min.js'
       }
     },
-    cssmin:{
+    cssmin:{ // it doesn't look like this is currently implemented. That's good, because if it were, it would compile all the fonts (including all their base64 data) into the styles.css, and we don't want that. --Christopher
       deploy:{
            src: ['css/temp/fonts/*.css', 'css/temp/bootstrap.css', 'css/temp/responsive.css'],
            dest: '../build/deploy/css/styles.min.css',
