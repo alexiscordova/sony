@@ -14,7 +14,7 @@
 //      $('.related-products').relatedProducts();
 //
 //
-;(function($, Modernizr, window, undefined , console) {
+;(function(SONY , $, Modernizr, window, undefined , console) {
 
     'use strict';
 
@@ -177,7 +177,7 @@
           numColumns = 5;
 
         // // Portrait Tablet ( 4 columns ) - masonry
-        } else if ( Modernizr.mq('(min-width: 481px)') ) {
+        } else if ( Modernizr.mq('(min-width: 567px)') ) {
           numColumns = 4;
           gutter = window.Exports.GUTTER_WIDTH_SLIM * containerWidth;
         // Between Portrait tablet and phone ( 3 columns )
@@ -199,7 +199,7 @@
             column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+          } else if ( Modernizr.mq('(min-width: 567px)') ) {
             column = window.Exports.COLUMN_WIDTH_SLIM * containerWidth;
           }else{
             column = containerWidth;
@@ -395,7 +395,7 @@
 
           if(item.length) {
             self.currentId = item.data('index');
-            console.log('clicked on ' , self.currentId);
+            //console.log('clicked on ' , self.currentId);
             self.moveTo();
           }
         });
@@ -614,7 +614,7 @@
 
       sortByPriority : function() {
         var self = this,
-            isTablet = Modernizr.mq('(min-width: 481px) and (max-width: 980px)');
+            isTablet = Modernizr.mq('(min-width: 567px) and (max-width: 980px)');
 
         if ( isTablet && !self.sorted ) {
 
@@ -650,7 +650,7 @@
       checkForBreakpoints: function(){
         var self = this,
         wW       = self.$win.width(),
-        view     = wW > 980 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile';
+        view     = wW > 980 ? 'desktop' : wW > 567 ? 'tablet' : 'mobile';
 
 
         //if the browser doesnt support media queries...IE default to desktop
@@ -1358,7 +1358,7 @@
             top :  plateHeight,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + 'px'
           });
-        }else if(Modernizr.mq('(min-width: 481px)') && hasPlate){
+        }else if(Modernizr.mq('(min-width: 567px)') && hasPlate){
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,
@@ -1381,7 +1381,7 @@
 
         if(self.mode !== 'suggested'){
           $(window).on('resize', function(){
-            if(!self.isMobileMode && self.$win.width() > 480) {
+            if(!self.isMobileMode && self.$win.width() > 567) {
 
              self.$galleryItems.css({
                'visibility' : 'hidden',
@@ -1627,13 +1627,15 @@
       navigationControl: 'bullets'
     };
 
-    $(function(){
+
+    SONY.on('global:ready', function(){
       $('.related-products').relatedProducts({});
     });
 
- })(jQuery, Modernizr, window,undefined , window.console);
 
-(function($, Modernizr, window, undefined , console) {
+ })(SONY,jQuery, Modernizr, window,undefined , window.console);
+
+(function(SONY, $, Modernizr, window, undefined , console) {
     'use strict';
     $.extend($.rpProto, {
 
@@ -1723,7 +1725,7 @@
     });
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
 
- })(jQuery, Modernizr, window,undefined , window.console);
+ })(SONY,jQuery, Modernizr, window, undefined , window.console);
 //all done
 
 /*
