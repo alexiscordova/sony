@@ -452,6 +452,11 @@
           ._setItemContainerHeight();
       }
 
+      // Update the positions for the scroll spy
+      SONY.$body
+        .scrollspy('refresh')
+        .scrollspy('process');
+
       // Set timeout here because we were getting the wrong height for the
       // spec products after a big resize
       setTimeout(function() {

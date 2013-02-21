@@ -259,6 +259,11 @@
           .add( self.$carouselCols )
           .css('height', '');
       }
+
+      // Update the positions for the scroll spy
+      SONY.$body
+        .scrollspy('refresh')
+        .scrollspy('process');
     }
 
 
