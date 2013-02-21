@@ -1031,6 +1031,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   // not in it's own container, so we have to reset the margin-left
   .filter-options .grid > :last-child {
     margin-left: 0;
+    margin-bottom: .75em;
 
     & .filter-container {
       margin-top: 0;
@@ -1072,14 +1073,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 @media (max-width: $threeColMax) {
 
-  .touch .sort-options .native-dropdown {
-    display: inline-block;
-  }
-
-  .touch .sort-options .dropdown {
-    display: none;
-  }
-
   .filter-container {
     margin-bottom: 2.8125em;
     max-width: none;
@@ -1099,13 +1092,47 @@ $oneByOneImgPadding: 107.84313725490196%;
     }
   }
 
+  .slide-toggle-target.in ~ .active-filters-wrap {
+    margin-top: 1.25em;
+  }
+
+  .slide-toggle-target ~ .active-filters-wrap {
+    margin-top: 0;
+    margin-bottom: 1.25em;
+  }
+
   .filter-display-bar {
 
     .product-count-wrap {
       display: block;
-      float: left;
       margin-bottom: 0;
       margin-top: 10px;
+    }
+
+    .sort-options {
+      margin-top: .5em;
+      float: none;
+    }
+
+    .sort-options .native-dropdown,
+    .sort-options .native-dropdown select,
+    .sort-options .dropdown,
+    .sort-options .dropdown-toggle {
+      width: 100%;
+    }
+
+    .touch & .sort-options .native-dropdown {
+      display: block;
+    }
+
+    .touch & .sort-options .dropdown {
+      display: none;
+    }
+
+    .sort-options .filter-label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 6px;
     }
 
     .btn.slide-toggle,
@@ -1379,7 +1406,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   margin-left: .1875em;
   background: $white;
   color: $gray20;
-  @include transition();
+  @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
 
   &.faded {
     opacity: 0;
@@ -1490,7 +1517,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     left: 5%;
     width: 90%;
     height: .0625em;
-    background: $gray90;
+    background: $gray60;
   }
 }
 

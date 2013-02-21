@@ -127,6 +127,27 @@ mixin detailedGallery( submodules, gallery, type )
         .grid.no-grid-at-767
 
 
+          //- Product Count
+          p.p3.ib.product-count-wrap
+            strong.text-dark.product-count= gallery.total
+            | &nbsp;Products
+
+
+          //- Filter and compare buttons
+          if gallery.filterSet
+            button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
+              | Filter
+              i.fonticon-10-arrowhead-down
+            button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool")
+              | Compare
+              i.fonticon-10-sm-bold-plus
+
+          else if gallery.accessoryFinder
+            button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder
+              | !{ gallery.accessoryFinder.title }
+              i.fonticon-10-sm-bold-plus
+
+          //- Sort options
           .sort-options.pull-right
             span.l3.filter-label Sort By:&nbsp;
             .dropdown.dropdown-alt.ib
@@ -145,24 +166,6 @@ mixin detailedGallery( submodules, gallery, type )
                 each sort in gallery.sortSet
                   - reverse = sort.reverse === true ? 'true' : 'false'
                   option(value=sort.name, data-reverse=reverse)= sort.label
-
-
-          p.p3.ib.product-count-wrap
-            strong.text-dark.product-count= gallery.total
-            | &nbsp;Products
-
-          if gallery.filterSet
-            button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
-              | Filter
-              i.fonticon-10-arrowhead-down
-            button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool")
-              | Compare
-              i.fonticon-10-sm-bold-plus
-
-          else if gallery.accessoryFinder
-            button.lt3.btn.btn-alt-special.btn-alt-plus.accessory-finder
-              | !{ gallery.accessoryFinder.title }
-              i.fonticon-10-sm-bold-plus
 
 
     if gallery.filterSet

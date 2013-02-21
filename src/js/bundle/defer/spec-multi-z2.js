@@ -65,12 +65,23 @@
 
       self.$enlargeTriggers.on('click', $.proxy( self._onEnlarge, self ));
 
+      // Put a bottom margin on the sibling of the absoluting positioned element
+      // to make up for its lack of document space
+      self.$container.find('.btm-aligned').each(function() {
+        var $img = $(this);
+        $img.on('imageLoaded', function() {
+          $img.prev().css('marginBottom', $img.css('height'));
+          $img = null;
+        });
+      });
+
       // We're done
       setTimeout(function() {
 
         // Redraw table when images have loaded
         var debouncedSetRowHeights = $.debounce( 200, $.proxy( self._setRowHeights, self) );
         self.$specProducts.find('.iq-img').on( 'imageLoaded', debouncedSetRowHeights );
+
 
         self._initStickyNav();
         self._onScroll();
@@ -305,14 +316,12 @@
     _setRowHeights : function( isFromResize ) {
       var self = this;
 
-      isFromResize = isFromResize === true;
+      // Don't set row heights on mobile size. It's a single column, so it doesn't need to line up.
+      if ( self.isMobile ) {
+        return;
+      }
 
-      // Put a bottom margin on the sibling of the absoluting positioned element
-      // to make up for its lack of document space
-      self.$container.find('.btm-aligned').each(function() {
-        var $img = $(this);
-        $img.prev().css('marginBottom', $img.css('height'));
-      });
+      isFromResize = isFromResize === true;
 
       // Set detail rows to even heights
       self.$container.find('.detail-label').each(function(i) {
@@ -481,7 +490,7 @@
       }
 
       // Open/close sticky headers
-      if ( !self.isMobile && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
+      if ( !self.isIOS && !self.isMobile && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
         if ( !self.$stickyHeaders.hasClass('open') ) {
           self.$stickyHeaders.addClass('open');
           self.$container.addClass('sticky-header-open');
@@ -491,7 +500,7 @@
         self._setStickyHeaderPos( scrollTop - self.stickyOffset.top + self.stickyNavHeight );
 
       } else {
-        if ( self.$stickyHeaders.hasClass('open') ) {
+        if ( !self.isIOS && self.$stickyHeaders.hasClass('open') ) {
           self.$container.removeClass('sticky-header-open');
           self.$stickyHeaders.removeClass('open');
           self.$navContainer.removeClass('container');
@@ -588,7 +597,8 @@
   $.fn.spec.settings = {
     isStickyTabs: false,
     isScroller: false,
-    isMobile: false
+    isMobile: false,
+    isIOS: SONY.Settings.isIOS
   };
 
 

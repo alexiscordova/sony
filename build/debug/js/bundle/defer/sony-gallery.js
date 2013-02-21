@@ -1585,6 +1585,8 @@
       // Reset iscroll
       self.innerScroller.refresh();
 
+      self.afterCompareScrolled( self.innerScroller );
+
       return self;
     },
 
@@ -1594,6 +1596,7 @@
           $compareItem = $(evt.target).closest('.compare-item');
 
       function afterHidden() {
+        // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName);
         // Hide the column
         $compareItem.addClass('hide');
 
@@ -1613,15 +1616,21 @@
 
         self.setCompareWidth();
         self.innerScroller.refresh();
+        self.afterCompareScrolled( self.innerScroller );
+      }
+
+      function noWidth() {
+        // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName );
+        $compareItem
+          .one( $.support.transition.end, afterHidden )
+          .addClass('no-width');
       }
 
       if ( Modernizr.csstransitions ) {
+        // console.log('adding opacity:0');
         $compareItem
-          .addClass('faded')
-          .one( $.support.transition.end, function() {
-            $compareItem.addClass('no-width')
-              .one( $.support.transition.end, afterHidden );
-          });
+          .one( $.support.transition.end, noWidth )
+          .addClass('faded');
       } else {
         afterHidden();
       }
@@ -2228,8 +2237,8 @@
     isInitialized: false,
     hasEnabledCarousels: false,
     sorted: false,
-    isTouch: Modernizr.touch,
-    isiPhone: (/iphone|ipod/gi).test(navigator.appVersion),
+    isTouch: SONY.Settings.hasTouchEvents,
+    isiPhone: SONY.Settings.isIPhone,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
