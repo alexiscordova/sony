@@ -891,7 +891,6 @@
         self.ev.trigger( 'socOnUpdateNav' );
 
       },
-
       setupPaddles: function(){
 
         var self   = this,
