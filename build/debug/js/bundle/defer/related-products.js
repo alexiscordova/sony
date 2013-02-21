@@ -565,20 +565,13 @@
 
         self.$el.append( self.$pagination );
 
-<<<<<<< HEAD
-          if(item.length) {
-            self.currentId = item.data('index');
-            //console.log('clicked on ' , self.currentId);
-            self.moveTo();
-          }
-=======
         self.$pagination.sonyNavDots({
           'buttonCount': self.numSlides
         });
 
         self.$pagination.on('SonyNavDots:clicked', function(e, a){
-          self.gotopage(a);
->>>>>>> origin/master
+          self.currentId = a;
+          self.moveTo();
         });
 
         self.ev.on( 'rpOnUpdateNav', $.debounce(500, function() {
@@ -587,6 +580,8 @@
           });
         }));
       },
+
+
 
       setupPaddles: function(){
         var self   = this,
@@ -886,11 +881,8 @@
 
             window.iQ.update();
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> origin/master
             self.ev.trigger('ondesktopbreakpoint.rp');
 
           break;
