@@ -41,7 +41,7 @@
         if (!vendor && (tempV + 'Transform') in tempStyle ) {
             vendor = tempV;
         }
-        tempV = tempV.toLowerCase();
+        tempV = tempV.toLowerCase(); 
       }
 
       var bT = vendor + (vendor ? 'T' : 't' ),
@@ -140,6 +140,7 @@
           self.moveEvent   = 'mousemove.rp';
           self.upEvent     = 'mouseup.rp';
           self.cancelEvent = 'mouseup.rp';
+          self.clickEvent  = 'click.rp';
       }
 
       if(self.useCSS3Transitions) {
@@ -171,7 +172,7 @@
         var gutter = 0,
             numColumns = 0;
 
-        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') ) {
+        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10') ) {
           gutter = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
           numColumns = 5;
 
@@ -194,7 +195,7 @@
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') ) {
+          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10')) {
             column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
@@ -216,6 +217,26 @@
     };
 
     RelatedProducts.prototype = {
+      setupLinkClicks: function(){
+
+        var self = this;
+
+        self.$galleryItems.on( self.clickEvent , function(e){
+
+          var $this = $(this),
+              destination = $this.attr('href');
+
+          if ( self.startInteractionTime ) {
+            if ((new Date().getTime()) - self.startInteractionTime < 250) {
+              window.location = destination;
+            }
+          }
+        });
+
+        self.$galleryItems.on( self.clickEvent, function(e){
+          e.preventDefault();
+        });
+      },
 
       toString: function(){
         return '[ object RelatedProducts ]';
@@ -225,6 +246,8 @@
         var self = this;
 
         self.$paddles.hide();
+
+        self.setupLinkClicks();
 
         // Don't do this for modes other than 3 and 4 up
         if(self.variation === '3up' || self.variation === '4up' || self.variation === '5up'){
@@ -631,7 +654,7 @@
 
 
         //if the browser doesnt support media queries...IE default to desktop
-        if(!Modernizr.mediaqueries){
+        if(!Modernizr.mediaqueries || $('body').hasClass('lt-ie10')){
           view = 'desktop';
         }
 
@@ -741,6 +764,7 @@
             }
 
 
+
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').removeClass('span6');
               self.$el.removeClass('grid slimgrid');
@@ -785,6 +809,7 @@
 
             }
             //is this where i break?
+
             self.ev.trigger('onmobilebreakpoint.rp');
 
           break;
@@ -900,7 +925,8 @@
         self.horDir             = 0;
         self.verDir             = 0;
         self.currRenderPosition = self.sPosition;
-        self.startTime          = new Date().getTime();
+        //self.startTime          = new Date().getTime();
+        self.startTime = self.startInteractionTime = new Date().getTime();
 
         if(self.hasTouch) {
           self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
@@ -1617,11 +1643,11 @@
         function handleBreakpoint(){
 
           // 1. step one  - cancel touch events for the 'slideshow'
-          self.$container.off('.rp');
+          self.$container.off(self.downEvent);
 
           // 2. hide paddles and nav
           self.$paddles.hide();
-          $('.rp-nav').hide();
+          self.$el.find('.rp-nav').hide();
 
           //attemp to place the title plates in the first position before detaching
           self.$slides.each(function(){
@@ -1631,10 +1657,9 @@
             //put the title plate at the beginning
             $s.prepend($plate);
           });
-
+        
           // 3. gather gallery items and save local reference - may need to set on self
           var $galleryItems = self.$el.find('.gallery-item').detach().addClass('small-size');
-
 
           // 4. remove the slides
           self.$slides.detach();
@@ -1648,9 +1673,6 @@
           $galleryItems.not('.blank').appendTo(self.$container);
 
           self.$el.find('.gallery-item.medium').css('height' , '');
-
-          //set equal text heights
-
 
           // 7. init the scroller module
           setTimeout(function(){

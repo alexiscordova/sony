@@ -159,7 +159,7 @@ leading edge, instead of the trailing.</p>
 
 </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Feature support</p>             </td>             <td class="code">               <div class="highlight"><pre>      orientationSupported = ORIENTATION <span class="keyword">in</span> win &amp;&amp; ON+ORIENTATIONCHANGE <span class="keyword">in</span> win,
       viewportWidth,
-      screenWidth = win.screen.width,
+      screenWidth = win.outerWidth || win.screen.width,
       devicePixelRatio = win.devicePixelRatio || <span class="number">1</span>,
       lastOrientation,
 

@@ -13,7 +13,7 @@ SONY.Utilities = (<span class="keyword">function</span>(window, document) {
   <span class="keyword">var</span> self = {
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Return calculated column if width is above 568px/35.5em</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    masonryColumns: <span class="keyword">function</span>(containerWidth) {
+    <span class="string">'masonryColumns'</span>: <span class="keyword">function</span>(containerWidth) {
       <span class="keyword">var</span> column = containerWidth;
 
       <span class="keyword">if</span> ( !Modernizr || !SONY.Settings ) {
@@ -28,7 +28,7 @@ SONY.Utilities = (<span class="keyword">function</span>(window, document) {
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Return calculated gutter if width is above 568px/35.5em</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    masonryGutters: <span class="keyword">function</span>(containerWidth) {
+    <span class="string">'masonryGutters'</span>: <span class="keyword">function</span>(containerWidth) {
       <span class="keyword">var</span> gutter = <span class="number">0</span>;
 
       <span class="keyword">if</span> ( !Modernizr || !SONY.Settings ) {
@@ -42,8 +42,8 @@ SONY.Utilities = (<span class="keyword">function</span>(window, document) {
       <span class="keyword">return</span> gutter;
     },
 
-
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Parses a 2D CSS transform matrix and returns key/val pairings</p>             </td>             <td class="code">               <div class="highlight"><pre>    parseMatrix: <span class="keyword">function</span>( str ) {
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Parses a 2D CSS transform matrix and returns key/val pairings</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'parseMatrix'</span>: <span class="keyword">function</span>( str ) {
       <span class="keyword">var</span> pxValue = parseInt( str, <span class="number">10</span> ),
           modified;
 
@@ -72,7 +72,7 @@ then replace the <code>)</code> at the end with <code>]</code></p>             <
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Constrains a value between a min and max value</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    constrain: <span class="keyword">function</span>(value, min, max) {
+    <span class="string">'constrain'</span>: <span class="keyword">function</span>(value, min, max) {
       value = parseFloat(value);
 
       <span class="keyword">return</span> value &lt; min ? min :
@@ -122,7 +122,7 @@ http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>         
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>This is a modified version of jQuery Tiny PubSub by Ben Alman
 https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'createGlobalEvents'</span>: <span class="keyword">function</span>() {
+    <span class="string">'createPubSub'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> o = $({});
 
@@ -137,10 +137,30 @@ https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <
       SONY.trigger = <span class="keyword">function</span>() {
         o.trigger.apply(o, arguments);
       };
-    }
+    },
 
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Create global events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'createGlobalEvents'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> cachedFunctions = {};
+
+      cachedFunctions.throttledResize = $.throttle(<span class="number">500</span>, <span class="keyword">function</span>(){
+        SONY.trigger(<span class="string">'global:resizeThrottled'</span>);
+      });
+
+      cachedFunctions.debouncedResize = $.debounce(<span class="number">500</span>, <span class="keyword">function</span>(){
+        SONY.trigger(<span class="string">'global:resizeDebounced'</span>);
+      });
+
+      SONY.$window.on(<span class="string">'resize'</span>, <span class="keyword">function</span>(){
+        cachedFunctions.throttledResize();
+        cachedFunctions.debouncedResize();
+      });
+
+    }
   };
 
+  self.createPubSub();
   self.createGlobalEvents();
   self.normalizeLogs();
 

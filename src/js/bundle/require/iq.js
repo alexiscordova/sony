@@ -168,7 +168,7 @@
       // Feature support
       orientationSupported = ORIENTATION in win && ON+ORIENTATIONCHANGE in win,
       viewportWidth,
-      screenWidth = win.screen.width,
+      screenWidth = win.outerWidth || win.screen.width,
       devicePixelRatio = win.devicePixelRatio || 1,
       lastOrientation,
 
