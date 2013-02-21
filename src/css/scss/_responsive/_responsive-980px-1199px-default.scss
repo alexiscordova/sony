@@ -22,16 +22,12 @@
   width: $fluidContainerWidth;
 
   max-width: $fluidContainerWidthMax-px;
-  &.full-bleed {
-    max-width: $containerWidthMax;
-  }
-  &.full-bleed-no-max {
-  	max-width:100%;
-  }
+  &.full-bleed { max-width: $containerWidthMax; }
+  &.full-bleed-no-max {	max-width:100%; }
 }
-.lt-ie10 .container,
-.lt-ie10 .container.full-bleed,
-.lt-ie10 .container.full-bleed-no-max { width:980px; }
+.lt-ie10 .container{ width:980px; }
+.lt-ie10 .container.full-bleed{ max-width: $containerWidthMax; }
+.lt-ie10 .container.full-bleed-no-max { width:100%; }
 
 .grid,
 .slimgrid,
