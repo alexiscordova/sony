@@ -377,13 +377,16 @@
 
 		// Don't let range values go past the other
 		if ( th.range ) {
+			var newPosWithThreshold = newPos;
 			if ( isMin ) {
-				if ( th.currentPosition !== false && newPos > th.currentPosition ) {
-					newPos = th.currentPosition;
+				newPosWithThreshold += th.rangeThreshold;
+				if ( th.currentPosition !== false && newPosWithThreshold > th.currentPosition ) {
+					newPos = th.currentPosition - th.rangeThreshold;
 				}
 			} else {
-				if ( th.currentMinPosition !== false && newPos < th.currentMinPosition) {
-					newPos = th.currentMinPosition;
+				newPosWithThreshold -= th.rangeThreshold;
+				if ( th.currentMinPosition !== false && newPosWithThreshold < th.currentMinPosition) {
+					newPos = th.currentMinPosition + th.rangeThreshold;
 				}
 			}
 		}
@@ -678,7 +681,8 @@
 		callback : null,
 		range : false,
 		initialMin : '0',
-		initialMax : '100%'
+		initialMax : '100%',
+		rangeThreshold: 0
 	};
 
 	$.fn.rangeControl.settings = {

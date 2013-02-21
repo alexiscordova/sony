@@ -305,28 +305,6 @@ $oneByOneImgPadding: 107.84313725490196%;
       // padding-top: 83.6%;
     }
 
-    .shuffle-4 &:after {
-      // padding-top: 77.790255%;
-    }
-
-    .product-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      text-align: left;
-    }
-
-    .product-img {
-      height: 100%;
-    }
-
-    img {
-      max-height: none;
-      max-width: none;
-    }
-
     div.iq-img {
       width: 100%;
       height: 100%;
@@ -341,6 +319,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     z-index: 10;
     top: 0;
     right: 0;
+    margin: 0;
   }
 }
 
@@ -406,15 +385,40 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 // Promo Tiles
 // -------------------------
+
+.gallery-item.promo {
+
+  .product-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+  }
+
+  // promo content
+  .product-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 16.1290323% 10.6060606% 10.967742%;
+  }
+
+  img {
+    max-height: none;
+    max-width: none;
+  }
+}
+
 .gallery-item .promo-content {
+  position: relative;
+  height: 100%;
   text-align: left;
 
   .promo-title {
-    position: absolute;
-    top: 16.1290323%; // 50/310
-    left: 10.6060606%; // 42/396
     margin: 0;
-    max-width: 225px;
 
     i {
       position: relative;
@@ -430,19 +434,8 @@ $oneByOneImgPadding: 107.84313725490196%;
   // e.g. "22 LENSES"
   .text-count {
     position: absolute;
-    bottom: 10.3225806%; // 32/310
-    left: 10.6060606%; // 42/396
+    bottom: 0;
     margin: 0;
-  }
-
-  // e.g.  "22"
-  .text-count .number {
-    // font-size: $font_13_16;
-  }
-
-  // e.g.  "LENSES"
-  .text-count .text {
-    // font-size: $font_12_16;
   }
 
   // Override default label colors
@@ -615,65 +608,82 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .gallery-detailed {
 
+    .slide-toggle-parent {
+      margin-bottom: .9375em;
+    }
+
     .products {
       margin-top: -1.625em;
     }
 
+
+    // Detailed Gallery Item Layout
+    // --------------------------------
+
     .gallery-item {
       margin-top: 1.625em; // 26
-      height: auto;
-      width: 100%;
-      max-width: 100%;
-
-      // The labels parent is still 100%, but the product image
-      // and details are a 2up.
-      .label {
-        right: 50%;
-      }
+      width: 100% !important; // override `auto` set by grid system
     }
 
     .gallery-item-inner {
       display: table;
+      height: 100%;
       width: 100%;
-      max-width: 100%;
     }
 
-    // Firefox is having a problem with display:table-cell ...
     .product-img,
     .product-content {
       display: table-cell;
+      vertical-align: top;
       width: 50%;
     }
 
-    .product-img {
-      position: relative;
-      vertical-align: middle;
+    .product-img .product-img-wrap {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    // non webkit browsers need this
+    .product-img img {
+      width: 100%;
     }
 
     .product-content {
       padding-left: 4%;
+      margin-top: 0;
     }
 
 
-    .product-rating {
-      // font-size: $font_10_16;
-      margin: .5em 0 .6875em;
-    }
 
-    .product-meta {
-      margin-bottom: .6875em;
 
-      li {
-        // font-size: $font_10_16;
-      }
-    }
-
-    .product-content .product-name {
-      // font-size: $font_11_16;
+    // Detailed gallery item styling
+    // ------------------------------
+    .product-name {
+      margin-bottom: 3px;
+      line-height: 14px;
     }
 
     .product-model {
-      // font-size: $font_9_16;
+      margin-bottom: 0;
+    }
+
+    .product-rating {
+      margin: 0 0 .3125em;
+    }
+
+    .fonticon-10-star {
+      font-size: .6em;
+      letter-spacing: -0.15em;
+    }
+
+    .product-meta {
+      margin-bottom: .3125em;
+    }
+
+    .product-price {
+      margin-top: 0;
     }
   }
 
@@ -787,7 +797,8 @@ $oneByOneImgPadding: 107.84313725490196%;
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
   position: relative;
-  z-index: 1;
+  // z-index: 1;
+  z-index: 11;
 
   .slide-toggle,
   .accessory-finder {
@@ -826,7 +837,8 @@ $oneByOneImgPadding: 107.84313725490196%;
   display: none;
   cursor: pointer;
 
-  &.moz {
+  // -webkit-appearance won't work for Firefox and IE
+  &.moz-ie {
     border-right: 1px solid $gray70;
     overflow: hidden;
 
@@ -1020,6 +1032,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   // not in it's own container, so we have to reset the margin-left
   .filter-options .grid > :last-child {
     margin-left: 0;
+    margin-bottom: .75em;
 
     & .filter-container {
       margin-top: 0;
@@ -1061,15 +1074,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 @media (max-width: $threeColMax) {
 
-  .sort-options .native-dropdown {
-    display: inline-block;
-    vertical-align: baseline;
-  }
-
-  .sort-options .dropdown {
-    display: none;
-  }
-
   .filter-container {
     margin-bottom: 2.8125em;
     max-width: none;
@@ -1089,13 +1093,48 @@ $oneByOneImgPadding: 107.84313725490196%;
     }
   }
 
+  .slide-toggle-target.in ~ .active-filters-wrap {
+    margin-top: 1.25em;
+  }
+
+  .slide-toggle-target ~ .active-filters-wrap {
+    margin-top: 0;
+    margin-bottom: 1.25em;
+  }
+
   .filter-display-bar {
 
     .product-count-wrap {
       display: block;
-      float: left;
       margin-bottom: 0;
       margin-top: 10px;
+    }
+
+    .sort-options {
+      padding-top: .5em;
+      float: none;
+      clear: both;
+    }
+
+    .sort-options .native-dropdown,
+    .sort-options .native-dropdown select,
+    .sort-options .dropdown,
+    .sort-options .dropdown-toggle {
+      width: 100%;
+    }
+
+    .touch & .sort-options .native-dropdown {
+      display: block;
+    }
+
+    .touch & .sort-options .dropdown {
+      display: none;
+    }
+
+    .sort-options .filter-label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 6px;
     }
 
     .btn.slide-toggle,
@@ -1112,6 +1151,11 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     .btn.js-compare-toggle {
       margin-left: 4%;
+    }
+
+    .btn.accessory-finder {
+      margin-top: 1em;
+      margin-left: 0;
     }
 
   }
@@ -1369,7 +1413,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   margin-left: .1875em;
   background: $white;
   color: $gray20;
-  @include transition();
+  @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
 
   &.faded {
     opacity: 0;
@@ -1435,6 +1479,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Show a little shadow representing content behind the label column
   &.overflowing:before {
     @include box-shadow(.125em 0 .1875em -.0625em $transparentBlack);
+    // @include box-shadow(.125em 0 .375em -.125em $transparentBlack);
     @include transition-timing-function(ease-out);
   }
 }
@@ -1479,7 +1524,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     left: 5%;
     width: 90%;
     height: .0625em;
-    background: $gray90;
+    background: $gray60;
   }
 }
 
