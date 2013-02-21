@@ -58,6 +58,9 @@
 
       self.$navContainer = $('<div/>').addClass('pagination-bullets on');
       self.$buttonTemplate = $('<div/>').addClass('pagination-bullet');
+      self.$buttonIcon = $('<i/>').addClass('fonticon-10-dot');
+
+      self.$buttonTemplate.append(self.$buttonIcon);
 
       self.reset(self);
     },
