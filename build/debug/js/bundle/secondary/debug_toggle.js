@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 
 			//toggle window sizer
-			(function(e,t){
+			(function(e,t,$){
 				var win = e,
 					r = false,
 					i = 0;
@@ -44,7 +44,7 @@ $(document).ready(function() {
 					};
 
 					o.innerHTML='Window Width: ' + win.innerWidth + 'px';
-					win.addEventListener('resize',u);
+					$(window).on('resize',u);
 				} else {
 					if (t.getElementById('tm-window-resizer').style.display === 'none') {
 						t.getElementById('tm-window-resizer').style.display = 'block';
@@ -52,7 +52,7 @@ $(document).ready(function() {
 						t.getElementById('tm-window-resizer').style.display = 'none';
 					}
 				}
-			})(window,document);
+			})(window,document, jQuery);
 
     }
 	});
