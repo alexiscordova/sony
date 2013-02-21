@@ -5,7 +5,7 @@
             $(<span class="string">'body'</span>).toggleClass(<span class="string">'debug'</span>);
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>toggle window sizer</p>             </td>             <td class="code">               <div class="highlight"><pre>			(<span class="keyword">function</span>(e,t){
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>toggle window sizer</p>             </td>             <td class="code">               <div class="highlight"><pre>			(<span class="keyword">function</span>(e,t,$){
 				<span class="keyword">var</span> win = e,
 					r = <span class="literal">false</span>,
 					i = <span class="number">0</span>;
@@ -42,7 +42,7 @@
 					};
 
 					o.innerHTML=<span class="string">'Window Width: '</span> + win.innerWidth + <span class="string">'px'</span>;
-					win.addEventListener(<span class="string">'resize'</span>,u);
+					$(window).on(<span class="string">'resize'</span>,u);
 				} <span class="keyword">else</span> {
 					<span class="keyword">if</span> (t.getElementById(<span class="string">'tm-window-resizer'</span>).style.display === <span class="string">'none'</span>) {
 						t.getElementById(<span class="string">'tm-window-resizer'</span>).style.display = <span class="string">'block'</span>;
@@ -50,7 +50,7 @@
 						t.getElementById(<span class="string">'tm-window-resizer'</span>).style.display = <span class="string">'none'</span>;
 					}
 				}
-			})(window,document);
+			})(window,document, jQuery);
 
     }
 	});
