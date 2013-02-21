@@ -196,7 +196,7 @@ module.exports = function(grunt) {
       deploy:{
         files:{
           '../build/deploy/js/bundle/defer/'     : 'js/bundle/defer/**',
-          '../build/deploy/js/libs/'   : 'js/libs/*',
+          '../build/deploy/js/libs/'   : 'js/libs/**',
           '../build/deploy/img/'     : 'img/build/**',
           '../build/deploy/ico/'     : 'img/ico/**',
           '../build/deploy/fonts/'   : 'fonts/**',

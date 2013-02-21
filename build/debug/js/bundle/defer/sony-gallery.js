@@ -1257,10 +1257,9 @@
 
     onCompareLaunch : function() {
       var self = this,
-          shuffle = self.$grid.data('shuffle'),
 
           // Clone all visible
-          $currentItems = shuffle.$items.filter('.filtered').clone(),
+          $currentItems = self.shuffle.$items.filter('.filtered').clone(),
           $compareItemsContainer = $('<div class="compare-items-container grab">'),
           $compareItemsWrapper = $('<div class="compare-items-wrap">'),
 
@@ -1395,6 +1394,11 @@
 
       self.stickyTriggerPoint = self.getCompareStickyTriggerPoint();
 
+      // Set a margin-left on the compare items wrap
+      if ( !self.isFixedHeader ) {
+        self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
+      }
+
       self
         .setCompareRowHeights()
         .setCompareDimensions();
@@ -1469,10 +1473,6 @@
           self.afterCompareScrolled( this );
         }
       });
-
-
-      // Set a margin-left on the compare items wrap
-      self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
 
       // Set the height, jQuery object, and text of the takeover sticky nav
       self.setTakeoverStickyHeader( self.compareTitle );
@@ -2154,11 +2154,6 @@
       self.$compareItems.not('.hide').each(function() {
         contentWidth += $(this).outerWidth(true);
       });
-
-      // Add the labels column (only if they should be visible)
-      if ( Modernizr.mq('(min-width: 48em)') ) {
-        contentWidth += self.$compareTool.find('.detail-labels-wrap').outerWidth(true);
-      }
 
       // Set it
       self.$compareTool.find('.compare-items-container').width( contentWidth );
