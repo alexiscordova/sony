@@ -158,7 +158,6 @@
 
   */
   .soc-item {
-    @include fadeoutOnHover();
     position: relative;
     display: block;
     height: 100%;
@@ -167,10 +166,14 @@
     background-repeat: no-repeat;
     cursor: pointer;
 
-    &:hover {
+    .no-touch & {
+      @include fadeoutOnHover();
 
-      .headline i {
-        margin-left: px-em(5px);
+      &:hover {
+
+        .headline i {
+          margin-left: px-em(5px);
+        }
       }
     }
 
@@ -234,9 +237,11 @@
 
       .mini-promo {
 
-        &:hover {
-          .mini-promo-image-container .play-button {
-            background-color: $linkBlueActive;
+        .no-touch & {
+          &:hover {
+            .mini-promo-image-container .play-button {
+              background-color: $linkBlueActive;
+            }
           }
         }
 
