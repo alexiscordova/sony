@@ -129,7 +129,7 @@ ul.spec-views {
     line-height: .9;
 
     // Add a border-right to the far right of the grid (over the sticky nav)
-    &:after {
+    .sticky-header-open &:after {
       content: '';
       position: absolute;
       height: 100%;
@@ -416,6 +416,7 @@ ul.spec-views {
 
 .spec-products {
   position: relative;
+  overflow: hidden; // hide box-shadows
 
   // Light gray bar behind all the headers
   &:before {
@@ -481,6 +482,7 @@ ul.spec-views {
     right: 0;
     top: 0;
     background-color: $white;
+    // border-bottom: 1px solid $white;
     @include transition(box-shadow $transitionFast ease-in);
   }
 

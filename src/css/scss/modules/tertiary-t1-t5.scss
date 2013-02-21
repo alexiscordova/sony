@@ -10,6 +10,7 @@
 }
 
 $tcc-body-wrapper-padding-desktop:36px 0 0 0;
+$tcc-header-padding-bottom-desktop:20px;
 
 .tcc-wrapper{
 	position: relative;
@@ -60,6 +61,25 @@ $tcc-body-wrapper-padding-desktop:36px 0 0 0;
 	
 	.tcc-header{
 		border-bottom: 3px solid $gray70;
+		position: relative;
+
+		.tcc-header-title{
+      float:left;
+      margin:0; // overwrite .l1 default   
+    } // end .tcc-header-title
+
+
+    .lt-ie10 & {
+	    .tcc-header-link{
+	    	position: absolute;
+        right:0;
+      	margin:0; // overwrite .lt2 default
+	      bottom:0; // offset .tcc-header padding
+	    } // end .tcc-header-link
+
+    } // lt-ie10
+
+
 	} // end .tcc-header
 
 	.tcc-body{
@@ -76,11 +96,12 @@ $tcc-body-wrapper-padding-desktop:36px 0 0 0;
     	height:375px; 
     } // END IE9 and BELOW
 
-		// // IE8 and BELOW
-		// .lt-ie9 & {
-  //   	width:317px; 
-  //   } // END IE8 and BELOW
-		
+		// IE8 and BELOW
+		.lt-ie9 & {
+    	max-width:370px; 
+    } // END IE8 and BELOW
+
+	
 		&:hover{
 			cursor: pointer;
 		} // end .tcc-content-module:hover;

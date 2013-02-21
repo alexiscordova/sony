@@ -119,13 +119,13 @@ if data.theme
       +links(data, "hidden-phone")
     .mobile-buttons-wrap.container.grid.no-grid-at-767
       .mobile-buttons.clearfix
-        +links(data, "visible-phone btn")
+        +links(data, "visible-phone")
   else if data.mode == "title-plate"
     +boxlayout
       +eyebrow
       h1.t2!= data.headline
       +bodytext(data, "hidden-phone")
-      +links(data, "btn-mini")
+      +links
 
 
 

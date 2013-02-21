@@ -565,9 +565,10 @@
         self.$productCount.text( self.shuffle.$items.length );
       }
 
-      // Firefox's <select> menu is hard to style...
-      if ( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ) {
-        self.$sortSelect.parent().addClass('moz');
+      // Firefox's and IE's <select> menu is hard to style...
+      var ua = navigator.userAgent.toLowerCase();
+      if ( ua.indexOf('firefox') > -1 || ua.indexOf('msie') > -1 ) {
+        self.$sortSelect.parent().addClass('moz-ie');
       }
     },
 
@@ -940,7 +941,8 @@
       self.$rangeControl.rangeControl({
         initialMin: '0%',
         initialMax: '100%',
-        range: true
+        range: true,
+        rangeThreshold: 40
       });
     },
 
@@ -1102,12 +1104,18 @@
 
       // console.log('onResize:', self.id, ' - (iOS is triggering resizes when it shouldnt be)');
 
-      // Make all product name heights even
-      self.$gridProductNames.evenHeights();
-
       // Don't change columns for detail galleries
       // Change the filters column layout
       if ( self.mode === 'detailed' ) {
+
+        // Remove heights in case they've aready been set
+        if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+          self.$gridProductNames.css('height', '');
+
+        // Make all product name heights even
+        } else {
+          self.$gridProductNames.evenHeights();
+        }
 
         // 768-979
         if ( Modernizr.mq('(min-width: 48em) and (max-width: 61.1875em)') ) {
@@ -1142,6 +1150,10 @@
         // Go home detailed gallery, you're drunk
         return;
       }
+
+
+      // Make all product name heights even
+      self.$gridProductNames.evenHeights();
 
       // Destroy or setup carousels based on viewport
       if ( self.hasCarousels ) {
@@ -1186,24 +1198,24 @@
 
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
-      var $toggle = this.$container.find('.slide-toggle');
+      // var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.removeClass('in');
-      if ( !Modernizr.csstransforms ) {
-        $toggle.find('.down').addClass('hide');
-        $toggle.find('.up').removeClass('hide');
-      }
+      // if ( !Modernizr.csstransforms ) {
+      //   $toggle.find('.down').addClass('hide');
+      //   $toggle.find('.up').removeClass('hide');
+      // }
     },
 
     onFiltersShow : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
-      var $toggle = this.$container.find('.slide-toggle');
+      // var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.addClass('in');
 
       // If we don't have transforms, show and hide different arrows.
-      if ( !Modernizr.csstransforms ) {
-        $toggle.find('.down').removeClass('hide');
-        $toggle.find('.up').addClass('hide');
-      }
+      // if ( !Modernizr.csstransforms ) {
+      //   $toggle.find('.down').removeClass('hide');
+      //   $toggle.find('.up').addClass('hide');
+      // }
 
     },
 
@@ -1245,10 +1257,9 @@
 
     onCompareLaunch : function() {
       var self = this,
-          shuffle = self.$grid.data('shuffle'),
 
           // Clone all visible
-          $currentItems = shuffle.$items.filter('.filtered').clone(),
+          $currentItems = self.shuffle.$items.filter('.filtered').clone(),
           $compareItemsContainer = $('<div class="compare-items-container grab">'),
           $compareItemsWrapper = $('<div class="compare-items-wrap">'),
 
@@ -1383,6 +1394,11 @@
 
       self.stickyTriggerPoint = self.getCompareStickyTriggerPoint();
 
+      // Set a margin-left on the compare items wrap
+      if ( !self.isFixedHeader ) {
+        self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
+      }
+
       self
         .setCompareRowHeights()
         .setCompareDimensions();
@@ -1430,6 +1446,7 @@
       // Initialize inner scroller (for the comparable product items)
       self.innerScroller = new IScroll( self.$compareTool.find('.compare-items-wrap')[0], {
         vScroll: false,
+        hScrollbar: self.isTouch,
         // snap: '.compare-item',
         snap: self.compareState.snap, // this is required for iscroll.scrollToPage
         onBeforeScrollStart : function() {
@@ -1456,10 +1473,6 @@
           self.afterCompareScrolled( this );
         }
       });
-
-
-      // Set a margin-left on the compare items wrap
-      self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
 
       // Set the height, jQuery object, and text of the takeover sticky nav
       self.setTakeoverStickyHeader( self.compareTitle );
@@ -1572,6 +1585,8 @@
       // Reset iscroll
       self.innerScroller.refresh();
 
+      self.afterCompareScrolled( self.innerScroller );
+
       return self;
     },
 
@@ -1581,6 +1596,7 @@
           $compareItem = $(evt.target).closest('.compare-item');
 
       function afterHidden() {
+        // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName);
         // Hide the column
         $compareItem.addClass('hide');
 
@@ -1600,15 +1616,21 @@
 
         self.setCompareWidth();
         self.innerScroller.refresh();
+        self.afterCompareScrolled( self.innerScroller );
+      }
+
+      function noWidth() {
+        // console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName );
+        $compareItem
+          .one( $.support.transition.end, afterHidden )
+          .addClass('no-width');
       }
 
       if ( Modernizr.csstransitions ) {
+        // console.log('adding opacity:0');
         $compareItem
-          .addClass('faded')
-          .one( $.support.transition.end, function() {
-            $compareItem.addClass('no-width')
-              .one( $.support.transition.end, afterHidden );
-          });
+          .one( $.support.transition.end, noWidth )
+          .addClass('faded');
       } else {
         afterHidden();
       }
@@ -2133,11 +2155,6 @@
         contentWidth += $(this).outerWidth(true);
       });
 
-      // Add the labels column (only if they should be visible)
-      if ( Modernizr.mq('(min-width: 48em)') ) {
-        contentWidth += self.$compareTool.find('.detail-labels-wrap').outerWidth(true);
-      }
-
       // Set it
       self.$compareTool.find('.compare-items-container').width( contentWidth );
 
@@ -2215,8 +2232,8 @@
     isInitialized: false,
     hasEnabledCarousels: false,
     sorted: false,
-    isTouch: !!( 'ontouchstart' in window ),
-    isiPhone: (/iphone|ipod/gi).test(navigator.appVersion),
+    isTouch: SONY.Settings.hasTouchEvents,
+    isiPhone: SONY.Settings.isIPhone,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
@@ -2265,8 +2282,7 @@
 })(jQuery, Modernizr, window);
 
 
-
-$(document).ready(function() {
+SONY.on('global:ready', function() {
 
   if ( $('.gallery').length > 0 ) {
     // console.profile();

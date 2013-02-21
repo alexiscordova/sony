@@ -259,6 +259,11 @@
           .add( self.$carouselCols )
           .css('height', '');
       }
+
+      // Update the positions for the scroll spy
+      SONY.$body
+        .scrollspy('refresh')
+        .scrollspy('process');
     }
 
 
@@ -305,7 +310,7 @@
 
 
 
-$(document).ready(function() {
+SONY.on('global:ready', function() {
 
   if ( $('.spec-single').length > 0 ) {
 

@@ -24,7 +24,7 @@
 
 
   // Fixed grid -- Looks like the px-width-grid is just for docs. Don't really care about mobile/etc so we'll just leave these here.
-  .container-px-width{  
+  .container-px-width{
     width: $containerWidth768;
   }
   .grid-px-width{
@@ -33,7 +33,7 @@
   @include grid-core($gridColumnWidth768, $gridGutterWidth768);
   // Input grid
   @include grid-input($gridColumnWidth768, $gridGutterWidth768);
-  
+
 } // (min-width: 768px)) and (max-width: 979px))
 
 // implement the default (desktop) grid if no override class is present.
@@ -45,7 +45,7 @@
       @include grid-fluid($fluidGridColumnWidth768, $fluidGridGutterWidth768);
     }
   }
-} // (min-width: 568px)) and (max-width: 767px)) 
+} // (min-width: 568px)) and (max-width: 767px))
 
 
 @media (max-width: px-em(979px)) {
@@ -89,7 +89,7 @@
 
 
 // ------------------------------------
-// Paragraphs & LinkText 
+// Paragraphs & LinkText
 // ------------------------------------
 
   .p1, .lt1 {
@@ -111,8 +111,8 @@
   .p1.lt, .lt1 { margin-bottom: 6px; }
   .p3 { margin-bottom: 8px; }
   .lt3, .p3.lt, .lt3-alt, .p3.lt-alt { margin-bottom: 3px; }
-  
-  
+
+
 // ------------------------------------
 // Block Quotes
 // ------------------------------------
@@ -141,7 +141,12 @@
     font-size: px-em(10);
   }
 
-  
+  .btn-square {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+
 } // max-width: 979px
 
 

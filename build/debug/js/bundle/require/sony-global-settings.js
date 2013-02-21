@@ -8,11 +8,16 @@
 
 var SONY = SONY || {};
 
-SONY.Settings = (function(window, document) {
+SONY.Settings = (function(window, document, Modernizr) {
 
   'use strict';
 
   var self = {};
+
+  self.isIPhone = (/iphone|ipod/gi).test(navigator.userAgent);
+  self.isIOS = (/iphone|ipod|ipad/gi).test(navigator.userAgent);
+
+  self.hasTouchEvents = Modernizr.touch;
 
   self.shuffleEasing = 'ease-out';
   self.shuffleSpeed = 250;
@@ -45,4 +50,4 @@ SONY.Settings = (function(window, document) {
 
   return self;
 
-})(this, this.document);
+})(this, this.document, Modernizr);
