@@ -44,24 +44,19 @@ SONY.Utilities = (<span class="keyword">function</span>(window, document) {
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Parses a 2D CSS transform matrix and returns key/val pairings</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'parseMatrix'</span>: <span class="keyword">function</span>( str ) {
-      <span class="keyword">var</span> pxValue = parseInt( str, <span class="number">10</span> ),
-          modified;
+      <span class="keyword">var</span> modified;
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>parseInt can handle 270px</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !isNaN( pxValue ) ) {
-        <span class="keyword">return</span> pxValue;
-      }
-
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Otherwise we have a matrix like: "matrix(1, 0, 0, 1, -120, 0)"</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>firstly replace one or more (+) word characters (\w) followed by <code>(</code> at the start (^) with a <code>[</code>
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>We have a matrix like: "matrix(1, 0, 0, 1, -120, 0)"</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>firstly replace one or more (+) word characters (\w) followed by <code>(</code> at the start (^) with a <code>[</code>
 then replace the <code>)</code> at the end with <code>]</code></p>             </td>             <td class="code">               <div class="highlight"><pre>      modified = str.replace( <span class="regexp">/^\w+\(/</span>, <span class="string">'['</span> ).replace( <span class="regexp">/\)$/</span>, <span class="string">']'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>this will leave you with a string: "[0.312321, -0.949977, 0.949977, 0.312321, 0, 0]"</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>then parse the new string (in the JSON encoded form of an array) as JSON into a variable</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">try</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>this will leave you with a string: "[0.312321, -0.949977, 0.949977, 0.312321, 0, 0]"</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>then parse the new string (in the JSON encoded form of an array) as JSON into a variable</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">try</span> {
         modified = JSON.parse(modified);
       } <span class="keyword">catch</span> (e) {
         modified = [<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>];
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>THE FIRST FOUR VALUE NAMES ARE PROBABLY WRONG. I ONLY KNOW THE LAST TWO (translates) FOR SURE.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">return</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>THE FIRST FOUR VALUE NAMES ARE PROBABLY WRONG. I ONLY KNOW THE LAST TWO (translates) FOR SURE.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">return</span> {
         val1 : modified[<span class="number">0</span>],
         val2 : modified[<span class="number">1</span>],
         val3 : modified[<span class="number">2</span>],
@@ -71,7 +66,7 @@ then replace the <code>)</code> at the end with <code>]</code></p>             <
       };
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Constrains a value between a min and max value</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Constrains a value between a min and max value</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'constrain'</span>: <span class="keyword">function</span>(value, min, max) {
       value = parseFloat(value);
 
@@ -80,7 +75,7 @@ then replace the <code>)</code> at the end with <code>]</code></p>             <
         value;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Normalizes the console.log method.
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Normalizes the console.log method.
 use "`" key to display logs in production mode.
 http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'normalizeLogs'</span>: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
@@ -120,7 +115,7 @@ http://paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/</p>         
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>This is a modified version of jQuery Tiny PubSub by Ben Alman
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>This is a modified version of jQuery Tiny PubSub by Ben Alman
 https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'createPubSub'</span>: <span class="keyword">function</span>() {
 
@@ -139,7 +134,7 @@ https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <
       };
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Create global events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Create global events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'createGlobalEvents'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> cachedFunctions = {};

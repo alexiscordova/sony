@@ -797,7 +797,8 @@ $oneByOneImgPadding: 107.84313725490196%;
 // Holdes Filter Results button, compare button, # products, and sorting dropdown
 .filter-display-bar {
   position: relative;
-  z-index: 1;
+  // z-index: 1;
+  z-index: 11;
 
   .slide-toggle,
   .accessory-finder {
@@ -1110,8 +1111,9 @@ $oneByOneImgPadding: 107.84313725490196%;
     }
 
     .sort-options {
-      margin-top: .5em;
+      padding-top: .5em;
       float: none;
+      clear: both;
     }
 
     .sort-options .native-dropdown,
@@ -1149,6 +1151,11 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     .btn.js-compare-toggle {
       margin-left: 4%;
+    }
+
+    .btn.accessory-finder {
+      margin-top: 1em;
+      margin-left: 0;
     }
 
   }
