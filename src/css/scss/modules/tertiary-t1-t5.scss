@@ -9,6 +9,8 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
+$tcc-body-wrapper-padding-desktop:36px 0 0 0;
+
 .tcc-wrapper{
 	position: relative;
   overflow:auto;
@@ -53,6 +55,7 @@
 		position: relative;
 		text-align: center;
 		z-index: 1;	
+		padding:$tcc-body-wrapper-padding-desktop;
 	} // end .tcc-body-wrapper
 	
 	.tcc-header{
@@ -65,15 +68,18 @@
 
 	.tcc-content-module{
 		
+		position: relative;
+		overflow: hidden;
+		
 		// IE9 and BELOW
 		.lt-ie10 & {
-			//@include debug(1px, red);
     	height:375px; 
     } // END IE9 and BELOW
 
-
-		position: relative;
-		overflow: hidden;
+		// // IE8 and BELOW
+		// .lt-ie9 & {
+  //   	width:317px; 
+  //   } // END IE8 and BELOW
 		
 		&:hover{
 			cursor: pointer;
@@ -106,8 +112,17 @@
 
     // DEFAULTS
     .img-container{
-			position: relative;
+			position: relative;		
+			margin-bottom:px-em(20px); 
     } // end .img-container
+
+    .img-wrap{
+		  img{
+	      width:100%;
+	      min-height: 100px;
+    	} // end img
+
+    } // end img-wrap
 
     // body copy
 		.p3{
@@ -119,22 +134,8 @@
 			color:$titleBlack;			
 		} // end t6
 
-				
-		&.default{
-		
-			.img-container{
-				margin-bottom:px-em(20px); 
-			} // end img-container
-		
-		} //.default
-
 		&.event{
 	
-			.img-container{
-			 	margin-bottom:px-em(20px); 
-			} // end img-container
-			
-
 	   // overlay box
 	    .attendance-count{
 				background-color: $secondaryOlive;
@@ -150,6 +151,12 @@
 				padding:3%;
 				height:80%;
 				width:35%;
+
+				// IE9 and BELOW
+				.lt-ie10 & {
+		    	margin:5% auto 10% auto;
+		    } // END IE9 and BELOW
+
 	    } // end . attendance-count
 
 	    // overlay container copy
@@ -170,12 +177,7 @@
 		} // end .article.events
 
 		&.news{
-	
-			.img-container{
-				margin-bottom:px-em(20px); 
-			} // end img-container
-
-		  .news-date{
+    	.news-date{
 	    	position:absolute;
 	    	top:0;
 	    	right:0;
@@ -190,12 +192,11 @@
 		} // end .article.news
 
 		&.featured{
-					
+
 			.feature-copy{
 
 				// IE9 and BELOW
 				.lt-ie10 & {
-					// @include debug(1px, purple);
 		    	height:145px;
           min-height:145px;
    				position: absolute;
@@ -204,23 +205,19 @@
           margin:0;
           padding:30px;
           width:100%;
-
-          p{
-            margin:0; // overwrite default p
-          } // end p         
-
-          .t4{
-            height:60px;
-            overflow:hidden;
-          }
 		    }	// END IE9 and BELOW
 
+        p{
+          margin:0; // overwrite default p
+        } // end p         
 
 	    	background-color:$gray10;
         text-align: left;
         opacity:0.95;
        
 	    	.t4{
+          height:60px;
+          overflow:hidden;
 	    		color:$white;
 	    	} // end .t4
 
