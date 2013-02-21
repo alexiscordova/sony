@@ -18,9 +18,7 @@
 
     var SonyOneCarousel = function( element , options ){
 
-      var self        = this,
-          ua          = navigator.userAgent.toLowerCase(),
-          isAndroid   = ua.indexOf( 'android' ) > -1,
+      var self = this,
           i;
 
       $.extend( self , $.fn.sonyOneCarousel.defaults , options , $.fn.sonyOneCarousel.settings );
@@ -769,52 +767,30 @@
       },
 
       createNavigation: function (){
-        var self = this,
-            itemHTML = '<div class="soc-nav-item soc-bullet"></div>',
-            out = '<div class="soc-nav soc-bullets">';
 
-        //remove other references
-        self.$el.find('.soc-nav.soc-bullets').remove();
+        var self = this;
 
-        //reset current slide id
-        self.currentId = 0;
-
-        if(self.numSlides < 2){
+        if ( self.$dotnav ) {
+          self.$dotnav.sonyNavDots('reset', {
+            'buttonCount': self.numSlides
+          });
           return;
         }
 
-        for(var i = 0; i < self.numSlides; i++) {
-          out += itemHTML;
-        }
-
-        out += '</div>';
-        out = $( out );
-        self.controlNav = out;
-        self.controlNavItems = out.children();
-        self.$el.append( out );
-
-        self.controlNav.on( self.tapOrClick() , function( e ) {
-          var item = $(e.target).closest( '.soc-nav-item' );
-          if( item.length ) {
-            self.currentId = item.index();
-            self.moveTo();
-          }
-        } );
-
-        self.ev.on( 'socOnUpdateNav', function() {
-          var id = self.currentId,
-              currItem, prevItem;
-
-          if(self.prevNavItem) {
-            self.prevNavItem.removeClass('soc-nav-selected');
-          }
-
-          currItem = $(self.controlNavItems[id]);
-          currItem.addClass('soc-nav-selected');
-          self.prevNavItem = currItem;
+        self.$dotnav = self.$el.find('.soc-dot-nav').sonyNavDots({
+          'buttonCount': self.numSlides
         });
 
-        self.ev.trigger( 'socOnUpdateNav' );
+        self.$dotnav.on('SonyNavDots:clicked', function(e, a){
+          self.currentId = a;
+          self.moveTo();
+        });
+
+        self.ev.on( 'socOnUpdateNav', $.debounce(500, function() {
+          self.$dotnav.sonyNavDots('reset', {
+            'activeButton': self.currentId
+          });
+        }));
       },
       setupPaddles: function(){
 
@@ -867,7 +843,7 @@
 
         self.onPaddleNavUpdate();
 
-        self.ev.on('socOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
+        self.ev.on('socOnUpdateNav', $.proxy(self.onPaddleNavUpdate , self));
       },
 
       onPaddleNavUpdate: function(){
