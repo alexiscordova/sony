@@ -413,7 +413,11 @@ because the heights have changed.</p>             </td>             <td class="c
           ._setItemContainerHeight();
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>Set timeout here because we were getting the wrong height for the
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>Update the positions for the scroll spy</p>             </td>             <td class="code">               <div class="highlight"><pre>      SONY.$body
+        .scrollspy(<span class="string">'refresh'</span>)
+        .scrollspy(<span class="string">'process'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Set timeout here because we were getting the wrong height for the
 spec products after a big resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
         self.stickyNavHeight = self.$stickyNav.outerHeight();
         self.stickyOffset = self._getStickyHeaderOffset();
@@ -426,26 +430,26 @@ spec products after a big resize</p>             </td>             <td class="co
           scrollTop = isIScroll ? iscroll.y * -<span class="number">1</span> : self.$window.scrollTop(),
           x, maxScrollX;
 
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Add/remove a class to show the items have been scrolled horizontally</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isIScroll ) {
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Add/remove a class to show the items have been scrolled horizontally</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isIScroll ) {
         x = iscroll.x;
         maxScrollX = iscroll.maxScrollX + <span class="number">3</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Overflow left</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( x &lt; -<span class="number">3</span> &amp;&amp; !self.$detailLabelsWrap.hasClass(<span class="string">'overflowing'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Overflow left</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( x &lt; -<span class="number">3</span> &amp;&amp; !self.$detailLabelsWrap.hasClass(<span class="string">'overflowing'</span>) ) {
           self.$detailLabelsWrap.addClass(<span class="string">'overflowing'</span>);
         } <span class="keyword">else</span> <span class="keyword">if</span> ( x &gt;= -<span class="number">3</span> &amp;&amp; self.$detailLabelsWrap.hasClass(<span class="string">'overflowing'</span>) ) {
           self.$detailLabelsWrap.removeClass(<span class="string">'overflowing'</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>Overflow right</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( x &gt; maxScrollX &amp;&amp; !self.$specItemsGrid.hasClass(<span class="string">'overflowing'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>Overflow right</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( x &gt; maxScrollX &amp;&amp; !self.$specItemsGrid.hasClass(<span class="string">'overflowing'</span>) ) {
           self.$specItemsGrid.addClass(<span class="string">'overflowing'</span>);
         } <span class="keyword">else</span> <span class="keyword">if</span> ( x &lt;= maxScrollX &amp;&amp; self.$specItemsGrid.hasClass(<span class="string">'overflowing'</span>) ) {
           self.$specItemsGrid.removeClass(<span class="string">'overflowing'</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>We haven't scrolled vertically, exit the function</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>We haven't scrolled vertically, exit the function</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>Open/close sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isIOS &amp;&amp; !self.isMobile &amp;&amp; scrollTop &gt;= self.stickyOffset.top &amp;&amp; scrollTop &lt;= self.stickyOffset.bottom ) {
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Open/close sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isIOS &amp;&amp; !self.isMobile &amp;&amp; scrollTop &gt;= self.stickyOffset.top &amp;&amp; scrollTop &lt;= self.stickyOffset.bottom ) {
         <span class="keyword">if</span> ( !self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
           self.$stickyHeaders.addClass(<span class="string">'open'</span>);
           self.$container.addClass(<span class="string">'sticky-header-open'</span>);
@@ -464,12 +468,12 @@ spec products after a big resize</p>             </td>             <td class="co
       }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Open the stick nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( scrollTop &gt;= self.stickyTriggerOffset ) {
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Open the stick nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( scrollTop &gt;= self.stickyTriggerOffset ) {
         <span class="keyword">if</span> ( !self.$stickyNav.hasClass(<span class="string">'open'</span>) ) {
           self.$stickyNav.addClass(<span class="string">'open'</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Close the sticky nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Close the sticky nav if it's past the trigger</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
         <span class="keyword">if</span> ( self.$stickyNav.hasClass(<span class="string">'open'</span>) ) {
           self.$stickyNav.removeClass(<span class="string">'open'</span>);
         }
@@ -510,7 +514,7 @@ spec products after a big resize</p>             </td>             <td class="co
           top = self.$specProducts.offset().top,
           bottom = self.$specProducts.height() + top;
 
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Factor in the height of the sticky nav and sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      bottom = bottom - self.stickyHeaderHeight - self.stickyNavHeight;
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>Factor in the height of the sticky nav and sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      bottom = bottom - self.stickyHeaderHeight - self.stickyNavHeight;
 
       <span class="keyword">return</span> {
         top: top,
@@ -520,13 +524,13 @@ spec products after a big resize</p>             </td>             <td class="co
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           spec = self.data(<span class="string">'spec'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>If we don't have a stored spec, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !spec ) {
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>If we don't have a stored spec, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !spec ) {
         spec = <span class="keyword">new</span> Spec( self, options );
         self.data( <span class="string">'spec'</span>, spec );
       }
@@ -538,11 +542,11 @@ spec products after a big resize</p>             </td>             <td class="co
   };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.options = {
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.options = {
     mobileBreakpoint : <span class="string">'(max-width: 35.4375em)'</span>
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.spec.settings = {
     isStickyTabs: <span class="literal">false</span>,
     isScroller: <span class="literal">false</span>,
     isMobile: <span class="literal">false</span>,
