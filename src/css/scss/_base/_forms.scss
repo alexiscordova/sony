@@ -729,7 +729,6 @@ legend + .control-group {
   }
 
   // Check box on hover
-  &:focus + label:before,
   &:hover + label:before {
     @include box-shadow(none);
     color: $defaultTextColor;
@@ -737,9 +736,13 @@ legend + .control-group {
   }
 
   // Check mark on hover
-  &:focus + label:after,
   &:hover + label:after {
     @include opacity(100);
+  }
+
+  // Check box on focus
+  &:focus + label:before {
+    outline: 1px solid $gray25;
   }
 
   // Check box on active

@@ -219,34 +219,32 @@
     },
 
     _generatePagination : function( pages ) {
+
       var self = this,
-          i = 0,
-          $elementToAppend = self.appendBulletsTo ? $(self.appendBulletsTo) : self.$el,
-          $bulletPagination,
-          clss, $li;
+          $elementToAppend = self.appendBulletsTo ? $(self.appendBulletsTo) : self.$el;
+
+      if ( !$.fn.sonyNavDots ) {
+        return;
+      }
 
       if ( self.$pagination ) {
-        self.$pagination.remove();
-      }
-
-      $bulletPagination = $('<ol/>', { 'class' : 'pagination-bullets on' });
-
-      // Create each nav bullet
-      for (i = 0 ; i < pages; i++) {
-        clss = i === 0 ? self.paginationClass + ' bullet-selected' : self.paginationClass;
-        $li = $('<li>', {
-          'class' : clss,
-          'data-index': i,
-          'click' : $.proxy( self.gotopage, self )
+        self.$pagination.sonyNavDots('reset', {
+          'buttonCount': pages
         });
-        $bulletPagination.append( $li );
+        return;
       }
 
-      // Append the nav bullets
-      $elementToAppend.append( $bulletPagination );
+      self.$pagination = $('<div/>', { 'class' : 'navigation-container' });
 
-      // Store reference
-      self.$pagination = $bulletPagination;
+      $elementToAppend.append( self.$pagination );
+
+      self.$pagination.sonyNavDots({
+        'buttonCount': pages
+      });
+
+      self.$pagination.on('SonyNavDots:clicked', function(e, a){
+        self.gotopage(a);
+      });
     },
 
     _generateNavPaddles : function() {
@@ -353,12 +351,9 @@
 
         // Update nav bullets
         if ( self.$pagination ) {
-          self.$pagination
-            .children()
-              .eq( self.currentPage )
-                .addClass('bullet-selected')
-              .siblings()
-                .removeClass('bullet-selected');
+          self.$pagination.sonyNavDots('reset', {
+            'activeButton': self.currentPage
+          });
         }
 
         // If they've defined a callback as well, call it
@@ -376,10 +371,16 @@
 
       // If we're not given a number of pages, calculate it based on the width of each item
       if ( !numPages ) {
-        // Count it
-        self.$el.find(self.itemElementSelector).each(function() {
-          contentWidth += Math.round($(this).outerWidth(true));
-        });
+        // They've given us a function that will retun the container width
+        if ( typeof self.getContentWidth === 'function' ) {
+          contentWidth = self.getContentWidth( self.$elements );
+
+        // Calculate it ourselves
+        } else {
+          self.$elements.each(function() {
+            contentWidth += Math.round($(this).outerWidth(true));
+          });
+        }
       } else {
         contentWidth = numPages * containerWidth;
       }

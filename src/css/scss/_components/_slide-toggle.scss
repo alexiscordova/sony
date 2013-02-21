@@ -14,26 +14,15 @@ $activeColor: $btnAltBackground;
     right: $btnAltSpecialPadding;
 
     // SHOULD BE GLOBAL
-    font-size: px-em( 16px, 13px );
+    margin-top: 3px;
+    // font-size: px-em( 16px, 13px );
+    font-size: 16px;
 
-    margin-top: 7px;
-    @include transition($transitionSlowish !important);
-  }
-
-  // Open state
-  .csstransforms & i {
-    @include rotate(180deg);
   }
 
   // Default state
   &.collapsed {
     background: $inactiveColor;
-  }
-
-  // Default state
-  .csstransforms &.collapsed i {
-    margin-top: 2px;
-    @include rotate(0deg);
   }
 }
 

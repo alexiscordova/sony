@@ -1075,7 +1075,7 @@
         , actualHeight
         , placement
         , tp
-        , arrowOffset = 0
+        , arrowOffset
 
       if (this.hasContent() && this.enabled) {
         $tip = this.tip()
@@ -1120,7 +1120,9 @@
             break
           case 'offsetright':
             tp = {top: pos.top - actualHeight, right: -arrowOffset, left: 'auto'}
-            arrowOffset && $tip.find('.arrow').css('right', arrowOffset)
+            if ( arrowOffset || arrowOffset === 0 ) {
+              $tip.find('.arrow').css('right', arrowOffset)
+            }
             break
           case 'left':
             tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}

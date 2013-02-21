@@ -8,8 +8,9 @@
 //pagination / bullets
 //.pagination-bullets-container {
 
-$bulletSize: px-em(10px);
+$bulletSize: px-em(12px);
 $bulletMargin: px-em(5px);
+
 .pagination-bullets {
   position: absolute;
   z-index: 35;
@@ -19,39 +20,32 @@ $bulletMargin: px-em(5px);
   margin: 0 auto;
   text-align: center;
   line-height: 1;
-  // overflow: hidden;
   opacity: 0;
   @include transition(opacity $transitionNormal);
 
   &.pagination-bullets-on,
   &.on {
     opacity: 1;
-  } // end .on
+  }
 
   .pagination-bullet {
-    // position: relative;
-    @include square( $bulletSize );
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
+    display: inline;
     margin-left: $bulletMargin;
-    border-radius: 50%;
-    background: $gray50;
+    color: $gray50;
     cursor: pointer;
+    font-size: $bulletSize;
     @include transition();
 
     &:first-child {
         margin-left: 0;
     }
-  } // end .pagination-bullet
-
+  }
 
   .pagination-bullet:hover,
   .bullet-selected {
-    background-color: $gray20;
-  } // end .bullet-selected
-
-} // end pagination-bullets
+    color: $gray20;
+  }
+}
 
 
 .nav-paddle {

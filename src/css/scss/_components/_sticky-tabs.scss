@@ -96,7 +96,9 @@ $tabHeight: px-em(98px);
     right: -1.5%;
   }
 
-  &.tab-carousel .tab-nav-btns {
+  // Only show tab nav buttons on devices without touch
+  // and when there is a tab carousel
+  .no-touch &.tab-carousel .tab-nav-btns {
     display: block;
   }
 

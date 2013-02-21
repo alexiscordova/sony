@@ -547,36 +547,37 @@
       },
 
       createNavigation: function(){
-        var self = this,
-        itemHTML = '';
 
-        self.controlNavEnabled = true;
-        self.$container.addClass('rp-with-bullets');
-        var out = '<ol class="rp-nav pagination-bullets on">';
-        for(var i = 0; i < self.numSlides; i++) {
-          itemHTML = '<li class="pagination-bullet" data-index="' +  i + '"></li>';
-          out += itemHTML;
+        var self = this;
+
+        if ( !$.fn.sonyNavDots ) {
+          return;
         }
-        out                  += '</ol>';
-        out                  = $(out);
-        self.controlNav      = out;
-        self.$bulletNav      = self.$el.find('.rp-nav');
-        self.controlNavItems = out.children();
-        self.$el.append(out);
 
-        self.$el.find('.pagination-bullet').on( self.tapOrClick() , function(e) {
-          var item = $(this);
+        if ( self.$pagination ) {
+          self.$pagination.sonyNavDots('reset', {
+            'buttonCount': self.numSlides
+          });
+          return;
+        }
 
+        self.$pagination = $('<div/>', { 'class' : 'navigation-container' });
 
-          if(item.length) {
-            self.currentId = item.data('index');
-            //console.log('clicked on ' , self.currentId);
-            self.moveTo();
-          }
+        self.$el.append( self.$pagination );
+
+        self.$pagination.sonyNavDots({
+          'buttonCount': self.numSlides
         });
 
-        self.onNavUpdate();
-        self.ev.on('rpOnUpdateNav' , $.proxy(self.onNavUpdate , self));
+        self.$pagination.on('SonyNavDots:clicked', function(e, a){
+          self.gotopage(a);
+        });
+
+        self.ev.on( 'rpOnUpdateNav', $.debounce(500, function() {
+          self.$pagination.sonyNavDots('reset', {
+            'activeButton': self.currentId
+          });
+        }));
       },
 
       setupPaddles: function(){
@@ -665,7 +666,7 @@
         }).first().data('shuffle');
 
 
-        
+
 
       },
 
@@ -877,6 +878,8 @@
 
             window.iQ.update();
 
+
+
             self.ev.trigger('ondesktopbreakpoint.rp');
 
           break;
@@ -989,20 +992,6 @@
         }
 
         self.setNameHeights(self.$shuffleContainers);
-
-      },
-
-      onNavUpdate: function(){
-        var self = this,
-        currItem = null;
-
-        if(self.prevNavItem) {
-          self.prevNavItem.removeClass('bullet-selected');
-        }
-
-        currItem = $(self.controlNavItems[self.currentId]);
-        currItem.addClass('bullet-selected');
-        self.prevNavItem = currItem;
 
       },
 
@@ -1427,7 +1416,7 @@
 
           //jQuery fallback
           animObj[ self.xProp ] = newPos;
-          
+
           self.$container.animate(animObj, self.animationSpeed);
 
         }else{
@@ -1787,7 +1776,7 @@
             //put the title plate at the beginning
             $s.prepend($plate);
           });
-        
+
           // 3. gather gallery items and save local reference - may need to set on self
           var $galleryItems = self.$el.find('.gallery-item').detach().addClass('small-size');
 
