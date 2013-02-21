@@ -41,7 +41,7 @@
         if (!vendor && (tempV + 'Transform') in tempStyle ) {
             vendor = tempV;
         }
-        tempV = tempV.toLowerCase(); 
+        tempV = tempV.toLowerCase();
       }
 
       var bT = vendor + (vendor ? 'T' : 't' ),
@@ -70,6 +70,7 @@
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
+      self.$html                 = $('html');
 
       self.vendorPrefix          = '-' + vendor.toLowerCase() + '-';
       self.ev                    = $({}); //event object
@@ -94,6 +95,15 @@
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
       self.paddlesEnabled        = false;
+      self.hasMediaQueries       = Modernizr.mediaqueries;
+      self.mq                    = Modernizr.mq;
+      self.oldIE                 = self.$html.hasClass('lt-ie8');
+
+      if( !self.hasMediaQueries && $('html').hasClass('lt-ie9') ){
+        self.mq = function(){
+          return false;
+        };
+      }
 
       if(self.variation !== undefined){
         self.variation = self.variation.split('-')[2];
@@ -172,12 +182,12 @@
         var gutter = 0,
             numColumns = 0;
 
-        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10') ) {
+        if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || $('html').hasClass('lt-ie10') ) {
           gutter = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
           numColumns = 5;
 
         // // Portrait Tablet ( 4 columns ) - masonry
-        } else if ( Modernizr.mq('(min-width: 567px)') ) {
+        } else if ( self.mq('(min-width: 567px)') ) {
           numColumns = 4;
           gutter = window.Exports.GUTTER_WIDTH_SLIM * containerWidth;
         // Between Portrait tablet and phone ( 3 columns )
@@ -195,11 +205,11 @@
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10')) {
+          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || $('html').hasClass('lt-ie10')) {
             column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 567px)') ) {
+          } else if ( self.mq('(min-width: 567px)') ) {
             column = window.Exports.COLUMN_WIDTH_SLIM * containerWidth;
           }else{
             column = containerWidth;
@@ -246,7 +256,6 @@
         var self = this;
 
         self.$paddles.hide();
-
         self.setupLinkClicks();
 
         // Don't do this for modes other than 3 and 4 up
@@ -256,29 +265,104 @@
 
         if(self.$slides.length > 1){
           self.createNavigation();
-
           if(!self.hasTouch){
             self.setupPaddles();
           }
-
           if(self.mode != 'strip'){
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           }
-
         }
-
         if(self.mode != 'strip'){
           self.setSortPriorities();
           self.setupResizeListener();
-
+          //self.log('rp - init');
           $(window).trigger('resize');
         }else {
-
           self.setupStripMode();
-
         }
+
+      },
+      setupResizeListener: function(){
+        var self = this,
+        resizeTimeout = null;
+
+        if(self.mode !== 'suggested'){
+          $(window).on('resize', function(){
+            if(!self.isMobileMode && self.$win.width() > 567) {
+
+             self.$galleryItems.css({
+               'visibility' : 'hidden',
+                'opacity' : 0
+              });
+
+             self.$el.addClass('redrawing');
+
+           }else{
+             self.$el.css({
+              'opacity' : 1,
+              'visibility' : 'visible'
+              });
+               self.$galleryItems.not('.blank').css({
+               'visibility' : 'visible',
+                'opacity' : 1
+              });
+
+              self.$el.removeClass('redrawing');
+           }
+
+          });
+        }
+
+    
+      $(window).on('resize', $.debounce(200 , function() {
+          self.checkForBreakpoints();
+          self.updateSliderSize();
+          self.updateSlides();
+          self.updatePaddles();
+
+          if(self.mode === 'suggested'){
+            return;
+          }
+
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(function(){
+
+            self.$shuffleContainers.each(function(){
+              var shfflInst = $(this).data('shuffle');
+
+              if(shfflInst === undefined){return;}
+
+              setTimeout(function(){
+                self.updateSliderSize();
+                self.updateTiles();
+                shfflInst.update();
+                self.animateTiles();
+
+               //self.log('done with resize');
+
+               //some test vars
+
+
+
+              } , 250);
+
+            });
+          } , 10);
+        }));
+
       },
 
+      log : function (){
+        var strOut = '';
+
+        for (var i = 0 ; i < arguments.length ; i ++){
+          strOut += arguments[i];
+          strOut += i > 0 ? ' , ' : '';
+        }
+
+        window.alert(strOut);
+
+      },
       setupStripMode: function(){
         var self = this;
 
@@ -614,7 +698,7 @@
 
       sortByPriority : function() {
         var self = this,
-            isTablet = Modernizr.mq('(min-width: 567px) and (max-width: 980px)');
+            isTablet = self.mq('(min-width: 567px) and (max-width: 980px)');
 
         if ( isTablet && !self.sorted ) {
 
@@ -654,7 +738,7 @@
 
 
         //if the browser doesnt support media queries...IE default to desktop
-        if(!Modernizr.mediaqueries || $('body').hasClass('lt-ie10')){
+        if(!Modernizr.mediaqueries || $('html').hasClass('lt-ie10')){
           view = 'desktop';
         }
 
@@ -848,6 +932,18 @@
 
       updateSliderSize: function(){
         var self = this;
+
+        //handle stuff for old IE
+        if(self.oldIE){
+
+          window.alert('old ie');
+
+          self.$el.css( 'height' , 680 + 'px' );
+
+
+          return;
+        }
+
 
         if(self.mode === 'suggested'){
           return;
@@ -1345,7 +1441,7 @@
             plateHeight = $plate.outerHeight(true),
             spaceAvail = wW - self.$el.find('.rp-slide').eq(0).width();
 
-        if ( Modernizr.mq('(min-width: 981px)') && hasPlate) {
+        if ( self.mq('(min-width: 981px)') && hasPlate) {
 
           self.$rightPaddle.css({
             top :  plateHeight,
@@ -1358,7 +1454,7 @@
             top :  plateHeight,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + 'px'
           });
-        }else if(Modernizr.mq('(min-width: 567px)') && hasPlate){
+        }else if(self.mq('(min-width: 567px)') && hasPlate){
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,
@@ -1375,71 +1471,11 @@
 
       },
 
-      setupResizeListener: function(){
-        var self = this,
-        resizeTimeout = null;
 
-        if(self.mode !== 'suggested'){
-          $(window).on('resize', function(){
-            if(!self.isMobileMode && self.$win.width() > 567) {
-
-             self.$galleryItems.css({
-               'visibility' : 'hidden',
-                'opacity' : 0
-              });
-
-             self.$el.addClass('redrawing');
-
-           }else{
-             self.$el.css({
-              'opacity' : 1,
-              'visibility' : 'visible'
-              });
-               self.$galleryItems.not('.blank').css({
-               'visibility' : 'visible',
-                'opacity' : 1
-              });
-
-              self.$el.removeClass('redrawing');
-           }
-
-          });
-        }
-
-        $(window).on('resize', $.debounce(100 , function() {
-          self.checkForBreakpoints();
-          self.updateSliderSize();
-          self.updateSlides();
-          self.updatePaddles();
-
-          if(self.mode === 'suggested'){
-            return;
-          }
-
-          clearTimeout(resizeTimeout);
-          resizeTimeout = setTimeout(function(){
-
-            self.$shuffleContainers.each(function(){
-              var shfflInst = $(this).data('shuffle');
-
-              if(shfflInst === undefined){return;}
-
-              setTimeout(function(){
-                self.updateSliderSize();
-                self.updateTiles();
-                shfflInst.update();
-                self.animateTiles();
-
-              } , 250);
-
-            });
-          } , 10);
-        }));
-      },
 
       updateTiles: function(){
         var self = this,
-        isFullView = Modernizr.mq('(min-width: 981px)') ? true : false,
+        isFullView = self.mq('(min-width: 981px)') ? true : false,
         $mediumTile = null,
         $normalTile = null,
         newHeight = 0,
