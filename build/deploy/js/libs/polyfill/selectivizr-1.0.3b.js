@@ -307,7 +307,7 @@ References:
               elm.className = cssClasses;
             }
           }
-        }, 1);
+        }, 0);
       })();
     }
   };
