@@ -16,6 +16,8 @@ SONY.Settings = (function(window, document, Modernizr) {
 
   self.isIPhone = (/iphone|ipod/gi).test(navigator.userAgent);
   self.isIOS = (/iphone|ipod|ipad/gi).test(navigator.userAgent);
+  self.isAndroid = (/android/gi).test(navigator.userAgent);
+  // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test(navigator.userAgent);
 
   self.hasTouchEvents = Modernizr.touch;
 
