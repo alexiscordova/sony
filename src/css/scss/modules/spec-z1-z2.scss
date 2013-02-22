@@ -398,6 +398,11 @@ ul.spec-views {
 
   .holder-for-icon {
     margin-bottom: 1.25em;
+
+    .fonticon-30-battery {
+      height: 22px;
+      display: block;
+    }
   }
 
   .mini-swatch {
@@ -405,12 +410,14 @@ ul.spec-views {
     border-radius: 1px;
   }
 
-  [class*="fonticon-60-"] {
-    font-size: 3.6em;
+  // Wifi icon is aligned to the top of its box, but the bluetooth isn't and it looks weird
+  .fonticon-30-wifi {
+    position: relative;
+    top: 4px;
   }
 
-  [class*="fonticon-60-"] + [class*="fonticon-60-"] {
-    margin-left: 10px;
+  .icon-group i + i {
+    margin-left: 20px;
   }
 }
 
@@ -595,13 +602,6 @@ ul.spec-views {
     height: 18px;
     margin-left: 14px;
     color: #00ADEF;
-
-    // Position the fonticon
-    &:before,
-    &:after {
-      position: relative;
-      top: -0.4em;
-    }
   }
 
   .sticky-tabs,
@@ -792,7 +792,7 @@ ul.spec-views {
     position: absolute;
     z-index: 20;
     top: 50%;
-    margin-top: -($navPaddleHeight / 2) - 2.875em; // also subtract the height of the bullets
+    margin-top: -($navPaddleHeight / 2) - (2.875em / 2); // also subtract the height+margin/2 of the bullets
   }
 
   .nav-paddle-prev {
@@ -859,34 +859,28 @@ ul.spec-views {
       vertical-align: middle;
     }
 
-    .fonticon-36-panorama:before {
+    .fonticon-40-panorama {
       position: relative;
-      top: -.1em;
+      // top: -5px;
+      top: px-em(-5, 64);
     }
 
-    .fonticon-36-face:before {
+    .fonticon-40-face {
       position: relative;
-      top: -.2em;
+      // top: -9px;
+      top: px-em(-9, 64);
     }
 
-    .fonticon-36-stability:before {
+    .fonticon-40-stability {
       position: relative;
-      top: -0.13em;
+      // top: -3px;
+      top: px-em(-3, 64);
     }
 
-    // .fonticon-30-intelligent-auto:before {
-    //   position: relative;
-    //   top: -.1em;
-    // }
-
-    // .fonticon-30-superior-auto:before {
-    //   position: relative;
-    //   top: -.1em;
-    // }
-
-    .fonticon-30-film-strip:before {
+    .fonticon-30-film-strip {
       position: relative;
-      top: -.1em;
+      // top: -7px;
+      top: px-em(-7, 48);
     }
   }
 }
@@ -894,11 +888,17 @@ ul.spec-views {
 // Carousel
 .spec-carousel-wrap {
   position: relative;
-  margin-top: (2.875em / 2); // bullets are 1em, margin-top is 1.875em
+  margin-top: (2.875em / 2); // bullets are 1em, margin-top of the bullets is 1.875em
   margin-left: $navPaddleWidth + 1.25em;
   margin-right: $navPaddleWidth + 1.25em;
   overflow: hidden;
-  max-width: 100%;
+
+  .lt-ie9 & {
+    // .span8 is 595
+    width: 482px;
+    height: 217px;
+    max-height: 400px;
+  }
 
   .spec-carousel {
     width: 175em;
@@ -910,8 +910,18 @@ ul.spec-views {
   }
 
   .slide {
-    text-align: center;
+    display: block;
     float: left;
+    // display: inline-block;
+
+    .lt-ie9 & {
+      width: 600px;
+    }
+
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
   }
 }
 

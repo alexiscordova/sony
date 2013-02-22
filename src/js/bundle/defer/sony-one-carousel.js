@@ -137,7 +137,7 @@
         self.yProp = 'top';
       }
 
-      SONY.on('global:resizeDebounced.soc', function(){
+      window.SONY.on('global:resizeDebounced.soc', function(){
         self.checkForBreakPoint();
         self.update();
         self.updateSlides();
@@ -155,7 +155,7 @@
       self.createNavigation();
       self.setupPaddles();
 
-      SONY.trigger('global:resizeDebounced.soc');
+      window.SONY.trigger('global:resizeDebounced.soc');
     };
 
     SonyOneCarousel.prototype = {
@@ -246,7 +246,7 @@
           self.$container.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
         }
 
-        self.moveTo();
+        //self.moveTo();
 
       },
       dragRelease: function(e){
@@ -334,7 +334,7 @@
             self.currentId = 0;
            }
           }
-          self.moveTo();
+          self.moveTo(false,v0);
         }else{
           //return to current
           returnToCurrent(true, v0);
@@ -443,18 +443,37 @@
         }
       },
 
-      moveTo: function(force){
+      moveTo: function(force , velocity){
         var self = this,
             newPos = -self.currentId * self.currentContainerWidth,
             $contentWrappers = self.$el.find('.soc-content'),
-            animObj = {};
+            animObj = {},
+            newDist = Math.abs(self.sPosition  - newPos);
 
-        $contentWrappers.css('z-index', '');
-        $contentWrappers.eq(self.currentId).css('z-index', 100);
+            
+        function getCorrectSpeed(newSpeed) {
+            if(newSpeed < 100) {
+                return 100;
+            } else if(newSpeed > 500) {
+                return 500;
+            }
+            return newSpeed;
+        }
+
+        self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
+
+        //window.console.log( self.currAnimSpeed );
+
+        if( isNaN(self.currAnimSpeed) ){
+          self.currAnimSpeed = self.animationSpeed;
+        }
+
+        //$contentWrappers.css('z-index', '');
+        ///$contentWrappers.eq(self.currentId).css('z-index', 100);
 
         if( self.currentId !== 0 ){
           self.$gridW = self.$el.find('.soc-grid' ).eq(0);
-          newPos -= (SONY.Settings.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
+          newPos -= (window.SONY.Settings.GUTTER_WIDTH_SLIM * self.$gridW.width()) * self.currentId;
         }
 
         if( self.isMobileMode === true ){
@@ -466,15 +485,26 @@
 
           //jQuery fallback
           animObj[ self.xProp ] = newPos + 'px';
-          self.$containerInner.animate(animObj, (force === true ? 10 : self.animationSpeed));
+          self.$containerInner.animate(animObj, (force === true ? 10 : self.currAnimSpeed));
 
         } else {
 
-          //css3 transition
-          animObj[ Modernizr.prefixed('transitionDuration') ] = (force === true ? 10 : self.animationSpeed) + 'ms';
-          animObj[ Modernizr.prefixed('transitionTimingFunction') ] = $.socCSS3Easing.easeOutBack;
 
-          self.$containerInner.css( animObj );
+
+          //css3 transition
+          animObj[ Modernizr.prefixed('transitionDuration') ] = (force === true ? 10 : self.currAnimSpeed) + 'ms';
+
+          //animObj[ Modernizr.prefixed('transitionTimingFunction') ] = $.socCSS3Easing.easeOutBack;
+
+          if(self.currAnimSpeed === self.animationSpeed){
+             window.console.log('Using easeOutBack ' , self.currAnimSpeed);
+            animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack; //default to normal
+          }else{
+            window.console.log('Using from iScroll' , self.currAnimSpeed);
+            animObj[ (self.vendorPrefix + self.TTF) ] = 'cubic-bezier(0.33,0.66,0.66,1)';
+          }
+
+          //self.$containerInner.css( animObj );
 
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
 
@@ -482,14 +512,15 @@
 
           //IQ Update
           self.$containerInner.one(self.transitionEndName, function(){
-            window.iQ.update();
+            //window.iQ.update();
+            self.ev.trigger('socOnUpdateNav');
           });
         }
 
         //update the overall position
         self.sPosition = self.currRenderPosition = newPos;
 
-        self.ev.trigger('socOnUpdateNav');
+        
       },
 
       update: function(){
@@ -647,7 +678,7 @@
         self.numSlides = self.$desktopSlides.length;
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
-        SONY.trigger('global:resizeDebounced.soc');
+        window.SONY.trigger('global:resizeDebounced.soc');
       },
 
       createTableSlides: function(lastView){
@@ -719,7 +750,7 @@
         self.numSlides = self.$tabletSlides.length;
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
-        SONY.trigger('global:resizeDebounced.soc');
+        window.SONY.trigger('global:resizeDebounced.soc');
       },
 
       createMobileSlides: function(lastView){
@@ -763,7 +794,7 @@
         self.numSlides = self.$mobileSlides.length;
         self.createNavigation();
         self.currentId = self.getCurrentSlideByItemId($lastItem);
-        SONY.trigger('global:resizeDebounced.soc');
+        window.SONY.trigger('global:resizeDebounced.soc');
       },
 
       createNavigation: function (){
@@ -886,7 +917,7 @@
 
           self.$desktopSlides.each(function(i){
             cw = self.$gridW.width();
-            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM * cw;
+            gutterWidth = window.SONY.Settings.GUTTER_WIDTH_SLIM * cw;
             if(i > 0){
               cw += gutterWidth;
             }
@@ -902,7 +933,7 @@
 
           self.$tabletSlides.each(function(i){
             cw = self.$gridW.width();
-            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM * cw;
+            gutterWidth = window.SONY.Settings.GUTTER_WIDTH_SLIM * cw;
 
             if( i > 0 ){
               cw += gutterWidth;
@@ -979,8 +1010,8 @@
       throttleTime: 250
     };
 
-    SONY.on('global:ready', function(){
-      var c = window.c = $('.sony-one-carousel').sonyOneCarousel({}).data('sonyOneCarousel');
+    window.SONY.on('global:ready', function(){
+      $('.sony-one-carousel').sonyOneCarousel({}).data('sonyOneCarousel');
     });
 
  })( jQuery, Modernizr, window, undefined );
