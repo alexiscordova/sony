@@ -792,7 +792,7 @@ ul.spec-views {
     position: absolute;
     z-index: 20;
     top: 50%;
-    margin-top: -($navPaddleHeight / 2) - 2.875em; // also subtract the height of the bullets
+    margin-top: -($navPaddleHeight / 2) - (2.875em / 2); // also subtract the height+margin/2 of the bullets
   }
 
   .nav-paddle-prev {
@@ -888,14 +888,17 @@ ul.spec-views {
 // Carousel
 .spec-carousel-wrap {
   position: relative;
-  margin-top: (2.875em / 2); // bullets are 1em, margin-top is 1.875em
+  margin-top: (2.875em / 2); // bullets are 1em, margin-top of the bullets is 1.875em
   margin-left: $navPaddleWidth + 1.25em;
   margin-right: $navPaddleWidth + 1.25em;
   overflow: hidden;
-  max-width: 100%;
 
-
-  // width: 100%;
+  .lt-ie9 & {
+    // .span8 is 595
+    width: 482px;
+    height: 217px;
+    max-height: 400px;
+  }
 
   .spec-carousel {
     width: 175em;

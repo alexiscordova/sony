@@ -382,15 +382,12 @@
         // Calculate it ourselves
         } else {
           self.$elements.each(function() {
-            console.log('image width:', $(this).find('img').outerWidth(true));
             contentWidth += Math.round($(this).outerWidth(true));
           });
         }
       } else {
         contentWidth = numPages * containerWidth;
       }
-
-      console.log('content width:', contentWidth);
 
       // Set it
       self.$contentContainer.css('width' , contentWidth );

@@ -170,32 +170,20 @@
           mode: 'carousel',
           contentSelector: '.spec-carousel',
           itemElementSelector: '.slide'
-        };
+        },
+        carouselHeight;
 
-        console.log('image loaded. Image height:', $firstImage.height() );
-
-
+        // Initialize scroller module. This will set the width of the carousel (among other things)
         self.$carouselWrap.scrollerModule( scrollerOpts );
 
-        self.$carousel.height( $firstImage.height() );
-        console.log('scroller init\'d. Image height:', $firstImage.height() );
+        carouselHeight = $firstImage.height();
+        // Set the height of the carousel
+        self.$carousel.height( carouselHeight );
       }
 
       // Wait for first image to be loaded,
       // then get its height and set it on the container, then initialize the scroller
-      $firstImage.on('imageLoaded', function() {
-
-        // Delay initialization of the scroller in IE8 and 7
-        // so that it gets a width for the image
-        // if ( self.isLessThanie9 ) {
-        //   console.log('less than ie9, delaying...');
-        //   setTimeout( initScroller, 1500 );
-        // } else {
-        //   initScroller();
-        // }
-        initScroller();
-
-      });
+      $firstImage.on('imageLoaded', initScroller );
     },
 
     _initJumpLinks : function() {
@@ -262,7 +250,6 @@
         // });
 
         // Set carousel height based on the new image height
-        console.log('resize image height:', $imgs.height());
         self.$carousel.height( $imgs.height() );
       }
 
