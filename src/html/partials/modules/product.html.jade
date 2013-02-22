@@ -346,7 +346,7 @@ else if data.view == 'specs'
             p.cell-label.l3
               strong= labels[i]
             .holder-for-icon
-              iconClass = 'icon-uibig-' + spec.icon
+              iconClass = 'fonticon-30-' + spec.icon
               i(class=iconClass)
             div
               span.t6-light= spec.callout.number
@@ -367,7 +367,7 @@ else if data.view == 'specs'
 
           .spec-cell-inner
             button.enlarge.js-enlarge
-              i.fonticon-20-zoom
+              i.fonticon-15-zoom
               span.l3
                 strong!= '&nbsp;' + spec.iconTitle
 
@@ -402,10 +402,11 @@ else if data.view == 'specs'
             p.cell-label.l3
               strong= labels[i]
 
-            if spec.icon1
-              i(class=spec.icon1)
-            if spec.icon2
-              i(class=spec.icon2)
+            .icon-group
+              if spec.icon1
+                i(class=spec.icon1)
+              if spec.icon2
+                i(class=spec.icon2)
             mixin specList( spec.list )
 
         else

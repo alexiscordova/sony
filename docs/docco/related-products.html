@@ -548,7 +548,8 @@
         });
 
         self.$pagination.on(<span class="string">'SonyNavDots:clicked'</span>, <span class="keyword">function</span>(e, a){
-          self.gotopage(a);
+          self.currentId = a;
+          self.moveTo();
         });
 
         self.ev.on( <span class="string">'rpOnUpdateNav'</span>, $.debounce(<span class="number">500</span>, <span class="keyword">function</span>() {
@@ -557,6 +558,8 @@
           });
         }));
       },
+
+
 
       setupPaddles: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self   = <span class="keyword">this</span>,
