@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = SONY.$window || $(window);
+    self.$window = SONY.$window;
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
@@ -45,7 +45,8 @@
     self.hasCarousels = self.$carousels.length > 0;
 
     // Other vars
-    self.windowSize = self.$window.width();
+    self.windowWidth = SONY.Settings.windowWidth;
+    self.windowHeight = SONY.Settings.windowHeight;
 
     self.$container.addClass('gallery-' + self.mode);
 
@@ -1093,16 +1094,21 @@
     },
 
     onResize : function( isInit ) {
-      var self = this;
-
-      if ( !self.enabled ) {
-        return;
-      }
+      var self = this,
+          windowWidth = self.$window.width(),
+          windowHeight = self.$window.height(),
+          hasWindowChanged = windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
       isInit = isInit === true;
 
-      // console.log('onResize:', self.id, ' - (iOS is triggering resizes when it shouldnt be)');
+      // Return if the window hasn't changed sizes or the gallery is disabled
+      if ( !isInit && (!self.enabled || !hasWindowChanged) ) {
+        return;
+      }
+
+      self.windowWidth = windowWidth;
+      self.windowHeight = windowHeight;
 
       // Don't change columns for detail galleries
       // Change the filters column layout

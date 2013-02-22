@@ -17,10 +17,20 @@ $tabHeight: px-em(98px);
     overflow: visible;
   }
 
+  // iScroll falls back to absolute positioning
+  .no-csstransforms & .grid {
+    position: relative;
+    height: $tabHeight;
+  }
+
   // Container for .tab's
   .tabs {
     z-index: 1;
     height: $tabHeight;
+
+    .no-csstransforms & {
+      overflow: hidden;
+    }
   }
 
   .tab {
