@@ -1,27 +1,27 @@
 /*
-selectivizr v1.0.3b - (c) Keith Clark, freely distributable under the terms 
+selectivizr v1.0.3b - (c) Keith Clark, freely distributable under the terms
 of the MIT license.
 
 selectivizr.com
 */
-/* 
-  
+/*
+
 Notes about this source
 -----------------------
 
  * The #DEBUG_START and #DEBUG_END comments are used to mark blocks of code
    that will be removed prior to building a final release version (using a
    pre-compression script)
-  
-  
+
+
 References:
 -----------
- 
+
  * CSS Syntax          : http://www.w3.org/TR/2003/WD-css3-syntax-20030813/#style
  * Selectors           : http://www.w3.org/TR/css3-selectors/#selectors
  * IE Compatability    : http://msdn.microsoft.com/en-us/library/cc351024(VS.85).aspx
  * W3C Selector Tests  : http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/html/tests/
- 
+
 */
 
 (function(win) {
@@ -55,10 +55,10 @@ References:
   var selectorEngines = {
     "NW"                : "*.Dom.select",
     "MooTools"              : "$$",
-    "DOMAssistant"            : "*.$", 
+    "DOMAssistant"            : "*.$",
     "Prototype"             : "$$",
     "YAHOO"               : "*.util.Selector.query",
-    "Sizzle"              : "*", 
+    "Sizzle"              : "*",
     "jQuery"              : "*",
     "dojo"                : "*.query"
   };
@@ -77,7 +77,7 @@ References:
   var RE_PSEUDO_STRUCTURAL        = /^:(empty|(first|last|only|nth(-last)?)-(child|of-type))$/;
   var RE_PSEUDO_ELEMENTS          = /:(:first-(?:line|letter))/g;
   var RE_SELECTOR_GROUP         = /((?:^|(?:\s*})+)(?:\s*@media[^{]+{)?)\s*([^\{]*?[\[:][^{]+)/g;
-  var RE_SELECTOR_PARSE         = /([ +~>])|(:[a-z-]+(?:\(.*?\)+)?)|(\[.*?\])/g; 
+  var RE_SELECTOR_PARSE         = /([ +~>])|(:[a-z-]+(?:\(.*?\)+)?)|(\[.*?\])/g;
   var RE_LIBRARY_INCOMPATIBLE_PSEUDOS   = /(:not\()?:(hover|enabled|disabled|focus|checked|target|active|visited|first-line|first-letter)\)?/g;
   var RE_PATCH_CLASS_NAME_REPLACE     = /[^\w-]/g;
 
@@ -106,12 +106,12 @@ References:
   // creates one or more patches for each matched selector.
   function patchStyleSheet( cssText ) {
     return cssText.replace(RE_PSEUDO_ELEMENTS, PLACEHOLDER_STRING).
-      replace(RE_SELECTOR_GROUP, function(m, prefix, selectorText) {  
+      replace(RE_SELECTOR_GROUP, function(m, prefix, selectorText) {
           var selectorGroups = selectorText.split(",");
           for (var c = 0, cs = selectorGroups.length; c < cs; c++) {
             var selector = normalizeSelectorWhitespace(selectorGroups[c]) + SPACE_STRING;
             var patches = [];
-            selectorGroups[c] = selector.replace(RE_SELECTOR_PARSE, 
+            selectorGroups[c] = selector.replace(RE_SELECTOR_PARSE,
               function(match, combinator, pseudo, attribute, index) {
                 if (combinator) {
                   if (patches.length>0) {
@@ -119,7 +119,7 @@ References:
                     patches = [];
                   }
                   return combinator;
-                }   
+                }
                 else {
                   var patch = (pseudo) ? patchPseudoClass( pseudo ) : patchAttribute( attribute );
                   if (patch) {
@@ -138,7 +138,7 @@ References:
   // --[ patchAttribute() ]-----------------------------------------------
   // returns a patch for an attribute selector.
   function patchAttribute( attr ) {
-    return (!BROKEN_ATTR_IMPLEMENTATIONS || BROKEN_ATTR_IMPLEMENTATIONS.test(attr)) ? 
+    return (!BROKEN_ATTR_IMPLEMENTATIONS || BROKEN_ATTR_IMPLEMENTATIONS.test(attr)) ?
       { className: createClassName(attr), applyClass: true } : null;
   };
 
@@ -152,7 +152,7 @@ References:
     var activateEventName;
     var deactivateEventName;
 
-    // if negated, remove :not() 
+    // if negated, remove :not()
     if (isNegated) {
       pseudo = pseudo.slice(5, -1);
     }
@@ -161,7 +161,7 @@ References:
     var bracketIndex = pseudo.indexOf("(")
     if (bracketIndex > -1) {
       pseudo = pseudo.substring(0, bracketIndex);
-    }   
+    }
 
     // check we're still dealing with a pseudo-class
     if (pseudo.charAt(0) == ":") {
@@ -177,7 +177,7 @@ References:
           // :target is only supported in IE8
           if (ieVersion == 8) {
             applyClass = function(e) {
-              var handler = function() { 
+              var handler = function() {
                 var hash = location.hash;
                 var hashID = hash.slice(1);
                 return isNegated ? (hash == EMPTY_STRING || e.id != hashID) : (hash != EMPTY_STRING && e.id == hashID);
@@ -192,12 +192,12 @@ References:
           return false;
 
         case "checked":
-          applyClass = function(e) { 
+          applyClass = function(e) {
             if (RE_INPUT_CHECKABLE_TYPES.test(e.type)) {
               addEvent( e, "propertychange", function() {
                 if (event.propertyName == "checked") {
                   toggleElementClass( e, className, e.checked !== isNegated );
-                }               
+                }
               })
             }
             return e.checked !== isNegated;
@@ -208,12 +208,12 @@ References:
           isNegated = !isNegated;
 
         case "enabled":
-          applyClass = function(e) { 
+          applyClass = function(e) {
             if (RE_INPUT_ELEMENTS.test(e.tagName)) {
               addEvent( e, "propertychange", function() {
                 if (event.propertyName == "$disabled") {
                   toggleElementClass( e, className, e.$disabled === isNegated );
-                } 
+                }
               });
               enabledWatchers.push(e);
               e.$disabled = e.disabled;
@@ -245,7 +245,7 @@ References:
 
         // everything else
         default:
-          // If we don't support this pseudo-class don't create 
+          // If we don't support this pseudo-class don't create
           // a patch for it
           if (!RE_PSEUDO_STRUCTURAL.test(pseudo)) {
             return false;
@@ -261,45 +261,54 @@ References:
     var elms, selectorText, patches, domSelectorText;
 
     for (var c=0; c<domPatches.length; c++) {
-      selectorText = domPatches[c].selector;
-      patches = domPatches[c].patches;
 
-      // Although some selector libraries can find :checked :enabled etc.
-      // we need to find all elements that could have that state because
-      // it can be changed by the user.
-      domSelectorText = selectorText.replace(RE_LIBRARY_INCOMPATIBLE_PSEUDOS, EMPTY_STRING);
+      (function(){
 
-      // If the dom selector equates to an empty string or ends with
-      // whitespace then we need to append a universal selector (*) to it.
-      if (domSelectorText == EMPTY_STRING || domSelectorText.charAt(domSelectorText.length - 1) == SPACE_STRING) {
-        domSelectorText += "*";
-      }
+        var iterator = c;
 
-      // Ensure we catch errors from the selector library
-      try {
-        elms = selectorMethod( domSelectorText );
-      } catch (ex) {
-        // #DEBUG_START
-        log( "Selector '" + selectorText + "' threw exception '" + ex + "'" );
-        // #DEBUG_END
-      }
+        setTimeout(function(){
+
+          selectorText = domPatches[iterator].selector;
+          patches = domPatches[iterator].patches;
+
+          // Although some selector libraries can find :checked :enabled etc.
+          // we need to find all elements that could have that state because
+          // it can be changed by the user.
+          domSelectorText = selectorText.replace(RE_LIBRARY_INCOMPATIBLE_PSEUDOS, EMPTY_STRING);
+
+          // If the dom selector equates to an empty string or ends with
+          // whitespace then we need to append a universal selector (*) to it.
+          if (domSelectorText == EMPTY_STRING || domSelectorText.charAt(domSelectorText.length - 1) == SPACE_STRING) {
+            domSelectorText += "*";
+          }
+
+          // Ensure we catch errors from the selector library
+          try {
+            elms = selectorMethod( domSelectorText );
+          } catch (ex) {
+            // #DEBUG_START
+            log( "Selector '" + selectorText + "' threw exception '" + ex + "'" );
+            // #DEBUG_END
+          }
 
 
-      if (elms) {
-        for (var d = 0, dl = elms.length; d < dl; d++) {
-          var elm = elms[d];
-          var cssClasses = elm.className;
-          for (var f = 0, fl = patches.length; f < fl; f++) {
-            var patch = patches[f];
-            if (!hasPatch(elm, patch)) {
-              if (patch.applyClass && (patch.applyClass === true || patch.applyClass(elm) === true)) {
-                cssClasses = toggleClass(cssClasses, patch.className, true );
+          if (elms) {
+            for (var d = 0, dl = elms.length; d < dl; d++) {
+              var elm = elms[d];
+              var cssClasses = elm.className;
+              for (var f = 0, fl = patches.length; f < fl; f++) {
+                var patch = patches[f];
+                if (!hasPatch(elm, patch)) {
+                  if (patch.applyClass && (patch.applyClass === true || patch.applyClass(elm) === true)) {
+                    cssClasses = toggleClass(cssClasses, patch.className, true );
+                  }
+                }
               }
+              elm.className = cssClasses;
             }
           }
-          elm.className = cssClasses;
-        }
-      }
+        }, 1);
+      })();
     }
   };
 
@@ -361,7 +370,7 @@ References:
   };
 
   // --[ toggleClass() ]--------------------------------------------------
-  // adds / removes a className from a string of classNames. Used to 
+  // adds / removes a className from a string of classNames. Used to
   // manage multiple class changes without forcing a DOM redraw
   function toggleClass( classList, className, on ) {
     var re = RegExp("(^|\\s)" + className + "(\\s|$)");
@@ -383,9 +392,9 @@ References:
     if (win.XMLHttpRequest) {
       return new XMLHttpRequest;
     }
-    try { 
+    try {
       return new ActiveXObject('Microsoft.XMLHTTP');
-    } catch(e) { 
+    } catch(e) {
       return null;
     }
   };
@@ -394,7 +403,7 @@ References:
   function loadStyleSheet( url ) {
     xhr.open("GET", url, false);
     xhr.send();
-    return (xhr.status==200) ? xhr.responseText : EMPTY_STRING; 
+    return (xhr.status==200) ? xhr.responseText : EMPTY_STRING;
   };
 
   // --[ resolveUrl() ]---------------------------------------------------
@@ -430,7 +439,7 @@ References:
     }
 
     // relative path
-    var contextUrlPath = contextUrl.split(/[?#]/)[0]; // ignore query string in the contextUrl  
+    var contextUrlPath = contextUrl.split(/[?#]/)[0]; // ignore query string in the contextUrl
     if (url.charAt(0) != "?" && contextUrlPath.charAt(contextUrlPath.length - 1) != "/") {
       contextUrlPath = contextUrlPath.substring(0, contextUrlPath.lastIndexOf("/") + 1);
     }
@@ -449,9 +458,9 @@ References:
         var cssText = parseStyleSheet(resolveUrl(importUrl || importUrl2, url));
         return (media) ? "@media " + media + " {" + cssText + "}" : cssText;
       }).
-      replace(RE_ASSET_URL, function( match, isBehavior, quoteChar, assetUrl ) { 
+      replace(RE_ASSET_URL, function( match, isBehavior, quoteChar, assetUrl ) {
         quoteChar = quoteChar || EMPTY_STRING;
-        return isBehavior ? match : " url(" + quoteChar + resolveUrl(assetUrl, url, true) + quoteChar + ") "; 
+        return isBehavior ? match : " url(" + quoteChar + resolveUrl(assetUrl, url, true) + quoteChar + ") ";
       });
     }
     return EMPTY_STRING;
@@ -475,8 +484,8 @@ References:
   function init() {
     applyPatches();
 
-    // :enabled & :disabled polling script (since we can't hook 
-    // onpropertychange event when an element is disabled) 
+    // :enabled & :disabled polling script (since we can't hook
+    // onpropertychange event when an element is disabled)
     if (enabledWatchers.length > 0) {
       setInterval( function() {
         for (var c = 0, cl = enabledWatchers.length; c < cl; c++) {
@@ -501,7 +510,7 @@ References:
   var baseUrl = (baseTags.length > 0) ? baseTags[0].href : doc.location.href;
   getStyleSheets();
 
-  // Bind selectivizr to the ContentLoaded event. 
+  // Bind selectivizr to the ContentLoaded event.
   ContentLoaded(win, function() {
     // Determine the "best fit" selector engine
     for (var engine in selectorEngines) {
