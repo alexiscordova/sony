@@ -58,6 +58,13 @@
       // as the container, then generate pagination for it.
       if ( self.isCarouselMode ) {
         self._setItemWidths();
+      }
+
+      // Set the width of the inner container
+      self._setContentWidth();
+
+      // If carousel mode and generate pagination is true or not given, make it.
+      if ( self.isCarouselMode && (self.generatePagination || self.generatePagination === undefined) ) {
         self._generatePagination( self.$elements.length );
       }
 
@@ -72,9 +79,6 @@
       if ( self.generateNav ) {
         self._generateNavPaddles();
       }
-
-      // Set the width of the inner container
-      self._setContainerWidth();
 
       // Register our resize handler before iscroll's
       self.$win.on(self.resizeEvent + self.unique, resizeFunc);
@@ -153,7 +157,7 @@
       containerWidth += self.extraSpacing;
 
       // Update the width again to the new width based on however many 'pages' there are now
-      self._setContainerWidth( numPages, containerWidth );
+      self._setContentWidth( numPages, containerWidth );
 
       //stop processing function /maybe hide paddles or UI?
       if ( numPages === 1 || availToFit > itemCount ) {
@@ -278,8 +282,8 @@
       }
 
       // We need to update the container's width
-      if ( self.isCarouselMode || self.isFreeMode ) {
-        self._setContainerWidth();
+      if ( !isInit && (self.isCarouselMode || self.isFreeMode) ) {
+        self._setContentWidth();
       }
 
       // When `isPaginated` or `isCarouselMode`, we're using iscroll, which needs to be updated.
@@ -365,7 +369,7 @@
       }
     },
 
-    _setContainerWidth : function( numPages, containerWidth ) {
+    _setContentWidth : function( numPages, containerWidth ) {
       var self = this,
           contentWidth = 0;
 
@@ -378,12 +382,15 @@
         // Calculate it ourselves
         } else {
           self.$elements.each(function() {
+            console.log('image width:', $(this).find('img').outerWidth(true));
             contentWidth += Math.round($(this).outerWidth(true));
           });
         }
       } else {
         contentWidth = numPages * containerWidth;
       }
+
+      console.log('content width:', contentWidth);
 
       // Set it
       self.$contentContainer.css('width' , contentWidth );
@@ -513,7 +520,7 @@
     prevSelector: '', // selector for previous paddle
     fitPerPage: null, // if content needs to be fixed per page
     centerItems: true, // centers items per page
-    generatePagination: false, // if bullet pagination is needed in mode = paginate,
+    generatePagination: undefined, // if bullet pagination is needed in mode = paginate,
     generateNav: undefined, // if left undefined, nav will be generated for carousel modes with no next/prev selectors
     appendBulletsTo: null, // option on where to place pagination bullets, if null defaults to self.$el
     appendNavOutside: true, // Outside the scroller ($el). You probably want this because the scroller has overflow:hidden

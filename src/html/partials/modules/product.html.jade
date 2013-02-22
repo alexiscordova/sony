@@ -423,9 +423,9 @@ else if data.view == 'single-spec'
             .span8.relative.ghost-center-wrap
               .ghost-center
                 .spec-carousel-wrap
-                  .spec-carousel
+                  .spec-carousel.clearfix
                     each img in spec.imgs
-                      .slide
+                      span.slide
                         mixin iQImage( img )
             .span3.offset1
               h6.t6-light.section-label= spec.label

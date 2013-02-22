@@ -19,6 +19,9 @@ SONY.Settings = (function(window, document, Modernizr) {
 
   self.hasTouchEvents = Modernizr.touch;
 
+  self.windowWidth = SONY.$window.width();
+  self.windowHeight = SONY.$window.height();
+
   self.shuffleEasing = 'ease-out';
   self.shuffleSpeed = 250;
 

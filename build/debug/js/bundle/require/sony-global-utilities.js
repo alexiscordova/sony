@@ -159,9 +159,19 @@ SONY.Utilities = (function(window, document) {
         SONY.trigger('global:resizeDebounced');
       });
 
+      // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
+      // IE Trigger's resize events if any elements dimensions change
       SONY.$window.on('resize', function(){
-        cachedFunctions.throttledResize();
-        cachedFunctions.debouncedResize();
+        var windowWidth = SONY.$window.width(),
+            windowHeight = SONY.$window.height();
+
+        if ( windowWidth !== SONY.Settings.windowWidth || windowHeight !== SONY.Settings.windowHeight ) {
+          SONY.Settings.windowWidth = windowWidth;
+          SONY.Settings.windowHeight = windowHeight;
+
+          cachedFunctions.throttledResize();
+          cachedFunctions.debouncedResize();
+        }
       });
 
     }

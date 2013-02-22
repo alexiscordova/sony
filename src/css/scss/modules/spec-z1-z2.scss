@@ -894,6 +894,9 @@ ul.spec-views {
   overflow: hidden;
   max-width: 100%;
 
+
+  // width: 100%;
+
   .spec-carousel {
     width: 175em;
   }
@@ -904,8 +907,18 @@ ul.spec-views {
   }
 
   .slide {
-    text-align: center;
+    display: block;
     float: left;
+    // display: inline-block;
+
+    .lt-ie9 & {
+      width: 600px;
+    }
+
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
   }
 }
 

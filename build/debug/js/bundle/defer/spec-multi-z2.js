@@ -541,9 +541,7 @@
         .find('.modal-body')
           .html( $specModalBody )
           .end()
-        .modal({
-          backdrop: false
-        });
+        .modal();
     },
 
     _setStickyHeaderPos : function( scrollTop ) {
