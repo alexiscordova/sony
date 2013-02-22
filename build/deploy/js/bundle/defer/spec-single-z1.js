@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = SONY.$window || $(window);
+    self.$window = SONY.$window;
     self._init();
   };
 
@@ -42,9 +42,9 @@
 
       self.$alignedBottomImgs = self.$alignedBottom.find('.iq-img');
 
-      if ( !Modernizr.mediaqueries ) {
-        Modernizr.mq = function() { return false; };
-      }
+      // if ( !Modernizr.mediaqueries ) {
+      //   Modernizr.mq = function() { return false; };
+      // }
 
       self._initCarousel();
 
@@ -53,10 +53,17 @@
 
       self._onResize( true );
 
-      self.$window.on('resize', $.debounce(350, $.proxy( self._onResize, self )));
+      // self.$window.on('resize', $.debounce(350, $.proxy( self._onResize, self )));
+      SONY.on('global:resizeDebounced', $.proxy( self._onResize, self ));
 
       // Push to the end of the stack cause it's not needed immediately.
       setTimeout(function() {
+
+        // Redraw table when images have loaded
+        var debouncedResize = $.debounce( 50, $.proxy( self._onResize, self) );
+        self.$specProduct.find('.iq-img').on( 'imageLoaded', debouncedResize );
+
+
         self._initStickyNav();
       }, 100);
     },
@@ -162,24 +169,27 @@
 
     _initCarousel : function() {
       var self = this,
-          $firstImage = self.$carousel.find(':first-child img'),
-          spanWidth = self.$carouselWrap.width();
+          $firstImage = self.$carousel.find(':first-child img');
 
-      self.$carousel.find('img').css({
-        maxWidth: spanWidth
-      });
-
-      // Wait for first image to be loaded,
-      // then get its height and set it on the container, then initialize the scroller
-      $firstImage.on('imageLoaded', function() {
-        self.$carousel.height( $firstImage.height() );
-
-        self.$carouselWrap.scrollerModule({
+      function initScroller() {
+        var scrollerOpts = {
           mode: 'carousel',
           contentSelector: '.spec-carousel',
           itemElementSelector: '.slide'
-        });
-      });
+        },
+        carouselHeight;
+
+        // Initialize scroller module. This will set the width of the carousel (among other things)
+        self.$carouselWrap.scrollerModule( scrollerOpts );
+
+        carouselHeight = $firstImage.height();
+        // Set the height of the carousel
+        self.$carousel.height( carouselHeight );
+      }
+
+      // Wait for first image to be loaded,
+      // then get its height and set it on the container, then initialize the scroller
+      $firstImage.on('imageLoaded', initScroller );
     },
 
     _initJumpLinks : function() {
@@ -228,25 +238,26 @@
       });
     },
 
-    _onResize : function( isFirst ) {
+    _onResize : function( evt ) {
       var self = this,
-          $imgs = self.$carousel.find('img');
+          $imgs = self.$carousel.find('img'),
+          isFirst;
 
       // isFirst can be the event object too
-      isFirst = isFirst === true;
+      isFirst = evt === true;
 
       if ( !isFirst ) {
 
         // Set max width equal to the container width
         // Don't remember why I do this instead of max-width:100%
-        $imgs.css({
-          maxWidth: self.$carouselWrap.width()
-        });
+        // console.log('setting max with on slide img of:', self.$carouselWrap.width());
+        // $imgs.css({
+        //   maxWidth: self.$carouselWrap.width()
+        // });
 
         // Set carousel height based on the new image height
         self.$carousel.height( $imgs.height() );
       }
-
 
       // If tablet or desktop, center the carousel
       if ( !Modernizr.mq( self.mobileBreakpoint ) ) {
@@ -302,7 +313,8 @@
   $.fn.specSingle.settings = {
     isStickyTabs: false,
     isScroller: false,
-    currentFeatureCols: null
+    currentFeatureCols: null,
+    isLessThanie9: !!document.attachEvent
   };
 
 

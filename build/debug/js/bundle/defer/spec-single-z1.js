@@ -58,6 +58,12 @@
 
       // Push to the end of the stack cause it's not needed immediately.
       setTimeout(function() {
+
+        // Redraw table when images have loaded
+        var debouncedResize = $.debounce( 50, $.proxy( self._onResize, self) );
+        self.$specProduct.find('.iq-img').on( 'imageLoaded', debouncedResize );
+
+
         self._initStickyNav();
       }, 100);
     },
@@ -232,13 +238,13 @@
       });
     },
 
-    _onResize : function( isFirst ) {
+    _onResize : function( evt ) {
       var self = this,
-          $imgs = self.$carousel.find('img');
+          $imgs = self.$carousel.find('img'),
+          isFirst;
 
       // isFirst can be the event object too
-      isFirst = isFirst === true;
-
+      isFirst = evt === true;
 
       if ( !isFirst ) {
 
