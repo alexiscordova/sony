@@ -570,7 +570,8 @@
         });
 
         self.$pagination.on('SonyNavDots:clicked', function(e, a){
-          self.gotopage(a);
+          self.currentId = a;
+          self.moveTo();
         });
 
         self.ev.on( 'rpOnUpdateNav', $.debounce(500, function() {
@@ -579,6 +580,8 @@
           });
         }));
       },
+
+
 
       setupPaddles: function(){
         var self   = this,
