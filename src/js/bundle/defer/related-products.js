@@ -85,7 +85,7 @@
       self.previousId            = -1;
       self.currentId             = 0;
       self.slidePosition         = 0;
-      self.animationSpeed        = 1000;
+      self.animationSpeed        = 700;
       self.slides                = [];
       self.slideCount            = self.$slides.length;
       self.currentContainerWidth = 0;
@@ -246,7 +246,7 @@
               destination = $this.attr('href');
 
           if ( self.startInteractionTime ) {
-            if ((new Date().getTime()) - self.startInteractionTime < 250) {
+            if ((new Date().getTime()) - self.startInteractionTime < 50) {
               window.location = destination;
             }
           }
@@ -1106,7 +1106,7 @@
           self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
         }
 
-        self.moveTo();
+        //self.moveTo();
 
       },
 
@@ -1166,11 +1166,12 @@
 
       setPosition: function(posi) {
 
-        window.iQ.update();
+        //window.iQ.update();
 
         var self = this,
             pos = self.sPosition = posi;
 
+        //using transforms
         if(self.useCSS3Transitions) {
           var animObj                              = {};
           animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
@@ -1178,6 +1179,8 @@
           self.$container.css(animObj);
 
         } else {
+
+          //using left
           self.$container.css(self.xProp, pos);
         }
       },
@@ -1277,7 +1280,7 @@
             self.currentId = 0;
            }
           }
-          self.moveTo();
+          self.moveTo(v0);
         }else{
           //return to current
           returnToCurrent(true, v0);
@@ -1402,12 +1405,31 @@
 
       },
 
-      moveTo: function(type,  speed, inOutEasing, userAction, fromSwipe){
+      moveTo: function(velocity, type,  speed, inOutEasing, userAction, fromSwipe){
             var self = this,
             newPos   = -self.currentId * self.currentContainerWidth,
             diff,
             newId,
-            animObj  = {};
+            animObj  = {},
+            newDist = Math.abs(self.sPosition  - newPos);
+
+            
+            function getCorrectSpeed(newSpeed) {
+                if(newSpeed < 100) {
+                    return 100;
+                } else if(newSpeed > 500) {
+                    return 500;
+                }
+                return newSpeed;
+            }
+
+            self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
+
+            window.console.log( self.currAnimSpeed );
+
+            if( isNaN(self.currAnimSpeed) ){
+              self.currAnimSpeed = self.animationSpeed;
+            }
 
             var a = ($(window).width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
@@ -1420,14 +1442,22 @@
           //jQuery fallback
           animObj[ self.xProp ] = newPos;
 
-          self.$container.animate(animObj, self.animationSpeed);
+          self.$container.animate(animObj, self.currAnimSpeed);
 
         }else{
 
           //css3 transition
-          animObj[ (self.vendorPrefix + self.TD) ]  = self.animationSpeed + 'ms';
-          animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack;
+          animObj[ (self.vendorPrefix + self.TD) ]  = self.currAnimSpeed + 'ms';
 
+          if(self.currAnimSpeed === self.animationSpeed){
+            animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack; //default to normal
+            window.console.log('using default animation , ease out back');
+          }else{
+            animObj[ (self.vendorPrefix + self.TTF) ] = 'cubic-bezier(0.33,0.66,0.66,1)';
+             window.console.log('using FAST animation , from iScroll Tossing');
+          }
+
+        
           self.$container.css( animObj );
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
