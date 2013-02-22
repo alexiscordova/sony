@@ -111,7 +111,7 @@
       left: 0;
       bottom: 0;
       right: 0;
-      background: url(../img/loader.gif) no-repeat; 
+      background: url(../../img/loader.gif) no-repeat; 
     }
 
     &.strip {
@@ -138,6 +138,11 @@
 
     .shuffle-container {
       max-width: 1020px;
+
+      .lt-ie9 & {
+        max-width: 1190px; 
+      }
+
 
       &.slimgrid5 {
         width: 91.89189%;
@@ -387,7 +392,58 @@
       \____/_/  |_/_____/_____/_____/_/ |_| /_/  /___/ /_/ /_____/_/  /_/   
                                                                              */
     .GALLERYITEM{}
+
+      /*
+        var $item        = $(this),
+        $itemImg         = $item.find('.product-img'),
+        tileHeight       = 285,
+        galItemWidth     = 177,
+        galImageHeight   = 190,
+        medGalImgWidth   = 462,
+        medGalImgHeight  = 495,
+        medGalItemHeight = 600;
+      */
+
+
+
       .gallery-item {
+
+        .lt-ie9 & {
+
+          &.normal {
+            width: 219px;
+            min-width: 219px;
+            max-width: 219px;
+
+            height: 285px;
+            max-height: 285px;
+            max-width: 285px;
+          }
+
+          &.medium {
+            width: 462px;
+            min-width: 462px;
+            max-width: 462px;
+
+            height: 600px;
+            max-height: 600px;
+            max-width: 600px;         
+          }
+
+          &.plate {
+            width: 462px;
+            min-width: 462px;
+            max-width: 462px;
+
+            height: 285px;
+            max-height: 285px;
+            max-width: 285px;   
+
+
+          }
+
+        }
+
         &.blank {
           @include opacity(0);
           visibility: hidden;
@@ -432,8 +488,7 @@
             background-color: $white;
             color: $gray10;
 
-          } 
-
+          }
         }
         
       }
@@ -481,7 +536,7 @@
 
       .gallery-item.plate .text-promo-title {
         position: absolute;
-        font-size: inherit;
+        font-size: 1.0em;
         height: 100%;
         padding:  7.5% 7.5% 9.5% 9.5%; 
 
@@ -830,6 +885,9 @@
       /____/_/_/\__,_/\___/____/         
    */
     .RPSLIDES{}
+
+
+
       .rp-slide {
         position: absolute;
         left: 0;
@@ -838,6 +896,20 @@
         height: 100%;
         
         width: 85.06122%;
+
+        .lt-ie9 & {
+          min-width: 1190px;
+          max-width: 1190px;
+          width: 1190px;
+
+          height: 660px;
+          min-height: 660px;
+          max-height: 660px;
+
+          //background: yellow;
+        }
+
+
         overflow: hidden;
 
         @media (max-width: px-em(1199px)){
