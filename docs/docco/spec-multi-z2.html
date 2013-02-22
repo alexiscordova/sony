@@ -449,7 +449,7 @@ spec products after a big resize</p>             </td>             <td class="co
 </pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>We haven't scrolled vertically, exit the function</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Open/close sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isIOS &amp;&amp; !self.isMobile &amp;&amp; scrollTop &gt;= self.stickyOffset.top &amp;&amp; scrollTop &lt;= self.stickyOffset.bottom ) {
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Open/close sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.hasTouchEvents &amp;&amp; !self.isMobile &amp;&amp; scrollTop &gt;= self.stickyOffset.top &amp;&amp; scrollTop &lt;= self.stickyOffset.bottom ) {
         <span class="keyword">if</span> ( !self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
           self.$stickyHeaders.addClass(<span class="string">'open'</span>);
           self.$container.addClass(<span class="string">'sticky-header-open'</span>);
@@ -459,7 +459,7 @@ spec products after a big resize</p>             </td>             <td class="co
         self._setStickyHeaderPos( scrollTop - self.stickyOffset.top + self.stickyNavHeight );
 
       } <span class="keyword">else</span> {
-        <span class="keyword">if</span> ( !self.isIOS &amp;&amp; self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
+        <span class="keyword">if</span> ( !self.hasTouchEvents &amp;&amp; self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
           self.$container.removeClass(<span class="string">'sticky-header-open'</span>);
           self.$stickyHeaders.removeClass(<span class="string">'open'</span>);
           self.$navContainer.removeClass(<span class="string">'container'</span>);
@@ -493,9 +493,7 @@ spec products after a big resize</p>             </td>             <td class="co
         .find(<span class="string">'.modal-body'</span>)
           .html( $specModalBody )
           .end()
-        .modal({
-          backdrop: <span class="literal">false</span>
-        });
+        .modal();
     },
 
     _setStickyHeaderPos : <span class="keyword">function</span>( scrollTop ) {
@@ -550,7 +548,7 @@ spec products after a big resize</p>             </td>             <td class="co
     isStickyTabs: <span class="literal">false</span>,
     isScroller: <span class="literal">false</span>,
     isMobile: <span class="literal">false</span>,
-    isIOS: SONY.Settings.isIOS
+    hasTouchEvents: SONY.Settings.hasTouchEvents
   };
 
 

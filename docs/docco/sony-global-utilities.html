@@ -147,9 +147,18 @@ https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <
         SONY.trigger(<span class="string">'global:resizeDebounced'</span>);
       });
 
-      SONY.$window.on(<span class="string">'resize'</span>, <span class="keyword">function</span>(){
-        cachedFunctions.throttledResize();
-        cachedFunctions.debouncedResize();
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
+IE Trigger's resize events if any elements dimensions change</p>             </td>             <td class="code">               <div class="highlight"><pre>      SONY.$window.on(<span class="string">'resize'</span>, <span class="keyword">function</span>(){
+        <span class="keyword">var</span> windowWidth = SONY.$window.width(),
+            windowHeight = SONY.$window.height();
+
+        <span class="keyword">if</span> ( windowWidth !== SONY.Settings.windowWidth || windowHeight !== SONY.Settings.windowHeight ) {
+          SONY.Settings.windowWidth = windowWidth;
+          SONY.Settings.windowHeight = windowHeight;
+
+          cachedFunctions.throttledResize();
+          cachedFunctions.debouncedResize();
+        }
       });
 
     }

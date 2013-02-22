@@ -495,7 +495,7 @@
       }
 
       // Open/close sticky headers
-      if ( !self.isIOS && !self.isMobile && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
+      if ( !self.hasTouchEvents && !self.isMobile && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
         if ( !self.$stickyHeaders.hasClass('open') ) {
           self.$stickyHeaders.addClass('open');
           self.$container.addClass('sticky-header-open');
@@ -505,7 +505,7 @@
         self._setStickyHeaderPos( scrollTop - self.stickyOffset.top + self.stickyNavHeight );
 
       } else {
-        if ( !self.isIOS && self.$stickyHeaders.hasClass('open') ) {
+        if ( !self.hasTouchEvents && self.$stickyHeaders.hasClass('open') ) {
           self.$container.removeClass('sticky-header-open');
           self.$stickyHeaders.removeClass('open');
           self.$navContainer.removeClass('container');
@@ -541,9 +541,7 @@
         .find('.modal-body')
           .html( $specModalBody )
           .end()
-        .modal({
-          backdrop: false
-        });
+        .modal();
     },
 
     _setStickyHeaderPos : function( scrollTop ) {
@@ -603,7 +601,7 @@
     isStickyTabs: false,
     isScroller: false,
     isMobile: false,
-    isIOS: SONY.Settings.isIOS
+    hasTouchEvents: SONY.Settings.hasTouchEvents
   };
 
 
