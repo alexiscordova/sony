@@ -460,9 +460,8 @@ else if data.view == 'single-spec'
             h6.t6-light.section-label= spec.label
           .span3
             mixin definitionList( spec.definitionList )
-          .span6.has-img.ghost-center-wrap
-            .ghost-center.v-bottom
-              mixin iQImage( spec.img )
+          .span6.has-img
+            mixin iQImage( spec.img )
 
     else if spec.definitionList && spec.img
       section.container
