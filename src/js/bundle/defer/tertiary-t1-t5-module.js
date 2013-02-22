@@ -23,17 +23,20 @@
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
+      // Cached 
       self.$container              = $( element );
       self.containerId             = '#' + self.$container.attr("id");
       self.$el                     = self.$container.find(".tcc-scroller");
       self.$win                    = $( window );
       self.$doc                    = $( window.document );
       self.ev                      = $( {} ); //event object
+
       self.isTouch                 = Modernizr.touch;
       self.isLayoutHidden          = false;
       
       self.mode                    = null;
       self.prevMode                = null;
+      self.$scrollerInstance       = null;              
       
       self.contentModulesClass     = '.tcc-content-module';
       self.contentSelectorClass    = '.tcc-body';
@@ -44,19 +47,18 @@
       self.$contentModules         = self.$el.find(self.contentModulesClass);
       self.$hideShowEls            = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
       self.$loader                 = self.$container.find(".loader");
+      
+      self.debounce                = $.debounce;
 
-      self.$scrollerInstance       = null;
-               
       self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-      self.resizeThrottle          = function(){self.handleResize();};
-      
-      self.hasTouch                = 'ontouchstart' in window || 'createTouch' in self.$doc ? true : false;
-      self.tapOrClick              = function(){return self.hasTouch ? 'touchend' : 'click';};
-      
+      self.resizeFunc              = $.proxy( self.onResizeTcc, self ); // function(){self.onResizeTcc();};
+      self.beforeResizeFunc        = $.proxy( self.beforeResize, self ); // function(){self.handleResize();};
+      self.afterResizeFunc         = $.proxy( self.afterResize, self ); // function(){self.handleResize();};
+     
       self.sequencerSpeed          = 250;
       self.hideShowSpeed           = 250;
       self.debounceSpeed           = 300;
-      
+     
       self.phoneBreakpoint         = 479;
       self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
       self.tabletBreakpointMax     = 768;
@@ -76,8 +78,18 @@
       //    }
       // });
 
+      //self.$win.on(self.resizeEvent + '.tcc', self.throttle(self.debounceSpeed, self.resizeFunc));     
+
+      // Get debounced versions of our resize methods
+
+      // define before 
+      self.debouncedBeforeResize = self.debounce ? self.debounce( self.debounceSpeed, true, self.beforeResizeFunc ) : self.beforeResizeFunc;
+      
       // define resize listener, debounced
-      self.$win.on(self.resizeEvent + '.tcc', $.debounce(self.debounceSpeed, self.resizeThrottle));     
+      self.debouncedResize = self.debounce ? self.debounce( self.debounceSpeed, self.afterResizeFunc ) : self.afterResizeFunc; 
+
+      // listen
+      self.$win.on(self.resizeEvent + '.tcc', self.resizeFunc); 
 
       // start it
       self.init();
@@ -120,10 +132,10 @@
           setupSequence.add( self, self.adjustMargins, self.sequencerSpeed ); 
         }
 
-        // if(self.isLayoutHidden){
-        //   // show contents again after transition
-        //   setupSequence.add( self, self.showAll, self.sequencerSpeed + 500);       
-        // }
+        if(self.isLayoutHidden){
+          // show contents again after transition
+          setupSequence.add( self, self.showAll, self.sequencerSpeed);       
+        }
 
         // start sequence
         setupSequence.start();
@@ -136,19 +148,13 @@
 
         //teardown sequence
         if((self.mode === 'desktop') && (self.prevMode != 'desktop')){
-          // if it's desktop remove scroller-specific style attributes
-          teardownSequence.add( self, self.removeStyleAttr, self.sequencerSpeed ); 
+          // for desktop clear out width
+          teardownSequence.add( self, self.clearContentWidth, self.sequencerSpeed ); 
         }
         
         // destroy scroller instance
         teardownSequence.add( self, self.destroyScroller, self.sequencerSpeed ); 
-
-        // reset iq
-        teardownSequence.add( self, self.updateIQ, self.sequencerSpeed ); 
-
-        // set mode
-        //teardownSequence.add( self, self.setMode, self.sequencerSpeed );
-        
+       
         // start sequence
         teardownSequence.start();
       },
@@ -196,13 +202,6 @@
         self.$loader.hide();
       },
 
-      // reload images for iQ
-      updateIQ : function(){
-        var self = this;
-        //window.iQ.update();   
-        iQ.update(true);
-      },
-
       // hide $elements: opacity & visibility 
       hideElements : function(){
         var self  = this,
@@ -248,15 +247,11 @@
       },
 
       // clean up residual style elements after teardown
-      removeStyleAttr : function(){
-        var self  = this,
-            $elements = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);        
-        
-        //$elements.removeAttr('style'); 
-        //$elements.removeAttr('width'); 
-        $elements.css('width',''); 
-        //self.$contentModules.removeAttr('width'); 
-        //self.$contentModules.removeAttr('style'); 
+      clearContentWidth : function(){
+        var self  = this;
+  
+        // clear out content module widths to be responsive
+        self.$contentModules.css('width',''); 
       },
 
       // set scroller options to be passed to sony-scroller
@@ -321,7 +316,6 @@
         $elements.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
-
       },
 
       // checks $elements for specific content type:mode
@@ -369,42 +363,102 @@
         });
       },
 
-      // on resize event (debounced) determine what to do
-      handleResize : function(){
-        var self = this;
+
+      onResizeTcc : function(  ){
+        // console.log( '««« onResizeTcc »»»' );
+        var self = this;        
         
+        // This should execute the first time onResize is called
+        self.debouncedBeforeResize();
+
+        // This should execute the last time onResize is called
+        self.debouncedResize();
+      },
+
+
+      beforeResize : function(  ){
+        // console.log( '««« beforeResize »»»' );
+        var self = this;
+
+        self.reportMode("beforeResize");
+
+         // if we're in mobile entering desktop  
+        // or if we're in desktop entering mobile
+        // or if we're in tablet entering phone or phone entering tablet
+        if (((self.mode === 'desktop') && (self.prevMode != 'desktop')) || ((self.mode != 'desktop') && (self.prevMode === 'desktop')) || ((self.mode != 'desktop') && (self.prevMode != 'desktop'))){
+            
+            // trigger hide sequence
+            self.hideAll();            
+         }              
+      },
+
+      // on resize event (debounced) determine what to do
+      afterResize : function(){
+        var self = this,
+            resizeMobileSequencer = new Sequencer();
+
         // update mode at current break point
         self.setMode(); 
 
-        // if the mode is 'phone' or 'tablet' (aka mobile) then proceed
-        if( self.mode !== 'desktop' ){
-          
-          var resizeMobileSequencer = new Sequencer();
+        self.reportMode("afterResize");
 
-          // if there's a scroller set up, add teardown method to the sequence (reset)
-          if( self.$scrollerInstance !== null ) {
-            resizeMobileSequencer.add( self, self.teardown, self.sequencerSpeed ); // teardown
+        // what direction are we going?
+        if((self.mode != 'desktop') && (self.prevMode === 'desktop')){
+          // from desktop to mobile
+          
+          // build new (assumes there's no scroller instance)
+          resizeMobileSequencer.add( self, self.setup, self.sequencerSpeed);
+
+        }else if ((self.mode != 'desktop') && (self.prevMode != 'desktop')){
+          // from mobile to mobile
+
+          // teardown 
+          if(self.$scrollerInstance){
+            resizeMobileSequencer.add( self, self.teardown, self.sequencerSpeed );
           }
 
-          // create a new scroller
-          resizeMobileSequencer.add( self, self.setup, self.sequencerSpeed + 100 );
-          
-          // start sequence
-          resizeMobileSequencer.start();
-          
-        }else{        
-  
-          // if mode is now 'desktop' then simply destroy scroller if there is one
-          if( self.$scrollerInstance !== null ){        
-            self.teardown();
-            
-            // if(self.isLayoutHidden){
-            //   // show contents again
-            //   self.showAll();
-            // }
+          // build new scroller instance (assumes there's no scroller instance)
+          resizeMobileSequencer.add( self, self.setup, self.sequencerSpeed);
 
+        }else if((self.mode === 'desktop') && (self.prevMode != 'desktop')){
+          // from mobile to desktop
+          
+          // teardown 
+          if(self.$scrollerInstance){
+            resizeMobileSequencer.add( self, self.teardown, self.sequencerSpeed );
           }
+
         }
+
+        resizeMobileSequencer.add( self, self.showAll, self.sequencerSpeed);
+
+        // start sequence
+        resizeMobileSequencer.start();
+
+              
+        // // if the mode is 'phone' or 'tablet' (aka mobile) then proceed
+        // if( self.mode !== 'desktop' ){
+          
+        //   var resizeMobileSequencer = new Sequencer();
+
+        //   // if there's a scroller set up, add teardown method to the sequence (reset)
+        //   if( self.$scrollerInstance !== null ) {
+        //     resizeMobileSequencer.add( self, self.teardown, self.sequencerSpeed ); // teardown
+        //   }
+
+        //   // create a new scroller
+        //   resizeMobileSequencer.add( self, self.setup, self.sequencerSpeed + 100 );
+          
+        //   // start sequence
+        //   resizeMobileSequencer.start();
+          
+        // }else{        
+  
+        //   // if mode is now 'desktop' then simply destroy scroller if there is one
+        //   if( self.$scrollerInstance !== null ){        
+        //     self.teardown();            
+        //   }
+        // }
       },
 
       // set mode based on current breakpoint
@@ -425,14 +479,24 @@
         }
 
         if(self.prevMode === null){
+          // handle init
           self.prevMode = self.mode;
         }
+      },
 
-        console.log( '=========== »');
+      reportMode : function( methodName ){
+        var self = this,
+            loc = methodName || null;
+
+        console.log( '======= at', loc ,' ============');
         console.log( 'self.mode »' , self.mode);
         console.log( 'self.prevMode »' , self.prevMode);
+        console.log( '=================================');
       }
+
     };
+
+   
 
     // Plugin definition
     $.fn.tertiaryModule = function( options ) {
