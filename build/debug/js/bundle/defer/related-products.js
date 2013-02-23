@@ -3,8 +3,8 @@
 //
 // * **Class:** RelatedProducts
 // * **Version:** 0.1
-// * **Modified:** 02/08/2013
-// * **Author:** Tyler Madison , Glen Cheney
+// * **Modified:** 02/22/2013
+// * **Author:** Tyler Madison, Glen Cheney, George Pantazis
 // * **Dependencies:** jQuery 1.7+ , Modernizr
 //
 // *Notes:*
@@ -18,25 +18,24 @@
 
     'use strict';
 
+    //Define Related Products plugins object
     if(!$.rpModules) {
         $.rpModules = {};
     }
 
-    //start module
+    //Related Products Definition
     var RelatedProducts = function(element, options){
-      var self      = this,
-      ua            = navigator.userAgent.toLowerCase();
-
+      var self           = this,
+      transEndEventNames = {
+        'WebkitTransition' : 'webkitTransitionEnd',
+        'MozTransition'    : 'transitionend',
+        'OTransition'      : 'oTransitionEnd',
+        'msTransition'     : 'MSTransitionEnd',
+        'transition'       : 'transitionend'};
+      
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
-      var transEndEventNames = {
-          'WebkitTransition' : 'webkitTransitionEnd',
-          'MozTransition'    : 'transitionend',
-          'OTransition'      : 'oTransitionEnd',
-          'msTransition'     : 'MSTransitionEnd',
-          'transition'       : 'transitionend'
-      };
-
+      //Detect if we can use CSS3 transitions
       self.useCSS3Transitions = Modernizr.csstransitions;
 
       if(self.useCSS3Transitions) {
@@ -44,7 +43,6 @@
       }
 
       self.DEBUG                 = true;
-
 
       self.LANDSCAPE_BREAKPOINT  = 980;
       self.MOBILE_BREAKPOINT     = 567;
@@ -58,9 +56,9 @@
       self.$container            = self.$el.find('.rp-container').eq(0);
       self.$tabbedContainer      = self.$el.parent();
       self.$bulletNav            = $();
-      self.$doc                  = $(document);
-      self.$win                  = $(window);
-      self.$html                 = $('html');
+      self.$doc                  = SONY.$document;
+      self.$win                  = SONY.$window;
+      self.$html                 = SONY.$html;
 
       self.ev                    = $({}); //event object
       self.prefixed              = Modernizr.prefixed;
@@ -131,16 +129,6 @@
       } else {
           self.hasTouch = false;
           self.lastItemFriction = 0.2;
-
-/*          if (browser.msie || browser.opera) {
-            self.grabCursor = self.grabbingCursor = "move";
-          } else if(browser.mozilla) {
-            self.grabCursor     = "-moz-grab";
-            self.grabbingCursor = "-moz-grabbing";
-          } else if(isWebkit && (navigator.platform.indexOf("Mac")!=-1)) {
-            self.grabCursor     = "-webkit-grab";
-            self.grabbingCursor = "-webkit-grabbing";
-          }*/
 
           self.downEvent   = 'mousedown.rp';
           self.moveEvent   = 'mousemove.rp';
@@ -253,6 +241,7 @@
         }
       },
 
+      //Set up outbound links to not interfere with dragging between slides
       setupLinkClicks: function(){
         var self = this;
         self.$galleryItems.on( self.tapOrClick() , function(e){
@@ -628,8 +617,6 @@
         }else{
           self.$rightPaddle.stop(true,true).fadeIn(200);
         }
-
-
       },
 
       createShuffle: function(){
@@ -1313,18 +1300,19 @@
       },
 
       updateSlides: function(){
+        var self        = this,
+        cw              = self.currentContainerWidth = self.$container.outerWidth(),
+        animObj         = {},
+        newPos          = (-self.currentId * cw),
+        widthDifference = (self.$win.width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
-        var self = this,
-            cw = self.currentContainerWidth = self.$container.outerWidth(),
-            animObj = {},
-            newPos = (-self.currentId * cw);
+        if(widthDifference > 0){
+          newPos += Math.ceil(widthDifference);
+        }
 
-        var a = (self.$win.width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
-
-        //self.log('Update Slides' , self.$el.find('.rp-slide').eq(0).height() );
-
-        if(a > 0){
-          newPos += Math.ceil(a);
+        if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
+          cw = 1190;
+          //newPos = ( -self.currentId * cw );
         }
 
         if(self.mode === 'suggested'){
@@ -1332,85 +1320,74 @@
         }
 
         self.$slides.each(function(i){
+
+      
           $(this).css({
-            'left': i * cw + 'px',
+            'left'    : i * cw + 'px',
             'z-index' : i
           });
 
+          self.log(i * cw + 'px');
+
         });
 
-        animObj[ self.prefixed( self.TD ) ] = 0 + 'ms';
-        animObj[ self.prefixed( self.TTF ) ] = $.rpCSS3Easing.easeOutBack;
-        animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
 
         if( !self.useCSS3Transitions ) {
+
           //jquery fallback
           animObj[ self.xProp ] = newPos;
           self.$container.animate(animObj, 0);
         }else {
-
           if( self.isMobileMode ){
-            return; // competing with son-scroller
+            return;
           }
-
+          animObj[ self.prefixed( self.TD ) ] = 0 + 'ms';
+          animObj[ self.prefixed( self.TTF ) ] = $.rpCSS3Easing.easeOutBack;
+          animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
         }
-
       },
 
-      moveTo: function(velocity, type,  speed, inOutEasing, userAction, fromSwipe){
-            var self = this,
-            newPos   = -self.currentId * self.currentContainerWidth,
-            diff,
-            newId,
-            animObj  = {},
-            newDist = Math.abs(self.sPosition  - newPos);
+      moveTo: function( velocity ){
+        var self        = this,
+        newPos          = -self.currentId * self.currentContainerWidth,
+        animObj         = {},
+        newDist         = Math.abs(self.sPosition  - newPos),
+        widthDifference = ( self.$win.width() - $('.rp-slide').eq(0).outerWidth(true) ) * ( 0.5 );
 
-            
-            function getCorrectSpeed(newSpeed) {
-                if(newSpeed < 100) {
-                    return 100;
-                } else if(newSpeed > 500) {
-                    return 500;
-                }
-                return newSpeed;
+        function getCorrectSpeed( newSpeed ) {
+            if( newSpeed < 100 ) {
+                return 100;
+            } else if( newSpeed > 500 ) {
+                return 500;
             }
+            return newSpeed;
+        }
 
-            self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
+        self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
 
-            self.log( self.currAnimSpeed );
+        if( isNaN(self.currAnimSpeed) ){
+          self.currAnimSpeed = self.animationSpeed;
+        }
 
-            if( isNaN(self.currAnimSpeed) ){
-              self.currAnimSpeed = self.animationSpeed;
-            }
+        if( widthDifference > 0 ){
+          newPos += Math.ceil( widthDifference );
+        }
 
-            var a = (self.$win.width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
-
-            if(a > 0){
-              newPos += Math.ceil(a);
-            }
-
+        //jQuery animation fallback
         if( !self.useCSS3Transitions ) {
-
-          //jQuery fallback
           animObj[ self.xProp ] = newPos;
-
-          self.$container.animate(animObj, self.currAnimSpeed);
-
+          self.$container.animate( animObj, self.currAnimSpeed );
         }else{
-
           //css3 transition
           animObj[ self.prefixed( self.TD ) ]  = self.currAnimSpeed + 'ms';
 
           if(self.currAnimSpeed === self.animationSpeed){
-            animObj[ self.prefixed( self.TTF )  ] = $.rpCSS3Easing.easeOutBack; //default to normal
-            self.log('using default animation , ease out back');
+            animObj[ self.prefixed( self.TTF )  ] = $.rpCSS3Easing.easeOutBack;
           }else{
-            animObj[ self.prefixed( self.TTF ) ] = 'cubic-bezier(0.33,0.66,0.66,1)';
-             self.log('using FAST animation , from iScroll Tossing');
+            animObj[ self.prefixed( self.TTF ) ] = $.rpCSS3Easing.sonyScrollEase;
           }
 
-        
           self.$container.css( animObj );
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
@@ -1440,9 +1417,7 @@
 
           self.$container.css( 'width' , '' );
           self.$container.append(self.$slides);
-
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
-
           self.$paddles.show();
           self.$el.find('.rp-nav').show();
 
@@ -1465,10 +1440,8 @@
 
       disableShuffle: function(){
         var self = this;
-
         self.$shuffleContainers.each(function(){
           var sffleInst = $(this).data('shuffle');
-
           if(sffleInst !== undefined || sffleInst !== null){
             if(sffleInst){
                sffleInst.disable();
@@ -1479,14 +1452,12 @@
 
       enableShuffle: function(){
         var self = this;
-
         self.$shuffleContainers.each(function(){
           var sffleInst = $(this).data('shuffle');
           if(sffleInst !== undefined || sffleInst !== null){
             if(sffleInst){
                sffleInst.enable();
             }
-
           }
         });
       },
@@ -1564,10 +1535,6 @@
           var tileHeight = $slide.find('.gallery-item.plate').first().height(),
               testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true);
 
-/*          if(tileHeight < testHeight ){
-            tileHeight = testHeight;
-          }*/
-
           if(slideVariation !== '3up'){
             $slide.find( '.gallery-item.normal').css({
               'max-height' : tileHeight,
@@ -1575,11 +1542,8 @@
             });
           }
 
-
           switch( slideVariation ){
             case '5up':
-
-
               if(isFullView){
                 newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
                 $mediumTile.css({
@@ -1591,8 +1555,6 @@
                   'height' : newHeight + 'px'
                 });
               }
-
-
             break;
 
             case '4up':
@@ -1604,22 +1566,18 @@
               }else{
                 newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
                 $mediumTile.css('height' , newHeight);
-
-
-                //$mediumTile.closest('.gallery-item').css( 'max-height' , $mediumTile.height() + $mediumTile.closest('.gallery-item').find('.product-content').height() );
-
               }
             break;
 
             case '3up':
-          if(isFullView){
-              newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
-              $mediumTile.css({
-                'height' : newHeight + 'px'
-              });
-            }else{
-              $mediumTile.css('height' , '');
-            }
+              if(isFullView){
+                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+                $mediumTile.css({
+                  'height' : newHeight + 'px'
+                });
+              }else{
+                $mediumTile.css('height' , '');
+              }
             break;
           }
         });
@@ -1645,7 +1603,7 @@
           animationDelay = 0;
 
           $item.css({
-            'visibility' : 'visible'
+            visibility : 'visible'
           });
 
           animationDelay = $item.hasClass('plate') ? 0 : $item.hasClass('medium') ? 25 : 2000;
@@ -1690,7 +1648,8 @@
         //add additional ease types here
         easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
         easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
-        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)'
+        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)',
+        sonyScrollEase: 'cubic-bezier(0.33,0.66,0.66,1)'
     };
 
     //Usage: var tallest = $('div').maxHeight(); // Returns the height of the tallest div.
