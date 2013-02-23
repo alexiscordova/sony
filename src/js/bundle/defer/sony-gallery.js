@@ -652,7 +652,6 @@
     initCarousels : function( isFirstCall ) {
       var self = this;
 
-
       function initializeScroller( $carousel ) {
         // setTimeout onResize
         $carousel.scrollerModule({
@@ -665,7 +664,7 @@
       }
 
       // Go through each possible carousel
-      self.$carousels.each(function() {
+      self.$carousels.each(function(i,e) {
         var $carousel = $(this),
             $firstImage;
 
@@ -1092,6 +1091,21 @@
 
       return self;
     },
+    
+    fixCarousels:function(isInit){
+      var self = this;
+            
+      if ( self.hasCarousels ) {
+        if ( self.hasEnabledCarousels ) {
+          self.destroyCarousels();
+        }
+        
+        // 980+
+        if ( Modernizr.mq('(min-width: 61.25em)') ) {
+          self.initCarousels( isInit );
+        }
+      }  
+    },
 
     onResize : function( isInit ) {
       var self = this;
@@ -1156,22 +1170,8 @@
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
-      // Destroy or setup carousels based on viewport
-      if ( self.hasCarousels ) {
-        // 980+
-        if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          if ( !self.hasEnabledCarousels ) {
-            self.initCarousels( isInit );
-          }
-
-        // less than 980
-        } else {
-          if ( self.hasEnabledCarousels ) {
-            self.destroyCarousels();
-          }
-        }
-      }
-
+      self.fixCarousels(isInit);
+      
       self.sortByPriority();
     },
 
@@ -2280,6 +2280,12 @@
     
     //force webkit redraw hack
     $('<style></style>').appendTo($(document.body)).remove();
+    
+    var gallery = evt.pane.find('.gallery').data('gallery');
+    
+    if(gallery){
+      gallery.fixCarousels(false);
+    }
 
   };
 
