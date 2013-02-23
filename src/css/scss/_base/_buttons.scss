@@ -97,7 +97,7 @@
   @include size( 58px, 65px );
   padding: 16px 0 16px;
   border-radius: 0;
-  border-color: transparent;
+  border: 1px solid transparent;
   border-color: rgba($gray60, 0);
   background: $white;
   color: $defaultTextColor;
@@ -141,7 +141,8 @@
   &.disabled:hover,
   &[disabled]:hover {
     color: inherit;
-    border-color: $gray60;
+    border-color: $gray20;
+    border-color: rgba($gray20, .15);
     background-color: inherit;
     @include box-shadow(none);
   }
@@ -280,7 +281,7 @@
   p & ,
   td & {
     font-size: px-em(12px, 15px); // context changes if it's inside a <p> or <td>
-  }  
+  }
   line-height: $baseLineHeight * 0.75;
   &.btn-special{
     padding: 14px 18px 16px;
