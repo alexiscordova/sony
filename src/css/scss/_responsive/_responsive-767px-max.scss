@@ -164,7 +164,6 @@
 
   // Modals
   .modal {
-    top:   10px;
     height: auto;
     margin: auto;
 
@@ -179,9 +178,13 @@
   }
 
   .takeover {
-    top:   0;
-    left:  0;
-    right: 0;
+    top: 0;
+    left: auto;
+    right: auto;
+
+    &.fade.in {
+      top: 0;
+    }
   }
 
   .modal-header .close {

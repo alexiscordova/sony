@@ -3,7 +3,7 @@
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
-// Modified: 01/01/2013
+// Modified: 02/22/2013
 // Dependencies: jQuery 1.7+, Modernizr
 // Author: Glen Cheney
 // --------------------------------------
@@ -97,11 +97,11 @@
 
     enable : function() {
       var self = this;
-      
-      
+
+
       // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
       self.onResize();
-      
+
       // Already enabled
       if ( self.enabled ) {
         return;
@@ -1298,10 +1298,10 @@
 
       // Create reset button
       self.$compareReset = $('<button/>', {
-          'class' : 'btn btn-small btn-alt-special btn-reset disabled js-compare-reset iconTrigger-ui2-reset',
+          'class' : 'btn btn-small btn-alt-special btn-reset disabled js-compare-reset',
           'text' : $header.data('resetLabel')
       });
-      self.$compareReset.append('<i class="icon-ui2-reset">');
+      self.$compareReset.append('<i class="fonticon-10-circlearrow">');
       self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
 
       self.isFixedHeader = false;
@@ -2283,7 +2283,7 @@
 
     // Enable all galleries in this tab
     evt.pane.find('.gallery').gallery('enable');
-    
+
     //force webkit redraw hack
     $('<style></style>').appendTo($(document.body)).remove();
 
