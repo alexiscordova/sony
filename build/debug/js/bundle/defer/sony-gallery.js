@@ -1665,6 +1665,12 @@
           // If this isn't the first call, the elements are already on the page and need to be detached
           $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
           $sorter = isFirst ? $sortOpts : $sortOpts.detach();
+
+          // Put the dropdown menu on the left
+          if ( !self.isTouch ) {
+            $sorter.find('.dropdown-menu').removeClass('pull-right');
+          }
+
           $subheader.append( $resetBtn, $sorter );
 
           // Insert subhead in the modal header
@@ -1695,6 +1701,12 @@
           // If this isn't the first call, the elements are already on the page and need to be detached
           $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
           $sorter = isFirst ? $sortOpts : $sortOpts.detach();
+
+          // Make dropdown menu on the right
+          if ( !self.isTouch ) {
+            $sorter.find('.dropdown-menu').addClass('pull-right');
+          }
+
           $header.append( $resetBtn, $sorter );
 
           self.$compareTool.find('.modal-subheader').remove();
@@ -2143,9 +2155,9 @@
 
     setCompareHeight : function() {
       var self = this,
-          windowHeight = self.isIphone ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
+          windowHeight = SONY.Settings.isIPhone || SONY.Settings.isAndroid ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
 
-      // console.log('window height', windowHeight);
+      console.log('window height', windowHeight);
 
       self.$compareTool.find('.compare-container').height( self.$compareItems.first().height() );
       self.$compareTool.height( windowHeight );
@@ -2181,7 +2193,6 @@
       // Set detail rows to even heights
       self.$compareTool.find('.detail-label').each(function(i) {
         var $detailLabel = $(this),
-            // maxHeight = parseFloat( $detailLabel.css('height') ) + parseFloat( $detailLabel.css('paddingTop') ),
             $detail = self.$compareItems.find('.detail:nth-child(' + (i + 1) + ')');
 
         // Find all detail lines that have this "name"
@@ -2240,7 +2251,6 @@
     hasEnabledCarousels: false,
     sorted: false,
     isTouch: SONY.Settings.hasTouchEvents,
-    isiPhone: SONY.Settings.isIPhone,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',

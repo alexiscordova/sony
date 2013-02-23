@@ -4591,33 +4591,33 @@ input[type="button"].btn-block {
 /* line 359, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt-special.btn-alt-plus i {
   float: right;
-  margin-top: 3px;
   margin-left: 10px;
-  font-size: 1.23077em;
+  margin-top: 2px;
+  font-size: 16px;
 }
 
-/* line 369, ../../../src/css/scss/_base/_buttons.scss */
+/* line 370, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset {
   position: relative;
   min-width: 110px;
   max-width: 110px;
 }
-/* line 375, ../../../src/css/scss/_base/_buttons.scss */
+/* line 376, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset, .btn-reset.active {
   background-color: #f25529;
 }
-/* line 379, ../../../src/css/scss/_base/_buttons.scss */
+/* line 380, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset:hover {
   background-color: #f25529;
 }
-/* line 384, ../../../src/css/scss/_base/_buttons.scss */
+/* line 385, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset.disabled, .btn-reset.disabled:hover {
   opacity: 1;
   filter: alpha(opacity=100);
   color: #bcbccc;
   background-color: #d2d2db;
 }
-/* line 390, ../../../src/css/scss/_base/_buttons.scss */
+/* line 391, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset i {
   position: absolute;
   top: 9px;
@@ -4625,38 +4625,38 @@ input[type="button"].btn-block {
   font-size: 1.33333em;
 }
 
-/* line 405, ../../../src/css/scss/_base/_buttons.scss */
+/* line 406, ../../../src/css/scss/_base/_buttons.scss */
 button.btn,
 input[type="submit"].btn {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 408, ../../../src/css/scss/_base/_buttons.scss */
+/* line 409, ../../../src/css/scss/_base/_buttons.scss */
 button.btn::-moz-focus-inner,
 input[type="submit"].btn::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
-/* line 417, ../../../src/css/scss/_base/_buttons.scss */
+/* line 418, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-large,
 input[type="submit"].btn.btn-large {
   *padding-top: 7px;
   *padding-bottom: 7px;
 }
-/* line 421, ../../../src/css/scss/_base/_buttons.scss */
+/* line 422, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-small,
 input[type="submit"].btn.btn-small {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 425, ../../../src/css/scss/_base/_buttons.scss */
+/* line 426, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-mini,
 input[type="submit"].btn.btn-mini {
   *padding-top: 1px;
   *padding-bottom: 1px;
 }
 
-/* line 438, ../../../src/css/scss/_base/_buttons.scss */
+/* line 439, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link,
 .btn-link:active,
 .btn-link[disabled] {
@@ -4667,7 +4667,7 @@ input[type="submit"].btn.btn-mini {
   box-shadow: none;
 }
 
-/* line 443, ../../../src/css/scss/_base/_buttons.scss */
+/* line 444, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link {
   border-color: transparent;
   cursor: pointer;
@@ -4675,14 +4675,14 @@ input[type="submit"].btn.btn-mini {
   border-radius: 0;
 }
 
-/* line 449, ../../../src/css/scss/_base/_buttons.scss */
+/* line 450, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link:hover {
   color: #3c4c74;
   text-decoration: underline;
   background-color: transparent;
 }
 
-/* line 454, ../../../src/css/scss/_base/_buttons.scss */
+/* line 455, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link[disabled]:hover {
   color: #2f353d;
   text-decoration: none;
@@ -7757,7 +7757,7 @@ a.label:hover, a.badge:hover {
 .slide-toggle i {
   position: absolute;
   right: 24px;
-  margin-top: 3px;
+  margin-top: 2px;
   font-size: 16px;
 }
 /* line 24, ../../../src/css/scss/_components/_slide-toggle.scss */
@@ -7825,6 +7825,12 @@ a.label:hover, a.badge:hover {
   box-shadow: none;
 }
 
+@media (max-width: 47.9375em) {
+  /* line 77, ../../../src/css/scss/_components/_slide-toggle.scss */
+  .slide-toggle i {
+    margin-top: 0;
+  }
+}
 /* line 7, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs {
   position: relative;
@@ -11908,6 +11914,11 @@ textarea.span1,
   .btn-square {
     padding-right: 0;
     padding-left: 0;
+  }
+
+  /* line 235, ../../../src/css/scss/_responsive/_responsive-767px-max.scss */
+  .btn-alt-special.btn-alt-plus i {
+    margin-top: 0;
   }
 }
 @media (max-width: 35.4375em) {
