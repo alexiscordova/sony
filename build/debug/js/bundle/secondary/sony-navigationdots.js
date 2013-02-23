@@ -117,6 +117,7 @@
       if ( $item.length ) {
         self.activeButton = $item.index();
         self.setActiveButton();
+        e.preventDefault();
         self.$el.trigger('SonyNavDots:clicked', self.activeButton);
       }
     },
