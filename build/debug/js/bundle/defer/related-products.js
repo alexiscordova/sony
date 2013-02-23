@@ -1306,13 +1306,14 @@
         newPos          = (-self.currentId * cw),
         widthDifference = (self.$win.width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
-        if(widthDifference > 0){
+        if( widthDifference > 0 && !self.$html.hasClass('lt-ie9') ){
           newPos += Math.ceil(widthDifference);
         }
 
         if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
           cw = 1190;
-          //newPos = ( -self.currentId * cw );
+          newPos = ( -self.currentId * cw );
+          newPos -= (1190 - self.$win.width() ) * 0.5;
         }
 
         if(self.mode === 'suggested'){
@@ -1320,14 +1321,11 @@
         }
 
         self.$slides.each(function(i){
-
       
           $(this).css({
             'left'    : i * cw + 'px',
             'z-index' : i
           });
-
-          self.log(i * cw + 'px');
 
         });
 
@@ -1364,13 +1362,19 @@
             return newSpeed;
         }
 
+        if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
+          newPos =  -self.currentId * 1190 ;
+          newPos -= (1190 - self.$win.width() ) * 0.5;
+          newDist = Math.abs(self.sPosition  - newPos);
+        }
+
         self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
 
         if( isNaN(self.currAnimSpeed) ){
           self.currAnimSpeed = self.animationSpeed;
         }
 
-        if( widthDifference > 0 ){
+        if( widthDifference > 0 && !self.$html.hasClass('lt-ie9') ){
           newPos += Math.ceil( widthDifference );
         }
 
