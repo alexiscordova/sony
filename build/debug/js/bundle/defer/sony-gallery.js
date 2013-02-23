@@ -96,7 +96,11 @@
 
     enable : function() {
       var self = this;
-
+      
+      
+      // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
+      self.onResize();
+      
       // Already enabled
       if ( self.enabled ) {
         return;
@@ -112,9 +116,6 @@
       }
 
       self.enabled = true;
-
-      // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
-      self.onResize();
 
       if ( self.hasCarousels ) {
         self.$carousels.scrollerModule('refresh');
@@ -2276,6 +2277,9 @@
 
     // Enable all galleries in this tab
     evt.pane.find('.gallery').gallery('enable');
+    
+    //force webkit redraw hack
+    $('<style></style>').appendTo($(document.body)).remove();
 
   };
 

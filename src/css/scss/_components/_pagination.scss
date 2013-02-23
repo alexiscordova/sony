@@ -25,7 +25,7 @@ $bulletMargin: px-em(5px);
   }
 
   .pagination-bullet {
-    display: inline;
+    display: inline-block;
     margin-left: $bulletMargin;
     color: $gray50;
     cursor: pointer;
@@ -54,6 +54,14 @@ $bulletMargin: px-em(5px);
   padding: 0; // override default button padding
   @include transition();
 
+  .lt-ie9 & {
+    zoom: 1;
+  }
+
+  .touch & {
+    display: none;
+  }
+
   &:hover,
   &:focus {
     background-color: $gray20;
@@ -77,12 +85,13 @@ $bulletMargin: px-em(5px);
 }
 
 // If there's a paddle-trigger, fade in the paddles when it's hovered over.
+// DONT use filter for IE
 .paddle-trigger .nav-paddle {
-  @include opacity(0);
+  opacity: 0;
 }
 
 .paddle-trigger:hover .nav-paddle {
-  @include opacity(100);
+  opacity: 1;
 }
 
 

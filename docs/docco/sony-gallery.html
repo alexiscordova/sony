@@ -86,21 +86,22 @@ Dependencies: jQuery 1.7+, Modernizr</p>
 
     enable : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Already enabled</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.enabled ) {
+      
+      
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Trigger the resize event. Maybe they changed tabs, resized, then changed back.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.onResize();
+      
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Already enabled</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.enabled ) {
         <span class="keyword">return</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Enable shuffle, which triggers a layout update</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.shuffle.enable();
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Enable shuffle, which triggers a layout update</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.shuffle.enable();
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Resume infinite scroll if it's there yo</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.hasInfiniteScroll ) {
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Resume infinite scroll if it's there yo</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.hasInfiniteScroll ) {
         self.$grid.infinitescroll(<span class="string">'updateNavLocation'</span>);
         self.$grid.infinitescroll(<span class="string">'resume'</span>);
       }
 
       self.enabled = <span class="literal">true</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Trigger the resize event. Maybe they changed tabs, resized, then changed back.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.onResize();
 
       <span class="keyword">if</span> ( self.hasCarousels ) {
         self.$carousels.scrollerModule(<span class="string">'refresh'</span>);
@@ -2021,6 +2022,8 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
     }
 
 </pre></div>             </td>           </tr>                               <tr id="section-256">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-256">&#182;</a>               </div>               <p>Enable all galleries in this tab</p>             </td>             <td class="code">               <div class="highlight"><pre>    evt.pane.find(<span class="string">'.gallery'</span>).gallery(<span class="string">'enable'</span>);
+    
+</pre></div>             </td>           </tr>                               <tr id="section-257">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-257">&#182;</a>               </div>               <p>force webkit redraw hack</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'&lt;style&gt;&lt;/style&gt;'</span>).appendTo($(document.body)).remove();
 
   };
 
@@ -2030,28 +2033,28 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
 SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>() {
 
   <span class="keyword">if</span> ( $(<span class="string">'.gallery'</span>).length &gt; <span class="number">0</span> ) {
-</pre></div>             </td>           </tr>                               <tr id="section-257">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-257">&#182;</a>               </div>               <p>console.profile();</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-258">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-258">&#182;</a>               </div>               <p>Initialize galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.gallery'</span>).each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-258">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-258">&#182;</a>               </div>               <p>console.profile();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-259">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-259">&#182;</a>               </div>               <p>Initialize galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.gallery'</span>).each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>);
 
       $<span class="keyword">this</span>.gallery( $<span class="keyword">this</span>.data() );
     });
 
-</pre></div>             </td>           </tr>                               <tr id="section-259">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-259">&#182;</a>               </div>               <p>Register for tab show(n) events here because not all tabs are galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'[data-tab]'</span>)
+</pre></div>             </td>           </tr>                               <tr id="section-260">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-260">&#182;</a>               </div>               <p>Register for tab show(n) events here because not all tabs are galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'[data-tab]'</span>)
       .on(<span class="string">'show'</span>, SONY.onGalleryTabShow )
       .on(<span class="string">'shown'</span>, SONY.onGalleryTabShown );
 
-</pre></div>             </td>           </tr>                               <tr id="section-260">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-260">&#182;</a>               </div>               <p>Initialize sticky tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.tab-strip'</span>).stickyTabs();
+</pre></div>             </td>           </tr>                               <tr id="section-261">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-261">&#182;</a>               </div>               <p>Initialize sticky tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.tab-strip'</span>).stickyTabs();
 
-</pre></div>             </td>           </tr>                               <tr id="section-261">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-261">&#182;</a>               </div>               <p>Hide other tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.tab-pane:not(.active)'</span>).addClass(<span class="string">'off-screen'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-262">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-262">&#182;</a>               </div>               <p>Hide other tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.tab-pane:not(.active)'</span>).addClass(<span class="string">'off-screen'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-262">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-262">&#182;</a>               </div>               <p>Should be called after everything is initialized</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(window).trigger(<span class="string">'hashchange'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-263">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-263">&#182;</a>               </div>               <p>Should be called after everything is initialized</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(window).trigger(<span class="string">'hashchange'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-263">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-263">&#182;</a>               </div>               <p>Disable hidden galleries.
+</pre></div>             </td>           </tr>                               <tr id="section-264">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-264">&#182;</a>               </div>               <p>Disable hidden galleries.
 Using a timeout here because the tab shown event is triggered at the end of the transition,
 which depends on how long the page takes to load (and if the browser has transitions)</p>             </td>             <td class="code">               <div class="highlight"><pre>    setTimeout(<span class="keyword">function</span>() {
       $(<span class="string">'.tab-pane:not(.active) .gallery'</span>).gallery(<span class="string">'disable'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-264">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-264">&#182;</a>               </div>               <p>console.profileEnd();</p>             </td>             <td class="code">               <div class="highlight"><pre>    }, <span class="number">500</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-265">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-265">&#182;</a>               </div>               <p>console.profileEnd();</p>             </td>             <td class="code">               <div class="highlight"><pre>    }, <span class="number">500</span>);
   }
 });
 

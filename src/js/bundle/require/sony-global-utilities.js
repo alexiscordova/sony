@@ -151,19 +151,43 @@ SONY.Utilities = (function(window, document) {
 
       var cachedFunctions = {};
 
+      // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
+      // IE triggers resize events if any elements dimensions change
+
+      cachedFunctions.IEResizeCheck = function(cb) {
+
+        // If you aren't IE7/8, you may pass.
+
+        if ( !SONY.$html.hasClass('lt-ie9') ) {
+          return cb();
+        }
+
+        var windowWidth = SONY.$window.width(),
+            windowHeight = SONY.$window.height();
+
+        if ( windowWidth !== SONY.Settings.windowWidth || windowHeight !== SONY.Settings.windowHeight ) {
+          SONY.Settings.windowWidth = windowWidth;
+          SONY.Settings.windowHeight = windowHeight;
+          cb();
+        }
+      };
+
       cachedFunctions.throttledResize = $.throttle(500, function(){
-        SONY.trigger('global:resizeThrottled');
+        cachedFunctions.IEResizeCheck(function(){
+          SONY.trigger('global:resizeThrottled');
+        });
       });
 
       cachedFunctions.debouncedResize = $.debounce(500, function(){
-        SONY.trigger('global:resizeDebounced');
+        cachedFunctions.IEResizeCheck(function(){
+          SONY.trigger('global:resizeDebounced');
+        });
       });
 
       SONY.$window.on('resize', function(){
         cachedFunctions.throttledResize();
         cachedFunctions.debouncedResize();
       });
-
     }
   };
 
