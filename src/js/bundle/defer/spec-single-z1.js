@@ -42,6 +42,10 @@
 
       self.$alignedBottomImgs = self.$alignedBottom.find('.iq-img');
 
+      if ( !Modernizr.mediaqueries ) {
+        Modernizr.mq = function() { return false; };
+      }
+
       self._initCarousel();
 
       // Init shuffle on the features section
@@ -60,8 +64,8 @@
     _initFeatures : function() {
       var self = this;
 
-      self.$specTiles.children().eq(0).attr('data-delay-order', 1);
-      self.$specTiles.children().eq(3).attr('data-delay-order', 2);
+      // self.$specTiles.children().eq(0).attr('data-delay-order', 1);
+      // self.$specTiles.children().eq(3).attr('data-delay-order', 2);
 
       self.$specTiles.shuffle({
         itemSelector: '.spec-tile',
@@ -259,6 +263,11 @@
           .add( self.$carouselCols )
           .css('height', '');
       }
+
+      // Update the positions for the scroll spy
+      SONY.$body
+        .scrollspy('refresh')
+        .scrollspy('process');
     }
 
 

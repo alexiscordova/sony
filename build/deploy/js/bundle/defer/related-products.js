@@ -14,7 +14,7 @@
 //      $('.related-products').relatedProducts();
 //
 //
-;(function($, Modernizr, window, undefined , console) {
+;(function(SONY , $, Modernizr, window, undefined , console) {
 
     'use strict';
 
@@ -70,6 +70,7 @@
       self.$bulletNav            = $();
       self.$doc                  = $(document);
       self.$win                  = $(window);
+      self.$html                 = $('html');
 
       self.vendorPrefix          = '-' + vendor.toLowerCase() + '-';
       self.ev                    = $({}); //event object
@@ -84,7 +85,7 @@
       self.previousId            = -1;
       self.currentId             = 0;
       self.slidePosition         = 0;
-      self.animationSpeed        = 1000;
+      self.animationSpeed        = 700;
       self.slides                = [];
       self.slideCount            = self.$slides.length;
       self.currentContainerWidth = 0;
@@ -94,6 +95,18 @@
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
       self.paddlesEnabled        = false;
+      
+      self.hasMediaQueries       = Modernizr.mediaqueries;
+      self.mq                    = Modernizr.mq;
+      self.oldIE                 = self.$html.hasClass('lt-ie8');
+      self.inited                = false;
+      self.isResponsive          = !$('html').hasClass('lt-ie9') && !$('html').hasClass('lt-ie8') && self.hasMediaQueries;
+
+      if( !self.hasMediaQueries && $('html').hasClass('lt-ie9') || self.oldIE){
+        self.mq = function(){
+          return false;
+        };
+      }
 
       if(self.variation !== undefined){
         self.variation = self.variation.split('-')[2];
@@ -172,12 +185,13 @@
         var gutter = 0,
             numColumns = 0;
 
-        if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10') ) {
+        if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || $('html').hasClass('lt-ie10') ) {
           gutter = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
+          
           numColumns = 5;
 
         // // Portrait Tablet ( 4 columns ) - masonry
-        } else if ( Modernizr.mq('(min-width: 481px)') ) {
+        } else if ( self.mq('(min-width: 567px)') ) {
           numColumns = 4;
           gutter = window.Exports.GUTTER_WIDTH_SLIM * containerWidth;
         // Between Portrait tablet and phone ( 3 columns )
@@ -189,17 +203,20 @@
           gutter = 0;
         }
 
+        //self.log(' shuffleGutters  ' , gutter );
+
+
         return gutter;
       };
 
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          if ( !Modernizr.mediaqueries || Modernizr.mq('(min-width: 981px)') || $('body').hasClass('lt-ie10')) {
+          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || $('html').hasClass('lt-ie10')) {
             column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
 
           // Between Portrait tablet and phone ( 3 columns )
-          } else if ( Modernizr.mq('(min-width: 481px)') ) {
+          } else if ( self.mq('(min-width: 567px)') ) {
             column = window.Exports.COLUMN_WIDTH_SLIM * containerWidth;
           }else{
             column = containerWidth;
@@ -208,6 +225,8 @@
           if(column === 0){
             column = 0.001;
           }
+
+          //self.log(' shuffleColumns  ' , column );
 
           return column;
       };
@@ -227,7 +246,7 @@
               destination = $this.attr('href');
 
           if ( self.startInteractionTime ) {
-            if ((new Date().getTime()) - self.startInteractionTime < 250) {
+            if ((new Date().getTime()) - self.startInteractionTime < 50) {
               window.location = destination;
             }
           }
@@ -245,8 +264,6 @@
       init: function(){
         var self = this;
 
-        self.$paddles.hide();
-
         self.setupLinkClicks();
 
         // Don't do this for modes other than 3 and 4 up
@@ -256,29 +273,187 @@
 
         if(self.$slides.length > 1){
           self.createNavigation();
-
           if(!self.hasTouch){
-            self.setupPaddles();
+            //self.setupPaddles();
           }
-
           if(self.mode != 'strip'){
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           }
-
         }
-
         if(self.mode != 'strip'){
           self.setSortPriorities();
           self.setupResizeListener();
-
+          //self.log('rp - init');
           $(window).trigger('resize');
         }else {
-
           self.setupStripMode();
+        }
+
+        
+
+      },
+      setupResizeListener: function(){
+        var self = this,
+        resizeTimeout = null;
+
+        if(self.mode !== 'suggested'){
+/*          $(window).on('resize', function(){
+            if(!self.isMobileMode && self.$win.width() > 567) {
+
+             self.$galleryItems.css({
+               'visibility' : 'hidden',
+                'opacity' : 0
+              });
+
+             self.$el.addClass('redrawing');
+
+           }else{
+             self.$el.css({
+              'opacity' : 1,
+              'visibility' : 'visible'
+              });
+               self.$galleryItems.not('.blank').css({
+               'visibility' : 'visible',
+                'opacity' : 1
+              });
+
+              self.$el.removeClass('redrawing');
+           }
+
+          });*/
+
+         self.$el.css({
+          'opacity' : 1,
+          'visibility' : 'visible'
+          });
+           self.$galleryItems.not('.blank').css({
+           'visibility' : 'visible',
+            'opacity' : 1
+          });
+
+          self.$el.removeClass('redrawing');
 
         }
+
+        $(window).on('resize', $.debounce(500 , $.proxy(self.handleResize , self)));
+
       },
 
+      handleResize:function() {
+        var self = this,
+        resizeTimeout = null;
+
+        if( self.oldIE && self.inited ){
+          self.updateSlides();
+          return;
+        }
+
+        if( !self.inited ){
+          self.inited = true;
+        }
+
+        //self.log('handleing resize');
+
+        self.checkForBreakpoints();
+        self.updateSliderSize();
+        self.updateSlides();
+        self.updatePaddles();
+
+        if(self.mode === 'suggested'){
+          return;
+        }
+
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function(){
+
+          self.$shuffleContainers.each(function(){
+            var shfflInst = $(this).data('shuffle');
+
+            if(shfflInst === undefined){return;}
+
+            setTimeout(function(){
+              self.updateSliderSize();
+              
+              if(self.oldIE){
+                self.$galleryItems.each(function(){
+
+                  var $item        = $(this),
+                  $itemImg         = $item.find('.product-img'),
+                  tileHeight       = 285,
+                  galItemWidth     = 219,
+                  galImageHeight   = 190,
+                  medGalImgWidth   = 462,
+                  medGalImgHeight  = 495,
+                  medGalItemHeight = 600;
+                  
+                  $item.css({
+                    'height' : tileHeight
+                  });
+
+                  if($item.hasClass('plate')){
+                    $item.css({
+
+                    });
+                    $itemImg.css({
+                      'height' : tileHeight
+                    });
+                  }else if( $item.hasClass('medium') ){
+                    $item.css({
+
+                      'height' : medGalItemHeight
+                    });
+                    $itemImg.css({
+                      'height' : medGalImgHeight
+                    });
+
+                  }else if( $item.hasClass('normal') ){
+
+                    $itemImg.css({
+                      'height' : galImageHeight
+                    });
+                  }
+
+                  //self.log( self.$el.find('.rp-slide').eq(0).width()  , ' x ' , self.$el.find('.rp-slide').eq(0).height());
+
+                });
+                //self.log('height after all is said and done: ' , self.$galleryItems.eq(0).height());
+
+                shfflInst.update();
+
+
+                self.updateSlides();
+              }
+
+              if(!self.oldIE){
+                self.updateTiles();
+                shfflInst.update();
+                self.animateTiles();
+              }
+
+            } , 250);
+
+          });
+        } , 50);
+      },
+
+      log : function (){
+
+        var self = this,
+        strOut   = '';
+
+        for (var i = 0 ; i < arguments.length ; i ++){
+          strOut += arguments[i];
+          strOut += i > 0 ? ' , ' : ' ';
+        }
+
+        if(self.oldIE){
+          window.alert(strOut);
+        }else{
+          window.console.log(strOut);
+        }
+        
+
+      },
       setupStripMode: function(){
         var self = this;
 
@@ -395,7 +570,8 @@
         });
 
         self.$pagination.on('SonyNavDots:clicked', function(e, a){
-          self.gotopage(a);
+          self.currentId = a;
+          self.moveTo();
         });
 
         self.ev.on( 'rpOnUpdateNav', $.debounce(500, function() {
@@ -404,6 +580,8 @@
           });
         }));
       },
+
+
 
       setupPaddles: function(){
         var self   = this,
@@ -615,7 +793,7 @@
 
       sortByPriority : function() {
         var self = this,
-            isTablet = Modernizr.mq('(min-width: 481px) and (max-width: 980px)');
+            isTablet = self.mq('(min-width: 567px) and (max-width: 980px)');
 
         if ( isTablet && !self.sorted ) {
 
@@ -651,11 +829,11 @@
       checkForBreakpoints: function(){
         var self = this,
         wW       = self.$win.width(),
-        view     = wW > 980 ? 'desktop' : wW > 481 ? 'tablet' : 'mobile';
+        view     = wW > 980 ? 'desktop' : wW > 567 ? 'tablet' : 'mobile';
 
 
         //if the browser doesnt support media queries...IE default to desktop
-        if(!Modernizr.mediaqueries || $('body').hasClass('lt-ie10')){
+        if(!Modernizr.mediaqueries || $('html').hasClass('lt-ie10')){
           view = 'desktop';
         }
 
@@ -836,6 +1014,15 @@
       updateSliderSize: function(){
         var self = this;
 
+        //handle stuff for old IE
+        if( self.oldIE ){
+
+          self.$el.css( 'height' , 660 + 'px' );
+
+          return;
+        }
+
+
         if(self.mode === 'suggested'){
           return;
         }
@@ -919,7 +1106,7 @@
           self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
         }
 
-        self.moveTo();
+        //self.moveTo();
 
       },
 
@@ -979,11 +1166,12 @@
 
       setPosition: function(posi) {
 
-        window.iQ.update();
+        //window.iQ.update();
 
         var self = this,
             pos = self.sPosition = posi;
 
+        //using transforms
         if(self.useCSS3Transitions) {
           var animObj                              = {};
           animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
@@ -991,6 +1179,8 @@
           self.$container.css(animObj);
 
         } else {
+
+          //using left
           self.$container.css(self.xProp, pos);
         }
       },
@@ -1090,7 +1280,7 @@
             self.currentId = 0;
            }
           }
-          self.moveTo();
+          self.moveTo(v0);
         }else{
           //return to current
           returnToCurrent(true, v0);
@@ -1176,11 +1366,13 @@
             animObj = {},
             newPos = (-self.currentId * cw);
 
-            var a = ($(window).width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
+        var a = ($(window).width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
-            if(a > 0){
-              newPos += Math.ceil(a);
-            }
+        //self.log('Update Slides' , self.$el.find('.rp-slide').eq(0).height() );
+
+        if(a > 0){
+          newPos += Math.ceil(a);
+        }
 
         if(self.mode === 'suggested'){
           return;
@@ -1213,12 +1405,31 @@
 
       },
 
-      moveTo: function(type,  speed, inOutEasing, userAction, fromSwipe){
+      moveTo: function(velocity, type,  speed, inOutEasing, userAction, fromSwipe){
             var self = this,
             newPos   = -self.currentId * self.currentContainerWidth,
             diff,
             newId,
-            animObj  = {};
+            animObj  = {},
+            newDist = Math.abs(self.sPosition  - newPos);
+
+            
+            function getCorrectSpeed(newSpeed) {
+                if(newSpeed < 100) {
+                    return 100;
+                } else if(newSpeed > 500) {
+                    return 500;
+                }
+                return newSpeed;
+            }
+
+            self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
+
+            window.console.log( self.currAnimSpeed );
+
+            if( isNaN(self.currAnimSpeed) ){
+              self.currAnimSpeed = self.animationSpeed;
+            }
 
             var a = ($(window).width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
@@ -1231,14 +1442,22 @@
           //jQuery fallback
           animObj[ self.xProp ] = newPos;
 
-          self.$container.animate(animObj, self.animationSpeed);
+          self.$container.animate(animObj, self.currAnimSpeed);
 
         }else{
 
           //css3 transition
-          animObj[ (self.vendorPrefix + self.TD) ]  = self.animationSpeed + 'ms';
-          animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack;
+          animObj[ (self.vendorPrefix + self.TD) ]  = self.currAnimSpeed + 'ms';
 
+          if(self.currAnimSpeed === self.animationSpeed){
+            animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack; //default to normal
+            window.console.log('using default animation , ease out back');
+          }else{
+            animObj[ (self.vendorPrefix + self.TTF) ] = 'cubic-bezier(0.33,0.66,0.66,1)';
+             window.console.log('using FAST animation , from iScroll Tossing');
+          }
+
+        
           self.$container.css( animObj );
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
@@ -1332,7 +1551,7 @@
             plateHeight = $plate.outerHeight(true),
             spaceAvail = wW - self.$el.find('.rp-slide').eq(0).width();
 
-        if ( Modernizr.mq('(min-width: 981px)') && hasPlate) {
+        if ( self.mq('(min-width: 981px)') && hasPlate) {
 
           self.$rightPaddle.css({
             top :  plateHeight,
@@ -1345,7 +1564,7 @@
             top :  plateHeight,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + 'px'
           });
-        }else if(Modernizr.mq('(min-width: 481px)') && hasPlate){
+        }else if(self.mq('(min-width: 567px)') && hasPlate){
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,
@@ -1362,71 +1581,11 @@
 
       },
 
-      setupResizeListener: function(){
-        var self = this,
-        resizeTimeout = null;
 
-        if(self.mode !== 'suggested'){
-          $(window).on('resize', function(){
-            if(!self.isMobileMode && self.$win.width() > 480) {
-
-             self.$galleryItems.css({
-               'visibility' : 'hidden',
-                'opacity' : 0
-              });
-
-             self.$el.addClass('redrawing');
-
-           }else{
-             self.$el.css({
-              'opacity' : 1,
-              'visibility' : 'visible'
-              });
-               self.$galleryItems.not('.blank').css({
-               'visibility' : 'visible',
-                'opacity' : 1
-              });
-
-              self.$el.removeClass('redrawing');
-           }
-
-          });
-        }
-
-        $(window).on('resize', $.debounce(100 , function() {
-          self.checkForBreakpoints();
-          self.updateSliderSize();
-          self.updateSlides();
-          self.updatePaddles();
-
-          if(self.mode === 'suggested'){
-            return;
-          }
-
-          clearTimeout(resizeTimeout);
-          resizeTimeout = setTimeout(function(){
-
-            self.$shuffleContainers.each(function(){
-              var shfflInst = $(this).data('shuffle');
-
-              if(shfflInst === undefined){return;}
-
-              setTimeout(function(){
-                self.updateSliderSize();
-                self.updateTiles();
-                shfflInst.update();
-                self.animateTiles();
-
-              } , 250);
-
-            });
-          } , 10);
-        }));
-      },
 
       updateTiles: function(){
         var self = this,
-        isFullView = Modernizr.mq('(min-width: 981px)') ? true : false,
+        isFullView = self.mq('(min-width: 981px)') ? true : false,
         $mediumTile = null,
         $normalTile = null,
         newHeight = 0,
@@ -1523,6 +1682,10 @@
 
         self.$el.removeClass('redrawing');
 
+        if(self.oldIE){
+          return;
+        }
+
         self.$galleryItems.not('.blank').each(function(){
 
           var $item = $(this),
@@ -1614,13 +1777,15 @@
       navigationControl: 'bullets'
     };
 
-    $(function(){
+
+    SONY.on('global:ready', function(){
       $('.related-products').relatedProducts({});
     });
 
- })(jQuery, Modernizr, window,undefined , window.console);
 
-(function($, Modernizr, window, undefined , console) {
+ })(SONY,jQuery, Modernizr, window,undefined , window.console);
+
+(function(SONY, $, Modernizr, window, undefined , console) {
     'use strict';
     $.extend($.rpProto, {
 
@@ -1710,7 +1875,7 @@
     });
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
 
- })(jQuery, Modernizr, window,undefined , window.console);
+ })(SONY,jQuery, Modernizr, window, undefined , window.console);
 //all done
 
 /*
@@ -1752,8 +1917,6 @@ $(function(){
   $currentPanel.css({
     'z-index' : 1
   });
-
-
 
 
   $tabs.eq(0).addClass('active');

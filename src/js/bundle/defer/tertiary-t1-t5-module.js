@@ -24,20 +24,18 @@
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
       // Cached 
-      self.$container              = $( element );
-      self.containerId             = '#' + self.$container.attr("id");
-      self.$el                     = self.$container.find(".tcc-scroller");
-      self.$win                    = $( window );
-      self.$doc                    = $( window.document );
+      self.$win                    = SONY.$window;
+      self.isTouch                 = SONY.Settings.hasTouchEvents;
       self.ev                      = $( {} ); //event object
-
-      self.isTouch                 = Modernizr.touch;
+     
       self.isLayoutHidden          = false;
-      
       self.mode                    = null;
       self.prevMode                = null;
       self.$scrollerInstance       = null;              
       
+      self.$container              = $( element );
+      self.$el                     = self.$container.find(".tcc-scroller");
+      self.containerId             = '#' + self.$container.attr("id");
       self.contentModulesClass     = '.tcc-content-module';
       self.contentSelectorClass    = '.tcc-body';
       self.$tccHeaderWrapper       = self.$container.find('.tcc-header-wrapper');
@@ -66,23 +64,9 @@
       self.marginPercent          = Number('.0334'); // 22/650 (at 2-up)
       self.paddingPerContent      = 20;
 
-      // a non-debounced resize event so content is hidden immediately
-      // self.$win.on(self.resizeEvent + '.tcc', function(){
-      // //$(window).on('resize', function(){
-      //   // if we're in mobile entering desktop  
-      //   // or if we're in desktop entering mobile
-      //   // or if we're in tablet entering phone or phone entering tablet
-      //   if (((self.mode === 'desktop') && (self.prevMode != 'desktop')) || ((self.mode != 'desktop') && (self.prevMode === 'desktop')) || ((self.mode != 'desktop') && (self.prevMode != 'desktop'))){
-      //       // trigger hide sequence
-      //       self.hideAll();            
-      //    }
-      // });
-
-      //self.$win.on(self.resizeEvent + '.tcc', self.throttle(self.debounceSpeed, self.resizeFunc));     
-
       // Get debounced versions of our resize methods
 
-      // define before 
+      // define before debounce
       self.debouncedBeforeResize = self.debounce ? self.debounce( self.debounceSpeed, true, self.beforeResizeFunc ) : self.beforeResizeFunc;
       
       // define resize listener, debounced
@@ -536,9 +520,10 @@
         }
       }
     };
+   
 
-    $( function(){
-      
+    // wait to init until all js has loaded.      
+    SONY.on('global:ready', function(){
       var isIE = $("html").hasClass("lt-ie10");
 
       // do not enable scroller features if in IE     
@@ -547,7 +532,7 @@
           $(this).tertiaryModule({}).data('tertiaryModule');
         });
       }
-
+     
     });
 
  })(jQuery, Modernizr, window, undefined);
