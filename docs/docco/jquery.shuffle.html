@@ -115,7 +115,7 @@ If we don't have opts.by, default to DOM order</p>             </td>            
                 beforeResizeFunc = $.proxy( self._beforeResize, self );
                 self._debouncedBeforeResize = self.throttle ? self.throttle( self.throttleTime, <span class="literal">true</span>, beforeResizeFunc ) : beforeResizeFunc;
             }
-
+            
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Get debounced versions of our resize methods</p>             </td>             <td class="code">               <div class="highlight"><pre>            self._debouncedResize = self.throttle ? self.throttle( self.throttleTime, afterResizeFunc ) : afterResizeFunc;
 
             self.$items = self._getItems().addClass(<span class="string">'shuffle-item'</span>);

@@ -139,28 +139,41 @@ https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <
 
       <span class="keyword">var</span> cachedFunctions = {};
 
-      cachedFunctions.throttledResize = $.throttle(<span class="number">500</span>, <span class="keyword">function</span>(){
-        SONY.trigger(<span class="string">'global:resizeThrottled'</span>);
-      });
-
-      cachedFunctions.debouncedResize = $.debounce(<span class="number">500</span>, <span class="keyword">function</span>(){
-        SONY.trigger(<span class="string">'global:resizeDebounced'</span>);
-      });
-
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-IE Trigger's resize events if any elements dimensions change</p>             </td>             <td class="code">               <div class="highlight"><pre>      SONY.$window.on(<span class="string">'resize'</span>, <span class="keyword">function</span>(){
+IE triggers resize events if any elements dimensions change</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      cachedFunctions.IEResizeCheck = <span class="keyword">function</span>(cb) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>If you aren't IE7/8, you may pass.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        <span class="keyword">if</span> ( !SONY.$html.hasClass(<span class="string">'lt-ie9'</span>) ) {
+          <span class="keyword">return</span> cb();
+        }
+
         <span class="keyword">var</span> windowWidth = SONY.$window.width(),
             windowHeight = SONY.$window.height();
 
         <span class="keyword">if</span> ( windowWidth !== SONY.Settings.windowWidth || windowHeight !== SONY.Settings.windowHeight ) {
           SONY.Settings.windowWidth = windowWidth;
           SONY.Settings.windowHeight = windowHeight;
-
-          cachedFunctions.throttledResize();
-          cachedFunctions.debouncedResize();
+          cb();
         }
+      };
+
+      cachedFunctions.throttledResize = $.throttle(<span class="number">500</span>, <span class="keyword">function</span>(){
+        cachedFunctions.IEResizeCheck(<span class="keyword">function</span>(){
+          SONY.trigger(<span class="string">'global:resizeThrottled'</span>);
+        });
       });
 
+      cachedFunctions.debouncedResize = $.debounce(<span class="number">500</span>, <span class="keyword">function</span>(){
+        cachedFunctions.IEResizeCheck(<span class="keyword">function</span>(){
+          SONY.trigger(<span class="string">'global:resizeDebounced'</span>);
+        });
+      });
+
+      SONY.$window.on(<span class="string">'resize'</span>, <span class="keyword">function</span>(){
+        cachedFunctions.throttledResize();
+        cachedFunctions.debouncedResize();
+      });
     }
   };
 

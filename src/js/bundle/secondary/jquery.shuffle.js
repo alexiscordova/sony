@@ -121,7 +121,7 @@
                 beforeResizeFunc = $.proxy( self._beforeResize, self );
                 self._debouncedBeforeResize = self.throttle ? self.throttle( self.throttleTime, true, beforeResizeFunc ) : beforeResizeFunc;
             }
-
+            
             // Get debounced versions of our resize methods
             self._debouncedResize = self.throttle ? self.throttle( self.throttleTime, afterResizeFunc ) : afterResizeFunc;
 
