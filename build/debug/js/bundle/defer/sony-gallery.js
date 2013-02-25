@@ -528,13 +528,14 @@
           placement: 'in offsetright',
           trigger: 'click',
           getArrowOffset : function() {
-            var containerWidth = self.$filterOpts.find('.span4').first().width(),
+            var containerWidth = self.$filterOpts.find('.filter-container').first().parent().width(),
                 columnWidth = self.$filterOpts.find('.filter-container').first().width();
 
             return containerWidth - columnWidth;
           },
           getWidth: function() {
-            return self.$filterOpts.find('.span4').first().width();
+            // get the width of the filter-container's parent
+            return self.$filterOpts.find('.filter-container').first().parent().width();
           },
           content: function() {
             return $(this).find('.js-popover-content').html();
