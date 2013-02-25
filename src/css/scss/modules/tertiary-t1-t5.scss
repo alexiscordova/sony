@@ -319,21 +319,38 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	// TYPE: SONYS VOICE
 	.sonys-voice{
-		.fonticon-15-twitter,
-		.fonticon-15-facebook,
-		.fonticon-instagram {
-			background-color: $white;	
-		} // end fonticons
+
+		.icon-container{
+			position: relative;
+			//outline:1px solid red;
+		}
+
+    [class*="fonticon-10-dot"]{
+      display:inline-block;
+      font-size:px-em(18px); 
+
+			&.white-bg{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width:100%;
+				z-index: -1;
+				overflow:hidden;
+				color:$white;
+				font-size:px-em(56px);
+			} // end .white-bg
+    } // end fonticon divs
 
 		.fonticon-15-twitter{
 			color:$twitterColor;
-		} // end .fonticon-10-twitter
+		} // end .fonticon-15-twitter
 
 		.fonticon-15-facebook{
 			color:$facebookColor;
-		} // end .fonticon-10-facebook
+		} // end .fonticon-15-facebook
 
 		.meta{
+			margin-top:8px;
 		  .user{
 		  	color:$gray20;
 		  } // end .user
@@ -366,9 +383,9 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	// TYPE: FLICKR
 	.flickr{
-		.fonticon-flickr{
-			position: relative;
+		.icon-container{
 			//outline:1px solid red;
+			position: relative;
 			width: px-em(44px); 
 			height: 44px;
 
@@ -384,7 +401,6 @@ $tcc-header-padding-bottom-desktop:20px;
 				overflow:hidden;
 				color:$white;
 				font-size:2.8em;
-				//outline:1px solid purple;
 			} // end .white-bg
 
 

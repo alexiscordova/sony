@@ -148,15 +148,10 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     | Answer this Question
             
             when "sonys-voice"
-              if (contentMode == "twitter")
-                .fonticon-15-twitter
-
-              if (contentMode == "facebook")
-                .fonticon-15-facebook
-
-              if (contentMode == "instagram")
-                .fonticon-instagram
-                  img(src="img/tertiary-t1-t5/icon-instagram.png")
+              - iconName = "fonticon-15-" + contentMode
+              .icon-container
+                .white-bg.fonticon-10-dot
+                div(class=iconName)
                 
               .meta
                 for meta in module.meta                   
@@ -227,11 +222,11 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
             when "flickr"
               if (contentMode == "default")
-                .fonticon-flickr
+                .icon-container
                   .white-bg.fonticon-10-dot
-                  .fonticon-10-dot.left
-                  .fonticon-10-dot.right
-
+                  .left.fonticon-10-dot
+                  .right.fonticon-10-dot
+                  
                 .meta.p4
                   for meta in module.meta        
                     | #{meta.user} #{meta.title}
