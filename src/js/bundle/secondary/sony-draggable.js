@@ -76,6 +76,7 @@
 
       self.setDimensions();
       self.handleStartPosition = self.getPagePosition(e);
+      self.isScrubbing = true;
 
       self.$containment.on(_moveEvents, $.proxy(self.onScrubbing, self));
     },
@@ -100,8 +101,14 @@
 
       var self = this;
 
+      if ( !self.isScrubbing ) {
+        return;
+      }
+
       e.preventDefault();
 
+      self.isScrubbing = false;
+      self.$el.trigger('sonyDraggable:dragEnd');
       self.$containment.off(_moveEvents);
     },
 

@@ -57,18 +57,20 @@
   }
 
   .soc-container {
-    width: 100%;
-    overflow: hidden;
     position: relative;
+    width: 100%;
+    height: 490px; // this should differ b/w layouts.
+    overflow: hidden;
     -webkit-tap-highlight-color:rgba(0,0,0,0);
   }
 
   .soc-container-inner {
-    width:100%;
-    display:block;
-    position: absolute;
-    top:0;
-    left:0;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
     -webkit-tap-highlight-color:rgba(0,0,0,0);
   }
 
@@ -119,13 +121,20 @@
   }
 
   .soc-content {
-    width: 100%;
-    display: block;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
+    height: 100%;
+    display: block;
     -webkit-backface-visibility: hidden;
     -webkit-transform: translateZ(0);
+
+    @for $i from 2 to 20 {
+      &:nth-of-type(#{$i}) {
+        top: -100% * ($i - 1);
+        left: 94% * ($i - 1);
+      }
+    }
 
     .soc-button {
       width: 37.202381%;
@@ -1011,48 +1020,8 @@
   }
 
   .soc-grid {
-
     height: 100%;
-    max-width: 1020px;
-
-    @media (min-width:px-em(1201px)){
-      max-width: 1190px;
-      width:93.79189%;
-    }
-
-
-
-  /*   @media (min-width: 768px) and (max-width: 980px) {
-        padding: 0 120px 0 120px;
-    }
-
-    @media (min-width: 481px) and (max-width: 768px) {
-        padding: 0 30px 0 30px;
-    } */
-
-    @media (max-width: 480px) {
-        padding: 0 40px 0 40px;
-
-        .span12 {
-          width: 276px;
-          height: 370px;
-          *width: 277px;
-          *height:371px;
-        }
-
-        padding: 0 10px 0 10px;
-
-        .soc-grid [class*="span"] {
-          margin-left: 0;
-        }
-    }
-
   }
-
-/*   .soc-grid [class*="span"] {
-    margin-left: 2.06835%
-  } */
-
 }
 
 
@@ -1064,7 +1033,7 @@
     / /_/ / /| | / / / / / / / /   / __/    /  |/ / /| | | / /
    / ____/ ___ |/ /_/ / /_/ / /___/ /___   / /|  / ___ | |/ /
   /_/   /_/  |_/_____/_____/_____/_____/  /_/ |_/_/  |_|___/
-                                                                */
+                                                              */
 
 .PADDLENAV{}
   .soc-nav {
