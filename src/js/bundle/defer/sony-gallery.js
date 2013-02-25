@@ -1339,6 +1339,11 @@
       $label.text( self.compareTitle );
 
 
+      self.isUsingOuterScroller = !self.isAndroid;
+      if ( !self.isUsingOuterScroller ) {
+        self.$compareTool.addClass('native-scrolling');
+      }
+
       // Save state for reset
       self.compareState = {
           count: productCount,
@@ -1410,44 +1415,53 @@
         .setCompareRowHeights()
         .setCompareDimensions();
 
+      // Nested iscroll isn't working on android 4.1.1
+      if ( self.isUsingOuterScroller ) {
 
-      // Initialize outer scroller (vertical scrolling of the fixed position modal)
-      self.outerScroller = new IScroll( self.$compareTool[0], {
-        bounce: false,
-        hScrollbar: false,
-        vScrollbar: false,
-        onBeforeScrollStart : function(e) {
-          var target = e.target;
-          while ( target.nodeType !== 1 ) {
-            target = target.parentNode;
-          }
+        // Initialize outer scroller (vertical scrolling of the fixed position modal)
+        self.outerScroller = new IScroll( self.$compareTool[0], {
+          bounce: false,
+          hScrollbar: false,
+          vScrollbar: false,
+          onBeforeScrollStart : function(e) {
+            var target = e.target;
+            while ( target.nodeType !== 1 ) {
+              target = target.parentNode;
+            }
 
-          if ( target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' ) {
-            e.preventDefault();
-          }
+            if ( target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' ) {
+              e.preventDefault();
+            }
 
-          // Add `grabbing` class
-          if ( !self.$compareItemsContainer.hasClass('grabbing') ) {
-            self.$compareItemsContainer.addClass('grabbing');
+            // Add `grabbing` class
+            if ( !self.isTouch && !self.$compareItemsContainer.hasClass('grabbing') ) {
+              self.$compareItemsContainer.addClass('grabbing');
+            }
+          },
+          onBeforeScrollEnd : function() {
+            // Remove `grabbing` class
+            if ( !self.isTouch && self.$compareItemsContainer.hasClass('grabbing') ) {
+              self.$compareItemsContainer.removeClass('grabbing');
+            }
+          },
+          onScrollMove : function() {
+            self.onCompareScroll( self.stickyTriggerPoint, this );
+          },
+          onAnimate : function() {
+            self.onCompareScroll( self.stickyTriggerPoint, this );
+          },
+          onAnimationEnd : function() {
+            iQ.update();
+            self.onCompareScroll( self.stickyTriggerPoint, this );
           }
-        },
-        onBeforeScrollEnd : function() {
-          // Remove `grabbing` class
-          if ( self.$compareItemsContainer.hasClass('grabbing') ) {
-            self.$compareItemsContainer.removeClass('grabbing');
-          }
-        },
-        onScrollMove : function() {
-          self.onCompareScroll( self.stickyTriggerPoint, this );
-        },
-        onAnimate : function() {
-          self.onCompareScroll( self.stickyTriggerPoint, this );
-        },
-        onAnimationEnd : function() {
+        });
+
+      } else {
+        self.$compareTool.on('scroll', function() {
+          self.onCompareScroll( self.stickyTriggerPoint );
           iQ.update();
-          self.onCompareScroll( self.stickyTriggerPoint, this );
-        }
-      });
+        });
+      }
 
 
       // Initialize inner scroller (for the comparable product items)
@@ -1457,14 +1471,15 @@
         // snap: '.compare-item',
         snap: self.compareState.snap, // this is required for iscroll.scrollToPage
         onBeforeScrollStart : function() {
+
           // Add `grabbing` class
-          if ( !self.$compareItemsContainer.hasClass('grabbing') ) {
+          if ( !self.isTouch && !self.$compareItemsContainer.hasClass('grabbing') ) {
             self.$compareItemsContainer.addClass('grabbing');
           }
         },
         onBeforeScrollEnd : function() {
           // Remove `grabbing` class
-          if ( self.$compareItemsContainer.hasClass('grabbing') ) {
+          if ( !self.isTouch && self.$compareItemsContainer.hasClass('grabbing') ) {
             self.$compareItemsContainer.removeClass('grabbing');
           }
         },
@@ -1520,7 +1535,12 @@
       self.$takeoverStickyHeader.removeClass('open').removeAttr('style');
 
       // Destroy iscrolls
-      self.outerScroller.destroy();
+      if ( self.isUsingOuterScroller ) {
+        self.outerScroller.destroy();
+      } else {
+        self.$compareTool.off('scroll');
+        self.$compareTool.removeClass('native-scrolling');
+      }
       self.innerScroller.destroy();
 
       // Remove listeners for nav button clicks
@@ -1742,7 +1762,7 @@
 
     onCompareScroll : function( offsetTop, iscroll ) {
       var self = this,
-          scrollTop = iscroll.y * -1;
+          scrollTop = self.isUsingOuterScroller ? iscroll.y * -1 : self.$compareTool.scrollTop();
 
       // Determine if this is the inner scroller
       if ( offsetTop === 'inner' ) {
@@ -1760,7 +1780,7 @@
           self.$takeoverStickyHeader.addClass('open');
           self.$stickyHeaders.addClass('open');
         }
-        self.setStickyHeaderPos();
+        self.setStickyHeaderPos( scrollTop );
 
       } else {
         if ( self.$stickyHeaders.hasClass('open') ) {
@@ -1932,11 +1952,15 @@
     // Elements here cannot use `fixed` positioning because of a webkit bug.
     // Fixed positions don't work inside an element which has `transform` on it.
     // https://code.google.com/p/chromium/issues/detail?id=20574
-    setStickyHeaderPos : function() {
+    setStickyHeaderPos : function( scrollTop ) {
       var self = this,
           offset = self.$compareItems.not('.hide').first().offset().top * -1,
           compareOffset = offset + self.takeoverHeaderHeight,
-          takeoverValue = self.getY( self.outerScroller.y * -1 ),
+          st = scrollTop || scrollTop === 0 ? scrollTop :
+            self.isUsingOuterScroller ?
+              self.outerScroller.y * -1 :
+              self.$compareTool.scrollTop(),
+          takeoverValue = self.getY( st ),
           compareValue = self.getY( compareOffset );
 
       // Position the sticky headers. These are relative to .compare-item
