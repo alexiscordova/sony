@@ -1389,7 +1389,7 @@
 
       // Save refs
       self.$stickyHeaders = self.$compareTool.find('.compare-sticky-header');
-      self.$compareProductNameWraps = self.$compareTool.find('.product-name-wrap');
+      self.$compareProductNameWraps = self.$compareTool.find('.gallery-item-inner .product-name-wrap');
       self.$compareItemsContainer = self.$compareTool.find('.compare-items-container');
 
       // Trigger modal

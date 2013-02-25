@@ -38,6 +38,7 @@ $fourColMax: px-em(979px);
   .product-rating {
     margin: .5em 0 1em;
     color: $gray40;
+    @include text-overflow();
   }
 
   .price-title {
@@ -1378,6 +1379,13 @@ $oneByOneImgPadding: 107.84313725490196%;
   margin-bottom: 1.125em;
 }
 
+// Don't let label text overflow
+.detail-label strong {
+  display: inline-block;
+  max-width: 100%;
+  @include text-overflow( false );
+}
+
 // Holds labels and compare-items
 .compare-container {
   padding-bottom: 5em;
@@ -1443,10 +1451,6 @@ $oneByOneImgPadding: 107.84313725490196%;
     width: 0;
   }
 
-  .product-model {
-    color: $gray40;
-  }
-
   .compare-sticky-header .product-name-wrap {
     padding-right: 2.5em;
   }
@@ -1473,6 +1477,15 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .media p:not(.media-heading) {
     color: $gray40;
+  }
+
+  .product-model {
+    color: $gray40;
+  }
+
+  .product-name,
+  .product-model {
+    margin-bottom: 0;
   }
 }
 
@@ -1608,11 +1621,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .product-name {
     color: $gray20;
-  }
-
-  .product-name,
-  .product-model {
-    margin-bottom: 0;
   }
 }
 
