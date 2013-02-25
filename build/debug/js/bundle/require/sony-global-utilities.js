@@ -149,7 +149,8 @@ SONY.Utilities = (function(window, document) {
 
     'createGlobalEvents': function() {
 
-      var cachedFunctions = {};
+      var cachedFunctions = {},
+          resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
 
       // Figure out if the window actually resized, or if IE is faking us out.
       // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
@@ -197,7 +198,7 @@ SONY.Utilities = (function(window, document) {
       });
 
       cachedFunctions.debouncedResizeAtBegin200 = $.debounce(200, true, function(){
-        SONY.trigger('global:resizeDebounced-200ms');
+        SONY.trigger('global:resizeDebouncedAtBegin-200ms');
       });
 
       // Base Throttle
@@ -216,7 +217,7 @@ SONY.Utilities = (function(window, document) {
         });
       });
 
-      SONY.$window.on('resize', function(){
+      SONY.$window.on(resizeEvent, function(){
         cachedFunctions.baseThrottle();
       });
     }
