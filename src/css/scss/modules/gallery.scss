@@ -854,9 +854,10 @@ $oneByOneImgPadding: 107.84313725490196%;
     margin-bottom: 0;
 
     -webkit-appearance: button;
-    padding: 0 0 0 12px;
+    padding: 0 26px 0 12px;
     border-radius: 0;
     line-height: 1;
+    @include text-overflow( false );
   }
 
   // arrows
@@ -866,6 +867,14 @@ $oneByOneImgPadding: 107.84313725490196%;
     margin-top: -8px;
     right: 12px;
   }
+}
+
+.touch .sort-options .native-dropdown {
+  display: inline-block;
+}
+
+.touch .sort-options .dropdown {
+  display: none;
 }
 
 // Filter labels ( active filters )
@@ -1113,14 +1122,6 @@ $oneByOneImgPadding: 107.84313725490196%;
   .slide-toggle-target ~ .active-filters-wrap {
     margin-top: 0;
     margin-bottom: 1.25em;
-  }
-
-  .touch .sort-options .native-dropdown {
-    display: inline-block;
-  }
-
-  .touch .sort-options .dropdown {
-    display: none;
   }
 
   .filter-display-bar {
