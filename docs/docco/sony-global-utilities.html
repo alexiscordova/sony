@@ -137,7 +137,8 @@ https://github.com/cowboy/jquery-tiny-pubsub</p>             </td>             <
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Create global events.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'createGlobalEvents'</span>: <span class="keyword">function</span>() {
 
-      <span class="keyword">var</span> cachedFunctions = {};
+      <span class="keyword">var</span> cachedFunctions = {},
+          resizeEvent = <span class="string">'onorientationchange'</span> <span class="keyword">in</span> window ? <span class="string">'orientationchange'</span> : <span class="string">'resize'</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Figure out if the window actually resized, or if IE is faking us out.
 http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer</p>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -182,7 +183,7 @@ http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-interne
       });
 
       cachedFunctions.debouncedResizeAtBegin200 = $.debounce(<span class="number">200</span>, <span class="literal">true</span>, <span class="keyword">function</span>(){
-        SONY.trigger(<span class="string">'global:resizeDebounced-200ms'</span>);
+        SONY.trigger(<span class="string">'global:resizeDebouncedAtBegin-200ms'</span>);
       });
 
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h2>Base Throttle</h2>
@@ -202,7 +203,7 @@ window.resize.</li>
         });
       });
 
-      SONY.$window.on(<span class="string">'resize'</span>, <span class="keyword">function</span>(){
+      SONY.$window.on(resizeEvent, <span class="keyword">function</span>(){
         cachedFunctions.baseThrottle();
       });
     }
