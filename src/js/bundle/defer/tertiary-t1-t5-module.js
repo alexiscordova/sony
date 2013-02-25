@@ -23,7 +23,6 @@
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
-      // Cached 
       self.$win                    = SONY.$window;
       self.isTouch                 = SONY.Settings.hasTouchEvents;
       self.ev                      = $( {} ); //event object
@@ -32,7 +31,8 @@
       self.mode                    = null;
       self.prevMode                = null;
       self.$scrollerInstance       = null;              
-      
+
+      // CACHED SELECTORS      
       self.$container              = $( element );
       self.$el                     = self.$container.find(".tcc-scroller");
       self.containerId             = '#' + self.$container.attr("id");
@@ -44,36 +44,46 @@
       self.$tccBody                = self.$tccBodyWrapper.find(self.contentSelectorClass);
       self.$contentModules         = self.$el.find(self.contentModulesClass);
       self.$hideShowEls            = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);
+      
       self.$loader                 = self.$container.find(".loader");
       
-      self.debounce                = $.debounce;
+      //self.debounce                = $.debounce;
 
-      self.resizeEvent             = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-      self.resizeFunc              = $.proxy( self.onResizeTcc, self ); // function(){self.onResizeTcc();};
+      // EVENTS
+      // namespaced versions of the global event 
+      self.tccNamespace            = '.tcc';
+      self.debounceBeforeEvent     = 'global:resizeDebouncedAtBegin-200ms' + self.tccNamespace; 
+      self.debounceEvent           = 'global:resizeDebounced-200ms' + self.tccNamespace;
+
+      //self.resizeFunc              = $.proxy( self.onResizeTcc, self ); // function(){self.onResizeTcc();};
       self.beforeResizeFunc        = $.proxy( self.beforeResize, self ); // function(){self.handleResize();};
       self.afterResizeFunc         = $.proxy( self.afterResize, self ); // function(){self.handleResize();};
      
       self.sequencerSpeed          = 250;
       self.hideShowSpeed           = 250;
-      self.debounceSpeed           = 300;
+      //self.debounceSpeed           = 300;
      
+      // BREAKPOINTS
       self.phoneBreakpoint         = 479;
       self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
       self.tabletBreakpointMax     = 768;
 
+      // GRID & SPACING
       self.marginPercent          = Number('.0334'); // 22/650 (at 2-up)
       self.paddingPerContent      = 20;
 
-      // Get debounced versions of our resize methods
-
       // define before debounce
-      self.debouncedBeforeResize = self.debounce ? self.debounce( self.debounceSpeed, true, self.beforeResizeFunc ) : self.beforeResizeFunc;
+      //self.debouncedBeforeResize = self.debounce ? self.debounce( self.debounceSpeed, true, self.beforeResizeFunc ) : self.beforeResizeFunc;
+      
+      // register listen for global debounce to call method before debounce begins
+      SONY.on(self.debounceBeforeEvent, self.beforeResizeFunc);
       
       // define resize listener, debounced
-      self.debouncedResize = self.debounce ? self.debounce( self.debounceSpeed, self.afterResizeFunc ) : self.afterResizeFunc; 
-
+      //self.debouncedResize = self.debounce ? self.debounce( self.debounceSpeed, self.afterResizeFunc ) : self.afterResizeFunc; 
+      SONY.on(self.debounceEvent, self.afterResizeFunc);
+    
       // listen
-      self.$win.on(self.resizeEvent + '.tcc', self.resizeFunc); 
+      //self.$win.on(self.resizeEvent + '.tcc', self.resizeFunc); 
 
       // start it
       self.init();
@@ -348,16 +358,16 @@
       },
 
 
-      onResizeTcc : function(  ){
-        // console.log( '««« onResizeTcc »»»' );
-        var self = this;        
+      // onResizeTcc : function(  ){
+      //   // console.log( '««« onResizeTcc »»»' );
+      //   var self = this;        
         
-        // This should execute the first time onResize is called
-        self.debouncedBeforeResize();
+      //   // This should execute the first time onResize is called
+      //   self.debouncedBeforeResize();
 
-        // This should execute the last time onResize is called
-        self.debouncedResize();
-      },
+      //   // This should execute the last time onResize is called
+      //   self.debouncedResize();
+      // },
 
 
       beforeResize : function(  ){
