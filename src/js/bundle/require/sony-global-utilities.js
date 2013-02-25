@@ -197,7 +197,7 @@ SONY.Utilities = (function(window, document) {
       });
 
       cachedFunctions.debouncedResizeAtBegin200 = $.debounce(200, true, function(){
-        SONY.trigger('global:resizeDebounced-200ms');
+        SONY.trigger('global:resizeDebouncedAtBegin-200ms');
       });
 
       // Base Throttle
