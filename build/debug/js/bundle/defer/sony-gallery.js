@@ -530,7 +530,21 @@
       });
 
       // Init popovers
-      self.$filterOpts.find('.js-popover-trigger').each(function() {
+      self.initPopovers();
+
+      // Slide toggle. Reset range control if it was hidden on initialization
+      self.$container.find('.collapse')
+        .on('shown', $.proxy( self.onFiltersShown, self ))
+        .on('show', $.proxy( self.onFiltersShow, self ))
+        .on('hide', $.proxy( self.onFiltersHide, self ));
+
+    },
+
+    initPopovers : function() {
+      var self = this,
+          $triggers = self.$filterOpts.find('.js-popover-trigger');
+
+      $triggers.each(function() {
         var $trigger = $(this);
 
         $trigger.popover({
@@ -552,12 +566,11 @@
         });
       });
 
-      // Slide toggle. Reset range control if it was hidden on initialization
-      self.$container.find('.collapse')
-        .on('shown', $.proxy( self.onFiltersShown, self ))
-        .on('show', $.proxy( self.onFiltersShow, self ))
-        .on('hide', $.proxy( self.onFiltersHide, self ));
-
+      // Hide other popovers when another is clicked
+      $triggers.on('tipshow', function() {
+        var $trigger = $(this);
+        $triggers.not( $trigger ).popover('hide');
+      });
     },
 
     initSorting : function() {
@@ -702,6 +715,21 @@
     destroyCarousels : function() {
       this.$carousels.scrollerModule('destroy');
       this.hasEnabledCarousels = false;
+    },
+
+    fixCarousels : function( isInit ) {
+      var self = this;
+
+      if ( self.hasCarousels ) {
+        if ( self.hasEnabledCarousels ) {
+          self.destroyCarousels();
+        }
+
+        // 980+
+        if ( Modernizr.mq('(min-width: 61.25em)') ) {
+          self.initCarousels( isInit );
+        }
+      }
     },
 
     setFilterStatuses : function() {
@@ -1107,21 +1135,6 @@
       }
 
       return self;
-    },
-
-    fixCarousels : function( isInit ) {
-      var self = this;
-
-      if ( self.hasCarousels ) {
-        if ( self.hasEnabledCarousels ) {
-          self.destroyCarousels();
-        }
-
-        // 980+
-        if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          self.initCarousels( isInit );
-        }
-      }
     },
 
     onResize : function( isInit ) {
