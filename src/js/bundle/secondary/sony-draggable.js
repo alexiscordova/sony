@@ -56,6 +56,8 @@
       self.$containment.on(_endEvents + ' click.sonyDraggable', $.proxy(self.onScrubEnd, self));
       self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
 
+      self.throttledSetAcceleration = $.throttle(500, $.proxy(self.setAcceleration, self));
+
       self.setDimensions();
       self.setPositions();
     },
@@ -79,6 +81,7 @@
       self.isScrubbing = true;
 
       self.$containment.on(_moveEvents, $.proxy(self.onScrubbing, self));
+      self.$el.trigger('sonyDraggable:dragStart');
     },
 
     // Crunch some vectors to compute the handle's position relative to the user's click/touch.
@@ -92,6 +95,9 @@
       self.handlePosition.x = self.scrubberLeft + self.getPagePosition(e).x - self.handleStartPosition.x;
       self.handlePosition.y = self.scrubberTop + self.getPagePosition(e).y - self.handleStartPosition.y;
 
+      // Periodically query the user's position to see how much they've moved recently.
+      self.throttledSetAcceleration(e);
+
       self.setPositions();
     },
 
@@ -101,15 +107,19 @@
 
       var self = this;
 
-      if ( !self.isScrubbing ) {
-        return;
-      }
+      if ( !self.isScrubbing ) { return; }
 
       e.preventDefault();
 
+      // Do a final check on acceleration before returning data in dragEnd.
+      self.setAcceleration(e);
+
       self.isScrubbing = false;
-      self.$el.trigger('sonyDraggable:dragEnd');
       self.$containment.off(_moveEvents);
+
+      self.$el.trigger('sonyDraggable:dragEnd', {
+        'acceleration': self.acceleration
+      });
     },
 
     // Applies the user-defined boundaries to a given position. The *which* parameter defines the x/y axis.
@@ -133,14 +143,38 @@
 
     'getPagePosition': function(e) {
 
+      var self = this;
+
       if ( !e.pageX && !e.originalEvent ) {
         return;
       }
 
+      // Cache position for touchmove/touchstart, as touchend doesn't provide it.
+      if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
+        self.lastTouch = e.originalEvent.touches[0];
+      }
+
       return {
-        'x': (e.pageX || e.originalEvent.touches[0].pageX),
-        'y': (e.pageY || e.originalEvent.touches[0].pageY)
+        'x': (e.pageX || self.lastTouch.pageX),
+        'y': (e.pageY || self.lastTouch.pageY)
       };
+    },
+
+    // Periodically queried to determine the dragging acceleration on x/y axes.
+
+    'setAcceleration': function(e) {
+
+      var self = this,
+          newPosition = self.getPagePosition(e);
+
+      if ( !self.lastPagePosition ) {
+        self.acceleration = {'x': 0, 'y': 0};
+      } else {
+        self.acceleration.x = newPosition.x - self.lastPagePosition.x;
+        self.acceleration.y = newPosition.y - self.lastPagePosition.y;
+      }
+
+      self.lastPagePosition = newPosition;
     },
 
     // Reposition the handle based on mouse movement, or may be called at init for initial placement.

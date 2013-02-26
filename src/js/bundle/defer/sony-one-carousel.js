@@ -1,9 +1,9 @@
 
-// One Sony Carousel (OSC) Module
+// One Sony Carousel (OneSonyCarousel) Module
 // --------------------------------------------
 //
-// * **Class:** OSC
-// * **Version:** 0.1
+// * **Class:** OneSonyCarousel
+// * **Version:** 0.2
 // * **Modified:** 02/20/2013
 // * **Author:** George Pantazis
 // * **Dependencies:** jQuery 1.7+
@@ -40,12 +40,52 @@
         'containment': self.$container
       });
 
-      self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.gotoNearestSlide, self));
+      self.gotoSlide(0);
+      self.createNavigation();
+
+      self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
+      self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
+    },
+
+    // Stop animations that were ongoing when you started to drag.
+
+    'dragStart': function() {
+
+      var self = this;
+
+      self.$innerContainer.stop();
+    },
+
+    // Depending on how fast you were dragging, either proceed to an adjacent slide or
+    // reset position to the nearest one.
+
+    'dragEnd': function(e, data) {
+
+      var self = this,
+          goToWhich;
+
+      if ( data.acceleration.x > 200 ) {
+
+        if ( self.currentSlide === 0 ) {
+          self.gotoNearestSlide();
+        } else {
+          self.gotoSlide(self.currentSlide - 1);
+        }
+      } else if ( data.acceleration.x < -200 ) {
+
+        if ( self.currentSlide === self.$slides.length - 1 ) {
+          self.gotoNearestSlide();
+        } else {
+          self.gotoSlide(self.currentSlide + 1);
+        }
+      } else {
+        self.gotoNearestSlide();
+      }
     },
 
     // Find the nearest slide, and move the carousel to that.
 
-    'gotoNearestSlide': function() {
+    'gotoNearestSlide': function(e, data) {
 
       var self = this,
           leftBounds = (SONY.$window.width() - self.$innerContainer.width())/2,
@@ -58,6 +98,8 @@
       self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
     },
 
+    // Go to a give slide.
+
     'gotoSlide': function(which) {
 
       var self = this,
@@ -67,8 +109,43 @@
 
       self.$innerContainer.animate({
         'left': -100 * $destinationSlide.position().left / SONY.$window.width()  + '%'
-      }, 1000);
+      }, {
+        'duration': 1000,
+        'easing': 'easeOutExpo',
+        'complete': function() {
+          window.iQ.update();
+        }
+      });
+
+      self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);
+    },
+
+    createNavigation: function (){
+
+      var self = this;
+
+      if ( self.$dotnav ) {
+        self.$dotnav.sonyNavDots('reset', {
+          'buttonCount': self.$slides.length
+        });
+        return;
+      }
+
+      self.$dotnav = self.$el.find('.soc-dot-nav').sonyNavDots({
+        'buttonCount': self.$slides.length
+      });
+
+      self.$dotnav.on('SonyNavDots:clicked', function(e, which){
+        self.gotoSlide(which);
+      });
+
+      self.$el.on('oneSonyCarousel:gotoSlide', function(e, which) {
+        self.$dotnav.sonyNavDots('reset', {
+          'activeButton': which
+        });
+      });
     }
+
   };
 
   $.fn.oneSonyCarousel = function( options ) {
@@ -97,7 +174,7 @@
   // Initialize
   // ----------
 
-  window.SONY.on('global:ready', function(){
+  SONY.on('global:ready', function(){
     $('.sony-one-carousel').oneSonyCarousel();
   });
 
@@ -1122,3 +1199,14 @@
 //     });
 
 //  })( jQuery, Modernizr, window, undefined );
+
+
+
+jQuery.extend(jQuery.easing, {
+  easeOutExpo: function (x, t, b, c, d) {
+    return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+  }
+});
+
+
+
