@@ -117,6 +117,8 @@
         self.$grid.infinitescroll('resume');
       }
 
+      self.$container.removeClass('disabled');
+
       self.enabled = true;
 
       if ( self.hasCarousels ) {
@@ -139,6 +141,8 @@
       if ( self && self.hasInfiniteScroll ) {
         self.$grid.infinitescroll('pause');
       }
+
+      self.$container.addClass('disabled');
 
       self.enabled = false;
     },

@@ -13,9 +13,11 @@ SONY.Utilities = (function(window, document) {
   var self = {
     'forceWebkitRedrawHack': function(){
       //force webkit redraw hack
-      $('<style></style>').appendTo($(document.body)).remove();
+      $('<style/>')
+        .appendTo( SONY.$body )
+        .remove();
     },
-    
+
 
     // Return calculated column if width is above 568px/35.5em
 
