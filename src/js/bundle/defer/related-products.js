@@ -983,14 +983,12 @@
               self.$shuffleContainers.each(function(){
                 var shfflInst = $(this).data('shuffle');
 
-
                 if(shfflInst !== undefined){
                   shfflInst.destroy();
                   shfflInst = null;
                 }
 
               });
-
             }
 
             //Hide the bullet navigation
@@ -1718,7 +1716,9 @@
 
         //hide paddles and nav
         self.$paddles.hide();
-        self.$el.find('.rp-nav').hide();
+
+        //hide navigation dots
+        self.$pagination.hide();
 
         //attemp to place the title plates in the first position before detaching
         self.$slides.each(function(){
@@ -1744,6 +1744,7 @@
         self.$galleryItems.not('.blank').appendTo(self.$container);
 
         self.$el.find('.gallery-item.medium').css('height' , '');
+        self.$el.find('.gallery-item.medium .product-img').css('height' , '');
 
         //init the scroller module
         setTimeout(function(){
@@ -1776,6 +1777,8 @@
           }).data('scrollerModule');
 
           self.$galleryItems.find('.product-name').evenHeights();
+          self.$el.find('.gallery-item.medium').css('height' , '');
+          self.$el.find('.gallery-item.medium .product-img').css('height' , '');
 
           window.iQ.update();
         }, 100);
