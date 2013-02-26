@@ -3,7 +3,7 @@
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
-// Modified: 01/01/2013
+// Modified: 02/22/2013
 // Dependencies: jQuery 1.7+, Modernizr
 // Author: Glen Cheney
 // --------------------------------------
@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = SONY.$window || $(window);
+    self.$window = SONY.$window;
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
@@ -45,7 +45,8 @@
     self.hasCarousels = self.$carousels.length > 0;
 
     // Other vars
-    self.windowSize = self.$window.width();
+    self.windowWidth = SONY.Settings.windowWidth;
+    self.windowHeight = SONY.Settings.windowHeight;
 
     self.$container.addClass('gallery-' + self.mode);
 
@@ -53,6 +54,7 @@
 
     self.initShuffle();
 
+    self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
     self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
 
     // Infinite scroll?
@@ -96,11 +98,11 @@
 
     enable : function() {
       var self = this;
-      
-      
+
+
       // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
       self.onResize();
-      
+
       // Already enabled
       if ( self.enabled ) {
         return;
@@ -527,13 +529,14 @@
           placement: 'in offsetright',
           trigger: 'click',
           getArrowOffset : function() {
-            var containerWidth = self.$filterOpts.find('.span4').first().width(),
+            var containerWidth = self.$filterOpts.find('.filter-container').first().parent().width(),
                 columnWidth = self.$filterOpts.find('.filter-container').first().width();
 
             return containerWidth - columnWidth;
           },
           getWidth: function() {
-            return self.$filterOpts.find('.span4').first().width();
+            // get the width of the filter-container's parent
+            return self.$filterOpts.find('.filter-container').first().parent().width();
           },
           content: function() {
             return $(this).find('.js-popover-content').html();
@@ -606,7 +609,9 @@
         // Show new product count
         self.$productCount.text( self.$grid.data('shuffle').visibleItems );
 
+        // Initialize swatches and tooltips for ajax content
         self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
+        self.initTooltips( $newElements.find('.js-favorite') );
 
         // Update iQ images
         iQ.update( true );
@@ -633,13 +638,15 @@
       });
     },
 
-    initTooltips : function() {
+    initTooltips : function( $favorites ) {
       var self = this;
 
-      // Favorite Heart
-      self.$favorites.on('click', $.proxy( self.onFavorite, self ));
+      $favorites = $favorites || self.$favorites;
 
-      self.$container.find('.js-favorite').tooltip({
+      // Favorite Heart
+      $favorites.on('click', $.proxy( self.onFavorite, self ));
+
+      $favorites.tooltip({
         placement: 'offsettop',
         title: function() {
           var $jsFavorite = $(this);
@@ -664,7 +671,7 @@
       }
 
       // Go through each possible carousel
-      self.$carousels.each(function(i,e) {
+      self.$carousels.each(function() {
         var $carousel = $(this),
             $firstImage;
 
@@ -1091,33 +1098,38 @@
 
       return self;
     },
-    
-    fixCarousels:function(isInit){
+
+    fixCarousels : function( isInit ) {
       var self = this;
-            
+
       if ( self.hasCarousels ) {
         if ( self.hasEnabledCarousels ) {
           self.destroyCarousels();
         }
-        
+
         // 980+
         if ( Modernizr.mq('(min-width: 61.25em)') ) {
           self.initCarousels( isInit );
         }
-      }  
+      }
     },
 
     onResize : function( isInit ) {
-      var self = this;
-
-      if ( !self.enabled ) {
-        return;
-      }
+      var self = this,
+          windowWidth = self.$window.width(),
+          windowHeight = self.$window.height(),
+          hasWindowChanged = windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
       // Make sure isInit is not an event object
       isInit = isInit === true;
 
-      // console.log('onResize:', self.id, ' - (iOS is triggering resizes when it shouldnt be)');
+      // Return if the window hasn't changed sizes or the gallery is disabled
+      if ( !isInit && (!self.enabled || !hasWindowChanged) ) {
+        return;
+      }
+
+      self.windowWidth = windowWidth;
+      self.windowHeight = windowHeight;
 
       // Don't change columns for detail galleries
       // Change the filters column layout
@@ -1162,7 +1174,6 @@
           }, 25);
         }
 
-        // Go home detailed gallery, you're drunk
         return;
       }
 
@@ -1171,8 +1182,10 @@
       self.$gridProductNames.evenHeights();
 
       self.fixCarousels(isInit);
-      
+
       self.sortByPriority();
+
+      SONY.Utilities.forceWebkitRedrawHack();
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -1292,10 +1305,10 @@
 
       // Create reset button
       self.$compareReset = $('<button/>', {
-          'class' : 'btn btn-small btn-alt-special btn-reset disabled js-compare-reset iconTrigger-ui2-reset',
+          'class' : 'btn btn-small btn-alt-special btn-reset disabled js-compare-reset',
           'text' : $header.data('resetLabel')
       });
-      self.$compareReset.append('<i class="icon-ui2-reset">');
+      self.$compareReset.append('<i class="fonticon-10-circlearrow">');
       self.$compareReset.on('click', $.proxy( self.onCompareReset, self ));
 
       self.isFixedHeader = false;
@@ -1332,6 +1345,11 @@
       // Set the right heading. e.g. Compare Cyber-shot®
       $label.text( self.compareTitle );
 
+
+      self.isUsingOuterScroller = !self.isAndroid;
+      if ( !self.isUsingOuterScroller ) {
+        self.$compareTool.addClass('native-scrolling');
+      }
 
       // Save state for reset
       self.compareState = {
@@ -1378,7 +1396,7 @@
 
       // Save refs
       self.$stickyHeaders = self.$compareTool.find('.compare-sticky-header');
-      self.$compareProductNameWraps = self.$compareTool.find('.product-name-wrap');
+      self.$compareProductNameWraps = self.$compareTool.find('.gallery-item-inner .product-name-wrap');
       self.$compareItemsContainer = self.$compareTool.find('.compare-items-container');
 
       // Trigger modal
@@ -1404,44 +1422,53 @@
         .setCompareRowHeights()
         .setCompareDimensions();
 
+      // Nested iscroll isn't working on android 4.1.1
+      if ( self.isUsingOuterScroller ) {
 
-      // Initialize outer scroller (vertical scrolling of the fixed position modal)
-      self.outerScroller = new IScroll( self.$compareTool[0], {
-        bounce: false,
-        hScrollbar: false,
-        vScrollbar: false,
-        onBeforeScrollStart : function(e) {
-          var target = e.target;
-          while ( target.nodeType !== 1 ) {
-            target = target.parentNode;
-          }
+        // Initialize outer scroller (vertical scrolling of the fixed position modal)
+        self.outerScroller = new IScroll( self.$compareTool[0], {
+          bounce: false,
+          hScrollbar: false,
+          vScrollbar: false,
+          onBeforeScrollStart : function(e) {
+            var target = e.target;
+            while ( target.nodeType !== 1 ) {
+              target = target.parentNode;
+            }
 
-          if ( target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' ) {
-            e.preventDefault();
-          }
+            if ( target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' ) {
+              e.preventDefault();
+            }
 
-          // Add `grabbing` class
-          if ( !self.$compareItemsContainer.hasClass('grabbing') ) {
-            self.$compareItemsContainer.addClass('grabbing');
+            // Add `grabbing` class
+            if ( !self.isTouch && !self.$compareItemsContainer.hasClass('grabbing') ) {
+              self.$compareItemsContainer.addClass('grabbing');
+            }
+          },
+          onBeforeScrollEnd : function() {
+            // Remove `grabbing` class
+            if ( !self.isTouch && self.$compareItemsContainer.hasClass('grabbing') ) {
+              self.$compareItemsContainer.removeClass('grabbing');
+            }
+          },
+          onScrollMove : function() {
+            self.onCompareScroll( self.stickyTriggerPoint, this );
+          },
+          onAnimate : function() {
+            self.onCompareScroll( self.stickyTriggerPoint, this );
+          },
+          onAnimationEnd : function() {
+            iQ.update();
+            self.onCompareScroll( self.stickyTriggerPoint, this );
           }
-        },
-        onBeforeScrollEnd : function() {
-          // Remove `grabbing` class
-          if ( self.$compareItemsContainer.hasClass('grabbing') ) {
-            self.$compareItemsContainer.removeClass('grabbing');
-          }
-        },
-        onScrollMove : function() {
-          self.onCompareScroll( self.stickyTriggerPoint, this );
-        },
-        onAnimate : function() {
-          self.onCompareScroll( self.stickyTriggerPoint, this );
-        },
-        onAnimationEnd : function() {
+        });
+
+      } else {
+        self.$compareTool.on('scroll', function() {
+          self.onCompareScroll( self.stickyTriggerPoint );
           iQ.update();
-          self.onCompareScroll( self.stickyTriggerPoint, this );
-        }
-      });
+        });
+      }
 
 
       // Initialize inner scroller (for the comparable product items)
@@ -1451,14 +1478,15 @@
         // snap: '.compare-item',
         snap: self.compareState.snap, // this is required for iscroll.scrollToPage
         onBeforeScrollStart : function() {
+
           // Add `grabbing` class
-          if ( !self.$compareItemsContainer.hasClass('grabbing') ) {
+          if ( !self.isTouch && !self.$compareItemsContainer.hasClass('grabbing') ) {
             self.$compareItemsContainer.addClass('grabbing');
           }
         },
         onBeforeScrollEnd : function() {
           // Remove `grabbing` class
-          if ( self.$compareItemsContainer.hasClass('grabbing') ) {
+          if ( !self.isTouch && self.$compareItemsContainer.hasClass('grabbing') ) {
             self.$compareItemsContainer.removeClass('grabbing');
           }
         },
@@ -1514,7 +1542,12 @@
       self.$takeoverStickyHeader.removeClass('open').removeAttr('style');
 
       // Destroy iscrolls
-      self.outerScroller.destroy();
+      if ( self.isUsingOuterScroller ) {
+        self.outerScroller.destroy();
+      } else {
+        self.$compareTool.off('scroll');
+        self.$compareTool.removeClass('native-scrolling');
+      }
       self.innerScroller.destroy();
 
       // Remove listeners for nav button clicks
@@ -1659,6 +1692,12 @@
           // If this isn't the first call, the elements are already on the page and need to be detached
           $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
           $sorter = isFirst ? $sortOpts : $sortOpts.detach();
+
+          // Put the dropdown menu on the left
+          if ( !self.isTouch ) {
+            $sorter.find('.dropdown-menu').removeClass('pull-right');
+          }
+
           $subheader.append( $resetBtn, $sorter );
 
           // Insert subhead in the modal header
@@ -1689,6 +1728,12 @@
           // If this isn't the first call, the elements are already on the page and need to be detached
           $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
           $sorter = isFirst ? $sortOpts : $sortOpts.detach();
+
+          // Make dropdown menu on the right
+          if ( !self.isTouch ) {
+            $sorter.find('.dropdown-menu').addClass('pull-right');
+          }
+
           $header.append( $resetBtn, $sorter );
 
           self.$compareTool.find('.modal-subheader').remove();
@@ -1724,7 +1769,7 @@
 
     onCompareScroll : function( offsetTop, iscroll ) {
       var self = this,
-          scrollTop = iscroll.y * -1;
+          scrollTop = self.isUsingOuterScroller ? iscroll.y * -1 : self.$compareTool.scrollTop();
 
       // Determine if this is the inner scroller
       if ( offsetTop === 'inner' ) {
@@ -1742,7 +1787,7 @@
           self.$takeoverStickyHeader.addClass('open');
           self.$stickyHeaders.addClass('open');
         }
-        self.setStickyHeaderPos();
+        self.setStickyHeaderPos( scrollTop );
 
       } else {
         if ( self.$stickyHeaders.hasClass('open') ) {
@@ -1914,11 +1959,15 @@
     // Elements here cannot use `fixed` positioning because of a webkit bug.
     // Fixed positions don't work inside an element which has `transform` on it.
     // https://code.google.com/p/chromium/issues/detail?id=20574
-    setStickyHeaderPos : function() {
+    setStickyHeaderPos : function( scrollTop ) {
       var self = this,
           offset = self.$compareItems.not('.hide').first().offset().top * -1,
           compareOffset = offset + self.takeoverHeaderHeight,
-          takeoverValue = self.getY( self.outerScroller.y * -1 ),
+          st = scrollTop || scrollTop === 0 ? scrollTop :
+            self.isUsingOuterScroller ?
+              self.outerScroller.y * -1 :
+              self.$compareTool.scrollTop(),
+          takeoverValue = self.getY( st ),
           compareValue = self.getY( compareOffset );
 
       // Position the sticky headers. These are relative to .compare-item
@@ -2137,9 +2186,9 @@
 
     setCompareHeight : function() {
       var self = this,
-          windowHeight = self.isIphone ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
+          windowHeight = SONY.Settings.isIPhone || SONY.Settings.isAndroid ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
 
-      // console.log('window height', windowHeight);
+      console.log('window height', windowHeight);
 
       self.$compareTool.find('.compare-container').height( self.$compareItems.first().height() );
       self.$compareTool.height( windowHeight );
@@ -2175,7 +2224,6 @@
       // Set detail rows to even heights
       self.$compareTool.find('.detail-label').each(function(i) {
         var $detailLabel = $(this),
-            // maxHeight = parseFloat( $detailLabel.css('height') ) + parseFloat( $detailLabel.css('paddingTop') ),
             $detail = self.$compareItems.find('.detail:nth-child(' + (i + 1) + ')');
 
         // Find all detail lines that have this "name"
@@ -2234,7 +2282,6 @@
     hasEnabledCarousels: false,
     sorted: false,
     isTouch: SONY.Settings.hasTouchEvents,
-    isiPhone: SONY.Settings.isIPhone,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
@@ -2277,13 +2324,12 @@
 
     // Enable all galleries in this tab
     evt.pane.find('.gallery').gallery('enable');
-    
-    //force webkit redraw hack
-    $('<style></style>').appendTo($(document.body)).remove();
-    
+
+    SONY.Utilities.forceWebkitRedrawHack();
+
     var gallery = evt.pane.find('.gallery').data('gallery');
-    
-    if(gallery){
+
+    if ( gallery ) {
       gallery.fixCarousels(false);
     }
 
