@@ -355,8 +355,6 @@ if their interaction time and movements are below certain thresholds.</p>       
         self.updateSlides();
         self.updatePaddles();
 
-        
-
         <span class="keyword">if</span>(self.mode === <span class="string">'suggested'</span>){
           <span class="keyword">return</span>;
         }
@@ -367,7 +365,9 @@ if their interaction time and movements are below certain thresholds.</p>       
           self.$shuffleContainers.each(<span class="keyword">function</span>(){
             <span class="keyword">var</span> shfflInst = $(<span class="keyword">this</span>).data(<span class="string">'shuffle'</span>);
 
-            <span class="keyword">if</span>(shfflInst === <span class="literal">undefined</span>){<span class="keyword">return</span>;}
+            <span class="keyword">if</span>(shfflInst === <span class="literal">undefined</span>){
+              <span class="keyword">return</span>;
+            }
 
             setTimeout(<span class="keyword">function</span>(){
               self.updateSliderSize();
@@ -1318,6 +1318,8 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
           cw = <span class="number">1190</span>;
           newPos = ( -self.currentId * cw );
           newPos -= (<span class="number">1190</span> - self.$win.width() ) * <span class="number">0.5</span>;
+        }<span class="keyword">else</span> <span class="keyword">if</span>( self.isIE7orIE8 ){
+          newPos += Math.ceil(widthDifference);
         }
 
         <span class="keyword">if</span>(self.mode === <span class="string">'suggested'</span>){
@@ -1369,6 +1371,8 @@ self.$el.css('height' , 1.05 * self.$el.width());</p>             </td>         
           newPos =  -self.currentId * <span class="number">1190</span> ;
           newPos -= (<span class="number">1190</span> - self.$win.width() ) * <span class="number">0.5</span>;
           newDist = Math.abs(self.sPosition  - newPos);
+        }<span class="keyword">else</span> <span class="keyword">if</span>( self.isIE7orIE8 ){
+          newPos += Math.ceil(widthDifference);
         }
 
         self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
