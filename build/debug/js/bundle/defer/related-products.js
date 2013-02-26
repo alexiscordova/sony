@@ -3,8 +3,8 @@
 //
 // * **Class:** RelatedProducts
 // * **Version:** 0.1
-// * **Modified:** 02/08/2013
-// * **Author:** Tyler Madison , Glen Cheney
+// * **Modified:** 02/22/2013
+// * **Author:** Tyler Madison, Glen Cheney, George Pantazis
 // * **Dependencies:** jQuery 1.7+ , Modernizr
 //
 // *Notes:*
@@ -18,46 +18,34 @@
 
     'use strict';
 
+    //Define Related Products plugins object
     if(!$.rpModules) {
         $.rpModules = {};
     }
 
-    //start module
+    //Related Products Definition
     var RelatedProducts = function(element, options){
-      var self      = this,
-      ua            = navigator.userAgent.toLowerCase();
-
+      var self           = this,
+      transEndEventNames = {
+        'WebkitTransition' : 'webkitTransitionEnd',
+        'MozTransition'    : 'transitionend',
+        'OTransition'      : 'oTransitionEnd',
+        'msTransition'     : 'MSTransitionEnd',
+        'transition'       : 'transitionend'};
+      
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
-      // feature detection, some ideas taken from Modernizr
-      var tempStyle = document.createElement('div').style,
-      vendors       = ['webkit','Moz','ms','O'],
-      vendor        = '',
-      lastTime      = 0,
-      tempV         = '';
-
-      for (var i = 0; i < vendors.length; i++ ) {
-        tempV = vendors[i];
-        if (!vendor && (tempV + 'Transform') in tempStyle ) {
-            vendor = tempV;
-        }
-        tempV = tempV.toLowerCase();
-      }
-
-      var bT = vendor + (vendor ? 'T' : 't' ),
-      transEndEventNames = {
-          'WebkitTransition' : 'webkitTransitionEnd',
-          'MozTransition'    : 'transitionend',
-          'OTransition'      : 'oTransitionEnd',
-          'msTransition'     : 'MSTransitionEnd',
-          'transition'       : 'transitionend'
-      };
-
+      //Detect if we can use CSS3 transitions
       self.useCSS3Transitions = Modernizr.csstransitions;
 
       if(self.useCSS3Transitions) {
           self.use3dTransform = Modernizr.csstransforms3d;
       }
+
+      self.DEBUG                 = true;
+
+      self.LANDSCAPE_BREAKPOINT  = 980;
+      self.MOBILE_BREAKPOINT     = 567;
 
       self.$paddles              = $({});
       self.$el                   = $(element);
@@ -68,11 +56,10 @@
       self.$container            = self.$el.find('.rp-container').eq(0);
       self.$tabbedContainer      = self.$el.parent();
       self.$bulletNav            = $();
-      self.$doc                  = $(document);
-      self.$win                  = $(window);
-      self.$html                 = $('html');
+      self.$doc                  = SONY.$document;
+      self.$win                  = SONY.$window;
+      self.$html                 = SONY.$html;
 
-      self.vendorPrefix          = '-' + vendor.toLowerCase() + '-';
       self.ev                    = $({}); //event object
       self.prefixed              = Modernizr.prefixed;
       self.transitionName        = self.prefixed('transition');
@@ -95,24 +82,28 @@
       self.shuffleSpeed          = 250;
       self.shuffleEasing         = 'ease-out';
       self.paddlesEnabled        = false;
+      self.resizeTimeout         = null;
+      self.startInteractionPointX = null;
       
       self.hasMediaQueries       = Modernizr.mediaqueries;
       self.mq                    = Modernizr.mq;
       self.oldIE                 = self.$html.hasClass('lt-ie8');
       self.inited                = false;
-      self.isResponsive          = !$('html').hasClass('lt-ie9') && !$('html').hasClass('lt-ie8') && self.hasMediaQueries;
+      self.isResponsive          = !self.$html.hasClass('lt-ie9') && !self.$html.hasClass('lt-ie8') && self.hasMediaQueries;
 
-      if( !self.hasMediaQueries && $('html').hasClass('lt-ie9') || self.oldIE){
+      //fixes a bug in IE when media queries aren't available
+      if( !self.hasMediaQueries && self.$html.hasClass('lt-ie9') || self.oldIE){
         self.mq = function(){
           return false;
         };
       }
 
+      //Determine the variaion of the module
       if(self.variation !== undefined){
         self.variation = self.variation.split('-')[2];
       }
 
-      //modes
+      //Modes
       self.isMobileMode          = false;
       self.isDesktopMode         = false;
       self.isTabletMode          = false;
@@ -139,16 +130,6 @@
           self.hasTouch = false;
           self.lastItemFriction = 0.2;
 
-/*          if (browser.msie || browser.opera) {
-            self.grabCursor = self.grabbingCursor = "move";
-          } else if(browser.mozilla) {
-            self.grabCursor     = "-moz-grab";
-            self.grabbingCursor = "-moz-grabbing";
-          } else if(isWebkit && (navigator.platform.indexOf("Mac")!=-1)) {
-            self.grabCursor     = "-webkit-grab";
-            self.grabbingCursor = "-webkit-grabbing";
-          }*/
-
           self.downEvent   = 'mousedown.rp';
           self.moveEvent   = 'mousemove.rp';
           self.upEvent     = 'mouseup.rp';
@@ -159,10 +140,10 @@
       if(self.useCSS3Transitions) {
 
         // some constants for CSS3
-        self.TP     = 'transition-property';
-        self.TD     = 'transition-duration';
-        self.TTF    = 'transition-timing-function';
-        self.yProp  = self.xProp = self.vendorPrefix +'transform';
+        self.TP     = 'transitionProperty';
+        self.TD     = 'transitionDuration';
+        self.TTF    = 'transitionTimingFunction';
+        self.yProp  = self.xProp = self.prefixed ( 'transform' );
 
         if(self.use3dTransform) {
           self.tPref1 = 'translate3d(';
@@ -174,7 +155,7 @@
           self.tPref3 = 'px)';
         }
 
-        self.$container[(self.vendorPrefix + self.TP)] = (self.vendorPrefix + 'transform');
+        self.$container[ self.prefixed( self.TP ) ] = self.prefixed ( 'transform' );
 
       } else {
         self.xProp = 'left';
@@ -185,16 +166,14 @@
         var gutter = 0,
             numColumns = 0;
 
-        if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || $('html').hasClass('lt-ie10') ) {
-          gutter = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
-          
+        if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+          gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
           numColumns = 5;
 
         // // Portrait Tablet ( 4 columns ) - masonry
         } else if ( self.mq('(min-width: 567px)') ) {
           numColumns = 4;
-          gutter = window.Exports.GUTTER_WIDTH_SLIM * containerWidth;
-        // Between Portrait tablet and phone ( 3 columns )
+          gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
         }
 
         self.setColumns(numColumns);
@@ -203,78 +182,51 @@
           gutter = 0;
         }
 
-        //self.log(' shuffleGutters  ' , gutter );
-
-
         return gutter;
       };
 
       self.shuffleColumns = function(containerWidth){
           var column = 0;
 
-          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || $('html').hasClass('lt-ie10')) {
-            column = window.Exports.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
-
+          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+            column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
           // Between Portrait tablet and phone ( 3 columns )
           } else if ( self.mq('(min-width: 567px)') ) {
-            column = window.Exports.COLUMN_WIDTH_SLIM * containerWidth;
+            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+          // Default
           }else{
             column = containerWidth;
           }
 
           if(column === 0){
-            column = 0.001;
+            column = 0.001; // fixes a bug with shuffle that crashes when column width is returned as 0
           }
-
-          //self.log(' shuffleColumns  ' , column );
 
           return column;
       };
-      //start her off
+      
+      //startup
       self.init();
 
     };
 
     RelatedProducts.prototype = {
-      setupLinkClicks: function(){
-
-        var self = this;
-
-        self.$galleryItems.on( self.clickEvent , function(e){
-
-          var $this = $(this),
-              destination = $this.attr('href');
-
-          if ( self.startInteractionTime ) {
-            if ((new Date().getTime()) - self.startInteractionTime < 50) {
-              window.location = destination;
-            }
-          }
-        });
-
-        self.$galleryItems.on( self.clickEvent, function(e){
-          e.preventDefault();
-        });
-      },
-
-      toString: function(){
-        return '[ object RelatedProducts ]';
-      },
-
       init: function(){
         var self = this;
 
         self.setupLinkClicks();
 
         // Don't do this for modes other than 3 and 4 up
-        if(self.variation === '3up' || self.variation === '4up' || self.variation === '5up'){
-          self.setSortPriorities();
+        if(self.variation === '3up' ||
+           self.variation === '4up' ||
+           self.variation === '5up'){
+            self.setSortPriorities();
         }
 
         if(self.$slides.length > 1){
           self.createNavigation();
           if(!self.hasTouch){
-            //self.setupPaddles();
+            self.createPaddles();
           }
           if(self.mode != 'strip'){
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
@@ -283,65 +235,95 @@
         if(self.mode != 'strip'){
           self.setSortPriorities();
           self.setupResizeListener();
-          //self.log('rp - init');
-          $(window).trigger('resize');
+          self.$win.trigger('resize');
         }else {
           self.setupStripMode();
         }
-
-        
-
       },
+
+      //Set up outbound links to not interfere with dragging between slides
+      setupLinkClicks: function(){
+        var self = this;
+        self.$galleryItems.on( self.tapOrClick() , function(e){
+          var $item   = $(this),
+          destination = $item.attr('href'),
+          point, distanceMoved;
+
+          if ( self.hasTouch ) {
+            point = e.originalEvent.touches[0];
+          } else {
+            point = e;
+          }
+
+          // To prevent drags from being misinterpreted as clicks, we only redirect the user
+          // if their interaction time and movements are below certain thresholds.
+
+          if ( self.startInteractionTime && self.startInteractionPointX ) {
+
+            distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
+
+            if ((new Date().getTime()) - self.startInteractionTime < 250 && distanceMoved < 25 ) {
+              window.location = destination;
+            }
+          }
+        });
+
+        self.$galleryItems.on( self.tapOrClick() , function(e){
+          e.preventDefault();
+        });
+      },
+
+      toString: function(){
+        return '[ object RelatedProducts ]';
+      },
+
       setupResizeListener: function(){
-        var self = this,
-        resizeTimeout = null;
+        var self      = this,
+        resizeTimeout = null,
 
-        if(self.mode !== 'suggested'){
-/*          $(window).on('resize', function(){
-            if(!self.isMobileMode && self.$win.width() > 567) {
+        //Some value constants
+        VISIBLE       = 'visible',
+        HIDDEN        = 'hidden',
+        BLANK         = '.blank',
+        REDRAWING     = 'redrawing';
 
-             self.$galleryItems.css({
-               'visibility' : 'hidden',
-                'opacity' : 0
-              });
-
-             self.$el.addClass('redrawing');
-
+        if(self.mode !== 'suggested' && !self.oldIE){
+         self.$win.on('resize', function(){
+          if(!self.isMobileMode && self.$win.width() > self.MOBILE_BREAKPOINT) {
+            self.$galleryItems.css({
+              visibility : HIDDEN,
+              opacity    : 0
+            });
+            self.$el.addClass( REDRAWING );
            }else{
-             self.$el.css({
-              'opacity' : 1,
-              'visibility' : 'visible'
-              });
-               self.$galleryItems.not('.blank').css({
-               'visibility' : 'visible',
-                'opacity' : 1
-              });
-
-              self.$el.removeClass('redrawing');
+            self.$el.css({
+              opacity : 1,
+              visibility : VISIBLE
+            });
+            self.$galleryItems.not(BLANK).css({
+              visibility : VISIBLE,
+              opacity : 1
+            });
+            self.$el.removeClass( REDRAWING );
            }
-
-          });*/
-
-         self.$el.css({
-          'opacity' : 1,
-          'visibility' : 'visible'
           });
-           self.$galleryItems.not('.blank').css({
-           'visibility' : 'visible',
-            'opacity' : 1
+        } else {
+          self.$el.css({
+            opacity : 1,
+            visibility : VISIBLE
           });
-
-          self.$el.removeClass('redrawing');
-
+           self.$galleryItems.not(BLANK).css({
+           visibility : VISIBLE,
+            opacity : 1
+          });
+          self.$el.removeClass( REDRAWING );
         }
 
-        $(window).on('resize', $.debounce(500 , $.proxy(self.handleResize , self)));
-
+        self.$win.on( 'resize', $.debounce( 500 , $.proxy(self.handleResize , self)) );
       },
 
       handleResize:function() {
-        var self = this,
-        resizeTimeout = null;
+        var self = this;
 
         if( self.oldIE && self.inited ){
           self.updateSlides();
@@ -352,8 +334,6 @@
           self.inited = true;
         }
 
-        //self.log('handleing resize');
-
         self.checkForBreakpoints();
         self.updateSliderSize();
         self.updateSlides();
@@ -363,8 +343,9 @@
           return;
         }
 
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function(){
+        //Needed a way to kill this timer if multiple resizes happen
+        clearTimeout( self.resizeTimeout );
+        self.resizeTimeout = setTimeout(function(){
 
           self.$shuffleContainers.each(function(){
             var shfflInst = $(this).data('shuffle');
@@ -387,7 +368,7 @@
                   medGalItemHeight = 600;
                   
                   $item.css({
-                    'height' : tileHeight
+                    height : tileHeight
                   });
 
                   if($item.hasClass('plate')){
@@ -395,32 +376,27 @@
 
                     });
                     $itemImg.css({
-                      'height' : tileHeight
+                      height : tileHeight
                     });
                   }else if( $item.hasClass('medium') ){
                     $item.css({
 
-                      'height' : medGalItemHeight
+                      height : medGalItemHeight
                     });
                     $itemImg.css({
-                      'height' : medGalImgHeight
+                      height : medGalImgHeight
                     });
 
                   }else if( $item.hasClass('normal') ){
 
                     $itemImg.css({
-                      'height' : galImageHeight
+                      height : galImageHeight
                     });
                   }
 
-                  //self.log( self.$el.find('.rp-slide').eq(0).width()  , ' x ' , self.$el.find('.rp-slide').eq(0).height());
-
                 });
-                //self.log('height after all is said and done: ' , self.$galleryItems.eq(0).height());
 
                 shfflInst.update();
-
-
                 self.updateSlides();
               }
 
@@ -430,10 +406,10 @@
                 self.animateTiles();
               }
 
-            } , 250);
+            } , 50);
 
           });
-        } , 50);
+        } , 10);
       },
 
       log : function (){
@@ -446,41 +422,38 @@
           strOut += i > 0 ? ' , ' : ' ';
         }
 
-        if(self.oldIE){
-          window.alert(strOut);
-        }else{
-          window.console.log(strOut);
+        if(self.oldIE && self.DEBUG){
+          if(window.alert){
+            window.alert(strOut);
+          }
+        }else if(self.DEBUG) {
+          if(window.console){
+           window.console.log(strOut);
+          }
         }
-        
-
       },
       setupStripMode: function(){
-        var self = this;
+        var self       = this,
+        containerWidth = self.$el.width(),
+        gutterWidth    = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
+        colWidth       = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * ( containerWidth ) );
 
         //clear out the position style on the gallery items
         self.$galleryItems.removeAttr('style');
 
-        //self.$galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
-
-        var containerWidth = self.$el.width();
-        var gutterWidth = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
-        var colWidth = ( window.Exports.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
-
         self.$galleryItems.not(self.$galleryItems.first()).css({
-          'width' : colWidth,
-          'margin' : 0,
+          'width'       : colWidth,
+          'margin'      : 0,
           'margin-left' : 0,
-          'margin-top': 0
+          'margin-top'  : 0
         });
 
         self.$galleryItems.first().css({
-          'width' : colWidth,
+          'width'  : colWidth,
           'margin' : 0
         });
 
-        //self.$galleryItems.addClass('small-size');
-
-        // 7. init the scroller module
+        //Create the sony-scroller instance
         setTimeout(function(){
 
           if(self.scrollerModule !== null){
@@ -507,43 +480,37 @@
 
           self.$galleryItems.find('.product-name').evenHeights();
 
-          //self.scroller.enable();
           window.iQ.update();
-
-          //$(window).trigger('resize.rp');
 
         }, 50);
 
+        self.$win.on('resize.rp', $.debounce(50 , function() {
 
-        $(window).on('resize.rp', $.debounce(50 , function() {
-
-        var containerWidth = self.$el.width();
-        var gutterWidth = window.Exports.GUTTER_WIDTH_SLIM_5 * containerWidth;
-        var colWidth = ( window.Exports.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+          var containerWidth = self.$el.width(),
+          gutterWidth        = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
+          colWidth           = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
 
           self.scrollerModule.setGutterWidth(gutterWidth);
 
-
           self.$galleryItems.not(self.$galleryItems.first()).css({
-            'width' : colWidth,
-            'margin' : 0,
+            'width'       : colWidth,
+            'margin'      : 0,
             'margin-left' : 0,
-            'margin-top': 0
+            'margin-top'  : 0
           });
 
           self.$galleryItems.first().css({
-            'width' : colWidth,
-            'margin' : 0
+            'width'   : colWidth,
+            'margin'  : 0
           });
 
         }));
 
       },
 
-
       tapOrClick: function(){
         var self = this;
-        return self.hasTouch ? 'touchend' : 'click';
+        return self.hasTouch ? self.upEvent : self.clickEvent ;
       },
 
       createNavigation: function(){
@@ -556,7 +523,7 @@
 
         if ( self.$pagination ) {
           self.$pagination.sonyNavDots('reset', {
-            'buttonCount': self.numSlides
+            'buttonCount' : self.numSlides
           });
           return;
         }
@@ -582,21 +549,22 @@
       },
 
 
-
-      setupPaddles: function(){
-        var self   = this,
-        itemHTML   = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
-        $container = self.$el.closest('.container');
+      createPaddles: function(){
+        var self            = this,
+        itemHTMLPaddleRight = '<div class="paddle"><i class=fonticon-10-chevron-reverse></i></div>',
+        itemHTMLPaddleLeft  = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
+        $container          = self.$el.closest('.container'),
+        out;
 
         self.paddlesEnabled = true;
-        var out = '<div class="rp-nav rp-paddles">';
-        for(var i = 0; i < 2; i++) {
-          out += itemHTML;
-        }
+        
+        //build up the html
+        out = '<div class="rp-nav rp-paddles">';
+        out += itemHTMLPaddleRight;
+        out += itemHTMLPaddleLeft;
         out += '</div>';
         out = $(out);
 
-        //TODO: add paddles
         self.$el.append(out);
 
         self.$paddles     = self.$el.find('.paddle');
@@ -649,8 +617,6 @@
         }else{
           self.$rightPaddle.stop(true,true).fadeIn(200);
         }
-
-
       },
 
       createShuffle: function(){
@@ -667,9 +633,6 @@
           // buffer: 100
           buffer: 25
         }).first().data('shuffle');
-
-
-
 
       },
 
@@ -691,8 +654,6 @@
 
         if ( numColumns === 5 ) {
           if ( !self.$container.hasClass( shuffleDash + 5 ) ) {
-
-
 
             self.$shuffleContainers.removeClass('slimgrid')
             .addClass('slimgrid5');
@@ -729,8 +690,6 @@
               .addClass( span + 3 );// Make them quarter width
           }
 
-
-          //Between Portrait tablet and phone ( 3 columns )
         }
         return self;
       },
@@ -743,52 +702,46 @@
           var $slide     = $(this),
           $items         = $slide.find('.gallery-item'),
           slideVariation = $slide.data('variation').split('-')[2],
-          hitNormal      = false;
+          hitNormalYet      = false,
+
+          //Priority constants
+          PRIORITY = 'priority',
+          MEDIUM   = 'medium',
+          NORMAL   = 'normal',
+          BLANK    = 'blank',
+          ONE      = 1,
+          TWO      = 2,
+          THREE    = 3,
+          FOUR     = 4,
+          FIVE     = 5;
 
           $items.each(function(){
             var $item = $(this);
-
             //covers off on sorting blank tiles
             if(slideVariation === '4up'){
-              if($item.hasClass('medium')){
-
-                $item.data('priority' , 5);
-
-              }else if($item.hasClass('normal') && !hitNormal){
-
-                $item.data('priority' , 2);
-
-                hitNormal = true;
-              }else if($item.hasClass('blank')){
-
-                $item.data('priority' , 3);
-
+              if($item.hasClass( MEDIUM )){
+                $item.data( PRIORITY , FIVE );
+              }else if($item.hasClass( NORMAL ) && !hitNormalYet){
+                $item.data( PRIORITY , TWO );
+                hitNormalYet = true;
+              }else if($item.hasClass( BLANK )){
+                $item.data( PRIORITY , THREE );
               }
-              else if($item.hasClass('normal') && hitNormal === true){
-
-                $item.data('priority' , 4);
+              else if($item.hasClass( NORMAL ) && hitNormalYet === true){
+                $item.data( PRIORITY , FOUR );
               }
-            }else if (slideVariation === '3up'){
-              if($item.hasClass('medium')){
-
-                $item.data('priority' , 2);
-
-              }else if($item.hasClass('normal')){
-
-                $item.data('priority' , 3);
+            }else if ( slideVariation === '3up' ){
+              if($item.hasClass( MEDIUM )){
+                $item.data(PRIORITY , TWO );
+              }else if($item.hasClass( NORMAL )){
+                $item.data(PRIORITY , THREE );
               }
-
-              if($item.hasClass('blank')){
-
-                 $item.data('priority' , 100);
+              if($item.hasClass( BLANK )){
+                 $item.data(PRIORITY , 100);
               }
-
             }
-
           });
-
         });
-
       },
 
       sortByPriority : function() {
@@ -800,18 +753,15 @@
           self.$shuffleContainers.each(function(){
 
             var $shuffleContainer = $(this),
-                slideVariation = $shuffleContainer.parent().data('variation').split('-')[2];
+            slideVariation = $shuffleContainer.parent().data('variation').split('-')[2];
 
             $shuffleContainer.shuffle('sort', {
               by: function($el) {
                 var priority = $el.hasClass('plate') ? 1 : $el.hasClass('medium') ? 2 : 3;
 
-                //TODO: sort by priority with blanks
                 if(slideVariation == '4up' || slideVariation == '3up'){
                   priority = $el.data('priority');
-
                 }
-
                 // Returning undefined to the sort plugin will cause it to revert to the original array
                 return priority ? priority : undefined;
               }
@@ -829,11 +779,10 @@
       checkForBreakpoints: function(){
         var self = this,
         wW       = self.$win.width(),
-        view     = wW > 980 ? 'desktop' : wW > 567 ? 'tablet' : 'mobile';
-
+        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile';
 
         //if the browser doesnt support media queries...IE default to desktop
-        if(!Modernizr.mediaqueries || $('html').hasClass('lt-ie10')){
+        if(!Modernizr.mediaqueries || self.$html.hasClass('lt-ie10')){
           view = 'desktop';
         }
 
@@ -851,7 +800,6 @@
 
            //check if we are coming out of mobile
             if(self.isMobileMode === true){
-              //checkmarkup();
               self.returnToFullView();
             }
 
@@ -880,8 +828,6 @@
             self.sortByPriority();
 
             window.iQ.update();
-
-
 
             self.ev.trigger('ondesktopbreakpoint.rp');
 
@@ -936,13 +882,9 @@
 
           case 'mobile':
 
-
-
             if(self.isMobileMode === true){
               return;
             }
-
-
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').removeClass('span6');
@@ -1101,6 +1043,7 @@
         self.currRenderPosition = self.sPosition;
         //self.startTime          = new Date().getTime();
         self.startTime = self.startInteractionTime = new Date().getTime();
+        self.startInteractionPointX = point.pageX;
 
         if(self.hasTouch) {
           self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
@@ -1166,20 +1109,17 @@
 
       setPosition: function(posi) {
 
-        //window.iQ.update();
-
         var self = this,
-            pos = self.sPosition = posi;
+        pos      = self.sPosition = posi;
 
         //using transforms
         if(self.useCSS3Transitions) {
-          var animObj                              = {};
-          animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
-          animObj[ self.xProp]                     = self.tPref1 + (pos + self.tPref2 + 0) + self.tPref3;
+          var animObj                       = {};
+          animObj[ self.prefixed(self.TD) ] = 0 + 'ms';
+          animObj[ self.xProp ]             = self.tPref1 + (pos + self.tPref2 + 0) + self.tPref3;
           self.$container.css(animObj);
 
         } else {
-
           //using left
           self.$container.css(self.xProp, pos);
         }
@@ -1312,7 +1252,7 @@
 
         if(!self.hasMoved) {
           if(self.useCSS3Transitions) {
-              self.$container.css((self.vendorPrefix + self.TD), '0s');
+            self.$container.css( self.prefixed( self.TD ) , '0s' );
           }
           (function animloop(){
             if(self.isDragging) {
@@ -1360,18 +1300,20 @@
       },
 
       updateSlides: function(){
+        var self        = this,
+        cw              = self.currentContainerWidth = self.$container.outerWidth(),
+        animObj         = {},
+        newPos          = (-self.currentId * cw),
+        widthDifference = (self.$win.width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
-        var self = this,
-            cw = self.currentContainerWidth = self.$container.outerWidth(),
-            animObj = {},
-            newPos = (-self.currentId * cw);
+        if( widthDifference > 0 && !self.$html.hasClass('lt-ie9') ){
+          newPos += Math.ceil(widthDifference);
+        }
 
-        var a = ($(window).width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
-
-        //self.log('Update Slides' , self.$el.find('.rp-slide').eq(0).height() );
-
-        if(a > 0){
-          newPos += Math.ceil(a);
+        if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
+          cw = 1190;
+          newPos = ( -self.currentId * cw );
+          newPos -= (1190 - self.$win.width() ) * 0.5;
         }
 
         if(self.mode === 'suggested'){
@@ -1379,85 +1321,77 @@
         }
 
         self.$slides.each(function(i){
+      
           $(this).css({
-            'left': i * cw + 'px',
+            'left'    : i * cw + 'px',
             'z-index' : i
           });
 
         });
 
-        animObj[ (self.vendorPrefix + self.TD) ] = 0 + 'ms';
-        animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack;
-        animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
 
         if( !self.useCSS3Transitions ) {
+
           //jquery fallback
           animObj[ self.xProp ] = newPos;
           self.$container.animate(animObj, 0);
         }else {
-
           if( self.isMobileMode ){
-            return; // competing with son-scroller
+            return;
           }
-
+          animObj[ self.prefixed( self.TD ) ] = 0 + 'ms';
+          animObj[ self.prefixed( self.TTF ) ] = $.rpCSS3Easing.easeOutBack;
+          animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
         }
-
       },
 
-      moveTo: function(velocity, type,  speed, inOutEasing, userAction, fromSwipe){
-            var self = this,
-            newPos   = -self.currentId * self.currentContainerWidth,
-            diff,
-            newId,
-            animObj  = {},
-            newDist = Math.abs(self.sPosition  - newPos);
+      moveTo: function( velocity ){
+        var self        = this,
+        newPos          = -self.currentId * self.currentContainerWidth,
+        animObj         = {},
+        newDist         = Math.abs(self.sPosition  - newPos),
+        widthDifference = ( self.$win.width() - $('.rp-slide').eq(0).outerWidth(true) ) * ( 0.5 );
 
-            
-            function getCorrectSpeed(newSpeed) {
-                if(newSpeed < 100) {
-                    return 100;
-                } else if(newSpeed > 500) {
-                    return 500;
-                }
-                return newSpeed;
+        function getCorrectSpeed( newSpeed ) {
+            if( newSpeed < 100 ) {
+                return 100;
+            } else if( newSpeed > 500 ) {
+                return 500;
             }
+            return newSpeed;
+        }
 
-            self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
+        if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
+          newPos =  -self.currentId * 1190 ;
+          newPos -= (1190 - self.$win.width() ) * 0.5;
+          newDist = Math.abs(self.sPosition  - newPos);
+        }
 
-            window.console.log( self.currAnimSpeed );
+        self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
 
-            if( isNaN(self.currAnimSpeed) ){
-              self.currAnimSpeed = self.animationSpeed;
-            }
+        if( isNaN(self.currAnimSpeed) ){
+          self.currAnimSpeed = self.animationSpeed;
+        }
 
-            var a = ($(window).width() - $('.rp-slide').eq(0).outerWidth(true)) * (0.5);
+        if( widthDifference > 0 && !self.$html.hasClass('lt-ie9') ){
+          newPos += Math.ceil( widthDifference );
+        }
 
-            if(a > 0){
-              newPos += Math.ceil(a);
-            }
-
+        //jQuery animation fallback
         if( !self.useCSS3Transitions ) {
-
-          //jQuery fallback
           animObj[ self.xProp ] = newPos;
-
-          self.$container.animate(animObj, self.currAnimSpeed);
-
+          self.$container.animate( animObj, self.currAnimSpeed );
         }else{
-
           //css3 transition
-          animObj[ (self.vendorPrefix + self.TD) ]  = self.currAnimSpeed + 'ms';
+          animObj[ self.prefixed( self.TD ) ]  = self.currAnimSpeed + 'ms';
 
           if(self.currAnimSpeed === self.animationSpeed){
-            animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack; //default to normal
-            window.console.log('using default animation , ease out back');
+            animObj[ self.prefixed( self.TTF )  ] = $.rpCSS3Easing.easeOutBack;
           }else{
-            animObj[ (self.vendorPrefix + self.TTF) ] = 'cubic-bezier(0.33,0.66,0.66,1)';
-             window.console.log('using FAST animation , from iScroll Tossing');
+            animObj[ self.prefixed( self.TTF ) ] = $.rpCSS3Easing.sonyScrollEase;
           }
 
-        
           self.$container.css( animObj );
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
@@ -1487,9 +1421,7 @@
 
           self.$container.css( 'width' , '' );
           self.$container.append(self.$slides);
-
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
-
           self.$paddles.show();
           self.$el.find('.rp-nav').show();
 
@@ -1512,10 +1444,8 @@
 
       disableShuffle: function(){
         var self = this;
-
         self.$shuffleContainers.each(function(){
           var sffleInst = $(this).data('shuffle');
-
           if(sffleInst !== undefined || sffleInst !== null){
             if(sffleInst){
                sffleInst.disable();
@@ -1526,14 +1456,12 @@
 
       enableShuffle: function(){
         var self = this;
-
         self.$shuffleContainers.each(function(){
           var sffleInst = $(this).data('shuffle');
           if(sffleInst !== undefined || sffleInst !== null){
             if(sffleInst){
                sffleInst.enable();
             }
-
           }
         });
       },
@@ -1611,10 +1539,6 @@
           var tileHeight = $slide.find('.gallery-item.plate').first().height(),
               testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true);
 
-/*          if(tileHeight < testHeight ){
-            tileHeight = testHeight;
-          }*/
-
           if(slideVariation !== '3up'){
             $slide.find( '.gallery-item.normal').css({
               'max-height' : tileHeight,
@@ -1622,11 +1546,8 @@
             });
           }
 
-
           switch( slideVariation ){
             case '5up':
-
-
               if(isFullView){
                 newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
                 $mediumTile.css({
@@ -1638,8 +1559,6 @@
                   'height' : newHeight + 'px'
                 });
               }
-
-
             break;
 
             case '4up':
@@ -1651,22 +1570,18 @@
               }else{
                 newHeight = $normalTile.outerHeight(true) + $normalTile.find('.product-img').height();
                 $mediumTile.css('height' , newHeight);
-
-
-                //$mediumTile.closest('.gallery-item').css( 'max-height' , $mediumTile.height() + $mediumTile.closest('.gallery-item').find('.product-content').height() );
-
               }
             break;
 
             case '3up':
-          if(isFullView){
-              newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
-              $mediumTile.css({
-                'height' : newHeight + 'px'
-              });
-            }else{
-              $mediumTile.css('height' , '');
-            }
+              if(isFullView){
+                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+                $mediumTile.css({
+                  'height' : newHeight + 'px'
+                });
+              }else{
+                $mediumTile.css('height' , '');
+              }
             break;
           }
         });
@@ -1692,7 +1607,7 @@
           animationDelay = 0;
 
           $item.css({
-            'visibility' : 'visible'
+            visibility : 'visible'
           });
 
           animationDelay = $item.hasClass('plate') ? 0 : $item.hasClass('medium') ? 25 : 2000;
@@ -1737,7 +1652,8 @@
         //add additional ease types here
         easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
         easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
-        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)'
+        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)',
+        sonyScrollEase: 'cubic-bezier(0.33,0.66,0.66,1)'
     };
 
     //Usage: var tallest = $('div').maxHeight(); // Returns the height of the tallest div.
@@ -1875,7 +1791,7 @@
     });
     $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
 
- })(SONY,jQuery, Modernizr, window, undefined , window.console);
+ })( SONY , jQuery, Modernizr, window, undefined , window.console );
 //all done
 
 /*
@@ -1955,10 +1871,9 @@ $(function(){
       $currentPanel.data('relatedProducts').enableShuffle();
       $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500});
 
-
     };
 
-    $tabs.on('click' , handleTabClick);
+    $tabs.on(window.Modernizr.touch ? 'touchend' : 'click' , handleTabClick);
   }
 
 });

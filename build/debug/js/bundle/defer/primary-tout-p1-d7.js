@@ -38,10 +38,8 @@
       },
 
       _init: function(){
-        //adds a resize listener to vertically re-center the h1
-        $.guid= 0;
         this._resize();
-        $(window).resize($.throttle(250, this._resize) );
+        SONY.on('global:resizeDebounced', this._resize);
       }
     };
 
@@ -66,11 +64,10 @@
 
 
  })(jQuery, window, undefined);
- 
-$(document).ready(function() {
 
+SONY.on('global:ready', function(){
   if ( $('.primary-tout').length > 0 ) {
     $('.primary-tout').primaryTout();
   }
-
 });
+

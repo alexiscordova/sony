@@ -96,7 +96,11 @@
 
     enable : function() {
       var self = this;
-
+      
+      
+      // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
+      self.onResize();
+      
       // Already enabled
       if ( self.enabled ) {
         return;
@@ -112,9 +116,6 @@
       }
 
       self.enabled = true;
-
-      // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
-      self.onResize();
 
       if ( self.hasCarousels ) {
         self.$carousels.scrollerModule('refresh');
@@ -651,7 +652,6 @@
     initCarousels : function( isFirstCall ) {
       var self = this;
 
-
       function initializeScroller( $carousel ) {
         // setTimeout onResize
         $carousel.scrollerModule({
@@ -664,7 +664,7 @@
       }
 
       // Go through each possible carousel
-      self.$carousels.each(function() {
+      self.$carousels.each(function(i,e) {
         var $carousel = $(this),
             $firstImage;
 
@@ -1091,6 +1091,21 @@
 
       return self;
     },
+    
+    fixCarousels:function(isInit){
+      var self = this;
+            
+      if ( self.hasCarousels ) {
+        if ( self.hasEnabledCarousels ) {
+          self.destroyCarousels();
+        }
+        
+        // 980+
+        if ( Modernizr.mq('(min-width: 61.25em)') ) {
+          self.initCarousels( isInit );
+        }
+      }  
+    },
 
     onResize : function( isInit ) {
       var self = this;
@@ -1155,22 +1170,8 @@
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
-      // Destroy or setup carousels based on viewport
-      if ( self.hasCarousels ) {
-        // 980+
-        if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          if ( !self.hasEnabledCarousels ) {
-            self.initCarousels( isInit );
-          }
-
-        // less than 980
-        } else {
-          if ( self.hasEnabledCarousels ) {
-            self.destroyCarousels();
-          }
-        }
-      }
-
+      self.fixCarousels(isInit);
+      
       self.sortByPriority();
     },
 
@@ -2276,6 +2277,15 @@
 
     // Enable all galleries in this tab
     evt.pane.find('.gallery').gallery('enable');
+    
+    //force webkit redraw hack
+    $('<style></style>').appendTo($(document.body)).remove();
+    
+    var gallery = evt.pane.find('.gallery').data('gallery');
+    
+    if(gallery){
+      gallery.fixCarousels(false);
+    }
 
   };
 

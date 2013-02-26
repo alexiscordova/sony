@@ -11,6 +11,7 @@ SONY.Global = (function(window, document) {
   'use strict';
 
   SONY.$window = $(window);
+  SONY.$document = $(document);
   SONY.$html = $(document.documentElement);
   SONY.$body = $(document.body);
 
