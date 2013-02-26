@@ -661,25 +661,23 @@
           itemElementSelector: '.slide'
         });
 
-        self.hasEnabledCarousels = true;
       }
 
       // Go through each possible carousel
       self.$carousels.each(function(i,e) {
-        var $carousel = $(this),
+        var $carousel = $(e),
             $firstImage;
 
         // If this call is from the initial setup, we have to wait for the first image to load
         // to get its height.
-        if ( isFirstCall ) {
-          $firstImage = $carousel.find(':first-child img');
-          $firstImage.on('imageLoaded', function() {
+        $firstImage = $carousel.find(':first-child img');
+        
+        if ( $firstImage[0].naturalHeight > 0 ) {
+          initializeScroller( $carousel );
+        } else {
+           $firstImage.on('imageLoaded', function() {
             initializeScroller( $carousel );
           });
-
-        // Otherwise, just initialize the carousel right away
-        } else {
-          initializeScroller( $carousel );
         }
 
       });
@@ -687,7 +685,6 @@
 
     destroyCarousels : function() {
       this.$carousels.scrollerModule('destroy');
-      this.hasEnabledCarousels = false;
     },
 
     setFilterStatuses : function() {
@@ -1097,9 +1094,7 @@
       var self = this;
             
       if ( self.hasCarousels ) {
-        if ( self.hasEnabledCarousels ) {
           self.destroyCarousels();
-        }
         
         // 980+
         if ( Modernizr.mq('(min-width: 61.25em)') ) {
@@ -2233,7 +2228,6 @@
     MAX_PRICE: undefined,
     price: {},
     isInitialized: false,
-    hasEnabledCarousels: false,
     sorted: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
@@ -2285,7 +2279,7 @@
     var gallery = evt.pane.find('.gallery').data('gallery');
     
     if(gallery){
-      gallery.fixCarousels(false);
+      gallery.fixCarousels(gallery.isInitialized);
     }
 
   };

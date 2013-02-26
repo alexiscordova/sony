@@ -33,6 +33,7 @@ module.exports = function(grunt) {
           Modernizr: true,
           IScroll: true,
           window: true,
+          alert: true,
           document: true
         }
     },
