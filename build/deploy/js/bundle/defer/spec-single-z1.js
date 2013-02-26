@@ -4,7 +4,7 @@
 // Module: Full Specs Single
 // Version: 1.0
 // Author: Glen Cheney
-// Date: 01/24/13
+// Date: 02/22/13
 // Dependencies: jQuery 1.7+, Modernizr, imagesLoaded 2.1+
 // --------------------------------------
 

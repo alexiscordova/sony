@@ -1,12 +1,12 @@
 <!DOCTYPE html><!--[if lt IE 8 ]>  <html class="ie lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie10 lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="ie lt-ie10" lang="en"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]--><head><title> Gallery-TVs</title><title>Sony Global</title><meta charset="utf-8">
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="modern" lang="en"> <!--<![endif]--><head><title> Gallery-TVs</title><title>Sony Global</title><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
     <meta name="description" content="sony global website">
     <meta name="author" content="odopod">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta http-equiv="x-ua-compatible" content="IE=edge" >
     <link rel="shortcut icon" href="img/favicon.ico">
     <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
@@ -17,8 +17,8 @@
   <![endif]-->
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
-      // Android needs otf/ttf fonts.
-      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+       // Android & vita needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().match(/android|vita/g) !== null ? "otf" : "woff";
       var fontIconType = fontType === "otf" ? "ttf" : fontType; // fontIcons are ttf instead of otf.
       document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-fonts-"+fontType+".css'%3E"));
       document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-icons-"+fontIconType+".css'%3E"));
