@@ -2,7 +2,7 @@
 // --------------------------------------------
 //
 // * **Class:** RelatedProducts
-// * **Version:** 0.1
+// * **Version:** 1.0
 // * **Modified:** 02/22/2013
 // * **Author:** Tyler Madison, Glen Cheney, George Pantazis
 // * **Dependencies:** jQuery 1.7+ , Modernizr
@@ -17,11 +17,6 @@
 ;(function(SONY , $, Modernizr, window, undefined , console) {
 
     'use strict';
-
-    //Define Related Products plugins object
-    if(!$.rpModules) {
-        $.rpModules = {};
-    }
 
     //Related Products Definition
     var RelatedProducts = function(element, options){
@@ -42,57 +37,59 @@
           self.use3dTransform = Modernizr.csstransforms3d;
       }
 
-      self.DEBUG                 = true;
-
-      self.LANDSCAPE_BREAKPOINT  = 980;
-      self.MOBILE_BREAKPOINT     = 567;
-
-      self.$paddles              = $({});
-      self.$el                   = $(element);
-      self.$slides               = self.$el.find('.rp-slide');
-      self.$currentSlide         = null;
-      self.$shuffleContainers    = self.$slides.find('.shuffle-container');
-      self.$galleryItems         = self.$el.find('.gallery-item');
-      self.$container            = self.$el.find('.rp-container').eq(0);
-      self.$tabbedContainer      = self.$el.parent();
-      self.$bulletNav            = $();
-      self.$doc                  = SONY.$document;
-      self.$win                  = SONY.$window;
-      self.$html                 = SONY.$html;
-
-      self.ev                    = $({}); //event object
-      self.prefixed              = Modernizr.prefixed;
-      self.transitionName        = self.prefixed('transition');
-      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
-      self.transitionEndName     = transEndEventNames[ self.transitionName ];
-      self.mode                  = self.$el.data('mode').toLowerCase();
-      self.variation             = self.$el.data('variation');
-      self.numSlides             = self.$slides.length;
-      self.sliderOverflow        = self.$el.find('.rp-overflow').eq(0);
-      self.previousId            = -1;
-      self.currentId             = 0;
-      self.slidePosition         = 0;
-      self.animationSpeed        = 700;
-      self.slides                = [];
-      self.slideCount            = self.$slides.length;
-      self.currentContainerWidth = 0;
-      self.sPosition             = 0;
-      self.scrollerModule        = null;
-      self.shuffle               = null;
-      self.shuffleSpeed          = 250;
-      self.shuffleEasing         = 'ease-out';
-      self.paddlesEnabled        = false;
-      self.resizeTimeout         = null;
+      self.DEBUG                  = true;
+      
+      self.LANDSCAPE_BREAKPOINT   = 980;
+      self.MOBILE_BREAKPOINT      = 567;
+      
+      //Cache common jQuery objects
+      self.$paddles               = $({});
+      self.$el                    = $(element);
+      self.$slides                = self.$el.find('.rp-slide');
+      self.$currentSlide          = null;
+      self.$shuffleContainers     = self.$slides.find('.shuffle-container');
+      self.$galleryItems          = self.$el.find('.gallery-item');
+      self.$container             = self.$el.find('.rp-container').eq(0);
+      self.$tabbedContainer       = self.$el.parent();
+      self.$bulletNav             = $();
+      self.$doc                   = SONY.$document;
+      self.$win                   = SONY.$window;
+      self.$html                  = SONY.$html;
+      
+      self.ev                     = $({}); //event object
+      self.prefixed               = Modernizr.prefixed;
+      self.transitionName         = self.prefixed('transition');
+      self.isTabbedContainer      = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
+      self.transitionEndName      = transEndEventNames[ self.transitionName ];
+      self.mode                   = self.$el.data('mode').toLowerCase();
+      self.variation              = self.$el.data('variation');
+      self.numSlides              = self.$slides.length;
+      self.sliderOverflow         = self.$el.find('.rp-overflow').eq(0);
+      self.previousId             = -1;
+      self.currentId              = 0;
+      self.slidePosition          = 0;
+      self.animationSpeed         = 700;
+      self.slides                 = [];
+      self.slideCount             = self.$slides.length;
+      self.currentContainerWidth  = 0;
+      self.sPosition              = 0;
+      self.scrollerModule         = null;
+      self.shuffle                = null;
+      self.shuffleSpeed           = 250;
+      self.shuffleEasing          = 'ease-out';
+      self.paddlesEnabled         = false;
+      self.resizeTimeout          = null;
       self.startInteractionPointX = null;
       
-      self.hasMediaQueries       = Modernizr.mediaqueries;
-      self.mq                    = Modernizr.mq;
-      self.oldIE                 = self.$html.hasClass('lt-ie8');
-      self.inited                = false;
-      self.isResponsive          = !self.$html.hasClass('lt-ie9') && !self.$html.hasClass('lt-ie8') && self.hasMediaQueries;
+      self.hasMediaQueries        = Modernizr.mediaqueries;
+      self.mq                     = Modernizr.mq;
+      self.oldIE                  = self.$html.hasClass('lt-ie8');
+      self.isIE7orIE8             = self.$html.hasClass('lt-ie9');
+      self.inited                 = false;
+      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie8') && self.hasMediaQueries;
 
-      //fixes a bug in IE when media queries aren't available
-      if( !self.hasMediaQueries && self.$html.hasClass('lt-ie9') || self.oldIE){
+      //Fixes a bug in IE when media queries aren't available
+      if( !self.hasMediaQueries && self.isIE7orIE8 || self.oldIE){
         self.mq = function(){
           return false;
         };
@@ -109,16 +106,7 @@
       self.isTabletMode          = false;
       self.accelerationPos       = 0;
 
-      //init plugins
-      $.each($.rpModules, function (helper, opts) {
-          opts.call(self);
-      });
-
-      self.$galleryItems.each(function(){
-        var $item = $(this);
-        $item.data('slide' , $item.parent());
-      });
-
+      //Setup events
       if(Modernizr.touch) {
           self.hasTouch         = true;
           self.downEvent        = 'touchstart.rp';
@@ -129,7 +117,6 @@
       } else {
           self.hasTouch = false;
           self.lastItemFriction = 0.2;
-
           self.downEvent   = 'mousedown.rp';
           self.moveEvent   = 'mousemove.rp';
           self.upEvent     = 'mouseup.rp';
@@ -138,7 +125,6 @@
       }
 
       if(self.useCSS3Transitions) {
-
         // some constants for CSS3
         self.TP     = 'transitionProperty';
         self.TD     = 'transitionDuration';
@@ -211,9 +197,12 @@
     };
 
     RelatedProducts.prototype = {
+
+      //Inital setup of module
       init: function(){
         var self = this;
 
+        self.storeGalleryItemParentSlides();
         self.setupLinkClicks();
 
         // Don't do this for modes other than 3 and 4 up
@@ -239,6 +228,16 @@
         }else {
           self.setupStripMode();
         }
+      },
+
+      //Store gallery items orginal parent slide for teardown and rebuild
+      storeGalleryItemParentSlides: function(){
+        var self = this;
+
+        self.$galleryItems.each(function(){
+          var $item = $(this);
+          $item.data('slide' , $item.parent());
+        });
       },
 
       //Set up outbound links to not interfere with dragging between slides
@@ -899,7 +898,7 @@
             self.$el.removeClass('rp-tablet rp-desktop')
                     .addClass('rp-mobile');
 
-            //destroy the shuffle instance
+            //Destroy the shuffle instance
             if(self.shuffle !== null){
               self.shuffle.destroy();
               self.shuffle = null;
@@ -918,20 +917,17 @@
 
             }
 
-            //hide the bullet navigation
+            //Hide the bullet navigation
             self.$bulletNav.hide();
 
             window.iQ.update();
 
             if(self.scrollerModule !== null){
-
               self.scrollerModule.destroy();
               self.scrollerModule = null;
-
             }
-            //is this where i break?
 
-            self.ev.trigger('onmobilebreakpoint.rp');
+            self.initMobileBreakpoint();
 
           break;
         }
@@ -1306,11 +1302,11 @@
         newPos          = (-self.currentId * cw),
         widthDifference = (self.$win.width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
-        if( widthDifference > 0 && !self.$html.hasClass('lt-ie9') ){
+        if( widthDifference > 0 && !self.isIE7orIE8 ){
           newPos += Math.ceil(widthDifference);
         }
 
-        if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
+        if( self.isIE7orIE8 && self.$win.width() <= 1190 ){
           cw = 1190;
           newPos = ( -self.currentId * cw );
           newPos -= (1190 - self.$win.width() ) * 0.5;
@@ -1362,7 +1358,7 @@
             return newSpeed;
         }
 
-        if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
+        if( self.isIE7orIE8 && self.$win.width() <= 1190 ){
           newPos =  -self.currentId * 1190 ;
           newPos -= (1190 - self.$win.width() ) * 0.5;
           newDist = Math.abs(self.sPosition  - newPos);
@@ -1374,7 +1370,7 @@
           self.currAnimSpeed = self.animationSpeed;
         }
 
-        if( widthDifference > 0 && !self.$html.hasClass('lt-ie9') ){
+        if( widthDifference > 0 && !self.isIE7orIE8 ){
           newPos += Math.ceil( widthDifference );
         }
 
@@ -1509,8 +1505,6 @@
 
       },
 
-
-
       updateTiles: function(){
         var self = this,
         isFullView = self.mq('(min-width: 981px)') ? true : false,
@@ -1626,6 +1620,78 @@
 
       },
 
+      initMobileBreakpoint: function(){
+        var self = this;
+
+        //Cancel touch events for the 'slideshow'
+        self.$container.off(self.downEvent);
+
+        //hide paddles and nav
+        self.$paddles.hide();
+        self.$el.find('.rp-nav').hide();
+
+        //attemp to place the title plates in the first position before detaching
+        self.$slides.each(function(){
+          var $s = $(this),
+          $plate = $s.find('.plate').eq(0);
+
+          //put the title plate at the beginning
+          $s.prepend($plate);
+        });
+
+        //gather gallery items and save local reference - may need to set on self
+        self.$galleryItems.detach().addClass('small-size');
+
+        //remove the slides
+        self.$slides.detach();
+
+        //clear out the position style on the gallery items
+        self.$galleryItems.removeAttr('style');
+
+        self.$galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
+
+        //put the item back into the container / make sure to not include blanks
+        self.$galleryItems.not('.blank').appendTo(self.$container);
+
+        self.$el.find('.gallery-item.medium').css('height' , '');
+
+        //init the scroller module
+        setTimeout(function(){
+
+          if(self.scrollerModule !== null){
+            self.scrollerModule.destroy();
+            self.scrollerModule = null;
+          }
+
+          self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
+            contentSelector: '.rp-container',
+            itemElementSelector: '.gallery-item',
+            mode: 'free',
+            lastPageCenter: false,
+            extraSpacing: 0,
+
+            iscrollProps: {
+              snap: false,
+              hScroll: true,
+              vScroll: false,
+              hScrollbar: false,
+              vScrollbar: false,
+              momentum: true,
+              bounce: true,
+              onScrollEnd: null,
+              lockDirection:true,
+              onBeforeScrollStart:null
+            }
+
+          }).data('scrollerModule');
+
+          self.$galleryItems.find('.product-name').evenHeights();
+
+          window.iQ.update();
+        }, 100);
+        
+      },
+
       setNameHeights : function( $container ) {
         var nameMaxHeight = 0;
 
@@ -1693,106 +1759,12 @@
       navigationControl: 'bullets'
     };
 
-
     SONY.on('global:ready', function(){
       $('.related-products').relatedProducts({});
     });
 
-
  })(SONY,jQuery, Modernizr, window,undefined , window.console);
 
-(function(SONY, $, Modernizr, window, undefined , console) {
-    'use strict';
-    $.extend($.rpProto, {
-
-      _initMobileBreakpoint: function(){
-        var self = this;
-
-        function handleBreakpoint(){
-
-          // 1. step one  - cancel touch events for the 'slideshow'
-          self.$container.off(self.downEvent);
-
-          // 2. hide paddles and nav
-          self.$paddles.hide();
-          self.$el.find('.rp-nav').hide();
-
-          //attemp to place the title plates in the first position before detaching
-          self.$slides.each(function(){
-            var $s = $(this),
-            $plate = $s.find('.plate').eq(0);
-
-            //put the title plate at the beginning
-            $s.prepend($plate);
-          });
-
-          // 3. gather gallery items and save local reference - may need to set on self
-          var $galleryItems = self.$el.find('.gallery-item').detach().addClass('small-size');
-
-          // 4. remove the slides
-          self.$slides.detach();
-
-          //clear out the position style on the gallery items
-          $galleryItems.removeAttr('style');
-
-          $galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
-
-          //5 . put the item back into the container / make sure to not include blanks
-          $galleryItems.not('.blank').appendTo(self.$container);
-
-          self.$el.find('.gallery-item.medium').css('height' , '');
-
-          // 7. init the scroller module
-          setTimeout(function(){
-
-            if(self.scrollerModule !== null){
-
-              self.scrollerModule.destroy();
-              self.scrollerModule = null;
-
-            }
-
-            self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
-              contentSelector: '.rp-container',
-              itemElementSelector: '.gallery-item',
-              mode: 'free',
-              lastPageCenter: false,
-              extraSpacing: 0,
-
-              iscrollProps: {
-                snap: false,
-                hScroll: true,
-                vScroll: false,
-                hScrollbar: false,
-                vScrollbar: false,
-                momentum: true,
-                bounce: true,
-                onScrollEnd: null,
-                lockDirection:true,
-                onBeforeScrollStart:null
-              }
-
-            }).data('scrollerModule');
-
-            //text-promo-title
-
-            $galleryItems.find('.product-name').evenHeights();
-            /*$galleryItems.find('.product-img').evenHeights();*/
-
-
-            //self.scroller.enable();
-            window.iQ.update();
-          }, 100);
-          return;
-
-        }
-        self.ev.on( 'onmobilebreakpoint.rp' , handleBreakpoint );
-      }
-    });
-    $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
-
- })( SONY , jQuery, Modernizr, window, undefined , window.console );
-//all done
 
 /*
   Tab system for managing multiple

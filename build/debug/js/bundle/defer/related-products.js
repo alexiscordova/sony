@@ -2,7 +2,7 @@
 // --------------------------------------------
 //
 // * **Class:** RelatedProducts
-// * **Version:** 0.1
+// * **Version:** 1.0
 // * **Modified:** 02/22/2013
 // * **Author:** Tyler Madison, Glen Cheney, George Pantazis
 // * **Dependencies:** jQuery 1.7+ , Modernizr
@@ -18,11 +18,6 @@
 
     'use strict';
 
-    //Define Related Products plugins object
-    if(!$.rpModules) {
-        $.rpModules = {};
-    }
-
     //Related Products Definition
     var RelatedProducts = function(element, options){
       var self           = this,
@@ -33,190 +28,105 @@
         'msTransition'     : 'MSTransitionEnd',
         'transition'       : 'transitionend'};
       
+      //Extend Related Products instance with defaults and options
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
-      //Detect if we can use CSS3 transitions
-      self.useCSS3Transitions = Modernizr.csstransitions;
-
-      if(self.useCSS3Transitions) {
-          self.use3dTransform = Modernizr.csstransforms3d;
-      }
-
-      self.DEBUG                 = true;
-
-      self.LANDSCAPE_BREAKPOINT  = 980;
-      self.MOBILE_BREAKPOINT     = 567;
-
-      self.$paddles              = $({});
-      self.$el                   = $(element);
-      self.$slides               = self.$el.find('.rp-slide');
-      self.$currentSlide         = null;
-      self.$shuffleContainers    = self.$slides.find('.shuffle-container');
-      self.$galleryItems         = self.$el.find('.gallery-item');
-      self.$container            = self.$el.find('.rp-container').eq(0);
-      self.$tabbedContainer      = self.$el.parent();
-      self.$bulletNav            = $();
-      self.$doc                  = SONY.$document;
-      self.$win                  = SONY.$window;
-      self.$html                 = SONY.$html;
-
-      self.ev                    = $({}); //event object
-      self.prefixed              = Modernizr.prefixed;
-      self.transitionName        = self.prefixed('transition');
-      self.isTabbedContainer     = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
-      self.transitionEndName     = transEndEventNames[ self.transitionName ];
-      self.mode                  = self.$el.data('mode').toLowerCase();
-      self.variation             = self.$el.data('variation');
-      self.numSlides             = self.$slides.length;
-      self.sliderOverflow        = self.$el.find('.rp-overflow').eq(0);
-      self.previousId            = -1;
-      self.currentId             = 0;
-      self.slidePosition         = 0;
-      self.animationSpeed        = 700;
-      self.slides                = [];
-      self.slideCount            = self.$slides.length;
-      self.currentContainerWidth = 0;
-      self.sPosition             = 0;
-      self.scrollerModule        = null;
-      self.shuffle               = null;
-      self.shuffleSpeed          = 250;
-      self.shuffleEasing         = 'ease-out';
-      self.paddlesEnabled        = false;
-      self.resizeTimeout         = null;
+      //Debug mode for logging
+      self.DEBUG                  = false;
+      
+      self.LANDSCAPE_BREAKPOINT   = 980;
+      self.MOBILE_BREAKPOINT      = 567;
+      
+      //Cache common jQuery objects
+      self.$paddles               = $({});
+      self.$el                    = $(element);
+      self.$slides                = self.$el.find('.rp-slide');
+      self.$currentSlide          = null;
+      self.$shuffleContainers     = self.$slides.find('.shuffle-container');
+      self.$galleryItems          = self.$el.find('.gallery-item');
+      self.$container             = self.$el.find('.rp-container').eq(0);
+      self.$tabbedContainer       = self.$el.parent();
+      self.$bulletNav             = $();
+      self.$doc                   = SONY.$document;
+      self.$win                   = SONY.$window;
+      self.$html                  = SONY.$html;
+      
+      self.ev                     = $({}); //event object
+      self.prefixed               = Modernizr.prefixed;
+      self.transitionName         = self.prefixed('transition');
+      self.isTabbedContainer      = self.$tabbedContainer.length > 0 && self.$tabbedContainer.hasClass('rp-container-tabbed');
+      self.transitionEndName      = transEndEventNames[ self.transitionName ];
+      self.mode                   = self.$el.data('mode').toLowerCase(); //Determine the mode of the module
+      self.variation              = self.$el.data('variation').split('-')[2]; //Determine the variaion of the module
+      self.numSlides              = self.$slides.length;
+      self.sliderOverflow         = self.$el.find('.rp-overflow').eq(0);
+      self.previousId             = -1;
+      self.currentId              = 0;
+      self.slidePosition          = 0;
+      self.animationSpeed         = 700;
+      self.slides                 = [];
+      self.slideCount             = self.$slides.length;
+      self.currentContainerWidth  = 0;
+      self.sPosition              = 0;
+      self.scrollerModule         = null;
+      self.shuffle                = null;
+      self.shuffleSpeed           = 250;
+      self.shuffleEasing          = 'ease-out';
+      self.paddlesEnabled         = false;
+      self.resizeTimeout          = null;
       self.startInteractionPointX = null;
+      self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
+      self.hasMediaQueries        = Modernizr.mediaqueries;
+      self.mq                     = Modernizr.mq;
+      self.oldIE                  = self.$html.hasClass('lt-ie8');
+      self.isIE7orIE8             = self.$html.hasClass('lt-ie9');
+      self.inited                 = false;
+      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie8') && self.hasMediaQueries;
       
-      self.hasMediaQueries       = Modernizr.mediaqueries;
-      self.mq                    = Modernizr.mq;
-      self.oldIE                 = self.$html.hasClass('lt-ie8');
-      self.inited                = false;
-      self.isResponsive          = !self.$html.hasClass('lt-ie9') && !self.$html.hasClass('lt-ie8') && self.hasMediaQueries;
-
-      //fixes a bug in IE when media queries aren't available
-      if( !self.hasMediaQueries && self.$html.hasClass('lt-ie9') || self.oldIE){
-        self.mq = function(){
-          return false;
-        };
-      }
-
-      //Determine the variaion of the module
-      if(self.variation !== undefined){
-        self.variation = self.variation.split('-')[2];
-      }
-
       //Modes
-      self.isMobileMode          = false;
-      self.isDesktopMode         = false;
-      self.isTabletMode          = false;
-      self.accelerationPos       = 0;
+      self.isMobileMode    = false;
+      self.isDesktopMode   = false;
+      self.isTabletMode    = false;
+      self.accelerationPos = 0;
 
-      //init plugins
-      $.each($.rpModules, function (helper, opts) {
-          opts.call(self);
-      });
+/*      self.$el.css({
+        'opacity' : 0,
+        'visibility' : 'hidden'
+      });*/
 
-      self.$galleryItems.each(function(){
-        var $item = $(this);
-        $item.data('slide' , $item.parent());
-      });
-
-      if(Modernizr.touch) {
-          self.hasTouch         = true;
-          self.downEvent        = 'touchstart.rp';
-          self.moveEvent        = 'touchmove.rp';
-          self.upEvent          = 'touchend.rp';
-          self.cancelEvent      = 'touchcancel.rp';
-          self.lastItemFriction = 0.5;
-      } else {
-          self.hasTouch = false;
-          self.lastItemFriction = 0.2;
-
-          self.downEvent   = 'mousedown.rp';
-          self.moveEvent   = 'mousemove.rp';
-          self.upEvent     = 'mouseup.rp';
-          self.cancelEvent = 'mouseup.rp';
-          self.clickEvent  = 'click.rp';
-      }
-
-      if(self.useCSS3Transitions) {
-
-        // some constants for CSS3
-        self.TP     = 'transitionProperty';
-        self.TD     = 'transitionDuration';
-        self.TTF    = 'transitionTimingFunction';
-        self.yProp  = self.xProp = self.prefixed ( 'transform' );
-
-        if(self.use3dTransform) {
-          self.tPref1 = 'translate3d(';
-          self.tPref2 = 'px, ';
-          self.tPref3 = 'px, 0px)';
-        } else {
-          self.tPref1 = 'translate(';
-          self.tPref2 = 'px, ';
-          self.tPref3 = 'px)';
-        }
-
-        self.$container[ self.prefixed( self.TP ) ] = self.prefixed ( 'transform' );
-
-      } else {
-        self.xProp = 'left';
-        self.yProp = 'top';
-      }
-
-      self.shuffleGutters = function (containerWidth){
-        var gutter = 0,
-            numColumns = 0;
-
-        if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
-          gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
-          numColumns = 5;
-
-        // // Portrait Tablet ( 4 columns ) - masonry
-        } else if ( self.mq('(min-width: 567px)') ) {
-          numColumns = 4;
-          gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
-        }
-
-        self.setColumns(numColumns);
-
-        if(gutter < 0){
-          gutter = 0;
-        }
-
-        return gutter;
-      };
-
-      self.shuffleColumns = function(containerWidth){
-          var column = 0;
-
-          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
-            column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
-          // Between Portrait tablet and phone ( 3 columns )
-          } else if ( self.mq('(min-width: 567px)') ) {
-            column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
-          // Default
-          }else{
-            column = containerWidth;
-          }
-
-          if(column === 0){
-            column = 0.001; // fixes a bug with shuffle that crashes when column width is returned as 0
-          }
-
-          return column;
-      };
-      
-      //startup
+      //Startup
       self.init();
 
     };
 
+    //Related Products protoype object definition
     RelatedProducts.prototype = {
+
+      //Inital setup of module
       init: function(){
         var self = this;
 
+        self.mqFix();
+
+        //Initialize animation properties
+        self.initAnimationProps();
+
+        //Define easing equations
+        self.setupEasing();
+
+        //Inialize events
+        self.initEvents();
+
+        //Setup shuffle functions
+        self.initShuffleFns();
+
+        //Store gallery items parent slide
+        self.storeGalleryItemParentSlides();
+
+        //Setup link clicks
         self.setupLinkClicks();
 
-        // Don't do this for modes other than 3 and 4 up
+        // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
            self.variation === '4up' ||
            self.variation === '5up'){
@@ -239,6 +149,83 @@
         }else {
           self.setupStripMode();
         }
+      },
+
+      //Fixes a bug in IE when media queries aren't available
+      mqFix: function(){
+        var self = this;
+        
+        if( !self.hasMediaQueries && self.isIE7orIE8 || self.oldIE){
+          self.mq = function(){
+            return false;
+          };
+        }
+
+      },
+
+      initAnimationProps: function(){
+        var self = this;
+
+        if(self.useCSS3Transitions) {
+            self.use3dTransform = Modernizr.csstransforms3d;
+        }
+
+        if(self.useCSS3Transitions) {
+          // some constants for CSS3
+          self.TP     = 'transitionProperty';
+          self.TD     = 'transitionDuration';
+          self.TTF    = 'transitionTimingFunction';
+          self.yProp  = self.xProp = self.prefixed ( 'transform' );
+
+          if(self.use3dTransform) {
+            self.tPref1 = 'translate3d(';
+            self.tPref2 = 'px, ';
+            self.tPref3 = 'px, 0px)';
+          } else {
+            self.tPref1 = 'translate(';
+            self.tPref2 = 'px, ';
+            self.tPref3 = 'px)';
+          }
+
+          self.$container[ self.prefixed( self.TP ) ] = self.prefixed ( 'transform' );
+
+        } else {
+          self.xProp = 'left';
+          self.yProp = 'top';
+        }
+
+      },
+
+      //Setup events
+      initEvents: function(){
+        var self = this;
+        
+        if(Modernizr.touch) {
+            self.hasTouch         = true;
+            self.downEvent        = 'touchstart.rp';
+            self.moveEvent        = 'touchmove.rp';
+            self.upEvent          = 'touchend.rp';
+            self.cancelEvent      = 'touchcancel.rp';
+            self.lastItemFriction = 0.5;
+        } else {
+            self.hasTouch = false;
+            self.lastItemFriction = 0.2;
+            self.downEvent   = 'mousedown.rp';
+            self.moveEvent   = 'mousemove.rp';
+            self.upEvent     = 'mouseup.rp';
+            self.cancelEvent = 'mouseup.rp';
+            self.clickEvent  = 'click.rp';
+        }
+      },
+
+      //Store gallery items orginal parent slide for teardown and rebuild
+      storeGalleryItemParentSlides: function(){
+        var self = this;
+
+        self.$galleryItems.each(function(){
+          var $item = $(this);
+          $item.data('slide' , $item.parent());
+        });
       },
 
       //Set up outbound links to not interfere with dragging between slides
@@ -277,6 +264,55 @@
         return '[ object RelatedProducts ]';
       },
 
+      //These functions are used by the jquery.shuffle plugin
+      initShuffleFns: function(){
+        var self = this;
+
+        self.shuffleGutters = function (containerWidth){
+          var gutter = 0,
+              numColumns = 0;
+
+          if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
+            numColumns = 5;
+
+          // // Portrait Tablet ( 4 columns ) - masonry
+          } else if ( self.mq('(min-width: 567px)') ) {
+            numColumns = 4;
+            gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
+          }
+
+          self.setColumns(numColumns);
+
+          if(gutter < 0){
+            gutter = 0;
+          }
+
+          return gutter;
+        };
+
+        self.shuffleColumns = function(containerWidth){
+            var column = 0;
+
+            if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
+              column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
+            // Between Portrait tablet and phone ( 3 columns )
+            } else if ( self.mq('(min-width: 567px)') ) {
+              column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
+            // Default
+            }else{
+              column = containerWidth;
+            }
+
+            if(column === 0){
+              column = 0.001; // fixes a bug with shuffle that crashes when column width is returned as 0
+            }
+
+            return column;
+        };
+
+      },
+
       setupResizeListener: function(){
         var self      = this,
         resizeTimeout = null,
@@ -294,6 +330,7 @@
               visibility : HIDDEN,
               opacity    : 0
             });
+            self.$pagination.hide();
             self.$el.addClass( REDRAWING );
            }else{
             self.$el.css({
@@ -304,9 +341,11 @@
               visibility : VISIBLE,
               opacity : 1
             });
+            self.$pagination.show();
             self.$el.removeClass( REDRAWING );
            }
           });
+
         } else {
           self.$el.css({
             opacity : 1,
@@ -317,7 +356,11 @@
             opacity : 1
           });
           self.$el.removeClass( REDRAWING );
+
+          self.$pagination.show();
         }
+
+        self.$pagination.hide();
 
         self.$win.on( 'resize', $.debounce( 500 , $.proxy(self.handleResize , self)) );
       },
@@ -338,6 +381,8 @@
         self.updateSliderSize();
         self.updateSlides();
         self.updatePaddles();
+
+        
 
         if(self.mode === 'suggested'){
           return;
@@ -404,6 +449,7 @@
                 self.updateTiles();
                 shfflInst.update();
                 self.animateTiles();
+
               }
 
             } , 50);
@@ -462,18 +508,19 @@
           }
 
           self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
-            contentSelector: '.rp-container',
-            itemElementSelector: '.gallery-item',
-            mode: 'paginate',
-            generatePagination: true,
-            centerItems: false,
-            autoGutters: false,
-            gutterWidth: gutterWidth,
+            contentSelector     : '.rp-container',
+            itemElementSelector : '.gallery-item',
+            mode                : 'paginate',
+            generatePagination  : true,
+            generateNav         : true,
+            centerItems         : false,
+            autoGutters         : false,
+            gutterWidth         : gutterWidth,
             iscrollProps: {
-              snap: true,
-              momentum: false,
-              hScrollbar: false,
-              vScrollbar: false
+              snap       : true,
+              momentum   : false,
+              hScrollbar : false,
+              vScrollbar : false
             }
 
           }).data('scrollerModule');
@@ -502,9 +549,20 @@
           self.$galleryItems.first().css({
             'width'   : colWidth,
             'margin'  : 0
+          }); 
+
+          var newContainerHeight = self.$el.find('.gallery-item.normal').first().height() + 40 + 'px';
+
+          self.$el.css({
+            'height'     : newContainerHeight,
+            'max-height' : newContainerHeight,
+            'min-height' : newContainerHeight,
+            'min-width'  : 550 + 'px'
           });
 
         }));
+
+        self.$win.trigger('resize.rp');
 
       },
 
@@ -634,6 +692,23 @@
           buffer: 25
         }).first().data('shuffle');
 
+        self.toggleShuffles();
+
+      },
+
+      //Stops processing of jQuery.shuffle instances that are not currently active
+      toggleShuffles: function(){
+        var self = this;
+
+        self.$shuffleContainers.each(function(i){
+          var $shfflContainer = $(this),
+            sfflInst = $shfflContainer.data('shuffle');
+            if(i === self.currentId ){
+              sfflInst.enable();
+            }else{
+              sfflInst.enable();
+            }
+        });
       },
 
       setColumns : function( numColumns ) {
@@ -899,7 +974,7 @@
             self.$el.removeClass('rp-tablet rp-desktop')
                     .addClass('rp-mobile');
 
-            //destroy the shuffle instance
+            //Destroy the shuffle instance
             if(self.shuffle !== null){
               self.shuffle.destroy();
               self.shuffle = null;
@@ -918,20 +993,17 @@
 
             }
 
-            //hide the bullet navigation
+            //Hide the bullet navigation
             self.$bulletNav.hide();
 
             window.iQ.update();
 
             if(self.scrollerModule !== null){
-
               self.scrollerModule.destroy();
               self.scrollerModule = null;
-
             }
-            //is this where i break?
 
-            self.ev.trigger('onmobilebreakpoint.rp');
+            self.initMobileBreakpoint();
 
           break;
         }
@@ -958,12 +1030,9 @@
 
         //handle stuff for old IE
         if( self.oldIE ){
-
           self.$el.css( 'height' , 660 + 'px' );
-
           return;
         }
-
 
         if(self.mode === 'suggested'){
           return;
@@ -1306,11 +1375,11 @@
         newPos          = (-self.currentId * cw),
         widthDifference = (self.$win.width() - self.$el.find('.rp-slide').eq(0).outerWidth(true)) * (0.5);
 
-        if( widthDifference > 0 && !self.$html.hasClass('lt-ie9') ){
+        if( widthDifference > 0 && !self.isIE7orIE8 ){
           newPos += Math.ceil(widthDifference);
         }
 
-        if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
+        if( self.isIE7orIE8 && self.$win.width() <= 1190 ){
           cw = 1190;
           newPos = ( -self.currentId * cw );
           newPos -= (1190 - self.$win.width() ) * 0.5;
@@ -1340,7 +1409,7 @@
             return;
           }
           animObj[ self.prefixed( self.TD ) ] = 0 + 'ms';
-          animObj[ self.prefixed( self.TTF ) ] = $.rpCSS3Easing.easeOutBack;
+          animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.easeOutBack;
           animObj[ self.xProp ] = self.tPref1 + ( newPos + self.tPref2 + 0) + self.tPref3;
           self.$container.css( animObj );
         }
@@ -1362,7 +1431,7 @@
             return newSpeed;
         }
 
-        if( self.$html.hasClass('lt-ie9') && self.$win.width() <= 1190 ){
+        if( self.isIE7orIE8 && self.$win.width() <= 1190 ){
           newPos =  -self.currentId * 1190 ;
           newPos -= (1190 - self.$win.width() ) * 0.5;
           newDist = Math.abs(self.sPosition  - newPos);
@@ -1374,9 +1443,12 @@
           self.currAnimSpeed = self.animationSpeed;
         }
 
-        if( widthDifference > 0 && !self.$html.hasClass('lt-ie9') ){
+        if( widthDifference > 0 && !self.isIE7orIE8 ){
           newPos += Math.ceil( widthDifference );
         }
+
+        //Shuffle optimization
+        self.toggleShuffles();
 
         //jQuery animation fallback
         if( !self.useCSS3Transitions ) {
@@ -1387,9 +1459,9 @@
           animObj[ self.prefixed( self.TD ) ]  = self.currAnimSpeed + 'ms';
 
           if(self.currAnimSpeed === self.animationSpeed){
-            animObj[ self.prefixed( self.TTF )  ] = $.rpCSS3Easing.easeOutBack;
+            animObj[ self.prefixed( self.TTF )  ] = self.css3Easing.easeOutBack;
           }else{
-            animObj[ self.prefixed( self.TTF ) ] = $.rpCSS3Easing.sonyScrollEase;
+            animObj[ self.prefixed( self.TTF ) ] = self.css3Easing.sonyScrollEase;
           }
 
           self.$container.css( animObj );
@@ -1468,7 +1540,8 @@
 
       updatePaddles: function () {
         var self = this,
-            wW = self.$win.width();
+            wW = self.$win.width(),
+            px = 'px';
 
         if(!self.paddlesEnabled){
           return;
@@ -1483,41 +1556,37 @@
 
           self.$rightPaddle.css({
             top :  plateHeight,
-            right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + 'px'
-
+            right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + px
           });
-
 
           self.$leftPaddle.css({
             top :  plateHeight,
-            left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + 'px'
+            left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + px
           });
         }else if(self.mq('(min-width: 567px)') && hasPlate){
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,
-            right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + 20 + 'px'
+            right: (spaceAvail / 4) - (parseInt(self.$rightPaddle.width() , 10) / 2) + 20 + px
 
           });
 
-
           self.$leftPaddle.css({
             top :  plateHeight + 130,
-            left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 35 + 'px'
+            left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 35 + px
           });
         }
 
       },
 
-
-
       updateTiles: function(){
         var self = this,
-        isFullView = self.mq('(min-width: 981px)') ? true : false,
+        isFullView = self.mq('(min-width: 981px)'),
         $mediumTile = null,
         $normalTile = null,
         newHeight = 0,
-        slideVariation = '';
+        slideVariation = '',
+        radix = 10;
 
         if(self.isMobileMode){
           $mediumTile = self.$slides.find('.gallery-item.medium .product-img').first();
@@ -1530,8 +1599,6 @@
           var $slide = $(this);
 
           slideVariation = $slide.data('variation').split('-')[2].toLowerCase();
-          //REMOVE
-          //$slide.css( 'background' , 'red' );
 
           $mediumTile = $slide.find('.gallery-item.medium .product-img').first();
           $normalTile = $slide.find('.gallery-item.normal').first();
@@ -1554,7 +1621,7 @@
                   'height' : newHeight + 'px'
                 });
               }else{
-                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt( $normalTile.css('marginTop'), radix );
                 $mediumTile.css({
                   'height' : newHeight + 'px'
                 });
@@ -1563,7 +1630,7 @@
 
             case '4up':
               if(isFullView){
-                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt( $normalTile.css('marginTop'), radix );
                 $mediumTile.css({
                   'height' : newHeight + 'px'
                 });
@@ -1575,7 +1642,7 @@
 
             case '3up':
               if(isFullView){
-                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt($normalTile.css('marginTop'), 10);
+                newHeight = $slide.find('.plate').height() + $normalTile.find('.product-img').height() + parseInt( $normalTile.css('marginTop'), radix );
                 $mediumTile.css({
                   'height' : newHeight + 'px'
                 });
@@ -1588,12 +1655,13 @@
 
         setTimeout( function () {
           self.updateSliderSize();
-        } , 1000);
+        } , 250);
 
       },
 
       animateTiles: function(){
-        var self = this;
+        var self = this,
+        totalAnimationDelay = 0;
 
         self.$el.removeClass('redrawing');
 
@@ -1620,10 +1688,94 @@
              animationDelay = 250 + Math.floor(Math.random() * 500);
           }
 
+          totalAnimationDelay += animationDelay;
+
           $item.stop(true,true).delay(animationDelay).animate({ opacity: 1 },{ duration: 250 , complete: function(){}});
 
         });
 
+        totalAnimationDelay = Math.min( 750 , totalAnimationDelay );
+
+        if( totalAnimationDelay > 0 ){
+          setTimeout( function(){
+            self.$pagination.stop(true,true).fadeIn(250);
+          }, totalAnimationDelay );
+        }else{
+           self.$pagination.stop(true,true).fadeIn(250);
+        }
+
+      },
+
+      initMobileBreakpoint: function(){
+        var self = this;
+
+        //Cancel touch events for the 'slideshow'
+        self.$container.off(self.downEvent);
+
+        //hide paddles and nav
+        self.$paddles.hide();
+        self.$el.find('.rp-nav').hide();
+
+        //attemp to place the title plates in the first position before detaching
+        self.$slides.each(function(){
+          var $s = $(this),
+          $plate = $s.find('.plate').eq(0);
+
+          //put the title plate at the beginning
+          $s.prepend($plate);
+        });
+
+        //gather gallery items and save local reference - may need to set on self
+        self.$galleryItems.detach().addClass('small-size');
+
+        //remove the slides
+        self.$slides.detach();
+
+        //clear out the position style on the gallery items
+        self.$galleryItems.removeAttr('style');
+
+        self.$galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
+
+        //put the item back into the container / make sure to not include blanks
+        self.$galleryItems.not('.blank').appendTo(self.$container);
+
+        self.$el.find('.gallery-item.medium').css('height' , '');
+
+        //init the scroller module
+        setTimeout(function(){
+
+          if(self.scrollerModule !== null){
+            self.scrollerModule.destroy();
+            self.scrollerModule = null;
+          }
+
+          self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
+            contentSelector: '.rp-container',
+            itemElementSelector: '.gallery-item',
+            mode: 'free',
+            lastPageCenter: false,
+            extraSpacing: 0,
+
+            iscrollProps: {
+              snap: false,
+              hScroll: true,
+              vScroll: false,
+              hScrollbar: false,
+              vScrollbar: false,
+              momentum: true,
+              bounce: true,
+              onScrollEnd: null,
+              lockDirection:true,
+              onBeforeScrollStart:null
+            }
+
+          }).data('scrollerModule');
+
+          self.$galleryItems.find('.product-name').evenHeights();
+
+          window.iQ.update();
+        }, 100);
+        
       },
 
       setNameHeights : function( $container ) {
@@ -1644,30 +1796,22 @@
           .css('height', nameMaxHeight);
 
         return this;
+      },
+
+      setupEasing: function(){
+        var self = this;
+
+        //Define easing equations
+        self.css3Easing = {
+            easeOutSine     : 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
+            easeInOutSine   : 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
+            easeOutBack     : 'cubic-bezier(0.595, -0.160, 0.255, 1.140)',
+            sonyScrollEase  : 'cubic-bezier(0.33,0.66,0.66,1)'
+        };
       }
     };
 
-    //define easing equations
-    $.rpCSS3Easing = {
-        //add additional ease types here
-        easeOutSine: 'cubic-bezier(0.390, 0.575, 0.565, 1.000)',
-        easeInOutSine: 'cubic-bezier(0.445, 0.050, 0.550, 0.950)',
-        easeOutBack: 'cubic-bezier(0.595, -0.160, 0.255, 1.140)',
-        sonyScrollEase: 'cubic-bezier(0.33,0.66,0.66,1)'
-    };
-
-    //Usage: var tallest = $('div').maxHeight(); // Returns the height of the tallest div.
-    $.fn.maxHeight = function(){
-      var max = 0;
-      this.each(function() {
-        max = Math.max(max, $(this).height());
-      });
-      return max;
-    };
-
-    $.rpProto = RelatedProducts.prototype;
-
-    //plugin definition
+    //Related Products definition on jQuery
     $.fn.relatedProducts = function(options) {
       var args = arguments;
       return this.each(function(){
@@ -1693,106 +1837,12 @@
       navigationControl: 'bullets'
     };
 
-
     SONY.on('global:ready', function(){
       $('.related-products').relatedProducts({});
     });
 
-
  })(SONY,jQuery, Modernizr, window,undefined , window.console);
 
-(function(SONY, $, Modernizr, window, undefined , console) {
-    'use strict';
-    $.extend($.rpProto, {
-
-      _initMobileBreakpoint: function(){
-        var self = this;
-
-        function handleBreakpoint(){
-
-          // 1. step one  - cancel touch events for the 'slideshow'
-          self.$container.off(self.downEvent);
-
-          // 2. hide paddles and nav
-          self.$paddles.hide();
-          self.$el.find('.rp-nav').hide();
-
-          //attemp to place the title plates in the first position before detaching
-          self.$slides.each(function(){
-            var $s = $(this),
-            $plate = $s.find('.plate').eq(0);
-
-            //put the title plate at the beginning
-            $s.prepend($plate);
-          });
-
-          // 3. gather gallery items and save local reference - may need to set on self
-          var $galleryItems = self.$el.find('.gallery-item').detach().addClass('small-size');
-
-          // 4. remove the slides
-          self.$slides.detach();
-
-          //clear out the position style on the gallery items
-          $galleryItems.removeAttr('style');
-
-          $galleryItems.addClass('mobile-item').first().removeClass('mobile-item');
-
-          //5 . put the item back into the container / make sure to not include blanks
-          $galleryItems.not('.blank').appendTo(self.$container);
-
-          self.$el.find('.gallery-item.medium').css('height' , '');
-
-          // 7. init the scroller module
-          setTimeout(function(){
-
-            if(self.scrollerModule !== null){
-
-              self.scrollerModule.destroy();
-              self.scrollerModule = null;
-
-            }
-
-            self.scrollerModule = self.$el.find('.rp-overflow').scrollerModule({
-              contentSelector: '.rp-container',
-              itemElementSelector: '.gallery-item',
-              mode: 'free',
-              lastPageCenter: false,
-              extraSpacing: 0,
-
-              iscrollProps: {
-                snap: false,
-                hScroll: true,
-                vScroll: false,
-                hScrollbar: false,
-                vScrollbar: false,
-                momentum: true,
-                bounce: true,
-                onScrollEnd: null,
-                lockDirection:true,
-                onBeforeScrollStart:null
-              }
-
-            }).data('scrollerModule');
-
-            //text-promo-title
-
-            $galleryItems.find('.product-name').evenHeights();
-            /*$galleryItems.find('.product-img').evenHeights();*/
-
-
-            //self.scroller.enable();
-            window.iQ.update();
-          }, 100);
-          return;
-
-        }
-        self.ev.on( 'onmobilebreakpoint.rp' , handleBreakpoint );
-      }
-    });
-    $.rpModules.mobileBreakpoint = $.rpProto._initMobileBreakpoint;
-
- })( SONY , jQuery, Modernizr, window, undefined , window.console );
-//all done
 
 /*
   Tab system for managing multiple
@@ -1805,6 +1855,7 @@ $(function(){
   */
 
   if($('.rp-container-tabbed').length === 0){
+    $('.rp-tabs').hide();
     return;
   }
 
@@ -1824,7 +1875,6 @@ $(function(){
       $currentPanel = $('.related-products[data-rp-panel-id=' + currentPanelId + ']'),
       $productPanels = $('.related-products[data-rp-panel-id]');
 
-
   $productPanels.not($currentPanel).css({
     'opacity' : 0,
     'z-index' : 0
@@ -1833,7 +1883,6 @@ $(function(){
   $currentPanel.css({
     'z-index' : 1
   });
-
 
   $tabs.eq(0).addClass('active');
 
@@ -1870,7 +1919,6 @@ $(function(){
       $currentPanel.css(visibleObj(true, 1));
       $currentPanel.data('relatedProducts').enableShuffle();
       $currentPanel.stop(true,true).animate({ opacity: 1 },{ duration: 500});
-
     };
 
     $tabs.on(window.Modernizr.touch ? 'touchend' : 'click' , handleTabClick);
