@@ -86,6 +86,10 @@ $fourColMax: px-em(979px);
   overflow: visible;
 }
 
+.gallery.disabled {
+  visibility: hidden;
+}
+
 // Give multiple gallery sections a border top
 .gallery + .gallery > *:first-child {
   border-top: .1875em solid $gray70;
@@ -800,6 +804,10 @@ $oneByOneImgPadding: 107.84313725490196%;
   // z-index: 1;
   z-index: 11;
 
+  .btn {
+    margin-bottom: 0;
+  }
+
   .slide-toggle,
   .accessory-finder {
     margin-left: 2.5em;
@@ -1122,14 +1130,42 @@ $oneByOneImgPadding: 107.84313725490196%;
     margin-top: 1.25em;
   }
 
+  .slide-toggle-target.in ~ #sort-options-holder {
+    margin-top: .625em;
+  }
+
   .slide-toggle-target ~ .active-filters-wrap {
     margin-top: 0;
     margin-bottom: 1.25em;
   }
 
-  .sort-options .native-dropdown select {
-    height: 31px;
+  .sort-options {
+    margin-top: 0;
+    float: none;
+    clear: both;
+
+    .native-dropdown select {
+      height: 31px;
+    }
+
+    .native-dropdown,
+    .native-dropdown select,
+    .dropdown,
+    .dropdown-toggle.btn {
+      width: 100%;
+    }
+
+    .no-touch & .dropdown,
+    .touch & .native-dropdown {
+      display: block;
+    }
+
+    .filter-label {
+      display: block;
+      margin-bottom: 6px;
+    }
   }
+
 
   .filter-display-bar {
 
@@ -1137,29 +1173,6 @@ $oneByOneImgPadding: 107.84313725490196%;
       display: block;
       margin-bottom: 0;
       margin-top: 10px;
-    }
-
-    .sort-options {
-      padding-top: .5em;
-      float: none;
-      clear: both;
-    }
-
-    .sort-options .native-dropdown,
-    .sort-options .native-dropdown select,
-    .sort-options .dropdown,
-    .sort-options .dropdown-toggle {
-      width: 100%;
-    }
-
-    .touch & .sort-options .native-dropdown {
-      display: block;
-    }
-
-    .sort-options .filter-label {
-      display: block;
-      margin-top: 10px;
-      margin-bottom: 6px;
     }
 
     .btn.slide-toggle,
