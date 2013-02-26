@@ -638,16 +638,20 @@
       var self = this;
 
       // Favorite Heart
-      self.$favorites.on('click', $.proxy( self.onFavorite, self ));
+      if (Modernizr.touch){
+        self.$favorites.on('touchend', $.proxy( self.onFavorite, self ));
+      }else{
+        self.$favorites.on('click', $.proxy( self.onFavorite, self ));        
 
-      self.$container.find('.js-favorite').tooltip({
-        placement: 'offsettop',
-        title: function() {
-          var $jsFavorite = $(this);
-          return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
-        },
-        template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-      });
+        self.$container.find('.js-favorite').tooltip({
+          placement: 'offsettop',
+          title: function() {
+            var $jsFavorite = $(this);
+            return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
+          },
+          template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+        });
+      }
     },
 
     initCarousels : function( isFirstCall ) {
@@ -1185,9 +1189,12 @@
           content = self.getFavoriteContent( $jsFavorite, isAdding );
       $jsFavorite.toggleClass('active');
 
-      $('.gallery-tooltip .tooltip-inner')
+      if(evt.type == "click"){
+        $('.gallery-tooltip .tooltip-inner')
         .html( content )
         .tooltip('show');
+      }
+      
 
       // Stop event from bubbling to <a> tag
       evt.preventDefault();
