@@ -352,16 +352,18 @@
     },
 
     _onBeforeScrollStart : function( iscroll, e ){
-      var self = this;
+      var self = this,
+          distX = iscroll.absDistX || 0,
+          distY = iscroll.absDistY || 0;
     
-      // if vertical scrolling passes threshhold then only use scroller
-      if ( this.absDistX > (this.absDistY + self.threshhold ) ) {
-        // user is scrolling the x axis, so prevent the browsers' native scrolling
+      //if vertical scrolling passes threshhold then "lock direction"
+      if ( distX >= (distY + self.threshhold ) ) {
+        // prevent the browsers' native scrolling
         e.preventDefault();
       }
 
       // If they've defined a callback as well, call it
-      // We saved their function to this reference so we could have our own onBeforeScrollStart
+      // Original function is saved as reference (self.onBeforeScrollStart) so we could have a custom onBeforeScrollStart
       if ( self.onBeforeScrollStart ) {
         self.onBeforeScrollStart( iscroll );
       }
@@ -549,7 +551,7 @@
     addPaddleTrigger: true, // Add the paddle-trigger class to fade in paddles when the parent is hovered
     autoGutters: true,
     gutterWidth: 0,
-    threshhold: 10, // in pixels, determines when native scrolling is prevented (used with onBeforeScrollStart)
+    threshhold: 5, // in pixels, determines when native scrolling is prevented (used with onBeforeScrollStart)
 
     // iscroll props get mixed in
     iscrollProps: {
