@@ -493,7 +493,7 @@
           //animObj[ Modernizr.prefixed('transitionTimingFunction') ] = $.socCSS3Easing.easeOutBack;
 
           if(self.currAnimSpeed === self.animationSpeed){
-            animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack; //default to normal
+            animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeOutBack; //default to normal
           }else{
             animObj[ (self.vendorPrefix + self.TTF) ] = 'cubic-bezier(0.33,0.66,0.66,1)';
           }
