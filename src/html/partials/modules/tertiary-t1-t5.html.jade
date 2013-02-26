@@ -26,20 +26,20 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
     .tcc-body.grid.no-grid-at-767
     
       for module in data.contentModules
+        - classNames = ["tcc-content-module","span4","table-center-wrap"]
+
         for variation in module.variations
-          - textStyle   = variation.style
-          - alignment   = variation.alignment
           - contentType = variation.contentType
           - contentMode = variation.contentMode
+          - classNames.push(contentMode, contentType)
 
           if(contentMode == "featured") && (module.imgSrc)
             - backgroundImg = module.imgSrc
-            - contentBGImg = "iq-img"
+            - classNames.push("iq-img")
           else
-            - backgroundImg = ""
-            - contentBGImg = ""
+            - backgroundImg = null         
 
-        .tcc-content-module.span4.table-center-wrap(class=contentType)(class=contentMode)(class=contentBGImg)(data-tcc-content-type=contentType, data-tcc-content-mode=contentMode, data-src= backgroundImg)  
+        div(class=classNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode, data-src= backgroundImg)
           case contentType
             when "article"
               if(contentMode == "featured") && (module.title) && (module.imgSrc)
@@ -48,7 +48,6 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     p.t4 #{module.title}
                     p.lt3
                       a(href="#{module.articleLink}") Read More
-                
               else
                 .img-container
                   .img-wrap
@@ -149,15 +148,10 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     | Answer this Question
             
             when "sonys-voice"
-              if (contentMode == "twitter")
-                .fonticon-10-twitter
-
-              if (contentMode == "facebook")
-                .fonticon-10-facebook
-
-              if (contentMode == "instagram")
-                .fonticon-instagram
-                  img(src="img/tertiary-t1-t5/icon-instagram.png")
+              - iconName = "fonticon-15-" + contentMode
+              .icon-container
+                .white-bg.fonticon-10-dot
+                div(class=iconName)
                 
               .meta
                 for meta in module.meta                   
@@ -228,14 +222,11 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
             when "flickr"
               if (contentMode == "default")
-                .fonticon-flickr
+                .icon-container
                   .white-bg.fonticon-10-dot
-                  .fonticon-10-dot.left
-                  .fonticon-10-dot.right
-
-                //- .temp
-                //-   img(src="img/tertiary-t1-t5/icon-flickr.png")
-
+                  .left.fonticon-10-dot
+                  .right.fonticon-10-dot
+                  
                 .meta.p4
                   for meta in module.meta        
                     | #{meta.user} #{meta.title}

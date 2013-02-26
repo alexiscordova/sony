@@ -54,6 +54,7 @@
 
     self.initShuffle();
 
+    self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
     self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
 
     // Infinite scroll?
@@ -658,7 +659,6 @@
     initCarousels : function( isFirstCall ) {
       var self = this;
 
-
       function initializeScroller( $carousel ) {
         // setTimeout onResize
         $carousel.scrollerModule({
@@ -1099,6 +1099,21 @@
       return self;
     },
 
+    fixCarousels : function( isInit ) {
+      var self = this;
+
+      if ( self.hasCarousels ) {
+        if ( self.hasEnabledCarousels ) {
+          self.destroyCarousels();
+        }
+
+        // 980+
+        if ( Modernizr.mq('(min-width: 61.25em)') ) {
+          self.initCarousels( isInit );
+        }
+      }
+    },
+
     onResize : function( isInit ) {
       var self = this,
           windowWidth = self.$window.width(),
@@ -1159,7 +1174,6 @@
           }, 25);
         }
 
-        // Go home detailed gallery, you're drunk
         return;
       }
 
@@ -1167,23 +1181,11 @@
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
-      // Destroy or setup carousels based on viewport
-      if ( self.hasCarousels ) {
-        // 980+
-        if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          if ( !self.hasEnabledCarousels ) {
-            self.initCarousels( isInit );
-          }
-
-        // less than 980
-        } else {
-          if ( self.hasEnabledCarousels ) {
-            self.destroyCarousels();
-          }
-        }
-      }
+      self.fixCarousels(isInit);
 
       self.sortByPriority();
+
+      SONY.Utilities.forceWebkitRedrawHack();
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -2323,8 +2325,13 @@
     // Enable all galleries in this tab
     evt.pane.find('.gallery').gallery('enable');
 
-    //force webkit redraw hack
-    $('<style></style>').appendTo($(document.body)).remove();
+    SONY.Utilities.forceWebkitRedrawHack();
+
+    var gallery = evt.pane.find('.gallery').data('gallery');
+
+    if ( gallery ) {
+      gallery.fixCarousels(false);
+    }
 
   };
 

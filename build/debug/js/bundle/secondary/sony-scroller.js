@@ -121,6 +121,7 @@
       // Override the onscrollend for our own use
       self.onScrollEnd = self.iscrollProps.onScrollEnd;
       self.onAnimationEnd = self.iscrollProps.onAnimationEnd;
+      self.onBeforeScrollStart = self.iscrollProps.onBeforeScrollStart;
 
       if ( self.mode === 'carousel' ) {
         self.iscrollProps = {
@@ -142,6 +143,14 @@
       self.iscrollProps.onAnimationEnd = function() {
         self._onAnimationEnd( this );
       };
+
+      // Pass the iScroll instance to our function (we still want `this` to reference ScrollerModule)
+      self.iscrollProps.onBeforeScrollStart = function(e) {
+        self._onBeforeScrollStart( this, e);
+      };
+
+
+
 
       return self;
     },
@@ -353,6 +362,22 @@
       }
     },
 
+    _onBeforeScrollStart : function( iscroll, e ){
+      var self = this;
+    
+      // if vertical scrolling passes threshhold then only use scroller
+      if ( this.absDistX > (this.absDistY + self.threshhold ) ) {
+        // user is scrolling the x axis, so prevent the browsers' native scrolling
+        e.preventDefault();
+      }
+
+      // If they've defined a callback as well, call it
+      // We saved their function to this reference so we could have our own onBeforeScrollStart
+      if ( self.onBeforeScrollStart ) {
+        self.onBeforeScrollStart( iscroll );
+      }
+    },
+
     _onAnimationEnd : function( iscroll ) {
       var self = this;
 
@@ -535,6 +560,7 @@
     addPaddleTrigger: true, // Add the paddle-trigger class to fade in paddles when the parent is hovered
     autoGutters: true,
     gutterWidth: 0,
+    threshhold: 10, // in pixels, determines when native scrolling is prevented (used with onBeforeScrollStart)
 
     // iscroll props get mixed in
     iscrollProps: {

@@ -11,6 +11,11 @@ SONY.Utilities = (function(window, document) {
   'use strict';
 
   var self = {
+    'forceWebkitRedrawHack': function(){
+      //force webkit redraw hack
+      $('<style></style>').appendTo($(document.body)).remove();
+    },
+    
 
     // Return calculated column if width is above 568px/35.5em
 
@@ -149,10 +154,11 @@ SONY.Utilities = (function(window, document) {
 
     'createGlobalEvents': function() {
 
-      var cachedFunctions = {};
+      var cachedFunctions = {},
+          resizeEvent = 'onorientationchange' in window ? 'orientationchange' : 'resize';
 
+      // Figure out if the window actually resized, or if IE is faking us out.
       // http://stackoverflow.com/questions/1852751/window-resize-event-firing-in-internet-explorer
-      // IE triggers resize events if any elements dimensions change
 
       cachedFunctions.IEResizeCheck = function(cb) {
 
@@ -172,21 +178,52 @@ SONY.Utilities = (function(window, document) {
         }
       };
 
+      // Throttle and Debounce variations
+      // --------------------------------
+      // * Any new version should be added here, then referenced in cachedFunctions.baseThrottle();
+
+      // Default Settings.
+
       cachedFunctions.throttledResize = $.throttle(500, function(){
-        cachedFunctions.IEResizeCheck(function(){
-          SONY.trigger('global:resizeThrottled');
-        });
+        SONY.trigger('global:resizeThrottled');
       });
 
       cachedFunctions.debouncedResize = $.debounce(500, function(){
+        SONY.trigger('global:resizeDebounced');
+      });
+
+      // Specific Events.
+
+      cachedFunctions.throttledResize200 = $.throttle(200, function(){
+        SONY.trigger('global:resizeThrottled-200ms');
+      });
+
+      cachedFunctions.debouncedResize200 = $.debounce(200, function(){
+        SONY.trigger('global:resizeDebounced-200ms');
+      });
+
+      cachedFunctions.debouncedResizeAtBegin200 = $.debounce(200, true, function(){
+        SONY.trigger('global:resizeDebouncedAtBegin-200ms');
+      });
+
+      // Base Throttle
+      // -------------
+      // * Used to contain all of the various speeds and configurations of
+      //   throttle and debounce, so they aren't all constantly being called by
+      //   window.resize.
+
+      cachedFunctions.baseThrottle = $.throttle(100, function(){
         cachedFunctions.IEResizeCheck(function(){
-          SONY.trigger('global:resizeDebounced');
+          cachedFunctions.throttledResize();
+          cachedFunctions.debouncedResize();
+          cachedFunctions.throttledResize200();
+          cachedFunctions.debouncedResize200();
+          cachedFunctions.debouncedResizeAtBegin200();
         });
       });
 
-      SONY.$window.on('resize', function(){
-        cachedFunctions.throttledResize();
-        cachedFunctions.debouncedResize();
+      SONY.$window.on(resizeEvent, function(){
+        cachedFunctions.baseThrottle();
       });
     }
   };
