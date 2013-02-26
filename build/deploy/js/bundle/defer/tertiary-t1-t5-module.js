@@ -483,10 +483,10 @@
         mode: 'paginate',
         generatePagination: true,
         centerItems: true,
+        threshold:5,
 
         iscrollProps: {
           snap: true,
-          momentum: false,
           hScrollbar: false,
           vScrollbar: false
         }

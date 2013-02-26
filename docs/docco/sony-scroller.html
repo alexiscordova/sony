@@ -330,14 +330,16 @@ We saved their function to this reference so we could have our own onScrollEnd</
     },
 
     _onBeforeScrollStart : <span class="keyword">function</span>( iscroll, e ){
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          distX = iscroll.absDistX || <span class="number">0</span>,
+          distY = iscroll.absDistY || <span class="number">0</span>;
     
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>if vertical scrolling passes threshhold then only use scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( <span class="keyword">this</span>.absDistX &gt; (<span class="keyword">this</span>.absDistY + self.threshhold ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>user is scrolling the x axis, so prevent the browsers' native scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>        e.preventDefault();
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>if vertical scrolling passes threshhold then "lock direction"</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( distX &gt;= (distY + self.threshhold ) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>prevent the browsers' native scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>        e.preventDefault();
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>If they've defined a callback as well, call it
-We saved their function to this reference so we could have our own onBeforeScrollStart</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.onBeforeScrollStart ) {
+Original function is saved as reference (self.onBeforeScrollStart) so we could have a custom onBeforeScrollStart</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.onBeforeScrollStart ) {
         self.onBeforeScrollStart( iscroll );
       }
     },
@@ -507,7 +509,7 @@ if it is, get the index from it's data attribute</p>             </td>          
     addPaddleTrigger: <span class="literal">true</span>, <span class="comment">// Add the paddle-trigger class to fade in paddles when the parent is hovered</span>
     autoGutters: <span class="literal">true</span>,
     gutterWidth: <span class="number">0</span>,
-    threshhold: <span class="number">10</span>, <span class="comment">// in pixels, determines when native scrolling is prevented (used with onBeforeScrollStart)</span>
+    threshhold: <span class="number">5</span>, <span class="comment">// in pixels, determines when native scrolling is prevented (used with onBeforeScrollStart)</span>
 
 </pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>iscroll props get mixed in</p>             </td>             <td class="code">               <div class="highlight"><pre>    iscrollProps: {
       snap: <span class="literal">false</span>,
