@@ -377,16 +377,19 @@
 
 		// Don't let range values go past the other
 		if ( th.range ) {
-			var newPosWithThreshold = newPos;
+			var newPosWithThreshold = newPos,
+			// If the range threshold is between 0 and 1, treat it as a percentage of the width
+			threshold = th.rangeThreshold > 0 && th.rangeThreshold < 1 ? th.rangeThreshold * th.railSize : th.rangeThreshold;
+
 			if ( isMin ) {
-				newPosWithThreshold += th.rangeThreshold;
+				newPosWithThreshold += threshold;
 				if ( th.currentPosition !== false && newPosWithThreshold > th.currentPosition ) {
-					newPos = th.currentPosition - th.rangeThreshold;
+					newPos = th.currentPosition - threshold;
 				}
 			} else {
-				newPosWithThreshold -= th.rangeThreshold;
+				newPosWithThreshold -= threshold;
 				if ( th.currentMinPosition !== false && newPosWithThreshold < th.currentMinPosition) {
-					newPos = th.currentMinPosition + th.rangeThreshold;
+					newPos = th.currentMinPosition + threshold;
 				}
 			}
 		}

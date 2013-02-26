@@ -953,7 +953,7 @@
         initialMin: '0%',
         initialMax: '100%',
         range: true,
-        rangeThreshold: 40
+        rangeThreshold: 0.25
       });
     },
 
@@ -1149,6 +1149,7 @@
         }
 
         // 768-979
+        // Make filters a 2up with a span12 below
         if ( Modernizr.mq('(min-width: 48em) and (max-width: 61.1875em)') ) {
           if ( self.$filterColumns.eq(0).hasClass('span4') ) {
             self.$filterColumns
@@ -1160,7 +1161,11 @@
                 .addClass('span12')
                 .find('.media-list')
                   .addClass('inline');
+
+            self.$rangeControl.rangeControl('reset');
           }
+
+        // Reset filters to 3 columns
         } else {
           if ( self.$filterColumns.eq(0).hasClass('span6') ) {
             self.$filterColumns
@@ -1168,6 +1173,8 @@
               .addClass('span4')
               .find('.media-list')
                 .removeClass('inline');
+
+            self.$rangeControl.rangeControl('reset');
           }
         }
 
