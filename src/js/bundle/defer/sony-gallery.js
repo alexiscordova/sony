@@ -707,7 +707,7 @@
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method, realType;
+          filterName, filterValue, method;
 
 
       // Reset stored data by setting all filterValue values to null
@@ -756,16 +756,9 @@
         if ( !self.filterValues.hasOwnProperty(filterName) ) {
           continue;
         }
-        realType = self.realFilterTypes[ filterName ];
 
         for ( filterValue in self.filterValues[ filterName ] ) {
           method = self.filterValues[ filterName ][ filterValue ] ? 'enable' : 'disable';
-
-          // Hacky as shit. This makes the `button` type always enabled
-          if ( realType === 'button' ) {
-            method = 'enable';
-          }
-
           self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
         }
       }
@@ -805,30 +798,39 @@
       $btns.on('click', function() {
         var $this = $(this),
             isMediaGroup = $this.hasClass('media'),
-            $checked,
-            checked = [];
+            $alreadyChecked,
+            checked = [],
+            active = 'active';
 
         // Abort if this button is disabled
         if ( $this.is('[disabled]') ) {
           return;
         }
 
+        // Already checked buttons which are not this one
+        $alreadyChecked = $this.siblings('.' + active);
+
         if ( isMediaGroup ) {
           $this.find('.btn').button('toggle');
-          $this.toggleClass('active');
+          $this.toggleClass(active);
+
+          if ( $alreadyChecked.length ) {
+            $alreadyChecked.removeClass(active);
+            $alreadyChecked.find('.btn').button('toggle');
+          }
         } else {
           $this.button('toggle');
+
+          // Remove active on already checked buttons to act like radio buttons
+          if ( $alreadyChecked.length ) {
+            $alreadyChecked.button('toggle');
+          }
         }
 
-        $checked = $parent.find('> .active');
-
-        // Get all data-* filters
-        if ( $checked.length !== 0 ) {
-          $checked.each(function() {
-            var filter = $(this).data( filterName );
-            checked.push( filter );
-          });
+        if ( $this.hasClass(active) ) {
+          checked.push( $this.data( filterName ) );
         }
+
         self.filters.button[ filterName ] = checked;
 
         self.filter();
