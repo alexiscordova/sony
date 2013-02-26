@@ -139,11 +139,10 @@
         // $(this).on('touchstart mouseenter', function() {
 
         // TOUCH DEVICES
-        if ($('body').hasClass("touch")){
+        if ($('html').hasClass("touch")){
 
           $thNavBtn.on('touchstart', function() {
             // var $thNavBtn = $(this);
-
             // if this button is already activated,
             if ($thNavBtn.parent().hasClass('nav-li-selected')){
               // just hide/reset it.
@@ -152,7 +151,6 @@
 
             // if this button isn't already activated,
             } else {
-
               // See if any other buttons are activated. If there's NOT
               var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
               if (!otherIsActive){
@@ -192,7 +190,6 @@
 
           $thNavBtn.on(thTrigger, function() {
             // var $thNavBtn = $(this);
-
             $(this).data('hovering',true);
             self.resetMouseleaveTimer();
 

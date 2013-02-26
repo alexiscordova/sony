@@ -38,6 +38,7 @@ $fourColMax: px-em(979px);
   .product-rating {
     margin: .5em 0 1em;
     color: $gray40;
+    @include text-overflow();
   }
 
   .price-title {
@@ -851,11 +852,12 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   select {
     margin-bottom: 0;
-
+    height: 36px;
     -webkit-appearance: button;
-    padding: 0 0 0 12px;
+    padding: 0 26px 0 12px;
     border-radius: 0;
     line-height: 1;
+    @include text-overflow( false );
   }
 
   // arrows
@@ -865,6 +867,14 @@ $oneByOneImgPadding: 107.84313725490196%;
     margin-top: -8px;
     right: 12px;
   }
+}
+
+.touch .sort-options .native-dropdown {
+  display: inline-block;
+}
+
+.touch .sort-options .dropdown {
+  display: none;
 }
 
 // Filter labels ( active filters )
@@ -929,7 +939,8 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 
   .media[disabled],
-  .media[disabled] .media-heading {
+  .media[disabled] .media-heading,
+  .media[disabled] p {
     color: $gray50;
   }
 
@@ -1024,6 +1035,17 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 }
 
+// 8888888888 d8b 888 888                           888b     d888  .d88888b.
+// 888        Y8P 888 888                           8888b   d8888 d88P" "Y88b
+// 888            888 888                           88888b.d88888 888     888
+// 8888888    888 888 888888  .d88b.  888d888       888Y88888P888 888     888 .d8888b
+// 888        888 888 888    d8P  Y8b 888P"         888 Y888P 888 888     888 88K
+// 888        888 888 888    88888888 888           888  Y8P  888 888 Y8b 888 "Y8888b.
+// 888        888 888 Y88b.  Y8b.     888           888   "   888 Y88b.Y8b88P      X88
+// 888        888 888  "Y888  "Y8888  888           888       888  "Y888888"   88888P'
+//                                                                       Y8b
+
+
 
 // 768 - 979
 @media ( min-width: 48em ) and ( max-width: 61.1875em ) {
@@ -1037,6 +1059,10 @@ $oneByOneImgPadding: 107.84313725490196%;
     & .filter-container {
       margin-top: 0;
     }
+  }
+
+  .sort-options .native-dropdown select {
+    height: 34px;
   }
 
   .filter-options .media-list {
@@ -1102,6 +1128,10 @@ $oneByOneImgPadding: 107.84313725490196%;
     margin-bottom: 1.25em;
   }
 
+  .sort-options .native-dropdown select {
+    height: 31px;
+  }
+
   .filter-display-bar {
 
     .product-count-wrap {
@@ -1125,10 +1155,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
     .touch & .sort-options .native-dropdown {
       display: block;
-    }
-
-    .touch & .sort-options .dropdown {
-      display: none;
     }
 
     .sort-options .filter-label {
@@ -1354,12 +1380,19 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .sort-options {
     float: left;
+    margin-top: 0;
   }
 }
 
 .compare-key {
-  // margin-top: 1.125em;
   margin-bottom: 1.125em;
+}
+
+// Don't let label text overflow
+.detail-label strong {
+  display: inline-block;
+  max-width: 100%;
+  @include text-overflow( false );
 }
 
 // Holds labels and compare-items
@@ -1427,10 +1460,6 @@ $oneByOneImgPadding: 107.84313725490196%;
     width: 0;
   }
 
-  .product-model {
-    color: $gray40;
-  }
-
   .compare-sticky-header .product-name-wrap {
     padding-right: 2.5em;
   }
@@ -1458,6 +1487,15 @@ $oneByOneImgPadding: 107.84313725490196%;
   .media p:not(.media-heading) {
     color: $gray40;
   }
+
+  .product-model {
+    color: $gray40;
+  }
+
+  .product-name,
+  .product-model {
+    margin-bottom: 0;
+  }
 }
 
 // Labels
@@ -1483,7 +1521,6 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Show a little shadow representing content behind the label column
   &.overflowing:before {
     @include box-shadow(.125em 0 .1875em -.0625em $transparentBlack);
-    // @include box-shadow(.125em 0 .375em -.125em $transparentBlack);
     @include transition-timing-function(ease-out);
   }
 }
@@ -1548,7 +1585,6 @@ $oneByOneImgPadding: 107.84313725490196%;
   z-index: 10;
   top: 0;
   left: -9999px;
-  // width: inherit; // position fixed not inheriting correct width?...
   padding: 1em 0 1.25em;
   background: $gray90;
   top: -6.25em;
@@ -1595,11 +1631,6 @@ $oneByOneImgPadding: 107.84313725490196%;
   .product-name {
     color: $gray20;
   }
-
-  .product-name,
-  .product-model {
-    margin-bottom: 0;
-  }
 }
 
 .takeover-sticky-header {
@@ -1625,7 +1656,6 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   .box-close {
     top: 15px;
-    // display: none;
   }
 }
 
@@ -1641,21 +1671,45 @@ $oneByOneImgPadding: 107.84313725490196%;
   display: inline-block;
   padding: 11px 12px;
   color: $white;
-  // font-size: $font_18_16;
   line-height: 1;
   background: $gray20;
 }
 
+
+//  .d8888b.                                                                  888b     d888  .d88888b.
+// d88P  Y88b                                                                 8888b   d8888 d88P" "Y88b
+// 888    888                                                                 88888b.d88888 888     888
+// 888         .d88b.  88888b.d88b.  88888b.   8888b.  888d888  .d88b.        888Y88888P888 888     888 .d8888b
+// 888        d88""88b 888 "888 "88b 888 "88b     "88b 888P"   d8P  Y8b       888 Y888P 888 888     888 88K
+// 888    888 888  888 888  888  888 888  888 .d888888 888     88888888       888  Y8P  888 888 Y8b 888 "Y8888b.
+// Y88b  d88P Y88..88P 888  888  888 888 d88P 888  888 888     Y8b.           888   "   888 Y88b.Y8b88P      X88
+//  "Y8888P"   "Y88P"  888  888  888 88888P"  "Y888888 888      "Y8888        888       888  "Y888888"   88888P'
+//                                   888                                                           Y8b
+//                                   888
+//                                   888
 @media (max-width: $threeColMax) {
 
   .compare-nav {
     display: none;
   }
 
+  // Get rid of grid width
+  .js-compare-wrap {
+    width: 100%;
+  }
+
+  .compare-items-wrap {
+    overflow: hidden !important; // override iscroll
+  }
+
   .takeover-sticky-header .box-close {
     display: block;
   }
 
+  .sort-options select,
+  .sort-options .dropdown-toggle {
+    height: 31px;
+  }
 
   .compare-item .detail:before {
     content: attr(data-label);

@@ -4,7 +4,7 @@
 Module: Full Specs Multi
 Version: 1.0
 Author: Glen Cheney
-Date: 01/24/13</p>
+Date: 02/22/13</p>
 
 <h2>Dependencies: jQuery 1.7+, Modernizr</h2>             </td>             <td class="code">               <div class="highlight"><pre>
 (<span class="keyword">function</span>($, Modernizr, window, <span class="literal">undefined</span>) {
@@ -69,18 +69,17 @@ to make up for its lack of document space</p>             </td>             <td 
         });
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>We're done</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Redraw table when images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> debouncedSetRowHeights = $.debounce( <span class="number">200</span>, $.proxy( self._setRowHeights, self) );
+      self.$specProducts.find(<span class="string">'.iq-img'</span>).on( <span class="string">'imageLoaded'</span>, debouncedSetRowHeights );
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Redraw table when images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> debouncedSetRowHeights = $.debounce( <span class="number">200</span>, $.proxy( self._setRowHeights, self) );
-        self.$specProducts.find(<span class="string">'.iq-img'</span>).on( <span class="string">'imageLoaded'</span>, debouncedSetRowHeights );
-
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>We're done</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
 
         self._initStickyNav();
         self._onScroll();
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Add the complete class to the labels to transition them in</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$detailLabelsWrap.find(<span class="string">'.detail-labels-wrapping'</span>).addClass(<span class="string">'complete'</span>);
 
-      }, <span class="number">250</span>);
+      }, <span class="number">150</span>);
 
 
 
