@@ -22,6 +22,7 @@
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
+    self.$sortOpts = self.$container.find('.sort-options');
     self.$filterColumns = self.$filterOpts.find('.grid').children();
     self.$sortSelect = self.$container.find('.sort-options select');
     self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
@@ -303,6 +304,8 @@
       } else if ( filterType === 'range' ) {
         delete self.filters[ filterType ][ filterName ][ filterValue ];
       }
+
+      return self;
     },
 
     // Removes the active state of a filter. Changes UI.
@@ -331,6 +334,8 @@
         method = filterValue === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
         rangeControl[ method ]();
       }
+
+      return self;
     },
 
     disableFilter : function( filterValue, filterName, filterType ) {
@@ -350,7 +355,16 @@
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
         self.$container.find( selector ).prop('disabled', true);
       }
+    },
 
+    deleteFilter : function( filterValue, filterName, filterType ) {
+      this
+      // Remove from internal data
+      .undoFilter( filterValue, filterName, filterType )
+      // Remove active/checked state
+      .removeFilter( filterValue, filterName, filterType );
+
+      return this;
     },
 
     enableFilter : function( filterValue, filterName, filterType ) {
@@ -383,22 +397,15 @@
 
           if ( filterType === 'range' ) {
             for ( filterValue in self.filters[ filterType ][ filterName ] ) {
-
-              // Remove from internal data
-              self.undoFilter( filterValue, filterName, filterType );
-
-              // Remove active/checked state
-              self.removeFilter( filterValue, filterName, filterType );
+              // Remove from internal data and UI
+              self.deleteFilter( filterValue, filterName, filterType );
             }
+
           } else {
             for ( var i = 0; i < self.filters[ filterType ][ filterName ].length; i++ ) {
               filterValue = self.filters[ filterType ][ filterName ][ i ];
-
-              // Remove from internal data
-              self.undoFilter( filterValue, filterName, filterType );
-
-              // Remove active/checked state
-              self.removeFilter( filterValue, filterName, filterType );
+              // Remove from internal data and UI
+              self.deleteFilter( filterValue, filterName, filterType );
             }
           }
         }
@@ -417,11 +424,8 @@
           data = $(evt.target).data(),
           filterType = self.filterTypes[ data.filterName ];
 
-      // Remove from internal data
-      self.undoFilter( data.filter, data.filterName, filterType );
-
-      // Remove active/checked state
-      self.removeFilter( data.filter, data.filterName, filterType );
+      // Remove from internal data and UI
+      self.deleteFilter( data.filter, data.filterName, filterType );
 
       // Remove this label
       $(evt.target).remove();
@@ -1162,7 +1166,6 @@
                 .find('.media-list')
                   .addClass('inline');
 
-            self.$rangeControl.rangeControl('reset');
           }
 
         // Reset filters to 3 columns
@@ -1173,10 +1176,25 @@
               .addClass('span4')
               .find('.media-list')
                 .removeClass('inline');
-
-            self.$rangeControl.rangeControl('reset');
           }
         }
+
+        // Move sort options around
+        if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+          if ( !self.hasSorterMoved ) {
+            var $sorter = self.$sortOpts.detach();
+            $sorter.insertAfter( self.$container.find('.slide-toggle-target') );
+            $sorter.wrap('<div id="sort-options-holder" class="container"><div class="grid"></div></div>');
+            self.hasSorterMoved = true;
+          }
+        } else {
+          if ( self.hasSorterMoved ) {
+            self.$sortOpts.detach().appendTo( self.$container.find('.slide-toggle-parent .grid') );
+            self.$container.find('#sort-options-holder').remove();
+            self.hasSorterMoved = false;
+          }
+        }
+
 
         // Tell infinite scroll to update where it thinks it's target it
         if ( self.hasInfiniteScroll ) {
@@ -1185,6 +1203,8 @@
           }, 25);
         }
 
+        self.$rangeControl.rangeControl('reset');
+
         return;
       }
 
@@ -1192,7 +1212,7 @@
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
-      self.fixCarousels(isInit);
+      self.fixCarousels( isInit );
 
       self.sortByPriority();
 
@@ -2291,6 +2311,7 @@
     price: {},
     isInitialized: false,
     hasEnabledCarousels: false,
+    hasSorterMoved: false,
     sorted: false,
     isTouch: SONY.Settings.hasTouchEvents,
     loadingGif: 'img/global/loader.gif',
