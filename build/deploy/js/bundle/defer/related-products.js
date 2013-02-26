@@ -382,8 +382,6 @@
         self.updateSlides();
         self.updatePaddles();
 
-        
-
         if(self.mode === 'suggested'){
           return;
         }
@@ -395,7 +393,9 @@
           self.$shuffleContainers.each(function(){
             var shfflInst = $(this).data('shuffle');
 
-            if(shfflInst === undefined){return;}
+            if(shfflInst === undefined){
+              return;
+            }
 
             setTimeout(function(){
               self.updateSliderSize();
@@ -1383,6 +1383,8 @@
           cw = 1190;
           newPos = ( -self.currentId * cw );
           newPos -= (1190 - self.$win.width() ) * 0.5;
+        }else if( self.isIE7orIE8 ){
+          newPos += Math.ceil(widthDifference);
         }
 
         if(self.mode === 'suggested'){
@@ -1435,6 +1437,8 @@
           newPos =  -self.currentId * 1190 ;
           newPos -= (1190 - self.$win.width() ) * 0.5;
           newDist = Math.abs(self.sPosition  - newPos);
+        }else if( self.isIE7orIE8 ){
+          newPos += Math.ceil(widthDifference);
         }
 
         self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
