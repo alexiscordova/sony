@@ -89,7 +89,7 @@ mixin basicGalleryItem( layout, priority, href )
   //- Add .gallery-item, .basic, and .m-span3 (for 2 up on mobile)
   klass = 'gallery-item basic m-span3 ' + klass
 
-  if layout == 'plate'
+  if layout == 'plate' || layout == 'blank-normal'
     div(class=klass, data-priority=priority)
       block
   else
@@ -511,7 +511,7 @@ else if data.view == 'single-spec'
 
 
 else if data.view == 'blank'
-  a(class='gallery-item basic blank m-span3 normal shuffle-item filtered span1', data-priority=data.priority, href='#')
+  div(class='gallery-item basic blank m-span3 normal shuffle-item filtered span1', data-priority=data.priority, href='#')
 
 
 else

@@ -19,7 +19,7 @@ if data.config.tabbedLayout
     for tab in data.config.tabbedLayout
       if data.config.mode == 'full'
         - clss = data.config.mode
-        section.related-products(data-mode=data.config.mode , class=clss , data-rp-panel-id=tab.panelId)
+        section.related-products( class=clss , data-mode=data.config.mode , data-variation=data.config.variation ,  data-rp-panel-id=tab.panelId )
           .rp-overflow
             .rp-container
               j = 0
@@ -43,7 +43,7 @@ else if data.config.standalone != true
     .container
       .grid
         h2(class='l1 rp-title')= data.config.headerTitle
-    section.related-products(data-mode=data.config.mode , data-variation=data.config.variation , class=clss)
+    section.related-products( class=clss , data-mode=data.config.mode , data-variation=data.config.variation )
       .rp-overflow
         .rp-container
           j = 0

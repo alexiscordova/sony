@@ -22,6 +22,7 @@
     self.id = self.$container[0].id;
     self.$grid = self.$container.find('.products');
     self.$filterOpts = self.$container.find('.filter-options');
+    self.$sortOpts = self.$container.find('.sort-options');
     self.$filterColumns = self.$filterOpts.find('.grid').children();
     self.$sortSelect = self.$container.find('.sort-options select');
     self.$sortBtns = self.$container.find('.sort-options .dropdown-menu a');
@@ -117,6 +118,8 @@
         self.$grid.infinitescroll('resume');
       }
 
+      self.$container.removeClass('disabled');
+
       self.enabled = true;
 
       if ( self.hasCarousels ) {
@@ -139,6 +142,8 @@
       if ( self && self.hasInfiniteScroll ) {
         self.$grid.infinitescroll('pause');
       }
+
+      self.$container.addClass('disabled');
 
       self.enabled = false;
     },
@@ -299,6 +304,8 @@
       } else if ( filterType === 'range' ) {
         delete self.filters[ filterType ][ filterName ][ filterValue ];
       }
+
+      return self;
     },
 
     // Removes the active state of a filter. Changes UI.
@@ -327,6 +334,8 @@
         method = filterValue === 'min' ? 'slideToInitialMin' : 'slideToInitialMax';
         rangeControl[ method ]();
       }
+
+      return self;
     },
 
     disableFilter : function( filterValue, filterName, filterType ) {
@@ -346,7 +355,16 @@
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
         self.$container.find( selector ).prop('disabled', true);
       }
+    },
 
+    deleteFilter : function( filterValue, filterName, filterType ) {
+      this
+      // Remove from internal data
+      .undoFilter( filterValue, filterName, filterType )
+      // Remove active/checked state
+      .removeFilter( filterValue, filterName, filterType );
+
+      return this;
     },
 
     enableFilter : function( filterValue, filterName, filterType ) {
@@ -379,22 +397,15 @@
 
           if ( filterType === 'range' ) {
             for ( filterValue in self.filters[ filterType ][ filterName ] ) {
-
-              // Remove from internal data
-              self.undoFilter( filterValue, filterName, filterType );
-
-              // Remove active/checked state
-              self.removeFilter( filterValue, filterName, filterType );
+              // Remove from internal data and UI
+              self.deleteFilter( filterValue, filterName, filterType );
             }
+
           } else {
             for ( var i = 0; i < self.filters[ filterType ][ filterName ].length; i++ ) {
               filterValue = self.filters[ filterType ][ filterName ][ i ];
-
-              // Remove from internal data
-              self.undoFilter( filterValue, filterName, filterType );
-
-              // Remove active/checked state
-              self.removeFilter( filterValue, filterName, filterType );
+              // Remove from internal data and UI
+              self.deleteFilter( filterValue, filterName, filterType );
             }
           }
         }
@@ -413,11 +424,8 @@
           data = $(evt.target).data(),
           filterType = self.filterTypes[ data.filterName ];
 
-      // Remove from internal data
-      self.undoFilter( data.filter, data.filterName, filterType );
-
-      // Remove active/checked state
-      self.removeFilter( data.filter, data.filterName, filterType );
+      // Remove from internal data and UI
+      self.deleteFilter( data.filter, data.filterName, filterType );
 
       // Remove this label
       $(evt.target).remove();
@@ -522,7 +530,21 @@
       });
 
       // Init popovers
-      self.$filterOpts.find('.js-popover-trigger').each(function() {
+      self.initPopovers();
+
+      // Slide toggle. Reset range control if it was hidden on initialization
+      self.$container.find('.collapse')
+        .on('shown', $.proxy( self.onFiltersShown, self ))
+        .on('show', $.proxy( self.onFiltersShow, self ))
+        .on('hide', $.proxy( self.onFiltersHide, self ));
+
+    },
+
+    initPopovers : function() {
+      var self = this,
+          $triggers = self.$filterOpts.find('.js-popover-trigger');
+
+      $triggers.each(function() {
         var $trigger = $(this);
 
         $trigger.popover({
@@ -544,12 +566,11 @@
         });
       });
 
-      // Slide toggle. Reset range control if it was hidden on initialization
-      self.$container.find('.collapse')
-        .on('shown', $.proxy( self.onFiltersShown, self ))
-        .on('show', $.proxy( self.onFiltersShow, self ))
-        .on('hide', $.proxy( self.onFiltersHide, self ));
-
+      // Hide other popovers when another is clicked
+      $triggers.on('tipshow', function() {
+        var $trigger = $(this);
+        $triggers.not( $trigger ).popover('hide');
+      });
     },
 
     initSorting : function() {
@@ -667,25 +688,23 @@
           itemElementSelector: '.slide'
         });
 
-        self.hasEnabledCarousels = true;
       }
 
       // Go through each possible carousel
-      self.$carousels.each(function() {
-        var $carousel = $(this),
+      self.$carousels.each(function(i,e) {
+        var $carousel = $(e),
             $firstImage;
 
         // If this call is from the initial setup, we have to wait for the first image to load
         // to get its height.
-        if ( isFirstCall ) {
-          $firstImage = $carousel.find(':first-child img');
-          $firstImage.on('imageLoaded', function() {
+        $firstImage = $carousel.find(':first-child img');
+
+        if ( $firstImage[0].naturalHeight > 0 ) {
+          initializeScroller( $carousel );
+        } else {
+           $firstImage.on('imageLoaded', function() {
             initializeScroller( $carousel );
           });
-
-        // Otherwise, just initialize the carousel right away
-        } else {
-          initializeScroller( $carousel );
         }
 
       });
@@ -693,13 +712,27 @@
 
     destroyCarousels : function() {
       this.$carousels.scrollerModule('destroy');
-      this.hasEnabledCarousels = false;
+    },
+
+    fixCarousels : function( isInit ) {
+      var self = this;
+
+      if ( self.hasCarousels ) {
+        if ( self.hasEnabledCarousels ) {
+          self.destroyCarousels();
+        }
+
+        // 980+
+        if ( Modernizr.mq('(min-width: 61.25em)') ) {
+          self.initCarousels( isInit );
+        }
+      }
     },
 
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method, realType;
+          filterName, filterValue, method;
 
 
       // Reset stored data by setting all filterValue values to null
@@ -748,16 +781,9 @@
         if ( !self.filterValues.hasOwnProperty(filterName) ) {
           continue;
         }
-        realType = self.realFilterTypes[ filterName ];
 
         for ( filterValue in self.filterValues[ filterName ] ) {
           method = self.filterValues[ filterName ][ filterValue ] ? 'enable' : 'disable';
-
-          // Hacky as shit. This makes the `button` type always enabled
-          if ( realType === 'button' ) {
-            method = 'enable';
-          }
-
           self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
         }
       }
@@ -797,30 +823,39 @@
       $btns.on('click', function() {
         var $this = $(this),
             isMediaGroup = $this.hasClass('media'),
-            $checked,
-            checked = [];
+            $alreadyChecked,
+            checked = [],
+            active = 'active';
 
         // Abort if this button is disabled
         if ( $this.is('[disabled]') ) {
           return;
         }
 
+        // Already checked buttons which are not this one
+        $alreadyChecked = $this.siblings('.' + active);
+
         if ( isMediaGroup ) {
           $this.find('.btn').button('toggle');
-          $this.toggleClass('active');
+          $this.toggleClass(active);
+
+          if ( $alreadyChecked.length ) {
+            $alreadyChecked.removeClass(active);
+            $alreadyChecked.find('.btn').button('toggle');
+          }
         } else {
           $this.button('toggle');
+
+          // Remove active on already checked buttons to act like radio buttons
+          if ( $alreadyChecked.length ) {
+            $alreadyChecked.button('toggle');
+          }
         }
 
-        $checked = $parent.find('> .active');
-
-        // Get all data-* filters
-        if ( $checked.length !== 0 ) {
-          $checked.each(function() {
-            var filter = $(this).data( filterName );
-            checked.push( filter );
-          });
+        if ( $this.hasClass(active) ) {
+          checked.push( $this.data( filterName ) );
         }
+
         self.filters.button[ filterName ] = checked;
 
         self.filter();
@@ -949,7 +984,7 @@
         initialMin: '0%',
         initialMax: '100%',
         range: true,
-        rangeThreshold: 40
+        rangeThreshold: 0.25
       });
     },
 
@@ -1099,21 +1134,6 @@
       return self;
     },
 
-    fixCarousels : function( isInit ) {
-      var self = this;
-
-      if ( self.hasCarousels ) {
-        if ( self.hasEnabledCarousels ) {
-          self.destroyCarousels();
-        }
-
-        // 980+
-        if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          self.initCarousels( isInit );
-        }
-      }
-    },
-
     onResize : function( isInit ) {
       var self = this,
           windowWidth = self.$window.width(),
@@ -1145,6 +1165,7 @@
         }
 
         // 768-979
+        // Make filters a 2up with a span12 below
         if ( Modernizr.mq('(min-width: 48em) and (max-width: 61.1875em)') ) {
           if ( self.$filterColumns.eq(0).hasClass('span4') ) {
             self.$filterColumns
@@ -1156,7 +1177,10 @@
                 .addClass('span12')
                 .find('.media-list')
                   .addClass('inline');
+
           }
+
+        // Reset filters to 3 columns
         } else {
           if ( self.$filterColumns.eq(0).hasClass('span6') ) {
             self.$filterColumns
@@ -1167,12 +1191,31 @@
           }
         }
 
+        // Move sort options around
+        if ( Modernizr.mq('(max-width: 47.9375em)') ) {
+          if ( !self.hasSorterMoved ) {
+            var $sorter = self.$sortOpts.detach();
+            $sorter.insertAfter( self.$container.find('.slide-toggle-target') );
+            $sorter.wrap('<div id="sort-options-holder" class="container"><div class="grid"></div></div>');
+            self.hasSorterMoved = true;
+          }
+        } else {
+          if ( self.hasSorterMoved ) {
+            self.$sortOpts.detach().appendTo( self.$container.find('.slide-toggle-parent .grid') );
+            self.$container.find('#sort-options-holder').remove();
+            self.hasSorterMoved = false;
+          }
+        }
+
+
         // Tell infinite scroll to update where it thinks it's target it
         if ( self.hasInfiniteScroll ) {
           setTimeout(function() {
             self.$grid.infinitescroll('updateNavLocation');
           }, 25);
         }
+
+        self.$rangeControl.rangeControl('reset');
 
         return;
       }
@@ -1181,7 +1224,7 @@
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
-      self.fixCarousels(isInit);
+      self.fixCarousels( isInit );
 
       self.sortByPriority();
 
@@ -2280,8 +2323,10 @@
     price: {},
     isInitialized: false,
     hasEnabledCarousels: false,
+    hasSorterMoved: false,
     sorted: false,
     isTouch: SONY.Settings.hasTouchEvents,
+    isiPhone: SONY.Settings.isIPhone,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
@@ -2329,8 +2374,8 @@
 
     var gallery = evt.pane.find('.gallery').data('gallery');
 
-    if ( gallery ) {
-      gallery.fixCarousels(false);
+    if(gallery){
+      gallery.fixCarousels(gallery.isInitialized);
     }
 
   };
