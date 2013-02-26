@@ -53,6 +53,7 @@
 
     self.initShuffle();
 
+    self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
     self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
 
     // Infinite scroll?
@@ -660,25 +661,23 @@
           itemElementSelector: '.slide'
         });
 
-        self.hasEnabledCarousels = true;
       }
 
       // Go through each possible carousel
       self.$carousels.each(function(i,e) {
-        var $carousel = $(this),
+        var $carousel = $(e),
             $firstImage;
 
         // If this call is from the initial setup, we have to wait for the first image to load
         // to get its height.
-        if ( isFirstCall ) {
-          $firstImage = $carousel.find(':first-child img');
-          $firstImage.on('imageLoaded', function() {
+        $firstImage = $carousel.find(':first-child img');
+        
+        if ( $firstImage[0].naturalHeight > 0 ) {
+          initializeScroller( $carousel );
+        } else {
+           $firstImage.on('imageLoaded', function() {
             initializeScroller( $carousel );
           });
-
-        // Otherwise, just initialize the carousel right away
-        } else {
-          initializeScroller( $carousel );
         }
 
       });
@@ -686,7 +685,6 @@
 
     destroyCarousels : function() {
       this.$carousels.scrollerModule('destroy');
-      this.hasEnabledCarousels = false;
     },
 
     setFilterStatuses : function() {
@@ -1096,9 +1094,7 @@
       var self = this;
             
       if ( self.hasCarousels ) {
-        if ( self.hasEnabledCarousels ) {
           self.destroyCarousels();
-        }
         
         // 980+
         if ( Modernizr.mq('(min-width: 61.25em)') ) {
@@ -1162,7 +1158,6 @@
           }, 25);
         }
 
-        // Go home detailed gallery, you're drunk
         return;
       }
 
@@ -1173,6 +1168,8 @@
       self.fixCarousels(isInit);
       
       self.sortByPriority();
+      
+      SONY.Utilities.forceWebkitRedrawHack();
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -2231,7 +2228,6 @@
     MAX_PRICE: undefined,
     price: {},
     isInitialized: false,
-    hasEnabledCarousels: false,
     sorted: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
@@ -2278,13 +2274,12 @@
     // Enable all galleries in this tab
     evt.pane.find('.gallery').gallery('enable');
     
-    //force webkit redraw hack
-    $('<style></style>').appendTo($(document.body)).remove();
+    SONY.Utilities.forceWebkitRedrawHack();
     
     var gallery = evt.pane.find('.gallery').data('gallery');
     
     if(gallery){
-      gallery.fixCarousels(false);
+      gallery.fixCarousels(gallery.isInitialized);
     }
 
   };

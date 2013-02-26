@@ -4,7 +4,7 @@
 // Module: Full Specs Multi
 // Version: 1.0
 // Author: Glen Cheney
-// Date: 01/24/13
+// Date: 02/22/13
 // Dependencies: jQuery 1.7+, Modernizr
 // --------------------------------------
 
@@ -75,13 +75,12 @@
         });
       });
 
+      // Redraw table when images have loaded
+      var debouncedSetRowHeights = $.debounce( 200, $.proxy( self._setRowHeights, self) );
+      self.$specProducts.find('.iq-img').on( 'imageLoaded', debouncedSetRowHeights );
+
       // We're done
       setTimeout(function() {
-
-        // Redraw table when images have loaded
-        var debouncedSetRowHeights = $.debounce( 200, $.proxy( self._setRowHeights, self) );
-        self.$specProducts.find('.iq-img').on( 'imageLoaded', debouncedSetRowHeights );
-
 
         self._initStickyNav();
         self._onScroll();
@@ -89,7 +88,7 @@
         // Add the complete class to the labels to transition them in
         self.$detailLabelsWrap.find('.detail-labels-wrapping').addClass('complete');
 
-      }, 250);
+      }, 150);
 
 
 
