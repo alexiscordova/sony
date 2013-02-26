@@ -608,7 +608,9 @@
         // Show new product count
         self.$productCount.text( self.$grid.data('shuffle').visibleItems );
 
+        // Initialize swatches and tooltips for ajax content
         self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
+        self.initTooltips( $newElements.find('.js-favorite') );
 
         // Update iQ images
         iQ.update( true );
@@ -635,13 +637,15 @@
       });
     },
 
-    initTooltips : function() {
+    initTooltips : function( $favorites ) {
       var self = this;
 
-      // Favorite Heart
-      self.$favorites.on('click', $.proxy( self.onFavorite, self ));
+      $favorites = $favorites || self.$favorites;
 
-      self.$container.find('.js-favorite').tooltip({
+      // Favorite Heart
+      $favorites.on('click', $.proxy( self.onFavorite, self ));
+
+      $favorites.tooltip({
         placement: 'offsettop',
         title: function() {
           var $jsFavorite = $(this);
