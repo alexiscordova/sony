@@ -1,0 +1,799 @@
+@import "../_base/variables";
+@import "../_base/mixins";
+
+
+// This file has CSS which is shared between modules
+// It is named all.scss so that it comes first in the source and is easier to override
+
+
+
+
+
+
+
+
+
+// These should match the variables in gallery.scss
+$galleryThreeColMin: px-em(568px);
+$galleryThreeColMax: px-em(767px);
+$galleryFourColMin: px-em(768px);
+$galleryFourColMax: px-em(979px);
+
+
+//  .d8888b.           888 888                                8888888 888
+// d88P  Y88b          888 888                                  888   888
+// 888    888          888 888                                  888   888
+// 888         8888b.  888 888  .d88b.  888d888 888  888        888   888888 .d88b.  88888b.d88b.
+// 888  88888     "88b 888 888 d8P  Y8b 888P"   888  888        888   888   d8P  Y8b 888 "888 "88b
+// 888    888 .d888888 888 888 88888888 888     888  888        888   888   88888888 888  888  888
+// Y88b  d88P 888  888 888 888 Y8b.     888     Y88b 888        888   Y88b. Y8b.     888  888  888
+//  "Y8888P88 "Y888888 888 888  "Y8888  888      "Y88888      8888888  "Y888 "Y8888  888  888  888
+//                                                   888
+//                                              Y8b d88P
+//                                               "Y88P"
+
+$oneByOnePadding: 165.196%;
+$oneByOneImgPadding: 107.84313725490196%;
+.gallery-item {
+  position: relative;
+  display: block;
+  margin-top: $slimGrid5GutterWidth1200;
+  overflow: hidden;
+  background: $white;
+
+  &:after {
+    content: '';
+    display: block;
+    padding-top: $oneByOnePadding;
+  }
+
+  // Make them a bit bigger
+  .shuffle-6 &:after {
+    padding-top: 169.396078%;
+  }
+
+  .gallery-item-inner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  // Container for product images
+  .product-img {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    background: $gray80;
+    @include transition(background-color $transitionFast $easeNormal);
+
+    &:hover {
+      background-color: $gray75;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      padding-top: $oneByOneImgPadding;
+    }
+
+    .product-img-wrap {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    img {
+      display: block;
+      max-height: 100%; // This is causing the images to sometimes be tiny. Not sure what to do about it...
+      max-width: 100%;
+      margin: auto;
+    }
+
+  }
+
+  // Large tiles
+  &.large {
+
+    &:after {
+      padding-top: 105.92705167173253%;
+    }
+
+    .product-img:after {
+      padding-top: 88.14589665653495%;
+    }
+
+    // Carousels
+    .slide {
+      float: left;
+    }
+
+    // 30px at 1020px wide grid for large tile
+    .pagination-bullets {
+      bottom: 5.6390977%;
+    }
+
+    .nav-paddle-prev,
+    .nav-paddle-next {
+      position: absolute;
+      z-index: 20;
+      top: 50%;
+      margin-top: -($navPaddleHeight / 2);
+    }
+
+    .nav-paddle-prev {
+      left: 3.75%;
+    }
+
+    .nav-paddle-next {
+      right: 3.75%;
+    }
+
+    // 3 column grid
+    .shuffle-3 & .product-img:after {
+      // padding-top: 107.045%;
+    }
+
+    // Change padding for 4 column grid
+    .shuffle-4 &:after {
+      padding-top: $oneByOnePadding;
+    }
+
+    // 4 column grid
+    .shuffle-4 & .product-img:after {
+      padding-top: $oneByOneImgPadding;
+    }
+
+    // Should = 612px at full width (296 * 2 + 20)
+    .shuffle-6 &:after {
+      padding-top: 105.3%;
+    }
+
+    .shuffle-6 & .product-img:after {
+      padding-top: 87%;
+    }
+
+    @media (min-width: px-em(980px)) and (max-width: px-em(1023px) ) {
+      &:after {
+        padding-top: 106.8%
+      }
+    }
+  }
+
+  // Title plate
+  &.plate {
+
+    &:after {
+      padding-top: 59.190255%;
+    }
+
+    .shuffle-4 &:after {
+      padding-top: 77.790255%;
+    }
+
+    .product-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+    }
+
+    .product-img {
+      height: 100%;
+    }
+
+    img {
+      max-height: none;
+      max-width: none;
+    }
+
+    div.iq-img {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+  }
+
+  // Promo gallery item images are the full height
+  &.promo {
+
+    &:after {
+      padding-top: 78.19025522041764%;
+      // padding-top: 83.6%;
+    }
+
+    div.iq-img {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+  }
+
+  .label {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    margin: 0;
+  }
+}
+
+// Offset the tooltip to the left
+// -----------------------
+.gallery-tooltip {
+
+  i {
+    position: relative;
+    top: -1px;
+    font-size: 16px;
+    padding-left: 2px;
+  }
+}
+
+
+
+// Styles, not structure, for gallery tiles
+.gallery-item {
+
+  .color-swatches {
+    position: absolute;
+    right: .875em;
+    bottom: .6875em;
+  }
+
+  .favorite-holder {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    cursor: pointer;
+
+    i {
+      // margin-top: px-em(3px);
+      color: $gray60;
+      vertical-align: baseline;
+      font-size: .8125em;
+      padding: .6875em .875em;
+    }
+
+    &:hover i,
+    &.active i {
+      color: rgb(243,84,41);
+    }
+  }
+
+  .fonticon-10-star {
+    color: $gray50;
+  }
+}
+
+
+// 8888888b.                                              88888888888 d8b 888
+// 888   Y88b                                                 888     Y8P 888
+// 888    888                                                 888         888
+// 888   d88P 888d888 .d88b.  88888b.d88b.   .d88b.           888     888 888  .d88b.  .d8888b
+// 8888888P"  888P"  d88""88b 888 "888 "88b d88""88b          888     888 888 d8P  Y8b 88K
+// 888        888    888  888 888  888  888 888  888          888     888 888 88888888 "Y8888b.
+// 888        888    Y88..88P 888  888  888 Y88..88P          888     888 888 Y8b.          X88
+// 888        888     "Y88P"  888  888  888  "Y88P"           888     888 888  "Y8888   88888P'
+
+// Promo Tiles
+// -------------------------
+
+.gallery-item.promo {
+
+  .product-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+  }
+
+  // promo content
+  .product-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 16.1290323% 10.6060606% 10.967742%;
+  }
+
+  img {
+    max-height: none;
+    max-width: none;
+  }
+}
+
+.gallery-item .promo-content {
+  position: relative;
+  height: 100%;
+  text-align: left;
+
+  .promo-title {
+    margin: 0;
+
+    i {
+      position: relative;
+      top: px-em(-3px);
+      left: px-em(2px);
+    }
+  }
+
+  .promo-title .title {
+    color: $white;
+  }
+
+  // e.g. "22 LENSES"
+  .text-count {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+  }
+
+  // Override default label colors
+  .text-count span {
+    color: $white;
+  }
+
+  // ::Different styles go here::
+
+  &.light-text-dark-box {}
+  &.light-text-trans-box {}
+  &.dark-text-light-box {}
+  &.dark-text-trans-box {}
+
+  &.align-left-top {}
+  &.align-left-center {}
+  &.align-left-bottom {}
+  &.align-center-center {}
+  &.align-right-top {}
+  &.align-right-center {}
+  &.align-right-bottom {}
+}
+
+// Promo Media Queries
+// -------------------------
+@media (max-width: $galleryThreeColMax) {
+
+  .gallery-item .promo-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.5625em 1em;
+
+    .promo-title,
+    .text-count {
+      position: static;
+    }
+
+    .promo-title {
+      max-width: none;
+      margin: 0 0 0.825em;
+    }
+
+    .promo-title .title,
+    .promo-title .emphasis {
+      font-size: $font_22_16;
+    }
+  }
+}
+
+
+// Detailed gallery item sizes
+// -------------------------
+.gallery-detailed {
+
+  .gallery-item:after {
+    padding-top: 140%;
+  }
+
+  .product-img:after {
+    padding-top: 76.05633802816901%;
+  }
+
+}
+
+// 888b     d888  .d88888b.
+// 8888b   d8888 d88P" "Y88b
+// 88888b.d88888 888     888
+// 888Y88888P888 888     888 .d8888b
+// 888 Y888P 888 888     888 88K
+// 888  Y8P  888 888 Y8b 888 "Y8888b.
+// 888   "   888 Y88b.Y8b88P      X88
+// 888       888  "Y888888"   88888P'
+//                      Y8b
+
+
+// Gallery item media queries
+// -------------------------
+@media (min-width: px-em(980px)) and (max-width: px-em(1100px) ) {
+
+  .gallery-detailed .products {
+    margin-top: -2.5em;
+  }
+
+  .gallery-item.detailed {
+    margin-top: 2.5em;
+
+    &:after {
+      padding-top: 150%;
+    }
+  }
+}
+
+@media ( max-width: $galleryFourColMax ) {
+
+  // Hide all but the first slide in the large tile carousel
+  .gallery-item.large .slide:not(:first-child) {
+    display: none;
+  }
+}
+
+// 768-979
+@media ( min-width: $galleryFourColMin ) and ( max-width: $galleryFourColMax ) {
+
+  .gallery-detailed .products {
+    margin-top: -2.5em;
+  }
+
+  .gallery-item.detailed {
+    margin-top: 2.5em;
+
+    // Minimum for @768
+    &:after {
+      padding-top: 175%;
+    }
+  }
+
+  .product-content {
+
+    .price-prefix {
+      // font-size: $font_10_16;
+    }
+  }
+}
+
+@media (max-width: $galleryThreeColMax) {
+
+  // Remove percentage heights
+  .gallery-item {
+
+    &:after,
+    .product-img:after {
+      content: none;
+    }
+
+    .gallery-item-inner,
+    .product-img .product-img-wrap {
+      position: static;
+    }
+  }
+
+  // Put percentage heights back for editorial
+  .gallery-editorial {
+
+    .gallery-item {
+      margin-top: 0.625em;
+
+       &:after {
+        content: '';
+        padding-top: $oneByOnePadding;
+      }
+    }
+
+    .gallery-item-inner,
+    .product-img .product-img-wrap {
+      position: absolute;
+    }
+
+    // Make all tiles the same size
+    .gallery-item .product-img:after {
+      content: '';
+      padding-top: $oneByOneImgPadding;
+    }
+  }
+
+
+  .gallery-detailed {
+
+    .slide-toggle-parent {
+      margin-bottom: .9375em;
+    }
+
+    .products {
+      margin-top: -1.625em;
+    }
+
+
+    // Detailed Gallery Item Layout
+    // --------------------------------
+
+    .gallery-item {
+      margin-top: 1.625em; // 26
+      width: 100% !important; // override `auto` set by grid system
+    }
+
+    .gallery-item-inner {
+      display: table;
+      height: 100%;
+      width: 100%;
+    }
+
+    .product-img,
+    .product-content {
+      display: table-cell;
+      vertical-align: top;
+      width: 50%;
+    }
+
+    .product-img .product-img-wrap {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    // non webkit browsers need this
+    .product-img img {
+      width: 100%;
+    }
+
+    .product-content {
+      padding-left: 4%;
+      margin-top: 0;
+    }
+
+
+
+
+    // Detailed gallery item styling
+    // ------------------------------
+    .product-name {
+      margin-bottom: 3px;
+      line-height: 14px;
+    }
+
+    .product-model {
+      margin-bottom: 0;
+    }
+
+    .product-rating {
+      margin: 0 0 .3125em;
+    }
+
+    .fonticon-10-star {
+      font-size: .6em;
+      letter-spacing: -0.15em;
+    }
+
+    .product-meta {
+      margin-bottom: .3125em;
+    }
+
+    .product-price {
+      margin-top: 0;
+    }
+  }
+
+  // Product name, etc
+  .product-content {
+
+    .price-prefix {
+      margin-bottom: 0;
+      display: block;
+    }
+  }
+
+  .favorite-holder i {
+    font-size: .6875em;
+  }
+
+}
+
+// 568 - 640
+@media ( min-width: $galleryThreeColMin ) and ( max-width: 40em ) {
+
+  // Make gallery items taller
+  .gallery-item.basic:after {
+    padding-top: 187%;
+  }
+}
+
+// // <= 479
+// @media ( max-width: 29.9375em ) {
+
+// }
+
+// <= 360
+@media ( max-width: 22.5em ) {
+
+  // Make gallery items taller
+  .gallery-item.basic:after {
+    padding-top: 190%;
+  }
+}
+
+
+
+
+
+//  .d8888b.
+// d88P  Y88b
+// 888    888
+// 888         .d88b.  88888b.d88b.  88888b.   8888b.  888d888  .d88b.
+// 888        d88""88b 888 "888 "88b 888 "88b     "88b 888P"   d8P  Y8b
+// 888    888 888  888 888  888  888 888  888 .d888888 888     88888888
+// Y88b  d88P Y88..88P 888  888  888 888 d88P 888  888 888     Y8b.
+//  "Y8888P"   "Y88P"  888  888  888 88888P"  "Y888888 888      "Y8888
+//                                   888
+//                                   888
+//                                   888
+
+
+// Used in compare tool and multiple spec pages
+
+
+// Don't let label text overflow
+.detail-label strong {
+  display: inline-block;
+  max-width: 100%;
+  @include text-overflow( false );
+}
+
+// Labels
+.detail-labels-wrap {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+
+  //
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 2000px;
+    right: 0;
+    top: 0;
+    background-color: $gray90;
+
+    @include transition(box-shadow $transitionFast ease-in);
+  }
+
+  // Show a little shadow representing content behind the label column
+  &.overflowing:before {
+    @include box-shadow(.125em 0 .1875em -.0625em $transparentBlack);
+    @include transition-timing-function(ease-out);
+  }
+}
+
+.detail-labels-wrapping {
+  @include translate(-0.625em, 0);
+  @include opacity(0);
+  -webkit-transition: opacity $transitionNormal $easeNormal .1s, -webkit-transform $transitionNormal $easeNormal .1s;
+          transition: opacity $transitionNormal $easeNormal .1s, transform $transitionNormal $easeNormal .1s;
+
+  &.complete {
+    @include translate(0, 0);
+    @include opacity(100);
+  }
+}
+
+.detail-label-group {
+  position: absolute;
+}
+
+.detail-label-group,
+.detail-labels-wrapping .product-count-wrap {
+  width: 100%;
+  width: -webkit-calc(100% - 0.625em);
+  width:         calc(100% - 0.625em);
+}
+
+// Gray border top for labels
+.compare-container .detail,
+.detail-labels-wrapping .product-count-wrap {
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  margin-bottom: 0;
+
+  // Simulate border top because the "border" is not 100% of the width,
+  // therefore, we can't actually use the border property
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 90%;
+    height: .0625em;
+    background: $gray60;
+  }
+}
+
+// Make labels have a darker border
+.compare-container .detail-label:after,
+.detail-labels-wrapping .product-count-wrap:after {
+  left: 0;
+  width: 100%;
+  background: $grayLightish;
+}
+
+
+// Sticky header
+// ---------------------
+.compare-sticky-header {
+  position: absolute; // will be changed to fixed with js after the `left` is measured
+  z-index: 10;
+  top: 0;
+  left: -9999px;
+  padding: 1em 0 1.25em;
+  background: $gray90;
+  top: -6.25em;
+  @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
+
+  // The sticky-count uses a pseudo element for the box-shadow
+  &:not(.sticky-count) {
+    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
+  }
+
+  // Needs more specificity to override span margins
+  .sticky-headers & {
+    margin: 0;
+  }
+
+  // Make sticky header visible
+  &.open {
+    left: 0; // Show it
+    top: 0;
+    @include transition-delay(0s);
+    @include transition-timing-function(ease-out);
+  }
+
+  // Create a sticky header box, but position it behind the text and off to the left
+  // so that it looks like it extends the length of the window
+  &.sticky-count:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: -.1875em; // Same as margin-left for compare-items
+    width: 2000px;
+    height: 100%;
+    background: $gray90;
+    border-right: .0625em solid rgba(0,0,0,0.05);
+    @include box-shadow(0 .125em .3125em 0 $transparentBlack);
+  }
+
+  .media .pull-left {
+    max-width: 90px;
+    margin-right: 4px;
+  }
+
+  .product-name {
+    color: $gray20;
+  }
+}
+
+.compare-box {
+  display: inline-block;
+  padding: 11px 12px;
+  color: $white;
+  line-height: 1;
+  background: $gray20;
+}
+
+
+
