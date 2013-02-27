@@ -91,6 +91,12 @@
     if ( self.hasFilters ) {
       self.filter();
     }
+
+    // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
+    setTimeout(function() {
+      self.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
+      iQ.update( true );
+    }, 2000);
   };
 
   Gallery.prototype = {
@@ -2410,14 +2416,16 @@
       return;
     }
 
+
+    var $galleries = evt.pane.find('.gallery');
     // Enable all galleries in this tab
-    evt.pane.find('.gallery').gallery('enable');
+    $galleries.gallery('enable');
 
     SONY.Utilities.forceWebkitRedraw();
 
-    var gallery = evt.pane.find('.gallery').data('gallery');
+    var gallery = $galleries.data('gallery');
 
-    if(gallery){
+    if (gallery) {
       gallery.fixCarousels(gallery.isInitialized);
     }
 
