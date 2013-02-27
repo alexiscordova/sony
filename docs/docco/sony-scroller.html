@@ -128,7 +128,7 @@ self.momentum = false;</p>             </td>             <td class="code">      
       };
 
 </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Pass the iScroll instance to our function (we still want <code>this</code> to reference ScrollerModule)</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.iscrollProps.onBeforeScrollStart = <span class="keyword">function</span>(e) {
-        self._onBeforeScrollStart( <span class="keyword">this</span>, e);
+        self._onBeforeScrollStart( <span class="keyword">this</span>, e );
       };
 
 
@@ -329,10 +329,10 @@ We saved their function to this reference so we could have our own onScrollEnd</
       }
     },
 
-    _onBeforeScrollStart : <span class="keyword">function</span>( iscroll, e ){
+    _onBeforeScrollStart : <span class="keyword">function</span>( iscroll, e ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-    
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>if vertical scrolling passes threshhold then only use scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( <span class="keyword">this</span>.absDistX &gt; (<span class="keyword">this</span>.absDistY + self.threshhold ) ) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>if vertical scrolling passes threshhold then only use scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( iscroll.absDistX &gt;= (iscroll.absDistY + self.threshhold ) ) {
 </pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>user is scrolling the x axis, so prevent the browsers' native scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>        e.preventDefault();
       }
 

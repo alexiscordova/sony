@@ -146,7 +146,7 @@
 
       // Pass the iScroll instance to our function (we still want `this` to reference ScrollerModule)
       self.iscrollProps.onBeforeScrollStart = function(e) {
-        self._onBeforeScrollStart( this, e);
+        self._onBeforeScrollStart( this, e );
       };
 
 
@@ -362,11 +362,11 @@
       }
     },
 
-    _onBeforeScrollStart : function( iscroll, e ){
+    _onBeforeScrollStart : function( iscroll, e ) {
       var self = this;
-    
+
       // if vertical scrolling passes threshhold then only use scroller
-      if ( this.absDistX > (this.absDistY + self.threshhold ) ) {
+      if ( iscroll.absDistX >= (iscroll.absDistY + self.threshhold ) ) {
         // user is scrolling the x axis, so prevent the browsers' native scrolling
         e.preventDefault();
       }
