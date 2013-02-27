@@ -72,7 +72,6 @@ module.exports = function(grunt) {
         debugmain:{
           src: 'css/scss/',
           dest: '../build/debug/css',
-          specify: 'css/scss/styles.scss',
           outputstyle: 'expanded',
           linecomments: true,
           forcecompile: true,
@@ -93,7 +92,6 @@ module.exports = function(grunt) {
         deploymain:{
           src: 'css/scss/',
           dest: '../build/deploy/css',
-          specify: 'css/scss/styles.scss',
           outputstyle: 'compressed',
           linecomments: false,
           forcecompile: true,
