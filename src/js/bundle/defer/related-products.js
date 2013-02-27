@@ -39,12 +39,14 @@
       
       //Cache common jQuery objects
       self.$paddles               = $({});
+
       self.$el                    = $(element);
       self.$slides                = self.$el.find('.rp-slide');
       self.$currentSlide          = null;
       self.$shuffleContainers     = self.$slides.find('.shuffle-container');
       self.$galleryItems          = self.$el.find('.gallery-item');
       self.$container             = self.$el.find('.rp-container').eq(0);
+      self.$favorites             = self.$el.find('.js-favorite');
       self.$tabbedContainer       = self.$el.parent();
       self.$bulletNav             = $();
       self.$doc                   = SONY.$document;
@@ -89,11 +91,6 @@
       self.isTabletMode    = false;
       self.accelerationPos = 0;
 
-/*      self.$el.css({
-        'opacity' : 0,
-        'visibility' : 'hidden'
-      });*/
-
       //Startup
       self.init();
 
@@ -126,11 +123,15 @@
         //Setup link clicks
         self.setupLinkClicks();
 
+        //Initialize tooltips
+        self.initTooltips();
+
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
            self.variation === '4up' ||
            self.variation === '5up'){
             self.setSortPriorities();
+            self.log(self.variation , true);
         }
 
         if(self.$slides.length > 1){
@@ -141,7 +142,10 @@
           if(self.mode != 'strip'){
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           }
+        }else{
+          self.$pagination = $({});
         }
+
         if(self.mode != 'strip'){
           self.setSortPriorities();
           self.setupResizeListener();
@@ -264,6 +268,44 @@
         return '[ object RelatedProducts ]';
       },
 
+      onFavorite : function( evt ) {
+        var self = this,
+            $jsFavorite = $(evt.delegateTarget),
+            isAdding = !$jsFavorite.hasClass('active'),
+            content = self.getFavoriteContent( $jsFavorite, isAdding );
+        $jsFavorite.toggleClass('active');
+
+        $('.gallery-tooltip .tooltip-inner')
+          .html( content )
+          .tooltip('show');
+
+        // Stop event from bubbling to <a> tag
+        evt.preventDefault();
+        evt.stopPropagation();
+      },
+
+      getFavoriteContent : function( $jsFavorite, isActive ) {
+        return isActive ?
+              $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
+              $jsFavorite.data('defaultTitle');
+      },
+
+      initTooltips : function() {
+        var self = this;
+
+        // Favorite Heart
+        self.$favorites.on('click', $.proxy( self.onFavorite, self ));
+
+        self.$container.find('.js-favorite').tooltip({
+          placement: 'offsettop',
+          title: function() {
+            var $jsFavorite = $(this);
+            return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
+          },
+          template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+        });
+      },
+
       //These functions are used by the jquery.shuffle plugin
       initShuffleFns: function(){
         var self = this;
@@ -362,7 +404,10 @@
 
         self.$pagination.hide();
 
+        self.log('setting up resize listener...');
+
         self.$win.on( 'resize', $.debounce( 500 , $.proxy(self.handleResize , self)) );
+
       },
 
       handleResize:function() {
@@ -860,6 +905,8 @@
         if(!Modernizr.mediaqueries || self.$html.hasClass('lt-ie10')){
           view = 'desktop';
         }
+
+        self.log('checking for breakpoints...');
 
         switch(view){
           case 'desktop':
@@ -1497,7 +1544,6 @@
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           self.$paddles.show();
-          self.$el.find('.rp-nav').show();
 
         }
       },
