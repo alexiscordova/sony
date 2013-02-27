@@ -198,6 +198,7 @@
   },
 
   updateImages = function( imagesWereAdded ) {
+    console.log('updatecalled');
     loadImages(false, imagesWereAdded === true );
   },
 
@@ -595,7 +596,7 @@
     devicePixelRatio = opts.forcePixelRatio;
   }
 
-  iQ.update = updateImages;
+  iQ.update = debounce(updateImages, throttleSpeed);
 
   // DOM does not need to be ready to begin the network connection speed test.
   initSpeedTest();
