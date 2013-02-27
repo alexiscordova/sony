@@ -249,6 +249,9 @@
           // Activate click for tab navigation
          $thNavBtnTarget.find('a').on('focus', function() {
             
+            if ($('html').hasClass('lt-ie9')){
+             $('.navmenu-w-search').removeClass('navmenu-w-visible').attr('style','opacity:0');
+            } 
             var navTray = $(this).parents('.navtray-w,.navmenu-w'), 
                 navTrayId = $(navTray).attr('id');
             

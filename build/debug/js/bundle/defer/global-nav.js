@@ -139,11 +139,10 @@
         // $(this).on('touchstart mouseenter', function() {
 
         // TOUCH DEVICES
-        if ($('body').hasClass("touch")){
+        if ($('html').hasClass("touch")){
 
           $thNavBtn.on('touchstart', function() {
             // var $thNavBtn = $(this);
-
             // if this button is already activated,
             if ($thNavBtn.parent().hasClass('nav-li-selected')){
               // just hide/reset it.
@@ -152,7 +151,6 @@
 
             // if this button isn't already activated,
             } else {
-
               // See if any other buttons are activated. If there's NOT
               var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
               if (!otherIsActive){
@@ -192,7 +190,6 @@
 
           $thNavBtn.on(thTrigger, function() {
             // var $thNavBtn = $(this);
-
             $(this).data('hovering',true);
             self.resetMouseleaveTimer();
 
@@ -228,21 +225,7 @@
             }
           }); // end mouseenter
 
-          // If you mouseOut of the nav button
-          $thNavBtn.on('mouseleave', function() {
-            $(this).data('hovering',false);
-            // Check to see if it was onto the navtray/navmenu.
-            // Wait a few ticks to give it a chance for the hover to fire first.
-            setTimeout(function(){
-              // if you're not hovering over the target,
-              if (!$thNavBtnTarget.data('hovering')){
-                // shut it down.
-                self.startMouseleaveTimer( $thNavBtn );
-              } else {
-                self.resetMouseleaveTimer();
-              }
-            },25);
-          });
+         
 
           $thNavBtnTarget.on('mouseenter focus', function() {
             $(this).data('hovering',true);
@@ -265,12 +248,34 @@
 
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
+         
             $(this).data('hovering',false);
+           
+           // make the serach button fonctional in ie 7-8
+           if ($('html').hasClass('lt-ie9')){
+              $('.navmenu-w-search').removeClass('navmenu-w-visible').attr('style','opacity:0');
+            } 
+            
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
             setTimeout(function(){
               // if you're not hovering over the target's button
               if (!$thNavBtn.data('hovering')){
+                // shut it down.
+                self.startMouseleaveTimer( $thNavBtn );
+              } else {
+                self.resetMouseleaveTimer();
+              }
+            },25);
+          });
+           // If you mouseOut of the nav button
+          $thNavBtn.on('mouseleave', function() {
+            $(this).data('hovering',false);
+            // Check to see if it was onto the navtray/navmenu.
+            // Wait a few ticks to give it a chance for the hover to fire first.
+            setTimeout(function(){
+              // if you're not hovering over the target,
+              if (!$thNavBtnTarget.data('hovering')){
                 // shut it down.
                 self.startMouseleaveTimer( $thNavBtn );
               } else {
@@ -292,14 +297,12 @@
 
         // reset the button
         $thNavBtn.removeClass('active').parent().removeClass('nav-li-selected');
-
         // if there's a navTray/navMenu, reset it
         if ($thNavBtn.data('target').length){
           var $thNavTarget = $('.' + $thNavBtn.data('target'));
-
           if ($thNavTarget.hasClass('navtray-w')){
             self.setNavTrayContentNaturalFlow($thNavTarget, false);
-          } else {
+          } else {        
             $('.navmenu-w-visible')
               .removeClass('navmenu-w-visible')
               .one(self.transitionEnd,function(){
@@ -307,6 +310,7 @@
                 .css({'left':'','right':''})
                 .find('.reveal-transition-container').css('height','');
             });
+            
           }
         }
 
@@ -320,6 +324,7 @@
     },
 
     startMouseleaveTimer : function( $thNavBtn ) {
+    
       var self = this;
       if ($('mouseleaveTimerActive').length){
         self.resetMouseleaveTimer();
@@ -372,7 +377,6 @@
         expandedHeight = $navTray.outerHeight();
 
       $navTray.data('expandedHeight',expandedHeight);
-
       if (opening){
         startHeight = '1px';
         endHeight = expandedHeight;
@@ -478,10 +482,12 @@
             setTimeout(function(){
               $thNavTarget.addClass('navmenu-w-visible');
               $revealContainer.height(expHeight);
+ 
               $revealContainer.one(self.transitionEnd,function(){
                 $revealContainer.removeClass('transition-height');
                 setTimeout(function(){
                   $revealContainer.css('height','');
+
                 },1);
               });
             },1);
