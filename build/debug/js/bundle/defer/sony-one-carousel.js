@@ -424,7 +424,6 @@
       },
 
       setPosition: function(posi) {
-
         window.iQ.update();
 
         var self = this,
@@ -506,7 +505,7 @@
 
           //IQ Update
           self.$containerInner.one(self.transitionEndName, function(){
-            //window.iQ.update();
+            window.iQ.update();
             self.ev.trigger('socOnUpdateNav');
           });
         }
