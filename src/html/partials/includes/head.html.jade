@@ -13,6 +13,7 @@ l = {"locals": locals}
   for name in locals.modulescss()
     hrf = "css/modules/" + name.replace(/.scss/g, '.css')
       link(rel="stylesheet", href= hrf)
+  link(rel="stylesheet", href="css/responsive.css")
 
   if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
 
