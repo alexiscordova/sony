@@ -505,20 +505,18 @@ $default-transition-delay    : 0s;
 
 // Box shadows
 // @all, -ms- and -o- box-shadow doesn't exist + box-shadow != drop-shadow
+// Firefox supports non prefixed as of 4.0
+// Webkit prefix for Safari 5.0, iOS 4.2-4.3, Android <= 3.0, Blackberry 7
 @mixin box-shadow($shadow1, $shadow2:null, $shadow3:null) {
 	@if ($shadow3!=null) {
     -webkit-box-shadow: $shadow1, $shadow2, $shadow3;
-       -moz-box-shadow: $shadow1, $shadow2, $shadow3;
             box-shadow: $shadow1, $shadow2, $shadow3;
 	} @else if ($shadow2!=null){
     -webkit-box-shadow: $shadow1, $shadow2;
-       -moz-box-shadow: $shadow1, $shadow2;
             box-shadow: $shadow1, $shadow2;
 	} @else {
     -webkit-box-shadow: $shadow1;
-       -moz-box-shadow: $shadow1;
             box-shadow: $shadow1;
-
 	}
 }
 
