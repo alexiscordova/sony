@@ -152,7 +152,19 @@
       &:nth-of-type(#{$i}) {
         top: -100% * ($i - 1);
         left: 94% * ($i - 1);
+
+        @media( min-width: 61.1875em ) and ( max-width: 75em ){
+          left: 94.7% * ($i - 1);
+        }
+
+        @media( max-width: 29.9375em ){
+          left: 77% * ($i - 1);
+        }
       }
+    }
+
+    @media (max-width: 29.9375em) {
+      width: 74%;
     }
 
     .soc-button {
