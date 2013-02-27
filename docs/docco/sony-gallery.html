@@ -1256,8 +1256,6 @@ if ( !Modernizr.csstransforms ) {
 
 </pre></div>             </td>           </tr>                               <tr id="section-146">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-146">&#182;</a>               </div>               <p>Set the right heading. e.g. Compare Cyber-shot®</p>             </td>             <td class="code">               <div class="highlight"><pre>      $label.text( self.compareTitle );
 
-
-      self.isUsingOuterScroller = !self.isAndroid;
       <span class="keyword">if</span> ( !self.isUsingOuterScroller ) {
         self.$compareTool.addClass(<span class="string">'native-scrolling'</span>);
       }
@@ -1318,13 +1316,17 @@ if ( !Modernizr.csstransforms ) {
         self.$compareItemsWrap.css(<span class="string">'marginLeft'</span>, self.$detailLabelsWrap.width());
       }
 
+</pre></div>             </td>           </tr>                               <tr id="section-158">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-158">&#182;</a>               </div>               <p>Set the height, jQuery object, and text of the takeover sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setTakeoverStickyHeader( self.compareTitle );
+
       self
         .setCompareRowHeights()
-        .setCompareDimensions();
+        .setCompareDimensions()
+        .setCompareItemsOffset()
+        .setStickyHeaderPos( <span class="number">0</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-158">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-158">&#182;</a>               </div>               <p>Nested iscroll isn't working on android 4.1.1</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isUsingOuterScroller ) {
+</pre></div>             </td>           </tr>                               <tr id="section-159">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-159">&#182;</a>               </div>               <p>Nested iscroll isn't working on android 4.1.1</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isUsingOuterScroller ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-159">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-159">&#182;</a>               </div>               <p>Initialize outer scroller (vertical scrolling of the fixed position modal)</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.outerScroller = <span class="keyword">new</span> IScroll( self.$compareTool[<span class="number">0</span>], {
+</pre></div>             </td>           </tr>                               <tr id="section-160">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-160">&#182;</a>               </div>               <p>Initialize outer scroller (vertical scrolling of the fixed position modal)</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.outerScroller = <span class="keyword">new</span> IScroll( self.$compareTool[<span class="number">0</span>], {
           bounce: <span class="literal">false</span>,
           hScrollbar: <span class="literal">false</span>,
           vScrollbar: <span class="literal">false</span>,
@@ -1338,12 +1340,12 @@ if ( !Modernizr.csstransforms ) {
               e.preventDefault();
             }
 
-</pre></div>             </td>           </tr>                               <tr id="section-160">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-160">&#182;</a>               </div>               <p>Add <code>grabbing</code> class</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !self.isTouch &amp;&amp; !self.$compareItemsContainer.hasClass(<span class="string">'grabbing'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-161">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-161">&#182;</a>               </div>               <p>Add <code>grabbing</code> class</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !self.isTouch &amp;&amp; !self.$compareItemsContainer.hasClass(<span class="string">'grabbing'</span>) ) {
               self.$compareItemsContainer.addClass(<span class="string">'grabbing'</span>);
             }
           },
           onBeforeScrollEnd : <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-161">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-161">&#182;</a>               </div>               <p>Remove <code>grabbing</code> class</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !self.isTouch &amp;&amp; self.$compareItemsContainer.hasClass(<span class="string">'grabbing'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-162">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-162">&#182;</a>               </div>               <p>Remove <code>grabbing</code> class</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( !self.isTouch &amp;&amp; self.$compareItemsContainer.hasClass(<span class="string">'grabbing'</span>) ) {
               self.$compareItemsContainer.removeClass(<span class="string">'grabbing'</span>);
             }
           },
@@ -1367,18 +1369,18 @@ if ( !Modernizr.csstransforms ) {
       }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-162">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-162">&#182;</a>               </div>               <p>Initialize inner scroller (for the comparable product items)</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.innerScroller = <span class="keyword">new</span> IScroll( self.$compareTool.find(<span class="string">'.compare-items-wrap'</span>)[<span class="number">0</span>], {
+</pre></div>             </td>           </tr>                               <tr id="section-163">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-163">&#182;</a>               </div>               <p>Initialize inner scroller (for the comparable product items)</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.innerScroller = <span class="keyword">new</span> IScroll( self.$compareTool.find(<span class="string">'.compare-items-wrap'</span>)[<span class="number">0</span>], {
         vScroll: <span class="literal">false</span>,
-        hScrollbar: self.isTouch,
-</pre></div>             </td>           </tr>                               <tr id="section-163">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-163">&#182;</a>               </div>               <p>snap: '.compare-item',</p>             </td>             <td class="code">               <div class="highlight"><pre>        snap: self.compareState.snap, <span class="comment">// this is required for iscroll.scrollToPage</span>
+</pre></div>             </td>           </tr>                               <tr id="section-164">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-164">&#182;</a>               </div>               <p>hScrollbar: self.isTouch,
+snap: '.compare-item',</p>             </td>             <td class="code">               <div class="highlight"><pre>        snap: self.compareState.snap, <span class="comment">// this is required for iscroll.scrollToPage</span>
         onBeforeScrollStart : <span class="keyword">function</span>() {
 
-</pre></div>             </td>           </tr>                               <tr id="section-164">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-164">&#182;</a>               </div>               <p>Add <code>grabbing</code> class</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( !self.isTouch &amp;&amp; !self.$compareItemsContainer.hasClass(<span class="string">'grabbing'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-165">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-165">&#182;</a>               </div>               <p>Add <code>grabbing</code> class</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( !self.isTouch &amp;&amp; !self.$compareItemsContainer.hasClass(<span class="string">'grabbing'</span>) ) {
             self.$compareItemsContainer.addClass(<span class="string">'grabbing'</span>);
           }
         },
         onBeforeScrollEnd : <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-165">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-165">&#182;</a>               </div>               <p>Remove <code>grabbing</code> class</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( !self.isTouch &amp;&amp; self.$compareItemsContainer.hasClass(<span class="string">'grabbing'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-166">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-166">&#182;</a>               </div>               <p>Remove <code>grabbing</code> class</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( !self.isTouch &amp;&amp; self.$compareItemsContainer.hasClass(<span class="string">'grabbing'</span>) ) {
             self.$compareItemsContainer.removeClass(<span class="string">'grabbing'</span>);
           }
         },
@@ -1395,18 +1397,14 @@ if ( !Modernizr.csstransforms ) {
         }
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-166">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-166">&#182;</a>               </div>               <p>Set the height, jQuery object, and text of the takeover sticky nav</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setTakeoverStickyHeader( self.compareTitle );
+</pre></div>             </td>           </tr>                               <tr id="section-167">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-167">&#182;</a>               </div>               <p>Fade in the labels to hide the fact that it took so long to compute heights.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.find(<span class="string">'.detail-labels-wrapping'</span>).addClass(<span class="string">'complete'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-167">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-167">&#182;</a>               </div>               <p>Position sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setStickyHeaderPos();
-
-</pre></div>             </td>           </tr>                               <tr id="section-168">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-168">&#182;</a>               </div>               <p>Fade in the labels to hide the fact that it took so long to compute heights.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.find(<span class="string">'.detail-labels-wrapping'</span>).addClass(<span class="string">'complete'</span>);
-
-</pre></div>             </td>           </tr>                               <tr id="section-169">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-169">&#182;</a>               </div>               <p>These can be deferred</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-168">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-168">&#182;</a>               </div>               <p>These can be deferred</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
         iQ.update();
 
-</pre></div>             </td>           </tr>                               <tr id="section-170">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-170">&#182;</a>               </div>               <p>Hide the previous nav paddle because we're on the first page</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.afterCompareScrolled( self.innerScroller );
+</pre></div>             </td>           </tr>                               <tr id="section-169">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-169">&#182;</a>               </div>               <p>Hide the previous nav paddle because we're on the first page</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.afterCompareScrolled( self.innerScroller );
 
-</pre></div>             </td>           </tr>                               <tr id="section-171">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-171">&#182;</a>               </div>               <p>Bind events to the paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.addCompareNavEvents();
+</pre></div>             </td>           </tr>                               <tr id="section-170">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-170">&#182;</a>               </div>               <p>Bind events to the paddles</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.addCompareNavEvents();
 
       }, <span class="number">100</span>);
 
@@ -1420,12 +1418,12 @@ if ( !Modernizr.csstransforms ) {
         <span class="keyword">return</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-172">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-172">&#182;</a>               </div>               <p>Delete the id from memory</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.removeData(<span class="string">'galleryId'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-171">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-171">&#182;</a>               </div>               <p>Delete the id from memory</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.removeData(<span class="string">'galleryId'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-173">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-173">&#182;</a>               </div>               <p>Clean up</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.find(<span class="string">'.sort-options'</span>).remove();
+</pre></div>             </td>           </tr>                               <tr id="section-172">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-172">&#182;</a>               </div>               <p>Clean up</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.find(<span class="string">'.sort-options'</span>).remove();
       self.$takeoverStickyHeader.removeClass(<span class="string">'open'</span>).removeAttr(<span class="string">'style'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-174">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-174">&#182;</a>               </div>               <p>Destroy iscrolls</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isUsingOuterScroller ) {
+</pre></div>             </td>           </tr>                               <tr id="section-173">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-173">&#182;</a>               </div>               <p>Destroy iscrolls</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.isUsingOuterScroller ) {
         self.outerScroller.destroy();
       } <span class="keyword">else</span> {
         self.$compareTool.off(<span class="string">'scroll'</span>);
@@ -1433,9 +1431,9 @@ if ( !Modernizr.csstransforms ) {
       }
       self.innerScroller.destroy();
 
-</pre></div>             </td>           </tr>                               <tr id="section-175">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-175">&#182;</a>               </div>               <p>Remove listeners for nav button clicks</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.removeCompareNavEvents();
+</pre></div>             </td>           </tr>                               <tr id="section-174">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-174">&#182;</a>               </div>               <p>Remove listeners for nav button clicks</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.removeCompareNavEvents();
 
-</pre></div>             </td>           </tr>                               <tr id="section-176">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-176">&#182;</a>               </div>               <p>Empty out html
+</pre></div>             </td>           </tr>                               <tr id="section-175">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-175">&#182;</a>               </div>               <p>Empty out html
 Remove scroll event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool
         .find(<span class="string">'.js-compare-wrap'</span>)
         .remove()
@@ -1448,7 +1446,7 @@ Remove scroll event</p>             </td>             <td class="code">         
         .end()
         .off(<span class="string">'.comparetool'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-177">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-177">&#182;</a>               </div>               <p>Set count to zero</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareCount.text(<span class="number">0</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-176">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-176">&#182;</a>               </div>               <p>Set count to zero</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareCount.text(<span class="number">0</span>);
 
       self.$compareReset.remove();
       self.$compareReset = <span class="literal">null</span>;
@@ -1459,11 +1457,12 @@ Remove scroll event</p>             </td>             <td class="code">         
       self.$detailLabelsWrap = <span class="literal">null</span>;
       self.$takeoverStickyHeader = <span class="literal">null</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-178">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-178">&#182;</a>               </div>               <p>Set state to null</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.compareState = <span class="literal">null</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-177">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-177">&#182;</a>               </div>               <p>Set state to null</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.compareState = <span class="literal">null</span>;
       self.isFixedHeader = <span class="literal">null</span>;
       self.compareTitle = <span class="literal">null</span>;
+      self.compareItemOffset = <span class="literal">null</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-179">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-179">&#182;</a>               </div>               <p>Remove resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.off(<span class="string">'.comparetool'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-178">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-178">&#182;</a>               </div>               <p>Remove resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.off(<span class="string">'.comparetool'</span>);
 
       self.enable();
 
@@ -1485,13 +1484,13 @@ Remove scroll event</p>             </td>             <td class="code">         
         .addBack()
         .removeClass(<span class="string">'hide faded no-width'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-180">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-180">&#182;</a>               </div>               <p>Disable reset button</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareReset.addClass(<span class="string">'disabled'</span>).removeClass(<span class="string">'active'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-179">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-179">&#182;</a>               </div>               <p>Disable reset button</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareReset.addClass(<span class="string">'disabled'</span>).removeClass(<span class="string">'active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-181">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-181">&#182;</a>               </div>               <p>Reset sort</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.updateSortDisplay( self.$compareTool );
+</pre></div>             </td>           </tr>                               <tr id="section-180">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-180">&#182;</a>               </div>               <p>Reset sort</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.updateSortDisplay( self.$compareTool );
 
-</pre></div>             </td>           </tr>                               <tr id="section-182">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-182">&#182;</a>               </div>               <p>Set container width</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setCompareWidth();
+</pre></div>             </td>           </tr>                               <tr id="section-181">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-181">&#182;</a>               </div>               <p>Set container width</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setCompareWidth();
 
-</pre></div>             </td>           </tr>                               <tr id="section-183">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-183">&#182;</a>               </div>               <p>Reset iscroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.innerScroller.refresh();
+</pre></div>             </td>           </tr>                               <tr id="section-182">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-182">&#182;</a>               </div>               <p>Reset iscroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.innerScroller.refresh();
 
       self.afterCompareScrolled( self.innerScroller );
 
@@ -1504,16 +1503,16 @@ Remove scroll event</p>             </td>             <td class="code">         
           $compareItem = $(evt.target).closest(<span class="string">'.compare-item'</span>);
 
       <span class="function"><span class="keyword">function</span> <span class="title">afterHidden</span><span class="params">()</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-184">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-184">&#182;</a>               </div>               <p>console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName);
+</pre></div>             </td>           </tr>                               <tr id="section-183">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-183">&#182;</a>               </div>               <p>console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName);
 Hide the column</p>             </td>             <td class="code">               <div class="highlight"><pre>        $compareItem.addClass(<span class="string">'hide'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-185">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-185">&#182;</a>               </div>               <p>Make sure we can press reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$compareReset.removeClass(<span class="string">'disabled'</span>).addClass(<span class="string">'active'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-184">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-184">&#182;</a>               </div>               <p>Make sure we can press reset</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$compareReset.removeClass(<span class="string">'disabled'</span>).addClass(<span class="string">'active'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-186">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-186">&#182;</a>               </div>               <p>Get remaining</p>             </td>             <td class="code">               <div class="highlight"><pre>        remaining = self.$compareItems.not(<span class="string">'.hide'</span>).length;
+</pre></div>             </td>           </tr>                               <tr id="section-185">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-185">&#182;</a>               </div>               <p>Get remaining</p>             </td>             <td class="code">               <div class="highlight"><pre>        remaining = self.$compareItems.not(<span class="string">'.hide'</span>).length;
 
-</pre></div>             </td>           </tr>                               <tr id="section-187">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-187">&#182;</a>               </div>               <p>Set remaining text</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$compareCount.text( remaining );
+</pre></div>             </td>           </tr>                               <tr id="section-186">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-186">&#182;</a>               </div>               <p>Set remaining text</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$compareCount.text( remaining );
 
-</pre></div>             </td>           </tr>                               <tr id="section-188">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-188">&#182;</a>               </div>               <p>Hide close button if there are only 2 left</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( remaining &lt; <span class="number">3</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-187">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-187">&#182;</a>               </div>               <p>Hide close button if there are only 2 left</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( remaining &lt; <span class="number">3</span> ) {
           self.$compareTool.find(<span class="string">'.compare-item-remove'</span>).addClass(<span class="string">'hide'</span>);
         }
 
@@ -1523,13 +1522,13 @@ Hide the column</p>             </td>             <td class="code">             
       }
 
       <span class="function"><span class="keyword">function</span> <span class="title">noWidth</span><span class="params">()</span> {</span>
-</pre></div>             </td>           </tr>                               <tr id="section-189">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-189">&#182;</a>               </div>               <p>console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName );</p>             </td>             <td class="code">               <div class="highlight"><pre>        $compareItem
+</pre></div>             </td>           </tr>                               <tr id="section-188">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-188">&#182;</a>               </div>               <p>console.log('Finished', $compareItem.index(), ':', evt.originalEvent.propertyName );</p>             </td>             <td class="code">               <div class="highlight"><pre>        $compareItem
           .one( $.support.transition.end, afterHidden )
           .addClass(<span class="string">'no-width'</span>);
       }
 
       <span class="keyword">if</span> ( Modernizr.csstransitions ) {
-</pre></div>             </td>           </tr>                               <tr id="section-190">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-190">&#182;</a>               </div>               <p>console.log('adding opacity:0');</p>             </td>             <td class="code">               <div class="highlight"><pre>        $compareItem
+</pre></div>             </td>           </tr>                               <tr id="section-189">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-189">&#182;</a>               </div>               <p>console.log('adding opacity:0');</p>             </td>             <td class="code">               <div class="highlight"><pre>        $compareItem
           .one( $.support.transition.end, noWidth )
           .addClass(<span class="string">'faded'</span>);
       } <span class="keyword">else</span> {
@@ -1546,48 +1545,48 @@ Hide the column</p>             </td>             <td class="code">             
           $sorter,
           snap;
 
-</pre></div>             </td>           </tr>                               <tr id="section-191">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-191">&#182;</a>               </div>               <p>Phone = sticky header</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(max-width: 47.9375em)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-190">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-190">&#182;</a>               </div>               <p>Phone = sticky header</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(max-width: 47.9375em)'</span>) ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-192">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-192">&#182;</a>               </div>               <p>Setup sticky header</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( isFirst || !self.isFixedHeader ) {
+</pre></div>             </td>           </tr>                               <tr id="section-191">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-191">&#182;</a>               </div>               <p>Setup sticky header</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( isFirst || !self.isFixedHeader ) {
           self.isFixedHeader = <span class="literal">true</span>;
 
           $subheader = $(<span class="string">'&lt;div class="modal-subheader clearfix"&gt;'</span>);
           self.$compareCountWrap.addClass(<span class="string">'hidden'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-193">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-193">&#182;</a>               </div>               <p>If this isn't the first call, the elements are already on the page and need to be detached</p>             </td>             <td class="code">               <div class="highlight"><pre>          $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
+</pre></div>             </td>           </tr>                               <tr id="section-192">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-192">&#182;</a>               </div>               <p>If this isn't the first call, the elements are already on the page and need to be detached</p>             </td>             <td class="code">               <div class="highlight"><pre>          $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
           $sorter = isFirst ? $sortOpts : $sortOpts.detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-194">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-194">&#182;</a>               </div>               <p>Put the dropdown menu on the left</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( !self.isTouch ) {
+</pre></div>             </td>           </tr>                               <tr id="section-193">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-193">&#182;</a>               </div>               <p>Put the dropdown menu on the left</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( !self.isTouch ) {
             $sorter.find(<span class="string">'.dropdown-menu'</span>).removeClass(<span class="string">'pull-right'</span>);
           }
 
           $subheader.append( $resetBtn, $sorter );
 
-</pre></div>             </td>           </tr>                               <tr id="section-195">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-195">&#182;</a>               </div>               <p>Insert subhead in the modal header</p>             </td>             <td class="code">               <div class="highlight"><pre>          $header.append( $subheader );
+</pre></div>             </td>           </tr>                               <tr id="section-194">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-194">&#182;</a>               </div>               <p>Insert subhead in the modal header</p>             </td>             <td class="code">               <div class="highlight"><pre>          $header.append( $subheader );
 
           self.$compareItemsWrap.css(<span class="string">'marginLeft'</span>, <span class="string">''</span>);
 
           snap = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-196">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-196">&#182;</a>               </div>               <p>Let the scroller flow freely on mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( self.innerScroller ) {
+</pre></div>             </td>           </tr>                               <tr id="section-195">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-195">&#182;</a>               </div>               <p>Let the scroller flow freely on mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( self.innerScroller ) {
             self.innerScroller.options.snap = snap;
           }
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-197">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-197">&#182;</a>               </div>               <p>Larger than phone</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-196">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-196">&#182;</a>               </div>               <p>Larger than phone</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
 
-</pre></div>             </td>           </tr>                               <tr id="section-198">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-198">&#182;</a>               </div>               <p>Set a margin-left on the compare items wrap</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$compareItemsWrap.css(<span class="string">'marginLeft'</span>, self.$detailLabelsWrap.width());
+</pre></div>             </td>           </tr>                               <tr id="section-197">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-197">&#182;</a>               </div>               <p>Set a margin-left on the compare items wrap</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$compareItemsWrap.css(<span class="string">'marginLeft'</span>, self.$detailLabelsWrap.width());
 
         <span class="keyword">if</span> ( isFirst || self.isFixedHeader ) {
           self.isFixedHeader = <span class="literal">false</span>;
 
           self.$compareCountWrap.removeClass(<span class="string">'hidden'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-199">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-199">&#182;</a>               </div>               <p>Append sort dropdown
+</pre></div>             </td>           </tr>                               <tr id="section-198">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-198">&#182;</a>               </div>               <p>Append sort dropdown
 If this isn't the first call, the elements are already on the page and need to be detached</p>             </td>             <td class="code">               <div class="highlight"><pre>          $resetBtn = isFirst ? self.$compareReset : self.$compareReset.detach();
           $sorter = isFirst ? $sortOpts : $sortOpts.detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-200">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-200">&#182;</a>               </div>               <p>Make dropdown menu on the right</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( !self.isTouch ) {
+</pre></div>             </td>           </tr>                               <tr id="section-199">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-199">&#182;</a>               </div>               <p>Make dropdown menu on the right</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( !self.isTouch ) {
             $sorter.find(<span class="string">'.dropdown-menu'</span>).addClass(<span class="string">'pull-right'</span>);
           }
 
@@ -1598,13 +1597,13 @@ If this isn't the first call, the elements are already on the page and need to b
 
           snap = <span class="literal">true</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-201">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-201">&#182;</a>               </div>               <p>Snap to pages on 'desktop'</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( self.innerScroller ) {
+</pre></div>             </td>           </tr>                               <tr id="section-200">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-200">&#182;</a>               </div>               <p>Snap to pages on 'desktop'</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( self.innerScroller ) {
             self.innerScroller.options.snap = snap;
           }
         }
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-202">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-202">&#182;</a>               </div>               <p>This is where you get off, first guy</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isFirst ) {
+</pre></div>             </td>           </tr>                               <tr id="section-201">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-201">&#182;</a>               </div>               <p>This is where you get off, first guy</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( isFirst ) {
         self.compareState.snap = snap;
         <span class="keyword">return</span> self;
       }
@@ -1614,6 +1613,7 @@ If this isn't the first call, the elements are already on the page and need to b
       self
         .setCompareRowHeights()
         .setCompareDimensions()
+        .setCompareItemsOffset()
         .setStickyHeaderPos();
 
 
@@ -1626,7 +1626,7 @@ If this isn't the first call, the elements are already on the page and need to b
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           scrollTop = self.isUsingOuterScroller ? iscroll.y * -<span class="number">1</span> : self.$compareTool.scrollTop();
 
-</pre></div>             </td>           </tr>                               <tr id="section-203">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-203">&#182;</a>               </div>               <p>Determine if this is the inner scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( offsetTop === <span class="string">'inner'</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-202">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-202">&#182;</a>               </div>               <p>Determine if this is the inner scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( offsetTop === <span class="string">'inner'</span> ) {
         <span class="keyword">if</span> ( iscroll.x &lt; -<span class="number">3</span> &amp;&amp; !self.$detailLabelsWrap.hasClass(<span class="string">'overflowing'</span>) ) {
           self.$detailLabelsWrap.addClass(<span class="string">'overflowing'</span>);
         } <span class="keyword">else</span> <span class="keyword">if</span> ( iscroll.x &gt;= -<span class="number">3</span> &amp;&amp; self.$detailLabelsWrap.hasClass(<span class="string">'overflowing'</span>) ) {
@@ -1659,7 +1659,7 @@ If this isn't the first call, the elements are already on the page and need to b
 
       offsetTop = self.$compareItems.not(<span class="string">'.hide'</span>).offset().top;
 
-</pre></div>             </td>           </tr>                               <tr id="section-204">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-204">&#182;</a>               </div>               <p>see http://bugs.jquery.com/ticket/8362</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( offsetTop &lt; <span class="number">0</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-203">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-203">&#182;</a>               </div>               <p>see http://bugs.jquery.com/ticket/8362</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( offsetTop &lt; <span class="number">0</span> ) {
         <span class="keyword">var</span> matrix = SONY.Utilities.parseMatrix( self.$compareTool.find(<span class="string">'.modal-inner'</span>).css(<span class="string">'transform'</span>) );
         offsetTop = -matrix.translateY + offsetTop;
       }
@@ -1672,13 +1672,13 @@ If this isn't the first call, the elements are already on the page and need to b
     getCompareItems : <span class="keyword">function</span>( $items ) {
       <span class="keyword">var</span> $newItems = $();
 
-</pre></div>             </td>           </tr>                               <tr id="section-205">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-205">&#182;</a>               </div>               <p>Build / manipulate compare items from the gallery items</p>             </td>             <td class="code">               <div class="highlight"><pre>      $items.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-204">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-204">&#182;</a>               </div>               <p>Build / manipulate compare items from the gallery items</p>             </td>             <td class="code">               <div class="highlight"><pre>      $items.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> $item = $(<span class="keyword">this</span>),
             $swatches,
             $div = $(<span class="string">'&lt;div/&gt;'</span>),
             $stickyHeader;
 
-</pre></div>             </td>           </tr>                               <tr id="section-206">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-206">&#182;</a>               </div>               <p>Create remove button, show detail group, remove label, remove product-meta,
+</pre></div>             </td>           </tr>                               <tr id="section-205">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-205">&#182;</a>               </div>               <p>Create remove button, show detail group, remove label, remove product-meta,
 wrap name and model in a container (to set the height on), create fixed header clones</p>             </td>             <td class="code">               <div class="highlight"><pre>        $item
           .removeClass()
           .addClass(<span class="string">'span4 compare-item'</span>)
@@ -1697,36 +1697,36 @@ wrap name and model in a container (to set the height on), create fixed header c
           .find(<span class="string">'.compare-sticky-header'</span>)
             .append(<span class="string">'&lt;div class="media"&gt;'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-207">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-207">&#182;</a>               </div>               <p>Remove and reattach the swatches to after the price</p>             </td>             <td class="code">               <div class="highlight"><pre>        $swatches = $item.find(<span class="string">'.product-img .color-swatches'</span>).detach();
+</pre></div>             </td>           </tr>                               <tr id="section-206">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-206">&#182;</a>               </div>               <p>Remove and reattach the swatches to after the price</p>             </td>             <td class="code">               <div class="highlight"><pre>        $swatches = $item.find(<span class="string">'.product-img .color-swatches'</span>).detach();
         $item.find(<span class="string">'.product-price'</span>).after($swatches);
 
         $stickyHeader = $item.find(<span class="string">'.compare-sticky-header'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-208">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-208">&#182;</a>               </div>               <p>Needed to detach swatches before cloning!</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-209">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-209">&#182;</a>               </div>               <p>Compare X</p>             </td>             <td class="code">               <div class="highlight"><pre>        $item
+</pre></div>             </td>           </tr>                               <tr id="section-207">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-207">&#182;</a>               </div>               <p>Needed to detach swatches before cloning!</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-208">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-208">&#182;</a>               </div>               <p>Compare X</p>             </td>             <td class="code">               <div class="highlight"><pre>        $item
           .find(<span class="string">'.compare-item-remove'</span>)
           .clone(<span class="literal">true</span>) <span class="comment">// true for compare item remove's functionality</span>
           .appendTo( $stickyHeader );
 
-</pre></div>             </td>           </tr>                               <tr id="section-210">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-210">&#182;</a>               </div>               <p>Product image to media object</p>             </td>             <td class="code">               <div class="highlight"><pre>        $item
+</pre></div>             </td>           </tr>                               <tr id="section-209">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-209">&#182;</a>               </div>               <p>Product image to media object</p>             </td>             <td class="code">               <div class="highlight"><pre>        $item
           .find(<span class="string">'.product-img .js-product-img-main'</span>)
           .clone()
           .addClass(<span class="string">'media-object'</span>)
           .appendTo( $stickyHeader.find(<span class="string">'.media'</span>) )
           .wrap(<span class="string">'&lt;div class="pull-left"&gt;'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-211">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-211">&#182;</a>               </div>               <p>Product name wrap to media object</p>             </td>             <td class="code">               <div class="highlight"><pre>        $item
+</pre></div>             </td>           </tr>                               <tr id="section-210">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-210">&#182;</a>               </div>               <p>Product name wrap to media object</p>             </td>             <td class="code">               <div class="highlight"><pre>        $item
           .find(<span class="string">'.product-name-wrap'</span>)
           .clone()
           .addClass(<span class="string">'media-body'</span>)
           .appendTo( $stickyHeader.find(<span class="string">'.media'</span>) );
 
-</pre></div>             </td>           </tr>                               <tr id="section-212">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-212">&#182;</a>               </div>               <p>Swap .p2 for .p3</p>             </td>             <td class="code">               <div class="highlight"><pre>        $stickyHeader
+</pre></div>             </td>           </tr>                               <tr id="section-211">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-211">&#182;</a>               </div>               <p>Swap .p2 for .p3</p>             </td>             <td class="code">               <div class="highlight"><pre>        $stickyHeader
           .find(<span class="string">'.product-name'</span>)
           .addClass(<span class="string">'p3'</span>)
           .removeClass(<span class="string">'p2'</span>);
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-213">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-213">&#182;</a>               </div>               <p>Create a new div with the same attributes as the anchor tag
+</pre></div>             </td>           </tr>                               <tr id="section-212">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-212">&#182;</a>               </div>               <p>Create a new div with the same attributes as the anchor tag
 We no longer want the entire thing to be clickable</p>             </td>             <td class="code">               <div class="highlight"><pre>        $div.attr({
             <span class="string">'class'</span> : $item.attr(<span class="string">'class'</span>),
             <span class="string">'data-filter-set'</span> : $item.attr(<span class="string">'data-filter-set'</span>)
@@ -1770,13 +1770,13 @@ We no longer want the entire thing to be clickable</p>             </td>        
           $prev = self.$compareTool.find(<span class="string">'.nav-prev'</span>),
           $next = self.$compareTool.find(<span class="string">'.nav-next'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-214">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-214">&#182;</a>               </div>               <p>Hide show prev button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( iscroll.currPageX === <span class="number">0</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-213">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-213">&#182;</a>               </div>               <p>Hide show prev button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( iscroll.currPageX === <span class="number">0</span> ) {
         $prev.addClass(<span class="string">'hide'</span>);
       } <span class="keyword">else</span> {
         $prev.removeClass(<span class="string">'hide'</span>);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-215">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-215">&#182;</a>               </div>               <p>Hide show next button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( iscroll.currPageX === iscroll.pagesX.length - <span class="number">1</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-214">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-214">&#182;</a>               </div>               <p>Hide show next button depending on where we are</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( iscroll.currPageX === iscroll.pagesX.length - <span class="number">1</span> ) {
         $next.addClass(<span class="string">'hide'</span>);
       } <span class="keyword">else</span> {
         $next.removeClass(<span class="string">'hide'</span>);
@@ -1798,18 +1798,49 @@ We no longer want the entire thing to be clickable</p>             </td>        
       <span class="keyword">return</span> [ <span class="keyword">this</span>.valStart, y, <span class="keyword">this</span>.valEnd, <span class="keyword">this</span>.translateZ ].join(<span class="string">''</span>);
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-216">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-216">&#182;</a>               </div>               <p>Elements here cannot use <code>fixed</code> positioning because of a webkit bug.
+    setCompareItemsOffset : <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.isUsingOuterScroller ) {
+        <span class="keyword">var</span> $containerWithTransform = self.$compareTool.find(<span class="string">'.modal-inner'</span>),
+            temp = $containerWithTransform.css(<span class="string">'transform'</span>);
+
+        $containerWithTransform.css(<span class="string">'transform'</span>, <span class="string">''</span>);
+        self.compareItemOffset = self.$compareItemsWrap.offset().top;
+        $containerWithTransform.css(<span class="string">'transform'</span>, temp);
+
+      } <span class="keyword">else</span> {
+        self.compareItemOffset = self.$compareItemsWrap.offset().top;
+      }
+
+      <span class="keyword">return</span> self;
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-215">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-215">&#182;</a>               </div>               <p>Elements here cannot use <code>fixed</code> positioning because of a webkit bug.
 Fixed positions don't work inside an element which has <code>transform</code> on it.
 https://code.google.com/p/chromium/issues/detail?id=20574</p>             </td>             <td class="code">               <div class="highlight"><pre>    setStickyHeaderPos : <span class="keyword">function</span>( scrollTop ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          offset = self.$compareItems.not(<span class="string">'.hide'</span>).first().offset().top * -<span class="number">1</span>,
-          compareOffset = offset + self.takeoverHeaderHeight,
-          st = scrollTop || scrollTop === <span class="number">0</span> ? scrollTop :
-            self.isUsingOuterScroller ?
-              self.outerScroller.y * -<span class="number">1</span> :
-              self.$compareTool.scrollTop(),
-          takeoverValue = self.getY( st ),
-          compareValue = self.getY( compareOffset );
+          offset,
+          compareOffset,
+          takeoverValue,
+          compareValue;
+
+
+</pre></div>             </td>           </tr>                               <tr id="section-216">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-216">&#182;</a>               </div>               <p>If we're not given a scrollTop, figure it out</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( scrollTop || scrollTop === <span class="number">0</span> ) {
+        scrollTop = scrollTop;
+      } <span class="keyword">else</span> {
+        scrollTop = self.isUsingOuterScroller ?
+          self.outerScroller.y * -<span class="number">1</span> :
+          self.$compareTool.scrollTop();
+      }
+
+      offset = scrollTop - self.compareItemOffset;
+
+      compareOffset = offset + self.takeoverHeaderHeight;
+
+      takeoverValue = self.getY( scrollTop ),
+      compareValue = self.getY( compareOffset );
+
 
 </pre></div>             </td>           </tr>                               <tr id="section-217">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-217">&#182;</a>               </div>               <p>Position the sticky headers. These are relative to .compare-item</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$stickyHeaders.css( self.prop, compareValue );
 
@@ -2003,8 +2034,6 @@ so we can take the outer scroller's y offset</p>             </td>             <
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           windowHeight = SONY.Settings.isIPhone || SONY.Settings.isAndroid ? window.innerHeight : self.$window.height(); <span class="comment">// document.documentElement.clientHeight also wrong</span>
 
-      console.log(<span class="string">'window height'</span>, windowHeight);
-
       self.$compareTool.find(<span class="string">'.compare-container'</span>).height( self.$compareItems.first().height() );
       self.$compareTool.height( windowHeight );
 
@@ -2088,6 +2117,7 @@ so we can take the outer scroller's y offset</p>             </td>             <
     sorted: <span class="literal">false</span>,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
+    isUsingOuterScroller: !SONY.Settings.isAndroid,
     loadingGif: <span class="string">'img/global/loader.gif'</span>,
     prop: Modernizr.csstransforms ? <span class="string">'transform'</span> : <span class="string">'top'</span>,
     valStart : Modernizr.csstransforms ? <span class="string">'translate(0,'</span> : <span class="string">''</span>,

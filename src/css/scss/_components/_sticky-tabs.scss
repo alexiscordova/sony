@@ -2,8 +2,6 @@
 // Sticky Tabs
 // --------------------------------------------------
 
-$tabWidth: px-em(122px);
-$tabHeight: px-em(98px);
 .sticky-tabs {
   position: relative;
   background-color: $gray70;
@@ -20,13 +18,13 @@ $tabHeight: px-em(98px);
   // iScroll falls back to absolute positioning
   .no-csstransforms & .grid {
     position: relative;
-    height: $tabHeight;
+    height: $stickyTabHeight;
   }
 
   // Container for .tab's
   .tabs {
     z-index: 1;
-    height: $tabHeight;
+    height: $stickyTabHeight;
 
     .no-csstransforms & {
       overflow: hidden;
@@ -39,9 +37,9 @@ $tabHeight: px-em(98px);
     left: 0;
     z-index: 1;
     display: inline-block;
-    width: $tabWidth;
+    width: $stickyTabWidth;
     padding: 0;
-    height: $tabHeight;
+    height: $stickyTabHeight;
     cursor: pointer;
 
     // Don't let text overflow
@@ -90,12 +88,7 @@ $tabHeight: px-em(98px);
   .tab-nav {
     position: absolute;
     z-index: 5;
-    // top: -$tabHeight + ($navPaddleHeight / 2);
-    top: ($tabHeight - $navPaddleHeight) / 2;
-
-    @media (max-width: px-em(979px) ) {
-      top: ($tabHeight - $navPaddleHeight980) / 2;
-    }
+    top: ($stickyTabHeight - $navPaddleHeight) / 2;
   }
 
   .tab-nav-prev {

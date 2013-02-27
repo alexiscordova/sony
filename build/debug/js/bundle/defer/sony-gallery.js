@@ -1401,8 +1401,6 @@
       // Set the right heading. e.g. Compare Cyber-shot®
       $label.text( self.compareTitle );
 
-
-      self.isUsingOuterScroller = !self.isAndroid;
       if ( !self.isUsingOuterScroller ) {
         self.$compareTool.addClass('native-scrolling');
       }
@@ -1474,9 +1472,14 @@
         self.$compareItemsWrap.css('marginLeft', self.$detailLabelsWrap.width());
       }
 
+      // Set the height, jQuery object, and text of the takeover sticky nav
+      self.setTakeoverStickyHeader( self.compareTitle );
+
       self
         .setCompareRowHeights()
-        .setCompareDimensions();
+        .setCompareDimensions()
+        .setCompareItemsOffset()
+        .setStickyHeaderPos( 0 );
 
       // Nested iscroll isn't working on android 4.1.1
       if ( self.isUsingOuterScroller ) {
@@ -1530,7 +1533,7 @@
       // Initialize inner scroller (for the comparable product items)
       self.innerScroller = new IScroll( self.$compareTool.find('.compare-items-wrap')[0], {
         vScroll: false,
-        hScrollbar: self.isTouch,
+        // hScrollbar: self.isTouch,
         // snap: '.compare-item',
         snap: self.compareState.snap, // this is required for iscroll.scrollToPage
         onBeforeScrollStart : function() {
@@ -1558,12 +1561,6 @@
           self.afterCompareScrolled( this );
         }
       });
-
-      // Set the height, jQuery object, and text of the takeover sticky nav
-      self.setTakeoverStickyHeader( self.compareTitle );
-
-      // Position sticky headers
-      self.setStickyHeaderPos();
 
       // Fade in the labels to hide the fact that it took so long to compute heights.
       self.$compareTool.find('.detail-labels-wrapping').addClass('complete');
@@ -1639,6 +1636,7 @@
       self.compareState = null;
       self.isFixedHeader = null;
       self.compareTitle = null;
+      self.compareItemOffset = null;
 
       // Remove resize event
       self.$window.off('.comparetool');
@@ -1815,6 +1813,7 @@
       self
         .setCompareRowHeights()
         .setCompareDimensions()
+        .setCompareItemsOffset()
         .setStickyHeaderPos();
 
 
@@ -2012,19 +2011,51 @@
       return [ this.valStart, y, this.valEnd, this.translateZ ].join('');
     },
 
+    setCompareItemsOffset : function() {
+      var self = this;
+
+      if ( self.isUsingOuterScroller ) {
+        var $containerWithTransform = self.$compareTool.find('.modal-inner'),
+            temp = $containerWithTransform.css('transform');
+
+        $containerWithTransform.css('transform', '');
+        self.compareItemOffset = self.$compareItemsWrap.offset().top;
+        $containerWithTransform.css('transform', temp);
+
+      } else {
+        self.compareItemOffset = self.$compareItemsWrap.offset().top;
+      }
+
+      return self;
+    },
+
     // Elements here cannot use `fixed` positioning because of a webkit bug.
     // Fixed positions don't work inside an element which has `transform` on it.
     // https://code.google.com/p/chromium/issues/detail?id=20574
     setStickyHeaderPos : function( scrollTop ) {
       var self = this,
-          offset = self.$compareItems.not('.hide').first().offset().top * -1,
-          compareOffset = offset + self.takeoverHeaderHeight,
-          st = scrollTop || scrollTop === 0 ? scrollTop :
-            self.isUsingOuterScroller ?
-              self.outerScroller.y * -1 :
-              self.$compareTool.scrollTop(),
-          takeoverValue = self.getY( st ),
-          compareValue = self.getY( compareOffset );
+          offset,
+          compareOffset,
+          takeoverValue,
+          compareValue;
+
+
+      // If we're not given a scrollTop, figure it out
+      if ( scrollTop || scrollTop === 0 ) {
+        scrollTop = scrollTop;
+      } else {
+        scrollTop = self.isUsingOuterScroller ?
+          self.outerScroller.y * -1 :
+          self.$compareTool.scrollTop();
+      }
+
+      offset = scrollTop - self.compareItemOffset;
+
+      compareOffset = offset + self.takeoverHeaderHeight;
+
+      takeoverValue = self.getY( scrollTop ),
+      compareValue = self.getY( compareOffset );
+
 
       // Position the sticky headers. These are relative to .compare-item
       self.$stickyHeaders.css( self.prop, compareValue );
@@ -2244,8 +2275,6 @@
       var self = this,
           windowHeight = SONY.Settings.isIPhone || SONY.Settings.isAndroid ? window.innerHeight : self.$window.height(); // document.documentElement.clientHeight also wrong
 
-      console.log('window height', windowHeight);
-
       self.$compareTool.find('.compare-container').height( self.$compareItems.first().height() );
       self.$compareTool.height( windowHeight );
 
@@ -2340,6 +2369,7 @@
     sorted: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
+    isUsingOuterScroller: !SONY.Settings.isAndroid,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
