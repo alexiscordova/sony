@@ -694,6 +694,8 @@ legend + .control-group {
   padding-left: 5px;
 }
 
+// Really what matters here is :checked support and generated content
+
 .generatedcontent .styled-checkbox {
   position: absolute; // take it out of document flow
   opacity: 0; // hide it
@@ -724,7 +726,7 @@ legend + .control-group {
     position: absolute;
     left: .3125em;
     top: .25em;
-    @include opacity(0);
+    opacity: 0;
     @include transition(opacity $transitionFast $easeNormal, color $transitionFast $easeNormal);
   }
 
@@ -737,7 +739,7 @@ legend + .control-group {
 
   // Check mark on hover
   &:hover + label:after {
-    @include opacity(100);
+    opacity: 1;
   }
 
   // Check box on focus
@@ -746,13 +748,15 @@ legend + .control-group {
   }
 
   // Check box on active
-  &:checked + label:before {
+  &:checked + label:before,
+  &.active + label:before {
     background: $gray25;
   }
 
   // Check mark on active
-  &:checked + label:after {
-    @include opacity(100);
+  &:checked + label:after,
+  &.active + label:after {
+    opacity: 1;
     color: $white;
   }
 
@@ -772,7 +776,7 @@ legend + .control-group {
   &.disabled:hover + label:before,
   &[disabled]:hover + label:before {
     background-color: transparent;
-    background-color: rgba($white, 0);
+    background-color: rgba(255, 255, 255, 0);
     border-color: $gray20;
     border-color: rgba($gray20, .15);
     @include box-shadow(none);
@@ -787,6 +791,22 @@ legend + .control-group {
   }
 }
 
+.generatedcontent.no-opacity .styled-checkbox {
+  left: -9999px;
+
+  // Check mark
+  & + label:after {
+    display: none;
+  }
+
+  // Check mark on hover
+  &:hover + label:after,
+  // Check mark on active
+  &:checked + label:after,
+  &.active + label:after {
+    display: inline-block;
+  }
+}
 
 
 

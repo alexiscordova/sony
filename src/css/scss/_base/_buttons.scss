@@ -114,9 +114,13 @@
     position: absolute;
     right: 0;
     top: 0;
-    @include opacity(0);
+    opacity: 0;
     @include transition(opacity $transitionFast $easeNormal);
     font-size: 16px;
+  }
+
+  .no-opacity &:after {
+    display: none;
   }
 
   &:hover,
@@ -133,7 +137,11 @@
   }
 
   &.active:after {
-    @include opacity(100);
+    opacity: 1;
+  }
+
+  .no-opacity &.active:after {
+    display: inline-block;
   }
 
   &.disabled,

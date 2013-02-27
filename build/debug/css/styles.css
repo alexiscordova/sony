@@ -4159,18 +4159,18 @@ legend + .control-group {
   padding-left: 5px;
 }
 
-/* line 697, ../../../src/css/scss/_base/_forms.scss */
+/* line 699, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox {
   position: absolute;
   opacity: 0;
 }
-/* line 701, ../../../src/css/scss/_base/_forms.scss */
+/* line 703, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox + label {
   position: relative;
   cursor: pointer;
   padding: 0;
 }
-/* line 710, ../../../src/css/scss/_base/_forms.scss */
+/* line 712, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox + label:before {
   content: '';
   margin-right: 0.66667em;
@@ -4184,48 +4184,45 @@ legend + .control-group {
   -webkit-transition: box-shadow 0.15s ease-out, background-color 0.15s ease-out, border-color 0.15s ease-out;
   transition: box-shadow 0.15s ease-out, background-color 0.15s ease-out, border-color 0.15s ease-out;
 }
-/* line 723, ../../../src/css/scss/_base/_forms.scss */
+/* line 725, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox + label:after {
   position: absolute;
   left: .3125em;
   top: .25em;
   opacity: 0;
-  filter: alpha(opacity=0);
   -webkit-transition: opacity 0.15s ease-out, color 0.15s ease-out;
   transition: opacity 0.15s ease-out, color 0.15s ease-out;
 }
-/* line 732, ../../../src/css/scss/_base/_forms.scss */
+/* line 734, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox:hover + label:before {
   -webkit-box-shadow: none;
   box-shadow: none;
   color: #2f353d;
   background: #f3f4f6;
 }
-/* line 739, ../../../src/css/scss/_base/_forms.scss */
+/* line 741, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox:hover + label:after {
   opacity: 1;
-  filter: alpha(opacity=100);
 }
-/* line 744, ../../../src/css/scss/_base/_forms.scss */
+/* line 746, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox:focus + label:before {
   outline: 1px solid #3c3c42;
 }
-/* line 749, ../../../src/css/scss/_base/_forms.scss */
-.generatedcontent .styled-checkbox:checked + label:before {
+/* line 752, ../../../src/css/scss/_base/_forms.scss */
+.generatedcontent .styled-checkbox:checked + label:before, .generatedcontent .styled-checkbox.active + label:before {
   background: #3c3c42;
 }
-/* line 754, ../../../src/css/scss/_base/_forms.scss */
-.generatedcontent .styled-checkbox:checked + label:after {
+/* line 758, ../../../src/css/scss/_base/_forms.scss */
+.generatedcontent .styled-checkbox:checked + label:after, .generatedcontent .styled-checkbox.active + label:after {
   opacity: 1;
-  filter: alpha(opacity=100);
   color: white;
 }
-/* line 763, ../../../src/css/scss/_base/_forms.scss */
+/* line 767, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox.disabled + label, .generatedcontent .styled-checkbox[disabled] + label, .generatedcontent .styled-checkbox.disabled:hover + label, .generatedcontent .styled-checkbox[disabled]:hover + label {
   cursor: auto;
   color: #bcbccc;
 }
-/* line 773, ../../../src/css/scss/_base/_forms.scss */
+/* line 777, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox.disabled + label:before, .generatedcontent .styled-checkbox[disabled] + label:before, .generatedcontent .styled-checkbox.disabled:hover + label:before, .generatedcontent .styled-checkbox[disabled]:hover + label:before {
   background-color: transparent;
   background-color: rgba(255, 255, 255, 0);
@@ -4234,9 +4231,22 @@ legend + .control-group {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 785, ../../../src/css/scss/_base/_forms.scss */
+/* line 789, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox.disabled + label:after, .generatedcontent .styled-checkbox[disabled] + label:after, .generatedcontent .styled-checkbox.disabled:hover + label:after, .generatedcontent .styled-checkbox[disabled]:hover + label:after {
   content: none;
+}
+
+/* line 794, ../../../src/css/scss/_base/_forms.scss */
+.generatedcontent.no-opacity .styled-checkbox {
+  left: -9999px;
+}
+/* line 798, ../../../src/css/scss/_base/_forms.scss */
+.generatedcontent.no-opacity .styled-checkbox + label:after {
+  display: none;
+}
+/* line 806, ../../../src/css/scss/_base/_forms.scss */
+.generatedcontent.no-opacity .styled-checkbox:hover + label:after, .generatedcontent.no-opacity .styled-checkbox:checked + label:after, .generatedcontent.no-opacity .styled-checkbox.active + label:after {
+  display: inline-block;
 }
 
 /* line 10, ../../../src/css/scss/_base/_buttons.scss */
@@ -4346,29 +4356,35 @@ p .btn-special, td .btn-special {
   right: 0;
   top: 0;
   opacity: 0;
-  filter: alpha(opacity=0);
   -webkit-transition: opacity 0.15s ease-out;
   transition: opacity 0.15s ease-out;
   font-size: 16px;
 }
-/* line 123, ../../../src/css/scss/_base/_buttons.scss */
+/* line 122, ../../../src/css/scss/_base/_buttons.scss */
+.no-opacity .btn-square:after {
+  display: none;
+}
+/* line 127, ../../../src/css/scss/_base/_buttons.scss */
 .btn-square:hover, .btn-square:focus {
   -webkit-box-shadow: none;
   box-shadow: none;
   color: #2f353d;
   background: #f3f4f6;
 }
-/* line 130, ../../../src/css/scss/_base/_buttons.scss */
+/* line 134, ../../../src/css/scss/_base/_buttons.scss */
 .btn-square.active, .btn-square:active {
   color: white;
   background: #3c3c42;
 }
-/* line 135, ../../../src/css/scss/_base/_buttons.scss */
+/* line 139, ../../../src/css/scss/_base/_buttons.scss */
 .btn-square.active:after {
   opacity: 1;
-  filter: alpha(opacity=100);
 }
-/* line 142, ../../../src/css/scss/_base/_buttons.scss */
+/* line 143, ../../../src/css/scss/_base/_buttons.scss */
+.no-opacity .btn-square.active:after {
+  display: inline-block;
+}
+/* line 150, ../../../src/css/scss/_base/_buttons.scss */
 .btn-square.disabled, .btn-square[disabled], .btn-square.disabled:hover, .btn-square[disabled]:hover {
   color: inherit;
   border-color: #2f353d;
@@ -4377,49 +4393,49 @@ p .btn-special, td .btn-special {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 152, ../../../src/css/scss/_base/_buttons.scss */
+/* line 160, ../../../src/css/scss/_base/_buttons.scss */
 .btn-square i {
   line-height: 0;
   margin: -0.125em;
 }
 
-/* line 160, ../../../src/css/scss/_base/_buttons.scss */
+/* line 168, ../../../src/css/scss/_base/_buttons.scss */
 .btn-secondary {
   background: #bcbccc;
 }
-/* line 163, ../../../src/css/scss/_base/_buttons.scss */
+/* line 171, ../../../src/css/scss/_base/_buttons.scss */
 .btn-secondary:hover {
   background: #c2c2d0;
 }
-/* line 167, ../../../src/css/scss/_base/_buttons.scss */
+/* line 175, ../../../src/css/scss/_base/_buttons.scss */
 .btn-secondary.active, .btn-secondary:active {
   background: #bcbccc;
 }
-/* line 171, ../../../src/css/scss/_base/_buttons.scss */
+/* line 179, ../../../src/css/scss/_base/_buttons.scss */
 .btn-secondary.disabled:hover, .btn-secondary[disabled]:hover {
   background: #bcbccc;
 }
 
-/* line 178, ../../../src/css/scss/_base/_buttons.scss */
+/* line 186, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt {
   padding: 11px 24px 10px;
   font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: #2f353d;
 }
-/* line 183, ../../../src/css/scss/_base/_buttons.scss */
+/* line 191, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt:hover {
   background: #262b31;
 }
-/* line 187, ../../../src/css/scss/_base/_buttons.scss */
+/* line 195, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt.active, .btn-alt:active {
   background: #383f49;
 }
-/* line 191, ../../../src/css/scss/_base/_buttons.scss */
+/* line 199, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt.disabled:hover, .btn-alt[disabled]:hover {
   background: #2f353d;
 }
 
-/* line 198, ../../../src/css/scss/_base/_buttons.scss */
+/* line 206, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo {
   position: relative;
   width: 289px;
@@ -4432,29 +4448,29 @@ p .btn-special, td .btn-special {
   line-height: 1.32;
   font-family: "SST W01 Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-/* line 209, ../../../src/css/scss/_base/_buttons.scss */
+/* line 217, ../../../src/css/scss/_base/_buttons.scss */
 p .btn-promo, td .btn-promo {
   font-size: 1.66667em;
 }
-/* line 214, ../../../src/css/scss/_base/_buttons.scss */
+/* line 222, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo strong {
   font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: white;
 }
-/* line 218, ../../../src/css/scss/_base/_buttons.scss */
+/* line 226, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo:hover {
   background: #171921;
   color: #83838f;
 }
-/* line 223, ../../../src/css/scss/_base/_buttons.scss */
+/* line 231, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo.active, .btn-promo:active {
   background: #212530;
 }
-/* line 227, ../../../src/css/scss/_base/_buttons.scss */
+/* line 235, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo.disabled:hover, .btn-promo[disabled]:hover {
   background: #212530;
 }
-/* line 230, ../../../src/css/scss/_base/_buttons.scss */
+/* line 238, ../../../src/css/scss/_base/_buttons.scss */
 .btn-promo .icon-ui-arrow-right-white-boxed {
   border-radius: 1px;
   background-color: #33394a;
@@ -4465,75 +4481,75 @@ p .btn-promo, td .btn-promo {
   margin: 0;
 }
 
-/* line 241, ../../../src/css/scss/_base/_buttons.scss */
+/* line 249, ../../../src/css/scss/_base/_buttons.scss */
 .btn-icon-ui-left i {
   margin-right: 8px;
   vertical-align: 0.2em;
 }
 
-/* line 247, ../../../src/css/scss/_base/_buttons.scss */
+/* line 255, ../../../src/css/scss/_base/_buttons.scss */
 .btn-wide {
   width: auto;
   padding-right: 25px;
   padding-left: 25px;
 }
 
-/* line 260, ../../../src/css/scss/_base/_buttons.scss */
+/* line 268, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large {
   padding: 11px 28px 13px;
   font-size: 0.9375em;
   line-height: 1.815;
 }
-/* line 264, ../../../src/css/scss/_base/_buttons.scss */
+/* line 272, ../../../src/css/scss/_base/_buttons.scss */
 p .btn-large, td .btn-large {
   font-size: 1em;
 }
-/* line 268, ../../../src/css/scss/_base/_buttons.scss */
+/* line 276, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large.btn-special {
   padding: 15px 28px 17px;
 }
 
-/* line 272, ../../../src/css/scss/_base/_buttons.scss */
+/* line 280, ../../../src/css/scss/_base/_buttons.scss */
 .btn-large [class^="icon-"] {
   margin-top: 2px;
 }
 
-/* line 278, ../../../src/css/scss/_base/_buttons.scss */
+/* line 286, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small {
   padding: 10px 18px 12px;
   font-size: 0.75em;
   line-height: 1.2375;
 }
-/* line 282, ../../../src/css/scss/_base/_buttons.scss */
+/* line 290, ../../../src/css/scss/_base/_buttons.scss */
 p .btn-small, td .btn-small {
   font-size: 0.8em;
 }
-/* line 286, ../../../src/css/scss/_base/_buttons.scss */
+/* line 294, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small.btn-special {
   padding: 14px 18px 16px;
 }
 
-/* line 290, ../../../src/css/scss/_base/_buttons.scss */
+/* line 298, ../../../src/css/scss/_base/_buttons.scss */
 .btn-small [class^="icon-"] {
   margin-top: 0px;
 }
 
-/* line 296, ../../../src/css/scss/_base/_buttons.scss */
+/* line 304, ../../../src/css/scss/_base/_buttons.scss */
 .btn-mini {
   padding: 9px 14px 11px;
   font-size: 0.6875em;
   line-height: 0.99;
 }
-/* line 300, ../../../src/css/scss/_base/_buttons.scss */
+/* line 308, ../../../src/css/scss/_base/_buttons.scss */
 p .btn-mini, td .btn-mini {
   font-size: 0.73333em;
 }
-/* line 304, ../../../src/css/scss/_base/_buttons.scss */
+/* line 312, ../../../src/css/scss/_base/_buttons.scss */
 .btn-mini.btn-special {
   padding: 13px 14px 15px;
 }
 
-/* line 314, ../../../src/css/scss/_base/_buttons.scss */
+/* line 322, ../../../src/css/scss/_base/_buttons.scss */
 .btn-block {
   display: block;
   width: 100%;
@@ -4544,19 +4560,19 @@ p .btn-mini, td .btn-mini {
   box-sizing: border-box;
 }
 
-/* line 323, ../../../src/css/scss/_base/_buttons.scss */
+/* line 331, ../../../src/css/scss/_base/_buttons.scss */
 .btn-block + .btn-block {
   margin-top: 5px;
 }
 
-/* line 331, ../../../src/css/scss/_base/_buttons.scss */
+/* line 339, ../../../src/css/scss/_base/_buttons.scss */
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
 }
 
-/* line 341, ../../../src/css/scss/_base/_buttons.scss */
+/* line 349, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt-special {
   position: relative;
   padding-left: 24px;
@@ -4565,15 +4581,15 @@ input[type="button"].btn-block {
   background: #2f353d;
   min-width: 131px;
 }
-/* line 351, ../../../src/css/scss/_base/_buttons.scss */
+/* line 359, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt-special:hover, .btn-alt-special:focus {
   background: #83838f;
 }
-/* line 355, ../../../src/css/scss/_base/_buttons.scss */
+/* line 363, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt-special:active {
   background: #83838f;
 }
-/* line 359, ../../../src/css/scss/_base/_buttons.scss */
+/* line 367, ../../../src/css/scss/_base/_buttons.scss */
 .btn-alt-special.btn-alt-plus i {
   float: right;
   margin-left: 10px;
@@ -4581,28 +4597,28 @@ input[type="button"].btn-block {
   font-size: 16px;
 }
 
-/* line 370, ../../../src/css/scss/_base/_buttons.scss */
+/* line 378, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset {
   position: relative;
   min-width: 110px;
   max-width: 110px;
 }
-/* line 376, ../../../src/css/scss/_base/_buttons.scss */
+/* line 384, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset, .btn-reset.active {
   background-color: #f25529;
 }
-/* line 380, ../../../src/css/scss/_base/_buttons.scss */
+/* line 388, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset:hover {
   background-color: #f25529;
 }
-/* line 385, ../../../src/css/scss/_base/_buttons.scss */
+/* line 393, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset.disabled, .btn-reset.disabled:hover {
   opacity: 1;
   filter: alpha(opacity=100);
   color: #bcbccc;
   background-color: #d2d2db;
 }
-/* line 391, ../../../src/css/scss/_base/_buttons.scss */
+/* line 399, ../../../src/css/scss/_base/_buttons.scss */
 .btn-reset i {
   position: absolute;
   top: 9px;
@@ -4610,38 +4626,38 @@ input[type="button"].btn-block {
   font-size: 1.33333em;
 }
 
-/* line 406, ../../../src/css/scss/_base/_buttons.scss */
+/* line 414, ../../../src/css/scss/_base/_buttons.scss */
 button.btn,
 input[type="submit"].btn {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 409, ../../../src/css/scss/_base/_buttons.scss */
+/* line 417, ../../../src/css/scss/_base/_buttons.scss */
 button.btn::-moz-focus-inner,
 input[type="submit"].btn::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
-/* line 418, ../../../src/css/scss/_base/_buttons.scss */
+/* line 426, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-large,
 input[type="submit"].btn.btn-large {
   *padding-top: 7px;
   *padding-bottom: 7px;
 }
-/* line 422, ../../../src/css/scss/_base/_buttons.scss */
+/* line 430, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-small,
 input[type="submit"].btn.btn-small {
   *padding-top: 3px;
   *padding-bottom: 3px;
 }
-/* line 426, ../../../src/css/scss/_base/_buttons.scss */
+/* line 434, ../../../src/css/scss/_base/_buttons.scss */
 button.btn.btn-mini,
 input[type="submit"].btn.btn-mini {
   *padding-top: 1px;
   *padding-bottom: 1px;
 }
 
-/* line 439, ../../../src/css/scss/_base/_buttons.scss */
+/* line 447, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link,
 .btn-link:active,
 .btn-link[disabled] {
@@ -4651,7 +4667,7 @@ input[type="submit"].btn.btn-mini {
   box-shadow: none;
 }
 
-/* line 444, ../../../src/css/scss/_base/_buttons.scss */
+/* line 452, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link {
   border-color: transparent;
   cursor: pointer;
@@ -4659,14 +4675,14 @@ input[type="submit"].btn.btn-mini {
   border-radius: 0;
 }
 
-/* line 450, ../../../src/css/scss/_base/_buttons.scss */
+/* line 458, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link:hover {
   color: #3c4c74;
   text-decoration: underline;
   background-color: transparent;
 }
 
-/* line 455, ../../../src/css/scss/_base/_buttons.scss */
+/* line 463, ../../../src/css/scss/_base/_buttons.scss */
 .btn-link[disabled]:hover {
   color: #2f353d;
   text-decoration: none;
@@ -5175,11 +5191,16 @@ input[type="submit"].btn.btn-mini {
 [class*=" swatch-"]:after {
   position: absolute;
   opacity: 0;
-  filter: alpha(opacity=0);
   -webkit-transition: opacity 0.2s ease-out;
   transition: opacity 0.2s ease-out;
 }
-/* line 30, ../../../src/css/scss/_base/_swatches.scss */
+/* line 29, ../../../src/css/scss/_base/_swatches.scss */
+.no-opacity [class^="swatch-"]:before,
+.no-opacity [class*=" swatch-"]:before, .no-opacity [class^="swatch-"]:after,
+.no-opacity [class*=" swatch-"]:after {
+  display: none;
+}
+/* line 35, ../../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:before,
 [class*=" swatch-"]:before {
   content: '';
@@ -5192,27 +5213,32 @@ input[type="submit"].btn.btn-mini {
   border-radius: 50%;
   background: #3c3c42;
 }
-/* line 42, ../../../src/css/scss/_base/_swatches.scss */
+/* line 47, ../../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:after,
 [class*=" swatch-"]:after {
   left: .75em;
   top: .625em;
   color: white;
 }
-/* line 48, ../../../src/css/scss/_base/_swatches.scss */
+/* line 53, ../../../src/css/scss/_base/_swatches.scss */
 .active[class^="swatch-"],
 .active[class*=" swatch-"] {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 54, ../../../src/css/scss/_base/_swatches.scss */
+/* line 59, ../../../src/css/scss/_base/_swatches.scss */
 .active[class^="swatch-"]:before,
 .active[class*=" swatch-"]:before, .active[class^="swatch-"]:after,
 .active[class*=" swatch-"]:after {
   opacity: 1;
-  filter: alpha(opacity=100);
 }
-/* line 59, ../../../src/css/scss/_base/_swatches.scss */
+/* line 65, ../../../src/css/scss/_base/_swatches.scss */
+.no-opacity .active[class^="swatch-"]:before,
+.no-opacity .active[class*=" swatch-"]:before, .no-opacity .active[class^="swatch-"]:after,
+.no-opacity .active[class*=" swatch-"]:after {
+  display: inline-block;
+}
+/* line 70, ../../../src/css/scss/_base/_swatches.scss */
 [disabled][class^="swatch-"],
 [disabled][class*=" swatch-"] {
   border-color: #2f353d;
@@ -5222,36 +5248,40 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 69, ../../../src/css/scss/_base/_swatches.scss */
+/* line 80, ../../../src/css/scss/_base/_swatches.scss */
 [disabled][class^="swatch-"]:focus,
 [disabled][class*=" swatch-"]:focus, [disabled][class^="swatch-"]:hover,
 [disabled][class*=" swatch-"]:hover {
   cursor: auto;
 }
-/* line 74, ../../../src/css/scss/_base/_swatches.scss */
+/* line 85, ../../../src/css/scss/_base/_swatches.scss */
 .active[disabled][class^="swatch-"]:before,
 .active[disabled][class*=" swatch-"]:before {
-  opacity: 0.15;
-  filter: alpha(opacity=15);
+  opacity: .15;
 }
-/* line 77, ../../../src/css/scss/_base/_swatches.scss */
+/* line 88, ../../../src/css/scss/_base/_swatches.scss */
 .active[disabled][class^="swatch-"]:after,
 .active[disabled][class*=" swatch-"]:after {
-  opacity: 0.7;
-  filter: alpha(opacity=70);
+  opacity: .7;
+}
+/* line 93, ../../../src/css/scss/_base/_swatches.scss */
+.no-opacity [class^="swatch-"] .active[disabled]:before,
+.no-opacity [class*=" swatch-"] .active[disabled]:before, .no-opacity [class^="swatch-"] .active[disabled]:after,
+.no-opacity [class*=" swatch-"] .active[disabled]:after {
+  display: none;
 }
 
-/* line 88, ../../../src/css/scss/_base/_swatches.scss */
+/* line 104, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > *:not(:last-child) {
   margin-right: 0.375em;
 }
 
-/* line 92, ../../../src/css/scss/_base/_swatches.scss */
+/* line 108, ../../../src/css/scss/_base/_swatches.scss */
 .filter-container [class*="swatch-"] {
   cursor: pointer;
 }
 
-/* line 110, ../../../src/css/scss/_base/_swatches.scss */
+/* line 126, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white,
 .swatch-yellow,
 .swatch-lemon {
@@ -5259,77 +5289,77 @@ input[type="submit"].btn.btn-mini {
   box-shadow: 0 1px 0 #d2d2db;
 }
 
-/* line 116, ../../../src/css/scss/_base/_swatches.scss */
+/* line 132, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-black {
   background-color: #1f2024;
 }
 
-/* line 117, ../../../src/css/scss/_base/_swatches.scss */
+/* line 133, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-yellow {
   background-color: #f0b938;
 }
 
-/* line 118, ../../../src/css/scss/_base/_swatches.scss */
+/* line 134, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-purple {
   background-color: #913f99;
 }
 
-/* line 119, ../../../src/css/scss/_base/_swatches.scss */
+/* line 135, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-teal {
   background-color: #31b0cc;
 }
 
-/* line 120, ../../../src/css/scss/_base/_swatches.scss */
+/* line 136, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white {
   background-color: white;
 }
 
-/* line 121, ../../../src/css/scss/_base/_swatches.scss */
+/* line 137, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-red {
   background-color: #c93434;
 }
 
-/* line 122, ../../../src/css/scss/_base/_swatches.scss */
+/* line 138, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-blue {
   background-color: #2763a3;
 }
 
-/* line 123, ../../../src/css/scss/_base/_swatches.scss */
+/* line 139, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-pink {
   background-color: #c3325f;
 }
 
-/* line 124, ../../../src/css/scss/_base/_swatches.scss */
+/* line 140, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-green {
   background-color: #8bc748;
 }
 
-/* line 125, ../../../src/css/scss/_base/_swatches.scss */
+/* line 141, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-orange {
   background-color: #e87533;
 }
 
-/* line 126, ../../../src/css/scss/_base/_swatches.scss */
+/* line 142, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-silver {
   background-color: #d2d2db;
 }
 
-/* line 127, ../../../src/css/scss/_base/_swatches.scss */
+/* line 143, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-lemon {
   background-color: #fffec9;
 }
 
-/* line 131, ../../../src/css/scss/_base/_swatches.scss */
+/* line 147, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch {
   margin-right: 0;
 }
 
-/* line 134, ../../../src/css/scss/_base/_swatches.scss */
+/* line 150, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch:not(:first-child) {
   margin-left: 0.125em;
 }
 
-/* line 138, ../../../src/css/scss/_base/_swatches.scss */
+/* line 154, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch {
   width: 0.75em;
   height: 0.75em;
@@ -5340,7 +5370,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 149, ../../../src/css/scss/_base/_swatches.scss */
+/* line 165, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch:before, .mini-swatch:after {
   content: none;
 }

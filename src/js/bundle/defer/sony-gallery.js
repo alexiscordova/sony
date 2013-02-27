@@ -905,6 +905,11 @@
         }
         self.filters.checkbox[ filterName ] = checked;
 
+        // Less than IE9 doesn't support the :checked pseudo class
+        if ( SONY.Settings.isLTIE9 ) {
+          $(this).toggleClass('active');
+        }
+
         self.filter();
       })
 
