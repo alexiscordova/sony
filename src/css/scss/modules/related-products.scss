@@ -94,10 +94,12 @@
     //top:0;
     //left:0;
     width: 100%;
+    height: 640px;
     margin: 0 0 50px 0;
     padding: 0 ;
     direction: ltr;
     overflow: hidden;
+    
     //@include transition(opacity 0.5s ease-out);
 
     &:after {
@@ -111,7 +113,7 @@
       left: 0;
       bottom: 0;
       right: 0;
-      background: url(../../img/loader.gif) no-repeat; 
+      background: url(../../img/global/loader.gif) no-repeat; 
     }
 
     &.strip {
@@ -863,6 +865,7 @@
       -moz-user-select: -moz-none;
       -webkit-user-select: none;
       user-select: none;
+      -webkit-backface-visibility: hidden;
     }
 
     @media (max-width: 767px) {
@@ -874,7 +877,13 @@
       position: relative;
       width: 100%;
       height: 100%;
+
+      .lt-ie9 & {
+        min-width: 1190px;
+      }
+      
       -webkit-tap-highlight-color:rgba(0 , 0 , 0 , 0);
+      -webkit-backface-visibility: hidden;
     }
 
     /* 
@@ -894,7 +903,7 @@
         top: 0;
         display: block;
         height: 100%;
-        
+        -webkit-backface-visibility: hidden;
         width: 85.06122%;
 
         .lt-ie9 & {
@@ -1028,6 +1037,7 @@
       color: $white;
       background: $gray10;
       border-radius: 2px;
+      z-index: 999;
       @include opacity(40);
       background-repeat: no-repeat;
       position: absolute;
@@ -1053,13 +1063,7 @@
       
       &.left {
         left: 10px;
-        right: auto;
-        -moz-transform: scaleX(-1);
-        -o-transform: scaleX(-1);
-        -webkit-transform: scaleX(-1);
-        transform: scaleX(-1);
-        filter: FlipH;
-        -ms-filter: "FlipH";        
+        right: auto;     
       }
 
       &.right {

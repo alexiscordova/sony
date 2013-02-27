@@ -53,6 +53,7 @@
 
     self.initShuffle();
 
+    self.$window.on('onorientationchange', $.debounce( 325, $.proxy( self.onResize, self ) ) );
     self.$window.on('resize.gallery', $.debounce( 325, $.proxy( self.onResize, self ) ) );
 
     // Infinite scroll?
@@ -96,7 +97,11 @@
 
     enable : function() {
       var self = this;
-
+      
+      
+      // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
+      self.onResize();
+      
       // Already enabled
       if ( self.enabled ) {
         return;
@@ -112,9 +117,6 @@
       }
 
       self.enabled = true;
-
-      // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
-      self.onResize();
 
       if ( self.hasCarousels ) {
         self.$carousels.scrollerModule('refresh');
@@ -651,7 +653,6 @@
     initCarousels : function( isFirstCall ) {
       var self = this;
 
-
       function initializeScroller( $carousel ) {
         // setTimeout onResize
         $carousel.scrollerModule({
@@ -660,25 +661,23 @@
           itemElementSelector: '.slide'
         });
 
-        self.hasEnabledCarousels = true;
       }
 
       // Go through each possible carousel
-      self.$carousels.each(function() {
-        var $carousel = $(this),
+      self.$carousels.each(function(i,e) {
+        var $carousel = $(e),
             $firstImage;
 
         // If this call is from the initial setup, we have to wait for the first image to load
         // to get its height.
-        if ( isFirstCall ) {
-          $firstImage = $carousel.find(':first-child img');
-          $firstImage.on('imageLoaded', function() {
+        $firstImage = $carousel.find(':first-child img');
+        
+        if ( $firstImage[0].naturalHeight > 0 ) {
+          initializeScroller( $carousel );
+        } else {
+           $firstImage.on('imageLoaded', function() {
             initializeScroller( $carousel );
           });
-
-        // Otherwise, just initialize the carousel right away
-        } else {
-          initializeScroller( $carousel );
         }
 
       });
@@ -686,7 +685,6 @@
 
     destroyCarousels : function() {
       this.$carousels.scrollerModule('destroy');
-      this.hasEnabledCarousels = false;
     },
 
     setFilterStatuses : function() {
@@ -1091,6 +1089,19 @@
 
       return self;
     },
+    
+    fixCarousels:function(isInit){
+      var self = this;
+            
+      if ( self.hasCarousels ) {
+          self.destroyCarousels();
+        
+        // 980+
+        if ( Modernizr.mq('(min-width: 61.25em)') ) {
+          self.initCarousels( isInit );
+        }
+      }  
+    },
 
     onResize : function( isInit ) {
       var self = this;
@@ -1147,7 +1158,6 @@
           }, 25);
         }
 
-        // Go home detailed gallery, you're drunk
         return;
       }
 
@@ -1155,23 +1165,11 @@
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
-      // Destroy or setup carousels based on viewport
-      if ( self.hasCarousels ) {
-        // 980+
-        if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          if ( !self.hasEnabledCarousels ) {
-            self.initCarousels( isInit );
-          }
-
-        // less than 980
-        } else {
-          if ( self.hasEnabledCarousels ) {
-            self.destroyCarousels();
-          }
-        }
-      }
-
+      self.fixCarousels(isInit);
+      
       self.sortByPriority();
+      
+      SONY.Utilities.forceWebkitRedrawHack();
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -2230,7 +2228,6 @@
     MAX_PRICE: undefined,
     price: {},
     isInitialized: false,
-    hasEnabledCarousels: false,
     sorted: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
@@ -2276,6 +2273,14 @@
 
     // Enable all galleries in this tab
     evt.pane.find('.gallery').gallery('enable');
+    
+    SONY.Utilities.forceWebkitRedrawHack();
+    
+    var gallery = evt.pane.find('.gallery').data('gallery');
+    
+    if(gallery){
+      gallery.fixCarousels(gallery.isInitialized);
+    }
 
   };
 

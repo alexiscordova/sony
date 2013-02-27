@@ -13,8 +13,10 @@ $tcc-body-wrapper-padding-desktop:36px 0 0 0;
 $tcc-header-padding-bottom-desktop:20px;
 
 .tcc-wrapper{
+	height:580px;
 	position: relative;
-  overflow:auto;
+  overflow-y:hidden;
+  overflow-x:auto;
   text-align: center;
   background-color:$gray80;
   margin:0; // for the module since it can be placed anywhere on the page. 
@@ -63,13 +65,12 @@ $tcc-header-padding-bottom-desktop:20px;
 		border-bottom: 3px solid $gray70;
 		position: relative;
 
-		.tcc-header-title{
-      float:left;
-      margin:0; // overwrite .l1 default   
-    } // end .tcc-header-title
-
-
     .lt-ie10 & {
+			.tcc-header-title{
+	      float:left;
+	      margin:0; // overwrite .l1 default   
+	    } // end .tcc-header-title
+    	
 	    .tcc-header-link{
 	    	position: absolute;
         right:0;
@@ -159,6 +160,7 @@ $tcc-header-padding-bottom-desktop:20px;
 	
 	   // overlay box
 	    .attendance-count{
+	    	-webkit-backface-visibility:hidden;
 				background-color: $secondaryOlive;
 				opacity:0.95;
 				color:$white;
@@ -198,7 +200,9 @@ $tcc-header-padding-bottom-desktop:20px;
 		} // end .article.events
 
 		&.news{
+			//-webkit-backface-visibility:hidden;
     	.news-date{
+    		-webkit-backface-visibility:hidden;
 	    	position:absolute;
 	    	top:0;
 	    	right:0;
@@ -315,21 +319,38 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	// TYPE: SONYS VOICE
 	.sonys-voice{
-		.fonticon-10-twitter,
-		.fonticon-10-facebook,
-		.fonticon-instagram {
-			background-color: $white;	
-		} // end fonticons
 
-		.fonticon-10-twitter{
+		.icon-container{
+			position: relative;
+			//outline:1px solid red;
+		}
+
+    [class*="fonticon-10-dot"]{
+      display:inline-block;
+      font-size:px-em(18px); 
+
+			&.white-bg{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width:100%;
+				z-index: -1;
+				overflow:hidden;
+				color:$white;
+				font-size:px-em(56px);
+			} // end .white-bg
+    } // end fonticon divs
+
+		.fonticon-15-twitter{
 			color:$twitterColor;
-		} // end .fonticon-10-twitter
+		} // end .fonticon-15-twitter
 
-		.fonticon-10-facebook{
+		.fonticon-15-facebook{
 			color:$facebookColor;
-		} // end .fonticon-10-facebook
+		} // end .fonticon-15-facebook
 
 		.meta{
+			margin-top:8px;
 		  .user{
 		  	color:$gray20;
 		  } // end .user
@@ -362,9 +383,9 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	// TYPE: FLICKR
 	.flickr{
-		.fonticon-flickr{
-			position: relative;
+		.icon-container{
 			//outline:1px solid red;
+			position: relative;
 			width: px-em(44px); 
 			height: 44px;
 
@@ -380,7 +401,6 @@ $tcc-header-padding-bottom-desktop:20px;
 				overflow:hidden;
 				color:$white;
 				font-size:2.8em;
-				//outline:1px solid purple;
 			} // end .white-bg
 
 

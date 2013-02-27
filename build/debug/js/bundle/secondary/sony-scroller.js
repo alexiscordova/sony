@@ -1,10 +1,10 @@
-/*global jQuery, Modernizr, IScroll */
+/*global jQuery, Modernizr, IScroll, SONY */
 
 // Generic Scroller
 // -------------------------------------------------
 //
 // * **Version:** 0.1
-// * **Modified:** 02/07/2013
+// * **Modified:** 02/22/2013
 // * **Authors:** Telly Koosis, Tyler Madison, Glen Cheney
 // * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html)
 //
@@ -22,8 +22,8 @@
 
     $.extend(self, $.fn.scrollerModule.defaults, options, $.fn.scrollerModule.settings);
 
-    self.$el = $element; // already jquery obj on init (optimized!)
-    self.$win = $(window);
+    self.$el = $element;
+    self.$win = SONY.$window;
     self.unique = '.sm_' + $.now();
     self._init();
   };
@@ -42,6 +42,9 @@
       self.$contentContainer = self.$el.find(self.contentSelector);
       self.$elements = self.$el.find(self.itemElementSelector);
       self.$sampleElement = self.$elements.eq(0);
+
+      self.windowWidth = SONY.Settings.windowWidth;
+      self.windowHeight = SONY.Settings.windowHeight;
 
       // Initially set the isPaginated boolean. This may be changed later inside paginate()
       self.isPaginated = self.mode === 'paginate';
@@ -118,6 +121,7 @@
       // Override the onscrollend for our own use
       self.onScrollEnd = self.iscrollProps.onScrollEnd;
       self.onAnimationEnd = self.iscrollProps.onAnimationEnd;
+      self.onBeforeScrollStart = self.iscrollProps.onBeforeScrollStart;
 
       if ( self.mode === 'carousel' ) {
         self.iscrollProps = {
@@ -139,6 +143,14 @@
       self.iscrollProps.onAnimationEnd = function() {
         self._onAnimationEnd( this );
       };
+
+      // Pass the iScroll instance to our function (we still want `this` to reference ScrollerModule)
+      self.iscrollProps.onBeforeScrollStart = function(e) {
+        self._onBeforeScrollStart( this, e);
+      };
+
+
+
 
       return self;
     },
@@ -303,11 +315,19 @@
 
     // Throttled resize event
     _onResize : function() {
-      var self = this;
+      var self = this,
+          windowWidth = self.$win.width(),
+          windowHeight = self.$win.height(),
+          hasWindowChanged = windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
-      if ( !self.destroyed ) {
-        self._update();
+      if ( self.destroyed || !hasWindowChanged ) {
+        return;
       }
+
+      self.windowWidth = windowWidth;
+      self.windowHeight = windowHeight;
+
+      self._update();
     },
 
     _onScrollEnd : function() {
@@ -339,6 +359,22 @@
         } else {
           self.$navNext.removeClass('hide');
         }
+      }
+    },
+
+    _onBeforeScrollStart : function( iscroll, e ){
+      var self = this;
+    
+      // if vertical scrolling passes threshhold then only use scroller
+      if ( this.absDistX > (this.absDistY + self.threshhold ) ) {
+        // user is scrolling the x axis, so prevent the browsers' native scrolling
+        e.preventDefault();
+      }
+
+      // If they've defined a callback as well, call it
+      // We saved their function to this reference so we could have our own onBeforeScrollStart
+      if ( self.onBeforeScrollStart ) {
+        self.onBeforeScrollStart( iscroll );
       }
     },
 
@@ -524,6 +560,7 @@
     addPaddleTrigger: true, // Add the paddle-trigger class to fade in paddles when the parent is hovered
     autoGutters: true,
     gutterWidth: 0,
+    threshhold: 10, // in pixels, determines when native scrolling is prevented (used with onBeforeScrollStart)
 
     // iscroll props get mixed in
     iscrollProps: {

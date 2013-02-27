@@ -14,8 +14,6 @@
       $.socModules = {}; //used for plugins
     }
 
-    var console = window.console;
-
     var SonyOneCarousel = function( element , options ){
 
       var self = this,
@@ -450,7 +448,7 @@
             animObj = {},
             newDist = Math.abs(self.sPosition  - newPos);
 
-            
+
         function getCorrectSpeed(newSpeed) {
             if(newSpeed < 100) {
                 return 100;
@@ -461,8 +459,6 @@
         }
 
         self.currAnimSpeed = getCorrectSpeed( newDist / velocity );
-
-        //window.console.log( self.currAnimSpeed );
 
         if( isNaN(self.currAnimSpeed) ){
           self.currAnimSpeed = self.animationSpeed;
@@ -497,10 +493,8 @@
           //animObj[ Modernizr.prefixed('transitionTimingFunction') ] = $.socCSS3Easing.easeOutBack;
 
           if(self.currAnimSpeed === self.animationSpeed){
-             window.console.log('Using easeOutBack ' , self.currAnimSpeed);
-            animObj[ (self.vendorPrefix + self.TTF) ] = $.rpCSS3Easing.easeOutBack; //default to normal
+            animObj[ (self.vendorPrefix + self.TTF) ] = $.socCSS3Easing.easeOutBack; //default to normal
           }else{
-            window.console.log('Using from iScroll' , self.currAnimSpeed);
             animObj[ (self.vendorPrefix + self.TTF) ] = 'cubic-bezier(0.33,0.66,0.66,1)';
           }
 
@@ -520,7 +514,7 @@
         //update the overall position
         self.sPosition = self.currRenderPosition = newPos;
 
-        
+
       },
 
       update: function(){
