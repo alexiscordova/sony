@@ -292,6 +292,19 @@ $oneByOneImgPadding: 107.84313725490196%;
 
 .gallery-item.promo {
 
+  .no-touch & .gallery-item-inner {
+    @include fadeoutOnHover();
+
+    .promo-title i {
+      @include transition();
+    }
+
+    &:hover .promo-title i {
+      @include translate( px-em(6px), 0);
+    }
+
+  }
+
   .product-content {
     position: absolute;
     top: 0;
