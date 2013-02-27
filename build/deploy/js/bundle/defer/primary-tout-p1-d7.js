@@ -20,11 +20,11 @@
       constructor: PrimaryTout,
 
       _resize: function(){
-        var w = $(window).width(); 
+        var w = $(window).outerWidth(); 
         // if window size > 1200 set height of container to math min 740 , 640 + ( (w -1200) / 10) 
         if(w > 1200){
-          $('.primary-tout.homepage .hero-image').css('height', Math.min(740, 540 + ((w - 1200) / 20)));
-          $('.primary-tout.default .hero-image').css('height', Math.min(660, 560 + ((w - 1200) / 10)));
+          $('.primary-tout.homepage .hero-image').css('height', Math.round(Math.min(740, 540 + ((w - 1200) / 20))));
+          $('.primary-tout.default .hero-image').css('height', Math.round(Math.min(660, 560 + ((w - 1200) / 10))));
         }else if (w > 768){
           $('.primary-tout.homepage .hero-image, .primary-tout.default .hero-image').css('height', "");
         }
