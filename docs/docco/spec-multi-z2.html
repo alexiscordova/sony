@@ -4,7 +4,7 @@
 Module: Full Specs Multi
 Version: 1.0
 Author: Glen Cheney
-Date: 01/24/13</p>
+Date: 02/22/13</p>
 
 <h2>Dependencies: jQuery 1.7+, Modernizr</h2>             </td>             <td class="code">               <div class="highlight"><pre>
 (<span class="keyword">function</span>($, Modernizr, window, <span class="literal">undefined</span>) {
@@ -16,7 +16,7 @@ Date: 01/24/13</p>
     $.extend(self, $.fn.spec.options, options, $.fn.spec.settings);
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>jQuery objects</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.$container = $container;
-    self.$window = SONY.$window || $(window);
+    self.$window = SONY.$window;
     self._init();
   };
 
@@ -69,18 +69,17 @@ to make up for its lack of document space</p>             </td>             <td 
         });
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>We're done</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Redraw table when images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> debouncedSetRowHeights = $.debounce( <span class="number">200</span>, $.proxy( self._setRowHeights, self) );
+      self.$specProducts.find(<span class="string">'.iq-img'</span>).on( <span class="string">'imageLoaded'</span>, debouncedSetRowHeights );
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Redraw table when images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> debouncedSetRowHeights = $.debounce( <span class="number">200</span>, $.proxy( self._setRowHeights, self) );
-        self.$specProducts.find(<span class="string">'.iq-img'</span>).on( <span class="string">'imageLoaded'</span>, debouncedSetRowHeights );
-
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>We're done</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
 
         self._initStickyNav();
         self._onScroll();
 
 </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Add the complete class to the labels to transition them in</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$detailLabelsWrap.find(<span class="string">'.detail-labels-wrapping'</span>).addClass(<span class="string">'complete'</span>);
 
-      }, <span class="number">250</span>);
+      }, <span class="number">150</span>);
 
 
 
@@ -449,7 +448,7 @@ spec products after a big resize</p>             </td>             <td class="co
 </pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>We haven't scrolled vertically, exit the function</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Open/close sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.hasTouchEvents &amp;&amp; !self.isMobile &amp;&amp; scrollTop &gt;= self.stickyOffset.top &amp;&amp; scrollTop &lt;= self.stickyOffset.bottom ) {
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>Open/close sticky headers</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.showStickyHeaders &amp;&amp; !self.isMobile &amp;&amp; scrollTop &gt;= self.stickyOffset.top &amp;&amp; scrollTop &lt;= self.stickyOffset.bottom ) {
         <span class="keyword">if</span> ( !self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
           self.$stickyHeaders.addClass(<span class="string">'open'</span>);
           self.$container.addClass(<span class="string">'sticky-header-open'</span>);
@@ -459,7 +458,7 @@ spec products after a big resize</p>             </td>             <td class="co
         self._setStickyHeaderPos( scrollTop - self.stickyOffset.top + self.stickyNavHeight );
 
       } <span class="keyword">else</span> {
-        <span class="keyword">if</span> ( !self.hasTouchEvents &amp;&amp; self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
+        <span class="keyword">if</span> ( self.showStickyHeaders &amp;&amp; self.$stickyHeaders.hasClass(<span class="string">'open'</span>) ) {
           self.$container.removeClass(<span class="string">'sticky-header-open'</span>);
           self.$stickyHeaders.removeClass(<span class="string">'open'</span>);
           self.$navContainer.removeClass(<span class="string">'container'</span>);
@@ -548,7 +547,7 @@ spec products after a big resize</p>             </td>             <td class="co
     isStickyTabs: <span class="literal">false</span>,
     isScroller: <span class="literal">false</span>,
     isMobile: <span class="literal">false</span>,
-    hasTouchEvents: SONY.Settings.hasTouchEvents
+    showStickyHeaders: !(SONY.Settings.hasTouchEvents || SONY.Settings.isPlaystation)
   };
 
 

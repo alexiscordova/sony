@@ -1,23 +1,12 @@
 @import "../_base/variables";
 @import "../_base/mixins";
 
-// Dependencies:
-// * Gallery's compare tool
 
-
-$specMobileBreakpoint: 35.4375em; // 567
 
 // 4 visible (default)
 $specItemWidth1200: 13.75em; // 220
 $specLabelWidth1200: 8.75em; // 140
 
-// 4 visible columns
-$specItemWidth980: 11.4375em; // 183
-$specLabelWidth980: 7.125em; // 114
-
-// 3 visible columns
-$specItemWidth768: 11.625em; // 186
-$specLabelWidth768: 5.625em; // 90
 
 $columnHeaderHeight: 4.875em; // 78
 $tableHeaderColor: $gray80;
@@ -145,31 +134,6 @@ ul.spec-views {
   }
 }
 
-
-// Media queries for both single and mutliple spec pages
-@media (max-width: $specMobileBreakpoint) {
-
-  .spec-multi,
-  .spec-single {
-    margin-top: 0;
-  }
-
-  ul.spec-views {
-    margin-left: -.25em;
-
-    a {
-      padding-right: 4px;
-      padding-bottom: 8px;
-      padding-left: 4px;
-    }
-
-    li:hover a,
-    .active a {
-      @include box-shadow(inset 0 -3px 0 $btnBackground);
-    }
-  }
-
-}
 
 
 // 888b     d888          888 888    d8b
@@ -505,12 +469,6 @@ ul.spec-views {
 
   .detail-label {
     padding: 1.125em 1em 0 0;
-
-    strong {
-      display: inline-block;
-      max-width: 100%;
-      @include text-overflow( false );
-    }
   }
 
 
@@ -593,7 +551,6 @@ ul.spec-views {
     bottom: 0;
   }
 
-  // wow this is a bitch to position
   .win8-logo {
     position: relative;
     top: 4px;
@@ -601,6 +558,7 @@ ul.spec-views {
     height: 18px;
     margin-left: 14px;
     color: #00ADEF;
+    overflow: hidden;
   }
 
   .sticky-tabs,
@@ -632,107 +590,6 @@ ul.spec-views {
   }
 }
 
-@media ( min-width: px-em(980px) ) and ( max-width: px-em(1199px) ) {
-  .spec-items-container .spec-item {
-    width: $specItemWidth980;
-  }
-  .grid .detail-labels-wrap {
-    width: $specLabelWidth980;
-  }
-}
-
-@media ( min-width: px-em(768px) ) and ( max-width: px-em(979px) ) {
-  .spec-items-container .spec-item {
-    width: $specItemWidth768;
-  }
-  .grid .detail-labels-wrap {
-    width: $specLabelWidth768;
-  }
-}
-
-// Multi spec mobile breakpoint
-@media (max-width: $specMobileBreakpoint) {
-
-  .spec-multi {
-
-    .sony-recommends {
-      bottom: auto;
-      top: .625em;
-      overflow: hidden;
-    }
-
-    .win8-logo {
-      // width: 18px;
-      width: 20px;
-    }
-  }
-
-  .spec-tabs {
-    display: block;
-  }
-
-  .spec-title-wrap {
-    padding-top: 2.8125em;
-  }
-
-
-  .spec-nav,
-  .spec-column-header,
-  .spec-products .container .grid .detail-labels-wrap {
-    display: none;
-  }
-
-  .spec-products:before {
-    height: .0625em;
-  }
-
-  .spec-products .compare-sticky-header {
-    width: 100%;
-  }
-
-  .spec-items-container .spec-item {
-    width: auto;
-  }
-
-  .spec-items-wrap {
-    margin-left: 0;
-  }
-
-  .spec-item-cell {
-    .spec-cell-inner {
-      padding-right: 0;
-      padding-left: 0;
-
-      &.only-label {
-        padding-top: 1.25em;
-      }
-    }
-  }
-
-  // Remove border right on the whole grid
-  .spec-products .spec-items-grid {
-    border-right: none;
-  }
-
-  .spec-item {
-    border-right: 0;
-
-    .cell-label {
-      display: block;
-    }
-
-    .dl-horizontal dt {
-      width: 5em; // 80
-      float: left;
-      clear: left;
-    }
-    .dl-horizontal dd {
-      margin-top: 0;
-      margin-left: 5em; // 80
-    }
-  }
-
-}
 
 
 
@@ -921,123 +778,6 @@ ul.spec-views {
 
 
 
-@media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
-
-
-  .spec-section {
-    margin-top: 1.875em; // 30
-    padding-bottom: 2.8125em; // 45
-
-    .media .pull-left {
-      margin-right: .5em;
-    }
-
-    dt:not(:first-of-type) {
-      margin-top: 20px;
-    }
-
-    .holder-for-icon {
-      @include square( px-em(34px) );
-
-      // Shrink icons. Should be around 34x34 pixels
-      i {
-        font-size: 2.1em;
-      }
-    }
-
-  }
-
-  .spec-overview {
-    padding: 2.5em 0; // 40
-    margin-top: 0;
-  }
-}
-
-@media ( max-width: $specMobileBreakpoint ) {
-
-  // Make part of the grid a mobile grid -_-
-  .grid [class*=span].alpha {
-    margin-left: 0;
-  }
-
-  // Make part of the grid a mobile grid -_-
-  .grid [class*=span].no-m-span {
-    float: none;
-    display: block;
-    margin-left: 0;
-    width: auto;
-  }
-
-  .no-m-span.block-img {
-    clear: both;
-    padding-top: 30px;
-  }
-
-  .spec-section {
-    margin-top: 1.875em; // 30
-    padding-bottom: 2.5em; // 40
-
-    // Section label
-    .section-label {
-      margin-bottom: 1.875em;
-    }
-
-    .media .pull-left {
-      margin-right: .75em;
-    }
-
-    .media + .media,
-    .media {
-      margin-top: 1.625em;
-    }
-
-    .holder-for-icon {
-      @include square( px-em(36px) );
-
-      // Shrink icons. Should be around 36x36 pixels
-      i {
-        font-size: 2.25em;
-      }
-    }
-
-    .has-img {
-      margin-top: 1.875em;
-    }
-
-    dt:not(:first-of-type) {
-      margin-top: 20px;
-    }
-
-    dl:last-child {
-      margin-bottom: 1.65em;
-    }
-  }
-
-  .spec-overview {
-    margin-top: 0;
-    padding: 2.5em 0;
-
-    .nav-paddles {
-      display: none;
-    }
-  }
-
-
-
-
-  .spec-carousel-wrap {
-    margin: 0 0 1.875em;
-
-    .pagination-bullets {
-      margin-top: 1.5625em;
-    }
-  }
-
-}
-
-
-
-
 // 8888888888                888                                    88888888888 d8b 888
 // 888                       888                                        888     Y8P 888
 // 888                       888                                        888         888
@@ -1086,40 +826,5 @@ ul.spec-views {
   min-height: px-em(85px);
 }
 
+@import "../_responsive/responsive-spec-z1-z2";
 
-
-@media ( min-width: px-em(568px) ) and ( max-width: px-em(979px) ) {
-
-  .spec-tiles-wrap {
-    margin-top: 4.6875em;
-    margin-bottom: 6.25em;
-  }
-
-  .spec-tile {
-    margin-top: .625em;
-
-    .tile-content {
-      padding: 1.875em 1.875em 2.8125em 1.25em;
-    }
-
-  }
-
-}
-
-@media ( max-width: $specMobileBreakpoint ) {
-
-  .spec-tiles-wrap {
-    margin-top: 3.75em;
-    margin-bottom: 5em;
-  }
-
-  .spec-tile {
-    margin-top: .625em;
-
-    .tile-content {
-      padding: 1.875em 1.875em 2.8125em 1.25em;
-    }
-
-  }
-
-}

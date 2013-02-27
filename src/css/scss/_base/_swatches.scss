@@ -69,6 +69,14 @@
   &[disabled]:hover {
     cursor: auto;
   }
+
+  // Checked, but disabled state
+  &.active[disabled]:before {
+    @include opacity(15);
+  }
+  &.active[disabled]:after {
+    @include opacity(70);
+  }
 }
 
 [class^="swatch-"],
@@ -140,17 +148,6 @@
   &:before,
   &:after { content: none; }
 }
-
-@media ( max-width: 29.9375em ) {
-  %swatch {
-    @include size( px-em(40px), px-em(41px) );
-  }
-
-  .mini-swatch {
-    @include square(.875em);
-  }
-}
-
 
 
 
