@@ -69,6 +69,14 @@
   &[disabled]:hover {
     cursor: auto;
   }
+
+  // Checked, but disabled state
+  &.active[disabled]:before {
+    @include opacity(15);
+  }
+  &.active[disabled]:after {
+    @include opacity(70);
+  }
 }
 
 [class^="swatch-"],

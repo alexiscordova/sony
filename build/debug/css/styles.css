@@ -4196,7 +4196,7 @@ legend + .control-group {
 /* line 723, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox + label:after {
   position: absolute;
-  left: .25em;
+  left: .3125em;
   top: .25em;
   opacity: 0;
   filter: alpha(opacity=0);
@@ -5249,18 +5249,30 @@ input[type="submit"].btn.btn-mini {
 [disabled][class*=" swatch-"]:hover {
   cursor: auto;
 }
+/* line 74, ../../../src/css/scss/_base/_swatches.scss */
+.active[disabled][class^="swatch-"]:before,
+.active[disabled][class*=" swatch-"]:before {
+  opacity: 0.15;
+  filter: alpha(opacity=15);
+}
+/* line 77, ../../../src/css/scss/_base/_swatches.scss */
+.active[disabled][class^="swatch-"]:after,
+.active[disabled][class*=" swatch-"]:after {
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
 
-/* line 80, ../../../src/css/scss/_base/_swatches.scss */
+/* line 88, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > *:not(:last-child) {
   margin-right: 0.375em;
 }
 
-/* line 84, ../../../src/css/scss/_base/_swatches.scss */
+/* line 92, ../../../src/css/scss/_base/_swatches.scss */
 .filter-container [class*="swatch-"] {
   cursor: pointer;
 }
 
-/* line 102, ../../../src/css/scss/_base/_swatches.scss */
+/* line 110, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white,
 .swatch-yellow,
 .swatch-lemon {
@@ -5269,77 +5281,77 @@ input[type="submit"].btn.btn-mini {
   box-shadow: 0 1px 0 #d2d2db;
 }
 
-/* line 108, ../../../src/css/scss/_base/_swatches.scss */
+/* line 116, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-black {
   background-color: #1f2024;
 }
 
-/* line 109, ../../../src/css/scss/_base/_swatches.scss */
+/* line 117, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-yellow {
   background-color: #f0b938;
 }
 
-/* line 110, ../../../src/css/scss/_base/_swatches.scss */
+/* line 118, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-purple {
   background-color: #913f99;
 }
 
-/* line 111, ../../../src/css/scss/_base/_swatches.scss */
+/* line 119, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-teal {
   background-color: #31b0cc;
 }
 
-/* line 112, ../../../src/css/scss/_base/_swatches.scss */
+/* line 120, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white {
   background-color: white;
 }
 
-/* line 113, ../../../src/css/scss/_base/_swatches.scss */
+/* line 121, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-red {
   background-color: #c93434;
 }
 
-/* line 114, ../../../src/css/scss/_base/_swatches.scss */
+/* line 122, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-blue {
   background-color: #2763a3;
 }
 
-/* line 115, ../../../src/css/scss/_base/_swatches.scss */
+/* line 123, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-pink {
   background-color: #c3325f;
 }
 
-/* line 116, ../../../src/css/scss/_base/_swatches.scss */
+/* line 124, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-green {
   background-color: #8bc748;
 }
 
-/* line 117, ../../../src/css/scss/_base/_swatches.scss */
+/* line 125, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-orange {
   background-color: #e87533;
 }
 
-/* line 118, ../../../src/css/scss/_base/_swatches.scss */
+/* line 126, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-silver {
   background-color: #d2d2db;
 }
 
-/* line 119, ../../../src/css/scss/_base/_swatches.scss */
+/* line 127, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-lemon {
   background-color: #fffec9;
 }
 
-/* line 123, ../../../src/css/scss/_base/_swatches.scss */
+/* line 131, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch {
   margin-right: 0;
 }
 
-/* line 126, ../../../src/css/scss/_base/_swatches.scss */
+/* line 134, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch:not(:first-child) {
   margin-left: 0.125em;
 }
 
-/* line 130, ../../../src/css/scss/_base/_swatches.scss */
+/* line 138, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch {
   width: 0.75em;
   height: 0.75em;
@@ -5351,20 +5363,20 @@ input[type="submit"].btn.btn-mini {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-/* line 141, ../../../src/css/scss/_base/_swatches.scss */
+/* line 149, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch:before, .mini-swatch:after {
   content: none;
 }
 
 @media (max-width: 29.9375em) {
-  /* line 145, ../../../src/css/scss/_base/_swatches.scss */
+  /* line 153, ../../../src/css/scss/_base/_swatches.scss */
   [class^="swatch-"],
   [class*=" swatch-"] {
     width: 2.5625em;
     height: 2.5em;
   }
 
-  /* line 149, ../../../src/css/scss/_base/_swatches.scss */
+  /* line 157, ../../../src/css/scss/_base/_swatches.scss */
   .mini-swatch {
     width: 0.875em;
     height: 0.875em;
