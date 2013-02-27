@@ -109,11 +109,6 @@ $galleryFourColMax: px-em(979px);
 // Gallery Items
 // -------------------------
 
-// 50px margin-top on detailed gallery items
-.gallery-item.detailed {
-  margin: 3.125em 0 0;
-}
-
 .gallery .shuffle .shuffle-item.gallery-item {
   margin-left: 0;
 }
@@ -264,6 +259,9 @@ $galleryFourColMax: px-em(979px);
     top: 55%;
     margin-top: -8px;
     right: 12px;
+
+    // Let clicks/taps pass through. Doesn't work in IE
+    pointer-events: none;
   }
 }
 
@@ -519,6 +517,13 @@ $galleryFourColMax: px-em(979px);
 
   .slide-toggle-target.in ~ .active-filters-wrap {
     margin-top: 1.25em;
+  }
+
+  // Put above shuffle content
+  #sort-options-holder {
+    position: relative;
+    z-index: 5;
+    margin-bottom: 1.25em;
   }
 
   .slide-toggle-target.in ~ #sort-options-holder {
@@ -784,6 +789,27 @@ $galleryFourColMax: px-em(979px);
   .sort-options {
     float: left;
     margin-top: 0;
+    clear: none;
+
+    .filter-label {
+      display: inline-block;
+      margin-bottom: 0;
+      padding-right: 4px;
+    }
+
+    .native-dropdown,
+    .native-dropdown select,
+    .dropdown,
+    .dropdown-toggle.btn {
+      // width: auto;
+    }
+
+    .touch & .native-dropdown,
+    .no-touch & .dropdown {
+      max-width: 130px;
+      display: inline-block;
+    }
+
   }
 }
 
