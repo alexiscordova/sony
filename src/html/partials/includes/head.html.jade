@@ -10,6 +10,10 @@ title Sony Global
 l = {"locals": locals}
   link(rel="stylesheet", href="css/styles.css")
 
+  for name in locals.modulescss()
+    hrf = "css/modules/" + name.replace(/.scss/g, '.css')
+      link(rel="stylesheet", href= hrf)
+
   if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
 
     //if lt IE 9
@@ -26,7 +30,3 @@ l = {"locals": locals}
 
     //if lt IE 9
       script(src="js/polyfill.min.js")
-
-  for name in locals.modulescss()
-    hrf = "css/modules/" + name.replace(/.scss/g, '.css')
-      link(rel="stylesheet", href= hrf)

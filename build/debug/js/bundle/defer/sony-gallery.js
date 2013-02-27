@@ -1236,7 +1236,7 @@
 
       self.sortByPriority();
 
-      SONY.Utilities.forceWebkitRedrawHack();
+      SONY.Utilities.forceWebkitRedraw();
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -2413,7 +2413,7 @@
     // Enable all galleries in this tab
     evt.pane.find('.gallery').gallery('enable');
 
-    SONY.Utilities.forceWebkitRedrawHack();
+    SONY.Utilities.forceWebkitRedraw();
 
     var gallery = evt.pane.find('.gallery').data('gallery');
 
