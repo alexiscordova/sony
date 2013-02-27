@@ -9,7 +9,7 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-$tcc-body-wrapper-padding-desktop:36px 0 0 0;
+$tcc-body-wrapper-padding-desktop:30px 0 0 0;
 $tcc-header-padding-bottom-desktop:20px;
 
 .tcc-wrapper{
@@ -94,7 +94,7 @@ $tcc-header-padding-bottom-desktop:20px;
 		
 		// IE9 and BELOW
 		.lt-ie10 & {
-    	height:375px; 
+    	height:350px; 
     } // END IE9 and BELOW
 
 		// IE8 and BELOW
@@ -147,12 +147,12 @@ $tcc-header-padding-bottom-desktop:20px;
     } // end img-wrap
 
     // body copy
-		.p3{
+		.p4{
 			color:$gray40;
-		} // end p1
+		} // end p4
 
 		// title
-		.t6{
+		.p2{
 			color:$titleBlack;			
 		} // end t6
 
@@ -182,25 +182,27 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	    } // end . attendance-count
 
-	    // overlay container copy
-    	.l4{
-    		// "attending"
-    		color:$white;
-    		font-size:12px; // because we're using ghost center need to set size in pixels
+			.t3,
+			.l3-light{
+				color:$white;
 				margin:0;
 				padding:0;
+			}
 
-				span{
-					// number 
-   				font-size:34px; // because we're using ghost center need to set size in pixels
-				} // end spam
+    	// "attending"
+    	.t3{
+    		//font-size: px-em(32px);// 	32px; // because we're using ghost center need to set size in pixels
+    	} // end .t3
 
-    	} // end .l4
+			// number 
+			.l3-light{
+				//font-size: px-em(11px); //11px; // because we're using ghost center need to set size in pixels
+			} // end l3-light
+
 
 		} // end .article.events
 
 		&.news{
-			//-webkit-backface-visibility:hidden;
     	.news-date{
     		-webkit-backface-visibility:hidden;
 	    	position:absolute;
@@ -211,7 +213,7 @@ $tcc-header-padding-bottom-desktop:20px;
 	    	color:$white;
 	    	margin:0;
 	    	padding:px-em(10px);
-	    	font-size:11px; // because we're using ghost center need to set size in pixels
+	    	//font-size: px-em(11px); ; // because we're using ghost center need to re-set size
 	    } // end .news-date
 	    
 		} // end .article.news
@@ -219,6 +221,9 @@ $tcc-header-padding-bottom-desktop:20px;
 		&.featured{
 
 			.feature-copy{
+	    	background-color:$gray10;
+        text-align: left;
+        opacity:0.95;
 
 				// IE9 and BELOW
 				.lt-ie10 & {
@@ -236,11 +241,7 @@ $tcc-header-padding-bottom-desktop:20px;
           margin:0; // overwrite default p
         } // end p         
 
-	    	background-color:$gray10;
-        text-align: left;
-        opacity:0.95;
-       
-	    	.t4{
+	    	.t5-light{
           height:60px;
           overflow:hidden;
 	    		color:$white;
