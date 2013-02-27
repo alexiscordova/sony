@@ -11,7 +11,7 @@ SONY.Utilities = (function(window, document) {
   'use strict';
 
   var self = {
-    'forceWebkitRedrawHack': function(){
+    'forceWebkitRedraw': function(){
       //force webkit redraw hack
       $('<style/>')
         .appendTo( SONY.$body )
