@@ -664,13 +664,15 @@
 
       $favorites = $favorites || self.$favorites;
 
-      // Favorite Heart
-      if (Modernizr.touch){
-        self.$favorites.on('touchend', $.proxy( self.onFavorite, self ));
-      }else{
-        self.$favorites.on('click', $.proxy( self.onFavorite, self ));        
+      // Favorite the gallery item immediately on touch devices
+      if ( self.isTouch ) {
+        $favorites.on('touchend', $.proxy( self.onFavorite, self ));
 
-        self.$container.find('.js-favorite').tooltip({
+      // Show a tooltip on hover before favoriting on desktop devices
+      } else {
+        $favorites.on('click', $.proxy( self.onFavorite, self ));
+
+        $favorites.tooltip({
           placement: 'offsettop',
           title: function() {
             var $jsFavorite = $(this);
@@ -679,13 +681,15 @@
           template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
         });
       }
+
+      // Update our favorites
+      self.$favorites = self.$grid.find('.js-favorite');
     },
 
-    initCarousels : function( isFirstCall ) {
+    initCarousels : function() {
       var self = this;
 
       function initializeScroller( $carousel ) {
-        // setTimeout onResize
         $carousel.scrollerModule({
           mode: 'carousel',
           contentSelector: '.js-carousel-container',
@@ -1245,15 +1249,17 @@
       var self = this,
           $jsFavorite = $(evt.delegateTarget),
           isAdding = !$jsFavorite.hasClass('active'),
-          content = self.getFavoriteContent( $jsFavorite, isAdding );
+          content = self.isTouch ? '' : self.getFavoriteContent( $jsFavorite, isAdding );
+
       $jsFavorite.toggleClass('active');
 
-      if(evt.type == "click"){
+      // Show the tooltip if it isn't a touch device
+      if ( !self.isTouch ) {
         $('.gallery-tooltip .tooltip-inner')
-        .html( content )
-        .tooltip('show');
+          .html( content )
+          .tooltip('show');
       }
-      
+
 
       // Stop event from bubbling to <a> tag
       evt.preventDefault();
