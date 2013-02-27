@@ -149,6 +149,8 @@
         return;
       }
 
+      self.lastTouch = self.lastTouch || {};
+
       // Cache position for touchmove/touchstart, as touchend doesn't provide it.
       if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
         self.lastTouch = e.originalEvent.touches[0];

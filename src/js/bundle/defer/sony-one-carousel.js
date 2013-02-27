@@ -41,10 +41,90 @@
       });
 
       self.gotoSlide(0);
-      self.createNavigation();
+      self.createPagination();
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
       self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
+
+      self.teardown();
+
+      if ( window.enquire ){
+
+        window.enquire.register("(min-width: 780px)", {
+          match : function() {
+            self.renderDesktop();
+          }
+        });
+        window.enquire.register("(min-width: 480px) and (max-width: 779px)", {
+          match : function() {
+            self.renderTablet();
+          }
+        });
+        window.enquire.register("(max-width: 479px)", {
+          match : function() {
+            self.renderMobile();
+          }
+        });
+      } else {
+        self.renderDesktop();
+      }
+    },
+
+    'teardown': function() {
+
+      var self = this;
+
+      self.$cachedSlides = self.$slides.detach();
+      self.$sliderWrapper = self.$slides.first().clone();
+      self.$sliderWrapper.find('.soc-item').remove();
+    },
+
+    'renderDesktop': function(which) {
+
+      var self = this,
+          $newSlides = self.$cachedSlides.clone();
+
+      self.$innerContainer.empty().append($newSlides);
+      self.$slides = $newSlides;
+      self.createPagination();
+    },
+
+    'renderTablet': function(which) {
+
+      var self = this,
+          $newItems = self.$cachedSlides.clone().children().children();
+
+      self.$innerContainer.empty();
+      $newItems.removeClass('span8 span6 span4').addClass('span6');
+
+      for ( var i = 0; i < $newItems.length; i=i+2 ) {
+        var newItem = self.$sliderWrapper.clone();
+        newItem.children().append($newItems.eq(i));
+        newItem.children().append($newItems.eq(i+1));
+        self.$innerContainer.append(newItem);
+      }
+
+      self.$slides = self.$innerContainer.find('.soc-content');
+      self.createPagination();
+    },
+
+    'renderMobile': function(which) {
+
+      var self = this,
+          $newItems = self.$cachedSlides.clone().children().children();
+
+      self.$innerContainer.empty();
+
+      $newItems.removeClass('span8 span6 span4').addClass('span12');
+
+      for ( var i = 0; i < $newItems.length; i++ ) {
+        var newItem = self.$sliderWrapper.clone();
+        newItem.children().append($newItems.eq(i));
+        self.$innerContainer.append(newItem);
+      }
+
+      self.$slides = self.$innerContainer.find('.soc-content');
+      self.createPagination();
     },
 
     // Stop animations that were ongoing when you started to drag.
@@ -98,7 +178,7 @@
       self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
     },
 
-    // Go to a give slide.
+    // Goto a given slide.
 
     'gotoSlide': function(which) {
 
@@ -120,7 +200,7 @@
       self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);
     },
 
-    createNavigation: function (){
+    createPagination: function (){
 
       var self = this;
 
