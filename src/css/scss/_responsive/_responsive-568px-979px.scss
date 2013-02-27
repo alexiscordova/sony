@@ -155,7 +155,44 @@
     margin-top: 0;
   }
 
+  .slide-toggle i {
+    margin-top: 0;
+  }
+
+
+  // Pagination
+  // ----------------------------
+
+  .nav-paddle {
+    width: $navPaddleWidth980;
+    height: $navPaddleHeight980;
+  }
+
+  .rp-nav .paddle,
+  .nav-paddle-large {
+
+    i {
+      margin-top: 28px;
+    }
+  }
+
+  // Sticky Tabs
+  // --------------------
+  .sticky-tabs .tab-nav {
+    top: ($stickyTabHeight - $navPaddleHeight980) / 2;
+  }
 
 } // max-width: 979px
 
+
+@media ( min-width: px-em(480px) ) and ( max-width: px-em(979px) ) {
+
+  .rp-nav .paddle,
+  .nav-paddle-large {
+    margin: -100px 0;
+    width: 40px;
+    height: 70px;
+    font-size: 1.0em;
+  }
+}
 

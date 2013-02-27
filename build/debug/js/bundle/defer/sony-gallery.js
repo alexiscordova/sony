@@ -1533,7 +1533,7 @@
       // Initialize inner scroller (for the comparable product items)
       self.innerScroller = new IScroll( self.$compareTool.find('.compare-items-wrap')[0], {
         vScroll: false,
-        hScrollbar: self.isTouch,
+        // hScrollbar: self.isTouch,
         // snap: '.compare-item',
         snap: self.compareState.snap, // this is required for iscroll.scrollToPage
         onBeforeScrollStart : function() {
