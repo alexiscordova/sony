@@ -756,8 +756,15 @@ ul.spec-views {
   .lt-ie9 & {
     // .span8 is 595
     width: 482px;
-    height: 217px;
+    height: 217px + 16px; // 16px for nav dots
     max-height: 400px;
+
+    .navigation-container {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+    }
   }
 
   .spec-carousel {

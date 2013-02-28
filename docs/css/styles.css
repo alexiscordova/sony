@@ -5182,10 +5182,8 @@ input[type="submit"].btn.btn-mini {
   height: 2.5em;
   -webkit-box-shadow: 0 1px 0 #83838f;
   box-shadow: 0 1px 0 #83838f;
-  border: 1px solid transparent;
-  border: 1px solid rgba(47, 53, 61, 0);
 }
-/* line 22, ../../src/css/scss/_base/_swatches.scss */
+/* line 20, ../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:before,
 [class*=" swatch-"]:before, [class^="swatch-"]:after,
 [class*=" swatch-"]:after {
@@ -5194,13 +5192,13 @@ input[type="submit"].btn.btn-mini {
   -webkit-transition: opacity 0.2s ease-out;
   transition: opacity 0.2s ease-out;
 }
-/* line 29, ../../src/css/scss/_base/_swatches.scss */
+/* line 27, ../../src/css/scss/_base/_swatches.scss */
 .no-opacity [class^="swatch-"]:before,
 .no-opacity [class*=" swatch-"]:before, .no-opacity [class^="swatch-"]:after,
 .no-opacity [class*=" swatch-"]:after {
   display: none;
 }
-/* line 35, ../../src/css/scss/_base/_swatches.scss */
+/* line 33, ../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:before,
 [class*=" swatch-"]:before {
   content: '';
@@ -5213,11 +5211,13 @@ input[type="submit"].btn.btn-mini {
   border-radius: 50%;
   background: #3c3c42;
 }
-/* line 47, ../../src/css/scss/_base/_swatches.scss */
+/* line 45, ../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:after,
 [class*=" swatch-"]:after {
-  left: .75em;
-  top: .625em;
+  top: 50%;
+  left: 50%;
+  margin-left: -0.5em;
+  margin-top: -0.5625em;
   color: white;
 }
 /* line 53, ../../src/css/scss/_base/_swatches.scss */
@@ -5241,8 +5241,8 @@ input[type="submit"].btn.btn-mini {
 /* line 70, ../../src/css/scss/_base/_swatches.scss */
 [disabled][class^="swatch-"],
 [disabled][class*=" swatch-"] {
-  border-color: #2f353d;
-  border-color: rgba(47, 53, 61, 0.15);
+  border: 1px solid #2f353d;
+  border: 1px solid rgba(47, 53, 61, 0.15);
   background: transparent;
   filter: none;
   -webkit-box-shadow: none;
@@ -5522,7 +5522,11 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
 }
-/* line 144, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 143, ../../src/css/scss/_components/_dropdowns.scss */
+.no-boxshadow .dropdown-menu-alt {
+  border-color: #e4e7eb;
+}
+/* line 148, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt .divider {
   *width: 100%;
   height: 1px;
@@ -5532,7 +5536,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #e5e5e5;
   border-bottom: 1px solid white;
 }
-/* line 148, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 152, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt a {
   font-size: 0.9375em;
   color: #83838f;
@@ -5541,7 +5545,7 @@ input[type="submit"].btn.btn-mini {
   padding: 10px 20px;
 }
 
-/* line 160, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 164, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus,
 .dropdown-submenu:hover > a {
@@ -5558,15 +5562,17 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4572ED', endColorstr='#FF2E60EB', GradientType=0);
 }
 
-/* line 169, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 173, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt li > a:hover,
 .dropdown-menu-alt li > a:focus,
 .dropdown-submenu-alt:hover > a {
   color: #2f353d;
-  background: #f8f8fa;
+  background-color: #f8f8fa;
+  background-image: none;
+  filter: none;
 }
 
-/* line 177, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 183, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .active > a,
 .dropdown-menu .active > a:hover {
   color: white;
@@ -5583,48 +5589,50 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4572ED', endColorstr='#FF2E60EB', GradientType=0);
 }
 
-/* line 185, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 191, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt .active > a,
 .dropdown-menu-alt .active > a:hover {
   color: #83838f;
-  background: white;
+  background-color: #f8f8fa;
+  background-image: none;
+  filter: none;
 }
 
-/* line 194, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 202, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .disabled > a,
 .dropdown-menu .disabled > a:hover {
   color: #bcbccc;
 }
 
-/* line 198, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 206, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .disabled > a:hover {
   text-decoration: none;
   background-color: transparent;
   cursor: default;
 }
 
-/* line 206, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 214, ../../src/css/scss/_components/_dropdowns.scss */
 .open {
   *z-index: 1000;
 }
-/* line 211, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 219, ../../src/css/scss/_components/_dropdowns.scss */
 .open > .dropdown-menu {
   display: block;
 }
-/* line 215, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 223, ../../src/css/scss/_components/_dropdowns.scss */
 .open .dropdown-toggle-alt {
   z-index: 5;
   border-color: #cccccc #cccccc white;
   border-color: rgba(0, 0, 0, 0.12) rgba(0, 0, 0, 0.12) white;
 }
 
-/* line 224, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 232, ../../src/css/scss/_components/_dropdowns.scss */
 .pull-right > .dropdown-menu {
   right: 0;
   left: auto;
 }
 
-/* line 236, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 244, ../../src/css/scss/_components/_dropdowns.scss */
 .dropup .dropdown-menu,
 .navbar-fixed-bottom .dropdown .dropdown-menu {
   top: auto;
@@ -5632,12 +5640,12 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 1px;
 }
 
-/* line 245, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 253, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu {
   position: relative;
 }
 
-/* line 248, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 256, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu > .dropdown-menu {
   top: 0;
   left: 100%;
@@ -5645,12 +5653,12 @@ input[type="submit"].btn.btn-mini {
   margin-left: -1px;
 }
 
-/* line 254, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 262, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
 
-/* line 258, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 266, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu > a:after {
   display: block;
   content: " ";
@@ -5665,18 +5673,18 @@ input[type="submit"].btn.btn-mini {
   margin-right: -10px;
 }
 
-/* line 271, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 279, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu:hover > a:after {
   border-left-color: white;
 }
 
-/* line 279, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 287, ../../src/css/scss/_components/_dropdowns.scss */
 .dropdown .dropdown-menu .nav-header {
   padding-left: 20px;
   padding-right: 20px;
 }
 
-/* line 286, ../../src/css/scss/_components/_dropdowns.scss */
+/* line 294, ../../src/css/scss/_components/_dropdowns.scss */
 .typeahead {
   margin-top: 2px;
 }
@@ -5734,6 +5742,43 @@ button.close {
   background: transparent;
   border: 0;
   -webkit-appearance: none;
+}
+
+/* line 35, ../../src/css/scss/_base/_close.scss */
+.box-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 2.6875em;
+  height: 2.5em;
+  padding: 0;
+  line-height: 1;
+  background: #83838f;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 49, ../../src/css/scss/_base/_close.scss */
+.box-close:hover {
+  background: #2f353d;
+}
+/* line 53, ../../src/css/scss/_base/_close.scss */
+.box-close i {
+  color: white;
+}
+
+/* line 61, ../../src/css/scss/_base/_close.scss */
+.box-close-small {
+  width: 1.4375em;
+  height: 1.4375em;
+  top: 0;
+}
+/* line 66, ../../src/css/scss/_base/_close.scss */
+.box-close-small i {
+  line-height: 18px;
 }
 
 /* line 10, ../../src/css/scss/_components/_navs.scss */
@@ -6858,6 +6903,7 @@ form.footer-store-locator-form i {
 
 /* line 47, ../../src/css/scss/_components/_pagination.scss */
 .nav-paddle {
+  display: block;
   border: none;
   background-color: #d2d2db;
   background-color: rgba(33, 37, 48, 0.4);
@@ -6868,22 +6914,22 @@ form.footer-store-locator-form i {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 57, ../../src/css/scss/_components/_pagination.scss */
+/* line 58, ../../src/css/scss/_components/_pagination.scss */
 .lt-ie9 .nav-paddle {
   zoom: 1;
 }
-/* line 61, ../../src/css/scss/_components/_pagination.scss */
+/* line 62, ../../src/css/scss/_components/_pagination.scss */
 .touch .nav-paddle {
   display: none;
 }
-/* line 66, ../../src/css/scss/_components/_pagination.scss */
+/* line 67, ../../src/css/scss/_components/_pagination.scss */
 .nav-paddle:hover, .nav-paddle:focus {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
   outline: none;
   cursor: pointer;
 }
-/* line 73, ../../src/css/scss/_components/_pagination.scss */
+/* line 74, ../../src/css/scss/_components/_pagination.scss */
 .nav-paddle i {
   vertical-align: middle;
   color: white;
@@ -6891,23 +6937,24 @@ form.footer-store-locator-form i {
   margin-left: .0625em;
   margin-top: -0.125em;
 }
-/* line 81, ../../src/css/scss/_components/_pagination.scss */
+/* line 82, ../../src/css/scss/_components/_pagination.scss */
 .nav-paddle i.fonticon-10-chevron-reverse {
   margin-left: 0;
   margin-right: 0.0625em;
 }
 
-/* line 89, ../../src/css/scss/_components/_pagination.scss */
+/* line 90, ../../src/css/scss/_components/_pagination.scss */
 .paddle-trigger .nav-paddle {
   opacity: 0;
 }
 
-/* line 93, ../../src/css/scss/_components/_pagination.scss */
-.paddle-trigger:hover .nav-paddle {
+/* line 96, ../../src/css/scss/_components/_pagination.scss */
+.paddle-trigger:hover .nav-paddle,
+.paddle-trigger .nav-paddle:focus {
   opacity: 1;
 }
 
-/* line 104, ../../src/css/scss/_components/_pagination.scss */
+/* line 107, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle,
 .nav-paddle-large {
   position: absolute;
@@ -6925,13 +6972,13 @@ form.footer-store-locator-form i {
   transition: 0.3s ease-in;
   cursor: pointer;
 }
-/* line 119, ../../src/css/scss/_components/_pagination.scss */
+/* line 122, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle:hover,
 .nav-paddle-large:hover {
   background-color: #2f353d;
   background-color: rgba(33, 37, 48, 0.8);
 }
-/* line 124, ../../src/css/scss/_components/_pagination.scss */
+/* line 127, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle i,
 .nav-paddle-large i {
   width: 15px;
@@ -6941,12 +6988,12 @@ form.footer-store-locator-form i {
   margin-left: auto;
   margin-right: auto;
 }
-/* line 131, ../../src/css/scss/_components/_pagination.scss */
+/* line 134, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle.left,
 .nav-paddle-large.left {
   left: 10px;
 }
-/* line 135, ../../src/css/scss/_components/_pagination.scss */
+/* line 138, ../../src/css/scss/_components/_pagination.scss */
 .rp-nav .paddle.right,
 .nav-paddle-large.right {
   right: 10px;
@@ -7042,24 +7089,25 @@ body.modal-open {
 /* line 77, ../../src/css/scss/_components/_modals.scss */
 .modal-inner {
   position: relative;
+  width: 100%;
   overflow: auto;
   background-color: white;
   -webkit-box-shadow: 0 0 1.875em rgba(39, 43, 55, 0.15);
   box-shadow: 0 0 1.875em rgba(39, 43, 55, 0.15);
 }
 
-/* line 85, ../../src/css/scss/_components/_modals.scss */
+/* line 86, ../../src/css/scss/_components/_modals.scss */
 .modal-body {
   overflow-y: auto;
   padding: 2.5em;
 }
 
-/* line 90, ../../src/css/scss/_components/_modals.scss */
+/* line 91, ../../src/css/scss/_components/_modals.scss */
 .modal-form {
   margin-bottom: 0;
 }
 
-/* line 95, ../../src/css/scss/_components/_modals.scss */
+/* line 96, ../../src/css/scss/_components/_modals.scss */
 .modal-footer {
   padding: 14px 15px 15px;
   margin-bottom: 0;
@@ -7081,54 +7129,17 @@ body.modal-open {
 .modal-footer:after {
   clear: both;
 }
-/* line 106, ../../src/css/scss/_components/_modals.scss */
+/* line 107, ../../src/css/scss/_components/_modals.scss */
 .modal-footer .btn + .btn {
   margin-left: 5px;
   margin-bottom: 0;
 }
-/* line 111, ../../src/css/scss/_components/_modals.scss */
+/* line 112, ../../src/css/scss/_components/_modals.scss */
 .modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
 }
 
-/* line 116, ../../src/css/scss/_components/_modals.scss */
-.box-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: block;
-  width: 2.6875em;
-  height: 2.5em;
-  padding: 0;
-  line-height: 1;
-  background: #83838f;
-  border: none;
-  text-align: center;
-  cursor: pointer;
-  -webkit-transition: 0.2s ease-out;
-  transition: 0.2s ease-out;
-}
-/* line 130, ../../src/css/scss/_components/_modals.scss */
-.box-close:hover {
-  background: #2f353d;
-}
-/* line 134, ../../src/css/scss/_components/_modals.scss */
-.box-close i {
-  color: white;
-}
-
-/* line 141, ../../src/css/scss/_components/_modals.scss */
-.box-close-small {
-  width: 1.4375em;
-  height: 1.4375em;
-  top: 0;
-}
-/* line 146, ../../src/css/scss/_components/_modals.scss */
-.box-close-small i {
-  line-height: 18px;
-}
-
-/* line 151, ../../src/css/scss/_components/_modals.scss */
+/* line 117, ../../src/css/scss/_components/_modals.scss */
 .takeover {
   top: 0;
   left: 0;
@@ -7137,41 +7148,41 @@ body.modal-open {
   height: 100%;
   border: none;
 }
-/* line 160, ../../src/css/scss/_components/_modals.scss */
+/* line 126, ../../src/css/scss/_components/_modals.scss */
 .takeover.native-scrolling {
   overflow-x: hidden;
   overflow-y: auto;
 }
-/* line 165, ../../src/css/scss/_components/_modals.scss */
+/* line 131, ../../src/css/scss/_components/_modals.scss */
 .takeover.fade.in {
   top: 0;
 }
-/* line 167, ../../src/css/scss/_components/_modals.scss */
+/* line 133, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-inner {
   overflow: visible;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 172, ../../src/css/scss/_components/_modals.scss */
+/* line 138, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header {
   position: relative;
   padding: 4.375em 0 1.875em;
   border: none;
 }
-/* line 177, ../../src/css/scss/_components/_modals.scss */
+/* line 143, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header .box-close {
   top: 1.25em;
 }
-/* line 181, ../../src/css/scss/_components/_modals.scss */
+/* line 147, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header h3 {
   margin-top: -8px;
 }
-/* line 188, ../../src/css/scss/_components/_modals.scss */
+/* line 154, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header > button,
 .takeover .modal-header > .sort-options {
   margin: 0 0 0 8px;
 }
-/* line 192, ../../src/css/scss/_components/_modals.scss */
+/* line 158, ../../src/css/scss/_components/_modals.scss */
 .takeover .modal-body {
   overflow-y: visible;
   max-height: none;

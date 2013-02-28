@@ -454,9 +454,6 @@
     },
 
     gotopage: function( pageNumber, duration ) {
-      // pageNumber could be an event object from a navigation bullet click.
-      // if it is, get the index from it's data attribute
-      pageNumber = pageNumber.type ? $(pageNumber.target).data('index') : pageNumber;
       duration = duration || 400;
       this.scroller.scrollToPage(pageNumber, 0, duration);
     },

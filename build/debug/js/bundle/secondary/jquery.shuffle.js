@@ -121,7 +121,7 @@
                 beforeResizeFunc = $.proxy( self._beforeResize, self );
                 self._debouncedBeforeResize = self.throttle ? self.throttle( self.throttleTime, true, beforeResizeFunc ) : beforeResizeFunc;
             }
-            
+
             // Get debounced versions of our resize methods
             self._debouncedResize = self.throttle ? self.throttle( self.throttleTime, afterResizeFunc ) : afterResizeFunc;
 
@@ -573,7 +573,7 @@
             var self = this;
 
             // If we're hiding the layout with a fade,
-            if ( self.hideLayoutWithFade ) {
+            if ( self.hideLayoutWithFade && self.supported ) {
                 // recaculate column and gutter values
                 self._setColumns();
                 // Layout the items with only a position
@@ -581,11 +581,7 @@
                 // Change the transition-delay value accordingly
                 self._setSequentialDelay( self.itemsOrderedByDelay );
                 self.fire('done');
-                if ( self.supported ) {
-                    self.$items.css('opacity', 1);
-                } else {
-                    self.$items.fadeIn( self.speed );
-                }
+                self.$items.css('opacity', 1);
             } else {
                 self.resized();
             }
@@ -594,11 +590,11 @@
         _beforeResize : function() {
             var self = this;
 
-            if ( self.supported ) {
-                self.$items.css('opacity', 0);
-            } else {
-                self.$items.fadeOut( self.speed );
+            if ( !self.supported ) {
+                return;
             }
+
+            self.$items.css('opacity', 0);
 
             self.fire('loading');
             self._resetDelay( self.$items );

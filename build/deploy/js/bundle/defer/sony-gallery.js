@@ -93,10 +93,7 @@
     }
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
-    setTimeout(function() {
-      self.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
-      iQ.update( true );
-    }, 2000);
+    setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
   };
 
   Gallery.prototype = {
@@ -642,6 +639,9 @@
 
         // Update iQ images
         iQ.update( true );
+
+        // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
+        setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
       });
     },
 
@@ -663,6 +663,11 @@
             $swatchImg.addClass('hidden');
           });
       });
+    },
+
+    loadSwatchImages : function() {
+      this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
+      iQ.update( true );
     },
 
     initTooltips : function( $favorites ) {
@@ -1328,10 +1333,17 @@
       var self = this;
       self.$container.find('.gallery-loader').remove();
 
+
+      if ( SONY.Settings.isLTIE9 ) {
+        setTimeout(function() {
+          self.$gridProductNames.evenHeights();
+        }, 1000);
+      }
+
       // Fade in the gallery if it isn't already
       if ( !self.$container.hasClass('in') ) {
         setTimeout(function() {
-            self.$container.addClass('in');
+          self.$container.addClass('in');
         }, 250);
       }
     },
@@ -1476,6 +1488,7 @@
     onCompareShown : function() {
       var self = this;
 
+      self.isCompareToolOpen = true;
       self.stickyTriggerPoint = self.getCompareStickyTriggerPoint();
 
       // Set a margin-left on the compare items wrap
@@ -1597,6 +1610,8 @@
       if ( self.$compareTool.data('galleryId') !== self.id ) {
         return;
       }
+
+      self.isCompareToolOpen = false;
 
       // Delete the id from memory
       self.$compareTool.removeData('galleryId');
@@ -1744,6 +1759,11 @@
           $sorter,
           snap;
 
+      // If we somehow got here and the compare tool is closed, return
+      if ( !self.isCompareToolOpen ) {
+        return;
+      }
+
       // Phone = sticky header
       if ( Modernizr.mq('(max-width: 47.9375em)') ) {
 
@@ -1872,7 +1892,7 @@
       offsetTop = self.$compareItems.not('.hide').offset().top;
 
       // see http://bugs.jquery.com/ticket/8362
-      if ( offsetTop < 0 ) {
+      if ( offsetTop < 0 && Modernizr.csstransforms ) {
         var matrix = SONY.Utilities.parseMatrix( self.$compareTool.find('.modal-inner').css('transform') );
         offsetTop = -matrix.translateY + offsetTop;
       }
@@ -1963,8 +1983,8 @@
 
     addCompareNav : function( $parent ) {
       var $navContainer = $('<nav class="compare-nav">'),
-          $prevPaddle = $('<button class="nav-paddle nav-prev"><i class="icon-ui2-chevron-18-white-left"></i></button>'),
-          $nextPaddle = $('<button class="nav-paddle nav-next"><i class="icon-ui2-chevron-18-white-right"></i></button>');
+          $prevPaddle = $('<button class="nav-paddle nav-prev"><i class="fonticon-10-chevron-reverse"></i></button>'),
+          $nextPaddle = $('<button class="nav-paddle nav-next"><i class="fonticon-10-chevron"></i></button>');
 
       $navContainer.append( $prevPaddle, $nextPaddle );
       $parent.append( $navContainer );
@@ -2378,9 +2398,10 @@
     hasEnabledCarousels: false,
     hasSorterMoved: false,
     sorted: false,
+    isCompareToolOpen: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
-    isUsingOuterScroller: !SONY.Settings.isAndroid,
+    isUsingOuterScroller: !(SONY.Settings.isAndroid || SONY.Settings.isLTIE9 || SONY.Settings.isPlaystation),
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
@@ -2421,19 +2442,20 @@
       return;
     }
 
-
     var $galleries = evt.pane.find('.gallery');
-    // Enable all galleries in this tab
-    $galleries.gallery('enable');
+
+    $galleries.each(function() {
+      var gallery = $(this).data('gallery');
+
+      // Enable all galleries in this tab
+      gallery.enable();
+
+      if ( gallery ) {
+        gallery.fixCarousels( gallery.isInitialized );
+      }
+    });
 
     SONY.Utilities.forceWebkitRedraw();
-
-    var gallery = $galleries.data('gallery');
-
-    if (gallery) {
-      gallery.fixCarousels(gallery.isInitialized);
-    }
-
   };
 
 })(jQuery, Modernizr, window);
