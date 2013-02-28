@@ -70,30 +70,62 @@
       var self = this,
           $this = $(e.target);
 
+      if ( !Modernizr.touch ) {
+        e.preventDefault();
+      }
+
       if ( self.$el.has($this).length === 0 ) {
         return;
       }
 
-      e.preventDefault();
+      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
+        self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
+      }
 
-      self.setDimensions();
+      self.isScrubbing = self.isPastThreshold = false;
       self.handleStartPosition = self.getPagePosition(e);
-      self.isScrubbing = true;
+      self.setDimensions();
+      self.$containment.on(_moveEvents, $.proxy(self.scrubbingThreshold, self));
 
-      self.$containment.on(_moveEvents, $.proxy(self.onScrubbing, self));
       self.$el.trigger('sonyDraggable:dragStart');
+    },
+
+    'scrubbingThreshold': function(e) {
+
+      var self = this,
+          distX = self.getPagePosition(e).x - self.handleStartPosition.x,
+          distY = self.getPagePosition(e).y - self.handleStartPosition.y;
+
+      if ( !Modernizr.touch || !self.dragThreshold || self.isScrubbing ) {
+        self.isScrubbing = true;
+        self.onScrubbing(e, distX, distY);
+        return;
+      }
+
+      if ( self.isPastThreshold ) { return; }
+
+      if ( Math.abs(distX) > self.dragThreshold ) {
+        self.isScrubbing = true;
+        self.onScrubbing(e, distX, distY);
+        return;
+      }
+
+      if ( Math.abs(distY) > self.dragThreshold ) {
+        self.isPastThreshold = true;
+        return;
+      }
     },
 
     // Crunch some vectors to compute the handle's position relative to the user's click/touch.
 
-    'onScrubbing': function(e) {
+    'onScrubbing': function(e, distX, distY) {
 
       var self = this;
 
       e.preventDefault();
 
-      self.handlePosition.x = self.scrubberLeft + self.getPagePosition(e).x - self.handleStartPosition.x;
-      self.handlePosition.y = self.scrubberTop + self.getPagePosition(e).y - self.handleStartPosition.y;
+      self.handlePosition.x = self.scrubberLeft + distX;
+      self.handlePosition.y = self.scrubberTop + distY;
 
       // Periodically query the user's position to see how much they've moved recently.
       self.throttledSetAcceleration(e);
@@ -114,29 +146,12 @@
       // Do a final check on acceleration before returning data in dragEnd.
       self.setAcceleration(e);
 
-      self.isScrubbing = false;
+      self.isScrubbing = self.isPastThreshold = false;
       self.$containment.off(_moveEvents);
 
       self.$el.trigger('sonyDraggable:dragEnd', {
         'acceleration': self.acceleration
       });
-    },
-
-    // Applies the user-defined boundaries to a given position. The *which* parameter defines the x/y axis.
-
-    'getConstrainedBounds': function(val, which) {
-
-      var self = this;
-
-      if ( self.bounds && self.bounds[which] ) {
-        if ( val < self.bounds[which].min ) {
-          return self.bounds[which].min;
-        } else if ( val > self.bounds[which].max ) {
-          return self.bounds[which].max;
-        }
-      }
-
-      return val;
     },
 
     // Smooths out different event data for desktop and touch users, returns a consistent pageX/Y.
@@ -205,13 +220,19 @@
         }
       }
 
-      newX = self.getConstrainedBounds(newX, 'x');
-      newY = self.getConstrainedBounds(newY, 'y');
+      if ( self.bounds ) {
+        newX = self.bounds.x ? SONY.Utilities.constrain( newX, self.bounds.x.min, self.bounds.x.max ) : newX;
+        newY = self.bounds.y ? SONY.Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
+      }
 
-      self.$el.css({
-        'left': newX + self.unit,
-        'top': newY + self.unit
-      });
+      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
+        self.$el.css(Modernizr.prefixed('transform'), 'translate(' + ( newX ? newX : 0 ) + self.unit + ',' + ( newY ? newY : 0 ) + self.unit + ')');
+      } else {
+        self.$el.css({
+          'left': (newX?newX:0)+self.unit,
+          'top': (newY?newY:0)+self.unit
+        });
+      }
 
       self.drag({
         'position': {
@@ -225,12 +246,19 @@
 
     'setDimensions': function() {
 
-      var self = this;
+      var self = this,
+          widthObject;
 
-      self.containmentWidth = self.$containment.width();
-      self.containmentHeight = self.$containment.height();
-      self.scrubberLeft = self.$el.position().left;
-      self.scrubberTop = self.$el.position().top;
+      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
+        widthObject = self.$el;
+      } else {
+        widthObject = self.$containment;
+      }
+
+      self.containmentWidth = widthObject.width();
+      self.containmentHeight = widthObject.height();
+      self.scrubberLeft = self.$el[0].getBoundingClientRect().left - (self.$el.outerWidth(true) - self.$el.width()) / 2;
+      self.scrubberTop = self.$el[0].getBoundingClientRect().top - (self.$el.outerHeight(true) - self.$el.height()) / 2;
     },
 
     // Allows other classes to reset the handle's position if needed, by calling:
@@ -272,6 +300,7 @@
     'axis': 'xy',
     // 'px' or '%' based positioning for handle / callback coords.
     'unit': 'px',
+    'dragThreshold': undefined,
     // Initial position of handle.
     'handlePosition': {
       'x': 0,

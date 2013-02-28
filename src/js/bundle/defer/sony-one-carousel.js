@@ -8,6 +8,28 @@
 // * **Author:** George Pantazis
 // * **Dependencies:** jQuery 1.7+
 
+if (!Array.prototype.indexOf)
+{
+  Array.prototype.indexOf = function(elt /*, from*/)
+  {
+    var len = this.length >>> 0;
+
+    var from = Number(arguments[1]) || 0;
+    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+    if (from < 0){
+      from += len;
+    }
+
+    for (; from < len; from++)
+    {
+      if (from in this && this[from] === elt) {
+        return from;
+      }
+    }
+    return -1;
+  };
+}
+
 (function($) {
 
   'use strict';
@@ -37,6 +59,7 @@
       self.$innerContainer.sonyDraggable({
         'axis': 'x',
         'unit': '%',
+        'dragThreshold': 50,
         'containment': self.$container
       });
 
@@ -168,11 +191,11 @@
     'gotoNearestSlide': function(e, data) {
 
       var self = this,
-          leftBounds = (SONY.$window.width() - self.$innerContainer.width())/2,
+          leftBounds =  self.$container[0].getBoundingClientRect().left,
           positions = [];
 
       self.$slides.each(function(a){
-        positions.push(Math.abs(leftBounds - $(this).offset().left));
+        positions.push(Math.abs(leftBounds - this.getBoundingClientRect().left));
       });
 
       self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
@@ -187,15 +210,17 @@
 
       self.currentSlide = which;
 
-      self.$innerContainer.animate({
-        'left': -100 * $destinationSlide.position().left / SONY.$window.width()  + '%'
-      }, {
-        'duration': 1000,
-        'easing': 'easeOutExpo',
-        'complete': function() {
-          window.iQ.update();
-        }
-      });
+      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
+        self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '500ms');
+        self.$innerContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * $destinationSlide.position().left / self.$innerContainer.width() + '%') + ',0)');
+      } else {
+        self.$innerContainer.animate({
+          'left': -100 * $destinationSlide.position().left / SONY.$window.width() + '%'
+        }, {
+          'easing': 'easeOutExpo',
+          'duration': 1000
+        });
+      }
 
       self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);
     },
