@@ -15,8 +15,6 @@
   display: inline-block;
   @include size( px-em(40px), px-em(42px) );
   @include box-shadow(0 1px 0 $gray40);
-  border: 1px solid transparent;
-  border: 1px solid rgba($gray20, 0);
 
   &:before,
   &:after {
@@ -45,8 +43,10 @@
 
   // Check mark
   &:after {
-    left: .75em;
-    top: .625em;
+    top: 50%;
+    left: 50%;
+    margin-left: -.5em;
+    margin-top: -.5625em;
     color: $white;
   }
 
@@ -68,8 +68,8 @@
 
   // Disabled state
   &[disabled] {
-    border-color: $gray20;
-    border-color: rgba($gray20, .15);
+    border: 1px solid $gray20;
+    border: 1px solid rgba($gray20, .15);
 
     // overwrite backgrond-image, color, etc
     background: transparent;

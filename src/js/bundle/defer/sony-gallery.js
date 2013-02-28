@@ -93,10 +93,7 @@
     }
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
-    setTimeout(function() {
-      self.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
-      iQ.update( true );
-    }, 2000);
+    setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
   };
 
   Gallery.prototype = {
@@ -642,6 +639,9 @@
 
         // Update iQ images
         iQ.update( true );
+
+        // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
+        setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
       });
     },
 
@@ -663,6 +663,11 @@
             $swatchImg.addClass('hidden');
           });
       });
+    },
+
+    loadSwatchImages : function() {
+      this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
+      iQ.update( true );
     },
 
     initTooltips : function( $favorites ) {
@@ -1971,8 +1976,8 @@
 
     addCompareNav : function( $parent ) {
       var $navContainer = $('<nav class="compare-nav">'),
-          $prevPaddle = $('<button class="nav-paddle nav-prev"><i class="icon-ui2-chevron-18-white-left"></i></button>'),
-          $nextPaddle = $('<button class="nav-paddle nav-next"><i class="icon-ui2-chevron-18-white-right"></i></button>');
+          $prevPaddle = $('<button class="nav-paddle nav-prev"><i class="fonticon-10-chevron-reverse"></i></button>'),
+          $nextPaddle = $('<button class="nav-paddle nav-next"><i class="fonticon-10-chevron"></i></button>');
 
       $navContainer.append( $prevPaddle, $nextPaddle );
       $parent.append( $navContainer );
@@ -2430,19 +2435,20 @@
       return;
     }
 
-
     var $galleries = evt.pane.find('.gallery');
-    // Enable all galleries in this tab
-    $galleries.gallery('enable');
+
+    $galleries.each(function() {
+      var gallery = $(this).data('gallery');
+
+      // Enable all galleries in this tab
+      gallery.enable();
+
+      if ( gallery ) {
+        gallery.fixCarousels( gallery.isInitialized );
+      }
+    });
 
     SONY.Utilities.forceWebkitRedraw();
-
-    var gallery = $galleries.data('gallery');
-
-    if (gallery) {
-      gallery.fixCarousels(gallery.isInitialized);
-    }
-
   };
 
 })(jQuery, Modernizr, window);
@@ -2481,5 +2487,16 @@ SONY.on('global:ready', function() {
       $('.tab-pane:not(.active) .gallery').gallery('disable');
       // console.profileEnd();
     }, 500);
+
+
+    // Make all product name heights even
+    if ( SONY.Settings.isLTIE9 ) {
+      setTimeout(function() {
+        $('.gallery').each(function() {
+          var gallery = $(this).data('gallery');
+          gallery.$gridProductNames.evenHeights();
+        });
+      }, 3000);
+    }
   }
 });
