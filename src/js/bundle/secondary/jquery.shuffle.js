@@ -554,11 +554,6 @@
                 return;
             }
 
-            // var height = self.$window.height(),
-            //     width = self.$window.width();
-            // self.windowHeight = height;
-            // self.windowWidth = width;
-
             // This should execute the first time _onResize is called
             if ( self.hideLayoutWithFade ) {
                 self._debouncedBeforeResize();
@@ -738,7 +733,12 @@
 
         _addItems : function( $newItems, animateIn, isSequential ) {
             var self = this,
-                $passed;
+                $passed,
+                passed;
+
+            if ( !self.supported ) {
+                animateIn = false;
+            }
 
             $newItems.addClass('shuffle-item');
             self.$items = self._getItems();
@@ -746,12 +746,13 @@
             $newItems.not($passed).css('opacity', 0);
 
             $passed = self.filter( undefined, $newItems );
+            passed = $passed.get();
 
             // How many filtered elements?
             self.visibleItems = self.$items.filter('.filtered').length;
 
             if ( animateIn ) {
-                self._layout( $passed, null, true, true );
+                self._layout( passed, null, true, true );
 
                 if ( isSequential ) {
                     self._setSequentialDelay( $passed );
@@ -759,7 +760,7 @@
 
                 self._revealAppended( $passed );
             } else {
-                self._layout( $passed );
+                self._layout( passed );
             }
         },
 
