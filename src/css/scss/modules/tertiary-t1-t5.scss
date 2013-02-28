@@ -161,10 +161,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		@include fadeoutOnHover(img);
 	} // end div
 
-	// #{createSelectorFromData("article","featured")}{
-	// 	@include fadeoutOnHover();
-	// } // end div
-
 	// TYPE: ARTICLE
 	.article{	
 
@@ -346,8 +342,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 
 		&.expert-quote{
-			background-color:$gray05;
-			opacity:0.95;
+			background-color:rgba($gray10,0.95);
 			
 			.author{
 				display: inline;
@@ -393,6 +388,10 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		
 		&.question{
 			padding:0;
+
+			.bq3{
+				color:$secondarySlateDark;
+			} // end .bq3
 
       .bq3,
       .lt3,
