@@ -1822,51 +1822,7 @@ $default-transition-delay    : 0s;
 
 
 @mixin dttb {
-  //dark text
-  .dark-text-light-box,
-  .dark-text-trans-box{
-    h1, h2, h3, h4, h5, h6{
-      color:$gray20;
-    }
-    p{
-      color:$gray40;
-    }
-  }
-  //light text
-  .light-text-dark-box,
-  .light-text-trans-box{
-    h1, h2, h3, h4, h5, h6{
-      color:$white;
-    }
-    p{
-      color:$gray50;
-    }
-  }
-  .light-text-trans-box{
-     p{
-      color:$white;
-    }
-  }
-
-  // trans box
-  .dark-text-trans-box,
-  .light-text-trans-box{
-    .box{
-    }
-  }
-  //dark box
-  .light-text-dark-box{
-   .box{
-      background:$titleBlack;
-    }
-  }
-
-  //light box
-  .dark-text-light-box{
-   .box{
-      background:$titleWhite;
-    }
-  }
+  // Moved these styles into type.scss to be usable globally
 }
 
 
