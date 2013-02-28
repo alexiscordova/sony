@@ -9,9 +9,9 @@
   // The width * height of an image has to be < 5 * 1024 * 1024 (5MB) for iOS devices with > 256MB of RAM
   // (3MB for devices with 256MB).
 
-  // Also, checkmarks won't be @2x if .no-touch precedes %icon (it uses .csstransforms which is also on the html element)
+  // Also, checkmarks won't be @2x if .no-touch precedes %sprite (it uses .csstransforms which is also on the html element)
 
-  .no-touch %icon {
+  .no-touch %sprite {
     background-image: url($iconSpritePath_2x);
     background-size: $iconSpritePath_2x_size;
   }
@@ -23,62 +23,38 @@
   [class^="sprite-"],
   [class*=" sprite-"]{
     //DISABLED UNTIL WE HAVE RETINA VERSION background-image: url($iconSpritePath_2x); // if switched back to using svg for the standard image, delete this line.
-    background-size: $iconSpritePath_2x_size; // if switched back to using svg for the standard image, delete this line.
-    .no-svg & { 
-      background-image: url($iconSpritePath_2x);
-      background-size: $iconSpritePath_2x_size;
-    }
+    background-size: $spritePath_2x_size; // if switched back to using svg for the standard image, delete this line.
   }
   // [class^="icon-tab-"],
   // [class*=" icon-tab-"]{
   //   background-image: url($iconSpritePath_2x); // if switched back to using svg for the standard image, delete this line.
   //   background-size: $iconSpritePath_2x_size; // if switched back to using svg for the standard image, delete this line.
-  //   .no-svg & { 
-  //     background-image: url($iconSpritePath_2x);
-  //     background-size: $iconSpritePath_2x_size;
-  //   } 
   // }
   // [class^="icon-bestfor-"],
   // [class*=" icon-bestfor-"] {
   //   background-image: url($iconSpritePath_2x); // if switched back to using svg for the standard image, delete this line.
   //   background-size: $iconSpritePath_2x_size; // if switched back to using svg for the standard image, delete this line.
-  //   .no-svg & { 
-  //     background-image: url($iconSpritePath_2x);
-  //     background-size: $iconSpritePath_2x_size;
-  //   }
   // }
   [class^="icon-ui-"],
   [class*=" icon-ui-"] {
     //DISABLED UNTIL WE HAVE RETINA VERSION background-image: url($iconSpritePath_2x); // if switched back to using svg for the standard image, delete this line.
     background-size: $iconSpritePath_2x_size; // if switched back to using svg for the standard image, delete this line.
-    .no-svg & { 
-      background-image: url($iconSpritePath_2x);
-      background-size: $iconSpritePath_2x_size;
-    }
   }
   [class^="icon-ui2-"],
   [class*=" icon-ui2-"] {
     //DISABLED UNTIL WE HAVE RETINA VERSION background-image: url($iconSpritePath_2x); // if switched back to using svg for the standard image, delete this line.
     background-size: $iconSpritePath_2x_size; // if switched back to using svg for the standard image, delete this line.
-    .no-svg & { 
-      // background-image: url($iconSpritePath_2x);
-      background-size: $iconSpritePath_2x_size;
-    }
   }
   // [class^="icon-uibig-"],
   // [class*=" icon-uibig-"] {
   //   //DISABLED UNTIL WE HAVE RETINA VERSION background-image: url($iconSpritePath_2x); // if switched back to using svg for the standard image, delete this line.
   //   background-size: $iconSpritePath_2x_size; // if switched back to using svg for the standard image, delete this line.
-  //   .no-svg & { 
-  //     background-image: url($iconSpritePath_2x);
-  //     background-size: $iconSpritePath_2x_size;
-  //   }
   // }
 
-  [class^="icon-flag-"],
-  [class*=" icon-flag-"],
-  [class^="icon-flagBig-"],
-  [class*=" icon-flagBig-"] {
+  [class^="sprite-flag-"],
+  [class*=" sprite-flag-"],
+  [class^="sprite-flagBig-"],
+  [class*=" sprite-flagBig-"] {
     background-image: url($flagSpritePath_2x);
     background-size: $flagSpritePath_2x_size;
   }
