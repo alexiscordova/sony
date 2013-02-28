@@ -891,6 +891,7 @@
     , removeBackdrop: function () {
         this.$backdrop.remove()
         this.$backdrop = null
+        $('body').off('touchmove.modal')
       }
 
     , backdrop: function (callback) {
@@ -905,6 +906,7 @@
 
           if (this.options.backdrop != 'static') {
             this.$backdrop.click($.proxy(this.hide, this))
+            $('body').on('touchmove.modal', false)
           }
 
           if (doAnimate) this.$backdrop[0].offsetWidth // force reflow

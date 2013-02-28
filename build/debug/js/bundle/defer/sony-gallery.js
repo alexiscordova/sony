@@ -103,14 +103,15 @@
     enable : function() {
       var self = this;
 
-
       // Trigger the resize event. Maybe they changed tabs, resized, then changed back.
-      self.onResize();
+      self.onResize( undefined, true );
 
       // Already enabled
       if ( self.enabled ) {
         return;
       }
+
+      self.enabled = true;
 
       // Enable shuffle, which triggers a layout update
       self.shuffle.enable();
@@ -122,8 +123,6 @@
       }
 
       self.$container.removeClass('disabled');
-
-      self.enabled = true;
 
       if ( self.hasCarousels ) {
         self.$carousels.scrollerModule('refresh');
@@ -1166,7 +1165,7 @@
       return self;
     },
 
-    onResize : function( isInit ) {
+    onResize : function( isInit, force ) {
       var self = this,
           windowWidth = self.$window.width(),
           windowHeight = self.$window.height(),
@@ -1176,7 +1175,7 @@
       isInit = isInit === true;
 
       // Return if the window hasn't changed sizes or the gallery is disabled
-      if ( !isInit && (!self.enabled || !hasWindowChanged) ) {
+      if ( !force && !isInit && (!self.enabled || !hasWindowChanged) ) {
         return;
       }
 

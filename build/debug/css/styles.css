@@ -3731,10 +3731,12 @@ input[type="submit"].btn.btn-mini {
   display: inline-block;
   width: 2.625em;
   height: 2.5em;
-  -webkit-box-shadow: 0 1px 0 #83838f;
-  box-shadow: 0 1px 0 #83838f;
+  -webkit-box-shadow: 0 1px 0 #bcbccc;
+  box-shadow: 0 1px 0 #bcbccc;
+  -webkit-transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
+  transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
 }
-/* line 20, ../../../src/css/scss/_base/_swatches.scss */
+/* line 25, ../../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:before,
 [class*=" swatch-"]:before, [class^="swatch-"]:after,
 [class*=" swatch-"]:after {
@@ -3743,13 +3745,13 @@ input[type="submit"].btn.btn-mini {
   -webkit-transition: opacity 0.2s ease-out;
   transition: opacity 0.2s ease-out;
 }
-/* line 27, ../../../src/css/scss/_base/_swatches.scss */
+/* line 32, ../../../src/css/scss/_base/_swatches.scss */
 .no-opacity [class^="swatch-"]:before,
 .no-opacity [class*=" swatch-"]:before, .no-opacity [class^="swatch-"]:after,
 .no-opacity [class*=" swatch-"]:after {
   display: none;
 }
-/* line 33, ../../../src/css/scss/_base/_swatches.scss */
+/* line 38, ../../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:before,
 [class*=" swatch-"]:before {
   content: '';
@@ -3762,7 +3764,7 @@ input[type="submit"].btn.btn-mini {
   border-radius: 50%;
   background: #3c3c42;
 }
-/* line 45, ../../../src/css/scss/_base/_swatches.scss */
+/* line 50, ../../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:after,
 [class*=" swatch-"]:after {
   top: 50%;
@@ -3771,25 +3773,25 @@ input[type="submit"].btn.btn-mini {
   margin-top: -0.5625em;
   color: white;
 }
-/* line 53, ../../../src/css/scss/_base/_swatches.scss */
+/* line 58, ../../../src/css/scss/_base/_swatches.scss */
 .active[class^="swatch-"],
 .active[class*=" swatch-"] {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 59, ../../../src/css/scss/_base/_swatches.scss */
+/* line 64, ../../../src/css/scss/_base/_swatches.scss */
 .active[class^="swatch-"]:before,
 .active[class*=" swatch-"]:before, .active[class^="swatch-"]:after,
 .active[class*=" swatch-"]:after {
   opacity: 1;
 }
-/* line 65, ../../../src/css/scss/_base/_swatches.scss */
+/* line 70, ../../../src/css/scss/_base/_swatches.scss */
 .no-opacity .active[class^="swatch-"]:before,
 .no-opacity .active[class*=" swatch-"]:before, .no-opacity .active[class^="swatch-"]:after,
 .no-opacity .active[class*=" swatch-"]:after {
   display: inline-block;
 }
-/* line 70, ../../../src/css/scss/_base/_swatches.scss */
+/* line 75, ../../../src/css/scss/_base/_swatches.scss */
 [disabled][class^="swatch-"],
 [disabled][class*=" swatch-"] {
   border: 1px solid #2f353d;
@@ -3799,40 +3801,40 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 80, ../../../src/css/scss/_base/_swatches.scss */
+/* line 85, ../../../src/css/scss/_base/_swatches.scss */
 [disabled][class^="swatch-"]:focus,
 [disabled][class*=" swatch-"]:focus, [disabled][class^="swatch-"]:hover,
 [disabled][class*=" swatch-"]:hover {
   cursor: auto;
 }
-/* line 85, ../../../src/css/scss/_base/_swatches.scss */
+/* line 90, ../../../src/css/scss/_base/_swatches.scss */
 .active[disabled][class^="swatch-"]:before,
 .active[disabled][class*=" swatch-"]:before {
   opacity: .15;
 }
-/* line 88, ../../../src/css/scss/_base/_swatches.scss */
+/* line 93, ../../../src/css/scss/_base/_swatches.scss */
 .active[disabled][class^="swatch-"]:after,
 .active[disabled][class*=" swatch-"]:after {
   opacity: .7;
 }
-/* line 93, ../../../src/css/scss/_base/_swatches.scss */
+/* line 98, ../../../src/css/scss/_base/_swatches.scss */
 .no-opacity [class^="swatch-"] .active[disabled]:before,
 .no-opacity [class*=" swatch-"] .active[disabled]:before, .no-opacity [class^="swatch-"] .active[disabled]:after,
 .no-opacity [class*=" swatch-"] .active[disabled]:after {
   display: none;
 }
 
-/* line 104, ../../../src/css/scss/_base/_swatches.scss */
+/* line 109, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > *:not(:last-child) {
   margin-right: 0.375em;
 }
 
-/* line 108, ../../../src/css/scss/_base/_swatches.scss */
+/* line 113, ../../../src/css/scss/_base/_swatches.scss */
 .filter-container [class*="swatch-"] {
   cursor: pointer;
 }
 
-/* line 126, ../../../src/css/scss/_base/_swatches.scss */
+/* line 131, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white,
 .swatch-yellow,
 .swatch-lemon {
@@ -3840,77 +3842,77 @@ input[type="submit"].btn.btn-mini {
   box-shadow: 0 1px 0 #d2d2db;
 }
 
-/* line 132, ../../../src/css/scss/_base/_swatches.scss */
+/* line 137, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-black {
   background-color: #1f2024;
 }
 
-/* line 133, ../../../src/css/scss/_base/_swatches.scss */
+/* line 138, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-yellow {
   background-color: #f0b938;
 }
 
-/* line 134, ../../../src/css/scss/_base/_swatches.scss */
+/* line 139, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-purple {
   background-color: #913f99;
 }
 
-/* line 135, ../../../src/css/scss/_base/_swatches.scss */
+/* line 140, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-teal {
   background-color: #31b0cc;
 }
 
-/* line 136, ../../../src/css/scss/_base/_swatches.scss */
+/* line 141, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white {
   background-color: white;
 }
 
-/* line 137, ../../../src/css/scss/_base/_swatches.scss */
+/* line 142, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-red {
   background-color: #c93434;
 }
 
-/* line 138, ../../../src/css/scss/_base/_swatches.scss */
+/* line 143, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-blue {
   background-color: #2763a3;
 }
 
-/* line 139, ../../../src/css/scss/_base/_swatches.scss */
+/* line 144, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-pink {
   background-color: #c3325f;
 }
 
-/* line 140, ../../../src/css/scss/_base/_swatches.scss */
+/* line 145, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-green {
   background-color: #8bc748;
 }
 
-/* line 141, ../../../src/css/scss/_base/_swatches.scss */
+/* line 146, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-orange {
   background-color: #e87533;
 }
 
-/* line 142, ../../../src/css/scss/_base/_swatches.scss */
+/* line 147, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-silver {
   background-color: #d2d2db;
 }
 
-/* line 143, ../../../src/css/scss/_base/_swatches.scss */
+/* line 148, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-lemon {
   background-color: #fffec9;
 }
 
-/* line 147, ../../../src/css/scss/_base/_swatches.scss */
+/* line 152, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch {
   margin-right: 0;
 }
 
-/* line 150, ../../../src/css/scss/_base/_swatches.scss */
+/* line 155, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch:not(:first-child) {
   margin-left: 0.125em;
 }
 
-/* line 154, ../../../src/css/scss/_base/_swatches.scss */
+/* line 159, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch {
   width: 0.75em;
   height: 0.75em;
@@ -3921,7 +3923,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 165, ../../../src/css/scss/_base/_swatches.scss */
+/* line 170, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch:before, .mini-swatch:after {
   content: none;
 }
