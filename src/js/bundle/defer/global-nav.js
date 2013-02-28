@@ -23,7 +23,7 @@
     self.mobileNavVisible = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
-    self.mouseLeaveDelay = 1000; // delay in ms
+    self.mouseLeaveDelay = 500; // delay in ms
     self.mouseleaveTimer = false;
 
     // we should make a bunch of this stuff global.
@@ -114,6 +114,18 @@
         self.resetMobileNav();
         $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
       }
+    
+    if ($('html').hasClass("touch")){
+
+       $('#page-wrap-outer').click(function(e){
+         if(!($(e.target).hasClass('navtray') && $(e.target).parents('navtray').length > 0) && !($(e.target).hasClass('nav') || $(e.target).parents('.nav').length > 0 )) {
+          $('.nav .nav-li a.active').trigger('touchstart');
+         }
+
+       });
+     }
+    
+    
     },
 
     initDesktopNav : function() {
@@ -276,7 +288,7 @@
               } else {
                 self.resetMouseleaveTimer();
               }
-            },25);
+            },50);
           });
         }
 
@@ -353,7 +365,7 @@
 
         if ($thNavTarget.hasClass('navtray-w')){
           self.slideNavTray($thNavTarget, false);
-        } else {
+        } else {  
           $('.navmenu-w-visible')
             .removeClass('navmenu-w-visible')
             .one(self.transitionEnd,function(){

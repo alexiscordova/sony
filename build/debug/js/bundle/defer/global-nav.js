@@ -23,7 +23,7 @@
     self.mobileNavVisible = false;
     self.mobileNavThreshold = 767;
     self.mobileFooterThreshold = 567;
-    self.mouseLeaveDelay = 1000; // delay in ms
+    self.mouseLeaveDelay = 500; // delay in ms
     self.mouseleaveTimer = false;
 
     // we should make a bunch of this stuff global.
@@ -114,6 +114,18 @@
         self.resetMobileNav();
         $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
       }
+    
+    if ($('html').hasClass("touch")){
+
+       $('#page-wrap-outer').click(function(e){
+         if(!($(e.target).hasClass('navtray') && $(e.target).parents('navtray').length > 0) && !($(e.target).hasClass('nav') || $(e.target).parents('.nav').length > 0 )) {
+          $('.nav .nav-li a.active').trigger('touchstart');
+         }
+
+       });
+     }
+    
+    
     },
 
     initDesktopNav : function() {
@@ -225,50 +237,7 @@
             }
           }); // end mouseenter
 
-         
-
-          $thNavBtnTarget.on('mouseenter focus', function() {
-            $(this).data('hovering',true);
-            self.resetMouseleaveTimer();
-          });
-
-          // Activate click for tab navigation
-         $thNavBtnTarget.find('a').on('focus', function() {
-            
-            var navTray = $(this).parents('.navtray-w,.navmenu-w'), 
-                navTrayId = $(navTray).attr('id');
-            
-            $(this).parents('.navtray-w').data('hovering',true);
-            $('a[data-target='+navTrayId+']').trigger('mouseenter');
-            
-            if (!($(navTray).hasClass('navtray-w-visible') || $(navTray).hasClass('navmenu-w-visible'))) {
-              $('a[data-target='+navTrayId+']').focus();
-            } 
-          });
-
-          // If you mouseOut of the target
-          $thNavBtnTarget.on('mouseleave', function() {
-         
-            $(this).data('hovering',false);
-           
-           // make the serach button fonctional in ie 7-8
-           if ($('html').hasClass('lt-ie9')){
-              $('.navmenu-w-search').removeClass('navmenu-w-visible').attr('style','opacity:0');
-            } 
-            
-            // Check to see if it was onto this target's button.
-            // Wait a few ticks to give it a chance for the hover to fire first.
-            setTimeout(function(){
-              // if you're not hovering over the target's button
-              if (!$thNavBtn.data('hovering')){
-                // shut it down.
-                self.startMouseleaveTimer( $thNavBtn );
-              } else {
-                self.resetMouseleaveTimer();
-              }
-            },25);
-          });
-           // If you mouseOut of the nav button
+          // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
             $(this).data('hovering',false);
             // Check to see if it was onto the navtray/navmenu.
@@ -282,6 +251,44 @@
                 self.resetMouseleaveTimer();
               }
             },25);
+          });
+
+          $thNavBtnTarget.on('mouseenter focus', function() {
+            $(this).data('hovering',true);
+            self.resetMouseleaveTimer();
+          });
+
+          // Activate click for tab navigation
+         $thNavBtnTarget.find('a').on('focus', function() {
+            
+            if ($('html').hasClass('lt-ie9')){
+             $('.navmenu-w-search').removeClass('navmenu-w-visible').attr('style','opacity:0');
+            } 
+            var navTray = $(this).parents('.navtray-w,.navmenu-w'), 
+                navTrayId = $(navTray).attr('id');
+            
+            $(this).parents('.navtray-w').data('hovering',true);
+            $('a[data-target='+navTrayId+']').trigger('mouseenter');
+            
+            if (!($(navTray).hasClass('navtray-w-visible') || $(navTray).hasClass('navmenu-w-visible'))) {
+              $('a[data-target='+navTrayId+']').focus();
+            } 
+          });
+
+          // If you mouseOut of the target
+          $thNavBtnTarget.on('mouseleave', function() {
+            $(this).data('hovering',false);
+            // Check to see if it was onto this target's button.
+            // Wait a few ticks to give it a chance for the hover to fire first.
+            setTimeout(function(){
+              // if you're not hovering over the target's button
+              if (!$thNavBtn.data('hovering')){
+                // shut it down.
+                self.startMouseleaveTimer( $thNavBtn );
+              } else {
+                self.resetMouseleaveTimer();
+              }
+            },50);
           });
         }
 
@@ -297,12 +304,14 @@
 
         // reset the button
         $thNavBtn.removeClass('active').parent().removeClass('nav-li-selected');
+
         // if there's a navTray/navMenu, reset it
         if ($thNavBtn.data('target').length){
           var $thNavTarget = $('.' + $thNavBtn.data('target'));
+
           if ($thNavTarget.hasClass('navtray-w')){
             self.setNavTrayContentNaturalFlow($thNavTarget, false);
-          } else {        
+          } else {
             $('.navmenu-w-visible')
               .removeClass('navmenu-w-visible')
               .one(self.transitionEnd,function(){
@@ -310,7 +319,6 @@
                 .css({'left':'','right':''})
                 .find('.reveal-transition-container').css('height','');
             });
-            
           }
         }
 
@@ -324,7 +332,6 @@
     },
 
     startMouseleaveTimer : function( $thNavBtn ) {
-    
       var self = this;
       if ($('mouseleaveTimerActive').length){
         self.resetMouseleaveTimer();
@@ -358,7 +365,7 @@
 
         if ($thNavTarget.hasClass('navtray-w')){
           self.slideNavTray($thNavTarget, false);
-        } else {
+        } else {  
           $('.navmenu-w-visible')
             .removeClass('navmenu-w-visible')
             .one(self.transitionEnd,function(){
@@ -377,6 +384,7 @@
         expandedHeight = $navTray.outerHeight();
 
       $navTray.data('expandedHeight',expandedHeight);
+
       if (opening){
         startHeight = '1px';
         endHeight = expandedHeight;
@@ -482,12 +490,10 @@
             setTimeout(function(){
               $thNavTarget.addClass('navmenu-w-visible');
               $revealContainer.height(expHeight);
- 
               $revealContainer.one(self.transitionEnd,function(){
                 $revealContainer.removeClass('transition-height');
                 setTimeout(function(){
                   $revealContainer.css('height','');
-
                 },1);
               });
             },1);
