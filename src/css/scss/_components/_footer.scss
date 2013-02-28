@@ -85,10 +85,8 @@ form.footer-store-locator-form{
   }
 }
 
-.footer-store-locator-caption{
-  font-size:$font_11_16;
+.footer-change-location-link{
   margin:7px 0 0 0;
-  color:$white;
 }
 
 .grid .footer-language.span6{
@@ -98,9 +96,9 @@ form.footer-store-locator-form{
 
 // pierre
 .lt-ie8 .footer-ex {
-      width: 100%;
-      padding-top: 50px;
-    }
+  width: 100%;
+  padding-top: 50px;
+}
 .footer-language-selectors{
   @include clearfix;
 }
@@ -128,41 +126,42 @@ form.footer-store-locator-form{
       position:relative;
       top:3px;
     }
-
-    &.footer-social-twitter {
-      i {
-        // left:1px;
-      }
-      &:hover, &:active, &:focus, &.active{
-        background-color:$twitterColor;        
-      }
-    }
-    &.footer-social-facebook {
-      i {
-        // left:1px;
-      }
-      &:hover, &:active, &:focus, &.active{
-        background-color:$facebookColor;        
-      }
-    }
-    &.footer-social-gplus {
-      i{
-        // left:-1px;
-      }
-      &:hover, &:active, &:focus, &.active{
-        background-color:$gplusColor;        
-      }
-    }
-    &.footer-social-youtube {
-      i{
-        // top:2px;
-      }
-      &:hover, &:active, &:focus, &.active{
-        background-color:$youtubeColor;        
-      }
-    }
   }
 }
+
+a.footer-social-twitter {
+  i {
+    // left:1px;
+  }
+  &:hover, &:active, &:focus, &.active{
+    background-color:$twitterColor;        
+  }
+}
+a.footer-social-facebook {
+  i {
+    // left:1px;
+  }
+  &:hover, &:active, &:focus, &.active{
+    background-color:$facebookColor;        
+  }
+}
+a.footer-social-gplus {
+  i{
+    // left:-1px;
+  }
+  &:hover, &:active, &:focus, &.active{
+    background-color:$gplusColor;        
+  }
+}
+a.footer-social-youtube {
+  i{
+    // top:2px;
+  }
+  &:hover, &:active, &:focus, &.active{
+    background-color:$youtubeColor;        
+  }
+}
+
 
 .footer-signature{
   position:relative
@@ -353,13 +352,9 @@ form.footer-store-locator-form{
     line-height:1.5;
   }
 }
-.footer-link-li{
-  // line-height: 1;
-  // padding-bottom: 5px;
-  // padding-top: 4px;
-  a{
-    font-size:$font_13_16;
-  }
+.footer-link-li a,
+.footer-change-location-link{
+  font-size:$font_13_16;
 }
 
 .footer-wrapper .footer-store-locator{
