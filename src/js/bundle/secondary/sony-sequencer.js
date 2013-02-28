@@ -35,7 +35,7 @@
     t.timer = -1;
   }
 
-  Sequencer.prototype.add = function(s , m , d , a) {
+  Sequencer.prototype.add = function( s , m , d , p ) {
     var t = this;
     if( t.queue === null ) { t.queue = [];}
     t.queue.push({ scope: s, method: m, throttle: d, args: a });

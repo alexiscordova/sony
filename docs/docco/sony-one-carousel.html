@@ -411,7 +411,6 @@ if their interaction time and movements are below certain thresholds.</p>       
       },
 
       setPosition: <span class="keyword">function</span>(posi) {
-
         window.iQ.update();
 
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -487,11 +486,12 @@ if their interaction time and movements are below certain thresholds.</p>       
           self.$containerInner.css( animObj );
 
 </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>IQ Update</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$containerInner.one(self.transitionEndName, <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>window.iQ.update();</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.ev.trigger(<span class="string">'socOnUpdateNav'</span>);
+            window.iQ.update();
+            self.ev.trigger(<span class="string">'socOnUpdateNav'</span>);
           });
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>update the overall position</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.sPosition = self.currRenderPosition = newPos;
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>update the overall position</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.sPosition = self.currRenderPosition = newPos;
 
 
       },
@@ -534,7 +534,7 @@ if their interaction time and movements are below certain thresholds.</p>       
           <span class="keyword">break</span>;
 
           <span class="keyword">case</span> <span class="string">'tablet'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>get all the spans off and add</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$tabletSlides
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>get all the spans off and add</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$tabletSlides
                 .find(itemSelector)
                 .removeClass(allSpans)
                 .filter(oneUp).addClass(<span class="string">'span6'</span>)
@@ -545,7 +545,7 @@ if their interaction time and movements are below certain thresholds.</p>       
           <span class="keyword">break</span>;
 
           <span class="keyword">case</span> <span class="string">'mobile'</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>something entirely different here</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$mobileSlides
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>something entirely different here</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$mobileSlides
                 .find(itemSelector)
                 .removeClass(allSpans)
                 .addClass(<span class="string">'span12'</span>);
@@ -616,11 +616,11 @@ if their interaction time and movements are below certain thresholds.</p>       
           <span class="keyword">break</span>;
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <ol>
 <li>grab all of the gallery items</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$galleryItems = self.$el.find(<span class="string">'.soc-item'</span>).detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <ol>
 <li>remove the slides from desktop / mobile</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$tabletSlides.remove();
         self.$mobileSlides.remove();
@@ -672,11 +672,11 @@ if their interaction time and movements are below certain thresholds.</p>       
           <span class="keyword">break</span>;
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <ol>
 <li>grab all of the gallery items</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$galleryItems = self.$el.find(<span class="string">'.soc-item'</span>).detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <ol>
 <li>remove the slides from desktop / mobile</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$desktopSlides.remove();
         self.$mobileSlides.remove();
@@ -747,11 +747,11 @@ if their interaction time and movements are below certain thresholds.</p>       
 
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <ol>
 <li>grab the gallery items</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$galleryItems = self.$el.find(<span class="string">'.soc-item'</span>).detach();
 
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <ol>
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <ol>
 <li>remove the slides from desktop / tablet</li>
 </ol>             </td>             <td class="code">               <div class="highlight"><pre>        self.$desktopSlides.remove();
         self.$tabletSlides.remove();
@@ -857,13 +857,13 @@ if their interaction time and movements are below certain thresholds.</p>       
       onPaddleNavUpdate: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>check for the left paddle compatibility</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === <span class="number">0</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>check for the left paddle compatibility</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === <span class="number">0</span>){
           self.$leftPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeOut(<span class="number">100</span>);
         }<span class="keyword">else</span>{
           self.$leftPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">200</span>);
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>check for right paddle compatiblity</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === self.numSlides - <span class="number">1</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>check for right paddle compatiblity</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.currentId === self.numSlides - <span class="number">1</span>){
           self.$rightPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeOut(<span class="number">100</span>);
         }<span class="keyword">else</span>{
           self.$rightPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">200</span>);
@@ -937,7 +937,7 @@ if their interaction time and movements are below certain thresholds.</p>       
           });
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>make sure it updates position based on current slide index</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.moveTo(<span class="literal">true</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>make sure it updates position based on current slide index</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.moveTo(<span class="literal">true</span>);
       },
 
       m: <span class="keyword">function</span>(xpos){
@@ -965,7 +965,7 @@ if their interaction time and movements are below certain thresholds.</p>       
         <span class="keyword">var</span> self   = $(<span class="keyword">this</span>),
         moduleName = self.data( <span class="string">'sonyOneCarousel'</span> );
 
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>If we don't have a stored sonyOneCarousel, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !moduleName ) {
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>If we don't have a stored sonyOneCarousel, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !moduleName ) {
             moduleName = <span class="keyword">new</span> SonyOneCarousel( self, options );
             self.data( <span class="string">'sonyOneCarousel'</span>, moduleName );
         }
