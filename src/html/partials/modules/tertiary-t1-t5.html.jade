@@ -23,29 +23,31 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
   .loader
     img(src="img/global/loader.gif")
 
-  section.tcc-scroller.tcc-body-wrapper.container.full-bleed-at-767
-    .tcc-body.grid.no-grid-at-767
-    
+  - scrollerClassNames = ["tcc-scroller", "tcc-body-wrapper", "container", "tcc-full-bleed-at-979"]
+  - bodyClassNames = ["tcc-body","grid"]
+
+  section(class=scrollerClassNames)
+    div(class=bodyClassNames)
       for module in data.contentModules
-        - classNames = ["tcc-content-module","span4","table-center-wrap"]
+        - contentModulesClassNames = ["tcc-content-module","span4","table-center-wrap"]
 
         for variation in module.variations
           - contentType = variation.contentType
           - contentMode = variation.contentMode
-          - classNames.push(contentMode, contentType)
+          - contentModulesClassNames.push(contentMode, contentType)
 
           if(contentMode == "featured") && (module.imgSrc)
             - backgroundImg = module.imgSrc
-            - classNames.push("iq-img")
+            - contentModulesClassNames.push("iq-img")
           else
             - backgroundImg = null         
 
-        div(class=classNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode, data-src= backgroundImg)
+        div(class=contentModulesClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode, data-src= backgroundImg)
           case contentType
             when "article"
               if(contentMode == "featured") && (module.title) && (module.imgSrc)
                 article
-                 .feature-copy
+                 .feature-copy.light-text-dark-box
                     p.t5-light #{module.title}
                     p.lt3
                       a(href="#{module.articleLink}") Read More

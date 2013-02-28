@@ -186,6 +186,7 @@ leading edge, instead of the trailing.</p>
   },
 
   updateImages = <span class="keyword">function</span>( imagesWereAdded ) {
+    console.log(<span class="string">'updatecalled'</span>);
     loadImages(<span class="literal">false</span>, imagesWereAdded === <span class="literal">true</span> );
   },
 
@@ -542,7 +543,7 @@ event handling system.</p>             </td>             <td class="code">      
 </pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>Force a certain device pixel ratio, used more so for debugging purposes.</p>             </td>             <td class="code">               <div class="highlight"><pre>    devicePixelRatio = opts.forcePixelRatio;
   }
 
-  iQ.update = updateImages;
+  iQ.update = debounce(updateImages, throttleSpeed);
 
 </pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>DOM does not need to be ready to begin the network connection speed test.</p>             </td>             <td class="code">               <div class="highlight"><pre>  initSpeedTest();
 

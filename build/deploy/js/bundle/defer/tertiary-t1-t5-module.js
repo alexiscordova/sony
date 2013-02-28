@@ -277,7 +277,7 @@
       setContentModuleSizes : function(){     
         var self         = this,
         containerSize    = Math.round(self.$el.outerWidth()), // no margins 
-        headerLRMargin   = self.getHorizontalMargins(self.$tccHeaderWrapper),
+        headerLRMargin   = self.getHorizontalMargins(self.$tccHeader),
         eachContentWidth = null,
         $elements        = self.$contentModules;
 

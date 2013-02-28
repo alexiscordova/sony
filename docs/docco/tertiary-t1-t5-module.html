@@ -221,7 +221,7 @@ self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';</p>   
 </pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>every resize event (debounced) determine size of each content module </p>             </td>             <td class="code">               <div class="highlight"><pre>      setContentModuleSizes : <span class="keyword">function</span>(){     
         <span class="keyword">var</span> self         = <span class="keyword">this</span>,
         containerSize    = Math.round(self.$el.outerWidth()), <span class="comment">// no margins </span>
-        headerLRMargin   = self.getHorizontalMargins(self.$tccHeaderWrapper),
+        headerLRMargin   = self.getHorizontalMargins(self.$tccHeader),
         eachContentWidth = <span class="literal">null</span>,
         $elements        = self.$contentModules;
 

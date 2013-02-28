@@ -9,16 +9,10 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-$tcc-body-height-3up:350px;//375px;
-$tcc-content-module-height-3up:350px;//375px;
-$tcc-body-wrapper-padding-desktop:30px 0 0 0;
-$tcc-header-padding-bottom-desktop:20px;
-$tcc-wrapper-padding-desktop:60px 0 98px 0;//76px 0 64px 0;
+$tcc-content-module-height:350px;
 $tcc-header-padding-bottom-desktop:20px;
 $users-voice-padding-bottom-desktop:15px;
 $users-voice-padding-left-right-desktop:px-em(40px);
-$users-voice-padding-desktop:30px px-em(40px) $users-voice-padding-bottom-desktop $users-voice-padding-left-right-desktop;
-$sonys-voice-padding-bottom:11px;
 $tenPercentInstaFlickr: percentage(10px/316px);
 $fivePercentInstaFlickr: percentage(5px/316px);
 
@@ -37,7 +31,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 //                            888                                                                 
 //                            888                                                                 
 
-
 .tcc-wrapper{
 	height:580px;
 	position: relative;
@@ -46,7 +39,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
   text-align: center;
   background-color:$gray80;
   margin:0; // for the module since it can be placed anywhere on the page. 
-  padding:$tcc-wrapper-padding-desktop;
+  padding:60px 0 98px 0;
 
   .nav-paddles{
   	position: absolute;
@@ -85,7 +78,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		position: relative;
 		text-align: center;
 		z-index: 1;	
-		padding:$tcc-body-wrapper-padding-desktop;
+		padding:30px 0 0 0;
 	} // end .tcc-body-wrapper
 	
 	.tcc-copy{
@@ -134,25 +127,24 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 	.tcc-body{
 		display:inline-block;	
-		height:$tcc-body-height-3up; // need to set the same height for all cases because absolute position in mobile
+		height:$tcc-content-module-height;
 	} // end .tcc-body
 
 	.tcc-content-module{
-		height:$tcc-content-module-height-3up;
+		height:$tcc-content-module-height;
 		position: relative;
 		overflow: hidden;
 		
-		// IE9 and BELOW
-		.lt-ie10 & {
-    	height:350px; 
-    } // END IE9 and BELOW
+		// // IE9 and BELOW
+		// .lt-ie10 & {
+  //   	height:350px; 
+  //   } // END IE9 and BELOW
 
 		// IE8 and BELOW
 		.lt-ie9 & {
     	max-width:370px; 
     } // END IE8 and BELOW
 
-	
 		&:hover{
 			cursor: pointer;
 		} // end .tcc-content-module:hover;
@@ -308,7 +300,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	    	.t5-light{
           height:60px;
           overflow:hidden;
-	    		color:$gray50;
+	    		// color:$gray50;
 	    	} // end .t4
 
    	  } // end .feature-copy
@@ -324,7 +316,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		&.user-quote,
 		&.expert-quote{
-		  padding:$users-voice-padding-desktop;
+		  padding:30px px-em(40px) $users-voice-padding-bottom-desktop $users-voice-padding-left-right-desktop;
 
 		  .credits{
 		    position:absolute;
@@ -446,7 +438,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 	// TYPE: SONYS VOICE
 	.sonys-voice{
-		padding:0px px-em(20px) $sonys-voice-padding-bottom px-em(20px);
+		padding:0px px-em(20px) 11px px-em(20px);
 
     .center-content{
       height:252px;

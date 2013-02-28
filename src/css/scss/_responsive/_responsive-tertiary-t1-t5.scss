@@ -2,20 +2,9 @@
 // Responsive: Tertiary Content Container
 // --------------------------------------------------
 
-$tcc-body-height-1up:198px;
-$tcc-content-module-height-1up:198px;
-
-$tcc-wrapper-padding-phone:35px 0 50px 0;
-
-$tcc-header-padding-bottom-phone:20px;
-
-$tcc-body-wrapper-padding-phone:20px 0 0 0;
-
-$users-voice-padding-bottom-phone:23px;
-
-$users-voice-padding-left-right-phone:px-em(25px);
-
-$users-voice-padding-phone:30px px-em(40px) $users-voice-padding-bottom-phone $users-voice-padding-left-right-phone;
+$two-up-breakpoint-max:px-em(979px); //767px;
+$two-up-breakpoint-min:px-em(480px);
+$one-up-breakpoint-max:px-em(479px);
 
 $tenPercentInstaFlickr: percentage(10px/316px);
 $fivePercentInstaFlickr: percentage(5px/316px);
@@ -29,29 +18,20 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 // 888"              Y88b 888 888 d88P 
 // 888888888          "Y88888 88888P"  
 //                            888      
-//                            888      
-@media (min-width: px-em(480px)) and (max-width: px-em(767px)) {
+//                            888     
+//                             
+@media (min-width: $two-up-breakpoint-min) and (max-width: $two-up-breakpoint-max) {
   .tcc-wrapper{
-
-    .no-grid-at-767 [class*="span"]{
-      float:left;
-      width:200px;
-    } // end .no-grid-at-767
+    
+    .tcc-full-bleed-at-979{
+      width:auto;
+    }
 
     .article{     
-
       .feature-copy{
         width: 100%;  
       } // &.feature-copy
-
     } // end .article
-    
-    &.featured{
-      .no-grid-at-767 [class*="span"]{          
-        width:100%;
-      } // end .no-grid-at-767
-      
-    } // end &.featured
 
     .sonys-voice{     
       &.instagram{
@@ -169,14 +149,20 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 // 8888888        "Y88888 88888P"  
 //                        888      
 //                        888      
-//                        888      
+//                        888    
+//                          
 // ONE UP LANDSCAPE PHONE AND BELOW -- 480px
-@media (max-width: px-em(479px)) {
+@media (max-width: $one-up-breakpoint-max) {
   .tcc-wrapper{
-    padding:$tcc-wrapper-padding-phone;
+    padding:35px 0 50px 0;
+
+    .tcc-full-bleed-at-979{
+      width:auto;
+    } // end .tcc-full-bleed-at-979
+  
 
     .tcc-header{
-      padding-bottom: $tcc-header-padding-bottom-phone;
+      padding-bottom: 20px;
       text-align: left;
 
       .tcc-header-title{
@@ -194,31 +180,21 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
     } // end .tcc-header
 
-    .tcc-body-wrapper{
-      padding:$tcc-body-wrapper-padding-phone;
 
-      .no-grid-at-767 [class*="span"]{
-        float:left;
-        width:342px; // DESKTOP >480
-      } // end .grid
+    .tcc-body-wrapper{
+      padding:20px 0 0 0;
   
       .tcc-body{
-        //@include debug(1px, red);
-        height:$tcc-body-height-1up; // need to set the same height for all cases because absolute position in mobile
+        height:198px; 
       } // end .tcc-body
 
       .tcc-content-module{
-        //@include debug(1px, green);
-        height:$tcc-content-module-height-1up;
+        height:198px;
       } // tcc-content-module
 
     } // end .tcc-body-wrapper
 
     .article{
-      .no-grid-at-767 [class*="span"]{
-        height:auto;
-      } // end .grid
-
       .p4{
         display:none; // body copy mobile
       } // end p4
@@ -258,8 +234,8 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
         .credits{
           position:absolute;
-          bottom:$users-voice-padding-bottom-phone;
-          left:$users-voice-padding-left-right-phone;
+          bottom:23px;
+          left:px-em(25px);
 
           .avatar{
             margin-bottom:10px;
