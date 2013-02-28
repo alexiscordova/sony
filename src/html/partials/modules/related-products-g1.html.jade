@@ -92,6 +92,7 @@ else if data.config.standalone == true
           for module in data.submodules
             d = locals.data(module.data)
             - d.layout = document[data.config.layout][i++]
+            - d.view = 'suggested'
             e = { 'locals' : locals , 'data' : d }
             !{locals.partial('modules/'+module.type , e )}
 
