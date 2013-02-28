@@ -22,54 +22,65 @@
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>INITS &amp; CACHED SELECTORS</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$win                    = SONY.$window;
-      self.isTouch                 = SONY.Settings.hasTouchEvents;
-      self.isLayoutHidden          = <span class="literal">false</span>;
-      self.isInit                  = <span class="literal">true</span>;
-      self.mode                    = <span class="literal">null</span>;
-      self.prevMode                = <span class="literal">null</span>;
-      self.$scrollerInstance       = <span class="literal">null</span>;              
-
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>SELECTORS</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container              = $( element );
-      self.$el                     = self.$container.find(<span class="string">".tcc-scroller"</span>);
-      self.containerId             = <span class="string">'#'</span> + self.$container.attr(<span class="string">"id"</span>);
-      self.contentModulesClass     = <span class="string">'.tcc-content-module'</span>;
-      self.contentSelectorClass    = <span class="string">'.tcc-body'</span>;
-      self.$tccHeaderWrapper       = self.$container.find(<span class="string">'.tcc-header-wrapper'</span>);
-      self.$tccHeader              = self.$tccHeaderWrapper.find(<span class="string">".tcc-header"</span>);
-      self.$tccBodyWrapper         = self.$el;
-      self.$tccBody                = self.$tccBodyWrapper.find(self.contentSelectorClass);
-      self.$contentModules         = self.$el.find(self.contentModulesClass);
-      self.$hideShowEls            = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);      
-      self.$loader                 = self.$container.find(<span class="string">".loader"</span>);
-
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>EVENTS</p>             </td>             <td class="code">               <div class="highlight"><pre>      
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>namespaced versions of the global event </p>             </td>             <td class="code">               <div class="highlight"><pre>      self.tccNamespace            = <span class="string">'.tcc'</span>;
-      self.debounceBeforeEvent     = <span class="string">'global:resizeDebouncedAtBegin-200ms'</span> + self.tccNamespace; 
-      self.debounceEvent           = <span class="string">'global:resizeDebounced-200ms'</span> + self.tccNamespace;
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>INITS, SELECTORS</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$win                           = SONY.$window;
+      self.isTouch                        = SONY.Settings.hasTouchEvents;
+      self.isLayoutHidden                 = <span class="literal">false</span>;
+      self.isInit                         = <span class="literal">true</span>;
+      self.mode                           = <span class="literal">null</span>;
+      self.prevMode                       = <span class="literal">null</span>;
+      self.$scrollerInstance              = <span class="literal">null</span>;              
       
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>method calls within self content</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.beforeResizeFunc        = $.proxy( self.beforeResize, self ); 
-      self.afterResizeFunc         = $.proxy( self.afterResize, self );
-     
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>TIMING</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.afterResizeSpeed        = <span class="number">200</span>;
-      self.setupSpeed              = <span class="number">200</span>;
-      self.teardownSpeed           = <span class="number">50</span>;
-      self.hideAllSpeed            = <span class="number">50</span>;
-      self.showAllSpeed            = <span class="number">200</span>;
-      self.animationSpeed          = <span class="number">200</span>;
-     
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>BREAKPOINTS</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.phoneBreakpoint         = <span class="number">479</span>;
-      self.tabletBreakpointMin     = self.phoneBreakpoint + <span class="number">1</span>;
-      self.tabletBreakpointMax     = <span class="number">768</span>;
-
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>GRID &amp; SPACING</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.marginPercent          = Number(<span class="string">'.0334'</span>); <span class="comment">// 22/650 (at 2-up)</span>
-      self.paddingPerContent      = <span class="number">20</span>;
-     
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>register listener for global debounce to call method <strong>before</strong> debounce begins</p>             </td>             <td class="code">               <div class="highlight"><pre>      SONY.on(self.debounceBeforeEvent, self.beforeResizeFunc);
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>SCROLLER CLASSES</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.contentModulesClass            = <span class="string">'.tcc-content-module'</span>;
+      self.contentSelectorClass           = <span class="string">'.tcc-body'</span>;
+      self.desktopClasses                 = <span class="string">'span4'</span>;
       
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>register listener for global debounce to call method <strong>after</strong> debounce begins</p>             </td>             <td class="code">               <div class="highlight"><pre>      SONY.on(self.debounceEvent, self.afterResizeFunc);
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>SELECTORS</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container                     = $( element );
+      self.$el                            = self.$container.find(<span class="string">".tcc-scroller"</span>);
+      self.containerId                    = <span class="string">'#'</span> + self.$container.attr(<span class="string">"id"</span>);
+      self.$tccHeaderWrapper              = self.$container.find(<span class="string">'.tcc-header-wrapper'</span>);
+      self.$tccHeader                     = self.$tccHeaderWrapper.find(<span class="string">".tcc-header"</span>);
+      self.$tccBodyWrapper                = self.$el;
+      self.$tccBody                       = self.$tccBodyWrapper.find(self.contentSelectorClass);
+      self.$contentModules                = self.$el.find(self.contentModulesClass);
+      self.$hideShowEls                   = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);      
+      self.$loader                        = self.$container.find(<span class="string">".loader"</span>);
+      
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>EVENTS <br />
+Namespaced versions of global events </p>             </td>             <td class="code">               <div class="highlight"><pre>      self.tccNamespace                   = <span class="string">'.tcc'</span>;
+      self.debounceBeforeEvent            = <span class="string">'global:resizeDebouncedAtBegin-200ms'</span> + self.tccNamespace; 
+      self.debounceEvent                  = <span class="string">'global:resizeDebounced-200ms'</span> + self.tccNamespace;
+      
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>PROXY CALLS</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.beforeResizeFunc               = $.proxy( self.beforeResize, self ); 
+      self.afterResizeFunc                = $.proxy( self.afterResize, self );
+      
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>TIMING</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.afterResizeSpeed               = <span class="number">200</span>;
+      self.setupSpeed                     = <span class="number">200</span>;
+      self.teardownSpeed                  = <span class="number">50</span>;
+      self.hideAllSpeed                   = <span class="number">50</span>;
+      self.showAllSpeed                   = <span class="number">200</span>;
+      self.animationSpeed                 = <span class="number">200</span>;
+      
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>BREAKPOINT CONSTANTS</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.SONY_TCC_PHONE_BREAKPOINT      = <span class="number">479</span>;
+      self.SONY_TCC_TABLET_BREAKPOINT_MIN = <span class="number">480</span>;
+      self.SONY_TCC_TABLET_BREAKPOINT_MAX = <span class="number">979</span>; <span class="comment">// 767</span>
+      
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>TODO: remove these if not needed anymore
+Breakpoints in pixels
+self.phoneBreakpointPx           = self.SONY<em>TCC</em>PHONE<em>BREAKPOINT + "px";
+self.tabletBreakpointMinPx       = self.SONY</em>TCC<em>TABLET</em>BREAKPOINT<em>MIN + "px";
+self.tabletBreakpointMaxPx       = self.SONY</em>TCC<em>TABLET</em>BREAKPOINT_MAX + "px"; </p>             </td>             <td class="code">               <div class="highlight"><pre>      
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Breakpoints in ems</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.phoneBreakpointEm              = SONY.Utilities.pxToEm(self.SONY_TCC_PHONE_BREAKPOINT);
+      self.tabletBreakpointMinEm          = SONY.Utilities.pxToEm(self.SONY_TCC_TABLET_BREAKPOINT_MIN); 
+      self.tabletBreakpointMaxEm          = SONY.Utilities.pxToEm(self.SONY_TCC_TABLET_BREAKPOINT_MAX); 
+      
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>GRID &amp; SPACING</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.marginPercent                  = Number(<span class="string">'.034'</span>); <span class="comment">// 22/650 (at 2-up)</span>
+      self.contentInnerMargin             = <span class="number">20</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>self.paddingPerContent            = 20;</p>             </td>             <td class="code">               <div class="highlight"><pre>     
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>register listener for global debounce to call method <strong>before</strong> debounce begins</p>             </td>             <td class="code">               <div class="highlight"><pre>      SONY.on(self.debounceBeforeEvent, self.beforeResizeFunc);
+      
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>register listener for global debounce to call method <strong>after</strong> debounce begins</p>             </td>             <td class="code">               <div class="highlight"><pre>      SONY.on(self.debounceEvent, self.afterResizeFunc);
     
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>start it all</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>start it all</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
     };
 
     TertiaryModule.prototype = {
@@ -81,190 +92,200 @@
 
         self.setMode();
     
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>if screen size is in mobile (tablet, phone) mode then create a scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.mode !== <span class="string">'desktop'</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>if screen size is in mobile (tablet, phone) mode then create a scroller</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.mode !== <span class="string">'desktop'</span>){
           self.setup();
         }
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>controller for scroller setup</p>             </td>             <td class="code">               <div class="highlight"><pre>      setup : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>controller for scroller setup</p>             </td>             <td class="code">               <div class="highlight"><pre>      setup : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self      = <span class="keyword">this</span>,
             setupSequence = <span class="keyword">new</span> Sequencer();
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>define order of events via sequencer        </p>             </td>             <td class="code">               <div class="highlight"><pre>                        
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>set content module sizes        </p>             </td>             <td class="code">               <div class="highlight"><pre>        setupSequence.add( self, self.setContentModuleSizes, self.setupSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>remove desktop spans if there are any</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.$contentModules.hasClass(self.desktopClasses)){
+          setupSequence.add( self, self.removeDesktopClasses, self.setupSpeed);
+        }
+                        
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>set content module sizes        </p>             </td>             <td class="code">               <div class="highlight"><pre>        setupSequence.add( self, self.setContentModuleSizes, self.setupSpeed ); 
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>set scroller &amp; iscroll options</p>             </td>             <td class="code">               <div class="highlight"><pre>        setupSequence.add( self, self.setScrollerOptions, self.setupSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>set scroller &amp; iscroll options</p>             </td>             <td class="code">               <div class="highlight"><pre>        setupSequence.add( self, self.setScrollerOptions, self.setupSpeed ); 
 
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>create scroller instance</p>             </td>             <td class="code">               <div class="highlight"><pre>        setupSequence.add( self, self.createScroller, self.setupSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>create scroller instance</p>             </td>             <td class="code">               <div class="highlight"><pre>        setupSequence.add( self, self.createScroller, self.setupSpeed ); 
 
-        <span class="keyword">if</span>(self.mode === <span class="string">'tablet'</span>){
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>adjusts margins after content modules are absolute positioned</p>             </td>             <td class="code">               <div class="highlight"><pre>          setupSequence.add( self, self.adjustPositionForMargins, self.setupSpeed ); 
+        <span class="keyword">if</span>(self.mode === <span class="string">"tablet"</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>adjusts margins after content modules are absolute positioned</p>             </td>             <td class="code">               <div class="highlight"><pre>          setupSequence.add( self, self.adjustPositionForMargins, self.setupSpeed ); 
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>show the elements if they've beenh hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.isLayoutHidden){
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>show contents again after transition</p>             </td>             <td class="code">               <div class="highlight"><pre>          setupSequence.add( self, self.showAll, self.setupSpeed);       
+
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>show the elements if they've beenh hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.isLayoutHidden){
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>show contents again after transition</p>             </td>             <td class="code">               <div class="highlight"><pre>          setupSequence.add( self, self.showAll, self.setupSpeed);       
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        setupSequence.start();
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        setupSequence.start();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>teardown controller</p>             </td>             <td class="code">               <div class="highlight"><pre>      teardown : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>teardown controller</p>             </td>             <td class="code">               <div class="highlight"><pre>      teardown : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self         = <span class="keyword">this</span>,
         teardownSequence = <span class="keyword">new</span> Sequencer();
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>teardown sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>((self.mode === <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode != <span class="string">'desktop'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>for desktop clear out width</p>             </td>             <td class="code">               <div class="highlight"><pre>          teardownSequence.add( self, self.clearContentWidth, self.teardownSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>teardown sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>((self.mode === <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode != <span class="string">'desktop'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>for desktop clear out width</p>             </td>             <td class="code">               <div class="highlight"><pre>          teardownSequence.add( self, self.clearContentWidth, self.teardownSpeed ); 
         }
         
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>destroy scroller instance</p>             </td>             <td class="code">               <div class="highlight"><pre>        teardownSequence.add( self, self.destroyScroller, self.teardownSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>destroy scroller instance</p>             </td>             <td class="code">               <div class="highlight"><pre>        teardownSequence.add( self, self.destroyScroller, self.teardownSpeed ); 
        
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        teardownSequence.start();
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>if we're going from "mobile" to desktop then add grid spans back in</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>((self.mode === <span class="string">"desktop"</span>) &amp;&amp; (self.prevMode !== <span class="string">"desktop"</span>)){
+          teardownSequence.add( self, self.addDesktopClasses, self.setupSpeed);
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        teardownSequence.start();
       },
       
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Hide scroller content for transition   </p>             </td>             <td class="code">               <div class="highlight"><pre>      hideAll : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>Hide scroller content for transition   </p>             </td>             <td class="code">               <div class="highlight"><pre>      hideAll : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         <span class="keyword">var</span> hideSequence = <span class="keyword">new</span> Sequencer();
         
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>hide elements</p>             </td>             <td class="code">               <div class="highlight"><pre>        hideSequence.add( self, self.hideElements, self.hideAllSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>hide elements</p>             </td>             <td class="code">               <div class="highlight"><pre>        hideSequence.add( self, self.hideElements, self.hideAllSpeed ); 
         
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>show loader</p>             </td>             <td class="code">               <div class="highlight"><pre>        hideSequence.add( self, self.showLoader, self.hideAllSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>show loader</p>             </td>             <td class="code">               <div class="highlight"><pre>        hideSequence.add( self, self.showLoader, self.hideAllSpeed ); 
                
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        hideSequence.start();
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        hideSequence.start();
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>console.log( 'hideAll done »');</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>console.log( 'hideAll done »');</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
 
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>Show scroller content after transition</p>             </td>             <td class="code">               <div class="highlight"><pre>      showAll : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>Show scroller content after transition</p>             </td>             <td class="code">               <div class="highlight"><pre>      showAll : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
         <span class="keyword">var</span> showSequence = <span class="keyword">new</span> Sequencer();
         
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>hide loader</p>             </td>             <td class="code">               <div class="highlight"><pre>        showSequence.add( self, self.hideLoader, self.showAllSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>hide loader</p>             </td>             <td class="code">               <div class="highlight"><pre>        showSequence.add( self, self.hideLoader, self.showAllSpeed ); 
 
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>show elements after resize is done                </p>             </td>             <td class="code">               <div class="highlight"><pre>        showSequence.add( self, self.showElements, self.showAllSpeed ); 
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>show elements after resize is done                </p>             </td>             <td class="code">               <div class="highlight"><pre>        showSequence.add( self, self.showElements, self.showAllSpeed ); 
         
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        showSequence.start();
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        showSequence.start();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>show loading animation layer</p>             </td>             <td class="code">               <div class="highlight"><pre>      showLoader : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>show loading animation layer</p>             </td>             <td class="code">               <div class="highlight"><pre>      showLoader : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         self.$loader.show();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>hide loading animation layer</p>             </td>             <td class="code">               <div class="highlight"><pre>      hideLoader : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>hide loading animation layer</p>             </td>             <td class="code">               <div class="highlight"><pre>      hideLoader : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         self.$loader.hide();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>hide $elements: opacity &amp; visibility </p>             </td>             <td class="code">               <div class="highlight"><pre>      hideElements : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>adds grid classes back in</p>             </td>             <td class="code">               <div class="highlight"><pre>      addDesktopClasses : <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        self.$contentModules.addClass(self.desktopClasses);
+      },
+
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>takes out grid-specific classes (scroller is out of grid)</p>             </td>             <td class="code">               <div class="highlight"><pre>      removeDesktopClasses : <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+        self.$contentModules.removeClass(self.desktopClasses);
+      },
+
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>hide $elements: opacity &amp; visibility </p>             </td>             <td class="code">               <div class="highlight"><pre>      hideElements : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self  = <span class="keyword">this</span>,
         $els = self.$hideShowEls;
        
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>hide content modules </p>             </td>             <td class="code">               <div class="highlight"><pre>        $els.css({
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>hide content modules </p>             </td>             <td class="code">               <div class="highlight"><pre>        $els.css({
           <span class="string">'opacity'</span> : <span class="number">0</span>,
           <span class="string">'visibility'</span> : <span class="string">'hidden'</span>
         });
 
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>set bool once it's done</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.isLayoutHidden = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>set bool once it's done</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.isLayoutHidden = <span class="literal">true</span>;
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>show $els: opacity &amp; visibility </p>             </td>             <td class="code">               <div class="highlight"><pre>      showElements : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>show $els: opacity &amp; visibility </p>             </td>             <td class="code">               <div class="highlight"><pre>      showElements : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             $els = self.$hideShowEls;
         
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>TODO: expand this out</p>             </td>             <td class="code">               <div class="highlight"><pre>        $els.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">1</span> },{ duration: self.animationSpeed , complete: <span class="keyword">function</span>(){$els.css({<span class="string">"visibility"</span>:<span class="string">"visible"</span>});}});
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>TODO: expand this out</p>             </td>             <td class="code">               <div class="highlight"><pre>        $els.stop(<span class="literal">true</span>,<span class="literal">true</span>).animate({ opacity: <span class="number">1</span> },{ duration: self.animationSpeed , complete: <span class="keyword">function</span>(){$els.css({<span class="string">"visibility"</span>:<span class="string">"visible"</span>});}});
         
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>set bool once it's done</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.isLayoutHidden = <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>set bool once it's done</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.isLayoutHidden = <span class="literal">false</span>;
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>instantiate a scroller </p>             </td>             <td class="code">               <div class="highlight"><pre>      createScroller : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>instantiate a scroller </p>             </td>             <td class="code">               <div class="highlight"><pre>      createScroller : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self=<span class="keyword">this</span>;
         self.$scrollerInstance = self.$el.scrollerModule( self.scrollerOptions );
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>destroy scroller if not in mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>      destroyScroller : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>destroy scroller if not in mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>      destroyScroller : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self  = <span class="keyword">this</span>;
       
         self.$scrollerInstance.scrollerModule(<span class="string">'destroy'</span>);
         self.$scrollerInstance = <span class="literal">null</span>;
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>clean up residual style elements after teardown</p>             </td>             <td class="code">               <div class="highlight"><pre>      clearContentWidth : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>clean up residual style elements after teardown</p>             </td>             <td class="code">               <div class="highlight"><pre>      clearContentWidth : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self  = <span class="keyword">this</span>;
   
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>clear out content module widths to be responsive</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$contentModules.css(<span class="string">'width'</span>,<span class="string">''</span>); 
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>clear out content module widths to be responsive</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$contentModules.css(<span class="string">'width'</span>,<span class="string">''</span>); 
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>set scroller options to be passed to sony-scroller
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>set scroller options to be passed to sony-scroller
 based on current mode </p>             </td>             <td class="code">               <div class="highlight"><pre>      setScrollerOptions : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
        
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>all general settings are set as default options      </p>             </td>             <td class="code">               <div class="highlight"><pre>        self.scrollerOptions = self.options;
+</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>all general settings are set as default options      </p>             </td>             <td class="code">               <div class="highlight"><pre>        self.scrollerOptions = self.options;
        
-</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>now that we know mode, add it as option.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.scrollerOptions.fitPerPage = self.mode === <span class="string">'phone'</span> ? <span class="number">1</span> : <span class="number">2</span>; 
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>now that we know mode, add it as option.</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.scrollerOptions.fitPerPage = self.mode === <span class="string">'phone'</span> ? <span class="number">1</span> : <span class="number">2</span>; 
 
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>if it is a touch device, do not use paddle navigation only use swipe </p>             </td>             <td class="code">               <div class="highlight"><pre>        self.scrollerOptions.generateNav = !(self.isTouch);
-
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>TODO: determine why passing this into scroller was casusing issues
-when more than one scroller instance was on the page 
-bullets would get appended to last instance and oddly 
-not respecting encapsulation
-self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';</p>             </td>             <td class="code">               <div class="highlight"><pre>      },
-
-</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>determine left and right margin total </p>             </td>             <td class="code">               <div class="highlight"><pre>      getHorizontalMargins : <span class="keyword">function</span>( selector ){
-        <span class="keyword">var</span> self = <span class="keyword">this</span>,
-            $el  = selector;
-      
-</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>outer width with margins subtracted by width without margins = margins</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span> Math.round(Number($el.outerWidth(<span class="literal">true</span>) - $el.outerWidth()));
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>if it is a touch device, do not use paddle navigation only use swipe </p>             </td>             <td class="code">               <div class="highlight"><pre>        self.scrollerOptions.generateNav = !(self.isTouch);
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>every resize event (debounced) determine size of each content module </p>             </td>             <td class="code">               <div class="highlight"><pre>      setContentModuleSizes : <span class="keyword">function</span>(){     
-        <span class="keyword">var</span> self         = <span class="keyword">this</span>,
-        containerSize    = Math.round(self.$el.outerWidth()), <span class="comment">// no margins </span>
-        headerLRMargin   = self.getHorizontalMargins(self.$tccHeader),
-        eachContentWidth = <span class="literal">null</span>,
-        $elements        = self.$contentModules;
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>determine left and right margin total </p>             </td>             <td class="code">               <div class="highlight"><pre>      getHorizontalMargins : <span class="keyword">function</span>( $selector ){     
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>outer width with margins subtracted by width without margins = margins</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">return</span> Math.round(Number($selector.outerWidth(<span class="literal">true</span>) - $selector.outerWidth()));
+      },
 
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>should only ever be "mobile"</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>((self.mode === <span class="string">'tablet'</span>) || (self.mode === <span class="string">'phone'</span>)){          
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>accounts for margins in container widths to support full-bleed</p>             </td>             <td class="code">               <div class="highlight"><pre>          eachContentWidth = containerSize - headerLRMargin;
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>on every (debounced) resize event determine size of each content module </p>             </td>             <td class="code">               <div class="highlight"><pre>      
+      setContentModuleSizes : <span class="keyword">function</span>(){     
+        <span class="keyword">var</span> self               = <span class="keyword">this</span>,
+        $elements              = self.$contentModules,
+        eachContentWidth       = Math.round(self.$tccHeader.innerWidth()); <span class="comment">// no margins </span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>tablet is 2-up and split evenly
+and also "padding" is added between the two
+which is really narrowing the content mod's width a bit 
+and compensating for the width change by adjusting the left position 
+accomplished in self.adjustPositionForMargins() </p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.mode === <span class="string">'tablet'</span>){  
+           eachContentWidth = Math.round((eachContentWidth / <span class="number">2</span>) - (self.contentInnerMargin / <span class="number">2</span>));
+        }
         
-</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>tablet is 2-up not 1-up, so split evenly</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.mode === <span class="string">'tablet'</span>){
-             
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>accounts for margins in between the two content modules (set after scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>             eachContentWidth = Math.round((eachContentWidth / <span class="number">2</span>) - (headerLRMargin/<span class="number">2</span>));
-
-          }<span class="keyword">else</span>{
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>assumes self.mode = 'phone'</p>             </td>             <td class="code">               <div class="highlight"><pre>                        
-</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>check if we need to set width of specific children elements also</p>             </td>             <td class="code">               <div class="highlight"><pre>            $elements = self.addDynamicWidthElements( $elements );
-          }
-
+</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>phone is 1-up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.mode === <span class="string">'phone'</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <p>eachContentWidth's default is "100%" of the available space
+so no changes are needed for 1-up</p>             </td>             <td class="code">               <div class="highlight"><pre>          
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>check if we need to set width of specific children elements</p>             </td>             <td class="code">               <div class="highlight"><pre>          $elements = self.addDynamicWidthElements( $elements );
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>set each width</p>             </td>             <td class="code">               <div class="highlight"><pre>        $elements.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>set each content module's width</p>             </td>             <td class="code">               <div class="highlight"><pre>        $elements.each(<span class="keyword">function</span>() {
           $(<span class="keyword">this</span>).innerWidth(eachContentWidth);
         });
       },
-      
-</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <ol>
+
+</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <ol>
 <li>Checks each $element in $elements for its content type and mode (type:mode)</li>
 <li>If there is a match, then it adds that $element to selector group
 <em>@param {jquery obj} $elements</em> [current set of element objects]
 <em>returns $elements</em> {jquery obj} [new group of element objects]</li>
-</ol>             </td>             <td class="code">               <div class="highlight"><pre>      addDynamicWidthElements : <span class="keyword">function</span>( $elements ){
+</ol>             </td>             <td class="code">               <div class="highlight"><pre>      
+</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>TOOD: Optimize this so it only runs if the data attributes exist 
+instead of hitting each() automatically</p>             </td>             <td class="code">               <div class="highlight"><pre>      addDynamicWidthElements : <span class="keyword">function</span>( $elements ){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
       
-</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <p>loop through the content modules</p>             </td>             <td class="code">               <div class="highlight"><pre>        $elements.each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>loop through the content modules</p>             </td>             <td class="code">               <div class="highlight"><pre>        $elements.each(<span class="keyword">function</span>() {
           <span class="keyword">var</span> $el = $(<span class="keyword">this</span>),
               modeType = $el.data(<span class="string">"tcc-content-type"</span>) + <span class="string">':'</span> + $el.data(<span class="string">"tcc-content-mode"</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-67">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-67">&#182;</a>               </div>               <p>only these two "mode:type" content modules should get added   </p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>((modeType === <span class="string">'flickr:default'</span>) || (modeType === <span class="string">'sonys-voice:instagram'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-68">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-68">&#182;</a>               </div>               <p>add ".center-content" child to the objects that will get width set</p>             </td>             <td class="code">               <div class="highlight"><pre>            $elements = $elements.add($el.find(<span class="string">".center-content"</span>));
+</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>only these two "mode:type" content modules should get added   </p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>((modeType === <span class="string">'flickr:default'</span>) || (modeType === <span class="string">'sonys-voice:instagram'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>add ".center-content" child to the objects that will get width set</p>             </td>             <td class="code">               <div class="highlight"><pre>            $elements = $elements.add($el.find(<span class="string">".center-content"</span>));
           }
         });
 
         <span class="keyword">return</span> $elements;
       },
 
-      
       <span class="comment">/**
        * Get availble container width from header (because it's still in the grid)
        * For each content module, adjust current left position to accomodate new margins on resize
@@ -273,7 +294,7 @@ self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';</p>   
        */</span>
       adjustPositionForMargins : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self       = <span class="keyword">this</span>,
-        headerLRMargin = self.getHorizontalMargins(self.$tccHeaderWrapper),
+        headerLeftRightMargins = self.contentInnerMargin,<span class="comment">//self.getHorizontalMargins(self.$tccHeader),</span>
         $content, newLeft, contentPosition, contentLeft;
 
         self.$contentModules.each(<span class="keyword">function</span>(i) {
@@ -282,16 +303,15 @@ self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';</p>   
           contentLeft = Number(contentPosition.left); <span class="comment">// content module left position</span>
           
           <span class="keyword">if</span>((i === <span class="number">0</span>) || (i === <span class="number">2</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-69">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-69">&#182;</a>               </div>               <p>first / last content module move left</p>             </td>             <td class="code">               <div class="highlight"><pre>            newLeft = Math.round(Number(contentLeft - (headerLRMargin/<span class="number">2</span>)));
+</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>first / last content module move left</p>             </td>             <td class="code">               <div class="highlight"><pre>            newLeft = Math.round(Number(contentLeft - (headerLeftRightMargins/<span class="number">2</span>)));
           }<span class="keyword">else</span>{
-</pre></div>             </td>           </tr>                               <tr id="section-70">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-70">&#182;</a>               </div>               <p>second content module move right</p>             </td>             <td class="code">               <div class="highlight"><pre>            newLeft = Math.round(Number(contentLeft + (headerLRMargin/<span class="number">2</span>)));
+</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>second content module move right</p>             </td>             <td class="code">               <div class="highlight"><pre>            newLeft = Math.round(Number(contentLeft + (headerLeftRightMargins/<span class="number">2</span>)));
           }
 
-</pre></div>             </td>           </tr>                               <tr id="section-71">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-71">&#182;</a>               </div>               <p>set new left position</p>             </td>             <td class="code">               <div class="highlight"><pre>          $content.offset({left:newLeft});
+</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>set new left position</p>             </td>             <td class="code">               <div class="highlight"><pre>          $content.offset({left:newLeft});
  
         });
       },
-
 
       <span class="comment">/**
        * if resize is not going from desktop to desktop then hide elements for rebuild.
@@ -304,57 +324,57 @@ self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';</p>   
       beforeResize : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-72">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-72">&#182;</a>               </div>               <p>TODO: if needed, hide on init and desktop to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>if (((self.mode === 'desktop') &amp;&amp; (self.prevMode != 'desktop')) || ((self.mode != 'desktop') &amp;&amp; (self.prevMode === 'desktop')) || ((self.mode != 'desktop') &amp;&amp; (self.prevMode != 'desktop'))){         </p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (!((self.mode === <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode === <span class="string">'desktop'</span>))){ 
-</pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>trigger hide sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.hideAll();            
+</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>TODO: if needed, hide on init and desktop to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>if (((self.mode === 'desktop') &amp;&amp; (self.prevMode != 'desktop')) || ((self.mode != 'desktop') &amp;&amp; (self.prevMode === 'desktop')) || ((self.mode != 'desktop') &amp;&amp; (self.prevMode != 'desktop'))){         </p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (!((self.mode === <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode === <span class="string">'desktop'</span>))){ 
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>trigger hide sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.hideAll();            
         }              
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-75">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-75">&#182;</a>               </div>               <p>on resize event (debounced) determine what to do</p>             </td>             <td class="code">               <div class="highlight"><pre>      afterResize : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>on resize event (debounced) determine what to do</p>             </td>             <td class="code">               <div class="highlight"><pre>      afterResize : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
             resizeMobileSequencer = <span class="keyword">new</span> Sequencer();
 
-</pre></div>             </td>           </tr>                               <tr id="section-76">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-76">&#182;</a>               </div>               <p>update mode at current break point</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setMode(); 
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>update mode at current break point</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setMode(); 
 
-</pre></div>             </td>           </tr>                               <tr id="section-77">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-77">&#182;</a>               </div>               <p>what direction are we going?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>((self.mode != <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode === <span class="string">'desktop'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>from desktop to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>          
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>build new (assumes there's no scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>          resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed );
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>what direction are we going?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>((self.mode != <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode === <span class="string">'desktop'</span>)){
+</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>from desktop to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>          
+</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>build new (assumes there's no scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>          resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed );
         }<span class="keyword">else</span> <span class="keyword">if</span> ((self.mode != <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode != <span class="string">'desktop'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>from mobile to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>teardown </p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.$scrollerInstance){
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>from mobile to mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>teardown </p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.$scrollerInstance){
             resizeMobileSequencer.add( self, self.teardown, self.afterResizeSpeed );
           }
 
-</pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>build new scroller instance (assumes there's no scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>          resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed);
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>build new scroller instance (assumes there's no scroller instance)</p>             </td>             <td class="code">               <div class="highlight"><pre>          resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed);
         }<span class="keyword">else</span> <span class="keyword">if</span>((self.mode === <span class="string">'desktop'</span>) &amp;&amp; (self.prevMode != <span class="string">'desktop'</span>)){
-</pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>from mobile to desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>          
-</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>teardown </p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.$scrollerInstance){
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>from mobile to desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>          
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>teardown </p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>(self.$scrollerInstance){
             resizeMobileSequencer.add( self, self.teardown, self.afterResizeSpeed );
           }
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>show the elements again</p>             </td>             <td class="code">               <div class="highlight"><pre>        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed );
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>show the elements again</p>             </td>             <td class="code">               <div class="highlight"><pre>        resizeMobileSequencer.add( self, self.showAll, self.afterResizeSpeed );
 
-</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        resizeMobileSequencer.start();
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>start sequence</p>             </td>             <td class="code">               <div class="highlight"><pre>        resizeMobileSequencer.start();
       },
 
-</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>set mode based on current breakpoint</p>             </td>             <td class="code">               <div class="highlight"><pre>      setMode : <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>set mode based on current breakpoint</p>             </td>             <td class="code">               <div class="highlight"><pre>      setMode : <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
         
-</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>archive current mode to use in directional situations
+</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>archive current mode to use in directional situations
 ex. desktop entering mobile (phone or desktop)
 ex. mobile entering desktop </p>             </td>             <td class="code">               <div class="highlight"><pre>        self.prevMode = self.mode; 
 
-        <span class="keyword">if</span>( Modernizr.mq(<span class="string">'(max-width:'</span>+ self.phoneBreakpoint+<span class="string">'px)'</span>) ){
+        <span class="keyword">if</span>( Modernizr.mq(<span class="string">'(max-width:'</span>+ self.phoneBreakpointEm + <span class="string">')'</span>) ){
           self.mode = <span class="string">'phone'</span>;
-        }<span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width:'</span> + self.tabletBreakpointMin + <span class="string">'px) and (max-width:'</span> + self.tabletBreakpointMax + <span class="string">'px)'</span>) ) {
+        }<span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width:'</span> + self.tabletBreakpointMinEm + <span class="string">') and (max-width:'</span> + self.tabletBreakpointMaxEm + <span class="string">')'</span>) ) {
           self.mode = <span class="string">'tablet'</span>;
         }<span class="keyword">else</span>{
           self.mode = <span class="string">'desktop'</span>;
         }
 
         <span class="keyword">if</span>(self.prevMode === <span class="literal">null</span>){
-</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>handle init</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.prevMode = self.mode;
+</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>handle init</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.prevMode = self.mode;
         }
       },
 
@@ -369,14 +389,13 @@ ex. mobile entering desktop </p>             </td>             <td class="code">
 
     };
    
-
-</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.tertiaryModule = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.tertiaryModule = <span class="keyword">function</span>( options ) {
       <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           tertiaryModule = self.data(<span class="string">'tertiaryModule'</span>);
     
-</pre></div>             </td>           </tr>                               <tr id="section-91">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-91">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !tertiaryModule ) {
+</pre></div>             </td>           </tr>                               <tr id="section-95">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-95">&#182;</a>               </div>               <p>If we don't have a stored tertiaryModule, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !tertiaryModule ) {
             tertiaryModule = <span class="keyword">new</span> TertiaryModule( self, options );
             self.data( <span class="string">'tertiaryModule'</span>, tertiaryModule );
         }
@@ -387,7 +406,7 @@ ex. mobile entering desktop </p>             </td>             <td class="code">
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-92">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-92">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.tertiaryModule.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-96">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-96">&#182;</a>               </div>               <p>Defaults options for the module</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.tertiaryModule.defaults = {
       options : {
         contentSelector: <span class="string">".tcc-body"</span>, 
         itemElementSelector: <span class="string">".tcc-content-module"</span>, 
@@ -404,10 +423,10 @@ ex. mobile entering desktop </p>             </td>             <td class="code">
       }
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-93">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-93">&#182;</a>               </div>               <p>wait to init until all js has loaded.      </p>             </td>             <td class="code">               <div class="highlight"><pre>    SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-97">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-97">&#182;</a>               </div>               <p>wait to init until all js has loaded.      </p>             </td>             <td class="code">               <div class="highlight"><pre>    SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
       <span class="keyword">var</span> isIE = $(<span class="string">"html"</span>).hasClass(<span class="string">"lt-ie10"</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-94">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-94">&#182;</a>               </div>               <p>do not enable scroller features if in IE     </p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(!isIE){
+</pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>do not enable scroller features if in IE     </p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(!isIE){
         $(<span class="string">'.tcc-wrapper'</span>).each(<span class="keyword">function</span>() {
           $(<span class="keyword">this</span>).tertiaryModule({}).data(<span class="string">'tertiaryModule'</span>);
         });
