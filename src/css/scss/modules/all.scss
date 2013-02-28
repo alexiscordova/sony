@@ -440,15 +440,17 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 }
 
+// Add a nice slide in
+// For IE, don't use filters for opacity
 .detail-labels-wrapping {
   @include translate(-0.625em, 0);
-  @include opacity(0);
+  opacity: 0;
   -webkit-transition: opacity $transitionNormal $easeNormal .1s, -webkit-transform $transitionNormal $easeNormal .1s;
           transition: opacity $transitionNormal $easeNormal .1s, transform $transitionNormal $easeNormal .1s;
 
   &.complete {
     @include translate(0, 0);
-    @include opacity(100);
+    opacity: 1;
   }
 }
 

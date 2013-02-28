@@ -198,7 +198,6 @@
   },
 
   updateImages = function( imagesWereAdded ) {
-    console.log('updatecalled');
     loadImages(false, imagesWereAdded === true );
   },
 

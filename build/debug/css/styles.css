@@ -5736,6 +5736,43 @@ button.close {
   -webkit-appearance: none;
 }
 
+/* line 35, ../../../src/css/scss/_base/_close.scss */
+.box-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 2.6875em;
+  height: 2.5em;
+  padding: 0;
+  line-height: 1;
+  background: #83838f;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+/* line 49, ../../../src/css/scss/_base/_close.scss */
+.box-close:hover {
+  background: #2f353d;
+}
+/* line 53, ../../../src/css/scss/_base/_close.scss */
+.box-close i {
+  color: white;
+}
+
+/* line 61, ../../../src/css/scss/_base/_close.scss */
+.box-close-small {
+  width: 1.4375em;
+  height: 1.4375em;
+  top: 0;
+}
+/* line 66, ../../../src/css/scss/_base/_close.scss */
+.box-close-small i {
+  line-height: 18px;
+}
+
 /* line 10, ../../../src/css/scss/_components/_navs.scss */
 .nav {
   z-index: 100;
@@ -7042,24 +7079,25 @@ body.modal-open {
 /* line 77, ../../../src/css/scss/_components/_modals.scss */
 .modal-inner {
   position: relative;
+  width: 100%;
   overflow: auto;
   background-color: white;
   -webkit-box-shadow: 0 0 1.875em rgba(39, 43, 55, 0.15);
   box-shadow: 0 0 1.875em rgba(39, 43, 55, 0.15);
 }
 
-/* line 85, ../../../src/css/scss/_components/_modals.scss */
+/* line 86, ../../../src/css/scss/_components/_modals.scss */
 .modal-body {
   overflow-y: auto;
   padding: 2.5em;
 }
 
-/* line 90, ../../../src/css/scss/_components/_modals.scss */
+/* line 91, ../../../src/css/scss/_components/_modals.scss */
 .modal-form {
   margin-bottom: 0;
 }
 
-/* line 95, ../../../src/css/scss/_components/_modals.scss */
+/* line 96, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer {
   padding: 14px 15px 15px;
   margin-bottom: 0;
@@ -7081,54 +7119,17 @@ body.modal-open {
 .modal-footer:after {
   clear: both;
 }
-/* line 106, ../../../src/css/scss/_components/_modals.scss */
+/* line 107, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer .btn + .btn {
   margin-left: 5px;
   margin-bottom: 0;
 }
-/* line 111, ../../../src/css/scss/_components/_modals.scss */
+/* line 112, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
 }
 
-/* line 116, ../../../src/css/scss/_components/_modals.scss */
-.box-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: block;
-  width: 2.6875em;
-  height: 2.5em;
-  padding: 0;
-  line-height: 1;
-  background: #83838f;
-  border: none;
-  text-align: center;
-  cursor: pointer;
-  -webkit-transition: 0.2s ease-out;
-  transition: 0.2s ease-out;
-}
-/* line 130, ../../../src/css/scss/_components/_modals.scss */
-.box-close:hover {
-  background: #2f353d;
-}
-/* line 134, ../../../src/css/scss/_components/_modals.scss */
-.box-close i {
-  color: white;
-}
-
-/* line 141, ../../../src/css/scss/_components/_modals.scss */
-.box-close-small {
-  width: 1.4375em;
-  height: 1.4375em;
-  top: 0;
-}
-/* line 146, ../../../src/css/scss/_components/_modals.scss */
-.box-close-small i {
-  line-height: 18px;
-}
-
-/* line 151, ../../../src/css/scss/_components/_modals.scss */
+/* line 117, ../../../src/css/scss/_components/_modals.scss */
 .takeover {
   top: 0;
   left: 0;
@@ -7137,41 +7138,41 @@ body.modal-open {
   height: 100%;
   border: none;
 }
-/* line 160, ../../../src/css/scss/_components/_modals.scss */
+/* line 126, ../../../src/css/scss/_components/_modals.scss */
 .takeover.native-scrolling {
   overflow-x: hidden;
   overflow-y: auto;
 }
-/* line 165, ../../../src/css/scss/_components/_modals.scss */
+/* line 131, ../../../src/css/scss/_components/_modals.scss */
 .takeover.fade.in {
   top: 0;
 }
-/* line 167, ../../../src/css/scss/_components/_modals.scss */
+/* line 133, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-inner {
   overflow: visible;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 172, ../../../src/css/scss/_components/_modals.scss */
+/* line 138, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header {
   position: relative;
   padding: 4.375em 0 1.875em;
   border: none;
 }
-/* line 177, ../../../src/css/scss/_components/_modals.scss */
+/* line 143, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header .box-close {
   top: 1.25em;
 }
-/* line 181, ../../../src/css/scss/_components/_modals.scss */
+/* line 147, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header h3 {
   margin-top: -8px;
 }
-/* line 188, ../../../src/css/scss/_components/_modals.scss */
+/* line 154, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header > button,
 .takeover .modal-header > .sort-options {
   margin: 0 0 0 8px;
 }
-/* line 192, ../../../src/css/scss/_components/_modals.scss */
+/* line 158, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-body {
   overflow-y: visible;
   max-height: none;

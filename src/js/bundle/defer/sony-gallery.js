@@ -1476,6 +1476,7 @@
     onCompareShown : function() {
       var self = this;
 
+      self.isCompareToolOpen = true;
       self.stickyTriggerPoint = self.getCompareStickyTriggerPoint();
 
       // Set a margin-left on the compare items wrap
@@ -1597,6 +1598,8 @@
       if ( self.$compareTool.data('galleryId') !== self.id ) {
         return;
       }
+
+      self.isCompareToolOpen = false;
 
       // Delete the id from memory
       self.$compareTool.removeData('galleryId');
@@ -1743,6 +1746,11 @@
           $resetBtn,
           $sorter,
           snap;
+
+      // If we somehow got here and the compare tool is closed, return
+      if ( !self.isCompareToolOpen ) {
+        return;
+      }
 
       // Phone = sticky header
       if ( Modernizr.mq('(max-width: 47.9375em)') ) {
@@ -2378,9 +2386,10 @@
     hasEnabledCarousels: false,
     hasSorterMoved: false,
     sorted: false,
+    isCompareToolOpen: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
-    isUsingOuterScroller: !SONY.Settings.isAndroid,
+    isUsingOuterScroller: !(SONY.Settings.isAndroid || SONY.Settings.isLTIE9),
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
