@@ -1544,7 +1544,6 @@
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           self.$paddles.show();
-          self.$el.find('.rp-nav').show();
 
         }
       },

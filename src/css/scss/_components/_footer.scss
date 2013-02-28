@@ -49,7 +49,10 @@
   border-style:solid;
   padding:px-em(6px);
   overflow:hidden;
-
+  .lt-ie8 &{
+    overflow: visible;
+    padding: 0.5em 0.5em 0.7em 0.5em;
+  }
   .footer-input{
     border:none;
     height:27px;
@@ -97,12 +100,21 @@ form.footer-store-locator-form{
   margin-left:0;
   float:left;
 }
+
+// pierre
+.lt-ie8 .footer-ex {
+      width: 100%;
+      padding-top: 50px;
+    }
 .footer-language-selectors{
   @include clearfix;
 }
 .footer-social-links{
   display:inline-block;
-
+  // pierre
+  .lt-ie8 &{
+    float: left;
+  }
   a{
     display:inline-block;
     width: px-em(36px);
@@ -206,6 +218,38 @@ form.footer-store-locator-form{
     }
     .dropdown-hover-menu{
       @include el-hidden(right); // so it's right-justified.
+    }
+  }
+  // pierre
+  .lt-ie8 & div.btn.dropdown-hover-toggle {
+      width: 210px;
+    }
+  .lt-ie8 &.language-selector  {
+      margin-left: 3px;
+      width: 60px;
+      a.dropdown-hover-toggle {
+        width: 30px;
+        margin-top: 1px;
+        display: block;
+        line-height: 1.65em;
+        border-left: 3px solid transparent;
+       }
+      &:hover .dropdown-hover-menu,
+      &:active .dropdown-hover-menu,
+      &:focus .dropdown-hover-menu{
+        left: auto;
+        opacity: 1;
+        right: 0;
+        visibility: visible;         
+      }
+    }
+    
+  .lt-ie8  &.language-selector{
+     .dropdown-hover-menu{
+      @include el-hidden(left); // so it's left-justified.
+      bottom: 35px;
+      border-bottom: 3px solid transparent;
+      right: 0;
     }
   }
   .dropdown-hover-menu-lists-w{
