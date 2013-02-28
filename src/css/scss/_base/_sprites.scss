@@ -3,191 +3,37 @@
 // --------------------------------------------------
 
 
-
 // -----
-// All icons receive the styles of the %icon base class and are
+// All icons receive the styles of the %sprite base class and are
 // then given a unique class to add width, height, and
 // background-position. Your resulting HTML will look like
-// <i class="icon-ui-inbox
+// <i class="sprite-32a-sony-logo">
 
 
-%icon {
+%sprite {
   display: inline-block;
   @include ie7-restore-right-whitespace();
   line-height: 15px;
   vertical-align: text-top;
   background-repeat: no-repeat;
+  background-image: url($spritePath);
 }
-
-
-[class^="sprite-"],
-[class*=" sprite-"],
-[class^="icon-"],
-[class*=" icon-"]{
-  @extend %icon;
-}
-
-// I'm breaking these out because we're going to have to have separate spritesheets for the different kinds of sprites/icons or the retina sized spritesheets get too big.
-// So while they all point to the same spritesheet right now, they probably won't later, and this will make it easier to change them.
-// If you update them, don't forget to update the _retina versions as well (in _retina.scss)
 
 [class^="sprite-"],
 [class*=" sprite-"]{
-  // background-image: url($iconSpritePath);
-  background-image: url($iconSpritePathFallback);
-  .no-svg & { background-image: url($iconSpritePathFallback); }
-}
-[class^="icon-tab-"],
-[class*=" icon-tab-"]{
-  // background-image: url($iconSpritePath);
-  background-image: url($iconSpritePathFallback);
-  .no-svg & { background-image: url($iconSpritePathFallback); }
-}
-[class^="icon-bestfor-"],
-[class*=" icon-bestfor-"] {
-  // background-image: url($iconSpritePath);
-  background-image: url($iconSpritePathFallback);
-  .no-svg & { background-image: url($iconSpritePathFallback); }
-}
-[class^="icon-ui-"],
-[class*=" icon-ui-"] {
-  // background-image: url($iconSpritePath);
-  background-image: url($iconSpritePathFallback);
-  .no-svg & { background-image: url($iconSpritePathFallback); }
-}
-[class^="icon-ui2-"],
-[class*=" icon-ui2-"] {
-  // background-image: url($iconSpritePath);
-  background-image: url($iconSpritePathFallback);
-  .no-svg & { background-image: url($iconSpritePathFallback); }
-}
-[class^="icon-uibig-"],
-[class*=" icon-uibig-"] {
-  // background-image: url($iconSpritePath);
-  background-image: url($iconSpritePathFallback);
-  .no-svg & { background-image: url($iconSpritePathFallback); }
-}
-[class^="icon-flag-"],
-[class*=" icon-flag-"],
-[class^="icon-flagBig-"],
-[class*=" icon-flagBig-"] {
-  background-image: url($flagSpritePath);
-}
-[class^="icon-flag-"],
-[class*=" icon-flag-"]{
-  @include size(11px,14px);
-  margin-right:11px;
-  margin-top:4px;
-}
-[class^="icon-flagBig-"],
-[class*=" icon-flagBig-"]{
-  @include size(15px,22px);
-  margin-top: 2px;
-  margin-right: 10px;
+  @extend %sprite;
 }
 
-@include icon-tab(laptop,       0,      33px, 24px);
-@include icon-tab(tablet,       -60px,  20px, 26px);
-@include icon-tab(memory-stick, -90px,  16px, 21px);
-@include icon-tab(tv,           -120px, 35px, 26px);
-@include icon-tab(projector,    -180px, 38px, 18px);
-@include icon-tab(water-drop,   -240px, 15px, 20px);
-@include icon-tab(mic,          -270px, 11px, 27px);
-@include icon-tab(dongle,       -300px, 14px, 27px);
-@include icon-tab(cd,           -330px, 27px, 26px);
-@include icon-tab(handycam,     -360px, 36px, 22px);
-@include icon-tab(video-camera, -420px, 38px, 28px);
-@include icon-tab(grid,         -480px, 27px, 27px);
-@include icon-tab(grid-alt,     -510px, 27px, 27px);
-@include icon-tab(headphones,   -540px, 27px, 27px);
-@include icon-tab(earbuds,      -570px, 45px, 24px);
-@include icon-tab(earclips,     -630px, 17px, 28px);
-@include icon-tab(neckphones,   -660px, 45px, 19px);
-@include icon-tab(camera,       -720px, 43px, 26px);
 
 
-@include icon-bestfor(running,    0,      30px,   28px);
-@include icon-bestfor(mic,        -30px,  12px,   30px);
-@include icon-bestfor(snowboard,  -60px,  30px,   30px);
-
-
-
-
-//  ----------------------------------------------  x-pos,    width,  height, hasHover, hasActive, activeIsHover, iconTrigger, margin
-@include icon-ui(favorite,                          0px,      16px,   14px,   true,    true,   false,   true);
-@include icon-ui(cart,                              -30px,    17px,   14px);
-@include icon-ui(search,                            -60px,    15px,   13px,   false);
-@include icon-ui(arrowhead-down-gray,               -90px,    8px,    4px);
-@include icon-ui(arrowhead-up-gray,                 -120px,   8px,    4px);
-@include icon-ui(arrowhead-down-white,              -150px,   8px,    4px);
-@include icon-ui(arrowhead-up-white,                -180px,   8px,    4px);
-@include icon-ui(arrowhead-down-blue,               -210px,   8px,    4px);
-@include icon-ui(plus-bold,                         -240px,   14px,   14px);
-@include icon-ui(arrow-right-white,                 -270px,   11px,   8px);
-@include icon-ui(arrow-right-blue,                  -300px,   11px,   8px);
-@include icon-ui(grid-sm,                           -330px,   13px,   13px);
-@include icon-ui(star,                              -360px,   13px,   13px,   false,    true);
-@include icon-ui(starhalf,                          -390px,   13px,   13px,   false,    true);
-@include icon-ui(arrowheads-up-down-gray,           -420px,   8px,    11px);
-@include icon-ui(plus-tiny-boxed,                   -450px,   14px,   14px);
-@include icon-ui(plus-skinny,                       -480px,   16px,   16px);
-@include icon-ui(x-skinny,                          -510px,   16px,   16px);
-@include icon-ui(revealer-l-r-xl,                   -540px,   32px,   32px);
-@include icon-ui(check,                             -600px,   11px,   8px);
-@include icon-ui(x-tiny,                            -630px,   10px,   10px);
-@include icon-ui(plus-tiny,                         -660px,   9px,    9px,    true,  true,   true,  true);
-@include icon-ui(close,                             -690px,   15px,   15px);
-
-@include icon-ui(navmenu-account,                   -720px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(navmenu-orders,                    -750px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(navmenu-newsletter,                -780px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(navmenu-reg-prod,                  -810px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(navmenu-favorite,                  -840px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(navmenu-cart,                      -870px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(navmenu-gps,                       -900px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(navmenu-support,                   -930px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(navmenu-search,                    -960px,   17px,   17px,   true,  false,  false,  true);
-@include icon-ui(grid,                              -990px,   16px,   16px);
-
-@include icon-ui(mobile-menu-btn,                   -1020px,   19px,   16px);
-@include icon-ui(mobile-menu-btn-large,             -1050px,  22px,   19px);
-@include icon-ui(cart-large,                        -1080px,  19px,   17px);
-
-@include icon-ui2(x-14-blue,                        0px,      14px,   15px); // the number in the class name is how tall (in px) the icon is -- there are gonna be a ton of these, so mini/small/large/etc aren't gonna cut it.
-@include icon-ui2(chevron-18-blue,                  -30px,    8px,    18px); // the number in the class name is how tall (in px) the chrvron is -- there are gonna be a ton of chevrons, so mini/small/large/etc aren't gonna cut it.
-@include icon-ui2(chevron-18-white-left,            -60px,    8px,    18px);
-@include icon-ui2(chevron-18-white-right,           -90px,    8px,    18px);
-@include icon-ui2(magnify,                          -120px,   17px,   17px,   true,   false,  false,  true);
-@include icon-ui2(chevron-16-black-right,           -150px,   6px,    16px);
-@include icon-ui2(help,                             -180px,   15px,   15px,   true,   false,  false,  true);
-@include icon-ui2(reset,                            -210px,   14px,   16px,   false,  true,   false,  true);
-
-@include icon-uibig(support,                        0px,      55px,   50px,   true);
-@include icon-uibig(twitter,                        -60px,    36px,   32px,   true);
-@include icon-uibig(facebook,                       -120px,   36px,   32px,   true);
-@include icon-uibig(gplus,                          -180px,   36px,   32px,   true);
-@include icon-uibig(youtube,                        -240px,   36px,   32px,   true);
-@include icon-uibig(battery,                        -300px,   38px,   22px);
-@include icon-uibig(win8,                           -360px,   92px,   18px);
-@include icon-uibig(panorama,                       -480px,   52px,   39px);
-@include icon-uibig(face,                           -540px,   50px,   32px);
-@include icon-uibig(intelligent-auto,               -600px,   38px,   41px);
-@include icon-uibig(superior-auto,                  -660px,   38px,   41px);
-@include icon-uibig(film-strip,                     -720px,   46px,   30px);
-@include icon-uibig(stability,                      -780px,   52px,   38px);
-
-
-.icon-ui-pseudo-el-arrow-right-blue { @include icon-ui-pseudo-el(-300px, 11px, 8px); }
-.iconContainer-plus{
-  display: inline-block;
-  padding:8px;
-  width:30px;
-  height:30px;
-  background-color:red;
-  .icon-ui-plus-bold {
-    display:block;
-  }
-}
+// ------------------------------------------
+// SPRITES
+// ------------------------------------------
+// 
+@include sprite-32a(sony-logo,          0,       90px,    31px);
+@include sprite-32a(sony-logo-short,    0,       90px,    16px);
+@include sprite-32a(sony-logo-sm,       -96px,   72px,    25px);
+@include sprite-32a(sony-logo-sm-short, -96px,   72px,    14px);
 
 
 
@@ -195,77 +41,69 @@
 // --------------------------------------------
 // FLAGS
 // ------------------------------------------
-@include icon-flags-reg-and-big(uk,    -550px);
-@include icon-flags-reg-and-big(us,    -572px);
 
-@include icon-flags-reg-and-big(armenia,        0px);
-@include icon-flags-reg-and-big(austria,        -22px);
-@include icon-flags-reg-and-big(belgium,        -44px);
-@include icon-flags-reg-and-big(bosnia,         -66px);
-@include icon-flags-reg-and-big(bulgaria,       -88px);
-@include icon-flags-reg-and-big(croatia,        -110px);
-@include icon-flags-reg-and-big(cyprus,         -132px);
-@include icon-flags-reg-and-big(czech,          -154px);
-@include icon-flags-reg-and-big(denmark,        -176px);
-@include icon-flags-reg-and-big(estonia,        -198px);
-@include icon-flags-reg-and-big(finland,        -220px);
-@include icon-flags-reg-and-big(france,         -242px);
-@include icon-flags-reg-and-big(georgia,        -264px);
-@include icon-flags-reg-and-big(germany,        -286px);
-@include icon-flags-reg-and-big(greece,         -308px);
-@include icon-flags-reg-and-big(hungary,        -330px);
-@include icon-flags-reg-and-big(ireland,        -352px);
-@include icon-flags-reg-and-big(italy,          -374px);
-@include icon-flags-reg-and-big(kazakhstan,     -396px);
-@include icon-flags-reg-and-big(kyrgyzstan,     -418px);
-@include icon-flags-reg-and-big(latvia,         -440px);
-@include icon-flags-reg-and-big(lithuania,      -462px);
-@include icon-flags-reg-and-big(luxembourg,     -484px);
-@include icon-flags-reg-and-big(macedonia,      -506px);
-@include icon-flags-reg-and-big(moldova,        -528px);
-@include icon-flags-reg-and-big(netherlands,    -550px);
-@include icon-flags-reg-and-big(norway,         -572px);
-@include icon-flags-reg-and-big(poland,         -594px);
-@include icon-flags-reg-and-big(portugal,       -616px);
-@include icon-flags-reg-and-big(romania,        -638px);
-@include icon-flags-reg-and-big(russia,         -660px);
-@include icon-flags-reg-and-big(serbia,         -682px);
-@include icon-flags-reg-and-big(slovakia,       -704px);
-@include icon-flags-reg-and-big(slovenia,       -726px);
-@include icon-flags-reg-and-big(spain,          -748px);
-@include icon-flags-reg-and-big(sweden,         -770px);
-@include icon-flags-reg-and-big(switzerland,    -792px);
-@include icon-flags-reg-and-big(tajikistan,     -814px);
-@include icon-flags-reg-and-big(turkey,         -836px);
-@include icon-flags-reg-and-big(turkmenistan,   -858px);
-@include icon-flags-reg-and-big(ukranie,        -880px);
-@include icon-flags-reg-and-big(unitedkingdom,  -902px);
-@include icon-flags-reg-and-big(uzbekistan,     -924px);
+[class^="sprite-flag"],
+[class*=" sprite-flag"] {
+  background-image: url($flagSpritePath);
+}
+[class^="sprite-flag-"],
+[class*=" sprite-flag-"]{
+  @include size(11px,14px);
+  margin-right:11px;
+  margin-top:4px;
+}
+[class^="sprite-flagBig-"],
+[class*=" sprite-flagBig-"]{
+  @include size(15px,22px);
+  margin-top: 2px;
+  margin-right: 10px;
+}
 
+@include sprite-flags-reg-and-big(uk,    -550px);
+@include sprite-flags-reg-and-big(us,    -572px);
 
-
-
-
-
-// --------------------------------------------
-// SPRITES
-// Sprites are guaranteed NOT to need hover or active states - that's what makes them different from "icons"
-// --------------------------------------------
-
-@include sprite-mini(global-nav-indicator,     0px,    25px,   11px);
-@include sprite-mini(nav-search-input,         -30px,  23px,   24px);
-@include sprite-mini(nav-search-input-mini,    -60px,  16px,   16px);
-
-
-
-
-
-
-
-
-
-
-
-
+@include sprite-flags-reg-and-big(armenia,        0px);
+@include sprite-flags-reg-and-big(austria,        -22px);
+@include sprite-flags-reg-and-big(belgium,        -44px);
+@include sprite-flags-reg-and-big(bosnia,         -66px);
+@include sprite-flags-reg-and-big(bulgaria,       -88px);
+@include sprite-flags-reg-and-big(croatia,        -110px);
+@include sprite-flags-reg-and-big(cyprus,         -132px);
+@include sprite-flags-reg-and-big(czech,          -154px);
+@include sprite-flags-reg-and-big(denmark,        -176px);
+@include sprite-flags-reg-and-big(estonia,        -198px);
+@include sprite-flags-reg-and-big(finland,        -220px);
+@include sprite-flags-reg-and-big(france,         -242px);
+@include sprite-flags-reg-and-big(georgia,        -264px);
+@include sprite-flags-reg-and-big(germany,        -286px);
+@include sprite-flags-reg-and-big(greece,         -308px);
+@include sprite-flags-reg-and-big(hungary,        -330px);
+@include sprite-flags-reg-and-big(ireland,        -352px);
+@include sprite-flags-reg-and-big(italy,          -374px);
+@include sprite-flags-reg-and-big(kazakhstan,     -396px);
+@include sprite-flags-reg-and-big(kyrgyzstan,     -418px);
+@include sprite-flags-reg-and-big(latvia,         -440px);
+@include sprite-flags-reg-and-big(lithuania,      -462px);
+@include sprite-flags-reg-and-big(luxembourg,     -484px);
+@include sprite-flags-reg-and-big(macedonia,      -506px);
+@include sprite-flags-reg-and-big(moldova,        -528px);
+@include sprite-flags-reg-and-big(netherlands,    -550px);
+@include sprite-flags-reg-and-big(norway,         -572px);
+@include sprite-flags-reg-and-big(poland,         -594px);
+@include sprite-flags-reg-and-big(portugal,       -616px);
+@include sprite-flags-reg-and-big(romania,        -638px);
+@include sprite-flags-reg-and-big(russia,         -660px);
+@include sprite-flags-reg-and-big(serbia,         -682px);
+@include sprite-flags-reg-and-big(slovakia,       -704px);
+@include sprite-flags-reg-and-big(slovenia,       -726px);
+@include sprite-flags-reg-and-big(spain,          -748px);
+@include sprite-flags-reg-and-big(sweden,         -770px);
+@include sprite-flags-reg-and-big(switzerland,    -792px);
+@include sprite-flags-reg-and-big(tajikistan,     -814px);
+@include sprite-flags-reg-and-big(turkey,         -836px);
+@include sprite-flags-reg-and-big(turkmenistan,   -858px);
+@include sprite-flags-reg-and-big(ukranie,        -880px);
+@include sprite-flags-reg-and-big(unitedkingdom,  -902px);
+@include sprite-flags-reg-and-big(uzbekistan,     -924px);
 
 

@@ -168,9 +168,8 @@
       // Feature support
       orientationSupported = ORIENTATION in win && ON+ORIENTATIONCHANGE in win,
       viewportWidth,
-      screenWidth = win.outerWidth || win.screen.width,
       devicePixelRatio = win.devicePixelRatio || 1,
-      lastOrientation,
+      lastOrientation = -1,
 
   // Reduce by 5.5x the # of times loadImages is called when scrolling
   scrollListener = throttle(function() {
@@ -186,7 +185,7 @@
   orientationchangeListener = debounce(function(){
     if (win[ORIENTATION] !== lastOrientation) {
       lastOrientation = win[ORIENTATION];
-      loadImages(true);
+      loadImages(true, true, false);
     }
   }, throttleSpeed),
 
@@ -194,11 +193,11 @@
     viewportWidth = viewportWidth || getViewportWidthInCssPixels();
     breakpoint = getBreakpoint(breakpoints, viewportWidth);
     breakpointName = breakpoint.name;
-    loadImages(false);
+    loadImages(false, false, false);
   },
 
   updateImages = function( imagesWereAdded ) {
-    loadImages(false, imagesWereAdded === true );
+    loadImages(false, false, imagesWereAdded === true );
   },
 
   onImageLoad = function($elm /*, $images, $proper, $broken*/ ) {
@@ -213,12 +212,12 @@
     $elm.trigger('imageReLoaded');
   },
 
-  loadImages = function(resizing, update){
+  loadImages = function(resizing, rotating, update){
     var current, i;
 
       // If initial collection is not done or
       // new images have been added to the DOM, collect them.
-      if (!iQ.images[LENGTH] || update === true || (updateOnResize === true && resizing)) {
+      if (!iQ.images[LENGTH] || update === true || (updateOnResize === true && resizing) || rotating) {
         // Add event listeners
         addAsyncListeners();
         iQ.images = [];
@@ -300,9 +299,8 @@
 
     // Is orientationchange event supported? If so, let's try to avoid false
     // positives by checking if win.orientation has actually changed.
-
+    
     if (orientationSupported) {
-      lastOrientation = win[ORIENTATION];
       addEvent(win, ORIENTATIONCHANGE, orientationchangeListener);
     }
   },
@@ -496,7 +494,9 @@
   // * [Quirksmode: A Tale of Two Viewports](http://www.quirksmode.org/mobile/viewports2.html)
   // * [Quirksmode: Browser compatibility — Viewports](http://www.quirksmode.org/mobile/tableViewport.html)
   // * [H5BP: The Markup](https://github.com/h5bp/mobile-boilerplate/wiki/The-Markup)
-
+  getScreenWidth = function(){
+    return win.outerWidth || win.screen.width;
+  },
   getViewportWidthInCssPixels = function() {
     var widths = [docElm.clientWidth, docElm.offsetWidth, doc.body.clientWidth],
         l = widths[LENGTH],
@@ -515,12 +515,11 @@
       width = Math.max.apply(Math, widths);
 
       // Catch cases where the viewport is wider than the screen
-      if (!isNaN(screenWidth)) {
-        width = Math.min(screenWidth, width);
+      if (!isNaN(getScreenWidth())) {
+        width = Math.min(getScreenWidth(), width);
       }
     }
-
-    return width || screenWidth || 0;
+    return width || getScreenWidth() || 0;
   },
 
   // Returns the URL of an image
