@@ -114,9 +114,13 @@
     position: absolute;
     right: 0;
     top: 0;
-    @include opacity(0);
+    opacity: 0;
     @include transition(opacity $transitionFast $easeNormal);
     font-size: 16px;
+  }
+
+  .no-opacity &:after {
+    display: none;
   }
 
   &:hover,
@@ -133,7 +137,11 @@
   }
 
   &.active:after {
-    @include opacity(100);
+    opacity: 1;
+  }
+
+  .no-opacity &.active:after {
+    display: inline-block;
   }
 
   &.disabled,
@@ -195,53 +203,53 @@
 
 // Promo
 // -------------------------
-.btn-promo {
-  position: relative;
-  width: 289px;
-  padding: 21px 0 32px 35px;
+// .btn-promo {
+//   position: relative;
+//   width: 289px;
+//   padding: 21px 0 32px 35px;
 
-  background: $btnPromoBackground;
-  color: $gray;
+//   background: $btnPromoBackground;
+//   color: $gray;
 
-  text-align: left;
-  font-size: px-em(25px); /* 25px/15px */
-  p & ,
-  td & {
-    font-size: px-em(25px, 15px); // context changes if it's inside a <p> or <td>
-  }
-  line-height: $baseLineHeight * 0.8;
-  font-family: $sansFontFamilyLight;
-  strong{
-    font-family: $sansFontFamily;
-    color: $white;
-  }
-  &:hover {
-    background: $btnPromoBackgroundHover;
-    color: $gray;
-  }
-  &.active,
-  &:active {
-    background: $btnPromoBackgroundActive;
-  }
-  &.disabled:hover,
-  &[disabled]:hover {
-    background: $btnPromoBackground;
-  }
-  .icon-ui-arrow-right-white-boxed{
-    @include border-radius(1px);
-    background-color: rgb(51,57,74);
-    background-color: rgba(167,197,255,0.13);
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    margin: 0;
-  }
-}
+//   text-align: left;
+//   font-size: px-em(25px); /* 25px/15px */
+//   p & ,
+//   td & {
+//     font-size: px-em(25px, 15px); // context changes if it's inside a <p> or <td>
+//   }
+//   line-height: $baseLineHeight * 0.8;
+//   font-family: $sansFontFamilyLight;
+//   strong{
+//     font-family: $sansFontFamily;
+//     color: $white;
+//   }
+//   &:hover {
+//     background: $btnPromoBackgroundHover;
+//     color: $gray;
+//   }
+//   &.active,
+//   &:active {
+//     background: $btnPromoBackgroundActive;
+//   }
+//   &.disabled:hover,
+//   &[disabled]:hover {
+//     background: $btnPromoBackground;
+//   }
+//   // .icon-ui-arrow-right-white-boxed{
+//   //   @include border-radius(1px);
+//   //   background-color: rgb(51,57,74);
+//   //   background-color: rgba(167,197,255,0.13);
+//   //   position: absolute;
+//   //   top: 0px;
+//   //   right: 0px;
+//   //   margin: 0;
+//   // }
+// }
 
-.btn-icon-ui-left i {
-  margin-right: 8px;
-  vertical-align:0.2em;
-}
+// .btn-icon-ui-left i {
+//   margin-right: 8px;
+//   vertical-align:0.2em;
+// }
 
 // Text that shouldn't wrap
 .btn-wide {

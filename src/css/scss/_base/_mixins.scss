@@ -427,39 +427,39 @@ $default-transition-delay    : 0s;
 
 
 // Mixin for form field states
-@mixin formFieldState($defaultTextColor: #555, $borderColor: #ccc, $backgroundColor: #f5f5f5) {
-	// Set the text color
-	> label,
-	.help-block,
-	.help-inline {
-	color: $defaultTextColor;
-	}
-	// Style inputs accordingly
-	.checkbox,
-	.radio,
-	input,
-	select,
-	textarea {
-	color: $defaultTextColor;
-	}
-	input,
-	select,
-	textarea {
-	border-color: $borderColor;
-	@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075)); // Redeclare so transitions work
-	&:focus {
-		border-color: darken($borderColor, 10%);
-		@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten($borderColor, 20%));
-	}
-	}
-	// Give a small background color for input-prepend/-append
-	.input-prepend .add-on,
-	.input-append .add-on {
-	color: $defaultTextColor;
-	background-color: $backgroundColor;
-	border-color: $defaultTextColor;
-	}
-}
+// @mixin formFieldState($defaultTextColor: #555, $borderColor: #ccc, $backgroundColor: #f5f5f5) {
+// 	// Set the text color
+// 	> label,
+// 	.help-block,
+// 	.help-inline {
+// 		color: $defaultTextColor;
+// 	}
+// 	// Style inputs accordingly
+// 	.checkbox,
+// 	.radio,
+// 	input,
+// 	select,
+// 	textarea {
+// 	color: $defaultTextColor;
+// 	}
+// 	input,
+// 	select,
+// 	textarea {
+// 	border-color: $borderColor;
+// 	@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075)); // Redeclare so transitions work
+// 	&:focus {
+// 		border-color: darken($borderColor, 10%);
+// 		@include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten($borderColor, 20%));
+// 	}
+// 	}
+// 	// Give a small background color for input-prepend/-append
+// 	.input-prepend .add-on,
+// 	.input-append .add-on {
+// 	color: $defaultTextColor;
+// 	background-color: $backgroundColor;
+// 	border-color: $defaultTextColor;
+// 	}
+// }
 
 
 
@@ -1575,21 +1575,21 @@ $default-transition-delay    : 0s;
 	}
 
 	// generate .spanX
-	@include grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth);
+	// @include grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth);
 }
-@mixin grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
-	@while $gridColumns > 0 {
-		input.span#{$gridColumns},
-		textarea.span#{$gridColumns},
-		.uneditable-input.span#{$gridColumns} {
-			@include grid-input-span($gridColumns, $gridColumnWidth, $gridGutterWidth);
-		}
-		$gridColumns: $gridColumns - 1;
-	}
-}
-@mixin grid-input-span($columns, $gridColumnWidth, $gridGutterWidth) {
-	width: (($gridColumnWidth) * $columns) + ($gridGutterWidth * ($columns - 1)) - 14;
-}
+// @mixin grid-input-span-x($gridColumns, $gridColumnWidth, $gridGutterWidth) {
+// 	@while $gridColumns > 0 {
+// 		input.span#{$gridColumns},
+// 		textarea.span#{$gridColumns},
+// 		.uneditable-input.span#{$gridColumns} {
+// 			@include grid-input-span($gridColumns, $gridColumnWidth, $gridGutterWidth);
+// 		}
+// 		$gridColumns: $gridColumns - 1;
+// 	}
+// }
+// @mixin grid-input-span($columns, $gridColumnWidth, $gridGutterWidth) {
+// 	width: (($gridColumnWidth) * $columns) + ($gridGutterWidth * ($columns - 1)) - 14;
+// }
 
 
 
@@ -1822,51 +1822,7 @@ $default-transition-delay    : 0s;
 
 
 @mixin dttb {
-  //dark text
-  .dark-text-light-box,
-  .dark-text-trans-box{
-    h1, h2, h3, h4, h5, h6{
-      color:$gray20;
-    }
-    p{
-      color:$gray40;
-    }
-  }
-  //light text
-  .light-text-dark-box,
-  .light-text-trans-box{
-    h1, h2, h3, h4, h5, h6{
-      color:$white;
-    }
-    p{
-      color:$gray50;
-    }
-  }
-  .light-text-trans-box{
-     p{
-      color:$white;
-    }
-  }
-
-  // trans box
-  .dark-text-trans-box,
-  .light-text-trans-box{
-    .box{
-    }
-  }
-  //dark box
-  .light-text-dark-box{
-   .box{
-      background:$titleBlack;
-    }
-  }
-
-  //light box
-  .dark-text-light-box{
-   .box{
-      background:$titleWhite;
-    }
-  }
+  // Moved these styles into type.scss to be usable globally
 }
 
 
