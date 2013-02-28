@@ -277,6 +277,9 @@
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
             $(this).data('hovering', false);
+            
+            // Remove focus from search input on mouse out
+              $('#nav-search-input').blur();
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
             setTimeout(function() {
