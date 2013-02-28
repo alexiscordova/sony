@@ -249,11 +249,9 @@
 @media (min-width: px-em(768px)) and (max-width: px-em(979px)) {
 
 .navbar{
-  
-  .fonticon-60-sony {
-    margin: 13px 0 0 -3px;
-    font-size: 4.8em;
-    height:30px;
+  @include sprite-32a(sony-logo, -96px, 72px, 25px);
+  .sprite-32a-sony-logo {
+    margin: 14px 0 0 -3px;
   }
 
 }
@@ -507,7 +505,8 @@
   .nav-li-search,
   .nav-li-favorites,
   .nav-li-search,
-  .fonticon-60-sony,
+  .sprite-32a-sony-logo,
+  .sprite-32a-sony-logo-sm,
   .nav-li-electronics,
   .nav-li-entertainment,
   .global-nav-indicator-bar,
@@ -571,7 +570,8 @@
   .nav-li-search,
   .nav-li-favorites,
   .nav-li-search,
-  .fonticon-60-sony,
+  .sprite-32a-sony-logo,
+  .sprite-32a-sony-logo-sm,
   .nav-li-electronics,
   .nav-li-entertainment,
   .global-nav-indicator-bar,
@@ -779,13 +779,12 @@
     }
   }
 
-  .fonticon-60-sony{
+  .sprite-32a-sony-logo{
     display:block; // this is the normal (larger) size logo. Switch to small under 480px.
     position:absolute;
     left:50%;
-    width:100px;
-    margin-left:-50px;
-    text-align:center;
+    width:90px;
+    margin-left:-45px;
   }
 }
 
@@ -1168,10 +1167,10 @@
     }
   }
 
-  .fonticon-60-sony{
-    font-size:5em;
-    height:26px;
-    margin-top:10px;
+
+  @include sprite-32a(sony-logo, -96px, 72px, 25px);
+  .sprite-32a-sony-logo{
+    margin-top:12px;
   }
 }
 

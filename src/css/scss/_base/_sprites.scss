@@ -3,23 +3,11 @@
 // --------------------------------------------------
 
 
-// Expired:
-// [class*=" sprite-"]
-// [class^="icon-tab-"]
-// [class^="icon-uibig-"]
-// [class^="icon-bestfor-"]
-
-// Still in use:
-// [class^="icon-ui-"]
-// [class^="icon-ui2-"]
-
-
-
 // -----
 // All icons receive the styles of the %sprite base class and are
 // then given a unique class to add width, height, and
 // background-position. Your resulting HTML will look like
-// <i class="icon-ui-inbox
+// <i class="sprite-32a-sony-logo">
 
 
 %sprite {
@@ -36,14 +24,16 @@
   background-image: url($spritePath);
 }
 
+
+
 // ------------------------------------------
 // SPRITES
 // ------------------------------------------
-@include sprite-32a(sony-logo,        0,       90px,    31px);
-@include sprite-32a(sony-logo-sm,     -96px,   72px,    25px);
-
-
-
+// 
+@include sprite-32a(sony-logo,          0,       90px,    31px);
+@include sprite-32a(sony-logo-short,    0,       90px,    16px);
+@include sprite-32a(sony-logo-sm,       -96px,   72px,    25px);
+@include sprite-32a(sony-logo-sm-short, -96px,   72px,    14px);
 
 
 
@@ -115,17 +105,5 @@
 @include sprite-flags-reg-and-big(ukranie,        -880px);
 @include sprite-flags-reg-and-big(unitedkingdom,  -902px);
 @include sprite-flags-reg-and-big(uzbekistan,     -924px);
-
-
-
-
-
-
-
-
-
-
-
-
 
 

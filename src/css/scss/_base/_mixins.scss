@@ -282,16 +282,7 @@ $default-transition-delay    : 0s;
     @include size($h, $w);
   }
 }
-@mixin sprite-flag($name, $x) {
-  @include sprite(flag, $icon_flag_Y, $name, $x);
-}
-@mixin sprite-flagBig($name, $x) {
-  @include sprite(flagBig, $icon_flagBig_Y, $name, $x);
-}
-@mixin sprite-flags-reg-and-big($name, $x) {
-	@include sprite-flag($name, $x);
-	@include sprite-flagBig($name, $x);
-}
+
 
 @mixin sprite-16a($name, $x, $w, $h) {
   @include sprite(16a, $sprite_16a_Y, $name, $x, $w, $h);
@@ -305,6 +296,19 @@ $default-transition-delay    : 0s;
 @mixin sprite-32b($name, $x, $w, $h) {
   @include sprite(32b, $sprite_32a_Y, $name, $x, $w, $h);
 }
+
+
+@mixin sprite-flag($name, $x) {
+  @include sprite(flag, $sprite_flag_Y, $name, $x, 14px, 11px);
+}
+@mixin sprite-flagBig($name, $x) {
+  @include sprite(flagBig, $sprite_flagBig_Y, $name, $x, 22px, 15px);
+}
+@mixin sprite-flags-reg-and-big($name, $x) {
+	@include sprite-flag($name, $x);
+	@include sprite-flagBig($name, $x);
+}
+
 
 
 
