@@ -1333,10 +1333,17 @@
       var self = this;
       self.$container.find('.gallery-loader').remove();
 
+
+      if ( SONY.Settings.isLTIE9 ) {
+        setTimeout(function() {
+          self.$gridProductNames.evenHeights();
+        }, 1000);
+      }
+
       // Fade in the gallery if it isn't already
       if ( !self.$container.hasClass('in') ) {
         setTimeout(function() {
-            self.$container.addClass('in');
+          self.$container.addClass('in');
         }, 250);
       }
     },
@@ -2487,16 +2494,5 @@ SONY.on('global:ready', function() {
       $('.tab-pane:not(.active) .gallery').gallery('disable');
       // console.profileEnd();
     }, 500);
-
-
-    // Make all product name heights even
-    if ( SONY.Settings.isLTIE9 ) {
-      setTimeout(function() {
-        $('.gallery').each(function() {
-          var gallery = $(this).data('gallery');
-          gallery.$gridProductNames.evenHeights();
-        });
-      }, 3000);
-    }
   }
 });
