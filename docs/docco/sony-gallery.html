@@ -252,21 +252,29 @@ Dependencies: jQuery 1.7+, Modernizr</p>
         }
       }
 
+      self.$activeFilters.empty();
+      <span class="keyword">if</span> ( self.$activeFilters.hasClass(<span class="string">'has-active-filters'</span>) ) {
+        self.$activeFilters.removeClass(<span class="string">'has-active-filters'</span>);
+      }
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Create labels showing current filters</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.each(filters, <span class="keyword">function</span>(key, obj) {
-        <span class="keyword">var</span> $label = $(<span class="string">'&lt;span&gt;'</span>, {
-          <span class="string">'class'</span> : <span class="string">'label label-close fonticon-10-circle-x--after'</span>,
-          <span class="string">'data-filter'</span> : key,
-          <span class="string">'data-filter-name'</span> : obj.key || obj.name,
-          text : obj.label,
-          click : $.proxy( self.onRemoveFilter, self )
+      <span class="keyword">if</span> ( !$.isEmptyObject( filters ) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Create labels showing current filters</p>             </td>             <td class="code">               <div class="highlight"><pre>        $.each(filters, <span class="keyword">function</span>(key, obj) {
+          <span class="keyword">var</span> $label = $(<span class="string">'&lt;span&gt;'</span>, {
+            <span class="string">'class'</span> : <span class="string">'label label-close fonticon-10-circle-x--after'</span>,
+            <span class="string">'data-filter'</span> : key,
+            <span class="string">'data-filter-name'</span> : obj.key || obj.name,
+            text : obj.label,
+            click : $.proxy( self.onRemoveFilter, self )
+          });
+
+          frag.appendChild( $label[<span class="number">0</span>] );
         });
 
-        frag.appendChild( $label[<span class="number">0</span>] );
-      });
 
-
-      self.$activeFilters.empty().append(frag);
+        self.$activeFilters
+          .append(frag)
+          .addClass(<span class="string">'has-active-filters'</span>);
+      }
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Removes a single filter from stored data. Does NOT change UI.</p>             </td>             <td class="code">               <div class="highlight"><pre>    undoFilter : <span class="keyword">function</span>( filterValue, filterName, filterType ) {
@@ -1280,6 +1288,10 @@ if ( !Modernizr.csstransforms ) {
         self.$compareTool.addClass(<span class="string">'native-scrolling'</span>);
       }
 
+
+      self.compareWindowWidth = self.windowWidth;
+      self.compareWindowHeight = self.windowHeight;
+
 </pre></div>             </td>           </tr>                               <tr id="section-150">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-150">&#182;</a>               </div>               <p>Save state for reset</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.compareState = {
           count: productCount,
           sort: self.currentSort,
@@ -1290,7 +1302,7 @@ if ( !Modernizr.csstransforms ) {
 
 </pre></div>             </td>           </tr>                               <tr id="section-151">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-151">&#182;</a>               </div>               <p>Append count and labels</p>             </td>             <td class="code">               <div class="highlight"><pre>      $labelColumn.append( self.$compareCountWrap );
 
-</pre></div>             </td>           </tr>                               <tr id="section-152">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-152">&#182;</a>               </div>               <p>On window resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.on(<span class="string">'resize.comparetool'</span>, $.debounce(<span class="number">250</span>, <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-152">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-152">&#182;</a>               </div>               <p>On window resize</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.on(<span class="string">'resize.comparetool'</span>, $.debounce(<span class="number">350</span>, <span class="keyword">function</span>() {
         self.onCompareResize( $header, $sortOpts );
       }));
       self.onCompareResize( $header, $sortOpts, <span class="literal">true</span> );
@@ -1484,6 +1496,8 @@ Remove scroll event</p>             </td>             <td class="code">         
       self.isFixedHeader = <span class="literal">null</span>;
       self.compareTitle = <span class="literal">null</span>;
       self.compareItemOffset = <span class="literal">null</span>;
+      self.compareWindowWidth = <span class="literal">null</span>;
+      self.compareWindowHeight = <span class="literal">null</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-181">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-181">&#182;</a>               </div>               <p>Remove resize event</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$window.off(<span class="string">'.comparetool'</span>);
 
@@ -1563,14 +1577,20 @@ Hide the column</p>             </td>             <td class="code">             
 
     onCompareResize : <span class="keyword">function</span>( $header, $sortOpts, isFirst ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          windowWidth = self.$window.width(),
+          windowHeight = self.$window.height(),
+          hasWindowChanged = windowWidth !== self.compareWindowWidth || windowHeight !== self.compareWindowHeight,
           $subheader,
           $resetBtn,
           $sorter,
           snap;
 
-</pre></div>             </td>           </tr>                               <tr id="section-193">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-193">&#182;</a>               </div>               <p>If we somehow got here and the compare tool is closed, return</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.isCompareToolOpen ) {
+</pre></div>             </td>           </tr>                               <tr id="section-193">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-193">&#182;</a>               </div>               <p>If we somehow got here and the compare tool is closed or the window hasn't actually resized, return</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !isFirst &amp;&amp; (!self.isCompareToolOpen || !hasWindowChanged) ) {
         <span class="keyword">return</span>;
       }
+
+      self.compareWindowWidth = windowWidth;
+      self.compareWindowHeight = windowHeight;
 
 </pre></div>             </td>           </tr>                               <tr id="section-194">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-194">&#182;</a>               </div>               <p>Phone = sticky header</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(max-width: 47.9375em)'</span>) ) {
 
@@ -1865,13 +1885,17 @@ https://code.google.com/p/chromium/issues/detail?id=20574</p>             </td> 
 
       compareOffset = offset + self.takeoverHeaderHeight;
 
+</pre></div>             </td>           </tr>                               <tr id="section-221">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-221">&#182;</a>               </div>               <p>We really shouldn't get to this point anyways... IE8</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( compareOffset &lt; <span class="number">0</span> ) {
+        <span class="keyword">return</span>;
+      }
+
       takeoverValue = self.getY( scrollTop ),
       compareValue = self.getY( compareOffset );
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-221">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-221">&#182;</a>               </div>               <p>Position the sticky headers. These are relative to .compare-item</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$stickyHeaders.css( self.prop, compareValue );
+</pre></div>             </td>           </tr>                               <tr id="section-222">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-222">&#182;</a>               </div>               <p>Position the sticky headers. These are relative to .compare-item</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$stickyHeaders.css( self.prop, compareValue );
 
-</pre></div>             </td>           </tr>                               <tr id="section-222">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-222">&#182;</a>               </div>               <p>Position takeover header. This is relative to .modal-inner,
+</pre></div>             </td>           </tr>                               <tr id="section-223">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-223">&#182;</a>               </div>               <p>Position takeover header. This is relative to .modal-inner,
 so we can take the outer scroller's y offset</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$takeoverStickyHeader.css( self.prop, takeoverValue );
 
 
@@ -1882,26 +1906,26 @@ so we can take the outer scroller's y offset</p>             </td>             <
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( self.mode !== <span class="string">'detailed'</span> ) {
-</pre></div>             </td>           </tr>                               <tr id="section-223">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-223">&#182;</a>               </div>               <p>Make this a 5 column grid. Added to parent because grid must be a descendant of grid5</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$grid.addClass(<span class="string">'slimgrid5'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-224">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-224">&#182;</a>               </div>               <p>Make this a 5 column grid. Added to parent because grid must be a descendant of grid5</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$grid.addClass(<span class="string">'slimgrid5'</span>);
 
 
         self.shuffleColumns = <span class="keyword">function</span>( containerWidth ) {
           <span class="keyword">var</span> column;
 
-</pre></div>             </td>           </tr>                               <tr id="section-224">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-224">&#182;</a>               </div>               <p>Large desktop ( 6 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 75em)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-225">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-225">&#182;</a>               </div>               <p>Large desktop ( 6 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 75em)'</span>) ) {
             column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
-</pre></div>             </td>           </tr>                               <tr id="section-225">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-225">&#182;</a>               </div>               <p>Landscape tablet + desktop ( 5 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 61.25em)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-226">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-226">&#182;</a>               </div>               <p>Landscape tablet + desktop ( 5 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 61.25em)'</span>) ) {
             column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth;
 
-</pre></div>             </td>           </tr>                               <tr id="section-226">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-226">&#182;</a>               </div>               <p>Portrait Tablet ( 4 columns )
+</pre></div>             </td>           </tr>                               <tr id="section-227">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-227">&#182;</a>               </div>               <p>Portrait Tablet ( 4 columns )
 } else if ( Modernizr.mq('(min-width: 48em)') ) {
   column = SONY.Settings.COLUMN<em>WIDTH</em>768 * containerWidth;</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-227">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-227">&#182;</a>               </div>               <p>Between Portrait tablet and phone ( 3 columns )
+</pre></div>             </td>           </tr>                               <tr id="section-228">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-228">&#182;</a>               </div>               <p>Between Portrait tablet and phone ( 3 columns )
 568px+</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 35.5em)'</span>) ) {
             column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 
-</pre></div>             </td>           </tr>                               <tr id="section-228">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-228">&#182;</a>               </div>               <p>Phone ( 2 columns )
+</pre></div>             </td>           </tr>                               <tr id="section-229">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-229">&#182;</a>               </div>               <p>Phone ( 2 columns )
 &lt; 568px</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> {
             column = SONY.Settings.COLUMN_WIDTH_320 * containerWidth;
           }
@@ -1914,24 +1938,24 @@ so we can take the outer scroller's y offset</p>             </td>             <
           <span class="keyword">var</span> gutter,
               numColumns = <span class="number">0</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-229">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-229">&#182;</a>               </div>               <p>Large desktop ( 6 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 75em)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-230">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-230">&#182;</a>               </div>               <p>Large desktop ( 6 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 75em)'</span>) ) {
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = <span class="number">6</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-230">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-230">&#182;</a>               </div>               <p>Landscape tablet + desktop ( 5 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 61.25em)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-231">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-231">&#182;</a>               </div>               <p>Landscape tablet + desktop ( 5 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( !Modernizr.mediaqueries || Modernizr.mq(<span class="string">'(min-width: 61.25em)'</span>) ) {
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = <span class="number">5</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-231">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-231">&#182;</a>               </div>               <p>// Portrait Tablet ( 4 columns ) - masonry</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 48em)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-232">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-232">&#182;</a>               </div>               <p>// Portrait Tablet ( 4 columns ) - masonry</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 48em)'</span>) ) {
             numColumns = <span class="number">4</span>;
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
 
-</pre></div>             </td>           </tr>                               <tr id="section-232">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-232">&#182;</a>               </div>               <p>Between Portrait tablet and phone ( 3 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 35.5em)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-233">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-233">&#182;</a>               </div>               <p>Between Portrait tablet and phone ( 3 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 35.5em)'</span>) ) {
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
             numColumns = <span class="number">3</span>;
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-233">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-233">&#182;</a>               </div>               <p>Phone ( 2 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-234">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-234">&#182;</a>               </div>               <p>Phone ( 2 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> {
             gutter = SONY.Settings.GUTTER_WIDTH_320 * containerWidth; <span class="comment">// 2% of container width</span>
             numColumns = <span class="number">2</span>;
           }
@@ -1942,7 +1966,7 @@ so we can take the outer scroller's y offset</p>             </td>             <
         };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-234">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-234">&#182;</a>               </div>               <p>Use the default 12 column slim grid.</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-235">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-235">&#182;</a>               </div>               <p>Use the default 12 column slim grid.</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
         self.shuffleColumns = SONY.Utilities.masonryColumns;
         self.shuffleGutters = SONY.Utilities.masonryGutters;
       }
@@ -1964,10 +1988,10 @@ so we can take the outer scroller's y offset</p>             </td>             <
           promo = <span class="string">'.promo'</span>,
           normal = <span class="string">'.normal'</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-235">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-235">&#182;</a>               </div>               <p>Large desktop ( 6 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( numColumns === <span class="number">6</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-236">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-236">&#182;</a>               </div>               <p>Large desktop ( 6 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( numColumns === <span class="number">6</span> ) {
         <span class="keyword">if</span> ( !self.$grid.hasClass(shuffleDash+<span class="number">6</span>) ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-236">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-236">&#182;</a>               </div>               <p>add .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
+</pre></div>             </td>           </tr>                               <tr id="section-237">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-237">&#182;</a>               </div>               <p>add .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
             .removeClass(gridClasses)
             .addClass(shuffleDash+<span class="number">6</span> + <span class="string">' '</span> + grid)
             .parent()
@@ -1986,10 +2010,10 @@ so we can take the outer scroller's y offset</p>             </td>             <
               .addClass(span+<span class="number">2</span>); <span class="comment">// Make them 2/12 width</span>
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-237">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-237">&#182;</a>               </div>               <p>Landscape tablet + desktop ( 5 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">5</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-238">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-238">&#182;</a>               </div>               <p>Landscape tablet + desktop ( 5 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">5</span> ) {
         <span class="keyword">if</span> ( !self.$grid.hasClass(shuffleDash+<span class="number">5</span>) ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-238">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-238">&#182;</a>               </div>               <p>add .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
+</pre></div>             </td>           </tr>                               <tr id="section-239">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-239">&#182;</a>               </div>               <p>add .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
             .removeClass(gridClasses)
             .addClass(shuffleDash+<span class="number">5</span> + <span class="string">' '</span> + grid5);
 
@@ -2006,10 +2030,10 @@ so we can take the outer scroller's y offset</p>             </td>             <
               .addClass(span+<span class="number">1</span>); <span class="comment">// Make them 1/5 width</span>
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-239">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-239">&#182;</a>               </div>               <p>Portrait Tablet ( 4 columns ) - masonry</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">4</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-240">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-240">&#182;</a>               </div>               <p>Portrait Tablet ( 4 columns ) - masonry</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">4</span> ) {
         <span class="keyword">if</span> ( !self.$grid.hasClass(shuffleDash+<span class="number">4</span>) ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-240">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-240">&#182;</a>               </div>               <p>Remove .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
+</pre></div>             </td>           </tr>                               <tr id="section-241">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-241">&#182;</a>               </div>               <p>Remove .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
             .removeClass(gridClasses)
             .addClass(shuffleDash+<span class="number">4</span> + <span class="string">' '</span> + grid);
 
@@ -2023,27 +2047,27 @@ so we can take the outer scroller's y offset</p>             </td>             <
               .addClass(span+<span class="number">3</span>); <span class="comment">// Make them quarter width</span>
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-241">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-241">&#182;</a>               </div>               <p>Between Portrait tablet and phone ( 3 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">3</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-242">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-242">&#182;</a>               </div>               <p>Between Portrait tablet and phone ( 3 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">3</span> ) {
         <span class="keyword">if</span> ( !self.$grid.hasClass(shuffleDash+<span class="number">3</span>) ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-242">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-242">&#182;</a>               </div>               <p>Remove .slimgrid5, add .grid-small</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
+</pre></div>             </td>           </tr>                               <tr id="section-243">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-243">&#182;</a>               </div>               <p>Remove .slimgrid5, add .grid-small</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
             .removeClass(gridClasses)
             .addClass(shuffleDash+<span class="number">3</span> + <span class="string">' '</span> + grid);
 
-</pre></div>             </td>           </tr>                               <tr id="section-243">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-243">&#182;</a>               </div>               <p>Remove current grid span</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid.children(itemSelector)
+</pre></div>             </td>           </tr>                               <tr id="section-244">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-244">&#182;</a>               </div>               <p>Remove current grid span</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid.children(itemSelector)
             .removeClass(allSpans)
             .addClass(span+<span class="number">4</span>);
         }
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-244">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-244">&#182;</a>               </div>               <p>Phone ( 2 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">2</span> ) {
+</pre></div>             </td>           </tr>                               <tr id="section-245">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-245">&#182;</a>               </div>               <p>Phone ( 2 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> <span class="keyword">if</span> ( numColumns === <span class="number">2</span> ) {
         <span class="keyword">if</span> ( !self.$grid.parent().hasClass(shuffleDash+<span class="number">2</span>) ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-245">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-245">&#182;</a>               </div>               <p>remove .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
+</pre></div>             </td>           </tr>                               <tr id="section-246">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-246">&#182;</a>               </div>               <p>remove .slimgrid5</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid
             .removeClass(gridClasses)
             .addClass(shuffleDash+<span class="number">2</span> + <span class="string">' '</span> + grid);
 
-</pre></div>             </td>           </tr>                               <tr id="section-246">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-246">&#182;</a>               </div>               <p>Remove current grid span</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid.children(itemSelector)
+</pre></div>             </td>           </tr>                               <tr id="section-247">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-247">&#182;</a>               </div>               <p>Remove current grid span</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$grid.children(itemSelector)
             .removeClass(allSpans)
             .addClass(mspan+<span class="number">3</span>);
         }
@@ -2071,11 +2095,11 @@ so we can take the outer scroller's y offset</p>             </td>             <
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           contentWidth = <span class="number">0</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-247">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-247">&#182;</a>               </div>               <p>Count it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareItems.not(<span class="string">'.hide'</span>).each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-248">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-248">&#182;</a>               </div>               <p>Count it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareItems.not(<span class="string">'.hide'</span>).each(<span class="keyword">function</span>() {
         contentWidth += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>);
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-248">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-248">&#182;</a>               </div>               <p>Set it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.find(<span class="string">'.compare-items-container'</span>).width( contentWidth );
+</pre></div>             </td>           </tr>                               <tr id="section-249">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-249">&#182;</a>               </div>               <p>Set it</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.find(<span class="string">'.compare-items-container'</span>).width( contentWidth );
 
       <span class="keyword">return</span> self;
     },
@@ -2087,20 +2111,20 @@ so we can take the outer scroller's y offset</p>             </td>             <
 
       self.$stickyHeaders.evenHeights();
 
-</pre></div>             </td>           </tr>                               <tr id="section-249">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-249">&#182;</a>               </div>               <p>Set the height of the product name + model because the text can wrap and make it taller</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareProductNameWraps.evenHeights();
+</pre></div>             </td>           </tr>                               <tr id="section-250">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-250">&#182;</a>               </div>               <p>Set the height of the product name + model because the text can wrap and make it taller</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareProductNameWraps.evenHeights();
 
-</pre></div>             </td>           </tr>                               <tr id="section-250">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-250">&#182;</a>               </div>               <p>Set detail rows to even heights</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.find(<span class="string">'.detail-label'</span>).each(<span class="keyword">function</span>(i) {
+</pre></div>             </td>           </tr>                               <tr id="section-251">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-251">&#182;</a>               </div>               <p>Set detail rows to even heights</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$compareTool.find(<span class="string">'.detail-label'</span>).each(<span class="keyword">function</span>(i) {
         <span class="keyword">var</span> $detailLabel = $(<span class="keyword">this</span>),
             $detail = self.$compareItems.find(<span class="string">'.detail:nth-child('</span> + (i + <span class="number">1</span>) + <span class="string">')'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-251">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-251">&#182;</a>               </div>               <p>Find all detail lines that have this "name"</p>             </td>             <td class="code">               <div class="highlight"><pre>        $detail.add($detailLabel).evenHeights();
+</pre></div>             </td>           </tr>                               <tr id="section-252">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-252">&#182;</a>               </div>               <p>Find all detail lines that have this "name"</p>             </td>             <td class="code">               <div class="highlight"><pre>        $detail.add($detailLabel).evenHeights();
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-252">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-252">&#182;</a>               </div>               <p>Set the top offset for the labels</p>             </td>             <td class="code">               <div class="highlight"><pre>      offset = $detailGroup.position().top;
+</pre></div>             </td>           </tr>                               <tr id="section-253">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-253">&#182;</a>               </div>               <p>Set the top offset for the labels</p>             </td>             <td class="code">               <div class="highlight"><pre>      offset = $detailGroup.position().top;
       offset += parseFloat( $detailGroup.css(<span class="string">'marginTop'</span>) );
       self.$compareTool.find(<span class="string">'.detail-label-group'</span>).css(<span class="string">'top'</span>, offset);
 
-</pre></div>             </td>           </tr>                               <tr id="section-253">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-253">&#182;</a>               </div>               <p>Refresh outer iScroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.outerScroller ) {
+</pre></div>             </td>           </tr>                               <tr id="section-254">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-254">&#182;</a>               </div>               <p>Refresh outer iScroll</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.outerScroller ) {
         self.outerScroller.refresh();
       }
 
@@ -2109,13 +2133,13 @@ so we can take the outer scroller's y offset</p>             </td>             <
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-254">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-254">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.gallery = <span class="keyword">function</span>( options ) {
+</pre></div>             </td>           </tr>                               <tr id="section-255">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-255">&#182;</a>               </div>               <p>Plugin definition</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.gallery = <span class="keyword">function</span>( options ) {
     <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
           gallery = self.data(<span class="string">'gallery'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-255">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-255">&#182;</a>               </div>               <p>If we don't have a stored gallery, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !gallery ) {
+</pre></div>             </td>           </tr>                               <tr id="section-256">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-256">&#182;</a>               </div>               <p>If we don't have a stored gallery, make a new one and save it</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !gallery ) {
         gallery = <span class="keyword">new</span> Gallery( self, options );
         self.data( <span class="string">'gallery'</span>, gallery );
       }
@@ -2127,13 +2151,13 @@ so we can take the outer scroller's y offset</p>             </td>             <
   };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-256">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-256">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.gallery.options = {
+</pre></div>             </td>           </tr>                               <tr id="section-257">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-257">&#182;</a>               </div>               <p>Overrideable options</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.gallery.options = {
     mode: <span class="string">'editorial'</span>,
     shuffleSpeed: SONY.Settings.shuffleSpeed,
     shuffleEasing: SONY.Settings.shuffleEasing
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-257">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-257">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.gallery.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-258">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-258">&#182;</a>               </div>               <p>Not overrideable</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.gallery.settings = {
     enabled: <span class="literal">true</span>,
     MIN_PRICE: <span class="literal">undefined</span>,
     MAX_PRICE: <span class="literal">undefined</span>,
@@ -2154,18 +2178,18 @@ so we can take the outer scroller's y offset</p>             </td>             <
   };
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-258">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-258">&#182;</a>               </div>               <p>Event triggered when this tab is about to be shown</p>             </td>             <td class="code">               <div class="highlight"><pre>  SONY.onGalleryTabShow = <span class="keyword">function</span>( evt ) {
+</pre></div>             </td>           </tr>                               <tr id="section-259">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-259">&#182;</a>               </div>               <p>Event triggered when this tab is about to be shown</p>             </td>             <td class="code">               <div class="highlight"><pre>  SONY.onGalleryTabShow = <span class="keyword">function</span>( evt ) {
     <span class="keyword">var</span> $prevPane = evt.prevPane ? evt.prevPane :
           evt.originalEvent.prevPane ? evt.originalEvent.prevPane :
           <span class="literal">false</span>;
 
 
     <span class="keyword">if</span> ( $prevPane ) {
-</pre></div>             </td>           </tr>                               <tr id="section-259">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-259">&#182;</a>               </div>               <p>Loop through each gallery in the tab (there could be more than 1)
+</pre></div>             </td>           </tr>                               <tr id="section-260">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-260">&#182;</a>               </div>               <p>Loop through each gallery in the tab (there could be more than 1)
 Disable the gallery (which disableds shuffle and pauses infinite scrolling) for galleries being hidden</p>             </td>             <td class="code">               <div class="highlight"><pre>      $prevPane.find(<span class="string">'.gallery'</span>).each(<span class="keyword">function</span>() {
         <span class="keyword">var</span> gallery = $(<span class="keyword">this</span>).data(<span class="string">'gallery'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-260">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-260">&#182;</a>               </div>               <p>If there are active filters, remove them.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( gallery.hasActiveFilters ) {
+</pre></div>             </td>           </tr>                               <tr id="section-261">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-261">&#182;</a>               </div>               <p>If there are active filters, remove them.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( gallery.hasActiveFilters ) {
           gallery.removeActiveFilters();
         }
 
@@ -2175,9 +2199,9 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
 
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-261">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-261">&#182;</a>               </div>               <p>Event triggered when tab pane is finished being shown</p>             </td>             <td class="code">               <div class="highlight"><pre>  SONY.onGalleryTabShown = <span class="keyword">function</span>( evt ) {
+</pre></div>             </td>           </tr>                               <tr id="section-262">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-262">&#182;</a>               </div>               <p>Event triggered when tab pane is finished being shown</p>             </td>             <td class="code">               <div class="highlight"><pre>  SONY.onGalleryTabShown = <span class="keyword">function</span>( evt ) {
 
-</pre></div>             </td>           </tr>                               <tr id="section-262">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-262">&#182;</a>               </div>               <p>Only continue if this is a tab shown event.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( !evt.pane ) {
+</pre></div>             </td>           </tr>                               <tr id="section-263">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-263">&#182;</a>               </div>               <p>Only continue if this is a tab shown event.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( !evt.pane ) {
       <span class="keyword">return</span>;
     }
 
@@ -2186,7 +2210,7 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
     $galleries.each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> gallery = $(<span class="keyword">this</span>).data(<span class="string">'gallery'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-263">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-263">&#182;</a>               </div>               <p>Enable all galleries in this tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      gallery.enable();
+</pre></div>             </td>           </tr>                               <tr id="section-264">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-264">&#182;</a>               </div>               <p>Enable all galleries in this tab</p>             </td>             <td class="code">               <div class="highlight"><pre>      gallery.enable();
 
       <span class="keyword">if</span> ( gallery ) {
         gallery.fixCarousels( gallery.isInitialized );
@@ -2202,28 +2226,28 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
 SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>() {
 
   <span class="keyword">if</span> ( $(<span class="string">'.gallery'</span>).length &gt; <span class="number">0</span> ) {
-</pre></div>             </td>           </tr>                               <tr id="section-264">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-264">&#182;</a>               </div>               <p>console.profile();</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-265">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-265">&#182;</a>               </div>               <p>Initialize galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.gallery'</span>).each(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-265">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-265">&#182;</a>               </div>               <p>console.profile();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-266">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-266">&#182;</a>               </div>               <p>Initialize galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.gallery'</span>).each(<span class="keyword">function</span>() {
       <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>);
 
       $<span class="keyword">this</span>.gallery( $<span class="keyword">this</span>.data() );
     });
 
-</pre></div>             </td>           </tr>                               <tr id="section-266">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-266">&#182;</a>               </div>               <p>Register for tab show(n) events here because not all tabs are galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'[data-tab]'</span>)
+</pre></div>             </td>           </tr>                               <tr id="section-267">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-267">&#182;</a>               </div>               <p>Register for tab show(n) events here because not all tabs are galleries</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'[data-tab]'</span>)
       .on(<span class="string">'show'</span>, SONY.onGalleryTabShow )
       .on(<span class="string">'shown'</span>, SONY.onGalleryTabShown );
 
-</pre></div>             </td>           </tr>                               <tr id="section-267">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-267">&#182;</a>               </div>               <p>Initialize sticky tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.tab-strip'</span>).stickyTabs();
+</pre></div>             </td>           </tr>                               <tr id="section-268">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-268">&#182;</a>               </div>               <p>Initialize sticky tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.tab-strip'</span>).stickyTabs();
 
-</pre></div>             </td>           </tr>                               <tr id="section-268">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-268">&#182;</a>               </div>               <p>Hide other tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.tab-pane:not(.active)'</span>).addClass(<span class="string">'off-screen'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-269">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-269">&#182;</a>               </div>               <p>Hide other tabs</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(<span class="string">'.tab-pane:not(.active)'</span>).addClass(<span class="string">'off-screen'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-269">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-269">&#182;</a>               </div>               <p>Should be called after everything is initialized</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(window).trigger(<span class="string">'hashchange'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-270">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-270">&#182;</a>               </div>               <p>Should be called after everything is initialized</p>             </td>             <td class="code">               <div class="highlight"><pre>    $(window).trigger(<span class="string">'hashchange'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-270">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-270">&#182;</a>               </div>               <p>Disable hidden galleries.
+</pre></div>             </td>           </tr>                               <tr id="section-271">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-271">&#182;</a>               </div>               <p>Disable hidden galleries.
 Using a timeout here because the tab shown event is triggered at the end of the transition,
 which depends on how long the page takes to load (and if the browser has transitions)</p>             </td>             <td class="code">               <div class="highlight"><pre>    setTimeout(<span class="keyword">function</span>() {
       $(<span class="string">'.tab-pane:not(.active) .gallery'</span>).gallery(<span class="string">'disable'</span>);
-</pre></div>             </td>           </tr>                               <tr id="section-271">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-271">&#182;</a>               </div>               <p>console.profileEnd();</p>             </td>             <td class="code">               <div class="highlight"><pre>    }, <span class="number">500</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-272">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-272">&#182;</a>               </div>               <p>console.profileEnd();</p>             </td>             <td class="code">               <div class="highlight"><pre>    }, <span class="number">500</span>);
   }
 });
 
