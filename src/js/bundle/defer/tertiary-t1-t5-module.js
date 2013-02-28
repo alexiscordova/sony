@@ -185,8 +185,6 @@
                
         // start sequence
         hideSequence.start();
-
-        //console.log( 'hideAll done »');
       },
 
       // Show scroller content after transition
