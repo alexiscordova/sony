@@ -385,7 +385,11 @@
               visibility : VISIBLE,
               opacity : 1
             });
-            self.$pagination.show();
+
+            if(!self.isMobileMode){
+              self.$pagination.show();
+            }
+
             self.$el.removeClass( REDRAWING );
            }
           });
@@ -401,7 +405,10 @@
           });
           self.$el.removeClass( REDRAWING );
 
-          self.$pagination.show();
+          if(!self.isMobileMode){
+            self.$pagination.show();
+          }
+          
         }
 
         self.$pagination.hide();
@@ -1104,9 +1111,9 @@
         }
 
         if(self.isMobileMode === true){
-          self.$el.css('height' , 400);
+          self.$el.css('height' , 290);
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , 400);
+            self.$tabbedContainer.css('height' , 290);
           }
           return;
         }

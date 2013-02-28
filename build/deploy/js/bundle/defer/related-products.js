@@ -1104,9 +1104,9 @@
         }
 
         if(self.isMobileMode === true){
-          self.$el.css('height' , 400);
+          self.$el.css('height' , 290);
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , 400);
+            self.$tabbedContainer.css('height' , 290);
           }
           return;
         }
