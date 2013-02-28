@@ -278,22 +278,30 @@
         }
       }
 
+      self.$activeFilters.empty();
+      if ( self.$activeFilters.hasClass('has-active-filters') ) {
+        self.$activeFilters.removeClass('has-active-filters');
+      }
 
-      // Create labels showing current filters
-      $.each(filters, function(key, obj) {
-        var $label = $('<span>', {
-          'class' : 'label label-close fonticon-10-circle-x--after',
-          'data-filter' : key,
-          'data-filter-name' : obj.key || obj.name,
-          text : obj.label,
-          click : $.proxy( self.onRemoveFilter, self )
+      if ( !$.isEmptyObject( filters ) ) {
+        // Create labels showing current filters
+        $.each(filters, function(key, obj) {
+          var $label = $('<span>', {
+            'class' : 'label label-close fonticon-10-circle-x--after',
+            'data-filter' : key,
+            'data-filter-name' : obj.key || obj.name,
+            text : obj.label,
+            click : $.proxy( self.onRemoveFilter, self )
+          });
+
+          frag.appendChild( $label[0] );
         });
 
-        frag.appendChild( $label[0] );
-      });
 
-
-      self.$activeFilters.empty().append(frag);
+        self.$activeFilters
+          .append(frag)
+          .addClass('has-active-filters');
+      }
     },
 
     // Removes a single filter from stored data. Does NOT change UI.
@@ -1428,6 +1436,10 @@
         self.$compareTool.addClass('native-scrolling');
       }
 
+
+      self.compareWindowWidth = self.windowWidth;
+      self.compareWindowHeight = self.windowHeight;
+
       // Save state for reset
       self.compareState = {
           count: productCount,
@@ -1441,7 +1453,7 @@
       $labelColumn.append( self.$compareCountWrap );
 
       // On window resize
-      self.$window.on('resize.comparetool', $.debounce(250, function() {
+      self.$window.on('resize.comparetool', $.debounce(350, function() {
         self.onCompareResize( $header, $sortOpts );
       }));
       self.onCompareResize( $header, $sortOpts, true );
@@ -1663,6 +1675,8 @@
       self.isFixedHeader = null;
       self.compareTitle = null;
       self.compareItemOffset = null;
+      self.compareWindowWidth = null;
+      self.compareWindowHeight = null;
 
       // Remove resize event
       self.$window.off('.comparetool');
@@ -1754,15 +1768,21 @@
 
     onCompareResize : function( $header, $sortOpts, isFirst ) {
       var self = this,
+          windowWidth = self.$window.width(),
+          windowHeight = self.$window.height(),
+          hasWindowChanged = windowWidth !== self.compareWindowWidth || windowHeight !== self.compareWindowHeight,
           $subheader,
           $resetBtn,
           $sorter,
           snap;
 
-      // If we somehow got here and the compare tool is closed, return
-      if ( !self.isCompareToolOpen ) {
+      // If we somehow got here and the compare tool is closed or the window hasn't actually resized, return
+      if ( !isFirst && (!self.isCompareToolOpen || !hasWindowChanged) ) {
         return;
       }
+
+      self.compareWindowWidth = windowWidth;
+      self.compareWindowHeight = windowHeight;
 
       // Phone = sticky header
       if ( Modernizr.mq('(max-width: 47.9375em)') ) {
@@ -2083,6 +2103,11 @@
       offset = scrollTop - self.compareItemOffset;
 
       compareOffset = offset + self.takeoverHeaderHeight;
+
+      // We really shouldn't get to this point anyways... IE8
+      if ( compareOffset < 0 ) {
+        return;
+      }
 
       takeoverValue = self.getY( scrollTop ),
       compareValue = self.getY( compareOffset );
