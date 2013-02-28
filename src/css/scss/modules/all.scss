@@ -419,6 +419,10 @@ $oneByOneImgPadding: 107.84313725490196%;
   z-index: 5;
   height: 100%;
 
+  .lt-ie9 & {
+    margin-left: 0;
+  }
+
   //
   &:before {
     content: '';
@@ -503,6 +507,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   top: 0;
   left: -9999px;
   padding: 1em 0 1.25em;
+  margin: 0;
   background: $gray90;
   top: -6.25em;
   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);

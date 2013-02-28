@@ -304,7 +304,11 @@
   z-index: 5;
   height: 100%;
 }
-/* line 423, ../../../../src/css/scss/modules/all.scss */
+/* line 422, ../../../../src/css/scss/modules/all.scss */
+.lt-ie9 .detail-labels-wrap {
+  margin-left: 0;
+}
+/* line 427, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrap:before {
   content: '';
   position: absolute;
@@ -317,7 +321,7 @@
   -webkit-transition: box-shadow 0.15s ease-in;
   transition: box-shadow 0.15s ease-in;
 }
-/* line 437, ../../../../src/css/scss/modules/all.scss */
+/* line 441, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrap.overflowing:before {
   -webkit-box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
   box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
@@ -325,7 +329,7 @@
   transition-timing-function: ease-out;
 }
 
-/* line 445, ../../../../src/css/scss/modules/all.scss */
+/* line 449, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrapping {
   -webkit-transform: translate(-0.625em, 0);
   -ms-transform: translate(-0.625em, 0);
@@ -334,7 +338,7 @@
   -webkit-transition: opacity 0.2s ease-out 0.1s, -webkit-transform 0.2s ease-out 0.1s;
   transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
 }
-/* line 451, ../../../../src/css/scss/modules/all.scss */
+/* line 455, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrapping.complete {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
@@ -342,12 +346,12 @@
   opacity: 1;
 }
 
-/* line 457, ../../../../src/css/scss/modules/all.scss */
+/* line 461, ../../../../src/css/scss/modules/all.scss */
 .detail-label-group {
   position: absolute;
 }
 
-/* line 462, ../../../../src/css/scss/modules/all.scss */
+/* line 466, ../../../../src/css/scss/modules/all.scss */
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
@@ -355,7 +359,7 @@
   width: calc(100% - 0.625em);
 }
 
-/* line 470, ../../../../src/css/scss/modules/all.scss */
+/* line 474, ../../../../src/css/scss/modules/all.scss */
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
@@ -363,7 +367,7 @@
   padding-bottom: 30px;
   margin-bottom: 0;
 }
-/* line 478, ../../../../src/css/scss/modules/all.scss */
+/* line 482, ../../../../src/css/scss/modules/all.scss */
 .compare-container .detail:after,
 .detail-labels-wrapping .product-count-wrap:after {
   content: '';
@@ -375,7 +379,7 @@
   background: #d2d2db;
 }
 
-/* line 491, ../../../../src/css/scss/modules/all.scss */
+/* line 495, ../../../../src/css/scss/modules/all.scss */
 .compare-container .detail-label:after,
 .detail-labels-wrapping .product-count-wrap:after {
   left: 0;
@@ -383,28 +387,29 @@
   background: #d2d2db;
 }
 
-/* line 500, ../../../../src/css/scss/modules/all.scss */
+/* line 504, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header {
   position: absolute;
   z-index: 10;
   top: 0;
   left: -9999px;
   padding: 1em 0 1.25em;
+  margin: 0;
   background: #f3f4f6;
   top: -6.25em;
   -webkit-transition: top 0.2s ease-in, left 0s 0.2s;
   transition: top 0.2s ease-in, left 0s 0.2s;
 }
-/* line 511, ../../../../src/css/scss/modules/all.scss */
+/* line 516, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header:not(.sticky-count) {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
 }
-/* line 516, ../../../../src/css/scss/modules/all.scss */
+/* line 521, ../../../../src/css/scss/modules/all.scss */
 .sticky-headers .compare-sticky-header {
   margin: 0;
 }
-/* line 521, ../../../../src/css/scss/modules/all.scss */
+/* line 526, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header.open {
   left: 0;
   top: 0;
@@ -413,7 +418,7 @@
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 530, ../../../../src/css/scss/modules/all.scss */
+/* line 535, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header.sticky-count:before {
   content: '';
   position: absolute;
@@ -427,17 +432,17 @@
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
 }
-/* line 543, ../../../../src/css/scss/modules/all.scss */
+/* line 548, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header .media .pull-left {
   max-width: 90px;
   margin-right: 4px;
 }
-/* line 548, ../../../../src/css/scss/modules/all.scss */
+/* line 553, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header .product-name {
   color: #2f353d;
 }
 
-/* line 553, ../../../../src/css/scss/modules/all.scss */
+/* line 558, ../../../../src/css/scss/modules/all.scss */
 .compare-box {
   display: inline-block;
   padding: 11px 12px;

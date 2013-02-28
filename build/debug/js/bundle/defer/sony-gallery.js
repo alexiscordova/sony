@@ -1880,7 +1880,7 @@
       offsetTop = self.$compareItems.not('.hide').offset().top;
 
       // see http://bugs.jquery.com/ticket/8362
-      if ( offsetTop < 0 ) {
+      if ( offsetTop < 0 && Modernizr.csstransforms ) {
         var matrix = SONY.Utilities.parseMatrix( self.$compareTool.find('.modal-inner').css('transform') );
         offsetTop = -matrix.translateY + offsetTop;
       }
@@ -2389,7 +2389,7 @@
     isCompareToolOpen: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
-    isUsingOuterScroller: !(SONY.Settings.isAndroid || SONY.Settings.isLTIE9),
+    isUsingOuterScroller: !(SONY.Settings.isAndroid || SONY.Settings.isLTIE9 || SONY.Settings.isPlaystation),
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',

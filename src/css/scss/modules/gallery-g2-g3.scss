@@ -488,7 +488,11 @@
 
   // Show the navigation
   &:hover .compare-nav {
-    @include opacity(100);
+    opacity: 1;
+  }
+
+  .no-opacity &:hover .compare-nav {
+    display: block;
   }
 }
 
@@ -511,8 +515,12 @@
   z-index: 15;
   top: 330px;
   width: 100%;
-  @include opacity(0);
+  opacity: 0;
   @include transition();
+
+  .no-opacity & {
+    display: none;
+  }
 
   // Hide nav buttons when the sticky nav is active
   &.sticky-nav-open .nav-prev,
