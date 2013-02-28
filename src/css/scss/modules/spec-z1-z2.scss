@@ -73,7 +73,7 @@ ul.spec-views {
     padding-left: 6px;
     color: $gray20;
     @include box-shadow(inset 0 0 0 $btnBackground);
-    @include transition(all $transitionFast $easeNormal);
+    @include transition($transitionFast $easeNormal);
   }
 
   li:hover a {
@@ -83,6 +83,16 @@ ul.spec-views {
   li:hover a,
   .active a {
     @include box-shadow(inset 0 -4px 0 $btnBackground);
+  }
+
+  .no-boxshadow & a {
+    padding-bottom: 6px;
+    border-bottom: 4px solid transparent;
+  }
+
+  .no-boxshadow & li:hover a,
+  .no-boxshadow & .active a {
+    border-bottom-color: $btnBackground;
   }
 }
 
@@ -746,8 +756,15 @@ ul.spec-views {
   .lt-ie9 & {
     // .span8 is 595
     width: 482px;
-    height: 217px;
+    height: 217px + 16px; // 16px for nav dots
     max-height: 400px;
+
+    .navigation-container {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+    }
   }
 
   .spec-carousel {
@@ -826,5 +843,5 @@ ul.spec-views {
   min-height: px-em(85px);
 }
 
-@import "../_responsive/responsive-spec-z1-z2";
+// @import "../_responsive/responsive-spec-z1-z2";
 

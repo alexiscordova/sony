@@ -10,10 +10,17 @@ title Sony Global
 l = {"locals": locals}
   link(rel="stylesheet", href="css/styles.css")
 
+  <!--[if (gte IE 9)|!(IE)]><!-->
+  link(rel="stylesheet", href="css/responsive.css")
+  <!--<![endif]-->
+
   for name in locals.modulescss()
     hrf = "css/modules/" + name.replace(/.scss/g, '.css')
       link(rel="stylesheet", href= hrf)
-  link(rel="stylesheet", href="css/responsive.css")
+
+  <!--[if (gte IE 9)|!(IE)]><!-->
+  link(rel="stylesheet", href="css/responsive-modules.css")
+  <!--<![endif]-->
 
   if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
 

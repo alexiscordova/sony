@@ -146,7 +146,7 @@
 
       // Pass the iScroll instance to our function (we still want `this` to reference ScrollerModule)
       self.iscrollProps.onBeforeScrollStart = function(e) {
-        self._onBeforeScrollStart( this, e );
+        self._onBeforeScrollStart( this, e);
       };
 
 
@@ -362,17 +362,19 @@
       }
     },
 
-    _onBeforeScrollStart : function( iscroll, e ) {
-      var self = this;
-
-      // if vertical scrolling passes threshhold then only use scroller
-      if ( iscroll.absDistX >= (iscroll.absDistY + self.threshhold ) ) {
-        // user is scrolling the x axis, so prevent the browsers' native scrolling
+    _onBeforeScrollStart : function( iscroll, e ){
+      var self = this,
+          distX = iscroll.absDistX || 0,
+          distY = iscroll.absDistY || 0;
+    
+      //if vertical scrolling passes threshhold then "lock direction"
+      if ( distX >= (distY + self.threshhold ) ) {
+        // prevent the browsers' native scrolling
         e.preventDefault();
       }
 
       // If they've defined a callback as well, call it
-      // We saved their function to this reference so we could have our own onBeforeScrollStart
+      // Original function is saved as reference (self.onBeforeScrollStart) so we could have a custom onBeforeScrollStart
       if ( self.onBeforeScrollStart ) {
         self.onBeforeScrollStart( iscroll );
       }
@@ -454,9 +456,6 @@
     },
 
     gotopage: function( pageNumber, duration ) {
-      // pageNumber could be an event object from a navigation bullet click.
-      // if it is, get the index from it's data attribute
-      pageNumber = pageNumber.type ? $(pageNumber.target).data('index') : pageNumber;
       duration = duration || 400;
       this.scroller.scrollToPage(pageNumber, 0, duration);
     },
@@ -560,7 +559,7 @@
     addPaddleTrigger: true, // Add the paddle-trigger class to fade in paddles when the parent is hovered
     autoGutters: true,
     gutterWidth: 0,
-    threshhold: 10, // in pixels, determines when native scrolling is prevented (used with onBeforeScrollStart)
+    threshhold: 5, // in pixels, determines when native scrolling is prevented (used with onBeforeScrollStart)
 
     // iscroll props get mixed in
     iscrollProps: {

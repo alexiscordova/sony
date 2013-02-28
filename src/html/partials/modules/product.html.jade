@@ -53,11 +53,12 @@ mixin colorSwatches( colors, isShowOnlyChild )
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
 
+//- .iq-img select must be added with javascript later and then iQ.update(true)
 mixin iQColorImages( colors )
   if colors && colors.length > 1
     each img in colors
       //- mixin iQImage( img, 'hidden', 'image' )
-      img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+      img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
       noscript
         img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
 

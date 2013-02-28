@@ -9,8 +9,27 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-$tcc-body-wrapper-padding-desktop:36px 0 0 0;
+$tcc-content-module-height:350px;
 $tcc-header-padding-bottom-desktop:20px;
+$users-voice-padding-bottom-desktop:15px;
+$users-voice-padding-left-right-desktop:px-em(40px);
+$tenPercentInstaFlickr: percentage(10px/316px);
+$fivePercentInstaFlickr: percentage(5px/316px);
+
+// -----------------------------------------
+// 3-UP - // DEFAULT: 980px - 1199px;
+// -----------------------------------------
+//  .d8888b.                                   .d88  .d8888b.   .d8888b.   .d8888b.        88b.   
+// d88P  Y88b                                 d88P" d88P  Y88b d88P  Y88b d88P  Y88b       "Y88b  
+//      .d88P                                d88P   888    888 Y88b. d88P 888    888         Y88b 
+//     8888"         888  888 88888b.        888    Y88b. d888  "Y88888"  888    888   888    888 
+//      "Y8b.        888  888 888 "88b       888     "Y888P888 .d8P""Y8b. 888    888 8888888  888 
+// 888    888 888888 888  888 888  888       Y88b          888 888    888 888    888   888   d88P 
+// Y88b  d88P        Y88b 888 888 d88P        Y88b. Y88b  d88P Y88b  d88P Y88b  d88P       .d88P  
+//  "Y8888P"          "Y88888 88888P"          "Y88  "Y8888P"   "Y8888P"   "Y8888P"        88P"   
+//                            888                                                                 
+//                            888                                                                 
+//                            888                                                                 
 
 .tcc-wrapper{
 	height:580px;
@@ -20,6 +39,7 @@ $tcc-header-padding-bottom-desktop:20px;
   text-align: center;
   background-color:$gray80;
   margin:0; // for the module since it can be placed anywhere on the page. 
+  padding:60px 0 98px 0;
 
   .nav-paddles{
   	position: absolute;
@@ -58,12 +78,34 @@ $tcc-header-padding-bottom-desktop:20px;
 		position: relative;
 		text-align: center;
 		z-index: 1;	
-		padding:$tcc-body-wrapper-padding-desktop;
+		padding:30px 0 0 0;
 	} // end .tcc-body-wrapper
 	
+	.tcc-copy{
+	   padding:0 px-em(20px) px-em(20px) px-em(20px); 
+	} // end .tcc-copy
+	
+	
+ 	.social-btn{
+    margin:0 auto;
+  } // end socialBtn
+
 	.tcc-header{
 		border-bottom: 3px solid $gray70;
 		position: relative;
+		padding-bottom: $tcc-header-padding-bottom-desktop;
+
+    .tcc-header-title{
+      float:left;
+      margin:0; // overwrite .l1 default   
+    } // end .tcc-header-title
+
+    .tcc-header-link{
+      position: absolute;
+      bottom:$tcc-header-padding-bottom-desktop; // offset .tcc-header padding
+      right:0;
+      margin:0; // overwrite .lt2 default
+    } // end .tcc-header-link
 
     .lt-ie10 & {
 			.tcc-header-title{
@@ -85,24 +127,24 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	.tcc-body{
 		display:inline-block;	
+		height:$tcc-content-module-height;
 	} // end .tcc-body
 
 	.tcc-content-module{
-		
+		height:$tcc-content-module-height;
 		position: relative;
 		overflow: hidden;
 		
-		// IE9 and BELOW
-		.lt-ie10 & {
-    	height:375px; 
-    } // END IE9 and BELOW
+		// // IE9 and BELOW
+		// .lt-ie10 & {
+  //   	height:350px; 
+  //   } // END IE9 and BELOW
 
 		// IE8 and BELOW
 		.lt-ie9 & {
     	max-width:370px; 
     } // END IE8 and BELOW
 
-	
 		&:hover{
 			cursor: pointer;
 		} // end .tcc-content-module:hover;
@@ -117,10 +159,6 @@ $tcc-header-padding-bottom-desktop:20px;
 	#{createSelectorFromData("sonys-voice","instagram")},
 	#{createSelectorFromData("flickr","default")}{
 		@include fadeoutOnHover(img);
-	} // end div
-
-	#{createSelectorFromData("article","featured")}{
-		@include fadeoutOnHover();
 	} // end div
 
 	// TYPE: ARTICLE
@@ -147,12 +185,12 @@ $tcc-header-padding-bottom-desktop:20px;
     } // end img-wrap
 
     // body copy
-		.p3{
+		.p4{
 			color:$gray40;
-		} // end p1
+		} // end p4
 
 		// title
-		.t6{
+		.p2{
 			color:$titleBlack;			
 		} // end t6
 
@@ -166,13 +204,13 @@ $tcc-header-padding-bottom-desktop:20px;
 				color:$white;
 				position: absolute;
 				z-index: 5;
-				top: 0;
+				top: -10px;
 				left: 0;
 				bottom:0;
 				right:0;
 				margin:10% auto;
 				padding:3%;
-				height:80%;
+				height:64%;//80%;
 				width:35%;
 
 				// IE9 and BELOW
@@ -182,43 +220,62 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	    } // end . attendance-count
 
-	    // overlay container copy
-    	.l4{
-    		// "attending"
-    		color:$white;
-    		font-size:12px; // because we're using ghost center need to set size in pixels
+			.t3,
+			.l3-light{
+				color:$white;
 				margin:0;
 				padding:0;
+			}
 
-				span{
-					// number 
-   				font-size:34px; // because we're using ghost center need to set size in pixels
-				} // end spam
+    	// "attending"
+    	.t3{
+    		//font-size: px-em(32px);// 	32px; // because we're using ghost center need to set size in pixels
+    	} // end .t3
 
-    	} // end .l4
+			// number 
+			.l3-light{
+				//font-size: px-em(11px); //11px; // because we're using ghost center need to set size in pixels
+			} // end l3-light
+
 
 		} // end .article.events
 
 		&.news{
-			//-webkit-backface-visibility:hidden;
     	.news-date{
     		-webkit-backface-visibility:hidden;
 	    	position:absolute;
 	    	top:0;
 	    	right:0;
 	    	z-index: 2;
-	    	background-color:$gray20;
+	    	background-color:rgba($gray10, 0.95);
 	    	color:$white;
 	    	margin:0;
 	    	padding:px-em(10px);
-	    	font-size:11px; // because we're using ghost center need to set size in pixels
+	    	//font-size: px-em(11px); ; // because we're using ghost center need to re-set size
 	    } // end .news-date
 	    
 		} // end .article.news
 
 		&.featured{
+			height: 100%;
+      
+      .lt3{
+        margin-top:14px;
+      }
 
 			.feature-copy{
+
+	    	background-color:$gray10;
+        text-align: left;
+        opacity:0.95;
+        position: absolute;
+        bottom:0;
+        left: 0;
+        margin:0;
+        min-height:30%;
+        width:100%;
+        padding: px-em(30px);
+
 
 				// IE9 and BELOW
 				.lt-ie10 & {
@@ -236,14 +293,10 @@ $tcc-header-padding-bottom-desktop:20px;
           margin:0; // overwrite default p
         } // end p         
 
-	    	background-color:$gray10;
-        text-align: left;
-        opacity:0.95;
-       
-	    	.t4{
+	    	.t5-light{
           height:60px;
           overflow:hidden;
-	    		color:$white;
+	    		// color:$gray50;
 	    	} // end .t4
 
    	  } // end .feature-copy
@@ -256,9 +309,40 @@ $tcc-header-padding-bottom-desktop:20px;
 	.users-voice{
 		text-align: left;
 
+
+		&.user-quote,
 		&.expert-quote{
-			background-color:$gray05;
-			opacity:0.95;
+		  padding:30px px-em(40px) $users-voice-padding-bottom-desktop $users-voice-padding-left-right-desktop;
+
+		  .credits{
+		    position:absolute;
+		    bottom:$users-voice-padding-bottom-desktop;
+		    left:$users-voice-padding-left-right-desktop;
+
+		    .avatar{
+		      margin-bottom:15px;
+		    } // .avatar
+		    
+		    .author{
+		      &.p4{
+		        margin:0;
+		        padding-left: 10px;
+		      } // end .p4
+
+		    } // end author
+
+		    .author,
+		    .handle{
+		      display: inline;
+		    } // end .handle & .author
+
+		  } // end .credits
+
+		} //end .user-quote and .expert-quote
+
+
+		&.expert-quote{
+			background-color:rgba($gray10,0.95);
 			
 			.author{
 				display: inline;
@@ -303,6 +387,12 @@ $tcc-header-padding-bottom-desktop:20px;
 		} // end expert-quote & user-quote
 		
 		&.question{
+			padding:0;
+
+			.bq3{
+				color:$secondarySlateDark;
+			} // end .bq3
+
       .bq3,
       .lt3,
       .answer-btn{
@@ -311,7 +401,35 @@ $tcc-header-padding-bottom-desktop:20px;
 
 			.credits{
 				background-color: $white;
+				@include clearfix();
+        position: relative;
+        width: 100%;
+        white-space: nowrap;
+        
+        .avatar{
+          float:left;
+        } // end .avatar
+
+        .author{
+          position: absolute;
+          top:50%;
+          left:91px;
+          margin:-11px 0 0 0;
+        } // end .author
+
 			} // end .credits
+
+	     .bq3{
+        max-height:172px;
+        padding:40px px-em(30px) 0px px-em(30px);
+      } // .bq3
+
+      .answer-btn{
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        margin-left: -85px;
+      } // end .answer-btn		
 
 		} // end .question
 
@@ -319,6 +437,12 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	// TYPE: SONYS VOICE
 	.sonys-voice{
+		padding:0px px-em(20px) 11px px-em(20px);
+
+    .center-content{
+      height:252px;
+      width:100%;
+    }
 
 		.icon-container{
 			position: relative;
@@ -340,6 +464,13 @@ $tcc-header-padding-bottom-desktop:20px;
 				font-size:px-em(56px);
 			} // end .white-bg
     } // end fonticon divs
+
+    .fonticon-15-facebook,
+    .fonticon-15-twitter,
+    .fonticon-15-instagram {
+      font-size: px-em(26px);
+      padding: px-em(10px);
+    } // end .fonticons
 
 		.fonticon-15-twitter{
 			color:$twitterColor;
@@ -375,6 +506,41 @@ $tcc-header-padding-bottom-desktop:20px;
 		&.instagram{
 			table{
 			   background-color:rgba($gray50,0.3);
+ 				tr{
+
+          &.bottom-row{
+            display:table-row;
+          }
+
+          td{
+
+            &.top-left{
+              display:table-cell;
+              padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
+              vertical-align: top;
+            } // end top-left
+
+            &.top-right{
+              display:table-cell;
+              vertical-align: top;
+              padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr;
+            } // end top-right
+
+            &.bottom-left{
+              display:table-cell;
+              vertical-align: bottom;
+              padding:$fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;  
+            } // end .bottom-left
+
+            &.top-center-phone,
+            &.top-right-phone{
+              display:none;
+            } // end .top-right-phone  & .bottom-left-phone
+
+          } // end td
+
+        } // end tr
+
 			} // end table
 
 		} // end &.instagram
@@ -383,8 +549,13 @@ $tcc-header-padding-bottom-desktop:20px;
 
 	// TYPE: FLICKR
 	.flickr{
+
+		.center-content{
+      height:258px;
+      padding:8%;
+    } // end .center-content
+
 		.icon-container{
-			//outline:1px solid red;
 			position: relative;
 			width: px-em(44px); 
 			height: 44px;
@@ -433,12 +604,69 @@ $tcc-header-padding-bottom-desktop:20px;
 		} // end meta
 
 	  table{
-	  	//outline:1px solid green;
 		  background-color:rgba($gray50,0.3);
+		  
+		  tr{
+		    &.top-row,
+		    &.bottom-row{
+		      display:table-row;
+		    } // end  &.top-row, &.bottom-row
+
+		  } // end tr
+
+		  td{       
+		    &.top-left,
+		    &.top-center,
+		    &.top-right,
+		    &.bottom-left,
+		    &.bottom-center,
+		    &.bottom-right{
+		      display:table-cell;
+		    } // end tds
+
+		    &.top-left{
+		      vertical-align: top;
+		      padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
+		    } // end &.top-left
+
+		    &.top-center{
+		      vertical-align: top;
+		      padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr 0;
+		    } // end &.top-center
+
+		    &.top-right{
+		      vertical-align: top;
+		      padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr 0;
+		    } // end &.top-right
+
+		    &.bottom-left{
+		      vertical-align: bottom;
+		      padding:0 $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;
+		    } // end &.bottom-left
+
+		    &.bottom-center{
+		      vertical-align: bottom;
+		      padding:0 $fivePercentInstaFlickr $tenPercentInstaFlickr 0;
+		    } // end &.bottom-center
+
+		    &.bottom-right{
+		      vertical-align: bottom;
+		      padding:0 $tenPercentInstaFlickr $tenPercentInstaFlickr 0;
+		    } // end &.bottom-right
+
+		  } // end td    
+
 	  } //end table
 
 	} // end .flickr
 
+  .pagination-bullets{
+    display:block;
+    position:relative;
+    bottom:0;
+    left:0;
+  } // end .pagination-bullets    
+
 } // end .tcc-wrapper 
 
-
+ 

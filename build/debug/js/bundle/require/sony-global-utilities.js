@@ -18,6 +18,15 @@ SONY.Utilities = (function(window, document) {
         .remove();
     },
 
+    // converts pixel value to em value (including unit)
+    
+    pxToEm : function(pxValue, context){
+      
+      // defaults to 16px
+      context = typeof context !== 'undefined' ? context : 16;
+        
+      return (pxValue / context) + "em";
+    },
 
     // Return calculated column if width is above 568px/35.5em
 

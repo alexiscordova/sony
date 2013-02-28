@@ -13,13 +13,6 @@
 
 
 
-// These should match the variables in gallery.scss
-$galleryThreeColMin: px-em(568px);
-$galleryThreeColMax: px-em(767px);
-$galleryFourColMin: px-em(768px);
-$galleryFourColMax: px-em(979px);
-
-
 // 50px margin-top on detailed gallery items
 .gallery-item.detailed {
   margin: 3.125em 0 0;
@@ -303,6 +296,10 @@ $oneByOneImgPadding: 107.84313725490196%;
       @include translate( px-em(6px), 0);
     }
 
+    .no-csstransforms &:hover .promo-title i {
+      left: 6px;
+    }
+
   }
 
   .product-content {
@@ -426,6 +423,10 @@ $oneByOneImgPadding: 107.84313725490196%;
   z-index: 5;
   height: 100%;
 
+  .lt-ie9 & {
+    margin-left: 0;
+  }
+
   //
   &:before {
     content: '';
@@ -447,15 +448,17 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 }
 
+// Add a nice slide in
+// For IE, don't use filters for opacity
 .detail-labels-wrapping {
   @include translate(-0.625em, 0);
-  @include opacity(0);
+  opacity: 0;
   -webkit-transition: opacity $transitionNormal $easeNormal .1s, -webkit-transform $transitionNormal $easeNormal .1s;
           transition: opacity $transitionNormal $easeNormal .1s, transform $transitionNormal $easeNormal .1s;
 
   &.complete {
     @include translate(0, 0);
-    @include opacity(100);
+    opacity: 1;
   }
 }
 
@@ -508,6 +511,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   top: 0;
   left: -9999px;
   padding: 1em 0 1.25em;
+  margin: 0;
   background: $gray90;
   top: -6.25em;
   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
@@ -563,5 +567,5 @@ $oneByOneImgPadding: 107.84313725490196%;
   background: $gray20;
 }
 
-@import "../_responsive/responsive-all";
+// @import "../_responsive/responsive-all";
 

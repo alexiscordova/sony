@@ -36,7 +36,7 @@ theSequence.start();
     t.timer = -<span class="number">1</span>;
   }
 
-  Sequencer.prototype.add = <span class="keyword">function</span>( s , m , d , p ) {
+  Sequencer.prototype.add = <span class="keyword">function</span>( s , m , d , a ) {
     <span class="keyword">var</span> t = <span class="keyword">this</span>;
     <span class="keyword">if</span>( t.queue === <span class="literal">null</span> ) { t.queue = [];}
     t.queue.push({ scope: s, method: m, throttle: d, args: a });
