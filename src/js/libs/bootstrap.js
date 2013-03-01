@@ -798,6 +798,17 @@
             that.$element.appendTo(document.body) //don't move modals dom position
           }
 
+          // $('body').on('touchmove.modal', function(e) {
+          //   var target = e.target;
+          //   while ( target.nodeType !== 1 ) {
+          //     target = target.parentNode;
+          //   }
+
+          //   if ( target.tagName !== 'SELECT' && target.tagName !== 'BUTTON' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' ) {
+          //     e.preventDefault();
+          //   }
+          // })
+
           that.$element
             .show()
 
@@ -833,6 +844,7 @@
         this.isShown = false
 
         $('body').removeClass('modal-open')
+        // $('body').off('touchmove.modal')
 
         this.escape()
 
@@ -891,7 +903,6 @@
     , removeBackdrop: function () {
         this.$backdrop.remove()
         this.$backdrop = null
-        $('body').off('touchmove.modal')
       }
 
     , backdrop: function (callback) {
@@ -906,7 +917,6 @@
 
           if (this.options.backdrop != 'static') {
             this.$backdrop.click($.proxy(this.hide, this))
-            $('body').on('touchmove.modal', false)
           }
 
           if (doAnimate) this.$backdrop[0].offsetWidth // force reflow

@@ -1435,6 +1435,9 @@
         self.$compareTool.addClass('native-scrolling');
       }
 
+      if ( !self.showCompareStickyHeaders ) {
+        self.$compareTool.addClass('no-sticky-headers');
+      }
 
       self.compareWindowWidth = self.windowWidth;
       self.compareWindowHeight = self.windowHeight;
@@ -1562,6 +1565,9 @@
           self.onCompareScroll( self.stickyTriggerPoint );
           iQ.update();
         });
+        // self.$compareTool.on('touchmove', function(e) {
+        //   e.stopPropagation();
+        // });
       }
 
 
@@ -1571,6 +1577,7 @@
         // hScrollbar: self.isTouch,
         // snap: '.compare-item',
         snap: self.compareState.snap, // this is required for iscroll.scrollToPage
+        bounce: false,
         onBeforeScrollStart : function() {
 
           // Add `grabbing` class
@@ -1611,6 +1618,10 @@
         self.addCompareNavEvents();
 
       }, 100);
+
+      self.$compareTool.on('touchstart touchmove', function(e) {
+        console.log(e.type, e.target, e.isDefaultPrevented());
+      });
 
       return self;
     },
@@ -1892,6 +1903,7 @@
           self.$takeoverStickyHeader.addClass('open');
           self.$stickyHeaders.addClass('open');
         }
+
         self.setStickyHeaderPos( scrollTop );
 
       } else {
@@ -2089,6 +2101,9 @@
           takeoverValue,
           compareValue;
 
+      if ( !self.showCompareStickyHeaders ) {
+        return;
+      }
 
       // If we're not given a scrollTop, figure it out
       if ( scrollTop || scrollTop === 0 ) {
@@ -2108,16 +2123,19 @@
         return;
       }
 
-      takeoverValue = self.getY( scrollTop ),
       compareValue = self.getY( compareOffset );
-
 
       // Position the sticky headers. These are relative to .compare-item
       self.$stickyHeaders.css( self.prop, compareValue );
 
-      // Position takeover header. This is relative to .modal-inner,
-      // so we can take the outer scroller's y offset
-      self.$takeoverStickyHeader.css( self.prop, takeoverValue );
+      if ( self.isUsingOuterScroller ) {
+        takeoverValue = self.getY( scrollTop );
+
+        // Position takeover header. This is relative to .modal-inner,
+        // so we can take the outer scroller's y offset
+        self.$takeoverStickyHeader.css( self.prop, takeoverValue );
+      }
+
 
 
       return self;
@@ -2425,7 +2443,8 @@
     isCompareToolOpen: false,
     isTouch: SONY.Settings.hasTouchEvents,
     isiPhone: SONY.Settings.isIPhone,
-    isUsingOuterScroller: !(SONY.Settings.isAndroid || SONY.Settings.isLTIE9 || SONY.Settings.isPlaystation),
+    isUsingOuterScroller: !(SONY.Settings.isLTIE9 || SONY.Settings.isPlaystation),
+    showCompareStickyHeaders: true,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',

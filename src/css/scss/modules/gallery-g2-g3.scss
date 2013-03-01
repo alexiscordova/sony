@@ -394,6 +394,10 @@
 
 .gallery-tabs {
 
+  .modal-open & {
+    visibility: hidden;
+  }
+
   .tabs {
   }
 
@@ -502,14 +506,16 @@
   }
 }
 
+// Wrapper for the items in the compare tool. Sibling of the labels.
 .compare-items-wrap {
   position: relative;
   height: 100%; // Get parent's height
   overflow: visible !important; // override iscroll
 
-  .lt-ie9 {
-    overflow: hidden !important;
-  }
+  // .lt-ie9 &,
+  // .sonytablets & {
+  //   overflow: hidden !important;
+  // }
 }
 
 .compare-items-container {
@@ -611,6 +617,14 @@
   width: 100%;
   background: $white;
   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
+
+  .native-scrolling & {
+    position: fixed;
+  }
+
+  .no-sticky-headers & {
+    border-bottom: 1px solid $gray70;
+  }
 
   &.open {
     left: 0;

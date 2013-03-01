@@ -126,6 +126,10 @@ $modalHeight: 550px;
   &.native-scrolling {
     overflow-x: hidden;
     overflow-y: auto;
+
+    // html:not(.android) & .modal-body {
+    //   overflow: visible;
+    // }
   }
 
   &.fade.in { top: 0; }
@@ -156,6 +160,7 @@ $modalHeight: 550px;
   }
 
   .modal-body {
+    overflow-x: hidden;
     overflow-y: visible;
     max-height: none;
     padding: 1.125em 0 0;
