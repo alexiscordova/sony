@@ -908,7 +908,8 @@
       checkForBreakpoints: function(){
         var self = this,
         wW       = self.$win.width(),
-        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile';
+        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile',
+        wasMobile = false;
 
         //if the browser doesnt support media queries...IE default to desktop
         if(!Modernizr.mediaqueries || self.$html.hasClass('lt-ie10')){
@@ -919,6 +920,7 @@
 
         switch(view){
           case 'desktop':
+
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
@@ -931,44 +933,49 @@
 
            //check if we are coming out of mobile
             if(self.isMobileMode === true){
+              wasMobile = true;
               self.returnToFullView();
+
+              self.log('was mobile');
             }
 
             self.isTabletMode = self.isMobileMode = false;
 
             if(self.isDesktopMode === true){
-              return;
+               self.log('already desktop');
+              //return;
             }
 
             self.isDesktopMode = true;
+
             self.$el.removeClass('rp-tablet rp-mobile')
                                     .addClass('rp-desktop');
 
-            if(self.scrollerModule !== null){
-
+            if(self.scrollerModule !== null || wasMobile){
+              self.log('destroying scroller');
               self.scrollerModule.destroy();
               self.scrollerModule = null;
 
             }
 
-            if(self.shuffle === null){
+            if(self.shuffle === null || wasMobile){
+              self.log('creating shuffle');
               self.$container.css('width' , '100%');
               self.createShuffle();
+
+              
             }
 
             self.sortByPriority();
 
             window.iQ.update();
 
-            self.ev.trigger('ondesktopbreakpoint.rp');
 
           break;
 
           case 'tablet':
 
-            var wasMobile = self.isMobileMode;
-
-            //alert('tablet');
+            wasMobile = self.isMobileMode;
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
@@ -994,10 +1001,8 @@
                     .addClass('rp-tablet');
 
             if(self.scrollerModule !== null){
-
               self.scrollerModule.destroy();
               self.scrollerModule = null;
-
             }
 
             if(self.shuffle === null){
@@ -1046,6 +1051,8 @@
 
               });
             }
+
+            self.shuffle = null;
 
             //Hide the bullet navigation
             self.$bulletNav.hide();
@@ -1551,6 +1558,7 @@
         if(self.isDesktopMode === false){
           self.isDesktopMode = true;
 
+
           self.$galleryItems.each(function(){
             var item = $(this).removeClass('small-size mobile-item'),
                 slide = item.data('slide');
@@ -1560,8 +1568,11 @@
           self.$container.css( 'width' , '' );
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
-          self.$paddles.show();
 
+          if(!self.hasTouch){
+            self.$paddles.show();
+          }
+          
         }
       },
 

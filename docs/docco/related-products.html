@@ -866,7 +866,8 @@ if their interaction time and movements are below certain thresholds.</p>       
       checkForBreakpoints: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
         wW       = self.$win.width(),
-        view     = wW &gt; self.LANDSCAPE_BREAKPOINT ? <span class="string">'desktop'</span> : wW &gt; self.MOBILE_BREAKPOINT ? <span class="string">'tablet'</span> : <span class="string">'mobile'</span>;
+        view     = wW &gt; self.LANDSCAPE_BREAKPOINT ? <span class="string">'desktop'</span> : wW &gt; self.MOBILE_BREAKPOINT ? <span class="string">'tablet'</span> : <span class="string">'mobile'</span>,
+        wasMobile = <span class="literal">false</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>if the browser doesnt support media queries...IE default to desktop</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(!Modernizr.mediaqueries || self.$html.hasClass(<span class="string">'lt-ie10'</span>)){
           view = <span class="string">'desktop'</span>;
@@ -876,6 +877,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
         <span class="keyword">switch</span>(view){
           <span class="keyword">case</span> <span class="string">'desktop'</span>:
+
 
             <span class="keyword">if</span>(self.mode === <span class="string">'suggested'</span>){
               self.$el.find(<span class="string">'.gallery-item'</span>).addClass(<span class="string">'span6'</span>);
@@ -887,44 +889,49 @@ if their interaction time and movements are below certain thresholds.</p>       
             }
 
 </pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>check if we are coming out of mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>(self.isMobileMode === <span class="literal">true</span>){
+              wasMobile = <span class="literal">true</span>;
               self.returnToFullView();
+
+              self.log(<span class="string">'was mobile'</span>);
             }
 
             self.isTabletMode = self.isMobileMode = <span class="literal">false</span>;
 
             <span class="keyword">if</span>(self.isDesktopMode === <span class="literal">true</span>){
-              <span class="keyword">return</span>;
-            }
+               self.log(<span class="string">'already desktop'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>return;</p>             </td>             <td class="code">               <div class="highlight"><pre>            }
 
             self.isDesktopMode = <span class="literal">true</span>;
+
             self.$el.removeClass(<span class="string">'rp-tablet rp-mobile'</span>)
                                     .addClass(<span class="string">'rp-desktop'</span>);
 
-            <span class="keyword">if</span>(self.scrollerModule !== <span class="literal">null</span>){
-
+            <span class="keyword">if</span>(self.scrollerModule !== <span class="literal">null</span> || wasMobile){
+              self.log(<span class="string">'destroying scroller'</span>);
               self.scrollerModule.destroy();
               self.scrollerModule = <span class="literal">null</span>;
 
             }
 
-            <span class="keyword">if</span>(self.shuffle === <span class="literal">null</span>){
+            <span class="keyword">if</span>(self.shuffle === <span class="literal">null</span> || wasMobile){
+              self.log(<span class="string">'creating shuffle'</span>);
               self.$container.css(<span class="string">'width'</span> , <span class="string">'100%'</span>);
               self.createShuffle();
+
+              
             }
 
             self.sortByPriority();
 
             window.iQ.update();
 
-            self.ev.trigger(<span class="string">'ondesktopbreakpoint.rp'</span>);
 
           <span class="keyword">break</span>;
 
           <span class="keyword">case</span> <span class="string">'tablet'</span>:
 
-            <span class="keyword">var</span> wasMobile = self.isMobileMode;
+            wasMobile = self.isMobileMode;
 
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>alert('tablet');</p>             </td>             <td class="code">               <div class="highlight"><pre>
             <span class="keyword">if</span>(self.mode === <span class="string">'suggested'</span>){
               self.$el.find(<span class="string">'.gallery-item'</span>).addClass(<span class="string">'span6'</span>);
               self.$el.removeClass(<span class="string">'slimgrid'</span>)
@@ -948,10 +955,8 @@ if their interaction time and movements are below certain thresholds.</p>       
                     .addClass(<span class="string">'rp-tablet'</span>);
 
             <span class="keyword">if</span>(self.scrollerModule !== <span class="literal">null</span>){
-
               self.scrollerModule.destroy();
               self.scrollerModule = <span class="literal">null</span>;
-
             }
 
             <span class="keyword">if</span>(self.shuffle === <span class="literal">null</span>){
@@ -999,6 +1004,8 @@ if their interaction time and movements are below certain thresholds.</p>       
 
               });
             }
+
+            self.shuffle = <span class="literal">null</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>Hide the bullet navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.$bulletNav.hide();
 
@@ -1480,6 +1487,7 @@ if their interaction time and movements are below certain thresholds.</p>       
         <span class="keyword">if</span>(self.isDesktopMode === <span class="literal">false</span>){
           self.isDesktopMode = <span class="literal">true</span>;
 
+
           self.$galleryItems.each(<span class="keyword">function</span>(){
             <span class="keyword">var</span> item = $(<span class="keyword">this</span>).removeClass(<span class="string">'small-size mobile-item'</span>),
                 slide = item.data(<span class="string">'slide'</span>);
@@ -1489,8 +1497,11 @@ if their interaction time and movements are below certain thresholds.</p>       
           self.$container.css( <span class="string">'width'</span> , <span class="string">''</span> );
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, <span class="keyword">function</span>(e) { self.onDragStart(e); });
-          self.$paddles.show();
 
+          <span class="keyword">if</span>(!self.hasTouch){
+            self.$paddles.show();
+          }
+          
         }
       },
 
