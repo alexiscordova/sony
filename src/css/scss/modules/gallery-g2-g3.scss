@@ -255,11 +255,17 @@
 .active-filters-wrap {
   position: relative;
   z-index: 1;
-  margin-top: 1.25em;
+
+  .slide-toggle-target.in ~ & {
+    margin-top: 1.25em;
+  }
+}
+
+.active-filters.has-active-filters {
+  margin-bottom: 1.25em;
 }
 
 .active-filters .label {
-
   // Give active filter labels some spacing
   &:not(:first-child) {
     margin-left: .125em;

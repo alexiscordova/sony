@@ -2,7 +2,6 @@
 @import "../_base/mixins";
 
 
-
 // 4 visible (default)
 $specItemWidth1200: 13.75em; // 220
 $specLabelWidth1200: 8.75em; // 140
@@ -165,6 +164,10 @@ ul.spec-views {
 .spec-items-wrap {
   position: relative;
   z-index: 15;
+
+  .no-csstransforms & {
+    float: left;
+  }
 }
 
 // Spec Nav

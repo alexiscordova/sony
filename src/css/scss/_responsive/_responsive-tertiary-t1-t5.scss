@@ -22,10 +22,30 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 //                             
 @media (min-width: $two-up-breakpoint-min) and (max-width: $two-up-breakpoint-max) {
   .tcc-wrapper{
-    
+    height: 475px;
+
+    .navigation-container{
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      margin-left: -22px; // width / 2 - adjustments
+    }
+
     .tcc-full-bleed-at-979{
       width:auto;
     }
+
+    .tcc-body-wrapper{
+ 
+      .tcc-body{
+        height:270px; 
+      } // end .tcc-body
+
+      .tcc-content-module{
+        height:270px;
+      } // tcc-content-module
+
+    } // end .tcc-body-wrapper
 
     .article{     
       .feature-copy{
@@ -154,7 +174,15 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 // ONE UP LANDSCAPE PHONE AND BELOW -- 480px
 @media (max-width: $one-up-breakpoint-max) {
   .tcc-wrapper{
-    padding:35px 0 50px 0;
+    height: 475px;
+    padding:50px 0;
+
+    .navigation-container{
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      margin-left: -22px; // width / 2 - adjustments
+    }
 
     .tcc-full-bleed-at-979{
       width:auto;
@@ -165,7 +193,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       text-align: left;
 
       .tcc-header-title{
-        padding-bottom:15px;
+        padding-bottom:20px;
         display:block;
         float:none;
       } // end .tcc-header-title
@@ -182,7 +210,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 
     .tcc-body-wrapper{
-      padding:20px 0 0 0;
+      padding:30px 0 0 0;
   
       .tcc-body{
         height:198px; 
