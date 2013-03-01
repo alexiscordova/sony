@@ -24,7 +24,7 @@
         if(w > 980){
           $('.primary-tout.homepage .hero-image').css('height', Math.round(Math.min(770, 490 + ((w - 980) / 5))));
           $('.primary-tout.default .hero-image').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
-        }else if (w > 768){
+        }else{
           $('.primary-tout.homepage .hero-image, .primary-tout.default .hero-image').css('height', "");
         }
         
