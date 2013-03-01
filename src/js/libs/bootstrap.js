@@ -20,7 +20,7 @@
 
 !function ($) {
 
-  $(function () {
+  // $(function () {
 
     "use strict"; // jshint ;_;
 
@@ -55,9 +55,10 @@
 
     })()
 
-  })
+  // })
 
-}(window.jQuery);/* ==========================================================
+}(window.jQuery);
+/* ==========================================================
  * bootstrap-alert.js v2.1.1
  * http://twitter.github.com/bootstrap/javascript.html#alerts
  * ==========================================================

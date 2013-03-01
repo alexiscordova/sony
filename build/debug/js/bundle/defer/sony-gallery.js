@@ -422,11 +422,6 @@
       }
 
       self.filter();
-
-      // Slide up the collapsable if it's visible
-      if ( self.$container.find('.collapse').hasClass('in') ) {
-        self.$container.find('.collapse').collapse('hide');
-      }
     },
 
     onRemoveFilter : function( evt ) {
@@ -1291,25 +1286,12 @@
 
     onFiltersHide : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
-      // var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.removeClass('in');
-      // if ( !Modernizr.csstransforms ) {
-      //   $toggle.find('.down').addClass('hide');
-      //   $toggle.find('.up').removeClass('hide');
-      // }
     },
 
     onFiltersShow : function( evt ) {
       evt.stopPropagation(); // stop this event from bubbling up to .gallery
-      // var $toggle = this.$container.find('.slide-toggle');
       this.$filterArrow.addClass('in');
-
-      // If we don't have transforms, show and hide different arrows.
-      // if ( !Modernizr.csstransforms ) {
-      //   $toggle.find('.down').removeClass('hide');
-      //   $toggle.find('.up').addClass('hide');
-      // }
-
     },
 
     onFiltersShown : function( evt ) {
@@ -2455,43 +2437,73 @@
 
   // Event triggered when this tab is about to be shown
   SONY.onGalleryTabShow = function( evt ) {
-    var $prevPane = evt.prevPane ? evt.prevPane :
-          evt.originalEvent.prevPane ? evt.originalEvent.prevPane :
-          false;
+    var $prevPane;
 
-
-    if ( $prevPane ) {
-      // Loop through each gallery in the tab (there could be more than 1)
-      // Disable the gallery (which disableds shuffle and pauses infinite scrolling) for galleries being hidden
-      $prevPane.find('.gallery').each(function() {
-        var gallery = $(this).data('gallery');
-
-        // If there are active filters, remove them.
-        if ( gallery.hasActiveFilters ) {
-          gallery.removeActiveFilters();
-        }
-
-        gallery.disable();
-      });
+    if ( evt ) {
+      $prevPane = evt.prevPane;
+      if ( evt.prevPane ) {
+        $prevPane = evt.prevPane;
+      } else if ( evt.originalEvent && evt.originalEvent.prevPane ) {
+        $prevPane = evt.originalEvent.prevPane;
+      } else {
+        $prevPane = false;
+      }
     }
+
+    if ( !evt || !$prevPane ) {
+      return;
+    }
+
+
+    // Loop through each gallery in the tab (there could be more than 1)
+    // Disable the gallery (which disableds shuffle and pauses infinite scrolling) for galleries being hidden
+    $prevPane.find('.gallery').each(function() {
+      var gallery = $(this).data('gallery');
+
+      // If there are active filters, remove them.
+      if ( gallery.hasActiveFilters() ) {
+        gallery.removeActiveFilters();
+      }
+
+      gallery.disable();
+    });
 
   };
 
   // Event triggered when tab pane is finished being shown
   SONY.onGalleryTabShown = function( evt ) {
-
     // Only continue if this is a tab shown event.
-    if ( !evt.pane ) {
+    var $pane,
+        $galleries;
+
+    if ( evt ) {
+      $pane = evt.pane;
+      if ( evt.pane ) {
+        $pane = evt.pane;
+      } else if ( evt.originalEvent && evt.originalEvent.pane ) {
+        $pane = evt.originalEvent.pane;
+      } else {
+        $pane = false;
+      }
+    }
+
+    if ( !evt || !$pane ) {
       return;
     }
 
-    var $galleries = evt.pane.find('.gallery');
+    $galleries = $pane.find('.gallery');
 
     $galleries.each(function() {
-      var gallery = $(this).data('gallery');
+      var gallery = $(this).data('gallery'),
+          $collapse = gallery.$container.find('[data-toggle="collapse"]');
 
       // Enable all galleries in this tab
       gallery.enable();
+
+      // Slide up the collapsable if it's visible
+      if ( $collapse.length && !$collapse.hasClass('collapsed') ) {
+        $collapse.click();
+      }
 
       if ( gallery ) {
         gallery.fixCarousels( gallery.isInitialized );

@@ -243,7 +243,7 @@ SONY.Utilities = (function(window, document) {
         Modernizr.generatedcontent = true;
         SONY.$html.addClass('generatedcontent sonytablets').removeClass('no-generatedcontent');
       }
-    },
+    }
 
     // addClasses : function() {
     //   if ( SONY.Settings.isAndroid ) {
