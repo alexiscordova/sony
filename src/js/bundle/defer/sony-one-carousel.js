@@ -65,10 +65,15 @@ if (!Array.prototype.indexOf)
 
       self.gotoSlide(0);
       self.createPagination();
+      self.setupPaddles();
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
       self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
       self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
+
+      SONY.on('global:resizeDebounced-200ms', function(){
+        self.gotoSlide(self.currentSlide);
+      });
 
       self.teardown();
 
@@ -251,6 +256,77 @@ if (!Array.prototype.indexOf)
           'activeButton': which
         });
       });
+    },
+
+    setupPaddles: function(){
+
+      var self = this,
+          itemHTML = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
+          $container = self.$el.closest('.container'),
+          out = '<div class="soc-nav soc-paddles">';
+
+      if ( Modernizr.touch ) {
+        return;
+      }
+
+      self.paddlesEnabled = true;
+
+      for ( var i = 0; i < 2; i++ ) {
+        out += itemHTML;
+      }
+
+      out += '</div>';
+      out = $(out);
+
+      self.$el.append(out);
+
+      self.$paddles     = self.$el.find('.paddle');
+      self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
+      self.$rightPaddle = self.$paddles.eq(1).addClass('right');
+
+      self.$paddles.on('click', function(){
+
+        if ( $(this).hasClass('left') ){
+
+          self.currentSlide--;
+          if( self.currentSlide < 0 ){
+            self.currentSlide = 0;
+          }
+
+          self.gotoSlide(self.currentSlide);
+
+        } else {
+
+          self.currentSlide++;
+
+          if(self.currentSlide >= self.$slides.length){
+            self.currentSlide = self.$slides.length - 1;
+          }
+
+          self.gotoSlide(self.currentSlide);
+        }
+      });
+
+      self.onPaddleNavUpdate();
+      self.$el.on('oneSonyCarousel:gotoSlide', $.proxy(self.onPaddleNavUpdate, self));
+    },
+
+    onPaddleNavUpdate: function(){
+      var self = this;
+
+      //check for the left paddle compatibility
+      if(self.currentSlide === 0){
+        self.$leftPaddle.stop(true,true).fadeOut(100);
+      }else{
+        self.$leftPaddle.stop(true,true).fadeIn(200);
+      }
+
+      //check for right paddle compatiblity
+      if(self.currentSlide === self.$slides.length - 1){
+        self.$rightPaddle.stop(true,true).fadeOut(100);
+      }else{
+        self.$rightPaddle.stop(true,true).fadeIn(200);
+      }
     }
 
   };
