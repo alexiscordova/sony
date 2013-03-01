@@ -43,6 +43,102 @@ $bulletMargin: px-em(5px);
   }
 }
 
+.pagination-paddles {
+  @include transition();
+  height: 0;
+  opacity: 0;
+
+  &.show-paddles {
+    opacity: 1;
+  }
+
+  button {
+    @include transition();
+    position: absolute;
+    top: 50%;
+    width: px-em(48px);
+    height: px-em(76px);
+    display: block;
+    margin-top: px-em(76px) / -2;
+    padding: 0;
+    border: none;
+    background-color: $gray60;
+    background-color: rgba($gray10, .4);
+    border-radius: .1875em;
+    opacity: 0;
+
+    &.on {
+      opacity: 1;
+    }
+
+    &.pagination-next {
+      right: 3.55%;
+      margin-right: px-em(48px) / -2;
+    }
+
+    &.pagination-prev {
+      left: 3.55%;
+      margin-left: px-em(48px) / -2;
+    }
+
+    .lt-ie9 & {
+      zoom: 1;
+    }
+
+    .touch & {
+      display: none;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $gray20;
+      background-color: rgba($gray10, .8);
+      outline: none;
+      cursor: pointer;
+    }
+
+    i {
+      vertical-align: middle;
+      color: $white;
+      font-size: $font_15_16;
+      margin-left: .0625em;
+      margin-top: -0.125em;
+    }
+
+    i.fonticon-10-chevron-reverse {
+      margin-left: 0;
+      margin-right: 0.0625em;
+    }
+  }
+
+  // If there's a paddle-trigger, fade in the paddles when it's hovered over.
+  // DONT use filter for IE
+  .paddle-trigger button {
+    opacity: 0;
+  }
+
+  .paddle-trigger:hover button,
+  .paddle-trigger button:focus {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Stuff below this line should be deleted once we implement the global paddles.
 
 .nav-paddle {
   display: block;
