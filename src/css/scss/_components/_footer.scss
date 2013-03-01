@@ -120,7 +120,9 @@ form.footer-store-locator-form{
 
     i{
       position:relative;
-      top:3px;
+      margin-top: 0;
+      margin-bottom: 0;
+      line-height:1;
       -webkit-font-smoothing:antialiased;
       overflow:hidden;
     }
@@ -187,14 +189,16 @@ a.footer-social-youtube {
 
 
     .fonticon-10-arrowhead-down{
-      float:right;
+      display:inline-block;
+      position:relative;
+      top:-2px;
+      left:4px;
       @include transition(all $transitionFast linear);
       @include transform-origin(47%, 53%, 0);
       @include flickerfix;
       -webkit-font-smoothing:antialiased;
       color:$gray50;
       font-size: px-em(16,12);
-      margin: 1px 0 0 0;
     }
   }
 
