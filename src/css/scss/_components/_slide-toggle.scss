@@ -33,10 +33,10 @@ $activeColor: $btnAltBackground;
 .slide-toggle-target {
   @include lightGrayInset();
 
-  &.in ~ .spacer {
-    @include transition();
-    margin-bottom: 1.5em;
-  }
+  // &.in ~ .spacer {
+  //   @include transition();
+  //   margin-bottom: 1.5em;
+  // }
 }
 
 // A rotated square
@@ -70,11 +70,5 @@ $left: 175px;
     width: $filterArrowSize + 4px;
     @include rotate(0deg);
     @include box-shadow(none);
-  }
-}
-
-@media (max-width: px-em(979px) ) {
-  .slide-toggle i {
-    margin-top: 0;
   }
 }

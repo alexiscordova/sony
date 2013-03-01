@@ -1,0 +1,398 @@
+@import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
+@import "../_base/mixins";
+
+
+/* Related Products */  
+.RELATEDPRODUCTS {}
+  .related-products {
+
+    .shuffle-container {
+
+      @media (min-width:px-em(980px)) and (max-width:px-em(1199px)){
+        &.slimgrid5 {
+          width: 91.89189%;
+        } 
+
+        max-width:1190px;   
+      }
+
+      @media (min-width:px-em(1201px)){
+        &.slimgrid5 {
+          width:100%;
+        } 
+
+        max-width:1190px; 
+      }
+    }
+
+    &.suggested {
+
+      @media (min-width: px-em(769px)){
+        .span6:after {
+          content:'';
+          display:block;
+          padding-top: 98.1963928%;
+        }
+      }
+
+      //Suggested tablet
+      @media (min-width: px-em(481px)) and (max-width: px-em(768px)) {
+        padding: 0 4% 0 4%;
+
+        .span6 {
+          
+          width: 48.13617%;
+
+          &:after {
+            content:'';
+            display:block;
+            padding-top: 128.343949%; 
+          }
+        }
+
+        .gallery-item {
+          
+          .product-img {
+            margin-top: 12%;
+          }
+
+          .product-price {
+            margin-top: 5%;
+          }
+
+          .gallery-item-inner {
+            .product-tagline {
+              font-size: $font_21_16;
+            }
+
+            .product-name {
+              padding-top: 4.142857%;
+              font-size: $font_11_16;
+            }
+
+            .product-tagline { 
+              max-width: 245px;
+            }
+         }
+
+        }
+      }
+
+       @media (max-width: px-em(480px)) {
+          .gallery-item { 
+            margin-left: 0;
+            &:after {
+              padding-top: 9.196078%;
+            }
+          }
+       }
+    }
+
+    /* Gallery Item */
+    .GALLERYITEM{}
+
+      .gallery-item {
+        @media (max-width:481px){
+          &.plate .product-img{
+            min-height: 264px;
+          }
+        }
+      }
+
+      @media (min-width: px-em(481px)) and (max-width:980px){
+        &.related-products-4up {
+          .gallery-item:after {
+            padding-top: 99%;
+          }
+        }
+      }
+
+      .gallery-item.plate .promo-content {
+
+        @media (max-width: px-em(980px)) {
+          .promo-title {
+            position: static;
+          }
+          .text-count {
+            position: absolute;
+          }
+        }
+
+        @media (max-width: px-em(481px)) {
+          .promo-title {
+            position: static;
+          }
+          .text-count {
+            position: absolute;
+          }
+        }
+      }
+
+      .gallery-item.plate .text-promo-title {
+        .emphasis {
+          @media (max-width: 640px){
+            visibility: hidden;
+            display: none;
+          }          
+        }
+      }
+
+      @media (max-width: 481px){
+        .product-img:after {
+          content: none;
+        }
+      }
+
+      @media (max-width: 481px){
+
+        &:after {
+          content: none;
+        }
+      }
+
+      .medium:after {
+
+        @media (min-width:481px) and (max-width: 980px ){
+           padding-top: 160.290023%;
+        }
+      }
+
+      .medium .product-img:after {
+/* 
+        @media (min-width:981px) and (max-width:1199px){
+          padding-top: 112.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1107px){
+          padding-top: 115.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1095px){
+          padding-top: 116.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1095px){
+          padding-top: 121.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1087px){
+          padding-top: 117.02761%;
+        }        
+
+        @media (min-width:981px) and (max-width:1087px){
+          padding-top: 119.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:1012px){
+          padding-top: 121.72761%;
+        }
+
+        @media (min-width:981px) and (max-width:986px){
+          padding-top: 124.02761%;
+        }
+
+        @media (min-width:981px) and (max-width:996px){
+          padding-top: 122.92761%;
+        }
+
+        @media (min-width:481px) and (max-width:768px){
+          padding-top: 122.32761%;
+        }
+
+        @media (min-width:769px) and (max-width:980px){
+          padding-top: 124.22761%;
+        }
+
+        @media (min-width:568px) and (max-width:767px){
+          padding-top: 127.92761%;
+        }        
+
+        @media (min-width:568px) and (max-width:674px){
+          padding-top: 132.92761%;
+        }
+
+        @media (min-width:568px) and (max-width:640px){
+          padding-top: 132.92761%;
+          padding-top: 138.92761%;
+        }
+
+        @media (max-width: 481px){
+          .medium .product-img:after {
+            padding-top: 75.980392156863%;
+          }
+        } */
+      }
+
+      @media (min-width: 481px) and (max-width: 980px){
+
+        .gallery-item:after {
+          padding-top: 133.196078%;
+        }
+
+/*         .related-products-4up {
+          .gallery-item:after {
+            padding-top: 160.196078%;
+          }   
+        } */
+
+        .gallery-item .gallery-item-inner,
+        .product-img .product-img-wrap {
+          position: absolute; 
+        }
+
+        .medium.gallery-item:after {
+          padding-top: 151.996078%;
+        }
+
+        //4up style
+        &.related-products-4up {
+
+          .gallery-item:after {
+            padding-top: 160.196078%;
+          }
+
+          .medium.gallery-item:after {
+            padding-top: 141.196078%;
+          } 
+
+          .medium .product-img:after {
+            padding-top: 90.32761%;
+          }
+        }
+
+        .gallery-item.plate:after {
+          //padding-top: 76.190255%
+        }
+
+      }
+
+      @media (min-width: 568px) and (max-width: 767px){
+
+        .gallery-item.medium:after {
+          padding-top: 170.196078%;
+        }     
+      }
+      @media (min-width: 568px) and (max-width: 640px){
+
+        .gallery-item.medium:after {
+          padding-top: 182.196078%;
+        }     
+      }
+
+
+  /* Bullet Nav */
+  .BULLETNAV{}
+
+    @media (max-width: 567px) {
+      margin: 20px 0 53px 0;
+    }
+
+    /* Slides */
+    .RPSLIDES{}
+
+      .rp-slide {
+
+        @media (max-width: px-em(1199px)){
+         width: 93.06122%;
+        }
+
+        @media (min-width: px-em(1200px)){
+         width: 85.06122%;
+        }
+
+        @media (min-width: px-em(1400px)){
+          width: 93.06122%;
+        }
+
+        /* 3up Media Queries */ 
+        &.related-products-3up {
+
+          .gallery-item.medium .product-img:after {
+            @media (min-width:769px) and (max-width:980px){
+              padding-top: 109.92761%;
+            }
+          }
+
+          .gallery-item.plate:after {
+            @media (min-width:769px) and (max-width:980px){
+              padding-top: 131.09025%;
+            }
+          }
+
+          //medium tile
+          .gallery-item.medium { 
+            //481 -----------> 768
+            @media (min-width:481px) and (max-width:768px){
+              .product-img {
+                &:after {
+                  padding-top: 100.52761%;
+                }
+              }
+            }
+          }
+
+          .gallery-item.medium .gallery-item:after {
+            @media (min-width:481px) and (max-width:768px){
+              padding-top: 127.99607%;
+            }
+          }
+
+          .gallery-item.plate:after {
+            @media (min-width:481px) and (max-width:768px){
+              padding-top: 127.143%;
+            }
+          }
+
+        }
+      
+      }
+      //slides
+  }
+
+@media (min-width: 481px) and (max-width: 768px){
+  .rp-grid {
+    padding: 0;
+  }
+}
+
+/* Related Products Title */ 
+.rp-title {
+
+/*   //beyond tablet
+  @media (min-width:px-em(769px)){
+    margin: 33px 0 10px 0;
+  } 
+
+  //tablet
+  @media (min-width:px-em(481px)) and (min-width:px-em(769px)){
+    margin: 33px 0 10px 0;
+  } */
+
+}
+
+/* Paddle Nav */
+.PADDLENAV{}
+  .rp-nav {
+    .paddle {
+
+      i {
+        @media (max-width:(px-em(979px))){
+          margin-top: 28px;
+        }
+      }
+    
+      @media (min-width: px-em(481px)) and (max-width:(px-em(979px))){
+        margin: -100px 0;
+        width: 40px;
+        height: 70px;
+        
+        font-size: 1.0em;
+      }
+
+      @media (max-width:(px-em(480px))){
+        display: none;
+      }
+
+    }
+  }
+

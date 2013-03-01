@@ -17,6 +17,19 @@ small {
   color: $grayLight;
 }
 
+// Links
+// -------------------------
+
+a {
+  color: $linkColor;
+  text-decoration: none;
+}
+a:hover,
+a:active,
+a:focus {
+  color: $linkColorHover;
+  text-decoration: none;
+}
 
 
 
@@ -311,6 +324,64 @@ h6 { @extend .t6; }
 p{ @extend .p2; }
 
 
+
+
+
+
+// ----------------------------------
+// Light text / Dark text -- on Dark box / Light box / Transparent box
+// ----------------------------------
+// dark text
+.dark-text-light-box,
+.dark-text-trans-box{
+  h1, h2, h3, h4, h5, h6{
+    color:$gray20;
+  }
+  p{
+    color:$gray40;
+  }
+}
+//light text
+.light-text-dark-box,
+.light-text-trans-box{
+  h1, h2, h3, h4, h5, h6{
+    color:$white;
+  }
+  p{
+    color:$gray50;
+  }
+}
+.light-text-dark-box a,
+.light-text-trans-box a{
+  color: $white;
+  &:hover, &:active, &:focus, &.active{
+    color: $gray70;    
+  }
+}
+.light-text-trans-box p{
+  color:$white;
+}
+// trans box
+.dark-text-trans-box,
+.light-text-trans-box .box{
+}
+//dark box
+.light-text-dark-box .box{
+  background:$titleBlack;
+}
+//light box
+.dark-text-light-box .box{
+  background:$titleWhite;
+}
+
+
+
+
+
+
+
+
+
 // --------------------------------------
 // Old font styles
 // --------------------------------------
@@ -416,19 +487,19 @@ p{ @extend .p2; }
 .tl-large {
   font-size: $font_15_15;
 }
-.tl-arrow-right {
-  &:after {
-    @include pseudoEl-inline-block();
-    @extend .icon-ui-pseudo-el-arrow-right-blue;
-    position: relative;
-    top: 1px;
-    margin-left: 9px;
-    margin-top: 5px;
-  };
-  &.tl-large:after {
-    top: 3px;
-  };
-}
+// .tl-arrow-right {
+//   &:after {
+//     @include pseudoEl-inline-block();
+//     // @extend .icon-ui-pseudo-el-arrow-right-blue;
+//     position: relative;
+//     top: 1px;
+//     margin-left: 9px;
+//     margin-top: 5px;
+//   };
+//   &.tl-large:after {
+//     top: 3px;
+//   };
+// }
 
 // ---------------------------------
 // Global Nav links
@@ -513,23 +584,23 @@ input[type="color"],
   line-height: $baseLineHeight;
 }
 
-.text-number-callout-large {
-  font-size: $font_60_16;
-  @include fontLight;
-  em { @include fontLightItalic; }
-  color:$headingsColor;
-}
-.text-promo-title {
-  font-size:$font_25_16;
-  line-height: $baseLineHeight * 0.8;
-  @include fontLight;
-  em { @include fontLightItalic; }
-  strong {
-    @include fontRegular;
-    em { @include fontItalic; }
-    color:$headingsColor;
-  }
-}
+// .text-number-callout-large {
+//   font-size: $font_60_16;
+//   @include fontLight;
+//   em { @include fontLightItalic; }
+//   color:$headingsColor;
+// }
+// .text-promo-title {
+//   font-size:$font_25_16;
+//   line-height: $baseLineHeight * 0.8;
+//   @include fontLight;
+//   em { @include fontLightItalic; }
+//   strong {
+//     @include fontRegular;
+//     em { @include fontItalic; }
+//     color:$headingsColor;
+//   }
+// }
 
 // Page header
 // -------------------------
@@ -700,53 +771,53 @@ address {
 
 
 
-.SST-Roman {
-  font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
+// .SST-Roman {
+//   font-family: "SST W01 Roman", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-.SST-Italic {
-  font-family: "SST W01 Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
+// .SST-Italic {
+//   font-family: "SST W01 Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-.SST-Light {
-  font-family: "SST W01 Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
+// .SST-Light {
+//   font-family: "SST W01 Light", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-.SST-Light-Italic {
-  font-family: "SST W01 Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
+// .SST-Light-Italic {
+//   font-family: "SST W01 Light Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-.SST-Medium {
-  font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
+// .SST-Medium {
+//   font-family: "SST W01 Medium", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-.SST-Medium-Italic {
-  font-family: "SST W01 Medium Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
+// .SST-Medium-Italic {
+//   font-family: "SST W01 Medium Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-.SST-Bold {
-  font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
+// .SST-Bold {
+//   font-family: "SST W01 Bold", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
-.SST-Bold-Italic {
-  font-family: "SST W01 Bold Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
+// .SST-Bold-Italic {
+//   font-family: "SST W01 Bold Italic", "Comic Sans MS", Monaco, "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
 
 

@@ -53,11 +53,12 @@ mixin colorSwatches( colors, isShowOnlyChild )
       span(class=theClass, data-color=colour, itemprop="color")= colour
 
 
+//- .iq-img select must be added with javascript later and then iQ.update(true)
 mixin iQColorImages( colors )
   if colors && colors.length > 1
     each img in colors
       //- mixin iQImage( img, 'hidden', 'image' )
-      img.iq-img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
+      img.hidden(data-src=img.src, data-color=img.color, alt=img.alt, itemprop="image")
       noscript
         img.hidden(src=img.noscriptsrc, alt=img.alt, itemprop="image")
 
@@ -509,7 +510,25 @@ else if data.view == 'single-spec'
                     strong!= feature2.label
                   p.media-description.p3!= feature2.description
 
+else if data.view == 'suggested'
+  a(class='gallery-item span6 suggested', href=data.href ? data.href : '#')
+    .gallery-item-inner
+      .product-name.p3 
+        | !{data.name}
+      .product-tagline.p1
+        | !{data.tagline} 
+      .product-img
+        div(class='product-img-wrap ghost-center-wrap')
+          .ghost-center
+            img.iq-img(alt=data.img.alt, data-src=data.img.src)
+            noscript
+              img(src=data.img.noscriptsrc, alt=data.img.alt)
+      .product-price
+        span.price-prefix.p3 Starting at &nbsp;
+        span.price.l2= '$' + data.price + '&nbsp;'
+        span.msrp.p5 MSRP
 
+      
 else if data.view == 'blank'
   div(class='gallery-item basic blank m-span3 normal shuffle-item filtered span1', data-priority=data.priority, href='#')
 

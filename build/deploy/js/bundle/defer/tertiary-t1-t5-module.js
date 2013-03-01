@@ -23,56 +23,69 @@
       
       $.extend(self, {}, $.fn.tertiaryModule.defaults, options, $.fn.tertiaryModule.settings);
       
-      // INITS & CACHED SELECTORS
-      self.$win                    = SONY.$window;
-      self.isTouch                 = SONY.Settings.hasTouchEvents;
-      self.isLayoutHidden          = false;
-      self.isInit                  = true;
-      self.mode                    = null;
-      self.prevMode                = null;
-      self.$scrollerInstance       = null;              
-
+      // INITS, SELECTORS
+      self.$win                           = SONY.$window;
+      self.isTouch                        = SONY.Settings.hasTouchEvents;
+      self.isLayoutHidden                 = false;
+      self.isInit                         = true;
+      self.mode                           = null;
+      self.prevMode                       = null;
+      self.$scrollerInstance              = null;              
+      
+      // SCROLLER CLASSES
+      self.contentModulesClass            = '.tcc-content-module';
+      self.contentSelectorClass           = '.tcc-body';
+      self.desktopClasses                 = 'span4';
+      
       // SELECTORS
-      self.$container              = $( element );
-      self.$el                     = self.$container.find(".tcc-scroller");
-      self.containerId             = '#' + self.$container.attr("id");
-      self.contentModulesClass     = '.tcc-content-module';
-      self.contentSelectorClass    = '.tcc-body';
-      self.$tccHeaderWrapper       = self.$container.find('.tcc-header-wrapper');
-      self.$tccHeader              = self.$tccHeaderWrapper.find(".tcc-header");
-      self.$tccBodyWrapper         = self.$el;
-      self.$tccBody                = self.$tccBodyWrapper.find(self.contentSelectorClass);
-      self.$contentModules         = self.$el.find(self.contentModulesClass);
-      self.$hideShowEls            = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);      
-      self.$loader                 = self.$container.find(".loader");
-
-      // EVENTS
+      self.$container                     = $( element );
+      self.$el                            = self.$container.find(".tcc-scroller");
+      self.containerId                    = '#' + self.$container.attr("id");
+      self.$tccHeaderWrapper              = self.$container.find('.tcc-header-wrapper');
+      self.$tccHeader                     = self.$tccHeaderWrapper.find(".tcc-header");
+      self.$tccBodyWrapper                = self.$el;
+      self.$tccBody                       = self.$tccBodyWrapper.find(self.contentSelectorClass);
+      self.$contentModules                = self.$el.find(self.contentModulesClass);
+      self.$hideShowEls                   = self.$tccBodyWrapper.add(self.$tccBody).add(self.$contentModules);      
+      self.$loader                        = self.$container.find(".loader");
       
-      // namespaced versions of the global event 
-      self.tccNamespace            = '.tcc';
-      self.debounceBeforeEvent     = 'global:resizeDebouncedAtBegin-200ms' + self.tccNamespace; 
-      self.debounceEvent           = 'global:resizeDebounced-200ms' + self.tccNamespace;
+      // EVENTS     
+      // Namespaced versions of global events 
+      self.tccNamespace                   = '.tcc';
+      self.debounceBeforeEvent            = 'global:resizeDebouncedAtBegin-200ms' + self.tccNamespace; 
+      self.debounceEvent                  = 'global:resizeDebounced-200ms' + self.tccNamespace;
       
-      // method calls within self content
-      self.beforeResizeFunc        = $.proxy( self.beforeResize, self ); 
-      self.afterResizeFunc         = $.proxy( self.afterResize, self );
-     
+      // PROXY CALLS
+      self.beforeResizeFunc               = $.proxy( self.beforeResize, self ); 
+      self.afterResizeFunc                = $.proxy( self.afterResize, self );
+      
       // TIMING
-      self.afterResizeSpeed        = 200;
-      self.setupSpeed              = 200;
-      self.teardownSpeed           = 50;
-      self.hideAllSpeed            = 50;
-      self.showAllSpeed            = 200;
-      self.animationSpeed          = 200;
-     
-      // BREAKPOINTS
-      self.phoneBreakpoint         = 479;
-      self.tabletBreakpointMin     = self.phoneBreakpoint + 1;
-      self.tabletBreakpointMax     = 768;
-
+      self.afterResizeSpeed               = 200;
+      self.setupSpeed                     = 200;
+      self.teardownSpeed                  = 50;
+      self.hideAllSpeed                   = 50;
+      self.showAllSpeed                   = 200;
+      self.animationSpeed                 = 200;
+      
+      // BREAKPOINT CONSTANTS
+      self.SONY_TCC_PHONE_BREAKPOINT      = 479;
+      self.SONY_TCC_TABLET_BREAKPOINT_MIN = 480;
+      self.SONY_TCC_TABLET_BREAKPOINT_MAX = 979; // 767
+      
+      // TODO: remove these if not needed anymore
+      // Breakpoints in pixels
+      // self.phoneBreakpointPx           = self.SONY_TCC_PHONE_BREAKPOINT + "px";
+      // self.tabletBreakpointMinPx       = self.SONY_TCC_TABLET_BREAKPOINT_MIN + "px";
+      // self.tabletBreakpointMaxPx       = self.SONY_TCC_TABLET_BREAKPOINT_MAX + "px"; 
+      
+      // Breakpoints in ems
+      self.phoneBreakpointEm              = SONY.Utilities.pxToEm(self.SONY_TCC_PHONE_BREAKPOINT);
+      self.tabletBreakpointMinEm          = SONY.Utilities.pxToEm(self.SONY_TCC_TABLET_BREAKPOINT_MIN); 
+      self.tabletBreakpointMaxEm          = SONY.Utilities.pxToEm(self.SONY_TCC_TABLET_BREAKPOINT_MAX); 
+      
       // GRID & SPACING
-      self.marginPercent          = Number('.0334'); // 22/650 (at 2-up)
-      self.paddingPerContent      = 20;
+      self.marginPercent                  = Number('.034'); // 22/650 (at 2-up)
+      self.contentInnerMargin             = 22;
      
       // register listener for global debounce to call method **before** debounce begins
       SONY.on(self.debounceBeforeEvent, self.beforeResizeFunc);
@@ -104,7 +117,10 @@
         var self      = this,
             setupSequence = new Sequencer();
 
-        // define order of events via sequencer        
+        // remove desktop spans if there are any
+        if(self.$contentModules.hasClass(self.desktopClasses)){
+          setupSequence.add( self, self.removeDesktopClasses, self.setupSpeed);
+        }
                         
         // set content module sizes        
         setupSequence.add( self, self.setContentModuleSizes, self.setupSpeed ); 
@@ -115,10 +131,11 @@
         // create scroller instance
         setupSequence.add( self, self.createScroller, self.setupSpeed ); 
 
-        if(self.mode === 'tablet'){
+        if(self.mode === "tablet"){
           // adjusts margins after content modules are absolute positioned
           setupSequence.add( self, self.adjustPositionForMargins, self.setupSpeed ); 
         }
+
 
         // show the elements if they've beenh hidden
         if(self.isLayoutHidden){
@@ -144,6 +161,11 @@
         // destroy scroller instance
         teardownSequence.add( self, self.destroyScroller, self.teardownSpeed ); 
        
+        // if we're going from "mobile" to desktop then add grid spans back in
+        if((self.mode === "desktop") && (self.prevMode !== "desktop")){
+          teardownSequence.add( self, self.addDesktopClasses, self.setupSpeed);
+        }
+
         // start sequence
         teardownSequence.start();
       },
@@ -162,8 +184,6 @@
                
         // start sequence
         hideSequence.start();
-
-        //console.log( 'hideAll done »');
       },
 
       // Show scroller content after transition
@@ -192,6 +212,18 @@
       hideLoader : function(){
         var self = this;
         self.$loader.hide();
+      },
+
+      // adds grid classes back in
+      addDesktopClasses : function(){
+        var self = this;
+        self.$contentModules.addClass(self.desktopClasses);
+      },
+
+      // takes out grid-specific classes (scroller is out of grid)
+      removeDesktopClasses : function(){
+        var self = this;
+        self.$contentModules.removeClass(self.desktopClasses);
       },
 
       // hide $elements: opacity & visibility 
@@ -256,61 +288,52 @@
 
         // if it is a touch device, do not use paddle navigation only use swipe 
         self.scrollerOptions.generateNav = !(self.isTouch);
-
-        // TODO: determine why passing this into scroller was casusing issues
-        // when more than one scroller instance was on the page 
-        // bullets would get appended to last instance and oddly 
-        // not respecting encapsulation
-        // self.scrollerOptions.appendBulletsTo = self.containerId + '.tcc-wrapper';
       },
 
       // determine left and right margin total 
-      getHorizontalMargins : function( selector ){
-        var self = this,
-            $el  = selector;
-      
+      getHorizontalMargins : function( $selector ){     
         // outer width with margins subtracted by width without margins = margins
-        return Math.round(Number($el.outerWidth(true) - $el.outerWidth()));
+        return Math.round(Number($selector.outerWidth(true) - $selector.outerWidth()));
       },
 
-      // every resize event (debounced) determine size of each content module 
+      // on every (debounced) resize event determine size of each content module 
+      
       setContentModuleSizes : function(){     
-        var self         = this,
-        containerSize    = Math.round(self.$el.outerWidth()), // no margins 
-        headerLRMargin   = self.getHorizontalMargins(self.$tccHeaderWrapper),
-        eachContentWidth = null,
-        $elements        = self.$contentModules;
+        var self               = this,
+        $elements              = self.$contentModules,
+        eachContentWidth       = Math.round(self.$tccHeader.innerWidth()); // no margins 
 
-        // should only ever be "mobile"
-        if((self.mode === 'tablet') || (self.mode === 'phone')){          
-          // accounts for margins in container widths to support full-bleed
-          eachContentWidth = containerSize - headerLRMargin;
+        // tablet is 2-up and split evenly
+        // and also "padding" is added between the two
+        // which is really narrowing the content mod's width a bit 
+        // and compensating for the width change by adjusting the left position 
+        // accomplished in self.adjustPositionForMargins() 
+        if(self.mode === 'tablet'){  
+           eachContentWidth = Math.round((eachContentWidth / 2) - (self.contentInnerMargin / 2));
+        }
         
-          // tablet is 2-up not 1-up, so split evenly
-          if(self.mode === 'tablet'){
-             
-             // accounts for margins in between the two content modules (set after scroller instance)
-             eachContentWidth = Math.round((eachContentWidth / 2) - (headerLRMargin/2));
-
-          }else{
-            // assumes self.mode = 'phone'
-                        
-            // check if we need to set width of specific children elements also
-            $elements = self.addDynamicWidthElements( $elements );
-          }
-
+        // phone is 1-up
+        if(self.mode === 'phone'){
+          // eachContentWidth's default is "100%" of the available space
+          // so no changes are needed for 1-up
+          
+          // check if we need to set width of specific children elements
+          $elements = self.addDynamicWidthElements( $elements );
         }
 
-        // set each width
+        // set each content module's width
         $elements.each(function() {
           $(this).innerWidth(eachContentWidth);
         });
       },
-      
+
       //  1. Checks each $element in $elements for its content type and mode (type:mode)
       //  2. If there is a match, then it adds that $element to selector group
       //  *@param {jquery obj} $elements* [current set of element objects]
       //  *returns $elements* {jquery obj} [new group of element objects]
+      
+      // TOOD: Optimize this so it only runs if the data attributes exist 
+      // instead of hitting each() automatically
       addDynamicWidthElements : function( $elements ){
         var self = this;
       
@@ -329,7 +352,6 @@
         return $elements;
       },
 
-      
       /**
        * Get availble container width from header (because it's still in the grid)
        * For each content module, adjust current left position to accomodate new margins on resize
@@ -338,7 +360,7 @@
        */
       adjustPositionForMargins : function(){
         var self       = this,
-        headerLRMargin = self.getHorizontalMargins(self.$tccHeaderWrapper),
+        headerLeftRightMargins = self.contentInnerMargin,//self.getHorizontalMargins(self.$tccHeader),
         $content, newLeft, contentPosition, contentLeft;
 
         self.$contentModules.each(function(i) {
@@ -348,10 +370,10 @@
           
           if((i === 0) || (i === 2)){
             // first / last content module move left
-            newLeft = Math.round(Number(contentLeft - (headerLRMargin/2)));
+            newLeft = Math.round(Number(contentLeft - (headerLeftRightMargins/2)));
           }else{
             // second content module move right
-            newLeft = Math.round(Number(contentLeft + (headerLRMargin/2)));
+            newLeft = Math.round(Number(contentLeft + (headerLeftRightMargins/2)));
           }
 
           // set new left position
@@ -359,7 +381,6 @@
  
         });
       },
-
 
       /**
        * if resize is not going from desktop to desktop then hide elements for rebuild.
@@ -430,9 +451,9 @@
         // ex. mobile entering desktop 
         self.prevMode = self.mode; 
 
-        if( Modernizr.mq('(max-width:'+ self.phoneBreakpoint+'px)') ){
+        if( Modernizr.mq('(max-width:'+ self.phoneBreakpointEm + ')') ){
           self.mode = 'phone';
-        }else if ( Modernizr.mq('(min-width:' + self.tabletBreakpointMin + 'px) and (max-width:' + self.tabletBreakpointMax + 'px)') ) {
+        }else if ( Modernizr.mq('(min-width:' + self.tabletBreakpointMinEm + ') and (max-width:' + self.tabletBreakpointMaxEm + ')') ) {
           self.mode = 'tablet';
         }else{
           self.mode = 'desktop';
@@ -455,7 +476,6 @@
 
     };
    
-
     // Plugin definition
     $.fn.tertiaryModule = function( options ) {
       var args = Array.prototype.slice.call( arguments, 1 );
@@ -483,10 +503,11 @@
         mode: 'paginate',
         generatePagination: true,
         centerItems: true,
+        threshold:5,
+        appendBulletsTo:".tcc-wrapper",
 
         iscrollProps: {
           snap: true,
-          momentum: false,
           hScrollbar: false,
           vScrollbar: false
         }

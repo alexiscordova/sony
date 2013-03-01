@@ -159,9 +159,8 @@ leading edge, instead of the trailing.</p>
 
 </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Feature support</p>             </td>             <td class="code">               <div class="highlight"><pre>      orientationSupported = ORIENTATION <span class="keyword">in</span> win &amp;&amp; ON+ORIENTATIONCHANGE <span class="keyword">in</span> win,
       viewportWidth,
-      screenWidth = win.outerWidth || win.screen.width,
       devicePixelRatio = win.devicePixelRatio || <span class="number">1</span>,
-      lastOrientation,
+      lastOrientation = -<span class="number">1</span>,
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Reduce by 5.5x the # of times loadImages is called when scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>  scrollListener = throttle(<span class="keyword">function</span>() {
     loadImages(<span class="literal">false</span>);
@@ -174,7 +173,7 @@ leading edge, instead of the trailing.</p>
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Reduce to 1 the # of times loadImages is called when orientation changes.</p>             </td>             <td class="code">               <div class="highlight"><pre>  orientationchangeListener = debounce(<span class="keyword">function</span>(){
     <span class="keyword">if</span> (win[ORIENTATION] !== lastOrientation) {
       lastOrientation = win[ORIENTATION];
-      loadImages(<span class="literal">true</span>);
+      loadImages(<span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">false</span>);
     }
   }, throttleSpeed),
 
@@ -182,11 +181,11 @@ leading edge, instead of the trailing.</p>
     viewportWidth = viewportWidth || getViewportWidthInCssPixels();
     breakpoint = getBreakpoint(breakpoints, viewportWidth);
     breakpointName = breakpoint.name;
-    loadImages(<span class="literal">false</span>);
+    loadImages(<span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>);
   },
 
   updateImages = <span class="keyword">function</span>( imagesWereAdded ) {
-    loadImages(<span class="literal">false</span>, imagesWereAdded === <span class="literal">true</span> );
+    loadImages(<span class="literal">false</span>, <span class="literal">false</span>, imagesWereAdded === <span class="literal">true</span> );
   },
 
   onImageLoad = <span class="keyword">function</span>($elm <span class="comment">/*, $images, $proper, $broken*/</span> ) {
@@ -201,11 +200,11 @@ leading edge, instead of the trailing.</p>
     $elm.trigger(<span class="string">'imageReLoaded'</span>);
   },
 
-  loadImages = <span class="keyword">function</span>(resizing, update){
+  loadImages = <span class="keyword">function</span>(resizing, rotating, update){
     <span class="keyword">var</span> current, i;
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>If initial collection is not done or
-new images have been added to the DOM, collect them.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!iQ.images[LENGTH] || update === <span class="literal">true</span> || (updateOnResize === <span class="literal">true</span> &amp;&amp; resizing)) {
+new images have been added to the DOM, collect them.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!iQ.images[LENGTH] || update === <span class="literal">true</span> || (updateOnResize === <span class="literal">true</span> &amp;&amp; resizing) || rotating) {
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Add event listeners</p>             </td>             <td class="code">               <div class="highlight"><pre>        addAsyncListeners();
         iQ.images = [];
 
@@ -274,9 +273,8 @@ if its an img not a background image set it up to fade in on load</p>           
     addEvent(win, RESIZE, resizeListener);
 
 </pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Is orientationchange event supported? If so, let's try to avoid false
-positives by checking if win.orientation has actually changed.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+positives by checking if win.orientation has actually changed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    
     <span class="keyword">if</span> (orientationSupported) {
-      lastOrientation = win[ORIENTATION];
       addEvent(win, ORIENTATIONCHANGE, orientationchangeListener);
     }
   },
@@ -451,7 +449,9 @@ To achieve a precise result the following meta must be included at least:</p>
 <li><a href="http://www.quirksmode.org/mobile/viewports2.html">Quirksmode: A Tale of Two Viewports</a></li>
 <li><a href="http://www.quirksmode.org/mobile/tableViewport.html">Quirksmode: Browser compatibility — Viewports</a></li>
 <li><a href="https://github.com/h5bp/mobile-boilerplate/wiki/The-Markup">H5BP: The Markup</a></li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>  getScreenWidth = <span class="keyword">function</span>(){
+    <span class="keyword">return</span> win.outerWidth || win.screen.width;
+  },
   getViewportWidthInCssPixels = <span class="keyword">function</span>() {
     <span class="keyword">var</span> widths = [docElm.clientWidth, docElm.offsetWidth, doc.body.clientWidth],
         l = widths[LENGTH],
@@ -468,12 +468,11 @@ To achieve a precise result the following meta must be included at least:</p>
     <span class="keyword">if</span> (widths[LENGTH]) {
       width = Math.max.apply(Math, widths);
 
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>Catch cases where the viewport is wider than the screen</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!isNaN(screenWidth)) {
-        width = Math.min(screenWidth, width);
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>Catch cases where the viewport is wider than the screen</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (!isNaN(getScreenWidth())) {
+        width = Math.min(getScreenWidth(), width);
       }
     }
-
-    <span class="keyword">return</span> width || screenWidth || <span class="number">0</span>;
+    <span class="keyword">return</span> width || getScreenWidth() || <span class="number">0</span>;
   },
 
 </pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>Returns the URL of an image
@@ -542,7 +541,7 @@ event handling system.</p>             </td>             <td class="code">      
 </pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>Force a certain device pixel ratio, used more so for debugging purposes.</p>             </td>             <td class="code">               <div class="highlight"><pre>    devicePixelRatio = opts.forcePixelRatio;
   }
 
-  iQ.update = updateImages;
+  iQ.update = debounce(updateImages, throttleSpeed);
 
 </pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>DOM does not need to be ready to begin the network connection speed test.</p>             </td>             <td class="code">               <div class="highlight"><pre>  initSpeedTest();
 

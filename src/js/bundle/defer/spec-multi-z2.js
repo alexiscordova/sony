@@ -18,7 +18,7 @@
 
     // jQuery objects
     self.$container = $container;
-    self.$window = SONY.$window || $(window);
+    self.$window = SONY.$window;
     self._init();
   };
 
@@ -456,6 +456,12 @@
         .scrollspy('refresh')
         .scrollspy('process');
 
+      // Without transforms, iScroll uses absolute positioning and the container
+      // gets a width/height of 0 with overflow:hidden
+      if ( !Modernizr.csstransforms ) {
+        self._setScrollerWrapperDimensions();
+      }
+
       // Set timeout here because we were getting the wrong height for the
       // spec products after a big resize
       setTimeout(function() {
@@ -494,7 +500,7 @@
       }
 
       // Open/close sticky headers
-      if ( !self.hasTouchEvents && !self.isMobile && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
+      if ( self.showStickyHeaders && !self.isMobile && scrollTop >= self.stickyOffset.top && scrollTop <= self.stickyOffset.bottom ) {
         if ( !self.$stickyHeaders.hasClass('open') ) {
           self.$stickyHeaders.addClass('open');
           self.$container.addClass('sticky-header-open');
@@ -504,7 +510,7 @@
         self._setStickyHeaderPos( scrollTop - self.stickyOffset.top + self.stickyNavHeight );
 
       } else {
-        if ( !self.hasTouchEvents && self.$stickyHeaders.hasClass('open') ) {
+        if ( self.showStickyHeaders && self.$stickyHeaders.hasClass('open') ) {
           self.$container.removeClass('sticky-header-open');
           self.$stickyHeaders.removeClass('open');
           self.$navContainer.removeClass('container');
@@ -566,6 +572,18 @@
         top: top,
         bottom: bottom
       };
+    },
+
+    _setScrollerWrapperDimensions : function() {
+      var self = this,
+          containerWidth = self.$specItemsGrid.width(),
+          containerHeight = self.$specItemsGrid.height(),
+          labelsWidth = self.$detailLabelsWrap.width(),
+          scrollerWidth = containerWidth - labelsWidth - 2; // not sure why it doesn't fit
+
+      self.$specItemsWrap
+        .width( scrollerWidth )
+        .height( containerHeight );
     }
 
   };
@@ -600,7 +618,8 @@
     isStickyTabs: false,
     isScroller: false,
     isMobile: false,
-    hasTouchEvents: SONY.Settings.hasTouchEvents
+    showStickyHeaders: !(SONY.Settings.hasTouchEvents || SONY.Settings.isPlaystation),
+    stickyOffset: { top: 0, bottom: 0}
   };
 
 

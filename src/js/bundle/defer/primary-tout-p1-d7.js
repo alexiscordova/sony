@@ -21,11 +21,10 @@
 
       _resize: function(){
         var w = $(window).outerWidth(); 
-        // if window size > 1200 set height of container to math min 740 , 640 + ( (w -1200) / 10) 
-        if(w > 1200){
-          $('.primary-tout.homepage .hero-image').css('height', Math.round(Math.min(740, 540 + ((w - 1200) / 20))));
-          $('.primary-tout.default .hero-image').css('height', Math.round(Math.min(660, 560 + ((w - 1200) / 10))));
-        }else if (w > 768){
+        if(w > 980){
+          $('.primary-tout.homepage .hero-image').css('height', Math.round(Math.min(770, 490 + ((w - 980) / 5))));
+          $('.primary-tout.default .hero-image').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
+        }else{
           $('.primary-tout.homepage .hero-image, .primary-tout.default .hero-image').css('height', "");
         }
         

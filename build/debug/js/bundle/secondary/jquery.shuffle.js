@@ -121,7 +121,7 @@
                 beforeResizeFunc = $.proxy( self._beforeResize, self );
                 self._debouncedBeforeResize = self.throttle ? self.throttle( self.throttleTime, true, beforeResizeFunc ) : beforeResizeFunc;
             }
-            
+
             // Get debounced versions of our resize methods
             self._debouncedResize = self.throttle ? self.throttle( self.throttleTime, afterResizeFunc ) : afterResizeFunc;
 
@@ -554,11 +554,6 @@
                 return;
             }
 
-            // var height = self.$window.height(),
-            //     width = self.$window.width();
-            // self.windowHeight = height;
-            // self.windowWidth = width;
-
             // This should execute the first time _onResize is called
             if ( self.hideLayoutWithFade ) {
                 self._debouncedBeforeResize();
@@ -573,7 +568,7 @@
             var self = this;
 
             // If we're hiding the layout with a fade,
-            if ( self.hideLayoutWithFade ) {
+            if ( self.hideLayoutWithFade && self.supported ) {
                 // recaculate column and gutter values
                 self._setColumns();
                 // Layout the items with only a position
@@ -581,11 +576,7 @@
                 // Change the transition-delay value accordingly
                 self._setSequentialDelay( self.itemsOrderedByDelay );
                 self.fire('done');
-                if ( self.supported ) {
-                    self.$items.css('opacity', 1);
-                } else {
-                    self.$items.fadeIn( self.speed );
-                }
+                self.$items.css('opacity', 1);
             } else {
                 self.resized();
             }
@@ -594,11 +585,11 @@
         _beforeResize : function() {
             var self = this;
 
-            if ( self.supported ) {
-                self.$items.css('opacity', 0);
-            } else {
-                self.$items.fadeOut( self.speed );
+            if ( !self.supported ) {
+                return;
             }
+
+            self.$items.css('opacity', 0);
 
             self.fire('loading');
             self._resetDelay( self.$items );
@@ -742,7 +733,12 @@
 
         _addItems : function( $newItems, animateIn, isSequential ) {
             var self = this,
-                $passed;
+                $passed,
+                passed;
+
+            if ( !self.supported ) {
+                animateIn = false;
+            }
 
             $newItems.addClass('shuffle-item');
             self.$items = self._getItems();
@@ -750,12 +746,13 @@
             $newItems.not($passed).css('opacity', 0);
 
             $passed = self.filter( undefined, $newItems );
+            passed = $passed.get();
 
             // How many filtered elements?
             self.visibleItems = self.$items.filter('.filtered').length;
 
             if ( animateIn ) {
-                self._layout( $passed, null, true, true );
+                self._layout( passed, null, true, true );
 
                 if ( isSequential ) {
                     self._setSequentialDelay( $passed );
@@ -763,7 +760,7 @@
 
                 self._revealAppended( $passed );
             } else {
-                self._layout( $passed );
+                self._layout( passed );
             }
         },
 

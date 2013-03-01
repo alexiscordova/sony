@@ -17,7 +17,10 @@ SONY.Settings = (function(window, document, Modernizr) {
   self.isIPhone = (/iphone|ipod/gi).test(navigator.userAgent);
   self.isIOS = (/iphone|ipod|ipad/gi).test(navigator.userAgent);
   self.isAndroid = (/android/gi).test(navigator.userAgent);
+  self.isPlaystation = (/playstation/gi).test(navigator.userAgent.toLowerCase());
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test(navigator.userAgent);
+
+  self.isLTIE9 = SONY.$html.hasClass('lt-ie9');
 
   self.hasTouchEvents = Modernizr.touch;
 

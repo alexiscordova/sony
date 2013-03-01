@@ -32,19 +32,22 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = false;
+      self.DEBUG                  = true;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 567;
       
       //Cache common jQuery objects
       self.$paddles               = $({});
+
       self.$el                    = $(element);
       self.$slides                = self.$el.find('.rp-slide');
       self.$currentSlide          = null;
       self.$shuffleContainers     = self.$slides.find('.shuffle-container');
       self.$galleryItems          = self.$el.find('.gallery-item');
+      self.$plate                 = self.$slides.eq(0).find('.gallery-item.plate').first();
       self.$container             = self.$el.find('.rp-container').eq(0);
+      self.$favorites             = self.$el.find('.js-favorite');
       self.$tabbedContainer       = self.$el.parent();
       self.$bulletNav             = $();
       self.$doc                   = SONY.$document;
@@ -75,6 +78,7 @@
       self.paddlesEnabled         = false;
       self.resizeTimeout          = null;
       self.startInteractionPointX = null;
+      self.isTransitioning        = true;
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
@@ -88,11 +92,6 @@
       self.isDesktopMode   = false;
       self.isTabletMode    = false;
       self.accelerationPos = 0;
-
-/*      self.$el.css({
-        'opacity' : 0,
-        'visibility' : 'hidden'
-      });*/
 
       //Startup
       self.init();
@@ -126,11 +125,15 @@
         //Setup link clicks
         self.setupLinkClicks();
 
+        //Initialize tooltips
+        self.initTooltips();
+
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
            self.variation === '4up' ||
            self.variation === '5up'){
             self.setSortPriorities();
+            self.log(self.variation , true);
         }
 
         if(self.$slides.length > 1){
@@ -141,7 +144,10 @@
           if(self.mode != 'strip'){
             self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           }
+        }else{
+          self.$pagination = $({});
         }
+
         if(self.mode != 'strip'){
           self.setSortPriorities();
           self.setupResizeListener();
@@ -237,7 +243,7 @@
           point, distanceMoved;
 
           if ( self.hasTouch ) {
-            point = e.originalEvent.touches[0];
+            point = e.originalEvent.touches[0] || { pageX: 0 } ;
           } else {
             point = e;
           }
@@ -262,6 +268,44 @@
 
       toString: function(){
         return '[ object RelatedProducts ]';
+      },
+
+      onFavorite : function( evt ) {
+        var self = this,
+            $jsFavorite = $(evt.delegateTarget),
+            isAdding = !$jsFavorite.hasClass('active'),
+            content = self.getFavoriteContent( $jsFavorite, isAdding );
+        $jsFavorite.toggleClass('active');
+
+        $('.gallery-tooltip .tooltip-inner')
+          .html( content )
+          .tooltip('show');
+
+        // Stop event from bubbling to <a> tag
+        evt.preventDefault();
+        evt.stopPropagation();
+      },
+
+      getFavoriteContent : function( $jsFavorite, isActive ) {
+        return isActive ?
+              $jsFavorite.data('activeTitle') + '<i class="fonticon-10-sm-bold-check"></i>' :
+              $jsFavorite.data('defaultTitle');
+      },
+
+      initTooltips : function() {
+        var self = this;
+
+        // Favorite Heart
+        self.$favorites.on('click', $.proxy( self.onFavorite, self ));
+
+        self.$container.find('.js-favorite').tooltip({
+          placement: 'offsettop',
+          title: function() {
+            var $jsFavorite = $(this);
+            return self.getFavoriteContent( $jsFavorite, $jsFavorite.hasClass('active') );
+          },
+          template: '<div class="tooltip gallery-tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+        });
       },
 
       //These functions are used by the jquery.shuffle plugin
@@ -341,7 +385,11 @@
               visibility : VISIBLE,
               opacity : 1
             });
-            self.$pagination.show();
+
+            if(!self.isMobileMode){
+              self.$pagination.show();
+            }
+
             self.$el.removeClass( REDRAWING );
            }
           });
@@ -357,12 +405,18 @@
           });
           self.$el.removeClass( REDRAWING );
 
-          self.$pagination.show();
+          if(!self.isMobileMode){
+            self.$pagination.show();
+          }
+          
         }
 
         self.$pagination.hide();
 
+        self.log('setting up resize listener...');
+
         self.$win.on( 'resize', $.debounce( 500 , $.proxy(self.handleResize , self)) );
+
       },
 
       handleResize:function() {
@@ -549,7 +603,7 @@
           self.$galleryItems.first().css({
             'width'   : colWidth,
             'margin'  : 0
-          }); 
+          });
 
           var newContainerHeight = self.$el.find('.gallery-item.normal').first().height() + 40 + 'px';
 
@@ -861,6 +915,8 @@
           view = 'desktop';
         }
 
+        self.log('checking for breakpoints...');
+
         switch(view){
           case 'desktop':
 
@@ -983,14 +1039,12 @@
               self.$shuffleContainers.each(function(){
                 var shfflInst = $(this).data('shuffle');
 
-
                 if(shfflInst !== undefined){
                   shfflInst.destroy();
                   shfflInst = null;
                 }
 
               });
-
             }
 
             //Hide the bullet navigation
@@ -1007,6 +1061,9 @@
 
           break;
         }
+
+
+        //do we need this in ALL modes?
 
         self.setNameHeights(self.$shuffleContainers);
 
@@ -1026,7 +1083,8 @@
       },
 
       updateSliderSize: function(){
-        var self = this;
+        var self = this,
+        newHeight = $('.shuffle-container').eq(0).height();
 
         //handle stuff for old IE
         if( self.oldIE ){
@@ -1040,33 +1098,35 @@
 
         //handle resize for various layouts
         if(self.isTabletMode === true){
-          //ratio based on comp around 768/922
-          //self.$el.css('height' , 1.05 * self.$el.width());
-          self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
-
+          if( newHeight === 0 ){
+            newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.984615385 );
+            self.log('using alternate height calculatio >>> TABLET' , newHeight);
+          }
+          
+         self.$el.css( 'height' , newHeight + 40 + 'px' );
           if(!!self.isTabbedContainer){
-            //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
             self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
           }
           return;
         }
 
         if(self.isMobileMode === true){
-
-          self.$el.css('height' , 400);
-
+          self.$el.css('height' , 290);
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , 400);
+            self.$tabbedContainer.css('height' , 290);
           }
           return;
         }
 
-        //self.$el.css( 'height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) );
-        self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
+        if( newHeight === 0 ){
+          newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.509803922 );
+           self.log('using alternate height calculation >>> Desktop' , newHeight);
+        }
+
+        self.$el.css( 'height' , newHeight + 40 + 'px' );
 
         if(!!self.isTabbedContainer){
-          //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
-          self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
+          self.$tabbedContainer.css('height' , newHeight + 40 + 'px');
         }
 
 
@@ -1481,6 +1541,8 @@
         //update the overall position
         self.sPosition = self.currRenderPosition = newPos;
 
+        self.isTransitioning = true;
+
         self.ev.trigger('rpOnUpdateNav');
       },
 
@@ -1499,7 +1561,6 @@
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
           self.$paddles.show();
-          self.$el.find('.rp-nav').show();
 
         }
       },
@@ -1607,7 +1668,7 @@
           $mediumTile = $slide.find('.gallery-item.medium .product-img').first();
           $normalTile = $slide.find('.gallery-item.normal').first();
 
-          var tileHeight = $slide.find('.gallery-item.plate').first().height(),
+          var tileHeight = $slide.find('.gallery-item.plate').first().height() +  ( self.mq('(max-width: 769px)') ? 26 : 0 ),
               testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true);
 
           if(slideVariation !== '3up'){
@@ -1615,6 +1676,22 @@
               'max-height' : tileHeight,
               'height'     : tileHeight
             });
+/*
+            if( slideVariation === '4up' && self.mq( '(min-width: 567px) and (max-width: 768px)' ) ){
+              $slide.find( '.gallery-item.normal').each(function(){
+                var $item = $(this);
+
+                self.log( $item.outerHeight(true) , $slide.find('.gallery-item.plate').first().height() );
+
+                if ( $item.outerHeight( true ) >  $slide.find('.gallery-item.plate').first().height() ) {
+                  $slide.find('.gallery-item.plate').first().css({
+                    'max-height' : $item.outerHeight(true),
+                    'height'     : $item.outerHeight(true)
+                  });
+                }
+              });
+            }
+            self.log( 'Setting new tile height on gallery items, ' , $slide.find('.gallery-item.plate').first().height(), tileHeight  , self.mq('(min-width: 769px)'));*/
           }
 
           switch( slideVariation ){
@@ -1718,7 +1795,9 @@
 
         //hide paddles and nav
         self.$paddles.hide();
-        self.$el.find('.rp-nav').hide();
+
+        //hide navigation dots
+        self.$pagination.hide();
 
         //attemp to place the title plates in the first position before detaching
         self.$slides.each(function(){
@@ -1744,6 +1823,7 @@
         self.$galleryItems.not('.blank').appendTo(self.$container);
 
         self.$el.find('.gallery-item.medium').css('height' , '');
+        self.$el.find('.gallery-item.medium .product-img').css('height' , '');
 
         //init the scroller module
         setTimeout(function(){
@@ -1776,6 +1856,8 @@
           }).data('scrollerModule');
 
           self.$galleryItems.find('.product-name').evenHeights();
+          self.$el.find('.gallery-item.medium').css('height' , '');
+          self.$el.find('.gallery-item.medium .product-img').css('height' , '');
 
           window.iQ.update();
         }, 100);
