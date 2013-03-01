@@ -820,13 +820,19 @@
           that.$element
             .addClass('in')
             .attr('aria-hidden', false)
-            .focus()
 
           that.enforceFocus()
 
           transition ?
-            that.$element.one($.support.transition.end, function () { that.$element.trigger('shown') }) :
-            that.$element.trigger('shown')
+            that.$element.one($.support.transition.end, function () {
+              that.$element.focus().trigger('shown')
+
+              if (that.options.backdrop != 'static') {
+                that.$backdrop.click($.proxy(that.hide, that))
+              }
+
+            }) :
+            that.$element.focus().trigger('shown')
 
         })
       }
@@ -915,10 +921,6 @@
 
           this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
             .appendTo(document.body)
-
-          if (this.options.backdrop != 'static') {
-            this.$backdrop.click($.proxy(this.hide, this))
-          }
 
           if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
 
