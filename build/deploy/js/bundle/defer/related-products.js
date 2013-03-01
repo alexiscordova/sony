@@ -385,7 +385,11 @@
               visibility : VISIBLE,
               opacity : 1
             });
-            self.$pagination.show();
+
+            if(!self.isMobileMode){
+              self.$pagination.show();
+            }
+
             self.$el.removeClass( REDRAWING );
            }
           });
@@ -401,7 +405,10 @@
           });
           self.$el.removeClass( REDRAWING );
 
-          self.$pagination.show();
+          if(!self.isMobileMode){
+            self.$pagination.show();
+          }
+          
         }
 
         self.$pagination.hide();

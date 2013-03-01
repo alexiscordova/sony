@@ -355,7 +355,11 @@ if their interaction time and movements are below certain thresholds.</p>       
               visibility : VISIBLE,
               opacity : <span class="number">1</span>
             });
-            self.$pagination.show();
+
+            <span class="keyword">if</span>(!self.isMobileMode){
+              self.$pagination.show();
+            }
+
             self.$el.removeClass( REDRAWING );
            }
           });
@@ -371,7 +375,10 @@ if their interaction time and movements are below certain thresholds.</p>       
           });
           self.$el.removeClass( REDRAWING );
 
-          self.$pagination.show();
+          <span class="keyword">if</span>(!self.isMobileMode){
+            self.$pagination.show();
+          }
+          
         }
 
         self.$pagination.hide();
