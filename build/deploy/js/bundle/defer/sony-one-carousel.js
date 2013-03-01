@@ -8,28 +8,6 @@
 // * **Author:** George Pantazis
 // * **Dependencies:** jQuery 1.7+
 
-if (!Array.prototype.indexOf)
-{
-  Array.prototype.indexOf = function(elt /*, from*/)
-  {
-    var len = this.length >>> 0;
-
-    var from = Number(arguments[1]) || 0;
-    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-    if (from < 0){
-      from += len;
-    }
-
-    for (; from < len; from++)
-    {
-      if (from in this && this[from] === elt) {
-        return from;
-      }
-    }
-    return -1;
-  };
-}
-
 (function($) {
 
   'use strict';
@@ -44,6 +22,9 @@ if (!Array.prototype.indexOf)
     self.$container = self.$el.find('.soc-container');
     self.$innerContainer = self.$container.find('.soc-container-inner');
     self.$slides = self.$container.find('.soc-content');
+
+    self.currentSlide = 0;
+    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
 
     self.init();
   };
@@ -60,11 +41,11 @@ if (!Array.prototype.indexOf)
         'axis': 'x',
         'unit': '%',
         'dragThreshold': 50,
-        'containment': self.$container
+        'containment': self.$container,
+        'useCSS3': self.useCSS3,
+        'drag': window.iQ.update
       });
 
-      self.gotoSlide(0);
-      self.createPagination();
       self.setupPaddles();
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
@@ -72,10 +53,12 @@ if (!Array.prototype.indexOf)
       self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
 
       SONY.on('global:resizeDebounced-200ms', function(){
-        self.gotoSlide(self.currentSlide);
+        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
 
-      self.teardown();
+      self.$cachedSlides = self.$slides.detach();
+      self.$sliderWrapper = self.$slides.first().clone();
+      self.$sliderWrapper.find('.soc-item').remove();
 
       if ( window.enquire ){
 
@@ -86,27 +69,22 @@ if (!Array.prototype.indexOf)
         });
         window.enquire.register("(min-width: 480px) and (max-width: 779px)", {
           match : function() {
-            self.renderTablet();
+            self.renderEvenColumns(6);
           }
         });
         window.enquire.register("(max-width: 479px)", {
           match : function() {
-            self.renderMobile();
+            self.renderEvenColumns(12);
           }
         });
       } else {
         self.renderDesktop();
       }
+
+      self.gotoSlide(0);
     },
 
-    'teardown': function() {
-
-      var self = this;
-
-      self.$cachedSlides = self.$slides.detach();
-      self.$sliderWrapper = self.$slides.first().clone();
-      self.$sliderWrapper.find('.soc-item').remove();
-    },
+    // Create or restore the default slide layout.
 
     'renderDesktop': function(which) {
 
@@ -118,37 +96,22 @@ if (!Array.prototype.indexOf)
       self.createPagination();
     },
 
-    'renderTablet': function(which) {
+    // Splits the default layout into slides with children each of column width
+    // set at colPerItem, which must divide evenly into 12.
+
+    'renderEvenColumns': function(colPerItem) {
 
       var self = this,
           $newItems = self.$cachedSlides.clone().children().children();
 
       self.$innerContainer.empty();
-      $newItems.removeClass('span8 span6 span4').addClass('span6');
+      $newItems.removeClass('span8 span6 span4').addClass('span' + colPerItem);
 
-      for ( var i = 0; i < $newItems.length; i=i+2 ) {
+      for ( var i = 0; i < $newItems.length; i=i+(12/colPerItem) ) {
         var newItem = self.$sliderWrapper.clone();
-        newItem.children().append($newItems.eq(i));
-        newItem.children().append($newItems.eq(i+1));
-        self.$innerContainer.append(newItem);
-      }
-
-      self.$slides = self.$innerContainer.find('.soc-content');
-      self.createPagination();
-    },
-
-    'renderMobile': function(which) {
-
-      var self = this,
-          $newItems = self.$cachedSlides.clone().children().children();
-
-      self.$innerContainer.empty();
-
-      $newItems.removeClass('span8 span6 span4').addClass('span12');
-
-      for ( var i = 0; i < $newItems.length; i++ ) {
-        var newItem = self.$sliderWrapper.clone();
-        newItem.children().append($newItems.eq(i));
+        for ( var j = i; j < i + 12/colPerItem; j++ ) {
+          newItem.children().append( $newItems.eq(j) );
+        }
         self.$innerContainer.append(newItem);
       }
 
@@ -197,7 +160,7 @@ if (!Array.prototype.indexOf)
     'gotoNearestSlide': function(e, data) {
 
       var self = this,
-          leftBounds =  self.$container[0].getBoundingClientRect().left,
+          leftBounds = self.$container.get(0).getBoundingClientRect().left,
           positions = [];
 
       self.$slides.each(function(a){
@@ -207,23 +170,42 @@ if (!Array.prototype.indexOf)
       self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
     },
 
-    // Goto a given slide.
+    // Go to a given slide.
 
     'gotoSlide': function(which) {
 
       var self = this,
-          $destinationSlide = self.$slides.eq(which);
+          $destinationSlide = self.$slides.eq(which),
+          destinationLeft, innerContainerWidth;
+
+      if ( $destinationSlide.length === 0 ) { return; }
 
       self.currentSlide = which;
 
-      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
+      destinationLeft = $destinationSlide.position().left;
+      innerContainerWidth = self.$innerContainer.width();
+
+      if ( self.useCSS3 ) {
+
+        var newPosition = destinationLeft / innerContainerWidth;
+
+        // If you're on the last slide, only move over enough to show the last child.
+        // Prevents excess whitespace on the right.
+
+        if ( which === self.$slides.length - 1 ) {
+          var childrenWidth = 0;
+          $destinationSlide.find('.soc-item').each(function(){ childrenWidth += $(this).outerWidth(true); });
+          newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
+        }
+
         self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '500ms');
-        self.$innerContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * $destinationSlide.position().left / self.$innerContainer.width() + '%') + ',0)');
+        self.$innerContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
+
       } else {
+
         self.$innerContainer.animate({
-          'left': -100 * $destinationSlide.position().left / SONY.$window.width() + '%'
+          'left': -100 * destinationLeft / SONY.$window.width() + '%'
         }, {
-          'easing': 'easeOutExpo',
           'duration': 1000,
           'complete': window.iQ.update
         });
@@ -232,7 +214,7 @@ if (!Array.prototype.indexOf)
       self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);
     },
 
-    createPagination: function (){
+    'createPagination': function (){
 
       var self = this;
 
@@ -247,7 +229,7 @@ if (!Array.prototype.indexOf)
         'buttonCount': self.$slides.length
       });
 
-      self.$dotnav.on('SonyNavDots:clicked', function(e, which){
+      self.$dotnav.on('SonyNavDots:clicked', function(e, which) {
         self.gotoSlide(which);
       });
 
@@ -258,77 +240,34 @@ if (!Array.prototype.indexOf)
       });
     },
 
-    setupPaddles: function(){
+    'setupPaddles': function(){
 
-      var self = this,
-          itemHTML = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
-          $container = self.$el.closest('.container'),
-          out = '<div class="soc-nav soc-paddles">';
+      var self = this;
 
-      if ( Modernizr.touch ) {
-        return;
-      }
+      self.$el.sonyPaddles();
 
-      self.paddlesEnabled = true;
+      self.$el.on('oneSonyCarousel:gotoSlide', function(e, which) {
 
-      for ( var i = 0; i < 2; i++ ) {
-        out += itemHTML;
-      }
+        self.$el.sonyPaddles('showPaddle', 'left');
+        self.$el.sonyPaddles('showPaddle', 'right');
 
-      out += '</div>';
-      out = $(out);
+        if ( which === 0 ) {
+          self.$el.sonyPaddles('hidePaddle', 'left');
+        }
 
-      self.$el.append(out);
-
-      self.$paddles     = self.$el.find('.paddle');
-      self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
-      self.$rightPaddle = self.$paddles.eq(1).addClass('right');
-
-      self.$paddles.on('click', function(){
-
-        if ( $(this).hasClass('left') ){
-
-          self.currentSlide--;
-          if( self.currentSlide < 0 ){
-            self.currentSlide = 0;
-          }
-
-          self.gotoSlide(self.currentSlide);
-
-        } else {
-
-          self.currentSlide++;
-
-          if(self.currentSlide >= self.$slides.length){
-            self.currentSlide = self.$slides.length - 1;
-          }
-
-          self.gotoSlide(self.currentSlide);
+        if ( which === self.$slides.length - 1 ) {
+          self.$el.sonyPaddles('hidePaddle', 'right');
         }
       });
 
-      self.onPaddleNavUpdate();
-      self.$el.on('oneSonyCarousel:gotoSlide', $.proxy(self.onPaddleNavUpdate, self));
-    },
+      self.$el.on('sonyPaddles:clickLeft', function(){
+        self.gotoSlide(self.currentSlide - 1);
+      });
 
-    onPaddleNavUpdate: function(){
-      var self = this;
-
-      //check for the left paddle compatibility
-      if(self.currentSlide === 0){
-        self.$leftPaddle.stop(true,true).fadeOut(100);
-      }else{
-        self.$leftPaddle.stop(true,true).fadeIn(200);
-      }
-
-      //check for right paddle compatiblity
-      if(self.currentSlide === self.$slides.length - 1){
-        self.$rightPaddle.stop(true,true).fadeOut(100);
-      }else{
-        self.$rightPaddle.stop(true,true).fadeIn(200);
-      }
+      self.$el.on('sonyPaddles:clickRight', function(){
+        self.gotoSlide(self.currentSlide + 1);
+      });
     }
-
   };
 
   $.fn.oneSonyCarousel = function( options ) {
@@ -356,9 +295,3 @@ if (!Array.prototype.indexOf)
   });
 
 })(jQuery);
-
-jQuery.extend(jQuery.easing, {
-  easeOutExpo: function (x, t, b, c, d) {
-    return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-  }
-});
