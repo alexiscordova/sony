@@ -33,7 +33,7 @@ mixin filterCheckbox( filterSet )
     each filter in filterSet.filters
       li.control-inline
         input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
-        label.p2(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
+        label.p3(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
         if filter.help
           mixin helpPopover( filter.help, true )
 
@@ -52,7 +52,7 @@ mixin helpPopover( help, pullRight )
   - if ( pullRight ) classes += ' pull-right'
   div(class=classes, data-original-title=help.title)
     if help.label
-      span.p3.help-label= help.label
+      span.p4.help-label= help.label
     i.fonticon-10-circle-q
     mixin popoverContent( help )
 
@@ -196,7 +196,7 @@ mixin detailedGallery( submodules, gallery, type )
 
 
       .container.active-filters-wrap
-        .grid.active-filters
+        .grid.active-filters(data-clear-label="Clear All")
 
     .container
       .products.slimgrid.no-grid-at-767

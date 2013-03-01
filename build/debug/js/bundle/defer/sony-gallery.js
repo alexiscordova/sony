@@ -296,6 +296,14 @@
           frag.appendChild( $label[0] );
         });
 
+        // Using em here so I can use :last-of-type to get the spans
+        var $clearAll = $('<em/>', {
+          'class' : 'clear-all-filters lt3',
+          text: self.$activeFilters.data('clearLabel'),
+          click: $.proxy( self.removeActiveFilters, self )
+        });
+
+        frag.appendChild( $clearAll[0] );
 
         self.$activeFilters
           .append(frag)
