@@ -19,7 +19,7 @@ SONY.Global = (<span class="keyword">function</span>(window, document) {
 
     <span class="string">'init'</span>: <span class="keyword">function</span>(config) {
 
-      <span class="keyword">if</span> ( window.enquire ){
+      <span class="keyword">if</span> ( window.enquire &amp;&amp; !SONY.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
         window.enquire.listen(<span class="number">100</span>);
       }
 

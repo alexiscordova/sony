@@ -61,42 +61,44 @@ your module via exposed methods (showPaddle/hidePaddle).</p>
 
     <span class="string">'init'</span>: <span class="keyword">function</span>() {
 
+      <span class="keyword">if</span> ( Modernizr.touch ) {
+        <span class="keyword">return</span>;
+      }
+
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.setupPaddles();
+
+      self.$el.on(<span class="string">'mouseover.sonyPaddles'</span>, <span class="keyword">function</span>(){
+        self.$nav.addClass(<span class="string">'show-paddles'</span>);
+      });
+
+      self.$el.on(<span class="string">'mouseout.sonyPaddles'</span>, <span class="keyword">function</span>(){
+        self.$nav.removeClass(<span class="string">'show-paddles'</span>);
+      });
     },
 
     <span class="string">'setupPaddles'</span>: <span class="keyword">function</span>(){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          itemHTML = <span class="string">'&lt;div class="paddle"&gt;&lt;i class=fonticon-10-chevron&gt;&lt;/i&gt;&lt;/div&gt;'</span>,
-          out = <span class="string">'&lt;div class="soc-nav soc-paddles"&gt;'</span>;
+          $navContainer = $(<span class="string">'&lt;nav class="pagination-paddles"&gt;'</span>),
+          $prevPaddle = $(<span class="string">'&lt;button class="pagination-paddle pagination-prev"&gt;&lt;i class="fonticon-10-chevron-reverse"&gt;&lt;/i&gt;&lt;/button&gt;'</span>),
+          $nextPaddle = $(<span class="string">'&lt;button class="pagination-paddle pagination-next"&gt;&lt;i class="fonticon-10-chevron"&gt;&lt;/i&gt;&lt;/button&gt;'</span>);
 
-      <span class="keyword">if</span> ( Modernizr.touch ) {
-        <span class="keyword">return</span>;
-      }
+      $navContainer.append( $prevPaddle, $nextPaddle );
+      self.$el.append( $navContainer );
+      self.$nav = $navContainer;
 
-      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++ ) {
-        out += itemHTML;
-      }
+      self.$paddles     = self.$nav.find(<span class="string">'button'</span>);
+      self.$leftPaddle  = self.$paddles.filter(<span class="string">'.pagination-prev'</span>);
+      self.$rightPaddle = self.$paddles.filter(<span class="string">'.pagination-next'</span>);
 
-      out += <span class="string">'&lt;/div&gt;'</span>;
-      out = $(out);
+      self.$leftPaddle.on(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+        self.$el.trigger(<span class="string">'sonyPaddles:clickLeft'</span>);
+      });
 
-      self.$el.append(out);
-
-      self.$paddles     = self.$el.find(<span class="string">'.paddle'</span>);
-      self.$leftPaddle  = self.$paddles.eq(<span class="number">0</span>).addClass(<span class="string">'left'</span>);
-      self.$rightPaddle = self.$paddles.eq(<span class="number">1</span>).addClass(<span class="string">'right'</span>);
-
-      self.$paddles.css(<span class="string">'opacity'</span>, <span class="number">0</span>);
-
-      self.$paddles.on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
-        <span class="keyword">if</span> ( $(<span class="keyword">this</span>).hasClass(<span class="string">'left'</span>) ){
-          self.$el.trigger(<span class="string">'sonyPaddles:clickLeft'</span>);
-        } <span class="keyword">else</span> {
-          self.$el.trigger(<span class="string">'sonyPaddles:clickRight'</span>);
-        }
+      self.$rightPaddle.on(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+        self.$el.trigger(<span class="string">'sonyPaddles:clickRight'</span>);
       });
     },
 
@@ -115,16 +117,16 @@ your module via exposed methods (showPaddle/hidePaddle).</p>
       <span class="keyword">if</span> ( which === <span class="string">'left'</span> ) {
 
         <span class="keyword">if</span> ( visible ) {
-          self.$leftPaddle.css(<span class="string">'opacity'</span>, <span class="number">1</span>);
+          self.$leftPaddle.addClass(<span class="string">'on'</span>);
         } <span class="keyword">else</span> {
-          self.$leftPaddle.css(<span class="string">'opacity'</span>, <span class="number">0</span>);
+          self.$leftPaddle.removeClass(<span class="string">'on'</span>);
         }
       } <span class="keyword">else</span> <span class="keyword">if</span> ( which === <span class="string">'right'</span> ) {
 
         <span class="keyword">if</span> ( visible ) {
-          self.$rightPaddle.css(<span class="string">'opacity'</span>, <span class="number">1</span>);
+          self.$rightPaddle.addClass(<span class="string">'on'</span>);
         } <span class="keyword">else</span> {
-          self.$rightPaddle.css(<span class="string">'opacity'</span>, <span class="number">0</span>);
+          self.$rightPaddle.removeClass(<span class="string">'on'</span>);
         }
       }
     }
