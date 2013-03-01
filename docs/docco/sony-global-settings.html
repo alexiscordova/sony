@@ -12,7 +12,14 @@ SONY.Settings = (<span class="keyword">function</span>(window, document, Moderni
 
   <span class="string">'use strict'</span>;
 
-  <span class="keyword">var</span> self = {};
+  <span class="keyword">var</span> self = {},
+      transEndEventNames = {
+        <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
+        <span class="string">'MozTransition'</span>    : <span class="string">'transitionend'</span>,
+        <span class="string">'OTransition'</span>      : <span class="string">'oTransitionEnd'</span>,
+        <span class="string">'msTransition'</span>     : <span class="string">'MSTransitionEnd'</span>,
+        <span class="string">'transition'</span>       : <span class="string">'transitionend'</span>
+      };
 
   self.isIPhone = (<span class="regexp">/iphone|ipod/gi</span>).test(navigator.userAgent);
   self.isIOS = (<span class="regexp">/iphone|ipod|ipad/gi</span>).test(navigator.userAgent);
@@ -22,6 +29,7 @@ SONY.Settings = (<span class="keyword">function</span>(window, document, Moderni
   self.isLTIE9 = SONY.$html.hasClass(<span class="string">'lt-ie9'</span>);
 
   self.hasTouchEvents = Modernizr.touch;
+  self.transEndEventName = transEndEventNames[ Modernizr.prefixed(<span class="string">'transition'</span>) ];
 
   self.windowWidth = SONY.$window.width();
   self.windowHeight = SONY.$window.height();

@@ -2,6 +2,9 @@
 // Responsive: Tertiary Content Container
 // --------------------------------------------------
 
+$tcc-content-module-height-2up:270px;
+$tcc-content-module-height-1up:240px;//198px;
+
 $two-up-breakpoint-max:px-em(979px); //767px;
 $two-up-breakpoint-min:px-em(480px);
 $one-up-breakpoint-max:px-em(479px);
@@ -21,31 +24,28 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 //                            888     
 //                             
 @media (min-width: $two-up-breakpoint-min) and (max-width: $two-up-breakpoint-max) {
+  
   .tcc-wrapper{
     height: 475px;
-
-    .navigation-container{
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      margin-left: -22px; // width / 2 - adjustments
-    }
 
     .tcc-full-bleed-at-979{
       width:auto;
     }
 
-    .tcc-body-wrapper{
- 
-      .tcc-body{
-        height:270px; 
-      } // end .tcc-body
+    .tcc-body{
+      height:$tcc-content-module-height-2up; 
+    } // end .tcc-body
 
-      .tcc-content-module{
-        height:270px;
-      } // tcc-content-module
+    .tcc-content-module{
+      height:$tcc-content-module-height-2up;
+    
+      .tcc-inner-container{
+        //outline:1px solid silver;
+        height:$tcc-content-module-height-2up;
+      }
 
-    } // end .tcc-body-wrapper
+
+    } // tcc-content-module
 
     .article{     
       .feature-copy{
@@ -53,7 +53,27 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       } // &.feature-copy
     } // end .article
 
-    .sonys-voice{     
+    .users-voice{
+      &.question{
+        .bq3{
+          padding-top:20px;
+        } // end .bq3
+
+      }// end .question
+
+    } // end .users-voice
+    
+    
+    .sonys-voice{   
+      padding:0; 
+
+      .center-content{
+        max-height:145px;
+        height:auto;
+        //border: 1px solid green;
+      } // end .center-content
+
+
       &.instagram{
         table{
           tr{
@@ -100,7 +120,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     .flickr{
       .center-content{
         height:258px;
-        //width:100%;
         padding:0;
       } // end .center-content
   
@@ -177,13 +196,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     height: 475px;
     padding:50px 0;
 
-    .navigation-container{
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      margin-left: -22px; // width / 2 - adjustments
-    }
-
     .tcc-full-bleed-at-979{
       width:auto;
     } // end .tcc-full-bleed-at-979
@@ -193,7 +205,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       text-align: left;
 
       .tcc-header-title{
-        padding-bottom:20px;
+        padding-bottom:10px;
         display:block;
         float:none;
       } // end .tcc-header-title
@@ -211,16 +223,20 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
     .tcc-body-wrapper{
       padding:30px 0 0 0;
-  
-      .tcc-body{
-        height:198px; 
-      } // end .tcc-body
-
-      .tcc-content-module{
-        height:198px;
-      } // tcc-content-module
-
     } // end .tcc-body-wrapper
+
+    .tcc-body{
+      height:$tcc-content-module-height-1up; 
+    } // end .tcc-body
+
+    .tcc-content-module{
+      height:$tcc-content-module-height-1up;
+
+      .tcc-inner-container{
+        height:$tcc-content-module-height-1up;
+      }
+
+    } // tcc-content-module
 
     .article{
       .p4{
@@ -266,12 +282,12 @@ $fivePercentInstaFlickr: percentage(5px/316px);
           left:px-em(25px);
 
           .avatar{
-            margin-bottom:10px;
+            margin-bottom:0px;
           } // end avatar
 
           .handle,
           .author{
-            float:left;
+            //float:left;
             margin:0;
           }
 
@@ -305,21 +321,50 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     } // users voice
 
     .sonys-voice{
-      
+      padding:0;
+
+      .icon-container{
+        position: absolute;
+        top:0;
+        left:80px;
+
+        padding: px-em(10px); ;
+      } // .icon-container
+
+     [class*="fonticon-10-dot"]{
+        font-size: px-em(40px); 
+
+        &.white-bg{
+          width:40px;
+          height:40px;
+        } // end .white-bg
+
+      } // end fonticon divs
+
+      .fonticon-15-facebook,
+      .fonticon-15-twitter,
+      .fonticon-15-instagram {
+        font-size: px-em(21px);
+      } // end .fonticons
+
      .social-btn{
         position: absolute;
         bottom: 0;
         left: 50%;
         margin-left:-73px;
+
       } // end socialBtn
 
       .center-content{
-        height:95px;
+        max-height: 160px;
+        height: 160px;
+        //border: 1px solid red;
       } // end .center-content
 
       .meta{
         display:inline-block;
-        padding:0 0 0 px-em(10px);
+        margin:12px 0;
+        padding:0 0 0 px-em(44px);
       } // end .meta
 
       &.twitter{

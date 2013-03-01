@@ -4,10 +4,10 @@
 
 .sony-one-carousel(data-mode = data.config.mode, data-module-name != data.config.module_name, data-module-id = data.config.module_id)
   .soc-container
-    .soc-container-inner
+    .soc-container-inner.container
       for slide in data.slides
-        .soc-content
-          .soc-grid(class='slimgrid')
+        .soc-content.slimgrid
+          .soc-grid
             for item in slide
               - textStyle   = item.typeLayout
               - alignment   = item.typeAlignment
