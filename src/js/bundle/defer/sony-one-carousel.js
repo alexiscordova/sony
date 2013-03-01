@@ -8,28 +8,6 @@
 // * **Author:** George Pantazis
 // * **Dependencies:** jQuery 1.7+
 
-if (!Array.prototype.indexOf)
-{
-  Array.prototype.indexOf = function(elt /*, from*/)
-  {
-    var len = this.length >>> 0;
-
-    var from = Number(arguments[1]) || 0;
-    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-    if (from < 0){
-      from += len;
-    }
-
-    for (; from < len; from++)
-    {
-      if (from in this && this[from] === elt) {
-        return from;
-      }
-    }
-    return -1;
-  };
-}
-
 (function($) {
 
   'use strict';
@@ -223,7 +201,6 @@ if (!Array.prototype.indexOf)
         self.$innerContainer.animate({
           'left': -100 * $destinationSlide.position().left / SONY.$window.width() + '%'
         }, {
-          'easing': 'easeOutExpo',
           'duration': 1000,
           'complete': window.iQ.update
         });
@@ -356,9 +333,3 @@ if (!Array.prototype.indexOf)
   });
 
 })(jQuery);
-
-jQuery.extend(jQuery.easing, {
-  easeOutExpo: function (x, t, b, c, d) {
-    return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-  }
-});
