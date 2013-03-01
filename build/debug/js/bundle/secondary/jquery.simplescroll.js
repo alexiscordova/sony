@@ -30,14 +30,14 @@
         return;
       }
 
-      if (typeof fn === 'function') {
+      if ( typeof fn === 'function' ) {
         self.callback = fn;
       }
 
       // Make sure we have room to scroll - basically choose an offset that we'll scroll to and have the entire window.
       // This keeps timing correct.
       // If amount below the target offset's is less than our screen height
-      if (totalHeight - targetOffset < screenHeight) {
+      if ( totalHeight - targetOffset < screenHeight ) {
         targetOffset -= screenHeight - (totalHeight - targetOffset);
       }
 

@@ -243,6 +243,12 @@ SONY.Utilities = (function(window, document) {
         Modernizr.generatedcontent = true;
         SONY.$html.addClass('generatedcontent sonytablets').removeClass('no-generatedcontent');
       }
+    },
+
+    scrollToTop : function() {
+      $.simplescroll({
+        speed: 400
+      });
     }
 
     // addClasses : function() {
