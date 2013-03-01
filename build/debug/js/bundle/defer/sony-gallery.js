@@ -1599,11 +1599,10 @@
         // Bind events to the paddles
         self.addCompareNavEvents();
 
-      }, 100);
+        // Get an updated value for how much the compare sticky headers should be offset
+        self.setCompareItemsOffset();
 
-      self.$compareTool.on('touchstart touchmove', function(e) {
-        console.log(e.type, e.target, e.isDefaultPrevented());
-      });
+      }, 250);
 
       return self;
     },
@@ -1737,6 +1736,9 @@
         self.setCompareWidth();
         self.innerScroller.refresh();
         self.afterCompareScrolled( self.innerScroller );
+
+        // Maybe they haven't scrolled horizontally to see other images
+        iQ.update();
       }
 
       function noWidth() {
@@ -2062,9 +2064,15 @@
         var $containerWithTransform = self.$compareTool.find('.modal-inner'),
             temp = $containerWithTransform.css('transform');
 
-        $containerWithTransform.css('transform', '');
+        if ( temp !== 'none' ) {
+          $containerWithTransform.css('transform', '');
+        }
+
         self.compareItemOffset = self.$compareItemsWrap.offset().top;
-        $containerWithTransform.css('transform', temp);
+
+        if ( temp !== 'none' ) {
+          $containerWithTransform.css('transform', temp);
+        }
 
       } else {
         self.compareItemOffset = self.$compareItemsWrap.offset().top;

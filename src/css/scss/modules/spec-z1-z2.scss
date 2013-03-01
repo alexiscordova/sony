@@ -79,7 +79,7 @@ ul.spec-views {
     color: $linkBlueActive;
   }
 
-  li:hover a,
+  .no-touch & li:hover a,
   .active a {
     @include box-shadow(inset 0 -4px 0 $btnBackground);
   }
@@ -89,7 +89,7 @@ ul.spec-views {
     border-bottom: 4px solid transparent;
   }
 
-  .no-boxshadow & li:hover a,
+  .no-boxshadow.no-touch & li:hover a,
   .no-boxshadow & .active a {
     border-bottom-color: $btnBackground;
   }

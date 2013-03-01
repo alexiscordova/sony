@@ -827,7 +827,7 @@
             that.$element.one($.support.transition.end, function () {
               that.$element.focus().trigger('shown')
 
-              if (that.options.backdrop != 'static') {
+              if (that.options.backdrop !== false && that.options.backdrop != 'static') {
                 that.$backdrop.click($.proxy(that.hide, that))
               }
 
