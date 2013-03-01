@@ -35,7 +35,7 @@
       self.DEBUG                  = true;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
-      self.MOBILE_BREAKPOINT      = 567;
+      self.MOBILE_BREAKPOINT      = 568;
       
       //Cache common jQuery objects
       self.$paddles               = $({});
@@ -321,7 +321,7 @@
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
-          } else if ( self.mq('(min-width: 567px)') ) {
+          } else if ( self.mq('(min-width: 569px)') ) {
             numColumns = 4;
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
@@ -341,7 +341,7 @@
             if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
               column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
             // Between Portrait tablet and phone ( 3 columns )
-            } else if ( self.mq('(min-width: 567px)') ) {
+            } else if ( self.mq('(min-width: 569px)') ) {
               column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
             // Default
             }else{
@@ -370,22 +370,30 @@
         if(self.mode !== 'suggested' && !self.oldIE){
          self.$win.on('resize', function(){
           if(!self.isMobileMode && self.$win.width() > self.MOBILE_BREAKPOINT) {
+
             self.$galleryItems.css({
               visibility : HIDDEN,
               opacity    : 0
             });
             self.$pagination.hide();
             self.$el.addClass( REDRAWING );
+
            }else{
+
             self.$el.css({
               opacity : 1,
               visibility : VISIBLE
             });
+
             self.$galleryItems.not(BLANK).css({
               visibility : VISIBLE,
               opacity : 1
             });
-            self.$pagination.show();
+
+            if(!self.isMobileMode){
+              self.$pagination.show();
+            }
+
             self.$el.removeClass( REDRAWING );
            }
           });
@@ -401,7 +409,10 @@
           });
           self.$el.removeClass( REDRAWING );
 
-          self.$pagination.show();
+          if(!self.isMobileMode){
+            self.$pagination.show();
+          }
+          
         }
 
         self.$pagination.hide();
@@ -868,7 +879,7 @@
 
       sortByPriority : function() {
         var self = this,
-            isTablet = self.mq('(min-width: 567px) and (max-width: 980px)');
+            isTablet = self.mq('(min-width: 569px) and (max-width: 980px)');
 
         if ( isTablet && !self.sorted ) {
 
@@ -901,7 +912,8 @@
       checkForBreakpoints: function(){
         var self = this,
         wW       = self.$win.width(),
-        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile';
+        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile',
+        wasMobile = false;
 
         //if the browser doesnt support media queries...IE default to desktop
         if(!Modernizr.mediaqueries || self.$html.hasClass('lt-ie10')){
@@ -912,6 +924,7 @@
 
         switch(view){
           case 'desktop':
+
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
@@ -924,44 +937,49 @@
 
            //check if we are coming out of mobile
             if(self.isMobileMode === true){
+              wasMobile = true;
               self.returnToFullView();
+
+              self.log('was mobile');
             }
 
             self.isTabletMode = self.isMobileMode = false;
 
             if(self.isDesktopMode === true){
-              return;
+               self.log('already desktop');
+              //return;
             }
 
             self.isDesktopMode = true;
+
             self.$el.removeClass('rp-tablet rp-mobile')
                                     .addClass('rp-desktop');
 
-            if(self.scrollerModule !== null){
-
+            if(self.scrollerModule !== null || wasMobile){
+              self.log('destroying scroller');
               self.scrollerModule.destroy();
               self.scrollerModule = null;
 
             }
 
-            if(self.shuffle === null){
+            if(self.shuffle === null || wasMobile){
+              self.log('creating shuffle');
               self.$container.css('width' , '100%');
               self.createShuffle();
+
+              
             }
 
             self.sortByPriority();
 
             window.iQ.update();
 
-            self.ev.trigger('ondesktopbreakpoint.rp');
 
           break;
 
           case 'tablet':
 
-            var wasMobile = self.isMobileMode;
-
-            //alert('tablet');
+            wasMobile = self.isMobileMode;
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
@@ -987,10 +1005,8 @@
                     .addClass('rp-tablet');
 
             if(self.scrollerModule !== null){
-
               self.scrollerModule.destroy();
               self.scrollerModule = null;
-
             }
 
             if(self.shuffle === null){
@@ -1039,6 +1055,8 @@
 
               });
             }
+
+            self.shuffle = null;
 
             //Hide the bullet navigation
             self.$bulletNav.hide();
@@ -1104,9 +1122,9 @@
         }
 
         if(self.isMobileMode === true){
-          self.$el.css('height' , 400);
+          self.$el.css('height' , 290);
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , 400);
+            self.$tabbedContainer.css('height' , 290);
           }
           return;
         }
@@ -1544,6 +1562,7 @@
         if(self.isDesktopMode === false){
           self.isDesktopMode = true;
 
+
           self.$galleryItems.each(function(){
             var item = $(this).removeClass('small-size mobile-item'),
                 slide = item.data('slide');
@@ -1553,8 +1572,11 @@
           self.$container.css( 'width' , '' );
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
-          self.$paddles.show();
 
+          if(!self.hasTouch){
+            self.$paddles.show();
+          }
+          
         }
       },
 
@@ -1621,7 +1643,7 @@
             top :  plateHeight,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + px
           });
-        }else if(self.mq('(min-width: 567px)') && hasPlate){
+        }else if(self.mq('(min-width: 569px)') && hasPlate){
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,

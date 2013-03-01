@@ -12,7 +12,14 @@ SONY.Settings = (function(window, document, Modernizr) {
 
   'use strict';
 
-  var self = {};
+  var self = {},
+      transEndEventNames = {
+        'WebkitTransition' : 'webkitTransitionEnd',
+        'MozTransition'    : 'transitionend',
+        'OTransition'      : 'oTransitionEnd',
+        'msTransition'     : 'MSTransitionEnd',
+        'transition'       : 'transitionend'
+      };
 
   self.isIPhone = (/iphone|ipod/gi).test(navigator.userAgent);
   self.isIOS = (/iphone|ipod|ipad/gi).test(navigator.userAgent);
@@ -31,6 +38,7 @@ SONY.Settings = (function(window, document, Modernizr) {
   self.MOVE_EV = self.hasTouchEvents ? 'touchmove' : self.hasPointerEvents ? 'MSPointerMove' : 'mousemove';
   self.END_EV = self.hasTouchEvents ? 'touchend' : self.hasPointerEvents ? 'MSPointerUp' : 'mouseup';
   self.CANCEL_EV = self.hasTouchEvents ? 'touchcancel' : self.hasPointerEvents ? 'MSPointerCancel' : 'mousecancel';
+  self.transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ];
 
   self.windowWidth = SONY.$window.width();
   self.windowHeight = SONY.$window.height();

@@ -29,13 +29,13 @@
         <span class="keyword">return</span>;
       }
 
-      <span class="keyword">if</span> (<span class="keyword">typeof</span> fn === <span class="string">'function'</span>) {
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> fn === <span class="string">'function'</span> ) {
         self.callback = fn;
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Make sure we have room to scroll - basically choose an offset that we'll scroll to and have the entire window.
 This keeps timing correct.
-If amount below the target offset's is less than our screen height</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (totalHeight - targetOffset &lt; screenHeight) {
+If amount below the target offset's is less than our screen height</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( totalHeight - targetOffset &lt; screenHeight ) {
         targetOffset -= screenHeight - (totalHeight - targetOffset);
       }
 

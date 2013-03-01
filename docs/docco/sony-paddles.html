@@ -7,7 +7,39 @@
 <li><strong>Modified:</strong> 02/20/2013</li>
 <li><strong>Author:</strong> George Pantazis</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+</li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+</ul>
+
+<p><em>Notes:</em></p>
+
+<p>This plugin adds a left and right paddle, exposing basic click events
+that the calling modules may subscribe to. It does not assume to know
+how you want to show or hide the paddles, so it defers that logic to
+your module via exposed methods (showPaddle/hidePaddle).</p>
+
+<p><em>Example - Create new instance of sonyPaddles:</em></p>
+
+<pre><code> $('#foo').sonyPaddles();
+</code></pre>
+
+<p><em>Example - Show the left paddle, hide the right:</em></p>
+
+<pre><code> $('#foo').sonyPaddles('showPaddle', 'left');
+ $('#foo').sonyPaddles('hidePaddle', 'right');
+</code></pre>
+
+<p><em>Example - Subscribe to a click on the left paddle:</em></p>
+
+<pre><code> $('#foo').on('sonyPaddles:clickLeft', function(e){
+   // Do something
+ });
+</code></pre>
+
+<p><em>Example - Subscribe to a click on the right paddle:</em></p>
+
+<pre><code> $('#foo').on('sonyPaddles:clickRight', function(e){
+   // Do something
+ });
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
 (<span class="keyword">function</span>($) {
 
   <span class="string">'use strict'</span>;
@@ -17,6 +49,8 @@
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
     $.extend(self, {}, $.fn.sonyPaddles.defaults, options);
+
+    self.$el = $element;
 
     self.init();
   };
@@ -29,6 +63,70 @@
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      self.setupPaddles();
+    },
+
+    <span class="string">'setupPaddles'</span>: <span class="keyword">function</span>(){
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          itemHTML = <span class="string">'&lt;div class="paddle"&gt;&lt;i class=fonticon-10-chevron&gt;&lt;/i&gt;&lt;/div&gt;'</span>,
+          out = <span class="string">'&lt;div class="soc-nav soc-paddles"&gt;'</span>;
+
+      <span class="keyword">if</span> ( Modernizr.touch ) {
+        <span class="keyword">return</span>;
+      }
+
+      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++ ) {
+        out += itemHTML;
+      }
+
+      out += <span class="string">'&lt;/div&gt;'</span>;
+      out = $(out);
+
+      self.$el.append(out);
+
+      self.$paddles     = self.$el.find(<span class="string">'.paddle'</span>);
+      self.$leftPaddle  = self.$paddles.eq(<span class="number">0</span>).addClass(<span class="string">'left'</span>);
+      self.$rightPaddle = self.$paddles.eq(<span class="number">1</span>).addClass(<span class="string">'right'</span>);
+
+      self.$paddles.css(<span class="string">'opacity'</span>, <span class="number">0</span>);
+
+      self.$paddles.on(<span class="string">'click'</span>, <span class="keyword">function</span>(){
+        <span class="keyword">if</span> ( $(<span class="keyword">this</span>).hasClass(<span class="string">'left'</span>) ){
+          self.$el.trigger(<span class="string">'sonyPaddles:clickLeft'</span>);
+        } <span class="keyword">else</span> {
+          self.$el.trigger(<span class="string">'sonyPaddles:clickRight'</span>);
+        }
+      });
+    },
+
+    <span class="string">'showPaddle'</span>: <span class="keyword">function</span>(which) {
+      <span class="keyword">this</span>.paddleVisibility(which, <span class="literal">true</span>);
+    },
+
+    <span class="string">'hidePaddle'</span>: <span class="keyword">function</span>(which) {
+      <span class="keyword">this</span>.paddleVisibility(which, <span class="literal">false</span>);
+    },
+
+    <span class="string">'paddleVisibility'</span>: <span class="keyword">function</span>(which, visible){
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( which === <span class="string">'left'</span> ) {
+
+        <span class="keyword">if</span> ( visible ) {
+          self.$leftPaddle.css(<span class="string">'opacity'</span>, <span class="number">1</span>);
+        } <span class="keyword">else</span> {
+          self.$leftPaddle.css(<span class="string">'opacity'</span>, <span class="number">0</span>);
+        }
+      } <span class="keyword">else</span> <span class="keyword">if</span> ( which === <span class="string">'right'</span> ) {
+
+        <span class="keyword">if</span> ( visible ) {
+          self.$rightPaddle.css(<span class="string">'opacity'</span>, <span class="number">1</span>);
+        } <span class="keyword">else</span> {
+          self.$rightPaddle.css(<span class="string">'opacity'</span>, <span class="number">0</span>);
+        }
+      }
     }
   };
 

@@ -272,6 +272,14 @@ if ( self.stickyTriggerOffset &lt; 100 ) {
 
       self._initJumpLinks();
 
+
+      self.$stickyNav.on( SONY.Settings.END_EV, <span class="keyword">function</span>(e) {
+        <span class="keyword">if</span> ( e.target.tagName === <span class="string">'A'</span> ) {
+          <span class="keyword">return</span>;
+        }
+        SONY.Utilities.scrollToTop();
+      });
+
       setTimeout(<span class="keyword">function</span>() {
         $body.scrollspy(<span class="string">'refresh'</span>);
       }, <span class="number">100</span>);

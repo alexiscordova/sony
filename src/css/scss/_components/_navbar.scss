@@ -251,9 +251,11 @@
 
   .fonticon-10-arrowhead-down{
       position:relative;
-      top:-1px;
+      top:-2px;
+      margin-bottom: -5px;
       margin-left: px-em(4);
       margin-right:-2px;
+      overflow:hidden;
   }
 }
 
@@ -305,10 +307,8 @@
   [class^="fonticon-10-"],
   [class*=" fonticon-10-"]{
     margin: 0;
-  }
-  [class^="icon-ui-"],
-  [class*=" icon-ui-"]{
-    margin: 1px 2px 0 2px;
+    -webkit-font-smoothing:antialiased;
+    // overflow:hidden;
   }
 }
 
@@ -325,12 +325,13 @@
     font-size: px-em(11px);
     padding-right:6px;
     padding-top:10px;
+    -webkit-backface-visibility:hidden; // fix rogue focus rectangle
 
     .fonticon-10-arrowhead-down{
       margin-left:3px;
       position:relative;
       top:-2px;
-      font-size: px-em(16px,11px);
+      font-size: px-em(16,10.5);
     }
   }
 }

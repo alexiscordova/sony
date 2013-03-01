@@ -85,8 +85,7 @@
       
       // GRID & SPACING
       self.marginPercent                  = Number('.034'); // 22/650 (at 2-up)
-      self.contentInnerMargin             = 20;
-      //self.paddingPerContent            = 20;
+      self.contentInnerMargin             = 22;
      
       // register listener for global debounce to call method **before** debounce begins
       SONY.on(self.debounceBeforeEvent, self.beforeResizeFunc);
@@ -501,10 +500,10 @@
       options : {
         contentSelector: ".tcc-body", 
         itemElementSelector: ".tcc-content-module", 
+        appendBulletsTo:".tcc-wrapper",
         mode: 'paginate',
         generatePagination: true,
         centerItems: true,
-        threshold:5,
 
         iscrollProps: {
           snap: true,
