@@ -2,7 +2,6 @@
 @import "../_base/mixins";
 
 
-
 // 4 visible (default)
 $specItemWidth1200: 13.75em; // 220
 $specLabelWidth1200: 8.75em; // 140
@@ -165,6 +164,10 @@ ul.spec-views {
 .spec-items-wrap {
   position: relative;
   z-index: 15;
+
+  .no-csstransforms & {
+    float: left;
+  }
 }
 
 // Spec Nav
@@ -362,6 +365,8 @@ ul.spec-views {
     i {
       color: $gray50;
       vertical-align: middle;
+      line-height:1.1;
+      width:px-em(25,24);
     }
 
     &:hover i {
@@ -718,30 +723,6 @@ ul.spec-views {
       margin-top: 0;
       vertical-align: middle;
     }
-
-    .fonticon-40-panorama {
-      position: relative;
-      // top: -5px;
-      top: px-em(-5, 64);
-    }
-
-    .fonticon-40-face {
-      position: relative;
-      // top: -9px;
-      top: px-em(-9, 64);
-    }
-
-    .fonticon-40-stability {
-      position: relative;
-      // top: -3px;
-      top: px-em(-3, 64);
-    }
-
-    .fonticon-30-film-strip {
-      position: relative;
-      // top: -7px;
-      top: px-em(-7, 48);
-    }
   }
 }
 
@@ -756,8 +737,15 @@ ul.spec-views {
   .lt-ie9 & {
     // .span8 is 595
     width: 482px;
-    height: 217px;
+    height: 217px + 16px; // 16px for nav dots
     max-height: 400px;
+
+    .navigation-container {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+    }
   }
 
   .spec-carousel {

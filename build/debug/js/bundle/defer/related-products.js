@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = false;
+      self.DEBUG                  = true;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 567;
@@ -45,6 +45,7 @@
       self.$currentSlide          = null;
       self.$shuffleContainers     = self.$slides.find('.shuffle-container');
       self.$galleryItems          = self.$el.find('.gallery-item');
+      self.$plate                 = self.$slides.eq(0).find('.gallery-item.plate').first();
       self.$container             = self.$el.find('.rp-container').eq(0);
       self.$favorites             = self.$el.find('.js-favorite');
       self.$tabbedContainer       = self.$el.parent();
@@ -77,6 +78,7 @@
       self.paddlesEnabled         = false;
       self.resizeTimeout          = null;
       self.startInteractionPointX = null;
+      self.isTransitioning        = true;
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
@@ -241,7 +243,7 @@
           point, distanceMoved;
 
           if ( self.hasTouch ) {
-            point = e.originalEvent.touches[0];
+            point = e.originalEvent.touches[0] || { pageX: 0 } ;
           } else {
             point = e;
           }
@@ -383,7 +385,11 @@
               visibility : VISIBLE,
               opacity : 1
             });
-            self.$pagination.show();
+
+            if(!self.isMobileMode){
+              self.$pagination.show();
+            }
+
             self.$el.removeClass( REDRAWING );
            }
           });
@@ -399,7 +405,10 @@
           });
           self.$el.removeClass( REDRAWING );
 
-          self.$pagination.show();
+          if(!self.isMobileMode){
+            self.$pagination.show();
+          }
+          
         }
 
         self.$pagination.hide();
@@ -594,7 +603,7 @@
           self.$galleryItems.first().css({
             'width'   : colWidth,
             'margin'  : 0
-          }); 
+          });
 
           var newContainerHeight = self.$el.find('.gallery-item.normal').first().height() + 40 + 'px';
 
@@ -899,7 +908,8 @@
       checkForBreakpoints: function(){
         var self = this,
         wW       = self.$win.width(),
-        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile';
+        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile',
+        wasMobile = false;
 
         //if the browser doesnt support media queries...IE default to desktop
         if(!Modernizr.mediaqueries || self.$html.hasClass('lt-ie10')){
@@ -910,6 +920,7 @@
 
         switch(view){
           case 'desktop':
+
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
@@ -922,44 +933,49 @@
 
            //check if we are coming out of mobile
             if(self.isMobileMode === true){
+              wasMobile = true;
               self.returnToFullView();
+
+              self.log('was mobile');
             }
 
             self.isTabletMode = self.isMobileMode = false;
 
             if(self.isDesktopMode === true){
-              return;
+               self.log('already desktop');
+              //return;
             }
 
             self.isDesktopMode = true;
+
             self.$el.removeClass('rp-tablet rp-mobile')
                                     .addClass('rp-desktop');
 
-            if(self.scrollerModule !== null){
-
+            if(self.scrollerModule !== null || wasMobile){
+              self.log('destroying scroller');
               self.scrollerModule.destroy();
               self.scrollerModule = null;
 
             }
 
-            if(self.shuffle === null){
+            if(self.shuffle === null || wasMobile){
+              self.log('creating shuffle');
               self.$container.css('width' , '100%');
               self.createShuffle();
+
+              
             }
 
             self.sortByPriority();
 
             window.iQ.update();
 
-            self.ev.trigger('ondesktopbreakpoint.rp');
 
           break;
 
           case 'tablet':
 
-            var wasMobile = self.isMobileMode;
-
-            //alert('tablet');
+            wasMobile = self.isMobileMode;
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
@@ -985,10 +1001,8 @@
                     .addClass('rp-tablet');
 
             if(self.scrollerModule !== null){
-
               self.scrollerModule.destroy();
               self.scrollerModule = null;
-
             }
 
             if(self.shuffle === null){
@@ -1038,6 +1052,8 @@
               });
             }
 
+            self.shuffle = null;
+
             //Hide the bullet navigation
             self.$bulletNav.hide();
 
@@ -1052,6 +1068,9 @@
 
           break;
         }
+
+
+        //do we need this in ALL modes?
 
         self.setNameHeights(self.$shuffleContainers);
 
@@ -1071,7 +1090,8 @@
       },
 
       updateSliderSize: function(){
-        var self = this;
+        var self = this,
+        newHeight = $('.shuffle-container').eq(0).height();
 
         //handle stuff for old IE
         if( self.oldIE ){
@@ -1085,33 +1105,35 @@
 
         //handle resize for various layouts
         if(self.isTabletMode === true){
-          //ratio based on comp around 768/922
-          //self.$el.css('height' , 1.05 * self.$el.width());
-          self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
-
+          if( newHeight === 0 ){
+            newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.984615385 );
+            self.log('using alternate height calculatio >>> TABLET' , newHeight);
+          }
+          
+         self.$el.css( 'height' , newHeight + 40 + 'px' );
           if(!!self.isTabbedContainer){
-            //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
             self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
           }
           return;
         }
 
         if(self.isMobileMode === true){
-
-          self.$el.css('height' , 400);
-
+          self.$el.css('height' , 290);
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , 400);
+            self.$tabbedContainer.css('height' , 290);
           }
           return;
         }
 
-        //self.$el.css( 'height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) );
-        self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
+        if( newHeight === 0 ){
+          newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.509803922 );
+           self.log('using alternate height calculation >>> Desktop' , newHeight);
+        }
+
+        self.$el.css( 'height' , newHeight + 40 + 'px' );
 
         if(!!self.isTabbedContainer){
-          //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
-          self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
+          self.$tabbedContainer.css('height' , newHeight + 40 + 'px');
         }
 
 
@@ -1526,6 +1548,8 @@
         //update the overall position
         self.sPosition = self.currRenderPosition = newPos;
 
+        self.isTransitioning = true;
+
         self.ev.trigger('rpOnUpdateNav');
       },
 
@@ -1533,6 +1557,7 @@
         var self = this;
         if(self.isDesktopMode === false){
           self.isDesktopMode = true;
+
 
           self.$galleryItems.each(function(){
             var item = $(this).removeClass('small-size mobile-item'),
@@ -1543,8 +1568,11 @@
           self.$container.css( 'width' , '' );
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
-          self.$paddles.show();
 
+          if(!self.hasTouch){
+            self.$paddles.show();
+          }
+          
         }
       },
 
@@ -1651,7 +1679,7 @@
           $mediumTile = $slide.find('.gallery-item.medium .product-img').first();
           $normalTile = $slide.find('.gallery-item.normal').first();
 
-          var tileHeight = $slide.find('.gallery-item.plate').first().height(),
+          var tileHeight = $slide.find('.gallery-item.plate').first().height() +  ( self.mq('(max-width: 769px)') ? 26 : 0 ),
               testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true);
 
           if(slideVariation !== '3up'){
@@ -1659,6 +1687,22 @@
               'max-height' : tileHeight,
               'height'     : tileHeight
             });
+/*
+            if( slideVariation === '4up' && self.mq( '(min-width: 567px) and (max-width: 768px)' ) ){
+              $slide.find( '.gallery-item.normal').each(function(){
+                var $item = $(this);
+
+                self.log( $item.outerHeight(true) , $slide.find('.gallery-item.plate').first().height() );
+
+                if ( $item.outerHeight( true ) >  $slide.find('.gallery-item.plate').first().height() ) {
+                  $slide.find('.gallery-item.plate').first().css({
+                    'max-height' : $item.outerHeight(true),
+                    'height'     : $item.outerHeight(true)
+                  });
+                }
+              });
+            }
+            self.log( 'Setting new tile height on gallery items, ' , $slide.find('.gallery-item.plate').first().height(), tileHeight  , self.mq('(min-width: 769px)'));*/
           }
 
           switch( slideVariation ){

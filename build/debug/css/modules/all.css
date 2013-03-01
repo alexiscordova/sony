@@ -194,7 +194,7 @@
   color: #d2d2db;
   vertical-align: baseline;
   font-size: .8125em;
-  padding: .6875em .875em;
+  padding: 0.6875em 0.875em;
 }
 /* line 263, ../../../../src/css/scss/modules/all.scss */
 .gallery-item .favorite-holder:hover i, .gallery-item .favorite-holder.active i {
@@ -212,7 +212,7 @@
   -webkit-transform: scale3d(1, 1, 1);
   opacity: 1;
 }
-/* line 806, ../../../../src/css/scss/_base/_mixins.scss */
+/* line 771, ../../../../src/css/scss/_base/_mixins.scss */
 .no-touch .gallery-item.promo .gallery-item-inner:hover {
   opacity: 0.85;
 }
@@ -227,7 +227,11 @@
   -ms-transform: translate(0.375em, 0);
   transform: translate(0.375em, 0);
 }
-/* line 301, ../../../../src/css/scss/modules/all.scss */
+/* line 299, ../../../../src/css/scss/modules/all.scss */
+.no-csstransforms .no-touch .gallery-item.promo .gallery-item-inner:hover .promo-title i {
+  left: 6px;
+}
+/* line 305, ../../../../src/css/scss/modules/all.scss */
 .gallery-item.promo .product-content {
   position: absolute;
   top: 0;
@@ -236,61 +240,61 @@
   height: 100%;
   text-align: left;
 }
-/* line 311, ../../../../src/css/scss/modules/all.scss */
+/* line 315, ../../../../src/css/scss/modules/all.scss */
 .gallery-item.promo .product-img {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  padding: 16.1290323% 10.6060606% 10.967742%;
+  padding: 16.12903% 10.60606% 10.96774%;
 }
-/* line 319, ../../../../src/css/scss/modules/all.scss */
+/* line 323, ../../../../src/css/scss/modules/all.scss */
 .gallery-item.promo img {
   max-height: none;
   max-width: none;
 }
 
-/* line 325, ../../../../src/css/scss/modules/all.scss */
+/* line 329, ../../../../src/css/scss/modules/all.scss */
 .gallery-item .promo-content {
   position: relative;
   height: 100%;
   text-align: left;
 }
-/* line 330, ../../../../src/css/scss/modules/all.scss */
+/* line 334, ../../../../src/css/scss/modules/all.scss */
 .gallery-item .promo-content .promo-title {
   margin: 0;
 }
-/* line 333, ../../../../src/css/scss/modules/all.scss */
+/* line 337, ../../../../src/css/scss/modules/all.scss */
 .gallery-item .promo-content .promo-title i {
   position: relative;
   top: -0.1875em;
   left: 0.125em;
 }
-/* line 340, ../../../../src/css/scss/modules/all.scss */
+/* line 344, ../../../../src/css/scss/modules/all.scss */
 .gallery-item .promo-content .promo-title .title {
   color: white;
 }
-/* line 345, ../../../../src/css/scss/modules/all.scss */
+/* line 349, ../../../../src/css/scss/modules/all.scss */
 .gallery-item .promo-content .text-count {
   position: absolute;
   bottom: 0;
   margin: 0;
 }
-/* line 352, ../../../../src/css/scss/modules/all.scss */
+/* line 356, ../../../../src/css/scss/modules/all.scss */
 .gallery-item .promo-content .text-count span {
   color: white;
 }
 
-/* line 378, ../../../../src/css/scss/modules/all.scss */
+/* line 382, ../../../../src/css/scss/modules/all.scss */
 .gallery-detailed .gallery-item:after {
   padding-top: 140%;
 }
-/* line 382, ../../../../src/css/scss/modules/all.scss */
+/* line 386, ../../../../src/css/scss/modules/all.scss */
 .gallery-detailed .product-img:after {
   padding-top: 76.05633802816901%;
 }
 
-/* line 410, ../../../../src/css/scss/modules/all.scss */
+/* line 414, ../../../../src/css/scss/modules/all.scss */
 .detail-label strong {
   display: inline-block;
   max-width: 100%;
@@ -298,13 +302,17 @@
   text-overflow: ellipsis;
 }
 
-/* line 417, ../../../../src/css/scss/modules/all.scss */
+/* line 421, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrap {
   position: relative;
   z-index: 5;
   height: 100%;
 }
-/* line 423, ../../../../src/css/scss/modules/all.scss */
+/* line 426, ../../../../src/css/scss/modules/all.scss */
+.lt-ie9 .detail-labels-wrap {
+  margin-left: 0;
+}
+/* line 431, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrap:before {
   content: '';
   position: absolute;
@@ -317,7 +325,7 @@
   -webkit-transition: box-shadow 0.15s ease-in;
   transition: box-shadow 0.15s ease-in;
 }
-/* line 437, ../../../../src/css/scss/modules/all.scss */
+/* line 445, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrap.overflowing:before {
   -webkit-box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
   box-shadow: 0.125em 0 0.1875em -0.0625em rgba(0, 0, 0, 0.12);
@@ -325,31 +333,29 @@
   transition-timing-function: ease-out;
 }
 
-/* line 443, ../../../../src/css/scss/modules/all.scss */
+/* line 453, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrapping {
   -webkit-transform: translate(-0.625em, 0);
   -ms-transform: translate(-0.625em, 0);
   transform: translate(-0.625em, 0);
   opacity: 0;
-  filter: alpha(opacity=0);
   -webkit-transition: opacity 0.2s ease-out 0.1s, -webkit-transform 0.2s ease-out 0.1s;
   transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
 }
-/* line 449, ../../../../src/css/scss/modules/all.scss */
+/* line 459, ../../../../src/css/scss/modules/all.scss */
 .detail-labels-wrapping.complete {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   transform: translate(0, 0);
   opacity: 1;
-  filter: alpha(opacity=100);
 }
 
-/* line 455, ../../../../src/css/scss/modules/all.scss */
+/* line 465, ../../../../src/css/scss/modules/all.scss */
 .detail-label-group {
   position: absolute;
 }
 
-/* line 460, ../../../../src/css/scss/modules/all.scss */
+/* line 470, ../../../../src/css/scss/modules/all.scss */
 .detail-label-group,
 .detail-labels-wrapping .product-count-wrap {
   width: 100%;
@@ -357,7 +363,7 @@
   width: calc(100% - 0.625em);
 }
 
-/* line 468, ../../../../src/css/scss/modules/all.scss */
+/* line 478, ../../../../src/css/scss/modules/all.scss */
 .compare-container .detail,
 .detail-labels-wrapping .product-count-wrap {
   position: relative;
@@ -365,7 +371,7 @@
   padding-bottom: 30px;
   margin-bottom: 0;
 }
-/* line 476, ../../../../src/css/scss/modules/all.scss */
+/* line 486, ../../../../src/css/scss/modules/all.scss */
 .compare-container .detail:after,
 .detail-labels-wrapping .product-count-wrap:after {
   content: '';
@@ -377,7 +383,7 @@
   background: #d2d2db;
 }
 
-/* line 489, ../../../../src/css/scss/modules/all.scss */
+/* line 499, ../../../../src/css/scss/modules/all.scss */
 .compare-container .detail-label:after,
 .detail-labels-wrapping .product-count-wrap:after {
   left: 0;
@@ -385,28 +391,29 @@
   background: #d2d2db;
 }
 
-/* line 498, ../../../../src/css/scss/modules/all.scss */
+/* line 508, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header {
   position: absolute;
   z-index: 10;
   top: 0;
   left: -9999px;
   padding: 1em 0 1.25em;
+  margin: 0;
   background: #f3f4f6;
   top: -6.25em;
   -webkit-transition: top 0.2s ease-in, left 0s 0.2s;
   transition: top 0.2s ease-in, left 0s 0.2s;
 }
-/* line 509, ../../../../src/css/scss/modules/all.scss */
+/* line 520, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header:not(.sticky-count) {
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
 }
-/* line 514, ../../../../src/css/scss/modules/all.scss */
+/* line 525, ../../../../src/css/scss/modules/all.scss */
 .sticky-headers .compare-sticky-header {
   margin: 0;
 }
-/* line 519, ../../../../src/css/scss/modules/all.scss */
+/* line 530, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header.open {
   left: 0;
   top: 0;
@@ -415,13 +422,13 @@
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
 }
-/* line 528, ../../../../src/css/scss/modules/all.scss */
+/* line 539, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header.sticky-count:before {
   content: '';
   position: absolute;
   z-index: -1;
   top: 0;
-  right: -0.1875em;
+  right: -.1875em;
   width: 2000px;
   height: 100%;
   background: #f3f4f6;
@@ -429,17 +436,17 @@
   -webkit-box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.12);
 }
-/* line 541, ../../../../src/css/scss/modules/all.scss */
+/* line 552, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header .media .pull-left {
   max-width: 90px;
   margin-right: 4px;
 }
-/* line 546, ../../../../src/css/scss/modules/all.scss */
+/* line 557, ../../../../src/css/scss/modules/all.scss */
 .compare-sticky-header .product-name {
   color: #2f353d;
 }
 
-/* line 551, ../../../../src/css/scss/modules/all.scss */
+/* line 562, ../../../../src/css/scss/modules/all.scss */
 .compare-box {
   display: inline-block;
   padding: 11px 12px;

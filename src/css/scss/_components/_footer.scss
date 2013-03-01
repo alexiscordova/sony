@@ -28,12 +28,7 @@
 .footer-sony-logo{
   display:inline-block;
   position:relative;
-  width:98px;
-  height:16px;
   overflow:hidden;
-  color:$white;
-  line-height:0;
-  font-size:4.8em;
 
   &:before{
     // position:relative;
@@ -87,13 +82,12 @@ form.footer-store-locator-form{
     top: 13px;
     font-size: px-em(18,16);
     color: $buttonOrange;
+    -webkit-font-smoothing:antialiased;
   }
 }
 
-.footer-store-locator-caption{
-  font-size:$font_11_16;
+.footer-change-location-link{
   margin:7px 0 0 0;
-  color:$white;
 }
 
 .grid .footer-language.span6{
@@ -101,20 +95,15 @@ form.footer-store-locator-form{
   float:left;
 }
 
-// pierre
 .lt-ie8 .footer-ex {
-      width: 100%;
-      padding-top: 50px;
-    }
+  width: 100%;
+}
 .footer-language-selectors{
   @include clearfix;
 }
 .footer-social-links{
   display:inline-block;
-  // pierre
-  .lt-ie8 &{
-    float: left;
-  }
+  @include ie7-inline-block;
   a{
     display:inline-block;
     width: px-em(36px);
@@ -132,42 +121,45 @@ form.footer-store-locator-form{
     i{
       position:relative;
       top:3px;
-    }
-
-    &.footer-social-twitter {
-      i {
-        // left:1px;
-      }
-      &:hover, &:active, &:focus, &.active{
-        background-color:$twitterColor;        
-      }
-    }
-    &.footer-social-facebook {
-      i {
-        // left:1px;
-      }
-      &:hover, &:active, &:focus, &.active{
-        background-color:$facebookColor;        
-      }
-    }
-    &.footer-social-gplus {
-      i{
-        // left:-1px;
-      }
-      &:hover, &:active, &:focus, &.active{
-        background-color:$gplusColor;        
-      }
-    }
-    &.footer-social-youtube {
-      i{
-        // top:2px;
-      }
-      &:hover, &:active, &:focus, &.active{
-        background-color:$youtubeColor;        
-      }
+      -webkit-font-smoothing:antialiased;
+      overflow:hidden;
     }
   }
 }
+
+a.footer-social-twitter {
+  i {
+    // left:1px;
+  }
+  &:hover, &:active, &:focus, &.active{
+    background-color:$twitterColor;        
+  }
+}
+a.footer-social-facebook {
+  i {
+    // left:1px;
+  }
+  &:hover, &:active, &:focus, &.active{
+    background-color:$facebookColor;        
+  }
+}
+a.footer-social-gplus {
+  i{
+    // left:-1px;
+  }
+  &:hover, &:active, &:focus, &.active{
+    background-color:$gplusColor;        
+  }
+}
+a.footer-social-youtube {
+  i{
+    // top:2px;
+  }
+  &:hover, &:active, &:focus, &.active{
+    background-color:$youtubeColor;        
+  }
+}
+
 
 .footer-signature{
   position:relative
@@ -193,13 +185,16 @@ form.footer-store-locator-form{
 
     font-size: px-em(12);
 
-    &::after{
-      margin: 0;
-      position:relative;
-      top:1px;
-      left:3px;
-      font-size: px-em(16,12);
+
+    .fonticon-10-arrowhead-down{
+      float:right;
+      @include transition(all $transitionFast linear);
+      @include transform-origin(47%, 53%, 0);
+      @include flickerfix;
+      -webkit-font-smoothing:antialiased;
       color:$gray50;
+      font-size: px-em(16,12);
+      margin: 1px 0 0 0;
     }
   }
 
@@ -214,7 +209,7 @@ form.footer-store-locator-form{
   }
   &.language-selector{
     .dropdown-hover-toggle{
-      padding-left:20px;
+      padding-left:16px;
     }
     .dropdown-hover-menu{
       @include el-hidden(right); // so it's right-justified.
@@ -332,9 +327,9 @@ form.footer-store-locator-form{
     border-color: $gray30;
   }
   &:not(.DISABLE-MENU){
-    // .fonticon-10-arrowhead-down{
-    //   @include rotate(-180deg);
-    // }
+    .fonticon-10-arrowhead-down{
+      @include rotate(-180deg);
+    }
     .dropdown-hover-menu{
       @include el-shown(right);
     }
@@ -358,13 +353,9 @@ form.footer-store-locator-form{
     line-height:1.5;
   }
 }
-.footer-link-li{
-  // line-height: 1;
-  // padding-bottom: 5px;
-  // padding-top: 4px;
-  a{
-    font-size:$font_13_16;
-  }
+.footer-link-li a,
+.footer-change-location-link{
+  font-size:$font_13_16;
 }
 
 .footer-wrapper .footer-store-locator{
@@ -448,6 +439,9 @@ form.footer-store-locator-form{
     width: px-em(67px);
     float:left;
   }
+  .footer-mobile-section{
+    padding-bottom: 74px;
+  }
 }
 
 
@@ -464,39 +458,44 @@ form.footer-store-locator-form{
   }
 }
 
-.footer-contact.span6{
-  padding-top: 2px;
-  float:right;
-  text-align:right;
- // pierre
-  .lt-ie8 & p {
-    float: left;
-    margin-top: 5px;
-      a {
-        margin-right: 1.5em;
-        margin-top: 1em;
-      }
-  }
-  > p{
-    display:inline-block;
-    font-size:$font_13_16;
 
-    a{
+
+
+.footer-wrapper{
+  .footer-contact.span6{
+    padding-top: 2px;
+    float:right;
+    text-align:right;
+    > p{
       display:inline-block;
-      position:relative;
-      top: -11px;
-      margin-right: px-em(24px);
+      font-size:$font_13_16;
+
+      .lt-ie8 & {
+        @include ie7-inline-block;
+        margin-right: 1.0em;        
+      }
+
+      a{
+        display:inline-block;
+        position:relative;
+        top: -11px;
+        .lt-ie8 & {
+          top: auto;
+        }
+        margin-right: px-em(24px);
+      }
     }
+  }
 }
 
-}
+
 .footer-sony-logo{
   margin-bottom: 6px;
 }
 .footer-copyright{
   position:absolute;
   left: 85px;
-  top: 1px;
+  top: 3px;
 }
 
 .footer-store-locator-form{

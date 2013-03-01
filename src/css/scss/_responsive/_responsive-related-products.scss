@@ -1,7 +1,6 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
 
-body {
 
 /* Related Products */  
 .RELATEDPRODUCTS {}
@@ -159,7 +158,7 @@ body {
       }
 
       .medium .product-img:after {
-
+/* 
         @media (min-width:981px) and (max-width:1199px){
           padding-top: 112.02761%;
         }
@@ -221,26 +220,20 @@ body {
           .medium .product-img:after {
             padding-top: 75.980392156863%;
           }
-        }
+        } */
       }
 
       @media (min-width: 481px) and (max-width: 980px){
-
-        .gallery-item {
-          //min-height: 230px;
-        }
 
         .gallery-item:after {
           padding-top: 133.196078%;
         }
 
-        .related-products-4up {
+/*         .related-products-4up {
           .gallery-item:after {
             padding-top: 160.196078%;
           }   
-        }
-
-
+        } */
 
         .gallery-item .gallery-item-inner,
         .product-img .product-img-wrap {
@@ -248,11 +241,10 @@ body {
         }
 
         .medium.gallery-item:after {
-          //padding-top: 141.196078%;
-          padding-top: 144.996078%;
           padding-top: 151.996078%;
         }
-        //four up style overrides
+
+        //4up style
         &.related-products-4up {
 
           .gallery-item:after {
@@ -269,8 +261,9 @@ body {
         }
 
         .gallery-item.plate:after {
-          padding-top: 76.190255%
+          //padding-top: 76.190255%
         }
+
       }
 
       @media (min-width: 568px) and (max-width: 767px){
@@ -287,13 +280,11 @@ body {
       }
 
 
-
   /* Bullet Nav */
   .BULLETNAV{}
 
-    @media (max-width: 767px) {
-      max-width: 980px; /* Both Must be set for JS to size proportiontely */
-      min-height: 370px;
+    @media (max-width: 567px) {
+      margin: 20px 0 53px 0;
     }
 
     /* Slides */
@@ -312,10 +303,6 @@ body {
         @media (min-width: px-em(1400px)){
           width: 93.06122%;
         }
-
-        @media (min-width: px-em(1400px)){
-          width: 93.06122%;
-        } 
 
         /* 3up Media Queries */ 
         &.related-products-3up {
@@ -371,7 +358,7 @@ body {
 /* Related Products Title */ 
 .rp-title {
 
-  //beyond tablet
+/*   //beyond tablet
   @media (min-width:px-em(769px)){
     margin: 33px 0 10px 0;
   } 
@@ -379,7 +366,7 @@ body {
   //tablet
   @media (min-width:px-em(481px)) and (min-width:px-em(769px)){
     margin: 33px 0 10px 0;
-  }
+  } */
 
 }
 
@@ -387,8 +374,8 @@ body {
 .PADDLENAV{}
   .rp-nav {
     .paddle {
-      i {
 
+      i {
         @media (max-width:(px-em(979px))){
           margin-top: 28px;
         }
@@ -409,4 +396,3 @@ body {
     }
   }
 
-}

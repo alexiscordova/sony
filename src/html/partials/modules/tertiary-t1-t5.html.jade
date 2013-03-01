@@ -13,7 +13,8 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
 
   for header in data.header
     .tcc-header-wrapper.container
-      .tcc-header.grid.m-full-bleed
+      //- .tcc-header.grid.m-full-bleed
+      .tcc-header.grid
         p.tcc-header-title.l1 #{header.title}
 
         p.tcc-header-link.lt3
@@ -22,30 +23,32 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
   .loader
     img(src="img/global/loader.gif")
 
-  section.tcc-scroller.tcc-body-wrapper.container.full-bleed-at-767
-    .tcc-body.grid.no-grid-at-767
-    
+  - scrollerClassNames = ["tcc-scroller", "tcc-body-wrapper", "container", "tcc-full-bleed-at-979"]
+  - bodyClassNames = ["tcc-body","grid"]
+
+  section(class=scrollerClassNames)
+    div(class=bodyClassNames)
       for module in data.contentModules
-        - classNames = ["tcc-content-module","span4","table-center-wrap"]
+        - contentModulesClassNames = ["tcc-content-module","span4","table-center-wrap"]
 
         for variation in module.variations
           - contentType = variation.contentType
           - contentMode = variation.contentMode
-          - classNames.push(contentMode, contentType)
+          - contentModulesClassNames.push(contentMode, contentType)
 
           if(contentMode == "featured") && (module.imgSrc)
             - backgroundImg = module.imgSrc
-            - classNames.push("iq-img")
+            - contentModulesClassNames.push("iq-img")
           else
             - backgroundImg = null         
 
-        div(class=classNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode, data-src= backgroundImg)
+        div(class=contentModulesClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode, data-src= backgroundImg)
           case contentType
             when "article"
               if(contentMode == "featured") && (module.title) && (module.imgSrc)
                 article
-                 .feature-copy
-                    p.t4 #{module.title}
+                 .feature-copy.light-text-dark-box
+                    p.t5-light #{module.title}
                     p.lt3
                       a(href="#{module.articleLink}") Read More
               else
@@ -56,27 +59,27 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                       img(src= module.noScriptImg)
                             
                     if(contentMode == "news") && (module.date)
-                      p.news-date.l3
+                      p.news-date.l3-light
                         | #{module.date}
 
                     if(contentMode == "event") && (module.attendanceCount)
                       .attendance-count.ghost-center-wrap
                         .ghost-center
-                          p.l4
-                            span
-                              | #{module.attendanceCount} 
+                          p.t3
+                            | #{module.attendanceCount} 
+                          p.l3-light                           
                             | attending
 
               if (contentMode != "featured")
                 .tcc-copy               
                   if (module.title)
-                    //- title (required)
-                    p.t6 
-                      | #{module.title}
+                    p.p2
+                      strong 
+                        | #{module.title}
 
                   //- body copy (optional)
                   if (module.bodyCopy)
-                    p.p3 #{module.bodyCopy}               
+                    p.p4 #{module.bodyCopy}               
 
                   if (module.articleLink)
                     p.lt3
@@ -144,7 +147,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                     | See Replies
 
                 .answer-btn
-                  a.btn(href= module.answerLink)
+                  a.btn.btn-small(href= module.answerLink)
                     | Answer this Question
             
             when "sonys-voice"

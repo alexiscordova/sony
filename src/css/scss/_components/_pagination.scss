@@ -45,6 +45,7 @@ $bulletMargin: px-em(5px);
 
 
 .nav-paddle {
+  display: block;
   border: none;
   background-color: $gray60;
   background-color: rgba($gray10, .4);
@@ -90,7 +91,9 @@ $bulletMargin: px-em(5px);
   opacity: 0;
 }
 
-.paddle-trigger:hover .nav-paddle {
+
+.paddle-trigger:hover .nav-paddle,
+.paddle-trigger .nav-paddle:focus {
   opacity: 1;
 }
 
