@@ -124,6 +124,8 @@
 
       e.preventDefault();
 
+      window.iQ.update();
+
       self.handlePosition.x = self.scrubberLeft + distX;
       self.handlePosition.y = self.scrubberTop + distY;
 
