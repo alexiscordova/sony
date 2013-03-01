@@ -78,7 +78,7 @@ cache the new interaction's start position, then bind for movement onto onScrubb
         <span class="keyword">return</span>;
       }
 
-      <span class="keyword">if</span> ( Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions ) {
+      <span class="keyword">if</span> ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">'0ms'</span>);
       }
 
@@ -122,8 +122,6 @@ cache the new interaction's start position, then bind for movement onto onScrubb
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       e.preventDefault();
-
-      window.iQ.update();
 
       self.handlePosition.x = self.scrubberLeft + distX;
       self.handlePosition.y = self.scrubberTop + distY;
@@ -219,12 +217,12 @@ Also broadcasts the new position via the self.drag() callback.</p>             <
         newY = self.bounds.y ? SONY.Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
       }
 
-      <span class="keyword">if</span> ( Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions ) {
+      <span class="keyword">if</span> ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + ( newX ? newX : <span class="number">0</span> ) + self.unit + <span class="string">','</span> + ( newY ? newY : <span class="number">0</span> ) + self.unit + <span class="string">')'</span>);
       } <span class="keyword">else</span> {
         self.$el.css({
-          <span class="string">'left'</span>: (newX?newX:<span class="number">0</span>)+self.unit,
-          <span class="string">'top'</span>: (newY?newY:<span class="number">0</span>)+self.unit
+          <span class="string">'left'</span>: ( newX ? newX : <span class="number">0</span> ) + self.unit,
+          <span class="string">'top'</span>: ( newY ? newY : <span class="number">0</span> ) + self.unit
         });
       }
 
@@ -240,18 +238,18 @@ Also broadcasts the new position via the self.drag() callback.</p>             <
     <span class="string">'setDimensions'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          widthObject;
+          $widthObject;
 
-      <span class="keyword">if</span> ( Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions ) {
-        widthObject = self.$el;
+      <span class="keyword">if</span> ( self.useCSS3 ) {
+        $widthObject = self.$el;
       } <span class="keyword">else</span> {
-        widthObject = self.$containment;
+        $widthObject = self.$containment;
       }
 
-      self.containmentWidth = widthObject.width();
-      self.containmentHeight = widthObject.height();
-      self.scrubberLeft = self.$el[<span class="number">0</span>].getBoundingClientRect().left - (self.$el.outerWidth(<span class="literal">true</span>) - self.$el.width()) / <span class="number">2</span>;
-      self.scrubberTop = self.$el[<span class="number">0</span>].getBoundingClientRect().top - (self.$el.outerHeight(<span class="literal">true</span>) - self.$el.height()) / <span class="number">2</span>;
+      self.containmentWidth = $widthObject.width();
+      self.containmentHeight = $widthObject.height();
+      self.scrubberLeft = self.$el.get(<span class="number">0</span>).getBoundingClientRect().left - (self.$el.outerWidth(<span class="literal">true</span>) - self.$el.width()) / <span class="number">2</span>;
+      self.scrubberTop = self.$el.get(<span class="number">0</span>).getBoundingClientRect().top - (self.$el.outerHeight(<span class="literal">true</span>) - self.$el.height()) / <span class="number">2</span>;
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Allows other classes to reset the handle's position if needed, by calling:</p>
@@ -294,7 +292,8 @@ Also broadcasts the new position via the self.drag() callback.</p>             <
       <span class="string">'x'</span>: <span class="number">0</span>,
       <span class="string">'y'</span>: <span class="number">0</span>
     },
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Callback for drag motion, may be used to reposition other elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'drag'</span>: <span class="keyword">function</span>(){}
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Use CSS3 Transforms and Transitions for dragging.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'useCSS3'</span>: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Callback for drag motion, may be used to reposition other elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'drag'</span>: <span class="keyword">function</span>(){}
   };
 
 })(jQuery);

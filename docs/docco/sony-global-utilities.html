@@ -11,17 +11,17 @@ SONY.Utilities = (<span class="keyword">function</span>(window, document) {
   <span class="string">'use strict'</span>;
 
   <span class="keyword">var</span> self = {
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Force a redraw for webkit browsers.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'forceWebkitRedraw'</span>: <span class="keyword">function</span>(){
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>force webkit redraw hack</p>             </td>             <td class="code">               <div class="highlight"><pre>      $(<span class="string">'&lt;style/&gt;'</span>)
-        .appendTo( SONY.$body )
-        .remove();
+      $(<span class="string">'&lt;style/&gt;'</span>).appendTo( SONY.$body ).remove();
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>converts pixel value to em value (including unit)</p>             </td>             <td class="code">               <div class="highlight"><pre>    
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>converts pixel value to em value (including unit)</p>             </td>             <td class="code">               <div class="highlight"><pre>
     pxToEm : <span class="keyword">function</span>(pxValue, context){
-      
+
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>defaults to 16px</p>             </td>             <td class="code">               <div class="highlight"><pre>      context = <span class="keyword">typeof</span> context !== <span class="string">'undefined'</span> ? context : <span class="number">16</span>;
-        
+
       <span class="keyword">return</span> (pxValue / context) + <span class="string">"em"</span>;
     },
 
@@ -229,5 +229,25 @@ window.resize.</li>
   <span class="keyword">return</span> self;
 
 })(<span class="keyword">this</span>, <span class="keyword">this</span>.document);
+
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Need to find a better place for this to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+<span class="keyword">if</span> (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = <span class="keyword">function</span>(elt <span class="comment">/*, from*/</span>) {
+
+    <span class="keyword">var</span> len = <span class="keyword">this</span>.length &gt;&gt;&gt; <span class="number">0</span>,
+        from = Number(arguments[<span class="number">1</span>]) || <span class="number">0</span>;
+
+    from = (from &lt; <span class="number">0</span>) ? Math.ceil(from) : Math.floor(from);
+
+    <span class="keyword">if</span> ( from &lt; <span class="number">0</span> ) { from += len; }
+
+    <span class="keyword">for</span> (; from &lt; len; from++) {
+      <span class="keyword">if</span> (from <span class="keyword">in</span> <span class="keyword">this</span> &amp;&amp; <span class="keyword">this</span>[from] === elt) {
+        <span class="keyword">return</span> from;
+      }
+    }
+    <span class="keyword">return</span> -<span class="number">1</span>;
+  };
+}
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

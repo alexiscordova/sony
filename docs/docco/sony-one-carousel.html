@@ -8,28 +8,6 @@
 <li><strong>Author:</strong> George Pantazis</li>
 <li><strong>Dependencies:</strong> jQuery 1.7+</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
-<span class="keyword">if</span> (!Array.prototype.indexOf)
-{
-  Array.prototype.indexOf = <span class="keyword">function</span>(elt <span class="comment">/*, from*/</span>)
-  {
-    <span class="keyword">var</span> len = <span class="keyword">this</span>.length &gt;&gt;&gt; <span class="number">0</span>;
-
-    <span class="keyword">var</span> from = Number(arguments[<span class="number">1</span>]) || <span class="number">0</span>;
-    from = (from &lt; <span class="number">0</span>) ? Math.ceil(from) : Math.floor(from);
-    <span class="keyword">if</span> (from &lt; <span class="number">0</span>){
-      from += len;
-    }
-
-    <span class="keyword">for</span> (; from &lt; len; from++)
-    {
-      <span class="keyword">if</span> (from <span class="keyword">in</span> <span class="keyword">this</span> &amp;&amp; <span class="keyword">this</span>[from] === elt) {
-        <span class="keyword">return</span> from;
-      }
-    }
-    <span class="keyword">return</span> -<span class="number">1</span>;
-  };
-}
-
 (<span class="keyword">function</span>($) {
 
   <span class="string">'use strict'</span>;
@@ -44,6 +22,9 @@
     self.$container = self.$el.find(<span class="string">'.soc-container'</span>);
     self.$innerContainer = self.$container.find(<span class="string">'.soc-container-inner'</span>);
     self.$slides = self.$container.find(<span class="string">'.soc-content'</span>);
+
+    self.currentSlide = <span class="number">0</span>;
+    self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
 
     self.init();
   };
@@ -60,11 +41,11 @@
         <span class="string">'axis'</span>: <span class="string">'x'</span>,
         <span class="string">'unit'</span>: <span class="string">'%'</span>,
         <span class="string">'dragThreshold'</span>: <span class="number">50</span>,
-        <span class="string">'containment'</span>: self.$container
+        <span class="string">'containment'</span>: self.$container,
+        <span class="string">'useCSS3'</span>: self.useCSS3,
+        <span class="string">'drag'</span>: window.iQ.update
       });
 
-      self.gotoSlide(<span class="number">0</span>);
-      self.createPagination();
       self.setupPaddles();
 
       self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));
@@ -72,10 +53,12 @@
       self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
 
       SONY.on(<span class="string">'global:resizeDebounced-200ms'</span>, <span class="keyword">function</span>(){
-        self.gotoSlide(self.currentSlide);
+        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
       });
 
-      self.teardown();
+      self.$cachedSlides = self.$slides.detach();
+      self.$sliderWrapper = self.$slides.first().clone();
+      self.$sliderWrapper.find(<span class="string">'.soc-item'</span>).remove();
 
       <span class="keyword">if</span> ( window.enquire ){
 
@@ -86,12 +69,12 @@
         });
         window.enquire.register(<span class="string">"(min-width: 480px) and (max-width: 779px)"</span>, {
           match : <span class="keyword">function</span>() {
-            self.renderTablet();
+            self.renderEvenColumns(<span class="number">6</span>);
           }
         });
         window.enquire.register(<span class="string">"(max-width: 479px)"</span>, {
           match : <span class="keyword">function</span>() {
-            self.renderMobile();
+            self.renderEvenColumns(<span class="number">12</span>);
           }
         });
       } <span class="keyword">else</span> {
@@ -99,15 +82,7 @@
       }
     },
 
-    <span class="string">'teardown'</span>: <span class="keyword">function</span>() {
-
-      <span class="keyword">var</span> self = <span class="keyword">this</span>;
-
-      self.$cachedSlides = self.$slides.detach();
-      self.$sliderWrapper = self.$slides.first().clone();
-      self.$sliderWrapper.find(<span class="string">'.soc-item'</span>).remove();
-    },
-
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'renderDesktop'</span>: <span class="keyword">function</span>(which) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
@@ -118,18 +93,21 @@
       self.createPagination();
     },
 
-    <span class="string">'renderTablet'</span>: <span class="keyword">function</span>(which) {
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Splits the default layout into slides with children each of column width
+set at colPerItem, which must divide evenly into 12.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'renderEvenColumns'</span>: <span class="keyword">function</span>(colPerItem) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $newItems = self.$cachedSlides.clone().children().children();
 
       self.$innerContainer.empty();
-      $newItems.removeClass(<span class="string">'span8 span6 span4'</span>).addClass(<span class="string">'span6'</span>);
+      $newItems.removeClass(<span class="string">'span8 span6 span4'</span>).addClass(<span class="string">'span'</span> + colPerItem);
 
-      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; $newItems.length; i=i+<span class="number">2</span> ) {
+      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; $newItems.length; i=i+(<span class="number">12</span>/colPerItem) ) {
         <span class="keyword">var</span> newItem = self.$sliderWrapper.clone();
-        newItem.children().append($newItems.eq(i));
-        newItem.children().append($newItems.eq(i+<span class="number">1</span>));
+        <span class="keyword">for</span> ( <span class="keyword">var</span> j = i; j &lt; i + <span class="number">12</span>/colPerItem; j++ ) {
+          newItem.children().append( $newItems.eq(j) );
+        }
         self.$innerContainer.append(newItem);
       }
 
@@ -137,26 +115,7 @@
       self.createPagination();
     },
 
-    <span class="string">'renderMobile'</span>: <span class="keyword">function</span>(which) {
-
-      <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $newItems = self.$cachedSlides.clone().children().children();
-
-      self.$innerContainer.empty();
-
-      $newItems.removeClass(<span class="string">'span8 span6 span4'</span>).addClass(<span class="string">'span12'</span>);
-
-      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; $newItems.length; i++ ) {
-        <span class="keyword">var</span> newItem = self.$sliderWrapper.clone();
-        newItem.children().append($newItems.eq(i));
-        self.$innerContainer.append(newItem);
-      }
-
-      self.$slides = self.$innerContainer.find(<span class="string">'.soc-content'</span>);
-      self.createPagination();
-    },
-
-</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Stop animations that were ongoing when you started to drag.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Stop animations that were ongoing when you started to drag.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'dragStart'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -164,7 +123,7 @@
       self.$innerContainer.stop();
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Depending on how fast you were dragging, either proceed to an adjacent slide or
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Depending on how fast you were dragging, either proceed to an adjacent slide or
 reset position to the nearest one.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'dragEnd'</span>: <span class="keyword">function</span>(e, data) {
 
@@ -190,11 +149,11 @@ reset position to the nearest one.</p>             </td>             <td class="
       }
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Find the nearest slide, and move the carousel to that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Find the nearest slide, and move the carousel to that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'gotoNearestSlide'</span>: <span class="keyword">function</span>(e, data) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          leftBounds =  self.$container[<span class="number">0</span>].getBoundingClientRect().left,
+          leftBounds = self.$container.get(<span class="number">0</span>).getBoundingClientRect().left,
           positions = [];
 
       self.$slides.each(<span class="keyword">function</span>(a){
@@ -204,22 +163,40 @@ reset position to the nearest one.</p>             </td>             <td class="
       self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Goto a given slide.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Goto a given slide.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="string">'gotoSlide'</span>: <span class="keyword">function</span>(which) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $destinationSlide = self.$slides.eq(which);
+          $destinationSlide = self.$slides.eq(which),
+          destinationLeft, innerContainerWidth;
+
+      <span class="keyword">if</span> ( $destinationSlide.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
 
       self.currentSlide = which;
 
-      <span class="keyword">if</span> ( Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions ) {
+      destinationLeft = $destinationSlide.position().left;
+      innerContainerWidth = self.$innerContainer.width();
+
+      <span class="keyword">if</span> ( self.useCSS3 ) {
+
+        <span class="keyword">var</span> newPosition = destinationLeft / innerContainerWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If you're on the last slide, only move over enough to show the last child.
+Prevents excess whitespace on the right.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        <span class="keyword">if</span> ( which === self.$slides.length - <span class="number">1</span> ) {
+          <span class="keyword">var</span> childrenWidth = <span class="number">0</span>;
+          $destinationSlide.find(<span class="string">'.soc-item'</span>).each(<span class="keyword">function</span>(){ childrenWidth += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
+          newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
+        }
+
         self.$innerContainer.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">'500ms'</span>);
-        self.$innerContainer.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * $destinationSlide.position().left / self.$innerContainer.width() + <span class="string">'%'</span>) + <span class="string">',0)'</span>);
+        self.$innerContainer.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">',0)'</span>);
+
       } <span class="keyword">else</span> {
+
         self.$innerContainer.animate({
-          <span class="string">'left'</span>: -<span class="number">100</span> * $destinationSlide.position().left / SONY.$window.width() + <span class="string">'%'</span>
+          <span class="string">'left'</span>: -<span class="number">100</span> * destinationLeft / SONY.$window.width() + <span class="string">'%'</span>
         }, {
-          <span class="string">'easing'</span>: <span class="string">'easeOutExpo'</span>,
           <span class="string">'duration'</span>: <span class="number">1000</span>,
           <span class="string">'complete'</span>: window.iQ.update
         });
@@ -243,7 +220,7 @@ reset position to the nearest one.</p>             </td>             <td class="
         <span class="string">'buttonCount'</span>: self.$slides.length
       });
 
-      self.$dotnav.on(<span class="string">'SonyNavDots:clicked'</span>, <span class="keyword">function</span>(e, which){
+      self.$dotnav.on(<span class="string">'SonyNavDots:clicked'</span>, <span class="keyword">function</span>(e, which) {
         self.gotoSlide(which);
       });
 
@@ -310,13 +287,13 @@ reset position to the nearest one.</p>             </td>             <td class="
     onPaddleNavUpdate: <span class="keyword">function</span>(){
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>check for the left paddle compatibility</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(self.currentSlide === <span class="number">0</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>check for the left paddle compatibility</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(self.currentSlide === <span class="number">0</span>){
         self.$leftPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeOut(<span class="number">100</span>);
       }<span class="keyword">else</span>{
         self.$leftPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">200</span>);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>check for right paddle compatiblity</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(self.currentSlide === self.$slides.length - <span class="number">1</span>){
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>check for right paddle compatiblity</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>(self.currentSlide === self.$slides.length - <span class="number">1</span>){
         self.$rightPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeOut(<span class="number">100</span>);
       }<span class="keyword">else</span>{
         self.$rightPaddle.stop(<span class="literal">true</span>,<span class="literal">true</span>).fadeIn(<span class="number">200</span>);
@@ -342,17 +319,11 @@ reset position to the nearest one.</p>             </td>             <td class="
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <h2>Initialize</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h2>Initialize</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
     $(<span class="string">'.sony-one-carousel'</span>).oneSonyCarousel();
   });
 
 })(jQuery);
-
-jQuery.extend(jQuery.easing, {
-  easeOutExpo: <span class="function"><span class="keyword">function</span> <span class="params">(x, t, b, c, d)</span> {</span>
-    <span class="keyword">return</span> (t==d) ? b+c : c * (-Math.pow(<span class="number">2</span>, -<span class="number">10</span> * t/d) + <span class="number">1</span>) + b;
-  }
-});
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

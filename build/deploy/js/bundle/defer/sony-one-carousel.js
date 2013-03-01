@@ -8,28 +8,6 @@
 // * **Author:** George Pantazis
 // * **Dependencies:** jQuery 1.7+
 
-if (!Array.prototype.indexOf)
-{
-  Array.prototype.indexOf = function(elt /*, from*/)
-  {
-    var len = this.length >>> 0;
-
-    var from = Number(arguments[1]) || 0;
-    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-    if (from < 0){
-      from += len;
-    }
-
-    for (; from < len; from++)
-    {
-      if (from in this && this[from] === elt) {
-        return from;
-      }
-    }
-    return -1;
-  };
-}
-
 (function($) {
 
   'use strict';
@@ -44,6 +22,9 @@ if (!Array.prototype.indexOf)
     self.$container = self.$el.find('.soc-container');
     self.$innerContainer = self.$container.find('.soc-container-inner');
     self.$slides = self.$container.find('.soc-content');
+
+    self.currentSlide = 0;
+    self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
 
     self.init();
   };
@@ -60,11 +41,11 @@ if (!Array.prototype.indexOf)
         'axis': 'x',
         'unit': '%',
         'dragThreshold': 50,
-        'containment': self.$container
+        'containment': self.$container,
+        'useCSS3': self.useCSS3,
+        'drag': window.iQ.update
       });
 
-      self.gotoSlide(0);
-      self.createPagination();
       self.setupPaddles();
 
       self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
@@ -72,10 +53,12 @@ if (!Array.prototype.indexOf)
       self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
 
       SONY.on('global:resizeDebounced-200ms', function(){
-        self.gotoSlide(self.currentSlide);
+        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
       });
 
-      self.teardown();
+      self.$cachedSlides = self.$slides.detach();
+      self.$sliderWrapper = self.$slides.first().clone();
+      self.$sliderWrapper.find('.soc-item').remove();
 
       if ( window.enquire ){
 
@@ -86,12 +69,12 @@ if (!Array.prototype.indexOf)
         });
         window.enquire.register("(min-width: 480px) and (max-width: 779px)", {
           match : function() {
-            self.renderTablet();
+            self.renderEvenColumns(6);
           }
         });
         window.enquire.register("(max-width: 479px)", {
           match : function() {
-            self.renderMobile();
+            self.renderEvenColumns(12);
           }
         });
       } else {
@@ -99,14 +82,7 @@ if (!Array.prototype.indexOf)
       }
     },
 
-    'teardown': function() {
-
-      var self = this;
-
-      self.$cachedSlides = self.$slides.detach();
-      self.$sliderWrapper = self.$slides.first().clone();
-      self.$sliderWrapper.find('.soc-item').remove();
-    },
+    // Create or restore the default slide layout.
 
     'renderDesktop': function(which) {
 
@@ -118,37 +94,22 @@ if (!Array.prototype.indexOf)
       self.createPagination();
     },
 
-    'renderTablet': function(which) {
+    // Splits the default layout into slides with children each of column width
+    // set at colPerItem, which must divide evenly into 12.
+
+    'renderEvenColumns': function(colPerItem) {
 
       var self = this,
           $newItems = self.$cachedSlides.clone().children().children();
 
       self.$innerContainer.empty();
-      $newItems.removeClass('span8 span6 span4').addClass('span6');
+      $newItems.removeClass('span8 span6 span4').addClass('span' + colPerItem);
 
-      for ( var i = 0; i < $newItems.length; i=i+2 ) {
+      for ( var i = 0; i < $newItems.length; i=i+(12/colPerItem) ) {
         var newItem = self.$sliderWrapper.clone();
-        newItem.children().append($newItems.eq(i));
-        newItem.children().append($newItems.eq(i+1));
-        self.$innerContainer.append(newItem);
-      }
-
-      self.$slides = self.$innerContainer.find('.soc-content');
-      self.createPagination();
-    },
-
-    'renderMobile': function(which) {
-
-      var self = this,
-          $newItems = self.$cachedSlides.clone().children().children();
-
-      self.$innerContainer.empty();
-
-      $newItems.removeClass('span8 span6 span4').addClass('span12');
-
-      for ( var i = 0; i < $newItems.length; i++ ) {
-        var newItem = self.$sliderWrapper.clone();
-        newItem.children().append($newItems.eq(i));
+        for ( var j = i; j < i + 12/colPerItem; j++ ) {
+          newItem.children().append( $newItems.eq(j) );
+        }
         self.$innerContainer.append(newItem);
       }
 
@@ -197,7 +158,7 @@ if (!Array.prototype.indexOf)
     'gotoNearestSlide': function(e, data) {
 
       var self = this,
-          leftBounds =  self.$container[0].getBoundingClientRect().left,
+          leftBounds = self.$container.get(0).getBoundingClientRect().left,
           positions = [];
 
       self.$slides.each(function(a){
@@ -212,18 +173,37 @@ if (!Array.prototype.indexOf)
     'gotoSlide': function(which) {
 
       var self = this,
-          $destinationSlide = self.$slides.eq(which);
+          $destinationSlide = self.$slides.eq(which),
+          destinationLeft, innerContainerWidth;
+
+      if ( $destinationSlide.length === 0 ) { return; }
 
       self.currentSlide = which;
 
-      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
+      destinationLeft = $destinationSlide.position().left;
+      innerContainerWidth = self.$innerContainer.width();
+
+      if ( self.useCSS3 ) {
+
+        var newPosition = destinationLeft / innerContainerWidth;
+
+        // If you're on the last slide, only move over enough to show the last child.
+        // Prevents excess whitespace on the right.
+
+        if ( which === self.$slides.length - 1 ) {
+          var childrenWidth = 0;
+          $destinationSlide.find('.soc-item').each(function(){ childrenWidth += $(this).outerWidth(true); });
+          newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
+        }
+
         self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '500ms');
-        self.$innerContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * $destinationSlide.position().left / self.$innerContainer.width() + '%') + ',0)');
+        self.$innerContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
+
       } else {
+
         self.$innerContainer.animate({
-          'left': -100 * $destinationSlide.position().left / SONY.$window.width() + '%'
+          'left': -100 * destinationLeft / SONY.$window.width() + '%'
         }, {
-          'easing': 'easeOutExpo',
           'duration': 1000,
           'complete': window.iQ.update
         });
@@ -247,7 +227,7 @@ if (!Array.prototype.indexOf)
         'buttonCount': self.$slides.length
       });
 
-      self.$dotnav.on('SonyNavDots:clicked', function(e, which){
+      self.$dotnav.on('SonyNavDots:clicked', function(e, which) {
         self.gotoSlide(which);
       });
 
@@ -356,9 +336,3 @@ if (!Array.prototype.indexOf)
   });
 
 })(jQuery);
-
-jQuery.extend(jQuery.easing, {
-  easeOutExpo: function (x, t, b, c, d) {
-    return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-  }
-});
