@@ -32,7 +32,6 @@
 //        // Do something with whichWasClicked (0-based index).
 //      });
 
-
 (function($) {
 
   'use strict';
