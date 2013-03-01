@@ -12,7 +12,14 @@ SONY.Settings = (function(window, document, Modernizr) {
 
   'use strict';
 
-  var self = {};
+  var self = {},
+      transEndEventNames = {
+        'WebkitTransition' : 'webkitTransitionEnd',
+        'MozTransition'    : 'transitionend',
+        'OTransition'      : 'oTransitionEnd',
+        'msTransition'     : 'MSTransitionEnd',
+        'transition'       : 'transitionend'
+      };
 
   self.isIPhone = (/iphone|ipod/gi).test(navigator.userAgent);
   self.isIOS = (/iphone|ipod|ipad/gi).test(navigator.userAgent);
@@ -23,6 +30,7 @@ SONY.Settings = (function(window, document, Modernizr) {
   self.isLTIE9 = SONY.$html.hasClass('lt-ie9');
 
   self.hasTouchEvents = Modernizr.touch;
+  self.transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ];
 
   self.windowWidth = SONY.$window.width();
   self.windowHeight = SONY.$window.height();
