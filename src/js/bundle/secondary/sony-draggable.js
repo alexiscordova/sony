@@ -78,7 +78,7 @@
         return;
       }
 
-      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
+      if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
       }
 
@@ -123,8 +123,6 @@
       var self = this;
 
       e.preventDefault();
-
-      window.iQ.update();
 
       self.handlePosition.x = self.scrubberLeft + distX;
       self.handlePosition.y = self.scrubberTop + distY;
@@ -227,12 +225,12 @@
         newY = self.bounds.y ? SONY.Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
       }
 
-      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
+      if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transform'), 'translate(' + ( newX ? newX : 0 ) + self.unit + ',' + ( newY ? newY : 0 ) + self.unit + ')');
       } else {
         self.$el.css({
-          'left': (newX?newX:0)+self.unit,
-          'top': (newY?newY:0)+self.unit
+          'left': ( newX ? newX : 0 ) + self.unit,
+          'top': ( newY ? newY : 0 ) + self.unit
         });
       }
 
@@ -249,18 +247,18 @@
     'setDimensions': function() {
 
       var self = this,
-          widthObject;
+          $widthObject;
 
-      if ( Modernizr.csstransforms && Modernizr.csstransitions ) {
-        widthObject = self.$el;
+      if ( self.useCSS3 ) {
+        $widthObject = self.$el;
       } else {
-        widthObject = self.$containment;
+        $widthObject = self.$containment;
       }
 
-      self.containmentWidth = widthObject.width();
-      self.containmentHeight = widthObject.height();
-      self.scrubberLeft = self.$el[0].getBoundingClientRect().left - (self.$el.outerWidth(true) - self.$el.width()) / 2;
-      self.scrubberTop = self.$el[0].getBoundingClientRect().top - (self.$el.outerHeight(true) - self.$el.height()) / 2;
+      self.containmentWidth = $widthObject.width();
+      self.containmentHeight = $widthObject.height();
+      self.scrubberLeft = self.$el.get(0).getBoundingClientRect().left - (self.$el.outerWidth(true) - self.$el.width()) / 2;
+      self.scrubberTop = self.$el.get(0).getBoundingClientRect().top - (self.$el.outerHeight(true) - self.$el.height()) / 2;
     },
 
     // Allows other classes to reset the handle's position if needed, by calling:
@@ -308,6 +306,8 @@
       'x': 0,
       'y': 0
     },
+    // Use CSS3 Transforms and Transitions for dragging.
+    'useCSS3': false,
     // Callback for drag motion, may be used to reposition other elements.
     'drag': function(){}
   };

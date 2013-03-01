@@ -11,11 +11,11 @@ SONY.Utilities = (function(window, document) {
   'use strict';
 
   var self = {
+
+    // Force a redraw for webkit browsers.
+
     'forceWebkitRedraw': function(){
-      //force webkit redraw hack
-      $('<style/>')
-        .appendTo( SONY.$body )
-        .remove();
+      $('<style/>').appendTo( SONY.$body ).remove();
     },
 
     // converts pixel value to em value (including unit)
