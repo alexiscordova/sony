@@ -2,6 +2,7 @@
 title: Global Header/Footer Demo
 description: Global Header/Footer Demo
 ---
+include ../partials/includes/jade-helpers.jade
 doctype 5
 !{partial('includes/ieconditionals.html')}
 
@@ -12,7 +13,8 @@ l = {"locals":locals}
   body
     #page-wrap-outer.page-wrap-outer
       #page-wrap-inner.page-wrap-inner
-        !{partial('modules/global-header.html.jade', l)}
+        e = {"locals":locals, "data":data('global-header/default.json')}
+        !{partial('modules/global-header.html.jade', e)}
 
         div#main.container.m-full-bleed(role='main', style='background: rgb(70, 70, 70);')
 
