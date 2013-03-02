@@ -500,11 +500,10 @@
       options : {
         contentSelector: ".tcc-body", 
         itemElementSelector: ".tcc-content-module", 
+        appendBulletsTo:".tcc-wrapper",
         mode: 'paginate',
         generatePagination: true,
         centerItems: true,
-        threshold:5,
-        appendBulletsTo:".tcc-wrapper",
 
         iscrollProps: {
           snap: true,

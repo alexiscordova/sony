@@ -60,7 +60,7 @@
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find('.soc-item').remove();
 
-      if ( window.enquire ){
+      if ( window.enquire && !SONY.$html.hasClass('lt-ie10') ){
 
         window.enquire.register("(min-width: 780px)", {
           match : function() {
@@ -80,6 +80,8 @@
       } else {
         self.renderDesktop();
       }
+
+      self.gotoSlide(0);
     },
 
     // Create or restore the default slide layout.
@@ -168,7 +170,7 @@
       self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
     },
 
-    // Goto a given slide.
+    // Go to a given slide.
 
     'gotoSlide': function(which) {
 
@@ -212,7 +214,7 @@
       self.$el.trigger('oneSonyCarousel:gotoSlide', self.currentSlide);
     },
 
-    createPagination: function (){
+    'createPagination': function (){
 
       var self = this;
 
@@ -238,77 +240,34 @@
       });
     },
 
-    setupPaddles: function(){
+    'setupPaddles': function(){
 
-      var self = this,
-          itemHTML = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
-          $container = self.$el.closest('.container'),
-          out = '<div class="soc-nav soc-paddles">';
+      var self = this;
 
-      if ( Modernizr.touch ) {
-        return;
-      }
+      self.$el.sonyPaddles();
 
-      self.paddlesEnabled = true;
+      self.$el.on('oneSonyCarousel:gotoSlide', function(e, which) {
 
-      for ( var i = 0; i < 2; i++ ) {
-        out += itemHTML;
-      }
+        self.$el.sonyPaddles('showPaddle', 'left');
+        self.$el.sonyPaddles('showPaddle', 'right');
 
-      out += '</div>';
-      out = $(out);
+        if ( which === 0 ) {
+          self.$el.sonyPaddles('hidePaddle', 'left');
+        }
 
-      self.$el.append(out);
-
-      self.$paddles     = self.$el.find('.paddle');
-      self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
-      self.$rightPaddle = self.$paddles.eq(1).addClass('right');
-
-      self.$paddles.on('click', function(){
-
-        if ( $(this).hasClass('left') ){
-
-          self.currentSlide--;
-          if( self.currentSlide < 0 ){
-            self.currentSlide = 0;
-          }
-
-          self.gotoSlide(self.currentSlide);
-
-        } else {
-
-          self.currentSlide++;
-
-          if(self.currentSlide >= self.$slides.length){
-            self.currentSlide = self.$slides.length - 1;
-          }
-
-          self.gotoSlide(self.currentSlide);
+        if ( which === self.$slides.length - 1 ) {
+          self.$el.sonyPaddles('hidePaddle', 'right');
         }
       });
 
-      self.onPaddleNavUpdate();
-      self.$el.on('oneSonyCarousel:gotoSlide', $.proxy(self.onPaddleNavUpdate, self));
-    },
+      self.$el.on('sonyPaddles:clickLeft', function(){
+        self.gotoSlide(self.currentSlide - 1);
+      });
 
-    onPaddleNavUpdate: function(){
-      var self = this;
-
-      //check for the left paddle compatibility
-      if(self.currentSlide === 0){
-        self.$leftPaddle.stop(true,true).fadeOut(100);
-      }else{
-        self.$leftPaddle.stop(true,true).fadeIn(200);
-      }
-
-      //check for right paddle compatiblity
-      if(self.currentSlide === self.$slides.length - 1){
-        self.$rightPaddle.stop(true,true).fadeOut(100);
-      }else{
-        self.$rightPaddle.stop(true,true).fadeIn(200);
-      }
+      self.$el.on('sonyPaddles:clickRight', function(){
+        self.gotoSlide(self.currentSlide + 1);
+      });
     }
-
   };
 
   $.fn.oneSonyCarousel = function( options ) {

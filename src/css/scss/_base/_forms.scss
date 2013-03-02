@@ -730,18 +730,6 @@ input.search-query {
     @include transition(opacity $transitionFast $easeNormal, color $transitionFast $easeNormal);
   }
 
-  // Check box on hover
-  &:hover + label:before {
-    @include box-shadow(none);
-    color: $defaultTextColor;
-    background: $gray90;
-  }
-
-  // Check mark on hover
-  &:hover + label:after {
-    opacity: 1;
-  }
-
   // Check box on focus
   &:focus + label:before {
     outline: 1px solid $gray25;
@@ -788,6 +776,21 @@ input.search-query {
   &.disabled:hover + label:after,
   &[disabled]:hover + label:after {
     content: none;
+  }
+}
+
+
+.generatedcontent.no-touch .styled-checkbox {
+  // Check box on hover
+  &:hover + label:before {
+    @include box-shadow(none);
+    color: $defaultTextColor;
+    background: $gray90;
+  }
+
+  // Check mark on hover
+  &:hover + label:after {
+    opacity: 1;
   }
 }
 

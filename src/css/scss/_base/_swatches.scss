@@ -14,7 +14,12 @@
   position: relative;
   display: inline-block;
   @include size( px-em(40px), px-em(42px) );
-  @include box-shadow(0 1px 0 $gray40);
+  @include box-shadow(0 1px 0 $gray50);
+  @include transition(box-shadow $transitionFast ease-out, color $transitionFast ease-out, background-color $transitionFast ease-out);
+
+  &:hover {
+
+  }
 
   &:before,
   &:after {

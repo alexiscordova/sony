@@ -9,10 +9,13 @@
 	@return '[data-tcc-content-type="'+ $class1 + '"][data-tcc-content-mode="' + $class2 + '"]';
 }
 
-$tcc-content-module-height:350px;
+//$tcc-content-module-height-3up:350px;
+$tcc-content-module-height-3up:400px;
+
 $tcc-header-padding-bottom-desktop:20px;
 $users-voice-padding-bottom-desktop:15px;
 $users-voice-padding-left-right-desktop:px-em(40px);
+
 $tenPercentInstaFlickr: percentage(10px/316px);
 $fivePercentInstaFlickr: percentage(5px/316px);
 
@@ -63,6 +66,13 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		} // end .nav-paddle-next
 
   } // end .nav-paddles
+
+  .navigation-container{
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    margin-left: -22px; 
+  }
 
   .loader{
   	height: 300px;
@@ -127,14 +137,24 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 	.tcc-body{
 		display:inline-block;	
-		height:$tcc-content-module-height;
+		height:$tcc-content-module-height-3up;
+		//border:1px solid red;
 	} // end .tcc-body
 
 	.tcc-content-module{
-		height:$tcc-content-module-height;
+		//border:1px solid blue;
+		height:$tcc-content-module-height-3up;
 		position: relative;
 		overflow: hidden;
 		
+		.tcc-inner-container{
+			//outline:1px solid green;
+			position: relative;
+			width:100%;
+			height:$tcc-content-module-height-3up;
+		}
+
+
 		// // IE9 and BELOW
 		// .lt-ie10 & {
   //   	height:350px; 
@@ -158,7 +178,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	#{createSelectorFromData("sonys-voice","facebook")},
 	#{createSelectorFromData("sonys-voice","instagram")},
 	#{createSelectorFromData("flickr","default")}{
-		@include fadeoutOnHover(img);
+		//@include fadeoutOnHover(img);
 	} // end div
 
 	// TYPE: ARTICLE
@@ -198,7 +218,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	
 	   // overlay box
 	    .attendance-count{
-	    	-webkit-backface-visibility:hidden;
+	    	-webkit-backface-visibility:hidden; // prevents flickering on transition
 				background-color: $secondaryOlive;
 				opacity:0.95;
 				color:$white;
@@ -228,14 +248,14 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 			}
 
     	// "attending"
-    	.t3{
-    		//font-size: px-em(32px);// 	32px; // because we're using ghost center need to set size in pixels
-    	} // end .t3
+   //  	.t3{
+   //  		//font-size: px-em(32px);// 	32px; // because we're using ghost center need to set size in pixels
+   //  	} // end .t3
 
-			// number 
-			.l3-light{
-				//font-size: px-em(11px); //11px; // because we're using ghost center need to set size in pixels
-			} // end l3-light
+			// // number 
+			// .l3-light{
+			// 	//font-size: px-em(11px); //11px; // because we're using ghost center need to set size in pixels
+			// } // end l3-light
 
 
 		} // end .article.events
@@ -296,7 +316,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	    	.t5-light{
           height:60px;
           overflow:hidden;
-	    		// color:$gray50;
 	    	} // end .t4
 
    	  } // end .feature-copy
@@ -312,7 +331,8 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		&.user-quote,
 		&.expert-quote{
-		  padding:30px px-em(40px) $users-voice-padding-bottom-desktop $users-voice-padding-left-right-desktop;
+		  //padding:30px px-em(40px) $users-voice-padding-bottom-desktop $users-voice-padding-left-right-desktop;
+		  padding: px-em(30px) px-em(40px) px-em($users-voice-padding-bottom-desktop) $users-voice-padding-left-right-desktop;
 
 		  .credits{
 		    position:absolute;
@@ -339,7 +359,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		  } // end .credits
 
 		} //end .user-quote and .expert-quote
-
 
 		&.expert-quote{
 			background-color:rgba($gray10,0.95);
@@ -420,7 +439,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 			} // end .credits
 
 	     .bq3{
-        max-height:172px;
+        //max-height:172px;
         padding:40px px-em(30px) 0px px-em(30px);
       } // .bq3
 
@@ -428,7 +447,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         position: absolute;
         bottom: 10px;
         left: 50%;
-        margin-left: -85px;
+        margin-left: -71px;
       } // end .answer-btn		
 
 		} // end .question
@@ -439,37 +458,50 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	.sonys-voice{
 		padding:0px px-em(20px) 11px px-em(20px);
 
+		.social-btn{
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			margin-left: -78px;
+
+			.btn{
+				-webkit-backface-visibility: hidden; // prevents flickering on transition
+			}
+
+		} // end .social-btn
+
     .center-content{
-      height:252px;
+      height:265px;//252px;
       width:100%;
     }
 
 		.icon-container{
 			position: relative;
-			//outline:1px solid red;
+			padding: px-em(15px);
 		}
 
     [class*="fonticon-10-dot"]{
       display:inline-block;
-      font-size:px-em(18px); 
+      font-size:px-em(56px); 
 
 			&.white-bg{
 				position: absolute;
 				top: 0;
 				left: 0;
-				width:100%;
+        width:55px;
+        height:55px;
 				z-index: -1;
 				overflow:hidden;
 				color:$white;
-				font-size:px-em(56px);
 			} // end .white-bg
+
     } // end fonticon divs
 
     .fonticon-15-facebook,
     .fonticon-15-twitter,
     .fonticon-15-instagram {
+
       font-size: px-em(26px);
-      padding: px-em(10px);
     } // end .fonticons
 
 		.fonticon-15-twitter{
@@ -596,7 +628,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		// user and title
 		.meta{
-
 			.p4{
 				color:$gray20;
 			} // end .p4
