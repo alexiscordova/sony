@@ -28,7 +28,7 @@
       
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Extend Related Products instance with defaults and options</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.extend(self , $.fn.relatedProducts.defaults , options);
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">false</span>;
       
       self.LANDSCAPE_BREAKPOINT   = <span class="number">980</span>;
       self.MOBILE_BREAKPOINT      = <span class="number">568</span>;
@@ -505,6 +505,7 @@ if their interaction time and movements are below certain thresholds.</p>       
           }
         }
       },
+
       setupStripMode: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self       = <span class="keyword">this</span>,
         containerWidth = self.$el.width(),
@@ -576,7 +577,7 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'margin'</span>  : <span class="number">0</span>
           });
 
-          <span class="keyword">var</span> newContainerHeight = self.$el.find(<span class="string">'.gallery-item.normal'</span>).first().height() + <span class="number">40</span> + <span class="string">'px'</span>;
+          <span class="keyword">var</span> newContainerHeight = self.$el.find(<span class="string">'.gallery-item.normal'</span>).first().outerHeight(<span class="literal">true</span>)  + <span class="string">'px'</span>;
 
           self.$el.css({
             <span class="string">'height'</span>     : newContainerHeight,
@@ -1063,9 +1064,10 @@ if their interaction time and movements are below certain thresholds.</p>       
             self.log(<span class="string">'using alternate height calculatio &gt;&gt;&gt; TABLET'</span> , newHeight);
           }
           
-         self.$el.css( <span class="string">'height'</span> , newHeight + <span class="number">40</span> + <span class="string">'px'</span> );
+         self.$el.css( <span class="string">'height'</span> , newHeight + <span class="number">62</span> + <span class="string">'px'</span> );
+
           <span class="keyword">if</span>(!!self.isTabbedContainer){
-            self.$tabbedContainer.css(<span class="string">'height'</span> , $(<span class="string">'.shuffle-container'</span>).eq(<span class="number">0</span>).height() + <span class="number">40</span> + <span class="string">'px'</span>);
+            self.$tabbedContainer.css(<span class="string">'height'</span> , $(<span class="string">'.shuffle-container'</span>).eq(<span class="number">0</span>).height() + <span class="number">62</span> + <span class="string">'px'</span>);
           }
           <span class="keyword">return</span>;
         }
@@ -1083,10 +1085,10 @@ if their interaction time and movements are below certain thresholds.</p>       
            self.log(<span class="string">'using alternate height calculation &gt;&gt;&gt; Desktop'</span> , newHeight);
         }
 
-        self.$el.css( <span class="string">'height'</span> , newHeight + <span class="number">40</span> + <span class="string">'px'</span> );
+        self.$el.css( <span class="string">'height'</span> , newHeight + <span class="number">0</span> + <span class="string">'px'</span> );
 
         <span class="keyword">if</span>(!!self.isTabbedContainer){
-          self.$tabbedContainer.css(<span class="string">'height'</span> , newHeight + <span class="number">40</span> + <span class="string">'px'</span>);
+          self.$tabbedContainer.css(<span class="string">'height'</span> , newHeight + <span class="number">0</span> + <span class="string">'px'</span>);
         }
 
 
