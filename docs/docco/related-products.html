@@ -31,7 +31,7 @@
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">true</span>;
       
       self.LANDSCAPE_BREAKPOINT   = <span class="number">980</span>;
-      self.MOBILE_BREAKPOINT      = <span class="number">567</span>;
+      self.MOBILE_BREAKPOINT      = <span class="number">568</span>;
       
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Cache common jQuery objects</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$paddles               = $({});
 
@@ -294,7 +294,7 @@ if their interaction time and movements are below certain thresholds.</p>       
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth;
             numColumns = <span class="number">5</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>// Portrait Tablet ( 4 columns ) - masonry</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 567px)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>// Portrait Tablet ( 4 columns ) - masonry</p>             </td>             <td class="code">               <div class="highlight"><pre>          } <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 569px)'</span>) ) {
             numColumns = <span class="number">4</span>;
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
@@ -313,7 +313,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
             <span class="keyword">if</span> ( !Modernizr.mediaqueries || self.mq(<span class="string">'(min-width: 981px)'</span>) || self.$html.hasClass(<span class="string">'lt-ie10'</span>) ) {
               column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; <span class="comment">// ~18% of container width</span>
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Between Portrait tablet and phone ( 3 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 567px)'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Between Portrait tablet and phone ( 3 columns )</p>             </td>             <td class="code">               <div class="highlight"><pre>            } <span class="keyword">else</span> <span class="keyword">if</span> ( self.mq(<span class="string">'(min-width: 569px)'</span>) ) {
               column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
 </pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>Default</p>             </td>             <td class="code">               <div class="highlight"><pre>            }<span class="keyword">else</span>{
               column = containerWidth;
@@ -340,17 +340,21 @@ if their interaction time and movements are below certain thresholds.</p>       
         <span class="keyword">if</span>(self.mode !== <span class="string">'suggested'</span> &amp;&amp; !self.oldIE){
          self.$win.on(<span class="string">'resize'</span>, <span class="keyword">function</span>(){
           <span class="keyword">if</span>(!self.isMobileMode &amp;&amp; self.$win.width() &gt; self.MOBILE_BREAKPOINT) {
+
             self.$galleryItems.css({
               visibility : HIDDEN,
               opacity    : <span class="number">0</span>
             });
             self.$pagination.hide();
             self.$el.addClass( REDRAWING );
+
            }<span class="keyword">else</span>{
+
             self.$el.css({
               opacity : <span class="number">1</span>,
               visibility : VISIBLE
             });
+
             self.$galleryItems.not(BLANK).css({
               visibility : VISIBLE,
               opacity : <span class="number">1</span>
@@ -834,7 +838,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
       sortByPriority : <span class="keyword">function</span>() {
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
-            isTablet = self.mq(<span class="string">'(min-width: 567px) and (max-width: 980px)'</span>);
+            isTablet = self.mq(<span class="string">'(min-width: 569px) and (max-width: 980px)'</span>);
 
         <span class="keyword">if</span> ( isTablet &amp;&amp; !self.sorted ) {
 
@@ -1568,7 +1572,7 @@ if their interaction time and movements are below certain thresholds.</p>       
             top :  plateHeight,
             left: (spaceAvail / <span class="number">4</span>) - ( parseInt(self.$leftPaddle.width() , <span class="number">10</span>) ) + <span class="number">10</span> + px
           });
-        }<span class="keyword">else</span> <span class="keyword">if</span>(self.mq(<span class="string">'(min-width: 567px)'</span>) &amp;&amp; hasPlate){
+        }<span class="keyword">else</span> <span class="keyword">if</span>(self.mq(<span class="string">'(min-width: 569px)'</span>) &amp;&amp; hasPlate){
 
           self.$rightPaddle.css({
             top :  plateHeight + <span class="number">130</span>,

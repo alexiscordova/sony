@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = true;
+      self.DEBUG                  = false;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
@@ -536,6 +536,7 @@
           }
         }
       },
+
       setupStripMode: function(){
         var self       = this,
         containerWidth = self.$el.width(),
@@ -609,7 +610,7 @@
             'margin'  : 0
           });
 
-          var newContainerHeight = self.$el.find('.gallery-item.normal').first().height() + 40 + 'px';
+          var newContainerHeight = self.$el.find('.gallery-item.normal').first().outerHeight(true)  + 'px';
 
           self.$el.css({
             'height'     : newContainerHeight,
@@ -1114,9 +1115,10 @@
             self.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
           
-         self.$el.css( 'height' , newHeight + 40 + 'px' );
+         self.$el.css( 'height' , newHeight + 62 + 'px' );
+
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
+            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 62 + 'px');
           }
           return;
         }
@@ -1134,10 +1136,10 @@
            self.log('using alternate height calculation >>> Desktop' , newHeight);
         }
 
-        self.$el.css( 'height' , newHeight + 40 + 'px' );
+        self.$el.css( 'height' , newHeight + 0 + 'px' );
 
         if(!!self.isTabbedContainer){
-          self.$tabbedContainer.css('height' , newHeight + 40 + 'px');
+          self.$tabbedContainer.css('height' , newHeight + 0 + 'px');
         }
 
 
