@@ -108,7 +108,7 @@
   width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
   height: 100%;
   position:absolute;
-  top:0;
+  top:-999px;
   left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
   z-index:1;
   background: $navTrayBackgroundAlt;
@@ -761,8 +761,10 @@
     float:left;
     border-right:solid 1px $grayDark;
     i {
-      font-size: px-em(24);
       margin:auto;
+      font-size: px-em(24);
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;
     }
   }
   .btn-mobile-cart{
@@ -776,6 +778,8 @@
     i {
       margin-right:3px;
       font-size: px-em(20,15);
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;
     }
   }
 
