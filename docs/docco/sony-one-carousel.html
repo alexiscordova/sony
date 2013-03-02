@@ -60,7 +60,7 @@
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find(<span class="string">'.soc-item'</span>).remove();
 
-      <span class="keyword">if</span> ( window.enquire ){
+      <span class="keyword">if</span> ( window.enquire &amp;&amp; !SONY.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
 
         window.enquire.register(<span class="string">"(min-width: 780px)"</span>, {
           match : <span class="keyword">function</span>() {

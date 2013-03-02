@@ -77,7 +77,7 @@
     'setupPaddles': function(){
 
       var self = this,
-          $navContainer = $('<nav class="pagination-paddles">'),
+          $navContainer = $('<div class="pagination-paddles">'),
           $prevPaddle = $('<button class="pagination-paddle pagination-prev"><i class="fonticon-10-chevron-reverse"></i></button>'),
           $nextPaddle = $('<button class="pagination-paddle pagination-next"><i class="fonticon-10-chevron"></i></button>');
 
@@ -113,16 +113,16 @@
       if ( which === 'left' ) {
 
         if ( visible ) {
-          self.$leftPaddle.addClass('on');
+          self.$leftPaddle.show().addClass('on');
         } else {
-          self.$leftPaddle.removeClass('on');
+          self.$leftPaddle.hide().removeClass('on');
         }
       } else if ( which === 'right' ) {
 
         if ( visible ) {
-          self.$rightPaddle.addClass('on');
+          self.$rightPaddle.show().addClass('on');
         } else {
-          self.$rightPaddle.removeClass('on');
+          self.$rightPaddle.hide().removeClass('on');
         }
       }
     }

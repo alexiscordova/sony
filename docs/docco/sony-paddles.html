@@ -81,7 +81,7 @@ your module via exposed methods (showPaddle/hidePaddle).</p>
     <span class="string">'setupPaddles'</span>: <span class="keyword">function</span>(){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $navContainer = $(<span class="string">'&lt;nav class="pagination-paddles"&gt;'</span>),
+          $navContainer = $(<span class="string">'&lt;div class="pagination-paddles"&gt;'</span>),
           $prevPaddle = $(<span class="string">'&lt;button class="pagination-paddle pagination-prev"&gt;&lt;i class="fonticon-10-chevron-reverse"&gt;&lt;/i&gt;&lt;/button&gt;'</span>),
           $nextPaddle = $(<span class="string">'&lt;button class="pagination-paddle pagination-next"&gt;&lt;i class="fonticon-10-chevron"&gt;&lt;/i&gt;&lt;/button&gt;'</span>);
 
@@ -117,16 +117,16 @@ your module via exposed methods (showPaddle/hidePaddle).</p>
       <span class="keyword">if</span> ( which === <span class="string">'left'</span> ) {
 
         <span class="keyword">if</span> ( visible ) {
-          self.$leftPaddle.addClass(<span class="string">'on'</span>);
+          self.$leftPaddle.show().addClass(<span class="string">'on'</span>);
         } <span class="keyword">else</span> {
-          self.$leftPaddle.removeClass(<span class="string">'on'</span>);
+          self.$leftPaddle.hide().removeClass(<span class="string">'on'</span>);
         }
       } <span class="keyword">else</span> <span class="keyword">if</span> ( which === <span class="string">'right'</span> ) {
 
         <span class="keyword">if</span> ( visible ) {
-          self.$rightPaddle.addClass(<span class="string">'on'</span>);
+          self.$rightPaddle.show().addClass(<span class="string">'on'</span>);
         } <span class="keyword">else</span> {
-          self.$rightPaddle.removeClass(<span class="string">'on'</span>);
+          self.$rightPaddle.hide().removeClass(<span class="string">'on'</span>);
         }
       }
     }
