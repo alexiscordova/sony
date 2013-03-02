@@ -315,7 +315,6 @@
 
       self.$jumpLinks.simplescroll({
         showHash: true,
-        speed: 400,
         offset: offset
       });
     },
@@ -626,7 +625,7 @@
     isStickyTabs: false,
     isScroller: false,
     isMobile: false,
-    showStickyHeaders: !(SONY.Settings.hasTouchEvents || SONY.Settings.isPlaystation),
+    showStickyHeaders: !( SONY.Settings.hasTouchEvents || SONY.Settings.isPlaystation || SONY.Settings.isLTIE9 ),
     stickyOffset: { top: 0, bottom: 0}
   };
 
