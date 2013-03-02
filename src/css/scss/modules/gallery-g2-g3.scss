@@ -394,6 +394,10 @@
 
 .gallery-tabs {
 
+  .modal-open & {
+    visibility: hidden;
+  }
+
   .tabs {
   }
 
@@ -453,189 +457,197 @@
 // Compare Tool
 // -------------------------
 
-.modal-subheader {
-  clear: both;
+// .modal-subheader {
+//   clear: both;
 
-  .takeover .modal-header & {
-    margin: 0;
-  }
+//   .takeover .modal-header & {
+//     margin: 0;
+//   }
 
-  .btn-reset {
-    float: right;
-  }
+//   .btn-reset {
+//     float: right;
+//   }
 
-  .sort-options {
-    float: left;
-    margin-top: 0;
-    clear: none;
+//   .sort-options {
+//     float: left;
+//     margin-top: 0;
+//     clear: none;
 
-    .filter-label {
-      display: inline-block;
-      margin-bottom: 0;
-      padding-right: 4px;
-    }
+//     .filter-label {
+//       display: inline-block;
+//       margin-bottom: 0;
+//       padding-right: 4px;
+//     }
 
-    .touch & .native-dropdown,
-    .no-touch & .dropdown {
-      max-width: 130px;
-      display: inline-block;
-    }
+//     .touch & .native-dropdown,
+//     .no-touch & .dropdown {
+//       max-width: 130px;
+//       display: inline-block;
+//     }
 
-  }
-}
+//   }
+// }
 
-.compare-key {
-  margin-bottom: 1.125em;
-}
+// .compare-key {
+//   margin-bottom: 1.125em;
+// }
 
-// Holds labels and compare-items
-.compare-container {
-  padding-bottom: 5em;
+// // Holds labels and compare-items
+// .compare-container {
+//   padding-bottom: 5em;
 
-  // Show the navigation
-  &:hover .compare-nav {
-    opacity: 1;
-  }
+//   // Show the navigation
+//   &:hover .compare-nav {
+//     opacity: 1;
+//   }
 
-  .no-opacity &:hover .compare-nav {
-    display: block;
-  }
-}
+//   .no-opacity &:hover .compare-nav {
+//     display: block;
+//   }
+// }
 
-.compare-items-wrap {
-  position: relative;
-  height: 100%; // Get parent's height
-  overflow: visible !important; // override iscroll
+// // Wrapper for the items in the compare tool. Sibling of the labels.
+// .compare-items-wrap {
+//   position: relative;
+//   height: 100%; // Get parent's height
+//   overflow: visible !important; // override iscroll
 
-  .lt-ie9 {
-    overflow: hidden !important;
-  }
-}
+//   // .lt-ie9 &,
+//   // .sonytablets & {
+//   //   overflow: hidden !important;
+//   // }
+// }
 
-.compare-items-container {
-  height: 100%;
-}
+// .compare-items-container {
+//   height: 100%;
+// }
 
-.compare-nav {
-  position: absolute;
-  z-index: 15;
-  top: 330px;
-  width: 100%;
-  opacity: 0;
-  @include transition();
+// .compare-nav {
+//   position: absolute;
+//   z-index: 15;
+//   top: 330px;
+//   width: 100%;
+//   opacity: 0;
+//   @include transition();
 
-  .no-opacity & {
-    display: none;
-  }
+//   .no-opacity & {
+//     display: none;
+//   }
 
-  // Hide nav buttons when the sticky nav is active
-  &.sticky-nav-open .nav-prev,
-  &.sticky-nav-open .nav-next {
-    @include opacity(0);
-  }
+//   // Hide nav buttons when the sticky nav is active
+//   &.sticky-nav-open .nav-prev,
+//   &.sticky-nav-open .nav-next {
+//     @include opacity(0);
+//   }
 
-  .nav-prev,
-  .nav-next {
-    position: absolute;
-    top: 0;
-  }
+//   .nav-prev,
+//   .nav-next {
+//     position: absolute;
+//     top: 0;
+//   }
 
-  .nav-prev {
-    left: 60px;
-  }
+//   .nav-prev {
+//     left: 60px;
+//   }
 
-  .nav-next {
-    right: 60px;
-  }
-}
+//   .nav-next {
+//     right: 60px;
+//   }
+// }
 
-// Compare Items
-.compare-item {
-  position: relative;
-  margin-left: .1875em;
-  background: $white;
-  color: $gray20;
-  @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
+// // Compare Items
+// .compare-item {
+//   position: relative;
+//   margin-left: .1875em;
+//   background: $white;
+//   color: $gray20;
+//   @include transition(width $transitionNormal $easeNormal, opacity $transitionNormal $easeNormal);
 
-  &.faded {
-    opacity: 0;
-  }
+//   &.faded {
+//     opacity: 0;
+//   }
 
-  &.no-width {
-    width: 0;
-  }
+//   &.no-width {
+//     width: 0;
+//   }
 
-  .compare-sticky-header .product-name-wrap {
-    padding-right: 2.5em;
-  }
+//   .compare-sticky-header .product-name-wrap {
+//     padding-right: 2.5em;
+//   }
 
-  .product-content .product-name-wrap,
-  .product-rating,
-  .product-price,
-  .color-swatches {
-    margin-bottom: 1.25em;
-    padding-right: 1.25em;
-    padding-left: 1.25em;
-  }
+//   .product-content .product-name-wrap,
+//   .product-rating,
+//   .product-price,
+//   .color-swatches {
+//     margin-bottom: 1.25em;
+//     padding-right: 1.25em;
+//     padding-left: 1.25em;
+//   }
 
-  .detail {
-    color: $gray20;
-    min-height: 2.5em;
-    padding-right: 1.25em;
-    padding-left: 1.25em;
-  }
+//   .detail {
+//     color: $gray20;
+//     min-height: 2.5em;
+//     padding-right: 1.25em;
+//     padding-left: 1.25em;
+//   }
 
-  .detail.highlighted {
-    background: $lemon;
-  }
+//   .detail.highlighted {
+//     background: $lemon;
+//   }
 
-  .media p:not(.media-heading) {
-    color: $gray40;
-  }
+//   .media p:not(.media-heading) {
+//     color: $gray40;
+//   }
 
-  .product-model {
-    color: $gray40;
-  }
+//   .product-model {
+//     color: $gray40;
+//   }
 
-  .product-name,
-  .product-model {
-    margin-bottom: 0;
-  }
-}
+//   .product-name,
+//   .product-model {
+//     margin-bottom: 0;
+//   }
+// }
 
-.takeover-sticky-header {
-  position: absolute;
-  z-index: 20;
-  top: -6.25em;
-  left: -999em;
-  width: 100%;
-  background: $white;
-  @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
+// .takeover-sticky-header {
+//   position: absolute;
+//   z-index: 20;
+//   top: -6.25em;
+//   left: -999em;
+//   width: 100%;
+//   background: $white;
+//   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
 
-  &.open {
-    left: 0;
-    top: 0;
-    @include transition-delay(0s);
-    @include transition-timing-function(ease-out);
-  }
+//   .native-scrolling & {
+//     position: fixed;
+//   }
 
-  .sticky-nav-title {
-    padding: 18px 0;
-    margin-bottom: 0;
-  }
+//   .no-sticky-headers & {
+//     border-bottom: 1px solid $gray70;
+//   }
 
-  .box-close {
-    top: 15px;
-  }
-}
+//   &.open {
+//     left: 0;
+//     top: 0;
+//     @include transition-delay(0s);
+//     @include transition-timing-function(ease-out);
+//   }
+
+//   .sticky-nav-title {
+//     padding: 18px 0;
+//     margin-bottom: 0;
+//   }
+
+//   .box-close {
+//     top: 15px;
+//   }
+// }
 
 
-.compare-item-remove {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
+// .compare-item-remove {
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+// }
 
-
-// @import "../_responsive/responsive-gallery-g2-g3";
 

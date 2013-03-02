@@ -12,7 +12,7 @@
 
 /* Related Products Title */
 .rp-title {
-  margin: 13px 0 4px 0;
+  margin: 74px 0 4px 0;
 }
 
 /* Tabs */
@@ -94,7 +94,6 @@
         max-width: 1190px; 
       }
 
-
       &.slimgrid5 {
         width: 91.89189%;
         width: 100%;
@@ -104,6 +103,7 @@
 
     .gallery-item .product-img:after{
       padding-top: 86.843137%;
+      padding-top: 70.843137%;
     }
 
     .gallery-item:after {
@@ -153,6 +153,10 @@
         max-height: 534px;
         background: $gray90;
 
+        &:hover {
+          background-color: $gray75;
+        }
+
         .product-img:after {
           padding-top: 44.8979592%;
         }
@@ -171,10 +175,15 @@
 
           .product-img {
             margin-top: 5%;
+            background-color: transparent;
+
+            @include transition(none);
 
             &:hover {
-              background-color: $gray90;
-            }            
+              background-color: transparent !important;
+
+            }
+          
           }
 
           .product-name {
@@ -306,6 +315,7 @@
             color: $gray20;
           }
         }
+
       }
 
       .gallery-item.plate .promo-content {

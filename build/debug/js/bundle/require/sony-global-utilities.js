@@ -25,7 +25,7 @@ SONY.Utilities = (function(window, document) {
       // defaults to 16px
       context = typeof context !== 'undefined' ? context : 16;
 
-      return (pxValue / context) + "em";
+      return (pxValue / context) + 'em';
     },
 
     // Return calculated column if width is above 568px/35.5em
@@ -236,12 +236,33 @@ SONY.Utilities = (function(window, document) {
       SONY.$window.on(resizeEvent, function(){
         cachedFunctions.baseThrottle();
       });
+    },
+
+    fixModernizrFalsePositives : function() {
+      if ( SONY.Settings.isSonyTabletS ) {
+        Modernizr.generatedcontent = true;
+        SONY.$html.addClass('generatedcontent sonytablets').removeClass('no-generatedcontent');
+      }
+    },
+
+    scrollToTop : function() {
+      $.simplescroll({
+        speed: 400
+      });
     }
+
+    // addClasses : function() {
+    //   if ( SONY.Settings.isAndroid ) {
+    //     SONY.$html.addClass('android');
+    //   }
+    // }
   };
 
+  self.fixModernizrFalsePositives();
   self.createPubSub();
   self.createGlobalEvents();
   self.normalizeLogs();
+  // self.addClasses();
 
   return self;
 

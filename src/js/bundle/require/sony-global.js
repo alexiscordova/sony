@@ -19,7 +19,7 @@ SONY.Global = (function(window, document) {
 
     'init': function(config) {
 
-      if ( window.enquire ){
+      if ( window.enquire && !SONY.$html.hasClass('lt-ie10') ){
         window.enquire.listen(100);
       }
 

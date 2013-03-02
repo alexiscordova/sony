@@ -32,10 +32,10 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = true;
+      self.DEBUG                  = false;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
-      self.MOBILE_BREAKPOINT      = 567;
+      self.MOBILE_BREAKPOINT      = 568;
       
       //Cache common jQuery objects
       self.$paddles               = $({});
@@ -321,7 +321,7 @@
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
-          } else if ( self.mq('(min-width: 567px)') ) {
+          } else if ( self.mq('(min-width: 569px)') ) {
             numColumns = 4;
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
@@ -341,7 +341,7 @@
             if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
               column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
             // Between Portrait tablet and phone ( 3 columns )
-            } else if ( self.mq('(min-width: 567px)') ) {
+            } else if ( self.mq('(min-width: 569px)') ) {
               column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
             // Default
             }else{
@@ -370,17 +370,21 @@
         if(self.mode !== 'suggested' && !self.oldIE){
          self.$win.on('resize', function(){
           if(!self.isMobileMode && self.$win.width() > self.MOBILE_BREAKPOINT) {
+
             self.$galleryItems.css({
               visibility : HIDDEN,
               opacity    : 0
             });
             self.$pagination.hide();
             self.$el.addClass( REDRAWING );
+
            }else{
+
             self.$el.css({
               opacity : 1,
               visibility : VISIBLE
             });
+
             self.$galleryItems.not(BLANK).css({
               visibility : VISIBLE,
               opacity : 1
@@ -532,6 +536,7 @@
           }
         }
       },
+
       setupStripMode: function(){
         var self       = this,
         containerWidth = self.$el.width(),
@@ -605,7 +610,7 @@
             'margin'  : 0
           });
 
-          var newContainerHeight = self.$el.find('.gallery-item.normal').first().height() + 40 + 'px';
+          var newContainerHeight = self.$el.find('.gallery-item.normal').first().outerHeight(true)  + 'px';
 
           self.$el.css({
             'height'     : newContainerHeight,
@@ -875,7 +880,7 @@
 
       sortByPriority : function() {
         var self = this,
-            isTablet = self.mq('(min-width: 567px) and (max-width: 980px)');
+            isTablet = self.mq('(min-width: 569px) and (max-width: 980px)');
 
         if ( isTablet && !self.sorted ) {
 
@@ -1110,9 +1115,10 @@
             self.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
           
-         self.$el.css( 'height' , newHeight + 40 + 'px' );
+         self.$el.css( 'height' , newHeight + 62 + 'px' );
+
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
+            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 62 + 'px');
           }
           return;
         }
@@ -1130,10 +1136,10 @@
            self.log('using alternate height calculation >>> Desktop' , newHeight);
         }
 
-        self.$el.css( 'height' , newHeight + 40 + 'px' );
+        self.$el.css( 'height' , newHeight + 0 + 'px' );
 
         if(!!self.isTabbedContainer){
-          self.$tabbedContainer.css('height' , newHeight + 40 + 'px');
+          self.$tabbedContainer.css('height' , newHeight + 0 + 'px');
         }
 
 
@@ -1639,7 +1645,7 @@
             top :  plateHeight,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + px
           });
-        }else if(self.mq('(min-width: 567px)') && hasPlate){
+        }else if(self.mq('(min-width: 569px)') && hasPlate){
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,

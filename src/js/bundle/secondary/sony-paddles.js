@@ -57,42 +57,44 @@
 
     'init': function() {
 
+      if ( Modernizr.touch ) {
+        return;
+      }
+
       var self = this;
 
       self.setupPaddles();
+
+      self.$el.on('mouseover.sonyPaddles', function(){
+        self.$nav.addClass('show-paddles');
+      });
+
+      self.$el.on('mouseout.sonyPaddles', function(){
+        self.$nav.removeClass('show-paddles');
+      });
     },
 
     'setupPaddles': function(){
 
       var self = this,
-          itemHTML = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
-          out = '<div class="soc-nav soc-paddles">';
+          $navContainer = $('<div class="pagination-paddles">'),
+          $prevPaddle = $('<button class="pagination-paddle pagination-prev"><i class="fonticon-10-chevron-reverse"></i></button>'),
+          $nextPaddle = $('<button class="pagination-paddle pagination-next"><i class="fonticon-10-chevron"></i></button>');
 
-      if ( Modernizr.touch ) {
-        return;
-      }
+      $navContainer.append( $prevPaddle, $nextPaddle );
+      self.$el.append( $navContainer );
+      self.$nav = $navContainer;
 
-      for ( var i = 0; i < 2; i++ ) {
-        out += itemHTML;
-      }
+      self.$paddles     = self.$nav.find('button');
+      self.$leftPaddle  = self.$paddles.filter('.pagination-prev');
+      self.$rightPaddle = self.$paddles.filter('.pagination-next');
 
-      out += '</div>';
-      out = $(out);
+      self.$leftPaddle.on('click', function() {
+        self.$el.trigger('sonyPaddles:clickLeft');
+      });
 
-      self.$el.append(out);
-
-      self.$paddles     = self.$el.find('.paddle');
-      self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
-      self.$rightPaddle = self.$paddles.eq(1).addClass('right');
-
-      self.$paddles.css('opacity', 0);
-
-      self.$paddles.on('click', function(){
-        if ( $(this).hasClass('left') ){
-          self.$el.trigger('sonyPaddles:clickLeft');
-        } else {
-          self.$el.trigger('sonyPaddles:clickRight');
-        }
+      self.$rightPaddle.on('click', function() {
+        self.$el.trigger('sonyPaddles:clickRight');
       });
     },
 
@@ -111,16 +113,16 @@
       if ( which === 'left' ) {
 
         if ( visible ) {
-          self.$leftPaddle.css('opacity', 1);
+          self.$leftPaddle.show().addClass('on');
         } else {
-          self.$leftPaddle.css('opacity', 0);
+          self.$leftPaddle.hide().removeClass('on');
         }
       } else if ( which === 'right' ) {
 
         if ( visible ) {
-          self.$rightPaddle.css('opacity', 1);
+          self.$rightPaddle.show().addClass('on');
         } else {
-          self.$rightPaddle.css('opacity', 0);
+          self.$rightPaddle.hide().removeClass('on');
         }
       }
     }

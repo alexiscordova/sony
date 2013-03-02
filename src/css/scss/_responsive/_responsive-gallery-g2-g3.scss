@@ -25,16 +25,33 @@ $galleryFourColMax: px-em(979px);
 
   .product-strip {
     padding-bottom: 1.625em;
+
+    // Give items 3-n a margin top
+    .gallery-item:nth-child(n+3) {
+      margin-top: 1.625em;
+    }
+
+    // Give odd items zero margin left because they're not inside their own grid
+    .gallery-item:nth-child(odd) {
+      margin-left: 0;
+    }
   }
 
-  // Give items 3-n a margin top
-  .product-strip .gallery-item:nth-child(n+3) {
-    margin-top: 1.625em;
-  }
+  .product-strip-header {
 
-  // Give odd items zero margin left because they're not inside their own grid
-  .product-strip .gallery-item:nth-child(odd) {
-    margin-left: 0;
+    .product-strip-heading,
+    .see-all-link {
+      float: none;
+    }
+
+    .product-strip-heading {
+      margin-bottom: .25em;
+    }
+
+    .see-all-link {
+      display: block;
+      margin-bottom: .5em;
+    }
   }
 }
 
@@ -159,8 +176,12 @@ $galleryFourColMax: px-em(979px);
     }
 
     // Button horizontal spacing
-    .btn-group > .btn:not(:first-child) {
-      margin-left: .25em;
+    .btn-group > .btn:not(:last-child) {
+      margin-right: .25em;
+    }
+
+    .color-swatches > *:not(:last-child) {
+      margin-right: .25em;
     }
 
     // Group vertical spacing
@@ -367,41 +388,41 @@ $galleryFourColMax: px-em(979px);
 //                                   888                                                           Y8b
 //                                   888
 //                                   888
-@media (max-width: $galleryThreeColMax) {
+// @media (max-width: $galleryThreeColMax) {
 
-  .compare-nav {
-    display: none;
-  }
+//   .compare-nav {
+//     display: none;
+//   }
 
-  // Get rid of grid width
-  .js-compare-wrap {
-    width: 100%;
-  }
+//   // Get rid of grid width
+//   .js-compare-wrap {
+//     width: 100%;
+//   }
 
-  .compare-items-wrap {
-    overflow: hidden !important; // override iscroll
-  }
+//   .compare-items-wrap {
+//     overflow: hidden !important; // override iscroll
+//   }
 
-  .takeover-sticky-header .box-close {
-    display: block;
-  }
+//   .takeover-sticky-header .box-close {
+//     display: block;
+//   }
 
-  .sort-options select,
-  .sort-options .dropdown-toggle {
-    height: 31px;
-  }
+//   .sort-options select,
+//   .sort-options .dropdown-toggle {
+//     height: 31px;
+//   }
 
-  .compare-item .detail:before {
-    content: attr(data-label);
-    display: block;
-    margin-bottom: 0.625em;
+//   .compare-item .detail:before {
+//     content: attr(data-label);
+//     display: block;
+//     margin-bottom: 0.625em;
 
-    // .l4
-    // ------------
-    color: $gray40;
-    @include fontMedium;
-    text-transform: uppercase;
-    font-size: $font_11_16;
-    // ------------
-  }
-}
+//     // .l4
+//     // ------------
+//     color: $gray40;
+//     @include fontMedium;
+//     text-transform: uppercase;
+//     font-size: $font_11_16;
+//     // ------------
+//   }
+// }

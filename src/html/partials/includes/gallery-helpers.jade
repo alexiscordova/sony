@@ -138,7 +138,7 @@ mixin detailedGallery( submodules, gallery, type )
             button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
               | Filter
               i.fonticon-10-arrowhead-down
-            button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool")
+            button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool", disabled=true)
               | Compare
               i.fonticon-10-sm-bold-plus
 
@@ -274,10 +274,10 @@ mixin productStrips( submodules, strips, type )
     .container
       each strip in strips
         .slimgrid5.m-grid-at-767.product-strip-wrap
-          .clearfix
+          .product-strip-header.clearfix
+            h2.t6.product-strip-heading.pull-left= strip.title
             if strip.callout
-              a.tl.pull-right(href="#")= strip.callout
-            h2.t6.product-strip-heading= strip.title
+              a.tl.see-all-link.pull-right(href="#")= strip.callout
           .product-strip.clearfix
             count = 0
             each module in submodules

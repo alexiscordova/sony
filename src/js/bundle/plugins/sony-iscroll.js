@@ -42,10 +42,12 @@
     // Browser capabilities
 	isAndroid = (/android/gi).test(navigator.appVersion),
 	isIDevice = (/iphone|ipad|ipod/gi).test(navigator.appVersion),
-	isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
+	// isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
+    // hasTouch = 'ontouchstart' in window && !isTouchPad,
 
     has3d = prefixStyle('perspective') in dummyStyle,
-    hasTouch = 'ontouchstart' in window && !isTouchPad,
+    hasPointer = navigator.pointerEnabled || navigator.msPointerEnabled,
+	hasTouch = 'ontouchstart' in window,
     hasTransform = vendor !== false,
     hasTransitionEnd = prefixStyle('transition') in dummyStyle,
 
@@ -55,10 +57,14 @@
     rem = w3c ? 'removeEventListener' : 'detachEvent',
 
 	RESIZE_EV = 'onorientationchange' in window ? 'orientationchange' : 'resize',
-	START_EV = hasTouch ? 'touchstart' : 'mousedown',
-	MOVE_EV = hasTouch ? 'touchmove' : 'mousemove',
-	END_EV = hasTouch ? 'touchend' : 'mouseup',
-	CANCEL_EV = hasTouch ? 'touchcancel' : 'mouseup',
+	START_EV = hasTouch ? 'touchstart' : hasPointer ? 'MSPointerDown' : 'mousedown',
+	MOVE_EV = hasTouch ? 'touchmove' : hasPointer ? 'MSPointerMove' : 'mousemove',
+	END_EV = hasTouch ? 'touchend' : hasPointer ? 'MSPointerUp' : 'mouseup',
+	CANCEL_EV = hasTouch ? 'touchcancel' : hasPointer ? 'MSPointerCancel' : 'mousecancel',
+	// START_EV = hasTouch ? 'touchstart' : 'mousedown',
+	// MOVE_EV = hasTouch ? 'touchmove' : 'mousemove',
+	// END_EV = hasTouch ? 'touchend' : 'mouseup',
+	// CANCEL_EV = hasTouch ? 'touchcancel' : 'mouseup',
 	TRNEND_EV = (function () {
 		if ( vendor === false ) {return false;}
 

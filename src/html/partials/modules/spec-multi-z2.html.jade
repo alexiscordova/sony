@@ -20,7 +20,7 @@ include ../includes/jade-helpers.jade
         each link, i in data.internalLinks
           - clss = i ? '' : 'active'
           li(class=clss)
-            a.lt3.no-hover-transition(href=link.href, tabindex="-1")= link.label
+            a.lt3.no-hover-transition(href=link.href)= link.label
 
   .spec-sticky-nav
     .container
