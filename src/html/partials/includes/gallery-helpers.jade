@@ -128,7 +128,7 @@ mixin detailedGallery( submodules, gallery, type )
 
 
           //- Product Count
-          p.p3.ib.product-count-wrap
+          span.p3.ib.product-count-wrap
             strong.text-dark.product-count= gallery.total
             | &nbsp;Products
 
@@ -150,7 +150,7 @@ mixin detailedGallery( submodules, gallery, type )
           //- Sort options
           .sort-options.pull-right
             span.l3.filter-label Sort By:&nbsp;
-            .dropdown.dropdown-alt.ib
+            span.dropdown.dropdown-alt.ib
               button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
                 span.js-toggle-text= gallery.sortSet[0].label
                 i.fonticon-10-arrowheads-elevator
