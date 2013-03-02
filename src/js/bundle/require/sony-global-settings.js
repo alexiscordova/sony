@@ -25,11 +25,19 @@ SONY.Settings = (function(window, document, Modernizr) {
   self.isIOS = (/iphone|ipod|ipad/gi).test(navigator.userAgent);
   self.isAndroid = (/android/gi).test(navigator.userAgent);
   self.isPlaystation = (/playstation/gi).test(navigator.userAgent.toLowerCase());
+  self.isSonyTabletS = (/sony tablet s/gi).test(navigator.userAgent.toLowerCase());
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test(navigator.userAgent);
 
   self.isLTIE9 = SONY.$html.hasClass('lt-ie9');
 
+  // http://blogs.windows.com/windows_phone/b/wpdev/archive/2012/11/15/adapting-your-webkit-optimized-site-for-internet-explorer-10.aspx
   self.hasTouchEvents = Modernizr.touch;
+  self.hasPointerEvents = navigator.pointerEnabled || navigator.msPointerEnabled;
+
+  self.START_EV = self.hasTouchEvents ? 'touchstart' : self.hasPointerEvents ? 'MSPointerDown' : 'mousedown';
+  self.MOVE_EV = self.hasTouchEvents ? 'touchmove' : self.hasPointerEvents ? 'MSPointerMove' : 'mousemove';
+  self.END_EV = self.hasTouchEvents ? 'touchend' : self.hasPointerEvents ? 'MSPointerUp' : 'mouseup';
+  self.CANCEL_EV = self.hasTouchEvents ? 'touchcancel' : self.hasPointerEvents ? 'MSPointerCancel' : 'mousecancel';
   self.transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ];
 
   self.windowWidth = SONY.$window.width();

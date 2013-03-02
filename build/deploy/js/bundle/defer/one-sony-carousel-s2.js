@@ -60,7 +60,7 @@
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find('.soc-item').remove();
 
-      if ( window.enquire ){
+      if ( window.enquire && !SONY.$html.hasClass('lt-ie10') ){
 
         window.enquire.register("(min-width: 780px)", {
           match : function() {

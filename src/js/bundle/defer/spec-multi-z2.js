@@ -294,6 +294,14 @@
 
       self._initJumpLinks();
 
+
+      self.$stickyNav.on( SONY.Settings.END_EV, function(e) {
+        if ( e.target.tagName === 'A' ) {
+          return;
+        }
+        SONY.Utilities.scrollToTop();
+      });
+
       setTimeout(function() {
         $body.scrollspy('refresh');
       }, 100);
