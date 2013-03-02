@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 (function($, Modernizr, window, undefined) {
-  'use strict';
+  // 'use strict';
 
   // Start module
   var GlobalNav = function($container) {
@@ -121,11 +121,9 @@
 
       if ($('html').hasClass("touch")) {
         // Tra
-        $('#page-wrap-outer').click(function(e) {
-          if ( !($(e.target).hasClass('navtray-w') || $(e.target).parents('.navtray-w').length > 0) && !($(e.target).hasClass('nav') || $(e.target).parents('.nav').length > 0 )) {
-            if(e.target.tagName.toLowerCase() != 'input') {
+        $('#page-wrap-outer').on('click focus',function(e) {
+          if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
                 $('.nav .nav-li a.active').trigger('touchstart');
-            }
           }
         });
       }
@@ -391,8 +389,8 @@
       $navTray.data('expandedHeight', expandedHeight);
 
       if (opening) {
-        startHeight = '1px';
-        endHeight = expandedHeight;
+        startHeight = expandedHeight;
+        endHeight = '1px';
         // if ie 7,8 and 9, we remove the animation
         // **TODO** add jquery animation for ie9+
         if ($('html').hasClass('lt-ie10')) {
@@ -400,8 +398,8 @@
         }
       } else {
         // if you're not opening, it's just initializing on page load
-        startHeight = expandedHeight;
-        endHeight = '1px';
+        startHeight = '1px';
+        endHeight = expandedHeight;
 
         // if ie 7,8 and 9, we remove the animation
         // **TODO** add jquery animation for ie9+
@@ -410,18 +408,30 @@
         }
       }
 
-      $navTray.data('expandedHeight', startHeight).css('height', startHeight).find('.navtray').addClass('navtray-absolute').css('height', expandedHeight);
+    //$navTray.data('expandedHeight', startHeight).css('top', startHeight).find('.navtray').addClass('navtray-absolute').css('top', expandedHeight);
 
       setTimeout(function() {// wait just a moment to make sure the height is applied
         $navTray.removeClass('no-transition');
 
         setTimeout(function() {// wait just a moment to make sure the height is applied
-          $navTray.css('height', endHeight).one(self.transitionEnd, onNavTrayComplete);
-
+         // $navTray.css('height', endHeight).one(self.transitionEnd, onNavTrayComplete);
+          var elemHeight = $navTray.find('.navtray').height();
           if (opening) {
-            $navTray.addClass('navtray-w-visible');
+            /*
+            $navTray.animate({
+                            top: 64
+                            }, 2000,'easeOutBounce', function() {
+                            // Animation complete.
+                        });*/
+            
+           $navTray.addClass('navtray-w-visible');
           } else {
-            $navTray.removeClass('navtray-w-visible');
+       /*
+           $navTray.animate({
+                     top: -999
+                     }, 500,'easeOutQuad');*/
+       
+         $navTray.removeClass('navtray-w-visible');
           }
 
         }, 10);
@@ -442,12 +452,12 @@
     },
 
     setNavTrayContentNaturalFlow : function($navTray) {
-      $navTray.css('height', '').addClass('no-transition').find('.navtray').removeClass('navtray-absolute').css('height', '');
+      $navTray.css('height', '').find('.navtray').removeClass('navtray-absolute').css('height', '');
     },
 
     activateNavBtn : function($newNavBtn) {
       var self = this;
-      
+      //.removeClass('no-transition')
       $newNavBtn.addClass('active').parent().addClass('nav-li-selected');
 
       // if there's a navTray/navMenu, reset it to get its height
