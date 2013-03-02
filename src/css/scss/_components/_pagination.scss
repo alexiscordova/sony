@@ -2,7 +2,6 @@
 // Pagination (multiple pages)
 // --------------------------------------------------
 
-
 // BULLET STYLES FOR PAGINATION
 $bulletSize: px-em(12px);
 $bulletMargin: px-em(5px);
@@ -45,11 +44,11 @@ $bulletMargin: px-em(5px);
 
 .pagination-paddles {
   @include transition();
+  @include opacity(0);
   height: 0;
-  opacity: 0;
 
   &.show-paddles {
-    opacity: 1;
+    @include opacity(100);
   }
 
   button {
@@ -65,10 +64,10 @@ $bulletMargin: px-em(5px);
     background-color: $gray60;
     background-color: rgba($gray10, .4);
     border-radius: .1875em;
-    opacity: 0;
+    @include opacity(0);
 
     &.on {
-      opacity: 1;
+      @include opacity(100);
     }
 
     &.pagination-next {
