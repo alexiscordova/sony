@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = true;
+      self.DEBUG                  = false;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
@@ -82,10 +82,10 @@
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
-      self.oldIE                  = self.$html.hasClass('lt-ie8');
-      self.isIE7orIE8             = self.$html.hasClass('lt-ie9');
+      self.oldIE                  = self.$html.hasClass('lt-ie10');
+      self.isIE7orIE8             = self.$html.hasClass('lt-ie10');
       self.inited                 = false;
-      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie8') && self.hasMediaQueries;
+      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       
       //Modes
       self.isMobileMode    = false;
@@ -536,6 +536,7 @@
           }
         }
       },
+
       setupStripMode: function(){
         var self       = this,
         containerWidth = self.$el.width(),
@@ -609,7 +610,7 @@
             'margin'  : 0
           });
 
-          var newContainerHeight = self.$el.find('.gallery-item.normal').first().height() + 40 + 'px';
+          var newContainerHeight = self.$el.find('.gallery-item.normal').first().outerHeight(true)  + 'px';
 
           self.$el.css({
             'height'     : newContainerHeight,
@@ -666,73 +667,53 @@
 
 
       createPaddles: function(){
-        var self            = this,
-        itemHTMLPaddleRight = '<div class="paddle"><i class=fonticon-10-chevron-reverse></i></div>',
-        itemHTMLPaddleLeft  = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
-        $container          = self.$el.closest('.container'),
-        out;
 
-        self.paddlesEnabled = true;
-        
-        //build up the html
-        out = '<div class="rp-nav rp-paddles">';
-        out += itemHTMLPaddleRight;
-        out += itemHTMLPaddleLeft;
-        out += '</div>';
-        out = $(out);
+        var self = this;
 
-        self.$el.append(out);
+        self.$el.sonyPaddles();
 
-        self.$paddles     = self.$el.find('.paddle');
-        self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
-        self.$rightPaddle = self.$paddles.eq(1).addClass('right');
-
-        self.$paddles.on(self.tapOrClick() , function(){
-          var p = $(this);
-
-          if(p.hasClass('left')){
-
-            self.currentId --;
-            if(self.currentId < 0){
-              self.currentId = 0;
-            }
-
-            self.moveTo();
-
-          }else{
-
-            self.currentId ++;
-
-            if(self.currentId >= self.$slides.length){
-              self.currentId = self.$slides.length - 1;
-            }
-
-            self.moveTo();
+        self.$el.on('sonyPaddles:clickLeft', function(){
+          self.currentId --;
+          if(self.currentId < 0){
+            self.currentId = 0;
           }
 
+          self.moveTo();
         });
 
-        self.onPaddleNavUpdate();
+        self.$el.on('sonyPaddles:clickRight', function(){
+          self.currentId ++;
 
+          if(self.currentId >= self.$slides.length){
+            self.currentId = self.$slides.length - 1;
+          }
+
+          self.moveTo();
+        });
+  
+        self.onPaddleNavUpdate();
         self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
+
       },
+
+
 
       onPaddleNavUpdate: function(){
         var self = this;
 
+        self.$el.sonyPaddles('showPaddle', 'right');
+        self.$el.sonyPaddles('showPaddle', 'left');
+
         //check for the left paddle compatibility
         if(self.currentId === 0){
-          self.$leftPaddle.stop(true,true).fadeOut(100);
-        }else{
-          self.$leftPaddle.stop(true,true).fadeIn(200);
+          self.$el.sonyPaddles('hidePaddle', 'left');
         }
 
         //check for right paddle compatiblity
         if(self.currentId === self.numSlides - 1){
-          self.$rightPaddle.stop(true,true).fadeOut(100);
-        }else{
-          self.$rightPaddle.stop(true,true).fadeIn(200);
+          self.$el.sonyPaddles('hidePaddle', 'right');
         }
+
       },
 
       createShuffle: function(){
@@ -1114,9 +1095,10 @@
             self.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
           
-         self.$el.css( 'height' , newHeight + 40 + 'px' );
+         self.$el.css( 'height' , newHeight + 62 + 'px' );
+
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
+            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 62 + 'px');
           }
           return;
         }
@@ -1134,10 +1116,10 @@
            self.log('using alternate height calculation >>> Desktop' , newHeight);
         }
 
-        self.$el.css( 'height' , newHeight + 40 + 'px' );
+        self.$el.css( 'height' , newHeight + 0 + 'px' );
 
         if(!!self.isTabbedContainer){
-          self.$tabbedContainer.css('height' , newHeight + 40 + 'px');
+          self.$tabbedContainer.css('height' , newHeight + 0 + 'px');
         }
 
 
