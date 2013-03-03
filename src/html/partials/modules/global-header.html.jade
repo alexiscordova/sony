@@ -179,7 +179,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 i.fonticon-10-arrowhead-up.nav-indicator
                 div.reveal-transition-container
                   if sample_session_data.logged_in !== true
-                    a.btn.btn-login(href=data.account.menu.log_in.link)= data.account.menu.log_in.label
+                    a.btn.btn-small.btn-login(href=data.account.menu.log_in.link)= data.account.menu.log_in.label
                   ul.navmenu-list.navmenu-list-prefixed
                     li.navmenu-line.navmenu-li-cart
                       a.tl.navmenu-style-tl(href=data.cart.link)
@@ -202,7 +202,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                         a.tl.navmenu-style-tl(href=item.link, tabindex=(1101+i)) 
                           i(class=item.icon_class)
                           | !{item.label}
-                  if sample_session_data.logged_in === true
+                  if sample_session_data.logged_in == true
                     a.btn.btn-small.btn-logout(href=data.account.menu.log_out.link, tabindex='1150')= data.account.menu.log_out.label
 
             li.nav-li.nav-li-favorites
