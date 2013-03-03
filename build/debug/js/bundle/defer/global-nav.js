@@ -421,7 +421,7 @@
            $navTray.addClass('navtray-w-visible');
           } else {
        
-           // $navTray.removeClass('navtray-w-visible');
+            $navTray.removeClass('navtray-w-visible');
           }
 
         }, 10);
