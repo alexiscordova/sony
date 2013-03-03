@@ -62,21 +62,16 @@
 
       if ( window.enquire && !SONY.$html.hasClass('lt-ie10') ){
 
-        window.enquire.register("(min-width: 780px)", {
-          match : function() {
-            self.renderDesktop();
-          }
+        window.enquire.register("(min-width: 780px)", function() {
+          self.renderDesktop();
         });
-        window.enquire.register("(min-width: 480px) and (max-width: 779px)", {
-          match : function() {
-            self.renderEvenColumns(6);
-          }
+        window.enquire.register("(min-width: 480px) and (max-width: 779px)", function() {
+          self.renderEvenColumns(6);
         });
-        window.enquire.register("(max-width: 479px)", {
-          match : function() {
-            self.renderEvenColumns(12);
-          }
+        window.enquire.register("(max-width: 479px)", function() {
+          self.renderEvenColumns(12);
         });
+
       } else {
         self.renderDesktop();
       }
