@@ -146,16 +146,17 @@
 
       var self = this;
 
-      if ( !self.isScrubbing ) { return; }
-
       e.preventDefault();
+
+      self.$containment.off(_moveEvents);
+
+      if ( !self.isScrubbing ) { return; }
 
       // Do a final check on acceleration before returning data in dragEnd.
 
       self.setAcceleration(e);
 
       self.isScrubbing = self.hasPassedThreshold = false;
-      self.$containment.off(_moveEvents);
 
       self.$el.trigger('sonyDraggable:dragEnd', {
         'acceleration': self.acceleration
