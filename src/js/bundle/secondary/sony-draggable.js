@@ -82,13 +82,16 @@
         self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
       }
 
-      self.isScrubbing = self.isPastThreshold = false;
+      self.isScrubbing = self.hasPassedThreshold = false;
       self.handleStartPosition = self.getPagePosition(e);
       self.setDimensions();
+
       self.$containment.on(_moveEvents, $.proxy(self.scrubbingThreshold, self));
 
       self.$el.trigger('sonyDraggable:dragStart');
     },
+
+    // Logic for controlling the threshold before which *horizontal* scrubbing can occur on touch devices.
 
     'scrubbingThreshold': function(e) {
 
@@ -96,13 +99,17 @@
           distX = self.getPagePosition(e).x - self.handleStartPosition.x,
           distY = self.getPagePosition(e).y - self.handleStartPosition.y;
 
+      // If you're not on touch, or if you didn't pass in a threshold setting, go ahead and scrub.
+
       if ( !Modernizr.touch || !self.dragThreshold || self.isScrubbing ) {
         self.isScrubbing = true;
         self.onScrubbing(e, distX, distY);
         return;
       }
 
-      if ( self.isPastThreshold ) { return; }
+      // If you've gone past the threshold, simply do nothing for this interaction.
+
+      if ( self.hasPassedThreshold ) { return; }
 
       if ( Math.abs(distX) > self.dragThreshold ) {
         self.isScrubbing = true;
@@ -111,7 +118,7 @@
       }
 
       if ( Math.abs(distY) > self.dragThreshold ) {
-        self.isPastThreshold = true;
+        self.hasPassedThreshold = true;
         return;
       }
     },
@@ -128,8 +135,8 @@
       self.handlePosition.y = self.scrubberTop + distY;
 
       // Periodically query the user's position to see how much they've moved recently.
-      self.throttledSetAcceleration(e);
 
+      self.throttledSetAcceleration(e);
       self.setPositions();
     },
 
@@ -144,9 +151,10 @@
       e.preventDefault();
 
       // Do a final check on acceleration before returning data in dragEnd.
+
       self.setAcceleration(e);
 
-      self.isScrubbing = self.isPastThreshold = false;
+      self.isScrubbing = self.hasPassedThreshold = false;
       self.$containment.off(_moveEvents);
 
       self.$el.trigger('sonyDraggable:dragEnd', {
@@ -167,6 +175,7 @@
       self.lastTouch = self.lastTouch || {};
 
       // Cache position for touchmove/touchstart, as touchend doesn't provide it.
+
       if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
         self.lastTouch = e.originalEvent.touches[0];
       }
@@ -200,7 +209,8 @@
     'setPositions': function(){
 
       var self = this,
-          newX, newY;
+          newX = 0,
+          newY = 0;
 
       if ( self.unit === 'px' ) {
         if ( self.axis.search('x') >= 0 ) {
@@ -226,11 +236,11 @@
       }
 
       if ( self.useCSS3 ) {
-        self.$el.css(Modernizr.prefixed('transform'), 'translate(' + ( newX ? newX : 0 ) + self.unit + ',' + ( newY ? newY : 0 ) + self.unit + ')');
+        self.$el.css(Modernizr.prefixed('transform'), 'translate(' + newX + self.unit + ',' + newY + self.unit + ')');
       } else {
         self.$el.css({
-          'left': ( newX ? newX : 0 ) + self.unit,
-          'top': ( newY ? newY : 0 ) + self.unit
+          'left': newX + self.unit,
+          'top': newY + self.unit
         });
       }
 
