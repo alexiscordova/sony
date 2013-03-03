@@ -235,6 +235,10 @@
         newY = self.bounds.y ? SONY.Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
       }
 
+      // TODO: For CSS3, translate is relative to the width of the element itself. This works fine for carousels
+      // where the width is greater than or equal to the parent, but not for scrubbers, like in dual viewer.
+      // Need to create a conditional that inverts the math for latter.
+
       if ( self.useCSS3 ) {
         self.$el.css(Modernizr.prefixed('transform'), 'translate(' + newX + self.unit + ',' + newY + self.unit + ')');
       } else {
