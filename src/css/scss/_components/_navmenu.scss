@@ -81,6 +81,7 @@
 .navmenu-w-account{
   .navmenu-list-main{
     padding-top:3px;
+    padding-bottom:12px;
   }
 
   .btn-login,
@@ -88,21 +89,12 @@
     display: block;
     width: auto;
     font-size: $font_10_15;
-    margin:10px 20px;
   }
   .btn-login{
-    margin-top:0;
+    margin:10px 20px 5px;
   }
   .btn-logout{
-    display: none;
-  }
-  &.logged-in{
-    .btn-login{
-      display: none;
-    }
-    .btn-logout{
-      display: block;
-    }        
+    margin:0 20px 10px;
   }
   &.navmenu-w-visible {
     @include hideshow-navmenu-show(right,-125px,false);
