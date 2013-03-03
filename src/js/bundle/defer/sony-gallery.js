@@ -3,7 +3,7 @@
 // ------------ Sony Gallery ------------
 // Module: Gallery
 // Version: 1.0
-// Modified: 02/22/2013
+// Modified: 03/02/2013
 // Dependencies: jQuery 1.7+, Modernizr
 // Author: Glen Cheney
 // --------------------------------------
@@ -39,7 +39,7 @@
     self.$compareTool = $('#compare-tool');
 
     // What do we have here?
-    self.hasCompareModal = self.$compareBtn.length > 0;
+    self.hasCompareModal = self.$compareBtn.length > 0 && self.$compareTool.length > 0;
     self.hasInfiniteScroll = self.$container.find('div.navigation a').length > 0;
     self.hasFilters = self.$filterOpts.length > 0;
     self.hasSorting = self.$sortBtns.length > 0;
@@ -429,6 +429,9 @@
         }
       }
 
+      self.currentFilterColor = null;
+      self.hideFilteredSwatchImages();
+
       self.filter();
     },
 
@@ -505,7 +508,7 @@
       // The filter type is sometimes changed because they have
       // the same look and functionality as another filter type
       // Here is where we keep the origial type
-      self.realFilterTypes = {};
+      self.filterData = {};
 
       self.$filterOpts.find('[data-filter]').each(function() {
         var $this = $(this),
@@ -513,7 +516,8 @@
             type = data.filterType,
             realType = type,
             name = data.filter,
-            init = [];
+            init = [],
+            canDisable = true;
 
 
         // Initialize it based on type
@@ -523,14 +527,20 @@
             self.range( $this, name, data.min, data.max );
             break;
           case 'button':
-            self.button( $this, name );
+            canDisable = false;
+            self.button( $this, name, realType );
             break;
           case 'group':
+            // Treat groups and colors the same as buttons
+            type = 'button';
+            canDisable = false;
+            self.button( $this, name, realType );
+            break;
           case 'color':
             // Treat groups and colors the same as buttons
             type = 'button';
-            self.button( $this, name );
-              break;
+            self.button( $this, name, realType );
+            break;
           case 'checkbox':
             self.checkbox ( $this, name );
             break;
@@ -539,7 +549,12 @@
         // Save the active filters in this filter to an empty array or object
         self.filters[ type ][ name ] = init;
         self.filterTypes[ name ] = type;
-        self.realFilterTypes[ name ] = realType;
+        self.filterData[ name ] = {
+          name: name,
+          type: type,
+          realType: realType,
+          canDisable: canDisable
+        };
       });
 
       // Init popovers
@@ -613,6 +628,36 @@
     initInfscr : function() {
       var self = this;
 
+      function galleryItemsAdded( newElements ) {
+          var $newElements = $( newElements ).addClass('via-ajax');
+
+          // Bump up the delay so it's more noticeable.
+          self.shuffle.sequentialFadeDelay = 250;
+
+          // Get shuffle to append and show the items for us
+          self.$grid.shuffle( 'appended', $newElements );
+
+          // Now put it back
+          self.shuffle.sequentialFadeDelay = 60;
+
+          // Show new product count
+          self.$productCount.text( self.$grid.data('shuffle').visibleItems );
+
+          // Initialize swatches and tooltips for ajax content
+          self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
+          self.initTooltips( $newElements.find('.js-favorite') );
+
+          // Update iQ images
+          iQ.update( true );
+
+          // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
+          setTimeout(function() {
+            self
+              .loadSwatchImages()
+              .displayFilteredSwatchImages();
+          }, 0);
+      }
+
       self.$grid.infinitescroll({
         local: true,
         // debug: true,
@@ -626,33 +671,7 @@
           finishedMsg: '<em>Finished loading products.</em>',
           img: self.loadingGif
         }
-      },
-      // call shuffle as a callback
-      function( newElements ) {
-        var $newElements = $( newElements ).addClass('via-ajax');
-
-        // Bump up the delay so it's more noticeable.
-        self.shuffle.sequentialFadeDelay = 250;
-
-        // Get shuffle to append and show the items for us
-        self.$grid.shuffle( 'appended', $newElements );
-
-        // Now put it back
-        self.shuffle.sequentialFadeDelay = 60;
-
-        // Show new product count
-        self.$productCount.text( self.$grid.data('shuffle').visibleItems );
-
-        // Initialize swatches and tooltips for ajax content
-        self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
-        self.initTooltips( $newElements.find('.js-favorite') );
-
-        // Update iQ images
-        iQ.update( true );
-
-        // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
-        setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
-      });
+      }, galleryItemsAdded );
     },
 
     initSwatches : function( $collection ) {
@@ -661,23 +680,66 @@
       $collection = $collection || self.$grid.find('.mini-swatch[data-color]');
       $collection.each(function() {
           var $swatch = $(this),
+              hidden = 'hidden',
               color = $swatch.data('color'),
               $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
               $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
 
           $swatch.hover(function() {
-            $productImg.addClass('hidden');
-            $swatchImg.removeClass('hidden');
+            // Mouse over, hide the main image, show the swatch image
+            if ( self.currentFilterColor ) {
+              $swatchImg.siblings(':not(.hidden)').addClass( hidden );
+            } else {
+              $productImg.addClass( hidden );
+            }
+            $swatchImg.removeClass( hidden );
           }, function() {
-            $productImg.removeClass('hidden');
-            $swatchImg.addClass('hidden');
+            // Mouse out, hide the swatch image, show the main image
+            if ( self.currentFilterColor !== color ) {
+              $swatchImg.addClass( hidden );
+            }
+            if ( self.currentFilterColor ) {
+              $swatchImg.siblings('[data-color="' + self.currentFilterColor + '"]').removeClass( hidden );
+            } else {
+              $productImg.removeClass( hidden );
+            }
           });
       });
+
+      return self;
     },
 
     loadSwatchImages : function() {
       this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
       iQ.update( true );
+
+      return this;
+    },
+
+    displayFilteredSwatchImages : function() {
+      var self = this,
+          hidden = 'hidden',
+          $productImgs = self.$grid.find('.js-product-imgs:not(.no-swatches)'),
+          $mainImgs = $productImgs.find('.js-product-img-main, [data-color]:not(.hidden)'),
+          $swatchImgs = $productImgs.find('[data-color="' + self.currentFilterColor + '"]');
+
+      $mainImgs.addClass( hidden );
+      $swatchImgs.removeClass( hidden );
+
+      return self;
+    },
+
+    hideFilteredSwatchImages : function() {
+      var self = this,
+          hidden = 'hidden',
+          $productImgs = self.$grid.find('.js-product-imgs:not(.no-swatches)'),
+          $mainImgs = $productImgs.find('.js-product-img-main'),
+          $swatchImgs = $productImgs.find('[data-color]:not(.hidden)');
+
+      $mainImgs.removeClass( hidden );
+      $swatchImgs.addClass( hidden );
+
+      return self;
     },
 
     initTooltips : function( $favorites ) {
@@ -761,7 +823,7 @@
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method;
+          filterName, filterValue, method, filterData;
 
 
       // Reset stored data by setting all filterValue values to null
@@ -770,8 +832,10 @@
           continue;
         }
 
+        filterData = self.filterData[ filterName ];
+
         for ( filterValue in self.filterValues[ filterName ] ) {
-          self.filterValues[ filterName ][ filterValue ] = null;
+          self.filterValues[ filterName ][ filterValue ] = filterData.canDisable ? null : true;
         }
       }
 
@@ -843,18 +907,19 @@
       return true;
     },
 
-    button : function( $parent, filterName ) {
+    button : function( $filterGroup, filterName, realType ) {
       var self = this,
           labels = {},
           values = {},
-          $btns = $parent.children();
+          $btns = $filterGroup.children();
 
       $btns.on('click', function() {
         var $this = $(this),
             isMediaGroup = $this.hasClass('media'),
             $alreadyChecked,
             checked = [],
-            active = 'active';
+            active = 'active',
+            isActive;
 
         // Abort if this button is disabled
         if ( $this.is('[disabled]') ) {
@@ -881,8 +946,19 @@
           }
         }
 
-        if ( $this.hasClass(active) ) {
+        isActive = $this.hasClass( active );
+
+        if ( isActive ) {
           checked.push( $this.data( filterName ) );
+        }
+
+        if ( realType === 'color' ) {
+          self.currentFilterColor = isActive ? $this.data( filterName ) : null;
+          if ( isActive ) {
+            self.displayFilteredSwatchImages();
+          } else {
+            self.hideFilteredSwatchImages();
+          }
         }
 
         self.filters.button[ filterName ] = checked;
@@ -901,14 +977,14 @@
       self.filterValues[ filterName ] = values;
     },
 
-    checkbox : function( $parent, filterName ) {
+    checkbox : function( $filterGroup, filterName ) {
       var self = this,
           labels = {},
           values = {},
-          $inputs = $parent.find('input');
+          $inputs = $filterGroup.find('input');
 
       $inputs.on('change', function() {
-        var $checked = $parent.find('input:checked'),
+        var $checked = $filterGroup.find('input:checked'),
         checked = [];
 
         // At least one checkbox is checked, clear the array and loop through the checked checkboxes
@@ -2443,6 +2519,7 @@
     isiPhone: SONY.Settings.isIPhone,
     isUsingOuterScroller: !(SONY.Settings.isLTIE9 || SONY.Settings.isPlaystation),
     showCompareStickyHeaders: true,
+    currentFilterColor: null,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
