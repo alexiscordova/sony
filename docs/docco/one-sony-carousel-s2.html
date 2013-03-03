@@ -6,7 +6,8 @@
 <li><strong>Version:</strong> 0.2</li>
 <li><strong>Modified:</strong> 02/20/2013</li>
 <li><strong>Author:</strong> George Pantazis</li>
-<li><strong>Dependencies:</strong> jQuery 1.7+</li>
+<li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, Enquire, <a href="sony-draggable.html">SonyDraggable</a>,
+                <a href="sony-navigationdots.html">SonyNavDots</a>, <a href="sony-paddles.html">SonyPaddles</a></li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>
 (<span class="keyword">function</span>($) {
 
@@ -31,11 +32,14 @@
 
   OneSonyCarousel.prototype = {
 
-    <span class="string">'constructor'</span>: OneSonyCarousel,
+    constructor: OneSonyCarousel,
 
-    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+    init: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.createPaddles();
+      self.setupLinkClicks();
 
       self.$innerContainer.sonyDraggable({
         <span class="string">'axis'</span>: <span class="string">'x'</span>,
@@ -45,8 +49,6 @@
         <span class="string">'useCSS3'</span>: self.useCSS3,
         <span class="string">'drag'</span>: window.iQ.update
       });
-
-      self.setupPaddles();
 
       self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));
       self.$el.on(<span class="string">'sonyDraggable:dragEnd'</span>,  $.proxy(self.dragEnd, self));
@@ -62,21 +64,16 @@
 
       <span class="keyword">if</span> ( window.enquire &amp;&amp; !SONY.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
 
-        window.enquire.register(<span class="string">"(min-width: 780px)"</span>, {
-          match : <span class="keyword">function</span>() {
-            self.renderDesktop();
-          }
+        window.enquire.register(<span class="string">"(min-width: 780px)"</span>, <span class="keyword">function</span>() {
+          self.renderDesktop();
         });
-        window.enquire.register(<span class="string">"(min-width: 480px) and (max-width: 779px)"</span>, {
-          match : <span class="keyword">function</span>() {
-            self.renderEvenColumns(<span class="number">6</span>);
-          }
+        window.enquire.register(<span class="string">"(min-width: 480px) and (max-width: 779px)"</span>, <span class="keyword">function</span>() {
+          self.renderEvenColumns(<span class="number">6</span>);
         });
-        window.enquire.register(<span class="string">"(max-width: 479px)"</span>, {
-          match : <span class="keyword">function</span>() {
-            self.renderEvenColumns(<span class="number">12</span>);
-          }
+        window.enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
+          self.renderEvenColumns(<span class="number">12</span>);
         });
+
       } <span class="keyword">else</span> {
         self.renderDesktop();
       }
@@ -85,10 +82,10 @@
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'renderDesktop'</span>: <span class="keyword">function</span>(which) {
+    renderDesktop: <span class="keyword">function</span>(which) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $newSlides = self.$cachedSlides.clone();
+          $newSlides = self.$cachedSlides.clone(<span class="literal">true</span>);
 
       self.$innerContainer.empty().append($newSlides);
       self.$slides = $newSlides;
@@ -97,10 +94,10 @@
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Splits the default layout into slides with children each of column width
 set at colPerItem, which must divide evenly into 12.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'renderEvenColumns'</span>: <span class="keyword">function</span>(colPerItem) {
+    renderEvenColumns: <span class="keyword">function</span>(colPerItem) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $newItems = self.$cachedSlides.clone().children().children();
+          $newItems = self.$cachedSlides.clone(<span class="literal">true</span>).children().children();
 
       self.$innerContainer.empty();
       $newItems.removeClass(<span class="string">'span8 span6 span4'</span>).addClass(<span class="string">'span'</span> + colPerItem);
@@ -118,16 +115,17 @@ set at colPerItem, which must divide evenly into 12.</p>             </td>      
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Stop animations that were ongoing when you started to drag.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'dragStart'</span>: <span class="keyword">function</span>() {
+    dragStart: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      self.startInteractionTime = <span class="keyword">new</span> Date().getTime();
       self.$innerContainer.stop();
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Depending on how fast you were dragging, either proceed to an adjacent slide or
 reset position to the nearest one.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'dragEnd'</span>: <span class="keyword">function</span>(e, data) {
+    dragEnd: <span class="keyword">function</span>(e, data) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           goToWhich;
@@ -152,7 +150,7 @@ reset position to the nearest one.</p>             </td>             <td class="
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Find the nearest slide, and move the carousel to that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'gotoNearestSlide'</span>: <span class="keyword">function</span>(e, data) {
+    gotoNearestSlide: <span class="keyword">function</span>(e, data) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           leftBounds = self.$container.get(<span class="number">0</span>).getBoundingClientRect().left,
@@ -166,7 +164,7 @@ reset position to the nearest one.</p>             </td>             <td class="
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Go to a given slide.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-    <span class="string">'gotoSlide'</span>: <span class="keyword">function</span>(which) {
+    gotoSlide: <span class="keyword">function</span>(which) {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           $destinationSlide = self.$slides.eq(which),
@@ -207,7 +205,33 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
       self.$el.trigger(<span class="string">'oneSonyCarousel:gotoSlide'</span>, self.currentSlide);
     },
 
-    <span class="string">'createPagination'</span>: <span class="function"><span class="keyword">function</span> <span class="params">()</span>{</span>
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>To prevent drags from being misinterpreted as clicks, we only redirect the user
+if their interaction time and movements are below certain thresholds.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    setupLinkClicks: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.find(<span class="string">'.soc-item'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            destination = $<span class="keyword">this</span>.find(<span class="string">'.headline a'</span>).attr(<span class="string">'href'</span>),
+            closestLink = $(e.target).closest(<span class="string">'a'</span>).attr(<span class="string">'href'</span>);
+
+        <span class="keyword">if</span> ( !self.isDragging ) {
+
+          <span class="keyword">if</span> ((<span class="keyword">new</span> Date().getTime()) - self.startInteractionTime &lt; <span class="number">100</span> ) {
+
+            <span class="keyword">if</span> ( closestLink &amp;&amp; closestLink !== destination ) {
+              destination = closestLink;
+            }
+
+            window.location = destination;
+          }
+        }
+      });
+    },
+
+    createPagination: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -233,7 +257,7 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
       });
     },
 
-    <span class="string">'setupPaddles'</span>: <span class="keyword">function</span>(){
+    createPaddles: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
@@ -280,7 +304,7 @@ Prevents excess whitespace on the right.</p>             </td>             <td c
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <h2>Initialize</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <h2>Initialize</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
     $(<span class="string">'.sony-one-carousel'</span>).oneSonyCarousel();
   });

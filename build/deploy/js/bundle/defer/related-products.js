@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = false;
+      self.DEBUG                  = true;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
@@ -82,10 +82,10 @@
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
-      self.oldIE                  = self.$html.hasClass('lt-ie8');
-      self.isIE7orIE8             = self.$html.hasClass('lt-ie9');
+      self.oldIE                  = self.$html.hasClass('lt-ie10');
+      self.isIE7orIE8             = self.$html.hasClass('lt-ie10');
       self.inited                 = false;
-      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie8') && self.hasMediaQueries;
+      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       
       //Modes
       self.isMobileMode    = false;
@@ -93,13 +93,19 @@
       self.isTabletMode    = false;
       self.accelerationPos = 0;
 
+
+
       //Startup
       self.init();
+
+
 
     };
 
     //Related Products protoype object definition
     RelatedProducts.prototype = {
+
+
 
       //Inital setup of module
       init: function(){
@@ -127,6 +133,8 @@
 
         //Initialize tooltips
         self.initTooltips();
+
+
 
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
@@ -667,73 +675,65 @@
 
 
       createPaddles: function(){
-        var self            = this,
-        itemHTMLPaddleRight = '<div class="paddle"><i class=fonticon-10-chevron-reverse></i></div>',
-        itemHTMLPaddleLeft  = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
-        $container          = self.$el.closest('.container'),
-        out;
 
-        self.paddlesEnabled = true;
-        
-        //build up the html
-        out = '<div class="rp-nav rp-paddles">';
-        out += itemHTMLPaddleRight;
-        out += itemHTMLPaddleLeft;
-        out += '</div>';
-        out = $(out);
+        var self = this;
 
-        self.$el.append(out);
+        self.$el.sonyPaddles();
 
-        self.$paddles     = self.$el.find('.paddle');
-        self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
-        self.$rightPaddle = self.$paddles.eq(1).addClass('right');
-
-        self.$paddles.on(self.tapOrClick() , function(){
-          var p = $(this);
-
-          if(p.hasClass('left')){
-
-            self.currentId --;
-            if(self.currentId < 0){
-              self.currentId = 0;
-            }
-
-            self.moveTo();
-
-          }else{
-
-            self.currentId ++;
-
-            if(self.currentId >= self.$slides.length){
-              self.currentId = self.$slides.length - 1;
-            }
-
-            self.moveTo();
+        self.$el.on('sonyPaddles:clickLeft', function(){
+          self.currentId --;
+          if(self.currentId < 0){
+            self.currentId = 0;
           }
 
+          self.moveTo(); 
         });
 
-        self.onPaddleNavUpdate();
+        self.$el.on('sonyPaddles:clickRight', function(){
+          self.currentId ++;
 
+          if(self.currentId >= self.$slides.length){
+            self.currentId = self.$slides.length - 1;
+          }
+
+          self.moveTo();
+        });
+  
+        self.onPaddleNavUpdate();
         self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
+
       },
+
+
 
       onPaddleNavUpdate: function(){
         var self = this;
 
+        self.$el.sonyPaddles('showPaddle', 'right');
+        self.$el.sonyPaddles('showPaddle', 'left');
+
         //check for the left paddle compatibility
         if(self.currentId === 0){
-          self.$leftPaddle.stop(true,true).fadeOut(100);
-        }else{
-          self.$leftPaddle.stop(true,true).fadeIn(200);
+          self.$el.sonyPaddles('hidePaddle', 'left');
         }
 
         //check for right paddle compatiblity
         if(self.currentId === self.numSlides - 1){
-          self.$rightPaddle.stop(true,true).fadeOut(100);
-        }else{
-          self.$rightPaddle.stop(true,true).fadeIn(200);
+          self.$el.sonyPaddles('hidePaddle', 'right');
         }
+
+      },
+
+      togglePaddles: function (turnOn){
+        var self = this;
+
+        if(turnOn){
+          self.$el.find('.pagination-paddles').show();
+        }else{
+          self.$el.find('.pagination-paddles').hide();
+        }
+
+        
       },
 
       createShuffle: function(){
@@ -975,6 +975,10 @@
 
             window.iQ.update();
 
+            if(!self.hasTouch){
+              self.togglePaddles(true);
+            }
+
 
           break;
 
@@ -1018,6 +1022,10 @@
             self.sortByPriority();
 
             window.iQ.update();
+
+            if(!self.hasTouch){
+              self.togglePaddles(true);
+            }
 
           break;
 
@@ -1070,6 +1078,10 @@
             }
 
             self.initMobileBreakpoint();
+
+            self.log('initing mobile');
+
+            self.togglePaddles(false);
 
           break;
         }
@@ -1917,6 +1929,7 @@
     //Related Products definition on jQuery
     $.fn.relatedProducts = function(options) {
       var args = arguments;
+
       return this.each(function(){
         var self = $(this);
         if (typeof options === "object" ||  !options) {
@@ -1940,8 +1953,12 @@
       navigationControl: 'bullets'
     };
 
-    SONY.on('global:ready', function(){
-      $('.related-products').relatedProducts({});
+/*    SONY.on('global:ready', function(){
+      
+    });*/
+
+    $(function(){
+      $('.related-products').relatedProducts();
     });
 
  })(SONY,jQuery, Modernizr, window,undefined , window.console);
