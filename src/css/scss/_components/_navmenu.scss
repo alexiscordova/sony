@@ -197,14 +197,17 @@
     display:none;
   }
   .navmenu-list-results{
+    hr{ // HR after each search result
+      @include pseudoEl-block(406px, 0px);
+      margin:0 0 0 30px;
+      border-top:solid 1px $grayLightish;
+      border-bottom:none;
+      position:relative;
+      top:-1px;
+    }
     .search-result-line {
       margin-bottom:1px; // make room for the hr (:after)
 
-      &:after{ // HR after each search result
-        @include pseudoEl-block(406px, 0px);
-        margin:0 0 0 30px;
-        border-bottom:solid 1px $grayLightish;
-      }
       > a {
         display:block;
         overflow:hidden;
