@@ -93,6 +93,11 @@
       // register for when images are loaded to determine centering
       self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
 
+
+      self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
+       $(this).parent().addClass('on');
+      });
+
       // start it all
       self.init();
     };
@@ -145,7 +150,10 @@
         // show the elements if they've beenh hidden
         if(self.isLayoutHidden){
           // show contents again after transition
-          setupSequence.add( self, self.showAll, self.setupSpeed);       
+          setupSequence.add( self, self.showAll, self.setupSpeed);
+
+          // use very sparingly
+          SONY.Utilities.forceWebkitRedraw();
         }
 
         // start sequence
