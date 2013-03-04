@@ -10,11 +10,14 @@ l = {"locals":locals}
 head
 	title  S2 One Sony Tout Carousel
 	!{partial('includes/head.html.jade', l)}
-	
+
 body
     #page-wrap-outer.page-wrap-outer
-      #page-wrap-inner.page-wrap-inner        
+      #page-wrap-inner.page-wrap-inner
 
-    	          e = {"locals":locals, "data":data("one-sony-tout-carousel-s2/six-column-right-aligned-examples.json")}          !{partial("modules/one-sony-tout-carousel-s2.html.jade", e)}
-    	
-    !{partial('includes/foot.html.jade', l)}
+
+          e = {"locals":locals, "data":data("one-sony-tout-carousel-s2/six-column-right-aligned-examples.json")}
+          !{partial("modules/one-sony-tout-carousel-s2.html.jade", e)}
+
+    e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
+    !{partial('includes/foot.html.jade', e)}
