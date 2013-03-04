@@ -526,7 +526,7 @@
 
     }, // end initMobileNav
     resetMobileNav : function() {
-      console.log("resetMobileNav");
+
       var self = this;
       self.hideMobileNav();
       $('#btn-mobile-nav').off(self.tapOrClick);
@@ -561,7 +561,6 @@
       self.mobileNavVisible = true;
     },
     hideMobileNav : function() {
-      console.log("hideMobileNav");
       var self = this;
       self.hideMobileBackdrop();
 
