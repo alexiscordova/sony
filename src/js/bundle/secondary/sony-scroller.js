@@ -288,14 +288,17 @@
         self.isPaginated = self._paginate();
       }
 
-      // Set the width of the element containing all the items
-      if ( self.isCarouselMode ) {
-        self._setItemWidths();
-      }
+      // If this is running on init, we've already set the values, so skip it
+      if ( !isInit ) {
+        // Set the width of the element containing all the items
+        if ( self.isCarouselMode ) {
+          self._setItemWidths();
+        }
 
-      // We need to update the container's width
-      if ( !isInit && (self.isCarouselMode || self.isFreeMode) ) {
-        self._setContentWidth();
+        // We need to update the container's width
+        if ( self.isCarouselMode || self.isFreeMode ) {
+          self._setContentWidth();
+        }
       }
 
       // When `isPaginated` or `isCarouselMode`, we're using iscroll, which needs to be updated.
