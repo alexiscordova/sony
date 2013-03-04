@@ -47,7 +47,17 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
     } // tcc-content-module
 
-    .article{     
+    .article{ 
+      &.default,
+      &.news,
+      &.event{
+        .p4{
+          max-height: 54px;
+          overflow: hidden;
+        }
+      }
+
+
       &.featured{       
         .lt3{
           margin-top:14px;
@@ -85,7 +95,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         height:auto;
         //border: 1px solid green;
       } // end .center-content
-
 
       &.instagram{
         table{
@@ -319,17 +328,17 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       padding:0;
 
       .icon-container{
-        position: absolute;
-        top:0;
-        left:80px;
-
-        padding: px-em(10px); ;
+        display: inline-block;
+        padding: 0;
+        margin: 0 5px 0 0;
       } // .icon-container
 
      [class*="fonticon-10-dot"]{
         font-size: px-em(40px); 
 
         &.white-bg{
+          left: 0;
+          margin-left: 0;
           width:40px;
           height:40px;
         } // end .white-bg
@@ -340,6 +349,11 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       .fonticon-15-twitter,
       .fonticon-15-instagram {
         font-size: px-em(21px);
+        width: 40px;
+        height: 40px;
+        padding-top: 9px;
+        margin: 0;
+        z-index: 2;        
       } // end .fonticons
 
      .social-btn{
