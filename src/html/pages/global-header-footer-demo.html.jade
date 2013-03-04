@@ -2,62 +2,63 @@
 title: Global Header/Footer Demo
 description: Global Header/Footer Demo
 ---
+include ../partials/includes/jade-helpers.jade
 doctype 5
 !{partial('includes/ieconditionals.html')}
 
 l = {"locals":locals}
-  head
-    !{partial('includes/head.html.jade', l)}
+head
+  !{partial('includes/head.html.jade', l)}
 
-  body
-    #page-wrap-outer.page-wrap-outer
-      #page-wrap-inner.page-wrap-inner
-        !{partial('modules/global-header.html.jade', l)}
+body
 
-        div#main.container.m-full-bleed(role='main', style='background: rgb(70, 70, 70);')
+  #page-wrap-outer.page-wrap-outer
+    #page-wrap-inner.page-wrap-inner
+      e = {"locals":locals, "data":data('global-header/default.json'), "sample_session_data":data('global-header/sample_session_data.json'), "sample_search_results":data('global-header/sample_search_results.json')}
+      !{partial('modules/global-header.html.jade', e)}
 
-          .bs-docs-grid
-            .div(style="height:400px;")
-              //- ul.the-icons.clearfix
-              //-   li
-              //-     i.fonticon-10-favorite.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-10-favorite
-              //-   li
-              //-     i.fonticon-10-newsletter.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-10-newsletter
-              //-   li
-              //-     i.fonticon-10-registered.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-10-registered
-              //-   li
-              //-     i.fonticon-10-support.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-10-support
-              //-   li
-              //-     i.fonticon-15-popup.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-15-popup
-              //-   li
-              //-     i.fonticon-15-twitter.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-15-twitter
-              //-   li
-              //-     i.fonticon-15-facebook-sm.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-15-facebook-sm
-              //-   li
-              //-     i.fonticon-15-gplus.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-15-gplus
-              //-   li
-              //-     i.fonticon-15-youtube.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-15-youtube
-              //-   li
-              //-     i.fonticon-40-battery.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-40-battery
-              //-   li
-              //-     i.fonticon-60-win8.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-60-win8
-              //-   li
-              //-     i.fonticon-60-sony.old-ie-font-fix-white(aria-hidden='true')
-              //-     | fonticon-60-sony
+      div#main.container.m-full-bleed(role='main')
 
+        .bs-docs-grid(style="height:400px; background: rgb(70, 70, 70);")
+        //-     ul.the-icons.clearfix
+        //-       li
+        //-         i.fonticon-10-favorite.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-10-favorite
+        //-       li
+        //-         i.fonticon-10-newsletter.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-10-newsletter
+        //-       li
+        //-         i.fonticon-10-registered.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-10-registered
+        //-       li
+        //-         i.fonticon-10-support.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-10-support
+        //-       li
+        //-         i.fonticon-15-popup.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-15-popup
+        //-       li
+        //-         i.fonticon-15-twitter.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-15-twitter
+        //-       li
+        //-         i.fonticon-15-facebook-sm.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-15-facebook-sm
+        //-       li
+        //-         i.fonticon-15-gplus.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-15-gplus
+        //-       li
+        //-         i.fonticon-15-youtube.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-15-youtube
+        //-       li
+        //-         i.fonticon-40-battery.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-40-battery
+        //-       li
+        //-         i.fonticon-60-win8.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-60-win8
+        //-       li
+        //-         i.fonticon-60-sony.old-ie-font-fix-white(aria-hidden='true')
+        //-         | fonticon-60-sony
 
-        !{partial('modules/global-footer.html.jade', l)}
-        !{partial('includes/foot.html.jade', l)}
+      e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
+      !{partial('modules/global-footer.html.jade', e)}
+      !{partial('includes/foot.html.jade', l)}
 
-</html>

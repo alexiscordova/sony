@@ -12,7 +12,7 @@ l = {"locals": locals}
   script(src = "js/libs/modernizr-2.6.2.js")
   link(rel="stylesheet", href="css/styles.css")
 
-  <!--[if (gte IE 9)|!(IE)]><!-->
+  <!--[if (gt IE 9)|!(IE)]><!-->
   link(rel="stylesheet", href="css/responsive.css")
   <!--<![endif]-->
 
@@ -20,7 +20,7 @@ l = {"locals": locals}
     hrf = "css/modules/" + name.replace(/.scss/g, '.css')
       link(rel="stylesheet", href= hrf)
 
-  <!--[if (gte IE 9)|!(IE)]><!-->
+  <!--[if (gt IE 9)|!(IE)]><!-->
   link(rel="stylesheet", href="css/responsive-modules.css")
   <!--<![endif]-->
 

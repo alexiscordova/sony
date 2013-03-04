@@ -9,13 +9,17 @@ doctype 5
 l = {"locals":locals}
 head
 	!{partial('includes/head.html.jade', l)}
-	
+
 body
     #page-wrap-outer.page-wrap-outer
-      #page-wrap-inner.page-wrap-inner        
-        
-        !{partial('modules/global-header.html.jade', l)}
-    	        e = {"locals":locals, "data":data("spec-single-z1/default.json")}        !{partial("modules/spec-single-z1.html.jade", e)}
-    	!{partial('modules/global-footer.html.jade', l)}
+      #page-wrap-inner.page-wrap-inner
+
+        e = {"locals":locals, "data":data('global-header/default.json'), "sample_session_data":data('global-header/sample_session_data.json'), "sample_search_results":data('global-header/sample_search_results.json')}
+        !{partial('modules/global-header.html.jade', e)}
+
+        e = {"locals":locals, "data":data("spec-single-z1/default.json")}
+        !{partial("modules/spec-single-z1.html.jade", e)}
+        e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
+        !{partial('modules/global-footer.html.jade', e)}
 
     !{partial('includes/foot.html.jade', l)}

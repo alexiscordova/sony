@@ -12,7 +12,7 @@
 
 /* Related Products Title */
 .rp-title {
-  margin: 13px 0 4px 0;
+  margin: 74px 0 4px 0;
 }
 
 /* Tabs */
@@ -90,7 +90,7 @@
     .shuffle-container {
       max-width: 1020px;
 
-      .lt-ie10 & {
+      .lt-ie9 & {
         max-width: 1190px; 
       }
 
@@ -103,6 +103,7 @@
 
     .gallery-item .product-img:after{
       padding-top: 86.843137%;
+      padding-top: 70.843137%;
     }
 
     .gallery-item:after {
@@ -152,6 +153,10 @@
         max-height: 534px;
         background: $gray90;
 
+        &:hover {
+          background-color: $gray75;
+        }
+
         .product-img:after {
           padding-top: 44.8979592%;
         }
@@ -170,10 +175,15 @@
 
           .product-img {
             margin-top: 5%;
+            background-color: transparent;
+
+            @include transition(none);
 
             &:hover {
-              background-color: $gray90;
-            }            
+              background-color: transparent !important;
+
+            }
+          
           }
 
           .product-name {
@@ -250,7 +260,7 @@
       .gallery-item {
         overflow: inherit;
 
-        .lt-ie10 & {
+        .lt-ie9 & {
 
           &.normal {
             width: 219px;
@@ -305,6 +315,7 @@
             color: $gray20;
           }
         }
+
       }
 
       .gallery-item.plate .promo-content {
@@ -445,7 +456,7 @@
       width: 100%;
       height: 100%;
 
-      .lt-ie10 & {
+      .lt-ie9 & {
         min-width: 1190px;
       }
       
@@ -467,7 +478,7 @@
         overflow: hidden;
         -webkit-backface-visibility: hidden;
 
-        .lt-ie10 & {
+        .lt-ie9 & {
           min-width: 1190px;
           max-width: 1190px;
           width: 1190px;

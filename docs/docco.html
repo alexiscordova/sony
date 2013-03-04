@@ -17,19 +17,18 @@
 
   <!-- FONTS -->
   <!--[if lt IE 9]>
+    <link rel="stylesheet" href="fonts/fonts-eot.css">
     <link rel="stylesheet" href="fonts/icons-eot.css">
   <![endif]-->
-
   <!--[if (gte IE 9)|!(IE)]><!-->
     <script type="text/javascript">
-      // Android needs otf/ttf icon-fonts, everybody else is good with woff.
-      var fontIconType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "ttf" : "woff";
+      // Android needs otf/ttf fonts.
+      var fontType = navigator.userAgent.toLowerCase().indexOf("android") > -1 ? "otf" : "woff";
+      var fontIconType = fontType === "otf" ? "ttf" : fontType; // fontIcons are ttf instead of otf.
+      document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-fonts-"+fontType+".css'%3E"));
       document.write(unescape("%3Clink rel='stylesheet' href='fonts/b64-icons-"+fontIconType+".css'%3E"));
     </script>
   <!--<![endif]-->
-
-  <!-- FONTS.COM -->
-  <script type="text/javascript" src="http://fast.fonts.com/jsapi/8fbb71aa-d686-4248-9f02-d25e0012fe0a.js"></script>
 
 
 
@@ -84,7 +83,7 @@
           </div>
         </div>
       </div>
-    </div><header id="overview" class="jumbotron subhead"><div class="container-px-width"><h2 class="bs-docs-heading">JS Documentation</h2><p class="p1">Documentation for each class may be found on the links below.</p></div></header><div class="container-px-width"><ul><li><a href="docco/brightcove-builder.html">brightcove-builder.html</a></li><li><a href="docco/debug_toggle.html">debug_toggle.html</a></li><li><a href="docco/editorial-dual-viewer-e9.html">editorial-dual-viewer-e9.html</a></li><li><a href="docco/exports.html">exports.html</a></li><li><a href="docco/form-actions.html">form-actions.html</a></li><li><a href="docco/global-nav.html">global-nav.html</a></li><li><a href="docco/hotspot_explorer.html">hotspot_explorer.html</a></li><li><a href="docco/iq.html">iq.html</a></li><li><a href="docco/jodo.rangecontrol.1.4.html">jodo.rangecontrol.1.4.html</a></li><li><a href="docco/jquery.shuffle.html">jquery.shuffle.html</a></li><li><a href="docco/jquery.simpleknob.html">jquery.simpleknob.html</a></li><li><a href="docco/jquery.simplescroll.html">jquery.simplescroll.html</a></li><li><a href="docco/jquery.viewport.html">jquery.viewport.html</a></li><li><a href="docco/primary-tout-p1-d7.html">primary-tout-p1-d7.html</a></li><li><a href="docco/related-products.html">related-products.html</a></li><li><a href="docco/sony-draggable.html">sony-draggable.html</a></li><li><a href="docco/sony-evenheights.html">sony-evenheights.html</a></li><li><a href="docco/sony-gallery.html">sony-gallery.html</a></li><li><a href="docco/sony-global-analytics.html">sony-global-analytics.html</a></li><li><a href="docco/sony-global-settings.html">sony-global-settings.html</a></li><li><a href="docco/sony-global-utilities.html">sony-global-utilities.html</a></li><li><a href="docco/sony-global.html">sony-global.html</a></li><li><a href="docco/sony-navigationdots.html">sony-navigationdots.html</a></li><li><a href="docco/sony-one-carousel.html">sony-one-carousel.html</a></li><li><a href="docco/sony-paddles.html">sony-paddles.html</a></li><li><a href="docco/sony-scroller.html">sony-scroller.html</a></li><li><a href="docco/sony-sequencer.html">sony-sequencer.html</a></li><li><a href="docco/sony-stickytabs.html">sony-stickytabs.html</a></li><li><a href="docco/sony-tab.html">sony-tab.html</a></li><li><a href="docco/spec-multi-z2.html">spec-multi-z2.html</a></li><li><a href="docco/spec-single-z1.html">spec-single-z1.html</a></li><li><a href="docco/tertiary-t1-t5-module.html">tertiary-t1-t5-module.html</a></li><li><a href="docco/ux-marketing-convergence-e14.html">ux-marketing-convergence-e14.html</a></li></ul></div><footer class="footer">
+    </div><header id="overview" class="jumbotron subhead"><div class="container-px-width"><h2 class="bs-docs-heading">JS Documentation</h2><p class="p1">Documentation for each class may be found on the links below.</p></div></header><div class="container-px-width"><ul><li><a href="docco/brightcove-builder.html">brightcove-builder.html</a></li><li><a href="docco/debug_toggle.html">debug_toggle.html</a></li><li><a href="docco/editorial-dual-viewer-e9.html">editorial-dual-viewer-e9.html</a></li><li><a href="docco/exports.html">exports.html</a></li><li><a href="docco/form-actions.html">form-actions.html</a></li><li><a href="docco/global-nav.html">global-nav.html</a></li><li><a href="docco/hotspot_explorer.html">hotspot_explorer.html</a></li><li><a href="docco/iq.html">iq.html</a></li><li><a href="docco/jodo.rangecontrol.1.4.html">jodo.rangecontrol.1.4.html</a></li><li><a href="docco/jquery.shuffle.html">jquery.shuffle.html</a></li><li><a href="docco/jquery.simpleknob.html">jquery.simpleknob.html</a></li><li><a href="docco/jquery.simplescroll.html">jquery.simplescroll.html</a></li><li><a href="docco/jquery.viewport.html">jquery.viewport.html</a></li><li><a href="docco/one-sony-carousel-s2.html">one-sony-carousel-s2.html</a></li><li><a href="docco/primary-tout-p1-d7.html">primary-tout-p1-d7.html</a></li><li><a href="docco/related-products.html">related-products.html</a></li><li><a href="docco/sony-draggable.html">sony-draggable.html</a></li><li><a href="docco/sony-evenheights.html">sony-evenheights.html</a></li><li><a href="docco/sony-gallery.html">sony-gallery.html</a></li><li><a href="docco/sony-global-analytics.html">sony-global-analytics.html</a></li><li><a href="docco/sony-global-settings.html">sony-global-settings.html</a></li><li><a href="docco/sony-global-utilities.html">sony-global-utilities.html</a></li><li><a href="docco/sony-global.html">sony-global.html</a></li><li><a href="docco/sony-navigationdots.html">sony-navigationdots.html</a></li><li><a href="docco/sony-paddles.html">sony-paddles.html</a></li><li><a href="docco/sony-scroller.html">sony-scroller.html</a></li><li><a href="docco/sony-sequencer.html">sony-sequencer.html</a></li><li><a href="docco/sony-stickytabs.html">sony-stickytabs.html</a></li><li><a href="docco/sony-tab.html">sony-tab.html</a></li><li><a href="docco/spec-multi-z2.html">spec-multi-z2.html</a></li><li><a href="docco/spec-single-z1.html">spec-single-z1.html</a></li><li><a href="docco/tertiary-t1-t5-module.html">tertiary-t1-t5-module.html</a></li><li><a href="docco/ux-marketing-convergence-e14.html">ux-marketing-convergence-e14.html</a></li></ul></div><footer class="footer">
       <div class="container-px-width">
         <p class="pull-right"><a href="#">Back to top</a></p>
         <p>&#169; Odopod - Proprietary and Confidential.</p>
