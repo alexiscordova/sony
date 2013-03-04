@@ -205,16 +205,39 @@
 
   */
   .soc-item {
+    @include transition(opacity $transitionFast ease-in);
     position: relative;
     display: block;
     height: 100%;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
     cursor: pointer;
+    opacity: 0;
+
+    &.on {
+      opacity: 1;
+    }
+
+    article {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .soc-image {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
 
     .no-touch & {
-      @include fadeoutOnHover();
+
+      article {
+        @include fadeoutOnHover('.soc-image');
+      }
 
       &:hover {
 

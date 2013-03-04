@@ -13,6 +13,7 @@ SONY.Settings = (function(window, document, Modernizr) {
   'use strict';
 
   var self = {},
+      ua = navigator.userAgent,
       transEndEventNames = {
         'WebkitTransition' : 'webkitTransitionEnd',
         'MozTransition'    : 'transitionend',
@@ -21,12 +22,12 @@ SONY.Settings = (function(window, document, Modernizr) {
         'transition'       : 'transitionend'
       };
 
-  self.isIPhone = (/iphone|ipod/gi).test(navigator.userAgent);
-  self.isIOS = (/iphone|ipod|ipad/gi).test(navigator.userAgent);
-  self.isAndroid = (/android/gi).test(navigator.userAgent);
-  self.isPS3 = (/playstation 3/gi).test(navigator.userAgent);
-  self.isSonyTabletS = (/sony tablet s/gi).test(navigator.userAgent);
-  // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test(navigator.userAgent);
+  self.isIPhone = (/iphone|ipod/gi).test( ua );
+  self.isIOS = (/iphone|ipod|ipad/gi).test( ua );
+  self.isAndroid = (/android/gi).test( ua );
+  self.isPS3 = (/playstation 3/gi).test( ua );
+  self.isSonyTabletS = (/sony tablet s/gi).test( ua );
+  // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );
 
   self.isLTIE9 = SONY.$html.hasClass('lt-ie9');
 

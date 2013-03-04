@@ -50,14 +50,7 @@
         'drag': window.iQ.update
       });
 
-      self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
-      self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
-      self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
-
-      SONY.on('global:resizeDebounced-200ms', function(){
-        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
-      });
-
+      self.bindEvents();
       self.$cachedSlides = self.$slides.detach();
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find('.soc-item').remove();
@@ -79,6 +72,24 @@
       }
 
       self.gotoSlide(0);
+    },
+
+    'bindEvents': function() {
+
+      var self = this;
+
+      self.$el.on('sonyDraggable:dragStart',  $.proxy(self.dragStart, self));
+      self.$el.on('sonyDraggable:dragEnd',  $.proxy(self.dragEnd, self));
+
+      self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
+
+      self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
+        $(this).closest('.soc-item').addClass('on');
+      });
+
+      SONY.on('global:resizeDebounced-200ms', function(){
+        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - 1]));
+      });
     },
 
     // Create or restore the default slide layout.
