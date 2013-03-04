@@ -114,7 +114,7 @@ mixin featuredGallery( submodules, gallery, type )
           !{locals.partial( path, e )}
 
     .grid.see-all
-      a.btn.btn-wide(href="#")= gallery.callout
+      a.btn.btn-small(href=gallery.href)= gallery.callout
 
 
 mixin detailedGallery( submodules, gallery, type )
@@ -246,6 +246,7 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
 
 mixin productStrips( submodules, strips, type )
   submodules = submodules || data.submodules
+  type = type || 'accessory'
   section
     //- .slide-toggle-parent.container
     //-   button.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target="#IDGOESHERE")
@@ -283,7 +284,7 @@ mixin productStrips( submodules, strips, type )
             count = 0
             each module in submodules
               d = locals.data(module.data)
-              if d.type == "accessory" && d.subtype == strip.subtype && count < 5
+              if d.type == type && d.subtype == strip.subtype && count < 5
                 - d.layout = layout3
                 - d.view = "basic"
                 e = { "locals" : locals, "data" : d }
