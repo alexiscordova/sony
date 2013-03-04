@@ -496,18 +496,17 @@
 
 .navmenu-w-search{
   @include hideshow-navmenu-hide(right);
-  .lt-ie9 &{
+  .lt-ie10 &{
     height: 100%;
     overflow: visible;
   }
   .reveal-transition-container{
     overflow:hidden;
     .lt-ie10 &{
-      overflow:visible;
+      overflow:visible!important;
       min-height: 100%;
       height: 110%;
       position: relative;
-      width: 100%;
     }
   }
   .fonticon-10-arrowhead-up.nav-indicator{
