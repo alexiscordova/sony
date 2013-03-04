@@ -420,12 +420,7 @@
           if (opening) {
            $navTray.addClass('navtray-w-visible');
           } else {
-<<<<<<< HEAD
            $navTray.removeClass('navtray-w-visible');
-=======
-       
-            $navTray.removeClass('navtray-w-visible');
->>>>>>> master
           }
 
         }, 10);
@@ -521,7 +516,6 @@
       $thInput.on('focus', function() {
         if ($('html').hasClass('bp-nav-mobile')) {
           self.initMobileNavIScroll();
-           $('#navmenu-w-search .reveal-transition-container').attr('style','overflow:visble;zoom:1;');
         }
         $('.page-wrap-inner').addClass("show-mobile-search-results");
       }).on('blur', function() {
