@@ -51,8 +51,8 @@
                 - gcc = ''
 
               .soc-item(class=c)(class=s)
-                .soc-image.iq-img(class=c, data-src=item.backgroundImgSrc)
                 article
+                  .soc-image.iq-img(class=c, data-src=item.backgroundImgSrc)
                   .soc-item-content(class=contentType)(class=textStyle)(class=alignment)(class=s)(class=mpc)(class=gcwc)
                     div(class=gcc)
 
@@ -84,6 +84,7 @@
                         - counterText = item.counter.total + ' ' + item.counter.text
                         h3.l2= counterText
 
+                aside
                   if s == 'content-8'
                     if item.miniPromo
                       a.mini-promo(class=contentType)(class=textStyle)(class=alignment)(class=s)(class='mini-promo-layout-' + item.miniPromo.layout)(href=item.miniPromo.link)
