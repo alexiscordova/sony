@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 (function($, Modernizr, window, undefined) {
-  // 'use strict';
+  'use strict';
 
   // Start module
   var GlobalNav = function($container) {
@@ -78,7 +78,7 @@
       //   }
       // });
 
-      if (window.enquire) {
+      if (window.enquire && !$('html').hasClass('lt-ie10')) {
 
         // switch to desktop nav
         window.enquire.register("(min-width: " + (self.mobileNavThreshold + 1) + "px)", {
@@ -201,7 +201,7 @@
           }
 
           $thNavBtn.on(thTrigger, function() {
-            
+          
             // var $thNavBtn = $(this);
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
@@ -387,13 +387,14 @@
       var self = this, startHeight, endHeight, expandedHeight = $navTray.outerHeight();
 
       $navTray.data('expandedHeight', expandedHeight);
+      
 
       if (opening) {
         startHeight = expandedHeight;
         endHeight = '1px';
         // if ie 7,8 and 9, we remove the animation
         // **TODO** add jquery animation for ie9+
-        if ($('html').hasClass('lt-ie10')) {
+        if ($('html').hasClass('lt-ie9')) {
           startHeight = expandedHeight;
         }
       } else {
@@ -403,7 +404,7 @@
 
         // if ie 7,8 and 9, we remove the animation
         // **TODO** add jquery animation for ie9+
-        if ($('html').hasClass('lt-ie10')) {
+        if ($('html').hasClass('lt-ie9')) {
           endHeight = expandedHeight;
         }
       }
@@ -417,21 +418,10 @@
          // $navTray.css('height', endHeight).one(self.transitionEnd, onNavTrayComplete);
           var elemHeight = $navTray.find('.navtray').height();
           if (opening) {
-            /*
-            $navTray.animate({
-                            top: 64
-                            }, 2000,'easeOutBounce', function() {
-                            // Animation complete.
-                        });*/
-            
            $navTray.addClass('navtray-w-visible');
           } else {
-       /*
-           $navTray.animate({
-                     top: -999
-                     }, 500,'easeOutQuad');*/
        
-         $navTray.removeClass('navtray-w-visible');
+            $navTray.removeClass('navtray-w-visible');
           }
 
         }, 10);
