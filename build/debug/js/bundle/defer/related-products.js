@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = true;
+      self.DEBUG                  = false;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
@@ -96,12 +96,8 @@
       self.isTabletMode    = false;
       self.accelerationPos = 0;
 
-
-
       //Startup
       self.init();
-
-
 
     };
 
@@ -602,9 +598,23 @@
 
         self.$win.on('resize.rp', $.debounce(50 , function() {
 
+          if(self.$win.width() < 479){
+            self.scrollerModule.centerItems = true;
+          }else{
+            self.scrollerModule.centerItems = false;
+          }
+          
           var containerWidth = self.$el.width(),
-          gutterWidth        = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-          colWidth           = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+          gutterWidth        = 0,
+          colWidth           = 0;
+
+          if(self.$win.width() > 767){
+            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
+            colWidth    = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+          }else{
+            gutterWidth = 12.745098039215685;
+            colWidth    = 119.80392156862746;
+          }
 
           self.scrollerModule.setGutterWidth(gutterWidth);
 
@@ -621,13 +631,16 @@
             'margin-top' : '20px'
           });
 
-          var newContainerHeight = self.$el.find('.gallery-item.normal').first().outerHeight(true)  + 'px';
 
+          var $oneProduct = self.$el.find('.gallery-item.normal').first(),
+          newContainerHeight = $oneProduct.find('.product-content').outerHeight(true) + $oneProduct.find('.product-img').height();
+          newContainerHeight += 50; //spacing for navigation dots
+
+      
           self.$el.css({
             'height'     : newContainerHeight,
             'max-height' : newContainerHeight,
             'min-height' : newContainerHeight
-            /*'min-width'  : 550 + 'px'*/
           });
 
         }));
