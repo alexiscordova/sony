@@ -261,6 +261,10 @@ if their interaction time and movements are below certain thresholds.</p>       
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
+      <span class="keyword">if</span> ( Modernizr.touch ) {
+        <span class="keyword">return</span>;
+      }
+
       self.$el.sonyPaddles();
 
       self.$el.on(<span class="string">'oneSonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
