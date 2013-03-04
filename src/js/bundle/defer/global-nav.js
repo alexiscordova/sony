@@ -67,17 +67,6 @@
       // Setting up enquire listeners.
       // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
 
-      // this should be moved to somewhere global.
-      // var bpLtValues = "bp-lt-1400 bp-lt-1200 bp-lt-1024 bp-lt-980 bp-lt-768 bp-lt-568 bp-lt-480",
-      //   bpGteValues = "bp-gte-1400 bp-gte-1200 bp-gte-1024 bp-gte-980 bp-gte-768 bp-gte-568 bp-gte-480",
-      //   bpLtValues = bpValues + " " + bpGteValues;
-      // //
-      // window.enquire.register("(min-width: 48em)", { // 768
-      //   match : function() {
-      //     $('html').removeClass(bpLtValues).addClass(bpGteValues.split(" bp-gte-568")[0] + bpGteValues.split(" bp-lt-568")[0]);
-      //   }
-      // });
-
       if (window.enquire && !$('html').hasClass('lt-ie10')) {
 
         // switch to desktop nav
@@ -507,6 +496,7 @@
     // MOBILE NAV
     initMobileNav : function() {
       var self = this;
+
       $('#btn-mobile-nav').on(self.tapOrClick, function() {
         if (!self.mobileNavVisible) {
           self.showMobileNav();
@@ -517,7 +507,7 @@
       var $thInput = $('#nav-search-input');
       $thInput.on('focus', function() {
         if ($('html').hasClass('bp-nav-mobile')) {
-          self.initMobileNavIScroll();
+          SONY.initMobileNavIScroll();
         }
         $('.page-wrap-inner').addClass("show-mobile-search-results");
       }).on('blur', function() {
@@ -528,7 +518,7 @@
         }
       }).closest('.input-group').find('.input-clear-btn').on(self.tapOrClick, function() {
         if ($('html').hasClass('bp-nav-mobile')) {
-          self.initMobileNavIScroll();
+          SONY.initMobileNavIScroll();
           $('.page-wrap-inner').removeClass("show-mobile-search-results");
           setTimeout(function() {
             $thInput.trigger('blur');
@@ -538,6 +528,7 @@
 
     }, // end initMobileNav
     resetMobileNav : function() {
+      console.log("resetMobileNav");
       var self = this;
       self.hideMobileNav();
       $('#btn-mobile-nav').off(self.tapOrClick);
@@ -564,7 +555,7 @@
         $inner.height(innerHeight);
 
         setTimeout(function() {// make sure heights are already set before initializing iScroll.
-          self.initMobileNavIScroll();
+          SONY.initMobileNavIScroll();
         }, 1);
       }
 
@@ -572,50 +563,18 @@
       self.mobileNavVisible = true;
     },
     hideMobileNav : function() {
+      console.log("hideMobileNav");
       var self = this;
       self.hideMobileBackdrop();
 
-      $('#page-wrap-inner').one(self.transitionEnd, function() {
-        // wait until the $('#page-wrap-inner') is done animating closed before destroying the iScroll.
-        self.destroyMobileNavIScroll();
-      });
+      if (self.mobileNavVisible){
+        $('#page-wrap-inner').one(self.transitionEnd, function() {
+          // wait until the $('#page-wrap-inner') is done animating closed before destroying the iScroll.
+          SONY.destroyMobileNavIScroll();
+        });
+      }
       $('#page-wrap-inner').removeClass('show-mobile-menu');
       self.mobileNavVisible = false;
-    },
-    initMobileNavIScroll : function() {
-      var self = this;
-      // if there's alreaddy a mobileNavIScroll, refresh it.
-      if (!!self.mobileNavIScroll) {
-        $('.nav-mobile-scroller').css('height', '100%');
-        // self.mobileNavIScroll.refresh();
-        // if not, init it.
-      } else {
-        self.mobileNavIScroll = new window.IScroll('nav-outer-container', {
-          vScroll : true,
-          hScroll : false,
-          hScrollbar : false,
-          snap : false,
-          momentum : true,
-          bounce : false
-        });
-        self.mobileNavIScroll.options.onBeforeScrollStart = function(e) {
-          var target = e.target;
-
-          while ( target.nodeType != 1 ) {
-            target = target.parentNode;
-          }
-
-          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
-            e.preventDefault();
-          }
-        };
-      }
-    },
-    destroyMobileNavIScroll : function() {
-      var self = this;
-      !!self.mobileNavIScroll && self.mobileNavIScroll.destroy();
-      self.mobileNavIScroll = false;
-      self.$pageWrapOuter.css('height', '');
     },
 
     showMobileBackdrop : function() {
@@ -728,7 +687,8 @@
   $.fn.globalNav = function(opts) {
     var args = Array.prototype.slice.apply(arguments);
     return this.each(function() {
-      var self = $(this), globalNav = self.data('globalNav');
+      var self = $(this), 
+        globalNav = self.data('globalNav');
 
       // If we don't have a stored globalNav, make a new one and save it
       if (!globalNav) {
@@ -752,6 +712,46 @@
   $.fn.globalNav.settings = {
     isTouch : !!('ontouchstart' in window ),
     isInitialized : false
+  };
+
+
+
+  SONY.initMobileNavIScroll = function() {
+    console.log("initMobileNavIScroll");
+    var globalNav = $('.nav-wrapper').data('globalNav');
+    // if there's alreaddy a mobileNavIScroll, refresh it.
+    if (!!globalNav.mobileNavIScroll) {
+      $('.nav-mobile-scroller').css('height', '100%');
+      globalNav.mobileNavIScroll.refresh();
+      // if not, init it.
+    } else {
+      globalNav.mobileNavIScroll = new window.IScroll('nav-outer-container', {
+        vScroll : true,
+        hScroll : false,
+        hScrollbar : false,
+        snap : false,
+        momentum : true,
+        bounce : false
+      });
+      globalNav.mobileNavIScroll.options.onBeforeScrollStart = function(e) {
+        var target = e.target;
+
+        while ( target.nodeType != 1 ) {
+          target = target.parentNode;
+        }
+
+        if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
+          e.preventDefault();
+        }
+      };
+    }
+  };
+  SONY.destroyMobileNavIScroll = function() {
+    console.log("destroyMobileNavIScroll");
+    var globalNav = $('.nav-wrapper').data('globalNav');
+    !!globalNav.mobileNavIScroll && globalNav.mobileNavIScroll.destroy();
+    globalNav.mobileNavIScroll = false;
+    globalNav.$pageWrapOuter.css('height', '');
   };
 
 })(jQuery, Modernizr, window);
