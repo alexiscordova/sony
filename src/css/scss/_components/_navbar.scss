@@ -218,7 +218,10 @@
   }
 }
 
-
+.lt-ie10 .nav-outer-container {
+  z-index: 999;
+  position: relative;
+}
 
 .nav-primary{
   margin-left:2%;
@@ -322,7 +325,7 @@
 .nav-primary{
   .nav-li-store .fonticon-10-cart,
   .nav-li-support .fonticon-10-support,
-  .nav-li-sites-mobile{
+  .nav-li-universal-mobile{
     display:none;
   }
 }
@@ -493,9 +496,19 @@
 
 .navmenu-w-search{
   @include hideshow-navmenu-hide(right);
-
+  .lt-ie9 &{
+    height: 100%;
+    overflow: visible;
+  }
   .reveal-transition-container{
     overflow:hidden;
+    .lt-ie10 &{
+      overflow:visible;
+      min-height: 100%;
+      height: 110%;
+      position: relative;
+      width: 100%;
+    }
   }
   .fonticon-10-arrowhead-up.nav-indicator{
     right:17px;
@@ -521,7 +534,7 @@
     width: 215px;
     padding: 11px 0 9px;
     overflow:hidden;
-
+    
     .navmenu-list-prefixed{
       // border-bottom:solid 1px $grayLightish;
       // padding-bottom:6px;
