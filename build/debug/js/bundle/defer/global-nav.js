@@ -420,7 +420,12 @@
           if (opening) {
            $navTray.addClass('navtray-w-visible');
           } else {
+<<<<<<< HEAD
            $navTray.removeClass('navtray-w-visible');
+=======
+       
+            $navTray.removeClass('navtray-w-visible');
+>>>>>>> master
           }
 
         }, 10);
