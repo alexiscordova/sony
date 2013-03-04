@@ -714,7 +714,6 @@
 
 
   SONY.initMobileNavIScroll = function() {
-    console.log("initMobileNavIScroll");
     var globalNav = $('.nav-wrapper').data('globalNav');
     // if there's alreaddy a mobileNavIScroll, refresh it.
     if (!!globalNav.mobileNavIScroll) {
@@ -754,7 +753,6 @@
     }
   };
   SONY.destroyMobileNavIScroll = function() {
-    console.log("destroyMobileNavIScroll");
     var globalNav = $('.nav-wrapper').data('globalNav');
     !!globalNav.mobileNavIScroll && globalNav.mobileNavIScroll.destroy();
     globalNav.mobileNavIScroll = false;
