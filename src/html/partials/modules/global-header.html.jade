@@ -174,8 +174,15 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             ul.nav.nav-utility(role='role="navigation"') 
               li.nav-li.nav-li-account
                 a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#navmenu-w-account', tabindex='1100') 
-                  | !{data.account.label}
-                  i.fonticon-10-arrowhead-down
+                  if sample_session_data.logged_in === true
+                    - shortUsername = sample_session_data.username
+                    if shortUsername.length > 7
+                      - shortUsername = sample_session_data.username.substr(0,7) + "&hellip;"
+                    span= shortUsername
+                    i.fonticon-10-arrowhead-down
+                  else 
+                    | !{data.account.label}
+                    i.fonticon-10-arrowhead-down
 
                 div.navmenu-w.navmenu-w-account#navmenu-w-account
                   i.fonticon-10-arrowhead-up.nav-indicator
