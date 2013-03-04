@@ -27,17 +27,6 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
 						      a(href=link.link)= link.label
 
 	      .footer-ex.clearfix
-				  .footer-contact.span6.mobile-container-padded(role='navigation')
-				    //-footer-contact and footer-language are flipped in order for mobile. floats make them display in the correct order on desktop. 
-				    p
-				    	- each link, i in data.contact.text_links
-				      	a(href=link.link)= link.label
-
-				    .footer-social-links
-				      - each button, i in data.contact.social_buttons
-					      a(href=button.link, class='footer-social-'+button.id)
-					        i.old-ie-font-fix-gray05(class=button.icon)
-					        span.visuallyhidden= button.label
 
 				  .footer-language.span6.mobile-container-padded
 				    .footer-language-selectors
@@ -64,6 +53,17 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
 						                a(href=lang.link)
 						                  span.dropdown-label-left= lang.id
 						                  span.dropdown-label= lang.label
+
+				  .footer-contact.span6.mobile-container-padded(role='navigation')
+				    p
+				    	- each link, i in data.contact.text_links
+				      	a(href=link.link)= link.label
+
+				    .footer-social-links
+				      - each button, i in data.contact.social_buttons
+					      a(href=button.link, class='footer-social-'+button.id)
+					        i.old-ie-font-fix-gray05(class=button.icon)
+					        span.visuallyhidden= button.label
 
   footer.container.full-bleed-no-max.m-full-bleed.footer-signature-w.mobile-container-padded
 	  .container

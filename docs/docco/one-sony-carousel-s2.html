@@ -50,14 +50,7 @@
         <span class="string">'drag'</span>: window.iQ.update
       });
 
-      self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));
-      self.$el.on(<span class="string">'sonyDraggable:dragEnd'</span>,  $.proxy(self.dragEnd, self));
-      self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
-
-      SONY.on(<span class="string">'global:resizeDebounced-200ms'</span>, <span class="keyword">function</span>(){
-        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
-      });
-
+      self.bindEvents();
       self.$cachedSlides = self.$slides.detach();
       self.$sliderWrapper = self.$slides.first().clone();
       self.$sliderWrapper.find(<span class="string">'.soc-item'</span>).remove();
@@ -79,6 +72,24 @@
       }
 
       self.gotoSlide(<span class="number">0</span>);
+    },
+
+    <span class="string">'bindEvents'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));
+      self.$el.on(<span class="string">'sonyDraggable:dragEnd'</span>,  $.proxy(self.dragEnd, self));
+
+      self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
+
+      self.$el.find(<span class="string">'.iq-img'</span>).on(<span class="string">'iQ:imageLoaded'</span>, <span class="keyword">function</span>(){
+        $(<span class="keyword">this</span>).closest(<span class="string">'.soc-item'</span>).addClass(<span class="string">'on'</span>);
+      });
+
+      SONY.on(<span class="string">'global:resizeDebounced-200ms'</span>, <span class="keyword">function</span>(){
+        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
+      });
     },
 
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
