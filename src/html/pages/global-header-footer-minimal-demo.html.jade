@@ -12,15 +12,16 @@ l = {"locals":locals}
   body
     #page-wrap-outer.page-wrap-outer
       #page-wrap-inner.page-wrap-inner
-        !{partial('modules/global-header-minimal.html.jade', l)}
+        e = {"locals":locals, "minimal":true, "data":data('global-header/default-minimal-header.json'), "sample_session_data":data('global-header/sample_session_data.json'), "sample_search_results":data('global-header/sample_search_results.json')}
+        !{partial('modules/global-header.html.jade', e)}
 
-        div#main.container.m-full-bleed(role='main', style='background: rgb(70, 70, 70);')
+        div#main.container.m-full-bleed(role='main')
+ 
+          //- put content here - the div below is just to add height for the demo.
+          .bs-docs-grid(style="height:400px; background: rgb(70, 70, 70);")
 
-          .bs-docs-grid
-            .div(style="height:400px;")
-
-
-        !{partial('modules/global-footer-minimal.html.jade', l)}
+        e = {"locals":locals, "minimal":true, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
+        !{partial('modules/global-footer.html.jade', e)}
         !{partial('includes/foot.html.jade', l)}
 
 </html>

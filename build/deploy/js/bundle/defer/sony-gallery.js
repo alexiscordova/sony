@@ -652,9 +652,11 @@
 
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
-            self
-              .loadSwatchImages()
-              .displayFilteredSwatchImages();
+            self.loadSwatchImages();
+
+            if ( self.currentFilterColor ) {
+              self.displayFilteredSwatchImages();
+            }
           }, 0);
       }
 
@@ -781,43 +783,47 @@
           itemElementSelector: '.slide'
         });
 
+        self.hasEnabledCarousels = true;
       }
 
       // Go through each possible carousel
-      self.$carousels.each(function(i,e) {
-        var $carousel = $(e),
-            $firstImage;
+      if ( !self.hasEnabledCarousels ) {
+        self.$carousels.each(function(i,e) {
+          var $carousel = $(e),
+              $firstImage;
 
-        // If this call is from the initial setup, we have to wait for the first image to load
-        // to get its height.
-        $firstImage = $carousel.find(':first-child img');
+          // If this call is from the initial setup, we have to wait for the first image to load
+          // to get its height.
+          $firstImage = $carousel.find('img').first();
 
-        if ( $firstImage[0].naturalHeight > 0 ) {
-          initializeScroller( $carousel );
-        } else {
-           $firstImage.on('imageLoaded', function() {
+          if ( $firstImage[0].naturalHeight > 0 ) {
             initializeScroller( $carousel );
-          });
-        }
+          } else {
+             $firstImage.on('imageLoaded', function() {
+              initializeScroller( $carousel );
+            });
+          }
 
-      });
+        });
+      }
     },
 
     destroyCarousels : function() {
-      this.$carousels.scrollerModule('destroy');
+      if ( this.hasEnabledCarousels ) {
+        this.$carousels.scrollerModule('destroy');
+        this.hasEnabledCarousels = false;
+      }
     },
 
-    fixCarousels : function( isInit ) {
+    fixCarousels : function() {
       var self = this;
 
       if ( self.hasCarousels ) {
-        if ( self.hasEnabledCarousels ) {
-          self.destroyCarousels();
-        }
-
         // 980+
         if ( Modernizr.mq('(min-width: 61.25em)') ) {
-          self.initCarousels( isInit );
+          self.initCarousels();
+        } else {
+          self.destroyCarousels();
         }
       }
     },
@@ -1336,11 +1342,11 @@
       // Make all product name heights even
       self.$gridProductNames.evenHeights();
 
-      self.fixCarousels( isInit );
+      SONY.Utilities.forceWebkitRedraw();
+
+      self.fixCarousels();
 
       self.sortByPriority();
-
-      SONY.Utilities.forceWebkitRedraw();
     },
 
     getFavoriteContent : function( $jsFavorite, isActive ) {
@@ -2601,7 +2607,7 @@
       }
 
       if ( gallery ) {
-        gallery.fixCarousels( gallery.isInitialized );
+        gallery.fixCarousels();
       }
     });
 

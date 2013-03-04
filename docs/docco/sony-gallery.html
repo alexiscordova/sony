@@ -579,9 +579,11 @@ Here is where we keep the origial type</p>             </td>             <td cla
 </pre></div>             </td>           </tr>                               <tr id="section-73">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-73">&#182;</a>               </div>               <p>Update iQ images</p>             </td>             <td class="code">               <div class="highlight"><pre>          iQ.update( <span class="literal">true</span> );
 
 </pre></div>             </td>           </tr>                               <tr id="section-74">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-74">&#182;</a>               </div>               <p>Add the .iq-img class to hidden swatch images, then tell iQ to update itself</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>() {
-            self
-              .loadSwatchImages()
-              .displayFilteredSwatchImages();
+            self.loadSwatchImages();
+
+            <span class="keyword">if</span> ( self.currentFilterColor ) {
+              self.displayFilteredSwatchImages();
+            }
           }, <span class="number">0</span>);
       }
 
@@ -702,40 +704,44 @@ Here is where we keep the origial type</p>             </td>             <td cla
           itemElementSelector: <span class="string">'.slide'</span>
         });
 
+        self.hasEnabledCarousels = <span class="literal">true</span>;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Go through each possible carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$carousels.each(<span class="keyword">function</span>(i,e) {
-        <span class="keyword">var</span> $carousel = $(e),
-            $firstImage;
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Go through each possible carousel</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !self.hasEnabledCarousels ) {
+        self.$carousels.each(<span class="keyword">function</span>(i,e) {
+          <span class="keyword">var</span> $carousel = $(e),
+              $firstImage;
 
 </pre></div>             </td>           </tr>                               <tr id="section-82">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-82">&#182;</a>               </div>               <p>If this call is from the initial setup, we have to wait for the first image to load
-to get its height.</p>             </td>             <td class="code">               <div class="highlight"><pre>        $firstImage = $carousel.find(<span class="string">':first-child img'</span>);
+to get its height.</p>             </td>             <td class="code">               <div class="highlight"><pre>          $firstImage = $carousel.find(<span class="string">'img'</span>).first();
 
-        <span class="keyword">if</span> ( $firstImage[<span class="number">0</span>].naturalHeight &gt; <span class="number">0</span> ) {
-          initializeScroller( $carousel );
-        } <span class="keyword">else</span> {
-           $firstImage.on(<span class="string">'imageLoaded'</span>, <span class="keyword">function</span>() {
+          <span class="keyword">if</span> ( $firstImage[<span class="number">0</span>].naturalHeight &gt; <span class="number">0</span> ) {
             initializeScroller( $carousel );
-          });
-        }
+          } <span class="keyword">else</span> {
+             $firstImage.on(<span class="string">'imageLoaded'</span>, <span class="keyword">function</span>() {
+              initializeScroller( $carousel );
+            });
+          }
 
-      });
+        });
+      }
     },
 
     destroyCarousels : <span class="keyword">function</span>() {
-      <span class="keyword">this</span>.$carousels.scrollerModule(<span class="string">'destroy'</span>);
+      <span class="keyword">if</span> ( <span class="keyword">this</span>.hasEnabledCarousels ) {
+        <span class="keyword">this</span>.$carousels.scrollerModule(<span class="string">'destroy'</span>);
+        <span class="keyword">this</span>.hasEnabledCarousels = <span class="literal">false</span>;
+      }
     },
 
-    fixCarousels : <span class="keyword">function</span>( isInit ) {
+    fixCarousels : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       <span class="keyword">if</span> ( self.hasCarousels ) {
-        <span class="keyword">if</span> ( self.hasEnabledCarousels ) {
-          self.destroyCarousels();
-        }
-
 </pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>980+</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( Modernizr.mq(<span class="string">'(min-width: 61.25em)'</span>) ) {
-          self.initCarousels( isInit );
+          self.initCarousels();
+        } <span class="keyword">else</span> {
+          self.destroyCarousels();
         }
       }
     },
@@ -1207,11 +1213,11 @@ Make filters a 2up with a span12 below</p>             </td>             <td cla
 
 </pre></div>             </td>           </tr>                               <tr id="section-132">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-132">&#182;</a>               </div>               <p>Make all product name heights even</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$gridProductNames.evenHeights();
 
-      self.fixCarousels( isInit );
+      SONY.Utilities.forceWebkitRedraw();
+
+      self.fixCarousels();
 
       self.sortByPriority();
-
-      SONY.Utilities.forceWebkitRedraw();
     },
 
     getFavoriteContent : <span class="keyword">function</span>( $jsFavorite, isActive ) {
@@ -2310,7 +2316,7 @@ Disable the gallery (which disableds shuffle and pauses infinite scrolling) for 
       }
 
       <span class="keyword">if</span> ( gallery ) {
-        gallery.fixCarousels( gallery.isInitialized );
+        gallery.fixCarousels();
       }
     });
 
