@@ -685,6 +685,8 @@
               $productImg = $swatch.closest('.product-img').find('.js-product-imgs .js-product-img-main'),
               $swatchImg = $swatch.closest('.product-img').find('.js-product-imgs [data-color="' + color + '"]');
 
+          $swatch.on('click', false);
+
           $swatch.hover(function() {
             // Mouse over, hide the main image, show the swatch image
             if ( self.currentFilterColor ) {
