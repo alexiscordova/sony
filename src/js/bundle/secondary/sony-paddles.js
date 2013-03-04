@@ -57,10 +57,6 @@
 
     'init': function() {
 
-      if ( Modernizr.touch ) {
-        return;
-      }
-
       var self = this;
 
       self.setupPaddles();
