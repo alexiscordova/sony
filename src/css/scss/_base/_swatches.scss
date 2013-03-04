@@ -21,6 +21,10 @@
 
   }
 
+  .lt-ie8 & {
+    float: left;
+  }
+
   &:before,
   &:after {
     position: absolute;
@@ -108,6 +112,14 @@
 // Like btn-group
 .color-swatches > *:not(:last-child) {
   margin-right: px-em(6px);
+
+  .lt-ie8 & {
+    margin-right: px-em(2);
+  }
+}
+
+.lt-ie8 .color-swatches {
+  @include clearfix();
 }
 
 .filter-container [class*="swatch-"] {

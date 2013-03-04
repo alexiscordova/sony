@@ -333,7 +333,7 @@ We saved their function to this reference so we could have our own onScrollEnd</
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           distX = iscroll.absDistX || <span class="number">0</span>,
           distY = iscroll.absDistY || <span class="number">0</span>;
-    
+
 </pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>if vertical scrolling passes threshhold then "lock direction"</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( distX &gt;= (distY + self.threshhold ) ) {
 </pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>prevent the browsers' native scrolling</p>             </td>             <td class="code">               <div class="highlight"><pre>        e.preventDefault();
       }
@@ -360,11 +360,11 @@ Original function is saved as reference (self.onBeforeScrollStart) so we could h
           });
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>If they've defined a callback as well, call it
-We saved their function to this reference so we could have our own onAnimationEnd</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( self.onAnimationEnd ) {
-          self.onAnimationEnd( iscroll );
-        }
+      }
 
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>If they've defined a callback as well, call it
+We saved their function to this reference so we could have our own onAnimationEnd</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( self.onAnimationEnd ) {
+        self.onAnimationEnd.call( iscroll, iscroll );
       }
     },
 

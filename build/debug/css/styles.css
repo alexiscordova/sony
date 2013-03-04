@@ -2788,51 +2788,60 @@ input.search-query {
 /* line 703, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox + label {
   position: relative;
+  display: inline-block;
   cursor: pointer;
   padding: 0;
+  margin: 0;
+  color: #2f353d;
 }
-/* line 712, ../../../src/css/scss/_base/_forms.scss */
+/* line 715, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox + label:before {
   content: '';
-  margin-right: 0.66667em;
+  position: relative;
+  top: -0.15385em;
+  margin-right: 0.76923em;
   display: inline-block;
   vertical-align: text-top;
-  width: 1.46667em;
-  height: 1.46667em;
+  width: 1.69231em;
+  height: 1.69231em;
   border: 1px solid transparent;
   border: 1px solid rgba(47, 53, 61, 0);
   background: white;
-  -webkit-transition: box-shadow 0.15s ease-out, background-color 0.15s ease-out, border-color 0.15s ease-out;
-  transition: box-shadow 0.15s ease-out, background-color 0.15s ease-out, border-color 0.15s ease-out;
+  -webkit-box-shadow: 0 1px 0 #d2d2db;
+  box-shadow: 0 1px 0 #d2d2db;
+  -webkit-transition: box-shadow 0.15s ease-out, background-color 0.15s ease-out, color 0.15s ease-out;
+  transition: box-shadow 0.15s ease-out, background-color 0.15s ease-out, color 0.15s ease-out;
 }
-/* line 725, ../../../src/css/scss/_base/_forms.scss */
+/* line 731, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox + label:after {
   position: absolute;
-  left: .3125em;
+  left: .375em;
   top: .25em;
   opacity: 0;
+  color: #2f353d;
   -webkit-transition: opacity 0.15s ease-out, color 0.15s ease-out;
   transition: opacity 0.15s ease-out, color 0.15s ease-out;
 }
-/* line 734, ../../../src/css/scss/_base/_forms.scss */
+/* line 741, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox:focus + label:before {
   outline: 1px solid #3c3c42;
+  box-shadow: none;
 }
-/* line 740, ../../../src/css/scss/_base/_forms.scss */
+/* line 748, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox:checked + label:before, .generatedcontent .styled-checkbox.active + label:before {
   background: #3c3c42;
 }
-/* line 746, ../../../src/css/scss/_base/_forms.scss */
+/* line 754, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox:checked + label:after, .generatedcontent .styled-checkbox.active + label:after {
   opacity: 1;
   color: white;
 }
-/* line 755, ../../../src/css/scss/_base/_forms.scss */
+/* line 763, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox.disabled + label, .generatedcontent .styled-checkbox[disabled] + label, .generatedcontent .styled-checkbox.disabled:hover + label, .generatedcontent .styled-checkbox[disabled]:hover + label {
   cursor: auto;
   color: #bcbccc;
 }
-/* line 765, ../../../src/css/scss/_base/_forms.scss */
+/* line 773, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox.disabled + label:before, .generatedcontent .styled-checkbox[disabled] + label:before, .generatedcontent .styled-checkbox.disabled:hover + label:before, .generatedcontent .styled-checkbox[disabled]:hover + label:before {
   background-color: transparent;
   background-color: rgba(255, 255, 255, 0);
@@ -2841,32 +2850,32 @@ input.search-query {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 777, ../../../src/css/scss/_base/_forms.scss */
+/* line 785, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent .styled-checkbox.disabled + label:after, .generatedcontent .styled-checkbox[disabled] + label:after, .generatedcontent .styled-checkbox.disabled:hover + label:after, .generatedcontent .styled-checkbox[disabled]:hover + label:after {
   content: none;
 }
 
-/* line 785, ../../../src/css/scss/_base/_forms.scss */
-.generatedcontent.no-touch .styled-checkbox:hover + label:before {
+/* line 793, ../../../src/css/scss/_base/_forms.scss */
+.generatedcontent.no-touch .styled-checkbox:not(.active):not(:checked):not([disabled]):hover + label:before {
   -webkit-box-shadow: none;
   box-shadow: none;
   color: #2f353d;
   background: #f3f4f6;
 }
-/* line 792, ../../../src/css/scss/_base/_forms.scss */
+/* line 801, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent.no-touch .styled-checkbox:hover + label:after {
   opacity: 1;
 }
 
-/* line 797, ../../../src/css/scss/_base/_forms.scss */
+/* line 806, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent.no-opacity .styled-checkbox {
   left: -9999px;
 }
-/* line 801, ../../../src/css/scss/_base/_forms.scss */
+/* line 810, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent.no-opacity .styled-checkbox + label:after {
   display: none;
 }
-/* line 809, ../../../src/css/scss/_base/_forms.scss */
+/* line 818, ../../../src/css/scss/_base/_forms.scss */
 .generatedcontent.no-opacity .styled-checkbox:hover + label:after, .generatedcontent.no-opacity .styled-checkbox:checked + label:after, .generatedcontent.no-opacity .styled-checkbox.active + label:after {
   display: inline-block;
 }
@@ -3755,7 +3764,12 @@ input[type="submit"].btn.btn-mini {
   -webkit-transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
   transition: box-shadow 0.15s ease-out, color 0.15s ease-out, background-color 0.15s ease-out;
 }
-/* line 25, ../../../src/css/scss/_base/_swatches.scss */
+/* line 24, ../../../src/css/scss/_base/_swatches.scss */
+.lt-ie8 [class^="swatch-"],
+.lt-ie8 [class*=" swatch-"] {
+  float: left;
+}
+/* line 29, ../../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:before,
 [class*=" swatch-"]:before, [class^="swatch-"]:after,
 [class*=" swatch-"]:after {
@@ -3764,13 +3778,13 @@ input[type="submit"].btn.btn-mini {
   -webkit-transition: opacity 0.2s ease-out;
   transition: opacity 0.2s ease-out;
 }
-/* line 32, ../../../src/css/scss/_base/_swatches.scss */
+/* line 36, ../../../src/css/scss/_base/_swatches.scss */
 .no-opacity [class^="swatch-"]:before,
 .no-opacity [class*=" swatch-"]:before, .no-opacity [class^="swatch-"]:after,
 .no-opacity [class*=" swatch-"]:after {
   display: none;
 }
-/* line 38, ../../../src/css/scss/_base/_swatches.scss */
+/* line 42, ../../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:before,
 [class*=" swatch-"]:before {
   content: '';
@@ -3783,7 +3797,7 @@ input[type="submit"].btn.btn-mini {
   border-radius: 50%;
   background: #3c3c42;
 }
-/* line 50, ../../../src/css/scss/_base/_swatches.scss */
+/* line 54, ../../../src/css/scss/_base/_swatches.scss */
 [class^="swatch-"]:after,
 [class*=" swatch-"]:after {
   top: 50%;
@@ -3792,25 +3806,25 @@ input[type="submit"].btn.btn-mini {
   margin-top: -0.5625em;
   color: white;
 }
-/* line 58, ../../../src/css/scss/_base/_swatches.scss */
+/* line 62, ../../../src/css/scss/_base/_swatches.scss */
 .active[class^="swatch-"],
 .active[class*=" swatch-"] {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 64, ../../../src/css/scss/_base/_swatches.scss */
+/* line 68, ../../../src/css/scss/_base/_swatches.scss */
 .active[class^="swatch-"]:before,
 .active[class*=" swatch-"]:before, .active[class^="swatch-"]:after,
 .active[class*=" swatch-"]:after {
   opacity: 1;
 }
-/* line 70, ../../../src/css/scss/_base/_swatches.scss */
+/* line 74, ../../../src/css/scss/_base/_swatches.scss */
 .no-opacity .active[class^="swatch-"]:before,
 .no-opacity .active[class*=" swatch-"]:before, .no-opacity .active[class^="swatch-"]:after,
 .no-opacity .active[class*=" swatch-"]:after {
   display: inline-block;
 }
-/* line 75, ../../../src/css/scss/_base/_swatches.scss */
+/* line 79, ../../../src/css/scss/_base/_swatches.scss */
 [disabled][class^="swatch-"],
 [disabled][class*=" swatch-"] {
   border: 1px solid #2f353d;
@@ -3820,40 +3834,59 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 85, ../../../src/css/scss/_base/_swatches.scss */
+/* line 89, ../../../src/css/scss/_base/_swatches.scss */
 [disabled][class^="swatch-"]:focus,
 [disabled][class*=" swatch-"]:focus, [disabled][class^="swatch-"]:hover,
 [disabled][class*=" swatch-"]:hover {
   cursor: auto;
 }
-/* line 90, ../../../src/css/scss/_base/_swatches.scss */
+/* line 94, ../../../src/css/scss/_base/_swatches.scss */
 .active[disabled][class^="swatch-"]:before,
 .active[disabled][class*=" swatch-"]:before {
   opacity: .15;
 }
-/* line 93, ../../../src/css/scss/_base/_swatches.scss */
+/* line 97, ../../../src/css/scss/_base/_swatches.scss */
 .active[disabled][class^="swatch-"]:after,
 .active[disabled][class*=" swatch-"]:after {
   opacity: .7;
 }
-/* line 98, ../../../src/css/scss/_base/_swatches.scss */
+/* line 102, ../../../src/css/scss/_base/_swatches.scss */
 .no-opacity [class^="swatch-"] .active[disabled]:before,
 .no-opacity [class*=" swatch-"] .active[disabled]:before, .no-opacity [class^="swatch-"] .active[disabled]:after,
 .no-opacity [class*=" swatch-"] .active[disabled]:after {
   display: none;
 }
 
-/* line 109, ../../../src/css/scss/_base/_swatches.scss */
+/* line 113, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > *:not(:last-child) {
   margin-right: 0.375em;
 }
+/* line 116, ../../../src/css/scss/_base/_swatches.scss */
+.lt-ie8 .color-swatches > *:not(:last-child) {
+  margin-right: 0.125em;
+}
 
-/* line 113, ../../../src/css/scss/_base/_swatches.scss */
+/* line 121, ../../../src/css/scss/_base/_swatches.scss */
+.lt-ie8 .color-swatches {
+  *zoom: 1;
+}
+/* line 87, ../../../src/css/scss/_base/_mixins.scss */
+.lt-ie8 .color-swatches:before, .lt-ie8 .color-swatches:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+/* line 94, ../../../src/css/scss/_base/_mixins.scss */
+.lt-ie8 .color-swatches:after {
+  clear: both;
+}
+
+/* line 125, ../../../src/css/scss/_base/_swatches.scss */
 .filter-container [class*="swatch-"] {
   cursor: pointer;
 }
 
-/* line 131, ../../../src/css/scss/_base/_swatches.scss */
+/* line 143, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white,
 .swatch-yellow,
 .swatch-lemon {
@@ -3861,77 +3894,77 @@ input[type="submit"].btn.btn-mini {
   box-shadow: 0 1px 0 #d2d2db;
 }
 
-/* line 137, ../../../src/css/scss/_base/_swatches.scss */
+/* line 149, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-black {
   background-color: #1f2024;
 }
 
-/* line 138, ../../../src/css/scss/_base/_swatches.scss */
+/* line 150, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-yellow {
   background-color: #f0b938;
 }
 
-/* line 139, ../../../src/css/scss/_base/_swatches.scss */
+/* line 151, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-purple {
   background-color: #913f99;
 }
 
-/* line 140, ../../../src/css/scss/_base/_swatches.scss */
+/* line 152, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-teal {
   background-color: #31b0cc;
 }
 
-/* line 141, ../../../src/css/scss/_base/_swatches.scss */
+/* line 153, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-white {
   background-color: white;
 }
 
-/* line 142, ../../../src/css/scss/_base/_swatches.scss */
+/* line 154, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-red {
   background-color: #c93434;
 }
 
-/* line 143, ../../../src/css/scss/_base/_swatches.scss */
+/* line 155, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-blue {
   background-color: #2763a3;
 }
 
-/* line 144, ../../../src/css/scss/_base/_swatches.scss */
+/* line 156, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-pink {
   background-color: #c3325f;
 }
 
-/* line 145, ../../../src/css/scss/_base/_swatches.scss */
+/* line 157, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-green {
   background-color: #8bc748;
 }
 
-/* line 146, ../../../src/css/scss/_base/_swatches.scss */
+/* line 158, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-orange {
   background-color: #e87533;
 }
 
-/* line 147, ../../../src/css/scss/_base/_swatches.scss */
+/* line 159, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-silver {
   background-color: #d2d2db;
 }
 
-/* line 148, ../../../src/css/scss/_base/_swatches.scss */
+/* line 160, ../../../src/css/scss/_base/_swatches.scss */
 .swatch-lemon {
   background-color: #fffec9;
 }
 
-/* line 152, ../../../src/css/scss/_base/_swatches.scss */
+/* line 164, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch {
   margin-right: 0;
 }
 
-/* line 155, ../../../src/css/scss/_base/_swatches.scss */
+/* line 167, ../../../src/css/scss/_base/_swatches.scss */
 .color-swatches > .mini-swatch:not(:first-child) {
   margin-left: 0.125em;
 }
 
-/* line 159, ../../../src/css/scss/_base/_swatches.scss */
+/* line 171, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch {
   width: 0.75em;
   height: 0.75em;
@@ -3942,7 +3975,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 170, ../../../src/css/scss/_base/_swatches.scss */
+/* line 182, ../../../src/css/scss/_base/_swatches.scss */
 .mini-swatch:before, .mini-swatch:after {
   content: none;
 }
@@ -3951,9 +3984,10 @@ input[type="submit"].btn.btn-mini {
 .dropup,
 .dropdown {
   position: relative;
+  display: block;
 }
 
-/* line 12, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 13, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle,
 .btn.dropdown-toggle {
   position: relative;
@@ -3964,7 +3998,7 @@ input[type="submit"].btn.btn-mini {
   border: 1px solid #706c78;
   background-color: red;
 }
-/* line 22, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 23, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle i,
 .btn.dropdown-toggle i {
   position: absolute;
@@ -3972,38 +4006,38 @@ input[type="submit"].btn.btn-mini {
   right: 0;
   margin: 16px 16px 0 0;
 }
-/* line 29, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 30, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle:hover,
 .btn.dropdown-toggle:hover {
   background-color: #75717d;
 }
-/* line 32, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 33, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle:active,
 .btn.dropdown-toggle:active {
   background-color: #706c78;
 }
 
-/* line 37, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 38, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle:active,
 .open .dropdown-toggle {
   outline: 0;
 }
 
-/* line 42, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 43, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle.btn-small,
 .dropdown-toggle.btn.btn-small {
   min-width: 129px;
   width: auto;
   padding: 10px 30px 10px 12px;
 }
-/* line 47, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 48, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle.btn-small i,
 .dropdown-toggle.btn.btn-small i {
   font-size: 1.45455em;
   margin: 9px 12px 0 0;
 }
 
-/* line 54, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 55, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle-alt,
 .btn.dropdown-toggle-alt {
   margin: 0;
@@ -4011,12 +4045,12 @@ input[type="submit"].btn.btn-mini {
   border-color: #e4e7eb;
   color: #2f353d;
 }
-/* line 60, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 61, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-toggle-alt:hover,
 .btn.dropdown-toggle-alt:hover {
   background-color: #fafafa;
 }
-/* line 65, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 66, ../../../src/css/scss/_components/_dropdowns.scss */
 .open .dropdown-toggle-alt, .dropdown-toggle-alt:active, .open
 .btn.dropdown-toggle-alt,
 .btn.dropdown-toggle-alt:active {
@@ -4024,7 +4058,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #83838f;
 }
 
-/* line 80, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 81, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-hover-menu,
 .dropdown-menu {
   position: absolute;
@@ -4048,13 +4082,13 @@ input[type="submit"].btn.btn-mini {
   -moz-background-clip: padding;
   background-clip: padding-box;
 }
-/* line 102, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 103, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-hover-menu.pull-right,
 .dropdown-menu.pull-right {
   right: 0;
   left: auto;
 }
-/* line 108, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 109, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-hover-menu .divider,
 .dropdown-menu .divider {
   *width: 100%;
@@ -4065,13 +4099,13 @@ input[type="submit"].btn.btn-mini {
   background-color: #e5e5e5;
   border-bottom: 1px solid white;
 }
-/* line 113, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 114, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-hover-menu.bottom-up,
 .dropdown-menu.bottom-up {
   top: auto;
   bottom: 100%;
 }
-/* line 123, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 124, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-hover-menu a,
 .dropdown-menu a {
   display: block;
@@ -4083,7 +4117,7 @@ input[type="submit"].btn.btn-mini {
   white-space: nowrap;
 }
 
-/* line 134, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 135, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt {
   z-index: 2;
   margin-top: -1px;
@@ -4094,11 +4128,11 @@ input[type="submit"].btn.btn-mini {
   -webkit-box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.12);
 }
-/* line 143, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 144, ../../../src/css/scss/_components/_dropdowns.scss */
 .no-boxshadow .dropdown-menu-alt {
   border-color: #e4e7eb;
 }
-/* line 148, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 149, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt .divider {
   *width: 100%;
   height: 1px;
@@ -4108,7 +4142,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #e5e5e5;
   border-bottom: 1px solid white;
 }
-/* line 152, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 153, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt a {
   font-size: 0.9375em;
   color: #83838f;
@@ -4117,7 +4151,7 @@ input[type="submit"].btn.btn-mini {
   padding: 10px 20px;
 }
 
-/* line 164, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 165, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus,
 .dropdown-submenu:hover > a {
@@ -4134,7 +4168,7 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4572ED', endColorstr='#FF2E60EB', GradientType=0);
 }
 
-/* line 173, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 174, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt li > a:hover,
 .dropdown-menu-alt li > a:focus,
 .dropdown-submenu-alt:hover > a {
@@ -4144,7 +4178,7 @@ input[type="submit"].btn.btn-mini {
   filter: none;
 }
 
-/* line 183, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 184, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .active > a,
 .dropdown-menu .active > a:hover {
   color: white;
@@ -4161,7 +4195,7 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4572ED', endColorstr='#FF2E60EB', GradientType=0);
 }
 
-/* line 191, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 192, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu-alt .active > a,
 .dropdown-menu-alt .active > a:hover {
   color: #83838f;
@@ -4170,41 +4204,41 @@ input[type="submit"].btn.btn-mini {
   filter: none;
 }
 
-/* line 202, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 203, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .disabled > a,
 .dropdown-menu .disabled > a:hover {
   color: #bcbccc;
 }
 
-/* line 206, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 207, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-menu .disabled > a:hover {
   text-decoration: none;
   background-color: transparent;
   cursor: default;
 }
 
-/* line 214, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 215, ../../../src/css/scss/_components/_dropdowns.scss */
 .open {
   *z-index: 1000;
 }
-/* line 219, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 220, ../../../src/css/scss/_components/_dropdowns.scss */
 .open > .dropdown-menu {
   display: block;
 }
-/* line 223, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 224, ../../../src/css/scss/_components/_dropdowns.scss */
 .open .dropdown-toggle-alt {
   z-index: 5;
   border-color: #cccccc #cccccc white;
   border-color: rgba(0, 0, 0, 0.12) rgba(0, 0, 0, 0.12) white;
 }
 
-/* line 232, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 233, ../../../src/css/scss/_components/_dropdowns.scss */
 .pull-right > .dropdown-menu {
   right: 0;
   left: auto;
 }
 
-/* line 244, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 245, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropup .dropdown-menu,
 .navbar-fixed-bottom .dropdown .dropdown-menu {
   top: auto;
@@ -4212,12 +4246,12 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 1px;
 }
 
-/* line 253, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 254, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu {
   position: relative;
 }
 
-/* line 256, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 257, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu > .dropdown-menu {
   top: 0;
   left: 100%;
@@ -4225,12 +4259,12 @@ input[type="submit"].btn.btn-mini {
   margin-left: -1px;
 }
 
-/* line 262, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 263, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
 
-/* line 266, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 267, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu > a:after {
   display: block;
   content: " ";
@@ -4245,18 +4279,18 @@ input[type="submit"].btn.btn-mini {
   margin-right: -10px;
 }
 
-/* line 279, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 280, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown-submenu:hover > a:after {
   border-left-color: white;
 }
 
-/* line 287, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 288, ../../../src/css/scss/_components/_dropdowns.scss */
 .dropdown .dropdown-menu .nav-header {
   padding-left: 20px;
   padding-right: 20px;
 }
 
-/* line 294, ../../../src/css/scss/_components/_dropdowns.scss */
+/* line 295, ../../../src/css/scss/_components/_dropdowns.scss */
 .typeahead {
   margin-top: 2px;
 }
@@ -4350,7 +4384,7 @@ button.close {
 }
 /* line 66, ../../../src/css/scss/_base/_close.scss */
 .box-close-small i {
-  line-height: 18px;
+  line-height: 16px;
 }
 
 /* line 10, ../../../src/css/scss/_components/_navs.scss */
@@ -6278,8 +6312,8 @@ body.modal-open {
   left: 0;
   z-index: 1050;
   width: 100%;
-  height: 550px;
-  margin-top: -275px;
+  height: 34.375em;
+  margin-top: -17.1875em;
 }
 /* line 50, ../../../src/css/scss/_components/_modals.scss */
 .modal.fade {
@@ -6296,20 +6330,54 @@ body.modal-open {
   outline: none;
 }
 
-/* line 63, ../../../src/css/scss/_components/_modals.scss */
+@media (max-height: 34.375em) {
+  /* line 65, ../../../src/css/scss/_components/_modals.scss */
+  .modal {
+    top: 0;
+    height: 90%;
+    margin-top: 2.5%;
+  }
+  /* line 71, ../../../src/css/scss/_components/_modals.scss */
+  .modal .container,
+  .modal .grid {
+    height: 100%;
+  }
+  /* line 75, ../../../src/css/scss/_components/_modals.scss */
+  .modal .modal-header {
+    max-height: 20%;
+  }
+  /* line 79, ../../../src/css/scss/_components/_modals.scss */
+  .modal .modal-body {
+    padding-top: 0;
+    padding-bottom: 0em;
+    max-height: 75%;
+    overflow: hidden;
+  }
+  /* line 88, ../../../src/css/scss/_components/_modals.scss */
+  .modal .js-spec-modal-body,
+  .modal .spec-modal-body,
+  .modal .js-spec-modal-body img {
+    max-height: 100%;
+  }
+  /* line 92, ../../../src/css/scss/_components/_modals.scss */
+  .modal.fade.in {
+    top: 0;
+  }
+}
+/* line 96, ../../../src/css/scss/_components/_modals.scss */
 .modal-header {
   padding: 2.5em 2.5em 1.25em;
 }
-/* line 68, ../../../src/css/scss/_components/_modals.scss */
+/* line 101, ../../../src/css/scss/_components/_modals.scss */
 .modal-header .close {
   margin-top: 2px;
 }
-/* line 71, ../../../src/css/scss/_components/_modals.scss */
+/* line 104, ../../../src/css/scss/_components/_modals.scss */
 .modal-header h3 {
   margin: 0;
 }
 
-/* line 77, ../../../src/css/scss/_components/_modals.scss */
+/* line 110, ../../../src/css/scss/_components/_modals.scss */
 .modal-inner {
   position: relative;
   width: 100%;
@@ -6319,18 +6387,18 @@ body.modal-open {
   box-shadow: 0 0 1.875em rgba(39, 43, 55, 0.15);
 }
 
-/* line 86, ../../../src/css/scss/_components/_modals.scss */
+/* line 119, ../../../src/css/scss/_components/_modals.scss */
 .modal-body {
   overflow-y: auto;
   padding: 2.5em;
 }
 
-/* line 91, ../../../src/css/scss/_components/_modals.scss */
+/* line 124, ../../../src/css/scss/_components/_modals.scss */
 .modal-form {
   margin-bottom: 0;
 }
 
-/* line 96, ../../../src/css/scss/_components/_modals.scss */
+/* line 129, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer {
   padding: 14px 15px 15px;
   margin-bottom: 0;
@@ -6352,17 +6420,17 @@ body.modal-open {
 .modal-footer:after {
   clear: both;
 }
-/* line 107, ../../../src/css/scss/_components/_modals.scss */
+/* line 140, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer .btn + .btn {
   margin-left: 5px;
   margin-bottom: 0;
 }
-/* line 112, ../../../src/css/scss/_components/_modals.scss */
+/* line 145, ../../../src/css/scss/_components/_modals.scss */
 .modal-footer .btn-group .btn + .btn {
   margin-left: -1px;
 }
 
-/* line 117, ../../../src/css/scss/_components/_modals.scss */
+/* line 150, ../../../src/css/scss/_components/_modals.scss */
 .takeover {
   top: 0;
   left: 0;
@@ -6371,41 +6439,41 @@ body.modal-open {
   height: 100%;
   border: none;
 }
-/* line 126, ../../../src/css/scss/_components/_modals.scss */
+/* line 159, ../../../src/css/scss/_components/_modals.scss */
 .takeover.native-scrolling {
   overflow-x: hidden;
   overflow-y: auto;
 }
-/* line 135, ../../../src/css/scss/_components/_modals.scss */
+/* line 168, ../../../src/css/scss/_components/_modals.scss */
 .takeover.fade.in {
   top: 0;
 }
-/* line 137, ../../../src/css/scss/_components/_modals.scss */
+/* line 170, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-inner {
   overflow: visible;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 142, ../../../src/css/scss/_components/_modals.scss */
+/* line 175, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header {
   position: relative;
   padding: 4.375em 0 1.875em;
   border: none;
 }
-/* line 147, ../../../src/css/scss/_components/_modals.scss */
+/* line 180, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header .box-close {
   top: 1.25em;
 }
-/* line 151, ../../../src/css/scss/_components/_modals.scss */
+/* line 184, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header h3 {
   margin-top: -8px;
 }
-/* line 158, ../../../src/css/scss/_components/_modals.scss */
+/* line 191, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-header > button,
 .takeover .modal-header > .sort-options {
   margin: 0 0 0 8px;
 }
-/* line 162, ../../../src/css/scss/_components/_modals.scss */
+/* line 195, ../../../src/css/scss/_components/_modals.scss */
 .takeover .modal-body {
   overflow-x: hidden;
   overflow-y: visible;
@@ -6708,9 +6776,8 @@ a.label:hover {
   color: #2f353d;
   background: none;
   padding: 0;
-  margin-right: 1.25em;
 }
-/* line 67, ../../../src/css/scss/_base/_labels-badges.scss */
+/* line 66, ../../../src/css/scss/_base/_labels-badges.scss */
 .label-close:after {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
@@ -6718,7 +6785,7 @@ a.label:hover {
   font-size: 16px;
   color: #bcbccc;
 }
-/* line 74, ../../../src/css/scss/_base/_labels-badges.scss */
+/* line 73, ../../../src/css/scss/_base/_labels-badges.scss */
 .label-close:hover:after {
   color: #2f353d;
 }
@@ -6934,16 +7001,20 @@ a.label:hover {
   position: relative;
   height: 6.125em;
 }
-/* line 25, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 23, ../../../src/css/scss/_components/_sticky-tabs.scss */
+.no-csstransforms .sticky-tabs .grid .relative {
+  height: 6.125em;
+}
+/* line 29, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tabs {
   z-index: 1;
   height: 6.125em;
 }
-/* line 29, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 33, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .no-csstransforms .sticky-tabs .tabs {
   overflow: hidden;
 }
-/* line 34, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 38, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab {
   position: relative;
   top: 0;
@@ -6958,8 +7029,8 @@ a.label:hover {
   text-align: left;
   border: none;
   background: none;
-  -webkit-box-shadow: 0.0625em 0 0 white;
-  box-shadow: 0.0625em 0 0 white;
+  -webkit-box-shadow: inset 1px 0 0 white;
+  box-shadow: inset 1px 0 0 white;
   -webkit-transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, color 0.15s ease-out;
   transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, color 0.15s ease-out;
   -webkit-user-select: none;
@@ -6967,42 +7038,42 @@ a.label:hover {
   -ms-user-select: none;
   user-select: none;
 }
-/* line 63, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 67, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab:focus, .sticky-tabs .tab:hover {
   background-color: #f3f4f6;
 }
-/* line 68, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 72, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .no-touch .sticky-tabs .tab:active, .sticky-tabs .tab.active {
   background-color: white;
   box-shadow: 0 0.1875em 0 white, 0 0 0.25em 0.0625em rgba(0, 0, 0, 0.15);
 }
-/* line 76, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 80, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab.active {
   z-index: 2;
 }
-/* line 84, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 88, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab-nav-btns {
   display: none;
 }
-/* line 88, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 92, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab-nav {
   position: absolute;
   z-index: 5;
   top: 1.4375em;
 }
-/* line 94, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 98, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab-nav-prev {
   left: -1.5%;
 }
-/* line 98, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 102, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs .tab-nav-next {
   right: -1.5%;
 }
-/* line 104, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 108, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .no-touch .sticky-tabs.tab-carousel .tab-nav-btns {
   display: block;
 }
-/* line 111, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 115, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs.tab-carousel .grid {
   border-right: 1px solid transparent;
   border-right-color: rgba(255, 255, 255, 0);
@@ -7011,13 +7082,13 @@ a.label:hover {
   -webkit-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
-/* line 119, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 123, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs.tab-carousel .has-content-left {
   border-left-color: white;
   -webkit-box-shadow: inset 2px 0 5px -1px rgba(0, 0, 0, 0.12);
   box-shadow: inset 2px 0 5px -1px rgba(0, 0, 0, 0.12);
 }
-/* line 124, ../../../src/css/scss/_components/_sticky-tabs.scss */
+/* line 128, ../../../src/css/scss/_components/_sticky-tabs.scss */
 .sticky-tabs.tab-carousel .has-content-right {
   border-right-color: white;
   -webkit-box-shadow: inset -2px 0 5px -1px rgba(0, 0, 0, 0.12);

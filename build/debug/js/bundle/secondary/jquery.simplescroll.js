@@ -2,8 +2,8 @@
  *
  * Smooth Scrolling plugin
  * @author Glen Cheney
- * @date 01.31.13
- * @version 1.1
+ * @date 03.02.13
+ * @version 1.2
  */
 ;(function($, window, undefined) {
   'use strict';
@@ -20,7 +20,8 @@
 
     _init : function( fn ) {
       var self = this,
-          $target = self.target.jquery ? self.target : $(self.target),
+          selector = self.target.jquery ? '' : self.target.replace(/.*(?=#[^\s]*$)/, ''), // strip for ie7
+          $target = self.target.jquery ? self.target : $(selector),
           targetOffset = $target.length ? $target.offset().top - self.offset : 0,
           totalHeight = $(document).height(),
           screenHeight = $(window).height();
@@ -53,9 +54,9 @@
       // Scroll!
       $('html,body').animate({
         scrollTop: offset
-      }, speed, easing, function(evt) {
-        if (!called) {
-          complete.call(this, evt);
+      }, speed, easing, function( evt ) {
+        if ( !called ) {
+          complete.call( this, evt );
         }
         called = true;
       });
@@ -93,7 +94,7 @@
   // If we load the page with a hash, scroll to it
   $.simplescroll.initial = function( options, fn ) {
     if ( window.location.hash ) {
-      options = $.extend(options, {target: window.location.hash});
+      options = $.extend( options, {target: window.location.hash} );
       $.simplescroll( options, fn );
     }
   };
@@ -102,10 +103,12 @@
   // defined target (via a function) or the href attribute
   $.fn.simplescroll = function( options, fn ) {
     return this.each(function() {
-      $(this).on('click', function(evt) {
+      $(this).on('click', function( evt ) {
         evt.preventDefault();
         options = options || {};
-        options.target = $.isFunction(options.target) ? options.target.call(this) : this.getAttribute('href');
+        options.target = $.isFunction( options.target ) ?
+          options.target.call( this ) :
+          this.getAttribute('href');
         $.simplescroll( options, fn );
       });
     });
@@ -113,7 +116,7 @@
 
   $.simplescroll.options = {
     target: 'body',
-    speed: 600,
+    speed: 400,
     easing: $.easing.easeOutQuad ? 'easeOutQuad' : 'swing',
     showHash: false,
     callback: $.noop,

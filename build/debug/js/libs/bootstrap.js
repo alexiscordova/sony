@@ -685,9 +685,12 @@
       if ( $target.is('a') && $parent.find($target).length ) {
         $target
           .parent()
-          .addClass('active')
-          .siblings()
-          .removeClass('active')
+            .addClass('active')
+            .siblings()
+            .removeClass('active')
+
+        // Return focus to the window
+        $target.blur();
       }
     }
   }
