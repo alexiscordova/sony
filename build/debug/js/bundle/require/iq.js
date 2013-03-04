@@ -287,7 +287,12 @@
           .attr('src', newsrc)
           .imagesLoaded(onImageLoad);
       } else if ($img.is('div')) {
-        $img.css('background-image', 'url('+newsrc+')');
+        $(document.createElement('img'))
+          .attr('src', newsrc)
+          .imagesLoaded(function(){
+            $img.css('background-image', 'url('+newsrc+')');
+            $img.trigger('iQ:imageLoaded');
+          });
       }
     }
   },
@@ -299,7 +304,7 @@
 
     // Is orientationchange event supported? If so, let's try to avoid false
     // positives by checking if win.orientation has actually changed.
-    
+
     if (orientationSupported) {
       addEvent(win, ORIENTATIONCHANGE, orientationchangeListener);
     }
