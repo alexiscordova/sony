@@ -108,7 +108,7 @@
   width: (110-$navTrayDividerPosition); // make sure it's a little wider than really necessary so there's no little edge showing.
   height: 100%;
   position:absolute;
-  top:-999px;
+  top:0;
   left:$navTrayDividerPosition * 1.1; // just needs to cover up the right margin, so make sure it's farther right than neccessary
   z-index:1;
   background: $navTrayBackgroundAlt;
@@ -259,12 +259,15 @@
 .navbar{
   height: $navbarHeightShort;
 }
-.navtray-w,
+.navtray-w{
+  top: -660px;
+}
 .navmenu-w {
   top: $navbarHeightShort;
 }
-
-
+.navtray-w-visible{
+  top: $navbarHeightShort;
+}
 .nav-primary{
   margin-left: 2.4%;
   .nav-li-link,
@@ -977,6 +980,7 @@
       padding-left:14px;
       background:$gray40;
       color:$white;
+      -webkit-font-smoothing:antialiased;
     }
     .fonticon-10-search{
       top: 20px;

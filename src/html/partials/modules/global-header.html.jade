@@ -24,6 +24,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             div.navmenu-search-section-form
               form.navmenu-search-section-input.input-group(method='post', action='')
                 i.fonticon-10-search.input-icon
+                label.visuallyhidden(for='navSearch') #{data.search.label}
                 input#nav-search-input(type='text', name='navSearch', role='search', value=search_input_default_full, tabindex='1401')
                 a.btn-clear-search-input.input-clear-btn(href='#')
                   i.fonticon-10-x-skinny
@@ -174,8 +175,15 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
             ul.nav.nav-utility(role='role="navigation"') 
               li.nav-li.nav-li-account
                 a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle(data-target='navmenu-w-account', href='#navmenu-w-account', tabindex='1100') 
-                  | !{data.account.label}
-                  i.fonticon-10-arrowhead-down
+                  if sample_session_data.logged_in === true
+                    - shortUsername = sample_session_data.username
+                    if shortUsername.length > 7
+                      - shortUsername = sample_session_data.username.substr(0,7) + "&hellip;"
+                    span= shortUsername
+                    i.fonticon-10-arrowhead-down
+                  else 
+                    | !{data.account.label}
+                    i.fonticon-10-arrowhead-down
 
                 div.navmenu-w.navmenu-w-account#navmenu-w-account
                   i.fonticon-10-arrowhead-up.nav-indicator

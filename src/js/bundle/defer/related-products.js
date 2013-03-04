@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = true;
+      self.DEBUG                  = false;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
@@ -79,6 +79,9 @@
       self.resizeTimeout          = null;
       self.startInteractionPointX = null;
       self.isTransitioning        = true;
+      self.lastTouch              = null;
+      self.handleStartPosition    = null;
+      self.dragThreshold          = 50;
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
@@ -93,19 +96,13 @@
       self.isTabletMode    = false;
       self.accelerationPos = 0;
 
-
-
       //Startup
       self.init();
-
-
 
     };
 
     //Related Products protoype object definition
     RelatedProducts.prototype = {
-
-
 
       //Inital setup of module
       init: function(){
@@ -134,7 +131,7 @@
         //Initialize tooltips
         self.initTooltips();
 
-
+        self.log('Related Poducts init...');
 
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
@@ -162,6 +159,7 @@
           self.$win.trigger('resize');
         }else {
           self.setupStripMode();
+          self.log('setting up strip mode...');
         }
       },
 
@@ -536,7 +534,7 @@
 
         if(self.oldIE && self.DEBUG){
           if(window.alert){
-            window.alert(strOut);
+            //window.alert(strOut);
           }
         }else if(self.DEBUG) {
           if(window.console){
@@ -600,9 +598,23 @@
 
         self.$win.on('resize.rp', $.debounce(50 , function() {
 
+          if(self.$win.width() < 479){
+            self.scrollerModule.centerItems = true;
+          }else{
+            self.scrollerModule.centerItems = false;
+          }
+          
           var containerWidth = self.$el.width(),
-          gutterWidth        = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-          colWidth           = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+          gutterWidth        = 0,
+          colWidth           = 0;
+
+          if(self.$win.width() > 767){
+            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
+            colWidth    = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+          }else{
+            gutterWidth = 12.745098039215685;
+            colWidth    = 119.80392156862746;
+          }
 
           self.scrollerModule.setGutterWidth(gutterWidth);
 
@@ -610,21 +622,25 @@
             'width'       : colWidth,
             'margin'      : 0,
             'margin-left' : 0,
-            'margin-top'  : 0
+            'margin-top'  : '20px'
           });
 
           self.$galleryItems.first().css({
             'width'   : colWidth,
-            'margin'  : 0
+            'margin'  : 0,
+            'margin-top' : '20px'
           });
 
-          var newContainerHeight = self.$el.find('.gallery-item.normal').first().outerHeight(true)  + 'px';
 
+          var $oneProduct = self.$el.find('.gallery-item.normal').first(),
+          newContainerHeight = $oneProduct.find('.product-content').outerHeight(true) + $oneProduct.find('.product-img').height();
+          newContainerHeight += 50; //spacing for navigation dots
+
+      
           self.$el.css({
             'height'     : newContainerHeight,
             'max-height' : newContainerHeight,
-            'min-height' : newContainerHeight,
-            'min-width'  : 550 + 'px'
+            'min-height' : newContainerHeight
           });
 
         }));
@@ -678,6 +694,8 @@
 
         var self = this;
 
+        self.log('creating paddles...');
+
         self.$el.sonyPaddles();
 
         self.$el.on('sonyPaddles:clickLeft', function(){
@@ -686,7 +704,7 @@
             self.currentId = 0;
           }
 
-          self.moveTo(); 
+          self.moveTo();
         });
 
         self.$el.on('sonyPaddles:clickRight', function(){
@@ -1148,22 +1166,74 @@
            self.log('using alternate height calculation >>> Desktop' , newHeight);
         }
 
+        if(self.$win.width() < 1120){
+          newHeight += 20;
+        }
+
         self.$el.css( 'height' , newHeight + 0 + 'px' );
 
         if(!!self.isTabbedContainer){
           self.$tabbedContainer.css('height' , newHeight + 0 + 'px');
         }
-
-
       },
+
+      getPagePosition: function(e) {
+
+        var self = this;
+
+        if ( !e.pageX && !e.originalEvent ) {
+          return;
+        }
+
+        self.lastTouch = self.lastTouch || {};
+
+        // Cache position for touchmove/touchstart, as touchend doesn't provide it.
+        if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
+          self.lastTouch = e.originalEvent.touches[0];
+        }
+
+        return {
+          'x': (e.pageX || self.lastTouch.pageX),
+          'y': (e.pageY || self.lastTouch.pageY)
+        };
+      },
+
+      /*
+      'scrubbingThreshold': function(e) {
+
+        var self = this,
+            distX = self.getPagePosition(e).x - self.handleStartPosition.x,
+            distY = self.getPagePosition(e).y - self.handleStartPosition.y;
+
+        // If you're not on touch, or if you didn't pass in a threshold setting, go ahead and scrub.
+
+        if ( !Modernizr.touch || !self.dragThreshold || self.isScrubbing ) {
+          self.isScrubbing = true;
+          self.onScrubbing(e, distX, distY);
+          return;
+        }
+
+        // If you've gone past the threshold, simply do nothing for this interaction.
+
+        if ( self.hasPassedThreshold ) { return; }
+
+        if ( Math.abs(distX) > self.dragThreshold ) {
+          self.isScrubbing = true;
+          self.onScrubbing(e, distX, distY);
+          return;
+        }
+
+        if ( Math.abs(distY) > self.dragThreshold ) {
+          self.hasPassedThreshold = true;
+          return;
+        }
+      },*/
 
       onDragStart : function(e){
         var self = this,
             point;
 
         self.dragSuccess = false;
-
-        //self.setGrabCursor();//toggle grabber
 
         if(self.hasTouch){
           var touches = e.originalEvent.touches;
@@ -1198,12 +1268,11 @@
         //self.startTime          = new Date().getTime();
         self.startTime = self.startInteractionTime = new Date().getTime();
         self.startInteractionPointX = point.pageX;
+        self.handleStartPosition = self.getPagePosition(e);
 
         if(self.hasTouch) {
           self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
         }
-
-        //self.moveTo();
 
       },
 
@@ -1325,6 +1394,7 @@
             }
             return newSpeed;
         }
+
         function returnToCurrent(isSlow, v0) {
           var newPos = -self.currentId * self.currentContainerWidth,
           newDist = Math.abs(self.sPosition  - newPos);
@@ -1384,6 +1454,8 @@
 
       dragMove: function(e , isThumbs){
         var self = this,
+            distX = self.getPagePosition(e).x - self.handleStartPosition.x,
+            distY = self.getPagePosition(e).y - self.handleStartPosition.y,
             point;
 
         if(self.hasTouch) {
@@ -1419,7 +1491,13 @@
           })();
         }
 
-        if(!self.checkedAxis) {
+
+        if ( Math.abs(distY) > self.dragThreshold ) {
+          self.hasPassedThreshold = true;
+          return;
+        }
+
+       if(!self.checkedAxis) {
 
           var dir = true,
           diff    = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
@@ -1447,6 +1525,8 @@
           }
           return;
         }
+
+
 
         e.preventDefault();
         self.renderMoveTime = new Date().getTime();
@@ -1896,7 +1976,7 @@
       setNameHeights : function( $container ) {
         var nameMaxHeight = 0;
 
-        // Set the height of the product name + model because the text can wrap and make it taller
+        //Set the height of the product name + model because the text can wrap and make it taller
         $container
           .find('.product-name-wrap')
           .css('height', '') // remove heights in case they've been set before
@@ -1945,19 +2025,16 @@
       });
     };
 
-    //defaults for the related products
+    //Defaults for the related products
     $.fn.relatedProducts.defaults = {
       throttleTime: 50,
       autoScaleContainer: true,
       minSlideOffset: 10,
       navigationControl: 'bullets'
     };
-
-/*    SONY.on('global:ready', function(){
-      
-    });*/
-
-    $(function(){
+    
+    //Listen for global sony ready event
+    SONY.on('global:ready', function(){
       $('.related-products').relatedProducts();
     });
 

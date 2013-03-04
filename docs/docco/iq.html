@@ -263,7 +263,12 @@ if its an img not a background image set it up to fade in on load</p>           
           .attr(<span class="string">'src'</span>, newsrc)
           .imagesLoaded(onImageLoad);
       } <span class="keyword">else</span> <span class="keyword">if</span> ($img.is(<span class="string">'div'</span>)) {
-        $img.css(<span class="string">'background-image'</span>, <span class="string">'url('</span>+newsrc+<span class="string">')'</span>);
+        $(document.createElement(<span class="string">'img'</span>))
+          .attr(<span class="string">'src'</span>, newsrc)
+          .imagesLoaded(<span class="keyword">function</span>(){
+            $img.css(<span class="string">'background-image'</span>, <span class="string">'url('</span>+newsrc+<span class="string">')'</span>);
+            $img.trigger(<span class="string">'iQ:imageLoaded'</span>);
+          });
       }
     }
   },
@@ -273,7 +278,7 @@ if its an img not a background image set it up to fade in on load</p>           
     addEvent(win, RESIZE, resizeListener);
 
 </pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>Is orientationchange event supported? If so, let's try to avoid false
-positives by checking if win.orientation has actually changed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    
+positives by checking if win.orientation has actually changed.</p>             </td>             <td class="code">               <div class="highlight"><pre>
     <span class="keyword">if</span> (orientationSupported) {
       addEvent(win, ORIENTATIONCHANGE, orientationchangeListener);
     }
