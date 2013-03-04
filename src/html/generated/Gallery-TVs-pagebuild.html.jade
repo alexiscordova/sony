@@ -24,7 +24,7 @@ body
 
         e = {"locals":locals, "data":data("gallery-g2-g3/gallery-g2-g3-tv.json")}
         !{partial("modules/gallery-g2-g3.html.jade", e)}
-    	!{partial('modules/global-footer.html.jade', l)}
+        e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
+        !{partial('modules/global-footer.html.jade', e)}
 
-    e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
-    !{partial('includes/foot.html.jade', e)}
+    !{partial('includes/foot.html.jade', l)}

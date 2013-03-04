@@ -23,7 +23,7 @@ body
 
           e = {"locals":locals, "data":data("gallery-g3-accessories/gallery-g3-cybershot-accessories.json")}
           !{partial("modules/gallery-g3-accessories.html.jade", e)}
-    	!{partial('modules/global-footer.html.jade', l)}
+      e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
+      !{partial('modules/global-footer.html.jade', e)}
 
-    e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
-    !{partial('includes/foot.html.jade', e)}
+    !{partial('includes/foot.html.jade', l)}

@@ -19,7 +19,7 @@ body
 
         e = {"locals":locals, "data":data("spec-single-z1/default.json")}
         !{partial("modules/spec-single-z1.html.jade", e)}
-    	!{partial('modules/global-footer.html.jade', l)}
+        e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
+        !{partial('modules/global-footer.html.jade', e)}
 
-    e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
-    !{partial('includes/foot.html.jade', e)}
+    !{partial('includes/foot.html.jade', l)}
