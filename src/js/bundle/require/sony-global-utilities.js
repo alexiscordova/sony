@@ -11,21 +11,21 @@ SONY.Utilities = (function(window, document) {
   'use strict';
 
   var self = {
+
+    // Force a redraw for webkit browsers.
+
     'forceWebkitRedraw': function(){
-      //force webkit redraw hack
-      $('<style/>')
-        .appendTo( SONY.$body )
-        .remove();
+      $('<style/>').appendTo( SONY.$body ).remove();
     },
 
     // converts pixel value to em value (including unit)
-    
+
     pxToEm : function(pxValue, context){
-      
+
       // defaults to 16px
       context = typeof context !== 'undefined' ? context : 16;
-        
-      return (pxValue / context) + "em";
+
+      return (pxValue / context) + 'em';
     },
 
     // Return calculated column if width is above 568px/35.5em
@@ -236,13 +236,55 @@ SONY.Utilities = (function(window, document) {
       SONY.$window.on(resizeEvent, function(){
         cachedFunctions.baseThrottle();
       });
+    },
+
+    fixModernizrFalsePositives : function() {
+
+      // The sony tablet s gets a false negative on generated content (pseudo elements)
+      if ( SONY.Settings.isSonyTabletS ) {
+        Modernizr.generatedcontent = true;
+        SONY.$html.removeClass('no-generatedcontent').addClass('generatedcontent sonytablets');
+      }
+    },
+
+    scrollToTop : function() {
+      $.simplescroll();
     }
+
+    // addClasses : function() {
+    //   if ( SONY.Settings.isAndroid ) {
+    //     SONY.$html.addClass('android');
+    //   }
+    // }
   };
 
+  self.fixModernizrFalsePositives();
   self.createPubSub();
   self.createGlobalEvents();
   self.normalizeLogs();
+  // self.addClasses();
 
   return self;
 
 })(this, this.document);
+
+// Need to find a better place for this to live.
+
+if (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = function(elt /*, from*/) {
+
+    var len = this.length >>> 0,
+        from = Number(arguments[1]) || 0;
+
+    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+
+    if ( from < 0 ) { from += len; }
+
+    for (; from < len; from++) {
+      if (from in this && this[from] === elt) {
+        return from;
+      }
+    }
+    return -1;
+  };
+}

@@ -44,8 +44,8 @@ $modalHeight: 550px;
   left: 0;
   z-index: $zindexModal;
   width: 100%;
-  height: $modalHeight;
-  margin-top: -($modalHeight / 2);
+  height: px-em( $modalHeight );
+  margin-top: -( px-em( $modalHeight ) / 2);
 
   &.fade {
     @include transition(opacity .3s linear, top .3s ease-out);
@@ -57,6 +57,39 @@ $modalHeight: 550px;
   // Don't want the blue border around the whole container
   &:focus {
     outline: none;
+  }
+}
+
+// Position the modal when the height is small than $modalHeight
+@media ( max-height: px-em( $modalHeight ) ) {
+  .modal {
+    top: 0;
+    height: 90%;
+    margin-top: 2.5%;
+
+    .container,
+    .grid {
+      height: 100%;
+    }
+
+    .modal-header {
+      max-height: 20%;
+    }
+
+    .modal-body {
+      padding-top: 0;
+      padding-bottom: 0em;
+      max-height: 75%;
+      overflow: hidden;
+    }
+
+    .js-spec-modal-body,
+    .spec-modal-body,
+    .js-spec-modal-body img {
+      max-height: 100%;
+    }
+
+    &.fade.in { top: 0; }
   }
 }
 
@@ -76,6 +109,7 @@ $modalHeight: 550px;
 // This is now the main modal that you see
 .modal-inner {
   position: relative;
+  width: 100%;
   overflow: auto;
   background-color: $white;
   @include box-shadow(0 0 1.875em rgba(39, 43, 55, 0.15));
@@ -113,41 +147,6 @@ $modalHeight: 550px;
   }
 }
 
-.box-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: block;
-  @include size( px-em(40px), px-em(43px) );
-  padding: 0;
-  line-height: 1;
-  background: $gray40;
-  border: none;
-  text-align: center;
-  cursor: pointer;
-  @include transition();
-
-  &:hover {
-    background: $gray20;
-  }
-
-  i {
-    color: $white;
-    // vertical-align: baseline;
-  }
-
-}
-
-.box-close-small {
-  @include square( px-em(23px) );
-  top: 0;
-
-  // We know the icon is 16x16, center it with line-height
-  i {
-    line-height: 18px;
-  }
-}
-
 .takeover {
   top: 0;
   left: 0;
@@ -160,6 +159,10 @@ $modalHeight: 550px;
   &.native-scrolling {
     overflow-x: hidden;
     overflow-y: auto;
+
+    // html:not(.android) & .modal-body {
+    //   overflow: visible;
+    // }
   }
 
   &.fade.in { top: 0; }
@@ -190,6 +193,7 @@ $modalHeight: 550px;
   }
 
   .modal-body {
+    overflow-x: hidden;
     overflow-y: visible;
     max-height: none;
     padding: 1.125em 0 0;

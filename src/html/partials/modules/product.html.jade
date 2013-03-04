@@ -131,7 +131,8 @@ if data.view == 'basic'
         .product-img(class=data.backgroundColorClass)
           div(class='promo-content')
             .text-promo-title
-              h4.t4.title= data.title
+              h4.t4.title
+                strong= data.title
               h5.t4.emphasis= data.emphasis
                 i.icon-ui2-chevron-16-black-right
             if data.count
@@ -193,7 +194,10 @@ else if data.view == 'detailed'
       .product-img
         if data.label
           span.label.label-success= data.label
-        .product-img-wrap.ghost-center-wrap.js-product-imgs
+        - hasExtraColors = data.img.colors && data.img.colors.length > 1
+        - classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
+        - if ( !hasExtraColors ) classes += ' no-swatches'
+        div(class=classes)
           .ghost-center
             mixin iQImage( data.img, 'js-product-img-main', 'image' )
             mixin iQColorImages( data.img.colors )
@@ -509,6 +513,24 @@ else if data.view == 'single-spec'
                   p.media-heading.l3
                     strong!= feature2.label
                   p.media-description.p3!= feature2.description
+
+else if data.view == 'suggested'
+  a(class='gallery-item span6 suggested', href=data.href ? data.href : '#')
+    .gallery-item-inner
+      .product-name.p3
+        | !{data.name}
+      .product-tagline.p1
+        | !{data.tagline}
+      .product-img
+        div(class='product-img-wrap ghost-center-wrap')
+          .ghost-center
+            img.iq-img(alt=data.img.alt, data-src=data.img.src)
+            noscript
+              img(src=data.img.noscriptsrc, alt=data.img.alt)
+      .product-price
+        span.price-prefix.p3 Starting at &nbsp;
+        span.price.l2= '$' + data.price + '&nbsp;'
+        span.msrp.p5 MSRP
 
 
 else if data.view == 'blank'

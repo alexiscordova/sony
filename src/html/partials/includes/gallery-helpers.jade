@@ -33,7 +33,7 @@ mixin filterCheckbox( filterSet )
     each filter in filterSet.filters
       li.control-inline
         input.styled-checkbox(id=filterSet.name + '-' + filter.value, data-label=filter.label, type="checkbox", value=filter.value)
-        label.p2(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
+        label.p3(class="fonticon-10-sm-bold-check--after", for=filterSet.name + '-' + filter.value)= filter.label
         if filter.help
           mixin helpPopover( filter.help, true )
 
@@ -52,7 +52,7 @@ mixin helpPopover( help, pullRight )
   - if ( pullRight ) classes += ' pull-right'
   div(class=classes, data-original-title=help.title)
     if help.label
-      span.p3.help-label= help.label
+      span.p4.help-label= help.label
     i.fonticon-10-circle-q
     mixin popoverContent( help )
 
@@ -128,7 +128,7 @@ mixin detailedGallery( submodules, gallery, type )
 
 
           //- Product Count
-          p.p3.ib.product-count-wrap
+          span.p3.ib.product-count-wrap
             strong.text-dark.product-count= gallery.total
             | &nbsp;Products
 
@@ -138,7 +138,7 @@ mixin detailedGallery( submodules, gallery, type )
             button.lt3.btn.btn-alt-special.slide-toggle.collapsed(data-toggle="collapse", data-target='#' + gallery.name + '-filters')
               | Filter
               i.fonticon-10-arrowhead-down
-            button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool")
+            button.lt3.btn.btn-alt-special.btn-alt-plus.js-compare-toggle(data-target="#compare-tool", disabled=true)
               | Compare
               i.fonticon-10-sm-bold-plus
 
@@ -150,7 +150,7 @@ mixin detailedGallery( submodules, gallery, type )
           //- Sort options
           .sort-options.pull-right
             span.l3.filter-label Sort By:&nbsp;
-            .dropdown.dropdown-alt.ib
+            span.dropdown.dropdown-alt.ib
               button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
                 span.js-toggle-text= gallery.sortSet[0].label
                 i.fonticon-10-arrowheads-elevator
@@ -196,9 +196,7 @@ mixin detailedGallery( submodules, gallery, type )
 
 
       .container.active-filters-wrap
-        .grid.active-filters
-
-      .spacer
+        .grid.active-filters(data-clear-label="Clear All")
 
     .container
       .products.slimgrid.no-grid-at-767
@@ -226,23 +224,24 @@ mixin galleryStickyTabs( tabs, moduleName, moduleId )
   .sticky-tabs.tab-strip.gallery-tabs(data-tablet-mode="carousel", data-module-name=moduleName, data-module-id=moduleId)
     .tabs-container.container.m-full-bleed
       .grid.m-full-bleed
-        .tabs
-          each tab, i in tabs
-            activeClass = i === 0 ? ' active' : ''
-            tabClass = 'tab' + activeClass
-            button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
-              .ghost-center-wrap
-                .ghost-center
-                  .holder-for-icon.ghost-center-wrap
-                    .ghost-center.v-bottom
-                      iconClass = 'fonticon-30-' + tab.icon
-                      i(class=iconClass)
-                  h3.l2.tab-label= tab.label
-      nav.tab-nav-btns
-        button.nav-paddle.tab-nav.tab-nav-prev
-          i.fonticon-10-chevron-reverse
-        button.nav-paddle.tab-nav.tab-nav-next
-          i.fonticon-10-chevron
+        .relative
+          .tabs
+            each tab, i in tabs
+              activeClass = i === 0 ? ' active' : ''
+              tabClass = 'tab' + activeClass
+              button(class=tabClass, data-target=tab.slug, data-toggle="tab", data-hash="true")
+                .ghost-center-wrap
+                  .ghost-center
+                    .holder-for-icon.ghost-center-wrap
+                      .ghost-center.v-bottom
+                        iconClass = 'fonticon-30-' + tab.icon
+                        i(class=iconClass)
+                    h3.l2.tab-label= tab.label
+        nav.tab-nav-btns
+          button.nav-paddle.tab-nav.tab-nav-prev
+            i.fonticon-10-chevron-reverse
+          button.nav-paddle.tab-nav.tab-nav-next
+            i.fonticon-10-chevron
 
 
 mixin productStrips( submodules, strips, type )
@@ -276,10 +275,10 @@ mixin productStrips( submodules, strips, type )
     .container
       each strip in strips
         .slimgrid5.m-grid-at-767.product-strip-wrap
-          .clearfix
+          .product-strip-header.clearfix
+            h2.t6.product-strip-heading.pull-left= strip.title
             if strip.callout
-              a.tl.pull-right(href="#")= strip.callout
-            h2.t6.product-strip-heading= strip.title
+              a.tl.see-all-link.pull-right(href="#")= strip.callout
           .product-strip.clearfix
             count = 0
             each module in submodules

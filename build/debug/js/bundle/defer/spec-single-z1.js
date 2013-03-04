@@ -42,10 +42,6 @@
 
       self.$alignedBottomImgs = self.$alignedBottom.find('.iq-img');
 
-      // if ( !Modernizr.mediaqueries ) {
-      //   Modernizr.mq = function() { return false; };
-      // }
-
       self._initCarousel();
 
       // Init shuffle on the features section
@@ -149,7 +145,7 @@
         setTimeout(function() {
           self.stickyTriggerOffset = $offsetTarget[0].offsetTop; //$offsetTarget.offset().top;
         }, 50);
-        console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
+        // console.error('sticky trigger top is:', self.stickyTriggerOffset, $offsetTarget);
         // throw new Error('sticky trigger top is: ' + self.stickyTriggerOffset);
       }
 
@@ -161,6 +157,13 @@
       });
 
       self._initJumpLinks();
+
+      self.$stickyNav.on( SONY.Settings.END_EV, function(e) {
+        if ( e.target.tagName === 'A' ) {
+          return;
+        }
+        SONY.Utilities.scrollToTop();
+      });
 
       setTimeout(function() {
         $body.scrollspy('refresh');

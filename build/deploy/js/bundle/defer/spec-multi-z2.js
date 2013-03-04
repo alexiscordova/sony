@@ -294,6 +294,14 @@
 
       self._initJumpLinks();
 
+
+      self.$stickyNav.on( SONY.Settings.END_EV, function(e) {
+        if ( e.target.tagName === 'A' ) {
+          return;
+        }
+        SONY.Utilities.scrollToTop();
+      });
+
       setTimeout(function() {
         $body.scrollspy('refresh');
       }, 100);
@@ -307,7 +315,6 @@
 
       self.$jumpLinks.simplescroll({
         showHash: true,
-        speed: 400,
         offset: offset
       });
     },
@@ -456,6 +463,12 @@
         .scrollspy('refresh')
         .scrollspy('process');
 
+      // Without transforms, iScroll uses absolute positioning and the container
+      // gets a width/height of 0 with overflow:hidden
+      if ( !Modernizr.csstransforms ) {
+        self._setScrollerWrapperDimensions();
+      }
+
       // Set timeout here because we were getting the wrong height for the
       // spec products after a big resize
       setTimeout(function() {
@@ -566,6 +579,18 @@
         top: top,
         bottom: bottom
       };
+    },
+
+    _setScrollerWrapperDimensions : function() {
+      var self = this,
+          containerWidth = self.$specItemsGrid.width(),
+          containerHeight = self.$specItemsGrid.height(),
+          labelsWidth = self.$detailLabelsWrap.width(),
+          scrollerWidth = containerWidth - labelsWidth - 2; // not sure why it doesn't fit
+
+      self.$specItemsWrap
+        .width( scrollerWidth )
+        .height( containerHeight );
     }
 
   };
@@ -600,7 +625,8 @@
     isStickyTabs: false,
     isScroller: false,
     isMobile: false,
-    showStickyHeaders: !(SONY.Settings.hasTouchEvents || SONY.Settings.isPlaystation)
+    showStickyHeaders: !( SONY.Settings.hasTouchEvents || SONY.Settings.isPS3 || SONY.Settings.isLTIE9 ),
+    stickyOffset: { top: 0, bottom: 0}
   };
 
 

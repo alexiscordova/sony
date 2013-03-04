@@ -254,164 +254,129 @@ $default-transition-delay    : 0s;
 	}
 
 
-// SPRITES
+
+
+
+
+
+// SPRITES -------------------------------------------
+//  .d8888b.                   d8b 888                      
+// d88P  Y88b                  Y8P 888                      
+// Y88b.                           888                      
+//  "Y888b.   88888b.  888d888 888 888888  .d88b.  .d8888b  
+//     "Y88b. 888 "88b 888P"   888 888    d8P  Y8b 88K      
+//       "888 888  888 888     888 888    88888888 "Y8888b. 
+// Y88b  d88P 888 d88P 888     888 Y88b.  Y8b.          X88 
+//  "Y8888P"  88888P"  888     888  "Y888  "Y8888   88888P' 
+//            888                                           
+//            888                                           
+//            888                                           
 // --------------------------------------------------
 
 
-// Tab Icons
-// ----------------------
-@mixin icon-tab($name, $x, $w, $h) {
-  .icon-tab-#{$name} {
-    background-position: $x $icon_tab_Y;
+
+
+@mixin sprite($spriteType, $y, $name, $x, $w, $h) {
+  .sprite-#{$spriteType}-#{$name} {
+    background-position: $x $y;
     @include size($h, $w);
-
-    &.state2 { background-position: $x ($icon_tab_Y - 30px); }
-
-    // &:hover,
-    // &:focus,
-    .tab:focus &,
-    .tab:hover &,
-    .no-touch .tab:active &,
-    .tab.active & { background-position: $x ($icon_tab_Y - 60px); }
   }
 }
 
-// Icon Best for
-// ----------------------
-@mixin icon-bestfor($name, $x, $w, $h) {
-  .icon-bestfor-#{$name} {
-    background-position: $x $icon_bestfor_Y;
-    @include size($h, $w);
 
-    // .btn:not([disabled]):hover &,
-    // .btn:not([disabled]):focus & { background-position: $x ($icon_bestfor_Y - 30px); }
-
-    // .btn.active:hover,
-    .btn.active & { background-position: $x ($icon_bestfor_Y - 60px); }
-  }
+@mixin sprite-16a($name, $x, $w, $h) {
+  @include sprite(16a, $sprite_16a_Y, $name, $x, $w, $h);
 }
+@mixin sprite-16b($name, $x, $w, $h) {
+  @include sprite(16b, $sprite_16a_Y, $name, $x, $w, $h);
+}
+@mixin sprite-32a($name, $x, $w, $h) {
+  @include sprite(32a, $sprite_32a_Y, $name, $x, $w, $h);
+}
+@mixin sprite-32b($name, $x, $w, $h) {
+  @include sprite(32b, $sprite_32a_Y, $name, $x, $w, $h);
+}
+
+
+@mixin sprite-flag($name, $x) {
+  @include sprite(flag, $sprite_flag_Y, $name, $x, 14px, 11px);
+}
+@mixin sprite-flagBig($name, $x) {
+  @include sprite(flagBig, $sprite_flagBig_Y, $name, $x, 22px, 15px);
+}
+@mixin sprite-flags-reg-and-big($name, $x) {
+	@include sprite-flag($name, $x);
+	@include sprite-flagBig($name, $x);
+}
+
 
 
 
 // Icons with standard hover, focus, & active states can be built using the iconBuilder mixin.
 // The first parameters are specific to the iconType ($iconType, $y, $hoverOffsetY)
 // The other parameters are specific to the icon, and are simply passed through from the specific icon mixin.
-@mixin icon($iconType, $y, $name, $x, $w:false, $h:false, $hoverOffsetY:0, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  .icon-#{$iconType}-#{$name} {
-    background-position: $x $y;
+// @mixin icon($iconType, $y, $name, $x, $w:false, $h:false, $hoverOffsetY:0, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
+//   .icon-#{$iconType}-#{$name} {
+//     background-position: $x $y;
 
-    @if ( $w != false ) {
-    	@include size($h, $w);
-    }
+//     @if ( $w != false ) {
+//     	@include size($h, $w);
+//     }
 
-    @if ( $margin ) {
-      margin: $margin;
-    }
-    @if ( $iconTrigger != true ) { // see below for what $iconTrigger is for
-      @if ( $hasHover ) {
-        &:not([disabled]):hover,
-        &:not([disabled]):focus,
-        &:not(.disabled):hover,
-        &:not(.disabled):focus { background-position: $x ($y - $hoverOffsetY); }
-      }
+//     @if ( $margin ) {
+//       margin: $margin;
+//     }
+//     @if ( $iconTrigger != true ) { // see below for what $iconTrigger is for
+//       @if ( $hasHover ) {
+//         &:not([disabled]):hover,
+//         &:not([disabled]):focus,
+//         &:not(.disabled):hover,
+//         &:not(.disabled):focus { background-position: $x ($y - $hoverOffsetY); }
+//       }
 
-      @if ( $activeIsHover ) {
-        &.active,
-        .active > &, { background-position: $x ($y - $hoverOffsetY); }
+//       @if ( $activeIsHover ) {
+//         &.active,
+//         .active > &, { background-position: $x ($y - $hoverOffsetY); }
 
-      } @else if ( $hasActive ) {
-        &.active,
-        .active > &, { background-position: $x ($y - ($hoverOffsetY * 2)); }
-      }
-    }
-  }
-  // iconTrigger: Set to true when you want a PARENT of the icon to trigger the hover/active state.
-  // Like in a button - you want to trigger the hover state of the icon when you hover over any part
-  // of the button, not just the icon itself. Use it like this:
-  // <a class="iconTrigger-ui-cart"><i class="icon-ui-cart"></i>12</a>
-  @if ( $iconTrigger ) {
-    @if ( $hasHover ) {
-      // :not(.disabled):hover is NOT working (it still triggers hover) - don't know why.
-      // Should look into it if we actually end up implementing it.
-      .iconTrigger-#{$iconType}-#{$name}:not([disabled]):hover .icon-#{$iconType}-#{$name},
-      .iconTrigger-#{$iconType}-#{$name}:not([disabled]).hover .icon-#{$iconType}-#{$name},
-      .iconTrigger-#{$iconType}-#{$name}:not(.disabled):hover .icon-#{$iconType}-#{$name},
-      .iconTrigger-#{$iconType}-#{$name}:not(.disabled).hover .icon-#{$iconType}-#{$name} {
-        background-position: $x ($y - $hoverOffsetY);
-      }
-    }
-    @if ( $activeIsHover ) {
-      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} {
-        background-position: $x ($y - $hoverOffsetY);
-      }
-    } @else if ( $hasActive ) {
-      .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} {
-        background-position: $x ($y - ($hoverOffsetY * 2));
-      }
-    }
-  }
-}
+//       } @else if ( $hasActive ) {
+//         &.active,
+//         .active > &, { background-position: $x ($y - ($hoverOffsetY * 2)); }
+//       }
+//     }
+//   }
+//   // iconTrigger: Set to true when you want a PARENT of the icon to trigger the hover/active state.
+//   // Like in a button - you want to trigger the hover state of the icon when you hover over any part
+//   // of the button, not just the icon itself. Use it like this:
+//   // <a class="iconTrigger-ui-cart"><i class="icon-ui-cart"></i>12</a>
+//   @if ( $iconTrigger ) {
+//     @if ( $hasHover ) {
+//       // :not(.disabled):hover is NOT working (it still triggers hover) - don't know why.
+//       // Should look into it if we actually end up implementing it.
+//       .iconTrigger-#{$iconType}-#{$name}:not([disabled]):hover .icon-#{$iconType}-#{$name},
+//       .iconTrigger-#{$iconType}-#{$name}:not([disabled]).hover .icon-#{$iconType}-#{$name},
+//       .iconTrigger-#{$iconType}-#{$name}:not(.disabled):hover .icon-#{$iconType}-#{$name},
+//       .iconTrigger-#{$iconType}-#{$name}:not(.disabled).hover .icon-#{$iconType}-#{$name} {
+//         background-position: $x ($y - $hoverOffsetY);
+//       }
+//     }
+//     @if ( $activeIsHover ) {
+//       .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} {
+//         background-position: $x ($y - $hoverOffsetY);
+//       }
+//     } @else if ( $hasActive ) {
+//       .iconTrigger-#{$iconType}-#{$name}.active .icon-#{$iconType}-#{$name} {
+//         background-position: $x ($y - ($hoverOffsetY * 2));
+//       }
+//     }
+//   }
+// }
 
-@mixin icon-ui($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui, $icon_ui_Y, $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
-}
-@mixin icon-ui2($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(ui2, $icon_ui2_Y, $name, $x, $w, $h, 30px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
-}
-@mixin icon-uibig($name, $x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $iconTrigger:false, $margin:false) {
-  @include icon(uibig, $icon_uibig_Y, $name, $x, $w, $h, 60px, $hasHover, $hasActive, $activeIsHover, $iconTrigger, $margin);
-}
 
-@mixin icon-flag($name, $x) {
-  @include icon(flag, $icon_flag_Y, $name, $x);
-}
-@mixin icon-flagBig($name, $x) {
-  @include icon(flagBig, $icon_flagBig_Y, $name, $x);
-}
-@mixin icon-flags-reg-and-big($name, $x) {
-	@include icon-flag($name, $x);
-	@include icon-flagBig($name, $x);
-}
 
-// I'm gonna come back to this - there's probably a more elegant way of doing this; or maybe I'll just make
-// it a <i> like all the others so I don't need this mixin.
-@mixin icon-ui-pseudo-el($x, $w, $h, $hasHover:false, $hasActive:false, $activeIsHover:false, $margin:false) {
-  @extend %icon;
-  background-position: $x 0px;
-  @include size($h, $w);
 
-  @if ( $margin ) {
-    margin: $margin;
-  }
-}
 
-@mixin sprite($spriteType, $y, $name, $x, $w, $h, $margin) {
 
-  .sprite-#{$spriteType}-#{$name} {
-    background-position: $x $y;
-    @include size($h, $w);
 
-    @if ( $margin ) {
-      margin: $margin;
-    }
-  }
-}
-
-@mixin sprite-specsicon($name, $x, $w, $h, $margin:false) {
-  @include sprite(specsicon, $sprite_Specsicon_Y, $name, $x, $w, $h, $margin);
-}
-@mixin sprite-mini($name, $x, $w, $h, $margin:false) {
-  @include sprite(mini, $sprite_Mini_Y, $name, $x, $w, $h, $margin);
-}
-@mixin sprite-reg($name, $x, $w, $h, $margin:false) {
-  @include sprite(reg, $sprite_Reg_Y, $name, $x, $w, $h, $margin);
-}
-@mixin sprite-big($name, $x, $w, $h, $margin:false) {
-  @include sprite(big, $sprite_Big_Y, $name, $x, $w, $h, $margin);
-}
-@mixin sprite-tall($name, $x, $w, $h, $margin:false) {
-  @include sprite(tall, $sprite_Tall_Y, $name, $x, $w, $h, $margin);
-}
 
 // FORMS
 // --------------------------------------------------

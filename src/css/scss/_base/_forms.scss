@@ -702,15 +702,20 @@ input.search-query {
 
   & + label {
     position: relative;
+    display: inline-block;
     cursor: pointer;
     padding: 0;
+    margin: 0;
+    color: $gray20;
   }
 
-  // label has a .p2 (15px)
-  $labelFontSize: 15px;
+  // label has a .p3 (13px)
+  $labelFontSize: 13px;
   // Checkmark box
   & + label:before {
     content: '';
+    position: relative;
+    top: px-em(-2, 13);
     margin-right: px-em( 10px, $labelFontSize );
     display: inline-block;
     vertical-align: text-top;
@@ -718,33 +723,24 @@ input.search-query {
     border: 1px solid transparent;
     border: 1px solid rgba($gray20, 0);
     background: $white;
-    @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal, border-color $transitionFast $easeNormal);
+    @include box-shadow(0 1px 0 $gray60);
+    @include transition(box-shadow $transitionFast $easeNormal, background-color $transitionFast $easeNormal, color $transitionFast $easeNormal);
   }
 
   // Check mark
   & + label:after {
     position: absolute;
-    left: .3125em;
+    left: .375em;
     top: .25em;
     opacity: 0;
+    color: $gray20;
     @include transition(opacity $transitionFast $easeNormal, color $transitionFast $easeNormal);
-  }
-
-  // Check box on hover
-  &:hover + label:before {
-    @include box-shadow(none);
-    color: $defaultTextColor;
-    background: $gray90;
-  }
-
-  // Check mark on hover
-  &:hover + label:after {
-    opacity: 1;
   }
 
   // Check box on focus
   &:focus + label:before {
     outline: 1px solid $gray25;
+    box-shadow: none;
   }
 
   // Check box on active
@@ -788,6 +784,22 @@ input.search-query {
   &.disabled:hover + label:after,
   &[disabled]:hover + label:after {
     content: none;
+  }
+}
+
+
+.generatedcontent.no-touch .styled-checkbox {
+  // Check box on hover
+  &:not(.active):not(:checked):not([disabled]):hover + label:before {
+  // &:not(.active, :checked, [disabled]):hover + label:before {
+    @include box-shadow(none);
+    color: $defaultTextColor;
+    background: $gray90;
+  }
+
+  // Check mark on hover
+  &:hover + label:after {
+    opacity: 1;
   }
 }
 

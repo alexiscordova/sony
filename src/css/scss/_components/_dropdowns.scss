@@ -7,6 +7,7 @@
 .dropup,
 .dropdown {
   position: relative;
+  display: block;
 }
 .dropdown-toggle,
 .btn.dropdown-toggle {
@@ -140,6 +141,10 @@
   min-width: 210px;
   @include box-shadow(0 0 35px $transparentBlack);
 
+  .no-boxshadow & {
+    border-color: $gray70;
+  }
+
   // Dividers (basically an hr) within the dropdown
   .divider {
     @include nav-divider($dropdownAltDividerTop, $dropdownAltDividerBottom);
@@ -168,7 +173,9 @@
 .dropdown-menu-alt li > a:focus,
 .dropdown-submenu-alt:hover > a {
   color: $dropdownAltLinkColorHover;
-  background: $dropdownAltLinkBackgroundHover;;
+  background-color: $dropdownAltLinkBackgroundHover;
+  background-image: none;
+  filter: none;
 }
 
 // Active state
@@ -184,7 +191,9 @@
 .dropdown-menu-alt .active > a,
 .dropdown-menu-alt .active > a:hover {
   color: $dropdownAltLinkColorActive;
-  background: $dropdownAltBackground;;
+  background-color: $dropdownAltLinkBackgroundActive;
+  background-image: none;
+  filter: none;
 }
 
 // Disabled state

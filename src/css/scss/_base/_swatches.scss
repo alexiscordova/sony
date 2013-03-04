@@ -14,9 +14,16 @@
   position: relative;
   display: inline-block;
   @include size( px-em(40px), px-em(42px) );
-  @include box-shadow(0 1px 0 $gray40);
-  border: 1px solid transparent;
-  border: 1px solid rgba($gray20, 0);
+  @include box-shadow(0 1px 0 $gray50);
+  @include transition(box-shadow $transitionFast ease-out, color $transitionFast ease-out, background-color $transitionFast ease-out);
+
+  &:hover {
+
+  }
+
+  .lt-ie8 & {
+    float: left;
+  }
 
   &:before,
   &:after {
@@ -45,8 +52,10 @@
 
   // Check mark
   &:after {
-    left: .75em;
-    top: .625em;
+    top: 50%;
+    left: 50%;
+    margin-left: -.5em;
+    margin-top: -.5625em;
     color: $white;
   }
 
@@ -68,8 +77,8 @@
 
   // Disabled state
   &[disabled] {
-    border-color: $gray20;
-    border-color: rgba($gray20, .15);
+    border: 1px solid $gray20;
+    border: 1px solid rgba($gray20, .15);
 
     // overwrite backgrond-image, color, etc
     background: transparent;
@@ -103,6 +112,14 @@
 // Like btn-group
 .color-swatches > *:not(:last-child) {
   margin-right: px-em(6px);
+
+  .lt-ie8 & {
+    margin-right: px-em(2);
+  }
+}
+
+.lt-ie8 .color-swatches {
+  @include clearfix();
 }
 
 .filter-container [class*="swatch-"] {

@@ -20,18 +20,11 @@
 
   // Brand: website name
   // -------------------------
-  .fonticon-60-sony { // desktop version (inside navbar)
+  .sprite-32a-sony-logo { // desktop version (inside navbar)
     float: left;
     display: block;
-    margin:14px 0 0;
-    color:$white;
-    height:32px;
+    margin:16px 0 0;
     overflow:hidden;
-
-    &:hover, &:active, &:focus, &.active{
-      color:$white;
-      line-height:0;
-    }
   }
 }
 
@@ -204,11 +197,18 @@
 //                                  888                              
 // -----------------------------------------
 
+.navbar-outer {
+  background-color: $navbarBackground;
+  position: relative;
+  z-index: 222;
+}
 .nav-wrapper,
 .navbar{
   height: $navbarHeight;
 }
-.navtray-w,
+.navtray-w {
+  top: -999px;
+}
 .navmenu-w {
   top: $navbarHeight;
 }
@@ -218,7 +218,10 @@
   }
 }
 
-
+.lt-ie10 .nav-outer-container {
+  z-index: 999;
+  position: relative;
+}
 
 .nav-primary{
   margin-left:2%;
@@ -258,9 +261,11 @@
 
   .fonticon-10-arrowhead-down{
       position:relative;
-      top:-1px;
+      top:-2px;
+      margin-bottom: -5px;
       margin-left: px-em(4);
       margin-right:-2px;
+      overflow:hidden;
   }
 }
 
@@ -312,17 +317,15 @@
   [class^="fonticon-10-"],
   [class*=" fonticon-10-"]{
     margin: 0;
-  }
-  [class^="icon-ui-"],
-  [class*=" icon-ui-"]{
-    margin: 1px 2px 0 2px;
+    -webkit-font-smoothing:antialiased;
+    // overflow:hidden;
   }
 }
 
 .nav-primary{
   .nav-li-store .fonticon-10-cart,
   .nav-li-support .fonticon-10-support,
-  .nav-li-sites-mobile{
+  .nav-li-universal-mobile{
     display:none;
   }
 }
@@ -332,12 +335,13 @@
     font-size: px-em(11px);
     padding-right:6px;
     padding-top:10px;
+    -webkit-backface-visibility:hidden; // fix rogue focus rectangle
 
     .fonticon-10-arrowhead-down{
       margin-left:3px;
       position:relative;
       top:-2px;
-      font-size: px-em(16px,11px);
+      font-size: px-em(16,10.5);
     }
   }
 }
@@ -492,9 +496,18 @@
 
 .navmenu-w-search{
   @include hideshow-navmenu-hide(right);
-
+  .lt-ie10 &{
+    height: 100%;
+    overflow: visible;
+  }
   .reveal-transition-container{
     overflow:hidden;
+    .lt-ie10 &{
+      overflow:visible!important;
+      min-height: 100%;
+      height: 110%;
+      position: relative;
+    }
   }
   .fonticon-10-arrowhead-up.nav-indicator{
     right:17px;
@@ -520,7 +533,7 @@
     width: 215px;
     padding: 11px 0 9px;
     overflow:hidden;
-
+    
     .navmenu-list-prefixed{
       // border-bottom:solid 1px $grayLightish;
       // padding-bottom:6px;

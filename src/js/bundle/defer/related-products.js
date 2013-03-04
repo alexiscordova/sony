@@ -32,10 +32,10 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = false;
+      self.DEBUG                  = true;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
-      self.MOBILE_BREAKPOINT      = 567;
+      self.MOBILE_BREAKPOINT      = 568;
       
       //Cache common jQuery objects
       self.$paddles               = $({});
@@ -45,6 +45,7 @@
       self.$currentSlide          = null;
       self.$shuffleContainers     = self.$slides.find('.shuffle-container');
       self.$galleryItems          = self.$el.find('.gallery-item');
+      self.$plate                 = self.$slides.eq(0).find('.gallery-item.plate').first();
       self.$container             = self.$el.find('.rp-container').eq(0);
       self.$favorites             = self.$el.find('.js-favorite');
       self.$tabbedContainer       = self.$el.parent();
@@ -77,13 +78,17 @@
       self.paddlesEnabled         = false;
       self.resizeTimeout          = null;
       self.startInteractionPointX = null;
+      self.isTransitioning        = true;
+      self.lastTouch              = null;
+      self.handleStartPosition    = null;
+      self.dragThreshold          = 50;
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
-      self.oldIE                  = self.$html.hasClass('lt-ie8');
-      self.isIE7orIE8             = self.$html.hasClass('lt-ie9');
+      self.oldIE                  = self.$html.hasClass('lt-ie10');
+      self.isIE7orIE8             = self.$html.hasClass('lt-ie10');
       self.inited                 = false;
-      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie8') && self.hasMediaQueries;
+      self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       
       //Modes
       self.isMobileMode    = false;
@@ -91,8 +96,12 @@
       self.isTabletMode    = false;
       self.accelerationPos = 0;
 
+
+
       //Startup
       self.init();
+
+
 
     };
 
@@ -126,6 +135,8 @@
         //Initialize tooltips
         self.initTooltips();
 
+        self.log('Related Poducts init...');
+
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
            self.variation === '4up' ||
@@ -152,6 +163,7 @@
           self.$win.trigger('resize');
         }else {
           self.setupStripMode();
+          self.log('setting up strip mode...');
         }
       },
 
@@ -241,7 +253,7 @@
           point, distanceMoved;
 
           if ( self.hasTouch ) {
-            point = e.originalEvent.touches[0];
+            point = e.originalEvent.touches[0] || { pageX: 0 } ;
           } else {
             point = e;
           }
@@ -319,7 +331,7 @@
             numColumns = 5;
 
           // // Portrait Tablet ( 4 columns ) - masonry
-          } else if ( self.mq('(min-width: 567px)') ) {
+          } else if ( self.mq('(min-width: 569px)') ) {
             numColumns = 4;
             gutter = SONY.Settings.GUTTER_WIDTH_SLIM * containerWidth;
           }
@@ -339,7 +351,7 @@
             if ( !Modernizr.mediaqueries || self.mq('(min-width: 981px)') || self.$html.hasClass('lt-ie10') ) {
               column = SONY.Settings.COLUMN_WIDTH_SLIM_5 * containerWidth; // ~18% of container width
             // Between Portrait tablet and phone ( 3 columns )
-            } else if ( self.mq('(min-width: 567px)') ) {
+            } else if ( self.mq('(min-width: 569px)') ) {
               column = SONY.Settings.COLUMN_WIDTH_SLIM * containerWidth;
             // Default
             }else{
@@ -368,22 +380,30 @@
         if(self.mode !== 'suggested' && !self.oldIE){
          self.$win.on('resize', function(){
           if(!self.isMobileMode && self.$win.width() > self.MOBILE_BREAKPOINT) {
+
             self.$galleryItems.css({
               visibility : HIDDEN,
               opacity    : 0
             });
             self.$pagination.hide();
             self.$el.addClass( REDRAWING );
+
            }else{
+
             self.$el.css({
               opacity : 1,
               visibility : VISIBLE
             });
+
             self.$galleryItems.not(BLANK).css({
               visibility : VISIBLE,
               opacity : 1
             });
-            self.$pagination.show();
+
+            if(!self.isMobileMode){
+              self.$pagination.show();
+            }
+
             self.$el.removeClass( REDRAWING );
            }
           });
@@ -399,7 +419,10 @@
           });
           self.$el.removeClass( REDRAWING );
 
-          self.$pagination.show();
+          if(!self.isMobileMode){
+            self.$pagination.show();
+          }
+          
         }
 
         self.$pagination.hide();
@@ -515,7 +538,7 @@
 
         if(self.oldIE && self.DEBUG){
           if(window.alert){
-            window.alert(strOut);
+            //window.alert(strOut);
           }
         }else if(self.DEBUG) {
           if(window.console){
@@ -523,6 +546,7 @@
           }
         }
       },
+
       setupStripMode: function(){
         var self       = this,
         containerWidth = self.$el.width(),
@@ -588,21 +612,22 @@
             'width'       : colWidth,
             'margin'      : 0,
             'margin-left' : 0,
-            'margin-top'  : 0
+            'margin-top'  : '20px'
           });
 
           self.$galleryItems.first().css({
             'width'   : colWidth,
-            'margin'  : 0
-          }); 
+            'margin'  : 0,
+            'margin-top' : '20px'
+          });
 
-          var newContainerHeight = self.$el.find('.gallery-item.normal').first().height() + 40 + 'px';
+          var newContainerHeight = self.$el.find('.gallery-item.normal').first().outerHeight(true)  + 'px';
 
           self.$el.css({
             'height'     : newContainerHeight,
             'max-height' : newContainerHeight,
-            'min-height' : newContainerHeight,
-            'min-width'  : 550 + 'px'
+            'min-height' : newContainerHeight
+            /*'min-width'  : 550 + 'px'*/
           });
 
         }));
@@ -653,73 +678,67 @@
 
 
       createPaddles: function(){
-        var self            = this,
-        itemHTMLPaddleRight = '<div class="paddle"><i class=fonticon-10-chevron-reverse></i></div>',
-        itemHTMLPaddleLeft  = '<div class="paddle"><i class=fonticon-10-chevron></i></div>',
-        $container          = self.$el.closest('.container'),
-        out;
 
-        self.paddlesEnabled = true;
-        
-        //build up the html
-        out = '<div class="rp-nav rp-paddles">';
-        out += itemHTMLPaddleRight;
-        out += itemHTMLPaddleLeft;
-        out += '</div>';
-        out = $(out);
+        var self = this;
 
-        self.$el.append(out);
+        self.log('creating paddles...');
 
-        self.$paddles     = self.$el.find('.paddle');
-        self.$leftPaddle  = self.$paddles.eq(0).addClass('left');
-        self.$rightPaddle = self.$paddles.eq(1).addClass('right');
+        self.$el.sonyPaddles();
 
-        self.$paddles.on(self.tapOrClick() , function(){
-          var p = $(this);
-
-          if(p.hasClass('left')){
-
-            self.currentId --;
-            if(self.currentId < 0){
-              self.currentId = 0;
-            }
-
-            self.moveTo();
-
-          }else{
-
-            self.currentId ++;
-
-            if(self.currentId >= self.$slides.length){
-              self.currentId = self.$slides.length - 1;
-            }
-
-            self.moveTo();
+        self.$el.on('sonyPaddles:clickLeft', function(){
+          self.currentId --;
+          if(self.currentId < 0){
+            self.currentId = 0;
           }
 
+          self.moveTo();
         });
 
-        self.onPaddleNavUpdate();
+        self.$el.on('sonyPaddles:clickRight', function(){
+          self.currentId ++;
 
+          if(self.currentId >= self.$slides.length){
+            self.currentId = self.$slides.length - 1;
+          }
+
+          self.moveTo();
+        });
+  
+        self.onPaddleNavUpdate();
         self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
+
       },
+
+
 
       onPaddleNavUpdate: function(){
         var self = this;
 
+        self.$el.sonyPaddles('showPaddle', 'right');
+        self.$el.sonyPaddles('showPaddle', 'left');
+
         //check for the left paddle compatibility
         if(self.currentId === 0){
-          self.$leftPaddle.stop(true,true).fadeOut(100);
-        }else{
-          self.$leftPaddle.stop(true,true).fadeIn(200);
+          self.$el.sonyPaddles('hidePaddle', 'left');
         }
 
         //check for right paddle compatiblity
         if(self.currentId === self.numSlides - 1){
-          self.$rightPaddle.stop(true,true).fadeOut(100);
-        }else{
-          self.$rightPaddle.stop(true,true).fadeIn(200);
+          self.$el.sonyPaddles('hidePaddle', 'right');
         }
+
+      },
+
+      togglePaddles: function (turnOn){
+        var self = this;
+
+        if(turnOn){
+          self.$el.find('.pagination-paddles').show();
+        }else{
+          self.$el.find('.pagination-paddles').hide();
+        }
+
+        
       },
 
       createShuffle: function(){
@@ -866,7 +885,7 @@
 
       sortByPriority : function() {
         var self = this,
-            isTablet = self.mq('(min-width: 567px) and (max-width: 980px)');
+            isTablet = self.mq('(min-width: 569px) and (max-width: 980px)');
 
         if ( isTablet && !self.sorted ) {
 
@@ -899,7 +918,8 @@
       checkForBreakpoints: function(){
         var self = this,
         wW       = self.$win.width(),
-        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile';
+        view     = wW > self.LANDSCAPE_BREAKPOINT ? 'desktop' : wW > self.MOBILE_BREAKPOINT ? 'tablet' : 'mobile',
+        wasMobile = false;
 
         //if the browser doesnt support media queries...IE default to desktop
         if(!Modernizr.mediaqueries || self.$html.hasClass('lt-ie10')){
@@ -910,6 +930,7 @@
 
         switch(view){
           case 'desktop':
+
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
@@ -922,44 +943,53 @@
 
            //check if we are coming out of mobile
             if(self.isMobileMode === true){
+              wasMobile = true;
               self.returnToFullView();
+
+              self.log('was mobile');
             }
 
             self.isTabletMode = self.isMobileMode = false;
 
             if(self.isDesktopMode === true){
-              return;
+               self.log('already desktop');
+              //return;
             }
 
             self.isDesktopMode = true;
+
             self.$el.removeClass('rp-tablet rp-mobile')
                                     .addClass('rp-desktop');
 
-            if(self.scrollerModule !== null){
-
+            if(self.scrollerModule !== null || wasMobile){
+              self.log('destroying scroller');
               self.scrollerModule.destroy();
               self.scrollerModule = null;
 
             }
 
-            if(self.shuffle === null){
+            if(self.shuffle === null || wasMobile){
+              self.log('creating shuffle');
               self.$container.css('width' , '100%');
               self.createShuffle();
+
+              
             }
 
             self.sortByPriority();
 
             window.iQ.update();
 
-            self.ev.trigger('ondesktopbreakpoint.rp');
+            if(!self.hasTouch){
+              self.togglePaddles(true);
+            }
+
 
           break;
 
           case 'tablet':
 
-            var wasMobile = self.isMobileMode;
-
-            //alert('tablet');
+            wasMobile = self.isMobileMode;
 
             if(self.mode === 'suggested'){
               self.$el.find('.gallery-item').addClass('span6');
@@ -985,10 +1015,8 @@
                     .addClass('rp-tablet');
 
             if(self.scrollerModule !== null){
-
               self.scrollerModule.destroy();
               self.scrollerModule = null;
-
             }
 
             if(self.shuffle === null){
@@ -999,6 +1027,10 @@
             self.sortByPriority();
 
             window.iQ.update();
+
+            if(!self.hasTouch){
+              self.togglePaddles(true);
+            }
 
           break;
 
@@ -1038,6 +1070,8 @@
               });
             }
 
+            self.shuffle = null;
+
             //Hide the bullet navigation
             self.$bulletNav.hide();
 
@@ -1050,8 +1084,15 @@
 
             self.initMobileBreakpoint();
 
+            self.log('initing mobile');
+
+            self.togglePaddles(false);
+
           break;
         }
+
+
+        //do we need this in ALL modes?
 
         self.setNameHeights(self.$shuffleContainers);
 
@@ -1071,7 +1112,8 @@
       },
 
       updateSliderSize: function(){
-        var self = this;
+        var self = this,
+        newHeight = $('.shuffle-container').eq(0).height();
 
         //handle stuff for old IE
         if( self.oldIE ){
@@ -1085,45 +1127,100 @@
 
         //handle resize for various layouts
         if(self.isTabletMode === true){
-          //ratio based on comp around 768/922
-          //self.$el.css('height' , 1.05 * self.$el.width());
-          self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
+          if( newHeight === 0 ){
+            newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.984615385 );
+            self.log('using alternate height calculatio >>> TABLET' , newHeight);
+          }
+          
+         self.$el.css( 'height' , newHeight + 62 + 'px' );
 
           if(!!self.isTabbedContainer){
-            //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
-            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
+            self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 62 + 'px');
           }
           return;
         }
 
         if(self.isMobileMode === true){
-
-          self.$el.css('height' , 400);
-
+          self.$el.css('height' , 290);
           if(!!self.isTabbedContainer){
-            self.$tabbedContainer.css('height' , 400);
+            self.$tabbedContainer.css('height' , 290);
           }
           return;
         }
 
-        //self.$el.css( 'height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) );
-        self.$el.css( 'height' , $('.shuffle-container').eq(0).height() + 40 + 'px' );
-
-        if(!!self.isTabbedContainer){
-          //self.$tabbedContainer.css('height' , ((0.524976) * self.$shuffleContainers.eq(0).width()) + 150);
-          self.$tabbedContainer.css('height' , $('.shuffle-container').eq(0).height() + 40 + 'px');
+        if( newHeight === 0 ){
+          newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.509803922 );
+           self.log('using alternate height calculation >>> Desktop' , newHeight);
         }
 
+        if(self.$win.width() < 1120){
+          newHeight += 20;
+        }
 
+        self.$el.css( 'height' , newHeight + 0 + 'px' );
+
+        if(!!self.isTabbedContainer){
+          self.$tabbedContainer.css('height' , newHeight + 0 + 'px');
+        }
       },
+
+      getPagePosition: function(e) {
+
+        var self = this;
+
+        if ( !e.pageX && !e.originalEvent ) {
+          return;
+        }
+
+        self.lastTouch = self.lastTouch || {};
+
+        // Cache position for touchmove/touchstart, as touchend doesn't provide it.
+        if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
+          self.lastTouch = e.originalEvent.touches[0];
+        }
+
+        return {
+          'x': (e.pageX || self.lastTouch.pageX),
+          'y': (e.pageY || self.lastTouch.pageY)
+        };
+      },
+
+      /*
+      'scrubbingThreshold': function(e) {
+
+        var self = this,
+            distX = self.getPagePosition(e).x - self.handleStartPosition.x,
+            distY = self.getPagePosition(e).y - self.handleStartPosition.y;
+
+        // If you're not on touch, or if you didn't pass in a threshold setting, go ahead and scrub.
+
+        if ( !Modernizr.touch || !self.dragThreshold || self.isScrubbing ) {
+          self.isScrubbing = true;
+          self.onScrubbing(e, distX, distY);
+          return;
+        }
+
+        // If you've gone past the threshold, simply do nothing for this interaction.
+
+        if ( self.hasPassedThreshold ) { return; }
+
+        if ( Math.abs(distX) > self.dragThreshold ) {
+          self.isScrubbing = true;
+          self.onScrubbing(e, distX, distY);
+          return;
+        }
+
+        if ( Math.abs(distY) > self.dragThreshold ) {
+          self.hasPassedThreshold = true;
+          return;
+        }
+      },*/
 
       onDragStart : function(e){
         var self = this,
             point;
 
         self.dragSuccess = false;
-
-        //self.setGrabCursor();//toggle grabber
 
         if(self.hasTouch){
           var touches = e.originalEvent.touches;
@@ -1158,12 +1255,11 @@
         //self.startTime          = new Date().getTime();
         self.startTime = self.startInteractionTime = new Date().getTime();
         self.startInteractionPointX = point.pageX;
+        self.handleStartPosition = self.getPagePosition(e);
 
         if(self.hasTouch) {
           self.sliderOverflow.on(self.cancelEvent, function(e) { self.dragRelease(e, false); });
         }
-
-        //self.moveTo();
 
       },
 
@@ -1285,6 +1381,7 @@
             }
             return newSpeed;
         }
+
         function returnToCurrent(isSlow, v0) {
           var newPos = -self.currentId * self.currentContainerWidth,
           newDist = Math.abs(self.sPosition  - newPos);
@@ -1344,6 +1441,8 @@
 
       dragMove: function(e , isThumbs){
         var self = this,
+            distX = self.getPagePosition(e).x - self.handleStartPosition.x,
+            distY = self.getPagePosition(e).y - self.handleStartPosition.y,
             point;
 
         if(self.hasTouch) {
@@ -1379,7 +1478,13 @@
           })();
         }
 
-        if(!self.checkedAxis) {
+
+        if ( Math.abs(distY) > self.dragThreshold ) {
+          self.hasPassedThreshold = true;
+          return;
+        }
+
+       if(!self.checkedAxis) {
 
           var dir = true,
           diff    = (Math.abs(point.pageX - self.pageX) - Math.abs(point.pageY - self.pageY) ) - (dir ? -7 : 7);
@@ -1407,6 +1512,8 @@
           }
           return;
         }
+
+
 
         e.preventDefault();
         self.renderMoveTime = new Date().getTime();
@@ -1526,6 +1633,8 @@
         //update the overall position
         self.sPosition = self.currRenderPosition = newPos;
 
+        self.isTransitioning = true;
+
         self.ev.trigger('rpOnUpdateNav');
       },
 
@@ -1533,6 +1642,7 @@
         var self = this;
         if(self.isDesktopMode === false){
           self.isDesktopMode = true;
+
 
           self.$galleryItems.each(function(){
             var item = $(this).removeClass('small-size mobile-item'),
@@ -1543,8 +1653,11 @@
           self.$container.css( 'width' , '' );
           self.$container.append(self.$slides);
           self.$container.on(self.downEvent, function(e) { self.onDragStart(e); });
-          self.$paddles.show();
 
+          if(!self.hasTouch){
+            self.$paddles.show();
+          }
+          
         }
       },
 
@@ -1611,7 +1724,7 @@
             top :  plateHeight,
             left: (spaceAvail / 4) - ( parseInt(self.$leftPaddle.width() , 10) ) + 10 + px
           });
-        }else if(self.mq('(min-width: 567px)') && hasPlate){
+        }else if(self.mq('(min-width: 569px)') && hasPlate){
 
           self.$rightPaddle.css({
             top :  plateHeight + 130,
@@ -1651,7 +1764,7 @@
           $mediumTile = $slide.find('.gallery-item.medium .product-img').first();
           $normalTile = $slide.find('.gallery-item.normal').first();
 
-          var tileHeight = $slide.find('.gallery-item.plate').first().height(),
+          var tileHeight = $slide.find('.gallery-item.plate').first().height() +  ( self.mq('(max-width: 769px)') ? 26 : 0 ),
               testHeight = $('.gallery-item.normal').first().find('.product-content').outerWidth(true);
 
           if(slideVariation !== '3up'){
@@ -1659,6 +1772,22 @@
               'max-height' : tileHeight,
               'height'     : tileHeight
             });
+/*
+            if( slideVariation === '4up' && self.mq( '(min-width: 567px) and (max-width: 768px)' ) ){
+              $slide.find( '.gallery-item.normal').each(function(){
+                var $item = $(this);
+
+                self.log( $item.outerHeight(true) , $slide.find('.gallery-item.plate').first().height() );
+
+                if ( $item.outerHeight( true ) >  $slide.find('.gallery-item.plate').first().height() ) {
+                  $slide.find('.gallery-item.plate').first().css({
+                    'max-height' : $item.outerHeight(true),
+                    'height'     : $item.outerHeight(true)
+                  });
+                }
+              });
+            }
+            self.log( 'Setting new tile height on gallery items, ' , $slide.find('.gallery-item.plate').first().height(), tileHeight  , self.mq('(min-width: 769px)'));*/
           }
 
           switch( slideVariation ){
@@ -1834,7 +1963,7 @@
       setNameHeights : function( $container ) {
         var nameMaxHeight = 0;
 
-        // Set the height of the product name + model because the text can wrap and make it taller
+        //Set the height of the product name + model because the text can wrap and make it taller
         $container
           .find('.product-name-wrap')
           .css('height', '') // remove heights in case they've been set before
@@ -1867,6 +1996,7 @@
     //Related Products definition on jQuery
     $.fn.relatedProducts = function(options) {
       var args = arguments;
+
       return this.each(function(){
         var self = $(this);
         if (typeof options === "object" ||  !options) {
@@ -1882,16 +2012,17 @@
       });
     };
 
-    //defaults for the related products
+    //Defaults for the related products
     $.fn.relatedProducts.defaults = {
       throttleTime: 50,
       autoScaleContainer: true,
       minSlideOffset: 10,
       navigationControl: 'bullets'
     };
-
+    
+    //Listen for global sony ready event
     SONY.on('global:ready', function(){
-      $('.related-products').relatedProducts({});
+      $('.related-products').relatedProducts();
     });
 
  })(SONY,jQuery, Modernizr, window,undefined , window.console);

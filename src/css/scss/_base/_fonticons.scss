@@ -2,9 +2,9 @@
 // FontIcons
 // --------------------------------------------------
 
-%fonticon {
+[class*="fonticon-"] {
   display: inline-block;
-  line-height: 0;
+  line-height: 0.6; // sorry if this screwed up your icons, but 0.6 appears to be the same as 0 everywhere except IE9 & 10 where it NEEDS 0.6 or it's too small.
   // overflow: hidden; -- if you need overflow:hidden, you have to apply it to your own icon/s.
 
   &:before,
@@ -16,10 +16,9 @@
     line-height: 1;
     // -webkit-font-smoothing: antialiased; // NO! Icons have been adjusted so they don't need this, and rendering is consistent across browsers.
   }
-}
-
-[class*="fonticon-"] {
-  @extend %fonticon;
+  &.l-o-d{ // light-on-dark
+    -webkit-font-smoothing: antialiased;
+  }
 }
 [class*="fonticon-10-"] {
   font-size: 1.0em;
@@ -38,13 +37,30 @@
 }
 [class*="fonticon-40-"] {
   font-size:4.0em;
+  line-height:0.65;
 }
 [class*="fonticon-50-"] {
   font-size:5.0em;
+  line-height:0.65;
 }
 [class*="fonticon-60-"] {
   font-size:6.0em;
+  line-height:0.65;
 }
+
+.lt-ie8{
+  [class*="fonticon-"],
+  [class*="fonticon-10-"],
+  [class*="fonticon-15-"],
+  [class*="fonticon-20-"],
+  [class*="fonticon-30-"],
+  [class*="fonticon-40-"],
+  [class*="fonticon-50-"],
+  [class*="fonticon-60-"] {
+    line-height:1;
+  }
+}
+
 
 .fonticon-10-chevron-sm,
 .fonticon-10-chevron-sm--after{

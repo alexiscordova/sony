@@ -20,7 +20,7 @@
 
 !function ($) {
 
-  $(function () {
+  // $(function () {
 
     "use strict"; // jshint ;_;
 
@@ -55,9 +55,10 @@
 
     })()
 
-  })
+  // })
 
-}(window.jQuery);/* ==========================================================
+}(window.jQuery);
+/* ==========================================================
  * bootstrap-alert.js v2.1.1
  * http://twitter.github.com/bootstrap/javascript.html#alerts
  * ==========================================================
@@ -684,9 +685,12 @@
       if ( $target.is('a') && $parent.find($target).length ) {
         $target
           .parent()
-          .addClass('active')
-          .siblings()
-          .removeClass('active')
+            .addClass('active')
+            .siblings()
+            .removeClass('active')
+
+        // Return focus to the window
+        $target.blur();
       }
     }
   }
@@ -798,6 +802,17 @@
             that.$element.appendTo(document.body) //don't move modals dom position
           }
 
+          // $('body').on('touchmove.modal', function(e) {
+          //   var target = e.target;
+          //   while ( target.nodeType !== 1 ) {
+          //     target = target.parentNode;
+          //   }
+
+          //   if ( target.tagName !== 'SELECT' && target.tagName !== 'BUTTON' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' ) {
+          //     e.preventDefault();
+          //   }
+          // })
+
           that.$element
             .show()
 
@@ -808,13 +823,19 @@
           that.$element
             .addClass('in')
             .attr('aria-hidden', false)
-            .focus()
 
           that.enforceFocus()
 
           transition ?
-            that.$element.one($.support.transition.end, function () { that.$element.trigger('shown') }) :
-            that.$element.trigger('shown')
+            that.$element.one($.support.transition.end, function () {
+              that.$element.focus().trigger('shown')
+
+              if (that.options.backdrop !== false && that.options.backdrop != 'static') {
+                that.$backdrop.click($.proxy(that.hide, that))
+              }
+
+            }) :
+            that.$element.focus().trigger('shown')
 
         })
       }
@@ -833,6 +854,7 @@
         this.isShown = false
 
         $('body').removeClass('modal-open')
+        // $('body').off('touchmove.modal')
 
         this.escape()
 
@@ -902,10 +924,6 @@
 
           this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
             .appendTo(document.body)
-
-          if (this.options.backdrop != 'static') {
-            this.$backdrop.click($.proxy(this.hide, this))
-          }
 
           if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
 

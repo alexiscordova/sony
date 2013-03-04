@@ -1,0 +1,325 @@
+<!DOCTYPE html>  <html> <head>   <title>one-sony-carousel-s2.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="sony-global-analytics.html">                 sony-global-analytics.js               </a>                                           <a class="source" href="sony-global-settings.html">                 sony-global-settings.js               </a>                                           <a class="source" href="sony-global-utilities.html">                 sony-global-utilities.js               </a>                                           <a class="source" href="sony-global.html">                 sony-global.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               one-sony-carousel-s2.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>One Sony Carousel (OneSonyCarousel) Module</h2>
+
+<ul>
+<li><strong>Class:</strong> OneSonyCarousel</li>
+<li><strong>Version:</strong> 0.2</li>
+<li><strong>Modified:</strong> 02/20/2013</li>
+<li><strong>Author:</strong> George Pantazis</li>
+<li><strong>Dependencies:</strong> jQuery 1.7+, Modernizr, Enquire, <a href="sony-draggable.html">SonyDraggable</a>,
+                <a href="sony-navigationdots.html">SonyNavDots</a>, <a href="sony-paddles.html">SonyPaddles</a></li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="keyword">function</span>($) {
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> OneSonyCarousel = <span class="keyword">function</span>($element, options){
+
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    $.extend(self, {}, $.fn.oneSonyCarousel.defaults, options);
+
+    self.$el = $element;
+    self.$container = self.$el.find(<span class="string">'.soc-container'</span>);
+    self.$innerContainer = self.$container.find(<span class="string">'.soc-container-inner'</span>);
+    self.$slides = self.$container.find(<span class="string">'.soc-content'</span>);
+
+    self.currentSlide = <span class="number">0</span>;
+    self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
+
+    self.init();
+  };
+
+  OneSonyCarousel.prototype = {
+
+    constructor: OneSonyCarousel,
+
+    init: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.createPaddles();
+      self.setupLinkClicks();
+
+      self.$innerContainer.sonyDraggable({
+        <span class="string">'axis'</span>: <span class="string">'x'</span>,
+        <span class="string">'unit'</span>: <span class="string">'%'</span>,
+        <span class="string">'dragThreshold'</span>: <span class="number">50</span>,
+        <span class="string">'containment'</span>: self.$container,
+        <span class="string">'useCSS3'</span>: self.useCSS3,
+        <span class="string">'drag'</span>: window.iQ.update
+      });
+
+      self.$el.on(<span class="string">'sonyDraggable:dragStart'</span>,  $.proxy(self.dragStart, self));
+      self.$el.on(<span class="string">'sonyDraggable:dragEnd'</span>,  $.proxy(self.dragEnd, self));
+      self.$innerContainer.on(SONY.Settings.transEndEventName, window.iQ.update);
+
+      SONY.on(<span class="string">'global:resizeDebounced-200ms'</span>, <span class="keyword">function</span>(){
+        self.gotoSlide(Math.min.apply(Math, [self.currentSlide, self.$slides.length - <span class="number">1</span>]));
+      });
+
+      self.$cachedSlides = self.$slides.detach();
+      self.$sliderWrapper = self.$slides.first().clone();
+      self.$sliderWrapper.find(<span class="string">'.soc-item'</span>).remove();
+
+      <span class="keyword">if</span> ( window.enquire &amp;&amp; !SONY.$html.hasClass(<span class="string">'lt-ie10'</span>) ){
+
+        window.enquire.register(<span class="string">"(min-width: 780px)"</span>, <span class="keyword">function</span>() {
+          self.renderDesktop();
+        });
+        window.enquire.register(<span class="string">"(min-width: 480px) and (max-width: 779px)"</span>, <span class="keyword">function</span>() {
+          self.renderEvenColumns(<span class="number">6</span>);
+        });
+        window.enquire.register(<span class="string">"(max-width: 479px)"</span>, <span class="keyword">function</span>() {
+          self.renderEvenColumns(<span class="number">12</span>);
+        });
+
+      } <span class="keyword">else</span> {
+        self.renderDesktop();
+      }
+
+      self.gotoSlide(<span class="number">0</span>);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Create or restore the default slide layout.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    renderDesktop: <span class="keyword">function</span>(which) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $newSlides = self.$cachedSlides.clone(<span class="literal">true</span>);
+
+      self.$innerContainer.empty().append($newSlides);
+      self.$slides = $newSlides;
+      self.createPagination();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Splits the default layout into slides with children each of column width
+set at colPerItem, which must divide evenly into 12.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    renderEvenColumns: <span class="keyword">function</span>(colPerItem) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $newItems = self.$cachedSlides.clone(<span class="literal">true</span>).children().children();
+
+      self.$innerContainer.empty();
+      $newItems.removeClass(<span class="string">'span8 span6 span4'</span>).addClass(<span class="string">'span'</span> + colPerItem);
+
+      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; $newItems.length; i=i+(<span class="number">12</span>/colPerItem) ) {
+        <span class="keyword">var</span> newItem = self.$sliderWrapper.clone();
+        <span class="keyword">for</span> ( <span class="keyword">var</span> j = i; j &lt; i + <span class="number">12</span>/colPerItem; j++ ) {
+          newItem.children().append( $newItems.eq(j) );
+        }
+        self.$innerContainer.append(newItem);
+      }
+
+      self.$slides = self.$innerContainer.find(<span class="string">'.soc-content'</span>);
+      self.createPagination();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Stop animations that were ongoing when you started to drag.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    dragStart: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.startInteractionTime = <span class="keyword">new</span> Date().getTime();
+      self.$innerContainer.stop();
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Depending on how fast you were dragging, either proceed to an adjacent slide or
+reset position to the nearest one.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    dragEnd: <span class="keyword">function</span>(e, data) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          goToWhich;
+
+      <span class="keyword">if</span> ( data.acceleration.x &gt; <span class="number">200</span> ) {
+
+        <span class="keyword">if</span> ( self.currentSlide === <span class="number">0</span> ) {
+          self.gotoNearestSlide();
+        } <span class="keyword">else</span> {
+          self.gotoSlide(self.currentSlide - <span class="number">1</span>);
+        }
+      } <span class="keyword">else</span> <span class="keyword">if</span> ( data.acceleration.x &lt; -<span class="number">200</span> ) {
+
+        <span class="keyword">if</span> ( self.currentSlide === self.$slides.length - <span class="number">1</span> ) {
+          self.gotoNearestSlide();
+        } <span class="keyword">else</span> {
+          self.gotoSlide(self.currentSlide + <span class="number">1</span>);
+        }
+      } <span class="keyword">else</span> {
+        self.gotoNearestSlide();
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Find the nearest slide, and move the carousel to that.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    gotoNearestSlide: <span class="keyword">function</span>(e, data) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          leftBounds = self.$container.get(<span class="number">0</span>).getBoundingClientRect().left,
+          positions = [];
+
+      self.$slides.each(<span class="keyword">function</span>(a){
+        positions.push(Math.abs(leftBounds - <span class="keyword">this</span>.getBoundingClientRect().left));
+      });
+
+      self.gotoSlide(positions.indexOf(Math.min.apply(Math, positions)));
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Go to a given slide.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    gotoSlide: <span class="keyword">function</span>(which) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $destinationSlide = self.$slides.eq(which),
+          destinationLeft, innerContainerWidth;
+
+      <span class="keyword">if</span> ( $destinationSlide.length === <span class="number">0</span> ) { <span class="keyword">return</span>; }
+
+      self.currentSlide = which;
+
+      destinationLeft = $destinationSlide.position().left;
+      innerContainerWidth = self.$innerContainer.width();
+
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>IE7/8 doesn't return the correct values for margins if you use 'auto', thus breaking $.outerWidth()</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">if</span> ( SONY.Settings.isLTIE9 ) {
+        <span class="keyword">if</span> ( $destinationSlide.css(<span class="string">'marginLeft'</span>) === <span class="string">'auto'</span> ) {
+          destinationLeft -= (innerContainerWidth -  $destinationSlide.width()  ) / <span class="number">2</span>;
+        }
+      }
+
+      <span class="keyword">if</span> ( self.useCSS3 ) {
+
+        <span class="keyword">var</span> newPosition = destinationLeft / innerContainerWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>If you're on the last slide, only move over enough to show the last child.
+Prevents excess whitespace on the right.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        <span class="keyword">if</span> ( which === self.$slides.length - <span class="number">1</span> ) {
+          <span class="keyword">var</span> childrenWidth = <span class="number">0</span>;
+          $destinationSlide.find(<span class="string">'.soc-item'</span>).each(<span class="keyword">function</span>(){ childrenWidth += $(<span class="keyword">this</span>).outerWidth(<span class="literal">true</span>); });
+          newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
+        }
+
+        self.$innerContainer.css(Modernizr.prefixed(<span class="string">'transitionDuration'</span>), <span class="string">'500ms'</span>);
+        self.$innerContainer.css(Modernizr.prefixed(<span class="string">'transform'</span>), <span class="string">'translate('</span> + (-<span class="number">100</span> * newPosition + <span class="string">'%'</span>) + <span class="string">',0)'</span>);
+
+      } <span class="keyword">else</span> {
+
+        self.$innerContainer.animate({
+          <span class="string">'left'</span>: -<span class="number">100</span> * destinationLeft / SONY.$window.width() + <span class="string">'%'</span>
+        }, {
+          <span class="string">'duration'</span>: <span class="number">1000</span>,
+          <span class="string">'complete'</span>: window.iQ.update
+        });
+      }
+
+      self.$el.trigger(<span class="string">'oneSonyCarousel:gotoSlide'</span>, self.currentSlide);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>To prevent drags from being misinterpreted as clicks, we only redirect the user
+if their interaction time and movements are below certain thresholds.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    setupLinkClicks: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.find(<span class="string">'.soc-item'</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>(e){
+
+        <span class="keyword">var</span> $<span class="keyword">this</span> = $(<span class="keyword">this</span>),
+            destination = $<span class="keyword">this</span>.find(<span class="string">'.headline a'</span>).attr(<span class="string">'href'</span>),
+            closestLink = $(e.target).closest(<span class="string">'a'</span>).attr(<span class="string">'href'</span>);
+
+        <span class="keyword">if</span> ( !self.isDragging ) {
+
+          <span class="keyword">if</span> ((<span class="keyword">new</span> Date().getTime()) - self.startInteractionTime &lt; <span class="number">100</span> ) {
+
+            <span class="keyword">if</span> ( closestLink &amp;&amp; closestLink !== destination ) {
+              destination = closestLink;
+            }
+
+            window.location = destination;
+          }
+        }
+      });
+    },
+
+    createPagination: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.$dotnav ) {
+        self.$dotnav.sonyNavDots(<span class="string">'reset'</span>, {
+          <span class="string">'buttonCount'</span>: self.$slides.length
+        });
+        <span class="keyword">return</span>;
+      }
+
+      self.$dotnav = self.$el.find(<span class="string">'.soc-dot-nav'</span>).sonyNavDots({
+        <span class="string">'buttonCount'</span>: self.$slides.length
+      });
+
+      self.$dotnav.on(<span class="string">'SonyNavDots:clicked'</span>, <span class="keyword">function</span>(e, which) {
+        self.gotoSlide(which);
+      });
+
+      self.$el.on(<span class="string">'oneSonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
+        self.$dotnav.sonyNavDots(<span class="string">'reset'</span>, {
+          <span class="string">'activeButton'</span>: which
+        });
+      });
+    },
+
+    createPaddles: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( Modernizr.touch ) {
+        <span class="keyword">return</span>;
+      }
+
+      self.$el.sonyPaddles();
+
+      self.$el.on(<span class="string">'oneSonyCarousel:gotoSlide'</span>, <span class="keyword">function</span>(e, which) {
+
+        self.$el.sonyPaddles(<span class="string">'showPaddle'</span>, <span class="string">'left'</span>);
+        self.$el.sonyPaddles(<span class="string">'showPaddle'</span>, <span class="string">'right'</span>);
+
+        <span class="keyword">if</span> ( which === <span class="number">0</span> ) {
+          self.$el.sonyPaddles(<span class="string">'hidePaddle'</span>, <span class="string">'left'</span>);
+        }
+
+        <span class="keyword">if</span> ( which === self.$slides.length - <span class="number">1</span> ) {
+          self.$el.sonyPaddles(<span class="string">'hidePaddle'</span>, <span class="string">'right'</span>);
+        }
+      });
+
+      self.$el.on(<span class="string">'sonyPaddles:clickLeft'</span>, <span class="keyword">function</span>(){
+        self.gotoSlide(self.currentSlide - <span class="number">1</span>);
+      });
+
+      self.$el.on(<span class="string">'sonyPaddles:clickRight'</span>, <span class="keyword">function</span>(){
+        self.gotoSlide(self.currentSlide + <span class="number">1</span>);
+      });
+    }
+  };
+
+  $.fn.oneSonyCarousel = <span class="keyword">function</span>( options ) {
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
+        oneSonyCarousel = self.data(<span class="string">'oneSonyCarousel'</span>);
+
+      <span class="keyword">if</span> ( !oneSonyCarousel ) {
+          oneSonyCarousel = <span class="keyword">new</span> OneSonyCarousel( self, options );
+          self.data( <span class="string">'oneSonyCarousel'</span>, oneSonyCarousel );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        oneSonyCarousel[ options ].apply( oneSonyCarousel, args );
+      }
+    });
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h2>Initialize</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+  SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
+    $(<span class="string">'.sony-one-carousel'</span>).oneSonyCarousel();
+  });
+
+})(jQuery);
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

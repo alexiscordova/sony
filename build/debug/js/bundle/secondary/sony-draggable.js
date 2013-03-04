@@ -56,6 +56,8 @@
       self.$containment.on(_endEvents + ' click.sonyDraggable', $.proxy(self.onScrubEnd, self));
       self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
 
+      self.throttledSetAcceleration = $.throttle(500, $.proxy(self.setAcceleration, self));
+
       self.setDimensions();
       self.setPositions();
     },
@@ -68,29 +70,73 @@
       var self = this,
           $this = $(e.target);
 
+      if ( !Modernizr.touch ) {
+        e.preventDefault();
+      }
+
       if ( self.$el.has($this).length === 0 ) {
         return;
       }
 
-      e.preventDefault();
+      if ( self.useCSS3 ) {
+        self.$el.css(Modernizr.prefixed('transitionDuration'), '0ms');
+      }
 
-      self.setDimensions();
+      self.isScrubbing = self.hasPassedThreshold = false;
       self.handleStartPosition = self.getPagePosition(e);
+      self.setDimensions();
 
-      self.$containment.on(_moveEvents, $.proxy(self.onScrubbing, self));
+      self.$containment.on(_moveEvents, $.proxy(self.scrubbingThreshold, self));
+
+      self.$el.trigger('sonyDraggable:dragStart');
+    },
+
+    // Logic for controlling the threshold before which *horizontal* scrubbing can occur on touch devices.
+
+    'scrubbingThreshold': function(e) {
+
+      var self = this,
+          distX = self.getPagePosition(e).x - self.handleStartPosition.x,
+          distY = self.getPagePosition(e).y - self.handleStartPosition.y;
+
+      // If you're not on touch, or if you didn't pass in a threshold setting, go ahead and scrub.
+
+      if ( !Modernizr.touch || !self.dragThreshold || self.isScrubbing ) {
+        self.isScrubbing = true;
+        self.onScrubbing(e, distX, distY);
+        return;
+      }
+
+      // If you've gone past the threshold, simply do nothing for this interaction.
+
+      if ( self.hasPassedThreshold ) { return; }
+
+      if ( Math.abs(distX) > self.dragThreshold ) {
+        self.isScrubbing = true;
+        self.onScrubbing(e, distX, distY);
+        return;
+      }
+
+      if ( Math.abs(distY) > self.dragThreshold ) {
+        self.hasPassedThreshold = true;
+        return;
+      }
     },
 
     // Crunch some vectors to compute the handle's position relative to the user's click/touch.
 
-    'onScrubbing': function(e) {
+    'onScrubbing': function(e, distX, distY) {
 
       var self = this;
 
       e.preventDefault();
 
-      self.handlePosition.x = self.scrubberLeft + self.getPagePosition(e).x - self.handleStartPosition.x;
-      self.handlePosition.y = self.scrubberTop + self.getPagePosition(e).y - self.handleStartPosition.y;
+      self.handlePosition.x = self.scrubberLeft + distX;
+      self.handlePosition.y = self.scrubberTop + distY;
 
+      // Periodically query the user's position to see how much they've moved recently.
+
+      self.throttledSetAcceleration(e);
       self.setPositions();
     },
 
@@ -103,37 +149,59 @@
       e.preventDefault();
 
       self.$containment.off(_moveEvents);
-    },
 
-    // Applies the user-defined boundaries to a given position. The *which* parameter defines the x/y axis.
+      if ( !self.isScrubbing ) { return; }
 
-    'getConstrainedBounds': function(val, which) {
+      // Do a final check on acceleration before returning data in dragEnd.
 
-      var self = this;
+      self.setAcceleration(e);
 
-      if ( self.bounds && self.bounds[which] ) {
-        if ( val < self.bounds[which].min ) {
-          return self.bounds[which].min;
-        } else if ( val > self.bounds[which].max ) {
-          return self.bounds[which].max;
-        }
-      }
+      self.isScrubbing = self.hasPassedThreshold = false;
 
-      return val;
+      self.$el.trigger('sonyDraggable:dragEnd', {
+        'acceleration': self.acceleration
+      });
     },
 
     // Smooths out different event data for desktop and touch users, returns a consistent pageX/Y.
 
     'getPagePosition': function(e) {
 
+      var self = this;
+
       if ( !e.pageX && !e.originalEvent ) {
         return;
       }
 
+      self.lastTouch = self.lastTouch || {};
+
+      // Cache position for touchmove/touchstart, as touchend doesn't provide it.
+
+      if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
+        self.lastTouch = e.originalEvent.touches[0];
+      }
+
       return {
-        'x': (e.pageX || e.originalEvent.touches[0].pageX),
-        'y': (e.pageY || e.originalEvent.touches[0].pageY)
+        'x': (e.pageX || self.lastTouch.pageX),
+        'y': (e.pageY || self.lastTouch.pageY)
       };
+    },
+
+    // Periodically queried to determine the dragging acceleration on x/y axes.
+
+    'setAcceleration': function(e) {
+
+      var self = this,
+          newPosition = self.getPagePosition(e);
+
+      if ( !self.lastPagePosition ) {
+        self.acceleration = {'x': 0, 'y': 0};
+      } else {
+        self.acceleration.x = newPosition.x - self.lastPagePosition.x;
+        self.acceleration.y = newPosition.y - self.lastPagePosition.y;
+      }
+
+      self.lastPagePosition = newPosition;
     },
 
     // Reposition the handle based on mouse movement, or may be called at init for initial placement.
@@ -142,7 +210,8 @@
     'setPositions': function(){
 
       var self = this,
-          newX, newY;
+          newX = 0,
+          newY = 0;
 
       if ( self.unit === 'px' ) {
         if ( self.axis.search('x') >= 0 ) {
@@ -162,13 +231,23 @@
         }
       }
 
-      newX = self.getConstrainedBounds(newX, 'x');
-      newY = self.getConstrainedBounds(newY, 'y');
+      if ( self.bounds ) {
+        newX = self.bounds.x ? SONY.Utilities.constrain( newX, self.bounds.x.min, self.bounds.x.max ) : newX;
+        newY = self.bounds.y ? SONY.Utilities.constrain( newY, self.bounds.y.min, self.bounds.y.max ) : newY;
+      }
 
-      self.$el.css({
-        'left': newX + self.unit,
-        'top': newY + self.unit
-      });
+      // TODO: For CSS3, translate is relative to the width of the element itself. This works fine for carousels
+      // where the width is greater than or equal to the parent, but not for scrubbers, like in dual viewer.
+      // Need to create a conditional that inverts the math for latter.
+
+      if ( self.useCSS3 ) {
+        self.$el.css(Modernizr.prefixed('transform'), 'translate(' + newX + self.unit + ',' + newY + self.unit + ')');
+      } else {
+        self.$el.css({
+          'left': newX + self.unit,
+          'top': newY + self.unit
+        });
+      }
 
       self.drag({
         'position': {
@@ -182,12 +261,30 @@
 
     'setDimensions': function() {
 
-      var self = this;
+      var self = this,
+          $widthObject, offsetCorrectionX, offsetCorrectionY;
 
-      self.containmentWidth = self.$containment.width();
-      self.containmentHeight = self.$containment.height();
-      self.scrubberLeft = self.$el.position().left;
-      self.scrubberTop = self.$el.position().top;
+      if ( self.useCSS3 ) {
+        $widthObject = self.$el;
+      } else {
+        $widthObject = self.$containment;
+      }
+
+      offsetCorrectionX = (self.$el.outerWidth(true) - self.$el.width()) / 2;
+      offsetCorrectionY = (self.$el.outerHeight(true) - self.$el.height()) / 2;
+
+      // IE7/8 doesn't return the correct values for margins if you use 'auto', thus breaking $.outerWidth()
+
+      if ( SONY.Settings.isLTIE9 ) {
+        if (self.$el.css('marginLeft') === 'auto') {
+          offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
+        }
+      }
+
+      self.containmentWidth = $widthObject.width();
+      self.containmentHeight = $widthObject.height();
+      self.scrubberLeft = self.$el.get(0).getBoundingClientRect().left - offsetCorrectionX;
+      self.scrubberTop = self.$el.get(0).getBoundingClientRect().top - offsetCorrectionY;
     },
 
     // Allows other classes to reset the handle's position if needed, by calling:
@@ -229,11 +326,14 @@
     'axis': 'xy',
     // 'px' or '%' based positioning for handle / callback coords.
     'unit': 'px',
+    'dragThreshold': undefined,
     // Initial position of handle.
     'handlePosition': {
       'x': 0,
       'y': 0
     },
+    // Use CSS3 Transforms and Transitions for dragging.
+    'useCSS3': false,
     // Callback for drag motion, may be used to reposition other elements.
     'drag': function(){}
   };

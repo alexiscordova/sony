@@ -3,7 +3,6 @@
 // --------------------------------------------------
 
 
-
 // Body text
 // -------------------------
 
@@ -386,97 +385,6 @@ p{ @extend .p2; }
 // Old font styles
 // --------------------------------------
 
-// ----------------------------------
-// Headings
-// ----------------------------------
-
-// h1, h2, h3, h4, h5, h6 {
-//   margin: (0.25em*$baseLineHeight) 0 (0.25em*$baseLineHeight) 0;
-//   line-height: $baseLineHeight * 0.7;
-//   @include fontHeading();
-//   color: $headingsColor;
-//   text-rendering: optimizelegibility; // Fix the character spacing for headings
-//   small {
-//     font-size:0.85em;
-//     font-weight: normal;
-//     line-height: $baseLineHeight * 0.7;
-//     color: $gray;
-//   }
-//   em {
-//     @include fontHeadingItalic();
-//   }
-// }
-
-// h1 {
-//   font-size: $font_54_16;
-// }
-// h2 {
-//   font-size: $font_44_16;
-// }
-// h3 {
-//   font-size:  $font_32_16;
-//   line-height: $baseLineHeight * 0.75;
-// }
-// h4 {
-//   font-size: $font_26_16;
-// }
-// h5 {
-//   font-size: $font_18_16;
-// }
-// h6 {
-//   font-size: $font_16_16;
-// }
-
-// ----------------------------------
-// Labels
-// ----------------------------------
-// .l1 {
-//   font-size:$font_22_16;
-//   text-transform:uppercase;
-//   @include fontBold;
-//   color: $headingsColor;
-//   em { @include fontBoldItalic; }
-// }
-
-// .l2, .l3, .l4 {
-//   text-transform:uppercase;
-//   @include fontMedium;
-//   em { @include fontMediumItalic; }
-// }
-// .l2 {
-//   font-size:$font_15_16;
-// }
-// .l3 {
-//   font-size:$font_12_16;
-//   color: $headingsColor;
-// }
-// .l4 {
-//   font-size:$font_11_16;
-// }
-
-
-// ----------------------------------
-// Paragraphs
-// ----------------------------------
-// .p1 {
-//   font-size:$font_20_16;
-//   line-height: $baseLineHeight * 0.93;
-// }
-// .p2 { // Standard P tag; P2 class is not necessary, but kept for sake of relative sizing logic
-//   // font-size:$font_15_16;
-// }
-// .p3 {
-//   font-size:$font_13_16;
-// }
-// .p4 {
-//   font-size: $font_12_16;
-//   @include fontItalic;
-// }
-// .p5 {
-//   font-size: $font_11_16;
-// }
-
-
 
 // ----------------------------------
 // TextLinks
@@ -487,19 +395,6 @@ p{ @extend .p2; }
 .tl-large {
   font-size: $font_15_15;
 }
-// .tl-arrow-right {
-//   &:after {
-//     @include pseudoEl-inline-block();
-//     // @extend .icon-ui-pseudo-el-arrow-right-blue;
-//     position: relative;
-//     top: 1px;
-//     margin-left: 9px;
-//     margin-top: 5px;
-//   };
-//   &.tl-large:after {
-//     top: 3px;
-//   };
-// }
 
 // ---------------------------------
 // Global Nav links
@@ -510,56 +405,6 @@ p{ @extend .p2; }
   font-size: $font_13_16; /* -- Default textlink size is small. */
   color:$grayDark;
 }
-
-
-
-// ----------------------------------
-// Blockquotes
-// ----------------------------------
-// blockquote {
-//   @include fontLightItalic;
-//   color: $headingsColor;
-
-//   p {
-//     line-height: $baseLineHeight;
-//   }
-//   p:first-child {
-//     text-indent:-14px;
-//   }
-//   p:first-child:before {
-//     content: "\201c";
-//     line-height:0; // make sure it doesn't affect the real content. 
-//   }
-//   p:last-child:after {
-//     content: "\201d";
-//     line-height:0; // make sure it doesn't affect the real content. 
-//   }
-// }
-// blockquote > p,
-// blockquote.bq2 > p {
-//   font-size: $font_28_16;
-//   line-height: $baseLineHeight * 0.76;
-//   letter-spacing:-0.035em;
-//   &:first-child {
-//     text-indent:-12px;
-//   }
-// }
-// blockquote.bq1 > p {
-//   font-size: $font_40_16;
-//   line-height: $baseLineHeight * 0.76;
-//   letter-spacing:-0.025em;
-//   &:first-child {
-//     text-indent:-14px;
-//   }
-// }
-
-
-
-
-
-
-
-
 
 
 
@@ -583,24 +428,6 @@ input[type="color"],
   font-size: $font_13_16;
   line-height: $baseLineHeight;
 }
-
-// .text-number-callout-large {
-//   font-size: $font_60_16;
-//   @include fontLight;
-//   em { @include fontLightItalic; }
-//   color:$headingsColor;
-// }
-// .text-promo-title {
-//   font-size:$font_25_16;
-//   line-height: $baseLineHeight * 0.8;
-//   @include fontLight;
-//   em { @include fontLightItalic; }
-//   strong {
-//     @include fontRegular;
-//     em { @include fontItalic; }
-//     color:$headingsColor;
-//   }
-// }
 
 // Page header
 // -------------------------

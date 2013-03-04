@@ -1,7 +1,6 @@
 @import "../_base/variables"; // Modify this for custom colors, font-sizes, etc
 @import "../_base/mixins";
 
-body {
 
 /* Related Products */  
 .RELATEDPRODUCTS {}
@@ -24,6 +23,14 @@ body {
 
         max-width:1190px; 
       }
+    }
+
+    &.strip {
+      @media (max-width:px-em(979px)){
+        .span1 {
+          width: 152px;
+        }
+      }      
     }
 
     &.suggested {
@@ -93,7 +100,7 @@ body {
     .GALLERYITEM{}
 
       .gallery-item {
-        @media (max-width:481px){
+        @media (max-width:568px){
           &.plate .product-img{
             min-height: 264px;
           }
@@ -131,7 +138,7 @@ body {
 
       .gallery-item.plate .text-promo-title {
         .emphasis {
-          @media (max-width: 640px){
+          @media (max-width: 568){
             visibility: hidden;
             display: none;
           }          
@@ -158,89 +165,13 @@ body {
         }
       }
 
-      .medium .product-img:after {
-
-        @media (min-width:981px) and (max-width:1199px){
-          padding-top: 112.02761%;
-        }
-
-        @media (min-width:981px) and (max-width:1107px){
-          padding-top: 115.02761%;
-        }
-
-        @media (min-width:981px) and (max-width:1095px){
-          padding-top: 116.02761%;
-        }
-
-        @media (min-width:981px) and (max-width:1095px){
-          padding-top: 121.02761%;
-        }
-
-        @media (min-width:981px) and (max-width:1087px){
-          padding-top: 117.02761%;
-        }        
-
-        @media (min-width:981px) and (max-width:1087px){
-          padding-top: 119.02761%;
-        }
-
-        @media (min-width:981px) and (max-width:1012px){
-          padding-top: 121.72761%;
-        }
-
-        @media (min-width:981px) and (max-width:986px){
-          padding-top: 124.02761%;
-        }
-
-        @media (min-width:981px) and (max-width:996px){
-          padding-top: 122.92761%;
-        }
-
-        @media (min-width:481px) and (max-width:768px){
-          padding-top: 122.32761%;
-        }
-
-        @media (min-width:769px) and (max-width:980px){
-          padding-top: 124.22761%;
-        }
-
-        @media (min-width:568px) and (max-width:767px){
-          padding-top: 127.92761%;
-        }        
-
-        @media (min-width:568px) and (max-width:674px){
-          padding-top: 132.92761%;
-        }
-
-        @media (min-width:568px) and (max-width:640px){
-          padding-top: 132.92761%;
-          padding-top: 138.92761%;
-        }
-
-        @media (max-width: 481px){
-          .medium .product-img:after {
-            padding-top: 75.980392156863%;
-          }
-        }
-      }
+      .medium .product-img:after {}
 
       @media (min-width: 481px) and (max-width: 980px){
-
-        .gallery-item {
-          //min-height: 230px;
-        }
 
         .gallery-item:after {
           padding-top: 133.196078%;
         }
-
-        .related-products-4up {
-          .gallery-item:after {
-            padding-top: 160.196078%;
-          }   
-        }
-
-
 
         .gallery-item .gallery-item-inner,
         .product-img .product-img-wrap {
@@ -248,11 +179,10 @@ body {
         }
 
         .medium.gallery-item:after {
-          //padding-top: 141.196078%;
-          padding-top: 144.996078%;
           padding-top: 151.996078%;
         }
-        //four up style overrides
+
+        //4up style
         &.related-products-4up {
 
           .gallery-item:after {
@@ -268,18 +198,15 @@ body {
           }
         }
 
-        .gallery-item.plate:after {
-          padding-top: 76.190255%
-        }
       }
 
-      @media (min-width: 568px) and (max-width: 767px){
+      @media (min-width: 569) and (max-width: 767px){
 
         .gallery-item.medium:after {
           padding-top: 170.196078%;
         }     
       }
-      @media (min-width: 568px) and (max-width: 640px){
+      @media (min-width: 569) and (max-width: 640px){
 
         .gallery-item.medium:after {
           padding-top: 182.196078%;
@@ -287,13 +214,11 @@ body {
       }
 
 
-
   /* Bullet Nav */
   .BULLETNAV{}
 
-    @media (max-width: 767px) {
-      max-width: 980px; /* Both Must be set for JS to size proportiontely */
-      min-height: 370px;
+    @media (max-width: 568px) {
+      margin: 20px 0 53px 0;
     }
 
     /* Slides */
@@ -312,10 +237,6 @@ body {
         @media (min-width: px-em(1400px)){
           width: 93.06122%;
         }
-
-        @media (min-width: px-em(1400px)){
-          width: 93.06122%;
-        } 
 
         /* 3up Media Queries */ 
         &.related-products-3up {
@@ -371,7 +292,7 @@ body {
 /* Related Products Title */ 
 .rp-title {
 
-  //beyond tablet
+/*   //beyond tablet
   @media (min-width:px-em(769px)){
     margin: 33px 0 10px 0;
   } 
@@ -379,7 +300,7 @@ body {
   //tablet
   @media (min-width:px-em(481px)) and (min-width:px-em(769px)){
     margin: 33px 0 10px 0;
-  }
+  } */
 
 }
 
@@ -387,8 +308,8 @@ body {
 .PADDLENAV{}
   .rp-nav {
     .paddle {
-      i {
 
+      i {
         @media (max-width:(px-em(979px))){
           margin-top: 28px;
         }
@@ -409,4 +330,3 @@ body {
     }
   }
 
-}

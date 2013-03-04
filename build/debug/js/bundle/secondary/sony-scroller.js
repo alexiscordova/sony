@@ -366,7 +366,7 @@
       var self = this,
           distX = iscroll.absDistX || 0,
           distY = iscroll.absDistY || 0;
-    
+
       //if vertical scrolling passes threshhold then "lock direction"
       if ( distX >= (distY + self.threshhold ) ) {
         // prevent the browsers' native scrolling
@@ -398,12 +398,12 @@
           });
         }
 
-        // If they've defined a callback as well, call it
-        // We saved their function to this reference so we could have our own onAnimationEnd
-        if ( self.onAnimationEnd ) {
-          self.onAnimationEnd( iscroll );
-        }
+      }
 
+      // If they've defined a callback as well, call it
+      // We saved their function to this reference so we could have our own onAnimationEnd
+      if ( self.onAnimationEnd ) {
+        self.onAnimationEnd.call( iscroll, iscroll );
       }
     },
 
@@ -456,9 +456,6 @@
     },
 
     gotopage: function( pageNumber, duration ) {
-      // pageNumber could be an event object from a navigation bullet click.
-      // if it is, get the index from it's data attribute
-      pageNumber = pageNumber.type ? $(pageNumber.target).data('index') : pageNumber;
       duration = duration || 400;
       this.scroller.scrollToPage(pageNumber, 0, duration);
     },

@@ -8,17 +8,21 @@ title Sony Global
 !{locals.partial('includes/fonts.html')}
 
 l = {"locals": locals}
+  // modernizr needs to load right after the fonts.com script, which has to be in head to prevent FOUT.
+  script(src = "js/libs/modernizr-2.6.2.js")
   link(rel="stylesheet", href="css/styles.css")
 
-  //- This file should not be given to browsers w/o media queries
+  <!--[if (gt IE 9)|!(IE)]><!-->
   link(rel="stylesheet", href="css/responsive.css")
+  <!--<![endif]-->
 
   for name in locals.modulescss()
     hrf = "css/modules/" + name.replace(/.scss/g, '.css')
       link(rel="stylesheet", href= hrf)
 
-  //- This file should not be given to browsers w/o media queries
+  <!--[if (gt IE 9)|!(IE)]><!-->
   link(rel="stylesheet", href="css/responsive-modules.css")
+  <!--<![endif]-->
 
   if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
 

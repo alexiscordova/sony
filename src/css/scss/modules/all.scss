@@ -46,6 +46,11 @@ $oneByOneImgPadding: 107.84313725490196%;
     padding-top: $oneByOnePadding;
   }
 
+  // < ie8 doesn't support pseudo elements
+  .lt-ie8 & {
+    height: 17.25em; // 276
+  }
+
   // Make them a bit bigger
   .shuffle-6 &:after {
     padding-top: 169.396078%;
@@ -58,6 +63,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     left: 0;
     right: 0;
   }
+
 
   // Container for product images
   .product-img {
@@ -76,6 +82,10 @@ $oneByOneImgPadding: 107.84313725490196%;
       content: '';
       display: block;
       padding-top: $oneByOneImgPadding;
+    }
+
+    .lt-ie8 & {
+      height: 11.3125em; // 181
     }
 
     .product-img-wrap {
@@ -97,6 +107,14 @@ $oneByOneImgPadding: 107.84313725490196%;
 
   // Large tiles
   &.large {
+
+    .lt-ie8 & {
+      height: 35.625em; // 570
+
+      .product-img {
+        height: 29.6875em; // 475
+      }
+    }
 
     &:after {
       padding-top: 105.92705167173253%;
@@ -198,6 +216,14 @@ $oneByOneImgPadding: 107.84313725490196%;
   // Promo gallery item images are the full height
   &.promo {
 
+    .lt-ie8 & {
+      height: 17.25em; // 276
+
+      .product-img {
+        height: 11.3125em; // 181
+      }
+    }
+
     &:after {
       padding-top: 78.19025522041764%;
       // padding-top: 83.6%;
@@ -296,6 +322,10 @@ $oneByOneImgPadding: 107.84313725490196%;
       @include translate( px-em(6px), 0);
     }
 
+    .no-csstransforms &:hover .promo-title i {
+      left: 6px;
+    }
+
   }
 
   .product-content {
@@ -379,6 +409,14 @@ $oneByOneImgPadding: 107.84313725490196%;
     padding-top: 140%;
   }
 
+  .lt-ie8 & .gallery-item {
+    height: 25.375em; // 406
+
+    .product-img {
+      height: 13.8125em; // 221
+    }
+  }
+
   .product-img:after {
     padding-top: 76.05633802816901%;
   }
@@ -419,6 +457,10 @@ $oneByOneImgPadding: 107.84313725490196%;
   z-index: 5;
   height: 100%;
 
+  .lt-ie9 & {
+    margin-left: 0;
+  }
+
   //
   &:before {
     content: '';
@@ -440,15 +482,17 @@ $oneByOneImgPadding: 107.84313725490196%;
   }
 }
 
+// Add a nice slide in
+// For IE, don't use filters for opacity
 .detail-labels-wrapping {
   @include translate(-0.625em, 0);
-  @include opacity(0);
+  opacity: 0;
   -webkit-transition: opacity $transitionNormal $easeNormal .1s, -webkit-transform $transitionNormal $easeNormal .1s;
           transition: opacity $transitionNormal $easeNormal .1s, transform $transitionNormal $easeNormal .1s;
 
   &.complete {
     @include translate(0, 0);
-    @include opacity(100);
+    opacity: 1;
   }
 }
 
@@ -479,7 +523,7 @@ $oneByOneImgPadding: 107.84313725490196%;
     top: 0;
     left: 5%;
     width: 90%;
-    height: .0625em;
+    height: 1px;
     background: $gray60;
   }
 }
@@ -501,6 +545,7 @@ $oneByOneImgPadding: 107.84313725490196%;
   top: 0;
   left: -9999px;
   padding: 1em 0 1.25em;
+  margin: 0;
   background: $gray90;
   top: -6.25em;
   @include transition(top $transitionNormal ease-in, left 0s $transitionNormal);
