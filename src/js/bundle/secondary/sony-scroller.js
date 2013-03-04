@@ -366,7 +366,7 @@
       var self = this,
           distX = iscroll.absDistX || 0,
           distY = iscroll.absDistY || 0;
-    
+
       //if vertical scrolling passes threshhold then "lock direction"
       if ( distX >= (distY + self.threshhold ) ) {
         // prevent the browsers' native scrolling
@@ -398,12 +398,12 @@
           });
         }
 
-        // If they've defined a callback as well, call it
-        // We saved their function to this reference so we could have our own onAnimationEnd
-        if ( self.onAnimationEnd ) {
-          self.onAnimationEnd( iscroll );
-        }
+      }
 
+      // If they've defined a callback as well, call it
+      // We saved their function to this reference so we could have our own onAnimationEnd
+      if ( self.onAnimationEnd ) {
+        self.onAnimationEnd.call( iscroll, iscroll );
       }
     },
 

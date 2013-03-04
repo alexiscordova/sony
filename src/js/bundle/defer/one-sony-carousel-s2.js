@@ -183,6 +183,14 @@
       destinationLeft = $destinationSlide.position().left;
       innerContainerWidth = self.$innerContainer.width();
 
+      // IE7/8 doesn't return the correct values for margins if you use 'auto', thus breaking $.outerWidth()
+
+      if ( SONY.Settings.isLTIE9 ) {
+        if ( $destinationSlide.css('marginLeft') === 'auto' ) {
+          destinationLeft -= (innerContainerWidth -  $destinationSlide.width()  ) / 2;
+        }
+      }
+
       if ( self.useCSS3 ) {
 
         var newPosition = destinationLeft / innerContainerWidth;

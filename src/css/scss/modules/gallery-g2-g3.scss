@@ -28,6 +28,7 @@
 
   .product-model {
     color: $gray40;
+    margin-bottom: 0;
   }
 
   .product-rating {
@@ -261,14 +262,32 @@
   }
 }
 
-.active-filters.has-active-filters {
-  margin-bottom: 1.25em;
-}
+.active-filters {
 
-.active-filters .label {
+  &.has-active-filters {
+    margin-bottom: 1.25em;
+  }
+
   // Give active filter labels some spacing
-  &:not(:first-child) {
-    margin-left: .125em;
+  .label-close {
+    margin-right: 1.25em;
+  }
+
+  .label-close:last-of-type {
+    margin-right: 0;
+  }
+
+  .clear-all-filters {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: px-em(26, 13);
+    cursor: pointer;
+    color: $gray20;
+    @include transition();
+
+    &:hover {
+      color: $buttonBlueHover;
+    }
   }
 }
 
@@ -334,20 +353,31 @@
     cursor: pointer;
     clear: right;
 
+    .fonticon-10-circle-q {
+      color: $gray40;
+      @include transition();
+    }
+
+    &:hover .fonticon-10-circle-q {
+      color: $gray20;
+    }
+
     &.pull-right .fonticon-10-circle-q {
       margin-top: -3px;
     }
 
+
     .help-label {
       padding-right: .625em;
       @include transition(color $transitionNormal $easeNormal);
+      color: $gray20;
     }
 
     &:hover .help-label {
-      color: $gray10;
+      // color: $gray10;
     }
 
-    i {
+    .fonticon-10-circle-q {
       line-height: 0;
       vertical-align: middle;
     }

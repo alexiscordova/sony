@@ -249,7 +249,7 @@ Need to create a conditional that inverts the math for latter.</p>             <
     <span class="string">'setDimensions'</span>: <span class="keyword">function</span>() {
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
-          $widthObject;
+          $widthObject, offsetCorrectionX, offsetCorrectionY;
 
       <span class="keyword">if</span> ( self.useCSS3 ) {
         $widthObject = self.$el;
@@ -257,13 +257,23 @@ Need to create a conditional that inverts the math for latter.</p>             <
         $widthObject = self.$containment;
       }
 
+      offsetCorrectionX = (self.$el.outerWidth(<span class="literal">true</span>) - self.$el.width()) / <span class="number">2</span>;
+      offsetCorrectionY = (self.$el.outerHeight(<span class="literal">true</span>) - self.$el.height()) / <span class="number">2</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>IE7/8 doesn't return the correct values for margins if you use 'auto', thus breaking $.outerWidth()</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      <span class="keyword">if</span> ( SONY.Settings.isLTIE9 ) {
+        <span class="keyword">if</span> (self.$el.css(<span class="string">'marginLeft'</span>) === <span class="string">'auto'</span>) {
+          offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / <span class="number">2</span>;
+        }
+      }
+
       self.containmentWidth = $widthObject.width();
       self.containmentHeight = $widthObject.height();
-      self.scrubberLeft = self.$el.get(<span class="number">0</span>).getBoundingClientRect().left - (self.$el.outerWidth(<span class="literal">true</span>) - self.$el.width()) / <span class="number">2</span>;
-      self.scrubberTop = self.$el.get(<span class="number">0</span>).getBoundingClientRect().top - (self.$el.outerHeight(<span class="literal">true</span>) - self.$el.height()) / <span class="number">2</span>;
+      self.scrubberLeft = self.$el.get(<span class="number">0</span>).getBoundingClientRect().left - offsetCorrectionX;
+      self.scrubberTop = self.$el.get(<span class="number">0</span>).getBoundingClientRect().top - offsetCorrectionY;
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Allows other classes to reset the handle's position if needed, by calling:</p>
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Allows other classes to reset the handle's position if needed, by calling:</p>
 
 <pre><code> $('#foo').sonyDraggable('setBounds', {...});
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
@@ -294,17 +304,17 @@ Need to create a conditional that inverts the math for latter.</p>             <
     });
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
   $.fn.sonyDraggable.defaults = {
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Define the axes along which the handle may be dragged.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'axis'</span>: <span class="string">'xy'</span>,
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>'px' or '%' based positioning for handle / callback coords.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'unit'</span>: <span class="string">'px'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Define the axes along which the handle may be dragged.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'axis'</span>: <span class="string">'xy'</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>'px' or '%' based positioning for handle / callback coords.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'unit'</span>: <span class="string">'px'</span>,
     <span class="string">'dragThreshold'</span>: <span class="literal">undefined</span>,
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Initial position of handle.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'handlePosition'</span>: {
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Initial position of handle.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'handlePosition'</span>: {
       <span class="string">'x'</span>: <span class="number">0</span>,
       <span class="string">'y'</span>: <span class="number">0</span>
     },
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Use CSS3 Transforms and Transitions for dragging.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'useCSS3'</span>: <span class="literal">false</span>,
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Callback for drag motion, may be used to reposition other elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'drag'</span>: <span class="keyword">function</span>(){}
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>Use CSS3 Transforms and Transitions for dragging.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'useCSS3'</span>: <span class="literal">false</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Callback for drag motion, may be used to reposition other elements.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'drag'</span>: <span class="keyword">function</span>(){}
   };
 
 })(jQuery);

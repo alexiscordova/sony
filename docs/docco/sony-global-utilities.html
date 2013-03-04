@@ -222,19 +222,18 @@ window.resize.</li>
     },
 
     fixModernizrFalsePositives : <span class="keyword">function</span>() {
-      <span class="keyword">if</span> ( SONY.Settings.isSonyTabletS ) {
+
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>The sony tablet s gets a false negative on generated content (pseudo elements)</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( SONY.Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = <span class="literal">true</span>;
-        SONY.$html.addClass(<span class="string">'generatedcontent sonytablets'</span>).removeClass(<span class="string">'no-generatedcontent'</span>);
+        SONY.$html.removeClass(<span class="string">'no-generatedcontent'</span>).addClass(<span class="string">'generatedcontent sonytablets'</span>);
       }
     },
 
     scrollToTop : <span class="keyword">function</span>() {
-      $.simplescroll({
-        speed: <span class="number">400</span>
-      });
+      $.simplescroll();
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>addClasses : function() {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>addClasses : function() {
   if ( SONY.Settings.isAndroid ) {
     SONY.$html.addClass('android');
   }
@@ -244,12 +243,12 @@ window.resize.</li>
   self.createPubSub();
   self.createGlobalEvents();
   self.normalizeLogs();
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>self.addClasses();</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>self.addClasses();</p>             </td>             <td class="code">               <div class="highlight"><pre>
   <span class="keyword">return</span> self;
 
 })(<span class="keyword">this</span>, <span class="keyword">this</span>.document);
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Need to find a better place for this to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Need to find a better place for this to live.</p>             </td>             <td class="code">               <div class="highlight"><pre>
 <span class="keyword">if</span> (!Array.prototype.indexOf) {
   Array.prototype.indexOf = <span class="keyword">function</span>(elt <span class="comment">/*, from*/</span>) {
 
