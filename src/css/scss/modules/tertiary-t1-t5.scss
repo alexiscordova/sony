@@ -44,6 +44,12 @@ $fivePercentInstaFlickr: percentage(5px/316px);
   margin:0; // for the module since it can be placed anywhere on the page. 
   padding:60px 0 98px 0;
 
+  .light-text-dark-box a{
+	  &:hover, &:active, &:focus, &.active{
+    	color: $gray40;    
+	  }
+	}
+
   .nav-paddles{
   	position: absolute;
 		left: 0;
@@ -145,20 +151,19 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		//border:1px solid blue;
 		height:$tcc-content-module-height-3up;
 		position: relative;
+		text-align: center;
 		overflow: hidden;
 		
 		.tcc-inner-container{
-			//outline:1px solid green;
 			position: relative;
 			width:100%;
 			height:$tcc-content-module-height-3up;
 		}
 
-
 		// // IE9 and BELOW
 		// .lt-ie10 & {
-  //   	height:350px; 
-  //   } // END IE9 and BELOW
+		//   	height:350px; 
+		//   } // END IE9 and BELOW
 
 		// IE8 and BELOW
 		.lt-ie9 & {
@@ -178,7 +183,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	#{createSelectorFromData("sonys-voice","facebook")},
 	#{createSelectorFromData("sonys-voice","instagram")},
 	#{createSelectorFromData("flickr","default")}{
-		//@include fadeoutOnHover(img);
+		@include fadeoutOnHover(img);
 	} // end div
 
 	// TYPE: ARTICLE
@@ -366,6 +371,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 			.author{
 				display: inline;
 				margin:0;
+				text-transform: capitalize;
 			} // end .author
 
 			.bq3{
@@ -386,15 +392,23 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		} // end .expert-quote
 		
+
+		&.user-quote,
+		&.question{
+			.bq3{
+				p{
+			  	color:$secondarySlateDark;
+				} // end p
+			} // end .bq3
+		} // end quote color
+
 		&.user-quote{
+			background-color:$white;
+			
 			.title{
 			  color:$gray40;
 			} // end .title
 			
-			.bq3{
-			  color:$secondarySlateDark;
-			} // end .bq3
-
 			.credits{
 				.handle,
 				.author{
@@ -407,10 +421,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		
 		&.question{
 			padding:0;
-
-			.bq3{
-				color:$secondarySlateDark;
-			} // end .bq3
 
       .bq3,
       .lt3,
@@ -528,16 +538,30 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		} // end .meta
 
+		&.facebook{
+			.bq5{
+				margin-top:22px;
+				p{
+					color:$secondarySlateDark;
+				}
+			} // end .bq5
+
+		} // end .twitter
+
+
 		&.twitter{
 			.bq4{
-				color:$secondarySlateDark;
+				p{
+					color:$secondarySlateDark;
+				}
 			} // end .bq4
 
 		} // end .twitter
 
 		&.instagram{
+
 			table{
-			   background-color:rgba($gray50,0.3);
+			   background-color:$white;
  				tr{
 
           &.bottom-row{
@@ -582,10 +606,14 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	// TYPE: FLICKR
 	.flickr{
 
-		.center-content{
-      height:258px;
-      padding:8%;
-    } // end .center-content
+
+		// .top{
+		// 	outline:1px solid red;
+		// }
+
+		// .bottom{
+		// 	outline:1px solid silver;	
+		// }
 
 		.icon-container{
 			position: relative;
@@ -628,66 +656,48 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		// user and title
 		.meta{
-			.p4{
-				color:$gray20;
+			&.p4{
+				margin-bottom:0;
 			} // end .p4
+
+			.user{
+		  	color:$gray20;
+		  } // end .user
 			
 		} // end meta
 
-	  table{
-		  background-color:rgba($gray50,0.3);
-		  
-		  tr{
-		    &.top-row,
-		    &.bottom-row{
-		      display:table-row;
-		    } // end  &.top-row, &.bottom-row
+	  .center{
+	    position:relative;
+	    //border:2px solid green;  
+	    
+			.image-container{
+		    //border:2px solid purple; 
+	      background-color:$white;
+	      padding:10px;
+	      display:inline-block;
+	      
+			}
 
-		  } // end tr
+      .top-row,
+			.bottom-row{  
+				div{
+					width:32%;
+					display:inline-block; 
+				}  
+			}    
+      
+      // first two in each row (1,2,4,5)
+      .top-row div:nth-child(3n+2),
+			.bottom-row div:nth-child(3n+2){
+        //padding-right:5px;
+        margin:0 px-em(5px); ;
+      }  
+      
+			.top-row{
+				margin-bottom:5px;
+			}
 
-		  td{       
-		    &.top-left,
-		    &.top-center,
-		    &.top-right,
-		    &.bottom-left,
-		    &.bottom-center,
-		    &.bottom-right{
-		      display:table-cell;
-		    } // end tds
-
-		    &.top-left{
-		      vertical-align: top;
-		      padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
-		    } // end &.top-left
-
-		    &.top-center{
-		      vertical-align: top;
-		      padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr 0;
-		    } // end &.top-center
-
-		    &.top-right{
-		      vertical-align: top;
-		      padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr 0;
-		    } // end &.top-right
-
-		    &.bottom-left{
-		      vertical-align: bottom;
-		      padding:0 $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;
-		    } // end &.bottom-left
-
-		    &.bottom-center{
-		      vertical-align: bottom;
-		      padding:0 $fivePercentInstaFlickr $tenPercentInstaFlickr 0;
-		    } // end &.bottom-center
-
-		    &.bottom-right{
-		      vertical-align: bottom;
-		      padding:0 $tenPercentInstaFlickr $tenPercentInstaFlickr 0;
-		    } // end &.bottom-right
-
-		  } // end td    
-
-	  } //end table
+	  }  
 
 	} // end .flickr
 

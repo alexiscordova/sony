@@ -32,10 +32,11 @@
       self.prevMode                       = null;
       self.$scrollerInstance              = null;              
       
-      // SCROLLER CLASSES
+      // CACHED CLASSES & TYPES
       self.contentModulesClass            = '.tcc-content-module';
       self.contentSelectorClass           = '.tcc-body';
       self.desktopClasses                 = 'span4';
+      self.centerContentArr               = ['flickr:default'];
       
       // SELECTORS
       self.$container                     = $( element );
@@ -58,6 +59,7 @@
       // PROXY CALLS
       self.beforeResizeFunc               = $.proxy( self.beforeResize, self ); 
       self.afterResizeFunc                = $.proxy( self.afterResize, self );
+      self.onImagesLoaded                 = $.proxy( self.setCenterContentHeight, self);
       
       // TIMING
       self.afterResizeSpeed               = 200;
@@ -72,12 +74,6 @@
       self.SONY_TCC_TABLET_BREAKPOINT_MIN = 480;
       self.SONY_TCC_TABLET_BREAKPOINT_MAX = 979; // 767
       
-      // TODO: remove these if not needed anymore
-      // Breakpoints in pixels
-      // self.phoneBreakpointPx           = self.SONY_TCC_PHONE_BREAKPOINT + "px";
-      // self.tabletBreakpointMinPx       = self.SONY_TCC_TABLET_BREAKPOINT_MIN + "px";
-      // self.tabletBreakpointMaxPx       = self.SONY_TCC_TABLET_BREAKPOINT_MAX + "px"; 
-      
       // Breakpoints in ems
       self.phoneBreakpointEm              = SONY.Utilities.pxToEm(self.SONY_TCC_PHONE_BREAKPOINT);
       self.tabletBreakpointMinEm          = SONY.Utilities.pxToEm(self.SONY_TCC_TABLET_BREAKPOINT_MIN); 
@@ -87,12 +83,16 @@
       self.marginPercent                  = Number('.034'); // 22/650 (at 2-up)
       self.contentInnerMargin             = 22;
      
+
       // register listener for global debounce to call method **before** debounce begins
       SONY.on(self.debounceBeforeEvent, self.beforeResizeFunc);
       
       // register listener for global debounce to call method **after** debounce begins
       SONY.on(self.debounceEvent, self.afterResizeFunc);
     
+      // register for when images are loaded to determine centering
+      self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
+
       // start it all
       self.init();
     };
@@ -105,11 +105,14 @@
         var self = this;
 
         self.setMode();
-    
+   
         // if screen size is in mobile (tablet, phone) mode then create a scroller
         if(self.mode !== 'desktop'){
           self.setup();
         }
+
+        //self.setCenterContentHeight();
+       
       },
 
       // controller for scroller setup
@@ -136,6 +139,8 @@
           setupSequence.add( self, self.adjustPositionForMargins, self.setupSpeed ); 
         }
 
+        // set heights for inner centering
+        setupSequence.add( self, self.setCenterContentHeight, self.setupSpeed + 100); 
 
         // show the elements if they've beenh hidden
         if(self.isLayoutHidden){
@@ -161,9 +166,12 @@
         // destroy scroller instance
         teardownSequence.add( self, self.destroyScroller, self.teardownSpeed ); 
        
-        // if we're going from "mobile" to desktop then add grid spans back in
+        // if we're going from "mobile" to desktop 
+        // then add grid spans back in
+        // set heights for inner centering
         if((self.mode === "desktop") && (self.prevMode !== "desktop")){
           teardownSequence.add( self, self.addDesktopClasses, self.setupSpeed);
+          teardownSequence.add( self, self.setCenterContentHeight, self.setupSpeed + 100);
         }
 
         // start sequence
@@ -327,6 +335,55 @@
         });
       },
 
+      setCenterContentHeight : function(){
+        var self = this;
+        
+        // loop through the content modules
+        self.$contentModules.each(function() {
+          var $el = $(this),
+              modeType = $el.data("tcc-content-type") + ':' + $el.data("tcc-content-mode");
+          
+          // if the modetype is in the array
+          if(self.centerContentArr.indexOf(modeType) >= 0){
+
+            var $sampleContent   = $el, 
+            $centerContainer     = $sampleContent.find('.center'),
+            $imageContainer      = $centerContainer.find('.image-container'),
+            containerHeight      = $sampleContent.innerHeight(), //.outerHeight(),
+            topHeight            = $sampleContent.find('.top').outerHeight(),
+            bottomHeight         = $sampleContent.find('.bottom').outerHeight(),
+            newCenterHeight      = Math.round(containerHeight - (topHeight + bottomHeight)),
+            imageContainerHeight = $imageContainer.outerHeight(),
+            imgContainerTop;
+
+            // max out at 160 for phone
+            if(self.mode === "phone"){
+              newCenterHeight = newCenterHeight > 160? 160: newCenterHeight; 
+            }
+
+            // max out at 173 for tablet
+            if(self.mode === "tablet"){
+              newCenterHeight = newCenterHeight > 173 ? 173: newCenterHeight;  
+            }
+
+            // calculate margin top for image container
+            imgContainerTop = Math.round(((newCenterHeight/2) - (imageContainerHeight/2)));
+
+            // margin should never be negative
+            imgContainerTop = imgContainerTop < 0 ? 0 : imgContainerTop;
+
+            // set center div container height
+            $centerContainer.height(newCenterHeight); 
+
+            // set image container margin top to "center"
+            $imageContainer.css('margin-top', imgContainerTop + 'px'); 
+          }
+
+        });
+
+      },
+
+
       //  1. Checks each $element in $elements for its content type and mode (type:mode)
       //  2. If there is a match, then it adds that $element to selector group
       //  *@param {jquery obj} $elements* [current set of element objects]
@@ -463,15 +520,6 @@
           // handle init
           self.prevMode = self.mode;
         }
-      },
-
-      reportMode : function( methodName ){
-        var self = this,
-            loc = methodName || null;
-
-        console.log( '======= at', loc ,' ============');
-        console.log( self.prevMode, ' »»» ', self.mode);
-        console.log( '================================');
       }
 
     };
@@ -500,11 +548,10 @@
       options : {
         contentSelector: ".tcc-body", 
         itemElementSelector: ".tcc-content-module", 
+        appendBulletsTo:".tcc-wrapper",
         mode: 'paginate',
         generatePagination: true,
         centerItems: true,
-        threshold:5,
-        appendBulletsTo:".tcc-wrapper",
 
         iscrollProps: {
           snap: true,

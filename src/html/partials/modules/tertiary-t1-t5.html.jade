@@ -1,11 +1,47 @@
 ---
 title: Tertiary Module Template
 ---
+include ../includes/jade-helpers.jade
+
 
 mixin socialButton(link, label)
   .social-btn
-    a.btn(href= link)
+    a.btn.small-btn(href= link)
       | #{label}
+
+mixin flickrContent(meta, images, btnLink, btnLabel)
+  if (contentMode == "default")
+    .top
+      .icon-container
+        .white-bg.fonticon-10-dot
+        .left.fonticon-10-dot
+        .right.fonticon-10-dot
+        
+      .meta.p4
+        for info in meta
+          if (info.user)
+            span.user #{info.user} 
+            
+          if (info.title)
+            span #{info.title}
+
+    .center
+      .image-container
+        .top-row
+            - for (i = 0; i <= 2; i++) {
+            if(images[i])
+              div
+                mixin iQImage(images[i])
+            -}
+        .bottom-row
+            - for (i = 3; i <= 5; i++) {
+            if(images[i])
+              div
+                mixin iQImage(images[i])
+            -}
+    .bottom
+      mixin socialButton( btnLink, btnLabel )
+
 
 
 //- START Tertiary Content Container
@@ -104,7 +140,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                       noscript
                         img(src= module.avatarNoScriptImg)
                 
-                  p.author.l3
+                  p.author.p4
                     a(href="#{module.authorLink}")
                       | #{module.author}
 
@@ -228,53 +264,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                 mixin socialButton( link, label )
 
             when "flickr"
-              if (contentMode == "default")
-                .tcc-inner-container
-                  .icon-container
-                    .white-bg.fonticon-10-dot
-                    .left.fonticon-10-dot
-                    .right.fonticon-10-dot
-                    
-                  .meta.p4
-                    for meta in module.meta        
-                      | #{meta.user} #{meta.title}
-                  
-                  - images = module.images
-                  .center-content.table-center
-                    table
-                      tbody
-                        tr.top-row
-                          td.top-left
-                            img.iq-img(alt= images[0].altText, data-src= images[0].src)
-                            noscript
-                              img(src= images[0].noScriptSrc)
-                          td.top-center
-                            img.iq-img(alt= images[1].altText, data-src= images[1].src)
-                            noscript
-                              img(src= images[1].noScriptSrc)
-                          td.top-right
-                            img.iq-img(alt= images[2].altText, data-src= images[2].src)
-                            noscript
-                              img(src= images[2].noScriptSrc)
-
-                        tr.bottom-row
-                          td.bottom-left
-                            img.iq-img(alt= images[3].altText, data-src= images[3].src)
-                            noscript
-                              img(src= images[3].noScriptSrc)
-                          td.bottom-center
-                            img.iq-img(alt= images[4].altText, data-src= images[4].src)
-                            noscript
-                              img(src= images[4].noScriptSrc)
-                          td.bottom-right
-                            img.iq-img(alt= images[5].altText, data-src= images[5].src)
-                            noscript
-                              img(src= images[5].noScriptSrc)
-
-                  - link = module.socialBtnLink
-                  - label = " View Set on Flickr"
-                  mixin socialButton( link, label )
-
+              mixin flickrContent(module.meta, module.images, module.socialBtnLink, "View Set on Flickr")
 
 //- END Tertiary Content Container
 
