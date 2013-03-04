@@ -14,15 +14,16 @@ body
     #page-wrap-outer.page-wrap-outer
       #page-wrap-inner.page-wrap-inner
 
-        e = {"locals":locals, "data":data('global-header/default.json'), "sample_session_data":data('global-header/sample_session_data.json'), "sample_search_results":data('global-header/sample_search_results.json')}
+        e = {"locals":locals, "minimal":false, "data":data('global-header/default.json'), "sample_session_data":data('global-header/sample_session_data.json'), "sample_search_results":data('global-header/sample_search_results.json')}
         !{partial('modules/global-header.html.jade', e)}
         #main(role='main')
 
-        e = {"locals":locals, "data":data("primary-tout-p1-d7/gallery-L-L-cybershot.json")}
-        !{partial("modules/primary-tout-p1-d7.html.jade", e)}
+          e = {"locals":locals, "data":data("primary-tout-p1-d7/gallery-L-L-cybershot.json")}
+          !{partial("modules/primary-tout-p1-d7.html.jade", e)}
 
-        e = {"locals":locals, "data":data("gallery-g2-g3/default.json")}
-        !{partial("modules/gallery-g2-g3.html.jade", e)}
+          e = {"locals":locals, "data":data("gallery-g2-g3/default.json")}
+          !{partial("modules/gallery-g2-g3.html.jade", e)}
+        
         e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
         !{partial('modules/global-footer.html.jade', e)}
 

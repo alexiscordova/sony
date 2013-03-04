@@ -494,7 +494,8 @@
     initMobileNav : function() {
       var self = this;
 
-      $('#btn-mobile-nav').on(self.tapOrClick, function() {
+      $('#btn-mobile-nav').on(self.tapOrClick, function(e) {
+        e.preventDefault();
         if (!self.mobileNavVisible) {
           self.showMobileNav();
         } else {

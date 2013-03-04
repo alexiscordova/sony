@@ -13,23 +13,24 @@ l = {"locals":locals}
     #page-wrap-outer.page-wrap-outer
       #page-wrap-inner.page-wrap-inner        
         
-        e = {"locals":locals, "data":data('global-header/default.json'), "sample_session_data":data('global-header/sample_session_data.json'), "sample_search_results":data('global-header/sample_search_results.json')}
+        e = {"locals":locals, "minimal":false, "data":data('global-header/default.json'), "sample_session_data":data('global-header/sample_session_data.json'), "sample_search_results":data('global-header/sample_search_results.json')}
         !{partial('modules/global-header.html.jade', e)}
+        #main(role='main')
         
-        e = {"locals":locals, "data":data('primary-tout-p1-d7/homepage.json')}
-        !{partial('modules/primary-tout-p1-d7.html.jade', e)}
-        
-        section( style = "height:75px;" )
-        
-        // e = {"this":locals, "data":data('sony_one_carousel/default.json')}
-        // !{partial('modules/sony_one_carousel.html.eco', e) }
-        
-        // section( style = "height:75px;" )
-        
-        // e = {"this":locals, "data":data('related_products/default.json')}
-        // !{partial('modules/related_products.html.eco', e)}
-        
-        section( style = "height:75px;" )    
+          e = {"locals":locals, "data":data('primary-tout-p1-d7/homepage.json')}
+          !{partial('modules/primary-tout-p1-d7.html.jade', e)}
+          
+          section( style = "height:75px;" )
+          
+          // e = {"this":locals, "data":data('sony_one_carousel/default.json')}
+          // !{partial('modules/sony_one_carousel.html.eco', e) }
+          
+          // section( style = "height:75px;" )
+          
+          // e = {"this":locals, "data":data('related_products/default.json')}
+          // !{partial('modules/related_products.html.eco', e)}
+          
+          section( style = "height:75px;" )    
 
         e = {"locals":locals, "minimal":false, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
         !{partial('modules/global-footer.html.jade', e)}

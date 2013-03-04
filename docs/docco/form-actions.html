@@ -155,8 +155,9 @@ if (!$('html').hasClass('bp-nav-mobile')){
   };
 
 </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Event triggered when this tab is about to be shown</p>             </td>             <td class="code">               <div class="highlight"><pre>  SONY.onSearchInputChange = <span class="keyword">function</span>( evt ) {
-    SONY.initMobileNavIScroll();
-    console.log(<span class="string">"onSearchInputChange"</span>);
+    <span class="keyword">if</span> ($(<span class="string">'html'</span>).hasClass(<span class="string">'bp-nav-mobile'</span>)){
+      SONY.initMobileNavIScroll();
+    }
     <span class="keyword">var</span> $input = $(evt.target),
       formActions = $input.data(<span class="string">'formActions'</span>),
       inputObj = formActions.makeInputObj($input);
