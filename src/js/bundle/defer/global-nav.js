@@ -420,8 +420,7 @@
           if (opening) {
            $navTray.addClass('navtray-w-visible');
           } else {
-       
-           // $navTray.removeClass('navtray-w-visible');
+           $navTray.removeClass('navtray-w-visible');
           }
 
         }, 10);
@@ -497,8 +496,6 @@
               'right' : 'auto',
               'left' : leftPos + 'px'
             });
-           // prevent double click in ie7
-           return false;
           }
         }
       }
@@ -515,9 +512,11 @@
         }
       });
       var $thInput = $('#nav-search-input');
+     
       $thInput.on('focus', function() {
         if ($('html').hasClass('bp-nav-mobile')) {
           self.initMobileNavIScroll();
+           $('#navmenu-w-search .reveal-transition-container').attr('style','overflow:visble;zoom:1;');
         }
         $('.page-wrap-inner').addClass("show-mobile-search-results");
       }).on('blur', function() {
