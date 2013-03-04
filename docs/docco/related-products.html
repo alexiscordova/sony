@@ -28,7 +28,7 @@
       
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Extend Related Products instance with defaults and options</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.extend(self , $.fn.relatedProducts.defaults , options);
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">false</span>;
       
       self.LANDSCAPE_BREAKPOINT   = <span class="number">980</span>;
       self.MOBILE_BREAKPOINT      = <span class="number">568</span>;
@@ -90,11 +90,7 @@
       self.isTabletMode    = <span class="literal">false</span>;
       self.accelerationPos = <span class="number">0</span>;
 
-
-
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Startup</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
-
-
 
     };
 
@@ -568,9 +564,23 @@ if their interaction time and movements are below certain thresholds.</p>       
 
         self.$win.on(<span class="string">'resize.rp'</span>, $.debounce(<span class="number">50</span> , <span class="keyword">function</span>() {
 
+          <span class="keyword">if</span>(self.$win.width() &lt; <span class="number">479</span>){
+            self.scrollerModule.centerItems = <span class="literal">true</span>;
+          }<span class="keyword">else</span>{
+            self.scrollerModule.centerItems = <span class="literal">false</span>;
+          }
+          
           <span class="keyword">var</span> containerWidth = self.$el.width(),
-          gutterWidth        = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
-          colWidth           = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+          gutterWidth        = <span class="number">0</span>,
+          colWidth           = <span class="number">0</span>;
+
+          <span class="keyword">if</span>(self.$win.width() &gt; <span class="number">767</span>){
+            gutterWidth = SONY.Settings.GUTTER_WIDTH_SLIM_5 * containerWidth,
+            colWidth    = ( SONY.Settings.COLUMN_WIDTH_SLIM_5 * (containerWidth ) );
+          }<span class="keyword">else</span>{
+            gutterWidth = <span class="number">12.745098039215685</span>;
+            colWidth    = <span class="number">119.80392156862746</span>;
+          }
 
           self.scrollerModule.setGutterWidth(gutterWidth);
 
@@ -587,13 +597,16 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="string">'margin-top'</span> : <span class="string">'20px'</span>
           });
 
-          <span class="keyword">var</span> newContainerHeight = self.$el.find(<span class="string">'.gallery-item.normal'</span>).first().outerHeight(<span class="literal">true</span>)  + <span class="string">'px'</span>;
 
+          <span class="keyword">var</span> $oneProduct = self.$el.find(<span class="string">'.gallery-item.normal'</span>).first(),
+          newContainerHeight = $oneProduct.find(<span class="string">'.product-content'</span>).outerHeight(<span class="literal">true</span>) + $oneProduct.find(<span class="string">'.product-img'</span>).height();
+          newContainerHeight += <span class="number">50</span>; <span class="comment">//spacing for navigation dots</span>
+
+      
           self.$el.css({
             <span class="string">'height'</span>     : newContainerHeight,
             <span class="string">'max-height'</span> : newContainerHeight,
             <span class="string">'min-height'</span> : newContainerHeight
-            <span class="comment">/*'min-width'  : 550 + 'px'*/</span>
           });
 
         }));

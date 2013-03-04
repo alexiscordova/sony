@@ -3,12 +3,18 @@
 // --------------------------------------------------
 
 $inactiveColor: $buttonOrange;
-$activeColor: $btnAltBackground;
+$inactiveHoverColor: $buttonOrangeHover;
+$activeColor: $gray20;
+$activeHoverColor: $gray40;
 
 .slide-toggle {
   background: $activeColor;
 
   // Open state
+  &:hover {
+    background: $activeHoverColor;
+  }
+
   & i {
     position: absolute;
     right: $btnAltSpecialPadding;
@@ -23,6 +29,10 @@ $activeColor: $btnAltBackground;
   // Default state
   &.collapsed {
     background: $inactiveColor;
+
+    &:hover {
+      background: $inactiveHoverColor;
+    }
   }
 }
 
