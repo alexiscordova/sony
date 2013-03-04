@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = false;
+      self.DEBUG                  = true;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
@@ -93,13 +93,19 @@
       self.isTabletMode    = false;
       self.accelerationPos = 0;
 
+
+
       //Startup
       self.init();
+
+
 
     };
 
     //Related Products protoype object definition
     RelatedProducts.prototype = {
+
+
 
       //Inital setup of module
       init: function(){
@@ -127,6 +133,8 @@
 
         //Initialize tooltips
         self.initTooltips();
+
+
 
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
@@ -678,7 +686,7 @@
             self.currentId = 0;
           }
 
-          self.moveTo();
+          self.moveTo(); 
         });
 
         self.$el.on('sonyPaddles:clickRight', function(){
@@ -714,6 +722,18 @@
           self.$el.sonyPaddles('hidePaddle', 'right');
         }
 
+      },
+
+      togglePaddles: function (turnOn){
+        var self = this;
+
+        if(turnOn){
+          self.$el.find('.pagination-paddles').show();
+        }else{
+          self.$el.find('.pagination-paddles').hide();
+        }
+
+        
       },
 
       createShuffle: function(){
@@ -955,6 +975,10 @@
 
             window.iQ.update();
 
+            if(!self.hasTouch){
+              self.togglePaddles(true);
+            }
+
 
           break;
 
@@ -998,6 +1022,10 @@
             self.sortByPriority();
 
             window.iQ.update();
+
+            if(!self.hasTouch){
+              self.togglePaddles(true);
+            }
 
           break;
 
@@ -1050,6 +1078,10 @@
             }
 
             self.initMobileBreakpoint();
+
+            self.log('initing mobile');
+
+            self.togglePaddles(false);
 
           break;
         }
@@ -1897,6 +1929,7 @@
     //Related Products definition on jQuery
     $.fn.relatedProducts = function(options) {
       var args = arguments;
+
       return this.each(function(){
         var self = $(this);
         if (typeof options === "object" ||  !options) {
@@ -1920,8 +1953,12 @@
       navigationControl: 'bullets'
     };
 
-    SONY.on('global:ready', function(){
-      $('.related-products').relatedProducts({});
+/*    SONY.on('global:ready', function(){
+      
+    });*/
+
+    $(function(){
+      $('.related-products').relatedProducts();
     });
 
  })(SONY,jQuery, Modernizr, window,undefined , window.console);

@@ -105,8 +105,6 @@
     //Related Products protoype object definition
     RelatedProducts.prototype = {
 
-
-
       //Inital setup of module
       init: function(){
         var self = this;
@@ -134,7 +132,7 @@
         //Initialize tooltips
         self.initTooltips();
 
-
+        self.log('Related Poducts init...');
 
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
@@ -162,6 +160,7 @@
           self.$win.trigger('resize');
         }else {
           self.setupStripMode();
+          self.log('setting up strip mode...');
         }
       },
 
@@ -678,6 +677,8 @@
 
         var self = this;
 
+        self.log('creating paddles...');
+
         self.$el.sonyPaddles();
 
         self.$el.on('sonyPaddles:clickLeft', function(){
@@ -686,7 +687,7 @@
             self.currentId = 0;
           }
 
-          self.moveTo(); 
+          self.moveTo();
         });
 
         self.$el.on('sonyPaddles:clickRight', function(){
@@ -1157,6 +1158,26 @@
 
       },
 
+      getPagePosition: function(e) {
+
+      var self = this;
+
+      if ( !e.pageX && !e.originalEvent ) {
+        return;
+      }
+
+      self.lastTouch = self.lastTouch || {};
+
+      // Cache position for touchmove/touchstart, as touchend doesn't provide it.
+      if ( e.type === 'touchmove' || e.type === 'touchstart' ) {
+        self.lastTouch = e.originalEvent.touches[0];
+      }
+
+      return {
+        'x': (e.pageX || self.lastTouch.pageX),
+        'y': (e.pageY || self.lastTouch.pageY)
+      };
+    },
       onDragStart : function(e){
         var self = this,
             point;
@@ -1952,14 +1973,14 @@
       minSlideOffset: 10,
       navigationControl: 'bullets'
     };
-
-/*    SONY.on('global:ready', function(){
-      
-    });*/
-
-    $(function(){
+    
+    SONY.on('global:ready', function(){
       $('.related-products').relatedProducts();
     });
+
+/*    $(function(){
+      $('.related-products').relatedProducts();
+    });*/
 
  })(SONY,jQuery, Modernizr, window,undefined , window.console);
 

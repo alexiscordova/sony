@@ -244,6 +244,10 @@
 
       var self = this;
 
+      if ( Modernizr.touch ) {
+        return;
+      }
+
       self.$el.sonyPaddles();
 
       self.$el.on('oneSonyCarousel:gotoSlide', function(e, which) {

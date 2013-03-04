@@ -28,7 +28,7 @@
       
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Extend Related Products instance with defaults and options</p>             </td>             <td class="code">               <div class="highlight"><pre>      $.extend(self , $.fn.relatedProducts.defaults , options);
 
-</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Debug mode for logging</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.DEBUG                  = <span class="literal">true</span>;
       
       self.LANDSCAPE_BREAKPOINT   = <span class="number">980</span>;
       self.MOBILE_BREAKPOINT      = <span class="number">568</span>;
@@ -87,11 +87,17 @@
       self.isTabletMode    = <span class="literal">false</span>;
       self.accelerationPos = <span class="number">0</span>;
 
+
+
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Startup</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.init();
+
+
 
     };
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Related Products protoype object definition</p>             </td>             <td class="code">               <div class="highlight"><pre>    RelatedProducts.prototype = {
+
+
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Inital setup of module</p>             </td>             <td class="code">               <div class="highlight"><pre>      init: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -111,6 +117,8 @@
 </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Setup link clicks</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setupLinkClicks();
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Initialize tooltips</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.initTooltips();
+
+
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>Don't do this for modes other than 3,4 and 5up</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.variation === <span class="string">'3up'</span> ||
            self.variation === <span class="string">'4up'</span> ||
@@ -645,7 +653,7 @@ if their interaction time and movements are below certain thresholds.</p>       
             self.currentId = <span class="number">0</span>;
           }
 
-          self.moveTo();
+          self.moveTo(); 
         });
 
         self.$el.on(<span class="string">'sonyPaddles:clickRight'</span>, <span class="keyword">function</span>(){
@@ -679,6 +687,18 @@ if their interaction time and movements are below certain thresholds.</p>       
           self.$el.sonyPaddles(<span class="string">'hidePaddle'</span>, <span class="string">'right'</span>);
         }
 
+      },
+
+      togglePaddles: <span class="function"><span class="keyword">function</span> <span class="params">(turnOn)</span>{</span>
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+        <span class="keyword">if</span>(turnOn){
+          self.$el.find(<span class="string">'.pagination-paddles'</span>).show();
+        }<span class="keyword">else</span>{
+          self.$el.find(<span class="string">'.pagination-paddles'</span>).hide();
+        }
+
+        
       },
 
       createShuffle: <span class="keyword">function</span>(){
@@ -911,6 +931,10 @@ if their interaction time and movements are below certain thresholds.</p>       
 
             window.iQ.update();
 
+            <span class="keyword">if</span>(!self.hasTouch){
+              self.togglePaddles(<span class="literal">true</span>);
+            }
+
 
           <span class="keyword">break</span>;
 
@@ -953,6 +977,10 @@ if their interaction time and movements are below certain thresholds.</p>       
             self.sortByPriority();
 
             window.iQ.update();
+
+            <span class="keyword">if</span>(!self.hasTouch){
+              self.togglePaddles(<span class="literal">true</span>);
+            }
 
           <span class="keyword">break</span>;
 
@@ -1003,6 +1031,10 @@ if their interaction time and movements are below certain thresholds.</p>       
             }
 
             self.initMobileBreakpoint();
+
+            self.log(<span class="string">'initing mobile'</span>);
+
+            self.togglePaddles(<span class="literal">false</span>);
 
           <span class="keyword">break</span>;
         }
@@ -1814,6 +1846,7 @@ if their interaction time and movements are below certain thresholds.</p>       
 
 </pre></div>             </td>           </tr>                               <tr id="section-83">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-83">&#182;</a>               </div>               <p>Related Products definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.relatedProducts = <span class="keyword">function</span>(options) {
       <span class="keyword">var</span> args = arguments;
+
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
         <span class="keyword">var</span> self = $(<span class="keyword">this</span>);
         <span class="keyword">if</span> (<span class="keyword">typeof</span> options === <span class="string">"object"</span> ||  !options) {
@@ -1836,8 +1869,12 @@ if their interaction time and movements are below certain thresholds.</p>       
       navigationControl: <span class="string">'bullets'</span>
     };
 
-    SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
-      $(<span class="string">'.related-products'</span>).relatedProducts({});
+<span class="comment">/*    SONY.on('global:ready', function(){
+      
+    });*/</span>
+
+    $(<span class="keyword">function</span>(){
+      $(<span class="string">'.related-products'</span>).relatedProducts();
     });
 
  })(SONY,jQuery, Modernizr, window,<span class="literal">undefined</span> , window.console);
