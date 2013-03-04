@@ -59,7 +59,7 @@
       // PROXY CALLS
       self.beforeResizeFunc               = $.proxy( self.beforeResize, self ); 
       self.afterResizeFunc                = $.proxy( self.afterResize, self );
-      //self.onImagesLoaded                 = $.proxy( self.setCenterContentHeight, self);
+      self.onImagesLoaded                 = $.proxy( self.setCenterContentHeight, self);
       
       // TIMING
       self.afterResizeSpeed               = 200;
@@ -91,7 +91,7 @@
       SONY.on(self.debounceEvent, self.afterResizeFunc);
     
       // register for when images are loaded to determine centering
-      //self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
+      self.$el.find('.iq-img').on('imageLoaded.tcc', $.debounce( 400,  self.onImagesLoaded ));
 
 
       self.$el.find('.iq-img').on('iQ:imageLoaded', function(){
