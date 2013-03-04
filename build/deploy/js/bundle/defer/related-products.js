@@ -1917,7 +1917,7 @@
       setNameHeights : function( $container ) {
         var nameMaxHeight = 0;
 
-        // Set the height of the product name + model because the text can wrap and make it taller
+        //Set the height of the product name + model because the text can wrap and make it taller
         $container
           .find('.product-name-wrap')
           .css('height', '') // remove heights in case they've been set before
@@ -1966,7 +1966,7 @@
       });
     };
 
-    //defaults for the related products
+    //Defaults for the related products
     $.fn.relatedProducts.defaults = {
       throttleTime: 50,
       autoScaleContainer: true,
@@ -1974,13 +1974,10 @@
       navigationControl: 'bullets'
     };
     
+    //Listen for global sony ready event
     SONY.on('global:ready', function(){
       $('.related-products').relatedProducts();
     });
-
-/*    $(function(){
-      $('.related-products').relatedProducts();
-    });*/
 
  })(SONY,jQuery, Modernizr, window,undefined , window.console);
 
