@@ -36,8 +36,8 @@
       // Set variables
       self.$activeTab = self.$tabs.filter('.active');
       self.$window = SONY.$window || $(window);
-      self.windowWidth = self.$window.width();
       self.tabWidth = self.$tabs.outerWidth();
+      self.tabsContainerWidth = self.$tabsContainer.width();
       self.tabletMode = self.$container.data('tabletMode');
       self.isCarousel = self.tabletMode === 'carousel';
 
@@ -61,14 +61,14 @@
     },
 
     _getConstrained : function( value ) {
-      return SONY.Utilities.constrain( value, 0, this.windowWidth - this.tabWidth );
+      return SONY.Utilities.constrain( value, 0, this.tabsContainerWidth - this.tabWidth );
     },
 
     _onResize : function() {
       var self = this;
 
-      self.windowWidth = self.$window.width();
       self.tabWidth = self.$tabs.outerWidth();
+      self.tabsContainerWidth = self.$tabsContainer.width();
 
       // Phone
       if ( Modernizr.mq( self.mq ) ) {
@@ -91,6 +91,8 @@
         if ( !self.isTabCarousel ) {
           self.setupCarousel();
         }
+
+        self._onTabSelected();
 
 
       // Desktop
@@ -115,7 +117,7 @@
       self.$activeTab = $tab;
 
       // Initialize new tab for sticky tabs
-      if ( self.isStickyTabs ) {
+      if ( self.isStickyTabs || self.isTabCarousel ) {
         self._onTabSelected();
       }
     },
@@ -324,51 +326,100 @@
         centerItems: false,
 
         iscrollProps: {
-          snap: true,
+          snap: !self.isTouch,
           hScroll: true,
           vScroll: false,
           hScrollbar: false,
           vScrollbar: false,
-          momentum: true,
-          bounce: true,
-          onAnimationEnd : function( iscroll ) {
-            if ( !iscroll.pagesX.length ) {
-              return;
+          momentum: !( SONY.Settings.isLTIE9 ),
+          bounce: !( SONY.Settings.isLTIE9 ),
+          onScrollStart: function() {
+            self.isClickCanceled = false;
+            self.$tabs.off('.stickytabs');
+            self.animateTab();
+          },
+          onScrollMove: function() {
+            self.animateTab();
+            self.setOverflowClasses( this.x, this.maxScrollX + 3 );
+          },
+          onScrollEnd: function() {
+            self.animateTab();
+            if ( self.isClickCanceled ) {
+              self.$tabs.off('.stickytabs');
             }
-
-            var totalPages = iscroll.pagesX.length,
-                currentPage = iscroll.currPageX + 1; // zero based
-
-            self.$tabsContainer.removeClass('has-content-right has-content-left');
-            if ( totalPages > currentPage ) {
-              self.$tabsContainer.addClass('has-content-right');
-            }
-            if ( currentPage > 1 ) {
-              self.$tabsContainer.addClass('has-content-left');
-            }
+          },
+          onAnimate: function() {
+            self.animateTab();
+          },
+          onAnimationEnd: function( iscroll ) {
+            self.animateTab();
+            self.setOverflowClasses( iscroll.x, iscroll.maxScrollX + 3 );
           }
+        },
+
+        getContentWidth: function( $elements ) {
+          var contentWidth = 0;
+
+          $elements.each(function() {
+            var pos = this.style.position,
+                isOutOfFlow = pos === 'absolute',
+                width = isOutOfFlow ? 0 : $(this).outerWidth( true );
+
+            if ( !isOutOfFlow ) {
+              contentWidth += width;
+            }
+          });
+
+          return contentWidth;
         }
       });
 
-      // Check to make sure we actually have paginated tabs
-      if ( self.$tabsContainer.data('scrollerModule').scroller.pagesX.length > 1 ) {
-        self.$navNext.removeClass('hide');
-        self.$container.addClass('tab-carousel');
-        self.$tabsContainer.addClass('has-content-right');
-      }
+      self.scroller = self.$tabsContainer.data('scrollerModule').scroller;
+
+      self.$container.addClass('tab-carousel');
 
       self.isTabCarousel = true;
+      self._onTabSelected();
+      self.setOverflowClasses( self.scroller.x, self.scroller.maxScrollX + 3 );
     },
 
     teardownCarousel : function() {
       var self = this;
 
+      self.$tabsContainer.scrollerModule('destroy');
+      self.scroller = null;
+      self.$container.removeClass('tab-carousel');
       self.$navPrev.addClass('hide');
       self.$navNext.addClass('hide');
-      self.$container.removeClass('tab-carousel');
-      self.$tabsContainer.scrollerModule('destroy');
-
+      self.$container.find('.has-content-right').removeClass('has-content-right');
+      self.$container.find('.has-content-left').removeClass('has-content-left');
+      self.$tabs.off('.stickytabs');
+      self.$tabs.removeAttr('style');
+      self.isClickCanceled = false;
+      self.overlap = null;
       self.isTabCarousel = false;
+    },
+
+    setOverflowClasses : function( currentX, maxX ) {
+      var self = this,
+          overflowLeftClass = 'has-content-left',
+          overflowRightClass = 'has-content-right',
+          hadContentLeft = self.$tabsContainer.hasClass( overflowLeftClass ),
+          hadContentRight = self.$tabsContainer.hasClass( overflowRightClass );
+
+      // Overflow left
+      if ( currentX < -3 && !hadContentLeft ) {
+        self.$tabsContainer.addClass( overflowLeftClass );
+      } else if ( currentX >= -3 && hadContentLeft ) {
+        self.$tabsContainer.removeClass( overflowLeftClass );
+      }
+
+      // Overflow right
+      if ( currentX >= maxX && !hadContentRight ) {
+        self.$tabsContainer.addClass( overflowRightClass );
+      } else if ( currentX <= maxX && hadContentRight ) {
+        self.$tabsContainer.removeClass( overflowRightClass );
+      }
     }
 
   };
@@ -402,9 +453,9 @@
   // Not overrideable
   $.fn.stickyTabs.settings = {
     tabWidth: 0,
-    windowWidth: 0,
     overlap: 0,
     isStickyTabs: false,
+    isTouch: SONY.Settings.hasTouchEvents || SONY.Settings.hasPointerEvents,
     prop: Modernizr.csstransforms ? 'transform' : 'left',
     valStart : Modernizr.csstransforms ? 'translate(' : '',
     valEnd : Modernizr.csstransforms ? 'px,0)' : 'px'

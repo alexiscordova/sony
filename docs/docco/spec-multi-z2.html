@@ -293,7 +293,6 @@ if ( self.stickyTriggerOffset &lt; 100 ) {
 
       self.$jumpLinks.simplescroll({
         showHash: <span class="literal">true</span>,
-        speed: <span class="number">400</span>,
         offset: offset
       });
     },
@@ -572,7 +571,7 @@ spec products after a big resize</p>             </td>             <td class="co
     isStickyTabs: <span class="literal">false</span>,
     isScroller: <span class="literal">false</span>,
     isMobile: <span class="literal">false</span>,
-    showStickyHeaders: !(SONY.Settings.hasTouchEvents || SONY.Settings.isPlaystation),
+    showStickyHeaders: !( SONY.Settings.hasTouchEvents || SONY.Settings.isPS3 || SONY.Settings.isLTIE9 ),
     stickyOffset: { top: <span class="number">0</span>, bottom: <span class="number">0</span>}
   };
 

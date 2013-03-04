@@ -60,6 +60,28 @@
     direction: ltr;
     overflow: hidden;
 
+
+    &.strip {
+
+      .nav-paddles {
+
+        .nav-paddle {
+          position: absolute;
+          top: 50%;
+          margin-top: -$navPaddleHeight;
+          
+          &.nav-paddle-next {
+            right: 0;
+          }
+          
+          &.nav-paddle-prev {
+            left: 0;
+          }
+        }
+      } 
+
+    }
+
     &:after {
       content: '';
       width: 60px;
@@ -102,7 +124,6 @@
     }
 
     .gallery-item .product-img:after{
-      padding-top: 86.843137%;
       padding-top: 70.843137%;
     }
 

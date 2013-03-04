@@ -239,16 +239,16 @@ SONY.Utilities = (function(window, document) {
     },
 
     fixModernizrFalsePositives : function() {
+
+      // The sony tablet s gets a false negative on generated content (pseudo elements)
       if ( SONY.Settings.isSonyTabletS ) {
         Modernizr.generatedcontent = true;
-        SONY.$html.addClass('generatedcontent sonytablets').removeClass('no-generatedcontent');
+        SONY.$html.removeClass('no-generatedcontent').addClass('generatedcontent sonytablets');
       }
     },
 
     scrollToTop : function() {
-      $.simplescroll({
-        speed: 400
-      });
+      $.simplescroll();
     }
 
     // addClasses : function() {

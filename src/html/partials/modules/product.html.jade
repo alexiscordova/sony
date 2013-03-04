@@ -194,7 +194,10 @@ else if data.view == 'detailed'
       .product-img
         if data.label
           span.label.label-success= data.label
-        .product-img-wrap.ghost-center-wrap.js-product-imgs
+        - hasExtraColors = data.img.colors && data.img.colors.length > 1
+        - classes = 'product-img-wrap ghost-center-wrap js-product-imgs'
+        - if ( !hasExtraColors ) classes += ' no-swatches'
+        div(class=classes)
           .ghost-center
             mixin iQImage( data.img, 'js-product-img-main', 'image' )
             mixin iQColorImages( data.img.colors )
@@ -514,10 +517,10 @@ else if data.view == 'single-spec'
 else if data.view == 'suggested'
   a(class='gallery-item span6 suggested', href=data.href ? data.href : '#')
     .gallery-item-inner
-      .product-name.p3 
+      .product-name.p3
         | !{data.name}
       .product-tagline.p1
-        | !{data.tagline} 
+        | !{data.tagline}
       .product-img
         div(class='product-img-wrap ghost-center-wrap')
           .ghost-center
@@ -529,7 +532,7 @@ else if data.view == 'suggested'
         span.price.l2= '$' + data.price + '&nbsp;'
         span.msrp.p5 MSRP
 
-      
+
 else if data.view == 'blank'
   div(class='gallery-item basic blank m-span3 normal shuffle-item filtered span1', data-priority=data.priority, href='#')
 

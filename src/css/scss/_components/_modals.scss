@@ -44,8 +44,8 @@ $modalHeight: 550px;
   left: 0;
   z-index: $zindexModal;
   width: 100%;
-  height: $modalHeight;
-  margin-top: -($modalHeight / 2);
+  height: px-em( $modalHeight );
+  margin-top: -( px-em( $modalHeight ) / 2);
 
   &.fade {
     @include transition(opacity .3s linear, top .3s ease-out);
@@ -57,6 +57,39 @@ $modalHeight: 550px;
   // Don't want the blue border around the whole container
   &:focus {
     outline: none;
+  }
+}
+
+// Position the modal when the height is small than $modalHeight
+@media ( max-height: px-em( $modalHeight ) ) {
+  .modal {
+    top: 0;
+    height: 90%;
+    margin-top: 2.5%;
+
+    .container,
+    .grid {
+      height: 100%;
+    }
+
+    .modal-header {
+      max-height: 20%;
+    }
+
+    .modal-body {
+      padding-top: 0;
+      padding-bottom: 0em;
+      max-height: 75%;
+      overflow: hidden;
+    }
+
+    .js-spec-modal-body,
+    .spec-modal-body,
+    .js-spec-modal-body img {
+      max-height: 100%;
+    }
+
+    &.fade.in { top: 0; }
   }
 }
 
