@@ -48,9 +48,23 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     } // tcc-content-module
 
     .article{     
-      .feature-copy{
-        width: 100%;  
-      } // &.feature-copy
+      &.featured{       
+        .lt3{
+          margin-top:14px;
+        }
+
+        .feature-copy{
+          max-height: 135px;
+
+          .t5-light{
+            height:67px;
+            max-height: 67px;        
+          } // end .t5-light
+
+        } // end .feature-copy
+      
+      } // end .article.featured 
+
     } // end .article
 
     .users-voice{
@@ -215,6 +229,20 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       
       } // end .img-container
 
+
+      &.default,
+      &.news,
+      &.event{
+        outline:1px soild red;
+        .tcc-copy{
+          max-height:90px;
+        }
+
+        .lt3{
+          margin:0;
+        }
+      }
+
       &.featured{
         .feature-copy{
           padding:px-em(17px) px-em(25px); 
@@ -231,6 +259,10 @@ $fivePercentInstaFlickr: percentage(5px/316px);
           .avatar{
             margin-bottom:0;
           } // .avatar
+
+          .author{
+            padding-left:0;
+          } // end author
 
         } // end .credits
 
@@ -251,7 +283,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
           .handle,
           .author{
-            //float:left;
             margin:0;
           }
 
@@ -322,7 +353,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       .center-content{
         max-height: 160px;
         height: 160px;
-        //border: 1px solid red;
       } // end .center-content
 
       .meta{
@@ -397,6 +427,13 @@ $fivePercentInstaFlickr: percentage(5px/316px);
     .flickr{
      
       .top{
+
+        .icon-container{
+          display:inline-block;
+          width: 44px; 
+         
+        } // .icon-container
+
        .social-btn{
           position: absolute;
           bottom: 0;

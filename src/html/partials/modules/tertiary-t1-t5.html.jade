@@ -73,18 +73,22 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
           - contentModulesClassNames.push(contentMode, contentType)
 
           if(contentMode == "featured") && (module.imgSrc)
-            - backgroundImg = module.imgSrc
-            - contentModulesClassNames.push("iq-img")
+            //- backgroundImg = module.imgSrc
+            //- contentModulesClassNames.push("iq-img")
           else
             - backgroundImg = null         
 
           if(contentType != "users-voice")
             - contentModulesClassNames.push("table-center-wrap")
 
-        div(class=contentModulesClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode, data-src= backgroundImg)
+        //- , data-src= backgroundImg
+        div(class=contentModulesClassNames, data-tcc-content-type= contentType, data-tcc-content-mode= contentMode)
           case contentType
             when "article"
               if(contentMode == "featured") && (module.title) && (module.imgSrc)
+               
+                .featured-image.iq-img(data-src= module.imgSrc)
+
                 article
                  .feature-copy.light-text-dark-box
                     p.t5-light #{module.title}
