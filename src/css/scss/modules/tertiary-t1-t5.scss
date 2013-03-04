@@ -156,10 +156,11 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		    height: 100%;
 		    cursor: pointer;
 		    opacity: 0;
+				@include fadeoutOnHover('.featured-image');
 
-			    &.on {
-			      opacity: 1;
-			    }
+		    &.on {
+		      opacity: 1;
+		    }
 
 		    .featured-image {
 		      position: absolute;
