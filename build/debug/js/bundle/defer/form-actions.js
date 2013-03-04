@@ -26,15 +26,11 @@
     initInput : function( $input ) {
       var self = this;
 
-      var inputObj = {};
-      inputObj.$input = $input;
-      inputObj.$inputGroup = $input.closest('.input-group');
-      inputObj.$inputWrapper = $input.closest('.input-outer-wrapper');
-      inputObj.$inputIcon = inputObj.$inputGroup.find('.input-icon');
-      inputObj.$inputBtn = inputObj.$inputGroup.find('.input-btn');
-      inputObj.$inputClearBtn = inputObj.$inputGroup.find('.input-clear-btn');
+      var inputObj = self.makeInputObj($input);
       inputObj.watermarkText = $input.val();
       inputObj.clearBtnClicked = false;
+
+      $input.data('formActions',self);
 
       $input.on('focus', function(){
         // clear watermarkText on focus
@@ -52,19 +48,7 @@
           $input.val(inputObj.watermarkText);
           inputObj.$inputIcon.show();
         }
-      }).on('mouseup keyup change cut paste', function(){
-
-        if (!inputObj.$inputWrapper.hasClass('searching')){
-          if (!($input.val() === '' || $input.val() === inputObj.watermarkText)){
-            inputObj.$inputWrapper.addClass('searching');
-            self.doSearch( inputObj );
-          }
-        } else if ($input.val() === ''){
-          self.resetSearchResults( inputObj );
-        } else {
-          self.doSearch( inputObj );
-        }
-      });
+      }).on('mouseup keyup change cut paste', SONY.onSearchInputChange);
 
       inputObj.$inputIcon.on('click',function(){
         $input.focus();
@@ -80,6 +64,17 @@
       }).on('mouseleave',function(){
         inputObj.clearBtnClicked = false; // just make sure it's cleared
       });
+    },
+
+    makeInputObj: function($input){
+      var iObj = {};  
+      iObj.$input = $input;
+      iObj.$inputGroup = $input.closest('.input-group');
+      iObj.$inputWrapper = $input.closest('.input-outer-wrapper');
+      iObj.$inputIcon = iObj.$inputGroup.find('.input-icon');
+      iObj.$inputBtn = iObj.$inputGroup.find('.input-btn');
+      iObj.$inputClearBtn = iObj.$inputGroup.find('.input-clear-btn');
+      return iObj;
     },
 
     doSearch: function( inputObj ){
@@ -172,7 +167,37 @@
     isInitialized: false
   };
 
- })(jQuery, Modernizr, window, undefined);
+  // Event triggered when this tab is about to be shown
+  SONY.onSearchInputChange = function( evt ) {
+    SONY.initMobileNavIScroll;
+    console.log("onSearchInputChange");
+    var $input = $(evt.target),
+      formActions = $input.data('formActions'),
+      inputObj = formActions.makeInputObj($input);
+    
+
+    if (!inputObj.$inputWrapper.hasClass('searching')){
+      if (!($input.val() === '' || $input.val() === inputObj.watermarkText)){
+        inputObj.$inputWrapper.addClass('searching');
+        formActions.doSearch( inputObj );
+      }
+    } else if ($input.val() === ''){
+      formActions.resetSearchResults( inputObj );
+    } else {
+      formActions.doSearch( inputObj );
+    }
+      
+
+
+    // var $prevPane;
+
+    // if ( evt ) {
+    //   $prevPane = evt.prevPane;
+    // }
+
+  };
+
+})(jQuery, Modernizr, window, undefined);
 
 
 $(function() {

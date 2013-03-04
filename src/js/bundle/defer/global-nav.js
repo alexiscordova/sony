@@ -719,8 +719,16 @@
     var globalNav = $('.nav-wrapper').data('globalNav');
     // if there's alreaddy a mobileNavIScroll, refresh it.
     if (!!globalNav.mobileNavIScroll) {
-      $('.nav-mobile-scroller').css('height', '100%');
-      globalNav.mobileNavIScroll.refresh();
+      var $scroller = $('.nav-mobile-scroller');
+      $scroller.css('height',"");
+      setTimeout(function(){
+        var scrollerHeight = $scroller.outerHeight();
+        $scroller.css('height', scrollerHeight);
+
+        setTimeout(function(){
+          globalNav.mobileNavIScroll.refresh();
+        },50);
+      },50);
       // if not, init it.
     } else {
       globalNav.mobileNavIScroll = new window.IScroll('nav-outer-container', {
@@ -729,19 +737,21 @@
         hScrollbar : false,
         snap : false,
         momentum : true,
-        bounce : false
+        bounce : false,
+        onBeforeScrollStart: function(e) {
+          var target = e.target;
+
+          while ( target.nodeType != 1 ) {
+            target = target.parentNode;
+          }
+
+          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
+            e.preventDefault();
+          }
+        }
+
       });
-      globalNav.mobileNavIScroll.options.onBeforeScrollStart = function(e) {
-        var target = e.target;
-
-        while ( target.nodeType != 1 ) {
-          target = target.parentNode;
-        }
-
-        if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
-          e.preventDefault();
-        }
-      };
+      
     }
   };
   SONY.destroyMobileNavIScroll = function() {
