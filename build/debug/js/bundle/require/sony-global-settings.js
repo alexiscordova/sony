@@ -24,7 +24,7 @@ SONY.Settings = (function(window, document, Modernizr) {
   self.isIPhone = (/iphone|ipod/gi).test(navigator.userAgent);
   self.isIOS = (/iphone|ipod|ipad/gi).test(navigator.userAgent);
   self.isAndroid = (/android/gi).test(navigator.userAgent);
-  self.isPlaystation = (/playstation/gi).test(navigator.userAgent);
+  self.isPS3 = (/playstation 3/gi).test(navigator.userAgent);
   self.isSonyTabletS = (/sony tablet s/gi).test(navigator.userAgent);
   // self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test(navigator.userAgent);
 

@@ -625,7 +625,7 @@
     isStickyTabs: false,
     isScroller: false,
     isMobile: false,
-    showStickyHeaders: !( SONY.Settings.hasTouchEvents || SONY.Settings.isPlaystation || SONY.Settings.isLTIE9 ),
+    showStickyHeaders: !( SONY.Settings.hasTouchEvents || SONY.Settings.isPS3 || SONY.Settings.isLTIE9 ),
     stickyOffset: { top: 0, bottom: 0}
   };
 
