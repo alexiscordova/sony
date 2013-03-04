@@ -9,7 +9,11 @@ title Sony Global
 
 l = {"locals": locals}
   // modernizr needs to load right after the fonts.com script, which has to be in head to prevent FOUT.
-  script(src = "js/libs/modernizr-2.6.2.min.js")
+
+  if 'debug' == locals.getEnvironments() || 'mbuilder' == locals.getEnvironments()
+    script(src = "js/libs/modernizr-2.6.2.js")
+  else
+    script(src = "js/libs/modernizr-2.6.2.min.js")
   link(rel="stylesheet", href="css/styles.css")
 
   <!--[if (gt IE 9)|!(IE)]><!-->
