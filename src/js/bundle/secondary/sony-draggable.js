@@ -262,7 +262,7 @@
     'setDimensions': function() {
 
       var self = this,
-          $widthObject;
+          $widthObject, offsetCorrectionX, offsetCorrectionY;
 
       if ( self.useCSS3 ) {
         $widthObject = self.$el;
@@ -270,10 +270,21 @@
         $widthObject = self.$containment;
       }
 
+      offsetCorrectionX = (self.$el.outerWidth(true) - self.$el.width()) / 2;
+      offsetCorrectionY = (self.$el.outerHeight(true) - self.$el.height()) / 2;
+
+      // IE7/8 doesn't return the correct values for margins if you use 'auto', thus breaking $.outerWidth()
+
+      if ( SONY.Settings.isLTIE9 ) {
+        if (self.$el.css('marginLeft') === 'auto') {
+          offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
+        }
+      }
+
       self.containmentWidth = $widthObject.width();
       self.containmentHeight = $widthObject.height();
-      self.scrubberLeft = self.$el.get(0).getBoundingClientRect().left - (self.$el.outerWidth(true) - self.$el.width()) / 2;
-      self.scrubberTop = self.$el.get(0).getBoundingClientRect().top - (self.$el.outerHeight(true) - self.$el.height()) / 2;
+      self.scrubberLeft = self.$el.get(0).getBoundingClientRect().left - offsetCorrectionX;
+      self.scrubberTop = self.$el.get(0).getBoundingClientRect().top - offsetCorrectionY;
     },
 
     // Allows other classes to reset the handle's position if needed, by calling:
