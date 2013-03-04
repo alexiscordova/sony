@@ -169,7 +169,7 @@
 
   // Event triggered when this tab is about to be shown
   SONY.onSearchInputChange = function( evt ) {
-    SONY.initMobileNavIScroll;
+    SONY.initMobileNavIScroll();
     console.log("onSearchInputChange");
     var $input = $(evt.target),
       formActions = $input.data('formActions'),
