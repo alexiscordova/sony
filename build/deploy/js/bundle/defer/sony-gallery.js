@@ -516,8 +516,7 @@
             type = data.filterType,
             realType = type,
             name = data.filter,
-            init = [],
-            canDisable = true;
+            init = [];
 
 
         // Initialize it based on type
@@ -527,13 +526,11 @@
             self.range( $this, name, data.min, data.max );
             break;
           case 'button':
-            canDisable = false;
             self.button( $this, name, realType );
             break;
           case 'group':
             // Treat groups and colors the same as buttons
             type = 'button';
-            canDisable = false;
             self.button( $this, name, realType );
             break;
           case 'color':
@@ -552,8 +549,7 @@
         self.filterData[ name ] = {
           name: name,
           type: type,
-          realType: realType,
-          canDisable: canDisable
+          realType: realType
         };
       });
 
@@ -831,7 +827,7 @@
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method, filterData;
+          filterName, filterValue, method; //, filterData;
 
 
       // Reset stored data by setting all filterValue values to null
@@ -840,10 +836,10 @@
           continue;
         }
 
-        filterData = self.filterData[ filterName ];
+        // filterData = self.filterData[ filterName ];
 
         for ( filterValue in self.filterValues[ filterName ] ) {
-          self.filterValues[ filterName ][ filterValue ] = filterData.canDisable ? null : true;
+          self.filterValues[ filterName ][ filterValue ] = null;
         }
       }
 
