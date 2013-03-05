@@ -110,7 +110,7 @@
 
       if ($('html').hasClass("touch")) {
         // Tra
-        $('#page-wrap-outer').on('click focus',function(e) {
+        $('#page-wrap-outer,#main,.primary-tout').on('click focus',function(e) {
           if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
                 $('.nav .nav-li a.active').trigger('touchstart');
           }
@@ -234,6 +234,7 @@
             $(this).data('hovering', false);
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
+            
             setTimeout(function() {
               // if you're not hovering over the target,
               if (!$thNavBtnTarget.data('hovering')) {
@@ -243,6 +244,7 @@
                 self.resetMouseleaveTimer();
               }
             }, 25);
+            
           });
 
           $thNavBtnTarget.on('mouseenter focus', function() {
@@ -279,6 +281,11 @@
             }
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
+            var timeout = 50;
+            if(this.id === 'navmenu-w-search') {
+              timeout = 2000;
+            }
+            
             setTimeout(function() {
               // if you're not hovering over the target's button
               if (!$thNavBtn.data('hovering')) {
@@ -287,7 +294,7 @@
               } else {
                 self.resetMouseleaveTimer();
               }
-            }, 50);
+            }, timeout);
           });
         }
 
@@ -762,10 +769,8 @@
 
 })(jQuery, Modernizr, window);
 
-$(function() {
-  $(document).ready(function() {
-    $('.nav-wrapper').globalNav();
-  });
-
+SONY.on('global:ready', function(){
+   $('.nav-wrapper').globalNav();
 });
+
 

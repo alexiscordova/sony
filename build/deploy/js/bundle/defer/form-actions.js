@@ -55,7 +55,7 @@
       });
 
       inputObj.$inputClearBtn.on('click',function(e){
-        alert('yo');
+
         inputObj.clearBtnClicked = true;
         self.clearSearchResults( inputObj );
 

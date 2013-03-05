@@ -97,7 +97,7 @@ These fire the first time they're hit (page-load), and if the breakpoint becomes
       }
 
       <span class="keyword">if</span> ($(<span class="string">'html'</span>).hasClass(<span class="string">"touch"</span>)) {
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Tra</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'#page-wrap-outer'</span>).on(<span class="string">'click focus'</span>,<span class="keyword">function</span>(e) {
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Tra</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'#page-wrap-outer,#main,.primary-tout'</span>).on(<span class="string">'click focus'</span>,<span class="keyword">function</span>(e) {
           <span class="keyword">if</span> ( !($(e.target).hasClass(<span class="string">'navtray-w,navmenu-w,nav'</span>) || $(e.target).parents(<span class="string">'.navtray-w,.navmenu-w,.nav'</span>).length &gt; <span class="number">0</span>)) {
                 $(<span class="string">'.nav .nav-li a.active'</span>).trigger(<span class="string">'touchstart'</span>);
           }
@@ -191,13 +191,15 @@ if this button is already activated,</p>             </td>             <td class
 </pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>If you mouseOut of the nav button</p>             </td>             <td class="code">               <div class="highlight"><pre>          $thNavBtn.on(<span class="string">'mouseleave'</span>, <span class="keyword">function</span>() {
             $(<span class="keyword">this</span>).data(<span class="string">'hovering'</span>, <span class="literal">false</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>Check to see if it was onto the navtray/navmenu.
-Wait a few ticks to give it a chance for the hover to fire first.</p>             </td>             <td class="code">               <div class="highlight"><pre>            setTimeout(<span class="keyword">function</span>() {
+Wait a few ticks to give it a chance for the hover to fire first.</p>             </td>             <td class="code">               <div class="highlight"><pre>            
+            setTimeout(<span class="keyword">function</span>() {
 </pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>if you're not hovering over the target,</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> (!$thNavBtnTarget.data(<span class="string">'hovering'</span>)) {
 </pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>shut it down.</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.startMouseleaveTimer($thNavBtn);
               } <span class="keyword">else</span> {
                 self.resetMouseleaveTimer();
               }
             }, <span class="number">25</span>);
+            
           });
 
           $thNavBtnTarget.on(<span class="string">'mouseenter focus'</span>, <span class="keyword">function</span>() {
@@ -230,13 +232,18 @@ Wait a few ticks to give it a chance for the hover to fire first.</p>           
                 $(<span class="string">'.navmenu-w-search'</span>).removeClass(<span class="string">'navmenu-w-visible'</span>).attr(<span class="string">'style'</span>, <span class="string">'opacity:0'</span>);
             }
 </pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>Check to see if it was onto this target's button.
-Wait a few ticks to give it a chance for the hover to fire first.</p>             </td>             <td class="code">               <div class="highlight"><pre>            setTimeout(<span class="keyword">function</span>() {
+Wait a few ticks to give it a chance for the hover to fire first.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">var</span> timeout = <span class="number">50</span>;
+            <span class="keyword">if</span>(<span class="keyword">this</span>.id === <span class="string">'navmenu-w-search'</span>) {
+              timeout = <span class="number">2000</span>;
+            }
+            
+            setTimeout(<span class="keyword">function</span>() {
 </pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>if you're not hovering over the target's button</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> (!$thNavBtn.data(<span class="string">'hovering'</span>)) {
 </pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>shut it down.</p>             </td>             <td class="code">               <div class="highlight"><pre>                self.startMouseleaveTimer($thNavBtn);
               } <span class="keyword">else</span> {
                 self.resetMouseleaveTimer();
               }
-            }, <span class="number">50</span>);
+            }, timeout);
           });
         }
 
@@ -663,12 +670,10 @@ $('#country-selector').on('mouseenter mouseleave',function(){
 
 })(jQuery, Modernizr, window);
 
-$(<span class="keyword">function</span>() {
-  $(document).ready(<span class="keyword">function</span>() {
-    $(<span class="string">'.nav-wrapper'</span>).globalNav();
-  });
-
+SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
+   $(<span class="string">'.nav-wrapper'</span>).globalNav();
 });
+
 
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
