@@ -26,7 +26,7 @@ SONY.Environment = (function(window, document) {
       // Also, Firefox has a longstanding issue where the pixel value of 'auto' is always zero.
       // https://bugzilla.mozilla.org/show_bug.cgi?id=381328
 
-      Modernizr.addTest('jsAutoMarginsCorrect', function() {
+      Modernizr.addTest('JSAutoMargins', function() {
 
         var x = document.createElement('div'),
             y = document.createElement('div');
