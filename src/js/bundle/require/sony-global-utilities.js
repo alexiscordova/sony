@@ -3,6 +3,9 @@
 // --------------------
 //
 // * **Class:** SONY.Utilities
+//
+// This class contains common, sharable methods that may be called from any
+// script in the application.
 
 var SONY = SONY || {};
 
