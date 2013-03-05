@@ -15,10 +15,10 @@ l = {"locals":locals}
         e = {"locals":locals, "minimal":true, "data":data('global-header/default-minimal-header.json'), "sample_session_data":data('global-header/sample_session_data.json'), "sample_search_results":data('global-header/sample_search_results.json')}
         !{partial('modules/global-header.html.jade', e)}
 
-        div#main.container.m-full-bleed(role='main')
+        #main.container.m-full-bleed(role='main')
  
           //- put content here - the div below is just to add height for the demo.
-          .bs-docs-grid(style="height:400px; background: rgb(70, 70, 70);")
+          .bs-docs-grid(style="height:500px; background: rgb(70, 70, 70);")
 
         e = {"locals":locals, "minimal":true, "data":data('global-footer/default.json'), "sample_session_data":data('global-footer/sample_session_data.json')}
         !{partial('modules/global-footer.html.jade', e)}

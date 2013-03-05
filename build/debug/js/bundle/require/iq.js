@@ -205,7 +205,11 @@
       $elm.data('fadeonce', true);
       $elm.css({'opacity': 1, '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(opacity=100)"', 'filter':'alpha(opacity=100)'});
       setTimeout(function() {
-        $elm.attr('style', '');
+        $elm.css({
+          'opacity' : '',
+          'filter' : '',
+          '-ms-filter' : ''
+        });
       }, 900);
       $elm.trigger('imageLoaded');
     }

@@ -141,6 +141,7 @@ module.exports = function(grunt) {
           'js/bundle/require/sony-global.js',
           'js/bundle/require/sony-global-settings.js',
           'js/bundle/require/sony-global-analytics.js',
+          'js/bundle/require/sony-global-environment.js',
           'js/bundle/require/sony-global-utilities.js',
           'js/bundle/require/exports.js',
           'js/bundle/require/iq.js',
