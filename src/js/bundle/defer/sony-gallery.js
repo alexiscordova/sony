@@ -328,6 +328,7 @@
       if ( filterType === 'button' || filterType === 'checkbox' ) {
         pos = $.inArray( filterValue, self.filters[ filterType ][ filterName ] );
         self.filters[ filterType ][ filterName ].splice( pos, 1 );
+
       } else if ( filterType === 'range' ) {
         delete self.filters[ filterType ][ filterName ][ filterValue ];
       }
@@ -352,8 +353,11 @@
         self.$container.find( selector + ' .active' ).button('toggle');
 
       } else if ( filterType === 'checkbox' ) {
+        // [data-filter="features"] [value="lcd"]
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
-        self.$container.find( selector ).prop('checked', false);
+        self.$container.find( selector )
+          .prop('checked', false)
+          .removeClass('active');
 
       } else if ( filterType === 'range' ) {
         // Slide appropriate handle to the intial value
@@ -417,7 +421,12 @@
       var self = this,
           filterType = '',
           filterName = '',
+          filterValues = [],
           filterValue = '';
+
+      self.lastFilterGroup = null;
+      self.currentFilterColor = null;
+      self.hideFilteredSwatchImages();
 
       for ( filterType in self.filters ) {
         for ( filterName in self.filters[ filterType ] ) {
@@ -429,17 +438,17 @@
             }
 
           } else {
-            for ( var i = 0; i < self.filters[ filterType ][ filterName ].length; i++ ) {
-              filterValue = self.filters[ filterType ][ filterName ][ i ];
+            // Get the filter values without a reference because we want to delete parts of the array
+            // as its looped through
+            filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
+            for ( var i = 0; i < filterValues.length; i++ ) {
+              filterValue = filterValues[ i ];
               // Remove from internal data and UI
               self.deleteFilter( filterValue, filterName, filterType );
             }
           }
         }
       }
-
-      self.currentFilterColor = null;
-      self.hideFilteredSwatchImages();
 
       self.filter();
     },
@@ -742,7 +751,6 @@
 
     loadSwatchImages : function() {
       this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
-      console.log('loading swatch images');
       iQ.update( true );
 
       return this;
@@ -859,7 +867,7 @@
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method; //, filterData;
+          filterName, filterValue, method, skip, value;//, filterData;
 
 
       // Reset stored data by setting all filterValue values to null
@@ -869,9 +877,10 @@
         }
 
         // filterData = self.filterData[ filterName ];
+        skip = filterName === self.lastFilterGroup;
 
         for ( filterValue in self.filterValues[ filterName ] ) {
-          self.filterValues[ filterName ][ filterValue ] = null;
+          self.filterValues[ filterName ][ filterValue ] = skip ? 'skip' : null;
         }
       }
 
@@ -889,7 +898,7 @@
 
           for ( filterValue in self.filterValues[ filterName ] ) {
             // If we've already set this to false, we don't need to check again on another element
-            if ( self.filterValues[ filterName ][ filterValue ] === true ) {
+            if ( self.filterValues[ filterName ][ filterValue ] === true || self.filterValues[ filterName ][ filterValue ] === 'skip' ) {
                 continue;
             }
 
@@ -912,8 +921,12 @@
         }
 
         for ( filterValue in self.filterValues[ filterName ] ) {
-          method = self.filterValues[ filterName ][ filterValue ] ? 'enable' : 'disable';
-          self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
+          value = self.filterValues[ filterName ][ filterValue ];
+
+          if ( value !== 'skip' ) {
+            method = value ? 'enable' : 'disable';
+            self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
+          }
         }
       }
 
@@ -987,6 +1000,9 @@
 
         if ( isActive ) {
           checked.push( $this.data( filterName ) );
+          self.lastFilterGroup = filterName;
+        } else {
+          self.lastFilterGroup = null;
         }
 
         if ( realType === 'color' ) {
@@ -1021,8 +1037,10 @@
           $inputs = $filterGroup.find('input');
 
       $inputs.on('change', function() {
-        var $checked = $filterGroup.find('input:checked'),
-        checked = [];
+        var $input = $(this),
+            $checked = $filterGroup.find('input:checked'),
+            checked = [],
+            isActive;
 
         // At least one checkbox is checked, clear the array and loop through the checked checkboxes
         // to build an array of strings
@@ -1030,12 +1048,21 @@
           $checked.each(function() {
             checked.push(this.value);
           });
+          isActive = true;
+        } else {
+          isActive = false;
         }
         self.filters.checkbox[ filterName ] = checked;
 
         // Less than IE9 doesn't support the :checked pseudo class
         if ( SONY.Settings.isLTIE9 ) {
-          $(this).toggleClass('active');
+          $input.toggleClass('active');
+        }
+
+        if ( isActive ) {
+          self.lastFilterGroup = filterName;
+        } else {
+          self.lastFilterGroup = null;
         }
 
         self.filter();
@@ -1086,6 +1113,8 @@
         prevMin = self.price.min,
         prevMax = self.price.max;
 
+        self.lastFilterGroup = null;
+
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
 
@@ -1107,21 +1136,21 @@
 
       // Show what's happening with the range control
       displayValues = function( min, max, percents ) {
-        console.timeStamp('displayValues');
         var minWidth,
             maxWidth;
 
         // Set the new html, then get it's width, then set it's margin-left to negative half that
         $minOutput.text( min );
+        $maxOutput.text( max );
         minWidth = $minOutputWrap.width();
+        maxWidth = $maxOutputWrap.width();
+
         $minOutputWrap.css({
           left: percents.min + '%',
           marginLeft: -minWidth / 2
         });
 
         // Do it all over for the max handle
-        $maxOutput.text( max );
-        maxWidth = $maxOutputWrap.width();
         $maxOutputWrap.css({
           left: percents.max + '%',
           marginLeft: -maxWidth / 2
@@ -2564,6 +2593,7 @@
     isUsingOuterScroller: !( SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
     showCompareStickyHeaders: true,
     currentFilterColor: null,
+    lastFilterGroup: null,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
@@ -2662,9 +2692,9 @@ SONY.on('global:ready', function() {
     $('.gallery').each(function() {
       var $this = $(this);
 
-      console.time('Initializing gallery %O', $this[0]);
+      // console.time('Initializing gallery %O', $this[0]);
       $this.gallery( $this.data() );
-      console.timeEnd('Initializing gallery');
+      // console.timeEnd('Initializing gallery');
     });
 
     // Register for tab show(n) events here because not all tabs are galleries
@@ -2687,7 +2717,7 @@ SONY.on('global:ready', function() {
     // Using a timeout here because the tab shown event is triggered at the end of the transition,
     // which depends on how long the page takes to load (and if the browser has transitions)
     setTimeout(function() {
-      console.timeStamp('Disabling hidden galleries');
+      // console.timeStamp('Disabling hidden galleries');
       $('.tab-pane:not(.active) .gallery').gallery('disable');
       // console.profileEnd();
     }, 500);

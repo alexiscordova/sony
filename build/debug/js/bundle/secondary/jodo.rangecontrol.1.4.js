@@ -458,8 +458,10 @@
 			}
 
 			// Change ambit's width/height and left/top
-			th.$ambit[ th.dimension ]( th.getHandleDist() + '%' );
-			th.$ambit.css( th.property, th.currentMinPositionPct + '%' );
+			var css = {};
+			css[ th.dimension ] = th.getHandleDist() + '%';
+			css[ th.property ] = th.currentMinPositionPct + '%';
+			th.$ambit.css( css );
 		}
 
 		if ( th.$ambit && !th.range ) {
