@@ -18,22 +18,27 @@ SONY.Utilities = (function(window, document) {
     // Force a redraw for webkit browsers.
 
     'forceWebkitRedraw': function(){
-      $('<style/>').appendTo( SONY.$body ).remove();
+
+      var tempStyleSheet = document.createElement('style');
+
+      document.body.appendChild(tempStyleSheet);
+      document.body.removeChild(tempStyleSheet);
     },
 
-    // converts pixel value to em value (including unit)
+    // Converts pixel value to an em value (including unit) at a given context.
+    // Default context for this application is 16.
 
     pxToEm : function(pxValue, context){
 
-      // defaults to 16px
       context = typeof context !== 'undefined' ? context : 16;
 
       return (pxValue / context) + 'em';
     },
 
-    // Return calculated column if width is above 568px/35.5em
+    // Return calculated column if width is above 568px/35.5em.
 
     'masonryColumns': function(containerWidth) {
+
       var column = containerWidth;
 
       if ( !Modernizr || !SONY.Settings ) {
@@ -47,9 +52,10 @@ SONY.Utilities = (function(window, document) {
       return column;
     },
 
-    // Return calculated gutter if width is above 568px/35.5em
+    // Return calculated gutter if width is above 568px/35.5em.
 
     'masonryGutters': function(containerWidth) {
+
       var gutter = 0;
 
       if ( !Modernizr || !SONY.Settings ) {
@@ -63,26 +69,24 @@ SONY.Utilities = (function(window, document) {
       return gutter;
     },
 
-    // Parses a 2D CSS transform matrix and returns key/val pairings
+    // Takes a 2D CSS transform matrix (such as `matrix(1, 0, 0, 1, -120, 0)`) and
+    // returns a JSON object exposing the same paramters.
 
     'parseMatrix': function( str ) {
+
       var modified;
 
-      // We have a matrix like: "matrix(1, 0, 0, 1, -120, 0)"
-
-      // firstly replace one or more (+) word characters (\w) followed by `(` at the start (^) with a `[`
-      // then replace the `)` at the end with `]`
       modified = str.replace( /^\w+\(/, '[' ).replace( /\)$/, ']');
-      // this will leave you with a string: "[0.312321, -0.949977, 0.949977, 0.312321, 0, 0]"
 
-      // then parse the new string (in the JSON encoded form of an array) as JSON into a variable
       try {
         modified = JSON.parse(modified);
       } catch (e) {
         modified = [null,null,null,null,null,null];
       }
 
-      // THE FIRST FOUR VALUE NAMES ARE PROBABLY WRONG. I ONLY KNOW THE LAST TWO (translates) FOR SURE.
+      // **TODO**: The first four value names are probably wrong.
+      // I only know the last two (translates) for sure.
+
       return {
         val1 : modified[0],
         val2 : modified[1],
@@ -93,20 +97,20 @@ SONY.Utilities = (function(window, document) {
       };
     },
 
-    // Constrains a value between a min and max value
+    // Constrains a value between a min and max boundary.
 
     'constrain': function(value, min, max) {
+
       value = parseFloat(value);
 
       return value < min ? min :
-        value > max ? max :
-        value;
+             value > max ? max :
+             value;
     },
 
     scrollToTop : function() {
       $.simplescroll();
     }
-
   };
 
   return self;
