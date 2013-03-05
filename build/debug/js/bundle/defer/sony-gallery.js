@@ -125,7 +125,8 @@
 
       self.$container.removeClass('disabled');
 
-      if ( self.hasCarousels ) {
+      if ( self.hasEnabledCarousels ) {
+        self.$carousels.scrollerModule('enable');
         self.$carousels.scrollerModule('refresh');
       }
     },
@@ -140,6 +141,11 @@
 
       // Disable shuffle
       self.shuffle.disable();
+
+      // Disable carousels
+      if ( self.hasEnabledCarousels ) {
+        self.$carousels.scrollerModule('disable');
+      }
 
       // Pause infinite scroll
       if ( self && self.hasInfiniteScroll ) {
@@ -2660,6 +2666,9 @@
 
     $galleries = $pane.find('.gallery');
 
+    // Force redraw before fixing galleries
+    SONY.Utilities.forceWebkitRedraw();
+
     $galleries.each(function() {
       var gallery = $(this).data('gallery'),
           $collapse = gallery.$container.find('[data-toggle="collapse"]');
@@ -2676,8 +2685,6 @@
         gallery.fixCarousels();
       }
     });
-
-    SONY.Utilities.forceWebkitRedraw();
   };
 
 })(jQuery, Modernizr, window);
