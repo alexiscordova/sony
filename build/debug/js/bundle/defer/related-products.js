@@ -32,7 +32,7 @@
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = false;
+      self.DEBUG                  = true;
       
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
@@ -45,6 +45,7 @@
       self.$currentSlide          = null;
       self.$shuffleContainers     = self.$slides.find('.shuffle-container');
       self.$galleryItems          = self.$el.find('.gallery-item');
+      self.$iqImages              = self.$galleryItems.find('.iq-img');
       self.$plate                 = self.$slides.eq(0).find('.gallery-item.plate').first();
       self.$container             = self.$el.find('.rp-container').eq(0);
       self.$favorites             = self.$el.find('.js-favorite');
@@ -89,6 +90,7 @@
       self.isIE7orIE8             = self.$html.hasClass('lt-ie10');
       self.inited                 = false;
       self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
+      self.tileHeightSizeFix      = 0;
       
       //Modes
       self.isMobileMode    = false;
@@ -131,7 +133,15 @@
         //Initialize tooltips
         self.initTooltips();
 
-        self.log('Related Poducts init...');
+        
+        var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
+
+        prodImg.find('.iq-img').on('imageLoaded' , function(){
+          var $img = $(this);
+          $img.css({
+            'max-height' : prodImg.first().height()
+          });
+        });
 
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
@@ -514,6 +524,9 @@
                 shfflInst.update();
                 self.animateTiles();
 
+
+                
+
               }
 
             } , 50);
@@ -635,6 +648,7 @@
           var $oneProduct = self.$el.find('.gallery-item.normal').first(),
           newContainerHeight = $oneProduct.find('.product-content').outerHeight(true) + $oneProduct.find('.product-img').height();
           newContainerHeight += 50; //spacing for navigation dots
+
 
       
           self.$el.css({
@@ -1671,6 +1685,11 @@
             self.$paddles.show();
           }
           
+          //make sure slides are in the right place after re-building
+          setTimeout(function(){
+            self.updateSlides();
+          } , 750);
+
         }
       },
 
@@ -1785,22 +1804,7 @@
               'max-height' : tileHeight,
               'height'     : tileHeight
             });
-/*
-            if( slideVariation === '4up' && self.mq( '(min-width: 567px) and (max-width: 768px)' ) ){
-              $slide.find( '.gallery-item.normal').each(function(){
-                var $item = $(this);
 
-                self.log( $item.outerHeight(true) , $slide.find('.gallery-item.plate').first().height() );
-
-                if ( $item.outerHeight( true ) >  $slide.find('.gallery-item.plate').first().height() ) {
-                  $slide.find('.gallery-item.plate').first().css({
-                    'max-height' : $item.outerHeight(true),
-                    'height'     : $item.outerHeight(true)
-                  });
-                }
-              });
-            }
-            self.log( 'Setting new tile height on gallery items, ' , $slide.find('.gallery-item.plate').first().height(), tileHeight  , self.mq('(min-width: 769px)'));*/
           }
 
           switch( slideVariation ){
@@ -1842,10 +1846,23 @@
             break;
           }
         });
+        
+       
+        self.checkTileHeights();
 
         setTimeout( function () {
           self.updateSliderSize();
         } , 250);
+
+      },
+
+      checkTileHeights: function(){
+        var self = this,
+        prodImg = self.$galleryItems.filter('.normal').find('.product-img');
+
+        prodImg.find('img').css({
+          'max-height' : prodImg.first().height()
+        });
 
       },
 
