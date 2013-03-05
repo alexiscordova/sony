@@ -95,6 +95,9 @@
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
     setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
+
+    log('SONY : Gallery : Initialized');
+
   };
 
   Gallery.prototype = {

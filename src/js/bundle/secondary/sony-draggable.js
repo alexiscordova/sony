@@ -276,7 +276,7 @@
       // If the browser doesn't properly support the getStyles API for auto margins, manually
       // shift the destination back to compensate.
 
-      if ( !Modernizr.jsautomarginscorrect ) {
+      if ( !Modernizr.jsautomargins ) {
         offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / 2;
       }
 

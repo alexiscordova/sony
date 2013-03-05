@@ -52,9 +52,10 @@ Date: 02/22/13</p>
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Redraw table when images have loaded</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> debouncedResize = $.debounce( <span class="number">50</span>, $.proxy( self._onResize, self) );
         self.$specProduct.find(<span class="string">'.iq-img'</span>).on( <span class="string">'imageLoaded'</span>, debouncedResize );
 
-
         self._initStickyNav();
       }, <span class="number">100</span>);
+
+      log(<span class="string">'SONY : Spec : Initialized'</span>);
     },
 
     _initFeatures : <span class="keyword">function</span>() {

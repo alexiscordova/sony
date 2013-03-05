@@ -28,6 +28,8 @@
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
 
     self.init();
+
+    log('SONY : OneSonyCarousel : Initialized');
   };
 
   OneSonyCarousel.prototype = {
@@ -197,7 +199,7 @@
       // If the browser doesn't properly support the getStyles API for auto margins, manually
       // shift the destination back to compensate.
 
-      if ( !Modernizr.jsautomarginscorrect ) {
+      if ( !Modernizr.jsautomargins ) {
         destinationLeft -= (innerContainerWidth -  $destinationSlide.width()  ) / 2;
       }
 

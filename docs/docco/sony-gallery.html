@@ -84,6 +84,9 @@ Dependencies: jQuery 1.7+, Modernizr</p>
     }
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Add the .iq-img class to hidden swatch images, then tell iQ to update itself</p>             </td>             <td class="code">               <div class="highlight"><pre>    setTimeout( $.proxy( self.loadSwatchImages, self ) , <span class="number">2000</span>);
+
+    log(<span class="string">'SONY : Gallery : Initialized'</span>);
+
   };
 
   Gallery.prototype = {

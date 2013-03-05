@@ -28,6 +28,8 @@
     self.useCSS3 = Modernizr.csstransforms &amp;&amp; Modernizr.csstransitions;
 
     self.init();
+
+    log(<span class="string">'SONY : OneSonyCarousel : Initialized'</span>);
   };
 
   OneSonyCarousel.prototype = {
@@ -190,7 +192,7 @@ reset position to the nearest one.</p>             </td>             <td class="
 
 </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>If the browser doesn't properly support the getStyles API for auto margins, manually
 shift the destination back to compensate.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      <span class="keyword">if</span> ( !Modernizr.jsautomarginscorrect ) {
+      <span class="keyword">if</span> ( !Modernizr.jsautomargins ) {
         destinationLeft -= (innerContainerWidth -  $destinationSlide.width()  ) / <span class="number">2</span>;
       }
 

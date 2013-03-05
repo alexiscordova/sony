@@ -47,6 +47,8 @@
         'drag': $.proxy(self.onDrag, self),
         'bounds': self.getDragBounds()
       });
+
+      log('SONY : EditorialDualViewer : Initialized');
     },
 
     // We just need the images to be ready *enough* to provide dimensions.
