@@ -3,6 +3,9 @@
 // ----------------------
 //
 // * **Class:** SONY.Environment
+//
+// This class should be used to extend the global space with events, small polyfills, and extensions.
+// Any callable methods should go into [SONY.Utilities](sony-global-utilities.html).
 
 var SONY = SONY || {};
 
