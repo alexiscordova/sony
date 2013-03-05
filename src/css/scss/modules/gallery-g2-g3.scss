@@ -274,13 +274,12 @@
   }
 
   .label-close:last-of-type {
-    margin-right: 0;
+    margin-right: px-em(26, 11);
   }
 
   .clear-all-filters {
     display: inline-block;
     margin-bottom: 0;
-    margin-left: px-em(26, 13);
     cursor: pointer;
     color: $gray20;
     @include transition();
@@ -394,6 +393,14 @@
   padding-right: 8px; // has a font-size set on it
 }
 
+// Setting a min height on this will push the trigger point for infinite scroll down
+// We also need to put this above the shuffle container and then prevent propagation to the
+// shuffle container
+.zero-products-message {
+  position: relative;
+  z-index: 5;
+  min-height: 25em;
+}
 
 
 
@@ -406,6 +413,16 @@
 
 .range-output-container {
   margin-top: 0;
+}
+
+.gallery .range-control-wrap {
+  position: relative;
+}
+
+// Take it out of the document flow. Hopefully less reflows/repaints
+.gallery .range-control {
+  position: absolute;
+  width: 100%;
 }
 
 

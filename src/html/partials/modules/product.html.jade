@@ -111,12 +111,14 @@ if data.view == 'basic'
           - classes.push( style )
           div(class=classes)
             .promo-title
-              span.t4.title= data.title
+              span.t5-light.title= data.title
               if data.layout == 'twoLines'
-                div.t4.emphasis= data.emphasis
+                div.t5-light.emphasis= data.emphasis
                 i.fonticon-10-chevron
               else
-                span.t4.emphasis= '&nbsp;' + data.emphasis
+                - var spacer = ' '
+                | !{ spacer }
+                span.t5-light.emphasis= data.emphasis
                 i.text-dark.fonticon-10-chevron
             if data.count
               .text-count
@@ -229,10 +231,10 @@ else if data.view == 'detailed'
               |!{meta.value}&nbsp;
               span.prodcut-meta-name= meta.name
         .product-price
-          span.price-prefix.p3 Starting at &nbsp;
+          span.price-prefix.p4 Starting at &nbsp;
           span.price.p2
             strong(itemprop="price")= '$' + data.price + '&nbsp;'
-          span.msrp.p3 MSRP
+          span.msrp.p4 MSRP
 
         .detail-group.hidden
           if data.details

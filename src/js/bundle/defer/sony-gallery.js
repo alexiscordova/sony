@@ -33,6 +33,7 @@
     self.$favorites = self.$grid.find('.js-favorite');
     self.$gridProductNames = self.$grid.find('.product-name-wrap');
     self.$carousels = self.$grid.find('.js-item-carousel');
+    self.$zeroMessage = self.$container.find('.zero-products-message');
 
     // Compare modal
     self.$compareBtn = self.$container.find('.js-compare-toggle');
@@ -161,7 +162,9 @@
         self.$grid.shuffle('all');
       }
 
-      self.setFilterStatuses();
+      self
+        .setFilterStatuses()
+        .toggleZeroMessage();
     },
 
     // From the element's data-* attributes, test to see if it passes
@@ -277,11 +280,6 @@
         }
       }
 
-      self.$activeFilters.empty();
-      if ( self.$activeFilters.hasClass('has-active-filters') ) {
-        self.$activeFilters.removeClass('has-active-filters');
-      }
-
       if ( !$.isEmptyObject( filters ) ) {
         // Create labels showing current filters
         $.each(filters, function(key, obj) {
@@ -298,16 +296,27 @@
 
         // Using em here so I can use :last-of-type to get the spans
         var $clearAll = $('<em/>', {
-          'class' : 'clear-all-filters lt3',
-          text: self.$activeFilters.data('clearLabel'),
-          click: $.proxy( self.removeActiveFilters, self )
+          'class' : 'clear-all-filters lt3 js-clear-filters',
+          text: self.$activeFilters.data('clearLabel')
         });
 
         frag.appendChild( $clearAll[0] );
 
+        // Manipulate DOM at the same time to prevent multiple layouts
         self.$activeFilters
-          .append(frag)
-          .addClass('has-active-filters');
+          .empty()
+          .append( frag );
+
+        if ( !self.$activeFilters.hasClass('has-active-filters') ) {
+          self.$activeFilters.addClass('has-active-filters');
+        }
+
+      } else {
+
+        self.$activeFilters.empty();
+        if ( self.$activeFilters.hasClass('has-active-filters') ) {
+          self.$activeFilters.removeClass('has-active-filters');
+        }
       }
     },
 
@@ -435,6 +444,23 @@
       self.filter();
     },
 
+    toggleZeroMessage : function() {
+      var self = this,
+          visibleItems = self.shuffle.visibleItems;
+
+      if ( visibleItems ) {
+        if ( !self.$zeroMessage.hasClass('hide') ) {
+          self.$zeroMessage.addClass('hide');
+        }
+      } else {
+        if ( self.$zeroMessage.hasClass('hide') ) {
+          self.$zeroMessage.removeClass('hide');
+        }
+      }
+
+      return self;
+    },
+
     onRemoveFilter : function( evt ) {
       var self = this,
           data = $(evt.target).data(),
@@ -471,12 +497,10 @@
 
       self.shuffle = self.$grid.data('shuffle');
 
-      var debouncedShuffleLayout = $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) );
-      self.$grid.find('.iq-img').on('imageLoaded', debouncedShuffleLayout );
-
+      self.$grid.find('.iq-img').on('imageLoaded', $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) ) );
 
       // Displays active filters on `filter`
-      self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ));
+      self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ) );
 
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on('layout.shuffle', function() {
@@ -562,6 +586,13 @@
         .on('show', $.proxy( self.onFiltersShow, self ))
         .on('hide', $.proxy( self.onFiltersHide, self ));
 
+      // Bind clearing filters to any class that has `.js-clear-filters` on it
+      // $.proxy( self.removeActiveFilters, self )
+      self.$container.on('click', '.js-clear-filters', function() {
+        self.removeActiveFilters();
+        // Tell jQuery to preventDefault() and stopPropagation()
+        return false;
+      });
     },
 
     initPopovers : function() {
@@ -711,6 +742,7 @@
 
     loadSwatchImages : function() {
       this.$grid.find('.js-product-imgs img:not(.iq-img)').addClass('iq-img');
+      console.log('loading swatch images');
       iQ.update( true );
 
       return this;
@@ -887,6 +919,7 @@
 
       self.$productCount.text( $visible.length );
 
+      return self;
     },
     valueInArray : function( value, arr ) {
       return $.inArray(value, arr) !== -1;
@@ -1030,8 +1063,16 @@
       var self = this,
       diff = self.MAX_PRICE - self.MIN_PRICE,
       $output = $rangeControl.closest('.filter-container').find('.range-output-container'),
-      $minOutput = $output.find('.range-output-min'),
-      $maxOutput = $output.find('.range-output-max'),
+      $minOutputWrap = $output.find('.range-output-min'),
+      $maxOutputWrap = $output.find('.range-output-max'),
+      $minOutput = $output.find('.range-output-min .val'),
+      $maxOutput = $output.find('.range-output-max .val'),
+
+      delay = self.isTouch ? 1000 : 750,
+      method = self.isTouch ? 'debounce' : 'throttle',
+      debouncedFilter = $[ method ]( delay, function() {
+        self.filter();
+      }),
 
       getPrice = function(percent) {
         return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
@@ -1043,8 +1084,7 @@
         maxPrice = getPrice(percents.max),
         maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
         prevMin = self.price.min,
-        prevMax = self.price.max,
-        delay;
+        prevMax = self.price.max;
 
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
@@ -1061,28 +1101,28 @@
           self.filters.range[ filterName ].max = self.price.max;
 
           // Throttle filtering (especially on touch)
-          delay = self.isTouch ? 2500 : 250;
-          $.debounce( delay, function() {
-            self.filter();
-          })();
+          debouncedFilter();
         }
       },
 
       // Show what's happening with the range control
       displayValues = function( min, max, percents ) {
+        console.timeStamp('displayValues');
         var minWidth,
             maxWidth;
 
         // Set the new html, then get it's width, then set it's margin-left to negative half that
-        minWidth = $minOutput.html('<sup>$</sup>' + min).width();
-        $minOutput.css({
+        $minOutput.text( min );
+        minWidth = $minOutputWrap.width();
+        $minOutputWrap.css({
           left: percents.min + '%',
           marginLeft: -minWidth / 2
         });
 
         // Do it all over for the max handle
-        maxWidth = $maxOutput.html('<sup>$</sup>' + max).width();
-        $maxOutput.css({
+        $maxOutput.text( max );
+        maxWidth = $maxOutputWrap.width();
+        $maxOutputWrap.css({
           left: percents.max + '%',
           marginLeft: -maxWidth / 2
         });
@@ -2622,7 +2662,9 @@ SONY.on('global:ready', function() {
     $('.gallery').each(function() {
       var $this = $(this);
 
+      console.time('Initializing gallery %O', $this[0]);
       $this.gallery( $this.data() );
+      console.timeEnd('Initializing gallery');
     });
 
     // Register for tab show(n) events here because not all tabs are galleries
@@ -2645,6 +2687,7 @@ SONY.on('global:ready', function() {
     // Using a timeout here because the tab shown event is triggered at the end of the transition,
     // which depends on how long the page takes to load (and if the browser has transitions)
     setTimeout(function() {
+      console.timeStamp('Disabling hidden galleries');
       $('.tab-pane:not(.active) .gallery').gallery('disable');
       // console.profileEnd();
     }, 500);
