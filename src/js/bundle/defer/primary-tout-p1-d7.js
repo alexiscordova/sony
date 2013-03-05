@@ -12,7 +12,7 @@
     var PrimaryTout = function(element, options){
       var self = this;
       $.extend(self, {}, $.fn.primaryTout.defaults, options, $.fn.primaryTout.settings);
-      
+
       self._init();
     };
 
@@ -20,25 +20,27 @@
       constructor: PrimaryTout,
 
       _resize: function(){
-        var w = $(window).outerWidth(); 
+        var w = $(window).outerWidth();
         if(w > 980){
           $('.primary-tout.homepage .hero-image').css('height', Math.round(Math.min(770, 490 + ((w - 980) / 5))));
           $('.primary-tout.default .hero-image').css('height', Math.round(Math.min(660, 560 + ((w - 980) / 5))));
         }else{
           $('.primary-tout.homepage .hero-image, .primary-tout.default .hero-image').css('height', "");
         }
-        
+
         // this each and find inner for layouts page
         $.each ($('.primary-tout.homepage .inner .table-center-wrap'), function(i,e){
           var self = $(e);
           var outer = self.closest('.primary-tout.homepage');
-          self.height(outer.height() - outer.find('.secondary').outerHeight()); 
+          self.height(outer.height() - outer.find('.secondary').outerHeight());
         });
       },
 
       _init: function(){
         this._resize();
         SONY.on('global:resizeDebounced', this._resize);
+
+        log('SONY : PrimaryTout : Initialized');
       }
     };
 
@@ -48,13 +50,13 @@
       return this.each(function() {
         var self = $(this),
           primaryTout = self.data('primaryTout');
-    
+
         // If we don't have a stored moduleName, make a new one and save it
         if ( !primaryTout ) {
             primaryTout = new PrimaryTout( self, options );
             self.data( 'primaryTout', primaryTout );
         }
-    
+
         if ( typeof options === 'string' ) {
           primaryTout[ options ].apply( primaryTout, args );
         }

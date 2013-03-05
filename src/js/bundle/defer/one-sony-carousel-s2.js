@@ -28,6 +28,8 @@
     self.useCSS3 = Modernizr.csstransforms && Modernizr.csstransitions;
 
     self.init();
+
+    log('SONY : OneSonyCarousel : Initialized');
   };
 
   OneSonyCarousel.prototype = {
