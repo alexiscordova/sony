@@ -1,0 +1,159 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-navigationdots.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="sony-global-analytics.html">                 sony-global-analytics.js               </a>                                           <a class="source" href="sony-global-environment.html">                 sony-global-environment.js               </a>                                           <a class="source" href="sony-global-settings.html">                 sony-global-settings.js               </a>                                           <a class="source" href="sony-global-utilities.html">                 sony-global-utilities.js               </a>                                           <a class="source" href="sony-global.html">                 sony-global.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-navigationdots.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Navigation Dots (SonyNavDots) Module</h2>
+
+<ul>
+<li><strong>Class:</strong> SonyNavDots</li>
+<li><strong>Version:</strong> 0.1</li>
+<li><strong>Modified:</strong> 02/20/2013</li>
+<li><strong>Author:</strong> George Pantazis</li>
+<li><strong>Dependencies:</strong> jQuery 1.7+</li>
+</ul>
+
+<p><em>Notes:</em></p>
+
+<p>This plugin creates a dot-based navigation, and exposes basic click events
+to let you program your module against the user's interaction.</p>
+
+<p><em>Example - Create new instance with ten buttons, first button active:</em></p>
+
+<pre><code> $('#foo').sonyNavDots({
+   'buttonCount': 10,
+   'activeButton': 0
+ });
+</code></pre>
+
+<p><em>Example - Reset the nav to only have five buttons:</em></p>
+
+<pre><code> $('#foo').sonyNavDots('reset', {
+   'buttonCount': 5,
+ });
+</code></pre>
+
+<p><em>Example - Subscribe to a click inside the nav:</em></p>
+
+<pre><code> $('#foo').on('SonyNavDots:clicked', function(e, whichWasClicked){
+   // Do something with whichWasClicked (0-based index).
+ });
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="keyword">function</span>($) {
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> SonyNavDots = <span class="keyword">function</span>($element, options){
+
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+    $.extend(self, {}, $.fn.sonyNavDots.defaults, options);
+
+    self.$el = $element;
+    self.init();
+    <span class="keyword">return</span> self;
+  };
+
+  SonyNavDots.prototype = {
+
+    <span class="string">'constructor'</span>: SonyNavDots,
+
+    <span class="string">'init'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$navContainer = $(<span class="string">'&lt;div/&gt;'</span>).addClass(<span class="string">'pagination-bullets on'</span>);
+      self.$buttonTemplate = $(<span class="string">'&lt;div/&gt;'</span>).addClass(<span class="string">'pagination-bullet'</span>);
+      self.$buttonIcon = $(<span class="string">'&lt;i/&gt;'</span>).addClass(<span class="string">'fonticon-10-dot'</span>);
+
+      self.$buttonTemplate.append(self.$buttonIcon);
+
+      self.reset(self);
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>If certain options were set or changed, go to the appropriate method.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'reset'</span>: <span class="keyword">function</span>(options) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> (!options) {
+        <span class="keyword">return</span>;
+      }
+
+      $.extend(self, options);
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options.buttonCount !== <span class="string">'undefined'</span> ) {
+        self.createButtons();
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options.activeButton !== <span class="string">'undefined'</span> ) {
+        self.setActiveButton();
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Destroys the buttons if present, and replaces them with a fresh set using
+the current self.buttonCount setting.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'createButtons'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      <span class="keyword">if</span> ( self.$buttons ) {
+        self.$buttons.remove();
+      }
+
+      <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; self.buttonCount; i++ ) {
+        self.$navContainer.append(self.$buttonTemplate.clone());
+      }
+
+      self.$buttons = self.$navContainer.children();
+      self.$el.append( self.$navContainer );
+      self.$buttons.on( Modernizr.touch ? <span class="string">'touchend'</span> : <span class="string">'click'</span>, $.proxy(self.clickButton, self));
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>On click, determine the index of the button, update the activeButton,
+and broadcast the click to subscribers.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'clickButton'</span>: <span class="keyword">function</span>(e) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $item = $(e.target).closest(<span class="string">'.pagination-bullet'</span>);
+
+      <span class="keyword">if</span> ( $item.length ) {
+        self.activeButton = $item.index();
+        self.setActiveButton();
+        e.preventDefault();
+        self.$el.trigger(<span class="string">'SonyNavDots:clicked'</span>, self.activeButton);
+      }
+    },
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Set CSS classes for the new active button.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+    <span class="string">'setActiveButton'</span>: <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$buttons.removeClass(<span class="string">'bullet-selected'</span>);
+      self.$buttons.eq(self.activeButton).addClass(<span class="string">'bullet-selected'</span>);
+    }
+  };
+
+  $.fn.sonyNavDots = <span class="keyword">function</span>( options ) {
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+    <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $(<span class="keyword">this</span>),
+        sonyNavDots = self.data(<span class="string">'sonyNavDots'</span>);
+
+      <span class="keyword">if</span> ( !sonyNavDots ) {
+          sonyNavDots = <span class="keyword">new</span> SonyNavDots( self, options );
+          self.data( <span class="string">'sonyNavDots'</span>, sonyNavDots );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        sonyNavDots[ options ].apply( sonyNavDots, args );
+      }
+    });
+  };
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>
+  $.fn.sonyNavDots.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>How many buttons are in the navigation</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'buttonCount'</span>: <span class="number">0</span>,
+</pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>Which button should be active by default</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="string">'activeButton'</span>: <span class="number">0</span>
+  };
+
+})(jQuery);
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

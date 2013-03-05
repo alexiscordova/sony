@@ -54,7 +54,8 @@
         $input.focus();
       });
 
-      inputObj.$inputClearBtn.on('click',function(){
+      inputObj.$inputClearBtn.on('click',function(e){
+
         inputObj.clearBtnClicked = true;
         self.clearSearchResults( inputObj );
 
@@ -101,11 +102,13 @@
     },
 
     clearInput: function( inputObj ){
+      
       inputObj.$input.val('');
 
       // if (!$('html').hasClass('bp-nav-mobile')){
         inputObj.$inputIcon.hide();
       // }
+    
     },
 
     clearSearchResults: function( inputObj ){

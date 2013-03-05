@@ -1,0 +1,74 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-global-settings.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="sony-global-analytics.html">                 sony-global-analytics.js               </a>                                           <a class="source" href="sony-global-environment.html">                 sony-global-environment.js               </a>                                           <a class="source" href="sony-global-settings.html">                 sony-global-settings.js               </a>                                           <a class="source" href="sony-global-utilities.html">                 sony-global-utilities.js               </a>                                           <a class="source" href="sony-global.html">                 sony-global.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-global-settings.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Sony Global Settings</h2>
+
+<ul>
+<li><strong>Class:</strong> SONY.Settings</li>
+</ul>
+
+<p>This class should only expose key/value pairs for global settings.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+<span class="keyword">var</span> SONY = SONY || {};
+
+SONY.Settings = (<span class="keyword">function</span>(window, document, Modernizr) {
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> self = {},
+      ua = navigator.userAgent,
+      transEndEventNames = {
+        <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
+        <span class="string">'MozTransition'</span>    : <span class="string">'transitionend'</span>,
+        <span class="string">'OTransition'</span>      : <span class="string">'oTransitionEnd'</span>,
+        <span class="string">'msTransition'</span>     : <span class="string">'MSTransitionEnd'</span>,
+        <span class="string">'transition'</span>       : <span class="string">'transitionend'</span>
+      };
+
+  self.isIPhone = (<span class="regexp">/iphone|ipod/gi</span>).test( ua );
+  self.isIOS = (<span class="regexp">/iphone|ipod|ipad/gi</span>).test( ua );
+  self.isAndroid = (<span class="regexp">/android/gi</span>).test( ua );
+  self.isPS3 = (<span class="regexp">/playstation 3/gi</span>).test( ua );
+  self.isSonyTabletS = (<span class="regexp">/sony tablet s/gi</span>).test( ua );
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );</p>             </td>             <td class="code">               <div class="highlight"><pre>
+  self.isLTIE9 = SONY.$html.hasClass(<span class="string">'lt-ie9'</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>http://blogs.windows.com/windows_phone/b/wpdev/archive/2012/11/15/adapting-your-webkit-optimized-site-for-internet-explorer-10.aspx</p>             </td>             <td class="code">               <div class="highlight"><pre>  self.hasTouchEvents = Modernizr.touch;
+  self.hasPointerEvents = navigator.pointerEnabled || navigator.msPointerEnabled;
+
+  self.START_EV = self.hasTouchEvents ? <span class="string">'touchstart'</span> : self.hasPointerEvents ? <span class="string">'MSPointerDown'</span> : <span class="string">'mousedown'</span>;
+  self.MOVE_EV = self.hasTouchEvents ? <span class="string">'touchmove'</span> : self.hasPointerEvents ? <span class="string">'MSPointerMove'</span> : <span class="string">'mousemove'</span>;
+  self.END_EV = self.hasTouchEvents ? <span class="string">'touchend'</span> : self.hasPointerEvents ? <span class="string">'MSPointerUp'</span> : <span class="string">'mouseup'</span>;
+  self.CANCEL_EV = self.hasTouchEvents ? <span class="string">'touchcancel'</span> : self.hasPointerEvents ? <span class="string">'MSPointerCancel'</span> : <span class="string">'mousecancel'</span>;
+  self.transEndEventName = transEndEventNames[ Modernizr.prefixed(<span class="string">'transition'</span>) ];
+
+  self.windowWidth = SONY.$window.width();
+  self.windowHeight = SONY.$window.height();
+
+  self.shuffleEasing = <span class="string">'ease-out'</span>;
+  self.shuffleSpeed = <span class="number">250</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Get grid percentages</p>             </td>             <td class="code">               <div class="highlight"><pre>  self.fiveColumns = <span class="number">5</span>;
+  self.sixColumns = <span class="number">6</span>;
+  self.twelveColumns = <span class="number">12</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Slim grid (5 columns)</p>             </td>             <td class="code">               <div class="highlight"><pre>  self.col5Width = <span class="number">188</span>;
+  self.gut5Width = <span class="number">20</span>;
+  self.fullSlimWidth = (self.fiveColumns * self.col5Width) + (self.gut5Width * (self.fiveColumns - <span class="number">1</span>));
+  self.COLUMN_WIDTH_SLIM_5 = self.col5Width / self.fullSlimWidth;
+  self.GUTTER_WIDTH_SLIM_5 = self.gut5Width / self.fullSlimWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Slim grid (12 columns)</p>             </td>             <td class="code">               <div class="highlight"><pre>  self.slimColWidth = <span class="number">54</span>;
+  self.slimGutWidth = <span class="number">18</span>;
+  self.slimWidth = (self.twelveColumns * self.slimColWidth) + (self.slimGutWidth * (self.twelveColumns - <span class="number">1</span>));
+  self.COLUMN_WIDTH_SLIM = self.slimColWidth / self.slimWidth;
+  self.GUTTER_WIDTH_SLIM = self.slimGutWidth / self.slimWidth;
+
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Mobile grid @ 480 (6 columns)</p>             </td>             <td class="code">               <div class="highlight"><pre>  self.colWidth320 = <span class="number">36</span>;
+  self.gutWidth320 = <span class="number">12</span>;
+  self.fullWidth320 = (self.sixColumns * self.colWidth320) + (self.gutWidth320 * (self.sixColumns - <span class="number">1</span>));
+  self.COLUMN_WIDTH_320 = self.colWidth320 / self.fullWidth320;
+  self.GUTTER_WIDTH_320 = self.gutWidth320 / self.fullWidth320;
+
+  <span class="keyword">return</span> self;
+
+})(<span class="keyword">this</span>, <span class="keyword">this</span>.document, Modernizr);
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

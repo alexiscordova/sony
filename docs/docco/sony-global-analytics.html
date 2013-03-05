@@ -1,0 +1,81 @@
+<!DOCTYPE html>  <html> <head>   <title>sony-global-analytics.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="brightcove-builder.html">                 brightcove-builder.js               </a>                                           <a class="source" href="editorial-dual-viewer-e9.html">                 editorial-dual-viewer-e9.js               </a>                                           <a class="source" href="form-actions.html">                 form-actions.js               </a>                                           <a class="source" href="global-nav.html">                 global-nav.js               </a>                                           <a class="source" href="hotspot_explorer.html">                 hotspot_explorer.js               </a>                                           <a class="source" href="jquery.viewport.html">                 jquery.viewport.js               </a>                                           <a class="source" href="one-sony-carousel-s2.html">                 one-sony-carousel-s2.js               </a>                                           <a class="source" href="primary-tout-p1-d7.html">                 primary-tout-p1-d7.js               </a>                                           <a class="source" href="related-products.html">                 related-products.js               </a>                                           <a class="source" href="sony-gallery.html">                 sony-gallery.js               </a>                                           <a class="source" href="spec-multi-z2.html">                 spec-multi-z2.js               </a>                                           <a class="source" href="spec-single-z1.html">                 spec-single-z1.js               </a>                                           <a class="source" href="tertiary-t1-t5-module.html">                 tertiary-t1-t5-module.js               </a>                                           <a class="source" href="ux-marketing-convergence-e14.html">                 ux-marketing-convergence-e14.js               </a>                                           <a class="source" href="exports.html">                 exports.js               </a>                                           <a class="source" href="iq.html">                 iq.js               </a>                                           <a class="source" href="sony-global-analytics.html">                 sony-global-analytics.js               </a>                                           <a class="source" href="sony-global-environment.html">                 sony-global-environment.js               </a>                                           <a class="source" href="sony-global-settings.html">                 sony-global-settings.js               </a>                                           <a class="source" href="sony-global-utilities.html">                 sony-global-utilities.js               </a>                                           <a class="source" href="sony-global.html">                 sony-global.js               </a>                                           <a class="source" href="debug_toggle.html">                 debug_toggle.js               </a>                                           <a class="source" href="jodo.rangecontrol.1.4.html">                 jodo.rangecontrol.1.4.js               </a>                                           <a class="source" href="jquery.shuffle.html">                 jquery.shuffle.js               </a>                                           <a class="source" href="jquery.simpleknob.html">                 jquery.simpleknob.js               </a>                                           <a class="source" href="jquery.simplescroll.html">                 jquery.simplescroll.js               </a>                                           <a class="source" href="sony-draggable.html">                 sony-draggable.js               </a>                                           <a class="source" href="sony-evenheights.html">                 sony-evenheights.js               </a>                                           <a class="source" href="sony-navigationdots.html">                 sony-navigationdots.js               </a>                                           <a class="source" href="sony-paddles.html">                 sony-paddles.js               </a>                                           <a class="source" href="sony-scroller.html">                 sony-scroller.js               </a>                                           <a class="source" href="sony-sequencer.html">                 sony-sequencer.js               </a>                                           <a class="source" href="sony-stickytabs.html">                 sony-stickytabs.js               </a>                                           <a class="source" href="sony-tab.html">                 sony-tab.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               sony-global-analytics.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="comment">/*global jQuery, brightcove*/</span>
+
+</pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Global tracking</h2>
+
+<ul>
+<li><strong>Class:</strong> GlobalTracking</li>
+<li><strong>Version:</strong> 1.0</li>
+<li><strong>Modified:</strong> 02/05/2013</li>
+<li><strong>Author:</strong> Pierre Paquet</li>
+<li><strong>Dependencies:</strong>  jQuery 1.7+</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
+(<span class="keyword">function</span>($, <span class="literal">undefined</span>) {
+
+  <span class="string">'use strict'</span>;
+
+  <span class="keyword">var</span> GlobalTracking = <span class="keyword">function</span>($element, options) {
+
+    <span class="keyword">var</span> self = <span class="keyword">this</span>;
+    self.$el = $element;
+
+    self.init( );
+
+  };
+
+  GlobalTracking.prototype = {
+
+    <span class="string">'constructor'</span> : GlobalTracking,
+
+    <span class="string">'init'</span> : <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+      self.clickEvent( );
+
+    },
+    <span class="string">'clickEvent'</span> : <span class="keyword">function</span>() {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>We track all click inside module
+<strong>TODO:</strong> This temporary, should be modify to reflect tracking strategy.</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$el.on( <span class="string">'click.tracking'</span>, <span class="keyword">function</span>(e) {
+
+        <span class="keyword">var</span> $elem = $( e.target ).parents( <span class="string">'*[data-module-id]'</span> ), elemData = $elem.data( <span class="string">'trackingLog'</span> ) || [], trackingData = elemData;
+
+        $elem.type = e.type;
+        $elem.elemID = self.$el.data( <span class="string">'moduleId'</span> );
+        $elem.elemName = self.$el.data( <span class="string">'moduleName'</span> );
+        $elem.$actionInitElem = e.target;
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Create an array of elements we are tracking</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">var</span> trackingTable = [$elem.type, $elem.$actionInitElem, $elem.elemID, $elem.elemName];
+
+        elemData.push( trackingTable );
+
+        $elem.data( <span class="string">'trackingLog'</span>, trackingData );
+
+      } );
+    }
+
+  };
+
+  jQuery.fn.globalTracking = <span class="keyword">function</span>(options) {
+
+    <span class="keyword">var</span> args = Array.prototype.slice.call( arguments, <span class="number">1</span> );
+
+    <span class="keyword">return</span> <span class="keyword">this</span>.each( <span class="keyword">function</span>() {
+      <span class="keyword">var</span> self = $( <span class="keyword">this</span> ), globalTracking = self.data( <span class="string">'globalTracking'</span> );
+
+      <span class="keyword">if</span> ( !globalTracking ) {
+        globalTracking = <span class="keyword">new</span> GlobalTracking(self, options);
+        self.data( <span class="string">'globalTracking'</span>, globalTracking );
+      }
+
+      <span class="keyword">if</span> ( <span class="keyword">typeof</span> options === <span class="string">'string'</span> ) {
+        globalTracking[options].apply( globalTracking, args );
+      }
+    } );
+
+  };
+
+})( jQuery );
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
