@@ -13,7 +13,7 @@
 $tcc-content-module-height-3up:400px;
 
 $tcc-header-padding-bottom-desktop:20px;
-$users-voice-padding-bottom-desktop:15px;
+$users-voice-padding-bottom-desktop:28px;
 $users-voice-padding-left-right-desktop:px-em(40px);
 
 $tenPercentInstaFlickr: percentage(10px/316px);
@@ -287,7 +287,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         min-height:30%;
         width:100%;
         padding: px-em(30px);
-				max-height: 125px;
+				max-height: 140px;
 				-webkit-backface-visibility: hidden; // the flicking bug with transition
 
 				// IE9 and BELOW
@@ -441,7 +441,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         .author{
           position: absolute;
           top:50%;
-          left:91px;
+          left:73px;
           margin:-11px 0 0 0;
         } // end .author
 
@@ -559,45 +559,111 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		} // end .twitter
 
 		&.instagram{
+			.image-container{
+				border:2px solid red;
+				background-color:$white;
+				position: relative;
+				width: 100%;
+				height:300px;
 
-			table{
-			   background-color:$white;
- 				tr{
+				.right,
+				.left{
+					border:2px solid blue;
+					position: absolute;
+					top: 0;
+					width: 50%;
 
-          &.bottom-row{
-            display:table-row;
-          }
+					div{
+						display:block;
+						border:2px solid green;
+					}
+				}
 
-          td{
+				.right{
+					right:0;
+					div{
+						width:197px;
+						height:197px;
+						text-align: left;
+					}
+				} // end right
 
-            &.top-left{
-              display:table-cell;
-              padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
-              vertical-align: top;
-            } // end top-left
+				.left{
+					left:0;
+					div{
+						width:96px;
+						height:96px;
+						text-align: right;
+					}
 
-            &.top-right{
-              display:table-cell;
-              vertical-align: top;
-              padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr;
-            } // end top-right
+				} // end left
 
-            &.bottom-left{
-              display:table-cell;
-              vertical-align: bottom;
-              padding:$fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;  
-            } // end .bottom-left
+			} //.image-container
 
-            &.top-center-phone,
-            &.top-right-phone{
-              display:none;
-            } // end .top-right-phone  & .bottom-left-phone
 
-          } // end td
 
-        } // end tr
 
-			} // end table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			// table{
+			//    background-color:$white;
+ 		// 		tr{
+
+   //        &.bottom-row{
+   //          display:table-row;
+   //        }
+
+   //        td{
+
+   //          &.top-left{
+   //            display:table-cell;
+   //            padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
+   //            vertical-align: top;
+   //          } // end top-left
+
+   //          &.top-right{
+   //            display:table-cell;
+   //            vertical-align: top;
+   //            padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr;
+   //          } // end top-right
+
+   //          &.bottom-left{
+   //            display:table-cell;
+   //            vertical-align: bottom;
+   //            padding:$fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;  
+   //          } // end .bottom-left
+
+   //          &.top-center-phone,
+   //          &.top-right-phone{
+   //            display:none;
+   //          } // end .top-right-phone  & .bottom-left-phone
+
+   //        } // end td
+
+   //      } // end tr
+
+			// } // end table
 
 		} // end &.instagram
 	

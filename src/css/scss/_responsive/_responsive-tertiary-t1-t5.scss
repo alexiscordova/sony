@@ -56,18 +56,17 @@ $fivePercentInstaFlickr: percentage(5px/316px);
         }
       }
 
-
       &.featured{       
-        .lt3{
-          margin-top:14px;
-        }
-
         .feature-copy{
-          max-height: 135px;
+          max-height: 120px;
 
+          .lt3{
+            margin-top:0px;
+          }
+ 
           .t5-light{
-            height:67px;
-            max-height: 67px;        
+            height:52px;
+            max-height: 52px;        
           } // end .t5-light
 
         } // end .feature-copy
@@ -76,7 +75,23 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
     } // end .article
 
+ 
     .users-voice{
+
+      &.user-quote,
+      &.expert-quote{
+        padding-bottom:22px;
+        
+        .credits{
+        
+          .avatar{
+            margin-bottom:5px;
+          } // .avatar        
+        
+        } // .credits
+
+      }
+
       &.question{
         .bq3{
           padding-top:20px;
@@ -254,6 +269,17 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       &.featured{
         .feature-copy{
           padding:px-em(17px) px-em(25px); 
+          max-height: 120px;
+
+          .lt3{
+            margin-top:0px;
+          }
+ 
+          .t5-light{
+            height:52px;
+            max-height: 52px;        
+          } // end .t5-light
+
         } // end .feature-copy
 
       } // end .article.featured
@@ -305,6 +331,7 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       &.question{
         .credits{
           .author{
+            left:63px;            
             margin:-8px 0 0 0;
           } // end .author
         } // end .credits

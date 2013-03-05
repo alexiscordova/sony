@@ -36,7 +36,7 @@
       self.contentModulesClass            = '.tcc-content-module';
       self.contentSelectorClass           = '.tcc-body';
       self.desktopClasses                 = 'span4';
-      self.centerContentArr               = ['flickr:default'];
+      self.centerContentArr               = ['flickr:default'];//,'sonys-voice:instagram'];
       
       // SELECTORS
       self.$container                     = $( element );
