@@ -110,7 +110,7 @@
 
       if ($('html').hasClass("touch")) {
         // Tra
-        $('#page-wrap-outer').on('click focus',function(e) {
+        $('#page-wrap-outer,#main,.primary-tout').on('click focus',function(e) {
           if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
                 $('.nav .nav-li a.active').trigger('touchstart');
           }
@@ -762,10 +762,8 @@
 
 })(jQuery, Modernizr, window);
 
-$(function() {
-  $(document).ready(function() {
-    $('.nav-wrapper').globalNav();
-  });
-
+SONY.on('global:ready', function(){
+   $('.nav-wrapper').globalNav();
 });
+
 

@@ -452,7 +452,7 @@ expand the tray. When it's done, set it to position:relative and natural heights
 
     }, <span class="comment">// end initMobileNav</span>
     resetMobileNav : <span class="keyword">function</span>() {
-      console.log(<span class="string">"resetMobileNav"</span>);
+
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.hideMobileNav();
       $(<span class="string">'#btn-mobile-nav'</span>).off(self.tapOrClick);
@@ -485,7 +485,6 @@ need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER
       self.mobileNavVisible = <span class="literal">true</span>;
     },
     hideMobileNav : <span class="keyword">function</span>() {
-      console.log(<span class="string">"hideMobileNav"</span>);
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.hideMobileBackdrop();
 
@@ -619,7 +618,6 @@ $('#country-selector').on('mouseenter mouseleave',function(){
 
 
   SONY.initMobileNavIScroll = <span class="keyword">function</span>() {
-    console.log(<span class="string">"initMobileNavIScroll"</span>);
     <span class="keyword">var</span> globalNav = $(<span class="string">'.nav-wrapper'</span>).data(<span class="string">'globalNav'</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-98">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-98">&#182;</a>               </div>               <p>if there's alreaddy a mobileNavIScroll, refresh it.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> (!!globalNav.mobileNavIScroll) {
       <span class="keyword">var</span> $scroller = $(<span class="string">'.nav-mobile-scroller'</span>);
@@ -657,7 +655,6 @@ $('#country-selector').on('mouseenter mouseleave',function(){
     }
   };
   SONY.destroyMobileNavIScroll = <span class="keyword">function</span>() {
-    console.log(<span class="string">"destroyMobileNavIScroll"</span>);
     <span class="keyword">var</span> globalNav = $(<span class="string">'.nav-wrapper'</span>).data(<span class="string">'globalNav'</span>);
     !!globalNav.mobileNavIScroll &amp;&amp; globalNav.mobileNavIScroll.destroy();
     globalNav.mobileNavIScroll = <span class="literal">false</span>;

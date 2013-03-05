@@ -527,7 +527,7 @@
 
     }, // end initMobileNav
     resetMobileNav : function() {
-      console.log("resetMobileNav");
+
       var self = this;
       self.hideMobileNav();
       $('#btn-mobile-nav').off(self.tapOrClick);
@@ -562,7 +562,6 @@
       self.mobileNavVisible = true;
     },
     hideMobileNav : function() {
-      console.log("hideMobileNav");
       var self = this;
       self.hideMobileBackdrop();
 
@@ -716,7 +715,6 @@
 
 
   SONY.initMobileNavIScroll = function() {
-    console.log("initMobileNavIScroll");
     var globalNav = $('.nav-wrapper').data('globalNav');
     // if there's alreaddy a mobileNavIScroll, refresh it.
     if (!!globalNav.mobileNavIScroll) {
@@ -756,7 +754,6 @@
     }
   };
   SONY.destroyMobileNavIScroll = function() {
-    console.log("destroyMobileNavIScroll");
     var globalNav = $('.nav-wrapper').data('globalNav');
     !!globalNav.mobileNavIScroll && globalNav.mobileNavIScroll.destroy();
     globalNav.mobileNavIScroll = false;
