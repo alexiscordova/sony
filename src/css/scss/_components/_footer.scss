@@ -212,9 +212,9 @@ a.footer-social-youtube {
     @include el-hidden;
   }
   &.language-selector{
-    .dropdown-hover-toggle{
-      padding-left:16px;
-    }
+    // .dropdown-hover-toggle{
+    //   padding-left:16px;
+    // }
     .dropdown-hover-menu{
       @include el-hidden(right); // so it's right-justified.
     }
@@ -313,10 +313,13 @@ a.footer-social-youtube {
 }
 
 
-.footer-wrapper-minimal{
-  .btn-hover-group{ // drop-downs that trigger on hover instead of click -- except on mobile where they have to react more like on click.
+.footer-wrapper.footer-wrapper-minimal{
+  .btn-hover-group,
+  .btn-hover-group.language-selector{ // drop-downs that trigger on hover instead of click -- except on mobile where they have to react more like on click.
+    width: px-em(60px);
     .btn.dropdown-hover-toggle{
-      padding: 10px 12px 11px 20px;
+      padding-left:10px;
+      padding-right:11px;
     }
   }
 }
@@ -409,7 +412,7 @@ a.footer-social-youtube {
 // -----------------------------------------
 
 .footer-wrapper{
-  padding:px-em(60px) 0;
+  padding:px-em(60px) 0 px-em(28px);
 
   &.footer-wrapper-minimal{
     padding:px-em(28px) 0;    
@@ -438,10 +441,14 @@ a.footer-social-youtube {
     }
   }
 
-  .btn-group.language-selector,
   .btn-hover-group.language-selector{
     width: px-em(67px);
     float:left;
+    .dropdown-hover-toggle{
+      padding-left:0;
+      padding-right:0;
+      text-align:center;
+    }
   }
   .footer-mobile-section{
     padding-bottom: 74px;
