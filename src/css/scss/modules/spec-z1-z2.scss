@@ -108,7 +108,7 @@ ul.spec-views {
   left: -999em;
   width: 100%;
   background: $white;
-  @include box-shadow(0 .0625em .625em $transparentBlack);
+  @include box-shadow(0 .0625em .625em $stickyShadowColor);
   @include translate(0, -2em);
   -webkit-transition: -webkit-transform $transitionNormal ease-in, left 0s $transitionNormal;
           transition: transform $transitionNormal ease-in, left 0s $transitionNormal;
@@ -500,7 +500,7 @@ ul.spec-views {
     height: $stickyHeaderHeight;
     background: $tableHeaderColor;
     border-right: .0625em solid $specBorderColor; // 1 pixel
-    @include box-shadow(0 .0625em .625em $transparentBlack);
+    @include box-shadow(.1875em .0625em .625em $stickyShadowColor);
 
     &.open {
       top: 0;
@@ -517,7 +517,7 @@ ul.spec-views {
       background: $tableHeaderColor;
       width: 3000px;
       right: 0;
-      @include box-shadow(0 .0625em .625em $transparentBlack);
+      @include box-shadow(0 .0625em .625em $stickyShadowColor);
     }
 
 
@@ -530,7 +530,7 @@ ul.spec-views {
       height: $stickyHeaderHeight;
       width: 187em;
       background: $tableHeaderColor;
-      @include box-shadow(-.3125em .4375em .625em -.3125em $transparentBlack);
+      @include box-shadow(-.3125em .4375em .625em -.3125em $stickyShadowColor);
     }
 
     .product-count-wrap {
