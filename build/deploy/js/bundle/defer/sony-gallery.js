@@ -2697,7 +2697,6 @@ SONY.on('global:ready', function() {
 
   if ( $('.gallery').length > 0 ) {
     // console.profile();
-    log('Gallery(s) initializing');
     // Initialize galleries
     $('.gallery').each(function() {
       var $this = $(this);
@@ -2711,8 +2710,6 @@ SONY.on('global:ready', function() {
     $('[data-tab]')
       .on('show', SONY.onGalleryTabShow )
       .on('shown', SONY.onGalleryTabShown );
-
-    log('Gallery(s) initialized');
 
     // Initialize sticky tabs
     $('.tab-strip').stickyTabs();
@@ -2731,6 +2728,5 @@ SONY.on('global:ready', function() {
       $('.tab-pane:not(.active) .gallery').gallery('disable');
       // console.profileEnd();
     }, 500);
-    log('Gallery Page done');
   }
 });
