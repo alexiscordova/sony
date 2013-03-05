@@ -25,7 +25,7 @@ SONY.Environment = (<span class="keyword">function</span>(window, document) {
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Before IE 9, the getStyles API would not return the pixel values of the margin if set to 'auto'.
 Also, Firefox has a longstanding issue where the pixel value of 'auto' is always zero.
 https://bugzilla.mozilla.org/show_bug.cgi?id=381328</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      Modernizr.addTest(<span class="string">'jsAutoMarginsCorrect'</span>, <span class="keyword">function</span>() {
+      Modernizr.addTest(<span class="string">'JSAutoMargins'</span>, <span class="keyword">function</span>() {
 
         <span class="keyword">var</span> x = document.createElement(<span class="string">'div'</span>),
             y = document.createElement(<span class="string">'div'</span>);

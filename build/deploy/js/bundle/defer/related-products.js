@@ -27,16 +27,16 @@
         'OTransition'      : 'oTransitionEnd',
         'msTransition'     : 'MSTransitionEnd',
         'transition'       : 'transitionend'};
-      
+
       //Extend Related Products instance with defaults and options
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
       self.DEBUG                  = true;
-      
+
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
-      
+
       //Cache common jQuery objects
       self.$paddles               = $({});
 
@@ -54,7 +54,7 @@
       self.$doc                   = SONY.$document;
       self.$win                   = SONY.$window;
       self.$html                  = SONY.$html;
-      
+
       self.ev                     = $({}); //event object
       self.prefixed               = Modernizr.prefixed;
       self.transitionName         = self.prefixed('transition');
@@ -91,7 +91,7 @@
       self.inited                 = false;
       self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       self.tileHeightSizeFix      = 0;
-      
+
       //Modes
       self.isMobileMode    = false;
       self.isDesktopMode   = false;
@@ -100,6 +100,8 @@
 
       //Startup
       self.init();
+
+      log('SONY : RelatedProducts : Initialized');
 
     };
 
@@ -133,7 +135,7 @@
         //Initialize tooltips
         self.initTooltips();
 
-        
+
         var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
 
         prodImg.find('.iq-img').on('imageLoaded' , function(){
@@ -176,7 +178,7 @@
       //Fixes a bug in IE when media queries aren't available
       mqFix: function(){
         var self = this;
-        
+
         if( !self.hasMediaQueries && self.isIE7orIE8 || self.oldIE){
           self.mq = function(){
             return false;
@@ -221,7 +223,7 @@
       //Setup events
       initEvents: function(){
         var self = this;
-        
+
         if(Modernizr.touch) {
             self.hasTouch         = true;
             self.downEvent        = 'touchstart.rp';
@@ -428,7 +430,7 @@
           if(!self.isMobileMode){
             self.$pagination.show();
           }
-          
+
         }
 
         self.$pagination.hide();
@@ -473,7 +475,7 @@
 
             setTimeout(function(){
               self.updateSliderSize();
-              
+
               if(self.oldIE){
                 self.$galleryItems.each(function(){
 
@@ -485,7 +487,7 @@
                   medGalImgWidth   = 462,
                   medGalImgHeight  = 495,
                   medGalItemHeight = 600;
-                  
+
                   $item.css({
                     height : tileHeight
                   });
@@ -525,7 +527,7 @@
                 self.animateTiles();
 
 
-                
+
 
               }
 
@@ -616,7 +618,7 @@
           }else{
             self.scrollerModule.centerItems = false;
           }
-          
+
           var containerWidth = self.$el.width(),
           gutterWidth        = 0,
           colWidth           = 0;
@@ -650,7 +652,7 @@
           newContainerHeight += 50; //spacing for navigation dots
 
 
-      
+
           self.$el.css({
             'height'     : newContainerHeight,
             'max-height' : newContainerHeight,
@@ -730,7 +732,7 @@
 
           self.moveTo();
         });
-  
+
         self.onPaddleNavUpdate();
         self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
 
@@ -765,7 +767,7 @@
           self.$el.find('.pagination-paddles').hide();
         }
 
-        
+
       },
 
       createShuffle: function(){
@@ -1000,7 +1002,7 @@
               self.$container.css('width' , '100%');
               self.createShuffle();
 
-              
+
             }
 
             self.sortByPriority();
@@ -1158,7 +1160,7 @@
             newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.984615385 );
             self.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
-          
+
          self.$el.css( 'height' , newHeight + 62 + 'px' );
 
           if(!!self.isTabbedContainer){
@@ -1571,7 +1573,7 @@
         }
 
         self.$slides.each(function(i){
-      
+
           $(this).css({
             'left'    : i * cw + 'px',
             'z-index' : i
@@ -1684,7 +1686,7 @@
           if(!self.hasTouch){
             self.$paddles.show();
           }
-          
+
           //make sure slides are in the right place after re-building
           setTimeout(function(){
             self.updateSlides();
@@ -1846,8 +1848,8 @@
             break;
           }
         });
-        
-       
+
+
         self.checkTileHeights();
 
         setTimeout( function () {
@@ -1987,7 +1989,7 @@
 
           window.iQ.update();
         }, 100);
-        
+
       },
 
       setNameHeights : function( $container ) {
@@ -2049,7 +2051,7 @@
       minSlideOffset: 10,
       navigationControl: 'bullets'
     };
-    
+
     //Listen for global sony ready event
     SONY.on('global:ready', function(){
       $('.related-products').relatedProducts();

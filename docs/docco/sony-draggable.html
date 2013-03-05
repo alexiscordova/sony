@@ -262,7 +262,7 @@ Need to create a conditional that inverts the math for latter.</p>             <
 
 </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>If the browser doesn't properly support the getStyles API for auto margins, manually
 shift the destination back to compensate.</p>             </td>             <td class="code">               <div class="highlight"><pre>
-      <span class="keyword">if</span> ( !Modernizr.jsautomarginscorrect ) {
+      <span class="keyword">if</span> ( !Modernizr.jsautomargins ) {
         offsetCorrectionX = (self.$el.parent().width() - self.$el.width()) / <span class="number">2</span>;
       }
 

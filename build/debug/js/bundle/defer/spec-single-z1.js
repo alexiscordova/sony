@@ -59,9 +59,10 @@
         var debouncedResize = $.debounce( 50, $.proxy( self._onResize, self) );
         self.$specProduct.find('.iq-img').on( 'imageLoaded', debouncedResize );
 
-
         self._initStickyNav();
       }, 100);
+
+      log('SONY : Spec : Initialized');
     },
 
     _initFeatures : function() {
