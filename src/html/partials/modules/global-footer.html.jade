@@ -1,7 +1,13 @@
 include ../includes/jade-helpers.jade
 - var store_locator_input_default_full = "      " + sample_session_data.current_location
 
-section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.phone-at-567
+if typeof minimal !== 'undefined' && minimal === true
+  - minimal_class = "footer-wrapper-minimal"
+else 
+  - minimal = false
+  - minimal_class = ""
+
+section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.phone-at-567(class=minimal_class)
   .container.full-bleed-at-567
     .grid.grid-footer.no-grid-at-567
     	if !minimal

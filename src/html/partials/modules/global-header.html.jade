@@ -4,9 +4,10 @@ include ../includes/jade-helpers.jade
 
 a#SkipToContentLink(href='#main', class='visuallyhidden', tabindex='1')= data.skip_to_content.label
 
-if minimal
+if typeof minimal !== 'undefined' && minimal === true
   - minimal_class = "nav-wrapper-minimal"
-else
+else 
+  - minimal = false
   - minimal_class = ""
 
 nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-767(role='navigation', class=minimal_class)
