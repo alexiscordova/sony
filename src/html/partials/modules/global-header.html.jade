@@ -34,8 +34,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 i.fonticon-10-search.input-icon
                 label.visuallyhidden(for='navSearch') #{data.search.label}
                 input#nav-search-input(type='text', name='navSearch', role='search', value=search_input_default_full, tabindex='1401')
-                a.btn-clear-search-input.input-clear-btn(href='#', tabindex='1405')
-                  span.visuallyhidden clear search box
+                a.btn-clear-search-input.input-clear-btn(href='#')
                   i.fonticon-10-x-skinny
             
             div.navmenu-search-section-results
@@ -123,7 +122,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                   li.navtray-li(class=item.class)
                     a.navtray-li-link.tl(href=item.link, tabindex=(200+1))= item.label
               p.navtray-secondary-promo
-                img(src=data.electronics.menu_featured.promo.img, alt=data.electronics.menu_featured.promo.title)
+                mixin iQImage( data.electronics.menu_featured.promo.img )
                 span.p2= data.electronics.menu_featured.promo.title
                 span.p3= data.electronics.menu_featured.promo.message
                   a(href=data.electronics.menu_featured.promo.link, tabindex='250') 
@@ -143,7 +142,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
             div.navtray-section.navtray-section-featured.navtray-section-featured-short
               p.navtray-secondary-promo.navtray-secondary-promo-short
-                img(src=data.entertainment.menu_featured.promo.img, alt=data.entertainment.menu_featured.promo.title)
+                mixin iQImage( data.entertainment.menu_featured.promo.img )
                 span.p2= data.entertainment.menu_featured.promo.title
                 span.p3= data.entertainment.menu_featured.promo.message
                   a(href=data.entertainment.menu_featured.promo.link, tabindex='550') 
