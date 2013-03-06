@@ -1,3 +1,5 @@
+/*global SONY*/
+
 // ------------ Sony Global Nav ------------
 // Module: Global Nav
 // Version: 1.0
@@ -14,6 +16,8 @@
 
     var self = this;
     self.searchMenu = {};
+    self.$html = SONY.$html;
+    self.$window = SONY.$window;
     self.$container = $container;
     self.$activeNavBtns = self.$container.find('.nav-dropdown-toggle');
     self.$currentOpenNavBtn = false;
@@ -25,15 +29,6 @@
     // delay in ms
     self.mouseleaveTimer = false;
 
-    // we should make a bunch of this stuff global.
-    self.transEndEventNames = {
-      'WebkitTransition' : 'webkitTransitionEnd',
-      'MozTransition' : 'transitionend',
-      'OTransition' : 'oTransitionEnd',
-      'msTransition' : 'MSTransitionEnd',
-      'transition' : 'transitionend'
-    };
-
     // Get the right prefixed names e.g. WebkitTransitionDuration
     self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
     self.transformName = Modernizr.prefixed('transform');
@@ -42,7 +37,15 @@
     self.transitionProperty = Modernizr.prefixed('transitionProperty');
     self.transitionDuration = Modernizr.prefixed('transitionDuration');
     self.transitionEasing = Modernizr.prefixed('transitionTimingFunction');
-    self.transitionEnd = self.transEndEventNames[self.transitionName];
+    self.transitionEnd = SONY.Settings.transEndEventName;
+
+    // if ( self.$window.width() <= self.mobileNavThreshold ) {
+    //   self.initMobileNav();
+    //   self.initMobileFooter();
+    // } else {
+    //   self.initDesktopNav();
+    //   // self.initDesktopFooter();
+    // }
 
     self.init();
   };
@@ -59,19 +62,19 @@
       // Setting up enquire listeners.
       // These fire the first time they're hit (page-load), and if the breakpoint becomes active during browser resize.
 
-      if (window.enquire && !$('html').hasClass('lt-ie10')) {
+      if (window.enquire && !SONY.Settings.isLTIE10) {
 
         // switch to desktop nav
-        window.enquire.register("(min-width: " + (self.mobileNavThreshold + 1) + "px)", {
+        window.enquire.register('(min-width: ' + (self.mobileNavThreshold + 1) + 'px)', {
           match : function() {
             self.initDesktopNav();
             self.resetMobileNav();
-            $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
+            self.$html.removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
           }
 
         });
         // switch to desktop footer
-        window.enquire.register("(min-width: " + (self.mobileFooterThreshold + 1) + "px)", {
+        window.enquire.register('(min-width: ' + (self.mobileFooterThreshold + 1) + 'px)', {
           match : function() {
             self.resetMobileFooter();
           }
@@ -79,16 +82,16 @@
         });
 
         // switch to mobile nav
-        window.enquire.register("(max-width: " + self.mobileNavThreshold + "px)", {
+        window.enquire.register('(max-width: ' + self.mobileNavThreshold + 'px)', {
           match : function() {
             self.initMobileNav();
             self.resetDesktopNav();
-            $('html').removeClass('bp-nav-desktop').addClass('bp-nav-mobile');
+            self.$html.removeClass('bp-nav-desktop').addClass('bp-nav-mobile');
           }
 
         });
         // switch to mobile footer
-        window.enquire.register("(max-width: " + self.mobileFooterThreshold + "px)", {
+        window.enquire.register('(max-width: ' + self.mobileFooterThreshold + 'px)', {
           match : function() {
             self.initMobileFooter();
           }
@@ -97,23 +100,22 @@
       } else {
         self.initDesktopNav();
         self.resetMobileNav();
-        $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
+        self.$html.removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
       }
 
-      if (Modernizr.touch) {
+      if (self.hasTouch) {
         // add a click event to close the menu
-        $('#page-wrap-outer').on('click touchstart focus',function(e) {
+        self.$pageWrapOuter.on('click touchstart focus',function(e) {
           if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
                 $('.nav .nav-li a.active').trigger('touchstart');
                 $('#nav-search-input').blur();
           }
         });
       }
-  
+
     },
 
     initDesktopNav : function() {
-      
       var self = this;
 
       // Set up primary nav buttons
@@ -128,8 +130,12 @@
         // init
         self.resetActiveNavBtn($thNavBtn);
 
+        // $(this).on(self.tapOrClick + ' focus blur', function() {
+        // $(this).on(self.tapOrClick, function() {
+        // $(this).on('touchstart mouseenter', function() {
+
         // TOUCH DEVICES
-        if (Modernizr.touch) {
+        if (self.hasTouch) {
 
           $thNavBtn.on('touchstart', function() {
             // var $thNavBtn = $(this);
@@ -151,7 +157,6 @@
               } else {
                 // deactivate it first
                 self.resetActiveNavBtn(self.$currentOpenNavBtn);
-                
                 var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
 
                 // if the open target was a navtray,
@@ -176,7 +181,6 @@
 
           // for the search button only, we want it to trigger on click. All others on mouseenter.
           var thTrigger = 'mouseenter focus';
-          
           if ($thNavBtn.parent().hasClass('nav-li-search')) {
             thTrigger = 'click keypress focus';
           }
@@ -202,7 +206,6 @@
               } else {
                 // deactivate it first
                 self.resetActiveNavBtn(self.$currentOpenNavBtn);
-                
                 var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
 
                 // if the open target was a navtray,
@@ -224,7 +227,6 @@
 
           // If you mouseOut of the nav button
           $thNavBtn.on('mouseleave', function() {
-            
             $(this).data('hovering', false);
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
@@ -249,11 +251,10 @@
           // Activate click for tab navigation
           $thNavBtnTarget.find('a').on('focus', function() {
 
-            var navTray = $(this).parents('.navtray-w,.navmenu-w'), navTrayId = $(navTray).attr('id');
-            
-            if ($('html').hasClass('lt-ie9')) {
+            if (SONY.Settings.isLTIE9) {
               $('.navmenu-w-search').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
             }
+            var navTray = $(this).parents('.navtray-w,.navmenu-w'), navTrayId = $(navTray).attr('id');
 
             $(this).parents('.navtray-w').data('hovering', true);
             $('a[data-target=' + navTrayId + ']').trigger('mouseenter');
@@ -268,19 +269,15 @@
             $(this).data('hovering', false);
 
             // Remove focus from search input on mouse out in ie
-            if ($('html').hasClass('lt-ie10')) {
+            if (SONY.Settings.isLTIE10) {
                 $('#nav-search-input').blur();
             }
-             if ($('html').hasClass('lt-ie9')) {
+             if (SONY.Settings.isLTIE9) {
                 $('.navmenu-w-search').removeClass('navmenu-w-visible').attr('style', 'opacity:0');
             }
-            
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
-
             var timeout = 50;
-            
-            // For the search menu, we want a longer timeout
             if(this.id === 'navmenu-w-search') {
               timeout = 2000;
             }
@@ -300,7 +297,6 @@
       });
     }, // end initDesktopNav
     resetDesktopNav : function() {
-      
       var self = this;
 
       self.$activeNavBtns.each(function() {
@@ -312,7 +308,6 @@
 
         // if there's a navTray/navMenu, reset it
         if ($thNavBtn.data('target').length) {
-          
           var $thNavTarget = $('.' + $thNavBtn.data('target'));
 
           if ($thNavTarget.hasClass('navtray-w')) {
@@ -336,9 +331,7 @@
     },
 
     startMouseleaveTimer : function($thNavBtn) {
-      
       var self = this;
-      
       if ($('mouseleaveTimerActive').length) {
         self.resetMouseleaveTimer();
       }
@@ -349,22 +342,17 @@
       }, self.mouseLeaveDelay);
     },
     resetMouseleaveTimer : function() {
-      
       var self = this;
-      
       clearTimeout(self.mouseleaveTimer);
       $('.mouseleaveTimerActive').removeClass('mouseleaveTimerActive');
     },
 
     setActiveNavBtn : function($btn) {
-      
       var self = this;
-      
       self.activateNavBtn($btn);
       self.$currentOpenNavBtn = $btn;
     },
     resetActiveNavBtn : function($oldNavBtn) {
-      
       var self = this;
 
       // reset this button
@@ -372,7 +360,6 @@
 
       // if there's a navTray/navMenu, reset it
       if (!!$oldNavBtn.data('target')) {
-        
         var $thNavTarget = $('.' + $oldNavBtn.data('target'));
 
         if ($thNavTarget.hasClass('navtray-w')) {
@@ -389,7 +376,6 @@
     },
 
     slideNavTray : function($navTray, opening) {
-      
       var self = this, startHeight, endHeight, expandedHeight = $navTray.outerHeight();
 
       $navTray.data('expandedHeight', expandedHeight);
@@ -406,11 +392,13 @@
 
       }
 
+    //$navTray.data('expandedHeight', startHeight).css('top', startHeight).find('.navtray').addClass('navtray-absolute').css('top', expandedHeight);
+
       setTimeout(function() {// wait just a moment to make sure the height is applied
         $navTray.removeClass('no-transition');
 
         setTimeout(function() {// wait just a moment to make sure the height is applied
-
+         // $navTray.css('height', endHeight).one(self.transitionEnd, onNavTrayComplete);
           var elemHeight = $navTray.find('.navtray').height();
           if (opening) {
            $navTray.addClass('navtray-w-visible');
@@ -428,7 +416,6 @@
 
     },
     resetNavTray : function($navTray) {
-      
       var self = this;
 
       $navTray.removeClass('navtray-w-visible')
@@ -441,14 +428,12 @@
     },
 
     activateNavBtn : function($newNavBtn) {
-      
       var self = this;
-
+      //.removeClass('no-transition')
       $newNavBtn.addClass('active').parent().addClass('nav-li-selected');
 
       // if there's a navTray/navMenu, reset it to get its height
       if ($newNavBtn.data('target').length) {
-        
         var $thNavTarget = $('.' + $newNavBtn.data('target'));
 
         // figure out if this is a tray or menu.
@@ -456,7 +441,7 @@
           // it's a nav-tray
           // first get the tray's natural height, which it should have offscreen.
           // expand the tray. When it's done, set it to position:relative and natural heights.
-          if ($('html').hasClass('lt-ie10')) {
+          if (SONY.Settings.isLTIE10) {
             // going to do something special for oldIE since it's not sliding anyway, and it can be set up to just use display:none.
             self.slideNavTray($thNavTarget, true);
           } else {
@@ -490,7 +475,6 @@
 
             var btnRightEdge = $newNavBtn.parent().position().left + parseInt($newNavBtn.css('marginLeft'), 10) + $newNavBtn.innerWidth();
             var leftPos = btnRightEdge - $thNavTarget.innerWidth();
-            
             $thNavTarget.css({
               'right' : 'auto',
               'left' : leftPos + 'px'
@@ -515,20 +499,20 @@
       var $thInput = $('#nav-search-input');
 
       $thInput.on('focus', function() {
-        if ($('html').hasClass('bp-nav-mobile')) {
+        if (self.$html.hasClass('bp-nav-mobile')) {
           SONY.initMobileNavIScroll();
         }
-        $('.page-wrap-inner').addClass("show-mobile-search-results");
+        $('.page-wrap-inner').addClass('show-mobile-search-results');
       }).on('blur', function() {
 
         // disable blur on mobile search input
-        if (!$('html').hasClass('bp-nav-mobile')) {
-          $('.page-wrap-inner').removeClass("show-mobile-search-results");
+        if (!self.$html.hasClass('bp-nav-mobile')) {
+          $('.page-wrap-inner').removeClass('show-mobile-search-results');
         }
       }).closest('.input-group').find('.input-clear-btn').on(self.tapOrClick, function() {
-        if ($('html').hasClass('bp-nav-mobile')) {
+        if (self.$html.hasClass('bp-nav-mobile')) {
           SONY.initMobileNavIScroll();
-          $('.page-wrap-inner').removeClass("show-mobile-search-results");
+          $('.page-wrap-inner').removeClass('show-mobile-search-results');
           setTimeout(function() {
             $thInput.trigger('blur');
           }, 2);
@@ -539,14 +523,12 @@
     resetMobileNav : function() {
 
       var self = this;
-      
       self.hideMobileNav();
       $('#btn-mobile-nav').off(self.tapOrClick);
       $('.mobile-screen-overlay').remove();
     },
 
     showMobileNav : function() {
-      
       var self = this;
 
       self.showMobileBackdrop();
@@ -555,15 +537,12 @@
       // on iOS, this means the Safari nav will always be visible. And that's not cool. So, to give the
       // page some height, so the Safari nav will hide.
       // need tp compensate for Safari nav bar on iOS - MAY BE DIFFERENT ON ANDROID/OTHER.
-      
-      var pageHeight = parseInt($(window).height(), 10) + 'px';
-      
-      // var pageHeight = parseInt( $(window).height(),10 ) + 60 + 'px';
-      
+      var pageHeight = SONY.Settings.isIPhone || SONY.Settings.isAndroid ? window.innerHeight : self.$window.height();
+      // var pageHeight = parseInt(self.$window.height(), 10) + 'px';
+      // var pageHeight = parseInt( self.$window.height(),10 ) + 60 + 'px';
       self.$pageWrapOuter.height(pageHeight);
 
       if (!self.mobileNavIScroll) {
-        
         var $outer = $('#nav-outer-container'), $inner = $outer.find('.nav-mobile-scroller'), innerHeight = $inner.height();
 
         $outer.height(pageHeight);
@@ -578,9 +557,7 @@
       self.mobileNavVisible = true;
     },
     hideMobileNav : function() {
-      
       var self = this;
-      
       self.hideMobileBackdrop();
 
       if (self.mobileNavVisible){
@@ -594,7 +571,6 @@
     },
 
     showMobileBackdrop : function() {
-      
       var self = this;
 
       self.$mobileScreenOverlay = $('<div class="modal-backdrop mobile-screen-overlay opacity0" />').appendTo($('#page-wrap-inner'));
@@ -606,16 +582,26 @@
     hideMobileBackdrop : function() {
       var self = this;
 
-      !!self.$mobileScreenOverlay && self.$mobileScreenOverlay.one(self.transitionEnd, function() {
-        self.$mobileScreenOverlay.remove();
-      });
+      if ( !!self.$mobileScreenOverlay ) {
+        self.$mobileScreenOverlay.one(self.transitionEnd, function() {
+          self.$mobileScreenOverlay.remove();
+        });
+      }
 
-      !!self.$mobileScreenOverlay && self.$mobileScreenOverlay.removeClass('opacity1').addClass('opacity0');
+      if ( !!self.$mobileScreenOverlay ) {
+       self.$mobileScreenOverlay.removeClass('opacity1').addClass('opacity0');
+      }
     },
 
     // MOBILE FOOTER
     initMobileFooter : function() {
       var self = this;
+
+      // init the country-selector popup menu -- disabled.
+      // $('#country-selector').on('mouseenter mouseleave',function(){
+      //   var pageContainerWidth = $(this).closest('.grid-footer').width();
+      //   $(this).find('.dropdown-hover-menu-lists-w').width(pageContainerWidth);
+      // });
 
       self.footerNavCollapseHeight = 49;
       // plus 1 for the border
@@ -650,7 +636,6 @@
     }, // end resetMobileFooter
 
     collapseMobileFooterSec : function($thFootSection, isPageInit) {
-      
       var self = this;
 
       isPageInit = typeof isPageInit !== 'undefined' ? isPageInit : false;
@@ -697,9 +682,7 @@
 
   // Plugin definition
   $.fn.globalNav = function(opts) {
-    
     var args = Array.prototype.slice.apply(arguments);
-    
     return this.each(function() {
       var self = $(this),
         globalNav = self.data('globalNav');
@@ -724,16 +707,18 @@
 
   // Not overrideable
   $.fn.globalNav.settings = {
-    isTouch : !!('ontouchstart' in window ),
+    hasTouch : SONY.Settings.hasTouchEvents || SONY.Settings.hasPointerEvents,
     isInitialized : false
   };
+
+
 
   SONY.initMobileNavIScroll = function() {
     var globalNav = $('.nav-wrapper').data('globalNav');
     // if there's alreaddy a mobileNavIScroll, refresh it.
     if (!!globalNav.mobileNavIScroll) {
       var $scroller = $('.nav-mobile-scroller');
-      $scroller.css('height',"");
+      $scroller.css('height', '');
       setTimeout(function(){
         var scrollerHeight = $scroller.outerHeight();
         $scroller.css('height', scrollerHeight);
@@ -754,11 +739,11 @@
         onBeforeScrollStart: function(e) {
           var target = e.target;
 
-          while ( target.nodeType != 1 ) {
+          while ( target.nodeType !== 1 ) {
             target = target.parentNode;
           }
 
-          if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
+          if (target.tagName !== 'SELECT' && target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
             e.preventDefault();
           }
         }
@@ -768,10 +753,10 @@
     }
   };
   SONY.destroyMobileNavIScroll = function() {
-    
     var globalNav = $('.nav-wrapper').data('globalNav');
-    
-    !!globalNav.mobileNavIScroll && globalNav.mobileNavIScroll.destroy();
+    if ( !!globalNav.mobileNavIScroll ) {
+      globalNav.mobileNavIScroll.destroy();
+    }
     globalNav.mobileNavIScroll = false;
     globalNav.$pageWrapOuter.css('height', '');
   };
