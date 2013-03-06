@@ -110,7 +110,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                     a.navtray-li-link.tl(href=item.link, tabindex=(101+i))
                       span.nav-img-w
                         img(src=item.img, alt=item.label)
-                      span.nav-label= item.label
+                      span.nav-label!{item.label}
               a.navmenu-style-tl.nav-view-all-tl(href=data.electronics.menu_main.all_link.link, tabindex='190')
                 i.fonticon-10-grid-3x3
                 | !{data.electronics.menu_main.all_link.label}

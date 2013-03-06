@@ -407,6 +407,11 @@
   }
 } // end .navtray
 
+
+
+  
+
+
 .navtray-section-main{ // section left
   padding-top:50px;
   width: $navTrayDividerPosition;
@@ -425,7 +430,12 @@
 
     .navtray-li-link {
       margin: 2% 3.3% 0 0;
-      padding:27px 0 0 0;
+      padding:20px 0 0 0;
+      -webkit-backface-visibility:hidden; // images jump on hover otherwise
+      height: 170px; /* only for non-responsive browsers - is overridden for responsive, which is good, because it's too high */
+      .navtray-w-short & {
+        padding-top:25px;
+      }
 
       &:hover,
       &:active,
@@ -454,8 +464,9 @@
   padding-left: 3.8%;
   .navtray-secondary-promo{
     max-width: 218px;
-    margin-top: 57px;
+    margin-top: 32px;
     margin-right:14%;
+
     img{
       padding-bottom:6px;
     }
