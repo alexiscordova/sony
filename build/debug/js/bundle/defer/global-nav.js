@@ -577,6 +577,9 @@
 
       setTimeout(function() {
         self.$mobileScreenOverlay.removeClass('opacity0').addClass('opacity1');
+        if ( SONY.Settings.isAndroid ) {
+          SONY.Utilities.forceWebkitRedraw();
+        }
       }, 1);
     },
     hideMobileBackdrop : function() {

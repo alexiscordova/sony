@@ -1787,10 +1787,15 @@ if their interaction time and movements are below certain thresholds.</p>       
 
       checkTileHeights: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>,
-        prodImg = self.$galleryItems.filter(<span class="string">'.normal'</span>).find(<span class="string">'.product-img'</span>);
+        prodImg = self.$galleryItems.filter(<span class="string">'.normal'</span>).find(<span class="string">'.product-img'</span>),
+        newHeight = prodImg.first().height();
+
+        <span class="keyword">if</span>(self.$win.width() &lt; <span class="number">569</span>){
+          newHeight = <span class="string">'100%'</span>;
+        }
 
         prodImg.find(<span class="string">'img'</span>).css({
-          <span class="string">'max-height'</span> : prodImg.first().height()
+          <span class="string">'max-height'</span> : newHeight
         });
 
       },
@@ -1893,9 +1898,10 @@ if their interaction time and movements are below certain thresholds.</p>       
               vScrollbar: <span class="literal">false</span>,
               momentum: <span class="literal">true</span>,
               bounce: <span class="literal">true</span>,
-              onScrollEnd: <span class="literal">null</span>,
               lockDirection:<span class="literal">true</span>,
-              onBeforeScrollStart:<span class="literal">null</span>
+              onBeforeScrollStart:<span class="literal">null</span>,
+              onScrollEnd: $.proxy( self.onScrollerEnd , self )
+
             }
 
           }).data(<span class="string">'scrollerModule'</span>);
@@ -1904,15 +1910,27 @@ if their interaction time and movements are below certain thresholds.</p>       
           self.$el.find(<span class="string">'.gallery-item.medium'</span>).css(<span class="string">'height'</span> , <span class="string">''</span>);
           self.$el.find(<span class="string">'.gallery-item.medium .product-img'</span>).css(<span class="string">'height'</span> , <span class="string">''</span>);
 
-          window.iQ.update();
+          iQ.update();
+          self.checkTileHeights();
+
+          
         }, <span class="number">100</span>);
 
+      },
+
+      onScrollerEnd: <span class="keyword">function</span>(){
+        <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>self.log('scroller module scrolled...');</p>             </td>             <td class="code">               <div class="highlight"><pre>
+        iQ.update();
+        self.checkTileHeights();
+       
       },
 
       setNameHeights : <span class="keyword">function</span>( $container ) {
         <span class="keyword">var</span> nameMaxHeight = <span class="number">0</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-84">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-84">&#182;</a>               </div>               <p>Set the height of the product name + model because the text can wrap and make it taller</p>             </td>             <td class="code">               <div class="highlight"><pre>        $container
+</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>Set the height of the product name + model because the text can wrap and make it taller</p>             </td>             <td class="code">               <div class="highlight"><pre>        $container
           .find(<span class="string">'.product-name-wrap'</span>)
           .css(<span class="string">'height'</span>, <span class="string">''</span>) <span class="comment">// remove heights in case they've been set before</span>
           .each(<span class="keyword">function</span>() {
@@ -1931,7 +1949,7 @@ if their interaction time and movements are below certain thresholds.</p>       
       setupEasing: <span class="keyword">function</span>(){
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-85">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-85">&#182;</a>               </div>               <p>Define easing equations</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.css3Easing = {
+</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>Define easing equations</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.css3Easing = {
             easeOutSine     : <span class="string">'cubic-bezier(0.390, 0.575, 0.565, 1.000)'</span>,
             easeInOutSine   : <span class="string">'cubic-bezier(0.445, 0.050, 0.550, 0.950)'</span>,
             easeOutBack     : <span class="string">'cubic-bezier(0.595, -0.160, 0.255, 1.140)'</span>,
@@ -1940,7 +1958,7 @@ if their interaction time and movements are below certain thresholds.</p>       
       }
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-86">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-86">&#182;</a>               </div>               <p>Related Products definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.relatedProducts = <span class="keyword">function</span>(options) {
+</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>Related Products definition on jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.relatedProducts = <span class="keyword">function</span>(options) {
       <span class="keyword">var</span> args = arguments;
 
       <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>(){
@@ -1958,14 +1976,14 @@ if their interaction time and movements are below certain thresholds.</p>       
       });
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-87">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-87">&#182;</a>               </div>               <p>Defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.relatedProducts.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>Defaults for the related products</p>             </td>             <td class="code">               <div class="highlight"><pre>    $.fn.relatedProducts.defaults = {
       throttleTime: <span class="number">50</span>,
       autoScaleContainer: <span class="literal">true</span>,
       minSlideOffset: <span class="number">10</span>,
       navigationControl: <span class="string">'bullets'</span>
     };
 
-</pre></div>             </td>           </tr>                               <tr id="section-88">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-88">&#182;</a>               </div>               <p>Listen for global sony ready event</p>             </td>             <td class="code">               <div class="highlight"><pre>    SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Listen for global sony ready event</p>             </td>             <td class="code">               <div class="highlight"><pre>    SONY.on(<span class="string">'global:ready'</span>, <span class="keyword">function</span>(){
       $(<span class="string">'.related-products'</span>).relatedProducts();
     });
 
@@ -1987,7 +2005,7 @@ $(<span class="keyword">function</span>(){
     <span class="keyword">return</span>;
   }
 
-</pre></div>             </td>           </tr>                               <tr id="section-89">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-89">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> transEndEventNames = {
+</pre></div>             </td>           </tr>                               <tr id="section-90">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-90">&#182;</a>               </div>               <p>Get transitionend event name</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="keyword">var</span> transEndEventNames = {
       <span class="string">'WebkitTransition'</span> : <span class="string">'webkitTransitionEnd'</span>,
       <span class="string">'MozTransition'</span>    : <span class="string">'transitionend'</span>,
       <span class="string">'OTransition'</span>      : <span class="string">'oTransitionEnd'</span>,
