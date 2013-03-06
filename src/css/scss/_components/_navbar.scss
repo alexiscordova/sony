@@ -77,7 +77,8 @@
   .fonticon-10-arrowhead-up{
     color:$gray40;
   }
-  .nav-li-link{
+  .nav-li-link{    
+    -webkit-backface-visibility:hidden; // fixes phantom blue select box
     &:hover, &:active, &:focus, &.active{
       .fonticon-10-arrowhead-down,
       .fonticon-10-arrowhead-up{
