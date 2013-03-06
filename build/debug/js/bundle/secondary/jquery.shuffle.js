@@ -231,10 +231,12 @@
             return $filtered;
         },
 
-        _initItems : function( withoutTransition ) {
+        _initItems : function( withoutTransition, $items ) {
             var self = this;
 
-            self.$items.each(function() {
+            $items = $items || self.$items;
+
+            $items.each(function() {
                 $(this).css(self.itemCss);
 
                 // Set CSS transition for transforms and opacity
@@ -402,7 +404,7 @@
 
                 if ( colSpan === 1 ) {
                     // if brick spans only one column, just like singleMode
-                    self._placeItem( $this, self.colYs, fn );
+                    self._placeItem( $this, self.colYs, fn, isOnlyPosition, isHide );
                 } else {
                     // brick spans more than one column
                     // how many different places could this brick fit horizontally
@@ -422,6 +424,10 @@
                     self._placeItem( $this, groupY, fn, isOnlyPosition, isHide );
                 }
             });
+
+            // `_layout` always happens after `shrink`, so it's safe to process the style
+            // queue here with styles from the shrink method
+            self._processStyleQueue();
 
             // Adjust the height of the container
             self.setContainerSize();
@@ -493,20 +499,15 @@
             if ( !isOnlyPosition ) {
                 transitionObj.opacity = 1;
                 transitionObj.callback = callback;
+            } else {
+                transitionObj.skipTransition = true;
             }
 
             if ( isHide ) {
                 transitionObj.opacity = 0;
             }
 
-            if ( isOnlyPosition ) {
-                self._skipTransition($item[0], function() {
-                    self.transition( transitionObj );
-                });
-            } else {
-                self.transition( transitionObj );
-            }
-
+            self.styleQueue.push( transitionObj );
         },
 
         /**
@@ -514,7 +515,8 @@
          */
         shrink : function() {
             var self = this,
-                $concealed = self.$items.filter('.concealed');
+                $concealed = self.$items.filter('.concealed'),
+                transitionObj = {};
 
             // Abort if no items
             if ($concealed.length === 0) {
@@ -533,7 +535,7 @@
                 if (!x) { x = 0; }
                 if (!y) { y = 0; }
 
-                self.transition({
+                transitionObj = {
                     from: 'shrink',
                     $this: $this,
                     x: x,
@@ -541,7 +543,9 @@
                     scale : 0.001,
                     opacity: 0,
                     callback: self.shrinkEnd
-                });
+                };
+
+                self.styleQueue.push( transitionObj );
             });
         },
 
@@ -697,6 +701,25 @@
             }
         },
 
+        _processStyleQueue : function() {
+            var self = this,
+                queue = self.styleQueue;
+
+            $.each( queue, function(i, transitionObj) {
+
+                if ( transitionObj.skipTransition ) {
+                    self._skipTransition( transitionObj.$this[0], function() {
+                        self.transition( transitionObj );
+                    });
+                } else {
+                    self.transition( transitionObj );
+                }
+            });
+
+            // Remove everything in the style queue
+            self.styleQueue.length = 0;
+        },
+
         shrinkEnd: function() {
             this.fire('shrunk');
         },
@@ -741,8 +764,8 @@
             }
 
             $newItems.addClass('shuffle-item');
+            self._initItems( undefined, $newItems );
             self.$items = self._getItems();
-            self._initItems();
             $newItems.not($passed).css('opacity', 0);
 
             $passed = self.filter( undefined, $newItems );
@@ -965,6 +988,7 @@
     $.fn.shuffle.settings = {
         revealAppendedDelay: 300,
         enabled: true,
+        styleQueue: [],
         supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
         prefixed: Modernizr.prefixed,
         threeD: Modernizr.csstransforms3d // supports 3d transforms

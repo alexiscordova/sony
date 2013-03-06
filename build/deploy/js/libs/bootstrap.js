@@ -678,7 +678,15 @@
   }
 
   function clearMenus(evt) {
-    var $parent = getParent($(toggle)).removeClass('open');
+    var $parent = getParent($(toggle))
+
+    if ( $parent.hasClass('open') ) {
+      $parent.removeClass('open');
+
+    // If the parent dropdown doesn't have a class of open, exit early
+    } else {
+      return;
+    }
 
     if ( evt && evt.target ) {
       var $target = $(evt.target);
