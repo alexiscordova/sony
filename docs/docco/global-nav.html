@@ -96,7 +96,7 @@ These fire the first time they're hit (page-load), and if the breakpoint becomes
         $(<span class="string">'html'</span>).removeClass(<span class="string">'bp-nav-mobile'</span>).addClass(<span class="string">'bp-nav-desktop'</span>);
       }
 
-      <span class="keyword">if</span> ($(<span class="string">'html'</span>).hasClass(<span class="string">"touch"</span>)) {
+      <span class="keyword">if</span> (Modernizr.touch) {
 </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>add a click event to close the menu</p>             </td>             <td class="code">               <div class="highlight"><pre>        $(<span class="string">'#page-wrap-outer'</span>).on(<span class="string">'click touchstart focus'</span>,<span class="keyword">function</span>(e) {
           <span class="keyword">if</span> ( !($(e.target).hasClass(<span class="string">'navtray-w,navmenu-w,nav'</span>) || $(e.target).parents(<span class="string">'.navtray-w,.navmenu-w,.nav'</span>).length &gt; <span class="number">0</span>)) {
                 $(<span class="string">'.nav .nav-li a.active'</span>).trigger(<span class="string">'touchstart'</span>);
@@ -123,7 +123,7 @@ These fire the first time they're hit (page-load), and if the breakpoint becomes
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>$(this).on(self.tapOrClick + ' focus blur', function() {
 $(this).on(self.tapOrClick, function() {
 $(this).on('touchstart mouseenter', function() {</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>TOUCH DEVICES</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ($(<span class="string">'html'</span>).hasClass(<span class="string">"touch"</span>)) {
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>TOUCH DEVICES</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (Modernizr.touch) {
 
           $thNavBtn.on(<span class="string">'touchstart'</span>, <span class="keyword">function</span>() {
 </pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>var $thNavBtn = $(this);
