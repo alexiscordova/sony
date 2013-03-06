@@ -45,10 +45,10 @@ a:focus {
 // --------------------------------------
 // TITLES (headers)
 // --------------------------------------
-// 
+//
 // All titles can be made bold by placing a <strong> tag inside; or italic using <em>
 // To make the 'light' version, use the -light version of the class, such as .t3-light
-// 
+//
 // --------------------------------------
 
 .t1, .t2, .t3, .t4, .t5, .t6, .t7, h1, h2, h3, h4, h5, h6{
@@ -57,30 +57,30 @@ a:focus {
 }
 
 .t1, .t2, .t5, h1, h2, h5 {
-  @include fontRegular; 
-  @include em-strong(Regular); 
+  @include fontRegular;
+  @include em-strong(Regular);
 }
 .t3, .t4, h3, h4{
   @include fontLight;
   @include em-strong(Light);
 }
 .t6, .t7, h6{
-  @include fontMedium; 
-  @include em-strong(Medium);   
+  @include fontMedium;
+  @include em-strong(Medium);
 }
 
 .t1-light, .t2-light, .t5-light {
   @include fontLight;
 }
 .t6-light, .t7-light{
-  @include fontRegular; 
-  @include em-strong(Regular); 
+  @include fontRegular;
+  @include em-strong(Regular);
 }
 
 .t1, .t1-light, .t3, .t3-light,
 h1, h3 {
   letter-spacing: -0.01em;
-} 
+}
 .t2, .t2-light, .t4, .t4-light,
 h2, h4 {
   letter-spacing: -0.04em;
@@ -120,10 +120,10 @@ h2, h4 {
 // ------------------------------------
 // Labels Text Styles
 // ------------------------------------
-// 
+//
 // All Labels can be made bold by placing a <strong> tag inside; or italic using <em>
 // To make the 'light' version, use the -light version of the class, such as .l3-light
-// 
+//
 // --------------------------------------
 
 .l1, .l2, .l3, .l4, .l1-light, .l2-light, .l3-light, .l4-light {
@@ -131,23 +131,24 @@ h2, h4 {
   text-transform: uppercase;
   color: $defaultTextColor;
 }
-.l1{ 
+.l1{
   @include fontBold;
 }
 .l2, .l3, .l4, .l1-light {
-  @include fontMedium; 
+  @include fontMedium;
   @include em-strong(Medium);
 }
 .l2-light, .l3-light, .l4-light {
-  @include fontRegular; 
+  @include fontRegular;
   @include em-strong(Regular);
 }
 .l1, .l1-light{
-  letter-spacing: 0.05em;  
-  margin-bottom: 18px;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+  margin-top: 40px;
 }
 .l2, .l3, .l4, .l2-light, .l3-light, .l4-light{
-  letter-spacing: 0.01em;  
+  letter-spacing: 0.01em;
   margin-bottom: 8px;
 }
 .l1, .l1-light{
@@ -159,26 +160,26 @@ h2, h4 {
 .l3, .l3-light{
   @include px-em--font-size--line-height(11,18);
 }
-.l4, .l4-light{  
+.l4, .l4-light{
   @include px-em--font-size--line-height(10,16);
 }
 
 
 
 // ------------------------------------
-// Paragraphs & LinkText 
+// Paragraphs & LinkText
 // The LinkText is when the link is in its own paragraph, so it will be pushed down from the paragraph above it.
 // ------------------------------------
-// 
-// These have been updated to be more easily understood based on how we're actually using them. 
+//
+// These have been updated to be more easily understood based on how we're actually using them.
 // For most .lt classes, the only difference between the .lt3 and the .p3 classes is the margin-bottom.
 // So now instead of having a paragraph with the class .lt3, you can use the .p3 class and the .lt class.
 // So <div class="lt3"> becomes <div "class="p3 tl"> -- make sense?
-// This makes it more obvious that a .lt3 paragraph is really just a alightly altered (margin-bottom) .p3. 
+// This makes it more obvious that a .lt3 paragraph is really just a alightly altered (margin-bottom) .p3.
 // The one exception is .lt-alt which has a few other differences.
-// 
+//
 // For now you can continue using .lt# classes if you want, but they will probably be removed in the future.
-// 
+//
 p, .p1, .p2, .p3, .p4, .p5,
 .lt1, .lt2, .lt3, .lt4, .lt5, .lt3-alt {
   @include fontRegular;
@@ -238,7 +239,7 @@ p, .p1, .p2, .p3, .p4, .p5 { color: $defaultParagraphColor; }
 // ------------------------------------
 
 blockquote p{
-  @include fontLightItalic;  
+  @include fontLightItalic;
   text-rendering: optimizeLegibility; // disable this if we have performance issues.
   color: $defaultTextColor;
 
@@ -354,7 +355,7 @@ p{ @extend .p2; }
 .light-text-trans-box a{
   color: $white;
   &:hover, &:active, &:focus, &.active{
-    color: $gray70;    
+    color: $gray70;
   }
 }
 .light-text-trans-box p{
