@@ -5,7 +5,7 @@
 //
 // * **Module:** Tertiary Module
 // * **Version:** 0.1
-// * **Modified:** 02/14/2013
+// * **Modified:** 03/05/2013
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr, [sony-iscroll.js](sony-iscroll.html), [sony-scroller.js](sony-scroller.html), [sony-sequencer.js](sony-sequencer.html)
 //
@@ -25,9 +25,10 @@
       
       // INITS, SELECTORS
       self.$win                           = SONY.$window;
-      self.isTouch                        = SONY.Settings.hasTouchEvents;
+      self.isTouch                        = SONY.Settings.hasTouchEvents || SONY.Settings.hasPointerEvents;
       self.isLayoutHidden                 = false;
       self.isInit                         = true;
+      self.heightsAdjusted                = false;
       self.mode                           = null;
       self.prevMode                       = null;
       self.$scrollerInstance              = null;              
@@ -36,7 +37,7 @@
       self.contentModulesClass            = '.tcc-content-module';
       self.contentSelectorClass           = '.tcc-body';
       self.desktopClasses                 = 'span4';
-      self.centerContentArr               = ['flickr:default'];
+      self.centerContentArr               = ['flickr:default','sonys-voice:instagram','sonys-voice:twitter','sonys-voice:facebook'];
       
       // SELECTORS
       self.$container                     = $( element );
@@ -144,8 +145,10 @@
           setupSequence.add( self, self.adjustPositionForMargins, self.setupSpeed ); 
         }
 
-        // set heights for inner centering
-        setupSequence.add( self, self.setCenterContentHeight, self.setupSpeed + 100); 
+        if(!self.heightsAdjusted){
+          // set heights for inner centering
+          setupSequence.add( self, self.setCenterContentHeight, self.setupSpeed + 100);           
+        }
 
         // show the elements if they've beenh hidden
         if(self.isLayoutHidden){
@@ -164,6 +167,9 @@
       teardown : function(){
         var self         = this,
         teardownSequence = new Sequencer();
+
+        // reset after every teardown
+        self.heightsAdjusted = false;
 
         //teardown sequence
         if((self.mode === 'desktop') && (self.prevMode != 'desktop')){
@@ -329,13 +335,13 @@
         }
         
         // phone is 1-up
-        if(self.mode === 'phone'){
-          // eachContentWidth's default is "100%" of the available space
-          // so no changes are needed for 1-up
+        // if(self.mode === 'phone'){
+        //   // eachContentWidth's default is "100%" of the available space
+        //   // so no changes are needed for 1-up
           
-          // check if we need to set width of specific children elements
-          $elements = self.addDynamicWidthElements( $elements );
-        }
+        //   // check if we need to set width of specific children elements
+        //   //$elements = self.addDynamicWidthElements( $elements );
+        // }
 
         // set each content module's width
         $elements.each(function() {
@@ -345,76 +351,76 @@
 
       setCenterContentHeight : function(){
         var self = this;
-        
-        // loop through the content modules
-        self.$contentModules.each(function() {
-          var $el = $(this),
-              modeType = $el.data("tcc-content-type") + ':' + $el.data("tcc-content-mode");
+
+        // prevents redundancy        
+        if(!self.heightsAdjusted){
+
+          // loop through the content modules
+          self.$contentModules.each(function() {
+            var $el = $(this),
+                modeType = $el.data("tcc-content-type") + ':' + $el.data("tcc-content-mode");
+                
+
+            // if the modetype is in the array
+            if(self.centerContentArr.indexOf(modeType) >= 0){
+              var $sampleContent   = $el, 
+              $centerContainer     = $sampleContent.find('.center'),
+              $imageContainer      = $centerContainer.find('.image-container'),
+              containerHeight      = $sampleContent.innerHeight(), 
+              topHeight            = $sampleContent.find('.top').outerHeight(),
+              bottomHeight         = $sampleContent.find('.bottom').outerHeight(),
+              newCenterHeight      = Math.round(containerHeight - (topHeight + bottomHeight)),
+              imageContainerHeight = $imageContainer.outerHeight(),
+              imgContainerTop;
+
+              // check boundaries 
+              newCenterHeight = self.checkHeightBoundaries(newCenterHeight, modeType);
+
+              // calculate margin top for image container
+              imgContainerTop = Math.round(((newCenterHeight/2) - (imageContainerHeight/2)));
+
+              // margin should never be negative
+              imgContainerTop = imgContainerTop < 0 ? 0 : imgContainerTop;
+
+              // set center div container height
+              $centerContainer.height(newCenterHeight); 
+
+              // set image container margin top to "center"
+              $imageContainer.css('margin-top', imgContainerTop + 'px'); 
+            }
+
+          });
+
+          // reduce redundant adjustments
+          self.heightsAdjusted = true;
           
-          // if the modetype is in the array
-          if(self.centerContentArr.indexOf(modeType) >= 0){
-
-            var $sampleContent   = $el, 
-            $centerContainer     = $sampleContent.find('.center'),
-            $imageContainer      = $centerContainer.find('.image-container'),
-            containerHeight      = $sampleContent.innerHeight(), //.outerHeight(),
-            topHeight            = $sampleContent.find('.top').outerHeight(),
-            bottomHeight         = $sampleContent.find('.bottom').outerHeight(),
-            newCenterHeight      = Math.round(containerHeight - (topHeight + bottomHeight)),
-            imageContainerHeight = $imageContainer.outerHeight(),
-            imgContainerTop;
-
-            // max out at 160 for phone
-            if(self.mode === "phone"){
-              newCenterHeight = newCenterHeight > 160? 160: newCenterHeight; 
-            }
-
-            // max out at 173 for tablet
-            if(self.mode === "tablet"){
-              newCenterHeight = newCenterHeight > 173 ? 173: newCenterHeight;  
-            }
-
-            // calculate margin top for image container
-            imgContainerTop = Math.round(((newCenterHeight/2) - (imageContainerHeight/2)));
-
-            // margin should never be negative
-            imgContainerTop = imgContainerTop < 0 ? 0 : imgContainerTop;
-
-            // set center div container height
-            $centerContainer.height(newCenterHeight); 
-
-            // set image container margin top to "center"
-            $imageContainer.css('margin-top', imgContainerTop + 'px'); 
-          }
-
-        });
-
+        }
       },
 
+      // enforce height boundaries at different breakpoints
+      checkHeightBoundaries : function(h, modeType){
+        var self = this,
+            max;
 
-      //  1. Checks each $element in $elements for its content type and mode (type:mode)
-      //  2. If there is a match, then it adds that $element to selector group
-      //  *@param {jquery obj} $elements* [current set of element objects]
-      //  *returns $elements* {jquery obj} [new group of element objects]
-      
-      // TOOD: Optimize this so it only runs if the data attributes exist 
-      // instead of hitting each() automatically
-      addDynamicWidthElements : function( $elements ){
-        var self = this;
-      
-        // loop through the content modules
-        $elements.each(function() {
-          var $el = $(this),
-              modeType = $el.data("tcc-content-type") + ':' + $el.data("tcc-content-mode");
+        switch (self.mode) {
+          case "desktop":
+            max = 250;
+            break;
+          case "tablet":
+            max = modeType === 'sonys-voice:instagram' ? 140 : 173;
+            break;
+          case "phone":
+            max = 160;
+            break;
+          default:
+            max = h;
+            break;
+        }
 
-          // only these two "mode:type" content modules should get added   
-          if((modeType === 'flickr:default') || (modeType === 'sonys-voice:instagram')){
-            // add ".center-content" child to the objects that will get width set
-            $elements = $elements.add($el.find(".center-content"));
-          }
-        });
+        h = h > max ? max: h;
+        console.log( 'new height is »' , h);
 
-        return $elements;
+        return h;
       },
 
       /**
@@ -460,8 +466,8 @@
 
         // TODO: if needed, hide on init and desktop to mobile
 
-        //if (((self.mode === 'desktop') && (self.prevMode != 'desktop')) || ((self.mode != 'desktop') && (self.prevMode === 'desktop')) || ((self.mode != 'desktop') && (self.prevMode != 'desktop'))){         
-        if (!((self.mode === 'desktop') && (self.prevMode === 'desktop'))){ 
+        if (((self.mode === 'desktop') && (self.prevMode != 'desktop')) || ((self.mode != 'desktop') && (self.prevMode === 'desktop')) || ((self.mode != 'desktop') && (self.prevMode != 'desktop'))){         
+        //if (!((self.mode === 'desktop') && (self.prevMode === 'desktop'))){ 
           // trigger hide sequence
           self.hideAll();            
         }              
@@ -478,6 +484,9 @@
         // what direction are we going?
         if((self.mode != 'desktop') && (self.prevMode === 'desktop')){
           // from desktop to mobile
+
+          // set to false b/c it was set to true in desktop
+          self.heightsAdjusted = false;
           
           // build new (assumes there's no scroller instance)
           resizeMobileSequencer.add( self, self.setup, self.afterResizeSpeed );
@@ -578,6 +587,11 @@
         $('.tcc-wrapper').each(function() {
           $(this).tertiaryModule({}).data('tertiaryModule');
         });
+      }
+
+      if(isIE){
+        // no iQ:imageLoaded event will be fired so add the "on" class to images (bypass fade in)
+        $('[data-tcc-content-type="article"][data-tcc-content-mode="featured"]').addClass('on');
       }
      
     });

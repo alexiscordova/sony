@@ -423,6 +423,10 @@
                 }
             });
 
+            // `_layout` always happens after `shrink`, so it's safe to process the style
+            // queue here with styles from the shrink method
+            self._processStyleQueue();
+
             // Adjust the height of the container
             self.setContainerSize();
         },
@@ -499,14 +503,19 @@
                 transitionObj.opacity = 0;
             }
 
+            // if ( isOnlyPosition ) {
+            //     self._skipTransition($item[0], function() {
+            //         self.transition( transitionObj );
+            //     });
+            // } else {
+            //     self.transition( transitionObj );
+            // }
+
             if ( isOnlyPosition ) {
-                self._skipTransition($item[0], function() {
-                    self.transition( transitionObj );
-                });
-            } else {
-                self.transition( transitionObj );
+                transitionObj.skipTransition = true;
             }
 
+            self.styleQueue.push( transitionObj );
         },
 
         /**
@@ -514,7 +523,8 @@
          */
         shrink : function() {
             var self = this,
-                $concealed = self.$items.filter('.concealed');
+                $concealed = self.$items.filter('.concealed'),
+                transitionObj = {};
 
             // Abort if no items
             if ($concealed.length === 0) {
@@ -533,7 +543,7 @@
                 if (!x) { x = 0; }
                 if (!y) { y = 0; }
 
-                self.transition({
+                transitionObj = {
                     from: 'shrink',
                     $this: $this,
                     x: x,
@@ -541,7 +551,9 @@
                     scale : 0.001,
                     opacity: 0,
                     callback: self.shrinkEnd
-                });
+                };
+
+                self.styleQueue.push( transitionObj );
             });
         },
 
@@ -695,6 +707,25 @@
                     complete();
                 }
             }
+        },
+
+        _processStyleQueue : function() {
+            var self = this,
+                queue = self.styleQueue;
+
+            $.each( queue, function(i, transitionObj) {
+
+                if ( transitionObj.skipTransition ) {
+                    self._skipTransition( transitionObj.$this[0], function() {
+                        self.transition( transitionObj );
+                    });
+                } else {
+                    self.transition( transitionObj );
+                }
+            });
+
+            // Remove everything in the style queue
+            self.styleQueue.length = 0;
         },
 
         shrinkEnd: function() {
@@ -965,6 +996,7 @@
     $.fn.shuffle.settings = {
         revealAppendedDelay: 300,
         enabled: true,
+        styleQueue: [],
         supported: Modernizr.csstransforms && Modernizr.csstransitions, // supports transitions and transforms
         prefixed: Modernizr.prefixed,
         threeD: Modernizr.csstransforms3d // supports 3d transforms

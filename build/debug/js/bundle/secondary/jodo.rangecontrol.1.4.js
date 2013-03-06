@@ -149,7 +149,8 @@
 
 		events = function() {
 			var $handles = th.range ? th.$handle.add(th.$minHandle) : th.$handle,
-				$body = $('body');
+				$body = $('body'),
+				$document = $(document);
 
 			// Make sure the handle doesn't get a selected-text highlight
 			$handles.on('selectstart dragstart mousedown', function() {
@@ -179,7 +180,7 @@
 				th.fire( th.evts.start );
 
 				// User moves cursor/finger
-				$(document).on( th.evts.move, function(moveEvt) {
+				$document.on( th.evts.move, function(moveEvt) {
 					moveEvt.preventDefault();
 					var touch = th.isTouch ? moveEvt.originalEvent.targetTouches[0] : null,
 					pageX = th.isTouch ? touch.pageX : moveEvt.pageX,
@@ -196,7 +197,7 @@
 
 				// User lets go
 				.on( th.evts.up, function() {
-					$(document).off('.' + namespace);
+					$document.off('.' + namespace);
 					th.inMotion = false;
 					$body.removeClass('grabbing ' + theClass);
 					$handles.removeClass('grabbed');
@@ -458,8 +459,10 @@
 			}
 
 			// Change ambit's width/height and left/top
-			th.$ambit[ th.dimension ]( th.getHandleDist() + '%' );
-			th.$ambit.css( th.property, th.currentMinPositionPct + '%' );
+			var css = {};
+			css[ th.dimension ] = th.getHandleDist() + '%';
+			css[ th.property ] = th.currentMinPositionPct + '%';
+			th.$ambit.css( css );
 		}
 
 		if ( th.$ambit && !th.range ) {

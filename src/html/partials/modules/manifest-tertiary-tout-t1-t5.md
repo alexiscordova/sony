@@ -1,72 +1,237 @@
-This is the static manifest file for the MODULE NAME, to be included in the Sony Global. PLEASE WRITE YOUR BASIC OVER VIEW ON THE MODULE HERE.
+This is the static manifest file for the Tertiary Tout (T1 - T5) module. 
 
 
+# Document Overview
+---
 
-Document Overview
------------------
 
 Each module will include this document, which contains an ordered list of the files required for the module. This manifest will be split into two sections - files in document HEAD & TAIL files (those loaded at the bottom of the file). While, CSS files will all be in the document HEAD, the two section convention will be followed for consistency. Paths should be relative to the base folder, where this file is. The CSS and JS files themselves should be un-minified development versions. Tasks like minification and SCSS compilation will be handled at build time by the platform team.
 
+The Tertiary Tout module consists of three internal content modules (contentModules).  Each content module has different modes.  Each mode has different combinations of elements associated with it. The data relationship of each content module is detailed below.  
 
-== DEPLOY HEAD files ==
+## Notes & Assumptions 
 
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
++ Container Type 'title' should not be readily changeable to enforce consistency per container type. 
++ The Tertiary Tout assumes there will always be 3 elements ("content modules"), no more and no less.
++ The order in which 'contentModules' are listed in the json file (top > down) will/should be the order the elements are rendered to the page (left > right).
+
+## Data Relationships
++ containerType
+	+ contentModule
+		+ moduleMode
+			+ [moduleElement1, ..., moduleElementN]
+
+### Container Types (containerType)
+_The tertiary tout module will only ever exist on the following pages:_
+
++ category
++ pdp
++ homepage
+
+### Content Modules (contentModule)
+_The tertiary tout module has three distinct content types:_
+
++ article
++ usersVoice
++ sonysVoice
++ flickr	
+
+### Content Module Modes (moduleMode)
+_Each contentModule type has various modes:_
+
+#### article
+_Modes:_
+
+a. default
+b. featured
+c. news
+d. event
+
+#### usersVoice
+_Modes:_
+
+a. expertQuote
+b. userQuote
+c. question
+
+#### sonysVoice
+_Modes:_
+
+a. twitter
+b. facebook
+c. instagram
+
+#### flickr
+_Modes:_
+
+a. default
 
 
-== DEPLOY TAIL files ==
+### Module Mode Elements (moduleElement)
+_Each contentModule's moduleMode has various elements associated with them:_
 
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
+_** Notes **_
+
++ ( o ) = optional
++ ( r ) = required
++ If any "moduleElement" values exist in the dataset, the module assumes it should be rendered to the page (via template logic)
+	+ Any required vs. optional rules for the module element below are expected to be enforced via the CMS
 
 
-== Related Source ==
+#### article:default
 
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
-* FILE NAME
-	*../../LOCATION RELATIVE TO THIS FILE
+a. image (o)
+b. title (r)
+c. bodyCopy (o)
+d. link (o)
+
+#### article:featured
+
+a. title (r)
+b. bodyCopy (o)
+c. link (o)
+d. backgroundImage (o)
+
+#### article:news
+
+a. image (o)
+b. title (r)
+c. bodyCopy (r)
+d. link (r)
+e. date (r)
+
+#### article:event
+
+a. image (o)
+b. title (r)
+c. bodyCopy (o)
+d. link (o)
+e. eventMeta (o)
 	
 
+### Compatible Modules per Container Type
 
-Example JSON File(s)
---------------------
+#### category
+_Modules:_
+
++ article
++ usersVoice
++ sonysVoice
++ flickr
+
+#### pdp
+_Modules:_
+
++ article
++ usersVoice
++ sonysVoice
++ flickr
+
+#### homepage
+_Modules:_
+
++ article
++ sonysVoice
+
+
+## DEPLOY HEAD FILES
+
++ modernizr-2.6.2.min.js
+	+ ../../../../build/deploy/js/libs/modernizr-2.6.2.min.js
++ styles.css
+	+ ../../../../build/deploy/css/styles.css
++ responsive.css
+	+ ../../../../build/deploy/css/responsive.css
++ all.css
+	+  ../../../../build/deploy/css/all.css
++ tertiary-t1-t5.css
+	+  ../../../../build/deploy/css/modules/tertiary-t1-t5.css
++ responsive-modules.css
+	+  ../../../../build/deploy/css/responsive-modules.css
++ polyfill.min.js
+	+ ../../../../build/deploy/js/polyfill.min.js
+
+
+## DEPLOY TAIL FILES
++ bootstrap.js
+	+ ../../../../build/deploy/js/libs/bootstrap.js
++ plugins.min.js
+	+ ../../../../build/deploy/js/plugins.min.js
++ require.min.js
+	+ ../../../../build/deploy/js/require.min.js
++ secondary.min.js
+	+ ../../../../build/deploy/js/secondary.min.js
++ defer.min.js
+	+ ../../../../build/deploy/js/defer.min.js
+	
+
+## REALTED SOURCE
++ styles.scss
+	+ ../../../css/scss/styles.scss
++ responsive.scss
+	+ ../../../css/scss/responsive.scss
++ all.scss
+	+ ../../../css/scss/modules/all.scss
++ tertiary-t1-t5.scss
+	+  ../../../css/scss/modules/tertiary-t1-t5.scss
++ \_responsive-tertiary-t1-t5.scss
+	+ ../../../css/scss/responsive/_responsive-tertiary-t1-t5.scss
++ bootstrap.js
+	+ ../../../js/libs/bootstrap.js
++ sony-iscroll.js
+	+ ../../../js/bundle/plugins/sony-iscroll.js
++ jquery.imagesloaded.js
+	+ ../../../js/bundle/plugins/jquery.imagesloaded.js
++ jquery.infinitescroll.js
+	+ ../../../js/bundle/plugins/jquery.infinitescroll.js
++ jquery.throttle-debounce.js
+	+ ../../../js/bundle/plugins/jquery.throttle-debounce.js
++ jquery.rAF.js
+	+ ../../../js/bundle/plugins/jquery.rAF.js
++ iq.js
+	+ ../../../js/bundle/require/iq.js
++ sony-global-analytics.js
+	+ ../../../js/bundle/require/sony-global-analytics.js
++ sony-global-settings.js
+	+ ../../../js/bundle/require/sony-global-settings.js
++ sony-global-utilities.js
+	+ ../../../js/bundle/require/sony-global-utilities.js
++ sony-global.js
+	+ ../../../js/bundle/require/sony-global.js
++ jquery.shuffle.js
+	+ ../../../js/bundle/secondary/jquery.shuffle.js
++ sony-navigationdots.js
+	+ ../../../js/bundle/secondary/sony-navigationdots.js
++ sony-paddles.js
+	+ ../../../js/bundle/secondary/sony-paddles.js
++ sony-scroller.js
+	+ ../../../js/bundle/secondary/sony-scroller.js
++ tertiary-t1-t5-module.js
+	+ ../../../js/bundle/defer/tertiary-t1-t5-module.js		
+
+# Example JSON File(s)
+---
+
 
 Each module should contain atleast one example JSON file. Additional JSON files that cover the template variables that could be populated in the module (even though some variations may not use all of them) will also be listed here.
 
-==JSON files==
+## JSON files
 
-* FILE/FOLDER NAME
-	*../../LOCATION RELATIVE TO THIS FILE
++ article-t2-a-c-d.json
+	+ ../data/tertiary-t1-t5/article-t2-a-c-d.json
++ article-t2-b.json
+	+ ../data/tertiary-t1-t5/article-t2-b.json
++ flickr-t5-a.json
+	+ ../data/tertiary-t1-t5/flickr-t5-a.json
++ homepage-en.json
+	+ ../data/tertiary-t1-t5/homepage-en.json
++ sonys-voice-t4-a-b-c.json
+	+ ../data/tertiary-t1-t5/sonys-voice-t4-a-b-c.json
++ users-voice-t3-a-b-c.json
+	+ ../data/tertiary-t1-t5/users-voice-t3-a-b-c.json
 
 
+# Submodule Information ReadMe
+---
 
-
-
-Submodule Information ReadMe
-----------------------------
-
-If this module supports submodules, a clear description should be included here that covers the logic behind which submodules are included, when and what other template variables affect them, etc.. This information will be used in the CMS interface to determine which fields to show and validate.
-
+This module does not support submodules. 

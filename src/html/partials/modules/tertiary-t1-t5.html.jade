@@ -6,7 +6,7 @@ include ../includes/jade-helpers.jade
 
 mixin socialButton(link, label)
   .social-btn
-    a.btn.small-btn(href= link)
+    a.btn.btn-small(href= link)
       | #{label}
 
 mixin flickrContent(meta, images, btnLink, btnLabel)
@@ -188,77 +188,122 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
             
             when "sonys-voice"
               - iconName = "fonticon-15-" + contentMode
-              .tcc-inner-container
-                .icon-container
-                  .white-bg.fonticon-10-dot
-                  div(class=iconName)
-                  
-                .meta
-                  for meta in module.meta                   
-                    p.p4    
-                      if (meta.user)
-                        //- user (required)
-                        span.user #{meta.user} 
 
-                      if (meta.timestamp)
-                        //- timestamp (required)
-                        span.timestamp #{meta.timestamp}
 
-                .center-content.table-center
-                  if (contentMode == "twitter")
-                    - label = "Follow Us on Twitter"
+              if (contentMode != "instagram")
+                .tcc-inner-container
+                  .top
+                    .icon-container
+                      .white-bg.fonticon-10-dot
+                      div(class=iconName)
+                      
+                    .meta
+                      for meta in module.meta                   
+                        p.p4    
+                          if (meta.user)
+                            //- user (required)
+                            span.user #{meta.user} 
 
-                    //- quote
-                    blockquote.bq4
-                      p
-                        | #{module.quote}
+                          if (meta.timestamp)
+                            //- timestamp (required)
+                            span.timestamp #{meta.timestamp}
 
-                  if (contentMode == "facebook")
-                    - label = "Like Us on Facebook"
-                    
-                    //- tile
-                    .post-tile
-                      img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
-                        noscript
-                          img(src= module.postImgNoScriptImg)
+                  .center
+                    if (contentMode == "twitter")
+                      - label = "Follow Us on Twitter"
 
-                    blockquote.post-copy.bq5
+                      //- quote
+                      blockquote.bq4
                         p
-                          | #{module.postCopy}
-                          a
-                            | #{module.postLink}
+                          | #{module.quote}
 
-                  if (contentMode == "instagram")
-                    - label = "Follow Us on Instagram"
-                    table
-                      tbody
-                        tr
-                          td.top-left
-                            img.iq-img(alt= module.instagramTLImgAltText, data-src= module.instagramTLImg)
-                            noscript
-                              img(src= module.instagramTLNoScriptImg)
-                          td.top-right(rowspan=2)
-                            img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
-                            noscript
-                              img(src= module.instagramRNoScriptImg)
-                          td.top-center-phone
-                            img.iq-img(alt= module.instagramRImgAltText, data-src= module.instagramRImg)
-                            noscript
-                              img(src= module.instagramRNoScriptImg)
-                          td.top-right-phone
-                            img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
-                            noscript
-                              img(src= module.instagramBLNoScriptImg)
+                    if (contentMode == "facebook")
+                      - label = "Like Us on Facebook"
+                      
+                      //- tile
+                      .post-tile
+                        img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
+                          noscript
+                            img(src= module.postImgNoScriptImg)
 
-                        tr.bottom-row
-                          td.bottom-left
-                            img.iq-img(alt= module.instagramBLImgAltText, data-src= module.instagramBLImg)
-                            noscript
-                              img(src= module.instagramBLNoScriptImg)
+                      blockquote.post-copy.bq5
+                          p
+                            | #{module.postCopy}
+                            a
+                              | #{module.postLink}
 
+                  .bottom
+                    - link = module.socialBtnLink
+                    mixin socialButton( link, label )
 
-                - link = module.socialBtnLink
-                mixin socialButton( link, label )
+                  //- .icon-container
+                  //-   .white-bg.fonticon-10-dot
+                  //-   div(class=iconName)
+                    
+                  //- .meta
+                  //-   for meta in module.meta                   
+                  //-     p.p4    
+                  //-       if (meta.user)
+                  //-         //- user (required)
+                  //-         span.user #{meta.user} 
+
+                  //-       if (meta.timestamp)
+                  //-         //- timestamp (required)
+                  //-         span.timestamp #{meta.timestamp}
+
+                  //- .center-content.table-center
+                  //-   if (contentMode == "twitter")
+                  //-     - label = "Follow Us on Twitter"
+
+                  //-     //- quote
+                  //-     blockquote.bq4
+                  //-       p
+                  //-         | #{module.quote}
+
+                  //-   if (contentMode == "facebook")
+                  //-     - label = "Like Us on Facebook"
+                      
+                  //-     //- tile
+                  //-     .post-tile
+                  //-       img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
+                  //-         noscript
+                  //-           img(src= module.postImgNoScriptImg)
+
+                  //-     blockquote.post-copy.bq5
+                  //-         p
+                  //-           | #{module.postCopy}
+                  //-           a
+                  //-             | #{module.postLink}
+
+                  //- - link = module.socialBtnLink
+                  //- mixin socialButton( link, label )
+
+              if (contentMode == "instagram")
+                .tcc-inner-container
+                  .top
+                    .icon-container
+                      .white-bg.fonticon-10-dot
+                      div(class=iconName)
+                      
+                    .meta
+                      for meta in module.meta                   
+                        p.p4    
+                          if (meta.user)
+                            //- user (required)
+                            span.user #{meta.user} 
+
+                          if (meta.timestamp)
+                            //- timestamp (required)
+                            span.timestamp #{meta.timestamp}
+                  .center
+                    .image-container
+                      div.left
+                        div.iq-img(data-src= module.instagramTLImg)
+                        div.last.iq-img(data-src= module.instagramBLImg)
+                      div.right
+                        div.iq-img(data-src= module.instagramRImg)
+                  .bottom
+                    mixin socialButton( module.socialBtnLink, "Follow Us on Instagram" )
 
             when "flickr"
               mixin flickrContent(module.meta, module.images, module.socialBtnLink, "View Set on Flickr")

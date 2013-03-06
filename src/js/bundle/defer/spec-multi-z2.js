@@ -90,7 +90,7 @@
 
       }, 150);
 
-
+      log('SONY : Spec : Multi : Initialized');
 
     },
 
