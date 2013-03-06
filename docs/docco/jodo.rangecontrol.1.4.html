@@ -140,7 +140,8 @@ If it's passed in as a jQuery Object, use that. Otherwise create a new one.</p> 
 
 		events = <span class="keyword">function</span>() {
 			<span class="keyword">var</span> $handles = th.range ? th.$handle.add(th.$minHandle) : th.$handle,
-				$body = $(<span class="string">'body'</span>);
+				$body = $(<span class="string">'body'</span>),
+				$document = $(document);
 
 </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Make sure the handle doesn't get a selected-text highlight</p>             </td>             <td class="code">               <div class="highlight"><pre>			$handles.on(<span class="string">'selectstart dragstart mousedown'</span>, <span class="keyword">function</span>() {
 				<span class="keyword">return</span> <span class="literal">false</span>;
@@ -168,7 +169,7 @@ Set up handle events</li>
 				$handle.addClass(<span class="string">'grabbed'</span>);
 				th.fire( th.evts.start );
 
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>User moves cursor/finger</p>             </td>             <td class="code">               <div class="highlight"><pre>				$(document).on( th.evts.move, <span class="keyword">function</span>(moveEvt) {
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>User moves cursor/finger</p>             </td>             <td class="code">               <div class="highlight"><pre>				$document.on( th.evts.move, <span class="keyword">function</span>(moveEvt) {
 					moveEvt.preventDefault();
 					<span class="keyword">var</span> touch = th.isTouch ? moveEvt.originalEvent.targetTouches[<span class="number">0</span>] : <span class="literal">null</span>,
 					pageX = th.isTouch ? touch.pageX : moveEvt.pageX,
@@ -184,7 +185,7 @@ Set up handle events</li>
 				})
 
 </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>User lets go</p>             </td>             <td class="code">               <div class="highlight"><pre>				.on( th.evts.up, <span class="keyword">function</span>() {
-					$(document).off(<span class="string">'.'</span> + namespace);
+					$document.off(<span class="string">'.'</span> + namespace);
 					th.inMotion = <span class="literal">false</span>;
 					$body.removeClass(<span class="string">'grabbing '</span> + theClass);
 					$handles.removeClass(<span class="string">'grabbed'</span>);
