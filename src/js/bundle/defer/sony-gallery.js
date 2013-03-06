@@ -510,7 +510,7 @@
         showInitialTransition: false,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
-        buffer: 5
+        buffer: 8
       });
 
       self.shuffle = self.$grid.data('shuffle');
@@ -692,17 +692,21 @@
           self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
           self.initTooltips( $newElements.find('.js-favorite') );
 
-          // Update iQ images
-          iQ.update( true );
-
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
+
+            // This also calls iQ.update( true )
             self.loadSwatchImages();
 
             if ( self.currentFilterColor ) {
               self.displayFilteredSwatchImages();
             }
-          }, 0);
+
+            // This is silly. Maybe a new method for iQ. iQ.refresh()
+            setTimeout(function() {
+              iQ.update( true );
+            }, 300);
+          }, 15);
       }
 
       self.$grid.infinitescroll({
