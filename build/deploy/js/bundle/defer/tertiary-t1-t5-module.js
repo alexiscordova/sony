@@ -418,7 +418,6 @@
         }
 
         h = h > max ? max: h;
-        console.log( 'new height is »' , h);
 
         return h;
       },
