@@ -502,6 +502,9 @@ var pageHeight = parseInt( self.$window.height(),10 ) + 60 + 'px';</p>          
 
       setTimeout(<span class="keyword">function</span>() {
         self.$mobileScreenOverlay.removeClass(<span class="string">'opacity0'</span>).addClass(<span class="string">'opacity1'</span>);
+        <span class="keyword">if</span> ( SONY.Settings.isAndroid ) {
+          SONY.Utilities.forceWebkitRedraw();
+        }
       }, <span class="number">1</span>);
     },
     hideMobileBackdrop : <span class="keyword">function</span>() {
