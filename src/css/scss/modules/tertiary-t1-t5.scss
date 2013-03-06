@@ -178,7 +178,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 	// TYPE: ARTICLE
 	.article{	
-
 		position: relative;
 		display: block;
 		background-size: cover;
@@ -332,7 +331,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 		&.user-quote,
 		&.expert-quote{
-		  //padding:30px px-em(40px) $users-voice-padding-bottom-desktop $users-voice-padding-left-right-desktop;
 		  padding: px-em(30px) px-em(40px) px-em($users-voice-padding-bottom-desktop) $users-voice-padding-left-right-desktop;
 
 		  .credits{
@@ -465,78 +463,85 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 	// TYPE: SONYS VOICE
 	.sonys-voice{
-		padding:0px px-em(20px) 11px px-em(20px);
+		padding:0px;// px-em(20px) 11px px-em(20px);
 
-		.social-btn{
-			position: absolute;
-			bottom: 0;
-			left: 50%;
-			margin-left: -78px;
-
-			.btn{
-				-webkit-backface-visibility: hidden; // prevents flickering on transition
+		.top{
+			.icon-container{
+				position: relative;
+				padding: px-em(15px);
 			}
 
-		} // end .social-btn
+	    [class*="fonticon-10-dot"]{
+	      display:inline-block;
+	      font-size:px-em(56px); 
 
-    .center-content{
-      height:265px;//252px;
-      width:100%;
-    }
+				&.white-bg{
+					position: absolute;
+					top: 0;
+					left: 50%;
+					margin-left:-28px;
+	        width:55px;
+	        height:55px;
+					z-index: -1;
+					overflow:hidden;
+					color:$white;
+				} // end .white-bg
 
-		.icon-container{
-			position: relative;
-			padding: px-em(15px);
-		}
+	    } // end fonticon divs
 
-    [class*="fonticon-10-dot"]{
-      display:inline-block;
-      font-size:px-em(56px); 
+	    .fonticon-15-facebook,
+	    .fonticon-15-twitter,
+	    .fonticon-15-instagram {
 
-			&.white-bg{
-				position: absolute;
-				top: 0;
-				left: 50%;
-				margin-left:-28px;
-        width:55px;
-        height:55px;
-				z-index: -1;
-				overflow:hidden;
-				color:$white;
-			} // end .white-bg
+	      font-size: px-em(26px);
+	    } // end .fonticons
 
-    } // end fonticon divs
+			.fonticon-15-twitter{
+				color:$twitterColor;
+			} // end .fonticon-15-twitter
 
-    .fonticon-15-facebook,
-    .fonticon-15-twitter,
-    .fonticon-15-instagram {
+			.fonticon-15-facebook{
+				color:$facebookColor;
+			} // end .fonticon-15-facebook
 
-      font-size: px-em(26px);
-    } // end .fonticons
+			.meta{
+				margin-top:8px;
+			  .user{
+			  	color:$gray20;
+			  } // end .user
 
-		.fonticon-15-twitter{
-			color:$twitterColor;
-		} // end .fonticon-15-twitter
+			  .timestamp{
+			  	color:$gray40;
+			  } // end .timestamp
 
-		.fonticon-15-facebook{
-			color:$facebookColor;
-		} // end .fonticon-15-facebook
+			  .p4{
+			  	margin:0;
+			  } // end p4
 
-		.meta{
-			margin-top:8px;
-		  .user{
-		  	color:$gray20;
-		  } // end .user
+			} // end .meta
 
-		  .timestamp{
-		  	color:$gray40;
-		  } // end .timestamp
+		} // end top
 
-		  .p4{
-		  	margin:0;
-		  } // end p4
+		// .center{
+		// 	// border:1px solid green;
+		// } // end center
 
-		} // end .meta
+		.bottom{
+			//border:1px solid blue;
+			.social-btn{
+				//border:1px solid red;
+				// position: absolute;
+				// bottom: 0;
+				// left: 50%;
+				// margin-left: -78px;
+
+				.btn{
+					-webkit-backface-visibility: hidden; // prevents flickering on transition
+				}
+
+			} // end .social-btn
+		} // end bottom
+
 
 		&.facebook{
 			.bq5{
@@ -559,111 +564,71 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 		} // end .twitter
 
 		&.instagram{
-			.image-container{
-				border:2px solid red;
-				background-color:$white;
-				position: relative;
-				width: 100%;
-				height:300px;
 
-				.right,
-				.left{
-					border:2px solid blue;
-					position: absolute;
-					top: 0;
-					width: 50%;
+			.center{
+				position:relative;
 
-					div{
-						display:block;
-						border:2px solid green;
-					}
-				}
+				.image-container{
+					background-color:$white;
+					position: relative;
+					width:100%; //318px;
+					height:217px;
+					margin:0 auto;
 
-				.right{
-					right:0;
-					div{
-						width:197px;
-						height:197px;
-						text-align: left;
-					}
-				} // end right
+					.right,
+					.left{
+						position: absolute;
+						top: 10px;
 
-				.left{
-					left:0;
-					div{
-						width:96px;
-						height:96px;
-						text-align: right;
+						div{
+							background-size: cover;
+							background-position: center center;
+							background-repeat: no-repeat;
+							display:block;
+						}
 					}
 
-				} // end left
+					.right{
+						padding-left: px-em(5px);
+						right:10px;
+						width:percentage( 197 / 318 ); 
+						height:percentage( 197 / 217 ); 
 
-			} //.image-container
+						div{
+							width:100%; 
+							height:100%; 
 
+						}
+					} // end right
 
+					.left{
+						left:10px;
+						width:percentage( 96 / 318 ); 
+						height:percentage( 192 / 217 );
 
+						div{
+							width:100%; 
+							height:50%;
+						}
+						
+						.last{
+							margin-top: px-em(5px);
+						}						
 
+					} // end left
 
+				} //.image-container
+				
+			} // end center
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			// table{
-			//    background-color:$white;
- 		// 		tr{
-
-   //        &.bottom-row{
-   //          display:table-row;
-   //        }
-
-   //        td{
-
-   //          &.top-left{
-   //            display:table-cell;
-   //            padding:$tenPercentInstaFlickr $fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr;
-   //            vertical-align: top;
-   //          } // end top-left
-
-   //          &.top-right{
-   //            display:table-cell;
-   //            vertical-align: top;
-   //            padding:$tenPercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr $fivePercentInstaFlickr;
-   //          } // end top-right
-
-   //          &.bottom-left{
-   //            display:table-cell;
-   //            vertical-align: bottom;
-   //            padding:$fivePercentInstaFlickr $fivePercentInstaFlickr $tenPercentInstaFlickr $tenPercentInstaFlickr;  
-   //          } // end .bottom-left
-
-   //          &.top-center-phone,
-   //          &.top-right-phone{
-   //            display:none;
-   //          } // end .top-right-phone  & .bottom-left-phone
-
-   //        } // end td
-
-   //      } // end tr
-
-			// } // end table
+			.bottom{
+			  position: relative;
+			  display: block;
+				text-align: center;
+			  clear: both;
+			  text-align:center;
+			} // end .bottom
+				
 
 		} // end &.instagram
 	
