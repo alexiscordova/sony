@@ -29,6 +29,7 @@ SONY.Settings = (<span class="keyword">function</span>(window, document, Moderni
   self.isSonyTabletS = (<span class="regexp">/sony tablet s/gi</span>).test( ua );
 </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>self.isMobileDevice = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/gi).test( ua );</p>             </td>             <td class="code">               <div class="highlight"><pre>
   self.isLTIE9 = SONY.$html.hasClass(<span class="string">'lt-ie9'</span>);
+  self.isLTIE10 = SONY.$html.hasClass(<span class="string">'lt-ie10'</span>);
 
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>http://blogs.windows.com/windows_phone/b/wpdev/archive/2012/11/15/adapting-your-webkit-optimized-site-for-internet-explorer-10.aspx</p>             </td>             <td class="code">               <div class="highlight"><pre>  self.hasTouchEvents = Modernizr.touch;
   self.hasPointerEvents = navigator.pointerEnabled || navigator.msPointerEnabled;
