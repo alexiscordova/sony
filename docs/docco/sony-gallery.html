@@ -615,19 +615,18 @@ $.proxy( self.removeActiveFilters, self )</p>             </td>             <td 
 </pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>Initialize swatches and tooltips for ajax content</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.initSwatches( $newElements.find(<span class="string">'.mini-swatch[data-color]'</span>) );
           self.initTooltips( $newElements.find(<span class="string">'.js-favorite'</span>) );
 
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>Update iQ images</p>             </td>             <td class="code">               <div class="highlight"><pre>          iQ.update( <span class="literal">true</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>Add the .iq-img class to hidden swatch images, then tell iQ to update itself</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>() {
 
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>Add the .iq-img class to hidden swatch images, then tell iQ to update itself</p>             </td>             <td class="code">               <div class="highlight"><pre>          setTimeout(<span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Double tap for less than ie9</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> ( SONY.Settings.isLTIE9 ) {
-              self.shuffle.layout();
-            }
-
-            self.loadSwatchImages();
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>This also calls iQ.update( true )</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.loadSwatchImages();
 
             <span class="keyword">if</span> ( self.currentFilterColor ) {
               self.displayFilteredSwatchImages();
             }
-          }, <span class="number">0</span>);
+
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>This is silly. Maybe a new method for iQ. iQ.refresh()</p>             </td>             <td class="code">               <div class="highlight"><pre>            setTimeout(<span class="keyword">function</span>() {
+              iQ.update( <span class="literal">true</span> );
+            }, <span class="number">300</span>);
+          }, <span class="number">15</span>);
       }
 
       self.$grid.infinitescroll({

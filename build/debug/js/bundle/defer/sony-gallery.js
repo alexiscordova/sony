@@ -692,22 +692,21 @@
           self.initSwatches( $newElements.find('.mini-swatch[data-color]') );
           self.initTooltips( $newElements.find('.js-favorite') );
 
-          // Update iQ images
-          iQ.update( true );
-
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
-            // Double tap for less than ie9
-            if ( SONY.Settings.isLTIE9 ) {
-              self.shuffle.layout();
-            }
 
+            // This also calls iQ.update( true )
             self.loadSwatchImages();
 
             if ( self.currentFilterColor ) {
               self.displayFilteredSwatchImages();
             }
-          }, 0);
+
+            // This is silly. Maybe a new method for iQ. iQ.refresh()
+            setTimeout(function() {
+              iQ.update( true );
+            }, 300);
+          }, 15);
       }
 
       self.$grid.infinitescroll({

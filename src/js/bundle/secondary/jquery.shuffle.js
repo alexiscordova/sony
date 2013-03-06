@@ -231,10 +231,12 @@
             return $filtered;
         },
 
-        _initItems : function( withoutTransition ) {
+        _initItems : function( withoutTransition, $items ) {
             var self = this;
 
-            self.$items.each(function() {
+            $items = $items || self.$items;
+
+            $items.each(function() {
                 $(this).css(self.itemCss);
 
                 // Set CSS transition for transforms and opacity
@@ -402,7 +404,7 @@
 
                 if ( colSpan === 1 ) {
                     // if brick spans only one column, just like singleMode
-                    self._placeItem( $this, self.colYs, fn );
+                    self._placeItem( $this, self.colYs, fn, isOnlyPosition, isHide );
                 } else {
                     // brick spans more than one column
                     // how many different places could this brick fit horizontally
@@ -497,22 +499,12 @@
             if ( !isOnlyPosition ) {
                 transitionObj.opacity = 1;
                 transitionObj.callback = callback;
+            } else {
+                transitionObj.skipTransition = true;
             }
 
             if ( isHide ) {
                 transitionObj.opacity = 0;
-            }
-
-            // if ( isOnlyPosition ) {
-            //     self._skipTransition($item[0], function() {
-            //         self.transition( transitionObj );
-            //     });
-            // } else {
-            //     self.transition( transitionObj );
-            // }
-
-            if ( isOnlyPosition ) {
-                transitionObj.skipTransition = true;
             }
 
             self.styleQueue.push( transitionObj );
@@ -772,8 +764,8 @@
             }
 
             $newItems.addClass('shuffle-item');
+            self._initItems( undefined, $newItems );
             self.$items = self._getItems();
-            self._initItems();
             $newItems.not($passed).css('opacity', 0);
 
             $passed = self.filter( undefined, $newItems );
