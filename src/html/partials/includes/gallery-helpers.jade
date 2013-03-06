@@ -16,7 +16,11 @@ mixin filterRange( filterSet )
   .range-output-container
     .relative
       .range-output-min
+        sup $
+        span.val
       .range-output-max
+        sup $
+        span.val
   .range-control-wrap
     .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
 
@@ -207,6 +211,14 @@ mixin detailedGallery( submodules, gallery, type )
             e = { "locals" : locals, "data" : d }
             path = 'modules/' + module.type
             !{locals.partial( path, e )}
+
+    if gallery.filterSet
+      .container.zero-products-message.hide
+        .grid
+          .t4
+            strong.text-dark 0
+            span.text-med-dark= ' ' + gallery.zeroProductsMessage
+          button.btn.btn-small.js-clear-filters= gallery.startOver
 
     if gallery.comparable
       .comparables.hidden

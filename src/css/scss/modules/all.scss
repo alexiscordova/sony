@@ -127,6 +127,9 @@ $oneByOneImgPadding: 107.84313725490196%;
     // Carousels
     .slide {
       float: left;
+
+      // For Firefox
+      max-width: 100%;
     }
 
     // 30px at 1020px wide grid for large tile
@@ -230,6 +233,9 @@ $oneByOneImgPadding: 107.84313725490196%;
     }
 
     div.iq-img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       background-repeat: no-repeat;
@@ -312,7 +318,7 @@ $oneByOneImgPadding: 107.84313725490196%;
 .gallery-item.promo {
 
   .no-touch & .gallery-item-inner {
-    @include fadeoutOnHover();
+    @include fadeoutOnHover('.iq-img');
 
     .promo-title i {
       @include transition();
@@ -367,8 +373,13 @@ $oneByOneImgPadding: 107.84313725490196%;
     }
   }
 
-  .promo-title .title {
+  .promo-title .title,
+  .promo-title .emphasis {
     color: $white;
+  }
+
+  .promo-title .emphasis {
+    color: $gray20;
   }
 
   // e.g. "22 LENSES"

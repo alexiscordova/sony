@@ -57,13 +57,16 @@
   float: left;
   padding-bottom: 17px;
   background: $navTrayBackground; // left side background color
+  .lt-ie9 .navtray-w-tall &{
+    min-height: 400px;
+  }
 }
 
 .navtray-section-featured{ // section right
   float: left;
   z-index: 20;
   position: relative;
-  // pierre
+
   .lt-ie8 &{
     width: 22%;
   }

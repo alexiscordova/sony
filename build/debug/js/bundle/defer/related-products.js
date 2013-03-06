@@ -27,16 +27,16 @@
         'OTransition'      : 'oTransitionEnd',
         'msTransition'     : 'MSTransitionEnd',
         'transition'       : 'transitionend'};
-      
+
       //Extend Related Products instance with defaults and options
       $.extend(self , $.fn.relatedProducts.defaults , options);
 
       //Debug mode for logging
-      self.DEBUG                  = false;
-      
+      self.DEBUG                  = true;
+
       self.LANDSCAPE_BREAKPOINT   = 980;
       self.MOBILE_BREAKPOINT      = 568;
-      
+
       //Cache common jQuery objects
       self.$paddles               = $({});
 
@@ -45,6 +45,7 @@
       self.$currentSlide          = null;
       self.$shuffleContainers     = self.$slides.find('.shuffle-container');
       self.$galleryItems          = self.$el.find('.gallery-item');
+      self.$iqImages              = self.$galleryItems.find('.iq-img');
       self.$plate                 = self.$slides.eq(0).find('.gallery-item.plate').first();
       self.$container             = self.$el.find('.rp-container').eq(0);
       self.$favorites             = self.$el.find('.js-favorite');
@@ -53,7 +54,7 @@
       self.$doc                   = SONY.$document;
       self.$win                   = SONY.$window;
       self.$html                  = SONY.$html;
-      
+
       self.ev                     = $({}); //event object
       self.prefixed               = Modernizr.prefixed;
       self.transitionName         = self.prefixed('transition');
@@ -89,7 +90,8 @@
       self.isIE7orIE8             = self.$html.hasClass('lt-ie10');
       self.inited                 = false;
       self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
-      
+      self.tileHeightSizeFix      = 0;
+
       //Modes
       self.isMobileMode    = false;
       self.isDesktopMode   = false;
@@ -98,6 +100,8 @@
 
       //Startup
       self.init();
+
+      log('SONY : RelatedProducts : Initialized');
 
     };
 
@@ -131,7 +135,15 @@
         //Initialize tooltips
         self.initTooltips();
 
-        self.log('Related Poducts init...');
+
+        var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
+
+        prodImg.find('.iq-img').on('imageLoaded' , function(){
+          var $img = $(this);
+          $img.css({
+            'max-height' : prodImg.first().height()
+          });
+        });
 
         // Don't do this for modes other than 3,4 and 5up
         if(self.variation === '3up' ||
@@ -166,7 +178,7 @@
       //Fixes a bug in IE when media queries aren't available
       mqFix: function(){
         var self = this;
-        
+
         if( !self.hasMediaQueries && self.isIE7orIE8 || self.oldIE){
           self.mq = function(){
             return false;
@@ -211,7 +223,7 @@
       //Setup events
       initEvents: function(){
         var self = this;
-        
+
         if(Modernizr.touch) {
             self.hasTouch         = true;
             self.downEvent        = 'touchstart.rp';
@@ -418,7 +430,7 @@
           if(!self.isMobileMode){
             self.$pagination.show();
           }
-          
+
         }
 
         self.$pagination.hide();
@@ -463,7 +475,7 @@
 
             setTimeout(function(){
               self.updateSliderSize();
-              
+
               if(self.oldIE){
                 self.$galleryItems.each(function(){
 
@@ -475,7 +487,7 @@
                   medGalImgWidth   = 462,
                   medGalImgHeight  = 495,
                   medGalItemHeight = 600;
-                  
+
                   $item.css({
                     height : tileHeight
                   });
@@ -513,6 +525,9 @@
                 self.updateTiles();
                 shfflInst.update();
                 self.animateTiles();
+
+
+
 
               }
 
@@ -603,7 +618,7 @@
           }else{
             self.scrollerModule.centerItems = false;
           }
-          
+
           var containerWidth = self.$el.width(),
           gutterWidth        = 0,
           colWidth           = 0;
@@ -636,7 +651,8 @@
           newContainerHeight = $oneProduct.find('.product-content').outerHeight(true) + $oneProduct.find('.product-img').height();
           newContainerHeight += 50; //spacing for navigation dots
 
-      
+
+
           self.$el.css({
             'height'     : newContainerHeight,
             'max-height' : newContainerHeight,
@@ -716,7 +732,7 @@
 
           self.moveTo();
         });
-  
+
         self.onPaddleNavUpdate();
         self.ev.on('rpOnUpdateNav' , $.proxy(self.onPaddleNavUpdate , self));
 
@@ -751,7 +767,7 @@
           self.$el.find('.pagination-paddles').hide();
         }
 
-        
+
       },
 
       createShuffle: function(){
@@ -986,7 +1002,7 @@
               self.$container.css('width' , '100%');
               self.createShuffle();
 
-              
+
             }
 
             self.sortByPriority();
@@ -1144,7 +1160,7 @@
             newHeight = Math.ceil( $('.shuffle-container').eq(0).width() * 0.984615385 );
             self.log('using alternate height calculatio >>> TABLET' , newHeight);
           }
-          
+
          self.$el.css( 'height' , newHeight + 62 + 'px' );
 
           if(!!self.isTabbedContainer){
@@ -1557,7 +1573,7 @@
         }
 
         self.$slides.each(function(i){
-      
+
           $(this).css({
             'left'    : i * cw + 'px',
             'z-index' : i
@@ -1670,7 +1686,12 @@
           if(!self.hasTouch){
             self.$paddles.show();
           }
-          
+
+          //make sure slides are in the right place after re-building
+          setTimeout(function(){
+            self.updateSlides();
+          } , 750);
+
         }
       },
 
@@ -1785,22 +1806,7 @@
               'max-height' : tileHeight,
               'height'     : tileHeight
             });
-/*
-            if( slideVariation === '4up' && self.mq( '(min-width: 567px) and (max-width: 768px)' ) ){
-              $slide.find( '.gallery-item.normal').each(function(){
-                var $item = $(this);
 
-                self.log( $item.outerHeight(true) , $slide.find('.gallery-item.plate').first().height() );
-
-                if ( $item.outerHeight( true ) >  $slide.find('.gallery-item.plate').first().height() ) {
-                  $slide.find('.gallery-item.plate').first().css({
-                    'max-height' : $item.outerHeight(true),
-                    'height'     : $item.outerHeight(true)
-                  });
-                }
-              });
-            }
-            self.log( 'Setting new tile height on gallery items, ' , $slide.find('.gallery-item.plate').first().height(), tileHeight  , self.mq('(min-width: 769px)'));*/
           }
 
           switch( slideVariation ){
@@ -1843,9 +1849,22 @@
           }
         });
 
+
+        self.checkTileHeights();
+
         setTimeout( function () {
           self.updateSliderSize();
         } , 250);
+
+      },
+
+      checkTileHeights: function(){
+        var self = this,
+        prodImg = self.$galleryItems.filter('.normal').find('.product-img');
+
+        prodImg.find('img').css({
+          'max-height' : prodImg.first().height()
+        });
 
       },
 
@@ -1970,7 +1989,7 @@
 
           window.iQ.update();
         }, 100);
-        
+
       },
 
       setNameHeights : function( $container ) {
@@ -2032,7 +2051,7 @@
       minSlideOffset: 10,
       navigationControl: 'bullets'
     };
-    
+
     //Listen for global sony ready event
     SONY.on('global:ready', function(){
       $('.related-products').relatedProducts();

@@ -54,7 +54,8 @@
         $input.focus();
       });
 
-      inputObj.$inputClearBtn.on('click',function(){
+      inputObj.$inputClearBtn.on('click',function(e){
+
         inputObj.clearBtnClicked = true;
         self.clearSearchResults( inputObj );
 
@@ -101,11 +102,13 @@
     },
 
     clearInput: function( inputObj ){
+      
       inputObj.$input.val('');
 
       // if (!$('html').hasClass('bp-nav-mobile')){
         inputObj.$inputIcon.hide();
       // }
+    
     },
 
     clearSearchResults: function( inputObj ){
@@ -169,8 +172,9 @@
 
   // Event triggered when this tab is about to be shown
   SONY.onSearchInputChange = function( evt ) {
-    SONY.initMobileNavIScroll();
-    console.log("onSearchInputChange");
+    if ($('html').hasClass('bp-nav-mobile')){
+      SONY.initMobileNavIScroll();
+    }
     var $input = $(evt.target),
       formActions = $input.data('formActions'),
       inputObj = formActions.makeInputObj($input);

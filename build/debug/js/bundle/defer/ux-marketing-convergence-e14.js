@@ -28,6 +28,8 @@
     self.$partnerCarouselSlides = self.$partnerCarousel.find('li');
 
     self.init();
+
+    log('SONY : MarketingConvergenceModule : Initialized');
   };
 
   MarketingConvergenceModule.prototype = {

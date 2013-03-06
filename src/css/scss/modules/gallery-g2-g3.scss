@@ -97,6 +97,10 @@
   margin-top: -3.125em;
 }
 
+.gallery .products {
+  overflow: hidden;
+}
+
 .featured-gallery-title {
   margin-bottom: 0;
 }
@@ -216,7 +220,7 @@
     overflow: hidden;
 
     select {
-      width: 120%;
+      width: 130%;
       overflow: hidden;
       padding-top: 4px;
     }
@@ -225,10 +229,10 @@
   select {
     margin-bottom: 0;
     height: 36px;
-    -webkit-appearance: button;
+    -webkit-appearance: none;
     padding: 0 26px 0 12px;
     border-radius: 0;
-    line-height: 1;
+    line-height: 1.5;
     @include text-overflow( false );
   }
 
@@ -274,13 +278,12 @@
   }
 
   .label-close:last-of-type {
-    margin-right: 0;
+    margin-right: px-em(26, 11);
   }
 
   .clear-all-filters {
     display: inline-block;
     margin-bottom: 0;
-    margin-left: px-em(26, 13);
     cursor: pointer;
     color: $gray20;
     @include transition();
@@ -394,6 +397,14 @@
   padding-right: 8px; // has a font-size set on it
 }
 
+// Setting a min height on this will push the trigger point for infinite scroll down
+// We also need to put this above the shuffle container and then prevent propagation to the
+// shuffle container
+.zero-products-message {
+  position: relative;
+  z-index: 5;
+  min-height: 25em;
+}
 
 
 
@@ -406,6 +417,16 @@
 
 .range-output-container {
   margin-top: 0;
+}
+
+.gallery .range-control-wrap {
+  position: relative;
+}
+
+// Take it out of the document flow. Hopefully less reflows/repaints
+.gallery .range-control {
+  position: absolute;
+  width: 100%;
 }
 
 

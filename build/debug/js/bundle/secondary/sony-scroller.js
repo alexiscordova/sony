@@ -323,7 +323,7 @@
           windowHeight = self.$win.height(),
           hasWindowChanged = windowWidth !== self.windowWidth || windowHeight !== self.windowHeight;
 
-      if ( self.destroyed || !hasWindowChanged ) {
+      if ( self.destroyed || !hasWindowChanged || !self.enabled ) {
         return;
       }
 
@@ -517,10 +517,12 @@
     },
 
     disable: function() {
+      this.enabled = false;
       this.scroller.disable();
     },
 
     enable: function() {
+      this.enabled = true;
       this.scroller.enable();
     }
   };
@@ -584,6 +586,7 @@
 
   // Not overrideable
   $.fn.scrollerModule.settings = {
+    enabled: true,
     throttleTime: 350, // How much the resize event is throttled (milliseconds)
     paginationClass: 'pagination-bullet',
     paddleTrigger:  'paddle-trigger',

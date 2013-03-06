@@ -33,6 +33,7 @@
     self.$favorites = self.$grid.find('.js-favorite');
     self.$gridProductNames = self.$grid.find('.product-name-wrap');
     self.$carousels = self.$grid.find('.js-item-carousel');
+    self.$zeroMessage = self.$container.find('.zero-products-message');
 
     // Compare modal
     self.$compareBtn = self.$container.find('.js-compare-toggle');
@@ -94,6 +95,9 @@
 
     // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
     setTimeout( $.proxy( self.loadSwatchImages, self ) , 2000);
+
+    log('SONY : Gallery : Initialized');
+
   };
 
   Gallery.prototype = {
@@ -124,7 +128,8 @@
 
       self.$container.removeClass('disabled');
 
-      if ( self.hasCarousels ) {
+      if ( self.hasEnabledCarousels ) {
+        self.$carousels.scrollerModule('enable');
         self.$carousels.scrollerModule('refresh');
       }
     },
@@ -139,6 +144,11 @@
 
       // Disable shuffle
       self.shuffle.disable();
+
+      // Disable carousels
+      if ( self.hasEnabledCarousels ) {
+        self.$carousels.scrollerModule('disable');
+      }
 
       // Pause infinite scroll
       if ( self && self.hasInfiniteScroll ) {
@@ -161,7 +171,9 @@
         self.$grid.shuffle('all');
       }
 
-      self.setFilterStatuses();
+      self
+        .setFilterStatuses()
+        .toggleZeroMessage();
     },
 
     // From the element's data-* attributes, test to see if it passes
@@ -277,11 +289,6 @@
         }
       }
 
-      self.$activeFilters.empty();
-      if ( self.$activeFilters.hasClass('has-active-filters') ) {
-        self.$activeFilters.removeClass('has-active-filters');
-      }
-
       if ( !$.isEmptyObject( filters ) ) {
         // Create labels showing current filters
         $.each(filters, function(key, obj) {
@@ -298,16 +305,27 @@
 
         // Using em here so I can use :last-of-type to get the spans
         var $clearAll = $('<em/>', {
-          'class' : 'clear-all-filters lt3',
-          text: self.$activeFilters.data('clearLabel'),
-          click: $.proxy( self.removeActiveFilters, self )
+          'class' : 'clear-all-filters lt3 js-clear-filters',
+          text: self.$activeFilters.data('clearLabel')
         });
 
         frag.appendChild( $clearAll[0] );
 
+        // Manipulate DOM at the same time to prevent multiple layouts
         self.$activeFilters
-          .append(frag)
-          .addClass('has-active-filters');
+          .empty()
+          .append( frag );
+
+        if ( !self.$activeFilters.hasClass('has-active-filters') ) {
+          self.$activeFilters.addClass('has-active-filters');
+        }
+
+      } else {
+
+        self.$activeFilters.empty();
+        if ( self.$activeFilters.hasClass('has-active-filters') ) {
+          self.$activeFilters.removeClass('has-active-filters');
+        }
       }
     },
 
@@ -319,6 +337,7 @@
       if ( filterType === 'button' || filterType === 'checkbox' ) {
         pos = $.inArray( filterValue, self.filters[ filterType ][ filterName ] );
         self.filters[ filterType ][ filterName ].splice( pos, 1 );
+
       } else if ( filterType === 'range' ) {
         delete self.filters[ filterType ][ filterName ][ filterValue ];
       }
@@ -343,8 +362,11 @@
         self.$container.find( selector + ' .active' ).button('toggle');
 
       } else if ( filterType === 'checkbox' ) {
+        // [data-filter="features"] [value="lcd"]
         selector = '[data-filter="' + filterName + '"] [value="' + filterValue + '"]';
-        self.$container.find( selector ).prop('checked', false);
+        self.$container.find( selector )
+          .prop('checked', false)
+          .removeClass('active');
 
       } else if ( filterType === 'range' ) {
         // Slide appropriate handle to the intial value
@@ -408,7 +430,12 @@
       var self = this,
           filterType = '',
           filterName = '',
+          filterValues = [],
           filterValue = '';
+
+      self.lastFilterGroup = null;
+      self.currentFilterColor = null;
+      self.hideFilteredSwatchImages();
 
       for ( filterType in self.filters ) {
         for ( filterName in self.filters[ filterType ] ) {
@@ -420,8 +447,11 @@
             }
 
           } else {
-            for ( var i = 0; i < self.filters[ filterType ][ filterName ].length; i++ ) {
-              filterValue = self.filters[ filterType ][ filterName ][ i ];
+            // Get the filter values without a reference because we want to delete parts of the array
+            // as its looped through
+            filterValues = $.extend([], self.filters[ filterType ][ filterName ]);
+            for ( var i = 0; i < filterValues.length; i++ ) {
+              filterValue = filterValues[ i ];
               // Remove from internal data and UI
               self.deleteFilter( filterValue, filterName, filterType );
             }
@@ -429,10 +459,24 @@
         }
       }
 
-      self.currentFilterColor = null;
-      self.hideFilteredSwatchImages();
-
       self.filter();
+    },
+
+    toggleZeroMessage : function() {
+      var self = this,
+          visibleItems = self.shuffle.visibleItems;
+
+      if ( visibleItems ) {
+        if ( !self.$zeroMessage.hasClass('hide') ) {
+          self.$zeroMessage.addClass('hide');
+        }
+      } else {
+        if ( self.$zeroMessage.hasClass('hide') ) {
+          self.$zeroMessage.removeClass('hide');
+        }
+      }
+
+      return self;
     },
 
     onRemoveFilter : function( evt ) {
@@ -471,12 +515,10 @@
 
       self.shuffle = self.$grid.data('shuffle');
 
-      var debouncedShuffleLayout = $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) );
-      self.$grid.find('.iq-img').on('imageLoaded', debouncedShuffleLayout );
-
+      self.$grid.find('.iq-img').on('imageLoaded', $.debounce( 200, $.proxy( self.shuffle.layout, self.shuffle ) ) );
 
       // Displays active filters on `filter`
-      self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ));
+      self.$grid.on('filter.shuffle', $.proxy( self.displayActiveFilters, self ) );
 
       // Filtered should already be throttled because whatever calls `.filter()` should be throttled.
       self.$grid.on('layout.shuffle', function() {
@@ -516,8 +558,7 @@
             type = data.filterType,
             realType = type,
             name = data.filter,
-            init = [],
-            canDisable = true;
+            init = [];
 
 
         // Initialize it based on type
@@ -527,13 +568,11 @@
             self.range( $this, name, data.min, data.max );
             break;
           case 'button':
-            canDisable = false;
             self.button( $this, name, realType );
             break;
           case 'group':
             // Treat groups and colors the same as buttons
             type = 'button';
-            canDisable = false;
             self.button( $this, name, realType );
             break;
           case 'color':
@@ -552,8 +591,7 @@
         self.filterData[ name ] = {
           name: name,
           type: type,
-          realType: realType,
-          canDisable: canDisable
+          realType: realType
         };
       });
 
@@ -566,6 +604,13 @@
         .on('show', $.proxy( self.onFiltersShow, self ))
         .on('hide', $.proxy( self.onFiltersHide, self ));
 
+      // Bind clearing filters to any class that has `.js-clear-filters` on it
+      // $.proxy( self.removeActiveFilters, self )
+      self.$container.on('click', '.js-clear-filters', function() {
+        self.removeActiveFilters();
+        // Tell jQuery to preventDefault() and stopPropagation()
+        return false;
+      });
     },
 
     initPopovers : function() {
@@ -831,7 +876,7 @@
     setFilterStatuses : function() {
       var self = this,
           $visible = self.shuffle.$items.filter('.filtered'),
-          filterName, filterValue, method, filterData;
+          filterName, filterValue, method, skip, value;//, filterData;
 
 
       // Reset stored data by setting all filterValue values to null
@@ -840,10 +885,11 @@
           continue;
         }
 
-        filterData = self.filterData[ filterName ];
+        // filterData = self.filterData[ filterName ];
+        skip = filterName === self.lastFilterGroup;
 
         for ( filterValue in self.filterValues[ filterName ] ) {
-          self.filterValues[ filterName ][ filterValue ] = filterData.canDisable ? null : true;
+          self.filterValues[ filterName ][ filterValue ] = skip ? 'skip' : null;
         }
       }
 
@@ -861,7 +907,7 @@
 
           for ( filterValue in self.filterValues[ filterName ] ) {
             // If we've already set this to false, we don't need to check again on another element
-            if ( self.filterValues[ filterName ][ filterValue ] === true ) {
+            if ( self.filterValues[ filterName ][ filterValue ] === true || self.filterValues[ filterName ][ filterValue ] === 'skip' ) {
                 continue;
             }
 
@@ -884,13 +930,18 @@
         }
 
         for ( filterValue in self.filterValues[ filterName ] ) {
-          method = self.filterValues[ filterName ][ filterValue ] ? 'enable' : 'disable';
-          self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
+          value = self.filterValues[ filterName ][ filterValue ];
+
+          if ( value !== 'skip' ) {
+            method = value ? 'enable' : 'disable';
+            self[ method + 'Filter' ]( filterValue, filterName, self.filterTypes[ filterName ] );
+          }
         }
       }
 
       self.$productCount.text( $visible.length );
 
+      return self;
     },
     valueInArray : function( value, arr ) {
       return $.inArray(value, arr) !== -1;
@@ -958,6 +1009,9 @@
 
         if ( isActive ) {
           checked.push( $this.data( filterName ) );
+          self.lastFilterGroup = filterName;
+        } else {
+          self.lastFilterGroup = null;
         }
 
         if ( realType === 'color' ) {
@@ -992,8 +1046,10 @@
           $inputs = $filterGroup.find('input');
 
       $inputs.on('change', function() {
-        var $checked = $filterGroup.find('input:checked'),
-        checked = [];
+        var $input = $(this),
+            $checked = $filterGroup.find('input:checked'),
+            checked = [],
+            isActive;
 
         // At least one checkbox is checked, clear the array and loop through the checked checkboxes
         // to build an array of strings
@@ -1001,12 +1057,21 @@
           $checked.each(function() {
             checked.push(this.value);
           });
+          isActive = true;
+        } else {
+          isActive = false;
         }
         self.filters.checkbox[ filterName ] = checked;
 
         // Less than IE9 doesn't support the :checked pseudo class
         if ( SONY.Settings.isLTIE9 ) {
-          $(this).toggleClass('active');
+          $input.toggleClass('active');
+        }
+
+        if ( isActive ) {
+          self.lastFilterGroup = filterName;
+        } else {
+          self.lastFilterGroup = null;
         }
 
         self.filter();
@@ -1034,8 +1099,16 @@
       var self = this,
       diff = self.MAX_PRICE - self.MIN_PRICE,
       $output = $rangeControl.closest('.filter-container').find('.range-output-container'),
-      $minOutput = $output.find('.range-output-min'),
-      $maxOutput = $output.find('.range-output-max'),
+      $minOutputWrap = $output.find('.range-output-min'),
+      $maxOutputWrap = $output.find('.range-output-max'),
+      $minOutput = $output.find('.range-output-min .val'),
+      $maxOutput = $output.find('.range-output-max .val'),
+
+      delay = self.isTouch ? 1000 : 750,
+      method = self.isTouch ? 'debounce' : 'throttle',
+      debouncedFilter = $[ method ]( delay, function() {
+        self.filter();
+      }),
 
       getPrice = function(percent) {
         return Math.round( diff * (percent / 100) ) + self.MIN_PRICE;
@@ -1047,8 +1120,9 @@
         maxPrice = getPrice(percents.max),
         maxPriceStr = maxPrice === self.MAX_PRICE ? maxPrice + '+' : maxPrice,
         prevMin = self.price.min,
-        prevMax = self.price.max,
-        delay;
+        prevMax = self.price.max;
+
+        self.lastFilterGroup = null;
 
         // Display values
         displayValues(minPrice, maxPriceStr, percents);
@@ -1065,10 +1139,7 @@
           self.filters.range[ filterName ].max = self.price.max;
 
           // Throttle filtering (especially on touch)
-          delay = self.isTouch ? 2500 : 250;
-          $.debounce( delay, function() {
-            self.filter();
-          })();
+          debouncedFilter();
         }
       },
 
@@ -1078,15 +1149,18 @@
             maxWidth;
 
         // Set the new html, then get it's width, then set it's margin-left to negative half that
-        minWidth = $minOutput.html('<sup>$</sup>' + min).width();
-        $minOutput.css({
+        $minOutput.text( min );
+        $maxOutput.text( max );
+        minWidth = $minOutputWrap.width();
+        maxWidth = $maxOutputWrap.width();
+
+        $minOutputWrap.css({
           left: percents.min + '%',
           marginLeft: -minWidth / 2
         });
 
         // Do it all over for the max handle
-        maxWidth = $maxOutput.html('<sup>$</sup>' + max).width();
-        $maxOutput.css({
+        $maxOutputWrap.css({
           left: percents.max + '%',
           marginLeft: -maxWidth / 2
         });
@@ -2528,6 +2602,7 @@
     isUsingOuterScroller: !( SONY.Settings.isLTIE9 || SONY.Settings.isPS3 ),
     showCompareStickyHeaders: true,
     currentFilterColor: null,
+    lastFilterGroup: null,
     loadingGif: 'img/global/loader.gif',
     prop: Modernizr.csstransforms ? 'transform' : 'top',
     valStart : Modernizr.csstransforms ? 'translate(0,' : '',
@@ -2594,6 +2669,9 @@
 
     $galleries = $pane.find('.gallery');
 
+    // Force redraw before fixing galleries
+    SONY.Utilities.forceWebkitRedraw();
+
     $galleries.each(function() {
       var gallery = $(this).data('gallery'),
           $collapse = gallery.$container.find('[data-toggle="collapse"]');
@@ -2610,8 +2688,6 @@
         gallery.fixCarousels();
       }
     });
-
-    SONY.Utilities.forceWebkitRedraw();
   };
 
 })(jQuery, Modernizr, window);
@@ -2621,20 +2697,19 @@ SONY.on('global:ready', function() {
 
   if ( $('.gallery').length > 0 ) {
     // console.profile();
-    log('Gallery(s) initializing');
     // Initialize galleries
     $('.gallery').each(function() {
       var $this = $(this);
 
+      // console.time('Initializing gallery %O', $this[0]);
       $this.gallery( $this.data() );
+      // console.timeEnd('Initializing gallery');
     });
 
     // Register for tab show(n) events here because not all tabs are galleries
     $('[data-tab]')
       .on('show', SONY.onGalleryTabShow )
       .on('shown', SONY.onGalleryTabShown );
-
-    log('Gallery(s) initialized');
 
     // Initialize sticky tabs
     $('.tab-strip').stickyTabs();
@@ -2649,9 +2724,9 @@ SONY.on('global:ready', function() {
     // Using a timeout here because the tab shown event is triggered at the end of the transition,
     // which depends on how long the page takes to load (and if the browser has transitions)
     setTimeout(function() {
+      // console.timeStamp('Disabling hidden galleries');
       $('.tab-pane:not(.active) .gallery').gallery('disable');
       // console.profileEnd();
     }, 500);
-    log('Gallery Page done');
   }
 });

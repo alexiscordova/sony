@@ -109,14 +109,15 @@
       }
 
       if ($('html').hasClass("touch")) {
-        // Tra
-        $('#page-wrap-outer').on('click focus',function(e) {
+        // add a click event to close the menu
+        $('#page-wrap-outer').on('click touchstart focus',function(e) {
           if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
                 $('.nav .nav-li a.active').trigger('touchstart');
+                $('#nav-search-input').blur();
           }
         });
       }
-
+  
     },
 
     initDesktopNav : function() {
@@ -190,7 +191,7 @@
           }
 
           $thNavBtn.on(thTrigger, function() {
-          
+
             // var $thNavBtn = $(this);
             $(this).data('hovering', true);
             self.resetMouseleaveTimer();
@@ -202,7 +203,7 @@
               var otherIsActive = self.$currentOpenNavBtn !== false ? true : false;
               // If there's NOT
               if (!otherIsActive) {
-                
+
                 // update the Nav button & open this tray/menu immediately
                 self.setActiveNavBtn($thNavBtn);
 
@@ -211,7 +212,7 @@
                 // deactivate it first
                 self.resetActiveNavBtn(self.$currentOpenNavBtn);
                 var $oldNavTarget = $('.' + self.$currentOpenNavBtn.data('target'));
-               
+
                 // if the open target was a navtray,
                 if ($oldNavTarget.hasClass('navtray-w')) {
                   // delay opening the new one until the old tray has a chance to close.
@@ -221,7 +222,7 @@
                 } else {
                   // update the Nav button & open the new tray after just a short delay for the old menu to fade out.
                   setTimeout(function() {
-                    self.setActiveNavBtn($thNavBtn);  
+                    self.setActiveNavBtn($thNavBtn);
                   }, 150);
                 }
               }
@@ -234,6 +235,7 @@
             $(this).data('hovering', false);
             // Check to see if it was onto the navtray/navmenu.
             // Wait a few ticks to give it a chance for the hover to fire first.
+
             setTimeout(function() {
               // if you're not hovering over the target,
               if (!$thNavBtnTarget.data('hovering')) {
@@ -243,6 +245,7 @@
                 self.resetMouseleaveTimer();
               }
             }, 25);
+
           });
 
           $thNavBtnTarget.on('mouseenter focus', function() {
@@ -269,7 +272,7 @@
           // If you mouseOut of the target
           $thNavBtnTarget.on('mouseleave', function() {
             $(this).data('hovering', false);
-           
+
             // Remove focus from search input on mouse out in ie
             if ($('html').hasClass('lt-ie10')) {
                 $('#nav-search-input').blur();
@@ -279,6 +282,11 @@
             }
             // Check to see if it was onto this target's button.
             // Wait a few ticks to give it a chance for the hover to fire first.
+            var timeout = 50;
+            if(this.id === 'navmenu-w-search') {
+              timeout = 2000;
+            }
+
             setTimeout(function() {
               // if you're not hovering over the target's button
               if (!$thNavBtn.data('hovering')) {
@@ -287,7 +295,7 @@
               } else {
                 self.resetMouseleaveTimer();
               }
-            }, 50);
+            }, timeout);
           });
         }
 
@@ -376,26 +384,17 @@
       var self = this, startHeight, endHeight, expandedHeight = $navTray.outerHeight();
 
       $navTray.data('expandedHeight', expandedHeight);
-      
+
 
       if (opening) {
         startHeight = expandedHeight;
         endHeight = '1px';
-        // if ie 7,8 and 9, we remove the animation
-        // **TODO** add jquery animation for ie9+
-        if ($('html').hasClass('lt-ie9')) {
-          startHeight = expandedHeight;
-        }
+
       } else {
         // if you're not opening, it's just initializing on page load
         startHeight = '1px';
         endHeight = expandedHeight;
 
-        // if ie 7,8 and 9, we remove the animation
-        // **TODO** add jquery animation for ie9+
-        if ($('html').hasClass('lt-ie9')) {
-          endHeight = expandedHeight;
-        }
       }
 
     //$navTray.data('expandedHeight', startHeight).css('top', startHeight).find('.navtray').addClass('navtray-absolute').css('top', expandedHeight);
@@ -457,7 +456,7 @@
           // it's a nav-menu - show the menu.
           var $revealContainer = $thNavTarget.find('.reveal-transition-container');
           var expHeight = $revealContainer.height();
-         
+
           $revealContainer.css('height', '0px');
           // wait a tick to make sure the height is set before adding the transition-height class, to make sure it doesn't animate
           setTimeout(function() {
@@ -478,7 +477,7 @@
           // just the search menu, needs to be positioned with js. This way it can be in the flow at the top of the page, so it's in place for mobile.
           if ($thNavTarget.hasClass('navmenu-w-search')) {
             // Line it up with the right edge of the search button.
-            
+
             var btnRightEdge = $newNavBtn.parent().position().left + parseInt($newNavBtn.css('marginLeft'), 10) + $newNavBtn.innerWidth();
             var leftPos = btnRightEdge - $thNavTarget.innerWidth();
             $thNavTarget.css({
@@ -494,7 +493,8 @@
     initMobileNav : function() {
       var self = this;
 
-      $('#btn-mobile-nav').on(self.tapOrClick, function() {
+      $('#btn-mobile-nav').on(self.tapOrClick, function(e) {
+        e.preventDefault();
         if (!self.mobileNavVisible) {
           self.showMobileNav();
         } else {
@@ -502,7 +502,7 @@
         }
       });
       var $thInput = $('#nav-search-input');
-     
+
       $thInput.on('focus', function() {
         if ($('html').hasClass('bp-nav-mobile')) {
           SONY.initMobileNavIScroll();
@@ -526,7 +526,7 @@
 
     }, // end initMobileNav
     resetMobileNav : function() {
-      console.log("resetMobileNav");
+
       var self = this;
       self.hideMobileNav();
       $('#btn-mobile-nav').off(self.tapOrClick);
@@ -561,7 +561,6 @@
       self.mobileNavVisible = true;
     },
     hideMobileNav : function() {
-      console.log("hideMobileNav");
       var self = this;
       self.hideMobileBackdrop();
 
@@ -685,7 +684,7 @@
   $.fn.globalNav = function(opts) {
     var args = Array.prototype.slice.apply(arguments);
     return this.each(function() {
-      var self = $(this), 
+      var self = $(this),
         globalNav = self.data('globalNav');
 
       // If we don't have a stored globalNav, make a new one and save it
@@ -715,7 +714,6 @@
 
 
   SONY.initMobileNavIScroll = function() {
-    console.log("initMobileNavIScroll");
     var globalNav = $('.nav-wrapper').data('globalNav');
     // if there's alreaddy a mobileNavIScroll, refresh it.
     if (!!globalNav.mobileNavIScroll) {
@@ -751,11 +749,10 @@
         }
 
       });
-      
+
     }
   };
   SONY.destroyMobileNavIScroll = function() {
-    console.log("destroyMobileNavIScroll");
     var globalNav = $('.nav-wrapper').data('globalNav');
     !!globalNav.mobileNavIScroll && globalNav.mobileNavIScroll.destroy();
     globalNav.mobileNavIScroll = false;
@@ -764,10 +761,8 @@
 
 })(jQuery, Modernizr, window);
 
-$(function() {
-  $(document).ready(function() {
-    $('.nav-wrapper').globalNav();
-  });
-
+SONY.on('global:ready', function(){
+   $('.nav-wrapper').globalNav();
 });
+
 
