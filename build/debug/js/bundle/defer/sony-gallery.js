@@ -510,7 +510,7 @@
         showInitialTransition: false,
         hideLayoutWithFade: true,
         sequentialFadeDelay: 60,
-        buffer: 5
+        buffer: 8
       });
 
       self.shuffle = self.$grid.data('shuffle');
@@ -697,6 +697,11 @@
 
           // Add the .iq-img class to hidden swatch images, then tell iQ to update itself
           setTimeout(function() {
+            // Double tap for less than ie9
+            if ( SONY.Settings.isLTIE9 ) {
+              self.shuffle.layout();
+            }
+
             self.loadSwatchImages();
 
             if ( self.currentFilterColor ) {
