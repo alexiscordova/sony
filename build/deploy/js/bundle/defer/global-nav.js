@@ -109,15 +109,15 @@
       }
 
       if ($('html').hasClass("touch")) {
-        // Tra
-        $('#page-wrap-outer,#main,.primary-tout').on('click focus',function(e) {
+        // add a click event to close the menu
+        $('#page-wrap-outer').on('click touchstart focus',function(e) {
           if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
                 $('.nav .nav-li a.active').trigger('touchstart');
+                $('#nav-search-input').blur();
           }
         });
       }
-
-      log('SONY : GlobalNav : Initialized');
+  
     },
 
     initDesktopNav : function() {
@@ -389,21 +389,12 @@
       if (opening) {
         startHeight = expandedHeight;
         endHeight = '1px';
-        // if ie 7,8 and 9, we remove the animation
-        // **TODO** add jquery animation for ie9+
-        if ($('html').hasClass('lt-ie9')) {
-          startHeight = expandedHeight;
-        }
+
       } else {
         // if you're not opening, it's just initializing on page load
         startHeight = '1px';
         endHeight = expandedHeight;
 
-        // if ie 7,8 and 9, we remove the animation
-        // **TODO** add jquery animation for ie9+
-        if ($('html').hasClass('lt-ie9')) {
-          endHeight = expandedHeight;
-        }
       }
 
     //$navTray.data('expandedHeight', startHeight).css('top', startHeight).find('.navtray').addClass('navtray-absolute').css('top', expandedHeight);
