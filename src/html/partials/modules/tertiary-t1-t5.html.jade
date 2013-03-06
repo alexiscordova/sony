@@ -57,7 +57,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
           a(href="#{header.link}") #{header.linkText}
   
   .loader
-    img(src="img/global/loader.gif")
+    img(src="img/global/loader.gif",alt="")
 
   - scrollerClassNames = ["tcc-scroller", "tcc-body-wrapper", "container", "tcc-full-bleed-at-979"]
   - bodyClassNames = ["tcc-body","grid"]
@@ -92,7 +92,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   .img-wrap
                     img.iq-img(alt= module.imgAltTxt, data-src= module.imgSrc)
                     noscript
-                      img(src= module.noScriptImg)
+                      img(src= module.noScriptImg, alt= module.imgAltTxt)
                             
                     if(contentMode == "news") && (module.date)
                       p.news-date.l3-light
@@ -135,7 +135,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   .avatar
                     img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
                       noscript
-                        img(src= module.avatarNoScriptImg)
+                        img(src= module.avatarNoScriptImg, alt= module.imgAltTxt)
                 
                   p.author.p4
                     a(href="#{module.authorLink}")
@@ -153,7 +153,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   .avatar
                     img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
                       noscript
-                        img(src= module.avatarNoScriptImg)
+                        img(src= module.avatarNoScriptImg, alt= module.imgAltTxt)
 
                   p.handle.p4
                     a(href="#{module.authorLink}")
@@ -167,7 +167,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   .avatar
                     img.iq-img(alt= module.avatarImgAltText, data-src= module.avatarImgSrc)
                       noscript
-                        img(src= module.avatarNoScriptImg)
+                        img(src= module.avatarNoScriptImg, alt= module.imgAltTxt)
                   
                   p.author.p4
                     a(href= module.authorLink)
@@ -224,7 +224,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                       .post-tile
                         img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
                           noscript
-                            img(src= module.postImgNoScriptImg)
+                            img(src= module.postImgNoScriptImg, alt= module.imgAltTxt)
 
                       blockquote.post-copy.bq5
                           p
@@ -267,7 +267,7 @@ section.tcc-wrapper.container.full-bleed-no-max.m-full-bleed(id=data.id, data-tc
                   //-     .post-tile
                   //-       img.iq-img(alt= module.postImgAltText, data-src= module.postImg)
                   //-         noscript
-                  //-           img(src= module.postImgNoScriptImg)
+                  //-           img(src= module.postImgNoScriptImg, alt= module.imgAltTxt)
 
                   //-     blockquote.post-copy.bq5
                   //-         p
