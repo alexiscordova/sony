@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 (function($, Modernizr, window, undefined) {
-  'use strict';
+  //'use strict';
 
   // Start module
   var GlobalNav = function($container) {
@@ -108,7 +108,7 @@
         $('html').removeClass('bp-nav-mobile').addClass('bp-nav-desktop');
       }
 
-      if ($('html').hasClass("touch")) {
+      if (Modernizr.touch) {
         // add a click event to close the menu
         $('#page-wrap-outer').on('click touchstart focus',function(e) {
           if ( !($(e.target).hasClass('navtray-w,navmenu-w,nav') || $(e.target).parents('.navtray-w,.navmenu-w,.nav').length > 0)) {
@@ -140,7 +140,7 @@
         // $(this).on('touchstart mouseenter', function() {
 
         // TOUCH DEVICES
-        if ($('html').hasClass("touch")) {
+        if (Modernizr.touch) {
 
           $thNavBtn.on('touchstart', function() {
             // var $thNavBtn = $(this);
