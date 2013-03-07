@@ -63,25 +63,29 @@
     },
 
     _showHash : function( hash, $target ) {
-      var $fake;
+      var fake;
 
       hash = hash.replace(/^#/, '');
 
       if ( $target.length ) {
         $target.attr( 'id', '' );
-        $fake = $( '<div/>' ).css({
+        fake = $( '<div/>' ).css({
           position: 'absolute',
           visibility: 'hidden',
           top: $(window).scrollTop() + 'px'
         })
         .attr( 'id', hash )
-        .appendTo( document.body );
+        // Get the DOM node from jQuery
+        [0];
+
+        // Use native append over jQuery
+        document.body.appendChild( fake );
       }
 
       window.location.hash = hash;
 
       if ( $target.length ) {
-        $fake.remove();
+        document.body.removeChild( fake );
         $target.attr( 'id', hash );
       }
     }
