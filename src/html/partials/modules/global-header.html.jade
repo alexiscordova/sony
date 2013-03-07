@@ -155,7 +155,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
               span.hidden-text= data.logo.label
             if !minimal
               ul.nav.nav-primary(role='navigation')
-                li.nav-li.nav-li-universal-mobile.test 
+                li.nav-li.nav-li-universal-mobile 
                   a.nav-li-link(href=data.universal.link) 
                     i.fonticon-10-square-neg-plus
                     | !{data.universal.label}
@@ -226,19 +226,19 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
               li.nav-li.nav-li-favorites
                 a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href=data.favorites.link, tabindex='1200')
-                  i.fonticon-10-favorite
+                  i.old-ie-cleartype-fix-gray20.fonticon-10-favorite
                   span.visuallyhidden 
                     | !{data.favorites.label}
               if !minimal
                 li.nav-li.nav-li-cart
                   a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href=data.cart.link, tabindex='1300')
-                    i.fonticon-10-cart
+                    i.old-ie-cleartype-fix-gray20.fonticon-10-cart
                     span.visuallyhidden= data.cart.label
                     span.nav-li-count= sample_session_data.cart_count
               li.nav-li.nav-li-search
                 a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle.nav-dropdown-toggle-btn(data-target='navmenu-w-search', href='#nav-search-input', tabindex='1400')
                   span.lbl= data.search.label
-                  i.fonticon-10-search
+                  i.old-ie-cleartype-fix-gray20.fonticon-10-search
               if !minimal
                 li.nav-li.nav-li-universal
                   a.nav-li-link.nav-li-linkBtn(href='#', tabindex='1500')
