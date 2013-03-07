@@ -43,10 +43,12 @@
       self.createPaddles();
       self.setupLinkClicks();
 
+      self.$innerContainer.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
+
       self.$innerContainer.sonyDraggable({
         'axis': 'x',
         'unit': '%',
-        'dragThreshold': 50,
+        'dragThreshold': 10,
         'containment': self.$container,
         'useCSS3': self.useCSS3,
         'drag': window.iQ.update
@@ -147,14 +149,14 @@
       var self = this,
           goToWhich;
 
-      if ( data.acceleration.x > 200 ) {
+      if ( data.acceleration.x > 150 ) {
 
         if ( self.currentSlide === 0 ) {
           self.gotoNearestSlide();
         } else {
           self.gotoSlide(self.currentSlide - 1);
         }
-      } else if ( data.acceleration.x < -200 ) {
+      } else if ( data.acceleration.x < -150 ) {
 
         if ( self.currentSlide === self.$slides.length - 1 ) {
           self.gotoNearestSlide();
@@ -216,7 +218,7 @@
           newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
         }
 
-        self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '500ms');
+        self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '450ms');
         self.$innerContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
 
       } else {
@@ -224,7 +226,7 @@
         self.$innerContainer.animate({
           'left': -100 * destinationLeft / SONY.$window.width() + '%'
         }, {
-          'duration': 1000,
+          'duration': 350,
           'complete': window.iQ.update
         });
       }

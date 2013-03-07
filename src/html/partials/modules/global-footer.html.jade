@@ -17,8 +17,8 @@ section#footer-wrapper.container.full-bleed-no-max.m-full-bleed.footer-wrapper.p
 				  .store-locator-input-w
 				    form.footer-store-locator-form.footer-form-border.input-group(method='post', action='', role='form')
 				      i.fonticon-10-location.input-icon
-				      label.visuallyhidden #{data.store_locator.title}
-				      input#store-locator-search-input.footer-store-locator-input.footer-input.dark(type='text', name='store-locator-search-input', value=store_locator_input_default_full)
+				      label.visuallyhidden(for='store-locator-search-input') #{data.store_locator.title}
+				      input#store-locator-search-input.footer-store-locator-input.footer-input.dark(type='text', id='store-locator-search-input', name='store-locator-search-input', value=store_locator_input_default_full)
 				      button.btn.store-locator-submit-btn.footer-btn.input-btn(type='submit')= data.store_locator.button_label
 				  a.footer-change-location-link(href=data.store_locator.locations_link)= data.store_locator.locations_link.label
 

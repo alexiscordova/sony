@@ -2,7 +2,7 @@
 
 (function ($, undefined) {
 
-  'use strict'; // jshint ;_;
+  'use strict';
 
 
  /* TAB CLASS DEFINITION
@@ -61,10 +61,13 @@
           pane: self.$target
         });
 
-        // Add tab selector hash to history and url
-        if ( self.showHash && showHash ) {
-          self.hash(selector);
-        }
+        // Defer this, it doesn't need to happen immediately
+        setTimeout(function() {
+          // Add tab selector hash to history and url
+          if ( self.showHash && showHash ) {
+            self.hash(selector);
+          }
+        }, 0);
 
       }, true);
     },
@@ -84,8 +87,6 @@
           .addClass('active');
 
         if ( isPane ) {
-          // $active.hide();
-          // $element.show();
           $active.addClass('off-screen');
           $element.removeClass('off-screen');
         }
@@ -117,7 +118,7 @@
     },
 
     hash: function(hash, $target) {
-      var $fake;
+      var fake;
 
       hash = hash.replace(/^#/, '');
 
@@ -125,21 +126,27 @@
         $target.attr( 'id', '' );
       }
 
-      $fake = $( '<div/>' ).css({
+      // We need the exact scroll top of the window because
+      // that's where the browser will scroll us to
+      fake = $( '<div/>' ).css({
           position: 'absolute',
           visibility: 'hidden',
           top: $(window).scrollTop() + 'px'
         })
+        // Set its id
         .attr( 'id', hash )
-        .appendTo( document.body );
+        // Get the DOM node from jQuery
+        [0];
 
+      // Use native append over jQuery
+      document.body.appendChild( fake );
       window.location.hash = hash;
-
-      $fake.remove();
+      document.body.removeChild( fake );
 
       if ( $target && $target.length ) {
         $target.attr( 'id', hash );
       }
+
     }
   };
 
