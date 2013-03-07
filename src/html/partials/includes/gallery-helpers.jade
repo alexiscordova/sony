@@ -153,7 +153,7 @@ mixin detailedGallery( submodules, gallery, type )
 
           //- Sort options
           .sort-options.pull-right
-            span.l3.filter-label Sort By:&nbsp;
+            label.l3.filter-label(for="select-sort-by") Sort By:&nbsp;
             span.dropdown.dropdown-alt.ib
               button.lt4.btn.btn-small.dropdown-toggle.dropdown-toggle-alt(data-toggle="dropdown")
                 span.js-toggle-text= gallery.sortSet[0].label
@@ -166,7 +166,7 @@ mixin detailedGallery( submodules, gallery, type )
                     a(data-value=sort.name, data-reverse=reverse, tabindex="-1", href="#")= sort.label
             .native-dropdown
               i.fonticon-10-arrowheads-elevator.absolutely
-              select.select-small
+              select#select-sort-by.select-small
                 each sort in gallery.sortSet
                   - reverse = sort.reverse === true ? 'true' : 'false'
                   option(value=sort.name, data-reverse=reverse)= sort.label
