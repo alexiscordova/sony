@@ -54,7 +54,7 @@
         $input.focus();
       });
 
-      inputObj.$inputClearBtn.on('click',function(e){
+      inputObj.$inputClearBtn.on('click mousedown',function(e){
 
         inputObj.clearBtnClicked = true;
         self.clearSearchResults( inputObj );
