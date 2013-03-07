@@ -121,10 +121,10 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 - each item, i in data.electronics.menu_featured.menu_items
                   li.navtray-li(class=item.class)
                     a.navtray-li-link.tl(href=item.link, tabindex=(200+1))= item.label
-              p.navtray-secondary-promo
+              div.navtray-secondary-promo
                 img(src=data.electronics.menu_featured.promo.img, alt=data.electronics.menu_featured.promo.title)
                 span.p2= data.electronics.menu_featured.promo.title
-                span.p3= data.electronics.menu_featured.promo.message
+                span.p4= data.electronics.menu_featured.promo.message
                   a(href=data.electronics.menu_featured.promo.link, tabindex='250') 
                     |  !{data.electronics.menu_featured.promo.link_text}
         div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-entertainment.navtray-w-short#navtray-w-entertainment
@@ -141,10 +141,10 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                       span.nav-label= item.label
 
             div.navtray-section.navtray-section-featured.navtray-section-featured-short
-              p.navtray-secondary-promo.navtray-secondary-promo-short
+              div.navtray-secondary-promo.navtray-secondary-promo-short
                 img(src=data.entertainment.menu_featured.promo.img, alt=data.entertainment.menu_featured.promo.title)
                 span.p2= data.entertainment.menu_featured.promo.title
-                span.p3= data.entertainment.menu_featured.promo.message
+                span.p4= data.entertainment.menu_featured.promo.message
                   a(href=data.entertainment.menu_featured.promo.link, tabindex='550') 
                     |  !{data.entertainment.menu_featured.promo.link_text}
 
