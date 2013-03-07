@@ -54,7 +54,10 @@
 
       self.$containment.on(_startEvents, $.proxy(self.onScrubStart, self));
       self.$containment.on(_endEvents + ' click.sonyDraggable', $.proxy(self.onScrubEnd, self));
-      self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
+
+      if ( !Modernizr.touch ) {
+        self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
+      }
 
       self.throttledSetAcceleration = $.throttle(500, $.proxy(self.setAcceleration, self));
 

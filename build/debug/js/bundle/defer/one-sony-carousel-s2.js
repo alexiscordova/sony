@@ -43,6 +43,8 @@
       self.createPaddles();
       self.setupLinkClicks();
 
+      self.$innerContainer.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.280, 0.660, 0.285, 0.975)');
+
       self.$innerContainer.sonyDraggable({
         'axis': 'x',
         'unit': '%',
@@ -147,14 +149,14 @@
       var self = this,
           goToWhich;
 
-      if ( data.acceleration.x > 200 ) {
+      if ( data.acceleration.x > 150 ) {
 
         if ( self.currentSlide === 0 ) {
           self.gotoNearestSlide();
         } else {
           self.gotoSlide(self.currentSlide - 1);
         }
-      } else if ( data.acceleration.x < -200 ) {
+      } else if ( data.acceleration.x < -150 ) {
 
         if ( self.currentSlide === self.$slides.length - 1 ) {
           self.gotoNearestSlide();
@@ -216,7 +218,7 @@
           newPosition = (destinationLeft - ( $destinationSlide.width() - childrenWidth )) / innerContainerWidth;
         }
 
-        self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '500ms');
+        self.$innerContainer.css(Modernizr.prefixed('transitionDuration'), '550ms');
         self.$innerContainer.css(Modernizr.prefixed('transform'), 'translate(' + (-100 * newPosition + '%') + ',0)');
 
       } else {
