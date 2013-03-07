@@ -224,7 +224,7 @@
         self.$innerContainer.animate({
           'left': -100 * destinationLeft / SONY.$window.width() + '%'
         }, {
-          'duration': 1000,
+          'duration': 350,
           'complete': window.iQ.update
         });
       }
