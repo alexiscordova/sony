@@ -34,8 +34,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 i.fonticon-10-search.input-icon
                 label.visuallyhidden(for='nav-search-input') #{data.search.label}
                 input#nav-search-input(type='text', name='navSearch', role='search', value=search_input_default_full, tabindex='1401')
-                a.btn-clear-search-input.input-clear-btn(href='#', tabindex='1405')
-                  span.visuallyhidden clear search box
+                a.btn-clear-search-input.input-clear-btn(href='#')
                   i.fonticon-10-x-skinny
             
             div.navmenu-search-section-results
@@ -110,8 +109,8 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                   li.navtray-li(class=item.class)
                     a.navtray-li-link.tl(href=item.link, tabindex=(101+i))
                       span.nav-img-w
-                        img(src=item.img, alt=item.label)
-                      span.nav-label!{item.label}
+                        mixin iQImage(item.img)
+                      span.nav-label!=item.label
               a.navmenu-style-tl.nav-view-all-tl(href=data.electronics.menu_main.all_link.link, tabindex='190')
                 i.fonticon-10-grid-3x3
                 | !{data.electronics.menu_main.all_link.label}
@@ -122,10 +121,10 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 - each item, i in data.electronics.menu_featured.menu_items
                   li.navtray-li(class=item.class)
                     a.navtray-li-link.tl(href=item.link, tabindex=(200+1))= item.label
-              p.navtray-secondary-promo
+              div.navtray-secondary-promo
                 img(src=data.electronics.menu_featured.promo.img, alt=data.electronics.menu_featured.promo.title)
                 span.p2= data.electronics.menu_featured.promo.title
-                span.p3= data.electronics.menu_featured.promo.message
+                span.p4= data.electronics.menu_featured.promo.message
                   a(href=data.electronics.menu_featured.promo.link, tabindex='250') 
                     |  !{data.electronics.menu_featured.promo.link_text}
         div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-entertainment.navtray-w-short#navtray-w-entertainment
@@ -137,15 +136,15 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
                 - each item, i in data.entertainment.menu_main.menu_items
                   li.navtray-li(class=item.class)
                     a.navtray-li-link.tl(href=item.link, tabindex=(501+i))
-                      span.nav-img-w
-                        img(src=item.img, alt=item.label)
+                      span.nav-img-w                        
+                        mixin iQImage(item.img)
                       span.nav-label= item.label
 
             div.navtray-section.navtray-section-featured.navtray-section-featured-short
-              p.navtray-secondary-promo.navtray-secondary-promo-short
+              div.navtray-secondary-promo.navtray-secondary-promo-short
                 img(src=data.entertainment.menu_featured.promo.img, alt=data.entertainment.menu_featured.promo.title)
                 span.p2= data.entertainment.menu_featured.promo.title
-                span.p3= data.entertainment.menu_featured.promo.message
+                span.p4= data.entertainment.menu_featured.promo.message
                   a(href=data.entertainment.menu_featured.promo.link, tabindex='550') 
                     |  !{data.entertainment.menu_featured.promo.link_text}
 
@@ -156,7 +155,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
               span.hidden-text= data.logo.label
             if !minimal
               ul.nav.nav-primary(role='navigation')
-                li.nav-li.nav-li-universal-mobile.test 
+                li.nav-li.nav-li-universal-mobile 
                   a.nav-li-link(href=data.universal.link) 
                     i.fonticon-10-square-neg-plus
                     | !{data.universal.label}
@@ -227,19 +226,19 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
               li.nav-li.nav-li-favorites
                 a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href=data.favorites.link, tabindex='1200')
-                  i.fonticon-10-favorite
+                  i.old-ie-cleartype-fix-gray20.fonticon-10-favorite
                   span.visuallyhidden 
                     | !{data.favorites.label}
               if !minimal
                 li.nav-li.nav-li-cart
                   a.nav-li-link.nav-li-linkBtn.nav-li-linkBtn-mini(href=data.cart.link, tabindex='1300')
-                    i.fonticon-10-cart
+                    i.old-ie-cleartype-fix-gray20.fonticon-10-cart
                     span.visuallyhidden= data.cart.label
                     span.nav-li-count= sample_session_data.cart_count
               li.nav-li.nav-li-search
                 a.nav-li-link.nav-li-linkBtn.nav-dropdown-toggle.nav-dropdown-toggle-btn(data-target='navmenu-w-search', href='#nav-search-input', tabindex='1400')
                   span.lbl= data.search.label
-                  i.fonticon-10-search
+                  i.old-ie-cleartype-fix-gray20.fonticon-10-search
               if !minimal
                 li.nav-li.nav-li-universal
                   a.nav-li-link.nav-li-linkBtn(href='#', tabindex='1500')

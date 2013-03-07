@@ -39,7 +39,7 @@ We should refactor iQ to be more modular / event-driven.</p>             </td>  
 window.iQ = {
   options: {
     speedTestExpireMinutes: <span class="number">30</span>,
-    asyncDistance: <span class="number">500</span>,
+    asyncDistance: <span class="number">600</span>, <span class="comment">// needs to be at least 600 for the nav images to load, since they're off the top of the viewport when iQ loads.</span>
     throttleSpeed: <span class="number">300</span>,
     updateOnResize: <span class="literal">true</span>
   }

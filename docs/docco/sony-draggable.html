@@ -55,7 +55,10 @@ and serves as a bare(ish)-bones class to satisfy the needs of the Dual Viewer (E
 
       self.$containment.on(_startEvents, $.proxy(self.onScrubStart, self));
       self.$containment.on(_endEvents + <span class="string">' click.sonyDraggable'</span>, $.proxy(self.onScrubEnd, self));
-      self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
+
+      <span class="keyword">if</span> ( !Modernizr.touch ) {
+        self.$win.on(_endEvents, $.proxy(self.onScrubEnd, self));
+      }
 
       self.throttledSetAcceleration = $.throttle(<span class="number">500</span>, $.proxy(self.setAcceleration, self));
 

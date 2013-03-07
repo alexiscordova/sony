@@ -28,7 +28,10 @@
     self.mouseLeaveDelay = 500;
     // delay in ms
     self.mouseleaveTimer = false;
-
+    
+    if (Modernizr.touch) {
+      self.hasTouch = true;
+    }
     // Get the right prefixed names e.g. WebkitTransitionDuration
     self.tapOrClick = self.hasTouch ? 'touchstart' : 'click';
     self.transformName = Modernizr.prefixed('transform');
@@ -370,6 +373,8 @@
               'left' : '',
               'right' : ''
             }).find('.reveal-transition-container').css('height', '');
+            $('.nav-li-search a').removeClass('.active');
+            
           });
         }
       }
