@@ -85,11 +85,15 @@
       self.lastTouch              = null;
       self.handleStartPosition    = null;
       self.dragThreshold          = 50;
+      
+      //
       self.useCSS3Transitions     = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
       self.hasMediaQueries        = Modernizr.mediaqueries;
       self.mq                     = Modernizr.mq;
+
       self.oldIE                  = self.$html.hasClass('lt-ie10');
       self.isIE7orIE8             = self.$html.hasClass('lt-ie10');
+
       self.inited                 = false;
       self.isResponsive           = !self.isIE7orIE8 && !self.$html.hasClass('lt-ie10') && self.hasMediaQueries;
       self.tileHeightSizeFix      = 0;
@@ -100,7 +104,6 @@
       self.isDesktopMode          = false;
       self.isTabletMode           = false;
       self.accelerationPos        = 0;
-
 
 
       //Startup
@@ -145,8 +148,9 @@
         self.setupLinkClicks();
 
         //Initialize tooltips
-        self.initTooltips();
-
+        if(!self.hasTouch){
+          self.initTooltips();
+        }
 
         var prodImg = self.$galleryItems.filter('.normal').find('.product-img');
 
