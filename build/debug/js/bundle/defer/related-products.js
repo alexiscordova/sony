@@ -365,8 +365,6 @@
             gutter = 0;
           }
 
-          self.log('Gutter width is shithead : >>>> ', gutter);
-
           return gutter;
         };
 
@@ -387,8 +385,6 @@
             if(column === 0){
               column = 0.001; // fixes a bug with shuffle that crashes when column width is returned as 0
             }
-
-            self.log('Number of shuffle columns: >>>> ', this.cols , column );
 
             return column;
         };
@@ -1644,7 +1640,7 @@
           newPos += Math.ceil( widthDifference );
         }
 
-        //Shuffle optimization
+        
         
 
         //jQuery animation fallback
@@ -1666,6 +1662,7 @@
 
           //IQ Update
           self.$container.one(self.transitionEndName , function(){
+            //Shuffle optimization
             self.toggleShuffles();
             window.iQ.update();
           });
