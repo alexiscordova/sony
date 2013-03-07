@@ -106,7 +106,8 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 	.tcc-body{
 		display:inline-block;	
 		height:$tcc-content-module-height-3up;
-		//border:1px solid red;
+
+
 	} // end .tcc-body
 
 	.tcc-content-module{
@@ -217,23 +218,41 @@ $fivePercentInstaFlickr: percentage(5px/316px);
 
 
 		&.event{
-	
+	  
+	    .img-container{
+	    	//border:1px solid red;
+	    	width:100%;
+	    	height:140px;
+	    	min-height:140px;
+				position: relative;		
+				margin-bottom:px-em(20px); 
+				background-size: cover;
+				background-position: center center;
+				background-repeat: no-repeat;
+
+	    } // end .img-container
+
+
 	   // overlay box
 	    .attendance-count{
 	    	-webkit-backface-visibility:hidden; // prevents flickering on transition
-				background-color: $secondaryOlive;
 				opacity:0.95;
 				color:$white;
-				position: absolute;
 				z-index: 5;
-				top: -10px;
+				position: absolute;
+				top: 0;
 				left: 0;
 				bottom:0;
 				right:0;
-				margin:10% auto;
-				padding:3%;
-				height:64%;//80%;
-				width:35%;
+				margin:0;
+				padding:12% 36%;
+				height:100%;
+				width:100%;
+
+				.details{
+					background-color: $secondaryOlive;
+					padding:3%;
+				}
 
 				// IE9 and BELOW
 				.lt-ie10 & {
@@ -275,7 +294,6 @@ $fivePercentInstaFlickr: percentage(5px/316px);
       }
 
 			.feature-copy{
-
 	    	background-color:$gray10;
         text-align: left;
         opacity:1;

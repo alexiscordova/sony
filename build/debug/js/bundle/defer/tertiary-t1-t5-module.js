@@ -172,21 +172,27 @@
         self.heightsAdjusted = false;
 
         //teardown sequence
-        if((self.mode === 'desktop') && (self.prevMode != 'desktop')){
-          // for desktop clear out width
-          teardownSequence.add( self, self.clearContentWidth, self.teardownSpeed ); 
-        }
         
         // destroy scroller instance
         teardownSequence.add( self, self.destroyScroller, self.teardownSpeed ); 
+
+        // clear transition set by scroller
+        // desktop mode sometimes sticks in old position
+        teardownSequence.add( self, self.clearTransition, self.setupSpeed + 200);
        
         // if we're going from "mobile" to desktop 
-        // then add grid spans back in
-        // set heights for inner centering
         if((self.mode === "desktop") && (self.prevMode !== "desktop")){
+          
+          // clear width 
+          teardownSequence.add( self, self.clearContentWidth, self.teardownSpeed ); 
+          
+          // add grid spans, etc. back in
           teardownSequence.add( self, self.addDesktopClasses, self.setupSpeed);
+
+          // set height again for inner centering
           teardownSequence.add( self, self.setCenterContentHeight, self.setupSpeed + 100);
         }
+
 
         // start sequence
         teardownSequence.start();
@@ -295,6 +301,14 @@
   
         // clear out content module widths to be responsive
         self.$contentModules.css('width',''); 
+      },
+
+      clearTransition : function(  ){
+        var self = this;
+
+        // remove all transform when we enter desktop
+        self.$tccBody.css('-webkit-transform','');
+        
       },
 
       // set scroller options to be passed to sony-scroller
