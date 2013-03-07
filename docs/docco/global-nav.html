@@ -25,7 +25,10 @@ Dependencies: jQuery 1.7+, Modernizr</p>
     self.mobileFooterThreshold = <span class="number">567</span>;
     self.mouseLeaveDelay = <span class="number">500</span>;
 </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>delay in ms</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.mouseleaveTimer = <span class="literal">false</span>;
-
+    
+    <span class="keyword">if</span> (Modernizr.touch) {
+      self.hasTouch = <span class="literal">true</span>;
+    }
 </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Get the right prefixed names e.g. WebkitTransitionDuration</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.tapOrClick = self.hasTouch ? <span class="string">'touchstart'</span> : <span class="string">'click'</span>;
     self.transformName = Modernizr.prefixed(<span class="string">'transform'</span>);
 </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>css version</p>             </td>             <td class="code">               <div class="highlight"><pre>    self.transitionName = Modernizr.prefixed(<span class="string">'transition'</span>);
@@ -315,6 +318,8 @@ Wait a few ticks to give it a chance for the hover to fire first.</p>           
               <span class="string">'left'</span> : <span class="string">''</span>,
               <span class="string">'right'</span> : <span class="string">''</span>
             }).find(<span class="string">'.reveal-transition-container'</span>).css(<span class="string">'height'</span>, <span class="string">''</span>);
+            $(<span class="string">'.nav-li-search a'</span>).removeClass(<span class="string">'.active'</span>);
+            
           });
         }
       }
