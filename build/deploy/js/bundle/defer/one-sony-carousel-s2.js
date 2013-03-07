@@ -43,7 +43,9 @@
       self.createPaddles();
       self.setupLinkClicks();
 
-      self.$innerContainer.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
+      if ( self.useCSS3 ) {
+        self.$innerContainer.css(Modernizr.prefixed('transitionTimingFunction'), 'cubic-bezier(0.450, 0.735, 0.445, 0.895)');
+      }
 
       self.$innerContainer.sonyDraggable({
         'axis': 'x',
