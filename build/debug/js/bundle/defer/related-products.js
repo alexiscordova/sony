@@ -1817,7 +1817,7 @@
           if(slideVariation !== '3up'){
 
 
-            if(slideVariation === '4up' && self.isTabletMode && tileHeight > 204){
+            if(slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769){
               maxHeight = 204;
             }
 
