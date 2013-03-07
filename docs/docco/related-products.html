@@ -334,8 +334,6 @@ if their interaction time and movements are below certain thresholds.</p>       
             gutter = <span class="number">0</span>;
           }
 
-          self.log(<span class="string">'Gutter width is shithead : &gt;&gt;&gt;&gt; '</span>, gutter);
-
           <span class="keyword">return</span> gutter;
         };
 
@@ -354,8 +352,6 @@ if their interaction time and movements are below certain thresholds.</p>       
             <span class="keyword">if</span>(column === <span class="number">0</span>){
               column = <span class="number">0.001</span>; <span class="comment">// fixes a bug with shuffle that crashes when column width is returned as 0</span>
             }
-
-            self.log(<span class="string">'Number of shuffle columns: &gt;&gt;&gt;&gt; '</span>, <span class="keyword">this</span>.cols , column );
 
             <span class="keyword">return</span> column;
         };
@@ -1567,13 +1563,14 @@ return;</p>             </td>             <td class="code">               <div c
           newPos += Math.ceil( widthDifference );
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>Shuffle optimization</p>             </td>             <td class="code">               <div class="highlight"><pre>        
+        
+        
 
-</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>jQuery animation fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( !self.useCSS3Transitions ) {
+</pre></div>             </td>           </tr>                               <tr id="section-78">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-78">&#182;</a>               </div>               <p>jQuery animation fallback</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>( !self.useCSS3Transitions ) {
           animObj[ self.xProp ] = newPos;
           self.$container.animate( animObj, self.currAnimSpeed );
         }<span class="keyword">else</span>{
-</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>css3 transition</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj[ self.prefixed( self.TD ) ]  = self.currAnimSpeed + <span class="string">'ms'</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-79">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-79">&#182;</a>               </div>               <p>css3 transition</p>             </td>             <td class="code">               <div class="highlight"><pre>          animObj[ self.prefixed( self.TD ) ]  = self.currAnimSpeed + <span class="string">'ms'</span>;
 
           <span class="keyword">if</span>(self.currAnimSpeed === self.animationSpeed){
             animObj[ self.prefixed( self.TTF )  ] = self.css3Easing.easeOutBack;
@@ -1584,8 +1581,8 @@ return;</p>             </td>             <td class="code">               <div c
           animObj[ self.xProp ] = self.tPref1 + (( newPos ) + self.tPref2 + <span class="number">0</span>) + self.tPref3;
           self.$container.css( animObj );
 
-</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>IQ Update</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$container.one(self.transitionEndName , <span class="keyword">function</span>(){
-            self.toggleShuffles();
+</pre></div>             </td>           </tr>                               <tr id="section-80">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-80">&#182;</a>               </div>               <p>IQ Update</p>             </td>             <td class="code">               <div class="highlight"><pre>          self.$container.one(self.transitionEndName , <span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-81">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-81">&#182;</a>               </div>               <p>Shuffle optimization</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.toggleShuffles();
             window.iQ.update();
           });
         }
