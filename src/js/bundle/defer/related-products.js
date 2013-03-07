@@ -1860,10 +1860,15 @@
 
       checkTileHeights: function(){
         var self = this,
-        prodImg = self.$galleryItems.filter('.normal').find('.product-img');
+        prodImg = self.$galleryItems.filter('.normal').find('.product-img'),
+        newHeight = prodImg.first().height();
+
+        if(self.$win.width() < 569){
+          newHeight = '100%';
+        }
 
         prodImg.find('img').css({
-          'max-height' : prodImg.first().height()
+          'max-height' : newHeight
         });
 
       },
@@ -1976,9 +1981,10 @@
               vScrollbar: false,
               momentum: true,
               bounce: true,
-              onScrollEnd: null,
               lockDirection:true,
-              onBeforeScrollStart:null
+              onBeforeScrollStart:null,
+              onScrollEnd: $.proxy( self.onScrollerEnd , self )
+
             }
 
           }).data('scrollerModule');
@@ -1987,9 +1993,22 @@
           self.$el.find('.gallery-item.medium').css('height' , '');
           self.$el.find('.gallery-item.medium .product-img').css('height' , '');
 
-          window.iQ.update();
+          iQ.update();
+          self.checkTileHeights();
+
+          
         }, 100);
 
+      },
+
+      onScrollerEnd: function(){
+        var self = this;
+
+        //self.log('scroller module scrolled...');
+
+        iQ.update();
+        self.checkTileHeights();
+       
       },
 
       setNameHeights : function( $container ) {

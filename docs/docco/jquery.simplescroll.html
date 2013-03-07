@@ -60,25 +60,27 @@ If amount below the target offset's is less than our screen height</p>          
     },
 
     _showHash : <span class="keyword">function</span>( hash, $target ) {
-      <span class="keyword">var</span> $fake;
+      <span class="keyword">var</span> fake;
 
       hash = hash.replace(<span class="regexp">/^#/</span>, <span class="string">''</span>);
 
       <span class="keyword">if</span> ( $target.length ) {
         $target.attr( <span class="string">'id'</span>, <span class="string">''</span> );
-        $fake = $( <span class="string">'&lt;div/&gt;'</span> ).css({
+        fake = $( <span class="string">'&lt;div/&gt;'</span> ).css({
           position: <span class="string">'absolute'</span>,
           visibility: <span class="string">'hidden'</span>,
           top: $(window).scrollTop() + <span class="string">'px'</span>
         })
         .attr( <span class="string">'id'</span>, hash )
-        .appendTo( document.body );
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Get the DOM node from jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>        [<span class="number">0</span>];
+
+</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Use native append over jQuery</p>             </td>             <td class="code">               <div class="highlight"><pre>        document.body.appendChild( fake );
       }
 
       window.location.hash = hash;
 
       <span class="keyword">if</span> ( $target.length ) {
-        $fake.remove();
+        document.body.removeChild( fake );
         $target.attr( <span class="string">'id'</span>, hash );
       }
     }
@@ -88,14 +90,14 @@ If amount below the target offset's is less than our screen height</p>          
     <span class="keyword">return</span> <span class="keyword">new</span> SimpleScroll( options, fn );
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>If we load the page with a hash, scroll to it</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.simplescroll.initial = <span class="keyword">function</span>( options, fn ) {
+</pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>If we load the page with a hash, scroll to it</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.simplescroll.initial = <span class="keyword">function</span>( options, fn ) {
     <span class="keyword">if</span> ( window.location.hash ) {
       options = $.extend( options, {target: window.location.hash} );
       $.simplescroll( options, fn );
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Convenience method which attaches a click event to the collection which scrolls to the
+</pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Convenience method which attaches a click event to the collection which scrolls to the
 defined target (via a function) or the href attribute</p>             </td>             <td class="code">               <div class="highlight"><pre>  $.fn.simplescroll = <span class="keyword">function</span>( options, fn ) {
     <span class="keyword">return</span> <span class="keyword">this</span>.each(<span class="keyword">function</span>() {
       $(<span class="keyword">this</span>).on(<span class="string">'click'</span>, <span class="keyword">function</span>( evt ) {

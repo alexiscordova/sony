@@ -117,7 +117,7 @@
           self.setup();
         }
 
-        //self.setCenterContentHeight();
+        log('SONY : TertiaryModule : Initialized');
        
       },
 
