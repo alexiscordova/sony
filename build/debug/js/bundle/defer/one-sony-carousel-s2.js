@@ -46,7 +46,7 @@
       self.$innerContainer.sonyDraggable({
         'axis': 'x',
         'unit': '%',
-        'dragThreshold': 50,
+        'dragThreshold': 10,
         'containment': self.$container,
         'useCSS3': self.useCSS3,
         'drag': window.iQ.update
@@ -224,7 +224,7 @@
         self.$innerContainer.animate({
           'left': -100 * destinationLeft / SONY.$window.width() + '%'
         }, {
-          'duration': 1000,
+          'duration': 350,
           'complete': window.iQ.update
         });
       }
